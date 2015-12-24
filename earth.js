@@ -54,7 +54,7 @@ if (Meteor.isClient) {
   Rendering
   ***********************/
 
-  Template.vote.rendered = function () {
+  Template.ballot.rendered = function () {
       $('#date-picker').datepicker();
 
       $('#date-picker').on('changeDate', function (e) {
@@ -188,7 +188,7 @@ if (Meteor.isClient) {
       }
     });
 
-  Template.vote.helpers({
+  Template.ballot.helpers({
     closingDate: function () {
       var d = new Date()
       d = getUserContract().closingDate;
@@ -204,7 +204,7 @@ if (Meteor.isClient) {
         return 'toggle-activated';
       }
     },
-    ballot: function () {
+    options: function () {
       var ballot = getUserContract().ballot;
       var fork;
       Session.set('unauthorizedFork', false);
@@ -330,7 +330,7 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.vote.events({
+  Template.ballot.events({
     "click #toggle-allowForks": function () {
       Meteor.call("updateContractField", getUserContract()._id, "allowForks", !getUserContract().allowForks);
     },

@@ -1,4 +1,4 @@
-<template name="vote">
+<template name="ballot">
   <div class="section">
     <h2>{{_ "vote"}}</h2>
 
@@ -42,7 +42,7 @@
 
     <div class="w-clearfix elements">
 
-      {{#each ballot}}
+      {{#each options}}
         {{> fork _id=_id label=label authorized=authorized draftView=../draftView}}
       {{/each}}
 
