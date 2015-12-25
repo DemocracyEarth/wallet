@@ -2,17 +2,19 @@
 
 ## Code
 
-javascript, mongodb, node, meteor, iron router, blaze.
+javascript. mongodb, node. meteor, iron router, blaze.
 
 * [Santiago Siri](http://github.com/santisiri)
 
 ## UX
 
-html, css.
+html, css. jquery. webflow.
 
 * [Santiago Siri](http://github.com/santisiri)
 
 ## QA
+
+mobile, pad, desktop.
 
 * [Mair Williams](https://github.com/mairwilliams)
 * [Virgile Deville](https://github.com/virgile-dev)
