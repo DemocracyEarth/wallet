@@ -1,14 +1,18 @@
-## Contributors
+# Contributors
 
-#### Development - js, mongodb, meteor
+## Development
 
-* [Santiago Siri](http://twitter.com/santisiri)
+- javascript, mongodb, meteor, iron router, blaze.
 
-#### UX Design - html, css 
+* [Santiago Siri](http://github.com/santisiri)
 
-* [Santiago Siri](http://twitter.com/santisiri)
+#### UX Design
+
+- html, css.
+
+* [Santiago Siri](http://github.com/santisiri)
 
 #### QA
 
-* [Mair Williams](https://twitter.com/mairwilliams)
-* [Virgile Deville](https://twitter.com/virgiledeville)
+* [Mair Williams](https://github.com/mairwilliams)
+* [Virgile Deville](https://github.com/virgile-dev)
