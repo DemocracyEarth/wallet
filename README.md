@@ -15,9 +15,13 @@ This toolkit lets you create votable objects that can be combined to design any 
 *Peers*, *votes*, *tags* and *hubs* are all votable and blockchain hashed. **This develops an open network of political relations that contribute to the foundations of purely digital institutional design and governance.**
 
 > Any peer can vote in hubs.
+
 > Every hub has peers.
+
 > Tags are approved with votes.
+
 > Votes are described with tags.
+
 > etc.
 
 ## Democracy
@@ -29,4 +33,4 @@ Direct Democracy, Liquid Democracy, Representative Democracy... Democracy period
 
 ## [License](LICENSE.md)
 
-``// version **0.01**, odyssey``
+``// version 0.01, codename odyssey.``
