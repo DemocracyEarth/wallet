@@ -2,7 +2,7 @@
 
 ## Code
 
-javascript, mongodb, meteor, iron router, blaze.
+javascript, mongodb, node, meteor, iron router, blaze.
 
 * [Santiago Siri](http://github.com/santisiri)
 
