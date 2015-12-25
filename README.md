@@ -2,7 +2,7 @@
 
 # A Toolkit for Democracy
 
-Votes measure social force. The more accurate and reliable a technology for counting them, the greater resolution we can gather from the communities and societies that define our preferences, rights and power. This toolkit lets build voting mechanisms in a simple and reliable way using the Bitcoin Blokchain to store proof of events, meaning anyone can count votes *without requiring permission* from the authority serving this software.
+Votes measure social force. The more accurate and reliable a technology for counting them, the greater resolution we can gather from the communities and societies that define our preferences, rights and power. This toolkit lets build voting mechanisms in a simple and reliable way using the [Bitcoin Blokchain](http://bitcoin.it) to store proof of events, meaning anyone can count votes [B]without requiring permission[/B] from the authority serving this software.
 
 ## Components
 
