@@ -1,12 +1,10 @@
 ![DemocracyEarth](https://dl.dropboxusercontent.com/u/801018/democracy-earth-logo.png)
 
 # A Toolkit for Democracy
-=========================
 
 Votes measure social force. The more accurate and reliable a technology for counting them, the greater resolution we can gather from the communities and societies that define our preferences, rights and power. This toolkit lets build voting mechanisms in a simple and reliable way using the [Bitcoin Blokchain](http://bitcoin.it) to store proof of events, meaning anyone can count votes **without requiring permission** from the authority serving this software.
 
 ## Components
--------------
 This toolkit lets you create votable objects that can be combined to design any kind of institutional mechanism:
 
 * identifications [/peers](http://democracy.earth): credentials for individuals whose approval for voting rights is based on peer reviews.
@@ -15,7 +13,6 @@ This toolkit lets you create votable objects that can be combined to design any 
 * corporations [/hub](http://democracy.earth): corporations or peer organizations constituted under rules built by this software.
 
 ## Democracy
-------------
 Direct Democracy, Liquid Democracy, Representative Democracy... Democracy period. If you trace back the origins of the term 'agora', as it was used by the Greeks to speak of the technology used for democratic decision-making, you'll find that the etymological meaning is 'thinking with others'. In many verses of The Odyssey and The Illiad it's used as an antonym of 'war'. Democracy is always a work in progress. It's a incomplete idea because it's the one exception to all ideologies. If it were an absolute ideology it would be a totalitarian idea just like all the other ideologies out there. In the age of Software, democracy can be programmed. But the ultimate programmer, should always be the voter itself. Democracy.Earth aims to provide the necessary tools for anyone to freely create its own kind of democracy.
 
 ## Live at [democracy.earth](http://democracy.earth)
@@ -24,4 +21,6 @@ Direct Democracy, Liquid Democracy, Representative Democracy... Democracy period
 
 ## [License](LICENSE.md)
 
-### Current Version: 0.01, odyssey.
+=========================
+
+Current Version: **0.01**, odyssey.
