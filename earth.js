@@ -21,7 +21,6 @@ build a new model that makes the existing model obsolete."
 if (Meteor.isClient) {
 
   Meteor.subscribe("tags");
-  Meteor.subscribe("contracts");
 
   // Settings
   var $LANGUAGE = "en";
@@ -61,7 +60,7 @@ if (Meteor.isClient) {
         currentDate = new Date;
         if (currentDate.getTime() < e.date.getTime()) {
           Session.set('backdating', false);
-          Meteor.call('updateContractField', getUserContract()._id, "closingDate", e.date);
+          Meteor.call('updateContractField', getContract()._id, "closingDate", e.date);
         } else {
           Session.set('backdating', true);
         }
@@ -69,7 +68,7 @@ if (Meteor.isClient) {
 
       //ADD EVENT: When loaded  set  the date in the calendar.
 
-  }
+  };
 
   /***********************
   Helpers
@@ -79,7 +78,8 @@ if (Meteor.isClient) {
     draftView: function() {
         return true;
     }
-  })
+  });
+
 
   //Mileston status of current contract
   Template.milestone.helpers({
@@ -117,7 +117,7 @@ if (Meteor.isClient) {
 
   Template.contract.helpers({
     description: function() {
-      return getUserContract().description;
+      return getContract().description;
     },
     semantics: function () {
       return verifyTags();
@@ -139,19 +139,22 @@ if (Meteor.isClient) {
     },
     duplicateTags: function() {
       return displayTimedWarning ('duplicateTags');
+    },
+    voteKeyword: function () {
+      return Session.get('voteKeyword');
     }
   });
 
   // Title of Contract
   Template.title.helpers({
     declaration: function() {
-        return getUserContract().title;
+        return getContract().title;
     }
   });
 
   Template.kind.helpers({
     text: function() {
-        switch(getUserContract().kind) {
+        switch(getContract().kind) {
           case 'voting ballot':
             return  TAPi18n.__('voting_ballot');
             break;
@@ -182,7 +185,7 @@ if (Meteor.isClient) {
 
   Template.authors.helpers({
     anonymous: function() {
-        if (getUserContract().anonymous == true) {
+        if (getContract().anonymous == true) {
           return 'toggle-activated';
         }
       }
@@ -191,26 +194,26 @@ if (Meteor.isClient) {
   Template.ballot.helpers({
     closingDate: function () {
       var d = new Date()
-      d = getUserContract().closingDate;
+      d = getContract().closingDate;
       return d.format('{d} {Month}, {yyyy}');
     },
     allowForks: function () {
-      if (getUserContract().allowForks == true) {
+      if (getContract().allowForks == true) {
         return 'toggle-activated';
       }
     },
     secretVotes: function () {
-      if (getUserContract().secretVotes == true) {
+      if (getContract().secretVotes == true) {
         return 'toggle-activated';
       }
     },
     options: function () {
-      var ballot = getUserContract().ballot;
+      var ballot = getContract().ballot;
       var fork;
       Session.set('unauthorizedFork', false);
       for (fork in ballot) {
-        if (getUserContract(ballot[fork]._id) != undefined) {
-          var forkContract = getUserContract(ballot[fork]._id);
+        if (getContract(ballot[fork]._id) != undefined) {
+          var forkContract = getContract(ballot[fork]._id);
           authorization = forkContract.authorized;
           hasDefinition = forkContract.isDefined;
           if (authorization != undefined) {
@@ -222,6 +225,7 @@ if (Meteor.isClient) {
             } else {
               ballot[fork].authorized = true;
             }
+            ballot[fork].keyword = forkContract.keyword;
           }
         }
       }
@@ -294,15 +298,15 @@ if (Meteor.isClient) {
   Template.contract.events({
     "submit .title-form": function (event) {
       event.preventDefault();
-      Meteor.call("updateContractField", getUserContract()._id, "title", event.target.title.value);
+      Meteor.call("updateContractField", getContract()._id, "title", event.target.title.value);
     },
     "submit .description-form": function (event) {
       event.preventDefault();
-      Meteor.call("updateContractField", getUserContract()._id, "description", event.target.description.value);
+      Meteor.call("updateContractField", getContract()._id, "description", event.target.description.value);
     },
     "submit #tag-form, click #add-custom-tag": function (event) {
       event.preventDefault();
-      Meteor.call("addCustomTagToContract", getUserContract()._id, document.getElementById('text-custom-tag').value, function (error) {
+      Meteor.call("addCustomTagToContract", getContract()._id, document.getElementById('text-custom-tag').value, function (error) {
         if (error && error.error == 'duplicate-tags') {
           Session.set('duplicateTags', true)
         }
@@ -310,7 +314,7 @@ if (Meteor.isClient) {
       Meteor.setTimeout(function () {document.getElementById('text-custom-tag').value = '';}, 100);
     },
     "click #add-suggested-tag": function (event) {
-      Meteor.call("addTagToContract", getUserContract()._id, this._id, function (error) {
+      Meteor.call("addTagToContract", getContract()._id, this._id, function (error) {
           if (error && error.error == 'duplicate-tags') {
             Session.set('duplicateTags', true)
           }
@@ -320,26 +324,26 @@ if (Meteor.isClient) {
 
   Template.tag.events({
     "click #tag-remove": function (event, template) {
-      Meteor.call("removeTagFromContract", getUserContract()._id, this._id);
+      Meteor.call("removeTagFromContract", getContract()._id, this._id);
     }
   });
 
   Template.authors.events({
     "click #toggle-anonymous": function () {
-      Meteor.call("updateContractField", getUserContract()._id, "anonymous", !getUserContract().anonymous);
+      Meteor.call("updateContractField", getContract()._id, "anonymous", !getContract().anonymous);
     }
   });
 
   Template.ballot.events({
     "click #toggle-allowForks": function () {
-      Meteor.call("updateContractField", getUserContract()._id, "allowForks", !getUserContract().allowForks);
+      Meteor.call("updateContractField", getContract()._id, "allowForks", !getContract().allowForks);
     },
     "click #toggle-secretVotes": function () {
-      Meteor.call("updateContractField", getUserContract()._id, "secretVotes", !getUserContract().secretVotes);
+      Meteor.call("updateContractField", getContract()._id, "secretVotes", !getContract().secretVotes);
     },
     "submit #fork-form, click #add-fork-proposal": function (event) {
       event.preventDefault();
-      Meteor.call('addCustomForkToContract', getUserContract()._id, document.getElementById('text-fork-proposal').value, function(error) {
+      Meteor.call('addCustomForkToContract', getContract()._id, document.getElementById('text-fork-proposal').value, function(error) {
         if (error && error.error == 'duplicate-fork') {
           Session.set('duplicateFork', true)
         }
@@ -354,7 +358,7 @@ if (Meteor.isClient) {
     },
 
     "click #remove-fork": function () {
-      Meteor.call("removeFork", getUserContract()._id, this._id);
+      Meteor.call("removeFork", getContract()._id, this._id);
     }
   });
 
@@ -364,9 +368,9 @@ if (Meteor.isClient) {
         var newContract = new contract(
           document.getElementById('contract-title').value,
           document.getElementById('contract-description').value,
-          getUserContract().tags
+          getContract().tags
         );
-        Meteor.call("updateContract", getUserContract()._id, newContract);
+        Meteor.call("updateContract", getContract()._id, newContract);
       }
   });
 
@@ -378,11 +382,14 @@ getUserLanguage = function () {
   return $LANGUAGE;
 };
 
-getUserContract = function (contractId) {
-  if (contractId == undefined) {
-    return Contracts.findOne( { _id: userId } );
-  } else {
+getContract = function (contractId) {
+  console.log('contract id is ' + Session.get('voteKeyword'));
+  if (contractId != undefined ) {
     return Contracts.findOne( { _id: contractId } );
+  } else {
+    if (Session.get('voteKeyword') != undefined) {
+      return Contracts.findOne( { keyword: Session.get('voteKeyword') } );
+    }
   }
 }
 
@@ -395,7 +402,7 @@ displayTimedWarning = function (warning) {
 
 verifyTags = function () {
   var tagDetails = [];
-  var tagList = getUserContract().tags;
+  var tagList = getContract().tags;
 
   //Verify if it has a definition
   Session.set('unauthorizedTags', false);

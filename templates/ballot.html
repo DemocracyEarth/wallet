@@ -1,0 +1,115 @@
+<template name="ballot">
+  <div class="section">
+    <h2>{{_ "vote"}}</h2>
+
+    <div class="description">
+      <ul class="w-list-unstyled settings">
+        <li class="w-clearfix setting">
+          <div class="text setting-label">{{_ "closing-date-of-poll"}}</div>
+          <div class="value">
+            <div data-delay="0" class="w-dropdown dropdown">
+              <div class="w-dropdown-toggle dropdown-menu">
+                <div class="control">{{closingDate}}</div>
+                <div class="w-icon-dropdown-toggle"></div>
+              </div>
+              <nav class="w-dropdown-list dropdown-list">
+                <a href="#" class="w-dropdown-link dropdown-link calendar">
+                  <div id='date-picker'></div>
+                </a>
+              </nav>
+            </div>
+          </div>
+        </li>
+        <li class="w-clearfix setting">
+          <div class="text setting-label">{{_ "allow-voters-suggest"}}</div>
+          <div class="w-clearfix value">
+            <div id="toggle-allowForks" class="toggle {{allowForks}}">
+              <div class="toggle-button {{allowForks}}"></div>
+            </div>
+          </div>
+        </li>
+        <li class="w-clearfix setting">
+          <div class="text setting-label">{{_ "secret-voting-with-encryption"}}</div>
+          <div class="w-clearfix value">
+            <div id="toggle-secretVotes" class="w-clearfix toggle {{secretVotes}}">
+              <div class="toggle-button {{secretVotes}}"></div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+
+    <div class="w-clearfix elements">
+
+      {{#each options}}
+        {{> fork _id=_id label=label authorized=authorized keyword=keyword draftView=../draftView}}
+      {{/each}}
+
+      {{#if ../draftView}}
+        {{> fork custom=true draftView=../draftView}}
+      {{/if}}
+
+    </div>
+
+
+    <div class="extra">
+      <ul class="w-list-unstyled">
+      {{#if disabledCheckboxes}}
+        <li class="warning">{{_ "disabled-checkboxes"}}</li>
+      {{/if}}
+      {{#if backdating}}
+        <li class="warning">{{_ "backdating"}}</li>
+      {{/if}}
+      {{#if duplicateFork}}
+        <li class="warning">{{_ "duplicate-fork"}}</li>
+      {{/if}}
+      {{#if unauthorizedFork}}
+        <li class="warning">{{_ "unauthorized-fork"}}</li>
+      {{/if}}
+      </ul>
+    </div>
+
+
+
+  </div>
+</template>
+
+<template name="fork">
+  <div class="power">
+    {{#if custom}}
+      <div class="vote vote-edit">
+        <div class="w-clearfix checkbox">
+          <div id="ballot-checkbox" class="option">
+            <div class="tick"><img src="{{pathFor route='home'}}images/tick.png" class="tick-image {{tick draftView}}">
+            </div>
+          </div>
+          <form id="fork-form">
+            <input id="text-fork-proposal" type="text" placeholder="{{_ 'propose-fork'}}" class="w-input option-title input">
+            <div id="add-fork-proposal" class="action vote-action">
+              <div><strong>＋</strong>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    {{else}}
+        <div class="vote {{checkbox ../mode ../authorized}}">
+          <div class="w-clearfix checkbox">
+            <div id="ballot-checkbox" class="option {{checkbox ../mode ../authorized}}">
+              <div class="tick {{checkbox ../mode ../authorized}}"><img src="{{pathFor route='home'}}images/tick.png" class="tick-image {{tick draftView}}">
+              </div>
+            </div>
+            <a href="{{pathFor route='vote'}}/{{keyword}}" class="w-clearfix w-inline-block option-link">
+              <div class="option-title option-link option-edit {{checkbox ../mode ../authorized}}">{{caption ../mode ../label}}</div>
+            </a>
+            {{#if remove ../mode}}
+              <div id="remove-fork" class="action vote-action {{action}}">
+                  <strong>&#10006;</strong>
+              </div>
+            {{/if}}
+          </div>
+        </div>
+    {{/if}}
+  </div>
+</template>

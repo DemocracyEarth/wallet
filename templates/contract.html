@@ -28,7 +28,7 @@
               {{/each}}
 
               {{#if maxReached}} {{else}}
-                <li class="w-clearfix tag-custom"><img src="images/hash.png" class="hash-icon hash-icon-custom">
+                <li class="w-clearfix tag-custom"><img src="{{pathFor route='home'}}images/hash.png" class="hash-icon hash-icon-custom">
                   <input id="text-custom-tag" type="text" placeholder="Custom Tag" name="name" data-name="Name" class="w-input tag input">
                   <div id="add-custom-tag" class="action hash-action">
                     <div>
@@ -89,7 +89,7 @@
               {{> tag draftView=draftView}}
             {{/each}}
           </ul>
-          <a href="#" class="w-clearfix w-inline-block button"><img src="images/558bbf66061432d11971042a_add.png" class="button-icon">
+          <a href="#" class="w-clearfix w-inline-block button"><img src="{{pathFor route='home'}}images/558bbf66061432d11971042a_add.png" class="button-icon">
             <div class="button-label">{{_ "add_custom_tag"}}</div>
           </a>
         </div>
@@ -123,7 +123,7 @@
 </template>
 
 <template name="kind">
-  <a href="#" class="w-inline-block kind"><img src="/images/icon-institution.png" class="icon">
+  <a href="#" class="w-inline-block kind"><img src="{{pathFor route='home'}}images/icon-institution.png" class="icon">
     <div class="label label-corner">{{text}}</div>
   </a>
 </template>
@@ -142,12 +142,12 @@
       </li>
     </ul>
     <ul class="w-list-unstyled w-clearfix extra">
-      <li class="w-clearfix identity"><img src="images/noun_231561_cc.png" class="symbol profile-pic">
+      <li class="w-clearfix identity"><img src="{{pathFor route='home'}}images/noun_231561_cc.png" class="symbol profile-pic">
         <a href="#" class="w-inline-block hash-link">
           <div class="identity-label">Mair Williams</div>
         </a>
       </li>
-      <li class="w-clearfix identity"><img src="images/noun_231561_cc.png" class="symbol profile-pic">
+      <li class="w-clearfix identity"><img src="{{pathFor route='home'}}images/noun_231561_cc.png" class="symbol profile-pic">
         <a href="#" class="w-inline-block hash-link">
           <div class="identity-label">Virgile Deville</div>
         </a>
@@ -158,7 +158,7 @@
 
 <template name="tag">
   {{#if draftView}}
-    <li class="w-clearfix tag {{authorization}}"><img src="images/hash.png" class="hash-icon">
+    <li class="w-clearfix tag {{authorization}}"><img src="{{pathFor route='home'}}images/hash.png" class="hash-icon">
       <a href="{{../url}}" class="w-clearfix w-inline-block hash-link {{authorization hover=true}}">
         <div class="hash-tag">{{../label}}</div>
       </a>
@@ -167,7 +167,7 @@
       </div>
     </li>
   {{else}}
-    <li class="w-clearfix tag {{authorization}}"><img src="images/hash.png" class="hash-icon">
+    <li class="w-clearfix tag {{authorization}}"><img src="{{pathFor route='home'}}images/hash.png" class="hash-icon">
       {{#if suggestion}}
         <a href="#" class="w-clearfix w-inline-block hash-link {{authorization hover=true}}">
           <div class="hash-tag">{{../text}}</div>
@@ -195,7 +195,7 @@
           {{/if}}
         </div>
         <div class="power contract-save-draft">
-          <a href="#" class="w-clearfix w-inline-block button execute"><img src="images/noun_196288_cc.png" class="button-icon execute-icon">
+          <a href="#" class="w-clearfix w-inline-block button execute"><img src="{{pathFor route='home'}}images/noun_196288_cc.png" class="button-icon execute-icon">
             <div>{{_ "save_for"}} <strong>{{_ "review"}}</strong>
             </div>
           </a>

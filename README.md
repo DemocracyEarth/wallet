@@ -7,7 +7,7 @@ Votes measure social force. The more accurate and reliable a technology for coun
 ## Components
 This toolkit lets you create votable objects that can be combined to design any kind of institutional mechanism. Votable objects consist of 4 elements usually found at every contract:
 
-* identifications are found at **[/peers](http://democracy.earth)**: credentials for individuals whose approval for voting rights is based on reviews from other peers, guaranteeing descentralized authority.
+* identifications are found at **[/peer](http://democracy.earth)**: credentials for individuals whose approval for voting rights is based on reviews from other peers, guaranteeing descentralized authority.
 * decisions are found at **[/vote](http://democracy.earth)**: laws, bills or norms with customizable ballot design, voting rules and context scope.
 * definitions are found at  **[/tag](http://democracy.earth)**: semantic layer of concepts that are used as a proxy for delegation of voting rights between peers.
 * interest groups are found at **[/hub](http://democracy.earth)**: corporations or peer organizations constituted under rules built by this software.
@@ -25,7 +25,9 @@ This toolkit lets you create votable objects that can be combined to design any 
 > **Peers** delegate voting rights using **tags**.
 
 ## Democracy
-Direct Democracy, Liquid Democracy, Representative Democracy... Democracy period. If you trace back the origins of the term 'agora', as it was used by the Greeks to speak of the technology used for democratic decision-making, you'll find that the etymological meaning is 'thinking with others'. In many verses of The Odyssey and The Illiad it's used as an antonym of 'war'. Democracy is always a work in progress. It's a incomplete idea because it's the one exception to all ideologies. If it were an absolute ideology it would be a totalitarian idea just like all the other ideologies out there. In the age of Software, democracy can be programmed. But the ultimate programmer, should always be the voter itself. Democracy.Earth aims to provide the necessary tools for anyone to freely create its own kind of democracy.
+Direct Democracy, Liquid Democracy, Representative Democracy... Democracy period. If you trace back the origins of the term 'agora', as it was used by the Greeks to speak of the technology used for democratic decision-making, you'll find that the etymological meaning is 'thinking with others'. In many verses of The Odyssey and The Illiad it's used as an antonym of 'war'. Democracy is always a work in progress. It's a incomplete idea because it's the one exception to all ideologies. If it were an absolute ideology it would be a totalitarian idea just like all the other ideologies out there. In the age of Software, democracy can be programmed. But the ultimate programmer, should always be the voter itself.
+
+Democracy Earth aims to provide the necessary tools for anyone to  create its own kind of democracy. Interface, modeling and code merge at a core symbolic level.
 
 ## Live at [democracy.earth](http://democracy.earth)
 
