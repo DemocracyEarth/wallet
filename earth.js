@@ -26,9 +26,6 @@ if (Meteor.isClient) {
   var $LANGUAGE = "en";
   var MAX_TAGS_PER_CONTRACT = 10;
 
-  //Placeholders
-  var userId = "1";
-
   Meteor.startup(function () {
 
     //Setup Language
@@ -54,17 +51,21 @@ if (Meteor.isClient) {
   ***********************/
 
   Template.ballot.rendered = function () {
-      $('#date-picker').datepicker();
+      console.log('loading jquery calendar' + this.find('#date-picker'));
 
-      $('#date-picker').on('changeDate', function (e) {
-        currentDate = new Date;
-        if (currentDate.getTime() < e.date.getTime()) {
-          Session.set('backdating', false);
-          Meteor.call('updateContractField', getContract()._id, "closingDate", e.date);
-        } else {
-          Session.set('backdating', true);
-        }
-      });
+      if (this.find('#date-picker')) {
+        $('#date-picker').datepicker();
+
+        $('#date-picker').on('changeDate', function (e) {
+          currentDate = new Date;
+          if (currentDate.getTime() < e.date.getTime()) {
+            Session.set('backdating', false);
+            Meteor.call('updateContractField', getContract()._id, "closingDate", e.date);
+          } else {
+            Session.set('backdating', true);
+          }
+        });
+      }
 
       //ADD EVENT: When loaded  set  the date in the calendar.
 
@@ -155,7 +156,7 @@ if (Meteor.isClient) {
   Template.kind.helpers({
     text: function() {
         switch(getContract().kind) {
-          case 'voting ballot':
+          case 'VOTE':
             return  TAPi18n.__('voting_ballot');
             break;
           case 'property':

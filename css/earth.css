@@ -48,7 +48,7 @@ p {
 }
 
 a {
-  border-bottom: 1px solid #00c091;
+  border-bottom: 1px none #00c091;
   color: #00c091;
   text-decoration: none;
 }
@@ -135,6 +135,7 @@ strong {
 .description.editor {
   height: 150px;
   max-width: 100%;
+  margin-bottom: 10px;
   padding: 10px;
   border: 1px none #00c091;
   border-radius: 5px;
@@ -333,7 +334,7 @@ strong {
 
 .semantics {
   display: inline-block;
-  margin: 20px -5px 10px;
+  margin: 0px -5px 10px;
 }
 
 .tag {
@@ -343,9 +344,9 @@ strong {
   border-bottom-style: none;
   border-radius: 3px;
   background-color: #e6f9f4;
-  font-family: Inconsolata, monospace;
   color: #00c091;
-  line-height: 24px;
+  font-size: 18px;
+  line-height: 22px;
   text-transform: capitalize;
   cursor: pointer;
 }
@@ -359,11 +360,18 @@ strong {
   border-radius: 3px;
   background-color: white;
   font-size: 18px;
+  line-height: 40px;
+  text-transform: none;
   cursor: text;
 }
 
 .tag.input:active {
   color: #00c091;
+}
+
+.tag.input.custom-tag {
+  width: auto;
+  margin-bottom: 5px;
 }
 
 .tag.unauthorized {
@@ -384,10 +392,6 @@ strong {
   margin-top: 15px;
   margin-left: 10px;
   opacity: 0.33;
-}
-
-.hash-tag {
-  float: left;
 }
 
 .selector {
@@ -563,11 +567,12 @@ strong {
 
 .option-title {
   display: inline-block;
-  font-size: 26px;
+  font-size: 32px;
   line-height: 60px;
   font-weight: 300;
   text-align: center;
-  text-transform: uppercase;
+  letter-spacing: -1px;
+  text-transform: none;
 }
 
 .option-title.input {
@@ -579,6 +584,12 @@ strong {
   border-style: none;
   color: #00bf8f;
   text-align: left;
+}
+
+.option-title.input.option-input {
+  background-color: white;
+  font-size: 32px;
+  line-height: 40px;
 }
 
 .option-title.option-link {
@@ -667,16 +678,37 @@ strong {
   text-align: left;
 }
 
-.title {
+.field {
   display: inline-block;
-  width: 80%;
-  margin-top: 10px;
+  width: 50%;
+  margin-top: 0px;
   margin-bottom: 20px;
+  border-style: none;
+  border-width: 0px 5px;
+  border-color: white;
+}
+
+.field.headline-field {
+  width: 100%;
+  max-width: 100%;
+  padding-right: 110px;
+}
+
+.field.headline-field.split {
+  padding-right: 110px;
+}
+
+.field.split {
+  border-right: 0px solid white;
+  border-left: 20px solid white;
 }
 
 .tag-custom {
+  margin-top: 10px;
+  margin-bottom: 10px;
   margin-left: 5px;
   float: left;
+  clear: both;
 }
 
 .editor {
@@ -726,6 +758,15 @@ strong {
   color: #00bf8f;
 }
 
+.milestone.milestone-tick-white {
+  margin-top: 10px;
+  margin-left: 5px;
+  border: 1px none white;
+  background-color: transparent;
+  color: white;
+  font-size: 23px;
+}
+
 .progress-bar {
   display: inline-block;
   width: 20%;
@@ -748,17 +789,36 @@ strong {
   font-weight: 300;
 }
 
-.title-editor {
+.input {
   height: 50px;
   margin-bottom: 0px;
-  padding: 10px;
-  border-style: none;
-  border-radius: 5px;
-  background-color: rgba(0, 191, 143, 0.1);
-  font-family: Merriweather, serif;
-  font-size: 36px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 5px;
+  border-style: none none solid;
+  border-bottom-width: 2px;
+  border-bottom-color: rgba(0, 191, 143, 0.1);
+  border-radius: 3px 3px 0px 0px;
+  background-color: #e6f9f4;
+  font-family: Lato, sans-serif;
+  font-size: 20px;
   line-height: 45px;
-  letter-spacing: -2px;
+}
+
+.input:focus {
+  border-bottom-color: #00bf8f;
+}
+
+.input.headline-input {
+  height: 60px;
+  padding-left: 10px;
+  font-size: 36px;
+}
+
+.input.input-active {
+  border-bottom: 1px dotted #00bf8f;
+  background-color: white;
+  cursor: pointer;
 }
 
 .action {
@@ -795,8 +855,9 @@ strong {
 
 .action.hash-action {
   margin-top: 5px;
-  margin-left: -34px;
+  margin-left: 0px;
   padding-top: 8px;
+  float: left;
   border-top: 1px dotted #00bf8f;
   border-right: 1px dotted #00bf8f;
   border-bottom: 1px dotted #00bf8f;
@@ -831,6 +892,14 @@ strong {
 .hash-link.undefined {
   border-bottom-color: #ff2752;
   color: #ff2752;
+}
+
+.hash-link.twitter-link:hover {
+  border-bottom-color: white;
+}
+
+.hash-link.facebook-link:hover {
+  border-bottom-color: white;
 }
 
 .warning {
@@ -938,31 +1007,109 @@ strong {
 
 .identity {
   display: inline-block;
-  margin-right: 5px;
-  margin-bottom: 10px;
-  margin-left: 5px;
-  padding: 5px 15px 5px 5px;
+  margin: 10px 5px;
+  padding: 5px 20px 5px 5px;
   float: left;
   border-radius: 5px;
   background-color: #e6f9f4;
   box-shadow: black 0px 8px 16px -15px;
 }
 
+.identity.facebook {
+  background-color: #256bd5;
+}
+
+.identity.twitter {
+  background-color: #08bdff;
+}
+
 .identity-label {
   display: inline-block;
   margin-top: 10px;
-  font-family: Inconsolata, monospace;
   color: #00bf8f;
+}
+
+.identity-label.twitter-link {
+  color: white;
+}
+
+.identity-label.facebook-link {
+  color: white;
+  cursor: pointer;
+}
+
+.identity-label.facebook-link:hover {
+  border-bottom: 1px none white;
 }
 
 .option-link {
   border-bottom: 1px none black;
 }
 
+.portrait-pic {
+  width: 200px;
+  height: 200px;
+  max-width: 200px;
+  margin-bottom: 10px;
+  padding-top: 20px;
+  float: left;
+  border-bottom: 1px none black;
+  border-radius: 5px;
+  background-color: #e6f9f4;
+  text-align: center;
+}
+
+.credentials {
+  margin-top: 15px;
+}
+
+.user {
+  max-width: 740px;
+  padding-right: 0px;
+  float: left;
+}
+
+.portrait-icon {
+  width: 150px;
+}
+
+.verifier {
+  margin-top: 5px;
+  padding-left: 3px;
+  clear: both;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.available {
+  margin-right: 2px;
+  margin-left: 2px;
+  padding-right: 5px;
+  padding-left: 5px;
+  border-radius: 3px;
+  background-color: #00bf8f;
+  color: white;
+  font-weight: 300;
+}
+
+.portrait {
+  width: 200px;
+  margin-bottom: 20px;
+  float: left;
+  text-align: center;
+}
+
+.mask {
+  display: none;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
     margin-left: 15px;
+  }
+  .section {
+    clear: both;
   }
   .option-title.input {
     max-width: 45%;
@@ -976,6 +1123,26 @@ strong {
   }
   .progress-bar {
     width: 15%;
+  }
+  .profile {
+    position: absolute;
+    left: 230px;
+    right: 30px;
+    float: left;
+  }
+  .user {
+    position: relative;
+    max-width: 100%;
+    float: left;
+  }
+  .portrait {
+    width: 200px;
+  }
+  .mask {
+    display: block;
+    width: 100%;
+    height: 300px;
+    background-color: white;
   }
 }
 
@@ -1019,9 +1186,49 @@ strong {
   .option-title.option-link.option-edit {
     max-width: 295px;
   }
-  .title-editor {
-    font-size: 32px;
-    line-height: 40px;
+  .field.headline-field {
+    padding-right: 80px;
+  }
+  .field.headline-field.split {
+    padding-right: 0px;
+  }
+  .field.split {
+    border-left-width: 0px;
+  }
+  .field.split.field-left {
+    padding-right: 5px;
+  }
+  .field.split.field-right {
+    padding-left: 5px;
+  }
+  .profile {
+    position: static;
+    width: 100%;
+    text-align: center;
+  }
+  .portrait-pic {
+    width: 200px;
+    float: none;
+  }
+  .user {
+    width: 100%;
+    max-width: 100%;
+    float: none;
+    clear: both;
+    text-align: left;
+  }
+  .verifier {
+    line-height: 20px;
+  }
+  .portrait {
+    display: block;
+    width: auto;
+    margin-right: auto;
+    margin-left: auto;
+    float: none;
+  }
+  .mask {
+    display: none;
   }
 }
 
@@ -1040,7 +1247,9 @@ strong {
     line-height: 26px;
   }
   .paper {
-    padding: 15px 15px 10px;
+    padding-right: 15px;
+    padding-bottom: 10px;
+    padding-left: 15px;
     box-shadow: black 0px 0px 25px -10px;
   }
   .kind {
@@ -1084,6 +1293,9 @@ strong {
   .tag.input {
     font-size: 16px;
   }
+  .tag.input.custom-tag {
+    max-width: 211px;
+  }
   .selector {
     position: relative;
     height: 140px;
@@ -1118,10 +1330,14 @@ strong {
   .option-title {
     font-size: 20px;
     line-height: 40px;
+    letter-spacing: 0px;
   }
   .option-title.input {
     height: 40px;
     max-width: 50%;
+  }
+  .option-title.input.option-input {
+    font-size: 20px;
   }
   .option-title.option-link {
     max-height: 40px;
@@ -1139,6 +1355,16 @@ strong {
     margin-right: -15px;
     margin-left: -15px;
   }
+  .field.headline-field {
+    padding-right: 50px;
+  }
+  .field.split {
+    width: 100%;
+    border-left: 1px none black;
+  }
+  .field.split.field-left {
+    padding-right: 0px;
+  }
   .status {
     overflow-x: hidden;
     overflow-y: hidden;
@@ -1146,10 +1372,12 @@ strong {
   .progress-bar {
     width: 11%;
   }
-  .title-editor {
+  .input {
     height: 45px;
-    font-size: 26px;
-    line-height: 32px;
+  }
+  .input.headline-input {
+    height: 50px;
+    font-size: 30px;
   }
   .action.vote-action {
     width: 60px;
@@ -1164,5 +1392,12 @@ strong {
   .value {
     margin-top: 0px;
     margin-bottom: 0px;
+  }
+  .user {
+    margin-left: 0px;
+  }
+  .verifier {
+    font-size: 10px;
+    line-height: 18px;
   }
 }

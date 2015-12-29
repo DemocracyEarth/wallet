@@ -179,6 +179,7 @@ function createContract (keyword) {
         _id: Meteor.userId(), username: Meteor.user().username }
     ],
     closingDate: creationDate, //must be changed if loaded if not defined.
+    alwaysOpen: false,
     allowForks: true,
     secretVotes: false,
     realtimeResults: false,
