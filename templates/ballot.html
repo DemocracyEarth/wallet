@@ -85,7 +85,7 @@
             </div>
           </div>
           <form id="fork-form">
-            <input id="text-fork-proposal" type="text" placeholder="{{_ 'propose-fork'}}" class="w-input option-title input">
+            <input id="text-fork-proposal" type="text" placeholder="{{_ 'propose-fork'}}" class="w-input option-title input option-input">
             <div id="add-fork-proposal" class="action vote-action">
               <div><strong>＋</strong>
               </div>
@@ -93,6 +93,8 @@
           </form>
         </div>
       </div>
+      <!--<div class="verifier"><strong data-new-link="true">{{_ 'vote-url'}} </strong>{{_ 'at'}} <a href="{{pathFor route='vote'}}">{{pathFor route='vote'}}</a> {{_ 'is'}} <strong data-new-link="true" class="available">{{_ 'available'}}</strong>
+      </div>-->
     {{else}}
         <div class="vote {{checkbox ../mode ../authorized}}">
           <div class="w-clearfix checkbox">

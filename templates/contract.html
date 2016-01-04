@@ -15,59 +15,64 @@
           {{> title draftView=draftView}}
         </form>
 
+
         <!-- Description -->
         <form id="description-form" name="description-form" class="description-form" data-name="Description Form">
-          <textarea id="contract-description" placeholder="{{_ 'description_form_placeholder'}}" name="description" value="{{description}}" data-name="description" class="w-input description editor"></textarea>
+          <textarea id="contract-description" placeholder="{{_ 'description_form_placeholder'}}" name="description" value="{{description}}" data-name="description" class="w-input description input"></textarea>
         </form>
 
-        <div class="semantics">
-          <form id="tag-form" name="tag-form" data-name="Tag Form">
-            <ul class="w-list-unstyled w-clearfix">
-              {{#each semantics}}
-                {{> tag draftView=../draftView _id=_id}}
-              {{/each}}
+        <div class="section">
+          <h2>{{_ "interests"}}</h2>
+          <div class="semantics">
+            <form id="tag-form" name="tag-form" data-name="Tag Form">
+              <ul class="w-list-unstyled w-clearfix">
+                {{#each semantics}}
+                  {{> tag draftView=../draftView _id=_id}}
+                {{/each}}
 
-              {{#if maxReached}} {{else}}
-                <li class="w-clearfix tag-custom"><img src="{{pathFor route='home'}}images/hash.png" class="hash-icon hash-icon-custom">
-                  <input id="text-custom-tag" type="text" placeholder="Custom Tag" name="name" data-name="Name" class="w-input tag input">
-                  <div id="add-custom-tag" class="action hash-action">
-                    <div>
-                      <strong>＋</strong>
+                {{#if maxReached}} {{else}}
+                  <li class="w-clearfix tag-custom"><img src="{{pathFor route='home'}}images/hash.png" class="hash-icon hash-icon-custom">
+                    <input id="text-custom-tag" type="text" placeholder="{{_ 'custom-tag'}}" name="name" data-name="Name" class="w-input tag input custom-tag">
+                    <div id="add-custom-tag" class="action hash-action">
+                      <div>
+                        <strong>＋</strong>
+                      </div>
                     </div>
-                  </div>
-                </li>
-              {{/if}}
-            </ul>
-          </form>
+                    <!--<div class="verifier"><strong data-new-link="true">{{_ 'interest-url'}} </strong>{{_ 'at'}} <a href="{{pathFor route='tag'}}">{{pathFor route='tag'}}</a> {{_ 'is'}} <strong data-new-link="true" class="available">{{_ 'available'}}</strong>
+                    </div>-->
+                  </li>
+                {{/if}}
+              </ul>
+            </form>
 
-          <!-- Tag Picker -->
-          {{#unless maxReached}}
-            <h3>{{_ "tag_suggestions"}}</h3>
-            <ul class="w-list-unstyled w-clearfix selector">
-              {{#each tags}}
-                  {{> tag suggestion=true _id=_id}}
-              {{/each}}
-            </ul>
-          {{/unless}}
+            <!-- Warnings -->
+
+              <ul class="w-list-unstyled">
+                {{#if unauthorizedTags}}
+                  <li class="warning">{{_ "tags_lack_authorization"}}</li>
+                {{/if}}
+                {{#if duplicateTags}}
+                  <li class="warning">{{_ "duplicate_tags"}}</li>
+                {{/if}}
+                {{#if maxReached}}
+                  <li class="warning">{{_ "max_tags_reached"}}</li>
+                {{/if}}
+              </ul>
 
 
-
+            <!-- Tag Picker -->
+            {{#unless maxReached}}
+              <h3>{{_ "tag_suggestions"}}</h3>
+              <ul class="w-list-unstyled w-clearfix selector">
+                {{#each tags}}
+                    {{> tag suggestion=true _id=_id}}
+                {{/each}}
+              </ul>
+            {{/unless}}
+          </div>
         </div>
 
-        <!-- Warnings -->
-        <div class="extra">
-          <ul class="w-list-unstyled">
-            {{#if unauthorizedTags}}
-              <li class="warning">{{_ "tags_lack_authorization"}}</li>
-            {{/if}}
-            {{#if duplicateTags}}
-              <li class="warning">{{_ "duplicate_tags"}}</li>
-            {{/if}}
-            {{#if maxReached}}
-              <li class="warning">{{_ "max_tags_reached"}}</li>
-            {{/if}}
-          </ul>
-        </div>
+
 
       <!--****************************************************-->
       <!-- View 2: Review -->
@@ -115,9 +120,13 @@
 <template name="title">
   <div class="title">
     {{#if draftView}}
-        <input id="contract-title" type="text" placeholder="{{_ 'headline'}}" name="title" value="{{declaration}}" required="required" data-name="Title" class="w-input title-editor">
+      <div class="field headline-field">
+        <input id="contract-title" type="text" placeholder="{{_ 'headline'}}" name="title" value="{{declaration}}" required="required" data-name="Title" class="w-input input headline-input">
+        <div class="verifier"><strong data-new-link="true">{{_ 'vote-url'}} </strong>{{_ 'at'}} <a href="{{pathFor route='vote'}}">{{pathFor route='vote'}}</a> {{_ 'is'}} <strong data-new-link="true" class="available">{{_ 'available'}}</strong>
+        </div>
+      </div>
     {{else}}
-        <h1 id="contract-title" class="declaration">{{declaration}}</h1>
+      <h1 id="contract-title" class="declaration">{{declaration}}</h1>
     {{/if}}
   </div>
 </template>

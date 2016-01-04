@@ -53,6 +53,12 @@ a {
   text-decoration: none;
 }
 
+ul {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-left: 40px;
+}
+
 strong {
   font-weight: 400;
 }
@@ -133,7 +139,7 @@ strong {
 }
 
 .description.editor {
-  height: 150px;
+  height: 80px;
   max-width: 100%;
   margin-bottom: 10px;
   padding: 10px;
@@ -143,6 +149,11 @@ strong {
   box-shadow: none;
   font-size: 18px;
   line-height: 28px;
+}
+
+.description.input {
+  font-size: 14px;
+  line-height: 22px;
 }
 
 .section {
@@ -179,6 +190,10 @@ strong {
   float: left;
   border-bottom: 1px none black;
   text-align: center;
+}
+
+.power.hundred {
+  width: 100%;
 }
 
 .elements {
@@ -406,6 +421,11 @@ strong {
   box-shadow: black 0px 0px 8px -4px inset;
 }
 
+.selector.identity-list {
+  height: 76px;
+  padding: 10px;
+}
+
 .cover {
   display: none;
   height: 300px;
@@ -554,8 +574,10 @@ strong {
   width: 60px;
   height: 60px;
   margin-right: 20px;
+  padding-top: 2px;
+  padding-left: 2px;
   float: left;
-  border: 4px solid #00c091;
+  border: 2px solid #00c091;
   border-radius: 3px;
   background-color: whitesmoke;
   cursor: pointer;
@@ -669,7 +691,7 @@ strong {
 }
 
 .block {
-  margin: 20px -30px -10px;
+  margin: 0px -30px -10px;
   padding: 5px 25px;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
@@ -700,6 +722,11 @@ strong {
 
 .field.split {
   border-right: 0px solid white;
+  border-left: 20px solid white;
+}
+
+.field.bio {
+  width: 100%;
   border-left: 20px solid white;
 }
 
@@ -913,6 +940,12 @@ strong {
   line-height: 22px;
 }
 
+.warning.score-label {
+  margin-bottom: 0px;
+  background-color: #00bf8f;
+  color: white;
+}
+
 .navbar {
   position: fixed;
   left: 0px;
@@ -1007,7 +1040,7 @@ strong {
 
 .identity {
   display: inline-block;
-  margin: 10px 5px;
+  margin: 0px 10px 0px 0px;
   padding: 5px 20px 5px 5px;
   float: left;
   border-radius: 5px;
@@ -1021,6 +1054,11 @@ strong {
 
 .identity.twitter {
   background-color: #08bdff;
+}
+
+.identity.twitter.identity-logged {
+  padding-right: 0px;
+  padding-left: 0px;
 }
 
 .identity-label {
@@ -1075,10 +1113,11 @@ strong {
 
 .verifier {
   margin-top: 5px;
-  padding-left: 3px;
+  padding-left: 0px;
   clear: both;
   font-size: 12px;
   line-height: 20px;
+  text-align: left;
 }
 
 .available {
@@ -1101,6 +1140,77 @@ strong {
 
 .mask {
   display: none;
+}
+
+.score-bar {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 5px;
+  float: left;
+}
+
+.score-block {
+  width: 9%;
+  height: 15px;
+  margin-right: 1%;
+  float: left;
+  border: 1px solid rgba(0, 191, 143, 0.1);
+  background-color: rgba(0, 191, 143, 0.1);
+}
+
+.score-block.score-complete {
+  border-color: #00bf8f;
+  background-color: #00bf8f;
+}
+
+.score {
+  text-align: left;
+}
+
+.score-board {
+  width: 60px;
+  height: 60px;
+  float: right;
+  border: 1px solid #00bf8f;
+  border-radius: 5px;
+  color: #00bf8f;
+  font-size: 22px;
+  text-align: center;
+}
+
+.capital {
+  display: block;
+  width: 100%;
+  margin-bottom: -5px;
+  clear: both;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.capital-field {
+  padding: 5px 10px;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.capital-value {
+  display: block;
+  float: right;
+  color: white;
+}
+
+.capital-label {
+  float: left;
+}
+
+.capital-scores {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.identity-list {
+  padding: 10px 5px;
 }
 
 @media (max-width: 991px) {
@@ -1141,7 +1251,7 @@ strong {
   .mask {
     display: block;
     width: 100%;
-    height: 300px;
+    height: 420px;
     background-color: white;
   }
 }
@@ -1200,6 +1310,9 @@ strong {
   }
   .field.split.field-right {
     padding-left: 5px;
+  }
+  .field.bio {
+    border-left: 1px none black;
   }
   .profile {
     position: static;
@@ -1268,6 +1381,11 @@ strong {
   }
   .description.editor {
     font-size: 16px;
+  }
+  .description.input {
+    height: 80px;
+    font-size: 14px;
+    line-height: 22px;
   }
   .text.setting-label {
     overflow-x: hidden;
