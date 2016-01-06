@@ -172,6 +172,7 @@ function createContract (keyword) {
     createdAt: new Date(),
     lastUpdate: new Date(),
     tags: [],
+    membersOnly: false,
     executionStatus: 'DRAFT',
     anonymous: false,
     authors: [

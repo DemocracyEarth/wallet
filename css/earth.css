@@ -152,6 +152,7 @@ strong {
 }
 
 .description.input {
+  height: 100px;
   font-size: 14px;
   line-height: 22px;
 }
@@ -460,6 +461,10 @@ strong {
   text-align: center;
   text-transform: none;
   cursor: pointer;
+}
+
+.button.execute:active {
+  background-color: #46dfb8;
 }
 
 .button-label {
@@ -848,6 +853,21 @@ strong {
   cursor: pointer;
 }
 
+.input.monetary {
+  width: 80px;
+  height: 38px;
+  margin-right: -5px;
+  padding-right: 15px;
+  float: left;
+  border: 1px solid #00bf8f;
+  border-radius: 5px;
+  color: #00bf8f;
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 400;
+  text-align: right;
+}
+
 .action {
   display: block;
   width: 44px;
@@ -929,6 +949,10 @@ strong {
   border-bottom-color: white;
 }
 
+.hash-link.bitcoin-fund {
+  float: none;
+}
+
 .warning {
   display: inline-block;
   margin: 5px 5px 10px;
@@ -958,13 +982,13 @@ strong {
 }
 
 .navlink {
-  padding-top: 16px;
-  padding-bottom: 16px;
   border-bottom: 0px none black;
-  font-family: Inconsolata, monospace;
+  font-family: Lato, sans-serif;
   color: white;
-  font-size: 18px;
-  font-weight: 400;
+  font-size: 17px;
+  line-height: 19px;
+  font-weight: 300;
+  text-align: right;
 }
 
 .navcontainer {
@@ -989,7 +1013,9 @@ strong {
 }
 
 .jurisdiction {
+  position: relative;
   display: inline-block;
+  width: 60%;
   height: 60px;
   padding-top: 15px;
   padding-bottom: 15px;
@@ -1040,7 +1066,7 @@ strong {
 
 .identity {
   display: inline-block;
-  margin: 0px 10px 0px 0px;
+  margin: 10px 10px 10px 0px;
   padding: 5px 20px 5px 5px;
   float: left;
   border-radius: 5px;
@@ -1117,7 +1143,6 @@ strong {
   clear: both;
   font-size: 12px;
   line-height: 20px;
-  text-align: left;
 }
 
 .available {
@@ -1151,7 +1176,7 @@ strong {
 
 .score-block {
   width: 9%;
-  height: 15px;
+  height: 10px;
   margin-right: 1%;
   float: left;
   border: 1px solid rgba(0, 191, 143, 0.1);
@@ -1164,6 +1189,8 @@ strong {
 }
 
 .score {
+  margin-top: 20px;
+  margin-bottom: 20px;
   text-align: left;
 }
 
@@ -1210,7 +1237,34 @@ strong {
 }
 
 .identity-list {
-  padding: 10px 5px;
+  margin-top: -5px;
+  padding: 0px 5px 10px;
+}
+
+.budget {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.vote-capital-label {
+  font-size: 10px;
+  font-weight: 300;
+}
+
+.search {
+  width: 100%;
+  height: 40px;
+  margin-top: -5px;
+  margin-bottom: -6px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  border-style: none;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.25);
+  color: white;
+  font-size: 16px;
+  line-height: 28px;
+  font-weight: 300;
 }
 
 @media (max-width: 991px) {
@@ -1251,8 +1305,11 @@ strong {
   .mask {
     display: block;
     width: 100%;
-    height: 420px;
+    height: 450px;
     background-color: white;
+  }
+  .mask.interest-profile {
+    height: 350px;
   }
 }
 
@@ -1314,6 +1371,9 @@ strong {
   .field.bio {
     border-left: 1px none black;
   }
+  .input.headline-input {
+    font-size: 28px;
+  }
   .profile {
     position: static;
     width: 100%;
@@ -1342,6 +1402,9 @@ strong {
   }
   .mask {
     display: none;
+  }
+  .score-block {
+    height: 15px;
   }
 }
 
@@ -1383,7 +1446,7 @@ strong {
     font-size: 16px;
   }
   .description.input {
-    height: 80px;
+    height: 100px;
     font-size: 14px;
     line-height: 22px;
   }
@@ -1495,7 +1558,7 @@ strong {
   }
   .input.headline-input {
     height: 50px;
-    font-size: 30px;
+    font-size: 24px;
   }
   .action.vote-action {
     width: 60px;

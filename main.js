@@ -17,4 +17,4 @@ build a new model that makes the existing model obsolete."
 
 */
 
-console.log('loading democracy.earth version: 0.00000001 codename: satoshi');
+console.log('loading democracy.earth version: 0.01 codename: san francisco');

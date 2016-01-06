@@ -5,3 +5,214 @@
 
   {{/if}}
 </template>
+
+<template name="contract">
+  <div class="contract">
+    <div class="paper">
+
+      <!-- Kind -->
+      {{> kind}}
+
+      <!--****************************************************-->
+      <!-- View 1: Draft -->
+      <!--****************************************************-->
+      {{#if draftView}}
+
+        <!-- Title -->
+        <form id="title-form" class="title-form" name="title-form" data-name="Title Form">
+          {{> title draftView=draftView}}
+        </form>
+
+
+        <!-- Description -->
+        <form id="description-form" name="description-form" class="description-form" data-name="Description Form">
+          <textarea id="contract-description" placeholder="{{_ 'description_form_placeholder'}}" name="description" value="{{description}}" data-name="description" class="w-input description input"></textarea>
+        </form>
+
+        <div class="section">
+          <h2>{{_ "interests"}}</h2>
+          <div class="semantics">
+            <form id="tag-form" name="tag-form" data-name="Tag Form">
+              <ul class="w-list-unstyled w-clearfix">
+                {{#each semantics}}
+                  {{> tag draftView=../draftView _id=_id}}
+                {{/each}}
+
+                {{#if maxReached}} {{else}}
+                  <li class="w-clearfix tag-custom"><img src="{{pathFor route='home'}}images/hash.png" class="hash-icon hash-icon-custom">
+                    <input id="text-custom-tag" type="text" placeholder="{{_ 'custom-tag'}}" name="name" data-name="Name" class="w-input tag input custom-tag">
+                    <div id="add-custom-tag" class="action hash-action">
+                      <div>
+                        <strong>＋</strong>
+                      </div>
+                    </div>
+                    <!--<div class="verifier"><strong data-new-link="true">{{_ 'interest-url'}} </strong>{{_ 'at'}} <a href="{{pathFor route='tag'}}">{{pathFor route='tag'}}</a> {{_ 'is'}} <strong data-new-link="true" class="available">{{_ 'available'}}</strong>
+                    </div>-->
+                  </li>
+                {{/if}}
+              </ul>
+            </form>
+
+            <!-- Warnings -->
+
+              <ul class="w-list-unstyled">
+                {{#if unauthorizedTags}}
+                  <li class="warning">{{_ "tags_lack_authorization"}}</li>
+                {{/if}}
+                {{#if duplicateTags}}
+                  <li class="warning">{{_ "duplicate_tags"}}</li>
+                {{/if}}
+                {{#if maxReached}}
+                  <li class="warning">{{_ "max_tags_reached"}}</li>
+                {{/if}}
+              </ul>
+
+
+            <!-- Tag Picker -->
+            {{#unless maxReached}}
+              <h3>{{_ "tag_suggestions"}}</h3>
+              <ul class="w-list-unstyled w-clearfix selector">
+                {{#each tags}}
+                    {{> tag suggestion=true _id=_id}}
+                {{/each}}
+              </ul>
+            {{/unless}}
+          </div>
+        </div>
+
+
+
+      <!--****************************************************-->
+      <!-- View 2: Review -->
+      <!--****************************************************-->
+      {{else}}
+
+        <!-- Title -->
+        {{> title draftView=draftView}}
+
+        <!-- Description -->
+        <div class="w-richtext description">
+          {{description}}
+        </div>
+
+        <!-- Tags -->
+        <div class="w-clearfix semantics">
+          <ul class="w-list-unstyled w-clearfix selector">
+            {{#each semantics}}
+              {{> tag draftView=draftView}}
+            {{/each}}
+          </ul>
+          <a href="#" class="w-clearfix w-inline-block button"><img src="{{pathFor route='home'}}images/558bbf66061432d11971042a_add.png" class="button-icon">
+            <div class="button-label">{{_ "add_custom_tag"}}</div>
+          </a>
+        </div>
+
+
+      {{/if}}
+
+
+      <!-- Authors -->
+      {{> authors}}
+
+      <!-- Vote -->
+      {{> ballot draftView=draftView}}
+
+      <!-- Execution status of the contract -->
+      {{> execution draftView=draftView}}
+
+
+    </div>
+  </div>
+</template>
+
+<template name="title">
+  <div class="title">
+    {{#if draftView}}
+      <div class="field headline-field">
+        <input id="contract-title" type="text" placeholder="{{_ 'headline'}}" name="title" value="{{declaration}}" required="required" data-name="Title" class="w-input input headline-input">
+        <div class="verifier"><strong data-new-link="true">{{_ 'vote-url'}} </strong>{{_ 'at'}} <a href="{{pathFor route='vote'}}">{{pathFor route='vote'}}</a> {{_ 'is'}} <strong data-new-link="true" class="available">{{_ 'available'}}</strong>
+        </div>
+      </div>
+    {{else}}
+      <h1 id="contract-title" class="declaration">{{declaration}}</h1>
+    {{/if}}
+  </div>
+</template>
+
+<template name="kind">
+  <a href="#" class="w-inline-block kind"><img src="{{pathFor route='home'}}images/icon-institution.png" class="icon">
+    <div class="label label-corner">{{text}}</div>
+  </a>
+</template>
+
+<template name="authors">
+  <div class="section">
+    <h2>{{_ "authors"}}</h2>
+    <ul class="w-list-unstyled settings">
+      <li class="w-clearfix setting">
+        <div class="text setting-label">{{_ "members-only"}}</div>
+        <div class="w-clearfix value">
+          <div id="toggle-anonymous" class="toggle {{anonymous}}"><!-- {{anonymous}} is a placeholder, should be {{membersOnly}} -->
+            <div class="toggle-button {{anonymous}}"></div><!-- {{anonymous}} is a placeholder, should be {{membersOnly}} -->
+          </div>
+        </div>
+      </li>
+    </ul>
+    <ul class="w-list-unstyled w-clearfix">
+      <li class="w-clearfix identity"><img src="{{pathFor route='home'}}images/fingerprint.png" class="symbol profile-pic">
+        <a href="#" class="w-inline-block hash-link">
+          <div class="identity-label">{{_ "identify-as-advocate"}}</div>
+        </a>
+      </li>
+    </ul>
+  </div>
+</template>
+
+<template name="tag">
+  {{#if draftView}}
+    <li class="w-clearfix tag {{authorization}}"><img src="{{pathFor route='home'}}images/hash.png" class="hash-icon">
+      <a href="{{../url}}" class="w-clearfix w-inline-block hash-link {{authorization hover=true}}">
+        <div class="hash-tag">{{../label}}</div>
+      </a>
+      <div id="tag-remove" class="action {{authorization hover=true}}">
+        <div>&#10006;</div>
+      </div>
+    </li>
+  {{else}}
+    <li class="w-clearfix tag {{authorization}}"><img src="{{pathFor route='home'}}images/hash.png" class="hash-icon">
+      {{#if suggestion}}
+        <a href="#" class="w-clearfix w-inline-block hash-link {{authorization hover=true}}">
+          <div class="hash-tag">{{../text}}</div>
+        </a>
+        <div id="add-suggested-tag" class="action {{authorization hover=true}}">
+          <div><strong>＋</strong>
+          </div>
+        </div>
+      {{else}}
+        <div class="hash-tag">{{../label}}</div>
+      {{/if}}
+    </li>
+  {{/if}}
+</template>
+
+<template name="execution">
+  <div class="execution">
+    <div class="block">
+      <div class="w-clearfix elements">
+        <!--<div class="power">
+          {{#if draftView}}
+            {{> status step=1 max=3}}
+          {{else}}
+            {{> status step=2 max=3}}
+          {{/if}}
+        </div>-->
+        <div class="power hundred contract-save-draft">
+          <a href="#" class="w-clearfix w-inline-block button execute"><img src="{{pathFor route='home'}}images/noun_196288_cc.png" class="button-icon execute-icon">
+            <div>{{_ "save_for"}} <strong>{{_ "review"}}</strong>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
