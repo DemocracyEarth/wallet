@@ -6,6 +6,7 @@ if (Meteor.isClient) {
   var $LANGUAGE = "en";
   var MAX_TAGS_PER_CONTRACT = 10;
 
+
   Meteor.startup(function () {
 
     //Setup Language
@@ -19,6 +20,8 @@ if (Meteor.isClient) {
         // Handle the situation
         console.log(error_message);
       });
+
+
 
   });
 
@@ -50,6 +53,10 @@ if (Meteor.isClient) {
       //ADD EVENT: When loaded  set  the date in the calendar.
 
   };
+
+  Template.agreement.rendered = function () {
+    var editor = new MediumEditor('.editable', {});
+  }
 
   /***********************
   Helpers
