@@ -23,14 +23,13 @@
           {{> title draftView=draftView}}
         </form>
 
+        <!-- Authors -->
+        {{> authors}}
 
-        <!-- Description -->
-        <form id="description-form" name="description-form" class="description-form" data-name="Description Form">
-          <textarea id="contract-description" placeholder="{{_ 'description_form_placeholder'}}" name="description" value="{{description}}" data-name="description" class="w-input description input"></textarea>
-        </form>
+        <!-- Agreement -->
+        {{> agreement}}
 
         <div class="section">
-          <h2>{{_ "interests"}}</h2>
           <div class="semantics">
             <form id="tag-form" name="tag-form" data-name="Tag Form">
               <ul class="w-list-unstyled w-clearfix">
@@ -39,7 +38,7 @@
                 {{/each}}
 
                 {{#if maxReached}} {{else}}
-                  <li class="w-clearfix tag-custom"><img src="{{pathFor route='home'}}images/hash.png" class="hash-icon hash-icon-custom">
+                  <li class="w-clearfix tag-custom"><img src="{{pathFor route='home'}}images/hashtag.png" class="hash-icon hash-icon-custom">
                     <input id="text-custom-tag" type="text" placeholder="{{_ 'custom-tag'}}" name="name" data-name="Name" class="w-input tag input custom-tag">
                     <div id="add-custom-tag" class="action hash-action">
                       <div>
@@ -110,10 +109,6 @@
 
       {{/if}}
 
-
-      <!-- Authors -->
-      {{> authors}}
-
       <!-- Vote -->
       {{> ballot draftView=draftView}}
 
@@ -126,17 +121,15 @@
 </template>
 
 <template name="title">
-  <div class="title">
     {{#if draftView}}
       <div class="field headline-field">
-        <input id="contract-title" type="text" placeholder="{{_ 'headline'}}" name="title" value="{{declaration}}" required="required" data-name="Title" class="w-input input headline-input">
-        <div class="verifier"><strong data-new-link="true">{{_ 'vote-url'}} </strong>{{_ 'at'}} <a href="{{pathFor route='vote'}}">{{pathFor route='vote'}}</a> {{_ 'is'}} <strong data-new-link="true" class="available">{{_ 'available'}}</strong>
+        <input id="contract-title" type="text" placeholder="{{_ 'headline'}}" name="title" value="{{declaration}}" required="required" data-name="Title" class="w-input input headline-input input-active">
+        <div class="verifier verifier-live"><strong data-new-link="true">{{_ 'vote-url'}} </strong>{{_ 'at'}} <a href="{{pathFor route='vote'}}">{{pathFor route='vote'}}</a> {{_ 'is'}} <strong data-new-link="true" class="available">{{_ 'available'}}</strong>
         </div>
       </div>
     {{else}}
       <h1 id="contract-title" class="declaration">{{declaration}}</h1>
     {{/if}}
-  </div>
 </template>
 
 <template name="kind">
@@ -146,31 +139,25 @@
 </template>
 
 <template name="authors">
-  <div class="section">
-    <h2>{{_ "authors"}}</h2>
-    <ul class="w-list-unstyled settings">
-      <li class="w-clearfix setting">
-        <div class="text setting-label">{{_ "members-only"}}</div>
-        <div class="w-clearfix value">
-          <div id="toggle-anonymous" class="toggle {{anonymous}}"><!-- {{anonymous}} is a placeholder, should be {{membersOnly}} -->
-            <div class="toggle-button {{anonymous}}"></div><!-- {{anonymous}} is a placeholder, should be {{membersOnly}} -->
-          </div>
-        </div>
-      </li>
-    </ul>
-    <ul class="w-list-unstyled w-clearfix">
-      <li class="w-clearfix identity"><img src="{{pathFor route='home'}}images/fingerprint.png" class="symbol profile-pic">
-        <a href="#" class="w-inline-block hash-link">
-          <div class="identity-label">{{_ "identify-as-advocate"}}</div>
-        </a>
-      </li>
-    </ul>
-  </div>
+  <ul class="w-list-unstyled w-clearfix extra">
+    <li class="w-clearfix identity"><img src="{{pathFor route='home'}}images/Screen Shot 2016-01-27 at 12.05.33 AM.png" class="symbol profile-pic">
+      <div class="identity-peer">
+        <div class="identity-verified"><img src="{{pathFor route='home'}}images/white-tick.png" class="identity-verified-tick">
+        </div><a href="#" class="identity-label">Satoshi Nakamoto</a>
+        <div class="identity-nation">🌎Earth</div>
+      </div>
+    </li>
+    <li class="w-clearfix identity"><img src="{{pathFor route='home'}}images/portrait.png" class="symbol profile-pic">
+      <div class="identity-peer"><a href="#" class="identity-label">Barack Obama</a>
+        <div class="identity-nation">🇺🇸 United States of America</div>
+      </div>
+    </li>
+  </ul>
 </template>
 
 <template name="tag">
   {{#if draftView}}
-    <li class="w-clearfix tag {{authorization}}"><img src="{{pathFor route='home'}}images/hash.png" class="hash-icon">
+    <li class="w-clearfix tag {{authorization}}"><img src="{{pathFor route='home'}}images/hashtag.png" class="hash-icon">
       <a href="{{../url}}" class="w-clearfix w-inline-block hash-link {{authorization hover=true}}">
         <div class="hash-tag">{{../label}}</div>
       </a>
@@ -179,7 +166,7 @@
       </div>
     </li>
   {{else}}
-    <li class="w-clearfix tag {{authorization}}"><img src="{{pathFor route='home'}}images/hash.png" class="hash-icon">
+    <li class="w-clearfix tag {{authorization}}"><img src="{{pathFor route='home'}}images/hashtag.png" class="hash-icon">
       {{#if suggestion}}
         <a href="#" class="w-clearfix w-inline-block hash-link {{authorization hover=true}}">
           <div class="hash-tag">{{../text}}</div>
@@ -195,6 +182,14 @@
   {{/if}}
 </template>
 
+<template name="agreement">
+  <div class="w-richtext rich-text">
+    <p>The rich text element allows you to&nbsp;<a href="http://democracy.earth">create and format headings</a>, paragraphs, blockquotes, images, and video all in one place instead of having to add and format them individually. Just double-click and easily create content.The rich text element allows you to&nbsp;<a href="http://democracy.earth">create and format headings</a>, paragraphs, blockquotes, images, and video all in one place instead of having to add and format them individually. Just double-click and easily create content.The rich text element allows you to&nbsp;<a href="http://democracy.earth">create and format headings</a>, paragraphs, blockquotes, images, and video all in one place instead of having to add and format them individually. Just double-click and easily create content.</p>
+    <h4>Motivation</h4>
+    <p>A rich text element can be used with static or&nbsp;<a href="http://democracy.earth">dynamic content</a>. For static content, just drop it into any page and begin editing. For dynamic coent can be used with static or&nbsp;<a href="http://democracy.earth">dynamic content</a>. For static content, just drop it into any page and begin editing. For dynamic coent can be used with static or&nbsp;<a href="http://democracy.earth">dynamic content</a>. For static content, just drop it into any page and begin editing. For</p>
+  </div>
+</template>
+
 <template name="execution">
   <div class="execution">
     <div class="block">
@@ -207,7 +202,7 @@
           {{/if}}
         </div>-->
         <div class="power hundred contract-save-draft">
-          <a href="#" class="w-clearfix w-inline-block button execute"><img src="{{pathFor route='home'}}images/noun_196288_cc.png" class="button-icon execute-icon">
+          <a href="#" class="w-clearfix w-inline-block button execute">
             <div>{{_ "save_for"}} <strong>{{_ "review"}}</strong>
             </div>
           </a>

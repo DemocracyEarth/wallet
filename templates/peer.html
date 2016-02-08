@@ -16,7 +16,7 @@
       </a>
 
       <div class="w-form editor">
-
+      <form id="email-form-2" name="email-form-2" data-name="Email Form 2" class="w-clearfix">
 
         <!-- Portrait -->
         <div class="w-clearfix portrait">
@@ -49,28 +49,28 @@
         <div class="w-clearfix profile">
           <div class="user">
             <div class="field headline-field split">
-              <input id="Title-4" type="text" placeholder="@Username" name="Title-4" required="required" data-name="Title 4" class="w-input input headline-input">
+              <input id="Title-4" type="text" placeholder="{{_ 'username'}}" name="Title-4" required="required" data-name="Title 4" class="w-input input headline-input">
               <div class="verifier"><strong data-new-link="true">{{_ "passport-url"}}</strong> {{_ "at"}} <a data-new-link="true" href="#">democracy.earth/peer/<strong>username</strong></a> <strong data-new-link="true" class="available">{{_ "available"}}</strong>
               </div>
             </div>
             <div class="field split field-left">
-              <input id="Title-5" type="text" placeholder="Given Names" name="Title-5" required="required" data-name="Title 5" class="w-input input">
+              <input id="Title-5" type="text" placeholder="{{_ 'given-names'}}" name="Title-5" required="required" data-name="Title 5" class="w-input input">
               <div class="verifier"><strong data-new-link="true">{{_ "given-names"}}</strong> {{_ "first-name"}}</div>
             </div>
             <div class="field split field-right">
-              <input id="Title-6" type="text" placeholder="Surname" name="Title-6" required="required" data-name="Title 6" class="w-input input input-active">
+              <input id="Title-6" type="text" placeholder="{{_ 'surname'}}" name="Title-6" required="required" data-name="Title 6" class="w-input input input-active">
               <div class="verifier"><strong data-new-link="true">{{_ "surname"}}</strong> {{_ "family-name"}}</div>
             </div>
             <div class="field split field-left">
-              <input id="Title-7" type="text" placeholder="🌎 Nation" name="Title-7" required="required" data-name="Title 7" class="w-input input">
+              <input id="Title-7" type="text" placeholder="{{_ 'nation'}}" name="Title-7" required="required" data-name="Title 7" class="w-input input">
               <div class="verifier"><strong data-new-link="true">{{_ "nationality"}} </strong> {{_ "birth-place"}}</div>
             </div>
             <div class="field split field-right">
-              <input id="Title-8" type="text" placeholder="🌎 Country" name="Title-8" required="required" data-name="Title 8" class="w-input input">
+              <input id="Title-8" type="text" placeholder="{{_ 'city'}}" name="Title-8" required="required" data-name="Title 8" class="w-input input">
               <div class="verifier"><strong data-new-link="true">{{_ "residence"}}</strong> {{_ "city-country"}}</div>
             </div>
             <div class="field bio">
-              <textarea id="description-2" placeholder="Describe this contract's proposal in detail." name="description-2" data-name="Description 2" class="w-input description input"></textarea>
+              <textarea id="description-2" placeholder="{{_ 'bio-example'}}" name="description-2" data-name="Description 2" class="w-input description input"></textarea>
               <div class="verifier"><strong data-new-link="true">{{_ "bio"}}</strong> {{_ "bio-detail"}}</div>
             </div>
           </div>
@@ -172,6 +172,22 @@
           </ul>
         </div>
 
+
+        <!-- Execution -->
+        <div class="execution">
+          <div class="block">
+            <div class="w-clearfix elements">
+              <div class="power hundred">
+                <a href="#" class="w-clearfix w-inline-block button execute"><img src="{{pathFor route='home'}}images/noun_196288_cc.png" class="button-icon execute-icon">
+                  <div>{{_ 'become'}} <strong data-new-link="true"> {{_ 'peers'}}</strong>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </form>
       </div>
 
     </div>

@@ -81,15 +81,11 @@
       <div class="vote vote-edit">
         <div class="w-clearfix checkbox">
           <div id="ballot-checkbox" class="option">
-            <div class="tick"><img src="{{pathFor route='home'}}images/tick.png" class="tick-image {{tick draftView}}">
+            <div class="tick"><img src="{{pathFor route='home'}}images/white-tick-thin.png" class="tick-image {{tick draftView}}">
             </div>
           </div>
           <form id="fork-form">
             <input id="text-fork-proposal" type="text" placeholder="{{_ 'propose-fork'}}" class="w-input option-title input option-input">
-            <div id="add-fork-proposal" class="action vote-action">
-              <div><strong>＋</strong>
-              </div>
-            </div>
           </form>
         </div>
       </div>
@@ -99,7 +95,7 @@
         <div class="vote {{checkbox ../mode ../authorized}}">
           <div class="w-clearfix checkbox">
             <div id="ballot-checkbox" class="option {{checkbox ../mode ../authorized}}">
-              <div class="tick {{checkbox ../mode ../authorized}}"><img src="{{pathFor route='home'}}images/tick.png" class="tick-image {{tick draftView}}">
+              <div class="tick {{checkbox ../mode ../authorized}}"><img src="{{pathFor route='home'}}images/white-tick-thin.png" class="tick-image {{tick draftView}}">
               </div>
             </div>
             <a href="{{pathFor route='vote'}}/{{keyword}}" class="w-clearfix w-inline-block option-link">
