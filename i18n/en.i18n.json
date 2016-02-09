@@ -102,5 +102,7 @@
   "nation": "🌎 Nation",
   "city": "🌎 City",
   "become": "Become",
-  "peers": "Peers"
+  "peers": "Peers",
+  "placeholder-editor": "Write your proposal...",
+  "type-link": "Type a link"
 }

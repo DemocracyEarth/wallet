@@ -55,8 +55,45 @@ if (Meteor.isClient) {
   };
 
   Template.agreement.rendered = function () {
-    var editor = new MediumEditor('.editable', {});
-  }
+    var editor = new MediumEditor('.editable', {
+    /* These are the default options for the editor,
+        if nothing is passed this is what is used */
+    activeButtonClass: 'medium-editor-button-active',
+    toolbar: {
+      buttons: ['bold', 'italic', 'anchor', 'h2', 'h3', 'quote'],
+      diffLeft: 25,
+      diffTop: -10,
+      allowMultiParagraphSelection: true
+    },
+    buttonLabels: false,
+    contentWindow: window,
+    delay: 0,
+    disableReturn: false,
+    disableDoubleReturn: false,
+    disableExtraSpaces: false,
+    disableEditing: false,
+    elementsContainer: false,
+    extensions: {},
+    ownerDocument: document,
+    spellcheck: true,
+    targetBlank: true,
+    anchor: {
+      placeholderText: TAPi18n.__('type-link'),
+      linkValidation: true
+    },
+    paste: {
+        cleanPastedHTML: true,
+        cleanAttrs: ['style', 'dir'],
+        cleanTags: ['label', 'meta']
+    },
+    anchorPreview: {
+        hideDelay: 0
+    },
+    placeholder: {
+        text: TAPi18n.__('placeholder-editor')
+    }
+  });
+}
 
   /***********************
   Helpers
