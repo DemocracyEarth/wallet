@@ -20,21 +20,20 @@ h1 {
 }
 
 h2 {
-  margin-bottom: 5px;
-  border-bottom: 2px solid #000;
+  margin-top: 0px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #000;
   font-family: Lato, sans-serif;
   font-size: 16px;
   line-height: 28px;
-  font-weight: 700;
+  font-weight: 400;
   text-transform: uppercase;
 }
 
 h3 {
-  margin: 0px 5px;
-  font-size: 12px;
-  line-height: 24px;
+  font-size: 16px;
+  line-height: 26px;
   font-weight: 700;
-  text-transform: uppercase;
 }
 
 h4 {
@@ -61,6 +60,10 @@ a {
   text-decoration: none;
 }
 
+a:hover {
+  border-bottom-style: solid;
+}
+
 ul {
   margin-top: 0px;
   margin-bottom: 0px;
@@ -69,6 +72,16 @@ ul {
 
 strong {
   font-weight: 400;
+}
+
+blockquote {
+  padding: 10px 20px;
+  border-left: 5px solid #e2e2e2;
+  color: #aaa;
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 300;
+  letter-spacing: 0px;
 }
 
 .paper {
@@ -457,6 +470,10 @@ strong {
   background-color: #fae6e6;
   color: #ff2752;
   text-transform: none;
+}
+
+.tag.off {
+  opacity: 0.5;
 }
 
 .hash-icon {
@@ -1223,11 +1240,11 @@ strong {
   display: inline-block;
   color: #00bf8f;
   font-size: 18px;
-  line-height: 30px;
+  line-height: 26px;
 }
 
 .identity-label:hover {
-  text-decoration: underline;
+  line-height: 25px;
 }
 
 .identity-label.twitter-link {
@@ -1788,7 +1805,7 @@ strong {
 }
 
 .id-card.hide {
-  display: none;
+  display: block;
 }
 
 .title {
