@@ -21,16 +21,18 @@ h1 {
 
 h2 {
   margin-top: 0px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   border-bottom: 1px solid #000;
   font-family: Lato, sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 28px;
   font-weight: 400;
   text-transform: uppercase;
 }
 
 h3 {
+  margin-top: 15px;
+  margin-bottom: 15px;
   font-size: 16px;
   line-height: 26px;
   font-weight: 700;
@@ -45,8 +47,8 @@ h4 {
 }
 
 p {
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-top: -10px;
+  margin-bottom: 15px;
   font-family: Lato, sans-serif;
   font-size: 16px;
   line-height: 26px;
@@ -1267,6 +1269,10 @@ blockquote {
 .option-link {
   margin-bottom: -5px;
   border-bottom: 1px none #000;
+}
+
+.option-link:hover {
+  border-bottom-style: none;
 }
 
 .portrait-pic {
