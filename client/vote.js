@@ -6,6 +6,8 @@ if (Meteor.isClient) {
   var $LANGUAGE = "en";
   var MAX_TAGS_PER_CONTRACT = 10;
 
+  var typingTimer;                //timer identifier
+  var doneTypingInterval = 5000;  //time in ms, 5 second for example
 
   Meteor.startup(function () {
 
@@ -56,44 +58,55 @@ if (Meteor.isClient) {
 
   Template.agreement.rendered = function () {
     var editor = new MediumEditor('.editable', {
-    /* These are the default options for the editor,
-        if nothing is passed this is what is used */
-    activeButtonClass: 'medium-editor-button-active',
-    toolbar: {
-      buttons: ['bold', 'italic', 'anchor', 'h2', 'h3', 'quote'],
-      diffLeft: 25,
-      diffTop: -10,
-      allowMultiParagraphSelection: true
-    },
-    buttonLabels: false,
-    contentWindow: window,
-    delay: 0,
-    disableReturn: false,
-    disableDoubleReturn: false,
-    disableExtraSpaces: false,
-    disableEditing: false,
-    elementsContainer: false,
-    extensions: {},
-    ownerDocument: document,
-    spellcheck: true,
-    targetBlank: true,
-    anchor: {
-      placeholderText: TAPi18n.__('type-link'),
-      linkValidation: true
-    },
-    paste: {
-        cleanPastedHTML: true,
-        cleanAttrs: ['style', 'dir'],
-        cleanTags: ['label', 'meta']
-    },
-    anchorPreview: {
-        hideDelay: 0
-    },
-    placeholder: {
-        text: TAPi18n.__('placeholder-editor')
-    }
-  });
-}
+      /* These are the default options for the editor,
+          if nothing is passed this is what is used */
+      activeButtonClass: 'medium-editor-button-active',
+      toolbar: {
+        buttons: ['bold', 'italic', 'strikethrough', 'anchor', 'h2', 'h3', 'orderedlist', 'unorderedlist', 'quote'],
+        diffLeft: 25,
+        diffTop: -10,
+        allowMultiParagraphSelection: true
+      },
+      buttonLabels: false,
+      contentWindow: window,
+      delay: 0,
+      disableReturn: false,
+      disableDoubleReturn: false,
+      disableExtraSpaces: false,
+      disableEditing: false,
+      autoLink: true,
+      elementsContainer: false,
+      extensions: {},
+      ownerDocument: document,
+      spellcheck: true,
+      targetBlank: true,
+      anchor: {
+        placeholderText: TAPi18n.__('type-link'),
+        linkValidation: true
+      },
+      paste: {
+          forcePlainText: true,
+          cleanPastedHTML: true,
+          cleanAttrs: ['style', 'dir'],
+          cleanTags: ['label', 'meta']
+      },
+      anchorPreview: {
+          hideDelay: 0
+      },
+      placeholder: {
+          text: TAPi18n.__('placeholder-editor')
+      }
+    });
+
+    editor.subscribe('editableInput', function(event, editable) {
+      Meteor.clearTimeout(typingTimer);
+      if (editor.serialize().editor.value) {
+        typingTimer = Meteor.setTimeout(function () {
+          saveDescription(editor.serialize().editor.value);
+        }, 5000);
+      }
+    });
+  }
 
   /***********************
   Helpers
@@ -105,6 +118,16 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.agreement.helpers({
+    description: function() {
+      var descriptionHTML = getContract().description;
+      console.log('DESCRIPTION UPDATED' + descriptionHTML);
+      console.log('object: ' + this.description);
+      if (descriptionHTML != '') {
+        return descriptionHTML;
+      }
+    }
+  });
 
   //Mileston status of current contract
   Template.milestone.helpers({
@@ -141,9 +164,6 @@ if (Meteor.isClient) {
   });
 
   Template.contract.helpers({
-    description: function() {
-      return getContract().description;
-    },
     semantics: function () {
       return verifyTags();
     },
@@ -407,8 +427,15 @@ getUserLanguage = function () {
   return $LANGUAGE;
 };
 
+saveDescription = function (newHTML) {
+  if (newHTML != getContract().description) {
+    Meteor.call("updateContractField", getContract()._id, "description", newHTML);
+    console.log('[description] saved HTML changes');
+  }
+}
+
 getContract = function (contractId) {
-  console.log('contract id is ' + Session.get('voteKeyword'));
+  //console.log('contract id is ' + Session.get('voteKeyword'));
   if (contractId != undefined ) {
     return Contracts.findOne( { _id: contractId } );
   } else {
