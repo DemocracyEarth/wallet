@@ -7,7 +7,8 @@ if (Meteor.isClient) {
   var MAX_TAGS_PER_CONTRACT = 10;
 
   var typingTimer;                //timer identifier
-  var doneTypingInterval = 5000;  //time in ms, 5 second for example
+  var saveToServerInterval = 5000;  //time in ms, 5 second for example
+  var firstDescriptionLoad = true;
 
   Meteor.startup(function () {
 
@@ -102,8 +103,9 @@ if (Meteor.isClient) {
       Meteor.clearTimeout(typingTimer);
       if (editor.serialize().editor.value) {
         typingTimer = Meteor.setTimeout(function () {
+          firstDescriptionLoad = false;
           saveDescription(editor.serialize().editor.value);
-        }, 5000);
+        }, saveToServerInterval);
       }
     });
   }
@@ -122,8 +124,8 @@ if (Meteor.isClient) {
     description: function() {
       var descriptionHTML = getContract().description;
       console.log('DESCRIPTION UPDATED' + descriptionHTML);
-      console.log('object: ' + this.description);
-      if (descriptionHTML != '') {
+      if (descriptionHTML != '' && firstDescriptionLoad == true) {
+        console.log('object: ' + this);
         return descriptionHTML;
       }
     }
