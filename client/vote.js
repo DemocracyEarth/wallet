@@ -9,6 +9,7 @@ if (Meteor.isClient) {
   var typingTimer;                //timer identifier
   var saveToServerInterval = 5000;  //time in ms, 5 second for example
   var firstDescriptionLoad = true;
+  var editorContent = '';
 
   Meteor.startup(function () {
 
@@ -101,12 +102,12 @@ if (Meteor.isClient) {
 
     editor.subscribe('editableInput', function(event, editable) {
       Meteor.clearTimeout(typingTimer);
-      if (editor.serialize().editor.value) {
-        typingTimer = Meteor.setTimeout(function () {
-          firstDescriptionLoad = false;
-          saveDescription(editor.serialize().editor.value);
-        }, saveToServerInterval);
-      }
+      typingTimer = Meteor.setTimeout(function () {
+        //saveDescription(editor.serialize().editor.value);
+        Session.set('description', editor.serialize().editor.value);
+        //editorContent = editor.serialize().editor.value;
+        //console.log(editor.serialize().editor.value);
+      }, saveToServerInterval);
     });
   }
 
@@ -121,13 +122,21 @@ if (Meteor.isClient) {
   });
 
   Template.agreement.helpers({
-    description: function() {
-      var descriptionHTML = getContract().description;
-      console.log('DESCRIPTION UPDATED' + descriptionHTML);
-      if (descriptionHTML != '' && firstDescriptionLoad == true) {
-        console.log('object: ' + this);
+    descriptionEditor: function() {
+      if (descriptionHTML != '' && firstDescriptionLoad == true) { //&& firstDescriptionLoad == true
+        var descriptionHTML = Contracts.findOne( { keyword: Session.get('voteKeyword') },{reactive: false} ).description; //getContract().description;
+        firstDescriptionLoad = false;
         return descriptionHTML;
+      };
+    },
+    description: function () {
+      console.log('DESCRIPTION:' + Session.get('description'));
+      if (Session.get('description') != getContract().description && Session.get('description') !=  undefined) {
+        console.log('SAVE THAT SHIT');
+        saveDescription(Session.get('description'));
       }
+      //saveDescription(Session.get('description'));
+      return Session.get('description');
     }
   });
 
@@ -432,6 +441,7 @@ getUserLanguage = function () {
 saveDescription = function (newHTML) {
   if (newHTML != getContract().description) {
     Meteor.call("updateContractField", getContract()._id, "description", newHTML);
+    //Contracts.update(getContract()._id, { $set: { description: newHTML} });
     console.log('[description] saved HTML changes');
   }
 }
