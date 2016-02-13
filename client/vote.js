@@ -103,10 +103,7 @@ if (Meteor.isClient) {
     editor.subscribe('editableInput', function(event, editable) {
       Meteor.clearTimeout(typingTimer);
       typingTimer = Meteor.setTimeout(function () {
-        //saveDescription(editor.serialize().editor.value);
-        Session.set('description', editor.serialize().editor.value);
-        //editorContent = editor.serialize().editor.value;
-        //console.log(editor.serialize().editor.value);
+        saveDescription(editor.serialize().editor.value);
       }, saveToServerInterval);
     });
   }
@@ -123,21 +120,12 @@ if (Meteor.isClient) {
 
   Template.agreement.helpers({
     descriptionEditor: function() {
-      if (descriptionHTML != '' && firstDescriptionLoad == true) { //&& firstDescriptionLoad == true
-        var descriptionHTML = Contracts.findOne( { keyword: Session.get('voteKeyword') },{reactive: false} ).description; //getContract().description;
+      if (descriptionHTML != '' && firstDescriptionLoad == true) {
+        var descriptionHTML = Contracts.findOne( { keyword: Session.get('voteKeyword') },{reactive: false} ).description;
         firstDescriptionLoad = false;
         return descriptionHTML;
       };
     },
-    description: function () {
-      console.log('DESCRIPTION:' + Session.get('description'));
-      if (Session.get('description') != getContract().description && Session.get('description') !=  undefined) {
-        console.log('SAVE THAT SHIT');
-        saveDescription(Session.get('description'));
-      }
-      //saveDescription(Session.get('description'));
-      return Session.get('description');
-    }
   });
 
   //Mileston status of current contract
