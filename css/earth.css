@@ -89,7 +89,7 @@ blockquote {
 .paper {
   display: block;
   margin: 15px auto;
-  padding: 30px 30px 10px;
+  padding: 20px 30px 10px;
   border-radius: 3px;
   background-color: #fff;
   box-shadow: 0 0 12px -10px #000;
@@ -97,19 +97,24 @@ blockquote {
 
 .kind {
   position: absolute;
+  left: 0px;
   top: 0px;
-  right: 0px;
   width: 120px;
-  padding: 20px 10px 15px;
+  padding: 10px;
   float: right;
   border-bottom: 1px none #000;
-  border-radius: 0px 3px 0px 0px;
+  border-radius: 3px 0px 0px;
   background-color: #e6f9f4;
   box-shadow: none;
   font-family: Lato, sans-serif;
   font-size: 10px;
   text-align: center;
   text-transform: uppercase;
+}
+
+.kind:hover {
+  border-bottom-style: none;
+  text-decoration: underline;
 }
 
 .contract {
@@ -149,6 +154,11 @@ blockquote {
   color: #fff;
   font-size: 10px;
   text-transform: uppercase;
+}
+
+.label.label-corner {
+  margin-top: 5px;
+  line-height: 16px;
 }
 
 .description {
@@ -428,7 +438,9 @@ blockquote {
 
 .semantics {
   display: inline-block;
-  margin: 0px -5px 10px;
+  margin: -10px -5px 10px;
+  padding-top: 0px;
+  border-top: 1px none #ccc;
 }
 
 .tag {
@@ -441,7 +453,7 @@ blockquote {
   color: #00c091;
   font-size: 18px;
   line-height: 22px;
-  cursor: pointer;
+  cursor: -webkit-grab;
 }
 
 .tag.input {
@@ -663,12 +675,16 @@ blockquote {
 .vote.vote-edit {
   padding: 10px;
   border: 1px dotted #00bf8f;
-  border-radius: 5px;
+  border-radius: 3px;
 }
 
 .vote.vote-edit.vote-custom {
-  border: 1px solid #fff;
-  background-color: #f5f5f5;
+  border: 1px solid #f3f3f3;
+  border-radius: 3px;
+}
+
+.vote.vote-edit.vote-custom:hover {
+  background-color: hsla(0, 0%, 95%, .5);
 }
 
 .vote.vote-edit.vote-custom.unauthorized {
@@ -688,6 +704,7 @@ blockquote {
   border: 1px solid #00c091;
   border-radius: 3px;
   background-color: #fff;
+  box-shadow: 0 1px 9px -5px #000;
   cursor: pointer;
 }
 
@@ -698,6 +715,12 @@ blockquote {
 .option.disabled {
   border-color: #aaa;
   cursor: default;
+}
+
+.option.kind-decision {
+  display: none;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .option-title {
@@ -839,7 +862,7 @@ blockquote {
   width: 100%;
   max-width: 100%;
   margin-bottom: 0px;
-  padding-right: 110px;
+  padding-left: 100px;
 }
 
 .field.headline-field.split {
@@ -968,11 +991,13 @@ blockquote {
   padding-top: 0px;
   padding-bottom: 0px;
   padding-left: 10px;
-  font-size: 42px;
+  font-size: 45px;
+  line-height: 60px;
   font-weight: 400;
 }
 
 .input.headline-input.input-active {
+  margin-bottom: 0px;
   padding-left: 0px;
   font-weight: 300;
   letter-spacing: -1px;
@@ -1000,7 +1025,7 @@ blockquote {
 }
 
 .action {
-  display: block;
+  display: none;
   width: 44px;
   height: 44px;
   margin: -10px -10px -10px 10px;
@@ -1127,6 +1152,7 @@ blockquote {
   left: 0px;
   top: 0px;
   right: 0px;
+  z-index: 9000;
   height: 60px;
   background-color: #256bd5;
   box-shadow: 0 0 8px -2px #000;
@@ -1176,6 +1202,7 @@ blockquote {
 }
 
 .settings {
+  margin-top: -18px;
   clear: both;
 }
 
@@ -1311,7 +1338,7 @@ blockquote {
 }
 
 .verifier.verifier-live {
-  display: none;
+  display: inline-block;
 }
 
 .available {
@@ -1458,12 +1485,35 @@ blockquote {
 }
 
 .rich-text {
-  margin-top: 20px;
+  margin-top: 40px;
   margin-bottom: 15px;
+  margin-left: -30px;
   padding-top: 0px;
   padding-bottom: 15px;
+  padding-left: 25px;
   clear: both;
-  border-bottom: 1px solid #f0f0f0;
+}
+
+.rich-text:hover {
+  border-left: 5px solid #e6f9f4;
+}
+
+.rich-text:focus {
+  border-left-color: #00bf8f;
+}
+
+.rich-text.editor-draft {
+  border-left: 5px solid #fff;
+}
+
+.rich-text.editor-draft:hover {
+  border-left-style: solid;
+  border-left-color: #e6f9f4;
+}
+
+.rich-text.editor-draft:focus {
+  border-left-style: solid;
+  border-left-color: #00bf8f;
 }
 
 .tag-bitcoin {
@@ -1811,7 +1861,7 @@ blockquote {
 }
 
 .id-card.hide {
-  display: block;
+  display: none;
 }
 
 .title {
@@ -1926,6 +1976,32 @@ blockquote {
 .link:hover {
   padding-bottom: 1px;
   border-bottom-style: solid;
+}
+
+.kind-icon {
+  display: none;
+  width: 60px;
+  height: 60px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.kind-value {
+  display: block;
+  width: 60px;
+  height: 60px;
+  margin: 10px auto;
+  text-align: center;
+}
+
+.url-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.meta {
+  display: inline;
+  margin-right: 10px;
 }
 
 @media (max-width: 991px) {
@@ -2045,7 +2121,7 @@ blockquote {
     max-width: 295px;
   }
   .field.headline-field {
-    padding-right: 80px;
+    padding-left: 80px;
   }
   .field.headline-field.split {
     padding-right: 0px;
@@ -2247,7 +2323,7 @@ blockquote {
     padding-left: 15px;
   }
   .field.headline-field {
-    padding-right: 50px;
+    padding-left: 50px;
   }
   .field.split {
     width: 100%;

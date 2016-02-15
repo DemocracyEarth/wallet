@@ -120,7 +120,7 @@ if (Meteor.isClient) {
 
   Template.agreement.helpers({
     descriptionEditor: function() {
-      if (descriptionHTML != '' && firstDescriptionLoad == true) {
+      if (descriptionHTML != '') {
         var descriptionHTML = Contracts.findOne( { keyword: Session.get('voteKeyword') },{reactive: false} ).description;
         firstDescriptionLoad = false;
         return descriptionHTML;

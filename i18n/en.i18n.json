@@ -43,7 +43,7 @@
   "closing-date-of-poll": "Closing Date of poll.",
   "allow-voters-suggest": "Allow voters suggest options.",
   "secret-voting-with-encryption": "Keep votes secret with encryption.",
-  "propose-fork": "Alternative",
+  "propose-fork": "Propose Alternative",
   "disabled-checkboxes": "Check boxes are disabled while drafting.",
   "backdating": "Backdating the vote closing is not allowed.",
   "duplicate-title": "A ballot with that title already exists.",
