@@ -46,6 +46,19 @@ h4 {
   font-weight: 700;
 }
 
+h5 {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 5px;
+  border-bottom: 1px dotted silver;
+  color: silver;
+  font-size: 10px;
+  line-height: 20px;
+  font-weight: 300;
+  text-align: left;
+  text-transform: uppercase;
+}
+
 p {
   margin-top: -10px;
   margin-bottom: 15px;
@@ -99,11 +112,12 @@ blockquote {
   position: absolute;
   left: 0px;
   top: 0px;
+  display: none;
   width: 120px;
   padding: 10px;
   float: right;
   border-bottom: 1px none #000;
-  border-radius: 3px 0px 0px;
+  border-radius: 3px 0px;
   background-color: #e6f9f4;
   box-shadow: none;
   font-family: Lato, sans-serif;
@@ -407,6 +421,7 @@ blockquote {
   border-radius: 100px;
   background-color: #e6f9f4;
   box-shadow: 0 1px 7px -4px #000;
+  cursor: -webkit-grab;
 }
 
 .symbol.profile-pic.profile-pic-navbar {
@@ -434,6 +449,22 @@ blockquote {
   margin: 10px auto;
   float: none;
   border-radius: 250px;
+}
+
+.symbol.profile-pic.kind-identity {
+  display: none;
+}
+
+.symbol.profile-pic.profile-thumb {
+  width: auto;
+  border-radius: 10px;
+}
+
+.symbol.profile-pic.profile-sign {
+  width: auto;
+  padding-right: 15px;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .semantics {
@@ -718,7 +749,7 @@ blockquote {
 }
 
 .option.kind-decision {
-  display: none;
+  display: inline-block;
   margin-right: auto;
   margin-left: auto;
 }
@@ -861,8 +892,7 @@ blockquote {
 .field.headline-field {
   width: 100%;
   max-width: 100%;
-  margin-bottom: 0px;
-  padding-left: 100px;
+  margin-bottom: 5px;
 }
 
 .field.headline-field.split {
@@ -997,10 +1027,22 @@ blockquote {
 }
 
 .input.headline-input.input-active {
+  display: inline-block;
   margin-bottom: 0px;
-  padding-left: 0px;
+  margin-left: -30px;
+  padding-left: 25px;
+  border-left: 5px solid #fff;
   font-weight: 300;
   letter-spacing: -1px;
+  cursor: text;
+}
+
+.input.headline-input.input-active:hover {
+  border-left-color: #e6f9f4;
+}
+
+.input.headline-input.input-active:focus {
+  border-left-color: #00bf8f;
 }
 
 .input.input-active {
@@ -1245,7 +1287,7 @@ blockquote {
 
 .identity {
   display: inline-block;
-  margin: 0px 15px 5px 5px;
+  margin: 0px 15px 15px 5px;
   padding-left: 0px;
   float: left;
   border-radius: 5px;
@@ -1273,6 +1315,7 @@ blockquote {
 }
 
 .identity-label:hover {
+  border-bottom: 1px solid #00bf8f;
   line-height: 25px;
 }
 
@@ -1485,11 +1528,11 @@ blockquote {
 }
 
 .rich-text {
-  margin-top: 40px;
-  margin-bottom: 15px;
+  margin-top: 10px;
+  margin-bottom: 0px;
   margin-left: -30px;
-  padding-top: 0px;
-  padding-bottom: 15px;
+  padding-top: 5px;
+  padding-bottom: 0px;
   padding-left: 25px;
   clear: both;
 }
@@ -1979,7 +2022,7 @@ blockquote {
 }
 
 .kind-icon {
-  display: none;
+  display: inline-block;
   width: 60px;
   height: 60px;
   margin-right: auto;
@@ -1999,9 +2042,46 @@ blockquote {
   height: 16px;
 }
 
-.meta {
+.data {
   display: inline;
   margin-right: 10px;
+}
+
+.contract-collapse {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  margin: 5px;
+}
+
+.contract-win-icon {
+  width: 30px;
+}
+
+.contract-win {
+  opacity: 0.5;
+}
+
+.contract-win:hover {
+  opacity: 1;
+}
+
+.contract-status {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  margin: 5px;
+  padding: 0px 5px 5px;
+  border-radius: 3px;
+  background-color: rgba(255, 39, 82, .7);
+  color: #fff;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.profile-thumb {
+  width: 60px;
+  height: 60px;
 }
 
 @media (max-width: 991px) {
@@ -2120,9 +2200,6 @@ blockquote {
   .option-title.option-link.option-edit {
     max-width: 295px;
   }
-  .field.headline-field {
-    padding-left: 80px;
-  }
   .field.headline-field.split {
     padding-right: 0px;
   }
@@ -2140,6 +2217,9 @@ blockquote {
   }
   .input.headline-input {
     font-size: 36px;
+  }
+  .input.headline-input.input-active {
+    line-height: 50px;
   }
   .option-link {
     max-width: 70%;
@@ -2183,6 +2263,9 @@ blockquote {
   .election-label {
     float: none;
   }
+  .data {
+    display: inline-block;
+  }
 }
 
 @media (max-width: 479px) {
@@ -2220,7 +2303,8 @@ blockquote {
     line-height: 32px;
   }
   .label.label-corner {
-    display: none;
+    font-size: 8px;
+    line-height: 12px;
   }
   .description.editor {
     font-size: 16px;
@@ -2322,9 +2406,6 @@ blockquote {
     padding-right: 15px;
     padding-left: 15px;
   }
-  .field.headline-field {
-    padding-left: 50px;
-  }
   .field.split {
     width: 100%;
     border-left: 1px none #000;
@@ -2343,7 +2424,10 @@ blockquote {
   }
   .input.headline-input {
     height: 50px;
-    font-size: 24px;
+    font-size: 30px;
+  }
+  .input.headline-input.input-active {
+    line-height: 40px;
   }
   .action.hash-action {
     margin-left: -30px;
