@@ -104,5 +104,9 @@
   "become": "Become",
   "peers": "Peers",
   "placeholder-editor": "Write your proposal...",
-  "type-link": "Type a link"
+  "type-link": "Type a link",
+  "sign-author": "Sign as author.",
+  "anonymous": "Anonymous",
+  "proposal": "Proposal",
+  "topics": "Topics"
 }
