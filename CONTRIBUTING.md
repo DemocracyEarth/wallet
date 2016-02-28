@@ -18,6 +18,10 @@ two1. bitcore, rootkit. onename, blockstack.
 
 * Pending
 
+## Concept
+
+* [Herb Stephens](http://github.com/herbstephens)
+
 ## QA
 
 mobile, pad, desktop.

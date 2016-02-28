@@ -122,20 +122,29 @@
         <!--<input id="contract-title" type="text" placeholder="{{_ 'headline'}}" name="title" value="{{declaration}}" required="required" data-name="Title" class="w-input input headline-input input-active">
         <div class="verifier verifier-live"><strong data-new-link="true">{{_ 'vote-url'}} </strong>{{_ 'at'}} <a href="{{pathFor route='vote'}}">{{pathFor route='vote'}}</a> {{_ 'is'}} <strong data-new-link="true" class="available">{{_ 'available'}}</strong>
         </div>-->
-        <div class="input headline-input input-active">
+
+        <div id="titleEditable" onkeypress="return (this.innerText.length <= 100)" class="input headline-input input-active" contenteditable="true">
           <div>{{declaration}}</div>
         </div>
+
         <div class="meta">
           <div class="data"><img src="{{pathFor route='home'}}images/globe.png" class="url-icon">
-            <div class="verifier verifier-live">&nbsp;<a data-new-link="true" href="#">democracy.earth/<strong>satoshin</strong></a>&nbsp;<strong data-new-link="true" class="available">is available</strong>
+            <div class="verifier verifier-live">
+              &nbsp;
+              <a data-new-link="true" href="#">{{{contractURL}}}</a>
+              {{{URLStatus}}}
             </div>
           </div>
           <div class="data"><img src="{{pathFor route='home'}}images/time.png" class="url-icon">
-            <div class="verifier verifier-live">&nbsp;<a href="#">October 1, 1983</a>
+            <div class="verifier verifier-live">
+              &nbsp;
+              <a href="#">October 1, 1983</a>
             </div>
           </div>
           <div class="data"><img src="{{pathFor route='home'}}images/block.png" class="url-icon">
-            <div class="verifier verifier-live">&nbsp;<a href="#">blockchain ID: 1MBM...khTF</a>
+            <div class="verifier verifier-live">
+              &nbsp;
+              <a href="#">blockchain ID: 1MBM...khTF</a>
             </div>
           </div>
         </div>
@@ -146,8 +155,8 @@
 </template>
 
 <template name="kind">
-  <div class="contract-status">
-    <div class="label label-corner">Draft proposal</div>
+  <div class="{{style}}">
+    <div class="label label-corner">{{text}}</div>
   </div>
 </template>
 
@@ -207,9 +216,9 @@
 </template>
 
 <template name="agreement">
-  <div class="w-richtext rich-text editor-draft ">
+  <div class="section">
     <h2>{{_ "proposal"}}</h2>
-    <div id="editor" class="editable">
+    <div id="editor" class="w-richtext rich-text editor-draft editable">
         {{{descriptionEditor}}}
     </div>
   </div>

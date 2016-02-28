@@ -64,7 +64,7 @@ if (Meteor.isClient) {
           if nothing is passed this is what is used */
       activeButtonClass: 'medium-editor-button-active',
       toolbar: {
-        buttons: ['bold', 'italic', 'strikethrough', 'anchor', 'h2', 'h3', 'orderedlist', 'unorderedlist', 'quote'],
+        buttons: ['bold', 'italic', 'anchor', 'h2', 'h3', 'unorderedlist', 'quote'],
         diffLeft: 25,
         diffTop: -10,
         allowMultiParagraphSelection: true
@@ -193,20 +193,72 @@ if (Meteor.isClient) {
   Template.title.helpers({
     declaration: function() {
         return getContract().title;
+    },
+    contractURL: function () {
+      var host =  window.location.host;
+      var keyword = '';
+
+      if (Session.get('contractKeyword') == undefined) {
+        Session.set('contractKeyword', getContract().keyword);
+      } else if (Session.get('contractKeyword') != getContract().keyword) {
+        keyword = Session.get('contractKeyword');
+      } else {
+        keyword = getContract().keyword;
+      }
+
+      return host + "/<strong>" + keyword + "</strong>";
+    },
+    URLStatus: function () {
+      switch (Session.get("URLStatus")) {
+        case "VERIFY":
+          return "<strong data-new-link='true' class='state verifying'>" + TAPi18n.__('url-verify') + "</strong>";
+          break;
+        case "UNAVAILABLE":
+          return "<strong data-new-link='true' class='state unavailable'>" + TAPi18n.__('url-unavailable') + "</strong>";
+          break;
+        case "AVAILABLE":
+          return "<strong data-new-link='true' class='state available'>" + TAPi18n.__('url-available') + "</strong>";
+          break;
+      }
     }
   });
 
   Template.kind.helpers({
     text: function() {
-        switch(getContract().kind) {
+        var kind = getContract().kind;
+
+        switch(kind) {
           case 'VOTE':
-            return  TAPi18n.__('voting_ballot');
-            break;
-          case 'property':
+            switch (getContract().stage) {
+              case 'DRAFT':
+                Session.set('stage', 'stage-draft');
+                return  TAPi18n.__('kind-draft-vote');
+                break;
+              case 'LIVE':
+                Session.set('stage', 'stage-live');
+                return  TAPi18n.__('kind-live-vote');
+                break;
+              case 'APPROVED':
+                Session.set('stage', 'stage-finish-approved');
+                return  TAPi18n.__('kind-finish-vote-approved');
+                break;
+              case 'ALTERNATIVE':
+                Session.set('stage', 'stage-finish-alternative');
+                return  TAPi18n.__('kind-finish-vote-alternative');
+                break;
+              case 'REJECTED':
+                Session.set('stage', 'stage-finish-rejected');
+                return  TAPi18n.__('kind-finish-vote-rejected');
+                break;
+            }
+            Session.set('kind', kind);
             break;
           default:
             return "TBD";
         }
+    },
+    style: function () {
+      return 'stage ' + Session.get('stage');
     }
   });
 
@@ -339,7 +391,27 @@ if (Meteor.isClient) {
   Event Handlers
   **********************/
 
+
+
   Template.contract.events({
+    "input #titleEditable": function (event) {
+        var content = jQuery($("#titleEditable").html()).text();
+        var keyword = convertToSlug(content);
+
+        Meteor.clearTimeout(typingTimer);
+        Session.set('contractKeyword', keyword);
+        Session.set('URLStatus', 'VERIFY');
+
+        typingTimer = Meteor.setTimeout(function () {
+          if (Contracts.findOne( { keyword: keyword } ) != undefined) {
+              Session.set('URLStatus', 'UNAVAILABLE');
+          } else {
+            // Save contract Title, Keyword and URL
+            Meteor.call("updateContractField", getContract()._id, "title", content);
+            Session.set('URLStatus', 'AVAILABLE');
+          }
+        }, saveToServerInterval);
+    },
     "submit .title-form": function (event) {
       event.preventDefault();
       Meteor.call("updateContractField", getContract()._id, "title", event.target.title.value);
@@ -481,6 +553,15 @@ contract = function (title, description, tags) {
   this.title = title;
   this.description = description;
   this.tags = tags;
+}
+
+convertToSlug = function (text) {
+  //makes any "string with free speech" into a "string-with-digital-speech"
+  return text
+      .toLowerCase()
+      .replace(/ /g,'-')
+      .replace(/[^\w-]+/g,'')
+      ;
 }
 
 /*warning = function(unauthorizedTags, reachedMaxTags) {

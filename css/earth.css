@@ -1004,7 +1004,6 @@ blockquote {
   border-style: none none solid;
   border-bottom-width: 2px;
   border-bottom-color: rgba(0, 191, 143, .1);
-  border-radius: 3px 3px 0px 0px;
   background-color: #e6f9f4;
   font-family: Lato, sans-serif;
   font-size: 20px;
@@ -1528,7 +1527,7 @@ blockquote {
 }
 
 .rich-text {
-  margin-top: 10px;
+  margin-top: -10px;
   margin-bottom: 0px;
   margin-left: -30px;
   padding-top: 5px;
@@ -2066,22 +2065,78 @@ blockquote {
   opacity: 1;
 }
 
-.contract-status {
+.stage {
   position: absolute;
   top: 0px;
   right: 0px;
+  z-index: 100;
   margin: 5px;
   padding: 0px 5px 5px;
+  border: 1px dashed #46dfb8;
   border-radius: 3px;
-  background-color: rgba(255, 39, 82, .7);
-  color: #fff;
+  background-color: transparent;
+  color: #00bf8f;
   font-size: 10px;
   text-transform: uppercase;
+}
+
+.stage.stage-live {
+  display: inline-block;
+  border-style: solid;
+  border-color: #ffe079;
+  background-color: #ffe079;
+  color: #af8d1e;
+}
+
+.stage.stage-draft {
+  display: inline-block;
+}
+
+.stage.stage-finish-approved {
+  display: inline-block;
+  border-style: solid;
+  border-color: #00bf8f;
+  background-color: #00bf8f;
+  color: #fff;
+}
+
+.stage.stage-finish-alternative {
+  display: inline-block;
+  border-style: solid;
+  border-color: #e6f9f4;
+  background-color: #e6f9f4;
+  color: #00bf8f;
+}
+
+.stage.stage-finish-rejected {
+  display: inline-block;
+  border-color: #ff2752;
+  background-color: #ff2752;
+  color: #fff;
 }
 
 .profile-thumb {
   width: 60px;
   height: 60px;
+}
+
+.state {
+  margin-right: 2px;
+  margin-left: 2px;
+  padding: 3px 5px;
+  border-radius: 3px;
+  font-weight: 300;
+}
+
+.state.verifying {
+  background-color: #ffe079;
+  color: #af8d1e;
+  font-weight: 300;
+}
+
+.state.unavailable {
+  background-color: #ff2752;
+  color: #fff;
 }
 
 @media (max-width: 991px) {

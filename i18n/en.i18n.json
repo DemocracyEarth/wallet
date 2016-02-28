@@ -108,5 +108,16 @@
   "sign-author": "Sign as author.",
   "anonymous": "Anonymous",
   "proposal": "Proposal",
-  "topics": "Topics"
+  "topics": "Topics",
+  "placeholder-editor-title": "Title...",
+  "url-available": "saved",
+  "url-ok": "ok",
+  "url-verify": "verifying...",
+  "url-unavailable": "unavailable",
+  "url-lookup": "verifying availability",
+  "kind-draft-vote": "Drafting Decision",
+  "kind-live-vote": "LIVE VOTE",
+  "kind-finish-vote-approved": "APPROVED",
+  "kind-finish-vote-alternative": "ALTERNATIVE",
+  "kind-finish-vote-rejected": "REJECTED"
 }
