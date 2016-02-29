@@ -123,7 +123,7 @@
         <div class="verifier verifier-live"><strong data-new-link="true">{{_ 'vote-url'}} </strong>{{_ 'at'}} <a href="{{pathFor route='vote'}}">{{pathFor route='vote'}}</a> {{_ 'is'}} <strong data-new-link="true" class="available">{{_ 'available'}}</strong>
         </div>-->
 
-        <div id="titleEditable" onkeypress="return (this.innerText.length <= 100)" class="input headline-input input-active" contenteditable="true">
+        <div id="titleEditable" onkeypress="return (this.innerText.length <= {{titleLength}})" class="input headline-input input-active" contenteditable="true">
           <div>{{declaration}}</div>
         </div>
 
@@ -149,6 +149,15 @@
           </div>
         </div>
       </div>
+
+      {{#if duplicateURL}}
+        <div class='extra'>
+          <ul class="w-list-unstyled">
+              <li class="warning">{{_ "url-duplicate"}}</li>
+          </ul>
+        </div>
+      {{/if}}
+
     {{else}}
       <h1 id="contract-title" class="declaration">{{declaration}}</h1>
     {{/if}}

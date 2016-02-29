@@ -5,6 +5,7 @@ if (Meteor.isClient) {
   // Settings
   var $LANGUAGE = "en";
   var MAX_TAGS_PER_CONTRACT = 10;
+  var TITLE_MAX_LENGTH = 100;
 
   var typingTimer;                //timer identifier
   var saveToServerInterval = 5000;  //time in ms, 5 second for example
@@ -121,7 +122,7 @@ if (Meteor.isClient) {
   Template.agreement.helpers({
     descriptionEditor: function() {
       if (descriptionHTML != '') {
-        var descriptionHTML = Contracts.findOne( { keyword: Session.get('voteKeyword') },{reactive: false} ).description;
+        var descriptionHTML = Contracts.findOne( { _id: Session.get('contractId') },{reactive: false} ).description;
         firstDescriptionLoad = false;
         return descriptionHTML;
       };
@@ -192,7 +193,7 @@ if (Meteor.isClient) {
   // Title of Contract
   Template.title.helpers({
     declaration: function() {
-        return getContract().title;
+        return  Contracts.findOne( { _id: Session.get('contractId') },{reactive: false} ).title;
     },
     contractURL: function () {
       var host =  window.location.host;
@@ -214,12 +215,20 @@ if (Meteor.isClient) {
           return "<strong data-new-link='true' class='state verifying'>" + TAPi18n.__('url-verify') + "</strong>";
           break;
         case "UNAVAILABLE":
+          Session.set('duplicateURL', true);
           return "<strong data-new-link='true' class='state unavailable'>" + TAPi18n.__('url-unavailable') + "</strong>";
           break;
         case "AVAILABLE":
+          Session.set('duplicateURL', false);
           return "<strong data-new-link='true' class='state available'>" + TAPi18n.__('url-available') + "</strong>";
           break;
       }
+    },
+    duplicateURL: function () {
+      return Session.get('duplicateURL');
+    },
+    titleLength: function () {
+      return TITLE_MAX_LENGTH;
     }
   });
 
@@ -395,19 +404,19 @@ if (Meteor.isClient) {
     "input #titleEditable": function (event) {
         var content = jQuery($("#titleEditable").html()).text();
         var keyword = convertToSlug(content);
+        var contract = Contracts.findOne( { keyword: keyword } );
 
         Meteor.clearTimeout(typingTimer);
         Session.set('contractKeyword', keyword);
         Session.set('URLStatus', 'VERIFY');
 
         typingTimer = Meteor.setTimeout(function () {
-          if (Contracts.findOne( { keyword: keyword } ) != undefined) {
+          if (contract != undefined && contract._id != Session.get('contractId')) {
               Session.set('URLStatus', 'UNAVAILABLE');
           } else {
-            // Save contract Title, Keyword and URL
-            //Meteor.call("updateContractField", getContract()._id, "title", content);
-            Contracts.update({_id : getContract()._id }, { $set: { title: content, keyword: keyword, url: "/" + Session.get('kind') + "/" + keyword }});
-            Session.set('URLStatus', 'AVAILABLE');
+            if (Contracts.update({_id : getContract()._id }, { $set: { title: content, keyword: keyword, url: "/" + Session.get('kind') + "/" + keyword }})) {
+              Session.set('URLStatus', 'AVAILABLE');
+            };
           }
         }, saveToServerInterval);
     },
@@ -514,7 +523,9 @@ getContract = function (contractId) {
       console.log('loading with ContractId: ' + Session.get('contractId'));
       return Contracts.findOne( { _id: Session.get('contractId') } );
     } else if (Session.get('voteKeyword') != undefined) {
-      return Contracts.findOne( { keyword: Session.get('voteKeyword') } );
+      var contract = Contracts.findOne( { keyword: Session.get('voteKeyword') } );
+      Session.set('contractId', contract._id);
+      return contract;
     }
   }
 }
