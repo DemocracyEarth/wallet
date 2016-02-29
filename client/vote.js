@@ -206,7 +206,7 @@ if (Meteor.isClient) {
         keyword = getContract().keyword;
       }
 
-      return host + "/<strong>" + keyword + "</strong>";
+      return host + "/" + Session.get('kind') + "/<strong>" + keyword + "</strong>";
     },
     URLStatus: function () {
       switch (Session.get("URLStatus")) {
@@ -229,36 +229,36 @@ if (Meteor.isClient) {
 
         switch(kind) {
           case 'VOTE':
+            Session.set('kind', kind.toLowerCase());
             switch (getContract().stage) {
               case 'DRAFT':
-                Session.set('stage', 'stage-draft');
+                Session.set('stage', 'draft');
                 return  TAPi18n.__('kind-draft-vote');
                 break;
               case 'LIVE':
-                Session.set('stage', 'stage-live');
+                Session.set('stage', 'live');
                 return  TAPi18n.__('kind-live-vote');
                 break;
               case 'APPROVED':
-                Session.set('stage', 'stage-finish-approved');
+                Session.set('stage', 'finish-approved');
                 return  TAPi18n.__('kind-finish-vote-approved');
                 break;
               case 'ALTERNATIVE':
-                Session.set('stage', 'stage-finish-alternative');
+                Session.set('stage', 'finish-alternative');
                 return  TAPi18n.__('kind-finish-vote-alternative');
                 break;
               case 'REJECTED':
-                Session.set('stage', 'stage-finish-rejected');
+                Session.set('stage', 'finish-rejected');
                 return  TAPi18n.__('kind-finish-vote-rejected');
                 break;
             }
-            Session.set('kind', kind);
             break;
           default:
             return "TBD";
         }
     },
     style: function () {
-      return 'stage ' + Session.get('stage');
+      return 'stage stage-' + Session.get('stage');
     }
   });
 
@@ -391,8 +391,6 @@ if (Meteor.isClient) {
   Event Handlers
   **********************/
 
-
-
   Template.contract.events({
     "input #titleEditable": function (event) {
         var content = jQuery($("#titleEditable").html()).text();
@@ -407,7 +405,8 @@ if (Meteor.isClient) {
               Session.set('URLStatus', 'UNAVAILABLE');
           } else {
             // Save contract Title, Keyword and URL
-            Meteor.call("updateContractField", getContract()._id, "title", content);
+            //Meteor.call("updateContractField", getContract()._id, "title", content);
+            Contracts.update({_id : getContract()._id }, { $set: { title: content, keyword: keyword, url: "/" + Session.get('kind') + "/" + keyword }});
             Session.set('URLStatus', 'AVAILABLE');
           }
         }, saveToServerInterval);
@@ -511,7 +510,10 @@ getContract = function (contractId) {
   if (contractId != undefined ) {
     return Contracts.findOne( { _id: contractId } );
   } else {
-    if (Session.get('voteKeyword') != undefined) {
+    if (Session.get('contractId') != undefined) {
+      console.log('loading with ContractId: ' + Session.get('contractId'));
+      return Contracts.findOne( { _id: Session.get('contractId') } );
+    } else if (Session.get('voteKeyword') != undefined) {
       return Contracts.findOne( { keyword: Session.get('voteKeyword') } );
     }
   }
