@@ -21,7 +21,7 @@ h1 {
 
 h2 {
   margin-top: 0px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   border-bottom: 1px solid #000;
   font-family: Lato, sans-serif;
   font-size: 18px;
@@ -31,10 +31,8 @@ h2 {
 }
 
 h3 {
-  margin-top: 15px;
-  margin-bottom: 15px;
-  font-size: 16px;
-  line-height: 26px;
+  font-size: 18px;
+  line-height: 28px;
   font-weight: 700;
 }
 
@@ -48,7 +46,7 @@ h4 {
 
 h5 {
   margin-top: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   padding-bottom: 5px;
   border-bottom: 1px dotted silver;
   color: silver;
@@ -60,8 +58,6 @@ h5 {
 }
 
 p {
-  margin-top: -10px;
-  margin-bottom: 15px;
   font-family: Lato, sans-serif;
   font-size: 16px;
   line-height: 26px;
@@ -205,7 +201,7 @@ blockquote {
 }
 
 .section {
-  margin-top: 20px;
+  margin-top: 0px;
   margin-bottom: 20px;
 }
 
@@ -469,7 +465,9 @@ blockquote {
 
 .semantics {
   display: inline-block;
-  margin: -10px -5px 10px;
+  margin-right: -5px;
+  margin-bottom: 10px;
+  margin-left: -5px;
   padding-top: 0px;
   border-top: 1px none #ccc;
 }
@@ -540,7 +538,7 @@ blockquote {
 
 .selector {
   overflow: scroll;
-  height: 68px;
+  height: 160px;
   margin: 10px 5px;
   padding: 10px 5px;
   clear: both;
@@ -616,7 +614,7 @@ blockquote {
 }
 
 .extra {
-  display: block;
+  display: inline-block;
   margin-right: -5px;
   margin-left: -5px;
 }
@@ -892,7 +890,8 @@ blockquote {
 .field.headline-field {
   width: 100%;
   max-width: 100%;
-  margin-bottom: 5px;
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
 
 .field.headline-field.split {
@@ -910,11 +909,19 @@ blockquote {
 }
 
 .tag-custom {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  margin-left: 5px;
-  float: left;
-  clear: both;
+  margin: -10px -5px 5px;
+  padding: 10px;
+  border-bottom: 1px solid #dadada;
+  background-color: #f5f5f5;
+  box-shadow: inset 0 1px 8px -5px #000;
+  color: grey;
+  font-size: 16px;
+  line-height: 26px;
+  cursor: text;
+}
+
+.tag-custom:focus {
+  color: #000;
 }
 
 .editor {
@@ -1243,7 +1250,6 @@ blockquote {
 }
 
 .settings {
-  margin-top: -18px;
   clear: both;
 }
 
@@ -1527,10 +1533,8 @@ blockquote {
 }
 
 .rich-text {
-  margin-top: -10px;
   margin-bottom: 0px;
   margin-left: -30px;
-  padding-top: 5px;
   padding-bottom: 0px;
   padding-left: 25px;
   clear: both;
@@ -2042,7 +2046,7 @@ blockquote {
 }
 
 .data {
-  display: inline;
+  display: inline-block;
   margin-right: 10px;
 }
 
@@ -2120,6 +2124,10 @@ blockquote {
   height: 60px;
 }
 
+.meta {
+  margin-bottom: 10px;
+}
+
 .state {
   margin-right: 2px;
   margin-left: 2px;
@@ -2137,6 +2145,32 @@ blockquote {
 .state.unavailable {
   background-color: #ff2752;
   color: #fff;
+}
+
+.context {
+  position: fixed;
+  left: 30%;
+  right: 30%;
+  z-index: 9000;
+  display: block;
+  max-width: 250px;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 3px 10px;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, .5);
+  color: #fff;
+  font-size: 14px;
+  line-height: 30px;
+  text-align: center;
+}
+
+.search-icon {
+  width: 26px;
+  height: 26px;
+  margin-right: 5px;
+  float: left;
+  opacity: 0.66;
 }
 
 @media (max-width: 991px) {
@@ -2226,8 +2260,16 @@ blockquote {
   h2 {
     font-size: 14px;
   }
+  .paper {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
   .kind {
     width: 100px;
+  }
+  .contract {
+    margin-right: 0px;
+    margin-left: 0px;
   }
   .icon {
     width: 30px;
@@ -2347,10 +2389,6 @@ blockquote {
     padding: 5px;
     box-shadow: 0 2px 18px -13px #000;
   }
-  .contract {
-    margin-right: 10px;
-    margin-left: 10px;
-  }
   .declaration {
     position: static;
     display: inline;
@@ -2400,7 +2438,7 @@ blockquote {
   }
   .selector {
     position: relative;
-    height: 140px;
+    height: 200px;
   }
   .button {
     clear: both;
@@ -2500,6 +2538,8 @@ blockquote {
   }
   .warning {
     margin-bottom: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     line-height: 22px;
   }
   .value {

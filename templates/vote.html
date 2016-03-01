@@ -1,7 +1,7 @@
 <template name="vote">
   {{#if currentUser}}
 
-    {{> contract draftView=true}}
+    {{> contract}}
 
   {{/if}}
 </template>
@@ -16,94 +16,56 @@
       <!--****************************************************-->
       <!-- View 1: Draft -->
       <!--****************************************************-->
-      {{#if draftView}}
 
-        <!-- Title -->
-        <form id="title-form" class="title-form" name="title-form" data-name="Title Form">
-          {{> title draftView=draftView}}
-        </form>
-
-        <!-- Agreement -->
-        {{> agreement}}
-
-        <!-- Authors -->
-        {{> authors}}
-
-        <div class="section">
-          <h2>{{_ "topics"}}</h2>
-          <div class="semantics">
-            <form id="tag-form" name="tag-form" data-name="Tag Form">
-              <ul class="w-list-unstyled w-clearfix">
-                {{#each semantics}}
-                  {{> tag draftView=../draftView _id=_id}}
-                {{/each}}
-
-                {{#if maxReached}} {{else}}
-                  <li class="w-clearfix tag-custom"><img src="{{pathFor route='home'}}images/hashtag.png" class="hash-icon hash-icon-custom">
-                    <input id="text-custom-tag" type="text" placeholder="{{_ 'custom-tag'}}" name="name" data-name="Name" class="w-input tag input custom-tag">
-                    <div id="add-custom-tag" class="action hash-action">
-                      <div>
-                        <strong>＋</strong>
-                      </div>
-                    </div>
-                    <!--<div class="verifier"><strong data-new-link="true">{{_ 'interest-url'}} </strong>{{_ 'at'}} <a href="{{pathFor route='tag'}}">{{pathFor route='tag'}}</a> {{_ 'is'}} <strong data-new-link="true" class="available">{{_ 'available'}}</strong>
-                    </div>-->
-                  </li>
-                {{/if}}
-              </ul>
-            </form>
-
-            <!-- Warnings -->
-
-              <ul class="w-list-unstyled">
-                {{#if unauthorizedTags}}
-                  <li class="warning">{{_ "tags_lack_authorization"}}</li>
-                {{/if}}
-                {{#if duplicateTags}}
-                  <li class="warning">{{_ "duplicate_tags"}}</li>
-                {{/if}}
-                {{#if maxReached}}
-                  <li class="warning">{{_ "max_tags_reached"}}</li>
-                {{/if}}
-              </ul>
-
-
-            <!-- Tag Picker -->
-            {{#unless maxReached}}
-              <h3>{{_ "tag_suggestions"}}</h3>
-              <ul class="w-list-unstyled w-clearfix selector">
-                {{#each tags}}
-                    {{> tag suggestion=true _id=_id}}
-                {{/each}}
-              </ul>
-            {{/unless}}
-          </div>
-        </div>
-
-
-
-      <!--****************************************************-->
-      <!-- View 2: Review -->
-      <!--****************************************************-->
-      {{else}}
-
-        <!-- Title -->
+      <!-- Title -->
+      <form id="title-form" class="title-form" name="title-form" data-name="Title Form">
         {{> title draftView=draftView}}
+      </form>
 
-        <!-- Tags -->
-        <div class="w-clearfix semantics">
-          <ul class="w-list-unstyled w-clearfix selector">
-            {{#each semantics}}
-              {{> tag draftView=draftView}}
-            {{/each}}
+      <!-- Agreement -->
+      {{> agreement}}
+
+      <!-- Authors -->
+      {{> authors}}
+
+      <div class="section">
+        <h2>{{_ "topics"}}</h2>
+        <div class="extra">
+          <form id="tag-form" name="tag-form" data-name="Tag Form">
+            <ul class="w-list-unstyled w-clearfix">
+              {{#each semantics}}
+                {{> tag _id=_id}}
+              {{/each}}
+            </ul>
+          </form>
+
+          <!-- Tag Picker -->
+          {{#unless maxReached}}
+            <ul class="w-list-unstyled w-clearfix selector">
+              <li class="w-clearfix tag-custom"><img src="{{pathFor route='home'}}images/search.png" class="search-icon">
+                <div>{{_ 'search-tag'}}</div>
+              </li>
+              {{#each tags}}
+                  {{> tag suggestion=true _id=_id}}
+              {{/each}}
+            </ul>
+          {{/unless}}
+
+          <!-- Warnings -->
+          <ul class="w-list-unstyled">
+            {{#if unauthorizedTags}}
+              <li class="warning">{{_ "tags_lack_authorization"}}</li>
+            {{/if}}
+            {{#if duplicateTags}}
+              <li class="warning">{{_ "duplicate_tags"}}</li>
+            {{/if}}
+            {{#if maxReached}}
+              <li class="warning">{{_ "max_tags_reached"}}</li>
+            {{/if}}
           </ul>
-          <a href="#" class="w-clearfix w-inline-block button"><img src="{{pathFor route='home'}}images/558bbf66061432d11971042a_add.png" class="button-icon">
-            <div class="button-label">{{_ "add_custom_tag"}}</div>
-          </a>
         </div>
 
-
-      {{/if}}
+      </div>
 
       <!-- Vote -->
       {{> ballot draftView=draftView}}
@@ -111,61 +73,62 @@
       <!-- Execution status of the contract -->
       {{> execution draftView=draftView}}
 
-
     </div>
   </div>
 </template>
 
 <template name="title">
-    {{#if draftView}}
-      <div class="field headline-field">
-        <!--<input id="contract-title" type="text" placeholder="{{_ 'headline'}}" name="title" value="{{declaration}}" required="required" data-name="Title" class="w-input input headline-input input-active">
-        <div class="verifier verifier-live"><strong data-new-link="true">{{_ 'vote-url'}} </strong>{{_ 'at'}} <a href="{{pathFor route='vote'}}">{{pathFor route='vote'}}</a> {{_ 'is'}} <strong data-new-link="true" class="available">{{_ 'available'}}</strong>
-        </div>-->
+  <div class="field headline-field">
+    <!--<input id="contract-title" type="text" placeholder="{{_ 'headline'}}" name="title" value="{{declaration}}" required="required" data-name="Title" class="w-input input headline-input input-active">
+    <div class="verifier verifier-live"><strong data-new-link="true">{{_ 'vote-url'}} </strong>{{_ 'at'}} <a href="{{pathFor route='vote'}}">{{pathFor route='vote'}}</a> {{_ 'is'}} <strong data-new-link="true" class="available">{{_ 'available'}}</strong>
+    </div>-->
 
-        <div id="titleEditable" onkeypress="return (this.innerText.length <= {{titleLength}})" class="input headline-input input-active" contenteditable="true">
-          <div>{{declaration}}</div>
-        </div>
+    <div id="titleEditable" onkeypress="return (this.innerText.length <= {{titleLength}})" class="input headline-input input-active" contenteditable="true">
+      <div>{{declaration}}</div>
+    </div>
 
-        <div class="meta">
-          <div class="data"><img src="{{pathFor route='home'}}images/globe.png" class="url-icon">
-            <div class="verifier verifier-live">
-              &nbsp;
-              <a data-new-link="true" href="#">{{{contractURL}}}</a>
-              {{{URLStatus}}}
-            </div>
-          </div>
-          <div class="data"><img src="{{pathFor route='home'}}images/time.png" class="url-icon">
-            <div class="verifier verifier-live">
-              &nbsp;
-              <a href="#">October 1, 1983</a>
-            </div>
-          </div>
-          <div class="data"><img src="{{pathFor route='home'}}images/block.png" class="url-icon">
-            <div class="verifier verifier-live">
-              &nbsp;
-              <a href="#">blockchain ID: 1MBM...khTF</a>
-            </div>
-          </div>
+    <div class="meta">
+      <div class="data"><img src="{{pathFor route='home'}}images/globe.png" class="url-icon">
+        <div class="verifier verifier-live">
+          <a data-new-link="true" href="#">{{{contractURL}}}</a>
+          {{{URLStatus}}}
         </div>
       </div>
-
-      {{#if duplicateURL}}
-        <div class='extra'>
-          <ul class="w-list-unstyled">
-              <li class="warning">{{_ "url-duplicate"}}</li>
-          </ul>
+      <div class="data"><img src="{{pathFor route='home'}}images/time.png" class="url-icon">
+        <div class="verifier verifier-live">
+          <a href="#">{{timestamp}}</a>
         </div>
-      {{/if}}
+      </div>
+      <div class="data"><img src="{{pathFor route='home'}}images/block.png" class="url-icon">
+        <div class="verifier verifier-live">
+          <a href="#">blockchain ID: 1MBM...khTF</a>
+        </div>
+      </div>
+    </div>
 
-    {{else}}
-      <h1 id="contract-title" class="declaration">{{declaration}}</h1>
+    {{#if duplicateURL}}
+      <div class='extra'>
+        <ul class="w-list-unstyled">
+            <li class="warning">{{_ "url-duplicate"}}</li>
+        </ul>
+      </div>
     {{/if}}
+
+  </div>
 </template>
 
 <template name="kind">
   <div class="{{style}}">
     <div class="label label-corner">{{text}}</div>
+  </div>
+</template>
+
+<template name="agreement">
+  <div class="section">
+    <h2>{{_ "proposal"}}</h2>
+    <div id="editor" class="w-richtext rich-text editor-draft editable">
+        {{{descriptionEditor}}}
+    </div>
   </div>
 </template>
 
@@ -198,39 +161,24 @@
 </template>
 
 <template name="tag">
-  {{#if draftView}}
-    <li class="w-clearfix tag {{authorization}}"><img src="{{pathFor route='home'}}images/hashtag.png" class="hash-icon">
+  <li class="w-clearfix tag {{authorization}}"><img src="{{pathFor route='home'}}images/hashtag.png" class="hash-icon">
+    {{#if suggestion}}
+      <a href="#" class="w-clearfix w-inline-block hash-link {{authorization hover=true}}">
+        <div class="hash-tag">{{../text}}</div>
+      </a>
+      <div id="add-suggested-tag" class="action {{authorization hover=true}}">
+        <div><strong>＋</strong>
+        </div>
+      </div>
+    {{else}}
       <a href="{{../url}}" class="w-clearfix w-inline-block hash-link {{authorization hover=true}}">
         <div class="hash-tag">{{../label}}</div>
       </a>
       <div id="tag-remove" class="action {{authorization hover=true}}">
         <div>&#10006;</div>
       </div>
-    </li>
-  {{else}}
-    <li class="w-clearfix tag {{authorization}}"><img src="{{pathFor route='home'}}images/hashtag.png" class="hash-icon">
-      {{#if suggestion}}
-        <a href="#" class="w-clearfix w-inline-block hash-link {{authorization hover=true}}">
-          <div class="hash-tag">{{../text}}</div>
-        </a>
-        <div id="add-suggested-tag" class="action {{authorization hover=true}}">
-          <div><strong>＋</strong>
-          </div>
-        </div>
-      {{else}}
-        <div class="hash-tag">{{../label}}</div>
-      {{/if}}
-    </li>
-  {{/if}}
-</template>
-
-<template name="agreement">
-  <div class="section">
-    <h2>{{_ "proposal"}}</h2>
-    <div id="editor" class="w-richtext rich-text editor-draft editable">
-        {{{descriptionEditor}}}
-    </div>
-  </div>
+    {{/if}}
+  </li>
 </template>
 
 <template name="execution">

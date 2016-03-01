@@ -113,9 +113,9 @@ if (Meteor.isClient) {
   Helpers
   **********************/
 
-  Template.body.helpers({
+  Template.vote.helpers({
     draftView: function() {
-        return true;
+      Session.get('stage', 'draft');
     }
   });
 
@@ -229,6 +229,11 @@ if (Meteor.isClient) {
     },
     titleLength: function () {
       return TITLE_MAX_LENGTH;
+    },
+    timestamp: function () {
+      var d = new Date;
+      d = getContract().timestamp;
+      return d.format('{Month} {d}, {yyyy}');
     }
   });
 
@@ -300,7 +305,7 @@ if (Meteor.isClient) {
     closingDate: function () {
       var d = new Date()
       d = getContract().closingDate;
-      return d.format('{d} {Month}, {yyyy}');
+      return d.format('{Month} {d}, {yyyy}');
     },
     allowForks: function () {
       if (getContract().allowForks == true) {
@@ -508,8 +513,8 @@ getUserLanguage = function () {
 
 saveDescription = function (newHTML) {
   if (newHTML != getContract().description) {
-    Meteor.call("updateContractField", getContract()._id, "description", newHTML);
-    //Contracts.update(getContract()._id, { $set: { description: newHTML} });
+    //Meteor.call("updateContractField", getContract()._id, "description", newHTML);
+    Contracts.update(Session.get('contractId'), { $set: { description: newHTML} });
     console.log('[description] saved HTML changes');
   }
 }
