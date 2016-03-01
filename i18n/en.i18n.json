@@ -121,5 +121,5 @@
   "kind-finish-vote-alternative": "ALTERNATIVE",
   "kind-finish-vote-rejected": "REJECTED",
   "url-duplicate": "There's another proposal using a similar title and URL.",
-  "search-tag": "Search for a tag or drag one from the list."
+  "search-tag": "Search & drag tag from list."
 }

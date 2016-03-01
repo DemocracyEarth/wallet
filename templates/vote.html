@@ -41,10 +41,12 @@
 
           <!-- Tag Picker -->
           {{#unless maxReached}}
-            <ul class="w-list-unstyled w-clearfix selector">
-              <li class="w-clearfix tag-custom"><img src="{{pathFor route='home'}}images/search.png" class="search-icon">
+            <div class="w-clearfix tag-custom"><img src="{{pathFor route='home'}}images/search.png" class="search-icon">
+              <div class="editable">
                 <div>{{_ 'search-tag'}}</div>
-              </li>
+              </div>
+            </div>
+            <ul class="w-list-unstyled w-clearfix selector">
               {{#each tags}}
                   {{> tag suggestion=true _id=_id}}
               {{/each}}
