@@ -32,7 +32,7 @@
         <h2>{{_ "topics"}}</h2>
         <div class="extra">
           <form id="tag-form" name="tag-form" data-name="Tag Form">
-            <ul class="w-list-unstyled w-clearfix">
+            <ul id="tags" class="w-list-unstyled w-clearfix semantics">
               {{#each semantics}}
                 {{> tag _id=_id}}
               {{/each}}
@@ -132,26 +132,28 @@
 </template>
 
 <template name="authors">
-  <h5>Signatures</h5>
-  <ul class="w-list-unstyled w-clearfix extra">
-    <li class="w-clearfix identity identity-sign">
-      <a href="#" class="w-inline-block symbol profile-pic profile-sign">
-        <img src="{{pathFor route='home'}}images/fingerprint.png" class="profile-thumb">
-        <div class="identity-label">{{_ "sign-author"}}</div>
-      </a>
-    </li>
-  </ul>
+  <div class="section">
+    <h5>{{_ "signatures"}}</h5>
+    <ul class="w-list-unstyled w-clearfix extra">
+      <li class="w-clearfix identity identity-sign">
+        <a href="#" class="w-inline-block symbol profile-pic profile-sign">
+          <img src="{{pathFor route='home'}}images/fingerprint.png" class="profile-thumb">
+          <div class="identity-label">{{_ "sign-author"}}</div>
+        </a>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <template name="tag">
-  <li class="w-clearfix tag {{authorization}}"><img src="{{pathFor route='home'}}images/hashtag.png" class="hash-icon">
+  <li class="w-clearfix tag {{authorization}}" id="draggable"><img src="{{pathFor route='home'}}images/hashtag.png" class="hash-icon">
     {{#if suggestion}}
       <a href="#" class="w-clearfix w-inline-block hash-link {{authorization hover=true}}">
-        <div class="hash-tag">{{../text}}</div>
+        <div class="hash-tag">{{{../text}}}</div>
       </a>
     {{else}}
       <a href="{{../url}}" class="w-clearfix w-inline-block hash-link {{authorization hover=true}}">
-        <div class="hash-tag">{{../label}}</div>
+        <div class="hash-tag">{{{../label}}}</div>
       </a>
     {{/if}}
   </li>

@@ -116,6 +116,46 @@ if (Meteor.isClient) {
         saveDescription(editor.serialize().editor.value);
       }, SERVER_INTERVAL);
     });
+  };
+
+  Template.contract.rendered = function () {
+
+    // The data attribute for the slider is not set, so the slider has not yet been created
+    // If the slider is still around, we don't want to initialize it again
+    console.log("draguea dale");
+
+    //$('#tags').on('dragover', 'td', function(evt) {evt.preventDefault();})
+    $('#tags').sortable({
+      stop: function(e, ui) {
+        // get the dragged html element and the one before
+        //   and after it
+        el = ui.item.get(0)
+        before = ui.item.prev().get(0)
+        after = ui.item.next().get(0)
+
+        // Here is the part that blew my mind!
+        //  Blaze.getData takes as a parameter an html element
+        //    and will return the data context that was bound when
+        //    that html element was rendered!
+        if(!before) {
+          //if it was dragged into the first position grab the
+          // next element's data context and subtract one from the rank
+          newRank = Blaze.getData(after).rank - 1
+        } else if(!after) {
+          //if it was dragged into the last position grab the
+          //  previous element's data context and add one to the rank
+          newRank = Blaze.getData(before).rank + 1
+        }
+        else
+          //else take the average of the two ranks of the previous
+          // and next elements
+          newRank = (Blaze.getData(after).rank +
+                     Blaze.getData(before).rank)/2
+
+        //update the dragged Item's rank
+        Items.update({_id: Blaze.getData(el)._id}, {$set: {rank: newRank}})
+      }
+    });
   }
 
   /***********************
@@ -205,6 +245,9 @@ if (Meteor.isClient) {
     },
     voteKeyword: function () {
       return Session.get('voteKeyword');
+    },
+    sample: function () {
+      return Session.get('searchSample');
     }
   });
 
@@ -446,15 +489,13 @@ if (Meteor.isClient) {
     },
     "input #tagSearch": function (event) {
       var content = jQuery($("#tagSearch").html()).text();
-
+      if (content == '') {
+        console.log('VACIO');
+        Session.set('searchSample', true);
+      }
       TagSearch.search(content);
-
-      /*Meteor.clearTimeout(typingTimer);
-
-      typingTimer = Meteor.setTimeout( function() {
-        console.log('SEARCH');
-      }, 1000);*/
     },
+
     "submit .title-form": function (event) {
       event.preventDefault();
       Meteor.call("updateContractField", getContract()._id, "title", event.target.title.value);

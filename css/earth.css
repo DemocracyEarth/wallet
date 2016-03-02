@@ -202,7 +202,7 @@ blockquote {
 
 .section {
   margin-top: 0px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .section.rights {
@@ -465,9 +465,8 @@ blockquote {
 
 .semantics {
   display: inline-block;
-  margin-right: -5px;
-  margin-bottom: 10px;
-  margin-left: -5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   padding-top: 0px;
   border-top: 1px none #ccc;
 }
@@ -537,7 +536,10 @@ blockquote {
 }
 
 .selector {
-  display: inline-block;
+  position: relative;
+  left: 0px;
+  right: 0px;
+  display: block;
   overflow: scroll;
   height: 115px;
   margin-right: 5px;
@@ -617,7 +619,7 @@ blockquote {
 }
 
 .extra {
-  display: inline-block;
+  display: block;
   margin-right: -5px;
   margin-left: -5px;
 }
@@ -913,6 +915,8 @@ blockquote {
 
 .tag-custom {
   position: relative;
+  left: 0px;
+  right: 0px;
   z-index: 2000;
   display: block;
   margin-top: 10px;
@@ -2184,6 +2188,11 @@ blockquote {
   opacity: 0.66;
 }
 
+.sample {
+  display: none;
+  color: #cacaca;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
@@ -2517,10 +2526,6 @@ blockquote {
   }
   .field.split.field-left {
     padding-right: 0px;
-  }
-  .tag-custom {
-    width: 100%;
-    margin-right: 0px;
   }
   .status {
     overflow: hidden;
