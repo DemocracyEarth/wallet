@@ -55,6 +55,8 @@ localstorage@1.0.5
 logging@1.0.8
 meteor@1.1.10
 meteor-base@1.0.1
+meteorhacks:picker@1.0.3
+meteorhacks:search-source@1.4.2
 meteorspark:util@0.2.0
 minifiers@1.1.7
 minimongo@1.0.10

@@ -42,12 +42,12 @@
           <!-- Tag Picker -->
           {{#unless maxReached}}
             <div class="w-clearfix tag-custom"><img src="{{pathFor route='home'}}images/search.png" class="search-icon">
-              <div class="editable">
+              <div id="tagSearch" contenteditable="true">
                 <div>{{_ 'search-tag'}}</div>
               </div>
             </div>
             <ul class="w-list-unstyled w-clearfix selector">
-              {{#each tags}}
+              {{#each getTags}}
                   {{> tag suggestion=true _id=_id}}
               {{/each}}
             </ul>
@@ -55,9 +55,6 @@
 
           <!-- Warnings -->
           <ul class="w-list-unstyled">
-            {{#if unauthorizedTags}}
-              <li class="warning">{{_ "tags_lack_authorization"}}</li>
-            {{/if}}
             {{#if duplicateTags}}
               <li class="warning">{{_ "duplicate_tags"}}</li>
             {{/if}}
@@ -137,25 +134,9 @@
 <template name="authors">
   <h5>Signatures</h5>
   <ul class="w-list-unstyled w-clearfix extra">
-    <li class="w-clearfix identity"><img src="{{pathFor route='home'}}images/Screen Shot 2016-01-27 at 12.05.33 AM.png" class="symbol profile-pic">
-      <div class="identity-peer">
-        <div class="identity-verified"><img src="{{pathFor route='home'}}images/white-tick.png" class="identity-verified-tick">
-        </div><a href="#" class="identity-label">Satoshi Nakamoto</a>
-        <div class="identity-nation">🌎Earth</div>
-      </div>
-    </li>
-    <li class="w-clearfix identity"><img src="{{pathFor route='home'}}images/portrait.png" class="symbol profile-pic">
-      <div class="identity-peer"><a href="#" class="identity-label">Barack Obama</a>
-        <div class="identity-nation">🇺🇸 United States of America</div>
-      </div>
-    </li>
-    <li class="w-clearfix identity"><img src="{{pathFor route='home'}}images/anonymous.png" class="symbol profile-pic">
-      <div class="identity-peer"><a href="#" class="identity-label">{{_ "anonymous"}}</a>
-        <div class="identity-nation">🌎Earth</div>
-      </div>
-    </li>
     <li class="w-clearfix identity identity-sign">
-      <a href="#" class="w-inline-block symbol profile-pic profile-sign"><img src="{{pathFor route='home'}}images/fingerprint.png" class="profile-thumb">
+      <a href="#" class="w-inline-block symbol profile-pic profile-sign">
+        <img src="{{pathFor route='home'}}images/fingerprint.png" class="profile-thumb">
         <div class="identity-label">{{_ "sign-author"}}</div>
       </a>
     </li>
@@ -168,17 +149,10 @@
       <a href="#" class="w-clearfix w-inline-block hash-link {{authorization hover=true}}">
         <div class="hash-tag">{{../text}}</div>
       </a>
-      <div id="add-suggested-tag" class="action {{authorization hover=true}}">
-        <div><strong>＋</strong>
-        </div>
-      </div>
     {{else}}
       <a href="{{../url}}" class="w-clearfix w-inline-block hash-link {{authorization hover=true}}">
         <div class="hash-tag">{{../label}}</div>
       </a>
-      <div id="tag-remove" class="action {{authorization hover=true}}">
-        <div>&#10006;</div>
-      </div>
     {{/if}}
   </li>
 </template>

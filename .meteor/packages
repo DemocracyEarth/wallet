@@ -23,3 +23,6 @@ accounts-ui
 accounts-password
 iron:router
 lh84:medium-editor
+meteorhacks:search-source
+check
+ejson

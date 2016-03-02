@@ -2,21 +2,24 @@ if (Meteor.isClient) {
 
   Meteor.subscribe("tags");
 
-  // Settings
+  // Constant Settings
   var $LANGUAGE = "en";
   var MAX_TAGS_PER_CONTRACT = 10;
   var TITLE_MAX_LENGTH = 100;
+  var SERVER_INTERVAL = 5000;  //time in ms, 5 second for example
 
   var typingTimer;                //timer identifier
-  var saveToServerInterval = 5000;  //time in ms, 5 second for example
+
   var firstDescriptionLoad = true;
   var editorContent = '';
+
 
   Meteor.startup(function () {
 
     //Setup Language
     Session.set("showLoadingIndicator", true);
 
+    //Internationalizatoin Library
     TAPi18n.setLanguage(getUserLanguage())
       .done(function () {
         Session.set("showLoadingIndicator", false);
@@ -26,7 +29,13 @@ if (Meteor.isClient) {
         console.log(error_message);
       });
 
+    var options = {
+      keepHistory: 1000 * 60 * 5,
+      localSearch: true
+    };
+    var fields = ['text', 'url'];
 
+    TagSearch = new SearchSource('tags', fields, options);
 
   });
 
@@ -105,7 +114,7 @@ if (Meteor.isClient) {
       Meteor.clearTimeout(typingTimer);
       typingTimer = Meteor.setTimeout(function () {
         saveDescription(editor.serialize().editor.value);
-      }, saveToServerInterval);
+      }, SERVER_INTERVAL);
     });
   }
 
@@ -163,6 +172,7 @@ if (Meteor.isClient) {
     }
   });
 
+
   Template.contract.helpers({
     semantics: function () {
       return verifyTags();
@@ -175,6 +185,14 @@ if (Meteor.isClient) {
     */
     tags: function() {
       return Tags.find({}, {sort: {text: 1} });
+    },
+    getTags: function() {
+      return TagSearch.getData({
+        transform: function(matchText, regExp) {
+          return matchText.replace(regExp, "<b>$&</b>")
+        },
+        sort: {isoScore: -1}
+      });
     },
     unauthorizedTags: function() {
       return Session.get('unauthorizedTags');
@@ -278,7 +296,8 @@ if (Meteor.isClient) {
 
   Template.tag.helpers({
     authorization: function (hover) {
-      if (this._id != undefined) {
+      return 'authorized';
+      /*if (this._id != undefined) {
         if (Tags.findOne(this._id).isDefined == false) {
           //specific CSS class
           if (hover) {
@@ -289,7 +308,7 @@ if (Meteor.isClient) {
         } else {
           return 'authorized';
         }
-      }
+      }*/
     }
   });
 
@@ -423,7 +442,18 @@ if (Meteor.isClient) {
               Session.set('URLStatus', 'AVAILABLE');
             };
           }
-        }, saveToServerInterval);
+        }, SERVER_INTERVAL);
+    },
+    "input #tagSearch": function (event) {
+      var content = jQuery($("#tagSearch").html()).text();
+
+      TagSearch.search(content);
+
+      /*Meteor.clearTimeout(typingTimer);
+
+      typingTimer = Meteor.setTimeout( function() {
+        console.log('SEARCH');
+      }, 1000);*/
     },
     "submit .title-form": function (event) {
       event.preventDefault();

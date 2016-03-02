@@ -118,6 +118,30 @@ Meteor.methods({
 
 });
 
+
+//Search engine
+SearchSource.defineSource('tags', function(searchText, options) {
+  var options = {sort: {isoScore: -1}, limit: 20};
+
+  if(searchText) {
+    var regExp = buildRegExp(searchText);
+    var selector = {text: regExp, url: regExp};
+    return Tags.find(selector, options).fetch();
+  } else {
+    return Tags.find({}, options).fetch();
+  }
+});
+
+function buildRegExp(searchText) {
+  var words = searchText.trim().split(/[ \-\:]+/);
+  var exps = _.map(words, function(word) {
+    return "(?=.*" + word + ")";
+  });
+  var fullExp = exps.join('') + ".+";
+  return new RegExp(fullExp, "i");
+}
+
+
 function lookupKeyword(keyword, db) {
   //Verifiy if a keyword is available in a field of a collection
   //returns field if available, or creates a new one otherwise in that collection.
