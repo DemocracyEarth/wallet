@@ -41,12 +41,13 @@
 
           <!-- Tag Picker -->
           {{#unless maxReached}}
-            <div class="w-clearfix tag-custom"><img src="{{pathFor route='home'}}images/search.png" class="search-icon">
-              <div id="tagSearch" contenteditable="true">
-                <div>{{_ 'search-tag'}}</div>
+            <div class="w-clearfix tag-custom {{searchBox}}">
+              <img src="{{pathFor route='home'}}images/search.png" class="search-icon">
+              <div id="tagSearch" class="search-input" contenteditable="true">
+                {{_ 'search-tag'}}
               </div>
             </div>
-            <ul class="w-list-unstyled w-clearfix selector">
+            <ul id="tags" class="w-list-unstyled w-clearfix selector">
               {{#each getTags}}
                   {{> tag suggestion=true _id=_id}}
               {{/each}}

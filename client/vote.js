@@ -10,7 +10,7 @@ if (Meteor.isClient) {
 
   var typingTimer;                //timer identifier
 
-  var firstDescriptionLoad = true;
+  var firstLoad = true;
   var editorContent = '';
 
 
@@ -119,43 +119,38 @@ if (Meteor.isClient) {
   };
 
   Template.contract.rendered = function () {
+    this.$('#tags').sortable({
+        stop: function(e, ui) {
+          // get the dragged html element and the one before
+          //   and after it
+          el = ui.item.get(0)
+          before = ui.item.prev().get(0)
+          after = ui.item.next().get(0)
 
-    // The data attribute for the slider is not set, so the slider has not yet been created
-    // If the slider is still around, we don't want to initialize it again
-    console.log("draguea dale");
+          // Here is the part that blew my mind!
+          //  Blaze.getData takes as a parameter an html element
+          //    and will return the data context that was bound when
+          //    that html element was rendered!
+          if(!before) {
+            //if it was dragged into the first position grab the
+            // next element's data context and subtract one from the rank
+            newRank = Blaze.getData(after).rank - 1
+          } else if(!after) {
+            //if it was dragged into the last position grab the
+            //  previous element's data context and add one to the rank
+            newRank = Blaze.getData(before).rank + 1
+          }
+          else
+            //else take the average of the two ranks of the previous
+            // and next elements
+            newRank = (Blaze.getData(after).rank +
+                       Blaze.getData(before).rank)/2
 
-    //$('#tags').on('dragover', 'td', function(evt) {evt.preventDefault();})
-    $('#tags').sortable({
-      stop: function(e, ui) {
-        // get the dragged html element and the one before
-        //   and after it
-        el = ui.item.get(0)
-        before = ui.item.prev().get(0)
-        after = ui.item.next().get(0)
-
-        // Here is the part that blew my mind!
-        //  Blaze.getData takes as a parameter an html element
-        //    and will return the data context that was bound when
-        //    that html element was rendered!
-        if(!before) {
-          //if it was dragged into the first position grab the
-          // next element's data context and subtract one from the rank
-          newRank = Blaze.getData(after).rank - 1
-        } else if(!after) {
-          //if it was dragged into the last position grab the
-          //  previous element's data context and add one to the rank
-          newRank = Blaze.getData(before).rank + 1
+          //update the dragged Item's rank
+          //Items.update({_id: Blaze.getData(el)._id}, {$set: {rank: newRank}})
         }
-        else
-          //else take the average of the two ranks of the previous
-          // and next elements
-          newRank = (Blaze.getData(after).rank +
-                     Blaze.getData(before).rank)/2
-
-        //update the dragged Item's rank
-        Items.update({_id: Blaze.getData(el)._id}, {$set: {rank: newRank}})
-      }
     });
+    TagSearch.search('');
   }
 
   /***********************
@@ -172,7 +167,6 @@ if (Meteor.isClient) {
     descriptionEditor: function() {
       if (descriptionHTML != '') {
         var descriptionHTML = Contracts.findOne( { _id: Session.get('contractId') },{reactive: false} ).description;
-        firstDescriptionLoad = false;
         return descriptionHTML;
       };
     },
@@ -223,16 +217,21 @@ if (Meteor.isClient) {
      * 3) Consist of agreed definitions.
      * 4) Are voted.
     */
-    tags: function() {
-      return Tags.find({}, {sort: {text: 1} });
-    },
     getTags: function() {
-      return TagSearch.getData({
+      var search = TagSearch.getData({
         transform: function(matchText, regExp) {
           return matchText.replace(regExp, "<b>$&</b>")
         },
         sort: {isoScore: -1}
       });
+      return search
+    },
+    searchBox: function () {
+      if (Session.get('searchBox')) {
+        return 'search-active';
+      } else {
+        return '';
+      }
     },
     unauthorizedTags: function() {
       return Session.get('unauthorizedTags');
@@ -488,14 +487,17 @@ if (Meteor.isClient) {
         }, SERVER_INTERVAL);
     },
     "input #tagSearch": function (event) {
-      var content = jQuery($("#tagSearch").html()).text();
-      if (content == '') {
-        console.log('VACIO');
-        Session.set('searchSample', true);
-      }
+      var content = document.getElementById("tagSearch").innerHTML;//jQuery($("#tagSearch").html()).text();
       TagSearch.search(content);
     },
-
+    "focus #tagSearch": function (event) {
+      document.getElementById("tagSearch").innerHTML = '';
+      Session.set('searchBox', true);
+    },
+    "blur #tagSearch": function (event) {
+      document.getElementById("tagSearch").innerHTML = TAPi18n.__('search-tag');
+      Session.set('searchBox', false);
+    },
     "submit .title-form": function (event) {
       event.preventDefault();
       Meteor.call("updateContractField", getContract()._id, "title", event.target.title.value);
