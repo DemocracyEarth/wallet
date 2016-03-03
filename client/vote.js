@@ -119,7 +119,7 @@ if (Meteor.isClient) {
   };
 
   Template.contract.rendered = function () {
-    this.$('#tags').sortable({
+    this.$('#tagSuggestions, #tagList').sortable({
         stop: function(e, ui) {
           // get the dragged html element and the one before
           //   and after it
@@ -148,7 +148,8 @@ if (Meteor.isClient) {
 
           //update the dragged Item's rank
           //Items.update({_id: Blaze.getData(el)._id}, {$set: {rank: newRank}})
-        }
+        },
+        connectWith: ".connectedSortable"
     });
     TagSearch.search('');
   }
@@ -339,7 +340,7 @@ if (Meteor.isClient) {
   Template.tag.helpers({
     authorization: function (hover) {
       return 'authorized';
-      /*if (this._id != undefined) {
+/*      if (this._id != undefined) {
         if (Tags.findOne(this._id).isDefined == false) {
           //specific CSS class
           if (hover) {

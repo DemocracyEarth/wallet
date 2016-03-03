@@ -32,7 +32,7 @@
         <h2>{{_ "topics"}}</h2>
         <div class="extra">
           <form id="tag-form" name="tag-form" data-name="Tag Form">
-            <ul id="tags" class="w-list-unstyled w-clearfix semantics">
+            <ul id="tagList" class="w-list-unstyled w-clearfix semantics connectedSortable">
               {{#each semantics}}
                 {{> tag _id=_id}}
               {{/each}}
@@ -47,7 +47,7 @@
                 {{_ 'search-tag'}}
               </div>
             </div>
-            <ul id="tags" class="w-list-unstyled w-clearfix selector">
+            <ul id="tagSuggestions" class="w-list-unstyled w-clearfix selector connectedSortable">
               {{#each getTags}}
                   {{> tag suggestion=true _id=_id}}
               {{/each}}
