@@ -8,10 +8,7 @@ if (Meteor.isClient) {
   var TITLE_MAX_LENGTH = 100;
   var SERVER_INTERVAL = 5000;  //time in ms, 5 second for example
 
-  var typingTimer;                //timer identifier
-
-  var firstLoad = true;
-  var editorContent = '';
+  var typingTimer; //timer identifier
 
 
   Meteor.startup(function () {
@@ -123,7 +120,7 @@ if (Meteor.isClient) {
         stop: function(e, ui) {
           // get the dragged html element and the one before
           //   and after it
-          el = ui.item.get(0)
+        /*  el = ui.item.get(0)
           before = ui.item.prev().get(0)
           after = ui.item.next().get(0)
 
@@ -147,9 +144,17 @@ if (Meteor.isClient) {
                        Blaze.getData(before).rank)/2
 
           //update the dragged Item's rank
-          //Items.update({_id: Blaze.getData(el)._id}, {$set: {rank: newRank}})
+          //Items.update({_id: Blaze.getData(el)._id}, {$set: {rank: newRank}})*/
         },
-        connectWith: ".connectedSortable"
+        start: function (event, ui) {
+          ui.helper.width(ui.helper.width() + 3);
+        },
+        connectWith: ".connectedSortable",
+        forceHelperSize: true,
+        helper: 'clone',
+        zIndex: 9999,
+        placeholder: 'tag tag-placeholder'
+        //placeholder: "tag-drag"
     });
     TagSearch.search('');
   }

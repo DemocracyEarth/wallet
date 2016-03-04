@@ -147,16 +147,19 @@
 </template>
 
 <template name="tag">
-  <li class="w-clearfix tag {{authorization}}" id="draggable"><img src="{{pathFor route='home'}}images/hashtag.png" class="hash-icon">
-    {{#if suggestion}}
-      <a href="#" class="w-clearfix w-inline-block hash-link {{authorization hover=true}}">
-        <div class="hash-tag">{{{../text}}}</div>
-      </a>
-    {{else}}
-      <a href="{{../url}}" class="w-clearfix w-inline-block hash-link {{authorization hover=true}}">
-        <div class="hash-tag">{{{../label}}}</div>
-      </a>
-    {{/if}}
+  <li class="w-clearfix tag {{authorization}}" id="draggable">
+    <div class="tag-label">
+      <img src="{{pathFor route='home'}}images/hashtag.png" class="hash-icon">
+      {{#if suggestion}}
+        <a href="#" class="w-clearfix w-inline-block hash-link {{authorization hover=true}}">
+          <div class="hash-tag">{{{../text}}}</div>
+        </a>
+      {{else}}
+        <a href="{{../url}}" class="w-clearfix w-inline-block hash-link {{authorization hover=true}}">
+          <div class="hash-tag">{{{../label}}}</div>
+        </a>
+      {{/if}}
+    </div>
   </li>
 </template>
 

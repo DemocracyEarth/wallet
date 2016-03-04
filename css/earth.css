@@ -518,9 +518,21 @@ blockquote {
   opacity: 0.5;
 }
 
+.tag.ui-sortable-helper {
+  box-shadow: 0 1px 3px -2px #000;
+}
+
+.tag.tag-placeholder {
+  width: 100px;
+  height: 42px;
+  border: 1px dashed #46dfb8;
+  background-color: transparent;
+}
+
 .hash-icon {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
   margin-right: 10px;
   float: left;
 }
@@ -532,11 +544,11 @@ blockquote {
 }
 
 .hash-tag {
-  padding-right: 5px;
+  display: inline-block;
 }
 
 .selector {
-  position: relative;
+  position: static;
   left: 0px;
   right: 0px;
   display: block;
@@ -1093,14 +1105,15 @@ blockquote {
 }
 
 .action {
-  display: none;
+  display: inline-block;
   width: 44px;
   height: 44px;
   margin: -10px -10px -10px 10px;
   padding: 10px 10px 0px;
   float: right;
-  border-style: none;
+  border-style: none none none solid;
   border-width: 1px;
+  border-left-color: rgba(0, 191, 143, .1);
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
   background-color: #e6f9f4;
@@ -1153,7 +1166,6 @@ blockquote {
 }
 
 .hash-link {
-  float: left;
   border-bottom: 0px none #000;
 }
 
@@ -2200,6 +2212,10 @@ blockquote {
 .sample {
   display: none;
   color: #cacaca;
+}
+
+.tag-label {
+  display: inline-block;
 }
 
 @media (max-width: 991px) {
