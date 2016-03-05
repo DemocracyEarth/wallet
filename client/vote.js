@@ -118,42 +118,47 @@ if (Meteor.isClient) {
   Template.contract.rendered = function () {
     this.$('#tagSuggestions, #tagList').sortable({
         stop: function(e, ui) {
-          // get the dragged html element and the one before
-          //   and after it
-        /*  el = ui.item.get(0)
-          before = ui.item.prev().get(0)
-          after = ui.item.next().get(0)
-
-          // Here is the part that blew my mind!
-          //  Blaze.getData takes as a parameter an html element
-          //    and will return the data context that was bound when
-          //    that html element was rendered!
-          if(!before) {
-            //if it was dragged into the first position grab the
-            // next element's data context and subtract one from the rank
-            newRank = Blaze.getData(after).rank - 1
-          } else if(!after) {
-            //if it was dragged into the last position grab the
-            //  previous element's data context and add one to the rank
-            newRank = Blaze.getData(before).rank + 1
-          }
-          else
-            //else take the average of the two ranks of the previous
-            // and next elements
-            newRank = (Blaze.getData(after).rank +
-                       Blaze.getData(before).rank)/2
-
-          //update the dragged Item's rank
-          //Items.update({_id: Blaze.getData(el)._id}, {$set: {rank: newRank}})*/
+          Session.set('removeTag', false);
         },
         start: function (event, ui) {
           ui.helper.width(ui.helper.width() + 3);
+          ui.placeholder.width(ui.item.width());
+          if (this.id == "tagList") {
+            Session.set('removeTag', true);
+          }
+        },
+        receive: function (event, ui) {
+          var tagList = Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false} ).tags;
+
+          if (this.id == 'tagSuggestions') {
+            if (Session.get('removeTag')) {
+              removeTag(ui.item.get(0).getAttribute('value'));
+              Session.set('removeTag', false);
+              Session.set('maxReached', false);
+              Session.set('duplicateTags', false);
+            }
+          } else if (this.id == 'tagList') {
+            if (tagList.length >= MAX_TAGS_PER_CONTRACT) {
+              //Max reached
+              Session.set('maxReached', true);
+              ui.item.get(0).remove();
+            } else if (checkDuplicate(tagList,ui.item.get(0).getAttribute('value'))) {
+              //There's a duplicate
+              Session.set('duplicateTags', true);
+              ui.item.get(0).remove();
+            } else {
+              //Add the tag
+              Session.set('maxReached', false);
+              addTag(ui.item.get(0).getAttribute('value'));
+            }
+          }
         },
         connectWith: ".connectedSortable",
         forceHelperSize: true,
         helper: 'clone',
         zIndex: 9999,
         placeholder: 'tag tag-placeholder'
+
         //placeholder: "tag-drag"
     });
     TagSearch.search('');
@@ -215,14 +220,29 @@ if (Meteor.isClient) {
 
   Template.contract.helpers({
     semantics: function () {
-      return verifyTags();
+      var tagDetails = [];
+      var tagList = Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false} ).tags;
+
+      //Verify if it has a definition
+      Session.set('unauthorizedTags', false);
+      for (var i=0; i < tagList.length; i++) {
+        tagDetails.push(Tags.find({ _id: tagList[i]._id}).fetch());
+        if (tagDetails[i][0] != undefined) {
+          if (tagDetails[i][0].isDefined == false) {
+            Session.set('unauthorizedTags', true);
+            break;
+          }
+        }
+      }
+      //Verify if reached maximum
+      if (tagList.length >= MAX_TAGS_PER_CONTRACT) {
+        Session.set('maxReached', true);
+      } else {
+        Session.set('maxReached', false);
+      }
+
+      return tagList;
     },
-    /* Tags are used for:
-     * 1) Semantic description of a contract.
-     * 2) Scope of power delegation between peers.
-     * 3) Consist of agreed definitions.
-     * 4) Are voted.
-    */
     getTags: function() {
       var search = TagSearch.getData({
         transform: function(matchText, regExp) {
@@ -231,6 +251,13 @@ if (Meteor.isClient) {
         sort: {isoScore: -1}
       });
       return search
+    },
+    removeTag: function () {
+      if (Session.get('removeTag')) {
+        return '';
+      } else {
+        return 'display:none';
+      }
     },
     searchBox: function () {
       if (Session.get('searchBox')) {
@@ -243,7 +270,7 @@ if (Meteor.isClient) {
       return Session.get('unauthorizedTags');
     },
     maxReached: function () {
-      return Session.get('maxReached');
+      return displayTimedWarning ('maxReached');
     },
     duplicateTags: function() {
       return displayTimedWarning ('duplicateTags');
@@ -522,17 +549,13 @@ if (Meteor.isClient) {
       Meteor.setTimeout(function () {document.getElementById('text-custom-tag').value = '';}, 100);
     },
     "click #add-suggested-tag": function (event) {
-      Meteor.call("addTagToContract", getContract()._id, this._id, function (error) {
-          if (error && error.error == 'duplicate-tags') {
-            Session.set('duplicateTags', true)
-          }
-      });
+      addTag(this._id);
     }
   });
 
   Template.tag.events({
     "click #tag-remove": function (event, template) {
-      Meteor.call("removeTagFromContract", getContract()._id, this._id);
+      removeTag(this._id);
     }
   });
 
@@ -590,6 +613,28 @@ getUserLanguage = function () {
   return $LANGUAGE;
 };
 
+addTag = function (tagId) {
+  Meteor.call("addTagToContract", Session.get('contractId'), tagId, function (error) {
+      if (error && error.error == 'duplicate-tags') {
+        Session.set('duplicateTags', true)
+      }
+  });
+}
+
+removeTag = function(tagId) {
+  Meteor.call("removeTagFromContract", Session.get('contractId'), tagId);
+}
+
+
+function checkDuplicate (arr, elementId) {
+  for (var i = 0; i < arr.length; i++ ) {
+    if (arr[i]._id == elementId ) {
+      return true;
+    }
+  }
+  return false;
+}
+
 saveDescription = function (newHTML) {
   if (newHTML != getContract().description) {
     //Meteor.call("updateContractField", getContract()._id, "description", newHTML);
@@ -619,31 +664,6 @@ displayTimedWarning = function (warning) {
     Meteor.setTimeout(function () {Session.set(warning, false)}, 5000);
   }
   return Session.get(warning);
-}
-
-verifyTags = function () {
-  var tagDetails = [];
-  var tagList = getContract().tags;
-
-  //Verify if it has a definition
-  Session.set('unauthorizedTags', false);
-  for (var i=0; i < tagList.length; i++) {
-    tagDetails.push(Tags.find({ _id: tagList[i]._id}).fetch());
-    if (tagDetails[i][0] != undefined) {
-      if (tagDetails[i][0].isDefined == false) {
-        Session.set('unauthorizedTags', true);
-        break;
-      }
-    }
-  }
-  //Verify if reached maximum
-  if (tagList.length >= MAX_TAGS_PER_CONTRACT) {
-    Session.set('maxReached', true);
-  } else {
-    Session.set('maxReached', false);
-  }
-
-  return tagList;
 }
 
 contract = function (title, description, tags) {

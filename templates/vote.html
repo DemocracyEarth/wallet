@@ -39,20 +39,24 @@
             </ul>
           </form>
 
-          <!-- Tag Picker -->
-          {{#unless maxReached}}
-            <div class="w-clearfix tag-custom {{searchBox}}">
-              <img src="{{pathFor route='home'}}images/search.png" class="search-icon">
-              <div id="tagSearch" class="search-input" contenteditable="true">
-                {{_ 'search-tag'}}
-              </div>
+          <!-- Tag Picker -->          
+          <div class="w-clearfix tag-custom {{searchBox}}">
+            <img src="{{pathFor route='home'}}images/search.png" class="search-icon">
+            <div id="tagSearch" class="search-input" contenteditable="true">
+              {{_ 'search-tag'}}
             </div>
-            <ul id="tagSuggestions" class="w-list-unstyled w-clearfix selector connectedSortable">
-              {{#each getTags}}
-                  {{> tag suggestion=true _id=_id}}
-              {{/each}}
-            </ul>
-          {{/unless}}
+          </div>
+          <ul id="tagSuggestions" class="w-list-unstyled w-clearfix selector connectedSortable">
+            <li class="selector-trash" style='{{removeTag}}'>
+              <div class="selector-warning"><img src="{{pathFor route='home'}}images/trash.png" class="icon-trash">
+                <div>{{_ 'remove-tag'}}</div>
+              </div>
+            </li>
+            {{#each getTags}}
+                {{> tag suggestion=true _id=_id}}
+            {{/each}}
+          </ul>
+
 
           <!-- Warnings -->
           <ul class="w-list-unstyled">
@@ -147,7 +151,7 @@
 </template>
 
 <template name="tag">
-  <li class="w-clearfix tag {{authorization}}" id="draggable">
+  <li class="w-clearfix tag {{authorization}}" id="draggable" value="{{../_id}}">
     <div class="tag-label">
       <img src="{{pathFor route='home'}}images/hashtag.png" class="hash-icon">
       {{#if suggestion}}

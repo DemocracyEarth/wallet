@@ -37,7 +37,7 @@
   "new_fork": "Another Proposal",
   "tags_lack_authorization": "Tags in red have no members yet.",
   "max_tags_reached": "Maximum quantity of tags reached.",
-  "duplicate_tags": "Tag already added to ballot.",
+  "duplicate_tags": "Tag already added to proposal.",
   "authors": "Participants",
   "make-proposal-anonymoys": "Make this proposal anonymous.",
   "closing-date-of-poll": "Closing Date of poll.",
@@ -122,5 +122,6 @@
   "kind-finish-vote-rejected": "REJECTED",
   "url-duplicate": "There's another proposal using a similar title and URL.",
   "search-tag": "Search & drag tag from list.",
-  "signatures": "Signatures"
+  "signatures": "Signatures",
+  "remove-tag": "Drop here to remove tag."
 }

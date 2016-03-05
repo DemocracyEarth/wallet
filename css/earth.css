@@ -140,6 +140,7 @@ blockquote {
   height: 32px;
   margin-top: 5px;
   margin-bottom: 5px;
+  float: left;
 }
 
 .declaration {
@@ -523,7 +524,6 @@ blockquote {
 }
 
 .tag.tag-placeholder {
-  width: 100px;
   height: 42px;
   border: 1px dashed #46dfb8;
   background-color: transparent;
@@ -549,11 +549,9 @@ blockquote {
 
 .selector {
   position: static;
-  left: 0px;
-  right: 0px;
   display: block;
   overflow: scroll;
-  height: 115px;
+  height: 110px;
   margin-right: 5px;
   margin-bottom: 10px;
   margin-left: 5px;
@@ -2218,6 +2216,36 @@ blockquote {
   display: inline-block;
 }
 
+.selector-trash {
+  position: absolute;
+  left: 30px;
+  right: 30px;
+  height: 110px;
+  margin-top: -5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 0px 0px 5px 5px;
+  background-color: #e6e6e6;
+  box-shadow: inset 0 0 4px -2px #000;
+  color: #000;
+  font-size: 12px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.selector-trash:hover {
+  color: #00bf8f;
+}
+
+.selector-warning {
+  display: inline-block;
+}
+
+.icon-trash {
+  width: 55px;
+  height: 55px;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
@@ -2408,6 +2436,10 @@ blockquote {
   .data {
     display: inline-block;
   }
+  .selector-trash {
+    left: 20px;
+    right: 20px;
+  }
 }
 
 @media (max-width: 479px) {
@@ -2483,7 +2515,6 @@ blockquote {
   }
   .selector {
     position: relative;
-    width: 100%;
     height: 200px;
   }
   .button {
@@ -2624,5 +2655,12 @@ blockquote {
   }
   .score-details {
     margin-top: 20px;
+  }
+  .selector-trash {
+    left: 0px;
+    right: 0px;
+    height: 200px;
+    padding-top: 60px;
+    padding-bottom: 60px;
   }
 }
