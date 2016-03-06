@@ -2216,7 +2216,7 @@ blockquote {
   display: inline-block;
 }
 
-.selector-trash {
+.selector-modal {
   position: absolute;
   left: 30px;
   right: 30px;
@@ -2230,20 +2230,26 @@ blockquote {
   color: #000;
   font-size: 12px;
   text-align: center;
-  text-transform: uppercase;
-}
-
-.selector-trash:hover {
-  color: #00bf8f;
 }
 
 .selector-warning {
   display: inline-block;
+  text-transform: uppercase;
 }
 
 .icon-trash {
   width: 55px;
   height: 55px;
+}
+
+.selector-create {
+  padding-left: 10px;
+  text-align: left;
+}
+
+.selector-modal-label {
+  color: #777;
+  font-size: 14px;
 }
 
 @media (max-width: 991px) {
@@ -2436,7 +2442,7 @@ blockquote {
   .data {
     display: inline-block;
   }
-  .selector-trash {
+  .selector-modal {
     left: 20px;
     right: 20px;
   }
@@ -2656,11 +2662,13 @@ blockquote {
   .score-details {
     margin-top: 20px;
   }
-  .selector-trash {
+  .selector-modal {
     left: 0px;
     right: 0px;
     height: 200px;
-    padding-top: 60px;
-    padding-bottom: 60px;
+  }
+  .selector-warning {
+    margin-top: 60px;
+    margin-bottom: 60px;
   }
 }

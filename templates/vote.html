@@ -39,7 +39,7 @@
             </ul>
           </form>
 
-          <!-- Tag Picker -->          
+          <!-- Tag Picker -->
           <div class="w-clearfix tag-custom {{searchBox}}">
             <img src="{{pathFor route='home'}}images/search.png" class="search-icon">
             <div id="tagSearch" class="search-input" contenteditable="true">
@@ -47,7 +47,25 @@
             </div>
           </div>
           <ul id="tagSuggestions" class="w-list-unstyled w-clearfix selector connectedSortable">
-            <li class="selector-trash" style='{{removeTag}}'>
+            <li class="selector-modal" style='{{createTag}}'>
+              <div class="selector-create">
+                <div class="selector-modal-label">{{_ 'no-match-tag'}}</div>
+                <div class="w-clearfix extra">
+                  <div class="tag">
+                    <div class="w-clearfix tag-label"><img src="{{pathFor route='home'}}images/hashtag.png" class="hash-icon">
+                      <a href="#" class="w-clearfix w-inline-block hash-link">
+                        <div class="hash-tag">{{{newTag}}}</div>
+                      </a>
+                    </div>
+                    <div class="action">
+                      <div><strong>＋</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="selector-modal" style='{{removeTag}}'>
               <div class="selector-warning"><img src="{{pathFor route='home'}}images/trash.png" class="icon-trash">
                 <div>{{_ 'remove-tag'}}</div>
               </div>
@@ -65,6 +83,9 @@
             {{/if}}
             {{#if maxReached}}
               <li class="warning">{{_ "max_tags_reached"}}</li>
+            {{/if}}
+            {{#if minTags}}
+              <li class="warning">{{_ "min-tags-allowed"}}</li>
             {{/if}}
           </ul>
         </div>

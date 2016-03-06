@@ -5,6 +5,7 @@ if (Meteor.isClient) {
   // Constant Settings
   var $LANGUAGE = "en";
   var MAX_TAGS_PER_CONTRACT = 10;
+  var MIN_TAGS_PER_CONTRACT = 3;
   var TITLE_MAX_LENGTH = 100;
   var SERVER_INTERVAL = 5000;  //time in ms, 5 second for example
 
@@ -32,6 +33,7 @@ if (Meteor.isClient) {
     };
     var fields = ['text', 'url'];
 
+    Session.set('createTag', false);
     TagSearch = new SearchSource('tags', fields, options);
 
   });
@@ -134,9 +136,9 @@ if (Meteor.isClient) {
             if (Session.get('removeTag')) {
               removeTag(ui.item.get(0).getAttribute('value'));
               Session.set('removeTag', false);
-              Session.set('maxReached', false);
-              Session.set('duplicateTags', false);
             }
+            Session.set('maxReached', false);
+            Session.set('duplicateTags', false);
           } else if (this.id == 'tagList') {
             if (tagList.length >= MAX_TAGS_PER_CONTRACT) {
               //Max reached
@@ -250,14 +252,25 @@ if (Meteor.isClient) {
         },
         sort: {isoScore: -1}
       });
-      return search
+
+      if (search.length == 0 && document.getElementById("tagSearch").innerHTML != TAPi18n.__('search-tag')) {
+        //Create new tag
+        //Session.set('createTag', true);
+
+
+      } else {
+        return search;
+      }
+
+    },
+    createTag: function () {
+      return displayElement('createTag');
     },
     removeTag: function () {
-      if (Session.get('removeTag')) {
-        return '';
-      } else {
-        return 'display:none';
-      }
+      return displayElement('removeTag');
+    },
+    newTag: function () {
+      return Session.get('newTag');
     },
     searchBox: function () {
       if (Session.get('searchBox')) {
@@ -270,10 +283,13 @@ if (Meteor.isClient) {
       return Session.get('unauthorizedTags');
     },
     maxReached: function () {
-      return displayTimedWarning ('maxReached');
+      return displayTimedWarning('maxReached');
+    },
+    minTags: function () {
+      return displayTimedWarning('minTags');
     },
     duplicateTags: function() {
-      return displayTimedWarning ('duplicateTags');
+      return displayTimedWarning('duplicateTags');
     },
     voteKeyword: function () {
       return Session.get('voteKeyword');
@@ -520,8 +536,17 @@ if (Meteor.isClient) {
         }, SERVER_INTERVAL);
     },
     "input #tagSearch": function (event) {
-      var content = document.getElementById("tagSearch").innerHTML;//jQuery($("#tagSearch").html()).text();
+      var content = document.getElementById("tagSearch").innerHTML.replace(/&nbsp;/gi,'');//jQuery($("#tagSearch").html()).text();
+
       TagSearch.search(content);
+
+      if (TagSearch.getData().length == 0) {
+        Session.set('createTag', true);
+        Session.set('newTag', content);
+      } else {
+        Session.set('createTag', false);
+      }
+
     },
     "focus #tagSearch": function (event) {
       document.getElementById("tagSearch").innerHTML = '';
@@ -649,13 +674,20 @@ getContract = function (contractId) {
     return Contracts.findOne( { _id: contractId } );
   } else {
     if (Session.get('contractId') != undefined) {
-      console.log('loading with ContractId: ' + Session.get('contractId'));
       return Contracts.findOne( { _id: Session.get('contractId') } );
     } else if (Session.get('voteKeyword') != undefined) {
       var contract = Contracts.findOne( { keyword: Session.get('voteKeyword') } );
       Session.set('contractId', contract._id);
       return contract;
     }
+  }
+}
+
+displayElement = function (sessionVar) {
+  if (Session.get(sessionVar)) {
+    return '';
+  } else {
+    return 'display:none';
   }
 }
 

@@ -123,5 +123,7 @@
   "url-duplicate": "There's another proposal using a similar title and URL.",
   "search-tag": "Search & drag tag from list.",
   "signatures": "Signatures",
-  "remove-tag": "Drop here to remove tag."
+  "remove-tag": "Drop here to remove tag.",
+  "min-tags-allowed": "Minimum of tags reached.",
+  "no-match-tag": "No matching tags found. Add new?"
 }
