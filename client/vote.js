@@ -122,6 +122,8 @@ if (Meteor.isClient) {
         stop: function(e, ui) {
           Session.set('removeTag', false);
         },
+        sort: function (event, ui) {
+        },
         start: function (event, ui) {
           ui.helper.width(ui.helper.width() + 3);
           ui.placeholder.width(ui.item.width());
@@ -153,6 +155,7 @@ if (Meteor.isClient) {
               //Add the tag
               Session.set('maxReached', false);
               addTag(ui.item.get(0).getAttribute('value'));
+              ui.item.get(0).remove();
             }
           }
         },
@@ -225,7 +228,7 @@ if (Meteor.isClient) {
   Template.contract.helpers({
     semantics: function () {
       var tagDetails = [];
-      var tagList = Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false} ).tags;
+      var tagList = Contracts.findOne( { _id: Session.get('contractId') } ).tags;
 
       //Verify if it has a definition
       Session.set('unauthorizedTags', false);
@@ -237,13 +240,13 @@ if (Meteor.isClient) {
             break;
           }
         }
-      }
+      };
       //Verify if reached maximum
       if (tagList.length >= MAX_TAGS_PER_CONTRACT) {
         Session.set('maxReached', true);
       } else {
         Session.set('maxReached', false);
-      }
+      };
 
       return tagList;
     },
@@ -264,6 +267,13 @@ if (Meteor.isClient) {
     },
     newTag: function () {
       return Session.get('newTag');
+    },
+    emptyList: function () {
+      if (Contracts.findOne( { _id: Session.get('contractId') } ).tags.length == 0) {
+        return '';
+      } else {
+        return 'display:none';
+      }
     },
     searchBox: function () {
       if (Session.get('searchBox')) {
@@ -529,6 +539,11 @@ if (Meteor.isClient) {
         }, SERVER_INTERVAL);
     },
     "keypress #tagSearch": function (event) {
+      if (Session.get('createTag') && event.which == 13) {
+        addCustomTag(document.getElementById("tagSearch").innerHTML.replace(/&nbsp;/gi,''));
+        resetTagSearch();
+        document.getElementById("tagSearch").innerHTML = '';
+      }
       return event.which != 13;
     },
     "input #tagSearch": function (event) {
@@ -561,18 +576,11 @@ if (Meteor.isClient) {
       Meteor.call("updateContractField", getContract()._id, "description", event.target.description.value);
     },
     "click #add-custom-tag": function (event) {
-      var customTag = document.getElementById("tagSearch").innerHTML.replace(/&nbsp;/gi,'');
       event.preventDefault();
-
-      Meteor.call("addCustomTagToContract", getContract()._id, customTag, function (error) {
-        if (error && error.error == 'duplicate-tags') {
-          Session.set('duplicateTags', true)
-        }
-      });
+      addCustomTag(document.getElementById("tagSearch").innerHTML.replace(/&nbsp;/gi,''));
       Meteor.setTimeout(function () {
         resetTagSearch();
       }, 100);
-
     },
     "click #add-suggested-tag": function (event) {
       addTag(this._id);
@@ -644,6 +652,14 @@ addTag = function (tagId) {
       if (error && error.error == 'duplicate-tags') {
         Session.set('duplicateTags', true)
       }
+  });
+}
+
+addCustomTag = function (tag) {
+  Meteor.call("addCustomTagToContract", Session.get('contractId'), tag, function (error) {
+    if (error && error.error == 'duplicate-tags') {
+      Session.set('duplicateTags', true)
+    }
   });
 }
 
