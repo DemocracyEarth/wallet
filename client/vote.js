@@ -135,6 +135,7 @@ if (Meteor.isClient) {
           if (this.id == 'tagSuggestions') {
             if (Session.get('removeTag')) {
               removeTag(ui.item.get(0).getAttribute('value'));
+              ui.item.get(0).remove();
               Session.set('removeTag', false);
             }
             Session.set('maxReached', false);
@@ -155,6 +156,7 @@ if (Meteor.isClient) {
             }
           }
         },
+        cancel: '.nondraggable',
         connectWith: ".connectedSortable",
         forceHelperSize: true,
         helper: 'clone',
@@ -252,16 +254,7 @@ if (Meteor.isClient) {
         },
         sort: {isoScore: -1}
       });
-
-      if (search.length == 0 && document.getElementById("tagSearch").innerHTML != TAPi18n.__('search-tag')) {
-        //Create new tag
-        //Session.set('createTag', true);
-
-
-      } else {
-        return search;
-      }
-
+      return search;
     },
     createTag: function () {
       return displayElement('createTag');
@@ -535,9 +528,11 @@ if (Meteor.isClient) {
           }
         }, SERVER_INTERVAL);
     },
+    "keypress #tagSearch": function (event) {
+      return event.which != 13;
+    },
     "input #tagSearch": function (event) {
-      var content = document.getElementById("tagSearch").innerHTML.replace(/&nbsp;/gi,'');//jQuery($("#tagSearch").html()).text();
-
+      var content = document.getElementById("tagSearch").innerHTML.replace(/&nbsp;/gi,'');
       TagSearch.search(content);
 
       if (TagSearch.getData().length == 0) {
@@ -546,14 +541,15 @@ if (Meteor.isClient) {
       } else {
         Session.set('createTag', false);
       }
-
     },
     "focus #tagSearch": function (event) {
       document.getElementById("tagSearch").innerHTML = '';
       Session.set('searchBox', true);
     },
     "blur #tagSearch": function (event) {
-      document.getElementById("tagSearch").innerHTML = TAPi18n.__('search-tag');
+      if (Session.get('createTag') == false) {
+        resetTagSearch();
+      }
       Session.set('searchBox', false);
     },
     "submit .title-form": function (event) {
@@ -564,14 +560,19 @@ if (Meteor.isClient) {
       event.preventDefault();
       Meteor.call("updateContractField", getContract()._id, "description", event.target.description.value);
     },
-    "submit #tag-form, click #add-custom-tag": function (event) {
+    "click #add-custom-tag": function (event) {
+      var customTag = document.getElementById("tagSearch").innerHTML.replace(/&nbsp;/gi,'');
       event.preventDefault();
-      Meteor.call("addCustomTagToContract", getContract()._id, document.getElementById('text-custom-tag').value, function (error) {
+
+      Meteor.call("addCustomTagToContract", getContract()._id, customTag, function (error) {
         if (error && error.error == 'duplicate-tags') {
           Session.set('duplicateTags', true)
         }
       });
-      Meteor.setTimeout(function () {document.getElementById('text-custom-tag').value = '';}, 100);
+      Meteor.setTimeout(function () {
+        resetTagSearch();
+      }, 100);
+
     },
     "click #add-suggested-tag": function (event) {
       addTag(this._id);
@@ -650,6 +651,11 @@ removeTag = function(tagId) {
   Meteor.call("removeTagFromContract", Session.get('contractId'), tagId);
 }
 
+resetTagSearch = function () {
+  TagSearch.search('');
+  document.getElementById("tagSearch").innerHTML = TAPi18n.__('search-tag');
+  Session.set('createTag', false);
+}
 
 function checkDuplicate (arr, elementId) {
   for (var i = 0; i < arr.length; i++ ) {

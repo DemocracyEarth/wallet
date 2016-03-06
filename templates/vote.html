@@ -47,7 +47,7 @@
             </div>
           </div>
           <ul id="tagSuggestions" class="w-list-unstyled w-clearfix selector connectedSortable">
-            <li class="selector-modal" style='{{createTag}}'>
+            <li class="selector-modal nondraggable" style='{{createTag}}'>
               <div class="selector-create">
                 <div class="selector-modal-label">{{_ 'no-match-tag'}}</div>
                 <div class="w-clearfix extra">
@@ -57,7 +57,7 @@
                         <div class="hash-tag">{{{newTag}}}</div>
                       </a>
                     </div>
-                    <div class="action">
+                    <div id="add-custom-tag" class="action">
                       <div><strong>＋</strong>
                       </div>
                     </div>
@@ -65,7 +65,7 @@
                 </div>
               </div>
             </li>
-            <li class="selector-modal" style='{{removeTag}}'>
+            <li class="selector-modal nondraggable" style='{{removeTag}}'>
               <div class="selector-warning"><img src="{{pathFor route='home'}}images/trash.png" class="icon-trash">
                 <div>{{_ 'remove-tag'}}</div>
               </div>

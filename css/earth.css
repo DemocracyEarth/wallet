@@ -529,6 +529,10 @@ blockquote {
   background-color: transparent;
 }
 
+.tag.tag-empty {
+  background-color: #f5f5f5;
+}
+
 .hash-icon {
   width: 20px;
   height: 20px;
@@ -545,6 +549,10 @@ blockquote {
 
 .hash-tag {
   display: inline-block;
+}
+
+.hash-tag.hash-tag-empty {
+  color: #aaa;
 }
 
 .selector {

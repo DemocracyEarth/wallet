@@ -125,5 +125,5 @@
   "signatures": "Signatures",
   "remove-tag": "Drop here to remove tag.",
   "min-tags-allowed": "Minimum of tags reached.",
-  "no-match-tag": "No matching tags found. Add new?"
+  "no-match-tag": "No matches found. Add new tag?"
 }
