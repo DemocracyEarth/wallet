@@ -143,20 +143,10 @@ if (Meteor.isClient) {
             Session.set('maxReached', false);
             Session.set('duplicateTags', false);
           } else if (this.id == 'tagList') {
-            if (tagList.length >= MAX_TAGS_PER_CONTRACT) {
-              //Max reached
-              Session.set('maxReached', true);
-              ui.item.get(0).remove();
-            } else if (checkDuplicate(tagList,ui.item.get(0).getAttribute('value'))) {
-              //There's a duplicate
-              Session.set('duplicateTags', true);
-              ui.item.get(0).remove();
-            } else {
-              //Add the tag
-              Session.set('maxReached', false);
+            if (verifyTag(ui.item.get(0).getAttribute('value'))) {
               addTag(ui.item.get(0).getAttribute('value'));
-              ui.item.get(0).remove();
             }
+            ui.item.get(0).remove();
           }
         },
         cancel: '.nondraggable',
@@ -648,19 +638,39 @@ getUserLanguage = function () {
 };
 
 addTag = function (tagId) {
-  Meteor.call("addTagToContract", Session.get('contractId'), tagId, function (error) {
-      if (error && error.error == 'duplicate-tags') {
-        Session.set('duplicateTags', true)
-      }
-  });
+  if (verifyTag(tagId)) {
+    Meteor.call("addTagToContract", Session.get('contractId'), tagId, function (error) {
+        if (error && error.error == 'duplicate-tags') {
+          Session.set('duplicateTags', true)
+        }
+    });
+  }
 }
 
-addCustomTag = function (tag) {
-  Meteor.call("addCustomTagToContract", Session.get('contractId'), tag, function (error) {
+addCustomTag = function (tagString) {
+  Meteor.call("addCustomTagToContract", Session.get('contractId'), tagString, function (error) {
     if (error && error.error == 'duplicate-tags') {
       Session.set('duplicateTags', true)
     }
   });
+}
+
+verifyTag = function (newTag) {
+  var tagList = Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false} ).tags;
+
+  if (tagList.length >= MAX_TAGS_PER_CONTRACT) {
+    //Max reached
+    Session.set('maxReached', true);
+    return false;
+  } else if (checkDuplicate(tagList,newTag)) {
+    //There's a duplicate
+    Session.set('duplicateTags', true);
+    return false;
+  } else {
+    //Add the tag
+    Session.set('maxReached', false);
+    return true;
+  }
 }
 
 removeTag = function(tagId) {

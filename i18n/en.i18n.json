@@ -121,7 +121,7 @@
   "kind-finish-vote-alternative": "ALTERNATIVE",
   "kind-finish-vote-rejected": "REJECTED",
   "url-duplicate": "There's another proposal using a similar title and URL.",
-  "search-tag": "Search & drag tag from list.",
+  "search-tag": "Search tags.",
   "signatures": "Signatures",
   "remove-tag": "Drop here to remove tag.",
   "min-tags-allowed": "Minimum of tags reached.",
