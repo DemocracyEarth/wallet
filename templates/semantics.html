@@ -1,0 +1,91 @@
+<template name="semantics">
+  
+        <!-- Tag Cloud -->
+        <div class="section">
+          <h2>{{_ "topics"}}</h2>
+          <div class="extra">
+            <form id="tag-form" name="tag-form" data-name="Tag Form">
+              <ul id="tagList" class="w-list-unstyled w-clearfix semantics connectedSortable">
+                <li class="w-clearfix tag tag-empty nondraggable" style="{{emptyList}}">
+                  <div class="hash-tag hash-tag-empty">{{_ 'no-tags'}}</div>
+                </li>
+                {{#each semantics}}
+                  {{> tag _id=_id}}
+                {{/each}}
+              </ul>
+            </form>
+
+            <!-- Tag Picker -->
+            <div class="w-clearfix tag-custom {{searchBox}}">
+              <img src="{{pathFor route='home'}}images/search.png" class="search-icon">
+              <div id="tagSearch" class="search-input" contenteditable="true">
+                {{_ 'search-tag'}}
+              </div>
+            </div>
+            <ul id="tagSuggestions" class="w-list-unstyled w-clearfix selector connectedSortable">
+              <li class="selector-modal nondraggable" style='{{createTag}}'>
+                <div class="selector-create">
+                  <div class="selector-modal-label">{{_ 'no-match-tag'}}</div>
+                  <div class="w-clearfix extra">
+                    <div class="tag">
+                      <div class="w-clearfix tag-label"><img src="{{pathFor route='home'}}images/hashtag.png" class="hash-icon">
+                        <a href="#" class="w-clearfix w-inline-block hash-link">
+                          <div class="hash-tag">{{{newTag}}}</div>
+                        </a>
+                      </div>
+                      <div id="add-custom-tag" class="action">
+                        <div>
+                          <strong>＋</strong>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li class="selector-modal nondraggable" style='{{removeTag}}'>
+                <div class="selector-warning"><img src="{{pathFor route='home'}}images/trash.png" class="icon-trash">
+                  <div>{{_ 'remove-tag'}}</div>
+                </div>
+              </li>
+              {{#each getTags}}
+                  {{> tag suggestion=true _id=_id}}
+              {{/each}}
+            </ul>
+
+            <!-- Warnings -->
+            <ul class="w-list-unstyled">
+              {{#if duplicateTags}}
+                <li class="warning">{{_ "duplicate_tags"}}</li>
+              {{/if}}
+              {{#if maxReached}}
+                <li class="warning">{{_ "max_tags_reached"}}</li>
+              {{/if}}
+              {{#if minTags}}
+                <li class="warning">{{_ "min-tags-allowed"}}</li>
+              {{/if}}
+            </ul>
+          </div>
+        </div>
+</template>
+
+<template name="tag">
+  <li class="w-clearfix tag {{authorization}}" id="draggable" value="{{../_id}}">
+    <div class="tag-label">
+      <img src="{{pathFor route='home'}}images/hashtag.png" class="hash-icon">
+      {{#if suggestion}}
+        <a href="#" class="w-clearfix w-inline-block hash-link {{authorization hover=true}}">
+          <div class="hash-tag">{{{../text}}}</div>
+        </a>
+        <div id="add-suggested-tag" class="action">
+          <div>
+            <strong>＋</strong>
+          </div>
+        </div>
+      {{else}}
+        <a href="{{../url}}" class="w-clearfix w-inline-block hash-link {{authorization hover=true}}">
+          <div class="hash-tag">{{{../label}}}</div>
+        </a>
+      {{/if}}
+    </div>
+  </li>
+</template>

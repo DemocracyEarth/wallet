@@ -4,7 +4,7 @@ if (Meteor.isClient) {
   var MIN_TAGS_PER_CONTRACT = 3;
 
   //Makes tags in contract draggable
-  Template.contract.rendered = function () {
+  Template.semantics.rendered = function () {
     this.$('#tagSuggestions, #tagList').sortable({
         stop: function(e, ui) {
           Session.set('removeTag', false);
@@ -46,7 +46,7 @@ if (Meteor.isClient) {
     TagSearch.search('');
   }
 
-  Template.contract.helpers({
+  Template.semantics.helpers({
     semantics: function () {
       var tagDetails = [];
       var tagList = Contracts.findOne( { _id: Session.get('contractId') } ).tags;
@@ -129,7 +129,7 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.contract.events({
+  Template.semantics.events({
     "keypress #tagSearch": function (event) {
       if (Session.get('createTag') && event.which == 13) {
         addCustomTag(document.getElementById("tagSearch").innerHTML.replace(/&nbsp;/gi,''));
