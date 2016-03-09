@@ -41,7 +41,7 @@
   "authors": "Participants",
   "make-proposal-anonymoys": "Make this proposal anonymous.",
   "closing-date-of-poll": "Closing Date of poll.",
-  "allow-voters-suggest": "Allow voters suggest options.",
+  "allow-voters-suggest": "Allow voters add proposals to this ballot.",
   "secret-voting-with-encryption": "Keep votes secret with encryption.",
   "propose-fork": "Propose Alternative",
   "disabled-checkboxes": "Check boxes are disabled while drafting.",

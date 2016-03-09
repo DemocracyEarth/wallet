@@ -14,7 +14,7 @@
       {{> kind}}
 
       <!-- Title -->
-      {{> title draftView=draftView}}
+      {{> title}}
 
       <!-- Agreement -->
       {{> agreement}}
@@ -29,7 +29,7 @@
       {{> ballot draftView=draftView}}
 
       <!-- Execution status -->
-      {{> execution draftView=draftView}}
+      {{> execution}}
 
     </div>
   </div>
@@ -107,13 +107,6 @@
   <div class="execution">
     <div class="block">
       <div class="w-clearfix elements">
-        <!--<div class="power">
-          {{#if draftView}}
-            {{> status step=1 max=3}}
-          {{else}}
-            {{> status step=2 max=3}}
-          {{/if}}
-        </div>-->
         <div class="power hundred contract-save-draft">
           <a href="#" class="w-clearfix w-inline-block button execute">
             <div>{{_ "save_for"}} <strong>{{_ "review"}}</strong>
