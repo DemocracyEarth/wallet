@@ -41,17 +41,14 @@
 
 
     <div class="w-clearfix elements">
-
-      <ul class="w-list-unstyled w-clearfix semantics connectedSortable">
-      {{#each options}}
-        {{> fork _id=_id label=label authorized=authorized keyword=keyword draftView=../draftView}}
-      {{/each}}
-
-      <!--{{#if ../draftView}}
-        {{> fork custom=true draftView=../draftView}}
-      {{/if}}-->
+      <ul class="w-list-unstyled w-clearfix options">
+        {{#each options}}
+          {{> fork _id=_id label=label authorized=authorized keyword=keyword draftView=../draftView}}
+        {{/each}}
+        <!--{{#if ../draftView}}
+          {{> fork custom=true draftView=../draftView}}
+        {{/if}}-->
       </ul>
-
     </div>
 
 
@@ -78,35 +75,17 @@
 </template>
 
 <template name="fork">
-  <li id="ballot-option" class="power">
-    <!--{{#if custom}}
-      <div id="ballot-option" class="vote vote-edit">
-        <div class="w-clearfix checkbox">
-          <div id="ballot-checkbox" class="option">
-            <div class="tick"><img src="{{pathFor route='home'}}images/white-tick-thin.png" class="tick-image {{tick draftView}}">
-            </div>
-          </div>
-          <form id="fork-form">
-            <input id="text-fork-proposal" type="text" placeholder="{{_ 'propose-fork'}}" class="w-input option-title input option-input">
-          </form>
+  <li class="vote {{checkbox ../mode ../authorized}}">
+    <div class="w-clearfix checkbox">
+      <div class="option {{option ../mode}}">
+        <div class="tick"><img src="{{pathFor route='home'}}images/white-tick-thin.png" class="tick-image hover">
         </div>
       </div>
-      <div class="verifier"><strong data-new-link="true">{{_ 'vote-url'}} </strong>{{_ 'at'}} <a href="{{pathFor route='vote'}}">{{pathFor route='vote'}}</a> {{_ 'is'}} <strong data-new-link="true" class="available">{{_ 'available'}}</strong>
-      </div>
-    {{else}}-->
-    <div class="vote {{checkbox ../mode ../authorized}}">
       <div class="w-clearfix checkbox">
-        <div id="ballot-checkbox" class="option {{checkbox ../mode ../authorized}}">
-          <div class="tick {{checkbox ../mode ../authorized}}"><img src="{{pathFor route='home'}}images/white-tick-thin.png" class="tick-image {{tick draftView}}">
-          </div>
-        </div>
-        <a href="{{pathFor route='vote'}}/{{keyword}}" class="w-clearfix w-inline-block option-link">
-          <div class="option-title option-link option-edit {{checkbox ../mode ../authorized}}">{{caption ../mode ../label}}</div>
+        <a href="{{pathFor route='vote'}}/{{keyword}}" class="option-title">
+          {{caption ../mode ../label}}
         </a>
-        {{#if remove ../mode}}
-        {{/if}}
       </div>
     </div>
-    <!--{{/if}}-->
   </li>
 </template>

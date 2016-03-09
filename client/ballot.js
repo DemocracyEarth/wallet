@@ -97,12 +97,14 @@ if (Meteor.isClient) {
 
   Template.fork.helpers({
     checkbox: function (mode) {
-      switch (mode.toLowerCase()) {
-        case 'authorize': return 'vote-authorize';
-        case 'reject': return 'vote-authorize unauthorized';
-        case 'fork':
+      switch (mode) {
+        case 'AUTHORIZE':
+          return 'vote-authorize';
+        case 'REJECT':
+          return 'vote-authorize unauthorized';
+        case 'FORK':
           if (this.authorized) {
-            return 'vote-edit vote-custom';
+            return 'vote vote-alternative';
           } else {
             return 'vote-edit vote-custom unauthorized';
             Session.set('unauthorizedFork', true);
@@ -115,7 +117,24 @@ if (Meteor.isClient) {
           return 'undefined';
         }
     },
+    option: function (mode) {
+      console.log('AUTHORIZED = ' + mode);
 
+      switch(Session.get('stage', 'draft')) {
+        case 'draft':
+          return 'disabled';
+        default:
+            switch (mode) {
+              case 'AUTHORIZE':
+                return '';
+              case 'REJECT':
+                return 'option-link unauthorized';
+              default:
+              return '';
+            }
+
+      }
+    },
     caption: function (mode) {
       if (mode.toLowerCase() != 'fork') {
         return TAPi18n.__(mode);
