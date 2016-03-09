@@ -526,7 +526,9 @@ blockquote {
 
 .tag.tag-placeholder {
   height: 42px;
-  border: 1px dashed #46dfb8;
+  border-style: dashed;
+  border-width: 1px;
+  border-color: rgba(0, 191, 143, .32);
   background-color: transparent;
 }
 
@@ -709,16 +711,17 @@ blockquote {
 }
 
 .vote {
-  margin-top: -5px;
-  margin-bottom: -5px;
+  display: block;
+  width: 50%;
+  margin: 0px;
+  padding: 10px;
+  float: left;
+  border: 5px solid #fff;
+  border-radius: 8px;
   text-align: left;
-  cursor: -webkit-grab;
 }
 
 .vote.vote-authorize {
-  padding: 10px;
-  border: 1px solid #fff;
-  border-radius: 5px;
   background-color: #e6f9f4;
   color: #00bf8f;
 }
@@ -735,7 +738,7 @@ blockquote {
 }
 
 .vote.vote-edit.vote-custom {
-  border: 1px solid #f3f3f3;
+  border: 1px solid #fff;
   border-radius: 3px;
 }
 
@@ -749,6 +752,33 @@ blockquote {
 
 .vote.vote-edit.vote-custom.vote-rejected {
   border-color: #ff2752;
+}
+
+.vote.vote-alternative {
+  box-shadow: inset 0 0 1px 0 #dfdfdf;
+  cursor: -webkit-grab;
+}
+
+.vote.vote-alternative:hover {
+  background-color: hsla(0, 0%, 95%, .5);
+}
+
+.vote.vote-alternative.unauthorized {
+  background-color: #fae6e6;
+}
+
+.vote.vote-alternative.vote-authorize:hover {
+  background-color: #e6f9f4;
+}
+
+.vote.vote-placeholder {
+  width: 50%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-style: dashed;
+  border-width: 1px;
+  border-color: rgba(0, 191, 143, .22);
+  border-radius: 0px;
 }
 
 .option {
@@ -781,11 +811,12 @@ blockquote {
 
 .option-title {
   display: inline-block;
+  max-width: 85%;
   margin-top: 10px;
   font-size: 24px;
   line-height: 30px;
   font-weight: 300;
-  text-align: center;
+  text-align: left;
   letter-spacing: 0px;
   text-transform: none;
 }
@@ -843,6 +874,12 @@ blockquote {
 
 .option-title.option-link.unauthorized:hover {
   border-bottom-color: #ff2752;
+}
+
+.option-title.option-link.option-long {
+  margin-top: 0px;
+  font-size: 16px;
+  line-height: 24px;
 }
 
 .checkbox {
@@ -2275,6 +2312,12 @@ blockquote {
   font-size: 10px;
   line-height: 28px;
   text-transform: uppercase;
+}
+
+.options {
+  display: block;
+  padding-right: 5px;
+  padding-left: 5px;
 }
 
 @media (max-width: 991px) {

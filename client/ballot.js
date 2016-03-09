@@ -3,6 +3,7 @@ if (Meteor.isClient) {
   Template.ballot.rendered = function () {
       console.log('loading jquery calendar' + this.find('#date-picker'));
 
+      //Calendar component
       if (this.find('#date-picker')) {
         $('#date-picker').datepicker();
 
@@ -17,7 +18,23 @@ if (Meteor.isClient) {
         });
       }
 
-      //ADD EVENT: When loaded  set  the date in the calendar.
+      //Dragable options
+      this.$('#ballot-option').sortable({
+          stop: function(e, ui) {
+          },
+          sort: function (event, ui) {
+          },
+          start: function (event, ui) {
+          },
+          receive: function (event, ui) {
+          },
+          cancel: '.nondraggable',
+          //connectWith: ".connectedSortable",
+          forceHelperSize: true,
+          helper: 'clone',
+          zIndex: 9999,
+          placeholder: 'tag tag-placeholder'
+      });
 
   };
 
