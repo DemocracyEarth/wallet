@@ -49,8 +49,8 @@ if (Meteor.isClient) {
         return 'toggle-activated';
       }
     },
-    secretVotes: function () {
-      if (getContract().secretVotes == true) {
+    multipleChoice: function () {
+      if (getContract().multipleChoice == true) {
         return 'toggle-activated';
       }
     },
@@ -157,8 +157,8 @@ if (Meteor.isClient) {
     "click #toggle-allowForks": function () {
       Meteor.call("updateContractField", getContract()._id, "allowForks", !getContract().allowForks);
     },
-    "click #toggle-secretVotes": function () {
-      Meteor.call("updateContractField", getContract()._id, "secretVotes", !getContract().secretVotes);
+    "click #toggle-multipleChoice": function () {
+      Meteor.call("updateContractField", getContract()._id, "multipleChoice", !getContract().multipleChoice);
     },
     "submit #fork-form, click #add-fork-proposal": function (event) {
       event.preventDefault();
