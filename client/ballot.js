@@ -1,8 +1,6 @@
 if (Meteor.isClient) {
 
   Template.ballot.rendered = function () {
-      console.log('loading jquery calendar' + this.find('#date-picker'));
-
       //Calendar component
       if (this.find('#date-picker')) {
         $('#date-picker').datepicker();

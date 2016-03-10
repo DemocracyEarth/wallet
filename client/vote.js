@@ -25,6 +25,7 @@ if (Meteor.isClient) {
         console.log(error_message);
       });
 
+    //Serch Engine for Tags
     var options = {
       keepHistory: 1000 * 60 * 5,
       localSearch: true
@@ -33,6 +34,20 @@ if (Meteor.isClient) {
 
     Session.set('createTag', false);
     TagSearch = new SearchSource('tags', fields, options);
+
+
+    //Date picker
+    /*$(document).ready(function(){      //Add this line (and it's closing line)
+        var currentDate = new Date();
+        console.log('Setting Up Date Picker');
+        $('#date-picker').datepicker({
+            dateFormat: 'yy-mm-dd',
+            maxDate: 0,
+            changeYear: true
+        }).attr('readonly', 'readonly');
+        $('#date-picker').datepicker("setDate", currentDate);
+    });*/
+
 
   });
 
