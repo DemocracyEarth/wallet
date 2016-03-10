@@ -103,7 +103,7 @@ if (Meteor.isClient) {
 
   Template.vote.helpers({
     draftView: function() {
-      Session.get('stage', 'draft');
+      //Session.get('stage', 'draft');
     }
   });
 

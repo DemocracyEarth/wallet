@@ -77,12 +77,12 @@
 <template name="fork">
   <li class="vote {{checkbox ../mode ../authorized}}">
     <div class="w-clearfix checkbox">
-      <div class="option {{option ../mode}}">
+      <div id="ballotCheckbox" class="option {{option ../mode}}">
         <div class="tick"><img src="{{pathFor route='home'}}images/white-tick-thin.png" class="tick-image hover">
         </div>
       </div>
       <div class="w-clearfix checkbox">
-        <a href="{{pathFor route='vote'}}/{{keyword}}" class="option-title">
+        <a href="{{pathFor route='vote'}}/{{keyword}}" class="option-title {{decision ../mode}}">
           {{caption ../mode ../label}}
         </a>
       </div>

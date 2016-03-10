@@ -118,9 +118,7 @@ if (Meteor.isClient) {
         }
     },
     option: function (mode) {
-      console.log('AUTHORIZED = ' + mode);
-
-      switch(Session.get('stage', 'draft')) {
+      switch(Session.get('stage')) {
         case 'draft':
           return 'disabled';
         default:
@@ -128,15 +126,23 @@ if (Meteor.isClient) {
               case 'AUTHORIZE':
                 return '';
               case 'REJECT':
-                return 'option-link unauthorized';
+                return 'option-link ';
               default:
               return '';
             }
 
       }
     },
+    decision: function (mode) {
+      switch (mode) {
+        case 'REJECT':
+          return 'option-link unauthorized';
+        default:
+          return '';
+      }
+    },
     caption: function (mode) {
-      if (mode.toLowerCase() != 'fork') {
+      if (mode != 'FORK') {
         return TAPi18n.__(mode);
       } else {
         return this.label;
@@ -144,15 +150,6 @@ if (Meteor.isClient) {
     },
     tick: function (draftView) {
       if (draftView) { return 'disabled' };
-    },
-    remove: function (mode) {
-      switch (mode.toLowerCase()) {
-        case 'authorize':
-        case 'reject':
-          return false;
-        case 'fork':
-          return true;
-      }
     }
   });
 
@@ -175,8 +172,12 @@ if (Meteor.isClient) {
   });
 
   Template.fork.events({
-    "click #ballot-checkbox": function () {
-      Session.set('disabledCheckboxes', true);
+    "click #ballotCheckbox": function () {
+      switch (Session.get('stage')) {
+        case 'draft':
+          Session.set('disabledCheckboxes', true);
+          break;
+      }
     },
 
     "click #remove-fork": function () {
