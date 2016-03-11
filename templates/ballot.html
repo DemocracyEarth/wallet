@@ -7,16 +7,9 @@
         <li class="w-clearfix setting">
           <div class="text setting-label">{{_ "closing-date-of-poll"}}</div>
           <div class="value">
-            <div data-delay="0" class="w-dropdown dropdown">
-              <div class="w-dropdown-toggle dropdown-menu">
-                <div class="control">{{closingDate}}</div>
-                <div class="w-icon-dropdown-toggle"></div>
-              </div>
-              <!--<nav class="w-dropdown-list dropdown-list">
-                <a href="#" class="w-dropdown-link dropdown-link calendar">-->
-                  <div id='date-picker'></div>
-              <!--  </a>
-              </nav>-->
+            <div class="w-clearfix calendar-menu "><img src="{{pathFor route='home'}}images/calendar.png" class="calendar-icon">
+              <div class="control">{{closingDate}}</div>
+              <div id='date-picker' class="calendar"></div>
             </div>
           </div>
         </li>
