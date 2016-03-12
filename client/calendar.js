@@ -35,7 +35,7 @@ if (Meteor.isClient) {
   Template.calendar.events({
     "click #toggleCalendar": function () {
       initCalendar();
-      Session.set('showCalendar', !Session.get('showCalendar'));  
+      Session.set('showCalendar', !Session.get('showCalendar'));
     }
   })
 
@@ -49,6 +49,7 @@ function initCalendar () {
       currentDate = new Date;
       if (currentDate.getTime() < e.date.getTime()) {
         Session.set('backdating', false);
+        Session.set('showCalendar', !Session.get('showCalendar'));  
         Meteor.call('updateContractField', getContract()._id, "closingDate", e.date);
       } else {
         Session.set('backdating', true);
