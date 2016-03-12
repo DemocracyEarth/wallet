@@ -2330,14 +2330,21 @@ blockquote {
   opacity: 0.75;
 }
 
+.calendar-icon.calendar-icon-active {
+  opacity: 1;
+}
+
 .calendar {
   position: absolute;
+  right: 35px;
   display: block;
-  margin-top: 35px;
-  border-radius: 5px;
+  padding: 10px 0px 10px 10px;
+  border-radius: 3px 0px 3px 3px;
   background-color: #e6f9f4;
-  box-shadow: 0 2px 1px -2px #000;
+  box-shadow: -2px 2px 2px -2px rgba(0, 0, 0, .25);
   color: #00bf8f;
+  font-size: 14px;
+  line-height: 22px;
 }
 
 @media (max-width: 991px) {
@@ -2532,6 +2539,9 @@ blockquote {
   .selector-modal {
     left: 20px;
     right: 20px;
+  }
+  .calendar {
+    right: 25px;
   }
 }
 
@@ -2760,5 +2770,8 @@ blockquote {
   .selector-warning {
     margin-top: 60px;
     margin-bottom: 60px;
+  }
+  .calendar {
+    right: 20px;
   }
 }

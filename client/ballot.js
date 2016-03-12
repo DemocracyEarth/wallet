@@ -1,21 +1,7 @@
 if (Meteor.isClient) {
 
   Template.ballot.rendered = function () {
-      //Calendar component
-      if (this.find('#date-picker')) {
-        $('#date-picker').datepicker();
-
-        $('#date-picker').on('changeDate', function (e) {
-          currentDate = new Date;
-          if (currentDate.getTime() < e.date.getTime()) {
-            Session.set('backdating', false);
-            Meteor.call('updateContractField', getContract()._id, "closingDate", e.date);
-          } else {
-            Session.set('backdating', true);
-          }
-        });
-      }
-
+    
       //Dragable options
       this.$('#ballot-option').sortable({
           stop: function(e, ui) {
@@ -37,11 +23,6 @@ if (Meteor.isClient) {
   };
 
   Template.ballot.helpers({
-    closingDate: function () {
-      var d = new Date()
-      d = getContract().closingDate;
-      return d.format('{Month} {d}, {yyyy}');
-    },
     allowForks: function () {
       if (getContract().allowForks == true) {
         return 'toggle-activated';

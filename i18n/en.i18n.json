@@ -46,7 +46,7 @@
   "enable-multiple-choice": "Enable multiple choice",
   "propose-fork": "Propose Alternative",
   "disabled-checkboxes": "Check boxes are disabled while drafting.",
-  "backdating": "Backdating the vote closing is not allowed.",
+  "backdating": "Backdating the poll closing is not allowed.",
   "duplicate-title": "A ballot with that title already exists.",
   "duplicate-contract": "A ballot with that name has been added already.",
   "duplicate-fork": "Option already added to ballot.",
