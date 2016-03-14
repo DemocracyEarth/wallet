@@ -584,7 +584,10 @@ blockquote {
 }
 
 .selector.selector-proposals {
-  height: 200px;
+  height: 235px;
+  padding-right: 0px;
+  padding-left: 0px;
+  background-color: #f5f5f5;
 }
 
 .cover {
@@ -802,8 +805,11 @@ blockquote {
 
 .vote.vote-search {
   width: 100%;
-  padding: 1px 0px;
-  border-style: none;
+  padding: 10px;
+  border-style: none none solid;
+  border-bottom-width: 1px;
+  border-bottom-color: hsla(0, 0%, 84%, .2);
+  border-radius: 0px;
 }
 
 .option {
@@ -913,11 +919,11 @@ blockquote {
 }
 
 .option-title.option-link.option-search {
-  width: 100%;
+  max-width: 90%;
+  margin-top: 0px;
   margin-bottom: 0px;
-  color: #616161;
   font-size: 18px;
-  line-height: 20px;
+  line-height: 26px;
 }
 
 .checkbox {
@@ -925,11 +931,11 @@ blockquote {
 }
 
 .checkbox.checkbox-custom {
-  width: 100%;
-  padding: 10px;
+  display: inline-block;
+  width: 90%;
+  padding: 0px 10px;
   border-radius: 3px;
-  background-color: #fff;
-  box-shadow: inset 0 0 1px 0 #dfdfdf;
+  box-shadow: none;
 }
 
 .date {
@@ -1256,6 +1262,24 @@ blockquote {
 
 .action.vote-action.undefined:hover {
   background-color: #ff2752;
+}
+
+.action.action-search {
+  position: relative;
+  margin-top: 5px;
+  margin-right: 10px;
+  padding-top: 0px;
+  border-style: solid;
+  border-color: #00bf8f;
+  border-radius: 3px;
+  background-color: transparent;
+  font-size: 40px;
+  line-height: 40px;
+  font-weight: 200;
+}
+
+.action.action-search:hover {
+  background-color: #00bf8f;
 }
 
 .hash-link {
@@ -2257,8 +2281,11 @@ blockquote {
 }
 
 .meta.meta-search {
+  display: block;
   margin-top: 5px;
   margin-bottom: 0px;
+  clear: both;
+  opacity: 0.71;
 }
 
 .state {
@@ -2535,6 +2562,10 @@ blockquote {
     font-size: 16px;
     line-height: 30px;
   }
+  .vote.vote-search {
+    padding-right: 5px;
+    padding-left: 5px;
+  }
   .option-title.option-link {
     max-width: 100%;
   }
@@ -2546,6 +2577,9 @@ blockquote {
   }
   .option-title.option-link.option-long {
     max-width: 80%;
+  }
+  .checkbox.checkbox-custom {
+    width: 85%;
   }
   .field.headline-field.split {
     padding-right: 0px;
@@ -2727,6 +2761,10 @@ blockquote {
     font-size: 12px;
     line-height: 36px;
   }
+  .vote.vote-search {
+    padding-right: 5px;
+    padding-left: 5px;
+  }
   .option {
     width: 40px;
     height: 40px;
@@ -2754,6 +2792,9 @@ blockquote {
   }
   .option-title.option-link.option-edit.option-title-long {
     font-size: 16px;
+  }
+  .checkbox.checkbox-custom {
+    width: 75%;
   }
   .tick-image {
     width: 38px;
