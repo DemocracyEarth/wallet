@@ -3,9 +3,9 @@ if (Meteor.isClient) {
   Meteor.subscribe("tags");
 
   // Constant Settings
-  var $LANGUAGE = "en";
-  var TITLE_MAX_LENGTH = 100;
-  var SERVER_INTERVAL = 5000;  //time in ms, 5 second for example
+  $LANGUAGE = "en";
+  TITLE_MAX_LENGTH = 100;
+  SERVER_INTERVAL = 5000;  //time in ms, 5 second for example
 
   var typingTimer; //timer identifier
 
@@ -25,16 +25,6 @@ if (Meteor.isClient) {
         console.log(error_message);
       });
 
-    //Serch Engine for Tags
-    var options = {
-      keepHistory: 1000 * 60 * 5,
-      localSearch: true
-    };
-    var fields = ['text', 'url'];
-
-    Session.set('createTag', false);
-    TagSearch = new SearchSource('tags', fields, options);
-    
   });
 
   Accounts.ui.config({

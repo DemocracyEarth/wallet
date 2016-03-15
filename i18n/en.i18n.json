@@ -122,10 +122,11 @@
   "kind-finish-vote-alternative": "ALTERNATIVE",
   "kind-finish-vote-rejected": "REJECTED",
   "url-duplicate": "There's another proposal using a similar title and URL.",
-  "search-tag": "Search tags.",
+  "search-tag": "Search tags...",
   "signatures": "Signatures",
   "remove-tag": "Drop here to remove tag.",
   "min-tags-allowed": "Minimum of tags reached.",
   "no-match-tag": "No matches found. Add new tag?",
-  "no-tags": "This proposal has no tags."
+  "no-tags": "This proposal has no tags.",
+  "search-input": "Search proposals..."
 }

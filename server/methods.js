@@ -132,6 +132,18 @@ SearchSource.defineSource('tags', function(searchText, options) {
   }
 });
 
+SearchSource.defineSource('contracts', function(searchText, options) {
+  var options = {sort: {isoScore: -1}, limit: 20};
+
+  if(searchText) {
+    var regExp = buildRegExp(searchText);
+    var selector = {text: regExp, url: regExp};
+    return Contracts.find(selector, options).fetch();
+  } else {
+    return Contracts.find({}, options).fetch();
+  }
+});
+
 function buildRegExp(searchText) {
   var words = searchText.trim().split(/[ \-\:]+/);
   var exps = _.map(words, function(word) {

@@ -1,0 +1,39 @@
+<template name="search">
+
+  <div class="extra">
+
+    <div class="w-clearfix search-custom {{searchInput}}">
+      <img src="{{pathFor route='home'}}images/search.png" class="search-icon">
+      <div id="searchInput" class="search-input" contenteditable="true">
+        <div>{{_ 'search-input'}}</div>
+      </div>
+    </div>
+
+    <ul id="proposalSuggestions" class="w-list-unstyled w-clearfix selector selector-proposals">
+      {{#each getProposals}}
+          {{> proposal _id=_id}}
+      {{/each}}
+    </ul>
+
+  </div>
+</template>
+
+<template name="proposal">
+  <li class="w-clearfix vote vote-search">
+    <div class="action action-search">
+      <div>+</div>
+    </div>
+    <div class="w-clearfix checkbox checkbox-custom">
+      <div class="option-title option-link option-search">
+        {{../title}}
+      </div>
+      <div class="meta meta-search">
+        {{{proposalURL ../url}}}
+        {{{proposalDate ../timestamp}}}
+        <!--<div class="data"><img src="{{pathFor route='home'}}images/block.png" class="url-icon">
+          <div class="verifier verifier-live">blockchain ID: 1MBM...khTF</div>
+        </div>-->
+      </div>
+    </div>
+  </li>
+</template>
