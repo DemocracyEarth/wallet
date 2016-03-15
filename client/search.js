@@ -9,7 +9,7 @@ if (Meteor.isClient) {
       keepHistory: 1000 * 60 * 5,
       localSearch: true
     };
-    var fields = ['title', 'description'];
+    var fields = ['title', 'url'];
 
     Session.set('createProposal', false);
     ProposalSearch = new SearchSource('contracts', fields, options);
@@ -29,12 +29,14 @@ if (Meteor.isClient) {
       }
     },
     getProposals: function() {
+
       var search = ProposalSearch.getData({
         transform: function(matchText, regExp) {
           return matchText.replace(regExp, "<b>$&</b>")
         },
         sort: {isoScore: -1}
       });
+      console.log(search);
       return search;
     },
     createProposal: function () {

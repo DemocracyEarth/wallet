@@ -137,7 +137,7 @@ SearchSource.defineSource('contracts', function(searchText, options) {
 
   if(searchText) {
     var regExp = buildRegExp(searchText);
-    var selector = {text: regExp, url: regExp};
+    var selector = {title: regExp, url: regExp};
     return Contracts.find(selector, options).fetch();
   } else {
     return Contracts.find({}, options).fetch();
