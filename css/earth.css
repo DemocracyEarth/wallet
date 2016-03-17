@@ -585,9 +585,7 @@ blockquote {
 
 .selector.selector-proposals {
   height: 235px;
-  padding-right: 0px;
-  padding-left: 0px;
-  background-color: #f5f5f5;
+  background-color: #e6e6e6;
 }
 
 .cover {
@@ -804,12 +802,17 @@ blockquote {
 }
 
 .vote.vote-search {
+  display: inline-block;
+  overflow: hidden;
   width: 100%;
-  padding: 10px;
-  border-style: none none solid;
-  border-bottom-width: 1px;
-  border-bottom-color: hsla(0, 0%, 84%, .2);
-  border-radius: 0px;
+  min-height: 60px;
+  padding: 10px 5px 10px 0px;
+  border-width: 5px;
+  border-color: #e6e6e6;
+  border-top-style: none;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: inset 0 0 1px 0 #dfdfdf;
 }
 
 .option {
@@ -919,7 +922,8 @@ blockquote {
 }
 
 .option-title.option-link.option-search {
-  max-width: 90%;
+  display: inline-block;
+  max-width: 100%;
   margin-top: 0px;
   margin-bottom: 0px;
   font-size: 18px;
@@ -932,7 +936,7 @@ blockquote {
 
 .checkbox.checkbox-custom {
   display: inline-block;
-  width: 90%;
+  width: 85%;
   padding: 0px 10px;
   border-radius: 3px;
   box-shadow: none;
@@ -1266,14 +1270,18 @@ blockquote {
 
 .action.action-search {
   position: relative;
+  width: 50px;
+  height: 50px;
   margin-top: 5px;
-  margin-right: 10px;
-  padding-top: 0px;
+  margin-right: -1px;
+  margin-left: 0px;
+  padding-top: 2px;
   border-style: solid;
   border-color: #00bf8f;
-  border-radius: 3px;
+  border-radius: 50px;
   background-color: transparent;
-  font-size: 40px;
+  box-shadow: 1px 1px 9px -5px #000;
+  font-size: 50px;
   line-height: 40px;
   font-weight: 200;
 }
@@ -1489,11 +1497,6 @@ blockquote {
 
 .identity-label.hash-link {
   cursor: pointer;
-}
-
-.option-link {
-  margin-bottom: -5px;
-  border-bottom: 1px none #000;
 }
 
 .option-link:hover {
@@ -2282,10 +2285,9 @@ blockquote {
 
 .meta.meta-search {
   display: block;
-  margin-top: 5px;
   margin-bottom: 0px;
   clear: both;
-  opacity: 0.71;
+  opacity: 0.4;
 }
 
 .state {
@@ -2436,6 +2438,14 @@ blockquote {
   width: 100%;
 }
 
+.option-proposal {
+  display: block;
+}
+
+.option-proposal:hover {
+  border-bottom-style: none;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
@@ -2465,6 +2475,9 @@ blockquote {
     width: 100%;
   }
   .vote.vote-custom {
+    width: 100%;
+  }
+  .vote.vote-search {
     width: 100%;
   }
   .option-title.input {

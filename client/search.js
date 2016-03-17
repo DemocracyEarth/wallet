@@ -29,14 +29,12 @@ if (Meteor.isClient) {
       }
     },
     getProposals: function() {
-
       var search = ProposalSearch.getData({
         transform: function(matchText, regExp) {
           return matchText.replace(regExp, "<b>$&</b>")
         },
         sort: {isoScore: -1}
       });
-      console.log(search);
       return search;
     },
     createProposal: function () {
