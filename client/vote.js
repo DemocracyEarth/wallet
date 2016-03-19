@@ -260,7 +260,7 @@ if (Meteor.isClient) {
             };
           }
         }, SERVER_INTERVAL);
-    },
+    }/*,
     "submit .title-form": function (event) {
       event.preventDefault();
       Meteor.call("updateContractField", getContract()._id, "title", event.target.title.value);
@@ -268,7 +268,7 @@ if (Meteor.isClient) {
     "submit .description-form": function (event) {
       event.preventDefault();
       Meteor.call("updateContractField", getContract()._id, "description", event.target.description.value);
-    }
+    }*/
   });
 
   Template.tag.events({

@@ -124,6 +124,19 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.proposal.events({
+    "click #add-custom-proposal": function (event) {
+    },
+    "click #add-suggested-proposal": function (event) {
+      Meteor.call("addCustomForkToContract", Session.get('contractId'), this._id, function (error) {
+          if (error && error.error == 'duplicate-fork') {
+            Session.set('duplicateFork', true)
+          }
+      });
+      Meteor.setTimeout(function () {document.getElementById('text-fork-proposal').value = '';},100);
+    }
+  });
+
 }
 
 resetProposalSearch = function () {

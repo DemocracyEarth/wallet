@@ -57,11 +57,11 @@ Meteor.methods({
     }
   },
 
-  addCustomForkToContract: function (contractId, contractKeyword) {
-    var dbContract = lookupKeyword(contractKeyword, Contracts);
+  addCustomForkToContract: function (contractId, forkId) {
+    var dbContract = Contracts.findOne({ _id: forkId }); //lookupKeyword(contractKeyword, Contracts);
 
     if (dbContract != undefined) {
-      console.log('adding new option ' + contractKeyword + ' to contract ' + contractId);
+      console.log('adding new option ' + forkId + ' to contract ' + contractId);
       if (checkDuplicate (Contracts.findOne(contractId, { ballot: { _id: dbContract._id } }).ballot, dbContract._id) == false) {
         Contracts.update(contractId, { $push: {
           ballot:
@@ -73,7 +73,7 @@ Meteor.methods({
             }
         }});
       } else {
-        throw new Meteor.Error('duplicate-fork', 'This contract already exissts in the contract');
+        throw new Meteor.Error('duplicate-fork', 'This contract already exists in the contract');
       }
     }
 

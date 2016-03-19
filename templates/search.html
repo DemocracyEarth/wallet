@@ -16,19 +16,22 @@
     </ul>
 
   </div>
+
 </template>
 
 <template name="proposal">
   <li class="w-clearfix vote vote-search">
-    <div class="action action-search">
+    <div id="add-suggested-proposal" class="action action-search">
       <div>+</div>
     </div>
     <div class="w-clearfix checkbox checkbox-custom">
-      <div class="option-title option-link option-search">
-        <a href="#">{{{../title}}}</a>
-      </div>
+      <a href="{{../url}}" class="w-inline-block w-clearfix option-proposal">
+        <div class="option-title option-link option-search">
+          {{{../title}}}
+        </div>
+      </a>
       <div class="meta meta-search">
-        <!--{{{proposalURL ../url}}}-->
+        {{{proposalURL ../url}}}
         {{{proposalDate ../timestamp}}}
         <!--<div class="data"><img src="{{pathFor route='home'}}images/block.png" class="url-icon">
           <div class="verifier verifier-live">blockchain ID: 1MBM...khTF</div>

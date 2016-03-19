@@ -1,7 +1,7 @@
 if (Meteor.isClient) {
 
   Template.ballot.rendered = function () {
-    
+
       //Dragable options
       this.$('#ballot-option').sortable({
           stop: function(e, ui) {
@@ -82,12 +82,12 @@ if (Meteor.isClient) {
         case 'REJECT':
           return 'vote-authorize unauthorized';
         case 'FORK':
-          if (this.authorized) {
+          //if (this.authorized) {
             return 'vote vote-alternative';
-          } else {
-            return 'vote-edit vote-custom unauthorized';
-            Session.set('unauthorizedFork', true);
-          }
+          //} else {
+          //  return 'vote-edit vote-custom unauthorized';
+          //  Session.set('unauthorizedFork', true);
+          //}
       }
     },
 

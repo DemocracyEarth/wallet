@@ -2291,6 +2291,10 @@ blockquote {
   opacity: 0.4;
 }
 
+.meta.meta-search.meta-search-new {
+  opacity: 1;
+}
+
 .state {
   margin-right: 2px;
   margin-left: 2px;
@@ -2365,6 +2369,11 @@ blockquote {
   text-align: center;
 }
 
+.selector-modal.selector-proposals-modal {
+  height: 240px;
+  padding: 10px;
+}
+
 .selector-warning {
   display: inline-block;
   text-transform: uppercase;
@@ -2378,6 +2387,10 @@ blockquote {
 .selector-create {
   padding-left: 10px;
   text-align: left;
+}
+
+.selector-create.selector-create-modal {
+  padding-left: 0px;
 }
 
 .selector-modal-label {
