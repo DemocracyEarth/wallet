@@ -31,7 +31,7 @@
 
 
     <div class="w-clearfix elements">
-      <ul class="w-list-unstyled w-clearfix options">
+      <ul id="ballotOption" class="w-list-unstyled w-clearfix options">
         {{#each options}}
           {{> fork _id=_id label=label authorized=authorized keyword=keyword draftView=../draftView}}
         {{/each}}
