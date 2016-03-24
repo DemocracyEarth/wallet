@@ -9,6 +9,11 @@ if (Meteor.isClient) {
           sort: function (event, ui) {
           },
           start: function (event, ui) {
+            ui.helper.height(ui.helper.height() - 10);
+            ui.helper.width(ui.helper.width() - 10);
+
+            ui.placeholder.width(ui.helper.width());
+            //ui.placeholder.width(ui.item.width());
           },
           receive: function (event, ui) {
           },
@@ -17,7 +22,7 @@ if (Meteor.isClient) {
           forceHelperSize: true,
           helper: 'clone',
           zIndex: 9999,
-          placeholder: 'tag tag-placeholder'
+          placeholder: 'vote vote-placeholder'
       });
 
   };

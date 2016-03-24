@@ -766,12 +766,13 @@ blockquote {
 }
 
 .vote.vote-alternative {
+  background-color: #fff;
   box-shadow: inset 0 0 1px 0 #dfdfdf;
   cursor: -webkit-grab;
 }
 
 .vote.vote-alternative:hover {
-  background-color: hsla(0, 0%, 95%, .5);
+  background-color: #f9f9f9;
 }
 
 .vote.vote-alternative.unauthorized {
@@ -795,6 +796,15 @@ blockquote {
   cursor: default;
 }
 
+.vote.vote-alternative.ui-sortable-helper {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-style: none;
+  border-radius: 3px;
+  background-color: #f9f9f9;
+  box-shadow: inset 0 0 1px 0 #dfdfdf, 0 2px 14px -7px #000;
+}
+
 .vote.vote-custom {
   width: 100%;
   clear: both;
@@ -812,6 +822,15 @@ blockquote {
   border-radius: 8px;
   background-color: #fff;
   box-shadow: inset 0 0 1px 0 #dfdfdf;
+}
+
+.vote.vote-placeholder {
+  width: 50%;
+  height: 70px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background-color: #e6e6e6;
+  box-shadow: inset 0 0 7px -3px #000;
 }
 
 .option {
@@ -935,7 +954,7 @@ blockquote {
 
 .checkbox.checkbox-custom {
   display: inline-block;
-  width: 85%;
+  width: 90%;
   padding-top: 0px;
   padding-right: 10px;
   padding-bottom: 0px;
@@ -1716,6 +1735,20 @@ blockquote {
   border-left-color: #00bf8f;
 }
 
+.rich-text.rich-text-preview {
+  margin-top: 3px;
+  margin-bottom: 3px;
+  margin-left: 0px;
+  padding-left: 0px;
+  font-size: 14px;
+  line-height: 24px;
+  font-style: italic;
+}
+
+.rich-text.rich-text-preview:hover {
+  border-left-style: none;
+}
+
 .tag-bitcoin {
   display: none;
   margin: -4px -5px -5px 10px;
@@ -2357,6 +2390,7 @@ blockquote {
   position: absolute;
   left: 30px;
   right: 30px;
+  display: none;
   height: 110px;
   margin-top: -5px;
   padding-top: 10px;
@@ -2370,6 +2404,7 @@ blockquote {
 }
 
 .selector-modal.selector-proposals-modal {
+  display: none;
   height: 240px;
   padding: 10px;
 }
@@ -2492,6 +2527,10 @@ blockquote {
     width: 100%;
   }
   .vote.vote-search {
+    width: 100%;
+  }
+  .vote.vote-placeholder {
+    display: block;
     width: 100%;
   }
   .option-title.input {
