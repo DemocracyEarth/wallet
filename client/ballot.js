@@ -1,29 +1,53 @@
 if (Meteor.isClient) {
+  var rank = 0;
 
   Template.ballot.rendered = function () {
+      rank = 0;
 
       //Dragable options
       this.$('#ballotOption').sortable({
-          stop: function(e, ui) {
-          },
-          sort: function (event, ui) {
-          },
-          start: function (event, ui) {
-            ui.helper.height(ui.helper.height() - 10);
-            ui.helper.width(ui.helper.width() - 10);
+        stop: function(e, ui) {
+          var newRank = new Number();
+          el = parseFloat(ui.item.get(0).getAttribute('rank'));
+          if (ui.item.prev().get(0) != undefined) {
+            before = parseFloat(ui.item.prev().get(0).getAttribute('rank'));
+          } else {
+            before = undefined;
+          }
+          if (ui.item.next().get(0) != undefined) {
+            after = parseFloat(ui.item.next().get(0).getAttribute('rank'));
+          } else {
+            after = undefined;
+          }
+          if(!before) {
+            console.log('no before');
+            newRank = after - 1
+          } else if(!after) {
+            console.log('no after');
+            newRank = before + 1
+          } else {
+            newRank = (after + before)/2
+          }
+          Meteor.call('updateBallotRank', Session.get('contractId'), ui.item.get(0).getAttribute('value'), newRank);
+        },
+        sort: function (event, ui) {
+        },
+        start: function (event, ui) {
+          ui.helper.height(ui.helper.height() - 10);
+          ui.helper.width(ui.helper.width() - 10);
+          ui.placeholder.width(ui.helper.width());
+          //ui.placeholder.width(ui.item.width());
+        },
+        receive: function (event, ui) {
 
-            ui.placeholder.width(ui.helper.width());
-            //ui.placeholder.width(ui.item.width());
-          },
-          receive: function (event, ui) {
-          },
-          cancel: '.nondraggable',
-          //connectWith: ".connectedSortable",
-          forceHelperSize: true,
-          helper: 'clone',
-          zIndex: 9999,
-          placeholder: 'vote vote-placeholder'
-      });
+
+        },
+        cancel: '.nondraggable',
+        forceHelperSize: true,
+        helper: 'clone',
+        zIndex: 9999,
+        placeholder: 'vote vote-placeholder'
+    });
 
   };
 
@@ -39,7 +63,37 @@ if (Meteor.isClient) {
       }
     },
     options: function () {
-      var ballot = getContract().ballot;
+      var contractBallot = getContract().ballot;
+      var ballot = new Array();
+
+      var keys = [],
+          k, i, len;
+
+      //Sort by Rank on DB
+      for (var i = 0; i < contractBallot.length; i++) {
+        if (contractBallot[i].rank) {
+          keys.push(contractBallot[i].rank);
+        }
+      };
+      keys.sort();
+      for (i = 0; i < keys.length; i++) {
+        for (k = 0; k < contractBallot.length; k++) {
+          if (contractBallot[k].rank == keys[i]) {
+            ballot[i] = contractBallot[k];
+          }
+        }
+      }
+
+
+/*      for (i = 0; i < contractBallot.length; i++) {
+        if (contractBallot[i].rank != undefined && contractBallot[i].rank != null) {
+          ballot[contractBallot[i].rank] = contractBallot[i];
+        } else {
+          contractBallot[i].rank = i;
+          ballot.push(contractBallot[i]);
+        }
+      }*/
+
       var fork;
       Session.set('unauthorizedFork', false);
       for (fork in ballot) {
@@ -83,14 +137,18 @@ if (Meteor.isClient) {
     checkbox: function (mode) {
       switch (mode) {
         case 'AUTHORIZE':
-          return 'vote-authorize';
+          return 'vote-authorize nondraggable';
         case 'REJECT':
-          return 'vote-authorize unauthorized';
+          return 'vote-authorize unauthorized nondraggable';
         case 'FORK':
           return 'vote vote-alternative';
       }
     },
-
+    preferenceRank: function () {
+      if (this.preference == undefined) {
+        return rank++;
+      }
+    },
     action: function () {
         if (this.authorized == false) {
           return 'undefined';

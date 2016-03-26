@@ -63,13 +63,15 @@ Meteor.methods({
     if (dbContract != undefined) {
       console.log('adding new option ' + forkId + ' to contract ' + contractId);
       if (checkDuplicate (Contracts.findOne(contractId, { ballot: { _id: dbContract._id } }).ballot, dbContract._id) == false) {
+        var rankVal = parseInt(Contracts.findOne({ _id: contractId }).ballot.length) + 1;
         Contracts.update(contractId, { $push: {
           ballot:
             {
               _id: dbContract._id,
               mode: 'FORK',
               url: dbContract.url,
-              label: dbContract.title
+              label: dbContract.title,
+              rank: rankVal
             }
         }});
       } else {
@@ -108,6 +110,11 @@ Meteor.methods({
       ballot:
         { _id: forkId}
     }})
+  },
+
+  updateBallotRank: function (contractId, ballotId, newRank) {
+    console.log('new rank of this ballot item: ' + newRank)
+    Contracts.update({ _id: contractId, "ballot._id": ballotId }, { $set: { "ballot.$.rank": newRank } });
   },
 
   updateContractField: function(contractId, field, value) {

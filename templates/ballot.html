@@ -61,7 +61,7 @@
 </template>
 
 <template name="fork">
-  <li class="vote {{checkbox ../mode ../authorized}}">
+  <li class="vote {{checkbox ../mode ../authorized}}" rank="{{../rank}}" value="{{_id}}">
     <div class="w-clearfix checkbox">
       <div id="ballotCheckbox" class="option {{option ../mode}}">
         <div class="tick"><img src="{{pathFor route='home'}}images/white-tick-thin.png" class="tick-image hover">
