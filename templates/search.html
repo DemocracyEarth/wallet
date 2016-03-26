@@ -9,10 +9,18 @@
       </div>
     </div>
 
-    <ul id="proposalSuggestions" class="w-list-unstyled w-clearfix selector selector-proposals">
+    <ul id="proposalSuggestions" class="w-list-unstyled w-clearfix selector selector-proposals connectedBallot">
       {{#each getProposals}}
           {{> proposal _id=_id}}
       {{/each}}
+
+
+      <li class="selector-modal selector-proposals-modal nondraggable" style='{{removeProposal}}'>
+        <div class="selector-warning selector-warning-large"><img src="{{pathFor route='home'}}images/trash.png" class="icon-trash icon-trash-large">
+          <div>{{_ 'remove-option'}}</div>
+        </div>
+      </li>
+
     </ul>
 
   </div>

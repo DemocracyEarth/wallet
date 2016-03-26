@@ -5,7 +5,7 @@ if (Meteor.isClient) {
       rank = 0;
 
       //Dragable options
-      this.$('#ballotOption').sortable({
+      this.$('#ballotOption, #proposalSuggestions').sortable({
         stop: function(e, ui) {
           var newRank = new Number();
           el = parseFloat(ui.item.get(0).getAttribute('rank'));
@@ -29,6 +29,8 @@ if (Meteor.isClient) {
             newRank = (after + before)/2
           }
           Meteor.call('updateBallotRank', Session.get('contractId'), ui.item.get(0).getAttribute('value'), newRank);
+
+          Session.set('removeProposal', false);
         },
         sort: function (event, ui) {
         },
@@ -36,13 +38,26 @@ if (Meteor.isClient) {
           ui.helper.height(ui.helper.height() - 10);
           ui.helper.width(ui.helper.width() - 10);
           ui.placeholder.width(ui.helper.width());
-          //ui.placeholder.width(ui.item.width());
+          ui.placeholder.height(ui.helper.height());
+
+          if (this.id == "ballotOption") {
+            Session.set('removeProposal', true);
+          }
         },
         receive: function (event, ui) {
-
+          console.log('receiving ' + this.id);
+          if (this.id == 'proposalSuggestions') {
+            if (Session.get('removeProposal')) {
+              //removeTag(ui.item.get(0).getAttribute('value'));
+              Meteor.call("removeFork", Session.get('contractId'), ui.item.get(0).getAttribute('value'));
+              ui.item.get(0).remove();
+              Session.set('removeProposal', false);
+            }
+          }
 
         },
         cancel: '.nondraggable',
+        //connectWith: ".connectedBallot",
         forceHelperSize: true,
         helper: 'clone',
         zIndex: 9999,
@@ -83,16 +98,6 @@ if (Meteor.isClient) {
           }
         }
       }
-
-
-/*      for (i = 0; i < contractBallot.length; i++) {
-        if (contractBallot[i].rank != undefined && contractBallot[i].rank != null) {
-          ballot[contractBallot[i].rank] = contractBallot[i];
-        } else {
-          contractBallot[i].rank = i;
-          ballot.push(contractBallot[i]);
-        }
-      }*/
 
       var fork;
       Session.set('unauthorizedFork', false);

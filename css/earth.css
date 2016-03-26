@@ -2390,7 +2390,7 @@ blockquote {
   position: absolute;
   left: 30px;
   right: 30px;
-  display: none;
+  display: block;
   height: 110px;
   margin-top: -5px;
   padding-top: 10px;
@@ -2404,7 +2404,7 @@ blockquote {
 }
 
 .selector-modal.selector-proposals-modal {
-  display: none;
+  display: block;
   height: 240px;
   padding: 10px;
 }
@@ -2414,9 +2414,19 @@ blockquote {
   text-transform: uppercase;
 }
 
+.selector-warning.selector-warning-large {
+  margin-top: 55px;
+  margin-bottom: 55px;
+}
+
 .icon-trash {
   width: 55px;
   height: 55px;
+}
+
+.icon-trash.icon-trash-large {
+  width: 80px;
+  height: 80px;
 }
 
 .selector-create {
