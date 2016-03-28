@@ -7,36 +7,18 @@ if (Meteor.isClient) {
       //Dragable options
       this.$('#ballotOption, #proposalSuggestions').sortable({
         stop: function(e, ui) {
-          var newRank = new Number();
-          el = parseFloat(ui.item.get(0).getAttribute('rank'));
-          if (ui.item.prev().get(0) != undefined) {
-            before = parseFloat(ui.item.prev().get(0).getAttribute('rank'));
-          } else {
-            before = undefined;
-          }
-          if (ui.item.next().get(0) != undefined) {
-            after = parseFloat(ui.item.next().get(0).getAttribute('rank'));
-          } else {
-            after = undefined;
-          }
-          if(!before) {
-            console.log('no before');
-            newRank = after - 1
-          } else if(!after) {
-            console.log('no after');
-            newRank = before + 1
-          } else {
-            newRank = (after + before)/2
-          }
-          Meteor.call('updateBallotRank', Session.get('contractId'), ui.item.get(0).getAttribute('value'), newRank);
-
+          var rankOrder = new Array();
+          $('#ballotOption li').each(function( index ) {
+            rankOrder.push($( this ).attr('value'));
+          });
+          Meteor.call('updateBallotRank', Session.get('contractId'), rankOrder);
           Session.set('removeProposal', false);
         },
         sort: function (event, ui) {
         },
         start: function (event, ui) {
           ui.helper.height(ui.helper.height() - 10);
-          ui.helper.width(ui.helper.width() - 10);
+          ui.helper.width(ui.helper.width());
           ui.placeholder.width(ui.helper.width());
           ui.placeholder.height(ui.helper.height());
 
@@ -78,7 +60,7 @@ if (Meteor.isClient) {
       }
     },
     options: function () {
-      var contractBallot = getContract().ballot;
+      var contractBallot = Contracts.findOne( { _id: Session.get('contractId') }).ballot;
       var ballot = new Array();
 
       var keys = [],
@@ -99,7 +81,7 @@ if (Meteor.isClient) {
         }
       }
 
-      var fork;
+      /*var fork;
       Session.set('unauthorizedFork', false);
       for (fork in ballot) {
         if (getContract(ballot[fork]._id) != undefined) {
@@ -118,7 +100,7 @@ if (Meteor.isClient) {
             ballot[fork].keyword = forkContract.keyword;
           }
         }
-      }
+      }*/
       return ballot;
     },
     disabledCheckboxes: function () {
@@ -149,30 +131,23 @@ if (Meteor.isClient) {
           return 'vote vote-alternative';
       }
     },
-    preferenceRank: function () {
-      if (this.preference == undefined) {
-        return rank++;
-      }
-    },
     action: function () {
         if (this.authorized == false) {
           return 'undefined';
         }
     },
     option: function (mode) {
-      switch(Session.get('stage')) {
-        case 'draft':
-          return 'disabled';
-        default:
-            switch (mode) {
-              case 'AUTHORIZE':
-                return '';
-              case 'REJECT':
-                return 'option-link ';
-              default:
-              return '';
-            }
-
+      if (Session.get('stage') == 'draft') {
+        return 'disabled'
+      } else {
+        switch (mode) {
+          case 'AUTHORIZE':
+            return '';
+          case 'REJECT':
+            return 'option-link ';
+          default:
+            return '';
+        }
       }
     },
     decision: function (mode) {

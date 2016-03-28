@@ -112,9 +112,14 @@ Meteor.methods({
     }})
   },
 
-  updateBallotRank: function (contractId, ballotId, newRank) {
-    console.log('new rank of this ballot item: ' + newRank)
-    Contracts.update({ _id: contractId, "ballot._id": ballotId }, { $set: { "ballot.$.rank": newRank } });
+  updateBallotRank: function (contractId, sortedBallotIDs) {
+    console.log('new rank of this ballot item: ' + sortedBallotIDs)
+
+    for (i=0; i < sortedBallotIDs.length; i++ ) {
+      Contracts.update({ _id: contractId, "ballot._id": sortedBallotIDs[i] }, { $set: { "ballot.$.rank": parseInt(i+1) } });
+    }
+
+    //Contracts.update({ _id: contractId, "ballot._id": ballotId }, { $set: { "ballot.$.rank": newRank } });
   },
 
   updateContractField: function(contractId, field, value) {
