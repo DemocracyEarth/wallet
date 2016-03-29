@@ -14,8 +14,6 @@ if (Meteor.isClient) {
           Meteor.call('updateBallotRank', Session.get('contractId'), rankOrder);
           Session.set('removeProposal', false);
         },
-        sort: function (event, ui) {
-        },
         start: function (event, ui) {
           ui.helper.height(ui.helper.height() - 10);
           ui.helper.width(ui.helper.width());
@@ -39,12 +37,15 @@ if (Meteor.isClient) {
 
         },
         cancel: '.nondraggable',
+        tolerance: 'pointer',
         //connectWith: ".connectedBallot",
+        items: "> li",
         forceHelperSize: true,
         helper: 'clone',
         zIndex: 9999,
         placeholder: 'vote vote-placeholder'
-    });
+
+    }).disableSelection();
 
   };
 
@@ -69,10 +70,12 @@ if (Meteor.isClient) {
       //Sort by Rank on DB
       for (var i = 0; i < contractBallot.length; i++) {
         if (contractBallot[i].rank) {
-          keys.push(contractBallot[i].rank);
+          keys.push(parseInt(contractBallot[i].rank));
         }
       };
-      keys.sort();
+      keys.sort(function sortNumber(a,b) {
+        return a - b;
+      });
       for (i = 0; i < keys.length; i++) {
         for (k = 0; k < contractBallot.length; k++) {
           if (contractBallot[k].rank == keys[i]) {

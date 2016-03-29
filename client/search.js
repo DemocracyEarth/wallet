@@ -9,7 +9,7 @@ if (Meteor.isClient) {
       keepHistory: 1000 * 60 * 5,
       localSearch: true
     };
-    var fields = ['title', 'url'];
+    var fields = ['title', 'description'];
 
     Session.set('createProposal', false);
     ProposalSearch = new SearchSource('contracts', fields, options);
@@ -31,7 +31,12 @@ if (Meteor.isClient) {
     getProposals: function() {
       var search = ProposalSearch.getData({
         transform: function(matchText, regExp) {
-          return matchText.replace(regExp, "<b>$&</b>")
+          var htmlRegex = new RegExp("<([A-Za-z][A-Za-z0-9]*)\\b[^>]*>(.*?)</\\1>");
+          if(!htmlRegex.test(matchText)) {
+            return matchText.replace(regExp, "<b>$&</b>");
+          } else {
+            return matchText;
+          }
         },
         sort: {isoScore: -1}
       });
@@ -89,6 +94,13 @@ if (Meteor.isClient) {
       } else {
         return '';
       }
+    },
+    briefDescription: function (descriptionText) {
+      if (descriptionText == undefined || descriptionText == '') {
+        return ''
+      } else {
+        return "<div class='rich-text rich-text-preview'>" + strip(descriptionText).replace(/(([^\s]+\s\s*){35})(.*)/,"$1…") + "</div>"
+      }
     }
   });
 
@@ -118,7 +130,7 @@ if (Meteor.isClient) {
     },
     "blur #searchInput": function (event) {
       if (Session.get('createProposal') == false) {
-        resetProposalSearch();
+        //resetProposalSearch();
       }
       Session.set('searchInput', false);
     }
@@ -128,6 +140,7 @@ if (Meteor.isClient) {
     "click #add-custom-proposal": function (event) {
     },
     "click #add-suggested-proposal": function (event) {
+      console.log('making the call for: ' + this._id);
       Meteor.call("addCustomForkToContract", Session.get('contractId'), this._id, function (error) {
           if (error && error.error == 'duplicate-fork') {
             Session.set('duplicateFork', true)
@@ -140,7 +153,13 @@ if (Meteor.isClient) {
 }
 
 resetProposalSearch = function () {
-  ProposalSearch.search('');
+  //ProposalSearch.search('');
   document.getElementById("searchInput").innerHTML = TAPi18n.__('search-input');
   Session.set('createProposal', false);
+}
+
+strip = function (html) {
+   var tmp = document.createElement("DIV");
+   tmp.innerHTML = html;
+   return tmp.textContent || tmp.innerText || "";
 }

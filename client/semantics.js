@@ -24,8 +24,6 @@ if (Meteor.isClient) {
         stop: function(e, ui) {
           Session.set('removeTag', false);
         },
-        sort: function (event, ui) {
-        },
         start: function (event, ui) {
           ui.helper.width(ui.helper.width() + 3);
           ui.placeholder.width(ui.item.width());

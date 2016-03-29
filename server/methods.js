@@ -112,14 +112,11 @@ Meteor.methods({
     }})
   },
 
+  //Gets an array with the new order of the items for a ballot.
   updateBallotRank: function (contractId, sortedBallotIDs) {
-    console.log('new rank of this ballot item: ' + sortedBallotIDs)
-
-    for (i=0; i < sortedBallotIDs.length; i++ ) {
+    for (var i=0; i < sortedBallotIDs.length; i++ ) {
       Contracts.update({ _id: contractId, "ballot._id": sortedBallotIDs[i] }, { $set: { "ballot.$.rank": parseInt(i+1) } });
     }
-
-    //Contracts.update({ _id: contractId, "ballot._id": ballotId }, { $set: { "ballot.$.rank": newRank } });
   },
 
   updateContractField: function(contractId, field, value) {

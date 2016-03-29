@@ -29,6 +29,16 @@
       </ul>
     </div>
 
+    <div class="extra">
+      <ul class="w-list-unstyled">
+      {{#if disabledCheckboxes}}
+        <li class="warning">{{_ "disabled-checkboxes"}}</li>
+      {{/if}}
+      {{#if backdating}}
+        <li class="warning">{{_ "backdating"}}</li>
+      {{/if}}
+      </ul>
+    </div>
 
     <div class="w-clearfix elements">
       <ul id="ballotOption" class="w-list-unstyled w-clearfix options connectedBallot">
@@ -38,16 +48,8 @@
       </ul>
     </div>
 
-    {{> search}}
-
     <div class="extra">
       <ul class="w-list-unstyled">
-      {{#if disabledCheckboxes}}
-        <li class="warning">{{_ "disabled-checkboxes"}}</li>
-      {{/if}}
-      {{#if backdating}}
-        <li class="warning">{{_ "backdating"}}</li>
-      {{/if}}
       {{#if duplicateFork}}
         <li class="warning">{{_ "duplicate-fork"}}</li>
       {{/if}}
@@ -57,11 +59,13 @@
       </ul>
     </div>
 
+    {{> search}}
+
   </div>
 </template>
 
 <template name="fork">
-  <li class="vote {{checkbox ../mode ../authorized}}" rank="{{../rank}}" value="{{_id}}">
+  <li id="ballotProposalOption" class="vote {{checkbox ../mode ../authorized}}" rank="{{../rank}}" value="{{_id}}">
     <div class="w-clearfix checkbox">
       <div id="ballotCheckbox" class="option {{option ../mode}}">
         <div class="tick"><img src="{{pathFor route='home'}}images/white-tick-thin.png" class="tick-image hover">

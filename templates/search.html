@@ -14,7 +14,6 @@
           {{> proposal _id=_id}}
       {{/each}}
 
-
       <li class="selector-modal selector-proposals-modal nondraggable" style='{{removeProposal}}'>
         <div class="selector-warning selector-warning-large"><img src="{{pathFor route='home'}}images/trash.png" class="icon-trash icon-trash-large">
           <div>{{_ 'remove-option'}}</div>
@@ -38,6 +37,7 @@
           {{{../title}}}
         </div>
       </a>
+      {{{briefDescription ../description}}}
       <div class="meta meta-search">
         {{{proposalURL ../url}}}
         {{{proposalDate ../timestamp}}}
