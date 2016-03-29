@@ -1,6 +1,7 @@
 if (Meteor.isClient) {
 
   var searchHTMLElement = '#searchInput';
+  var typingTimer; //timer identifier
 
   Meteor.startup(function () {
 
@@ -50,6 +51,30 @@ if (Meteor.isClient) {
     },
     newProposal: function () {
       return Session.get('newProposal');
+    },
+    proposalURL: function () {
+      var host =  window.location.host;
+      var keyword = convertToSlug(Session.get('newProposal'));
+      return host + "/" + Session.get('kind') + "/<strong>" + keyword + "</strong>";
+    },
+    proposalURLStatus: function () {
+      switch (Session.get("proposalURLStatus")) {
+        case "VERIFY":
+          return "<span class='state verifying'>" + TAPi18n.__('url-verify') + "</span>";
+          break;
+        case "UNAVAILABLE":
+          //Session.set('duplicateURL', true);
+          return "<span class='state unavailable'>" + TAPi18n.__('url-unavailable') + "</span>";
+          break;
+        case "AVAILABLE":
+          //Session.set('duplicateURL', false);
+          return "<span class='state available'>" + TAPi18n.__('url-available') + "</span>";
+          break;
+      }
+    },
+    proposalTimestamp: function () {
+      var d = new Date;
+      return d.format('{Month} {d}, {yyyy}');
     },
     emptyList: function () {
       if (Contracts.findOne( { _id: Session.get('contractId') } ).tags.length == 0) {
@@ -120,6 +145,20 @@ if (Meteor.isClient) {
       if (ProposalSearch.getData().length == 0) {
         Session.set('createProposal', true);
         Session.set('newProposal', content);
+        var keyword = convertToSlug(content);
+        var contract = Contracts.findOne( { keyword: keyword } );
+
+        Meteor.clearTimeout(typingTimer);
+        Session.set('proposalURLStatus', 'VERIFY');
+
+        typingTimer = Meteor.setTimeout(function () {
+          if (contract != undefined) {
+              Session.set('proposalURLStatus', 'UNAVAILABLE');
+          } else {
+            Session.set('proposalURLStatus', 'AVAILABLE');
+          }
+        }, SERVER_INTERVAL);
+
       } else {
         Session.set('createProposal', false);
       }
@@ -130,7 +169,7 @@ if (Meteor.isClient) {
     },
     "blur #searchInput": function (event) {
       if (Session.get('createProposal') == false) {
-        //resetProposalSearch();
+        resetProposalSearch();
       }
       Session.set('searchInput', false);
     }

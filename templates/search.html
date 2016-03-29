@@ -20,6 +20,38 @@
         </div>
       </li>
 
+      <li class="selector-modal selector-proposals-modal nondraggable" style='{{createProposal}}'>
+        <div class="selector-create selector-create-modal">
+          <div class="selector-modal-label">{{_ 'no-match-proposal'}}</div>
+          <div class="w-clearfix extra">
+            <div class="vote vote-search">
+              <div class="w-clearfix checkbox checkbox-custom">
+                <div class="option-title option-link option-search">{{{newProposal}}}</div>
+                <div class="meta meta-search meta-search-new">
+                  <div class="data"><img src="{{pathFor route='home'}}images/globe.png" class="url-icon">
+                    <div class="verifier verifier-live">&nbsp;
+                      <a data-new-link="true" href="#">
+                        {{{proposalURL}}}
+                      </a>
+                      {{{proposalURLStatus}}}
+                    </div>
+                  </div>
+                  <div class="data"><img src="{{pathFor route='home'}}images/time.png" class="url-icon">
+                    <div class="verifier verifier-live">{{proposalTimestamp}}</div>
+                  </div>
+                  <!--<div class="data"><img src="{{pathFor route='home'}}images/block.png" class="url-icon">
+                    <div class="verifier verifier-live">&nbsp;blockchain ID: 1MBM...khTF</div>
+                  </div>-->
+                </div>
+              </div>
+              <div class="action action-search">
+                <div>+</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
     </ul>
 
   </div>

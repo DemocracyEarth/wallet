@@ -129,5 +129,6 @@
   "no-match-tag": "No matches found. Add new tag?",
   "no-tags": "This proposal has no tags.",
   "search-input": "Search proposals...",
-  "remove-option": "Drop here to remove this option."
+  "remove-option": "Drop here to remove this option.",
+  "no-match-proposal": "No matching proposals found. Create a new one?"
 }
