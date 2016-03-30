@@ -81,6 +81,11 @@ Meteor.methods({
 
   },
 
+  createNewContract: function (contractTitle) {
+    console.log('creating new contract with keyword: ' + urlKeyword)
+    return createContract(contractTitle)._id;
+  },
+
   addTagToContract: function (contractId, tagId) {
     if (checkDuplicate (Contracts.findOne(contractId, { tags: { _id: tagId } }).tags, tagId) == false) {
       Contracts.update(contractId, { $push: {
@@ -216,6 +221,7 @@ function createContract (keyword) {
     description: '',
     createdAt: new Date(),
     lastUpdate: new Date(),
+    timestamp: new Date(),
     tags: [],
     membersOnly: false,
     executionStatus: 'DRAFT',
@@ -231,9 +237,10 @@ function createContract (keyword) {
     realtimeResults: false,
     multipleChoice: false,
     rankPreferences: false,
+    stage: 'DRAFT',
     ballot: [
-      { _id: 1, mode: 'AUTHORIZE'},
-      { _id: 0, mode: 'REJECT'}
+      { _id: '1', mode: 'AUTHORIZE', rank: 1},
+      { _id: '0', mode: 'REJECT', rank: 2}
     ],
     authorized: false,
     isDefinded: false,

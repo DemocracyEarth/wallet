@@ -1310,6 +1310,15 @@ blockquote {
   background-color: #00bf8f;
 }
 
+.action.action-search.action-search-disabled {
+  border-color: #ccc;
+  color: #ccc;
+}
+
+.action.action-search.action-search-disabled:hover {
+  background-color: #fff;
+}
+
 .hash-link {
   border-bottom: 0px none #000;
 }
@@ -1736,8 +1745,8 @@ blockquote {
 }
 
 .rich-text.rich-text-preview {
-  margin-top: 3px;
-  margin-bottom: 3px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   margin-left: 0px;
   padding-left: 0px;
   font-size: 14px;
@@ -2321,7 +2330,8 @@ blockquote {
   display: block;
   margin-bottom: 0px;
   clear: both;
-  opacity: 0.4;
+  opacity: 1;
+  color: #9c9c9c;
 }
 
 .meta.meta-search.meta-search-new {

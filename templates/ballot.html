@@ -31,9 +31,6 @@
 
     <div class="extra">
       <ul class="w-list-unstyled">
-      {{#if disabledCheckboxes}}
-        <li class="warning">{{_ "disabled-checkboxes"}}</li>
-      {{/if}}
       {{#if backdating}}
         <li class="warning">{{_ "backdating"}}</li>
       {{/if}}
@@ -50,6 +47,9 @@
 
     <div class="extra">
       <ul class="w-list-unstyled">
+      {{#if disabledCheckboxes}}
+        <li class="warning">{{_ "disabled-checkboxes"}}</li>
+      {{/if}}        
       {{#if duplicateFork}}
         <li class="warning">{{_ "duplicate-fork"}}</li>
       {{/if}}

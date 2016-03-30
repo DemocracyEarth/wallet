@@ -52,29 +52,42 @@ if (Meteor.isClient) {
     newProposal: function () {
       return Session.get('newProposal');
     },
-    proposalURL: function () {
+    newProposalURL: function () {
+      var pre = "<div class='data'><img src=" + Router.path('home') + "images/globe.png class='url-icon'><div class='verifier verifier-live'>&nbsp;";
+      var post = "</span></div>";
       var host =  window.location.host;
       var keyword = convertToSlug(Session.get('newProposal'));
-      return host + "/" + Session.get('kind') + "/<strong>" + keyword + "</strong>";
-    },
-    proposalURLStatus: function () {
+      var status = "";
+
       switch (Session.get("proposalURLStatus")) {
         case "VERIFY":
-          return "<span class='state verifying'>" + TAPi18n.__('url-verify') + "</span>";
+          status =  "&nbsp;<span class='state verifying'>" + TAPi18n.__('url-verify');
           break;
         case "UNAVAILABLE":
           //Session.set('duplicateURL', true);
-          return "<span class='state unavailable'>" + TAPi18n.__('url-unavailable') + "</span>";
+          status = "&nbsp;<span class='state unavailable'>" + TAPi18n.__('url-unavailable');
           break;
         case "AVAILABLE":
           //Session.set('duplicateURL', false);
-          return "<span class='state available'>" + TAPi18n.__('url-available') + "</span>";
+          status = "&nbsp;<span class='state available'>" + TAPi18n.__('url-available');
           break;
       }
+      return pre + host + "<strong>" + "/" + Session.get('kind') + "/" + keyword + "</strong></div>" + status + post;
     },
-    proposalTimestamp: function () {
+    newProposalTimestamp: function () {
       var d = new Date;
-      return d.format('{Month} {d}, {yyyy}');
+      var pre = "<div class='data'><img src=" + Router.path('home') + "images/time.png class='url-icon'><div class='verifier verifier-live'>&nbsp;";
+      var post = "</div>";
+      return pre + d.format('{Month} {d}, {yyyy}') + post;
+    },
+    newProposalStatus: function () {
+      switch (Session.get("proposalURLStatus")) {
+        case "VERIFY":
+        case "UNAVAILABLE":
+          return 'action-search-disabled';
+        case "AVAILABLE":
+          return '';
+      }
     },
     emptyList: function () {
       if (Contracts.findOne( { _id: Session.get('contractId') } ).tags.length == 0) {
@@ -175,9 +188,30 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.search.events({
+    "click #addNewProposal": function (event) {
+      console.log('adding new proposal ' + Session.get('proposalURLStatus'));
+      if (Session.get('proposalURLStatus') == 'AVAILABLE') {
+        console.log(convertToSlug(Session.get('newProposal')));
+
+        Meteor.call("createNewContract", Session.get('newProposal'), function (error, data) {
+          if (error && error.error == 'duplicate-fork') {
+            Session.set('duplicateFork', true)
+          } else {
+            Meteor.call("addCustomForkToContract", Session.get('contractId'), data, function (error) {
+                if (error && error.error == 'duplicate-fork') {
+                  Session.set('duplicateFork', true)
+                } else {
+                  resetProposalSearch();
+                }
+            });
+          }
+        });
+      }
+    }
+  });
+
   Template.proposal.events({
-    "click #add-custom-proposal": function (event) {
-    },
     "click #add-suggested-proposal": function (event) {
       console.log('making the call for: ' + this._id);
       Meteor.call("addCustomForkToContract", Session.get('contractId'), this._id, function (error) {
@@ -188,7 +222,6 @@ if (Meteor.isClient) {
       Meteor.setTimeout(function () {document.getElementById('text-fork-proposal').value = '';},100);
     }
   });
-
 }
 
 resetProposalSearch = function () {

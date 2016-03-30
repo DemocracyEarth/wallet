@@ -14,37 +14,31 @@
           {{> proposal _id=_id}}
       {{/each}}
 
+      <!-- Remove Proposal -->
       <li class="selector-modal selector-proposals-modal nondraggable" style='{{removeProposal}}'>
         <div class="selector-warning selector-warning-large"><img src="{{pathFor route='home'}}images/trash.png" class="icon-trash icon-trash-large">
           <div>{{_ 'remove-option'}}</div>
         </div>
       </li>
 
+      <!-- Create Proposal -->
       <li class="selector-modal selector-proposals-modal nondraggable" style='{{createProposal}}'>
         <div class="selector-create selector-create-modal">
           <div class="selector-modal-label">{{_ 'no-match-proposal'}}</div>
           <div class="w-clearfix extra">
             <div class="vote vote-search">
               <div class="w-clearfix checkbox checkbox-custom">
-                <div class="option-title option-link option-search">{{{newProposal}}}</div>
-                <div class="meta meta-search meta-search-new">
-                  <div class="data"><img src="{{pathFor route='home'}}images/globe.png" class="url-icon">
-                    <div class="verifier verifier-live">&nbsp;
-                      <a data-new-link="true" href="#">
-                        {{{proposalURL}}}
-                      </a>
-                      {{{proposalURLStatus}}}
-                    </div>
+                <a href="#" class="w-inline-block w-clearfix option-proposal">
+                  <div class="option-title option-link option-search">
+                    {{{newProposal}}}
                   </div>
-                  <div class="data"><img src="{{pathFor route='home'}}images/time.png" class="url-icon">
-                    <div class="verifier verifier-live">{{proposalTimestamp}}</div>
-                  </div>
-                  <!--<div class="data"><img src="{{pathFor route='home'}}images/block.png" class="url-icon">
-                    <div class="verifier verifier-live">&nbsp;blockchain ID: 1MBM...khTF</div>
-                  </div>-->
+                </a>
+                <div class="meta meta-search">
+                  {{{newProposalURL}}}
+                  {{{newProposalTimestamp}}}
                 </div>
               </div>
-              <div class="action action-search">
+              <div id="addNewProposal" class="action action-search {{newProposalStatus}}">
                 <div>+</div>
               </div>
             </div>
