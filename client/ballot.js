@@ -25,8 +25,16 @@ if (Meteor.isClient) {
           }
         },
         receive: function (event, ui) {
-          console.log('receiving ' + this.id);
-          if (this.id == 'proposalSuggestions') {
+          sortableIn = true;
+        },
+        over: function(e, ui) {
+          sortableIn = true;
+        },
+        out: function(e, ui) {
+          sortableIn = false;
+        },
+        beforeStop: function(e, ui) {
+          if (sortableIn == false) {
             if (Session.get('removeProposal')) {
               //removeTag(ui.item.get(0).getAttribute('value'));
               Meteor.call("removeFork", Session.get('contractId'), ui.item.get(0).getAttribute('value'));
@@ -34,11 +42,11 @@ if (Meteor.isClient) {
               Session.set('removeProposal', false);
             }
           }
-
         },
+        //refreshPositions: true,
+        revert: 100,
         cancel: '.nondraggable',
         tolerance: 'pointer',
-        //connectWith: ".connectedBallot",
         items: "> li",
         forceHelperSize: true,
         helper: 'clone',

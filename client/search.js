@@ -145,9 +145,7 @@ if (Meteor.isClient) {
   Template.search.events({
     "keypress #searchInput": function (event) {
       if (Session.get('createProposal') && event.which == 13) {
-        addCustomTag(document.getElementById("searchInput").innerHTML.replace(/&nbsp;/gi,''));
-        resetProposalSearch();
-        document.getElementById("searchInput").innerHTML = '';
+        addNewProposal();
       }
       return event.which != 13;
     },
@@ -190,24 +188,7 @@ if (Meteor.isClient) {
 
   Template.search.events({
     "click #addNewProposal": function (event) {
-      console.log('adding new proposal ' + Session.get('proposalURLStatus'));
-      if (Session.get('proposalURLStatus') == 'AVAILABLE') {
-        console.log(convertToSlug(Session.get('newProposal')));
-
-        Meteor.call("createNewContract", Session.get('newProposal'), function (error, data) {
-          if (error && error.error == 'duplicate-fork') {
-            Session.set('duplicateFork', true)
-          } else {
-            Meteor.call("addCustomForkToContract", Session.get('contractId'), data, function (error) {
-                if (error && error.error == 'duplicate-fork') {
-                  Session.set('duplicateFork', true)
-                } else {
-                  resetProposalSearch();
-                }
-            });
-          }
-        });
-      }
+      addNewProposal();
     }
   });
 
@@ -224,8 +205,30 @@ if (Meteor.isClient) {
   });
 }
 
+addNewProposal = function () {
+  console.log('adding new proposal ' + Session.get('proposalURLStatus'));
+  if (Session.get('proposalURLStatus') == 'AVAILABLE') {
+    console.log(convertToSlug(Session.get('newProposal')));
+
+    Meteor.call("createNewContract", Session.get('newProposal'), function (error, data) {
+      if (error && error.error == 'duplicate-fork') {
+        Session.set('duplicateFork', true)
+      } else {
+        Meteor.call("addCustomForkToContract", Session.get('contractId'), data, function (error) {
+            if (error && error.error == 'duplicate-fork') {
+              Session.set('duplicateFork', true)
+            } else {
+              ProposalSearch.search('');
+              Session.set('proposalURLStatus', 'UNAVAILABLE');
+              resetProposalSearch();
+            }
+        });
+      }
+    });
+  }
+}
+
 resetProposalSearch = function () {
-  //ProposalSearch.search('');
   document.getElementById("searchInput").innerHTML = TAPi18n.__('search-input');
   Session.set('createProposal', false);
 }
