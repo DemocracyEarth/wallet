@@ -82,7 +82,7 @@ Meteor.methods({
   },
 
   createNewContract: function (contractTitle) {
-    console.log('creating new contract with keyword: ' + urlKeyword)
+    console.log('creating new contract with keyword: ' + contractTitle)
     return createContract(contractTitle)._id;
   },
 
