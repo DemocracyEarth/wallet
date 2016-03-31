@@ -3,31 +3,6 @@ Meteor.methods({
   //CRUD for Contracts
   //TBD: blockchain support goes here.
 
-  updateContract: function(contractId, newContract) {
-    Contracts.update(contractId, { $set: {
-      title: newContract.title,
-      keyword: convertToSlug(newContract.title),
-      kind: 'VOTE',
-      description: newContract.description,
-      timestamp: new Date(),
-      tags: newContract.tags,
-      executionStatus: 'draft',
-      anonymous: false,
-      authors: [
-        { _id: 0 }
-      ],
-      isDefined: true,
-      closingDate: new Date(), //remember to add 24 hs. when making a new contract
-      allowForks: false,
-      secretVotes: false,
-      ballot: [
-        { _id: 0, mode: 'AUTHORIZE' },
-        { _id: 1, mode: 'REJECT'}
-      ]
-      }
-    });
-  },
-
   updateContractTitle: function (contractId, text) {
     Contracts.update(contractId, { $set: { title: text} });
   },

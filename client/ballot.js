@@ -69,7 +69,7 @@ if (Meteor.isClient) {
       }
     },
     options: function () {
-      var contractBallot = Contracts.findOne( { _id: Session.get('contractId') }).ballot;
+      var contractBallot = Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).ballot;
       var ballot = new Array();
 
       var keys = [],
@@ -91,27 +91,6 @@ if (Meteor.isClient) {
           }
         }
       }
-
-      /*var fork;
-      Session.set('unauthorizedFork', false);
-      for (fork in ballot) {
-        if (getContract(ballot[fork]._id) != undefined) {
-          var forkContract = getContract(ballot[fork]._id);
-          authorization = forkContract.authorized;
-          hasDefinition = forkContract.isDefined;
-          if (authorization != undefined) {
-            if (hasDefinition == true) {
-              ballot[fork].authorized = authorization;
-              if (authorization == false) {
-                Session.set('unauthorizedFork', true);
-              }
-            } else {
-              ballot[fork].authorized = true;
-            }
-            ballot[fork].keyword = forkContract.keyword;
-          }
-        }
-      }*/
       return ballot;
     },
     disabledCheckboxes: function () {

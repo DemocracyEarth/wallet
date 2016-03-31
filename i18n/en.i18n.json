@@ -126,9 +126,9 @@
   "signatures": "Signatures",
   "remove-tag": "Drop here to remove tag.",
   "min-tags-allowed": "Minimum of tags reached.",
-  "no-match-tag": "No matches found. Add new tag?",
+  "no-match-tag": "No matches found. <strong>Create a new tag?</strong>",
   "no-tags": "This proposal has no tags.",
   "search-input": "Search proposals...",
   "remove-option": "Drop here to remove this option.",
-  "no-match-proposal": "No matching proposals found. Create a new one?"
+  "no-match-proposal": "No matches found. <strong>Create a new proposal?</strong>"
 }

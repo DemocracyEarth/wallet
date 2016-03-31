@@ -1,7 +1,7 @@
 if (Meteor.isClient) {
 
-  var MAX_TAGS_PER_CONTRACT = 10;
-  var MIN_TAGS_PER_CONTRACT = 3;
+  var MAX_TAGS_PER_CONTRACT = 3;
+  var MIN_TAGS_PER_CONTRACT = 1;
 
   Meteor.startup(function () {
 
@@ -155,7 +155,7 @@ if (Meteor.isClient) {
       var content = document.getElementById("tagSearch").innerHTML.replace(/&nbsp;/gi,'');
       TagSearch.search(content);
 
-      if (TagSearch.getData().length == 0) {
+      if (TagSearch.getData().length == 0 && content != '') {
         Session.set('createTag', true);
         Session.set('newTag', content);
       } else {

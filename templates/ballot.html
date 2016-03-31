@@ -29,7 +29,7 @@
       </ul>
     </div>
 
-    <div class="extra">
+    <div class="semantics extra">
       <ul class="w-list-unstyled">
       {{#if backdating}}
         <li class="warning">{{_ "backdating"}}</li>
@@ -49,7 +49,7 @@
       <ul class="w-list-unstyled">
       {{#if disabledCheckboxes}}
         <li class="warning">{{_ "disabled-checkboxes"}}</li>
-      {{/if}}        
+      {{/if}}
       {{#if duplicateFork}}
         <li class="warning">{{_ "duplicate-fork"}}</li>
       {{/if}}
@@ -72,7 +72,7 @@
         </div>
       </div>
       <div class="w-clearfix checkbox">
-        <a href="{{pathFor route='vote'}}/{{keyword}}" class="option-title {{decision ../mode}}">
+        <a href="{{../url}}" class="option-title {{decision ../mode}}">
           {{caption ../mode ../label}}
         </a>
       </div>

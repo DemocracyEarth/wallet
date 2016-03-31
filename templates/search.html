@@ -5,7 +5,7 @@
     <div class="w-clearfix search-custom {{searchInput}}">
       <img src="{{pathFor route='home'}}images/search.png" class="search-icon">
       <div id="searchInput" class="search-input" contenteditable="true">
-        <div>{{_ 'search-input'}}</div>
+        {{_ 'search-input'}}
       </div>
     </div>
 
@@ -24,7 +24,7 @@
       <!-- Create Proposal -->
       <li class="selector-modal selector-proposals-modal nondraggable" style='{{createProposal}}'>
         <div class="selector-create selector-create-modal">
-          <div class="selector-modal-label">{{_ 'no-match-proposal'}}</div>
+          <div class="selector-modal-label">{{{_ 'no-match-proposal'}}}</div>
           <div class="w-clearfix extra">
             <div class="vote vote-search">
               <div class="w-clearfix checkbox checkbox-custom">

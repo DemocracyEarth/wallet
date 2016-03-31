@@ -25,7 +25,7 @@
       <ul id="tagSuggestions" class="w-list-unstyled w-clearfix selector connectedSortable">
         <li class="selector-modal nondraggable" style='{{createTag}}'>
           <div class="selector-create">
-            <div class="selector-modal-label">{{_ 'no-match-tag'}}</div>
+            <div class="selector-modal-label">{{{_ 'no-match-tag'}}}</div>
             <div class="w-clearfix extra">
               <div class="tag">
                 <div class="w-clearfix tag-label"><img src="{{pathFor route='home'}}images/hashtag.png" class="hash-icon">
@@ -75,7 +75,7 @@
     <div class="tag-label">
       <img src="{{pathFor route='home'}}images/hashtag.png" class="hash-icon">
       {{#if suggestion}}
-        <a href="#" class="w-clearfix w-inline-block hash-link {{authorization hover=true}}">
+        <a href="{{../url}}" class="w-clearfix w-inline-block hash-link {{authorization hover=true}}">
           <div class="hash-tag">{{{../text}}}</div>
         </a>
         <div id="add-suggested-tag" class="action">

@@ -153,7 +153,7 @@ if (Meteor.isClient) {
       var content = document.getElementById("searchInput").innerHTML.replace(/&nbsp;/gi,'');
       ProposalSearch.search(content);
 
-      if (ProposalSearch.getData().length == 0) {
+      if (ProposalSearch.getData().length == 0 && content != '') {
         Session.set('createProposal', true);
         Session.set('newProposal', content);
         var keyword = convertToSlug(content);
@@ -180,7 +180,8 @@ if (Meteor.isClient) {
     },
     "blur #searchInput": function (event) {
       if (Session.get('createProposal') == false) {
-        resetProposalSearch();
+        document.getElementById("searchInput").innerHTML = TAPi18n.__('search-input');
+        Session.set('createProposal', false);
       }
       Session.set('searchInput', false);
     }
@@ -219,18 +220,14 @@ addNewProposal = function () {
               Session.set('duplicateFork', true)
             } else {
               ProposalSearch.search('');
+              document.getElementById("searchInput").innerHTML = '';
               Session.set('proposalURLStatus', 'UNAVAILABLE');
-              resetProposalSearch();
+              Session.set('createProposal', false);
             }
         });
       }
     });
   }
-}
-
-resetProposalSearch = function () {
-  document.getElementById("searchInput").innerHTML = TAPi18n.__('search-input');
-  Session.set('createProposal', false);
 }
 
 strip = function (html) {
