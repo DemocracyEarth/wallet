@@ -43,10 +43,13 @@ if (Meteor.isClient) {
             Session.set('maxReached', false);
             Session.set('duplicateTags', false);
           } else if (this.id == 'tagList') {
-            //if (verifyTag(ui.item.get(0).getAttribute('value'))) {
-              addTag(ui.item.get(0).getAttribute('value'));
-            //}
-            //ui.item.get(0).remove();
+            if(addTag(ui.item.get(0).getAttribute('value')) == true) {
+              var element = ui.item.get(0).childNodes[1].childNodes[6];
+              element.parentNode.removeChild(element);
+              console.log(ui.item.get(0).childNodes[1].childNodes[6]);
+            } else {
+              ui.item.get(0).remove();
+            }
           }
         },
         revert: 100,
@@ -63,28 +66,7 @@ if (Meteor.isClient) {
 
   Template.semantics.helpers({
     semantics: function () {
-      var tagDetails = [];
-      var tagList = getTagList();
-
-      //Verify if it has a definition
-      Session.set('unauthorizedTags', false);
-      for (var i=0; i < tagList.length; i++) {
-        tagDetails.push(Tags.find({ _id: tagList[i]._id}, {reactive:false}).fetch());
-        if (tagDetails[i][0] != undefined) {
-          if (tagDetails[i][0].isDefined == false) {
-            Session.set('unauthorizedTags', true);
-            break;
-          }
-        }
-      };
-      //Verify if reached maximum
-      if (tagList.length >= MAX_TAGS_PER_CONTRACT) {
-        Session.set('maxReached', true);
-      } else {
-        Session.set('maxReached', false);
-      };
-
-      return tagList;
+      return Session.get('dbTagList');
     },
     getTags: function() {
       var search = TagSearch.getData({
@@ -182,20 +164,25 @@ if (Meteor.isClient) {
       }, 100);
     },
     "click #add-suggested-tag": function (event) {
-      addTag(this._id);
+      addTag(this._id, true);
     }
   });
 }
 
-addTag = function (tagId) {
+addTag = function (tagId, doUpdate) {
   if (verifyTag(tagId)) {
-    Meteor.call("addTagToContract", Session.get('contractId'), tagId, function (error) {
+    Meteor.call("addTagToContract", Session.get('contractId'), tagId, function (error, doUpdate) {
         if (error && error.error == 'duplicate-tags') {
           Session.set('duplicateTags', true)
         } else {
-          Session.set('dbTagList', Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).tags );
+          if (doUpdate == true) {
+            Session.set('dbTagList', Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).tags );
+          }
         }
     });
+    return true;
+  } else {
+    return false;
   }
 }
 
@@ -232,7 +219,7 @@ removeTag = function(tagId) {
     if (error && error.error == 'duplicate-tags') {
       Session.set('duplicateTags', true)
     } else {
-      Session.set('dbTagList', Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).tags );
+      //Session.set('dbTagList', Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).tags );
     }
   });
 }
