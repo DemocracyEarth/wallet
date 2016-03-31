@@ -36,14 +36,12 @@ if (Meteor.isClient) {
         beforeStop: function(e, ui) {
           if (sortableIn == false) {
             if (Session.get('removeProposal')) {
-              //removeTag(ui.item.get(0).getAttribute('value'));
               Meteor.call("removeFork", Session.get('contractId'), ui.item.get(0).getAttribute('value'));
               ui.item.get(0).remove();
               Session.set('removeProposal', false);
             }
           }
         },
-        //refreshPositions: true,
         revert: 100,
         cancel: '.nondraggable',
         tolerance: 'pointer',
@@ -69,7 +67,13 @@ if (Meteor.isClient) {
       }
     },
     options: function () {
-      var contractBallot = Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).ballot;
+      var contractBallot;
+      if (Session.get('dbContractBallot') == undefined) {
+        contractBallot = Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).ballot;
+      } else {
+        contractBallot = Session.get('dbContractBallot');
+      }
+
       var ballot = new Array();
 
       var keys = [],

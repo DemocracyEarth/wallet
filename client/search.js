@@ -199,6 +199,8 @@ if (Meteor.isClient) {
       Meteor.call("addCustomForkToContract", Session.get('contractId'), this._id, function (error) {
           if (error && error.error == 'duplicate-fork') {
             Session.set('duplicateFork', true)
+          } else {
+            Session.set('dbContractBallot', Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).ballot );
           }
       });
       Meteor.setTimeout(function () {document.getElementById('text-fork-proposal').value = '';},100);
@@ -219,6 +221,7 @@ addNewProposal = function () {
             if (error && error.error == 'duplicate-fork') {
               Session.set('duplicateFork', true)
             } else {
+              Session.set('dbContractBallot', Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).ballot );
               ProposalSearch.search('');
               document.getElementById("searchInput").innerHTML = '';
               Session.set('proposalURLStatus', 'UNAVAILABLE');
