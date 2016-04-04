@@ -41,17 +41,6 @@ if (Meteor.isClient) {
             Session.set('maxReached', false);
             Session.set('duplicateTags', false);
           } else if (this.id == 'tagList') {
-            /*var rankOrder = new Array();
-            $('#tagList li').each(function( index ) {
-              rankOrder.push($( this ).attr('value'));
-            });
-            for (var i=rankOrder.length; i > 0; i--) {
-              if (i > ui.item.index()) {
-                rankOrder[i] = rankOrder[i-1];
-              }
-            }
-            rankOrder[ui.item.index()] = ui.item.get(0).getAttribute('value');*/
-
             if(addTag(ui.item.get(0).getAttribute('value'), ui.item.index()) == true) {
               var element = ui.item.get(0).childNodes[1].childNodes[6];
               element.parentNode.removeChild(element);
@@ -75,7 +64,7 @@ if (Meteor.isClient) {
 
   Template.semantics.helpers({
     semantics: function () {
-      return sortRanks(Session.get('dbTagList')); //Contracts.findOne( { _id: Session.get('contractId') }).tags );
+      return sortRanks(Session.get('dbTagList'));
     },
     getTags: function() {
       var search = TagSearch.getData({
@@ -96,7 +85,7 @@ if (Meteor.isClient) {
       return Session.get('newTag');
     },
     emptyList: function () {
-      if (Contracts.findOne( { _id: Session.get('contractId') } ).tags.length == 0) {
+      if (Session.get('dbTagList').length == 0) {
         return '';
       } else {
         return 'display:none';
@@ -184,6 +173,9 @@ if (Meteor.isClient) {
 addTag = function (tagId, index) {
   var keys = [];
 
+  //ranks start at 1
+  if (index == 0) { index = 1 };
+
   if (verifyTag(tagId)) {
     var arr = Session.get('dbTagList');
 
@@ -202,6 +194,7 @@ addTag = function (tagId, index) {
       }
     );
 
+    //purge the ranks
     kwyjibo = sortRanks(arr);
 
     //Sort for ranked positions
@@ -246,16 +239,13 @@ getRankKeys = function (rankedObject) {
   for (var i=0; i < rankedObject.length; i++) {
     if (rankedObject[i]._id != undefined) {
       keysOnly[parseInt(rankedObject[i].rank - 1)] = rankedObject[i]._id;
-      //keys[i] = kwyjibo[i]._id;
-      //console.log('Asi va: ' + kwyjibo[i].rank);
     }
   }
-  console.log('keysOnly: ' + keysOnly);
   return keysOnly;
 }
 
 verifyTag = function (newTag) {
-  var tagList = getTagList(); //= Session.get('dbTagList');//Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false} ).tags;
+  var tagList = getTagList();
 
   if (tagList.length >= MAX_TAGS_PER_CONTRACT) {
     //Max reached
@@ -282,15 +272,13 @@ sortRanks = function (rankedObject) {
     if (rankedObject[i].rank) {
       keys.push(rankedObject[i].rank);
     } else if (rankedObject[i] == undefined){
-      console.log('delete this: ' + keys.splice(i,1) + ' index: ' + i);
       keys.splice(i,1);
     }
   };
-  console.log('keys mid sort: ' + keys);
+
   keys.sort(function sortNumber(a,b) {
     return a - b;
   });
-  console.log('keys post sort: ' + keys);
 
   for (i = 0; i < keys.length; i++) {
     for (k=0; k < rankedObject.length; k++) {
@@ -299,11 +287,8 @@ sortRanks = function (rankedObject) {
         sortedRank[i].rank = parseInt(i+1);
       }
     }
-    console.log('full sort for index' + sortedRank[i].rank + ' has ' + sortedRank[i].label);
-
   }
 
-  console.log('full sort:' + sortedRank);
   return sortedRank;
 }
 
@@ -314,15 +299,7 @@ removeTag = function(tagId) {
   for (var i=0; i < arr.length; i++) {
     if (arr[i]._id == tagId) {
       arr.splice(i,1);
-      //break;
     }
-  }
-
-  kwyjibo = sortRanks(arr);
-  keys = getRankKeys(kwyjibo);
-
-  for (var i=0; i < kwyjibo.length; i++ ) {
-    console.log('after deletion i get: ' + kwyjibo[i].rank)
   }
 
   Contracts.update(Session.get('contractId'), { $pull: {
@@ -330,12 +307,17 @@ removeTag = function(tagId) {
       { _id: tagId }
   }});
 
-  Meteor.call('updateTagRank', Session.get('contractId'), keys);
+  if (arr.length > 0) {
+    kwyjibo = sortRanks(arr);
+    keys = getRankKeys(kwyjibo);
+    Meteor.call('updateTagRank', Session.get('contractId'), keys);
 
-  //Memory update in client
-  Session.set('dbTagList', kwyjibo);
+    //Memory update in client
+    Session.set('dbTagList', kwyjibo);
+  } else {
+    Session.set('dbTagList', arr);
+  }
 
-  //Session.set('dbTagList', Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).tags );
 }
 
 getTagList = function () {
