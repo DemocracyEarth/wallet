@@ -17,19 +17,14 @@ Meteor.methods({
 
     if (dbTag != undefined) {
       console.log('adding tag ' + tagKeyword + ' to contract ' + contractId);
-      if (checkDuplicate (Contracts.findOne(contractId, { tags: { _id: dbTag._id } }).tags, dbTag._id) == false ) {
-        Contracts.update(contractId, { $push: {
-          tags:
-            {
-              _id: dbTag._id,
-              label: Tags.findOne({_id: dbTag._id}).text,
-              url: Tags.findOne({ _id: dbTag._id}).url
-            }
-        }});
-      } else {
+      if (checkDuplicate (Contracts.findOne(contractId, { tags: { _id: dbTag._id } }).tags, dbTag._id) == true ) {
         throw new Meteor.Error('duplicate-tags', 'This tag already exists in the contract');
+      } else {
+        return dbTag._id;    
       }
     }
+
+
   },
 
   addCustomForkToContract: function (contractId, forkId) {

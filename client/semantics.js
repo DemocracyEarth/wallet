@@ -224,11 +224,12 @@ addTag = function (tagId, index) {
 }
 
 addCustomTag = function (tagString) {
-  Meteor.call("addCustomTagToContract", Session.get('contractId'), tagString, function (error) {
+  Meteor.call("addCustomTagToContract", Session.get('contractId'), tagString, function (error, data) {
     if (error && error.error == 'duplicate-tags') {
       Session.set('duplicateTags', true)
     } else {
-      Session.set('dbTagList', Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).tags );
+      addTag(data, parseInt(Session.get('dbTagList').length) + 1)
+      console.log('new custom: ' + data);
     }
   });
 }
