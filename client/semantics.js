@@ -32,8 +32,6 @@ if (Meteor.isClient) {
           }
         },
         receive: function (event, ui) {
-          //var tagList = Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false} ).tags;
-
           if (this.id == 'tagSuggestions') {
             if (Session.get('removeTag')) {
               removeTag(ui.item.get(0).getAttribute('value'));
@@ -43,10 +41,21 @@ if (Meteor.isClient) {
             Session.set('maxReached', false);
             Session.set('duplicateTags', false);
           } else if (this.id == 'tagList') {
-            if(addTag(ui.item.get(0).getAttribute('value')) == true) {
+            /*var rankOrder = new Array();
+            $('#tagList li').each(function( index ) {
+              rankOrder.push($( this ).attr('value'));
+            });
+            for (var i=rankOrder.length; i > 0; i--) {
+              if (i > ui.item.index()) {
+                rankOrder[i] = rankOrder[i-1];
+              }
+            }
+            rankOrder[ui.item.index()] = ui.item.get(0).getAttribute('value');*/
+
+            if(addTag(ui.item.get(0).getAttribute('value'), ui.item.index()) == true) {
               var element = ui.item.get(0).childNodes[1].childNodes[6];
               element.parentNode.removeChild(element);
-              console.log(ui.item.get(0).childNodes[1].childNodes[6]);
+              ui.item.get(0).remove();
             } else {
               ui.item.get(0).remove();
             }
@@ -66,7 +75,7 @@ if (Meteor.isClient) {
 
   Template.semantics.helpers({
     semantics: function () {
-      return Session.get('dbTagList');
+      return sortRanks(Session.get('dbTagList')); //Contracts.findOne( { _id: Session.get('contractId') }).tags );
     },
     getTags: function() {
       var search = TagSearch.getData({
@@ -162,24 +171,59 @@ if (Meteor.isClient) {
       Meteor.setTimeout(function () {
         resetTagSearch();
       }, 100);
-    },
+    }
+  });
+
+  Template.tag.events({
     "click #add-suggested-tag": function (event) {
-      addTag(this._id, true);
+      addTag(this._id, parseInt(Session.get('dbTagList').length) + 1);
     }
   });
 }
 
-addTag = function (tagId, doUpdate) {
+addTag = function (tagId, index) {
+  var keys = [];
+
   if (verifyTag(tagId)) {
-    Meteor.call("addTagToContract", Session.get('contractId'), tagId, function (error, doUpdate) {
-        if (error && error.error == 'duplicate-tags') {
-          Session.set('duplicateTags', true)
-        } else {
-          if (doUpdate == true) {
-            Session.set('dbTagList', Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).tags );
-          }
+    var arr = Session.get('dbTagList');
+
+    //Adds new item in proper position
+    for (var i=0; i < arr.length; i++) {
+      if (arr[i].rank >= index) {
+        arr[i].rank ++;
+      }
+    }
+    arr.push(
+      {
+        _id: tagId,
+        label: Tags.findOne({_id: tagId}).text,
+        url: Tags.findOne({ _id: tagId}).url,
+        rank: index
+      }
+    );
+
+    kwyjibo = sortRanks(arr);
+
+    //Sort for ranked positions
+    keys = getRankKeys(kwyjibo);
+
+    //Insert in DB
+    Contracts.update(Session.get('contractId'), { $push: {
+      tags:
+        {
+          _id: tagId,
+          label: Tags.findOne({_id: tagId}).text,
+          url: Tags.findOne({ _id: tagId}).url,
+          rank: index
         }
-    });
+    }});
+
+    //Saves ranked positions in DB
+    Meteor.call('updateTagRank', Session.get('contractId'), keys);
+
+    //Memory update in client
+    Session.set('dbTagList', kwyjibo);
+
     return true;
   } else {
     return false;
@@ -194,6 +238,20 @@ addCustomTag = function (tagString) {
       Session.set('dbTagList', Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).tags );
     }
   });
+}
+
+getRankKeys = function (rankedObject) {
+  var keysOnly = [];
+
+  for (var i=0; i < rankedObject.length; i++) {
+    if (rankedObject[i]._id != undefined) {
+      keysOnly[parseInt(rankedObject[i].rank - 1)] = rankedObject[i]._id;
+      //keys[i] = kwyjibo[i]._id;
+      //console.log('Asi va: ' + kwyjibo[i].rank);
+    }
+  }
+  console.log('keysOnly: ' + keysOnly);
+  return keysOnly;
 }
 
 verifyTag = function (newTag) {
@@ -214,19 +272,75 @@ verifyTag = function (newTag) {
   }
 }
 
-removeTag = function(tagId) {
-  Meteor.call("removeTagFromContract", Session.get('contractId'), tagId, function (error) {
-    if (error && error.error == 'duplicate-tags') {
-      Session.set('duplicateTags', true)
-    } else {
-      //Session.set('dbTagList', Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).tags );
+sortRanks = function (rankedObject) {
+  var sortedRank = []
+  var keys = [],
+      k, i, len;
+
+  //Sort by Rank on DB
+  for (var i = 0; i < rankedObject.length; i++) {
+    if (rankedObject[i].rank) {
+      keys.push(rankedObject[i].rank);
+    } else if (rankedObject[i] == undefined){
+      console.log('delete this: ' + keys.splice(i,1) + ' index: ' + i);
+      keys.splice(i,1);
     }
+  };
+  console.log('keys mid sort: ' + keys);
+  keys.sort(function sortNumber(a,b) {
+    return a - b;
   });
+  console.log('keys post sort: ' + keys);
+
+  for (i = 0; i < keys.length; i++) {
+    for (k=0; k < rankedObject.length; k++) {
+      if (rankedObject[k].rank == keys[i]) {
+        sortedRank.push(rankedObject[k]);
+        sortedRank[i].rank = parseInt(i+1);
+      }
+    }
+    console.log('full sort for index' + sortedRank[i].rank + ' has ' + sortedRank[i].label);
+
+  }
+
+  console.log('full sort:' + sortedRank);
+  return sortedRank;
+}
+
+removeTag = function(tagId) {
+  var keys = [];
+  var arr = Session.get('dbTagList');
+
+  for (var i=0; i < arr.length; i++) {
+    if (arr[i]._id == tagId) {
+      arr.splice(i,1);
+      //break;
+    }
+  }
+
+  kwyjibo = sortRanks(arr);
+  keys = getRankKeys(kwyjibo);
+
+  for (var i=0; i < kwyjibo.length; i++ ) {
+    console.log('after deletion i get: ' + kwyjibo[i].rank)
+  }
+
+  Contracts.update(Session.get('contractId'), { $pull: {
+    tags:
+      { _id: tagId }
+  }});
+
+  Meteor.call('updateTagRank', Session.get('contractId'), keys);
+
+  //Memory update in client
+  Session.set('dbTagList', kwyjibo);
+
+  //Session.set('dbTagList', Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).tags );
 }
 
 getTagList = function () {
   if (Session.get('dbTagList') == undefined) {
-    //return Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).tags;
+    return Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).tags;
   } else {
     return Session.get('dbTagList');
   }

@@ -99,6 +99,12 @@ Meteor.methods({
     }
   },
 
+  updateTagRank: function (contractId, sortedRankIDs) {
+    for (var i=0; i < sortedRankIDs.length; i++ ) {
+      Contracts.update({ _id: contractId, "tags._id": sortedRankIDs[i] }, { $set: { "tags.$.rank": parseInt(i+1) } });
+    }
+  },
+
   updateContractField: function(contractId, field, value) {
     var obj = {};
     obj[field] = value;
