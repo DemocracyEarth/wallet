@@ -145,7 +145,21 @@ if (Meteor.isClient) {
   // Title of Contract
   Template.title.helpers({
     declaration: function() {
-        return  Contracts.findOne( { _id: Session.get('contractId') },{reactive: false} ).title;
+      var title = Contracts.findOne( { _id: Session.get('contractId') },{reactive: false} ).title;
+      if (title == '' || title == undefined) {
+        Session.set('missingTitle', true);
+        return TAPi18n.__('no-title');
+      } else {
+        Session.set('missingTitle', false);
+        return title;
+      }
+    },
+    sampleMode: function() {
+      if (Session.get('missingTitle')) {
+        return 'sample';
+      } else {
+        return '';
+      }
     },
     contractURL: function () {
       var host =  window.location.host;
@@ -161,17 +175,23 @@ if (Meteor.isClient) {
 
       return host + "/" + Session.get('kind') + "/<strong>" + keyword + "</strong>";
     },
+    missingTitle: function () {
+      if (Session.get('missingTitle')) {
+        Session.set('URLStatus', 'UNAVAILABLE');
+      }
+      return Session.get('missingTitle');
+    },
     URLStatus: function () {
       switch (Session.get("URLStatus")) {
         case "VERIFY":
           return "<strong data-new-link='true' class='state verifying'>" + TAPi18n.__('url-verify') + "</strong>";
           break;
         case "UNAVAILABLE":
-          Session.set('duplicateURL', true);
+          //Session.set('duplicateURL', true);
           return "<strong data-new-link='true' class='state unavailable'>" + TAPi18n.__('url-unavailable') + "</strong>";
           break;
         case "AVAILABLE":
-          Session.set('duplicateURL', false);
+          //Session.set('duplicateURL', false);
           return "<strong data-new-link='true' class='state available'>" + TAPi18n.__('url-available') + "</strong>";
           break;
       }
@@ -242,33 +262,50 @@ if (Meteor.isClient) {
   **********************/
 
   Template.contract.events({
-    "input #titleEditable": function (event) {
-        var content = jQuery($("#titleEditable").html()).text();
-        var keyword = convertToSlug(content);
-        var contract = Contracts.findOne( { keyword: keyword } );
+    "input #titleContent": function (event) {
+      var content = document.getElementById("titleContent").innerText;//jQuery($("#titleContent").html()).text();
+      var keyword = convertToSlug(content);
+      var contract = Contracts.findOne( { keyword: keyword } );
 
-        Meteor.clearTimeout(typingTimer);
+      /*console.log('DICE: ' + content);*/
+
+      Meteor.clearTimeout(typingTimer);
+      Session.set('contractKeyword', keyword);
+      Session.set('URLStatus', 'VERIFY');
+      
+      if (content == '') {
         Session.set('contractKeyword', keyword);
-        Session.set('URLStatus', 'VERIFY');
+        Session.set('URLStatus', 'UNAVAILABLE');
+        Session.set('missingTitle', true);
+        return;
+      } else {
+        Session.set('missingTitle', false);
+      }
 
-        typingTimer = Meteor.setTimeout(function () {
-          if (contract != undefined && contract._id != Session.get('contractId')) {
-              Session.set('URLStatus', 'UNAVAILABLE');
-          } else {
-            if (Contracts.update({_id : getContract()._id }, { $set: { title: content, keyword: keyword, url: "/" + Session.get('kind') + "/" + keyword }})) {
-              Session.set('URLStatus', 'AVAILABLE');
-            };
-          }
-        }, SERVER_INTERVAL);
-    }/*,
-    "submit .title-form": function (event) {
-      event.preventDefault();
-      Meteor.call("updateContractField", getContract()._id, "title", event.target.title.value);
+      typingTimer = Meteor.setTimeout(function () {
+        if (contract != undefined && contract._id != Session.get('contractId')) {
+            Session.set('URLStatus', 'UNAVAILABLE');
+        } else {
+          if (Contracts.update({_id : getContract()._id }, { $set: { title: content, keyword: keyword, url: "/" + Session.get('kind') + "/" + keyword }})) {
+            Session.set('URLStatus', 'AVAILABLE');
+          };
+        }
+      }, SERVER_INTERVAL);
     },
-    "submit .description-form": function (event) {
-      event.preventDefault();
-      Meteor.call("updateContractField", getContract()._id, "description", event.target.description.value);
-    }*/
+    "focus #titleContent": function (event) {
+      if (Session.get('missingTitle')) {
+        document.getElementById("titleContent").innerText = '';
+        Session.set('missingTitle',false);
+      }
+
+    },
+    "blur #titleContent": function (event) {
+      var content = document.getElementById("titleContent").innerText;
+      if (content == '' || content == ' ') {
+        Session.set('missingTitle',true);
+        document.getElementById("titleContent").innerText = TAPi18n.__('no-title');
+      }
+    }
   });
 
   Template.tag.events({

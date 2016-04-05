@@ -1178,10 +1178,11 @@ blockquote {
 
 .input.headline-input {
   height: auto;
+  min-height: 65px;
   margin-bottom: 20px;
   padding-top: 0px;
   padding-bottom: 0px;
-  padding-left: 10px;
+  padding-left: 0px;
   font-size: 45px;
   line-height: 60px;
   font-weight: 400;
@@ -1191,7 +1192,6 @@ blockquote {
   display: inline-block;
   margin-bottom: 0px;
   margin-left: -30px;
-  padding-left: 25px;
   border-left: 5px solid #fff;
   font-weight: 300;
   letter-spacing: -1px;
@@ -2388,7 +2388,7 @@ blockquote {
 }
 
 .sample {
-  display: none;
+  display: block;
   color: #cacaca;
 }
 
@@ -2513,6 +2513,26 @@ blockquote {
 
 .option-proposal:hover {
   border-bottom-style: none;
+}
+
+.title-input {
+  display: inline-block;
+  margin-left: -30px;
+  padding-right: 25px;
+  padding-left: 25px;
+  border-left: 5px solid #fff;
+  font-size: 45px;
+  line-height: 60px;
+  font-weight: 300;
+  letter-spacing: -1px;
+}
+
+.title-input:hover {
+  border-left-color: #e6f9f4;
+}
+
+.title-input:focus {
+  border-left-color: #00bf8f;
 }
 
 @media (max-width: 991px) {

@@ -37,40 +37,42 @@
 
 <template name="title">
   <div class="field headline-field">
-    <!--<input id="contract-title" type="text" placeholder="{{_ 'headline'}}" name="title" value="{{declaration}}" required="required" data-name="Title" class="w-input input headline-input input-active">
-    <div class="verifier verifier-live"><strong data-new-link="true">{{_ 'vote-url'}} </strong>{{_ 'at'}} <a href="{{pathFor route='vote'}}">{{pathFor route='vote'}}</a> {{_ 'is'}} <strong data-new-link="true" class="available">{{_ 'available'}}</strong>
-    </div>-->
 
-    <div id="titleEditable" onkeypress="return (this.innerText.length <= {{titleLength}})" class="input headline-input input-active" contenteditable="true">
-      <div>{{declaration}}</div>
+      <div id="titleContent" class="title-input {{sampleMode}}" contenteditable="true" style="display:inline">
+        {{declaration}}
+      </div>
+    
+    <p>
+      <div class="meta">
+        <div class="data"><img src="{{pathFor route='home'}}images/globe.png" class="url-icon">
+          <div class="verifier verifier-live">
+            <a data-new-link="true" href="#">{{{contractURL}}}</a>
+            {{{URLStatus}}}
+          </div>
+        </div>
+        <div class="data"><img src="{{pathFor route='home'}}images/time.png" class="url-icon">
+          <div class="verifier verifier-live">
+            <a href="#">{{timestamp}}</a>
+          </div>
+        </div>
+        <div class="data"><img src="{{pathFor route='home'}}images/block.png" class="url-icon">
+          <div class="verifier verifier-live">
+            <a href="#">blockchain ID: 1MBM...khTF</a>
+          </div>
+        </div>
+      </div>
+    </p>
+    <div class='extra'>
+      <ul class="w-list-unstyled">
+      {{#if missingTitle}}
+        <li class="warning">{{_ "title-required"}}</li>
+      {{/if}}
+      {{#if duplicateURL}}
+        <li class="warning">{{_ "url-duplicate"}}</li>
+      {{/if}}
+      </ul>
     </div>
 
-    <div class="meta">
-      <div class="data"><img src="{{pathFor route='home'}}images/globe.png" class="url-icon">
-        <div class="verifier verifier-live">
-          <a data-new-link="true" href="#">{{{contractURL}}}</a>
-          {{{URLStatus}}}
-        </div>
-      </div>
-      <div class="data"><img src="{{pathFor route='home'}}images/time.png" class="url-icon">
-        <div class="verifier verifier-live">
-          <a href="#">{{timestamp}}</a>
-        </div>
-      </div>
-      <div class="data"><img src="{{pathFor route='home'}}images/block.png" class="url-icon">
-        <div class="verifier verifier-live">
-          <a href="#">blockchain ID: 1MBM...khTF</a>
-        </div>
-      </div>
-    </div>
-
-    {{#if duplicateURL}}
-      <div class='extra'>
-        <ul class="w-list-unstyled">
-            <li class="warning">{{_ "url-duplicate"}}</li>
-        </ul>
-      </div>
-    {{/if}}
 
   </div>
 </template>

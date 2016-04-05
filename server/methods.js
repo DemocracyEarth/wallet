@@ -20,11 +20,9 @@ Meteor.methods({
       if (checkDuplicate (Contracts.findOne(contractId, { tags: { _id: dbTag._id } }).tags, dbTag._id) == true ) {
         throw new Meteor.Error('duplicate-tags', 'This tag already exists in the contract');
       } else {
-        return dbTag._id;    
+        return dbTag._id;
       }
     }
-
-
   },
 
   addCustomForkToContract: function (contractId, forkId) {
