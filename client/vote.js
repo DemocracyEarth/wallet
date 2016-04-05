@@ -181,6 +181,9 @@ if (Meteor.isClient) {
       }
       return Session.get('missingTitle');
     },
+    mistypedTitle: function () {
+      return Session.get('mistypedTitle');
+    },
     URLStatus: function () {
       switch (Session.get("URLStatus")) {
         case "VERIFY":
@@ -264,21 +267,29 @@ if (Meteor.isClient) {
       var keyword = convertToSlug(content);
       var contract = Contracts.findOne( { keyword: keyword } );
 
-      /*console.log('DICE: ' + content);*/
-
+      //Set timer to check upload to db
       Meteor.clearTimeout(typingTimer);
       Session.set('contractKeyword', keyword);
       Session.set('URLStatus', 'VERIFY');
 
+      //Checking content typed
       if (content == '') {
         Session.set('contractKeyword', keyword);
         Session.set('URLStatus', 'UNAVAILABLE');
         Session.set('missingTitle', true);
         return;
+      } else if (keyword.length < 3) {
+        Session.set('contractKeyword', keyword);
+        Session.set('URLStatus', 'UNAVAILABLE');
+        Session.set('mistypedTitle', true);
+        Session.set('missingTitle', false);
+        return;
       } else {
         Session.set('missingTitle', false);
+        Session.set('mistypedTitle', false);
       }
 
+      //Call function when typing seems to be finished.
       typingTimer = Meteor.setTimeout(function () {
         if (contract != undefined && contract._id != Session.get('contractId')) {
             Session.set('URLStatus', 'UNAVAILABLE');

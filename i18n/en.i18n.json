@@ -132,5 +132,6 @@
   "remove-option": "Drop here to remove this option.",
   "no-match-proposal": "No matches found. <strong>Create a new proposal?</strong>",
   "no-title": "Title for proposal...",
-  "title-required": "A title for this proposal is required."
+  "title-required": "A title for this proposal is required.",
+  "title-mistyped": "The title must have at least three letters."
 }

@@ -59,11 +59,14 @@
         </div>
       </div>
     </div>
-  
+
     <div class='extra'>
       <ul class="w-list-unstyled">
       {{#if missingTitle}}
         <li class="warning">{{_ "title-required"}}</li>
+      {{/if}}
+      {{#if mistypedTitle}}
+        <li class="warning">{{_ "title-mistyped"}}</li>
       {{/if}}
       {{#if duplicateURL}}
         <li class="warning">{{_ "url-duplicate"}}</li>
