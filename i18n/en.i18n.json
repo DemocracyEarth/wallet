@@ -131,6 +131,6 @@
   "search-input": "Search proposals...",
   "remove-option": "Drop here to remove this option.",
   "no-match-proposal": "No matches found. <strong>Create a new proposal?</strong>",
-  "no-title": "Title...",
+  "no-title": "Title for proposal...",
   "title-required": "A title for this proposal is required."
 }

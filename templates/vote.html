@@ -40,26 +40,26 @@
     <div id="titleContent" class="title-input {{sampleMode}}" contenteditable="true">
       {{declaration}}
     </div>
-    <p>
-      <div class="meta">
-        <div class="data"><img src="{{pathFor route='home'}}images/globe.png" class="url-icon">
-          <div class="verifier verifier-live">
-            <a data-new-link="true" href="#">{{{contractURL}}}</a>
-            {{{URLStatus}}}
-          </div>
-        </div>
-        <div class="data"><img src="{{pathFor route='home'}}images/time.png" class="url-icon">
-          <div class="verifier verifier-live">
-            <a href="#">{{timestamp}}</a>
-          </div>
-        </div>
-        <div class="data"><img src="{{pathFor route='home'}}images/block.png" class="url-icon">
-          <div class="verifier verifier-live">
-            <a href="#">blockchain ID: 1MBM...khTF</a>
-          </div>
+
+    <div class="meta">
+      <div class="data"><img src="{{pathFor route='home'}}images/globe.png" class="url-icon">
+        <div class="verifier verifier-live">
+          <a data-new-link="true" href="#">{{{contractURL}}}</a>
+          {{{URLStatus}}}
         </div>
       </div>
-    </p>
+      <div class="data"><img src="{{pathFor route='home'}}images/time.png" class="url-icon">
+        <div class="verifier verifier-live">
+          <a href="#">{{timestamp}}</a>
+        </div>
+      </div>
+      <div class="data"><img src="{{pathFor route='home'}}images/block.png" class="url-icon">
+        <div class="verifier verifier-live">
+          <a href="#">blockchain ID: 1MBM...khTF</a>
+        </div>
+      </div>
+    </div>
+  
     <div class='extra'>
       <ul class="w-list-unstyled">
       {{#if missingTitle}}

@@ -2324,6 +2324,7 @@ blockquote {
 .meta {
   display: inline-block;
   margin-bottom: 10px;
+  clear: both;
 }
 
 .meta.meta-search {
@@ -2520,11 +2521,10 @@ blockquote {
   margin-bottom: 5px;
   margin-left: -30px;
   padding-right: 25px;
-  padding-bottom: 5px;
   padding-left: 25px;
   border-left: 5px solid #fff;
   font-size: 45px;
-  line-height: 60px;
+  line-height: 55px;
   font-weight: 300;
   letter-spacing: -1px;
 }
@@ -2759,6 +2759,9 @@ blockquote {
     left: 20px;
     right: 20px;
   }
+  .references {
+    margin-left: 20px;
+  }
   .options {
     margin-right: -5px;
     margin-left: -5px;
@@ -2767,6 +2770,10 @@ blockquote {
   }
   .calendar {
     right: 25px;
+  }
+  .title-input {
+    font-size: 30px;
+    line-height: 40px;
   }
 }
 
@@ -3003,7 +3010,14 @@ blockquote {
     margin-top: 60px;
     margin-bottom: 60px;
   }
+  .references {
+    margin-left: 15px;
+  }
   .calendar {
     right: 20px;
+  }
+  .title-input {
+    font-size: 25px;
+    line-height: 35px;
   }
 }
