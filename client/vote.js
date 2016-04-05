@@ -199,9 +199,6 @@ if (Meteor.isClient) {
     duplicateURL: function () {
       return Session.get('duplicateURL');
     },
-    titleLength: function () {
-      return TITLE_MAX_LENGTH;
-    },
     timestamp: function () {
       var d = new Date;
       d = getContract().timestamp;
@@ -272,7 +269,7 @@ if (Meteor.isClient) {
       Meteor.clearTimeout(typingTimer);
       Session.set('contractKeyword', keyword);
       Session.set('URLStatus', 'VERIFY');
-      
+
       if (content == '') {
         Session.set('contractKeyword', keyword);
         Session.set('URLStatus', 'UNAVAILABLE');
@@ -291,6 +288,10 @@ if (Meteor.isClient) {
           };
         }
       }, SERVER_INTERVAL);
+    },
+    "keypress #titleContent": function (event) {
+      var content = document.getElementById("titleContent").innerText;
+      return (content.length <= TITLE_MAX_LENGTH) && event.which != 13;
     },
     "focus #titleContent": function (event) {
       if (Session.get('missingTitle')) {

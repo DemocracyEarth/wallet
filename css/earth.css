@@ -2516,9 +2516,11 @@ blockquote {
 }
 
 .title-input {
-  display: inline-block;
+  display: block;
+  margin-bottom: 5px;
   margin-left: -30px;
   padding-right: 25px;
+  padding-bottom: 5px;
   padding-left: 25px;
   border-left: 5px solid #fff;
   font-size: 45px;
