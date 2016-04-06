@@ -68,14 +68,15 @@ if (Meteor.isClient) {
           forcePlainText: true,
           cleanPastedHTML: true,
           cleanAttrs: ['style', 'dir'],
-          cleanTags: ['label', 'meta']
+          cleanTags: ['label', 'meta', 'div']
       },
       anchorPreview: {
           hideDelay: 0
       },
-      placeholder: {
-          text: TAPi18n.__('placeholder-editor')
-      }
+      placeholder: false
+      //{
+          //text: TAPi18n.__('placeholder-editor')
+      //}
     });
 
     editor.subscribe('editableInput', function(event, editable) {
@@ -100,11 +101,22 @@ if (Meteor.isClient) {
 
   Template.agreement.helpers({
     descriptionEditor: function() {
-      if (descriptionHTML != '') {
-        var descriptionHTML = Contracts.findOne( { _id: Session.get('contractId') },{reactive: false} ).description;
+      var descriptionHTML = Contracts.findOne( { _id: Session.get('contractId') },{reactive: false} ).description;
+      var stripped = descriptionHTML.replace(/<\/?[^>]+(>|$)/g, "");
+      if (stripped != '') {
         return descriptionHTML;
-      };
+      } else {
+        Session.set('missingDescription', true);
+        return TAPi18n.__('placeholder-editor');
+      }
     },
+    sampleMode: function () {
+      if (Session.get('missingDescription')) {
+        return 'sample';
+      } else {
+        return '';
+      }
+    }
   });
 
   //Mileston status of current contract
@@ -316,6 +328,22 @@ if (Meteor.isClient) {
       if (content == '' || content == ' ') {
         Session.set('missingTitle',true);
         document.getElementById("titleContent").innerText = TAPi18n.__('no-title');
+      }
+    }
+  });
+
+  Template.agreement.events({
+    "focus #editor": function (event) {
+      if (Session.get('missingDescription')) {
+        document.getElementById("editor").innerText = 'a';
+        Session.set('missingDescription',false);
+      }
+    },
+    "blur #editor": function (event) {
+      var content = document.getElementById("editor").innerText;
+      if (content == '' || content == ' ') {
+        Session.set('missingDescription',true);
+        document.getElementById("editor").innerText = TAPi18n.__('placeholder-editor');
       }
     }
   });

@@ -100,8 +100,8 @@
   "identities": "Identities",
   "peers": "Peers",
   "username": "Username",
-  "nation": "🌎 Nation",
-  "city": "🌎 City",
+  "nation": "Nation",
+  "city": "City",
   "become": "Become",
   "peers": "Peers",
   "placeholder-editor": "Write your proposal...",
@@ -131,7 +131,7 @@
   "search-input": "Search proposals...",
   "remove-option": "Drop here to remove this option.",
   "no-match-proposal": "No matches found. <strong>Create a new proposal?</strong>",
-  "no-title": "Title for proposal...",
+  "no-title": "Title...",
   "title-required": "A title for this proposal is required.",
   "title-mistyped": "The title must have at least three letters."
 }
