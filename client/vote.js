@@ -101,10 +101,18 @@ if (Meteor.isClient) {
 
   Template.agreement.helpers({
     descriptionEditor: function() {
-      var descriptionHTML = Contracts.findOne( { _id: Session.get('contractId') },{reactive: false} ).description;
+      var descriptionHTML = Contracts.findOne( { _id: Session.get('contractId') },{ reactive: false } ).description;
       var stripped = descriptionHTML.replace(/<\/?[^>]+(>|$)/g, "");
+
+      //remove if pre tag already present in text
+      descriptionHTML.replace("<pre contenteditable=\"true\">", '');
+      descriptionHTML.replace('</pre>', '');
+      descriptionHTML.replace(/<\/?[^>]+(>|$)/g, "");
+
+      console.log('HTML for description is: ' + descriptionHTML);
+
       if (stripped != '') {
-        return descriptionHTML;
+        return '' + descriptionHTML  + '';
       } else {
         Session.set('missingDescription', true);
         return TAPi18n.__('placeholder-editor');
@@ -335,7 +343,7 @@ if (Meteor.isClient) {
   Template.agreement.events({
     "focus #editor": function (event) {
       if (Session.get('missingDescription')) {
-        document.getElementById("editor").innerText = '';
+        document.getElementById("editor").innerText = '&nbsp;';
         Session.set('missingDescription',false);
       }
     },
