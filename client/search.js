@@ -207,34 +207,3 @@ if (Meteor.isClient) {
     }
   });
 }
-
-addNewProposal = function () {
-  console.log('adding new proposal ' + Session.get('proposalURLStatus'));
-  if (Session.get('proposalURLStatus') == 'AVAILABLE') {
-    console.log(convertToSlug(Session.get('newProposal')));
-
-    Meteor.call("createNewContract", Session.get('newProposal'), function (error, data) {
-      if (error && error.error == 'duplicate-fork') {
-        Session.set('duplicateFork', true)
-      } else {
-        Meteor.call("addCustomForkToContract", Session.get('contractId'), data, function (error) {
-            if (error && error.error == 'duplicate-fork') {
-              Session.set('duplicateFork', true)
-            } else {
-              Session.set('dbContractBallot', Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).ballot );
-              ProposalSearch.search('');
-              document.getElementById("searchInput").innerHTML = '';
-              Session.set('proposalURLStatus', 'UNAVAILABLE');
-              Session.set('createProposal', false);
-            }
-        });
-      }
-    });
-  }
-}
-
-strip = function (html) {
-   var tmp = document.createElement("DIV");
-   tmp.innerHTML = html;
-   return tmp.textContent || tmp.innerText || "";
-}

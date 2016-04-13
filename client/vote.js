@@ -2,13 +2,7 @@ if (Meteor.isClient) {
 
   Meteor.subscribe("tags");
 
-  // Constant Settings
-  $LANGUAGE = "en";
-  TITLE_MAX_LENGTH = 100;
-  SERVER_INTERVAL = 5000;  //time in ms, 5 second for example
-
   var typingTimer; //timer identifier
-
 
   Meteor.startup(function () {
 
