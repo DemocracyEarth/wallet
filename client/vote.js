@@ -62,7 +62,7 @@ if (Meteor.isClient) {
           forcePlainText: true,
           cleanPastedHTML: true,
           cleanAttrs: ['style', 'dir'],
-          cleanTags: ['label', 'meta', 'div']
+          cleanTags: ['label', 'meta', 'div', 'span']
       },
       anchorPreview: {
           hideDelay: 0
@@ -76,7 +76,9 @@ if (Meteor.isClient) {
     editor.subscribe('editableInput', function(event, editable) {
       Meteor.clearTimeout(typingTimer);
       typingTimer = Meteor.setTimeout(function () {
-        saveDescription(editor.serialize().editor.value);
+        console.log('now calls the save function for: ' + document.getElementById('editor').innerHTML);
+        //saveDescription(editor.serialize().editor.value);
+        saveDescription(document.getElementById('editor').innerHTML);
       }, SERVER_INTERVAL);
     });
   };
@@ -87,26 +89,26 @@ if (Meteor.isClient) {
   Helpers
   **********************/
 
-  Template.vote.helpers({
-    draftView: function() {
-      //Session.get('stage', 'draft');
-    }
-  });
-
   Template.agreement.helpers({
     descriptionEditor: function() {
-      var descriptionHTML = Contracts.findOne( { _id: Session.get('contractId') },{ reactive: false } ).description;
+      var contract = Contracts.findOne( { _id: Session.get('contractId') }, { reactive: false } );
+      var descriptionHTML = contract.description;
       var stripped = descriptionHTML.replace(/<\/?[^>]+(>|$)/g, "");
 
+      var preHTML = "<div id='editor' class='cr-note' tabindex=0>";
+      var postHTML = "</div>";
+
+      console.log('CARET POSITION' + getCaretPosition(document.getElementById('editor')));
+
       //remove if pre tag already present in text
-      descriptionHTML.replace("<pre contenteditable=\"true\">", '');
-      descriptionHTML.replace('</pre>', '');
+      descriptionHTML.replace(preHTML, '');
+      descriptionHTML.replace(postHTML, '');
       descriptionHTML.replace(/<\/?[^>]+(>|$)/g, "");
 
-      console.log('HTML for description is: ' + descriptionHTML);
+      console.log('[descriptionEditor Helper] ' + descriptionHTML);
 
       if (stripped != '') {
-        return '' + descriptionHTML  + '';
+        return preHTML + descriptionHTML + postHTML;
       } else {
         Session.set('missingDescription', true);
         return TAPi18n.__('placeholder-editor');
