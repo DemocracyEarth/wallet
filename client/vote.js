@@ -3,6 +3,7 @@ if (Meteor.isClient) {
   Meteor.subscribe("tags");
 
   var typingTimer; //timer identifier
+  var editorCaretPosition;
 
   Meteor.startup(function () {
 
@@ -31,7 +32,7 @@ if (Meteor.isClient) {
 
 
   Template.agreement.rendered = function () {
-    var editor = new MediumEditor('.editable', {
+    var editor = new MediumEditor('#editor', {
       /* These are the default options for the editor,
           if nothing is passed this is what is used */
       activeButtonClass: 'medium-editor-button-active',
@@ -76,11 +77,20 @@ if (Meteor.isClient) {
     editor.subscribe('editableInput', function(event, editable) {
       Meteor.clearTimeout(typingTimer);
       typingTimer = Meteor.setTimeout(function () {
-        console.log('now calls the save function for: ' + document.getElementById('editor').innerHTML);
-        //saveDescription(editor.serialize().editor.value);
         saveDescription(document.getElementById('editor').innerHTML);
       }, SERVER_INTERVAL);
     });
+
+
+    var t = this;
+    this.contentAutorun = Deps.autorun(function () {
+        var content = Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false} );
+        if (content) {
+            t.find(".cr-note").innerHTML = content.description;
+            console.log('AUTORUN');
+        }
+    });
+
   };
 
 
@@ -90,30 +100,6 @@ if (Meteor.isClient) {
   **********************/
 
   Template.agreement.helpers({
-    descriptionEditor: function() {
-      var contract = Contracts.findOne( { _id: Session.get('contractId') }, { reactive: false } );
-      var descriptionHTML = contract.description;
-      var stripped = descriptionHTML.replace(/<\/?[^>]+(>|$)/g, "");
-
-      var preHTML = "<div id='editor' class='cr-note' tabindex=0>";
-      var postHTML = "</div>";
-
-      console.log('CARET POSITION' + getCaretPosition(document.getElementById('editor')));
-
-      //remove if pre tag already present in text
-      descriptionHTML.replace(preHTML, '');
-      descriptionHTML.replace(postHTML, '');
-      descriptionHTML.replace(/<\/?[^>]+(>|$)/g, "");
-
-      console.log('[descriptionEditor Helper] ' + descriptionHTML);
-
-      if (stripped != '') {
-        return preHTML + descriptionHTML + postHTML;
-      } else {
-        Session.set('missingDescription', true);
-        return TAPi18n.__('placeholder-editor');
-      }
-    },
     sampleMode: function () {
       if (Session.get('missingDescription')) {
         return 'sample';

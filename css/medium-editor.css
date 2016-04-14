@@ -122,7 +122,5 @@ q, blockquote {
 }
 
 div.cr-note {
-	padding:	4px;
-	border: solid 1px blue;
 	min-height: 18px;
 }
