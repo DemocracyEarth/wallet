@@ -133,5 +133,6 @@
   "no-match-proposal": "No matches found. <strong>Create a new proposal?</strong>",
   "no-title": "Title...",
   "title-required": "A title for this proposal is required.",
-  "title-mistyped": "The title must have at least three letters."
+  "title-mistyped": "The title must have at least three letters.",
+  "saved-draft-description": "Draft Saved."
 }

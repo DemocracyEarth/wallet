@@ -69,9 +69,6 @@ if (Meteor.isClient) {
           hideDelay: 0
       },
       placeholder: false
-      //{
-          //text: TAPi18n.__('placeholder-editor')
-      //}
     });
 
     editor.subscribe('editableInput', function(event, editable) {
@@ -81,13 +78,12 @@ if (Meteor.isClient) {
       }, SERVER_INTERVAL);
     });
 
-
+    //to avoid duplicate fragments + caret displacement, it manually handles contenteditable update
     var t = this;
     this.contentAutorun = Deps.autorun(function () {
         var content = Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false} );
         if (content) {
             t.find(".cr-note").innerHTML = content.description;
-            console.log('AUTORUN');
         }
     });
 
