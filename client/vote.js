@@ -74,7 +74,11 @@ if (Meteor.isClient) {
     editor.subscribe('editableInput', function(event, editable) {
       Meteor.clearTimeout(typingTimer);
       typingTimer = Meteor.setTimeout(function () {
-        saveDescription(document.getElementById('editor').innerHTML);
+        if (Session.get('missingDescription') == false) {
+          saveDescription(document.getElementById('editor').innerHTML);
+        } else {
+          saveDescription('');
+        }
       }, SERVER_INTERVAL);
     });
 
@@ -83,7 +87,13 @@ if (Meteor.isClient) {
     this.contentAutorun = Deps.autorun(function () {
         var content = Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false} );
         if (content) {
+          if (content.description.length <= 1) {
+            t.find(".cr-note").innerHTML = TAPi18n.__('placeholder-editor');
+            Session.set('missingDescription', true);
+          } else {
             t.find(".cr-note").innerHTML = content.description;
+            Session.set('missingDescription', false);
+          }
         }
     });
 
@@ -321,13 +331,13 @@ if (Meteor.isClient) {
   Template.agreement.events({
     "focus #editor": function (event) {
       if (Session.get('missingDescription')) {
-        document.getElementById("editor").innerText = '&nbsp;';
+        document.getElementById("editor").innerText = '';
         Session.set('missingDescription',false);
       }
     },
     "blur #editor": function (event) {
-      var content = document.getElementById("editor").innerText;
-      if (content == '' || content == ' ') {
+      var content = strip(document.getElementById("editor").innerHTML);
+      if (content.length <= 1) {
         Session.set('missingDescription',true);
         document.getElementById("editor").innerText = TAPi18n.__('placeholder-editor');
       }
