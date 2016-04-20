@@ -2569,12 +2569,12 @@ blockquote {
 
 .shadow-fake {
   position: absolute;
-  left: 35px;
-  right: 35px;
+  left: 33px;
+  right: 33px;
   height: 10px;
   margin-top: -10px;
   background-color: #fff;
-  box-shadow: 0 -1px 4px -3px #000;
+  box-shadow: 0 -3px 3px -2px rgba(0, 0, 0, .15);
 }
 
 @media (max-width: 991px) {
@@ -3072,6 +3072,5 @@ blockquote {
   }
   .shadow-fake {
     left: 20px;
-    right: 20px;
   }
 }
