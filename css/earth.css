@@ -48,8 +48,8 @@ h4 {
 }
 
 h5 {
-  margin-top: 10px;
-  margin-bottom: 15px;
+  margin-top: 20px;
+  margin-bottom: 10px;
   padding-bottom: 5px;
   border-bottom: 1px dotted silver;
   color: silver;
@@ -483,7 +483,7 @@ blockquote {
 
 .semantics {
   display: inline-block;
-  margin-top: -5px;
+  margin-top: 0px;
   margin-bottom: 5px;
   padding-top: 0px;
   border-top: 1px none #ccc;
@@ -1495,7 +1495,7 @@ blockquote {
 
 .identity {
   display: inline-block;
-  margin: 0px 15px 15px 5px;
+  margin: 10px 15px 10px 5px;
   padding-left: 0px;
   float: left;
   border-radius: 5px;

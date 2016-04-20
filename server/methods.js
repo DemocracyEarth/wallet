@@ -202,7 +202,8 @@ function createContract (keyword) {
     anonymous: false, //Anonymous contract
     authors: [ //Collection of authors that signed this contract
       {
-        _id: Meteor.userId(), username: Meteor.user().username }
+        _id: Meteor.userId(), username: Meteor.user().username
+      }
     ],
     closingDate: creationDate, //When the contract decision closes (poll closing)
     alwaysOpen: false, //If contract never closes and is always open
@@ -211,15 +212,12 @@ function createContract (keyword) {
     realtimeResults: false, //If results of the election are shown on real-time
     multipleChoice: false, //If selection of multiple options on ballot is allowed
     rankPreferences: false, //If Ballot dynamic is based on ranking preferences
-    finalDecision: true, //If contract includes optins of final decisoin (AUTHORIZE + REJECT)
+    executiveDecision: true, //If contract includes options of final decisoin (AUTHORIZE & REJECT)
     stage: 'DRAFT', //Current stage of this contract: DRAFT, LIVE, FINISH
-    ballot: [ //Ballot options of the contract
-      { _id: '1', mode: 'AUTHORIZE', rank: 1},
-      { _id: '0', mode: 'REJECT', rank: 2}
-    ],
+    ballot: [], //Ballot options of the contract
     authorized: false, //This contract has been authorized
     isDefined: false, //This contract has a definition/description
-    isRoot: true, //This contract is core to the organization (Constitutional?)
+    isRoot: true, //This contract is core to the organization (Constitutional)
     referrers: [] //Other contracts referring to this one
   });
   return Contracts.findOne({keyword: slug});

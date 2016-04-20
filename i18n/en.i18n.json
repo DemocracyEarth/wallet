@@ -32,7 +32,7 @@
   "December": "December",
   "authorize": "Support.",
   "reject": "Reject.",
-  "AUTHORIZE": "Authorize.",
+  "AUTHORIZE": "Support.",
   "REJECT": "Reject.",
   "new_fork": "Another Proposal",
   "tags_lack_authorization": "Tags in red have no members yet.",
@@ -44,6 +44,7 @@
   "allow-voters-suggest": "Allow voters add proposals.",
   "secret-voting-with-encryption": "Keep votes secret with encryption.",
   "enable-multiple-choice": "Enable multiple choice",
+  "executive-decision": "Include executive options",
   "propose-fork": "Propose Alternative",
   "disabled-checkboxes": "Check boxes are disabled while drafting.",
   "backdating": "Backdating the poll closing is not allowed.",
@@ -135,5 +136,7 @@
   "title-required": "A title for this proposal is required.",
   "title-mistyped": "The title must have at least three letters.",
   "saved-draft-description": "Saved draft.",
-  "draft-proposal": "Proposal Draft"
+  "draft-proposal": "Proposal Draft",
+  "executive-options": "Executive Options",
+  "alternative-options": "Alternative Proposals"
 }

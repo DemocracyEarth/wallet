@@ -66,6 +66,13 @@ if (Meteor.isClient) {
         return 'toggle-activated';
       }
     },
+    executiveDecision: function () {
+      if (getContract().executiveDecision == true) {
+        return 'toggle-activated';
+      } else {
+        return '';
+      }
+    },
     options: function () {
       var contractBallot;
       if (Session.get('dbContractBallot') == undefined) {
@@ -168,14 +175,17 @@ if (Meteor.isClient) {
 
   Template.ballot.events({
     "click #toggle-allowForks": function () {
-      Meteor.call("updateContractField", getContract()._id, "allowForks", !getContract().allowForks);
+      Meteor.call("updateContractField", Session.get('contractId'), "allowForks", !getContract().allowForks);
     },
     "click #toggle-multipleChoice": function () {
-      Meteor.call("updateContractField", getContract()._id, "multipleChoice", !getContract().multipleChoice);
+      Meteor.call("updateContractField", Session.get('contractId'), "multipleChoice", !getContract().multipleChoice);
+    },
+    "click #toggle-executiveDecision": function () {
+      Meteor.call("updateContractField", Session.get('contractId'), "executiveDecision", !getContract().executiveDecision);
     },
     "submit #fork-form, click #add-fork-proposal": function (event) {
       event.preventDefault();
-      Meteor.call('addCustomForkToContract', getContract()._id, document.getElementById('text-fork-proposal').value, function(error) {
+      Meteor.call('addCustomForkToContract', Session.get('contractId'), document.getElementById('text-fork-proposal').value, function(error) {
         if (error && error.error == 'duplicate-fork') {
           Session.set('duplicateFork', true)
         }

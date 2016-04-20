@@ -31,6 +31,14 @@
             </div>
           </div>
         </li>
+        <li class="w-clearfix setting">
+          <div class="text setting-label">{{_ "executive-decision"}}</div>
+          <div class="w-clearfix value">
+            <div id="toggle-executiveDecision" class="w-clearfix toggle {{executiveDecision}}">
+              <div class="toggle-button {{executiveDecision}}"></div>
+            </div>
+          </div>
+        </li>
       </ul>
     </div>
 
@@ -43,12 +51,27 @@
       </ul>
     </div>
 
-    <div class="w-clearfix elements">
-      <ul id="ballotOption" class="w-list-unstyled w-clearfix options connectedBallot">
-        {{#each options}}
-          {{> fork _id=_id label=label authorized=authorized keyword=keyword}}
-        {{/each}}
-      </ul>
+    {{#if executiveDecision}}
+      <div class="section">
+        <h5>{{_ "executive-options"}}</h5>
+        <div class="w-clearfix elements">
+          <ul class="w-list-unstyled w-clearfix options">
+            {{> fork executive=true mode="AUTHORIZE"}}
+            {{> fork executive=true mode="REJECT"}}
+          </ul>
+        </div>
+      </div>
+    {{/if}}
+
+    <div class="section">
+      <h5>{{_ "alternative-options"}}</h5>
+      <div class="w-clearfix elements">
+        <ul id="ballotOption" class="w-list-unstyled w-clearfix options connectedBallot">
+          {{#each options}}
+            {{> fork _id=_id label=label alternative=true}}
+          {{/each}}
+        </ul>
+      </div>
     </div>
 
     <div class="extra">
@@ -71,17 +94,33 @@
 </template>
 
 <template name="fork">
-  <li id="ballotProposalOption" class="vote {{checkbox ../mode ../authorized}}" rank="{{../rank}}" value="{{_id}}">
-    <div class="w-clearfix checkbox">
-      <div id="ballotCheckbox" class="option {{option ../mode}}">
-        <div class="tick"><img src="{{pathFor route='home'}}images/white-tick-thin.png" class="tick-image hover">
+  {{#if executive}}
+    <li id="ballotProposalOption" class="vote {{checkbox mode}}">
+      <div class="w-clearfix checkbox">
+        <div id="ballotCheckbox" class="option {{option mode}}">
+          <div class="tick"><img src="{{pathFor route='home'}}images/white-tick-thin.png" class="tick-image hover">
+          </div>
+        </div>
+        <div class="w-clearfix checkbox">
+          <div class="option-title {{decision mode}}">
+            {{_ mode}}
+          </div>
         </div>
       </div>
+    </li>
+  {{else}}
+    <li id="ballotProposalOption" class="vote {{checkbox ../mode}}" rank="{{../rank}}" value="{{_id}}">
       <div class="w-clearfix checkbox">
-        <a href="{{../url}}" class="option-title {{decision ../mode}}">
-          {{caption ../mode ../label}}
-        </a>
+        <div id="ballotCheckbox" class="option {{option ../mode}}">
+          <div class="tick"><img src="{{pathFor route='home'}}images/white-tick-thin.png" class="tick-image hover">
+          </div>
+        </div>
+        <div class="w-clearfix checkbox">
+          <a href="{{../url}}" class="option-title {{decision ../mode}}">
+            {{caption ../mode ../label}}
+          </a>
+        </div>
       </div>
-    </div>
-  </li>
+    </li>
+  {{/if}}
 </template>
