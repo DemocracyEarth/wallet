@@ -2,7 +2,8 @@
 
   <div class="section">
 
-    <div class="w-clearfix paper-header"><img src="{{pathFor route='home'}}images/ballotbox.png" class="search-icon icon-transparency">
+    <div class="w-clearfix paper-header">
+      <img src="{{pathFor route='home'}}images/ballotbox.png" class="search-icon icon-transparency">
       <div>{{_ "draft-ballot"}}</div>
     </div>
 
@@ -45,7 +46,7 @@
     <div class="w-clearfix elements">
       <ul id="ballotOption" class="w-list-unstyled w-clearfix options connectedBallot">
         {{#each options}}
-          {{> fork _id=_id label=label authorized=authorized keyword=keyword draftView=../draftView}}
+          {{> fork _id=_id label=label authorized=authorized keyword=keyword}}
         {{/each}}
       </ul>
     </div>

@@ -132,7 +132,7 @@ if (Meteor.isClient) {
     },
     option: function (mode) {
       if (Session.get('stage') == 'draft') {
-        return 'disabled'
+        return 'disabled';
       } else {
         switch (mode) {
           case 'AUTHORIZE':
@@ -159,8 +159,10 @@ if (Meteor.isClient) {
         return this.label;
       }
     },
-    tick: function (draftView) {
-      if (draftView) { return 'disabled' };
+    tick: function () {
+      if (Session.get('stage') == 'draft') {
+        return 'disabled'
+      }
     }
   });
 
