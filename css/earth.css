@@ -475,9 +475,9 @@ blockquote {
 
 .symbol.profile-pic.profile-sign {
   width: auto;
-  padding-right: 15px;
+  padding-right: 20px;
   border-style: none;
-  text-decoration: underline;
+  text-decoration: none;
   cursor: default;
 }
 
@@ -2575,6 +2575,16 @@ blockquote {
   margin-top: -10px;
   background-color: #fff;
   box-shadow: 0 -3px 3px -2px rgba(0, 0, 0, .15);
+}
+
+.section-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+  margin-bottom: -5px;
+  margin-left: -10px;
+  float: left;
+  opacity: 0.65;
 }
 
 @media (max-width: 991px) {
