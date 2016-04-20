@@ -1,0 +1,42 @@
+<template name="title">
+  <div class="field headline-field">
+    <div id="titleContent" class="title-input {{sampleMode}}" contenteditable="true">
+      {{declaration}}
+    </div>
+
+    <div class="meta">
+      <div class="data"><img src="{{pathFor route='home'}}images/globe.png" class="url-icon">
+        <div class="verifier verifier-live">
+          <a data-new-link="true" href="#">{{{contractURL}}}</a>
+          {{{URLStatus}}}
+        </div>
+      </div>
+      <div class="data"><img src="{{pathFor route='home'}}images/time.png" class="url-icon">
+        <div class="verifier verifier-live">
+          <a href="#">{{timestamp}}</a>
+        </div>
+      </div>
+      <div class="data"><img src="{{pathFor route='home'}}images/block.png" class="url-icon">
+        <div class="verifier verifier-live">
+          <a href="#">blockchain ID: 1MBM...khTF</a>
+        </div>
+      </div>
+    </div>
+
+    <div class='extra'>
+      <ul class="w-list-unstyled">
+      {{#if missingTitle}}
+        <li class="warning">{{_ "title-required"}}</li>
+      {{/if}}
+      {{#if mistypedTitle}}
+        <li class="warning">{{_ "title-mistyped"}}</li>
+      {{/if}}
+      {{#if duplicateURL}}
+        <li class="warning">{{_ "url-duplicate"}}</li>
+      {{/if}}
+      </ul>
+    </div>
+
+
+  </div>
+</template>

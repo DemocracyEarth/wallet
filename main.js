@@ -8,8 +8,8 @@ _____                                                   ______           _   _
 |_____/ \___|_| |_| |_|\___/ \___|_|  \__,_|\___|\__, (_)______\__,_|_|   \__|_| |_/
                                                   __/ |
                                                  |___/
-version: 0.01
-codename: san francisco
+version: 0.02
+codename: quixote
 
 "You never change things by fighting the existing reality. To change something
 build a new model that makes the existing model obsolete."
@@ -17,4 +17,4 @@ build a new model that makes the existing model obsolete."
 
 */
 
-console.log('loading democracy.earth version: 0.01 codename: san francisco');
+console.log('loading democracy.earth version: 0.02 codename: quixote');
