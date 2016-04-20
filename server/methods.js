@@ -187,39 +187,40 @@ function createContract (keyword) {
   console.log('creating contract by user: ' + Meteor.userId());
 
   Contracts.insert({
-    title: keyword,
-    keyword: slug,
-    kind: 'VOTE', //TBD kind types
-    context: 'GLOBAL',
-    url: '/vote/' + slug,
-    description: '',
-    createdAt: new Date(),
-    lastUpdate: new Date(),
-    timestamp: new Date(),
-    tags: [],
-    membersOnly: false,
-    executionStatus: 'DRAFT',
-    anonymous: false,
-    authors: [
+    title: keyword, //Title of the contract
+    keyword: slug, //Unique identifier in DB as keyword-based-slug
+    kind: 'VOTE', //Kind of contract: VOTE, TAG, IDENTITY
+    context: 'GLOBAL', //Context this contract lives on the system
+    url: '/vote/' + slug, //URL inside the instance of .Earth
+    description: '', //HTML Description of the contract (the contents of the contract itself)
+    createdAt: new Date(), //Creation Date
+    lastUpdate: new Date(), //Last update
+    timestamp: new Date(), //Timestamp (visible last update)
+    tags: [], //Collection of Tags semantically describing contract
+    membersOnly: false, //Visible to members of the organization
+    executionStatus: 'DRAFT', //Execution status: DRAFT, APPROVED, ALTERNATIVE, REJECTED
+    anonymous: false, //Anonymous contract
+    authors: [ //Collection of authors that signed this contract
       {
         _id: Meteor.userId(), username: Meteor.user().username }
     ],
-    closingDate: creationDate, //must be changed if loaded if not defined.
-    alwaysOpen: false,
-    allowForks: true,
-    secretVotes: false,
-    realtimeResults: false,
-    multipleChoice: false,
-    rankPreferences: false,
-    stage: 'DRAFT',
-    ballot: [
+    closingDate: creationDate, //When the contract decision closes (poll closing)
+    alwaysOpen: false, //If contract never closes and is always open
+    allowForks: true, //If adding as an option other contracts is possible
+    secretVotes: false, //If votes will be strictly kept secret
+    realtimeResults: false, //If results of the election are shown on real-time
+    multipleChoice: false, //If selection of multiple options on ballot is allowed
+    rankPreferences: false, //If Ballot dynamic is based on ranking preferences
+    finalDecision: true, //If contract includes optins of final decisoin (AUTHORIZE + REJECT)
+    stage: 'DRAFT', //Current stage of this contract: DRAFT, LIVE, FINISH
+    ballot: [ //Ballot options of the contract
       { _id: '1', mode: 'AUTHORIZE', rank: 1},
       { _id: '0', mode: 'REJECT', rank: 2}
     ],
-    authorized: false,
-    isDefinded: false,
-    isRoot: true,
-    referrers: []
+    authorized: false, //This contract has been authorized
+    isDefined: false, //This contract has a definition/description
+    isRoot: true, //This contract is core to the organization (Constitutional?)
+    referrers: [] //Other contracts referring to this one
   });
   return Contracts.findOne({keyword: slug});
 }
