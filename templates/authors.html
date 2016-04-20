@@ -1,13 +1,20 @@
 <template name="authors">
-  <div>
+
+  <div class="signature">
+
     <h5>{{_ "signatures"}}</h5>
+
     <ul class="w-list-unstyled w-clearfix extra">
       <li class="w-clearfix identity identity-sign">
         <a href="#" class="w-inline-block symbol profile-pic profile-sign">
           <img src="{{pathFor route='home'}}images/fingerprint.png" class="profile-thumb">
-          <div class="identity-label">{{_ "sign-author"}}</div>
+          <div class="identity-label">
+            {{_ "sign-author"}}
+          </div>
         </a>
       </li>
     </ul>
+
   </div>
+
 </template>

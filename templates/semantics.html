@@ -2,18 +2,19 @@
 
   <!-- Tag Cloud -->
   <div class="section">
+
     <h5>{{_ "topics"}}</h5>
+
     <div class="extra">
-      <form id="tag-form" name="tag-form" data-name="Tag Form">
-        <ul id="tagList" class="w-list-unstyled w-clearfix semantics connectedSortable">
-          <li class="w-clearfix tag tag-empty nondraggable" style="{{emptyList}}">
-            <div class="hash-tag hash-tag-empty">{{_ 'no-tags'}}</div>
-          </li>
-          {{#each semantics}}
-            {{> tag _id=_id}}
-          {{/each}}
-        </ul>
-      </form>
+
+      <ul id="tagList" class="w-list-unstyled w-clearfix semantics connectedSortable">
+        <li class="w-clearfix tag tag-empty nondraggable" style="{{emptyList}}">
+          <div class="hash-tag hash-tag-empty">{{_ 'no-tags'}}</div>
+        </li>
+        {{#each semantics}}
+          {{> tag _id=_id}}
+        {{/each}}
+      </ul>
 
       <!-- Tag Picker -->
       <div class="w-clearfix search-custom {{searchBox}}">

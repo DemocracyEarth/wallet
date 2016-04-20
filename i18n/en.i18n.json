@@ -13,9 +13,9 @@
   "please_wait": "Please wait...",
   "or": "or",
   "cancel_edit": "cancel changes",
-  "save_for": "Start",
-  "review": "Vote.",
-  "vote": "Ballot",
+  "execute-launch": "Launch",
+  "execute-election": "Election.",
+  "draft-ballot": "Ballot Design",
   "this_poll_will_close": "This poll will close on",
   "at": "at",
   "January": "January",
@@ -106,7 +106,7 @@
   "peers": "Peers",
   "placeholder-editor": "Write your proposal...",
   "type-link": "Type a link",
-  "sign-author": "Sign this proposal.",
+  "sign-author": "Sign as author.",
   "anonymous": "Anonymous",
   "proposal": "Proposal",
   "topics": "Tags",
@@ -134,5 +134,6 @@
   "no-title": "Title...",
   "title-required": "A title for this proposal is required.",
   "title-mistyped": "The title must have at least three letters.",
-  "saved-draft-description": "Saved draft."
+  "saved-draft-description": "Saved draft.",
+  "draft-proposal": "Proposal Draft"
 }

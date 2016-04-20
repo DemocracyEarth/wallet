@@ -1,6 +1,10 @@
 <template name="ballot">
+
   <div class="section">
-    <h2>{{_ "vote"}}</h2>
+
+    <div class="w-clearfix paper-header"><img src="{{pathFor route='home'}}images/ballotbox.png" class="search-icon icon-transparency">
+      <div>{{_ "draft-ballot"}}</div>
+    </div>
 
     <div class="description">
       <ul class="w-list-unstyled settings">
@@ -29,8 +33,9 @@
       </ul>
     </div>
 
-    <div class="semantics extra">
-      <ul class="w-list-unstyled">
+
+    <div class="extra">
+      <ul class="w-list-unstyled" style="margin-top:10px">
       {{#if backdating}}
         <li class="warning">{{_ "backdating"}}</li>
       {{/if}}
