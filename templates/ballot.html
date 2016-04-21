@@ -64,7 +64,15 @@
     {{/if}}
 
     <div class="section">
-      <h5>{{_ "alternative-options"}}</h5>
+
+      {{#if ballotReady}}
+        {{#if executiveDecision}}
+          <h5>{{_ "alternative-options"}}</h5>
+        {{else}}
+          <h5>{{_ "only-ballot-options"}}</h5>
+        {{/if}}
+      {{/if}}
+
       <div class="w-clearfix elements">
         <ul id="ballotOption" class="w-list-unstyled w-clearfix options connectedBallot">
           {{#each options}}
@@ -72,21 +80,26 @@
           {{/each}}
         </ul>
       </div>
+
+      <div class="extra">
+        <ul class="w-list-unstyled">
+        {{#if disabledCheckboxes}}
+          <li class="warning">{{_ "disabled-checkboxes"}}</li>
+        {{/if}}
+        {{#if duplicateFork}}
+          <li class="warning">{{_ "duplicate-fork"}}</li>
+        {{/if}}
+        {{#if unauthorizedFork}}
+          <li class="warning">{{_ "unauthorized-fork"}}</li>
+        {{/if}}
+        {{#if emptyBallot}}
+          <li class="warning">{{_ "empty-ballot"}}</li>
+        {{/if}}
+        </ul>
+      </div>
+
     </div>
 
-    <div class="extra">
-      <ul class="w-list-unstyled">
-      {{#if disabledCheckboxes}}
-        <li class="warning">{{_ "disabled-checkboxes"}}</li>
-      {{/if}}
-      {{#if duplicateFork}}
-        <li class="warning">{{_ "duplicate-fork"}}</li>
-      {{/if}}
-      {{#if unauthorizedFork}}
-        <li class="warning">{{_ "unauthorized-fork"}}</li>
-      {{/if}}
-      </ul>
-    </div>
 
     {{> search}}
 

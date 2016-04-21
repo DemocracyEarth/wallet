@@ -13,6 +13,13 @@ if (Meteor.isClient) {
           });
           Meteor.call('updateBallotRank', Session.get('contractId'), rankOrder);
           Session.set('removeProposal', false);
+          console.log('borrando y... ' + rankOrder.length);
+          if (rankOrder.length == 0) {
+            Session.set('ballotReady', false);
+            if (Session.get('executiveDecision') == false) {
+              Session.set('emptyBallot', true);
+            }
+          }
         },
         start: function (event, ui) {
           ui.helper.height(ui.helper.height() - 10);
@@ -68,8 +75,12 @@ if (Meteor.isClient) {
     },
     executiveDecision: function () {
       if (getContract().executiveDecision == true) {
+        Session.set('emptyBallot', false);
         return 'toggle-activated';
       } else {
+        if (Session.get('ballotReady') == false) {
+          Session.set('emptyBallot', true);
+        }
         return '';
       }
     },
@@ -85,6 +96,13 @@ if (Meteor.isClient) {
 
       var keys = [],
           k, i, len;
+
+      //Warn if ballot is empty
+      if (contractBallot.length == 0) {
+        Session.set('ballotReady', false);
+      } else {
+        Session.set('ballotReady', true);
+      };
 
       //Sort by Rank on DB
       for (var i = 0; i < contractBallot.length; i++) {
@@ -112,6 +130,12 @@ if (Meteor.isClient) {
     },
     duplicateFork: function() {
       return displayTimedWarning ('duplicateFork');
+    },
+    emptyBallot: function () {
+      return Session.get('emptyBallot')
+    },
+    ballotReady: function () {
+      return Session.get('ballotReady');
     },
     datePicker: function () {
       $('#date-picker').datepicker();
@@ -208,4 +232,18 @@ if (Meteor.isClient) {
     }
   });
 
+}
+
+function verifyEmptyBallot (options) {
+  if (options.length == 0) {
+    if (getContract().executiveDecision == false) {
+      Session.set('emptyBallot', true);
+      return true;
+    } else {
+      Session.set('emptyBallot', false);
+    }
+  } else {
+    Session.set('emptyBallot',false);
+  }
+  return false;
 }

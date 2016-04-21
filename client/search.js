@@ -195,7 +195,6 @@ if (Meteor.isClient) {
 
   Template.proposal.events({
     "click #add-suggested-proposal": function (event) {
-      console.log('making the call for: ' + this._id);
       Meteor.call("addCustomForkToContract", Session.get('contractId'), this._id, function (error) {
           if (error && error.error == 'duplicate-fork') {
             Session.set('duplicateFork', true)
@@ -203,7 +202,6 @@ if (Meteor.isClient) {
             Session.set('dbContractBallot', Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).ballot );
           }
       });
-      Meteor.setTimeout(function () {document.getElementById('text-fork-proposal').value = '';},100);
     }
   });
 }

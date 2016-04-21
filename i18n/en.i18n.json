@@ -138,5 +138,7 @@
   "saved-draft-description": "Saved draft.",
   "draft-proposal": "Proposal Draft",
   "executive-options": "Executive Options",
-  "alternative-options": "Alternative Proposals"
+  "alternative-options": "Alternative Proposals",
+  "only-ballot-options": "Options",
+  "empty-ballot": "The ballot is empty and it has no options to vote for."
 }
