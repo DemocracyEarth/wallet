@@ -60,7 +60,7 @@
           <li class="warning">{{_ "duplicate_tags"}}</li>
         {{/if}}
         {{#if maxReached}}
-          <li class="warning">{{_ "max_tags_reached"}}</li>
+          {{> warning}}
         {{/if}}
         {{#if minTags}}
           <li class="warning">{{_ "min-tags-allowed"}}</li>
@@ -71,6 +71,10 @@
 
   </div>
 
+</template>
+
+<template name="warning">
+  <li class="warning">{{_ "max_tags_reached"}}</li>
 </template>
 
 <template name="tag">

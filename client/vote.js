@@ -30,7 +30,6 @@ if (Meteor.isClient) {
   Rendering
   ***********************/
 
-
   Template.agreement.rendered = function () {
     var editor = new MediumEditor('#editor', {
       /* These are the default options for the editor,

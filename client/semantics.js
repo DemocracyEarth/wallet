@@ -57,7 +57,8 @@ if (Meteor.isClient) {
     });
     TagSearch.search('');
     Session.set('dbTagList', Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).tags );
-  }
+    
+  };
 
   Template.semantics.helpers({
     semantics: function () {
