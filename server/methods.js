@@ -201,9 +201,9 @@ function createContract (keyword) {
     executionStatus: 'DRAFT', //Execution status: DRAFT, APPROVED, ALTERNATIVE, REJECTED
     anonymous: false, //Anonymous contract
     authors: [ //Collection of authors that signed this contract
-      {
+      /*{
         _id: Meteor.userId(), username: Meteor.user().username
-      }
+      }*/
     ],
     closingDate: creationDate, //When the contract decision closes (poll closing)
     alwaysOpen: false, //If contract never closes and is always open
@@ -230,7 +230,7 @@ function createTag (tag) {
     text: tag,
     url: '/tag/' + slug,
     authors: [
-      { _id: Meteor.userId(), username: Meteor.user().username }
+      //{ _id: Meteor.userId(), username: Meteor.user().username }
     ],
     keyword: slug,
     createdAt: new Date(),

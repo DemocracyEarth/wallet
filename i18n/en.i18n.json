@@ -14,8 +14,8 @@
   "or": "or",
   "cancel_edit": "cancel changes",
   "execute-launch": "Launch",
-  "execute-election": "Election.",
-  "draft-ballot": "Ballot Design",
+  "execute-election": "Vote.",
+  "draft-ballot": "Ballot",
   "this_poll_will_close": "This poll will close on",
   "at": "at",
   "January": "January",
@@ -136,9 +136,9 @@
   "title-required": "A title for this proposal is required.",
   "title-mistyped": "The title must have at least three letters.",
   "saved-draft-description": "Saved draft.",
-  "draft-proposal": "Proposal Draft",
+  "draft-proposal": "Proposal",
   "executive-options": "Executive Options",
-  "alternative-options": "Alternative Proposals",
+  "alternative-options": "Alternatives",
   "only-ballot-options": "Options",
   "empty-ballot": "The ballot is empty and it has no options to vote for."
 }

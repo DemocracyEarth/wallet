@@ -102,5 +102,6 @@ tracker@1.0.11
 ui@1.0.9
 underscore@1.0.6
 url@1.0.7
+velocityjs:velocityjs@1.2.1
 webapp@1.2.6
 webapp-hashing@1.0.7

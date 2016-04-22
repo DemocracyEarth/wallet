@@ -13,7 +13,6 @@ if (Meteor.isClient) {
           });
           Meteor.call('updateBallotRank', Session.get('contractId'), rankOrder);
           Session.set('removeProposal', false);
-          console.log('borrando y... ' + rankOrder.length);
           if (rankOrder.length == 0) {
             Session.set('ballotReady', false);
             if (Session.get('executiveDecision') == false) {
