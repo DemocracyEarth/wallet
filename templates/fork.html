@@ -1,0 +1,31 @@
+<template name="fork">
+  {{#if executive}}
+    <li id="ballotProposalOption" class="vote {{checkbox mode}}">
+      <div class="w-clearfix checkbox">
+        <div id="ballotCheckbox" class="option {{option mode}}">
+          <div class="tick"><img src="{{pathFor route='home'}}images/white-tick-thin.png" class="tick-image hover">
+          </div>
+        </div>
+        <div class="w-clearfix checkbox">
+          <div class="option-title {{decision mode}}">
+            {{_ mode}}
+          </div>
+        </div>
+      </div>
+    </li>
+  {{else}}
+    <li id="ballotProposalOption" class="vote {{checkbox ../mode}}" rank="{{../rank}}" value="{{_id}}">
+      <div class="w-clearfix checkbox">
+        <div id="ballotCheckbox" class="option {{option ../mode}}">
+          <div class="tick"><img src="{{pathFor route='home'}}images/white-tick-thin.png" class="tick-image hover">
+          </div>
+        </div>
+        <div class="w-clearfix checkbox">
+          <a href="{{../url}}" class="option-title {{decision ../mode}}">
+            {{caption ../mode ../label}}
+          </a>
+        </div>
+      </div>
+    </li>
+  {{/if}}
+</template>

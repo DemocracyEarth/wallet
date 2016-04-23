@@ -1,0 +1,37 @@
+<template name="warning">
+  <ul class="w-list-unstyled">
+    {{#if maxReached}}
+      <li class="warning">{{_ "max_tags_reached"}}</li>
+    {{/if}}
+    {{#if duplicateTags}}
+      <li class="warning">{{_ "duplicate_tags"}}</li>
+    {{/if}}
+    {{#if minTags}}
+      <li class="warning">{{_ "min-tags-allowed"}}</li>
+    {{/if}}
+    {{#if missingTitle}}
+      <li class="warning">{{_ "title-required"}}</li>
+    {{/if}}
+    {{#if mistypedTitle}}
+      <li class="warning">{{_ "title-mistyped"}}</li>
+    {{/if}}
+    {{#if duplicateURL}}
+      <li class="warning">{{_ "url-duplicate"}}</li>
+    {{/if}}
+    {{#if disabledCheckboxes}}
+      <li class="warning">{{_ "disabled-checkboxes"}}</li>
+    {{/if}}
+    {{#if duplicateFork}}
+      <li class="warning">{{_ "duplicate-fork"}}</li>
+    {{/if}}
+    {{#if unauthorizedFork}}
+      <li class="warning">{{_ "unauthorized-fork"}}</li>
+    {{/if}}
+    {{#if emptyBallot}}
+      <li class="warning">{{_ "empty-ballot"}}</li>
+    {{/if}}
+    {{#if backdating}}
+      <li class="warning">{{_ "backdating"}}</li>
+    {{/if}}
+  </ul>  
+</template>

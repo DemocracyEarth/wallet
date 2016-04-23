@@ -1,0 +1,21 @@
+<template name="tag">
+  <li class="w-clearfix tag {{authorization}}" id="draggable" value="{{../_id}}">
+    <div class="tag-label">
+      <img src="{{pathFor route='home'}}images/hashtag.png" class="hash-icon">
+      {{#if suggestion}}
+        <a href="{{../url}}" class="w-clearfix w-inline-block hash-link {{authorization hover=true}}">
+          <div class="hash-tag">{{{../text}}}</div>
+        </a>
+        <div id="add-suggested-tag" class="action">
+          <div>
+            <strong>＋</strong>
+          </div>
+        </div>
+      {{else}}
+        <a href="{{../url}}" class="w-clearfix w-inline-block hash-link {{authorization hover=true}}">
+          <div class="hash-tag">{{{../label}}}</div>
+        </a>
+      {{/if}}
+    </div>
+  </li>
+</template>

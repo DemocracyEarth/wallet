@@ -46,7 +46,7 @@
     <div class="extra">
       <ul class="w-list-unstyled" style="margin-top:10px">
       {{#if backdating}}
-        <li class="warning">{{_ "backdating"}}</li>
+        {{> warning backdating=backdating}}
       {{/if}}
       </ul>
     </div>
@@ -82,20 +82,18 @@
       </div>
 
       <div class="extra">
-        <ul class="w-list-unstyled">
         {{#if disabledCheckboxes}}
-          <li class="warning">{{_ "disabled-checkboxes"}}</li>
+          {{> warning disabledCheckboxes=disabledCheckboxes}}
         {{/if}}
         {{#if duplicateFork}}
-          <li class="warning">{{_ "duplicate-fork"}}</li>
+          {{> warning duplicateFork=duplicateFork}}
         {{/if}}
         {{#if unauthorizedFork}}
-          <li class="warning">{{_ "unauthorized-fork"}}</li>
+          {{> warning unauthorizedFork=unauthorizedFork}}
         {{/if}}
         {{#if emptyBallot}}
-          <li class="warning">{{_ "empty-ballot"}}</li>
+          {{> warning emptyBallot=emptyBallot}}
         {{/if}}
-        </ul>
       </div>
 
     </div>
@@ -104,36 +102,4 @@
     {{> search}}
 
   </div>
-</template>
-
-<template name="fork">
-  {{#if executive}}
-    <li id="ballotProposalOption" class="vote {{checkbox mode}}">
-      <div class="w-clearfix checkbox">
-        <div id="ballotCheckbox" class="option {{option mode}}">
-          <div class="tick"><img src="{{pathFor route='home'}}images/white-tick-thin.png" class="tick-image hover">
-          </div>
-        </div>
-        <div class="w-clearfix checkbox">
-          <div class="option-title {{decision mode}}">
-            {{_ mode}}
-          </div>
-        </div>
-      </div>
-    </li>
-  {{else}}
-    <li id="ballotProposalOption" class="vote {{checkbox ../mode}}" rank="{{../rank}}" value="{{_id}}">
-      <div class="w-clearfix checkbox">
-        <div id="ballotCheckbox" class="option {{option ../mode}}">
-          <div class="tick"><img src="{{pathFor route='home'}}images/white-tick-thin.png" class="tick-image hover">
-          </div>
-        </div>
-        <div class="w-clearfix checkbox">
-          <a href="{{../url}}" class="option-title {{decision ../mode}}">
-            {{caption ../mode ../label}}
-          </a>
-        </div>
-      </div>
-    </li>
-  {{/if}}
 </template>
