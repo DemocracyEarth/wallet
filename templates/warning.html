@@ -1,5 +1,5 @@
 <template name="warning">
-  <ul class="w-list-unstyled">
+  <ul class="w-list-unstyled warning-list animate">
     {{#if maxReached}}
       <li class="warning">{{_ "max_tags_reached"}}</li>
     {{/if}}
@@ -33,5 +33,5 @@
     {{#if backdating}}
       <li class="warning">{{_ "backdating"}}</li>
     {{/if}}
-  </ul>  
+  </ul>
 </template>

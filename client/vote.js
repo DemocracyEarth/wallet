@@ -151,6 +151,9 @@ if (Meteor.isClient) {
 
   // Title of Contract
   Template.title.helpers({
+    blockchainAddress: function () {
+      return '19c...t9E';
+    },
     declaration: function() {
       var title = Contracts.findOne( { _id: Session.get('contractId') },{reactive: false} ).title;
       if (title == '' || title == undefined) {

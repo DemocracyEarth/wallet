@@ -18,7 +18,7 @@
       </div>
       <div class="data"><img src="{{pathFor route='home'}}images/block.png" class="url-icon">
         <div class="verifier verifier-live">
-          <a href="#">blockchain ID: 1MBM...khTF</a>
+          <a href="#">{{_ "blockchain-address"}} <strong>{{blockchainAddress}}</strong></a>
         </div>
       </div>
     </div>
@@ -34,7 +34,6 @@
         {{> warning duplicateURL=duplicateURL}}
       {{/if}}
     </div>
-
 
   </div>
 </template>

@@ -140,5 +140,6 @@
   "executive-options": "Executive Options",
   "alternative-options": "Alternatives",
   "only-ballot-options": "Options",
-  "empty-ballot": "The ballot is empty and it has no options to vote for."
+  "empty-ballot": "The ballot is empty and it has no options to vote for.",
+  "blockchain-address": "blockchain:"
 }

@@ -2603,7 +2603,8 @@ blockquote {
 
 .warning-list {
   min-height: 15px;
-  margin-bottom: 0px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 @media (max-width: 991px) {
