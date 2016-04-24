@@ -7,7 +7,7 @@
 
     <div class="extra">
 
-      <ul id="tagList" class="w-list-unstyled w-clearfix semantics connectedSortable">
+      <ul id="tagList" class="w-list-unstyled w-clearfix  connectedSortable">
         <li class="w-clearfix tag tag-empty nondraggable" style="{{emptyList}}">
           <div class="hash-tag hash-tag-empty">{{_ 'no-tags'}}</div>
         </li>
@@ -15,6 +15,17 @@
           {{> tag _id=_id}}
         {{/each}}
       </ul>
+
+      <!-- Warnings -->
+      {{#if duplicateTags}}
+        {{> warning duplicateTags=duplicateTags}}
+      {{/if}}
+      {{#if maxReached}}
+        {{> warning maxReached=maxReached}}
+      {{/if}}
+      {{#if minTags}}
+        {{> warning minTags=minTags}}
+      {{/if}}
 
       <!-- Tag Picker -->
       <div class="w-clearfix search-custom {{searchBox}}">
@@ -54,16 +65,7 @@
       </ul>
       <div class="shadow-fake"></div>
 
-      <!-- Warnings -->
-      {{#if duplicateTags}}
-        {{> warning duplicateTags=duplicateTags}}
-      {{/if}}
-      {{#if maxReached}}
-        {{> warning maxReached=maxReached}}
-      {{/if}}
-      {{#if minTags}}
-        {{> warning minTags=minTags}}
-      {{/if}}
+
 
     </div>
 

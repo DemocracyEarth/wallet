@@ -7,14 +7,17 @@ if (Meteor.isClient) {
       if (main.parentNode._uihooks == undefined) {
         main.parentNode._uihooks = hooks;
         //force animation on first time render
-        insertAnimation(main, main.nextSibling)
+        fadeInRolldown(main, main.nextSibling);
       }
     }
   };
-  
+
 }
 
-//Animation states
+//**********
+//States
+//**********
+
 var aniInitial = {
  'opacity': '0',
  'overflow': 'hidden',
@@ -30,32 +33,29 @@ var aniExit = {
 }
 var OFFSCREEN_CLASS = 'off-screen';
 
-//Configure UI hooks
+//**********
+//UI Hooks
+//**********
+
 hooks = {
   insertElement: function(node, next) {
-    insertAnimation(node,next);
+    fadeInRolldown(node,next);
     Deps.afterFlush(function() {
       $(node).width();
       $(node).removeClass(OFFSCREEN_CLASS);
     });
   },
-  moveElement: function(node, next) {
-    hooks.removeElement(node);
-    hooks.insertElement(node, next);
-  },
   removeElement: function(node) {
-    $(node)
-      .velocity(aniExit, {
-        duration: ANIMATION_DURATION,
-        queue: false,
-        complete: function() {
-          $(node).remove();
-        }
-      });
+    fadeOutRollup(node);
   }
 };
 
-function insertAnimation(node, next) {
+
+//**********
+//Animations
+//**********
+
+function fadeInRolldown(node, next) {
   $(node).addClass(OFFSCREEN_CLASS);
   $(node).css(aniInitial);
   $(node).insertBefore(next);
@@ -63,4 +63,15 @@ function insertAnimation(node, next) {
     duration: ANIMATION_DURATION,
     queue: false
   });
+}
+
+function fadeOutRollup(node) {
+  $(node)
+    .velocity(aniExit, {
+      duration: ANIMATION_DURATION,
+      queue: false,
+      complete: function() {
+        $(node).remove();
+      }
+    });
 }
