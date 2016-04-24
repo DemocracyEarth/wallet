@@ -2,11 +2,10 @@ if (Meteor.isClient) {
 
   //sample declaration for reference
   Template.warning.rendered = function () {
-    animate(this.firstNode, 'fade-and-roll', { 'height': '36px' });
+    behave(this.firstNode, 'fade-and-roll', { 'height': '36px' });
   };
 
 }
-
 
 //**********
 //UI Hooks
@@ -29,15 +28,31 @@ fadeLabel = {
   }
 };
 
+fadeTag = {
+  insertElement: function(node, next) {
+    fadeIn(node,next);
+    Deps.afterFlush(function() {
+      $(node).width();
+      $(node).removeClass(OFFSCREEN_CLASS);
+    });
+  },
+  moveElement: function(node, next) {
+    fadeTag.removeElement(node);
+    fadeTag.insertElement(node, next);
+  },
+  removeElement: function(node) {
+    fadeOut(node);
+  }
+};
+
+//**********
+//Calls
+//**********
+
+//Does specific animation
 animate = function (node, animation, params) {
   var main = node;
-  var standard = {
-    duration: ANIMATION_DURATION,
-    loop: false
-  };
   var settings = Object.assign(standard, params)
-
-  console.log(settings);
   switch(animation) {
   case 'fade-in':
     node
@@ -51,26 +66,41 @@ animate = function (node, animation, params) {
       .velocity({'opacity': '0'}, settings)
       .velocity("reverse");
     break;
-  case 'fade-and-roll':
-  default:
-    if (main.parentNode != null) {
-      if (main.parentNode._uihooks == undefined) {
+  }
+}
+
+//Attaches animation to reactive behaviour
+behave = function (node, animation, params) {
+  var main = node;
+  var settings = Object.assign(standard, params)
+  if (main.parentNode != null) {
+    if (main.parentNode._uihooks == undefined) {
+      switch (animation) {
+      case 'fade':
+        main.parentNode._uihooks = fadeTag;
+        fadeIn(main, main.nextSibling);
+        break;
+      case 'fade-and-roll':
         if (params != undefined) {
-          aniFinish['height'] = params['height'];
+          aniFinish['height'] = settings['height'];
         }
         main.parentNode._uihooks = fadeLabel;
         fadeInRolldown(main, main.nextSibling);
         break;
+      default:
       }
     }
   }
-
 }
 
 //**********
 //States
 //**********
 
+var standard = {
+  duration: ANIMATION_DURATION,
+  loop: false
+};
 var aniInitial = {
  'opacity': '0',
  'overflow': 'hidden',
@@ -104,6 +134,27 @@ function fadeInRolldown(node, next) {
 function fadeOutRollup(node) {
   $(node)
     .velocity(aniExit, {
+      duration: ANIMATION_DURATION,
+      queue: false,
+      complete: function() {
+        $(node).remove();
+      }
+    });
+}
+
+function fadeIn(node, next) {
+  $(node).addClass(OFFSCREEN_CLASS);
+  $(node).css('opacity: 0px');
+  $(node).insertBefore(next);
+  $(node).velocity({'opacity': '1'}, {
+    duration: ANIMATION_DURATION,
+    queue: false
+  });
+}
+
+function fadeOut(node) {
+  $(node)
+    .velocity({'opacity': '0'}, {
       duration: ANIMATION_DURATION,
       queue: false,
       complete: function() {

@@ -123,12 +123,6 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.tag.helpers({
-    authorization: function (hover) {
-      return 'authorized';
-    }
-  });
-
   Template.semantics.events({
     "keypress #tagSearch": function (event) {
       if (Session.get('createTag') && event.which == 13) {
@@ -167,63 +161,5 @@ if (Meteor.isClient) {
       }, 100);
     }
   });
-
-  Template.tag.events({
-    "click #add-suggested-tag": function (event) {
-      addTag(this._id, parseInt(Session.get('dbTagList').length) + 1);
-    }
-  });
-}
-
-addTag = function (tagId, index) {
-  var keys = [];
-
-  //ranks start at 1
-  if (index == 0) { index = 1 };
-
-  if (verifyTag(tagId)) {
-    var arr = Session.get('dbTagList');
-
-    //Adds new item in proper position
-    for (var i=0; i < arr.length; i++) {
-      if (arr[i].rank >= index) {
-        arr[i].rank ++;
-      }
-    }
-    arr.push(
-      {
-        _id: tagId,
-        label: Tags.findOne({_id: tagId}).text,
-        url: Tags.findOne({ _id: tagId}).url,
-        rank: index
-      }
-    );
-
-    //purge the ranks
-    kwyjibo = sortRanks(arr);
-
-    //Sort for ranked positions
-    keys = getRankKeys(kwyjibo);
-
-    //Insert in DB
-    Contracts.update(Session.get('contractId'), { $push: {
-      tags:
-        {
-          _id: tagId,
-          label: Tags.findOne({_id: tagId}).text,
-          url: Tags.findOne({ _id: tagId}).url,
-          rank: index
-        }
-    }});
-
-    //Saves ranked positions in DB
-    Meteor.call('updateTagRank', Session.get('contractId'), keys);
-
-    //Memory update in client
-    Session.set('dbTagList', kwyjibo);
-
-    return true;
-  } else {
-    return false;
-  }
+  
 }
