@@ -14,7 +14,6 @@ if (Meteor.isClient) {
 
 fadeLabel = {
   insertElement: function(node, next) {
-    console.log('[animation] insertElement');
     fadeInRolldown(node,next);
     Deps.afterFlush(function() {
       $(node).width();
@@ -22,22 +21,34 @@ fadeLabel = {
     });
   },
   moveElement: function(node, next) {
-    console.log('[animation] moveElement');
     fadeLabel.removeElement(node);
     fadeLabel.insertElement(node, next);
   },
   removeElement: function(node) {
-    console.log('[animation] removeElement');
     fadeOutRollup(node);
   }
 };
 
 animate = function (node, animation, params) {
   var main = node;
+  var standard = {
+    duration: ANIMATION_DURATION,
+    loop: false
+  };
+  var settings = Object.assign(standard, params)
+
+  console.log(settings);
   switch(animation) {
+  case 'fade-in':
+    node
+      .velocity("stop")
+      .velocity({'opacity': '0'}, settings)
+      .velocity({'opacity': '1'}, settings)
+      .velocity("stop");
+    break;
   case 'tilt':
     node
-      .velocity({'opacity': '0'}, ANIMATION_DURATION)
+      .velocity({'opacity': '0'}, settings)
       .velocity("reverse");
     break;
   case 'fade-and-roll':
@@ -53,6 +64,7 @@ animate = function (node, animation, params) {
       }
     }
   }
+
 }
 
 //**********

@@ -208,15 +208,17 @@ if (Meteor.isClient) {
       }
     },
     verifierMode: function () {
-      animate($('.state'), 'tilt');
       switch (Session.get("URLStatus")) {
         case "VERIFY":
+          animate($('.state'), 'tilt', { loop: true, duration: 750 });
           return 'verifying';
           break;
         case "UNAVAILABLE":
+          animate($('.state'), 'fade-in');
           return 'unavailable';
           break;
         case "AVAILABLE":
+          animate($('.state'), 'fade-in');
           return 'available';
           break;
       }
