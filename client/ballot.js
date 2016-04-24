@@ -62,6 +62,7 @@ if (Meteor.isClient) {
   };
 
   Template.ballot.helpers({
+    //toggles
     allowForks: function () {
       if (getContract().allowForks == true) {
         return 'toggle-activated';
@@ -83,6 +84,7 @@ if (Meteor.isClient) {
         return '';
       }
     },
+    //ballot
     options: function () {
       var contractBallot;
       if (Session.get('dbContractBallot') == undefined) {
@@ -121,6 +123,7 @@ if (Meteor.isClient) {
       }
       return ballot;
     },
+    //warnings
     disabledCheckboxes: function () {
       return displayTimedWarning ('disabledCheckboxes');
     },
@@ -136,6 +139,7 @@ if (Meteor.isClient) {
     ballotReady: function () {
       return Session.get('ballotReady');
     },
+    //calendar
     datePicker: function () {
       $('#date-picker').datepicker();
     },
@@ -197,15 +201,6 @@ if (Meteor.isClient) {
   });
 
   Template.ballot.events({
-    "click #toggle-allowForks": function () {
-      Meteor.call("updateContractField", Session.get('contractId'), "allowForks", !getContract().allowForks);
-    },
-    "click #toggle-multipleChoice": function () {
-      Meteor.call("updateContractField", Session.get('contractId'), "multipleChoice", !getContract().multipleChoice);
-    },
-    "click #toggle-executiveDecision": function () {
-      Meteor.call("updateContractField", Session.get('contractId'), "executiveDecision", !getContract().executiveDecision);
-    },
     "submit #fork-form, click #add-fork-proposal": function (event) {
       event.preventDefault();
       Meteor.call('addCustomForkToContract', Session.get('contractId'), document.getElementById('text-fork-proposal').value, function(error) {

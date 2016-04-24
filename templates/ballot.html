@@ -18,30 +18,23 @@
         <li class="w-clearfix setting">
           <div class="text setting-label">{{_ "allow-voters-suggest"}}</div>
           <div class="w-clearfix value">
-            <div id="toggle-allowForks" class="toggle {{allowForks}}">
-              <div class="toggle-button {{allowForks}}"></div>
-            </div>
+            {{> toggle eventHandler="toggle-allowForks" setting=allowForks}}
           </div>
         </li>
         <li class="w-clearfix setting">
           <div class="text setting-label">{{_ "enable-multiple-choice"}}</div>
           <div class="w-clearfix value">
-            <div id="toggle-multipleChoice" class="w-clearfix toggle {{multipleChoice}}">
-              <div class="toggle-button {{multipleChoice}}"></div>
-            </div>
+            {{> toggle eventHandler="toggle-multipleChoice" setting=multipleChoice}}
           </div>
         </li>
         <li class="w-clearfix setting">
           <div class="text setting-label">{{_ "executive-decision"}}</div>
           <div class="w-clearfix value">
-            <div id="toggle-executiveDecision" class="w-clearfix toggle {{executiveDecision}}">
-              <div class="toggle-button {{executiveDecision}}"></div>
-            </div>
+            {{> toggle eventHandler="toggle-executiveDecision" setting=executiveDecision}}
           </div>
         </li>
       </ul>
     </div>
-
 
     <div class="extra">
       <ul class="w-list-unstyled" style="margin-top:10px">
