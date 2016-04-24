@@ -1,17 +1,42 @@
 if (Meteor.isClient) {
 
+  //sample declaration for reference
   Template.warning.rendered = function () {
-    //Animate object
-    var main = this.firstNode;
-    if (main.parentNode != null) {
-      if (main.parentNode._uihooks == undefined) {
-        main.parentNode._uihooks = hooks;
-        //force animation on first time render
-        fadeInRolldown(main, main.nextSibling);
-      }
-    }
+    animate(this, 'fade-label');
   };
 
+}
+
+
+//**********
+//UI Hooks
+//**********
+
+fadeLabel = {
+  insertElement: function(node, next) {
+    fadeInRolldown(node,next);
+    Deps.afterFlush(function() {
+      $(node).width();
+      $(node).removeClass(OFFSCREEN_CLASS);
+    });
+  },
+  removeElement: function(node) {
+    fadeOutRollup(node);
+  }
+};
+
+animate = function (node, animation) {
+  var main = node.firstNode;
+  if (main.parentNode != null) {
+    if (main.parentNode._uihooks == undefined) {
+      switch(animation) {
+        case 'fade-label':
+        default:
+          main.parentNode._uihooks = fadeLabel;
+          fadeInRolldown(main, main.nextSibling);
+      }
+    }
+  }
 }
 
 //**********
@@ -32,23 +57,6 @@ var aniExit = {
   'height': '0px'
 }
 var OFFSCREEN_CLASS = 'off-screen';
-
-//**********
-//UI Hooks
-//**********
-
-hooks = {
-  insertElement: function(node, next) {
-    fadeInRolldown(node,next);
-    Deps.afterFlush(function() {
-      $(node).width();
-      $(node).removeClass(OFFSCREEN_CLASS);
-    });
-  },
-  removeElement: function(node) {
-    fadeOutRollup(node);
-  }
-};
 
 
 //**********

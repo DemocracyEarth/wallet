@@ -2302,7 +2302,7 @@ blockquote {
   top: 0px;
   right: 0px;
   z-index: 100;
-  margin: 5px;
+  margin: 20px 30px 20px 5px;
   padding: 0px 5px 5px;
   border: 1px dashed #46dfb8;
   border-radius: 3px;

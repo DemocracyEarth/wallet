@@ -117,7 +117,7 @@
   "url-verify": "verifying...",
   "url-unavailable": "unavailable",
   "url-lookup": "verifying availability",
-  "kind-draft-vote": "Drafting Decision Proposal",
+  "kind-draft-vote": "DRAFT",
   "kind-live-vote": "LIVE VOTE",
   "kind-finish-vote-approved": "APPROVED",
   "kind-finish-vote-alternative": "ALTERNATIVE",
