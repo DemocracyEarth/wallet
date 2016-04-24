@@ -4,11 +4,14 @@ if (Meteor.isClient) {
     //Animate object
     var main = this.firstNode;
     if (main.parentNode != null) {
-      main.parentNode._uihooks = hooks;
+      if (main.parentNode._uihooks == undefined) {
+        main.parentNode._uihooks = hooks;
+        //force animation on first time render
+        insertAnimation(main, main.nextSibling)
+      }
     }
-
   };
-
+  
 }
 
 //Animation states
@@ -30,14 +33,7 @@ var OFFSCREEN_CLASS = 'off-screen';
 //Configure UI hooks
 hooks = {
   insertElement: function(node, next) {
-    $(node).addClass(OFFSCREEN_CLASS);
-    $(node).css(aniInitial);
-    $(node).insertBefore(next);
-    $(node).velocity(aniFinish, {
-      duration: ANIMATION_DURATION,
-      //easing: 'ease-in',
-      queue: false
-    });
+    insertAnimation(node,next);
     Deps.afterFlush(function() {
       $(node).width();
       $(node).removeClass(OFFSCREEN_CLASS);
@@ -51,7 +47,6 @@ hooks = {
     $(node)
       .velocity(aniExit, {
         duration: ANIMATION_DURATION,
-        //easing: 'ease-out',
         queue: false,
         complete: function() {
           $(node).remove();
@@ -59,3 +54,13 @@ hooks = {
       });
   }
 };
+
+function insertAnimation(node, next) {
+  $(node).addClass(OFFSCREEN_CLASS);
+  $(node).css(aniInitial);
+  $(node).insertBefore(next);
+  $(node).velocity(aniFinish, {
+    duration: ANIMATION_DURATION,
+    queue: false
+  });
+}
