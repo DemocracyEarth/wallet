@@ -2,7 +2,7 @@ if (Meteor.isClient) {
 
   //sample declaration for reference
   Template.warning.rendered = function () {
-    animate(this, 'fade-label');
+    animate(this.firstNode, 'fade-and-roll', { 'height': '36px' });
   };
 
 }
@@ -14,26 +14,42 @@ if (Meteor.isClient) {
 
 fadeLabel = {
   insertElement: function(node, next) {
+    console.log('[animation] insertElement');
     fadeInRolldown(node,next);
     Deps.afterFlush(function() {
       $(node).width();
       $(node).removeClass(OFFSCREEN_CLASS);
     });
   },
+  moveElement: function(node, next) {
+    console.log('[animation] moveElement');
+    fadeLabel.removeElement(node);
+    fadeLabel.insertElement(node, next);
+  },
   removeElement: function(node) {
+    console.log('[animation] removeElement');
     fadeOutRollup(node);
   }
 };
 
-animate = function (node, animation) {
-  var main = node.firstNode;
-  if (main.parentNode != null) {
-    if (main.parentNode._uihooks == undefined) {
-      switch(animation) {
-        case 'fade-label':
-        default:
-          main.parentNode._uihooks = fadeLabel;
-          fadeInRolldown(main, main.nextSibling);
+animate = function (node, animation, params) {
+  var main = node;
+  switch(animation) {
+  case 'tilt':
+    node
+      .velocity({'opacity': '0'}, ANIMATION_DURATION)
+      .velocity("reverse");
+    break;
+  case 'fade-and-roll':
+  default:
+    if (main.parentNode != null) {
+      if (main.parentNode._uihooks == undefined) {
+        if (params != undefined) {
+          aniFinish['height'] = params['height'];
+        }
+        main.parentNode._uihooks = fadeLabel;
+        fadeInRolldown(main, main.nextSibling);
+        break;
       }
     }
   }

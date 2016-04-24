@@ -2371,9 +2371,10 @@ blockquote {
 }
 
 .state {
+  display: inline-block;
   margin-right: 2px;
   margin-left: 2px;
-  padding: 3px 5px;
+  padding: 0px 5px;
   border-radius: 3px;
   font-weight: 300;
 }

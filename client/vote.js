@@ -197,15 +197,27 @@ if (Meteor.isClient) {
     URLStatus: function () {
       switch (Session.get("URLStatus")) {
         case "VERIFY":
-          return "<strong data-new-link='true' class='state verifying'>" + TAPi18n.__('url-verify') + "</strong>";
+          return TAPi18n.__('url-verify');
           break;
         case "UNAVAILABLE":
-          //Session.set('duplicateURL', true);
-          return "<strong data-new-link='true' class='state unavailable'>" + TAPi18n.__('url-unavailable') + "</strong>";
+          return TAPi18n.__('url-unavailable');
           break;
         case "AVAILABLE":
-          //Session.set('duplicateURL', false);
-          return "<strong data-new-link='true' class='state available'>" + TAPi18n.__('url-available') + "</strong>";
+          return TAPi18n.__('url-available');
+          break;
+      }
+    },
+    verifierMode: function () {
+      animate($('.state'), 'tilt');
+      switch (Session.get("URLStatus")) {
+        case "VERIFY":
+          return 'verifying';
+          break;
+        case "UNAVAILABLE":
+          return 'unavailable';
+          break;
+        case "AVAILABLE":
+          return 'available';
           break;
       }
     },
