@@ -38,6 +38,7 @@
   "tags_lack_authorization": "Tags in red have no members yet.",
   "max_tags_reached": "Maximum quantity of tags reached.",
   "duplicate_tags": "Tag already added to proposal.",
+  "no-tags": "This proposal has no tags",
   "authors": "Participants",
   "make-proposal-anonymoys": "Make this proposal anonymous.",
   "closing-date-of-poll": "Closing Date of poll.",

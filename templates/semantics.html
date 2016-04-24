@@ -8,8 +8,8 @@
     <div class="extra">
 
       <ul id="tagList" class="w-list-unstyled w-clearfix  connectedSortable">
-        <li class="w-clearfix tag tag-empty nondraggable" style="{{emptyList}}">
-          <div class="hash-tag hash-tag-empty">{{_ 'no-tags'}}</div>
+        <li class="w-clearfix tag tag-placeholder nondraggable" style="{{emptyList}}">
+          <div class="hash-tag hash-tag-empty"></div>
         </li>
         {{#each semantics}}
           {{> tag _id=_id}}
@@ -25,6 +25,9 @@
       {{/if}}
       {{#if minTags}}
         {{> warning minTags=minTags}}
+      {{/if}}
+      {{#if noTags}}
+        {{> warning noTags=noTags}}
       {{/if}}
 
       <!-- Tag Picker -->

@@ -9,6 +9,9 @@
     {{#if minTags}}
       <li class="warning">{{_ "min-tags-allowed"}}</li>
     {{/if}}
+    {{#if noTags}}
+      <li class="warning">{{_ "no-tags"}}</li>
+    {{/if}}
     {{#if missingTitle}}
       <li class="warning">{{_ "title-required"}}</li>
     {{/if}}

@@ -57,7 +57,7 @@ if (Meteor.isClient) {
     });
     TagSearch.search('');
     Session.set('dbTagList', Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).tags );
-    
+
   };
 
   Template.semantics.helpers({
@@ -85,8 +85,10 @@ if (Meteor.isClient) {
     emptyList: function () {
       if (Session.get('dbTagList') != undefined) {
         if (Session.get('dbTagList').length <= 0) {
-          return '';
+          Session.set('noTags', true);
+          return 'height:0;';
         } else {
+          Session.set('noTags', false);
           return 'display:none';
         }
       }
@@ -97,6 +99,9 @@ if (Meteor.isClient) {
       } else {
         return '';
       }
+    },
+    noTags: function () {
+      return Session.get('noTags');
     },
     unauthorizedTags: function() {
       return Session.get('unauthorizedTags');
