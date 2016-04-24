@@ -1,10 +1,57 @@
-if (Meteor.isClient) {
+//**********
+//Calls
+//**********
 
-  //sample declaration for reference
-  Template.warning.rendered = function () {
-    behave(this.firstNode, 'fade-and-roll', { 'height': '36px' });
+//Does specific animation
+animate = function (node, animation, params) {
+  var main = node;
+  var standard = {
+    duration: ANIMATION_DURATION,
+    loop: false
   };
+  var settings = Object.assign(standard, params)
+  switch(animation) {
+  case 'fade-in':
+    node
+      .velocity("stop")
+      .velocity({'opacity': '0'}, settings)
+      .velocity({'opacity': '1'}, settings)
+      .velocity("stop");
+    break;
+  case 'tilt':
+    node
+      .velocity({'opacity': '0'}, settings)
+      .velocity("reverse");
+    break;
+  }
+}
 
+//Attaches animation to reactive behaviour
+behave = function (node, animation, params) {
+  var main = node;
+  var standard = {
+    duration: ANIMATION_DURATION,
+    loop: false
+  };
+  var settings = Object.assign(standard, params)
+  if (main.parentNode != null) {
+    if (main.parentNode._uihooks == undefined) {
+      switch (animation) {
+      case 'fade':
+        main.parentNode._uihooks = fadeTag;
+        fadeIn(main, main.nextSibling);
+        break;
+      case 'fade-and-roll':
+        if (params != undefined) {
+          aniFinish['height'] = settings['height'];
+        }
+        main.parentNode._uihooks = fadeLabel;
+        fadeInRolldown(main, main.nextSibling);
+        break;
+      default:
+      }
+    }
+  }
 }
 
 //**********
@@ -46,61 +93,10 @@ fadeTag = {
 };
 
 //**********
-//Calls
-//**********
-
-//Does specific animation
-animate = function (node, animation, params) {
-  var main = node;
-  var settings = Object.assign(standard, params)
-  switch(animation) {
-  case 'fade-in':
-    node
-      .velocity("stop")
-      .velocity({'opacity': '0'}, settings)
-      .velocity({'opacity': '1'}, settings)
-      .velocity("stop");
-    break;
-  case 'tilt':
-    node
-      .velocity({'opacity': '0'}, settings)
-      .velocity("reverse");
-    break;
-  }
-}
-
-//Attaches animation to reactive behaviour
-behave = function (node, animation, params) {
-  var main = node;
-  var settings = Object.assign(standard, params)
-  if (main.parentNode != null) {
-    if (main.parentNode._uihooks == undefined) {
-      switch (animation) {
-      case 'fade':
-        main.parentNode._uihooks = fadeTag;
-        fadeIn(main, main.nextSibling);
-        break;
-      case 'fade-and-roll':
-        if (params != undefined) {
-          aniFinish['height'] = settings['height'];
-        }
-        main.parentNode._uihooks = fadeLabel;
-        fadeInRolldown(main, main.nextSibling);
-        break;
-      default:
-      }
-    }
-  }
-}
-
-//**********
 //States
 //**********
 
-var standard = {
-  duration: ANIMATION_DURATION,
-  loop: false
-};
+
 var aniInitial = {
  'opacity': '0',
  'overflow': 'hidden',
