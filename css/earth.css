@@ -2396,6 +2396,10 @@ blockquote {
   color: #fff;
 }
 
+.state.invisible {
+  display: none;
+}
+
 .context {
   position: fixed;
   left: 30%;

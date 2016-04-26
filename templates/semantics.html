@@ -18,16 +18,16 @@
 
       <!-- Warnings -->
       {{#if duplicateTags}}
-        {{> warning duplicateTags=duplicateTags}}
+        {{> warning label="duplicate_tags"}}
       {{/if}}
       {{#if maxReached}}
-        {{> warning maxReached=maxReached}}
+        {{> warning label="max_tags_reached"}}
       {{/if}}
       {{#if minTags}}
-        {{> warning minTags=minTags}}
+        {{> warning label="min-tags-allowed"}}
       {{/if}}
       {{#if noTags}}
-        {{> warning noTags=noTags}}
+        {{> warning label="no-tags"}}
       {{/if}}
 
       <!-- Tag Picker -->

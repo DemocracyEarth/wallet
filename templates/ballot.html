@@ -36,7 +36,7 @@
     <div class="extra">
       <ul class="w-list-unstyled" style="margin-top:10px">
       {{#if backdating}}
-        {{> warning backdating=backdating}}
+        {{> warning label="backdating"}}
       {{/if}}
       </ul>
     </div>
@@ -65,16 +65,16 @@
 
       <div class="extra">
         {{#if disabledCheckboxes}}
-          {{> warning disabledCheckboxes=disabledCheckboxes}}
+          {{> warning label="disabled-checkboxes"}}
         {{/if}}
         {{#if duplicateFork}}
-          {{> warning duplicateFork=duplicateFork}}
+          {{> warning label="duplicate-fork"}}
         {{/if}}
         {{#if unauthorizedFork}}
-          {{> warning unauthorizedFork=unauthorizedFork}}
+          {{> warning label="unauthorized-fork"}}
         {{/if}}
         {{#if emptyBallot}}
-          {{> warning emptyBallot=emptyBallot}}
+          {{> warning label="empty-ballot"}}
         {{/if}}
       </div>
 

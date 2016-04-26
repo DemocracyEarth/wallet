@@ -25,13 +25,13 @@
 
     <div class='extra'>
       {{#if missingTitle}}
-        {{> warning missingTitle=missingTitle}}
+        {{> warning label="title-required"}}
       {{/if}}
       {{#if mistypedTitle}}
-        {{> warning mistypedTitle=mistypedTitle}}
+        {{> warning label="title-mistyped"}}
       {{/if}}
       {{#if duplicateURL}}
-        {{> warning duplicateURL=duplicateURL}}
+        {{> warning label="url-duplicate"}}
       {{/if}}
     </div>
 

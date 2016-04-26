@@ -1,8 +1,8 @@
 if (Meteor.isClient) {
 
   Template.calendar.rendered = function () {
-    console.log($('#date-picker'));
-    behave($('#date-picker'), 'fade');
+    console.log($('#date-picker').children());
+    behave($('.calendar').children(), 'fade');
   };
 
   Template.calendar.helpers({
