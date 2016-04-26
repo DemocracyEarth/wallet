@@ -233,45 +233,6 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.kind.helpers({
-    text: function() {
-        var kind = getContract().kind;
-
-        switch(kind) {
-          case 'VOTE':
-            Session.set('kind', kind.toLowerCase());
-            switch (getContract().stage) {
-              case 'DRAFT':
-                Session.set('stage', 'draft');
-                return  TAPi18n.__('kind-draft-vote');
-                break;
-              case 'LIVE':
-                Session.set('stage', 'live');
-                return  TAPi18n.__('kind-live-vote');
-                break;
-              case 'APPROVED':
-                Session.set('stage', 'finish-approved');
-                return  TAPi18n.__('kind-finish-vote-approved');
-                break;
-              case 'ALTERNATIVE':
-                Session.set('stage', 'finish-alternative');
-                return  TAPi18n.__('kind-finish-vote-alternative');
-                break;
-              case 'REJECTED':
-                Session.set('stage', 'finish-rejected');
-                return  TAPi18n.__('kind-finish-vote-rejected');
-                break;
-            }
-            break;
-          default:
-            return "TBD";
-        }
-    },
-    style: function () {
-      return 'stage stage-' + Session.get('stage');
-    }
-  });
-
   Template.authors.helpers({
     anonymous: function() {
         if (getContract().anonymous == true) {
@@ -360,28 +321,10 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.tag.events({
-    "click #tag-remove": function (event, template) {
-      removeTag(this._id);
-    }
-  });
-
   Template.authors.events({
     "click #toggle-anonymous": function () {
       Meteor.call("updateContractField", getContract()._id, "anonymous", !getContract().anonymous);
     }
-  });
-
-  Template.execution.events({
-      "click .contract-save-draft": function (event) {
-        //Get all info from current draft
-        var newContract = new contract(
-          document.getElementById('contract-title').value,
-          document.getElementById('contract-description').value,
-          getContract().tags
-        );
-        Meteor.call("updateContract", getContract()._id, newContract);
-      }
   });
 
 }

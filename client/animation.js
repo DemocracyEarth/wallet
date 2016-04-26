@@ -65,10 +65,6 @@ behave = function (node, animation, params) {
   if (main.parentNode != null) {
     if (main.parentNode._uihooks == undefined) {
       switch (animation) {
-      case 'slide':
-        main.parentNode._uihooks = slideToggle;
-        slideOn(main, main.nextSibling);
-        break;
       case 'fade':
         main.parentNode._uihooks = fadeTag;
         fadeIn(main, main.nextSibling);
@@ -124,23 +120,6 @@ fadeTag = {
   }
 };
 
-slideToggle = {
-  insertElement: function(node, next) {
-    slideOn(node,next);
-    Deps.afterFlush(function() {
-      $(node).width();
-      $(node).removeClass(OFFSCREEN_CLASS);
-    });
-  },
-  moveElement: function(node, next) {
-    slideToggle.removeElement(node);
-    slideToggle.insertElement(node, next);
-  },
-  removeElement: function(node) {
-    slideOff(node);
-  }
-};
-
 //**********
 //States
 //**********
@@ -165,27 +144,6 @@ var OFFSCREEN_CLASS = 'off-screen';
 //**********
 //Animations
 //**********
-
-function slideOn (node, next) {
-  console.log('SLIDE ON');
-  $(node).css('margin-left: 0px');
-  $(node).insertBefore(next);
-  $(node).velocity({'margin-left': '40px'}, {
-    duration: ANIMATION_DURATION,
-    queue: false
-  });
-}
-
-function slideOff (node) {
-  $(node)
-    .velocity({'margin-left': '0px'}, {
-      duration: ANIMATION_DURATION,
-      queue: false,
-      complete: function() {
-        //$(node).remove();
-      }
-    });
-}
 
 function fadeInRolldown(node, next) {
   $(node).addClass(OFFSCREEN_CLASS);

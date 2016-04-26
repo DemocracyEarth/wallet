@@ -1,0 +1,11 @@
+<template name="execute">
+  <div class="section">
+    <h5>{{_ "executive-options"}}</h5>
+    <div class="w-clearfix elements">
+      <ul class="w-list-unstyled w-clearfix options">
+        {{> fork executive=true mode="AUTHORIZE"}}
+        {{> fork executive=true mode="REJECT"}}
+      </ul>
+    </div>
+  </div>
+</template>

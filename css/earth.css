@@ -573,7 +573,6 @@ blockquote {
 
 .hash-tag {
   display: inline-block;
-  text-transform: capitalize;
 }
 
 .hash-tag.hash-tag-empty {
@@ -2304,11 +2303,13 @@ blockquote {
 
 .stage {
   position: absolute;
-  top: 0px;
   right: 0px;
   z-index: 100;
-  margin: 20px 30px 20px 5px;
+  margin-top: -30px;
+  margin-right: 30px;
+  margin-left: 5px;
   padding: 0px 5px 5px;
+  float: right;
   border: 1px dashed #46dfb8;
   border-radius: 3px;
   background-color: transparent;
@@ -2440,7 +2441,7 @@ blockquote {
   left: 30px;
   right: 30px;
   display: block;
-  height: 110px;
+  height: 115px;
   margin-top: -5px;
   padding-top: 10px;
   padding-bottom: 10px;
