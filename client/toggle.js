@@ -6,28 +6,20 @@ if (Meteor.isClient) {
   Template.toggle.rendered = function () {
     for (var item in toggleMap) {
       node = $('.' + item).children();
-      if (toggleMap[item]) {
-        turnOn(node);
-      } else {
-        turnOff(node);
-      }
-    }
+      toggle(node,toggleMap[item]);
+    };
   };
 
   Template.toggle.helpers({
     value: function () {
       if (this.setting == clickedToggle) {
         var node = $('.' + this.setting).children();
-        if (this.value == true) {
-          turnOn(node);
-        } else {
-          turnOff(node);
-        }
+        toggle(node,this.value);
       } else {
         if (toggleMap[this.setting] == undefined) {
           toggleMap[this.setting] = this.value;
         }
-      }
+      };
     },
     setting: function () {
       return this.setting;
@@ -43,12 +35,12 @@ if (Meteor.isClient) {
 
 }
 
-function turnOn (node) {
-  animate(node, 'slide-right', { duration: 100 });
-  animate(node.parent().first(), 'color-activate');
-}
-
-function turnOff (node) {
-  animate(node, 'slide-left', { duration: 100 });
-  animate(node.parent().first(), 'color-deactivate');
+function toggle (node, value) {
+  if (value) {
+    animate(node, 'slide-right', { duration: 100 });
+    animate(node.parent().first(), 'color-activate');
+  } else {
+    animate(node, 'slide-left', { duration: 100 });
+    animate(node.parent().first(), 'color-deactivate');
+  }
 }
