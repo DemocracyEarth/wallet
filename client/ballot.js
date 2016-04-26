@@ -64,25 +64,20 @@ if (Meteor.isClient) {
   Template.ballot.helpers({
     //toggles
     allowForks: function () {
-      if (getContract().allowForks == true) {
-        return 'toggle-activated';
-      }
+      return getContract().allowForks;
     },
     multipleChoice: function () {
-      if (getContract().multipleChoice == true) {
-        return 'toggle-activated';
-      }
+      return getContract().multipleChoice;
     },
     executiveDecision: function () {
       if (getContract().executiveDecision == true) {
         Session.set('emptyBallot', false);
-        return 'toggle-activated';
       } else {
         if (Session.get('ballotReady') == false) {
           Session.set('emptyBallot', true);
         }
-        return '';
       }
+      return getContract().executiveDecision;
     },
     //ballot
     options: function () {

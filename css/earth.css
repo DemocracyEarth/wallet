@@ -573,6 +573,7 @@ blockquote {
 
 .hash-tag {
   display: inline-block;
+  text-transform: capitalize;
 }
 
 .hash-tag.hash-tag-empty {
@@ -583,7 +584,7 @@ blockquote {
   position: static;
   display: block;
   overflow: scroll;
-  height: 110px;
+  height: 115px;
   margin-right: 5px;
   margin-bottom: 10px;
   margin-left: 5px;
@@ -1494,15 +1495,19 @@ blockquote {
 }
 
 .toggle-button {
-  width: 40px;
-  height: 40px;
-  border: 2px solid #ccc;
+  width: 36px;
+  height: 36px;
+  margin: 2px;
   border-radius: 100px;
   background-color: #fff;
 }
 
 .toggle-button.toggle-activated {
+  width: 36px;
+  height: 36px;
+  margin: 2px;
   float: right;
+  border-style: none;
   border-color: #00bf8f;
 }
 
