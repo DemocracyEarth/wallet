@@ -49,7 +49,6 @@ if (Meteor.isClient) {
 function initCalendar () {
   if ($('#date-picker').html() == "") {
     $('#date-picker').datepicker();
-
     $('#date-picker').on('changeDate', function (e) {
       currentDate = new Date;
       if (currentDate.getTime() < e.date.getTime()) {

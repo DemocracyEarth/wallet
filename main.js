@@ -18,3 +18,30 @@ build a new model that makes the existing model obsolete."
 */
 
 console.log('loading democracy.earth version: 0.02 codename: quixote');
+
+if (Meteor.isClient) {
+
+  Meteor.subscribe("tags");
+
+  Meteor.startup(function () {
+
+    //Setup Language
+    Session.set("showLoadingIndicator", true);
+
+    //Internationalizatoin Library
+    TAPi18n.setLanguage(getUserLanguage())
+      .done(function () {
+        Session.set("showLoadingIndicator", false);
+      })
+      .fail(function (error_message) {
+        // Handle the situation
+        console.log(error_message);
+      });
+
+  });
+
+  Accounts.ui.config({
+    passwordSignupFields: "USERNAME_ONLY"
+  });
+
+}
