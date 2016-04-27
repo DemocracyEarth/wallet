@@ -1,6 +1,10 @@
 <template name="vote">
 <!--  {{#if currentUser}}-->
 
+    {{#if showNotice}}
+      {{> notice}}
+    {{/if}}
+
     {{> contract}}
 
 <!--  {{/if}} -->

@@ -1,9 +1,9 @@
 if (Meteor.isClient) {
 
-  Template.calendar.rendered = function () {
-    console.log($('#date-picker').children());
-    behave($('.calendar').children(), 'fade');
-  };
+  Template.dateSelector.rendered = function () {
+    behave(this.firstNode, 'fade');
+    initCalendar();
+  }
 
   Template.calendar.helpers({
     closingDate: function () {
@@ -34,12 +34,17 @@ if (Meteor.isClient) {
           return 'display:none';
         }
       }
+    },
+    displaySelector: function () {
+      return (Session.get('displaySelector'));
     }
   });
 
   Template.calendar.events({
     "click #toggleCalendar": function () {
       initCalendar();
+      console.log(Session.get('displaySelector') + " " + Session.get('showCalendar'))
+      Session.set('displaySelector', !Session.get('displaySelector'));
       Session.set('showCalendar', !Session.get('showCalendar'));
     }
   })
@@ -54,7 +59,8 @@ function initCalendar () {
       if (currentDate.getTime() < e.date.getTime()) {
         Session.set('backdating', false);
         Session.set('showCalendar', !Session.get('showCalendar'));
-        Meteor.call('updateContractField', getContract()._id, "closingDate", e.date);
+        Session.set('displaySelector', !Session.get('displaySelector'));
+        Meteor.call('updateContractField', Session.get('contractId'), "closingDate", e.date);
       } else {
         Session.set('backdating', true);
       }

@@ -1,7 +1,7 @@
 if (Meteor.isClient) {
 
   var typingTimer; //timer identifier
-  
+
   /***********************
   Rendering
   ***********************/

@@ -52,7 +52,7 @@ animate = function (node, animation, params) {
       .velocity("reverse");
     break;
   }
-}
+};
 
 //Attaches animation to reactive behaviour
 behave = function (node, animation, params) {
@@ -80,7 +80,7 @@ behave = function (node, animation, params) {
       }
     }
   }
-}
+};
 
 //**********
 //UI Hooks

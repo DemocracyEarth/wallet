@@ -4,5 +4,10 @@
     <img src="{{pathFor route='home'}}images/calendar.png" class="calendar-icon" style="{{displayCalendar true}}">
     <div class="control">{{closingDate}}</div>
   </div>
-  <div id='date-picker' class="calendar" style="{{displayCalendar}}"></div>
+  {{#if displaySelector}}
+      {{> dateSelector}}
+  {{/if}}
+</template>
+<template name="dateSelector">
+  <div id='date-picker' class="calendar"></div>
 </template>
