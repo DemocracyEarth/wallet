@@ -11,6 +11,20 @@ animate = function (node, animation, params) {
   };
   var settings = Object.assign(standard, params)
   switch(animation) {
+  case 'hide-up':
+    node
+      .velocity("stop")
+      .velocity({'translateY': '0px'}, settings)
+      .velocity({'translateY': '-100px'}, settings)
+      .velocity("stop");
+    break;
+  case 'show-down':
+    node
+      .velocity("stop")
+      .velocity({'translateY': '-100px'}, settings)
+      .velocity({'translateY': '0px'}, settings)
+      .velocity("stop");
+    break;
   case 'color-activate':
     node
       .velocity("stop")
