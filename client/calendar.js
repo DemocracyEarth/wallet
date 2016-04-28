@@ -1,7 +1,7 @@
 if (Meteor.isClient) {
 
   Template.dateSelector.rendered = function () {
-    behave(this.firstNode, 'fade');
+    behave(this.firstNode, 'fade', { duration: parseInt(ANIMATION_DURATION / 2) });
     initCalendar();
   }
 
@@ -43,7 +43,6 @@ if (Meteor.isClient) {
   Template.calendar.events({
     "click #toggleCalendar": function () {
       initCalendar();
-      console.log(Session.get('displaySelector') + " " + Session.get('showCalendar'))
       Session.set('displaySelector', !Session.get('displaySelector'));
       Session.set('showCalendar', !Session.get('showCalendar'));
     }

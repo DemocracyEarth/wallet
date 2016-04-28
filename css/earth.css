@@ -435,19 +435,26 @@ blockquote {
   margin-right: 5px;
   margin-bottom: 0px;
   float: left;
-  border: 2px solid #e6f9f4;
+  border: 1px solid #e6f9f4;
   border-radius: 100px;
   background-color: #e6f9f4;
   box-shadow: 0 1px 7px -4px #000;
   cursor: pointer;
 }
 
+.symbol.profile-pic:active {
+  border-color: #00bf8f;
+}
+
 .symbol.profile-pic.profile-pic-navbar {
-  width: 40px;
-  height: 40px;
-  margin-top: 3px;
+  width: 45px;
+  height: 45px;
   margin-right: 0px;
+  margin-left: 0px;
   float: right;
+  border-color: transparent;
+  background-color: transparent;
+  box-shadow: none;
 }
 
 .symbol.profile-pic.tag-delegate {
@@ -555,6 +562,14 @@ blockquote {
 
 .tag.tag-empty {
   background-color: #f5f5f5;
+}
+
+.tag.tag-navbar {
+  display: none;
+  margin-top: -35px;
+  float: right;
+  box-shadow: inset 0 0 2px 0 #000;
+  font-size: 16px;
 }
 
 .hash-icon {
@@ -1417,7 +1432,7 @@ blockquote {
   right: 0px;
   z-index: 9000;
   height: 60px;
-  background-color: #256bd5;
+  background-color: rgba(49, 38, 59, .95);
   box-shadow: 0 0 8px -2px #000;
   color: #fff;
 }
@@ -1440,27 +1455,30 @@ blockquote {
 }
 
 .logo-pic {
-  height: 40px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  float: left;
+  height: 45px;
+  max-width: 45px;
 }
 
 .logo {
   display: inline-block;
-  padding: 5px 10px 5px 0px;
+  width: 50px;
+  height: 60px;
+  padding-top: 7px;
+  padding-bottom: 7px;
   border-bottom: 0px none #000;
+  text-align: center;
   cursor: pointer;
 }
 
-.jurisdiction {
+.main {
   position: relative;
   display: inline-block;
-  width: 60%;
+  width: 40%;
   height: 60px;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  float: left;
+  margin-right: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  float: right;
   font-family: Lato, sans-serif;
 }
 
@@ -1532,6 +1550,11 @@ blockquote {
   padding-left: 0px;
 }
 
+.identity.identity-navbar {
+  margin: 5px;
+  float: right;
+}
+
 .identity-label {
   display: inline-block;
   color: #00bf8f;
@@ -1561,6 +1584,12 @@ blockquote {
 
 .identity-label.hash-link {
   cursor: pointer;
+}
+
+.identity-label.identity-label-navbar {
+  margin-top: 4px;
+  font-size: 16px;
+  line-height: 24px;
 }
 
 .option-link:hover {
@@ -1736,17 +1765,19 @@ blockquote {
 .search {
   width: 100%;
   height: 40px;
-  margin-top: -5px;
-  margin-bottom: -6px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  border-style: none;
-  border-radius: 5px;
-  background-color: rgba(0, 0, 0, .25);
+  padding: 5px;
+  border-radius: 50px;
+  background-color: rgba(136, 114, 156, .65);
+  box-shadow: inset 0 1px 5px 0 rgba(0, 0, 0, .5);
   color: #fff;
   font-size: 16px;
-  line-height: 28px;
+  line-height: 30px;
   font-weight: 300;
+}
+
+.search.search-blur {
+  color: hsla(0, 0%, 100%, .5);
+  cursor: text;
 }
 
 .rich-text {
@@ -2055,6 +2086,15 @@ blockquote {
   border-radius: 100px;
   background-color: #6bccfa;
   box-shadow: 0 2px 4px -2px rgba(0, 0, 0, .33);
+}
+
+.identity-verified.identity-verified-navbar {
+  margin-top: 30px;
+  margin-left: 35px;
+}
+
+.identity-verified.identity-verified-navbar.invisible {
+  display: none;
 }
 
 .identity-verified-tick {
@@ -2618,6 +2658,31 @@ blockquote {
   margin-bottom: 5px;
 }
 
+.path {
+  overflow: hidden;
+  width: 35%;
+  height: 28px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  float: left;
+  font-size: 16px;
+}
+
+.authentication {
+  margin-left: 5px;
+  padding-top: 7px;
+  padding-right: 0px;
+  padding-bottom: 7px;
+  float: right;
+}
+
+.authentication.nav-button {
+  margin-top: 7px;
+  margin-bottom: 10px;
+  padding: 0px 5px;
+  border-radius: 3px;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
@@ -2709,6 +2774,9 @@ blockquote {
   }
   .fact {
     font-weight: 300;
+  }
+  .authentication {
+    padding-right: 15px;
   }
 }
 
@@ -2865,6 +2933,9 @@ blockquote {
   .shadow-fake {
     left: 25px;
     right: 25px;
+  }
+  .authentication {
+    padding-right: 0px;
   }
 }
 

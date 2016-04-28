@@ -142,5 +142,7 @@
   "alternative-options": "Alternatives",
   "only-ballot-options": "Options",
   "empty-ballot": "The ballot is empty and it has no options to vote for.",
-  "blockchain-address": "blockchain:"
+  "blockchain-address": "blockchain:",
+  "general-search": "Search democracies...",
+  "screen-new-proposal": "New proposal for"
 }
