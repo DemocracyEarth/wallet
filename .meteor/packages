@@ -28,3 +28,4 @@ houston:admin
 standard-minifier-css
 standard-minifier-js
 velocityjs:velocityjs
+mystor:device-detection
