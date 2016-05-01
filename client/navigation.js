@@ -3,6 +3,7 @@ if (Meteor.isClient) {
   //Scroll behaviour
   var lastScrollTop = 0;
   var scrollDown = false;
+  var displayLogin = false;
 
   if (Meteor.Device.isPhone()) {
     $(window).scroll(function(event) {
@@ -34,6 +35,15 @@ if (Meteor.isClient) {
     },
     icon: function () {
       return 'images/olive-spaced.png';
+    },
+    displayLogin: function () {
+      return Session.get('displayLogin');
     }
+  });
+
+  Template.navigation.events({
+      "click #current-user": function (event) {
+        displayPopup('login', document.getElementById('current-user'));
+      }
   })
 }

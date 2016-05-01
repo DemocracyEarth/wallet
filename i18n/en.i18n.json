@@ -144,5 +144,12 @@
   "empty-ballot": "The ballot is empty and it has no options to vote for.",
   "blockchain-address": "blockchain:",
   "general-search": "Search democracies...",
-  "screen-new-proposal": "New proposal for"
+  "screen-new-proposal": "New proposal for",
+  "identify": "Identify",
+  "anonymous": "Anonymous",
+  "phone": "Phone",
+  "mail": "Mail",
+  "social": "Social",
+  "scan-with": "Scan with",
+  "phone-app": "Phone App"
 }

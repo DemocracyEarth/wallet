@@ -69,25 +69,30 @@ animate = function (node, animation, params) {
 };
 
 //Attaches animation to reactive behaviour
-behave = function (node, animation, params) {
+behave = function (node, animation, params, hook) {
   var main = node;
   var standard = {
     duration: ANIMATION_DURATION,
     loop: false
   };
   var settings = Object.assign(standard, params);
+
+  if (hook != undefined) {
+    main.parentNode._uihooks = hook;
+  }
+
   if (main.parentNode != null) {
     if (main.parentNode._uihooks == undefined) {
       switch (animation) {
       case 'fade':
-        main.parentNode._uihooks = fadeTag;
+        if (hook == undefined) { main.parentNode._uihooks = fadeTag; }
         fadeIn(main, main.nextSibling);
         break;
       case 'fade-and-roll':
         if (params != undefined) {
           aniFinish['height'] = settings['height'];
         }
-        main.parentNode._uihooks = fadeLabel;
+        if (hook == undefined) { main.parentNode._uihooks = fadeLabel; }
         fadeInRolldown(main, main.nextSibling);
         break;
       default:
@@ -152,7 +157,6 @@ var aniExit = {
   'opacity': '0',
   'height': '0px'
 }
-var OFFSCREEN_CLASS = 'off-screen';
 
 
 //**********

@@ -2711,10 +2711,6 @@ blockquote {
 }
 
 .authentication {
-  margin-left: 5px;
-  padding-top: 7px;
-  padding-right: 0px;
-  padding-bottom: 7px;
   float: right;
 }
 
@@ -2793,6 +2789,7 @@ blockquote {
   font-size: 14px;
   line-height: 32px;
   text-align: center;
+  cursor: pointer;
 }
 
 .tab.tab-active {
@@ -2804,12 +2801,12 @@ blockquote {
 
 .pointer-up {
   position: relative;
+  left: 50%;
   display: block;
   width: 0px;
   height: 0px;
   margin-right: auto;
   margin-bottom: -6px;
-  margin-left: 180px;
   border-style: solid;
   border-width: 0px 10px 15px;
   border-color: transparent transparent rgba(49, 38, 59, .95);
@@ -2817,13 +2814,23 @@ blockquote {
 }
 
 .popup {
-  position: fixed;
-  top: 63px;
-  right: 10px;
+  position: absolute;
   z-index: 2500;
   display: block;
-  min-height: 100px;
-  min-width: 100px;
+}
+
+.navbar-button {
+  display: inline-block;
+  height: 45px;
+  margin: 7px 5px;
+  padding-right: 5px;
+  padding-left: 5px;
+  border-radius: 5px;
+}
+
+.navbar-button.navbar-button-active {
+  background-color: #00bf8f;
+  box-shadow: inset 0 0 10px -3px #000;
 }
 
 @media (max-width: 991px) {
