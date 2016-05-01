@@ -15,7 +15,6 @@ if (Meteor.isClient) {
     //positioning
     $('#popup').css(position);
 
-
     //Hook
     animation = {
       insertElement: function(node, next) {
@@ -85,11 +84,6 @@ displayPopup = function (content, sourceElement) {
   //Draw content
   switch (content) {
   case 'login':
-    if (Session.get('displayLogin') == false) {
-      Session.set('displayLogin', true);
-    } else {
-      Session.set('displayLogin', false);
-    }
     target = {
       width : 270,
       height: 325,
@@ -115,7 +109,7 @@ function positionCard (sourceElement, target) {
   //Y Axis
   if (source.top < parseInt(target.height + 60)) {
     //Place on bottom
-    position['margin-top'] = -10;
+    position['margin-top'] = -5;
     pointerClass = 'pointer-up';
   } else {
     //Place at top
@@ -143,15 +137,13 @@ function positionCard (sourceElement, target) {
       position['margin-left'] = (0 - (target.width / 2) +  (source.width / 2) + 5);
       cursorLeft = (target.width / 2) - 10;
     }
+  } else {
+    //Left side of screen-new-proposal
+
+    //TODO
+
   }
 
-  //console.log('cuenta is: ' + target.width + ' - ' + spaceRight + ' - ' + (source.width / 2));
-  //console.log('cursorLeft: ' + cursorLeft);
-
-
-  //if (cursorLeft < 21.5) {
-  //  cursorLeft = 21.5;
-  //};
 
   return Object.assign(position, target);
 }

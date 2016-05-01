@@ -38,6 +38,18 @@ if (Meteor.isClient) {
         console.log(error_message);
       });
 
+    //Serch Engine for Tags
+    var options = {
+      keepHistory: 1000 * 60 * 5,
+      localSearch: true
+    };
+    var fields = ['text', 'url'];
+
+    Session.set('createTag', false);
+    TagSearch = new SearchSource('tags', fields, options);
+
+
+
   });
 
   Accounts.ui.config({

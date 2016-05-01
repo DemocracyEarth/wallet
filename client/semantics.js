@@ -1,20 +1,5 @@
 if (Meteor.isClient) {
 
-  Meteor.startup(function () {
-
-    //Serch Engine for Tags
-    var options = {
-      keepHistory: 1000 * 60 * 5,
-      localSearch: true
-    };
-    var fields = ['text', 'url'];
-
-    Session.set('createTag', false);
-    TagSearch = new SearchSource('tags', fields, options);
-
-  });
-
-
   //Makes tags in contract draggable
   Template.semantics.rendered = function () {
     this.$('#tagSuggestions, #tagList').sortable({
@@ -161,5 +146,5 @@ if (Meteor.isClient) {
       }, 100);
     }
   });
-  
+
 }

@@ -35,15 +35,7 @@ if (Meteor.isClient) {
     },
     icon: function () {
       return 'images/olive-spaced.png';
-    },
-    displayLogin: function () {
-      return Session.get('displayLogin');
     }
   });
 
-  Template.navigation.events({
-      "click #current-user": function (event) {
-        displayPopup('login', document.getElementById('current-user'));
-      }
-  })
 }

@@ -7,28 +7,3 @@
     <!--<div class="pointer-down"></div>-->
   </div>
 </template>
-
-<template name="login">
-  <div class="w-clearfix paper-header card-header">
-    <img src="{{pathFor route='home'}}images/fingerprint-white.png" class="section-icon">
-    <div>{{_ "identify"}}</div>
-    <div class="stage stage-finish-approved stage-card stage-anon">
-      <div class="label label-corner">{{_ "anonymous"}}</div>
-    </div>
-  </div>
-  <div class="tabs">
-    <div class="tab tab-active">
-      <div>{{_ "phone"}}</div>
-    </div>
-    <div class="tab">
-      <div>{{_ "mail"}}</div>
-    </div>
-    <div class="tab">
-      <div>{{_ "social"}}</div>
-    </div>
-  </div>
-  <div class="authenticate"><img src="{{pathFor route='home'}}images/Screen Shot 2015-11-15 at 7.50.28 PM.png" class="qr-code qr-sign">
-    <div>{{_ "scan-with"}} <a href="#">{{_ "phone-app"}}</a>
-    </div>
-  </div>
-</template>
