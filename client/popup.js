@@ -143,7 +143,6 @@ function positionCard (sourceElement, target) {
     //TODO
 
   }
-
-
+  
   return Object.assign(position, target);
 }

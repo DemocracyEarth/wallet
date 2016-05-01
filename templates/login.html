@@ -6,20 +6,27 @@
       <div class="label label-corner">{{_ "anonymous-mode"}}</div>
     </div>
   </div>
-  <div class="tabs">
-    <div class="tab tab-active">
+  <div class="tabs" value="{{update}}">
+    <div id="tab-button" value=true class="tab tab-active">
       <div>{{_ "phone"}}</div>
     </div>
-    <div class="tab">
+    <div id="tab-button" value=false class="tab">
       <div>{{_ "mail"}}</div>
     </div>
-    <div class="tab">
+    <div id="tab-button" value=false class="tab">
       <div>{{_ "social"}}</div>
     </div>
   </div>
-  <div class="authenticate">
+  <div class="authenticate" tab=0 style="{{tabDisplay}}">
     <img src="{{pathFor route='home'}}images/qrplaceholder.png" class="qr-code qr-sign">
     <div>{{_ "scan-with"}} <a href="#">{{_ "phone-app"}}</a>
     </div>
   </div>
+  <div class="authenticate" tab=1 style="{{tabDisplay}}">
+    TAB 2
+  </div>
+  <div class="authenticate" tab=2 style="{{tabDisplay}}">
+    TAB 3
+  </div>
+
 </template>
