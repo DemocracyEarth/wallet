@@ -1,78 +1,74 @@
-if (Meteor.isClient) {
+var position = new Object;
+var pointerClass = new String;
+var target = new Object;
+var cursorLeft;
+var popupVisible = false;
+var popupCard = new Object();
 
-  var position = new Object;
-  var pointerClass = new String;
-  var target = new Object;
-  var cursorLeft;
-  var popupVisible = false;
-  var popupCard = new Object();
+Template.popup.rendered = function () {
 
-  Template.popup.rendered = function () {
+  //Pointer
+  $('.pointer-up').css({ 'left' : cursorLeft });
 
-    //Pointer
-    $('.pointer-up').css({ 'left' : cursorLeft });
+  //positioning
+  $('#popup').css(position);
 
-    //positioning
-    $('#popup').css(position);
-
-    //Hook
-    animation = {
-      insertElement: function(node, next) {
-        $(node).addClass(OFFSCREEN_CLASS);
-        $(node).css({'opacity':  '0px', 'height' : '0px'});
-        $(node).insertBefore(next);
-        $(node).velocity({'opacity': '1'}, {
-          duration: ANIMATION_DURATION,
-          queue: false
-        });
-        Deps.afterFlush(function() {
-          $(node).width();
-        });
-      },
-      moveElement: function(node, next) {
-        animation.removeElement(node);
-        animation.insertElement(node, next);
-      },
-      removeElement: function(node) {
-        $(node)
-          .velocity({
-            'opacity': '0',
-            'height': '0px'
-          }, {
-            duration: ANIMATION_DURATION,
-            queue: false,
-            complete: function() {
-              $(node).remove();
-            }
-          });
-      }
-    };
-
-    //Animation
-    position['easing'] = 'ease-in-out';
-    behave(this.firstNode, 'fade-and-roll', position, animation);
-
-    //Resize
-    $(window).resize( function() {
-      if (popupVisible == true) {
-        $('#popup').css(positionCard(popupCard.sourceElement, target));
-        $('.pointer-up').css({ 'left' : cursorLeft });
-      }
-    });
-
-
-  }
-
-  Template.popup.helpers({
-    pointer: function () {
-
+  //Hook
+  animation = {
+    insertElement: function(node, next) {
+      $(node).addClass(OFFSCREEN_CLASS);
+      $(node).css({'opacity':  '0px', 'height' : '0px'});
+      $(node).insertBefore(next);
+      $(node).velocity({'opacity': '1'}, {
+        duration: ANIMATION_DURATION,
+        queue: false
+      });
+      Deps.afterFlush(function() {
+        $(node).width();
+      });
     },
-    displayDown: function () {
-
+    moveElement: function(node, next) {
+      animation.removeElement(node);
+      animation.insertElement(node, next);
+    },
+    removeElement: function(node) {
+      $(node)
+        .velocity({
+          'opacity': '0',
+          'height': '0px'
+        }, {
+          duration: ANIMATION_DURATION,
+          queue: false,
+          complete: function() {
+            $(node).remove();
+          }
+        });
     }
-  })
+  };
+
+  //Animation
+  position['easing'] = 'ease-in-out';
+  behave(this.firstNode, 'fade-and-roll', position, animation);
+
+  //Resize
+  $(window).resize( function() {
+    if (popupVisible == true) {
+      $('#popup').css(positionCard(popupCard.sourceElement, target));
+      $('.pointer-up').css({ 'left' : cursorLeft });
+    }
+  });
+
 
 }
+
+Template.popup.helpers({
+  pointer: function () {
+
+  },
+  displayDown: function () {
+
+  }
+})
 
 
 displayPopup = function (content, sourceElement) {

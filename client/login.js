@@ -1,20 +1,17 @@
-if (Meteor.isClient) {
+var currentTab = 0;
 
-  var currentTab = 0;
+Template.login.helpers({
+  tabDisplay: function () {
+  //  console.log(this);
+  }
+});
 
-  Template.login.helpers({
-    tabDisplay: function () {
-    //  console.log(this);
-    }
-  });
-
-  Template.login.events({
-    "click #tab-button": function (event) {
-      setTabValue(event);
-      renderTabs(event.target.parentNode.parentNode.childNodes);
-    }
-  });
-};
+Template.login.events({
+  "click #tab-button": function (event) {
+    setTabValue(event);
+    renderTabs(event.target.parentNode.parentNode.childNodes);
+  }
+});
 
 function setTabValue(event) {
   var tab = event.target.parentNode;

@@ -1,54 +1,50 @@
-if (Meteor.isClient) {
+Template.dateSelector.rendered = function () {
+  behave(this.firstNode, 'fade', { duration: parseInt(ANIMATION_DURATION / 2) });
+  initCalendar();
+}
 
-  Template.dateSelector.rendered = function () {
-    behave(this.firstNode, 'fade', { duration: parseInt(ANIMATION_DURATION / 2) });
-    initCalendar();
-  }
-
-  Template.calendar.helpers({
-    closingDate: function () {
-      var d = new Date()
-      d = getContract().closingDate;
-      return d.format('{Month} {d}, {yyyy}');
-    },
-    toggleStatus: function () {
-      if (Session.get('showCalendar')) {
-        return 'calendar-menu-active';
+Template.calendar.helpers({
+  closingDate: function () {
+    var d = new Date()
+    d = getContract().closingDate;
+    return d.format('{Month} {d}, {yyyy}');
+  },
+  toggleStatus: function () {
+    if (Session.get('showCalendar')) {
+      return 'calendar-menu-active';
+    } else {
+      return '';
+    }
+  },
+  displayCalendar: function (icon) {
+    if (icon == true) {
+      if (Session.get('showCalendar') == true) {
+        return 'display:none';
       } else {
         return '';
       }
-    },
-    displayCalendar: function (icon) {
-      if (icon == true) {
-        if (Session.get('showCalendar') == true) {
-          return 'display:none';
-        } else {
-          return '';
-        }
+    } else {
+      if (Session.get('showCalendar') == undefined) {
+        Session.set('showCalendar', false);
+      } else if (Session.get('showCalendar') == true) {
+        return '';
       } else {
-        if (Session.get('showCalendar') == undefined) {
-          Session.set('showCalendar', false);
-        } else if (Session.get('showCalendar') == true) {
-          return '';
-        } else {
-          return 'display:none';
-        }
+        return 'display:none';
       }
-    },
-    displaySelector: function () {
-      return (Session.get('displaySelector'));
     }
-  });
+  },
+  displaySelector: function () {
+    return (Session.get('displaySelector'));
+  }
+});
 
-  Template.calendar.events({
-    "click #toggleCalendar": function () {
-      initCalendar();
-      Session.set('displaySelector', !Session.get('displaySelector'));
-      Session.set('showCalendar', !Session.get('showCalendar'));
-    }
-  })
-
-}
+Template.calendar.events({
+  "click #toggleCalendar": function () {
+    initCalendar();
+    Session.set('displaySelector', !Session.get('displaySelector'));
+    Session.set('showCalendar', !Session.get('showCalendar'));
+  }
+})
 
 function initCalendar () {
   if ($('#date-picker').html() == "") {
