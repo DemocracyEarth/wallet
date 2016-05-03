@@ -4,7 +4,7 @@ if (Meteor.isClient) {
 
   Template.login.helpers({
     tabDisplay: function () {
-      console.log(this);
+    //  console.log(this);
     }
   });
 

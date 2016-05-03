@@ -85,7 +85,7 @@ displayPopup = function (content, sourceElement) {
   switch (content) {
   case 'login':
     target = {
-      width : 270,
+      width : 300,
       height: 325,
       opacity: 1
     }
@@ -143,6 +143,6 @@ function positionCard (sourceElement, target) {
     //TODO
 
   }
-  
+
   return Object.assign(position, target);
 }

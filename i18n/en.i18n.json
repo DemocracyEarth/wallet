@@ -151,5 +151,16 @@
   "mail": "Mail",
   "social": "Social",
   "scan-with": "Scan with",
-  "phone-app": "Phone App"
+  "phone-app": "Phone App",
+  "log-in": "Log In",
+  "authenticate": "Authenticate",
+  "email": "E-mail",
+  "email-sample": "ie: satoshi@nakamoto.org",
+  "password-sample": "the longer, the better.",
+  "sign-in": "Sign In",
+  "password": "Password",
+  "please-wait": "Please wait...",
+  "use-social-media": "or log in with <strong>social media</strong>:",
+  "facebook": "Facebook",
+  "twitter": "Twitter"
 }

@@ -237,7 +237,7 @@ blockquote {
   right: 10px;
   display: inline-block;
   overflow: hidden;
-  min-width: 260px;
+  min-width: 300px;
   margin-top: 6px;
   padding: 10px;
   border-radius: 3px;
@@ -670,7 +670,36 @@ blockquote {
 
 .button.login-button {
   width: 100%;
-  margin: 0px 0px -10px;
+  margin-right: 0px;
+  margin-bottom: -5px;
+  margin-left: 0px;
+  font-size: 16px;
+}
+
+.button.facebook {
+  border-color: #3c5b96;
+  background-color: #3c5b96;
+}
+
+.button.facebook.button-social {
+  width: 50%;
+}
+
+.button.twitter {
+  border-color: #2ba3ef;
+  background-color: #2ba3ef;
+}
+
+.button.button-social {
+  width: 125px;
+  margin-right: 5px;
+  margin-left: 5px;
+  float: left;
+  font-size: 16px;
+}
+
+.button.button-social.facebook {
+  width: 125px;
 }
 
 .button-label {
@@ -2727,28 +2756,29 @@ blockquote {
 
 .login {
   width: 100%;
+  padding: 5px 10px;
   float: left;
+  font-size: 12px;
+  text-align: center;
 }
 
 .login-input {
-  height: 45px;
-  margin-top: 5px;
+  width: 100%;
+  height: 44px;
   margin-bottom: 0px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 10px;
+  padding: 0px 0px 5px 30px;
   border-style: none none solid;
   border-width: 1px;
-  border-color: #000 #000 hsla(0, 0%, 100%, .5);
+  border-color: #000 #000 #6c5b7c;
   background-color: transparent;
   box-shadow: none;
   color: #fff;
   font-size: 16px;
-  line-height: 30px;
-  text-align: center;
+  text-align: left;
 }
 
 .login-input:focus {
+  border-bottom-width: 1px;
   border-bottom-color: #00bf8f;
 }
 
@@ -2759,13 +2789,13 @@ blockquote {
 }
 
 .login-label {
-  margin-top: 5px;
-  margin-bottom: 15px;
+  margin-top: 0px;
+  margin-bottom: 0px;
   color: hsla(0, 0%, 100%, .7);
   font-size: 11px;
   line-height: 22px;
   font-weight: 300;
-  text-align: center;
+  text-align: left;
   text-transform: uppercase;
 }
 
@@ -2781,8 +2811,10 @@ blockquote {
 }
 
 .tabs {
-  display: inline-block;
-  margin-top: 5px;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  margin-top: 10px;
   margin-bottom: 10px;
   padding-top: 0px;
   padding-bottom: 0px;
@@ -2794,10 +2826,11 @@ blockquote {
 }
 
 .tab {
-  display: inline-block;
-  min-width: 80px;
+  display: block;
+  width: 50%;
   padding-top: 0px;
   padding-bottom: 0px;
+  float: left;
   border-radius: 0px;
   color: #00bf8f;
   font-size: 14px;
@@ -2831,6 +2864,7 @@ blockquote {
   position: absolute;
   z-index: 2500;
   display: block;
+  margin-left: -66px;
 }
 
 .navbar-button {
@@ -2853,6 +2887,33 @@ blockquote {
 
 .tab-content.invisible {
   display: none;
+}
+
+.login-line {
+  height: 1px;
+  margin-bottom: 15px;
+  border-top: 1px dotted #6c5b7c;
+  background-color: transparent;
+}
+
+.login-line.login-line-active {
+  border-top-style: solid;
+  border-top-color: #00bf8f;
+  background-image: none;
+}
+
+.login-icon {
+  position: absolute;
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin-top: 10px;
+  float: left;
+}
+
+.login-field {
+  margin-bottom: 20px;
+  padding-right: 5px;
 }
 
 @media (max-width: 991px) {
@@ -3365,3 +3426,4 @@ blockquote {
     display: inline-block;
   }
 }
+
