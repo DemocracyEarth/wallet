@@ -160,7 +160,11 @@
   "sign-in": "Sign In",
   "password": "Password",
   "please-wait": "Please wait...",
-  "use-social-media": "or log in with <strong>social media</strong>:",
+  "use-social-media": "or use:",
   "facebook": "Facebook",
-  "twitter": "Twitter"
+  "twitter": "Twitter",
+  "use-blockchain-id": "Sign in with a <a href='https://onename.com/' target='_blank'>Blockchain ID</a>.",
+  "dont-have-account": "Don't have an account?",
+  "sign-up": "Sign up",
+  "default": "Standard"
 }

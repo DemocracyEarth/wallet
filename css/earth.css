@@ -391,8 +391,7 @@ blockquote {
 .qr-code.qr-sign {
   display: block;
   max-width: 160px;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 10px auto;
   border-style: solid;
   border-radius: 2px;
 }
@@ -641,6 +640,7 @@ blockquote {
   color: #fff;
   font-size: 18px;
   line-height: 22px;
+  cursor: pointer;
 }
 
 .button.execute {
@@ -2756,9 +2756,11 @@ blockquote {
 
 .login {
   width: 100%;
-  padding: 5px 10px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
   float: left;
-  font-size: 12px;
+  font-size: 14px;
   text-align: center;
 }
 
@@ -2795,12 +2797,15 @@ blockquote {
   font-size: 11px;
   line-height: 22px;
   font-weight: 300;
-  text-align: left;
   text-transform: uppercase;
 }
 
+.login-label.login-label-form {
+  text-align: left;
+}
+
 .authenticate {
-  display: block;
+  display: inline-block;
   margin-right: auto;
   margin-left: auto;
   color: hsla(0, 0%, 100%, .7);
@@ -2886,7 +2891,9 @@ blockquote {
 }
 
 .tab-content.invisible {
-  display: none;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
 }
 
 .login-line {
@@ -2914,6 +2921,13 @@ blockquote {
 .login-field {
   margin-bottom: 20px;
   padding-right: 5px;
+}
+
+.signup {
+  margin-top: 15px;
+  margin-bottom: 0px;
+  font-size: 14px;
+  text-align: center;
 }
 
 @media (max-width: 991px) {
