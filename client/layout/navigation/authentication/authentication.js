@@ -1,3 +1,7 @@
+Template.authentication.rendered = function () {
+  Session.set('displayLogin', false);
+};
+
 Template.authentication.helpers({
   displayLogin: function () {
     return Session.get('displayLogin');

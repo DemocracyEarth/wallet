@@ -165,6 +165,9 @@
   "twitter": "Twitter",
   "use-blockchain-id": "Sign in with a <a href='https://onename.com/' target='_blank'>Blockchain ID</a>.",
   "dont-have-account": "Don't have an account?",
-  "sign-up": "Sign up",
-  "default": "Standard"
+  "sign-up": "Sign Up",
+  "default": "Standard",
+  "password-again": "Password again",
+  "password-sample-again": "one more time.",
+  "already-have-account": "Already have an account?"
 }

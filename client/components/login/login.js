@@ -18,6 +18,8 @@ Template.login.events({
   }
 });
 
+//Tab Component
+
 function setTabValue(event) {
   var tab = event.target.parentNode;
   var tabCollection = tab.parentNode.childNodes
