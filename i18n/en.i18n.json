@@ -153,9 +153,9 @@
   "scan-with": "Scan with",
   "phone-app": "Phone App",
   "log-in": "Log In",
-  "authenticate": "Authenticate",
+  "authenticate": "Private",
   "email": "E-mail",
-  "email-sample": "ie: satoshi@nakamoto.org",
+  "email-sample": "satoshi@nakamoto.org",
   "password-sample": "the longer, the better.",
   "sign-in": "Sign In",
   "password": "Password",
@@ -169,5 +169,12 @@
   "default": "Standard",
   "password-again": "Password again",
   "password-sample-again": "one more time.",
-  "already-have-account": "Already have an account?"
+  "already-have-account": "Already have an account?",
+  "username": "Username",
+  "username-sample": "satoshi",
+  "invalid-username": "No spaces or rare characters allowed.",
+  "invalid-email": "Enter a valid e-mail address.",
+  "invalid-password": "Use at least 6 letters and 1 number.",
+  "short-password": "Pass requires at least 6 characters.",
+  "mismatch-password": "Passwords do not properly match."
 }

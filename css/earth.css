@@ -2921,6 +2921,7 @@ blockquote {
 .login-field {
   margin-bottom: 20px;
   padding-right: 5px;
+  text-align: left;
 }
 
 .signup {

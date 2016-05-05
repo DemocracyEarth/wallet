@@ -28,26 +28,57 @@
     {{else}}
       <div class="login">
         <div class="w-form">
-          <form id="email-form-3" name="email-form-3" data-name="Email Form 3">
+
+          <form id="signup-new-user" name="signup-form">
+
             <div class="w-clearfix login-field">
-              <label for="name" class="login-label login-label-form">{{_ "email"}}</label>
+              <label for="signup-username" class="login-label login-label-form">
+                {{_ "username"}}
+              </label>
+              <img src="{{pathFor route='home'}}images/id-card.png" class="login-icon">
+              <input id="signup-input" name="username" type="text" placeholder="{{_ 'username-sample'}}" class="w-input login-input">
+              {{#if invalidUsername}}
+                {{> warning label="invalid-username"}}
+              {{/if}}
+            </div>
+
+            <div class="w-clearfix login-field">
+              <label for="signup-email" class="login-label login-label-form">
+                {{_ "email"}}
+              </label>
               <img src="{{pathFor route='home'}}images/mail-closed.png" class="login-icon">
-              <input type="text" placeholder="{{_ 'email-sample'}}" class="w-input login-input">
+              <input id="signup-input" name="email" type="text" placeholder="{{_ 'email-sample'}}" class="w-input login-input">
+              {{#if invalidEmail}}
+                {{> warning label="invalid-email"}}
+              {{/if}}
+            </div>
+
+            <div class="w-clearfix login-field">
+              <label for="signup-password" class="login-label login-label-form">
+                {{_ "password"}}
+              </label>
+              <img src="{{pathFor route='home'}}images/lock.png" class="login-icon">
+              <input id="signup-input" name="password" type="password" placeholder="{{_ 'password-sample'}}" class="w-input login-input">
+              {{#if invalidPassword}}
+                {{> warning label="invalid-password"}}
+              {{/if}}
             </div>
             <div class="w-clearfix login-field">
-              <label for="name" class="login-label login-label-form">{{_ "password"}}</label>
+              <label for="signup-password-doublecheck" class="login-label login-label-form">
+                {{_ "password-again"}}
+              </label>
               <img src="{{pathFor route='home'}}images/lock.png" class="login-icon">
-              <input type="password" placeholder="{{_ 'password-sample'}}" class="w-input login-input">
+              <input id="signup-input" name="passwordDoublecheck" type="password" placeholder="{{_ 'password-sample-again'}}" class="w-input login-input">
+              {{#if mismatchPassword}}
+                {{> warning label="mismatch-password"}}
+              {{/if}}
             </div>
-            <div class="w-clearfix login-field">
-              <label for="name" class="login-label login-label-form">{{_ "password-again"}}</label>
-              <img src="{{pathFor route='home'}}images/lock.png" class="login-icon">
-              <input type="password" placeholder="{{_ 'password-sample-again'}}" class="w-input login-input">
-            </div>
-            <input type="submit" value="{{_ 'sign-in'}}" data-wait="{{_ 'please-wait'}}" class="w-button button login-button">
+            <input type="submit" value="{{_ 'sign-up'}}" data-wait="{{_ 'please-wait'}}" class="w-button button login-button">
           </form>
         </div>
+
         <div>{{_ "already-have-account"}} <a id='signup' href="#">{{_ "sign-in"}}</a>.</div>
+
       </div>
     {{/if}}
   {{/if}}
