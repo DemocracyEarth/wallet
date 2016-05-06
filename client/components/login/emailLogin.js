@@ -48,9 +48,12 @@ Template.emailLogin.events({
         break;
       case "password":
         validatePassword(event.target.value);
+        if (document.getElementsByName("mismatchPassword")[0].value != '') {
+          validatePasswordMatch(document.getElementsByName("mismatchPassword")[0].value, event.target.value);
+        }
         break;
-      case "passwordMismatch":
-        validatePassword(document.getElementsByName("password")[0].value, event.target.value);
+      case "mismatchPassword":
+        validatePasswordMatch(document.getElementsByName("password")[0].value, event.target.value);
         break;
     }
   }
@@ -69,7 +72,7 @@ function validateUser (data) {
   var val = validateUsername(data.username.value)
             + validateEmail(data.email.value)
             + validatePassword(data.password.value)
-            + validatePasswordMatch(data.password.value, data.passwordDoublecheck.value);
+            + validatePasswordMatch(data.password.value, data.mismatchPassword.value);
 
   if (val >= 4) { return true } else { return false };
 }

@@ -68,7 +68,7 @@
                 {{_ "password-again"}}
               </label>
               <img src="{{pathFor route='home'}}images/lock.png" class="login-icon">
-              <input id="signup-input" name="passwordDoublecheck" type="password" placeholder="{{_ 'password-sample-again'}}" class="w-input login-input">
+              <input id="signup-input" name="mismatchPassword" type="password" placeholder="{{_ 'password-sample-again'}}" class="w-input login-input">
               {{#if mismatchPassword}}
                 {{> warning label="mismatch-password"}}
               {{/if}}
