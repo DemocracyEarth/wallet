@@ -184,7 +184,10 @@ function createContract (keyword) {
   var creationDate = new Date;
   creationDate.setDate(creationDate.getDate() + 1);
   console.log('creating contract by user: ' + Meteor.userId());
+
+  //Creates new contract:
   Contracts.insert({ title: keyword });
+  
   return Contracts.findOne({keyword: slug});
 }
 
@@ -205,12 +208,3 @@ function createTag (tag) {
   });
   return Tags.findOne({keyword: slug});
 }
-/*
-function convertToSlug (text) {
-  //makes any "string with free speech" into a "string-with-digital-speech"
-  return text
-      .toLowerCase()
-      .replace(/ /g,'-')
-      .replace(/[^\w-]+/g,'')
-      ;
-}*/
