@@ -187,24 +187,13 @@ function createContract (keyword) {
 
   //Creates new contract:
   Contracts.insert({ title: keyword });
-  
+
   return Contracts.findOne({keyword: slug});
 }
 
 function createTag (tag) {
   //Adds a new tag to db, returns created insert
   var slug = convertToSlug(tag);
-  Tags.insert({
-    text: tag,
-    url: '/tag/' + slug,
-    authors: [
-      //{ _id: Meteor.userId(), username: Meteor.user().username }
-    ],
-    keyword: slug,
-    createdAt: new Date(),
-    lastUpdate: new Date(),
-    isDefined: false,
-    authorized: false
-  });
+  Tags.insert({ text: tag });
   return Tags.findOne({keyword: slug});
 }
