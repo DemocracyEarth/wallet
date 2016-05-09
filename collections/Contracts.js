@@ -16,8 +16,9 @@ ContractSchema = new SimpleSchema({
     }
   },
   kind: {
-    //Kind of contract: VOTE, TAG, IDENTITY
+    //Kind of contract
     type: String,
+    allowedValues: ['VOTE', 'DELEGATION', 'MEMBERSHIP'],
     autoValue: function () {
       if (this.isInsert) {
         return "VOTE";
@@ -27,6 +28,7 @@ ContractSchema = new SimpleSchema({
   context: {
     //Context this contract lives on the system
     type: String,
+    allowedValues: ['GLOBAL', 'LOCAL'],
     autoValue: function () {
       if (this.isInsert) {
         return "GLOBAL";
@@ -100,6 +102,7 @@ ContractSchema = new SimpleSchema({
   executionStatus: {
     //Execution status: DRAFT, APPROVED, ALTERNATIVE, REJECTED
     type: String,
+    allowedValues: ['DRAFT', 'LIVE', 'APPROVED', 'ALTERNATIVE', 'REJECTED'],
     autoValue: function () {
       return 'DRAFT';
     }
@@ -190,6 +193,7 @@ ContractSchema = new SimpleSchema({
   stage: {
     //Current stage of this contract: DRAFT, LIVE, FINISH
     type: String,
+    allowedValues: ['DRAFT', 'LIVE', 'FINISH'],
     autoValue: function () {
      return "DRAFT";
     }
