@@ -66,9 +66,17 @@ Template.emailLogin.events({
 
 function createNewUser(data) {
   if (validateUser(data)) {
-    console.log('REGISTER');
+    console.log('Creating new user: ' + data.username.value);
+    Accounts.createUser({
+      username: data.username.value,
+      emails: {
+        address: data.email.value,
+        verified: false
+      },
+      password: data.password.value
+    });
   } else {
-    console.log('ERROR');
+    console.log('Cannot create user');
   }
 }
 

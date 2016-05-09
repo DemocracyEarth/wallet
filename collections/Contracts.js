@@ -96,7 +96,9 @@ ContractSchema = new SimpleSchema({
     //Visible to members of the organization
     type: Boolean,
     autoValue: function () {
-      return false;
+      if (this.isInsert) {
+        return false;
+      }
     }
   },
   executionStatus: {
@@ -104,14 +106,18 @@ ContractSchema = new SimpleSchema({
     type: String,
     allowedValues: ['DRAFT', 'LIVE', 'APPROVED', 'ALTERNATIVE', 'REJECTED'],
     autoValue: function () {
-      return 'DRAFT';
+      if (this.isInsert) {
+        return 'DRAFT';
+      }
     }
   },
   anonymous: {
     //Anonymous contract
     type: Boolean,
     autoValue: function () {
-      return false;
+      if (this.isInsert) {
+        return false;
+      }
     }
   },
   authors: {
@@ -145,49 +151,63 @@ ContractSchema = new SimpleSchema({
     //If contract never closes and is always open
     type: Boolean,
     autoValue: function () {
-      return false;
+      if (this.isInsert) {
+        return false;
+      }
     }
   },
   allowForks: {
     //If adding as an option other contracts is possible
     type: Boolean,
     autoValue: function () {
-      return true;
+      if (this.isInsert) {
+        return true;
+      }
     }
   },
   secretVotes: {
      //If votes will be strictly kept secret
      type: Boolean,
      autoValue: function () {
-       return false;
+       if (this.isInsert) {
+         return false;
+       }
      }
   },
   realtimeResults: {
       //If results of the election are shown on real-time
      type: Boolean,
      autoValue: function () {
-       return false;
+       if (this.isInsert) {
+         return false;
+       }
      }
   },
   multipleChoice: {
     //If selection of multiple options on ballot is allowed
     type: Boolean,
     autoValue: function () {
-     return false;
+      if (this.isInsert) {
+        return false;
+      }
     }
   },
   rankPreferences: {
     //If Ballot dynamic is based on ranking preferences
     type: Boolean,
     autoValue: function () {
-     return false;
+      if (this.isInsert) {
+        return false;
+      }
     }
   },
   executiveDecision: {
     //If contract includes options of final decisoin (AUTHORIZE & REJECT)
     type: Boolean,
     autoValue: function () {
-     return true;
+      if (this.isInsert) {
+        return true;
+      }
     }
   },
   stage: {
@@ -195,7 +215,9 @@ ContractSchema = new SimpleSchema({
     type: String,
     allowedValues: ['DRAFT', 'LIVE', 'FINISH'],
     autoValue: function () {
-     return "DRAFT";
+      if (this.isInsert) {
+        return "DRAFT";
+      }
     }
   },
   ballot: {
@@ -227,21 +249,27 @@ ContractSchema = new SimpleSchema({
     //This contract has been authorized
     type: Boolean,
     autoValue: function () {
-      return false;
+      if (this.isInsert) {
+        return false;
+      }
     }
   },
   isDefined: {
     //This contract has a definition/description
     type: Boolean,
     autoValue: function () {
-      return false;
+      if (this.isInsert) {
+        return false;
+      }
     }
   },
   isRoot: {
     //This contract is core to the organization (Constitutional)
     type: Boolean,
     autoValue: function () {
-      return true;
+      if (this.isInsert) {
+        return true;
+      }
     }
   },
   referrers: {
