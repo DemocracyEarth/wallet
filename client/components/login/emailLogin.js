@@ -56,6 +56,10 @@ Template.emailLogin.events({
         validatePasswordMatch(document.getElementsByName("password")[0].value, event.target.value);
         break;
     }
+  },
+  'click .logout': function(event){
+      event.preventDefault();
+      Meteor.logout();
   }
 });
 
