@@ -2,39 +2,58 @@ Contracts = new Mongo.Collection("contracts");
 
 ContractSchema = new SimpleSchema({
   title: {
+    //Title of the contract
     type: String,
+    optional: false
   },
   keyword: {
     //Unique identifier in DB as keyword-based-slug
     type: String,
+    autoValue: function () {
+      if (this.isInsert) {
+        return convertToSlug(this.field("title").value);
+      };
+    }
   },
   kind: {
     //Kind of contract: VOTE, TAG, IDENTITY
     type: String,
     autoValue: function () {
-      return "VOTE";
+      if (this.isInsert) {
+        return "VOTE";
+      };
     }
   },
   context: {
     //Context this contract lives on the system
     type: String,
     autoValue: function () {
-      return "GLOBAL";
+      if (this.isInsert) {
+        return "GLOBAL";
+      };
     }
   },
   url:  {
      //URL inside the instance of .Earth
-    type: String
+    type: String,
+    autoValue: function () {
+      if (this.isInsert) {
+        return '/vote/' + convertToSlug(this.field("title").value);
+      }
+    }
   },
   description:  {
     //HTML Description of the contract (the contents of the contract itself)
-    type: String
+    type: String,
+    optional: true
   },
   createdAt: {
     //Creation Date
     type: Date,
     autoValue: function () {
-      return new Date();
+      if (this.isInsert) {
+        return new Date();
+      }
     }
   },
   lastUpdate: {
@@ -53,7 +72,8 @@ ContractSchema = new SimpleSchema({
   },
   tags: {
     //Collection of Tags semantically describing contract
-    type: Array
+    type: Array,
+    optional: true
   },
   "tags.$": {
       type: Object
@@ -93,17 +113,29 @@ ContractSchema = new SimpleSchema({
   },
   authors: {
     //Collection of authors that signed this contract
-    type: Array
+    type: Array,
+    optional: true
   },
   "authors.$": {
-      type: Object
+    type: Object
+  },
+  "authors.$._id": {
+    type: String,
+    autoValue: function () {
+      if (this.isInsert) {
+        return this.userId;
+      };
+    }
   },
   closingDate: {
     //When the contract decision closes (poll closing)
     type: Date,
     autoValue: function () {
-      var creationDate = new Date;
-      return creationDate.setDate(creationDate.getDate() + 1);
+      if (this.isInsert) {
+        var creationDate = new Date;
+        creationDate.setDate(creationDate.getDate() + 1);
+        return creationDate;
+      }
     }
   },
   alwaysOpen: {
@@ -164,7 +196,8 @@ ContractSchema = new SimpleSchema({
   },
   ballot: {
     //Ballot options of the contract
-    type: Array
+    type: Array,
+    optional: true
   },
   "ballot.$": {
       type: Object
@@ -209,9 +242,12 @@ ContractSchema = new SimpleSchema({
   },
   referrers: {
     //Other contracts referring to this one
-    type: Array
+    type: Array,
+    optional: true
   },
   "referrers.$": {
       type: Object
   }
 });
+
+Contracts.attachSchema(ContractSchema);
