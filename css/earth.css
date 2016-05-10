@@ -237,6 +237,7 @@ blockquote {
   right: 10px;
   display: inline-block;
   overflow: hidden;
+  max-width: 300px;
   min-width: 300px;
   margin-top: 6px;
   padding: 10px;
@@ -567,6 +568,12 @@ blockquote {
   float: right;
   box-shadow: inset 0 0 2px 0 #000;
   font-size: 16px;
+}
+
+.tag.tag-extra {
+  padding-right: 0px;
+  padding-left: 0px;
+  background-color: transparent;
 }
 
 .hash-icon {
@@ -1598,7 +1605,7 @@ blockquote {
 
 .identity-label:hover {
   border-bottom: 1px solid #00bf8f;
-  line-height: 25px;
+  line-height: 26px;
 }
 
 .identity-label.twitter-link {
@@ -1898,6 +1905,7 @@ blockquote {
   height: 15px;
   margin-top: 20px;
   margin-bottom: 10px;
+  box-shadow: inset 0 3px 13px -2px rgba(0, 0, 0, .5);
 }
 
 .result-bar {
@@ -1921,8 +1929,9 @@ blockquote {
 }
 
 .result-bar.vote-bar {
-  width: 52%;
+  width: 74%;
   height: 100%;
+  box-shadow: inset 0 1px 11px -5px hsla(0, 0%, 100%, .5);
 }
 
 .result-bar.vote-bar.vote-bar-allocated {
@@ -2033,7 +2042,6 @@ blockquote {
   margin-top: 0px;
   padding-top: 0px;
   clear: both;
-  color: #000;
   font-size: 14px;
   line-height: 20px;
 }
@@ -2198,8 +2206,15 @@ blockquote {
 .rosca {
   display: inline-block;
   width: 100%;
-  margin-top: 20px;
   font-size: 14px;
+}
+
+.rosca.rosca-setter {
+  padding-top: 20px;
+}
+
+.rosca.rosca-id {
+  margin-top: -15px;
 }
 
 .avatar {
@@ -2282,8 +2297,9 @@ blockquote {
 }
 
 .vote-available.label-votes {
-  font-size: 12px;
-  text-transform: uppercase;
+  float: left;
+  font-size: 14px;
+  text-transform: capitalize;
 }
 
 .vote-allocated {
@@ -2292,8 +2308,8 @@ blockquote {
 }
 
 .vote-allocated.label-votes {
-  font-size: 12px;
-  text-transform: uppercase;
+  font-size: 14px;
+  text-transform: none;
 }
 
 .vote-count {
@@ -2869,7 +2885,7 @@ blockquote {
   position: absolute;
   z-index: 2500;
   display: block;
-  margin-left: -66px;
+  margin-left: -328px;
 }
 
 .navbar-button {
@@ -2927,6 +2943,11 @@ blockquote {
 .signup {
   margin-top: 15px;
   margin-bottom: 0px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.id.id-logged {
   font-size: 14px;
   text-align: center;
 }

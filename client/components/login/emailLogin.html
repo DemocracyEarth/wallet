@@ -1,6 +1,6 @@
 <template name="emailLogin">
   {{#if currentUser}}
-    SHOW USER
+    {{> profile}}
     <a href="#" class="logout">Logout</a>
   {{else}}
     {{#if loginScreen}}
