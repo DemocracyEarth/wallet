@@ -104,10 +104,10 @@ ContractSchema = new SimpleSchema({
   executionStatus: {
     //Execution status: DRAFT, APPROVED, ALTERNATIVE, REJECTED
     type: String,
-    allowedValues: ['DRAFT', 'LIVE', 'APPROVED', 'ALTERNATIVE', 'REJECTED'],
+    allowedValues: ['OPEN', 'APPROVED', 'ALTERNATIVE', 'REJECTED'],
     autoValue: function () {
       if (this.isInsert) {
-        return 'DRAFT';
+        return 'OPEN';
       }
     }
   },
