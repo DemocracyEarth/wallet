@@ -90,9 +90,9 @@ function validateUser (data) {
 }
 
 function validateUsername (username) {
-  var val = /^[0-9a-zA-Z_.-]+$/;
-  Session.set("invalidUsername", !val.test(username));
-  return val.test(username);
+  var regexp = /^[a-z,',-]+(\s)[a-z,',-]+$/i
+  Session.set("invalidUsername", !regexp.test(username));
+  return regexp.test(username);
 }
 
 function validateEmail (email) {
