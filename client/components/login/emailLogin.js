@@ -87,7 +87,12 @@ function createNewUser(data) {
     };
 
     if (UserContext.validate(objUser)) {
-      Accounts.createUser(objUser, function(error){
+      Accounts.createUser({
+        username: objUser.username,
+        password: objUser.services.password,
+        emails: objUser.emails,
+        profile: objUser.profile
+      }, function(error){
         if (error) {
             console.log(error.reason); // Output error if registration fails
         } else {
