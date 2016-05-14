@@ -14,66 +14,6 @@ Schema.BlockchainID = new SimpleSchema({
   //TBD
 });
 
-Schema.Votes = new SimpleSchema({
-  placed: {
-    type: Number,
-    optional: true
-  },
-  available: {
-    type: Number,
-    optional: true
-  },
-  total: {
-    type: Number,
-    optional: true
-  },
-  delegations: {
-    type: Schema.Delegations,
-    optional: true
-  }
-});
-
-Schema.Delegations = new SimpleSchema({
-  received: {
-    type: Array,
-    optional: true
-  },
-  "received.$": {
-    type: Schema.DelegationContract
-  },
-  sent: {
-    type: Array,
-    optional: true
-  },
-  "sent.$": {
-    type: Schema.DelegationContract
-  }
-});
-
-Schema.DelegationContract = new SimpleSchema({
-  userId: {
-    type: String
-  },
-  contract: {
-    type: String
-  },
-  votes: {
-    type: Number
-  },
-  tags: {
-    type: Array
-  },
-  "tags.$": {
-    type: Object
-  },
-  "tags.$._id": {
-    type: String
-  },
-  "tags.$.text": {
-    type: String
-  }
-})
-
 Schema.UserProfile = new SimpleSchema({
     firstName: {
         type: String,
@@ -113,11 +53,7 @@ Schema.UserProfile = new SimpleSchema({
 
 Schema.User = new SimpleSchema({
     username: {
-        type: String,
-        // For accounts-password, either emails or username is required, but not both. It is OK to make this
-        // optional here because the accounts-password package does its own validation.
-        // Third-party login packages may not require either. Adjust this schema as necessary for your usage.
-        optional: true
+        type: String
     },
     emails: {
         type: Array,
@@ -135,10 +71,6 @@ Schema.User = new SimpleSchema({
     },
     "emails.$.verified": {
         type: Boolean
-    },
-    votes: {
-      type: Schema.Votes,
-      optional: true
     },
     // Use this registered_emails field if you are using splendido:meteor-accounts-emails-field / splendido:meteor-accounts-meld
     registered_emails: {
@@ -186,4 +118,5 @@ Schema.User = new SimpleSchema({
     }
 });
 
+UserContext = Schema.User.newContext();
 Meteor.users.attachSchema(Schema.User);

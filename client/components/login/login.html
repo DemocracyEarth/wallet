@@ -1,26 +1,21 @@
 <template name="login">
-  <div class="w-clearfix paper-header card-header">
-    <img src="{{pathFor route='home'}}images/fingerprint-white.png" class="section-icon">
-    <div>{{_ "identity"}}</div>
-    <div class="stage stage-finish-approved stage-card stage-anon">
-      <div class="label label-corner">{{_ "anonymous-mode"}}</div>
+  {{#if currentUser}}
+    <div class="w-clearfix paper-header card-header">
+      <img src="{{pathFor route='home'}}images/fingerprint-white.png" class="section-icon">
+      <div>{{_ "identity"}}</div>
+      <div class="stage stage-finish-approved stage-card">
+        <div class="label label-corner">{{_ "logged-in"}}</div>
+      </div>
     </div>
-  </div>
-
-  <div class="tabs" value="{{update}}">
-    <div id="tab-button" value=true tab=0 class="tab tab-active">
-      <div>{{_ "default"}}</div>
+    {{> profile}}
+  {{else}}
+    <div class="w-clearfix paper-header card-header">
+      <img src="{{pathFor route='home'}}images/fingerprint-white.png" class="section-icon">
+      <div>{{_ "identity"}}</div>
+      <div class="stage stage-finish-approved stage-card stage-anon">
+        <div class="label label-corner">{{_ "anonymous-mode"}}</div>
+      </div>
     </div>
-    <div id="tab-button" value=false tab=1 class="tab">
-      <div>{{_ "authenticate"}}</div>
-    </div>
-  </div>
-  <div id="tab-view">
-    <div class="tab-content" tab=1 style="{{tabDisplay}}">
-      {{> blockchainLogin}}
-    </div>
-    <div class="tab-content" tab=0 style="{{tabDisplay}}">
-      {{> emailLogin}}
-    </div>
-  </div>
+    {{> logger}}
+  {{/if}}
 </template>

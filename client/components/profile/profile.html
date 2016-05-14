@@ -1,11 +1,14 @@
 <template name="profile">
   <div class="id id-logged">
     <ul class="w-list-unstyled w-clearfix extra">
-      <li class="w-clearfix identity"><img src="images/Screen Shot 2016-01-27 at 12.05.33 AM.png" class="symbol profile-pic">
+      <li class="w-clearfix identity">
+        <img src="{{pathFor route='home'}}images/Screen Shot 2016-01-27 at 12.05.33 AM.png" class="symbol profile-pic">
         <div class="identity-peer">
-          <div class="identity-verified"><img src="images/white-tick.png" class="identity-verified-tick">
-          </div><a href="#" class="identity-label">Satoshi Nakamoto</a>
-          <div class="identity-nation">Earth</div>
+          <div class="identity-verified">
+            <img src="{{pathFor route='home'}}images/white-tick.png" class="identity-verified-tick">
+          </div>
+          <a href="#" class="identity-label">{{fullName}}</a>
+          <div class="identity-nation">{{territory}}</div>
         </div>
       </li>
     </ul>
@@ -14,38 +17,45 @@
         <div class="result-bar vote-bar"></div>
         <div class="result-bar vote-bar vote-bar-allocated"></div>
       </div>
-      <div class="vote-available label-votes"><strong data-new-link="true">27</strong> <span><a href="#">available votes</a></span>
+      <div class="vote-available label-votes">
+        <strong data-new-link="true">
+        {{availableVotes}}
+        </strong>
+        <span>
+          <a href="#">{{_ 'available-votes'}}</a>
+        </span>
       </div>
-      <div class="vote-allocated label-votes"><strong data-new-link="true">36</strong>&nbsp; <a href="#">Placed votes</a>
+      <div class="vote-allocated label-votes">
+        <strong data-new-link="true">
+          {{placedVotes}}
+        </strong>
+        <a href="#">{{_ 'placed-votes'}}</a>
       </div>
     </div>
     <ul class="w-list-unstyled w-clearfix extra">
-      <li class="w-clearfix tag"><img src="images/handshake-right.png" class="hash-icon">
+      <li class="w-clearfix tag"><img src="{{pathFor route='home'}}images/handshake-right.png" class="hash-icon">
         <a href="#" class="w-inline-block w-clearfix hash-link">
           <div class="hash-tag">Bitcoin</div>
         </a>
-        <div class="tag-bitcoin">
-          <div>Ƀ 1.48</div>
-        </div>
       </li>
-      <li class="w-clearfix tag"><img src="images/handshake-right.png" class="hash-icon">
+      <li class="w-clearfix tag"><img src="{{pathFor route='home'}}images/handshake-right.png" class="hash-icon">
         <a href="#" class="w-inline-block w-clearfix hash-link">
           <div class="hash-tag">Blockchain</div>
         </a>
-        <div class="tag-bitcoin">
-          <div><strong data-new-link="true">Ƀ</strong>&nbsp;3,25</div>
-        </div>
       </li>
-      <li class="w-clearfix tag"><img src="images/handshake-right.png" class="hash-icon">
+      <li class="w-clearfix tag"><img src="{{pathFor route='home'}}images/handshake-right.png" class="hash-icon">
         <a href="#" class="w-inline-block w-clearfix hash-link">
           <div class="hash-tag">Cryptocurrencies</div>
         </a>
-        <div class="tag-bitcoin">
-          <div><strong data-new-link="true">Ƀ</strong>&nbsp;3,25</div>
-        </div>
       </li>
     </ul>
-    <div><a href="#">See all 23 delegations.</a>
+    <div>
+      <a href="#">
+        {{_ 'see-all'}} {{totalDelegations}} {{_ 'delegations'}}.
+      </a>
+      <a href="#" id="logout">
+        {{_ 'log-out'}}
+      </a>
     </div>
   </div>
 </template>

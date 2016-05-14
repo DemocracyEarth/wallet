@@ -56,10 +56,6 @@ Template.emailLogin.events({
         validatePasswordMatch(document.getElementsByName("password")[0].value, event.target.value);
         break;
     }
-  },
-  'click .logout': function(event){
-      event.preventDefault();
-      Meteor.logout();
   }
 });
 
@@ -67,18 +63,47 @@ Template.emailLogin.events({
 function createNewUser(data) {
   if (validateUser(data)) {
     console.log('Creating new user: ' + data.username.value);
-    Accounts.createUser({
+    console.log(data.password.value);
+
+    var fullName = data.username.value.split(' '),
+        givenName = fullName[0],
+        familyName = fullName[fullName.length - 1];
+
+
+    var objUser = {
       username: data.username.value,
-      emails: {
+      emails: [{
         address: data.email.value,
         verified: false
+      }],
+      services: {
+        password: data.password.value
       },
-      password: data.password.value
-    });
+      profile: {
+        firstName: givenName,
+        lastName: familyName
+      },
+      createdAt: new Date()
+    };
+
+    if (UserContext.validate(objUser)) {
+      Accounts.createUser(objUser, function(error){
+        if (error) {
+            console.log(error.reason); // Output error if registration fails
+        } else {
+            //Router.go("home"); // Redirect user if registration succeeds
+        }
+      });
+    } else {
+      check(objUser, Schema.User);
+    }
+
   } else {
     console.log('Cannot create user');
   }
 }
+
+//Validators
 
 function validateUser (data) {
   var val = validateUsername(data.username.value)
@@ -97,6 +122,9 @@ function validateUsername (username) {
 
 function validateEmail (email) {
   var val = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+  //TODO verify if email already exists in db
+
   Session.set("invalidEmail", !val.test(email));
   return val.test(email);
 }

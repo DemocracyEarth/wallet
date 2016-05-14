@@ -1,16 +1,16 @@
 var currentTab = 0;
 
-Template.login.rendered = function () {
+Template.logger.rendered = function () {
   displayTabContent(document.getElementById('tab-view'), currentTab)
 }
 
-Template.login.helpers({
+Template.logger.helpers({
   tabDisplay: function () {
 
   }
 });
 
-Template.login.events({
+Template.logger.events({
   "click #tab-button": function (event) {
     setTabValue(event);
     renderTabs(event.target.parentNode.parentNode.childNodes);

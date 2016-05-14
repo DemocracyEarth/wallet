@@ -145,7 +145,7 @@
   "blockchain-address": "blockchain:",
   "general-search": "Search democracies...",
   "screen-new-proposal": "New proposal for",
-  "identify": "Identity",
+  "identity": "Identity",
   "anonymous-mode": "Anonymous Mode",
   "phone": "Phone",
   "mail": "Mail",
@@ -176,5 +176,11 @@
   "invalid-email": "Enter a valid e-mail address.",
   "invalid-password": "Use at least 6 letters and 1 number.",
   "short-password": "Pass requires at least 6 characters.",
-  "mismatch-password": "Passwords do not properly match."
+  "mismatch-password": "Passwords do not properly match.",
+  "available-votes": "Available votes",
+  "placed-votes": "Placed votes",
+  "see-all": "Review all",
+  "delegations": "delegations",
+  "log-out": "Log Out",
+  "logged-in": "Logged In"
 }
