@@ -102,6 +102,15 @@ Meteor.methods({
     var obj = {};
     obj[field] = value;
     Contracts.update(contractId, { $set: obj });
+  },
+
+  verifyUsername: function(strUsername) {
+    console.log('verifying username: ' + strUsername + ' ' + Meteor.users.findOne({username: strUsername}))
+    if (Meteor.users.findOne({username: strUsername}) != undefined) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 });

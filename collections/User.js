@@ -23,6 +23,14 @@ Schema.UserProfile = new SimpleSchema({
         type: String,
         optional: true
     },
+    picture: {
+        type: String,
+        optional: true
+    },
+    country: {
+        type: Schema.UserCountry,
+        optional: true
+    },    
     birthday: {
         type: Date,
         optional: true
@@ -43,10 +51,6 @@ Schema.UserProfile = new SimpleSchema({
     },
     bio: {
         type: String,
-        optional: true
-    },
-    country: {
-        type: Schema.UserCountry,
         optional: true
     }
 });

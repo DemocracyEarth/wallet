@@ -3,6 +3,7 @@ Template.emailLogin.rendered = function () {
 
   //Give everyone a chance to not fuckup
   Session.set("invalidUsername", false);
+  Session.set("repeatedUsername", false);
   Session.set("invalidEmail", false);
   Session.set("invalidPassword", false);
   Session.set("shortPassword", false);
@@ -15,6 +16,9 @@ Template.emailLogin.helpers({
   },
   invalidUsername: function () {
     return Session.get("invalidUsername");
+  },
+  repeatedUsername: function () {
+    return Session.get("repeatedUsername");
   },
   invalidEmail: function() {
     return Session.get("invalidEmail");
@@ -60,15 +64,26 @@ Template.emailLogin.events({
 });
 
 
+//Create
+
 function createNewUser(data) {
   if (validateUser(data)) {
     console.log('Creating new user: ' + data.username.value);
     console.log(data.password.value);
 
     var fullName = data.username.value.split(' '),
-        givenName = fullName[0],
-        familyName = fullName[fullName.length - 1];
+        givenName = fullName[0];
+    var familyName = '';
 
+    if (fullName.length > 1) {
+      for (i = (fullName.length - 1); i <= 1; i--) {
+        if (familyName == '') {
+          familyName = fullName[i];
+        } else {
+          familyName = familyName + " " + fullName[i];
+        }
+      }
+    }
 
     var objUser = {
       username: data.username.value,
@@ -90,13 +105,15 @@ function createNewUser(data) {
       Accounts.createUser({
         username: objUser.username,
         password: objUser.services.password,
-        emails: objUser.emails,
+        emails: objUser.emails.address,
         profile: objUser.profile
       }, function(error){
         if (error) {
-            console.log(error.reason); // Output error if registration fails
-        } else {
-            //Router.go("home"); // Redirect user if registration succeeds
+          switch (error.error) {
+          case 403:
+              Session.set('repeatedUsername', true);
+              break;
+          }
         }
       });
     } else {
@@ -119,12 +136,6 @@ function validateUser (data) {
   if (val >= 4) { return true } else { return false };
 }
 
-function validateUsername (username) {
-  var regexp = /^[a-z,',-]+(\s)[a-z,',-]+$/i
-  Session.set("invalidUsername", !regexp.test(username));
-  return regexp.test(username);
-}
-
 function validateEmail (email) {
   var val = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -143,7 +154,7 @@ function validatePassword(pass) {
     Session.set("shortPassword", false);
     val = true;
   }
-  if (pass.search(/[a-z]/i) < 0) {
+  /*if (pass.search(/[a-z]/i) < 0) {
     Session.set("invalidPassword", true);
     val = false;
   } else {
@@ -154,11 +165,33 @@ function validatePassword(pass) {
       Session.set("invalidPassword", false);
       val = true;
     }
-  }
+  }*/
   return val;
 }
 
 function validatePasswordMatch (passA, passB) {
   Session.set("mismatchPassword", !(passA == passB));
   return (passA == passB);
+}
+
+function validateUsername (username) {
+  //var regexp = /^[A-Za-z'-\s]+$/ Full name and surname
+  var regexp = /^[a-zA-Z0-9]+$/;
+  Session.set("invalidUsername", !regexp.test(username));
+  if (regexp.test(username)) {
+    //console.log(Meteor.call('verifyUsername', username, function(err, id){console.log(err, id);}));
+
+    Meteor.call('verifyUsername', username, function(err, id) {
+      if (id == true) {
+        Session.set("repeatedUsername", true);
+      } else {
+        Session.set("repeatedUsername", false);
+      }
+    });
+
+    if (Session.get("repeatedUsername")) {
+      return false;
+    }
+  }
+  return regexp.test(username);
 }
