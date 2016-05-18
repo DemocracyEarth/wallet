@@ -171,11 +171,11 @@
   "password-sample-again": "one more time.",
   "already-have-account": "Already have an account?",
   "username": "Username",
-  "username-sample": "satoshinakmaoto",
+  "username-sample": "satoshin",
   "invalid-username": "No spaces or rare characters.",
   "repeated-username": "Username already exists.",
   "invalid-email": "Enter a valid e-mail address.",
-  "invalid-password": "Use at least 6 letters and 1 number.",
+  "invalid-password": "Pass requires at least 6 letters.",
   "short-password": "Pass requires at least 6 characters.",
   "mismatch-password": "Passwords do not properly match.",
   "available-votes": "Available votes",
@@ -183,5 +183,12 @@
   "see-all": "Review all",
   "delegations": "delegations",
   "log-out": "Log Out",
-  "logged-in": "Logged In"
+  "logged-in": "Logged In",
+  "given-name": "First Name",
+  "family-name": "Surname",
+  "nationality": "Nationality",
+  "save-profile": "Save Profile",
+  "please-wait": "Please wait...",
+  "skip-step": "Skip this step.",
+  "edit-later": "You can always edit later."
 }

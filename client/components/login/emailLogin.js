@@ -68,8 +68,6 @@ Template.emailLogin.events({
 
 function createNewUser(data) {
   if (validateUser(data)) {
-    console.log('Creating new user: ' + data.username.value);
-    console.log(data.password.value);
 
     var fullName = data.username.value.split(' '),
         givenName = fullName[0];
@@ -95,8 +93,7 @@ function createNewUser(data) {
         password: data.password.value
       },
       profile: {
-        firstName: givenName,
-        lastName: familyName
+        configured: false
       },
       createdAt: new Date()
     };
@@ -105,7 +102,7 @@ function createNewUser(data) {
       Accounts.createUser({
         username: objUser.username,
         password: objUser.services.password,
-        emails: objUser.emails.address,
+        emails: objUser.emails[0].address,
         profile: objUser.profile
       }, function(error){
         if (error) {
@@ -148,10 +145,10 @@ function validateEmail (email) {
 function validatePassword(pass) {
   var val = true;
   if (pass.length < 6) {
-    Session.set("shortPassword", true);
+    Session.set("invalidPassword", true);
     val = false;
   } else {
-    Session.set("shortPassword", false);
+    Session.set("invalidPassword", false);
     val = true;
   }
   /*if (pass.search(/[a-z]/i) < 0) {
@@ -179,8 +176,6 @@ function validateUsername (username) {
   var regexp = /^[a-zA-Z0-9]+$/;
   Session.set("invalidUsername", !regexp.test(username));
   if (regexp.test(username)) {
-    //console.log(Meteor.call('verifyUsername', username, function(err, id){console.log(err, id);}));
-
     Meteor.call('verifyUsername', username, function(err, id) {
       if (id == true) {
         Session.set("repeatedUsername", true);

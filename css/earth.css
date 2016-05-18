@@ -491,6 +491,18 @@ blockquote {
   cursor: default;
 }
 
+.symbol.profile-pic.profile-pic-edit {
+  width: 100px;
+  height: 100px;
+  float: none;
+  border-width: 3px;
+}
+
+.symbol.profile-pic.profile-pic-edit:hover {
+  border-color: #00bf8f;
+  background-color: #00bf8f;
+}
+
 .semantics {
   display: inline-block;
   margin-top: 0px;
@@ -2800,6 +2812,15 @@ blockquote {
   border-bottom-color: #00bf8f;
 }
 
+.login-input.login-input-split {
+  width: 50%;
+  float: left;
+}
+
+.login-input.login-input-split.login-input-split-right {
+  padding-left: 0px;
+}
+
 .face {
   display: none;
   margin-right: 5px;
@@ -2818,6 +2839,11 @@ blockquote {
 
 .login-label.login-label-form {
   text-align: left;
+}
+
+.login-label.login-label-form.login-label-split {
+  width: 50%;
+  float: left;
 }
 
 .authenticate {
@@ -2934,6 +2960,10 @@ blockquote {
   float: left;
 }
 
+.login-icon.login-icon-split-view {
+  margin-top: 32px;
+}
+
 .login-field {
   margin-bottom: 20px;
   padding-right: 5px;
@@ -2950,6 +2980,11 @@ blockquote {
 .id.id-logged {
   font-size: 14px;
   text-align: center;
+}
+
+.avatar-editor {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 @media (max-width: 991px) {

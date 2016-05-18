@@ -30,7 +30,7 @@ Schema.UserProfile = new SimpleSchema({
     country: {
         type: Schema.UserCountry,
         optional: true
-    },    
+    },
     birthday: {
         type: Date,
         optional: true
@@ -52,6 +52,10 @@ Schema.UserProfile = new SimpleSchema({
     bio: {
         type: String,
         optional: true
+    },
+    configured: {
+      type: Boolean,
+      optional: true
     }
 });
 

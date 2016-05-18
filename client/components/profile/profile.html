@@ -1,61 +1,94 @@
 <template name="profile">
-  <div class="id id-logged">
-    <ul class="w-list-unstyled w-clearfix extra">
-      <li class="w-clearfix identity">
-        <img src="{{pathFor route='home'}}images/Screen Shot 2016-01-27 at 12.05.33 AM.png" class="symbol profile-pic">
-        <div class="identity-peer">
-          <div class="identity-verified">
-            <img src="{{pathFor route='home'}}images/white-tick.png" class="identity-verified-tick">
+  {{#if configProfile}}
+
+    <div class="login">
+      <div class="avatar-editor">
+        <img src="{{pathFor route='home'}}images/noprofile.png" class="symbol profile-pic profile-pic-edit">
+        <input id='avatar-upload' type="file" class="upload" />
+      </div>
+      <div class="w-form">
+        <form id="email-form-3" name="email-form-3" data-name="Email Form 3">
+          <div class="w-clearfix login-field">
+            <label for="firstName" class="login-label login-label-form login-label-split">
+              {{_ "given-name"}}
+            </label>
+            <label for="lastName" class="login-label login-label-form login-label-split">
+              {{_ "family-name"}}
+            </label>
+            <img src="{{pathFor route='home'}}images/id.png" class="login-icon login-icon-split-view">
+            <input id="name-8" type="text" placeholder="Satoshi" class="w-input login-input login-input-split" value="{{firstName}}">
+            <input id="name-9" type="text" placeholder="Nakamoto" class="w-input login-input login-input-split login-input-split-right" value="{{lastName}}">
           </div>
-          <a href="#" class="identity-label">{{fullName}}</a>
-          <div class="identity-nation">{{territory}}</div>
+          <div class="login-field">
+            <label for="name" class="login-label login-label-form">{{_ "nationality"}}</label>
+            <img src="{{pathFor route='home'}}images/flag.png" class="login-icon">
+            <input id="name-10" type="text" placeholder="Earth" class="w-input login-input" value="{{country}}">
+          </div>
+          <input type="submit" value="{{_ 'save-profile'}}" data-wait="{{_ 'please-wait'}}" class="w-button button login-button">
+        </form>
+      </div>
+      <div><a id='save-profile' href="#">{{_ "skip-step"}}</a> {{_ "edit-later"}}</div>
+    </div>
+
+  {{else}}
+    <div class="id id-logged">
+      <ul class="w-list-unstyled w-clearfix extra">
+        <li class="w-clearfix identity">
+          <img src="{{pathFor route='home'}}images/Screen Shot 2016-01-27 at 12.05.33 AM.png" class="symbol profile-pic">
+          <div class="identity-peer">
+            <div class="identity-verified">
+              <img src="{{pathFor route='home'}}images/white-tick.png" class="identity-verified-tick">
+            </div>
+            <a href="#" class="identity-label">{{fullName}}</a>
+            <div class="identity-nation">{{territory}}</div>
+          </div>
+        </li>
+      </ul>
+      <div class="w-clearfix rosca rosca-id">
+        <div class="w-clearfix result vote-bar">
+          <div class="result-bar vote-bar"></div>
+          <div class="result-bar vote-bar vote-bar-allocated"></div>
         </div>
-      </li>
-    </ul>
-    <div class="w-clearfix rosca rosca-id">
-      <div class="w-clearfix result vote-bar">
-        <div class="result-bar vote-bar"></div>
-        <div class="result-bar vote-bar vote-bar-allocated"></div>
+        <div class="vote-available label-votes">
+          <strong data-new-link="true">
+          {{availableVotes}}
+          </strong>
+          <span>
+            <a href="#">{{_ 'available-votes'}}</a>
+          </span>
+        </div>
+        <div class="vote-allocated label-votes">
+          <strong data-new-link="true">
+            {{placedVotes}}
+          </strong>
+          <a href="#">{{_ 'placed-votes'}}</a>
+        </div>
       </div>
-      <div class="vote-available label-votes">
-        <strong data-new-link="true">
-        {{availableVotes}}
-        </strong>
-        <span>
-          <a href="#">{{_ 'available-votes'}}</a>
-        </span>
-      </div>
-      <div class="vote-allocated label-votes">
-        <strong data-new-link="true">
-          {{placedVotes}}
-        </strong>
-        <a href="#">{{_ 'placed-votes'}}</a>
+      <ul class="w-list-unstyled w-clearfix extra">
+        <li class="w-clearfix tag"><img src="{{pathFor route='home'}}images/handshake-right.png" class="hash-icon">
+          <a href="#" class="w-inline-block w-clearfix hash-link">
+            <div class="hash-tag">Bitcoin</div>
+          </a>
+        </li>
+        <li class="w-clearfix tag"><img src="{{pathFor route='home'}}images/handshake-right.png" class="hash-icon">
+          <a href="#" class="w-inline-block w-clearfix hash-link">
+            <div class="hash-tag">Blockchain</div>
+          </a>
+        </li>
+        <li class="w-clearfix tag"><img src="{{pathFor route='home'}}images/handshake-right.png" class="hash-icon">
+          <a href="#" class="w-inline-block w-clearfix hash-link">
+            <div class="hash-tag">Cryptocurrencies</div>
+          </a>
+        </li>
+      </ul>
+      <div>
+        <a href="#">
+          {{_ 'see-all'}} {{totalDelegations}} {{_ 'delegations'}}.
+        </a>
+        <a href="#" id="logout">
+          {{_ 'log-out'}}
+        </a>
       </div>
     </div>
-    <ul class="w-list-unstyled w-clearfix extra">
-      <li class="w-clearfix tag"><img src="{{pathFor route='home'}}images/handshake-right.png" class="hash-icon">
-        <a href="#" class="w-inline-block w-clearfix hash-link">
-          <div class="hash-tag">Bitcoin</div>
-        </a>
-      </li>
-      <li class="w-clearfix tag"><img src="{{pathFor route='home'}}images/handshake-right.png" class="hash-icon">
-        <a href="#" class="w-inline-block w-clearfix hash-link">
-          <div class="hash-tag">Blockchain</div>
-        </a>
-      </li>
-      <li class="w-clearfix tag"><img src="{{pathFor route='home'}}images/handshake-right.png" class="hash-icon">
-        <a href="#" class="w-inline-block w-clearfix hash-link">
-          <div class="hash-tag">Cryptocurrencies</div>
-        </a>
-      </li>
-    </ul>
-    <div>
-      <a href="#">
-        {{_ 'see-all'}} {{totalDelegations}} {{_ 'delegations'}}.
-      </a>
-      <a href="#" id="logout">
-        {{_ 'log-out'}}
-      </a>
-    </div>
-  </div>
+  {{/if}}
 </template>
