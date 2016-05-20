@@ -189,6 +189,10 @@
   "nationality": "Nationality",
   "save-profile": "Save Profile",
   "please-wait": "Please wait...",
-  "skip-step": "Skip this step.",
-  "edit-later": "You can always edit later."
+  "skip-step": "skip this step",
+  "edit-later": "You can always edit later,",
+  "profile-picture": "Profile Picture",
+  "pic-requirements": "PNG or JPG of 10 MB max.",
+  "upload-picture": "Upload Picture",
+  "earth": "Earth"
 }

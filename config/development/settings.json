@@ -1,0 +1,10 @@
+{
+  
+  "AWSAccessKeyId": "AKIAIEDBX73JZBV65WFA",
+  "AWSSecretAccessKey": "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",
+
+  "public": {
+    "AWSHostingURL": "https://earth-app.s3-us-west-2.amazonaws.com/"
+  }
+
+}

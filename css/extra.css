@@ -14,3 +14,17 @@ input:-webkit-autofill:active {
     transition: #3A3044 5000s ease-in-out 0s;
     -webkit-box-shadow: 0 0 0px 1000px #3A3044 inset;
 }
+
+.upload-area .alert {
+  position: relative;
+}
+
+.upload-area input[type="file"] {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  width: 100%;
+  opacity: 0;
+}

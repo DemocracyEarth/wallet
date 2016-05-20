@@ -1,5 +1,3 @@
-Schema = {};
-
 Schema.UserCountry = new SimpleSchema({
     name: {
         type: String
