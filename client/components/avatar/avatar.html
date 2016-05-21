@@ -1,0 +1,18 @@
+<template name="avatar">
+  <div class="w-clearfix avatar-editor">
+    <img src="{{profilePicture}}" class="symbol profile-pic profile-pic-edit">
+    <div class="avatar-description">
+      <div class="login-label">{{_ 'profile-picture'}}</div>
+      <div class="avatar-requirements">{{_ 'pic-requirements'}}</div>
+    </div>
+    <form id="upload">
+      <div class="">
+        <label class="button button-upload upload-button-label">
+          <input type="file">
+          <img src="{{pathFor route='home'}}images/camera.png" class="upload-icon">
+          {{_ 'upload-picture'}}
+        </label>
+      </div>
+    </form>
+  </div>
+</template>

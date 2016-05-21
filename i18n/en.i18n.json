@@ -191,8 +191,10 @@
   "please-wait": "Please wait...",
   "skip-step": "skip this step",
   "edit-later": "You can always edit later,",
-  "profile-picture": "Profile Picture",
-  "pic-requirements": "PNG or JPG of 10 MB max.",
+  "profile-picture": "Profile",
+  "pic-requirements": "PNG, JPG or GIF of 10 MB max.",
   "upload-picture": "Upload Picture",
-  "earth": "Earth"
+  "earth": "Earth",
+  "uploading": "Uploading",
+  "new-profile-pic": "Profile picture updated."
 }

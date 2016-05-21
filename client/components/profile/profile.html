@@ -2,16 +2,9 @@
   {{#if configProfile}}
 
     <div class="id id-logged">
-      <div class="w-clearfix avatar-editor">
-        <img src="{{pathFor route='home'}}images/noprofile.png" class="symbol profile-pic profile-pic-edit">
-        <div class="avatar-description">
-          <div class="login-label">{{_ 'profile-picture'}}</div>
-          <div>{{_ 'pic-requirements'}}</div>
-        </div>
-        <div class="button button-upload">
-          {{> uploader}}
-        </div>
-      </div>
+
+      {{> avatar}}
+
       <div class="w-form">
         <form id="email-form-3" name="email-form-3" data-name="Email Form 3">
           <div class="w-clearfix login-field">

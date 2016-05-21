@@ -15,16 +15,13 @@ input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0px 1000px #3A3044 inset;
 }
 
-.upload-area .alert {
-  position: relative;
+input[type="file"] {
+    display: none;
 }
 
-.upload-area input[type="file"] {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  width: 100%;
-  opacity: 0;
+.button.button-upload {
+  font-family: Lato, sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 300;
 }

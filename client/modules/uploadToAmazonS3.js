@@ -2,8 +2,8 @@ let template;
 
 let _getFileFromInput = ( event ) => event.target.files[0];
 
-let _setPlaceholderText = ( string = "Click or Drag a File Here to Upload" ) => {
-  template.find( ".alert span" ).innerText = string;
+let _setPlaceholderText = ( string = TAPi18n.__('pic-requirements') ) => {
+  template.find( ".avatar-requirements" ).innerText = string;
 };
 
 let _addUrlToDatabase = ( url ) => {
@@ -13,9 +13,12 @@ let _addUrlToDatabase = ( url ) => {
 
       _setPlaceholderText();
     } else {
-      displayNotice("File uploaded to Amazon S3!", true);
-
+      //Success
+      var data = Meteor.user().profile;
+      displayNotice(TAPi18n.__('new-profile-pic'), true);
       _setPlaceholderText();
+      data.picture = url;
+      Meteor.users.update(Meteor.userId(), { $set: { profile : data }})
     }
   });
 };
@@ -39,7 +42,7 @@ let upload = ( options ) => {
   template = options.template;
   let file = _getFileFromInput( options.event );
 
-  _setPlaceholderText( `Uploading ${file.name}...` );
+  _setPlaceholderText( TAPi18n.__('uploading') + ` ${file.name}...` );
   _uploadFileToAmazon( file );
 };
 

@@ -718,10 +718,23 @@ blockquote {
 }
 
 .button.button-upload {
-  margin-top: 0px;
+  display: inline-block;
+  margin-top: 4px;
   margin-bottom: 0px;
-  float: left;
-  font-size: 16px;
+  padding: 5px 10px;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  font-size: 14px;
 }
 
 .button-label {
@@ -3001,7 +3014,8 @@ blockquote {
 .suggest-item {
   padding-right: 10px;
   padding-left: 10px;
-  line-height: 35px;
+  font-size: 16px;
+  line-height: 36px;
   cursor: pointer;
 }
 
@@ -3015,12 +3029,23 @@ blockquote {
 }
 
 .avatar-description {
-  width: 60%;
-  margin-bottom: 13px;
+  overflow: auto;
+  width: 170px;
   margin-left: 5px;
   float: left;
   font-size: 12px;
   line-height: 20px;
+}
+
+.upload-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  float: left;
+}
+
+.upload-button-label {
+  display: inline-block;
 }
 
 @media (max-width: 991px) {
