@@ -1,0 +1,3 @@
+Template.suggest.rendered = function () {
+  
+}

@@ -14,15 +14,16 @@
             <label for="name" class="login-label login-label-form login-label-split">
               {{_ "family-name"}}
             </label>
-            <img src="{{pathFor route='home'}}images/id.png" class="login-icon login-icon-split-view">
-            <input id="name-8" type="text" placeholder="Satoshi" name="name-8" data-name="Name 8" class="w-input login-input login-input-split" value="{{firstName}}">
-            <input id="name-9" type="text" placeholder="Nakamoto" name="name-9" data-name="Name 9" class="w-input login-input login-input-split login-input-split-right" value="{{lastName}}">
+            <input id="name" type="text" placeholder="Satoshi" autocomplete="false" class="w-input login-input login-input-split login-input-split-right" value="{{firstName}}">
+            <input id="surname" type="text" placeholder="Nakamoto" autocomplete="false" class="w-input login-input login-input-split login-input-split-right" value="{{lastName}}">
           </div>
           <div class="login-field">
             <label for="name" class="login-label login-label-form">{{_ "nationality"}}</label>
             <img src="{{pathFor route='home'}}images/flag.png" class="login-icon">
-            <input id="name-10" type="text" placeholder="{{_ 'earth'}}" name="name-10" data-name="Name 10" class="w-input login-input">
-            {{> suggest}}
+            <input id="nation" type="text" placeholder="{{_ 'earth'}}" autocomplete="false" class="w-input login-input">
+            {{#if showNations}}
+              {{> suggest}}
+            {{/if}}
           </div>
           <input type="submit" value="{{_ 'save-profile'}}" data-wait="{{_ 'please-wait'}}" class="w-button button login-button">
         </form>
@@ -92,21 +93,4 @@
       </div>
     </div>
   {{/if}}
-</template>
-
-<template name="suggest">
-  <ul class="w-list-unstyled suggest">
-    <li class="suggest-item">
-      <div>Argentina</div>
-    </li>
-    <li class="suggest-item">
-      <div>Algeria</div>
-    </li>
-    <li class="suggest-item">
-      <div>Brazil</div>
-    </li>
-    <li class="suggest-item">
-      <div>Belize</div>
-    </li>
-  </ul>
 </template>
