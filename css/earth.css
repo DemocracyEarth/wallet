@@ -492,8 +492,8 @@ blockquote {
 }
 
 .symbol.profile-pic.profile-pic-edit {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   float: left;
   border-radius: 100px;
 }
@@ -2839,6 +2839,7 @@ blockquote {
 
 .login-input.login-input-split {
   width: 50%;
+  padding-left: 0px;
   float: left;
 }
 

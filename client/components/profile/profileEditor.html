@@ -1,5 +1,5 @@
 <template name="profileEditor">
-  <div class="id id-logged">
+  <div class="login">
     {{> avatar}}
     <div class="w-form">
       <form id="email-form-3" name="email-form-3" data-name="Email Form 3">
@@ -16,7 +16,7 @@
             <div class="extra">
               {{> warning label="missing-name"}}
             </div>
-          {{/if}}  
+          {{/if}}
         </div>
         <div class="login-field">
           <label for="name" class="login-label login-label-form">{{_ "nationality"}}</label>

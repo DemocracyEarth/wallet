@@ -2,8 +2,8 @@ let template;
 
 let _getFileFromInput = ( event ) => event.target.files[0];
 
-let _setPlaceholderText = ( string = TAPi18n.__('pic-requirements') ) => {
-  template.find( ".avatar-requirements" ).innerText = string;
+let _setPlaceholderText = ( string = TAPi18n.__('upload-picture') ) => {
+  template.find( ".uploader-button" ).innerText = string;
 };
 
 let _addUrlToDatabase = ( url ) => {
@@ -42,7 +42,7 @@ let upload = ( options ) => {
   template = options.template;
   let file = _getFileFromInput( options.event );
 
-  _setPlaceholderText( TAPi18n.__('uploading') + ` ${file.name}...` );
+  _setPlaceholderText( TAPi18n.__('uploading'));
   _uploadFileToAmazon( file );
 };
 

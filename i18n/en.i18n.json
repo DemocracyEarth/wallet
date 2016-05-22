@@ -195,7 +195,7 @@
   "pic-requirements": "PNG, JPG or GIF of 10 MB max.",
   "upload-picture": "Upload Picture",
   "earth": "Earth",
-  "uploading": "Uploading",
+  "uploading": "Uploading...",
   "new-profile-pic": "Profile picture updated.",
   "valid-country": "The typed nationality does not exist.",
   "missing-name": "At least a first name is required."
