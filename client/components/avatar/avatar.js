@@ -13,7 +13,11 @@ Template.avatar.helpers({
     }
   },
   fullName: function () {
-    return Meteor.user().profile.firstName + ' ' + Meteor.user().profile.lastName;
+    completeName = Meteor.user().profile.firstName + ' ' + Meteor.user().profile.lastName;
+    if (completeName.length > MAX_PROFILE_NAME_LENGTH) {
+      completeName = completeName.slice(0, parseInt(0 + (MAX_PROFILE_NAME_LENGTH - completeName.length))) + '...';
+    }
+    return completeName;
   },
   nationality: function () {
     //console.log(searchJSON(geoJSON.country, Meteor.user().profile.country.name)[0].emoji);
