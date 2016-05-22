@@ -37,7 +37,6 @@ Template.profile.events({
     Session.set('showNations', false);
   },
   'input .country-search': function (event) {
-    console.log(event.target.value);
     if (event.target.value != '') {
       Session.set('filteredCountries', searchJSON(geoJSON.country, event.target.value));
     } else {
