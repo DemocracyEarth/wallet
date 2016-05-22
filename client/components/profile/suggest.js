@@ -1,5 +1,4 @@
 Template.suggest.rendered = function () {
-  //behave(this.firstNode, 'fade-and-roll', { 'height': '110px' });
 
   //Hook
   var animation = {
@@ -39,6 +38,16 @@ Template.suggest.rendered = function () {
 
 Template.suggest.helpers({
   country: function () {
-    return Session.get('filteredCountries');
+    if (Session.get('filteredCountries').length == 0) {
+
+    } else {
+      return Session.get('filteredCountries');
+    }
+  }
+})
+
+Template.suggest.events({
+  "click #country": function (event) {
+    console.log(event.target.value);
   }
 })

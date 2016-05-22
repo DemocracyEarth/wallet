@@ -435,6 +435,13 @@
           "title": "flag for Algeria"
       },
       {
+          "code": "EA",
+          "emoji": "🌎",
+          "unicode": "U+1F7289",
+          "name": "Earth",
+          "title": "planet Earth"
+      },
+      {
           "code": "EC",
           "emoji": "🇪🇨",
           "unicode": "U+1F1EA U+1F1E8",

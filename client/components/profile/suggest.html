@@ -1,7 +1,7 @@
 <template name="suggest">
   <ul class="w-list-unstyled suggest">
     {{#each country}}
-      <li class="suggest-item">
+      <li id="country" value="{{code}}" class="suggest-item">
         <div>{{emoji}} {{name}}</div>
       </li>
     {{/each}}
