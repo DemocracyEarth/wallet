@@ -1,5 +1,10 @@
 Template.profile.rendered = function () {
+  geoJSON = new Object;
 
+  HTTP.get(Meteor.absoluteUrl("data/geo.json"), function(err,result) {
+    geoJSON = result.data;
+    Session.set('filteredCountries', result.data.country);
+  });
 }
 
 Template.profile.helpers({
@@ -25,10 +30,18 @@ Template.profile.events({
       event.preventDefault();
       Meteor.logout();
   },
-  'focus #nation': function () {
+  'focus .country-search': function () {
     Session.set('showNations', true);
   },
-  'blur #nation': function () {
+  'blur .country-search': function () {
     Session.set('showNations', false);
+  },
+  'input .country-search': function (event) {
+    console.log(event.target.value);
+    if (event.target.value != '') {
+      Session.set('filteredCountries', searchJSON(geoJSON.country, event.target.value));
+    } else {
+      Session.set('filteredCountries', geoJSON.country);
+    }
   }
 });

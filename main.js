@@ -21,8 +21,6 @@ console.log('loading democracy.earth version: 0.02 codename: quixote');
 
 if (Meteor.isClient) {
 
-  Meteor.subscribe("tags");
-
   Meteor.startup(function () {
 
     //Setup Language
@@ -48,12 +46,6 @@ if (Meteor.isClient) {
     Session.set('createTag', false);
     TagSearch = new SearchSource('tags', fields, options);
 
-
-
-  });
-
-  Accounts.ui.config({
-    passwordSignupFields: "USERNAME_ONLY"
   });
 
 }

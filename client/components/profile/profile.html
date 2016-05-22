@@ -14,13 +14,13 @@
             <label for="name" class="login-label login-label-form login-label-split">
               {{_ "family-name"}}
             </label>
-            <input id="name" type="text" placeholder="Satoshi" autocomplete="false" class="w-input login-input login-input-split login-input-split-right" value="{{firstName}}">
-            <input id="surname" type="text" placeholder="Nakamoto" autocomplete="false" class="w-input login-input login-input-split login-input-split-right" value="{{lastName}}">
+            <input type="text" placeholder="Satoshi" autocomplete="false" class="w-input login-input login-input-split login-input-split-right" value="{{firstName}}">
+            <input type="text" placeholder="Nakamoto" autocomplete="false" class="w-input login-input login-input-split login-input-split-right" value="{{lastName}}">
           </div>
           <div class="login-field">
             <label for="name" class="login-label login-label-form">{{_ "nationality"}}</label>
             <img src="{{pathFor route='home'}}images/flag.png" class="login-icon">
-            <input id="nation" type="text" placeholder="{{_ 'earth'}}" autocomplete="false" class="w-input login-input">
+            <input type="text" placeholder="{{_ 'earth'}}" autocomplete="false" class="w-input login-input country-search">
             {{#if showNations}}
               {{> suggest}}
             {{/if}}

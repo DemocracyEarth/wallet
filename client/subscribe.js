@@ -1,1 +1,1 @@
-
+Meteor.subscribe("tags");

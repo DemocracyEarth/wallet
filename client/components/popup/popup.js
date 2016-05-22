@@ -14,7 +14,7 @@ Template.popup.rendered = function () {
   $('#popup').css(position);
 
   //Hook
-  animation = {
+  var animation = {
     insertElement: function(node, next) {
       $(node).addClass(OFFSCREEN_CLASS);
       $(node).css({'opacity':  '0px', 'height' : '0px'});

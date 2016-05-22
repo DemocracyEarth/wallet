@@ -1,16 +1,9 @@
 <template name="suggest">
   <ul class="w-list-unstyled suggest">
-    <li class="suggest-item">
-      <div>Argentina</div>
-    </li>
-    <li class="suggest-item">
-      <div>Algeria</div>
-    </li>
-    <li class="suggest-item">
-      <div>Brazil</div>
-    </li>
-    <li class="suggest-item">
-      <div>Belize</div>
-    </li>
+    {{#each country}}
+      <li class="suggest-item">
+        <div>{{name}}</div>
+      </li>
+    {{/each}}
   </ul>
 </template>
