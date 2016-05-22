@@ -430,7 +430,7 @@ blockquote {
   width: 60px;
   height: 60px;
   margin-top: 0px;
-  margin-right: 5px;
+  margin-right: 10px;
   margin-bottom: 0px;
   float: left;
   border: 1px solid #e6f9f4;
@@ -485,6 +485,7 @@ blockquote {
 
 .symbol.profile-pic.profile-sign {
   width: auto;
+  height: 60px;
   padding-right: 20px;
   border-style: none;
   text-decoration: none;
@@ -508,14 +509,14 @@ blockquote {
 
 .tag {
   margin: 5px;
-  padding: 10px;
+  padding: 10px 15px 10px 10px;
   float: left;
   border-bottom-style: none;
   border-radius: 3px;
   background-color: #e6f9f4;
   color: #00c091;
-  font-size: 18px;
-  line-height: 22px;
+  font-size: 16px;
+  line-height: 21px;
   cursor: -webkit-grab;
 }
 
@@ -1350,7 +1351,7 @@ blockquote {
   display: inline-block;
   width: 44px;
   height: 44px;
-  margin: -10px -10px -10px 10px;
+  margin: -10px -15px -10px 10px;
   padding: 10px 10px 0px;
   float: right;
   border-style: none none none solid;
@@ -2513,7 +2514,6 @@ blockquote {
 }
 
 .profile-thumb {
-  width: 60px;
   height: 60px;
 }
 

@@ -11,5 +11,12 @@ Template.avatar.helpers({
     } else {
       return Meteor.user().profile.picture;
     }
+  },
+  fullName: function () {
+    return Meteor.user().profile.firstName + ' ' + Meteor.user().profile.lastName;
+  },
+  nationality: function () {
+    //console.log(searchJSON(geoJSON.country, Meteor.user().profile.country.name)[0].emoji);
+    return Meteor.user().profile.country.name + ' ' + searchJSON(geoJSON.country, Meteor.user().profile.country.name)[0].emoji;
   }
 })

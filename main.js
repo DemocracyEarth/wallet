@@ -46,6 +46,12 @@ if (Meteor.isClient) {
     Session.set('createTag', false);
     TagSearch = new SearchSource('tags', fields, options);
 
+    geoJSON = new Object;
+    HTTP.get(Meteor.absoluteUrl("data/geo.json"), function(err,result) {
+      geoJSON = result.data;
+      Session.set('filteredCountries', result.data.country);
+    });
+
   });
 
 }

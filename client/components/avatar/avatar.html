@@ -1,17 +1,28 @@
 <template name="avatar">
   <div class="w-clearfix avatar-editor">
-    <img src="{{profilePicture}}" class="symbol profile-pic profile-pic-edit">
-    <div class="avatar-description">
-      <div class="login-label">{{_ 'profile-picture'}}</div>
-    </div>
-    <form id="upload">
-      <div class="">
-        <label class="button button-upload upload-button-label">
-          <input type="file">
-          <img src="{{pathFor route='home'}}images/camera.png" class="upload-icon">
-          <span class='uploader-button'>{{_ 'upload-picture'}}</span>
-        </label>
+    {{#if editor}}
+      <img src="{{profilePicture}}" class="symbol profile-pic profile-pic-edit">
+      <div class="avatar-description">
+        <div class="login-label">{{_ 'profile-picture'}}</div>
       </div>
-    </form>
+      <form id="upload">
+        <div class="">
+          <label class="button button-upload upload-button-label">
+            <input type="file">
+            <img src="{{pathFor route='home'}}images/camera.png" class="upload-icon">
+            <span class='uploader-button'>{{_ 'upload-picture'}}</span>
+          </label>
+        </div>
+      </form>
+    {{else}}
+      <img src="{{profilePicture}}" class="symbol profile-pic">
+      <div class="identity-peer">
+        <div class="identity-verified">
+          <img src="{{pathFor route='home'}}images/white-tick.png" class="identity-verified-tick">
+        </div>
+        <a href="#" class="identity-label">{{fullName}}</a>
+        <div class="identity-nation">{{nationality}}</div>
+      </div>
+    {{/if}}
   </div>
 </template>

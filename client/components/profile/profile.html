@@ -1,43 +1,10 @@
 <template name="profile">
   {{#if configProfile}}
-
     {{> profileEditor}}
-
   {{else}}
-
-    <div class="id id-logged">
-      <ul class="w-list-unstyled w-clearfix extra">
-        <li class="w-clearfix identity">
-          <img src="{{pathFor route='home'}}images/Screen Shot 2016-01-27 at 12.05.33 AM.png" class="symbol profile-pic">
-          <div class="identity-peer">
-            <div class="identity-verified">
-              <img src="{{pathFor route='home'}}images/white-tick.png" class="identity-verified-tick">
-            </div>
-            <a href="#" class="identity-label">{{fullName}}</a>
-            <div class="identity-nation">{{territory}}</div>
-          </div>
-        </li>
-      </ul>
-      <div class="w-clearfix rosca rosca-id">
-        <div class="w-clearfix result vote-bar">
-          <div class="result-bar vote-bar"></div>
-          <div class="result-bar vote-bar vote-bar-allocated"></div>
-        </div>
-        <div class="vote-available label-votes">
-          <strong data-new-link="true">
-          {{availableVotes}}
-          </strong>
-          <span>
-            <a href="#">{{_ 'available-votes'}}</a>
-          </span>
-        </div>
-        <div class="vote-allocated label-votes">
-          <strong data-new-link="true">
-            {{placedVotes}}
-          </strong>
-          <a href="#">{{_ 'placed-votes'}}</a>
-        </div>
-      </div>
+    <div class="login">
+      {{> avatar}}
+      {{> wallet}}
       <ul class="w-list-unstyled w-clearfix extra">
         <li class="w-clearfix tag"><img src="{{pathFor route='home'}}images/handshake-right.png" class="hash-icon">
           <a href="#" class="w-inline-block w-clearfix hash-link">
@@ -65,4 +32,27 @@
       </div>
     </div>
   {{/if}}
+</template>
+
+<template name="wallet">
+  <div class="w-clearfix rosca rosca-id">
+    <div class="w-clearfix result vote-bar">
+      <div class="result-bar vote-bar"></div>
+      <div class="result-bar vote-bar vote-bar-allocated"></div>
+    </div>
+    <div class="vote-available label-votes">
+      <strong data-new-link="true">
+      {{availableVotes}}
+      </strong>
+      <span>
+        <a href="#">{{_ 'available-votes'}}</a>
+      </span>
+    </div>
+    <div class="vote-allocated label-votes">
+      <strong data-new-link="true">
+        {{placedVotes}}
+      </strong>
+      <a href="#">{{_ 'placed-votes'}}</a>
+    </div>
+  </div>
 </template>
