@@ -1,5 +1,7 @@
 Template.suggest.rendered = function () {
 
+  Session.set('noMatchFound', false);
+
   //Hook
   var animation = {
     insertElement: function(node, next) {
@@ -32,22 +34,40 @@ Template.suggest.rendered = function () {
         });
     }
   };
-  behave(this.firstNode, 'fade-and-roll',  { 'height': '110px' }, animation);
+  behave(this.firstNode, 'fade-and-roll',  {}, animation);
 
 }
 
 Template.suggest.helpers({
   country: function () {
     if (Session.get('filteredCountries').length == 0) {
-
+      Session.set('noMatchFound', true);
+      return [{
+          "code": "EA",
+          "emoji": "🌎",
+          "name": "Earth"
+      }];
     } else {
+      Session.set('noMatchFound', false);
       return Session.get('filteredCountries');
     }
+  },
+  noMatchFound: function () {
+    return Session.get('noMatchFound');
   }
 })
 
 Template.suggest.events({
   "click #country": function (event) {
-    console.log(event.target.value);
+    var data = Meteor.user().profile;
+    var country = {
+      code: event.target.parentNode.getAttribute('value'),
+      name: event.target.innerText.slice(4)
+    }
+    if (country.name == 'arth') { country.name = 'Earth' };
+    data.country = country;
+    Meteor.users.update(Meteor.userId(), { $set: { profile : data }})
+    Session.set('noMatchFound', false);
+    Session.set('showNations', false);
   }
 })

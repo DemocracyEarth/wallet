@@ -6,4 +6,9 @@
       </li>
     {{/each}}
   </ul>
+  {{#if noMatchFound}}
+    <div class="extra">
+      {{> warning label="valid-country"}}
+    </div>
+  {{/if}}
 </template>

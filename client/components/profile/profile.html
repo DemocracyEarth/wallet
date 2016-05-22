@@ -1,35 +1,7 @@
 <template name="profile">
   {{#if configProfile}}
 
-    <div class="id id-logged">
-
-      {{> avatar}}
-
-      <div class="w-form">
-        <form id="email-form-3" name="email-form-3" data-name="Email Form 3">
-          <div class="w-clearfix login-field">
-            <label for="name" class="login-label login-label-form login-label-split">
-              {{_ "given-name"}}
-            </label>
-            <label for="name" class="login-label login-label-form login-label-split">
-              {{_ "family-name"}}
-            </label>
-            <input type="text" placeholder="Satoshi" autocomplete="false" class="w-input login-input login-input-split login-input-split-right" value="{{firstName}}">
-            <input type="text" placeholder="Nakamoto" autocomplete="false" class="w-input login-input login-input-split login-input-split-right" value="{{lastName}}">
-          </div>
-          <div class="login-field">
-            <label for="name" class="login-label login-label-form">{{_ "nationality"}}</label>
-            <img src="{{pathFor route='home'}}images/flag.png" class="login-icon">
-            <input type="text" placeholder="{{_ 'earth'}}" autocomplete="false" class="w-input login-input country-search">
-            {{#if showNations}}
-              {{> suggest}}
-            {{/if}}
-          </div>
-          <input type="submit" value="{{_ 'save-profile'}}" data-wait="{{_ 'please-wait'}}" class="w-button button login-button">
-        </form>
-      </div>
-      <div>{{_ "edit-later"}} <a id='save-profile' href="#">{{_ "skip-step"}}</a>.</div>
-    </div>
+    {{> profileEditor}}
 
   {{else}}
 
