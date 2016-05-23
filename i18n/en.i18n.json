@@ -198,5 +198,6 @@
   "uploading": "Uploading...",
   "new-profile-pic": "Profile picture updated.",
   "valid-country": "The typed nationality does not exist.",
-  "missing-name": "At least a first name is required."
+  "missing-name": "At least a first name is required.",
+  "digital-citizen": "Digital"
 }

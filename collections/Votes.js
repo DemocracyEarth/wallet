@@ -51,7 +51,7 @@ Schema.Delegations = new SimpleSchema({
 });
 
 Schema.Votes = new SimpleSchema({
-  userId: {
+  source: {
     type: String
   },
   votes: {
@@ -71,6 +71,10 @@ Schema.Votes = new SimpleSchema({
   },
   delegations: {
     type: Schema.Delegations,
+    optional: true
+  },
+  budget: {
+    type: Schema.Budget,
     optional: true
   }
 });

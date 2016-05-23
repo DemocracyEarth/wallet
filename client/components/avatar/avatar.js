@@ -13,14 +13,21 @@ Template.avatar.helpers({
     }
   },
   fullName: function () {
-    completeName = Meteor.user().profile.firstName + ' ' + Meteor.user().profile.lastName;
-    if (completeName.length > MAX_PROFILE_NAME_LENGTH) {
-      completeName = completeName.slice(0, parseInt(0 + (MAX_PROFILE_NAME_LENGTH - completeName.length))) + '...';
+    if (Meteor.user().profile.firstName != undefined) {
+      completeName = Meteor.user().profile.firstName + ' ' + Meteor.user().profile.lastName;
+      if (completeName.length > MAX_PROFILE_NAME_LENGTH) {
+        completeName = completeName.slice(0, parseInt(0 + (MAX_PROFILE_NAME_LENGTH - completeName.length))) + '...';
+      }
+      return completeName;
+    } else {
+      return Meteor.user().username;
     }
-    return completeName;
   },
   nationality: function () {
-    //console.log(searchJSON(geoJSON.country, Meteor.user().profile.country.name)[0].emoji);
-    return Meteor.user().profile.country.name + ' ' + searchJSON(geoJSON.country, Meteor.user().profile.country.name)[0].emoji;
+    if (Meteor.user().profile.country != undefined) {
+      return Meteor.user().profile.country.name + ' ' + searchJSON(geoJSON.country, Meteor.user().profile.country.name)[0].emoji;
+    } else {
+      return TAPi18n.__('digital-citizen');
+    }
   }
 })

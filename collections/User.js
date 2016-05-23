@@ -121,6 +121,10 @@ Schema.User = new SimpleSchema({
     heartbeat: {
         type: Date,
         optional: true
+    },
+    votes: {
+        type: Schema.Votes,
+        optional: true
     }
 });
 

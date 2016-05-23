@@ -579,8 +579,7 @@ blockquote {
 }
 
 .tag.tag-extra {
-  padding-right: 0px;
-  padding-left: 0px;
+  border: 1px dashed #00bf8f;
   background-color: transparent;
 }
 
@@ -689,6 +688,7 @@ blockquote {
   margin-bottom: -5px;
   margin-left: 0px;
   font-size: 16px;
+  text-align: center;
 }
 
 .button.login-button:active {
@@ -716,6 +716,7 @@ blockquote {
   margin-left: 5px;
   float: left;
   font-size: 16px;
+  text-align: center;
 }
 
 .button.button-social.facebook {
@@ -2252,7 +2253,7 @@ blockquote {
 }
 
 .rosca.rosca-id {
-  margin-top: -15px;
+  margin-top: -10px;
 }
 
 .avatar {
@@ -2814,7 +2815,7 @@ blockquote {
   padding-left: 10px;
   float: left;
   font-size: 14px;
-  text-align: center;
+  text-align: left;
 }
 
 .login-input {
