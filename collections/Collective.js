@@ -1,3 +1,5 @@
+Collective = new Mongo.Collection("collective");
+
 Schema.CollectiveProfile = new SimpleSchema({
     stateId: {
         type: String,
@@ -84,3 +86,5 @@ Schema.Collective =  new SimpleSchema({
         optional: true
     }
 });
+
+Collective.attachSchema(Schema.Collective);
