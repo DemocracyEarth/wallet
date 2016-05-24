@@ -26,16 +26,16 @@
         }
       ],
       "createdAt": "January 12, 2015",
+
+
       "profile": {
+        "website": "http://democracy.earth",
+        "bio": "Incorruptible governance for small & large communities. A global commons of peers.",
         "blockchain": {
           "address": ""
         },
         "logo": "http://foundation.democracy.earth",
         "jurisdiction": {
-          "country": {
-            "name": "United States of America",
-            "code": "US"
-          },
           "legal": {
               "taxId": "37-1776296",
               "name": "Democracy Earth Foundation",
@@ -43,19 +43,21 @@
           },
           "location": {
             "address": "1246 36th Avenue",
-            "state": "California"
+            "state": "California",
+            "country": {
+              "name": "United States of America",
+              "code": "US"
+            }
           }
         },
-        "foundation": "January 12, 2015",
-        "goal": "Free",
-        "authorities": [
-            {
-                "userId": ""
-            }
-          ],
-        "website": "http://foundation.democracy.earth",
-        "bio": "Incorruptible governance for small & large communities. A global commons of peers."
+        "foundation": "January 12, 2015"
       },
+      "goal": "Free",
+      "authorities": [
+        {
+            "userId": ""
+        }
+      ],
       "votes": {
         "total": 4000000,
         "delegations": {
@@ -63,9 +65,7 @@
           "sent": []
         }
       }
-
     }
-
   }
 
 }
