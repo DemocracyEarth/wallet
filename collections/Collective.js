@@ -1,15 +1,66 @@
 Collective = new Mongo.Collection("collective");
 
+Schema.Location = new SimpleSchema({
+  address: {
+    type: String,
+    optional: true
+  },
+  state: {
+    type: String,
+    optional: true
+  },
+  country: {
+    type: Schema.UserCountry,
+    optional: true
+  }
+});
+
+Schema.Jurisdiction = new SimpleSchema({
+  legal: {
+    type: Object,
+    optional: true
+  },
+  "legal.taxId": {
+    type: String,
+    optional: true
+  },
+  "legal.name": {
+    type: String,
+    optional: true
+  },
+  "legal.type": {
+    type: String,
+    optional: true
+  },
+  location: {
+    type: SimpleSchema.Location,
+    optional: true
+  }
+});
+
 Schema.CollectiveProfile = new SimpleSchema({
+    website: {
+        type: String,
+        regEx: SimpleSchema.RegEx.Url,
+        optional: true
+    },
+    bio: {
+        type: String,
+        optional: true
+    },
     stateId: {
         type: String,
         optional: true
     },
-    blockchainId: {
-        type: String,
+    blockchain: {
+        type: Object,
         optional: true
     },
-    flag: {
+    "blockchain.address": {
+      type: String,
+      optional: true
+    },
+    logo: {
         type: String,
         optional: true
     },
@@ -17,7 +68,7 @@ Schema.CollectiveProfile = new SimpleSchema({
         type: Schema.UserCountry,
         optional: true
     },
-    foundationDay: {
+    foundation: {
         type: Date,
         optional: true
     },
@@ -27,15 +78,6 @@ Schema.CollectiveProfile = new SimpleSchema({
         optional: true
     },
     owners : {
-        type: String,
-        optional: true
-    },
-    website: {
-        type: String,
-        regEx: SimpleSchema.RegEx.Url,
-        optional: true
-    },
-    bio: {
         type: String,
         optional: true
     },
@@ -64,26 +106,30 @@ Schema.Collective =  new SimpleSchema({
     "emails.$.verified": {
         type: Boolean
     },
-    registered_emails: {
-        type: [Object],
-        optional: true,
-        blackbox: true
-    },
-    createdAt: {
-        type: Date
-    },
     profile: {
         type: Schema.CollectiveProfile,
         optional: true
     },
-    services: {
-        type: Object,
-        optional: true,
-        blackbox: true
-    },
     votes: {
         type: Schema.Votes,
         optional: true
+    },
+    goal: {
+      type: String,
+      allowedValues: ['Business', 'Free'],
+      optional: true
+    },
+    authorities: {
+      type: Array,
+      optional: true
+    },
+    "authorities.$": {
+      type: Object,
+      optional: true
+    },
+    "authorities.$.userId": {
+      type: String,
+      optional: true
     }
 });
 

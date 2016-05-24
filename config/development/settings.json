@@ -4,8 +4,68 @@
   "AWSSecretAccessKey": "wBEdVGh+V20DQbkGVVYF9Yc+ahAcjYX1X+gz8tp3",
 
   "public": {
+
     "AWSHostingURL": "https://earth-app.s3-us-west-2.amazonaws.com/",
-    "language": "en"
+
+    "app": {
+
+      "language": "en",
+      "development": true,
+      "version": "0.1",
+      "codename": "Quixote"
+
+    },
+
+    "Collective": {
+
+      "domain": "http://foundation.democracy.earth",
+      "emails": [
+        {
+          "address": "hello@democracy.earth",
+          "verified": true
+        }
+      ],
+      "createdAt": "January 12, 2015",
+      "profile": {
+        "blockchain": {
+          "address": ""
+        },
+        "logo": "http://foundation.democracy.earth",
+        "jurisdiction": {
+          "country": {
+            "name": "United States of America",
+            "code": "US"
+          },
+          "legal": {
+              "taxId": "37-1776296",
+              "name": "Democracy Earth Foundation",
+              "type": "Non-Profit 501(c)3"
+          },
+          "location": {
+            "address": "1246 36th Avenue",
+            "state": "California"
+          }
+        },
+        "foundation": "January 12, 2015",
+        "goal": "Free",
+        "authorities": [
+            {
+                "userId": ""
+            }
+          ],
+        "website": "http://foundation.democracy.earth",
+        "bio": "Incorruptible governance for small & large communities. A global commons of peers."
+      },
+      "votes": {
+        "total": 4000000,
+        "delegations": {
+          "received": [],
+          "sent": []
+        }
+      }
+
+    }
+
   }
 
 }
