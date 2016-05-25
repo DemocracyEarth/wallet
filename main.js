@@ -17,8 +17,6 @@ build a new model that makes the existing model obsolete."
 
 */
 
-console.log('loading democracy.earth version: 0.02 codename: quixote');
-
 if (Meteor.isClient) {
 
   Meteor.startup(function () {

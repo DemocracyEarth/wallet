@@ -9,6 +9,7 @@
 
     "app": {
 
+      "name": "Democracy Earth",
       "language": "en",
       "development": true,
       "version": "0.1",
