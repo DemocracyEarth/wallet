@@ -1,19 +1,17 @@
+import { default } from "./Votes.js";
+
 Collective = new Mongo.Collection("collective");
 
-Schema.Location = new SimpleSchema({
-  address: {
-    type: String,
-    optional: true
-  },
-  state: {
-    type: String,
-    optional: true
-  },
-  country: {
-    type: Schema.UserCountry,
-    optional: true
-  }
+Schema.Country = new SimpleSchema({
+    name: {
+        type: String
+    },
+    code: {
+        type: String,
+        regEx: /^[A-Z]{2}$/
+    }
 });
+
 
 Schema.Jurisdiction = new SimpleSchema({
   legal: {
@@ -33,7 +31,19 @@ Schema.Jurisdiction = new SimpleSchema({
     optional: true
   },
   location: {
-    type: SimpleSchema.Location,
+    type: Object,
+    optional: true
+  },
+  "location.address": {
+    type: String,
+    optional: true
+  },
+  "location.state": {
+    type: String,
+    optional: true
+  },
+  "location.country": {
+    type: Schema.Country,
     optional: true
   }
 });
@@ -45,10 +55,6 @@ Schema.CollectiveProfile = new SimpleSchema({
         optional: true
     },
     bio: {
-        type: String,
-        optional: true
-    },
-    stateId: {
         type: String,
         optional: true
     },
@@ -65,7 +71,7 @@ Schema.CollectiveProfile = new SimpleSchema({
         optional: true
     },
     jurisdiction: {
-        type: Schema.UserCountry,
+        type: Schema.Jurisdiction,
         optional: true
     },
     foundation: {
@@ -88,7 +94,7 @@ Schema.CollectiveProfile = new SimpleSchema({
 });
 
 
-Schema.Collective =  new SimpleSchema({
+Schema.Collective = new SimpleSchema({
     domain: {
         type: String
     },
@@ -116,7 +122,7 @@ Schema.Collective =  new SimpleSchema({
     },
     goal: {
       type: String,
-      allowedValues: ['Business', 'Free'],
+      allowedValues: ['Business', 'Free', 'Commons'],
       optional: true
     },
     authorities: {
@@ -134,3 +140,5 @@ Schema.Collective =  new SimpleSchema({
 });
 
 Collective.attachSchema(Schema.Collective);
+
+export default Schema.Collective;

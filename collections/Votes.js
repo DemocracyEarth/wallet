@@ -64,9 +64,12 @@ Schema.Votes = new SimpleSchema({
     optional: true
   },
   budget: {
-    type: Schema.Budget,
+    type: "", //Schema.Budget,
     optional: true
   }
 });
 
+VoteContext = Schema.Votes.newContext();
 Votes.attachSchema(Schema.Votes);
+
+export default Schema.Votes;

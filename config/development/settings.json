@@ -19,7 +19,7 @@
 
     "Collective": {
 
-      "domain": "http://foundation.democracy.earth",
+      "domain": "https://foundation.democracy.earth",
       "emails": [
         {
           "address": "hello@democracy.earth",
@@ -30,12 +30,12 @@
 
 
       "profile": {
-        "website": "http://democracy.earth",
+        "website": "https://democracy.earth",
         "bio": "Incorruptible governance for small & large communities. A global commons of peers.",
         "blockchain": {
-          "address": ""
+          "address": "0"
         },
-        "logo": "http://foundation.democracy.earth",
+        "logo": "https://foundation.democracy.earth",
         "jurisdiction": {
           "legal": {
               "taxId": "37-1776296",
@@ -56,7 +56,7 @@
       "goal": "Free",
       "authorities": [
         {
-            "userId": ""
+            "userId": "0"
         }
       ],
       "votes": {

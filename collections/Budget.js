@@ -92,3 +92,5 @@ Schema.Budget =  new SimpleSchema({
     optional: true
   }
 });
+
+export default Schema.Budget;

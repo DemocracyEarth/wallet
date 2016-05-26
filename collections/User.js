@@ -1,17 +1,3 @@
-Schema.UserCountry = new SimpleSchema({
-    name: {
-        type: String
-    },
-    code: {
-        type: String,
-        regEx: /^[A-Z]{2}$/
-    }
-});
-
-Schema.BlockchainID = new SimpleSchema({
-  //TBD
-});
-
 Schema.UserProfile = new SimpleSchema({
     firstName: {
         type: String,
@@ -26,7 +12,7 @@ Schema.UserProfile = new SimpleSchema({
         optional: true
     },
     country: {
-        type: Schema.UserCountry,
+        type: Schema.Country,
         optional: true
     },
     birthday: {
@@ -130,3 +116,5 @@ Schema.User = new SimpleSchema({
 
 UserContext = Schema.User.newContext();
 Meteor.users.attachSchema(Schema.User);
+
+export default Schema.User;
