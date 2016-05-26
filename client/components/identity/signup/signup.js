@@ -1,6 +1,4 @@
-Template.emailLogin.rendered = function () {
-  Session.set("loginScreen", true);
-
+Template.signup.rendered = function () {
   //Give everyone a chance to not fuckup
   Session.set("invalidUsername", false);
   Session.set("repeatedUsername", false);
@@ -10,10 +8,7 @@ Template.emailLogin.rendered = function () {
   Session.set("mismatchPassword", false);
 }
 
-Template.emailLogin.helpers({
-  loginScreen: function () {
-    return Session.get("loginScreen");
-  },
+Template.signup.helpers({
   invalidUsername: function () {
     return Session.get("invalidUsername");
   },
@@ -32,16 +27,9 @@ Template.emailLogin.helpers({
   mismatchPassword: function () {
     return Session.get("mismatchPassword");
   }
-});
+})
 
-Template.emailLogin.events({
-  "click #signup": function (event) {
-    Session.set("loginScreen", !Session.get("loginScreen"));
-  },
-  "submit #signup-new-user": function (event) {
-    event.preventDefault();
-    createNewUser(event.target);
-  },
+Template.signup.events({
   "blur #signup-input": function (event) {
     switch(event.target.name) {
       case "username":
@@ -61,7 +49,7 @@ Template.emailLogin.events({
         break;
     }
   }
-});
+})
 
 
 //Create
@@ -98,19 +86,26 @@ function createNewUser(data) {
       createdAt: new Date()
     };
 
+    //Create User
     if (UserContext.validate(objUser)) {
       Accounts.createUser({
         username: objUser.username,
         password: objUser.services.password,
         emails: objUser.emails[0].address,
         profile: objUser.profile
-      }, function(error){
+      }, function (error) {
         if (error) {
           switch (error.error) {
           case 403:
               Session.set('repeatedUsername', true);
               break;
           }
+        } else {
+
+          //Fill in account
+
+
+
         }
       });
     } else {

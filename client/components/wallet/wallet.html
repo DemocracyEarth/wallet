@@ -1,0 +1,22 @@
+<template name="wallet">
+  <div class="w-clearfix rosca rosca-id">
+    <div class="w-clearfix result vote-bar">
+      <div class="result-bar vote-bar"></div>
+      <div class="result-bar vote-bar vote-bar-allocated"></div>
+    </div>
+    <div class="vote-available label-votes">
+      <strong data-new-link="true">
+      {{availableVotes}}
+      </strong>
+      <span>
+        <a href="#">{{_ 'available-votes'}}</a>
+      </span>
+    </div>
+    <div class="vote-allocated label-votes">
+      <strong data-new-link="true">
+        {{placedVotes}}
+      </strong>
+      <a href="#">{{_ 'placed-votes'}}</a>
+    </div>
+  </div>
+</template>

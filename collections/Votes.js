@@ -53,11 +53,7 @@ Schema.Delegations = new SimpleSchema({
 Schema.Votes = new SimpleSchema({
   total: {
     type: Number,
-    autoValue: function () {
-      if (this.isInsert) {
-        return 0;
-      }
-    }
+    defaultValue: 0 
   },
   delegations: {
     type: Schema.Delegations,

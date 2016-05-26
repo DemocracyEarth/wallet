@@ -1,6 +1,6 @@
-import { default } from "./Votes.js";
+import { default } from "./Votes";
 
-Collective = new Mongo.Collection("collective");
+Collectives = new Mongo.Collection("collectives");
 
 Schema.Country = new SimpleSchema({
     name: {
@@ -139,6 +139,6 @@ Schema.Collective = new SimpleSchema({
     }
 });
 
-Collective.attachSchema(Schema.Collective);
+Collectives.attachSchema(Schema.Collective);
 
 export default Schema.Collective;

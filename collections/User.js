@@ -1,3 +1,5 @@
+import { default } from "./Votes";
+
 Schema.UserProfile = new SimpleSchema({
     firstName: {
         type: String,
