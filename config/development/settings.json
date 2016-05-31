@@ -18,8 +18,8 @@
     },
 
     "Collective": {
-
-      "domain": "https://foundation.democracy.earth",
+      "name": "Earth Open Source Group",
+      "domain": "https://software.democracy.earth",
       "emails": [
         {
           "address": "hello@democracy.earth",

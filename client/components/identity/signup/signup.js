@@ -106,7 +106,7 @@ function createNewUser(data) {
         } else {
 
           //Fill in account
-
+          console.log('configuring new user votes');
 
 
         }

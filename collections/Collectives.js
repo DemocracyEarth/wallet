@@ -95,6 +95,9 @@ Schema.CollectiveProfile = new SimpleSchema({
 
 
 Schema.Collective = new SimpleSchema({
+    name: {
+      type: String
+    },
     domain: {
         type: String
     },
