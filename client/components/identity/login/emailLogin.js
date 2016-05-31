@@ -11,9 +11,5 @@ Template.emailLogin.helpers({
 Template.emailLogin.events({
   "click #signup": function (event) {
     Session.set("loginScreen", !Session.get("loginScreen"));
-  },
-  "submit #signup-new-user": function (event) {
-    event.preventDefault();
-    createNewUser(event.target);
   }
 });

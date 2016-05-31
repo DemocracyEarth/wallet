@@ -25,3 +25,10 @@ input[type="file"] {
   line-height: 22px;
   font-weight: 300;
 }
+
+
+/* Delete everything from here onwards */
+
+.login {
+    text-align: center;
+}

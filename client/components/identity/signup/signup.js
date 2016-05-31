@@ -48,6 +48,9 @@ Template.signup.events({
         validatePasswordMatch(document.getElementsByName("password")[0].value, event.target.value);
         break;
     }
+  },
+  "click #signup-button": function (event) {
+    createNewUser(event.target.parentNode.parentNode);
   }
 })
 

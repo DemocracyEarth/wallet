@@ -45,7 +45,9 @@
             {{> warning label="mismatch-password"}}
           {{/if}}
         </div>
-        <input type="submit" value="{{_ 'sign-up'}}" data-wait="{{_ 'please-wait'}}" class="w-button button login-button">
+        <div id="signup-button" class="button login-button">
+          <div>{{_ 'sign-up'}}</div>
+        </div>
       </form>
     </div>
     <div>{{_ "already-have-account"}} <a id='signup' href="#">{{_ "sign-in"}}</a>.</div>
