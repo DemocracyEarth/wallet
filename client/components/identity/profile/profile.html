@@ -6,20 +6,22 @@
       {{> avatar}}
       {{> power user=userId}}
 
-      <ul class="w-list-unstyled w-clearfix extra">
-        {{#each tags}}
-          {{> tag _id=_id}}
-        {{/each}}
-      </ul>
+      {{#if hasDelegations}}
+        <ul class="w-list-unstyled w-clearfix extra">
+          {{#each tags}}
+            {{> tag _id=_id}}
+          {{/each}}
+        </ul>
+        <div class="left">
+          <a href="#">
+            {{_ 'see-all'}} {{totalDelegations}} {{_ 'delegations'}}.
+          </a>
+        </div>
+      {{/if}}
 
-      <div>
-        <a href="#">
-          {{_ 'see-all'}} {{totalDelegations}} {{_ 'delegations'}}.
-        </a>
-        <a href="#" id="logout">
-          {{_ 'log-out'}}
-        </a>
-      </div>
+      {{#if notVerified}}
+        {{> warning label="pending-verification"}}
+      {{/if}}
     </div>
   {{/if}}
 </template>

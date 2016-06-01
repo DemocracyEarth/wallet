@@ -25,7 +25,7 @@ Template.power.helpers({
       var htmlEnd = " </strong><span>" + TAPi18n.__('placed-votes') + "</span></div>"
     } else {
       //TODO specify in the anchor the URL that will be used to see the delegated votes.
-      var htmlEnd = " </strong><span><a href='#'>" + TAPi18n.__('available-votes') + "</a></span></div>"
+      var htmlEnd = " </strong><span><a href='#'>" + TAPi18n.__('placed-votes') + "</a></span></div>"
     }
     return htmlStart + htmlValue + htmlEnd;
   }

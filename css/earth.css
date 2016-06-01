@@ -185,6 +185,7 @@ blockquote {
 
 .label.label-corner {
   margin-top: 5px;
+  float: left;
   line-height: 16px;
 }
 
@@ -688,7 +689,6 @@ blockquote {
   margin-bottom: -5px;
   margin-left: 0px;
   font-size: 16px;
-  text-align: center;
 }
 
 .button.login-button:active {
@@ -716,7 +716,6 @@ blockquote {
   margin-left: 5px;
   float: left;
   font-size: 16px;
-  text-align: center;
 }
 
 .button.button-social.facebook {
@@ -2338,7 +2337,6 @@ blockquote {
 .vote-available.label-votes {
   float: left;
   font-size: 14px;
-  text-transform: capitalize;
 }
 
 .vote-allocated {
@@ -2348,7 +2346,6 @@ blockquote {
 
 .vote-allocated.label-votes {
   font-size: 14px;
-  text-transform: none;
 }
 
 .vote-count {
@@ -2497,6 +2494,15 @@ blockquote {
   border-color: #fff;
   background-color: transparent;
   opacity: 0.7;
+}
+
+.stage.stage-finish-approved.stage-card.button {
+  cursor: pointer;
+}
+
+.stage.stage-finish-approved.stage-card.button:active {
+  background-color: transparent;
+  color: #00bf8f;
 }
 
 .stage.stage-finish-alternative {
@@ -2815,7 +2821,7 @@ blockquote {
   padding-left: 10px;
   float: left;
   font-size: 14px;
-  text-align: left;
+  text-align: center;
 }
 
 .login-input {
@@ -3057,6 +3063,20 @@ blockquote {
 
 .upload-button-label {
   display: inline-block;
+}
+
+.logout {
+  display: block;
+  width: 12px;
+  height: 12px;
+  margin-top: 7px;
+  margin-right: -1px;
+  margin-left: 4px;
+  float: right;
+}
+
+.left {
+  text-align: left;
 }
 
 @media (max-width: 991px) {
