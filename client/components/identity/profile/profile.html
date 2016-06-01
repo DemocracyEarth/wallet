@@ -4,24 +4,14 @@
   {{else}}
     <div class="login">
       {{> avatar}}
-      {{> wallet}}
+      {{> power user=userId}}
+
       <ul class="w-list-unstyled w-clearfix extra">
-        <li class="w-clearfix tag"><img src="{{pathFor route='home'}}images/handshake-right.png" class="hash-icon">
-          <a href="#" class="w-inline-block w-clearfix hash-link">
-            <div class="hash-tag">Bitcoin</div>
-          </a>
-        </li>
-        <li class="w-clearfix tag"><img src="{{pathFor route='home'}}images/handshake-right.png" class="hash-icon">
-          <a href="#" class="w-inline-block w-clearfix hash-link">
-            <div class="hash-tag">Blockchain</div>
-          </a>
-        </li>
-        <li class="w-clearfix tag"><img src="{{pathFor route='home'}}images/handshake-right.png" class="hash-icon">
-          <a href="#" class="w-inline-block w-clearfix hash-link">
-            <div class="hash-tag">Cryptocurrencies</div>
-          </a>
-        </li>
+        {{#each tags}}
+          {{> tag _id=_id}}
+        {{/each}}
       </ul>
+
       <div>
         <a href="#">
           {{_ 'see-all'}} {{totalDelegations}} {{_ 'delegations'}}.
@@ -32,4 +22,24 @@
       </div>
     </div>
   {{/if}}
+</template>
+
+<template name="userTags">
+
+    <li class="w-clearfix tag"><img src="{{pathFor route='home'}}images/handshake-right.png" class="hash-icon">
+      <a href="#" class="w-inline-block w-clearfix hash-link">
+        <div class="hash-tag">Bitcoin</div>
+      </a>
+    </li>
+    <li class="w-clearfix tag"><img src="{{pathFor route='home'}}images/handshake-right.png" class="hash-icon">
+      <a href="#" class="w-inline-block w-clearfix hash-link">
+        <div class="hash-tag">Blockchain</div>
+      </a>
+    </li>
+    <li class="w-clearfix tag"><img src="{{pathFor route='home'}}images/handshake-right.png" class="hash-icon">
+      <a href="#" class="w-inline-block w-clearfix hash-link">
+        <div class="hash-tag">Cryptocurrencies</div>
+      </a>
+    </li>
+
 </template>

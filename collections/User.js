@@ -42,6 +42,10 @@ Schema.UserProfile = new SimpleSchema({
     configured: {
       type: Boolean,
       optional: true
+    },
+    votes: {
+        type: Schema.Votes,
+        optional: true
     }
 });
 
@@ -108,10 +112,6 @@ Schema.User = new SimpleSchema({
     // In order to avoid an 'Exception in setInterval callback' from Meteor
     heartbeat: {
         type: Date,
-        optional: true
-    },
-    votes: {
-        type: Schema.Votes,
         optional: true
     }
 });

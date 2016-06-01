@@ -58,6 +58,9 @@ Template.signup.events({
 //Create
 
 function createNewUser(data) {
+
+  console.log(data);
+
   if (validateUser(data)) {
 
     var fullName = data.username.value.split(' '),
@@ -106,7 +109,7 @@ function createNewUser(data) {
         } else {
 
           //Fill in account
-          console.log('configuring new user votes');
+          console.log('send user email');
 
 
         }

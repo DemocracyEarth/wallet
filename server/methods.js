@@ -105,9 +105,19 @@ Meteor.methods({
   },
 
   verifyUsername: function(strUsername) {
-    console.log('verifying username: ' + strUsername + ' ' + Meteor.users.findOne({username: strUsername}))
+    console.log('verifying username: ' + strUsername + ', is present in db:' + Meteor.users.findOne({username: strUsername}))
     if (Meteor.users.findOne({username: strUsername}) != undefined) {
       return true;
+    } else {
+      return false;
+    }
+  },
+
+  getUserInfo: function (userId) {
+    var objUser = Meteor.users.findOne({ _id: userId });
+    console.log('getting user info: ' + userId);
+    if (objUser) {
+      return objUser;
     } else {
       return false;
     }

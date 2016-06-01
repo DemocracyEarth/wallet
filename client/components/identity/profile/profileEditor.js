@@ -10,7 +10,9 @@ Template.profileEditor.helpers({
     return Meteor.user().profile.lastName;
   },
   country: function () {
-    return Meteor.user().profile.country.name;
+    if (Meteor.user().profile.country != undefined) {
+      return Meteor.user().profile.country.name;
+    }
   },
   showNations: function () {
     return Session.get('showNations');
