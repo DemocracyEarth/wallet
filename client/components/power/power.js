@@ -1,5 +1,6 @@
 Template.power.rendered = function (user) {
-
+  Session.set('placedVotes', 0);
+  Session.set('availableVotes', 0);
 }
 
 Template.power.helpers({
@@ -7,12 +8,12 @@ Template.power.helpers({
     getUserInfo(user, 'availableVotes');
     var votes = Session.get('availableVotes');
     var htmlStart = "<div class='vote-available label-votes'><strong data-new-link='true'>"
-    var htmlValue = votes.toString();
+    var htmlValue = votes;
     if (votes == 0) {
-      var htmlEnd = " </strong><span>" + TAPi18n.__('available-votes') + "</span></div>"
+      var htmlEnd = " </strong><span class='vote-label'>" + TAPi18n.__('available-votes') + "</span></div>"
     } else {
       //TODO specify in the anchor the URL that will be used to see the delegated votes.
-      var htmlEnd = " </strong><span><a href='#'>" + TAPi18n.__('available-votes') + "</a></span></div>"
+      var htmlEnd = " </strong><span class='vote-label'><a href='#'>" + TAPi18n.__('available-votes') + "</a></span></div>"
     }
     return htmlStart + htmlValue + htmlEnd;
   },
@@ -20,12 +21,12 @@ Template.power.helpers({
     getUserInfo(user, 'placedVotes');
     var votes = Session.get('placedVotes');
     var htmlStart = "  <div class='vote-allocated label-votes'><strong data-new-link='true'>";
-    var htmlValue = votes.toString();
+    var htmlValue = votes;
     if (votes == 0) {
-      var htmlEnd = " </strong><span>" + TAPi18n.__('placed-votes') + "</span></div>"
+      var htmlEnd = " </strong><span class='vote-label'>" + TAPi18n.__('placed-votes') + "</span></div>"
     } else {
       //TODO specify in the anchor the URL that will be used to see the delegated votes.
-      var htmlEnd = " </strong><span><a href='#'>" + TAPi18n.__('placed-votes') + "</a></span></div>"
+      var htmlEnd = " </strong><span class='vote-label'><a href='#'>" + TAPi18n.__('placed-votes') + "</a></span></div>"
     }
     return htmlStart + htmlValue + htmlEnd;
   }

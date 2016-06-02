@@ -31,22 +31,24 @@ Template.signup.helpers({
 
 Template.signup.events({
   "blur #signup-input": function (event) {
-    switch(event.target.name) {
-      case "username":
-        validateUsername(event.target.value);
-        break;
-      case "email":
-        validateEmail(event.target.value);
-        break;
-      case "password":
-        validatePassword(event.target.value);
-        if (document.getElementsByName("mismatchPassword")[0].value != '') {
-          validatePasswordMatch(document.getElementsByName("mismatchPassword")[0].value, event.target.value);
-        }
-        break;
-      case "mismatchPassword":
-        validatePasswordMatch(document.getElementsByName("password")[0].value, event.target.value);
-        break;
+    if (event.target.value != '') {
+      switch(event.target.name) {
+        case "username":
+          validateUsername(event.target.value);
+          break;
+        case "email":
+          Modules.both.validateEmail(event.target.value);
+          break;
+        case "password":
+          validatePassword(event.target.value);
+          if (document.getElementsByName("mismatchPassword")[0].value != '') {
+            validatePasswordMatch(document.getElementsByName("mismatchPassword")[0].value, event.target.value);
+          }
+          break;
+        case "mismatchPassword":
+          validatePasswordMatch(document.getElementsByName("password")[0].value, event.target.value);
+          break;
+      }
     }
   },
   "click #signup-button": function (event) {
@@ -127,21 +129,14 @@ function createNewUser(data) {
 
 function validateUser (data) {
   var val = validateUsername(data.username.value)
-            + validateEmail(data.email.value)
+            + Modules.both.validateEmail(data.email.value)
             + validatePassword(data.password.value)
             + validatePasswordMatch(data.password.value, data.mismatchPassword.value);
 
   if (val >= 4) { return true } else { return false };
 }
 
-function validateEmail (email) {
-  var val = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  //TODO verify if email already exists in db
-
-  Session.set("invalidEmail", !val.test(email));
-  return val.test(email);
-}
 
 function validatePassword(pass) {
   var val = true;

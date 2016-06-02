@@ -11,5 +11,11 @@ Template.profile.helpers({
   },
   userId: function () {
     return Meteor.user()._id;
+  },
+  notVerified: function () {
+
+  },
+  hasDelegations: function () {
+    return false;
   }
 })

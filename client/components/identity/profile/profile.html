@@ -17,6 +17,10 @@
             {{_ 'see-all'}} {{totalDelegations}} {{_ 'delegations'}}.
           </a>
         </div>
+      {{else}}
+        <div class="tag tag-empty">
+          <div>{{_ 'no-delegations'}}</div>
+        </div>
       {{/if}}
 
       {{#if notVerified}}

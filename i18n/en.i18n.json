@@ -178,8 +178,8 @@
   "invalid-password": "Pass requires at least 6 letters.",
   "short-password": "Pass requires at least 6 characters.",
   "mismatch-password": "Passwords do not properly match.",
-  "available-votes": "Available votes",
-  "placed-votes": "Placed votes",
+  "available-votes": "Available votes.",
+  "placed-votes": "Placed votes.",
   "see-all": "Review all",
   "delegations": "delegations",
   "log-out": "Log Out",
@@ -199,5 +199,8 @@
   "new-profile-pic": "Profile picture updated.",
   "valid-country": "The typed nationality does not exist.",
   "missing-name": "At least a first name is required.",
-  "digital-citizen": "Digital"
+  "digital-citizen": "Digital",
+  "pending-verification": "Your e-mail is pending verification.",
+  "user-not-found": "User not found. <a href='#'>Recover password</a>?",
+  "no-delegations": "No delegation agreements found."
 }

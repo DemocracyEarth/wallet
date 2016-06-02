@@ -568,7 +568,13 @@ blockquote {
 }
 
 .tag.tag-empty {
+  display: inline-block;
+  margin-right: 0px;
+  margin-left: 0px;
+  float: none;
   background-color: #f5f5f5;
+  color: hsla(0, 0%, 100%, .7);
+  cursor: default;
 }
 
 .tag.tag-navbar {
@@ -579,7 +585,18 @@ blockquote {
   font-size: 16px;
 }
 
-.tag.tag-extra {
+.tag.tag-empty {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding-right: 10px;
+  float: none;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   border: 1px dashed #00bf8f;
   background-color: transparent;
 }
@@ -2336,7 +2353,7 @@ blockquote {
 
 .vote-available.label-votes {
   float: left;
-  font-size: 14px;
+  font-size: 11px;
 }
 
 .vote-allocated {
@@ -2345,7 +2362,7 @@ blockquote {
 }
 
 .vote-allocated.label-votes {
-  font-size: 14px;
+  font-size: 11px;
 }
 
 .vote-count {
@@ -3077,6 +3094,12 @@ blockquote {
 
 .left {
   text-align: left;
+}
+
+.vote-label {
+  margin-left: 3px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
 }
 
 @media (max-width: 991px) {
