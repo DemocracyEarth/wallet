@@ -16,12 +16,12 @@ Template.authentication.helpers({
 });
 
 Template.authentication.events({
-    "click #current-user": function (event) {
-      if (Session.get('displayLogin') == false) {
-        Session.set('displayLogin', true);
-      } else {
-        Session.set('displayLogin', false);
-      }
-      displayPopup('login', document.getElementById('current-user'));
+  "click #current-user": function (event) {
+    if (Session.get('displayLogin') == false) {
+      Session.set('displayLogin', true);
+    } else {
+      Session.set('displayLogin', false);
     }
+    displayPopup('login', document.getElementById('current-user'));
+  }
 });

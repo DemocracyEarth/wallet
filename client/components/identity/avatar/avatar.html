@@ -15,13 +15,17 @@
         </div>
       </form>
     {{else}}
-      <img src="{{profilePicture}}" class="symbol profile-pic">
+      <img src="{{profilePicture}}" class="symbol profile-pic" style="{{pictureSize size includeName}}">
       <div class="identity-peer">
-        <div class="identity-verified">
-          <img src="{{pathFor route='home'}}images/white-tick.png" class="identity-verified-tick">
-        </div>
-        <a href="#" class="identity-label">{{fullName}}</a>
-        <div class="identity-nation">{{nationality}}</div>
+        {{#if verifiedIdentity}}
+          <div class="identity-verified">
+            <img src="{{pathFor route='home'}}images/white-tick.png" class="identity-verified-tick">
+          </div>
+        {{/if}}
+        {{#if includeName}}
+          <a href="#" class="identity-label">{{fullName}}</a>
+          <div class="identity-nation">{{nationality}}</div>
+        {{/if}}
       </div>
     {{/if}}
   </div>

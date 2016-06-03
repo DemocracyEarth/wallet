@@ -3,7 +3,7 @@
     {{> profileEditor}}
   {{else}}
     <div class="login">
-      {{> avatar}}
+      {{> avatar includeName=true}}
       {{> power user=userId}}
 
       {{#if hasDelegations}}

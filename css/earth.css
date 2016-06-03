@@ -431,7 +431,6 @@ blockquote {
   width: 60px;
   height: 60px;
   margin-top: 0px;
-  margin-right: 10px;
   margin-bottom: 0px;
   float: left;
   border: 1px solid #e6f9f4;
@@ -2103,6 +2102,7 @@ blockquote {
 
 .identity-peer {
   margin-top: 5px;
+  margin-left: 10px;
   float: left;
 }
 
@@ -2181,10 +2181,10 @@ blockquote {
 
 .identity-verified {
   position: absolute;
+  display: inline-block;
   width: 16px;
   height: 16px;
-  margin-top: 35px;
-  margin-left: -25px;
+  margin-left: -15px;
   border-radius: 100px;
   background-color: #6bccfa;
   box-shadow: 0 2px 4px -2px rgba(0, 0, 0, .33);

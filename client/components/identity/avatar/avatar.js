@@ -12,6 +12,16 @@ Template.avatar.helpers({
       return Meteor.user().profile.picture;
     }
   },
+  pictureSize: function (size, includeName) {
+    var style = new String();
+    if (size != undefined) {
+      style = 'width:' + size + 'px; height:' + size + 'px; '
+    }
+    if (includeName == false) {
+      style += 'float: none';
+    }
+    return style;
+  },
   fullName: function () {
     if (Meteor.user().profile.firstName != undefined) {
       completeName = Meteor.user().profile.firstName + ' ' + Meteor.user().profile.lastName;

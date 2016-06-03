@@ -48,7 +48,7 @@ Template.popup.rendered = function () {
 
   //Animation
   position['easing'] = 'ease-in-out';
-  behave(this.firstNode, 'fade-and-roll', position, animation);
+  //behave(this.firstNode, 'fade-and-roll', position, animation);
 
   //Resize
   $(window).resize( function() {

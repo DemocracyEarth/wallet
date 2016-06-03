@@ -30,6 +30,7 @@ Template.emailLogin.events({
             break;
         }
       }
+      
     });
   },
   "blur #signin-password, #signin-email": function () {

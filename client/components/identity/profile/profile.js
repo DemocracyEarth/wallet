@@ -16,6 +16,7 @@ Template.profile.helpers({
 
   },
   hasDelegations: function () {
+    //TODO implement delegation reader to display them.
     return false;
   }
 })
