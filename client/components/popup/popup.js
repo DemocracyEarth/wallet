@@ -48,6 +48,8 @@ Template.popup.rendered = function () {
 
   //Animation
   position['easing'] = 'ease-in-out';
+
+  //TODO fix animation for this cmomponent but the line below will break HTML.
   //behave(this.firstNode, 'fade-and-roll', position, animation);
 
   //Resize
