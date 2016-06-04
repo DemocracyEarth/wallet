@@ -17,39 +17,46 @@ build a new model that makes the existing model obsolete."
 
 */
 
-if (Meteor.isClient) {
+Meteor.startup(function () {
+  
+  //Mail server settings
+  process.env.MAIL_URL = Meteor.settings.smtpServer;
 
-  Meteor.startup(function () {
+  if (Meteor.isClient) {
 
-    //Setup Language
-    Session.set("showLoadingIndicator", true);
+    Meteor.startup(function () {
 
-    //Internationalizatoin Library
-    TAPi18n.setLanguage(getUserLanguage())
-      .done(function () {
-        Session.set("showLoadingIndicator", false);
-      })
-      .fail(function (error_message) {
-        // Handle the situation
-        console.log(error_message);
+      //Setup Language
+      Session.set("showLoadingIndicator", true);
+
+      //Internationalizatoin Library
+      TAPi18n.setLanguage(getUserLanguage())
+        .done(function () {
+          Session.set("showLoadingIndicator", false);
+        })
+        .fail(function (error_message) {
+          // Handle the situation
+          console.log(error_message);
+        });
+
+      //Serch Engine for Tags
+      var options = {
+        keepHistory: 1000 * 60 * 5,
+        localSearch: true
+      };
+      var fields = ['text', 'url'];
+
+      Session.set('createTag', false);
+      TagSearch = new SearchSource('tags', fields, options);
+
+      geoJSON = new Object;
+      HTTP.get(Meteor.absoluteUrl("data/geo.json"), function(err,result) {
+        geoJSON = result.data;
+        Session.set('filteredCountries', result.data.country);
       });
 
-    //Serch Engine for Tags
-    var options = {
-      keepHistory: 1000 * 60 * 5,
-      localSearch: true
-    };
-    var fields = ['text', 'url'];
-
-    Session.set('createTag', false);
-    TagSearch = new SearchSource('tags', fields, options);
-
-    geoJSON = new Object;
-    HTTP.get(Meteor.absoluteUrl("data/geo.json"), function(err,result) {
-      geoJSON = result.data;
-      Session.set('filteredCountries', result.data.country);
     });
 
-  });
+  }
 
-}
+});

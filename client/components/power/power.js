@@ -33,10 +33,18 @@ Template.power.helpers({
 })
 
 function getUserInfo (userId, sessionVar) {
-  Meteor.call('getUserInfo', userId, function (error, data) {
-    if (error)
-      console.log(error);
+  if (userId != Meteor.userId()) {
+    Meteor.call('getUserInfo', userId, function (error, data) {
+      if (error)
+        console.log(error);
 
-    Session.set(sessionVar, data.profile.votes.total)
-  });
+      Session.set(sessionVar, data.profile.votes.total)
+    });
+  } else {
+    if (Meteor.user().profile.votes != undefined) {
+      Session.set(sessionVar, Meteor.user().profile.votes.total);
+    } else {
+      return 0;
+    }
+  }
 }

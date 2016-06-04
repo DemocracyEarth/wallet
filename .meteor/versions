@@ -68,6 +68,7 @@ meteor@1.1.14
 meteor-base@1.0.4
 meteorhacks:picker@1.0.3
 meteorhacks:search-source@1.4.2
+meteorhacks:ssr@2.2.0
 meteorspark:util@0.2.0
 meteortoys:allthings@2.3.1
 meteortoys:authenticate@2.1.0

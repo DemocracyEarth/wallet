@@ -2,6 +2,7 @@
 
   "AWSAccessKeyId": "AKIAIEDBX73JZBV65WFA",
   "AWSSecretAccessKey": "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",
+  "smtpServer": "smtp://postmaster%40mailgun.democracyearth.org:d070665c856bf97baa01bb0540faf765@smtp.mailgun.org:587",
 
   "public": {
 
