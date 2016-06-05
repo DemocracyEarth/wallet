@@ -10,7 +10,7 @@
 
     "app": {
 
-      "name": "Democracy Earth",
+      "name": "Democracy.Earth",
       "language": "en",
       "development": true,
       "version": "0.1",
@@ -19,7 +19,7 @@
     },
 
     "Collective": {
-      "name": "Earth Open Source Group",
+      "name": "Democracy Earth Foundation",
       "domain": "https://software.democracy.earth",
       "emails": [
         {
@@ -43,7 +43,7 @@
               "type": "Non-Profit 501(c)3"
           },
           "location": {
-            "address": "1246 36th Avenue",
+            "address": "Anywhere you find an Earth Flag",
             "state": "California",
             "country": {
               "name": "United States of America",

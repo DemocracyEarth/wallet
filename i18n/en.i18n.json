@@ -200,7 +200,9 @@
   "valid-country": "The typed nationality does not exist.",
   "missing-name": "At least a first name is required.",
   "digital-citizen": "Digital",
-  "pending-verification": "Your e-mail is pending verification.",
+  "pending-verification": "E-mail not verified. <a href='' class='resend-verification-link'>Resend link</a>?",
   "user-not-found": "User not found. <a href='#'>Recover password</a>?",
-  "no-delegations": "No delegation agreements found."
+  "no-delegations": "No delegation agreements found.",
+  "verify-email-address": "Verify Your Email Address",
+  "email-verified": "Email successfully verified. Thanks!"
 }

@@ -8,8 +8,6 @@ _____                                                   ______           _   _
 |_____/ \___|_| |_| |_|\___/ \___|_|  \__,_|\___|\__, (_)______\__,_|_|   \__|_| |_/
                                                   __/ |
                                                  |___/
-version: 0.02
-codename: quixote
 
 "You never change things by fighting the existing reality. To change something
 build a new model that makes the existing model obsolete."
@@ -18,7 +16,7 @@ build a new model that makes the existing model obsolete."
 */
 
 Meteor.startup(function () {
-  
+
   //Mail server settings
   process.env.MAIL_URL = Meteor.settings.smtpServer;
 

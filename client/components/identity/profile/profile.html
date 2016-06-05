@@ -4,6 +4,13 @@
   {{else}}
     <div class="login">
       {{> avatar includeName=true}}
+
+      {{#unless currentUser.emails.[0].verified}}
+        <div class="left extra">
+          {{> warning label="pending-verification"}}
+        </div>
+      {{/unless}}
+
       {{> power user=userId}}
 
       {{#if hasDelegations}}
@@ -21,10 +28,6 @@
         <div class="tag tag-empty">
           <div>{{_ 'no-delegations'}}</div>
         </div>
-      {{/if}}
-
-      {{#if notVerified}}
-        {{> warning label="pending-verification"}}
       {{/if}}
     </div>
   {{/if}}

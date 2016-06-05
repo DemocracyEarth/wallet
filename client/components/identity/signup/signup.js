@@ -99,7 +99,7 @@ function createNewUser(data) {
       Accounts.createUser({
         username: objUser.username,
         password: objUser.services.password,
-        emails: objUser.emails[0].address,
+        email: data.email.value,
         profile: objUser.profile
       }, function (error) {
         if (error) {
@@ -111,8 +111,13 @@ function createNewUser(data) {
         } else {
 
           //Fill in account
-          console.log('send user email');
-
+          Meteor.call( 'sendVerificationLink', ( error, response ) => {
+            if ( error ) {
+              console.log( error.reason, 'danger' );
+            } else {
+              console.log( 'Welcome!', 'success' );
+            }
+          });
 
         }
       });
