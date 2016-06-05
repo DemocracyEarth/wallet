@@ -7,7 +7,7 @@
             {{_ "username"}}
           </label>
           <img src="{{pathFor route='home'}}images/id-card.png" class="login-icon">
-          <input id="signup-input" name="username" type="text" placeholder="{{_ 'username-sample'}}" class="w-input login-input">
+          <input id="signup-input" name="username-signup" type="text" placeholder="{{_ 'username-sample'}}" class="w-input login-input">
           {{#if invalidUsername}}
             {{> warning label="invalid-username"}}
           {{/if}}
@@ -20,7 +20,7 @@
             {{_ "email"}}
           </label>
           <img src="{{pathFor route='home'}}images/mail-closed.png" class="login-icon">
-          <input id="signup-input" name="email" type="text" placeholder="{{_ 'email-sample'}}" class="w-input login-input">
+          <input id="signup-input" name="email-signup" type="text" placeholder="{{_ 'email-sample'}}" class="w-input login-input">
           {{#if invalidEmail}}
             {{> warning label="invalid-email"}}
           {{/if}}
@@ -30,7 +30,7 @@
             {{_ "password"}}
           </label>
           <img src="{{pathFor route='home'}}images/lock.png" class="login-icon">
-          <input id="signup-input" name="password" type="password" placeholder="{{_ 'password-sample'}}" class="w-input login-input">
+          <input id="signup-input" name="password-signup" type="password" placeholder="{{_ 'password-sample'}}" class="w-input login-input">
           {{#if invalidPassword}}
             {{> warning label="invalid-password"}}
           {{/if}}
@@ -45,6 +45,11 @@
             {{> warning label="mismatch-password"}}
           {{/if}}
         </div>
+        {{#if alreadyRegistered}}
+          <div class="extra section">
+            {{> warning label="user-exists"}}
+          </div>
+        {{/if}}
         <div id="signup-button" class="button login-button">
           <div>{{_ 'sign-up'}}</div>
         </div>

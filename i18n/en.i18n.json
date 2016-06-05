@@ -154,7 +154,7 @@
   "phone-app": "Phone App",
   "log-in": "Log In",
   "authenticate": "Private",
-  "email": "E-mail",
+  "email-username": "E-mail",
   "email-sample": "satoshi@nakamoto.org",
   "password-sample": "the longer, the better.",
   "sign-in": "Sign In",
@@ -174,7 +174,8 @@
   "username-sample": "satoshin",
   "invalid-username": "No spaces or rare characters.",
   "repeated-username": "Username already exists.",
-  "invalid-email": "Enter a valid e-mail address.",
+  "invalid-email": "E-mail address is invalid.",
+  "user-exists": "This user is already registered.",
   "invalid-password": "Pass requires at least 6 letters.",
   "short-password": "Pass requires at least 6 characters.",
   "mismatch-password": "Passwords do not properly match.",
@@ -204,5 +205,6 @@
   "user-not-found": "User not found. <a href='#'>Recover password</a>?",
   "no-delegations": "No delegation agreements found.",
   "verify-email-address": "Verify Your Email Address",
-  "email-verified": "Email successfully verified. Thanks!"
+  "email-verified": "Email successfully verified. Thanks!",
+  "user-created": "User successfully created."
 }

@@ -30,17 +30,17 @@ Template.emailLogin.events({
             break;
         }
       }
-      
+
     });
   },
   "blur #signin-password, #signin-email": function () {
     Session.set("incorrectUser", false);
   },
-  "blur #signin-email": function (event) {
+/*  "blur #signin-email": function (event) {
     if (event.target.value != '') {
       Session.set("invalidEmail", !Modules.both.validateEmail(document.getElementById('signin-email').value));
     } else {
       Session.set("invalidEmail", false);
     }
-  }
+  }*/
 });

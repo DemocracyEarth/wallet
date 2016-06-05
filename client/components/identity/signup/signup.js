@@ -1,4 +1,6 @@
 Template.signup.rendered = function () {
+  var enableLogin = false;
+
   //Give everyone a chance to not fuckup
   Session.set("invalidUsername", false);
   Session.set("repeatedUsername", false);
@@ -6,6 +8,8 @@ Template.signup.rendered = function () {
   Session.set("invalidPassword", false);
   Session.set("shortPassword", false);
   Session.set("mismatchPassword", false);
+  Session.set("alreadyRegistered", false);
+
 }
 
 Template.signup.helpers({
@@ -26,33 +30,45 @@ Template.signup.helpers({
   },
   mismatchPassword: function () {
     return Session.get("mismatchPassword");
+  },
+  alreadyRegistered: function () {
+    return Session.get("alreadyRegistered");
   }
 })
 
 Template.signup.events({
+  "focus #signup-input": function () {
+    Session.set('alreadyRegistered', false);
+  },
   "blur #signup-input": function (event) {
     if (event.target.value != '') {
       switch(event.target.name) {
-        case "username":
+        case "username-signup":
           validateUsername(event.target.value);
           break;
-        case "email":
+        case "email-signup":
           Modules.both.validateEmail(event.target.value);
           break;
-        case "password":
+        case "password-signup":
           validatePassword(event.target.value);
           if (document.getElementsByName("mismatchPassword")[0].value != '') {
             validatePasswordMatch(document.getElementsByName("mismatchPassword")[0].value, event.target.value);
           }
           break;
         case "mismatchPassword":
-          validatePasswordMatch(document.getElementsByName("password")[0].value, event.target.value);
+          validatePasswordMatch(document.getElementsByName("password-signup")[0].value, event.target.value);
           break;
       }
     }
   },
   "click #signup-button": function (event) {
-    createNewUser(event.target.parentNode.parentNode);
+    var userData = {
+      username: document.getElementsByName('username-signup')[0].value,
+      email: document.getElementsByName('email-signup')[0].value,
+      password: document.getElementsByName('password-signup')[0].value,
+      mismatchPassword: document.getElementsByName('mismatchPassword')[0].value
+    }
+    createNewUser(userData);
   }
 })
 
@@ -61,32 +77,16 @@ Template.signup.events({
 
 function createNewUser(data) {
 
-  console.log(data);
-
   if (validateUser(data)) {
 
-    var fullName = data.username.value.split(' '),
-        givenName = fullName[0];
-    var familyName = '';
-
-    if (fullName.length > 1) {
-      for (i = (fullName.length - 1); i <= 1; i--) {
-        if (familyName == '') {
-          familyName = fullName[i];
-        } else {
-          familyName = familyName + " " + fullName[i];
-        }
-      }
-    }
-
     var objUser = {
-      username: data.username.value,
+      username: data.username,
       emails: [{
-        address: data.email.value,
+        address: data.email,
         verified: false
       }],
       services: {
-        password: data.password.value
+        password: data.password
       },
       profile: {
         configured: false
@@ -99,13 +99,13 @@ function createNewUser(data) {
       Accounts.createUser({
         username: objUser.username,
         password: objUser.services.password,
-        email: data.email.value,
+        email: data.email,
         profile: objUser.profile
       }, function (error) {
         if (error) {
           switch (error.error) {
           case 403:
-              Session.set('repeatedUsername', true);
+              Session.set('alreadyRegistered', true);
               break;
           }
         } else {
@@ -115,7 +115,7 @@ function createNewUser(data) {
             if ( error ) {
               console.log( error.reason, 'danger' );
             } else {
-              console.log( 'Welcome!', 'success' );
+              displayNotice('user-created', true);
             }
           });
 
@@ -125,18 +125,17 @@ function createNewUser(data) {
       check(objUser, Schema.User);
     }
 
-  } else {
-    console.log('Cannot create user');
   }
+
 }
 
 //Validators
 
 function validateUser (data) {
-  var val = validateUsername(data.username.value)
-            + Modules.both.validateEmail(data.email.value)
-            + validatePassword(data.password.value)
-            + validatePasswordMatch(data.password.value, data.mismatchPassword.value);
+  var val = validateUsername(data.username)
+            + Modules.both.validateEmail(data.email)
+            + validatePassword(data.password)
+            + validatePasswordMatch(data.password, data.mismatchPassword);
 
   if (val >= 4) { return true } else { return false };
 }
@@ -152,18 +151,6 @@ function validatePassword(pass) {
     Session.set("invalidPassword", false);
     val = true;
   }
-  /*if (pass.search(/[a-z]/i) < 0) {
-    Session.set("invalidPassword", true);
-    val = false;
-  } else {
-    if (pass.search(/[0-9]/) < 0) {
-        Session.set("invalidPassword", true);
-        val = false;
-    } else {
-      Session.set("invalidPassword", false);
-      val = true;
-    }
-  }*/
   return val;
 }
 
