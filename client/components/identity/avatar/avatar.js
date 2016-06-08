@@ -1,8 +1,6 @@
-Template.avatar.events({
-  'change input[type="file"]' ( event, template ) {
-    Modules.client.uploadToAmazonS3( { event: event, template: template } );
-  }
-});
+Template.avatar.rendered = function () {
+  Session.set('editor', false);
+}
 
 Template.avatar.helpers({
   profilePicture: function () {
@@ -41,3 +39,14 @@ Template.avatar.helpers({
     }
   }
 })
+
+Template.avatar.events({
+  'change input[type="file"]' ( event, template ) {
+    Modules.client.uploadToAmazonS3( { event: event, template: template } );
+  },
+  'click #toggleEditor': function () {
+    var data = Meteor.user().profile;
+    data.configured = false;
+    Meteor.users.update(Meteor.userId(), { $set: { profile : data }})
+  }
+});

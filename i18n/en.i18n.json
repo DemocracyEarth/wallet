@@ -206,5 +206,6 @@
   "no-delegations": "No delegation agreements found.",
   "verify-email-address": "Verify Your Email Address",
   "email-verified": "Email successfully verified. Thanks!",
-  "user-created": "User successfully created."
+  "user-created": "User successfully created.",
+  "edit": "Edit"
 }

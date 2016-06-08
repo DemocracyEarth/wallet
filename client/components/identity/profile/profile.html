@@ -3,7 +3,7 @@
     {{> profileEditor}}
   {{else}}
     <div class="login">
-      {{> avatar includeName=true}}
+      {{> avatar includeName=true editable=true}}
 
       {{#unless currentUser.emails.[0].verified}}
         <div class="left extra">

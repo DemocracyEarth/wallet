@@ -65,8 +65,7 @@ Template.suggest.events({
       name: event.target.innerText.slice(4)
     }
     if (country.name == 'arth') { country.name = 'Earth' };
-    data.country = country;
-    Meteor.users.update(Meteor.userId(), { $set: { profile : data }})
+    Session.set('newCountry', country);
     Session.set('noMatchFound', false);
     Session.set('showNations', false);
   }

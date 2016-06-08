@@ -445,10 +445,9 @@ blockquote {
 }
 
 .symbol.profile-pic.profile-pic-navbar {
-  width: 45px;
-  height: 45px;
-  margin-right: 0px;
-  margin-left: 0px;
+  width: 40px;
+  height: 40px;
+  margin: 3px 0px;
   float: right;
   border-color: transparent;
   background-color: transparent;
@@ -495,8 +494,28 @@ blockquote {
 .symbol.profile-pic.profile-pic-edit {
   width: 80px;
   height: 80px;
+  margin-right: 10px;
   float: left;
   border-radius: 100px;
+}
+
+.symbol.profile-pic.profile-edit {
+  position: absolute;
+  padding-top: 21px;
+  padding-bottom: 21px;
+  background-color: rgba(0, 191, 143, .6);
+  opacity: 0;
+  color: #fff;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 300;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.symbol.profile-pic.profile-edit:hover {
+  background-color: rgba(0, 191, 143, .75);
+  opacity: 1;
 }
 
 .semantics {
@@ -1568,7 +1587,7 @@ blockquote {
   display: inline-block;
   width: 40%;
   height: 60px;
-  margin-right: 5px;
+  margin-right: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
   float: right;
@@ -2965,7 +2984,8 @@ blockquote {
 .navbar-button {
   display: inline-block;
   height: 45px;
-  margin: 7px 5px;
+  margin-top: 7px;
+  margin-bottom: 7px;
   padding-right: 5px;
   padding-left: 5px;
   border-radius: 5px;

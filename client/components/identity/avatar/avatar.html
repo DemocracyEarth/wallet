@@ -15,6 +15,11 @@
         </div>
       </form>
     {{else}}
+      {{#if editable}}
+        <div id="toggleEditor" class="symbol profile-pic profile-edit">
+          <div class="label">{{_ 'edit'}}</div>
+        </div>
+      {{/if}}
       <img src="{{profilePicture}}" class="symbol profile-pic" style="{{pictureSize size includeName}}">
       <div class="identity-peer">
         {{#if verifiedIdentity}}
