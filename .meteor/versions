@@ -1,5 +1,8 @@
 accounts-base@1.2.7
+accounts-facebook@1.0.9
+accounts-oauth@1.1.12
 accounts-password@1.1.8
+accounts-twitter@1.0.9
 accounts-ui@1.1.9
 accounts-ui-unstyled@1.1.12
 aldeed:collection2@2.9.1
@@ -37,6 +40,7 @@ edgee:slingshot@0.7.1
 ejson@1.0.11
 email@1.0.12
 es5-shim@4.5.10
+facebook@1.2.6
 fastclick@1.0.11
 geojson-utils@1.0.8
 gwendall:body-events@0.1.6
@@ -100,6 +104,9 @@ msavin:mongol@1.6.2
 mystor:device-detection@0.2.0
 npm-bcrypt@0.8.5
 npm-mongo@1.4.43
+oauth@1.1.10
+oauth1@1.1.9
+oauth2@1.1.9
 observe-sequence@1.0.11
 ordered-dict@1.0.7
 promise@0.6.7
@@ -125,6 +132,7 @@ templating@1.1.9
 templating-tools@1.0.4
 tmeasday:paginated-subscription@0.2.4
 tracker@1.0.13
+twitter@1.1.9
 ui@1.0.11
 underscore@1.0.8
 url@1.0.9

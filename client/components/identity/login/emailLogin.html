@@ -15,11 +15,13 @@
             <label for="name" class="login-label login-label-form">{{_ "password"}}</label>
             <img src="{{pathFor route='home'}}images/lock.png" class="login-icon">
             <input id="signin-password" type="password" placeholder="{{_ 'password-sample'}}" class="w-input login-input">
-            {{#if incorrectUser}}
-              {{> warning label="user-not-found"}}
-            {{/if}}
-          </div>
 
+          </div>
+          {{#if incorrectUser}}
+            <div class="extra section">
+              {{> warning label="user-not-found"}}
+            </div>
+          {{/if}}
           <div id="signin-button" class="button login-button">
             <div>{{_ 'sign-in'}}</div>
           </div>
@@ -27,8 +29,8 @@
       </div>
       <div>{{_ "dont-have-account"}} <a id='signup' href="#">{{_ "sign-up"}}</a>.</div>
       <div class="w-clearfix extra">
-        <div class="button button-social facebook">{{_ 'facebook'}}</div>
-        <div class="button button-social twitter">{{_ 'twitter'}}</div>
+        <div id="facebook-login" class="button button-social facebook">{{_ 'facebook'}}</div>
+        <div id="twitter-login" class="button button-social twitter">{{_ 'twitter'}}</div>
       </div>
     </div>
   {{else}}

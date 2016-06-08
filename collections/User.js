@@ -51,7 +51,8 @@ Schema.UserProfile = new SimpleSchema({
 
 Schema.User = new SimpleSchema({
     username: {
-        type: String
+        type: String,
+        optional: true
     },
     emails: {
         type: Array,

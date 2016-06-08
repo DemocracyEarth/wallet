@@ -22,25 +22,33 @@ Template.emailLogin.events({
   "click #signin-button": function (event) {
     var email = document.getElementById('signin-email').value;
     var pass = document.getElementById('signin-password').value;
-    Meteor.loginWithPassword(email, pass, function (error, data) {
-      if (error) {
-        switch (error.error) {
-          case 403:
-            Session.set("incorrectUser", true)
-            break;
-        }
-      }
 
-    });
+    if (email != '' && pass != '') {
+      Meteor.loginWithPassword(email, pass, function (error, data) {
+        if (error) {
+          switch (error.error) {
+            case 403:
+              Session.set("incorrectUser", true)
+              break;
+          }
+        }
+      });
+    } else {
+      Session.set("incorrectUser", true);
+    }
   },
   "blur #signin-password, #signin-email": function () {
     Session.set("incorrectUser", false);
   },
-/*  "blur #signin-email": function (event) {
-    if (event.target.value != '') {
-      Session.set("invalidEmail", !Modules.both.validateEmail(document.getElementById('signin-email').value));
-    } else {
-      Session.set("invalidEmail", false);
-    }
-  }*/
+  "click #facebook-login": function () {
+    console.log('facebook');
+    Meteor.loginWithFacebook({}, function(err){
+      if (err) {
+          throw new Meteor.Error("Facebook login failed " + err.reason);
+      }
+    });
+  },
+  "click #twitter-login": function () {
+    console.log('twitter');
+  }
 });

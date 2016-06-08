@@ -753,8 +753,16 @@ blockquote {
   font-size: 16px;
 }
 
+.button.button-social.twitter:active {
+  background-color: transparent;
+}
+
 .button.button-social.facebook {
   width: 125px;
+}
+
+.button.button-social.facebook:active {
+  background-color: transparent;
 }
 
 .button.button-upload {

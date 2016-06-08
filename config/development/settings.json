@@ -4,6 +4,19 @@
   "AWSSecretAccessKey": "wBEdVGh+V20DQbkGVVYF9Yc+ahAcjYX1X+gz8tp3",
   "smtpServer": "smtp://postmaster%40mailgun.democracyearth.org:d070665c856bf97baa01bb0540faf765@smtp.mailgun.org:587",
 
+  "private": {
+
+    "API": {
+
+      "facebook": {
+        "appId": "904600516316501",
+        "appSecret": "43acc03408f50988490925aa66ebf112"
+      }
+
+    }
+
+  },
+
   "public": {
 
     "AWSHostingURL": "https://earth-app.s3-us-west-2.amazonaws.com/",
