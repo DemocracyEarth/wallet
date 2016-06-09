@@ -1,5 +1,21 @@
 import { default } from "./Votes";
 
+Schema.Credential = new SimpleSchema({
+  source: {
+    type: String,
+    allowedValues: ['Facebook', 'Twitter', 'Linkedin', 'Github', 'Peer'],
+    optional: true
+  },
+  URL: {
+    type: String,
+    optional: true
+  },
+  validated: {
+    type: Boolean,
+    optional: true
+  }
+})
+
 Schema.UserProfile = new SimpleSchema({
     firstName: {
         type: String,
@@ -46,6 +62,14 @@ Schema.UserProfile = new SimpleSchema({
     votes: {
         type: Schema.Votes,
         optional: true
+    },
+    credentials: {
+      type: Array,
+      optional: true
+    },
+    "credentials.$": {
+      type: Schema.Credential,
+      optional: true
     }
 });
 

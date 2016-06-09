@@ -12,8 +12,15 @@ Template.profile.helpers({
   userId: function () {
     return Meteor.user()._id;
   },
-  notVerified: function () {
-
+  socialMediaLogin: function () {
+    if (Meteor.user().profile.credentials != undefined) {
+      for (var i = 0; i < Meteor.user().profile.credentials.length; i++) {
+        if (Meteor.user().profile.credentials[i].validated) {
+          return true;
+        }
+      }
+    } 
+    return false;
   },
   hasDelegations: function () {
     //TODO implement delegation reader to display them.

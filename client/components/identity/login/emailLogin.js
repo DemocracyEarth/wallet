@@ -45,7 +45,7 @@ Template.emailLogin.events({
     Meteor.loginWithFacebook({}, function(err){
       if (err) {
           throw new Meteor.Error("Facebook login failed " + err.reason);
-      }
+      } 
     });
   },
   "click #twitter-login": function () {

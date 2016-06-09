@@ -5,10 +5,12 @@
     <div class="login">
       {{> avatar includeName=true editable=true}}
 
-      {{#unless currentUser.emails.[0].verified}}
-        <div class="left extra">
-          {{> warning label="pending-verification"}}
-        </div>
+      {{#unless socialMediaLogin}}
+        {{#unless currentUser.emails.[0].verified}}
+          <div class="left extra">
+            {{> warning label="pending-verification"}}
+          </div>
+        {{/unless}}
       {{/unless}}
 
       {{> power user=userId}}
