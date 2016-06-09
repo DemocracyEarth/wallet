@@ -41,14 +41,17 @@ Template.emailLogin.events({
     Session.set("incorrectUser", false);
   },
   "click #facebook-login": function () {
-    console.log('facebook');
     Meteor.loginWithFacebook({}, function(err){
       if (err) {
           throw new Meteor.Error("Facebook login failed " + err.reason);
-      } 
+      }
     });
   },
   "click #twitter-login": function () {
-    console.log('twitter');
+    Meteor.loginWithTwitter({}, function(err){
+      if (err) {
+          throw new Meteor.Error("Twitter login failed " + err.reason);
+      }
+    });
   }
 });

@@ -3,7 +3,7 @@ import { default } from "./Votes";
 Schema.Credential = new SimpleSchema({
   source: {
     type: String,
-    allowedValues: ['Facebook', 'Twitter', 'Linkedin', 'Github', 'Peer'],
+    allowedValues: ['facebook', 'twitter', 'linkedin', 'github', 'peer'],
     optional: true
   },
   URL: {

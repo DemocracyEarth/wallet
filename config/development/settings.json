@@ -11,6 +11,11 @@
       "facebook": {
         "appId": "904600516316501",
         "appSecret": "43acc03408f50988490925aa66ebf112"
+      },
+
+      "twitter": {
+        "APIKey": "aT1uta586WOsjJjpL5CtGfQYh",
+        "APISecret": "GkSAZKNIOFNVS6s5blZIRzKyotC9JC1GXmsOsYAxNTem4a6J98"
       }
 
     }
