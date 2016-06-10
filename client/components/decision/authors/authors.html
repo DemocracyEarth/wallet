@@ -3,12 +3,15 @@
   <div class="signature">
 
     <h5>{{_ "signatures"}}</h5>
-
+    <div class="w-clearfix highlight">
+      <div class="highlight-label">{{_ 'sign-here'}}</div>
+      <div class="arrow"></div>
+    </div>
     <ul class="w-list-unstyled w-clearfix extra">
       <li class="w-clearfix identity identity-sign">
-        <a href="#" class="w-inline-block symbol profile-pic profile-sign">
+        <a href="" class="w-inline-block symbol profile-pic profile-sign">
           <img src="{{pathFor route='home'}}images/fingerprint.png" class="profile-thumb">
-          <span class="identity-label">
+          <span class="identity-label identity-label-sign">
             {{_ "sign-author"}}
           </span>
         </a>

@@ -486,9 +486,23 @@ blockquote {
   width: auto;
   height: 60px;
   padding-right: 20px;
-  border-style: none;
+  border-style: solid;
+  border-color: #00bf8f;
+  background-color: #00bf8f;
   text-decoration: none;
-  cursor: default;
+}
+
+.symbol.profile-pic.profile-sign:active {
+  border-style: solid;
+}
+
+.symbol.profile-pic.profile-sign.profile-active {
+  border-color: #00bf8f;
+  background-color: #00bf8f;
+}
+
+.symbol.profile-pic.profile-sign.profile-sign-active {
+  background-color: #e6f9f4;
 }
 
 .symbol.profile-pic.profile-pic-edit {
@@ -535,7 +549,7 @@ blockquote {
   background-color: #e6f9f4;
   color: #00c091;
   font-size: 16px;
-  line-height: 21px;
+  line-height: 22px;
   cursor: -webkit-grab;
 }
 
@@ -857,13 +871,14 @@ blockquote {
 }
 
 .highlight {
-  position: absolute;
+  position: static;
   left: 0px;
   display: inline-block;
-  margin-top: 30px;
-  margin-left: -15px;
+  margin-top: 20px;
+  margin-right: 10px;
+  margin-left: -45px;
   padding-right: 10px;
-  padding-left: 15px;
+  padding-left: 10px;
   float: left;
   border-radius: 5px;
   background-color: #ffe079;
@@ -872,12 +887,18 @@ blockquote {
   color: #000;
   font-size: 16px;
   line-height: 36px;
-  font-weight: 900;
+  font-weight: 300;
 }
 
 .arrow {
+  width: 0px;
+  height: 0px;
+  margin-top: 12px;
   margin-left: 10px;
   float: right;
+  border-style: solid;
+  border-width: 7px 0px 7px 14px;
+  border-color: transparent #000;
 }
 
 .highlight-label {
@@ -1710,6 +1731,14 @@ blockquote {
   margin-top: 4px;
   font-size: 16px;
   line-height: 24px;
+}
+
+.identity-label.identity-label-sign {
+  color: #fff;
+}
+
+.identity-label.identity-label-sign:hover {
+  border-bottom-style: none;
 }
 
 .option-link:hover {
@@ -2566,6 +2595,11 @@ blockquote {
 
 .profile-thumb {
   height: 60px;
+  opacity: 0.75;
+}
+
+.profile-thumb.profile-thumb-active {
+  opacity: 1;
 }
 
 .meta {
@@ -2986,7 +3020,7 @@ blockquote {
   position: absolute;
   z-index: 2500;
   display: block;
-  margin-left: -328px;
+  margin-left: -94px;
 }
 
 .navbar-button {
@@ -3128,6 +3162,20 @@ blockquote {
   margin-left: 3px;
   letter-spacing: 0.3px;
   text-transform: uppercase;
+}
+
+.credential {
+  width: 125px;
+  margin: 5px;
+  padding: 5px 10px;
+  float: left;
+  border: 1px solid #fff;
+  border-radius: 3px;
+  text-align: left;
+}
+
+.memberships {
+  margin-top: 10px;
 }
 
 @media (max-width: 991px) {
