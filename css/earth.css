@@ -485,7 +485,6 @@ blockquote {
 .symbol.profile-pic.profile-sign {
   width: auto;
   height: 60px;
-  padding-right: 20px;
   border-style: solid;
   border-color: #00bf8f;
   background-color: #00bf8f;
@@ -743,6 +742,17 @@ blockquote {
 .button.login-button:active {
   background-color: transparent;
   color: #00bf8f;
+}
+
+.button.login-button.button-secondary {
+  background-color: transparent;
+}
+
+.button.login-button.button-half {
+  width: 170px;
+  margin-right: 5px;
+  margin-left: 5px;
+  float: left;
 }
 
 .button.facebook {
@@ -1702,6 +1712,12 @@ blockquote {
   border-radius: 0px;
 }
 
+.identity.identity-center {
+  display: inline-block;
+  margin: 20px auto;
+  float: none;
+}
+
 .identity-label {
   display: inline-block;
   color: #00bf8f;
@@ -1741,6 +1757,7 @@ blockquote {
 
 .identity-label.identity-label-sign {
   margin-top: 10px;
+  font-style: italic;
 }
 
 .option-link:hover {
@@ -2270,10 +2287,11 @@ blockquote {
   top: 0px;
   right: 0px;
   bottom: 0px;
-  z-index: 1001;
+  z-index: 8000;
+  display: inline-block;
   width: 100%;
   height: 100%;
-  background-color: hsla(0, 0%, 100%, .85);
+  background-color: rgba(0, 0, 0, .3);
 }
 
 .modal.hide {
@@ -2385,7 +2403,7 @@ blockquote {
 .close {
   width: 40px;
   height: 40px;
-  margin-top: -5px;
+  margin-top: 67px;
   margin-right: 5px;
   padding: 5px;
   float: right;
@@ -3025,6 +3043,10 @@ blockquote {
   margin-left: -94px;
 }
 
+.popup.invisible {
+  display: inline-block;
+}
+
 .navbar-button {
   display: inline-block;
   height: 45px;
@@ -3178,6 +3200,39 @@ blockquote {
 
 .memberships {
   margin-top: 10px;
+}
+
+.alert {
+  display: block;
+  max-width: 400px;
+  margin-top: 298px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 10px;
+  padding-bottom: 25px;
+  padding-left: 10px;
+  border-radius: 5px;
+  background-color: rgba(49, 38, 59, .95);
+  color: #fff;
+  text-align: center;
+}
+
+.alert-header {
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.alert-icon {
+  width: 70px;
+  height: 70px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  opacity: 0.75;
+}
+
+.alert-title {
+  text-transform: uppercase;
 }
 
 @media (max-width: 991px) {

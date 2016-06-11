@@ -1,0 +1,38 @@
+<template name="signatures">
+
+  <div class="signature">
+
+    <h5>{{_ "signatures"}}</h5>
+
+    {{#unless userSigned}}
+
+      <div class="w-clearfix highlight">
+        <div class="highlight-label">{{_ 'sign-here'}}</div>
+        <div class="arrow"></div>
+      </div>
+
+      <ul class="w-list-unstyled w-clearfix extra">
+        <li class="w-clearfix identity identity-sign">
+          <img id='signature' class="symbol profile-pic {{toggle}}" src="{{pathFor route='home'}}images/fingerprint{{toggle picture=true}}">
+          <div class="identity-peer">
+
+            <div id='signature' class="identity-label identity-label-sign">
+              {{#if authorMode}}
+                {{_ 'sign-author'}}
+              {{/if}}
+            </div>
+
+          </div>
+
+          {{#if displaySignaturePopup}}
+            {{> popup}}
+          {{/if}}
+        </li>
+      </ul>
+
+    {{/unless}}
+
+
+  </div>
+
+</template>
