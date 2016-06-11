@@ -7,14 +7,12 @@
       <div class="highlight-label">{{_ 'sign-here'}}</div>
       <div class="arrow"></div>
     </div>
+
     <ul class="w-list-unstyled w-clearfix extra">
-      <li class="w-clearfix identity identity-sign">
-        <a href="" class="w-inline-block symbol profile-pic profile-sign">
-          <img src="{{pathFor route='home'}}images/fingerprint.png" class="profile-thumb">
-          <span class="identity-label identity-label-sign">
-            {{_ "sign-author"}}
-          </span>
-        </a>
+      <li class="w-clearfix identity identity-sign"><img class="symbol profile-pic" src="{{pathFor route='home'}}images/fingerprint.png">
+        <div class="identity-peer">
+          <div class="identity-label identity-label-sign">{{_ "sign-author"}}</div>
+        </div>
       </li>
     </ul>
 

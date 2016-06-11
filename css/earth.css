@@ -898,11 +898,13 @@ blockquote {
   float: right;
   border-style: solid;
   border-width: 7px 0px 7px 14px;
-  border-color: transparent #000;
+  border-color: transparent #000 transparent #af8d1e;
 }
 
 .highlight-label {
   float: left;
+  color: #af8d1e;
+  font-size: 14px;
 }
 
 .vote {
@@ -1696,6 +1698,10 @@ blockquote {
   float: right;
 }
 
+.identity.identity-sign {
+  border-radius: 0px;
+}
+
 .identity-label {
   display: inline-block;
   color: #00bf8f;
@@ -1734,11 +1740,7 @@ blockquote {
 }
 
 .identity-label.identity-label-sign {
-  color: #fff;
-}
-
-.identity-label.identity-label-sign:hover {
-  border-bottom-style: none;
+  margin-top: 10px;
 }
 
 .option-link:hover {
