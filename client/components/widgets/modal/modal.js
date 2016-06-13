@@ -1,37 +1,57 @@
 Template.modal.rendered = function () {
-
+  console.log(this.firstNode);
 };
 
 Template.modal.helpers({
   icon: function () {
-    return Session.get('displayModal').icon;
+    if (Session.get('displayModal') != undefined) {
+      return Session.get('displayModal').icon;
+    }
   },
   title: function () {
-    return Session.get('displayModal').title;
+    if (Session.get('displayModal') != undefined) {
+      return Session.get('displayModal').title;
+    }
   },
   message: function () {
-    return Session.get('displayModal').message;
+    if (Session.get('displayModal') != undefined) {
+      return Session.get('displayModal').message;
+    }
   },
   cancel: function () {
-    return Session.get('displayModal').cancel;
+    if (Session.get('displayModal') != undefined) {
+      return Session.get('displayModal').cancel;
+    }
   },
   action: function () {
-    return Session.get('displayModal').action;
+    if (Session.get('displayModal') != undefined) {
+      return Session.get('displayModal').action;
+    }
+  },
+  isAuthorization: function () {
+    if (Session.get('displayModal') != undefined) {
+      return Session.get('displayModal').isAuthorization;
+    }
   },
   visible: function () {
-    if (Session.get('displayModal').visible == true) {
-      return '';
-    } else {
-      return 'hide';
+    if (Session.get('displayModal') != undefined) {
+      if (Session.get('displayModal').visible == true) {
+        return '';
+      }
     }
+    return 'hide';
   }
 });
 
 Template.modal.events({
   'click #modalToggle': function () {
-
+    //Modules.client.displayModal(false);
   },
   'click #cancel': function (event, sessionVar) {
+    Modules.client.displayModal(false);
+  },
+  'click #execute': function (event) {
+    Modules.client.modalCallback();
     Modules.client.displayModal(false);
   }
 })

@@ -35,21 +35,24 @@ Template.signatures.helpers({
         return '';
       }
     }
-  },
-  displaySignaturePopup: function () {
-    return Session.get('displaySignaturePopup');
   }
 });
 
 Template.signatures.events({
   'click #signature': function () {
-    //Session.set('displaySignaturePopup', !Session.get('displaySignaturePopup'))
-    Modules.client.displayModal(true, {
-      icon    : 'images/author-signature.png',
-      title   : 'proposal-author',
-      message : 'proposal-signed-identity',
-      cancel  : 'not-now',
-      action  : 'sign-proposal'
-    });
+    Modules.client.displayModal(
+      true,
+    {
+      icon            : 'images/author-signature.png',
+      title           : 'proposal-author',
+      message         : 'proposal-signed-identity',
+      cancel          : 'not-now',
+      action          : 'sign-proposal',
+      isAuthorization : true,
+    },
+      function() {
+        Modules.both.signContract(Session.get('contractId'), Meteor.user()._id, 'AUTHOR');
+      }
+    );
   }
 })

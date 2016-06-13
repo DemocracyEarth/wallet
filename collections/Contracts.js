@@ -120,21 +120,30 @@ ContractSchema = new SimpleSchema({
       }
     }
   },
-  authors: {
+  signatures: {
     //Collection of authors that signed this contract
     type: Array,
     optional: true
   },
-  "authors.$": {
+  "signatures.$": {
     type: Object
   },
-  "authors.$._id": {
+  "signatures.$._id": {
     type: String,
     autoValue: function () {
       if (this.isInsert) {
         return this.userId;
       };
     }
+  },
+  "signatures.$.role": {
+    type: String,
+    allowedValues: ['AUTHOR', 'DELEGATOR', 'DELEGATE', 'ENDORSER'],
+    optional: true
+  },
+  "signatures.$.hash": {
+    type: String,
+    optional: true
   },
   closingDate: {
     //When the contract decision closes (poll closing)

@@ -8,18 +8,17 @@
       <div class="w-clearfix login">
         <div>{{_ message}}</div>
 
-        <div class="w-clearfix identity identity-center">
-          <img class="symbol profile-pic" src="{{pathFor route='home'}}images/Screen Shot 2016-01-27 at 12.05.33 AM.png">
-          <div class="identity-peer"><a class="identity-label" href="#">Satoshi Nakamoto</a>
-            <div class="identity-nation">🌎 Earth</div>
+        {{#if isAuthorization}}
+          <div class="w-clearfix identity identity-center">
+            {{> avatar includeName=true editable=false}}
           </div>
-        </div>
+        {{/if}}
 
         <div id="cancel" class="button login-button button-secondary button-half">
           <div>{{_ cancel}}</div>
         </div>
         <div id="execute" class="button login-button button-half">
-          <div>{{_ action sessionVar}}</div>
+          <div>{{_ action}}</div>
         </div>
       </div>
     </div>
