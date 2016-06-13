@@ -1,0 +1,27 @@
+<template name="modal">
+  <div id="modalToggle" class="w-clearfix modal {{visible}}">
+    <div class="w-clearfix alert">
+      <div class="alert-header">
+        <img class="alert-icon" src="{{pathFor route='home'}}{{icon}}">
+        <div>{{_ title}}</div>
+      </div>
+      <div class="w-clearfix login">
+        <div>{{_ message}}</div>
+
+        <div class="w-clearfix identity identity-center">
+          <img class="symbol profile-pic" src="{{pathFor route='home'}}images/Screen Shot 2016-01-27 at 12.05.33 AM.png">
+          <div class="identity-peer"><a class="identity-label" href="#">Satoshi Nakamoto</a>
+            <div class="identity-nation">🌎 Earth</div>
+          </div>
+        </div>
+
+        <div id="cancel" class="button login-button button-secondary button-half">
+          <div>{{_ cancel}}</div>
+        </div>
+        <div id="execute" class="button login-button button-half">
+          <div>{{_ action sessionVar}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

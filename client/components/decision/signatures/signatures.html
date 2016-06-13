@@ -13,7 +13,7 @@
 
       <ul class="w-list-unstyled w-clearfix extra">
         <li class="w-clearfix identity identity-sign">
-          <img id='signature' class="symbol profile-pic {{toggle}}" src="{{pathFor route='home'}}images/fingerprint{{toggle picture=true}}">
+          <img id='signature' class="symbol profile-pic profile-sign" src="{{pathFor route='home'}}images/fingerprint-white.png">
           <div class="identity-peer">
 
             <div id='signature' class="identity-label identity-label-sign">
@@ -23,10 +23,6 @@
             </div>
 
           </div>
-
-          {{#if displaySignaturePopup}}
-            {{> popup}}
-          {{/if}}
         </li>
       </ul>
 

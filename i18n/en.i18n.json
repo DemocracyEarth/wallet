@@ -208,5 +208,9 @@
   "email-verified": "Email successfully verified. Thanks!",
   "user-created": "User successfully created.",
   "edit": "Edit",
-  "sign-here": "Sign here"
+  "sign-here": "Sign here",
+  "proposal-author": "Proposal Author",
+  "proposal-signed-identity": "Do you confirm signing this proposal with this identity?",
+  "not-now": "Not now",
+  "sign-proposal": "Sign Proposal"
 }

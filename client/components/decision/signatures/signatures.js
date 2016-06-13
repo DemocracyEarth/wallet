@@ -43,6 +43,13 @@ Template.signatures.helpers({
 
 Template.signatures.events({
   'click #signature': function () {
-    Session.set('displaySignaturePopup', !Session.get('displaySignaturePopup'))
+    //Session.set('displaySignaturePopup', !Session.get('displaySignaturePopup'))
+    Modules.client.displayModal(true, {
+      icon    : 'images/author-signature.png',
+      title   : 'proposal-author',
+      message : 'proposal-signed-identity',
+      cancel  : 'not-now',
+      action  : 'sign-proposal'
+    });
   }
 })
