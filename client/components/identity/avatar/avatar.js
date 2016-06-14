@@ -1,13 +1,20 @@
 Template.avatar.rendered = function () {
+
   Session.set('editor', false);
 }
 
 Template.avatar.helpers({
-  profilePicture: function () {
-    if (Meteor.user().profile.picture == undefined) {
-      return Router.path('home') + 'images/noprofile.png';
+  profilePicture: function (profile) {
+    if (profile == undefined) {
+      if (Meteor.user() != undefined) {
+        if (Meteor.user().profile.picture == undefined) {
+          return Router.path('home') + 'images/noprofile.png';
+        } else {
+          return Meteor.user().profile.picture;
+        }
+      }
     } else {
-      return Meteor.user().profile.picture;
+      return profile.picture;
     }
   },
   pictureSize: function (size, includeName) {
@@ -20,22 +27,34 @@ Template.avatar.helpers({
     }
     return style;
   },
-  fullName: function () {
-    if (Meteor.user().profile.firstName != undefined) {
-      completeName = Meteor.user().profile.firstName + ' ' + Meteor.user().profile.lastName;
-      if (completeName.length > MAX_PROFILE_NAME_LENGTH) {
-        completeName = completeName.slice(0, parseInt(0 + (MAX_PROFILE_NAME_LENGTH - completeName.length))) + '...';
+  fullName: function (profile) {
+    if (profile == undefined) {
+      if (Meteor.user() != undefined) {
+        if (Meteor.user().profile.firstName != undefined) {
+          return Modules.client.showFullName(Meteor.user().profile.firstName, Meteor.user().profile.lastName);
+        } else {
+          return Meteor.user().username;
+        }
       }
-      return completeName;
     } else {
-      return Meteor.user().username;
+      return Modules.client.showFullName(profile.firstName, profile.lastName);
     }
   },
-  nationality: function () {
-    if (Meteor.user().profile.country != undefined) {
-      return Meteor.user().profile.country.name + ' ' + searchJSON(geoJSON.country, Meteor.user().profile.country.name)[0].emoji;
+  nationality: function (profile) {
+    if (profile == undefined) {
+      if (Meteor.user() != undefined) {
+        if (Meteor.user().profile.country != undefined) {
+          return Meteor.user().profile.country.name + ' ' + searchJSON(geoJSON.country, Meteor.user().profile.country.name)[0].emoji;
+        } else {
+          return TAPi18n.__('digital-citizen');
+        }
+      }
     } else {
-      return TAPi18n.__('digital-citizen');
+      if (profile.country != undefined) {
+        return profile.country.name + ' ' + searchJSON(geoJSON.country, profile.country.name)[0].emoji;
+      } else {
+        return TAPi18n.__('digital-citizen');
+      }
     }
   }
 })

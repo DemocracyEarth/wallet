@@ -70,6 +70,10 @@ Schema.UserProfile = new SimpleSchema({
     "credentials.$": {
       type: Schema.Credential,
       optional: true
+    },
+    url: {
+      type: String,
+      optional: true 
     }
 });
 

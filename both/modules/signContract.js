@@ -1,13 +1,17 @@
-let sign = (contractId, userId, role) => {
+let sign = (contractId, userObject, role) => {
 
   console.log('signing contract');
 
   Contracts.update({_id: contractId}, { $push: {
     signatures:
       {
-        _id: userId,
+        _id: userObject._id,
         role: role,
-        hash: ''
+        hash: '', //TODO implement PGP signature
+        picture: userObject.profile.picture,
+        firstName: userObject.profile.firstName,
+        lastName: userObject.profile.lastName,
+        country: userObject.profile.country
       }
   }});
 

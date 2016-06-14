@@ -5,7 +5,7 @@ Template.power.rendered = function (user) {
 
 Template.power.helpers({
   availableVotes: function (user) {
-    getUserInfo(user, 'availableVotes');
+    getUserVotes(user, 'availableVotes');
     var votes = Session.get('availableVotes');
     var htmlStart = "<div class='vote-available label-votes'><strong data-new-link='true'>"
     var htmlValue = votes;
@@ -18,7 +18,7 @@ Template.power.helpers({
     return htmlStart + htmlValue + htmlEnd;
   },
   placedVotes: function (user) {
-    getUserInfo(user, 'placedVotes');
+    getUserVotes(user, 'placedVotes');
     var votes = Session.get('placedVotes');
     var htmlStart = "  <div class='vote-allocated label-votes'><strong data-new-link='true'>";
     var htmlValue = votes;
@@ -32,7 +32,7 @@ Template.power.helpers({
   }
 })
 
-function getUserInfo (userId, sessionVar) {
+function getUserVotes (userId, sessionVar) {
   if (userId != Meteor.userId()) {
     Meteor.call('getUserInfo', userId, function (error, data) {
       if (error)

@@ -145,6 +145,22 @@ ContractSchema = new SimpleSchema({
     type: String,
     optional: true
   },
+  "signatures.$.picture": {
+    type: String,
+    optional: true
+  },
+  "signatures.$.firstName": {
+    type: String,
+    optional: true
+  },
+  "signatures.$.lastName": {
+    type: String,
+    optional: true    
+  },
+  "signatures.$.country": {
+    type: Schema.Country,
+    optional: true
+  },
   closingDate: {
     //When the contract decision closes (poll closing)
     type: Date,

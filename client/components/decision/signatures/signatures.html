@@ -11,23 +11,32 @@
         <div class="arrow"></div>
       </div>
 
-      <ul class="w-list-unstyled w-clearfix extra">
-        <li class="w-clearfix identity identity-sign">
-          <img id='signature' class="symbol profile-pic profile-sign" src="{{pathFor route='home'}}images/fingerprint-white.png">
-          <div class="identity-peer">
-
-            <div id='signature' class="identity-label identity-label-sign">
-              {{#if authorMode}}
-                {{_ 'sign-author'}}
-              {{/if}}
-            </div>
-
-          </div>
-        </li>
-      </ul>
-
     {{/unless}}
 
+      <ul class="w-list-unstyled w-clearfix extra">
+
+        {{#unless userSigned}}
+          <li class="w-clearfix identity identity-sign">
+            <img id='signature' class="symbol profile-pic profile-sign" src="{{pathFor route='home'}}images/fingerprint-white.png">
+            <div class="identity-peer">
+
+              <div id='signature' class="identity-label identity-label-sign">
+                {{#if authorMode}}
+                  {{_ 'sign-author'}}
+                {{/if}}
+              </div>
+
+            </div>
+          </li>
+        {{/unless}}
+
+        {{#each signer}}
+          <li class="w-clearfix identity identity-sign">
+            {{> avatar profile=this includeName=true editable=false}}
+          </li>
+        {{/each}}
+
+      </ul>
 
   </div>
 

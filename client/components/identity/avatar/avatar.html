@@ -20,7 +20,13 @@
           <div class="label">{{_ 'edit'}}</div>
         </div>
       {{/if}}
-      <img src="{{profilePicture}}" class="symbol profile-pic" style="{{pictureSize size includeName}}">
+
+      {{#if profile}}
+        <img src="{{profilePicture profile}}" class="symbol profile-pic" style="{{pictureSize size includeName}}">
+      {{else}}
+        <img src="{{profilePicture}}" class="symbol profile-pic" style="{{pictureSize size includeName}}">
+      {{/if}}
+
       <div class="identity-peer">
         {{#if verifiedIdentity}}
           <div class="identity-verified">
@@ -28,8 +34,8 @@
           </div>
         {{/if}}
         {{#if includeName}}
-          <a href="#" class="identity-label">{{fullName}}</a>
-          <div class="identity-nation">{{nationality}}</div>
+          <a href="#" class="identity-label">{{fullName profile}}</a>
+          <div class="identity-nation">{{nationality profile}}</div>
         {{/if}}
       </div>
     {{/if}}
