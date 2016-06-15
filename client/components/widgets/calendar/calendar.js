@@ -1,5 +1,11 @@
 Template.dateSelector.rendered = function () {
-  behave(this.firstNode, 'fade', { duration: parseInt(ANIMATION_DURATION / 2) });
+  //behave(this.firstNode, 'fade', { duration: parseInt(ANIMATION_DURATION / 2) });
+
+  //Intro animation
+  $('.calendar').css('height', '0');
+  $('.calendar').css('overflow', 'hidden');
+  $('.calendar').velocity({'height': '260px'}, Modules.client.animationSettings);
+
   initCalendar();
 }
 
