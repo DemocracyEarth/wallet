@@ -4,31 +4,35 @@
 
     <h5>{{_ "signatures"}}</h5>
 
-    {{#unless userSigned}}
+    {{#if currentUser}}
+      {{#unless userSigned}}
 
-      <div class="w-clearfix highlight">
-        <div class="highlight-label">{{_ 'sign-here'}}</div>
-        <div class="arrow"></div>
-      </div>
+        <div class="w-clearfix highlight">
+          <div class="highlight-label">{{_ 'sign-here'}}</div>
+          <div class="arrow"></div>
+        </div>
 
-    {{/unless}}
+      {{/unless}}
+    {{/if}}
 
       <ul class="w-list-unstyled w-clearfix extra">
 
-        {{#unless userSigned}}
-          <li class="w-clearfix identity identity-sign">
-            <img id='signature' class="symbol profile-pic profile-sign" src="{{pathFor route='home'}}images/fingerprint-white.png">
-            <div class="identity-peer">
+        {{#if currentUser}}
+          {{#unless userSigned}}
+            <li class="w-clearfix identity identity-sign">
+              <img id='sign-author' class="symbol profile-pic profile-sign" src="{{pathFor route='home'}}images/fingerprint-white.png">
+              <div class="identity-peer">
 
-              <div id='signature' class="identity-label identity-label-sign">
                 {{#if authorMode}}
-                  {{_ 'sign-author'}}
+                  <div id='sign-author' class="identity-label identity-label-sign">
+                    {{_ 'sign-author'}}
+                  </div>
                 {{/if}}
-              </div>
 
-            </div>
-          </li>
-        {{/unless}}
+              </div>
+            </li>
+          {{/unless}}
+        {{/if}}
 
         {{#each signer}}
           <li class="w-clearfix identity identity-sign">

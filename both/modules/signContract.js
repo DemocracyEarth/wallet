@@ -1,7 +1,5 @@
 let sign = (contractId, userObject, role) => {
 
-  console.log('signing contract');
-
   Contracts.update({_id: contractId}, { $push: {
     signatures:
       {

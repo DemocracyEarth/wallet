@@ -16,7 +16,9 @@ let modal = (active, settings, callback) => {
     settings.visible = active;
   }
 
+
   Session.set('displayModal', settings);
+  Session.set('showModal', active);
 
   if (callback != undefined) {
     Modules.client.modalCallback = callback;

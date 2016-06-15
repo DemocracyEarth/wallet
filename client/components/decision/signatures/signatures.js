@@ -28,18 +28,19 @@ Template.signatures.helpers({
 });
 
 Template.signatures.events({
-  'click #signature': function () {
+  'click #sign-author': function () {
     Modules.client.displayModal(
       true,
-    {
-      icon            : 'images/author-signature.png',
-      title           : 'proposal-author',
-      message         : 'proposal-signed-identity',
-      cancel          : 'not-now',
-      action          : 'sign-proposal',
-      isAuthorization : true,
-    },
+      {
+        icon            : 'images/author-signature.png',
+        title           : 'proposal-author',
+        message         : 'proposal-signed-identity',
+        cancel          : 'not-now',
+        action          : 'sign-proposal',
+        isAuthorization : true,
+      },
       function() {
+        Session.set('userSigned', true);
         Modules.both.signContract(Session.get('contractId'), Meteor.user(), 'AUTHOR');
       }
     );

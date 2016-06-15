@@ -204,3 +204,9 @@ function fadeOut(node) {
       }
     });
 }
+
+
+Modules.client.animationSettings = {
+  duration: ANIMATION_DURATION,
+  loop: false
+}

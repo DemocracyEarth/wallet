@@ -1,5 +1,11 @@
 <template name="modal">
-  <div id="modalToggle" class="w-clearfix modal {{visible}}">
+  {{#if showModal}}
+    {{> modalWindow}}
+  {{/if}}
+</template>
+
+<template name="modalWindow">
+  <div id="modalToggle" class="w-clearfix modal">
     <div class="w-clearfix alert">
       <div class="alert-header">
         <img class="alert-icon" src="{{pathFor route='home'}}{{icon}}">
@@ -9,9 +15,11 @@
         <div>{{_ message}}</div>
 
         {{#if isAuthorization}}
-          <div class="w-clearfix identity identity-center">
-            {{> avatar includeName=true editable=false}}
-          </div>
+          <p>
+            <div class="w-clearfix identity identity-center">
+              {{> avatar includeName=true editable=false}}
+            </div>
+          </p>
         {{/if}}
 
         <div id="cancel" class="button login-button button-secondary button-half">

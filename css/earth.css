@@ -1685,7 +1685,7 @@ blockquote {
 
 .identity {
   display: inline-block;
-  margin: 0px 15px 0px 5px;
+  margin: 0px 30px 0px 5px;
   padding-left: 0px;
   float: left;
   border-radius: 5px;
@@ -1716,7 +1716,8 @@ blockquote {
 
 .identity.identity-center {
   display: inline-block;
-  margin: 20px auto;
+  margin-right: auto;
+  margin-left: auto;
   float: none;
 }
 
@@ -3102,7 +3103,6 @@ blockquote {
 
 .login-field {
   margin-bottom: 20px;
-  padding-right: 5px;
   text-align: left;
 }
 
@@ -3151,6 +3151,7 @@ blockquote {
 .avatar-description {
   overflow: auto;
   width: 150px;
+  margin-top: 12px;
   margin-left: 5px;
   float: left;
   font-size: 12px;
@@ -3204,8 +3205,10 @@ blockquote {
 
 .alert {
   display: block;
+  overflow: hidden;
+  height: 320px;
   max-width: 400px;
-  margin-top: 298px;
+  margin-top: 20%;
   margin-right: auto;
   margin-left: auto;
   padding-right: 10px;
@@ -3234,6 +3237,13 @@ blockquote {
 
 .alert-title {
   text-transform: uppercase;
+}
+
+.modal-container {
+  position: relative;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
 }
 
 @media (max-width: 991px) {
