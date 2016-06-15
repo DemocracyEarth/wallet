@@ -8,13 +8,14 @@ Template.modalWindow.rendered = function () {
   //Initial position
   paddingTotal = parseInt($('.alert').css('padding-bottom')) + parseInt($('.alert').css('padding-top'));
   var alertHeight = parseInt( (window.innerHeight / 2) - ( ($('.alert').height() + paddingTotal) / 2));
+  if (alertHeight > 200) {
+    alertHeight = 200;
+  }
 
   //Intro animation
   $('.alert').css('margin-top', alertHeight + 'px');
-  $('.alert').css('opacity', '0');
-  $('.alert').velocity({'opacity': '1'}, Modules.client.animationSettings);
-
-  //Exit animation
+  $('.modal').css('opacity', '0');
+  $('.modal').velocity({'opacity': '1'}, Modules.client.animationSettings);
 
 };
 
@@ -64,12 +65,20 @@ Template.modalWindow.events({
     //Modules.client.displayModal(false);
   },
   'click #cancel': function (event, sessionVar) {
-    Session.set('showModal', false);
-    Modules.client.displayModal(false);
+    killModal();
   },
   'click #execute': function (event) {
     Modules.client.modalCallback();
-    Session.set('showModal', false);
-    Modules.client.displayModal(false);
+    killModal();
   }
 })
+
+function killModal () {
+  var settings = Object.assign({
+    complete: function () {
+      Session.set('showModal', false);
+      Modules.client.displayModal(false);
+    }
+  }, Modules.client.animationSettings);
+  $('.modal').velocity({'opacity': '0'}, settings);
+}
