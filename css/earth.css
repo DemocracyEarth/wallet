@@ -533,6 +533,14 @@ blockquote {
   opacity: 1;
 }
 
+.symbol.profile-pic.small {
+  width: 50px;
+  height: 50px;
+  margin-top: 0px;
+  margin-right: 5px;
+  margin-bottom: 0px;
+}
+
 .semantics {
   display: inline-block;
   margin-top: 0px;
@@ -1015,7 +1023,7 @@ blockquote {
   overflow: hidden;
   width: 100%;
   min-height: 60px;
-  padding: 10px;
+  padding: 15px;
   border: 5px solid #e6e6e6;
   border-radius: 8px;
   background-color: #fff;
@@ -1141,9 +1149,9 @@ blockquote {
   display: inline-block;
   max-width: 100%;
   margin-top: 0px;
-  margin-bottom: 0px;
-  font-size: 18px;
-  line-height: 26px;
+  margin-bottom: 10px;
+  font-size: 22px;
+  line-height: 30px;
 }
 
 .checkbox {
@@ -1725,14 +1733,14 @@ blockquote {
   display: inline-block;
   color: #00bf8f;
   font-size: 18px;
-  line-height: 26px;
+  line-height: 24px;
   text-decoration: none;
   cursor: pointer;
 }
 
 .identity-label:hover {
   border-bottom: 1px solid #00bf8f;
-  line-height: 26px;
+  line-height: 24px;
 }
 
 .identity-label.twitter-link {
@@ -1989,8 +1997,8 @@ blockquote {
 }
 
 .rich-text.rich-text-preview {
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-top: 0px;
+  margin-bottom: 10px;
   margin-left: 0px;
   padding-left: 0px;
   font-size: 14px;
@@ -2569,6 +2577,11 @@ blockquote {
   color: #af8d1e;
 }
 
+.stage.stage-live.stage-list {
+  margin-top: 0px;
+  margin-right: 25px;
+}
+
 .stage.stage-draft {
   display: inline-block;
 }
@@ -2633,6 +2646,7 @@ blockquote {
 
 .meta.meta-search {
   display: block;
+  margin-top: 5px;
   margin-bottom: 0px;
   clear: both;
   opacity: 1;
@@ -2868,6 +2882,13 @@ blockquote {
   color: #fff;
 }
 
+.paper-header.paper-header-list {
+  padding-top: 10px;
+  padding-bottom: 5px;
+  padding-left: 45px;
+  font-size: 10px;
+}
+
 .shadow-fake {
   position: absolute;
   left: 33px;
@@ -2886,6 +2907,12 @@ blockquote {
   margin-left: -10px;
   float: left;
   opacity: 0.65;
+}
+
+.section-icon.section-icon-small {
+  width: 20px;
+  height: 20px;
+  margin-top: 5px;
 }
 
 .warning-list {
@@ -3244,6 +3271,19 @@ blockquote {
   left: 0px;
   right: 0px;
   bottom: 0px;
+}
+
+.type {
+  margin-top: -10px;
+  padding: 10px 5px;
+  background-color: #e6e6e6;
+  box-shadow: none;
+}
+
+.metadata {
+  margin-top: -10px;
+  margin-right: -15px;
+  float: left;
 }
 
 @media (max-width: 991px) {
