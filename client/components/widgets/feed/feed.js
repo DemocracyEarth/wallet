@@ -1,5 +1,10 @@
 Template.feed.helpers({
   item: function () {
-    return [0, 1];
+
+    var contractFeed = Contracts.find({ collectiveId: "rqmEvKiMMaideGfjN" }).fetch();
+
+    console.log(contractFeed);
+
+    return [0, 1, 3, 4];
   }
 })

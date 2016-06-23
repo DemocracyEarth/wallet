@@ -212,5 +212,6 @@
   "proposal-author": "Proposal Author",
   "proposal-signed-identity": "Do you confirm signing this proposal with this identity?",
   "not-now": "Not now",
-  "sign-proposal": "Sign Proposal"
+  "sign-proposal": "Sign Proposal",
+  "vote-proposal": "Vote Proposal"
 }

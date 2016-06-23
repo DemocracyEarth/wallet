@@ -1,6 +1,17 @@
 Contracts = new Mongo.Collection("contracts");
 
 ContractSchema = new SimpleSchema({
+  collectiveId: {
+    type: String,
+    optional: true,
+    autoValue: function () {
+      if (this.isInsert) {
+        if (Meteor.settings.public.Collective) {
+          return Meteor.settings.public.Collective._id;
+        }
+      };
+    }
+  },
   title: {
     //Title of the contract
     type: String,
@@ -155,7 +166,7 @@ ContractSchema = new SimpleSchema({
   },
   "signatures.$.lastName": {
     type: String,
-    optional: true    
+    optional: true
   },
   "signatures.$.country": {
     type: Schema.Country,
