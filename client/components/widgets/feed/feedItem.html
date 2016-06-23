@@ -1,0 +1,74 @@
+<template name="feedItem">
+  <li class="vote vote-search">
+    <div class="checkbox checkbox-custom">
+      <a class="w-inline-block w-clearfix option-proposal" href="#">
+        <div class="option-title option-link option-search">
+          {{title}}
+        </div>
+      </a>
+
+<!--      <ul class="w-list-unstyled w-clearfix identity-list">
+        <li class="w-clearfix identity"><img class="symbol profile-pic identity-small" src="images/Screen Shot 2016-01-27 at 12.05.33 AM.png">
+          <div class="identity-peer identity-small"><a class="identity-label identity-label-small" href="#">Satoshi Nakamoto</a>
+          </div>
+        </li>
+      </ul>
+-->
+      {{> avatar size=28}}
+
+      <div class="rich-text rich-text-preview">
+        {{description}}
+      </div>
+      {{#each getTags}}
+          {{> tag _id=_id}}
+      {{/each}}
+
+
+      {{> metadata}}
+    </div>
+    {{> stage title="LIVE"}}
+    <div class="block block-list">
+      <div class="w-clearfix elements">
+        <div class="w-clearfix vote-cta">
+          <div class="power hundred">
+            <a class="w-inline-block w-clearfix button execute button-small" href="#">
+              <div class="execution-label">
+                <strong>Vote</strong> Proposal</div>
+                <img class="button-icon execute-icon" src="images/noprofile.png">
+            </a>
+          </div>
+        </div>
+        <div class="w-clearfix polis">
+          <div class="power hundred">
+            <div class="w-clearfix rosca rosca-feed">
+              <div class="w-clearfix result vote-bar">
+                <div class="result-bar vote-bar"></div>
+                <div class="result-bar vote-bar vote-bar-allocated"></div>
+              </div>
+              <div class="vote-available label-votes"><strong data-new-link="true">27</strong> <span><a href="#">AVAILABLE VOTES</a></span>
+              </div>
+              <ul class="w-list-unstyled w-clearfix identity-list identity-list-delegates">
+                <li class="w-clearfix identity"><img class="symbol profile-pic identity-small identity-delegate" src="images/Pia Mancini.png"><img class="symbol profile-pic identity-small identity-delegate" src="images/Screen Shot 2016-01-27 at 12.05.33 AM.png"><img class="symbol profile-pic identity-small identity-delegate" src="images/Screen Shot 2016-01-06 at 6.10.41 AM.png"><img class="symbol profile-pic identity-small identity-delegate" src="images/kate-c9cfb62d.jpg"><img class="symbol profile-pic identity-small identity-delegate" src="images/SantiagoSiri.jpg"><img class="symbol profile-pic identity-small identity-delegate" src="images/krishnabharat2.jpg"><img class="symbol profile-pic identity-small identity-delegate" src="images/Screen Shot 2016-01-31 at 7.34.28 PM.png"><img class="symbol profile-pic identity-small identity-delegate" src="images/AAEAAQAAAAAAAAXHAAAAJGE4MjE5YWQwLWJjNWMtNDc0MC1hZWE0LTczMzczNjZmYzYyNA.jpg"><img class="symbol profile-pic identity-small identity-delegate" src="images/Screen Shot 2016-01-06 at 6.10.41 AM.png"><img class="symbol profile-pic identity-small identity-delegate" src="images/Screen Shot 2016-01-31 at 7.34.28 PM.png">
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </li>
+</template>
+
+<template name="metadata">
+  <div class="meta meta-search">
+    <div class="data"><img class="url-icon" src="images/globe.png">
+      <div class="verifier verifier-live">&nbsp;democracy.earth/<strong>satoshin</strong>&nbsp;</div>
+    </div>
+    <div class="data"><img class="url-icon" src="images/time.png">
+      <div class="verifier verifier-live">&nbsp;October 1, 1983</div>
+    </div>
+    <div class="data"><img class="url-icon" src="images/block.png">
+      <div class="verifier verifier-live">&nbsp;blockchain ID: 1MBM...khTF</div>
+    </div>
+  </div>
+</template>

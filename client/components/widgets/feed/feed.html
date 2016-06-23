@@ -1,0 +1,11 @@
+<template name="feed">
+
+  {{#if currentUser}}
+    <ul class="w-list-unstyled w-clearfix type">
+      {{#each item}}
+        {{> feedItem}}
+      {{/each}}
+    </ul>
+  {{/if}}
+  
+</template>
