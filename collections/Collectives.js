@@ -1,4 +1,4 @@
-import { default } from "./Votes";
+import {default as Votes} from "./Votes";
 
 Collectives = new Mongo.Collection("collectives");
 
@@ -120,7 +120,7 @@ Schema.Collective = new SimpleSchema({
         optional: true
     },
     votes: {
-        type: Schema.Votes,
+        type: Votes,
         optional: true
     },
     goal: {

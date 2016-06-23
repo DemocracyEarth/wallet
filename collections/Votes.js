@@ -53,7 +53,7 @@ Schema.Delegations = new SimpleSchema({
 Schema.Votes = new SimpleSchema({
   total: {
     type: Number,
-    defaultValue: 0 
+    defaultValue: 0
   },
   delegations: {
     type: Schema.Delegations,

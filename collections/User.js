@@ -1,4 +1,4 @@
-import { default } from "./Votes";
+import {default as Votes} from "./Votes";
 
 Schema.Credential = new SimpleSchema({
   source: {
@@ -60,7 +60,7 @@ Schema.UserProfile = new SimpleSchema({
       optional: true
     },
     votes: {
-        type: Schema.Votes,
+        type: Votes,
         optional: true
     },
     credentials: {
@@ -73,7 +73,7 @@ Schema.UserProfile = new SimpleSchema({
     },
     url: {
       type: String,
-      optional: true 
+      optional: true
     }
 });
 

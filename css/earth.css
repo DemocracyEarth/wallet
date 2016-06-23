@@ -541,6 +541,17 @@ blockquote {
   margin-bottom: 0px;
 }
 
+.symbol.profile-pic.identity-small {
+  width: 28px;
+  height: 28px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.symbol.profile-pic.identity-small.identity-delegate {
+  margin-right: -5px;
+}
+
 .semantics {
   display: inline-block;
   margin-top: 0px;
@@ -741,6 +752,12 @@ blockquote {
   color: #cacaca;
 }
 
+.button.execute.button-small {
+  padding: 10px;
+  font-size: 20px;
+  line-height: 30px;
+}
+
 .button.login-button {
   width: 100%;
   margin-right: 0px;
@@ -836,8 +853,8 @@ blockquote {
 }
 
 .button-icon.execute-icon {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   margin-right: 0px;
   float: right;
 }
@@ -1150,8 +1167,16 @@ blockquote {
   max-width: 100%;
   margin-top: 0px;
   margin-bottom: 10px;
-  font-size: 22px;
-  line-height: 30px;
+  border-bottom-style: none;
+  color: #4b4b4b;
+  font-size: 24px;
+  line-height: 34px;
+  font-weight: 400;
+}
+
+.option-title.option-link.option-search:hover {
+  border-bottom-style: none;
+  text-decoration: underline;
 }
 
 .checkbox {
@@ -1161,6 +1186,8 @@ blockquote {
 .checkbox.checkbox-custom {
   display: inline-block;
   width: 90%;
+  max-width: 800px;
+  margin-bottom: 5px;
   padding-top: 0px;
   padding-right: 10px;
   padding-bottom: 0px;
@@ -1221,6 +1248,15 @@ blockquote {
   background-color: #e6f9f4;
   box-shadow: none;
   text-align: left;
+}
+
+.block.block-list {
+  margin-right: 0px;
+  margin-bottom: -15px;
+  margin-left: 0px;
+  padding: 0px;
+  border-top: 1px solid #e6f9f4;
+  background-color: transparent;
 }
 
 .field {
@@ -1771,6 +1807,11 @@ blockquote {
   font-style: italic;
 }
 
+.identity-label.identity-label-small {
+  font-size: 14px;
+  line-height: 22px;
+}
+
 .option-link:hover {
   border-bottom-style: none;
 }
@@ -1935,7 +1976,14 @@ blockquote {
 
 .identity-list {
   margin-top: -5px;
+  margin-left: -10px;
   padding: 0px 5px 10px;
+}
+
+.identity-list.identity-list-delegates {
+  margin: 0px -30px 0px 0px;
+  padding-bottom: 0px;
+  float: right;
 }
 
 .budget {
@@ -2069,7 +2117,7 @@ blockquote {
 }
 
 .result-bar.vote-bar {
-  width: 74%;
+  width: 61%;
   height: 100%;
   box-shadow: inset 0 1px 11px -5px hsla(0, 0%, 100%, .5);
 }
@@ -2186,10 +2234,18 @@ blockquote {
   line-height: 20px;
 }
 
+.identity-nation.identity-label-small {
+  font-size: 12px;
+}
+
 .identity-peer {
   margin-top: 15px;
   margin-left: 10px;
   float: left;
+}
+
+.identity-peer.identity-small {
+  margin-top: -2px;
 }
 
 .fact-votes {
@@ -2357,6 +2413,11 @@ blockquote {
 
 .rosca.rosca-id {
   margin-top: -10px;
+}
+
+.rosca.rosca-feed {
+  margin-top: -20px;
+  margin-bottom: -10px;
 }
 
 .avatar {
@@ -2647,7 +2708,7 @@ blockquote {
 .meta.meta-search {
   display: block;
   margin-top: 5px;
-  margin-bottom: 0px;
+  margin-bottom: 5px;
   clear: both;
   opacity: 1;
   color: #9c9c9c;
@@ -2838,6 +2899,8 @@ blockquote {
 
 .option-proposal:hover {
   border-bottom-style: none;
+  color: #00bf8f;
+  text-decoration: underline;
 }
 
 .title-input {
@@ -2885,7 +2948,6 @@ blockquote {
 .paper-header.paper-header-list {
   padding-top: 10px;
   padding-bottom: 5px;
-  padding-left: 45px;
   font-size: 10px;
 }
 
@@ -3286,6 +3348,24 @@ blockquote {
   float: left;
 }
 
+.vote-metrics {
+  margin: -5px 5px;
+}
+
+.vote-cta {
+  width: 50%;
+  float: right;
+}
+
+.polis {
+  width: 50%;
+  float: left;
+}
+
+.execution-label {
+  display: inline-block;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
@@ -3676,9 +3756,6 @@ blockquote {
   }
   .option-title.option-link.option-edit.option-title-long {
     font-size: 16px;
-  }
-  .checkbox.checkbox-custom {
-    width: 75%;
   }
   .tick-image {
     width: 38px;
