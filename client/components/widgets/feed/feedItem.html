@@ -1,33 +1,37 @@
 <template name="feedItem">
   <li class="vote vote-search">
     <div class="checkbox checkbox-custom">
-      <a class="w-inline-block w-clearfix option-proposal" href="#">
+
+      <a class="w-inline-block w-clearfix option-proposal" href="{{url}}">
         <div class="option-title option-link option-search">
           {{title}}
         </div>
       </a>
 
-<!--      <ul class="w-list-unstyled w-clearfix identity-list">
-        <li class="w-clearfix identity"><img class="symbol profile-pic identity-small" src="images/Screen Shot 2016-01-27 at 12.05.33 AM.png">
-          <div class="identity-peer identity-small"><a class="identity-label identity-label-small" href="#">Satoshi Nakamoto</a>
-          </div>
-        </li>
-      </ul>
--->
-      {{> avatar size=28}}
+      <div class="extra">
+        {{#each signatures}}
+          <li class="w-clearfix identity identity-sign">
+            {{> avatar size=28 profile=this includeName=true includeNation=false editable=false smallFont=true}}
+          </li>
+        {{/each}}
+      </div>
+
+
 
       <div class="rich-text rich-text-preview">
         {{description}}
       </div>
+
       {{#each getTags}}
           {{> tag _id=_id}}
       {{/each}}
 
 
       {{> metadata}}
+
     </div>
 
-    {{> stage title="LIVE"}}
+    {{> stage text=stage}}
 
     <div class="block block-list">
       <div class="w-clearfix elements">

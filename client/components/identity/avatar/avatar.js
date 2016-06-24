@@ -4,6 +4,14 @@ Template.avatar.rendered = function () {
 }
 
 Template.avatar.helpers({
+  classStyle: function (smallFont) {
+    console.log(smallFont);
+    if (smallFont) {
+      return 'identity-small';
+    } else {
+      return '';
+    }
+  },
   profilePicture: function (profile) {
     if (profile == undefined) {
       if (Meteor.user() != undefined) {

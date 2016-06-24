@@ -22,22 +22,33 @@
       {{/if}}
 
       {{#if profile}}
-        <img src="{{profilePicture profile}}" class="symbol profile-pic" style="{{pictureSize size includeName}}">
+        <img src="{{profilePicture profile}}" class="symbol profile-pic {{classStyle smallFont}}" style="{{pictureSize size includeName}}">
       {{else}}
-        <img src="{{profilePicture}}" class="symbol profile-pic" style="{{pictureSize size includeName}}">
+        <img src="{{profilePicture}}" class="symbol profile-pic  {{classStyle smallFont}}" style="{{pictureSize size includeName}}">
       {{/if}}
 
-      <div class="identity-peer">
+      <div class="identity-peer {{classStyle smallFont}}">
+
         {{#if verifiedIdentity}}
           <div class="identity-verified">
             <img src="{{pathFor route='home'}}images/white-tick.png" class="identity-verified-tick">
           </div>
         {{/if}}
+
         {{#if includeName}}
-          <a href="#" class="identity-label">{{fullName profile}}</a>
-          <div class="identity-nation">{{nationality profile}}</div>
+          {{#if smallFont}}
+            <a href="#" class="identity-label identity-label-small">{{fullName profile}}</a>
+          {{else}}
+            <a href="#" class="identity-label">{{fullName profile}}</a>
+          {{/if}}
+
+          {{#if includeNation}}
+            <div class="identity-nation">{{nationality profile}}</div>
+          {{/if}}
         {{/if}}
       </div>
     {{/if}}
+
+
   </div>
 </template>
