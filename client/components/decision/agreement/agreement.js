@@ -89,7 +89,6 @@ Template.agreement.helpers({
 });
 
 
-
 /***********************
 Event Handlers
 **********************/
@@ -102,7 +101,7 @@ Template.agreement.events({
     }
   },
   "blur #editor": function (event) {
-    var content = strip(document.getElementById("editor").innerHTML);
+    var content = Modules.client.stripHTMLfromText(document.getElementById("editor").innerHTML);
     if (content.length <= 1) {
       Session.set('missingDescription',true);
       document.getElementById("editor").innerText = TAPi18n.__('placeholder-editor');

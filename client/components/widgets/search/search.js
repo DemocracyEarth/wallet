@@ -135,7 +135,7 @@ Template.proposal.helpers({
     if (descriptionText == undefined || descriptionText == '') {
       return ''
     } else {
-      return "<div class='rich-text rich-text-preview'>" + strip(descriptionText).replace(/(([^\s]+\s\s*){35})(.*)/,"$1…") + "</div>"
+      return "<div class='rich-text rich-text-preview'>" + Modules.client.stripHTMLfromText(descriptionText).replace(/(([^\s]+\s\s*){35})(.*)/,"$1…") + "</div>"
     }
   }
 });
