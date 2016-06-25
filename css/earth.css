@@ -866,7 +866,7 @@ blockquote {
 }
 
 .extra.identity-list {
-  margin-top: 11px;
+  margin-top: 10px;
 }
 
 .extra.extra-ten {
@@ -1166,16 +1166,15 @@ blockquote {
   display: inline-block;
   max-width: 100%;
   margin-top: 0px;
-  margin-bottom: 10px;
+  margin-bottom: -5px;
   border-bottom-style: none;
   color: #4b4b4b;
-  font-size: 24px;
-  line-height: 34px;
-  font-weight: 400;
+  font-size: 30px;
+  line-height: 40px;
+  font-weight: 300;
 }
 
 .option-title.option-link.option-search:hover {
-  border-bottom-style: none;
   text-decoration: underline;
 }
 
@@ -2897,7 +2896,7 @@ blockquote {
 }
 
 .option-proposal {
-  display: block;
+  display: inline-block;
 }
 
 .option-proposal:hover {

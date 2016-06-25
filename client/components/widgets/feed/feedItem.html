@@ -13,18 +13,22 @@
 
 
 
-      <div class="extra">
-        {{#each signatures}}
-          <li class="w-clearfix identity identity-sign">
-            {{> avatar size=28 profile=this includeName=true includeNation=false editable=false smallFont=true}}
-          </li>
-        {{/each}}
-      </div>
+
+        <ul class="w-list-unstyled w-clearfix identity-list extra">
+          {{#each signatures}}
+            <li class="w-clearfix identity">
+              {{> avatar size=28 profile=this includeName=true includeNation=false editable=false smallFont=true}}
+            </li>
+          {{/each}}
+        </ul>
 
 
-      <div class="rich-text rich-text-preview">
-        {{description}}
-      </div>
+
+
+        <div class="rich-text rich-text-preview">
+          {{description}}
+        </div>
+
 
       {{#each getTags}}
           {{> tag _id=_id}}
