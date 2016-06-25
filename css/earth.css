@@ -653,6 +653,10 @@ blockquote {
   background-color: transparent;
 }
 
+.tag.tag-no-grab {
+  cursor: default;
+}
+
 .hash-icon {
   width: 20px;
   height: 20px;

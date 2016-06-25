@@ -5,6 +5,11 @@ Template.tag.rendered = function () {
 Template.tag.helpers({
   authorization: function (hover) {
     return 'authorized';
+  },
+  drag: function () {
+    if (this.nonDraggable) {
+      return 'tag-no-grab';
+    }
   }
 });
 
