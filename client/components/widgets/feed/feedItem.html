@@ -1,12 +1,17 @@
 <template name="feedItem">
+
   <li class="vote vote-search">
     <div class="checkbox checkbox-custom">
+
+      {{> stage text=stage executionStatus=executionStatus}}
 
       <a class="w-inline-block w-clearfix option-proposal" href="{{url}}">
         <div class="option-title option-link option-search">
           {{title}}
         </div>
       </a>
+
+
 
       <div class="extra">
         {{#each signatures}}
@@ -15,7 +20,6 @@
           </li>
         {{/each}}
       </div>
-
 
 
       <div class="rich-text rich-text-preview">
@@ -31,7 +35,7 @@
 
     </div>
 
-    {{> stage text=stage}}
+
 
     <div class="block block-list">
       <div class="w-clearfix elements">

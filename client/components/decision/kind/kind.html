@@ -1,12 +1,12 @@
 <template name="kind">
   <div class="w-clearfix paper-header">
 
+    <!-- Kind Stage -->
+    {{> stage text=stage executionStatus=executionStatus}}
+
     <!-- Kind Title -->
     <img src="{{pathFor route='home'}}{{icon}}" class="section-icon">
     <div>{{_ title}}</div>
-
-    <!-- Kind Stage -->
-    {{> stage text=text}}
 
   </div>
 </template>

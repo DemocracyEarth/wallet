@@ -1809,7 +1809,7 @@ blockquote {
 
 .identity-label.identity-label-small {
   font-size: 14px;
-  line-height: 22px;
+  line-height: 18px;
 }
 
 .option-link:hover {
@@ -2617,7 +2617,6 @@ blockquote {
   position: absolute;
   right: 0px;
   z-index: 100;
-  margin-top: -30px;
   margin-right: 30px;
   margin-left: 5px;
   padding: 0px 5px 5px;
@@ -2688,6 +2687,10 @@ blockquote {
   border-color: #ff2752;
   background-color: #ff2752;
   color: #fff;
+}
+
+.stage.stage-list {
+  margin-top: 1px;
 }
 
 .profile-thumb {
