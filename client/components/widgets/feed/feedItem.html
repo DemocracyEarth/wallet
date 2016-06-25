@@ -11,29 +11,23 @@
         </div>
       </a>
 
+      <ul class="w-list-unstyled w-clearfix identity-list extra">
+        {{#each signatures}}
+          <li class="w-clearfix identity">
+            {{> avatar size=28 profile=this includeName=true includeNation=false editable=false smallFont=true}}
+          </li>
+        {{/each}}
+      </ul>
 
+      <div class="rich-text rich-text-preview">
+        {{description}}
+      </div>
 
-
-        <ul class="w-list-unstyled w-clearfix identity-list extra">
-          {{#each signatures}}
-            <li class="w-clearfix identity">
-              {{> avatar size=28 profile=this includeName=true includeNation=false editable=false smallFont=true}}
-            </li>
-          {{/each}}
-        </ul>
-
-
-
-
-        <div class="rich-text rich-text-preview">
-          {{description}}
-        </div>
-
-
-      {{#each getTags}}
-          {{> tag _id=_id}}
-      {{/each}}
-
+      <div class="extra">
+        {{#each tags}}
+            {{> tag _id=_id}}
+        {{/each}}
+      </div>
 
       {{> metadata}}
 
