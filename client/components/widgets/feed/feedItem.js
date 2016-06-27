@@ -4,5 +4,8 @@ Template.feedItem.helpers({
   },
   tags: function () {
     return this.tags;
+  },
+  sinceDate: function (timestamp) {
+    return TAPi18n.__('posted') + ' ' + Modules.client.timeSince(timestamp);
   }
 })

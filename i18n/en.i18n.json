@@ -213,5 +213,12 @@
   "proposal-signed-identity": "Do you confirm signing this proposal with this identity?",
   "not-now": "Not now",
   "sign-proposal": "Sign Proposal",
-  "vote-proposal": "Vote Proposal"
+  "vote-proposal": "Vote Proposal",
+  "posted": "Posted",
+  "years-ago" : "years ago",
+  "months-ago" : "months ago",
+  "days-ago" : "days ago",
+  "hours-ago" : "hours ago",
+  "minutes-ago" : "minutes ago",
+  "seconds-ago" : "seconds ago"
 }

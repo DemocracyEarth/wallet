@@ -29,7 +29,14 @@
         {{/each}}
       </div>
 
-      {{> metadata}}
+      <div class="meta meta-search">
+        <div class="data"><img class="url-icon" src="{{pathFor route='home'}}images/time.png">
+          <div class="verifier verifier-live">{{sinceDate timestamp}}</div>
+        </div>
+        <div class="data"><img class="url-icon" src="{{pathFor route='home'}}images/block.png">
+          <div class="verifier verifier-live">{{blockchain}}</div>
+        </div>
+      </div>
 
     </div>
 
