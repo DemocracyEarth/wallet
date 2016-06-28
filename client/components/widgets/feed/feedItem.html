@@ -33,21 +33,23 @@
         <div class="data"><img class="url-icon" src="{{pathFor route='home'}}images/time.png">
           <div class="verifier verifier-live">{{sinceDate timestamp}}</div>
         </div>
+
+        <!-- TODO
         <div class="data"><img class="url-icon" src="{{pathFor route='home'}}images/block.png">
           <div class="verifier verifier-live">{{blockchain}}</div>
         </div>
+        -->
+
       </div>
 
     </div>
-
-
 
     <div class="block block-list">
       <div class="w-clearfix elements">
 
         <div class="w-clearfix vote-cta">
           <div class="power hundred">
-            <a class="w-inline-block w-clearfix button execute button-small" href="#">
+            <a class="w-inline-block w-clearfix button execute button-small" href="{{url}}">
               <div class="execution-label">
                 {{_ "vote-proposal"}}
               </div>
@@ -58,40 +60,12 @@
 
         <div class="w-clearfix polis">
           <div class="power hundred">
-
-            {{> power}}
-
-
-<!--            <div class="w-clearfix rosca rosca-feed">
-              <div class="w-clearfix result vote-bar">
-                <div class="result-bar vote-bar"></div>
-                <div class="result-bar vote-bar vote-bar-allocated"></div>
-              </div>
-              <div class="vote-available label-votes"><strong data-new-link="true">27</strong> <span><a href="#">AVAILABLE VOTES</a></span>
-              </div>
-              <ul class="w-list-unstyled w-clearfix identity-list identity-list-delegates">
-                <li class="w-clearfix identity"><img class="symbol profile-pic identity-small identity-delegate" src="images/Pia Mancini.png"><img class="symbol profile-pic identity-small identity-delegate" src="images/Screen Shot 2016-01-27 at 12.05.33 AM.png"><img class="symbol profile-pic identity-small identity-delegate" src="images/Screen Shot 2016-01-06 at 6.10.41 AM.png"><img class="symbol profile-pic identity-small identity-delegate" src="images/kate-c9cfb62d.jpg"><img class="symbol profile-pic identity-small identity-delegate" src="images/SantiagoSiri.jpg"><img class="symbol profile-pic identity-small identity-delegate" src="images/krishnabharat2.jpg"><img class="symbol profile-pic identity-small identity-delegate" src="images/Screen Shot 2016-01-31 at 7.34.28 PM.png"><img class="symbol profile-pic identity-small identity-delegate" src="images/AAEAAQAAAAAAAAXHAAAAJGE4MjE5YWQwLWJjNWMtNDc0MC1hZWE0LTczMzczNjZmYzYyNA.jpg"><img class="symbol profile-pic identity-small identity-delegate" src="images/Screen Shot 2016-01-06 at 6.10.41 AM.png"><img class="symbol profile-pic identity-small identity-delegate" src="images/Screen Shot 2016-01-31 at 7.34.28 PM.png">
-                </li>
-              </ul>
-            </div> -->
-
+            {{> power styleClass='rosca-feed'}}
           </div>
         </div>
+
       </div>
     </div>
-  </li>
-</template>
 
-<template name="metadata">
-  <div class="meta meta-search">
-    <div class="data"><img class="url-icon" src="images/globe.png">
-      <div class="verifier verifier-live">&nbsp;democracy.earth/<strong>satoshin</strong>&nbsp;</div>
-    </div>
-    <div class="data"><img class="url-icon" src="images/time.png">
-      <div class="verifier verifier-live">&nbsp;October 1, 1983</div>
-    </div>
-    <div class="data"><img class="url-icon" src="images/block.png">
-      <div class="verifier verifier-live">&nbsp;blockchain ID: 1MBM...khTF</div>
-    </div>
-  </div>
+  </li>
 </template>
