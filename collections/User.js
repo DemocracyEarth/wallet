@@ -14,6 +14,49 @@ Schema.Credential = new SimpleSchema({
     type: Boolean,
     optional: true
   }
+});
+
+Schema.Menu = new SimpleSchema({
+  total: {
+    type: Number,
+    autoValue: function () {
+      if (this.isInsert) {
+        return 0;
+      }
+    }
+  },
+  drafts: {
+    type: Number,
+    autoValue: function () {
+      if (this.isInsert) {
+        return 0;
+      }
+    }
+  },
+  memberships: {
+    type: Number,
+    autoValue: function () {
+      if (this.isInsert) {
+        return 0;
+      }
+    }
+  },
+  delegations: {
+    type: Number,
+    autoValue: function () {
+      if (this.isInsert) {
+        return 0;
+      }
+    }
+  },
+  votes: {
+    type: Number,
+    autoValue: function () {
+      if (this.isInsert) {
+        return 0;
+      }
+    }
+  }
 })
 
 Schema.UserProfile = new SimpleSchema({
@@ -111,6 +154,10 @@ Schema.User = new SimpleSchema({
     profile: {
         type: Schema.UserProfile,
         optional: true
+    },
+    menu: {
+      type: Schema.Menu,
+      optional: true
     },
     // Make sure this services field is in your schema if you're using any of the accounts packages
     services: {

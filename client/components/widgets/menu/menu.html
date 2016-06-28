@@ -1,0 +1,33 @@
+<template name="menu">
+  {{#if currentUser}}
+    <div class="cast">
+      <ul class="menu w-clearfix w-list-unstyled">
+        <li class="menu-item w-clearfix">
+          <div class="signal">
+            <div>{{drafts}}</div>
+          </div>
+          <div>{{_ 'drafts'}}</div>
+        </li>
+        <li class="menu-item w-clearfix">
+          <div class="signal void">
+            <div>{{memberships}}</div>
+          </div>
+          <div>{{_ 'memberships'}}</div>
+        </li>
+        <li class="menu-item w-clearfix">
+          <div class="signal void">
+            <div>{{delegations}}</div>
+          </div>
+          <div>{{_ 'delegations'}}</div>
+        </li>
+        <li class="menu-item w-clearfix">
+          <div class="signal">
+            <div>{{votes}}</div>
+          </div>
+          <div>{{_ 'votes'}}</div>
+        </li>
+      </ul>
+      <div>{{total}}</div>
+    </div>
+  {{/if}}
+</template>

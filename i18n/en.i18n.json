@@ -220,5 +220,10 @@
   "days-ago" : "days ago.",
   "hours-ago" : "hours ago.",
   "minutes-ago" : "minutes ago.",
-  "seconds-ago" : "seconds ago."
+  "seconds-ago" : "seconds ago.",
+  "latest-proposals": "Latest Proposals",
+  "drafts": "Drafts",
+  "memberships": "Memberships",
+  "delegations": "Delegations",
+  "votes": "Votes"
 }
