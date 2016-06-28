@@ -3345,7 +3345,7 @@ blockquote {
 }
 
 .type {
-  margin-top: 15px;
+  margin-top: 0px;
   padding: 10px 5px;
   border-radius: 3px;
   background-color: #f5f5f5;
@@ -3379,11 +3379,84 @@ blockquote {
 .feed-head {
   display: inline-block;
   width: 100%;
-  padding: 20px 30px;
+  padding: 10px 25px;
   color: dimgrey;
   font-size: 14px;
   line-height: 30px;
   text-transform: uppercase;
+}
+
+.cast {
+  position: fixed;
+  right: 25px;
+  bottom: 25px;
+  z-index: 8500;
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  background-color: rgba(255, 39, 82, .85);
+  color: #fff;
+  font-size: 40px;
+  line-height: 100px;
+  font-weight: 200;
+  text-align: center;
+  cursor: pointer;
+}
+
+.cast:hover {
+  background-color: #ff2752;
+}
+
+.cast:active {
+  background-color: #f03;
+}
+
+.menu {
+  position: absolute;
+  right: 0px;
+  margin-top: -205px;
+}
+
+.menu-item {
+  height: 40px;
+  min-width: 200px;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  float: right;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, .25);
+  box-shadow: 0 4px 14px -4px rgba(0, 0, 0, .2);
+  color: #fff;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 300;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  background-color: rgba(0, 0, 0, .4);
+}
+
+.menu-item:active {
+  background-color: #00bf8f;
+}
+
+.signal {
+  width: 30px;
+  height: 30px;
+  margin-top: -5px;
+  margin-right: 5px;
+  padding-top: 5px;
+  float: right;
+  border-radius: 15px;
+  background-color: #ff2752;
+  font-size: 12px;
+}
+
+.signal.void {
+  background-color: dimgrey;
 }
 
 @media (max-width: 991px) {
@@ -3481,6 +3554,10 @@ blockquote {
   .authentication {
     padding-right: 15px;
   }
+  .cast {
+    right: 15px;
+    bottom: 15px;
+  }
 }
 
 @media (max-width: 767px) {
@@ -3529,8 +3606,7 @@ blockquote {
     line-height: 30px;
   }
   .vote.vote-search {
-    padding-right: 5px;
-    padding-left: 5px;
+    padding: 10px;
   }
   .option-title.option-link {
     max-width: 100%;
@@ -3640,6 +3716,12 @@ blockquote {
   .authentication {
     padding-right: 0px;
   }
+  .vote-cta {
+    width: 100%;
+  }
+  .polis {
+    width: 100%;
+  }
 }
 
 @media (max-width: 479px) {
@@ -3746,8 +3828,8 @@ blockquote {
     line-height: 36px;
   }
   .vote.vote-search {
-    padding-right: 5px;
-    padding-left: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
   }
   .option {
     width: 40px;
@@ -3776,6 +3858,9 @@ blockquote {
   }
   .option-title.option-link.option-edit.option-title-long {
     font-size: 16px;
+  }
+  .checkbox.checkbox-custom {
+    width: 100%;
   }
   .tick-image {
     width: 38px;
@@ -3891,6 +3976,10 @@ blockquote {
   }
   .tabs {
     display: inline-block;
+  }
+  .cast {
+    right: 10px;
+    bottom: 10px;
   }
 }
 
