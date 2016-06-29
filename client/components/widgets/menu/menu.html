@@ -2,13 +2,15 @@
   {{#if currentUser}}
     <div id="action" class="cast">
 
+      <img class="action-icon" src="{{pathFor route='home'}}images/compose.png">
+
+      <div class="cast-action menu-item">
+        <div>{{_ 'propose'}}</div>
+      </div>
+
       {{#if showMenu}}
         {{> subMenu }}
       {{/if}}
-
-      <div>
-        {{total}}
-      </div>
 
     </div>
   {{/if}}
