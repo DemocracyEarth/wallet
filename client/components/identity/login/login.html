@@ -1,14 +1,14 @@
 <template name="login">
   {{#if currentUser}}
     <div class="w-clearfix paper-header card-header">
-      <img src="{{pathFor route='home'}}images/fingerprint-white.png" class="section-icon">
-      <div>{{_ "identity"}}</div>
       <div id="logout" class="stage stage-finish-approved stage-card button">
         <div class="label label-corner">
           {{_ "log-out"}}
         </div>
         <img src="{{pathFor route='home'}}images/logout.png" class="logout">
       </div>
+      <img src="{{pathFor route='home'}}images/fingerprint-white.png" class="section-icon">
+      <div>{{_ "identity"}}</div>
     </div>
     {{> profile}}
   {{else}}

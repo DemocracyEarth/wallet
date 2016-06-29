@@ -1,11 +1,9 @@
 Template.avatar.rendered = function () {
-
   Session.set('editor', false);
 }
 
 Template.avatar.helpers({
   classStyle: function (smallFont) {
-    console.log(smallFont);
     if (smallFont) {
       return 'identity-small';
     } else {

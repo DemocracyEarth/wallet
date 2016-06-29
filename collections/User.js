@@ -117,6 +117,10 @@ Schema.UserProfile = new SimpleSchema({
     url: {
       type: String,
       optional: true
+    },
+    menu: {
+      type: Schema.Menu,
+      optional: true
     }
 });
 
@@ -154,10 +158,6 @@ Schema.User = new SimpleSchema({
     profile: {
         type: Schema.UserProfile,
         optional: true
-    },
-    menu: {
-      type: Schema.Menu,
-      optional: true
     },
     // Make sure this services field is in your schema if you're using any of the accounts packages
     services: {
