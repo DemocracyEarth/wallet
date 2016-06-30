@@ -1053,6 +1053,13 @@ blockquote {
   box-shadow: inset 0 0 1px 0 #dfdfdf;
 }
 
+.vote.vote-search.vote-feed {
+  margin-bottom: 15px;
+  border-style: none;
+  border-radius: 3px;
+  box-shadow: 0 5px 22px -12px #000;
+}
+
 .vote.vote-placeholder {
   width: 50%;
   height: 70px;
@@ -1190,8 +1197,7 @@ blockquote {
 
 .checkbox.checkbox-custom {
   display: inline-block;
-  width: 90%;
-  max-width: 800px;
+  width: 100%;
   margin-bottom: 5px;
   padding-top: 0px;
   padding-right: 10px;
@@ -1637,6 +1643,8 @@ blockquote {
   right: 0px;
   z-index: 9000;
   height: 60px;
+  padding-right: 10px;
+  padding-left: 10px;
   background-color: rgba(49, 38, 59, .95);
   box-shadow: 0 0 8px -2px #000;
   color: #fff;
@@ -1653,10 +1661,7 @@ blockquote {
 }
 
 .navcontainer {
-  display: block;
-  max-width: 1000px;
-  margin-right: auto;
-  margin-left: auto;
+  display: inline;
 }
 
 .logo-pic {
@@ -2904,6 +2909,7 @@ blockquote {
 
 .option-proposal {
   display: inline-block;
+  width: 90%;
 }
 
 .option-proposal:hover {
@@ -3348,7 +3354,7 @@ blockquote {
   margin-top: 0px;
   padding: 10px 5px;
   border-radius: 3px;
-  background-color: #f5f5f5;
+  background-color: transparent;
   box-shadow: none;
 }
 
@@ -3388,8 +3394,8 @@ blockquote {
 
 .cast {
   position: fixed;
-  right: 25px;
-  bottom: 25px;
+  right: 15px;
+  bottom: 15px;
   z-index: 8500;
   width: 70px;
   height: 70px;
@@ -3411,31 +3417,28 @@ blockquote {
 }
 
 .menu {
-  position: absolute;
-  right: 0px;
-  margin-top: -315px;
+  margin-top: 0px;
+  border-bottom: 1px none #bbb;
 }
 
 .menu-item {
-  height: 40px;
-  min-width: 200px;
-  margin-bottom: 20px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  float: right;
-  border-radius: 20px;
-  background-color: #afafaf;
-  box-shadow: 0 2px 10px -4px rgba(0, 0, 0, .33);
-  color: #fff;
-  font-size: 14px;
-  line-height: 20px;
+  min-width: 100%;
+  margin-bottom: 10px;
+  padding: 5px 0px 5px 10px;
+  border-radius: 3px;
+  font-size: 15px;
+  line-height: 27px;
   font-weight: 300;
-  text-transform: uppercase;
   cursor: pointer;
+}
+
+.menu-item:hover {
+  background-color: rgba(180, 171, 189, .2);
 }
 
 .menu-item:active {
   background-color: #00bf8f;
+  color: #fff;
 }
 
 .menu-item.cast-action {
@@ -3450,25 +3453,81 @@ blockquote {
   text-shadow: 0 2px 13px rgba(0, 0, 0, .7);
 }
 
+.menu-item.menu-item-selected {
+  background-color: #6d5c7d;
+  color: #fff;
+}
+
 .signal {
   width: 30px;
   height: 30px;
-  margin-top: -5px;
   margin-right: 5px;
-  padding-top: 5px;
+  padding-top: 1px;
   float: right;
   border-radius: 15px;
-  background-color: #ff2752;
+  background-color: rgba(255, 39, 82, .71);
   font-size: 12px;
+  text-align: center;
 }
 
 .signal.void {
-  background-color: grey;
+  background-color: transparent;
+}
+
+.signal.signal-on {
+  color: #fff;
 }
 
 .action-icon {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
   width: 100%;
   height: 100%;
+}
+
+.feed {
+  position: relative;
+  display: block;
+  max-width: 1200px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.inbox {
+  position: fixed;
+  top: 60px;
+  bottom: 0px;
+  width: 250px;
+  margin-right: 15px;
+  padding: 10px;
+  float: left;
+  background-color: #edecf1;
+  background-image: -webkit-linear-gradient(270deg, #edecf1, #e6e3f3);
+  background-image: linear-gradient(180deg, #edecf1, #e6e3f3);
+  box-shadow: 0 0 5px -2px #525252;
+}
+
+.content {
+  position: absolute;
+  left: 250px;
+  right: 100px;
+}
+
+.action-label {
+  position: absolute;
+  min-width: 120px;
+  margin-top: 20px;
+  margin-left: -135px;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, .4);
+  font-size: 14px;
+  line-height: 30px;
+  font-weight: 300;
+  text-align: center;
+  text-shadow: none;
 }
 
 @media (max-width: 991px) {
@@ -3563,12 +3622,21 @@ blockquote {
   .fact {
     font-weight: 300;
   }
-  .authentication {
-    padding-right: 15px;
-  }
   .cast {
     right: 15px;
     bottom: 15px;
+  }
+  .feed {
+    width: 100%;
+    float: none;
+  }
+  .inbox {
+    display: none;
+  }
+  .content {
+    left: 0px;
+    right: 0px;
+    padding-right: 0px;
   }
 }
 
@@ -3632,9 +3700,6 @@ blockquote {
   .option-title.option-link.option-long {
     max-width: 80%;
   }
-  .checkbox.checkbox-custom {
-    width: 85%;
-  }
   .field.headline-field.split {
     padding-right: 0px;
   }
@@ -3655,6 +3720,12 @@ blockquote {
   }
   .input.headline-input.input-active {
     line-height: 50px;
+  }
+  .logo {
+    padding-left: 0px;
+  }
+  .main {
+    width: 40px;
   }
   .option-link {
     max-width: 85%;
@@ -3691,6 +3762,11 @@ blockquote {
   .score-block {
     height: 15px;
   }
+  .search.search-blur {
+    overflow: hidden;
+    width: 40px;
+    float: right;
+  }
   .election {
     float: left;
     text-align: center;
@@ -3725,6 +3801,9 @@ blockquote {
     left: 25px;
     right: 25px;
   }
+  .path {
+    width: 50%;
+  }
   .authentication {
     padding-right: 0px;
   }
@@ -3733,6 +3812,9 @@ blockquote {
   }
   .polis {
     width: 100%;
+  }
+  .inbox {
+    display: none;
   }
 }
 
@@ -3871,6 +3953,9 @@ blockquote {
   .option-title.option-link.option-edit.option-title-long {
     font-size: 16px;
   }
+  .option-title.option-link.option-search {
+    font-size: 22px;
+  }
   .checkbox.checkbox-custom {
     width: 100%;
   }
@@ -3988,6 +4073,10 @@ blockquote {
   }
   .tabs {
     display: inline-block;
+  }
+  .type {
+    padding-right: 0px;
+    padding-left: 0px;
   }
   .cast {
     right: 10px;

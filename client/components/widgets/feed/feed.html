@@ -2,9 +2,6 @@
 
   {{#if currentUser}}
     <ul class="w-list-unstyled w-clearfix type">
-      <li class="feed-head w-clearfix"><img class="section-icon" src="{{pathFor route='home'}}images/ribbon.png">
-        <div>{{_ 'latest-proposals'}}</div>
-      </li>
       {{#each item}}
         {{> feedItem}}
       {{/each}}

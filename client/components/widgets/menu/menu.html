@@ -1,59 +1,14 @@
-<template name="menu">
+<template name="compose">
   {{#if currentUser}}
     <div id="action" class="cast">
 
-      <img class="action-icon" src="{{pathFor route='home'}}images/compose.png">
-
-      <div class="cast-action menu-item">
+      <div class="action-label">
         <div>{{_ 'propose'}}</div>
       </div>
 
-      {{#if showMenu}}
-        {{> subMenu }}
-      {{/if}}
+      <img id="action-hotspace" class="action-icon action-icon-mouseleave" src="{{pathFor route='home'}}images/action.png">
+      <img id="action-hotspace" class="action-icon action-icon-mouseover" src="{{pathFor route='home'}}images/compose.png">
 
     </div>
   {{/if}}
-</template>
-
-<template name="subMenu">
-  <ul class="menu w-clearfix w-list-unstyled">
-
-    <a href="{{pathFor route='home'}}drafts/">
-      <li class="menu-item w-clearfix">
-        <div class="signal {{signalStyle drafts}}">
-          <div>{{drafts}}</div>
-        </div>
-        <div>{{_ 'drafts'}}</div>
-      </li>
-    </a>
-
-    <a href="{{pathFor route='home'}}memberships/">
-      <li class="menu-item w-clearfix">
-        <div class="signal {{signalStyle memberships}}">
-          <div>{{memberships}}</div>
-        </div>
-        <div>{{_ 'memberships'}}</div>
-      </li>
-    </a>
-
-    <a href="{{pathFor route='home'}}delegations/">
-      <li class="menu-item w-clearfix">
-        <div class="signal {{signalStyle delegations}}">
-          <div>{{delegations}}</div>
-        </div>
-        <div>{{_ 'delegations'}}</div>
-      </li>
-    </a>
-
-    <a href="{{pathFor route='home'}}votes/">
-      <li class="menu-item w-clearfix">
-        <div class="signal {{signalStyle votes}}">
-          <div>{{votes}}</div>
-        </div>
-        <div>{{_ 'votes'}}</div>
-      </li>
-    </a>
-
-  </ul>
 </template>
