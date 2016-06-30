@@ -3505,8 +3505,7 @@ blockquote {
   padding: 10px;
   float: left;
   background-color: #edecf1;
-  background-image: -webkit-linear-gradient(270deg, #edecf1, #e6e3f3);
-  background-image: linear-gradient(180deg, #edecf1, #e6e3f3);
+  background-image: none;
   box-shadow: 0 0 5px -2px #525252;
 }
 
@@ -3518,16 +3517,19 @@ blockquote {
 
 .action-label {
   position: absolute;
+  overflow: hidden;
   min-width: 120px;
   margin-top: 20px;
   margin-left: -135px;
   border-radius: 3px;
   background-color: rgba(0, 0, 0, .4);
+  opacity: 0;
   font-size: 14px;
   line-height: 30px;
   font-weight: 300;
   text-align: center;
   text-shadow: none;
+  cursor: default;
 }
 
 @media (max-width: 991px) {
