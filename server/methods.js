@@ -199,15 +199,35 @@ function checkDuplicate (arr, elementId) {
 
 function createContract (keyword) {
   //Adds a new contract to db, returns created insert
-  var slug = convertToSlug(keyword);
+  if (keyword != undefined || keyword != '') {
+    var slug = convertToSlug(keyword);
+  } else {
+    var slug = convertToSlug('draft-' + Meteor.userId());
+  }
+
   var creationDate = new Date;
   creationDate.setDate(creationDate.getDate() + 1);
   console.log('creating contract by user: ' + Meteor.userId());
 
-  //Creates new contract:
-  Contracts.insert({ title: keyword });
+  if (keyword != '') {
+    //Creates new contract:
+    Contracts.insert({ title: keyword });
+    return Contracts.findOne({keyword: slug});
+  } /*else {
+    console.log('inserting contract with void content');
 
-  return Contracts.findOne({keyword: slug});
+    if (Contracts.findOne({keyword: 'draft-' + Meteor.userId()})) {
+      console.log('user already has a draft');
+      return Contracts.findOne({keyword: slug});
+    } else {
+      console.log('user had no draft contract, new one created');
+      Contracts.insert({ keyword: 'draft-' + Meteor.userId() });
+      return Contracts.findOne({keyword: slug});
+    }
+
+  }*/
+
+
 }
 
 function createTag (tag) {

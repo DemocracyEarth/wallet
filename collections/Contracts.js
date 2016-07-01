@@ -15,14 +15,21 @@ ContractSchema = new SimpleSchema({
   title: {
     //Title of the contract
     type: String,
-    optional: false
+    optional: true
   },
   keyword: {
     //Unique identifier in DB as keyword-based-slug
     type: String,
     autoValue: function () {
       if (this.isInsert) {
-        return convertToSlug(this.field("title").value);
+        console.log('inserting keyword to contract');
+        if (this.field("title").value != undefined) {
+          console.log('has a title: ' + this.field("title").value);
+          return convertToSlug(this.field("title").value);
+        } else {
+          console.log('has no title but ' + this.field("_id").value );
+          return 'draft-' + Meteor.userId();
+        }
       };
     }
   },

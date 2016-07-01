@@ -222,9 +222,13 @@
   "minutes-ago" : "minutes ago.",
   "seconds-ago" : "seconds ago.",
   "latest-proposals": "Latest Proposals",
+  "all-proposals": "All Proposals",
   "drafts": "Drafts",
   "memberships": "Memberships",
   "delegations": "Delegations",
   "votes": "Votes",
-  "propose": "Propose Idea"
+  "propose": "Propose Idea",
+  "decisions": "Decisions",
+  "delegates": "Delegates"
+
 }

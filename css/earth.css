@@ -1054,7 +1054,7 @@ blockquote {
 }
 
 .vote.vote-search.vote-feed {
-  margin-bottom: 15px;
+  margin-bottom: 25px;
   border-style: none;
   border-radius: 3px;
   box-shadow: 0 5px 22px -12px #000;
@@ -3418,6 +3418,7 @@ blockquote {
 
 .menu {
   margin-top: 0px;
+  margin-bottom: 20px;
   border-bottom: 1px none #bbb;
 }
 
@@ -3475,6 +3476,7 @@ blockquote {
 }
 
 .signal.signal-on {
+  background-color: #ff2752;
   color: #fff;
 }
 
@@ -3496,22 +3498,24 @@ blockquote {
   margin-left: auto;
 }
 
-.inbox {
+.sidebar {
   position: fixed;
   top: 60px;
   bottom: 0px;
-  width: 250px;
+  overflow: scroll;
+  width: 285px;
   margin-right: 15px;
-  padding: 10px;
+  padding: 0px 10px 10px;
   float: left;
-  background-color: #edecf1;
-  background-image: none;
-  box-shadow: 0 0 5px -2px #525252;
+  background-color: #d4cfd8;
+  background-image: -webkit-linear-gradient(90deg, transparent, #ebebeb);
+  background-image: linear-gradient(0deg, transparent, #ebebeb);
+  box-shadow: 0 0 5px -2px #000;
 }
 
 .content {
   position: absolute;
-  left: 250px;
+  left: 300px;
   right: 100px;
 }
 
@@ -3520,7 +3524,7 @@ blockquote {
   overflow: hidden;
   min-width: 120px;
   margin-top: 20px;
-  margin-left: -135px;
+  margin-left: -115px;
   border-radius: 3px;
   background-color: rgba(0, 0, 0, .4);
   opacity: 0;
@@ -3530,6 +3534,21 @@ blockquote {
   text-align: center;
   text-shadow: none;
   cursor: default;
+}
+
+.separator {
+  margin-right: -10px;
+  margin-bottom: 10px;
+  margin-left: -10px;
+  padding: 15px 20px 5px;
+  border-bottom: 1px solid rgba(109, 92, 125, .11);
+  box-shadow: none;
+  color: #6c5b7c;
+  font-size: 10px;
+  line-height: 22px;
+  font-weight: 700;
+  text-align: left;
+  text-transform: uppercase;
 }
 
 @media (max-width: 991px) {
@@ -3632,7 +3651,7 @@ blockquote {
     width: 100%;
     float: none;
   }
-  .inbox {
+  .sidebar {
     display: none;
   }
   .content {
@@ -3815,7 +3834,7 @@ blockquote {
   .polis {
     width: 100%;
   }
-  .inbox {
+  .sidebar {
     display: none;
   }
 }

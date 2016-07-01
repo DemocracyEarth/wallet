@@ -18,7 +18,8 @@ Template.compose.events({
     animationExit();
   },
   'click #action-hotspace': function () {
-    Modules.both.createContract();
+    //Modules.both.createContract();
+    Router.go('/vote/draft');
   }
 });
 
