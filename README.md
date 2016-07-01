@@ -60,12 +60,15 @@ The reasons behind that technical choice are :
 
 ### Install Meteor
 `curl https://install.meteor.com/ | sh`
+
 Should install at the same time MongoDB and Node.js.
 
 ### Clone App
 ### Locate terminal on the right folder
 ### Deploy earth app
 Just type the following command, your app will be deployed on http://localhost:3000/
+
+
 `meteor --settings=config/development/settings.json`
 
 
