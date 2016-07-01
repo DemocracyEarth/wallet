@@ -53,22 +53,20 @@ Every political function : voting, delegating, starting up a collective, is a si
 ## Technical specs + deploy instructions
 The app is built on **[Meteor](https://www.meteor.com/)** version 1.3.4
 The reasons behind that technical choice are :
-> rapid deployment of app across all platforms (web, native, iOS/Android).
-> Easy structure of code.
+* rapid deployment of app across all platforms (web, native, iOS/Android).
+* Easy structure of code.
 
 ## In order to deploy the Democracy Earth app you follow those steps :
 
 ### Install Meteor
-```curl https://install.meteor.com/ | sh
-```
+`curl https://install.meteor.com/ | sh`
 Should install at the same time MongoDB and Node.js.
 
 ### Clone App
 ### Locate terminal on the right folder
 ### Deploy earth app
 Just type the following command, your app will be deployed on http://localhost:3000/
-```meteor --settings=config/development/settings.json
-```
+`meteor --settings=config/development/settings.json`
 
 
 
