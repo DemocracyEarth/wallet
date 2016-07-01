@@ -33,9 +33,9 @@ All of these, *peers*, *votes*, *tags* and *collective*, are votable and results
 
 * Any **peer** can **vote** in **collective** (s)he belongs to.
 * Every **collective** has **peers**.
-<!-- > **Tags** are approved with **votes**. -->
 * **peers** vote on **proposals**
 * **Votes** are described with **tags**.
+* **Tags** are approved with **votes**.
 * **Votes** can be of different types : binary (support/reject), multiple choice (users can add ideas) and executive options.
 * **Peers** delegate voting rights using **tags**.
 
