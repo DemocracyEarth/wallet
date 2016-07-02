@@ -10,7 +10,11 @@ Template.inbox.helpers({
     if (this.value > 0) {
       return '';
     } else {
-      return 'void';
+      if (this.selected) {
+        return 'signal-selected void'
+      } else {
+        return 'void';
+      }
     }
   }
 });

@@ -7,25 +7,25 @@ Template.sidebar.helpers({
         {
           label: TAPi18n.__('all'),
           value: Meteor.user().profile.menu.votes,
-          url: '',
+          url: '/',
           selected: true
         },
         {
           label: TAPi18n.__('memberships'),
           value: Meteor.user().profile.menu.memberships,
-          url: '',
+          url: '/filter?kind=membership',
           selected: false
         },
         {
           label: TAPi18n.__('delegations'),
           value: Meteor.user().profile.menu.delegations,
-          url: '',
+          url: '/filter?kind=delegation',
           selected: false
         },
         {
           label: TAPi18n.__('drafts'),
           value: Meteor.user().profile.menu.drafts,
-          url: '',
+          url: '/filter?kind=draft',
           selected: false
         });
       }
