@@ -15,7 +15,11 @@ ContractSchema = new SimpleSchema({
   title: {
     //Title of the contract
     type: String,
-    optional: true
+    autoValue: function () {
+      if (this.isInsert) {
+        return '';
+      }
+    }
   },
   keyword: {
     //Unique identifier in DB as keyword-based-slug
@@ -25,7 +29,11 @@ ContractSchema = new SimpleSchema({
         console.log('inserting keyword to contract');
         if (this.field("title").value != undefined) {
           console.log('has a title: ' + this.field("title").value);
-          return convertToSlug(this.field("title").value);
+          if (this.field("title").value != '') {
+            return convertToSlug(this.field("title").value);
+          } else {
+            return 'draft-' + Meteor.userId();  
+          }
         } else {
           console.log('has no title but ' + this.field("_id").value );
           return 'draft-' + Meteor.userId();
@@ -58,14 +66,18 @@ ContractSchema = new SimpleSchema({
     type: String,
     autoValue: function () {
       if (this.isInsert) {
-        return '/vote/' + convertToSlug(this.field("title").value);
+        return '/vote/';
       }
     }
   },
   description:  {
     //HTML Description of the contract (the contents of the contract itself)
     type: String,
-    optional: true
+    autoValue: function () {
+      if (this.isInsert) {
+        return '';
+      }
+    }
   },
   createdAt: {
     //Creation Date
@@ -93,22 +105,31 @@ ContractSchema = new SimpleSchema({
   tags: {
     //Collection of Tags semantically describing contract
     type: Array,
-    optional: true
+    autoValue: function () {
+      if (this.isInsert) {
+        return [];
+      }
+    }
   },
   "tags.$": {
-      type: Object
+    type: Object,
+    optional: true
   },
   "tags.$._id": {
-    type: String
+    type: String,
+    optional: true
   },
   "tags.$.label": {
-    type: String
+    type: String,
+    optional: true
   },
   "tags.$.url": {
-    type: String
+    type: String,
+    optional: true
   },
   "tags.$.rank": {
-    type: Number
+    type: Number,
+    optional: true
   },
   membersOnly: {
     //Visible to members of the organization
@@ -204,7 +225,7 @@ ContractSchema = new SimpleSchema({
     type: Boolean,
     autoValue: function () {
       if (this.isInsert) {
-        return true;
+        return false;
       }
     }
   },
@@ -266,7 +287,11 @@ ContractSchema = new SimpleSchema({
   ballot: {
     //Ballot options of the contract
     type: Array,
-    optional: true
+    autoValue: function () {
+      if (this.isInsert) {
+        return [];
+      }
+    }
   },
   "ballot.$": {
       type: Object

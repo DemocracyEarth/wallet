@@ -3,7 +3,7 @@ var typingTimer; //timer identifier
 // Title of Contract
 Template.title.helpers({
   blockchainAddress: function () {
-    return '19c...t9E';
+    return '';
   },
   declaration: function() {
     var title = Contracts.findOne( { _id: Session.get('contractId') },{reactive: false} ).title;
@@ -34,7 +34,7 @@ Template.title.helpers({
       keyword = getContract().keyword;
     }
 
-    return host + "/" + Session.get('kind') + "/<strong>" + keyword + "</strong>";
+    return host + "/" + getContract().kind.toLowerCase() + "/<strong>" + keyword + "</strong>";
   },
   missingTitle: function () {
     if (Session.get('missingTitle')) {

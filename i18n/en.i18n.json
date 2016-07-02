@@ -229,6 +229,9 @@
   "votes": "Votes",
   "propose": "Propose Idea",
   "decisions": "Decisions",
-  "delegates": "Delegates"
+  "delegates": "Delegates",
+  "all": "All",
+  "open-votes": "Open Decisions",
+  "approved-votes": "Approved Decisions"
 
 }

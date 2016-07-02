@@ -1,5 +1,5 @@
 body {
-  padding: 70px 0px 20px;
+  padding: 70px 0px 10px;
   background-color: #ddd;
   font-family: Lato, sans-serif;
   color: #333;
@@ -1644,7 +1644,7 @@ blockquote {
   z-index: 9000;
   height: 60px;
   padding-right: 10px;
-  padding-left: 10px;
+  padding-left: 0px;
   background-color: rgba(49, 38, 59, .95);
   box-shadow: 0 0 8px -2px #000;
   color: #fff;
@@ -1683,12 +1683,12 @@ blockquote {
 .main {
   position: relative;
   display: inline-block;
-  width: 40%;
   height: 60px;
+  min-width: 500px;
   margin-right: 10px;
+  margin-left: -40px;
   padding-top: 10px;
   padding-bottom: 10px;
-  float: right;
   font-family: Lato, sans-serif;
 }
 
@@ -3352,7 +3352,7 @@ blockquote {
 
 .type {
   margin-top: 0px;
-  padding: 10px 5px;
+  padding: 10px 5px 0px;
   border-radius: 3px;
   background-color: transparent;
   box-shadow: none;
@@ -3420,6 +3420,16 @@ blockquote {
   margin-top: 0px;
   margin-bottom: 20px;
   border-bottom: 1px none #bbb;
+  font-size: 15px;
+  line-height: 28px;
+}
+
+.menu.menu-empty {
+  padding: 10px;
+  border: 1px dotted #bbb;
+  border-radius: 5px;
+  color: #999;
+  text-align: center;
 }
 
 .menu-item {
@@ -3427,6 +3437,7 @@ blockquote {
   margin-bottom: 10px;
   padding: 5px 0px 5px 10px;
   border-radius: 3px;
+  color: #333;
   font-size: 15px;
   line-height: 27px;
   font-weight: 300;
@@ -3457,6 +3468,7 @@ blockquote {
 .menu-item.menu-item-selected {
   background-color: #6d5c7d;
   color: #fff;
+  cursor: default;
 }
 
 .signal {
@@ -3473,6 +3485,11 @@ blockquote {
 
 .signal.void {
   background-color: transparent;
+  color: #333;
+}
+
+.signal.void.signal-selected {
+  color: #fff;
 }
 
 .signal.signal-on {
@@ -3508,8 +3525,8 @@ blockquote {
   padding: 0px 10px 10px;
   float: left;
   background-color: #d4cfd8;
-  background-image: -webkit-linear-gradient(90deg, transparent, #ebebeb);
-  background-image: linear-gradient(0deg, transparent, #ebebeb);
+  background-image: -webkit-linear-gradient(45deg, transparent, #ebebeb);
+  background-image: linear-gradient(45deg, transparent, #ebebeb);
   box-shadow: 0 0 5px -2px #000;
 }
 
@@ -3608,6 +3625,10 @@ blockquote {
   .progress-bar {
     width: 15%;
   }
+  .main {
+    margin-left: 0px;
+    float: right;
+  }
   .option-link {
     max-width: 70%;
   }
@@ -3649,6 +3670,8 @@ blockquote {
   }
   .feed {
     width: 100%;
+    padding-right: 10px;
+    padding-left: 10px;
     float: none;
   }
   .sidebar {
@@ -3746,7 +3769,9 @@ blockquote {
     padding-left: 0px;
   }
   .main {
+    display: none;
     width: 40px;
+    float: right;
   }
   .option-link {
     max-width: 85%;
@@ -4102,6 +4127,10 @@ blockquote {
   .cast {
     right: 10px;
     bottom: 10px;
+  }
+  .feed {
+    padding-right: 0px;
+    padding-left: 0px;
   }
 }
 

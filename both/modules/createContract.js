@@ -3,6 +3,7 @@ let newDraft = () => {
     console.log('created new contract: ' + result + error);
   });*/
   Router.go('/vote/draft');
+
 }
 
 Modules.both.createContract = newDraft;

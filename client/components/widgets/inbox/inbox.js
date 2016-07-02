@@ -1,15 +1,23 @@
 Template.inbox.helpers({
   drafts: function () {
-    return Meteor.user().profile.menu.drafts;
+    if (Meteor.user() != undefined) {
+      return Meteor.user().profile.menu.drafts;
+    }
   },
   memberships: function () {
-    return Meteor.user().profile.menu.memberships;
+    if (Meteor.user() != undefined) {
+      return Meteor.user().profile.menu.memberships;
+    }
   },
   delegations: function () {
-    return Meteor.user().profile.menu.delegations;
+    if (Meteor.user() != undefined) {
+      return Meteor.user().profile.menu.delegations;
+    }
   },
   votes: function () {
-    return Meteor.user().profile.menu.votes;
+    if (Meteor.user() != undefined) {
+      return Meteor.user().profile.menu.votes;
+    }
   },
   signalStyle: function (score) {
     if (score > 0) {

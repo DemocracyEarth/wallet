@@ -1,16 +1,16 @@
 <template name="inbox">
   <ul class="menu w-clearfix w-list-unstyled">
 
-    <a href="{{pathFor route='home'}}drafts/">
-      <li class="menu-item w-clearfix">
-        <div class="signal {{signalStyle drafts}}">
-          <div>{{drafts}}</div>
+    <a href="{{pathFor route='home'}}">
+      <li class="menu-item menu-item-selected w-clearfix">
+        <div class="signal signal-selected {{signalStyle votes}}">
+          <div>{{votes}}</div>
         </div>
-        <div>{{_ 'drafts'}}</div>
+        <div>{{_ 'all'}}</div>
       </li>
     </a>
 
-    <a href="{{pathFor route='home'}}memberships/">
+    <a href="{{pathFor route='home'}}filter?type=memberships">
       <li class="menu-item w-clearfix">
         <div class="signal {{signalStyle memberships}}">
           <div>{{memberships}}</div>
@@ -19,7 +19,7 @@
       </li>
     </a>
 
-    <a href="{{pathFor route='home'}}delegations/">
+    <a href="{{pathFor route='home'}}filter?type=delegations">
       <li class="menu-item w-clearfix">
         <div class="signal {{signalStyle delegations}}">
           <div>{{delegations}}</div>
@@ -28,12 +28,12 @@
       </li>
     </a>
 
-    <a href="{{pathFor route='home'}}votes/">
+    <a href="{{pathFor route='home'}}filter?type=drafts">
       <li class="menu-item w-clearfix">
-        <div class="signal {{signalStyle votes}}">
-          <div>{{votes}}</div>
+        <div class="signal {{signalStyle drafts}}">
+          <div>{{drafts}}</div>
         </div>
-        <div>{{_ 'votes'}}</div>
+        <div>{{_ 'drafts'}}</div>
       </li>
     </a>
 

@@ -56,6 +56,14 @@ Schema.Menu = new SimpleSchema({
         return 0;
       }
     }
+  },
+  lastUpdate: {
+    type: Date,
+    autoValue: function () {
+      if (this.isInsert) {
+        return Date();
+      }
+    }
   }
 })
 

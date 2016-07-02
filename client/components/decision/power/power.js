@@ -38,7 +38,9 @@ function getUserVotes (userId, sessionVar) {
       if (error)
         console.log(error);
 
-      Session.set(sessionVar, data.profile.votes.total)
+        if (data.profile != undefined) {
+          Session.set(sessionVar, data.profile.votes.total)
+        }
     });
   } else {
     if (Meteor.user().profile.votes != undefined) {
