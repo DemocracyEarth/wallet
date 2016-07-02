@@ -1060,6 +1060,13 @@ blockquote {
   box-shadow: 0 5px 22px -12px #000;
 }
 
+.vote.vote-search.vote-feed.vote-empty {
+  border-style: solid;
+  border-width: 1px;
+  border-color: hsla(0, 0%, 90%, .72);
+  background-color: transparent;
+}
+
 .vote.vote-placeholder {
   width: 50%;
   height: 70px;

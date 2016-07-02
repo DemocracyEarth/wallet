@@ -1,0 +1,21 @@
+<template name="feedEmpty">
+  <li class="vote vote-empty vote-feed vote-search">
+    <div class="checkbox checkbox-custom">
+      <a class="option-proposal w-clearfix w-inline-block" href="#">
+        <div class="option-link option-search option-title">
+          {{{label}}}
+        </div>
+      </a>
+      <div class="rich-text rich-text-preview">
+        {{{detail}}}
+      </div>
+    </div>
+    <div class="block block-list">
+      <div class="elements w-clearfix">
+        <div>
+          {{> feedButton contribute=contribute icon=icon url=url}}
+        </div>
+      </div>
+    </div>
+  </li>
+</template>

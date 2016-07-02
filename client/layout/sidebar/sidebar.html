@@ -6,8 +6,11 @@
       {{_ 'decisions'}}
     </div>
 
-    {{> inbox}}
-
+    <ul class="menu w-clearfix w-list-unstyled">
+      {{#each menu}}
+        {{> inbox label=label value=value url=url selected=selected}}
+      {{/each}}
+    </ul>
 
     <div class="separator">
       {{_ 'delegates'}}

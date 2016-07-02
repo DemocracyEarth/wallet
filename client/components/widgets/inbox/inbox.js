@@ -1,26 +1,13 @@
 Template.inbox.helpers({
-  drafts: function () {
-    if (Meteor.user() != undefined) {
-      return Meteor.user().profile.menu.drafts;
+  selected: function () {
+    if (this.selected) {
+      return 'menu-item-selected';
+    } else {
+      return '';
     }
   },
-  memberships: function () {
-    if (Meteor.user() != undefined) {
-      return Meteor.user().profile.menu.memberships;
-    }
-  },
-  delegations: function () {
-    if (Meteor.user() != undefined) {
-      return Meteor.user().profile.menu.delegations;
-    }
-  },
-  votes: function () {
-    if (Meteor.user() != undefined) {
-      return Meteor.user().profile.menu.votes;
-    }
-  },
-  signalStyle: function (score) {
-    if (score > 0) {
+  signalStyle: function () {
+    if (this.value > 0) {
       return '';
     } else {
       return 'void';
