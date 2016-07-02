@@ -26,9 +26,9 @@ Template.navigation.helpers({
   screen: function () {
     switch(Session.get('stage')) {
       case 'draft':
-        return TAPi18n.__('screen-new-proposal') + " <strong>" + ORGANIZATION_NAME + "</strong>";
+        return TAPi18n.__('screen-new-proposal') + " <a href='/'>" + ORGANIZATION_NAME + "</a>";
       default:
-        return ORGANIZATION_NAME;
+        return "<a href='/'>" + ORGANIZATION_NAME + "</a>";
     }
   },
   icon: function () {
