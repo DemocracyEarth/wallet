@@ -1,4 +1,4 @@
-import {default as Votes} from "./Votes";
+  import {default as Votes} from "./Votes";
 
 Schema.Credential = new SimpleSchema({
   source: {
@@ -61,7 +61,7 @@ Schema.Menu = new SimpleSchema({
     type: Date,
     autoValue: function () {
       if (this.isInsert) {
-        return Date();
+        return new Date();
       }
     }
   }

@@ -144,7 +144,7 @@
   "empty-ballot": "The ballot is empty and it has no options to vote for.",
   "blockchain-address": "blockchain:",
   "general-search": "Search democracies...",
-  "screen-new-proposal": "Idea  q qfor",
+  "screen-new-proposal": "Idea for",
   "identity": "Identity",
   "anonymous-mode": "Anonymous",
   "phone": "Phone",
@@ -233,5 +233,7 @@
   "all": "All",
   "open-votes": "Open Decisions",
   "approved-votes": "Approved Decisions",
-  "no-delegation-contract": "No delegation contracts were found."
+  "no-delegation-contract": "No <em>delegation contracts<em> were found.",
+  "no-delegation-contract-detail": "These contracts are establsihed between two identities that agree to represent each other on issues under specific tags.",
+  "no-delegation-contract-button": "Draft a Delegation"
 }
