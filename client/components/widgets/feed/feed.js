@@ -9,5 +9,8 @@ Template.feed.helpers({
   },
   emptyFeed: function () {
     return Session.get('emptyFeed');
+  },
+  emptyContent: function () {
+    return Session.get('emptyContent');
   }
 })
