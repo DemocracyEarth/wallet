@@ -1,7 +1,7 @@
 <template name="feedEmpty">
   <li class="vote vote-empty vote-feed vote-search">
     <div class="checkbox checkbox-custom">
-      
+
       <a class="option-proposal w-clearfix w-inline-block" href="#">
         <div class="option-link option-nolink option-search option-title">
           {{{label}}}
@@ -13,9 +13,12 @@
           {{{detail}}}
         </div>
       </div>
+
       <div class="half">
-        {{> feedButton contribute=contribute icon=icon url=url}}
+        {{> feedButton label=contribute url=url}}
       </div>
+
     </div>
+
   </li>
 </template>

@@ -1,10 +1,10 @@
 <template name="feedButton">
 
-    <a class="button button-small execute w-clearfix w-inline-block" href="{{url}}">
+    <a id='button' class="button button-small execute w-clearfix w-inline-block" href="{{url}}">
       <div class="execution-label">
-        {{{contribute}}}
+        {{{label}}}
       </div>
-      <img class="button-icon execute-icon" src="{{icon}}">
+      <img class="button-icon execute-icon" src="{{pathFor route='home'}}images/access.png">
     </a>
-  
+
 </template>

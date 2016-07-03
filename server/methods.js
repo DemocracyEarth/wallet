@@ -115,7 +115,6 @@ Meteor.methods({
 
   getUserInfo: function (userId) {
     var objUser = Meteor.users.findOne({ _id: userId });
-    console.log('getting user info: ' + userId);
     if (objUser) {
       return objUser;
     } else {

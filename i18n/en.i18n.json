@@ -236,7 +236,7 @@
   "empty-feed-label-delegation": "No delegation contracts found.",
   "empty-feed-detail-delegation": "These contracts are establsihed between two identities that agree to represent each other on issues under specific tags.",
   "empty-feed-contribute-delegation": "Draft a Delegation",
-  "empty-feed-label-membership": "No membership applications to this collective found.",
+  "empty-feed-label-membership": "No membership applications to found.",
   "empty-feed-detail-membership": "Collectives may get new applicants to be approved by the members.",
   "empty-feed-contribute-membership": "Apply for Membership",
   "empty-feed-label-draft": "No drafts found.",

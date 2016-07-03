@@ -1,0 +1,3 @@
+Template.feedButton.events({
+  'click '
+})
