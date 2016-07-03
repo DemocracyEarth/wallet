@@ -32,7 +32,7 @@ ContractSchema = new SimpleSchema({
           if (this.field("title").value != '') {
             return convertToSlug(this.field("title").value);
           } else {
-            return 'draft-' + Meteor.userId();  
+            return 'draft-' + Meteor.userId();
           }
         } else {
           console.log('has no title but ' + this.field("_id").value );
@@ -44,7 +44,7 @@ ContractSchema = new SimpleSchema({
   kind: {
     //Kind of contract
     type: String,
-    allowedValues: ['VOTE', 'DELEGATION', 'MEMBERSHIP'],
+    allowedValues: ['DRAFT', 'VOTE', 'DELEGATION', 'MEMBERSHIP'],
     autoValue: function () {
       if (this.isInsert) {
         return "VOTE";
