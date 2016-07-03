@@ -1057,14 +1057,15 @@ blockquote {
   margin-bottom: 25px;
   border-style: none;
   border-radius: 3px;
-  box-shadow: 0 5px 22px -12px #000;
+  box-shadow: 0 5px 15px -12px #000;
 }
 
 .vote.vote-search.vote-feed.vote-empty {
-  border-style: solid;
+  border-style: none;
   border-width: 1px;
   border-color: hsla(0, 0%, 90%, .72);
   background-color: transparent;
+  box-shadow: none;
 }
 
 .vote.vote-placeholder {
@@ -1196,6 +1197,14 @@ blockquote {
 
 .option-title.option-link.option-search:hover {
   text-decoration: underline;
+}
+
+.option-title.option-link.option-search.option-nolink {
+  cursor: default;
+}
+
+.option-title.option-link.option-search.option-nolink:hover {
+  text-decoration: none;
 }
 
 .checkbox {
@@ -3573,6 +3582,24 @@ blockquote {
   font-weight: 700;
   text-align: left;
   text-transform: uppercase;
+}
+
+.icon-inbox {
+  width: 22px;
+  height: 22px;
+  margin-top: 3px;
+  margin-right: 10px;
+  float: left;
+}
+
+.half {
+  width: 50%;
+}
+
+.tutorial {
+  display: inline-block;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 @media (max-width: 991px) {
