@@ -865,6 +865,10 @@ blockquote {
   float: right;
 }
 
+.button-icon.execute-icon.execute-icon-hover {
+  margin-left: -32px;
+}
+
 .extra {
   display: block;
   margin-right: -5px;

@@ -1,15 +1,15 @@
 <template name="feedButton">
 
-    <a id='button{{id}}' class="button button-small execute w-clearfix w-inline-block" href="{{url}}{{id}}">
+    <a id='{{id}}' class="button button-small execute w-clearfix w-inline-block feedButton" href="{{url}}{{id}}">
       <div class="execution-label">
         {{{_ label}}}
       </div>
 
-      {{#if mouseDown}}
-        <img class="button-icon execute-icon" src="{{pathFor route='home'}}images/access-hover.png">
-      {{else}}
-        <img class="button-icon execute-icon" src="{{pathFor route='home'}}images/access.png">
-      {{/if}}
+
+
+      <img class="button-icon execute-icon execute-icon-hover" src="{{pathFor route='home'}}images/access-hover.png">
+      <img id='button-{{id}}' class="button-icon execute-icon {{display}} " src="{{pathFor route='home'}}images/access.png">
+
 
     </a>
 
