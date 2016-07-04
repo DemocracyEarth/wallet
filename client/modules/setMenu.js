@@ -49,8 +49,7 @@ let _verifySelection = (selection, feed) => {
       label: TAPi18n.__('empty-feed-label-' + feed),
       detail: TAPi18n.__('empty-feed-detail-' + feed),
       contribute: TAPi18n.__('empty-feed-contribute-' + feed),
-      url: '/',
-      icon: '/'
+      url: '/vote/draft?kind=' + feed
     });
 
     return true;

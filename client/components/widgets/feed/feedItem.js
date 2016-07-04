@@ -7,5 +7,12 @@ Template.feedItem.helpers({
   },
   sinceDate: function (timestamp) {
     return TAPi18n.__('posted') + ' ' + Modules.client.timeSince(timestamp);
+  },
+  editorMode: function (mode) {
+    if (mode == 'DRAFT') { return true } else { return false };
+  },
+  voterMode: function () {
+    //if (mode == 'voter') { return true } else { return false };
   }
+
 })
