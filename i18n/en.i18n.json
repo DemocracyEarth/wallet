@@ -248,7 +248,7 @@
   "empty-feed-contribute-all": "Draft a Proposal",
   "remove": "Remove.",
   "edit-this-draft": "Edit this draft.",
-  "remove-title": "Remove",
-  "remove-draft": "Remove Draft",
-  "remove-draft-warning": "Do you confirm removing this proposal from your drafts?"
+  "remove-title": "Remove Draft",
+  "remove-draft": "Remove",
+  "remove-draft-warning": "Do you confirm removing this proposal: "
 }

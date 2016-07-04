@@ -23,17 +23,16 @@ Template.feedItem.events({
     Modules.client.displayModal(
       true,
       {
-        icon            : 'images/author-signature.png',
-        title           : TAPi18n.__('remove-title') + ' <em>' + proposalTitle + '</em>',
-        message         : TAPi18n.__('remove-draft-warning'),
+        icon            : 'images/remove-item.png',
+        title           : TAPi18n.__('remove-title'),
+        message         : TAPi18n.__('remove-draft-warning') + " <br><em>" + proposalTitle + "</em>",
         cancel          : TAPi18n.__('not-now'),
         action          : TAPi18n.__('remove-draft'),
         isAuthorization : false
       },
       function() {
-        //Session.set('userSigned', true);
-        //Modules.both.signContract(Session.get('contractId'), Meteor.user(), 'AUTHOR');
         Modules.both.removeContract(proposalId);
+        Modules.client.displayNotice(TAPi18n.__('remove-draft-success'), true);
       }
     );
   }

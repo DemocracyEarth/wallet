@@ -115,7 +115,7 @@ function createNewUser(data) {
             if ( error ) {
               console.log( error.reason, 'danger' );
             } else {
-              displayNotice('user-created', true);
+              Modules.client.displayNotice('user-created', true);
             }
           });
 

@@ -9,13 +9,13 @@ let _setPlaceholderText = ( string = TAPi18n.__('upload-picture') ) => {
 let _addUrlToDatabase = ( url ) => {
   Meteor.call( "storeUrlInDatabase", url, ( error ) => {
     if ( error ) {
-      displayNotice(error.reason, true);
+      Modules.client.displayNotice(error.reason, true);
 
       _setPlaceholderText();
     } else {
       //Success
       var data = Meteor.user().profile;
-      displayNotice(TAPi18n.__('new-profile-pic'), true);
+      Modules.client.displayNotice(TAPi18n.__('new-profile-pic'), true);
       _setPlaceholderText();
       data.picture = url;
       Meteor.users.update(Meteor.userId(), { $set: { profile : data }})
@@ -29,7 +29,7 @@ let _uploadFileToAmazon = ( file ) => {
 
   uploader.send( file, ( error, url ) => {
     if ( error ) {
-      displayNotice(error.message, true);
+      Modules.client.displayNotice(error.message, true);
 
       _setPlaceholderText();
     } else {
