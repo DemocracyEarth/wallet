@@ -3800,6 +3800,8 @@ blockquote {
   }
   .micro {
     width: 50%;
+    margin-bottom: -15px;
+    float: left;
   }
 }
 
@@ -3862,9 +3864,6 @@ blockquote {
   }
   .option-title.option-link.option-long {
     max-width: 80%;
-  }
-  .block.block-list {
-    margin-bottom: -10px;
   }
   .field.headline-field.split {
     padding-right: 0px;

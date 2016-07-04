@@ -50,13 +50,13 @@
         {{#if editorMode stage}}
           <div class="micro-menu">
             <div class="micro">
-              <a id="{{_id}}" title="{{title}}" class="micro-button micro-button-remove w-clearfix">
+              <a id="{{_id}}" title="{{title}}" class="micro-button micro-button-remove w-clearfix w-inline-block">
                 <img class="micro-icon" src="{{pathFor route='home'}}images/micro-trash.png">
                 <div class="micro-label">{{_ 'remove'}}</div>
               </a>
             </div>
             <div class="micro">
-              <a class="micro-button w-clearfix" href="/vote/draft?id={{_id}}">
+              <a class="micro-button w-clearfix w-inline-block" href="/vote/draft?id={{_id}}">
                 <img class="micro-icon" src="{{pathFor route='home'}}images/micro-draft.png">
                 <div class="micro-label">{{_ 'edit-this-draft'}}</div>
               </a>
