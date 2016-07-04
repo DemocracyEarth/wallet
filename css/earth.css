@@ -3349,7 +3349,6 @@ blockquote {
 .alert {
   display: block;
   overflow: hidden;
-  height: 320px;
   max-width: 400px;
   margin-top: 20%;
   margin-right: auto;
@@ -3677,6 +3676,12 @@ blockquote {
   margin-right: auto;
   margin-left: auto;
   text-align: center;
+}
+
+.modal-buttons {
+  display: inline-block;
+  margin-top: 10px;
+  margin-bottom: -10px;
 }
 
 @media (max-width: 991px) {

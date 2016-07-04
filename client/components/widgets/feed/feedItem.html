@@ -50,7 +50,7 @@
         {{#if editorMode stage}}
           <div class="micro-menu">
             <div class="micro">
-              <a class="micro-button micro-button-remove w-clearfix" href="/remove?id={{_id}}">
+              <a id="{{_id}}" title="{{title}}" class="micro-button micro-button-remove w-clearfix">
                 <img class="micro-icon" src="{{pathFor route='home'}}images/micro-trash.png">
                 <div class="micro-label">{{_ 'remove'}}</div>
               </a>

@@ -9,10 +9,10 @@
     <div class="w-clearfix alert">
       <div class="alert-header">
         <img class="alert-icon" src="{{pathFor route='home'}}{{icon}}">
-        <div>{{_ title}}</div>
+        <div>{{{title}}}</div>
       </div>
       <div class="w-clearfix login">
-        <div>{{_ message}}</div>
+        <div>{{{message}}}</div>
 
         {{#if isAuthorization}}
           <p>
@@ -22,12 +22,15 @@
           </p>
         {{/if}}
 
-        <div id="cancel" class="button login-button button-secondary button-half">
-          <div>{{_ cancel}}</div>
+        <div class="modal-buttons">
+          <div id="cancel" class="button login-button button-secondary button-half">
+            <div>{{cancel}}</div>
+          </div>
+          <div id="execute" class="button login-button button-half">
+            <div>{{action}}</div>
+          </div>
         </div>
-        <div id="execute" class="button login-button button-half">
-          <div>{{_ action}}</div>
-        </div>
+
       </div>
     </div>
   </div>

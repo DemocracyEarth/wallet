@@ -33,10 +33,10 @@ Template.signatures.events({
       true,
       {
         icon            : 'images/author-signature.png',
-        title           : 'proposal-author',
-        message         : 'proposal-signed-identity',
-        cancel          : 'not-now',
-        action          : 'sign-proposal',
+        title           : TAPi18n.__('proposal-author'),
+        message         : TAPi18n.__('proposal-signed-identity'),
+        cancel          : TAPi18n.__('not-now'),
+        action          : TAPi18n.__('sign-proposal'),
         isAuthorization : true,
       },
       function() {

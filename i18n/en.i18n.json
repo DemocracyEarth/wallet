@@ -247,5 +247,8 @@
   "empty-feed-detail-all": "This collective doesn't have any proposals yet.",
   "empty-feed-contribute-all": "Draft a Proposal",
   "remove": "Remove.",
-  "edit-this-draft": "Edit this draft."
+  "edit-this-draft": "Edit this draft.",
+  "remove-title": "Remove",
+  "remove-draft": "Remove Draft",
+  "remove-draft-warning": "Do you confirm removing this proposal from your drafts?"
 }

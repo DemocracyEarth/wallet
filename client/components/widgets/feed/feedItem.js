@@ -14,5 +14,27 @@ Template.feedItem.helpers({
   voterMode: function () {
     //if (mode == 'voter') { return true } else { return false };
   }
+});
 
+Template.feedItem.events({
+  'click .micro-button-remove': function (event) {
+    var proposalTitle = event.target.parentNode.getAttribute('title');
+    var proposalId = event.target.parentNode.getAttribute('id');
+    Modules.client.displayModal(
+      true,
+      {
+        icon            : 'images/author-signature.png',
+        title           : TAPi18n.__('remove-title') + ' <em>' + proposalTitle + '</em>',
+        message         : TAPi18n.__('remove-draft-warning'),
+        cancel          : TAPi18n.__('not-now'),
+        action          : TAPi18n.__('remove-draft'),
+        isAuthorization : false
+      },
+      function() {
+        //Session.set('userSigned', true);
+        //Modules.both.signContract(Session.get('contractId'), Meteor.user(), 'AUTHOR');
+        Modules.both.removeContract(proposalId);
+      }
+    );
+  }
 })
