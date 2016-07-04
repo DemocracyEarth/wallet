@@ -45,9 +45,29 @@
     </div>
 
     <div class="block block-list">
-      <div class="w-clearfix elements">
+
 
         {{#if editorMode stage}}
+          <div class="micro-menu">
+            <div class="micro">
+              <a class="micro-button micro-button-remove w-clearfix" href="/remove?id={{_id}}">
+                <img class="micro-icon" src="{{pathFor route='home'}}images/micro-trash.png">
+                <div class="micro-label">{{_ 'remove'}}</div>
+              </a>
+            </div>
+            <div class="micro">
+              <a class="micro-button w-clearfix" href="/vote/draft?id={{_id}}">
+                <img class="micro-icon" src="{{pathFor route='home'}}images/micro-draft.png">
+                <div class="micro-label">{{_ 'edit-this-draft'}}</div>
+              </a>
+            </div>
+          </div>
+        {{/if}}
+
+        <!--
+
+        {{#if voterMode stage}}
+        <div class="w-clearfix elements">
           <div class="w-clearfix polis">
             <div class="power hundred">
               {{> power styleClass='rosca-feed'}}
@@ -58,11 +78,14 @@
               {{> feedButton id=_id url='/vote/draft?id=' label='edit-draft'}}
             </div>
           </div>
+        </div>
         {{/if}}
 
+        !-->
 
 
-      </div>
+
+
     </div>
 
   </li>

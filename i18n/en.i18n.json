@@ -245,5 +245,7 @@
   "empty-feed-contribute-draft": "Draft a Proposal",
   "empty-feed-label-all": "No proposals found.",
   "empty-feed-detail-all": "This collective doesn't have any proposals yet.",
-  "empty-feed-contribute-all": "Draft a Proposal"
+  "empty-feed-contribute-all": "Draft a Proposal",
+  "remove": "Remove.",
+  "edit-this-draft": "Edit this draft."
 }

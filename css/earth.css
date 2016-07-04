@@ -764,6 +764,19 @@ blockquote {
   line-height: 30px;
 }
 
+.button.execute.button-small.button-remove {
+  padding-top: 9px;
+  padding-bottom: 9px;
+  border-color: #ff2752;
+  background-color: #fae6e6;
+  color: #ff2752;
+}
+
+.button.execute.button-small.button-remove:active {
+  background-color: #ff2752;
+  color: #fae6e6;
+}
+
 .button.login-button {
   width: 100%;
   margin-right: 0px;
@@ -867,6 +880,12 @@ blockquote {
 
 .button-icon.execute-icon.execute-icon-hover {
   margin-left: -32px;
+}
+
+.button-icon.execute-icon.only-icon {
+  position: relative;
+  display: inline-block;
+  float: none;
 }
 
 .extra {
@@ -3393,9 +3412,20 @@ blockquote {
   float: right;
 }
 
+.vote-cta.vote-edit {
+  position: absolute;
+  left: 100px;
+  right: 10px;
+  width: auto;
+}
+
 .polis {
   width: 50%;
   float: left;
+}
+
+.polis.remove {
+  width: 100px;
 }
 
 .execution-label {
@@ -3606,6 +3636,49 @@ blockquote {
   margin-bottom: 10px;
 }
 
+.micro-button {
+  display: inline-block;
+  margin: 15px auto 10px;
+  color: #00bf8f;
+  font-size: 14px;
+  line-height: 28px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.micro-button:hover {
+  border-bottom-style: none;
+}
+
+.micro-button.micro-button-remove {
+  color: #ff2752;
+}
+
+.micro-icon {
+  width: 28px;
+  height: 28px;
+  margin-right: 5px;
+  float: left;
+}
+
+.micro-label {
+  float: left;
+}
+
+.micro {
+  display: inline-block;
+  width: 25%;
+  text-align: center;
+}
+
+.micro-menu {
+  display: block;
+  width: 90%;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
@@ -3720,6 +3793,9 @@ blockquote {
     right: 0px;
     padding-right: 0px;
   }
+  .micro {
+    width: 50%;
+  }
 }
 
 @media (max-width: 767px) {
@@ -3781,6 +3857,9 @@ blockquote {
   }
   .option-title.option-link.option-long {
     max-width: 80%;
+  }
+  .block.block-list {
+    margin-bottom: -10px;
   }
   .field.headline-field.split {
     padding-right: 0px;
@@ -3894,7 +3973,13 @@ blockquote {
   .vote-cta {
     width: 100%;
   }
+  .vote-cta.vote-edit {
+    width: 100%;
+  }
   .polis {
+    width: 100%;
+  }
+  .polis.remove {
     width: 100%;
   }
   .sidebar {
@@ -4169,6 +4254,9 @@ blockquote {
   .feed {
     padding-right: 0px;
     padding-left: 0px;
+  }
+  .micro-menu {
+    width: 100%;
   }
 }
 

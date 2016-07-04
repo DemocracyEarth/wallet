@@ -1,16 +1,14 @@
 <template name="feedButton">
 
-    <a id='{{id}}' class="button button-small execute w-clearfix w-inline-block feedButton" href="{{url}}{{id}}">
-      <div class="execution-label">
-        {{{_ label}}}
-      </div>
+  <a id='{{id}}' class="button button-small execute w-clearfix w-inline-block feedButton" href="{{url}}{{id}}">
+    <div class="execution-label">
+      {{{_ label}}}
+    </div>
 
-
-
-      <img class="button-icon execute-icon execute-icon-hover" src="{{pathFor route='home'}}images/access-hover.png">
-      <img id='button-{{id}}' class="button-icon execute-icon {{display}} " src="{{pathFor route='home'}}images/access.png">
-
-
-    </a>
+    <!-- Hover Icon -->
+    <img id='button-hover-{{id}}' class="button-icon execute-icon execute-icon-hover" src="{{pathFor route='home'}}images/access-hover.png">
+    <!-- Idle Icon -->
+    <img id='button-{{id}}' class="button-icon execute-icon {{display}} " src="{{pathFor route='home'}}images/access.png">
+  </a>
 
 </template>

@@ -12,10 +12,24 @@ Template.feedButton.helpers({
 Template.feedButton.events({
   'mousedown .feedButton': function (event) {
     var buttonId = 'button-' + event.target.id;
-    document.getElementById(buttonId).style.opacity = 0;
+    var buttonHoverId = 'button-hover-' + event.target.id;
+    if (document.getElementById(buttonId)) {
+      document.getElementById(buttonId).style.opacity = 0;
+    }
+    if (document.getElementById(buttonHoverId)) {
+      document.getElementById(buttonHoverId).style.opacity = 1;
+    }
   },
-  'mouseup .feedButton': function (event) {
+  'mouseup .feedButton, mousemove .feedButton': function (event) {
     var buttonId = 'button-' + event.target.id;
-    document.getElementById(buttonId).style.opacity = 1;
+    var buttonHoverId = 'button-hover-' + event.target.id;
+    if (event.type == 'mouseup') {
+      if (document.getElementById(buttonId)) {
+        document.getElementById(buttonId).style.opacity = 1;
+      }
+      if (document.getElementById(buttonHoverId)) {
+        document.getElementById(buttonHoverId).style.opacity = 0;
+      }
+    }
   }
 })
