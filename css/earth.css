@@ -1706,6 +1706,8 @@ blockquote {
 .logo-pic {
   height: 45px;
   max-width: 45px;
+  margin-right: 10px;
+  float: left;
 }
 
 .logo {
@@ -2667,7 +2669,7 @@ blockquote {
   position: absolute;
   right: 0px;
   z-index: 100;
-  margin-right: 30px;
+  margin-right: 20px;
   margin-left: 5px;
   padding: 0px 5px 5px;
   float: right;
@@ -3637,7 +3639,10 @@ blockquote {
 
 .micro-button {
   display: inline-block;
-  margin: 15px auto 10px;
+  overflow: hidden;
+  margin: 10px auto;
+  padding: 5px 10px 5px 5px;
+  border-radius: 5px;
   color: #00bf8f;
   font-size: 14px;
   line-height: 28px;
@@ -3647,6 +3652,10 @@ blockquote {
 
 .micro-button:hover {
   border-bottom-style: none;
+}
+
+.micro-button:active {
+  background-color: #f8f8f8;
 }
 
 .micro-button.micro-button-remove {
@@ -3682,6 +3691,28 @@ blockquote {
   display: inline-block;
   margin-top: 10px;
   margin-bottom: -10px;
+}
+
+.collective {
+  padding: 20px 10px;
+  color: #fff;
+  text-shadow: 0 3px 12px rgba(0, 0, 0, .4);
+}
+
+.collective-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-shadow: 0 1px 9px -4px #000;
+}
+
+.menu-button {
+  width: 40px;
+  height: 40px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  opacity: 0.7;
 }
 
 @media (max-width: 991px) {
@@ -3791,7 +3822,9 @@ blockquote {
     float: none;
   }
   .sidebar {
-    display: none;
+    top: 0px;
+    z-index: 15000;
+    display: block;
   }
   .content {
     left: 0px;
@@ -4057,9 +4090,6 @@ blockquote {
   .semantics {
     width: 100%;
   }
-  .tag {
-    clear: both;
-  }
   .tag.input {
     font-size: 16px;
   }
@@ -4097,6 +4127,9 @@ blockquote {
   .vote.vote-search {
     padding-right: 10px;
     padding-left: 10px;
+  }
+  .vote.vote-search.vote-feed {
+    border-radius: 0px;
   }
   .option {
     width: 40px;
@@ -4258,6 +4291,9 @@ blockquote {
   .feed {
     padding-right: 0px;
     padding-left: 0px;
+  }
+  .half {
+    width: 100%;
   }
   .micro-menu {
     width: 100%;
