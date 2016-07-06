@@ -230,8 +230,12 @@
   "votes": "Votes",
   "propose": "Propose Idea",
   "decisions": "Decisions",
+  "collective": "Collective",
+  "this-collective": "This Collective",
+  "my-decisions": "My Decisions",
+  "personal": "Personal",
   "delegates": "Delegates",
-  "all": "All Proposals",
+  "all": "Open Issues",
   "open-votes": "Open Decisions",
   "approved-votes": "Approved Decisions",
   "empty-feed-label-delegation": "No delegations found.",
@@ -251,5 +255,9 @@
   "remove-title": "Remove Draft",
   "remove-draft": "Remove",
   "remove-draft-warning": "Do you confirm removing this proposal: ",
-  "remove-draft-success": "Draft successfully removed."
+  "remove-draft-success": "Draft successfully removed.",
+  "voted-issues": "Voted Issues",
+  "received-delegations": "Delegations",
+  "approved-issues": "Approved",
+  "agreements": "Agreements"
 }

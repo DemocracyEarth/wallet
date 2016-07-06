@@ -2,23 +2,17 @@
 
   <div class="sidebar">
 
-    <div class="separator">
-      {{_ 'decisions'}}
-    </div>
+
+    {{> collective}}
 
     <ul class="menu w-clearfix w-list-unstyled">
       {{#each menu}}
-        {{> inbox id=id label=label value=value url=url selected=selected}}
+        {{> inbox id=id label=label separator=separator value=value url=url selected=selected}}
       {{/each}}
     </ul>
 
-    <div class="separator">
-      {{_ 'delegates'}}
-    </div>
 
-    <div class="separator">
-      {{_ 'topics'}}
-    </div>
+
 
   </div>
 

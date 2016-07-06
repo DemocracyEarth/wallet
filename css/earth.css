@@ -3696,7 +3696,7 @@ blockquote {
 .collective {
   padding: 20px 10px;
   color: #fff;
-  text-shadow: 0 3px 12px rgba(0, 0, 0, .4);
+  text-shadow: 0 1px 5px rgba(0, 0, 0, .5);
 }
 
 .collective-icon {
@@ -3713,6 +3713,10 @@ blockquote {
   margin-top: 3px;
   margin-bottom: 3px;
   opacity: 0.7;
+}
+
+.menu-button:hover {
+  opacity: 1;
 }
 
 @media (max-width: 991px) {

@@ -1,0 +1,18 @@
+<template name="inbox">
+
+  {{#if separator}}
+    <div class="separator">
+      {{_ label}}
+    </div>
+  {{else}}
+    <a href="{{url}}">
+      <li class="menu-item {{selected}} w-clearfix">
+        <div class="signal {{signalStyle value}}">
+          <div>{{value}}</div>
+        </div>
+        <div>{{_ label}}</div>
+      </li>
+    </a>
+  {{/if}}
+
+</template>
