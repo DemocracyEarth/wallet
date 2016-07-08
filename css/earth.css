@@ -2290,6 +2290,13 @@ blockquote {
   font-size: 12px;
 }
 
+.identity-nation.collective-stat {
+  display: inline-block;
+  margin-top: 15px;
+  margin-right: 15px;
+  margin-bottom: 0px;
+}
+
 .identity-peer {
   margin-top: 15px;
   margin-left: 10px;
@@ -3561,7 +3568,7 @@ blockquote {
 .feed {
   position: relative;
   display: block;
-  max-width: 1200px;
+  max-width: 1000px;
   margin-right: auto;
   margin-left: auto;
 }
@@ -3695,14 +3702,14 @@ blockquote {
 
 .collective {
   padding: 20px 10px;
-  color: #fff;
-  text-shadow: 0 1px 5px rgba(0, 0, 0, .5);
+  color: #333;
+  font-size: 15px;
+  line-height: 24px;
 }
 
 .collective-icon {
   width: 80px;
   height: 80px;
-  margin-bottom: 15px;
   border-radius: 5px;
   box-shadow: 0 1px 9px -4px #000;
 }
@@ -3717,6 +3724,38 @@ blockquote {
 
 .menu-button:hover {
   opacity: 1;
+}
+
+.collective-title {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  color: #6c5b7c;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 400;
+  text-shadow: none;
+}
+
+.collective-stat {
+  display: block;
+  margin-right: auto;
+  margin-bottom: 10px;
+  margin-left: auto;
+  border: 1px none #00bf8f;
+  border-radius: 2px;
+  color: #00bf8f;
+}
+
+.collective-stat-icon {
+  width: 22px;
+  height: 22px;
+  margin-right: 10px;
+  float: left;
+}
+
+.collective-info {
+  margin-top: 15px;
+  font-size: 15px;
 }
 
 @media (max-width: 991px) {
