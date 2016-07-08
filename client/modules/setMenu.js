@@ -22,14 +22,6 @@ let createMenu = (feed) => {
       },
       {
         id: 2,
-        label: TAPi18n.__('approved-issues'),
-        value: Meteor.user().profile.menu.votes,
-        separator: false,
-        url: '/filter?kind=approved',
-        selected: _verifySelection('approved', feed)
-      },
-      {
-        id: 3,
         label: TAPi18n.__('memberships'),
         value: Meteor.user().profile.menu.memberships,
         separator: false,
@@ -37,7 +29,7 @@ let createMenu = (feed) => {
         selected: _verifySelection('membership', feed)
       },
       {
-        id: 4,
+        id: 3,
         label: TAPi18n.__('delegations'),
         value: Meteor.user().profile.menu.delegations,
         separator: false,
@@ -45,12 +37,12 @@ let createMenu = (feed) => {
         selected: _verifySelection('delegation', feed)
       },
       {
-        id: 5,
+        id: 4,
         label: TAPi18n.__('my-decisions'),
         separator: true,
       },
       {
-        id: 6,
+        id: 5,
         label: TAPi18n.__('voted-issues'),
         value: Meteor.user().profile.menu.drafts,
         separator: false,
@@ -58,7 +50,7 @@ let createMenu = (feed) => {
         selected: _verifySelection('voted', feed)
       },
       {
-        id: 8,
+        id: 6,
         label: TAPi18n.__('drafts'),
         value: Meteor.user().profile.menu.drafts,
         separator: false,
@@ -66,7 +58,7 @@ let createMenu = (feed) => {
         selected: _verifySelection('draft', feed)
       },
       {
-        id: 9,
+        id: 7,
         label: TAPi18n.__('delegates'),
         separator: true,
       }

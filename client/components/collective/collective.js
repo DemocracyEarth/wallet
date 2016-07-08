@@ -1,8 +1,19 @@
 Template.collective.helpers({
   title: function () {
-    return Session.get('collective').name;
+    if (Session.get('collective') != undefined) {
+      return Session.get('collective').name;
+    }
   },
   description: function () {
-    return Session.get('collective').profile.bio;
+    if (Session.get('collective') != undefined) {
+      return Session.get('collective').profile.bio;
+    }
+  },
+  picture: function () {
+    if (Session.get('collective') != undefined) {
+      return Session.get('collective').profile.logo
+    } else {
+      return 'images/earth-avatar.png';
+    }
   }
 })

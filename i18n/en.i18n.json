@@ -235,7 +235,7 @@
   "my-decisions": "My Decisions",
   "personal": "Personal",
   "delegates": "Delegates",
-  "all": "Open Issues",
+  "all": "All Proposals",
   "open-votes": "Open Decisions",
   "approved-votes": "Approved Decisions",
   "empty-feed-label-delegation": "No delegations found.",
@@ -256,7 +256,7 @@
   "remove-draft": "Remove",
   "remove-draft-warning": "Do you confirm removing this proposal: ",
   "remove-draft-success": "Draft successfully removed.",
-  "voted-issues": "Voted Issues",
+  "voted-issues": "Votes",
   "received-delegations": "Delegations",
   "approved-issues": "Approved",
   "agreements": "Agreements"
