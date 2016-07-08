@@ -120,6 +120,11 @@ Meteor.methods({
     } else {
       return false;
     }
+  },
+
+  getCollectiveInfo: function (collectiveId) {
+    console.log('getting info for collective ' + collectiveId);
+    return Collectives.findOne({ _id: collectiveId });
   }
 
 });

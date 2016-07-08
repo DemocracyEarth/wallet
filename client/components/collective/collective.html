@@ -1,8 +1,20 @@
 <template name="collective">
   <div class="collective">
     <img class="collective-icon" src="{{pathFor route='home'}}images/earth-avatar.png">
-    <div>
-      {{title}}
-    </div>
+      <div class="collective-title">{{title}}</div>
+      <div>{{description}}</div>
+
+      <!-- TODO: stats of collective
+      <div class="collective-info">
+        <div class="collective-stat w-clearfix"><img class="collective-stat-icon" src="images/member-card.png">
+          <div>
+            <a wf-temp-elem="" href="#">
+              45&nbsp;members
+            </a>
+          </div>
+        </div>
+      </div>
+    -->
+
   </div>
 </template>
