@@ -1,9 +1,11 @@
 <template name="navigation">
   <div data-collapse="medium" data-animation="default" data-duration="400" data-contain="1" class="w-nav navbar">
     <div class="w-container navcontainer">
-      <a href="#" class="w-nav-brand logo">
-        <img src="{{pathFor route='home'}}{{icon}}" class="logo-pic">
+
+      <a href="{{link}}" class="logo w-nav-brand">
+        <img src="{{pathFor route='home'}}{{icon}}" class="menu-button">
       </a>
+
       <div class="w-clearfix path">
         {{{screen}}}
       </div>

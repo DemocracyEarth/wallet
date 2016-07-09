@@ -24,14 +24,18 @@ if (Meteor.Device.isPhone()) {
 
 Template.navigation.helpers({
   screen: function () {
-    switch(Session.get('stage')) {
-      case 'draft':
-        return TAPi18n.__('screen-new-proposal') + " <a href='/'>" + ORGANIZATION_NAME + "</a>";
-      default:
-        return "<a href='/'>" + ORGANIZATION_NAME + "</a>";
+    if (Session.get('navbar')) {
+      return Session.get('navbar').title;
     }
   },
   icon: function () {
-    return 'images/olive-spaced.png';
+    if (Session.get('navbar')) {
+      return Session.get('navbar').icon;
+    }
+  },
+  link: function () {
+    if (Session.get('navbar')) {
+      return Session.get('navbar').href;
+    }
   }
 });

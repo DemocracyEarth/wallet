@@ -11,7 +11,8 @@ Template.collective.helpers({
   },
   picture: function () {
     if (Session.get('collective') != undefined) {
-      return Session.get('collective').profile.logo
+      console.log('pic:' + Session.get('collective').profile.logo);
+      return Session.get('collective').profile.logo;
     } else {
       return 'images/earth-avatar.png';
     }

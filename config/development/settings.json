@@ -37,8 +37,8 @@
     },
 
     "Collective": {
-      "name": "Democracy Earth Foundation",
-      "domain": "https://software.democracy.earth",
+      "name": "Sovereign",
+      "domain": "https://sovereign.democracy.earth",
       "emails": [
         {
           "address": "hello@democracy.earth",
@@ -53,7 +53,7 @@
         "blockchain": {
           "address": "0"
         },
-        "logo": "https://foundation.democracy.earth",
+        "logo": "images/earth-avatar.png",
         "jurisdiction": {
           "legal": {
               "taxId": "37-1776296",
