@@ -260,5 +260,6 @@
   "received-delegations": "Delegations",
   "approved-issues": "Approved",
   "agreements": "Agreements",
-  "navbar-home": "Home"
+  "navbar-home": "Home",
+  "navbar-editor": "Contract Editor"
 }
