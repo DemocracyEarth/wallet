@@ -1,5 +1,7 @@
 Template.compose.rendered = function () {
-
+  $('.action-label').css('opacity', 0);
+  $('.action-label').css('overflow', 'hidden');
+  $('.action-icon-mouseover').css('opacity', 0);
 };
 
 Template.compose.helpers({
@@ -34,7 +36,3 @@ let animationExit = () => {
   $('.action-icon-mouseover').velocity({'opacity': 0}, Modules.client.animationSettings);
   $('.action-label').velocity({'opacity': 0, 'margin-left': -115, 'width': '0px'}, Modules.client.animationSettings);
 }
-
-$('.action-label').css('opacity', 0);
-$('.action-label').css('overflow', 'hidden');
-$('.action-icon-mouseover').css('opacity', 0);

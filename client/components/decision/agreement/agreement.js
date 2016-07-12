@@ -59,13 +59,16 @@ Template.agreement.rendered = function () {
   var t = this;
   this.contentAutorun = Deps.autorun(function () {
       var content = Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false} );
-      if (content) {
-        if (content.description.length <= 1) {
-          t.find(".cr-note").innerHTML = TAPi18n.__('placeholder-editor');
-          Session.set('missingDescription', true);
-        } else {
-          t.find(".cr-note").innerHTML = content.description;
-          Session.set('missingDescription', false);
+
+      if (t.find(".cr-note") != null) {
+        if (content) {
+          if (content.description.length <= 1) {
+            t.find(".cr-note").innerHTML = TAPi18n.__('placeholder-editor');
+            Session.set('missingDescription', true);
+          } else {
+            t.find(".cr-note").innerHTML = content.description;
+            Session.set('missingDescription', false);
+          }
         }
       }
   });
