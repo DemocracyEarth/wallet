@@ -2,6 +2,17 @@ var typingTimer; //timer identifier
 
 Template.title.rendered = function () {
   Modules.client.initEditor();
+
+  //Tab focus next object
+  $('#titleContent').on('focus', function(e){
+    $(window).keyup(function (e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 9) {
+            $('#editor').focus();
+        }
+    });
+  });
+
 };
 
 // Title of Contract
@@ -44,7 +55,12 @@ Template.title.helpers({
     if (Session.get('missingTitle')) {
       Session.set('URLStatus', 'UNAVAILABLE');
     }
-    return Session.get('missingTitle');
+    if ($('#titleContent').is(":focus")) {
+      Session.set('URLStatus', 'NONE');
+    }
+    if (!Session.get('firstEditorLoad')) {
+      return Session.get('missingTitle');
+    }
   },
   mistypedTitle: function () {
     return Session.get('mistypedTitle');
@@ -77,7 +93,7 @@ Template.title.helpers({
         return 'available';
         break;
       default:
-        return 'invisible';
+        return 'hide';
     }
   },
   duplicateURL: function () {
@@ -102,6 +118,14 @@ Template.title.events({
     Session.set('contractKeyword', keyword);
     Session.set('URLStatus', 'VERIFY');
 
+    if (Session.get('firstEditorLoad')) {
+      var currentTitle = document.getElementById("titleContent").innerText;
+      var newTitle = currentTitle.replace(TAPi18n.__('no-title'), '');
+      document.getElementById("titleContent").innerText = newTitle;
+      Modules.both.placeCaretAtEnd(document.getElementById("titleContent"));
+      Session.set('firstEditorLoad', false);
+    }
+
     //Checking content typed
     if (content == '') {
       Session.set('contractKeyword', keyword);
@@ -124,22 +148,23 @@ Template.title.events({
       if (contract != undefined && contract._id != Session.get('contractId')) {
           Session.set('URLStatus', 'UNAVAILABLE');
       } else {
-        if (Contracts.update({_id : getContract()._id }, { $set: { title: content, keyword: keyword, url: "/" + Session.get('kind') + "/" + keyword }})) {
+        if (Contracts.update({_id : getContract()._id }, { $set: { title: content, keyword: keyword, url: "/" + Session.get('contract').kind.toLowerCase() + "/" + keyword }})) {
           Session.set('URLStatus', 'AVAILABLE');
         };
+        Modules.client.displayNotice(TAPi18n.__('saved-draft-description'), true);
       }
     }, SERVER_INTERVAL);
+
   },
   "keypress #titleContent": function (event) {
     var content = document.getElementById("titleContent").innerText;
-    return (content.length <= TITLE_MAX_LENGTH) && event.which != 13;
+    return (content.length <= TITLE_MAX_LENGTH) && event.which != 13 && event.which != 9;
   },
   "focus #titleContent": function (event) {
     if (Session.get('missingTitle')) {
       document.getElementById("titleContent").innerText = '';
       Session.set('missingTitle',false);
     }
-
   },
   "blur #titleContent": function (event) {
     var content = document.getElementById("titleContent").innerText;
