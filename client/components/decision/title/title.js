@@ -1,5 +1,9 @@
 var typingTimer; //timer identifier
 
+Template.title.rendered = function () {
+  Modules.client.initEditor();
+};
+
 // Title of Contract
 Template.title.helpers({
   blockchainAddress: function () {
@@ -27,11 +31,11 @@ Template.title.helpers({
     var keyword = '';
 
     if (Session.get('contractKeyword') == undefined) {
-      Session.set('contractKeyword', getContract().keyword);
-    } else if (Session.get('contractKeyword') != getContract().keyword) {
+      Session.set('contractKeyword', Session.get('contract').keyword);
+    } else if (Session.get('contractKeyword') != Session.get('contract').keyword) {
       keyword = Session.get('contractKeyword');
     } else {
-      keyword = getContract().keyword;
+      keyword = Session.get('contract').keyword;
     }
 
     return host + "/" + getContract().kind.toLowerCase() + "/<strong>" + keyword + "</strong>";
