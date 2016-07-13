@@ -5,7 +5,6 @@ Template.toggle.rendered = function () {
   for (var item in toggleMap) {
     node = $('.' + item).children();
     toggle(node,toggleMap[item]);
-    console.log(item);
   };
 };
 
@@ -13,7 +12,7 @@ Template.toggle.helpers({
   value: function () {
     if (this.setting == clickedToggle) {
       var node = $('.' + this.setting).children();
-      toggle(node,this.value);
+      //toggle(node,this.value);
     } else {
       if (toggleMap[this.setting] == undefined) {
         toggleMap[this.setting] = this.value;
@@ -26,16 +25,21 @@ Template.toggle.helpers({
 });
 
 Template.toggle.events({
-  "click #toggleButton": function () {
+  "click #toggleButton": function (event) {
     clickedToggle = this.setting;
     var obj = new Object;
-    obj[this.setting] = !this.value;
-    Contracts.update({_id: Session.get('contractId')}, { $set: obj });
+
+    //console.log(event.target);
+    toggle($('.' + this.setting).children(), !this.value);
+
+    //Contracts.update({_id: Session.get('contractId')}, { this.setting: !this.value });
+    Meteor.call("updateContractField", Session.get('contractId'), this.setting, !this.value);
   }
 });
 
 
 function toggle (node, value) {
+  console.log(node + ' ' + value);
 
   if (value) {
 
@@ -50,7 +54,6 @@ function toggle (node, value) {
       .velocity({'backgroundColor': '#ccc'}, Modules.client.animationSettings)
       .velocity({'backgroundColor': '#00bf8f'}, Modules.client.animationSettings)
       .velocity("stop");
-
 
   } else {
 
