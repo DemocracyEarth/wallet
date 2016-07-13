@@ -63,20 +63,20 @@ Template.ballot.rendered = function () {
 Template.ballot.helpers({
   //toggles
   allowForks: function () {
-    return getContract().allowForks;
+    return Session.get('contract').allowForks;
   },
   multipleChoice: function () {
-    return getContract().multipleChoice;
+    return Session.get('contract').multipleChoice;
   },
   executiveDecision: function () {
-    if (getContract().executiveDecision == true) {
+    if (Session.get('contract').executiveDecision == true) {
       Session.set('emptyBallot', false);
     } else {
       if (Session.get('ballotReady') == false) {
         Session.set('emptyBallot', true);
       }
     }
-    return getContract().executiveDecision;
+    return Session.get('contract').executiveDecision;
   },
   //ballot
   options: function () {
@@ -216,14 +216,14 @@ Template.fork.events({
   },
 
   "click #remove-fork": function () {
-    Meteor.call("removeFork", getContract()._id, this._id);
+    Meteor.call("removeFork", Session.get('contract')._id, this._id);
   }
 });
 
 
 function verifyEmptyBallot (options) {
   if (options.length == 0) {
-    if (getContract().executiveDecision == false) {
+    if (Session.get('contract').executiveDecision == false) {
       Session.set('emptyBallot', true);
       return true;
     } else {

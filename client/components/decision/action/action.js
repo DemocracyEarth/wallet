@@ -4,8 +4,8 @@ Template.action.events({
       var newContract = new contract(
         document.getElementById('contract-title').value,
         document.getElementById('contract-description').value,
-        getContract().tags
+        Session.get('contract').tags
       );
-      Meteor.call("updateContract", getContract()._id, newContract);
+      Meteor.call("updateContract", Session.get('contract')._id, newContract);
     }
 });

@@ -29,11 +29,11 @@ Template.toggle.events({
     clickedToggle = this.setting;
     var obj = new Object;
 
-    //console.log(event.target);
     toggle($('.' + this.setting).children(), !this.value);
 
-    //Contracts.update({_id: Session.get('contractId')}, { this.setting: !this.value });
     Meteor.call("updateContractField", Session.get('contractId'), this.setting, !this.value);
+
+    //Modules.client.displayNotice(TAPi18n.__('saved-draft-description'), true);
   }
 });
 

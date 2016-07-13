@@ -12,7 +12,7 @@ Template.dateSelector.rendered = function () {
 Template.calendar.helpers({
   closingDate: function () {
     var d = new Date()
-    d = getContract().closingDate;
+    d = Session.get('contract').closingDate;
     return d.format('{Month} {d}, {yyyy}');
   },
   toggleStatus: function () {

@@ -49,7 +49,7 @@ Template.title.helpers({
       keyword = Session.get('contract').keyword;
     }
 
-    return host + "/" + getContract().kind.toLowerCase() + "/<strong>" + keyword + "</strong>";
+    return host + "/" + Session.get('contract').kind.toLowerCase() + "/<strong>" + keyword + "</strong>";
   },
   missingTitle: function () {
     if (Session.get('missingTitle')) {
@@ -101,7 +101,7 @@ Template.title.helpers({
   },
   timestamp: function () {
     var d = new Date;
-    d = getContract().timestamp;
+    d = Session.get('contract').timestamp;
     return d.format('{Month} {d}, {yyyy}');
   }
 });
@@ -148,7 +148,7 @@ Template.title.events({
       if (contract != undefined && contract._id != Session.get('contractId')) {
           Session.set('URLStatus', 'UNAVAILABLE');
       } else {
-        if (Contracts.update({_id : getContract()._id }, { $set: { title: content, keyword: keyword, url: "/" + Session.get('contract').kind.toLowerCase() + "/" + keyword }})) {
+        if (Contracts.update({_id : Session.get('contract')._id }, { $set: { title: content, keyword: keyword, url: "/" + Session.get('contract').kind.toLowerCase() + "/" + keyword }})) {
           Session.set('URLStatus', 'AVAILABLE');
         };
         Modules.client.displayNotice(TAPi18n.__('saved-draft-description'), true);

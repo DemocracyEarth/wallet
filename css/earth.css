@@ -111,14 +111,13 @@ blockquote {
 
 .paper.paper-execute {
   margin-bottom: 0px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  background-color: #e6f9f4;
-  box-shadow: 0 0 12px -10px #000, inset 0 0 2px -1px #000;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  background-color: transparent;
+  box-shadow: none;
 }
 
 .paper.paper-execute.disabled {
-  background-color: #e6e6e6;
   opacity: 0.97;
 }
 

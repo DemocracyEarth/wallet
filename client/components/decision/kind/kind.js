@@ -1,11 +1,11 @@
 Template.kind.helpers({
   text: function() {
-      var kind = getContract().kind;
+      var kind = Session.get('contract').kind;
 
       switch(kind) {
         case 'VOTE':
           Session.set('kind', kind.toLowerCase());
-          switch (getContract().stage) {
+          switch (Session.get('contract').stage) {
             case 'DRAFT':
               Session.set('stage', 'draft');
               return  TAPi18n.__('kind-draft-vote');
