@@ -63,12 +63,15 @@ Template.ballot.rendered = function () {
 Template.ballot.helpers({
   //toggles
   allowForks: function () {
+    //console.log('[ballot helper] allowForks in contract = ' + Session.get('contract').allowForks);
     return Session.get('contract').allowForks;
   },
   multipleChoice: function () {
+    //console.log('[ballot helper] multipleChoice in contract = ' + Session.get('contract').multipleChoice);
     return Session.get('contract').multipleChoice;
   },
   executiveDecision: function () {
+    //console.log('[ballot helper] executiveDecision in contract = ' + Session.get('contract').executiveDecision);
     if (Session.get('contract').executiveDecision == true) {
       Session.set('emptyBallot', false);
     } else {

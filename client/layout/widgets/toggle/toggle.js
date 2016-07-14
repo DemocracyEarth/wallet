@@ -2,31 +2,34 @@ var clickedToggle = new String();
 var toggleMap = new Object();
 
 Template.toggle.rendered = function () {
-  for (var item in toggleMap) {
-    node = $('.' + item).children();
-    toggle(node,toggleMap[item]);
-  };
+  displayToggle();
+  Session.set('clickedToggle', this.setting);
 };
 
 Template.toggle.helpers({
   value: function () {
-    if (this.setting == clickedToggle) {
+    if (this.setting == Session.get('clickedToggle')) {
       var node = $('.' + this.setting).children();
-      //toggle(node,this.value);
+      toggle(node,this.value);
     } else {
       if (toggleMap[this.setting] == undefined) {
         toggleMap[this.setting] = this.value;
       }
     };
+    //return this.value;
   },
   setting: function () {
+    //console.log('this setting: ' + this.setting + ' valule:' + this.value);
+    toggleMap[this.setting] = this.value;
+    displayToggle();
     return this.setting;
   }
 });
 
 Template.toggle.events({
   "click #toggleButton": function (event) {
-    clickedToggle = this.setting;
+    //clickedToggle = this.setting;
+    Session.set('clickedToggle', this.setting);
     var obj = new Object;
 
     toggle($('.' + this.setting).children(), !this.value);
@@ -37,9 +40,17 @@ Template.toggle.events({
   }
 });
 
+function displayToggle() {
+  //console.log('[toggle function] updating toggles:');
+  //console.log(toggleMap);
+  for (var item in toggleMap) {
+    node = $('.' + item).children();
+    toggle(node,toggleMap[item]);
+  };
+}
+
 
 function toggle (node, value) {
-  console.log(node + ' ' + value);
 
   if (value) {
 
