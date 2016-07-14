@@ -37,16 +37,21 @@ Meteor.startup(function () {
           console.log(error_message);
         });
 
-      //Serch Engine for Tags
-      var options = {
+      //Search Engine for Tags
+      Session.set('createTag', false);
+      TagSearch = new SearchSource('tags', ['text', 'url'], {
         keepHistory: 1000 * 60 * 5,
         localSearch: true
-      };
-      var fields = ['text', 'url'];
+      });
 
-      Session.set('createTag', false);
-      TagSearch = new SearchSource('tags', fields, options);
+      //Search Engine for Proposals
+      Session.set('createProposal', false);
+      ProposalSearch = new SearchSource('contracts', ['title', 'description'], {
+        keepHistory: 1000 * 60 * 5,
+        localSearch: true
+      });
 
+      //Geographical Info
       geoJSON = new Object;
       HTTP.get(Meteor.absoluteUrl("data/geo.json"), function(err,result) {
         geoJSON = result.data;

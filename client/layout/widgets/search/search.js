@@ -3,16 +3,6 @@ var typingTimer; //timer identifier
 
 Meteor.startup(function () {
 
-  //Serch Engine for Tags
-  var options = {
-    keepHistory: 1000 * 60 * 5,
-    localSearch: true
-  };
-  var fields = ['title', 'description'];
-
-  Session.set('createProposal', false);
-  ProposalSearch = new SearchSource('contracts', fields, options);
-
 });
 
 Template.search.rendered = function () {

@@ -702,7 +702,7 @@ blockquote {
 
 .selector.selector-proposals {
   height: 235px;
-  padding: 3px 5px;
+  padding: 15px;
   background-color: #f5f5f5;
 }
 
@@ -2672,10 +2672,10 @@ blockquote {
 }
 
 .stage {
-  position: absolute;
+  position: relative;
   right: 0px;
   z-index: 100;
-  margin-right: 20px;
+  margin-right: -10px;
   margin-left: 5px;
   padding: 0px 5px 5px;
   float: right;
@@ -2866,6 +2866,10 @@ blockquote {
   padding: 10px;
 }
 
+.selector-modal.selector-proposals-modal.hide {
+  display: none;
+}
+
 .selector-warning {
   display: inline-block;
   text-transform: uppercase;
@@ -2987,7 +2991,7 @@ blockquote {
 
 .paper-header {
   margin: -20px -30px 15px;
-  padding: 20px 35px;
+  padding: 20px 25px 20px 35px;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
   background-color: #f5f5f5;
@@ -3755,6 +3759,10 @@ blockquote {
 .collective-info {
   margin-top: 15px;
   font-size: 15px;
+}
+
+.paper-header-title {
+  float: left;
 }
 
 @media (max-width: 991px) {
