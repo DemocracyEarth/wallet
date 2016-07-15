@@ -1,5 +1,4 @@
 Template.feedItem.rendered = function () {
-  console.log(this.firstNode.parentNode.id);
 
   //Embedded mode means that Items are in an embedded feed to be selected (ie: for a ballot)
   if (this.firstNode.parentNode.id == 'proposalSuggestions') {

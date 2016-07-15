@@ -701,9 +701,8 @@ blockquote {
 }
 
 .selector.selector-proposals {
-  height: 235px;
+  height: 350px;
   padding: 15px;
-  background-color: #f5f5f5;
 }
 
 .cover {
@@ -2861,9 +2860,13 @@ blockquote {
 }
 
 .selector-modal.selector-proposals-modal {
+  z-index: 500;
   display: block;
-  height: 240px;
-  padding: 10px;
+  height: 350px;
+  margin-top: -15px;
+  padding-right: 10px;
+  padding-bottom: 70px;
+  padding-left: 10px;
 }
 
 .selector-modal.selector-proposals-modal.hide {
@@ -2876,8 +2879,8 @@ blockquote {
 }
 
 .selector-warning.selector-warning-large {
-  margin-top: 55px;
-  margin-bottom: 55px;
+  margin-top: 110px;
+  margin-bottom: 110px;
 }
 
 .icon-trash {
