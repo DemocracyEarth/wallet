@@ -1,15 +1,11 @@
 var searchHTMLElement = '#searchInput';
 var typingTimer; //timer identifier
 
-Meteor.startup(function () {
-
-});
-
-Template.search.rendered = function () {
+Template.alternative.rendered = function () {
   ProposalSearch.search('');
 }
 
-Template.search.helpers({
+Template.alternative.helpers({
   searchInput: function () {
     if (Session.get('searchInput')) {
       return 'search-active';
@@ -99,38 +95,7 @@ Template.search.helpers({
   }
 });
 
-Template.proposal.helpers({
-  proposalURL: function (url) {
-    if (url != undefined) {
-      var pre = "<div class='data'><img src=" + Router.path('home') + "images/globe.png class='url-icon'><div class='verifier verifier-live'>&nbsp;";
-      var post = "</div></div>";
-      var host =  window.location.host;
-      return pre + host + "<strong>" + url + "</strong>" + post;
-    } else {
-      return '';
-    }
-  },
-  proposalDate: function (timestamp) {
-    if (timestamp != undefined) {
-      var pre = "<div class='data'><img src=" + Router.path('home') + "images/time.png class='url-icon'><div class='verifier verifier-live'>&nbsp;";
-      var post = "</div>";
-      var d = new Date;
-      d = timestamp;
-      return pre + d.format('{Month} {d}, {yyyy}') + post;
-    } else {
-      return '';
-    }
-  },
-  briefDescription: function (descriptionText) {
-    if (descriptionText == undefined || descriptionText == '') {
-      return ''
-    } else {
-      return "<div class='rich-text rich-text-preview'>" + Modules.client.stripHTMLfromText(descriptionText).replace(/(([^\s]+\s\s*){35})(.*)/,"$1…") + "</div>"
-    }
-  }
-});
-
-Template.search.events({
+Template.alternative.events({
   "keypress #searchInput": function (event) {
     if (Session.get('createProposal') && event.which == 13) {
       addNewProposal();
@@ -175,20 +140,8 @@ Template.search.events({
   }
 });
 
-Template.search.events({
+Template.alternative.events({
   "click #addNewProposal": function (event) {
     addNewProposal();
-  }
-});
-
-Template.proposal.events({
-  "click #add-suggested-proposal": function (event) {
-    Meteor.call("addCustomForkToContract", Session.get('contractId'), this._id, function (error) {
-        if (error && error.error == 'duplicate-fork') {
-          Session.set('duplicateFork', true)
-        } else {
-          Session.set('dbContractBallot', Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).ballot );
-        }
-    });
   }
 });

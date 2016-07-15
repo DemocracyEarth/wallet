@@ -1,4 +1,4 @@
-<template name="search">
+<template name="alternative">
 
   <div class="extra">
 
@@ -11,7 +11,7 @@
 
     <ul id="proposalSuggestions" class="w-list-unstyled w-clearfix selector selector-proposals connectedBallot">
       {{#each getProposals}}
-          {{> feedItem this addBallot=true}}
+          {{> feedItem}}
       {{/each}}
 
       <!-- Remove Proposal -->
@@ -50,27 +50,4 @@
 
   </div>
 
-</template>
-
-<template name="proposal">
-  <li class="w-clearfix vote vote-search nondraggable">
-    <div id="add-suggested-proposal" class="action action-search">
-      <div>+</div>
-    </div>
-    <div class="w-clearfix checkbox checkbox-custom">
-      <a href="{{../url}}" class="w-inline-block w-clearfix option-proposal">
-        <div class="option-title option-link option-search">
-          {{{../title}}}
-        </div>
-      </a>
-      {{{briefDescription ../description}}}
-      <div class="meta meta-search">
-        {{{proposalURL ../url}}}
-        {{{proposalDate ../timestamp}}}
-        <!--<div class="data"><img src="{{pathFor route='home'}}images/block.png" class="url-icon">
-          <div class="verifier verifier-live">blockchain ID: 1MBM...khTF</div>
-        </div>-->
-      </div>
-    </div>
-  </li>
 </template>
