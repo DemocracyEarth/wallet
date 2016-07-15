@@ -24,9 +24,11 @@
       <!-- Create Proposal -->
       <li class="selector-modal selector-proposals-modal nondraggable" style='{{createProposal}}'>
         <div class="selector-create selector-create-modal">
-          <div class="selector-modal-label">{{{_ 'no-match-proposal'}}}</div>
-          <div class="w-clearfix extra">
-            <div class="vote vote-search">
+
+            <div class="selector-modal-label">{{{_ 'no-match-proposal'}}}</div>
+          
+
+            <div class="vote vote-search vote-feed">
               <div class="w-clearfix checkbox checkbox-custom">
                 <a href="#" class="w-inline-block w-clearfix option-proposal">
                   <div class="option-title option-link option-search">
@@ -38,11 +40,18 @@
                   {{{newProposalTimestamp}}}
                 </div>
               </div>
-              <div id="addNewProposal" class="action action-search {{newProposalStatus}}">
-                <div>+</div>
+              <div class="block block-list">
+                <div class="micro-menu">
+                  <div class="micro">
+                    <a id="addNewProposal" class="micro-button micro-button-addballot w-clearfix w-inline-block">
+                      <img class="micro-icon" src="{{pathFor route='home'}}images/micro-add.png">
+                      <div class="micro-label">{{_ 'add-to-ballot'}}</div>
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+
         </div>
       </li>
     </ul>
