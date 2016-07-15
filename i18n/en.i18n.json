@@ -261,5 +261,6 @@
   "approved-issues": "Approved",
   "agreements": "Agreements",
   "navbar-home": "Home",
-  "navbar-editor": "Contract Editor"
+  "navbar-editor": "Contract Editor",
+  "add-to-ballot": "Add proposal to ballot."
 }

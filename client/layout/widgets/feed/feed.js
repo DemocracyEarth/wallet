@@ -10,6 +10,7 @@ Template.feed.helpers({
     } else {
       Session.set('emptyFeed', false);
     }
+    console.log(Session.get('feed'));
     return Session.get('feed');
   },
   emptyFeed: function () {

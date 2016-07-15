@@ -1,3 +1,15 @@
+Template.feedItem.rendered = function () {
+  console.log(this.firstNode.parentNode.id);
+
+  //Embedded mode means that Items are in an embedded feed to be selected (ie: for a ballot)
+  if (this.firstNode.parentNode.id == 'proposalSuggestions') {
+    Session.set('embeddedMode', true);
+  } else {
+    Session.set('embeddedMode', false);
+  }
+
+};
+
 Template.feedItem.helpers({
   description: function () {
     return Modules.client.stripHTMLfromText(this.description).replace(/(([^\s]+\s\s*){35})(.*)/,"$1…");
@@ -13,6 +25,9 @@ Template.feedItem.helpers({
   },
   voterMode: function () {
     //if (mode == 'voter') { return true } else { return false };
+  },
+  embeddedMode: function () {
+    return Session.get('embeddedMode');
   }
 });
 
@@ -35,5 +50,14 @@ Template.feedItem.events({
         Modules.client.displayNotice(TAPi18n.__('remove-draft-success'), true);
       }
     );
+  },
+  'click .micro-button-addballot': function (event) {
+    Meteor.call("addCustomForkToContract", Session.get('contractId'), event.target.parentNode.getAttribute('id'), function (error) {
+        if (error && error.error == 'duplicate-fork') {
+          Session.set('duplicateFork', true)
+        } else {
+          Session.set('dbContractBallot', Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).ballot );
+        }
+    });
   }
 })

@@ -11,7 +11,7 @@
 
     <ul id="proposalSuggestions" class="w-list-unstyled w-clearfix selector selector-proposals connectedBallot">
       {{#each getProposals}}
-          {{> feedItem}}
+          {{> feedItem this addBallot=true}}
       {{/each}}
 
       <!-- Remove Proposal -->

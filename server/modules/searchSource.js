@@ -12,7 +12,7 @@ SearchSource.defineSource('tags', function(searchText, options) {
 });
 
 SearchSource.defineSource('contracts', function(searchText, options) {
-  var options = {sort: {isoScore: -1}, limit: 20};
+  var options = {sort: {isoScore: -1}};
 
   console.log('SEARCHSOURCE!')
 

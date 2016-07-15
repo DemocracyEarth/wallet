@@ -78,7 +78,7 @@ Schema.UserProfile = new SimpleSchema({
     },
     picture: {
         type: String,
-        optional: true
+        defaultValue: '/images/noprofile.png'
     },
     country: {
         type: Schema.Country,
