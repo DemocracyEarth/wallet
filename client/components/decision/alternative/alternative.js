@@ -37,32 +37,45 @@ Template.alternative.helpers({
     return Session.get('newProposal');
   },
   newProposalURL: function () {
-    var pre = "<div class='data'><img src=" + Router.path('home') + "images/globe.png class='url-icon'><div class='verifier verifier-live'>&nbsp;";
-    var post = "</span></div>";
     var host =  window.location.host;
     var keyword = convertToSlug(Session.get('newProposal'));
-    var status = "";
 
+    return host + "/" + Session.get('contract').kind.toLowerCase() + "/"  +  "<strong>" + keyword + "</strong>";
+  },
+  URLStatus: function () {
     switch (Session.get("proposalURLStatus")) {
       case "VERIFY":
-        status =  "&nbsp;<span class='state verifying'>" + TAPi18n.__('url-verify');
+        return TAPi18n.__('url-verify');
         break;
       case "UNAVAILABLE":
-        //Session.set('duplicateURL', true);
-        status = "&nbsp;<span class='state unavailable'>" + TAPi18n.__('url-unavailable');
+        return TAPi18n.__('url-unavailable');
         break;
       case "AVAILABLE":
-        //Session.set('duplicateURL', false);
-        status = "&nbsp;<span class='state available'>" + TAPi18n.__('url-available');
+        return TAPi18n.__('url-available');
         break;
     }
-    return pre + host + "<strong>" + "/" + Session.get('kind') + "/" + keyword + "</strong></div>" + status + post;
+  },
+  verifierMode: function () {
+    switch (Session.get("proposalURLStatus")) {
+      case "VERIFY":
+        animate($('.state'), 'tilt', { loop: true, duration: 750 });
+        return 'verifying';
+        break;
+      case "UNAVAILABLE":
+        animate($('.state'), 'fade-in');
+        return 'unavailable';
+        break;
+      case "AVAILABLE":
+        animate($('.state'), 'fade-in');
+        return 'available';
+        break;
+      default:
+        return 'hide';
+    }
   },
   newProposalTimestamp: function () {
     var d = new Date;
-    var pre = "<div class='data'><img src=" + Router.path('home') + "images/time.png class='url-icon'><div class='verifier verifier-live'>&nbsp;";
-    var post = "</div>";
-    return pre + d.format('{Month} {d}, {yyyy}') + post;
+    return d.format('{Month} {d}, {yyyy}');
   },
   newProposalStatus: function () {
     switch (Session.get("proposalURLStatus")) {

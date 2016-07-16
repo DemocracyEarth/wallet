@@ -26,7 +26,7 @@
         <div class="selector-create selector-create-modal">
 
             <div class="selector-modal-label">{{{_ 'no-match-proposal'}}}</div>
-          
+
 
             <div class="vote vote-search vote-feed">
               <div class="w-clearfix checkbox checkbox-custom">
@@ -35,10 +35,23 @@
                     {{{newProposal}}}
                   </div>
                 </a>
-                <div class="meta meta-search">
-                  {{{newProposalURL}}}
-                  {{{newProposalTimestamp}}}
+
+                <div class="meta">
+                  <div class="data">
+                    <img src="{{pathFor route='home'}}images/globe.png" class="url-icon">
+                    <div class="verifier verifier-live">
+                      <a data-new-link="true" href="#">{{{newProposalURL}}}</a>
+                        <div data-new-link='true' class='state {{verifierMode}}'>{{{URLStatus}}}</div>
+                    </div>
+                  </div>
+                  <div class="data"><img src="{{pathFor route='home'}}images/time.png" class="url-icon">
+                    <div class="verifier verifier-live">
+                      <a href="#">{{{newProposalTimestamp}}}</a>
+                    </div>
+                  </div>
                 </div>
+
+
               </div>
               <div class="block block-list">
                 <div class="micro-menu">
