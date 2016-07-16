@@ -1,3 +1,5 @@
+import {default as Modules} from "./_modules";
+
 let getName = (firstName, lastName) => {
 
   var completeName = firstName + ' ' + lastName;

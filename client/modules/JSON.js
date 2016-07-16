@@ -1,4 +1,6 @@
-searchJSON = function (source, keyword) {
+import {default as Modules} from "./_modules";
+
+let JSONlookup = (source, keyword) => {
   var matchingFields = new Array;
   var sourceString = new String;
 
@@ -12,3 +14,5 @@ searchJSON = function (source, keyword) {
     return matchingFields;
   };
 }
+
+Modules.client.searchJSON = JSONlookup;

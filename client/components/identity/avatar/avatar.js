@@ -50,14 +50,14 @@ Template.avatar.helpers({
     if (profile == undefined) {
       if (Meteor.user() != undefined) {
         if (Meteor.user().profile.country != undefined) {
-          return Meteor.user().profile.country.name + ' ' + searchJSON(geoJSON.country, Meteor.user().profile.country.name)[0].emoji;
+          return Meteor.user().profile.country.name + ' ' + Modules.client.searchJSON(geoJSON.country, Meteor.user().profile.country.name)[0].emoji;
         } else {
           return TAPi18n.__('digital-citizen');
         }
       }
     } else {
       if (profile.country != undefined) {
-        return profile.country.name + ' ' + searchJSON(geoJSON.country, profile.country.name)[0].emoji;
+        return profile.country.name + ' ' + Modules.client.searchJSON(geoJSON.country, profile.country.name)[0].emoji;
       } else {
         return TAPi18n.__('digital-citizen');
       }

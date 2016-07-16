@@ -1,3 +1,5 @@
+import {default as Modules} from "./_modules";
+
 let showNotice = (label, temporary) => {
   Session.set('noticeDisplay', label);
   Session.set('showNotice', true);

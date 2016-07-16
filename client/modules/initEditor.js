@@ -1,3 +1,5 @@
+import {default as Modules} from "./_modules";
+
 let startEditor = () => {
 
   var titleContent = document.getElementById('titleContent');

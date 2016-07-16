@@ -1,4 +1,4 @@
-  import {default as Votes} from "./Votes";
+import {default as Votes} from "./Votes";
 
 Schema.Credential = new SimpleSchema({
   source: {
@@ -78,7 +78,12 @@ Schema.UserProfile = new SimpleSchema({
     },
     picture: {
         type: String,
-        defaultValue: '/images/noprofile.png'
+        optional: true,
+        autoValue: function () {
+          if (this.isInsert) {
+            return '/images/noprofile.png';
+          }
+        }
     },
     country: {
         type: Schema.Country,

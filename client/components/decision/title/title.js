@@ -66,35 +66,10 @@ Template.title.helpers({
     return Session.get('mistypedTitle');
   },
   URLStatus: function () {
-    switch (Session.get("URLStatus")) {
-      case "VERIFY":
-        return TAPi18n.__('url-verify');
-        break;
-      case "UNAVAILABLE":
-        return TAPi18n.__('url-unavailable');
-        break;
-      case "AVAILABLE":
-        return TAPi18n.__('url-available');
-        break;
-    }
+    return Modules.client.URLCheck('URLStatus');
   },
   verifierMode: function () {
-    switch (Session.get("URLStatus")) {
-      case "VERIFY":
-        animate($('.state'), 'tilt', { loop: true, duration: 750 });
-        return 'verifying';
-        break;
-      case "UNAVAILABLE":
-        animate($('.state'), 'fade-in');
-        return 'unavailable';
-        break;
-      case "AVAILABLE":
-        animate($('.state'), 'fade-in');
-        return 'available';
-        break;
-      default:
-        return 'hide';
-    }
+    return Modules.client.URLVerifier('URLStatus');
   },
   duplicateURL: function () {
     return Session.get('duplicateURL');

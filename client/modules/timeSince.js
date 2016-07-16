@@ -1,3 +1,5 @@
+import {default as Modules} from "./_modules";
+
 let timeAgo = (date) => {
     var seconds = Math.floor((new Date() - date) / 1000);
 

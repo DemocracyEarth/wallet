@@ -43,35 +43,10 @@ Template.alternative.helpers({
     return host + "/" + Session.get('contract').kind.toLowerCase() + "/"  +  "<strong>" + keyword + "</strong>";
   },
   URLStatus: function () {
-    switch (Session.get("proposalURLStatus")) {
-      case "VERIFY":
-        return TAPi18n.__('url-verify');
-        break;
-      case "UNAVAILABLE":
-        return TAPi18n.__('url-unavailable');
-        break;
-      case "AVAILABLE":
-        return TAPi18n.__('url-available');
-        break;
-    }
+    return Modules.client.URLCheck('proposalURLStatus');
   },
   verifierMode: function () {
-    switch (Session.get("proposalURLStatus")) {
-      case "VERIFY":
-        animate($('.state'), 'tilt', { loop: true, duration: 750 });
-        return 'verifying';
-        break;
-      case "UNAVAILABLE":
-        animate($('.state'), 'fade-in');
-        return 'unavailable';
-        break;
-      case "AVAILABLE":
-        animate($('.state'), 'fade-in');
-        return 'available';
-        break;
-      default:
-        return 'hide';
-    }
+    return Modules.client.URLVerifier('proposalURLStatus');
   },
   newProposalTimestamp: function () {
     var d = new Date;

@@ -1,3 +1,5 @@
+import {default as Modules} from "./_modules";
+
 /*****
 /* @param {string} location - everything that comes after window.host.location, ie: '/filter?kind=membership'
 ******/

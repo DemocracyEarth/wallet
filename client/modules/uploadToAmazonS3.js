@@ -1,3 +1,5 @@
+import {default as Modules} from "./_modules";
+
 let template;
 
 let _getFileFromInput = ( event ) => event.target.files[0];

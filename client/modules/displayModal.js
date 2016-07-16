@@ -1,3 +1,5 @@
+import {default as Modules} from "./_modules";
+
 let modal = (active, settings, callback) => {
   Session.set('displayModal', settings);
   Session.set('showModal', active);

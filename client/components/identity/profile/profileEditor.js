@@ -35,7 +35,7 @@ Template.profileEditor.events({
   },
   'input .country-search': function (event) {
     if (event.target.value != '') {
-      Session.set('filteredCountries', searchJSON(geoJSON.country, event.target.value));
+      Session.set('filteredCountries', Modules.client.searchJSON(geoJSON.country, event.target.value));
     } else {
       Session.set('filteredCountries', geoJSON.country);
     }

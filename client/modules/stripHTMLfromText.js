@@ -1,3 +1,5 @@
+import {default as Modules} from "./_modules";
+
 let stripHTML = (html) => {
 
   var tmp = document.createElement("DIV");
