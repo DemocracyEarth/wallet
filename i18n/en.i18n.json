@@ -262,5 +262,6 @@
   "agreements": "Agreements",
   "navbar-home": "Home",
   "navbar-editor": "Contract Editor",
-  "add-to-ballot": "Add proposal to ballot."
+  "add-to-ballot": "Add proposal to ballot.",
+  "create-add-ballot": "Create &amp; add to ballot."
 }

@@ -125,10 +125,7 @@ Template.alternative.events({
       Session.set('createProposal', false);
     }
     Session.set('searchInput', false);
-  }
-});
-
-Template.alternative.events({
+  },
   "click #addNewProposal": function (event) {
     addNewProposal();
   }

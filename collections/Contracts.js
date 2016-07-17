@@ -17,7 +17,11 @@ ContractSchema = new SimpleSchema({
     type: String,
     autoValue: function () {
       if (this.isInsert) {
-        return '';
+        if (this.field("title").value == undefined) {
+          return '';
+        } else {
+          return this.field("title").value;
+        }
       }
     }
   },
@@ -29,6 +33,7 @@ ContractSchema = new SimpleSchema({
         console.log('inserting keyword to contract');
         if (this.field("title").value != undefined) {
           console.log('has a title: ' + this.field("title").value);
+          console.log('has a title: ' + this.field("title"));
           if (this.field("title").value != '') {
             return convertToSlug(this.field("title").value);
           } else {

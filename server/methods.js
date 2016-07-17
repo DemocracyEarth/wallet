@@ -51,7 +51,8 @@ Meteor.methods({
 
   createNewContract: function (contractTitle) {
     console.log('creating new contract with keyword: ' + contractTitle)
-    return createContract(contractTitle)._id;
+    console.log(createContract(contractTitle));
+    return createContract(contractTitle);
   },
 
   addTagToContract: function (contractId, tagId) {
@@ -167,6 +168,7 @@ function checkDuplicate (arr, elementId) {
 }
 
 function createContract (keyword) {
+  console.log('createContract(): ' + keyword);
   //Adds a new contract to db, returns created insert
   if (keyword != undefined || keyword != '') {
     var slug = convertToSlug(keyword);
@@ -180,22 +182,13 @@ function createContract (keyword) {
 
   if (keyword != '') {
     //Creates new contract:
-    Contracts.insert({ title: keyword });
-    return Contracts.findOne({keyword: slug});
-  } /*else {
-    console.log('inserting contract with void content');
+    console.log('CONTRACT BEING CREATED');
 
-    if (Contracts.findOne({keyword: 'draft-' + Meteor.userId()})) {
-      console.log('user already has a draft');
-      return Contracts.findOne({keyword: slug});
-    } else {
-      console.log('user had no draft contract, new one created');
-      Contracts.insert({ keyword: 'draft-' + Meteor.userId() });
-      return Contracts.findOne({keyword: slug});
-    }
-
-  }*/
-
+    console.log(Contracts.insert({ title: keyword }));
+    console.log(Contracts.findOne({keyword: slug}));
+    return Contracts.insert({ title: keyword });
+  //  return Contracts.findOne({keyword: slug});
+  }
 
 }
 
