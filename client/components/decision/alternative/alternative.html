@@ -26,7 +26,8 @@
         <div class="selector-create selector-create-modal">
             <div class="selector-modal-label">{{{_ 'no-match-proposal'}}}</div>
             <div class="vote vote-search vote-feed">
-              <div class="w-clearfix checkbox checkbox-custom">
+              <div class="checkbox checkbox-custom">
+                {{> stage text='DRAFT'}}
                 <a href="#" class="w-inline-block w-clearfix option-proposal">
                   <div class="option-title option-link option-search">
                     {{{newProposal}}}
@@ -50,13 +51,14 @@
               <div class="block block-list">
                 <div class="micro-menu">
                   <div class="micro">
-                    <a id="addNewProposal" class="micro-button micro-button-addballot w-clearfix w-inline-block">
+                    <a id="addNewProposal" class="micro-button micro-button-addballot w-clearfix w-inline-block" href="#">
                       <img class="micro-icon" src="{{pathFor route='home'}}images/micro-add.png">
                       <div class="micro-label">{{_ 'add-to-ballot'}}</div>
                     </a>
                   </div>
                 </div>
               </div>
+
             </div>
         </div>
       </li>

@@ -3694,6 +3694,8 @@ blockquote {
 .micro-menu {
   display: block;
   width: 90%;
+  height: 65px;
+  max-height: 65px;
   margin-right: auto;
   margin-left: auto;
   text-align: center;
