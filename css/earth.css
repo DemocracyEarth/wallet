@@ -3674,6 +3674,11 @@ blockquote {
   color: #ff2752;
 }
 
+.micro-button.disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
 .micro-icon {
   width: 28px;
   height: 28px;

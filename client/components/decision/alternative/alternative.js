@@ -80,6 +80,15 @@ Template.alternative.helpers({
   },
   duplicateProposal: function() {
     return displayTimedWarning('duplicateProposals');
+  },
+  addBallot: function () {
+    switch (Session.get("proposalURLStatus")) {
+      case "VERIFY":
+      case "UNAVAILABLE":
+        return 'disabled';
+      case "AVAILABLE":
+        return ''
+      }
   }
 });
 
