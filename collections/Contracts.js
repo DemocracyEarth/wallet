@@ -29,15 +29,27 @@ ContractSchema = new SimpleSchema({
     //Unique identifier in DB as keyword-based-slug
     type: String,
     autoValue: function () {
+      var slug = convertToSlug(this.field("title").value);
+
       if (this.isInsert) {
         console.log('inserting keyword to contract');
         if (this.field("title").value != undefined) {
-          console.log('has a title: ' + this.field("title").value);
-          console.log('has a title: ' + this.field("title"));
-          if (this.field("title").value != '') {
-            return convertToSlug(this.field("title").value);
+
+          console.log('DOES IT EXIST:' + Contracts.findOne({keyword: slug}))
+
+          if (Contracts.findOne({keyword: slug}) == undefined) {
+
+            console.log('has a title: ' + this.field("title").value);
+            if (this.field("title").value != '') {
+              return slug;
+            } else {
+              return 'draft-' + Meteor.userId();
+            }
+
           } else {
-            return 'draft-' + Meteor.userId();
+
+            this.unset();
+
           }
         } else {
           console.log('has no title but ' + this.field("_id").value );

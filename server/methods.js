@@ -51,7 +51,6 @@ Meteor.methods({
 
   createNewContract: function (contractTitle) {
     console.log('creating new contract with keyword: ' + contractTitle)
-    console.log(createContract(contractTitle));
     return createContract(contractTitle);
   },
 
@@ -183,11 +182,8 @@ function createContract (keyword) {
   if (keyword != '') {
     //Creates new contract:
     console.log('CONTRACT BEING CREATED');
-
-    console.log(Contracts.insert({ title: keyword }));
-    console.log(Contracts.findOne({keyword: slug}));
     return Contracts.insert({ title: keyword });
-  //  return Contracts.findOne({keyword: slug});
+
   }
 
 }

@@ -96,6 +96,7 @@ Template.alternative.events({
   "keypress #searchInput": function (event) {
     if (Session.get('createProposal') && event.which == 13) {
       //addNewProposal();
+      console.log('KEYPRESS');
       Modules.client.forkContract();
     }
     return event.which != 13;
@@ -138,6 +139,7 @@ Template.alternative.events({
   },
   "click #addNewProposal": function (event) {
     //addNewProposal();
+    console.log('CLICK');
     Modules.client.forkContract();
   }
 });
