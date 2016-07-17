@@ -1168,8 +1168,8 @@ blockquote {
 }
 
 .option-title.option-link:hover {
-  border-bottom: 1px solid #00bf8f;
-  text-decoration: none;
+  border-bottom: 1px none #00bf8f;
+  text-decoration: underline;
 }
 
 .option-title.option-link.option-edit {
@@ -1200,8 +1200,13 @@ blockquote {
 
 .option-title.option-link.option-long {
   margin-top: 0px;
+  padding-right: 120px;
   font-size: 16px;
   line-height: 24px;
+}
+
+.option-title.option-link.option-long.option-longest {
+  padding-right: 0px;
 }
 
 .option-title.option-link.option-search {

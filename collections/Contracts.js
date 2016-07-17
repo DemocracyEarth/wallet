@@ -35,20 +35,16 @@ ContractSchema = new SimpleSchema({
         console.log('inserting keyword to contract');
         if (this.field("title").value != undefined) {
 
-          console.log('DOES IT EXIST:' + Contracts.findOne({keyword: slug}))
+          console.log('does this contract exist already? ' + Contracts.findOne({keyword: slug}))
 
           if (Contracts.findOne({keyword: slug}) == undefined) {
 
-            console.log('has a title: ' + this.field("title").value);
+            console.log('contract title: ' + this.field("title").value);
             if (this.field("title").value != '') {
               return slug;
             } else {
               return 'draft-' + Meteor.userId();
             }
-
-          } else {
-
-            this.unset();
 
           }
         } else {
