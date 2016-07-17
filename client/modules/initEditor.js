@@ -10,7 +10,8 @@ let startEditor = () => {
 
     titleContent.focus();
     Session.set('userSigned', false);
-
+    Session.set('dbContractBallot', undefined);
+    
     //Empty new document
     if (Session.get('contract').title == '') {
       titleContent.innerHTML = TAPi18n.__('no-title');

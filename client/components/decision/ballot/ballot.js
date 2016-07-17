@@ -85,7 +85,7 @@ Template.ballot.helpers({
   options: function () {
     var contractBallot;
     if (Session.get('dbContractBallot') == undefined) {
-      contractBallot = Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).ballot;
+      contractBallot = Session.get('contract').ballot; //Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).ballot;
     } else {
       contractBallot = Session.get('dbContractBallot');
     }
