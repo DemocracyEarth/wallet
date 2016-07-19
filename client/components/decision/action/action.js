@@ -9,15 +9,24 @@ Template.action.helpers({
 });
 
 Template.action.events({
-    "click .contract-save-draft": function (event) {
+    "click .action-button": function (event) {
       //Get all info from current draft
       if (disableContractExecution() == false) {
-        var newContract = new contract(
-          document.getElementById('contract-title').value,
-          document.getElementById('contract-description').value,
-          Session.get('contract').tags
+        console.log('hola?');
+        Modules.client.displayModal(
+          true,
+          {
+            icon            : 'images/modal-ballot.png',
+            title           : TAPi18n.__('launch-vote-proposal'),
+            message         : TAPi18n.__('publish-proposal-warning'),
+            cancel          : TAPi18n.__('not-now'),
+            action          : TAPi18n.__('publish-proposal'),
+            isAuthorization : false,
+          },
+          function() {
+            Modules.both.publishContract(Session.get('contractId'));
+          }
         );
-        Meteor.call("updateContract", Session.get('contract')._id, newContract);
       }
     }
 });

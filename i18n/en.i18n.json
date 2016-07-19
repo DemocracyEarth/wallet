@@ -264,5 +264,8 @@
   "navbar-home": "Home",
   "navbar-editor": "Contract Editor",
   "add-to-ballot": "Add proposal to ballot.",
-  "create-add-ballot": "Create &amp; add to ballot."
+  "create-add-ballot": "Create &amp; add to ballot.",
+  "launch-vote-proposal": "Launch Vote",
+  "publish-proposal": "Launch",
+  "publish-proposal-warning": "Do you confirm publishing this proposal for a vote? <br>Once published it cannot be modified."
 }

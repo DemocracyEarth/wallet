@@ -30,16 +30,9 @@ ContractSchema = new SimpleSchema({
     type: String,
     autoValue: function () {
       var slug = convertToSlug(this.field("title").value);
-
       if (this.isInsert) {
-        console.log('inserting keyword to contract');
         if (this.field("title").value != undefined) {
-
-          console.log('does this contract exist already? ' + Contracts.findOne({keyword: slug}))
-
           if (Contracts.findOne({keyword: slug}) == undefined) {
-
-            console.log('contract title: ' + this.field("title").value);
             if (this.field("title").value != '') {
               return slug;
             } else {
@@ -48,7 +41,6 @@ ContractSchema = new SimpleSchema({
 
           }
         } else {
-          console.log('has no title but ' + this.field("_id").value );
           return 'draft-' + Meteor.userId();
         }
       };
