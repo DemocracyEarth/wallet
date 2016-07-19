@@ -11,12 +11,14 @@ let startEditor = () => {
     titleContent.focus();
     Session.set('userSigned', false);
     Session.set('dbContractBallot', undefined);
-    
+    Session.set('emptyBallot', false);
+
     //Empty new document
     if (Session.get('contract').title == '') {
       titleContent.innerHTML = TAPi18n.__('no-title');
       Session.set('missingTitle', true);
       Session.set('firstEditorLoad', true);
+      Session.set('disableActionButton', true);
       Modules.both.placeCaretAtStart(titleContent);
 
     //Open existing document
