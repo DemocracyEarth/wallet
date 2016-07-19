@@ -84,6 +84,7 @@ Template.semantics.helpers({
     }
   },
   noTags: function () {
+    Session.set('disableActionButton', Session.get('noTags'));
     return Session.get('noTags');
   },
   unauthorizedTags: function() {

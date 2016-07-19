@@ -16,6 +16,8 @@ Template.ballot.rendered = function () {
           Session.set('ballotReady', false);
           if (Session.get('executiveDecision') == false) {
             Session.set('emptyBallot', true);
+          } else {
+            Session.set('emptyBallot', false);
           }
         }
       },
@@ -98,8 +100,10 @@ Template.ballot.helpers({
     //Warn if ballot is empty
     if (contractBallot.length == 0) {
       Session.set('ballotReady', false);
+      Session.set('emptyBallot', true);
     } else {
       Session.set('ballotReady', true);
+      Session.set('emptyBallot', false);
     };
 
     //Sort by Rank on DB
@@ -131,7 +135,8 @@ Template.ballot.helpers({
     return displayTimedWarning ('duplicateFork');
   },
   emptyBallot: function () {
-    return Session.get('emptyBallot')
+    Session.set('disableActionButton', Session.get('emptyBallot'));
+    return Session.get('emptyBallot');
   },
   ballotReady: function () {
     return Session.get('ballotReady');
@@ -141,6 +146,7 @@ Template.ballot.helpers({
     $('#date-picker').datepicker();
   },
   unauthorizedFork: function () {
+    Session.set('disableActionButton', Session.get('unauthorizedFork'));
     return Session.get('unauthorizedFork');
   }
 });

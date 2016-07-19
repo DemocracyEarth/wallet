@@ -59,10 +59,12 @@ Template.title.helpers({
       Session.set('URLStatus', 'NONE');
     }
     if (!Session.get('firstEditorLoad')) {
+      Session.set('disableActionButton', Session.get('missingTitle'));
       return Session.get('missingTitle');
     }
   },
   mistypedTitle: function () {
+    Session.set('disableActionButton', Session.get('mistypedTitle'));
     return Session.get('mistypedTitle');
   },
   URLStatus: function () {
@@ -72,6 +74,7 @@ Template.title.helpers({
     return Modules.client.URLVerifier('URLStatus');
   },
   duplicateURL: function () {
+    Session.set('disableActionButton', Session.get('duplicateURL'));
     return Session.get('duplicateURL');
   },
   timestamp: function () {

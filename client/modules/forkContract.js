@@ -16,6 +16,7 @@ let addNewProposal = () => {
             document.getElementById("searchInput").innerHTML = '';
             Session.set('proposalURLStatus', 'UNAVAILABLE');
             Session.set('createProposal', false);
+            Session.set('emptyBallot', false);
           }
         });
       }

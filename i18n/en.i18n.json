@@ -15,6 +15,7 @@
   "cancel_edit": "cancel changes",
   "execute-launch": "Launch",
   "execute-election": "Vote.",
+  "launch-vote": "Launch <strong>Vote</strong>",
   "draft-ballot": "Ballot",
   "this_poll_will_close": "This poll will close on",
   "at": "at",
