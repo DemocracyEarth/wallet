@@ -25,6 +25,7 @@ Template.alternative.helpers({
       },
       sort: {isoScore: -1}
     });
+    console.log(search);
     return search;
   },
   createProposal: function () {
@@ -95,14 +96,13 @@ Template.alternative.helpers({
 Template.alternative.events({
   "keypress #searchInput": function (event) {
     if (Session.get('createProposal') && event.which == 13) {
-      //addNewProposal();
-      console.log('KEYPRESS');
       Modules.client.forkContract();
     }
     return event.which != 13;
   },
   "input #searchInput": function (event) {
     var content = document.getElementById("searchInput").innerHTML.replace(/&nbsp;/gi,'');
+    console.log('SEARCHING:' + content)
     ProposalSearch.search(content);
 
     if (ProposalSearch.getData().length == 0 && content != '') {
@@ -138,8 +138,6 @@ Template.alternative.events({
     Session.set('searchInput', false);
   },
   "click #addNewProposal": function (event) {
-    //addNewProposal();
-    console.log('CLICK');
     Modules.client.forkContract();
   }
 });

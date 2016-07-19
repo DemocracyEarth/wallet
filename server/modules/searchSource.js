@@ -13,16 +13,11 @@ SearchSource.defineSource('tags', function(searchText, options) {
 
 SearchSource.defineSource('contracts', function(searchText, options) {
   var options = {sort: {isoScore: -1}};
-
-  console.log('SEARCHSOURCE!')
-
   if(searchText) {
     var regExp = buildRegExp(searchText);
-    var selector = {title: regExp, description: regExp, collectiveId: Meteor.settings.public.Collective._id};
-    console.log('searching text');
+    var selector = {title: regExp, collectiveId: Meteor.settings.public.Collective._id};
     return Contracts.find(selector, options).fetch();
   } else {
-    console.log('sarching all')
     return Contracts.find({collectiveId: Meteor.settings.public.Collective._id}, options).fetch();
   }
 });
