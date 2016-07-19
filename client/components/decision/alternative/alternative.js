@@ -1,7 +1,9 @@
 var searchHTMLElement = '#searchInput';
-var typingTimer; //timer identifier
+var typingTimer;
+var SEARCH_INPUT;
 
 Template.alternative.rendered = function () {
+  SEARCH_INPUT = TAPi18n.__('search-input');
   ProposalSearch.search('');
 }
 
@@ -14,6 +16,11 @@ Template.alternative.helpers({
     }
   },
   getProposals: function() {
+    if (document.getElementById("searchInput") != undefined) {
+      var content = document.getElementById("searchInput").innerText;
+    } else {
+      content = '';
+    }
     var search = ProposalSearch.getData({
       transform: function(matchText, regExp) {
         var htmlRegex = new RegExp("<([A-Za-z][A-Za-z0-9]*)\\b[^>]*>(.*?)</\\1>");
@@ -25,7 +32,11 @@ Template.alternative.helpers({
       },
       sort: {isoScore: -1}
     });
-    console.log(search);
+    if (search.length == 0 && content != '') {
+      if (content != SEARCH_INPUT) {
+        instaProposalCreator(content);
+      }
+    }
     return search;
   },
   createProposal: function () {
@@ -102,26 +113,10 @@ Template.alternative.events({
   },
   "input #searchInput": function (event) {
     var content = document.getElementById("searchInput").innerHTML.replace(/&nbsp;/gi,'');
-    console.log('SEARCHING:' + content)
     ProposalSearch.search(content);
 
     if (ProposalSearch.getData().length == 0 && content != '') {
-      Session.set('createProposal', true);
-      Session.set('newProposal', content);
-      var keyword = convertToSlug(content);
-      var contract = Contracts.findOne( { keyword: keyword } );
-
-      Meteor.clearTimeout(typingTimer);
-      Session.set('proposalURLStatus', 'VERIFY');
-
-      typingTimer = Meteor.setTimeout(function () {
-        if (contract != undefined) {
-            Session.set('proposalURLStatus', 'UNAVAILABLE');
-        } else {
-          Session.set('proposalURLStatus', 'AVAILABLE');
-        }
-      }, SERVER_INTERVAL);
-
+      instaProposalCreator(content);
     } else {
       Session.set('createProposal', false);
     }
@@ -132,7 +127,7 @@ Template.alternative.events({
   },
   "blur #searchInput": function (event) {
     if (Session.get('createProposal') == false) {
-      document.getElementById("searchInput").innerHTML = TAPi18n.__('search-input');
+      document.getElementById("searchInput").innerHTML = SEARCH_INPUT;
       Session.set('createProposal', false);
     }
     Session.set('searchInput', false);
@@ -141,3 +136,22 @@ Template.alternative.events({
     Modules.client.forkContract();
   }
 });
+
+function instaProposalCreator(content) {
+  Session.set('createProposal', true);
+  Session.set('newProposal', content);
+  var keyword = convertToSlug(content);
+  var contract = Contracts.findOne( { keyword: keyword } );
+
+  Meteor.clearTimeout(typingTimer);
+  Session.set('proposalURLStatus', 'VERIFY');
+
+  typingTimer = Meteor.setTimeout(function () {
+    if (contract != undefined) {
+        Session.set('proposalURLStatus', 'UNAVAILABLE');
+    } else {
+      Session.set('proposalURLStatus', 'AVAILABLE');
+    }
+  }, SERVER_INTERVAL);
+
+}
