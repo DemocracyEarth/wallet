@@ -12,7 +12,6 @@ Template.action.events({
     "click .action-button": function (event) {
       //Get all info from current draft
       if (disableContractExecution() == false) {
-        console.log('hola?');
         Modules.client.displayModal(
           true,
           {

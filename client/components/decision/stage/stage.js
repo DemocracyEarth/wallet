@@ -16,8 +16,8 @@ Template.stage.helpers({
         }
     }
   },
-  style: function (text, executionStatus) {
-    switch (text) {
+  style: function (stage, executionStatus) {
+    switch (stage) {
       case 'DRAFT':
         return 'stage-draft';
       case 'LIVE':
