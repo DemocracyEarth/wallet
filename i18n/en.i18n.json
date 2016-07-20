@@ -267,5 +267,6 @@
   "create-add-ballot": "Create &amp; add to ballot.",
   "launch-vote-proposal": "Launch Vote",
   "publish-proposal": "Launch",
-  "publish-proposal-warning": "Do you confirm publishing this proposal for a vote? <br>Once published it cannot be modified."
+  "publish-proposal-warning": "Do you confirm publishing this proposal for a vote? <br>Once published it cannot be modified.",
+  "vote-this-proposal": "Vote this proposal."
 }

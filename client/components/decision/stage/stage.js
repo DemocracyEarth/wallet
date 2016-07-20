@@ -4,6 +4,7 @@ Template.stage.helpers({
       case 'DRAFT':
         return TAPi18n.__('kind-draft-vote');
       case 'LIVE':
+        //TODO include this.closingDate countdown
         return TAPi18n.__('kind-live-vote');
       case 'FINISH':
         switch(this.executionStatus) {

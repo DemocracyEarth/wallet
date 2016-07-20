@@ -736,7 +736,7 @@ blockquote {
   max-width: 1000px;
   margin: 0px auto;
   font-size: 24px;
-  line-height: 40px;
+  line-height: 45px;
   font-weight: 300;
   text-align: center;
   text-transform: none;
@@ -754,6 +754,7 @@ blockquote {
   background-color: #666;
   opacity: 0.4;
   color: #cacaca;
+  cursor: default;
 }
 
 .button.execute.button-small {
@@ -1200,7 +1201,7 @@ blockquote {
 
 .option-title.option-link.option-long {
   margin-top: 0px;
-  padding-right: 130px;
+  padding-right: 120px;
   font-size: 16px;
   line-height: 24px;
 }
@@ -3701,6 +3702,10 @@ blockquote {
   text-align: center;
 }
 
+.micro.micro-half {
+  width: 50%;
+}
+
 .micro-menu {
   display: block;
   width: 90%;
@@ -3777,6 +3782,12 @@ blockquote {
 
 .paper-header-title {
   float: left;
+}
+
+.micro-vote-power {
+  margin-top: 10px;
+  margin-bottom: 0px;
+  padding-bottom: 10px;
 }
 
 @media (max-width: 991px) {

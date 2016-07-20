@@ -19,11 +19,11 @@ Template.feedItem.helpers({
   sinceDate: function (timestamp) {
     return TAPi18n.__('posted') + ' ' + Modules.client.timeSince(timestamp);
   },
-  editorMode: function (mode) {
-    if (mode == 'DRAFT') { return true } else { return false };
+  editorMode: function (stage) {
+    if (stage == 'DRAFT') { return true } else { return false };
   },
-  voterMode: function () {
-    //if (mode == 'voter') { return true } else { return false };
+  voterMode: function (stage) {
+    if (stage == 'LIVE') { return true } else { return false };
   },
   embeddedMode: function () {
     return Session.get('embeddedMode');

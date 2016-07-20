@@ -3,7 +3,7 @@
   <li class="vote vote-search vote-feed nondraggable">
     <div class="checkbox checkbox-custom">
 
-      {{> stage text=stage executionStatus=executionStatus}}
+      {{> stage text=stage executionStatus=executionStatus closingDate=closingDate}}
 
       <a class="w-inline-block w-clearfix option-proposal" href="{{url}}">
         <div class="option-title option-link option-search">
@@ -44,6 +44,14 @@
 
     </div>
 
+
+    {{#if voterMode stage}}
+    <div class="micro-vote-power">
+      {{> power styleClass='rosca-feed'}}
+    </div>
+    {{/if}}
+
+
     <div class="block block-list">
 
 
@@ -72,25 +80,22 @@
                 </a>
               </div>
             </div>
+          {{else}}
+            {{#if voterMode stage}}
+              <div class="micro-menu">
+                <div class="micro">
+                  <a class="micro-button w-clearfix w-inline-block" href="{{url}}">
+                    <img class="micro-icon" src="{{pathFor route='home'}}images/vote.png">
+                    <div class="micro-label">{{_ 'vote-this-proposal'}}</div>
+                  </a>
+                </div>
+              </div>
+            {{/if}}
           {{/if}}
         {{/if}}
 
         <!--
 
-        {{#if voterMode stage}}
-        <div class="w-clearfix elements">
-          <div class="w-clearfix polis">
-            <div class="power hundred">
-              {{> power styleClass='rosca-feed'}}
-            </div>
-          </div>
-          <div class="w-clearfix vote-cta">
-            <div class="power hundred">
-              {{> feedButton id=_id url='/vote/draft?id=' label='edit-draft'}}
-            </div>
-          </div>
-        </div>
-        {{/if}}
 
         !-->
 
