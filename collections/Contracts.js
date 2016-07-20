@@ -70,8 +70,19 @@ ContractSchema = new SimpleSchema({
      //URL inside the instance of .Earth
     type: String,
     autoValue: function () {
+      var slug = convertToSlug(this.field("title").value);
       if (this.isInsert) {
-        return '/vote/';
+        if (this.field("title").value != undefined) {
+          if (Contracts.findOne({keyword: slug}) == undefined) {
+            if (this.field("title").value != '') {
+              return '/vote/' + slug;
+            } else {
+              return '/vote/';
+            }
+          }
+        } else {
+          return '/vote/';
+        }
       }
     }
   },

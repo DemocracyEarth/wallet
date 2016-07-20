@@ -268,5 +268,11 @@
   "launch-vote-proposal": "Launch Vote",
   "publish-proposal": "Launch",
   "publish-proposal-warning": "Do you confirm publishing this proposal for a vote? <br>Once published it cannot be modified.",
-  "vote-this-proposal": "Vote this proposal."
+  "vote-this-proposal": "Vote this proposal.",
+  "years-left" : "years left.",
+  "months-left" : "months left.",
+  "days-left" : "days left.",
+  "hours-left" : "hours left.",
+  "minutes-left" : "minutes left.",
+  "seconds-left" : "seconds left."
 }
