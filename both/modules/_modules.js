@@ -1,3 +1,5 @@
 Modules      = {};
 Modules.both = {};
-Schema = {};  
+Schema = {};
+
+export default Modules; 

@@ -274,5 +274,6 @@
   "days-left" : "days left.",
   "hours-left" : "hours left.",
   "minutes-left" : "minutes left.",
-  "seconds-left" : "seconds left."
+  "seconds-left" : "seconds left.",
+  "poll-closed": "Poll Closed"
 }

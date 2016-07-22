@@ -4,7 +4,15 @@ Template.stage.helpers({
       case 'DRAFT':
         return TAPi18n.__('kind-draft-vote');
       case 'LIVE':
-        return Modules.client.countdown(this.closingDate);
+        var ticker = Modules.client.countdown(this.closingDate);
+
+        if (ticker != false) {
+          return ticker;
+        } else {
+          
+          return TAPi18n.__('poll-closed')
+
+        }
       case 'FINISH':
         switch(this.executionStatus) {
           case 'APPROVED':

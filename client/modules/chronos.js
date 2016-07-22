@@ -7,7 +7,11 @@ let timeAgo = (date) => {
 
 let timeLeft = (date) => {
   var seconds = Math.floor((date - new Date()) / 1000);
-  return buildSentence(seconds, 'left');
+  if (seconds > 0) {
+    return buildSentence(seconds, 'left');
+  } else {
+    return false;
+  }
 }
 
 let buildSentence = (seconds, mode) => {
