@@ -37,6 +37,10 @@ Meteor.startup(function () {
           console.log(error_message);
         });
 
+      //Scripts
+      $.getScript('js/spinner.js', function(){});
+
+
       //Search Engine for Tags
       Session.set('createTag', false);
       TagSearch = new SearchSource('tags', ['text', 'url'], {

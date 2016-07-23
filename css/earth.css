@@ -3790,6 +3790,31 @@ blockquote {
   padding-bottom: 10px;
 }
 
+.trojan {
+  display: block;
+  width: 180px;
+  margin-right: auto;
+  margin-left: auto;
+  background-color: #949494;
+  -webkit-transform: translate(0px, 0px);
+  -ms-transform: translate(0px, 0px);
+  transform: translate(0px, 0px);
+}
+
+.transition {
+  position: relative;
+  margin-top: 70px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.spinner {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  opacity: 0.5;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
