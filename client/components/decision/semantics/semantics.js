@@ -1,44 +1,50 @@
 //Makes tags in contract draggable
 Template.semantics.rendered = function () {
-  this.$('#tagSuggestions, #tagList').sortable({
-      stop: function(e, ui) {
-        Session.set('removeTag', false);
-      },
-      start: function (event, ui) {
-        ui.helper.width(ui.helper.width() + 3);
-        ui.placeholder.width(ui.item.width());
-        if (this.id == "tagList") {
-          Session.set('removeTag', true);
-        }
-      },
-      receive: function (event, ui) {
-        if (this.id == 'tagSuggestions') {
-          if (Session.get('removeTag')) {
-            removeTag(ui.item.get(0).getAttribute('value'));
-            ui.item.get(0).remove();
-            Session.set('removeTag', false);
+
+  if (Session.get('contract').stage == 'DRAFT') {
+
+    this.$('#tagSuggestions, #tagList').sortable({
+        stop: function(e, ui) {
+          Session.set('removeTag', false);
+        },
+        start: function (event, ui) {
+          ui.helper.width(ui.helper.width() + 3);
+          ui.placeholder.width(ui.item.width());
+          if (this.id == "tagList") {
+            Session.set('removeTag', true);
           }
-          Session.set('maxReached', false);
-          Session.set('duplicateTags', false);
-        } else if (this.id == 'tagList') {
-          if(addTag(ui.item.get(0).getAttribute('value'), ui.item.index()) == true) {
-            var element = ui.item.get(0).childNodes[1].childNodes[6];
-            element.parentNode.removeChild(element);
-            ui.item.get(0).remove();
-          } else {
-            ui.item.get(0).remove();
+        },
+        receive: function (event, ui) {
+          if (this.id == 'tagSuggestions') {
+            if (Session.get('removeTag')) {
+              removeTag(ui.item.get(0).getAttribute('value'));
+              ui.item.get(0).remove();
+              Session.set('removeTag', false);
+            }
+            Session.set('maxReached', false);
+            Session.set('duplicateTags', false);
+          } else if (this.id == 'tagList') {
+            if(addTag(ui.item.get(0).getAttribute('value'), ui.item.index()) == true) {
+              var element = ui.item.get(0).childNodes[1].childNodes[6];
+              element.parentNode.removeChild(element);
+              ui.item.get(0).remove();
+            } else {
+              ui.item.get(0).remove();
+            }
           }
-        }
-      },
-      revert: 100,
-      cancel: '.nondraggable',
-      connectWith: ".connectedSortable",
-      forceHelperSize: true,
-      helper: 'clone',
-      zIndex: 9999,
-      placeholder: 'tag tag-placeholder'
-  });
-  TagSearch.search('');
+        },
+        revert: 100,
+        cancel: '.nondraggable',
+        connectWith: ".connectedSortable",
+        forceHelperSize: true,
+        helper: 'clone',
+        zIndex: 9999,
+        placeholder: 'tag tag-placeholder'
+    });
+    TagSearch.search('');
+
+  }
+
   Session.set('dbTagList', Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).tags );
 
 };

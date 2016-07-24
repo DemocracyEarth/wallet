@@ -107,7 +107,7 @@
   "city": "City",
   "become": "Become",
   "peers": "Peers",
-  "placeholder-editor": "Write your proposal...",
+  "placeholder-editor": "Why this matters?",
   "type-link": "Type a link",
   "sign-author": "Sign as Author.",
   "anonymous": "Anonymous",
@@ -275,5 +275,6 @@
   "hours-left" : "hours left.",
   "minutes-left" : "minutes left.",
   "seconds-left" : "seconds left.",
-  "poll-closed": "Poll Closed"
+  "poll-closed": "Poll Closed",
+  "your-vote": "Vote"
 }

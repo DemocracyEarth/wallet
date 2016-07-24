@@ -1,21 +1,31 @@
 <template name="title">
   <div class="field headline-field">
-    <div id="titleContent" tab=0 class="title-input {{sampleMode}}" contenteditable="true">
+    <div id="titleContent" tab=0 class="title-input {{sampleMode}}" contenteditable="{{editorMode}}">
       {{declaration}}
     </div>
 
     <div class="meta">
-      <div class="data"><img src="{{pathFor route='home'}}images/globe.png" class="url-icon">
+
+      {{#if editorMode}}
+        <div class="data"><img src="{{pathFor route='home'}}images/globe.png" class="url-icon">
+          <div class="verifier verifier-live">
+              <a data-new-link="true" href="#">{{{contractURL}}}</a>
+              <div data-new-link='true' class='state {{verifierMode}}'>{{{URLStatus}}}</div>
+          </div>
+        </div>
+      {{/if}}
+
+      <div class="data">
+        <img src="{{pathFor route='home'}}images/time.png" class="url-icon">
         <div class="verifier verifier-live">
-          <a data-new-link="true" href="#">{{{contractURL}}}</a>
-            <div data-new-link='true' class='state {{verifierMode}}'>{{{URLStatus}}}</div>
+          {{#if editorMode}}
+            <a href="#">{{timestamp}}</a>
+          {{else}}
+            {{timestamp}}
+          {{/if}}
         </div>
       </div>
-      <div class="data"><img src="{{pathFor route='home'}}images/time.png" class="url-icon">
-        <div class="verifier verifier-live">
-          <a href="#">{{timestamp}}</a>
-        </div>
-      </div>
+      
       <!-- TODO blockchain stuff:
       <div class="data"><img src="{{pathFor route='home'}}images/block.png" class="url-icon">
         <div class="verifier verifier-live">
@@ -24,17 +34,19 @@
       </div>-->
     </div>
 
-    <div class='extra'>
-      {{#if missingTitle}}
-        {{> warning label="title-required"}}
-      {{/if}}
-      {{#if mistypedTitle}}
-        {{> warning label="title-mistyped"}}
-      {{/if}}
-      {{#if duplicateURL}}
-        {{> warning label="url-duplicate"}}
-      {{/if}}
-    </div>
+    {{#if editorMode}}
+      <div class='extra'>
+        {{#if missingTitle}}
+          {{> warning label="title-required"}}
+        {{/if}}
+        {{#if mistypedTitle}}
+          {{> warning label="title-mistyped"}}
+        {{/if}}
+        {{#if duplicateURL}}
+          {{> warning label="url-duplicate"}}
+        {{/if}}
+      </div>
+    {{/if}}
 
   </div>
 </template>

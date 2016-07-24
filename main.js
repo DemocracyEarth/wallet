@@ -11,7 +11,7 @@ _____                                                   ______           _   _
 
 "You never change things by fighting the existing reality. To change something
 build a new model that makes the existing model obsolete."
-@BuckminsterFuller
+Buckminster Fuller, Great San Francisco Architect.
 
 */
 

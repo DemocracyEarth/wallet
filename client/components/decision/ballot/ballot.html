@@ -2,44 +2,51 @@
 
   <div class="section">
 
-    {{> kind title="draft-ballot" icon="images/ballotbox.png" stage=stage}}
+    {{#if editorMode}}
+      {{> kind title="draft-ballot" icon="images/ballotbox.png" stage=stage}}
+    {{else}}
+      {{> kind title="your-vote" icon="images/ballotbox.png" stage=stage}}
+    {{/if}}
 
-    <div class="description">
-      <ul class="w-list-unstyled settings">
-        <li class="w-clearfix setting">
-          <div class="text setting-label">{{_ "closing-date-of-poll"}}</div>
-          <div class="value">
-            {{> calendar}}
-          </div>
-        </li>
-        <li class="w-clearfix setting">
-          <div class="text setting-label">{{_ "allow-voters-suggest"}}</div>
-          <div class="w-clearfix value">
-            {{> toggle setting="allowForks" value=allowForks}}
-          </div>
-        </li>
-        <li class="w-clearfix setting">
-          <div class="text setting-label">{{_ "enable-multiple-choice"}}</div>
-          <div class="w-clearfix value">
-            {{> toggle setting="multipleChoice" value=multipleChoice}}
-          </div>
-        </li>
-        <li class="w-clearfix setting">
-          <div class="text setting-label">{{_ "executive-decision"}}</div>
-          <div class="w-clearfix value">
-            {{> toggle setting="executiveDecision" value=executiveDecision}}
-          </div>
-        </li>
-      </ul>
-    </div>
+    {{#if editorMode}}
+      <div class="description">
+        <ul class="w-list-unstyled settings">
+          <li class="w-clearfix setting">
+            <div class="text setting-label">{{_ "closing-date-of-poll"}}</div>
+            <div class="value">
+              {{> calendar}}
+            </div>
+          </li>
+          <li class="w-clearfix setting">
+            <div class="text setting-label">{{_ "allow-voters-suggest"}}</div>
+            <div class="w-clearfix value">
+              {{> toggle setting="allowForks" value=allowForks}}
+            </div>
+          </li>
+          <li class="w-clearfix setting">
+            <div class="text setting-label">{{_ "enable-multiple-choice"}}</div>
+            <div class="w-clearfix value">
+              {{> toggle setting="multipleChoice" value=multipleChoice}}
+            </div>
+          </li>
+          <li class="w-clearfix setting">
+            <div class="text setting-label">{{_ "executive-decision"}}</div>
+            <div class="w-clearfix value">
+              {{> toggle setting="executiveDecision" value=executiveDecision}}
+            </div>
+          </li>
+        </ul>
+      </div>
 
-    <div class="extra">
-      <ul class="w-list-unstyled" style="margin-top:10px">
-      {{#if backdating}}
-        {{> warning label="backdating"}}
-      {{/if}}
-      </ul>
-    </div>
+      <div class="extra">
+        <ul class="w-list-unstyled" style="margin-top:10px">
+        {{#if backdating}}
+          {{> warning label="backdating"}}
+        {{/if}}
+        </ul>
+      </div>
+
+    {{/if}}
 
     {{#if executiveDecision}}
       {{> execute}}
@@ -47,11 +54,13 @@
 
     <div class="section">
 
-      {{#if ballotReady}}
-        {{#if executiveDecision}}
-          <h5>{{_ "alternative-options"}}</h5>
-        {{else}}
-          <h5>{{_ "only-ballot-options"}}</h5>
+      {{#if editorMode}}
+        {{#if ballotReady}}
+          {{#if executiveDecision}}
+            <h5>{{_ "alternative-options"}}</h5>
+          {{else}}
+            <h5>{{_ "only-ballot-options"}}</h5>
+          {{/if}}
         {{/if}}
       {{/if}}
 
@@ -63,25 +72,28 @@
         </ul>
       </div>
 
-      <div class="extra">
-        {{#if disabledCheckboxes}}
-          {{> warning label="disabled-checkboxes"}}
-        {{/if}}
-        {{#if duplicateFork}}
-          {{> warning label="duplicate-fork"}}
-        {{/if}}
-        {{#if unauthorizedFork}}
-          {{> warning label="unauthorized-fork"}}
-        {{/if}}
-        {{#if emptyBallot}}
-          {{> warning label="empty-ballot"}}
-        {{/if}}
-      </div>
+      {{#if editorMode}}
+        <div class="extra">
+          {{#if disabledCheckboxes}}
+            {{> warning label="disabled-checkboxes"}}
+          {{/if}}
+          {{#if duplicateFork}}
+            {{> warning label="duplicate-fork"}}
+          {{/if}}
+          {{#if unauthorizedFork}}
+            {{> warning label="unauthorized-fork"}}
+          {{/if}}
+          {{#if emptyBallot}}
+            {{> warning label="empty-ballot"}}
+          {{/if}}
+        </div>
+      {{/if}}
 
     </div>
 
-
-    {{> alternative}}
+    {{#if editorMode}}
+      {{> alternative}}
+    {{/if}}
 
   </div>
 </template>

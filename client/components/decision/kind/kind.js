@@ -34,5 +34,14 @@ Template.kind.helpers({
   },
   style: function () {
     return 'stage stage-' + Session.get('stage');
+  },
+  executionStatus: function () {
+    return Session.get('contract').executionStatus;
+  },
+  closingDate: function () {
+    return Session.get('contract').closingDate;
+  },
+  stage: function () {
+    return Session.get('contract').stage;
   }
 });

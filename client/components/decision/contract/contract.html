@@ -1,0 +1,24 @@
+<template name="contract">
+
+  <div class="contract">
+
+    <div class="paper">
+      {{> kind title='draft-proposal' icon='images/ribbon.png'}}
+      {{> title editorMode=editorMode}}
+      {{> agreement editorMode=editorMode}}
+      {{> semantics editorMode=editorMode}}
+      {{> signatures authorMode=true editorMode=editorMode}}
+    </div>
+
+    <div class="paper">
+      {{> ballot editorMode=editorMode}}
+    </div>
+
+    {{#if editorMode}}
+      <div class="paper paper-execute">
+        {{> action}}
+      </div>
+    {{/if}}
+
+  </div>
+</template>
