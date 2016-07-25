@@ -1680,14 +1680,15 @@ blockquote {
 }
 
 .navbar {
-  position: fixed;
-  left: 0px;
+  position: absolute;
+  left: 285px;
   top: 0px;
   right: 0px;
   z-index: 9000;
   height: 60px;
   padding-right: 10px;
   padding-left: 0px;
+  float: left;
   background-color: rgba(49, 38, 59, .95);
   box-shadow: 0 0 8px -2px #000;
   color: #fff;
@@ -1734,6 +1735,7 @@ blockquote {
   margin-left: -40px;
   padding-top: 10px;
   padding-bottom: 10px;
+  float: right;
   font-family: Lato, sans-serif;
 }
 
@@ -3586,16 +3588,17 @@ blockquote {
 
 .sidebar {
   position: fixed;
-  top: 60px;
+  top: 0px;
   bottom: 0px;
+  z-index: 12000;
   overflow: scroll;
   width: 285px;
   margin-right: 15px;
   padding: 0px 10px 10px;
   float: left;
   background-color: #d4cfd8;
-  background-image: -webkit-linear-gradient(45deg, transparent, #ebebeb);
-  background-image: linear-gradient(45deg, transparent, #ebebeb);
+  background-image: -webkit-linear-gradient(90deg, transparent, #ebebeb);
+  background-image: linear-gradient(0deg, transparent, #ebebeb);
   box-shadow: 0 0 5px -2px #000;
 }
 
@@ -3873,6 +3876,7 @@ blockquote {
     width: 15%;
   }
   .main {
+    min-width: 350px;
     margin-left: 0px;
     float: right;
   }
