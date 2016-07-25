@@ -9,7 +9,7 @@ Template.stage.helpers({
         if (ticker != false) {
           return ticker;
         } else {
-          
+
           return TAPi18n.__('poll-closed')
 
         }
@@ -25,13 +25,13 @@ Template.stage.helpers({
     }
   },
   style: function (stage, executionStatus) {
-    switch (stage) {
+    switch (this.text) {
       case 'DRAFT':
         return 'stage-draft';
       case 'LIVE':
         return 'stage-live';
       case 'FINISH':
-        switch(executionStatus) {
+        switch(this.executionStatus) {
           case 'APPROVED':
             return 'stage-finish-approved';
           case 'ALTERNATIVE':

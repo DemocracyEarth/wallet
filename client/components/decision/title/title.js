@@ -78,6 +78,21 @@ Template.title.helpers({
     var d = new Date;
     d = Session.get('contract').timestamp;
     return d.format('{Month} {d}, {yyyy}');
+  },
+  executionStatus: function () {
+    if (Session.get('contract').executionStatus != undefined) {
+      return Session.get('contract').executionStatus;
+    }
+  },
+  stageLabel: function () {
+    if (Session.get('contract').stage != undefined) {
+      return Session.get('contract').stage;
+    }
+  },
+  closingDate: function () {
+    if (Session.get('contract').closingDate != undefined) {
+      return Session.get('contract').closingDate;
+    }
   }
 });
 

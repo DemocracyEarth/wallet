@@ -1,5 +1,8 @@
 <template name="title">
   <div class="field headline-field">
+
+    {{> stage text=stageLabel executionStatus=executionStatus closingDate=closingDate}}
+
     <div id="titleContent" tab=0 class="title-input {{sampleMode}}" contenteditable="{{editorMode}}">
       {{declaration}}
     </div>
@@ -25,7 +28,7 @@
           {{/if}}
         </div>
       </div>
-      
+
       <!-- TODO blockchain stuff:
       <div class="data"><img src="{{pathFor route='home'}}images/block.png" class="url-icon">
         <div class="verifier verifier-live">
