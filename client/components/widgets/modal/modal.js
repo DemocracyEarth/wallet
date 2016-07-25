@@ -1,8 +1,12 @@
 Template.modal.helpers({
   showModal: function () {
     return Session.get('showModal');
+  },
+  showNotice: function () {
+    return Session.get('showNotice');
   }
 });
+
 
 Template.modalWindow.rendered = function () {
   //Initial position

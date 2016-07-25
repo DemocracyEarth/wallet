@@ -47,8 +47,6 @@ Template.agreement.rendered = function () {
       placeholder: false
     });
 
-    console.log('editormode ' + this.editorMode);
-
     editor.subscribe('editableInput', function(event, editable) {
       Meteor.clearTimeout(typingTimer);
       typingTimer = Meteor.setTimeout(function () {
