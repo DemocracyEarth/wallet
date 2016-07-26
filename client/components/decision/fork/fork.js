@@ -7,5 +7,12 @@ Template.fork.helpers({
     } else {
       return '';
     }
+  },
+  dragMode: function () {
+    if (Session.get('contract').stage == 'DRAFT') {
+      return '';
+    } else {
+      return 'vote-nondrag';
+    }
   }
 })

@@ -7,16 +7,22 @@
         </div>
         <img src="{{pathFor route='home'}}images/logout.png" class="logout">
       </div>
-      <img src="{{pathFor route='home'}}images/fingerprint-white.png" class="section-icon">
-      <div>{{_ "identity"}}</div>
+      <div class="card-title">
+        <img src="{{pathFor route='home'}}images/fingerprint-white.png" class="section-icon">
+        {{_ "identity"}}
+      </div>
     </div>
     {{> profile}}
   {{else}}
     <div class="w-clearfix paper-header card-header">
-      <img src="{{pathFor route='home'}}images/fingerprint-white.png" class="section-icon">
-      <div>{{_ "identity"}}</div>
-      <div class="stage stage-finish-approved stage-card stage-anon">
-        <div class="label label-corner">{{_ "anonymous-mode"}}</div>
+      <div class="stage stage-finish-approved stage-card stage-anon button">
+        <div class="label label-corner">
+          {{_ "anonymous-mode"}}
+        </div>
+      </div>
+      <div class="card-title">
+        <img src="{{pathFor route='home'}}images/fingerprint-white.png" class="section-icon">
+        {{_ "identity"}}
       </div>
     </div>
     {{> logger}}

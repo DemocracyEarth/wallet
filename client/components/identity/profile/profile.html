@@ -7,13 +7,16 @@
 
       {{#unless socialMediaLogin}}
         {{#unless currentUser.emails.[0].verified}}
-          <div class="left extra">
+          <div class="extra float-left">
             {{> warning label="pending-verification"}}
           </div>
         {{/unless}}
       {{/unless}}
 
       {{> power user=userId}}
+
+
+      <!-- TODO Delegations, consider if I will show them here (I doubt this)
 
       {{#if hasDelegations}}
         <ul class="w-list-unstyled w-clearfix extra">
@@ -31,6 +34,9 @@
           <div>{{_ 'no-delegations'}}</div>
         </div>
       {{/if}}
+
+    -->
+
     </div>
   {{/if}}
 </template>

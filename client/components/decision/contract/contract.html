@@ -2,20 +2,30 @@
 
   <div class="contract">
 
-    <div class="paper">
-      {{> title editorMode=editorMode}}
-      {{> agreement editorMode=editorMode}}
-      {{> semantics editorMode=editorMode}}
-      {{> signatures authorMode=true editorMode=editorMode}}
-    </div>
-
-    <div class="paper">
-      {{> ballot editorMode=editorMode}}
-    </div>
-
     {{#if editorMode}}
+      <!-- Editable -->
+      <div class="paper">
+        {{> title editorMode=true}}
+        {{> agreement editorMode=true}}
+        {{> semantics editorMode=true}}
+        {{> signatures authorMode=true editorMode=true}}
+      </div>
+      <div class="paper">
+        {{> ballot editorMode=true}}
+      </div>
       <div class="paper paper-execute">
         {{> action}}
+      </div>
+    {{else}}
+      <!-- Votable -->
+      <div class="paper">
+        {{> title editorMode=false}}
+        {{> agreement editorMode=false}}
+        {{> semantics editorMode=false}}
+        {{> signatures authorMode=true editorMode=false}}
+      </div>
+      <div class="paper">
+        {{> ballot editorMode=false}}
       </div>
     {{/if}}
 

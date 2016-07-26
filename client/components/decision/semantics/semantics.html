@@ -11,9 +11,15 @@
         <li class="w-clearfix tag tag-placeholder nondraggable" style="{{emptyList}}">
           <div class="hash-tag hash-tag-empty"></div>
         </li>
-        {{#each semantics}}
-          {{> tag _id=_id}}
-        {{/each}}
+        {{#if editorMode}}
+          {{#each semantics}}
+            {{> tag _id=_id nonDraggable=false}}
+          {{/each}}
+        {{else}}
+          {{#each semantics}}
+            {{> tag _id=_id nonDraggable=true}}
+          {{/each}}
+        {{/if}}
       </ul>
 
 
