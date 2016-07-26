@@ -1,5 +1,6 @@
 body {
-  padding: 70px 0px 10px;
+  padding-right: 0px;
+  padding-left: 0px;
   background-color: #ddd;
   font-family: Lato, sans-serif;
   color: #333;
@@ -1680,8 +1681,8 @@ blockquote {
 }
 
 .navbar {
-  position: absolute;
-  left: 285px;
+  position: fixed;
+  left: 350px;
   top: 0px;
   right: 0px;
   z-index: 9000;
@@ -2419,7 +2420,7 @@ blockquote {
   top: 0px;
   right: 0px;
   bottom: 0px;
-  z-index: 10000;
+  z-index: 25000;
   display: inline-block;
   width: 100%;
   height: 100%;
@@ -2817,6 +2818,7 @@ blockquote {
   z-index: 9000;
   display: block;
   max-width: 250px;
+  margin-top: 60px;
   margin-right: auto;
   margin-left: auto;
   padding: 3px 10px;
@@ -3345,6 +3347,16 @@ blockquote {
 }
 
 .left {
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  z-index: 12500;
+  display: inline-block;
+  width: 350px;
+  float: left;
+  background-color: #d4cfd8;
+  background-image: -webkit-linear-gradient(94deg, hsla(0, 0%, 92%, 0), #ebebeb);
+  background-image: linear-gradient(356deg, hsla(0, 0%, 92%, 0), #ebebeb);
   text-align: left;
 }
 
@@ -3590,22 +3602,19 @@ blockquote {
   position: fixed;
   top: 0px;
   bottom: 0px;
-  z-index: 12000;
+  display: inline-block;
   overflow: scroll;
-  width: 285px;
+  width: 350px;
   margin-right: 15px;
   padding: 0px 10px 10px;
-  float: left;
-  background-color: #d4cfd8;
-  background-image: -webkit-linear-gradient(90deg, transparent, #ebebeb);
-  background-image: linear-gradient(0deg, transparent, #ebebeb);
-  box-shadow: 0 0 5px -2px #000;
+  box-shadow: inset -6px 0 50px -20px rgba(0, 0, 0, .5);
 }
 
 .content {
-  position: absolute;
-  left: 300px;
-  right: 100px;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 70px 100px 10px 15px;
 }
 
 .action-label {
@@ -3816,6 +3825,12 @@ blockquote {
   margin-right: auto;
   margin-left: auto;
   opacity: 0.5;
+}
+
+.right {
+  position: absolute;
+  left: 350px;
+  right: 0px;
 }
 
 @media (max-width: 991px) {

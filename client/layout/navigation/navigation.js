@@ -3,6 +3,7 @@ var lastScrollTop = 0;
 var scrollDown = false;
 var displayLogin = false;
 
+
 if (Meteor.Device.isPhone()) {
   $(window).scroll(function(event) {
     node = $('.navbar');
@@ -21,6 +22,7 @@ if (Meteor.Device.isPhone()) {
      lastScrollTop = st;
   });
 };
+
 
 Template.navigation.helpers({
   screen: function () {

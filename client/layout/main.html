@@ -3,10 +3,13 @@
   <!-- App -->
   {{> modal}}
 
-  {{> sidebar}}
+  <div class="left">
+    {{> sidebar}}
+  </div>
 
-  {{> navigation}}
-
-  {{> yield}}
+  <div class="right">
+    {{> navigation}}
+    {{> yield}}
+  </div>
 
 </template>
