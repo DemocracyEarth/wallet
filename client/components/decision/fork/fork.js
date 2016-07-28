@@ -14,5 +14,10 @@ Template.fork.helpers({
     } else {
       return 'vote-nondrag';
     }
+  },
+  tickStyle: function () {
+    if (this.mode == 'REJECT') {
+      return 'unauthorized';
+    }
   }
 })

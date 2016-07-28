@@ -11,19 +11,47 @@ let createMenu = (feed) => {
     stateMenu.push(
       {
         id: 0,
-        label: TAPi18n.__('collective'),
+        label: TAPi18n.__('decisions'),
         separator: true,
       },
       {
         id: 1,
-        label: TAPi18n.__('all'),
+        label: TAPi18n.__('open'),
         value: Meteor.user().profile.menu.votes,
+        icon: 'images/decision-open.png',
         separator: false,
         url: '/',
         selected: _verifySelection('all', feed)
       },
       {
         id: 2,
+        label: TAPi18n.__('approved'),
+        icon: 'images/decision-approved.png',
+        value: 0,
+        separator: false,
+        url: '/filter?stage=approved',
+        selected: _verifySelection('approved', feed)
+      },
+      {
+        id: 3,
+        label: TAPi18n.__('closed'),
+        icon: 'images/decision-closed.png',
+        value: 0,
+        separator: false,
+        url: '/filter?stage=closed',
+        selected: _verifySelection('closed', feed)
+      },
+      {
+        id: 4,
+        label: TAPi18n.__('drafts'),
+        icon: 'images/decision-draft.png',
+        value: Meteor.user().profile.menu.drafts,
+        separator: false,
+        url: '/filter?stage=draft',
+        selected: _verifySelection('draft', feed)
+      },
+/*      {
+        id: 3,
         label: TAPi18n.__('memberships'),
         value: Meteor.user().profile.menu.memberships,
         separator: false,
@@ -31,36 +59,38 @@ let createMenu = (feed) => {
         selected: _verifySelection('membership', feed)
       },
       {
-        id: 3,
+        id: 4,
         label: TAPi18n.__('delegations'),
         value: Meteor.user().profile.menu.delegations,
         separator: false,
         url: '/filter?kind=delegation',
         selected: _verifySelection('delegation', feed)
-      },
+      },*/
       {
-        id: 4,
+        id: 5,
         label: TAPi18n.__('my-decisions'),
         separator: true,
       },
       {
-        id: 5,
+        id: 6,
+        label: TAPi18n.__('proposals'),
+        icon: 'images/decision-proposals.png',
+        value: Meteor.user().profile.menu.drafts,
+        separator: false,
+        url: '/filter?kind=vote&id=',
+        selected: _verifySelection('proposals', feed)
+      },
+      {
+        id: 7,
         label: TAPi18n.__('voted-issues'),
+        icon: 'images/decision-vote.png',
         value: Meteor.user().profile.menu.drafts,
         separator: false,
         url: '/filter?kind=vote&id=',
         selected: _verifySelection('voted', feed)
       },
       {
-        id: 6,
-        label: TAPi18n.__('drafts'),
-        value: Meteor.user().profile.menu.drafts,
-        separator: false,
-        url: '/filter?stage=draft',
-        selected: _verifySelection('draft', feed)
-      },
-      {
-        id: 7,
+        id: 8,
         label: TAPi18n.__('delegates'),
         separator: true,
       }

@@ -226,7 +226,7 @@
   "latest-proposals": "Latest Proposals",
   "all-proposals": "All Proposals",
   "drafts": "Drafts",
-  "memberships": "Members",
+  "memberships": "Memberships",
   "delegations": "Delegations",
   "votes": "Votes",
   "propose": "Propose Idea",
@@ -236,7 +236,7 @@
   "my-decisions": "Personal",
   "personal": "Personal",
   "delegates": "Delegates",
-  "all": "Decisions",
+  "all": "All",
   "open-votes": "Open Decisions",
   "approved-votes": "Approved Decisions",
   "empty-feed-label-delegation": "No delegations found.",
@@ -260,6 +260,7 @@
   "voted-issues": "Votes",
   "received-delegations": "Delegations",
   "approved-issues": "Approved",
+  "approved": "Approved",
   "agreements": "Agreements",
   "navbar-home": "Home",
   "navbar-editor": "Contract Editor",
@@ -276,5 +277,8 @@
   "minutes-left" : "minutes left.",
   "seconds-left" : "seconds left.",
   "poll-closed": "Poll Closed",
-  "your-vote": "Vote"
+  "your-vote": "Vote",
+  "open": "Open",
+  "closed": "Archived",
+  "proposals": "Proposals"
 }
