@@ -5,8 +5,8 @@
       {{_ label}}
     </div>
   {{else}}
-    <a href="{{url}}">
-      <li class="menu-item {{selected}} w-clearfix">
+    <a id='menuButton' href="{{url}}">
+      <li id='sidebar-button-{{id}}' class="menu-item {{selected}} w-clearfix" feed="{{feed}}">
         {{#if selected}}
           <img class="icon-inbox" src="{{pathFor route='home'}}{{iconActivated}}">
         {{else}}

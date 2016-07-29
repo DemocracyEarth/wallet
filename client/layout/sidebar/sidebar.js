@@ -2,7 +2,13 @@ Template.sidebar.rendered = function () {
 
 }
 Template.sidebar.helpers({
-  menu: function () {
-    return Session.get('inboxMenu');
+  decisions: function () {
+    return Session.get('menuDecisions');
+  },
+  personal: function () {
+    return Session.get('menuPersonal');
+  },
+  delegates: function () {
+    return Session.get('menuDelegates');
   }
 });

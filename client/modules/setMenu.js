@@ -1,42 +1,24 @@
 import {default as Modules} from "./_modules";
 
 /*****
-/* @param {string} location - everything that comes after window.host.location, ie: '/filter?kind=membership'
+/* @param {string} feed - option selected.
 ******/
-let createMenu = (feed) => {
-  //Inbox Menu
-  var stateMenu = new Array();
+let sidebarMenu = (feed) => {
 
-  /*      {
-          id: 3,
-          label: TAPi18n.__('memberships'),
-          value: Meteor.user().profile.menu.memberships,
-          separator: false,
-          url: '/filter?kind=membership',
-          selected: _verifySelection('membership', feed)
-        },
-        {
-          id: 4,
-          label: TAPi18n.__('delegations'),
-          value: Meteor.user().profile.menu.delegations,
-          separator: false,
-          url: '/filter?kind=delegation',
-          selected: _verifySelection('delegation', feed)
-        },*/
+  var decisions = new Array();
+  var personal = new Array();
+  var delegates = new Array();
 
   if (Meteor.user() != undefined) {
-    stateMenu.push(
-      {
-        id: 0,
-        label: TAPi18n.__('decisions'),
-        separator: true,
-      },
+
+    decisions.push(
       {
         id: 1,
         label: TAPi18n.__('open'),
         value: Meteor.user().profile.menu.votes,
         icon: 'images/decision-open.png',
         iconActivated: 'images/decision-open-active.png',
+        feed: 'all',
         separator: false,
         url: '/',
         selected: _verifySelection('all', feed)
@@ -46,6 +28,7 @@ let createMenu = (feed) => {
         label: TAPi18n.__('approved'),
         icon: 'images/decision-approved.png',
         iconActivated: 'images/decision-approved-active.png',
+        feed: 'approved',
         value: 0,
         separator: false,
         url: '/filter?stage=approved',
@@ -56,6 +39,7 @@ let createMenu = (feed) => {
         label: TAPi18n.__('closed'),
         icon: 'images/decision-closed.png',
         iconActivated: 'images/decision-closed-active.png',
+        feed: 'closed',
         value: 0,
         separator: false,
         url: '/filter?stage=closed',
@@ -66,21 +50,21 @@ let createMenu = (feed) => {
         label: TAPi18n.__('drafts'),
         icon: 'images/decision-draft.png',
         iconActivated: 'images/decision-draft-active.png',
+        feed: 'draft',
         value: Meteor.user().profile.menu.drafts,
         separator: false,
         url: '/filter?stage=draft',
         selected: _verifySelection('draft', feed)
-      },
-      {
-        id: 5,
-        label: TAPi18n.__('my-decisions'),
-        separator: true,
-      },
+      }
+    );
+
+    personal.push(
       {
         id: 6,
         label: TAPi18n.__('proposals'),
         icon: 'images/decision-proposals.png',
         iconActivated: 'images/decision-proposals-active.png',
+        feed: 'proposals',
         value: Meteor.user().profile.menu.drafts,
         separator: false,
         url: '/filter?kind=vote&id=',
@@ -91,20 +75,38 @@ let createMenu = (feed) => {
         label: TAPi18n.__('voted-issues'),
         icon: 'images/decision-vote.png',
         iconActivated: 'images/decision-vote-active.png',
+        feed: 'voted',
         value: Meteor.user().profile.menu.drafts,
         separator: false,
         url: '/filter?kind=vote&id=',
         selected: _verifySelection('voted', feed)
-      },
-      {
-        id: 8,
-        label: TAPi18n.__('delegates'),
-        separator: true,
       }
     );
+
+    delegates = [];
+    /*{
+         id: 3,
+         label: TAPi18n.__('memberships'),
+         value: Meteor.user().profile.menu.memberships,
+         separator: false,
+         url: '/filter?kind=membership',
+         selected: _verifySelection('membership', feed)
+       },
+       {
+         id: 4,
+         label: TAPi18n.__('delegations'),
+         value: Meteor.user().profile.menu.delegations,
+         separator: false,
+         url: '/filter?kind=delegation',
+         selected: _verifySelection('delegation', feed)
+       },*/
+
+
   }
 
-  return stateMenu;
+  Session.set('menuDecisions', decisions);
+  Session.set('menuPersonal', personal);
+  Session.set('menuDelegates', delegates);
 }
 
 let _verifySelection = (selection, feed) => {
@@ -124,5 +126,4 @@ let _verifySelection = (selection, feed) => {
   }
 }
 
-
-Modules.client.setMenu = createMenu;
+Modules.client.setSidebarMenu = sidebarMenu;
