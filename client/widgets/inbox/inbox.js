@@ -27,16 +27,38 @@ Template.inbox.helpers({
 
 Template.inbox.events({
   'click #menuButton': function (event) {
-    var node = $('#sidebar-button-'+ this.id);
-    Session.set('inboxMenu', Modules.client.setSidebarMenu(node.attr('feed')));
-    /*var node = $('#sidebar-button-'+ this.id);
-    console.log(node.attr('feed'));
 
-    Session.set('inboxMenu', Modules.client.setMenu(node.attr('feed')));
+  //  Modules.client.setSidebarMenu($('#sidebar-button-' + this.id).attr('feed'));
 
-    node.css('background-color', '#00c091');
-    node
-      .velocity({'backgroundColor': '#6d5c7d'}, Modules.client.animationSettings)
-      .velocity({'color': '#fff'}, Modules.client.animationSettings);*/
+    if (Session.get('sidebarMenuSelectedId') != undefined) {
+    //  var nodeOld = $('#sidebar-button-' + Session.get('sidebarMenuSelectedId'));
+    //  animateUnselection(nodeOld);
+    }
+
+    if (Session.get('sidebarMenuSelectedId') != this.id) {
+    //  Session.set('sidebarMenuSelectedId', this.id);
+    //  var node = $('#sidebar-button-' + this.id);
+    //  animateSelection(node);
+    }
+
   }
 })
+
+function animateSelection(node) {
+
+  node.css('background-color', '#6d5c7d');
+  node.css('color', '#fff');
+  //node
+  //  .velocity({'backgroundColor': '#6d5c7d'}, { duration: 100 })
+}
+
+function animateUnselection(node) {
+
+  node.css('background-color', 'transparent');
+  node.hover(function(){
+    $(this).css("background-color", "rgba(180, 171, 189, 0.2)");
+  }
+  );
+  node.css('color', '#000');
+
+}
