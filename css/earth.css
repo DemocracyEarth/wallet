@@ -107,7 +107,7 @@ blockquote {
   padding: 10px 30px;
   border-radius: 3px;
   background-color: #fff;
-  box-shadow: 0 1px 13px -9px #000;
+  box-shadow: 0 3px 20px -13px #000;
 }
 
 .paper.paper-execute {
@@ -278,6 +278,13 @@ blockquote {
 
 .power.hundred.float-left {
   float: left;
+}
+
+.power.power-small {
+  width: 25%;
+  max-width: 200px;
+  padding: 0px;
+  text-align: left;
 }
 
 .elements {
@@ -2135,9 +2142,11 @@ blockquote {
   margin-bottom: 15px;
   margin-left: -15px;
   padding-top: 10px;
-  padding-right: 10px;
-  padding-left: 10px;
+  padding-right: 5px;
+  padding-left: 5px;
   background-color: rgba(255, 224, 121, .6);
+  background-image: -webkit-linear-gradient(45deg, #ffe079, hsla(44, 82%, 94%, 0) 45%);
+  background-image: linear-gradient(45deg, #ffe079, hsla(44, 82%, 94%, 0) 45%);
   -webkit-transform: skew(-3deg, 0deg);
   -ms-transform: skew(-3deg, 0deg);
   transform: skew(-3deg, 0deg);
@@ -2147,6 +2156,20 @@ blockquote {
 .rich-text.highlight-feature:hover {
   border-left-style: none;
   border-left-width: 0px;
+}
+
+.rich-text.highlight-feature.highlight-missing {
+  display: block;
+  float: none;
+  border-radius: 3px;
+  background-color: #eee;
+  background-image: none;
+  box-shadow: inset 0 0 5px -1px rgba(0, 0, 0, .5);
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  color: #000;
+  font-style: normal;
 }
 
 .tag-bitcoin {
@@ -2969,6 +2992,11 @@ blockquote {
   padding-left: 5px;
 }
 
+.options.options-voted {
+  margin-right: -30px;
+  margin-left: -30px;
+}
+
 .calendar-icon {
   width: 30px;
   height: 30px;
@@ -3661,6 +3689,7 @@ blockquote {
   margin-left: auto;
   padding-top: 70px;
   padding-bottom: 10px;
+  background-color: #ddd;
 }
 
 .content.content-feed {
@@ -3669,9 +3698,11 @@ blockquote {
 }
 
 .content.content-agora {
+  position: relative;
   padding-top: 5px;
   padding-right: 100px;
   padding-left: 25px;
+  background-color: #f5f5f5;
 }
 
 .action-label {
@@ -3871,10 +3902,15 @@ blockquote {
 }
 
 .transition {
-  position: relative;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
   margin-top: 70px;
   padding-top: 0px;
   padding-bottom: 0px;
+  background-color: #ddd;
 }
 
 .spinner {
@@ -3907,10 +3943,19 @@ blockquote {
   background-color: #f9f9f9;
 }
 
+.event {
+  margin-bottom: 15px;
+  margin-left: 60px;
+  clear: both;
+}
+
 .cards {
   display: block;
+  margin-top: 5px;
+  margin-bottom: -15px;
   margin-left: 3px;
   float: left;
+  clear: both;
   color: #999;
   font-size: 10px;
   line-height: 22px;
@@ -3919,26 +3964,43 @@ blockquote {
 
 .sort {
   display: inline-block;
-  height: 260px;
+  height: 160px;
+  margin-right: 10px;
   float: left;
 }
 
 .argument {
+  max-width: 90%;
+  margin-bottom: 10px;
   float: left;
 }
 
 .sort-button {
-  display: inline-block;
-  padding-right: 10px;
-  padding-left: 10px;
+  display: block;
+  padding-right: 5px;
+  padding-left: 5px;
   border-radius: 3px;
+  cursor: pointer;
+}
+
+.sort-button.sort-button-active {
   background-color: #00bf8f;
 }
 
 .sort-score {
-  font-size: 30px;
-  line-height: 60px;
+  color: #00bf8f;
+  font-size: 20px;
+  line-height: 32px;
   text-align: center;
+}
+
+.feed-events {
+  margin-left: -65px;
+}
+
+.speak {
+  width: 100%;
+  margin-bottom: 35px;
 }
 
 @media (max-width: 991px) {
@@ -4058,10 +4120,19 @@ blockquote {
     right: 0px;
     padding-right: 0px;
   }
+  .content.content-feed {
+    padding-right: 15px;
+  }
   .micro {
     width: 50%;
     margin-bottom: -15px;
     float: left;
+  }
+  .event {
+    margin-left: 0px;
+  }
+  .feed-events {
+    margin-left: 0px;
   }
 }
 
