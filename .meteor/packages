@@ -4,37 +4,37 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-meteor-base             # Packages every Meteor app needs to have
-mobile-experience       # Packages for a great mobile UX
-mongo                   # The database Meteor supports right now
-blaze-html-templates    # Compile .html files into Meteor Blaze views
-session                 # Client-side reactive dictionary for your app
-jquery                  # Helpful client-side library
-tracker                 # Meteor's client-side reactive programming library
+meteor-base@1.0.4             # Packages every Meteor app needs to have
+mobile-experience@1.0.4       # Packages for a great mobile UX
+mongo@1.1.10                   # The database Meteor supports right now
+blaze-html-templates@1.0.4    # Compile .html files into Meteor Blaze views
+session@1.1.6                 # Client-side reactive dictionary for your app
+jquery@1.11.9                  # Helpful client-side library
+tracker@1.1.0                 # Meteor's client-side reactive programming library
 mrt:jquery-ui
-es5-shim                # ECMAScript 5 compatibility for older browsers.
-ecmascript              # Enable ECMAScript2015+ syntax in app code
-insecure                # Allow all DB writes from clients (for prototyping)
+es5-shim@4.6.13                # ECMAScript 5 compatibility for older browsers.
+ecmascript@0.5.7              # Enable ECMAScript2015+ syntax in app code
+insecure@1.0.7                # Allow all DB writes from clients (for prototyping)
 tap:i18n
-accounts-ui
-accounts-password
+accounts-ui@1.1.9
+accounts-password@1.2.12
 iron:router
 lh84:medium-editor
 meteorhacks:search-source
-check
-ejson
+check@1.2.3
+ejson@1.0.12
 rajit:bootstrap3-datepicker
 houston:admin
-standard-minifier-css
-standard-minifier-js
+standard-minifier-css@1.1.8
+standard-minifier-js@1.1.8
 velocityjs:velocityjs
 mystor:device-detection
 meteortoys:allthings
 aldeed:collection2
 edgee:slingshot
-http
-email
+http@1.2.8
+email@1.1.16
 meteorhacks:ssr
-accounts-twitter
-accounts-facebook
-service-configuration
+accounts-twitter@1.1.11
+accounts-facebook@1.0.10
+service-configuration@1.0.10

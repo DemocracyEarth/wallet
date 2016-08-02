@@ -1,7 +1,17 @@
 <template name="power">
-  <div class="w-clearfix rosca rosca-id {{styleClass}}">
-    {{> powerBar}}
-    {{{availableVotes user}}}
-    {{{placedVotes user}}}
-  </div>
+
+  {{#if editable}}
+    <div class="w-clearfix rosca rosca-setter">
+      {{> powerBar displayHandler=editable}}
+      {{{availableVotes user}}}
+      {{{placedVotes user}}}
+    </div>
+  {{else}}
+    <div class="w-clearfix rosca rosca-id {{styleClass}}">
+      {{> powerBar displayHandler=editable}}
+      {{{availableVotes user}}}
+      {{{placedVotes user}}}
+    </div>
+  {{/if}}
+
 </template>

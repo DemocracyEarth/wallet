@@ -99,24 +99,25 @@
 
     </div>
 
-    {{#if editorMode}}
-      {{> alternative}}
-
-    {{else}}
-
-    <div class="execution">
-      <div class="block">
-        {{> power}}
-        <div class="elements w-clearfix">
-          <div class="hundred power">
-            {{> action}}
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    {{/if}}
+  {{#if editorMode}}
+    {{> alternative}}
+  {{/if}}
 
   </div>
+
+  {{#unless editorMode}}
+    <div class="execution">
+      <div class="block">
+        {{> power editable=true}}
+        <div class="elements w-clearfix">
+          <div class="hundred power">
+            {{> action label='place-votes'}}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  {{/unless}}
+
+
 </template>
