@@ -3673,13 +3673,12 @@ blockquote {
 }
 
 .sidebar {
-  position: fixed;
+  position: absolute;
   top: 0px;
   bottom: 0px;
   display: inline-block;
   overflow: scroll;
-  width: 320px;
-  margin-right: 15px;
+  width: 100%;
   padding: 0px 10px 10px;
   box-shadow: inset -6px 0 50px -20px rgba(0, 0, 0, .5);
 }
@@ -3727,7 +3726,7 @@ blockquote {
 }
 
 .separator {
-  margin-right: -20px;
+  margin-right: -10px;
   margin-bottom: 10px;
   margin-left: -10px;
   padding: 15px 20px 5px;
