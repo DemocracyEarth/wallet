@@ -3689,7 +3689,7 @@ blockquote {
   margin-right: auto;
   margin-left: auto;
   padding-top: 50px;
-  padding-bottom: 10px;
+  padding-bottom: 15px;
   background-color: #ddd;
 }
 
@@ -3701,6 +3701,8 @@ blockquote {
 
 .content.content-agora {
   position: relative;
+  margin-top: 40px;
+  margin-bottom: -15px;
   padding-top: 5px;
   padding-right: 25px;
   padding-left: 25px;
@@ -3910,13 +3912,13 @@ blockquote {
 }
 
 .transition {
-  position: absolute;
+  position: fixed;
   left: 0px;
   top: 0px;
   right: 0px;
   bottom: 0px;
-  margin-top: 70px;
-  padding-top: 0px;
+  margin-top: 0px;
+  padding-top: 70px;
   padding-bottom: 0px;
   background-color: #ddd;
 }
@@ -3931,7 +3933,9 @@ blockquote {
 .right {
   position: absolute;
   left: 320px;
+  top: 0px;
   right: 0px;
+  bottom: 0px;
   background-color: #ddd;
 }
 
@@ -3948,7 +3952,6 @@ blockquote {
 }
 
 .agora {
-  margin-top: 10px;
   background-color: #f9f9f9;
 }
 
@@ -4016,6 +4019,10 @@ blockquote {
   margin-bottom: 40px;
   padding-right: 25px;
   padding-left: 25px;
+}
+
+.comment-editor {
+  margin-top: -15px;
 }
 
 @media (max-width: 991px) {
