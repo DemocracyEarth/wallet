@@ -15,7 +15,7 @@
   "cancel_edit": "cancel changes",
   "execute-launch": "Launch",
   "execute-election": "Vote.",
-  "launch-vote": "Launch <strong>Vote</strong>",
+  "launch-vote": "Post",
   "draft-ballot": "Ballot",
   "this_poll_will_close": "This poll will close on",
   "at": "at",
@@ -290,5 +290,5 @@
   "argument": "Argument",
   "speak": "Speak",
   "agora": "Agora",
-  "place-votes": "Place Votes"
+  "place-votes": "Vote"
 }

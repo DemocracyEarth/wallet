@@ -111,18 +111,11 @@
         {{> power editable=true}}
         <div class="elements w-clearfix">
           <div class="hundred power">
-
-            {{#if currentUser}}
-              {{#if ballotTicked}}
-                {{#if enoughVotes}}
-
-                  {{/if}}
+              {{#if validVoter}}
+                {{> action label='place-votes' enabled=false}}
+              {{else}}
+                {{> action label='place-votes' enabled=true}}
               {{/if}}
-            {{/if}}
-            
-            {{> action label='place-votes'}}
-
-
           </div>
         </div>
 

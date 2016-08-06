@@ -64,6 +64,7 @@ Template.ballot.rendered = function () {
 
   }
 
+
 };
 
 Template.ballot.helpers({
