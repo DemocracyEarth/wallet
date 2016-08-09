@@ -11,21 +11,23 @@ Template.action.helpers({
 Template.action.events({
     "click .action-button": function (event) {
       //Get all info from current draft
-      if (disableContractExecution() == false) {
-        Modules.client.displayModal(
-          true,
-          {
-            icon            : 'images/modal-ballot.png',
-            title           : TAPi18n.__('launch-vote-proposal'),
-            message         : TAPi18n.__('publish-proposal-warning'),
-            cancel          : TAPi18n.__('not-now'),
-            action          : TAPi18n.__('publish-proposal'),
-            isAuthorization : false,
-          },
-          function() {
-            Modules.both.publishContract(Session.get('contractId'));
-          }
-        );
+      if (this.enabled) {
+        if (disableContractExecution() == false) {
+          Modules.client.displayModal(
+            true,
+            {
+              icon            : 'images/modal-ballot.png',
+              title           : TAPi18n.__('launch-vote-proposal'),
+              message         : TAPi18n.__('publish-proposal-warning'),
+              cancel          : TAPi18n.__('not-now'),
+              action          : TAPi18n.__('publish-proposal'),
+              isAuthorization : false,
+            },
+            function() {
+              Modules.both.publishContract(Session.get('contractId'));
+            }
+          );
+        }
       }
     }
 });
