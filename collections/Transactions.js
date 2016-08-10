@@ -1,6 +1,6 @@
-Events = new Mongo.Collection("events");
+Events = new Mongo.Collection("transactions");
 
-Schema.Events = new SimpleSchema({
+Schema.Transactions = new SimpleSchema({
   contractId: {
     type: String
   },
@@ -8,7 +8,7 @@ Schema.Events = new SimpleSchema({
     type: String,
     optional: true
   },
-  eventId: {
+  parentId: {
     type: String,
     optional: true
   },
@@ -123,7 +123,7 @@ Schema.Events = new SimpleSchema({
   }
 });
 
-EventContext = Schema.Events.newContext();
-Events.attachSchema(Schema.Events);
+TransactionContext = Schema.Transactions.newContext();
+Transactions.attachSchema(Schema.Transactions);
 
-export default Schema.Events;
+export default Schema.Transactions;
