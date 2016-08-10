@@ -115,7 +115,9 @@ ContractSchema = new SimpleSchema({
     //Timestamp (visible last update)
     type: Date,
     autoValue: function () {
-      return new Date();
+      if (this.isUpdate) {
+        return new Date();
+      } 
     }
   },
   tags: {
