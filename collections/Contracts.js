@@ -1,3 +1,5 @@
+import {default as Transaction} from "./Transaction";
+
 Contracts = new Mongo.Collection("contracts");
 
 ContractSchema = new SimpleSchema({
@@ -117,7 +119,7 @@ ContractSchema = new SimpleSchema({
     autoValue: function () {
       if (this.isUpdate) {
         return new Date();
-      } 
+      }
     }
   },
   tags: {
@@ -365,6 +367,14 @@ ContractSchema = new SimpleSchema({
   },
   "referrers.$": {
       type: Object
+  },
+  events: {
+    type: Array,
+    optional: true
+  },
+  "events.$": {
+    type: Transaction,
+    optional: true
   }
 });
 

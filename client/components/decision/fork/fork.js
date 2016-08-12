@@ -68,16 +68,31 @@ Template.fork.helpers({
     if (Session.get('stage') == 'draft') {
       return 'disabled'
     }
+  },
+  ticked: function () {
+
+    return 'false';
+
+
+
+    console.log(Transactions.find({ contractId: Session.get('contract')._id }));
+
   }
 });
 
 
 Template.fork.events({
-  "click #ballotCheckbox": function () {
+  "click #ballotCheckbox": function (event) {
     switch (Session.get('stage')) {
       case 'draft':
         Session.set('disabledCheckboxes', true);
         break;
+
+      default:
+        var ticked = event.target.getAttribute('tick');
+        var ballotOption = event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('value');
+        Modules.client.setVoteBallot(Session.get('contract')._id, ballotOption, !ticked);
+
     }
   },
 

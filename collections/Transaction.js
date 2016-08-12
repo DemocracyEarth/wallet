@@ -1,14 +1,7 @@
-Events = new Mongo.Collection("transactions");
+//Transactions = new Mongo.Collection("transactions");
 
-Schema.Transactions = new SimpleSchema({
-  contractId: {
-    type: String
-  },
+Schema.Transaction = new SimpleSchema({
   userId: {
-    type: String,
-    optional: true
-  },
-  parentId: {
     type: String,
     optional: true
   },
@@ -20,6 +13,13 @@ Schema.Transactions = new SimpleSchema({
         return "COMMENT";
       };
     }
+  },
+  children: {
+    type: Array,
+    optional: true
+  },
+  "children.$": {
+      type: Schema.Transaction
   },
   ballot: {
     type: Array,
@@ -80,50 +80,49 @@ Schema.Transactions = new SimpleSchema({
       }
     }
   },
-  sortUp: {
+  sort: {
+    type: Array,
+    optional: true
+  },
+  "sort.$": {
+    type: Object,
+    optional: true
+  },
+  "sort.$.upvotes": {
+    type: Number
+  },
+  "sort.$.downvotes": {
+    type: Number
+  },
+  "sort.$.userId": {
+    type: String
+  },
+  sortTotal: {
     type: Number,
     autoValue: function () {
       if (this.isInsert) {
         return 0;
-      }
-    }
-  },
-  sortDown: {
-    type: Number,
-    autoValue: function () {
-      if (this.isInsert) {
-        return 0;
-      }
-    }
-  },
-  createdAt: {
-    //Creation Date
-    type: Date,
-    autoValue: function () {
-      if (this.isInsert) {
-        return new Date();
-      }
-    }
-  },
-  lastUpdate: {
-    //Last update
-    type: Date,
-    autoValue: function () {
-      if (this.isUpdate) {
-        return new Date();
       }
     }
   },
   timestamp: {
-    //Timestamp (visible last update)
     type: Date,
     autoValue: function () {
       return new Date();
     }
+  },
+  status: {
+    type: String,
+    allowedValues: ['SIGNALED', 'VERIFIED', 'PROCESSED'],
+    autoValue: function () {
+      if (this.isInsert) {
+        return "SIGNALED";
+      };
+    }
   }
 });
 
-TransactionContext = Schema.Transactions.newContext();
-Transactions.attachSchema(Schema.Transactions);
+TransactionContext = Schema.Transaction.newContext();
+//Transaction.attachSchema(Schema.Transaction);
 
-export default Schema.Transactions;
+export default Schema.Transaction;

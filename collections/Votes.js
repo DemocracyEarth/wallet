@@ -1,6 +1,10 @@
 Votes = new Mongo.Collection("votes");
 
 Schema.DelegationContract = new SimpleSchema({
+  collectiveId: {
+    type: String,
+    optional: true
+  },
   delegatorId: {
     type: String,
     optional: true

@@ -3,7 +3,8 @@
     <li id="ballotProposalOption" class="vote {{checkbox mode}}">
       <div class="w-clearfix checkbox">
         <div id="ballotCheckbox" class="option {{tickStyle}}">
-          <div class="tick {{tickStyle}}"><img src="{{pathFor route='home'}}images/white-tick-thin.png" class="tick-image hover">
+          <div id="tickbox" class="tick {{tickStyle}}">
+            <img src="{{pathFor route='home'}}images/white-tick-thin.png" class="tick-image hover" tick="{{ticked}}">
           </div>
         </div>
         <div class="w-clearfix checkbox">
@@ -14,11 +15,11 @@
       </div>
     </li>
   {{else}}
-    <li id="ballotProposalOption" class="vote {{checkbox ../mode}} {{dragMode}}" rank="{{../rank}}" value="{{_id}}">
+    <li id="ballotProposalOption" class="vote {{checkbox ../mode}} {{dragMode}}" rank="{{../rank}}" value="{{../_id}}">
       <div class="w-clearfix checkbox">
         <div id="ballotCheckbox" class="option {{option ../mode}}">
-          <div class="tick">
-            <img src="{{pathFor route='home'}}images/white-tick-thin.png" class="tick-image hover">
+          <div id="tickbox" class="tick">
+            <img src="{{pathFor route='home'}}images/white-tick-thin.png" class="tick-image hover" tick="{{ticked}}">
           </div>
         </div>
         <div class="w-clearfix checkbox">
