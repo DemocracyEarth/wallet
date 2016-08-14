@@ -20,9 +20,14 @@ let setVote = (contractId, ballotOption, ticked) => {
 
 }
 
-let getVote = () => {
-
-
+let getVote = (contractId, ballotOption) => {
+  for (var i = 0; i < Session.get('potentialVote').length; i++) {
+    if (Session.get('potentialVote')[i].contractId == contractId) {
+      if (Session.get('potentialVote')[i].ballotOption == ballotOption) {
+         return Session.get('potentialVote')[i].ticked;
+      }
+    }
+  }
 }
 
 Modules.client.setVoteBallot = setVote;

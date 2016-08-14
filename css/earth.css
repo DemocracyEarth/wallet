@@ -1128,7 +1128,7 @@ blockquote {
   margin-left: 10px;
   float: right;
   border: 1px solid #00c091;
-  border-radius: 3px;
+  border-radius: 100px;
   background-color: #fff;
   box-shadow: 0 1px 9px -5px #000;
   cursor: pointer;
@@ -1277,6 +1277,7 @@ blockquote {
 
 .tick {
   display: inline-block;
+  border-radius: 100px;
   background-color: #00c091;
 }
 
@@ -1293,7 +1294,7 @@ blockquote {
   width: 48px;
   height: 48px;
   max-width: none;
-  border-radius: 2px;
+  border-radius: 100px;
 }
 
 .tick-image.hover {

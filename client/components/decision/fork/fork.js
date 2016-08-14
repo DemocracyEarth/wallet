@@ -69,14 +69,14 @@ Template.fork.helpers({
       return 'disabled'
     }
   },
-  ticked: function () {
-
-    return 'false';
-
-
-
-    console.log(Transactions.find({ contractId: Session.get('contract')._id }));
-
+  tickStatus: function () {
+    if (Session.get('potentialVote')) {
+      if (Modules.client.getVoteBallot(Session.get('contract')._id, this._id)) {
+        return 'tick-active';
+      } else {
+        return '';
+      }
+    }
   }
 });
 
