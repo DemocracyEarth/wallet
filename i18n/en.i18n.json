@@ -293,5 +293,8 @@
   "place-votes": "Vote",
   "forgot-password": "Forgot password?",
   "cancel-password-recovery": "Go back to login",
-  "continue-password-recovery": "Continue"
+  "continue-password-recovery": "Continue",
+  "email-sent": "Email sent, please check you inbox.",
+  "user-not-found": "This email does not exist.",
+  "something-wrong": "Something went wrong, try again."
 }
