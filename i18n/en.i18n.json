@@ -292,5 +292,6 @@
   "agora": "Agora",
   "place-votes": "Vote",
   "forgot-password": "Forgot password?",
-  "cancel-password-recovery": "Go back to login"
+  "cancel-password-recovery": "Go back to login",
+  "continue-password-recovery": "Continue"
 }
