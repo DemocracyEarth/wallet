@@ -1,11 +1,15 @@
 Template.emailLogin.rendered = function () {
   Session.set("loginScreen", true);
+  Session.set("passwordKnown", true);
   Session.set("invalidEmail", false);
 }
 
 Template.emailLogin.helpers({
   loginScreen: function () {
     return Session.get("loginScreen");
+  },
+  passwordKnown: function () {
+    return Session.get("passwordKnown");
   },
   incorrectUser: function () {
     return Session.get("incorrectUser");
@@ -18,6 +22,9 @@ Template.emailLogin.helpers({
 Template.emailLogin.events({
   "click #signup": function (event) {
     Session.set("loginScreen", !Session.get("loginScreen"));
+  },
+  "click #forgot-pw": function (event) {
+    Session.set("passwordKnown", !Session.get("passwordKnown"));
   },
   "click #signin-button": function (event) {
     var email = document.getElementById('signin-email').value;
