@@ -123,6 +123,11 @@ blockquote {
   opacity: 0.97;
 }
 
+.paper.paper-comment {
+  background-color: transparent;
+  box-shadow: none;
+}
+
 .kind {
   position: absolute;
   left: 0px;
@@ -3945,6 +3950,7 @@ blockquote {
   top: 0px;
   right: 0px;
   bottom: 0px;
+  overflow: scroll;
   background-color: #ddd;
 }
 
@@ -3961,6 +3967,8 @@ blockquote {
 }
 
 .agora {
+  margin: -90px -20px 0px;
+  padding-top: 70px;
   background-color: #f9f9f9;
 }
 
@@ -4032,6 +4040,26 @@ blockquote {
 
 .comment-editor {
   margin-top: -15px;
+}
+
+.split {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  display: inline-block;
+  overflow: scroll;
+  width: 50%;
+  padding-top: 60px;
+  padding-right: 25px;
+  padding-left: 25px;
+  float: left;
+  background-color: #ddd;
+}
+
+.split.split-left {
+  position: absolute;
+  left: 50%;
+  right: 0px;
 }
 
 @media (max-width: 991px) {
@@ -4159,11 +4187,28 @@ blockquote {
     margin-bottom: -15px;
     float: left;
   }
+  .agora {
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+    padding-top: 0px;
+  }
   .event {
     margin-left: 0px;
   }
   .feed-events {
     margin-left: 0px;
+  }
+  .split {
+    position: static;
+    width: 100%;
+    padding-right: 0px;
+    padding-left: 0px;
+    float: none;
+  }
+  .split.split-left {
+    position: relative;
+    left: 0%;
   }
 }
 
