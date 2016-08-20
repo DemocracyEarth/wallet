@@ -2,7 +2,7 @@
 
     {{#if editorMode}}
 
-      <!-- Editable --> 
+      <!-- Editable -->
       <div class="contract">
         <div class="paper">
           {{> title editorMode=true}}
@@ -20,20 +20,24 @@
 
     {{else}}
 
-      <!-- Votable -->
-      <div class="contract">
-        <div class="paper">
-          {{> title editorMode=false}}
-          {{> agreement editorMode=false}}
-          {{> semantics editorMode=false}}
-          {{> signatures authorMode=true editorMode=false}}
-        </div>
-        <div class="paper">
-          {{> ballot editorMode=false}}
+      <div class="split">
+        <!-- Votable -->
+        <div class="contract">
+          <div class="paper">
+            {{> title editorMode=false}}
+            {{> agreement editorMode=false}}
+            {{> semantics editorMode=false}}
+            {{> signatures authorMode=true editorMode=false}}
+          </div>
+          <div class="paper">
+            {{> ballot editorMode=false}}
+          </div>
         </div>
       </div>
 
-      {{> agora}}
+      <div class="split split-left">
+        {{> agora}}
+      </div>
 
     {{/if}}
 
