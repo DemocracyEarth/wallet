@@ -99,6 +99,7 @@ Schema.Transaction = new SimpleSchema({
   },
   sortTotal: {
     type: Number,
+    optional: true,
     autoValue: function () {
       if (this.isInsert) {
         return 0;
@@ -113,11 +114,9 @@ Schema.Transaction = new SimpleSchema({
   },
   status: {
     type: String,
-    allowedValues: ['SIGNALED', 'VERIFIED', 'PROCESSED'],
+    allowedValues: ['NEW', 'VERIFIED', 'PROCESSED'],
     autoValue: function () {
-      if (this.isInsert) {
-        return "SIGNALED";
-      };
+      return 'NEW';  
     }
   }
 });

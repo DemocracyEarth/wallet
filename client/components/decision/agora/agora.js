@@ -7,6 +7,6 @@ Template.agora.helpers({
     }
   },
   event: function () {
-    console.log(Session.get('contract').events);
+    return Session.get('contract').events;
   }
 });

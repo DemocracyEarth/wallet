@@ -10,9 +10,11 @@
       </div>
 
       {{#unless emptyThread}}
-        {{#each event}}
-          {{> thread}}
-        {{/each}}
+        <div class="feed-events">
+          {{#each event}}
+            {{> thread}}
+          {{/each}}
+        </div>
       {{else}}
         <div class="menu menu-empty">
           <div>
@@ -20,7 +22,7 @@
           </div>
         </div>
       {{/unless}}
-      
+
     </div>
   </div>
 </template>

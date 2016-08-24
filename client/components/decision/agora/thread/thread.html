@@ -1,3 +1,38 @@
 <template name="thread">
 
+  <div class="event event-main w-clearfix">
+
+    <div class="sort">
+      <div class="sort-button"><img class="icon" src="{{pathFor route='home'}}images/access-hover-up.png">
+      </div>
+      <div class="sort-score">
+        <div>{{sortTotal}}</div>
+      </div>
+      <div class="sort-button"><img class="icon" src="{{pathFor route='home'}}images/access-hover-down.png">
+      </div>
+    </div>
+
+    <div class="argument">
+      <ul class="extra w-clearfix w-list-unstyled">
+        <li class="identity w-clearfix"><img class="profile-pic symbol" src="images/Screen Shot 2016-01-27 at 12.05.33 AM.png">
+          <div class="identity-peer"><a class="identity-label" href="#">Satoshi Nakamoto</a>
+            <div class="identity-nation">🌎 Earth</div>
+          </div>
+          <div class="cards">2 hours ago.</div>
+        </li>
+      </ul>
+      <div class="paper paper-comment">
+        <div class="comment">
+          <div>{{content}}</div>
+        </div>
+      </div>
+      <a class="agora-button micro-button w-clearfix w-inline-block" href="#">
+        <img class="micro-icon" src="{{pathFor route='home'}}images/micro-draft.png">
+        <div class="micro-label">Reply</div>
+      </a>
+
+    </div>
+
+   </div>
+
 </template>

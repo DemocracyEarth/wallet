@@ -2,7 +2,17 @@ Template.postComment.events({
   "keypress #postComment": function (event) {
     if (event.which == 13) {
       event.preventDefault();
-      console.log('post comment');
+      Modules.client.addEvent(
+        Session.get('contract')._id,
+        {
+          userId: Meteor.userId(),
+          action: 'COMMENT',
+          content: document.getElementById('postComment').innerText,
+          sort: [],
+          sortTotal: 0
+        }
+      );
+      cleanCommentBox();
     }
   },
   "click #postComment": function (event) {
@@ -14,9 +24,13 @@ Template.postComment.events({
   },
   "blur #postComment": function (event) {
     if (document.getElementById('postComment').innerText == '') {
-      $('#postComment').attr('active', false);
-      $('#postComment').attr('class', 'comment comment-post comment-disabled');
-      document.getElementById('postComment').innerText = TAPi18n.__('argue');
+      cleanCommentBox();
     }
   }
 })
+
+function cleanCommentBox() {
+  $('#postComment').attr('active', false);
+  $('#postComment').attr('class', 'comment comment-post comment-disabled');
+  document.getElementById('postComment').innerText = TAPi18n.__('argue');
+}
