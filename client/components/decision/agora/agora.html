@@ -1,24 +1,26 @@
 <template name="agora">
   <div class="agora">
     <div class="content content-agora">
-      <h5>{{_ 'argument'}}</h5>
-      <div class="paper">
-        <div class="title-input"></div>
-        <div class="editor-draft rich-text w-richtext">
-        </div>
+      <h5>{{_ 'debate'}}</h5>
+      <div class="comment-editor w-clearfix">
+        <div class="power power-small"></div>
       </div>
-      <div class="agora-speak w-clearfix">
-        <div class="power power-small">
-          <a class="button button-small execute w-inline-block" href="#">
-            <div>{{_ 'speak'}}</div>
-          </a>
-        </div>
+      <div class="event w-clearfix">
+        {{> postComment}}
       </div>
-      <h5>{{_ 'agora'}}</h5>
+
+      {{#unless emptyThread}}
+        {{#each event}}
+          {{> thread}}
+        {{/each}}
+      {{else}}
+        <div class="menu menu-empty">
+          <div>
+            {{{_ 'no-comments-found'}}}
+          </div>
+        </div>
+      {{/unless}}
+      
     </div>
   </div>
-
-  <!-- TODO implement conversation threads
-    {{> thread}}
-  -->
 </template>

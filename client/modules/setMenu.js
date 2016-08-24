@@ -13,14 +13,14 @@ let sidebarMenu = (feed) => {
 
     decisions = _getDecisionsMenu(feed);
     personal = _getPersonalMenu(feed);
-    delegates = _getDelegatesMenu(feed);
+   //delegates = _getDelegatesMenu(feed);
 
   }
 
   Session.set('menuDecisions', decisions);
   Session.set('menuPersonal', personal);
-  Session.set('menuDelegates', delegates);
-  
+  //Session.set('menuDelegates', delegates);
+
 }
 
 let _getDecisionsMenu = (feed) => {
@@ -107,29 +107,6 @@ let _getPersonalMenu = (feed) => {
 
   return menu;
 
-}
-
-let _getDelegatesMenu = (feed) => {
-  var menu = new Array();
-
-  /*{
-       id: 3,
-       label: TAPi18n.__('memberships'),
-       value: Meteor.user().profile.menu.memberships,
-       separator: false,
-       url: '/filter?kind=membership',
-       selected: _verifySelection('membership', feed)
-     },
-     {
-       id: 4,
-       label: TAPi18n.__('delegations'),
-       value: Meteor.user().profile.menu.delegations,
-       separator: false,
-       url: '/filter?kind=delegation',
-       selected: _verifySelection('delegation', feed)
-     },*/
-
-  return menu;
 }
 
 let _verifySelection = (selection, feed) => {

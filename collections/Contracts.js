@@ -117,7 +117,7 @@ ContractSchema = new SimpleSchema({
     //Timestamp (visible last update)
     type: Date,
     autoValue: function () {
-      if (this.isUpdate) {
+      if (this.isUpdate || this.isInsert) {
         return new Date();
       }
     }
@@ -314,7 +314,7 @@ ContractSchema = new SimpleSchema({
     }
   },
   "ballot.$": {
-      type: Object
+     type: Object
   },
   "ballot.$._id": {
     type: String
@@ -370,7 +370,11 @@ ContractSchema = new SimpleSchema({
   },
   events: {
     type: Array,
-    optional: true
+    autoValue: function () {
+      if (this.isInsert) {
+        return [];
+      }
+    }
   },
   "events.$": {
     type: Transaction,

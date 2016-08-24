@@ -296,5 +296,8 @@
   "continue-password-recovery": "Continue",
   "email-sent": "Email sent, please check you inbox.",
   "user-not-found": "This email does not exist.",
-  "something-wrong": "Something went wrong, try again."
+  "something-wrong": "Something went wrong, try again.",
+  "debate": "Debate",
+  "argue": "Share an argument...",
+  "no-comments-found": "No comments found. <strong>Start the debate!</strong>"
 }

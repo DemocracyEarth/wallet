@@ -1,0 +1,14 @@
+<template name="postComment">
+  <div class="comment-post-left w-clearfix">
+    {{#if currentUser}}
+      <div class="extra"><div class="extra">
+        {{> avatar profile=this includeName=false includeNation=false editable=false}}
+      </div></div>
+    {{/if}}
+  </div>
+  <div class="comment-post-right">
+    <div id="postComment" class="comment comment-post comment-disabled" contenteditable="true" active=false>
+      {{_ 'argue'}}
+    </div>
+  </div>
+</template>
