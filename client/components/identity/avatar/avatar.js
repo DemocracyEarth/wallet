@@ -73,14 +73,11 @@ Template.avatar.helpers({
       if (profile.country != undefined) {
         return profile.country.name + ' ' + Modules.client.searchJSON(geoJSON.country, profile.country.name)[0].emoji;
       } else {
-
         //it's a user id.
         var stringId = new String(profile + Meteor.userId() + 'country');
         Modules.both.getUserInfo(profile, stringId);
         return Session.get(stringId).profile.country.name + ' ' + Modules.client.searchJSON(geoJSON.country, Session.get(stringId).profile.country.name)[0].emoji;
-
-
-        return TAPi18n.__('digital-citizen');
+        //return TAPi18n.__('digital-citizen');
       }
     }
   }

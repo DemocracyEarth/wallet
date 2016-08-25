@@ -6,6 +6,7 @@ let fetchUser = (userId, sessionVar) => {
     if (error)
       console.log(error);
 
+      //TODO filter to deliver only what necessary
     Session.set(sessionVar, data);
   });
 
