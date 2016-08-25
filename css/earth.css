@@ -124,6 +124,7 @@ blockquote {
 }
 
 .paper.paper-comment {
+  position: relative;
   margin-top: 0px;
   margin-bottom: -10px;
   padding-right: 5px;
@@ -3997,6 +3998,10 @@ blockquote {
   margin-bottom: 10px;
 }
 
+.event.event-reply {
+  margin-top: 15px;
+}
+
 .cards {
   display: block;
   margin-top: 5px;
@@ -4021,10 +4026,9 @@ blockquote {
 }
 
 .argument {
-  position: relative;
   margin-left: 40px;
   padding-left: 10px;
-  float: left;
+  float: none;
   border-left: 1px solid #e9e9e9;
 }
 
@@ -4104,7 +4108,7 @@ blockquote {
   display: block;
   min-height: 60px;
   margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   padding: 5px 10px;
   float: none;
   border-radius: 3px;

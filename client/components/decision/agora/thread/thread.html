@@ -24,10 +24,17 @@
           <div>{{content}}</div>
         </div>
       </div>
-      <a class="agora-button micro-button w-clearfix w-inline-block" href="#">
-        <img class="micro-icon" src="{{pathFor route='home'}}images/micro-draft.png">
-        <div class="micro-label">{{_ 'reply'}}</div>
-      </a>
+
+      {{#if reply}}
+        <div class="event event-reply w-clearfix">
+          {{> postComment replyMode=true}}
+        </div>
+      {{else}}
+        <a id="replyToThread" value="{{id}}" class="agora-button micro-button w-clearfix w-inline-block">
+          <img class="micro-icon" src="{{pathFor route='home'}}images/micro-draft.png">
+          <div class="micro-label">{{_ 'reply'}}</div>
+        </a>
+      {{/if}}
 
     </div>
 

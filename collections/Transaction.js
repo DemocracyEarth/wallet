@@ -1,6 +1,12 @@
 //Transactions = new Mongo.Collection("transactions");
 
 Schema.Transaction = new SimpleSchema({
+  id: {
+    type: String,
+    autoValue: function () {
+      return Modules.both.guidGenerator();
+    }
+  },
   userId: {
     type: String,
     optional: true
@@ -116,7 +122,7 @@ Schema.Transaction = new SimpleSchema({
     type: String,
     allowedValues: ['NEW', 'VERIFIED', 'PROCESSED'],
     autoValue: function () {
-      return 'NEW';  
+      return 'NEW';
     }
   }
 });

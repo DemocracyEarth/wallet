@@ -26,7 +26,10 @@ Template.avatar.helpers({
         //it's a user id.
         var stringId = new String(profile + Meteor.userId() + 'pic');
         Modules.both.getUserInfo(profile, stringId);
-        return Session.get(stringId).profile.picture;
+
+        if (Session.get(stringId) != undefined) {
+          return Session.get(stringId).profile.picture;
+        }
       }
     }
   },
@@ -56,7 +59,10 @@ Template.avatar.helpers({
         //it's a user id.
         var stringId = new String(profile + Meteor.userId() + 'name');
         Modules.both.getUserInfo(profile, stringId);
-        return Modules.client.showFullName(Session.get(stringId).profile.firstName, Session.get(stringId).profile.lastName);
+
+        if (Session.get(stringId) != undefined) {
+          return Modules.client.showFullName(Session.get(stringId).profile.firstName, Session.get(stringId).profile.lastName);
+        }
       }
     }
   },
@@ -76,8 +82,12 @@ Template.avatar.helpers({
         //it's a user id.
         var stringId = new String(profile + Meteor.userId() + 'country');
         Modules.both.getUserInfo(profile, stringId);
-        return Session.get(stringId).profile.country.name + ' ' + Modules.client.searchJSON(geoJSON.country, Session.get(stringId).profile.country.name)[0].emoji;
-        //return TAPi18n.__('digital-citizen');
+
+        if (Session.get(stringId) != undefined) {
+          return Session.get(stringId).profile.country.name + ' ' + Modules.client.searchJSON(geoJSON.country, Session.get(stringId).profile.country.name)[0].emoji;
+        } else {
+          return TAPi18n.__('digital-citizen');
+        }
       }
     }
   }
