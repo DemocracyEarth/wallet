@@ -27,7 +27,7 @@
 
       {{#if reply}}
         <div class="event event-reply w-clearfix">
-          {{> postComment replyMode=true}}
+          {{> postComment id=id replyMode=true}}
         </div>
       {{else}}
         <a id="replyToThread" value="{{id}}" class="agora-button micro-button w-clearfix w-inline-block">

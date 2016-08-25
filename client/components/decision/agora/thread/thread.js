@@ -12,7 +12,7 @@ Template.thread.helpers({
     }
   },
   reply: function () {
-    var replyStringId = 'reply' + this.id;
+    var replyStringId = 'replybox' + this.id;
     if (!Session.get(replyStringId)) {
       return false;
     } else {
@@ -23,18 +23,18 @@ Template.thread.helpers({
 
 Template.thread.events({
   "click #replyToThread": function(event) {
-    var replyStringId = 'reply' + this.id;
+    var replyStringId = 'replybox' + this.id;
+    if (replyBoxes.length > 0) {
+      for (var i = 0; i <= replyBoxes.length; i++) {
+        if (replyBoxes[i] != replyStringId) {
+          Session.set(replyBoxes[i], false);
+          var index = replyBoxes.indexOf(replyBoxes[i]);
+          if (index > -1) { replyBoxes.splice(index, 1); };
 
-    console.log(replyBoxes);
-
-
-    for (var i = 0; i <= replyBoxes.length; i++) {
-      if (replyBoxes[i] != replyStringId) {
-        Session.set(replyBoxes[i], false);
-        console.log('unset' + replyBoxes[i]);
+        }
       }
     }
-
-    Session.set(replyStringId, !Session.get(replyStringId));
+    replyBoxes.push(replyStringId);
+    Session.set(replyStringId, true);
   }
 })

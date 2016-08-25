@@ -7,8 +7,16 @@
     {{/if}}
   </div>
   <div class="comment-post-right">
-    <div id="postComment" value="{{id}}" class="comment comment-post comment-disabled" contenteditable="true" active=false>
-      {{_ 'argue'}}
-    </div>
+
+      {{#unless replyMode}}
+        <div id="postComment" name="{{id}}" class="comment comment-post comment-disabled" contenteditable="true" active=false>
+          {{_ 'argue'}}
+        </div>
+      {{else}}
+        <div id="postComment" name="{{id}}" class="comment comment-post" contenteditable="true" active=true>
+
+        </div>
+      {{/unless}}
+
   </div>
 </template>
