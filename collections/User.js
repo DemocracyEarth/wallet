@@ -1,5 +1,6 @@
 import {default as Votes} from "./Votes";
 
+
 Schema.Credential = new SimpleSchema({
   source: {
     type: String,

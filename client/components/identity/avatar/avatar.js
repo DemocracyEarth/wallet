@@ -20,7 +20,14 @@ Template.avatar.helpers({
         }
       }
     } else {
-      return profile.picture;
+      if (profile.picture != undefined) {
+        return profile.picture;
+      } else {
+        //it's a user id.
+        var stringId = new String(profile + Meteor.userId() + 'pic');
+        Modules.both.getUserInfo(profile, stringId);
+        return Session.get(stringId).profile.picture;
+      }
     }
   },
   pictureSize: function (size, includeName) {
@@ -43,7 +50,14 @@ Template.avatar.helpers({
         }
       }
     } else {
-      return Modules.client.showFullName(profile.firstName, profile.lastName);
+      if (profile.firstName != undefined) {
+        return Modules.client.showFullName(profile.firstName, profile.lastName);
+      } else {
+        //it's a user id.
+        var stringId = new String(profile + Meteor.userId() + 'name');
+        Modules.both.getUserInfo(profile, stringId);
+        return Modules.client.showFullName(Session.get(stringId).profile.firstName, Session.get(stringId).profile.lastName);
+      }
     }
   },
   nationality: function (profile) {
@@ -59,6 +73,13 @@ Template.avatar.helpers({
       if (profile.country != undefined) {
         return profile.country.name + ' ' + Modules.client.searchJSON(geoJSON.country, profile.country.name)[0].emoji;
       } else {
+
+        //it's a user id.
+        var stringId = new String(profile + Meteor.userId() + 'country');
+        Modules.both.getUserInfo(profile, stringId);
+        return Session.get(stringId).profile.country.name + ' ' + Modules.client.searchJSON(geoJSON.country, Session.get(stringId).profile.country.name)[0].emoji;
+
+
         return TAPi18n.__('digital-citizen');
       }
     }

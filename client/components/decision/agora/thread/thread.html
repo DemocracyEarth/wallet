@@ -12,13 +12,11 @@
       </div>
     </div>
 
-    <div class="argument">
+    <div class="argument {{noChildren}}">
       <ul class="extra w-clearfix w-list-unstyled">
-        <li class="identity w-clearfix"><img class="profile-pic symbol" src="images/Screen Shot 2016-01-27 at 12.05.33 AM.png">
-          <div class="identity-peer"><a class="identity-label" href="#">Satoshi Nakamoto</a>
-            <div class="identity-nation">🌎 Earth</div>
-          </div>
-          <div class="cards">2 hours ago.</div>
+        <li class="identity w-clearfix">
+          {{> avatar profile=userId includeName=true includeNation=true editable=false}}
+          <div class="cards">{{timestamp}}</div>
         </li>
       </ul>
       <div class="paper paper-comment">

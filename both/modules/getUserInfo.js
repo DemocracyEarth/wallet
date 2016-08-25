@@ -1,3 +1,5 @@
+var sessionIndex = new Array();
+
 let fetchUser = (userId, sessionVar) => {
 
   Meteor.call('getUserInfo', userId, function (error, data) {
