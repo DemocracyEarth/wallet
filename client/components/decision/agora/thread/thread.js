@@ -18,6 +18,9 @@ Template.thread.helpers({
     } else {
       return true;
     }
+  },
+  content: function () {
+    return Modules.client.textFormat(this.content); 
   }
 });
 

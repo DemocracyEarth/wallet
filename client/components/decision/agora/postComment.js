@@ -9,7 +9,7 @@ Template.postComment.rendered = function () {
 
 Template.postComment.events({
   "keypress #postComment": function (event) {
-    if (event.which == 13) {
+    if (event.which == 13 && !event.shiftKey) {
       event.preventDefault();
       if (!this.replyMode) {
         Modules.client.postComment(
