@@ -1,5 +1,7 @@
+var commentBox;
+
 Template.postComment.rendered = function () {
-  var commentBox = this.lastNode.firstChild.nextElementSibling;
+  commentBox = this.lastNode.firstChild.nextElementSibling;
   if (commentBox.innerText != TAPi18n.__('argue')) {
     commentBox.focus();
   }
@@ -11,7 +13,7 @@ Template.postComment.events({
       event.preventDefault();
 
       if (!this.replyMode) {
-        Modules.client.addEvent(
+        Modules.client.postComment(
           Session.get('contract')._id,
           {
             userId: Meteor.userId(),
@@ -23,9 +25,20 @@ Template.postComment.events({
         );
         cleanCommentBox();
       } else {
-        console.log("Es un reply");
-      }
-    }
+        Modules.client.postComment(
+          Session.get('contract')._id,
+          {
+            userId: Meteor.userId(),
+            action: 'COMMENT',
+            content: commentBox.innerText,
+            sort: [],
+            sortTotal: 0,
+            children: []
+          },
+          event.target.getAttribute('name')
+        );
+      };
+    };
   },
   "click #postComment": function (event) {
     if (!this.replyMode) {

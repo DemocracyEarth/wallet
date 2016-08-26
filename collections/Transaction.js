@@ -22,10 +22,44 @@ Schema.Transaction = new SimpleSchema({
   },
   children: {
     type: Array,
-    optional: true
+    autoValue: function () {
+      if (this.isInsert || this.isUpdate) {
+        return [];
+      }
+    }
   },
   "children.$": {
-      type: Schema.Transaction
+    type: Schema.Transaction
+  },
+  "children.$.action": {
+    type: String
+  },
+  "children.$.userId": {
+    type: String
+  },
+  "children.$.content": {
+    type: String
+  },
+  "children.$.sort": {
+    type: Array
+  },
+  "children.$.sort.$": {
+    type: Object
+  },
+  "children.$.sortTotal": {
+    type: Number
+  },
+  "children.$.id": {
+    type: String,
+    autoValue: function () {
+      return Modules.both.guidGenerator();
+    }
+  },
+  "children.$.children": {
+    type: Array
+  },
+  "children.$.children.$": {
+    type: Schema.Transaction
   },
   ballot: {
     type: Array,
