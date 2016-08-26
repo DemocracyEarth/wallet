@@ -5,7 +5,7 @@ Template.thread.helpers({
     return Modules.client.timeSince(this.timestamp);
   },
   noChildren: function () {
-    if (this.childred == undefined) {
+    if (this.children == undefined || this.children.length <= 0) {
       return 'no-children';
     } else {
       return '';

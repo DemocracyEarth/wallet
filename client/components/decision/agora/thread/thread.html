@@ -36,8 +36,11 @@
         </a>
       {{/if}}
 
-    </div>
+      {{#each children}}
+        {{> thread}}
+      {{/each}}
 
+    </div>
    </div>
 
 </template>

@@ -11,7 +11,6 @@ Template.postComment.events({
   "keypress #postComment": function (event) {
     if (event.which == 13) {
       event.preventDefault();
-
       if (!this.replyMode) {
         Modules.client.postComment(
           Session.get('contract')._id,

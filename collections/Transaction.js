@@ -49,6 +49,19 @@ Schema.Transaction = new SimpleSchema({
   "children.$.sortTotal": {
     type: Number
   },
+  "children.$.timestamp": {
+    type: Date,
+    autoValue: function () {
+      return new Date();
+    }
+  },
+  "children.$.status": {
+    type: String,
+    allowedValues: ['NEW', 'VERIFIED', 'PROCESSED'],
+    autoValue: function () {
+      return 'NEW';
+    }
+  },
   "children.$.id": {
     type: String,
     autoValue: function () {
