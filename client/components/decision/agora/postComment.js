@@ -23,6 +23,7 @@ Template.postComment.events({
           }
         );
         cleanCommentBox();
+        event.target.blur();
       } else {
         Modules.client.postComment(
           Session.get('contract')._id,
@@ -36,6 +37,7 @@ Template.postComment.events({
           },
           event.target.getAttribute('name')
         );
+        Session.set('replybox' + this.id, false);
       };
     };
   },
@@ -53,6 +55,8 @@ Template.postComment.events({
       if (document.getElementById('postComment').innerText == '') {
         cleanCommentBox();
       }
+    } else {
+      Session.set('replybox' + this.id, false);
     }
   }
 })
