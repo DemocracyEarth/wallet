@@ -32,6 +32,7 @@ Template.navigation.helpers({
   },
   icon: function () {
     if (Session.get('navbar')) {
+      console.log(Session.get('navbar').icon);
       return Session.get('navbar').icon;
     }
   },
@@ -41,3 +42,12 @@ Template.navigation.helpers({
     }
   }
 });
+
+Template.navigation.events({
+  "click #menu": function (event) {
+    console.log(Session.get('navbar'));
+    if (Session.get('navbar').action == 'SIDEBAR') {
+      Session.set('sidebar', !Session.get('sidebar'))
+    }
+  }
+})

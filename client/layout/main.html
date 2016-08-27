@@ -3,11 +3,11 @@
   <!-- App -->
   {{> modal}}
 
-  <div class="left">
+  <div id='menu' class="left" style="{{menu}}">
     {{> sidebar}}
   </div>
 
-  <div class="right">
+  <div id='content' class="right">
     {{> navigation}}
     {{> yield}}
   </div>
