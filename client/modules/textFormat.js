@@ -5,14 +5,13 @@ import {default as Modules} from "./_modules";
 ******/
 let textFormat = (text) => {
   var html = new String();
-
   var bold = /\*(\S(.*?\S)?)\*/gm;
-  html = text.replace(bold, '<b>$1</b>');
 
-  html = urlify(html);
-
-
-  return html.replace(/\n/g, "<br />");
+  if (text != undefined) {
+    html = text.replace(bold, '<b>$1</b>');
+    html = urlify(html);
+    return html.replace(/\n/g, "<br />");
+  }
 
 }
 
