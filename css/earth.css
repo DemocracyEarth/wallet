@@ -4074,7 +4074,7 @@ blockquote {
   bottom: 0px;
   display: inline-block;
   overflow: scroll;
-  width: 55%;
+  width: 50%;
   padding: 60px 30px 15px;
   float: left;
   background-color: #ddd;
@@ -4082,9 +4082,9 @@ blockquote {
 
 .split.split-right {
   position: absolute;
-  left: 55%;
+  left: 50%;
   right: 0px;
-  width: 45%;
+  width: 50%;
   padding-right: 0px;
   padding-left: 0px;
   border-left: 1px none hsla(0, 0%, 41%, 0);
