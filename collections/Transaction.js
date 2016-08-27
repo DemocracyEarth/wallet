@@ -1,4 +1,3 @@
-//Transactions = new Mongo.Collection("transactions");
 
 Schema.Transaction = new SimpleSchema({
   id: {
@@ -133,6 +132,5 @@ Schema.Transaction = new SimpleSchema({
 });
 
 TransactionContext = Schema.Transaction.newContext();
-//Transaction.attachSchema(Schema.Transaction);
 
 export default Schema.Transaction;
