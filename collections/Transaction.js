@@ -29,50 +29,8 @@ Schema.Transaction = new SimpleSchema({
     }
   },
   "children.$": {
-    type: Schema.Transaction
-  },
-  "children.$.action": {
-    type: String
-  },
-  "children.$.userId": {
-    type: String
-  },
-  "children.$.content": {
-    type: String
-  },
-  "children.$.sort": {
-    type: Array
-  },
-  "children.$.sort.$": {
-    type: Object
-  },
-  "children.$.sortTotal": {
-    type: Number
-  },
-  "children.$.timestamp": {
-    type: Date,
-    autoValue: function () {
-      return new Date();
-    }
-  },
-  "children.$.status": {
-    type: String,
-    allowedValues: ['NEW', 'VERIFIED', 'PROCESSED'],
-    autoValue: function () {
-      return 'NEW';
-    }
-  },
-  "children.$.id": {
-    type: String,
-    autoValue: function () {
-      return Modules.both.guidGenerator();
-    }
-  },
-  "children.$.children": {
-    type: Array
-  },
-  "children.$.children.$": {
-    type: Schema.Transaction
+    type: Schema.Transaction,
+    blackbox: true
   },
   ballot: {
     type: Array,

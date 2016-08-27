@@ -15,32 +15,20 @@ let postComment = (contractId, eventObject, replyId) => {
       events: eventObject
     }});
   } else {
+    //Add event object dynamic key values since Schema is blackboxed to enable infinite branching.
+    eventObject.timestamp = new Date();
+    eventObject.status = 'NEW';
+    eventObject.id = Modules.both.guidGenerator();
     thread = Contracts.find({_id: Session.get('contract')._id }).fetch()[0].events;
-    for (var i = 0; i < thread.length; i++) {
-      if (thread[i].id == replyId) {
-        //thread[i].children.push(eventObject);
-        index = 'events.' + i.toString() + '.children';
-      }
-    }
-
     node = '';
-
     for (children in thread) {
       node += searchTree(thread[children], replyId, children, true);
-      if (node != '') {
-        console.log(node);
-      }
     }
-
-/*
-
-    query[index] = eventObject;
+    query[node] = eventObject;
     Contracts.update(
       { _id: contractId },
       { $push: query}
     );
-
-    */
   };
 
 }
@@ -75,8 +63,5 @@ let searchTree = (element, matchingTitle, iterator, isRoot, hasDad) => {
   }
   return '';
 }
-
-
-
 
 Modules.client.postComment = postComment;
