@@ -33,8 +33,10 @@ Template.navigation.helpers({
     }
   },
   icon: function () {
-    if (Session.get('navbar')) {
+    if (Session.get('navbar') != undefined) {
       return displayMenuIcon();
+    } else {
+      return 'images/burger.png';
     }
   },
   link: function () {
@@ -53,9 +55,11 @@ Template.navigation.events({
 })
 
 function displayMenuIcon() {
-  if (Session.get('sidebar')) {
-    return 'images/burger.png';
-  } else {
+  console.log('nav dice: ' + Session.get('navbar').toggle);
+  console.log('side dice: ' + Session.get('sidebar'));
+  if (Session.get('navbar').toggle) {
     return 'images/burger-active.png';
+  } else {
+    return 'images/burger.png';
   }
 }
