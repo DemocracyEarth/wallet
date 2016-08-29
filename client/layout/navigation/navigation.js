@@ -23,6 +23,8 @@ if (Meteor.Device.isPhone()) {
   });
 };
 
+Template.navigation.rendered = function () {
+}
 
 Template.navigation.helpers({
   screen: function () {
@@ -32,8 +34,7 @@ Template.navigation.helpers({
   },
   icon: function () {
     if (Session.get('navbar')) {
-      console.log(Session.get('navbar').icon);
-      return Session.get('navbar').icon;
+      return displayMenuIcon();
     }
   },
   link: function () {
@@ -45,9 +46,16 @@ Template.navigation.helpers({
 
 Template.navigation.events({
   "click #menu": function (event) {
-    console.log(Session.get('navbar'));
     if (Session.get('navbar').action == 'SIDEBAR') {
       Session.set('sidebar', !Session.get('sidebar'))
     }
   }
 })
+
+function displayMenuIcon() {
+  if (Session.get('sidebar')) {
+    return 'images/burger.png';
+  } else {
+    return 'images/burger-active.png';
+  }
+}

@@ -3873,11 +3873,6 @@ blockquote {
   height: 40px;
   margin-top: 3px;
   margin-bottom: 3px;
-  opacity: 0.7;
-}
-
-.menu-button:hover {
-  opacity: 1;
 }
 
 .collective-title {
@@ -4133,6 +4128,13 @@ blockquote {
   position: relative;
   display: block;
   margin-left: 70px;
+}
+
+.tooltip {
+  margin-top: -15px;
+  color: #aaa;
+  font-size: 10px;
+  text-align: center;
 }
 
 @media (max-width: 991px) {
