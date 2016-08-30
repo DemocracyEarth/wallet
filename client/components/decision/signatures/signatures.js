@@ -23,7 +23,13 @@ Template.signatures.helpers({
     return Session.get('userSigned');
   },
   signer: function () {
-    return Contracts.findOne({_id: Session.get('contractId')}).signatures;
+    if (Session.get('contract').signatures != undefined) {
+      return Session.get('contract').signatures;
+    } else {
+      //is anonymous
+      return [Modules.both.getAnonymous()];
+    }
+
   }
 });
 

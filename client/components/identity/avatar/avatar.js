@@ -26,7 +26,6 @@ Template.avatar.helpers({
         //it's a user id.
         var stringId = new String(profile + Meteor.userId() + 'pic');
         Modules.both.getUserInfo(profile, stringId);
-
         if (Session.get(stringId) != undefined) {
           return Session.get(stringId).profile.picture;
         }
@@ -77,14 +76,21 @@ Template.avatar.helpers({
       }
     } else {
       if (profile.country != undefined) {
-        return profile.country.name + ' ' + Modules.client.searchJSON(geoJSON.country, profile.country.name)[0].emoji;
+        if (profile.country.name != TAPi18n.__('unknown')) {
+          return profile.country.name + ' ' + Modules.client.searchJSON(geoJSON.country, profile.country.name)[0].emoji;
+        } else {
+          return TAPi18n.__('unknown');
+        }
       } else {
         //it's a user id.
         var stringId = new String(profile + Meteor.userId() + 'country');
         Modules.both.getUserInfo(profile, stringId);
-
         if (Session.get(stringId) != undefined) {
-          return Session.get(stringId).profile.country.name + ' ' + Modules.client.searchJSON(geoJSON.country, Session.get(stringId).profile.country.name)[0].emoji;
+          if (Session.get(stringId).profile.country.name != TAPi18n.__('unknown')) {
+            return Session.get(stringId).profile.country.name + ' ' + Modules.client.searchJSON(geoJSON.country, Session.get(stringId).profile.country.name)[0].emoji;
+          } else {
+            return TAPi18n.__('unknown');
+          }
         } else {
           return TAPi18n.__('digital-citizen');
         }
