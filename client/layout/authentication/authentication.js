@@ -4,6 +4,7 @@ Template.authentication.rendered = function () {
 
 Template.authentication.helpers({
   displayLogin: function () {
+    console.log('cambia estatus ' + Session.get('displayLogin'))
     return Session.get('displayLogin');
   },
   toggle: function () {
@@ -12,16 +13,5 @@ Template.authentication.helpers({
     } else {
       return '';
     }
-  }
-});
-
-Template.authentication.events({
-  "click #current-user": function (event) {
-    if (Session.get('displayLogin') == false) {
-      Session.set('displayLogin', true);
-    } else {
-      Session.set('displayLogin', false);
-    }
-    displayPopup('login', document.getElementById('current-user'));
   }
 });

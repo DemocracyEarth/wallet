@@ -37,7 +37,6 @@ let _rememberSelectedItem = (arrMenu) => {
       break;
     }
   }
-
   return arrMenu;
 }
 

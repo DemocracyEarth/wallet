@@ -22,7 +22,7 @@
       {{/if}}
 
       {{#if profile}}
-        <img src="{{profilePicture profile}}" class="symbol profile-pic {{classStyle smallFont}}" style="{{pictureSize size includeName}}">
+        <img id="{{elementId}}" src="{{profilePicture profile}}" class="symbol profile-pic {{classStyle smallFont}}" style="{{pictureSize size includeName}}">
       {{else}}
         <img src="{{profilePicture}}" class="symbol profile-pic  {{classStyle smallFont}}" style="{{pictureSize size includeName}}">
       {{/if}}

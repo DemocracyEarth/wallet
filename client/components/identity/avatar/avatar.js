@@ -3,6 +3,9 @@ Template.avatar.rendered = function () {
 }
 
 Template.avatar.helpers({
+  elementId: function () {
+    return Modules.both.guidGenerator();
+  },
   classStyle: function (smallFont) {
     if (smallFont) {
       return 'identity-small';
@@ -107,5 +110,8 @@ Template.avatar.events({
     var data = Meteor.user().profile;
     data.configured = false;
     Meteor.users.update(Meteor.userId(), { $set: { profile : data }})
+  },
+  'click .profile-pic': function (event) {
+    Modules.client.displayPopup('login', event.target);
   }
 });
