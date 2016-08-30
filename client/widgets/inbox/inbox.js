@@ -27,6 +27,7 @@ Template.inbox.helpers({
 
 Template.inbox.events({
   'click #menuButton': function (event) {
+    Session.set('sidebarMenuSelectedId', this.id);
 
   //  Modules.client.setSidebarMenu($('#sidebar-button-' + this.id).attr('feed'));
 

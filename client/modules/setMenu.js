@@ -17,10 +17,26 @@ let sidebarMenu = (feed) => {
 
   }
 
+  if (Session.get('sidebarMenuSelectedId') != undefined) {
+    decisions = _rememberSelectedItem(decisions);
+    personal = _rememberSelectedItem(personal);
+  }
+
   Session.set('menuDecisions', decisions);
   Session.set('menuPersonal', personal);
   //Session.set('menuDelegates', delegates);
 
+}
+
+let _rememberSelectedItem = (arrMenu) => {
+  for (item in arrMenu) {
+    if (arrMenu[item].id == Session.get('sidebarMenuSelectedId')) {
+      arrMenu[item].selected = true;
+      break;
+    }
+  }
+
+  return arrMenu;
 }
 
 let _getDecisionsMenu = (feed) => {

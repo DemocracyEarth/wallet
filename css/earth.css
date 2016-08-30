@@ -3645,7 +3645,6 @@ blockquote {
 .menu-item.menu-item-selected {
   background-color: #6d5c7d;
   color: #fff;
-  cursor: default;
 }
 
 .signal {
