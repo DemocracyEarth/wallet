@@ -27,9 +27,10 @@ Template.signatures.helpers({
       return Session.get('contract').signatures;
     } else {
       //is anonymous
-      return [Modules.both.getAnonymous()];
+      if (!this.editorMode) {
+        return [Modules.both.getAnonymous()];
+      }
     }
-
   }
 });
 

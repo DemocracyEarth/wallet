@@ -17,9 +17,11 @@ let sidebarMenu = (feed) => {
 
   }
 
-  if (Session.get('sidebarMenuSelectedId') != undefined) {
-    decisions = _rememberSelectedItem(decisions);
-    personal = _rememberSelectedItem(personal);
+  if (feed == '' || feed == undefined) {
+    if (Session.get('sidebarMenuSelectedId') != undefined) {
+      decisions = _rememberSelectedItem(decisions);
+      personal = _rememberSelectedItem(personal);
+    }
   }
 
   Session.set('menuDecisions', decisions);
@@ -38,6 +40,9 @@ let _rememberSelectedItem = (arrMenu) => {
 
   return arrMenu;
 }
+
+
+
 
 let _getDecisionsMenu = (feed) => {
   var menu = new Array();

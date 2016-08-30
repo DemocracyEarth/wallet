@@ -301,5 +301,6 @@
   "argue": "Share an argument...",
   "no-comments-found": "No comments found. <strong>Start the debate!</strong>",
   "reply": "Reply",
-  "navbar-proposal": "Proposal Vote"
+  "navbar-proposal": "Proposal Vote",
+  "unknown": "Unknown"
 }
