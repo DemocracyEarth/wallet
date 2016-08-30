@@ -7,6 +7,8 @@ Template.collective.helpers({
   description: function () {
     if (Session.get('collective') != undefined) {
       return Session.get('collective').profile.bio;
+    } else {
+      
     }
   },
   picture: function () {

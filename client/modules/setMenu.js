@@ -126,4 +126,17 @@ let _verifySelection = (selection, feed) => {
   }
 }
 
+let animateMenu = (display) => {
+  if (display) {
+    $('#menu').velocity({'marginLeft': '0px'}, Modules.client.animationSettings);
+    $('#content').velocity({'left': '320px'}, Modules.client.animationSettings);
+    $('.navbar').velocity({'left': '320px'}, Modules.client.animationSettings);
+  } else {
+    $('#menu').velocity({'marginLeft': '-320px'}, Modules.client.animationSettings);
+    $('#content').velocity({'left': '0px'}, Modules.client.animationSettings);
+    $('.navbar').velocity({'left': '0px'}, Modules.client.animationSettings);
+  }
+}
+
+Modules.client.animateSidebarMenu = animateMenu;
 Modules.client.setSidebarMenu = sidebarMenu;

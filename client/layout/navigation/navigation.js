@@ -49,15 +49,14 @@ Template.navigation.helpers({
 Template.navigation.events({
   "click #menu": function (event) {
     if (Session.get('navbar').action == 'SIDEBAR') {
-      Session.set('sidebar', !Session.get('sidebar'))
+      Session.set('sidebar', !Session.get('sidebar'));
+      Modules.client.animateSidebarMenu(Session.get('sidebar'));
     }
   }
 })
 
 function displayMenuIcon() {
-  console.log('nav dice: ' + Session.get('navbar').toggle);
-  console.log('side dice: ' + Session.get('sidebar'));
-  if (Session.get('navbar').toggle) {
+  if (Session.get('sidebar')) {
     return 'images/burger-active.png';
   } else {
     return 'images/burger.png';
