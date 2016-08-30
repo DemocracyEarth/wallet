@@ -127,6 +127,7 @@ let _verifySelection = (selection, feed) => {
 }
 
 let animateMenu = (display) => {
+  //TODO make all strings showing pixels compliant with the device screen being used (aka mobiles)
   if (display) {
     $('#menu').velocity({'marginLeft': '0px'}, Modules.client.animationSettings);
     $('#content').velocity({'left': '320px'}, Modules.client.animationSettings);
