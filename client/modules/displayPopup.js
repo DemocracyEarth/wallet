@@ -1,17 +1,12 @@
 import {default as Modules} from "./_modules";
 
-var position = new Object;
-var pointerClass = new String;
-var target = new Object;
-var cursorLeft;
-var popupVisible = false;
 popupCard = new Object();
 popupCard.visible = false;
 popupCard.position = new Object;
 
 let _displayPopup = (content, sourceElement) => {
 
-  Session.set('displayLogin', !Session.get('displayLogin'));
+  Session.set('displayPopup', !Session.get('displayPopup'));
 
   //Store content and source for resizing Calls
   popupCard.content = content;
@@ -22,7 +17,7 @@ let _displayPopup = (content, sourceElement) => {
   case 'login':
     target = {
       width : 300,
-      height: 325,
+      height: 225,
       opacity: 1
     }
     popupCard.visible = true;
@@ -30,15 +25,9 @@ let _displayPopup = (content, sourceElement) => {
   default:
     break;
   }
-
   popupCard.target = target;
-
   popupCard.position = _positionCard(sourceElement, target);
-
-
   _renderPopup();
-
-
 
 }
 
@@ -48,25 +37,50 @@ let _positionCard = (sourceElement, target) => {
   var source = sourceElement.getBoundingClientRect();
   var centerPos = (source.width / 2);
 
-  //Decide positioning
-
   //Y Axis
   if (source.top < parseInt(target.height + 60)) {
     //Place on bottom
-    popupCard.position['margin-top'] = -5;
+    //popupCard.position['margin-top'] = -5;
+
+    //popup goes at bottom of target
+    popupCard.position['top'] = source.bottom;
     pointerClass = 'pointer-up';
+
   } else {
     //Place at top
     //position['margin-top'] = parseInt(source.top + sourceElement.offsetHeight + 10);
+
+    //popup goes on top of target
+    popupCard.position['top'] = parseInt(source.top - target.height);
     pointerClass = 'pointer-down';
+
   }
 
   //X Axis
   var spaceRight = parseInt(document.body.offsetWidth - source.right);
   var spaceLeft = parseInt(document.body.offsetWidth - source.left);
 
-  //Right side of screen
   if (source.left > (document.body.offsetWidth / 2)) {
+    //popup will be on right side of screen
+
+    if (spaceRight < (target.width - (target.width / 2))) {
+
+      //var newMargin = (0 - target.width + spaceRight + source.width - 10);
+
+      popupCard.position['left'] = (source.left - (target.width / 2));
+
+    } else {
+
+      popupCard.position['left'] = (source.left - (target.width / 2));
+
+    }
+  } else {
+    //popup will be on left side of screen
+
+  }
+
+  //Right side of screen
+/*  if (source.left > (document.body.offsetWidth / 2)) {
     if (spaceRight < (target.width - (target.width / 2))) {
       //little space on the right
       var newMargin = (0 - target.width + spaceRight + source.width - 10);
@@ -86,7 +100,7 @@ let _positionCard = (sourceElement, target) => {
 
     //TODO
 
-  }
+  }*/
 
   return Object.assign(popupCard.position, target);
 }

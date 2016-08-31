@@ -1,6 +1,6 @@
 Template.login.events({
   'click #logout': function(event){
-    Session.set('displayLogin', false);
-    Meteor.logout();    
+    Session.set('displayPopup', false);
+    Meteor.logout();
   }
 });

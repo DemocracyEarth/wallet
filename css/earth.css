@@ -3302,7 +3302,7 @@ blockquote {
 
 .popup {
   position: absolute;
-  z-index: 2500;
+  z-index: 8500;
   display: block;
   margin-left: -94px;
 }

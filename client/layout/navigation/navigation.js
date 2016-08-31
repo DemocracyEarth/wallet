@@ -1,8 +1,6 @@
 //Scroll behaviour
 var lastScrollTop = 0;
 var scrollDown = false;
-var displayLogin = false;
-
 
 if (Meteor.Device.isPhone()) {
   $(window).scroll(function(event) {
