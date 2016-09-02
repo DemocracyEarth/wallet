@@ -3304,7 +3304,6 @@ blockquote {
   position: absolute;
   z-index: 8500;
   display: block;
-  margin-left: -94px;
 }
 
 .popup.invisible {

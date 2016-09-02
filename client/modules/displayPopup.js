@@ -58,26 +58,39 @@ let _positionCard = (sourceElement, target) => {
 
   //X Axis
   var spaceRight = parseInt(document.body.offsetWidth - source.right);
-  var spaceLeft = parseInt(document.body.offsetWidth - source.left);
+  var spaceLeft = parseInt(source.left);
+  var documentHalf = parseInt(document.body.offsetWidth / 2);
 
-  if (source.left > (document.body.offsetWidth / 2)) {
+  console.log(sourceElement);
+  console.log(source.left);
+  console.log('spaceLeft = ' + spaceLeft);
+
+  if (source.left > documentHalf) {
     //popup will be on right side of screen
 
     if (spaceRight < (target.width - (target.width / 2))) {
-
-      //var newMargin = (0 - target.width + spaceRight + source.width - 10);
-
-      popupCard.position['left'] = (source.left - (target.width / 2));
-
+      //not enough space on the right for Popup centering
+      console.log('not enough space on the right for Popup centering.');
+      left = parseInt(source.left - target.width + source.width);
     } else {
-
-      popupCard.position['left'] = (source.left - (target.width / 2));
-
+      //enough space on the right, Popup is centered.
+      console.log('enough space on the right, Popup is centered.');
+      left = parseInt(source.left - (target.width / 2) + (source.width / 2));
     }
   } else {
     //popup will be on left side of screen
-
+    if (spaceLeft < (target.width - (target.width / 2))) {
+      //not enough space on left
+      console.log('not enough space on left');
+      left = parseInt(source.left);
+    } else {
+      //enough space on left;
+      console.log('enough space on left');
+      left = parseInt(source.left - (target.width / 2) + (source.width / 2));
+    }
   }
+
+  popupCard.position['left'] = left;
 
   //Right side of screen
 /*  if (source.left > (document.body.offsetWidth / 2)) {

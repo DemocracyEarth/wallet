@@ -7,7 +7,7 @@ Template.popup.helpers({
     if (Session.get('displayPopup')) {
       return 'opacity: 1;';
     } else {
-      return 'opacity: 0;';
+      return 'opacity: 0; margin-top:-10000px;';
     }
   }
 })
