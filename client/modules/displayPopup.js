@@ -84,7 +84,14 @@ let _positionCard = (sourceElement, target) => {
 let _renderPopup = () => {
 
   //Pointer
-  $('.pointer-up').css({ 'left' : popupCard.pointerPosition });
+  if (popupCard.pointerClass == '.pointer-up') {
+    $(popupCard.pointerClass).css({ 'left' : popupCard.pointerPosition, 'opacity': 1 });
+    $('.pointer-down').css({ 'opacity' : 0 });
+  } else {
+    $(popupCard.pointerClass).css({ 'left' : popupCard.pointerPosition, 'opacity': 1 });  
+    $('.pointer-up').css({ 'opacity' : 0 });
+  }
+
 
   //positioning
   $('#popup').css(popupCard.position);

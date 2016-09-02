@@ -250,9 +250,6 @@ blockquote {
   right: 10px;
   display: inline-block;
   overflow: hidden;
-  max-width: 300px;
-  min-width: 300px;
-  margin-top: 6px;
   padding: 10px;
   border-radius: 3px;
   background-color: rgba(49, 38, 59, .95);
@@ -3288,12 +3285,9 @@ blockquote {
 
 .pointer-up {
   position: relative;
-  left: 50%;
   display: block;
   width: 0px;
   height: 0px;
-  margin-right: auto;
-  margin-bottom: -6px;
   border-style: solid;
   border-width: 0px 10px 15px;
   border-color: transparent transparent rgba(49, 38, 59, .95);
@@ -4133,6 +4127,17 @@ blockquote {
   color: #aaa;
   font-size: 10px;
   text-align: center;
+}
+
+.pointer-down {
+  position: relative;
+  width: 0px;
+  height: 0px;
+  margin-top: -7px;
+  border-style: solid;
+  border-width: 15px 10px 0px;
+  border-color: rgba(49, 38, 59, .95) transparent transparent;
+  background-color: transparent;
 }
 
 @media (max-width: 991px) {
