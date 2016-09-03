@@ -4,30 +4,25 @@ popupCard = new Object();
 popupCard.visible = false;
 popupCard.position = new Object;
 
-let _displayPopup = (template, sourceElement, show) => {
+let _displayPopup = (template, element, show) => {
 
  Meteor.setTimeout(function () {
 
     //Store content and source for resizing Calls
     popupCard.content = template;
-    popupCard.sourceElement = sourceElement;
+    popupCard.element = element;
 
     //Draw content
+    var source = element.getBoundingClientRect();
     Session.set('popupTemplate', template);
-    switch (template) {
-    case 'login':
-      target = {
-        width : 300,
-        height: 225,
-        opacity: 1
-      }
-      popupCard.visible = true;
-      break;
-    default:
-      break;
+    var target = {
+      width : parseInt($('.popup').width()),
+      height: parseInt($('.card').height() + 40),
+      opacity: 1
     }
+    popupCard.visible = true;
     popupCard.target = target;
-    popupCard.position = _positionCard(sourceElement, target);
+    popupCard.position = _positionCard(source, target);
     _renderPopup();
 
     if (show == undefined) {
@@ -40,10 +35,10 @@ let _displayPopup = (template, sourceElement, show) => {
 }
 
 
-let _positionCard = (sourceElement, target) => {
+let _positionCard = (source, target) => {
   var left = new Number();
   var pointer = new Number();
-  var source = sourceElement.getBoundingClientRect();
+  //var source = element.getBoundingClientRect();
   var spaceRight = parseInt(document.body.offsetWidth - source.right);
   var spaceLeft = parseInt(source.left);
   var documentHalf = parseInt(document.body.offsetWidth / 2);
@@ -103,13 +98,13 @@ let _renderPopup = () => {
   //Resize
   $(window).resize( function() {
     if (Session.get('displayPopup')) {
-      $('#popup').css(Modules.client.positionCard(popupCard.sourceElement, popupCard.target));
+      $('#popup').css(Modules.client.positionCard(popupCard.element, popupCard.target));
     }
   });
 
   $('.split').on('scroll', function() {
     if (Session.get('displayPopup')) {
-      $('#popup').css(Modules.client.positionCard(popupCard.sourceElement, popupCard.target));
+      $('#popup').css(Modules.client.positionCard(popupCard.element, popupCard.target));
     }
   });
 

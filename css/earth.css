@@ -3303,6 +3303,7 @@ blockquote {
   position: absolute;
   z-index: 12900;
   display: block;
+  min-width: 300px;
   margin-top: -10000px;
   opacity: 0;
 }
