@@ -250,6 +250,7 @@ blockquote {
   right: 10px;
   display: inline-block;
   overflow: hidden;
+  width: 100%;
   padding: 10px;
   border-radius: 3px;
   background-color: rgba(49, 38, 59, .95);
@@ -1720,7 +1721,7 @@ blockquote {
   left: 320px;
   top: 0px;
   right: 0px;
-  z-index: 9000;
+  z-index: 14000;
   height: 60px;
   padding-right: 10px;
   padding-left: 0px;
@@ -3296,7 +3297,7 @@ blockquote {
 
 .popup {
   position: absolute;
-  z-index: 8500;
+  z-index: 12900;
   display: block;
 }
 

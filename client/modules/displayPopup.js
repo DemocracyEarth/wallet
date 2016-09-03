@@ -47,7 +47,7 @@ let _positionCard = (sourceElement, target) => {
     popupCard.pointerClass = '.pointer-up';
   } else {
     //popup goes on top of target
-    popupCard.position['top'] = parseInt(source.top - target.height);
+    popupCard.position['top'] = parseInt(source.top - target.height - 10);
     popupCard.pointerClass = '.pointer-down';
   }
 
@@ -83,33 +83,39 @@ let _positionCard = (sourceElement, target) => {
 
 let _renderPopup = () => {
 
-  //Pointer
-  if (popupCard.pointerClass == '.pointer-up') {
-    $(popupCard.pointerClass).css({ 'left' : popupCard.pointerPosition, 'opacity': 1 });
-    $('.pointer-down').css({ 'opacity' : 0 });
-  } else {
-    $(popupCard.pointerClass).css({ 'left' : popupCard.pointerPosition, 'opacity': 1 });  
-    $('.pointer-up').css({ 'opacity' : 0 });
-  }
-
+  _cursorPosition();
 
   //positioning
   $('#popup').css(popupCard.position);
-
-  //Animation
-  popupCard.position['easing'] = 'ease-in-out';
 
   //TODO fix animation for this cmomponent but the line below will break HTML.
   //behave(this.firstNode, 'fade-and-roll', position, animation);
 
   //Resize
   $(window).resize( function() {
-    if (popupCard.visible == true) {
+    if (Session.get('displayPopup')) {
       $('#popup').css(Modules.client.positionCard(popupCard.sourceElement, popupCard.target));
-      $('.pointer-up').css({ 'left' : popupCard.cursorLeft });
+      _cursorPosition();
     }
   });
 
+  $('.split').on('scroll', function() {
+    if (Session.get('displayPopup')) {
+      $('#popup').css(Modules.client.positionCard(popupCard.sourceElement, popupCard.target));
+      _cursorPosition();
+    }
+  })
+}
+
+let _cursorPosition = () => {
+  //pointer
+  if (popupCard.pointerClass == '.pointer-up') {
+    $(popupCard.pointerClass).css({ 'left' : popupCard.pointerPosition, 'opacity': 1 });
+    $('.pointer-down').css({ 'opacity' : 0 });
+  } else {
+    $(popupCard.pointerClass).css({ 'left' : popupCard.pointerPosition, 'opacity': 1 });
+    $('.pointer-up').css({ 'opacity' : 0 });
+  }
 }
 
 Modules.client.renderPopup = _renderPopup;
