@@ -99,20 +99,6 @@ let _renderPopup = () => {
     }
   });
 
-  /*
-  $(window).click(function() {
-    if (Session.get('displayPopup')) {
-      //Session.set('displayPopup', false);
-      _animatePopup(false);
-    }
-  });
-
-  $('.popup').click(function(event){
-    event.stopPropagation();
-    console.log('eh?  ')
-  });
-  */
-
   $('.split').on('scroll', function() {
     if (Session.get('displayPopup')) {
       $('#popup').css(Modules.client.positionCard(popupCard.sourceElement, popupCard.target));
@@ -123,10 +109,12 @@ let _renderPopup = () => {
 
 let _animatePopup = (display) => {
   if (display) {
-    console.log('displau animatoin');
+    var pointerFX = '-5px';
+    if (popupCard.pointerClass == '.pointer-up') { pointerFX = '5px'; };
     $('.popup').css('opacity','0');
-    $('.popup').css('margin-top', '0px');
+    $('.popup').css('margin-top', pointerFX);
     $('.popup').velocity({ 'opacity' : 1}, {duration: (Modules.client.animationSettings.duration / 2)});
+    $('.popup').velocity({ 'marginTop' : '0px'}, {duration: (Modules.client.animationSettings.duration / 2)});
   } else {
     $('.popup').css('opacity','1');
     $('.popup').velocity({ 'opacity' : 0}, {duration: (Modules.client.animationSettings.duration / 2), complete: function () {
