@@ -10,6 +10,8 @@ Template.popup.helpers({
 
 Template.popup.events({
   'mouseleave .popup': function (event) {
-    Session.set('displayPopup', false);
+    if (Session.get('displayPopup')) {
+      Session.set('displayPopup', false);
+    }
   }
 })

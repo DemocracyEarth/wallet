@@ -112,7 +112,7 @@ let _renderPopup = () => {
   $(window).mousemove ( function () {
     if (Session.get('displayPopup')) {
       if ($('#popup:hover').length == 0) {
-        _animatePopup(false);
+        Session.set('displayPopup', false);
       }
     }
   });
