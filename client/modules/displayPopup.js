@@ -4,34 +4,38 @@ popupCard = new Object();
 popupCard.visible = false;
 popupCard.position = new Object;
 
-let _displayPopup = (content, sourceElement, show) => {
+let _displayPopup = (template, sourceElement, show) => {
 
-  //Store content and source for resizing Calls
-  popupCard.content = content;
-  popupCard.sourceElement = sourceElement;
+ Meteor.setTimeout(function () {
 
-  //Draw content
-  switch (content) {
-  case 'login':
-    target = {
-      width : 300,
-      height: 225,
-      opacity: 1
+    //Store content and source for resizing Calls
+    popupCard.content = template;
+    popupCard.sourceElement = sourceElement;
+
+    //Draw content
+    Session.set('popupTemplate', template);
+    switch (template) {
+    case 'login':
+      target = {
+        width : 300,
+        height: 225,
+        opacity: 1
+      }
+      popupCard.visible = true;
+      break;
+    default:
+      break;
     }
-    popupCard.visible = true;
-    break;
-  default:
-    break;
-  }
-  popupCard.target = target;
-  popupCard.position = _positionCard(sourceElement, target);
-  _renderPopup();
+    popupCard.target = target;
+    popupCard.position = _positionCard(sourceElement, target);
+    _renderPopup();
 
-  if (show == undefined) {
-    Session.set('displayPopup', !Session.get('displayPopup'));
-  } else {
-    Session.set('displayPopup', show);
-  }
+    if (show == undefined) {
+      Session.set('displayPopup', !Session.get('displayPopup'));
+    } else {
+      Session.set('displayPopup', show);
+    }
+  }, 300);
 
 }
 

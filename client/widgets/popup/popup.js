@@ -5,6 +5,9 @@ Template.popup.rendered = function () {
 Template.popup.helpers({
   visible: function () {
     Modules.client.animatePopup(Session.get('displayPopup'));
+  },
+  content: function () {
+    return Session.get('popupTemplate');
   }
 });
 

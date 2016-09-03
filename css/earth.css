@@ -461,6 +461,10 @@ blockquote {
   cursor: pointer;
 }
 
+.symbol.profile-pic:hover {
+  border-color: #00bf8f;
+}
+
 .symbol.profile-pic:active {
   border-color: #00bf8f;
 }
@@ -3299,6 +3303,8 @@ blockquote {
   position: absolute;
   z-index: 12900;
   display: block;
+  margin-top: -10000px;
+  opacity: 0;
 }
 
 .popup.invisible {
