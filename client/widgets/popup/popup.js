@@ -4,10 +4,12 @@ Template.popup.rendered = function () {
 
 Template.popup.helpers({
   visible: function () {
-    if (Session.get('displayPopup')) {
-      return 'opacity: 1;';
-    } else {
-      return 'opacity: 0; margin-top:-10000px;';
-    }
+    Modules.client.animatePopup(Session.get('displayPopup'));
+  }
+});
+
+Template.popup.events({
+  'mouseleave .popup': function (event) {
+    Session.set('displayPopup', false);
   }
 })

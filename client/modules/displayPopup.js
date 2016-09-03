@@ -4,9 +4,7 @@ popupCard = new Object();
 popupCard.visible = false;
 popupCard.position = new Object;
 
-let _displayPopup = (content, sourceElement) => {
-
-  Session.set('displayPopup', !Session.get('displayPopup'));
+let _displayPopup = (content, sourceElement, show) => {
 
   //Store content and source for resizing Calls
   popupCard.content = content;
@@ -28,6 +26,12 @@ let _displayPopup = (content, sourceElement) => {
   popupCard.target = target;
   popupCard.position = _positionCard(sourceElement, target);
   _renderPopup();
+
+  if (show == undefined) {
+    Session.set('displayPopup', !Session.get('displayPopup'));
+  } else {
+    Session.set('displayPopup', show);
+  }
 
 }
 
@@ -78,33 +82,59 @@ let _positionCard = (sourceElement, target) => {
   popupCard.position['left'] = left;
   popupCard.pointerPosition = pointer;
 
+  _cursorPosition();
+
   return Object.assign(popupCard.position, target);
 }
 
 let _renderPopup = () => {
 
-  _cursorPosition();
-
   //positioning
   $('#popup').css(popupCard.position);
-
-  //TODO fix animation for this cmomponent but the line below will break HTML.
-  //behave(this.firstNode, 'fade-and-roll', position, animation);
 
   //Resize
   $(window).resize( function() {
     if (Session.get('displayPopup')) {
       $('#popup').css(Modules.client.positionCard(popupCard.sourceElement, popupCard.target));
-      _cursorPosition();
     }
   });
+
+  /*
+  $(window).click(function() {
+    if (Session.get('displayPopup')) {
+      //Session.set('displayPopup', false);
+      _animatePopup(false);
+    }
+  });
+
+  $('.popup').click(function(event){
+    event.stopPropagation();
+    console.log('eh?  ')
+  });
+  */
 
   $('.split').on('scroll', function() {
     if (Session.get('displayPopup')) {
       $('#popup').css(Modules.client.positionCard(popupCard.sourceElement, popupCard.target));
-      _cursorPosition();
     }
-  })
+  });
+
+}
+
+let _animatePopup = (display) => {
+  if (display) {
+    console.log('displau animatoin');
+    $('.popup').css('opacity','0');
+    $('.popup').css('margin-top', '0px');
+    $('.popup').velocity({ 'opacity' : 1}, {duration: (Modules.client.animationSettings.duration / 2)});
+  } else {
+    $('.popup').css('opacity','1');
+    $('.popup').velocity({ 'opacity' : 0}, {duration: (Modules.client.animationSettings.duration / 2), complete: function () {
+        $('.popup').css('margin-top', '-10000px');
+        Session.set('displayPopup', false);
+      }
+    });
+  }
 }
 
 let _cursorPosition = () => {
@@ -118,6 +148,7 @@ let _cursorPosition = () => {
   }
 }
 
+Modules.client.animatePopup = _animatePopup;
 Modules.client.renderPopup = _renderPopup;
 Modules.client.positionCard = _positionCard;
 Modules.client.displayPopup = _displayPopup;

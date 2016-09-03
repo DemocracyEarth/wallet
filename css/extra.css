@@ -32,3 +32,10 @@ input[type="file"] {
 .login {
     text-align: center;
 }
+
+.popup {
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  -webkit-transform: translateZ(0);
+}

@@ -111,7 +111,9 @@ Template.avatar.events({
     data.configured = false;
     Meteor.users.update(Meteor.userId(), { $set: { profile : data }})
   },
-  'click .profile-pic': function (event) {
-    Modules.client.displayPopup('login', event.target);
+  'mouseenter .profile-pic': function (event) {
+    if (!Session.get('displayPopup')) {
+      Modules.client.displayPopup('login', event.target, true);
+    }
   }
 });
