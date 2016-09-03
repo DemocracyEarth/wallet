@@ -47,11 +47,15 @@ let _positionCard = (sourceElement, target) => {
   //Y Axis
   if (source.top < parseInt(target.height + 60)) {
     //popup goes at bottom of target
-    popupCard.position['top'] = source.bottom;
+    popupCard.position['top'] = source.top;
+    $('.card').css('margin-top', '0px');
+    $('.pointer-up').css('margin-top', parseInt(source.height));
     popupCard.pointerClass = '.pointer-up';
   } else {
     //popup goes on top of target
-    popupCard.position['top'] = parseInt(source.top - target.height - 10);
+    popupCard.position['top'] = parseInt(source.bottom - target.height);
+    $('.card').css('margin-top', parseInt(0 - source.height - 10));
+    $('.pointer-up').css('margin-top', '0px');
     popupCard.pointerClass = '.pointer-down';
   }
 
@@ -102,6 +106,14 @@ let _renderPopup = () => {
   $('.split').on('scroll', function() {
     if (Session.get('displayPopup')) {
       $('#popup').css(Modules.client.positionCard(popupCard.sourceElement, popupCard.target));
+    }
+  });
+
+  $(window).mousemove ( function () {
+    if (Session.get('displayPopup')) {
+      if ($('#popup:hover').length == 0) {
+        _animatePopup(false);
+      }
     }
   });
 

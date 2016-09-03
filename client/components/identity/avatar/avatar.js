@@ -113,7 +113,9 @@ Template.avatar.events({
   },
   'mouseenter .profile-pic': function (event) {
     if (!Session.get('displayPopup')) {
-      Modules.client.displayPopup('login', event.target, true);
+      Meteor.setTimeout(function () {
+        Modules.client.displayPopup('login', event.target, true);
+      }, 300);
     }
   }
 });
