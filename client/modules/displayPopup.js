@@ -14,12 +14,11 @@ let _displayPopup = (template, element, show) => {
   if (!Session.get('displayPopup')) {
     Meteor.setTimeout(function () {
 
-      //Store content and source for resizing Calls
+      //store content and source for resizing Calls
       popupCard.content = template;
       popupCard.element = element;
 
-      //Draw content
-      var source = element.getBoundingClientRect();
+      //draw content based on target content to be used in popup
       Session.set('popupTemplate', template);
       var target = {
         width : parseInt($('.popup').width()),
@@ -28,7 +27,7 @@ let _displayPopup = (template, element, show) => {
       }
       popupCard.visible = true;
       popupCard.target = target;
-      popupCard.position = _positionCard(source, target);
+      popupCard.position = _positionCard(element, target);
       _renderPopup();
 
       if (show == undefined) {
@@ -36,7 +35,7 @@ let _displayPopup = (template, element, show) => {
       } else {
         Session.set('displayPopup', show);
       }
-    }, 300);
+    }, Modules.client.animationSettings.duration);
   }
 
 }
@@ -45,10 +44,10 @@ let _displayPopup = (template, element, show) => {
 /* @param {string} source - the source element used to relatively position the popup
 /* @param {string} target - the expected dimensions the popup will have according to its content
 ******/
-let _positionCard = (source, target) => {
+let _positionCard = (element, target) => {
   var left = new Number();
   var pointer = new Number();
-  //var source = element.getBoundingClientRect();
+  var source = element.getBoundingClientRect();
   var spaceRight = parseInt(document.body.offsetWidth - source.right);
   var spaceLeft = parseInt(source.left);
   var documentHalf = parseInt(document.body.offsetWidth / 2);
@@ -106,18 +105,18 @@ let _positionCard = (source, target) => {
 let _renderPopup = () => {
 
   //positioning
-  $('#popup').css(popupCard.position);
+  $('.popup').css(popupCard.position);
 
   //Resize
   $(window).resize( function() {
     if (Session.get('displayPopup')) {
-      $('#popup').css(Modules.client.positionCard(popupCard.element, popupCard.target));
+      $('.popup').css(_positionCard(popupCard.element, popupCard.target));
     }
   });
 
   $('.split').on('scroll', function() {
     if (Session.get('displayPopup')) {
-      $('#popup').css(Modules.client.positionCard(popupCard.element, popupCard.target));
+      $('.popup').css(_positionCard(popupCard.element, popupCard.target));
     }
   });
 
@@ -153,7 +152,7 @@ let _animatePopup = (display) => {
 }
 
 /*****
-/* draw the cursor either top or down pointing towards the source element calling this popup. 
+/* draw the cursor either top or down pointing towards the source element calling this popup.
 ******/
 let _cursorPosition = () => {
   //pointer
