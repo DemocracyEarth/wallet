@@ -1,0 +1,15 @@
+<template name="card">
+  <div class="login">
+    <div class="w-form">
+
+      {{> avatar profile=this includeName=true includeNation=true editable=false}}
+
+      {{#if currentUser}}
+        <div id="delegate" class="button login-button">
+          <div>{{_ 'delegate-votes'}}</div>
+        </div>
+      {{/if}}
+
+    </div>
+  </div>
+</template>

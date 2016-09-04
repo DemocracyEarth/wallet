@@ -302,5 +302,6 @@
   "no-comments-found": "No comments found. <strong>Start the debate!</strong>",
   "reply": "Reply",
   "navbar-proposal": "Proposal Vote",
-  "unknown": "Unknown"
+  "unknown": "Unknown",
+  "delegate-votes": "Delegate Votes"
 }

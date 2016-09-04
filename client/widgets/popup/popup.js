@@ -8,6 +8,9 @@ Template.popup.helpers({
   },
   content: function () {
     return Session.get('popupTemplate');
+  },
+  dataObject: function () {
+    return Session.get('popupData');
   }
 });
 

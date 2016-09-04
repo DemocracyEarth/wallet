@@ -7,3 +7,9 @@ Template.authentication.helpers({
     }
   }
 });
+
+Template.authentication.events({
+  'click #loggedUser': function (event) {
+    Modules.client.displayPopup(event.target, true, 'login');
+  }
+})

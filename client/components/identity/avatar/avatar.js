@@ -113,7 +113,8 @@ Template.avatar.events({
   },
   'mouseenter .profile-pic': function (event) {
     if (this.displayPopup != false) {
-      Modules.client.displayPopup('login', event.target, true);
+      console.log(this.profile);
+      Modules.client.displayPopup(event.target, true, 'card', this.profile);
     }
   }
 });

@@ -9,7 +9,7 @@ popupCard.position = new Object;
 /* @param {string} element - source element is calling this popup for rankPreferences
 /* @param {boolean} show - specifically set to true or false if popcurd needs to be shown or hidden
 ******/
-let _displayPopup = (template, element, show) => {
+let _displayPopup = (element, visible, template, params) => {
 
   if (!Session.get('displayPopup')) {
     Meteor.setTimeout(function () {
@@ -19,6 +19,7 @@ let _displayPopup = (template, element, show) => {
       popupCard.element = element;
 
       //draw content based on target content to be used in popup
+      Session.set('popupData', params);
       Session.set('popupTemplate', template);
       var target = {
         width : parseInt($('.popup').width()),
@@ -30,10 +31,10 @@ let _displayPopup = (template, element, show) => {
       popupCard.position = _positionCard(element, target);
       _renderPopup();
 
-      if (show == undefined) {
+      if (visible == undefined) {
         Session.set('displayPopup', !Session.get('displayPopup'));
       } else {
-        Session.set('displayPopup', show);
+        Session.set('displayPopup', visible);
       }
     }, Modules.client.animationSettings.duration);
   }

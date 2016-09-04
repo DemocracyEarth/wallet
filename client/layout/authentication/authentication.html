@@ -2,11 +2,11 @@
   <div class="w-clearfix authentication">
 
     {{#if currentUser}}
-      <div id='current-user' class="{{toggle}}">
+      <div id='loggedUser' class="{{toggle}}">
         {{> avatar includeName=false size=40 displayPopup=false}}
       </div>
     {{else}}
-      <div id='current-user' class="navbar-button {{toggle}}">
+      <div id='loggedUser' class="navbar-button {{toggle}}">
         <img src="{{pathFor route='home'}}images/anonymous-white.png" class="symbol profile-pic profile-pic-navbar">
       </div>
     {{/if}}
