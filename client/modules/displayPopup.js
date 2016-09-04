@@ -4,37 +4,47 @@ popupCard = new Object();
 popupCard.visible = false;
 popupCard.position = new Object;
 
+/*****
+/* @param {string} template - the name of the blaze template to be used dynamically on the content of the popup
+/* @param {string} element - source element is calling this popup for rankPreferences
+/* @param {boolean} show - specifically set to true or false if popcurd needs to be shown or hidden
+******/
 let _displayPopup = (template, element, show) => {
 
- Meteor.setTimeout(function () {
+  if (!Session.get('displayPopup')) {
+    Meteor.setTimeout(function () {
 
-    //Store content and source for resizing Calls
-    popupCard.content = template;
-    popupCard.element = element;
+      //Store content and source for resizing Calls
+      popupCard.content = template;
+      popupCard.element = element;
 
-    //Draw content
-    var source = element.getBoundingClientRect();
-    Session.set('popupTemplate', template);
-    var target = {
-      width : parseInt($('.popup').width()),
-      height: parseInt($('.card').height() + 40),
-      opacity: 1
-    }
-    popupCard.visible = true;
-    popupCard.target = target;
-    popupCard.position = _positionCard(source, target);
-    _renderPopup();
+      //Draw content
+      var source = element.getBoundingClientRect();
+      Session.set('popupTemplate', template);
+      var target = {
+        width : parseInt($('.popup').width()),
+        height: parseInt($('.card').height() + 40),
+        opacity: 1
+      }
+      popupCard.visible = true;
+      popupCard.target = target;
+      popupCard.position = _positionCard(source, target);
+      _renderPopup();
 
-    if (show == undefined) {
-      Session.set('displayPopup', !Session.get('displayPopup'));
-    } else {
-      Session.set('displayPopup', show);
-    }
-  }, 300);
+      if (show == undefined) {
+        Session.set('displayPopup', !Session.get('displayPopup'));
+      } else {
+        Session.set('displayPopup', show);
+      }
+    }, 300);
+  }
 
 }
 
-
+/*****
+/* @param {string} source - the source element used to relatively position the popup
+/* @param {string} target - the expected dimensions the popup will have according to its content
+******/
 let _positionCard = (source, target) => {
   var left = new Number();
   var pointer = new Number();
@@ -90,6 +100,9 @@ let _positionCard = (source, target) => {
   return Object.assign(popupCard.position, target);
 }
 
+/*****
+/* activates event listeners for proper popup dynamic rendering behaviour
+******/
 let _renderPopup = () => {
 
   //positioning
@@ -118,6 +131,9 @@ let _renderPopup = () => {
 
 }
 
+/*****
+/* @param {boolean} display - if a fade in or fade out will be played
+******/
 let _animatePopup = (display) => {
   if (display) {
     var pointerFX = '-5px';
@@ -136,6 +152,9 @@ let _animatePopup = (display) => {
   }
 }
 
+/*****
+/* draw the cursor either top or down pointing towards the source element calling this popup. 
+******/
 let _cursorPosition = () => {
   //pointer
   if (popupCard.pointerClass == '.pointer-up') {
@@ -148,6 +167,4 @@ let _cursorPosition = () => {
 }
 
 Modules.client.animatePopup = _animatePopup;
-Modules.client.renderPopup = _renderPopup;
-Modules.client.positionCard = _positionCard;
 Modules.client.displayPopup = _displayPopup;
