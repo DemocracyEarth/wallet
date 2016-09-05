@@ -9,7 +9,7 @@ popupCard.position = new Object;
 /* @param {string} element - source element is calling this popup for rankPreferences
 /* @param {boolean} show - specifically set to true or false if popcurd needs to be shown or hidden
 ******/
-let _displayPopup = (element, visible, template, params) => {
+let _displayPopup = (element, visible, template, params, eventType) => {
 
   if (!Session.get('displayPopup')) {
     Meteor.setTimeout(function () {
@@ -17,6 +17,13 @@ let _displayPopup = (element, visible, template, params) => {
       //store content and source for resizing Calls
       popupCard.content = template;
       popupCard.element = element;
+
+      //type of event calling, default if left undefined is mouseenter.
+      if (eventType == undefined ) {
+        popupCard.eventType = 'mouseenter';
+      } else {
+        popupCard.eventType = eventType;
+      }
 
       //draw content based on target content to be used in popup
       Session.set('popupData', params);
@@ -108,27 +115,28 @@ let _renderPopup = () => {
   //positioning
   $('.popup').css(popupCard.position);
 
-  //Resize
-  $(window).resize( function() {
-    if (Session.get('displayPopup')) {
-      $('.popup').css(_positionCard(popupCard.element, popupCard.target));
-    }
-  });
-
-  $('.split').on('scroll', function() {
-    if (Session.get('displayPopup')) {
-      $('.popup').css(_positionCard(popupCard.element, popupCard.target));
-    }
-  });
-
-  $(window).mousemove ( function () {
-    if (Session.get('displayPopup')) {
-      if ($('#popup:hover').length == 0) {
-        Session.set('displayPopup', false);
+    //Resize
+    $(window).resize( function() {
+      if (Session.get('displayPopup')) {
+        $('.popup').css(_positionCard(popupCard.element, popupCard.target));
       }
-    }
-  });
+    });
 
+    $('.split').on('scroll', function() {
+      if (Session.get('displayPopup')) {
+        $('.popup').css(_positionCard(popupCard.element, popupCard.target));
+      }
+    });
+
+    $(window).mousemove ( function () {
+      if (Session.get('displayPopup')) {
+        if (Session.get('popupTemplate') == 'card') {
+          if ($('#popup:hover').length == 0) {
+            Session.set('displayPopup', false);
+          }
+        }
+      }
+    });
 }
 
 /*****

@@ -113,7 +113,6 @@ Template.avatar.events({
   },
   'mouseenter .profile-pic': function (event) {
     if (this.displayPopup != false) {
-      console.log(this.profile);
       Modules.client.displayPopup(event.target, true, 'card', this.profile);
     }
   }
