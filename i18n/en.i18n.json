@@ -303,5 +303,6 @@
   "reply": "Reply",
   "navbar-proposal": "Proposal Vote",
   "unknown": "Unknown",
-  "delegate-votes": "Delegate Votes"
+  "delegate-votes": "Delegate Votes",
+  "recovery-email": "Recovery E-mail:"
 }

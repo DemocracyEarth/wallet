@@ -1,8 +1,8 @@
 <template name="emailLogin">
   {{#if loginScreen}}
     <div class="login">
-      <div class="w-form">
-        {{#if passwordKnown}}
+      {{#if passwordKnown}}
+        <div class="w-form">
           <form id="email-signin-form" name="email-form-3" data-name="Email Form 3">
             <div class="w-clearfix login-field">
               <label for="name" class="login-label login-label-form">{{_ "email-username"}}</label>
@@ -16,7 +16,6 @@
               <label for="name" class="login-label login-label-form">{{_ "password"}}</label>
               <img src="{{pathFor route='home'}}images/lock.png" class="login-icon">
               <input id="signin-password" type="password" placeholder="{{_ 'password-sample'}}" class="w-input login-input">
-
             </div>
             {{#if incorrectUser}}
               <div class="extra section">
@@ -27,13 +26,13 @@
               <div>{{_ 'sign-in'}}</div>
             </div>
           </form>
-          <div>
-            <a id='forgot-pw' href="#">{{_ "forgot-password"}}</a>
-          </div>
-        {{else}}
-          {{> forgotPassword}}
-        {{/if}}
-      </div>
+        </div>
+        <div>
+          <a id='forgot-pw' href="#">{{_ "forgot-password"}}</a>
+        </div>
+      {{else}}
+        {{> forgotPassword}}
+      {{/if}}
       <div>{{_ "dont-have-account"}} <a id='signup' href="#">{{_ "sign-up"}}</a>.</div>
       <div class="w-clearfix extra">
         <div id="facebook-login" class="button button-social facebook">{{_ 'facebook'}}</div>
