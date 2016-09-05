@@ -832,6 +832,17 @@ blockquote {
   float: left;
 }
 
+.button.login-button.facebook {
+  margin-bottom: 5px;
+  background-color: #3c5b96;
+}
+
+.button.login-button.facebook:active {
+  border-color: #3c5b96;
+  background-color: transparent;
+  color: #3c5b96;
+}
+
 .button.facebook {
   border-color: #3c5b96;
   background-color: #3c5b96;
