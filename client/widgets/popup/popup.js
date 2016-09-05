@@ -16,7 +16,6 @@ Template.popup.helpers({
 
 Template.popup.events({
   'mouseleave .popup': function (event) {
-    console.log(popupCard.eventType);
     if (Session.get('popupTemplate') == 'card') {
       if (Session.get('displayPopup')) {
         Session.set('displayPopup', false);

@@ -7,11 +7,18 @@ Template.avatar.helpers({
     return Modules.both.guidGenerator();
   },
   classStyle: function (smallFont) {
+    var style = new String();
     if (smallFont) {
-      return 'identity-small';
+      style = 'identity-small';
     } else {
-      return '';
+      style = '';
     }
+
+    if (this.disabled == true) {
+      style += ' profile-pic-disabled';
+    }
+
+    return style;
   },
   profilePicture: function (profile) {
     if (profile == undefined) {
@@ -113,7 +120,10 @@ Template.avatar.events({
   },
   'mouseenter .profile-pic': function (event) {
     if (this.displayPopup != false) {
-      Modules.client.displayPopup(event.target, true, 'card', this.profile);
+      console.log(this.profile);
+      if (this.profile != null && this.profile != undefined) {
+        Modules.client.displayPopup(event.target, true, 'card', this.profile);
+      }
     }
   }
 });

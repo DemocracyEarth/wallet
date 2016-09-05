@@ -577,6 +577,14 @@ blockquote {
   margin-right: -5px;
 }
 
+.symbol.profile-pic.profile-pic-disabled {
+  cursor: default;
+}
+
+.symbol.profile-pic.profile-pic-disabled:hover {
+  border-color: #e6f9f4;
+}
+
 .semantics {
   display: inline-block;
   margin-top: 0px;
