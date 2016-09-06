@@ -1,6 +1,3 @@
-Template.sidebar.rendered = function () {
-
-}
 Template.sidebar.helpers({
   decisions: function () {
     return Session.get('menuDecisions');

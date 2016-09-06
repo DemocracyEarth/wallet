@@ -5,9 +5,11 @@
       {{> avatar profile=this includeName=true includeNation=true editable=false disabled=true}}
 
       {{#if currentUser}}
-        <div id="delegate" class="button login-button">
-          <div>{{_ 'delegate-votes'}}</div>
-        </div>
+        {{#unless myself}}
+          <div id="delegate" class="button login-button">
+            <div>{{_ 'delegate-votes'}}</div>
+          </div>
+        {{/unless}}
       {{/if}}
 
     </div>

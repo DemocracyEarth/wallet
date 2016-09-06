@@ -146,9 +146,10 @@ let _verifySelection = (selection, feed) => {
   }
 }
 
-let animateMenu = (display) => {
+let animateMenu = () => {
   //TODO make all strings showing pixels compliant with the device screen being used (aka mobiles)
-  if (display) {
+  Session.set('sidebar', !Session.get('sidebar'));
+  if (Session.get('sidebar')) {
     $('#menu').velocity({'marginLeft': '0px'}, Modules.client.animationSettings);
     $('#content').velocity({'left': '320px'}, Modules.client.animationSettings);
     $('.navbar').velocity({'left': '320px'}, Modules.client.animationSettings);
@@ -159,5 +160,5 @@ let animateMenu = (display) => {
   }
 }
 
-Modules.client.animateSidebarMenu = animateMenu;
+Modules.client.toggleSidebar = animateMenu;
 Modules.client.setSidebarMenu = sidebarMenu;

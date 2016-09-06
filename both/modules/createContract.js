@@ -27,4 +27,12 @@ console.log(keywordTitle);
 
 }
 
+let newDelegation = (userId, delegateId) => {
+  console.log('new delegation');
+
+  
+
+}
+
+Modules.both.startDelegation = newDelegation;
 Modules.both.createContract = newDraft;

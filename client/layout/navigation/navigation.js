@@ -47,8 +47,7 @@ Template.navigation.helpers({
 Template.navigation.events({
   "click #menu": function (event) {
     if (Session.get('navbar').action == 'SIDEBAR') {
-      Session.set('sidebar', !Session.get('sidebar'));
-      Modules.client.animateSidebarMenu(Session.get('sidebar'));
+      Modules.client.toggleSidebar();
     }
   }
 })
