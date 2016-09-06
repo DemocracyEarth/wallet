@@ -20,7 +20,7 @@ Template.thread.helpers({
     }
   },
   content: function () {
-    return Modules.client.textFormat(this.content); 
+    return Modules.client.textFormat(this.content);
   }
 });
 

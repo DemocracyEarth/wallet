@@ -120,7 +120,6 @@ Template.avatar.events({
   },
   'mouseenter .profile-pic': function (event) {
     if (this.displayPopup != false) {
-      console.log(this.profile);
       if (this.profile != null && this.profile != undefined) {
         Modules.client.displayPopup(event.target, true, 'card', this.profile);
       }

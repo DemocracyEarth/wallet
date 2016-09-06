@@ -3785,6 +3785,10 @@ blockquote {
   text-transform: uppercase;
 }
 
+.separator.agora-separator {
+  opacity: 0;
+}
+
 .icon-inbox {
   width: 22px;
   height: 22px;
@@ -4189,6 +4193,10 @@ blockquote {
   padding-right: 5px;
   padding-left: 5px;
   float: left;
+}
+
+.agora-separator {
+  height: 10px;
 }
 
 @media (max-width: 991px) {
