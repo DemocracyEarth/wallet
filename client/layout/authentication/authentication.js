@@ -14,11 +14,6 @@ Template.authentication.helpers({
 
 Template.authentication.events({
   'click #loggedUser': function (event) {
-    Session.set('logger', !Session.get('logger'));
-    if (Session.get('logger')) {
-      Modules.client.displayPopup(event.target, Session.get('logger'), 'login', this, event.type);
-    } else {
-      Modules.client.animatePopup(false);
-    }
+    Modules.client.displayLogin();
   }
 })

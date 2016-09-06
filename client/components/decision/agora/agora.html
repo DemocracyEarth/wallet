@@ -5,9 +5,15 @@
       <div class="comment-editor w-clearfix">
         <div class="power power-small"></div>
       </div>
-      <div class="event w-clearfix">
-        {{> postComment}}
-      </div>
+      {{#if currentUser}}
+        <div class="event w-clearfix">
+          {{> postComment}}
+        </div>
+      {{else}}
+        <div class="agora-logger extra">
+          {{> socialMediaLogin agoraMode=true}}
+        </div>
+      {{/if}}
 
       {{#unless emptyThread}}
         <div class="feed-events">

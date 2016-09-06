@@ -1,10 +1,11 @@
 Template.login.rendered = function () {
-  console.log('login template to earth');
 };
 
 Template.login.events({
   'click #logout': function(event){
     Session.set('displayPopup', false);
+    Session.set('logger', false);
+    Modules.client.animatePopup(false);
     Meteor.logout();
   }
 });

@@ -843,6 +843,13 @@ blockquote {
   color: #3c5b96;
 }
 
+.button.login-button.facebook.half {
+  width: 50%;
+  margin-right: 0px;
+  margin-left: 0px;
+  float: left;
+}
+
 .button.facebook {
   border-color: #3c5b96;
   background-color: #3c5b96;
@@ -4165,6 +4172,23 @@ blockquote {
   border-width: 15px 10px 0px;
   border-color: rgba(49, 38, 59, .95) transparent transparent;
   background-color: transparent;
+}
+
+.agora-logger {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 0px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.button-wrap-half {
+  width: 50%;
+  padding-right: 5px;
+  padding-left: 5px;
+  float: left;
 }
 
 @media (max-width: 991px) {

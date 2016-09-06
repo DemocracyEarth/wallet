@@ -34,8 +34,9 @@
         {{> forgotPassword}}
       {{/if}}
       <div>{{_ "dont-have-account"}} <a id='signup' href="#">{{_ "sign-up"}}</a>.</div>
-        <div id="facebook-login" class="button login-button facebook">{{_ 'facebook'}}</div>
-        <!--<div id="twitter-login" class="button button-social twitter">{{_ 'twitter'}}</div>-->
+
+      {{> socialMediaLogin}}
+      
     </div>
   {{else}}
     {{> signup}}

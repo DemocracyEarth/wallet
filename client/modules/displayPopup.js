@@ -115,28 +115,28 @@ let _renderPopup = () => {
   //positioning
   $('.popup').css(popupCard.position);
 
-    //Resize
-    $(window).resize( function() {
-      if (Session.get('displayPopup')) {
-        $('.popup').css(_positionCard(popupCard.element, popupCard.target));
-      }
-    });
+  //Resize
+  $(window).resize( function() {
+    if (Session.get('displayPopup')) {
+      $('.popup').css(_positionCard(popupCard.element, popupCard.target));
+    }
+  });
 
-    $('.split').on('scroll', function() {
-      if (Session.get('displayPopup')) {
-        $('.popup').css(_positionCard(popupCard.element, popupCard.target));
-      }
-    });
+  $('.split').on('scroll', function() {
+    if (Session.get('displayPopup')) {
+      $('.popup').css(_positionCard(popupCard.element, popupCard.target));
+    }
+  });
 
-    $(window).mousemove ( function () {
-      if (Session.get('displayPopup')) {
-        if (Session.get('popupTemplate') == 'card') {
-          if ($('#popup:hover').length == 0) {
-            Session.set('displayPopup', false);
-          }
+  $(window).mousemove ( function () {
+    if (Session.get('displayPopup')) {
+      if (Session.get('popupTemplate') == 'card') {
+        if ($('#popup:hover').length == 0) {
+          Session.set('displayPopup', false);
         }
       }
-    });
+    }
+  });
 }
 
 /*****
@@ -174,5 +174,16 @@ let _cursorPosition = () => {
   }
 }
 
+let _displayLogin = (target) => {
+  if (target == undefined) { target = event.target };
+  Session.set('logger', !Session.get('logger'));
+  if (Session.get('logger')) {
+    Modules.client.displayPopup(target, Session.get('logger'), 'login', this, event.type);
+  } else {
+    Modules.client.animatePopup(false);
+  }
+}
+
+Modules.client.displayLogin = _displayLogin;
 Modules.client.animatePopup = _animatePopup;
 Modules.client.displayPopup = _displayPopup;
