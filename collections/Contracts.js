@@ -54,7 +54,9 @@ ContractSchema = new SimpleSchema({
     allowedValues: ['DRAFT', 'VOTE', 'DELEGATION', 'MEMBERSHIP'],
     autoValue: function () {
       if (this.isInsert) {
-        return "VOTE";
+        if (this.field('kind').value == undefined) {
+          return "VOTE";
+        }
       };
     }
   },
@@ -93,7 +95,11 @@ ContractSchema = new SimpleSchema({
     type: String,
     autoValue: function () {
       if (this.isInsert) {
-        return '';
+        if (this.field('kind').value == 'DELEGATION') {
+          return TAPi18n.__('default-delegation-contract');
+        } else {
+          return '';
+        }
       }
     }
   },
@@ -198,6 +204,11 @@ ContractSchema = new SimpleSchema({
   "signatures.$.role": {
     type: String,
     allowedValues: ['AUTHOR', 'DELEGATOR', 'DELEGATE', 'ENDORSER'],
+    optional: true
+  },
+  "signatures.$.status": {
+    type: String,
+    allowedValues: ['PENDING', 'REJECTED', 'CONFIRMED'],
     optional: true
   },
   "signatures.$.hash": {

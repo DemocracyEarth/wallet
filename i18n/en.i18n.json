@@ -227,7 +227,6 @@
   "all-proposals": "All Proposals",
   "drafts": "Drafts",
   "memberships": "Memberships",
-  "delegations": "Delegations",
   "votes": "Votes",
   "propose": "Propose Idea",
   "decisions": "Decisions",
@@ -306,5 +305,8 @@
   "delegate-votes": "Delegate Votes",
   "recovery-email": "Recovery E-mail:",
   "connect-with-facebook": "Connect with Facebook",
-  "login": "Login"
+  "login": "Login",
+  "delegation": "delegation",
+  "delegation-voting-rights": "Delegation of Voting Rights",
+  "default-delegation-contract": "The signing delegator agrees to place votes to be used by delegate. The delegate will only have the right to use these votes for decisions tagged with the listed topics in this agreement."
 }
