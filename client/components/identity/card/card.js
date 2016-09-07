@@ -15,9 +15,8 @@ Template.card.events({
   'click #delegate': function () {
     var keywordTitle = newDelegateName + '-' + slugName(Meteor.user().profile);
     if (keywordTitle != undefined) {
-      console.log('this.toString():');
-      console.log(this.toString());
       Modules.both.startDelegation(Meteor.userId(), this.toString(), keywordTitle);
+      Modules.client.animatePopup(false);
     }
   }
 })
