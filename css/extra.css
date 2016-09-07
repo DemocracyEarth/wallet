@@ -27,8 +27,6 @@ input[type="file"] {
 }
 
 
-/* Delete everything from here onwards */
-
 .login {
     text-align: center;
 }
@@ -38,4 +36,15 @@ input[type="file"] {
   -webkit-backface-visibility: hidden;
   -webkit-perspective: 1000;
   -webkit-transform: translateZ(0);
+}
+
+/* override sidebar style with default state while original css has designer-friendly state for development and design */
+.navbar {
+  left: 0px;
+}
+.left {
+  margin-left: -320px;
+}
+.right {
+  left: 0px;
 }

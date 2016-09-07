@@ -1748,7 +1748,7 @@ blockquote {
 
 .navbar {
   position: fixed;
-  left: 0px;
+  left: 320px;
   top: 0px;
   right: 0px;
   z-index: 14000;
@@ -3474,7 +3474,6 @@ blockquote {
   z-index: 12500;
   display: inline-block;
   width: 320px;
-  margin-left: -320px;
   float: left;
   background-color: #d4cfd8;
   background-image: -webkit-linear-gradient(94deg, hsla(0, 0%, 92%, 0), #ebebeb);
@@ -3980,7 +3979,7 @@ blockquote {
 
 .right {
   position: absolute;
-  left: 0px;
+  left: 320px;
   top: 0px;
   right: 0px;
   bottom: 0px;
