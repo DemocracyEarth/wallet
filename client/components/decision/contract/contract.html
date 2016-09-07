@@ -2,44 +2,59 @@
 
   <div class="content">
 
-    {{#if editorMode}}
+    {{#if isDelegation}}
 
-      <!-- Editable -->
       <div class="contract">
         <div class="paper">
-          {{> title editorMode=true}}
-          {{> agreement editorMode=true}}
+          {{> title editorMode=false}}
+          {{> agreement editorMode=false}}
           {{> semantics editorMode=true}}
-          {{> signatures authorMode=true editorMode=true}}
-        </div>
-        <div class="paper">
-          {{> ballot editorMode=true}}
-        </div>
-        <div class="paper paper-execute">
-          {{> action label='launch-vote' enabled=true}}
+          {{> signatures authorMode=true editorMode=false }}
         </div>
       </div>
 
     {{else}}
 
-      <div class="split">
-        <!-- Votable -->
+      {{#if editorMode}}
+
+        <!-- Editable -->
         <div class="contract">
           <div class="paper">
-            {{> title editorMode=false}}
-            {{> agreement editorMode=false}}
-            {{> semantics editorMode=false}}
-            {{> signatures authorMode=true editorMode=false}}
+            {{> title editorMode=true}}
+            {{> agreement editorMode=true}}
+            {{> semantics editorMode=true}}
+            {{> signatures authorMode=true editorMode=true}}
           </div>
           <div class="paper">
-            {{> ballot editorMode=false}}
+            {{> ballot editorMode=true}}
+          </div>
+          <div class="paper paper-execute">
+            {{> action label='launch-vote' enabled=true}}
           </div>
         </div>
-      </div>
 
-      <div class="split split-right">
-        {{> agora}}
-      </div>
+      {{else}}
+
+        <div class="split">
+          <!-- Votable -->
+          <div class="contract">
+            <div class="paper">
+              {{> title editorMode=false}}
+              {{> agreement editorMode=false}}
+              {{> semantics editorMode=false}}
+              {{> signatures authorMode=true editorMode=false}}
+            </div>
+            <div class="paper">
+              {{> ballot editorMode=false}}
+            </div>
+          </div>
+        </div>
+
+        <div class="split split-right">
+          {{> agora}}
+        </div>
+
+      {{/if}}
 
     {{/if}}
 

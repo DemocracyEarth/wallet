@@ -1,5 +1,5 @@
 Template.signatures.rendered = function () {
-  var contractAuthors = Contracts.findOne({ _id: Session.get('contractId') }).signatures;
+  var contractAuthors = Session.get('contract').signatures; //Contracts.findOne({ _id: Session.get('contractId') }).signatures;
 
   if (contractAuthors != undefined) {
     for (var i = 0; i < contractAuthors.length; i++ ) {
@@ -23,8 +23,13 @@ Template.signatures.helpers({
     return Session.get('userSigned');
   },
   signer: function () {
+    var signerIds = new Array();
     if (Session.get('contract').signatures != undefined) {
-      return Session.get('contract').signatures;
+      for (var i=0; i < Session.get('contract').signatures.length; i++) {
+        signerIds.push(Session.get('contract').signatures[i]._id);
+      }
+      console.log(signerIds);
+      return signerIds; //Session.get('contract').signatures;
     } else {
       //is anonymous
       if (!this.editorMode) {
