@@ -26,68 +26,57 @@ let _newDraft = (keywordTitle) => {
 * @param {string} keywordTitle - name of the contract to be specifically used for this delegation
 ***/
 let _newDelegation = (delegatorId, delegateId, keywordTitle) => {
-  console.log('new delegation');
+  var finalTitle = new String();
   var existingDelegation = _verifyDelegation(delegatorId, delegateId);
-
-  console.log('delegatorId: ' + delegatorId);
-  console.log('delegateId: ' + delegateId);
-  console.log('existingDelegation: ' + existingDelegation);
-
-
-  console.log('TITLE:')
-  console.log(keywordTitle)
-
   if (!existingDelegation) {
     //creates new
     if (!Contracts.findOne({keyword: keywordTitle})) {
       //uses given title
-      var newDelegation = Contracts.insert({
-        keyword: keywordTitle,
-        title: TAPi18n.__('delegation-voting-rights'),
-        kind: 'DELEGATION',
-        signatures: [
-          {
-            _id: delegatorId,
-            role: 'DELEGATOR',
-            status: 'PENDING'
-          },
-          {
-            _id: delegateId,
-            role: 'DELEGATE',
-            status: 'PENDING'
-          }
-        ]
-      });
-      console.log('NEW CONTRACT CREATED:')
-      console.log(newDelegation);
+      finalTitle = keywordTitle;
     } else {
-      console.log(existingDelegation);
+      //adds random if coincidence among people with similar names happened
+      finalTitle = keywordTitle + Modules.both.shortUUID();
     }
+    var newDelegation = Contracts.insert({
+      keyword: finalTitle,
+      title: TAPi18n.__('delegation-voting-rights'),
+      kind: 'DELEGATION',
+      signatures: [
+        {
+          _id: delegatorId,
+          role: 'DELEGATOR',
+          status: 'PENDING'
+        },
+        {
+          _id: delegateId,
+          role: 'DELEGATE',
+          status: 'PENDING'
+        }
+      ]
+    });
+    Router.go(newDelegation.url);
   } else {
     //goes to existing one
-
+    Router.go(existingDelegation.url);
   }
-
-/*
-
-*/
-
 }
 
+/***
+* verifies if there's already a precedent among delegator and delegate
+***/
 let _verifyDelegation = (delegatorId, delegateId) => {
   var delegationContract;
-  delegationContract = Contracts.find({ 'signatures.0._id': delegatorId, 'signatures.1._id': delegateId }).fetch();
-  if (delegationContract.length > 0) {
-    return delegationContract._id;
+  delegationContract = Contracts.findOne({ 'signatures.0._id': delegatorId, 'signatures.1._id': delegateId });
+  if (delegationContract != undefined) {
+    return delegationContract;
   } else {
-    delegationContract = Contracts.find({ 'signatures.1._id': delegatorId, 'signatures.0._id': delegateId }).fetch();
-    if (delegationContract.length > 0) {
-      return delegationContract._id;
+    delegationContract = Contracts.findOne({ 'signatures.1._id': delegatorId, 'signatures.0._id': delegateId });
+    if (delegationContract != undefined) {
+      return delegationContract;
     }
   }
   return false;
 }
-
 
 Modules.both.startDelegation = _newDelegation;
 Modules.both.createContract = _newDraft;
