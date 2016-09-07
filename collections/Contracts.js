@@ -15,7 +15,7 @@ ContractSchema = new SimpleSchema({
     }
   },
   title: {
-    //Title of the contract
+    //title of the contract
     type: String,
     autoValue: function () {
       if (this.isInsert) {
@@ -28,24 +28,30 @@ ContractSchema = new SimpleSchema({
     }
   },
   keyword: {
-    //Unique identifier in DB as keyword-based-slug
+    //unique string identifier in db as keyword-based-slug
     type: String,
     autoValue: function () {
       var slug = convertToSlug(this.field("title").value);
       if (this.isInsert) {
-        if (this.field("title").value != undefined) {
-          if (Contracts.findOne({keyword: slug}) == undefined) {
-            if (this.field("title").value != '') {
-              return slug;
+        if (this.field('kind').value == 'DELEGATION') {
+          console.log('will be using this keyword: ' + this.field('keyword').value);
+          return this.field('keyword').value;
+        } else {
+          if (this.field('keyword').value == undefined) {
+            if (this.field("title").value != undefined) {
+              if (Contracts.findOne({keyword: slug}) == undefined) {
+                if (this.field("title").value != '') {
+                  return slug;
+                } else {
+                  return 'draft-' + Meteor.userId();
+                }
+              }
             } else {
               return 'draft-' + Meteor.userId();
             }
-
           }
-        } else {
-          return 'draft-' + Meteor.userId();
-        }
-      };
+        };
+      }
     }
   },
   kind: {
@@ -76,16 +82,24 @@ ContractSchema = new SimpleSchema({
     autoValue: function () {
       var slug = convertToSlug(this.field("title").value);
       if (this.isInsert) {
-        if (this.field("title").value != undefined) {
-          if (Contracts.findOne({keyword: slug}) == undefined) {
-            if (this.field("title").value != '') {
-              return '/vote/' + slug;
-            } else {
-              return '/vote/';
-            }
+        if (this.field('kind').value == 'DELEGATION') {
+          if (this.field('keyword').value != undefined) {
+            return '/delegation/' + this.field('keyword').value;
+          } else {
+            return 'delegation';
           }
         } else {
-          return '/vote/';
+          if (this.field("title").value != undefined) {
+            if (Contracts.findOne({keyword: slug}) == undefined) {
+              if (this.field("title").value != '') {
+                return '/vote/' + slug;
+              } else {
+                return '/vote/';
+              }
+            }
+          } else {
+            return '/vote/';
+          }
         }
       }
     }
@@ -197,7 +211,9 @@ ContractSchema = new SimpleSchema({
     type: String,
     autoValue: function () {
       if (this.isInsert) {
-        return this.userId;
+        if (this.field('kind').value == 'VOTE') {
+          return this.userId;
+        }
       };
     }
   },

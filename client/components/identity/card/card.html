@@ -6,7 +6,7 @@
 
       {{#if currentUser}}
         {{#unless myself}}
-          <div id="delegate" class="button login-button">
+          <div id="delegate" name="{{delegationKeyword}}" class="button login-button">
             <div>{{_ 'delegate-votes'}}</div>
           </div>
         {{/unless}}

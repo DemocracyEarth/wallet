@@ -1,3 +1,7 @@
+/***
+* generate a new empty draft
+* @param {string} keywordTitle - name of the contract to be specifically used for this delegation
+****/
 let _newDraft = (keywordTitle) => {
   //Empty Contract
   if (keywordTitle == undefined) {
@@ -15,37 +19,58 @@ let _newDraft = (keywordTitle) => {
   }
 }
 
-let _newDelegation = (delegatorId, delegateId) => {
+/***
+* generate delegation contract between two identities.
+* @param {string} delegatorId - identity assigning the tokens (usually currentUser)
+* @param {string} delegateId - identity that will get a request to approve this contract (profile clicked)
+* @param {string} keywordTitle - name of the contract to be specifically used for this delegation
+***/
+let _newDelegation = (delegatorId, delegateId, keywordTitle) => {
   console.log('new delegation');
-  var keyword = TAPi18n.__('delegation') + '-' + delegatorId + '-' + delegateId;
   var existingDelegation = _verifyDelegation(delegatorId, delegateId);
 
-  console.log(existingDelegation);
+  console.log('delegatorId: ' + delegatorId);
+  console.log('delegateId: ' + delegateId);
+  console.log('existingDelegation: ' + existingDelegation);
+
+
+  console.log('TITLE:')
+  console.log(keywordTitle)
 
   if (!existingDelegation) {
-    console.log('new delegation');
-    var newDelegation = Contracts.insert({
-      keyword: keyword,
-      title: TAPi18n.__('delegation-voting-rights'),
-      kind: 'DELEGATION',
-      signatures: [
-        {
-          _id: delegatorId,
-          role: 'DELEGATOR',
-          status: 'PENDING'
-        },
-        {
-          _id: delegateId,
-          role: 'DELEGATE',
-          status: 'PENDING'
-        }
-      ]
-    });
-    console.log(newDelegation);
+    //creates new
+    if (!Contracts.findOne({keyword: keywordTitle})) {
+      //uses given title
+      var newDelegation = Contracts.insert({
+        keyword: keywordTitle,
+        title: TAPi18n.__('delegation-voting-rights'),
+        kind: 'DELEGATION',
+        signatures: [
+          {
+            _id: delegatorId,
+            role: 'DELEGATOR',
+            status: 'PENDING'
+          },
+          {
+            _id: delegateId,
+            role: 'DELEGATE',
+            status: 'PENDING'
+          }
+        ]
+      });
+      console.log('NEW CONTRACT CREATED:')
+      console.log(newDelegation);
+    } else {
+      console.log(existingDelegation);
+    }
   } else {
-    console.log(existingDelegation);
+    //goes to existing one
+
   }
 
+/*
+
+*/
 
 }
 

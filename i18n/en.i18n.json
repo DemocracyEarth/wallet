@@ -308,5 +308,6 @@
   "login": "Login",
   "delegation": "delegation",
   "delegation-voting-rights": "Delegation of Voting Rights",
-  "default-delegation-contract": "The signing delegator agrees to place votes to be used by delegate. The delegate will only have the right to use these votes for decisions tagged with the listed topics in this agreement."
+  "default-delegation-contract": "The signing delegator agrees to place votes to be used by delegate. The delegate will only have the right to use these votes for decisions tagged with the listed topics in this agreement.",
+  "secret": "Secret"
 }
