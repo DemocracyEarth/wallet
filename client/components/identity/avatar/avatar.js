@@ -119,7 +119,7 @@ Template.avatar.events({
     Meteor.users.update(Meteor.userId(), { $set: { profile : data }})
   },
   'mouseenter .profile-pic': function (event) {
-    if (this.displayPopup != false) {
+    if (this.displayPopup != false && this.disabled != true) {
       if (this.profile != null && this.profile != undefined) {
         Modules.client.displayPopup(event.target, true, 'card', this.profile);
       }

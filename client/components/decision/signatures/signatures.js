@@ -1,6 +1,5 @@
 Template.signatures.rendered = function () {
-  var contractAuthors = Session.get('contract').signatures; //Contracts.findOne({ _id: Session.get('contractId') }).signatures;
-
+  var contractAuthors = Session.get('contract').signatures;
   if (contractAuthors != undefined) {
     for (var i = 0; i < contractAuthors.length; i++ ) {
       if (Meteor.user() != null) {
@@ -13,9 +12,7 @@ Template.signatures.rendered = function () {
       }
     }
   }
-
   Session.set('displaySignaturePopup', false);
-
 };
 
 Template.signatures.helpers({
@@ -28,8 +25,7 @@ Template.signatures.helpers({
       for (var i=0; i < Session.get('contract').signatures.length; i++) {
         signerIds.push(Session.get('contract').signatures[i]._id);
       }
-      console.log(signerIds);
-      return signerIds; //Session.get('contract').signatures;
+      return signerIds;
     } else {
       //is anonymous
       if (!this.editorMode) {
