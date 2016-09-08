@@ -131,7 +131,7 @@ Meteor.methods({
     console.log('[insert] new contract');
     console.log(contract);
     var newDeal = Contracts.insert(contract);
-    console.log(newDeal);
+    console.log(newDeal.url);
     return newDeal;
   }
 

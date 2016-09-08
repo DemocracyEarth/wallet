@@ -57,8 +57,10 @@ let _newDelegation = (delegatorId, delegateId, keywordTitle) => {
     };
 
     Meteor.call('insertContract', newDelegation, function(error, result) {
-      console.log(result._id);
-      Router.go(result.url);
+      console.log(result);
+      if (!error) {
+        Router.go(Contracts.findOne({ _id: result }).url);
+      }
     });
 
   } else {

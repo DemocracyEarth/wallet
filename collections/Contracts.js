@@ -34,7 +34,6 @@ ContractSchema = new SimpleSchema({
       var slug = convertToSlug(this.field("title").value);
       if (this.isInsert) {
         if (this.field('kind').value == 'DELEGATION') {
-          console.log('will be using this keyword: ' + this.field('keyword').value);
           return this.field('keyword').value;
         } else {
           if (this.field('keyword').value == undefined) {
