@@ -129,17 +129,30 @@ function dynamicTextCheck(text) {
   var roleIndex = new Object();
   switch (Session.get('contract').kind) {
     case 'DELEGATION':
-      var signatures = new Array(Session.get('contract').signatures);
+      var signatures = Session.get('contract').signatures;
       if (signatures.length > 0) {
         for (var i = 0; i < signatures.length; i ++) {
+          console.log(signatures[i]._id);
+          console.log(signatures[i].role);
           Modules.both.getUserInfo(signatures[i]._id, signatures[i].role);
           roleIndex[signatures[i].role] = i;
         }
       }
-      checkedText = checkedText.replace('<delegator>', htmlTagOpen + Session.get(signatures[roleIndex['DELEGATOR']]) + htmlTagClose);
-      checkedText = checkedText.replace('<delegate>', htmlTagOpen + Session.get(signatures[roleIndex['DELEGATE']]) + htmlTagClose);
+      checkedText = checkedText.replace('<delegator>', htmlTagOpen + getProfileName(Session.get('DELEGATOR').profile) + htmlTagClose);
+      checkedText = checkedText.replace('<delegate>', htmlTagOpen + getProfileName(Session.get('DELEGATE').profile) + htmlTagClose);
       checkedText = checkedText.replace('<votes>', htmlTagOpen + '000' + htmlTagClose);
       break;
   }
   return checkedText;
+}
+
+function getProfileName (profile) {
+  fullName = new String();
+  if (profile.firstName != undefined) {
+    fullName = profile.firstName;
+  }
+  if (profile.lastName != undefined) {
+    fullName += ' ' + profile.lastName;
+  }
+  return fullName;
 }
