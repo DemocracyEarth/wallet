@@ -308,7 +308,7 @@
   "connect-with-facebook": "Connect with Facebook",
   "login": "Login",
   "delegation": "delegation",
-  "delegation-voting-rights": "Delegation of Voting Rights",
+  "delegation-voting-rights": "Delegation of Votes.",
   "default-delegation-contract": "<delegator> (<em>Delegator</em>) agrees to delegate <votes> votes to <delegate> (<em>Delegate</em>).",
   "conditions": "Conditions",
   "secret": "Secret",
