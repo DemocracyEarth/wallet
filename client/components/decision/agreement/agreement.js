@@ -93,7 +93,8 @@ Template.agreement.helpers({
     }
   },
   description: function () {
-    return dynamicTextCheck(Session.get('contract').description);
+    var sample = "<delegator> (<em>Delegator</em>) agrees to share <strong><votes> votes</strong> with <delegate> (<em>Delegate</em>).<h2>Delegation Rules</h2><ul><li>A <em>Delegator</em> can always override a <em>Delegate</em>'s decision on how to use these votes.</li><li>A <em>Delegator</em> has the right to know how the <em>Delegate</em> has used these votes.<li>Votes can only be used for proposals using any of the tags listed on this agreement.<li><strong>Transferable: </strong>A <em>Delegate</em> can agree to a new delegation with a third party and share these votes.</ul>";
+    return dynamicTextCheck(sample);//Session.get('contract').description);
   }
 });
 
@@ -124,8 +125,8 @@ Local methods
 
 function dynamicTextCheck(text) {
   var checkedText = new String(text);
-  var htmlTagOpen = new String ("<span class='dynamic-text'>");
-  var htmlTagClose = new String ("</span>");
+  var htmlTagOpen = new String ("<a href='#'>");
+  var htmlTagClose = new String ("</a>");
   var roleIndex = new Object();
   switch (Session.get('contract').kind) {
     case 'DELEGATION':
@@ -140,7 +141,7 @@ function dynamicTextCheck(text) {
       }
       checkedText = checkedText.replace('<delegator>', htmlTagOpen + getProfileName(Session.get('DELEGATOR').profile) + htmlTagClose);
       checkedText = checkedText.replace('<delegate>', htmlTagOpen + getProfileName(Session.get('DELEGATE').profile) + htmlTagClose);
-      checkedText = checkedText.replace('<votes>', htmlTagOpen + '000' + htmlTagClose);
+      checkedText = checkedText.replace('<votes>', '23');
       break;
   }
   return checkedText;

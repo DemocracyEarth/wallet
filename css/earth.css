@@ -21,13 +21,11 @@ h1 {
 }
 
 h2 {
-  margin-top: 0px;
-  margin-bottom: 10px;
   border-bottom: 1px solid #000;
   font-family: Lato, sans-serif;
   font-size: 18px;
   line-height: 28px;
-  font-weight: 400;
+  font-weight: 300;
   text-transform: uppercase;
 }
 
@@ -4200,8 +4198,10 @@ blockquote {
 }
 
 .dynamic-text {
-  border-bottom: 1px dotted #00bf8f;
-  font-style: italic;
+  padding: 5px;
+  border-radius: 3px;
+  background-color: #e6f9f4;
+  font-weight: 200;
 }
 
 @media (max-width: 991px) {

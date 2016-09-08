@@ -309,6 +309,6 @@
   "login": "Login",
   "delegation": "delegation",
   "delegation-voting-rights": "Delegation of Voting Rights",
-  "default-delegation-contract": "<delegator> agrees to place <votes> to be used by delegate <delegate> strictly for decisions &amp; delegations tagged with any of the listed tags in this agreement.",
+  "default-delegation-contract": "<delegator> agrees to place <votes> to be used by <a href='http://github.com/DemocracyEarth/sovereign/' target='_blank'>delegate</a> <delegate> strictly for decisions &amp; delegations tagged with any of the listed tags in this agreement.",
   "secret": "Secret"
 }
