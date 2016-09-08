@@ -4199,6 +4199,11 @@ blockquote {
   height: 10px;
 }
 
+.dynamic-text {
+  border-bottom: 1px dotted #00bf8f;
+  font-style: italic;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;

@@ -93,9 +93,7 @@ Template.agreement.helpers({
     }
   },
   description: function () {
-    console.log('dynamic mode is ' + this.dynamicMode);
-    
-    return Session.get('contract').description;
+    return dynamicTextCheck(Session.get('contract').description);
   }
 });
 
@@ -119,3 +117,29 @@ Template.agreement.events({
     }
   }
 });
+
+/***********************
+Local methods
+**********************/
+
+function dynamicTextCheck(text) {
+  var checkedText = new String(text);
+  var htmlTagOpen = new String ("<span class='dynamic-text'>");
+  var htmlTagClose = new String ("</span>");
+  var roleIndex = new Object();
+  switch (Session.get('contract').kind) {
+    case 'DELEGATION':
+      var signatures = new Array(Session.get('contract').signatures);
+      if (signatures.length > 0) {
+        for (var i = 0; i < signatures.length; i ++) {
+          Modules.both.getUserInfo(signatures[i]._id, signatures[i].role);
+          roleIndex[signatures[i].role] = i;
+        }
+      }
+      checkedText = checkedText.replace('<delegator>', htmlTagOpen + Session.get(signatures[roleIndex['DELEGATOR']]) + htmlTagClose);
+      checkedText = checkedText.replace('<delegate>', htmlTagOpen + Session.get(signatures[roleIndex['DELEGATE']]) + htmlTagClose);
+      checkedText = checkedText.replace('<votes>', htmlTagOpen + '000' + htmlTagClose);
+      break;
+  }
+  return checkedText;
+}
