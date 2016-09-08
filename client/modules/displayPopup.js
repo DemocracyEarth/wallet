@@ -11,8 +11,16 @@ var popupTimer;
 /* @param {boolean} show - specifically set to true or false if popcurd needs to be shown or hidden
 ******/
 let _displayPopup = (element, visible, template, params, eventType) => {
+  var timer = new Number();
 
   if (!Session.get('displayPopup')) {
+
+    if (eventType == 'click') {
+      timer = 0;
+    } else {
+      timer = parseInt(Modules.client.animationSettings.duration * 5);
+    }
+
     popupTimer = Meteor.setTimeout(function () {
 
       //store content and source for resizing Calls
@@ -44,7 +52,7 @@ let _displayPopup = (element, visible, template, params, eventType) => {
       } else {
         Session.set('displayPopup', visible);
       }
-    }, Modules.client.animationSettings.duration * 5);
+    }, timer);
   }
 
 }
