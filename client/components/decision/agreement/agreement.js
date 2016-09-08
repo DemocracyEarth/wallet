@@ -6,7 +6,7 @@ Rendering
 
 Template.agreement.rendered = function () {
 
-  if (Session.get('contract').stage == 'DRAFT') {
+  if (Session.get('contract').stage == 'DRAFT' && Session.get('contract').kind == 'VOTE') {
 
     var editor = new MediumEditor('#editor', {
       /* These are the default options for the editor,
@@ -93,6 +93,8 @@ Template.agreement.helpers({
     }
   },
   description: function () {
+    console.log('dynamic mode is ' + this.dynamicMode);
+    
     return Session.get('contract').description;
   }
 });

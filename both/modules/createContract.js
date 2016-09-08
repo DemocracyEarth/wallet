@@ -37,7 +37,8 @@ let _newDelegation = (delegatorId, delegateId, keywordTitle) => {
       //adds random if coincidence among people with similar names happened
       finalTitle = keywordTitle + Modules.both.shortUUID();
     }
-    var newDelegation = Contracts.insert({
+    var newDelegation =
+    {
       keyword: finalTitle,
       title: TAPi18n.__('delegation-voting-rights'),
       kind: 'DELEGATION',
@@ -53,8 +54,13 @@ let _newDelegation = (delegatorId, delegateId, keywordTitle) => {
           status: 'PENDING'
         }
       ]
+    };
+
+    Meteor.call('insertContract', newDelegation, function(error, result) {
+      console.log(result._id);
+      Router.go(result.url);
     });
-    Router.go(newDelegation.url);
+
   } else {
     //goes to existing one
     Router.go(existingDelegation.url);

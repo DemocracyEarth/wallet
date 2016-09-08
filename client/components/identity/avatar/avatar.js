@@ -124,5 +124,10 @@ Template.avatar.events({
         Modules.client.displayPopup(event.target, true, 'card', this.profile);
       }
     }
+  },
+  'mouseleave .profile-pic': function (event) {
+    if (!Session.get('displayPopup')) {
+      Modules.client.cancelPopup();
+    }
   }
 });

@@ -125,6 +125,14 @@ Meteor.methods({
   getCollectiveInfo: function (collectiveId) {
     console.log('getting info for collective ' + collectiveId);
     return Collectives.findOne({ _id: collectiveId });
+  },
+
+  insertContract: function (contract) {
+    console.log('[insert] new contract');
+    console.log(contract);
+    var newDeal = Contracts.insert(contract);
+    console.log(newDeal);
+    return newDeal;
   }
 
 });

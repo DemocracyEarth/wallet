@@ -13,7 +13,7 @@ Template.card.helpers({
 
 Template.card.events({
   'click #delegate': function () {
-    var keywordTitle = newDelegateName + '-' + slugName(Meteor.user().profile);
+    var keywordTitle = slugName(Meteor.user().profile) + '-' + newDelegateName;
     if (keywordTitle != undefined) {
       Modules.both.startDelegation(Meteor.userId(), this.toString(), keywordTitle);
       Modules.client.animatePopup(false);

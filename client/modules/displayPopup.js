@@ -3,6 +3,7 @@ import {default as Modules} from "./_modules";
 popupCard = new Object();
 popupCard.visible = false;
 popupCard.position = new Object;
+var popupTimer;
 
 /*****
 /* @param {string} template - the name of the blaze template to be used dynamically on the content of the popup
@@ -12,7 +13,7 @@ popupCard.position = new Object;
 let _displayPopup = (element, visible, template, params, eventType) => {
 
   if (!Session.get('displayPopup')) {
-    Meteor.setTimeout(function () {
+    popupTimer = Meteor.setTimeout(function () {
 
       //store content and source for resizing Calls
       popupCard.content = template;
@@ -43,9 +44,16 @@ let _displayPopup = (element, visible, template, params, eventType) => {
       } else {
         Session.set('displayPopup', visible);
       }
-    }, Modules.client.animationSettings.duration);
+    }, Modules.client.animationSettings.duration * 5);
   }
 
+}
+
+/*****
+/* cancels the imminent display of the popup
+*****/
+let _cancelPopup = () => {
+  Meteor.clearTimeout(popupTimer);
 }
 
 /*****
@@ -187,6 +195,7 @@ let _displayLogin = (target) => {
   }
 }
 
+Modules.client.cancelPopup = _cancelPopup;
 Modules.client.displayLogin = _displayLogin;
 Modules.client.animatePopup = _animatePopup;
 Modules.client.displayPopup = _displayPopup;
