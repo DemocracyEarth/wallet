@@ -330,6 +330,28 @@ ContractSchema = new SimpleSchema({
       }
     }
   },
+  condition: {
+    type: Object,
+    optional: true
+  },
+  "condition.transferable": {
+    type: Boolean,
+    optional: true,
+    autoValue: function () {
+      if (this.isInsert) {
+        return true;
+      }
+    }
+  },
+  "condition.limited": {
+    type: Boolean,
+    optional: true,
+    autoValue: function () {
+      if (this.isInsert) {
+        return false;
+      }
+    }
+  },
   ballot: {
     //Ballot options of the contract
     type: Array,

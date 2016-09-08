@@ -313,8 +313,6 @@
   "conditions": "Conditions",
   "secret": "Secret",
   "expiration-date": "Expiration Date",
-  "transferable-on": "Transferable to other delegates.",
-  "transferable-off": "Untransferable votes.",
-  "limited-on": "Limited to proposals that include listed tags.",
-  "limited-off": "Unlimited to any kind of proposal."
+  "transferable": "Transferable to third parties.",
+  "limited": "Limited to listed tags.",
 }
