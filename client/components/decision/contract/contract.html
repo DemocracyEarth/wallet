@@ -8,6 +8,7 @@
         <div class="paper">
           {{> title editorMode=false}}
           {{> agreement editorMode=false dynamicMode=true}}
+          {{> conditions}}
           {{> semantics editorMode=true}}
           {{> signatures authorMode=true editorMode=false}}
         </div>
@@ -60,4 +61,28 @@
 
   </div>
 
+</template>
+
+<template name="conditions">
+    <h5>{{_ 'conditions'}}</h5>
+    <ul class="w-list-unstyled settings">
+      <!--<li class="w-clearfix setting">
+        <div class="text setting-label">{{_ 'expiration-date'}}</div>
+        <div class="value">
+          {{> calendar}}
+        </div>
+      </li>-->
+      <li class="w-clearfix setting">
+        <div class="text setting-label">{{_ 'transferable-on'}}</div>
+        <div class="w-clearfix value">
+          {{> toggle setting="allowForks" value=allowForks}}
+        </div>
+      </li>
+      <li class="w-clearfix setting">
+        <div class="text setting-label">{{_ 'limited-on'}}</div>
+        <div class="w-clearfix value">
+          {{> toggle setting="multipleChoice" value=multipleChoice}}
+        </div>
+      </li>
+    </ul>
 </template>

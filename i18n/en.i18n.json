@@ -309,6 +309,12 @@
   "login": "Login",
   "delegation": "delegation",
   "delegation-voting-rights": "Delegation of Voting Rights",
-  "default-delegation-contract": "<delegator> agrees to place <votes> to be used by <a href='http://github.com/DemocracyEarth/sovereign/' target='_blank'>delegate</a> <delegate> strictly for decisions &amp; delegations tagged with any of the listed tags in this agreement.",
-  "secret": "Secret"
+  "default-delegation-contract": "<delegator> (<em>Delegator</em>) agrees to delegate <votes> votes with <delegate> (<em>Delegate</em>).",
+  "conditions": "Conditions",
+  "secret": "Secret",
+  "expiration-date": "Expiration Date",
+  "transferable-on": "Transferable to other delegates.",
+  "transferable-off": "Untransferable votes.",
+  "limited-on": "Limited to proposals that include listed tags.",
+  "limited-off": "Unlimited to any kind of proposal."
 }

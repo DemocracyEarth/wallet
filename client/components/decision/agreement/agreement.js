@@ -93,8 +93,19 @@ Template.agreement.helpers({
     }
   },
   description: function () {
-    var sample = "<delegator> (<em>Delegator</em>) agrees to share <strong><votes> votes</strong> with <delegate> (<em>Delegate</em>).<h2>Delegation Rules</h2><ul><li>A <em>Delegator</em> can always override a <em>Delegate</em>'s decision on how to use these votes.</li><li>A <em>Delegator</em> has the right to know how the <em>Delegate</em> has used these votes.<li>Votes can only be used for proposals using any of the tags listed on this agreement.<li><strong>Transferable: </strong>A <em>Delegate</em> can agree to a new delegation with a third party and share these votes.</ul>";
-    return dynamicTextCheck(sample);//Session.get('contract').description);
+    var rule = new Array();
+    var intro = TAPi18n.__('default-delegation-contract');
+    var sample = "";
+    var end = "</ul>"
+    rule[0] = "<li><strong>Accountable </strong> - <em>Delegator</em> has the right to know how the <em>Delegate</em> has used these votes.</li>";
+    rule[1] = "<li><strong>Limited </strong> - Votes can only be used for proposals described with any of the tags listed on this agreement.</li>";
+    rule[2] = "<li><strong>Transferable </strong> - <em>Delegate</em> can delegate these votes to a third party.</li>";
+    rule[3] = "<li><strong>Overridable </strong> - <em>Delegator</em> can always override <em>Delegate</em>'s decision on how to use these votes.</li>";
+
+    for (var i = 0; i < rule.length; i++) {
+      sample += rule[i];
+    }
+    return dynamicTextCheck(intro); //dynamicTextCheck(Session.get('contract').description);
   }
 });
 
