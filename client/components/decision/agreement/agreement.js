@@ -93,19 +93,7 @@ Template.agreement.helpers({
     }
   },
   description: function () {
-    var rule = new Array();
-    var intro = TAPi18n.__('default-delegation-contract');
-    var sample = "";
-    var end = "</ul>"
-    rule[0] = "<li><strong>Accountable </strong> - <em>Delegator</em> has the right to know how the <em>Delegate</em> has used these votes.</li>";
-    rule[1] = "<li><strong>Limited </strong> - Votes can only be used for proposals described with any of the tags listed on this agreement.</li>";
-    rule[2] = "<li><strong>Transferable </strong> - <em>Delegate</em> can delegate these votes to a third party.</li>";
-    rule[3] = "<li><strong>Overridable </strong> - <em>Delegator</em> can always override <em>Delegate</em>'s decision on how to use these votes.</li>";
-
-    for (var i = 0; i < rule.length; i++) {
-      sample += rule[i];
-    }
-    return dynamicTextCheck(intro); //dynamicTextCheck(Session.get('contract').description);
+    return dynamicTextCheck(Session.get('contract').description);
   }
 });
 
@@ -144,8 +132,6 @@ function dynamicTextCheck(text) {
       var signatures = Session.get('contract').signatures;
       if (signatures.length > 0) {
         for (var i = 0; i < signatures.length; i ++) {
-          console.log(signatures[i]._id);
-          console.log(signatures[i].role);
           Modules.both.getUserInfo(signatures[i]._id, signatures[i].role);
           roleIndex[signatures[i].role] = i;
         }

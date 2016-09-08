@@ -1,0 +1,29 @@
+<template name="conditions">
+    <h5>{{_ 'conditions'}}</h5>
+    <ul class="w-list-unstyled settings">
+      <!--<li class="w-clearfix setting">
+        <div class="text setting-label">{{_ 'expiration-date'}}</div>
+        <div class="value">
+          {{> calendar}}
+        </div>
+      </li>-->
+      <li class="w-clearfix setting">
+        <div class="text setting-label">{{_ 'transferable'}}</div>
+        <div class="w-clearfix value">
+          {{> toggle setting="transferable" value=transferable}}
+        </div>
+      </li>
+      <li class="w-clearfix setting">
+        <div class="text setting-label">{{_ 'portable'}}</div>
+        <div class="w-clearfix value">
+          {{> toggle setting="portable" value=portable}}
+        </div>
+      </li>
+      <li class="w-clearfix setting">
+        <div class="text setting-label">{{_ 'limited'}}</div>
+        <div class="w-clearfix value">
+          {{> toggle setting="limited" value=limited}}
+        </div>
+      </li>
+    </ul>
+</template>

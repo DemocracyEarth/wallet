@@ -31,11 +31,8 @@ Template.toggle.events({
     //clickedToggle = this.setting;
     Session.set('clickedToggle', this.setting);
     var obj = new Object;
-
     toggle($('.' + this.setting).children(), !this.value);
-
-    Meteor.call("updateContractField", Session.get('contractId'), this.setting, !this.value);
-
+    Meteor.call("updateContractField", Session.get('contract')._id, this.setting, !this.value);
     //Modules.client.displayNotice(TAPi18n.__('saved-draft-description'), true);
   }
 });

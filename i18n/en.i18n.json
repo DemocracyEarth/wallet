@@ -309,10 +309,15 @@
   "login": "Login",
   "delegation": "delegation",
   "delegation-voting-rights": "Delegation of Voting Rights",
-  "default-delegation-contract": "<delegator> (<em>Delegator</em>) agrees to delegate <votes> votes with <delegate> (<em>Delegate</em>).",
+  "default-delegation-contract": "<delegator> (<em>Delegator</em>) agrees to delegate <votes> votes to <delegate> (<em>Delegate</em>).",
   "conditions": "Conditions",
   "secret": "Secret",
   "expiration-date": "Expiration Date",
   "transferable": "Transferable to third parties.",
   "limited": "Limited to listed tags.",
+  "portable": "Portable to any organization.",
+  "rule-accountable":"<li><strong>Accountable </strong> - <em>Delegator</em> has the right to know how the <em>Delegate</em> has used these votes.</li>",
+  "rule-limited": "<li><strong>Limited </strong> - Votes can only be used for proposals described with any of the tags listed on this agreement.</li>",
+  "rule-transferable":"<li><strong>Transferable </strong> - <em>Delegate</em> can delegate these votes to a third party.</li>",
+  "rule-overridable":"<li><strong>Overridable </strong> - <em>Delegator</em> can always override <em>Delegate</em>'s decision on how to use these votes.</li>"
 }

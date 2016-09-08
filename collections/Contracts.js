@@ -330,25 +330,36 @@ ContractSchema = new SimpleSchema({
       }
     }
   },
-  condition: {
-    type: Object,
-    optional: true
-  },
-  "condition.transferable": {
+  transferable: {
     type: Boolean,
     optional: true,
     autoValue: function () {
       if (this.isInsert) {
-        return true;
+        if (this.field('kind').value == 'DELEGATION') {
+          return true;
+        }
       }
     }
   },
-  "condition.limited": {
+  limited: {
     type: Boolean,
     optional: true,
     autoValue: function () {
       if (this.isInsert) {
-        return false;
+        if (this.field('kind').value == 'DELEGATION') {
+          return false;
+        }
+      }
+    }
+  },
+  portable: {
+    type: Boolean,
+    optional: true,
+    autoValue: function () {
+      if (this.isInsert) {
+        if (this.field('kind').value == 'DELEGATION') {
+          return false;
+        }
       }
     }
   },
