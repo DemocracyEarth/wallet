@@ -322,6 +322,6 @@
   "rule-overridable":"<li><strong>Overridable </strong> - <em>Delegator</em> can always override <em>Delegate</em>'s decision on how to use these votes.</li>",
   "delegator": "Delegator",
   "delegate": "Delegate",
-  "signature-pending": "Awaiting signature...",
+  "signature-pending": "Awaiting approval.",
   "signature-rejected": ": Rejected offer."
 }
