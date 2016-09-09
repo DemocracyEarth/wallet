@@ -8,11 +8,13 @@ Template.avatar.helpers({
   },
   pending: function () {
     if (Session.get('contract').kind == 'DELEGATION') {
-      if (roleStatus(Session.get('contract').signatures, this.profile, true)) {
-        return 'pending';
-      } else {
-        return '';
-      };
+      if (this.includeRole) {
+        if (roleStatus(Session.get('contract').signatures, this.profile, true)) {
+          return 'pending';
+        } else {
+          return '';
+        };
+      }
     }
   },
   elementId: function () {
