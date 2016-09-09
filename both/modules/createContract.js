@@ -46,7 +46,7 @@ let _newDelegation = (delegatorId, delegateId, keywordTitle) => {
         {
           _id: delegatorId,
           role: 'DELEGATOR',
-          status: 'CONFIRMED'
+          status: 'PENDING'
         },
         {
           _id: delegateId,

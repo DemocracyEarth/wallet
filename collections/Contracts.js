@@ -1,4 +1,4 @@
-import {default as Transaction} from "./Transaction";
+import {default as Thread} from "./Thread";
 
 Contracts = new Mongo.Collection("contracts");
 
@@ -436,7 +436,7 @@ ContractSchema = new SimpleSchema({
     }
   },
   "events.$": {
-    type: Transaction,
+    type: Thread,
     optional: true
   }
 });

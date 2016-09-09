@@ -1,5 +1,5 @@
 
-Schema.Transaction = new SimpleSchema({
+Schema.Thread = new SimpleSchema({
   id: {
     type: String,
     autoValue: function () {
@@ -28,7 +28,7 @@ Schema.Transaction = new SimpleSchema({
     }
   },
   "children.$": {
-    type: Schema.Transaction,
+    type: Schema.Thread,
     blackbox: true
   },
   ballot: {
@@ -131,6 +131,6 @@ Schema.Transaction = new SimpleSchema({
   }
 });
 
-TransactionContext = Schema.Transaction.newContext();
+ThreadContext = Schema.Thread.newContext();
 
-export default Schema.Transaction;
+export default Schema.Thread;
