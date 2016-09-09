@@ -319,5 +319,9 @@
   "rule-accountable":"<li><strong>Accountable </strong> - <em>Delegator</em> has the right to know how the <em>Delegate</em> has used these votes.</li>",
   "rule-limited": "<li><strong>Limited </strong> - Votes can only be used for proposals described with any of the tags listed on this agreement.</li>",
   "rule-transferable":"<li><strong>Transferable </strong> - <em>Delegate</em> can delegate these votes to a third party.</li>",
-  "rule-overridable":"<li><strong>Overridable </strong> - <em>Delegator</em> can always override <em>Delegate</em>'s decision on how to use these votes.</li>"
+  "rule-overridable":"<li><strong>Overridable </strong> - <em>Delegator</em> can always override <em>Delegate</em>'s decision on how to use these votes.</li>",
+  "delegator": "Delegator",
+  "delegate": "Delegate",
+  "signature-pending": "Awaiting signature...",
+  "signature-rejected": ": Rejected offer."
 }

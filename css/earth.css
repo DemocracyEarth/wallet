@@ -583,7 +583,7 @@ blockquote {
   border-color: #e6f9f4;
 }
 
-.symbol.profile-pic.profile-awaiting {
+.symbol.profile-pic.pending {
   opacity: 0.25;
 }
 
@@ -2422,7 +2422,7 @@ blockquote {
   margin-top: -2px;
 }
 
-.identity-peer.identity-awaiting {
+.identity-peer.pending {
   opacity: 0.25;
 }
 
