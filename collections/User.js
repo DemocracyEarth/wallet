@@ -135,6 +135,9 @@ Schema.UserProfile = new SimpleSchema({
     menu: {
       type: Schema.Menu,
       optional: true
+    },
+    wallet: {
+      type: Schema.Wallet
     }
 });
 

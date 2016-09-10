@@ -63,8 +63,8 @@ Schema.Votes = new SimpleSchema({
     type: Schema.Delegations,
     optional: true
   },
-  budget: {
-    type: "", //Schema.Budget,
+  wallet: {
+    type: Schema.Wallet,
     optional: true
   }
 });
