@@ -1,6 +1,7 @@
 /***
 * generate a new empty draft
 * @param {string} keywordTitle - name of the contract to be specifically used for this delegation
+* @return {object} contract - if it's empty then call router with new contract, otherwise returns contract object from db
 ****/
 let _newDraft = (keywordTitle) => {
   //Empty Contract

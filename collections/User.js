@@ -137,7 +137,8 @@ Schema.Profile = new SimpleSchema({
       optional: true
     },
     wallet: {
-      type: Schema.Wallet
+      type: Schema.Wallet,
+      optional: true
     }
 });
 
