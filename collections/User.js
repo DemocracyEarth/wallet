@@ -68,7 +68,7 @@ Schema.Menu = new SimpleSchema({
   }
 })
 
-Schema.UserProfile = new SimpleSchema({
+Schema.Profile = new SimpleSchema({
     firstName: {
         type: String,
         optional: true
@@ -173,7 +173,7 @@ Schema.User = new SimpleSchema({
         type: Date
     },
     profile: {
-        type: Schema.UserProfile,
+        type: Schema.Profile,
         optional: true
     },
     // Make sure this services field is in your schema if you're using any of the accounts packages

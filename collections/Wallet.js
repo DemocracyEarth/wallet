@@ -1,17 +1,33 @@
-//NOTE: These schemas of Ticket & Transaction must store transactions in its own db (eventually a blockchain)
+Transactions = new Mongo.Collection("transactions");
+
+//NOTE: These schemas of Ticket & Transaction must store transactions in its own db (eventually a blockchain via vote microchain TBD)
 Schema.Ticket = new SimpleSchema({
-  address: {
+  entityId: {
     type: String
   },
-  entityId: {
+  address: {
     type: String
   },
   entityType: {
     type: String,
-    allowedValues: ['INDIVIDUAL', 'COLLECTIVE']
+    allowedValues: ['INDIVIDUAL', 'COLLECTIVE', 'UNKNOWN'],
+    autoValue: function () {
+      if (this.isInsert) {
+        if (this.field('entityType') == undefined) {
+          return 'UNKNOWN';
+        }
+      }
+    }
   },
   quantity: {
-    type: Number
+    type: Number,
+    autoValue: function () {
+      if (this.isInsert) {
+        if (this.field('quantity') == undefined) {
+          return 0;
+        }
+      }
+    }
   },
   currency: {
     type: String,
@@ -27,9 +43,6 @@ Schema.Ticket = new SimpleSchema({
 });
 
 Schema.Transaction = new SimpleSchema({
-  id: {
-    type: String
-  },
   input: {
     type: Object,
     optional: true
@@ -39,11 +52,24 @@ Schema.Transaction = new SimpleSchema({
     optional: true
   },
   output: {
-    type: Array,
-    optional: true
+    type: Object
   },
   "output.$": {
-    type: Schema.Ticket,
+    type: Schema.Ticket
+  },
+  kind: {
+    type: String,
+    allowedValues: ['VOTE', 'DELEGATION', 'MEMBERSHIP', 'UNKNOWN'],
+    autoValue: function () {
+      if (this.isInsert) {
+        if (this.field('kind') == undefined) {
+          return 'UNKNOWN';
+        }
+      }
+    }
+  },
+  contractId: {
+    type: String,
     optional: true
   },
   timestamp: {
@@ -54,24 +80,39 @@ Schema.Transaction = new SimpleSchema({
       }
     }
   },
-  expirationDate: {
+  condition: {
+    type: Object,
+    optional: true
+  },
+  "condition.expiration": {
     //for placed tokens, once expired reverses the operation
     type: Date,
     optional: true,
     autoValue: function () {
       if (this.isInsert) {
-        if (this.field('expirationDate') == undefined) {
+        if (this.field('expiration') == undefined) {
           return 0;
         }
       }
     }
   },
-  transferable: {
+  "condition.transferable": {
     type: Boolean,
     autoValue: function () {
       if (this.isInsert) {
         if (this.field('transferable') == undefined) {
           return true;
+        }
+      }
+    }
+  },
+  status: {
+    type: String,
+    allowedValues: ['PENDING', 'REJECTED', 'CONFIRMED'],
+    autoValue: function () {
+      if (this.isInsert) {
+        if (this.field('status') == undefined) {
+          return 'CONFIRMED';
         }
       }
     }
@@ -99,6 +140,14 @@ Schema.Wallet =  new SimpleSchema({
     optional: true
   },
   "address.$": {
+    type: Object,
+    optional: true
+  },
+  "address.$.hash": {
+    type: String,
+    optional: true
+  },
+  "address.$.collectiveId": {
     type: String,
     optional: true
   },
