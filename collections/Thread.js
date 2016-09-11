@@ -1,4 +1,3 @@
-
 Schema.Thread = new SimpleSchema({
   id: {
     type: String,

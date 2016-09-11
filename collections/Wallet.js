@@ -1,6 +1,6 @@
 Transactions = new Mongo.Collection("transactions");
 
-//NOTE: These schemas of Ticket & Transaction must store transactions in its own db (eventually a blockchain via vote microchain TBD)
+//NOTE: These schemas of Ticket & Transaction must store transactions in its own db (eventually a blockchain via vote-microchain TBD)
 Schema.Ticket = new SimpleSchema({
   entityId: {
     type: String

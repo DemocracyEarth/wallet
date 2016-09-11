@@ -1,6 +1,9 @@
+/***
+* at user creation the following specifications must be met
+****/
 Accounts.onCreateUser(function(options, user) {
 
-  //Normalize Facebook data
+  //normalize facebook data
   if (user.services.facebook) {
     if (options.profile) {
         options.profile.picture = "http://graph.facebook.com/" + user.services.facebook.id + "/picture/?type=large";
@@ -24,6 +27,7 @@ Accounts.onCreateUser(function(options, user) {
     }
   }
 
+  //normalize twitter data
   if (user.services.twitter) {
 
     if (options.profile) {
@@ -48,6 +52,13 @@ Accounts.onCreateUser(function(options, user) {
     }
 
   }
+
+  //generate first transaction from collective to user's wallet
+  console.log('NEW USER WAS CREATED');
+  console.log(user);
+  console.log(user.profile);
+
+  Modules.both.transact(user._id, Meteor.settings.public.Collective._id)
 
   return user;
 

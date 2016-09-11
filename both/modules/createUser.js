@@ -1,4 +1,7 @@
-
+/***
+* create a new user
+* @param {object} data - input from new user to be used for creation of user in db
+****/
 let _createUser = (data) => {
 
   if (_validateUser(data)) {
@@ -51,8 +54,10 @@ let _createUser = (data) => {
   }
 }
 
-//Validators
-
+/***
+* new user input data validation
+* @param {object} data - validates all keys present in data input from new user
+****/
 let _validateUser = (data) => {
   var val = _validateUsername(data.username)
             + Modules.both.validateEmail(data.email)
@@ -62,8 +67,10 @@ let _validateUser = (data) => {
   if (val >= 4) { return true } else { return false };
 }
 
-
-
+/***
+* password validation
+* @param {string} pass - makes sure password meets criteria
+****/
 let _validatePassword = (pass) => {
   var val = true;
   if (pass.length < 6) {
@@ -76,11 +83,20 @@ let _validatePassword = (pass) => {
   return val;
 }
 
+/***
+* verify correct password input
+* @param {string} passA - first version of password introduced in form
+* @param {string} passB - second version of password introduced in form
+****/
 let _validatePasswordMatch = (passA, passB) => {
   Session.set("mismatchPassword", !(passA == passB));
   return (passA == passB);
 }
 
+/***
+* makes sure username identifier meets criteria and is avaialble
+* @param {string} username - picked username
+****/
 let _validateUsername = (username) => {
   //var regexp = /^[A-Za-z'-\s]+$/ Full name and surname
   var regexp = /^[a-zA-Z0-9]+$/;
