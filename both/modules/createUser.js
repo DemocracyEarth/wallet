@@ -102,13 +102,17 @@ let _validateUsername = (username) => {
   var regexp = /^[a-zA-Z0-9]+$/;
   Session.set("invalidUsername", !regexp.test(username));
   if (regexp.test(username)) {
-    Meteor.call('verifyUsername', username, function(err, id) {
-      if (id == true) {
-        Session.set("repeatedUsername", true);
-      } else {
-        Session.set("repeatedUsername", false);
-      }
-    });
+    if (username != Meteor.user().username) {
+      Meteor.call('verifyUsername', username, function(err, id) {
+        if (id == true) {
+          Session.set("repeatedUsername", true);
+        } else {
+          Session.set("repeatedUsername", false);
+        }
+      });
+    } else {
+      Session.set("repeatedUsername", false);
+    }
 
     if (Session.get("repeatedUsername")) {
       return false;

@@ -53,9 +53,25 @@ Accounts.onCreateUser(function(options, user) {
 
   }
 
-  if (user.username == undefined) {
+  if (user.username == undefined || user.username == '') {
     //no username is defined coming from Facebook login
     console.log('no username defined')
+    var newUsername = convertToSlug(user.profile.firstName) + convertToSlug(user.profile.lastName);
+    var i = 0;
+
+
+    while(Meteor.call('verifyUsername', newUsername, function(err, id) {
+      if (id == true) {
+        return false;
+      } else {
+        return true;
+      }
+    })) {
+      i++;
+      newUsername = newUsername + i;
+    };
+
+    user.username = newUsername;
   }
 
   //generate first transaction from collective to user's wallet
