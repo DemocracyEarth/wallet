@@ -1,4 +1,9 @@
 /***
+* initial quantity of votes given to new users.
+****/
+const VOTES_INITIAL_QUANTITY = 100;
+
+/***
 * at user creation the following specifications must be met
 ****/
 Accounts.onCreateUser(function(options, user) {
@@ -58,8 +63,6 @@ Accounts.onCreateUser(function(options, user) {
     console.log('no username defined')
     var newUsername = convertToSlug(user.profile.firstName) + convertToSlug(user.profile.lastName);
     var i = 0;
-
-
     while(Meteor.call('verifyUsername', newUsername, function(err, id) {
       if (id == true) {
         return false;
@@ -75,12 +78,7 @@ Accounts.onCreateUser(function(options, user) {
   }
 
   //generate first transaction from collective to user's wallet
-  console.log('NEW USER WAS CREATED');
-  console.log(user);
-  console.log(user.profile);
-
-  Modules.both.transact(user._id, Meteor.settings.public.Collective._id)
+  Modules.both.transact(user._id, Meteor.settings.public.Collective._id, VOTES_INITIAL_QUANTITY);
 
   return user;
-
 });

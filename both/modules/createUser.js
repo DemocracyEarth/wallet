@@ -21,7 +21,7 @@ let _createUser = (data) => {
       createdAt: new Date()
     };
 
-    //Create User
+    //create User
     if (UserContext.validate(objUser)) {
       Accounts.createUser({
         username: objUser.username,
@@ -37,7 +37,7 @@ let _createUser = (data) => {
           }
         } else {
 
-          //Fill in account
+          //fill in account
           Meteor.call( 'sendVerificationLink', ( error, response ) => {
             if ( error ) {
               console.log( error.reason, 'danger' );
@@ -102,7 +102,7 @@ let _validateUsername = (username) => {
   var regexp = /^[a-zA-Z0-9]+$/;
   Session.set("invalidUsername", !regexp.test(username));
   if (regexp.test(username)) {
-    if (username != Meteor.user().username) {
+    if (Meteor.user() == null || username != Meteor.user().username) {
       Meteor.call('verifyUsername', username, function(err, id) {
         if (id == true) {
           Session.set("repeatedUsername", true);
@@ -113,7 +113,6 @@ let _validateUsername = (username) => {
     } else {
       Session.set("repeatedUsername", false);
     }
-
     if (Session.get("repeatedUsername")) {
       return false;
     }

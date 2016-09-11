@@ -1,4 +1,4 @@
-import {default as Votes} from "./Votes";
+import {default as Wallet} from "./Wallet";
 
 
 Schema.Credential = new SimpleSchema({
@@ -116,10 +116,10 @@ Schema.Profile = new SimpleSchema({
       type: Boolean,
       optional: true
     },
-    votes: {
+    /*votes: {
         type: Votes,
         optional: true
-    },
+    },*/
     credentials: {
       type: Array,
       optional: true
@@ -137,7 +137,7 @@ Schema.Profile = new SimpleSchema({
       optional: true
     },
     wallet: {
-      type: Schema.Wallet,
+      type: Wallet,
       optional: true
     }
 });

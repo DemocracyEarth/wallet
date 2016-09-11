@@ -52,14 +52,17 @@ Schema.Transaction = new SimpleSchema({
     optional: true
   },
   output: {
-    type: Object
+    type: Object,
+    optional: true
   },
   "output.$": {
-    type: Schema.Ticket
+    type: Schema.Ticket,
+    optional: true
   },
   kind: {
     type: String,
     allowedValues: ['VOTE', 'DELEGATION', 'MEMBERSHIP', 'UNKNOWN'],
+    optional: true,
     autoValue: function () {
       if (this.isInsert) {
         if (this.field('kind') == undefined) {
@@ -74,6 +77,7 @@ Schema.Transaction = new SimpleSchema({
   },
   timestamp: {
     type: Date,
+    optional: true,
     autoValue: function () {
       if (this.isInsert) {
         return new Date();
@@ -122,14 +126,14 @@ Schema.Transaction = new SimpleSchema({
 Schema.Wallet =  new SimpleSchema({
   balance: {
     type: Number,
-    optional: true
+    defaultValue: 0
   },
   currency: {
     type: String,
     allowedValues: ['BITCOIN', 'SATOSHI', 'VOTES'],
     autoValue: function () {
       if (this.isInsert) {
-        if (this.field('currency') == undefined) {
+        if (this.field('currency').value == undefined) {
           return 'VOTES';
         }
       }
@@ -152,7 +156,12 @@ Schema.Wallet =  new SimpleSchema({
     optional: true
   },
   transactions: {
-    type: Array
+    type: Array,
+    autoValue: function () {
+      if (this.isInsert) {
+        return [];
+      }
+    }
   },
   "transactions.$": {
     type: Schema.Transaction,
