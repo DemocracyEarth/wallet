@@ -6,14 +6,17 @@ Template.card.helpers({
   },
   delegationKeyword: function () {
     Modules.both.getUserInfo(this.toString(), 'newDelegate');
-    newDelegateName = slugName(Session.get('newDelegate').profile);
+    newDelegateName = convertToSlug(Session.get('newDelegate').username);
+    console.log(newDelegateName);
     return Session.get('newDelegate');
   }
 })
 
+// NOTE: Verify why I'm getting anonymous-anonymous and generate username for Facebook generated accounts.
+
 Template.card.events({
   'click #delegate': function () {
-    var keywordTitle = slugName(Meteor.user().profile) + '-' + newDelegateName;
+    var keywordTitle = convertToSlug(Meteor.user().username) + '-' + newDelegateName;
     if (keywordTitle != undefined) {
       Modules.both.startDelegation(Meteor.userId(), this.toString(), keywordTitle);
       Modules.client.animatePopup(false);

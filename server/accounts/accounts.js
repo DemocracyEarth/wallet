@@ -53,6 +53,11 @@ Accounts.onCreateUser(function(options, user) {
 
   }
 
+  if (user.username == undefined) {
+    //no username is defined coming from Facebook login
+    console.log('no username defined')
+  }
+
   //generate first transaction from collective to user's wallet
   console.log('NEW USER WAS CREATED');
   console.log(user);
