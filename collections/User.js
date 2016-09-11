@@ -116,10 +116,6 @@ Schema.Profile = new SimpleSchema({
       type: Boolean,
       optional: true
     },
-    /*votes: {
-        type: Votes,
-        optional: true
-    },*/
     credentials: {
       type: Array,
       optional: true

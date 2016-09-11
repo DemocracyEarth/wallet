@@ -1,4 +1,4 @@
-import {default as Votes} from "./Votes";
+import {default as Wallet} from "./Wallet";
 
 Collectives = new Mongo.Collection("collectives");
 
@@ -49,48 +49,52 @@ Schema.Jurisdiction = new SimpleSchema({
 });
 
 Schema.CollectiveProfile = new SimpleSchema({
-    website: {
-        type: String,
-        regEx: SimpleSchema.RegEx.Url,
-        optional: true
-    },
-    bio: {
-        type: String,
-        optional: true
-    },
-    blockchain: {
-        type: Object,
-        optional: true
-    },
-    "blockchain.address": {
+  website: {
+      type: String,
+      regEx: SimpleSchema.RegEx.Url,
+      optional: true
+  },
+  bio: {
       type: String,
       optional: true
-    },
-    logo: {
-        type: String,
-        optional: true
-    },
-    jurisdiction: {
-        type: Schema.Jurisdiction,
-        optional: true
-    },
-    foundation: {
-        type: Date,
-        optional: true
-    },
-    goal: {
-        type: String,
-        allowedValues: ['Profit', 'Free'],
-        optional: true
-    },
-    owners : {
-        type: String,
-        optional: true
-    },
-    configured: {
-      type: Boolean,
+  },
+  blockchain: {
+      type: Object,
       optional: true
-    }
+  },
+  "blockchain.address": {
+    type: String,
+    optional: true
+  },
+  logo: {
+      type: String,
+      optional: true
+  },
+  jurisdiction: {
+      type: Schema.Jurisdiction,
+      optional: true
+  },
+  foundation: {
+      type: Date,
+      optional: true
+  },
+  goal: {
+      type: String,
+      allowedValues: ['Profit', 'Free'],
+      optional: true
+  },
+  owners : {
+      type: String,
+      optional: true
+  },
+  configured: {
+    type: Boolean,
+    optional: true
+  },
+  wallet: {
+    type: Wallet,
+    optional: true
+  }
 });
 
 
@@ -117,10 +121,6 @@ Schema.Collective = new SimpleSchema({
     },
     profile: {
         type: Schema.CollectiveProfile,
-        optional: true
-    },
-    votes: {
-        type: Votes,
         optional: true
     },
     goal: {
