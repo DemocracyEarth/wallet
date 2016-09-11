@@ -7,7 +7,6 @@ Template.card.helpers({
   delegationKeyword: function () {
     Modules.both.getUserInfo(this.toString(), 'newDelegate');
     newDelegateName = convertToSlug(Session.get('newDelegate').username);
-    console.log(newDelegateName);
     return Session.get('newDelegate');
   }
 })

@@ -41,7 +41,8 @@ let _displayPopup = (element, visible, template, params, eventType) => {
         width : parseInt($('.popup').width()),
         height: parseInt($('.card').height() + 40),
         opacity: 1
-      }
+      };
+      target = _limitTargetSize(target);
       popupCard.visible = true;
       popupCard.target = target;
       popupCard.position = _positionCard(element, target);
@@ -62,6 +63,15 @@ let _displayPopup = (element, visible, template, params, eventType) => {
 *****/
 let _cancelPopup = () => {
   Meteor.clearTimeout(popupTimer);
+}
+
+/*****
+/* makes sure target adapts to current screen size accordingly
+/* TODO: specific adaptations to mobile screens.
+*****/
+let _limitTargetSize = (target) => {
+  if (target.width > 300) { target.width = 300 };
+  return target;
 }
 
 /*****

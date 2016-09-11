@@ -19,6 +19,18 @@
           {{/if}}
         </div>
         <div class="login-field">
+          <label for="name" class="login-label login-label-form">
+            {{_ "digital-name"}}
+          </label>
+          <img src="{{pathFor route='home'}}images/fingerprint-white.png" class="login-icon">
+           <input type="text" id="editUserName" placeholder="satoshn" autocomplete="false" class="w-input login-input" value="{{userName}}">
+           {{#if noUsernameFound}}
+             <div class="extra">
+               {{> warning label="missing-username"}}
+             </div>
+           {{/if}}
+        </div>
+        <div class="login-field">
           <label for="name" class="login-label login-label-form">{{_ "nationality"}}</label>
           <img src="{{pathFor route='home'}}images/flag.png" class="login-icon">
           <input type="text" placeholder="{{_ 'earth'}}" autocomplete="false" value="{{country}}" class="w-input login-input country-search">
