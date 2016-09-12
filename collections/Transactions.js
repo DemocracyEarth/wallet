@@ -10,11 +10,11 @@ Schema.Ticket = new SimpleSchema({
   },
   entityType: {
     type: String,
-    allowedValues: ['INDIVIDUAL', 'COLLECTIVE', 'UNKNOWN'],
+    allowedValues: [ENTITY_INDIVIDUAL, ENTITY_COLLECTIVE, ENTITY_UNKNOWN],
     autoValue: function () {
       if (this.isInsert) {
         if (this.field('entityType') == undefined) {
-          return 'UNKNOWN';
+          return ENTITY_UNKNOWN;
         }
       }
     }
@@ -31,11 +31,11 @@ Schema.Ticket = new SimpleSchema({
   },
   currency: {
     type: String,
-    allowedValues: ['BITCOIN', 'SATOSHI', 'VOTES'],
+    allowedValues: [CURRENCY_BITCOIN, CURRENCY_SATOSHI, CURRENCY_VOTES],
     autoValue: function () {
       if (this.isInsert) {
         if (this.field('currency') == undefined) {
-          return 'VOTES';
+          return CURRENCY_VOTES;
         }
       }
     }
@@ -61,12 +61,12 @@ Schema.Transaction = new SimpleSchema({
   },
   kind: {
     type: String,
-    allowedValues: ['VOTE', 'DELEGATION', 'MEMBERSHIP', 'UNKNOWN'],
+    allowedValues: [KIND_VOTE, KIND_DELEGATION, KIND_MEMBERSHIP, KIND_UNKNOWN],
     optional: true,
     autoValue: function () {
       if (this.isInsert) {
-        if (this.field('kind') == undefined) {
-          return 'UNKNOWN';
+        if (this.field('kind').value == undefined) {
+          return KIND_UNKNOWN;
         }
       }
     }
@@ -104,7 +104,7 @@ Schema.Transaction = new SimpleSchema({
     type: Boolean,
     autoValue: function () {
       if (this.isInsert) {
-        if (this.field('transferable') == undefined) {
+        if (this.field('transferable').value == undefined) {
           return true;
         }
       }
@@ -112,11 +112,11 @@ Schema.Transaction = new SimpleSchema({
   },
   status: {
     type: String,
-    allowedValues: ['PENDING', 'REJECTED', 'CONFIRMED'],
+    allowedValues: [STATUS_PENDING, STATUS_REJECTED, STATUS_CONFIRMED],
     autoValue: function () {
       if (this.isInsert) {
-        if (this.field('status') == undefined) {
-          return 'CONFIRMED';
+        if (this.field('status').value == undefined) {
+          return STATUS_PENDING;
         }
       }
     }

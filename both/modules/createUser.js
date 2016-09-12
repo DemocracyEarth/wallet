@@ -36,8 +36,7 @@ let _createUser = (data) => {
               break;
           }
         } else {
-
-          //fill in account
+          //send verification e-mail
           Meteor.call( 'sendVerificationLink', ( error, response ) => {
             if ( error ) {
               console.log( error.reason, 'danger' );
@@ -45,7 +44,16 @@ let _createUser = (data) => {
               Modules.client.displayNotice('user-created', true);
             }
           });
-
+          //make first membership transaction
+          console.log('[_createUser] call genesis transaction');
+          console.log('[_createUser] for user: ' + Meteor.user()._id);
+          Meteor.call ('genesisTransaction', Meteor.user()._id, function (error, response) {
+            if (error) {
+              console.log('[genesisTransaction] ERROR: ' + error);
+            } else {
+              console.log('[genesisTransaction] SUCCESS');
+            };
+          });
         }
       });
     } else {

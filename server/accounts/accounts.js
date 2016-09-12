@@ -1,9 +1,4 @@
 /***
-* initial quantity of votes given to new users.
-****/
-const VOTES_INITIAL_QUANTITY = 100;
-
-/***
 * at user creation the following specifications must be met
 ****/
 Accounts.onCreateUser(function(options, user) {
@@ -51,7 +46,6 @@ Accounts.onCreateUser(function(options, user) {
       })
 
       options.profile.credentials = credential;
-
       user.profile = options.profile;
 
     }
@@ -76,9 +70,6 @@ Accounts.onCreateUser(function(options, user) {
 
     user.username = newUsername;
   }
-
-  //generate first transaction from collective to user's wallet
-  Modules.both.transact(user._id, Meteor.settings.public.Collective._id, VOTES_INITIAL_QUANTITY);
 
   return user;
 });

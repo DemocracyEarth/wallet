@@ -69,21 +69,21 @@
             }
           }
         },
-        "foundation": "January 12, 2015"
+        "foundation": "January 12, 2015",
+        "wallet": {
+          "available": 21000000,
+          "balance": 21000000,
+          "placed": 0,
+          "currency": "VOTES",
+          "transactions": []
+        }
       },
       "goal": "Free",
       "authorities": [
         {
             "userId": "0"
         }
-      ],
-      "votes": {
-        "total": 4000000,
-        "delegations": {
-          "received": [],
-          "sent": []
-        }
-      }
+      ]
     }
   }
 

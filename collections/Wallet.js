@@ -26,7 +26,11 @@ Schema.Wallet =  new SimpleSchema({
   },
   address: {
     type: Array,
-    optional: true
+    autoValue: function () {
+      if (this.isInsert) {
+        return [];
+      }
+    }
   },
   "address.$": {
     type: Object,
