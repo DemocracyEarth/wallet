@@ -1,10 +1,10 @@
 <template name="vote">
   <div class="execution">
     <div class="block">
-      {{> power editable=true}}
+      {{> power editable=editable}}
       <div class="elements w-clearfix">
         <div class="hundred power">
-          {{> action label='place-votes' enabled=true}}
+          {{> action label=label enabled=true}}
         </div>
       </div>
     </div>

@@ -60,7 +60,7 @@ Accounts.onCreateUser(function(options, user) {
 
   if (user.username == undefined || user.username == '') {
     //no username is defined coming from Facebook login
-    console.log('no username defined')
+    console.log('[onCreateUser] no username is defined, generating a new one.')
     var newUsername = convertToSlug(user.profile.firstName) + convertToSlug(user.profile.lastName);
     var i = 0;
     while(Meteor.call('verifyUsername', newUsername, function(err, id) {

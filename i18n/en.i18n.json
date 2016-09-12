@@ -291,6 +291,7 @@
   "speak": "Speak",
   "agora": "Agora",
   "place-votes": "Vote",
+  "delegate-votes": "Delegate <votes> Votes",
   "forgot-password": "Forgot password?",
   "cancel-password-recovery": "Go back to login",
   "continue-password-recovery": "Continue",

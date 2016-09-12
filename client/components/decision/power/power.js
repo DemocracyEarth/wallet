@@ -8,14 +8,31 @@ Template.available.helpers({
     getUserVotes(user, 'availableVotes');
     return Session.get('availableVotes');
   }
-})
+});
 
 Template.placed.helpers({
   votes: function (user) {
     getUserVotes(user, 'placedVotes');
     return Session.get('placedVotes');
   }
-})
+});
+
+Template.bar.helpers({
+  available: function () {
+    if (Meteor.user().profile.wallet.available == 0) {
+      return '0%';
+    } else {
+
+    }
+  },
+  placed: function () {
+    if (Meteor.user().profile.wallet.placed == 0) {
+      return '0%';
+    } else {
+
+    }
+  }
+});
 
 function getUserVotes (userId, sessionVar) {
   if (userId != Meteor.userId()) {

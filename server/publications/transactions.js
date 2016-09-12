@@ -1,4 +1,3 @@
-/*Meteor.publish("transactions", function () {
+Meteor.publish("transactions", function () {
     return Transactions.find();
 });
-*/

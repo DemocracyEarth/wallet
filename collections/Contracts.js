@@ -2,7 +2,7 @@ import {default as Thread} from "./Thread";
 
 Contracts = new Mongo.Collection("contracts");
 
-ContractSchema = new SimpleSchema({
+Schema.Contract = new SimpleSchema({
   collectiveId: {
     type: String,
     optional: true,
@@ -441,4 +441,4 @@ ContractSchema = new SimpleSchema({
   }
 });
 
-Contracts.attachSchema(ContractSchema);
+Contracts.attachSchema(Schema.Contract);
