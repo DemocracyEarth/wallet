@@ -3,32 +3,17 @@ Template.power.rendered = function (user) {
   Session.set('availableVotes', 0);
 }
 
-Template.power.helpers({
-  availableVotes: function (user) {
+Template.available.helpers({
+  votes: function (user) {
     getUserVotes(user, 'availableVotes');
-    var votes = Session.get('availableVotes');
-    var htmlStart = "<div class='vote-available label-votes'><strong data-new-link='true'>"
-    var htmlValue = votes;
-    if (votes == 0) {
-      var htmlEnd = " </strong><span class='vote-label'>" + TAPi18n.__('available-votes') + "</span></div>"
-    } else {
-      //TODO specify in the anchor the URL that will be used to see the delegated votes.
-      var htmlEnd = " </strong><span class='vote-label'><a href='#'>" + TAPi18n.__('available-votes') + "</a></span></div>"
-    }
-    return htmlStart + htmlValue + htmlEnd;
-  },
-  placedVotes: function (user) {
+    return Session.get('availableVotes');
+  }
+})
+
+Template.placed.helpers({
+  votes: function (user) {
     getUserVotes(user, 'placedVotes');
-    var votes = Session.get('placedVotes');
-    var htmlStart = "  <div class='vote-allocated label-votes'><strong data-new-link='true'>";
-    var htmlValue = votes;
-    if (votes == 0) {
-      var htmlEnd = " </strong><span class='vote-label'>" + TAPi18n.__('placed-votes') + "</span></div>"
-    } else {
-      //TODO specify in the anchor the URL that will be used to see the delegated votes.
-      var htmlEnd = " </strong><span class='vote-label'><a href='#'>" + TAPi18n.__('placed-votes') + "</a></span></div>"
-    }
-    return htmlStart + htmlValue + htmlEnd;
+    return Session.get('placedVotes');
   }
 })
 
@@ -39,12 +24,12 @@ function getUserVotes (userId, sessionVar) {
         console.log(error);
 
         if (data.profile != undefined) {
-          Session.set(sessionVar, data.profile.votes.total)
+          Session.set(sessionVar, data.profile.wallet.balance)
         }
     });
   } else {
-    if (Meteor.user().profile.votes != undefined) {
-      Session.set(sessionVar, Meteor.user().profile.votes.total);
+    if (Meteor.user().profile.wallet != undefined) {
+      Session.set(sessionVar, Meteor.user().profile.wallet.balance);
     } else {
       return 0;
     }

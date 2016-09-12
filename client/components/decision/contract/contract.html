@@ -11,7 +11,7 @@
           {{> conditions}}
           {{> semantics editorMode=true}}
           {{> signatures delegationMode=true editorMode=false}}
-          {{> democracy}}
+          {{> vote}}
         </div>
       </div>
 
@@ -62,17 +62,4 @@
 
   </div>
 
-</template>
-
-<template name="democracy">
-  <div class="execution">
-    <div class="block">
-      {{> power editable=true}}
-      <div class="elements w-clearfix">
-        <div class="hundred power">
-          {{> action label='place-votes' enabled=true}}
-        </div>
-      </div>
-    </div>
-  </div>
 </template>

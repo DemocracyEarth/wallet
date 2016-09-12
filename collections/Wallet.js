@@ -128,6 +128,14 @@ Schema.Wallet =  new SimpleSchema({
     type: Number,
     defaultValue: 0
   },
+  placed: {
+    type: Number,
+    defaultValue: 0
+  },
+  available: {
+    type: Number,
+    defaultValue: 0
+  },
   currency: {
     type: String,
     allowedValues: ['BITCOIN', 'SATOSHI', 'VOTES'],

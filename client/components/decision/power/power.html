@@ -1,17 +1,37 @@
 <template name="power">
-
   {{#if editable}}
     <div class="w-clearfix rosca rosca-setter">
       {{> powerBar displayHandler=editable}}
-      {{{availableVotes user}}}
-      {{{placedVotes user}}}
+      {{> available user}}
+      {{> placed user}}
     </div>
   {{else}}
     <div class="w-clearfix rosca rosca-id {{styleClass}}">
       {{> powerBar displayHandler=editable}}
-      {{{availableVotes user}}}
-      {{{placedVotes user}}}
+      {{> available user}}
+      {{> placed user}}
     </div>
   {{/if}}
+</template>
 
+<template name="available">
+  <div class='vote-available label-votes'>
+    <strong data-new-link='true'>
+      {{{votes}}}
+    </strong>
+    <span class='vote-label'>
+      {{_ 'available-votes'}}
+    </span>
+  </div>
+</template>
+
+<template name="placed">
+  <div class='vote-allocated label-votes'>
+    <strong data-new-link='true'>
+      {{{votes}}}
+    </strong>
+    <span class='vote-label'>
+      {{_ 'placed-votes'}}
+    </span>
+  </div>
 </template>
