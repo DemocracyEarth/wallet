@@ -49,11 +49,10 @@ Accounts.onCreateUser(function(options, user) {
       user.profile = options.profile;
 
     }
-
   }
 
+  //no username is defined coming from Facebook login
   if (user.username == undefined || user.username == '') {
-    //no username is defined coming from Facebook login
     console.log('[onCreateUser] no username is defined, generating a new one.')
     var newUsername = convertToSlug(user.profile.firstName) + convertToSlug(user.profile.lastName);
     var i = 0;
@@ -67,7 +66,6 @@ Accounts.onCreateUser(function(options, user) {
       i++;
       newUsername = newUsername + i;
     };
-
     user.username = newUsername;
   }
 

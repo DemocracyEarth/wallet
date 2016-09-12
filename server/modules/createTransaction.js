@@ -83,20 +83,34 @@ let _getWalletAddress = (entityId) => {
   console.log('[_getWalletAddress] getting info for ');
   console.log(user);
 
-  if (wallet.address != undefined || wallet.address.length > 0) {
+  if (wallet.address != undefined && wallet.address.length > 0) {
     console.log('[_getWalletAddress] wallet has an address');
-    for (var i = 0; i < wallet.address.length; i ++) {
-      if (wallet.address[i].collectiveId == collectiveId) {
-        return wallet.address[i].hash;
-      }
-    }
+    return _getAddressHash(wallet.address, collectiveId);
   } else {
     console.log('[_getWalletAddress] generate a new address for this collective');
-    user.profile.wallet.push(_generateWalletAddress(wallet).slice(-1)[0]);
-    Meteor.users.update({ _id: entityId }, { $set: { profile: user.profile } });
-    return newAddress.hash;
+    user.profile.wallet = Modules.server.generateWalletAddress(user.profile.wallet);
+    if (entityType == ENTITY_INDIVIDUAL) {
+      Meteor.users.update({ _id: entityId }, { $set: { profile: user.profile } });
+    } else if (entityType == ENTITY_COLLECTIVE) {
+      Collectives.update({ _id: entityId }, { $set: { profile: user.profile } });
+    };
+    return _getAddressHash(user.profile.wallet.address, collectiveId);
   }
 };
+
+
+/****
+* returns the has for the address that is from corresponding collective
+* @param {array} address - a wallet from a user containing all directions
+* @param {string} collectiveId - matching collective
+***/
+let _getAddressHash = (address, collectiveId) => {
+  for (var i = 0; i < address.length; i ++) {
+    if (address[i].collectiveId == collectiveId) {
+      return address[i].hash;
+    }
+  }
+}
 
 /****
 * generates a new address given a wallet
