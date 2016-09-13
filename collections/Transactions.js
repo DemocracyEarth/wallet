@@ -44,20 +44,10 @@ Schema.Ticket = new SimpleSchema({
 
 Schema.Transaction = new SimpleSchema({
   input: {
-    type: Object,
-    optional: true
-  },
-  "input.$": {
-    type: Schema.Ticket,
-    optional: true
+    type: Schema.Ticket
   },
   output: {
-    type: Object,
-    optional: true
-  },
-  "output.$": {
-    type: Schema.Ticket,
-    optional: true
+    type: Schema.Ticket
   },
   kind: {
     type: String,

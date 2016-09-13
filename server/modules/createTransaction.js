@@ -11,13 +11,19 @@ let _createTransaction = (senderId, receiverId, quantity, settings) => {
   console.log('[_createTransaction] receiver: ' + receiverId);
 
   //default settings
+  var defaultSettings = new Object();
+  defaultSettings = {
+    currency: CURRENCY_VOTES,
+    kind: KIND_VOTE,
+    contractId: false //_getContractId(senderId, receiverId, settings.kind),
+  }
+
   if (settings == undefined) {
     var settings = new Object();
-    settings = {
-      currency: CURRENCY_VOTES,
-      kind: KIND_VOTE
-    }
-  }
+    settings = defaultSettings;
+  } else {
+    settings = Object.assign(defaultSettings, settings);
+  };
 
   //build transaction
   var newTransaction =  {
@@ -36,7 +42,7 @@ let _createTransaction = (senderId, receiverId, quantity, settings) => {
       currency: settings.currency
     },
     kind: settings.kind,
-    contractId: 0, //TODO
+    contractId: settings.contractId,
     timestamp: new Date(),
     status: STATUS_PENDING
   };
@@ -44,7 +50,110 @@ let _createTransaction = (senderId, receiverId, quantity, settings) => {
   console.log('[_createTransaction] generated this new transaction:');
   console.log(newTransaction);
 
+  //executes the transaction
+  var txId = Transactions.insert(newTransaction);
+  _processTransaction(txId);
+
 }
+
+
+/***
+* processes de transaction after insert and updates wallet of involved parties
+* @param {string} txId - transaction identificator
+***/
+let _processTransaction = (txId) => {
+
+  var transaction = Transactions.findOne({ _id: txId });
+  var senderProfile = _getProfile(transaction.input);
+  var receiverProfile = _getProfile(transaction.output);
+
+  //TODO all transactions are for VOTE type, develop in the future transactions for BITCOIN or multi-currency conversion.
+  //TODO verification of funds
+
+  var sender = senderProfile.wallet;
+  sender.ledger.push({
+    txId: txId,
+    quantity: parseInt(0 - transaction.input.quantity),
+    entityId: transaction.output.entityId,
+    entityType: transaction.output.entityType,
+    currency: transaction.input.currency
+  });
+  sender.placed += parseInt(transaction.input.quantity);
+  sender.available -= sender.placed;
+  senderProfile.wallet = Object.assign(senderProfile.wallet, sender);
+
+  console.log('[_processTransaction] sender in transaction:');
+  console.log(senderProfile);
+
+  var receiver = receiverProfile.wallet;
+  receiver.ledger.push({
+    txId: txId,
+    quantity: parseInt(transaction.output.quantity),
+    entityId: transaction.input.entityId,
+    entityType: transaction.input.entityType,
+    currency: transaction.output.currency
+  });
+  receiver.available += parseInt(transaction.output.quantity);
+  receiver.balance += receiver.available;
+  receiverProfile.wallet = Object.assign(receiverProfile.wallet, receiver);
+
+  console.log('[_processTransaction] receiver in transaction:');
+  console.log(receiverProfile);
+
+  //update wallets
+  _updateWallet(transaction.input.entityId, transaction.input.entityType, senderProfile);
+  _updateWallet(transaction.output.entityId, transaction.output.entityType, receiverProfile);
+
+  //set this transaction as processed
+  Transactions.update({ _id: txId }, { $set: { status : STATUS_CONFIRMED }});
+
+}
+
+/***
+* returns the profile object of an entity from a transaction
+* @param {string} transactionSignal - input or output of a transaction object
+* @return {object} profile - profile object of entity
+***/
+let _getProfile = (transactionSignal) => {
+  switch (transactionSignal.entityType) {
+    case ENTITY_INDIVIDUAL:
+      return Meteor.users.findOne( { _id: transactionSignal.entityId }).profile;
+      break;
+    case ENTITY_COLLECTIVE:
+      return Collectives.findOne( { _id: transactionSignal.entityId }).profile;
+      break;
+  }
+}
+
+/***
+* updates wallet object of an individual or collective
+* @param {string} entityId - entity
+* @param {string} entityType -  individual or collective
+* @param {object} wallet - wallet object of entity
+***/
+let _updateWallet = (entityId, entityType, profile) => {
+  console.log('[_updateWallet] updating wallet of entityId :' + entityId);
+  switch (entityType) {
+    case ENTITY_INDIVIDUAL:
+      Meteor.users.update( { _id: entityId }, { $set : { profile : profile } });
+      break;
+    case ENTITY_COLLECTIVE:
+      Collectives.update( { _id: entityId }, { $set : { profile : profile } });
+      break;
+  }
+}
+
+/***
+* generates a contract specifying details of this transaction
+* @param {string} senderId - user or collective allocating the funds
+* @param {string} receiverId - user or collective receiving the funds
+* @param {string} kind - type of contract, VOTE, DELEGATION or MEMBERSHIP
+* @return {string} id - contract id of the reference agreement
+****/
+let _getContractId = (senderId, receiverId, kind) => {
+  //TODO
+}
+
 
 /***
 * looks at what type of entity (collective or individual) doing transaction
@@ -134,5 +243,6 @@ let _getCollectiveAddress = () => {
   };
 };
 
+Modules.server.processTransaction = _processTransaction;
 Modules.server.generateWalletAddress = _generateWalletAddress;
 Modules.server.transact = _createTransaction;

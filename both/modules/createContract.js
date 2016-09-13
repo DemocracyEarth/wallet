@@ -71,6 +71,15 @@ let _newDelegation = (delegatorId, delegateId, keywordTitle) => {
 }
 
 /***
+* membership contract between user and collective
+* @param {string} userId - member requesting membership to collective
+* @param {string} collectiveId - collective being requested
+***/
+let _newMembership = (userId, collectiveId) => {
+
+}
+
+/***
 * verifies if there's already a precedent among delegator and delegate
 ***/
 let _verifyDelegation = (delegatorId, delegateId) => {
@@ -87,5 +96,6 @@ let _verifyDelegation = (delegatorId, delegateId) => {
   return false;
 }
 
+Modules.both.startMembership = _newMembership;
 Modules.both.startDelegation = _newDelegation;
 Modules.both.createContract = _newDraft;
