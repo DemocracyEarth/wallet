@@ -2,14 +2,14 @@
   {{#if editable}}
     <div class="w-clearfix rosca rosca-setter">
       {{> bar displayHandler=editable}}
-      {{> available user}}
-      {{> placed user}}
+      {{> available user=user}}
+      {{> placed user=user}}
     </div>
   {{else}}
     <div class="w-clearfix rosca rosca-id {{styleClass}}">
       {{> bar displayHandler=editable}}
-      {{> available user}}
-      {{> placed user}}
+      {{> available user=user}}
+      {{> placed user=user}}
     </div>
   {{/if}}
 </template>
@@ -17,7 +17,7 @@
 <template name="available">
   <div class='vote-available label-votes'>
     <strong data-new-link='true'>
-      {{{votes}}}
+      {{{votes user}}}
     </strong>
     <span class='vote-label'>
       {{_ 'available-votes'}}
@@ -28,7 +28,7 @@
 <template name="placed">
   <div class='vote-allocated label-votes'>
     <strong data-new-link='true'>
-      {{{votes}}}
+      {{{votes user}}}
     </strong>
     <span class='vote-label'>
       {{_ 'placed-votes'}}

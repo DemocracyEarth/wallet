@@ -5,14 +5,14 @@ Template.power.rendered = function (user) {
 
 Template.available.helpers({
   votes: function (user) {
-    getUserVotes(user, 'availableVotes');
+    Modules.client.getWalletVotes(user, 'availableVotes');
     return Session.get('availableVotes');
   }
 });
 
 Template.placed.helpers({
   votes: function (user) {
-    getUserVotes(user, 'placedVotes');
+    Modules.client.getWalletVotes(user, 'placedVotes');
     return Session.get('placedVotes');
   }
 });
@@ -33,22 +33,3 @@ Template.bar.helpers({
     }
   }
 });
-
-function getUserVotes (userId, sessionVar) {
-  if (userId != Meteor.userId()) {
-    Meteor.call('getUserInfo', userId, function (error, data) {
-      if (error)
-        console.log(error);
-
-        if (data.profile != undefined) {
-          Session.set(sessionVar, data.profile.wallet.balance)
-        }
-    });
-  } else {
-    if (Meteor.user().profile.wallet != undefined) {
-      Session.set(sessionVar, Meteor.user().profile.wallet.balance);
-    } else {
-      return 0;
-    }
-  }
-}
