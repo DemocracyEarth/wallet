@@ -25,5 +25,6 @@ Wallet = function (wallet) {
    this.initialized = true;
    this.enabled = true;
    this.allocate = parseInt(this.available / 2);
+   
 
 }
