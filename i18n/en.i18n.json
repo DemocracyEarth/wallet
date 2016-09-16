@@ -305,7 +305,9 @@
   "navbar-proposal": "Vote Proposal",
   "navbar-delegation": "Delegation Agreement",
   "unknown": "Unknown",
-  "delegate-votes": "Delegate Votes",
+  "delegate-votes": "Delegate <quantity> <type>",
+  "vote-singular": "Vote",
+  "vote-plural": "Votes",
   "recovery-email": "Recovery E-mail:",
   "connect-with-facebook": "Connect with Facebook",
   "login": "Login",
@@ -326,5 +328,5 @@
   "delegate": "Delegate",
   "signature-pending": "Awaiting confirmation.",
   "signature-rejected": ": Rejected offer.",
-  "digital-name": "Digital ID"
+  "digital-name": "Blockchain ID"
 }

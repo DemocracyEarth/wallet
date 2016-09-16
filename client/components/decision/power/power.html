@@ -12,6 +12,13 @@
       {{> placed user=user}}
     </div>
   {{/if}}
+
+  <div class="elements w-clearfix">
+    <div class="hundred power">
+      {{> action label=label enabled=editable}}
+    </div>
+  </div>
+
 </template>
 
 <template name="available">
@@ -39,9 +46,9 @@
 <template name="bar">
 
     {{#if displayHandler}}
-      <div class="w-clearfix result vote-bar">
+      <div id="voteBar" class="w-clearfix result vote-bar">
         <div class="result-bar vote-bar" style=" width: {{available}} ">
-          <div class="handle"></div>
+          <div id="voteHandle" class="handle"></div>
         </div>
         <div class="result-bar vote-bar vote-bar-allocated"  style=" width: {{placed}} "></div>
       </div>

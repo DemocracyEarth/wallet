@@ -1,20 +1,42 @@
 Template.power.rendered = function (user) {
-  /*Session.set('placedVotes', 0);
-  Session.set('availableVotes', 0);
-  Session.set('barEnabled', true);*/
   Session.set('newVote', new Wallet(Meteor.user().profile.wallet));
+
+  $("#voteHandle").draggable({
+    axis: "x",
+    drag: function (event, ui) {
+      var barWidth = $('#voteBar').width();
+      var leftMax = parseInt(0 - (barWidth / 2) + ($("#voteHandle").width() / 2));
+      var rightMax = parseInt((barWidth / 2) - ($("#voteHandle").width() / 2));
+
+      if (ui.position.left < leftMax) {
+        ui.position.left = leftMax;  
+      } else if (ui.position.left > rightMax) {
+        ui.position.left = rightMax;
+      }
+
+
+    }
+  });
+
 }
+
+Template.power.helpers({
+  label: function () {
+    var voteQuantity = TAPi18n.__(this.label);
+    voteQuantity = voteQuantity.replace("<quantity>", Session.get('newVote').allocate);
+    voteQuantity = voteQuantity.replace("<type>", function () { if (Session.get('newVote').allocate > 1) { return TAPi18n.__('vote-plural') } else { return TAPi18n.__('vote-singular') } } );
+    return voteQuantity;
+  }
+})
 
 Template.available.helpers({
   votes: function (user) {
-    //Modules.client.getWalletVotes(user, 'availableVotes');
     return Session.get('newVote').available;
   }
 });
 
 Template.placed.helpers({
   votes: function (user) {
-    //Modules.client.getWalletVotes(user, 'placedVotes');
     return Session.get('newVote').placed;
   }
 });

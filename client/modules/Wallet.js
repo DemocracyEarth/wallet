@@ -3,7 +3,7 @@
 /* @param {object} wallet - wallet object that can be set from a user's profile.
 /* @constructor {object} Wallet - constructor function
 ******/
-function Wallet (wallet) {
+Wallet = function (wallet) {
 
    // properties
    if (wallet == undefined) {
@@ -24,5 +24,6 @@ function Wallet (wallet) {
 
    this.initialized = true;
    this.enabled = true;
+   this.allocate = parseInt(this.available / 2);
 
 }
