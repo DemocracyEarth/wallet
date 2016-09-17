@@ -19,7 +19,7 @@ Schema.Wallet =  new SimpleSchema({
     autoValue: function () {
       if (this.isInsert) {
         if (this.field('currency').value == undefined) {
-          return 'VOTES';
+          return CURRENCY_VOTES;
         }
       }
     }

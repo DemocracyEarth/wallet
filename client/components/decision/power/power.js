@@ -15,15 +15,17 @@ Template.power.rendered = function (user) {
     drag: function (event, ui) {
       var newVote = Session.get('newVote');
       var percentage = (((ui.position.left * 100) / this.delta) + this.startPosition);
-      newVote.allocatePercentage = ((newVote.available * percentage) / 100);
-      if (newVote.allocatePercentage < 0) { newVote.allocatePercentage = 0} else if ( newVote.allocatePercentage > 100 ) { newVote.allocatePercentage = 100; };
-      newVote.sliderWidth = this.allocatedWidth + ui.position.left;
-      if (newVote.sliderWidth < 0) { newVote.sliderWidth = 0; } else if (newVote.sliderWidth > this.barWidth) { newVote.sliderWidth = this.barWidth; };
-      newVote.allocateQuantity = parseInt(newVote.balance * newVote.allocatePercentage / 100);
+      newVote.allocatePercentage = scope(percentage, 100);
+      newVote.allocateQuantity = scope(parseInt((percentage * newVote.balance) / 100), newVote.available);
+      newVote.sliderWidth = scope((this.allocatedWidth + ui.position.left), this.barWidth);
       Session.set('newVote', newVote);
       ui.position.left = 0;
     }
   });
+}
+
+function scope (value, max) {
+  if (value < 0) { return 0 } else if (value > max) { return max } else { return value };
 }
 
 Template.power.helpers({
@@ -54,8 +56,7 @@ Template.bar.helpers({
     var wallet = Session.get('newVote');
     if (wallet.sliderWidth == undefined) {
       //first time setup
-      var percentage = parseInt((wallet.allocatePercentage * 100) / wallet.balance);
-      return percentage + '%';
+      return wallet.allocatePercentage + '%';
     } else {
       return wallet.sliderWidth + 'px';
     }
