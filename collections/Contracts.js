@@ -1,4 +1,5 @@
 import {default as Thread} from "./Thread";
+import {default as Wallet} from "./Wallet";
 
 Contracts = new Mongo.Collection("contracts");
 
@@ -437,6 +438,10 @@ Schema.Contract = new SimpleSchema({
   },
   "events.$": {
     type: Thread,
+    optional: true
+  },
+  wallet: {
+    type: Wallet,
     optional: true
   }
 });
