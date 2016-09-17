@@ -7,6 +7,11 @@ Meteor.methods({
     console.log('[genesisTransaction] generated first address on wallet.');
     Meteor.users.update({ _id: userId }, { $set: { profile : user.profile } });
     Modules.server.transact(Meteor.settings.public.Collective._id, userId, VOTES_INITIAL_QUANTITY);
+  },
+
+  sendDelegation: function (delegatorId, delegateId, quantity, conditions) {
+    
+
   }
 
 })

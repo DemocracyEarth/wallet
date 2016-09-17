@@ -73,6 +73,23 @@ let _newDelegation = (delegatorId, delegateId, keywordTitle) => {
 }
 
 /***
+* sends the votes from a delegator to be put on hold on a contract until delegate approves deal.
+* @param {string} delegatorId - identity assigning the tokens (usually currentUser)
+* @param {string} delegateId - identity that will get a request to approve this contract (profile clicked)
+* @param {number} quantity - amount of votes being used
+* @param {object} conditions - specified conditions for this delegation
+***/
+let _sendDelegation = (delegatorId, delegateId, quantity, conditions) => {
+
+  console.log('[_sendDelegation]');
+  console.log(delegatorId)
+  console.log(delegateId)
+  console.log(quantity)
+  console.log(conditions)
+
+}
+
+/***
 * membership contract between user and collective
 * @param {string} userId - member requesting membership to collective
 * @param {string} collectiveId - collective being requested
@@ -170,4 +187,5 @@ Modules.both.publishContract = _publish;
 Modules.both.removeContract = _remove;
 Modules.both.startMembership = _newMembership;
 Modules.both.startDelegation = _newDelegation;
+Modules.both.sendDelegationVotes = _sendDelegation;
 Modules.both.createContract = _newDraft;

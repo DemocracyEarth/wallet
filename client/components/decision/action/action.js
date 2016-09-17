@@ -18,16 +18,20 @@ Template.action.events({
               Modules.client.displayModal(
                 true,
                 {
-                  icon            : 'images/modal-ballot.png',
-                  title           : TAPi18n.__('delegate-votes'),
-                  message         : TAPi18n.__('delegate-votes-warning'),
+                  icon            : 'images/modal-delegation.png',
+                  title           : TAPi18n.__('send-delegation-votes'),
+                  message         : TAPi18n.__('delegate-votes-warning').replace('<quantity>', Session.get('newVote').allocateQuantity),
                   cancel          : TAPi18n.__('not-now'),
                   action          : TAPi18n.__('delegate-votes'),
                   isAuthorization : false,
                 },
                 function() {
-                  //Modules.both.publishContract(Session.get('contract')._id);
-                  //TODO NOW
+                  conditions = {
+                    transferable : Session.get('contract').transferable,
+                    portable : Session.get('contract').portable,
+                    tags : Session.get('contract').tags
+                  }
+                  Modules.both.sendDelegationVotes(Session.get('contract').signatures[0]._id, Session.get('contract').signatures[1]._id, Session.get('newVote').allocateQuantity, conditions);
                 }
               );
               break;

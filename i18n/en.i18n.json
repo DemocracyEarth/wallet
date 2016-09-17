@@ -326,8 +326,9 @@
   "rule-overridable":"<li><strong>Overridable </strong> - <em>Delegator</em> can always override <em>Delegate</em>'s decision on how to use these votes.</li>",
   "delegator": "Delegator",
   "delegate": "Delegate",
+  "send-delegation-votes": "Delegation of Votes",
   "signature-pending": "Awaiting confirmation.",
   "signature-rejected": ": Rejected offer.",
   "digital-name": "Blockchain ID",
-  "delegate-votes-warning": "Do you confirm the delegation of votes in this contract?"
+  "delegate-votes-warning": "Do you confirm starting a delegation of <quantity> votes? <br> Delegate will be able to use delegated votes on your behalf."
 }
