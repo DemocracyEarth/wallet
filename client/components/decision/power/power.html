@@ -1,13 +1,13 @@
 <template name="power">
   {{#if editable}}
     <div class="w-clearfix rosca rosca-setter">
-      {{> bar displayHandler=editable}}
+      {{> bar editable=editable}}
       {{> available user=user}}
       {{> placed user=user}}
     </div>
   {{else}}
     <div class="w-clearfix rosca rosca-id {{styleClass}}">
-      {{> bar displayHandler=editable}}
+      {{> bar editable=editable}}
       {{> available user=user}}
       {{> placed user=user}}
     </div>
@@ -45,9 +45,9 @@
 
 <template name="bar">
 
-    {{#if displayHandler}}
+    {{#if editable}}
       <div id="voteBar" class="w-clearfix result vote-bar">
-        <div id="barAllocate" class="result-bar vote-bar" style=" width: {{allocate}} ">
+        <div id="voteSlider" class="result-bar vote-bar" style=" width: {{allocate}} ">
           <div id="voteHandle" class="handle"></div>
         </div>
         <div class="result-bar vote-bar vote-bar-allocated"  style=" width: {{placed}} "></div>

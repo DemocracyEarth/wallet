@@ -128,7 +128,7 @@ function dynamicTextCheck(text) {
   var htmlTagClose = new String ("</a>");
   var roleIndex = new Object();
   switch (Session.get('contract').kind) {
-    case 'DELEGATION':
+    case KIND_DELEGATION:
       var signatures = Session.get('contract').signatures;
       if (signatures.length > 0) {
         for (var i = 0; i < signatures.length; i ++) {
@@ -138,7 +138,7 @@ function dynamicTextCheck(text) {
       }
       checkedText = checkedText.replace('<delegator>', htmlTagOpen + getProfileName(Session.get('DELEGATOR').profile) + htmlTagClose);
       checkedText = checkedText.replace('<delegate>', htmlTagOpen + getProfileName(Session.get('DELEGATE').profile) + htmlTagClose);
-      checkedText = checkedText.replace('<votes>', '23');
+      checkedText = checkedText.replace('<votes>', Session.get('newVote').allocateQuantity);
       break;
   }
   return checkedText;

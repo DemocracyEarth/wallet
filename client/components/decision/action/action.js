@@ -13,20 +13,27 @@ Template.action.events({
       //Get all info from current draft
       if (this.enabled) {
         if (disableContractExecution() == false) {
-          Modules.client.displayModal(
-            true,
-            {
-              icon            : 'images/modal-ballot.png',
-              title           : TAPi18n.__('launch-vote-proposal'),
-              message         : TAPi18n.__('publish-proposal-warning'),
-              cancel          : TAPi18n.__('not-now'),
-              action          : TAPi18n.__('publish-proposal'),
-              isAuthorization : false,
-            },
-            function() {
-              Modules.both.publishContract(Session.get('contractId'));
-            }
-          );
+          switch(Session.get('contract').kind) {
+            case KIND_DELEGATION:
+              break;
+            case KIND_VOTE:
+              Modules.client.displayModal(
+                true,
+                {
+                  icon            : 'images/modal-ballot.png',
+                  title           : TAPi18n.__('launch-vote-proposal'),
+                  message         : TAPi18n.__('publish-proposal-warning'),
+                  cancel          : TAPi18n.__('not-now'),
+                  action          : TAPi18n.__('publish-proposal'),
+                  isAuthorization : false,
+                },
+                function() {
+                  Modules.both.publishContract(Session.get('contract')._id);
+                }
+              );
+              break;
+          }
+
         }
       }
     }
@@ -44,6 +51,8 @@ function disableContractExecution() {
   } else if (Session.get('mistypedTitle')) {
     return true;
   } else if (Session.get('duplicateURL')) {
+    return true;
+  } else if (Session.get('noVotes')) {
     return true;
   } else {
     return false;
