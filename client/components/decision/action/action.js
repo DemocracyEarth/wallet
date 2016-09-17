@@ -27,6 +27,7 @@ Template.action.events({
                 },
                 function() {
                   //Modules.both.publishContract(Session.get('contract')._id);
+                  //TODO NOW
                 }
               );
               break;

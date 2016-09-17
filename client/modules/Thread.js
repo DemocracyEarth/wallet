@@ -4,7 +4,10 @@ var node = new String();
 var currentParent = new String();
 
 /*****
-/* @param
+/* posts a comment on a thread
+/* @param {string} contractId - contract where this comment goes.
+/* @param {object} eventObject - object containing the event info
+/* @param {string} replyId - if reply to another comment, id of such comment. 
 ******/
 let postComment = (contractId, eventObject, replyId) => {
   var thread = new Array();
