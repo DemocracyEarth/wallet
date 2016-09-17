@@ -11,10 +11,10 @@ Schema.Thread = new SimpleSchema({
   },
   action: {
     type: String,
-    allowedValues: ['COMMENT', 'VOTE', 'SORT', 'REPLY'],
+    allowedValues: [THREAD_ACTION_COMMENT, THREAD_ACTION_VOTE, THREAD_ACTION_SORT, THREAD_ACTION_REPLY],
     autoValue: function () {
       if (this.isInsert) {
-        return "COMMENT";
+        return THREAD_ACTION_COMMENT;
       };
     }
   },
@@ -123,9 +123,9 @@ Schema.Thread = new SimpleSchema({
   },
   status: {
     type: String,
-    allowedValues: ['NEW', 'VERIFIED', 'PROCESSED'],
+    allowedValues: [THREAD_STATUS_NEW, THREAD_STATUS_VERIFIED, THREAD_STATUS_PROCESSED],
     autoValue: function () {
-      return 'NEW';
+      return THREAD_STATUS_NEW;
     }
   }
 });

@@ -328,5 +328,6 @@
   "delegate": "Delegate",
   "signature-pending": "Awaiting confirmation.",
   "signature-rejected": ": Rejected offer.",
-  "digital-name": "Blockchain ID"
+  "digital-name": "Blockchain ID",
+  "delegate-votes-warning": "Do you confirm the delegation of votes in this contract?"
 }

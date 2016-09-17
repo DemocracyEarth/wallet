@@ -15,6 +15,20 @@ Template.action.events({
         if (disableContractExecution() == false) {
           switch(Session.get('contract').kind) {
             case KIND_DELEGATION:
+              Modules.client.displayModal(
+                true,
+                {
+                  icon            : 'images/modal-ballot.png',
+                  title           : TAPi18n.__('delegate-votes'),
+                  message         : TAPi18n.__('delegate-votes-warning'),
+                  cancel          : TAPi18n.__('not-now'),
+                  action          : TAPi18n.__('delegate-votes'),
+                  isAuthorization : false,
+                },
+                function() {
+                  //Modules.both.publishContract(Session.get('contract')._id);
+                }
+              );
               break;
             case KIND_VOTE:
               Modules.client.displayModal(
