@@ -1,3 +1,5 @@
+import {default as Modules} from "./modules";
+
 /***
 * create a new user
 * @param {object} data - input from new user to be used for creation of user in db
@@ -128,6 +130,46 @@ let _validateUsername = (username) => {
   return regexp.test(username);
 }
 
+/***
+* returns information of user and updates session variable
+* @param {string} userId - user id
+* @param {string} sessionVar - session var to update async
+****/
+let _fetchUser = (userId, sessionVar) => {
+
+  Meteor.call('getUserInfo', userId, function (error, data) {
+    if (error)
+      console.log(error);
+
+      //TODO filter to deliver only what necessary
+    Session.set(sessionVar, data);
+  });
+
+}
+
+/***
+* returns a profile of an anonoymous user
+***/
+let _getAnonObject = () => {
+
+  return {
+  "_id" : "0000000",
+  "role" : "AUTHOR",
+  "hash" : "",
+  "picture" : "/images/anonymous.png",
+  "firstName" : TAPi18n.__('anonymous'),
+  "lastName" : "",
+  "country" :
+    {
+      "code" : "",
+      "name" : TAPi18n.__('unknown')
+    }
+  };
+}
+
+
+Modules.both.getAnonymous = _getAnonObject;
+Modules.both.getUserInfo = _fetchUser;
 Modules.both.validateUser = _validateUser;
 Modules.both.validatePassword = _validatePassword;
 Modules.both.validatePasswordMatch = _validatePasswordMatch;

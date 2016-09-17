@@ -1,3 +1,14 @@
+import {default as Modules} from "./modules";
+
+let validateEmail = (email) => {
+  var val = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+  //TODO verify if email already exists in db
+
+  Session.set("invalidEmail", !val.test(email));
+  return val.test(email);
+}
+
 let _fileExistsInDatabase = ( url ) => {
   return Files.findOne( { "url": url, "userId": Meteor.userId() }, { fields: { "_id": 1 } } );
 };
@@ -27,3 +38,4 @@ let validate = ( url ) => {
 };
 
 Modules.both.checkUrlValidity = validate;
+Modules.both.validateEmail = validateEmail;

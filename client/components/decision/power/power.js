@@ -22,7 +22,6 @@ Template.power.rendered = function (user) {
       newVote.allocateQuantity = parseInt(newVote.balance * newVote.allocatePercentage / 100);
       Session.set('newVote', newVote);
       ui.position.left = 0;
-      console.log('THIS');
     }
   });
 }

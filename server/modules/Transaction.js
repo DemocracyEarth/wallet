@@ -1,3 +1,5 @@
+import {default as Modules} from "./modules";
+
 /***
 * create a new transaction between two parties
 * @param {string} senderId - user or collective allocating the funds

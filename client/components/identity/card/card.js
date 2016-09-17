@@ -11,8 +11,6 @@ Template.card.helpers({
   }
 })
 
-// NOTE: Verify why I'm getting anonymous-anonymous and generate username for Facebook generated accounts.
-
 Template.card.events({
   'click #delegate': function () {
     var keywordTitle = convertToSlug(Meteor.user().username) + '-' + newDelegateName;
