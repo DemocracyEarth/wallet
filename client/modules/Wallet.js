@@ -76,4 +76,25 @@ let _setVote = (wallet, sessionVar) => {
   }
 }
 
+/*****
+/* verify if user has already voted
+/* @param {object} ledger - ledger of contract or entity to verify on
+/* @param {string} userId - id of user
+/* @return {boolean} value - true or false
+******/
+let _verifyVote = (ledger, userId) => {
+  for (entity in ledger) {
+    if (ledger[entity].entityId == userId) {
+      var wallet = Session.get('newVote');
+      wallet.allocatePercentage = parseInt((ledger[entity].quantity * 100) / wallet.balance);
+      wallet.allocateQuantity = ledger[entity].quantity;
+      wallet.mode = WALLET_MODE_EXECUTED;
+      Session.set('newVote', wallet);
+      return true;
+    }
+  }
+  return false;
+}
+
+Modules.client.verifyVote = _verifyVote
 Modules.client.getWalletVotes = _getWalletVotes;

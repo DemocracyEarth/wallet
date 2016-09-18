@@ -810,6 +810,12 @@ blockquote {
   color: #fae6e6;
 }
 
+.button.execute.executed {
+  background-color: transparent;
+  color: #00bf8f;
+  cursor: default;
+}
+
 .button.login-button {
   width: 100%;
   margin-right: 0px;
@@ -4230,6 +4236,11 @@ blockquote {
   font-size: 10px;
   text-align: center;
   text-transform: uppercase;
+}
+
+.shadow-bar {
+  margin-right: -10px;
+  margin-left: -10px;
 }
 
 @media (max-width: 991px) {

@@ -98,17 +98,6 @@ Template.bar.helpers({
     }
   },
   alreadyVoted: function () {
-    var ledger = Session.get('contract').wallet.ledger;
-    for (entity in ledger) {
-      if (ledger[entity].entityId == Meteor.user()._id) {
-        var wallet = Session.get('newVote');
-        wallet.allocatePercentage = parseInt((ledger[entity].quantity * 100) / wallet.balance);
-        wallet.allocateQuantity = ledger[entity].quantity;
-        wallet.mode = WALLET_MODE_EXECUTED;
-        Session.set('newVote', wallet);
-        return true;
-      }
-    }
-    return false;
+    return Modules.client.verifyVote(Session.get('contract').wallet.ledger, Meteor.user()._id);
   }
 });

@@ -330,8 +330,8 @@
   "signature-rejected": ": Rejected offer.",
   "digital-name": "Blockchain ID",
   "delegate-votes-warning": "Do you confirm starting a delegation of <strong><quantity> votes</strong>?",
-  "delegate-votes-executed": "<strong><quantity> <type></strong> Delegated",
-  "contract-votes-executed": "<strong><quantity> <type></strong> Placed",
+  "delegate-votes-executed": "<quantity> <type> Delegated.",
+  "contract-votes-executed": "<strong><quantity> <type></strong> Placed.",
   "delegate-votes-pending": "Delegate <strong><quantity> <type></strong>",
-  "contract-votes-pending": "<strong><quantity> <type></strong>"
+  "contract-votes-pending": "<quantity> <type>"
 }
