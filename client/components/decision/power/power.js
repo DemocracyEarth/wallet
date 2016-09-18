@@ -1,6 +1,5 @@
 Template.power.rendered = function (user) {
   Session.set('newVote', new Wallet(Meteor.user().profile.wallet));
-
   $("#voteHandle").draggable({
     axis: "x",
     start: function (event, ui) {
@@ -98,6 +97,8 @@ Template.bar.helpers({
     }
   },
   alreadyVoted: function () {
-    return Modules.client.verifyVote(Session.get('contract').wallet.ledger, Meteor.user()._id);
+    var voted = Modules.client.verifyVote(Session.get('contract').wallet.ledger, Meteor.user()._id);
+    Session.set('alreadyVoted', voted);
+    return voted;
   }
 });

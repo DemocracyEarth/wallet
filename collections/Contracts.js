@@ -34,7 +34,7 @@ Schema.Contract = new SimpleSchema({
     autoValue: function () {
       var slug = convertToSlug(this.field("title").value);
       if (this.isInsert) {
-        if (this.field('kind').value == 'DELEGATION') {
+        if (this.field('kind').value == KIND_DELEGATION) {
           return this.field('keyword').value;
         } else {
           if (this.field('keyword').value == undefined) {
@@ -57,7 +57,7 @@ Schema.Contract = new SimpleSchema({
   kind: {
     //Kind of contract
     type: String,
-    allowedValues: ['DRAFT', 'VOTE', 'DELEGATION', 'MEMBERSHIP'],
+    allowedValues: [KIND_DRAFT, KIND_VOTE, KIND_DELEGATION, KIND_MEMBERSHIP],
     autoValue: function () {
       if (this.isInsert) {
         if (this.field('kind').value == undefined) {
@@ -69,7 +69,7 @@ Schema.Contract = new SimpleSchema({
   context: {
     //Context this contract lives on the system
     type: String,
-    allowedValues: ['GLOBAL', 'LOCAL'],
+    allowedValues: [CONTEXT_GLOBAL, CONTEXT_LOCAL],
     autoValue: function () {
       if (this.isInsert) {
         return "GLOBAL";
@@ -82,7 +82,7 @@ Schema.Contract = new SimpleSchema({
     autoValue: function () {
       var slug = convertToSlug(this.field("title").value);
       if (this.isInsert) {
-        if (this.field('kind').value == 'DELEGATION') {
+        if (this.field('kind').value == KIND_DELEGATION) {
           if (this.field('keyword').value != undefined) {
             return '/delegation/' + this.field('keyword').value;
           } else {
@@ -109,7 +109,7 @@ Schema.Contract = new SimpleSchema({
     type: String,
     autoValue: function () {
       if (this.isInsert) {
-        if (this.field('kind').value == 'DELEGATION') {
+        if (this.field('kind').value == KIND_DELEGATION) {
           return TAPi18n.__('default-delegation-contract');
         } else {
           return '';
@@ -183,7 +183,7 @@ Schema.Contract = new SimpleSchema({
   executionStatus: {
     //Execution status: DRAFT, APPROVED, ALTERNATIVE, REJECTED
     type: String,
-    allowedValues: ['OPEN', 'APPROVED', 'ALTERNATIVE', 'REJECTED'],
+    allowedValues: [EXECUTION_STATUS_OPEN, EXECUTION_STATUS_APPROVED, EXECUTION_STATUS_ALTERNATIVE, EXECUTION_STATUS_REJECTED],
     autoValue: function () {
       if (this.isInsert) {
         return 'OPEN';
@@ -211,7 +211,7 @@ Schema.Contract = new SimpleSchema({
     type: String,
     autoValue: function () {
       if (this.isInsert) {
-        if (this.field('kind').value == 'VOTE') {
+        if (this.field('kind').value == KIND_VOTE) {
           return this.userId;
         }
       };
@@ -219,12 +219,12 @@ Schema.Contract = new SimpleSchema({
   },
   "signatures.$.role": {
     type: String,
-    allowedValues: ['AUTHOR', 'DELEGATOR', 'DELEGATE', 'ENDORSER'],
+    allowedValues: [ROLE_AUTHOR, ROLE_DELEGATOR, ROLE_DELEGATE, ROLE_ENDORSER],
     optional: true
   },
   "signatures.$.status": {
     type: String,
-    allowedValues: ['PENDING', 'REJECTED', 'CONFIRMED'],
+    allowedValues: [SIGNATURE_STATUS_PENDING, SIGNATURE_STATUS_REJECTED, SIGNATURE_STATUS_CONFIRMED],
     optional: true
   },
   "signatures.$.hash": {
@@ -324,7 +324,7 @@ Schema.Contract = new SimpleSchema({
   stage: {
     //Current stage of this contract: DRAFT, LIVE, FINISH
     type: String,
-    allowedValues: ['DRAFT', 'LIVE', 'FINISH'],
+    allowedValues: [STAGE_DRAFT, STAGE_LIVE, STAGE_FINISH],
     autoValue: function () {
       if (this.isInsert) {
         return "DRAFT";
@@ -336,7 +336,7 @@ Schema.Contract = new SimpleSchema({
     optional: true,
     autoValue: function () {
       if (this.isInsert) {
-        if (this.field('kind').value == 'DELEGATION') {
+        if (this.field('kind').value == KIND_DELEGATION) {
           return true;
         }
       }
@@ -347,7 +347,7 @@ Schema.Contract = new SimpleSchema({
     optional: true,
     autoValue: function () {
       if (this.isInsert) {
-        if (this.field('kind').value == 'DELEGATION') {
+        if (this.field('kind').value == KIND_DELEGATION) {
           return false;
         }
       }
@@ -358,7 +358,7 @@ Schema.Contract = new SimpleSchema({
     optional: true,
     autoValue: function () {
       if (this.isInsert) {
-        if (this.field('kind').value == 'DELEGATION') {
+        if (this.field('kind').value == KIND_DELEGATION) {
           return false;
         }
       }

@@ -6,7 +6,6 @@ Template.action.helpers({
       switch (Session.get('newVote').mode) {
         case WALLET_MODE_EXECUTED:
           return 'executed';
-          break;
         default:
           return '';
       }
@@ -18,7 +17,7 @@ Template.action.events({
     "click .action-button": function (event) {
       //Get all info from current draft
       if (this.enabled) {
-        if (disableContractExecution() == false) {
+        if ((disableContractExecution() == false) && Session.get('newVote').mode == WALLET_MODE_PENDING ) {
           switch(Session.get('contract').kind) {
             case KIND_DELEGATION:
               Modules.client.displayModal(
@@ -29,7 +28,7 @@ Template.action.events({
                   message         : TAPi18n.__('delegate-votes-warning').replace('<quantity>', Session.get('newVote').allocateQuantity),
                   cancel          : TAPi18n.__('not-now'),
                   action          : TAPi18n.__('delegate-votes'),
-                  isAuthorization : false,
+                  isAuthorization : false
                 },
                 function() {
                   settings = {
@@ -55,7 +54,7 @@ Template.action.events({
                   message         : TAPi18n.__('publish-proposal-warning'),
                   cancel          : TAPi18n.__('not-now'),
                   action          : TAPi18n.__('publish-proposal'),
-                  isAuthorization : false,
+                  isAuthorization : false
                 },
                 function() {
                   Modules.both.publishContract(Session.get('contract')._id);

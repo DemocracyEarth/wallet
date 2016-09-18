@@ -4,12 +4,12 @@ Template.avatar.rendered = function () {
 
 Template.avatar.helpers({
   roleStatus: function () {
-    return roleStatus(Session.get('contract').signatures, this.profile);
+    return Modules.both.signatureStatus(Session.get('contract').signatures, this.profile);
   },
   pending: function () {
-    if (Session.get('contract').kind == 'DELEGATION') {
+    if (Session.get('contract').kind == KIND_DELEGATION) {
       if (this.includeRole) {
-        if (roleStatus(Session.get('contract').signatures, this.profile, true)) {
+        if (Modules.both.signatureStatus(Session.get('contract').signatures, this.profile, true)) {
           return 'pending';
         } else {
           return '';
@@ -145,39 +145,3 @@ Template.avatar.events({
     }
   }
 });
-
-function roleStatus (signatures, profile, getPending) {
-  var status = new String();
-  var pending = new Boolean(false);
-  for (var i = 0; i < signatures.length; i++) {
-    if (signatures[i]._id == profile) {
-      switch (signatures[i].role) {
-        case 'DELEGATOR':
-          status = '<strong>' + TAPi18n.__('delegator') + '</strong>';
-          break;
-        case 'DELEGATE':
-          status = '<strong>' + TAPi18n.__('delegate') + '</strong>';
-          break;
-      }
-      switch (signatures[i].status) {
-        case 'PENDING':
-          status += ' - ' + TAPi18n.__('signature-pending');
-          pending = true;
-          break;
-        case 'REJECTED':
-          status += ' - ' + TAPi18n.__('signature-rejected');
-          pending = true;
-          break;
-        default:
-          pending = false;
-          break;
-      }
-      break;
-    }
-  }
-  if (getPending == undefined || getPending == false) {
-    return status;
-  } else {
-    return pending;
-  }
-}
