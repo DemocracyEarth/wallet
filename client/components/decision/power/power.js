@@ -90,8 +90,8 @@ Template.bar.helpers({
   placed: function () {
     var wallet = Session.get('newVote');
     var percentage = parseInt((wallet.placed * 100) / wallet.balance);
-    if (percentage <= 0) {
-      return 'display:none;';
+    if (wallet.placed == 0) {
+      return '0px';
     } else {
       return percentage + '%';
     }

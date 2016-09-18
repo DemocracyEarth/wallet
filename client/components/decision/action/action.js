@@ -1,6 +1,7 @@
 Template.action.helpers({
   disabled: function () {
-    if (disableContractExecution() == true) {
+    if (disableContractExecution()) {
+      console.log('what')
       return 'disabled';
     } else {
       switch (Session.get('newVote').mode) {
@@ -72,8 +73,8 @@ function disableContractExecution() {
     return true;
   } else if (Session.get('unauthorizedFork')) {
     return true;
-  } else if (Session.get('noTags')) {
-    return true;
+  /*} else if (Session.get('noTags')) {
+    return true;*/
   } else if (Session.get('missingTitle')) {
     return true;
   } else if (Session.get('mistypedTitle')) {

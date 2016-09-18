@@ -80,22 +80,33 @@ let _newDelegation = (delegatorId, delegateId, keywordTitle) => {
 * @param {object} conditions - specified conditions for this delegation
 ***/
 let _sendDelegation = (sourceId, targetId, quantity, conditions) => {
-
-  console.log('[_sendDelegation]');
-  console.log(sourceId)
-  console.log(targetId)
-  console.log(quantity)
-  console.log(conditions)
-
-
   Meteor.call('executeTransaction', sourceId, targetId, quantity, conditions, function (err, status) {
     if (err) {
       throw new Meteor.Error(err, '[_sendDelegation]: transaction failed.') ;
     } else {
       console.log('successsss')
+      //update contract status
+      _updateContractSignatures();
     }
   })
+};
 
+/***
+* updates the status of the signatures in the contract
+***/
+let _updateContractSignatures = () => {
+  var signatures = Session.get('contract').signatures;
+  for (signer in signatures) {
+    if (signatures[signer]._id == Meteor.user()._id) {
+      switch(signatures[signer].status) {
+        case SIGNATURE_STATUS_PENDING:
+          signatures[signer].status = SIGNATURE_STATUS_CONFIRMED;
+          break;
+      }
+      break;
+    }
+  };
+  Contracts.update(Session.get('contract')._id, { $set : { signatures : signatures } });
 }
 
 /***
