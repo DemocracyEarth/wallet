@@ -31,12 +31,38 @@ function scope (value, max) {
 
 Template.power.helpers({
   label: function () {
-    var voteQuantity = TAPi18n.__(this.label);
-    var quantity = Session.get('newVote').allocateQuantity;
+    var wallet = Session.get('newVote');
+    var contract = Session.get('contract');
+
+    switch (wallet.mode) {
+      case WALLET_MODE_PENDING:
+        switch(contract.kind) {
+          case KIND_DELEGATION:
+            var voteQuantity = TAPi18n.__('delegate-votes-pending');
+            break;
+          case KIND_VOTE:
+            var voteQuantity = TAPi18n.__('contract-votes-pending');
+            break;
+        }
+        break;
+      case WALLET_MODE_EXECUTED:
+        switch(contract.kind) {
+          case KIND_DELEGATION:
+            var voteQuantity = TAPi18n.__('delegate-votes-executed');
+            break;
+          case KIND_VOTE:
+            var voteQuantity = TAPi18n.__('contract-votes-executed');
+            break;
+        }
+        break;
+    }
+
+    var quantity = wallet.allocateQuantity;
     voteQuantity = voteQuantity.replace("<quantity>", quantity);
     voteQuantity = voteQuantity.replace("<type>", function () { if (quantity == 1 ) { return TAPi18n.__('vote-singular') } else { return TAPi18n.__('vote-plural') } } );
     if (quantity == 0) { Session.set('noVotes', true) } else { Session.set('noVotes', false) };
     return voteQuantity;
+
   }
 })
 
@@ -65,6 +91,24 @@ Template.bar.helpers({
   placed: function () {
     var wallet = Session.get('newVote');
     var percentage = parseInt((wallet.placed * 100) / wallet.balance);
-    return percentage + '%';
+    if (percentage <= 0) {
+      return 'display:none;';
+    } else {
+      return percentage + '%';
+    }
+  },
+  alreadyVoted: function () {
+    var ledger = Session.get('contract').wallet.ledger;
+    for (entity in ledger) {
+      if (ledger[entity].entityId == Meteor.user()._id) {
+        var wallet = Session.get('newVote');
+        wallet.allocatePercentage = parseInt((ledger[entity].quantity * 100) / wallet.balance);
+        wallet.allocateQuantity = ledger[entity].quantity;
+        wallet.mode = WALLET_MODE_EXECUTED;
+        Session.set('newVote', wallet);
+        return true;
+      }
+    }
+    return false;
   }
 });

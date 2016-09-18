@@ -24,6 +24,7 @@ Wallet = function (wallet) {
 
    this.initialized = true;
    this.enabled = true;
+   this.mode =  WALLET_MODE_PENDING;
    this.allocatePercentage = 50;
    this.allocateQuantity = parseInt(this.available / 2);
 
