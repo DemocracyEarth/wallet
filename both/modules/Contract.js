@@ -74,18 +74,27 @@ let _newDelegation = (delegatorId, delegateId, keywordTitle) => {
 
 /***
 * sends the votes from a delegator to be put on hold on a contract until delegate approves deal.
-* @param {string} delegatorId - identity assigning the tokens (usually currentUser)
-* @param {string} delegateId - identity that will get a request to approve this contract (profile clicked)
+* @param {string} source - identity assigning the tokens (usually currentUser)
+* @param {string} target - identity that will get a request to approve this contract (profile clicked)
 * @param {number} quantity - amount of votes being used
 * @param {object} conditions - specified conditions for this delegation
 ***/
-let _sendDelegation = (delegatorId, delegateId, quantity, conditions) => {
+let _sendDelegation = (sourceId, targetId, quantity, conditions) => {
 
   console.log('[_sendDelegation]');
-  console.log(delegatorId)
-  console.log(delegateId)
+  console.log(sourceId)
+  console.log(targetId)
   console.log(quantity)
   console.log(conditions)
+
+
+  Meteor.call('executeTransaction', sourceId, targetId, quantity, conditions, function (err, status) {
+    if (err) {
+      throw new Meteor.Error(err, '[_sendDelegation]: transaction failed.') ;
+    } else {
+      console.log('successsss')
+    }
+  })
 
 }
 

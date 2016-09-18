@@ -27,6 +27,9 @@ let _createTransaction = (senderId, receiverId, quantity, settings) => {
     settings = Object.assign(defaultSettings, settings);
   };
 
+  console.log('[_createTransaction] settings:');
+  console.log(settings);
+
   //build transaction
   var newTransaction =  {
     input: {
@@ -46,7 +49,8 @@ let _createTransaction = (senderId, receiverId, quantity, settings) => {
     kind: settings.kind,
     contractId: settings.contractId,
     timestamp: new Date(),
-    status: STATUS_PENDING
+    status: STATUS_PENDING,
+    condition: settings.condition
   };
 
   console.log('[_createTransaction] generated this new transaction:');
@@ -73,6 +77,7 @@ let _processTransaction = (txId) => {
   //TODO verification of funds
 
   var sender = senderProfile.wallet;
+
   sender.ledger.push({
     txId: txId,
     quantity: parseInt(0 - transaction.input.quantity),
@@ -124,6 +129,9 @@ let _getProfile = (transactionSignal) => {
     case ENTITY_COLLECTIVE:
       return Collectives.findOne( { _id: transactionSignal.entityId }).profile;
       break;
+    case ENTITY_CONTRACT:
+      return Contracts.findOne({ _id: transactionSignal.entityId });
+      break;
   }
 }
 
@@ -141,6 +149,9 @@ let _updateWallet = (entityId, entityType, profile) => {
       break;
     case ENTITY_COLLECTIVE:
       Collectives.update( { _id: entityId }, { $set : { profile : profile } });
+      break;
+    case ENTITY_CONTRACT:
+      Contracts.update({ _id: entityId }, { $set: { wallet: profile.wallet }});
       break;
   }
 }
@@ -166,6 +177,8 @@ let _getEntityType = (entityId) => {
     return ENTITY_INDIVIDUAL;
   } else if (Collectives.findOne({ _id: entityId })) {
     return ENTITY_COLLECTIVE;
+  } else if (Contracts.findOne({ _id: entityId})) {
+    return ENTITY_CONTRACT;
   } else {
     return ENTITY_UNKNOWN;
   };
@@ -178,17 +191,27 @@ let _getEntityType = (entityId) => {
 ***/
 let _getWalletAddress = (entityId) => {
   var entityType = _getEntityType(entityId);
-  if (entityType == ENTITY_INDIVIDUAL) {
-    var user = Meteor.users.findOne({ _id: entityId });
-  } else {
-    var user = Collectives.findOne({ _id: entityId });
-  }
-  if (user == undefined) {
-    console.log('[_getWalletAddress] ERROR: Entity could not be found.');
-    return;
+
+  switch (entityType) {
+    case ENTITY_INDIVIDUAL:
+      var user = Meteor.users.findOne({ _id: entityId });
+      break;
+    case ENTITY_COLLECTIVE:
+      var user = Collectives.findOne({ _id: entityId });
+      break;
+    case ENTITY_CONTRACT:
+      var user = Contracts.findOne({ _id: entityId});
+      break;
+    default:
+      console.log('[_getWalletAddress] ERROR: Entity could not be found.');
+      return false;
   }
 
-  var wallet = user.profile.wallet;
+  if (user.profile != undefined) {
+    var wallet = user.profile.wallet;
+  } else {
+    var wallet = user.wallet; //entity is a contract
+  }
   var collectiveId = Meteor.settings.public.Collective._id;
 
   console.log('[_getWalletAddress] getting info for ');
@@ -199,13 +222,24 @@ let _getWalletAddress = (entityId) => {
     return _getAddressHash(wallet.address, collectiveId);
   } else {
     console.log('[_getWalletAddress] generate a new address for this collective');
-    user.profile.wallet = Modules.server.generateWalletAddress(user.profile.wallet);
-    if (entityType == ENTITY_INDIVIDUAL) {
-      Meteor.users.update({ _id: entityId }, { $set: { profile: user.profile } });
-    } else if (entityType == ENTITY_COLLECTIVE) {
-      Collectives.update({ _id: entityId }, { $set: { profile: user.profile } });
-    };
-    return _getAddressHash(user.profile.wallet.address, collectiveId);
+    wallet = Modules.server.generateWalletAddress(wallet);
+    switch (entityType) {
+      case ENTITY_INDIVIDUAL:
+        user.profile.wallet = wallet;
+        Meteor.users.update({ _id: entityId }, { $set: { profile: user.profile } });
+        break;
+      case ENTITY_COLLECTIVE:
+        user.profile.wallet = wallet;
+        Collectives.update({ _id: entityId }, { $set: { profile: user.profile } });
+        break;
+      case ENTITY_CONTRACT:
+        Contracts.update({ _id: entityId }, { $set: { wallet: wallet } });
+        break;
+      default:
+        console.log('[_getWalletAddress] ERROR: Entity could not be found.');
+        return false;
+    }
+    return _getAddressHash(wallet.address, collectiveId);
   }
 };
 

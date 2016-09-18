@@ -26,12 +26,17 @@ Template.action.events({
                   isAuthorization : false,
                 },
                 function() {
-                  conditions = {
-                    transferable : Session.get('contract').transferable,
-                    portable : Session.get('contract').portable,
-                    tags : Session.get('contract').tags
+                  settings = {
+                    condition: {
+                      transferable : Session.get('contract').transferable,
+                      portable : Session.get('contract').portable,
+                      tags : Session.get('contract').tags,
+                    },
+                    currency: CURRENCY_VOTES,
+                    kind: Session.get('contract').kind,
+                    contractId: Session.get('contract')._id //_getContractId(senderId, receiverId, settings.kind),
                   }
-                  Modules.both.sendDelegationVotes(Session.get('contract').signatures[0]._id, Session.get('contract').signatures[1]._id, Session.get('newVote').allocateQuantity, conditions);
+                  Modules.both.sendDelegationVotes(Session.get('contract').signatures[0]._id, Session.get('contract')._id, Session.get('newVote').allocateQuantity, settings);
                 }
               );
               break;
@@ -52,7 +57,6 @@ Template.action.events({
               );
               break;
           }
-
         }
       }
     }

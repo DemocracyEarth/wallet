@@ -10,7 +10,7 @@ Schema.Ticket = new SimpleSchema({
   },
   entityType: {
     type: String,
-    allowedValues: [ENTITY_INDIVIDUAL, ENTITY_COLLECTIVE, ENTITY_UNKNOWN],
+    allowedValues: [ENTITY_INDIVIDUAL, ENTITY_COLLECTIVE, ENTITY_CONTRACT, ENTITY_UNKNOWN],
     autoValue: function () {
       if (this.isInsert) {
         if (this.field('entityType') == undefined) {
@@ -99,6 +99,24 @@ Schema.Transaction = new SimpleSchema({
         }
       }
     }
+  },
+  "condition.portable": {
+    type: Boolean,
+    autoValue: function () {
+      if (this.isInsert) {
+        if (this.field('portable').value == undefined) {
+          return true;
+        }
+      }
+    }
+  },
+  tags: {
+    type: Array,
+    optional: true
+  },
+  "tags.$": {
+    type: Object,
+    optional: true
   },
   status: {
     type: String,

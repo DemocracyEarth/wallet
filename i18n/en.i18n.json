@@ -330,5 +330,5 @@
   "signature-pending": "Awaiting confirmation.",
   "signature-rejected": ": Rejected offer.",
   "digital-name": "Blockchain ID",
-  "delegate-votes-warning": "Do you confirm starting a delegation of <quantity> votes? <br> Delegate will be able to use delegated votes on your behalf."
+  "delegate-votes-warning": "Do you confirm starting a delegation of <strong><quantity> votes</strong>?"
 }

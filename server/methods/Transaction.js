@@ -9,8 +9,16 @@ Meteor.methods({
     Modules.server.transact(Meteor.settings.public.Collective._id, userId, VOTES_INITIAL_QUANTITY);
   },
 
-  sendDelegation: function (delegatorId, delegateId, quantity, conditions) {
-    
+  executeTransaction: function (delegatorId, delegateId, quantity, conditions) {
+    console.log('[transact]');
+    console.log(delegatorId)
+    console.log(delegateId)
+    console.log(quantity)
+    console.log(conditions)
+
+    a = Modules.server.transact(delegatorId, delegateId, quantity, conditions);
+
+    console.log(a);
 
   }
 
