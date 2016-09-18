@@ -5,7 +5,8 @@ Template.power.rendered = function (user) {
     axis: "x",
     start: function (event, ui) {
       this.startPosition = Session.get('newVote').allocatePercentage;
-      this.barWidth = $('#voteBar').width();
+      this.placedPercentage = parseInt((Session.get('newVote').placed * 100) / Session.get('newVote').balance);
+      this.barWidth = $('#voteBar').width() - (($('#voteBar').width() * this.placedPercentage) / 100);
       this.allocatedWidth = $('#voteSlider').width();
       this.pixelPosition = ((this.startPosition * this.barWidth) / 100);
       this.leftMin = (0 - (this.barWidth / 2) + ($("#voteHandle").width() / 2) + ((this.barWidth / 2) - this.pixelPosition));

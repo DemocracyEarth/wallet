@@ -110,11 +110,11 @@ Schema.Transaction = new SimpleSchema({
       }
     }
   },
-  tags: {
+  "condition.tags": {
     type: Array,
     optional: true
   },
-  "tags.$": {
+  "condition.tags.$": {
     type: Object,
     optional: true
   },
