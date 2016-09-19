@@ -1,7 +1,6 @@
 Template.action.helpers({
   disabled: function () {
     if (disableContractExecution()) {
-      console.log('what')
       return 'disabled';
     } else {
       switch (Session.get('newVote').mode) {

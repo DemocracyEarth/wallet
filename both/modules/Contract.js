@@ -87,6 +87,7 @@ let _sendDelegation = (sourceId, targetId, quantity, conditions) => {
       console.log('successsss')
       //update contract status
       _updateContractSignatures();
+      Session.set('newVote', new Wallet(Meteor.user().profile.wallet));
     }
   })
 };

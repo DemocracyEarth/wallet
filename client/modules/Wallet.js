@@ -13,23 +13,54 @@ Wallet = function (wallet) {
      this.balance = new Number(0);
      this.placed = new Number(0)
      this.currency = CURRENCY_VOTES;
+
    } else {
+
      this.address = wallet.address;
      this.ledger = wallet.ledger;
      this.balance = wallet.balance;
      this.available = wallet.available;
      this.placed = wallet.placed;
      this.currency = wallet.currency;
+
    }
 
    this.initialized = true;
    this.enabled = true;
    this.mode =  WALLET_MODE_PENDING;
-   this.allocatePercentage = 50;
-   this.allocateQuantity = parseInt(this.available / 2);
+   this._initialSliderWidth = $('#voteSlider').width();
 
+   this.allocateVotes(this.available / 2);
+   this.refresh();
 }
 
+Wallet.prototype.allocateVotes = function (quantity) {
+  if (this.enabled) {
+    this.placedPercentage = ((this.placed * 100) / this.balance);
+    this.allocatePercentage = ((quantity * 100) / this.balance); //((100 - this.placedPercentage) / 2);
+    this.allocateQuantity = _scope(quantity, this.available); //parseInt((this.balance * this.allocatePercentage) / 100);
+  }
+  this.refresh();
+}
+
+Wallet.prototype.sliderInput = function (pixels) {
+  if (pixels == undefined) { pixels = 0 };
+  var maxWidth = $('#voteBar').width() - (($('#voteBar').width() * parseInt((this.placed * 100) / this.balance)) / 100);
+
+  var handleLeft = ($('#voteHandle').offset().left - $('#voteBar').offset().left);
+  var percentage = (handleLeft * 100) / $('#voteBar').width();
+  this.allocateVotes(parseInt((percentage * this.balance) / 100));
+  
+  this.sliderWidth = _scope((this._initialSliderWidth + pixels), maxWidth, ($('#voteHandle').width()));
+}
+
+Wallet.prototype.refresh = function () {
+  //$('#voteSlider').width(this.allocatePercentage + '%');
+}
+
+let _scope = (value, max, min) => {
+  if (min == undefined) { var min = 0 }; if (value < min) { return min } else if (value > max) { return max } else { return value };
+}
 
 /*****
 /* decides wether to get vots from a user on DB or from current active sessions of user

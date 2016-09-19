@@ -3,29 +3,14 @@ Template.power.rendered = function (user) {
   $("#voteHandle").draggable({
     axis: "x",
     start: function (event, ui) {
-      this.startPosition = Session.get('newVote').allocatePercentage;
-      this.placedPercentage = parseInt((Session.get('newVote').placed * 100) / Session.get('newVote').balance);
-      this.barWidth = $('#voteBar').width() - (($('#voteBar').width() * this.placedPercentage) / 100);
-      this.allocatedWidth = $('#voteSlider').width();
-      this.pixelPosition = ((this.startPosition * this.barWidth) / 100);
-      this.leftMin = (0 - (this.barWidth / 2) + ($("#voteHandle").width() / 2) + ((this.barWidth / 2) - this.pixelPosition));
-      this.leftMax = ((this.barWidth / 2) - ($("#voteHandle").width() / 2) + ((this.barWidth / 2) - this.pixelPosition));
-      this.delta = (this.leftMax - this.leftMin);
+      this.newVote = new Wallet(Meteor.user().profile.wallet);
     },
     drag: function (event, ui) {
-      var newVote = Session.get('newVote');
-      var percentage = (((ui.position.left * 100) / this.delta) + this.startPosition);
-      newVote.allocatePercentage = scope(percentage, 100);
-      newVote.allocateQuantity = scope(parseInt((percentage * newVote.balance) / 100), newVote.available);
-      newVote.sliderWidth = scope((this.allocatedWidth + ui.position.left), this.barWidth);
-      Session.set('newVote', newVote);
+      this.newVote.sliderInput(ui.position.left);
+      Session.set('newVote', this.newVote);
       ui.position.left = 0;
     }
   });
-}
-
-function scope (value, max) {
-  if (value < 0) { return 0 } else if (value > max) { return max } else { return value };
 }
 
 Template.power.helpers({

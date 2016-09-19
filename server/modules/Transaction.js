@@ -58,7 +58,7 @@ let _createTransaction = (senderId, receiverId, quantity, settings) => {
 
   //executes the transaction
   var txId = Transactions.insert(newTransaction);
-  _processTransaction(txId);
+  if (_processTransaction(txId)) { return txId; };
 
 }
 
@@ -112,7 +112,7 @@ let _processTransaction = (txId) => {
   _updateWallet(transaction.output.entityId, transaction.output.entityType, receiverProfile);
 
   //set this transaction as processed
-  Transactions.update({ _id: txId }, { $set: { status : STATUS_CONFIRMED }});
+  return Transactions.update({ _id: txId }, { $set: { status : STATUS_CONFIRMED }});
 
 }
 
