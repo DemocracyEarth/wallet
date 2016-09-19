@@ -59,6 +59,11 @@ Wallet.prototype.sliderInput = function (pixels, avoidAllocation) {
   }
 }
 
+Wallet.prototype.sliderPercentage = function () {
+  this.allocatePercentage = parseInt((this.allocateQuantity * 100) / this.balance);
+  this.allocateVotes(this.allocateQuantity);
+}
+
 let _scope = (value, max, min) => {
   if (min == undefined) { var min = 0 }; if (value < min) { return min } else if (value > max) { return max } else { return value };
 }

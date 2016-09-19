@@ -65,9 +65,8 @@ Template.placed.helpers({
 Template.bar.helpers({
   allocate: function () {
     var wallet = Session.get('newVote');
-    if (wallet.sliderWidth == undefined) {
-      //first time setup
-      return wallet.allocatePercentage + '%';
+    if (Session.get('alreadyVoted') == true) {
+      return '0px';
     } else {
       return wallet.sliderWidth + 'px';
     }

@@ -86,7 +86,7 @@ let _processTransaction = (txId) => {
     currency: transaction.input.currency
   });
   sender.placed += parseInt(transaction.input.quantity);
-  sender.available -= sender.placed;
+  sender.available = sender.balance - sender.placed;
   senderProfile.wallet = Object.assign(senderProfile.wallet, sender);
 
   console.log('[_processTransaction] sender in transaction:');
