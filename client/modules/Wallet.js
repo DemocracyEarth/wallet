@@ -13,49 +13,48 @@ Wallet = function (wallet) {
      this.balance = new Number(0);
      this.placed = new Number(0)
      this.currency = CURRENCY_VOTES;
-
    } else {
-
-     this.address = wallet.address;
-     this.ledger = wallet.ledger;
-     this.balance = wallet.balance;
-     this.available = wallet.available;
-     this.placed = wallet.placed;
-     this.currency = wallet.currency;
-
+     Object.assign(this, wallet)
    }
 
+   // private
    this.initialized = true;
    this.enabled = true;
    this.mode =  WALLET_MODE_PENDING;
-   this._initialSliderWidth = $('#voteSlider').width();
 
-   this.allocateVotes(this.available / 2);
-   this.refresh();
+   //view
+   this._initialSliderWidth = $('#voteSlider').width();
+   this.sliderWidth = this._initialSliderWidth;
+   this._maxWidth = $('#voteBar').width() - (($('#voteBar').width() * parseInt((this.placed * 100) / this.balance)) / 100);
+
+   //methods
+   this.allocateVotes(parseInt(this.available * 10 / 100));
+   Session.set('newVote', this);
+
 }
 
-Wallet.prototype.allocateVotes = function (quantity) {
+Wallet.prototype.allocateVotes = function (quantity, avoidSlider) {
   if (this.enabled) {
     this.placedPercentage = ((this.placed * 100) / this.balance);
-    this.allocatePercentage = ((quantity * 100) / this.balance); //((100 - this.placedPercentage) / 2);
-    this.allocateQuantity = _scope(quantity, this.available); //parseInt((this.balance * this.allocatePercentage) / 100);
-  }
-  this.refresh();
+    this.allocatePercentage = ((quantity * 100) / this.balance);
+    this.allocateQuantity = _scope(quantity, this.available);
+  };
+  if (!avoidSlider) {
+    var sliderWidth = parseInt(($('#voteSlider').width() * this.available) / this._maxWidth);
+    var sliderCorrected = parseInt((this._maxWidth * this.allocateQuantity) / this.available);
+    this.sliderInput((sliderCorrected - sliderWidth ), true);
+  };
 }
 
-Wallet.prototype.sliderInput = function (pixels) {
+Wallet.prototype.sliderInput = function (pixels, avoidAllocation) {
   if (pixels == undefined) { pixels = 0 };
-  var maxWidth = $('#voteBar').width() - (($('#voteBar').width() * parseInt((this.placed * 100) / this.balance)) / 100);
-
-  var handleLeft = ($('#voteHandle').offset().left - $('#voteBar').offset().left);
-  var percentage = (handleLeft * 100) / $('#voteBar').width();
-  this.allocateVotes(parseInt((percentage * this.balance) / 100));
-  
-  this.sliderWidth = _scope((this._initialSliderWidth + pixels), maxWidth, ($('#voteHandle').width()));
-}
-
-Wallet.prototype.refresh = function () {
-  //$('#voteSlider').width(this.allocatePercentage + '%');
+  var percentage = (($('#voteHandle').offset().left - $('#voteBar').offset().left) * 100) / $('#voteBar').width();
+  var delta = ($('#voteBar').offset().left + this._maxWidth) - $('#voteBar').offset().left;
+  var votes = parseInt((this.sliderWidth * this.available) / delta);
+  this.sliderWidth = _scope((this._initialSliderWidth + pixels), this._maxWidth, $('#voteHandle').width());
+  if (!avoidAllocation) {
+    this.allocateVotes(votes, true);
+  }
 }
 
 let _scope = (value, max, min) => {

@@ -2272,7 +2272,6 @@ blockquote {
 .result-bar {
   width: 43%;
   height: 30px;
-  padding-left: 5px;
   float: left;
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
@@ -2290,7 +2289,7 @@ blockquote {
 }
 
 .result-bar.vote-bar {
-  width: 61%;
+  width: 10%;
   height: 100%;
   box-shadow: inset 0 1px 11px -5px hsla(0, 0%, 100%, .5);
 }
