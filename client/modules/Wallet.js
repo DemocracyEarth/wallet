@@ -5,7 +5,7 @@
 ******/
 Wallet = function (wallet) {
 
-   // properties
+   //properties
    if (wallet == undefined) {
      this.address = new Array();
      this.ledger = new Array();
@@ -17,7 +17,7 @@ Wallet = function (wallet) {
      Object.assign(this, wallet)
    }
 
-   // private
+   //private
    this.initialized = true;
    this.enabled = true;
    this.mode =  WALLET_MODE_PENDING;
@@ -29,6 +29,8 @@ Wallet = function (wallet) {
 
    //methods
    this.allocateVotes(parseInt(this.available * 10 / 100));
+
+   //controller
    Session.set('newVote', this);
 
 }
@@ -49,9 +51,9 @@ Wallet.prototype.allocateVotes = function (quantity, avoidSlider) {
 Wallet.prototype.sliderInput = function (pixels, avoidAllocation) {
   if (pixels == undefined) { pixels = 0 };
   var percentage = (($('#voteHandle').offset().left - $('#voteBar').offset().left) * 100) / $('#voteBar').width();
-  var delta = ($('#voteBar').offset().left + this._maxWidth) - $('#voteBar').offset().left;
-  var votes = parseInt((this.sliderWidth * this.available) / delta);
-  this.sliderWidth = _scope((this._initialSliderWidth + pixels), this._maxWidth, $('#voteHandle').width());
+  var delta = ($('#voteBar').offset().left + this._maxWidth) - $('#voteBar').offset().left - ($('#voteHandle').width() / 2);
+  var votes = parseInt(((this.sliderWidth - + ($('#voteHandle').width() / 2)) * this.available) / delta);
+  this.sliderWidth = _scope((this._initialSliderWidth + pixels), this._maxWidth, ($('#voteHandle').width() / 2));
   if (!avoidAllocation) {
     this.allocateVotes(votes, true);
   }
