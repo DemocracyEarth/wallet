@@ -1754,6 +1754,11 @@ blockquote {
   text-align: center;
 }
 
+.warning.annotation {
+  background-color: #e6f9f4;
+  color: #00bf8f;
+}
+
 .navbar {
   position: fixed;
   left: 320px;

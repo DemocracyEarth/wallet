@@ -326,12 +326,13 @@
   "delegator": "Delegator",
   "delegate": "Delegate",
   "send-delegation-votes": "Delegation of Votes",
-  "signature-pending": "Awaiting confirmation.",
+  "signature-pending": "(Pending confirmation...)",
   "signature-rejected": ": Rejected offer.",
   "digital-name": "Blockchain ID",
   "delegate-votes-warning": "Do you confirm starting a delegation of <strong><quantity> votes</strong>?",
   "delegate-votes-executed": "<quantity> <type> Delegated.",
   "contract-votes-executed": "<strong><quantity> <type></strong> Placed.",
   "delegate-votes-pending": "Delegate <strong><quantity> <type></strong>",
-  "contract-votes-pending": "<quantity> <type>"
+  "contract-votes-pending": "<quantity> <type>",
+  "no-tags-agreement": "This agreement is not limited by tags."
 }

@@ -109,6 +109,9 @@ Template.semantics.helpers({
   },
   sample: function () {
     return Session.get('searchSample');
+  },
+  alreadyVoted: function () {
+    return Session.get('alreadyVoted');
   }
 });
 

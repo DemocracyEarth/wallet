@@ -8,13 +8,23 @@
     <div class="extra">
 
       <ul id="tagList" class="w-list-unstyled w-clearfix  connectedSortable">
-        <li class="w-clearfix tag tag-placeholder nondraggable" style="{{emptyList}}">
-          <div class="hash-tag hash-tag-empty"></div>
-        </li>
+        {{#unless alreadyVoted}}
+          <li class="w-clearfix tag tag-placeholder nondraggable" style="{{emptyList}}">
+            <div class="hash-tag hash-tag-empty"></div>
+          </li>
+        {{/unless}}
         {{#if editorMode}}
-          {{#each semantics}}
-            {{> tag _id=_id nonDraggable=false}}
-          {{/each}}
+          {{#unless alreadyVoted}}
+            {{#each semantics}}
+                {{> tag _id=_id nonDraggable=false}}
+            {{/each}}
+          {{else}}
+            {{#each semantics}}
+              {{> tag _id=_id nonDraggable=true}}
+            {{else}}
+              {{> warning label="no-tags-agreement" style='annotation'}}
+            {{/each}}
+          {{/unless}}
         {{else}}
           {{#each semantics}}
             {{> tag _id=_id nonDraggable=true}}
@@ -23,61 +33,63 @@
       </ul>
 
 
-      {{#if editorMode}}
+      {{#unless alreadyVoted}}
+        {{#if editorMode}}
 
-        <!-- Warnings -->
-        {{#if duplicateTags}}
-          {{> warning label="duplicate_tags"}}
-        {{/if}}
-        {{#if maxReached}}
-          {{> warning label="max_tags_reached"}}
-        {{/if}}
-        {{#if minTags}}
-          {{> warning label="min-tags-allowed"}}
-        {{/if}}
-        {{#if noTags}}
-          {{> warning label="no-tags"}}
-        {{/if}}
+          <!-- Warnings -->
+          {{#if duplicateTags}}
+            {{> warning label="duplicate_tags"}}
+          {{/if}}
+          {{#if maxReached}}
+            {{> warning label="max_tags_reached"}}
+          {{/if}}
+          {{#if minTags}}
+            {{> warning label="min-tags-allowed"}}
+          {{/if}}
+          {{#if noTags}}
+            {{> warning label="no-tags"}}
+          {{/if}}
 
-        <!-- Tag Picker -->
-        <div class="w-clearfix search-custom {{searchBox}}">
-          <img src="{{pathFor route='home'}}images/search.png" class="search-icon">
-          <div id="tagSearch" class="search-input" contenteditable="true">
-            {{_ 'search-tag'}}
+          <!-- Tag Picker -->
+          <div class="w-clearfix search-custom {{searchBox}}">
+            <img src="{{pathFor route='home'}}images/search.png" class="search-icon">
+            <div id="tagSearch" class="search-input" contenteditable="true">
+              {{_ 'search-tag'}}
+            </div>
           </div>
-        </div>
-        <ul id="tagSuggestions" class="w-list-unstyled w-clearfix selector connectedSortable">
-          <li class="selector-modal nondraggable" style='{{createTag}}'>
-            <div class="selector-create">
-              <div class="selector-modal-label">{{{_ 'no-match-tag'}}}</div>
-              <div class="w-clearfix extra">
-                <div class="tag">
-                  <div class="w-clearfix tag-label"><img src="{{pathFor route='home'}}images/hashtag.png" class="hash-icon">
-                    <a href="#" class="w-clearfix w-inline-block hash-link">
-                      <div class="hash-tag">{{{newTag}}}</div>
-                    </a>
-                  </div>
-                  <div id="add-custom-tag" class="action">
-                    <div>
-                      <strong>＋</strong>
+          <ul id="tagSuggestions" class="w-list-unstyled w-clearfix selector connectedSortable">
+            <li class="selector-modal nondraggable" style='{{createTag}}'>
+              <div class="selector-create">
+                <div class="selector-modal-label">{{{_ 'no-match-tag'}}}</div>
+                <div class="w-clearfix extra">
+                  <div class="tag">
+                    <div class="w-clearfix tag-label"><img src="{{pathFor route='home'}}images/hashtag.png" class="hash-icon">
+                      <a href="#" class="w-clearfix w-inline-block hash-link">
+                        <div class="hash-tag">{{{newTag}}}</div>
+                      </a>
+                    </div>
+                    <div id="add-custom-tag" class="action">
+                      <div>
+                        <strong>＋</strong>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </li>
-          <li class="selector-modal nondraggable" style='{{removeTag}}'>
-            <div class="selector-warning"><img src="{{pathFor route='home'}}images/trash.png" class="icon-trash">
-              <div>{{_ 'remove-tag'}}</div>
-            </div>
-          </li>
-          {{#each getTags}}
-              {{> tag suggestion=true _id=_id}}
-          {{/each}}
-        </ul>
-        <div class="shadow-fake"></div>
+            </li>
+            <li class="selector-modal nondraggable" style='{{removeTag}}'>
+              <div class="selector-warning"><img src="{{pathFor route='home'}}images/trash.png" class="icon-trash">
+                <div>{{_ 'remove-tag'}}</div>
+              </div>
+            </li>
+            {{#each getTags}}
+                {{> tag suggestion=true _id=_id}}
+            {{/each}}
+          </ul>
+          <div class="shadow-fake"></div>
 
-      {{/if}}
+        {{/if}}
+      {{/unless}}
 
     </div>
 
