@@ -587,6 +587,16 @@ blockquote {
   opacity: 0.25;
 }
 
+.symbol.profile-pic.profile-inbox {
+  width: 24px;
+  height: 24px;
+  margin: 1px 8px 0px 0px;
+}
+
+.symbol.profile-pic.profile-inbox:hover {
+  border-color: #e6f9f4;
+}
+
 .semantics {
   display: inline-block;
   margin-top: 0px;
@@ -1756,7 +1766,7 @@ blockquote {
 
 .warning.annotation {
   background-color: #e6f9f4;
-  color: #00bf8f;
+  color: #000;
 }
 
 .navbar {
