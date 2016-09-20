@@ -15,14 +15,18 @@ Template.avatar.helpers({
     }
   },
   pending: function () {
-    if (Session.get('contract').kind == KIND_DELEGATION) {
-      if (this.includeRole) {
-        if (Modules.both.signatureStatus(Session.get('contract').signatures, this.profile, true) == SIGNATURE_STATUS_PENDING) {
-          return 'pending';
-        } else {
-          return '';
-        };
+    if (Session.get('contract') != undefined) {
+      if (Session.get('contract').kind == KIND_DELEGATION) {
+        if (this.includeRole) {
+          if (Modules.both.signatureStatus(Session.get('contract').signatures, this.profile, true) == SIGNATURE_STATUS_PENDING) {
+            return 'pending';
+          } else {
+            return '';
+          };
+        }
       }
+    } else {
+      return '';
     }
   },
   elementId: function () {
@@ -58,7 +62,7 @@ Template.avatar.helpers({
         //it's a user id.
         var stringId = new String(profile + Meteor.userId() + 'pic');
         Modules.both.getUserInfo(profile, stringId);
-        if (Session.get(stringId) != undefined) {
+        if (Session.get(stringId) != undefined && Session.get(stringId).profile != undefined) {
           return Session.get(stringId).profile.picture;
         }
       }
@@ -91,7 +95,7 @@ Template.avatar.helpers({
         var stringId = new String(profile + Meteor.userId() + 'name');
         Modules.both.getUserInfo(profile, stringId);
 
-        if (Session.get(stringId) != undefined) {
+        if (Session.get(stringId) != undefined && Session.get(stringId).profile != undefined) {
           return Modules.both.showFullName(Session.get(stringId).profile.firstName, Session.get(stringId).profile.lastName);
         }
       }
@@ -118,8 +122,9 @@ Template.avatar.helpers({
         var stringId = new String(profile + Meteor.userId() + 'country');
         Modules.both.getUserInfo(profile, stringId);
         if (Session.get(stringId) != undefined) {
-          if (Session.get(stringId).profile.country.name != TAPi18n.__('unknown')) {
-            return Session.get(stringId).profile.country.name + ' ' + Modules.client.searchJSON(geoJSON.country, Session.get(stringId).profile.country.name)[0].emoji;
+          var country = Modules.client.searchJSON(geoJSON.country, Session.get(stringId).profile.country.name);
+          if (Session.get(stringId).profile.country.name != TAPi18n.__('unknown') && country != undefined) {
+            return Session.get(stringId).profile.country.name + ' ' + country[0].emoji;
           } else {
             return TAPi18n.__('unknown');
           }

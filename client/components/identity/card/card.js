@@ -6,8 +6,10 @@ Template.card.helpers({
   },
   delegationKeyword: function () {
     Modules.both.getUserInfo(this.toString(), 'newDelegate');
-    newDelegateName = convertToSlug(Session.get('newDelegate').username);
-    return Session.get('newDelegate');
+    if (Session.get('newDelegate') != undefined) {
+      newDelegateName = convertToSlug(Session.get('newDelegate').username);
+      return Session.get('newDelegate');
+    }
   }
 })
 

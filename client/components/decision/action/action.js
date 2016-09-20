@@ -3,11 +3,15 @@ Template.action.helpers({
     if (disableContractExecution()) {
       return 'disabled';
     } else {
-      switch (Session.get('newVote').mode) {
-        case WALLET_MODE_EXECUTED:
-          return 'executed';
-        default:
-          return '';
+      if (Session.get('newVote') != undefined) {
+        switch (Session.get('newVote').mode) {
+          case WALLET_MODE_EXECUTED:
+            return 'executed';
+          default:
+            return '';
+        }
+      } else {
+        return '';
       }
     }
   }

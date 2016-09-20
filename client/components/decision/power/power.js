@@ -18,71 +18,94 @@ Template.power.helpers({
     var wallet = Session.get('newVote');
     var contract = Session.get('contract');
 
-    switch (wallet.mode) {
-      case WALLET_MODE_PENDING:
-        switch(contract.kind) {
-          case KIND_DELEGATION:
-            var voteQuantity = TAPi18n.__('delegate-votes-pending');
-            break;
-          case KIND_VOTE:
-            var voteQuantity = TAPi18n.__('contract-votes-pending');
-            break;
-        }
-        break;
-      case WALLET_MODE_EXECUTED:
-        switch(contract.kind) {
-          case KIND_DELEGATION:
-            var voteQuantity = TAPi18n.__('delegate-votes-executed');
-            break;
-          case KIND_VOTE:
-            var voteQuantity = TAPi18n.__('contract-votes-executed');
-            break;
-        }
-        break;
+    if (wallet != undefined) {
+      switch (wallet.mode) {
+        case WALLET_MODE_PENDING:
+          switch(contract.kind) {
+            case KIND_DELEGATION:
+              var voteQuantity = TAPi18n.__('delegate-votes-pending');
+              break;
+            case KIND_VOTE:
+              var voteQuantity = TAPi18n.__('contract-votes-pending');
+              break;
+          }
+          break;
+        case WALLET_MODE_EXECUTED:
+          switch(contract.kind) {
+            case KIND_DELEGATION:
+              var voteQuantity = TAPi18n.__('delegate-votes-executed');
+              break;
+            case KIND_VOTE:
+              var voteQuantity = TAPi18n.__('contract-votes-executed');
+              break;
+          }
+          break;
+      }
+
+      var quantity = wallet.allocateQuantity;
+      voteQuantity = voteQuantity.replace("<quantity>", quantity);
+      voteQuantity = voteQuantity.replace("<type>", function () { if (quantity == 1 ) { return TAPi18n.__('vote-singular') } else { return TAPi18n.__('vote-plural') } } );
+      if (quantity == 0) { Session.set('noVotes', true) } else { Session.set('noVotes', false) };
+      return voteQuantity;
+    } else {
+      return 0;
     }
-
-    var quantity = wallet.allocateQuantity;
-    voteQuantity = voteQuantity.replace("<quantity>", quantity);
-    voteQuantity = voteQuantity.replace("<type>", function () { if (quantity == 1 ) { return TAPi18n.__('vote-singular') } else { return TAPi18n.__('vote-plural') } } );
-    if (quantity == 0) { Session.set('noVotes', true) } else { Session.set('noVotes', false) };
-    return voteQuantity;
-
   }
 })
 
 Template.available.helpers({
   votes: function (user) {
-    return Session.get('newVote').available;
+    if (Session.get('newVote') != undefined) {
+      return Session.get('newVote').available;
+    } else {
+      return 0;
+    }
   }
 });
 
 Template.placed.helpers({
   votes: function (user) {
-    return Session.get('newVote').placed;
+    if (Session.get('newVote') != undefined) {
+      return Session.get('newVote').placed;
+    } else {
+      return 0;
+    }
   }
 });
 
 Template.bar.helpers({
   allocate: function () {
     var wallet = Session.get('newVote');
-    if (Session.get('alreadyVoted') == true) {
-      return '0px';
+    if (wallet != undefined) {
+      if (Session.get('alreadyVoted') == true) {
+        return '0px';
+      } else {
+        return wallet.sliderWidth + 'px';
+      }
     } else {
-      return wallet.sliderWidth + 'px';
+      return '0px';
     }
   },
   placed: function () {
     var wallet = Session.get('newVote');
-    var percentage = parseInt((wallet.placed * 100) / wallet.balance);
-    if (wallet.placed == 0) {
-      return '0px';
+    if (wallet != undefined) {
+      var percentage = parseInt((wallet.placed * 100) / wallet.balance);
+      if (wallet.placed == 0) {
+        return '0px';
+      } else {
+        return percentage + '%';
+      }
     } else {
-      return percentage + '%';
+      return '0px';
     }
   },
   alreadyVoted: function () {
-    var voted = Modules.client.verifyVote(Session.get('contract').wallet.ledger, Meteor.user()._id);
-    Session.set('alreadyVoted', voted);
-    return voted;
+    if (Session.get('contract').wallet != undefined) {
+      var voted = Modules.client.verifyVote(Session.get('contract').wallet.ledger, Meteor.user()._id);
+      Session.set('alreadyVoted', voted);
+      return voted;
+    } else {
+      return false;
+    }
   }
 });
