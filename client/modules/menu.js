@@ -84,9 +84,10 @@ let _getDelegatesMenu = (feed) => {
 /* @param {string} array - item list
 ******/
 let _alreadyListed = (id, array) => {
+  if (id == Meteor.user()._id) { return true };
   for (i in array) {
     if (array.length > 0) {
-      if (array[i] == id || id == Meteor.user()._id) {
+      if (array[i] == id) {
         return true;
       }
     }

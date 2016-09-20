@@ -7,11 +7,13 @@
     <ul class="menu w-clearfix w-list-unstyled">
 
       {{> inbox label='decisions' separator=true}}
+      
       {{#each decisions}}
         {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon iconActivated=iconActivated feed=feed}}
       {{/each}}
 
-      {{> inbox label='delegates' separator=true}}
+      {{> inbox label='delegations' separator=true}}
+
       {{#each delegates}}
         {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon isAvatar=true iconActivated=iconActivated feed=feed}}
       {{/each}}
