@@ -7,13 +7,11 @@ import {default as Modules} from "./_modules";
 let sidebarMenu = (feed) => {
 
   var decisions = new Array();
-  //var personal = new Array();
   var delegates = new Array();
 
   if (Meteor.user() != undefined) {
 
     decisions = _getDecisionsMenu(feed);
-    //personal = _getPersonalMenu(feed);
     delegates = _getDelegatesMenu(feed);
 
   }
@@ -21,13 +19,10 @@ let sidebarMenu = (feed) => {
   if (feed == '' || feed == undefined) {
     if (Session.get('sidebarMenuSelectedId') != undefined) {
       decisions = _rememberSelectedItem(decisions);
-      //personal = _rememberSelectedItem(personal);
     }
   }
 
   Session.set('menuDecisions', decisions);
-  //Session.set('menuPersonal', personal);
-  //Session.set('menuDelegates', delegates);
 
 }
 
@@ -51,7 +46,6 @@ let _rememberSelectedItem = (arrMenu) => {
 /* @param {string} feed - feed name from url query
 ******/
 let _getDelegatesMenu = (feed) => {
-  var menu = new Array();
   var users = new Array();
   var wallet = Meteor.user().profile.wallet.ledger;
 
@@ -59,34 +53,19 @@ let _getDelegatesMenu = (feed) => {
     switch(wallet[entity].entityType) {
       case ENTITY_CONTRACT:
         var source = Contracts.findOne({ _id: wallet[entity].entityId });
-
-        switch(source.kind) {
-          case KIND_DELEGATION:
-            for (stamp in source.signatures) {
-              var delegate = source.signatures[stamp]._id;
-              if (!_alreadyListed(delegate, menu)) {
-                //console.log('delegate ' + delegate);
-                //Session.set(delegate, Modules.both.getUserInfo(source.signatures[stamp], delegate));
-                users.push(delegate);
-                menu.push(
-                  {
-                    id: delegate,
-                    label: '{{name}}',
-                    icon: '{{profile}}',
-                    iconActivated: false,
-                    feed: 'user',
-                    value: true,
-                    separator: false,
-                    url: '{{url}}',
-                    selected: _verifySelection('draft', feed)
-                  }
-                );
-
+        if (source != undefined) {
+          switch(source.kind) {
+            case KIND_DELEGATION:
+              for (stamp in source.signatures) {
+                var delegate = source.signatures[stamp]._id;
+                if (!_alreadyListed(delegate, users)) {
+                  users.push(delegate);
+                }
               }
-            }
-            break;
+              break;
+          }
+          break;
         }
-        break;
     }
   }
 
@@ -94,11 +73,8 @@ let _getDelegatesMenu = (feed) => {
     if (error)
       console.log(error);
 
-      //TODO filter to deliver only what necessary
     Session.set('menuDelegates', data);
   });
-
-  return menu;
 
 }
 
@@ -109,8 +85,10 @@ let _getDelegatesMenu = (feed) => {
 ******/
 let _alreadyListed = (id, array) => {
   for (i in array) {
-    if (array[i] == id || array[i] == Meteor.user()._id) {
-      return true;
+    if (array.length > 0) {
+      if (array[i] == id || id == Meteor.user()._id) {
+        return true;
+      }
     }
   }
   return false;
