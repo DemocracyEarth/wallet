@@ -6,10 +6,18 @@ Template.avatar.helpers({
   roleStatus: function () {
     return Modules.both.signatureStatus(Session.get('contract').signatures, this.profile);
   },
+  roleStyle: function () {
+    switch (Modules.both.signatureStatus(Session.get('contract').signatures, this.profile, true)) {
+      case SIGNATURE_STATUS_CONFIRMED:
+        return 'signature-confirmed';
+      case SIGNATURE_STATUS_REJECTED:
+        return 'signature-rejected';
+    }
+  },
   pending: function () {
     if (Session.get('contract').kind == KIND_DELEGATION) {
       if (this.includeRole) {
-        if (Modules.both.signatureStatus(Session.get('contract').signatures, this.profile, true)) {
+        if (Modules.both.signatureStatus(Session.get('contract').signatures, this.profile, true) == SIGNATURE_STATUS_PENDING) {
           return 'pending';
         } else {
           return '';

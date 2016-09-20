@@ -4234,12 +4234,22 @@ blockquote {
   padding-right: 10px;
   padding-left: 10px;
   clear: both;
-  border-top: 1px none grey;
+  border: 1px solid #f5f5f5;
   border-radius: 50px;
   background-color: #f5f5f5;
   font-size: 10px;
   text-align: center;
   text-transform: uppercase;
+}
+
+.signature-role.signature-confirmed {
+  border: 1px solid #e6f9f4;
+  background-color: #e6f9f4;
+}
+
+.signature-role.signature-rejected {
+  border-color: #fae6e6;
+  background-color: #fae6e6;
 }
 
 .shadow-bar {

@@ -144,28 +144,28 @@ let _verifyDelegation = (delegatorId, delegateId) => {
 * verifies status of signature from identity in a contract
 * @param {object} signatures - object containing signatures
 * @param {object} signerId - identity of signer to verify
-* @param {boolean} getPending - if boolean value shall be returned rather than string
+* @param {boolean} getStatus - if boolean value shall be returned rather than string
 ***/
-let _signatureStatus = (signatures, signerId, getPending) => {
-  var status = new String();
+let _signatureStatus = (signatures, signerId, getStatus) => {
+  var label = new String();
   var pending = new Boolean(false);
   for (var i = 0; i < signatures.length; i++) {
     if (signatures[i]._id == signerId) {
       switch (signatures[i].role) {
         case ROLE_DELEGATOR:
-          status = '<strong>' + TAPi18n.__('delegator') + '</strong>';
+          label = TAPi18n.__('delegator');
           break;
         case ROLE_DELEGATE:
-          status = '<strong>' + TAPi18n.__('delegate') + '</strong>';
+          label = TAPi18n.__('delegate');
           break;
       }
       switch (signatures[i].status) {
         case SIGNATURE_STATUS_PENDING:
-          status += ' - ' + TAPi18n.__('signature-pending');
+          label += " " + TAPi18n.__('signature-pending');
           pending = true;
           break;
         case SIGNATURE_STATUS_REJECTED:
-          status += ' - ' + TAPi18n.__('signature-rejected');
+          label += " " + TAPi18n.__('signature-rejected');
           pending = true;
           break;
         default:
@@ -175,10 +175,10 @@ let _signatureStatus = (signatures, signerId, getPending) => {
       break;
     }
   }
-  if (getPending == undefined || getPending == false) {
-    return status;
+  if (getStatus == undefined || getStatus == false) {
+    return label;
   } else {
-    return pending;
+    return signatures[i].status;
   }
 }
 
