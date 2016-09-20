@@ -73,15 +73,6 @@ Template.action.events({
 });
 
 function disableContractExecution() {
-
-  if (Session.get('newVote') != undefined) {
-    if (Session.get('newVote').mode == WALLET_MODE_PENDING) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
   if (Session.get('emptyBallot')) {
     return true;
   } else if (Session.get('unauthorizedFork')) {
@@ -95,6 +86,12 @@ function disableContractExecution() {
   } else if (Session.get('noVotes')) {
     return true;
   } else {
-    return false;
+    if (Session.get('newVote') != undefined) {
+      if (Session.get('newVote').mode == WALLET_MODE_PENDING) {
+        return false;
+      } else {
+        return true;
+      }
+    }
   }
 }

@@ -28,10 +28,10 @@
 
     "app": {
 
-      "name": "Democracy.Earth",
+      "name": "Sovereign by Democracy Earth Foundation",
       "language": "en",
       "development": true,
-      "version": "0.1",
+      "version": "0.01",
       "codename": "Quixote"
 
     },

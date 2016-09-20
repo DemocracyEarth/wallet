@@ -105,7 +105,10 @@ Template.avatar.helpers({
     if (profile == undefined) {
       if (Meteor.user() != undefined) {
         if (Meteor.user().profile.country != undefined) {
-          return Meteor.user().profile.country.name + ' ' + Modules.client.searchJSON(geoJSON.country, Meteor.user().profile.country.name)[0].emoji;
+          var country = Modules.client.searchJSON(geoJSON.country, Meteor.user().profile.country.name);
+          if (country != undefined) {
+            return Meteor.user().profile.country.name + ' ' + country[0].emoji;
+          }
         } else {
           return TAPi18n.__('digital-citizen');
         }

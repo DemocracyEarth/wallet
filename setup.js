@@ -1,5 +1,5 @@
 //This script runs the first time Democracy Earth gets implemented on a server.
-console.log('Loading ' + Meteor.settings.public.app.name + ' version: ' + Meteor.settings.public.app.version + ' codename: ' + Meteor.settings.public.app.codename );
+console.log(Meteor.settings.public.app.name + ' version: ' + Meteor.settings.public.app.version + ' codename: ' + Meteor.settings.public.app.codename );
 
 if (Meteor.isServer) {
   console.log('Verifiying main Collective in server...');

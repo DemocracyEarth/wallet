@@ -46,7 +46,11 @@ Template.power.helpers({
       if (voteQuantity != undefined) {
         voteQuantity = voteQuantity.replace("<quantity>", quantity);
         voteQuantity = voteQuantity.replace("<type>", function () { if (quantity == 1 ) { return TAPi18n.__('vote-singular') } else { return TAPi18n.__('vote-plural') } } );
-        if (quantity == 0) { Session.set('noVotes', true) } else { Session.set('noVotes', false) };
+        if (wallet.allocateQuantity == 0) {
+          Session.set('noVotes', true)
+        } else {
+          Session.set('noVotes', false)
+        };
         return voteQuantity;
       } else {
         return TAPi18n.__('vote');
