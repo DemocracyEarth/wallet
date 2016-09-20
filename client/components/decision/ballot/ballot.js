@@ -92,12 +92,17 @@ Template.ballot.helpers({
   options: function () {
     var contractBallot;
     if (Session.get('dbContractBallot') == undefined) {
-      contractBallot = Session.get('contract').ballot; //Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).ballot;
+      contractBallot = Session.get('contract').ballot;
     } else {
       contractBallot = Session.get('dbContractBallot');
     }
 
     var ballot = new Array();
+
+    //NOTE: since this is a tricky algorithm, just make sure this stop here isn't making any unseen problems.
+    if (contractBallot == undefined) {
+      return ballot;
+    }
 
     var keys = [],
         k, i, len;

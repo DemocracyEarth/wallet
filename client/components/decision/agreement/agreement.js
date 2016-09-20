@@ -136,9 +136,11 @@ function dynamicTextCheck(text) {
           roleIndex[signatures[i].role] = i;
         }
       }
-      checkedText = checkedText.replace('<delegator>', htmlTagOpen + getProfileName(Session.get('DELEGATOR').profile) + htmlTagClose);
-      checkedText = checkedText.replace('<delegate>', htmlTagOpen + getProfileName(Session.get('DELEGATE').profile) + htmlTagClose);
-      checkedText = checkedText.replace('<votes>', Session.get('newVote').allocateQuantity);
+      if (Session.get('DELEGATOR') != undefined) {
+        checkedText = checkedText.replace('<delegator>', htmlTagOpen + getProfileName(Session.get('DELEGATOR').profile) + htmlTagClose);
+        checkedText = checkedText.replace('<delegate>', htmlTagOpen + getProfileName(Session.get('DELEGATE').profile) + htmlTagClose);
+        checkedText = checkedText.replace('<votes>', Session.get('newVote').allocateQuantity);
+      }
       break;
   }
   return checkedText;

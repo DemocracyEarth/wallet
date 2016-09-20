@@ -50,10 +50,14 @@ Wallet.prototype.allocateVotes = function (quantity, avoidSlider) {
 
 Wallet.prototype.sliderInput = function (pixels, avoidAllocation) {
   if (pixels == undefined) { pixels = 0 };
-  var percentage = (($('#voteHandle').offset().left - $('#voteBar').offset().left) * 100) / $('#voteBar').width();
-  var delta = ($('#voteBar').offset().left + this._maxWidth) - $('#voteBar').offset().left - ($('#voteHandle').width() / 2);
-  var votes = parseInt(((this.sliderWidth - + ($('#voteHandle').width() / 2)) * this.available) / delta);
-  this.sliderWidth = _scope((this._initialSliderWidth + pixels), this._maxWidth, ($('#voteHandle').width() / 2));
+  if ($('#voteHandle').offset() != undefined) {
+    var percentage = (($('#voteHandle').offset().left - $('#voteBar').offset().left) * 100) / $('#voteBar').width();
+    var delta = ($('#voteBar').offset().left + this._maxWidth) - $('#voteBar').offset().left - ($('#voteHandle').width() / 2);
+    var votes = parseInt(((this.sliderWidth - + ($('#voteHandle').width() / 2)) * this.available) / delta);
+    this.sliderWidth = _scope((this._initialSliderWidth + pixels), this._maxWidth, ($('#voteHandle').width() / 2));
+  } else {
+    this.sliderWidth = 0;
+  }
   if (!avoidAllocation) {
     this.allocateVotes(votes, true);
   }
@@ -123,10 +127,12 @@ let _verifyVote = (ledger, userId) => {
   for (entity in ledger) {
     if (ledger[entity].entityId == userId) {
       var wallet = Session.get('newVote');
-      wallet.allocatePercentage = parseInt((ledger[entity].quantity * 100) / wallet.balance);
-      wallet.allocateQuantity = ledger[entity].quantity;
-      wallet.mode = WALLET_MODE_EXECUTED;
-      Session.set('newVote', wallet);
+      if (wallet != undefined) {
+        wallet.allocatePercentage = parseInt((ledger[entity].quantity * 100) / wallet.balance);
+        wallet.allocateQuantity = ledger[entity].quantity;
+        wallet.mode = WALLET_MODE_EXECUTED;
+        Session.set('newVote', wallet);
+      }
       return true;
     }
   }

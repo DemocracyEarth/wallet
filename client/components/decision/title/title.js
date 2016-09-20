@@ -76,8 +76,10 @@ Template.title.helpers({
   },
   timestamp: function () {
     var d = new Date;
-    d = Session.get('contract').timestamp;
-    return d.format('{Month} {d}, {yyyy}');
+    if (Session.get('contract').timestamp != undefined) {
+      d = Session.get('contract').timestamp;
+      return d.format('{Month} {d}, {yyyy}');
+    }
   },
   executionStatus: function () {
     if (Session.get('contract').executionStatus != undefined) {
