@@ -15,9 +15,10 @@ Template.action.helpers({
 
 Template.action.events({
     "click .action-button": function (event) {
+
       //Get all info from current draft
       if (this.enabled) {
-        if ((disableContractExecution() == false) && Session.get('newVote').mode == WALLET_MODE_PENDING ) {
+        if (disableContractExecution() == false) {
           switch(Session.get('contract').kind) {
             case KIND_DELEGATION:
               Modules.client.displayModal(
@@ -68,12 +69,19 @@ Template.action.events({
 });
 
 function disableContractExecution() {
+
+  if (Session.get('newVote') != undefined) {
+    if (Session.get('newVote').mode == WALLET_MODE_PENDING) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   if (Session.get('emptyBallot')) {
     return true;
   } else if (Session.get('unauthorizedFork')) {
     return true;
-  /*} else if (Session.get('noTags')) {
-    return true;*/
   } else if (Session.get('missingTitle')) {
     return true;
   } else if (Session.get('mistypedTitle')) {

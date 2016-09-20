@@ -122,6 +122,27 @@ Meteor.methods({
     }
   },
 
+  getUserList: function (array) {
+    var userList = new Array();
+    var user = new String();
+
+    for (i in array) {
+      user = Meteor.users.findOne({ _id: array[i] });
+      userList.push({
+        id: user._id,
+        label: Modules.both.showFullName(user.profile.firstName, user.profile.lastName),
+        icon: user.profile.picture,
+        iconActivated: false,
+        feed: 'user',
+        value: true,
+        separator: false,
+        url: '/user/' + user.username,
+        selected: false
+      })
+    }
+    return userList;
+  },
+
   getCollectiveInfo: function (collectiveId) {
     console.log('getting info for collective ' + collectiveId);
     return Collectives.findOne({ _id: collectiveId });

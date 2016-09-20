@@ -22,6 +22,9 @@ Template.inbox.helpers({
         return 'void';
       }
     }
+  },
+  isAvatar: function () {
+    return this.isAvatar;
   }
 });
 

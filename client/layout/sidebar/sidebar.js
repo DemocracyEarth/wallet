@@ -4,5 +4,8 @@ Template.sidebar.helpers({
   },
   personal: function () {
     return Session.get('menuPersonal');
+  },
+  delegates: function () {
+    return Session.get('menuDelegates');
   }
 });
