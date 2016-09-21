@@ -112,7 +112,7 @@ let _getDecisionsMenu = (feed) => {
       feed: 'draft',
       value: _getSectionValue('draft'),
       separator: false,
-      url: '/filter?stage=draft',
+      url: '/feed?stage=draft&kind=vote',
       selected: _verifySelection('draft', feed)
     },
     {
@@ -123,7 +123,7 @@ let _getDecisionsMenu = (feed) => {
       iconActivated: 'images/decision-open-active.png',
       feed: _getSectionValue('all'),
       separator: false,
-      url: '/filter?stage=live',
+      url: '/feed?stage=live&kind=vote',
       selected: _verifySelection('all', feed)
     },
     {
@@ -131,10 +131,10 @@ let _getDecisionsMenu = (feed) => {
       label: TAPi18n.__('voted-issues'),
       icon: 'images/decision-vote.png',
       iconActivated: 'images/decision-vote-active.png',
-      feed: _getSectionValue('voted'),
-      value: Meteor.user().profile.menu.drafts,
+      feed: 'voted',
+      value: _getSectionValue('voted'),
       separator: false,
-      url: '/filter?stage=live&username=' + Meteor.user().username,
+      url: '/feed?stage=live&kind=vote&citizen=' + Meteor.user().username,
       selected: _verifySelection('voted', feed)
     },
     {
@@ -142,10 +142,10 @@ let _getDecisionsMenu = (feed) => {
       label: TAPi18n.__('approved'),
       icon: 'images/decision-approved.png',
       iconActivated: 'images/decision-approved-active.png',
-      feed: _getSectionValue('approved'),
-      value: 0,
+      feed: 'approved',
+      value: _getSectionValue('approved'),
       separator: false,
-      url: '/filter?stage=finish&execution=approved',
+      url: '/feed?stage=finish&kind=vote&execution=approved',
       selected: _verifySelection('approved', feed)
     }
   );
