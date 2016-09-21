@@ -337,5 +337,9 @@
   "contract-votes-pending": "<quantity> <type>",
   "no-tags-agreement": "This agreement is not limited by tags.",
   "manifests": "Manifests",
-  "manifest": "Manifest"
+  "manifest": "Manifest",
+  "stage-draft-kind-vote": "Draft Proposals",
+  "stage-live-kind-vote-execution-open": "Votable Proposals",
+  "stage-live-kind-vote-user": "<participant>'s Participation",
+  "stage-finish-kind-vote-execution-approved": "Approved Decisions"
 }

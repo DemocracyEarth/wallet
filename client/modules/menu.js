@@ -134,7 +134,7 @@ let _getDecisionsMenu = (feed) => {
       feed: 'voted',
       value: _getSectionValue('voted'),
       separator: false,
-      url: '/feed?stage=' + STAGE_LIVE.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase() + '&citizen=' + Meteor.user().username,
+      url: '/feed?stage=' + STAGE_LIVE.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase() + '&user=' + Meteor.user().username,
       selected: _verifySelection('voted', feed)
     },
     {
