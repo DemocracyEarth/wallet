@@ -18,51 +18,27 @@ Schema.Credential = new SimpleSchema({
 });
 
 Schema.Menu = new SimpleSchema({
-  total: {
-    type: Number,
+  feed: {
+    type: String,
     autoValue: function () {
       if (this.isInsert) {
-        return 0;
+        return 'all';
       }
     }
   },
-  drafts: {
-    type: Number,
-    autoValue: function () {
-      if (this.isInsert) {
-        return 0;
-      }
-    }
-  },
-  memberships: {
-    type: Number,
-    autoValue: function () {
-      if (this.isInsert) {
-        return 0;
-      }
-    }
-  },
-  delegations: {
-    type: Number,
-    autoValue: function () {
-      if (this.isInsert) {
-        return 0;
-      }
-    }
-  },
-  votes: {
-    type: Number,
-    autoValue: function () {
-      if (this.isInsert) {
-        return 0;
-      }
-    }
-  },
-  lastUpdate: {
+  lastView: {
     type: Date,
     autoValue: function () {
       if (this.isInsert) {
         return new Date();
+      }
+    }
+  },
+  newItems: {
+    type: Number,
+    autoValue: function () {
+      if (this.isInsert) {
+        return 0;
       }
     }
   }
@@ -129,6 +105,10 @@ Schema.Profile = new SimpleSchema({
       optional: true
     },
     menu: {
+      type: Array,
+      optional: true
+    },
+    "menu.$": {
       type: Schema.Menu,
       optional: true
     },

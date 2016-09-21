@@ -285,6 +285,7 @@
   "poll-closed": "Poll Closed",
   "your-vote": "Vote",
   "open": "Open",
+  "open-vote": "Open Votes",
   "closed": "Archived",
   "proposals": "Proposed",
   "argument": "Argument",
@@ -335,5 +336,6 @@
   "delegate-votes-pending": "Delegate <quantity> <type>",
   "contract-votes-pending": "<quantity> <type>",
   "no-tags-agreement": "This agreement is not limited by tags.",
-  "manifests": "Manifests"
+  "manifests": "Manifests",
+  "manifest": "Manifest"
 }

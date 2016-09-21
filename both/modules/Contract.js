@@ -49,12 +49,12 @@ let _newDelegation = (delegatorId, delegateId, keywordTitle) => {
         {
           _id: delegatorId,
           role: ROLE_DELEGATOR,
-          status: STATUS_PENDING
+          status: SIGNATURE_STATUS_PENDING
         },
         {
           _id: delegateId,
           role: ROLE_DELEGATE,
-          status: STATUS_PENDING
+          status: SIGNATURE_STATUS_PENDING
         }
       ]
     };

@@ -120,11 +120,11 @@ Schema.Transaction = new SimpleSchema({
   },
   status: {
     type: String,
-    allowedValues: [STATUS_PENDING, STATUS_REJECTED, STATUS_CONFIRMED],
+    allowedValues: [TRANSACTION_STATUS_PENDING, TRANSACTION_STATUS_REJECTED, TRANSACTION_STATUS_CONFIRMED],
     autoValue: function () {
       if (this.isInsert) {
         if (this.field('status').value == undefined) {
-          return STATUS_PENDING;
+          return TRANSACTION_STATUS_PENDING;
         }
       }
     }

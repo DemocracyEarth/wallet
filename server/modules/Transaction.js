@@ -49,7 +49,7 @@ let _createTransaction = (senderId, receiverId, quantity, settings) => {
     kind: settings.kind,
     contractId: settings.contractId,
     timestamp: new Date(),
-    status: STATUS_PENDING,
+    status: TRANSACTION_STATUS_PENDING,
     condition: settings.condition
   };
 
@@ -112,7 +112,7 @@ let _processTransaction = (txId) => {
   _updateWallet(transaction.output.entityId, transaction.output.entityType, receiverProfile);
 
   //set this transaction as processed
-  return Transactions.update({ _id: txId }, { $set: { status : STATUS_CONFIRMED }});
+  return Transactions.update({ _id: txId }, { $set: { status : TRANSACTION_STATUS_CONFIRMED }});
 
 }
 

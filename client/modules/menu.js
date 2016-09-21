@@ -106,24 +106,24 @@ let _getDecisionsMenu = (feed) => {
   menu.push(
     {
       id: 0,
-      label: TAPi18n.__('manifests'),
+      label: TAPi18n.__('manifest'),
       icon: 'images/decision-draft.png',
       iconActivated: 'images/decision-draft-active.png',
       feed: 'draft',
-      value: Meteor.user().profile.menu.drafts,
+      value: _getSectionValue('draft'),
       separator: false,
       url: '/filter?stage=draft',
       selected: _verifySelection('draft', feed)
     },
     {
       id: 1,
-      label: TAPi18n.__('open'),
+      label: TAPi18n.__('open-vote'),
       value: Meteor.user().profile.menu.votes,
       icon: 'images/decision-open.png',
       iconActivated: 'images/decision-open-active.png',
-      feed: 'all',
+      feed: _getSectionValue('all'),
       separator: false,
-      url: '/',
+      url: '/filter?stage=live',
       selected: _verifySelection('all', feed)
     },
     {
@@ -131,49 +131,44 @@ let _getDecisionsMenu = (feed) => {
       label: TAPi18n.__('voted-issues'),
       icon: 'images/decision-vote.png',
       iconActivated: 'images/decision-vote-active.png',
-      feed: 'voted',
+      feed: _getSectionValue('voted'),
       value: Meteor.user().profile.menu.drafts,
       separator: false,
-      url: '/filter?kind=vote&id=',
+      url: '/filter?stage=live&username=' + Meteor.user().username,
       selected: _verifySelection('voted', feed)
     },
-/*    {
-      id: 3,
-      label: TAPi18n.__('proposals'),
-      icon: 'images/decision-proposals.png',
-      iconActivated: 'images/decision-proposals-active.png',
-      feed: 'proposals',
-      value: Meteor.user().profile.menu.drafts,
-      separator: false,
-      url: '/filter?kind=vote&id=',
-      selected: _verifySelection('proposals', feed)
-    },*/
     {
       id: 3,
       label: TAPi18n.__('approved'),
       icon: 'images/decision-approved.png',
       iconActivated: 'images/decision-approved-active.png',
-      feed: 'approved',
+      feed: _getSectionValue('approved'),
       value: 0,
       separator: false,
-      url: '/filter?stage=approved',
+      url: '/filter?stage=finish&execution=approved',
       selected: _verifySelection('approved', feed)
-    },
-    /*{
-      id: 5,
-      label: TAPi18n.__('closed'),
-      icon: 'images/decision-closed.png',
-      iconActivated: 'images/decision-closed-active.png',
-      feed: 'closed',
-      value: 0,
-      separator: false,
-      url: '/filter?stage=closed',
-      selected: _verifySelection('closed', feed)
-    },*/
+    }
   );
 
   return menu;
 
+}
+
+/*****
+/* for a specific section returns how many new items to signal as new in sidebar
+/* @param {string} feed - feed name from url query
+******/
+let _getSectionValue = (feed) => {
+  var menu = Meteor.user().profile.menu;
+  if (menu != undefined && menu.length > 0) {
+    for (item in menu) {
+      if (menu[item].feed == feed) {
+        return menu[item].newItems;
+      }
+    }
+  } else {
+    return 0;
+  }
 }
 
 /*****
