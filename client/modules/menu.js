@@ -112,7 +112,7 @@ let _getDecisionsMenu = (feed) => {
       feed: 'draft',
       value: _getSectionValue('draft'),
       separator: false,
-      url: '/feed?stage=draft&kind=vote',
+      url: '/feed?stage=' + STAGE_DRAFT.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase(),
       selected: _verifySelection('draft', feed)
     },
     {
@@ -123,7 +123,7 @@ let _getDecisionsMenu = (feed) => {
       iconActivated: 'images/decision-open-active.png',
       feed: _getSectionValue('all'),
       separator: false,
-      url: '/feed?stage=live&kind=vote',
+      url: '/feed?stage=' + STAGE_LIVE.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase() + '&execution=' + EXECUTION_STATUS_OPEN.toLowerCase(),
       selected: _verifySelection('all', feed)
     },
     {
@@ -134,7 +134,7 @@ let _getDecisionsMenu = (feed) => {
       feed: 'voted',
       value: _getSectionValue('voted'),
       separator: false,
-      url: '/feed?stage=live&kind=vote&citizen=' + Meteor.user().username,
+      url: '/feed?stage=' + STAGE_LIVE.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase() + '&citizen=' + Meteor.user().username,
       selected: _verifySelection('voted', feed)
     },
     {
@@ -145,7 +145,7 @@ let _getDecisionsMenu = (feed) => {
       feed: 'approved',
       value: _getSectionValue('approved'),
       separator: false,
-      url: '/feed?stage=finish&kind=vote&execution=approved',
+      url: '/feed?stage=' + STAGE_FINISH.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase() + '&execution=' + EXECUTION_STATUS_APPROVED.toLowerCase(),
       selected: _verifySelection('approved', feed)
     }
   );
