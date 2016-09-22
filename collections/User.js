@@ -16,7 +16,7 @@ Schema.Credential = new SimpleSchema({
   }
 });
 
-Schema.FeedMenu = new SimpleSchema({
+Schema.Menu = new SimpleSchema({
   feed: {
     type: String,
     optional: true,
@@ -112,7 +112,7 @@ Schema.Profile = new SimpleSchema({
       optional: true
     },
     "menu.$": {
-      type: Schema.FeedMenu,
+      type: Schema.Menu,
       optional: true
     },
     wallet: {
