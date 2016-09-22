@@ -6,15 +6,13 @@ import {default as Modules} from "./_modules";
 ******/
 let sidebarMenu = (feed) => {
 
-  var decisions = new Array();
-  var delegates = new Array();
+  //general
+  _getDecisionsMenu(feed);
 
+  //specific to user
   if (Meteor.user() != undefined) {
-    _getDecisionsMenu(feed);
     _getDelegatesMenu(feed);
   }
-
-  Session.set('menuDecisions', decisions);
 
 }
 
@@ -28,7 +26,8 @@ let _toggleSelectedItem = (arrMenu) => {
     for (item in arrMenu) {
       if (arrMenu[item].id == Session.get('sidebarMenuSelectedId')) {
         arrMenu[item].selected = true;
-        break;
+      } else {
+        arrMenu[item].selected = false;
       }
     }
     return arrMenu;
@@ -97,55 +96,64 @@ let _alreadyListed = (id, array) => {
 ******/
 let _getDecisionsMenu = (feed) => {
   var menu = new Array();
+  var username = new String();
+
+  if (Meteor.user() != undefined) {
+    username = Meteor.user().username;
+  } else {
+    username = 'anonymous';
+    //TODO verify that for unlogged users I get anon proposals on feed
+  }
 
   menu.push(
     {
       id: 0,
-      label: TAPi18n.__('manifest'),
+      label: TAPi18n.__(FEED_VOTE_DRAFT),
       icon: 'images/decision-draft.png',
       iconActivated: 'images/decision-draft-active.png',
-      feed: 'draft',
-      value: _getSectionValue('draft'),
+      feed: FEED_VOTE_DRAFT,
+      value: _getSectionValue(FEED_VOTE_DRAFT),
       separator: false,
       url: '/feed?stage=' + STAGE_DRAFT.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase(),
-      selected: _verifySelection('draft', feed)
+      selected: _verifySelection(FEED_VOTE_DRAFT, feed)
     },
     {
       id: 1,
-      label: TAPi18n.__('open-vote'),
+      label: TAPi18n.__(FEED_VOTE_LIVE),
       icon: 'images/decision-open.png',
       iconActivated: 'images/decision-open-active.png',
-      feed: 'all',
-      value: _getSectionValue('all'),
+      feed: FEED_VOTE_LIVE,
+      value: _getSectionValue(FEED_VOTE_LIVE),
       separator: false,
       url: '/feed?stage=' + STAGE_LIVE.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase() + '&execution=' + EXECUTION_STATUS_OPEN.toLowerCase(),
-      selected: _verifySelection('all', feed)
+      selected: _verifySelection(FEED_VOTE_LIVE, feed)
     },
     {
       id: 2,
-      label: TAPi18n.__('voted-issues'),
+      label: TAPi18n.__(FEED_VOTE_LIVE_PEER),
       icon: 'images/decision-vote.png',
       iconActivated: 'images/decision-vote-active.png',
-      feed: 'voted',
-      value: _getSectionValue('voted'),
+      feed: FEED_VOTE_LIVE_PEER,
+      value: _getSectionValue(FEED_VOTE_LIVE_PEER),
       separator: false,
-      url: '/feed?stage=' + STAGE_LIVE.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase() + '&peer=' + Meteor.user().username,
-      selected: _verifySelection('voted', feed)
+      url: '/feed?stage=' + STAGE_LIVE.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase() + '&peer=' + username,
+      selected: _verifySelection(FEED_VOTE_LIVE_PEER, feed)
     },
     {
       id: 3,
-      label: TAPi18n.__('approved'),
+      label: TAPi18n.__(FEED_VOTE_FINISH_APPROVED),
       icon: 'images/decision-approved.png',
       iconActivated: 'images/decision-approved-active.png',
-      feed: 'approved',
-      value: _getSectionValue('approved'),
+      feed: FEED_VOTE_FINISH_APPROVED,
+      value: _getSectionValue(FEED_VOTE_FINISH_APPROVED),
       separator: false,
       url: '/feed?stage=' + STAGE_FINISH.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase() + '&execution=' + EXECUTION_STATUS_APPROVED.toLowerCase(),
-      selected: _verifySelection('approved', feed)
+      selected: _verifySelection(FEED_VOTE_FINISH_APPROVED, feed)
     }
   );
 
   _toggleSelectedItem(menu);
+  Session.set('menuDecisions', menu);
   return menu;
 
 }
