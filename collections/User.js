@@ -1,6 +1,5 @@
 import {default as Wallet} from "./Wallet";
 
-
 Schema.Credential = new SimpleSchema({
   source: {
     type: String,
@@ -17,9 +16,10 @@ Schema.Credential = new SimpleSchema({
   }
 });
 
-Schema.Menu = new SimpleSchema({
+Schema.FeedMenu = new SimpleSchema({
   feed: {
     type: String,
+    optional: true,
     autoValue: function () {
       if (this.isInsert) {
         return 'all';
@@ -28,6 +28,7 @@ Schema.Menu = new SimpleSchema({
   },
   lastView: {
     type: Date,
+    optional: true,
     autoValue: function () {
       if (this.isInsert) {
         return new Date();
@@ -36,6 +37,7 @@ Schema.Menu = new SimpleSchema({
   },
   newItems: {
     type: Number,
+    optional: true,
     autoValue: function () {
       if (this.isInsert) {
         return 0;
@@ -46,21 +48,21 @@ Schema.Menu = new SimpleSchema({
 
 Schema.Profile = new SimpleSchema({
     firstName: {
-        type: String,
-        optional: true
+      type: String,
+      optional: true
     },
     lastName: {
-        type: String,
-        optional: true
+      type: String,
+      optional: true
     },
     picture: {
-        type: String,
-        optional: true,
-        autoValue: function () {
-          if (this.isInsert) {
-            return '/images/noprofile.png';
-          }
+      type: String,
+      optional: true,
+      autoValue: function () {
+        if (this.isInsert) {
+          return '/images/noprofile.png';
         }
+      }
     },
     country: {
         type: Schema.Country,
@@ -106,10 +108,11 @@ Schema.Profile = new SimpleSchema({
     },
     menu: {
       type: Array,
+      defaultValue: [],
       optional: true
     },
     "menu.$": {
-      type: Schema.Menu,
+      type: Schema.FeedMenu,
       optional: true
     },
     wallet: {

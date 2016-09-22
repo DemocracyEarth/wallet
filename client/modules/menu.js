@@ -10,16 +10,8 @@ let sidebarMenu = (feed) => {
   var delegates = new Array();
 
   if (Meteor.user() != undefined) {
-
-    decisions = _getDecisionsMenu(feed);
-    delegates = _getDelegatesMenu(feed);
-
-  }
-
-  if (feed == '' || feed == undefined) {
-    if (Session.get('sidebarMenuSelectedId') != undefined) {
-      decisions = _rememberSelectedItem(decisions);
-    }
+    _getDecisionsMenu(feed);
+    _getDelegatesMenu(feed);
   }
 
   Session.set('menuDecisions', decisions);
@@ -31,14 +23,16 @@ let sidebarMenu = (feed) => {
 /* stores the current selected item in case of refresh
 /* @param {array} arrMenu - arry items from menu
 ******/
-let _rememberSelectedItem = (arrMenu) => {
-  for (item in arrMenu) {
-    if (arrMenu[item].id == Session.get('sidebarMenuSelectedId')) {
-      arrMenu[item].selected = true;
-      break;
+let _toggleSelectedItem = (arrMenu) => {
+  if (Session.get('sidebarMenuSelectedId') != undefined) {
+    for (item in arrMenu) {
+      if (arrMenu[item].id == Session.get('sidebarMenuSelectedId')) {
+        arrMenu[item].selected = true;
+        break;
+      }
     }
+    return arrMenu;
   }
-  return arrMenu;
 }
 
 /*****
@@ -73,6 +67,7 @@ let _getDelegatesMenu = (feed) => {
     if (error)
       console.log(error);
 
+    _toggleSelectedItem(data);
     Session.set('menuDelegates', data);
   });
 
@@ -118,10 +113,10 @@ let _getDecisionsMenu = (feed) => {
     {
       id: 1,
       label: TAPi18n.__('open-vote'),
-      value: Meteor.user().profile.menu.votes,
       icon: 'images/decision-open.png',
       iconActivated: 'images/decision-open-active.png',
-      feed: _getSectionValue('all'),
+      feed: 'all',
+      value: _getSectionValue('all'),
       separator: false,
       url: '/feed?stage=' + STAGE_LIVE.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase() + '&execution=' + EXECUTION_STATUS_OPEN.toLowerCase(),
       selected: _verifySelection('all', feed)
@@ -134,7 +129,7 @@ let _getDecisionsMenu = (feed) => {
       feed: 'voted',
       value: _getSectionValue('voted'),
       separator: false,
-      url: '/feed?stage=' + STAGE_LIVE.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase() + '&user=' + Meteor.user().username,
+      url: '/feed?stage=' + STAGE_LIVE.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase() + '&peer=' + Meteor.user().username,
       selected: _verifySelection('voted', feed)
     },
     {
@@ -150,6 +145,7 @@ let _getDecisionsMenu = (feed) => {
     }
   );
 
+  _toggleSelectedItem(menu);
   return menu;
 
 }
@@ -159,15 +155,17 @@ let _getDecisionsMenu = (feed) => {
 /* @param {string} feed - feed name from url query
 ******/
 let _getSectionValue = (feed) => {
-  var menu = Meteor.user().profile.menu;
-  if (menu != undefined && menu.length > 0) {
-    for (item in menu) {
-      if (menu[item].feed == feed) {
-        return menu[item].newItems;
+  if ( Meteor.user() != undefined) {
+    var menu = Meteor.user().profile.menu;
+    if (menu != undefined && menu.length > 0) {
+      for (item in menu) {
+        if (menu[item].feed == feed) {
+          return menu[item].newItems;
+        }
       }
+    } else {
+      return 0;
     }
-  } else {
-    return 0;
   }
 }
 

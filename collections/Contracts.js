@@ -186,7 +186,7 @@ Schema.Contract = new SimpleSchema({
     allowedValues: [EXECUTION_STATUS_OPEN, EXECUTION_STATUS_APPROVED, EXECUTION_STATUS_ALTERNATIVE, EXECUTION_STATUS_REJECTED],
     autoValue: function () {
       if (this.isInsert) {
-        return 'OPEN';
+        return EXECUTION_STATUS_OPEN;
       }
     }
   },
@@ -327,7 +327,7 @@ Schema.Contract = new SimpleSchema({
     allowedValues: [STAGE_DRAFT, STAGE_LIVE, STAGE_FINISH],
     autoValue: function () {
       if (this.isInsert) {
-        return "DRAFT";
+        return STAGE_DRAFT;
       }
     }
   },
