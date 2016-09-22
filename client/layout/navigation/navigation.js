@@ -41,6 +41,9 @@ Template.navigation.helpers({
     if (Session.get('navbar')) {
       return Session.get('navbar').href;
     }
+  },
+  showNotice: function () {
+    return Session.get('showNotice');
   }
 });
 

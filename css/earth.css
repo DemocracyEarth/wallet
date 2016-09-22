@@ -2947,15 +2947,14 @@ blockquote {
 
 .context {
   position: fixed;
-  left: 50%;
-  right: 50%;
   z-index: 9000;
-  display: block;
+  display: inline-block;
+  overflow: hidden;
   width: 300px;
   max-width: 300px;
   margin-top: 70px;
   margin-right: auto;
-  margin-left: -150px;
+  margin-left: auto;
   padding: 3px 10px;
   border-bottom: 2px solid #ffe079;
   border-radius: 5px;

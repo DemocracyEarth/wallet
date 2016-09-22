@@ -9,6 +9,11 @@
       <div class="w-clearfix path">
         {{{screen}}}
       </div>
+
+      {{#if showNotice}}
+        {{> notice}}
+      {{/if}}
+
       {{> authentication}}
       <!--{{> bureaucrat}}-->
     </div>

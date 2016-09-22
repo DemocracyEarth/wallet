@@ -1,9 +1,6 @@
 Template.modal.helpers({
   showModal: function () {
     return Session.get('showModal');
-  },
-  showNotice: function () {
-    return Session.get('showNotice');
   }
 });
 
