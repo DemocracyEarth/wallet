@@ -2951,11 +2951,11 @@ blockquote {
   right: 50%;
   z-index: 9000;
   display: block;
-  width: 250px;
-  max-width: 250px;
+  width: 300px;
+  max-width: 300px;
   margin-top: 70px;
   margin-right: auto;
-  margin-left: auto;
+  margin-left: -150px;
   padding: 3px 10px;
   border-bottom: 2px solid #ffe079;
   border-radius: 5px;
