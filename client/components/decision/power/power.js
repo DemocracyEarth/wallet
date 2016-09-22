@@ -1,4 +1,5 @@
 Template.power.rendered = function (user) {
+  if (!Meteor.user().profile) { return };
   Session.set('newVote', new Wallet(Meteor.user().profile.wallet));
   $("#voteHandle").draggable({
     axis: "x",
@@ -17,6 +18,10 @@ Template.power.helpers({
   label: function () {
     var wallet = Session.get('newVote');
     var contract = Session.get('contract');
+
+    if (contract == undefined) {
+      return TAPi18n.__('contract-votes-pending');
+    };
 
     if (wallet != undefined) {
       switch (wallet.mode) {
@@ -108,12 +113,14 @@ Template.bar.helpers({
     }
   },
   alreadyVoted: function () {
-    if (Session.get('contract').wallet != undefined) {
-      var voted = Modules.client.verifyVote(Session.get('contract').wallet.ledger, Meteor.user()._id);
-      Session.set('alreadyVoted', voted);
-      return voted;
-    } else {
-      return false;
+    if (Session.get('contract')) {
+      if (Session.get('contract').wallet != undefined) {
+        var voted = Modules.client.verifyVote(Session.get('contract').wallet.ledger, Meteor.user()._id);
+        Session.set('alreadyVoted', voted);
+        return voted;
+      } else {
+        return false;
+      }
     }
   }
 });

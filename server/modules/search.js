@@ -15,7 +15,11 @@ SearchSource.defineSource('contracts', function(searchText, options) {
   var options = {sort: {isoScore: -1}};
   if(searchText) {
     var regExp = buildRegExp(searchText);
-    var selector = {title: regExp, collectiveId: Meteor.settings.public.Collective._id};
+    var selector = {
+      title: regExp,
+      collectiveId: Meteor.settings.public.Collective._id,
+      kind: KIND_VOTE
+    };
     return Contracts.find(selector, options).fetch();
   } else {
     return Contracts.find({collectiveId: Meteor.settings.public.Collective._id}, options).fetch();

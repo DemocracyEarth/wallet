@@ -1,16 +1,20 @@
 Template.agora.helpers({
   emptyThread: function () {
-    if (Session.get('contract').events != undefined) {
-      if (Session.get('contract').events.length > 0) {
-        return false;
+    if (Session.get('contract')) {
+      if (Session.get('contract').events != undefined) {
+        if (Session.get('contract').events.length > 0) {
+          return false;
+        } else {
+          return true;
+        }
       } else {
         return true;
       }
-    } else {
-      return true;
     }
   },
   event: function () {
-    return Session.get('contract').events;
+    if (Session.get('contract')) {
+      return Session.get('contract').events;
+    }
   }
 });

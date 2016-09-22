@@ -21,13 +21,15 @@ Template.title.helpers({
     return '';
   },
   declaration: function() {
-    var title = Contracts.findOne( { _id: Session.get('contract')._id },{reactive: false} ).title;
-    if (title == '' || title == undefined) {
-      Session.set('missingTitle', true);
-      return TAPi18n.__('no-title');
-    } else {
-      Session.set('missingTitle', false);
-      return title;
+    if (Session.get('contract')) {
+      var title = Contracts.findOne( { _id: Session.get('contract')._id },{reactive: false} ).title;
+      if (title == '' || title == undefined) {
+        Session.set('missingTitle', true);
+        return TAPi18n.__('no-title');
+      } else {
+        Session.set('missingTitle', false);
+        return title;
+      }
     }
   },
   sampleMode: function() {
@@ -41,15 +43,17 @@ Template.title.helpers({
     var host =  window.location.host;
     var keyword = '';
 
-    if (Session.get('contractKeyword') == undefined) {
-      Session.set('contractKeyword', Session.get('contract').keyword);
-    } else if (Session.get('contractKeyword') != Session.get('contract').keyword) {
-      keyword = Session.get('contractKeyword');
-    } else {
-      keyword = Session.get('contract').keyword;
-    }
+    if (Session.get('contract')) {
+      if (Session.get('contractKeyword') == undefined) {
+        Session.set('contractKeyword', Session.get('contract').keyword);
+      } else if (Session.get('contractKeyword') != Session.get('contract').keyword) {
+        keyword = Session.get('contractKeyword');
+      } else {
+        keyword = Session.get('contract').keyword;
+      }
 
-    return host + "/" + Session.get('contract').kind.toLowerCase() + "/<strong>" + keyword + "</strong>";
+      return host + "/" + Session.get('contract').kind.toLowerCase() + "/<strong>" + keyword + "</strong>";
+    }
   },
   missingTitle: function () {
     if (Session.get('missingTitle')) {
@@ -75,24 +79,26 @@ Template.title.helpers({
     return Session.get('duplicateURL');
   },
   timestamp: function () {
-    var d = new Date;
-    if (Session.get('contract').timestamp != undefined) {
-      d = Session.get('contract').timestamp;
-      return d.format('{Month} {d}, {yyyy}');
+    if (Session.get('contract')) {
+      var d = new Date;
+      if (Session.get('contract').timestamp != undefined) {
+        d = Session.get('contract').timestamp;
+        return d.format('{Month} {d}, {yyyy}');
+      }
     }
   },
   executionStatus: function () {
-    if (Session.get('contract').executionStatus != undefined) {
+    if (Session.get('contract') != undefined) {
       return Session.get('contract').executionStatus;
     }
   },
   stageLabel: function () {
-    if (Session.get('contract').stage != undefined) {
+    if (Session.get('contract') != undefined) {
       return Session.get('contract').stage;
     }
   },
   closingDate: function () {
-    if (Session.get('contract').closingDate != undefined) {
+    if (Session.get('contract') != undefined) {
       return Session.get('contract').closingDate;
     }
   }

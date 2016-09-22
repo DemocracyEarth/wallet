@@ -1,7 +1,9 @@
 //Makes tags in contract draggable
 Template.semantics.rendered = function () {
 
-  if (Session.get('contract').stage == 'DRAFT') {
+  if (!Session.get('contract')) { return };
+  
+  if (Session.get('contract').stage == STAGE_DRAFT) {
 
     this.$('#tagSuggestions, #tagList').sortable({
         stop: function(e, ui) {

@@ -5,32 +5,33 @@ let startEditor = () => {
   var titleContent = document.getElementById('titleContent');
   var editor = document.getElementById('editor');
 
-  //Place caret in right place
-  if (Session.get('contract').stage == 'DRAFT') {
+  if (Session.get('contract')) {
+    //Place caret in right place
+    if (Session.get('contract').stage == 'DRAFT') {
 
-    titleContent.focus();
-    Session.set('userSigned', false);
-    Session.set('dbContractBallot', undefined);
-    Session.set('emptyBallot', false);
+      titleContent.focus();
+      Session.set('userSigned', false);
+      Session.set('dbContractBallot', undefined);
+      Session.set('emptyBallot', false);
 
-    //Empty new document
-    if (Session.get('contract').title == '') {
-      titleContent.innerHTML = TAPi18n.__('no-title');
-      Session.set('missingTitle', true);
-      Session.set('firstEditorLoad', true);
-      Session.set('disableActionButton', true);
-      Modules.both.placeCaretAtStart(titleContent);
+      //Empty new document
+      if (Session.get('contract').title == '') {
+        titleContent.innerHTML = TAPi18n.__('no-title');
+        Session.set('missingTitle', true);
+        Session.set('firstEditorLoad', true);
+        Session.set('disableActionButton', true);
+        Modules.both.placeCaretAtStart(titleContent);
 
-    //Open existing document
-    } else {
-      Session.set('firstEditorLoad', false);
-      Modules.both.placeCaretAtEnd(titleContent);
+      //Open existing document
+      } else {
+        Session.set('firstEditorLoad', false);
+        Modules.both.placeCaretAtEnd(titleContent);
+      }
+
     }
-
+    //Keyword based URL
+    Session.set('contractKeyword', Session.get('contract').keyword);
   }
-
-  //Keyword based URL
-  Session.set('contractKeyword', Session.get('contract').keyword);
 
 }
 

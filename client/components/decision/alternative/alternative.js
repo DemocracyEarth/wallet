@@ -66,10 +66,10 @@ Template.alternative.helpers({
   },
   newProposalStatus: function () {
     switch (Session.get("proposalURLStatus")) {
-      case "VERIFY":
-      case "UNAVAILABLE":
+      case URL_STATUS_VERIFY:
+      case URL_STATUS_UNAVAILABLE:
         return 'action-search-disabled';
-      case "AVAILABLE":
+      case URL_STATUS_AVAILABLE:
         return '';
     }
   },
@@ -95,10 +95,10 @@ Template.alternative.helpers({
   },
   addBallot: function () {
     switch (Session.get("proposalURLStatus")) {
-      case "VERIFY":
-      case "UNAVAILABLE":
+      case URL_STATUS_VERIFY:
+      case URL_STATUS_UNAVAILABLE:
         return 'disabled';
-      case "AVAILABLE":
+      case URL_STATUS_AVAILABLE:
         return ''
       }
   }
@@ -144,13 +144,13 @@ function instaProposalCreator(content) {
   var contract = Contracts.findOne( { keyword: keyword } );
 
   Meteor.clearTimeout(typingTimer);
-  Session.set('proposalURLStatus', 'VERIFY');
+  Session.set('proposalURLStatus', URL_STATUS_VERIFY);
 
   typingTimer = Meteor.setTimeout(function () {
     if (contract != undefined) {
-        Session.set('proposalURLStatus', 'UNAVAILABLE');
+        Session.set('proposalURLStatus', URL_STATUS_UNAVAILABLE);
     } else {
-      Session.set('proposalURLStatus', 'AVAILABLE');
+      Session.set('proposalURLStatus', URL_STATUS_AVAILABLE);
     }
   }, SERVER_INTERVAL);
 

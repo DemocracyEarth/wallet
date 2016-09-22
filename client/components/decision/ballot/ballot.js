@@ -2,8 +2,8 @@ var rank = 0;
 
 Template.ballot.rendered = function () {
     rank = 0;
-
-    if (Session.get('contract').stage == 'DRAFT') {
+    if (!Session.get('contract')) { return };
+    if (Session.get('contract').stage == STAGE_DRAFT) {
 
       //Dragable options
       this.$('#ballotOption, #proposalSuggestions').sortable({
@@ -78,21 +78,25 @@ Template.ballot.helpers({
     return Session.get('contract').multipleChoice;
   },
   executiveDecision: function () {
-    //console.log('[ballot helper] executiveDecision in contract = ' + Session.get('contract').executiveDecision);
-    if (Session.get('contract').executiveDecision == true) {
-      Session.set('emptyBallot', false);
-    } else {
-      if (Session.get('ballotReady') == false) {
-        Session.set('emptyBallot', true);
+    if (Session.get('contract')) {
+      if (Session.get('contract').executiveDecision == true) {
+        Session.set('emptyBallot', false);
+      } else {
+        if (Session.get('ballotReady') == false) {
+          Session.set('emptyBallot', true);
+        }
       }
+      return Session.get('contract').executiveDecision;
     }
-    return Session.get('contract').executiveDecision;
   },
-  //ballot
   options: function () {
     var contractBallot;
     if (Session.get('dbContractBallot') == undefined) {
-      contractBallot = Session.get('contract').ballot;
+      if (Session.get('contract')) {
+        contractBallot = Session.get('contract').ballot;
+      } else {
+        contractBallot = undefined;
+      }
     } else {
       contractBallot = Session.get('dbContractBallot');
     }

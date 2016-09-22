@@ -1,4 +1,5 @@
 Template.signatures.rendered = function () {
+  if (!Session.get('contract')) { return };
   var contractAuthors = Session.get('contract').signatures;
   if (contractAuthors != undefined) {
     for (var i = 0; i < contractAuthors.length; i++ ) {
@@ -20,16 +21,18 @@ Template.signatures.helpers({
     return Session.get('userSigned');
   },
   signer: function () {
-    var signerIds = new Array();
-    if (Session.get('contract').signatures != undefined) {
-      for (var i=0; i < Session.get('contract').signatures.length; i++) {
-        signerIds.push(Session.get('contract').signatures[i]._id);
-      }
-      return signerIds;
-    } else {
-      //is anonymous
-      if (!this.editorMode) {
-        return [Modules.both.getAnonymous()];
+    if (Session.get('contract')) {
+      var signerIds = new Array();
+      if (Session.get('contract').signatures != undefined) {
+        for (var i=0; i < Session.get('contract').signatures.length; i++) {
+          signerIds.push(Session.get('contract').signatures[i]._id);
+        }
+        return signerIds;
+      } else {
+        //is anonymous
+        if (!this.editorMode) {
+          return [Modules.both.getAnonymous()];
+        }
       }
     }
   }
