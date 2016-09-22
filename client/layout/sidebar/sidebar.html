@@ -6,8 +6,8 @@
 
     <ul class="menu w-clearfix w-list-unstyled">
 
-      {{> inbox label='decisions' separator=true}}
-      
+      {{> inbox label='proposals' separator=true}}
+
       {{#each decisions}}
         {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon iconActivated=iconActivated feed=feed}}
       {{/each}}
