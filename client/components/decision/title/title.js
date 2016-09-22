@@ -21,7 +21,7 @@ Template.title.helpers({
     return '';
   },
   declaration: function() {
-    var title = Contracts.findOne( { _id: Session.get('contractId') },{reactive: false} ).title;
+    var title = Contracts.findOne( { _id: Session.get('contract')._id },{reactive: false} ).title;
     if (title == '' || title == undefined) {
       Session.set('missingTitle', true);
       return TAPi18n.__('no-title');
@@ -137,7 +137,7 @@ Template.title.events({
 
     //Call function when typing seems to be finished.
     typingTimer = Meteor.setTimeout(function () {
-      if (contract != undefined && contract._id != Session.get('contractId')) {
+      if (contract != undefined && contract._id != Session.get('contract')._id) {
           Session.set('URLStatus', 'UNAVAILABLE');
       } else {
         if (Contracts.update({_id : Session.get('contract')._id }, { $set: { title: content, keyword: keyword, url: "/" + Session.get('contract').kind.toLowerCase() + "/" + keyword }})) {

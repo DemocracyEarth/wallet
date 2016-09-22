@@ -61,7 +61,7 @@ function initCalendar () {
         Session.set('backdating', false);
         Session.set('showCalendar', !Session.get('showCalendar'));
         Session.set('displaySelector', !Session.get('displaySelector'));
-        Meteor.call('updateContractField', Session.get('contractId'), "closingDate", e.date);
+        Meteor.call('updateContractField', Session.get('contract')._id, "closingDate", e.date);
       } else {
         Session.set('backdating', true);
       }

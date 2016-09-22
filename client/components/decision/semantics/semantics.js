@@ -45,7 +45,7 @@ Template.semantics.rendered = function () {
 
   }
 
-  Session.set('dbTagList', Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).tags );
+  Session.set('dbTagList', Contracts.findOne( { _id: Session.get('contract')._id }, {reactive: false}).tags );
 
 };
 

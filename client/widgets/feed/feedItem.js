@@ -51,11 +51,11 @@ Template.feedItem.events({
     );
   },
   'click .micro-button-addballot': function (event) {
-    Meteor.call("addCustomForkToContract", Session.get('contractId'), event.target.parentNode.getAttribute('id'), function (error) {
+    Meteor.call("addCustomForkToContract", Session.get('contract')._id, event.target.parentNode.getAttribute('id'), function (error) {
         if (error && error.error == 'duplicate-fork') {
           Session.set('duplicateFork', true)
         } else {
-          Session.set('dbContractBallot', Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).ballot );
+          Session.set('dbContractBallot', Contracts.findOne( { _id: Session.get('contract')._id }, {reactive: false}).ballot );
         }
     });
   }

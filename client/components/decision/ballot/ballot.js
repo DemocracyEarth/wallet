@@ -12,7 +12,7 @@ Template.ballot.rendered = function () {
           $('#ballotOption li').each(function( index ) {
             rankOrder.push($( this ).attr('value'));
           });
-          Meteor.call('updateBallotRank', Session.get('contractId'), rankOrder);
+          Meteor.call('updateBallotRank', Session.get('contract')._id, rankOrder);
           Session.set('removeProposal', false);
           if (rankOrder.length == 0) {
             Session.set('ballotReady', false);
@@ -45,7 +45,7 @@ Template.ballot.rendered = function () {
         beforeStop: function(e, ui) {
           if (sortableIn == false) {
             if (Session.get('removeProposal')) {
-              Meteor.call("removeFork", Session.get('contractId'), ui.item.get(0).getAttribute('value'));
+              Meteor.call("removeFork", Session.get('contract')._id, ui.item.get(0).getAttribute('value'));
               ui.item.get(0).remove();
               Session.set('removeProposal', false);
             }
@@ -174,7 +174,7 @@ Template.ballot.helpers({
 Template.ballot.events({
   "submit #fork-form, click #add-fork-proposal": function (event) {
     event.preventDefault();
-    Meteor.call('addCustomForkToContract', Session.get('contractId'), document.getElementById('text-fork-proposal').value, function(error) {
+    Meteor.call('addCustomForkToContract', Session.get('contract')._id, document.getElementById('text-fork-proposal').value, function(error) {
       if (error && error.error == 'duplicate-fork') {
         Session.set('duplicateFork', true)
       }

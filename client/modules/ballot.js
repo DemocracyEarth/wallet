@@ -41,7 +41,7 @@ let addNewProposal = () => {
           if (error && error.error == 'duplicate-fork') {
             Session.set('duplicateFork', true)
           } else {
-            Session.set('dbContractBallot', Contracts.findOne( { _id: Session.get('contractId') }, {reactive: false}).ballot );
+            Session.set('dbContractBallot', Contracts.findOne( { _id: Session.get('contract')._id }, {reactive: false}).ballot );
             ProposalSearch.search('');
             document.getElementById("searchInput").innerHTML = '';
             Session.set('proposalURLStatus', 'UNAVAILABLE');

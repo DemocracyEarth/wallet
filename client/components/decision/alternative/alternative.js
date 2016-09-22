@@ -74,7 +74,7 @@ Template.alternative.helpers({
     }
   },
   emptyList: function () {
-    if (Contracts.findOne( { _id: Session.get('contractId') } ).tags.length == 0) {
+    if (Contracts.findOne( { _id: Session.get('contract')._id } ).tags.length == 0) {
       return '';
     } else {
       return 'display:none';
