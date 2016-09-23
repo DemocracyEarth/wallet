@@ -347,7 +347,7 @@
   "stage-draft-kind-delegation": "Pending Delegations",
   "stage-draft-kind-membership": "Membership Requests",
   "stage-draft": "Drafts",
-  "stage-live-kind-vote-execution-open": "Votable Proposals",
+  "stage-live-kind-vote-executionstatus-open": "Votable Proposals",
   "stage-live-kind-vote-peer": "Participations",
-  "stage-finish-kind-vote-execution-approved": "Approvals"
+  "stage-finish-kind-vote-executionstatus-approved": "Approvals"
 }

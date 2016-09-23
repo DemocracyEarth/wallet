@@ -22,7 +22,7 @@ let sidebarMenu = (feed) => {
 /* @param {array} arrMenu - arry items from menu
 ******/
 let _toggleSelectedItem = (arrMenu) => {
-  if (Session.get('sidebarMenuSelectedId') != undefined) {
+  if (Session.get('sidebarMenuSelectedId')) {
     for (item in arrMenu) {
       if (arrMenu[item].id == Session.get('sidebarMenuSelectedId')) {
         arrMenu[item].selected = true;
@@ -114,7 +114,7 @@ let _getDecisionsMenu = (feed) => {
       feed: FEED_VOTE_LIVE,
       value: _getSectionValue(FEED_VOTE_LIVE),
       separator: false,
-      url: '/feed?stage=' + STAGE_LIVE.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase() + '&execution=' + EXECUTION_STATUS_OPEN.toLowerCase(),
+      url: 'feed?stage=' + STAGE_LIVE.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase() + '&executionstatus=' + EXECUTION_STATUS_OPEN.toLowerCase(),
       selected: _verifySelection(FEED_VOTE_LIVE, feed)
     },
     {
@@ -136,7 +136,7 @@ let _getDecisionsMenu = (feed) => {
       feed: FEED_VOTE_FINISH_APPROVED,
       value: _getSectionValue(FEED_VOTE_FINISH_APPROVED),
       separator: false,
-      url: '/feed?stage=' + STAGE_FINISH.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase() + '&execution=' + EXECUTION_STATUS_APPROVED.toLowerCase(),
+      url: '/feed?stage=' + STAGE_FINISH.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase() + '&executionstatus=' + EXECUTION_STATUS_APPROVED.toLowerCase(),
       selected: _verifySelection(FEED_VOTE_FINISH_APPROVED, feed)
     },
     {
