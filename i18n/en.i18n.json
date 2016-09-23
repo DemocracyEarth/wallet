@@ -349,5 +349,6 @@
   "stage-draft": "Drafts",
   "stage-live-kind-vote-executionstatus-open": "Votable Proposals",
   "stage-live-kind-vote-peer": "Participations",
-  "stage-finish-kind-vote-executionstatus-approved": "Approvals"
+  "stage-finish-kind-vote-executionstatus-approved": "Approvals",
+  "no-delegations-found": "You don't have delegates in this collective."
 }

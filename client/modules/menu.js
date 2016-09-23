@@ -114,7 +114,7 @@ let _getDecisionsMenu = (feed) => {
       feed: FEED_VOTE_LIVE,
       value: _getSectionValue(FEED_VOTE_LIVE),
       separator: false,
-      url: 'feed?stage=' + STAGE_LIVE.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase() + '&executionstatus=' + EXECUTION_STATUS_OPEN.toLowerCase(),
+      url: '/feed?stage=' + STAGE_LIVE.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase() + '&executionstatus=' + EXECUTION_STATUS_OPEN.toLowerCase(),
       selected: _verifySelection(FEED_VOTE_LIVE, feed)
     },
     {

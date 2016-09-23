@@ -16,6 +16,10 @@
 
       {{#each delegates}}
         {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon isAvatar=true iconActivated=iconActivated feed=feed}}
+      {{else}}
+        <div class="menu menu-empty">
+          {{_ 'no-delegations-found'}}
+        </div>
       {{/each}}
 
     </ul>
