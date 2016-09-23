@@ -27,7 +27,10 @@ Template.navigation.rendered = function () {
 Template.navigation.helpers({
   screen: function () {
     if (Session.get('navbar')) {
+      document.title = TAPi18n.__('democracy-of') + ' ' + Meteor.settings.public.Collective.name + ' - ' + Session.get('navbar').title;
       return Session.get('navbar').title;
+    } else {
+      document.title = TAPi18n.__('democracy-earth');
     }
   },
   icon: function () {

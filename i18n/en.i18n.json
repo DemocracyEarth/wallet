@@ -350,5 +350,8 @@
   "stage-live-kind-vote-executionstatus-open": "Votable Proposals",
   "stage-live-kind-vote-peer": "Participations",
   "stage-finish-kind-vote-executionstatus-approved": "Approvals",
-  "no-delegations-found": "You don't have delegates in this collective."
+  "no-delegations-found": "No delegates found in this collective.",
+  "no-decisions-found": "No public decisions in this collective.",
+  "democracy-earth": "Democracy Earth",
+  "democracy-of": "Democracy of"
 }
