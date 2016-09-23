@@ -21,16 +21,18 @@ Template.title.helpers({
     return '';
   },
   declaration: function() {
-    if (Session.get('contract')) {
-      var title = Contracts.findOne( { _id: Session.get('contract')._id },{reactive: false} ).title;
-      if (title == '' || title == undefined) {
-        Session.set('missingTitle', true);
-        return TAPi18n.__('no-title');
-      } else {
-        Session.set('missingTitle', false);
-        return title;
-      }
+    if (!Session.get('contract')) { return };
+    var contract = Contracts.findOne( { _id: Session.get('contract')._id },{reactive: false} )
+    if (!contract) { return };
+    var title = contract.title;
+    if (title == '' || title == undefined) {
+      Session.set('missingTitle', true);
+      return TAPi18n.__('no-title');
+    } else {
+      Session.set('missingTitle', false);
+      return title;
     }
+
   },
   sampleMode: function() {
     if (Session.get('missingTitle')) {

@@ -108,17 +108,6 @@ let _getDecisionsMenu = (feed) => {
   menu.push(
     {
       id: 0,
-      label: TAPi18n.__(FEED_VOTE_DRAFT),
-      icon: 'images/decision-draft.png',
-      iconActivated: 'images/decision-draft-active.png',
-      feed: FEED_VOTE_DRAFT,
-      value: _getSectionValue(FEED_VOTE_DRAFT),
-      separator: false,
-      url: '/feed?stage=' + STAGE_DRAFT.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase(),
-      selected: _verifySelection(FEED_VOTE_DRAFT, feed)
-    },
-    {
-      id: 1,
       label: TAPi18n.__(FEED_VOTE_LIVE),
       icon: 'images/decision-open.png',
       iconActivated: 'images/decision-open-active.png',
@@ -129,7 +118,7 @@ let _getDecisionsMenu = (feed) => {
       selected: _verifySelection(FEED_VOTE_LIVE, feed)
     },
     {
-      id: 2,
+      id: 1,
       label: TAPi18n.__(FEED_VOTE_LIVE_PEER),
       icon: 'images/decision-vote.png',
       iconActivated: 'images/decision-vote-active.png',
@@ -140,7 +129,7 @@ let _getDecisionsMenu = (feed) => {
       selected: _verifySelection(FEED_VOTE_LIVE_PEER, feed)
     },
     {
-      id: 3,
+      id: 2,
       label: TAPi18n.__(FEED_VOTE_FINISH_APPROVED),
       icon: 'images/decision-approved.png',
       iconActivated: 'images/decision-approved-active.png',
@@ -149,6 +138,17 @@ let _getDecisionsMenu = (feed) => {
       separator: false,
       url: '/feed?stage=' + STAGE_FINISH.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase() + '&execution=' + EXECUTION_STATUS_APPROVED.toLowerCase(),
       selected: _verifySelection(FEED_VOTE_FINISH_APPROVED, feed)
+    },
+    {
+      id: 3,
+      label: TAPi18n.__(FEED_VOTE_DRAFT),
+      icon: 'images/decision-draft.png',
+      iconActivated: 'images/decision-draft-active.png',
+      feed: FEED_VOTE_DRAFT,
+      value: _getSectionValue(FEED_VOTE_DRAFT),
+      separator: false,
+      url: '/feed?stage=' + STAGE_DRAFT.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase(),
+      selected: _verifySelection(FEED_VOTE_DRAFT, feed)
     }
   );
 
@@ -163,7 +163,7 @@ let _getDecisionsMenu = (feed) => {
 /* @param {string} feed - feed name from url query
 ******/
 let _getSectionValue = (feed) => {
-  if ( Meteor.user() != undefined) {
+  if (Meteor.user() != undefined) {
     var menu = Meteor.user().profile.menu;
     if (menu != undefined && menu.length > 0) {
       for (item in menu) {
