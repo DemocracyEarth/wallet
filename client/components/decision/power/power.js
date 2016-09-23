@@ -1,5 +1,5 @@
 Template.power.rendered = function (user) {
-  if (!Meteor.user().profile) { return };
+  if (!Meteor.user()) { return };
   Session.set('newVote', new Wallet(Meteor.user().profile.wallet));
   $("#voteHandle").draggable({
     axis: "x",

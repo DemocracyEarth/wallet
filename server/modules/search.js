@@ -22,7 +22,10 @@ SearchSource.defineSource('contracts', function(searchText, options) {
     };
     return Contracts.find(selector, options).fetch();
   } else {
-    return Contracts.find({collectiveId: Meteor.settings.public.Collective._id}, options).fetch();
+    return Contracts.find({
+      collectiveId: Meteor.settings.public.Collective._id,
+      kind: KIND_VOTE
+    }, options).fetch();
   }
 });
 
