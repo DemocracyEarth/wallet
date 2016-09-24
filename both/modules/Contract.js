@@ -222,11 +222,8 @@ let _sign = (contractId, userObject, role) => {
         _id: userObject._id,
         role: role,
         hash: '', //TODO pending crypto TBD
-        picture: userObject.profile.picture,
-        firstName: userObject.profile.firstName,
-        lastName: userObject.profile.lastName,
-        country: userObject.profile.country,
-        username: userObject.username
+        username: userObject.username,
+        status: SIGNATURE_STATUS_CONFIRMED
       }
   }});
 
