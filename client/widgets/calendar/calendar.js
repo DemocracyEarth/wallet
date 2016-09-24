@@ -13,7 +13,6 @@ Template.calendar.helpers({
   closingDate: function () {
     var today = new Date();
     var d = new Date();
-
     if (today > Session.get('contract').closingDate) {
       var contract = Session.get('contract');
       contract.closingDate = today

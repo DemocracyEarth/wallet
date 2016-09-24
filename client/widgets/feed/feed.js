@@ -1,6 +1,11 @@
 Template.feed.rendered = function () {
   Session.set('editorMode', false);
   Session.set('voterMode', false);
+
+  if ($('.right').scrollTop() > 0) {
+    $('.right').animate({ scrollTop: 0 });
+  }
+
 };
 
 Template.feed.helpers({
