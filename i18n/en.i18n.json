@@ -238,7 +238,7 @@
   "delegates": "Delegates",
   "all": "All",
   "live-votes": "Votable",
-  "approved-votes": "Approvals",
+  "approved-votes": "Approved Proposals",
   "vote-drafts": "Drafts",
   "proposals": "Proposals",
   "empty-feed-label-delegation": "No delegations found.",
@@ -349,10 +349,12 @@
   "stage-draft": "Drafts",
   "stage-live-kind-vote-executionstatus-open": "Votable Proposals",
   "stage-live-kind-vote-peer": "Participations",
-  "stage-finish-kind-vote-executionstatus-approved": "Approvals",
+  "stage-finish-kind-vote-executionstatus-approved": "Approved Proposals",
   "no-delegations-found": "No delegates found in this collective.",
   "no-decisions-found": "No public decisions in this collective.",
   "democracy-earth": "Democracy Earth",
   "democracy-of": "Democracy of",
-  "tagged": "Tag "
+  "tagged": "Tag",
+  "vote": "Vote",
+  "proposal": "Proposal"
 }

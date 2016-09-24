@@ -193,7 +193,7 @@ let _getProfileFromUsername = (username) => {
   if (user) {
     return user.profile;
   } else {
-
+    //TODO if not found in query, request server for info
   }
   return false;
 }

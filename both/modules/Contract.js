@@ -60,7 +60,6 @@ let _newDelegation = (delegatorId, delegateId, keywordTitle) => {
     };
 
     Meteor.call('insertContract', newDelegation, function(error, result) {
-      console.log(result);
       if (!error) {
         Router.go(Contracts.findOne({ _id: result }).url);
       }
@@ -84,7 +83,6 @@ let _sendDelegation = (sourceId, targetId, quantity, conditions) => {
     if (err) {
       throw new Meteor.Error(err, '[_sendDelegation]: transaction failed.') ;
     } else {
-      console.log('successsss')
       //update contract status
       _updateContractSignatures();
       Session.set('newVote', new Wallet(Meteor.user().profile.wallet));
