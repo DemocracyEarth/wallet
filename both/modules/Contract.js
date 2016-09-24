@@ -199,7 +199,7 @@ let _remove = (contractId) => {
 let _publish = (contractId) => {
 
   //Contracts.remove({_id: contractId});
-  Contracts.update({ _id: contractId }, { $set: { stage: 'LIVE' } })
+  Contracts.update({ _id: contractId }, { $set: { stage: STAGE_LIVE } })
 
   Router.go('/');
 
@@ -221,11 +221,12 @@ let _sign = (contractId, userObject, role) => {
       {
         _id: userObject._id,
         role: role,
-        hash: '', //TODO implement PGP signature
+        hash: '', //TODO pending crypto TBD
         picture: userObject.profile.picture,
         firstName: userObject.profile.firstName,
         lastName: userObject.profile.lastName,
-        country: userObject.profile.country
+        country: userObject.profile.country,
+        username: userObject.username
       }
   }});
 

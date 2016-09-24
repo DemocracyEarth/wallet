@@ -115,10 +115,8 @@ Meteor.methods({
 
   getUserInfo: function (userId) {
     var objUser = Meteor.users.findOne({ _id: userId });
-    console.log('getUserInfo');
-    console.log(objUser);
     if (objUser) {
-      if (objUser['emails']) { delete objUser['emails']; }; 
+      if (objUser['emails']) { delete objUser['emails']; };
       return objUser;
     } else {
       return false;

@@ -217,6 +217,10 @@ Schema.Contract = new SimpleSchema({
       };
     }
   },
+  "signatures.$.username": {
+    type: String,
+    optional: true
+  },
   "signatures.$.role": {
     type: String,
     allowedValues: [ROLE_AUTHOR, ROLE_DELEGATOR, ROLE_DELEGATE, ROLE_ENDORSER],

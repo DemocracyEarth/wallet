@@ -2,6 +2,7 @@ Template.avatar.rendered = function () {
   Session.set('editor', false);
 }
 
+//polymorphic
 Template.avatar.helpers({
   url: function () {
     if (this.profile == undefined) {
