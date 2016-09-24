@@ -92,6 +92,8 @@ function disableContractExecution() {
       } else {
         return true;
       }
+    } else {
+      return false;
     }
   }
 }

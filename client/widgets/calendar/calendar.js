@@ -11,7 +11,15 @@ Template.dateSelector.rendered = function () {
 
 Template.calendar.helpers({
   closingDate: function () {
-    var d = new Date()
+    var today = new Date();
+    var d = new Date();
+
+    if (today > Session.get('contract').closingDate) {
+      var contract = Session.get('contract');
+      contract.closingDate = today
+      contract.closingDate.setDate(today.getDate() + 1);
+      Session.set('contract', contract);
+    }
     d = Session.get('contract').closingDate;
     return d.format('{Month} {d}, {yyyy}');
   },
