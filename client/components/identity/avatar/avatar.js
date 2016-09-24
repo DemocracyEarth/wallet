@@ -13,18 +13,20 @@ Template.avatar.helpers({
       if (!this.username) {
         if (!this._id) {
           if (this.profile._id) {
-            var stringId = new String(this.profile._id + 'url');
+            var stringId = new String(this.profile._id);
           } else {
-            var stringId = new String(this.profile + 'url');
+            var stringId = new String(this.profile);
           }
         } else {
-          var stringId = new String(this._id + 'url');
+          var stringId = new String(this._id);
         }
       } else {
-        var stringId = new String(this.username + 'url');
+        var stringId = new String(this.username);
       }
     }
-    Modules.both.getUserInfo(stringId.slice(0, -3), stringId);
+    if (!Session.get(stringId)) {
+      Modules.both.getUserInfo(stringId.slice(0, -3), stringId);
+    }
     if (Session.get(stringId)) {
       return '/peer/' + Session.get(stringId).username;
     }
@@ -86,7 +88,7 @@ Template.avatar.helpers({
         return profile.picture;
       } else {
         //it's a user id.
-        var stringId = new String(profile + Meteor.userId() + 'pic');
+        var stringId = new String(profile);
         Modules.both.getUserInfo(profile, stringId);
         if (Session.get(stringId) != undefined && Session.get(stringId).profile != undefined) {
           return Session.get(stringId).profile.picture;
@@ -118,7 +120,7 @@ Template.avatar.helpers({
         return Modules.both.showFullName(profile.firstName, profile.lastName);
       } else {
         //it's a user id.
-        var stringId = new String(profile + Meteor.userId() + 'name');
+        var stringId = new String(profile);
         Modules.both.getUserInfo(profile, stringId);
 
         if (Session.get(stringId) != undefined && Session.get(stringId).profile != undefined) {
@@ -148,7 +150,7 @@ Template.avatar.helpers({
         }
       } else {
         //it's a user id.
-        var stringId = new String(profile + Meteor.userId() + 'country');
+        var stringId = new String(profile);
         Modules.both.getUserInfo(profile, stringId);
         if (Session.get(stringId) != undefined) {
           var country = Modules.client.searchJSON(geoJSON.country, Session.get(stringId).profile.country.name);

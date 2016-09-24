@@ -137,13 +137,15 @@ let _validateUsername = (username) => {
 ****/
 let _fetchUser = (userId, sessionVar) => {
 
-  Meteor.call('getUserInfo', userId, function (error, data) {
-    if (error)
-      console.log(error);
+  if (!Session.get(sessionVar)) {
+    Meteor.call('getUserInfo', userId, function (error, data) {
+      if (error)
+        console.log(error);
 
-      //TODO filter to deliver only what necessary
-    Session.set(sessionVar, data);
-  });
+        //TODO filter to deliver only what necessary
+      Session.set(sessionVar, data);
+    });
+  }
 
 }
 

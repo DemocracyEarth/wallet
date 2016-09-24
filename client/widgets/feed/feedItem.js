@@ -27,6 +27,14 @@ Template.feedItem.helpers({
   },
   embeddedMode: function () {
     return Session.get('embeddedMode');
+  },
+  signatures: function () {
+    //console.log(Modules.both.getAnonymous())
+    if (this.signatures) {
+      return this.signatures;
+    } else {
+      return [Modules.both.getAnonymous()]
+    }
   }
 });
 
