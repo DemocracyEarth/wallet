@@ -1,5 +1,5 @@
 Template.tag.rendered = function () {
-  behave(this.firstNode, 'fade');
+  //behave(this.firstNode, 'fade');
 };
 
 Template.tag.helpers({
