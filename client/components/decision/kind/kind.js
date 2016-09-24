@@ -3,18 +3,18 @@ Template.kind.helpers({
       var kind = Session.get('contract').kind;
 
       switch(kind) {
-        case 'VOTE':
+        case KIND_VOTE:
           Session.set('kind', kind.toLowerCase());
           switch (Session.get('contract').stage) {
-            case 'DRAFT':
+            case STAGE_DRAFT:
               Session.set('stage', 'draft');
               return  TAPi18n.__('kind-draft-vote');
               break;
-            case 'LIVE':
+            case STAGE_LIVE:
               Session.set('stage', 'live');
               return  TAPi18n.__('kind-live-vote');
               break;
-            case 'APPROVED':
+            case STAGE_FINISH:
               Session.set('stage', 'finish-approved');
               return  TAPi18n.__('kind-finish-vote-approved');
               break;

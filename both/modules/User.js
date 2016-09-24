@@ -137,7 +137,6 @@ let _validateUsername = (username) => {
 ****/
 let _fetchUser = (userId, sessionVar) => {
   if (!Session.get(sessionVar)) {
-            console.log('newuserdata')
     if (userId == '0000000') {
       Session.set(sessionVar, _getAnonObject());
     } else {
@@ -150,7 +149,6 @@ let _fetchUser = (userId, sessionVar) => {
       });
     }
   }
-
 }
 
 /***
@@ -159,26 +157,26 @@ let _fetchUser = (userId, sessionVar) => {
 let _getAnonObject = (signatureMode) => {
   if (signatureMode) {
     return {
-      _id : "0000000",
+      _id : '0000000',
       role : ROLE_AUTHOR,
-      picture : "/images/anonymous.png",
+      picture : '/images/anonymous.png',
       firstName : TAPi18n.__('anonymous'),
-      lastName : "",
+      lastName : '',
       country :
         {
-          code : "",
+          code : '',
           name : TAPi18n.__('unknown')
         }
     };
   } else {
     return {
-      _id : "0000000",
+      _id : '0000000',
       profile: {
-        picture : "/images/anonymous.png",
+        picture : '/images/anonymous.png',
         firstName : TAPi18n.__('anonymous'),
-        lastName : "",
+        lastName : '',
         country : {
-          code : "",
+          code : '',
           name : TAPi18n.__('unknown')
         }
       }
@@ -186,7 +184,39 @@ let _getAnonObject = (signatureMode) => {
   }
 }
 
+/***
+* returns a profile from a given username
+* @param {string} username - this one's obvious.
+***/
+let _getProfileFromUsername = (username) => {
+  var user = _cacheSearch('username', username);
+  if (user) {
+    return user.profile;
+  } else {
 
+  }
+  return false;
+}
+
+/***
+* searches among cached session variables
+* @param {string} param - paramater to look for
+* @param {string} value - value of parameter
+***/
+let _cacheSearch = (param, value) => {
+  var session = Session.keys;
+  for (key in Session.keys) {
+    if (key.slice(0,7) == 'profile') {
+      var json = JSON.parse(Session.keys[key]);
+      if (json[param] == value) {
+        return json;
+      }
+    }
+  }
+  return false;
+}
+
+Modules.both.getProfileFromUsername = _getProfileFromUsername;
 Modules.both.getAnonymous = _getAnonObject;
 Modules.both.getUserInfo = _fetchUser;
 Modules.both.validateUser = _validateUser;

@@ -13,15 +13,15 @@ Template.avatar.helpers({
       if (!this.username) {
         if (!this._id) {
           if (this.profile._id) {
-            var stringId = new String(this.profile._id);
+            var stringId = new String('profile' + this.profile._id);
           } else {
-            var stringId = new String(this.profile);
+            var stringId = new String('profile' + this.profile);
           }
         } else {
-          var stringId = new String(this._id);
+          var stringId = new String('profile' + this._id);
         }
       } else {
-        var stringId = new String(this.username);
+        var stringId = new String('profile' + this.username);
       }
     }
     if (!Session.get(stringId)) {
@@ -88,7 +88,7 @@ Template.avatar.helpers({
         return profile.picture;
       } else {
         //it's a user id.
-        var stringId = new String(profile);
+        var stringId = new String('profile' + profile);
         Modules.both.getUserInfo(profile, stringId);
         if (Session.get(stringId) != undefined && Session.get(stringId).profile != undefined) {
           return Session.get(stringId).profile.picture;
@@ -120,7 +120,7 @@ Template.avatar.helpers({
         return Modules.both.showFullName(profile.firstName, profile.lastName);
       } else {
         //it's a user id.
-        var stringId = new String(profile);
+        var stringId = new String('profile' + profile);
         Modules.both.getUserInfo(profile, stringId);
 
         if (Session.get(stringId) != undefined && Session.get(stringId).profile != undefined) {
@@ -150,7 +150,7 @@ Template.avatar.helpers({
         }
       } else {
         //it's a user id.
-        var stringId = new String(profile);
+        var stringId = new String('profile' + profile);
         Modules.both.getUserInfo(profile, stringId);
         if (Session.get(stringId) != undefined) {
           var country = Modules.client.searchJSON(geoJSON.country, Session.get(stringId).profile.country.name);

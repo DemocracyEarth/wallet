@@ -20,10 +20,10 @@ Template.feedItem.helpers({
     return TAPi18n.__('posted') + ' ' + Modules.client.timeSince(timestamp);
   },
   editorMode: function (stage) {
-    if (stage == 'DRAFT') { return true } else { return false };
+    if (stage == STAGE_DRAFT) { return true } else { return false };
   },
   voterMode: function (stage) {
-    if (stage == 'LIVE') { return true } else { return false };
+    if (stage == STAGE_LIVE) { return true } else { return false };
   },
   embeddedMode: function () {
     return Session.get('embeddedMode');
