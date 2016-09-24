@@ -136,15 +136,19 @@ let _validateUsername = (username) => {
 * @param {string} sessionVar - session var to update async
 ****/
 let _fetchUser = (userId, sessionVar) => {
-
   if (!Session.get(sessionVar)) {
-    Meteor.call('getUserInfo', userId, function (error, data) {
-      if (error)
-        console.log(error);
+            console.log('newuserdata')
+    if (userId == '0000000') {
+      Session.set(sessionVar, _getAnonObject());
+    } else {
+      Meteor.call('getUserInfo', userId, function (error, data) {
+        if (error)
+          console.log(error);
 
-        //TODO filter to deliver only what necessary
-      Session.set(sessionVar, data);
-    });
+          //TODO filter to deliver only what necessary
+        Session.set(sessionVar, data);
+      });
+    }
   }
 
 }
@@ -152,21 +156,34 @@ let _fetchUser = (userId, sessionVar) => {
 /***
 * returns a profile of an anonoymous user
 ***/
-let _getAnonObject = () => {
-
-  return {
-  "_id" : "0000000",
-  "role" : "AUTHOR",
-  "hash" : "",
-  "picture" : "/images/anonymous.png",
-  "firstName" : TAPi18n.__('anonymous'),
-  "lastName" : "",
-  "country" :
-    {
-      "code" : "",
-      "name" : TAPi18n.__('unknown')
-    }
-  };
+let _getAnonObject = (signatureMode) => {
+  if (signatureMode) {
+    return {
+      _id : "0000000",
+      role : ROLE_AUTHOR,
+      picture : "/images/anonymous.png",
+      firstName : TAPi18n.__('anonymous'),
+      lastName : "",
+      country :
+        {
+          code : "",
+          name : TAPi18n.__('unknown')
+        }
+    };
+  } else {
+    return {
+      _id : "0000000",
+      profile: {
+        picture : "/images/anonymous.png",
+        firstName : TAPi18n.__('anonymous'),
+        lastName : "",
+        country : {
+          code : "",
+          name : TAPi18n.__('unknown')
+        }
+      }
+    };
+  }
 }
 
 

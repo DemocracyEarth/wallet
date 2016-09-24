@@ -31,7 +31,7 @@ Template.signatures.helpers({
       } else {
         //is anonymous
         if (!this.editorMode) {
-          return [Modules.both.getAnonymous()];
+          return [Modules.both.getAnonymous(true)];
         }
       }
     }
