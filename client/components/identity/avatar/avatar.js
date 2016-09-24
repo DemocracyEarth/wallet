@@ -3,6 +3,31 @@ Template.avatar.rendered = function () {
 }
 
 Template.avatar.helpers({
+  url: function () {
+    if (this.profile == undefined) {
+      if (Meteor.user() != undefined) {
+        return '/peer/' + Meteor.user().username;
+      }
+    } else {
+      if (!this.username) {
+        if (!this._id) {
+          if (this.profile._id) {
+            var stringId = new String(this.profile._id + 'url');
+          } else {
+            var stringId = new String(this.profile + 'url');
+          }
+        } else {
+          var stringId = new String(this._id + 'url');
+        }
+      } else {
+        var stringId = new String(this.username + 'url');
+      }
+    }
+    Modules.both.getUserInfo(stringId.slice(0, -3), stringId);
+    if (Session.get(stringId)) {
+      return '/peer/' + Session.get(stringId).username;
+    }
+  },
   roleStatus: function () {
     return Modules.both.signatureStatus(Session.get('contract').signatures, this.profile);
   },
