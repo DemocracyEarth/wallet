@@ -25,6 +25,11 @@ Template.action.events({
         if (disableContractExecution() == false) {
           switch(Session.get('contract').kind) {
             case KIND_DELEGATION:
+              for (stamp in Session.get('contract').signatures) {
+                if (Session.get('contract').signatures[stamp] != Meteor.user()._id) {
+                  var counterPartyId = Session.get('contract').signatures[stamp]._id;
+                }
+              };
               Modules.client.displayModal(
                 true,
                 {
@@ -33,7 +38,8 @@ Template.action.events({
                   message         : TAPi18n.__('delegate-votes-warning').replace('<quantity>', Session.get('newVote').allocateQuantity),
                   cancel          : TAPi18n.__('not-now'),
                   action          : TAPi18n.__('delegate-votes'),
-                  isAuthorization : false
+                  displayProfile  : true,
+                  profileId       : counterPartyId
                 },
                 function() {
                   settings = {
@@ -59,7 +65,7 @@ Template.action.events({
                   message         : TAPi18n.__('publish-proposal-warning'),
                   cancel          : TAPi18n.__('not-now'),
                   action          : TAPi18n.__('publish-proposal'),
-                  isAuthorization : false
+                  displayProfile  : false
                 },
                 function() {
                   Modules.both.publishContract(Session.get('contract')._id);

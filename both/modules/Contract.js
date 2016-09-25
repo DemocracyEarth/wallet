@@ -26,19 +26,19 @@ let _newDraft = (keywordTitle) => {
 * generate delegation contract between two identities.
 * @param {string} delegatorId - identity assigning the tokens (usually currentUser)
 * @param {string} delegateId - identity that will get a request to approve this contract (profile clicked)
-* @param {string} keywordTitle - name of the contract to be specifically used for this delegation
+* @param {object} settings - basic settings for this contract
 ***/
-let _newDelegation = (delegatorId, delegateId, keywordTitle) => {
+let _newDelegation = (delegatorId, delegateId, settings) => {
   var finalTitle = new String();
   var existingDelegation = _verifyDelegation(delegatorId, delegateId);
   if (!existingDelegation) {
     //creates new
-    if (!Contracts.findOne({keyword: keywordTitle})) {
+    if (!Contracts.findOne({keyword: settings.title})) {
       //uses given title
-      finalTitle = keywordTitle;
+      finalTitle = settings.title;
     } else {
       //adds random if coincidence among people with similar names happened
-      finalTitle = keywordTitle + Modules.both.shortUUID();
+      finalTitle = settings.title + Modules.both.shortUUID();
     }
     var newDelegation =
     {
@@ -48,11 +48,13 @@ let _newDelegation = (delegatorId, delegateId, keywordTitle) => {
       signatures: [
         {
           _id: delegatorId,
+          username: settings.signatures[0].username,
           role: ROLE_DELEGATOR,
           status: SIGNATURE_STATUS_PENDING
         },
         {
           _id: delegateId,
+          username: settings.signatures[1].username,
           role: ROLE_DELEGATE,
           status: SIGNATURE_STATUS_PENDING
         }

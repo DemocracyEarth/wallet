@@ -17,7 +17,17 @@ Template.card.events({
   'click #delegate': function () {
     var keywordTitle = convertToSlug(Meteor.user().username) + '-' + newDelegateName;
     if (keywordTitle != undefined) {
-      Modules.both.startDelegation(Meteor.userId(), this.toString(), keywordTitle);
+      Modules.both.startDelegation(Meteor.userId(), this.toString(), {
+        title: keywordTitle,
+        signatures: [
+          {
+            username: Meteor.user().username
+          },
+          {
+            username: newDelegateName
+          }
+        ]
+      });
       Modules.client.animatePopup(false);
     }
   }

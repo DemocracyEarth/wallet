@@ -46,9 +46,14 @@ Template.modalWindow.helpers({
       return Session.get('displayModal').action;
     }
   },
-  isAuthorization: function () {
+  displayProfile: function () {
     if (Session.get('displayModal') != undefined) {
-      return Session.get('displayModal').isAuthorization;
+      return Session.get('displayModal').displayProfile;
+    }
+  },
+  profileId: function () {
+    if (Session.get('displayModal') != undefined) {
+      return Session.get('displayModal').profileId;
     }
   },
   visible: function () {

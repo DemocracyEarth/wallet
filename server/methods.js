@@ -138,7 +138,7 @@ Meteor.methods({
         feed: 'user',
         value: true,
         separator: false,
-        url: '/user/' + user.username,
+        url: '/peer/' + user.username,
         selected: false
       })
     }

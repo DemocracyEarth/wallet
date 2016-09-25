@@ -14,10 +14,10 @@
       <div class="w-clearfix login">
         <div>{{{message}}}</div>
 
-        {{#if isAuthorization}}
+        {{#if displayProfile}}
           <p>
             <div class="w-clearfix identity identity-center">
-              {{> avatar includeName=true includeNation=true editable=false}}
+              {{> avatar profile=profileId includeName=true includeNation=true editable=false}}
             </div>
           </p>
         {{/if}}

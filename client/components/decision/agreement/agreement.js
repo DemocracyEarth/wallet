@@ -1,9 +1,5 @@
 var typingTimer; //timer identifier
 
-/***********************
-Rendering
-***********************/
-
 Template.agreement.rendered = function () {
   if (!Session.get('contract')) { return };
 
@@ -80,12 +76,6 @@ Template.agreement.rendered = function () {
 
 };
 
-
-
-/***********************
-Helpers
-**********************/
-
 Template.agreement.helpers({
   sampleMode: function () {
     if (Session.get('missingDescription')) {
@@ -100,11 +90,6 @@ Template.agreement.helpers({
     }
   }
 });
-
-
-/***********************
-Event Handlers
-**********************/
 
 Template.agreement.events({
   "focus #editor": function (event) {
@@ -121,10 +106,6 @@ Template.agreement.events({
     }
   }
 });
-
-/***********************
-Local methods
-**********************/
 
 function dynamicTextCheck(text) {
   var checkedText = new String(text);

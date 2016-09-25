@@ -50,7 +50,7 @@ Template.feedItem.events({
         message         : TAPi18n.__('remove-draft-warning') + " <br><em>" + proposalTitle + "</em>",
         cancel          : TAPi18n.__('not-now'),
         action          : TAPi18n.__('remove-draft'),
-        isAuthorization : false
+        displayProfile : false
       },
       function() {
         Modules.both.removeContract(proposalId);

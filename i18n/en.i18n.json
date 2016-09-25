@@ -335,7 +335,7 @@
   "signature-pending": "(Pending...)",
   "signature-rejected": ": Rejected offer.",
   "digital-name": "Digital ID",
-  "delegate-votes-warning": "Do you confirm starting a delegation of <strong><quantity> votes</strong>?",
+  "delegate-votes-warning": "Do you confirm starting a delegation of <strong><quantity> votes</strong> to:",
   "delegate-votes-executed": "<quantity> <type> Delegated.",
   "contract-votes-executed": "<quantity> <type> Placed.",
   "delegate-votes-pending": "Delegate <quantity> <type>",

@@ -48,7 +48,8 @@ Template.signatures.events({
         message         : TAPi18n.__('proposal-signed-identity'),
         cancel          : TAPi18n.__('not-now'),
         action          : TAPi18n.__('sign-proposal'),
-        isAuthorization : true,
+        displayProfile : true,
+        profileId      : Meteor.user()._id
       },
       function() {
         Session.set('userSigned', true);
