@@ -171,6 +171,7 @@ let _getAnonObject = (signatureMode) => {
   } else {
     return {
       _id : '0000000',
+      username: 'anonymous',
       profile: {
         picture : '/images/anonymous.png',
         firstName : TAPi18n.__('anonymous'),

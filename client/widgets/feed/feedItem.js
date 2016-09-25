@@ -35,6 +35,20 @@ Template.feedItem.helpers({
     } else {
       return [Modules.both.getAnonymous()]
     }
+  },
+  userIsAuthor: function (signatures) {
+    for (stamp in signatures) {
+      if (signatures[stamp]._id == Meteor.user()._id) {
+        return true;
+      }
+    }
+    return false;
+  },
+  delegationMode: function (kind) {
+    if (kind == KIND_DELEGATION) {
+      return true;
+    }
+    return false;
   }
 });
 

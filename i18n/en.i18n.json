@@ -285,6 +285,7 @@
   "publish-proposal": "Open",
   "publish-proposal-warning": "Do you confirm publishing this proposal for a vote? <br>Once published it cannot be modified.",
   "vote-this-proposal": "Vote this proposal.",
+  "view-this-delegation": "View this delegation.",
   "years-left" : "years left.",
   "months-left" : "months left.",
   "days-left" : "days left.",

@@ -109,6 +109,7 @@ Meteor.methods({
     if (Meteor.users.findOne({username: strUsername}) != undefined) {
       return true;
     } else {
+      if (strUsername.toLowerCase() == 'anonymous') { return true; };
       return false;
     }
   },
