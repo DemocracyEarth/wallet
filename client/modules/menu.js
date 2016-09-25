@@ -230,7 +230,9 @@ let _verifySelection = (selection, feed) => {
       url: '/vote/draft?kind=' + feed
     });
 
-    return true;
+    if (typeof Session.get('sidebarMenuSelectedId') != 'string') {
+      return true;
+    }
   } else {
     return false;
   }
@@ -253,5 +255,6 @@ let animateMenu = () => {
   }
 }
 
+Modules.client.toggleSelectedItem = _toggleSelectedItem;
 Modules.client.toggleSidebar = animateMenu;
 Modules.client.setSidebarMenu = sidebarMenu;

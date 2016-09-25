@@ -25,5 +25,10 @@ Template.inbox.helpers({
 Template.inbox.events({
   'click #menuButton': function (event) {
     Session.set('sidebarMenuSelectedId', this.id);
+    if (typeof this.id == 'string') {
+      Modules.client.toggleSelectedItem(Session.get('menuDelegates'));
+    } else {
+      Modules.client.toggleSelectedItem(Session.get('menuDecisions'));
+    }
   }
 });
