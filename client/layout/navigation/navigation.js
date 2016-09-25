@@ -52,6 +52,7 @@ Template.navigation.helpers({
 
 Template.navigation.events({
   "click #menu": function (event) {
+    console.log('something going on here?')
     if (Session.get('navbar').action == 'SIDEBAR') {
       Modules.client.toggleSidebar();
     }

@@ -19,8 +19,7 @@ Template.action.helpers({
 
 Template.action.events({
     "click .action-button": function (event) {
-
-      //Get all info from current draft
+      //get all info from current draft
       if (this.enabled) {
         if (disableContractExecution() == false) {
           switch(Session.get('contract').kind) {
@@ -57,6 +56,7 @@ Template.action.events({
               );
               break;
             case KIND_VOTE:
+              console.log('this thing is a vote');
               Modules.client.displayModal(
                 true,
                 {
@@ -93,7 +93,7 @@ function disableContractExecution() {
     return true;
   } else {
     if (Session.get('newVote') != undefined) {
-      if (Session.get('newVote').mode == WALLET_MODE_PENDING) {
+      if (Session.get('newVote').mode == WALLET_MODE_PENDING || Session.get('newVote').mode == undefined) {
         return false;
       } else {
         return true;

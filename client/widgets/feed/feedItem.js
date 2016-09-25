@@ -43,7 +43,6 @@ Template.feedItem.helpers({
     return Session.get('embeddedMode');
   },
   signatures: function () {
-    //console.log(Modules.both.getAnonymous())
     if (this.signatures) {
       return this.signatures;
     } else {

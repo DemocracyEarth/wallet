@@ -28,15 +28,15 @@
           </form>
         </div>
         <div>
-          <a id='forgot-pw' href="#">{{_ "forgot-password"}}</a>
+          <a id='forgot-pw'>{{_ "forgot-password"}}</a>
         </div>
       {{else}}
         {{> forgotPassword}}
       {{/if}}
-      <div>{{_ "dont-have-account"}} <a id='signup' href="#">{{_ "sign-up"}}</a>.</div>
+      <div>{{_ "dont-have-account"}} <a id='signup'>{{_ "sign-up"}}</a>.</div>
 
       {{> socialMediaLogin}}
-      
+
     </div>
   {{else}}
     {{> signup}}

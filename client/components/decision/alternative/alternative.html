@@ -28,7 +28,7 @@
             <div class="vote vote-search vote-feed">
               <div class="checkbox checkbox-custom">
                 {{> stage text='DRAFT'}}
-                <a href="#" class="w-inline-block w-clearfix option-proposal">
+                <a class="w-inline-block w-clearfix option-proposal">
                   <div class="option-title option-link option-search">
                     {{{newProposal}}}
                   </div>
@@ -37,13 +37,13 @@
                   <div class="data">
                     <img src="{{pathFor route='home'}}images/globe.png" class="url-icon">
                     <div class="verifier verifier-live">
-                      <a data-new-link="true" href="#">{{{newProposalURL}}}</a>
+                      <a data-new-link="true">{{{newProposalURL}}}</a>
                         <div data-new-link='true' class='state {{verifierMode}}'>{{{URLStatus}}}</div>
                     </div>
                   </div>
                   <div class="data"><img src="{{pathFor route='home'}}images/time.png" class="url-icon">
                     <div class="verifier verifier-live">
-                      <a href="#">{{{newProposalTimestamp}}}</a>
+                      <a>{{{newProposalTimestamp}}}</a>
                     </div>
                   </div>
                 </div>
@@ -51,7 +51,7 @@
               <div class="block block-list">
                 <div class="micro-menu">
                   <div class="micro">
-                    <a id="addNewProposal" class="micro-button micro-button-addballot {{addBallot}} w-clearfix w-inline-block" href="#">
+                    <a id="addNewProposal" class="micro-button micro-button-addballot {{addBallot}} w-clearfix w-inline-block">
                       <img class="micro-icon" src="{{pathFor route='home'}}images/micro-add.png">
                       <div class="micro-label">{{_ 'add-to-ballot'}}</div>
                     </a>
