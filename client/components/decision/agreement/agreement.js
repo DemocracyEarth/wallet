@@ -6,7 +6,7 @@ Rendering
 
 Template.agreement.rendered = function () {
   if (!Session.get('contract')) { return };
-  
+
   if (Session.get('contract').stage == STAGE_DRAFT && Session.get('contract').kind == KIND_VOTE) {
 
     var editor = new MediumEditor('#editor', {
@@ -128,7 +128,7 @@ Local methods
 
 function dynamicTextCheck(text) {
   var checkedText = new String(text);
-  var htmlTagOpen = new String ("<a href='#'>");
+  var htmlTagOpen = new String ("<a href='#'");
   var htmlTagClose = new String ("</a>");
   var roleIndex = new Object();
   switch (Session.get('contract').kind) {
@@ -141,8 +141,8 @@ function dynamicTextCheck(text) {
         }
       }
       if (Session.get('DELEGATOR') != undefined) {
-        checkedText = checkedText.replace('<delegator>', htmlTagOpen + getProfileName(Session.get('DELEGATOR').profile) + htmlTagClose);
-        checkedText = checkedText.replace('<delegate>', htmlTagOpen + getProfileName(Session.get('DELEGATE').profile) + htmlTagClose);
+        checkedText = checkedText.replace('<delegator>', "<a href='/peer/" + Session.get(ROLE_DELEGATOR).username + "'>" + getProfileName(Session.get(ROLE_DELEGATOR).profile) + htmlTagClose);
+        checkedText = checkedText.replace('<delegate>', "<a href='/peer/" + Session.get(ROLE_DELEGATE).username + "'>" + getProfileName(Session.get(ROLE_DELEGATE).profile) + htmlTagClose);
         checkedText = checkedText.replace('<votes>', Session.get('newVote').allocateQuantity);
       }
       break;
