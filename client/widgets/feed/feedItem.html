@@ -12,11 +12,13 @@
       </a>
 
       <ul class="w-list-unstyled w-clearfix identity-list extra">
-        <li class="w-clearfix identity">
+
         {{#each signatures}}
+        <li class="w-clearfix identity">
             {{> avatar size=28 profile=this._id includeName=true includeNation=false editable=false smallFont=true disabled=true includeRole=false}}
+        </li>            
         {{/each}}
-        </li>
+
       </ul>
 
       <div class="rich-text rich-text-preview">
