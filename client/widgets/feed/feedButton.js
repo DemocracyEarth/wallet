@@ -31,5 +31,8 @@ Template.feedButton.events({
         document.getElementById(buttonHoverId).style.opacity = 0;
       }
     }
+  },
+  'click .feedButton': function (event) {
+    Modules.both.createContract();
   }
 })

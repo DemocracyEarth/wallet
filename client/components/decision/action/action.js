@@ -56,7 +56,6 @@ Template.action.events({
               );
               break;
             case KIND_VOTE:
-              console.log('this thing is a vote');
               Modules.client.displayModal(
                 true,
                 {
