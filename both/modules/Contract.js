@@ -158,6 +158,8 @@ let _signatureStatus = (signatures, signerId, getStatus) => {
         case ROLE_DELEGATE:
           label = TAPi18n.__('delegate');
           break;
+        case ROLE_AUTHOR:
+          label = TAPi18n.__('author');
       }
       switch (signatures[i].status) {
         case SIGNATURE_STATUS_PENDING:
