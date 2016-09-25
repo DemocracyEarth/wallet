@@ -86,7 +86,7 @@ Template.agreement.helpers({
   },
   description: function () {
     if (Session.get('contract')) {
-      return dynamicTextCheck(Session.get('contract').description);
+      return Modules.client.delegationTextCheck(Session.get('contract').description, true);
     }
   }
 });
@@ -106,38 +106,3 @@ Template.agreement.events({
     }
   }
 });
-
-function dynamicTextCheck(text) {
-  var checkedText = new String(text);
-  var htmlTagOpen = new String ("<a href='#'");
-  var htmlTagClose = new String ("</a>");
-  var roleIndex = new Object();
-  switch (Session.get('contract').kind) {
-    case KIND_DELEGATION:
-      var signatures = Session.get('contract').signatures;
-      if (signatures.length > 0) {
-        for (var i = 0; i < signatures.length; i ++) {
-          Modules.both.getUserInfo(signatures[i]._id, signatures[i].role);
-          roleIndex[signatures[i].role] = i;
-        }
-      }
-      if (Session.get('DELEGATOR') != undefined) {
-        checkedText = checkedText.replace('<delegator>', "<a href='/peer/" + Session.get(ROLE_DELEGATOR).username + "'>" + getProfileName(Session.get(ROLE_DELEGATOR).profile) + htmlTagClose);
-        checkedText = checkedText.replace('<delegate>', "<a href='/peer/" + Session.get(ROLE_DELEGATE).username + "'>" + getProfileName(Session.get(ROLE_DELEGATE).profile) + htmlTagClose);
-        checkedText = checkedText.replace('<votes>', Session.get('newVote').allocateQuantity);
-      }
-      break;
-  }
-  return checkedText;
-}
-
-function getProfileName (profile) {
-  fullName = new String();
-  if (profile.firstName != undefined) {
-    fullName = profile.firstName;
-  }
-  if (profile.lastName != undefined) {
-    fullName += ' ' + profile.lastName;
-  }
-  return fullName;
-}

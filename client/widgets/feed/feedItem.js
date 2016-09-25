@@ -11,7 +11,21 @@ Template.feedItem.rendered = function () {
 
 Template.feedItem.helpers({
   description: function () {
-    return Modules.client.stripHTMLfromText(this.description).replace(/(([^\s]+\s\s*){35})(.*)/,"$1…");
+    var text = new String();
+    var profile = new Array();
+    if (this.kind == KIND_DELEGATION) {
+      for (user in this.signatures) {
+        profile.push(Modules.both.getProfileFromUsername(this.signatures[user].username))
+      }
+      text = this.description;
+      if (profile.length == 2) {
+        text = text.replace('<delegator>', Modules.client.getProfileName(profile[0]));
+        text = text.replace('<delegate>', Modules.client.getProfileName(profile[1]));
+      }
+      return Modules.client.stripHTMLfromText(text).replace(/(([^\s]+\s\s*){35})(.*)/,"$1…");
+    } else {
+      return Modules.client.stripHTMLfromText(this.description).replace(/(([^\s]+\s\s*){35})(.*)/,"$1…");
+    }
   },
   tags: function () {
     return this.tags;
