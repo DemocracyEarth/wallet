@@ -1,17 +1,22 @@
 <template name="power">
-  {{#if editable}}
-    <div class="w-clearfix rosca rosca-setter">
-      {{> bar editable=editable}}
-      {{> available user=user}}
-      {{> placed user=user}}
-    </div>
-  {{else}}
-    <div class="w-clearfix rosca rosca-id {{styleClass}}">
-      {{> bar editable=editable}}
-      {{> available user=user}}
-      {{> placed user=user}}
-    </div>
-  {{/if}}
+
+  {{#unless alreadyVoted}}
+    {{#if rightToVote}}
+      {{#if editable}}
+        <div class="w-clearfix rosca rosca-setter">
+          {{> bar editable=editable}}
+          {{> available user=user}}
+          {{> placed user=user}}
+        </div>
+      {{else}}
+        <div class="w-clearfix rosca rosca-id {{styleClass}}">
+          {{> bar editable=editable}}
+          {{> available user=user}}
+          {{> placed user=user}}
+        </div>
+      {{/if}}
+    {{/if}}
+  {{/unless}}
 
   <div class="elements w-clearfix">
     <div class="hundred power">
@@ -45,16 +50,15 @@
 
 <template name="bar">
     {{#if editable}}
-      <div id="voteBar" class="w-clearfix result vote-bar">
-        <div id="voteSlider" class="result-bar vote-bar" style=" width: {{allocate}} ">
-          {{#unless alreadyVoted}}
-            {{#if rightToVote}}
-              <div id="voteHandle" class="handle"></div>
-            {{/if}}
-          {{/unless}}
-        </div>
-        <div class="result-bar vote-bar vote-bar-allocated"  style=" width: {{placed}} "></div>
-      </div>
+
+          <div id="voteBar" class="w-clearfix result vote-bar">
+            <div id="voteSlider" class="result-bar vote-bar" style=" width: {{allocate}} ">
+              <div id="voteHandle" class="handle">
+              </div>
+            </div>
+            <div class="result-bar vote-bar vote-bar-allocated"  style=" width: {{placed}} "></div>
+          </div>
+
     {{else}}
       <div class="w-clearfix result vote-bar">
         <div class="result-bar vote-bar" style=" width: {{allocate}} "></div>

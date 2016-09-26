@@ -63,6 +63,20 @@ Template.power.helpers({
     } else {
       return 0;
     }
+  },
+  alreadyVoted: function () {
+    if (Session.get('contract')) {
+      if (Session.get('contract').wallet != undefined) {
+        var voted = Modules.client.verifyVote(Session.get('contract').wallet.ledger, Meteor.user()._id);
+        Session.set('alreadyVoted', voted);
+        return voted;
+      } else {
+        return false;
+      }
+    }
+  },
+  rightToVote: function () {
+    return Session.get('rightToVote');
   }
 })
 
@@ -111,19 +125,5 @@ Template.bar.helpers({
     } else {
       return '0px';
     }
-  },
-  alreadyVoted: function () {
-    if (Session.get('contract')) {
-      if (Session.get('contract').wallet != undefined) {
-        var voted = Modules.client.verifyVote(Session.get('contract').wallet.ledger, Meteor.user()._id);
-        Session.set('alreadyVoted', voted);
-        return voted;
-      } else {
-        return false;
-      }
-    }
-  },
-  rightToVote: function () {
-    return Session.get('rightToVote');
   }
 });
