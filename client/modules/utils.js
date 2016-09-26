@@ -38,20 +38,23 @@ let _delegationTextCheck = (text, isContract) => {
   var checkedText = new String(text);
   var htmlTagOpen = new String ("<a href='#'");
   var htmlTagClose = new String ("</a>");
-  var roleIndex = new Object();
+  var username = new Object();
+  var profile = new Object();
   if (isContract) {
     switch (Session.get('contract').kind) {
       case KIND_DELEGATION:
         var signatures = Session.get('contract').signatures;
         if (signatures.length > 0) {
-          for (var i = 0; i < signatures.length; i ++) {
-            Modules.both.getUserInfo(signatures[i]._id, signatures[i].role);
-            roleIndex[signatures[i].role] = i;
+          for (i in signatures) {
+            profile[signatures[i].role] = Modules.both.getProfileFromUsername(signatures[i].username);
+            username[signatures[i].role] = signatures[i].username;
           }
         }
-        if (Session.get(ROLE_DELEGATOR) != undefined) {
-          checkedText = checkedText.replace('<delegator>', "<a href='/peer/" + Session.get(ROLE_DELEGATOR).username + "'>" + _getProfileName(Session.get(ROLE_DELEGATOR).profile) + htmlTagClose);
-          checkedText = checkedText.replace('<delegate>', "<a href='/peer/" + Session.get(ROLE_DELEGATE).username + "'>" + _getProfileName(Session.get(ROLE_DELEGATE).profile) + htmlTagClose);
+        console.log('delegationCheck');
+        console.log(profile);
+        if (profile != undefined) {
+          checkedText = checkedText.replace('<delegator>', "<a href='/peer/" + username[ROLE_DELEGATOR] + "'>" + _getProfileName(profile[ROLE_DELEGATOR]) + htmlTagClose);
+          checkedText = checkedText.replace('<delegate>', "<a href='/peer/" + username[ROLE_DELEGATE] + "'>" + _getProfileName(profile[ROLE_DELEGATE]) + htmlTagClose);
           checkedText = checkedText.replace('<votes>', Session.get('newVote').allocateQuantity);
         }
         break;

@@ -1,7 +1,7 @@
 var typingTimer; //timer identifier
 
 Template.agreement.rendered = function () {
-  if (!Session.get('contract')) { return };
+  //if (!Session.get('contract')) { return };
 
   if (Session.get('contract').stage == STAGE_DRAFT && Session.get('contract').kind == KIND_VOTE) {
 
@@ -86,6 +86,7 @@ Template.agreement.helpers({
   },
   description: function () {
     if (Session.get('contract')) {
+       console.log('refresh description')
       return Modules.client.delegationTextCheck(Session.get('contract').description, true);
     }
   }

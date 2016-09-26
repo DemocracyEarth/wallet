@@ -24,9 +24,12 @@ Template.signatures.helpers({
     if (Session.get('contract')) {
       var signerIds = new Array();
       if (Session.get('contract').signatures != undefined) {
-        for (var i=0; i < Session.get('contract').signatures.length; i++) {
+        for (i in Session.get('contract').signatures) {
           signerIds.push(Session.get('contract').signatures[i]._id);
+
         }
+        console.log('signer IDs');
+        console.log(signerIds);
         return signerIds;
       } else {
         //is anonymous
