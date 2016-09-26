@@ -65,9 +65,7 @@ Template.power.helpers({
                 //delegate
                 var quantity = Session.get('contract').wallet.balance;
               }
-              console.log(signatures[i].status)
               if (signatures[i].status == SIGNATURE_STATUS_REJECTED) {
-                console.log('there was a rejection')
                 rejection = true;
               }
             }
@@ -75,7 +73,6 @@ Template.power.helpers({
             var signatures = Session.get('contract').signatures;
             for (i in signatures) {
               if (signatures[i].status == SIGNATURE_STATUS_REJECTED) {
-                console.log('there was a rejection')
                 rejection = true;
               }
             }

@@ -226,11 +226,9 @@ let _userIsDelegate = (signatures) => {
   for (i in signatures) {
     //if user is delegated to
     if (signatures[i].role == ROLE_DELEGATE && signatures[i]._id == Meteor.user()._id) {
-      console.log('USER IS DELEGATE')
       return true;
     }
   }
-  console.log('USER IS NOT DELEGATE')
   return false;
 }
 
@@ -241,14 +239,12 @@ let _userCanVote = (signatures) => {
       switch(signatures[i].role) {
         case ROLE_DELEGATOR:
           if (signatures[i].status == SIGNATURE_STATUS_PENDING) {
-            console.log('USER IS DELEGATE WITH PENDING')
             return true;
           } else {
             return false;
           }
         case ROLE_DELEGATE:
           if (signatures[i].status == SIGNATURE_STATUS_PENDING) {
-            console.log('USER IS DELEGATOR WITH PENDING')
             return false;
           } else {
             return false;
@@ -257,7 +253,6 @@ let _userCanVote = (signatures) => {
        }
     }
   }
-  console.log('USER IS NOT DELEGATE')
   return false;
 }
 
