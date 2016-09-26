@@ -50,8 +50,6 @@ let _delegationTextCheck = (text, isContract) => {
             username[signatures[i].role] = signatures[i].username;
           }
         }
-        console.log('delegationCheck');
-        console.log(profile);
         if (profile != undefined) {
           checkedText = checkedText.replace('<delegator>', "<a href='/peer/" + username[ROLE_DELEGATOR] + "'>" + _getProfileName(profile[ROLE_DELEGATOR]) + htmlTagClose);
           checkedText = checkedText.replace('<delegate>', "<a href='/peer/" + username[ROLE_DELEGATE] + "'>" + _getProfileName(profile[ROLE_DELEGATE]) + htmlTagClose);

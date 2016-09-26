@@ -28,8 +28,6 @@ Template.signatures.helpers({
           signerIds.push(Session.get('contract').signatures[i]._id);
 
         }
-        console.log('signer IDs');
-        console.log(signerIds);
         return signerIds;
       } else {
         //is anonymous

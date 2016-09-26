@@ -2,7 +2,7 @@
 Template.semantics.rendered = function () {
 
   if (!Session.get('contract')) { return };
-  
+
   if (Session.get('contract').stage == STAGE_DRAFT) {
 
     this.$('#tagSuggestions, #tagList').sortable({
@@ -114,6 +114,9 @@ Template.semantics.helpers({
   },
   alreadyVoted: function () {
     return Session.get('alreadyVoted');
+  },
+  rightToVote: function () {
+    return Session.get('rightToVote');
   }
 });
 

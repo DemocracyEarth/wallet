@@ -86,8 +86,8 @@ Template.agreement.helpers({
   },
   description: function () {
     if (Session.get('contract')) {
-       console.log('refresh description')
-      return Modules.client.delegationTextCheck(Session.get('contract').description, true);
+      var description = Session.get('contract').description;
+      return Modules.client.delegationTextCheck(description, true);
     }
   }
 });

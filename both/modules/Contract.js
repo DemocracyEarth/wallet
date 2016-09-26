@@ -244,6 +244,19 @@ let contractStage = (contractId, stage) => {
 
 };
 
+let _rightToVote = (contract) => {
+  if (contract.kind == KIND_DELEGATION) {
+    for (i in contract.signatures) {
+      if (contract.signatures[i]._id == Meteor.user()._id) {
+        return true;
+      }
+    }
+    return false;
+  }
+  return true;
+}
+
+Modules.both.rightToVote = _rightToVote;
 Modules.both.signatureStatus = _signatureStatus;
 Modules.both.setContractStage = contractStage;
 Modules.both.signContract = _sign;

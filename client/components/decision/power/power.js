@@ -1,6 +1,6 @@
 Template.power.rendered = function (user) {
   if (!Meteor.user()) { return };
-  Session.set('newVote', new Wallet(Meteor.user().profile.wallet));
+
   $("#voteHandle").draggable({
     axis: "x",
     start: function (event, ui) {
@@ -122,5 +122,8 @@ Template.bar.helpers({
         return false;
       }
     }
+  },
+  rightToVote: function () {
+    return Session.get('rightToVote');
   }
 });
