@@ -42,26 +42,25 @@ let _getDelegatesMenu = (feed) => {
   var users = new Array();
   var wallet = Meteor.user().profile.wallet.ledger;
 
+  //search wallet
   for (entity in wallet) {
     switch(wallet[entity].entityType) {
       case ENTITY_CONTRACT:
         var source = Contracts.findOne({ _id: wallet[entity].entityId });
         if (source != undefined) {
-          switch(source.kind) {
-            case KIND_DELEGATION:
-              for (stamp in source.signatures) {
-                var delegate = source.signatures[stamp]._id;
-                if (!_alreadyListed(delegate, users)) {
-                  users.push(delegate);
-                }
-              }
-              break;
-          }
-          break;
+          users = _searchContract(source, users);
         }
+        break;
     }
   }
 
+  //search contracts
+  var contracts = Contracts.find({ collectiveId: Meteor.settings.public.Collective._id,  signatures: { $elemMatch: { username: Meteor.user().username }}}).fetch();
+  for (i in contracts) {
+    users = _searchContract(contracts[i], users)
+  };
+
+  //get delegators to me
   Meteor.call('getUserList', users, function (error, data) {
     if (error)
       console.log(error);
@@ -70,6 +69,20 @@ let _getDelegatesMenu = (feed) => {
     Session.set('menuDelegates', data);
   });
 
+}
+
+let _searchContract = (source, list) => {
+  switch(source.kind) {
+    case KIND_DELEGATION:
+      for (stamp in source.signatures) {
+        var delegate = source.signatures[stamp]._id;
+        if (!_alreadyListed(delegate, list)) {
+          list.push(delegate);
+        }
+      }
+      break;
+  }
+  return list;
 }
 
 /*****
