@@ -221,6 +221,20 @@ let _cacheSearch = (param, value) => {
   return false;
 }
 
+
+let _userIsDelegate = (signatures) => {
+  for (i in signatures) {
+    //if user is delegated to
+    if (signatures[i].role == ROLE_DELEGATE && signatures[i]._id == Meteor.user()._id) {
+      console.log('USER IS DELEGATE')
+      return true;
+    }
+  }
+  console.log('USER IS NOT DELEGATE')
+  return false;
+}
+
+Modules.both.userIsDelegate = _userIsDelegate;
 Modules.both.getProfileFromUsername = _getProfileFromUsername;
 Modules.both.getAnonymous = _getAnonObject;
 Modules.both.getUserInfo = _fetchUser;

@@ -794,10 +794,10 @@ blockquote {
 }
 
 .button.execute.disabled {
-  border-color: #666;
-  background-color: #666;
-  opacity: 0.4;
-  color: #cacaca;
+  border-color: #00bf8f;
+  background-color: transparent;
+  opacity: 1;
+  color: #00bf8f;
   cursor: default;
 }
 

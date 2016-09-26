@@ -137,7 +137,8 @@ let _verifyVote = (ledger, userId) => {
     }
   }
   return false;
-}
+};
+
 
 Modules.client.verifyVote = _verifyVote
 Modules.client.getWalletVotes = _getWalletVotes;

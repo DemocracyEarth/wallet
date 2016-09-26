@@ -90,7 +90,7 @@ function disableContractExecution() {
     return true;
   } else if (Session.get('noVotes')) {
     return true;
-    } else if (!Session.get('rightToVote')) {
+  } else if (!Session.get('rightToVote')) {
     return true;
   } else {
     if (Session.get('newVote') != undefined) {

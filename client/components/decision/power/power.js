@@ -75,6 +75,10 @@ Template.power.helpers({
     if (Session.get('contract')) {
       if (Session.get('contract').wallet != undefined) {
         var voted = Modules.client.verifyVote(Session.get('contract').wallet.ledger, Meteor.user()._id);
+        if (voted == false) {
+          voted = Modules.both.userIsDelegate(Session.get('contract').signatures);
+        }
+        console.log('voted: ' + voted);
         Session.set('alreadyVoted', voted);
         return voted;
       } else {
@@ -83,6 +87,10 @@ Template.power.helpers({
     }
   },
   rightToVote: function () {
+    var right = !Modules.both.userIsDelegate(Session.get('contract').signatures);
+    right = !right;
+    console.log('right: ' + right);
+    Session.set('rightToVote', right);
     return Session.get('rightToVote');
   }
 })
