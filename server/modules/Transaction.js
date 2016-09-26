@@ -116,6 +116,15 @@ let _processTransaction = (txId) => {
 
 }
 
+/*
+let _updateBalance = (wallet) => {
+  var balance = new Number(0);
+  for (i in wallet.ledger) {
+      wallet.ledger[]
+  }
+}
+*/
+
 /***
 * returns the profile object of an entity from a transaction
 * @param {string} transactionSignal - input or output of a transaction object

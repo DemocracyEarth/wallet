@@ -21,9 +21,22 @@
   <div class="elements w-clearfix">
     <div class="hundred power">
       {{> action label=label enabled=editable}}
+      {{#if confirmationRequired}}
+        <div class="extra" style="margin: 5px -5px;">
+          <div class="button-wrap-half">
+            <div id='confirmation' class="button execute">
+              {{_ 'confirm'}}
+            </div>
+          </div>
+          <div class="button-wrap-half">
+            <div id='rejection' class="button execute reject">
+              {{_ 'reject'}}
+            </div>
+          </div>
+        </div>
+      {{/if}}
     </div>
   </div>
-
 </template>
 
 <template name="available">

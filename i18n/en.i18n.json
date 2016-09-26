@@ -362,5 +362,12 @@
   "tagged": "Tag",
   "vote": "Vote",
   "proposal": "Proposal",
-  "author": "Author"
+  "author": "Author",
+  "confirm": "Accept.",
+  "confirm-delegation-votes": "Accept Delegation",
+  "confirm-delegation-warning": "Do you accept a delegation of <strong><quantity> votes</strong> from:",
+  "confirm-votes": "Accept Votes",
+  "reject-delegation-votes": "Reject Delegation",
+  "reject-delegation-warning": "Do you reject a delegation of <strong><quantity> votes</strong> from:",
+  "reject-votes": "Reject"
 }

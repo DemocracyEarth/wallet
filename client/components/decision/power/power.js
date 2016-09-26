@@ -92,6 +92,84 @@ Template.power.helpers({
     console.log('right: ' + right);
     Session.set('rightToVote', right);
     return Session.get('rightToVote');
+  },
+  confirmationRequired: function () {
+    if (Session.get('contract').kind == KIND_DELEGATION) {
+      var signatures = Session.get('contract').signatures;
+      for (i in signatures) {
+        if (signatures[i].role == ROLE_DELEGATE && signatures[i].status == SIGNATURE_STATUS_PENDING && signatures[i]._id == Meteor.user()._id) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+});
+
+Template.power.events({
+  'click #confirmation': function (event) {
+    for (stamp in Session.get('contract').signatures) {
+      if (Session.get('contract').signatures[stamp]._id != Meteor.user()._id) {
+        var counterPartyId = Session.get('contract').signatures[stamp]._id;
+      }
+    };
+    Modules.client.displayModal(
+      true,
+      {
+        icon            : 'images/modal-delegation.png',
+        title           : TAPi18n.__('confirm-delegation-votes'),
+        message         : TAPi18n.__('confirm-delegation-warning').replace('<quantity>', Session.get('contract').wallet.available),
+        cancel          : TAPi18n.__('not-now'),
+        action          : TAPi18n.__('confirm-votes'),
+        displayProfile  : true,
+        profileId       : counterPartyId
+      },
+      function() {
+        settings = {
+          condition: {
+            transferable : Session.get('contract').transferable,
+            portable : Session.get('contract').portable,
+            tags : Session.get('contract').tags,
+          },
+          currency: CURRENCY_VOTES,
+          kind: Session.get('contract').kind,
+          contractId: Session.get('contract')._id //_getContractId(senderId, receiverId, settings.kind),
+        }
+        Modules.both.sendDelegationVotes(Session.get('contract')._id, Session.get('contract').signatures[1]._id, Session.get('contract').wallet.available, settings);
+      }
+    );
+  },
+  'click #rejection': function (event) {
+    for (stamp in Session.get('contract').signatures) {
+      if (Session.get('contract').signatures[stamp]._id != Meteor.user()._id) {
+        var counterPartyId = Session.get('contract').signatures[stamp]._id;
+      }
+    };
+    Modules.client.displayModal(
+      true,
+      {
+        icon            : 'images/modal-delegation.png',
+        title           : TAPi18n.__('reject-delegation-votes'),
+        message         : TAPi18n.__('reject-delegation-warning').replace('<quantity>', Session.get('contract').wallet.available),
+        cancel          : TAPi18n.__('not-now'),
+        action          : TAPi18n.__('reject-votes'),
+        displayProfile  : true,
+        profileId       : counterPartyId
+      },
+      function() {
+        settings = {
+          condition: {
+            transferable : Session.get('contract').transferable,
+            portable : Session.get('contract').portable,
+            tags : Session.get('contract').tags,
+          },
+          currency: CURRENCY_VOTES,
+          kind: Session.get('contract').kind,
+          contractId: Session.get('contract')._id //_getContractId(senderId, receiverId, settings.kind),
+        }
+        Modules.both.sendDelegationVotes(Session.get('contract')._id, Session.get('contract').signatures[0]._id, Session.get('contract').wallet.available, settings);
+      }
+    );
   }
 })
 

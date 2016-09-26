@@ -25,7 +25,7 @@ Template.action.events({
           switch(Session.get('contract').kind) {
             case KIND_DELEGATION:
               for (stamp in Session.get('contract').signatures) {
-                if (Session.get('contract').signatures[stamp] != Meteor.user()._id) {
+                if (Session.get('contract').signatures[stamp]._id != Meteor.user()._id) {
                   var counterPartyId = Session.get('contract').signatures[stamp]._id;
                 }
               };
@@ -93,6 +93,9 @@ function disableContractExecution() {
   } else if (!Session.get('rightToVote')) {
     return true;
   } else {
+    if (Session.get('contract').kind == KIND_DELEGATION) {
+
+    }
     if (Session.get('newVote') != undefined) {
       if (Session.get('newVote').mode == WALLET_MODE_PENDING || Session.get('newVote').mode == undefined) {
         return false;

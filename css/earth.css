@@ -826,6 +826,22 @@ blockquote {
   cursor: default;
 }
 
+.button.execute.confirm {
+  width: 50%;
+  float: left;
+}
+
+.button.execute.reject {
+  border-color: #ff2752;
+  background-color: #ff2752;
+}
+
+.button.execute.reject:active {
+  border-color: #ff2752;
+  background-color: transparent;
+  color: #ff2752;
+}
+
 .button.login-button {
   width: 100%;
   margin-right: 0px;
