@@ -50,15 +50,13 @@
 
 <template name="bar">
     {{#if editable}}
-
-          <div id="voteBar" class="w-clearfix result vote-bar">
-            <div id="voteSlider" class="result-bar vote-bar" style=" width: {{allocate}} ">
-              <div id="voteHandle" class="handle">
-              </div>
-            </div>
-            <div class="result-bar vote-bar vote-bar-allocated"  style=" width: {{placed}} "></div>
+      <div id="voteBar" class="w-clearfix result vote-bar">
+        <div id="voteSlider" class="result-bar vote-bar" style=" width: {{allocate}} ">
+          <div id="voteHandle" class="handle">
           </div>
-
+        </div>
+        <div class="result-bar vote-bar vote-bar-allocated"  style=" width: {{placed}} "></div>
+      </div>
     {{else}}
       <div class="w-clearfix result vote-bar">
         <div class="result-bar vote-bar" style=" width: {{allocate}} "></div>
