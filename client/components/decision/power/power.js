@@ -47,7 +47,14 @@ Template.power.helpers({
           break;
       }
 
-      var quantity = wallet.allocateQuantity;
+      if (Session.get('rightToVote') == true) {
+        var quantity = wallet.allocateQuantity;
+      } else {
+        if (Session.get('contract').kind == KIND_DELEGATION) {
+          voteQuantity = TAPi18n.__('delegate-votes-executed');
+          var quantity = Session.get('newVote').ledger[0].quantity
+        }
+      }
       if (voteQuantity != undefined) {
         voteQuantity = voteQuantity.replace("<quantity>", quantity);
         voteQuantity = voteQuantity.replace("<type>", function () { if (quantity == 1 ) { return TAPi18n.__('vote-singular') } else { return TAPi18n.__('vote-plural') } } );
