@@ -53,7 +53,12 @@ let _delegationTextCheck = (text, isContract) => {
         if (profile != undefined) {
           checkedText = checkedText.replace('<delegator>', "<a href='/peer/" + username[ROLE_DELEGATOR] + "'>" + _getProfileName(profile[ROLE_DELEGATOR]) + htmlTagClose);
           checkedText = checkedText.replace('<delegate>', "<a href='/peer/" + username[ROLE_DELEGATE] + "'>" + _getProfileName(profile[ROLE_DELEGATE]) + htmlTagClose);
-          checkedText = checkedText.replace('<votes>', Session.get('contract').wallet.balance); // Session.get('newVote').allocateQuantity);
+          if (Session.get('newVote') == undefined || Session.get('newVote').allocateQuantity == undefined || Session.get('rightToVote') == false) {
+            checkedText = checkedText.replace('<votes>', Session.get('contract').wallet.balance); // Session.get('newVote').allocateQuantity);
+          } else {
+            checkedText = checkedText.replace('<votes>', Session.get('newVote').allocateQuantity);
+          }
+
         }
         break;
     }
