@@ -234,6 +234,64 @@ let _userIsDelegate = (signatures) => {
   return false;
 }
 
+
+let _userCanVote = (signatures) => {
+  for (i in signatures) {
+    if (signatures[i]._id == Meteor.user()._id) {
+      switch(signatures[i].role) {
+        case ROLE_DELEGATOR:
+          if (signatures[i].status == SIGNATURE_STATUS_PENDING) {
+            console.log('USER IS DELEGATE WITH PENDING')
+            return true;
+          } else {
+            return false;
+          }
+        case ROLE_DELEGATE:
+          if (signatures[i].status == SIGNATURE_STATUS_PENDING) {
+            console.log('USER IS DELEGATOR WITH PENDING')
+            return false;
+          } else {
+            return false;
+          }
+          break;
+       }
+    }
+  }
+  console.log('USER IS NOT DELEGATE')
+  return false;
+}
+
+/*****
+* returns vots a user has in a specific contract
+* @param {object} userWallet - the wallet of the user
+* @param {string} contractId - the contract to search for
+* @return {number} quantity - quantity of votes in Absolute numbers
+*******/
+let _userVotesInContract = (userWallet, contractId) => {
+  for (i in userWallet.ledger) {
+    if (userWallet.ledger[i].entityId == contractId && userWallet.ledger[i].entityType == ENTITY_CONTRACT) {
+      return Math.abs(userWallet.ledger[i].quantity);
+    }
+  }
+}
+
+/*****
+* verifies if the user is a signer in the contract
+* @param {object} signatures - contract signature object
+* @return {boolean} bool - yes or no, that simple buddy.
+*******/
+let _isUserSigner = (signatures) => {
+  for (i in signatures) {
+    if (signatures[i]._id == Meteor.user()._id) {
+      return true;
+    }
+  }
+  return false;
+}
+
+Modules.both.isUserSigner = _isUserSigner;
+Modules.both.userVotesInContract = _userVotesInContract;
+Modules.both.userCanVote = _userCanVote;
 Modules.both.userIsDelegate = _userIsDelegate;
 Modules.both.getProfileFromUsername = _getProfileFromUsername;
 Modules.both.getAnonymous = _getAnonObject;

@@ -80,14 +80,15 @@ let _newDelegation = (delegatorId, delegateId, settings) => {
 * @param {number} quantity - amount of votes being used
 * @param {object} conditions - specified conditions for this delegation
 ***/
-let _sendDelegation = (sourceId, targetId, quantity, conditions) => {
-  Meteor.call('executeTransaction', sourceId, targetId, quantity, conditions, function (err, status) {
+let _sendDelegation = (sourceId, targetId, quantity, conditions, newStatus) => {
+  Meteor.call('executeTransaction', sourceId, targetId, quantity, conditions, newStatus, function (err, result) {
     if (err) {
       throw new Meteor.Error(err, '[_sendDelegation]: transaction failed.') ;
     } else {
-      //update contract status
-      _updateContractSignatures();
-      Session.set('newVote', new Wallet(Meteor.user().profile.wallet));
+      //update contract status\
+      console.log('NEW STATUS = ' + result)
+      _updateContractSignatures(result);
+      //Session.set('newVote', new Wallet(Meteor.user().profile.wallet));
     }
   })
 };
@@ -95,12 +96,16 @@ let _sendDelegation = (sourceId, targetId, quantity, conditions) => {
 /***
 * updates the status of the signatures in the contract
 ***/
-let _updateContractSignatures = () => {
+let _updateContractSignatures = (status) => {
   var signatures = Session.get('contract').signatures;
   for (signer in signatures) {
     if (signatures[signer]._id == Meteor.user()._id) {
       switch(signatures[signer].status) {
         case SIGNATURE_STATUS_PENDING:
+          if (status != undefined) {
+            signatures[signer].status = status;
+            break;
+          }
           signatures[signer].status = SIGNATURE_STATUS_CONFIRMED;
           break;
       }

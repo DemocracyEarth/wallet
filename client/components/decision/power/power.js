@@ -47,14 +47,32 @@ Template.power.helpers({
           break;
       }
 
+      //quantity of votes to display
       if (Session.get('rightToVote') == true) {
         var quantity = wallet.allocateQuantity;
       } else {
         if (Session.get('contract').kind == KIND_DELEGATION) {
           voteQuantity = TAPi18n.__('delegate-votes-executed');
-          var quantity = Session.get('newVote').ledger[0].quantity
+          if (Modules.both.isUserSigner(Session.get('contract').signatures)) {
+            var signatures = Session.get('contract').signatures;
+            for (i in signatures) {
+              if (signatures[i].role == ROLE_DELEGATOR && signatures[i]._id == Meteor.user()._id) {
+                //delegator
+                var quantity = Modules.both.userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
+                break;
+              } else if (signatures[i].role == ROLE_DELEGATE && signatures[i]._id == Meteor.user()._id) {
+                //delegate
+                var quantity = Session.get('contract').wallet.balance;
+                break;
+              }
+            }
+          } else {
+            var quantity = Session.get('contract').wallet.available;
+          }
         }
       }
+
+      //string narrative
       if (voteQuantity != undefined) {
         voteQuantity = voteQuantity.replace("<quantity>", quantity);
         voteQuantity = voteQuantity.replace("<type>", function () { if (quantity == 1 ) { return TAPi18n.__('vote-singular') } else { return TAPi18n.__('vote-plural') } } );
@@ -72,25 +90,9 @@ Template.power.helpers({
     }
   },
   alreadyVoted: function () {
-    if (Session.get('contract')) {
-      if (Session.get('contract').wallet != undefined) {
-        var voted = Modules.client.verifyVote(Session.get('contract').wallet.ledger, Meteor.user()._id);
-        if (voted == false) {
-          voted = Modules.both.userIsDelegate(Session.get('contract').signatures);
-        }
-        console.log('voted: ' + voted);
-        Session.set('alreadyVoted', voted);
-        return voted;
-      } else {
-        return false;
-      }
-    }
+    return Session.get('alreadyVoted');
   },
   rightToVote: function () {
-    var right = !Modules.both.userIsDelegate(Session.get('contract').signatures);
-    right = !right;
-    console.log('right: ' + right);
-    Session.set('rightToVote', right);
     return Session.get('rightToVote');
   },
   confirmationRequired: function () {
@@ -135,7 +137,7 @@ Template.power.events({
           kind: Session.get('contract').kind,
           contractId: Session.get('contract')._id //_getContractId(senderId, receiverId, settings.kind),
         }
-        Modules.both.sendDelegationVotes(Session.get('contract')._id, Session.get('contract').signatures[1]._id, Session.get('contract').wallet.available, settings);
+        Modules.both.sendDelegationVotes(Session.get('contract')._id, Session.get('contract').signatures[1]._id, Session.get('contract').wallet.available, settings, SIGNATURE_STATUS_CONFIRMED);
       }
     );
   },
@@ -167,7 +169,7 @@ Template.power.events({
           kind: Session.get('contract').kind,
           contractId: Session.get('contract')._id //_getContractId(senderId, receiverId, settings.kind),
         }
-        Modules.both.sendDelegationVotes(Session.get('contract')._id, Session.get('contract').signatures[0]._id, Session.get('contract').wallet.available, settings);
+        Modules.both.sendDelegationVotes(Session.get('contract')._id, Session.get('contract').signatures[0]._id, Session.get('contract').wallet.available, settings, SIGNATURE_STATUS_REJECTED);
       }
     );
   }

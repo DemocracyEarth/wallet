@@ -9,9 +9,13 @@ Meteor.methods({
     Modules.server.transact(Meteor.settings.public.Collective._id, userId, VOTES_INITIAL_QUANTITY);
   },
 
-  executeTransaction: function (delegatorId, delegateId, quantity, conditions) {
+  executeTransaction: function (delegatorId, delegateId, quantity, conditions, newStatus) {
     console.log('[transact]');
-    Modules.server.transact(delegatorId, delegateId, quantity, conditions);
+    var txId = Modules.server.transact(delegatorId, delegateId, quantity, conditions);
+    console.log('[transact] ticketId ' + txId);
+    if (newStatus != undefined && txId != undefined) {
+      return newStatus;
+    }
   }
 
 })
