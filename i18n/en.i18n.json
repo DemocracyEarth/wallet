@@ -338,7 +338,7 @@
   "delegate": "Delegate",
   "send-delegation-votes": "Delegation of Votes",
   "signature-pending": "(Pending...)",
-  "signature-rejected": ": Rejected offer.",
+  "signature-rejected": "(Rejected offer)",
   "digital-name": "Digital ID",
   "delegate-votes-warning": "Do you confirm starting a delegation of <strong><quantity> votes</strong> to:",
   "delegate-votes-executed": "<quantity> <type> Delegated.",
@@ -369,5 +369,6 @@
   "confirm-votes": "Accept Votes",
   "reject-delegation-votes": "Reject Delegation",
   "reject-delegation-warning": "Do you reject a delegation of <strong><quantity> votes</strong> from:",
-  "reject-votes": "Reject"
+  "reject-votes": "Reject",
+  "rejection-no-delegations": "No votes delegated."
 }

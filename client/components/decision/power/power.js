@@ -48,6 +48,7 @@ Template.power.helpers({
       }
 
       //quantity of votes to display
+      var rejection = false;
       if (Session.get('rightToVote') == true) {
         var quantity = wallet.allocateQuantity;
       } else {
@@ -63,13 +64,35 @@ Template.power.helpers({
               } else if (signatures[i].role == ROLE_DELEGATE && signatures[i]._id == Meteor.user()._id) {
                 //delegate
                 var quantity = Session.get('contract').wallet.balance;
-                break;
+              }
+              console.log(signatures[i].status)
+              if (signatures[i].status == SIGNATURE_STATUS_REJECTED) {
+                console.log('there was a rejection')
+                rejection = true;
               }
             }
           } else {
-            var quantity = Session.get('contract').wallet.available;
+            var signatures = Session.get('contract').signatures;
+            for (i in signatures) {
+              if (signatures[i].status == SIGNATURE_STATUS_REJECTED) {
+                console.log('there was a rejection')
+                rejection = true;
+              }
+            }
+            if (rejection != true) {
+              if (Modules.both.isUserSigner(Session.get('contract').signatures)) {
+                var quantity = Session.get('contract').wallet.available;
+              } else {
+                var quantity = Session.get('contract').wallet.balance;
+              }
+            }
           }
         }
+      }
+
+      //if contract didnt establish
+      if (rejection == true) {
+        return TAPi18n.__('rejection-no-delegations');
       }
 
       //string narrative

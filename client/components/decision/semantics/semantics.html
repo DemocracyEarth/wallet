@@ -8,13 +8,13 @@
     <div class="extra">
 
       <ul id="tagList" class="w-list-unstyled w-clearfix  connectedSortable">
-        {{#unless alreadyVoted}}
+        {{#if rightToVote}}
           <li class="w-clearfix tag tag-placeholder nondraggable" style="{{emptyList}}">
             <div class="hash-tag hash-tag-empty"></div>
           </li>
-        {{/unless}}
+        {{/if}}
         {{#if editorMode}}
-          {{#unless alreadyVoted}}
+          {{#if rightToVote}}
             {{#each semantics}}
                 {{> tag _id=_id nonDraggable=false}}
             {{/each}}
@@ -24,7 +24,7 @@
             {{else}}
               {{> warning label="no-tags-agreement" style='annotation'}}
             {{/each}}
-          {{/unless}}
+          {{/if}}
         {{else}}
           {{#each semantics}}
             {{> tag _id=_id nonDraggable=true}}
