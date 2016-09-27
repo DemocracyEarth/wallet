@@ -71,7 +71,7 @@ Template.fork.helpers({
   },
   tickStatus: function () {
     if (Session.get('candidateBallot')) {
-      if (Modules.client.getVoteBallot(Session.get('contract')._id, this._id)) {
+      if (Modules.client.getVote(Session.get('contract')._id, this._id)) {
         return 'tick-active';
       } else {
         return '';
@@ -89,7 +89,7 @@ Template.fork.events({
         break;
       case STAGE_LIVE:
         if ( this.tick == undefined ) { this.tick = true } else { this.tick = !this.tick }
-        Modules.client.setVoteBallot(Session.get('contract')._id, this);
+        Modules.client.setVote(Session.get('contract')._id, this);
         break;
     }
   },

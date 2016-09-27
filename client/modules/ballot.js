@@ -4,15 +4,13 @@ import {default as Modules} from "./_modules";
 * @param {string} contractId - contract where this ballot belongs to
 * @param {object} ballot - ballot object
 ******/
-let setVote = (contractId, ballot) => {
+let _setVote = (contractId, ballot) => {
   var candidateBallot = new Array();
 
   //see candidate ballots
   if (Session.get('candidateBallot') != undefined) {
    candidateBallot = Session.get('candidateBallot');
   }
-
-  console.log(ballot._id);
 
   //add or update ballot in memory
   var update = false;
@@ -36,12 +34,11 @@ let setVote = (contractId, ballot) => {
 
 }
 
-let getVote = (contractId, ballotOption) => {
-  for (var i = 0; i < Session.get('candidateBallot').length; i++) {
-    if (Session.get('candidateBallot')[i].contractId == contractId) {
-      if (Session.get('candidateBallot')[i].ballotOption == ballotOption) {
-         return Session.get('candidateBallot')[i].ticked;
-      }
+let _getVote = (contractId, ballotId) => {
+  var votes = Session.get('candidateBallot');
+  for (i in votes) {
+    if (votes[i].contractId == contractId && votes[i].ballot._id == ballotId) {
+      return votes[i].ballot.tick;
     }
   }
 }
@@ -72,5 +69,5 @@ let addNewProposal = () => {
 }
 
 Modules.client.forkContract = addNewProposal;
-Modules.client.setVoteBallot = setVote;
-Modules.client.getVoteBallot = getVote;
+Modules.client.setVote = _setVote;
+Modules.client.getVote = _getVote;
