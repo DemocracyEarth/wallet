@@ -44,7 +44,7 @@ Schema.Menu = new SimpleSchema({
       }
     }
   }
-})
+});
 
 Schema.Profile = new SimpleSchema({
     firstName: {

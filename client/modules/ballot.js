@@ -1,30 +1,46 @@
 import {default as Modules} from "./_modules";
 
 /*****
-/* @param {string} arrBallot - array with values for ballot
+* @param {string} contractId - contract where this ballot belongs to
+* @param {object} ballot - ballot object
 ******/
-let setVote = (contractId, ballotOption, ticked) => {
-  var potentialVote = new Array();
+let setVote = (contractId, ballot) => {
+  var candidateBallot = new Array();
 
-  if (Session.get('potentialVote') != undefined) {
-   potentialVote = Session.get('potentialVote');
+  //see candidate ballots
+  if (Session.get('candidateBallot') != undefined) {
+   candidateBallot = Session.get('candidateBallot');
   }
 
-  potentialVote.push({
-      contractId: contractId,
-      ballotOption: ballotOption,
-      ticked: ticked
-   });
+  console.log(ballot._id);
 
-  Session.set('potentialVote', potentialVote);
+  //add or update ballot in memory
+  var update = false;
+  for (i in candidateBallot) {
+    if (candidateBallot[i].contractId == contractId) {
+      if (candidateBallot[i].ballot._id == ballot._id) {
+        candidateBallot[i].ballot = ballot
+        update = true;
+      }
+    }
+  }
+  if (!update) {
+    candidateBallot.push({
+      contractId: contractId,
+      ballot: ballot
+    })
+  }
+
+  //save to session var
+  Session.set('candidateBallot', candidateBallot);
 
 }
 
 let getVote = (contractId, ballotOption) => {
-  for (var i = 0; i < Session.get('potentialVote').length; i++) {
-    if (Session.get('potentialVote')[i].contractId == contractId) {
-      if (Session.get('potentialVote')[i].ballotOption == ballotOption) {
-         return Session.get('potentialVote')[i].ticked;
+  for (var i = 0; i < Session.get('candidateBallot').length; i++) {
+    if (Session.get('candidateBallot')[i].contractId == contractId) {
+      if (Session.get('candidateBallot')[i].ballotOption == ballotOption) {
+         return Session.get('candidateBallot')[i].ticked;
       }
     }
   }

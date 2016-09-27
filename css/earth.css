@@ -1385,6 +1385,10 @@ blockquote {
   background-color: #00bf8f;
 }
 
+.tick-image.tick-active:hover {
+  background-color: #00bf8f;
+}
+
 .tick-image.tick-active-unauthorized {
   background-color: #ff2752;
 }

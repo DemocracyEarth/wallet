@@ -1,5 +1,26 @@
 import {default as Transaction} from "./Transactions";
 
+Schema.Ballot = new SimpleSchema({
+  _id: {
+    type: String
+  },
+  mode: {
+    type: String
+  },
+  rank: {
+    type: Number,
+    optional: true
+  },
+  url: {
+    type: String,
+    optional: true
+  },
+  label: {
+    type: String,
+    optional: true
+  }
+});
+
 Schema.Wallet =  new SimpleSchema({
   balance: {
     type: Number,
@@ -76,6 +97,10 @@ Schema.Wallet =  new SimpleSchema({
     type: String,
     optional: true,
     allowedValues: [CURRENCY_BITCOIN, CURRENCY_SATOSHI, CURRENCY_VOTES]
+  },
+  "ledger.$.ballot": {
+    type: [Schema.Ballot],
+    optional: true
   }
 });
 

@@ -1,0 +1,96 @@
+{
+  "galaxy.meteor.com": {
+     "env": {
+       "ROOT_URL": "https://vota.plebiscitodigital.co",
+       "MONGO_URL": "mongodb://sovereignDbAdmin:d3m0cr4cy34rthf0und4t10n@ds043996-a0.mlab.com:43996,ds043996-a1.mlab.com:43996/sovereign_mongodb?replicaSet=rs-ds043996"
+     }
+  },
+
+  "AWSAccessKeyId": "AKIAIEDBX73JZBV65WFA",
+  "AWSSecretAccessKey": "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",
+  "smtpServer": "smtp://postmaster%40mailgun.democracyearth.org:d070665c856bf97baa01bb0540faf765@smtp.mailgun.org:587",
+
+  "private": {
+
+    "API": {
+
+      "facebook": {
+        "appId": "904600516316501",
+        "appSecret": "43acc03408f50988490925aa66ebf112"
+      },
+
+      "twitter": {
+        "APIKey": "aT1uta586WOsjJjpL5CtGfQYh",
+        "APISecret": "GkSAZKNIOFNVS6s5blZIRzKyotC9JC1GXmsOsYAxNTem4a6J98"
+      }
+
+    }
+
+  },
+
+  "public": {
+
+    "AWSHostingURL": "https://earth-app.s3-us-west-2.amazonaws.com/",
+
+    "app": {
+
+      "name": "Sovereign by Democracy Earth Foundation",
+      "language": "en",
+      "development": true,
+      "version": "0.01",
+      "codename": "Quixote"
+
+    },
+
+    "Collective": {
+      "name": "Sovereign",
+      "domain": "https://sovereign.democracy.earth",
+      "emails": [
+        {
+          "address": "hello@democracy.earth",
+          "verified": true
+        }
+      ],
+      "createdAt": "January 12, 2015",
+
+      "profile": {
+        "website": "https://democracy.earth",
+        "bio": "Incorruptible governance for small & large communities. A global commons of peers.",
+        "blockchain": {
+          "address": "0"
+        },
+        "logo": "images/earth-avatar.png",
+        "jurisdiction": {
+          "legal": {
+              "taxId": "37-1776296",
+              "name": "Democracy Earth Foundation",
+              "type": "Non-Profit 501(c)3"
+          },
+          "location": {
+            "address": "Anywhere you find an Earth Flag",
+            "state": "California",
+            "country": {
+              "name": "United States of America",
+              "code": "US"
+            }
+          }
+        },
+        "foundation": "January 12, 2015",
+        "wallet": {
+          "available": 21000000,
+          "balance": 21000000,
+          "placed": 0,
+          "currency": "VOTES",
+          "transactions": []
+        }
+      },
+      "goal": "Free",
+      "authorities": [
+        {
+            "userId": "0"
+        }
+      ]
+    }
+  }
+
+}

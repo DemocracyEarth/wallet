@@ -1,7 +1,9 @@
 <template name="vote">
   <div class="execution">
     <div class="block">
-      {{> power user=user editable=editable label=label}}
+      {{#if currentUser}}
+        {{> power user=user editable=editable label=label}}
+      {{/if}}
     </div>
   </div>
 </template>

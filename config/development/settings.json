@@ -1,4 +1,10 @@
 {
+  "galaxy.meteor.com": {
+     "env": {
+       "ROOT_URL": "https://vota.plebiscitodigital.co",
+       "MONGO_URL": "mongodb://sovereignDbAdmin:d3m0cr4cy34rthf0und4t10n@ds043996-a0.mlab.com:43996,ds043996-a1.mlab.com:43996/sovereign_mongodb?replicaSet=rs-ds043996"
+     }
+   },
 
   "AWSAccessKeyId": "AKIAIEDBX73JZBV65WFA",
   "AWSSecretAccessKey": "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",
