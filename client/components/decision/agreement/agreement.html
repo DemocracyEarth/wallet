@@ -1,11 +1,15 @@
 <template name="agreement">
-  <div class="section">
-      {{#if editorMode}}
-        <div id='editor' class='cr-note w-richtext rich-text editor-draft editable {{sampleMode}}' tabindex=1></div>
-      {{else}}
+  {{#if editorMode}}
+    <div class="section">
+      <div id='editor' class='cr-note w-richtext rich-text editor-draft editable {{sampleMode}}' tabindex=1></div>
+    </div>
+  {{else}}
+    {{#unless emptyDescription}}
+      <div class="section">
         <div class='cr-note w-richtext rich-text editor-draft'>
           {{{description}}}
         </div>
-      {{/if}}
-  </div>
+      </div>
+    {{/unless}}
+  {{/if}}
 </template>

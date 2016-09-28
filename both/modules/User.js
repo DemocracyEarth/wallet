@@ -221,7 +221,11 @@ let _cacheSearch = (param, value) => {
   return false;
 }
 
-
+/***
+* verifies if a user is having a delegate role in a contract
+* @param {object} signatures - signatures of the contract (for delegations)
+* @return {boolean} status - yes or no
+***/
 let _userIsDelegate = (signatures) => {
   for (i in signatures) {
     //if user is delegated to

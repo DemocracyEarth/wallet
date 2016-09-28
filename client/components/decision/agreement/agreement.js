@@ -89,6 +89,13 @@ Template.agreement.helpers({
       var description = Session.get('contract').description;
       return Modules.client.delegationTextCheck(description, true);
     }
+  },
+  emptyDescription: function () {
+    if (Session.get('contract').description == "") {
+      return true;
+    } else {
+      return false; 
+    }
   }
 });
 

@@ -1,22 +1,21 @@
 <template name="power">
 
-  <!--{{#unless alreadyVoted}}-->
-    {{#if rightToVote}}
-      {{#if editable}}
-        <div class="w-clearfix rosca rosca-setter">
-          {{> bar editable=editable}}
-          {{> available user=user}}
-          {{> placed user=user}}
-        </div>
-      {{else}}
-        <div class="w-clearfix rosca rosca-id {{styleClass}}">
-          {{> bar editable=editable}}
-          {{> available user=user}}
-          {{> placed user=user}}
-        </div>
-      {{/if}}
+  {{#if rightToVote}}
+    {{#if editable}}
+      <div class="w-clearfix rosca rosca-setter">
+        {{> bar editable=editable}}
+        {{> available user=user}}
+        {{> placed user=user}}
+      </div>
+    {{else}}
+      <div class="w-clearfix rosca rosca-id {{styleClass}}">
+        {{> bar editable=editable}}
+        {{> available user=user}}
+        {{> placed user=user}}
+      </div>
     {{/if}}
-  <!--{{/unless}}-->
+  {{/if}}
+
 
   <div class="elements w-clearfix">
     <div class="hundred power">
@@ -37,6 +36,7 @@
       {{/if}}
     </div>
   </div>
+  
 </template>
 
 <template name="available">
