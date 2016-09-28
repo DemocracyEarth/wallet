@@ -1114,6 +1114,10 @@ blockquote {
   background-color: #fae6e6;
 }
 
+.vote.vote-alternative.unauthorized.vote-result {
+  background-color: transparent;
+}
+
 .vote.vote-alternative.vote-authorize:hover {
   background-color: #e6f9f4;
 }
@@ -1146,6 +1150,16 @@ blockquote {
 
 .vote.vote-alternative.vote-nondrag:hover {
   background-color: #fff;
+}
+
+.vote.vote-alternative.vote-result {
+  padding: 0px;
+  box-shadow: none;
+  cursor: default;
+}
+
+.vote.vote-alternative.vote-result:hover {
+  background-color: transparent;
 }
 
 .vote.vote-custom {
@@ -1326,6 +1340,17 @@ blockquote {
   text-decoration: none;
 }
 
+.option-title.option-link.option-result {
+  margin-top: 5px;
+  margin-bottom: -5px;
+  border-bottom-style: none;
+  font-size: 14px;
+}
+
+.option-title.option-link.option-result:hover {
+  text-decoration: none;
+}
+
 .checkbox {
   display: block;
 }
@@ -1382,6 +1407,10 @@ blockquote {
 }
 
 .tick-image.tick-disabled {
+  background-color: #aaa;
+}
+
+.tick-image.tick-disabled:hover {
   background-color: #aaa;
 }
 

@@ -36,7 +36,7 @@ Template.fork.helpers({
       }
   },
   option: function (mode) {
-    if (Session.get('contract').stage == STAGE_DRAFT) {
+    if (Session.get('contract').stage == STAGE_DRAFT || ( Session.get('rightToVote') == false && Session.get('contract').stage != STAGE_DRAFT )) {
       return 'disabled';
     } else {
       switch (mode) {
@@ -82,7 +82,6 @@ Template.fork.helpers({
     } else if (Session.get('rightToVote') == false && Session.get('contract').stage != STAGE_DRAFT) {
       //already voted
       if (this.tick) {
-        console.log('disabled tick');
         return 'tick-disabled'
       }
     }

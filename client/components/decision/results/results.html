@@ -1,0 +1,30 @@
+<template name="results">
+
+  <div class="section">
+
+    {{> kind title="results" icon="images/results.png" stage=stage}}
+
+    <div class="elements">
+      <ul class="options w-clearfix w-list-unstyled">
+
+        {{#each result}}
+            <li class="vote vote-alternative vote-result">
+              <div class="checkbox w-clearfix">
+                <div class="option-link option-result option-title">{{title}}</div>
+              </div>
+              <div class="result w-clearfix">
+                <div class="result-bar">
+                  <div class="result-score w-clearfix">
+                    <div class="result-total"><strong data-new-link="true">{{percentage}}</strong>{{total}}</div>
+                  </div>
+                </div>
+              </div>
+            </li>
+        {{/each}}
+        
+      </ul>
+    </div>
+
+  </div>
+
+</template>

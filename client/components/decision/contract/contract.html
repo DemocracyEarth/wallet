@@ -49,6 +49,11 @@
             <div class="paper">
               {{> ballot editorMode=false}}
             </div>
+            {{#if pollClosed}}
+              <div class="paper">
+                {{> results}}
+              </div>
+            {{/if}}
           </div>
         </div>
 
