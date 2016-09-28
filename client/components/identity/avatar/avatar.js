@@ -42,6 +42,12 @@ Template.avatar.helpers({
         return 'signature-rejected';
     }
   },
+  includeRole: function () {
+    if (Session.get('contract').signatures == undefined) {
+      return false;
+    }
+    return this.includeRole;
+  },
   pending: function () {
     if (Session.get('contract') != undefined) {
       if (Session.get('contract').kind == KIND_DELEGATION) {
