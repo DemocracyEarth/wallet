@@ -233,7 +233,27 @@ let _userIsDelegate = (signatures) => {
 }
 
 
-let _userCanVote = (signatures) => {
+/***
+* verifies if the vote of a user is already placed in the contract
+* @param {object} ledger - ledger with transactional data of this contract
+* @return {boolean} status - yes or no
+***/
+let _verifyVotingRight = (ledger) => {
+  for (i in ledger) {
+    if (ledger[i].entityId == Meteor.user()._id) {
+      return false;
+    }
+  }
+  return true;
+}
+
+
+/***
+* verifies if a user is able to delegate
+* @param {object} signatures - signatures of the contract (for delegations)
+* @return {boolean} status - yes or no
+***/
+let _verifyDelegationRight = (signatures) => {
   for (i in signatures) {
     if (signatures[i]._id == Meteor.user()._id) {
       switch(signatures[i].role) {
@@ -286,7 +306,8 @@ let _isUserSigner = (signatures) => {
 
 Modules.both.isUserSigner = _isUserSigner;
 Modules.both.userVotesInContract = _userVotesInContract;
-Modules.both.userCanVote = _userCanVote;
+Modules.both.verifyVotingRight = _verifyVotingRight;
+Modules.both.verifyDelegationRight = _verifyDelegationRight;
 Modules.both.userIsDelegate = _userIsDelegate;
 Modules.both.getProfileFromUsername = _getProfileFromUsername;
 Modules.both.getAnonymous = _getAnonObject;
