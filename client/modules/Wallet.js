@@ -25,10 +25,13 @@ Wallet = function (wallet) {
    //view
    this._initialSliderWidth = $('#voteSlider').width();
    this.sliderWidth = this._initialSliderWidth;
-   this._maxWidth = $('#voteBar').width() - (($('#voteBar').width() * parseInt((this.placed * 100) / this.balance)) / 100);
+   this._maxWidth = $('#voteBar').width() - (($('#voteBar').width() * parseInt((this.placed * 100) / this.balance)) / 100) - 2;
 
    //methods
-   this.allocateVotes(parseInt(this.available * 10 / 100));
+   if (this.initialized == true) {
+     this.allocateVotes(parseInt(this.available * 10 / 100));
+     this.initialized = false;
+   }
 
    //controller
    Session.set('newVote', this);

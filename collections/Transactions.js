@@ -1,3 +1,5 @@
+import {default as Ballot} from "./Ballot";
+
 Transactions = new Mongo.Collection("transactions");
 
 //NOTE: These schemas of Ticket & Transaction must store transactions in its own db (eventually a blockchain via vote-microchain TBD)
@@ -109,6 +111,10 @@ Schema.Transaction = new SimpleSchema({
         }
       }
     }
+  },
+  "condition.ballot": {
+    type: [Ballot],
+    optional: true
   },
   "condition.tags": {
     type: Array,

@@ -16,6 +16,14 @@ Meteor.methods({
     if (newStatus != undefined && txId != undefined) {
       return newStatus;
     }
+  },
+
+  vote: function  (userId, contractId, quantity, settings) {
+    console.log('[vote] ' + userId + ' on contract: ' + contractId + ' with quantity: ' + quantity);
+    console.log(settings);
+
+    Modules.server.transact(userId, contractId, quantity, settings);
+
   }
 
 })

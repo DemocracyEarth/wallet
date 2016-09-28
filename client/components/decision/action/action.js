@@ -49,27 +49,55 @@ Template.action.events({
                     },
                     currency: CURRENCY_VOTES,
                     kind: Session.get('contract').kind,
-                    contractId: Session.get('contract')._id //_getContractId(senderId, receiverId, settings.kind),
+                    contractId: Session.get('contract')._id
                   }
                   Modules.both.sendDelegationVotes(Session.get('contract').signatures[0]._id, Session.get('contract')._id, Session.get('newVote').allocateQuantity, settings);
                 }
               );
               break;
             case KIND_VOTE:
-              Modules.client.displayModal(
-                true,
-                {
-                  icon            : 'images/modal-ballot.png',
-                  title           : TAPi18n.__('launch-vote-proposal'),
-                  message         : TAPi18n.__('publish-proposal-warning'),
-                  cancel          : TAPi18n.__('not-now'),
-                  action          : TAPi18n.__('publish-proposal'),
-                  displayProfile  : false
-                },
-                function() {
-                  Modules.both.publishContract(Session.get('contract')._id);
-                }
-              );
+              if (Session.get('contract').stage == STAGE_DRAFT) {
+                Modules.client.displayModal(
+                  true,
+                  {
+                    icon            : 'images/modal-ballot.png',
+                    title           : TAPi18n.__('launch-vote-proposal'),
+                    message         : TAPi18n.__('publish-proposal-warning'),
+                    cancel          : TAPi18n.__('not-now'),
+                    action          : TAPi18n.__('publish-proposal'),
+                    displayProfile  : false
+                  },
+                  function() {
+                    Modules.both.publishContract(Session.get('contract')._id);
+                  }
+                );
+              } else if (Session.get('contract').stage == STAGE_LIVE) {
+                Modules.client.displayModal(
+                  true,
+                  {
+                    icon            : 'images/modal-ballot.png',
+                    title           : TAPi18n.__('place-vote'),
+                    message         : TAPi18n.__('place-votes-warning').replace('<quantity>', Session.get('newVote').allocateQuantity),
+                    cancel          : TAPi18n.__('not-now'),
+                    action          : TAPi18n.__('vote'),
+                    displayProfile  : false
+                  },
+                  function() {
+                    var ballot = Modules.client.purgeBallot(Session.get('candidateBallot'));
+                    settings = {
+                      condition: {
+                        tags : Session.get('contract').tags,
+                        ballot : ballot
+                      },
+                      currency: CURRENCY_VOTES,
+                      kind: Session.get('contract').kind,
+                      contractId: Session.get('contract')._id
+                    }
+                    console.log(ballot);
+                    Modules.both.vote(Meteor.user()._id, Session.get('contract')._id, Session.get('newVote').allocateQuantity, settings);
+                  }
+                );
+              }
               break;
           }
         }

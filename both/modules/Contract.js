@@ -86,8 +86,28 @@ let _sendDelegation = (sourceId, targetId, quantity, conditions, newStatus) => {
       throw new Meteor.Error(err, '[_sendDelegation]: transaction failed.') ;
     } else {
       //update contract status\
-      console.log('NEW STATUS = ' + result)
       _updateContractSignatures(result);
+      //Session.set('newVote', new Wallet(Meteor.user().profile.wallet));
+    }
+  })
+};
+
+
+/***
+* signals political preference of user regarding issue proposed in contract
+* @param {string} userId - identity assigning the tokens (usually currentUser)
+* @param {string} contractId - identity that will get a request to approve this contract (profile clicked)
+* @param {number} quantity - amount of votes being used
+* @param {object} ballot - specified conditions for this delegation
+***/
+let _vote = (userId, contractId, quantity, ballot) => {
+  Meteor.call('vote', userId, contractId, quantity, ballot, function (err, result) {
+    if (err) {
+      throw new Meteor.Error(err, '[_vote]: vote failed.') ;
+    } else {
+      //update contract status\
+      console.log('vote successful')
+      //_updateContractSignatures(result);
       //Session.set('newVote', new Wallet(Meteor.user().profile.wallet));
     }
   })
@@ -271,3 +291,4 @@ Modules.both.startMembership = _newMembership;
 Modules.both.startDelegation = _newDelegation;
 Modules.both.sendDelegationVotes = _sendDelegation;
 Modules.both.createContract = _newDraft;
+Modules.both.vote = _vote;

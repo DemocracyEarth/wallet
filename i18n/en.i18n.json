@@ -370,5 +370,8 @@
   "reject-delegation-votes": "Reject Delegation",
   "reject-delegation-warning": "Do you reject a delegation of <strong><quantity> votes</strong> from:",
   "reject-votes": "Reject",
-  "rejection-no-delegations": "No votes delegated."
+  "rejection-no-delegations": "No votes delegated.",
+  "place-vote": "Place Vote",
+  "confirm-vote": "Open",
+  "place-votes-warning": "Do you confirm placing <strong><quantity> votes</strong>?"
 }

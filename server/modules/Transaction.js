@@ -102,6 +102,22 @@ let _processTransaction = (txId) => {
   });
   receiver.available += parseInt(transaction.output.quantity);
   receiver.balance += receiver.available;
+
+  console.log('[_processTransaction] check if ballot stored');
+  console.log(transaction.condition.ballot);
+  if (transaction.condition.ballot) {
+    console.log('[_processTransaction] it has ballot');
+    fullBallot = new Array();
+    last = receiver.ledger.length - 1;
+
+    for (k in transaction.condition.ballot) {
+      fullBallot.push(transaction.condition.ballot[k])
+    };
+    console.log('[_processTransaction] fullballot:');
+    console.log(fullBallot);
+    receiver.ledger[last] = Object.assign(receiver.ledger[last], {ballot: fullBallot});
+    
+  }
   receiverProfile.wallet = Object.assign(receiverProfile.wallet, receiver);
 
   console.log('[_processTransaction] receiver in transaction:');

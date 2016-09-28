@@ -69,6 +69,22 @@ let _ballotReady = () => {
 }
 
 
+/****
+* keeps only boolean true values in ballot
+* @param {object} ballot - ballot object
+* @return {object} options - array with only ticked true ballot options
+****/
+let _purgeBallot = (options) => {
+  var finalBallot = new Array();
+  for (i in options) {
+    if (options[i].ballot.tick == true) {
+      finalBallot.push(options[i].ballot);
+    }
+  }
+  return finalBallot;
+}
+
+
 //adds a new proposal to contrat being edited
 let addNewProposal = () => {
   if (Session.get('proposalURLStatus') == 'AVAILABLE') {
@@ -94,6 +110,7 @@ let addNewProposal = () => {
 
 }
 
+Modules.client.purgeBallot = _purgeBallot;
 Modules.client.ballotReady = _ballotReady;
 Modules.client.forkContract = addNewProposal;
 Modules.client.setVote = _setVote;
