@@ -52,6 +52,12 @@ Template.semantics.rendered = function () {
 };
 
 Template.semantics.helpers({
+  emptyTags: function () {
+    if (Session.get('contract').stage != STAGE_DRAFT && Session.get('contract').tags.length == 0) {
+      return true;
+    }
+    return false;
+  },
   semantics: function () {
     return sortRanks(Session.get('dbTagList'));
   },

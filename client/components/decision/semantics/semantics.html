@@ -1,42 +1,35 @@
 <template name="semantics">
-
-  <!-- Tag Cloud -->
-  <div class="section">
-
-    <h5>{{_ "topics"}}</h5>
-
-    <div class="extra">
-
-      <ul id="tagList" class="w-list-unstyled w-clearfix  connectedSortable">
-        {{#if rightToVote}}
-          <li class="w-clearfix tag tag-placeholder nondraggable" style="{{emptyList}}">
-            <div class="hash-tag hash-tag-empty"></div>
-          </li>
-        {{/if}}
-        {{#if editorMode}}
+  {{#unless emptyTags}}
+    <!-- Tag Cloud -->
+    <div class="section">
+      <h5>{{_ "topics"}}</h5>
+      <div class="extra">
+        <ul id="tagList" class="w-list-unstyled w-clearfix  connectedSortable">
           {{#if rightToVote}}
-            {{#each semantics}}
-                {{> tag _id=_id nonDraggable=false}}
-            {{/each}}
+            <li class="w-clearfix tag tag-placeholder nondraggable" style="{{emptyList}}">
+              <div class="hash-tag hash-tag-empty"></div>
+            </li>
+          {{/if}}
+          {{#if editorMode}}
+            {{#if rightToVote}}
+              {{#each semantics}}
+                  {{> tag _id=_id nonDraggable=false}}
+              {{/each}}
+            {{else}}
+              {{#each semantics}}
+                {{> tag _id=_id nonDraggable=true}}
+              {{else}}
+                {{> warning label="no-tags-agreement" style='annotation'}}
+              {{/each}}
+            {{/if}}
           {{else}}
             {{#each semantics}}
               {{> tag _id=_id nonDraggable=true}}
-            {{else}}
-              {{> warning label="no-tags-agreement" style='annotation'}}
             {{/each}}
           {{/if}}
-        {{else}}
-          {{#each semantics}}
-            {{> tag _id=_id nonDraggable=true}}
-          {{/each}}
-        {{/if}}
-      </ul>
-
-
-      <!--{{#unless alreadyVoted}}-->
+        </ul>
         {{#if rightToVote}}
           {{#if editorMode}}
-
             <!-- Warnings -->
             {{#if duplicateTags}}
               {{> warning label="duplicate_tags"}}
@@ -50,7 +43,6 @@
             {{#if noTags}}
               {{> warning label="no-tags"}}
             {{/if}}
-
             <!-- Tag Picker -->
             <div class="w-clearfix search-custom {{searchBox}}">
               <img src="{{pathFor route='home'}}images/search.png" class="search-icon">
@@ -88,13 +80,9 @@
               {{/each}}
             </ul>
             <div class="shadow-fake"></div>
-
           {{/if}}
         {{/if}}
-      <!--{{/unless}}-->
-
+      </div>
     </div>
-
-  </div>
-
+  {{/unless}}
 </template>
