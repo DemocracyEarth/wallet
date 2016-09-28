@@ -2,7 +2,7 @@ var newDelegateName = new String();
 
 Template.card.helpers({
   myself: function () {
-    return (this.toString() == Meteor.userId());
+    return (this.toString() == Meteor.userId() || this._id == ANONYMOUS);
   },
   delegationKeyword: function () {
     Modules.both.getUserInfo(this.toString(), 'newDelegate');

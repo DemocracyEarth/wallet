@@ -161,7 +161,7 @@ let _fetchUser = (userId, sessionVar) => {
 let _getAnonObject = (signatureMode) => {
   if (signatureMode) {
     return {
-      _id : '0000000',
+      _id : ANONYMOUS,
       role : ROLE_AUTHOR,
       picture : '/images/anonymous.png',
       firstName : TAPi18n.__('anonymous'),
@@ -174,7 +174,7 @@ let _getAnonObject = (signatureMode) => {
     };
   } else {
     return {
-      _id : '0000000',
+      _id : ANONYMOUS,
       username: 'anonymous',
       profile: {
         picture : '/images/anonymous.png',

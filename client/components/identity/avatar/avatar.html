@@ -20,40 +20,33 @@
           <div class="label">{{_ 'edit'}}</div>
         </div>
       {{/if}}
-
       {{#if profile}}
         <img id="{{elementId}}" src="{{profilePicture profile}}" class="symbol profile-pic {{classStyle smallFont}} {{pending}}" style="{{pictureSize size includeName}}">
       {{else}}
         <img src="{{profilePicture}}" class="symbol profile-pic {{classStyle smallFont}}" style="{{pictureSize size includeName}}">
       {{/if}}
-
       <div class="identity-peer {{classStyle smallFont}} {{pending}}">
-
         {{#if verifiedIdentity}}
           <div class="identity-verified">
             <img src="{{pathFor route='home'}}images/white-tick.png" class="identity-verified-tick">
           </div>
         {{/if}}
-
         {{#if includeName}}
           {{#if smallFont}}
             <a href="{{url}}" class="identity-label identity-label-small">{{fullName profile}}</a>
           {{else}}
             <a href="{{url}}" class="identity-label">{{fullName profile}}</a>
           {{/if}}
-
           {{#if includeNation}}
             <div class="identity-nation">{{nationality profile}}</div>
           {{/if}}
         {{/if}}
       </div>
-
       {{#if includeRole}}
         <div class="signature-role {{roleStyle}}">
           {{{roleStatus}}}
         </div>
       {{/if}}
-
     {{/if}}
   </div>
 </template>

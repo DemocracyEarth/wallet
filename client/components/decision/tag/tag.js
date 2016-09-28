@@ -1,7 +1,3 @@
-Template.tag.rendered = function () {
-  //behave(this.firstNode, 'fade');
-};
-
 Template.tag.helpers({
   authorization: function (hover) {
     return 'authorized';
