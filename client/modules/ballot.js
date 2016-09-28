@@ -109,35 +109,38 @@ let _showResults = () => {
   var ledger = Session.get('contract').wallet.ledger;
   var ballot = Session.get('contract').ballot;
 
-  //executive options
-  if (Session.get('contract').executiveDecision == true) {
-    ballot.push(
-      {
-        _id: 1,
-        label: 'Support'
-      },
-      {
-        _id: 0,
-        label: 'Reject'
-      }
-    );
-  }
-
   //add votes
   for (i in ledger) {
-    quantity = (ledger[i].quantity / ledger[i].ballot.length);
-    for (k in ledger[i].ballot) {
-      results = _addVotes(results, ledger[i].ballot[k], quantity);
+    if (ledger[i].ballot.length > 0) {
+      quantity = (ledger[i].quantity / ledger[i].ballot.length);
+      for (k in ledger[i].ballot) {
+        results = _countVotes(results, ledger[i].ballot[k], quantity);
+      }
     }
   }
 
   console.log('[_showResults]:')
   console.log(results);
+  //get stats
+  var totalvotes = 0;
+  for (i in results) {
+    totalvotes += results[i].votes;
+  }
+  console.log('totalvotes ' + totalvotes);
+
+  //set percentage
+  for (i in results) {
+    ballotcount = results[i];
+    ballotcount['percentage'] = ((ballotcount.votes * 100) / totalvotes);
+    results[i] = ballotcount;
+  }
+
+  return results;
 
 }
 
 
-let _addVotes = (scoreboard, ballot, quantity) => {
+let _countVotes = (scoreboard, ballot, quantity) => {
   for (i in scoreboard) {
     if (scoreboard[i]._id == ballot._id) {
       //add votes to exsting item
