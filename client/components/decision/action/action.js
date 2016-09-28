@@ -75,7 +75,7 @@ Template.action.events({
                 Modules.client.displayModal(
                   true,
                   {
-                    icon            : 'images/modal-ballot.png',
+                    icon            : 'images/modal-vote.png',
                     title           : TAPi18n.__('place-vote'),
                     message         : TAPi18n.__('place-votes-warning').replace('<quantity>', Session.get('newVote').allocateQuantity),
                     cancel          : TAPi18n.__('not-now'),
@@ -92,8 +92,7 @@ Template.action.events({
                       currency: CURRENCY_VOTES,
                       kind: Session.get('contract').kind,
                       contractId: Session.get('contract')._id
-                    }
-                    console.log(ballot);
+                    };
                     Modules.both.vote(Meteor.user()._id, Session.get('contract')._id, Session.get('newVote').allocateQuantity, settings);
                   }
                 );

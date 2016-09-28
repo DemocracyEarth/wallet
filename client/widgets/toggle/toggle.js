@@ -29,7 +29,7 @@ Template.toggle.helpers({
 Template.toggle.events({
   "click #toggleButton": function (event) {
     //clickedToggle = this.setting;
-    if (!Session.get('alreadyVoted')) {
+    if (!Session.get('rightToVote')) {
       Session.set('clickedToggle', this.setting);
       var obj = new Object;
       toggle($('.' + this.setting).children(), !this.value);

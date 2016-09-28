@@ -52,6 +52,7 @@ Template.power.helpers({
       if (Session.get('rightToVote') == true) {
         var quantity = wallet.allocateQuantity;
       } else {
+        //delegation
         if (Session.get('contract').kind == KIND_DELEGATION) {
           voteQuantity = TAPi18n.__('delegate-votes-executed');
           if (Modules.both.isUserSigner(Session.get('contract').signatures)) {
@@ -85,6 +86,15 @@ Template.power.helpers({
             }
           }
         }
+        //live or finish vote
+        if (Session.get('contract').stage != STAGE_DRAFT && Session.get('contract').kind != KIND_DELEGATION) {
+          var ledger = Session.get('contract').wallet.ledger;
+          for (i in ledger) {
+            if (ledger[i].entityId == Meteor.user()._id && ledger[i].ballot.length > 0) {
+              quantity = ledger[i].quantity
+            }
+          }
+        }
       }
 
       //if contract didnt establish
@@ -108,9 +118,6 @@ Template.power.helpers({
     } else {
       return 0;
     }
-  },
-  alreadyVoted: function () {
-    return Session.get('alreadyVoted');
   },
   rightToVote: function () {
     return Session.get('rightToVote');
