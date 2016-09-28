@@ -12,9 +12,17 @@ let _setVote = (contractId, ballot) => {
    candidateBallot = Session.get('candidateBallot');
   }
 
-  //add or update ballot in memory
+
+  var multipleChoice = Session.get('contract').multipleChoice;
   var update = false;
+  console.log(ballot.tick)
+  ballot.tick = _tickBehaviour(ballot.tick, multipleChoice);
+  console.log(ballot.tick)
+  //add or update ballot in memory
   for (i in candidateBallot) {
+    if (!multipleChoice) {
+      candidateBallot[i].ballot.tick = false;
+    }
     if (candidateBallot[i].contractId == contractId) {
       if (candidateBallot[i].ballot._id == ballot._id) {
         candidateBallot[i].ballot = ballot
@@ -32,9 +40,32 @@ let _setVote = (contractId, ballot) => {
   //save to session var
   Session.set('candidateBallot', candidateBallot);
 
+  return ballot.tick;
+
 }
 
+let _tickBehaviour = (value, multipleChoice) => {
+  if (value == undefined ) {
+    return true
+  } else {
+    if (multipleChoice) {
+      return !value
+    } else {
+      if (value) {
+        return false
+      } else {
+        return true
+      }
+    }
+  }
+}
+
+/*****
+* @param {string} contractId - contract where this ballot belongs to
+* @param {object} ballotId - ballotId to check
+******/
 let _getVote = (contractId, ballotId) => {
+  //TODO CHECK USER ALREADY VOTED
   var votes = Session.get('candidateBallot');
   for (i in votes) {
     if (votes[i].contractId == contractId && votes[i].ballot._id == ballotId) {

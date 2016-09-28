@@ -71,12 +71,12 @@ Template.fork.helpers({
   },
   tickStatus: function () {
     if (Session.get('candidateBallot')) {
-      if (Modules.client.getVote(Session.get('contract')._id, this._id)) {
+      this.tick = Modules.client.getVote(Session.get('contract')._id, this._id);
+      if (this.tick) {
         return 'tick-active';
-      } else {
-        return '';
       }
     }
+    return '';
   }
 });
 
@@ -88,8 +88,7 @@ Template.fork.events({
         Session.set('disabledCheckboxes', true);
         break;
       case STAGE_LIVE:
-        if ( this.tick == undefined ) { this.tick = true } else { this.tick = !this.tick }
-        Modules.client.setVote(Session.get('contract')._id, this);
+        this.tick = Modules.client.setVote(Session.get('contract')._id, this);
         break;
     }
   },
