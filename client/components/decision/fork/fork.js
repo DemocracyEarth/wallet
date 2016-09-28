@@ -73,7 +73,11 @@ Template.fork.helpers({
     if (Session.get('candidateBallot')) {
       this.tick = Modules.client.getVote(Session.get('contract')._id, this._id);
       if (this.tick) {
-        return 'tick-active';
+        if (this.mode == BALLOT_OPTION_MODE_REJECT) {
+          return 'tick-active-unauthorized';
+        } else {
+          return 'tick-active';
+        }
       }
     }
     return '';

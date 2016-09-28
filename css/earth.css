@@ -1356,6 +1356,10 @@ blockquote {
   background-color: #ff2752;
 }
 
+.tick.unathorized:hover {
+  background-color: #ff2752;
+}
+
 .tick.unauthorized {
   background-color: #ff2752;
 }
@@ -1390,6 +1394,10 @@ blockquote {
 }
 
 .tick-image.tick-active-unauthorized {
+  background-color: #ff2752;
+}
+
+.tick-image.tick-active-unauthorized:hover {
   background-color: #ff2752;
 }
 

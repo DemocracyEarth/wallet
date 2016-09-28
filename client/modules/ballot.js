@@ -11,14 +11,13 @@ let _setVote = (contractId, ballot) => {
   if (Session.get('candidateBallot') != undefined) {
    candidateBallot = Session.get('candidateBallot');
   }
-
-
   var multipleChoice = Session.get('contract').multipleChoice;
-  var update = false;
-  console.log(ballot.tick)
-  ballot.tick = _tickBehaviour(ballot.tick, multipleChoice);
-  console.log(ballot.tick)
+
+  //fate
+  if (ballot.tick == undefined) { ballot.tick = true } else { ballot.tick = !ballot.tick };
+
   //add or update ballot in memory
+  var update = false;
   for (i in candidateBallot) {
     if (!multipleChoice) {
       candidateBallot[i].ballot.tick = false;
@@ -39,25 +38,7 @@ let _setVote = (contractId, ballot) => {
 
   //save to session var
   Session.set('candidateBallot', candidateBallot);
-
   return ballot.tick;
-
-}
-
-let _tickBehaviour = (value, multipleChoice) => {
-  if (value == undefined ) {
-    return true
-  } else {
-    if (multipleChoice) {
-      return !value
-    } else {
-      if (value) {
-        return false
-      } else {
-        return true
-      }
-    }
-  }
 }
 
 /*****

@@ -24,13 +24,13 @@
               {{> toggle setting="allowForks" value=allowForks}}
             </div>
           </li>
+          -->
           <li class="w-clearfix setting">
             <div class="text setting-label">{{_ "enable-multiple-choice"}}</div>
             <div class="w-clearfix value">
               {{> toggle setting="multipleChoice" value=multipleChoice}}
             </div>
           </li>
-          -->
           <li class="w-clearfix setting">
             <div class="text setting-label">{{_ "executive-decision"}}</div>
             <div class="w-clearfix value">
@@ -72,8 +72,8 @@
         <ul id="ballotOption" class="w-list-unstyled w-clearfix options connectedBallot">
           {{#unless editorMode}}
             {{#if executiveDecision}}
-              {{> fork executive=true mode="AUTHORIZE"}}
-              {{> fork executive=true mode="REJECT"}}
+              {{> fork executive=true mode="AUTHORIZE" _id=1 }}
+              {{> fork executive=true mode="REJECT" _id=0 }}
             {{/if}}
           {{/unless}}
           {{#each options}}
