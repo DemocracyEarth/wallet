@@ -100,6 +100,57 @@ let _purgeBallot = (options) => {
   return finalBallot;
 }
 
+/******
+* shows the results of the current poll
+* @return {array} results - array with a statistical object for every item in the ballot
+*******/
+let _showResults = () => {
+  var results = new Array();
+  var ledger = Session.get('contract').wallet.ledger;
+  var ballot = Session.get('contract').ballot;
+
+  //executive options
+  if (Session.get('contract').executiveDecision == true) {
+    ballot.push(
+      {
+        _id: 1,
+        label: 'Support'
+      },
+      {
+        _id: 0,
+        label: 'Reject'
+      }
+    );
+  }
+
+  //add votes
+  for (i in ledger) {
+    quantity = (ledger[i].quantity / ledger[i].ballot.length);
+    for (k in ledger[i].ballot) {
+      results = _addVotes(results, ledger[i].ballot[k], quantity);
+    }
+  }
+
+  console.log('[_showResults]:')
+  console.log(results);
+
+}
+
+
+let _addVotes = (scoreboard, ballot, quantity) => {
+  for (i in scoreboard) {
+    if (scoreboard[i]._id == ballot._id) {
+      //add votes to exsting item
+      scoreboard[i].votes += quantity;
+      return scoreboard;
+    }
+  }
+  //new item in ballot
+  ballot['votes'] = quantity;
+  scoreboard.push(ballot);
+  return scoreboard;
+}
+
 
 //adds a new proposal to contrat being edited
 let addNewProposal = () => {
@@ -126,6 +177,7 @@ let addNewProposal = () => {
 
 }
 
+Modules.client.showResults = _showResults;
 Modules.client.purgeBallot = _purgeBallot;
 Modules.client.ballotReady = _ballotReady;
 Modules.client.forkContract = addNewProposal;

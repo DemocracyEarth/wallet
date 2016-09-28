@@ -90,9 +90,11 @@ Template.power.helpers({
         if (Session.get('contract').stage != STAGE_DRAFT && Session.get('contract').kind != KIND_DELEGATION) {
           var ledger = Session.get('contract').wallet.ledger;
           for (i in ledger) {
-            if (ledger[i].entityId == Meteor.user()._id && ledger[i].ballot.length > 0) {
-              voteQuantity = TAPi18n.__('contract-votes-executed');
-              quantity = ledger[i].quantity
+            if (ledger[i].ballot != undefined) {
+              if (ledger[i].entityId == Meteor.user()._id && ledger[i].ballot.length > 0) {
+                voteQuantity = TAPi18n.__('contract-votes-executed');
+                quantity = ledger[i].quantity
+              }
             }
           }
         }
