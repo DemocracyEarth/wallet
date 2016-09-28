@@ -70,14 +70,20 @@ Template.fork.helpers({
     }
   },
   tickStatus: function () {
+    this.tick = Modules.client.getVote(Session.get('contract')._id, this._id);
     if (Session.get('candidateBallot')) {
-      this.tick = Modules.client.getVote(Session.get('contract')._id, this._id);
       if (this.tick) {
         if (this.mode == BALLOT_OPTION_MODE_REJECT) {
           return 'tick-active-unauthorized';
         } else {
           return 'tick-active';
         }
+      }
+    } else if (Session.get('rightToVote') == false && Session.get('contract').stage != STAGE_DRAFT) {
+      //already voted
+      if (this.tick) {
+        console.log('disabled tick');
+        return 'tick-disabled'
       }
     }
     return '';
@@ -92,8 +98,10 @@ Template.fork.events({
         Session.set('disabledCheckboxes', true);
         break;
       case STAGE_LIVE:
-        this.tick = Modules.client.setVote(Session.get('contract')._id, this);
-        break;
+        if (Session.get('rightToVote')) {
+          this.tick = Modules.client.setVote(Session.get('contract')._id, this);
+          break;
+        }
     }
   },
 

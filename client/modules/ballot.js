@@ -46,11 +46,27 @@ let _setVote = (contractId, ballot) => {
 * @param {object} ballotId - ballotId to check
 ******/
 let _getVote = (contractId, ballotId) => {
-  //TODO CHECK USER ALREADY VOTED
-  var votes = Session.get('candidateBallot');
-  for (i in votes) {
-    if (votes[i].contractId == contractId && votes[i].ballot._id == ballotId) {
-      return votes[i].ballot.tick;
+  if (Session.get('rightToVote') == false && Session.get('contract').stage != STAGE_DRAFT) {
+    //check if user already voted
+    var ledger = Session.get('contract').wallet.ledger
+    for (i in ledger) {
+      if (ledger[i].entityId == Meteor.user()._id) {
+        ballot = ledger[i].ballot;
+        for (k in ballot) {
+          if (ballot[k]._id == ballotId) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  } else {
+    //check user current vote
+    var votes = Session.get('candidateBallot');
+    for (i in votes) {
+      if (votes[i].contractId == contractId && votes[i].ballot._id == ballotId) {
+        return votes[i].ballot.tick;
+      }
     }
   }
 }

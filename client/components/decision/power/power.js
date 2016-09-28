@@ -91,6 +91,7 @@ Template.power.helpers({
           var ledger = Session.get('contract').wallet.ledger;
           for (i in ledger) {
             if (ledger[i].entityId == Meteor.user()._id && ledger[i].ballot.length > 0) {
+              voteQuantity = TAPi18n.__('contract-votes-executed');
               quantity = ledger[i].quantity
             }
           }
