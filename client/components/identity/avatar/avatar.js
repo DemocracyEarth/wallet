@@ -43,8 +43,10 @@ Template.avatar.helpers({
     }
   },
   includeRole: function () {
-    if (Session.get('contract').signatures == undefined) {
-      return false;
+    if (Session.get('contract')) {
+      if (Session.get('contract').signatures == undefined) {
+        return false;
+      }
     }
     return this.includeRole;
   },

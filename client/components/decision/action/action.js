@@ -93,8 +93,10 @@ function disableContractExecution() {
   } else if (!Session.get('rightToVote')) {
     return true;
   } else {
-    if (Session.get('contract').kind == KIND_DELEGATION) {
-
+    if (Session.get('contract').kind == KIND_VOTE && Session.get('contract').stage == STAGE_LIVE) {
+      if (!Modules.client.ballotReady()) {
+        return true;
+      }
     }
     if (Session.get('newVote') != undefined) {
       if (Session.get('newVote').mode == WALLET_MODE_PENDING || Session.get('newVote').mode == undefined) {

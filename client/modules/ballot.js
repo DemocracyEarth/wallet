@@ -55,6 +55,20 @@ let _getVote = (contractId, ballotId) => {
   }
 }
 
+/****
+* checks if at least one item from ballot has been checked for voting
+****/
+let _ballotReady = () => {
+  var votes = Session.get('candidateBallot');
+  for (i in votes) {
+    if (votes[i].ballot.tick == true) {
+      return true;
+    }
+  }
+  return false;
+}
+
+
 //adds a new proposal to contrat being edited
 let addNewProposal = () => {
   if (Session.get('proposalURLStatus') == 'AVAILABLE') {
@@ -80,6 +94,7 @@ let addNewProposal = () => {
 
 }
 
+Modules.client.ballotReady = _ballotReady;
 Modules.client.forkContract = addNewProposal;
 Modules.client.setVote = _setVote;
 Modules.client.getVote = _getVote;
