@@ -374,5 +374,7 @@
   "place-vote": "Place Vote",
   "confirm-vote": "Open",
   "place-votes-warning": "Do you confirm placing <strong><quantity> votes</strong>?",
-  "results": "Results"
+  "results": "Results",
+  "total-votes": "(<votes> votes)",
+  "no": "No"
 }

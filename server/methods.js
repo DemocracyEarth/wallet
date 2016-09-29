@@ -160,8 +160,8 @@ Meteor.methods({
   },
 
   getServerTime: function () {
-    var _time = (new Date).toDateString();
-    console.log('[getServerTime] time request : ' + _time);
+    var _time = (new Date).toString();
+    console.log('[getServerTime] date request : ' + _time);
     return _time;
   }
 

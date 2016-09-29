@@ -102,16 +102,17 @@ let _purgeBallot = (options) => {
 
 /******
 * shows the results of the current poll
+* @param {object} contract - contract to check results on
 * @return {array} results - array with a statistical object for every item in the ballot
 *******/
-let _showResults = () => {
+let _showResults = (contract) => {
   var results = new Array();
-  var ledger = Session.get('contract').wallet.ledger;
-  var ballot = Session.get('contract').ballot;
+  var ledger = contract.wallet.ledger;
+  var ballot = contract.ballot;
 
   //add votes
   for (i in ledger) {
-    if (ledger[i].ballot.length > 0) {
+    if (ledger[i].ballot != undefined && ledger[i].ballot.length > 0) {
       quantity = (ledger[i].quantity / ledger[i].ballot.length);
       for (k in ledger[i].ballot) {
         results = _countVotes(results, ledger[i].ballot[k], quantity);
@@ -132,11 +133,48 @@ let _showResults = () => {
     results[i] = ballotcount;
   }
 
+  console.log(contract.executionStatus);
+
   return results;
 }
 
 /******
-* counts the votes in a given ballot 
+* updates contract execution status based on final results
+* @param {object} contract - contract to check results on
+* @param {object} results - object with poll results
+*********/
+let _updateExecutionStatus = (contract, results) => {
+  //check result
+  var topvotes = 0;
+  for (i in results) {
+    if (results[i].votes > topvotes) {
+      topvotes = results[i].votes;
+      winner = results[i].mode;
+    }
+  }
+  if (topvotes == 0) {
+    winner = BALLOT_OPTION_MODE_NONE;
+  }
+  if (contract.stage == STAGE_LIVE) {
+    var contractId = contract._id;
+    switch (winner) {
+      case BALLOT_OPTION_MODE_AUTHORIZE:
+        Contracts.update({ _id: contractId }, { $set: { executionStatus: EXECUTION_STATUS_APPROVED, stage : STAGE_FINISH }});
+        break;
+      case BALLOT_OPTION_MODE_REJECT:
+        Contracts.update({ _id: contractId }, { $set: { executionStatus: EXECUTION_STATUS_REJECTED, stage : STAGE_FINISH }});
+        break;
+      case BALLOT_OPTION_MODE_FORK:
+        Contracts.update({ _id: contractId }, { $set: { executionStatus: EXECUTION_STATUS_ALTERNATIVE, stage : STAGE_FINISH }});
+        break;
+      default:
+        Contracts.update({ _id: contractId }, { $set: { executionStatus: EXECUTION_STATUS_VOID, stage : STAGE_FINISH }});
+    }
+  }
+}
+
+/******
+* counts the votes in a given ballot
 * @param {array} scoreboard - array with all ballots to do counting on
 * @param {ballot} ballot - ballot to which compare existence in scoreboard
 * @param {number} quantity - amount of votes to add
@@ -182,6 +220,7 @@ let addNewProposal = () => {
 
 }
 
+Modules.client.updateExecutionStatus = _updateExecutionStatus;
 Modules.client.showResults = _showResults;
 Modules.client.purgeBallot = _purgeBallot;
 Modules.client.ballotReady = _ballotReady;

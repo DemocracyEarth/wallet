@@ -1,9 +1,9 @@
 Template.stage.helpers({
   text: function () {
     switch(this.text) {
-      case 'DRAFT':
+      case STAGE_DRAFT:
         return TAPi18n.__('kind-draft-vote');
-      case 'LIVE':
+      case STAGE_LIVE:
         var ticker = Modules.client.countdown(this.closingDate);
 
         if (ticker != false) {
@@ -13,30 +13,30 @@ Template.stage.helpers({
           return TAPi18n.__('poll-closed')
 
         }
-      case 'FINISH':
+      case STAGE_FINISH:
         switch(this.executionStatus) {
-          case 'APPROVED':
+          case EXECUTION_STATUS_APPROVED:
             return TAPi18n.__('kind-finish-vote-approved');
-          case 'ALTERNATIVE':
+          case EXECUTION_STATUS_ALTERNATIVE:
             return TAPi18n.__('kind-finish-vote-alternative');
-          case 'REJECTED':
+          case EXECUTION_STATUS_REJECTED:
             return TAPi18n.__('kind-finish-vote-rejected');
         }
     }
   },
   style: function (stage, executionStatus) {
     switch (this.text) {
-      case 'DRAFT':
+      case STAGE_DRAFT:
         return 'stage-draft';
-      case 'LIVE':
+      case STAGE_LIVE:
         return 'stage-live';
-      case 'FINISH':
+      case STAGE_FINISH:
         switch(this.executionStatus) {
-          case 'APPROVED':
+          case EXECUTION_STATUS_APPROVED:
             return 'stage-finish-approved';
-          case 'ALTERNATIVE':
+          case EXECUTION_STATUS_ALTERNATIVE:
             return 'stage-finish-alternative';
-          case 'REJECTED':
+          case EXECUTION_STATUS_REJECTED:
             return 'stage-finish-rejected';
         }
     }

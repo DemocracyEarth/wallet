@@ -756,7 +756,7 @@ blockquote {
   padding: 30px;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
-  background-image: url('../images/Screen Shot 2015-11-17 at 6.03.27 PM.png');
+  background-image: url('../images/Screen-Shot-2015-11-17-at-6.03.27-PM.png');
   background-position: 50% 0px;
   background-size: cover;
   box-shadow: inset 0 0 40px -20px #000;
@@ -1344,7 +1344,8 @@ blockquote {
   margin-top: 5px;
   margin-bottom: -5px;
   border-bottom-style: none;
-  font-size: 14px;
+  font-size: 18px;
+  line-height: 32px;
 }
 
 .option-title.option-link.option-result:hover {
@@ -2342,7 +2343,7 @@ blockquote {
 }
 
 .result-bar {
-  width: 43%;
+  width: 35%;
   height: 30px;
   float: left;
   border-top-left-radius: 3px;
@@ -2376,6 +2377,11 @@ blockquote {
   background-size: 50px;
   background-repeat: repeat-x;
   opacity: 0.25;
+}
+
+.result-bar.result-unanimous {
+  width: 100%;
+  border-radius: 3px;
 }
 
 .result-total {

@@ -10,12 +10,17 @@
         {{#each result}}
             <li class="vote vote-alternative vote-result">
               <div class="checkbox w-clearfix">
-                <div class="option-link option-result option-title">{{title}}</div>
+                <div class="option-link option-result option-title">
+                  {{label}}
+                </div>
               </div>
               <div class="result w-clearfix">
-                <div class="result-bar">
+                <div class="result-bar {{unanimous}}" style="width: {{percentage}}%">
                   <div class="result-score w-clearfix">
-                    <div class="result-total"><strong data-new-link="true">{{percentage}}</strong>{{total}}</div>
+                    <div class="result-total">
+                      <strong data-new-link="true">{{percentageLabel}}</strong>
+                      {{votes}}
+                    </div>
                   </div>
                 </div>
               </div>

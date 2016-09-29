@@ -105,6 +105,11 @@ Template.power.helpers({
         return TAPi18n.__('rejection-no-delegations');
       }
 
+      //if no votes found 
+      if (quantity == undefined) {
+        quantity = TAPi18n.__('no');
+      }
+
       //string narrative
       if (voteQuantity != undefined) {
         voteQuantity = voteQuantity.replace("<quantity>", quantity);
