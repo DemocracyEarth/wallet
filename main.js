@@ -26,21 +26,27 @@ Meteor.startup(function () {
 
     Meteor.startup(function () {
 
-      //Setup Language
+      //setup language
       Session.set("showLoadingIndicator", true);
 
-      //Internationalizatoin Library
+      //internationalization library
       TAPi18n.setLanguage(getUserLanguage())
         .done(function () {
           Session.set("showLoadingIndicator", false);
         })
         .fail(function (error_message) {
-          // Handle the situation
           console.log(error_message);
         });
 
-      //Scripts
+      //scripts
       $.getScript('js/spinner.js', function(){});
+
+
+      //time
+      Meteor.call("getServerTime", function (error, result) {
+          Session.set("time", result);
+      });
+
 
 
       //Search Engine for Tags

@@ -119,14 +119,11 @@ let _showResults = () => {
     }
   }
 
-  console.log('[_showResults]:')
-  console.log(results);
   //get stats
   var totalvotes = 0;
   for (i in results) {
     totalvotes += results[i].votes;
   }
-  console.log('totalvotes ' + totalvotes);
 
   //set percentage
   for (i in results) {
@@ -136,10 +133,15 @@ let _showResults = () => {
   }
 
   return results;
-
 }
 
-
+/******
+* counts the votes in a given ballot 
+* @param {array} scoreboard - array with all ballots to do counting on
+* @param {ballot} ballot - ballot to which compare existence in scoreboard
+* @param {number} quantity - amount of votes to add
+* @return {array} scoreboard - result board
+*******/
 let _countVotes = (scoreboard, ballot, quantity) => {
   for (i in scoreboard) {
     if (scoreboard[i]._id == ballot._id) {

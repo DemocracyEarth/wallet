@@ -157,6 +157,12 @@ Meteor.methods({
     var newDeal = Contracts.insert(contract);
     console.log(newDeal.url);
     return newDeal;
+  },
+
+  getServerTime: function () {
+    var _time = (new Date).toDateString();
+    console.log('[getServerTime] time request : ' + _time);
+    return _time;
   }
 
 });
