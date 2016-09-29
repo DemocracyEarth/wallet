@@ -97,7 +97,14 @@
             {{> warning label="empty-ballot"}}
           {{/if}}
         </div>
+      {{else}}
+        <div class="extra">
+          {{#if disabledCheckboxes}}
+            {{> warning label="disabled-checkboxes-closed-poll"}}
+          {{/if}}
+        </div>
       {{/if}}
+
 
     </div>
 

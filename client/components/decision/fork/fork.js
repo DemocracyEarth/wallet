@@ -94,8 +94,9 @@ Template.fork.events({
   "click #ballotCheckbox": function (event) {
     switch (Session.get('contract').stage) {
       case STAGE_DRAFT:
+      case STAGE_FINISH:
         Session.set('disabledCheckboxes', true);
-        break;
+        break;    
       case STAGE_LIVE:
         if (Session.get('rightToVote')) {
           this.tick = Modules.client.setVote(Session.get('contract')._id, this);
