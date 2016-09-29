@@ -5,8 +5,12 @@ Template.logger.rendered = function () {
 }
 
 Template.logger.helpers({
-  tabDisplay: function () {
-
+  multipleLoggers: function () {
+    if (Meteor.settings.public.app.config.blockchainLogin == true) {
+      return true;
+    } else {
+      return false;
+    }
   }
 });
 

@@ -35,50 +35,54 @@
     "app": {
 
       "name": "Sovereign by Democracy Earth Foundation",
-      "language": "en",
+      "language": "es",
       "development": true,
       "version": "0.01",
-      "codename": "Quixote"
-
+      "codename": "Quixote",
+      "config":
+        {
+          "blockchainLogin": false,
+          "commentRanking": false
+        }
     },
 
     "Collective": {
-      "name": "Sovereign",
-      "domain": "https://sovereign.democracy.earth",
+      "name": "República de Colombia",
+      "domain": "https://vota.plebiscitodigital.co",
       "emails": [
         {
           "address": "hello@democracy.earth",
           "verified": true
         }
       ],
-      "createdAt": "January 12, 2015",
+      "createdAt": "July 20, 1810",
 
       "profile": {
         "website": "https://democracy.earth",
-        "bio": "Incorruptible governance for small & large communities. A global commons of peers.",
+        "bio": "Estado unitario, social y democrático de derecho con forma de gobierno presidencialista.",
         "blockchain": {
           "address": "0"
         },
-        "logo": "images/earth-avatar.png",
+        "logo": "images/colombia.png",
         "jurisdiction": {
           "legal": {
-              "taxId": "37-1776296",
-              "name": "Democracy Earth Foundation",
-              "type": "Non-Profit 501(c)3"
+              "taxId": "Colombia",
+              "name": "República de Colombia",
+              "type": "Estado Nación"
           },
           "location": {
-            "address": "Anywhere you find an Earth Flag",
-            "state": "California",
+            "address": "América del Sur",
+            "state": "Colombia",
             "country": {
-              "name": "United States of America",
-              "code": "US"
+              "name": "Colombia",
+              "code": "CO"
             }
           }
         },
-        "foundation": "January 12, 2015",
+        "foundation": "July 20, 1810",
         "wallet": {
-          "available": 21000000,
-          "balance": 21000000,
+          "available": 210000000,
+          "balance": 210000000,
           "placed": 0,
           "currency": "VOTES",
           "transactions": []

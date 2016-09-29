@@ -1,5 +1,7 @@
 Template.avatar.rendered = function () {
   Session.set('editor', false);
+  console.log('rendering avatar 101');
+  console.log(this);
 }
 
 //this turned out to be kinda polymorphic
@@ -139,7 +141,7 @@ Template.avatar.helpers({
   },
   nationality: function (profile) {
     if (profile == undefined) {
-      if (Meteor.user() != undefined) {
+      if (Meteor.user() != null) {
         if (Meteor.user().profile.country != undefined) {
           var country = Modules.client.searchJSON(geoJSON.country, Meteor.user().profile.country.name);
           if (country != undefined) {

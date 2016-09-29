@@ -50,9 +50,11 @@ Template.feedItem.helpers({
     }
   },
   userIsAuthor: function (signatures) {
-    for (stamp in signatures) {
-      if (signatures[stamp]._id == Meteor.user()._id) {
-        return true;
+    if (Meteor.user() != null) {
+      for (stamp in signatures) {
+        if (signatures[stamp]._id == Meteor.user()._id) {
+          return true;
+        }
       }
     }
     return false;

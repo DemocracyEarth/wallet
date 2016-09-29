@@ -30,7 +30,7 @@ Meteor.startup(function () {
       Session.set("showLoadingIndicator", true);
 
       //internationalization library
-      TAPi18n.setLanguage(getUserLanguage())
+      TAPi18n.setLanguage(Meteor.settings.public.app.language)
         .done(function () {
           Session.set("showLoadingIndicator", false);
         })
