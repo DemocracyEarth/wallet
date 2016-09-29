@@ -1,7 +1,7 @@
 <template name="feed">
 
   <div class="feed">
-    {{#if currentUser}}
+
       <ul class="type w-clearfix w-list-unstyled">
         {{#each item}}
           {{> feedItem}}
@@ -12,7 +12,7 @@
         {{> feedEmpty emptyContent}}
       {{/if}}
 
-    {{/if}}
+    
   </div>
 
 </template>

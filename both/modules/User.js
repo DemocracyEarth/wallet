@@ -243,12 +243,16 @@ let _userIsDelegate = (signatures) => {
 * @return {boolean} status - yes or no
 ***/
 let _verifyVotingRight = (ledger) => {
-  for (i in ledger) {
-    if (ledger[i].entityId == Meteor.user()._id) {
-      return false;
+  if (Meteor.user() != null) {
+    for (i in ledger) {
+      if (ledger[i].entityId == Meteor.user()._id) {
+        return false;
+      }
     }
+    return true;
+  } else {
+    return false;
   }
-  return true;
 }
 
 
@@ -258,26 +262,30 @@ let _verifyVotingRight = (ledger) => {
 * @return {boolean} status - yes or no
 ***/
 let _verifyDelegationRight = (signatures) => {
-  for (i in signatures) {
-    if (signatures[i]._id == Meteor.user()._id) {
-      switch(signatures[i].role) {
-        case ROLE_DELEGATOR:
-          if (signatures[i].status == SIGNATURE_STATUS_PENDING) {
-            return true;
-          } else {
-            return false;
-          }
-        case ROLE_DELEGATE:
-          if (signatures[i].status == SIGNATURE_STATUS_PENDING) {
-            return false;
-          } else {
-            return false;
-          }
-          break;
-       }
+  if (Meteor.user() != null) {
+    for (i in signatures) {
+      if (signatures[i]._id == Meteor.user()._id) {
+        switch(signatures[i].role) {
+          case ROLE_DELEGATOR:
+            if (signatures[i].status == SIGNATURE_STATUS_PENDING) {
+              return true;
+            } else {
+              return false;
+            }
+          case ROLE_DELEGATE:
+            if (signatures[i].status == SIGNATURE_STATUS_PENDING) {
+              return false;
+            } else {
+              return false;
+            }
+            break;
+         }
+      }
     }
+    return false;
+  } else {
+    return false;
   }
-  return false;
 }
 
 /*****

@@ -10,8 +10,10 @@ let sidebarMenu = (feed) => {
   _getDecisionsMenu(feed);
 
   //specific to user
-  if (Meteor.user() != undefined) {
+  if (Meteor.user() != null) {
     _getDelegatesMenu(feed);
+  } else {
+    Session.set('menuDelegates', undefined);
   }
 
 }
@@ -164,6 +166,12 @@ let _getDecisionsMenu = (feed) => {
       selected: _verifySelection(FEED_VOTE_DRAFT, feed)
     }
   );
+
+  if (Meteor.user() == null) {
+    //delete options for unlogged users
+    menu.splice(1, 1);
+    menu.splice(2, 1);
+  }
 
   _toggleSelectedItem(menu);
   Session.set('menuDecisions', menu);
