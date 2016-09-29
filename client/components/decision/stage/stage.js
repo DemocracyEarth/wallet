@@ -5,13 +5,10 @@ Template.stage.helpers({
         return TAPi18n.__('kind-draft-vote');
       case STAGE_LIVE:
         var ticker = Modules.client.countdown(this.closingDate);
-
         if (ticker != false) {
           return ticker;
         } else {
-
           return TAPi18n.__('poll-closed')
-
         }
       case STAGE_FINISH:
         switch(this.executionStatus) {
@@ -21,6 +18,8 @@ Template.stage.helpers({
             return TAPi18n.__('kind-finish-vote-alternative');
           case EXECUTION_STATUS_REJECTED:
             return TAPi18n.__('kind-finish-vote-rejected');
+          case EXECUTION_STATUS_VOID:
+            return TAPi18n.__('kind-finish-vote-void');
         }
     }
   },
@@ -38,6 +37,8 @@ Template.stage.helpers({
             return 'stage-finish-alternative';
           case EXECUTION_STATUS_REJECTED:
             return 'stage-finish-rejected';
+          case EXECUTION_STATUS_VOID:
+            return 'stage-draft';
         }
     }
   }

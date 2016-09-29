@@ -124,6 +124,7 @@
   "kind-finish-vote-approved": "APPROVED",
   "kind-finish-vote-alternative": "ALTERNATIVE",
   "kind-finish-vote-rejected": "REJECTED",
+  "kind-finish-vote-void": "NO VOTES PLACED",
   "url-duplicate": "There's another proposal using a similar title and URL.",
   "search-tag": "Search tags...",
   "signatures": "Signatures",
