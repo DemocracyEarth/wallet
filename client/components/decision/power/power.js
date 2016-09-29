@@ -105,7 +105,7 @@ Template.power.helpers({
         return TAPi18n.__('rejection-no-delegations');
       }
 
-      //if no votes found 
+      //if no votes found
       if (quantity == undefined) {
         quantity = TAPi18n.__('no');
       }
@@ -114,7 +114,7 @@ Template.power.helpers({
       if (voteQuantity != undefined) {
         voteQuantity = voteQuantity.replace("<quantity>", quantity);
         voteQuantity = voteQuantity.replace("<type>", function () { if (quantity == 1 ) { return TAPi18n.__('vote-singular') } else { return TAPi18n.__('vote-plural') } } );
-        if (wallet.allocateQuantity == 0) {
+        if (wallet.allocateQuantity == 0 && Session.get('contract').stage != STAGE_DRAFT) {
           Session.set('noVotes', true)
         } else {
           Session.set('noVotes', false)

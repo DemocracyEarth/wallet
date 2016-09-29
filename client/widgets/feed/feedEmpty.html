@@ -14,9 +14,11 @@
         </div>
       </div>
 
-      <div class="half">
-        {{> feedButton label=contribute url=url}}
-      </div>
+      {{#if currentUser}}
+        <div class="half">
+          {{> feedButton label=contribute url=url}}
+        </div>
+      {{/if}}
 
     </div>
 
