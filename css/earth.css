@@ -73,6 +73,7 @@ a {
   border-bottom: 1px none #00c091;
   color: #00c091;
   text-decoration: none;
+  cursor: pointer;
 }
 
 a:hover {
