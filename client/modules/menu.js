@@ -167,7 +167,7 @@ let _getDecisionsMenu = (feed) => {
     }
   );
 
-  if (Meteor.user() == null) {
+  if (Meteor.user() == null || Meteor.settings.public.app.config.proposalDrafting == false) {
     //delete options for unlogged users
     menu.splice(1, 1);
     menu.splice(2, 1);

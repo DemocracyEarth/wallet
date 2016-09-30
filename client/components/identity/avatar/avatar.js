@@ -1,7 +1,5 @@
 Template.avatar.rendered = function () {
   Session.set('editor', false);
-  console.log('rendering avatar 101');
-  console.log(this);
 }
 
 //this turned out to be kinda polymorphic

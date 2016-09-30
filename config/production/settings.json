@@ -42,7 +42,8 @@
       "config":
         {
           "blockchainLogin": false,
-          "commentRanking": false
+          "commentRanking": false,
+          "proposalDrafting": false
         }
     },
 

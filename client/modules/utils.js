@@ -85,6 +85,31 @@ let _getProfileName = (profile) => {
   return fullName;
 };
 
+
+
+logRenders = function logRenders (filter) {
+  for (name in Object(Template)){
+    if (filter && !Array.isArray(filter)) filter = [filter];
+    var template = Template[name];
+    if (!template) continue;
+    if (filter && filter.indexOf(name) == -1){
+      // Clear previous logRenders
+      if ('oldRender' in template) template.rendered = template.oldRender;
+      delete template.oldRender;
+      continue;
+    }
+    var t = function(name, template){
+      if (!('oldRender' in template)) template.oldRender = template.rendered;
+      var counter = 0;
+      template.rendered = function () {
+        console.log(name, ++counter, this);
+        this.oldRender && this.oldRender.apply(this, arguments);
+      };
+    }(name, template);
+  };
+};
+
+Modules.client.logRenders = logRenders;
 Modules.client.getProfileName = _getProfileName;
 Modules.client.delegationTextCheck = _delegationTextCheck;
 Modules.client.stripHTMLfromText = stripHTML;

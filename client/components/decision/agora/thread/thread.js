@@ -21,6 +21,13 @@ Template.thread.helpers({
   },
   content: function () {
     return Modules.client.textFormat(this.content);
+  },
+  settingRanking: function () {
+    if (Meteor.settings.public.app.config.commentRanking == false) {
+      return false;
+    } else {
+      return true;
+    }
   }
 });
 

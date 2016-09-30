@@ -1,17 +1,19 @@
 <template name="compose">
   {{#if currentUser}}
-    <div id="action" class="cast">
+    {{#if proposalDrafting}}
+      <div id="action" class="cast">
 
-      <div class="action-label">
-        <div>{{_ 'propose'}}</div>
+        <div class="action-label">
+          <div>{{_ 'propose'}}</div>
+        </div>
+
+        {{#if mouseActive}}
+          <img id="action-hotspace" class="action-icon action-icon-mouseover" src="{{pathFor route='home'}}images/compose.png">
+        {{/if}}
+        <img id="action-hotspace" class="action-icon action-icon-mouseleave" src="{{pathFor route='home'}}images/action.png">
+
+
       </div>
-
-      {{#if mouseActive}}
-        <img id="action-hotspace" class="action-icon action-icon-mouseover" src="{{pathFor route='home'}}images/compose.png">
-      {{/if}}
-      <img id="action-hotspace" class="action-icon action-icon-mouseleave" src="{{pathFor route='home'}}images/action.png">
-
-
-    </div>
+    {{/if}}
   {{/if}}
 </template>

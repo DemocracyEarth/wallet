@@ -7,6 +7,12 @@ Template.compose.rendered = function () {
 Template.compose.helpers({
   mouseActive: function () {
     return Session.get('showCompose');
+  },
+  proposalDrafting: function () {
+    if (Meteor.settings.public.app.config.proposalDrafting == false) {
+      return false;
+    }
+    return true;
   }
 });
 

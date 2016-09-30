@@ -1236,7 +1236,7 @@ blockquote {
 
 .option-title {
   display: inline-block;
-  max-width: 85%;
+  max-width: 75%;
   margin-top: 10px;
   font-size: 24px;
   line-height: 30px;
@@ -3175,7 +3175,7 @@ blockquote {
 
 .option-proposal {
   display: inline-block;
-  width: 90%;
+  width: 75%;
 }
 
 .option-proposal:hover {
@@ -4475,6 +4475,7 @@ blockquote {
   .split {
     position: static;
     width: 100%;
+    padding-top: 0px;
     padding-right: 0px;
     padding-left: 0px;
     float: none;
@@ -4668,9 +4669,6 @@ blockquote {
   }
   .polis.remove {
     width: 100%;
-  }
-  .sidebar {
-    display: none;
   }
 }
 

@@ -38,8 +38,13 @@
       "language": "es",
       "development": true,
       "version": "0.01",
-      "codename": "Quixote"
-
+      "codename": "Quixote",
+      "config":
+        {
+          "blockchainLogin": false,
+          "commentRanking": false,
+          "proposalDrafting": false          
+        }
     },
 
     "Collective": {

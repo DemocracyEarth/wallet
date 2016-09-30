@@ -2,15 +2,17 @@
 
   <div class="event w-clearfix">
 
-    <div class="sort">
-      <div class="sort-button"><img class="icon" src="{{pathFor route='home'}}images/access-hover-up.png">
+    {{#if settingRanking}}
+      <div class="sort">
+        <div class="sort-button"><img class="icon" src="{{pathFor route='home'}}images/access-hover-up.png">
+        </div>
+        <div class="sort-score">
+          <div>{{sortTotal}}</div>
+        </div>
+        <div class="sort-button"><img class="icon" src="{{pathFor route='home'}}images/access-hover-down.png">
+        </div>
       </div>
-      <div class="sort-score">
-        <div>{{sortTotal}}</div>
-      </div>
-      <div class="sort-button"><img class="icon" src="{{pathFor route='home'}}images/access-hover-down.png">
-      </div>
-    </div>
+    {{/if}}
 
     <div class="argument {{noChildren}}">
       <ul class="extra w-clearfix w-list-unstyled">
