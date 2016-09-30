@@ -115,18 +115,18 @@ Template.avatar.helpers({
     if (profile == undefined) {
       if (Meteor.user() != undefined) {
         if (Meteor.user().profile.firstName != undefined) {
-          return Modules.both.showFullName(Meteor.user().profile.firstName, Meteor.user().profile.lastName);
+          return Modules.both.showFullName(Meteor.user().profile.firstName, Meteor.user().profile.lastName, Meteor.user().username);
         } else {
           return Meteor.user().username;
         }
       }
     } else {
       if (profile.firstName != undefined) {
-        return Modules.both.showFullName(profile.firstName, profile.lastName);
+        return Modules.both.showFullName(profile.firstName, profile.lastName, profile.username);
       } else {
         var user = Meteor.users.findOne({ _id: profile });
         if (user == undefined) { user = Modules.both.getAnonymous(); }
-        return Modules.both.showFullName(user.profile.firstName, user.profile.lastName);
+        return Modules.both.showFullName(user.profile.firstName, user.profile.lastName, user.username);
       }
     }
   },

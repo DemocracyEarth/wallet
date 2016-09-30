@@ -18,7 +18,11 @@ let positionCaret = (atStart) => {
   };
 }
 
-let getName = (firstName, lastName) => {
+let getName = (firstName, lastName, username) => {
+
+  if (username == undefined) { username = ''};
+  if (firstName == undefined) { firstName = username};
+  if (lastName == undefined) { lastName = '' };
 
   var completeName = firstName + ' ' + lastName;
   if (completeName.length > MAX_PROFILE_NAME_LENGTH) {

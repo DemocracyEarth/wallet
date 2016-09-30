@@ -45,6 +45,7 @@ let _newDelegation = (delegatorId, delegateId, settings) => {
       keyword: finalTitle,
       title: TAPi18n.__('delegation-voting-rights'),
       kind: KIND_DELEGATION,
+      description: TAPi18n.__('default-delegation-contract'),
       signatures: [
         {
           _id: delegatorId,

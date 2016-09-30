@@ -3,6 +3,19 @@ Meteor.methods({
   //generate first transaction from collective to user's wallet
   genesisTransaction: function (userId) {
     var user = Meteor.users.findOne({ _id: userId });
+
+    console.log('[genesisTransaction] veryfing genesis...')
+    if (user.profile.wallet != undefined) {
+      if (user.profile.wallet.ledger.length > 0) {
+        if (user.profile.wallet.ledger[0].entityType == ENTITY_COLLECTIVE) {
+          console.log('[genesisTransaction] this user already had a genesis');
+          return;
+        } else {
+          console.log('[genesisTransaction] not found, generating first transactino from collective...')
+        }
+      }
+    }
+
     user.profile.wallet = Modules.server.generateWalletAddress(user.profile.wallet);
     console.log('[genesisTransaction] generated first address on wallet.');
     Meteor.users.update({ _id: userId }, { $set: { profile : user.profile } });

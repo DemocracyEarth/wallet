@@ -30,6 +30,13 @@
 
   "public": {
 
+    "analyticsSettings": {
+      "Google Analytics" :
+        {
+          "trackingId": "UA-69508804-2"
+        }
+    },
+
     "AWSHostingURL": "https://earth-app.s3-us-west-2.amazonaws.com/",
 
     "app": {
@@ -43,7 +50,7 @@
         {
           "blockchainLogin": false,
           "commentRanking": false,
-          "proposalDrafting": false          
+          "proposalDrafting": false
         }
     },
 

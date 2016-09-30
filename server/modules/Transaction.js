@@ -27,9 +27,6 @@ let _createTransaction = (senderId, receiverId, quantity, settings) => {
     settings = Object.assign(defaultSettings, settings);
   };
 
-  console.log('[_createTransaction] settings:');
-  console.log(settings);
-
   //build transaction
   var newTransaction =  {
     input: {
@@ -53,8 +50,7 @@ let _createTransaction = (senderId, receiverId, quantity, settings) => {
     condition: settings.condition
   };
 
-  console.log('[_createTransaction] generated this new transaction:');
-  console.log(newTransaction);
+  console.log('[_createTransaction] generated a new transaction settings');
 
   //executes the transaction
   var txId = Transactions.insert(newTransaction);
@@ -116,7 +112,7 @@ let _processTransaction = (txId) => {
     console.log('[_processTransaction] fullballot:');
     console.log(fullBallot);
     receiver.ledger[last] = Object.assign(receiver.ledger[last], {ballot: fullBallot});
-    
+
   }
   receiverProfile.wallet = Object.assign(receiverProfile.wallet, receiver);
 
