@@ -24,7 +24,9 @@ Meteor.publish('helperPublication', function() {
        });
 });
 
-
+Meteor.publish("userData", function () {
+  return Meteor.users.find({}, {fields: { profile: 1, username: 1 }});
+});
 
 Meteor.publish('singleUser', function (userId) {
 

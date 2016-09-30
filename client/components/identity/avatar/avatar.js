@@ -5,6 +5,7 @@ Template.avatar.rendered = function () {
 //this turned out to be kinda polymorphic
 Template.avatar.helpers({
   url: function () {
+    var user;
     if (this.profile == undefined) {
       if (Meteor.user() != undefined) {
         return '/peer/' + Meteor.user().username;
@@ -13,22 +14,21 @@ Template.avatar.helpers({
       if (!this.username) {
         if (!this._id) {
           if (this.profile._id) {
-            var stringId = new String('profile' + this.profile._id);
+            user = Meteor.users.findOne({ _id: this.profile._id });
           } else {
-            var stringId = new String('profile' + this.profile);
+            user = Meteor.users.findOne({ _id: this.profile });
           }
         } else {
-          var stringId = new String('profile' + this._id);
+          user = Meteor.users.findOne({ _id: this._id });
         }
       } else {
-        var stringId = new String('profile' + this.username);
+        user = Meteor.users.findOne({ username: this.username });
       }
     }
-    if (!Session.get(stringId)) {
-      Modules.both.getUserInfo(stringId.slice(0, -3), stringId);
-    }
-    if (Session.get(stringId)) {
-      return '/peer/' + Session.get(stringId).username;
+    if (user == undefined) {
+      return '#';
+    } else {
+      return '/peer/' + user.username
     }
   },
   roleStatus: function () {
@@ -95,12 +95,9 @@ Template.avatar.helpers({
       if (profile.picture != undefined) {
         return profile.picture;
       } else {
-        //it's a user id.
-        var stringId = new String('profile' + profile);
-        Modules.both.getUserInfo(profile, stringId);
-        if (Session.get(stringId) != undefined && Session.get(stringId).profile != undefined) {
-          return Session.get(stringId).profile.picture;
-        }
+        var user = Meteor.users.findOne({ _id: profile });
+        if (user == undefined) { user = Modules.both.getAnonymous(); }
+        return user.profile.picture;
       }
     }
   },
@@ -127,13 +124,9 @@ Template.avatar.helpers({
       if (profile.firstName != undefined) {
         return Modules.both.showFullName(profile.firstName, profile.lastName);
       } else {
-        //it's a user id.
-        var stringId = new String('profile' + profile);
-        Modules.both.getUserInfo(profile, stringId);
-
-        if (Session.get(stringId) != undefined && Session.get(stringId).profile != undefined) {
-          return Modules.both.showFullName(Session.get(stringId).profile.firstName, Session.get(stringId).profile.lastName);
-        }
+        var user = Meteor.users.findOne({ _id: profile });
+        if (user == undefined) { user = Modules.both.getAnonymous(); }
+        return Modules.both.showFullName(user.profile.firstName, user.profile.lastName);
       }
     }
   },
@@ -157,13 +150,12 @@ Template.avatar.helpers({
           return TAPi18n.__('unknown');
         }
       } else {
-        //it's a user id.
-        var stringId = new String('profile' + profile);
-        Modules.both.getUserInfo(profile, stringId);
-        if (Session.get(stringId) != undefined) {
-          var country = Modules.client.searchJSON(geoJSON.country, Session.get(stringId).profile.country.name);
-          if (Session.get(stringId).profile.country.name != TAPi18n.__('unknown') && country != undefined) {
-            return Session.get(stringId).profile.country.name + ' ' + country[0].emoji;
+        var user = Meteor.users.findOne({ _id: profile });
+        if (user == undefined) { user = Modules.both.getAnonymous(); }
+        if (user != undefined) {
+          var country = Modules.client.searchJSON(geoJSON.country, user.profile.country.name);
+          if (user.profile.country.name != TAPi18n.__('unknown') && country != undefined) {
+            return user.profile.country.name + ' ' + country[0].emoji;
           } else {
             return TAPi18n.__('unknown');
           }

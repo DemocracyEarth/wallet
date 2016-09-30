@@ -131,31 +131,6 @@ let _validateUsername = (username) => {
 }
 
 /***
-* returns information of user and updates session variable
-* @param {string} userId - user id
-* @param {string} sessionVar - session var to update async
-****/
-let _fetchUser = (userId, sessionVar) => {
-  //if user profile has already been fetched: bye bye birdie!
-  if (sessionVar.slice(0,7) == 'profile') {
-    if (Session.get(sessionVar)) {
-      return;
-    }
-  }
-  if (userId == '0000000') {
-    Session.set(sessionVar, _getAnonObject());
-  } else {
-    Meteor.call('getUserInfo', userId, function (error, data) {
-      if (error)
-        console.log(error);
-
-        //TODO filter to deliver only what necessary
-      Session.set(sessionVar, data);
-    });
-  }
-}
-
-/***
 * returns a profile of an anonoymous user
 ***/
 let _getAnonObject = (signatureMode) => {
@@ -323,7 +298,6 @@ Modules.both.verifyDelegationRight = _verifyDelegationRight;
 Modules.both.userIsDelegate = _userIsDelegate;
 Modules.both.getProfileFromUsername = _getProfileFromUsername;
 Modules.both.getAnonymous = _getAnonObject;
-Modules.both.getUserInfo = _fetchUser;
 Modules.both.validateUser = _validateUser;
 Modules.both.validatePassword = _validatePassword;
 Modules.both.validatePasswordMatch = _validatePasswordMatch;

@@ -5,10 +5,11 @@ Template.card.helpers({
     return (this.toString() == Meteor.userId() || this._id == ANONYMOUS);
   },
   delegationKeyword: function () {
-    Modules.both.getUserInfo(this.toString(), 'newDelegate');
-    if (Session.get('newDelegate') != undefined) {
-      newDelegateName = convertToSlug(Session.get('newDelegate').username);
-      return Session.get('newDelegate');
+    var user = Meteor.users.findOne({ _id: this.toString() });
+    Session.set('newDelegate', user);
+    if (user != undefined) {
+      newDelegateName = convertToSlug(user.username);
+      return user;
     }
   }
 })
