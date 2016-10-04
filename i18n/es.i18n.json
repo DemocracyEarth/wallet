@@ -256,6 +256,8 @@
   "empty-feed-contribute-live-votes-custom": "Propone una idea",
   "empty-feed-label-votes-finish-approved": "No se encontraron propuestas aceptadas.",
   "empty-feed-detail-votes-finish-approved": "Las propuestas que esta comunidad aprueba estan aquí.",
+  "empty-feed-label-votes-finish-rejected": "No se encontraron propuestas rechazadas.",
+  "empty-feed-detail-votes-finish-rejected": "Las propuestas que esta comunidad desaprueba estan aquí.",  
   "empty-feed-contribute-votes-finish-approved": "Propone una idea",
   "empty-feed-label-closed": "Propuestas archivadas",
   "empty-feed-detail-closed": "Aquí estan las propuestas que no tuvieron la aprobación de la comunidad",
