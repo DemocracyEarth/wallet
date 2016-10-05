@@ -5,6 +5,7 @@
 javascript, mongodb, node.
 
 * [Santiago Siri](http://github.com/santisiri)
+* [Lucas Isasmendi](https://github.com/LucasIsasmendi)
 
 ## UX
 
