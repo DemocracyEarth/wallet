@@ -41,3 +41,4 @@ service-configuration@1.0.10
 appcache@1.0.11
 okgrow:analytics
 shell-server
+meteorhacks:kadira

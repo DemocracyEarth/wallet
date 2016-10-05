@@ -6,6 +6,11 @@
      }
   },
 
+  "kadira": {
+    "appId": "DYdDg2YFAafkxLSmT",
+    "appSecret": "14cf7cf5-596d-45e1-a109-149726054bd1"
+  },  
+
   "AWSAccessKeyId": "AKIAIEDBX73JZBV65WFA",
   "AWSSecretAccessKey": "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",
   "smtpServer": "smtp://postmaster%40mailgun.democracyearth.org:d070665c856bf97baa01bb0540faf765@smtp.mailgun.org:587",

@@ -71,6 +71,8 @@ logging@1.1.15_1
 mdg:validation-error@0.5.1
 meteor@1.2.17_1
 meteor-base@1.0.4
+meteorhacks:kadira@2.30.0
+meteorhacks:meteorx@1.4.1
 meteorhacks:picker@1.0.3
 meteorhacks:search-source@1.4.2
 meteorhacks:ssr@2.2.0
@@ -99,6 +101,7 @@ modules@0.7.6_1
 modules-runtime@0.7.6_1
 mongo@1.1.12_1
 mongo-id@1.0.5
+mongo-livedata@1.0.12
 mrt:jquery-ui@1.9.2
 msavin:jetsetter@1.5.2
 msavin:mongol@1.6.2
