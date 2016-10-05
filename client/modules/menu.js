@@ -164,18 +164,7 @@ let _getDecisionsMenu = (feed) => {
       separator: false,
       url: '/feed?stage=' + STAGE_DRAFT.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase(),
       selected: _verifySelection(FEED_VOTE_DRAFT, feed)
-    },
-    {
-      id: 4,
-      label: TAPi18n.__(FEED_VOTE_FINISH_REJECTED),
-      icon: 'images/decision-rejected.png',
-      iconActivated: 'images/decision-rejected-active.png',
-      feed: FEED_VOTE_FINISH_REJECTED,
-      value: _getSectionValue(FEED_VOTE_FINISH_REJECTED),
-      separator: false,
-      url: '/feed?stage=' + STAGE_FINISH.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase() + '&executionstatus=' + EXECUTION_STATUS_REJECTED.toLowerCase(),
-      selected: _verifySelection(FEED_VOTE_FINISH_REJECTED, feed)
-    } 
+    }
   );
 
   if (Meteor.user() == null || Meteor.settings.public.app.config.proposalDrafting == false) {
