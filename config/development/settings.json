@@ -37,6 +37,13 @@
 
     "AWSHostingURL": "https://earth-app.s3-us-west-2.amazonaws.com/",
 
+    "analyticsSettings": {
+      "Google Analytics" :
+        {
+          "trackingId": "UA-69508804-2"
+        }
+    },
+    
     "app": {
 
       "name": "Sovereign by Democracy Earth Foundation",
