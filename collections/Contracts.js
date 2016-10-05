@@ -110,7 +110,9 @@ Schema.Contract = new SimpleSchema({
     autoValue: function () {
       if (this.isInsert) {
         if (this.field('kind').value == KIND_DELEGATION) {
-          return TAPi18n.__('default-delegation-contract');
+          if (this.field('description').value == undefined) {
+            return TAPi18n.__('default-delegation-contract');
+          }
         } else {
           return '';
         }

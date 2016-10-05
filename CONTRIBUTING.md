@@ -2,30 +2,40 @@
 
 ## Code
 
-javascript, mongodb, node.
+Javascript, Node, Meteor.
 
 * [Santiago Siri](http://github.com/santisiri)
 * [Lucas Isasmendi](https://github.com/LucasIsasmendi)
+* [Eduardo Medina](https://github.com/medied)
 
 ## UX
 
-html, css, jquery.
+HTML, CSS.
 
 * [Santiago Siri](http://github.com/santisiri)
 
+## Text
+
+English, Spanish, French.
+
+* [Mair Williams](https://github.com/mairwilliams)
+* [Virgile Deville](https://github.com/virgile-dev)
+
+
 ## Blockchain
 
-two1, blockstack.
+TBD
 
 * Pending
 
 ## Concept
 
+* [Santiago Siri](http://github.com/santisiri)
 * [Herb Stephens](http://github.com/herbstephens)
 
 ## QA
 
-mobile, pad, desktop.
+Desktop, Mobile. 
 
 * [Pia Mancini](https://github.com/piamancini)
 * [Mair Williams](https://github.com/mairwilliams)

@@ -30,27 +30,20 @@
 
   "public": {
 
-    "analyticsSettings": {
-      "Google Analytics" :
-        {
-          "trackingId": "UA-69508804-2"
-        }
-    },
-
     "AWSHostingURL": "https://earth-app.s3-us-west-2.amazonaws.com/",
 
     "app": {
 
       "name": "Sovereign by Democracy Earth Foundation",
-      "language": "es",
+      "language": "en",
       "development": true,
       "version": "0.01",
       "codename": "Quixote",
       "config":
         {
           "blockchainLogin": false,
-          "commentRanking": false,
-          "proposalDrafting": false
+          "commentRanking": true,
+          "proposalDrafting": true
         }
     },
 
