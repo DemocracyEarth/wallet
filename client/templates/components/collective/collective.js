@@ -17,6 +17,8 @@ Template.collective.helpers({
     }
   },
   hasLogo: function () {
-    return (Session.get('collective').profile.logo != undefined)
+    if (Session.get('collective') != undefined) {
+      return (Session.get('collective').profile.logo != undefined)
+    }
   }
 })
