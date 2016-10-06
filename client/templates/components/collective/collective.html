@@ -1,10 +1,13 @@
 <template name="collective">
   <div class="collective">
-    <img class="collective-icon" src="{{pathFor route='home'}}{{picture}}">
+    {{#if hasLogo}}
+      <img class="collective-icon" src="{{pathFor route='home'}}{{picture}}">
+    {{else}}
       <div class="collective-title">{{title}}</div>
-      <div>{{description}}</div>
+    {{/if}}
+    <div>{{description}}</div>
 
-      <!-- TODO: stats of collective
+    <!-- TODO: stats of collective
       <div class="collective-info">
         <div class="collective-stat w-clearfix"><img class="collective-stat-icon" src="images/member-card.png">
           <div>

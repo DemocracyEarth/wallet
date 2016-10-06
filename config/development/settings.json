@@ -43,7 +43,7 @@
           "trackingId": "UA-69508804-2"
         }
     },
-    
+
     "app": {
 
       "name": "Sovereign by Democracy Earth Foundation",
@@ -60,8 +60,8 @@
     },
 
     "Collective": {
-      "name": "Sovereign",
-      "domain": "https://sovereign.democracy.earth",
+      "name": "Democracy Earth Foundation",
+      "domain": "https://democracy.earth",
       "emails": [
         {
           "address": "hello@democracy.earth",
@@ -72,11 +72,11 @@
 
       "profile": {
         "website": "https://democracy.earth",
-        "bio": "Incorruptible governance for small & large communities. A global commons of peers.",
+        "bio": "A global commons of peers.",
         "blockchain": {
           "address": "0"
         },
-        "logo": "images/earth-avatar.png",
+        "logo": "images/democracy-earth.png",
         "jurisdiction": {
           "legal": {
               "taxId": "37-1776296",

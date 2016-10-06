@@ -3981,6 +3981,7 @@ blockquote {
 .collective-icon {
   max-height: 80px;
   max-width: 250px;
+  margin-bottom: 10px;
   border-radius: 5px;
   box-shadow: none;
 }

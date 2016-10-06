@@ -35,7 +35,7 @@ TBD
 
 ## QA
 
-Desktop, Mobile. 
+Desktop, Mobile.
 
 * [Pia Mancini](https://github.com/piamancini)
 * [Mair Williams](https://github.com/mairwilliams)

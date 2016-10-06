@@ -7,7 +7,7 @@ Template.collective.helpers({
   description: function () {
     if (Session.get('collective') != undefined) {
       return Session.get('collective').profile.bio;
-    } 
+    }
   },
   picture: function () {
     if (Session.get('collective') != undefined) {
@@ -15,5 +15,8 @@ Template.collective.helpers({
     } else {
       return 'images/earth-avatar.png';
     }
+  },
+  hasLogo: function () {
+    return (Session.get('collective').profile.logo != undefined)
   }
 })

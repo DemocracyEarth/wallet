@@ -9,7 +9,7 @@
   "kadira": {
     "appId": "DYdDg2YFAafkxLSmT",
     "appSecret": "14cf7cf5-596d-45e1-a109-149726054bd1"
-  },  
+  },
 
   "AWSAccessKeyId": "AKIAIEDBX73JZBV65WFA",
   "AWSSecretAccessKey": "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",
@@ -60,42 +60,42 @@
     },
 
     "Collective": {
-      "name": "República de Colombia",
-      "domain": "https://vota.plebiscitodigital.co",
+      "name": "Democracy Earth Foundation",
+      "domain": "https://democracy.earth",
       "emails": [
         {
           "address": "hello@democracy.earth",
           "verified": true
         }
       ],
-      "createdAt": "July 20, 1810",
+      "createdAt": "January 12, 2015",
 
       "profile": {
         "website": "https://democracy.earth",
-        "bio": "Estado unitario, social y democrático de derecho con forma de gobierno presidencialista.",
+        "bio": "A global commons of peers.",
         "blockchain": {
           "address": "0"
         },
-        "logo": "images/colombia.png",
+        "logo": "images/democracy-earth.png",
         "jurisdiction": {
           "legal": {
-              "taxId": "Colombia",
-              "name": "República de Colombia",
-              "type": "Estado Nación"
+              "taxId": "37-1776296",
+              "name": "Democracy Earth Foundation",
+              "type": "Non-Profit 501(c)3"
           },
           "location": {
-            "address": "América del Sur",
-            "state": "Colombia",
+            "address": "Anywhere you find an Earth Flag",
+            "state": "California",
             "country": {
-              "name": "Colombia",
-              "code": "CO"
+              "name": "United States of America",
+              "code": "US"
             }
           }
         },
-        "foundation": "July 20, 1810",
+        "foundation": "January 12, 2015",
         "wallet": {
-          "available": 210000000,
-          "balance": 210000000,
+          "available": 21000000,
+          "balance": 21000000,
           "placed": 0,
           "currency": "VOTES",
           "transactions": []
