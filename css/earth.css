@@ -1237,7 +1237,7 @@ blockquote {
 
 .option-title {
   display: inline-block;
-  max-width: 75%;
+  max-width: 100%;
   margin-top: 10px;
   font-size: 24px;
   line-height: 30px;
@@ -3890,7 +3890,6 @@ blockquote {
 }
 
 .tutorial {
-  display: inline-block;
   margin-top: 10px;
   margin-bottom: 10px;
 }
