@@ -19,7 +19,7 @@ Template.profile.helpers({
           return true;
         }
       }
-    } 
+    }
     return false;
   },
   hasDelegations: function () {
@@ -30,13 +30,13 @@ Template.profile.helpers({
 
 Template.warning.events({
   "click .resend-verification-link": function ( event, template ) {
-    console.log('sending email');
+    console.log('[Template.warning.events] sending email...');
     Meteor.call( 'sendVerificationLink', ( error, response ) => {
       if ( error ) {
         console.log( error.reason, 'danger' );
       } else {
         let email = Meteor.user().emails[ 0 ].address;
-        console.log( `Verification sent to ${ email }!`, 'success' );
+        console.log( `[Template.warning.events] verification sent to ${ email }!`, 'success' );
       }
     });
   }

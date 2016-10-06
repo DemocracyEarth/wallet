@@ -107,7 +107,7 @@ let _vote = (userId, contractId, quantity, ballot) => {
       throw new Meteor.Error(err, '[_vote]: vote failed.') ;
     } else {
       //update contract status\
-      console.log('vote successful')
+      console.log('[_vote] vote successful.')
       //_updateContractSignatures(result);
       //Session.set('newVote', new Wallet(Meteor.user().profile.wallet));
     }

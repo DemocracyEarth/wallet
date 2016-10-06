@@ -8,7 +8,7 @@ import {default as Modules} from "./modules";
 ****/
 let _createTransaction = (senderId, receiverId, quantity, settings) => {
 
-  console.log('[_createTransaction] starting new transaction...');
+  console.log('[_createTransaction] creating new transaction...');
   console.log('[_createTransaction] sender: ' + senderId);
   console.log('[_createTransaction] receiver: ' + receiverId);
 
@@ -50,7 +50,7 @@ let _createTransaction = (senderId, receiverId, quantity, settings) => {
     condition: settings.condition
   };
 
-  console.log('[_createTransaction] generated a new transaction settings');
+  console.log('[_createTransaction] generated new transaction settings');
 
   //executes the transaction
   var txId = Transactions.insert(newTransaction);
@@ -85,8 +85,12 @@ let _processTransaction = (txId) => {
   sender.available = sender.balance - sender.placed;
   senderProfile.wallet = Object.assign(senderProfile.wallet, sender);
 
-  console.log('[_processTransaction] sender in transaction:');
-  console.log(senderProfile);
+  if (senderProfile.firstName) {
+    console.log('[_processTransaction] sender in transaction is entity: ' + Modules.both.showFullName(senderProfile.firstName, senderProfile.lastName));
+  } else {
+    console.log('[_processTransaction] sender in transaction is a Contract with title: ' + senderProfile.title);
+  }
+
 
   var receiver = receiverProfile.wallet;
   receiver.ledger.push({
@@ -99,25 +103,28 @@ let _processTransaction = (txId) => {
   receiver.available += parseInt(transaction.output.quantity);
   receiver.balance += receiver.available;
 
-  console.log('[_processTransaction] check if ballot stored');
-  console.log(transaction.condition.ballot);
+  console.log('[_processTransaction] checking if ballot stored in this transaction...');
   if (transaction.condition.ballot) {
-    console.log('[_processTransaction] it has ballot');
+    console.log('[_processTransaction] found ballot in this transaction');
     fullBallot = new Array();
     last = receiver.ledger.length - 1;
 
     for (k in transaction.condition.ballot) {
       fullBallot.push(transaction.condition.ballot[k])
     };
-    console.log('[_processTransaction] fullballot:');
+    console.log('[_processTransaction] ballot content:');
     console.log(fullBallot);
     receiver.ledger[last] = Object.assign(receiver.ledger[last], {ballot: fullBallot});
-
+  } else {
+    console.log('[_processTransaction] no ballot found.');
   }
   receiverProfile.wallet = Object.assign(receiverProfile.wallet, receiver);
 
-  console.log('[_processTransaction] receiver in transaction:');
-  console.log(receiverProfile);
+  if (receiverProfile.firstName) {
+    console.log('[_processTransaction] receiver in transaction is entity: ' + Modules.both.showFullName(receiverProfile.firstName, receiverProfile.lastName));
+  } else {
+    console.log('[_processTransaction] receiver in transaction is a Contract with title: ' + receiverProfile.title);
+  }
 
   //update wallets
   _updateWallet(transaction.input.entityId, transaction.input.entityType, senderProfile);
@@ -224,7 +231,7 @@ let _getWalletAddress = (entityId) => {
       var user = Contracts.findOne({ _id: entityId});
       break;
     default:
-      console.log('[_getWalletAddress] ERROR: Entity could not be found.');
+      console.log('[_getWalletAddress] ERROR: entityId ' + entityId + ' could not be found.');
       return false;
   }
 
@@ -235,14 +242,13 @@ let _getWalletAddress = (entityId) => {
   }
   var collectiveId = Meteor.settings.public.Collective._id;
 
-  console.log('[_getWalletAddress] getting info for ');
-  console.log(user);
+  console.log('[_getWalletAddress] getting info for entityId ' + entityId + '.');
 
   if (wallet.address != undefined && wallet.address.length > 0) {
-    console.log('[_getWalletAddress] wallet has an address');
+    console.log('[_getWalletAddress] entity wallet already has an address.');
     return _getAddressHash(wallet.address, collectiveId);
   } else {
-    console.log('[_getWalletAddress] generate a new address for this collective');
+    console.log('[_getWalletAddress] generating a new address for this collective...');
     wallet = Modules.server.generateWalletAddress(wallet);
     switch (entityType) {
       case ENTITY_INDIVIDUAL:
@@ -257,7 +263,7 @@ let _getWalletAddress = (entityId) => {
         Contracts.update({ _id: entityId }, { $set: { wallet: wallet } });
         break;
       default:
-        console.log('[_getWalletAddress] ERROR: Entity could not be found.');
+        console.log('[_getWalletAddress] ERROR: entityId ' + entityId + ' could not be found.');
         return false;
     }
     return _getAddressHash(wallet.address, collectiveId);
@@ -283,7 +289,7 @@ let _getAddressHash = (address, collectiveId) => {
 * @param {object} wallet - a wallet from a user containing all directions
 ***/
 let _generateWalletAddress = (wallet) => {
-  console.log('[_generateWalletAddress] generates a new address given a wallet');
+  console.log('[_generateWalletAddress] generating a new address for wallet entered as parameter.');
   wallet.address.push(_getCollectiveAddress());
   return wallet;
 };
@@ -293,7 +299,7 @@ let _generateWalletAddress = (wallet) => {
 * @return {object} object - returns an object containing a new hash and this collective Id.
 ***/
 let _getCollectiveAddress = () => {
-  console.log('[_getCollectiveAddress] generates a new address specific to the collective running this instance');
+  console.log('[_getCollectiveAddress] generating new address specific to the collective running this instance...');
   return {
     hash: Modules.both.guidGenerator(),
     collectiveId: Meteor.settings.public.Collective._id

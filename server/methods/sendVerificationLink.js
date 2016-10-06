@@ -1,7 +1,7 @@
 Meteor.methods({
   sendVerificationLink() {
     let userId = Meteor.userId();
-    console.log('sening email to ' + userId);
+    console.log('[sendVerificationLink] sending email to ' + userId);
     if ( userId ) {
       return Accounts.sendVerificationEmail( userId );
     }

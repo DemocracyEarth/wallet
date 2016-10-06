@@ -16,7 +16,7 @@ Meteor.methods({
     var dbTag = lookupKeyword(tagKeyword, Tags);
 
     if (dbTag != undefined) {
-      console.log('adding tag ' + tagKeyword + ' to contract ' + contractId);
+      console.log('[addCustomTagToContract] adding tag ' + tagKeyword + ' to contract ' + contractId);
       if (checkDuplicate (Contracts.findOne(contractId, { tags: { _id: dbTag._id } }).tags, dbTag._id) == true ) {
         throw new Meteor.Error('duplicate-tags', 'This tag already exists in the contract');
       } else {
@@ -29,14 +29,14 @@ Meteor.methods({
     var dbContract = Contracts.findOne({ _id: forkId }); //lookupKeyword(contractKeyword, Contracts);
 
     if (dbContract != undefined) {
-      console.log('adding new option ' + forkId + ' to contract ' + contractId);
+      console.log('[addCustomForkToContract] adding new option ' + forkId + ' to contract ' + contractId);
       if (checkDuplicate (Contracts.findOne(contractId, { ballot: { _id: dbContract._id } }).ballot, dbContract._id) == false) {
         var rankVal = parseInt(Contracts.findOne({ _id: contractId }).ballot.length) + 1;
         Contracts.update(contractId, { $push: {
           ballot:
             {
               _id: dbContract._id,
-              mode: 'FORK',
+              mode: BALLOT_OPTION_MODE_FORK,
               url: dbContract.url,
               label: dbContract.title,
               rank: rankVal
@@ -70,7 +70,7 @@ Meteor.methods({
   },
 
   removeTagFromContract: function (contractId, tagId) {
-    console.log('removing tag id ' + tagId);
+    console.log('[removeTagFromContract] removing tag id ' + tagId);
     Contracts.update(contractId, { $pull: {
       tags:
         { _id: tagId }
@@ -78,7 +78,7 @@ Meteor.methods({
   },
 
   removeFork: function (contractId, forkId) {
-    console.log('removing fork id ' + forkId);
+    console.log('[removeFork] removing fork id ' + forkId);
     Contracts.update(contractId, { $pull: {
       ballot:
         { _id: forkId}
@@ -105,7 +105,7 @@ Meteor.methods({
   },
 
   verifyUsername: function(strUsername) {
-    console.log('verifying username: ' + strUsername + ', is present in db:' + Meteor.users.findOne({username: strUsername}))
+    console.log('[verifyUsername] verifying username: ' + strUsername + ', is present in db:' + Meteor.users.findOne({username: strUsername}))
     if (Meteor.users.findOne({username: strUsername}) != undefined) {
       return true;
     } else {
@@ -147,15 +147,14 @@ Meteor.methods({
   },
 
   getCollectiveInfo: function (collectiveId) {
-    console.log('getting info for collective ' + collectiveId);
+    console.log('[getCollectiveInfo] getting info for collective ' + collectiveId);
     return Collectives.findOne({ _id: collectiveId });
   },
 
   insertContract: function (contract) {
-    console.log('[insert] new contract');
-    console.log(contract);
+    console.log('[insertContract] new contract');
     var newDeal = Contracts.insert(contract);
-    console.log(newDeal.url);
+    console.log('[insertContract] new contract url: '  + newDeal.url);
     return newDeal;
   },
 
@@ -175,17 +174,17 @@ function lookupKeyword(keyword, db) {
   var lookup = db.findOne({keyword: slug});
 
   if (lookup != undefined) {
-    console.log('found keyword in db ' + db._name + ' for ' + slug);
+    console.log('[lookupKeyword] found keyword in db ' + db._name + ' for ' + slug);
     return lookup;
   } else {
-    console.log('new insert in db ' + db._name + ' for:' + slug);
+    console.log('[lookupKeyword] new insert in db ' + db._name + ' for:' + slug);
     switch (db._name) {
       case 'contracts':
-        console.log('inserting contracts');
+        console.log('[lookupKeyword] inserting contracts...');
         var newInsert = createContract(keyword);
         break;
       case 'tags':
-        console.log('inserting to tags');
+        console.log('[lookupKeyword] inserting to tags...');
         var newInsert = createTag(keyword);
         break;
     }
@@ -196,16 +195,16 @@ function lookupKeyword(keyword, db) {
 function checkDuplicate (arr, elementId) {
   for (var i = 0; i < arr.length; i++ ) {
     if (arr[i]._id == elementId ) {
-      console.log('this ' + elementId + ' is a duplicate');
+      console.log('[checkDuplicate] this ' + elementId + ' is a duplicate');
       return true;
     }
   }
-  console.log('this ' + elementId + ' is NOT a duplicate');
+  console.log('[checkDuplicate] this ' + elementId + ' is NOT a duplicate');
   return false;
 }
 
 function createContract (keyword) {
-  console.log('createContract(): ' + keyword);
+  console.log('[createContract] new contract with keyword: ' + keyword);
   //Adds a new contract to db, returns created insert
   if (keyword != undefined || keyword != '') {
     var slug = convertToSlug(keyword);
@@ -215,11 +214,11 @@ function createContract (keyword) {
 
   var creationDate = new Date;
   creationDate.setDate(creationDate.getDate() + 1);
-  console.log('creating contract by user: ' + Meteor.userId());
+  console.log('[createContract] new contract by user: ' + Meteor.userId());
 
   if (keyword != '') {
     //Creates new contract:
-    console.log('CONTRACT BEING CREATED');
+    console.log('[createContract] contract being created...');
     return Contracts.insert({ title: keyword });
 
   }

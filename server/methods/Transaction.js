@@ -33,7 +33,6 @@ Meteor.methods({
 
   vote: function  (userId, contractId, quantity, settings) {
     console.log('[vote] ' + userId + ' on contract: ' + contractId + ' with quantity: ' + quantity);
-    console.log(settings);
     Modules.server.transact(userId, contractId, quantity, settings);
   }
 

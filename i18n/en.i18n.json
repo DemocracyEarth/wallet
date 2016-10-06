@@ -262,6 +262,7 @@
   "empty-feed-label-votes-finish-rejected": "No rejected found.",
   "empty-feed-detail-votes-finish-rejected": "Rejected proposals by this collective get listed here.",
   "empty-feed-contribute-votes-finish-approved": "Propose an Idea",
+  "empty-feed-contribute-votes-finish-rejected": "Propose an Idea",
   "empty-feed-label-closed": "Archived Proposals",
   "empty-feed-detail-closed": "Proposals that didn't get collective's consensus get listed here.",
   "empty-feed-contribute-closed": "Propose an Idea",

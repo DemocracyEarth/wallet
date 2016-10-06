@@ -33,7 +33,7 @@ Meteor.publish('singleUser', function (userId) {
   if (userId == undefined) {
     return '000'
   } else {
-    console.log('singleUser called with userId ' + userId);
+    console.log('[Meteor.publish] singleUser called with userId ' + userId);
     // Make sure userId is a string.
     check(userId, String);
 
@@ -62,7 +62,6 @@ Meteor.publish('singleUser', function (userId) {
         var currentTime = new Date();
         for (var subscriptionID in subs) {
             var subscription = subs[subscriptionID];
-            console.log(subscription.newId);
             subscription.changed( 'serverTime', newId,  {date: currentTime}  );
         }
     }, 1000);

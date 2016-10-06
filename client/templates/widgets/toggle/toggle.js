@@ -40,8 +40,6 @@ Template.toggle.events({
 });
 
 function displayToggle() {
-  //console.log('[toggle function] updating toggles:');
-  //console.log(toggleMap);
   for (var item in toggleMap) {
     node = $('.' + item).children();
     toggle(node,toggleMap[item]);
