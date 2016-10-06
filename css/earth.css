@@ -2877,13 +2877,9 @@ blockquote {
 }
 
 .stage {
-  position: relative;
-  right: 0px;
-  z-index: 100;
-  margin-right: -10px;
-  margin-left: 5px;
+  margin-bottom: 10px;
   padding: 0px 5px 5px;
-  float: right;
+  float: left;
   border: 1px dashed #46dfb8;
   border-radius: 3px;
   background-color: transparent;
@@ -3176,7 +3172,6 @@ blockquote {
 
 .option-proposal {
   display: inline-block;
-  width: 75%;
 }
 
 .option-proposal:hover {
@@ -3948,7 +3943,7 @@ blockquote {
 }
 
 .micro-label {
-  float: left;
+  display: inline-block;
 }
 
 .micro {
@@ -3958,13 +3953,13 @@ blockquote {
 }
 
 .micro.micro-half {
-  width: 50%;
+  display: inline;
 }
 
 .micro-menu {
   display: block;
   width: 90%;
-  height: 65px;
+  height: 60px;
   max-height: 65px;
   margin-right: auto;
   margin-left: auto;
