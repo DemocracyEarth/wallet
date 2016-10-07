@@ -980,6 +980,7 @@ blockquote {
 
 .extra.identity-list {
   margin-top: 10px;
+  clear: both;
 }
 
 .extra.extra-ten {
@@ -1826,6 +1827,11 @@ blockquote {
 .warning.annotation {
   background-color: #e6f9f4;
   color: #000;
+}
+
+.warning.forbidden {
+  background-color: #ff2752;
+  color: #fff;
 }
 
 .navbar {
@@ -2855,6 +2861,7 @@ blockquote {
 .data {
   display: inline-block;
   margin-right: 10px;
+  margin-bottom: 5px;
 }
 
 .contract-collapse {

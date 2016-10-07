@@ -27,6 +27,13 @@ Template.feedItem.helpers({
       return Modules.client.stripHTMLfromText(this.description).replace(/(([^\s]+\s\s*){35})(.*)/,"$1…");
     }
   },
+  url: function () {
+    if (this.stage == STAGE_DRAFT) {
+      return '/vote/draft?id=' + this._id;
+    } else {
+      return this.url;
+    }
+  },
   tags: function () {
     return this.tags;
   },

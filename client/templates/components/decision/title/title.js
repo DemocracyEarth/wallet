@@ -24,16 +24,7 @@ Template.titleContent.helpers({
     }
   },
   declaration: function() {
-    var contract = Contracts.findOne( { _id: contractId }, { reactive: false } )
-    if (!contract) { return };
-    var title = contract.title;
-    if (title == '' || title == undefined) {
-      Session.set('missingTitle', true);
-      return TAPi18n.__('no-title');
-    } else {
-      Session.set('missingTitle', false);
-      return title;
-    }
+    return getTitle();
   },
   editable: function () {
     var html = "<div id='titleContent' contenteditable='true' tabindex=0>" + this.toString() + "</div>";
@@ -45,6 +36,9 @@ Template.titleContent.helpers({
 Template.title.helpers({
   blockchainAddress: function () {
     return '';
+  },
+  declaration: function() {
+    return getTitle();
   },
   contractURL: function () {
     var host =  window.location.host;
@@ -179,3 +173,17 @@ Template.titleContent.events({
     }
   }
 });
+
+//returns the title from the contract
+function getTitle () {
+  var contract = Contracts.findOne( { _id: contractId }, { reactive: false } )
+  if (!contract) { return };
+  var title = contract.title;
+  if (title == '' || title == undefined) {
+    Session.set('missingTitle', true);
+    return TAPi18n.__('no-title');
+  } else {
+    Session.set('missingTitle', false);
+    return title;
+  }
+}
