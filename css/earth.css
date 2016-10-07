@@ -566,8 +566,8 @@ blockquote {
 }
 
 .symbol.profile-pic.identity-small {
-  width: 25px;
-  height: 25px;
+  width: 32px;
+  height: 32px;
   margin-top: 0px;
   margin-bottom: 0px;
 }
@@ -2019,8 +2019,8 @@ blockquote {
 }
 
 .identity-label.identity-label-small {
-  font-size: 14px;
-  line-height: 18px;
+  font-size: 16px;
+  line-height: 20px;
 }
 
 .option-link:hover {
@@ -2260,8 +2260,8 @@ blockquote {
   margin-bottom: 10px;
   margin-left: 0px;
   padding-left: 0px;
-  font-size: 14px;
-  line-height: 24px;
+  font-size: 16px;
+  line-height: 26px;
   font-style: italic;
 }
 
@@ -2503,7 +2503,7 @@ blockquote {
 }
 
 .identity-peer.identity-small {
-  margin-top: -2px;
+  margin-top: 0px;
 }
 
 .identity-peer.pending {
@@ -2877,7 +2877,9 @@ blockquote {
 }
 
 .stage {
-  margin-bottom: 10px;
+  display: inline-block;
+  margin-top: 3px;
+  margin-right: 10px;
   padding: 0px 5px 5px;
   float: left;
   border: 1px dashed #46dfb8;
@@ -2889,7 +2891,6 @@ blockquote {
 }
 
 .stage.stage-live {
-  display: inline-block;
   border-style: solid;
   border-color: #ffe079;
   background-color: #ffe079;
@@ -2901,13 +2902,7 @@ blockquote {
   margin-right: 25px;
 }
 
-.stage.stage-draft {
-  display: inline-block;
-}
-
 .stage.stage-finish-approved {
-  display: inline-block;
-  padding-left: 6px;
   border-style: solid;
   border-color: #00bf8f;
   background-color: #00bf8f;
@@ -2935,7 +2930,6 @@ blockquote {
 }
 
 .stage.stage-finish-alternative {
-  display: inline-block;
   border-style: solid;
   border-color: #e6f9f4;
   background-color: #e6f9f4;
@@ -2977,8 +2971,8 @@ blockquote {
 
 .meta.meta-search {
   display: block;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-top: 15px;
+  margin-bottom: 15px;
   clear: both;
   opacity: 1;
   color: #9c9c9c;
@@ -3178,7 +3172,7 @@ blockquote {
 }
 
 .option-proposal {
-  display: inline-block;
+  display: block;
 }
 
 .option-proposal:hover {
@@ -4036,9 +4030,9 @@ blockquote {
 }
 
 .micro-vote-power {
-  margin-top: 10px;
+  margin-top: 0px;
   margin-bottom: 0px;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
 }
 
 .trojan {
