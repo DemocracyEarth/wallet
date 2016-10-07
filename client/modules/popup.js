@@ -203,7 +203,7 @@ let _cursorPosition = () => {
 /*****
 /* @param {object} target - DOM element that is being used as reference for calling login popup
 ******/
-let _displayLogin = (target) => {
+let _displayLogin = (event, target) => {
   if (target == undefined) { target = event.target };
   Session.set('logger', !Session.get('logger'));
   if (Session.get('logger')) {
