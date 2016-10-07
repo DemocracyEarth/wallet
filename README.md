@@ -1,5 +1,4 @@
-![DemocracyEarth](https://dl.dropboxusercontent.com/u/801018/democracy-earth-logo.png)
-
+<img src="public/images/democracy-earth.png" width="800" title="DemocracyEarth">
 # Incorruptible governance for small and large communities
 
 ## A Toolkit for Democracy

@@ -14,6 +14,6 @@ Template.authentication.helpers({
 
 Template.authentication.events({
   'click #loggedUser': function (event) {
-    Modules.client.displayLogin();
+    Modules.client.displayLogin(event);
   }
 })
