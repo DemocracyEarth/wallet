@@ -7,7 +7,7 @@ let startEditor = () => {
 
   if (Session.get('contract')) {
     //Place caret in right place
-    if (Session.get('contract').stage == 'DRAFT') {
+    if (Session.get('contract').stage == STAGE_DRAFT) {
 
       titleContent.focus();
       Session.set('userSigned', false);

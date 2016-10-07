@@ -24,9 +24,7 @@ Template.titleContent.helpers({
     }
   },
   declaration: function() {
-    if (!Session.get('contract')) { return };
-    console.log('calling declaration');
-    var contract = Contracts.findOne( { _id: Session.get('contract')._id }, { reactive: false } )
+    var contract = Contracts.findOne( { _id: contractId }, { reactive: false } )
     if (!contract) { return };
     var title = contract.title;
     if (title == '' || title == undefined) {
@@ -38,8 +36,8 @@ Template.titleContent.helpers({
     }
   },
   editable: function () {
-    console.log(this.toString());
-    return '<div contenteditable="true" tabindex=0>' + this.toString() + '</div>';
+    var html = "<div id='titleContent' contenteditable='true' tabindex=0>" + this.toString() + "</div>";
+    return html;
   }
 })
 
@@ -66,10 +64,10 @@ Template.title.helpers({
   },
   missingTitle: function () {
     if (Session.get('missingTitle')) {
-      Session.set('URLStatus', 'UNAVAILABLE');
+      Session.set('URLStatus', URL_STATUS_UNAVAILABLE);
     }
     if ($('#titleContent').is(":focus")) {
-      Session.set('URLStatus', 'NONE');
+      Session.set('URLStatus', URL_STATUS_NONE);
     }
     if (!Session.get('firstEditorLoad')) {
       return Session.get('missingTitle');
@@ -123,7 +121,7 @@ Template.titleContent.events({
     //Set timer to check upload to db
     Meteor.clearTimeout(typingTimer);
     Session.set('contractKeyword', keyword);
-    Session.set('URLStatus', 'VERIFY');
+    Session.set('URLStatus', URL_STATUS_VERIFY);
 
     if (Session.get('firstEditorLoad')) {
       var currentTitle = document.getElementById("titleContent").innerText;
@@ -136,12 +134,12 @@ Template.titleContent.events({
     //Checking content typed
     if (content == '') {
       Session.set('contractKeyword', keyword);
-      Session.set('URLStatus', 'UNAVAILABLE');
+      Session.set('URLStatus', URL_STATUS_UNAVAILABLE);
       Session.set('missingTitle', true);
       return;
     } else if (keyword.length < 3) {
       Session.set('contractKeyword', keyword);
-      Session.set('URLStatus', 'UNAVAILABLE');
+      Session.set('URLStatus', URL_STATUS_UNAVAILABLE);
       Session.set('mistypedTitle', true);
       Session.set('missingTitle', false);
       return;
@@ -153,10 +151,10 @@ Template.titleContent.events({
     //Call function when typing seems to be finished.
     typingTimer = Meteor.setTimeout(function () {
       if (contract != undefined && contract._id != Session.get('contract')._id) {
-          Session.set('URLStatus', 'UNAVAILABLE');
+          Session.set('URLStatus', URL_STATUS_UNAVAILABLE);
       } else {
         if (Contracts.update({_id : Session.get('contract')._id }, { $set: { title: content, keyword: keyword, url: "/" + Session.get('contract').kind.toLowerCase() + "/" + keyword }})) {
-          Session.set('URLStatus', 'AVAILABLE');
+          Session.set('URLStatus', URL_STATUS_AVAILABLE);
         };
         Modules.client.displayNotice(TAPi18n.__('saved-draft-description'), true);
       }

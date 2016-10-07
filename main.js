@@ -75,7 +75,7 @@ Meteor.startup(function () {
 
   if (Meteor.isServer) {
     //App Cache
-    console.log('[startup] deploy will use app cache: ' + Meteor.settings.public.app.config.appCache)
+    console.log('[startup] app cache: ' + Meteor.settings.public.app.config.appCache)
     Meteor.AppCache.config({
       chrome: Meteor.settings.public.app.config.appCache,
       firefox: Meteor.settings.public.app.config.appCache,
