@@ -1,7 +1,7 @@
 var typingTimer; //timer identifier
 
 Template.agreement.rendered = function () {
-  //if (!Session.get('contract')) { return };
+  if (!Session.get('contract')) { return };
 
   if (Session.get('contract').stage == STAGE_DRAFT && Session.get('contract').kind == KIND_VOTE) {
 
@@ -58,6 +58,7 @@ Template.agreement.rendered = function () {
     //to avoid duplicate fragments + caret displacement, it manually handles contenteditable update
     var t = this;
     this.contentAutorun = Deps.autorun(function () {
+        console.log('calling autorun');
         var content = Contracts.findOne( { _id: Session.get('contract')._id }, {reactive: false} );
 
         if (t.find(".cr-note") != null) {
@@ -94,7 +95,7 @@ Template.agreement.helpers({
     if (Session.get('contract').description == "") {
       return true;
     } else {
-      return false; 
+      return false;
     }
   }
 });

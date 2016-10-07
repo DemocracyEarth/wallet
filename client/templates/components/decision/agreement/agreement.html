@@ -1,7 +1,8 @@
 <template name="agreement">
   {{#if editorMode}}
     <div class="section">
-      <div id='editor' class='cr-note w-richtext rich-text editor-draft editable {{sampleMode}}' tabindex=1></div>
+      <div id='editor' class='cr-note w-richtext rich-text editor-draft editable {{sampleMode}}' tabindex=1>
+      </div>
     </div>
   {{else}}
     {{#unless emptyDescription}}

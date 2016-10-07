@@ -15,14 +15,18 @@ Template.title.rendered = function () {
 
 };
 
-// Title of Contract
-Template.title.helpers({
-  blockchainAddress: function () {
-    return '';
+Template.titleContent.helpers({
+  sampleMode: function() {
+    if (Session.get('missingTitle')) {
+      return 'sample';
+    } else {
+      return '';
+    }
   },
   declaration: function() {
     if (!Session.get('contract')) { return };
-    var contract = Contracts.findOne( { _id: Session.get('contract')._id },{reactive: false} )
+    console.log('calling declaration');
+    var contract = Contracts.findOne( { _id: Session.get('contract')._id }, { reactive: false } )
     if (!contract) { return };
     var title = contract.title;
     if (title == '' || title == undefined) {
@@ -32,14 +36,17 @@ Template.title.helpers({
       Session.set('missingTitle', false);
       return title;
     }
-
   },
-  sampleMode: function() {
-    if (Session.get('missingTitle')) {
-      return 'sample';
-    } else {
-      return '';
-    }
+  editable: function () {
+    console.log(this.toString());
+    return '<div contenteditable="true" tabindex=0>' + this.toString() + '</div>';
+  }
+})
+
+// Title of Contract
+Template.title.helpers({
+  blockchainAddress: function () {
+    return '';
   },
   contractURL: function () {
     var host =  window.location.host;
@@ -107,7 +114,7 @@ Template.title.helpers({
 });
 
 
-Template.title.events({
+Template.titleContent.events({
   "input #titleContent": function (event) {
     var content = document.getElementById("titleContent").innerText;//jQuery($("#titleContent").html()).text();
     var keyword = convertToSlug(content);

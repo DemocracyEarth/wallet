@@ -55,7 +55,8 @@
         {
           "blockchainLogin": false,
           "commentRanking": true,
-          "proposalDrafting": true
+          "proposalDrafting": true,
+          "appCache": false
         }
     },
 
