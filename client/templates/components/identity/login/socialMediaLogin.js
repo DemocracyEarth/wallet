@@ -13,7 +13,7 @@ Template.socialMediaLogin.events({
       }
     });
   },
-  "click #agora-login": function () {
-    Modules.client.displayLogin(document.getElementById('loggedUser'));
+  "click #agora-login": function (event) {
+    Modules.client.displayLogin(event, document.getElementById('loggedUser'));
   }
 })
