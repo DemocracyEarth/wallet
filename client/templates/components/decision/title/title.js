@@ -3,7 +3,7 @@ var typingTimer; //timer identifier
 Template.title.rendered = function () {
   Modules.client.initEditor();
 
-  //Tab focus next object
+  //tab focus next object
   $('#titleContent').on('focus', function(e){
     $(window).keyup(function (e) {
         var code = (e.keyCode ? e.keyCode : e.which);
@@ -11,6 +11,13 @@ Template.title.rendered = function () {
             $('#editor').focus();
         }
     });
+  });
+
+  //paste
+  document.getElementById('titleContent').addEventListener("paste", function(e) {
+    e.preventDefault();
+    var text = Modules.client.stripHTMLfromText(e.clipboardData.getData("text/plain"));
+    document.execCommand("insertHTML", false, text);
   });
 
 };
