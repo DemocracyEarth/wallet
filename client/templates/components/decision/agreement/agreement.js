@@ -10,7 +10,7 @@ Template.agreement.rendered = function () {
           if nothing is passed this is what is used */
       activeButtonClass: 'medium-editor-button-active',
       toolbar: {
-        buttons: ['bold', 'italic', 'anchor', 'h2', 'h3', 'unorderedlist', 'quote'],
+        buttons: ['bold', 'italic', 'anchor', 'unorderedlist', 'orderedlist', 'quote'],
         diffLeft: 25,
         diffTop: -10,
         allowMultiParagraphSelection: true
@@ -23,6 +23,8 @@ Template.agreement.rendered = function () {
       disableExtraSpaces: false,
       disableEditing: false,
       autoLink: true,
+      sticky: false,
+      static: false,
       elementsContainer: false,
       extensions: {},
       ownerDocument: document,
@@ -53,6 +55,10 @@ Template.agreement.rendered = function () {
           saveDescription('');
         }
       }, SERVER_INTERVAL);
+    });
+
+    $('.right').scroll(function(event) {
+      editor.trigger('blur', event);
     });
 
     //to avoid duplicate fragments + caret displacement, it manually handles contenteditable update

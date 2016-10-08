@@ -112,6 +112,12 @@
   visibility:hidden;
 }
 
+.medium-editor-toolbar-active.medium-editor-stalker-toolbar {
+    -webkit-animation: opacity 2s ease-in; /*medium-editor-pop-upwards 160ms forwards linear;*/
+    animation: opacity 2s ease-in; /*medium-editor-pop-upwards 160ms forwards linear;*/
+    z-index: 12500;
+}
+
 q, blockquote {
     display: block;
     margin-top: 1em;
