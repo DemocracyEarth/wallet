@@ -44,13 +44,13 @@
     {{#if editorMode}}
       <div class='extra'>
         {{#if missingTitle}}
-          {{> warning label="title-required"}}
+          {{> warning label="title-required" style='forbidden'}}
         {{/if}}
         {{#if mistypedTitle}}
-          {{> warning label="title-mistyped"}}
+          {{> warning label="title-mistyped" style='forbidden'}}
         {{/if}}
         {{#if duplicateURL}}
-          {{> warning label="url-duplicate"}}
+          {{> warning label="url-duplicate" style='forbidden'}}
         {{/if}}
       </div>
     {{/if}}
