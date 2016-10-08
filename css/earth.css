@@ -509,6 +509,7 @@ blockquote {
 .symbol.profile-pic.profile-sign {
   width: auto;
   height: 60px;
+  margin-left: 35%;
   border-style: solid;
   border-color: #00bf8f;
   background-color: #00bf8f;
