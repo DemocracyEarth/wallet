@@ -10,7 +10,28 @@ Template.agreement.rendered = function () {
           if nothing is passed this is what is used */
       activeButtonClass: 'medium-editor-button-active',
       toolbar: {
-        buttons: ['bold', 'italic', 'anchor', 'unorderedlist', 'orderedlist', 'quote'],
+        //buttons: ['bold', 'italic', 'anchor', 'unorderedlist', 'orderedlist', 'quote'],
+        buttons: [
+          {
+            name: 'bold',
+            contentDefault: '<strong class="icon-bold">B</strong>'
+          }, {
+              name: 'italic',
+              contentDefault: '<i class="icon-italic">i</i>'
+          }, {
+              name: 'quote',
+              contentDefault: '<span class="icon-quote">&#8220;</span>',
+          }, {
+              name: 'anchor',
+              contentDefault: '<img src="/images/link-icon.png" style=" width: 14px; height: 14px; ">',
+          }, {
+              name: 'unorderedlist',
+              contentDefault: '<span class="icon-list-bullet">&#8226;</span>'
+          }, {
+              name: 'orderedlist',
+              contentDefault: '<span class="icon-list-numbered">1.</span>'
+          }
+        ],
         diffLeft: 25,
         diffTop: -10,
         allowMultiParagraphSelection: true
