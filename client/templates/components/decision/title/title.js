@@ -17,7 +17,11 @@ Template.title.rendered = function () {
   document.getElementById('titleContent').addEventListener("paste", function(e) {
     e.preventDefault();
     var text = Modules.client.stripHTMLfromText(e.clipboardData.getData("text/plain"));
-    document.execCommand("insertHTML", false, text);
+    var newtitle = $('#titleContent')[0].innerText;
+    var delta = parseInt(TITLE_MAX_LENGTH - newtitle.length);
+    if (delta > 0) {
+      document.execCommand("insertHTML", false, text);
+     }
   });
 
 };
