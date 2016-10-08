@@ -59,7 +59,7 @@ Template.agreement.rendered = function () {
     var t = this;
     this.contentAutorun = Deps.autorun(function () {
         console.log('calling autorun');
-        var content = Contracts.findOne( { _id: Session.get('contract')._id }, {reactive: false} );
+        var content = Contracts.findOne( { _id: contractId }, {reactive: false} );
 
         if (t.find(".cr-note") != null) {
           if (content) {
@@ -86,8 +86,8 @@ Template.agreement.helpers({
     }
   },
   description: function () {
-    if (Session.get('contract')) {
-      var description = Session.get('contract').description;
+    if (contractId != undefined) {
+      var description = Contracts.findOne( { _id: contractId }, { reactive: false } ).description;
       return Modules.client.delegationTextCheck(description, true);
     }
   },
