@@ -32,8 +32,8 @@ Template.agreement.rendered = function () {
               contentDefault: '<span class="icon-list-numbered">1.</span>'
           }
         ],
-        diffLeft: 25,
-        diffTop: -10,
+        diffLeft: 0,
+        diffTop: -15,
         allowMultiParagraphSelection: true
       },
       buttonLabels: false,
