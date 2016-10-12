@@ -206,7 +206,11 @@ let _signatureStatus = (signatures, signerId, getStatus) => {
   if (getStatus == undefined || getStatus == false) {
     return label;
   } else {
-    return signatures[i].status;
+    if (signatures.length > 0) {
+      return signatures[i].status;
+    } else {
+      return false;
+    }
   }
 }
 
@@ -257,6 +261,23 @@ let _sign = (contractId, userObject, role) => {
 
 };
 
+
+/***
+* removes a signature from a contract
+* @param {string} contractId - contract Id to be signed
+* @param {string} userId - user signature to remove.
+****/
+let _removeSignature = (contractId, userId) => {
+
+  Contracts.update({_id: contractId}, { $pull: {
+    signatures:
+      {
+        _id: userId
+      }
+  }});
+
+};
+
 /**
  * Changes the stage of a contract
  * @param {String} contractId - that points to contract in db
@@ -286,6 +307,7 @@ Modules.both.rightToVote = _rightToVote;
 Modules.both.signatureStatus = _signatureStatus;
 Modules.both.setContractStage = contractStage;
 Modules.both.signContract = _sign;
+Modules.both.removeSignature = _removeSignature;
 Modules.both.publishContract = _publish;
 Modules.both.removeContract = _remove;
 Modules.both.startMembership = _newMembership;

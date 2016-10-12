@@ -26,7 +26,6 @@ Template.signatures.helpers({
       if (Session.get('contract').signatures != undefined) {
         for (i in Session.get('contract').signatures) {
           signerIds.push(Session.get('contract').signatures[i]._id);
-
         }
         return signerIds;
       } else {

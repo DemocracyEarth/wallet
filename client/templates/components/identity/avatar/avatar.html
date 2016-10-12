@@ -45,6 +45,11 @@
       {{#if includeRole}}
         <div class="signature-role {{roleStyle}}">
           {{{roleStatus}}}
+          {{#if allowRemove}}
+            {{#if profile=currentUser._id}}
+              <div id="removeSignature" title="{{_ 'remove-signature-tooltip'}}" class="signature-remove"></div>
+            {{/if}}
+          {{/if}}
         </div>
       {{/if}}
     {{/if}}

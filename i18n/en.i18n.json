@@ -384,5 +384,8 @@
   "place-votes-warning": "Do you confirm placing <strong><quantity> votes</strong>?",
   "results": "Results",
   "total-votes": "(<votes> votes)",
-  "no": "No"
+  "no": "No",
+  "remove-signature-tooltip": "Remove signature from contract.",
+  "remove-signature": "Remove Signature",
+  "remove-signature-message": "Do you confirm removing signature from contract?"
 }

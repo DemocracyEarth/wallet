@@ -176,6 +176,23 @@ Template.avatar.events({
     data.configured = false;
     Meteor.users.update(Meteor.userId(), { $set: { profile : data }})
   },
+  'click #removeSignature': function () {
+    Modules.client.displayModal(
+      true,
+      {
+        icon            : 'images/author-signature.png',
+        title           : TAPi18n.__('remove-signature'),
+        message         : TAPi18n.__('remove-signature-message'),
+        cancel          : TAPi18n.__('not-now'),
+        action          : TAPi18n.__('remove'),
+        displayProfile  : false
+      },
+      function() {
+        Modules.both.removeSignature(Session.get('contract')._id, Meteor.user()._id);
+        Session.set('userSigned', false);
+      }
+    );
+  },
   'mouseenter .profile-pic': function (event) {
     if (this.displayPopup != false && this.disabled != true) {
       if (this.profile != null && this.profile != undefined) {

@@ -39,14 +39,14 @@
         {{#if editorMode}}
           {{#each signer}}
             <li class="w-clearfix identity identity-sign">
-                {{> avatar profile=this includeName=true includeNation=true editable=false disabled=false includeRole=true}}
+                {{> avatar profile=this includeName=true includeNation=true editable=false disabled=false includeRole=true allowRemove=true}}
             </li>
           {{/each}}
         {{else}}
           {{#if delegationMode}}
             {{#each signer}}
               <li class="w-clearfix identity identity-sign">
-                {{> avatar profile=this includeName=true includeNation=true editable=false disabled=true includeRole=true}}
+                {{> avatar profile=this includeName=true includeNation=true editable=false disabled=true includeRole=true allowRemove=true}}
               </li>
             {{/each}}
           {{else}}
