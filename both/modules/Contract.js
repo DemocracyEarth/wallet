@@ -207,7 +207,11 @@ let _signatureStatus = (signatures, signerId, getStatus) => {
     return label;
   } else {
     if (signatures.length > 0) {
-      return signatures[i].status;
+      if (signatures[i] != undefined) {
+        return signatures[i].status;
+      } else {
+        return false;
+      }
     } else {
       return false;
     }

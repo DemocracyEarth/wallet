@@ -31,6 +31,27 @@ Template.avatar.helpers({
       return '/peer/' + user.username
     }
   },
+  myself: function () {
+    if (this.profile == undefined) {
+      if (Meteor.user() != undefined) {
+        return true;
+      }
+    } else {
+      if (!this.username) {
+        if (!this._id) {
+          if (this.profile._id) {
+            return (this.profile._id == Meteor.user()._id);
+          } else {
+            return (this.profile == Meteor.user()._id);
+          }
+        } else {
+          return (this._id == Meteor.user()._id);
+        }
+      } else {
+        return (this.username == Meteor.user().username);
+      }
+    }
+  },
   roleStatus: function () {
     return Modules.both.signatureStatus(Session.get('contract').signatures, this.profile);
   },
