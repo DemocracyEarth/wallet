@@ -85,7 +85,6 @@ Template.agreement.rendered = function () {
     //to avoid duplicate fragments + caret displacement, it manually handles contenteditable update
     var t = this;
     this.contentAutorun = Deps.autorun(function () {
-        console.log('calling autorun');
         var content = Contracts.findOne( { _id: contractId }, {reactive: false} );
 
         if (t.find(".cr-note") != null) {

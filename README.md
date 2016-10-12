@@ -73,4 +73,4 @@ Just type the following command, your app will be deployed on http://localhost:3
 
 
 
-``// version 0.01, codename San Francisco.``
+``// version 0.1.0, codename San Francisco.``

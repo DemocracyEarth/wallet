@@ -29,13 +29,14 @@ Template.toggle.helpers({
 Template.toggle.events({
   "click #toggleButton": function (event) {
     //clickedToggle = this.setting;
-    if (!Session.get('rightToVote')) {
+    if (!Session.get('rightToVote') || Session.get('contract').stage == STAGE_DRAFT) {
       Session.set('clickedToggle', this.setting);
       var obj = new Object;
       toggle($('.' + this.setting).children(), !this.value);
-      Meteor.call("updateContractField", Session.get('contract')._id, this.setting, !this.value);
+      var obj = {};
+      obj[this.setting] = !this.value;
+      Contracts.update(Session.get('contract')._id, { $set: obj });
     }
-    //Modules.client.displayNotice(TAPi18n.__('saved-draft-description'), true);
   }
 });
 
