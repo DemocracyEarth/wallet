@@ -511,9 +511,13 @@ blockquote {
   height: 60px;
   margin-left: 35%;
   border-style: solid;
-  border-color: #00bf8f;
-  background-color: #00bf8f;
+  border-color: #66d8bc;
+  background-color: #66d8bc;
   text-decoration: none;
+}
+
+.symbol.profile-pic.profile-sign:hover {
+  background-color: #00bf8f;
 }
 
 .symbol.profile-pic.profile-sign:active {
@@ -3015,7 +3019,8 @@ blockquote {
 }
 
 .context {
-  position: fixed;
+  position: absolute;
+  left: 50%;
   z-index: 9000;
   display: inline-block;
   overflow: hidden;
@@ -3023,7 +3028,7 @@ blockquote {
   max-width: 300px;
   margin-top: 70px;
   margin-right: auto;
-  margin-left: auto;
+  margin-left: -150px;
   padding: 3px 10px;
   border-bottom: 2px solid #ffe079;
   border-radius: 5px;
@@ -3641,7 +3646,8 @@ blockquote {
 
 .type {
   margin-top: 0px;
-  padding: 10px 5px 0px;
+  padding-top: 10px;
+  padding-bottom: 0px;
   border-radius: 3px;
   background-color: transparent;
   box-shadow: none;
@@ -3828,8 +3834,7 @@ blockquote {
   display: block;
   margin-right: auto;
   margin-left: auto;
-  padding-top: 50px;
-  padding-bottom: 15px;
+  padding: 50px 15px 15px;
   background-color: #ddd;
 }
 
@@ -4197,7 +4202,7 @@ blockquote {
   display: inline-block;
   overflow: auto;
   width: 50%;
-  padding: 60px 30px 15px;
+  padding: 60px 15px 15px;
   float: left;
   background-color: #ddd;
 }
@@ -4520,19 +4525,11 @@ blockquote {
   h2 {
     font-size: 14px;
   }
-  .paper {
-    padding-right: 20px;
-    padding-left: 20px;
-  }
   .paper.paper-execute {
     border-radius: 0px;
   }
   .kind {
     width: 100px;
-  }
-  .contract {
-    margin-right: 0px;
-    margin-left: 0px;
   }
   .icon {
     width: 30px;
