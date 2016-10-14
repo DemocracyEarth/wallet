@@ -1032,7 +1032,7 @@ blockquote {
   display: inline-block;
   margin-top: 20px;
   margin-right: 10px;
-  margin-left: -45px;
+  margin-left: -40px;
   padding-right: 10px;
   padding-left: 10px;
   float: left;
@@ -4475,6 +4475,7 @@ blockquote {
     left: 0px;
     right: 0px;
     padding-right: 0px;
+    padding-left: 0px;
   }
   .content.content-feed {
     padding-right: 15px;
