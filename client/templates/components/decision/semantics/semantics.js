@@ -76,6 +76,13 @@ Template.semantics.helpers({
   removeTag: function () {
     return displayElement('removeTag');
   },
+  emptyDb: function () {
+    if (TagSearch.getData({}).length > 0) {
+      return 'display:none';
+    } else {
+      return '';
+    }
+  },
   newTag: function () {
     return Session.get('newTag');
   },

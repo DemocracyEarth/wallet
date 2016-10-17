@@ -387,5 +387,6 @@
   "no": "No",
   "remove-signature-tooltip": "Remove signature from contract.",
   "remove-signature": "Remove Signature",
-  "remove-signature-message": "Do you confirm removing signature from contract?"
+  "remove-signature-message": "Do you confirm removing signature from contract?",
+  "no-tags-found": "No tags found. <strong>Type in search to create one.</strong>"
 }

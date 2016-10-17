@@ -75,8 +75,13 @@
                   <div>{{_ 'remove-tag'}}</div>
                 </div>
               </li>
+              <li class="selector-modal nondraggable" style="{{emptyDb}}">
+                <div class="selector-create">
+                  <div class="selector-modal-label">{{{_ 'no-tags-found'}}}</div>
+                </div>
+              </li>
               {{#each getTags}}
-                  {{> tag suggestion=true _id=_id}}
+                {{> tag suggestion=true _id=_id}}
               {{/each}}
             </ul>
             <div class="shadow-fake"></div>
