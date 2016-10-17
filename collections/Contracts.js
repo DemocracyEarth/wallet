@@ -433,6 +433,14 @@ Schema.Contract = new SimpleSchema({
   wallet: {
     type: Wallet,
     optional: true
+  },
+  owner: {
+    type: String,
+    autoValue: function () {
+      if (this.isInsert) {
+        return Meteor.user()._id;
+      }
+    }
   }
 });
 
