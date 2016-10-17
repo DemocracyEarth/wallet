@@ -62,13 +62,17 @@ Template.semantics.helpers({
     return sortRanks(Session.get('dbTagList'));
   },
   getTags: function() {
-    var search = TagSearch.getData({
-      transform: function(matchText, regExp) {
-        return matchText.replace(regExp, "<b>$&</b>")
-      },
-      sort: {isoScore: -1}
-    });
-    return search;
+    if (Session.get('createTag') || Session.get('searchBox')) {
+      var search = TagSearch.getData({
+        transform: function(matchText, regExp) {
+          return matchText.replace(regExp, "<b>$&</b>")
+        },
+        sort: {isoScore: -1}
+      });
+      return search;
+    } else {
+      return Tags.find({}).fetch();
+    }
   },
   createTag: function () {
     return displayElement('createTag');
@@ -77,10 +81,14 @@ Template.semantics.helpers({
     return displayElement('removeTag');
   },
   emptyDb: function () {
-    if (TagSearch.getData({}).length > 0) {
+    if (displayElement('createTag') == '') {
       return 'display:none';
     } else {
-      return '';
+      if (TagSearch.getData({}).length > 0) {
+        return 'display:none';
+      } else {
+        return '';
+      }
     }
   },
   newTag: function () {
@@ -158,9 +166,9 @@ Template.semantics.events({
     Session.set('searchBox', true);
   },
   "blur #tagSearch": function (event) {
-    if (Session.get('createTag') == false) {
+    //if (Session.get('createTag') == false) {
       resetTagSearch();
-    }
+    //}
     Session.set('searchBox', false);
   },
   "click #add-custom-tag": function (event) {
