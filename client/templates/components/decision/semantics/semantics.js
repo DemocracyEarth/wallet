@@ -71,7 +71,7 @@ Template.semantics.helpers({
       });
       return search;
     } else {
-      return Tags.find({}).fetch();
+      return Tags.find({}).fetch().slice(0, 50);
     }
   },
   createTag: function () {
@@ -148,6 +148,7 @@ Template.semantics.events({
       resetTagSearch();
       document.getElementById("tagSearch").innerHTML = '';
     }
+    Session.set('searchBox', true);
     return event.which != 13;
   },
   "input #tagSearch": function (event) {
@@ -163,7 +164,6 @@ Template.semantics.events({
   },
   "focus #tagSearch": function (event) {
     document.getElementById("tagSearch").innerHTML = '';
-    Session.set('searchBox', true);
   },
   "blur #tagSearch": function (event) {
     //if (Session.get('createTag') == false) {

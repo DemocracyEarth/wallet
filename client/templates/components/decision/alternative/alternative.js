@@ -37,6 +37,13 @@ Template.alternative.helpers({
         instaProposalCreator(content);
       }
     }
+    //purge if same from current contract
+    for (i in search) {
+      if (search[i]._id == Session.get('contract')._id) {
+        search.splice(i, 1);
+        break;
+      }
+    }
     return search;
   },
   createProposal: function () {
@@ -118,7 +125,15 @@ Template.alternative.events({
     if (ProposalSearch.getData().length == 0 && content != '') {
       instaProposalCreator(content);
     } else {
-      Session.set('createProposal', false);
+      if (ProposalSearch.getData().length == 1) {
+        if (ProposalSearch.getData()[0]._id == Session.get('contract')._id) {
+          instaProposalCreator(content);
+        } else {
+          Session.set('createProposal', false);
+        }
+      } else {
+        Session.set('createProposal', false);
+      }
     }
   },
   "focus #searchInput": function (event) {
