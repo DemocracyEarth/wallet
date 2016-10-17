@@ -1,7 +1,7 @@
 Template.socialMediaLogin.events({
   "click #facebook-login": function () {
     Meteor.loginWithFacebook({}, function(err){
-      if (err) {
+      if (err.reason) {
           throw new Meteor.Error("Facebook login failed " + err.reason);
       }
     });

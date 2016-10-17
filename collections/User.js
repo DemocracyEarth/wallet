@@ -60,7 +60,9 @@ Schema.Profile = new SimpleSchema({
       optional: true,
       autoValue: function () {
         if (this.isInsert) {
-          return '/images/noprofile.png';
+          if (!this.isSet) {
+            return '/images/noprofile.png';
+          }
         }
       }
     },

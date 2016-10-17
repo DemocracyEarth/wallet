@@ -47,13 +47,9 @@ let _createUser = (data) => {
             }
           });
           //make first membership transaction
-          console.log('[_createUser] call genesis transaction');
-          console.log('[_createUser] for user: ' + Meteor.user()._id);
           Meteor.call ('genesisTransaction', Meteor.user()._id, function (error, response) {
             if (error) {
               console.log('[genesisTransaction] ERROR: ' + error);
-            } else {
-              console.log('[genesisTransaction] SUCCESS');
             };
           });
         }
