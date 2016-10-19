@@ -58,6 +58,9 @@ Template.feedItem.helpers({
   },
   userIsAuthor: function (signatures) {
     if (Meteor.user() != null) {
+      if (Meteor.user()._id == this.owner) {
+        return true;
+      }
       for (stamp in signatures) {
         if (signatures[stamp]._id == Meteor.user()._id) {
           return true;

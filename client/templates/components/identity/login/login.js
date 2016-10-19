@@ -7,5 +7,6 @@ Template.login.events({
     Session.set('logger', false);
     Modules.client.animatePopup(false);
     Meteor.logout();
+    Router.go('/');
   }
 });
