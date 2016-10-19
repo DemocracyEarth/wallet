@@ -62,16 +62,16 @@ Template.semantics.helpers({
     return sortRanks(Session.get('dbTagList'));
   },
   getTags: function() {
-    if (Session.get('createTag') || Session.get('searchBox')) {
-      var search = TagSearch.getData({
-        transform: function(matchText, regExp) {
-          return matchText.replace(regExp, "<b>$&</b>")
-        },
-        sort: {isoScore: -1}
-      });
-      return search;
-    } else {
+    var search = TagSearch.getData({
+      transform: function(matchText, regExp) {
+        return matchText.replace(regExp, "<b>$&</b>")
+      },
+      sort: {isoScore: -1}
+    });
+    if (!(Session.get('createTag') || Session.get('searchBox')) || search.length == 0) {
       return Tags.find({}).fetch().slice(0, 50);
+    } else {
+      return search;
     }
   },
   createTag: function () {
@@ -84,7 +84,7 @@ Template.semantics.helpers({
     if (displayElement('createTag') == '') {
       return 'display:none';
     } else {
-      if (TagSearch.getData({}).length > 0) {
+      if (TagSearch.getData({}).length > 0 || Tags.find({}).fetch().length > 0) {
         return 'display:none';
       } else {
         return '';
