@@ -59,7 +59,7 @@ Template.ballot.rendered = function () {
         scroll: true,
         items: "> li",
         forceHelperSize: true,
-        helper: 'original',
+        helper: 'clone',
         zIndex: 9999,
         placeholder: 'vote vote-placeholder'
 
@@ -93,7 +93,6 @@ Template.ballot.helpers({
     }
   },
   options: function () {
-    console.log('[options intervention]');
     var contractBallot;
     if (Session.get('dbContractBallot') == undefined) {
       if (Session.get('contract')) {
@@ -115,14 +114,14 @@ Template.ballot.helpers({
     var keys = [],
         k, i, len;
 
-    //Warn if ballot is empty
+    //warn if ballot is empty
     if (contractBallot.length == 0) {
       Session.set('ballotReady', false);
     } else {
       Session.set('ballotReady', true);
     };
 
-    //Sort by Rank on DB
+    //sort by rank on db
     for (var i = 0; i < contractBallot.length; i++) {
       if (contractBallot[i].rank) {
         keys.push(parseInt(contractBallot[i].rank));
