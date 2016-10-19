@@ -195,7 +195,7 @@ let _countVotes = (scoreboard, ballot, quantity) => {
 }
 
 
-//adds a new proposal to contrat being edited
+//adds a new proposal to contract being edited
 let addNewProposal = () => {
   if (Session.get('proposalURLStatus') == 'AVAILABLE') {
     Meteor.call("createNewContract", Session.get('newProposal'), function (error, data) {
@@ -217,9 +217,42 @@ let addNewProposal = () => {
       }
     });
   }
-
 }
 
+/******
+* updates the ranking of an option in a ballot
+* @param {string} contractId - contract
+* @param {array} sortedBallotIDs - available options in this ballot
+*******/
+let _updateBallotRank = (contractId, sortedBallotIDs) => {
+  var contract = Contracts.findOne({ _id: contractId });
+  var ballot = contract.ballot;
+  for (i in sortedBallotIDs) {
+    for (k in ballot) {
+      if (ballot[k]._id == sortedBallotIDs[i]) {
+        ballot[k].rank = parseInt(i) + 1;
+        break;
+      }
+    }
+  }
+  contract.ballot = ballot;
+  Contracts.update({ _id: contractId }, { $set: { ballot: contract.ballot } });
+}
+
+/******
+* removes an option froim a ballot
+* @param {string} contractId - contract
+* @param {string} forkId - choice id
+*******/
+let _removeFork = (contractId, forkId) => {
+  Contracts.update({ _id: contractId}, { $pull: {
+    ballot:
+      { _id: forkId}
+  }})
+};
+
+Modules.client.removeFork = _removeFork;
+Modules.client.updateBallotRank = _updateBallotRank;
 Modules.client.updateExecutionStatus = _updateExecutionStatus;
 Modules.client.showResults = _showResults;
 Modules.client.purgeBallot = _purgeBallot;

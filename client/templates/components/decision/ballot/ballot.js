@@ -12,7 +12,8 @@ Template.ballot.rendered = function () {
           $('#ballotOption li').each(function( index ) {
             rankOrder.push($( this ).attr('value'));
           });
-          Meteor.call('updateBallotRank', Session.get('contract')._id, rankOrder);
+          //Meteor.call('updateBallotRank', Session.get('contract')._id, rankOrder);
+          Modules.client.updateBallotRank(Session.get('contract')._id, rankOrder);
           Session.set('removeProposal', false);
           if (rankOrder.length == 0) {
             Session.set('ballotReady', false);
@@ -45,18 +46,20 @@ Template.ballot.rendered = function () {
         beforeStop: function(e, ui) {
           if (sortableIn == false) {
             if (Session.get('removeProposal')) {
-              Meteor.call("removeFork", Session.get('contract')._id, ui.item.get(0).getAttribute('value'));
+              //Meteor.call("removeFork", Session.get('contract')._id, ui.item.get(0).getAttribute('value'));
+              Modules.client.removeFork(Session.get('contract')._id, ui.item.get(0).getAttribute('value'));
               ui.item.get(0).remove();
               Session.set('removeProposal', false);
             }
           }
         },
-        revert: 100,
+        revert: 0,
         cancel: '.nondraggable',
         tolerance: 'pointer',
+        scroll: true,
         items: "> li",
         forceHelperSize: true,
-        helper: 'clone',
+        helper: 'original',
         zIndex: 9999,
         placeholder: 'vote vote-placeholder'
 
@@ -90,6 +93,7 @@ Template.ballot.helpers({
     }
   },
   options: function () {
+    console.log('[options intervention]');
     var contractBallot;
     if (Session.get('dbContractBallot') == undefined) {
       if (Session.get('contract')) {

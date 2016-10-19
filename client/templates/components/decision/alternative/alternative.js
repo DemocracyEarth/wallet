@@ -44,8 +44,8 @@ Template.alternative.helpers({
         break;
       }
     }
-    
-    if (convertToSlug(content).length <= 1) {
+
+    if (convertToSlug(content).length <= 1 || search.length == 0) {
       search = Session.get('alternativeFeed');
     }
 
