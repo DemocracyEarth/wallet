@@ -71,13 +71,15 @@
                 </div>
               </li>
               <li class="selector-modal nondraggable" style='{{removeTag}}'>
-                <div class="selector-warning"><img src="{{pathFor route='home'}}images/trash.png" class="icon-trash">
+                <div class="selector-warning">
+                  <img src="{{pathFor route='home'}}images/trash.png" class="icon-trash">
                   <div>{{_ 'remove-tag'}}</div>
                 </div>
               </li>
-              <li class="selector-modal nondraggable" style="{{emptyDb}}">
-                <div class="selector-create">
-                  <div class="selector-modal-label">{{{_ 'no-tags-found'}}}</div>
+              <li class="selector-modal nondraggable" style='{{emptyDb}}'>
+                <div class="selector-warning">
+                  <img src="{{pathFor route='home'}}images/emptyhash.png" class="icon-trash">
+                  <div>{{{_ 'no-tags-found'}}}</div>
                 </div>
               </li>
               {{#each getTags}}

@@ -21,6 +21,14 @@
         </div>
       </li>
 
+      <!-- Empty -->
+      <li class="selector-modal selector-proposals-modal nondraggable" style='{{emptyAlternatives}}'>
+        <div class="selector-warning selector-warning-large">
+          <img src="{{pathFor route='home'}}images/empty.png" class="icon-trash icon-trash-large">
+          <div>{{{_ 'empty-proposal-list'}}}</div>
+        </div>
+      </li>
+
       <!-- Create Proposal -->
       <li class="selector-modal selector-proposals-modal nondraggable" style='{{createProposal}}'>
         <div class="selector-create selector-create-modal">

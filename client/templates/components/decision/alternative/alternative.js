@@ -5,6 +5,7 @@ var SEARCH_INPUT;
 Template.alternative.rendered = function () {
   SEARCH_INPUT = TAPi18n.__('search-input');
   ProposalSearch.search('');
+  _generateAlternativeFeed();
 }
 
 Template.alternative.helpers({
@@ -21,6 +22,9 @@ Template.alternative.helpers({
     } else {
       content = '';
     }
+
+    _generateAlternativeFeed();
+
     var search = ProposalSearch.getData({
       transform: function(matchText, regExp) {
         var htmlRegex = new RegExp("<([A-Za-z][A-Za-z0-9]*)\\b[^>]*>(.*?)</\\1>");
@@ -32,6 +36,11 @@ Template.alternative.helpers({
       },
       sort: {isoScore: -1}
     });
+
+    if (content == '') {
+      search = Session.get('alternativeFeed');
+    }
+
     if (search.length == 0 && content != '') {
       if (content != SEARCH_INPUT) {
         instaProposalCreator(content);
@@ -45,6 +54,9 @@ Template.alternative.helpers({
       }
     }
     return search;
+  },
+  emptyAlternatives: function () {
+    return displayElement('emptyAlternatives');
   },
   createProposal: function () {
     return displayElement('createProposal');
@@ -121,19 +133,25 @@ Template.alternative.events({
   "input #searchInput": function (event) {
     var content = document.getElementById("searchInput").innerHTML.replace(/&nbsp;/gi,'');
     ProposalSearch.search(content);
-
     if (ProposalSearch.getData().length == 0 && content != '') {
       instaProposalCreator(content);
+      _generateAlternativeFeed();
     } else {
       if (ProposalSearch.getData().length == 1) {
         if (ProposalSearch.getData()[0]._id == Session.get('contract')._id) {
           instaProposalCreator(content);
+          _generateAlternativeFeed();
         } else {
           Session.set('createProposal', false);
+          Session.set('emptyAlternatives', false);
         }
       } else {
         Session.set('createProposal', false);
+        _generateAlternativeFeed();
       }
+    }
+    if (content.length <= 2) {
+      Session.set('createProposal', false);
     }
   },
   "focus #searchInput": function (event) {
@@ -169,4 +187,13 @@ function instaProposalCreator(content) {
     }
   }, SERVER_INTERVAL);
 
+}
+
+function _generateAlternativeFeed () {
+  Session.set('alternativeFeed', Contracts.find({ $or: [ {collectiveId: Session.get('collective')._id, stage : { $not : STAGE_DRAFT } }, {owner: Meteor.user()._id , _id : { $not : Session.get('contract')._id }} ] }).fetch());
+  if (Session.get('alternativeFeed').length > 0) {
+    Session.set('emptyAlternatives', false);
+  } else {
+    Session.set('emptyAlternatives', true);
+  }
 }
