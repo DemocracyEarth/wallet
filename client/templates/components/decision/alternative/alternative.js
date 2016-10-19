@@ -37,20 +37,21 @@ Template.alternative.helpers({
       sort: {isoScore: -1}
     });
 
-    if (content == '') {
+    //purge if same from current contract
+    for (i in search) {
+      if (search[i]._id == Session.get('contract')._id) {
+        search.splice(i, 1);
+        break;
+      }
+    }
+    
+    if (convertToSlug(content).length <= 1) {
       search = Session.get('alternativeFeed');
     }
 
     if (search.length == 0 && content != '') {
       if (content != SEARCH_INPUT) {
         instaProposalCreator(content);
-      }
-    }
-    //purge if same from current contract
-    for (i in search) {
-      if (search[i]._id == Session.get('contract')._id) {
-        search.splice(i, 1);
-        break;
       }
     }
     return search;
@@ -150,7 +151,7 @@ Template.alternative.events({
         _generateAlternativeFeed();
       }
     }
-    if (content.length <= 2) {
+    if (convertToSlug(content).length <= 2) {
       Session.set('createProposal', false);
     }
   },
@@ -171,6 +172,13 @@ Template.alternative.events({
 });
 
 function instaProposalCreator(content) {
+  if (Session.get('alternativeFeed').length > 0) {
+    if (convertToSlug(content).length <= 1) {
+      Session.set('createProposal', false);
+      return;
+    }
+  }
+
   Session.set('createProposal', true);
   Session.set('newProposal', content);
   var keyword = convertToSlug(content);
