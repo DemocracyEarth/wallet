@@ -1,36 +1,48 @@
-<img src="public/images/democracy-earth.png" width="400" title="DemocracyEarth">
-# Incorruptible governance for small and large communities
+<img src="public/images/democracy-earth.png" width="400" title="DemocracyEarth" style="text-align: center;">
+
+# Sovereign 0.1.0
+
+Sovereign provides incorruptible governance tech for organizations and communities through a fully customizable peer to peer democracy.
 
 ## Setup
 
-### Install
+0. **Install Framework**
 
-On Linux & MacOS, load a terminal and type:
+    On Linux & MacOS, load a terminal and type:
 
-`curl https://install.meteor.com/ | sh`
+    `curl https://install.meteor.com/ | sh`
 
-This will setup [Meteor Framework](http://github.com/meteor/meteor), including [Node](https://github.com/nodejs/node) and [Mongo](https://github.com/mongodb/mongo).
+    This will setup [Meteor](http://github.com/meteor/meteor), including [Node](https://github.com/nodejs/node) and [Mongo](https://github.com/mongodb/mongo).
 
-Windows users must [download installer](https://www.meteor.com/install).
+    > _Note:_ Windows users must [download installer](https://www.meteor.com/install).
 
-### Clone
+0. **Clone Repository**
 
-`git clone https://github.com/DemocracyEarth/sovereign.git`
+    ```sh
+    $ git clone https://github.com/DemocracyEarth/sovereign.git
+    $ cd sovereign
+    ```
 
-### Deploy
+0. **Deploy App**
 
-Go to repository directory and type:
+    Go to repository directory and type:
 
-`meteor --settings=config/development/settings.json`
+    ```sh
+    $ meteor --settings=config/development/settings.json
+    ```
 
-Load browser and go to http://localhost:3000/
+    Load browser and go to http://localhost:3000/.
+
+    > _Note:_ For Production deploys you can use  `--settings=config/production/settings.json` instead.
 
 ## Demo
 
-[democracy.earth](http://democracy.earth)
+* Official site: [democracy.earth](http://democracy.earth).
+* [Colombia Peace Referendum](http://vota.plebiscitodigital.co).
 
-## Specs
-Built on **[Meteor](https://www.meteor.com/)** version 1.4
+## Specifications
+
+Built on **[Meteor](https://www.meteor.com/)** version 1.4.2
 
 * Rapid cross platform deployment (web + desktop + mobile).
 * Simple code structure.
