@@ -41,7 +41,7 @@ Sovereign is a mobile & desktop governance platform.
     $ meteor --settings=config/development/settings.json
     ```
 
-    Load browser and go to [http://localhost:3000/)](http://localhost:3000/).
+    Load browser and go to [http://localhost:3000/](http://localhost:3000/).
 
     > _Note:_ For **production** deploys you can alternatively use  `--settings=config/production/settings.json`.
     >Also, for **rapid online deployment**, since it runs on Meteor you can create a [Galaxy](galaxy.meteor.com) account and after [setting up the database](http://coderchronicles.org/2016/03/15/deploying-a-meteor-app-to-galaxy/), you can just type in:
