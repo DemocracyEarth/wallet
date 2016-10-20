@@ -1,8 +1,8 @@
 <img src="public/images/democracy-earth.png" width="400" title="DemocracyEarth" style="text-align: center;">
 
-# Sovereign 0.1.0
+# Sovereign App
 
-Sovereign provides incorruptible governance tech for organizations and communities through a fully customizable peer to peer democracy.
+Sovereign is a mobile & desktop governance platform. It provides a fully customizable peer to peer democracy for organizations of all sizes. It's designed for easy integration with decentralized systems. It operates with a transaction engine using voting tokens so it can be plugged to any kind of blockchain.
 
 ## Setup
 
@@ -10,9 +10,11 @@ Sovereign provides incorruptible governance tech for organizations and communiti
 
     On Linux & MacOS, load a terminal and type:
 
-    `curl https://install.meteor.com/ | sh`
+    ```sh
+    $ curl https://install.meteor.com/ | sh
+    ```
 
-    This will setup [Meteor](http://github.com/meteor/meteor), including [Node](https://github.com/nodejs/node) and [Mongo](https://github.com/mongodb/mongo).
+    This will setup [Meteor](http://github.com/meteor/meteor) (including [Node](https://github.com/nodejs/node) and [Mongo](https://github.com/mongodb/mongo) if necessary).
 
     > _Note:_ Windows users must [download installer](https://www.meteor.com/install).
 
@@ -23,7 +25,7 @@ Sovereign provides incorruptible governance tech for organizations and communiti
     $ cd sovereign
     ```
 
-0. **Deploy App**
+0. **Run App**
 
     Go to repository directory and type:
 
@@ -31,11 +33,17 @@ Sovereign provides incorruptible governance tech for organizations and communiti
     $ meteor --settings=config/development/settings.json
     ```
 
-    Load browser and go to http://localhost:3000/.
+    Load browser and go to [http://localhost:3000/)](http://localhost:3000/).
 
-    > _Note:_ For Production deploys you can use  `--settings=config/production/settings.json` instead.
+    > _Note:_ For **production** deploys you can alternatively use  `--settings=config/production/settings.json`.
 
-## Demo
+    For **rapid deployment**, since it runs on Meteor, create a [Galaxy](galaxy.meteor.com) account and after [setting up the db](http://coderchronicles.org/2016/03/15/deploying-a-meteor-app-to-galaxy/), use the following line:
+
+    ```sh
+    $ DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy **www.yourserver.com** --settings=config/production/settings.json
+    ```
+
+## Demos
 
 * Official site: [democracy.earth](http://democracy.earth).
 * [Colombia Peace Referendum](http://vota.plebiscitodigital.co).
@@ -48,7 +56,15 @@ Built on **[Meteor](https://www.meteor.com/)** version 1.4.2
 * Simple code structure.
 * Fast and reliable stack (node + mongo).
 
-## [Contributors](CONTRIBUTING.md)
+## Contributors
+
+Sovereign is open for anyone to join.
+
+* [Santiago Siri](http://github.com/santisiri)
+* [Lucas Isasmendi](https://github.com/LucasIsasmendi)
+* [Eduardo Medina](https://github.com/medied)
+
+For localization, design and extras check the [full list](CONTRIBUTING.md).
 
 ## License
 
@@ -56,7 +72,7 @@ This software is under an [MIT License](LICENSE.md)
 
 ## Manifesto
 
-### A Declaration of the Independence of Cyberspace
+**A Declaration of the Independence of Cyberspace**
 
 Governments of the Industrial World, you weary giants of flesh and steel, I come from Cyberspace, the new home of Mind. On behalf of the future, I ask you of the past to leave us alone. You are not welcome among us. You have no sovereignty where we gather.
 
@@ -94,5 +110,3 @@ Davos, Switzerland
 February 8, 1996
 
 [John Perry Barlow](https://www.eff.org/es/cyberspace-independence)
-
-``// sovereign version 0.1.0, codename quixote.``

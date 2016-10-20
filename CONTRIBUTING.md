@@ -2,13 +2,13 @@
 
 ## Code
 
-Javascript, Node, Meteor.
+Javascript.
 
 * [Santiago Siri](http://github.com/santisiri)
 * [Lucas Isasmendi](https://github.com/LucasIsasmendi)
 * [Eduardo Medina](https://github.com/medied)
 
-## UX
+## Design
 
 HTML, CSS.
 
@@ -16,15 +16,12 @@ HTML, CSS.
 
 ## Text
 
-English, Spanish, French.
-
-* [Mair Williams](https://github.com/mairwilliams)
-* [Virgile Deville](https://github.com/virgile-dev)
+* Spanish: [Mair Williams](https://github.com/mairwilliams)
+* French: [Virgile Deville](https://github.com/virgile-dev)
+* Portuguese: [Ariel Kogan](https://github.com/mairwilliams)
 
 
 ## Blockchain
-
-TBD
 
 * Pending
 
