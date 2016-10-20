@@ -2,7 +2,15 @@
 
 # Sovereign App
 
-Sovereign is a mobile & desktop governance platform. It provides a fully customizable peer to peer democracy for organizations of all sizes. It's designed for easy integration with decentralized systems. It operates with a transaction engine using voting tokens so it can be plugged to any kind of blockchain.
+Sovereign is a mobile & desktop governance platform.
+
+  * A fully customizable _peer to peer democracy_ for organizations of all sizes.
+  * Designed for easy integration with decentralized systems.
+  * Transaction engine based on voting tokens for blockchain compatibility.
+  * Identity verification and scoring for [sybil attack](https://www.microsoft.com/en-us/research/wp-content/uploads/2002/01/IPTPS2002.pdf) prevention.
+  * Really fucking great UX.
+
+  > _Note:_ Integration with [Blockstack](https://github.com/blockstack) and other blockchain related technologies is currently under development.
 
 ## Setup
 
@@ -36,11 +44,9 @@ Sovereign is a mobile & desktop governance platform. It provides a fully customi
     Load browser and go to [http://localhost:3000/)](http://localhost:3000/).
 
     > _Note:_ For **production** deploys you can alternatively use  `--settings=config/production/settings.json`.
-
-    For **rapid deployment**, since it runs on Meteor, create a [Galaxy](galaxy.meteor.com) account and after [setting up the db](http://coderchronicles.org/2016/03/15/deploying-a-meteor-app-to-galaxy/), use the following line:
-
+    >Also, for **rapid online deployment**, since it runs on Meteor you can create a [Galaxy](galaxy.meteor.com) account and after [setting up the database](http://coderchronicles.org/2016/03/15/deploying-a-meteor-app-to-galaxy/), you can just type in:
     ```sh
-    $ DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy **www.yourserver.com** --settings=config/production/settings.json
+    $ DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy yourserver.com --settings=config/production/settings.json
     ```
 
 ## Demos
@@ -58,13 +64,19 @@ Built on **[Meteor](https://www.meteor.com/)** version 1.4.2
 
 ## Contributors
 
-Sovereign is open for anyone to join.
+Sovereign is **open for anyone to join**. Our ranks include:
 
-* [Santiago Siri](http://github.com/santisiri)
-* [Lucas Isasmendi](https://github.com/LucasIsasmendi)
-* [Eduardo Medina](https://github.com/medied)
+* [Santiago Siri 🇦🇷](http://github.com/santisiri)
+* [Lucas Isasmendi 🇦🇷](https://github.com/LucasIsasmendi)
+* [Eduardo Medina 🇻🇪](https://github.com/medied)
+* [Mair Williams 🌎](https://github.com/mairwilliams)
+* [Virgile Deville 🇫🇷](https://github.com/virgile-dev)
+* [Ariel Kogan 🇧🇷](https://github.com/mairwilliams)
+* [Herb Stephens 🇺🇸](http://github.com/herbstephens)
+* [Pia Mancini 🇮🇹](https://github.com/piamancini)
+* [Dan Swislow 🇺🇸](https://github.com/dswis)
 
-For localization, design and extras check the [full list](CONTRIBUTING.md).
+For detailed roles and extras check the [full list](CONTRIBUTING.md).
 
 ## License
 
@@ -104,4 +116,6 @@ These increasingly hostile and colonial measures place us in the same position a
 
 We will create a civilization of the Mind in Cyberspace. May it be more humane and fair than the world your governments have made before.
 
-(From **A Declaration of the Independence of Cyberspace** by [John Perry Barlow](https://www.eff.org/es/cyberspace-independence) in Davos, February 8 1996.)
+>**A Declaration of the Independence of Cyberspace**
+>by [John Perry Barlow](https://www.eff.org/es/cyberspace-independence)
+>Davos, February 8 1996.
