@@ -254,7 +254,7 @@
   "empty-feed-label-live-votes": "No proposals found.",
   "empty-feed-detail-live-votes": "All proposals open for a vote get listed here.",
   "empty-feed-contribute-live-votes": "Propose an Idea",
-  "empty-feed-label-live-votes-custom": "No matching proposals found.",
+  "empty-feed-label-live-votes-custom": "No proposals found.",
   "empty-feed-detail-live-votes-custom": "Specific proposals of a user or a tag get listed here.",
   "empty-feed-contribute-live-votes-custom": "Propose an Idea",
   "empty-feed-label-votes-finish-approved": "No approvals found.",

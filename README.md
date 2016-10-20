@@ -1,76 +1,86 @@
-<img src="public/images/democracy-earth.png" width="800" title="DemocracyEarth">
+<img src="public/images/democracy-earth.png" width="400" title="DemocracyEarth">
 # Incorruptible governance for small and large communities
 
-## A Toolkit for Democracy
+## Setup
 
-A **vote** is the fundamental currency of political action. Yet, unlike the financial instruments used for trade like the US dollar or Bitcoin, no standardized technology exists to account for a signal that helps settle ideological disputes of a wide variety of organizations that depend on voting. From the board of directors of a modern corporation, an open source software development roadmap or the whole of society that composes an entire Nation-State require voting technology that each stakeholder can trust. **The more reliable, decentralized and standard voting is, the greater trust the community that defines preferences, rights and power to its members can guarantee.**
+### Install
 
-This is an open source toolkit that lets anyone design voting mechanisms in a simple way using the [Bitcoin Blockchain](http://bitcoin.it) to store proof. This means anyone can count votes **without requiring permission** from the authority serving this software. And no programming skills are required from the users in order to design voting rules that can be applied to any kind of organization. We hope to *democratize democracy*.  
+On Linux & MacOS, load a terminal and type:
 
-## Democracy
-Direct Democracy, Liquid Democracy, Representative Democracy... Democracy period. If you trace back the origins of the term 'agora', as it was used by the Greeks to speak of the technology used for democratic decision-making, you'll find that the etymological meaning is 'thinking with others'. In many verses of The Odyssey and The Illiad it's used as an antonym of 'war'. Democracy is always a work in progress. It's a incomplete idea because it's the one exception to all ideologies. If it were an absolute ideology it would be a totalitarian idea just like all the other ideologies out there. In the age of Software, democracy can be programmed. But the ultimate programmer, should always be the voter itself.
-
-Democracy Earth aims to provide the necessary tools for anyone to  create its own kind of democracy. Interface, modeling and code merge at a core symbolic level.
-
-## Live at [democracy.earth](http://democracy.earth)
-
-## [Contributing](CONTRIBUTING.md)
-
-## [License](LICENSE.md)
-
-## Components
-What differentiates voting from mere surveys or polls are a couple of key elements: proper identity validation (elections need to avoid fraud), institutional commitment to accept the outcome (binding results), and a legitimate understanding of the content being voted by all parties.
-
-The toolkit consists of votable objects that can be combined to create all sorts of institutional mechanisms. These objects consist of four elements usually found in every form of contract: Identifications (who is the authority for the contents expressed), Definitions (what the contents expressed mean), Decisions (the outcome of the contents if approved) and Companies (abstract organizations liable to the goals of the expressed contents).
-
-* Identifications are found at **[/peer](http://democracy.earth)**: credentials of individuals whose approval for voting rights is based on reviews from other peers, guaranteeing decentralized authority.
-* Decisions are found at **[/vote](http://democracy.earth)**: laws, bills or norms with customizable ballot design, voting rules and member scope.
-* Definitions are found at  **[/tag](http://democracy.earth)**: semantic layer of concepts that can be used to disambiguate ideas and also serves as a proxy for delegation of voting rights between peers (a.k.a. [liquid democracy](https://en.wikipedia.org/wiki/Delegative_democracy)).
-* Collectives are found at **[/collective](http://democracy.earth)**: corporations or peer organizations constituted under rules built by this software, hence guaranteeing binding results.
-
-All of these, *peers*, *votes*, *tags* and *collective*, are votable and results get hashed on the Bitcoin Blockchain. **This develops an open network of political relations that contribute to the foundations of purely digital institutional design and governance.**
-
-* Any **peer** can **vote** in **collective** (s)he belongs to.
-* Every **collective** has **peers**.
-* **peers** vote on **proposals**
-* **Votes** are described with **tags**.
-* **Tags** are approved with **votes**.
-* **Votes** can be of different types : binary (support/reject), multiple choice (users can add ideas) and executive options.
-* **Peers** delegate voting rights using **tags**.
-
-## Data structures
-In order to populate the data base we recommend using the command ``meteor mongo`` that allows you to send directly json files to the database. You can also access the database through meteor admin panel located on http://localhost:3000/admin.
-
-All data schemas used by the platform are located in the  **[/collections folder](https://github.com/DemocracyEarth/earth/tree/master/collections)**
-
-Every political function : voting, delegating, starting up a collective, is a simple contract in .json which you can find in **[/collections folder](https://github.com/DemocracyEarth/earth/tree/master/collections)**
-
-* Proposals = contract.js
-* Delegations = votes.js
-* Collectives = collectives.js
-
-## Technical specs + deploy instructions
-The app is built on **[Meteor](https://www.meteor.com/)** version 1.3.4
-The reasons behind that technical choice are :
-* rapid deployment of app across all platforms (web, native, iOS/Android).
-* Easy structure of code.
-
-## In order to deploy the Democracy Earth app you follow those steps :
-
-### Install Meteor
 `curl https://install.meteor.com/ | sh`
 
-Should install at the same time MongoDB and Node.js.
+This will setup [Meteor Framework](http://github.com/meteor/meteor), including [Node](https://github.com/nodejs/node) and [Mongo](https://github.com/mongodb/mongo).
 
-### Clone App
-### Locate terminal on the right folder
-### Deploy earth app
-Just type the following command, your app will be deployed on http://localhost:3000/
+Windows users must [download installer](https://www.meteor.com/install).
 
+### Clone
+
+`git clone https://github.com/DemocracyEarth/sovereign.git`
+
+### Deploy
+
+Go to repository directory and type:
 
 `meteor --settings=config/development/settings.json`
 
+Load browser and go to http://localhost:3000/
 
+## Demo
 
+[democracy.earth](http://democracy.earth)
 
-``// version 0.1.0, codename San Francisco.``
+## Specs
+Built on **[Meteor](https://www.meteor.com/)** version 1.4
+
+* Rapid cross platform deployment (web + desktop + mobile).
+* Simple code structure.
+* Fast and reliable stack (node + mongo).
+
+## [Contributors](CONTRIBUTING.md)
+
+## License
+
+This software is under an [MIT License](LICENSE.md)
+
+## Manifesto
+
+### A Declaration of the Independence of Cyberspace
+
+Governments of the Industrial World, you weary giants of flesh and steel, I come from Cyberspace, the new home of Mind. On behalf of the future, I ask you of the past to leave us alone. You are not welcome among us. You have no sovereignty where we gather.
+
+We have no elected government, nor are we likely to have one, so I address you with no greater authority than that with which liberty itself always speaks. I declare the global social space we are building to be naturally independent of the tyrannies you seek to impose on us. You have no moral right to rule us nor do you possess any methods of enforcement we have true reason to fear.
+
+Governments derive their just powers from the consent of the governed. You have neither solicited nor received ours. We did not invite you. You do not know us, nor do you know our world. Cyberspace does not lie within your borders. Do not think that you can build it, as though it were a public construction project. You cannot. It is an act of nature and it grows itself through our collective actions.
+
+You have not engaged in our great and gathering conversation, nor did you create the wealth of our marketplaces. You do not know our culture, our ethics, or the unwritten codes that already provide our society more order than could be obtained by any of your impositions.
+
+You claim there are problems among us that you need to solve. You use this claim as an excuse to invade our precincts. Many of these problems don't exist. Where there are real conflicts, where there are wrongs, we will identify them and address them by our means. We are forming our own Social Contract. This governance will arise according to the conditions of our world, not yours. Our world is different.
+
+Cyberspace consists of transactions, relationships, and thought itself, arrayed like a standing wave in the web of our communications. Ours is a world that is both everywhere and nowhere, but it is not where bodies live.
+
+We are creating a world that all may enter without privilege or prejudice accorded by race, economic power, military force, or station of birth.
+
+We are creating a world where anyone, anywhere may express his or her beliefs, no matter how singular, without fear of being coerced into silence or conformity.
+
+Your legal concepts of property, expression, identity, movement, and context do not apply to us. They are all based on matter, and there is no matter here.
+
+Our identities have no bodies, so, unlike you, we cannot obtain order by physical coercion. We believe that from ethics, enlightened self-interest, and the commonweal, our governance will emerge. Our identities may be distributed across many of your jurisdictions. The only law that all our constituent cultures would generally recognize is the Golden Rule. We hope we will be able to build our particular solutions on that basis. But we cannot accept the solutions you are attempting to impose.
+
+In the United States, you have today created a law, the Telecommunications Reform Act, which repudiates your own Constitution and insults the dreams of Jefferson, Washington, Mill, Madison, DeToqueville, and Brandeis. These dreams must now be born anew in us.
+
+You are terrified of your own children, since they are natives in a world where you will always be immigrants. Because you fear them, you entrust your bureaucracies with the parental responsibilities you are too cowardly to confront yourselves. In our world, all the sentiments and expressions of humanity, from the debasing to the angelic, are parts of a seamless whole, the global conversation of bits. We cannot separate the air that chokes from the air upon which wings beat.
+
+In China, Germany, France, Russia, Singapore, Italy and the United States, you are trying to ward off the virus of liberty by erecting guard posts at the frontiers of Cyberspace. These may keep out the contagion for a small time, but they will not work in a world that will soon be blanketed in bit-bearing media.
+
+Your increasingly obsolete information industries would perpetuate themselves by proposing laws, in America and elsewhere, that claim to own speech itself throughout the world. These laws would declare ideas to be another industrial product, no more noble than pig iron. In our world, whatever the human mind may create can be reproduced and distributed infinitely at no cost. The global conveyance of thought no longer requires your factories to accomplish.
+
+These increasingly hostile and colonial measures place us in the same position as those previous lovers of freedom and self-determination who had to reject the authorities of distant, uninformed powers. We must declare our virtual selves immune to your sovereignty, even as we continue to consent to your rule over our bodies. We will spread ourselves across the Planet so that no one can arrest our thoughts.
+
+We will create a civilization of the Mind in Cyberspace. May it be more humane and fair than the world your governments have made before.
+
+Davos, Switzerland
+February 8, 1996
+
+[John Perry Barlow](https://www.eff.org/es/cyberspace-independence)
+
+``// sovereign version 0.1.0, codename quixote.``
