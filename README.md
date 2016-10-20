@@ -72,8 +72,6 @@ This software is under an [MIT License](LICENSE.md)
 
 ## Manifesto
 
-**A Declaration of the Independence of Cyberspace**
-
 Governments of the Industrial World, you weary giants of flesh and steel, I come from Cyberspace, the new home of Mind. On behalf of the future, I ask you of the past to leave us alone. You are not welcome among us. You have no sovereignty where we gather.
 
 We have no elected government, nor are we likely to have one, so I address you with no greater authority than that with which liberty itself always speaks. I declare the global social space we are building to be naturally independent of the tyrannies you seek to impose on us. You have no moral right to rule us nor do you possess any methods of enforcement we have true reason to fear.
@@ -106,7 +104,4 @@ These increasingly hostile and colonial measures place us in the same position a
 
 We will create a civilization of the Mind in Cyberspace. May it be more humane and fair than the world your governments have made before.
 
-Davos, Switzerland
-February 8, 1996
-
-[John Perry Barlow](https://www.eff.org/es/cyberspace-independence)
+(From **A Declaration of the Independence of Cyberspace** by [John Perry Barlow](https://www.eff.org/es/cyberspace-independence) in Davos, February 8 1996.)
