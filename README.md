@@ -136,9 +136,9 @@ Democracy Earth Foundation is a _501 (c) 3 not for profit corporation_ in San Fr
 <a href="https://ffwd.org"><img src="public/images/ffwd.png" width="175" title="Fast Forward"></a>
 </p>
 
-> Support with [Bitcoin](https://github.com/bitcoin):
-> <img src="public/images/qr.png" width="175" title="Democracy Earth Foundation BTC Address">
-> `1BtQMS7snrisEFMB1fMecXPyeHwwcWnpGE`
+Support with [Bitcoin](https://github.com/bitcoin):
+<img src="public/images/qr.png" width="175" title="Democracy Earth Foundation BTC Address">
+`1BtQMS7snrisEFMB1fMecXPyeHwwcWnpGE`
 
 ## License
 
