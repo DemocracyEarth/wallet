@@ -1,2 +1,3 @@
 config/development/settings.json
 config/production/settings.json
+npm-debug.log
