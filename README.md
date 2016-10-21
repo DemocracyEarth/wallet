@@ -11,7 +11,7 @@ Sovereign is a mobile & desktop governance platform.
   * Transaction engine based on voting tokens for blockchain compatibility.
   * Identity scoring for [sybil attack](https://www.microsoft.com/en-us/research/wp-content/uploads/2002/01/IPTPS2002.pdf) prevention.
 
-  > _Update:_ Integration with [Blockstack](https://github.com/blockstack) and other blockchain related technologies is currently under development.
+_Update:_ Integration with [Blockstack](https://github.com/blockstack) and other blockchain related technologies is currently under development.
 
 ## Setup
 
@@ -59,33 +59,29 @@ Current implementations:
 
 ## Specifications
 
-Built on **[Meteor](https://www.meteor.com/)** version 1.4.2
+Built on [Meteor](https://www.meteor.com/) version 1.4.2
 
 * Rapid cross platform deployment (web + desktop + mobile).
 * Simple code structure.
 * Fast and reliable stack (node + mongo).
 
-Designed with **[Webflow](https://www.webflow.com)**.
+Designed with [Webflow](https://www.webflow.com).
 
 ## Contributors
 
-* [Santiago Siri 🇦🇷](http://github.com/santisiri)
-* [Lucas Isasmendi 🇦🇷](https://github.com/LucasIsasmendi)
-* [Eduardo Medina 🇻🇪](https://github.com/medied)
-* [Mair Williams 🌎](https://github.com/mairwilliams)
-* [Virgile Deville 🇫🇷](https://github.com/virgile-dev)
-* [Ariel Kogan 🇧🇷](https://github.com/mairwilliams)
-* [Herb Stephens 🇺🇸](http://github.com/herbstephens)
-* [Pia Mancini 🇮🇹](https://github.com/piamancini)
-* [Dan Swislow 🇺🇸](https://github.com/dswis)
+* 🇦🇷 [Santiago Siri](http://github.com/santisiri)
+* 🇦🇷 [Lucas Isasmendi](https://github.com/LucasIsasmendi)
+* 🇻🇪 [Eduardo Medina](https://github.com/medied)
+* 🌎 [Mair Williams](https://github.com/mairwilliams)
+* 🇫🇷 [Virgile Deville](https://github.com/virgile-dev)
+* 🇧🇷 [Ariel Kogan](https://github.com/mairwilliams)
+* 🇺🇸 [Herb Stephens](http://github.com/herbstephens)
+* 🇮🇹 [Pia Mancini](https://github.com/piamancini)
+* 🇺🇸 [Dan Swislow](https://github.com/dswis)
 
-For detailed roles and extras check the [full list](CONTRIBUTING.md).
+For detailed roles and extras check the [Contributors list](CONTRIBUTING.md).
 
-Sovereign Project is **open for anyone to join**. Available tasks on [TODO list](TODO.md).
-
-## License
-
-This software is under an [MIT License](LICENSE.md)
+Sovereign is **an open project** for anyone to join. Check our available tasks in the [To Do list](TODO.md).
 
 ## Manifesto
 
@@ -121,5 +117,10 @@ These increasingly hostile and colonial measures place us in the same position a
 
 We will create a civilization of the Mind in Cyberspace. May it be more humane and fair than the world your governments have made before.
 
-**A Declaration of the Independence of Cyberspace**
-by [John Perry Barlow](https://www.eff.org/es/cyberspace-independence)
+_From **A Declaration of the Independence of Cyberspace**
+by [John Perry Barlow](https://www.eff.org/es/cyberspace-independence)_
+
+## License
+
+This software is under an [MIT License](LICENSE.md).
+Copyright (C) 2016 [Democracy Earth Foundation](http://democracy.earth).
