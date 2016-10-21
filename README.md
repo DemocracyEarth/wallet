@@ -137,7 +137,9 @@ Democracy Earth Foundation is a _501 (c) 3 not for profit corporation_ in San Fr
 </p>
 
 Support with [Bitcoin](https://github.com/bitcoin):
-<img src="public/images/qr.png" width="175" title="Democracy Earth Foundation BTC Address">
+
+<img src="public/images/qr.png" width="100" title="Democracy Earth Foundation BTC Address">
+
 `1BtQMS7snrisEFMB1fMecXPyeHwwcWnpGE`
 
 ## License
