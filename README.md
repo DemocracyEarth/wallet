@@ -12,9 +12,9 @@ Sovereign is a governance platform for all kinds of organizations.
   * Identity scoring for [sybil attack](https://www.microsoft.com/en-us/research/wp-content/uploads/2002/01/IPTPS2002.pdf) prevention.
   * Designed for decentralization.
 
-  > _Note:_ Integration with [Blockstack](https://github.com/blockstack) is currently under development.
+Current Release: `version 0.1.0`
 
-**Current Release:** `version 0.1.0`
+> _Note:_ Integration with [Blockstack](https://github.com/blockstack) is currently under development.
 
 ## Setup
 
