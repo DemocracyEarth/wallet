@@ -11,7 +11,7 @@ Sovereign is a mobile & desktop governance platform.
   * Transaction engine based on voting tokens for blockchain compatibility.
   * Identity scoring for [sybil attack](https://www.microsoft.com/en-us/research/wp-content/uploads/2002/01/IPTPS2002.pdf) prevention.
 
-_Update:_ Integration with [Blockstack](https://github.com/blockstack) and other blockchain related technologies is currently under development.
+**Last Update:** Integration with [Blockstack](https://github.com/blockstack) and other blockchain related technologies is currently under development.
 
 ## Setup
 
@@ -44,15 +44,15 @@ _Update:_ Integration with [Blockstack](https://github.com/blockstack) and other
 
     Load browser and go to [http://localhost:3000/](http://localhost:3000/).
 
-    > _Note:_ For production deploys you can alternatively use  `--settings=config/production/settings.json`.
-    > For **deployment**, since it runs on Meteor you can create a [Galaxy](galaxy.meteor.com) account and after [setting up the database](http://coderchronicles.org/2016/03/15/deploying-a-meteor-app-to-galaxy/), just type:
+    > _Note:_ Production deploys you can alternatively use  `--settings=config/production/settings.json`.
+    > For a quick **online deploy**, since it runs on Meteor you can create a [Galaxy](galaxy.meteor.com) account and after [setting up the database](http://coderchronicles.org/2016/03/15/deploying-a-meteor-app-to-galaxy/), type:
     ```sh
     $ DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy yourserver.com --settings=config/production/settings.json
     ```
 
 ## Demos
 
-Current implementations:
+Current live implementations:
 
 * Official site: [democracy.earth](http://democracy.earth).
 * [Colombia Peace Referendum](http://vota.plebiscitodigital.co).
@@ -69,6 +69,8 @@ Designed with [Webflow](https://www.webflow.com).
 
 ## Contributors
 
+Sovereign is **an open project** that anyone can join.
+
 * 🇦🇷 [Santiago Siri](http://github.com/santisiri)
 * 🇦🇷 [Lucas Isasmendi](https://github.com/LucasIsasmendi)
 * 🇻🇪 [Eduardo Medina](https://github.com/medied)
@@ -80,8 +82,7 @@ Designed with [Webflow](https://www.webflow.com).
 * 🇺🇸 [Dan Swislow](https://github.com/dswis)
 
 For detailed roles and extras check the [Contributors list](CONTRIBUTING.md).
-
-Sovereign is **an open project** for anyone to join. Check our available tasks in the [To Do list](TODO.md).
+Check available tasks in the [To Do list](TODO.md).
 
 ## Manifesto
 
@@ -117,8 +118,8 @@ These increasingly hostile and colonial measures place us in the same position a
 
 We will create a civilization of the Mind in Cyberspace. May it be more humane and fair than the world your governments have made before.
 
-_From **A Declaration of the Independence of Cyberspace**
-by [John Perry Barlow](https://www.eff.org/es/cyberspace-independence)_
+>_From **A Declaration of the Independence of Cyberspace**
+by [John Perry Barlow](https://www.eff.org/es/cyberspace-independence) in Davos, Switzerland (1996)._
 
 ## License
 
