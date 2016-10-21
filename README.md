@@ -12,7 +12,9 @@ Sovereign is a governance platform for all kinds of organizations.
   * Identity scoring for [sybil attack](https://www.microsoft.com/en-us/research/wp-content/uploads/2002/01/IPTPS2002.pdf) prevention.
   * Designed for decentralization.
 
-**Last Update:** Integration with [Blockstack](https://github.com/blockstack) is currently under development.
+  > _Note:_ Integration with [Blockstack](https://github.com/blockstack) is currently under development.
+
+**Current Release:** `version 0.1.0`
 
 ## Setup
 
@@ -45,7 +47,7 @@ Sovereign is a governance platform for all kinds of organizations.
 
     Load browser and go to [http://localhost:3000/](http://localhost:3000/).
 
-    > _Note:_ Production deploys you can alternatively use  `--settings=config/production/settings.json`.
+    > _Note:_ For production deploys you can alternatively use  `--settings=config/production/settings.json`.
 
     For a quick **online deploy**, since it runs on Meteor you can create a [Galaxy](galaxy.meteor.com) account and after [setting up the database](http://coderchronicles.org/2016/03/15/deploying-a-meteor-app-to-galaxy/), type:
 
@@ -55,14 +57,14 @@ Sovereign is a governance platform for all kinds of organizations.
 
 0. **Start a Revolution**
 
-    Persuade members of any organization you belong to try sovereign governance. [Tell us about it](mailto:hello@democracy.earth) so we can learn and improve our work. We are happy to work with any kind of institutional arrangement including corporations, nonprofits, colleges, clubs and open source projects.
+    Persuade members of any organization you belong to try sovereign governance. [Tell us about it](mailto:hello@democracy.earth) so we can learn from the experience and improve our work.
 
 ## Demos
 
 Current live implementations:
 
-* Official site: [democracy.earth](http://democracy.earth).
-* [Colombia Peace Referendum](http://vota.plebiscitodigital.co).
+* 🌎 Official Site: [democracy.earth](http://democracy.earth).
+* 🇨🇴 [Colombia Peace Referendum](http://vota.plebiscitodigital.co).
 
 ## Specifications
 
@@ -88,7 +90,7 @@ Sovereign is **an open project** that anyone can join.
 * 🇮🇹 [Pia Mancini](https://github.com/piamancini)
 * 🇺🇸 [Dan Swislow](https://github.com/dswis)
 
-For detailed roles and extras check the [contributors list](CONTRIBUTING.md) and the available tasks in [To Do list](TODO.md).
+For detailed roles check the [contributors list](CONTRIBUTING.md) and look for available tasks in the [to do list](TODO.md).
 
 ## Manifesto
 
