@@ -42,7 +42,7 @@ Current Release: `version 0.1.0`
     Go to repository directory and type:
 
     ```sh
-    $ meteor --settings=config/development/settings.json
+    $ meteor npm run start:dev
     ```
 
     Load browser and go to [http://localhost:3000/](http://localhost:3000/).

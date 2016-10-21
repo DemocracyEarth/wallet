@@ -1,0 +1,6 @@
+{
+  "scripts": {
+  	"prestart:dev": "echo \"load ENV variables like kadira\"",
+    "start:dev":"meteor --settings=config/development/settings.json"
+  }
+}
