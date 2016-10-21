@@ -129,13 +129,11 @@ A Declaration of the Independence of Cyberspace:
 
 ## About Us
 
-Democracy Earth Foundation is a _501(c)3 not for profit corporation_ based in San Francisco, California 🌎.
+Democracy Earth Foundation is a _501 (c) 3 not for profit corporation_ in San Francisco, California 🌎 backed by:
 
-Our backers include:
-
-<p align="center">
-<a href="https://ycombinator.com"><img src="public/images/yc.png" width="250" title="Y Combinator"></a>
-<a href="https://ffwd.org"><img src="public/images/ffwd.png" width="250" title="Fast Forward"></a>
+<p align="left">
+<a href="https://ycombinator.com" target='_blank'><img src="public/images/yc.png" width="175" title="Y Combinator"></a>
+<a href="https://ffwd.org" target='_blank'><img src="public/images/ffwd.png" width="175" title="Fast Forward"></a>
 </p>
 
 ## License
