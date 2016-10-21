@@ -39,15 +39,16 @@ Current Release: `version 0.1.0`
 
 0. **Run App**
 
-    Go to repository directory and type:
+    While in repository directory type:
 
     ```sh
     $ meteor npm run start:dev
     ```
 
     Load browser and go to [http://localhost:3000/](http://localhost:3000/).
+    🔥.
 
-    > _Note:_ For production deploys you can alternatively use  `--settings=config/production/settings.json`.
+    > _Note:_ For production deploys you can alternatively use  `$ meteor --settings=config/production/settings.json`.
 
     For a quick **online deploy**, since it runs on Meteor you can create a [Galaxy](galaxy.meteor.com) account and after [setting up the database](http://coderchronicles.org/2016/03/15/deploying-a-meteor-app-to-galaxy/), type:
 
