@@ -55,6 +55,8 @@ Sovereign is a governance platform for all kinds of organizations.
 
 0. **Start a revolution**
 
+    Persuade members of any organization you belong to (a corporation, nonprofit, college, club, open source project, anything) to try sovereign governance and tell us about it so we can learn and improve it.
+
 ## Demos
 
 Current live implementations:
