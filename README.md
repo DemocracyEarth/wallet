@@ -1,12 +1,12 @@
 <p align="center">
-<img src="public/images/democracy-earth.png" width="400" title="DemocracyEarth">
+<img src="public/images/democracy-earth.png" width="400" title="Democracy Earth Foundation">
 </p>
 
 # Sovereign App
 
 Sovereign is a governance platform for all kinds of organizations.
 
-  * Democracy toolkit: create proposals, design ballots, manage identities.
+  * Democracy toolkit: create proposals, design ballots, debate ideas, manage identities.
   * Transaction engine based on voting tokens for blockchain compatibility.
   * Identity scoring for [sybil attack](https://www.microsoft.com/en-us/research/wp-content/uploads/2002/01/IPTPS2002.pdf) prevention.
   * Mobile & desktop responsive UX.
@@ -47,8 +47,8 @@ Sovereign is a governance platform for all kinds of organizations.
 
     Load browser and go to [http://localhost:3000/](http://localhost:3000/) 🔥
 
-    > _Note:_ For production deploys you can alternatively use  
-    > `$ meteor --settings=config/production/settings.json`.
+    > _Note:_ For production deploys you can alternatively use:  
+    > `$ meteor --settings=config/production/settings.json`
 
 0. **Start a Revolution**
 
@@ -73,7 +73,7 @@ Built on [Meteor](https://www.meteor.com/) version 1.4.2
 
 Designed with [Webflow](https://www.webflow.com).
 
-## Contributors
+## Contribute
 
 Sovereign is **an open project** that anyone can join.
 
@@ -87,7 +87,7 @@ Sovereign is **an open project** that anyone can join.
 * 🇮🇹 [Pia Mancini](https://github.com/piamancini)
 * 🇺🇸 [Dan Swislow](https://github.com/dswis)
 
-For detailed roles check the [contributors list](CONTRIBUTING.md) and look for available tasks in the [to do list](TODO.md).
+For detailed roles check the [contributors list](CONTRIBUTING.md) and look for **available tasks in the [to do list](TODO.md)**.
 
 ## Manifesto
 
@@ -126,6 +126,17 @@ A Declaration of the Independence of Cyberspace:
 >We will create a civilization of the Mind in Cyberspace. May it be more humane and fair than the world your governments have made before.
 
 [John Perry Barlow](https://www.eff.org/es/cyberspace-independence). Davos, 🇨🇭 (February 8, 1996).
+
+## About Us
+
+Democracy Earth Foundation is a _501(c)3 not for profit corporation_ based in San Francisco, California 🌎.
+
+Our backers include:
+
+<p align="center">
+<a href="https://ycombinator.com"><img src="public/images/yc.png" width="250" title="Y Combinator"></a>
+<a href="https://ffwd.org"><img src="public/images/ffwd.png" width="250" title="Fast Forward"></a>
+</p>
 
 ## License
 
