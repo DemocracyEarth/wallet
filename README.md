@@ -7,8 +7,8 @@
 Sovereign is a governance platform for all kinds of organizations.
 
   * Mobile & desktop behavioral UX.
-  * Fully customizable democracy toolkit.
-  * Transaction engine with voting tokens for blockchain compatibility.
+  * Fully customizable democracy toolkit with proposals, ballots and identity management.
+  * Transaction engine based on voting tokens for blockchain compatibility.
   * Identity scoring for [sybil attack](https://www.microsoft.com/en-us/research/wp-content/uploads/2002/01/IPTPS2002.pdf) prevention.
   * Designed for decentralization.
 
@@ -53,9 +53,9 @@ Sovereign is a governance platform for all kinds of organizations.
     $ DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy yourserver.com --settings=config/production/settings.json
     ```
 
-0. **Start a revolution**
+0. **Start a Revolution**
 
-    Persuade members of any organization you belong to (a corporation, nonprofit, college, club, open source project, anything) to try sovereign governance and tell us about it so we can learn and improve it.
+    Persuade members of any organization you belong to try sovereign governance. [Tell us about it](mailto:hello@democracy.earth) so we can learn and improve our work. We are happy to work with any kind of institutional arrangement including corporations, nonprofits, colleges, clubs and open source projects.
 
 ## Demos
 
