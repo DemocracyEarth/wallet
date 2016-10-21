@@ -75,7 +75,7 @@ Designed with [Webflow](https://www.webflow.com).
 
 ## Contribute
 
-Sovereign is **an open project** that anyone can join.
+Sovereign is a **free & open source project**.
 
 * 🇦🇷 [Santiago Siri](http://github.com/santisiri)
 * 🇦🇷 [Lucas Isasmendi](https://github.com/LucasIsasmendi)
@@ -87,7 +87,7 @@ Sovereign is **an open project** that anyone can join.
 * 🇮🇹 [Pia Mancini](https://github.com/piamancini)
 * 🇺🇸 [Dan Swislow](https://github.com/dswis)
 
-For detailed roles check the [contributors list](CONTRIBUTING.md) and look for **available tasks in the [to do list](TODO.md)**.
+For detailed roles check the [contributors list](CONTRIBUTING.md) and look for **available tasks in the [to do list](TODO.md)** to join.
 
 ## Manifesto
 
@@ -129,12 +129,18 @@ A Declaration of the Independence of Cyberspace:
 
 ## About Us
 
-Democracy Earth Foundation is a _501 (c) 3 not for profit corporation_ in San Francisco, California 🌎 backed by:
+Democracy Earth Foundation is a _501 (c) 3 not for profit corporation_ in San Francisco, California 🌎 with no political affiliations of any kind. Our backers include:
 
 <p align="left">
-<a href="https://ycombinator.com" target='_blank'><img src="public/images/yc.png" width="175" title="Y Combinator"></a>
-<a href="https://ffwd.org" target='_blank'><img src="public/images/ffwd.png" width="175" title="Fast Forward"></a>
+<a href="https://ycombinator.com"><img src="public/images/yc.png" width="175" title="Y Combinator"></a>
+<a href="https://ffwd.org"><img src="public/images/ffwd.png" width="175" title="Fast Forward"></a>
 </p>
+
+Support our work with [Bitcoin](https://github.com/bitcoin):
+
+<img src="public/images/qr.png" width="175" title="Democracy Earth Foundation BTC Address">
+
+`1BtQMS7snrisEFMB1fMecXPyeHwwcWnpGE`
 
 ## License
 
