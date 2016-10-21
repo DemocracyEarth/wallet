@@ -6,13 +6,13 @@
 
 Sovereign is a governance platform for all kinds of organizations.
 
-  * Mobile & desktop responsive UX.
-  * Democracy toolkit: create proposals, design ballots and manage identities.
+  * Democracy toolkit: create proposals, design ballots, manage identities.
   * Transaction engine based on voting tokens for blockchain compatibility.
   * Identity scoring for [sybil attack](https://www.microsoft.com/en-us/research/wp-content/uploads/2002/01/IPTPS2002.pdf) prevention.
+  * Mobile & desktop responsive UX.
   * Designed with decentralization in mind.
 
-Current Release: `version 0.1.0`
+**Current Release:** `version 0.1.0`
 
 > _Note:_ Integration with [Blockstack](https://github.com/blockstack) is currently under development.
 
@@ -45,16 +45,10 @@ Current Release: `version 0.1.0`
     $ meteor npm run start:dev
     ```
 
-    Load browser and go to [http://localhost:3000/](http://localhost:3000/).
-    🔥.
+    Load browser and go to [http://localhost:3000/](http://localhost:3000/) 🔥
 
-    > _Note:_ For production deploys you can alternatively use  `$ meteor --settings=config/production/settings.json`.
-
-    For a quick **online deploy**, since it runs on Meteor you can create a [Galaxy](galaxy.meteor.com) account and after [setting up the database](http://coderchronicles.org/2016/03/15/deploying-a-meteor-app-to-galaxy/), type:
-
-    ```sh
-    $ DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy yourserver.com --settings=config/production/settings.json
-    ```
+    > _Note:_ For production deploys you can alternatively use  
+    > `$ meteor --settings=config/production/settings.json`.
 
 0. **Start a Revolution**
 
