@@ -6,11 +6,11 @@
 
 Sovereign is a governance platform for all kinds of organizations.
 
-  * Mobile & desktop behavioral UX.
-  * Fully customizable democracy toolkit with proposals, ballots and identity management.
+  * Mobile & desktop responsive UX.
+  * Democracy toolkit: create proposals, design ballots and manage identities.
   * Transaction engine based on voting tokens for blockchain compatibility.
   * Identity scoring for [sybil attack](https://www.microsoft.com/en-us/research/wp-content/uploads/2002/01/IPTPS2002.pdf) prevention.
-  * Designed for decentralization.
+  * Designed with decentralization in mind.
 
 Current Release: `version 0.1.0`
 
@@ -58,6 +58,8 @@ Current Release: `version 0.1.0`
 0. **Start a Revolution**
 
     Persuade members of any organization you belong to try sovereign governance. [Tell us about it](mailto:hello@democracy.earth) so we can learn from the experience and improve our work.
+
+    🕊
 
 ## Demos
 
@@ -133,4 +135,4 @@ A Declaration of the Independence of Cyberspace:
 ## License
 
 This software is under an [MIT License](LICENSE.md).
-Copyright (C) 2016 [Democracy Earth Foundation](http://democracy.earth).
+Copyright © 2016 [Democracy Earth Foundation](http://democracy.earth).
