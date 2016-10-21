@@ -7,10 +7,10 @@
 Sovereign is a governance platform for all kinds of organizations.
 
   * Mobile & desktop behavioral UX.
-  * Fully customizable _peer to peer democracy_ toolkit.
-  * Token transaction engine for blockchain compatibility.
-  * Designed for decentralization.
+  * Fully customizable democracy toolkit.
+  * Transaction engine with voting tokens for blockchain compatibility.
   * Identity scoring for [sybil attack](https://www.microsoft.com/en-us/research/wp-content/uploads/2002/01/IPTPS2002.pdf) prevention.
+  * Designed for decentralization.
 
 **Last Update:** Integration with [Blockstack](https://github.com/blockstack) is currently under development.
 
@@ -46,10 +46,14 @@ Sovereign is a governance platform for all kinds of organizations.
     Load browser and go to [http://localhost:3000/](http://localhost:3000/).
 
     > _Note:_ Production deploys you can alternatively use  `--settings=config/production/settings.json`.
-    > For a quick **online deploy**, since it runs on Meteor you can create a [Galaxy](galaxy.meteor.com) account and after [setting up the database](http://coderchronicles.org/2016/03/15/deploying-a-meteor-app-to-galaxy/), type:
+
+    For a quick **online deploy**, since it runs on Meteor you can create a [Galaxy](galaxy.meteor.com) account and after [setting up the database](http://coderchronicles.org/2016/03/15/deploying-a-meteor-app-to-galaxy/), type:
+
     ```sh
     $ DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy yourserver.com --settings=config/production/settings.json
     ```
+
+0. **Start a revolution**
 
 ## Demos
 
@@ -82,7 +86,7 @@ Sovereign is **an open project** that anyone can join.
 * 🇮🇹 [Pia Mancini](https://github.com/piamancini)
 * 🇺🇸 [Dan Swislow](https://github.com/dswis)
 
-For detailed roles and extras check the [Contributors list](CONTRIBUTING.md) and also the available tasks in the [To Do list](TODO.md).
+For detailed roles and extras check the [contributors list](CONTRIBUTING.md) and the available tasks in [To Do list](TODO.md).
 
 ## Manifesto
 
@@ -120,7 +124,7 @@ A Declaration of the Independence of Cyberspace:
 
 >We will create a civilization of the Mind in Cyberspace. May it be more humane and fair than the world your governments have made before.
 
-[John Perry Barlow](https://www.eff.org/es/cyberspace-independence). Davos, Switzerland (February 8, 1996).
+[John Perry Barlow](https://www.eff.org/es/cyberspace-independence). Davos, 🇨🇭 (February 8, 1996).
 
 ## License
 
