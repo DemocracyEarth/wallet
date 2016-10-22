@@ -131,12 +131,14 @@ A Declaration of the Independence of Cyberspace:
 
 Democracy Earth Foundation is a _501 (c) 3 not for profit corporation_ in San Francisco, California 🌎 with no political affiliations of any kind. Our backers include:
 
-<p align="center">
+<p align="left">
 <a href="https://ycombinator.com"><img src="public/images/yc.png" width="200" title="Y Combinator"></a>
 <a href="https://ffwd.org"><img src="public/images/ffwd.png" width="200" title="Fast Forward"></a>
 </p>
 
-Support with [Bitcoin](https://github.com/bitcoin):
+## Backers
+
+Support our work with [Bitcoin](https://github.com/bitcoin) or become a backer in [Open Collective](https://opencollective.com/democracyearth).
 
 <img src="public/images/qr.png" width="100" title="Democracy Earth Foundation BTC Address">
 
