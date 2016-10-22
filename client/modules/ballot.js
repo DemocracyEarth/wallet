@@ -195,28 +195,45 @@ let _countVotes = (scoreboard, ballot, quantity) => {
 }
 
 
-//adds a new proposal to contract being edited
-let addNewProposal = () => {
+/******
+* generates a new contract that automatically goes as option in the ballot
+*******/
+let _forkContract = () => {
   if (Session.get('proposalURLStatus') == 'AVAILABLE') {
     Meteor.call("createNewContract", Session.get('newProposal'), function (error, data) {
       if (error && error.error == 'duplicate-fork') {
         Session.set('duplicateFork', true)
       } else {
-        Meteor.call("addCustomForkToContract", Session.get('contract')._id, data, function (error) {
-          if (error && error.error == 'duplicate-fork') {
-            Session.set('duplicateFork', true)
-          } else {
-            Session.set('dbContractBallot', Contracts.findOne( { _id: Session.get('contract')._id }, {reactive: false}).ballot );
-            ProposalSearch.search('');
-            document.getElementById("searchInput").innerHTML = '';
-            Session.set('proposalURLStatus', 'UNAVAILABLE');
-            Session.set('createProposal', false);
-            Session.set('emptyBallot', false);
-          }
-        });
+        if (_addChoiceToBallot(Session.get('contract')._id, data)) {
+          var contract = Contracts.findOne( { _id: Session.get('contract')._id }, {reactive: false});
+          Session.set('dbContractBallot', contract.ballot );
+          ProposalSearch.search('');
+          document.getElementById("searchInput").innerHTML = '';
+          Session.set('proposalURLStatus', 'UNAVAILABLE');
+          Session.set('createProposal', false);
+          Session.set('emptyBallot', false);
+          _verifyDraftFork(contract.ballot);
+        }
       }
     });
   }
+}
+
+
+/******
+* verifies if there's an option in the ballot that is still a draft
+* @param {object} ballot - ballot to check
+*******/
+let _verifyDraftFork = (ballot) => {
+  var draftFork = false;
+  for (i in ballot) {
+    choice = Contracts.findOne( { _id: ballot[i]._id });
+    if (choice.stage == STAGE_DRAFT) {
+      draftFork = true;
+      break;
+    }
+  }
+  Session.set('draftOptions', draftFork);
 }
 
 /******
@@ -236,6 +253,7 @@ let _updateBallotRank = (contractId, sortedBallotIDs) => {
     }
   }
   contract.ballot = ballot;
+  _verifyDraftFork(ballot);
   Contracts.update({ _id: contractId }, { $set: { ballot: contract.ballot } });
 }
 
@@ -251,12 +269,47 @@ let _removeFork = (contractId, forkId) => {
   }})
 };
 
+/******
+* adds a choice to the ballot from an existing proposal
+* @param {string} contractId - contract
+* @param {string} forkId - choice id
+* @return {boolean} value - succesfull add
+*******/
+let _addChoiceToBallot = (contractId, forkId) => {
+  var dbContract = Contracts.findOne({ _id: forkId });
+  if (dbContract != undefined) {
+    if (checkDuplicate(Contracts.findOne(contractId, { ballot: { _id: dbContract._id } }).ballot, dbContract._id) == false) {
+      var rankVal = parseInt(Contracts.findOne({ _id: contractId }).ballot.length) + 1;
+      Contracts.update(contractId, { $push: {
+        ballot:
+          {
+            _id: dbContract._id,
+            mode: BALLOT_OPTION_MODE_FORK,
+            url: dbContract.url,
+            label: dbContract.title,
+            rank: rankVal
+          }
+      }});
+      Session.set('duplicateFork', false);
+      if (Contracts.findOne({ _id: dbContract._id }).stage == STAGE_DRAFT) {
+        Session.set('draftOptions', true);
+      }
+      return true;
+    } else {
+      Session.set('duplicateFork', true);
+      return false;
+    }
+  }
+}
+
+Modules.client.addChoiceToBallot = _addChoiceToBallot;
+Modules.client.verifyDraftFork = _verifyDraftFork;
 Modules.client.removeFork = _removeFork;
 Modules.client.updateBallotRank = _updateBallotRank;
 Modules.client.updateExecutionStatus = _updateExecutionStatus;
 Modules.client.showResults = _showResults;
 Modules.client.purgeBallot = _purgeBallot;
 Modules.client.ballotReady = _ballotReady;
-Modules.client.forkContract = addNewProposal;
+Modules.client.forkContract = _forkContract;
 Modules.client.setVote = _setVote;
 Modules.client.getVote = _getVote;

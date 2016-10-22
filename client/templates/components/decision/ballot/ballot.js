@@ -12,7 +12,6 @@ Template.ballot.rendered = function () {
           $('#ballotOption li').each(function( index ) {
             rankOrder.push($( this ).attr('value'));
           });
-          //Meteor.call('updateBallotRank', Session.get('contract')._id, rankOrder);
           Modules.client.updateBallotRank(Session.get('contract')._id, rankOrder);
           Session.set('removeProposal', false);
           if (rankOrder.length == 0) {
@@ -46,7 +45,6 @@ Template.ballot.rendered = function () {
         beforeStop: function(e, ui) {
           if (sortableIn == false) {
             if (Session.get('removeProposal')) {
-              //Meteor.call("removeFork", Session.get('contract')._id, ui.item.get(0).getAttribute('value'));
               Modules.client.removeFork(Session.get('contract')._id, ui.item.get(0).getAttribute('value'));
               ui.item.get(0).remove();
               Session.set('removeProposal', false);
@@ -62,7 +60,6 @@ Template.ballot.rendered = function () {
         helper: 'clone',
         zIndex: 9999,
         placeholder: 'vote vote-placeholder'
-
     }).disableSelection();
 
   }
@@ -161,6 +158,9 @@ Template.ballot.helpers({
   emptyBallot: function () {
     return Session.get('emptyBallot');
   },
+  draftOptions: function () {
+    return Session.get('draftOptions');
+  },
   ballotReady: function () {
     return Session.get('ballotReady');
   },
@@ -181,11 +181,7 @@ Template.ballot.helpers({
 Template.ballot.events({
   "submit #fork-form, click #add-fork-proposal": function (event) {
     event.preventDefault();
-    Meteor.call('addCustomForkToContract', Session.get('contract')._id, document.getElementById('text-fork-proposal').value, function(error) {
-      if (error && error.error == 'duplicate-fork') {
-        Session.set('duplicateFork', true)
-      }
-    });
+    Modules.client.addChoiceToBallot(Session.get('contract')._id, document.getElementById('text-fork-proposal').value);
     Meteor.setTimeout(function () {document.getElementById('text-fork-proposal').value = '';},100);
   }
 });

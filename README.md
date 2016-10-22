@@ -14,7 +14,7 @@ Sovereign is a governance platform for all kinds of organizations.
 
 **Current Release:** `version 0.1.0`
 
-> _Note:_ Integration with [Blockstack](https://github.com/blockstack) is currently under development.
+> _Ongoing:_ Integration with [Blockstack](https://github.com/blockstack) is currently under development.
 
 ## Setup
 
@@ -75,17 +75,13 @@ Designed with [Webflow](https://www.webflow.com).
 
 ## Contribute
 
-Sovereign is a **free & open source project**.
+Sovereign is a **free & open source project**. Main contributors so far:
 
 * 🇦🇷 [Santiago Siri](http://github.com/santisiri)
 * 🇦🇷 [Lucas Isasmendi](https://github.com/LucasIsasmendi)
 * 🇻🇪 [Eduardo Medina](https://github.com/medied)
 * 🌎 [Mair Williams](https://github.com/mairwilliams)
 * 🇫🇷 [Virgile Deville](https://github.com/virgile-dev)
-* 🇧🇷 [Ariel Kogan](https://github.com/mairwilliams)
-* 🇺🇸 [Herb Stephens](http://github.com/herbstephens)
-* 🇮🇹 [Pia Mancini](https://github.com/piamancini)
-* 🇺🇸 [Dan Swislow](https://github.com/dswis)
 
 For detailed roles check the [contributors list](CONTRIBUTING.md) and look for **available tasks in the [to do list](TODO.md)** to join.
 
@@ -127,7 +123,7 @@ A Declaration of the Independence of Cyberspace:
 
 [John Perry Barlow](https://www.eff.org/es/cyberspace-independence). Davos, 🇨🇭 (February 8, 1996).
 
-## About Us
+## About
 
 Democracy Earth Foundation is a _501 (c) 3 not for profit corporation_ in San Francisco, California 🌎 with no political affiliations of any kind. Our backers include:
 
@@ -142,7 +138,8 @@ Support our work with [Bitcoin](https://github.com/bitcoin) or become a backer i
 
 <img src="public/images/qr.png" width="100" title="Democracy Earth Foundation BTC Address">
 
-**BTC Address:** `1BtQMS7snrisEFMB1fMecXPyeHwwcWnpGE`
+BTC Address: `1BtQMS7snrisEFMB1fMecXPyeHwwcWnpGE`
+ETH Address: `0xE3670E862850D58E0af745d06021c1c0555235dF`
 
 ## License
 

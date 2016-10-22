@@ -37,7 +37,7 @@
               {{> toggle setting="executiveDecision" value=executiveDecision}}
             </div>
           </li>
-          
+
         </ul>
       </div>
 
@@ -96,6 +96,9 @@
           {{/if}}
           {{#if emptyBallot}}
             {{> warning label="empty-ballot" style='forbidden'}}
+          {{/if}}
+          {{#if draftOptions}}
+            {{> warning label="draft-options-ballot" style='forbidden'}}
           {{/if}}
         </div>
       {{else}}

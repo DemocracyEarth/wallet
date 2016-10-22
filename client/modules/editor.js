@@ -13,6 +13,7 @@ let startEditor = () => {
       Session.set('userSigned', false);
       Session.set('dbContractBallot', undefined);
       Session.set('emptyBallot', false);
+      Modules.client.verifyDraftFork(Session.get('contract').ballot);
 
       //Empty new document
       if (Session.get('contract').title == '') {
