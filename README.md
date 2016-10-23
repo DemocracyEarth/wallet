@@ -132,18 +132,17 @@ Democracy Earth Foundation is a _501 (c) 3 not for profit corporation_ in San Fr
 <a href="https://ffwd.org"><img src="public/images/ffwd.png" width="200" title="Fast Forward"></a>
 </p>
 
-## Donate
+## Backers
 
-Support our work with [Bitcoin](https://github.com/bitcoin) or become a backer in our [Open Collective](https://opencollective.com/democracyearth).
+Support our work with [Bitcoin](https://github.com/bitcoin) & other cryptocurrencies:
 
 <img src="public/images/qr.png" width="100" title="Democracy Earth Foundation BTC Address">
 
 BTC Address: `1BtQMS7snrisEFMB1fMecXPyeHwwcWnpGE`
+
 ETH Address: `0xE3670E862850D58E0af745d06021c1c0555235dF`
 
-## Backers
-
-Become a backer and helps us develop a decentralized global commons of peers. For everyone, anywhere. [[Become a backer](https://opencollective.com/democracyearth#backer)]
+[Become a backer](https://opencollective.com/democracyearth#backer)] in our [open collective](https://opencollective.com/democracyearth):
 
 <a href="https://opencollective.com/democracyearth/backer/0/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/0/avatar.svg"></a>
 <a href="https://opencollective.com/democracyearth/backer/1/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/1/avatar.svg"></a>
