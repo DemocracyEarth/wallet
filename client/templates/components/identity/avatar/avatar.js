@@ -173,7 +173,7 @@ Template.avatar.helpers({
       } else {
         var user = Meteor.users.findOne({ _id: profile });
         if (user == undefined) { user = Modules.both.getAnonymous(); }
-        if (user != undefined) {
+        if (user != undefined && user.profile.country != undefined) {
           var country = Modules.client.searchJSON(geoJSON.country, user.profile.country.name);
           if (user.profile.country.name != TAPi18n.__('unknown') && country != undefined) {
             return user.profile.country.name + ' ' + country[0].emoji;
