@@ -101,15 +101,6 @@ Template.feedItem.events({
 
     Modules.client.addChoiceToBallot(Session.get('contract')._id, event.target.parentNode.getAttribute('id'));
 
-    /*
-    Meteor.call("addCustomForkToContract", Session.get('contract')._id, event.target.parentNode.getAttribute('id'), function (error) {
-        if (error && error.error == 'duplicate-fork') {
-          Session.set('duplicateFork', true)
-        } else {
-          Session.set('dbContractBallot', Contracts.findOne( { _id: Session.get('contract')._id }, {reactive: false}).ballot );
-        }
-    });
-    */
 
   }
 })

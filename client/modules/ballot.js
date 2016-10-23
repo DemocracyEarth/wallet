@@ -324,6 +324,7 @@ let _addChoiceToBallot = (contractId, forkId) => {
       if (Contracts.findOne({ _id: dbContract._id }).stage == STAGE_DRAFT) {
         Session.set('draftOptions', true);
       }
+      Session.set('dbContractBallot', Contracts.findOne( { _id: contractId }, {reactive: false}).ballot );
       return true;
     } else {
       Session.set('duplicateFork', true);

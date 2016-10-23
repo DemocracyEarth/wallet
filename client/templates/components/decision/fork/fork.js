@@ -1,12 +1,15 @@
 Template.fork.helpers({
   length: function () {
-    if (this.label.length > 51) {
-      return 'option-link option-long option-longest';
-    } else if (this.label.length > 37) {
-      return 'option-link option-long';
-    } else {
-      return '';
-    }
+    if (this.label != undefined) {
+      if (this.label.length > 51) {
+        return 'option-link option-long option-longest';
+      } else if (this.label.length > 37) {
+        return 'option-link option-long';
+      } else {
+        return '';
+      }
+    };
+    return '';
   },
   dragMode: function () {
     if (Session.get('contract').stage == STAGE_DRAFT) {
@@ -96,7 +99,7 @@ Template.fork.events({
       case STAGE_DRAFT:
       case STAGE_FINISH:
         Session.set('disabledCheckboxes', true);
-        break;    
+        break;
       case STAGE_LIVE:
         if (Session.get('rightToVote')) {
           this.tick = Modules.client.setVote(Session.get('contract')._id, this);
