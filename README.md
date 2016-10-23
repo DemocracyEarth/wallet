@@ -136,9 +136,9 @@ Democracy Earth Foundation is a _501 (c) 3 not for profit corporation_ in San Fr
 
 Support our work with [Bitcoin](https://github.com/bitcoin) & other cryptocurrencies:
 
-* <img src="public/images/qr.png" width="100" title="Democracy Earth Foundation BTC Address">
-BTC Address: `1BtQMS7snrisEFMB1fMecXPyeHwwcWnpGE`
+<img src="public/images/qr.png" width="100" title="Democracy Earth Foundation BTC Address">
 
+* BTC Address: `1BtQMS7snrisEFMB1fMecXPyeHwwcWnpGE`
 * ETH Address: `0xE3670E862850D58E0af745d06021c1c0555235dF`
 
 [Become a backer](https://opencollective.com/democracyearth#backer) in our [open collective](https://opencollective.com/democracyearth):
