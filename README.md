@@ -141,6 +141,41 @@ Support our work with [Bitcoin](https://github.com/bitcoin) or become a backer i
 BTC Address: `1BtQMS7snrisEFMB1fMecXPyeHwwcWnpGE`
 ETH Address: `0xE3670E862850D58E0af745d06021c1c0555235dF`
 
+## Backers
+
+Become a backer and helps us develop a decentralized global commons of peers. For everyone, anywhere. [[Become a backer](https://opencollective.com/democracyearth#backer)]
+
+<a href="https://opencollective.com/democracyearth/backer/0/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/0/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/1/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/1/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/2/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/2/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/3/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/3/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/4/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/4/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/5/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/5/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/6/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/6/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/7/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/7/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/8/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/8/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/9/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/9/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/10/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/10/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/11/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/11/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/12/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/12/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/13/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/13/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/14/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/14/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/15/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/15/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/16/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/16/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/17/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/17/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/18/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/18/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/19/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/19/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/20/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/20/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/21/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/21/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/22/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/22/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/23/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/23/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/24/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/24/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/25/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/25/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/26/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/26/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/27/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/27/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/28/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/28/avatar.svg"></a>
+<a href="https://opencollective.com/democracyearth/backer/29/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/29/avatar.svg"></a>
+
 ## License
 
 This software is under an [MIT License](LICENSE.md).
