@@ -2,12 +2,13 @@ import {default as Modules} from "./modules";
 
 /***
 * generate a new empty draft
-* @param {string} keywordTitle - name of the contract to be specifically used for this delegation
+* @param {string} keyword - name of the contract to be specifically used for this delegation
+* @param {string} title - title of the contract without slug
 * @return {object} contract - if it's empty then call router with new contract, otherwise returns contract object from db
 ****/
-let _newDraft = (keywordTitle) => {
+let _newDraft = (keyword, title) => {
   //Empty Contract
-  if (keywordTitle == undefined) {
+  if (keyword == undefined) {
     if (!Contracts.findOne({keyword: 'draft-' + Meteor.userId()})) {
       Contracts.insert({ keyword: 'draft-' + Meteor.userId() });
     }
@@ -15,9 +16,15 @@ let _newDraft = (keywordTitle) => {
     Router.go('/vote/draft?id=' + id);
   //Has title & keyword
   } else {
-    if (!Contracts.findOne({keyword: keywordTitle})) {
-      Contracts.insert({ keyword: keywordTitle });
-      return Contracts.find({ keyword: keywordTitle }).fetch();
+    if (!Contracts.findOne({keyword: keyword})) {
+      if (!title) {
+        Contracts.insert({ keyword: keyword });
+      } else {
+        Contracts.insert({ keyword: keyword, title: title });
+      }
+      return Contracts.find({ keyword: keyword }).fetch();
+    } else {
+      return false;
     }
   }
 }

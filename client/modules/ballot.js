@@ -199,26 +199,56 @@ let _countVotes = (scoreboard, ballot, quantity) => {
 * generates a new contract that automatically goes as option in the ballot
 *******/
 let _forkContract = () => {
-  if (Session.get('proposalURLStatus') == 'AVAILABLE') {
+  if (Session.get('proposalURLStatus') == URL_STATUS_AVAILABLE) {
+    var contract = Modules.both.createContract(convertToSlug(Session.get('newProposal')), Session.get('newProposal'))[0];
+    console.log(contract);
+    if (contract) {
+      if (_addChoiceToBallot(Session.get('contract')._id, contract._id)) {
+        var contract = Contracts.findOne( { _id: Session.get('contract')._id }, {reactive: false});
+        Session.set('dbContractBallot', contract.ballot );
+        ProposalSearch.search('');
+        document.getElementById("searchInput").innerHTML = '';
+        Session.set('proposalURLStatus', 'UNAVAILABLE');
+        Session.set('createProposal', false);
+        Session.set('emptyBallot', false);
+        _verifyDraftFork(contract.ballot);
+      }
+    } else {
+      Session.set('duplicateFork', true)
+    }
+
+    /*
     Meteor.call("createNewContract", Session.get('newProposal'), function (error, data) {
       if (error && error.error == 'duplicate-fork') {
-        Session.set('duplicateFork', true)
+
       } else {
-        if (_addChoiceToBallot(Session.get('contract')._id, data)) {
-          var contract = Contracts.findOne( { _id: Session.get('contract')._id }, {reactive: false});
-          Session.set('dbContractBallot', contract.ballot );
-          ProposalSearch.search('');
-          document.getElementById("searchInput").innerHTML = '';
-          Session.set('proposalURLStatus', 'UNAVAILABLE');
-          Session.set('createProposal', false);
-          Session.set('emptyBallot', false);
-          _verifyDraftFork(contract.ballot);
-        }
+
       }
-    });
+    });*/
   }
 }
 
+
+let _quickContract = (keyword) => {
+  console.log('[createContract] new contract with keyword: ' + keyword);
+  //Adds a new contract to db, returns created insert
+  if (keyword != undefined || keyword != '') {
+    var slug = convertToSlug(keyword);
+  } else {
+    var slug = convertToSlug('draft-' + Meteor.userId());
+  }
+
+  var creationDate = new Date;
+  creationDate.setDate(creationDate.getDate() + 1);
+  console.log('[createContract] new contract by user: ' + Meteor.userId());
+
+  if (keyword != '') {
+    //Creates new contract:
+    console.log('[createContract] contract being created...');
+    return Contracts.insert({ title: keyword });
+
+  }
+}
 
 /******
 * verifies if there's an option in the ballot that is still a draft
