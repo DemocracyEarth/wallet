@@ -4357,6 +4357,12 @@ blockquote {
   background-color: #00bf8f;
 }
 
+.smart {
+  width: 75%;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
@@ -4684,6 +4690,9 @@ blockquote {
     width: 100%;
   }
   .polis.remove {
+    width: 100%;
+  }
+  .smart {
     width: 100%;
   }
 }
