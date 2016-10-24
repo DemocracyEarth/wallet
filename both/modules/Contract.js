@@ -253,6 +253,9 @@ let _remove = (contractId) => {
     }
   }
 
+  //TODO: add animation of removing item
+  //TODO: link on forks is wrong when its a dradt
+
 };
 
 /***

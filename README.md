@@ -14,7 +14,7 @@ Sovereign is a decentralized governance platform for all kinds of organizations.
 
 **Current Release:** `version 0.1.0`
 
-> _Ongoing:_ Integration with [Blockstack](https://github.com/blockstack) is currently under development.
+> _Ongoing:_ Integration with [Blockstack](https://github.com/blockstack).
 
 ## Setup
 
@@ -91,15 +91,6 @@ For detailed roles check the [contributors list](CONTRIBUTING.md) and look for *
 
 ## Backers
 
-Support our work with [Bitcoin](https://github.com/bitcoin) & other cryptocurrencies:
-
-<p align="left">
-><img src="public/images/qr.png" width="100" title="Democracy Earth Foundation BTC Address">
-</p>
-
-* BTC Address: `1BtQMS7snrisEFMB1fMecXPyeHwwcWnpGE`
-* ETH Address: `0xE3670E862850D58E0af745d06021c1c0555235dF`
-
 Join our [Open Collective](https://opencollective.com/democracyearth):
 
 <a href="https://opencollective.com/democracyearth/backer/0/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/0/avatar.svg"></a>
@@ -132,6 +123,15 @@ Join our [Open Collective](https://opencollective.com/democracyearth):
 <a href="https://opencollective.com/democracyearth/backer/27/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/27/avatar.svg"></a>
 <a href="https://opencollective.com/democracyearth/backer/28/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/28/avatar.svg"></a>
 <a href="https://opencollective.com/democracyearth/backer/29/website" target="_blank"><img src="https://opencollective.com/democracyearth/backer/29/avatar.svg"></a>
+
+Support our work with [Bitcoin](https://github.com/bitcoin) & other cryptocurrencies:
+
+<p align="left">
+<img src="public/images/qr.png" width="100" title="Democracy Earth Foundation BTC Address">
+</p>
+
+* BTC Address: `1BtQMS7snrisEFMB1fMecXPyeHwwcWnpGE`
+* ETH Address: `0xE3670E862850D58E0af745d06021c1c0555235dF`
 
 ## Manifesto
 
