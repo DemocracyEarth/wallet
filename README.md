@@ -2,9 +2,9 @@
 <img src="public/images/democracy-earth.png" width="400" title="Democracy Earth Foundation">
 </p>
 
-# Sovereign App
+# Sovereign
 
-Sovereign is a governance platform for all kinds of organizations.
+Sovereign is a decentralized governance platform for all kinds of organizations.
 
   * Democracy toolkit: create proposals, design ballots, debate ideas, manage identities.
   * Transaction engine based on voting tokens for blockchain compatibility.
@@ -54,7 +54,7 @@ Sovereign is a governance platform for all kinds of organizations.
 
     Persuade members of any organization you belong to try sovereign governance. [Tell us about it](mailto:hello@democracy.earth) so we can learn from the experience and improve our work.
 
-    > _Note:_ To begin a movement check our paper **[How to start a Net Party](http://www.slideshare.net/santisiri/how-to-make-a-net-party)**.
+    > _Note:_ To begin a movement check our paper _[How to start a Net Party](http://www.slideshare.net/santisiri/how-to-make-a-net-party)_.
 
     🕊
 
@@ -93,8 +93,8 @@ For detailed roles check the [contributors list](CONTRIBUTING.md) and look for *
 
 Support our work with [Bitcoin](https://github.com/bitcoin) & other cryptocurrencies:
 
-<p align="center">
-<img src="public/images/qr.png" width="100" title="Democracy Earth Foundation BTC Address">
+<p align="left">
+><img src="public/images/qr.png" width="100" title="Democracy Earth Foundation BTC Address">
 </p>
 
 * BTC Address: `1BtQMS7snrisEFMB1fMecXPyeHwwcWnpGE`

@@ -233,6 +233,26 @@ let _remove = (contractId) => {
 
   Contracts.remove({_id: contractId});
 
+  //remove any reference to this in other contract ballots
+  var newballot = new Array();
+  var forks = Contracts.find({ collectiveId: Meteor.settings.public.Collective._id,  ballot: { $elemMatch: { _id: contractId }}}).fetch();
+
+  for (i in forks) {
+    newballot = undefined;
+    for (k in forks[i].ballot) {
+      if (forks[i].ballot[k]._id == contractId) {
+        console.log('found fork');
+        forks[i].ballot.splice(k, 1);
+        newballot = forks[i].ballot;
+        break;
+      }
+    }
+    if (newballot != undefined) {
+      console.log('updated contract ballot of ' + forks[i].title);
+      Contracts.update({ _id: forks[i]._id }, { $set: { ballot : newballot }});
+    }
+  }
+
 };
 
 /***
