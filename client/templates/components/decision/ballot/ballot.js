@@ -143,6 +143,16 @@ Template.ballot.helpers({
       }
     }
 
+    //if draft, route to editor
+    console.log(ballot);
+    for (i in ballot) {
+      var contract = Contracts.findOne({ _id: ballot[i]._id}).stage
+      if ( Contracts.findOne({ _id: ballot[i]._id}).stage == STAGE_DRAFT) {
+        console.log('modify url');
+        ballot[i].url = '/vote/draft?id=' + ballot[i]._id;
+      }
+    }
+
     return ballot;
   },
   //warnings

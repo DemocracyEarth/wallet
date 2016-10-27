@@ -70,7 +70,7 @@ Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mas
 Current live implementations:
 
 * 🌎 Official Site: [democracy.earth](http://democracy.earth).
-* 🇨🇴 [Colombia Peace Referendum](http://vota.plebiscitodigital.co).
+* 🇨🇴 [Colombia Peace Referendum](http://vota.plebiscitodigital.co) and [final report](https://medium.com/@DemocracyEarth/a-digital-referendum-for-colombias-diaspora-aeef071ec014#.xbyqt3blq).
 
 ## Specifications
 
@@ -106,30 +106,6 @@ Join our [Open Collective](https://opencollective.com/democracyearth):
 <a href="https://opencollective.com/democracyearth/backer/3/website"><img src="https://opencollective.com/democracyearth/backer/3/avatar.svg"></a>
 <a href="https://opencollective.com/democracyearth/backer/4/website"><img src="https://opencollective.com/democracyearth/backer/4/avatar.svg"></a>
 <a href="https://opencollective.com/democracyearth/backer/5/website"><img src="https://opencollective.com/democracyearth/backer/5/avatar.svg"></a>
-<a href="https://opencollective.com/democracyearth/backer/6/website"><img src="https://opencollective.com/democracyearth/backer/6/avatar.svg"></a>
-<a href="https://opencollective.com/democracyearth/backer/7/website"><img src="https://opencollective.com/democracyearth/backer/7/avatar.svg"></a>
-<a href="https://opencollective.com/democracyearth/backer/8/website"><img src="https://opencollective.com/democracyearth/backer/8/avatar.svg"></a>
-<a href="https://opencollective.com/democracyearth/backer/9/website"><img src="https://opencollective.com/democracyearth/backer/9/avatar.svg"></a>
-<a href="https://opencollective.com/democracyearth/backer/10/website"><img src="https://opencollective.com/democracyearth/backer/10/avatar.svg"></a>
-<a href="https://opencollective.com/democracyearth/backer/11/website"><img src="https://opencollective.com/democracyearth/backer/11/avatar.svg"></a>
-<a href="https://opencollective.com/democracyearth/backer/12/website"><img src="https://opencollective.com/democracyearth/backer/12/avatar.svg"></a>
-<a href="https://opencollective.com/democracyearth/backer/13/website"><img src="https://opencollective.com/democracyearth/backer/13/avatar.svg"></a>
-<a href="https://opencollective.com/democracyearth/backer/14/website"><img src="https://opencollective.com/democracyearth/backer/14/avatar.svg"></a>
-<a href="https://opencollective.com/democracyearth/backer/15/website"><img src="https://opencollective.com/democracyearth/backer/15/avatar.svg"></a>
-<a href="https://opencollective.com/democracyearth/backer/16/website"><img src="https://opencollective.com/democracyearth/backer/16/avatar.svg"></a>
-<a href="https://opencollective.com/democracyearth/backer/17/website"><img src="https://opencollective.com/democracyearth/backer/17/avatar.svg"></a>
-<a href="https://opencollective.com/democracyearth/backer/18/website"><img src="https://opencollective.com/democracyearth/backer/18/avatar.svg"></a>
-<a href="https://opencollective.com/democracyearth/backer/19/website"><img src="https://opencollective.com/democracyearth/backer/19/avatar.svg"></a>
-<a href="https://opencollective.com/democracyearth/backer/20/website"><img src="https://opencollective.com/democracyearth/backer/20/avatar.svg"></a>
-<a href="https://opencollective.com/democracyearth/backer/21/website"><img src="https://opencollective.com/democracyearth/backer/21/avatar.svg"></a>
-<a href="https://opencollective.com/democracyearth/backer/22/website"><img src="https://opencollective.com/democracyearth/backer/22/avatar.svg"></a>
-<a href="https://opencollective.com/democracyearth/backer/23/website"><img src="https://opencollective.com/democracyearth/backer/23/avatar.svg"></a>
-<a href="https://opencollective.com/democracyearth/backer/24/website"><img src="https://opencollective.com/democracyearth/backer/24/avatar.svg"></a>
-<a href="https://opencollective.com/democracyearth/backer/25/website"><img src="https://opencollective.com/democracyearth/backer/25/avatar.svg"></a>
-<a href="https://opencollective.com/democracyearth/backer/26/website"><img src="https://opencollective.com/democracyearth/backer/26/avatar.svg"></a>
-<a href="https://opencollective.com/democracyearth/backer/27/website"><img src="https://opencollective.com/democracyearth/backer/27/avatar.svg"></a>
-<a href="https://opencollective.com/democracyearth/backer/28/website"><img src="https://opencollective.com/democracyearth/backer/28/avatar.svg"></a>
-<a href="https://opencollective.com/democracyearth/backer/29/website"><img src="https://opencollective.com/democracyearth/backer/29/avatar.svg"></a>
 
 Support our work with [Bitcoin](https://github.com/bitcoin) & other cryptocurrencies:
 
