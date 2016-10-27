@@ -2,19 +2,22 @@
 <img src="public/images/democracy-earth.png" width="400" title="Democracy Earth Foundation">
 </p>
 
-# Sovereign
+# Sovereign Democracy
 
 Sovereign is a decentralized governance platform for all kinds of organizations.
 
-  * Democracy toolkit: create proposals, design ballots, debate ideas, manage identities.
-  * Transaction engine based on voting tokens for blockchain compatibility.
-  * Identity scoring for [sybil attack](https://www.microsoft.com/en-us/research/wp-content/uploads/2002/01/IPTPS2002.pdf) prevention.
-  * Mobile & desktop responsive UX.
-  * Designed with decentralization in mind.
+  - [X] Democracy toolkit: create proposals, design ballots, debate ideas, manage identities.
+  - [X] Transaction engine based on voting tokens (_currently blockchain agnostic_).
+  - [ ] Institutional incorporation via smart contracts. 🔨 [Open Zeppelin](https://github.com/OpenZeppelin/zeppelin-solidity).
+  - [ ] Budget management with cryptocurrency. ⛏ [Bitcoin](https://github.com/bcoin-org/bcoin)
+  - [ ] Decentralized identity key management. 🔧 [Blockstack](https://github.com/blockstack/blockstack)
+  - [X] Mobile & desktop responsive UX.
 
 **Current Release:** `version 0.1.0`
 
 > _Ongoing:_ Integration with [Blockstack](https://github.com/blockstack).
+
+_Built for your personal sovereignty._
 
 ## Setup
 
