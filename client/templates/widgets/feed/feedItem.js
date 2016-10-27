@@ -81,6 +81,10 @@ Template.feedItem.events({
   'click .micro-button-remove': function (event) {
     var proposalTitle = event.target.parentNode.getAttribute('title');
     var proposalId = event.target.parentNode.getAttribute('id');
+    var dom = '#' + 'feedItem-' + proposalId; //event.target.parentNode.parentNode.parentNode.parentNode.parentNode;
+
+    console.log($(dom));
+
     Modules.client.displayModal(
       true,
       {
@@ -92,8 +96,14 @@ Template.feedItem.events({
         displayProfile  : false
       },
       function() {
-        Modules.both.removeContract(proposalId);
-        Modules.client.displayNotice(TAPi18n.__('remove-draft-success'), true);
+        $(dom)
+          .velocity({ 'opacity' : 0,  'marginTop' : '0px', 'marginBottom' : '0px', 'height' : 0}, {
+            duration: Modules.client.animationSettings.duration,
+            complete: function() {
+              Modules.both.removeContract(proposalId);
+              Modules.client.displayNotice(TAPi18n.__('remove-draft-success'), true);
+            }
+        });
       }
     );
   },

@@ -241,20 +241,15 @@ let _remove = (contractId) => {
     newballot = undefined;
     for (k in forks[i].ballot) {
       if (forks[i].ballot[k]._id == contractId) {
-        console.log('found fork');
         forks[i].ballot.splice(k, 1);
         newballot = forks[i].ballot;
         break;
       }
     }
     if (newballot != undefined) {
-      console.log('updated contract ballot of ' + forks[i].title);
       Contracts.update({ _id: forks[i]._id }, { $set: { ballot : newballot }});
     }
   }
-
-  //TODO: add animation of removing item
-  //TODO: link on forks is wrong when its a dradt
 
 };
 

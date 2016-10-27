@@ -84,6 +84,13 @@ Designed with [Webflow](https://www.webflow.com).
 
 Check our [documentation](https://github.com/DemocracyEarth/sovereign/tree/master/docs) for technical reference.
 
+Supported Browsers:
+
+- [X] Chrome 18+
+- [X] Safari 6+
+- [ ] Firefox 14+
+- [ ] Internet Explorer 11+
+
 ## Contribute
 
 Sovereign is a **free & open source project**. Main contributors so far:

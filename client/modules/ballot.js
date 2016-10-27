@@ -133,8 +133,6 @@ let _showResults = (contract) => {
     results[i] = ballotcount;
   }
 
-  console.log(contract.executionStatus);
-
   return results;
 }
 
@@ -201,7 +199,6 @@ let _countVotes = (scoreboard, ballot, quantity) => {
 let _forkContract = () => {
   if (Session.get('proposalURLStatus') == URL_STATUS_AVAILABLE) {
     var contract = Modules.both.createContract(convertToSlug(Session.get('newProposal')), Session.get('newProposal'))[0];
-    console.log(contract);
     if (contract) {
       if (_addChoiceToBallot(Session.get('contract')._id, contract._id)) {
         var contract = Contracts.findOne( { _id: Session.get('contract')._id }, {reactive: false});
@@ -216,15 +213,6 @@ let _forkContract = () => {
     } else {
       Session.set('duplicateFork', true)
     }
-
-    /*
-    Meteor.call("createNewContract", Session.get('newProposal'), function (error, data) {
-      if (error && error.error == 'duplicate-fork') {
-
-      } else {
-
-      }
-    });*/
   }
 }
 
