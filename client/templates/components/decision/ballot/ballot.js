@@ -145,9 +145,11 @@ Template.ballot.helpers({
 
     //if draft, route to editor
     for (i in ballot) {
-      var contract = Contracts.findOne({ _id: ballot[i]._id}).stage
-      if ( Contracts.findOne({ _id: ballot[i]._id}).stage == STAGE_DRAFT) {
-        ballot[i].url = '/vote/draft?id=' + ballot[i]._id;
+      var contract = Contracts.findOne({ _id: ballot[i]._id});
+      if (contract != undefined) {
+        if (contract.stage == STAGE_DRAFT) {
+          ballot[i].url = '/vote/draft?id=' + ballot[i]._id;
+        }
       }
     }
 

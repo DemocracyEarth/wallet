@@ -81,10 +81,7 @@ Template.feedItem.events({
   'click .micro-button-remove': function (event) {
     var proposalTitle = event.target.parentNode.getAttribute('title');
     var proposalId = event.target.parentNode.getAttribute('id');
-    var dom = '#' + 'feedItem-' + proposalId; //event.target.parentNode.parentNode.parentNode.parentNode.parentNode;
-
-    console.log($(dom));
-
+    var dom = '#' + 'feedItem-' + proposalId;
     Modules.client.displayModal(
       true,
       {
@@ -108,9 +105,6 @@ Template.feedItem.events({
     );
   },
   'click .micro-button-addballot': function (event) {
-
     Modules.client.addChoiceToBallot(Session.get('contract')._id, event.target.parentNode.getAttribute('id'));
-
-
   }
 })

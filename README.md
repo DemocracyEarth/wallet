@@ -6,11 +6,14 @@
 
 Sovereign is a decentralized governance platform for small & large organizations.
 
-**Roadmap:**
+**Features:**
 
   - [X] Democracy toolkit: create proposals, design ballots, debate ideas, manage identities.
   - [X] Transaction engine based on voting tokens (_currently blockchain agnostic_).
   - [X] Mobile & desktop responsive UX.
+
+**Roadmap:**
+
   - [ ] Decentralized identity key management 🔗 with [Blockstack](https://github.com/blockstack/blockstack).
   - [ ] Institutional incorporation via smart contracts 🔗 with [Open Zeppelin](https://github.com/OpenZeppelin/zeppelin-solidity).
   - [ ] Budget management using cryptocurrency 🔗 with [Bcoin](https://github.com/bcoin-org/bcoin).
@@ -84,12 +87,9 @@ Designed with [Webflow](https://www.webflow.com).
 
 Check our [documentation](https://github.com/DemocracyEarth/sovereign/tree/master/docs) for technical reference.
 
-Supported Browsers:
+**Supported Browsers:**
 
-- [X] Chrome 18+
-- [X] Safari 6+
-- [ ] Firefox 14+
-- [ ] Internet Explorer 11+
+_Chrome 18+, Safari 6+_
 
 ## Contribute
 
@@ -163,7 +163,7 @@ A Declaration of the Independence of Cyberspace:
 
 ## About
 
-Democracy Earth Foundation is a _501 (c) 3 not for profit corporation_ in San Francisco, California 🌎 with no political affiliations of any kind. Our funders include:
+Democracy Earth Foundation is a _501 (c) 3 not for profit corporation_ in San Francisco, California 🌎 with no political affiliations of any kind. Our partners include:
 
 <p align="left">
 <a href="https://ycombinator.com"><img src="public/images/yc.png" width="200" title="Y Combinator"></a>
