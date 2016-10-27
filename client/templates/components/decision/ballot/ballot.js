@@ -64,6 +64,7 @@ Template.ballot.rendered = function () {
 
   }
 
+  //TODO: make ballot a toggable objetc
 
 };
 

@@ -3,6 +3,8 @@ var typingTimer; //timer identifier
 Template.title.rendered = function () {
   Modules.client.initEditor();
 
+  //TODO: figure out how to make tab work properly on first try.
+
   //tab focus next object
   $('#titleContent').on('focus', function(e){
     $(window).keyup(function (e) {
