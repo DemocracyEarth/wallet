@@ -14,12 +14,13 @@ Sovereign is a decentralized governance platform for all kinds of organizations.
   - [ ] Decentralized identity key management 🔗 with [Blockstack](https://github.com/blockstack/blockstack).
   - [ ] Institutional incorporation via smart contracts 🔗 with [Open Zeppelin](https://github.com/OpenZeppelin/zeppelin-solidity).
   - [ ] Budget management using cryptocurrency 🔗 with [Bcoin](https://github.com/bcoin-org/bcoin).
+  - [ ] Native desktop client 🔗 with [Electron](https://github.com/electron/electron).
 
-> First Release in progress: `version 0.1.0`
-
-Built for [Personal Sovereignty](https://www.amazon.com/Sovereign-Individual-Mastering-Transition-Information/dp/0684832720)✊:
+**Release _(in progress)_:** `version 0.1.0`
 
 > The Don Quixote of the 21st century will not be a knight-errant struggling to revive the glories of feudalism but a bureaucrat in a brown suit, a tax collector yearning for a citizen to audit.
+
+Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mastering-Transition-Information/dp/0684832720) ✊.
 
 ## Setup
 
