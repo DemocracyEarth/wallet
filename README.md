@@ -2,7 +2,7 @@
 <img src="public/images/democracy-earth.png" width="400" title="Democracy Earth Foundation">
 </p>
 
-# Sovereign Democracy
+# Sovereign.app
 
 Sovereign is a decentralized governance platform for all kinds of organizations.
 
