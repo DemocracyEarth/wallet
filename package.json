@@ -1,5 +1,10 @@
 {
   "scripts": {
+  	"start":"meteor --settings=config/production/settings.json",
+  	"test": "meteor test --once --driver-package dispatch:mocha-phantomjs",
+  	"test-app": "meteor test --full-app --once --driver-package dispatch:mocha-phantomjs",
+    "test-watch": "meteor test --driver-package practicalmeteor:mocha --port 3100",
+    "test-app-watch": "meteor test --full-app --driver-package practicalmeteor:mocha --port 3100",
   	"prestart:dev": "echo \"load ENV variables like kadira\"",
     "start:dev":"meteor --settings=config/development/settings.json"
   }
