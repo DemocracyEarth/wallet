@@ -57,8 +57,9 @@ Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mas
 
     Load browser and go to [http://localhost:3000/](http://localhost:3000/) 🔥
 
-    > _Note:_ For production deploys you can alternatively use:  
-    > `$ meteor --settings=config/production/settings.json`
+    > _Note:_ For production deploys you should use:  
+    > `$ meteor npm run start`
+    > check production/settings.json file to config your keys.
 
 0. **Start a Revolution**
 
