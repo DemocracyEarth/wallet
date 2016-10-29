@@ -75,12 +75,15 @@ Meteor.startup(function () {
 
   if (Meteor.isServer) {
     //App Cache
+    //
+    /* appcache issue with browser test: infinite loop
     console.log('[startup] app cache: ' + Meteor.settings.public.app.config.appCache)
     Meteor.AppCache.config({
       chrome: Meteor.settings.public.app.config.appCache,
       firefox: Meteor.settings.public.app.config.appCache,
       safari: Meteor.settings.public.app.config.appCache
     });
+    */
   }
 
 });
