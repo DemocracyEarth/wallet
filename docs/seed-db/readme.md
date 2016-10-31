@@ -45,5 +45,5 @@ This tutorial will create a local copy from [Colombia Peace Referendum](http://v
 
     Now you can test Sovereign app locally.
 
-    If you want to contribute, don't forget to follow our [recomendations](../readme#Development)
+    If you want to contribute, don't forget to follow our [recomendations](../readme.md#development)
 
