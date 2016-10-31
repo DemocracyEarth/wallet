@@ -38,3 +38,7 @@ To write your own test:
 * use `*.app-test[s].*` and `*.app-spec[s].*` for **app integration tests**  and **acceptance tests**.
 
 Follow the meteor guide to get more examples and details [https://guide.meteor.com/testing.html](https://guide.meteor.com/testing.html)
+
+# Development
+
+Our recomendations:
