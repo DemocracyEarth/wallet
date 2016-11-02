@@ -20,11 +20,20 @@ Sovereign is a decentralized governance platform for small & large organizations
   - [ ] Distributed resource storage 🔗 with [IPFS](https://github.com/ipfs/js-ipfs).
   - [ ] Native desktop client 🔗 with [Electron](https://github.com/electron/electron).
 
-**Release _(in progress)_:** `version 0.1.0`
+**Community:**  
 
-> The Don Quixote of the 21st century will not be a knight-errant struggling to revive the glories of feudalism but a bureaucrat in a brown suit, a tax collector yearning for a citizen to audit.
+  * [Slack](https://democracyearth.slack.com).
+  * [Medium](http://medium.com/@democracyearth).
+  * [Twitter](http://twitter.com/DemocracyEarth).
+  * [Facebook](http://facebook.com/DemocracyEarth).
+
+**Notes:**
+
+> The tragedy of the commons is how dysfunctional our conversations are. Win-win situations are effectively possible yet talibanization 💣 has won our minds pushing us to rhetorical oblivion. Institutional reality is created by the ability of storing & processing promises, being this the main task that our aspiring politicians competing for authority perform with their soft promises. Yet the Quixote of the 21st century will not be a knight-errant struggling to revive the glories of feudalism but a bureaucrat in a brown suit: We are on a mission to decentralize power by giving everyone the capability of creating blockchain institutions based on hard promises.
 
 Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mastering-Transition-Information/dp/0684832720) ✊.
+
+**Release _(in progress)_:** `version 0.1.0`
 
 ## Setup
 
