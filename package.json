@@ -8,6 +8,14 @@
   	"prestart:dev": "echo \"load ENV variables like kadira\"",
     "start:dev":"meteor --settings=config/development/settings.json"
   },
+  "dependencies": {
+    "autoprefixer": "^6.4.1",
+    "faker": "^3.0.1",
+    "bcript":"^0.8.7",
+    "bindings":"^1.2.1",
+    "nan":"^2.3.5"
+
+  },  
   "devDependencies": {
     "babel-eslint": "^6.1.2",
     "eslint": "^3.5.0",
@@ -57,5 +65,5 @@
     "settings": {
       "import/resolver": "meteor"
     }
-  },  
+  }  
 }
