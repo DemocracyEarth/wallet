@@ -41,3 +41,5 @@ okgrow:analytics
 shell-server@0.2.1
 meteorhacks:kadira
 practicalmeteor:mocha
+ddp-rate-limiter
+mdg:validated-method

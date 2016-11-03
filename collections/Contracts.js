@@ -1,8 +1,12 @@
 import {default as Thread} from "./Thread";
 import {default as Wallet} from "./Wallet";
+import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
+import { ValidatedMethod } from 'meteor/mdg:validated-method';
 
+//collection
 Contracts = new Mongo.Collection("contracts");
 
+//schema
 Schema.Contract = new SimpleSchema({
   collectiveId: {
     type: String,
@@ -445,3 +449,45 @@ Schema.Contract = new SimpleSchema({
 });
 
 Contracts.attachSchema(Schema.Contract);
+
+
+//permissions
+
+
+
+export const insert = new ValidatedMethod({
+  name: 'contracts.insert',
+  validate: Schema.Contract.validator(),
+  run(object) {
+    console.log(object)
+    const contract = Contract.findOne(object.keyword);
+
+    if (contract.isPrivate() && contract.userId !== contract.userId) {
+      throw new Meteor.Error('todos.insert.accessDenied',
+        'Cannot add contract to a private list that is not yours');
+    }
+
+    Contract.insert(object);
+  },
+});
+
+// Define a rule that matches login attempts by non-admin users
+// Get list of all method names on Todos
+const SOVEREIGN_METHODS = _.pluck([
+  insert,
+/*  setCheckedStatus,
+  updateText,
+  remove,*/
+], 'name');
+
+if (Meteor.isServer) {
+  // Only allow 5 todos operations per connection per second
+  DDPRateLimiter.addRule({
+    name(name) {
+      return _.contains(SOVEREIGN_METHODS, name);
+    },
+
+    // Rate limit per connection ID
+    connectionId() { return true; },
+  }, 5, 1000);
+}
