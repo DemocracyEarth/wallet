@@ -1,3 +1,6 @@
+import { validateEmail } from '../../startup/both/modules/validations.js'
+import { validatePassword, validatePasswordMatch, createUser } from '../../startup/both/modules/User.js'
+
 Template.signup.rendered = function () {
   var enableLogin = false;
 
@@ -47,16 +50,16 @@ Template.signup.events({
           Modules.both.validateUsername(event.target.value);
           break;
         case "email-signup":
-          Modules.both.validateEmail(event.target.value);
+          validateEmail(event.target.value);
           break;
         case "password-signup":
-          Modules.both.validatePassword(event.target.value);
+          validatePassword(event.target.value);
           if (document.getElementsByName("mismatchPassword")[0].value != '') {
-            Modules.both.validatePasswordMatch(document.getElementsByName("mismatchPassword")[0].value, event.target.value);
+            validatePasswordMatch(document.getElementsByName("mismatchPassword")[0].value, event.target.value);
           }
           break;
         case "mismatchPassword":
-          Modules.both.validatePasswordMatch(document.getElementsByName("password-signup")[0].value, event.target.value);
+          validatePasswordMatch(document.getElementsByName("password-signup")[0].value, event.target.value);
           break;
       }
     }
@@ -68,6 +71,6 @@ Template.signup.events({
       password: document.getElementsByName('password-signup')[0].value,
       mismatchPassword: document.getElementsByName('mismatchPassword')[0].value
     }
-    Modules.both.createUser(userData);
+    createUser(userData);
   }
 })
