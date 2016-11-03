@@ -1,7 +1,9 @@
+import { checkUrlValidity } from '../../modules/validation.js'
+
 Meteor.methods({
   storeUrlInDatabase: function( url ) {
     check( url, String );
-    Modules.both.checkUrlValidity( url );
+    checkUrlValidity( url );
 
     try {
       Files.insert({

@@ -1,4 +1,3 @@
-import {default as Modules} from "./modules";
 
 let validateEmail = (email) => {
   var val = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -37,5 +36,5 @@ let validate = ( url ) => {
   }
 };
 
-Modules.both.checkUrlValidity = validate;
-Modules.both.validateEmail = validateEmail;
+export const checkUrlValidity = validate;
+export const validateEmail = validateEmail;

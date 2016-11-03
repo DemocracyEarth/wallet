@@ -1,4 +1,4 @@
-import {default as Modules} from "./modules";
+import { validateEmail }  from "./validation.js";
 
 /***
 * create a new user
@@ -66,7 +66,7 @@ let _createUser = (data) => {
 ****/
 let _validateUser = (data) => {
   var val = _validateUsername(data.username)
-            + Modules.both.validateEmail(data.email)
+            + validateEmail(data.email)
             + _validatePassword(data.password)
             + _validatePasswordMatch(data.password, data.mismatchPassword);
 
