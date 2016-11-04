@@ -1,3 +1,6 @@
+import { Meteor } from 'meteor/meteor';
+import { Contracts } from './Contracts.js';
+
 Meteor.methods({
 
   //CRUD for Contracts
