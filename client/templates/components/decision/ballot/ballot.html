@@ -3,9 +3,9 @@
   <div class="section">
 
     {{#if editorMode}}
-      {{> kind title="draft-ballot" icon="images/ballotbox.png" stage=stage}}
+      {{> kind title="draft-ballot" icon="images/ballotbox.png" stage=stage toggle=true value=ballotEnabled setting='ballotEnabled'}}
     {{else}}
-      {{> kind title="your-vote" icon="images/ballotbox.png" stage=stage}}
+      {{> kind title="your-vote" icon="images/ballotbox.png" stage=stage toggle=false}}
     {{/if}}
 
     {{#if editorMode}}

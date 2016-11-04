@@ -1248,7 +1248,6 @@ blockquote {
   margin-top: 10px;
   font-size: 24px;
   line-height: 30px;
-  font-weight: 400;
   text-align: left;
   letter-spacing: 0px;
   text-transform: none;
@@ -1362,6 +1361,7 @@ blockquote {
 
 .checkbox {
   display: block;
+  font-weight: 300;
 }
 
 .checkbox.checkbox-custom {
@@ -4567,6 +4567,9 @@ blockquote {
     font-size: 16px;
     line-height: 30px;
   }
+  .setting {
+    font-weight: 400;
+  }
   .vote.vote-search {
     padding: 10px;
   }
@@ -4583,6 +4586,9 @@ blockquote {
     max-width: 80%;
   }
   .option-title.option-link.option-search {
+    font-weight: 400;
+  }
+  .checkbox {
     font-weight: 400;
   }
   .field.headline-field.split {
@@ -4926,6 +4932,12 @@ blockquote {
     font-size: 10px;
     line-height: 18px;
   }
+  .rich-text.editor-draft {
+    border-left-color: transparent;
+  }
+  .rich-text.editor-draft:hover {
+    border-left-color: transparent;
+  }
   .election {
     margin-bottom: 10px;
     font-size: 22px;
@@ -4962,8 +4974,12 @@ blockquote {
     right: 20px;
   }
   .title-input {
+    border-left-color: transparent;
     font-size: 35px;
     line-height: 45px;
+  }
+  .title-input:hover {
+    border-left-color: transparent;
   }
   .shadow-fake {
     left: 20px;

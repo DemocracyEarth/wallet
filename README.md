@@ -4,6 +4,9 @@
 
 # Sovereign.app
 
+[![Slack Status](https://democracyearth.slack.com/badge.svg)](https://democracyearth.slack.com)
+[![Build Status](https://circleci.com/gh/hackclub/hackclub.svg?style=shield)](https://circleci.com/gh/democracyearth/sovereign)
+
 Sovereign is a decentralized governance platform for small & large organizations.
 
 **Features:**
@@ -113,7 +116,7 @@ Sovereign is a **free & open source project**. Main contributors so far:
 * 🌎 [Mair Williams](https://github.com/mairwilliams)
 * 🇫🇷 [Virgile Deville](https://github.com/virgile-dev)
 
-For detailed roles check the _[contributors list](CONTRIBUTING.md)_ and look for available tasks in the _[to do list](TODO.md)_ to join.
+For detailed roles check the [contributors list](CONTRIBUTING.md) and look for available tasks in the [to do list](TODO.md) to join.
 
 ## Backers
 
@@ -182,7 +185,7 @@ Democracy Earth Foundation is a _501 (c) 3 not for profit corporation_ in San Fr
 <a href="https://ffwd.org"><img src="public/images/ffwd.png" width="200" title="Fast Forward"></a>
 </p>
 
-Also check our _[donors list](DONORS.md)_.
+Also check our [donors list](DONORS.md).
 
 ## License
 

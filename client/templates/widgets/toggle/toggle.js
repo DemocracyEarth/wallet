@@ -19,7 +19,6 @@ Template.toggle.helpers({
     //return this.value;
   },
   setting: function () {
-    //console.log('this setting: ' + this.setting + ' valule:' + this.value);
     toggleMap[this.setting] = this.value;
     displayToggle();
     return this.setting;
@@ -35,6 +34,8 @@ Template.toggle.events({
       toggle($('.' + this.setting).children(), !this.value);
       var obj = {};
       obj[this.setting] = !this.value;
+      console.log('clicked toggle');
+      console.log(obj);
       Contracts.update(Session.get('contract')._id, { $set: obj });
     }
   }
@@ -49,6 +50,9 @@ function displayToggle() {
 
 
 function toggle (node, value) {
+
+  console.log(node);
+  console.log('value: ' + value);
 
   if (value) {
 
