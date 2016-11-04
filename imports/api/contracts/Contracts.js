@@ -445,4 +445,4 @@ Schema.Contract = new SimpleSchema({
 });
 
 Contracts.attachSchema(Schema.Contract);
-export Contracts;
+export default Schema.Contract;
