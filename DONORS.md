@@ -10,25 +10,33 @@
 
   * Ricardo Gorodisch
   * Krishna Bahrat
+  * Matias Mosse
+  * Marcos Galperin
+  * Alejandro Estrada
+  * Wenceslao Casares
+  * Chris & Hedy Eyre
+  * Kevin	Barenblat
+  * Clinton Yara
+  * Tom Preston-Werner
   * Lloyd Nimetz
+  * Jim D'Amico
+  * Erik Walter
   * Vivek	Krishnappa
   * Kevin	Berk
   * Micah	Rosenbloom
-  * Erik Walter
   * Karén	Gyulbudaghyan
-  * Sharon Goldstein
-  * Tom Preston-Werner
-  * Josh Zaretsky
-  * Kevin	Barenblat
-  * Heejae Lim
+  * Satoshi Nakamoto
   * Paul Wehrley
-  * Clinton	Yara
-  * Allison	Koblick
+  * Clinton	Yara  
   * Josh Jacobson
   * Allison	Sparks
   * Ahin Thomas
   * Ron	Hirson
   * Anonymous
   * Ken	Ettinger
+  * Sharon Goldstein
   * Shreenath	Regunathan
   * Matt Price
+  * Josh Zaretsky  
+  * Heejae Lim
+  * Allison	Koblick
