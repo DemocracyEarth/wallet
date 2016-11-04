@@ -19,6 +19,7 @@
   * Clinton Yara
   * Tom Preston-Werner
   * Lloyd Nimetz
+  * Eduardo Medina
   * Jim D'Amico
   * Erik Walter
   * Vivek	Krishnappa

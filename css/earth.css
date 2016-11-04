@@ -86,6 +86,10 @@ ul {
   padding-left: 40px;
 }
 
+li {
+  font-weight: 300;
+}
+
 strong {
   font-weight: 400;
 }
@@ -1244,7 +1248,7 @@ blockquote {
   margin-top: 10px;
   font-size: 24px;
   line-height: 30px;
-  font-weight: 300;
+  font-weight: 400;
   text-align: left;
   letter-spacing: 0px;
   text-transform: none;
@@ -4357,12 +4361,6 @@ blockquote {
   background-color: #00bf8f;
 }
 
-.smart {
-  width: 75%;
-  margin-top: 40px;
-  margin-bottom: 20px;
-}
-
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
@@ -4529,6 +4527,19 @@ blockquote {
   }
   h2 {
     font-size: 14px;
+    font-weight: 400;
+  }
+  h5 {
+    font-weight: 400;
+  }
+  p {
+    font-weight: 400;
+  }
+  a {
+    font-weight: 400;
+  }
+  blockquote {
+    font-weight: 400;
   }
   .paper.paper-execute {
     border-radius: 0px;
@@ -4570,6 +4581,9 @@ blockquote {
   }
   .option-title.option-link.option-long {
     max-width: 80%;
+  }
+  .option-title.option-link.option-search {
+    font-weight: 400;
   }
   .field.headline-field.split {
     padding-right: 0px;
@@ -4667,8 +4681,9 @@ blockquote {
     right: 25px;
   }
   .title-input {
-    font-size: 30px;
-    line-height: 40px;
+    font-size: 40px;
+    line-height: 50px;
+    font-weight: 400;
   }
   .shadow-fake {
     left: 25px;
@@ -4692,8 +4707,11 @@ blockquote {
   .polis.remove {
     width: 100%;
   }
-  .smart {
-    width: 100%;
+  .menu.menu-empty {
+    font-weight: 400;
+  }
+  .menu-item {
+    font-weight: 400;
   }
 }
 
@@ -4944,8 +4962,8 @@ blockquote {
     right: 20px;
   }
   .title-input {
-    font-size: 25px;
-    line-height: 35px;
+    font-size: 35px;
+    line-height: 45px;
   }
   .shadow-fake {
     left: 20px;
