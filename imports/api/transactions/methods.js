@@ -1,3 +1,6 @@
+import { Meteor } from 'meteor/meteor';
+import { Collectives } from '../Collectives';
+
 Meteor.methods({
 
   //generate first transaction from collective to user's wallet

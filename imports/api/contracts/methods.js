@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Contracts } from './Contracts.js';
+import { Collectives } from '../collectives/Collectives.js';
 
 Meteor.methods({
 

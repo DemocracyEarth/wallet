@@ -1,4 +1,5 @@
 import {default as Modules} from "./modules";
+import { Collectives } from '../collectives/Collectives.js';
 
 /***
 * create a new transaction between two parties

@@ -1,9 +1,10 @@
+import { Meteor } from 'meteor/meteor';
 import {default as Thread} from "./Thread";
-import {default as Wallet} from "./Wallet";
+import {default as Wallet} from "../users/Wallet";
 
-Contracts = new Mongo.Collection("contracts");
+export const Contracts = new Mongo.Collection("contracts");
 
-Schema.Contract = new SimpleSchema({
+const Contract = new SimpleSchema({
   collectiveId: {
     type: String,
     optional: true,
@@ -444,5 +445,4 @@ Schema.Contract = new SimpleSchema({
   }
 });
 
-Contracts.attachSchema(Schema.Contract);
-export default Schema.Contract;
+Contracts.attachSchema(Contract.schema);

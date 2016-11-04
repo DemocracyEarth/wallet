@@ -1,4 +1,4 @@
-Schema.Ballot = new SimpleSchema({
+export const Ballot = new SimpleSchema({
   _id: {
     type: String
   },
@@ -18,5 +18,3 @@ Schema.Ballot = new SimpleSchema({
     optional: true
   }
 });
-
-export default Schema.Ballot;

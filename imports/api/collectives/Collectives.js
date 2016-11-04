@@ -1,8 +1,10 @@
-import {default as Wallet} from "./Wallet";
+import { Mongo } from 'meteor/mongo';
+import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import {default as Wallet} from "../users/Wallet";
 
-Collectives = new Mongo.Collection("collectives");
+export const Collectives = new Mongo.Collection("collectives");
 
-Schema.Country = new SimpleSchema({
+const Country = new SimpleSchema({
     name: {
         type: String
     },
@@ -13,7 +15,7 @@ Schema.Country = new SimpleSchema({
 });
 
 
-Schema.Jurisdiction = new SimpleSchema({
+const Jurisdiction = new SimpleSchema({
   legal: {
     type: Object,
     optional: true
@@ -48,7 +50,7 @@ Schema.Jurisdiction = new SimpleSchema({
   }
 });
 
-Schema.CollectiveProfile = new SimpleSchema({
+const CollectiveProfile = new SimpleSchema({
   website: {
       type: String,
       regEx: SimpleSchema.RegEx.Url,
@@ -71,7 +73,7 @@ Schema.CollectiveProfile = new SimpleSchema({
       optional: true
   },
   jurisdiction: {
-      type: Schema.Jurisdiction,
+      type: Jurisdiction.schema,
       optional: true
   },
   foundation: {
@@ -98,7 +100,7 @@ Schema.CollectiveProfile = new SimpleSchema({
 });
 
 
-Schema.Collective = new SimpleSchema({
+const Collective = new SimpleSchema({
     name: {
       type: String
     },
@@ -120,7 +122,7 @@ Schema.Collective = new SimpleSchema({
         type: Boolean
     },
     profile: {
-        type: Schema.CollectiveProfile,
+        type: CollectiveProfile,schema,
         optional: true
     },
     goal: {
@@ -142,6 +144,4 @@ Schema.Collective = new SimpleSchema({
     }
 });
 
-Collectives.attachSchema(Schema.Collective);
-
-export default Schema.Collective;
+Collectives.attachSchema(Collective.schema);

@@ -1,4 +1,4 @@
-import { buildRegExp }  from '../utils/functions.js';
+import { buildRegExp }  from '../../utils/functions.js';
 
 //Search engine
 SearchSource.defineSource('tags', function(searchText, options) {

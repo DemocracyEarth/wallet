@@ -1,9 +1,11 @@
 import {default as Ballot} from "./Ballot";
+import { Mongo } from 'meteor/mongo';
+import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
-Transactions = new Mongo.Collection("transactions");
+export const Transactions = new Mongo.Collection("transactions");
 
 //NOTE: These schemas of Ticket & Transaction must store transactions in its own db (eventually a blockchain via vote-microchain TBD)
-Schema.Ticket = new SimpleSchema({
+const Ticket = new SimpleSchema({
   entityId: {
     type: String
   },
@@ -43,13 +45,12 @@ Schema.Ticket = new SimpleSchema({
     }
   }
 });
-
-Schema.Transaction = new SimpleSchema({
+const Transaction = new SimpleSchema({
   input: {
-    type: Schema.Ticket
+    type: Ticket.schema
   },
   output: {
-    type: Schema.Ticket
+    type: Ticket.schema
   },
   kind: {
     type: String,
@@ -137,6 +138,4 @@ Schema.Transaction = new SimpleSchema({
   }
 });
 
-Transactions.attachSchema(Schema.Transaction);
-
-export default Schema.Transaction;
+Transactions.attachSchema(Transaction.schema);

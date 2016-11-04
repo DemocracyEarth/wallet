@@ -1,5 +1,5 @@
-import {default as Transaction} from "./Transactions";
-import {default as Ballot} from "./Ballot";
+import {default as Transaction} from "../transactions/Transactions";
+import {default as Ballot} from "../transactions/Ballot";
 
 Schema.Wallet =  new SimpleSchema({
   balance: {

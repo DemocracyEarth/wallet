@@ -1,4 +1,4 @@
-import '../../api/collectives/methods.js';
+//import '../../api/collectives/methods.js';
 import '../../api/collectives/server/publications.js';
 
 import '../../api/contracts/methods.js';
