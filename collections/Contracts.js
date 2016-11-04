@@ -451,23 +451,6 @@ Schema.Contract = new SimpleSchema({
 Contracts.attachSchema(Schema.Contract);
 
 //permissions
-export const insert = new ValidatedMethod({
-  name: 'contracts.insert',
-  validate: Schema.Contract.validator(),
-  run(object) {
-    console.log('running insert');
-    console.log(object);
-    const contract = Contracts.findOne(object.keyword);
-
-    if (contract.isPrivate() && contract.userId !== contract.userId) {
-      throw new Meteor.Error('todos.insert.accessDenied',
-        'Cannot add contract to a private list that is not yours');
-    }
-
-    Contracts.insert(object);
-  },
-});
-
 Contracts.allow({
   insert: function () {
     if (Meteor.userId()) {
@@ -484,6 +467,23 @@ Contracts.allow({
       return true;
     }
   }
+});
+
+export const insert = new ValidatedMethod({
+  name: 'contracts.insert',
+  validate: Schema.Contract.validator(),
+  run(object) {
+    console.log('running insert');
+    console.log(object);
+    const contract = Contracts.findOne(object.keyword);
+
+    if (contract.isPrivate() && contract.userId !== contract.userId) {
+      throw new Meteor.Error('todos.insert.accessDenied',
+        'Cannot add contract to a private list that is not yours');
+    }
+
+    Contracts.insert(object);
+  },
 });
 
 // Define a rule that matches login attempts by non-admin users

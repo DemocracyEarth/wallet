@@ -10,7 +10,6 @@ let _newDraft = (keyword, title) => {
   //Empty Contract
   if (keyword == undefined) {
     if (!Contracts.findOne({keyword: 'draft-' + Meteor.userId()})) {
-      console.log('inserting contract');
       Contracts.insert({ keyword: 'draft-' + Meteor.userId() });
     }
     var id = Contracts.findOne({keyword: 'draft-' + Meteor.userId()})._id;
