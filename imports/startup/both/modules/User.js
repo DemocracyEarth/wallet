@@ -1,9 +1,9 @@
-import { validateEmail }  from "./validation.js";
+import { validateEmail } from './validations.js';
 
-/***
-* create a new user
+/**
+* @summary Create a new user
 * @param {object} data - input from new user to be used for creation of user in db
-****/
+*/
 let _createUser = (data) => {
 
   if (_validateUser(data)) {
@@ -60,10 +60,10 @@ let _createUser = (data) => {
   }
 }
 
-/***
-* new user input data validation
+/**
+* @summary new user input data validation
 * @param {object} data - validates all keys present in data input from new user
-****/
+*/
 let _validateUser = (data) => {
   var val = _validateUsername(data.username)
             + validateEmail(data.email)
@@ -73,10 +73,10 @@ let _validateUser = (data) => {
   if (val >= 4) { return true } else { return false };
 }
 
-/***
-* password validation
+/**
+* @summary password validation
 * @param {string} pass - makes sure password meets criteria
-****/
+*/
 let _validatePassword = (pass) => {
   var val = true;
   if (pass.length < 6) {
@@ -89,20 +89,20 @@ let _validatePassword = (pass) => {
   return val;
 }
 
-/***
-* verify correct password input
+/**
+* @summary verify correct password input
 * @param {string} passA - first version of password introduced in form
 * @param {string} passB - second version of password introduced in form
-****/
+*/
 let _validatePasswordMatch = (passA, passB) => {
   Session.set("mismatchPassword", !(passA == passB));
   return (passA == passB);
 }
 
-/***
-* makes sure username identifier meets criteria and is avaialble
+/**
+* @summary makes sure username identifier meets criteria and is avaialble
 * @param {string} username - picked username
-****/
+*/
 let _validateUsername = (username) => {
   //var regexp = /^[A-Za-z'-\s]+$/ Full name and surname
   var regexp = /^[a-zA-Z0-9]+$/;
@@ -126,9 +126,9 @@ let _validateUsername = (username) => {
   return regexp.test(username);
 }
 
-/***
-* returns a profile of an anonoymous user
-***/
+/**
+* @summary returns a profile of an anonoymous user
+*/
 let _getAnonObject = (signatureMode) => {
   if (signatureMode) {
     return {
@@ -160,10 +160,10 @@ let _getAnonObject = (signatureMode) => {
   }
 }
 
-/***
-* returns a profile from a given username
+/**
+* @summary returns a profile from a given username
 * @param {string} username - this one's obvious.
-***/
+*/
 let _getProfileFromUsername = (username) => {
   var user = _cacheSearch('username', username);
   if (user) {
@@ -174,11 +174,11 @@ let _getProfileFromUsername = (username) => {
   return false;
 }
 
-/***
-* searches among cached session variables
+/**
+* @summary searches among cached session variables
 * @param {string} param - paramater to look for
 * @param {string} value - value of parameter
-***/
+*/
 let _cacheSearch = (param, value) => {
   var session = Session.keys;
   for (key in Session.keys) {
@@ -192,11 +192,11 @@ let _cacheSearch = (param, value) => {
   return false;
 }
 
-/***
-* verifies if a user is having a delegate role in a contract
+/**
+* @summary verifies if a user is having a delegate role in a contract
 * @param {object} signatures - signatures of the contract (for delegations)
 * @return {boolean} status - yes or no
-***/
+*/
 let _userIsDelegate = (signatures) => {
   for (i in signatures) {
     //if user is delegated to
@@ -208,11 +208,11 @@ let _userIsDelegate = (signatures) => {
 }
 
 
-/***
-* verifies if the vote of a user is already placed in the contract
+/**
+* @summary verifies if the vote of a user is already placed in the contract
 * @param {object} ledger - ledger with transactional data of this contract
 * @return {boolean} status - yes or no
-***/
+*/
 let _verifyVotingRight = (ledger) => {
   if (Meteor.user() != null) {
     for (i in ledger) {
@@ -227,11 +227,11 @@ let _verifyVotingRight = (ledger) => {
 }
 
 
-/***
-* verifies if a user is able to delegate
+/**
+* @summary verifies if a user is able to delegate
 * @param {object} signatures - signatures of the contract (for delegations)
 * @return {boolean} status - yes or no
-***/
+*/
 let _verifyDelegationRight = (signatures) => {
   if (Meteor.user() != null) {
     for (i in signatures) {
@@ -259,12 +259,12 @@ let _verifyDelegationRight = (signatures) => {
   }
 }
 
-/*****
-* returns vots a user has in a specific contract
+/**
+* @summary returns vots a user has in a specific contract
 * @param {object} userWallet - the wallet of the user
 * @param {string} contractId - the contract to search for
 * @return {number} quantity - quantity of votes in Absolute numbers
-*******/
+*/
 let _userVotesInContract = (userWallet, contractId) => {
   for (i in userWallet.ledger) {
     if (userWallet.ledger[i].entityId == contractId && userWallet.ledger[i].entityType == ENTITY_CONTRACT) {
@@ -273,11 +273,11 @@ let _userVotesInContract = (userWallet, contractId) => {
   }
 }
 
-/*****
-* verifies if the user is a signer in the contract
+/**
+* @summary verifies if the user is a signer in the contract
 * @param {object} signatures - contract signature object
 * @return {boolean} bool - yes or no, that simple buddy.
-*******/
+*/
 let _isUserSigner = (signatures) => {
   for (i in signatures) {
     if (signatures[i]._id == Meteor.user()._id) {
