@@ -33,7 +33,7 @@ Sovereign is a decentralized governance platform for small & large organizations
 
 `version 0.1.0`
 
-> _Note:_ The tragedy of the commons is how dysfunctional our conversations are. Win-win situations are effectively possible yet talibanization 💣 has won our minds pushing us to rhetorical oblivion. Institutional reality is created by the ability of storing & processing promises, being this the main task that our aspiring politicians competing for authority perform. Yet the Quixote of the 21st century will not be a knight-errant struggling to revive the glories of feudalism but a bureaucrat in a brown suit. We are on a mission to decentralize power by giving everyone the capability of creating blockchain based institutions operating in peer to peer networks.
+> _Notes:_ The tragedy of the commons is how dysfunctional our conversations are. Win-win situations are effectively possible yet talibanization 💣 has won our minds pushing us to rhetorical oblivion. Social media has put gossip in the driver's seat due to the lack of transparency in the existing governance structures. Institutional reality is created from storing & processing promises being this the main task that our aspiring politicians competing for authority perform. Yet the Quixote of the 21st century will not be a knight-errant struggling to revive the glories of feudalism but a bureaucrat in a brown suit. We are on a mission to decentralize power by giving everyone the capability of creating blockchain based institutions operating in peer to peer networks. A planetary commons of peers, for everyone anywhere. 
 
 Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mastering-Transition-Information/dp/0684832720) ✊.
 

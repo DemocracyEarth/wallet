@@ -468,6 +468,24 @@ export const insert = new ValidatedMethod({
   },
 });
 
+Contracts.allow({
+  insert: function () {
+    if (Meteor.userId()) {
+      return true;
+    }
+  },
+  update: function () {
+    if (Meteor.userId()) {
+      return true;
+    }
+  },
+  remove: function () {
+    if (Meteor.userId()) {
+      return true;
+    }
+  }
+});
+
 // Define a rule that matches login attempts by non-admin users
 // Get list of all method names on Todos
 const SOVEREIGN_METHODS = _.pluck([
