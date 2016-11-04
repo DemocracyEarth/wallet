@@ -144,4 +144,18 @@ Schema.Collective = new SimpleSchema({
 
 Collectives.attachSchema(Schema.Collective);
 
+//permissions
+Collectives.allow({
+  insert: function () {
+    if (Meteor.userId()) {
+      return true;
+    }
+  },
+  update: function () {
+    if (Meteor.userId()) {
+      return true;
+    }
+  }
+});
+
 export default Schema.Collective;

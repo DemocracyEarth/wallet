@@ -469,6 +469,7 @@ Contracts.allow({
   }
 });
 
+/*
 export const insert = new ValidatedMethod({
   name: 'contracts.insert',
   validate: Schema.Contract.validator(),
@@ -489,10 +490,7 @@ export const insert = new ValidatedMethod({
 // Define a rule that matches login attempts by non-admin users
 // Get list of all method names on Todos
 const SOVEREIGN_METHODS = _.pluck([
-  insert,
-/*  setCheckedStatus,
-  updateText,
-  remove,*/
+  insert
 ], 'name');
 
 if (Meteor.isServer) {
@@ -506,3 +504,4 @@ if (Meteor.isServer) {
     connectionId() { return true; },
   }, 5, 1000);
 }
+*/

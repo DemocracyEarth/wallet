@@ -194,4 +194,18 @@ Schema.User = new SimpleSchema({
 UserContext = Schema.User.newContext();
 Meteor.users.attachSchema(Schema.User);
 
+//permissions
+Meteor.users.allow({
+  insert: function () {
+    if (Meteor.userId()) {
+      return true;
+    }
+  },
+  update: function () {
+    if (Meteor.userId()) {
+      return true;
+    }
+  }
+});
+
 export default Schema.User;

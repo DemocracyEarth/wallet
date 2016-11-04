@@ -113,7 +113,7 @@ Sovereign is a **free & open source project**. Main contributors so far:
 * 🌎 [Mair Williams](https://github.com/mairwilliams)
 * 🇫🇷 [Virgile Deville](https://github.com/virgile-dev)
 
-For detailed roles check the __[contributors list](CONTRIBUTING.md)__ and look for available tasks in the _[to do list](TODO.md)_ to join.
+For detailed roles check the _[contributors list](CONTRIBUTING.md)_ and look for available tasks in the _[to do list](TODO.md)_ to join.
 
 ## Backers
 
@@ -182,9 +182,9 @@ Democracy Earth Foundation is a _501 (c) 3 not for profit corporation_ in San Fr
 <a href="https://ffwd.org"><img src="public/images/ffwd.png" width="200" title="Fast Forward"></a>
 </p>
 
-Also check our __[donors list](DONORS.md)__.
+Also check our _[donors list](DONORS.md)_.
 
 ## License
 
 This software is under an [MIT License](LICENSE.md).
-Copyright © 2016 [Democracy Earth Foundation](http://democracy.earth).
+Some rights reserved, 2016 [Democracy Earth Foundation](http://democracy.earth).

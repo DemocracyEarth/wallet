@@ -139,4 +139,18 @@ Schema.Transaction = new SimpleSchema({
 
 Transactions.attachSchema(Schema.Transaction);
 
+//permissions
+Transactions.allow({
+  insert: function () {
+    if (Meteor.userId()) {
+      return true;
+    }
+  },
+  update: function () {
+    if (Meteor.userId()) {
+      return true;
+    }
+  }
+});
+
 export default Schema.Transaction;

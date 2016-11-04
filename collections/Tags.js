@@ -66,3 +66,17 @@ TagSchema = new SimpleSchema({
 });
 
 Tags.attachSchema(TagSchema);
+
+//permissions
+Tags.allow({
+  insert: function () {
+    if (Meteor.userId()) {
+      return true;
+    }
+  },
+  update: function () {
+    if (Meteor.userId()) {
+      return true;
+    }
+  }
+});
