@@ -1,6 +1,9 @@
-import {default as Wallet} from "./Wallet";
+import { Meteor } from 'meteor/meteor';
+import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import Wallet from './Wallet';
+import { Country } from '../collectives/Collectives';
 
-Schema.Credential = new SimpleSchema({
+const Credential = new SimpleSchema({
   source: {
     type: String,
     allowedValues: ['facebook', 'twitter', 'linkedin', 'github', 'peer'],
@@ -16,7 +19,7 @@ Schema.Credential = new SimpleSchema({
   }
 });
 
-Schema.Menu = new SimpleSchema({
+const Menu = new SimpleSchema({
   feed: {
     type: String,
     optional: true,
@@ -46,7 +49,7 @@ Schema.Menu = new SimpleSchema({
   }
 });
 
-Schema.Profile = new SimpleSchema({
+const Profile = new SimpleSchema({
     firstName: {
       type: String,
       optional: true
@@ -67,7 +70,7 @@ Schema.Profile = new SimpleSchema({
       }
     },
     country: {
-        type: Schema.Country,
+        type: Country,
         optional: true
     },
     birthday: {
@@ -101,7 +104,7 @@ Schema.Profile = new SimpleSchema({
       optional: true
     },
     "credentials.$": {
-      type: Schema.Credential,
+      type: Credential,
       optional: true
     },
     url: {
@@ -114,7 +117,7 @@ Schema.Profile = new SimpleSchema({
       optional: true
     },
     "menu.$": {
-      type: Schema.Menu,
+      type: Menu,
       optional: true
     },
     wallet: {
@@ -123,7 +126,7 @@ Schema.Profile = new SimpleSchema({
     }
 });
 
-Schema.User = new SimpleSchema({
+const User = new SimpleSchema({
     username: {
         type: String,
         optional: true
@@ -155,7 +158,7 @@ Schema.User = new SimpleSchema({
         type: Date
     },
     profile: {
-        type: Schema.Profile,
+        type: Profile,
         optional: true
     },
     // Make sure this services field is in your schema if you're using any of the accounts packages
@@ -191,7 +194,7 @@ Schema.User = new SimpleSchema({
     }
 });
 
-UserContext = Schema.User.newContext();
-Meteor.users.attachSchema(Schema.User);
+export const UserContext = User.newContext();
+Meteor.users.attachSchema(User.schema);
 
-export default Schema.User;
+export default User;

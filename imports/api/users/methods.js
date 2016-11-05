@@ -1,3 +1,5 @@
+import { Meteor } from 'meteor/meteor';
+
 Meteor.methods({
   sendVerificationLink() {
     let userId = Meteor.userId();
@@ -7,3 +9,7 @@ Meteor.methods({
     }
   }
 });
+
+const sendVerificationLink = function(){
+  console.log('[sendVerificationLink] to be done');
+};

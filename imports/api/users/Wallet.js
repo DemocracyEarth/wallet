@@ -1,7 +1,7 @@
-import {default as Transaction} from "../transactions/Transactions";
-import {default as Ballot} from "../transactions/Ballot";
+import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import Ballot from '../transactions/Ballot';
 
-Schema.Wallet =  new SimpleSchema({
+const Wallet = new SimpleSchema({
   balance: {
     type: Number,
     defaultValue: 0
@@ -84,4 +84,4 @@ Schema.Wallet =  new SimpleSchema({
   }
 });
 
-export default Schema.Wallet;
+export default Wallet;

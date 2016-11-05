@@ -1,4 +1,4 @@
-/***
+/**
 * at user creation the following specifications must be met
 ****/
 Accounts.onCreateUser(function(options, user) {

@@ -1,3 +1,5 @@
+import { Meteor } from 'meteor/meteor';
+
 // The user fields we are willing to publish.
 const USER_FIELDS = {
   username: 1,
@@ -10,18 +12,17 @@ var subs = { };
 
 // The helper publication
 Meteor.publish('helperPublication', function() {
+  // #1
+  var subscription = this;
+  subs[subscription._session.id] = subscription;
 
-       // #1
-       var subscription = this;
-       subs[subscription._session.id] = subscription;
+  // #2
+  subscription.added( 'serverTime', 'a_random_id', {date: new Date()} );
 
-       // #2
-       subscription.added( 'serverTime', 'a_random_id', {date: new Date()} );
-
-       // #3
-       subscription.onStop(function() {
-          delete subs[subscription._session.id];
-       });
+  // #3
+  subscription.onStop(function() {
+    delete subs[subscription._session.id];
+  });
 });
 
 Meteor.publish("userData", function () {
