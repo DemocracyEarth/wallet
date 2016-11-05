@@ -1,4 +1,6 @@
-Schema.Thread = new SimpleSchema({
+import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+
+const Thread = new SimpleSchema({
   id: {
     type: String,
     autoValue: function () {
@@ -130,6 +132,4 @@ Schema.Thread = new SimpleSchema({
   }
 });
 
-ThreadContext = Schema.Thread.newContext();
-
-export default Schema.Thread;
+export default Thread;

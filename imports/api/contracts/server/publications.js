@@ -1,3 +1,6 @@
-Meteor.publish("contracts", function() {
-  return Contracts.find();
-});
+import { Meteor } from 'meteor/meteor';
+import Contracts from '../Contracts';
+
+Meteor.publish('contracts', () =>
+  Contracts.find()
+);

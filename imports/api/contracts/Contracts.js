@@ -1,36 +1,40 @@
 import { Meteor } from 'meteor/meteor';
-import {default as Thread} from "./Thread";
-import {default as Wallet} from "../users/Wallet";
+import { Mongo } from 'meteor/mongo';
+import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import Thread from './Thread';
+import Wallet from '../users/Wallet';
+import { convertToSlug } from '../../utils/functions';
 
-export const Contracts = new Mongo.Collection("contracts");
+const Contracts = new Mongo.Collection('contracts');
 
-const Contract = new SimpleSchema({
+Contracts.schema = new SimpleSchema({
   collectiveId: {
     type: String,
     optional: true,
-    autoValue: function () {
+    autoValue: function autoValue() {
       if (this.isInsert) {
         if (Meteor.settings.public.Collective) {
           return Meteor.settings.public.Collective._id;
         }
-      };
-    }
+      }
+      return null;
+    },
   },
   title: {
-    //title of the contract
+    // title of the contract
     type: String,
-    autoValue: function () {
+    autoValue: function autoValue() {
       if (this.isInsert) {
-        if (this.field("title").value == undefined) {
+        if (this.field('title').value === undefined) {
           return '';
-        } else {
-          return this.field("title").value;
         }
+        return this.field('title').value;
       }
-    }
+      return null;
+    },
   },
   keyword: {
-    //unique string identifier in db as keyword-based-slug
+    // unique string identifier in db as keyword-based-slug
     type: String,
     autoValue: function () {
       var slug = convertToSlug(this.field("title").value);
@@ -445,4 +449,5 @@ const Contract = new SimpleSchema({
   }
 });
 
-Contracts.attachSchema(Contract.schema);
+Contracts.attachSchema(Contracts.schema);
+export default Contracts;
