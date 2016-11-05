@@ -1,17 +1,21 @@
-Tags = new Mongo.Collection("tags");
+import { Mongo } from 'meteor/mongo';
+import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import { convertToSlug } from '../../utils/functions';
 
-TagSchema = new SimpleSchema({
+const Tags = new Mongo.Collection('tags');
+
+Tags.schema = new SimpleSchema({
   text: {
-    //Tag name
+    // Tag name
     type: String,
     optional: false
   },
   keyword: {
-    //Unique identifier in DB as keyword-based-slug
+    // Unique identifier in DB as keyword-based-slug
     type: String,
-    autoValue: function () {
+    autoValue: function() {
       if (this.isInsert) {
-        return convertToSlug(this.field("text").value);
+        return convertToSlug(this.field('text').value);
       };
     }
   },
@@ -65,4 +69,5 @@ TagSchema = new SimpleSchema({
   }
 });
 
-Tags.attachSchema(TagSchema);
+Tags.attachSchema(Tags.schema);
+export default Tags;
