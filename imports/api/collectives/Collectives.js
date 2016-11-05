@@ -122,7 +122,7 @@ Collectives.schema = new SimpleSchema({
       type: Boolean
   },
   profile: {
-      type: CollectiveProfile,schema,
+      type: CollectiveProfile.schema,
       optional: true
   },
   goal: {
