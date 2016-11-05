@@ -144,6 +144,6 @@ Collectives.schema = new SimpleSchema({
   },
 });
 
-Collectives.attachSchema(Collectives.schema);
+// Collectives.attachSchema(Collectives.schema);
 // export collectives or .schema???
-export default Collectives.schema;
+export default Collectives;
