@@ -28,9 +28,9 @@ const Thread = new SimpleSchema({
       }
     }
   },
-  "children.$": {
-    type: Schema.Thread,
-    blackbox: true
+  'children.$': {
+    type: Object,
+    blackbox: true,
   },
   ballot: {
     type: Array,
