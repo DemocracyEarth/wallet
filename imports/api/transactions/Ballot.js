@@ -1,3 +1,5 @@
+import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+
 export const Ballot = new SimpleSchema({
   _id: {
     type: String

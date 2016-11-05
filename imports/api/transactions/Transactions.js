@@ -1,10 +1,12 @@
-import {default as Ballot} from "./Ballot";
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import Ballot from './Ballot';
 
-export const Transactions = new Mongo.Collection("transactions");
+const Transactions = new Mongo.Collection('transactions');
 
-//NOTE: These schemas of Ticket & Transaction must store transactions in its own db (eventually a blockchain via vote-microchain TBD)
+/* NOTE: These schemas of Ticket & Transaction must store transactions in its own db.
+*  (eventually a blockchain via vote-microchain TBD)
+*/
 const Ticket = new SimpleSchema({
   entityId: {
     type: String
@@ -45,7 +47,7 @@ const Ticket = new SimpleSchema({
     }
   }
 });
-const Transaction = new SimpleSchema({
+Transactions.schema = new SimpleSchema({
   input: {
     type: Ticket.schema
   },
@@ -82,7 +84,7 @@ const Transaction = new SimpleSchema({
     optional: true
   },
   "condition.expiration": {
-    //for placed tokens, once expired reverses the operation
+    // for placed tokens, once expired reverses the operation
     type: Date,
     optional: true,
     autoValue: function () {
@@ -138,4 +140,5 @@ const Transaction = new SimpleSchema({
   }
 });
 
-Transactions.attachSchema(Transaction.schema);
+Transactions.attachSchema(Transactions.schema);
+export default Transactions;

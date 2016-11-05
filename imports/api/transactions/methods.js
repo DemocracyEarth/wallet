@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { Collectives } from '../Collectives';
+import { generateWalletAddress, transact } from './transaction';
 
 Meteor.methods({
 
@@ -19,15 +19,15 @@ Meteor.methods({
       }
     }
 
-    user.profile.wallet = Modules.server.generateWalletAddress(user.profile.wallet);
+    user.profile.wallet = generateWalletAddress(user.profile.wallet);
     console.log('[genesisTransaction] generated first address on wallet.');
     Meteor.users.update({ _id: userId }, { $set: { profile : user.profile } });
-    Modules.server.transact(Meteor.settings.public.Collective._id, userId, VOTES_INITIAL_QUANTITY);
+    transact(Meteor.settings.public.Collective._id, userId, VOTES_INITIAL_QUANTITY);
   },
 
   executeTransaction: function (delegatorId, delegateId, quantity, conditions, newStatus) {
     console.log('[transact]');
-    var txId = Modules.server.transact(delegatorId, delegateId, quantity, conditions);
+    var txId = transact(delegatorId, delegateId, quantity, conditions);
     console.log('[transact] ticketId ' + txId);
     if (newStatus != undefined && txId != undefined) {
       return newStatus;
@@ -36,7 +36,7 @@ Meteor.methods({
 
   vote: function  (userId, contractId, quantity, settings) {
     console.log('[vote] ' + userId + ' on contract: ' + contractId + ' with quantity: ' + quantity);
-    Modules.server.transact(userId, contractId, quantity, settings);
+    transact(userId, contractId, quantity, settings);
   }
 
 })

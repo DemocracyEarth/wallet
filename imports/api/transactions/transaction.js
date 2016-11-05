@@ -1,25 +1,26 @@
-import {default as Modules} from "./modules";
-import { Collectives } from '../collectives/Collectives.js';
+import Collectives from '../collectives/Collectives';
+import Transactions from './Transactions';
+import { showFullName } from '../../startup/both/modules/utils';
+import { guidGenerator } from '../../startup/both/modules/crypto';
 
-/***
-* create a new transaction between two parties
+/**
+* @summary create a new transaction between two parties
 * @param {string} senderId - user or collective allocating the funds
 * @param {string} receiverId - user or collective receiving the funds
 * @param {object} settings - additional settings to be stored on the ledger
-****/
-let _createTransaction = (senderId, receiverId, quantity, settings) => {
-
+*/
+const _createTransaction = (senderId, receiverId, quantity, settings) => {
   console.log('[_createTransaction] creating new transaction...');
   console.log('[_createTransaction] sender: ' + senderId);
   console.log('[_createTransaction] receiver: ' + receiverId);
 
-  //default settings
-  var defaultSettings = new Object();
+  // default settings
+  let defaultSettings = {};
   defaultSettings = {
     currency: CURRENCY_VOTES,
     kind: KIND_VOTE,
-    contractId: false //_getContractId(senderId, receiverId, settings.kind),
-  }
+    contractId: false // _getContractId(senderId, receiverId, settings.kind),
+  };
 
   if (settings == undefined) {
     var settings = new Object();
@@ -56,7 +57,7 @@ let _createTransaction = (senderId, receiverId, quantity, settings) => {
   //executes the transaction
   var txId = Transactions.insert(newTransaction);
   if (_processTransaction(txId)) { return txId; };
-
+  return newTransaction;
 }
 
 
@@ -87,7 +88,7 @@ let _processTransaction = (txId) => {
   senderProfile.wallet = Object.assign(senderProfile.wallet, sender);
 
   if (senderProfile.firstName) {
-    console.log('[_processTransaction] sender in transaction is entity: ' + Modules.both.showFullName(senderProfile.firstName, senderProfile.lastName));
+    console.log('[_processTransaction] sender in transaction is entity: ' + showFullName(senderProfile.firstName, senderProfile.lastName));
   } else {
     console.log('[_processTransaction] sender in transaction is a Contract with title: ' + senderProfile.title);
   }
@@ -122,7 +123,7 @@ let _processTransaction = (txId) => {
   receiverProfile.wallet = Object.assign(receiverProfile.wallet, receiver);
 
   if (receiverProfile.firstName) {
-    console.log('[_processTransaction] receiver in transaction is entity: ' + Modules.both.showFullName(receiverProfile.firstName, receiverProfile.lastName));
+    console.log('[_processTransaction] receiver in transaction is entity: ' + showFullName(receiverProfile.firstName, receiverProfile.lastName));
   } else {
     console.log('[_processTransaction] receiver in transaction is a Contract with title: ' + receiverProfile.title);
   }
@@ -250,7 +251,7 @@ let _getWalletAddress = (entityId) => {
     return _getAddressHash(wallet.address, collectiveId);
   } else {
     console.log('[_getWalletAddress] generating a new address for this collective...');
-    wallet = Modules.server.generateWalletAddress(wallet);
+    wallet = _generateWalletAddress(wallet);
     switch (entityType) {
       case ENTITY_INDIVIDUAL:
         user.profile.wallet = wallet;
@@ -271,8 +272,7 @@ let _getWalletAddress = (entityId) => {
   }
 };
 
-
-/****
+/**
 * returns the has for the address that is from corresponding collective
 * @param {array} address - a wallet from a user containing all directions
 * @param {string} collectiveId - matching collective
@@ -285,11 +285,11 @@ let _getAddressHash = (address, collectiveId) => {
   }
 }
 
-/****
-* generates a new address given a wallet
+/**
+* @summary generates a new address given a wallet
 * @param {object} wallet - a wallet from a user containing all directions
 ***/
-let _generateWalletAddress = (wallet) => {
+const _generateWalletAddress = (wallet) => {
   console.log('[_generateWalletAddress] generating a new address for wallet entered as parameter.');
   wallet.address.push(_getCollectiveAddress());
   return wallet;
@@ -302,11 +302,11 @@ let _generateWalletAddress = (wallet) => {
 let _getCollectiveAddress = () => {
   console.log('[_getCollectiveAddress] generating new address specific to the collective running this instance...');
   return {
-    hash: Modules.both.guidGenerator(),
+    hash: guidGenerator(),
     collectiveId: Meteor.settings.public.Collective._id
   };
 };
 
-Modules.server.processTransaction = _processTransaction;
-Modules.server.generateWalletAddress = _generateWalletAddress;
-Modules.server.transact = _createTransaction;
+export const processTransaction = _processTransaction;
+export const generateWalletAddress = _generateWalletAddress;
+export const transact = _createTransaction;
