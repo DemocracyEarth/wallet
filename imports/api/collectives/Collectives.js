@@ -4,7 +4,7 @@ import Wallet from '../users/Wallet';
 
 const Collectives = new Mongo.Collection('collectives');
 
-const Country = new SimpleSchema({
+export const Country = new SimpleSchema({
   name: {
     type: String,
   },
@@ -145,4 +145,5 @@ Collectives.schema = new SimpleSchema({
 });
 
 Collectives.attachSchema(Collectives.schema);
-export default Collectives;
+// export collectives or .schema???
+export default Collectives.schema;
