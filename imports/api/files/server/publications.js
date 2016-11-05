@@ -1,9 +1,12 @@
-Meteor.publish( 'files', function(){
-  var data = Files.find( { "userId": this.userId } );
+import { Meteor } from 'meteor/meteor';
+import { Mongo } from 'meteor/mongo';
 
-  if ( data ) {
+const Files = new Mongo.Collection('files');
+
+Meteor.publish('files', function files() {
+  const data = Files.find({ userId: this.userId });
+  if (data) {
     return data;
   }
-
   return this.ready();
 });
