@@ -1,11 +1,17 @@
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
+import { verifyDelegationRight, verifyVotingRight, getProfileFromUsername } from '../both/modules/User';
+import { showFullName } from '../both/modules/utils';
+import { Modules } from '../../ui/modules/_modules';
+import { Contracts } from '../../api/contracts/Contracts';
+import { Tags } from '../../api/tags/Tags';
+import { Collectives } from '../../api/collectives/Collectives';
 
-/*****************************
+/*
 * private methods for effective routing
 ******************************/
 
-/***
+/**
 * from the paramaters obtained in a URL builds a query for the db
 * @param {object} params - url querying object
 * @return {object} query - returns a query with object ready for mongo
@@ -50,7 +56,7 @@ let _buildQuery = (params) => {
       case 'query':
         break;
       case 'stage':
-        if (params[key].toUpperCase() == STAGE_DRAFT) {
+        if (params[key].toUpperCase() == 'DRAFT') {
           if (Meteor.user() != undefined) {
             query['owner'] = Meteor.user()._id;
           }
@@ -101,9 +107,9 @@ let _buildTitle = (params) => {
           return '<strong><em>' + Tags.findOne({ keyword: params[key] }).text + '</em></strong> ' + TAPi18n.__('proposals');
         case 'username':
           //TODO builds string strictly from cache search, no request to server is ever done. Eventually might be needed.
-          var profile = Modules.both.getProfileFromUsername(params[key]);
+          var profile = getProfileFromUsername(params[key]);
           if (profile) {
-            var fullname = Modules.both.showFullName(profile.firstName, profile.lastName);
+            var fullname = showFullName(profile.firstName, profile.lastName);
             return '<strong><em>' + fullname + '</em></strong> ' + TAPi18n.__('proposals');
           }
           return TAPi18n.__('peer') + ' ' + TAPi18n.__('proposals');
@@ -140,7 +146,7 @@ export const _setSessionVars = (params) => {
 
   //view
   if (!params) {
-    var feed = FEED_VOTE_LIVE_CUSTOM;
+    var feed = 'live-votes-custom';
     _loadFeed(feed);
   } else {
     if (params.contract) {
@@ -162,38 +168,38 @@ export const _setSessionVars = (params) => {
 ****/
 let _loadFeed = (feed) => {
   switch (feed) {
-    case FEED_VOTE_LIVE:
+    case 'live-votes':
       Session.set('voterMode', true);
       Session.set('editorMode', false);
       if (typeof Session.get('sidebarMenuSelectedId') != 'string') {
         Session.set('sidebarMenuSelectedId', 0);
       }
       break;
-    case FEED_VOTE_LIVE_PEER:
+    case 'live-votes-peer':
       if (typeof Session.get('sidebarMenuSelectedId') != 'string') {
         Session.set('sidebarMenuSelectedId', 1);
       }
       break;
-    case FEED_VOTE_FINISH_APPROVED:
+    case 'votes-finish-approved':
       if (typeof Session.get('sidebarMenuSelectedId') != 'string') {
         Session.set('sidebarMenuSelectedId', 2);
       }
       break;
-    case FEED_VOTE_DRAFT:
+    case 'vote-drafts':
       Session.set('voterMode', false);
       Session.set('editorMode', true);
       if (typeof Session.get('sidebarMenuSelectedId') != 'string') {
         Session.set('sidebarMenuSelectedId', 3);
       }
       break;
-    case FEED_VOTE_FINISH_REJECTED:
+    case 'votes-finish-rejected':
       Session.set('voterMode', false);
       Session.set('editorMode', true);
       if (typeof Session.get('sidebarMenuSelectedId') != 'string') {
         Session.set('sidebarMenuSelectedId', 4);
       }
       break;
-    case FEED_VOTE_LIVE_CUSTOM:
+    case 'live-votes-custom':
       Session.set('voterMode', true);
       Session.set('editorMode', false);
       Session.set('emptyContent', {
@@ -213,10 +219,11 @@ let _loadFeed = (feed) => {
 ****/
 let _loadContract = (view, id) => {
   //load contract
+  let contract;
   if (id != undefined) {
-    var contract = Contracts.findOne({ _id: id });
+    contract = Contracts.findOne({ _id: id });
   } else {
-    var contract = Contracts.findOne({ keyword: view });
+    contract = Contracts.findOne({ keyword: view });
   }
 
   if (contract != undefined) {
@@ -239,13 +246,13 @@ let _loadContract = (view, id) => {
 
     //status of action button
     if (contract.kind == 'DELEGATION') {
-      Session.set('rightToVote', Modules.both.verifyDelegationRight(contract.signatures))
-    } else if (contract.kind == 'VOTE' && contract.stage == STAGE_DRAFT ) {
+      Session.set('rightToVote', verifyDelegationRight(contract.signatures))
+    } else if (contract.kind == 'VOTE' && contract.stage == 'DRAFT' ) {
       Session.set('rightToVote', true);
       Session.set('alreadyVoted', false);
     } else if (contract.kind == 'VOTE' && contract.stage == 'LIVE') {
-      Session.set('rightToVote', Modules.both.verifyVotingRight(contract.wallet.ledger))
-    } else if (contract.kind == 'VOTE' && contract.stage == STAGE_FINISH) {
+      Session.set('rightToVote', verifyVotingRight(contract.wallet.ledger))
+    } else if (contract.kind == 'VOTE' && contract.stage == 'FINISH') {
       Session.set('rightToVote', false);
     }
 
@@ -254,7 +261,7 @@ let _loadContract = (view, id) => {
 
     //mode
     switch (contract.stage) {
-      case STAGE_DRAFT:
+      case 'DRAFT':
         Session.set('editorMode', true);
         Session.set('voterMode', false);
         break;
@@ -383,10 +390,10 @@ const _getMenuSelection = (params) => {
     if (!feed) {
       switch (params) {
         case 'draft':
-          feed = FEED_VOTE_DRAFT;
+          feed = 'vote-drafts';
           break;
         default:
-          feed = FEED_VOTE_LIVE;
+          feed = 'live-votes';
       }
     }
   }
@@ -420,101 +427,101 @@ const _getMenuFeed = (menu) => {
 const _getQueryFeed = (query) => {
   if (query == undefined) { return false };
   switch(query.stage.toUpperCase()) {
-    case STAGE_DRAFT:
+    case 'DRAFT':
       switch(query.kind.toUpperCase()) {
         case 'VOTE':
           if (query.peer) {
-            return FEED_VOTE_DRAFT_PEER;
+            return 'CUSTOM PEER DRAFTS';
           } else {
-            return FEED_VOTE_DRAFT;
+            return 'vote-drafts';
           }
         case 'DELEGATION':
           if (query.peer) {
-            return FEED_DELEGATION_DRAFT_PEER;
+            return 'CUSTOM PEER DELEGATION DRAFTS';
           } else {
-            return FEED_DELEGATION_DRAFT;
+            return 'DELEGATION DRAFTS';
           }
         case 'MEMBERSHIP':
           if (query.peer) {
-            return FEED_MEMBERSHIP_DRAFT_PEER;
+            return 'CUSTOM PEER MEMBERSHIP DRAFT';
           } else {
-            return FEED_MEMBERSHIP_DRAFT;
+            return 'MEMBERSHIP DRAFTS';
           }
       }
-      return FEED_DRAFTS;
+      return 'ALL DRAFTS';
     case 'LIVE':
       switch(query.kind.toUpperCase()) {
         case 'VOTE':
           if (query.peer) {
-            return FEED_VOTE_LIVE_PEER;
+            return 'live-votes-peer';
           } else {
-            return FEED_VOTE_LIVE;
+            return 'live-votes';
           }
         case 'DELEGATION':
           if (query.peer) {
-            return FEED_DELEGATION_LIVE_PEER;
+            return 'CUSTOM PEER DELEGATION SENT';
           } else {
-            return FEED_DELEGATION_LIVE;
+            return 'LIVE DELEGATIONS';
           }
         case 'MEMBERSHIP':
           if (query.peer) {
-            return FEED_MEMBERSHIP_LIVE_PEER;
+            return 'CUSTOM PEER MEMBERSHIP REQUEST';
           } else {
-            return FEED_MEMBERSHIP_LIVE;
+            return 'LIVE MEMBERSHIPS';
           }
       }
-      return FEED_LIVE;
-    case STAGE_FINISH:
+      return 'ALL LIVE';
+    case 'FINISH':
       switch(query.kind.toUpperCase()) {
         case 'VOTE':
           switch(query.executionStatus.toUpperCase()) {
-            case EXECUTION_STATUS_APPROVED:
+            case 'APPROVED':
               if (query.peer) {
-                return FEED_VOTE_FINISH_APPROVED_PEER;
+                return 'CUSTOM PEER APPROVED VOTES';
               }
-              return FEED_VOTE_FINISH_APPROVED;
-            case EXECUTION_STATUS_REJECTED:
+              return 'votes-finish-approved';
+            case 'REJECTED':
               if (query.peer) {
-                return FEED_VOTE_FINISH_REJECTED_PEER;
+                return 'CUSTOM PEER REJECTED VOTES';
               }
-              return FEED_VOTE_FINISH_REJECTED;
-            case EXECUTION_STATUS_ALTERNATIVE:
+              return 'votes-finish-rejected';
+            case 'ALTERNATIVE':
               if (query.peer) {
-                return FEED_VOTE_FINISH_ALTERNATIVE_PEER;
+                return 'CUSTOM PEER ALTERNATIVE VOTES';
               }
-              return FEED_VOTE_FINISH_ALTERNATIVE;
+              return 'VOTES FINISH ALTERNATIVE';
           }
-          return FEED_VOTE_FINISH;
+          return 'ALL VOTES FINISH';
         case 'DELEGATION':
           switch(query.executionStatus.toUpperCase()) {
-            case EXECUTION_STATUS_APPROVED:
+            case 'APPROVED':
               if (query.peer) {
-                return FEED_DELEGATION_FINISH_APPROVED_PEER;
+                return 'CUSTOM PEER APPROVED DELEGATIONS';
               }
-              return FEED_DELEGATION_FINISH_APPROVED;
-            case EXECUTION_STATUS_REJECTED:
+              return 'CONFIRMED DELEGATIONS';
+            case 'REJECTED':
               if (query.peer) {
-                return FEED_DELEGATION_FINISH_REJECTED_PEER;
+                return 'CUSTOM PEER REJECTED DELEGATIONS';
               }
-              return FEED_DELEGATION_FINISH_REJECTED;
+              return 'REJECTED DELEGATIONS';
           }
-          return FEED_DELEGATION_FINISH;
+          return 'ALL DELEGATIONS';
         case 'MEMBERSHIP':
           switch(query.executionStatus.toUpperCase()) {
-            case EXECUTION_STATUS_APPROVED:
+            case 'APPROVED':
               if (query.peer) {
-                return FEED_MEMBERSHIP_FINISH_APPROVED_PEER;
+                return 'CUSTOM PEER APPROVED MEMBERSHIPS';
               }
-              return FEED_MEMBERSHIP_FINISH_APPROVED;
-            case EXECUTION_STATUS_REJECTED:
+              return 'APPROVED MEMBERSHIPS';
+            case 'REJECTED':
               if (query.peer) {
-                return FEED_MEMBERSHIP_FINISH_REJECTED_PEER;
+                return 'CUSTOM PEER REJECTED MEMBERSHIPS';
               }
-              return FEED_MEMBERSHIP_FINISH_REJECTED;
+              return 'REJECTED MEMBERSHIPS';
           }
-          return FEED_MEMBERSHIP_FINISH;
+          return 'ALL CONFIRMED MEMBERSHIPS';
       }
-      return FEED_FINISH;
+      return 'ALL FINISH';
   }
 };
 
