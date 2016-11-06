@@ -1,10 +1,11 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import { guidGenerator } from '../../startup/both/modules/crypto';
 
 const Thread = new SimpleSchema({
   id: {
     type: String,
     autoValue: function () {
-      return Modules.both.guidGenerator();
+      return guidGenerator();
     }
   },
   userId: {
@@ -13,10 +14,10 @@ const Thread = new SimpleSchema({
   },
   action: {
     type: String,
-    allowedValues: [THREAD_ACTION_COMMENT, THREAD_ACTION_VOTE, THREAD_ACTION_SORT, THREAD_ACTION_REPLY],
+    allowedValues: ['COMMENT', 'VOTE', 'SORT', 'REPLY'],
     autoValue: function () {
       if (this.isInsert) {
-        return THREAD_ACTION_COMMENT;
+        return 'COMMENT';
       };
     }
   },
@@ -125,9 +126,9 @@ const Thread = new SimpleSchema({
   },
   status: {
     type: String,
-    allowedValues: [THREAD_STATUS_NEW, THREAD_STATUS_VERIFIED, THREAD_STATUS_PROCESSED],
+    allowedValues: ['NEW', 'VERIFIED', 'PROCESSED'],
     autoValue: function () {
-      return THREAD_STATUS_NEW;
+      return 'NEW';
     }
   }
 });
