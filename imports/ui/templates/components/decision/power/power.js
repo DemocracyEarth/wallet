@@ -58,22 +58,22 @@ Template.power.helpers({
           if (Modules.both.isUserSigner(Session.get('contract').signatures)) {
             var signatures = Session.get('contract').signatures;
             for (i in signatures) {
-              if (signatures[i].role == ROLE_DELEGATOR && signatures[i]._id == Meteor.user()._id) {
+              if (signatures[i].role == 'DELEGATOR' && signatures[i]._id == Meteor.user()._id) {
                 //delegator
                 var quantity = Modules.both.userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
                 break;
-              } else if (signatures[i].role == ROLE_DELEGATE && signatures[i]._id == Meteor.user()._id) {
+              } else if (signatures[i].role == 'DELEGATE' && signatures[i]._id == Meteor.user()._id) {
                 //delegate
                 var quantity = Session.get('contract').wallet.balance;
               }
-              if (signatures[i].status == SIGNATURE_STATUS_REJECTED) {
+              if (signatures[i].status == 'REJECTED') {
                 rejection = true;
               }
             }
           } else {
             var signatures = Session.get('contract').signatures;
             for (i in signatures) {
-              if (signatures[i].status == SIGNATURE_STATUS_REJECTED) {
+              if (signatures[i].status == 'REJECTED') {
                 rejection = true;
               }
             }
@@ -134,7 +134,7 @@ Template.power.helpers({
     if (Session.get('contract').kind == 'DELEGATION') {
       var signatures = Session.get('contract').signatures;
       for (i in signatures) {
-        if (signatures[i].role == ROLE_DELEGATE && signatures[i].status == SIGNATURE_STATUS_PENDING && signatures[i]._id == Meteor.user()._id) {
+        if (signatures[i].role == 'DELEGATE' && signatures[i].status == 'PENDING' && signatures[i]._id == Meteor.user()._id) {
           return true;
         }
       }
@@ -172,7 +172,7 @@ Template.power.events({
           kind: Session.get('contract').kind,
           contractId: Session.get('contract')._id //_getContractId(senderId, receiverId, settings.kind),
         }
-        Modules.both.sendDelegationVotes(Session.get('contract')._id, Session.get('contract').signatures[1]._id, Session.get('contract').wallet.available, settings, SIGNATURE_STATUS_CONFIRMED);
+        Modules.both.sendDelegationVotes(Session.get('contract')._id, Session.get('contract').signatures[1]._id, Session.get('contract').wallet.available, settings, 'CONFIRMED');
       }
     );
   },
@@ -204,7 +204,7 @@ Template.power.events({
           kind: Session.get('contract').kind,
           contractId: Session.get('contract')._id //_getContractId(senderId, receiverId, settings.kind),
         }
-        Modules.both.sendDelegationVotes(Session.get('contract')._id, Session.get('contract').signatures[0]._id, Session.get('contract').wallet.available, settings, SIGNATURE_STATUS_REJECTED);
+        Modules.both.sendDelegationVotes(Session.get('contract')._id, Session.get('contract').signatures[0]._id, Session.get('contract').wallet.available, settings, 'REJECTED');
       }
     );
   }

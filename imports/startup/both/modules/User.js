@@ -133,7 +133,7 @@ let _getAnonObject = (signatureMode) => {
   if (signatureMode) {
     return {
       _id : ANONYMOUS,
-      role : ROLE_AUTHOR,
+      role : 'AUTHOR',
       picture : '/images/anonymous.png',
       firstName : TAPi18n.__('anonymous'),
       lastName : '',
@@ -200,7 +200,7 @@ let _cacheSearch = (param, value) => {
 let _userIsDelegate = (signatures) => {
   for (i in signatures) {
     //if user is delegated to
-    if (signatures[i].role == ROLE_DELEGATE && signatures[i]._id == Meteor.user()._id) {
+    if (signatures[i].role == 'DELEGATE' && signatures[i]._id == Meteor.user()._id) {
       return true;
     }
   }
@@ -237,14 +237,14 @@ let _verifyDelegationRight = (signatures) => {
     for (i in signatures) {
       if (signatures[i]._id == Meteor.user()._id) {
         switch(signatures[i].role) {
-          case ROLE_DELEGATOR:
-            if (signatures[i].status == SIGNATURE_STATUS_PENDING) {
+          case 'DELEGATOR':
+            if (signatures[i].status == 'PENDING') {
               return true;
             } else {
               return false;
             }
-          case ROLE_DELEGATE:
-            if (signatures[i].status == SIGNATURE_STATUS_PENDING) {
+          case 'DELEGATE':
+            if (signatures[i].status == 'PENDING') {
               return false;
             } else {
               return false;
@@ -267,7 +267,7 @@ let _verifyDelegationRight = (signatures) => {
 */
 let _userVotesInContract = (userWallet, contractId) => {
   for (i in userWallet.ledger) {
-    if (userWallet.ledger[i].entityId == contractId && userWallet.ledger[i].entityType == ENTITY_CONTRACT) {
+    if (userWallet.ledger[i].entityId == contractId && userWallet.ledger[i].entityType == 'CONTRACT') {
       return Math.abs(userWallet.ledger[i].quantity);
     }
   }
@@ -287,15 +287,17 @@ let _isUserSigner = (signatures) => {
   return false;
 }
 
-Modules.both.isUserSigner = _isUserSigner;
-Modules.both.userVotesInContract = _userVotesInContract;
-Modules.both.verifyVotingRight = _verifyVotingRight;
-Modules.both.verifyDelegationRight = _verifyDelegationRight;
-Modules.both.userIsDelegate = _userIsDelegate;
-Modules.both.getProfileFromUsername = _getProfileFromUsername;
-Modules.both.getAnonymous = _getAnonObject;
-Modules.both.validateUser = _validateUser;
+// ir agergando las llamadas de a una a medida que se sucedens
+
+// Modules.both.isUserSigner = _isUserSigner;
+// Modules.both.userVotesInContract = _userVotesInContract;
+// Modules.both.verifyVotingRight = _verifyVotingRight;
+// Modules.both.verifyDelegationRight = _verifyDelegationRight;
+// Modules.both.userIsDelegate = _userIsDelegate;
+// Modules.both.getProfileFromUsername = _getProfileFromUsername;
+// Modules.both.getAnonymous = _getAnonObject;
+// Modules.both.validateUser = _validateUser;
 export const validatePassword = _validatePassword;
 export const validatePasswordMatch = _validatePasswordMatch;
-Modules.both.validateUsername = _validateUsername;
+// Modules.both.validateUsername = _validateUsername;
 export const createUser = _createUser;

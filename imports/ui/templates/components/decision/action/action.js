@@ -71,7 +71,7 @@ Template.action.events({
                     Modules.both.publishContract(Session.get('contract')._id);
                   }
                 );
-              } else if (Session.get('contract').stage == STAGE_LIVE) {
+              } else if (Session.get('contract').stage == 'LIVE') {
                 Modules.client.displayModal(
                   true,
                   {
@@ -122,7 +122,7 @@ function disableContractExecution() {
   } else if (!Session.get('rightToVote')) {
     return true;
   } else {
-    if (Session.get('contract').kind == 'VOTE' && Session.get('contract').stage == STAGE_LIVE) {
+    if (Session.get('contract').kind == 'VOTE' && Session.get('contract').stage == 'LIVE') {
       if (!Modules.client.ballotReady()) {
         return true;
       }

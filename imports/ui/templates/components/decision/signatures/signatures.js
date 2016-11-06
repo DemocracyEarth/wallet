@@ -53,7 +53,7 @@ Template.signatures.events({
       },
       function() {
         Session.set('userSigned', true);
-        Modules.both.signContract(Session.get('contract')._id, Meteor.user(), ROLE_AUTHOR);
+        Modules.both.signContract(Session.get('contract')._id, Meteor.user(), 'AUTHOR');
       }
     );
   }

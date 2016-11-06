@@ -100,7 +100,7 @@ Template.fork.events({
       case STAGE_FINISH:
         Session.set('disabledCheckboxes', true);
         break;
-      case STAGE_LIVE:
+      case 'LIVE':
         if (Session.get('rightToVote')) {
           this.tick = Modules.client.setVote(Session.get('contract')._id, this);
           break;

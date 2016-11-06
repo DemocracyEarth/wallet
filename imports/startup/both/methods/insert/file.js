@@ -1,4 +1,4 @@
-import { checkUrlValidity } from '../../modules/validation.js'
+import { checkUrlValidity } from '../../modules/validations';
 
 Meteor.methods({
   storeUrlInDatabase: function( url ) {

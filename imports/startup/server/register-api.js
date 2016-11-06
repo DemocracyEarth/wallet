@@ -4,10 +4,10 @@ import '../../api/collectives/server/publications.js';
 import '../../api/contracts/methods.js';
 import '../../api/contracts/server/publications.js';
 
-import '../../api/files/methods.js';
+// import '../../api/files/methods.js';
 import '../../api/files/server/publications.js';
 
-import '../../api/tags/methods.js';
+// import '../../api/tags/methods.js';
 import '../../api/tags/server/publications.js';
 
 import '../../api/transactions/methods.js';

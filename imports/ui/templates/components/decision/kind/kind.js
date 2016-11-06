@@ -10,7 +10,7 @@ Template.kind.helpers({
               Session.set('stage', 'draft');
               return  TAPi18n.__('kind-draft-vote');
               break;
-            case STAGE_LIVE:
+            case 'LIVE':
               Session.set('stage', 'live');
               return  TAPi18n.__('kind-live-vote');
               break;

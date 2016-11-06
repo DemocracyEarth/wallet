@@ -57,9 +57,9 @@ Template.avatar.helpers({
   },
   roleStyle: function () {
     switch (Modules.both.signatureStatus(Session.get('contract').signatures, this.profile, true)) {
-      case SIGNATURE_STATUS_CONFIRMED:
+      case 'CONFIRMED':
         return 'signature-confirmed';
-      case SIGNATURE_STATUS_REJECTED:
+      case 'REJECTED':
         return 'signature-rejected';
     }
   },
@@ -75,7 +75,7 @@ Template.avatar.helpers({
     if (Session.get('contract') != undefined) {
       if (Session.get('contract').kind == 'DELEGATION') {
         if (this.includeRole) {
-          if (Modules.both.signatureStatus(Session.get('contract').signatures, this.profile, true) == SIGNATURE_STATUS_PENDING) {
+          if (Modules.both.signatureStatus(Session.get('contract').signatures, this.profile, true) == 'PENDING') {
             return 'pending';
           } else {
             return '';

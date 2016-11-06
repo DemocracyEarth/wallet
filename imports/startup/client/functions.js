@@ -227,7 +227,7 @@ let _loadContract = (view, id) => {
     contractId = contract._id;
 
     //close poll if finish
-    if (contract.stage == STAGE_LIVE) {
+    if (contract.stage == 'LIVE') {
       Meteor.call("getServerTime", function (error, result) {
           Session.set("time", result);
           if (Session.get('contract').closingDate < new Date(Session.get('time'))) {
@@ -243,7 +243,7 @@ let _loadContract = (view, id) => {
     } else if (contract.kind == 'VOTE' && contract.stage == STAGE_DRAFT ) {
       Session.set('rightToVote', true);
       Session.set('alreadyVoted', false);
-    } else if (contract.kind == 'VOTE' && contract.stage == STAGE_LIVE) {
+    } else if (contract.kind == 'VOTE' && contract.stage == 'LIVE') {
       Session.set('rightToVote', Modules.both.verifyVotingRight(contract.wallet.ledger))
     } else if (contract.kind == 'VOTE' && contract.stage == STAGE_FINISH) {
       Session.set('rightToVote', false);
@@ -258,7 +258,7 @@ let _loadContract = (view, id) => {
         Session.set('editorMode', true);
         Session.set('voterMode', false);
         break;
-      case STAGE_LIVE:
+      case 'LIVE':
       default:
         Session.set('editorMode', false);
         Session.set('voterMode', true);
@@ -287,7 +287,7 @@ let _setContractWallet = (contract) => {
       userContract = false;
     }
     if (userContract == true) {
-      if (role == ROLE_DELEGATE) {
+      if (role == 'DELEGATE') {
         Session.set('newVote', contract.wallet);
       } else {
         Session.set('newVote', new Wallet(Meteor.user().profile.wallet));
@@ -442,7 +442,7 @@ const _getQueryFeed = (query) => {
           }
       }
       return FEED_DRAFTS;
-    case STAGE_LIVE:
+    case 'LIVE':
       switch(query.kind.toUpperCase()) {
         case 'VOTE':
           if (query.peer) {

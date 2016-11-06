@@ -3,7 +3,7 @@ Template.stage.helpers({
     switch(this.text) {
       case STAGE_DRAFT:
         return TAPi18n.__('kind-draft-vote');
-      case STAGE_LIVE:
+      case 'LIVE':
         var ticker = Modules.client.countdown(this.closingDate);
         if (ticker != false) {
           return ticker;
@@ -27,7 +27,7 @@ Template.stage.helpers({
     switch (this.text) {
       case STAGE_DRAFT:
         return 'stage-draft';
-      case STAGE_LIVE:
+      case 'LIVE':
         return 'stage-live';
       case STAGE_FINISH:
         switch(this.executionStatus) {

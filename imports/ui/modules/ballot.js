@@ -153,7 +153,7 @@ let _updateExecutionStatus = (contract, results) => {
   if (topvotes == 0) {
     winner = BALLOT_OPTION_MODE_NONE;
   }
-  if (contract.stage == STAGE_LIVE) {
+  if (contract.stage == 'LIVE') {
     var contractId = contract._id;
     switch (winner) {
       case BALLOT_OPTION_MODE_AUTHORIZE:

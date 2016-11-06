@@ -129,7 +129,7 @@ let _getDecisionsMenu = (feed) => {
       feed: FEED_VOTE_LIVE,
       value: _getSectionValue(FEED_VOTE_LIVE),
       separator: false,
-      url: '/feed?stage=' + STAGE_LIVE.toLowerCase() + '&kind=' + 'VOTE'.toLowerCase() + '&executionstatus=' + EXECUTION_STATUS_OPEN.toLowerCase(),
+      url: '/feed?stage=' + 'LIVE'.toLowerCase() + '&kind=' + 'VOTE'.toLowerCase() + '&executionstatus=' + EXECUTION_STATUS_OPEN.toLowerCase(),
       selected: _verifySelection(FEED_VOTE_LIVE, feed)
     },
     {
@@ -140,7 +140,7 @@ let _getDecisionsMenu = (feed) => {
       feed: FEED_VOTE_LIVE_PEER,
       value: _getSectionValue(FEED_VOTE_LIVE_PEER),
       separator: false,
-      url: '/feed?stage=' + STAGE_LIVE.toLowerCase() + '&kind=' + 'VOTE'.toLowerCase() + '&peer=' + username,
+      url: '/feed?stage=' + 'LIVE'.toLowerCase() + '&kind=' + 'VOTE'.toLowerCase() + '&peer=' + username,
       selected: _verifySelection(FEED_VOTE_LIVE_PEER, feed)
     },
     {

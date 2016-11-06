@@ -44,7 +44,7 @@ Template.feedItem.helpers({
     if (stage == STAGE_DRAFT) { return true } else { return false };
   },
   voterMode: function (stage) {
-    if (stage == STAGE_LIVE) { return true } else { return false };
+    if (stage == 'LIVE') { return true } else { return false };
   },
   embeddedMode: function () {
     return Session.get('embeddedMode');
