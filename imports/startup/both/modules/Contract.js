@@ -1,11 +1,15 @@
-import {default as Modules} from "./modules";
+import { Meteor } from 'meteor/meteor';
+import { Router } from 'meteor/iron:router';
+import { Contracts } from '../../../api/contracts/Contracts';
+import { shortUUID } from './crypto';
 
-/***
+/**
 * generate a new empty draft
 * @param {string} keyword - name of the contract to be specifically used for this delegation
 * @param {string} title - title of the contract without slug
-* @return {object} contract - if it's empty then call router with new contract, otherwise returns contract object from db
-****/
+* @return {object} contract - if it's empty then call router with new contract,
+* otherwise returns contract object from db
+*/
 let _newDraft = (keyword, title) => {
   //Empty Contract
   if (keyword == undefined) {
@@ -45,7 +49,7 @@ let _newDelegation = (delegatorId, delegateId, settings) => {
       finalTitle = settings.title;
     } else {
       //adds random if coincidence among people with similar names happened
-      finalTitle = settings.title + Modules.both.shortUUID();
+      finalTitle = settings.title + shortUUID();
     }
     var newDelegation =
     {
@@ -57,14 +61,14 @@ let _newDelegation = (delegatorId, delegateId, settings) => {
         {
           _id: delegatorId,
           username: settings.signatures[0].username,
-          role: ROLE_DELEGATOR,
-          status: SIGNATURE_STATUS_PENDING
+          role: 'DELEGATOR',
+          status: 'PENDING'
         },
         {
           _id: delegateId,
           username: settings.signatures[1].username,
-          role: ROLE_DELEGATE,
-          status: SIGNATURE_STATUS_PENDING
+          role: 'DELEGATE',
+          status: 'PENDING'
         }
       ]
     };
@@ -74,12 +78,11 @@ let _newDelegation = (delegatorId, delegateId, settings) => {
         Router.go(Contracts.findOne({ _id: result }).url);
       }
     });
-
   } else {
-    //goes to existing one
+    // goes to existing one
     Router.go(existingDelegation.url);
   }
-}
+};
 
 /***
 * sends the votes from a delegator to be put on hold on a contract until delegate approves deal.
@@ -88,10 +91,10 @@ let _newDelegation = (delegatorId, delegateId, settings) => {
 * @param {number} quantity - amount of votes being used
 * @param {object} conditions - specified conditions for this delegation
 ***/
-let _sendDelegation = (sourceId, targetId, quantity, conditions, newStatus) => {
+const _sendDelegation = (sourceId, targetId, quantity, conditions, newStatus) => {
   Meteor.call('executeTransaction', sourceId, targetId, quantity, conditions, newStatus, function (err, result) {
     if (err) {
-      throw new Meteor.Error(err, '[_sendDelegation]: transaction failed.') ;
+      throw new Meteor.Error(err, '[_sendDelegation]: transaction failed.');
     } else {
       //update contract status\
       _updateContractSignatures(result);
@@ -129,12 +132,12 @@ let _updateContractSignatures = (status) => {
   for (signer in signatures) {
     if (signatures[signer]._id == Meteor.user()._id) {
       switch(signatures[signer].status) {
-        case SIGNATURE_STATUS_PENDING:
+        case 'PENDING':
           if (status != undefined) {
             signatures[signer].status = status;
             break;
           }
-          signatures[signer].status = SIGNATURE_STATUS_CONFIRMED;
+          signatures[signer].status = 'CONFIRMED';
           break;
       }
       break;
@@ -185,21 +188,21 @@ let _signatureStatus = (signatures, signerId, getStatus) => {
   for (var i = 0; i < signatures.length; i++) {
     if (signatures[i]._id == signerId) {
       switch (signatures[i].role) {
-        case ROLE_DELEGATOR:
+        case 'DELEGATOR':
           label = TAPi18n.__('delegator');
           break;
-        case ROLE_DELEGATE:
+        case 'DELEGATE':
           label = TAPi18n.__('delegate');
           break;
-        case ROLE_AUTHOR:
+        case 'AUTHOR':
           label = TAPi18n.__('author');
       }
       switch (signatures[i].status) {
-        case SIGNATURE_STATUS_PENDING:
+        case 'PENDING':
           label += " " + TAPi18n.__('signature-pending');
           pending = true;
           break;
-        case SIGNATURE_STATUS_REJECTED:
+        case 'REJECTED':
           label += " " + TAPi18n.__('signature-rejected');
           pending = true;
           break;
@@ -260,7 +263,7 @@ let _remove = (contractId) => {
 let _publish = (contractId) => {
 
   //Contracts.remove({_id: contractId});
-  Contracts.update({ _id: contractId }, { $set: { stage: STAGE_LIVE } })
+  Contracts.update({ _id: contractId }, { $set: { stage: 'LIVE' } })
 
   Router.go('/');
 
@@ -284,7 +287,7 @@ let _sign = (contractId, userObject, role) => {
         role: role,
         hash: '', //TODO pending crypto TBD
         username: userObject.username,
-        status: SIGNATURE_STATUS_CONFIRMED
+        status: 'CONFIRMED'
       }
   }});
 
@@ -330,17 +333,17 @@ let _rightToVote = (contract) => {
     return false;
   }
   return true;
-}
+};
 
-Modules.both.rightToVote = _rightToVote;
-Modules.both.signatureStatus = _signatureStatus;
-Modules.both.setContractStage = contractStage;
-Modules.both.signContract = _sign;
-Modules.both.removeSignature = _removeSignature;
-Modules.both.publishContract = _publish;
-Modules.both.removeContract = _remove;
-Modules.both.startMembership = _newMembership;
-Modules.both.startDelegation = _newDelegation;
-Modules.both.sendDelegationVotes = _sendDelegation;
-Modules.both.createContract = _newDraft;
-Modules.both.vote = _vote;
+export const rightToVote = _rightToVote;
+export const signatureStatus = _signatureStatus;
+export const setContractStage = contractStage;
+export const signContract = _sign;
+export const removeSignature = _removeSignature;
+export const publishContract = _publish;
+export const removeContract = _remove;
+export const startMembership = _newMembership;
+export const startDelegation = _newDelegation;
+export const sendDelegationVotes = _sendDelegation;
+export const createContract = _newDraft;
+export const vote = _vote;
