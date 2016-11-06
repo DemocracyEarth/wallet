@@ -1,3 +1,0 @@
-Schema = {};
-
-export default Schema; 

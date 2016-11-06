@@ -1,14 +1,16 @@
+import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
+import { Session } from 'meteor/session';
 import { validateEmail } from './validations.js';
+import Modules from '../../../ui/modules/_modules';
 
 /**
 * @summary Create a new user
 * @param {object} data - input from new user to be used for creation of user in db
 */
-let _createUser = (data) => {
-
+const _createUser = (data) => {
   if (_validateUser(data)) {
-
-    var objUser = {
+    const objUser = {
       username: data.username,
       emails: [{
         address: data.email,
@@ -132,7 +134,7 @@ let _validateUsername = (username) => {
 let _getAnonObject = (signatureMode) => {
   if (signatureMode) {
     return {
-      _id : ANONYMOUS,
+      _id : '0000000',
       role : 'AUTHOR',
       picture : '/images/anonymous.png',
       firstName : TAPi18n.__('anonymous'),
@@ -145,7 +147,7 @@ let _getAnonObject = (signatureMode) => {
     };
   } else {
     return {
-      _id : ANONYMOUS,
+      _id : '0000000',
       username: 'anonymous',
       profile: {
         picture : '/images/anonymous.png',
@@ -285,19 +287,17 @@ let _isUserSigner = (signatures) => {
     }
   }
   return false;
-}
+};
 
-// ir agergando las llamadas de a una a medida que se sucedens
-
-// Modules.both.isUserSigner = _isUserSigner;
-// Modules.both.userVotesInContract = _userVotesInContract;
-// Modules.both.verifyVotingRight = _verifyVotingRight;
-// Modules.both.verifyDelegationRight = _verifyDelegationRight;
-// Modules.both.userIsDelegate = _userIsDelegate;
-// Modules.both.getProfileFromUsername = _getProfileFromUsername;
-// Modules.both.getAnonymous = _getAnonObject;
-// Modules.both.validateUser = _validateUser;
+export const isUserSigner = _isUserSigner;
+export const userVotesInContract = _userVotesInContract;
+export const verifyVotingRight = _verifyVotingRight;
+export const verifyDelegationRight = _verifyDelegationRight;
+export const userIsDelegate = _userIsDelegate;
+export const getProfileFromUsername = _getProfileFromUsername;
+export const getAnonymous = _getAnonObject;
+export const validateUser = _validateUser;
 export const validatePassword = _validatePassword;
 export const validatePasswordMatch = _validatePasswordMatch;
-// Modules.both.validateUsername = _validateUsername;
+export const validateUsername = _validateUsername;
 export const createUser = _createUser;
