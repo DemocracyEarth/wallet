@@ -1,5 +1,5 @@
 
-let validateEmail = (email) => {
+let _validateEmail = (email) => {
   var val = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   //TODO verify if email already exists in db
@@ -37,4 +37,4 @@ let validate = ( url ) => {
 };
 
 export const checkUrlValidity = validate;
-export const validateEmail = validateEmail;
+export const validateEmail = _validateEmail;
