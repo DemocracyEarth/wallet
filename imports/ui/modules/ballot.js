@@ -1,4 +1,5 @@
-import {default as Modules} from "./_modules";
+import Modules from './_modules';
+import { createContract } from '../../startup/both/modules/Contract';
 
 /*****
 * @param {string} contractId - contract where this ballot belongs to
@@ -198,7 +199,7 @@ let _countVotes = (scoreboard, ballot, quantity) => {
 *******/
 let _forkContract = () => {
   if (Session.get('proposalURLStatus') == URL_STATUS_AVAILABLE) {
-    var contract = Modules.both.createContract(convertToSlug(Session.get('newProposal')), Session.get('newProposal'))[0];
+    var contract = createContract(convertToSlug(Session.get('newProposal')), Session.get('newProposal'))[0];
     if (contract) {
       if (_addChoiceToBallot(Session.get('contract')._id, contract._id)) {
         var contract = Contracts.findOne( { _id: Session.get('contract')._id }, {reactive: false});
