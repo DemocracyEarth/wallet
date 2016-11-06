@@ -17,8 +17,8 @@ const _createTransaction = (senderId, receiverId, quantity, settings) => {
   // default settings
   let defaultSettings = {};
   defaultSettings = {
-    currency: CURRENCY_VOTES,
-    kind: KIND_VOTE,
+    currency: 'VOTES',
+    kind: 'VOTE',
     contractId: false // _getContractId(senderId, receiverId, settings.kind),
   };
 
@@ -48,7 +48,7 @@ const _createTransaction = (senderId, receiverId, quantity, settings) => {
     kind: settings.kind,
     contractId: settings.contractId,
     timestamp: new Date(),
-    status: TRANSACTION_STATUS_PENDING,
+    status: 'PENDING',
     condition: settings.condition
   };
 
@@ -133,7 +133,7 @@ let _processTransaction = (txId) => {
   _updateWallet(transaction.output.entityId, transaction.output.entityType, receiverProfile);
 
   //set this transaction as processed
-  return Transactions.update({ _id: txId }, { $set: { status : TRANSACTION_STATUS_CONFIRMED }});
+  return Transactions.update({ _id: txId }, { $set: { status : 'CONFIRMED' }});
 
 }
 
@@ -153,13 +153,13 @@ let _updateBalance = (wallet) => {
 ***/
 let _getProfile = (transactionSignal) => {
   switch (transactionSignal.entityType) {
-    case ENTITY_INDIVIDUAL:
+    case 'INDIVIDUAL':
       return Meteor.users.findOne( { _id: transactionSignal.entityId }).profile;
       break;
-    case ENTITY_COLLECTIVE:
+    case 'COLLECTIVE':
       return Collectives.findOne( { _id: transactionSignal.entityId }).profile;
       break;
-    case ENTITY_CONTRACT:
+    case 'CONTRACT':
       return Contracts.findOne({ _id: transactionSignal.entityId });
       break;
   }
@@ -174,13 +174,13 @@ let _getProfile = (transactionSignal) => {
 let _updateWallet = (entityId, entityType, profile) => {
   console.log('[_updateWallet] updating wallet of entityId :' + entityId);
   switch (entityType) {
-    case ENTITY_INDIVIDUAL:
+    case 'INDIVIDUAL':
       Meteor.users.update( { _id: entityId }, { $set : { profile : profile } });
       break;
-    case ENTITY_COLLECTIVE:
+    case 'COLLECTIVE':
       Collectives.update( { _id: entityId }, { $set : { profile : profile } });
       break;
-    case ENTITY_CONTRACT:
+    case 'CONTRACT':
       Contracts.update({ _id: entityId }, { $set: { wallet: profile.wallet }});
       break;
   }
@@ -204,13 +204,13 @@ let _getContractId = (senderId, receiverId, kind) => {
 ***/
 let _getEntityType = (entityId) => {
   if (Meteor.users.findOne({ _id: entityId })) {
-    return ENTITY_INDIVIDUAL;
+    return 'INDIVIDUAL';
   } else if (Collectives.findOne({ _id: entityId })) {
-    return ENTITY_COLLECTIVE;
+    return 'COLLECTIVE';
   } else if (Contracts.findOne({ _id: entityId})) {
-    return ENTITY_CONTRACT;
+    return 'CONTRACT';
   } else {
-    return ENTITY_UNKNOWN;
+    return 'UNKNOWN';
   };
 }
 
@@ -223,13 +223,13 @@ let _getWalletAddress = (entityId) => {
   var entityType = _getEntityType(entityId);
 
   switch (entityType) {
-    case ENTITY_INDIVIDUAL:
+    case 'INDIVIDUAL':
       var user = Meteor.users.findOne({ _id: entityId });
       break;
-    case ENTITY_COLLECTIVE:
+    case 'COLLECTIVE':
       var user = Collectives.findOne({ _id: entityId });
       break;
-    case ENTITY_CONTRACT:
+    case 'CONTRACT':
       var user = Contracts.findOne({ _id: entityId});
       break;
     default:
@@ -253,15 +253,15 @@ let _getWalletAddress = (entityId) => {
     console.log('[_getWalletAddress] generating a new address for this collective...');
     wallet = _generateWalletAddress(wallet);
     switch (entityType) {
-      case ENTITY_INDIVIDUAL:
+      case 'INDIVIDUAL':
         user.profile.wallet = wallet;
         Meteor.users.update({ _id: entityId }, { $set: { profile: user.profile } });
         break;
-      case ENTITY_COLLECTIVE:
+      case 'COLLECTIVE':
         user.profile.wallet = wallet;
         Collectives.update({ _id: entityId }, { $set: { profile: user.profile } });
         break;
-      case ENTITY_CONTRACT:
+      case 'CONTRACT':
         Contracts.update({ _id: entityId }, { $set: { wallet: wallet } });
         break;
       default:

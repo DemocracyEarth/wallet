@@ -16,11 +16,11 @@ const Ticket = new SimpleSchema({
   },
   entityType: {
     type: String,
-    allowedValues: [ENTITY_INDIVIDUAL, ENTITY_COLLECTIVE, ENTITY_CONTRACT, ENTITY_UNKNOWN],
+    allowedValues: ['INDIVIDUAL', 'COLLECTIVE', 'CONTRACT', 'UNKNOWN'],
     autoValue: function () {
       if (this.isInsert) {
         if (this.field('entityType') == undefined) {
-          return ENTITY_UNKNOWN;
+          return 'UNKNOWN';
         }
       }
     }
@@ -37,11 +37,11 @@ const Ticket = new SimpleSchema({
   },
   currency: {
     type: String,
-    allowedValues: [CURRENCY_BITCOIN, CURRENCY_SATOSHI, CURRENCY_VOTES],
+    allowedValues: ['BITCOIN', 'SATOSHI', 'VOTES'],
     autoValue: function () {
       if (this.isInsert) {
         if (this.field('currency') == undefined) {
-          return CURRENCY_VOTES;
+          return 'VOTES';
         }
       }
     }
@@ -56,12 +56,12 @@ Transactions.schema = new SimpleSchema({
   },
   kind: {
     type: String,
-    allowedValues: [KIND_VOTE, KIND_DELEGATION, KIND_MEMBERSHIP, KIND_UNKNOWN],
+    allowedValues: ['VOTE', 'DELEGATION', 'MEMBERSHIP', 'UNKNOWN'],
     optional: true,
     autoValue: function () {
       if (this.isInsert) {
         if (this.field('kind').value == undefined) {
-          return KIND_UNKNOWN;
+          return 'UNKNOWN';
         }
       }
     }
@@ -129,11 +129,11 @@ Transactions.schema = new SimpleSchema({
   },
   status: {
     type: String,
-    allowedValues: [TRANSACTION_STATUS_PENDING, TRANSACTION_STATUS_REJECTED, TRANSACTION_STATUS_CONFIRMED],
+    allowedValues: ['PENDING', 'REJECTED', 'CONFIRMED'],
     autoValue: function () {
       if (this.isInsert) {
         if (this.field('status').value == undefined) {
-          return TRANSACTION_STATUS_PENDING;
+          return 'PENDING';
         }
       }
     }

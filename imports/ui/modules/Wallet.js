@@ -12,7 +12,7 @@ Wallet = function (wallet) {
      this.available = new Number(0);
      this.balance = new Number(0);
      this.placed = new Number(0)
-     this.currency = CURRENCY_VOTES;
+     this.currency = 'VOTES';
    } else {
      Object.assign(this, wallet)
    }

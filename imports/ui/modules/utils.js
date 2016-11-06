@@ -42,7 +42,7 @@ let _delegationTextCheck = (text, isContract) => {
   var profile = new Object();
   if (isContract) {
     switch (Session.get('contract').kind) {
-      case KIND_DELEGATION:
+      case 'DELEGATION':
         var signatures = Session.get('contract').signatures;
         if (signatures.length > 0) {
           for (i in signatures) {

@@ -47,7 +47,7 @@ let _getDelegatesMenu = (feed) => {
   //search wallet
   for (entity in wallet) {
     switch(wallet[entity].entityType) {
-      case ENTITY_CONTRACT:
+      case 'CONTRACT':
         var source = Contracts.findOne({ _id: wallet[entity].entityId });
         if (source != undefined) {
           users = _searchContract(source, users);
@@ -75,7 +75,7 @@ let _getDelegatesMenu = (feed) => {
 
 let _searchContract = (source, list) => {
   switch(source.kind) {
-    case KIND_DELEGATION:
+    case 'DELEGATION':
       for (stamp in source.signatures) {
         var delegate = source.signatures[stamp]._id;
         if (!_alreadyListed(delegate, list)) {
@@ -129,7 +129,7 @@ let _getDecisionsMenu = (feed) => {
       feed: FEED_VOTE_LIVE,
       value: _getSectionValue(FEED_VOTE_LIVE),
       separator: false,
-      url: '/feed?stage=' + STAGE_LIVE.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase() + '&executionstatus=' + EXECUTION_STATUS_OPEN.toLowerCase(),
+      url: '/feed?stage=' + STAGE_LIVE.toLowerCase() + '&kind=' + 'VOTE'.toLowerCase() + '&executionstatus=' + EXECUTION_STATUS_OPEN.toLowerCase(),
       selected: _verifySelection(FEED_VOTE_LIVE, feed)
     },
     {
@@ -140,7 +140,7 @@ let _getDecisionsMenu = (feed) => {
       feed: FEED_VOTE_LIVE_PEER,
       value: _getSectionValue(FEED_VOTE_LIVE_PEER),
       separator: false,
-      url: '/feed?stage=' + STAGE_LIVE.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase() + '&peer=' + username,
+      url: '/feed?stage=' + STAGE_LIVE.toLowerCase() + '&kind=' + 'VOTE'.toLowerCase() + '&peer=' + username,
       selected: _verifySelection(FEED_VOTE_LIVE_PEER, feed)
     },
     {
@@ -151,7 +151,7 @@ let _getDecisionsMenu = (feed) => {
       feed: FEED_VOTE_FINISH_APPROVED,
       value: _getSectionValue(FEED_VOTE_FINISH_APPROVED),
       separator: false,
-      url: '/feed?stage=' + STAGE_FINISH.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase() + '&executionstatus=' + EXECUTION_STATUS_APPROVED.toLowerCase(),
+      url: '/feed?stage=' + STAGE_FINISH.toLowerCase() + '&kind=' + 'VOTE'.toLowerCase() + '&executionstatus=' + EXECUTION_STATUS_APPROVED.toLowerCase(),
       selected: _verifySelection(FEED_VOTE_FINISH_APPROVED, feed)
     },
     {
@@ -162,7 +162,7 @@ let _getDecisionsMenu = (feed) => {
       feed: FEED_VOTE_DRAFT,
       value: _getSectionValue(FEED_VOTE_DRAFT),
       separator: false,
-      url: '/feed?stage=' + STAGE_DRAFT.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase(),
+      url: '/feed?stage=' + STAGE_DRAFT.toLowerCase() + '&kind=' + 'VOTE'.toLowerCase(),
       selected: _verifySelection(FEED_VOTE_DRAFT, feed)
     },
     {
@@ -173,7 +173,7 @@ let _getDecisionsMenu = (feed) => {
       feed: FEED_VOTE_FINISH_REJECTED,
       value: _getSectionValue(FEED_VOTE_FINISH_REJECTED),
       separator: false,
-      url: '/feed?stage=' + STAGE_FINISH.toLowerCase() + '&kind=' + KIND_VOTE.toLowerCase() + '&executionstatus=' + EXECUTION_STATUS_REJECTED.toLowerCase(),
+      url: '/feed?stage=' + STAGE_FINISH.toLowerCase() + '&kind=' + 'VOTE'.toLowerCase() + '&executionstatus=' + EXECUTION_STATUS_REJECTED.toLowerCase(),
       selected: _verifySelection(FEED_VOTE_FINISH_REJECTED, feed)
     } 
   );

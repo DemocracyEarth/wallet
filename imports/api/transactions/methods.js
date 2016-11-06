@@ -10,7 +10,7 @@ Meteor.methods({
     console.log('[genesisTransaction] veryfing genesis...')
     if (user.profile.wallet != undefined) {
       if (user.profile.wallet.ledger.length > 0) {
-        if (user.profile.wallet.ledger[0].entityType == ENTITY_COLLECTIVE) {
+        if (user.profile.wallet.ledger[0].entityType === 'COLLECTIVE') {
           console.log('[genesisTransaction] this user already had a genesis');
           return;
         } else {

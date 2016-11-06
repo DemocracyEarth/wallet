@@ -6,7 +6,7 @@ Template.contract.helpers({
   },
   isDelegation: function () {
     if (Session.get('contract')) {
-      return (Session.get('contract').kind == KIND_DELEGATION);
+      return (Session.get('contract').kind == 'DELEGATION');
     }
   },
   pollClosed: function () {

@@ -73,7 +73,7 @@ Template.avatar.helpers({
   },
   pending: function () {
     if (Session.get('contract') != undefined) {
-      if (Session.get('contract').kind == KIND_DELEGATION) {
+      if (Session.get('contract').kind == 'DELEGATION') {
         if (this.includeRole) {
           if (Modules.both.signatureStatus(Session.get('contract').signatures, this.profile, true) == SIGNATURE_STATUS_PENDING) {
             return 'pending';

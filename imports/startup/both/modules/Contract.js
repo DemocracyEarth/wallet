@@ -51,7 +51,7 @@ let _newDelegation = (delegatorId, delegateId, settings) => {
     {
       keyword: finalTitle,
       title: TAPi18n.__('delegation-voting-rights'),
-      kind: KIND_DELEGATION,
+      kind: 'DELEGATION',
       description: TAPi18n.__('default-delegation-contract'),
       signatures: [
         {
@@ -321,7 +321,7 @@ let contractStage = (contractId, stage) => {
 };
 
 let _rightToVote = (contract) => {
-  if (contract.kind == KIND_DELEGATION) {
+  if (contract.kind == 'DELEGATION') {
     for (i in contract.signatures) {
       if (contract.signatures[i]._id == Meteor.user()._id) {
         return true;

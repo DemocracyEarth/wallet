@@ -13,7 +13,7 @@ Template.feedItem.helpers({
   description: function () {
     var text = new String();
     var profile = new Array();
-    if (this.kind == KIND_DELEGATION) {
+    if (this.kind == 'DELEGATION') {
       for (user in this.signatures) {
         profile.push(Modules.both.getProfileFromUsername(this.signatures[user].username))
       }
@@ -70,7 +70,7 @@ Template.feedItem.helpers({
     return false;
   },
   delegationMode: function (kind) {
-    if (kind == KIND_DELEGATION) {
+    if (kind == 'DELEGATION') {
       return true;
     }
     return false;

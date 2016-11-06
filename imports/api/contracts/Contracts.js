@@ -39,7 +39,7 @@ Contracts.schema = new SimpleSchema({
     autoValue: function () {
       var slug = convertToSlug(this.field("title").value);
       if (this.isInsert) {
-        if (this.field('kind').value == KIND_DELEGATION) {
+        if (this.field('kind').value === 'DELEGATION') {
           return this.field('keyword').value;
         } else {
           if (this.field('keyword').value == undefined) {
@@ -62,11 +62,11 @@ Contracts.schema = new SimpleSchema({
   kind: {
     //Kind of contract
     type: String,
-    allowedValues: [KIND_DRAFT, KIND_VOTE, KIND_DELEGATION, KIND_MEMBERSHIP],
+    allowedValues: ['DRAFT', 'VOTE', 'DELEGATION', 'MEMBERSHIP'],
     autoValue: function () {
       if (this.isInsert) {
-        if (this.field('kind').value == undefined) {
-          return "VOTE";
+        if (this.field('kind').value === undefined) {
+          return 'VOTE';
         }
       };
     }
@@ -74,10 +74,10 @@ Contracts.schema = new SimpleSchema({
   context: {
     //Context this contract lives on the system
     type: String,
-    allowedValues: [CONTEXT_GLOBAL, CONTEXT_LOCAL],
+    allowedValues: ['GLOBAL', 'LOCAL'],
     autoValue: function () {
       if (this.isInsert) {
-        return "GLOBAL";
+        return 'GLOBAL';
       };
     }
   },
@@ -87,7 +87,7 @@ Contracts.schema = new SimpleSchema({
     autoValue: function () {
       var slug = convertToSlug(this.field("title").value);
       if (this.isInsert) {
-        if (this.field('kind').value == KIND_DELEGATION) {
+        if (this.field('kind').value == 'DELEGATION') {
           if (this.field('keyword').value != undefined) {
             return '/delegation/' + this.field('keyword').value;
           } else {
@@ -114,9 +114,9 @@ Contracts.schema = new SimpleSchema({
     type: String,
     autoValue: function () {
       if (this.isInsert) {
-        if (this.field('kind').value == KIND_DELEGATION) {
-          if (this.field('description').value == undefined) {
-            return TAPi18n.__('default-delegation-contract');
+        if (this.field('kind').value === 'DELEGATION') {
+          if (this.field('description').value === undefined) {
+            return 'default-delegation-contract';
           }
         } else {
           return '';
@@ -190,10 +190,10 @@ Contracts.schema = new SimpleSchema({
   executionStatus: {
     //Execution status: DRAFT, APPROVED, ALTERNATIVE, REJECTED
     type: String,
-    allowedValues: [EXECUTION_STATUS_OPEN, EXECUTION_STATUS_APPROVED, EXECUTION_STATUS_ALTERNATIVE, EXECUTION_STATUS_REJECTED, EXECUTION_STATUS_VOID],
+    allowedValues: ['OPEN', 'APPROVED', 'ALTERNATIVE', 'REJECTED', 'VOID'],
     autoValue: function () {
       if (this.isInsert) {
-        return EXECUTION_STATUS_OPEN;
+        return 'OPEN';
       }
     }
   },
@@ -218,7 +218,7 @@ Contracts.schema = new SimpleSchema({
     type: String,
     autoValue: function () {
       if (this.isInsert) {
-        if (this.field('kind').value == KIND_VOTE) {
+        if (this.field('kind').value === 'VOTE') {
           return this.userId;
         }
       };
@@ -230,12 +230,12 @@ Contracts.schema = new SimpleSchema({
   },
   "signatures.$.role": {
     type: String,
-    allowedValues: [ROLE_AUTHOR, ROLE_DELEGATOR, ROLE_DELEGATE, ROLE_ENDORSER],
+    allowedValues: ['AUTHOR', 'DELEGATOR', 'DELEGATE', 'ENDORSER'],
     optional: true
   },
   "signatures.$.status": {
     type: String,
-    allowedValues: [SIGNATURE_STATUS_PENDING, SIGNATURE_STATUS_REJECTED, SIGNATURE_STATUS_CONFIRMED],
+    allowedValues: ['PENDING', 'REJECTED', 'CONFIRMED'],
     optional: true
   },
   "signatures.$.hash": {
@@ -319,10 +319,10 @@ Contracts.schema = new SimpleSchema({
   stage: {
     //Current stage of this contract: DRAFT, LIVE, FINISH
     type: String,
-    allowedValues: [STAGE_DRAFT, STAGE_LIVE, STAGE_FINISH],
+    allowedValues: ['DRAFT', 'LIVE', 'FINISH'],
     autoValue: function () {
       if (this.isInsert) {
-        return STAGE_DRAFT;
+        return 'DRAFT';
       }
     }
   },
@@ -331,7 +331,7 @@ Contracts.schema = new SimpleSchema({
     optional: true,
     autoValue: function () {
       if (this.isInsert) {
-        if (this.field('kind').value == KIND_DELEGATION) {
+        if (this.field('kind').value === 'DELEGATION') {
           return true;
         }
       }
@@ -342,7 +342,7 @@ Contracts.schema = new SimpleSchema({
     optional: true,
     autoValue: function () {
       if (this.isInsert) {
-        if (this.field('kind').value == KIND_DELEGATION) {
+        if (this.field('kind').value === 'DELEGATION') {
           return false;
         }
       }
@@ -353,7 +353,7 @@ Contracts.schema = new SimpleSchema({
     optional: true,
     autoValue: function () {
       if (this.isInsert) {
-        if (this.field('kind').value == KIND_DELEGATION) {
+        if (this.field('kind').value === 'DELEGATION') {
           return false;
         }
       }

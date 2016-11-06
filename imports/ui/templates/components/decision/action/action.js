@@ -23,7 +23,7 @@ Template.action.events({
       if (this.enabled) {
         if (disableContractExecution() == false) {
           switch(Session.get('contract').kind) {
-            case KIND_DELEGATION:
+            case 'DELEGATION':
               for (stamp in Session.get('contract').signatures) {
                 if (Session.get('contract').signatures[stamp]._id != Meteor.user()._id) {
                   var counterPartyId = Session.get('contract').signatures[stamp]._id;
@@ -47,7 +47,7 @@ Template.action.events({
                       portable : Session.get('contract').portable,
                       tags : Session.get('contract').tags,
                     },
-                    currency: CURRENCY_VOTES,
+                    currency: 'VOTES',
                     kind: Session.get('contract').kind,
                     contractId: Session.get('contract')._id
                   }
@@ -55,7 +55,7 @@ Template.action.events({
                 }
               );
               break;
-            case KIND_VOTE:
+            case 'VOTE':
               if (Session.get('contract').stage == STAGE_DRAFT) {
                 Modules.client.displayModal(
                   true,
@@ -89,7 +89,7 @@ Template.action.events({
                         tags : Session.get('contract').tags,
                         ballot : ballot
                       },
-                      currency: CURRENCY_VOTES,
+                      currency: 'VOTES',
                       kind: Session.get('contract').kind,
                       contractId: Session.get('contract')._id
                     };
@@ -122,7 +122,7 @@ function disableContractExecution() {
   } else if (!Session.get('rightToVote')) {
     return true;
   } else {
-    if (Session.get('contract').kind == KIND_VOTE && Session.get('contract').stage == STAGE_LIVE) {
+    if (Session.get('contract').kind == 'VOTE' && Session.get('contract').stage == STAGE_LIVE) {
       if (!Modules.client.ballotReady()) {
         return true;
       }

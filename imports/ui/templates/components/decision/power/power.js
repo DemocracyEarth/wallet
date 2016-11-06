@@ -27,20 +27,20 @@ Template.power.helpers({
       switch (wallet.mode) {
         case WALLET_MODE_PENDING:
           switch(contract.kind) {
-            case KIND_DELEGATION:
+            case 'DELEGATION':
               var voteQuantity = TAPi18n.__('delegate-votes-pending');
               break;
-            case KIND_VOTE:
+            case 'VOTE':
               var voteQuantity = TAPi18n.__('contract-votes-pending');
               break;
           }
           break;
         case WALLET_MODE_EXECUTED:
           switch(contract.kind) {
-            case KIND_DELEGATION:
+            case 'DELEGATION':
               var voteQuantity = TAPi18n.__('delegate-votes-executed');
               break;
-            case KIND_VOTE:
+            case 'VOTE':
               var voteQuantity = TAPi18n.__('contract-votes-executed');
               break;
           }
@@ -53,7 +53,7 @@ Template.power.helpers({
         var quantity = wallet.allocateQuantity;
       } else {
         //delegation
-        if (Session.get('contract').kind == KIND_DELEGATION) {
+        if (Session.get('contract').kind == 'DELEGATION') {
           voteQuantity = TAPi18n.__('delegate-votes-executed');
           if (Modules.both.isUserSigner(Session.get('contract').signatures)) {
             var signatures = Session.get('contract').signatures;
@@ -87,7 +87,7 @@ Template.power.helpers({
           }
         }
         //live or finish vote
-        if (Session.get('contract').stage != STAGE_DRAFT && Session.get('contract').kind != KIND_DELEGATION) {
+        if (Session.get('contract').stage != STAGE_DRAFT && Session.get('contract').kind != 'DELEGATION') {
           var ledger = Session.get('contract').wallet.ledger;
           for (i in ledger) {
             if (ledger[i].ballot != undefined) {
@@ -131,7 +131,7 @@ Template.power.helpers({
     return Session.get('rightToVote');
   },
   confirmationRequired: function () {
-    if (Session.get('contract').kind == KIND_DELEGATION) {
+    if (Session.get('contract').kind == 'DELEGATION') {
       var signatures = Session.get('contract').signatures;
       for (i in signatures) {
         if (signatures[i].role == ROLE_DELEGATE && signatures[i].status == SIGNATURE_STATUS_PENDING && signatures[i]._id == Meteor.user()._id) {
@@ -168,7 +168,7 @@ Template.power.events({
             portable : Session.get('contract').portable,
             tags : Session.get('contract').tags,
           },
-          currency: CURRENCY_VOTES,
+          currency: 'VOTES',
           kind: Session.get('contract').kind,
           contractId: Session.get('contract')._id //_getContractId(senderId, receiverId, settings.kind),
         }
@@ -200,7 +200,7 @@ Template.power.events({
             portable : Session.get('contract').portable,
             tags : Session.get('contract').tags,
           },
-          currency: CURRENCY_VOTES,
+          currency: 'VOTES',
           kind: Session.get('contract').kind,
           contractId: Session.get('contract')._id //_getContractId(senderId, receiverId, settings.kind),
         }

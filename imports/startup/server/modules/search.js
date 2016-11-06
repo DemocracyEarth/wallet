@@ -21,13 +21,13 @@ SearchSource.defineSource('contracts', function(searchText, options) {
       title: regExp,
       collectiveId: Meteor.settings.public.Collective._id,
       owner: Meteor.user()._id,
-      kind: KIND_VOTE
+      kind: 'VOTE'
     };
     return Contracts.find(selector, options).fetch();
   } else {
     return Contracts.find({
       collectiveId: Meteor.settings.public.Collective._id,
-      kind: KIND_VOTE,
+      kind: 'VOTE',
       owner: Meteor.user()._id
     }, options).fetch();
   }

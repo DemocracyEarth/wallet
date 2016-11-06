@@ -3,7 +3,7 @@ Template.kind.helpers({
       var kind = Session.get('contract').kind;
 
       switch(kind) {
-        case KIND_VOTE:
+        case 'VOTE':
           Session.set('kind', kind.toLowerCase());
           switch (Session.get('contract').stage) {
             case STAGE_DRAFT:

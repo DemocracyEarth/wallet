@@ -238,14 +238,14 @@ let _loadContract = (view, id) => {
     }
 
     //status of action button
-    if (contract.kind == KIND_DELEGATION) {
+    if (contract.kind == 'DELEGATION') {
       Session.set('rightToVote', Modules.both.verifyDelegationRight(contract.signatures))
-    } else if (contract.kind == KIND_VOTE && contract.stage == STAGE_DRAFT ) {
+    } else if (contract.kind == 'VOTE' && contract.stage == STAGE_DRAFT ) {
       Session.set('rightToVote', true);
       Session.set('alreadyVoted', false);
-    } else if (contract.kind == KIND_VOTE && contract.stage == STAGE_LIVE) {
+    } else if (contract.kind == 'VOTE' && contract.stage == STAGE_LIVE) {
       Session.set('rightToVote', Modules.both.verifyVotingRight(contract.wallet.ledger))
-    } else if (contract.kind == KIND_VOTE && contract.stage == STAGE_FINISH) {
+    } else if (contract.kind == 'VOTE' && contract.stage == STAGE_FINISH) {
       Session.set('rightToVote', false);
     }
 
@@ -274,7 +274,7 @@ let _loadContract = (view, id) => {
 let _setContractWallet = (contract) => {
   var userContract = false;
   var role = new String();
-  if (contract.kind == KIND_DELEGATION) {
+  if (contract.kind == 'DELEGATION') {
     if (Meteor.user() != null) {
       for (i in contract.signatures) {
         if (contract.signatures[i]._id == Meteor.user()._id) {
@@ -295,7 +295,7 @@ let _setContractWallet = (contract) => {
     } else {
       Session.set('newVote', contract.wallet);
     }
-  } else if (contract.kind == KIND_VOTE) {
+  } else if (contract.kind == 'VOTE') {
     if (Meteor.user() != null) {
       Session.set('newVote', new Wallet(Meteor.user().profile.wallet));
     }
@@ -422,19 +422,19 @@ const _getQueryFeed = (query) => {
   switch(query.stage.toUpperCase()) {
     case STAGE_DRAFT:
       switch(query.kind.toUpperCase()) {
-        case KIND_VOTE:
+        case 'VOTE':
           if (query.peer) {
             return FEED_VOTE_DRAFT_PEER;
           } else {
             return FEED_VOTE_DRAFT;
           }
-        case KIND_DELEGATION:
+        case 'DELEGATION':
           if (query.peer) {
             return FEED_DELEGATION_DRAFT_PEER;
           } else {
             return FEED_DELEGATION_DRAFT;
           }
-        case KIND_MEMBERSHIP:
+        case 'MEMBERSHIP':
           if (query.peer) {
             return FEED_MEMBERSHIP_DRAFT_PEER;
           } else {
@@ -444,19 +444,19 @@ const _getQueryFeed = (query) => {
       return FEED_DRAFTS;
     case STAGE_LIVE:
       switch(query.kind.toUpperCase()) {
-        case KIND_VOTE:
+        case 'VOTE':
           if (query.peer) {
             return FEED_VOTE_LIVE_PEER;
           } else {
             return FEED_VOTE_LIVE;
           }
-        case KIND_DELEGATION:
+        case 'DELEGATION':
           if (query.peer) {
             return FEED_DELEGATION_LIVE_PEER;
           } else {
             return FEED_DELEGATION_LIVE;
           }
-        case KIND_MEMBERSHIP:
+        case 'MEMBERSHIP':
           if (query.peer) {
             return FEED_MEMBERSHIP_LIVE_PEER;
           } else {
@@ -466,7 +466,7 @@ const _getQueryFeed = (query) => {
       return FEED_LIVE;
     case STAGE_FINISH:
       switch(query.kind.toUpperCase()) {
-        case KIND_VOTE:
+        case 'VOTE':
           switch(query.executionStatus.toUpperCase()) {
             case EXECUTION_STATUS_APPROVED:
               if (query.peer) {
@@ -485,7 +485,7 @@ const _getQueryFeed = (query) => {
               return FEED_VOTE_FINISH_ALTERNATIVE;
           }
           return FEED_VOTE_FINISH;
-        case KIND_DELEGATION:
+        case 'DELEGATION':
           switch(query.executionStatus.toUpperCase()) {
             case EXECUTION_STATUS_APPROVED:
               if (query.peer) {
@@ -499,7 +499,7 @@ const _getQueryFeed = (query) => {
               return FEED_DELEGATION_FINISH_REJECTED;
           }
           return FEED_DELEGATION_FINISH;
-        case KIND_MEMBERSHIP:
+        case 'MEMBERSHIP':
           switch(query.executionStatus.toUpperCase()) {
             case EXECUTION_STATUS_APPROVED:
               if (query.peer) {

@@ -3,7 +3,7 @@ var typingTimer; //timer identifier
 Template.agreement.rendered = function () {
   if (!Session.get('contract')) { return };
 
-  if (Session.get('contract').stage == STAGE_DRAFT && Session.get('contract').kind == KIND_VOTE) {
+  if (Session.get('contract').stage == STAGE_DRAFT && Session.get('contract').kind == 'VOTE') {
 
     var editor = new MediumEditor('#editor', {
       /* These are the default options for the editor,
