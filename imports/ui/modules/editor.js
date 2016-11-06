@@ -1,4 +1,5 @@
-import {default as Modules} from "./_modules";
+import Modules from './_modules';
+import { placeCaretAtStart, placeCaretAtEnd } from '../../startup/both/modules/Contract';
 
 let startEditor = () => {
 
@@ -21,12 +22,12 @@ let startEditor = () => {
         Session.set('missingTitle', true);
         Session.set('firstEditorLoad', true);
         Session.set('disableActionButton', true);
-        Modules.both.placeCaretAtStart(titleContent);
+        placeCaretAtStart(titleContent);
 
       //Open existing document
       } else {
         Session.set('firstEditorLoad', false);
-        Modules.both.placeCaretAtEnd(titleContent);
+        placeCaretAtEnd(titleContent);
       }
 
     }

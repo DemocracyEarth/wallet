@@ -1,16 +1,18 @@
-import {default as Modules} from "./_modules";
+import Modules from './_modules';
+import { guidGenerator } from '../../startup/both/modules/crypto';
+import Contracts from '../../api/contracts/Contracts';
 
-var node = new String();
-var currentParent = new String();
+let node = '';
+let currentParent = '';
 
 /*****
 /* posts a comment on a thread
 /* @param {string} contractId - contract where this comment goes.
 /* @param {object} eventObject - object containing the event info
-/* @param {string} replyId - if reply to another comment, id of such comment. 
+/* @param {string} replyId - if reply to another comment, id of such comment.
 ******/
 let postComment = (contractId, eventObject, replyId) => {
-  var thread = new Array();
+  let thread = [];
   var index = new String();
   var query = {};
   if (replyId == undefined) {
@@ -21,7 +23,7 @@ let postComment = (contractId, eventObject, replyId) => {
     //Add event object dynamic key values since Schema is blackboxed to enable infinite branching.
     eventObject.timestamp = new Date();
     eventObject.status = 'NEW';
-    eventObject.id = Modules.both.guidGenerator();
+    eventObject.id = guidGenerator();
     thread = Contracts.find({_id: Session.get('contract')._id }).fetch()[0].events;
     node = '';
     currentParent = '';

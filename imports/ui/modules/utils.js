@@ -1,4 +1,5 @@
-import {default as Modules} from "./_modules";
+import Modules from './_modules';
+import { getProfileFromUsername } from '../../startup/both/modules/User';
 
 /*****
 /* @param {string} text - string to format
@@ -46,7 +47,7 @@ let _delegationTextCheck = (text, isContract) => {
         var signatures = Session.get('contract').signatures;
         if (signatures.length > 0) {
           for (i in signatures) {
-            profile[signatures[i].role] = Modules.both.getProfileFromUsername(signatures[i].username);
+            profile[signatures[i].role] = getProfileFromUsername(signatures[i].username);
             username[signatures[i].role] = signatures[i].username;
           }
         }
