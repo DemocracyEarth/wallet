@@ -1,4 +1,5 @@
 import { Promise } from 'meteor/promise';
+import { _ } from 'meteor/underscore';
 
 // Convert an NPM-style function returning a callback to one that returns a Promise.
 export const denodeify = f => (...args) => new Promise((resolve, reject) => {
@@ -12,10 +13,22 @@ export const denodeify = f => (...args) => new Promise((resolve, reject) => {
 });
 
 export const buildRegExp = function (searchText) {
-  var words = searchText.trim().split(/[ \-\:]+/);
-  var exps = _.map(words, function(word) {
-    return "(?=.*" + word + ")";
+  const words = searchText.trim().split(/[ \-:]+/);
+  const exps = _.map(words, function(word) {
+    return `(?=.*${word})`;
   });
-  var fullExp = exps.join('') + ".+";
-  return new RegExp(fullExp, "i");
+  const fullExp = exps.join('') + '.+';
+  return new RegExp(fullExp, 'i');
+};
+
+// converts a String to slug-like-text.
+export const convertToSlug = (text) => {
+  if (text !== undefined) {
+    return text
+        .toLowerCase()
+        .replace(/ /g, '-')
+        .replace(/[^\w-]+/g, '')
+        ;
+  }
+  return undefined;
 };
