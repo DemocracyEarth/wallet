@@ -1,14 +1,15 @@
 import { Meteor } from 'meteor/meteor';
 import { Contracts } from './Contracts.js';
 import { Collectives } from '../collectives/Collectives.js';
+import { showFullName } from '../../startup/both/modules/utils';
 
 Meteor.methods({
 
   //CRUD for Contracts
   //TBD: blockchain support goes here.
 
-  updateContractTitle: function (contractId, text) {
-    Contracts.update(contractId, { $set: { title: text} });
+  'updateContractTitle'({ contractId, text }) {
+    Contracts.update(contractId, { $set: { title: text } });
   },
 
   updateContractDescription: function (contractId, text) {
@@ -137,7 +138,7 @@ Meteor.methods({
       user = Meteor.users.findOne({ _id: array[i] });
       userList.push({
         id: user._id,
-        label: Modules.both.showFullName(user.profile.firstName, user.profile.lastName),
+        label: showFullName(user.profile.firstName, user.profile.lastName),
         icon: user.profile.picture,
         iconActivated: false,
         feed: 'user',

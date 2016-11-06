@@ -18,9 +18,10 @@ let positionCaret = (atStart) => {
   };
 }
 
-let getName = (firstName, lastName, username) => {
-
-  if (username == undefined) { username = ''};
+const getName = (firstName, lastName, username) => {
+  if (username === undefined) {
+    username = '';
+  }
   if (firstName == undefined) { firstName = username};
   if (lastName == undefined) { lastName = '' };
 
@@ -29,10 +30,9 @@ let getName = (firstName, lastName, username) => {
     completeName = completeName.slice(0, parseInt(0 + (MAX_PROFILE_NAME_LENGTH - completeName.length))) + '...';
   }
   return completeName;
+};
 
-}
-
-Modules.both.showFullName = getName;
-Modules.both.placeCaret = positionCaret;
-Modules.both.placeCaretAtStart = positionCaret(true);
-Modules.both.placeCaretAtEnd = positionCaret(false);
+export const showFullName = getName;
+export const placeCaret = positionCaret;
+export const placeCaretAtStart = positionCaret(true);
+export const placeCaretAtEnd = positionCaret(false);
