@@ -28,7 +28,7 @@ Router.route('/', {
   onBeforeAction: function () {
     if (Meteor.settings.public.Collective) {
       fn.clearSessionVars();
-      fn.fn.configNavbar(Meteor.settings.public.Collective.name);
+      fn.configNavbar(Meteor.settings.public.Collective.name);
       fn.setSessionVars();
       Session.set('feed', Contracts.find({ collectiveId: Session.get('collectiveId'), stage: 'LIVE', kind: 'VOTE', executionStatus: 'OPEN' }, {sort: {timestamp: -1}}).fetch());
     }
