@@ -1,8 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
-import Modules from './_modules';
+import { $ } from 'meteor/jquery';
+import { TAPi18n } from 'meteor/tap:i18n';
 
-/*****
+import { Contracts } from '/imports/api/contracts/Contracts';
+import { animationSettings } from './animation';
+
+
+/**
 /* builds the menu for the sidebar
 /* @param {string} feed - option selected from url query.
 ******/
@@ -82,7 +87,7 @@ let _searchContract = (source, list) => {
         var delegate = source.signatures[stamp]._id;
         if (!_alreadyListed(delegate, list)) {
           list.push(delegate);
-        }
+'live-votes'
       }
       break;
   }
@@ -125,58 +130,58 @@ let _getDecisionsMenu = (feed) => {
   menu.push(
     {
       id: 0,
-      label: TAPi18n.__(FEED_VOTE_LIVE),
+      label: TAPi18n.__('live-votes'),
       icon: 'images/decision-open.png',
       iconActivated: 'images/decision-open-active.png',
-      feed: FEED_VOTE_LIVE,
-      value: _getSectionValue(FEED_VOTE_LIVE),
+      feed: 'live-votes',
+      value: _getSectionValue('live-votes'),
       separator: false,
       url: '/feed?stage=' + 'LIVE'.toLowerCase() + '&kind=' + 'VOTE'.toLowerCase() + '&executionstatus=' + EXECUTION_STATUS_OPEN.toLowerCase(),
-      selected: _verifySelection(FEED_VOTE_LIVE, feed)
+      selected: _verifySelection('live-votes', feed)
     },
     {
       id: 1,
-      label: TAPi18n.__(FEED_VOTE_LIVE_PEER),
+      label: TAPi18n.__('live-votes-peer'),
       icon: 'images/decision-vote.png',
       iconActivated: 'images/decision-vote-active.png',
-      feed: FEED_VOTE_LIVE_PEER,
-      value: _getSectionValue(FEED_VOTE_LIVE_PEER),
+      feed: 'live-votes-peer',
+      value: _getSectionValue('live-votes-peer'),
       separator: false,
       url: '/feed?stage=' + 'LIVE'.toLowerCase() + '&kind=' + 'VOTE'.toLowerCase() + '&peer=' + username,
-      selected: _verifySelection(FEED_VOTE_LIVE_PEER, feed)
+      selected: _verifySelection('live-votes-peer', feed)
     },
     {
       id: 2,
-      label: TAPi18n.__(FEED_VOTE_FINISH_APPROVED),
+      label: TAPi18n.__('votes-finish-approved'),
       icon: 'images/decision-approved.png',
       iconActivated: 'images/decision-approved-active.png',
-      feed: FEED_VOTE_FINISH_APPROVED,
-      value: _getSectionValue(FEED_VOTE_FINISH_APPROVED),
+      feed: 'votes-finish-approved',
+      value: _getSectionValue('votes-finish-approved'),
       separator: false,
-      url: '/feed?stage=' + STAGE_FINISH.toLowerCase() + '&kind=' + 'VOTE'.toLowerCase() + '&executionstatus=' + EXECUTION_STATUS_APPROVED.toLowerCase(),
-      selected: _verifySelection(FEED_VOTE_FINISH_APPROVED, feed)
+      url: '/feed?stage=' + 'FINISH'.toLowerCase() + '&kind=' + 'VOTE'.toLowerCase() + '&executionstatus=' + 'APPROVED'.toLowerCase(),
+      selected: _verifySelection('votes-finish-approved', feed)
     },
     {
       id: 3,
-      label: TAPi18n.__(FEED_VOTE_DRAFT),
+      label: TAPi18n.__('vote-drafts'),
       icon: 'images/decision-draft.png',
       iconActivated: 'images/decision-draft-active.png',
-      feed: FEED_VOTE_DRAFT,
-      value: _getSectionValue(FEED_VOTE_DRAFT),
+      feed: 'vote-drafts',
+      value: _getSectionValue('vote-drafts'),
       separator: false,
-      url: '/feed?stage=' + STAGE_DRAFT.toLowerCase() + '&kind=' + 'VOTE'.toLowerCase(),
-      selected: _verifySelection(FEED_VOTE_DRAFT, feed)
+      url: '/feed?stage=' + 'DRAFT'.toLowerCase() + '&kind=' + 'VOTE'.toLowerCase(),
+      selected: _verifySelection('vote-drafts', feed)
     },
     {
       id: 4,
-      label: TAPi18n.__(FEED_VOTE_FINISH_REJECTED),
+      label: TAPi18n.__('votes-finish-rejected'),
       icon: 'images/decision-rejected.png',
       iconActivated: 'images/decision-rejected-active.png',
-      feed: FEED_VOTE_FINISH_REJECTED,
-      value: _getSectionValue(FEED_VOTE_FINISH_REJECTED),
+      feed: 'votes-finish-rejected',
+      value: _getSectionValue('votes-finish-rejected'),
       separator: false,
-      url: '/feed?stage=' + STAGE_FINISH.toLowerCase() + '&kind=' + 'VOTE'.toLowerCase() + '&executionstatus=' + EXECUTION_STATUS_REJECTED.toLowerCase(),
-      selected: _verifySelection(FEED_VOTE_FINISH_REJECTED, feed)
+      url: '/feed?stage=' + 'FINISH'.toLowerCase() + '&kind=' + 'VOTE'.toLowerCase() + '&executionstatus=' + 'REJECTED'.toLowerCase(),
+      selected: _verifySelection('votes-finish-rejected', feed)
     }
   );
 
@@ -279,13 +284,13 @@ let animateMenu = () => {
   //TODO make all strings showing pixels compliant with the device screen being used (aka mobiles)
   Session.set('sidebar', !Session.get('sidebar'));
   if (Session.get('sidebar')) {
-    $('#menu').velocity({'marginLeft': '0px'}, Modules.client.animationSettings);
-    $('#content').velocity({'left': '320px'}, Modules.client.animationSettings);
-    $('.navbar').velocity({'left': '320px'}, Modules.client.animationSettings);
+    $('#menu').velocity({'marginLeft': '0px'}, animationSettings);
+    $('#content').velocity({'left': '320px'}, animationSettings);
+    $('.navbar').velocity({'left': '320px'}, animationSettings);
   } else {
-    $('#menu').velocity({'marginLeft': '-320px'}, Modules.client.animationSettings);
-    $('#content').velocity({'left': '0px'}, Modules.client.animationSettings);
-    $('.navbar').velocity({'left': '0px'}, Modules.client.animationSettings);
+    $('#menu').velocity({'marginLeft': '-320px' }, animationSettings);
+    $('#content').velocity({'left': '0px' }, animationSettings);
+    $('.navbar').velocity({'left': '0px' }, animationSettings);
   }
 }
 
