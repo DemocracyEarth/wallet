@@ -3,8 +3,12 @@ import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
+
 import { isUserSigner, userVotesInContract } from '/imports/startup/both/modules/User';
 import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
+import { displayModal } from '/imports/ui/modules/modal';
+
+let voteQuantity;
 
 Template.power.onRendered = function render() {
   if (!Meteor.user()) { return; }
@@ -27,23 +31,24 @@ Template.power.helpers({
     var wallet = Session.get('newVote');
     var contract = Session.get('contract');
 
+
     if (contract == undefined) {
       return TAPi18n.__('contract-votes-pending');
     };
 
     if (wallet != undefined) {
       switch (wallet.mode) {
-        case WALLET_MODE_PENDING:
+        case 'PENDING':
           switch(contract.kind) {
             case 'DELEGATION':
-              var voteQuantity = TAPi18n.__('delegate-votes-pending');
+              voteQuantity = TAPi18n.__('delegate-votes-pending');
               break;
             case 'VOTE':
-              var voteQuantity = TAPi18n.__('contract-votes-pending');
+              voteQuantity = TAPi18n.__('contract-votes-pending');
               break;
           }
           break;
-        case WALLET_MODE_EXECUTED:
+        case 'EXECUTED':
           switch(contract.kind) {
             case 'DELEGATION':
               var voteQuantity = TAPi18n.__('delegate-votes-executed');
@@ -95,7 +100,7 @@ Template.power.helpers({
           }
         }
         //live or finish vote
-        if (Session.get('contract').stage != STAGE_DRAFT && Session.get('contract').kind != 'DELEGATION') {
+        if (Session.get('contract').stage != 'DRAFT' && Session.get('contract').kind != 'DELEGATION') {
           var ledger = Session.get('contract').wallet.ledger;
           for (i in ledger) {
             if (ledger[i].ballot != undefined) {
@@ -158,7 +163,7 @@ Template.power.events({
         var counterPartyId = Session.get('contract').signatures[stamp]._id;
       }
     };
-    Modules.client.displayModal(
+    displayModal(
       true,
       {
         icon            : 'images/modal-delegation.png',
@@ -190,7 +195,7 @@ Template.power.events({
         var counterPartyId = Session.get('contract').signatures[stamp]._id;
       }
     };
-    Modules.client.displayModal(
+    displayModal(
       true,
       {
         icon            : 'images/modal-delegation.png',
