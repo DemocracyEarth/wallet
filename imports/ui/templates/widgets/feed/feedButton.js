@@ -1,6 +1,10 @@
-Template.feedButton.rendered = function () {
-  //feedButtonId.push(this.firstNode.id);
-  //Session.set('feedToggle' + feedButtonId, false);
+import { Template } from 'meteor/templating';
+
+import { createContract } from '/imports/startup/both/modules/Contract';
+
+Template.feedButton.onRendered = function onReder() {
+  // feedButtonId.push(this.firstNode.id);
+  // Session.set('feedToggle' + feedButtonId, false);
 };
 
 Template.feedButton.helpers({
@@ -8,7 +12,8 @@ Template.feedButton.helpers({
 
     //return Session.get('feedToggle' + feedButtonId);
   }
-})
+});
+
 Template.feedButton.events({
   'mousedown .feedButton': function (event) {
     var buttonId = 'button-' + event.target.id;
@@ -33,6 +38,6 @@ Template.feedButton.events({
     }
   },
   'click .feedButton': function (event) {
-    Modules.both.createContract();
+    createContract();
   }
-})
+});
