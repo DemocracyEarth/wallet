@@ -6,11 +6,15 @@ import { Session } from 'meteor/session';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { rules, timers } from '/lib/const';
 import { placeCaretAtEnd } from '/imports/startup/both/modules/utils';
+import { initEditor } from '/imports/ui/modules/editor';
+import { stripHTMLfromText } from '/imports/ui/modules/utils';
+import { URLCheck, URLVerifier } from '/imports/ui/modules/Files';
+import { displayNotice } from '/imports/ui/modules/notice';
 
 let typingTimer; // timer identifier
 
 Template.title.onRendered = function onRendered() {
-  Modules.client.initEditor();
+  initEditor();
 
   //TODO: figure out how to make tab work properly on first try.
 
@@ -27,7 +31,7 @@ Template.title.onRendered = function onRendered() {
   //paste
   document.getElementById('titleContent').addEventListener("paste", function(e) {
     e.preventDefault();
-    var text = Modules.client.stripHTMLfromText(e.clipboardData.getData("text/plain"));
+    var text = stripHTMLfromText(e.clipboardData.getData("text/plain"));
     var newtitle = $('#titleContent')[0].innerText;
     var delta = parseInt(rules.TITLE_MAX_LENGTH - newtitle.length);
     if (delta > 0) {
@@ -93,10 +97,10 @@ Template.title.helpers({
     return Session.get('mistypedTitle');
   },
   URLStatus: function () {
-    return Modules.client.URLCheck('URLStatus');
+    return URLCheck('URLStatus');
   },
   verifierMode: function () {
-    return Modules.client.URLVerifier('URLStatus');
+    return URLVerifier('URLStatus');
   },
   duplicateURL: function () {
     return Session.get('duplicateURL');
@@ -172,7 +176,7 @@ Template.titleContent.events({
         if (Contracts.update({_id : Session.get('contract')._id }, { $set: { title: content, keyword: keyword, url: "/" + Session.get('contract').kind.toLowerCase() + "/" + keyword }})) {
           Session.set('URLStatus', 'AVAILABLE');
         };
-        Modules.client.displayNotice(TAPi18n.__('saved-draft-description'), true);
+        displayNotice(TAPi18n.__('saved-draft-description'), true);
       }
     }, timers.SERVER_INTERVAL);
 
