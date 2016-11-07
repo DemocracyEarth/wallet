@@ -1,12 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
+import { TAPi18n } from 'meteor/tap:i18n';
 import { verifyDelegationRight, verifyVotingRight, getProfileFromUsername } from '../both/modules/User';
 import { showFullName } from '../both/modules/utils';
-import { Modules } from '../../ui/modules/_modules';
+import Modules from '../../ui/modules/_modules';
 import { Contracts } from '../../api/contracts/Contracts';
 import { Tags } from '../../api/tags/Tags';
 import { Collectives } from '../../api/collectives/Collectives';
-
+import { toggleSidebar, setSidebarMenu } from '../../ui/modules/menu';
 /*
 * private methods for effective routing
 ******************************/
@@ -159,7 +160,7 @@ let _setSessionVars = (params) => {
     }
   }
 
-  Modules.client.setSidebarMenu(feed);
+  setSidebarMenu(feed);
 }
 
 
@@ -329,7 +330,7 @@ let _getExternalScripts = () => {
 let _configNavbar = (title) => {
   if (Session.get('sidebar') == undefined) {
     Session.set('sidebar', true);
-    Modules.client.toggleSidebar();
+    toggleSidebar();
   }
   Session.set('navbar', {
     title: title,

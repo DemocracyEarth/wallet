@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
+import { TAPi18n } from 'meteor/tap:i18n';
 import { Contracts } from '../../../api/contracts/Contracts';
 import { shortUUID } from './crypto';
 

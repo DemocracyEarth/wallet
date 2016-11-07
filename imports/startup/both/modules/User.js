@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { Session } from 'meteor/session';
+import { TAPi18n } from 'meteor/tap:i18n';
 import { validateEmail } from './validations.js';
 import Modules from '../../../ui/modules/_modules';
 
