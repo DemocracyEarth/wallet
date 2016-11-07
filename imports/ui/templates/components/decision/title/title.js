@@ -5,6 +5,7 @@ import { Session } from 'meteor/session';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { rules, timers } from '/lib/const';
+import { placeCaretAtEnd } from '/imports/startup/both/modules/utils';
 
 let typingTimer; // timer identifier
 
@@ -142,7 +143,7 @@ Template.titleContent.events({
       var currentTitle = document.getElementById("titleContent").innerText;
       var newTitle = currentTitle.replace(TAPi18n.__('no-title'), '');
       document.getElementById("titleContent").innerText = newTitle;
-      Modules.both.placeCaretAtEnd(document.getElementById("titleContent"));
+      placeCaretAtEnd(document.getElementById("titleContent"));
       Session.set('firstEditorLoad', false);
     }
 
