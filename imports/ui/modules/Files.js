@@ -1,4 +1,10 @@
-import {default as Modules} from "./_modules";
+import { Meteor } from 'meteor/meteor';
+import { TAPi18n } from 'meteor/tap:i18n';
+import { $ } from 'meteor/jquery';
+import { Session } from 'meteor/session';
+
+import { displayNotice } from './notice';
+import { animate } from './animation';
 
 let template;
 
@@ -9,15 +15,15 @@ let _setPlaceholderText = ( string = TAPi18n.__('upload-picture') ) => {
 };
 
 let _addUrlToDatabase = ( url ) => {
-  Meteor.call( "storeUrlInDatabase", url, ( error ) => {
+  Meteor.call("storeUrlInDatabase", url, ( error ) => {
     if ( error ) {
-      Modules.client.displayNotice(error.reason, true);
+      displayNotice(error.reason, true);
 
       _setPlaceholderText();
     } else {
       //Success
       var data = Meteor.user().profile;
-      Modules.client.displayNotice(TAPi18n.__('new-profile-pic'), true);
+      displayNotice(TAPi18n.__('new-profile-pic'), true);
       _setPlaceholderText();
       data.picture = url;
       Meteor.users.update(Meteor.userId(), { $set: { profile : data }})
@@ -31,7 +37,7 @@ let _uploadFileToAmazon = ( file ) => {
 
   uploader.send( file, ( error, url ) => {
     if ( error ) {
-      Modules.client.displayNotice(error.message, true);
+      displayNotice(error.message, true);
 
       _setPlaceholderText();
     } else {
@@ -82,7 +88,6 @@ let verifierMode = (sessionVar) => {
   }
 };
 
-
-Modules.client.URLCheck = URLStatus;
-Modules.client.URLVerifier = verifierMode;
-Modules.client.uploadToAmazonS3 = upload;
+export const URLCheck = URLStatus;
+export const URLVerifier = verifierMode;
+export const uploadToAmazonS3 = upload;
