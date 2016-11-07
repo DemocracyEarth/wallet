@@ -1,3 +1,10 @@
+import { Template } from 'meteor/templating';
+import { $ } from 'meteor/jquery';
+import { Session } from 'meteor/session';
+
+import { animationSettings } from '/imports/ui/modules/animation';
+import { modalCallback, displayModal } from '/imports/ui/modules/modal';
+
 Template.modal.helpers({
   showModal: function () {
     return Session.get('showModal');
@@ -16,7 +23,7 @@ Template.modalWindow.rendered = function () {
   //Intro animation
   $('.alert').css('margin-top', alertHeight + 'px');
   $('.modal').css('opacity', '0');
-  $('.modal').velocity({'opacity': '1'}, Modules.client.animationSettings);
+  $('.modal').velocity({'opacity': '1'}, animationSettings);
 
 };
 
@@ -74,7 +81,7 @@ Template.modalWindow.events({
     killModal();
   },
   'click #execute': function (event) {
-    Modules.client.modalCallback();
+    modalCallback();
     killModal();
   }
 })
@@ -83,8 +90,8 @@ function killModal () {
   var settings = Object.assign({
     complete: function () {
       Session.set('showModal', false);
-      Modules.client.displayModal(false);
+      displayModal(false);
     }
-  }, Modules.client.animationSettings);
+  }, animationSettings);
   $('.modal').velocity({'opacity': '0'}, settings);
 }

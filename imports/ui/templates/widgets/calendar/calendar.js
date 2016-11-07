@@ -1,10 +1,17 @@
-Template.dateSelector.rendered = function () {
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { $ } from 'meteor/jquery';
+import { Session } from 'meteor/session';
+
+import { animationSettings } from '/imports/ui/modules/animation';
+
+Template.dateSelector.onRendered = function onRender() {
   //behave(this.firstNode, 'fade', { duration: parseInt(ANIMATION_DURATION / 2) });
 
   //Intro animation
   $('.calendar').css('height', '0');
   $('.calendar').css('overflow', 'hidden');
-  $('.calendar').velocity({'height': '260px'}, Modules.client.animationSettings);
+  $('.calendar').velocity({'height': '260px'}, animationSettings);
 
   initCalendar();
 }
@@ -59,7 +66,7 @@ Template.calendar.events({
   }
 })
 
-function initCalendar () {
+function initCalendar() {
   if ($('#date-picker').html() == "") {
     $('#date-picker').datepicker();
     $('#date-picker').on('changeDate', function (e) {

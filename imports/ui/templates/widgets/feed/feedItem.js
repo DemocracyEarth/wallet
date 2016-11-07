@@ -6,9 +6,14 @@ import { $ } from 'meteor/jquery';
 
 import { getProfileFromUsername, getAnonymous } from '/imports/startup/both/modules/User';
 import { removeContract } from '/imports/startup/both/modules/Contract';
+import { getProfileName, stripHTMLfromText } from '/imports/ui/modules/utils';
+import { timeSince } from '/imports/ui/modules/chronos';
+import { displayModal } from '/imports/ui/modules/modal';
+import { animationSettings } from '/imports/ui/modules/animation';
+import { addChoiceToBallot } from '/imports/ui/modules/ballot';
+import { displayNotice } from '/imports/ui/modules/notice';
 
 Template.feedItem.onRendered = function onRender() {
-
   //Embedded mode means that Items are in an embedded feed to be selected (ie: for a ballot)
   if (this.firstNode.parentNode.id == 'proposalSuggestions') {
     Session.set('embeddedMode', true);
@@ -28,12 +33,12 @@ Template.feedItem.helpers({
       }
       text = this.description;
       if (profile.length == 2) {
-        text = text.replace('<delegator>', Modules.client.getProfileName(profile[0]));
-        text = text.replace('<delegate>', Modules.client.getProfileName(profile[1]));
+        text = text.replace('<delegator>', getProfileName(profile[0]));
+        text = text.replace('<delegate>', getProfileName(profile[1]));
       }
-      return Modules.client.stripHTMLfromText(text).replace(/(([^\s]+\s\s*){35})(.*)/,"$1…");
+      return stripHTMLfromText(text).replace(/(([^\s]+\s\s*){35})(.*)/,"$1…");
     } else {
-      return Modules.client.stripHTMLfromText(this.description).replace(/(([^\s]+\s\s*){35})(.*)/,"$1…");
+      return stripHTMLfromText(this.description).replace(/(([^\s]+\s\s*){35})(.*)/,"$1…");
     }
   },
   url: function () {
@@ -47,7 +52,7 @@ Template.feedItem.helpers({
     return this.tags;
   },
   sinceDate: function (timestamp) {
-    return TAPi18n.__('posted') + ' ' + Modules.client.timeSince(timestamp);
+    return TAPi18n.__('posted') + ' ' + timeSince(timestamp);
   },
   editorMode: function (stage) {
     if (stage == 'DRAFT') { return true } else { return false };
@@ -91,7 +96,7 @@ Template.feedItem.events({
     var proposalTitle = event.target.parentNode.getAttribute('title');
     var proposalId = event.target.parentNode.getAttribute('id');
     var dom = '#' + 'feedItem-' + proposalId;
-    Modules.client.displayModal(
+    displayModal(
       true,
       {
         icon            : 'images/remove-item.png',
@@ -104,16 +109,16 @@ Template.feedItem.events({
       function() {
         $(dom)
           .velocity({ 'opacity' : 0,  'marginTop' : '0px', 'marginBottom' : '0px', 'height' : 0}, {
-            duration: Modules.client.animationSettings.duration,
+            duration: animationSettings.duration,
             complete: function() {
               removeContract(proposalId);
-              Modules.client.displayNotice(TAPi18n.__('remove-draft-success'), true);
+              displayNotice(TAPi18n.__('remove-draft-success'), true);
             }
         });
       }
     );
   },
   'click .micro-button-addballot': function (event) {
-    Modules.client.addChoiceToBallot(Session.get('contract')._id, event.target.parentNode.getAttribute('id'));
+    addChoiceToBallot(Session.get('contract')._id, event.target.parentNode.getAttribute('id'));
   }
 })
