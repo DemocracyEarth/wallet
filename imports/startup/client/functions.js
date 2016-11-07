@@ -1,13 +1,15 @@
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
+
+import { showResults, updateExecutionStatus } from '/imports/ui/modules/ballot';
 import { verifyDelegationRight, verifyVotingRight, getProfileFromUsername } from '../both/modules/User';
 import { showFullName } from '../both/modules/utils';
-import Modules from '../../ui/modules/_modules';
 import { Contracts } from '../../api/contracts/Contracts';
 import { Tags } from '../../api/tags/Tags';
 import { Collectives } from '../../api/collectives/Collectives';
 import { toggleSidebar, setSidebarMenu } from '../../ui/modules/menu';
+
 /*
 * private methods for effective routing
 ******************************/
@@ -239,8 +241,8 @@ let _loadContract = (view, id) => {
       Meteor.call("getServerTime", function (error, result) {
           Session.set("time", result);
           if (Session.get('contract').closingDate < new Date(Session.get('time'))) {
-            election =  Modules.client.showResults(Session.get('contract'));
-            Modules.client.updateExecutionStatus(Session.get('contract'), election);
+            election =  showResults(Session.get('contract'));
+            updateExecutionStatus(Session.get('contract'), election);
           }
       });
     }
