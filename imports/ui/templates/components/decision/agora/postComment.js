@@ -1,3 +1,11 @@
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { TAPi18n } from 'meteor/tap:i18n';
+import { $ } from 'meteor/jquery';
+import { Session } from 'meteor/session';
+
+import { postComment } from '/imports/ui/modules/Thread';
+
 var commentBox;
 
 Template.postComment.rendered = function () {
@@ -12,7 +20,7 @@ Template.postComment.events({
     if (event.which == 13 && !event.shiftKey) {
       event.preventDefault();
       if (!this.replyMode) {
-        Modules.client.postComment(
+        postComment(
           Session.get('contract')._id,
           {
             userId: Meteor.userId(),
@@ -25,7 +33,7 @@ Template.postComment.events({
         cleanCommentBox();
         event.target.blur();
       } else {
-        Modules.client.postComment(
+        postComment(
           Session.get('contract')._id,
           {
             userId: Meteor.userId(),
