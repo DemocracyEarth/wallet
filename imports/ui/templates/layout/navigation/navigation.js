@@ -1,3 +1,13 @@
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { TAPi18n } from 'meteor/tap:i18n';
+import { $ } from 'meteor/jquery';
+import { Session } from 'meteor/session';
+
+import { timers } from '/lib/const';
+import { stripHTMLfromText } from '/imports/ui/modules/utils';
+import { toggleSidebar } from '/imports/ui/modules/menu';
+
 //Scroll behaviour
 var lastScrollTop = 0;
 var scrollDown = false;
@@ -9,28 +19,28 @@ if (Meteor.Device.isPhone()) {
      if (st > lastScrollTop){
          if (scrollDown == false && st > 150) {
            scrollDown = true;
-           animate(node, 'hide-up',  { duration : parseInt(ANIMATION_DURATION * 2.5), easing : "ease-in"  });
+           animate(node, 'hide-up',  { duration : parseInt(timers.ANIMATION_DURATION * 2.5), easing : "ease-in"  });
          }
      } else {
         if (scrollDown == true) {
           scrollDown = false;
-          animate(node, 'show-down', { duration : parseInt(ANIMATION_DURATION * 2.5), easing : "ease-out"});
+          animate(node, 'show-down', { duration : parseInt(timers.ANIMATION_DURATION * 2.5), easing : "ease-out"});
         }
      }
      lastScrollTop = st;
   });
 };
 
-Template.navigation.rendered = function () {
+Template.navigation.onRendered = function onRender() {
 }
 
 Template.navigation.helpers({
   screen: function () {
     if (Session.get('navbar')) {
-      document.title = Modules.client.stripHTMLfromText(TAPi18n.__('democracy-of') + ' ' + Meteor.settings.public.Collective.name + ' - ' + Session.get('navbar').title);
+      document.title = stripHTMLfromText(TAPi18n.__('democracy-of') + ' ' + Meteor.settings.public.Collective.name + ' - ' + Session.get('navbar').title);
       return Session.get('navbar').title;
     } else {
-      document.title = Modules.client.stripHTMLfromText(TAPi18n.__('democracy-earth'));
+      document.title = stripHTMLfromText(TAPi18n.__('democracy-earth'));
     }
   },
   icon: function () {
@@ -53,7 +63,7 @@ Template.navigation.helpers({
 Template.navigation.events({
   "click #menu": function (event) {
     if (Session.get('navbar').action == 'SIDEBAR') {
-      Modules.client.toggleSidebar();
+      toggleSidebar();
     }
   }
 })

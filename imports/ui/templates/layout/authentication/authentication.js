@@ -1,19 +1,23 @@
-Template.authentication.rendered = function () {
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+
+import { displayLogin } from '/imports/ui/modules/popup';
+
+Template.authentication.onRendered = function onRender() {
   Session.set('logger', false);
 };
 
 Template.authentication.helpers({
-  toggle: function () {
+  toggle() {
     if (Session.get('logger')) {
       return 'navbar-button-active';
-    } else {
-      return '';
     }
-  }
+    return '';
+  },
 });
 
 Template.authentication.events({
   'click #loggedUser': function (event) {
-    Modules.client.displayLogin(event);
+    displayLogin(event);
   }
-})
+});
