@@ -1,20 +1,20 @@
-import Modules from './_modules';
+import { Session } from 'meteor/session';
+import { TAPi18n } from 'meteor/tap:i18n';
 import { placeCaretAtStart, placeCaretAtEnd } from '../../startup/both/modules/Contract';
+import { verifyDraftFork } from './ballot';
 
-let startEditor = () => {
-
+const startEditor = () => {
   var titleContent = document.getElementById('titleContent');
   var editor = document.getElementById('editor');
 
   if (Session.get('contract')) {
     //Place caret in right place
-    if (Session.get('contract').stage == STAGE_DRAFT) {
-
+    if (Session.get('contract').stage === 'DRAFT') {
       titleContent.focus();
       Session.set('userSigned', false);
       Session.set('dbContractBallot', undefined);
       Session.set('emptyBallot', false);
-      Modules.client.verifyDraftFork(Session.get('contract').ballot);
+      verifyDraftFork(Session.get('contract').ballot);
 
       //Empty new document
       if (Session.get('contract').title == '') {
@@ -34,7 +34,6 @@ let startEditor = () => {
     //Keyword based URL
     Session.set('contractKeyword', Session.get('contract').keyword);
   }
+};
 
-}
-
-Modules.client.initEditor = startEditor;
+export const initEditor = startEditor;
