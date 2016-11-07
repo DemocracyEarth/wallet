@@ -2,6 +2,7 @@ import { Session } from 'meteor/session';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { createContract } from '/imports/startup/both/modules/Contract';
+import { checkDuplicate } from '/lib/utils';
 
 /**
 * @param {string} contractId - contract where this ballot belongs to
@@ -49,7 +50,7 @@ const _setVote = (contractId, ballot) => {
 * @param {object} ballotId - ballotId to check
 ******/
 let _getVote = (contractId, ballotId) => {
-  if (Session.get('rightToVote') == false && Session.get('contract').stage != STAGE_DRAFT) {
+  if (Session.get('rightToVote') == false && Session.get('contract').stage != 'DRAFT') {
     //check if user already voted
     var ledger = Session.get('contract').wallet.ledger
     for (i in ledger) {
@@ -154,18 +155,18 @@ let _updateExecutionStatus = (contract, results) => {
     }
   }
   if (topvotes == 0) {
-    winner = BALLOT_OPTION_MODE_NONE;
+    winner = 'NONE';
   }
   if (contract.stage == 'LIVE') {
     var contractId = contract._id;
     switch (winner) {
-      case BALLOT_OPTION_MODE_AUTHORIZE:
+      case 'AUTHORIZE':
         Contracts.update({ _id: contractId }, { $set: { executionStatus: 'APPROVED', stage : 'FINISH' }});
         break;
-      case BALLOT_OPTION_MODE_REJECT:
+      case 'REJECT':
         Contracts.update({ _id: contractId }, { $set: { executionStatus: 'REJECTED', stage : 'FINISH' }});
         break;
-      case BALLOT_OPTION_MODE_FORK:
+      case 'FORK':
         Contracts.update({ _id: contractId }, { $set: { executionStatus: 'ALTERNATIVE', stage : 'FINISH' }});
         break;
       default:
@@ -250,7 +251,7 @@ let _verifyDraftFork = (ballot) => {
   var draftFork = false;
   for (i in ballot) {
     choice = Contracts.findOne( { _id: ballot[i]._id });
-    if (choice.stage == STAGE_DRAFT) {
+    if (choice.stage == 'DRAFT') {
       draftFork = true;
       break;
     }
@@ -300,20 +301,20 @@ let _removeFork = (contractId, forkId) => {
 let _addChoiceToBallot = (contractId, forkId) => {
   var dbContract = Contracts.findOne({ _id: forkId });
   if (dbContract != undefined) {
-    if (checkDuplicate(Contracts.findOne(contractId, { ballot: { _id: dbContract._id } }).ballot, dbContract._id) == false) {
+    if(checkDuplicate(Contracts.findOne(contractId, { ballot: { _id: dbContract._id } }).ballot, dbContract._id) == false) {
       var rankVal = parseInt(Contracts.findOne({ _id: contractId }).ballot.length) + 1;
       Contracts.update(contractId, { $push: {
         ballot:
           {
             _id: dbContract._id,
-            mode: BALLOT_OPTION_MODE_FORK,
+            mode: 'FORK',
             url: dbContract.url,
             label: dbContract.title,
             rank: rankVal
           }
       }});
       Session.set('duplicateFork', false);
-      if (Contracts.findOne({ _id: dbContract._id }).stage == STAGE_DRAFT) {
+      if (Contracts.findOne({ _id: dbContract._id }).stage == 'DRAFT') {
         Session.set('draftOptions', true);
       }
       Session.set('dbContractBallot', Contracts.findOne( { _id: contractId }, {reactive: false}).ballot );
