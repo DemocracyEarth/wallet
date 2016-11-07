@@ -133,7 +133,7 @@ let _buildTitle = (params) => {
 * set session variables for specific view based on query
 * @param {object} query - url query
 ****/
-export const _setSessionVars = (params) => {
+let _setSessionVars = (params) => {
   if (params) {
     var query = params.query;
   }
@@ -141,6 +141,7 @@ export const _setSessionVars = (params) => {
   //collective
   if (Session.get('collective') == undefined) {
     Session.set('collectiveId', Meteor.settings.public.Collective._id);
+    console.log("Collectives.findOne",Collectives.findOne, Collectives);
     Session.set('collective', Collectives.findOne({ _id: Session.get('collectiveId')}));
   }
 
@@ -531,4 +532,5 @@ export const fn = {
   buildTitle: _buildTitle,
   buildQuery: _buildQuery,
   getExternalScripts: _getExternalScripts,
+  setSessionVars: _setSessionVars,
 };

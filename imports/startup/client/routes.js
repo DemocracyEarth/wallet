@@ -25,7 +25,7 @@ Router.route('/', {
     }
     return null;
   },
-  onBeforeAction: function () {
+  onBeforeAction() {
     if (Meteor.settings.public.Collective) {
       fn.clearSessionVars();
       fn.configNavbar(Meteor.settings.public.Collective.name);
@@ -34,9 +34,9 @@ Router.route('/', {
     }
     this.next();
   },
-  onAfterAction: function () {
+  onAfterAction() {
     fn.getExternalScripts();
-  }
+  },
 });
 
 /***
@@ -46,19 +46,19 @@ Router.route('/', {
 Router.route('/:feed', {
   name: 'homeFeed',
   template: 'home',
-  waitOn: function () {
+  waitOn() {
     return [Meteor.subscribe('contracts', fn.buildQuery(this.params.query)), Meteor.subscribe("userData")];
   },
-  onBeforeAction: function () {
+  onBeforeAction() {
     fn.clearSessionVars();
     fn.configNavbar(fn.buildTitle(this.params.query));
     fn.setSessionVars(this.params);
     Session.set('feed', Contracts.find(fn.buildQuery(this.params.query), { sort: { timestamp: -1 } }).fetch());
     this.next();
   },
-  onAfterAction: function () {
+  onAfterAction() {
     fn.getExternalScripts();
-  }
+  },
 });
 
 /***
@@ -67,25 +67,25 @@ Router.route('/:feed', {
 Router.route('/tag/:tag', {
   name: 'tagFeed',
   template: 'home',
-  waitOn: function () {
+  waitOn() {
     return [Meteor.subscribe('contracts', fn.buildQuery(this.params)), Meteor.subscribe("userData")];
   },
-  onBeforeAction: function () {
+  onBeforeAction() {
     fn.clearSessionVars();
     fn.configNavbar(fn.buildTitle(this.params));
     fn.setSessionVars();
     Session.set('feed', Contracts.find(fn.buildQuery(this.params), {sort: {timestamp: -1}}).fetch());
     this.next();
   },
-  onAfterAction: function () {
+  onAfterAction() {
     fn.getExternalScripts();
-  }
+  },
 });
 
 // TODO: figure out what to do when no param is given
 Router.route('/peer', {
   name: 'peer',
-  template: 'peer'
+  template: 'peer',
 });
 
 /***
@@ -94,17 +94,17 @@ Router.route('/peer', {
 Router.route('/peer/:username', {
   name: 'peerFeed',
   template: 'home',
-  waitOn: function() {
+  waitOn() {
     return [Meteor.subscribe('contracts', fn.buildQuery(this.params)), Meteor.subscribe("userData")];
   },
-  onBeforeAction: function() {
+  onBeforeAction() {
     fn.clearSessionVars();
     fn.configNavbar(fn.buildTitle(this.params));
     fn.setSessionVars();
     Session.set('feed', Contracts.find(fn.buildQuery(this.params), {sort: {timestamp: -1}}).fetch());
     this.next();
   },
-  onAfterAction: function () {
+  onAfterAction() {
     fn.getExternalScripts();
   }
 });
@@ -116,18 +116,18 @@ Router.route('/peer/:username', {
 Router.route('/vote/:contract', {
   name: 'voteContract',
   template: 'contract',
-  waitOn: function () {
-    return [Meteor.subscribe('contracts', fn.buildQuery(this.params.query)), Meteor.subscribe("userData")];
+  waitOn() {
+    return [Meteor.subscribe('contracts', fn.buildQuery(this.params.query)), Meteor.subscribe('userData')];
   },
-  onBeforeAction: function() {
+  onBeforeAction() {
     fn.clearSessionVars();
-    fn.configNavbar(fn.buildTitle(this.params.contract))
+    fn.configNavbar(fn.buildTitle(this.params.contract));
     fn.setSessionVars(this.params);
     this.next();
   },
-  onAfterAction: function () {
+  onAfterAction() {
     fn.getExternalScripts();
-  }
+  },
 });
 
 /***
@@ -136,34 +136,33 @@ Router.route('/vote/:contract', {
 Router.route('/delegation/:contract', {
   name: 'delegationContract',
   template: 'contract',
-  waitOn: function () {
-    if (this.params.contract == 'draft') {
-      return [Meteor.subscribe('contracts', { keyword: this.params.contract }), Meteor.subscribe("userData"), Meteor.subscribe('tags')];
-    } else {
-      return [Meteor.subscribe('contracts', { keyword: this.params.contract }), Meteor.subscribe("userData")];
+  waitOn() {
+    if (this.params.contract === 'draft') {
+      return [Meteor.subscribe('contracts', { keyword: this.params.contract }), Meteor.subscribe('userData'), Meteor.subscribe('tags')];
     }
+    return [Meteor.subscribe('contracts', { keyword: this.params.contract }), Meteor.subscribe('userData')];
   },
-  onBeforeAction: function() {
+  onBeforeAction() {
     fn.clearSessionVars();
     fn.configNavbar('navbar-delegation');
     fn.setSessionVars(this.params);
     this.next();
   },
-  onAfterAction: function () {
+  onAfterAction() {
     fn.getExternalScripts();
-  }
+  },
 });
 
 //Email routes
-Router.route( '/verify-email/:token', {
+Router.route('/verify-email/:token', {
   name: 'verify-email',
-  onBeforeAction: function () {
+  onBeforeAction() {
     Session.set('emailToken', this.params.token);
     this.next();
-  }
+  },
 });
 
 //Login
 Router.route('/login', {
-  name: 'login'
+  name: 'login',
 });
