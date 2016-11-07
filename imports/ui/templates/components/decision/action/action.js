@@ -1,4 +1,8 @@
-import { sendDelegationVotes, publishContract, vote } from '../../../../../startup/both/modules/Contract';
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+import { TAPi18n } from 'meteor/tap:i18n';
+
+import { sendDelegationVotes, publishContract, vote } from '/imports/startup/both/modules/Contract';
 
 Template.action.helpers({
   disabled: function () {
@@ -7,7 +11,7 @@ Template.action.helpers({
     } else {
       if (Session.get('newVote') != undefined) {
         switch (Session.get('newVote').mode) {
-          case WALLET_MODE_EXECUTED:
+          case 'EXECUTED':
             return 'executed';
           default:
             return '';
@@ -58,7 +62,7 @@ Template.action.events({
               );
               break;
             case 'VOTE':
-              if (Session.get('contract').stage == STAGE_DRAFT) {
+              if (Session.get('contract').stage === 'DRAFT') {
                 Modules.client.displayModal(
                   true,
                   {
@@ -130,7 +134,7 @@ function disableContractExecution() {
       }
     }
     if (Session.get('newVote') != undefined) {
-      if (Session.get('newVote').mode == WALLET_MODE_PENDING || Session.get('newVote').mode == undefined) {
+      if (Session.get('newVote').mode === 'PENDING' || Session.get('newVote').mode == undefined) {
         return false;
       } else {
         return true;
