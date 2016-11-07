@@ -1,4 +1,6 @@
-import {default as Modules} from "./_modules";
+import { Session } from 'meteor/session';
+
+import { timers } from '/lib/const';
 
 let showNotice = (label, temporary) => {
   Session.set('noticeDisplay', label);
@@ -7,9 +9,8 @@ let showNotice = (label, temporary) => {
   if (temporary) {
     Meteor.setTimeout(function() {
        Session.set('showNotice', false);
-    }, WARNING_DURATION);
+    }, timers.WARNING_DURATION);
   }
+};
 
-}
-
-Modules.client.displayNotice = showNotice;
+export const displayNotice = showNotice;
