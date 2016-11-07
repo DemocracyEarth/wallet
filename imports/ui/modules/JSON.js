@@ -1,6 +1,4 @@
-import {default as Modules} from "./_modules";
-
-let JSONlookup = (source, keyword) => {
+const JSONlookup = (source, keyword) => {
   const matchingFields = [];
   let sourceString = '';
 
