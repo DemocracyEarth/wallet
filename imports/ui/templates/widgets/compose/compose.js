@@ -1,4 +1,11 @@
-Template.compose.rendered = function () {
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+import { $ } from 'meteor/jquery';
+
+import { createContract } from '/imports/startup/both/modules/Contract';
+
+Template.compose.onRendered = function onRender() {
   $('.action-label').css('opacity', 0);
   $('.action-label').css('overflow', 'hidden');
   $('.action-icon-mouseover').css('opacity', 0);
@@ -26,7 +33,7 @@ Template.compose.events({
     animationExit();
   },
   'click #action-hotspace': function () {
-    Modules.both.createContract();
+    createContract();
   }
 });
 
