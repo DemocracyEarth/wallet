@@ -1,6 +1,14 @@
-var typingTimer; //timer identifier
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { TAPi18n } from 'meteor/tap:i18n';
+import { Session } from 'meteor/session';
 
-Template.title.rendered = function () {
+import { Contracts } from '/imports/api/contracts/Contracts';
+import { rules, timers } from '/lib/const';
+
+let typingTimer; // timer identifier
+
+Template.title.onRendered = function onRendered() {
   Modules.client.initEditor();
 
   //TODO: figure out how to make tab work properly on first try.
@@ -20,7 +28,7 @@ Template.title.rendered = function () {
     e.preventDefault();
     var text = Modules.client.stripHTMLfromText(e.clipboardData.getData("text/plain"));
     var newtitle = $('#titleContent')[0].innerText;
-    var delta = parseInt(TITLE_MAX_LENGTH - newtitle.length);
+    var delta = parseInt(rules.TITLE_MAX_LENGTH - newtitle.length);
     if (delta > 0) {
       document.execCommand("insertHTML", false, text);
      }
@@ -71,10 +79,10 @@ Template.title.helpers({
   },
   missingTitle: function () {
     if (Session.get('missingTitle')) {
-      Session.set('URLStatus', URL_STATUS_UNAVAILABLE);
+      Session.set('URLStatus', 'UNAVAILABLE');
     }
     if ($('#titleContent').is(":focus")) {
-      Session.set('URLStatus', URL_STATUS_NONE);
+      Session.set('URLStatus', 'NONE');
     }
     if (!Session.get('firstEditorLoad')) {
       return Session.get('missingTitle');
@@ -128,7 +136,7 @@ Template.titleContent.events({
     //Set timer to check upload to db
     Meteor.clearTimeout(typingTimer);
     Session.set('contractKeyword', keyword);
-    Session.set('URLStatus', URL_STATUS_VERIFY);
+    Session.set('URLStatus', 'VERIFY');
 
     if (Session.get('firstEditorLoad')) {
       var currentTitle = document.getElementById("titleContent").innerText;
@@ -141,12 +149,12 @@ Template.titleContent.events({
     //Checking content typed
     if (content == '') {
       Session.set('contractKeyword', keyword);
-      Session.set('URLStatus', URL_STATUS_UNAVAILABLE);
+      Session.set('URLStatus', 'UNAVAILABLE');
       Session.set('missingTitle', true);
       return;
     } else if (keyword.length < 3) {
       Session.set('contractKeyword', keyword);
-      Session.set('URLStatus', URL_STATUS_UNAVAILABLE);
+      Session.set('URLStatus', 'UNAVAILABLE');
       Session.set('mistypedTitle', true);
       Session.set('missingTitle', false);
       return;
@@ -158,19 +166,19 @@ Template.titleContent.events({
     //Call function when typing seems to be finished.
     typingTimer = Meteor.setTimeout(function () {
       if (contract != undefined && contract._id != Session.get('contract')._id) {
-          Session.set('URLStatus', URL_STATUS_UNAVAILABLE);
+          Session.set('URLStatus', 'UNAVAILABLE');
       } else {
         if (Contracts.update({_id : Session.get('contract')._id }, { $set: { title: content, keyword: keyword, url: "/" + Session.get('contract').kind.toLowerCase() + "/" + keyword }})) {
-          Session.set('URLStatus', URL_STATUS_AVAILABLE);
+          Session.set('URLStatus', 'AVAILABLE');
         };
         Modules.client.displayNotice(TAPi18n.__('saved-draft-description'), true);
       }
-    }, SERVER_INTERVAL);
+    }, timers.SERVER_INTERVAL);
 
   },
   "keypress #titleContent": function (event) {
     var content = document.getElementById("titleContent").innerText;
-    return (content.length <= TITLE_MAX_LENGTH) && event.which != 13 && event.which != 9;
+    return (content.length <= rules.TITLE_MAX_LENGTH) && event.which != 13 && event.which != 9;
   },
   "focus #titleContent": function (event) {
     if (Session.get('missingTitle')) {
