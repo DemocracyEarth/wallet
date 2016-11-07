@@ -1,13 +1,12 @@
-import {default as Modules} from "./_modules";
+import { Session } from 'meteor/session';
 
-let modal = (active, settings, callback) => {
+const modal = (active, settings, callback) => {
   Session.set('displayModal', settings);
   Session.set('showModal', active);
 
-  if (callback != undefined) {
-    Modules.client.modalCallback = callback;
+  if (callback !== undefined) {
+    export const modalCallback = callback;
   }
-
 };
 
-Modules.client.displayModal = modal;
+export const displayModal = modal;
