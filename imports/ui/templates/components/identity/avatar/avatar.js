@@ -1,8 +1,18 @@
-Template.avatar.rendered = function () {
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+import { TAPi18n } from 'meteor/tap:i18n';
+
+import { signatureStatus, removeSignature } from '/imports/startup/both/modules/Contract';
+import { guidGenerator } from '/imports/startup/both/modules/crypto';
+import { getAnonymous } from '/imports/startup/both/modules/User';
+import { showFullName } from '/imports/startup/both/modules/utils';
+
+Template.avatar.onRendered = function onRender() {
   Session.set('editor', false);
 }
 
-//this turned out to be kinda polymorphic
+// this turned out to be kinda polymorphic
 Template.avatar.helpers({
   url: function () {
     var user;
@@ -53,10 +63,10 @@ Template.avatar.helpers({
     }
   },
   roleStatus: function () {
-    return Modules.both.signatureStatus(Session.get('contract').signatures, this.profile);
+    return signatureStatus(Session.get('contract').signatures, this.profile);
   },
   roleStyle: function () {
-    switch (Modules.both.signatureStatus(Session.get('contract').signatures, this.profile, true)) {
+    switch (signatureStatus(Session.get('contract').signatures, this.profile, true)) {
       case 'CONFIRMED':
         return 'signature-confirmed';
       case 'REJECTED':
@@ -75,7 +85,7 @@ Template.avatar.helpers({
     if (Session.get('contract') != undefined) {
       if (Session.get('contract').kind == 'DELEGATION') {
         if (this.includeRole) {
-          if (Modules.both.signatureStatus(Session.get('contract').signatures, this.profile, true) == 'PENDING') {
+          if (signatureStatus(Session.get('contract').signatures, this.profile, true) == 'PENDING') {
             return 'pending';
           } else {
             return '';
@@ -87,7 +97,7 @@ Template.avatar.helpers({
     }
   },
   elementId: function () {
-    return Modules.both.guidGenerator();
+    return guidGenerator();
   },
   classStyle: function (smallFont) {
     var style = new String();
@@ -117,7 +127,7 @@ Template.avatar.helpers({
         return profile.picture;
       } else {
         var user = Meteor.users.findOne({ _id: profile });
-        if (user == undefined) { user = Modules.both.getAnonymous(); }
+        if (user == undefined) { user = getAnonymous(); }
         return user.profile.picture;
       }
     }
@@ -136,18 +146,18 @@ Template.avatar.helpers({
     if (profile == undefined) {
       if (Meteor.user() != undefined) {
         if (Meteor.user().profile.firstName != undefined) {
-          return Modules.both.showFullName(Meteor.user().profile.firstName, Meteor.user().profile.lastName, Meteor.user().username);
+          return showFullName(Meteor.user().profile.firstName, Meteor.user().profile.lastName, Meteor.user().username);
         } else {
           return Meteor.user().username;
         }
       }
     } else {
       if (profile.firstName != undefined) {
-        return Modules.both.showFullName(profile.firstName, profile.lastName, profile.username);
+        return showFullName(profile.firstName, profile.lastName, profile.username);
       } else {
         var user = Meteor.users.findOne({ _id: profile });
-        if (user == undefined) { user = Modules.both.getAnonymous(); }
-        return Modules.both.showFullName(user.profile.firstName, user.profile.lastName, user.username);
+        if (user == undefined) { user = getAnonymous(); }
+        return showFullName(user.profile.firstName, user.profile.lastName, user.username);
       }
     }
   },
@@ -172,7 +182,7 @@ Template.avatar.helpers({
         }
       } else {
         var user = Meteor.users.findOne({ _id: profile });
-        if (user == undefined) { user = Modules.both.getAnonymous(); }
+        if (user == undefined) { user = getAnonymous(); }
         if (user != undefined && user.profile.country != undefined) {
           var country = Modules.client.searchJSON(geoJSON.country, user.profile.country.name);
           if (user.profile.country.name != TAPi18n.__('unknown') && country != undefined) {
@@ -209,7 +219,7 @@ Template.avatar.events({
         displayProfile  : false
       },
       function() {
-        Modules.both.removeSignature(Session.get('contract')._id, Meteor.user()._id);
+        removeSignature(Session.get('contract')._id, Meteor.user()._id);
         Session.set('userSigned', false);
       }
     );
