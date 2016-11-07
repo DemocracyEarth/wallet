@@ -1,5 +1,13 @@
-Template.power.rendered = function (user) {
-  if (!Meteor.user()) { return };
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { TAPi18n } from 'meteor/tap:i18n';
+import { $ } from 'meteor/jquery';
+import { Session } from 'meteor/session';
+import { isUserSigner, userVotesInContract } from '/imports/startup/both/modules/User';
+import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
+
+Template.power.onRendered = function render() {
+  if (!Meteor.user()) { return; }
 
   $("#voteHandle").draggable({
     axis: "x",
@@ -55,12 +63,12 @@ Template.power.helpers({
         //delegation
         if (Session.get('contract').kind == 'DELEGATION') {
           voteQuantity = TAPi18n.__('delegate-votes-executed');
-          if (Modules.both.isUserSigner(Session.get('contract').signatures)) {
+          if (isUserSigner(Session.get('contract').signatures)) {
             var signatures = Session.get('contract').signatures;
             for (i in signatures) {
               if (signatures[i].role == 'DELEGATOR' && signatures[i]._id == Meteor.user()._id) {
                 //delegator
-                var quantity = Modules.both.userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
+                var quantity = userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
                 break;
               } else if (signatures[i].role == 'DELEGATE' && signatures[i]._id == Meteor.user()._id) {
                 //delegate
@@ -78,7 +86,7 @@ Template.power.helpers({
               }
             }
             if (rejection != true) {
-              if (Modules.both.isUserSigner(Session.get('contract').signatures)) {
+              if (isUserSigner(Session.get('contract').signatures)) {
                 var quantity = Session.get('contract').wallet.available;
               } else {
                 var quantity = Session.get('contract').wallet.balance;
@@ -172,7 +180,7 @@ Template.power.events({
           kind: Session.get('contract').kind,
           contractId: Session.get('contract')._id //_getContractId(senderId, receiverId, settings.kind),
         }
-        Modules.both.sendDelegationVotes(Session.get('contract')._id, Session.get('contract').signatures[1]._id, Session.get('contract').wallet.available, settings, 'CONFIRMED');
+        sendDelegationVotes(Session.get('contract')._id, Session.get('contract').signatures[1]._id, Session.get('contract').wallet.available, settings, 'CONFIRMED');
       }
     );
   },
@@ -204,7 +212,7 @@ Template.power.events({
           kind: Session.get('contract').kind,
           contractId: Session.get('contract')._id //_getContractId(senderId, receiverId, settings.kind),
         }
-        Modules.both.sendDelegationVotes(Session.get('contract')._id, Session.get('contract').signatures[0]._id, Session.get('contract').wallet.available, settings, 'REJECTED');
+        sendDelegationVotes(Session.get('contract')._id, Session.get('contract').signatures[0]._id, Session.get('contract').wallet.available, settings, 'REJECTED');
       }
     );
   }
