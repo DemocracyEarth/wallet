@@ -1,3 +1,4 @@
+import { TAPi18n } from 'meteor/tap:i18n';
 
 let timeAgo = (date) => {
     var seconds = Math.floor((new Date() - date) / 1000);
@@ -16,7 +17,7 @@ let timeLeft = (date) => {
 let buildSentence = (seconds, mode) => {
   var interval = Math.floor(seconds / 31536000);
   if (interval > 1) {
-      return interval + " " + TAPi18n.__('years-' + mode);
+    return interval + ' ' + TAPi18n.__('years-' + mode);
   }
   interval = Math.floor(seconds / 2592000);
   if (interval > 1) {
@@ -24,7 +25,7 @@ let buildSentence = (seconds, mode) => {
   }
   interval = Math.floor(seconds / 86400);
   if (interval > 1) {
-      return interval + " " + TAPi18n.__('days-' + mode);;
+      return interval + " " + TAPi18n.__('days-' + mode);
   }
   interval = Math.floor(seconds / 3600);
   if (interval > 1) {

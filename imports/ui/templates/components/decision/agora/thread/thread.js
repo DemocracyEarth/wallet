@@ -1,8 +1,15 @@
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+
+import { timeSince } from '/imports/ui/modules/chronos';
+import { textFormat } from '/imports/ui/modules/utils';
+
 var replyBoxes = new Array();
 
 Template.thread.helpers({
   timestamp: function () {
-    return Modules.client.timeSince(this.timestamp);
+    return timeSince(this.timestamp);
   },
   noChildren: function () {
     if (this.children == undefined || this.children.length <= 0) {
@@ -20,7 +27,7 @@ Template.thread.helpers({
     }
   },
   content: function () {
-    return Modules.client.textFormat(this.content);
+    return textFormat(this.content);
   },
   settingRanking: function () {
     if (Meteor.settings.public.app.config.commentRanking == false) {
