@@ -25,7 +25,6 @@ let sidebarMenu = (feed) => {
 
 }
 
-
 /*****
 /* stores the current selected item in case of refresh
 /* @param {array} arrMenu - arry items from menu
@@ -87,7 +86,7 @@ let _searchContract = (source, list) => {
         var delegate = source.signatures[stamp]._id;
         if (!_alreadyListed(delegate, list)) {
           list.push(delegate);
-'live-votes'
+        }
       }
       break;
   }
@@ -292,7 +291,7 @@ let animateMenu = () => {
     $('#content').velocity({'left': '0px' }, animationSettings);
     $('.navbar').velocity({'left': '0px' }, animationSettings);
   }
-}
+};
 
 export const toggleSelectedItem = _toggleSelectedItem;
 export const toggleSidebar = animateMenu;
