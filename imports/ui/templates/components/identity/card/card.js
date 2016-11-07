@@ -1,4 +1,11 @@
-var newDelegateName = new String();
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+
+import { startDelegation } from '/imports/startup/both/modules/Contract';
+import { convertToSlug } from '/lib/utils';
+
+let newDelegateName = '';
 
 Template.card.helpers({
   myself: function () {
@@ -15,10 +22,10 @@ Template.card.helpers({
 })
 
 Template.card.events({
-  'click #delegate': function () {
+  'click #delegate'() {
     var keywordTitle = convertToSlug(Meteor.user().username) + '-' + convertToSlug(Session.get('newDelegate').username);
     if (keywordTitle != undefined) {
-      Modules.both.startDelegation(Meteor.userId(), this.toString(), {
+      startDelegation(Meteor.userId(), this.toString(), {
         title: keywordTitle,
         signatures: [
           {
