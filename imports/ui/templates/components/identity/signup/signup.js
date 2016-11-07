@@ -1,8 +1,11 @@
-import { validateEmail } from '../../startup/both/modules/validations.js'
-import { validatePassword, validatePasswordMatch, createUser } from '../../startup/both/modules/User.js'
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
 
-Template.signup.rendered = function () {
-  var enableLogin = false;
+import { validateEmail } from '/imports/startup/both/modules/validations.js';
+import { validatePassword, validatePasswordMatch, createUser, validateUsername } from '/imports/startup/both/modules/User.js';
+
+Template.signup.onRendered = function onReder() {
+  let enableLogin = false;
 
   //Give everyone a chance to not fuckup
   Session.set("invalidUsername", false);
@@ -47,7 +50,7 @@ Template.signup.events({
     if (event.target.value != '') {
       switch(event.target.name) {
         case "username-signup":
-          Modules.both.validateUsername(event.target.value);
+          validateUsername(event.target.value);
           break;
         case "email-signup":
           validateEmail(event.target.value);
