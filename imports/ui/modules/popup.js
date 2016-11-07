@@ -1,24 +1,29 @@
-import {default as Modules} from "./_modules";
+import { Meteor } from 'meteor/meteor';
+import { $ } from 'meteor/jquery';
+import { Session } from 'meteor/session';
 
-popupCard = new Object();
-popupCard.visible = false;
-popupCard.position = new Object;
-var popupTimer;
+import { animationSettings } from './animation';
 
-/*****
+const popupCard = {
+  visible: false,
+  position: {},
+};
+let popupTimer;
+
+/**
 /* @param {string} template - the name of the blaze template to be used dynamically on the content of the popup
 /* @param {string} element - source element is calling this popup for rankPreferences
 /* @param {boolean} show - specifically set to true or false if popcurd needs to be shown or hidden
 ******/
-let _displayPopup = (element, visible, template, params, eventType) => {
-  var timer = new Number();
+const _displayPopup = (element, visible, template, params, eventType) => {
+  let timer = 0;
 
   if (!Session.get('displayPopup')) {
 
     if (eventType == 'click') {
       timer = 0;
     } else {
-      timer = parseInt(Modules.client.animationSettings.duration * 5);
+      timer = parseInt(animationSettings.duration * 5);
     }
 
     popupTimer = Meteor.setTimeout(function () {
@@ -61,7 +66,7 @@ let _displayPopup = (element, visible, template, params, eventType) => {
 /*****
 /* cancels the imminent display of the popup
 *****/
-let _cancelPopup = () => {
+const _cancelPopup = () => {
   Meteor.clearTimeout(popupTimer);
 }
 
@@ -174,11 +179,11 @@ let _animatePopup = (display) => {
     if (popupCard.pointerClass == '.pointer-up') { pointerFX = '5px'; };
     $('.popup').css('opacity','0');
     $('.popup').css('margin-top', pointerFX);
-    $('.popup').velocity({ 'opacity' : 1}, {duration: (Modules.client.animationSettings.duration / 2)});
-    $('.popup').velocity({ 'marginTop' : '0px'}, {duration: (Modules.client.animationSettings.duration / 2)});
+    $('.popup').velocity({ 'opacity' : 1}, {duration: (animationSettings.duration / 2)});
+    $('.popup').velocity({ 'marginTop' : '0px'}, {duration: (animationSettings.duration / 2)});
   } else {
     $('.popup').css('opacity','1');
-    $('.popup').velocity({ 'opacity' : 0}, {duration: (Modules.client.animationSettings.duration / 2), complete: function () {
+    $('.popup').velocity({ 'opacity' : 0}, {duration: (animationSettings.duration / 2), complete: function () {
         $('.popup').css('margin-top', '-10000px');
         Session.set('displayPopup', false);
       }
@@ -207,13 +212,13 @@ let _displayLogin = (event, target) => {
   if (target == undefined) { target = event.target };
   Session.set('logger', !Session.get('logger'));
   if (Session.get('logger')) {
-    Modules.client.displayPopup(target, Session.get('logger'), 'login', this, event.type);
+    _displayPopup(target, Session.get('logger'), 'login', this, event.type);
   } else {
-    Modules.client.animatePopup(false);
+    _animatePopup(false);
   }
-}
+};
 
-Modules.client.cancelPopup = _cancelPopup;
-Modules.client.displayLogin = _displayLogin;
-Modules.client.animatePopup = _animatePopup;
-Modules.client.displayPopup = _displayPopup;
+export const cancelPopup = _cancelPopup;
+export const displayLogin = _displayLogin;
+export const animatePopup = _animatePopup;
+export const displayPopup = _displayPopup;
