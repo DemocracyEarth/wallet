@@ -1,18 +1,19 @@
 import {default as Modules} from "./_modules";
 
 let JSONlookup = (source, keyword) => {
-  var matchingFields = new Array;
-  var sourceString = new String;
+  const matchingFields = [];
+  let sourceString = '';
 
-  if (source != undefined) {
-    for(var i = 0; i < source.length; i++) {
+  if (source !== undefined) {
+    for (let i = 0; i < source.length; i++) {
       sourceString = source[i].name.toUpperCase();
-      if(sourceString.indexOf(keyword.toUpperCase()) >= 0) {
+      if (sourceString.indexOf(keyword.toUpperCase()) >= 0) {
         matchingFields.push(source[i]);
       }
     }
     return matchingFields;
-  };
-}
+  }
+  return undefined;
+};
 
-Modules.client.searchJSON = JSONlookup;
+export const searchJSON = JSONlookup;
