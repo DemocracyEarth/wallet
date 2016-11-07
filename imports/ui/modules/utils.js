@@ -1,10 +1,11 @@
-import Modules from './_modules';
+import { Session } from 'meteor/session';
+
 import { getProfileFromUsername } from '../../startup/both/modules/User';
 
 /*****
 /* @param {string} text - string to format
 ******/
-let textFormat = (text) => {
+export const textFormat = (text) => {
   var html = new String();
   var bold = /\*(\S(.*?\S)?)\*/gm;
 
@@ -86,9 +87,7 @@ let _getProfileName = (profile) => {
   return fullName;
 };
 
-
-
-logRenders = function logRenders (filter) {
+export const logRenders = function logRenders(filter) {
   for (name in Object(Template)){
     if (filter && !Array.isArray(filter)) filter = [filter];
     var template = Template[name];
@@ -107,11 +106,9 @@ logRenders = function logRenders (filter) {
         this.oldRender && this.oldRender.apply(this, arguments);
       };
     }(name, template);
-  };
+  }
 };
 
-Modules.client.logRenders = logRenders;
-Modules.client.getProfileName = _getProfileName;
-Modules.client.delegationTextCheck = _delegationTextCheck;
-Modules.client.stripHTMLfromText = stripHTML;
-Modules.client.textFormat = textFormat;
+export const getProfileName = _getProfileName;
+export const delegationTextCheck = _delegationTextCheck;
+export const stripHTMLfromText = stripHTML;
