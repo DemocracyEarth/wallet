@@ -8,6 +8,10 @@ import { timers } from '/lib/const';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { toggleSidebar } from '/imports/ui/modules/menu';
 
+import './navigation.html';
+import '../authentication/authentication';
+import '../../widgets/notice/notice.js';
+
 //Scroll behaviour
 var lastScrollTop = 0;
 var scrollDown = false;

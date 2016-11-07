@@ -1,3 +1,8 @@
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+
+import './collective.html';
+
 Template.collective.helpers({
   title: function () {
     if (Session.get('collective') != undefined) {

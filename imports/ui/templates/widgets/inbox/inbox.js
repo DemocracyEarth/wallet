@@ -1,6 +1,8 @@
 import { Template } from 'meteor/templating';
 import { toggleSelectedItem } from '../../../modules/menu';
 
+import './inbox.html';
+
 Template.inbox.helpers({
   selected: function () {
     if (this.selected) {

@@ -1,3 +1,7 @@
+import { Template } from 'meteor/templating';
+import { TAPi18n } from 'meteor/tap:i18n';
+import { Session } from 'meteor/session';
+
 Template.verifyEmail.rendered = function () {
   Accounts.verifyEmail( Session.get('emailToken'), ( error ) =>{
     if ( error ) {

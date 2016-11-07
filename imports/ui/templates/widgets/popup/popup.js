@@ -1,10 +1,16 @@
-Template.popup.rendered = function () {
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+
+import { animatePopup } from '/imports/ui/modules/popup'
+import './popup.html';
+
+Template.popup.onRendered = function onRender() {
   Session.set('displayPopup', false);
 };
 
 Template.popup.helpers({
   visible: function () {
-    Modules.client.animatePopup(Session.get('displayPopup'));
+    animatePopup(Session.get('displayPopup'));
   },
   content: function () {
     return Session.get('popupTemplate');

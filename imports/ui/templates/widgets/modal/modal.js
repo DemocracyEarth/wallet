@@ -5,17 +5,19 @@ import { Session } from 'meteor/session';
 import { animationSettings } from '/imports/ui/modules/animation';
 import { modalCallback, displayModal } from '/imports/ui/modules/modal';
 
+import './modal.html';
+
 Template.modal.helpers({
-  showModal: function () {
+  showModal() {
     return Session.get('showModal');
   }
 });
 
 
-Template.modalWindow.rendered = function () {
+Template.modalWindow.onRendered = function onRender() {
   //Initial position
-  paddingTotal = parseInt($('.alert').css('padding-bottom')) + parseInt($('.alert').css('padding-top'));
-  var alertHeight = parseInt( (window.innerHeight / 2) - ( ($('.alert').height() + paddingTotal) / 2));
+  const paddingTotal = parseInt($('.alert').css('padding-bottom')) + parseInt($('.alert').css('padding-top'));
+  let alertHeight = parseInt( (window.innerHeight / 2) - ( ($('.alert').height() + paddingTotal) / 2));
   if (alertHeight > 200) {
     alertHeight = 200;
   }

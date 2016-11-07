@@ -23,11 +23,17 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 
+import './main.html';
+import '../widgets/modal/modal';
+import '../widgets/popup/popup';
+import './sidebar/sidebar';
+import './navigation/navigation';
+
 Meteor.startup(function () {
 
   //Mail server settings
   process.env.MAIL_URL = Meteor.settings.smtpServer;
-      
+
   //setup language
   Session.set("showLoadingIndicator", true);
 

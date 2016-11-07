@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 
 import { displayLogin } from '/imports/ui/modules/popup';
+import './authentication.html';
 
 Template.authentication.onRendered = function onRender() {
   Session.set('logger', false);

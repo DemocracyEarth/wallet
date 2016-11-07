@@ -1,3 +1,6 @@
+import { Template } from 'meteor/templating';
+import './load.html';
+
 Template.load.rendered = function () {
   var opts = {
       lines: 17 // The number of lines to draw
