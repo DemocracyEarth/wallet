@@ -1,4 +1,3 @@
-import {default as Modules} from "./_modules";
 
 let timeAgo = (date) => {
     var seconds = Math.floor((new Date() - date) / 1000);
@@ -38,5 +37,5 @@ let buildSentence = (seconds, mode) => {
   return Math.floor(seconds) + " " + TAPi18n.__('seconds-' + mode);
 }
 
-Modules.client.timeSince = timeAgo;
-Modules.client.countdown = timeLeft;
+export const timeSince = timeAgo;
+export const countdown = timeLeft;
