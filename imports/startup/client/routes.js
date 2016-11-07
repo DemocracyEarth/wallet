@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
 import { Session } from 'meteor/session';
+import { TAPi18n } from 'meteor/tap:i18n';
 import { Contracts } from '../../api/contracts/Contracts';
 import { fn } from './functions';
 
@@ -144,7 +145,7 @@ Router.route('/delegation/:contract', {
   },
   onBeforeAction() {
     fn.clearSessionVars();
-    fn.configNavbar('navbar-delegation');
+    fn.configNavbar(TAPi18n.__('navbar-delegation'));
     fn.setSessionVars(this.params);
     this.next();
   },

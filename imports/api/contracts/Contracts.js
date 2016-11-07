@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import { TAPi18n } from 'meteor/tap:i18n';
 import Thread from './Thread';
 import Wallet from '../users/Wallet';
 import { convertToSlug } from '../../utils/functions';
@@ -116,7 +117,7 @@ Contracts.schema = new SimpleSchema({
       if (this.isInsert) {
         if (this.field('kind').value === 'DELEGATION') {
           if (this.field('description').value === undefined) {
-            return 'default-delegation-contract';
+            return TAPi18n.__('default-delegation-contract');
           }
         } else {
           return '';
