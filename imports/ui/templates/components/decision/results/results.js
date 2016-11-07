@@ -1,6 +1,12 @@
+import { Template } from 'meteor/templating';
+import { TAPi18n } from 'meteor/tap:i18n';
+import { Session } from 'meteor/session';
+
+import { showResults } from '/imports/ui/modules/ballot';
+
 Template.results.helpers({
   result: function () {
-    return Modules.client.showResults(Session.get('contract'));
+    return showResults(Session.get('contract'));
   },
   percentageLabel: function () {
     return parseInt(this.percentage).toString() + '%'
@@ -10,8 +16,8 @@ Template.results.helpers({
   },
   label: function () {
     switch (this.mode) {
-      case BALLOT_OPTION_MODE_REJECT:
-      case BALLOT_OPTION_MODE_AUTHORIZE:
+      case 'REJECT':
+      case 'AUTHORIZE':
         return TAPi18n.__(this.mode);
       default:
         return this.label;

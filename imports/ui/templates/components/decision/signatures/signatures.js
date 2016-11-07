@@ -5,8 +5,9 @@ import { TAPi18n } from 'meteor/tap:i18n';
 
 import { getAnonymous } from '/imports/startup/both/modules/User';
 import { signContract } from '/imports/startup/both/modules/Contract';
+import { displayModal } from '/imports/ui/modules/modal';
 
-Template.signatures.rendered = function () {
+Template.signatures.onRendered = function onRender() {
   if (!Session.get('contract')) { return; }
   var contractAuthors = Session.get('contract').signatures;
   if (contractAuthors != undefined) {
@@ -48,7 +49,7 @@ Template.signatures.helpers({
 
 Template.signatures.events({
   'click #sign-author': function () {
-    Modules.client.displayModal(
+    displayModal(
       true,
       {
         icon: 'images/author-signature.png',
