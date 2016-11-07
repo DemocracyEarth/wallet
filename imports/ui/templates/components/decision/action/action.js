@@ -3,6 +3,8 @@ import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 
 import { sendDelegationVotes, publishContract, vote } from '/imports/startup/both/modules/Contract';
+import { displayModal } from '/imports/ui/modules/modal';
+import { purgeBallot, ballotReady } from '/imports/ui/modules/ballot';
 
 Template.action.helpers({
   disabled: function () {
@@ -34,8 +36,8 @@ Template.action.events({
                 if (Session.get('contract').signatures[stamp]._id != Meteor.user()._id) {
                   var counterPartyId = Session.get('contract').signatures[stamp]._id;
                 }
-              };
-              Modules.client.displayModal(
+              }
+              displayModal(
                 true,
                 {
                   icon            : 'images/modal-delegation.png',
@@ -63,7 +65,7 @@ Template.action.events({
               break;
             case 'VOTE':
               if (Session.get('contract').stage === 'DRAFT') {
-                Modules.client.displayModal(
+                displayModal(
                   true,
                   {
                     icon            : 'images/modal-ballot.png',
@@ -78,7 +80,7 @@ Template.action.events({
                   }
                 );
               } else if (Session.get('contract').stage == 'LIVE') {
-                Modules.client.displayModal(
+                displayModal(
                   true,
                   {
                     icon            : 'images/modal-vote.png',
@@ -89,7 +91,7 @@ Template.action.events({
                     displayProfile  : false
                   },
                   function() {
-                    var ballot = Modules.client.purgeBallot(Session.get('candidateBallot'));
+                    var ballot = purgeBallot(Session.get('candidateBallot'));
                     settings = {
                       condition: {
                         tags : Session.get('contract').tags,
@@ -129,7 +131,7 @@ function disableContractExecution() {
     return true;
   } else {
     if (Session.get('contract').kind == 'VOTE' && Session.get('contract').stage == 'LIVE') {
-      if (!Modules.client.ballotReady()) {
+      if (!ballotReady()) {
         return true;
       }
     }
