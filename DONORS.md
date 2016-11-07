@@ -1,6 +1,6 @@
 # Donors List
 
-Democracy Earth Foundation is a 501 (c) 3 not for profit corporation sustained by grants & donations from these listed entities:
+Democracy Earth Foundation is a 501 (c) 3 not for profit corporation based in San Francisco, California sustained by grants, donations and contributions from these entities.
 
 ## Institutional
 
@@ -34,7 +34,7 @@ Democracy Earth Foundation is a 501 (c) 3 not for profit corporation sustained b
   * 🇺🇸 Allison	Sparks
   * 🇺🇸 Ahin Thomas
   * 🇺🇸 Ron	Hirson
-  * 🇺🇸 Anonymous
+  * 🌎 Anonymous
   * 🇺🇸 Ken	Ettinger
   * 🇺🇸 Sharon Goldstein
   * 🇮🇳 Shreenath	Regunathan
@@ -46,9 +46,7 @@ Democracy Earth Foundation is a 501 (c) 3 not for profit corporation sustained b
 ## Advise
 
   * 🇮🇹 Pia Mancini  
-  * 🇺🇸 Herb Stephens
   * 🇦🇷 Matias Mosse
-  * 🇺🇸 Dan Swislow
   * 🇧🇷 Ariel Kogan
   * 🇦🇷 Ernesto Dal Bó
   * 🇺🇸 Kate Courteau
@@ -60,12 +58,15 @@ Democracy Earth Foundation is a 501 (c) 3 not for profit corporation sustained b
 
   * [University of Berkeley](https://www.haas.berkeley.edu)
   * [Alphabet's Jigsaw](https://jigsaw.google.com)
+  * [World Economic Forum](https://weforum.org)  
 
 ## Team
 
-  * 🇦🇷 Mair Williams
+  * 🇦🇷 Santiago Siri
   * 🇫🇷 Virgile Deville  
-  * 🇨🇴 Felipe Alvarez
-  * 🇨🇦 Cyprien Grau
+  * 🇦🇷 Mair Williams  
+  * 🇺🇸 Herb Stephens
+  * 🇺🇸 Dan Swislow  
   * 🇫🇷 Louis Margot-Duclot
-  * 🇦🇷 Santiago Siri  
+  * 🇨🇴 Felipe Alvarez  
+  * 🇨🇦 Cyprien Grau
