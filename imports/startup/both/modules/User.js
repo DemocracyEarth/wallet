@@ -2,8 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
+
+import displayNotice from '/imports/ui/modules/notice';
 import { validateEmail } from './validations.js';
-import Modules from '../../../ui/modules/_modules';
 
 /**
 * @summary Create a new user
@@ -46,7 +47,7 @@ const _createUser = (data) => {
             if ( error ) {
               console.log( error.reason, 'danger' );
             } else {
-              Modules.client.displayNotice('user-created', true);
+              displayNotice('user-created', true);
             }
           });
           //make first membership transaction
