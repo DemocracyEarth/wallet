@@ -1,3 +1,10 @@
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { TAPi18n } from 'meteor/tap:i18n';
+import { Session } from 'meteor/session';
+
+import { setVote } from '/imports/ui/modules/ballot';
+
 Template.fork.helpers({
   length: function () {
     if (this.label != undefined) {
@@ -12,24 +19,24 @@ Template.fork.helpers({
     return '';
   },
   dragMode: function () {
-    if (Session.get('contract').stage == STAGE_DRAFT) {
+    if (Session.get('contract').stage == 'DRAFT') {
       return '';
     } else {
       return 'vote-nondrag';
     }
   },
   tickStyle: function () {
-    if (this.mode == BALLOT_OPTION_MODE_REJECT) {
+    if (this.mode == 'REJECT') {
       return 'unauthorized';
     }
   },
   checkbox: function (mode) {
     switch (mode) {
-      case BALLOT_OPTION_MODE_AUTHORIZE:
+      case 'AUTHORIZE':
         return 'vote-authorize nondraggable';
-      case BALLOT_OPTION_MODE_REJECT:
+      case 'REJECT':
         return 'vote-authorize unauthorized nondraggable';
-      case BALLOT_OPTION_MODE_FORK:
+      case 'FORK':
         return 'vote vote-alternative';
     }
   },
@@ -39,14 +46,14 @@ Template.fork.helpers({
       }
   },
   option: function (mode) {
-    if (Session.get('contract').stage == STAGE_DRAFT || ( Session.get('rightToVote') == false && Session.get('contract').stage != STAGE_DRAFT )) {
+    if (Session.get('contract').stage == 'DRAFT' || ( Session.get('rightToVote') == false && Session.get('contract').stage != 'DRAFT' )) {
       return 'disabled';
     } else {
       switch (mode) {
-        case BALLOT_OPTION_MODE_AUTHORIZE:
+        case 'AUTHORIZE':
           return '';
-        case BALLOT_OPTION_MODE_REJECT:
-          return 'option-link ';
+        case 'REJECT':
+          return 'option-link';
         default:
           return '';
       }
@@ -54,35 +61,35 @@ Template.fork.helpers({
   },
   decision: function (mode) {
     switch (mode) {
-      case BALLOT_OPTION_MODE_REJECT:
+      case 'REJECT':
         return 'option-link unauthorized';
       default:
         return '';
     }
   },
   caption: function (mode) {
-    if (mode != BALLOT_OPTION_MODE_FORK) {
+    if (mode != 'FORK') {
       return TAPi18n.__(mode);
     } else {
       return this.label;
     }
   },
   tick: function () {
-    if (Session.get('contract').stage == STAGE_DRAFT) {
+    if (Session.get('contract').stage == 'DRAFT') {
       return 'disabled'
     }
   },
   tickStatus: function () {
-    this.tick = Modules.client.getVote(Session.get('contract')._id, this._id);
+    this.tick = getVote(Session.get('contract')._id, this._id);
     if (Session.get('candidateBallot')) {
       if (this.tick) {
-        if (this.mode == BALLOT_OPTION_MODE_REJECT) {
+        if (this.mode == 'REJECT') {
           return 'tick-active-unauthorized';
         } else {
           return 'tick-active';
         }
       }
-    } else if (Session.get('rightToVote') == false && Session.get('contract').stage != STAGE_DRAFT) {
+    } else if (Session.get('rightToVote') == false && Session.get('contract').stage != 'DRAFT') {
       //already voted
       if (this.tick) {
         return 'tick-disabled'
@@ -96,13 +103,13 @@ Template.fork.helpers({
 Template.fork.events({
   "click #ballotCheckbox": function (event) {
     switch (Session.get('contract').stage) {
-      case STAGE_DRAFT:
-      case STAGE_FINISH:
+      case 'DRAFT':
+      case 'FINISH':
         Session.set('disabledCheckboxes', true);
         break;
       case 'LIVE':
         if (Session.get('rightToVote')) {
-          this.tick = Modules.client.setVote(Session.get('contract')._id, this);
+          this.tick = setVote(Session.get('contract')._id, this);
           break;
         }
     }
