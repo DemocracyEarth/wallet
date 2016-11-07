@@ -1,10 +1,13 @@
-/*****
-/* Wallet class for transaction operations
-/* @param {object} wallet - wallet object that can be set from a user's profile.
-/* @constructor {object} Wallet - constructor function
-******/
-Wallet = function (wallet) {
+import { Meteor } from 'meteor/meteor';
+import { Session } from 'meteor/session';
+import { $ } from 'meteor/jquery';
 
+/**
+* @summary Wallet class for transaction operations
+* @param {object} wallet - wallet object that can be set from a user's profile.
+* @constructor {object} Wallet - constructor function
+*/
+export const Wallet = function(wallet) {
    //properties
    if (wallet == undefined) {
      this.address = new Array();
@@ -14,13 +17,13 @@ Wallet = function (wallet) {
      this.placed = new Number(0)
      this.currency = 'VOTES';
    } else {
-     Object.assign(this, wallet)
+     Object.assign(this, wallet);
    }
 
    //private
    this.initialized = true;
    this.enabled = true;
-   this.mode =  WALLET_MODE_PENDING;
+   this.mode =  'PENDING';
 
    //view
    this._initialSliderWidth = $('#voteSlider').width();
@@ -35,7 +38,6 @@ Wallet = function (wallet) {
 
    //controller
    Session.set('newVote', this);
-
 }
 
 Wallet.prototype.allocateVotes = function (quantity, avoidSlider) {
@@ -75,12 +77,12 @@ let _scope = (value, max, min) => {
   if (min == undefined) { var min = 0 }; if (value < min) { return min } else if (value > max) { return max } else { return value };
 }
 
-/*****
-/* decides wether to get vots from a user on DB or from current active sessions of user
-/* @param {string} userId - user ID
-/* @param {string} sessionVar - session variable for interface purposes
-/* @return {number} value - quantity of votes
-******/
+/**
+* @summary decides wether to get vots from a user on DB or from current active sessions of user
+* @param {string} userId - user ID
+* @param {string} sessionVar - session variable for interface purposes
+* @return {number} value - quantity of votes
+*/
 let _getWalletVotes = (userId, sessionVar) => {
   if (userId != Meteor.userId()) {
     Meteor.call('getUserInfo', userId, function (error, data) {
@@ -99,12 +101,12 @@ let _getWalletVotes = (userId, sessionVar) => {
 }
 
 
-/*****
-/* returns specific quantity of votes from a wallet and sets a session variable
-/* @param {object} wallet - wallet object containing vote balance
-/* @param {string} sessionVar - a session variable to be used for UX and specifying vote value
-/* @return {number} value - quantity of votes
-******/
+/**
+* @summary returns specific quantity of votes from a wallet and sets a session variable
+* @param {object} wallet - wallet object containing vote balance
+* @param {string} sessionVar - a session variable to be used for UX and specifying vote value
+* @return {number} value - quantity of votes
+*/
 let _setVote = (wallet, sessionVar) => {
   if (wallet != undefined) {
     switch(sessionVar) {
@@ -120,12 +122,12 @@ let _setVote = (wallet, sessionVar) => {
   }
 }
 
-/*****
-/* verify if user has already voted
-/* @param {object} ledger - ledger of contract or entity to verify on
-/* @param {string} userId - id of user
-/* @return {boolean} value - true or false
-******/
+/**
+* @summary verify if user has already voted
+* @param {object} ledger - ledger of contract or entity to verify on
+* @param {string} userId - id of user
+* @return {boolean} value - true or false
+*/
 let _verifyVote = (ledger, userId) => {
   for (entity in ledger) {
     if (ledger[entity].entityId == userId) {
@@ -142,6 +144,5 @@ let _verifyVote = (ledger, userId) => {
   return false;
 };
 
-
-Modules.client.verifyVote = _verifyVote
-Modules.client.getWalletVotes = _getWalletVotes;
+export const verifyVote = _verifyVote;
+export const getWalletVotes = _getWalletVotes;
