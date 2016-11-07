@@ -1,4 +1,13 @@
-Template.feedItem.rendered = function () {
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+import { TAPi18n } from 'meteor/tap:i18n';
+import { $ } from 'meteor/jquery';
+
+import { getProfileFromUsername, getAnonymous } from '/imports/startup/both/modules/User';
+import { removeContract } from '/imports/startup/both/modules/Contract';
+
+Template.feedItem.onRendered = function onRender() {
 
   //Embedded mode means that Items are in an embedded feed to be selected (ie: for a ballot)
   if (this.firstNode.parentNode.id == 'proposalSuggestions') {
@@ -15,7 +24,7 @@ Template.feedItem.helpers({
     var profile = new Array();
     if (this.kind == 'DELEGATION') {
       for (user in this.signatures) {
-        profile.push(Modules.both.getProfileFromUsername(this.signatures[user].username))
+        profile.push(getProfileFromUsername(this.signatures[user].username))
       }
       text = this.description;
       if (profile.length == 2) {
@@ -28,7 +37,7 @@ Template.feedItem.helpers({
     }
   },
   url: function () {
-    if (this.stage == STAGE_DRAFT) {
+    if (this.stage == 'DRAFT') {
       return '/vote/draft?id=' + this._id;
     } else {
       return this.url;
@@ -41,7 +50,7 @@ Template.feedItem.helpers({
     return TAPi18n.__('posted') + ' ' + Modules.client.timeSince(timestamp);
   },
   editorMode: function (stage) {
-    if (stage == STAGE_DRAFT) { return true } else { return false };
+    if (stage == 'DRAFT') { return true } else { return false };
   },
   voterMode: function (stage) {
     if (stage == 'LIVE') { return true } else { return false };
@@ -53,7 +62,7 @@ Template.feedItem.helpers({
     if (this.signatures) {
       return this.signatures;
     } else {
-      return [Modules.both.getAnonymous()]
+      return [getAnonymous()]
     }
   },
   userIsAuthor: function (signatures) {
@@ -97,7 +106,7 @@ Template.feedItem.events({
           .velocity({ 'opacity' : 0,  'marginTop' : '0px', 'marginBottom' : '0px', 'height' : 0}, {
             duration: Modules.client.animationSettings.duration,
             complete: function() {
-              Modules.both.removeContract(proposalId);
+              removeContract(proposalId);
               Modules.client.displayNotice(TAPi18n.__('remove-draft-success'), true);
             }
         });
