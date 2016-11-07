@@ -1,3 +1,6 @@
+import { Template } from 'meteor/templating';
+import { toggleSelectedItem } from '../../../modules/menu';
+
 Template.inbox.helpers({
   selected: function () {
     if (this.selected) {
@@ -26,9 +29,9 @@ Template.inbox.events({
   'click #menuButton': function (event) {
     Session.set('sidebarMenuSelectedId', this.id);
     if (typeof this.id == 'string') {
-      Modules.client.toggleSelectedItem(Session.get('menuDelegates'));
+      toggleSelectedItem(Session.get('menuDelegates'));
     } else {
-      Modules.client.toggleSelectedItem(Session.get('menuDecisions'));
+      toggleSelectedItem(Session.get('menuDecisions'));
     }
   }
 });

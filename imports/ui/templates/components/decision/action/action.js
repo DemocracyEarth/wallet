@@ -1,3 +1,5 @@
+import { sendDelegationVotes, publishContract, vote } from '../../../../../startup/both/modules/Contract';
+
 Template.action.helpers({
   disabled: function () {
     if (disableContractExecution()) {
@@ -51,7 +53,7 @@ Template.action.events({
                     kind: Session.get('contract').kind,
                     contractId: Session.get('contract')._id
                   }
-                  Modules.both.sendDelegationVotes(Session.get('contract').signatures[0]._id, Session.get('contract')._id, Session.get('newVote').allocateQuantity, settings);
+                  sendDelegationVotes(Session.get('contract').signatures[0]._id, Session.get('contract')._id, Session.get('newVote').allocateQuantity, settings);
                 }
               );
               break;
@@ -68,7 +70,7 @@ Template.action.events({
                     displayProfile  : false
                   },
                   function() {
-                    Modules.both.publishContract(Session.get('contract')._id);
+                    publishContract(Session.get('contract')._id);
                   }
                 );
               } else if (Session.get('contract').stage == 'LIVE') {
@@ -93,7 +95,7 @@ Template.action.events({
                       kind: Session.get('contract').kind,
                       contractId: Session.get('contract')._id
                     };
-                    Modules.both.vote(Meteor.user()._id, Session.get('contract')._id, Session.get('newVote').allocateQuantity, settings);
+                    vote(Meteor.user()._id, Session.get('contract')._id, Session.get('newVote').allocateQuantity, settings);
                   }
                 );
               }
