@@ -1,3 +1,8 @@
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+
+import { displayLogin } from '/imports/ui/modules/popup';
+
 Template.socialMediaLogin.events({
   "click #facebook-login": function () {
     Meteor.loginWithFacebook({}, function(err){
@@ -14,6 +19,6 @@ Template.socialMediaLogin.events({
     });
   },
   "click #agora-login": function (event) {
-    Modules.client.displayLogin(event, document.getElementById('loggedUser'));
+    displayLogin(event, document.getElementById('loggedUser'));
   }
 })

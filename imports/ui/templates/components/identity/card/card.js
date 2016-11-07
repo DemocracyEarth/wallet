@@ -4,6 +4,7 @@ import { Session } from 'meteor/session';
 
 import { startDelegation } from '/imports/startup/both/modules/Contract';
 import { convertToSlug } from '/lib/utils';
+import { animatePopup } from '/imports/ui/modules/popup';
 
 let newDelegateName = '';
 
@@ -36,7 +37,7 @@ Template.card.events({
           }
         ]
       });
-      Modules.client.animatePopup(false);
+      animatePopup(false);
     }
   }
-})
+});

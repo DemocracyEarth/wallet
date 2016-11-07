@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 
 import { validateUsername } from '/imports/startup/both/modules/User';
+import { searchJSON } from '/imports/ui/modules/JSON';
 
 Template.profileEditor.onRendered = function onRender() {
   Session.set('showNations', false);
@@ -49,7 +50,7 @@ Template.profileEditor.events({
   },
   'input .country-search': function (event) {
     if (event.target.value != '') {
-      Session.set('filteredCountries', Modules.client.searchJSON(geoJSON.country, event.target.value));
+      Session.set('filteredCountries', searchJSON(geoJSON.country, event.target.value));
     } else {
       Session.set('filteredCountries', geoJSON.country);
     }
