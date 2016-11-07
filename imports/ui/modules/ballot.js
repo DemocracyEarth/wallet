@@ -1,11 +1,13 @@
-import Modules from './_modules';
-import { createContract } from '../../startup/both/modules/Contract';
+import { Session } from 'meteor/session';
 
-/*****
+import { Contracts } from '/imports/api/contracts/Contracts';
+import { createContract } from '/imports/startup/both/modules/Contract';
+
+/**
 * @param {string} contractId - contract where this ballot belongs to
 * @param {object} ballot - ballot object
 ******/
-let _setVote = (contractId, ballot) => {
+const _setVote = (contractId, ballot) => {
   var candidateBallot = new Array();
 
   //see candidate ballots
@@ -158,16 +160,16 @@ let _updateExecutionStatus = (contract, results) => {
     var contractId = contract._id;
     switch (winner) {
       case BALLOT_OPTION_MODE_AUTHORIZE:
-        Contracts.update({ _id: contractId }, { $set: { executionStatus: EXECUTION_STATUS_APPROVED, stage : STAGE_FINISH }});
+        Contracts.update({ _id: contractId }, { $set: { executionStatus: 'APPROVED', stage : 'FINISH' }});
         break;
       case BALLOT_OPTION_MODE_REJECT:
-        Contracts.update({ _id: contractId }, { $set: { executionStatus: EXECUTION_STATUS_REJECTED, stage : STAGE_FINISH }});
+        Contracts.update({ _id: contractId }, { $set: { executionStatus: 'REJECTED', stage : 'FINISH' }});
         break;
       case BALLOT_OPTION_MODE_FORK:
-        Contracts.update({ _id: contractId }, { $set: { executionStatus: EXECUTION_STATUS_ALTERNATIVE, stage : STAGE_FINISH }});
+        Contracts.update({ _id: contractId }, { $set: { executionStatus: 'ALTERNATIVE', stage : 'FINISH' }});
         break;
       default:
-        Contracts.update({ _id: contractId }, { $set: { executionStatus: EXECUTION_STATUS_VOID, stage : STAGE_FINISH }});
+        Contracts.update({ _id: contractId }, { $set: { executionStatus: 'VOID', stage: 'FINISH' }});
     }
   }
 }
@@ -198,12 +200,13 @@ let _countVotes = (scoreboard, ballot, quantity) => {
 * generates a new contract that automatically goes as option in the ballot
 *******/
 let _forkContract = () => {
-  if (Session.get('proposalURLStatus') == URL_STATUS_AVAILABLE) {
+  if (Session.get('proposalURLStatus') == 'AVAILABLE') {
     var contract = createContract(convertToSlug(Session.get('newProposal')), Session.get('newProposal'))[0];
     if (contract) {
       if (_addChoiceToBallot(Session.get('contract')._id, contract._id)) {
         var contract = Contracts.findOne( { _id: Session.get('contract')._id }, {reactive: false});
         Session.set('dbContractBallot', contract.ballot );
+        // LAI: where ProposalSearch comes from and what it is??
         ProposalSearch.search('');
         document.getElementById("searchInput").innerHTML = '';
         Session.set('proposalURLStatus', 'UNAVAILABLE');
@@ -322,14 +325,14 @@ let _addChoiceToBallot = (contractId, forkId) => {
   }
 }
 
-Modules.client.addChoiceToBallot = _addChoiceToBallot;
-Modules.client.verifyDraftFork = _verifyDraftFork;
-Modules.client.removeFork = _removeFork;
-Modules.client.updateBallotRank = _updateBallotRank;
-Modules.client.updateExecutionStatus = _updateExecutionStatus;
-Modules.client.showResults = _showResults;
-Modules.client.purgeBallot = _purgeBallot;
-Modules.client.ballotReady = _ballotReady;
-Modules.client.forkContract = _forkContract;
-Modules.client.setVote = _setVote;
-Modules.client.getVote = _getVote;
+export const addChoiceToBallot = _addChoiceToBallot;
+export const verifyDraftFork = _verifyDraftFork;
+export const removeFork = _removeFork;
+export const updateBallotRank = _updateBallotRank;
+export const updateExecutionStatus = _updateExecutionStatus;
+export const showResults = _showResults;
+export const purgeBallot = _purgeBallot;
+export const ballotReady = _ballotReady;
+export const forkContract = _forkContract;
+export const setVote = _setVote;
+export const getVote = _getVote;
