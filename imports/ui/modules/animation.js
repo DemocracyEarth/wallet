@@ -1,12 +1,15 @@
+import { $ } from 'meteor/jquery';
+import { timers } from '/lib/const';
+
 //**********
 //Calls
 //**********
 
-//Does specific animation
-animate = function (node, animation, params) {
+// Does specific animation
+export const animate = function animate(node, animation, params) {
   var main = node;
   var standard = {
-    duration: ANIMATION_DURATION,
+    duration: timers.ANIMATION_DURATION,
     loop: false
   };
   var settings = Object.assign(standard, params)
@@ -14,8 +17,8 @@ animate = function (node, animation, params) {
   case 'hide-up':
     node
       .velocity("stop")
-      .velocity({'translateY': '0px'}, settings)
-      .velocity({'translateY': '-100px'}, settings)
+      .velocity({ translateY: '0px' }, settings)
+      .velocity({ translateY: '-100px' }, settings)
       .velocity("stop");
     break;
   case 'show-down':
@@ -68,11 +71,11 @@ animate = function (node, animation, params) {
   }
 };
 
-//Attaches animation to reactive behaviour
-behave = function (node, animation, params, hook) {
+// Attaches animation to reactive behaviour
+export const behave = function behave(node, animation, params, hook) {
   var main = node;
   var standard = {
-    duration: ANIMATION_DURATION,
+    duration: timers.ANIMATION_DURATION,
     loop: false
   };
   var settings = Object.assign(standard, params);
@@ -105,7 +108,7 @@ behave = function (node, animation, params, hook) {
 //UI Hooks
 //**********
 
-fadeLabel = {
+const fadeLabel = {
   insertElement: function(node, next) {
     fadeInRolldown(node,next);
     Deps.afterFlush(function() {
@@ -122,7 +125,7 @@ fadeLabel = {
   }
 };
 
-fadeTag = {
+const fadeTag = {
   insertElement: function(node, next) {
     fadeIn(node,next);
     Deps.afterFlush(function() {
@@ -144,16 +147,16 @@ fadeTag = {
 //**********
 
 
-var aniInitial = {
+const aniInitial = {
  'opacity': '0',
  'overflow': 'hidden',
  'height' : '0px'
 };
-var aniFinish = {
+const aniFinish = {
   'opacity': '1',
   'height': '36px'
 };
-var aniExit = {
+const aniExit = {
   'opacity': '0',
   'height': '0px'
 }
@@ -164,11 +167,11 @@ var aniExit = {
 //**********
 
 function fadeInRolldown(node, next) {
-  $(node).addClass(OFFSCREEN_CLASS);
+  $(node).addClass('off-screen');
   $(node).css(aniInitial);
   $(node).insertBefore(next);
   $(node).velocity(aniFinish, {
-    duration: ANIMATION_DURATION,
+    duration: timers.ANIMATION_DURATION,
     queue: false
   });
 }
@@ -176,7 +179,7 @@ function fadeInRolldown(node, next) {
 function fadeOutRollup(node) {
   $(node)
     .velocity(aniExit, {
-      duration: ANIMATION_DURATION,
+      duration: timers.ANIMATION_DURATION,
       queue: false,
       complete: function() {
         $(node).remove();
@@ -185,11 +188,11 @@ function fadeOutRollup(node) {
 }
 
 function fadeIn(node, next) {
-  $(node).addClass(OFFSCREEN_CLASS);
+  $(node).addClass('off-screen');
   $(node).css('opacity: 0px');
   $(node).insertBefore(next);
   $(node).velocity({'opacity': '1'}, {
-    duration: ANIMATION_DURATION,
+    duration: timers.ANIMATION_DURATION,
     queue: false
   });
 }
@@ -197,16 +200,15 @@ function fadeIn(node, next) {
 function fadeOut(node) {
   $(node)
     .velocity({'opacity': '0'}, {
-      duration: ANIMATION_DURATION,
+      duration: timers.ANIMATION_DURATION,
       queue: false,
-      complete: function() {
+      complete() {
         $(node).remove();
-      }
+      },
     });
 }
 
-
-Modules.client.animationSettings = {
-  duration: ANIMATION_DURATION,
-  loop: false
-}
+export const animationSettings = {
+  duration: timers.ANIMATION_DURATION,
+  loop: false,
+};
