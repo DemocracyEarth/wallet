@@ -1,4 +1,10 @@
-Template.profileEditor.rendered = function () {
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+
+import { validateUsername } from '/imports/startup/both/modules/User';
+
+Template.profileEditor.onRendered = function onRender() {
   Session.set('showNations', false);
   Session.set('noNameFound', false);
   Session.set('noUsernameFound', false);
@@ -58,7 +64,7 @@ Template.profileEditor.events({
 
     if (document.getElementById('editFirstName').value == '') {
       Session.set('noNameFound', true);
-    } else if (!Modules.both.validateUsername(document.getElementById('editUserName').value)) {
+    } else if (!validateUsername(document.getElementById('editUserName').value)) {
       Session.set('noUsernameFound', true);
     } else {
       Session.set('noNameFound', false);
