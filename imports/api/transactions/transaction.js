@@ -1,5 +1,5 @@
-import Collectives from '../collectives/Collectives';
-import Transactions from './Transactions';
+import { Collectives } from '../collectives/Collectives';
+import { Transactions } from './Transactions';
 import { showFullName } from '../../startup/both/modules/utils';
 import { guidGenerator } from '../../startup/both/modules/crypto';
 

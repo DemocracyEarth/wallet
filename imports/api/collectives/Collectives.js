@@ -2,7 +2,7 @@ import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import Wallet from '../users/Wallet';
 
-const Collectives = new Mongo.Collection('collectives');
+export const Collectives = new Mongo.Collection('collectives');
 
 export const Country = new SimpleSchema({
   name: {
@@ -144,6 +144,4 @@ Collectives.schema = new SimpleSchema({
   },
 });
 
-// Collectives.attachSchema(Collectives.schema);
-// export collectives or .schema???
-export default Collectives;
+Collectives.attachSchema(Collectives.schema);

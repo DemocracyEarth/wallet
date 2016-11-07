@@ -2,7 +2,7 @@ import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { convertToSlug } from '../../utils/functions';
 
-const Tags = new Mongo.Collection('tags');
+export const Tags = new Mongo.Collection('tags');
 
 Tags.schema = new SimpleSchema({
   text: {
@@ -70,4 +70,3 @@ Tags.schema = new SimpleSchema({
 });
 
 Tags.attachSchema(Tags.schema);
-export default Tags;

@@ -142,7 +142,6 @@ let _setSessionVars = (params) => {
   //collective
   if (Session.get('collective') == undefined) {
     Session.set('collectiveId', Meteor.settings.public.Collective._id);
-    console.log("Collectives.findOne",Collectives.findOne, Collectives);
     Session.set('collective', Collectives.findOne({ _id: Session.get('collectiveId')}));
   }
 

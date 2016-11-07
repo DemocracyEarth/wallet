@@ -17,7 +17,7 @@ A Roma, <3
 
 */
 import { Meteor } from 'meteor/meteor';
-import Collectives from '../../api/collectives/Collectives';
+import { Collectives } from '../../api/collectives/Collectives';
 
 
 // This script runs the first time Democracy Earth gets implemented on a server.

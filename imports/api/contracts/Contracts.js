@@ -5,7 +5,7 @@ import Thread from './Thread';
 import Wallet from '../users/Wallet';
 import { convertToSlug } from '../../utils/functions';
 
-const Contracts = new Mongo.Collection('contracts');
+export const Contracts = new Mongo.Collection('contracts');
 
 Contracts.schema = new SimpleSchema({
   collectiveId: {
@@ -450,4 +450,3 @@ Contracts.schema = new SimpleSchema({
 });
 
 Contracts.attachSchema(Contracts.schema);
-export default Contracts;

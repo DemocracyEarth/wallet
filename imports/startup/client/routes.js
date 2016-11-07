@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
 import { Session } from 'meteor/session';
-import Contracts from '../../api/contracts/Contracts';
+import { Contracts } from '../../api/contracts/Contracts';
 import { fn } from './functions';
 
 /*

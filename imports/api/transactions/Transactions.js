@@ -2,7 +2,7 @@ import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import Ballot from './Ballot';
 
-const Transactions = new Mongo.Collection('transactions');
+export const Transactions = new Mongo.Collection('transactions');
 
 /* NOTE: These schemas of Ticket & Transaction must store transactions in its own db.
 *  (eventually a blockchain via vote-microchain TBD)
@@ -141,4 +141,3 @@ Transactions.schema = new SimpleSchema({
 });
 
 Transactions.attachSchema(Transactions.schema);
-export default Transactions;
