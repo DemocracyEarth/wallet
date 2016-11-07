@@ -1,4 +1,6 @@
-import {default as Modules} from "./_modules";
+import { Meteor } from 'meteor/meteor';
+import { Session } from 'meteor/session';
+import Modules from './_modules';
 
 /*****
 /* builds the menu for the sidebar
@@ -175,7 +177,7 @@ let _getDecisionsMenu = (feed) => {
       separator: false,
       url: '/feed?stage=' + STAGE_FINISH.toLowerCase() + '&kind=' + 'VOTE'.toLowerCase() + '&executionstatus=' + EXECUTION_STATUS_REJECTED.toLowerCase(),
       selected: _verifySelection(FEED_VOTE_FINISH_REJECTED, feed)
-    } 
+    }
   );
 
   if (Meteor.user() == null || Meteor.settings.public.app.config.proposalDrafting == false) {
@@ -287,6 +289,6 @@ let animateMenu = () => {
   }
 }
 
-Modules.client.toggleSelectedItem = _toggleSelectedItem;
-Modules.client.toggleSidebar = animateMenu;
-Modules.client.setSidebarMenu = sidebarMenu;
+export const toggleSelectedItem = _toggleSelectedItem;
+export const toggleSidebar = animateMenu;
+export const setSidebarMenu = sidebarMenu;
