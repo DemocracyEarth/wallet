@@ -1,9 +1,20 @@
+import { Meteor, Deps } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { TAPi18n } from 'meteor/tap:i18n';
+import { $ } from 'meteor/jquery';
+import { Session } from 'meteor/session';
+
+import { Contracts } from '/imports/api/contracts/Contracts';
+import { saveDescription } from '/lib/data';
+import { timers } from '/lib/const';
+import { delegationTextCheck, stripHTMLfromText } from '/imports/ui/modules/utils';
+
 var typingTimer; //timer identifier
 
-Template.agreement.rendered = function () {
-  if (!Session.get('contract')) { return };
+Template.agreement.onRendered = function onRender() {
+  if (!Session.get('contract')) { return; }
 
-  if (Session.get('contract').stage == STAGE_DRAFT && Session.get('contract').kind == 'VOTE') {
+  if (Session.get('contract').stage == 'DRAFT' && Session.get('contract').kind == 'VOTE') {
 
     var editor = new MediumEditor('#editor', {
       /* These are the default options for the editor,
@@ -75,7 +86,7 @@ Template.agreement.rendered = function () {
         } else {
           saveDescription('');
         }
-      }, SERVER_INTERVAL);
+      }, timers.SERVER_INTERVAL);
     });
 
     $('.right').scroll(function(event) {
@@ -114,7 +125,7 @@ Template.agreement.helpers({
   description: function () {
     if (contractId != undefined) {
       var description = Contracts.findOne( { _id: contractId }, { reactive: false } ).description;
-      return Modules.client.delegationTextCheck(description, true);
+      return delegationTextCheck(description, true);
     }
   },
   emptyDescription: function () {
@@ -134,7 +145,7 @@ Template.agreement.events({
     }
   },
   "blur #editor": function (event) {
-    var content = Modules.client.stripHTMLfromText(document.getElementById("editor").innerHTML);
+    var content = stripHTMLfromText(document.getElementById("editor").innerHTML);
     if (content.length <= 1) {
       Session.set('missingDescription',true);
       document.getElementById("editor").innerText = TAPi18n.__('placeholder-editor');
