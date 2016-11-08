@@ -137,7 +137,7 @@ blockquote {
 }
 
 .paper.paper-empty {
-  margin-bottom: -20px;
+  margin-bottom: 0px;
   padding-bottom: 0px;
   background-color: transparent;
   box-shadow: none;

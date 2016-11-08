@@ -1,4 +1,4 @@
-# Donors List
+# Donors
 
 Democracy Earth Foundation is a 501 (c) 3 not for profit corporation based in San Francisco, California sustained by grants, donations and contributions from these entities.
 
@@ -6,7 +6,7 @@ Democracy Earth Foundation is a 501 (c) 3 not for profit corporation based in Sa
 
   * [Y Combinator](http://ycombinator.org)
   * [Fast Forward](http://ffwd.org)
-  * [Treeline](http://treeline.com)
+  * [Teespring](http://teespring.com)
 
 ## Individuals
 
