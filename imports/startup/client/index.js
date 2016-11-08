@@ -7,3 +7,4 @@ import '/imports/ui/css/extra.css';
 import '/imports/ui/css/medium-editor-insert-plugin.css';
 import '/imports/ui/css/medium-editor.css';
 import './routes.js';
+import './subscribe.js';
