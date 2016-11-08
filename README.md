@@ -5,7 +5,11 @@
 # Sovereign.app
 
 [![Slack Status](https://slackearth.herokuapp.com/badge.svg)](https://slackearth.herokuapp.com)
-[![Build Status](https://circleci.com/gh/hackclub/hackclub.svg?style=shield)](https://circleci.com/gh/democracyearth/sovereign)
+<a href="https://twitter.com/intent/tweet?text=source+code+of+%2Fsovereign+by+%40DemocracyEart&url=https%3A%2F%2Fgithub.com%2Fdemocracyearth%2Fsovereign&hashtags=&original_referer=http%3A%2F%2Fgithub.com%2F&tw_p=tweetbutton">
+  <img src="http://jpillora.com/github-twitter-button/img/tweet.png"
+       alt="tweet button" title="source code of /sovereign by @DemocracyEart"></img>
+</a>
+<a class="github-button" href="https://github.com/democracyearth/sovereign" data-icon="octicon-star" data-style="mega" data-count-href="/democracyearth/sovereign/stargazers" data-count-api="/repos/democracyearth/sovereign#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star democracyearth/sovereign on GitHub">Star</a>
 
 Sovereign is a decentralized governance platform for small & large organizations.
 
@@ -17,22 +21,13 @@ Sovereign is a decentralized governance platform for small & large organizations
 
 **Roadmap:**
 
-These are integrations with other open source projects we are actively pursuing.
+ Open source project integrations we are actively pursuing:
 
   - [ ] Decentralized identity key management 🔗 with [Blockstack](https://github.com/blockstack/blockstack).
   - [ ] Institutional incorporation via smart contracts 🔗 with [Open Zeppelin](https://github.com/OpenZeppelin/zeppelin-solidity).
-  - [ ] Direct Bitcoin integration for budgeting 🔗 with [Bcoin](https://github.com/bcoin-org/bcoin).
+  - [ ] Bitcoin integration for budgeting 🔗 with [Bcoin](https://github.com/bcoin-org/bcoin).
   - [ ] Distributed resource storage 🔗 with [IPFS](https://github.com/ipfs/js-ipfs).
   - [ ] Native desktop client 🔗 with [Electron](https://github.com/electron/electron).
-
-**Community:**
-
-<iframe src="https://ghbtns.com/github-btn.html?user=democracyearth&repo=sovereign&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe>
-
-  * [Slack](https://democracyearth.slack.com).
-  * [Medium](http://medium.com/@democracyearth).
-  * [Twitter](http://twitter.com/DemocracyEarth).
-  * [Facebook](http://facebook.com/DemocracyEarth).
 
 **Release:**
 
@@ -106,7 +101,10 @@ Check our [documentation](https://github.com/DemocracyEarth/sovereign/tree/maste
 
 **Supported Browsers:**
 
-_Chrome 18+, Safari 6+_
+| [<img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/edge.png" alt="IE / Edge" width="16px" height="16px" />](http://godban.github.io/browsers-support-badges/)</br>IE / Edge | [<img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/chrome.png" alt="Chrome" width="16px" height="16px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/safari.png" alt="Safari" width="16px" height="16px" />](http://godban.github.io/browsers-support-badges/)</br>Safari | [<img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/safari-ios.png" alt="iOS Safari" width="16px" height="16px" />](http://godban.github.io/browsers-support-badges/)</br>iOS Safari | [<img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/chrome-android.png" alt="Chrome for Android" width="16px" height="16px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome for Android |
+| --------- | --------- | --------- | --------- | --------- |
+| IE10, IE11, Edge| last 4 versions| last 4 versions| last 4 versions| last 4 versions
+
 
 ## Contribute
 

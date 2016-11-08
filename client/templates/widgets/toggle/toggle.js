@@ -34,8 +34,6 @@ Template.toggle.events({
       toggle($('.' + this.setting).children(), !this.value);
       var obj = {};
       obj[this.setting] = !this.value;
-      console.log('clicked toggle');
-      console.log(obj);
       Contracts.update(Session.get('contract')._id, { $set: obj });
     }
   }
@@ -50,9 +48,6 @@ function displayToggle() {
 
 
 function toggle (node, value) {
-
-  console.log(node);
-  console.log('value: ' + value);
 
   if (value) {
 

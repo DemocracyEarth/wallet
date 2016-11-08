@@ -136,6 +136,12 @@ blockquote {
   box-shadow: none;
 }
 
+.paper.paper-empty {
+  padding-bottom: 0px;
+  background-color: transparent;
+  box-shadow: none;
+}
+
 .kind {
   position: absolute;
   left: 0px;
@@ -3253,6 +3259,11 @@ blockquote {
   padding-top: 10px;
   padding-bottom: 5px;
   font-size: 10px;
+}
+
+.paper-header.paper-header-empty {
+  border-radius: 3px;
+  box-shadow: none;
 }
 
 .shadow-fake {
