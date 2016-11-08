@@ -3,6 +3,8 @@ import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 
 import './feed.html';
+import './feedItem.js';
+import './feedEmpty.js';
 
 Template.feed.onRendered = function onRender() {
   Session.set('editorMode', false);

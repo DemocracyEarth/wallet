@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating';
 
 import { createContract } from '/imports/startup/both/modules/Contract';
+import './feedButton.html';
 
 Template.feedButton.onRendered = function onReder() {
   // feedButtonId.push(this.firstNode.id);

@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
 
 import { countdown } from '/imports/ui/modules/chronos';
+import './stage.html';
 
 Template.stage.helpers({
   text: function () {

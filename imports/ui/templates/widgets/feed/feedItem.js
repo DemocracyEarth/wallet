@@ -13,6 +13,11 @@ import { animationSettings } from '/imports/ui/modules/animation';
 import { addChoiceToBallot } from '/imports/ui/modules/ballot';
 import { displayNotice } from '/imports/ui/modules/notice';
 
+import './feedItem.html';
+import '../../components/decision/stage/stage.js';
+import '../../components/decision/tag/tag.js';
+import '../../components/identity/avatar/avatar.js';
+
 Template.feedItem.onRendered = function onRender() {
   //Embedded mode means that Items are in an embedded feed to be selected (ie: for a ballot)
   if (this.firstNode.parentNode.id == 'proposalSuggestions') {

@@ -1,3 +1,7 @@
+import { Template } from 'meteor/templating';
+
+import './tag.html';
+
 Template.tag.helpers({
   authorization: function (hover) {
     return 'authorized';
