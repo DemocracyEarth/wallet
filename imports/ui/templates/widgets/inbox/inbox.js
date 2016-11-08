@@ -1,4 +1,5 @@
 import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
 import { toggleSelectedItem } from '../../../modules/menu';
 
 import './inbox.html';

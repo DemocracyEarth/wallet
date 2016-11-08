@@ -9,7 +9,7 @@ import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { toggleSidebar } from '/imports/ui/modules/menu';
 
 import './navigation.html';
-import '../authentication/authentication';
+import '../authentication/authentication.js';
 import '../../widgets/notice/notice.js';
 
 //Scroll behaviour

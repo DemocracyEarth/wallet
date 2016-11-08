@@ -5,6 +5,7 @@ import { $ } from 'meteor/jquery';
 
 import { createContract } from '/imports/startup/both/modules/Contract';
 import { animationSettings } from '/imports/ui/modules/animation';
+import './compose.html';
 
 Template.compose.onRendered = function onRender() {
   $('.action-label').css('opacity', 0);

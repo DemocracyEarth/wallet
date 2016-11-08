@@ -11,6 +11,7 @@ import { searchJSON } from '/imports/ui/modules/JSON';
 import { uploadToAmazonS3 } from '/imports/ui/modules/Files';
 import { displayModal } from '/imports/ui/modules/modal';
 import { displayPopup, cancelPopup } from '/imports/ui/modules/popup';
+import './avatar.html';
 
 Template.avatar.onRendered = function onRender() {
   Session.set('editor', false);

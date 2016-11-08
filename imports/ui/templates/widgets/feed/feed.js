@@ -1,11 +1,15 @@
-Template.feed.rendered = function () {
+import { Template } from 'meteor/templating';
+import { $ } from 'meteor/jquery';
+import { Session } from 'meteor/session';
+
+import './feed.html';
+
+Template.feed.onRendered = function onRender() {
   Session.set('editorMode', false);
   Session.set('voterMode', false);
-
   if ($('.right').scrollTop() > 0) {
     $('.right').animate({ scrollTop: 0 });
   }
-
 };
 
 Template.feed.helpers({
@@ -29,4 +33,4 @@ Template.feed.helpers({
   voterMode: function () {
     return Session.get('feedVoterMode');
   }
-})
+});
