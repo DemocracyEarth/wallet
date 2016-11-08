@@ -10,10 +10,10 @@ Sovereign is a decentralized governance platform for small & large organizations
 
 **Features:**
 
-  - [X] Democracy toolkit:
-    * Voting & delegation of votes
-    * Ballots with multiple options
-    * Bottom-up system of proposals
+  - [X] Liquid democracy toolkit:
+    * Voting & delegation of votes.
+    * Ballots with multiple options.
+    * Bottom-up system of proposals.
   - [X] Transaction engine based on voting tokens (_currently blockchain agnostic_).
   - [X] Mobile & desktop responsive UX.
 
@@ -29,7 +29,7 @@ Sovereign is a decentralized governance platform for small & large organizations
 
 **Release:**
 
-`version 0.1.0`
+`version [0.1.0](https://github.com/DemocracyEarth/sovereign/milestone/1)`
 
 > _Notes:_ The tragedy of the commons is how dysfunctional our conversations are. Win-win situations are effectively possible yet talibanization 💣 has won our minds pushing us to rhetorical oblivion. Social media has put gossip in the driver's seat due to the lack of transparency in the existing governance structures. Institutional reality is created from promises, being this the main asset that our aspiring politicians offer. But as blockchains enabling transactions without the need for authority rise, modern software can be designed to contain hard promises verifiable by everyone without permission. Sovereign decentralization of power is possible: the means for borderless institutions that can securely operate in peer to peer networks shall lead towards a planetary commons of peers.
 
@@ -106,17 +106,9 @@ Check our [documentation](https://github.com/DemocracyEarth/sovereign/tree/maste
 
 ## Contribute
 
-Sovereign is a **free & open source project**. Main contributors so far:
+Sovereign is a **free & open source project**. Check our [contributors list](CONTRIBUTING.md) and look for available tasks in the [to do list](TODO.md) to join.
 
-* 🇦🇷 [Santiago Siri](http://github.com/santisiri)
-* 🇦🇷 [Lucas Isasmendi](https://github.com/LucasIsasmendi)
-* 🇻🇪 [Eduardo Medina](https://github.com/medied)
-* 🌎 [Mair Williams](https://github.com/mairwilliams)
-* 🇫🇷 [Virgile Deville](https://github.com/virgile-dev)
-
-For detailed roles check the [contributors list](CONTRIBUTING.md) and look for available tasks in the [to do list](TODO.md) to join.
-
-## Backers
+### Backers
 
 Join our [Open Collective](https://opencollective.com/democracyearth):
 
