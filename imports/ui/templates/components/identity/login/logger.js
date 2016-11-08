@@ -1,6 +1,13 @@
-var currentTab = 0;
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
 
-Template.logger.rendered = function () {
+import './logger.html';
+import './emailLogin.js';
+import './blockchainLogin.js';
+
+let currentTab = 0;
+
+Template.logger.onRendered = function onRender() {
   displayTabContent(document.getElementById('tab-view'), currentTab)
 }
 

@@ -6,6 +6,8 @@ import { startDelegation } from '/imports/startup/both/modules/Contract';
 import { convertToSlug } from '/lib/utils';
 import { animatePopup } from '/imports/ui/modules/popup';
 
+import './card.html';
+
 let newDelegateName = '';
 
 Template.card.helpers({

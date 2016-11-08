@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 
 import { displayLogin } from '/imports/ui/modules/popup';
+import './socialMediaLogin.html';
 
 Template.socialMediaLogin.events({
   "click #facebook-login": function () {

@@ -3,6 +3,8 @@ import { Session } from 'meteor/session';
 
 import { validateEmail } from '/imports/startup/both/modules/validations.js';
 import { validatePassword, validatePasswordMatch, createUser, validateUsername } from '/imports/startup/both/modules/User.js';
+import './signup.html';
+import '../../../widgets/warning/warning.js';
 
 Template.signup.onRendered = function onReder() {
   let enableLogin = false;

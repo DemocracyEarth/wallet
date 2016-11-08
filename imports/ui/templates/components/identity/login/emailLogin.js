@@ -1,4 +1,14 @@
-Template.emailLogin.rendered = function () {
+import { Meteor } from 'meteor/meteor';
+import { Session } from 'meteor/session';
+import { Template } from 'meteor/templating';
+
+import './emailLogin.html';
+import './forgotPassword.js';
+import './socialMediaLogin.js';
+import '../signup/signup.js';
+import '../../../widgets/warning/warning.js';
+
+Template.emailLogin.onRendered = function onRender() {
   Session.set("loginScreen", true);
   Session.set("passwordKnown", true);
   Session.set("invalidEmail", false);

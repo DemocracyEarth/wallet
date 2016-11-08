@@ -1,3 +1,9 @@
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+
+import './profile.html';
+import './profileEditor.js';
+
 Template.profile.helpers({
   configProfile: function () {
     return !Meteor.user().profile.configured;
@@ -28,8 +34,8 @@ Template.profile.helpers({
   }
 });
 
-Template.warning.events({
-  "click .resend-verification-link": function ( event, template ) {
+Template.profile.events({
+  'click .resend-verification-link'(event, instance) {
     console.log('[Template.warning.events] sending email...');
     Meteor.call( 'sendVerificationLink', ( error, response ) => {
       if ( error ) {

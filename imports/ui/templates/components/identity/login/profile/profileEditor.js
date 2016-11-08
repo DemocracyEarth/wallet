@@ -5,6 +5,8 @@ import { Session } from 'meteor/session';
 import { validateUsername } from '/imports/startup/both/modules/User';
 import { searchJSON } from '/imports/ui/modules/JSON';
 
+import './profileEditor.html';
+
 Template.profileEditor.onRendered = function onRender() {
   Session.set('showNations', false);
   Session.set('noNameFound', false);
