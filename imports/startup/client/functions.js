@@ -428,7 +428,7 @@ const _getMenuFeed = (menu) => {
 * TODO: this whole switch can easily be done programatically, i don't have time now.
 ****/
 const _getQueryFeed = (query) => {
-  if (query == undefined) { return false };
+  if (query === undefined) { return false; }
   switch(query.stage.toUpperCase()) {
     case 'DRAFT':
       switch(query.kind.toUpperCase()) {
@@ -477,7 +477,7 @@ const _getQueryFeed = (query) => {
     case 'FINISH':
       switch(query.kind.toUpperCase()) {
         case 'VOTE':
-          switch(query.executionStatus.toUpperCase()) {
+          switch(query.executionstatus.toUpperCase()) {
             case 'APPROVED':
               if (query.peer) {
                 return 'CUSTOM PEER APPROVED VOTES';
@@ -496,7 +496,7 @@ const _getQueryFeed = (query) => {
           }
           return 'ALL VOTES FINISH';
         case 'DELEGATION':
-          switch(query.executionStatus.toUpperCase()) {
+          switch(query.executionstatus.toUpperCase()) {
             case 'APPROVED':
               if (query.peer) {
                 return 'CUSTOM PEER APPROVED DELEGATIONS';
@@ -510,7 +510,7 @@ const _getQueryFeed = (query) => {
           }
           return 'ALL DELEGATIONS';
         case 'MEMBERSHIP':
-          switch(query.executionStatus.toUpperCase()) {
+          switch(query.executionstatus.toUpperCase()) {
             case 'APPROVED':
               if (query.peer) {
                 return 'CUSTOM PEER APPROVED MEMBERSHIPS';
