@@ -6,8 +6,9 @@
 - [ ] 4) write help guide (**wiki**)  
 
 ## Local execution (for contributors)
-- [ ] 1) load DB script for test and fix purpose  
-- [ ] 2) best practices docs (**wiki**) 
+- [X] 1) load DB script for test and fix purpose  
+- [X] 2) best practices docs (**readme**) 
+- [ ] 3) best practices docs (**wiki**) 
 
 # Implementation 
 - [ ] 1) scripts: db generation and collections  
