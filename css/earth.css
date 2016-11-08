@@ -137,6 +137,7 @@ blockquote {
 }
 
 .paper.paper-empty {
+  margin-bottom: -20px;
   padding-bottom: 0px;
   background-color: transparent;
   box-shadow: none;
@@ -4360,16 +4361,11 @@ blockquote {
   margin-right: -8px;
   float: right;
   border-radius: 50px;
-  background-color: rgba(0, 191, 143, .6);
-  background-image: url('../images/cross-white.png');
+  background-image: url('../images/cross-green.png');
   background-position: 50% 50%;
   background-size: 14px 14px;
   background-repeat: no-repeat;
   cursor: pointer;
-}
-
-.signature-remove:hover {
-  background-color: #00bf8f;
 }
 
 @media (max-width: 991px) {
