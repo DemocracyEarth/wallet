@@ -44,7 +44,7 @@ Follow the meteor guide to get more examples and details [https://guide.meteor.c
 
 # Development
 
-We foolow [Meteor style guidelines](https://guide.meteor.com/code-style.html)
+We follow [Meteor style guidelines](https://guide.meteor.com/code-style.html)
 
 Our Meteor code style notes:
 * Check [airbnb style guide](https://github.com/airbnb/javascript)
