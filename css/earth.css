@@ -522,14 +522,9 @@ blockquote {
   height: 60px;
   margin-left: 35%;
   border-style: solid;
-  border-color: #66d8bc;
-  background-color: #66d8bc;
-  text-decoration: none;
-}
-
-.symbol.profile-pic.profile-sign:hover {
   border-color: #00bf8f;
   background-color: #00bf8f;
+  text-decoration: none;
 }
 
 .symbol.profile-pic.profile-sign.profile-active {
@@ -3264,7 +3259,7 @@ blockquote {
 
 .paper-header.paper-header-empty {
   border-radius: 3px;
-  box-shadow: none;
+  box-shadow: 0 3px 20px -13px #000;
 }
 
 .shadow-fake {
