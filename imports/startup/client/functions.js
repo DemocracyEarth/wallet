@@ -79,7 +79,7 @@ let _buildQuery = (params) => {
 * @param {string} key - url querying object
 ****/
 let _matchType = (key) => {
-  var schema = Contract._firstLevelSchemaKeys;
+  var schema = Contracts._firstLevelSchemaKeys;
   for (feat in schema) {
     if (schema[feat].toLowerCase() == key.toLowerCase()) {
       return schema[feat];
