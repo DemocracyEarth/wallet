@@ -29,7 +29,7 @@ Sovereign is a decentralized governance platform for small & large organizations
 
 **Release:**
 
-`version [0.1.0](https://github.com/DemocracyEarth/sovereign/milestone/1)`
+[`version 0.1.0`](https://github.com/DemocracyEarth/sovereign/milestone/1)
 
 > _Notes:_ The tragedy of the commons is how dysfunctional our conversations are. Win-win situations are effectively possible yet talibanization 💣 has won our minds pushing us to rhetorical oblivion. Social media has put gossip in the driver's seat due to the lack of transparency in the existing governance structures. Institutional reality is created from promises, being this the main asset that our aspiring politicians offer. But as blockchains enabling transactions without the need for authority rise, modern software can be designed to contain hard promises verifiable by everyone without permission. Sovereign decentralization of power is possible: the means for borderless institutions that can securely operate in peer to peer networks shall lead towards a planetary commons of peers.
 
@@ -106,9 +106,11 @@ Check our [documentation](https://github.com/DemocracyEarth/sovereign/tree/maste
 
 ## Contribute
 
-Sovereign is a **free & open source project**. Check our [contributors list](CONTRIBUTING.md) and look for available tasks in the [to do list](TODO.md) to join.
+Sovereign is a **free & open source project**.
 
-### Backers
+Check our [contributors list](CONTRIBUTING.md) and look for available tasks in the [to do list](TODO.md) to join.
+
+### Backers:
 
 Join our [Open Collective](https://opencollective.com/democracyearth):
 
