@@ -10,7 +10,10 @@ Sovereign is a decentralized governance platform for small & large organizations
 
 **Features:**
 
-  - [X] Democracy toolkit: create proposals, design ballots, debate ideas, manage identities.
+  - [X] Democracy toolkit:
+    * Voting & delegation of votes
+    * Ballots with multiple options
+    * Bottom-up system of proposals
   - [X] Transaction engine based on voting tokens (_currently blockchain agnostic_).
   - [X] Mobile & desktop responsive UX.
 
@@ -64,7 +67,7 @@ Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mas
     Load browser and go to [http://localhost:3000/](http://localhost:3000/) 🔥
 
     > _Note:_ For production deploys you should use:  
-    > `$ meteor npm run start`
+    > ``` $ meteor npm run start ```
     > check production/settings.json file to config your keys.
 
 0. **Start a Revolution**
