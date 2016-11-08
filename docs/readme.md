@@ -2,6 +2,9 @@
 <img src="img/collections.jpg" width="800" title="DB Collections">
 
 # Tests
+## Seed Database
+Go to [seed-db](seed-db/readme.md) and follow the guide to setup our demo database 
+
 ## Run
 ### Web Reporter
 For Unit test, in main repository run:
