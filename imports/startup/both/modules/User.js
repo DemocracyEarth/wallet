@@ -3,6 +3,7 @@ import { Accounts } from 'meteor/accounts-base';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 
+import { UserContext } from '/imports/api/users/User';
 import displayNotice from '/imports/ui/modules/notice';
 import { validateEmail } from './validations.js';
 
@@ -27,7 +28,7 @@ const _createUser = (data) => {
       createdAt: new Date()
     };
 
-    //create User
+    // create User
     if (UserContext.validate(objUser)) {
       Accounts.createUser({
         username: objUser.username,
