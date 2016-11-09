@@ -7,11 +7,12 @@ import { convertToSlug } from '/lib/utils';
 import { animatePopup } from '/imports/ui/modules/popup';
 
 import './card.html';
+import '../avatar/avatar.js';
 
-let newDelegateName = '';
+let newDelegateName;
 
 Template.card.helpers({
-  myself: function () {
+  myself() {
     return (this.toString() == Meteor.userId() || this._id == '0000000');
   },
   delegationKeyword: function () {
@@ -26,16 +27,16 @@ Template.card.helpers({
 
 Template.card.events({
   'click #delegate'() {
-    var keywordTitle = convertToSlug(Meteor.user().username) + '-' + convertToSlug(Session.get('newDelegate').username);
-    if (keywordTitle != undefined) {
+    const keywordTitle = `${convertToSlug(Meteor.user().username)}-${convertToSlug(Session.get('newDelegate').username)}`;
+    if (keywordTitle !== undefined) {
       startDelegation(Meteor.userId(), this.toString(), {
         title: keywordTitle,
         signatures: [
           {
-            username: Meteor.user().username
+            username: Meteor.user().username,
           },
           {
-            username: Session.get('newDelegate').username
+            username: Session.get('newDelegate').username,
           }
         ]
       });
