@@ -1,5 +1,6 @@
 import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
+import { Accounts } from 'meteor/accounts-password';
 
 import './forgotPassword.html';
 import '../../../widgets/warning/warning.js';
@@ -36,7 +37,7 @@ Template.forgotPassword.events({
 
     //Validate non-empty email & invoke Passwords API
     if (email != '') {
-      conosole.log("Accounts.forgotPassword: PENDING CLASS Accounts");
+      console.log("Accounts.forgotPassword: PENDING CLASS Accounts");
       Accounts.forgotPassword({email: email}, function(err) {
         if (err) {
           if (err.message === 'User not found [403]') {
