@@ -7,6 +7,7 @@ import { searchJSON } from '/imports/ui/modules/JSON';
 import { globalObj } from '/lib/global';
 
 import './profileEditor.html';
+import '../../../../widgets/warning/warning.js';
 
 Template.profileEditor.onRendered = function onRender() {
   Session.set('showNations', false);
@@ -15,58 +16,57 @@ Template.profileEditor.onRendered = function onRender() {
 }
 
 Template.profileEditor.helpers({
-  firstName: function() {
+  firstName() {
     return Meteor.user().profile.firstName;
   },
-  lastName: function () {
+  lastName() {
     return Meteor.user().profile.lastName;
   },
-  userName: function () {
+  userName() {
     return Meteor.user().username;
   },
-  country: function () {
-    if (Session.get('newCountry') != undefined) {
+  country() {
+    if (Session.get('newCountry') !== undefined) {
       return Session.get('newCountry').name;
-    } else {
-      if (Meteor.user().profile.country != undefined) {
-        return Meteor.user().profile.country.name;
-      }
     }
+    if (Meteor.user().profile.country !== undefined) {
+      return Meteor.user().profile.country.name;
+    }
+    return undefined;
   },
-  showNations: function () {
+  showNations() {
     return Session.get('showNations');
   },
-  noNameFound: function () {
+  noNameFound() {
     return Session.get('noNameFound');
   },
-  noUsernameFound: function () {
+  noUsernameFound() {
     return Session.get('noUsernameFound');
   }
 })
 
 Template.profileEditor.events({
-  'focus .country-search': function () {
+  'focus .country-search'() {
     Session.set('showNations', true);
   },
-  'focus .login-input-split-right': function () {
+  'focus .login-input-split-right'() {
     Session.set('showNations', false);
   },
-  'input .country-search': function (event) {
-    if (event.target.value != '') {
+  'input .country-search'(event) {
+    if (event.target.value !== '') {
       Session.set('filteredCountries', searchJSON(globalObj.geoJSON.country, event.target.value));
     } else {
       Session.set('filteredCountries', globalObj.geoJSON.country);
     }
   },
-  'click #skip-step': function () {
-    var data = Meteor.user().profile;
+  'click #skip-step'() {
+    const data = Meteor.user().profile;
     Session.set('newCountry', undefined);
     data.configured = true;
-    Meteor.users.update(Meteor.userId(), { $set: { profile : data }});
+    Meteor.users.update(Meteor.userId(), { $set: { profile: data } });
   },
-  'click #save-profile': function () {
-
-    if (document.getElementById('editFirstName').value == '') {
+  'click #save-profile'() {
+    if (document.getElementById('editFirstName').value === '') {
       Session.set('noNameFound', true);
     } else if (!validateUsername(document.getElementById('editUserName').value)) {
       Session.set('noUsernameFound', true);
@@ -74,20 +74,18 @@ Template.profileEditor.events({
       Session.set('noNameFound', false);
       Session.set('noUsernameFound', false);
 
-      //Save
-      var data = Meteor.user().profile;
-      var editUsername = document.getElementById('editUserName').value;
+      // Save
+      let data = Meteor.user().profile;
+      let editUsername = document.getElementById('editUserName').value;
       data.firstName = document.getElementById('editFirstName').value;
       data.lastName = document.getElementById('editLastName').value;
-
 
       if (Session.get('newCountry') != undefined) {
         data.country = Session.get('newCountry');
       }
-
       data.configured = true;
-      Meteor.users.update(Meteor.userId(), { $set: { profile : data }});
-      Meteor.users.update(Meteor.userId(), { $set: { username : editUsername }});
+      Meteor.users.update(Meteor.userId(), { $set: { profile: data } });
+      Meteor.users.update(Meteor.userId(), { $set: { username: editUsername } });
     }
-  }
+  },
 });

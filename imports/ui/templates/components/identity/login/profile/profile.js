@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 
 import './profile.html';
 import './profileEditor.js';
+import '../../../../widgets/warning/warning.js';
 
 Template.profile.helpers({
   configProfile: function () {
@@ -10,6 +11,7 @@ Template.profile.helpers({
   },
   tags: function () {
     if (Meteor.user().profile.votes.total > 0) {
+      // TODO completed this logic ¿?
 
     } else {
 
@@ -37,13 +39,13 @@ Template.profile.helpers({
 Template.profile.events({
   'click .resend-verification-link'(event, instance) {
     console.log('[Template.warning.events] sending email...');
-    Meteor.call( 'sendVerificationLink', ( error, response ) => {
-      if ( error ) {
-        console.log( error.reason, 'danger' );
+    Meteor.call('sendVerificationLink', (error, response) => {
+      if (error) {
+        console.log(error.reason, 'danger');
       } else {
         let email = Meteor.user().emails[ 0 ].address;
-        console.log( `[Template.warning.events] verification sent to ${ email }!`, 'success' );
+        console.log(`[Template.warning.events] verification sent to ${email}!`, 'success');
       }
     });
-  }
-})
+  },
+});
