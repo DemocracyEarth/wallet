@@ -3,11 +3,12 @@ import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Session } from 'meteor/session';
 
-import { setVote } from '/imports/ui/modules/ballot';
+import { setVote, getVote } from '/imports/ui/modules/ballot';
+import './fork.html';
 
 Template.fork.helpers({
   length: function () {
-    if (this.label != undefined) {
+    if (this.label !== undefined) {
       if (this.label.length > 51) {
         return 'option-link option-long option-longest';
       } else if (this.label.length > 37) {
@@ -19,14 +20,14 @@ Template.fork.helpers({
     return '';
   },
   dragMode: function () {
-    if (Session.get('contract').stage == 'DRAFT') {
+    if (Session.get('contract').stage === 'DRAFT') {
       return '';
     } else {
       return 'vote-nondrag';
     }
   },
   tickStyle: function () {
-    if (this.mode == 'REJECT') {
+    if (this.mode === 'REJECT') {
       return 'unauthorized';
     }
   },
@@ -83,13 +84,13 @@ Template.fork.helpers({
     this.tick = getVote(Session.get('contract')._id, this._id);
     if (Session.get('candidateBallot')) {
       if (this.tick) {
-        if (this.mode == 'REJECT') {
+        if (this.mode === 'REJECT') {
           return 'tick-active-unauthorized';
         } else {
           return 'tick-active';
         }
       }
-    } else if (Session.get('rightToVote') == false && Session.get('contract').stage != 'DRAFT') {
+    } else if (Session.get('rightToVote') === false && Session.get('contract').stage !== 'DRAFT') {
       //already voted
       if (this.tick) {
         return 'tick-disabled'
@@ -116,6 +117,6 @@ Template.fork.events({
   },
 
   "click #remove-fork": function () {
-    Meteor.call("removeFork", Session.get('contract')._id, this._id);
+    Meteor.call('removeFork', Session.get('contract')._id, this._id);
   }
 });
