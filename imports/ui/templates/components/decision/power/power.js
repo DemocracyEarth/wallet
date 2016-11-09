@@ -7,36 +7,40 @@ import { Session } from 'meteor/session';
 import { isUserSigner, userVotesInContract } from '/imports/startup/both/modules/User';
 import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
 import { displayModal } from '/imports/ui/modules/modal';
+import { Wallet } from '/imports/ui/modules/Wallet';
+
+import './power.html';
+import '../action/action.js';
 
 let voteQuantity;
 
 Template.power.onRendered = function render() {
-  if (!Meteor.user()) { return; }
-
-  $("#voteHandle").draggable({
-    axis: "x",
-    start: function (event, ui) {
+  if (!Meteor.user()) {
+    return;
+  }
+  $('#voteHandle').draggable({
+    axis: 'x',
+    start(event, ui) {
       this.newVote = new Wallet(Meteor.user().profile.wallet);
     },
-    drag: function (event, ui) {
+    drag(event, ui) {
       this.newVote.sliderInput(ui.position.left);
       Session.set('newVote', this.newVote);
       ui.position.left = 0;
-    }
+    },
   });
 }
 
 Template.power.helpers({
-  label: function () {
-    var wallet = Session.get('newVote');
-    var contract = Session.get('contract');
+  label() {
+    const wallet = Session.get('newVote');
+    const contract = Session.get('contract');
 
 
-    if (contract == undefined) {
+    if (contract === undefined) {
       return TAPi18n.__('contract-votes-pending');
-    };
-
-    if (wallet != undefined) {
+    }
+    if (wallet !== undefined) {
       switch (wallet.mode) {
         case 'PENDING':
           switch(contract.kind) {
@@ -51,10 +55,10 @@ Template.power.helpers({
         case 'EXECUTED':
           switch(contract.kind) {
             case 'DELEGATION':
-              var voteQuantity = TAPi18n.__('delegate-votes-executed');
+              voteQuantity = TAPi18n.__('delegate-votes-executed');
               break;
             case 'VOTE':
-              var voteQuantity = TAPi18n.__('contract-votes-executed');
+              voteQuantity = TAPi18n.__('contract-votes-executed');
               break;
           }
           break;
@@ -62,8 +66,9 @@ Template.power.helpers({
 
       //quantity of votes to display
       var rejection = false;
-      if (Session.get('rightToVote') == true) {
-        var quantity = wallet.allocateQuantity;
+      let quantity;
+      if (Session.get('rightToVote') === true) {
+        quantity = wallet.allocateQuantity;
       } else {
         //delegation
         if (Session.get('contract').kind == 'DELEGATION') {
@@ -73,11 +78,11 @@ Template.power.helpers({
             for (i in signatures) {
               if (signatures[i].role == 'DELEGATOR' && signatures[i]._id == Meteor.user()._id) {
                 //delegator
-                var quantity = userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
+                quantity = userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
                 break;
               } else if (signatures[i].role == 'DELEGATE' && signatures[i]._id == Meteor.user()._id) {
                 //delegate
-                var quantity = Session.get('contract').wallet.balance;
+                quantity = Session.get('contract').wallet.balance;
               }
               if (signatures[i].status == 'REJECTED') {
                 rejection = true;
@@ -92,9 +97,9 @@ Template.power.helpers({
             }
             if (rejection != true) {
               if (isUserSigner(Session.get('contract').signatures)) {
-                var quantity = Session.get('contract').wallet.available;
+                quantity = Session.get('contract').wallet.available;
               } else {
-                var quantity = Session.get('contract').wallet.balance;
+                quantity = Session.get('contract').wallet.balance;
               }
             }
           }
@@ -119,7 +124,7 @@ Template.power.helpers({
       }
 
       //if no votes found
-      if (quantity == undefined) {
+      if (quantity === undefined) {
         quantity = TAPi18n.__('no');
       }
 
@@ -127,7 +132,7 @@ Template.power.helpers({
       if (voteQuantity != undefined) {
         voteQuantity = voteQuantity.replace("<quantity>", quantity);
         voteQuantity = voteQuantity.replace("<type>", function () { if (quantity == 1 ) { return TAPi18n.__('vote-singular') } else { return TAPi18n.__('vote-plural') } } );
-        if (wallet.allocateQuantity == 0 && Session.get('contract').stage != STAGE_DRAFT) {
+        if (wallet.allocateQuantity == 0 && Session.get('contract').stage != 'DRAFT') {
           Session.set('noVotes', true)
         } else {
           Session.set('noVotes', false)
@@ -146,8 +151,8 @@ Template.power.helpers({
   confirmationRequired: function () {
     if (Session.get('contract').kind == 'DELEGATION') {
       var signatures = Session.get('contract').signatures;
-      for (i in signatures) {
-        if (signatures[i].role == 'DELEGATE' && signatures[i].status == 'PENDING' && signatures[i]._id == Meteor.user()._id) {
+      for (var i in signatures) {
+        if (signatures[i].role === 'DELEGATE' && signatures[i].status === 'PENDING' && signatures[i]._id === Meteor.user()._id) {
           return true;
         }
       }
@@ -158,74 +163,76 @@ Template.power.helpers({
 
 Template.power.events({
   'click #confirmation': function (event) {
-    for (stamp in Session.get('contract').signatures) {
+    let counterPartyId;
+    for (let stamp in Session.get('contract').signatures) {
       if (Session.get('contract').signatures[stamp]._id != Meteor.user()._id) {
-        var counterPartyId = Session.get('contract').signatures[stamp]._id;
+        counterPartyId = Session.get('contract').signatures[stamp]._id;
       }
-    };
+    }
     displayModal(
       true,
       {
-        icon            : 'images/modal-delegation.png',
-        title           : TAPi18n.__('confirm-delegation-votes'),
-        message         : TAPi18n.__('confirm-delegation-warning').replace('<quantity>', Session.get('contract').wallet.available),
-        cancel          : TAPi18n.__('not-now'),
-        action          : TAPi18n.__('confirm-votes'),
-        displayProfile  : true,
-        profileId       : counterPartyId
+        icon: 'images/modal-delegation.png',
+        title: TAPi18n.__('confirm-delegation-votes'),
+        message: TAPi18n.__('confirm-delegation-warning').replace('<quantity>', Session.get('contract').wallet.available),
+        cancel: TAPi18n.__('not-now'),
+        action: TAPi18n.__('confirm-votes'),
+        displayProfile: true,
+        profileId: counterPartyId
       },
-      function() {
-        settings = {
+      function () {
+        const settings = {
           condition: {
-            transferable : Session.get('contract').transferable,
-            portable : Session.get('contract').portable,
-            tags : Session.get('contract').tags,
+            transferable: Session.get('contract').transferable,
+            portable: Session.get('contract').portable,
+            tags: Session.get('contract').tags,
           },
           currency: 'VOTES',
           kind: Session.get('contract').kind,
-          contractId: Session.get('contract')._id //_getContractId(senderId, receiverId, settings.kind),
-        }
+          contractId: Session.get('contract')._id, // _getContractId(senderId, receiverId, settings.kind),
+        };
         sendDelegationVotes(Session.get('contract')._id, Session.get('contract').signatures[1]._id, Session.get('contract').wallet.available, settings, 'CONFIRMED');
       }
     );
   },
   'click #rejection': function (event) {
-    for (stamp in Session.get('contract').signatures) {
-      if (Session.get('contract').signatures[stamp]._id != Meteor.user()._id) {
-        var counterPartyId = Session.get('contract').signatures[stamp]._id;
+    let counterPartyId;
+    for (let stamp in Session.get('contract').signatures) {
+      if (Session.get('contract').signatures[stamp]._id !== Meteor.user()._id) {
+        counterPartyId = Session.get('contract').signatures[stamp]._id;
       }
     };
     displayModal(
       true,
       {
-        icon            : 'images/modal-delegation.png',
-        title           : TAPi18n.__('reject-delegation-votes'),
-        message         : TAPi18n.__('reject-delegation-warning').replace('<quantity>', Session.get('contract').wallet.available),
-        cancel          : TAPi18n.__('not-now'),
-        action          : TAPi18n.__('reject-votes'),
-        displayProfile  : true,
-        profileId       : counterPartyId
+        icon: 'images/modal-delegation.png',
+        title: TAPi18n.__('reject-delegation-votes'),
+        message: TAPi18n.__('reject-delegation-warning').replace('<quantity>', Session.get('contract').wallet.available),
+        cancel: TAPi18n.__('not-now'),
+        action: TAPi18n.__('reject-votes'),
+        displayProfile: true,
+        profileId: counterPartyId,
       },
-      function() {
-        settings = {
+      function () {
+        const settings = {
           condition: {
-            transferable : Session.get('contract').transferable,
-            portable : Session.get('contract').portable,
-            tags : Session.get('contract').tags,
+            transferable: Session.get('contract').transferable,
+            portable: Session.get('contract').portable,
+            tags: Session.get('contract').tags,
           },
           currency: 'VOTES',
           kind: Session.get('contract').kind,
-          contractId: Session.get('contract')._id //_getContractId(senderId, receiverId, settings.kind),
-        }
+          contractId: Session.get('contract')._id, // _getContractId(senderId, receiverId, settings.kind),
+        };
         sendDelegationVotes(Session.get('contract')._id, Session.get('contract').signatures[0]._id, Session.get('contract').wallet.available, settings, 'REJECTED');
       }
     );
-  }
+  },
 })
 
 Template.available.helpers({
-  votes: function (user) {
-    if (Session.get('newVote') != undefined) {
+  votes(user) {
+    if (Session.get('newVote') !== undefined) {
       return Session.get('newVote').available;
     } else {
       return 0;
