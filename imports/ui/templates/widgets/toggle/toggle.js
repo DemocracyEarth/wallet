@@ -1,39 +1,45 @@
-var clickedToggle = new String();
-var toggleMap = new Object();
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+import { $ } from 'meteor/jquery';
 
-Template.toggle.rendered = function () {
+import { Contracts } from '/imports/api/contracts/Contracts';
+import { animationSettings } from '/imports/ui/modules/animation';
+
+let clickedToggle = '';
+let toggleMap = {};
+
+Template.toggle.onRendered = () => {
   displayToggle();
   Session.set('clickedToggle', this.setting);
 };
 
 Template.toggle.helpers({
-  value: function () {
-    if (this.setting == Session.get('clickedToggle')) {
+  value() {
+    if (this.setting === Session.get('clickedToggle')) {
       var node = $('.' + this.setting).children();
-      toggle(node,this.value);
+      toggle(node, this.value);
     } else {
-      if (toggleMap[this.setting] == undefined) {
+      if (toggleMap[this.setting] === undefined) {
         toggleMap[this.setting] = this.value;
       }
-    };
-    //return this.value;
+    }
+    // return this.value;
   },
-  setting: function () {
+  setting() {
     //console.log('this setting: ' + this.setting + ' valule:' + this.value);
     toggleMap[this.setting] = this.value;
     displayToggle();
     return this.setting;
-  }
+  },
 });
 
 Template.toggle.events({
   "click #toggleButton": function (event) {
     //clickedToggle = this.setting;
-    if (!Session.get('rightToVote') || Session.get('contract').stage == STAGE_DRAFT) {
+    if (!Session.get('rightToVote') || Session.get('contract').stage === 'DRAFT') {
       Session.set('clickedToggle', this.setting);
-      var obj = new Object;
       toggle($('.' + this.setting).children(), !this.value);
-      var obj = {};
+      const obj = {};
       obj[this.setting] = !this.value;
       Contracts.update(Session.get('contract')._id, { $set: obj });
     }
@@ -41,42 +47,37 @@ Template.toggle.events({
 });
 
 function displayToggle() {
-  for (var item in toggleMap) {
-    node = $('.' + item).children();
-    toggle(node,toggleMap[item]);
-  };
+  for (let item in toggleMap) {
+    const node = $('.' + item).children();
+    toggle(node, toggleMap[item]);
+  }
 }
 
 
-function toggle (node, value) {
-
+function toggle(node, value) {
   if (value) {
-
     node
-      .velocity("stop")
-      .velocity({'margin-left': '2px'}, Modules.client.animationSettings)
-      .velocity({'margin-left': '42px'}, Modules.client.animationSettings)
-      .velocity("stop");
+      .velocity('stop')
+      .velocity({ 'margin-left': '2px' }, animationSettings)
+      .velocity({ 'margin-left': '42px' }, animationSettings)
+      .velocity('stop');
 
     node.parent().first()
-      .velocity("stop")
-      .velocity({'backgroundColor': '#ccc'}, Modules.client.animationSettings)
-      .velocity({'backgroundColor': '#00bf8f'}, Modules.client.animationSettings)
-      .velocity("stop");
-
+      .velocity('stop')
+      .velocity({ backgroundColor: '#ccc' }, animationSettings)
+      .velocity({ backgroundColor: '#00bf8f' }, animationSettings)
+      .velocity('stop');
   } else {
-
     node
-      .velocity("stop")
-      .velocity({'margin-left': '42px'}, Modules.client.animationSettings)
-      .velocity({'margin-left': '2px'}, Modules.client.animationSettings)
-      .velocity("stop");
+      .velocity('stop')
+      .velocity({ 'margin-left': '42px' }, animationSettings)
+      .velocity({ 'margin-left': '2px' }, animationSettings)
+      .velocity('stop');
 
     node.parent().first()
-      .velocity("stop")
-      .velocity({'backgroundColor': '#00bf8f'}, Modules.client.animationSettings)
-      .velocity({'backgroundColor': '#ccc'}, Modules.client.animationSettings)
-      .velocity("stop");
-
+      .velocity('stop')
+      .velocity({ backgroundColor: '#00bf8f' }, animationSettings)
+      .velocity({ backgroundColor: '#ccc' }, animationSettings)
+      .velocity('stop');
   }
 }
