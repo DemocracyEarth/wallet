@@ -6,6 +6,7 @@ import { animationSettings } from '/imports/ui/modules/animation';
 import { modalCallback, displayModal } from '/imports/ui/modules/modal';
 
 import './modal.html';
+import '../../components/identity/avatar/avatar.js';
 
 Template.modal.helpers({
   showModal() {
@@ -17,7 +18,7 @@ Template.modal.helpers({
 Template.modalWindow.onRendered = function onRender() {
   //Initial position
   const paddingTotal = parseInt($('.alert').css('padding-bottom')) + parseInt($('.alert').css('padding-top'));
-  let alertHeight = parseInt( (window.innerHeight / 2) - ( ($('.alert').height() + paddingTotal) / 2));
+  let alertHeight = parseInt((window.innerHeight / 2) - (($('.alert').height() + paddingTotal) / 2));
   if (alertHeight > 200) {
     alertHeight = 200;
   }
@@ -25,49 +26,49 @@ Template.modalWindow.onRendered = function onRender() {
   //Intro animation
   $('.alert').css('margin-top', alertHeight + 'px');
   $('.modal').css('opacity', '0');
-  $('.modal').velocity({'opacity': '1'}, animationSettings);
+  $('.modal').velocity({ opacity: '1' }, animationSettings);
 
 };
 
 Template.modalWindow.helpers({
-  icon: function () {
-    if (Session.get('displayModal') != undefined) {
+  icon() {
+    if (Session.get('displayModal') !== undefined) {
       return Session.get('displayModal').icon;
     }
   },
-  title: function () {
-    if (Session.get('displayModal') != undefined) {
+  title() {
+    if (Session.get('displayModal') !== undefined) {
       return Session.get('displayModal').title;
     }
   },
-  message: function () {
-    if (Session.get('displayModal') != undefined) {
+  message() {
+    if (Session.get('displayModal') !== undefined) {
       return Session.get('displayModal').message;
     }
   },
-  cancel: function () {
-    if (Session.get('displayModal') != undefined) {
+  cancel() {
+    if (Session.get('displayModal') !== undefined) {
       return Session.get('displayModal').cancel;
     }
   },
-  action: function () {
-    if (Session.get('displayModal') != undefined) {
+  action() {
+    if (Session.get('displayModal') !== undefined) {
       return Session.get('displayModal').action;
     }
   },
-  displayProfile: function () {
-    if (Session.get('displayModal') != undefined) {
+  displayProfile() {
+    if (Session.get('displayModal') !== undefined) {
       return Session.get('displayModal').displayProfile;
     }
   },
-  profileId: function () {
-    if (Session.get('displayModal') != undefined) {
+  profileId() {
+    if (Session.get('displayModal') !== undefined) {
       return Session.get('displayModal').profileId;
     }
   },
-  visible: function () {
-    if (Session.get('displayModal') != undefined) {
-      if (Session.get('displayModal').visible == true) {
+  visible() {
+    if (Session.get('displayModal') !== undefined) {
+      if (Session.get('displayModal').visible === true) {
         return '';
       }
     }
@@ -76,24 +77,24 @@ Template.modalWindow.helpers({
 });
 
 Template.modalWindow.events({
-  'click #modalToggle': function () {
-    //Modules.client.displayModal(false);
+  'click #modalToggle'() {
+    // Modules.client.displayModal(false);
   },
-  'click #cancel': function (event, sessionVar) {
+  'click #cancel'(event, sessionVar) {
     killModal();
   },
-  'click #execute': function (event) {
+  'click #execute'(event) {
     modalCallback();
     killModal();
   }
-})
+});
 
-function killModal () {
-  var settings = Object.assign({
-    complete: function () {
+function killModal() {
+  const settings = Object.assign({
+    complete() {
       Session.set('showModal', false);
       displayModal(false);
-    }
+    },
   }, animationSettings);
-  $('.modal').velocity({'opacity': '0'}, settings);
+  $('.modal').velocity({ opacity: '0' }, settings);
 }

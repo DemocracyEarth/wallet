@@ -1,25 +1,29 @@
+import { Template } from 'meteor/templating';
+import { TAPi18n } from 'meteor/tap:i18n';
+
+import './status.html';
+
 //Mileston status of current contract
 Template.milestone.helpers({
-  status: function(number, currentStep) {
-      if (number < currentStep) {
-        return '';
-      } else if (number == currentStep) {
-        return 'current';
-      } else {
-        return 'disabled';
-      }
+  status(number, currentStep) {
+    if (number < currentStep) {
+      return '';
+    } else if (number === currentStep) {
+      return 'current';
+    }
+    return 'disabled';
   },
-  text: function(number) {
+  text(number) {
     return TAPi18n.__('milestone_' + number.toString());
   },
-  tick: function(number, currentStep) {
+  tick(number, currentStep) {
     if (number < currentStep) {
         return '&#10003;';
     } else {
       return number;
     }
   },
-  progressbar: function(number, max, currentStep) {
+  progressbar(number, max, currentStep) {
     if (number < max) {
       if (number < currentStep) {
         return 'progress-bar completed';

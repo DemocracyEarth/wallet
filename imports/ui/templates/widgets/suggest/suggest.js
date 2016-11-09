@@ -1,41 +1,47 @@
-Template.suggest.rendered = function () {
+import { Meteor } from 'meteor/meteor';
+import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
+import { $ } from 'meteor/jquery';
 
+import { animationSettings } from '/imports/ui/modules/animation';
+
+Template.suggest.onRendered = () => {
   Session.set('noMatchFound', false);
 
   $('.suggest').css('height', '0');
-  $('.suggest').velocity({'height': '110px'}, Modules.client.animationSettings);
-
-}
+  $('.suggest').velocity({ height: '110px' }, animationSettings);
+};
 
 Template.suggest.helpers({
-  country: function () {
-    if (Session.get('filteredCountries').length == 0) {
+  country() {
+    if (Session.get('filteredCountries').length === 0) {
       Session.set('noMatchFound', true);
       return [{
           "code": "EA",
           "emoji": "🌎",
           "name": "Earth"
       }];
-    } else {
-      Session.set('noMatchFound', false);
-      return Session.get('filteredCountries');
     }
+    Session.set('noMatchFound', false);
+    return Session.get('filteredCountries');
   },
-  noMatchFound: function () {
+  noMatchFound() {
     return Session.get('noMatchFound');
-  }
+  },
 })
 
 Template.suggest.events({
-  "click #country": function (event) {
-    var data = Meteor.user().profile;
-    var country = {
+  'click #country'(event) {
+    const data = Meteor.user().profile;
+    let country = {
       code: event.target.parentNode.getAttribute('value'),
       name: event.target.innerText.slice(4)
     }
-    if (country.name == 'arth') { country.name = 'Earth' };
+    if (country.name === 'arth') {
+      country.name = 'Earth';
+    }
     Session.set('newCountry', country);
     Session.set('noMatchFound', false);
     Session.set('showNations', false);
-  }
+  },
 })
