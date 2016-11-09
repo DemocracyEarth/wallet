@@ -24,7 +24,7 @@ import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { SearchSource } from 'meteor/meteorhacks:search-source';
 
-import { ProposalSearch, TagSearch, geoJSON } from '/lib/global';
+import { globalObj } from '/lib/global';
 import './main.html';
 import '../widgets/modal/modal';
 import '../widgets/popup/popup';
@@ -57,21 +57,21 @@ Meteor.startup(() => {
 
   //Search Engine for Tags
   Session.set('createTag', false);
-  TagSearch = new SearchSource('tags', ['text', 'url'], {
+  globalObj.TagSearch = new SearchSource('tags', ['text', 'url'], {
     keepHistory: 1000 * 60 * 5,
     localSearch: true
   });
 
   //Search Engine for Proposals
   Session.set('createProposal', false);
-  ProposalSearch = new SearchSource('contracts', ['title', 'description'], {
+  globalObj.ProposalSearch = new SearchSource('contracts', ['title', 'description'], {
     keepHistory: 1000 * 60 * 5,
-    localSearch: true
+    localSearch: true,
   });
 
   //Geographical Info
   HTTP.get(Meteor.absoluteUrl("data/geo.json"), function(err,result) {
-    geoJSON = result.data;
+    globalObj.geoJSON = result.data;
     Session.set('filteredCountries', result.data.country);
   });
 });

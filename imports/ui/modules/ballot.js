@@ -1,6 +1,6 @@
 import { Session } from 'meteor/session';
 
-import { ProposalSearch } from '/lib/global';
+import { globalObj } from '/lib/global';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { createContract } from '/imports/startup/both/modules/Contract';
 import { checkDuplicate, convertToSlug } from '/lib/utils';
@@ -208,8 +208,7 @@ let _forkContract = () => {
       if (_addChoiceToBallot(Session.get('contract')._id, contract._id)) {
         var contract = Contracts.findOne( { _id: Session.get('contract')._id }, {reactive: false});
         Session.set('dbContractBallot', contract.ballot );
-        // LAI: ProposalSearch from global, test it.
-        ProposalSearch.search('');
+        globalObj.ProposalSearch.search('');
         document.getElementById("searchInput").innerHTML = '';
         Session.set('proposalURLStatus', 'UNAVAILABLE');
         Session.set('createProposal', false);

@@ -5,7 +5,7 @@ import { Session } from 'meteor/session';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { Tags } from '/imports/api/tags/Tags';
 import { addTag, removeTag, sortRanks, addCustomTag, resetTagSearch } from '/lib/data';
-import { TagSearch } from '/lib/global';
+import { globalObj } from '/lib/global';
 import { displayTimedWarning } from '/lib/utils';
 
 import './semantics.html';
@@ -56,7 +56,7 @@ Template.semantics.onRendered = function onRender() {
       zIndex: 9999,
       placeholder: 'tag tag-placeholder',
     });
-    TagSearch.search('');
+    globalObj.TagSearch.search('');
   }
 
   Session.set('dbTagList', Contracts.findOne({ _id: Session.get('contract')._id }, { reactive: false }).tags);
@@ -74,7 +74,7 @@ Template.semantics.helpers({
     return sortRanks(Session.get('dbTagList'));
   },
   getTags() {
-    const search = TagSearch.getData({
+    const search = globalObj.TagSearch.getData({
       transform(matchText, regExp) {
         return matchText.replace(regExp, '<b>$&</b>')
       },
@@ -96,7 +96,7 @@ Template.semantics.helpers({
     if (displayElement('createTag') === '') {
       return 'display:none';
     }
-    if (TagSearch.getData({}).length > 0 || Tags.find({}).fetch().length > 0) {
+    if (globalObj.TagSearch.getData({}).length > 0 || Tags.find({}).fetch().length > 0) {
       return 'display:none';
     }
     return '';
@@ -163,9 +163,9 @@ Template.semantics.events({
   },
   'input #tagSearch'(event) {
     const content = document.getElementById('tagSearch').innerHTML.replace(/&nbsp;/gi, '');
-    TagSearch.search(content);
+    globalObj.TagSearch.search(content);
 
-    if (TagSearch.getData().length === 0 && content !== '') {
+    if (globalObj.TagSearch.getData().length === 0 && content !== '') {
       Session.set('createTag', true);
       Session.set('newTag', content);
     } else {

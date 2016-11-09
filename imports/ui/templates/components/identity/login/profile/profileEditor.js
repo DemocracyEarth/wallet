@@ -4,6 +4,7 @@ import { Session } from 'meteor/session';
 
 import { validateUsername } from '/imports/startup/both/modules/User';
 import { searchJSON } from '/imports/ui/modules/JSON';
+import { globalObj } from '/lib/global';
 
 import './profileEditor.html';
 
@@ -52,9 +53,9 @@ Template.profileEditor.events({
   },
   'input .country-search': function (event) {
     if (event.target.value != '') {
-      Session.set('filteredCountries', searchJSON(geoJSON.country, event.target.value));
+      Session.set('filteredCountries', searchJSON(globalObj.geoJSON.country, event.target.value));
     } else {
-      Session.set('filteredCountries', geoJSON.country);
+      Session.set('filteredCountries', globalObj.geoJSON.country);
     }
   },
   'click #skip-step': function () {

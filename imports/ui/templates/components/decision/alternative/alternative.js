@@ -8,7 +8,7 @@ import { URLCheck, URLVerifier } from '/imports/ui/modules/Files';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { forkContract } from '/imports/ui/modules/ballot';
 import { timers } from '/lib/const';
-import { ProposalSearch } from '/lib/global';
+import { globalObj } from '/lib/global';
 
 import './alternative.html';
 import '../../../widgets/feed/feedItem.js';
@@ -20,7 +20,7 @@ let SEARCH_INPUT;
 
 Template.alternative.onRendered = function onRender() {
   SEARCH_INPUT = TAPi18n.__('search-input');
-  ProposalSearch.search('');
+  globalObj.ProposalSearch.search('');
   _generateAlternativeFeed();
 }
 
@@ -41,7 +41,7 @@ Template.alternative.helpers({
 
     _generateAlternativeFeed();
 
-    var search = ProposalSearch.getData({
+    var search = globalObj.ProposalSearch.getData({
       transform: function(matchText, regExp) {
         var htmlRegex = new RegExp("<([A-Za-z][A-Za-z0-9]*)\\b[^>]*>(.*?)</\\1>");
         if(!htmlRegex.test(matchText)) {
@@ -149,13 +149,13 @@ Template.alternative.events({
   },
   "input #searchInput": function (event) {
     var content = document.getElementById("searchInput").innerHTML.replace(/&nbsp;/gi,'');
-    ProposalSearch.search(content);
-    if (ProposalSearch.getData().length == 0 && content != '') {
+    globalObj.ProposalSearch.search(content);
+    if (globalObj.ProposalSearch.getData().length == 0 && content != '') {
       instaProposalCreator(content);
       _generateAlternativeFeed();
     } else {
-      if (ProposalSearch.getData().length == 1) {
-        if (ProposalSearch.getData()[0]._id == Session.get('contract')._id) {
+      if (globalObj.ProposalSearch.getData().length == 1) {
+        if (globalObj.ProposalSearch.getData()[0]._id == Session.get('contract')._id) {
           instaProposalCreator(content);
           _generateAlternativeFeed();
         } else {
