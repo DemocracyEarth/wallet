@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { rules } from '/lib/const';
 import { generateWalletAddress, transact } from './transaction';
 
 Meteor.methods({
@@ -22,7 +23,7 @@ Meteor.methods({
     user.profile.wallet = generateWalletAddress(user.profile.wallet);
     console.log('[genesisTransaction] generated first address on wallet.');
     Meteor.users.update({ _id: userId }, { $set: { profile : user.profile } });
-    transact(Meteor.settings.public.Collective._id, userId, VOTES_INITIAL_QUANTITY);
+    transact(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY);
   },
 
   executeTransaction: function (delegatorId, delegateId, quantity, conditions, newStatus) {
