@@ -81,10 +81,12 @@ Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mas
 
 ## Demos
 
-Current live implementations:
+Implementations:
 
 * 🌎 Official Site: [democracy.earth](http://democracy.earth).
-* 🇨🇴 [Colombia Peace Referendum](http://vota.plebiscitodigital.co) and [final report](https://medium.com/@DemocracyEarth/a-digital-referendum-for-colombias-diaspora-aeef071ec014#.xbyqt3blq).
+* 🇨🇴 Report on [Colombia Referendum](https://medium.com/@DemocracyEarth/a-digital-referendum-for-colombias-diaspora-aeef071ec014#.xbyqt3blq).
+
+> _Note:_ Live deploy coming soon.
 
 ## Specifications
 

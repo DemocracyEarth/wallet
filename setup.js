@@ -48,7 +48,6 @@ if (Meteor.isServer) {
   if (Meteor.settings.private.API.facebook.appId == undefined || Meteor.settings.private.API.facebook.appId == "") {
     console.log('-- MISSING SETTING: Facebook API keys not configured.');
     console.log('-- FIX: Configure `private.API.facebook.appId` and `private.API.facebook.appSecret` on settings.json.');
-
   } else {
     console.log('Facebook API key for identity login... OK');
   }
@@ -57,9 +56,24 @@ if (Meteor.isServer) {
   if (Meteor.settings.private.API.twitter.APIKey == undefined || Meteor.settings.private.API.twitter.APIKey == "") {
     console.log('-- MISSING SETTING: Twitter API keys not configured.');
     console.log('-- FIX: Configure `private.API.twitter.APIKey` and `private.API.twitter.APISecret` on settings.json.');
-
   } else {
     console.log('Twitter API key for identity login... OK');
+  }
+
+  //Google Analytics
+  if (Meteor.settings.public.analyticsSettings["Google Analytics"].trackingId == undefined || Meteor.settings.public.analyticsSettings["Google Analytics"].trackingId == "") {
+    console.log('-- MISSING SETTING: Google Analytics tracking ID not configured.');
+    console.log('-- FIX: Configure `public.analyticsSettings["Google Analytics"].trackingId` on settings.json.');
+  } else {
+    console.log('Google Analytics tracking ID... OK');
+  }
+
+  //Kadira
+  if (Meteor.settings.kadira.appId == undefined || Meteor.settings.kadira.appId == "") {
+    console.log('-- MISSING SETTING: Kadira keys for performance app testing not configured.');
+    console.log('-- FIX: Configure `kadira.appId` and `kadira.appSecret` on settings.json.');
+  } else {
+    console.log('Kadira keys for performance app testing... OK');
   }
 
 }

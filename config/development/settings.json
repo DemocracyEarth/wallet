@@ -1,14 +1,14 @@
 {
   "galaxy.meteor.com": {
      "env": {
-       "ROOT_URL": "https://vota.plebiscitodigital.co",
-       "MONGO_URL": "mongodb://sovereignDbAdmin:d3m0cr4cy34rthf0und4t10n@ds043996-a0.mlab.com:43996,ds043996-a1.mlab.com:43996/sovereign_mongodb?replicaSet=rs-ds043996"
+       "ROOT_URL": "",
+       "MONGO_URL": ""
      }
    },
 
    "kadira": {
-     "appId": "DYdDg2YFAafkxLSmT",
-     "appSecret": "14cf7cf5-596d-45e1-a109-149726054bd1"
+     "appId": "",
+     "appSecret": ""
    },
 
   "AWSAccessKeyId": "",
@@ -40,7 +40,7 @@
     "analyticsSettings": {
       "Google Analytics" :
         {
-          "trackingId": "UA-69508804-2"
+          "trackingId": ""
         }
     },
 
