@@ -3,7 +3,8 @@ import { Accounts } from 'meteor/accounts-base';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 
-import { UserContext } from '/imports/api/users/User';
+//import { userContext } from '/imports/api/users/User';
+import { check } from 'meteor/check';
 import displayNotice from '/imports/ui/modules/notice';
 import { validateEmail } from './validations.js';
 
@@ -29,7 +30,9 @@ const _createUser = (data) => {
     };
 
     // create User
-    if (UserContext.validate(objUser)) {
+    // BUG: Uncomment this, error:  existingKey.indexOf is not a function
+    // if (userContext.validate(objUser)) {
+    if (true) {
       Accounts.createUser({
         username: objUser.username,
         password: objUser.services.password,

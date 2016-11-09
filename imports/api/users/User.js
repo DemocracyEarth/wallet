@@ -126,7 +126,7 @@ const Profile = new SimpleSchema({
     }
 });
 
-const User = new SimpleSchema({
+export const User = new SimpleSchema({
     username: {
         type: String,
         optional: true
@@ -196,5 +196,3 @@ const User = new SimpleSchema({
 
 export const UserContext = User.newContext();
 Meteor.users.attachSchema(User.schema);
-
-export default User;
