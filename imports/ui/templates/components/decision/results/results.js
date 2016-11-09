@@ -4,17 +4,19 @@ import { Session } from 'meteor/session';
 
 import { showResults } from '/imports/ui/modules/ballot';
 
+import './results.html';
+
 Template.results.helpers({
-  result: function () {
+  result() {
     return showResults(Session.get('contract'));
   },
-  percentageLabel: function () {
+  percentageLabel() {
     return parseInt(this.percentage).toString() + '%'
   },
-  votes: function () {
+  votes() {
     return TAPi18n.__('total-votes').replace('<votes>', this.votes.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
   },
-  label: function () {
+  label() {
     switch (this.mode) {
       case 'REJECT':
       case 'AUTHORIZE':
@@ -23,9 +25,10 @@ Template.results.helpers({
         return this.label;
     }
   },
-  unanimous: function () {
-    if (this.percentage == 100) {
+  unanimous() {
+    if (this.percentage === 100) {
       return 'result-unanimous';
     }
-  }
+    return false;
+  },
 });
