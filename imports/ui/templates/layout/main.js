@@ -24,7 +24,7 @@ import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { SearchSource } from 'meteor/meteorhacks:search-source';
 
-import { ProposalSearch, TagSearch } from '/lib/global';
+import { ProposalSearch, TagSearch, geoJSON } from '/lib/global';
 import './main.html';
 import '../widgets/modal/modal';
 import '../widgets/popup/popup';
@@ -70,7 +70,6 @@ Meteor.startup(() => {
   });
 
   //Geographical Info
-  geoJSON = new Object;
   HTTP.get(Meteor.absoluteUrl("data/geo.json"), function(err,result) {
     geoJSON = result.data;
     Session.set('filteredCountries', result.data.country);
