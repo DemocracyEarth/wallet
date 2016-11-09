@@ -1,12 +1,13 @@
+import { Meteor } from 'meteor/meteor';
 import { checkUrlValidity } from '../../modules/validations';
 
+// pending to import somewhere
 Meteor.methods({
-  storeUrlInDatabase: function( url ) {
+  storeUrlInDatabase(url) {
     check( url, String );
     checkUrlValidity( url );
-
     try {
-      Files.insert({
+      return Files.insert({
         url: url,
         userId: Meteor.userId(),
         added: new Date()

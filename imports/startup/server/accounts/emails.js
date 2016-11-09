@@ -1,5 +1,10 @@
+import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
+
 Accounts.emailTemplates.siteName = Meteor.settings.public.Collective.name;
-Accounts.emailTemplates.from     = Meteor.settings.public.Collective.name + ' <' + Meteor.settings.public.Collective.emails[0].address + '>';
+const name = Meteor.settings.public.Collective.name;
+const address = Meteor.settings.public.Collective.emails[0].address;
+Accounts.emailTemplates.from = `${name} <${address}>`;
 
 Accounts.emailTemplates.verifyEmail = {
   subject() {

@@ -1,41 +1,43 @@
+import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
+
+import { convertToSlug } from '/lib/utils';
+
 /**
 * at user creation the following specifications must be met
 ****/
-Accounts.onCreateUser(function(options, user) {
-
-  //normalize facebook data
+Accounts.onCreateUser((options, user) => {
+  // normalize facebook data
   if (user.services.facebook) {
     if (options.profile) {
-        options.profile.picture = "http://graph.facebook.com/" + user.services.facebook.id + "/picture/?type=large";
-        options.profile.firstName = user.services.facebook.first_name;
-        options.profile.lastName = user.services.facebook.last_name;
+      options.profile.picture = "http://graph.facebook.com/" + user.services.facebook.id + "/picture/?type=large";
+      options.profile.firstName = user.services.facebook.first_name;
+      options.profile.lastName = user.services.facebook.last_name;
 
-        var credential = new Array;
-        if (options.profile.credentials != undefined) {
-          credential = options.profile.credentials;
-        }
-        credential.push({
-          source: 'facebook',
-          URL: user.services.facebook.link,
-          validated: true
-        });
+      let credential = [];
+      if (options.profile.credentials != undefined) {
+        credential = options.profile.credentials;
+      }
+      credential.push({
+        source: 'facebook',
+        URL: user.services.facebook.link,
+        validated: true
+      });
 
-        options.profile.credentials = credential;
-        //TODO detect country automatically
+      options.profile.credentials = credential;
+      //TODO detect country automatically
 
-        user.profile = options.profile;
+      user.profile = options.profile;
     }
   }
 
   //normalize twitter data
   if (user.services.twitter) {
-
     if (options.profile) {
-
       options.profile.picture = user.services.twitter.profile_image_url;
       options.profile.firstName = user.services.twitter.screenName;
 
-      var credential = new Array;
+      let credential = [];
       if (options.profile.credentials != undefined) {
         credential = options.profile.credentials;
       }
@@ -44,10 +46,8 @@ Accounts.onCreateUser(function(options, user) {
         URL: 'http://twitter.com/' + user.services.twitter.screenName,
         validated: true
       })
-
       options.profile.credentials = credential;
       user.profile = options.profile;
-
     }
   }
 

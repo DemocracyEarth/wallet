@@ -48,9 +48,6 @@ Meteor.publish('singleUser', function (userId) {
     var subscription = this;
     subs[this.userId] = subscription;
 
-
-
-
     subscription.added( 'serverTime', newId,  {date: new Date()});
 
     // #3

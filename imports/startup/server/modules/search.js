@@ -1,7 +1,8 @@
-import { buildRegExp }  from '../../utils/functions.js';
+import { SearchSource } from 'meteor/meteorhacks:search-source';
+import { buildRegExp } from '/imports/utils/functions.js';
 
-//Search engine
-SearchSource.defineSource('tags', function(searchText, options) {
+// Search engine
+SearchSource.defineSource('tags', (searchText, options) => {
   var options = {sort: {isoScore: -1}, limit: 20};
 
   if(searchText) {
@@ -13,7 +14,7 @@ SearchSource.defineSource('tags', function(searchText, options) {
   }
 });
 
-SearchSource.defineSource('contracts', function(searchText, options) {
+SearchSource.defineSource('contracts', (searchText, options) => {
   var options = {sort: {isoScore: -1}};
   if(searchText) {
     var regExp = buildRegExp(searchText);
