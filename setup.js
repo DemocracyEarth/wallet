@@ -31,7 +31,7 @@ if (Meteor.isServer) {
   //AWS
   if (Meteor.settings.AWSAccessKeyId == undefined || Meteor.settings.AWSAccessKeyId == "") {
     console.log('-- MISSING SETTING: Amazon Web Services for resource storage keys not configured.');
-    console.log('-- FIX: Configure `AWSAccessKeyId` and `AWSSecretAccessKey` on settings.json.');
+    console.log('-- FIX: Configure `AWSAccessKeyId`, `AWSSecretAccessKey` and `public.AWSHostingURL` on settings.json.');
   } else {
     console.log('Amazon Web Services for resource storage in cloud... OK');
   }
