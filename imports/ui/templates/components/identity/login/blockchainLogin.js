@@ -4,7 +4,7 @@ import { Template } from 'meteor/templating';
 import './blockchainLogin.html';
 
 Template.blockchainLogin.events({
-  "click .qr-sign": function (event) {
+  'click .qr-sign'() {
     Meteor.loginWithPassword('napoleonDynamite', 'xdwcqc');
-  }
+  },
 });

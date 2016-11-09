@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 
 import './profile.html';
 import './profileEditor.js';
+import '../../avatar/avatar.js';
 import '../../../../widgets/warning/warning.js';
 
 Template.profile.helpers({

@@ -37,7 +37,6 @@ Template.forgotPassword.events({
 
     //Validate non-empty email & invoke Passwords API
     if (email != '') {
-      console.log("Accounts.forgotPassword: PENDING CLASS Accounts");
       Accounts.forgotPassword({email: email}, function(err) {
         if (err) {
           if (err.message === 'User not found [403]') {
