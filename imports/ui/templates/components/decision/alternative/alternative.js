@@ -8,6 +8,11 @@ import { URLCheck, URLVerifier } from '/imports/ui/modules/Files';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { forkContract } from '/imports/ui/modules/ballot';
 import { timers } from '/lib/const';
+import { ProposalSearch } from '/lib/global';
+
+import './alternative.html';
+import '../../../widgets/feed/feedItem.js';
+import '../stage/stage.js';
 
 const searchHTMLElement = '#searchInput';
 let typingTimer;
@@ -61,7 +66,7 @@ Template.alternative.helpers({
     }
 
     if (search.length == 0 && content != '') {
-      if (content != SEARCH_INPUT) {
+      if (content !== SEARCH_INPUT) {
         instaProposalCreator(content);
       }
     }
@@ -193,7 +198,7 @@ function instaProposalCreator(content) {
   Session.set('createProposal', true);
   Session.set('newProposal', content);
   var keyword = convertToSlug(content);
-  var contract = Contracts.findOne( { keyword: keyword } );
+  var contract = Contracts.findOne({ keyword });
 
   Meteor.clearTimeout(typingTimer);
   Session.set('proposalURLStatus', 'VERIFY');

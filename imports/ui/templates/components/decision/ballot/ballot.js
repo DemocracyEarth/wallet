@@ -5,6 +5,8 @@ import { Session } from 'meteor/session';
 
 import { removeFork, updateBallotRank, addChoiceToBallot } from '/imports/ui/modules/ballot';
 
+import './ballot.html';
+
 var rank = 0;
 
 Template.ballot.onRendered = function onRender() {

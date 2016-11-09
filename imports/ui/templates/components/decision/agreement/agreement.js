@@ -9,13 +9,15 @@ import { saveDescription } from '/lib/data';
 import { timers } from '/lib/const';
 import { delegationTextCheck, stripHTMLfromText } from '/imports/ui/modules/utils';
 
-var typingTimer; //timer identifier
+import './agreement.html';
+
+let typingTimer; // timer identifier
 
 Template.agreement.onRendered = function onRender() {
   if (!Session.get('contract')) { return; }
 
   if (Session.get('contract').stage == 'DRAFT' && Session.get('contract').kind == 'VOTE') {
-
+    // FIX MediumEditor is not defined
     var editor = new MediumEditor('#editor', {
       /* These are the default options for the editor,
           if nothing is passed this is what is used */

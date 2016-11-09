@@ -5,7 +5,11 @@ import { Session } from 'meteor/session';
 import { timeSince } from '/imports/ui/modules/chronos';
 import { textFormat } from '/imports/ui/modules/utils';
 
-var replyBoxes = new Array();
+import './thread.html';
+import '../../../identity/avatar/avatar.js';
+import '../postComment.js';
+
+let replyBoxes = new Array();
 
 Template.thread.helpers({
   timestamp: function () {
@@ -54,4 +58,4 @@ Template.thread.events({
     replyBoxes.push(replyStringId);
     Session.set(replyStringId, true);
   }
-})
+});

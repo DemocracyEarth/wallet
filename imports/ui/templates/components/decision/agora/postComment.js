@@ -6,18 +6,21 @@ import { Session } from 'meteor/session';
 
 import { postComment } from '/imports/ui/modules/Thread';
 
-var commentBox;
+import './postComment.html';
+import '../../identity/avatar/avatar.js';
 
-Template.postComment.rendered = function () {
+let commentBox;
+
+Template.postComment.onRendered = function onRender() {
   commentBox = this.lastNode.firstChild.nextElementSibling;
-  if (commentBox.innerText != TAPi18n.__('argue')) {
+  if (commentBox.innerText !== TAPi18n.__('argue')) {
     commentBox.focus();
   }
 };
 
 Template.postComment.events({
-  "keypress #postComment": function (event) {
-    if (event.which == 13 && !event.shiftKey) {
+  'keypress #postComment': function (event) {
+    if (event.which === 13 && !event.shiftKey) {
       event.preventDefault();
       if (!this.replyMode) {
         postComment(
@@ -52,9 +55,9 @@ Template.postComment.events({
   "click #postComment": function (event) {
     if (!this.replyMode) {
       if ($('#postComment').attr('active') == 'false') {
-         $('#postComment').attr('active', true);
-         $('#postComment').attr('class', 'comment comment-post');
-         document.getElementById('postComment').innerText = '';
+        $('#postComment').attr('active', true);
+        $('#postComment').attr('class', 'comment comment-post');
+        document.getElementById('postComment').innerText = '';
       }
     }
   },
@@ -67,7 +70,7 @@ Template.postComment.events({
       Session.set('replybox' + this.id, false);
     }
   }
-})
+});
 
 function cleanCommentBox() {
   $('#postComment').attr('active', false);

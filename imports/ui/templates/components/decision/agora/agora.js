@@ -1,6 +1,11 @@
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 
+import './agora.html';
+import './postComment.js';
+import '../../identity/login/socialMediaLogin.js';
+import './thread/thread.js';
+
 Template.agora.helpers({
   emptyThread() {
     if (Session.get('contract')) {

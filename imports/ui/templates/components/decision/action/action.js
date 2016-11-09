@@ -9,6 +9,41 @@ import { purgeBallot, ballotReady } from '/imports/ui/modules/ballot';
 
 import './action.html';
 
+function disableContractExecution() {
+  if (Session.get('emptyBallot')) {
+    return true;
+  } else if (Session.get('unauthorizedFork')) {
+    return true;
+  } else if (Session.get('missingTitle')) {
+    return true;
+  } else if (Session.get('mistypedTitle')) {
+    return true;
+  } else if (Session.get('duplicateURL')) {
+    return true;
+  } else if (Session.get('noVotes')) {
+    return true;
+  } else if (Session.get('draftOptions')) {
+    return true;
+  } else if (!Session.get('rightToVote')) {
+    return true;
+  } else {
+    if (Session.get('contract').kind == 'VOTE' && Session.get('contract').stage == 'LIVE') {
+      if (!ballotReady()) {
+        return true;
+      }
+    }
+    if (Session.get('newVote') != undefined) {
+      if (Session.get('newVote').mode === 'PENDING' || Session.get('newVote').mode == undefined) {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return false;
+    }
+  }
+}
+
 Template.action.helpers({
   disabled: function () {
     if (disableContractExecution()) {
@@ -114,38 +149,3 @@ Template.action.events({
       }
     },
 });
-
-function disableContractExecution() {
-  if (Session.get('emptyBallot')) {
-    return true;
-  } else if (Session.get('unauthorizedFork')) {
-    return true;
-  } else if (Session.get('missingTitle')) {
-    return true;
-  } else if (Session.get('mistypedTitle')) {
-    return true;
-  } else if (Session.get('duplicateURL')) {
-    return true;
-  } else if (Session.get('noVotes')) {
-    return true;
-  } else if (Session.get('draftOptions')) {
-    return true;
-  } else if (!Session.get('rightToVote')) {
-    return true;
-  } else {
-    if (Session.get('contract').kind == 'VOTE' && Session.get('contract').stage == 'LIVE') {
-      if (!ballotReady()) {
-        return true;
-      }
-    }
-    if (Session.get('newVote') != undefined) {
-      if (Session.get('newVote').mode === 'PENDING' || Session.get('newVote').mode == undefined) {
-        return false;
-      } else {
-        return true;
-      }
-    } else {
-      return false;
-    }
-  }
-}
