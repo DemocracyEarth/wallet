@@ -8,6 +8,7 @@ import { timers } from '/lib/const';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { toggleSidebar } from '/imports/ui/modules/menu';
 
+import { animate } from '/imports/ui/modules/animation';
 import './navigation.html';
 import '../authentication/authentication.js';
 import '../../widgets/notice/notice.js';
@@ -18,25 +19,25 @@ var scrollDown = false;
 
 if (Meteor.Device.isPhone()) {
   $(window).scroll(function(event) {
-    node = $('.navbar');
-     var st = $(this).scrollTop();
-     if (st > lastScrollTop){
-         if (scrollDown == false && st > 150) {
-           scrollDown = true;
-           animate(node, 'hide-up',  { duration : parseInt(timers.ANIMATION_DURATION * 2.5), easing : "ease-in"  });
-         }
-     } else {
-        if (scrollDown == true) {
-          scrollDown = false;
-          animate(node, 'show-down', { duration : parseInt(timers.ANIMATION_DURATION * 2.5), easing : "ease-out"});
-        }
-     }
-     lastScrollTop = st;
+    const node = $('.navbar');
+    const st = $(this).scrollTop();
+    if (st > lastScrollTop) {
+      if (scrollDown === false && st > 150) {
+        scrollDown = true;
+        animate(node, 'hide-up', { duration: parseInt(timers.ANIMATION_DURATION * 2.5), easing: 'ease-in' });
+      }
+    } else {
+      if (scrollDown === true) {
+        scrollDown = false;
+        animate(node, 'show-down', { duration: parseInt(timers.ANIMATION_DURATION * 2.5), easing: 'ease-out' });
+      }
+    }
+    lastScrollTop = st;
   });
-};
+}
 
 Template.navigation.onRendered = function onRender() {
-}
+};
 
 Template.navigation.helpers({
   screen: function () {
