@@ -4,8 +4,9 @@ import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 
 import { animationSettings } from '/imports/ui/modules/animation';
+import './suggest.html';
 
-Template.suggest.onRendered = () => {
+Template.suggest.onRendered = function onRender() {
   Session.set('noMatchFound', false);
 
   $('.suggest').css('height', '0');
