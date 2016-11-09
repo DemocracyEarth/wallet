@@ -7,7 +7,9 @@ import { searchJSON } from '/imports/ui/modules/JSON';
 import { globalObj } from '/lib/global';
 
 import './profileEditor.html';
+import '../../avatar/avatar.js';
 import '../../../../widgets/warning/warning.js';
+import '../../../../widgets/suggest/suggest.js';
 
 Template.profileEditor.onRendered = function onRender() {
   Session.set('showNations', false);
