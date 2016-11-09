@@ -11,22 +11,22 @@
      "appSecret": "14cf7cf5-596d-45e1-a109-149726054bd1"
    },
 
-  "AWSAccessKeyId": "AKIAIEDBX73JZBV65WFA",
-  "AWSSecretAccessKey": "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",
-  "smtpServer": "smtp://postmaster%40mailgun.democracyearth.org:d070665c856bf97baa01bb0540faf765@smtp.mailgun.org:587",
+  "AWSAccessKeyId": "",
+  "AWSSecretAccessKey": "",
+  "smtpServer": "",
 
   "private": {
 
     "API": {
 
       "facebook": {
-        "appId": "904600516316501",
-        "appSecret": "43acc03408f50988490925aa66ebf112"
+        "appId": "",
+        "appSecret": ""
       },
 
       "twitter": {
-        "APIKey": "aT1uta586WOsjJjpL5CtGfQYh",
-        "APISecret": "GkSAZKNIOFNVS6s5blZIRzKyotC9JC1GXmsOsYAxNTem4a6J98"
+        "APIKey": "",
+        "APISecret": ""
       }
 
     }
@@ -61,8 +61,8 @@
     },
 
     "Collective": {
-      "name": "República de Colombia",
-      "domain": "https://vota.plebiscitodigital.co",
+      "name": "Democracy Earth",
+      "domain": "https://localhost:3000",
       "emails": [
         {
           "address": "hello@democracy.earth",

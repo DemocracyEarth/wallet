@@ -11,7 +11,7 @@ if (Meteor.isServer) {
     //Organization has no Collective in db yet
     console.log('Installing democracy in server...');
     if (Meteor.settings.public.Collective == undefined) {
-      console.log('-- MISSING SETTING: Collective was not found. Please setup settings.json on config/development')
+      console.log('-- MISSING SETTING: Collective was not found. Please setup settings.json on config/development.')
     } else {
       console.log('Setting up main Collective in database...');
       Collectives.insert(Meteor.settings.public.Collective, function( error, result) {
@@ -24,6 +24,44 @@ if (Meteor.isServer) {
       );
     }
   }
+
+
+  console.log('Verifying key configuration for this instance...');
+
+  //AWS
+  if (Meteor.settings.AWSAccessKeyId == undefined || Meteor.settings.AWSAccessKeyId == "") {
+    console.log('-- MISSING SETTING: Amazon Web Services for resource storage keys not configured.');
+    console.log('-- FIX: Configure `AWSAccessKeyId` and `AWSSecretAccessKey` on settings.json.');
+  } else {
+    console.log('Amazon Web Services for resource storage in cloud... OK');
+  }
+
+  //smtpServer
+  if (Meteor.settings.smtpServer == undefined || Meteor.settings.smtpServer == "") {
+    console.log('-- MISSING SETTING: Mailgun SMTP server keys not configured.');
+    console.log('-- FIX: Configure `smtpServer` on settings.json.');
+  } else {
+    console.log('Mailgun SMTP server for e-mail notificiations... OK');
+  }
+
+  //Facebook
+  if (Meteor.settings.private.API.facebook.appId == undefined || Meteor.settings.private.API.facebook.appId == "") {
+    console.log('-- MISSING SETTING: Facebook API keys not configured.');
+    console.log('-- FIX: Configure `private.API.facebook.appId` and `private.API.facebook.appSecret` on settings.json.');
+
+  } else {
+    console.log('Facebook API key for identity login... OK');
+  }
+
+  //Twitter
+  if (Meteor.settings.private.API.twitter.APIKey == undefined || Meteor.settings.private.API.twitter.APIKey == "") {
+    console.log('-- MISSING SETTING: Twitter API keys not configured.');
+    console.log('-- FIX: Configure `private.API.twitter.APIKey` and `private.API.twitter.APISecret` on settings.json.');
+
+  } else {
+    console.log('Twitter API key for identity login... OK');
+  }
+
 }
 
 function setupCollectiveInApp (collective) {
