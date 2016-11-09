@@ -88,7 +88,7 @@ let _getProfileName = (profile) => {
 };
 
 export const logRenders = function logRenders(filter) {
-  for (name in Object(Template)){
+  for (var name in Object(Template)){
     if (filter && !Array.isArray(filter)) filter = [filter];
     var template = Template[name];
     if (!template) continue;
@@ -98,7 +98,7 @@ export const logRenders = function logRenders(filter) {
       delete template.oldRender;
       continue;
     }
-    var t = function(name, template){
+    var t = function (name, template){
       if (!('oldRender' in template)) template.oldRender = template.rendered;
       var counter = 0;
       template.rendered = function () {

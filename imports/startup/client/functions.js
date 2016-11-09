@@ -1,8 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { $ } from 'meteor/jquery';
 
 import { showResults, updateExecutionStatus } from '/imports/ui/modules/ballot';
+import { Wallet } from '/imports/ui/modules/Wallet';
 import { verifyDelegationRight, verifyVotingRight, getProfileFromUsername } from '../both/modules/User';
 import { showFullName } from '../both/modules/utils';
 import { Contracts } from '../../api/contracts/Contracts';
@@ -20,7 +22,7 @@ import { toggleSidebar, setSidebarMenu } from '../../ui/modules/menu';
 * @return {object} query - returns a query with object ready for mongo
 ****/
 let _buildQuery = (params) => {
-  var query = new Object();
+  let query = {};
   query['collectiveId'] = Meteor.settings.public.Collective._id;
   for (key in params) {
     //strict type with contracts schema
@@ -60,7 +62,7 @@ let _buildQuery = (params) => {
         break;
       case 'stage':
         if (params[key].toUpperCase() == 'DRAFT') {
-          if (Meteor.user() != undefined) {
+          if (Meteor.user() !== undefined) {
             query['owner'] = Meteor.user()._id;
           }
         }
@@ -317,10 +319,10 @@ let _setContractWallet = (contract) => {
 ****/
 let _getExternalScripts = () => {
   if (typeof window.Spinner == 'undefined')  {
-    jQuery.getScript('/js/spinner.js');
+    $.getScript('/js/spinner.js');
   };
   if (typeof window.datepicker == 'undefined')  {
-    jQuery.getScript('/datepicker.js');
+    $.getScript('/datepicker.js');
   };
 }
 
@@ -354,7 +356,7 @@ let _clearSessionVars = () => {
   //ensure user gets funds
   if (Meteor.user() != null) {
     if (_userHasEmptyWallet()) {
-      Meteor.call ('genesisTransaction', Meteor.user()._id, function (error, response) {
+      Meteor.call('genesisTransaction', Meteor.user()._id, function (error, response) {
         if (error) {
           console.log('[genesisTransaction] ERROR: ' + error);
         }
@@ -408,7 +410,7 @@ const _getMenuSelection = (params) => {
 * @param {object} menu - menu array
 ****/
 const _getMenuFeed = (menu) => {
-  if (Session.get('sidebarMenuSelectedId') && typeof Session.get('sidebarMenuSelectedId') != 'string') {
+  if (Session.get('sidebarMenuSelectedId') && typeof Session.get('sidebarMenuSelectedId') !== 'string') {
     var item = Session.get('sidebarMenuSelectedId');
     return menu[item].feed;
   } else {

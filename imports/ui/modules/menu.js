@@ -135,7 +135,7 @@ let _getDecisionsMenu = (feed) => {
       feed: 'live-votes',
       value: _getSectionValue('live-votes'),
       separator: false,
-      url: '/feed?stage=' + 'LIVE'.toLowerCase() + '&kind=' + 'VOTE'.toLowerCase() + '&executionstatus=' + EXECUTION_STATUS_OPEN.toLowerCase(),
+      url: '/feed?stage=' + 'LIVE'.toLowerCase() + '&kind=' + 'VOTE'.toLowerCase() + '&executionstatus=' + 'OPEN'.toLowerCase(),
       selected: _verifySelection('live-votes', feed)
     },
     {
@@ -283,13 +283,13 @@ let animateMenu = () => {
   //TODO make all strings showing pixels compliant with the device screen being used (aka mobiles)
   Session.set('sidebar', !Session.get('sidebar'));
   if (Session.get('sidebar')) {
-    $('#menu').velocity({'marginLeft': '0px'}, animationSettings);
-    $('#content').velocity({'left': '320px'}, animationSettings);
-    $('.navbar').velocity({'left': '320px'}, animationSettings);
+    $('#menu').velocity({ marginLeft: '0px' }, animationSettings);
+    $('#content').velocity({ left: '320px' }, animationSettings);
+    $('.navbar').velocity({ left: '320px' }, animationSettings);
   } else {
-    $('#menu').velocity({'marginLeft': '-320px' }, animationSettings);
-    $('#content').velocity({'left': '0px' }, animationSettings);
-    $('.navbar').velocity({'left': '0px' }, animationSettings);
+    $('#menu').velocity({ marginLeft: '-320px' }, animationSettings);
+    $('#content').velocity({ left: '0px' }, animationSettings);
+    $('.navbar').velocity({ left: '0px' }, animationSettings);
   }
 };
 

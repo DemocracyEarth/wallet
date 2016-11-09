@@ -63,6 +63,7 @@ const _createUser = (data) => {
         }
       });
     } else {
+      // BUG Shema is not defined. When updating = error:  existingKey.indexOf is not a function
       check(objUser, Schema.User);
     }
   }
@@ -116,7 +117,7 @@ let _validateUsername = (username) => {
   var regexp = /^[a-zA-Z0-9]+$/;
   Session.set("invalidUsername", !regexp.test(username));
   if (regexp.test(username)) {
-    if (Meteor.user() == null || username != Meteor.user().username) {
+    if (Meteor.user() === null || username !== Meteor.user().username) {
       Meteor.call('verifyUsername', username, function(err, id) {
         if (id == true) {
           Session.set("repeatedUsername", true);
@@ -137,42 +138,41 @@ let _validateUsername = (username) => {
 /**
 * @summary returns a profile of an anonoymous user
 */
-let _getAnonObject = (signatureMode) => {
+const _getAnonObject = (signatureMode) => {
   if (signatureMode) {
     return {
-      _id : '0000000',
-      role : 'AUTHOR',
-      picture : '/images/anonymous.png',
-      firstName : TAPi18n.__('anonymous'),
-      lastName : '',
-      country :
-        {
-          code : '',
-          name : TAPi18n.__('unknown')
-        }
-    };
-  } else {
-    return {
-      _id : '0000000',
-      username: 'anonymous',
-      profile: {
-        picture : '/images/anonymous.png',
-        firstName : TAPi18n.__('anonymous'),
-        lastName : '',
-        country : {
-          code : '',
-          name : TAPi18n.__('unknown')
-        }
-      }
+      _id: '0000000',
+      role: 'AUTHOR',
+      picture: '/images/anonymous.png',
+      firstName: TAPi18n.__('anonymous'),
+      lastName: '',
+      country:
+      {
+        code: '',
+        name: TAPi18n.__('unknown'),
+      },
     };
   }
-}
+  return {
+    _id: '0000000',
+    username: 'anonymous',
+    profile: {
+      picture: '/images/anonymous.png',
+      firstName: TAPi18n.__('anonymous'),
+      lastName: '',
+      country: {
+        code: '',
+        name: TAPi18n.__('unknown'),
+      },
+    },
+  };
+};
 
 /**
 * @summary returns a profile from a given username
 * @param {string} username - this one's obvious.
 */
-let _getProfileFromUsername = (username) => {
+const _getProfileFromUsername = (username) => {
   var user = _cacheSearch('username', username);
   if (user) {
     return user.profile;
@@ -180,7 +180,7 @@ let _getProfileFromUsername = (username) => {
     //TODO if not found in query, request server for info
   }
   return false;
-}
+};
 
 /**
 * @summary searches among cached session variables
@@ -205,15 +205,15 @@ let _cacheSearch = (param, value) => {
 * @param {object} signatures - signatures of the contract (for delegations)
 * @return {boolean} status - yes or no
 */
-let _userIsDelegate = (signatures) => {
+const _userIsDelegate = (signatures) => {
   for (i in signatures) {
     //if user is delegated to
-    if (signatures[i].role == 'DELEGATE' && signatures[i]._id == Meteor.user()._id) {
+    if (signatures[i].role === 'DELEGATE' && signatures[i]._id === Meteor.user()._id) {
       return true;
     }
   }
   return false;
-}
+};
 
 
 /**
@@ -221,10 +221,10 @@ let _userIsDelegate = (signatures) => {
 * @param {object} ledger - ledger with transactional data of this contract
 * @return {boolean} status - yes or no
 */
-let _verifyVotingRight = (ledger) => {
+const _verifyVotingRight = (ledger) => {
   if (Meteor.user() != null) {
     for (i in ledger) {
-      if (ledger[i].entityId == Meteor.user()._id) {
+      if (ledger[i].entityId === Meteor.user()._id) {
         return false;
       }
     }
@@ -232,7 +232,7 @@ let _verifyVotingRight = (ledger) => {
   } else {
     return false;
   }
-}
+};
 
 
 /**
@@ -246,13 +246,13 @@ let _verifyDelegationRight = (signatures) => {
       if (signatures[i]._id == Meteor.user()._id) {
         switch(signatures[i].role) {
           case 'DELEGATOR':
-            if (signatures[i].status == 'PENDING') {
+            if (signatures[i].status === 'PENDING') {
               return true;
             } else {
               return false;
             }
           case 'DELEGATE':
-            if (signatures[i].status == 'PENDING') {
+            if (signatures[i].status === 'PENDING') {
               return false;
             } else {
               return false;
@@ -275,7 +275,7 @@ let _verifyDelegationRight = (signatures) => {
 */
 let _userVotesInContract = (userWallet, contractId) => {
   for (i in userWallet.ledger) {
-    if (userWallet.ledger[i].entityId == contractId && userWallet.ledger[i].entityType == 'CONTRACT') {
+    if (userWallet.ledger[i].entityId === contractId && userWallet.ledger[i].entityType === 'CONTRACT') {
       return Math.abs(userWallet.ledger[i].quantity);
     }
   }
@@ -288,7 +288,7 @@ let _userVotesInContract = (userWallet, contractId) => {
 */
 let _isUserSigner = (signatures) => {
   for (i in signatures) {
-    if (signatures[i]._id == Meteor.user()._id) {
+    if (signatures[i]._id === Meteor.user()._id) {
       return true;
     }
   }

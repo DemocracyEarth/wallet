@@ -28,7 +28,7 @@ export const postComment = (contractId, eventObject, replyId) => {
     thread = Contracts.find({_id: Session.get('contract')._id }).fetch()[0].events;
     node = '';
     currentParent = '';
-    for (children in thread) {
+    for (var children in thread) {
       node += searchTree(thread[children], replyId, children, true, '');
     }
     query[node] = eventObject;

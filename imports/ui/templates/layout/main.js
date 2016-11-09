@@ -22,22 +22,23 @@ import { Meteor } from 'meteor/meteor';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
+import { SearchSource } from 'meteor/meteorhacks:search-source';
 
+import { ProposalSearch, TagSearch } from '/lib/global';
 import './main.html';
 import '../widgets/modal/modal';
 import '../widgets/popup/popup';
 import './sidebar/sidebar';
 import './navigation/navigation';
 
-Meteor.startup(function () {
-
-  //Mail server settings
+Meteor.startup(() => {
+  // Mail server settings
   process.env.MAIL_URL = Meteor.settings.smtpServer;
 
-  //setup language
+  // setup language
   Session.set("showLoadingIndicator", true);
 
-  //internationalization library
+  // internationalization library
   TAPi18n.setLanguage(Meteor.settings.public.app.language)
     .done(function () {
       Session.set("showLoadingIndicator", false);

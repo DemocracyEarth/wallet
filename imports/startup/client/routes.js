@@ -54,7 +54,7 @@ Router.route('/:feed', {
   name: 'homeFeed',
   template: 'home',
   waitOn() {
-    return [Meteor.subscribe('contracts', fn.buildQuery(this.params.query)), Meteor.subscribe("userData")];
+    return [Meteor.subscribe('contracts', fn.buildQuery(this.params.query)), Meteor.subscribe('userData')];
   },
   onBeforeAction() {
     fn.clearSessionVars();
@@ -68,20 +68,20 @@ Router.route('/:feed', {
   },
 });
 
-/***
+/*
 * loads a tag feed
 ****/
 Router.route('/tag/:tag', {
   name: 'tagFeed',
   template: 'home',
   waitOn() {
-    return [Meteor.subscribe('contracts', fn.buildQuery(this.params)), Meteor.subscribe("userData")];
+    return [Meteor.subscribe('contracts', fn.buildQuery(this.params)), Meteor.subscribe('userData')];
   },
   onBeforeAction() {
     fn.clearSessionVars();
     fn.configNavbar(fn.buildTitle(this.params));
     fn.setSessionVars();
-    Session.set('feed', Contracts.find(fn.buildQuery(this.params), {sort: {timestamp: -1}}).fetch());
+    Session.set('feed', Contracts.find(fn.buildQuery(this.params), { sort: { timestamp: -1 } }).fetch());
     this.next();
   },
   onAfterAction() {
@@ -95,29 +95,29 @@ Router.route('/peer', {
   template: 'peer',
 });
 
-/***
+/*
 * loads a peer feed
 ****/
 Router.route('/peer/:username', {
   name: 'peerFeed',
   template: 'home',
   waitOn() {
-    return [Meteor.subscribe('contracts', fn.buildQuery(this.params)), Meteor.subscribe("userData")];
+    return [Meteor.subscribe('contracts', fn.buildQuery(this.params)), Meteor.subscribe('userData')];
   },
   onBeforeAction() {
     fn.clearSessionVars();
     fn.configNavbar(fn.buildTitle(this.params));
     fn.setSessionVars();
-    Session.set('feed', Contracts.find(fn.buildQuery(this.params), {sort: {timestamp: -1}}).fetch());
+    Session.set('feed', Contracts.find(fn.buildQuery(this.params), { sort: { timestamp: -1 } }).fetch());
     this.next();
   },
   onAfterAction() {
     fn.getExternalScripts();
-  }
+  },
 });
 
 
-/***
+/*
 * loads a contract meant for voting either to edit or vote.
 ****/
 Router.route('/vote/:contract', {
@@ -137,7 +137,7 @@ Router.route('/vote/:contract', {
   },
 });
 
-/***
+/*
 * loads a contract meant for delegation of votes.
 ****/
 Router.route('/delegation/:contract', {
@@ -160,7 +160,7 @@ Router.route('/delegation/:contract', {
   },
 });
 
-//Email routes
+// Email routes
 Router.route('/verify-email/:token', {
   name: 'verify-email',
   onBeforeAction() {
@@ -169,7 +169,7 @@ Router.route('/verify-email/:token', {
   },
 });
 
-//Login
+// Login
 Router.route('/login', {
   name: 'login',
 });

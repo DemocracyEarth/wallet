@@ -135,7 +135,7 @@ let _verifyVote = (ledger, userId) => {
       if (wallet != undefined) {
         wallet.allocatePercentage = parseInt((ledger[entity].quantity * 100) / wallet.balance);
         wallet.allocateQuantity = ledger[entity].quantity;
-        wallet.mode = WALLET_MODE_EXECUTED;
+        wallet.mode = 'EXECUTED';
         Session.set('newVote', wallet);
       }
       return true;

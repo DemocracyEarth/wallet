@@ -1,21 +1,22 @@
 import { Session } from 'meteor/session';
 
+import { ProposalSearch } from '/lib/global';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { createContract } from '/imports/startup/both/modules/Contract';
-import { checkDuplicate } from '/lib/utils';
+import { checkDuplicate, convertToSlug } from '/lib/utils';
 
 /**
 * @param {string} contractId - contract where this ballot belongs to
 * @param {object} ballot - ballot object
 ******/
 const _setVote = (contractId, ballot) => {
-  var candidateBallot = new Array();
+  let candidateBallot = [];
 
-  //see candidate ballots
-  if (Session.get('candidateBallot') != undefined) {
-   candidateBallot = Session.get('candidateBallot');
+  // see candidate ballots
+  if (Session.get('candidateBallot') !== undefined) {
+    candidateBallot = Session.get('candidateBallot');
   }
-  var multipleChoice = Session.get('contract').multipleChoice;
+  const multipleChoice = Session.get('contract').multipleChoice;
 
   //fate
   if (ballot.tick == undefined) { ballot.tick = true } else { ballot.tick = !ballot.tick };
@@ -132,7 +133,7 @@ let _showResults = (contract) => {
 
   //set percentage
   for (i in results) {
-    ballotcount = results[i];
+    const ballotcount = results[i];
     ballotcount['percentage'] = ((ballotcount.votes * 100) / totalvotes);
     results[i] = ballotcount;
   }
@@ -161,16 +162,16 @@ let _updateExecutionStatus = (contract, results) => {
     var contractId = contract._id;
     switch (winner) {
       case 'AUTHORIZE':
-        Contracts.update({ _id: contractId }, { $set: { executionStatus: 'APPROVED', stage : 'FINISH' }});
+        Contracts.update({ _id: contractId }, { $set: { executionStatus: 'APPROVED', stage: 'FINISH' } });
         break;
       case 'REJECT':
-        Contracts.update({ _id: contractId }, { $set: { executionStatus: 'REJECTED', stage : 'FINISH' }});
+        Contracts.update({ _id: contractId }, { $set: { executionStatus: 'REJECTED', stage: 'FINISH' } });
         break;
       case 'FORK':
-        Contracts.update({ _id: contractId }, { $set: { executionStatus: 'ALTERNATIVE', stage : 'FINISH' }});
+        Contracts.update({ _id: contractId }, { $set: { executionStatus: 'ALTERNATIVE', stage: 'FINISH' } });
         break;
       default:
-        Contracts.update({ _id: contractId }, { $set: { executionStatus: 'VOID', stage: 'FINISH' }});
+        Contracts.update({ _id: contractId }, { $set: { executionStatus: 'VOID', stage: 'FINISH' } });
     }
   }
 }
@@ -207,7 +208,7 @@ let _forkContract = () => {
       if (_addChoiceToBallot(Session.get('contract')._id, contract._id)) {
         var contract = Contracts.findOne( { _id: Session.get('contract')._id }, {reactive: false});
         Session.set('dbContractBallot', contract.ballot );
-        // LAI: where ProposalSearch comes from and what it is??
+        // LAI: ProposalSearch from global, test it.
         ProposalSearch.search('');
         document.getElementById("searchInput").innerHTML = '';
         Session.set('proposalURLStatus', 'UNAVAILABLE');
@@ -243,14 +244,14 @@ let _quickContract = (keyword) => {
   }
 }
 
-/******
+/**
 * verifies if there's an option in the ballot that is still a draft
 * @param {object} ballot - ballot to check
 *******/
 let _verifyDraftFork = (ballot) => {
   var draftFork = false;
-  for (i in ballot) {
-    choice = Contracts.findOne( { _id: ballot[i]._id });
+  for (var i in ballot) {
+    const choice = Contracts.findOne( { _id: ballot[i]._id });
     if (choice.stage == 'DRAFT') {
       draftFork = true;
       break;
@@ -267,7 +268,7 @@ let _verifyDraftFork = (ballot) => {
 let _updateBallotRank = (contractId, sortedBallotIDs) => {
   var contract = Contracts.findOne({ _id: contractId });
   var ballot = contract.ballot;
-  for (i in sortedBallotIDs) {
+  for (var i in sortedBallotIDs) {
     for (k in ballot) {
       if (ballot[k]._id == sortedBallotIDs[i]) {
         ballot[k].rank = parseInt(i) + 1;

@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Session } from 'meteor/session';
 import { Router } from 'meteor/iron:router';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Contracts } from '../../../api/contracts/Contracts';
@@ -279,40 +280,35 @@ let _publish = (contractId) => {
 * @param {string} role - type of role required in this signature
 * NOTE: simplify this and don't store a cache of data of a user, that was a stupid idea.
 ****/
-let _sign = (contractId, userObject, role) => {
-
-  Contracts.update({_id: contractId}, { $push: {
+const _sign = (contractId, userObject, role) => {
+  Contracts.update({ _id: contractId }, { $push: {
     signatures:
-      {
-        _id: userObject._id,
-        role: role,
-        hash: '', //TODO pending crypto TBD
-        username: userObject.username,
-        status: 'CONFIRMED'
-      }
-  }});
-
+    {
+      _id: userObject._id,
+      role: role,
+      hash: '', // TODO pending crypto TBD
+      username: userObject.username,
+      status: 'CONFIRMED',
+    },
+  } });
 };
 
 
-/***
-* removes a signature from a contract
+/**
+* @summary removes a signature from a contract
 * @param {string} contractId - contract Id to be signed
 * @param {string} userId - user signature to remove.
 ****/
-let _removeSignature = (contractId, userId) => {
-
-  Contracts.update({_id: contractId}, { $pull: {
-    signatures:
-      {
-        _id: userId
-      }
-  }});
-
+const _removeSignature = (contractId, userId) => {
+  Contracts.update({ _id: contractId }, { $pull: {
+    signatures: {
+      _id: userId,
+    },
+  } });
 };
 
 /**
- * Changes the stage of a contract
+ * @summary Changes the stage of a contract
  * @param {String} contractId - that points to contract in db
  * @param {String} stage - ['DRAFT', 'LIVE', 'FINISH']
  * @returns {Boolean}

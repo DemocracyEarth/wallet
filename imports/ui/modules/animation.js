@@ -1,9 +1,7 @@
 import { $ } from 'meteor/jquery';
 import { timers } from '/lib/const';
 
-//**********
-//Calls
-//**********
+// Calls
 
 // Does specific animation
 export const animate = function animate(node, animation, params) {
@@ -95,7 +93,9 @@ export const behave = function behave(node, animation, params, hook) {
         if (params != undefined) {
           aniFinish['height'] = settings['height'];
         }
-        if (hook == undefined) { main.parentNode._uihooks = fadeLabel; }
+        if (hook === undefined) {
+          main.parentNode._uihooks = fadeLabel;
+        }
         fadeInRolldown(main, main.nextSibling);
         break;
       default:
@@ -113,7 +113,7 @@ const fadeLabel = {
     fadeInRolldown(node,next);
     Deps.afterFlush(function() {
       $(node).width();
-      $(node).removeClass(OFFSCREEN_CLASS);
+      $(node).removeClass('off-screen');
     });
   },
   moveElement: function(node, next) {
@@ -130,7 +130,7 @@ const fadeTag = {
     fadeIn(node,next);
     Deps.afterFlush(function() {
       $(node).width();
-      $(node).removeClass(OFFSCREEN_CLASS);
+      $(node).removeClass('off-screen');
     });
   },
   moveElement: function(node, next) {
@@ -148,19 +148,18 @@ const fadeTag = {
 
 
 const aniInitial = {
- 'opacity': '0',
- 'overflow': 'hidden',
- 'height' : '0px'
+  opacity: '0',
+  overflow: 'hidden',
+  height: '0px',
 };
 const aniFinish = {
-  'opacity': '1',
-  'height': '36px'
+  opacity: '1',
+  height: '36px',
 };
 const aniExit = {
-  'opacity': '0',
-  'height': '0px'
-}
-
+  opacity: '0',
+  height: '0px',
+};
 
 //**********
 //Animations
@@ -172,7 +171,7 @@ function fadeInRolldown(node, next) {
   $(node).insertBefore(next);
   $(node).velocity(aniFinish, {
     duration: timers.ANIMATION_DURATION,
-    queue: false
+    queue: false,
   });
 }
 
@@ -181,9 +180,9 @@ function fadeOutRollup(node) {
     .velocity(aniExit, {
       duration: timers.ANIMATION_DURATION,
       queue: false,
-      complete: function() {
+      complete() {
         $(node).remove();
-      }
+      },
     });
 }
 
@@ -191,15 +190,15 @@ function fadeIn(node, next) {
   $(node).addClass('off-screen');
   $(node).css('opacity: 0px');
   $(node).insertBefore(next);
-  $(node).velocity({'opacity': '1'}, {
+  $(node).velocity({ opacity: '1' }, {
     duration: timers.ANIMATION_DURATION,
-    queue: false
+    queue: false,
   });
 }
 
 function fadeOut(node) {
   $(node)
-    .velocity({'opacity': '0'}, {
+    .velocity({ opacity: '0' }, {
       duration: timers.ANIMATION_DURATION,
       queue: false,
       complete() {

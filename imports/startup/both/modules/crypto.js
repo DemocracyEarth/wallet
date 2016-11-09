@@ -13,13 +13,15 @@ const _shortUUID = () => {
 
 let getBitcoinAddress = () => {
   var randArr = new Uint8Array(32) //create a typed array of 32 bytes (256 bits)
-  window.crypto.getRandomValues(randArr) //populate array with cryptographically secure random numbers
 
-  //some Bitcoin and Crypto methods don't like Uint8Array for input. They expect regular JS arrays.
+  // populate array with cryptographically secure random numbers
+  window.crypto.getRandomValues(randArr);
+
+  // some Bitcoin and Crypto methods don't like Uint8Array for input. They expect regular JS arrays.
   var privateKeyBytes = []
   for (var i = 0; i < randArr.length; ++i)
     privateKeyBytes[i] = randArr[i]
-
+  // BUG Missed Bitcoin class/object generator
   var eckey = new Bitcoin.ECKey(privateKeyBytes)
   eckey.compressed = true
   var address = eckey.getBitcoinAddress().toString()

@@ -19,27 +19,25 @@ const _displayPopup = (element, visible, template, params, eventType) => {
   let timer = 0;
 
   if (!Session.get('displayPopup')) {
-
-    if (eventType == 'click') {
+    if (eventType === 'click') {
       timer = 0;
     } else {
       timer = parseInt(animationSettings.duration * 5);
     }
 
     popupTimer = Meteor.setTimeout(function () {
-
-      //store content and source for resizing Calls
+      // store content and source for resizing Calls
       popupCard.content = template;
       popupCard.element = element;
 
-      //type of event calling, default if left undefined is mouseenter.
+      // type of event calling, default if left undefined is mouseenter.
       if (eventType == undefined ) {
         popupCard.eventType = 'mouseenter';
       } else {
         popupCard.eventType = eventType;
       }
 
-      //draw content based on target content to be used in popup
+      // draw content based on target content to be used in popup
       Session.set('popupData', params);
       Session.set('popupTemplate', template);
       var target = {
@@ -70,16 +68,18 @@ const _cancelPopup = () => {
   Meteor.clearTimeout(popupTimer);
 }
 
-/*****
+/*
 /* makes sure target adapts to current screen size accordingly
 /* TODO: specific adaptations to mobile screens.
 *****/
 let _limitTargetSize = (target) => {
-  if (target.width > 300) { target.width = 300 };
+  if (target.width > 300) {
+    target.width = 300;
+  }
   return target;
 }
 
-/*****
+/**
 /* @param {string} source - the source element used to relatively position the popup
 /* @param {string} target - the expected dimensions the popup will have according to its content
 ******/
@@ -159,7 +159,7 @@ let _renderPopup = () => {
     }
   });
 
-  $(window).mousemove ( function () {
+  $(window).mousemove( function () {
     if (Session.get('displayPopup')) {
       if (Session.get('popupTemplate') == 'card') {
         if ($('#popup:hover').length == 0) {
@@ -209,7 +209,7 @@ let _cursorPosition = () => {
 /* @param {object} target - DOM element that is being used as reference for calling login popup
 ******/
 let _displayLogin = (event, target) => {
-  if (target == undefined) { target = event.target };
+  if (target == undefined) { target = event.target; }
   Session.set('logger', !Session.get('logger'));
   if (Session.get('logger')) {
     _displayPopup(target, Session.get('logger'), 'login', this, event.type);

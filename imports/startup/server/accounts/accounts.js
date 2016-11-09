@@ -10,18 +10,18 @@ Accounts.onCreateUser((options, user) => {
   // normalize facebook data
   if (user.services.facebook) {
     if (options.profile) {
-      options.profile.picture = "http://graph.facebook.com/" + user.services.facebook.id + "/picture/?type=large";
+      options.profile.picture = `http://graph.facebook.com/'${user.services.facebook.id}/picture/?type=large`;
       options.profile.firstName = user.services.facebook.first_name;
       options.profile.lastName = user.services.facebook.last_name;
 
       let credential = [];
-      if (options.profile.credentials != undefined) {
+      if (options.profile.credentials !== undefined) {
         credential = options.profile.credentials;
       }
       credential.push({
         source: 'facebook',
         URL: user.services.facebook.link,
-        validated: true
+        validated: true,
       });
 
       options.profile.credentials = credential;
