@@ -1,3 +1,6 @@
+import { Files } from '/imports/api/files/Files';
+import { Slingshot } from 'meteor/edgee:slingshot';
+
 Slingshot.fileRestrictions( "uploadToAmazonS3", {
   allowedFileTypes: [ "image/png", "image/jpeg", "image/gif" ],
   maxSize: 10 * 1024 * 1024

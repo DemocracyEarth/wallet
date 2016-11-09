@@ -1,4 +1,7 @@
 
+import { Meteor } from 'meteor/meteor';
+import { Files } from '/imports/api/files/Files';
+
 let _validateEmail = (email) => {
   var val = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
