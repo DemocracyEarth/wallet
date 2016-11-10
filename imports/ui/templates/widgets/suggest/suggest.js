@@ -36,8 +36,9 @@ Template.suggest.events({
     const data = Meteor.user().profile;
     let country = {
       code: event.target.parentNode.getAttribute('value'),
-      name: event.target.innerText.slice(4)
-    }
+      name: event.target.innerText.slice(4),
+      emoji: event.target.firstChild.data,
+    };
     if (country.name === 'arth') {
       country.name = 'Earth';
     }
