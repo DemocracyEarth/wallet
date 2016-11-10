@@ -5,6 +5,8 @@ import { $ } from 'meteor/jquery';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { animationSettings } from '/imports/ui/modules/animation';
 
+import './toggle.html';
+
 let clickedToggle = '';
 let toggleMap = {};
 
