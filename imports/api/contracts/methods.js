@@ -1,6 +1,8 @@
 import { Meteor } from 'meteor/meteor';
+import { Tags } from '/imports/api/tags/Tags';
 import { Contracts } from './Contracts.js';
 import { Collectives } from '../collectives/Collectives.js';
+
 import { showFullName } from '../../startup/both/modules/utils';
 
 Meteor.methods({
@@ -22,7 +24,7 @@ Meteor.methods({
 
     if (dbTag != undefined) {
       console.log('[addCustomTagToContract] adding tag ' + tagKeyword + ' to contract ' + contractId);
-      if (checkDuplicate (Contracts.findOne(contractId, { tags: { _id: dbTag._id } }).tags, dbTag._id) == true ) {
+      if (checkDuplicate(Contracts.findOne(contractId, { tags: { _id: dbTag._id } }).tags, dbTag._id) == true ) {
         throw new Meteor.Error('duplicate-tags', 'This tag already exists in the contract');
       } else {
         return dbTag._id;
@@ -199,6 +201,7 @@ function lookupKeyword(keyword, db) {
 }
 
 function checkDuplicate (arr, elementId) {
+  console.log("checkDuplicate arr", arr, elementId);
   for (var i = 0; i < arr.length; i++ ) {
     if (arr[i]._id == elementId ) {
       console.log('[checkDuplicate] this ' + elementId + ' is a duplicate');
