@@ -70,3 +70,20 @@ const TagSchema = new SimpleSchema({
 });
 
 Tags.attachSchema(TagSchema);
+
+/*
+*  FIX: temporary workaround
+*  TBD: apply security best practices
+*  All to methods, validate paramenters
+*/
+Tags.allow({
+  insert() {
+    return true;
+  },
+  update() {
+    return true;
+  },
+  remove() {
+    return true;
+  },
+});

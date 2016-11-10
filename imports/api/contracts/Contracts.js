@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { TAPi18n } from 'meteor/tap:i18n';
-import Thread from './Thread';
+import { Thread } from './Thread';
 import { Wallet } from '../users/Wallet';
 import { convertToSlug } from '../../utils/functions';
 
@@ -452,3 +452,20 @@ Schema.Contract = new SimpleSchema({
 });
 
 Contracts.attachSchema(Schema.Contract);
+
+/*
+*  FIX: temporary workaround
+*  TBD: apply security best practices
+*  All to methods, validate paramenters
+*/
+Contracts.allow({
+  insert() {
+    return true;
+  },
+  update() {
+    return true;
+  },
+  remove() {
+    return true;
+  },
+});

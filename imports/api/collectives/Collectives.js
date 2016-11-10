@@ -146,3 +146,22 @@ Schema.Collective = new SimpleSchema({
 });
 
 Collectives.attachSchema(Schema.Collective);
+
+export const Country = Schema.Country;
+
+/*
+*  FIX: temporary workaround
+*  TBD: apply security best practices
+*  All to methods, validate paramenters
+*/
+Collectives.allow({
+  insert() {
+    return true;
+  },
+  update() {
+    return true;
+  },
+  remove() {
+    return true;
+  },
+});

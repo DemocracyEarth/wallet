@@ -1,6 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
-import Ballot from './Ballot';
+import { Ballot } from './Ballot';
 
 export const Transactions = new Mongo.Collection('transactions');
 
@@ -142,3 +142,20 @@ Schema.Transaction = new SimpleSchema({
 });
 
 Transactions.attachSchema(Schema.Transaction);
+
+/*
+*  FIX: temporary workaround
+*  TBD: apply security best practices
+*  All to methods, validate paramenters
+*/
+Transactions.allow({
+  insert() {
+    return true;
+  },
+  update() {
+    return true;
+  },
+  remove() {
+    return true;
+  },
+});

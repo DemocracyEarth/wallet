@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
-//import { SimpleSchema } from 'meteor/aldeed:collection2';
 import { Wallet } from './Wallet';
 import { Country } from '../collectives/Collectives';
 
@@ -72,7 +71,7 @@ Schema.Profile = new SimpleSchema({
       }
     },
     country: {
-        type: Schema.Country,
+        type: Country,
         optional: true
     },
     birthday: {
@@ -200,3 +199,20 @@ export const UserContext = Schema.User.newContext();
 Meteor.users.attachSchema(Schema.User);
 
 export const User = Schema.User;
+
+/*
+*  FIX: temporary workaround
+*  TBD: apply security best practices
+*  All to methods, validate paramenters
+*/
+Meteor.users.allow({
+  insert() {
+    return true;
+  },
+  update() {
+    return true;
+  },
+  remove() {
+    return true;
+  },
+});
