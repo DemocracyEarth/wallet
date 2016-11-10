@@ -41,7 +41,7 @@ Meteor.methods({
           ballot:
             {
               _id: dbContract._id,
-              mode: BALLOT_OPTION_MODE_FORK,
+              mode: 'FORK',
               url: dbContract.url,
               label: dbContract.title,
               rank: rankVal

@@ -214,7 +214,7 @@ function instaProposalCreator(content) {
 }
 
 function _generateAlternativeFeed () {
-  Session.set('alternativeFeed', Contracts.find({ $or: [ {collectiveId: Session.get('collective')._id, stage : { $not : STAGE_DRAFT } }, {owner: Meteor.user()._id , _id : { $not : Session.get('contract')._id }} ] }).fetch());
+  Session.set('alternativeFeed', Contracts.find({ $or: [ {collectiveId: Session.get('collective')._id, stage : { $not : 'DRAFT' } }, {owner: Meteor.user()._id , _id : { $not : Session.get('contract')._id } }] }).fetch());
   if (Session.get('alternativeFeed').length > 0) {
     Session.set('emptyAlternatives', false);
   } else {
