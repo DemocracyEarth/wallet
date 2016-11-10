@@ -5,7 +5,7 @@ const JSONlookup = (source, keyword) => {
   if (source !== undefined) {
     for (let i = 0; i < source.length; i++) {
       sourceString = source[i].name.toUpperCase();
-      if (sourceString.indexOf(keyword.toUpperCase()) >= 0) {
+      if (keyword !== undefined && sourceString.indexOf(keyword.toUpperCase()) >= 0) {
         matchingFields.push(source[i]);
       }
     }
