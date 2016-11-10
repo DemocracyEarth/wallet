@@ -4,6 +4,7 @@ import { Session } from 'meteor/session';
 
 import { animationSettings } from '/imports/ui/modules/animation';
 import { modalCallback, displayModal } from '/imports/ui/modules/modal';
+import { globalObj } from '/lib/global';
 
 import './modal.html';
 import '../../components/identity/avatar/avatar.js';
@@ -84,7 +85,7 @@ Template.modalWindow.events({
     killModal();
   },
   'click #execute'(event) {
-    modalCallback();
+    globalObj.modalCallback();
     killModal();
   }
 });
