@@ -6,7 +6,7 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 import { Tags } from '/imports/api/tags/Tags';
 import { addTag, removeTag, sortRanks, addCustomTag, resetTagSearch } from '/lib/data';
 import { globalObj } from '/lib/global';
-import { displayTimedWarning } from '/lib/utils';
+import { displayTimedWarning, displayElement } from '/lib/utils';
 
 import './semantics.html';
 import '../tag/tag.js';

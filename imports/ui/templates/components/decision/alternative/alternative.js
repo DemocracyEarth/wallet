@@ -3,7 +3,7 @@ import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Session } from 'meteor/session';
 
-import { convertToSlug, displayTimedWarning } from '/lib/utils';
+import { convertToSlug, displayTimedWarning, displayElement } from '/lib/utils';
 import { URLCheck, URLVerifier } from '/imports/ui/modules/Files';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { forkContract } from '/imports/ui/modules/ballot';
