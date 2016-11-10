@@ -1,9 +1,11 @@
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
-const Votes = new Mongo.Collection('votes');
+import { Wallet } from './users/Wallet';
 
-const DelegationContract = new SimpleSchema({
+const Votes = new Mongo.Collection('votes');
+const Schema = {};
+Schema.DelegationContract = new SimpleSchema({
   collectiveId: {
     type: String,
     optional: true
@@ -38,13 +40,13 @@ const DelegationContract = new SimpleSchema({
   }
 });
 
-const Delegations = new SimpleSchema({
+Schema.Delegations = new SimpleSchema({
   received: {
     type: Array,
     optional: true
   },
   "received.$": {
-    type: DelegationContract.schema,
+    type: Schema.DelegationContract,
     optional: true
   },
   sent: {
@@ -52,12 +54,12 @@ const Delegations = new SimpleSchema({
     optional: true
   },
   "sent.$": {
-    type: DelegationContract.schema,
+    type: Schema.DelegationContract,
     optional: true
   }
 });
 
-Votes.schema = new SimpleSchema({
+Schema.Votes = new SimpleSchema({
   total: {
     type: Number,
     defaultValue: 0
@@ -72,5 +74,7 @@ Votes.schema = new SimpleSchema({
   }
 });
 
-export const VoteContext = Votes.newContext();
-export default Votes;
+export const VoteContext = Schema.Votes.newContext();
+Votes.attachSchema(Schema.Votes);
+
+export const Vote = Schema.Votes;

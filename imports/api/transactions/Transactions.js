@@ -7,7 +7,8 @@ export const Transactions = new Mongo.Collection('transactions');
 /* NOTE: These schemas of Ticket & Transaction must store transactions in its own db.
 *  (eventually a blockchain via vote-microchain TBD)
 */
-const Ticket = new SimpleSchema({
+const Schema = {};
+Schema.Ticket = new SimpleSchema({
   entityId: {
     type: String
   },
@@ -47,12 +48,12 @@ const Ticket = new SimpleSchema({
     }
   }
 });
-Transactions.schema = new SimpleSchema({
+Schema.Transaction = new SimpleSchema({
   input: {
-    type: Ticket.schema
+    type: Schema.Ticket,
   },
   output: {
-    type: Ticket.schema
+    type: Schema.Ticket,
   },
   kind: {
     type: String,
@@ -140,4 +141,4 @@ Transactions.schema = new SimpleSchema({
   }
 });
 
-Transactions.attachSchema(Transactions.schema);
+Transactions.attachSchema(Schema.Transaction);

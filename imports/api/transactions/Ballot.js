@@ -1,6 +1,7 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
-export const Ballot = new SimpleSchema({
+const Schema = {};
+Schema.Ballot = new SimpleSchema({
   _id: {
     type: String
   },
@@ -20,3 +21,5 @@ export const Ballot = new SimpleSchema({
     optional: true
   }
 });
+
+export const Ballot = Schema.Ballot;

@@ -4,7 +4,7 @@ import { convertToSlug } from '../../utils/functions';
 
 export const Tags = new Mongo.Collection('tags');
 
-Tags.schema = new SimpleSchema({
+const TagSchema = new SimpleSchema({
   text: {
     // Tag name
     type: String,
@@ -69,4 +69,4 @@ Tags.schema = new SimpleSchema({
   }
 });
 
-Tags.attachSchema(Tags.schema);
+Tags.attachSchema(TagSchema);

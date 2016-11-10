@@ -1,7 +1,8 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { guidGenerator } from '../../startup/both/modules/crypto';
 
-const Thread = new SimpleSchema({
+const Schema = {};
+Schema.Thread = new SimpleSchema({
   id: {
     type: String,
     autoValue: function () {
@@ -133,4 +134,5 @@ const Thread = new SimpleSchema({
   }
 });
 
-export default Thread;
+export const ThreadContext = Schema.Thread.newContext();
+export const Thread = Schema.Thread;

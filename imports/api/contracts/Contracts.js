@@ -3,12 +3,13 @@ import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { TAPi18n } from 'meteor/tap:i18n';
 import Thread from './Thread';
-import Wallet from '../users/Wallet';
+import { Wallet } from '../users/Wallet';
 import { convertToSlug } from '../../utils/functions';
 
 export const Contracts = new Mongo.Collection('contracts');
 
-Contracts.schema = new SimpleSchema({
+const Schema = {};
+Schema.Contract = new SimpleSchema({
   collectiveId: {
     type: String,
     optional: true,
@@ -450,4 +451,4 @@ Contracts.schema = new SimpleSchema({
   }
 });
 
-Contracts.attachSchema(Contracts.schema);
+Contracts.attachSchema(Schema.Contract);

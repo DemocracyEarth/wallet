@@ -110,6 +110,7 @@ Meteor.methods({
   },
 
   verifyUsername: function(strUsername) {
+    console.log("Meteor.users",Meteor.users);
     console.log('[verifyUsername] verifying username: ' + strUsername + ', is present in db:' + Meteor.users.findOne({username: strUsername}))
     if (Meteor.users.findOne({username: strUsername}) != undefined) {
       return true;

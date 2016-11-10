@@ -41,7 +41,6 @@ Meteor.startup(() => {
   */
   console.log('Verifiying main Collective in server...');
   const dbCollective = Collectives.findOne({ domain: Meteor.settings.public.Collective.domain });
-
   if (dbCollective) {
     setupCollectiveInApp(dbCollective);
   } else {

@@ -3,7 +3,7 @@ import { Accounts } from 'meteor/accounts-base';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 
-//import { userContext } from '/imports/api/users/User';
+import { UserContext, User } from '/imports/api/users/User';
 import { check } from 'meteor/check';
 import displayNotice from '/imports/ui/modules/notice';
 import { validateEmail } from './validations.js';
@@ -30,9 +30,8 @@ const _createUser = (data) => {
     };
 
     // create User
-    // BUG: Uncomment this, error:  existingKey.indexOf is not a function
-    // if (userContext.validate(objUser)) {
-    if (true) {
+    if (UserContext.validate(objUser)) {
+    //if (true) {
       Accounts.createUser({
         username: objUser.username,
         password: objUser.services.password,
@@ -64,7 +63,7 @@ const _createUser = (data) => {
       });
     } else {
       // BUG Shema is not defined. When updating = error:  existingKey.indexOf is not a function
-      check(objUser, Schema.User);
+      check(objUser, User);
     }
   }
 }
