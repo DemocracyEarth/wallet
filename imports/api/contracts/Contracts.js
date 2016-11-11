@@ -2,9 +2,11 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { TAPi18n } from 'meteor/tap:i18n';
+
+import { convertToSlug } from '/lib/utils';
 import { Thread } from './Thread';
 import { Wallet } from '../users/Wallet';
-import { convertToSlug } from '../../utils/functions';
+
 
 export const Contracts = new Mongo.Collection('contracts');
 
