@@ -30,5 +30,12 @@ Template.contract.helpers({
       return (Session.get('contract').stage === 'FINISH');
     }
     return undefined;
+  },
+  ballotToggle: function () {
+    if (Session.get('contract')) {
+      if (Session.get('contract').ballotEnabled === false) {
+        return 'paper-empty';
+      }
+    }
   }
 })
