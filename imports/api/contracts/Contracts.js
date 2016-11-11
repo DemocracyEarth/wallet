@@ -15,26 +15,24 @@ Schema.Contract = new SimpleSchema({
   collectiveId: {
     type: String,
     optional: true,
-    autoValue: function autoValue() {
+    autoValue: function () {
       if (this.isInsert) {
         if (Meteor.settings.public.Collective) {
           return Meteor.settings.public.Collective._id;
         }
       }
-      return null;
     },
   },
   title: {
     // title of the contract
     type: String,
-    autoValue: function autoValue() {
+    autoValue: function () {
       if (this.isInsert) {
         if (this.field('title').value === undefined) {
           return '';
         }
         return this.field('title').value;
       }
-      return null;
     },
   },
   keyword: {
