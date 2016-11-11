@@ -83,13 +83,21 @@ Template.ballot.onRendered = function onRender() {
 };
 
 Template.ballot.helpers({
-  //toggles
   allowForks: function () {
-    //console.log('[ballot helper] allowForks in contract = ' + Session.get('contract').allowForks);
     return Session.get('contract').allowForks;
   },
+  ballotEnabled: function () {
+    if (Session.get('contract').ballotEnabled) {
+      activateDragging();
+    }
+    return Session.get('contract').ballotEnabled;
+  },
+  headerStyle: function () {
+    if (this.editorMode && !Session.get('contract').ballotEnabled) {
+      return 'paper-header-empty';
+    }
+  },
   multipleChoice: function () {
-    //console.log('[ballot helper] multipleChoice in contract = ' + Session.get('contract').multipleChoice);
     return Session.get('contract').multipleChoice;
   },
   executiveDecision: function () {

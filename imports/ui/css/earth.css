@@ -86,6 +86,10 @@ ul {
   padding-left: 40px;
 }
 
+li {
+  font-weight: 300;
+}
+
 strong {
   font-weight: 400;
 }
@@ -128,6 +132,13 @@ blockquote {
   margin-bottom: -10px;
   padding-right: 5px;
   padding-left: 5px;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.paper.paper-empty {
+  margin-bottom: 0px;
+  padding-bottom: 0px;
   background-color: transparent;
   box-shadow: none;
 }
@@ -511,14 +522,9 @@ blockquote {
   height: 60px;
   margin-left: 35%;
   border-style: solid;
-  border-color: #66d8bc;
-  background-color: #66d8bc;
-  text-decoration: none;
-}
-
-.symbol.profile-pic.profile-sign:hover {
   border-color: #00bf8f;
   background-color: #00bf8f;
+  text-decoration: none;
 }
 
 .symbol.profile-pic.profile-sign.profile-active {
@@ -1244,7 +1250,6 @@ blockquote {
   margin-top: 10px;
   font-size: 24px;
   line-height: 30px;
-  font-weight: 300;
   text-align: left;
   letter-spacing: 0px;
   text-transform: none;
@@ -1358,6 +1363,7 @@ blockquote {
 
 .checkbox {
   display: block;
+  font-weight: 300;
 }
 
 .checkbox.checkbox-custom {
@@ -3251,6 +3257,11 @@ blockquote {
   font-size: 10px;
 }
 
+.paper-header.paper-header-empty {
+  border-radius: 3px;
+  box-shadow: 0 3px 20px -13px #000;
+}
+
 .shadow-fake {
   position: absolute;
   left: 33px;
@@ -4345,22 +4356,11 @@ blockquote {
   margin-right: -8px;
   float: right;
   border-radius: 50px;
-  background-color: rgba(0, 191, 143, .6);
-  background-image: url('../images/cross-white.png');
+  background-image: url('../images/cross-green.png');
   background-position: 50% 50%;
   background-size: 14px 14px;
   background-repeat: no-repeat;
   cursor: pointer;
-}
-
-.signature-remove:hover {
-  background-color: #00bf8f;
-}
-
-.smart {
-  width: 75%;
-  margin-top: 40px;
-  margin-bottom: 20px;
 }
 
 @media (max-width: 991px) {
@@ -4529,6 +4529,19 @@ blockquote {
   }
   h2 {
     font-size: 14px;
+    font-weight: 400;
+  }
+  h5 {
+    font-weight: 400;
+  }
+  p {
+    font-weight: 400;
+  }
+  a {
+    font-weight: 400;
+  }
+  blockquote {
+    font-weight: 400;
   }
   .paper.paper-execute {
     border-radius: 0px;
@@ -4556,6 +4569,9 @@ blockquote {
     font-size: 16px;
     line-height: 30px;
   }
+  .setting {
+    font-weight: 400;
+  }
   .vote.vote-search {
     padding: 10px;
   }
@@ -4570,6 +4586,12 @@ blockquote {
   }
   .option-title.option-link.option-long {
     max-width: 80%;
+  }
+  .option-title.option-link.option-search {
+    font-weight: 400;
+  }
+  .checkbox {
+    font-weight: 400;
   }
   .field.headline-field.split {
     padding-right: 0px;
@@ -4667,8 +4689,9 @@ blockquote {
     right: 25px;
   }
   .title-input {
-    font-size: 30px;
-    line-height: 40px;
+    font-size: 40px;
+    line-height: 50px;
+    font-weight: 400;
   }
   .shadow-fake {
     left: 25px;
@@ -4692,8 +4715,11 @@ blockquote {
   .polis.remove {
     width: 100%;
   }
-  .smart {
-    width: 100%;
+  .menu.menu-empty {
+    font-weight: 400;
+  }
+  .menu-item {
+    font-weight: 400;
   }
 }
 
@@ -4908,6 +4934,12 @@ blockquote {
     font-size: 10px;
     line-height: 18px;
   }
+  .rich-text.editor-draft {
+    border-left-color: transparent;
+  }
+  .rich-text.editor-draft:hover {
+    border-left-color: transparent;
+  }
   .election {
     margin-bottom: 10px;
     font-size: 22px;
@@ -4944,8 +4976,12 @@ blockquote {
     right: 20px;
   }
   .title-input {
-    font-size: 25px;
-    line-height: 35px;
+    border-left-color: transparent;
+    font-size: 35px;
+    line-height: 45px;
+  }
+  .title-input:hover {
+    border-left-color: transparent;
   }
   .shadow-fake {
     left: 20px;
