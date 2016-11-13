@@ -13,7 +13,7 @@ import '../tag/tag.js';
 import '../../../widgets/warning/warning.js';
 
 // Makes tags in contract draggable
-Template.semantics.onRendered = function onRender() {
+Template.semantics.rendered = function rendered() {
   if (!Session.get('contract')) {
     return;
   }

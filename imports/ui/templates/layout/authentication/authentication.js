@@ -6,7 +6,7 @@ import { displayLogin } from '/imports/ui/modules/popup';
 import './authentication.html';
 import '../../components/identity/avatar/avatar.js';
 
-Template.authentication.onRendered = function onRender() {
+Template.authentication.rendered = function rendered() {
   Session.set('logger', false);
 };
 

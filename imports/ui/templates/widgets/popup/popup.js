@@ -4,7 +4,7 @@ import { Session } from 'meteor/session';
 import { animatePopup } from '/imports/ui/modules/popup'
 import './popup.html';
 
-Template.popup.onRendered = function onRender() {
+Template.popup.rendered = function rendered() {
   Session.set('displayPopup', false);
 };
 

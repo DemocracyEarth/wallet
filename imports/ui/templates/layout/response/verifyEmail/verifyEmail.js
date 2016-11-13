@@ -5,7 +5,7 @@ import { Accounts } from 'meteor/accounts-base';
 
 import './verifyEmail.html';
 
-Template.verifyEmail.onRendered = function onRender() {
+Template.verifyEmail.rendered = function rendered() {
   Accounts.verifyEmail( Session.get('emailToken'), (error) => {
     if (error) {
       Session.set('verificationResult', error.reason)

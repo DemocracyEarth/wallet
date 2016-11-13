@@ -6,7 +6,7 @@ import './feed.html';
 import './feedItem.js';
 import './feedEmpty.js';
 
-Template.feed.onRendered = function onRender() {
+Template.feed.rendered = function rendered() {
   Session.set('editorMode', false);
   Session.set('voterMode', false);
   if ($('.right').scrollTop() > 0) {

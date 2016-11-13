@@ -14,7 +14,7 @@ import '../action/action.js';
 
 let voteQuantity;
 
-Template.power.onRendered = function render() {
+Template.power.rendered = function render() {
   if (!Meteor.user()) {
     return;
   }

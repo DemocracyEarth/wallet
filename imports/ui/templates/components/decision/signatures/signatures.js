@@ -10,7 +10,7 @@ import { displayModal } from '/imports/ui/modules/modal';
 import './signatures.html';
 import '../../identity/avatar/avatar.js';
 
-Template.signatures.onRendered = function onRender() {
+Template.signatures.rendered = function rendered() {
   if (!Session.get('contract')) { return; }
   const contractAuthors = Session.get('contract').signatures;
   if (contractAuthors !== undefined) {

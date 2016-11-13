@@ -6,7 +6,7 @@ import { behave } from '/imports/ui/modules/animation';
 
 import './notice.html';
 
-Template.notice.onRendered = function onRender() {
+Template.notice.rendered = function rendered() {
   behave(this.firstNode, 'fade');
 };
 

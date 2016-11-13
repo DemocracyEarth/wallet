@@ -3,7 +3,6 @@ import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
-import { MediumEditor } from 'meteor/lh84:medium-editor';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { saveDescription } from '/lib/data';
@@ -14,7 +13,7 @@ import './agreement.html';
 
 let typingTimer; // timer identifier
 
-Template.agreement.onRendered = function onRender() {
+Template.agreement.rendered = function rendered() {
   if (!Session.get('contract')) { return; }
 
   if (Session.get('contract').stage == 'DRAFT' && Session.get('contract').kind == 'VOTE') {

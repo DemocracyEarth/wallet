@@ -11,7 +11,7 @@ import '../../avatar/avatar.js';
 import '../../../../widgets/warning/warning.js';
 import '../../../../widgets/suggest/suggest.js';
 
-Template.profileEditor.onRendered = function onRender() {
+Template.profileEditor.rendered = function rendered() {
   Session.set('showNations', false);
   Session.set('noNameFound', false);
   Session.set('noUsernameFound', false);

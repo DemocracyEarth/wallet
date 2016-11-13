@@ -16,7 +16,7 @@ Template.modal.helpers({
 });
 
 
-Template.modalWindow.onRendered = function onRender() {
+Template.modalWindow.rendered = function rendered() {
   //Initial position
   const paddingTotal = parseInt($('.alert').css('padding-bottom')) + parseInt($('.alert').css('padding-top'));
   let alertHeight = parseInt((window.innerHeight / 2) - (($('.alert').height() + paddingTotal) / 2));

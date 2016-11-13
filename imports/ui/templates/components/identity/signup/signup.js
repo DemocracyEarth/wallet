@@ -6,7 +6,7 @@ import { validatePassword, validatePasswordMatch, createUser, validateUsername }
 import './signup.html';
 import '../../../widgets/warning/warning.js';
 
-Template.signup.onRendered = function onReder() {
+Template.signup.rendered = function onReder() {
   let enableLogin = false;
 
   //Give everyone a chance to not fuckup

@@ -18,7 +18,7 @@ const searchHTMLElement = '#searchInput';
 let typingTimer;
 let SEARCH_INPUT;
 
-Template.alternative.onRendered = function onRender() {
+Template.alternative.rendered = function rendered() {
   SEARCH_INPUT = TAPi18n.__('search-input');
   globalObj.ProposalSearch.search('');
   _generateAlternativeFeed();

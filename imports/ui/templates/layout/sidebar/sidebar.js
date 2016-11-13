@@ -6,7 +6,7 @@ import './sidebar.html';
 import '../../components/collective/collective.js';
 import '../../widgets/inbox/inbox.js';
 
-Template.sidebar.onRendered = function onRender() {
+Template.sidebar.rendered = function rendered() {
   if (Session.get('sidebar') == true && $('#menu').css('margin-left') == "-320px") {
     Session.set('sidebar', false);
   }

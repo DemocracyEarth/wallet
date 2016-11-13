@@ -5,7 +5,7 @@ import { Accounts } from 'meteor/accounts-password';
 import './forgotPassword.html';
 import '../../../widgets/warning/warning.js';
 
-Template.forgotPassword.onRendered = function onRender() {
+Template.forgotPassword.rendered = function rendered() {
   Session.set("emailSent", false);
   Session.set("error1", false);
   Session.set("error2", false);

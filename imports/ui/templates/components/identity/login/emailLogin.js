@@ -8,7 +8,7 @@ import './socialMediaLogin.js';
 import '../signup/signup.js';
 import '../../../widgets/warning/warning.js';
 
-Template.emailLogin.onRendered = function onRender() {
+Template.emailLogin.rendered = function rendered() {
   Session.set("loginScreen", true);
   Session.set("passwordKnown", true);
   Session.set("invalidEmail", false);

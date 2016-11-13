@@ -7,7 +7,7 @@ import { createContract } from '/imports/startup/both/modules/Contract';
 import { animationSettings } from '/imports/ui/modules/animation';
 import './compose.html';
 
-Template.compose.onRendered = function onRender() {
+Template.compose.rendered = function rendered() {
   $('.action-label').css('opacity', 0);
   $('.action-label').css('overflow', 'hidden');
   $('.action-icon-mouseover').css('opacity', 0);

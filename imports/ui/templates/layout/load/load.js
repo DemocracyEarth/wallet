@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 import './load.html';
 
-Template.load.onRendered = function () {
+Template.load.rendered = function () {
   const opts = {
     lines: 17, // The number of lines to draw
     length: 13, // The length of each line

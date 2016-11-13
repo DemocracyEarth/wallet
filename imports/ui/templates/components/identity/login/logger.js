@@ -7,7 +7,7 @@ import './blockchainLogin.js';
 
 let currentTab = 0;
 
-Template.logger.onRendered = function onRender() {
+Template.logger.rendered = function rendered() {
   displayTabContent(document.getElementById('tab-view'), currentTab)
 }
 

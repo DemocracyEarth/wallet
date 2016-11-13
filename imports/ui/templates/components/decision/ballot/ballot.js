@@ -18,7 +18,7 @@ import '../power/power.js';
 
 var rank = 0;
 
-Template.ballot.onRendered = function onRender() {
+Template.ballot.rendered = function rendered() {
   rank = 0;
   if (!Session.get('contract')) { return; }
   if (Session.get('contract').stage === 'DRAFT') {

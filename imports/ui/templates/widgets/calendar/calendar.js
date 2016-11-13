@@ -7,7 +7,7 @@ import { animationSettings } from '/imports/ui/modules/animation';
 
 import './calendar.html';
 
-Template.dateSelector.onRendered = function onRender() {
+Template.dateSelector.rendered = function rendered() {
   //behave(this.firstNode, 'fade', { duration: parseInt(ANIMATION_DURATION / 2) });
 
   //Intro animation

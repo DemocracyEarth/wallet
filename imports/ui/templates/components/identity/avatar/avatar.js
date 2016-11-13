@@ -16,7 +16,7 @@ import { globalObj } from '/lib/global';
 
 import './avatar.html';
 
-Template.avatar.onRendered = function onRender() {
+Template.avatar.rendered = function rendered() {
   Session.set('editor', false);
 }
 

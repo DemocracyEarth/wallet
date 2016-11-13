@@ -36,7 +36,7 @@ if (Meteor.Device.isPhone()) {
   });
 }
 
-Template.navigation.onRendered = function onRender() {
+Template.navigation.rendered = function rendered() {
 };
 
 Template.navigation.helpers({

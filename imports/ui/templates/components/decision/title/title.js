@@ -19,7 +19,7 @@ import '../../../widgets/warning/warning.js';
 
 let typingTimer; // timer identifier
 
-Template.title.onRendered = function onRendered() {
+Template.title.rendered = function rendered() {
   initEditor();
 
   //TODO: figure out how to make tab work properly on first try.

@@ -6,7 +6,7 @@ import { $ } from 'meteor/jquery';
 import { animationSettings } from '/imports/ui/modules/animation';
 import './suggest.html';
 
-Template.suggest.onRendered = function onRender() {
+Template.suggest.rendered = function rendered() {
   Session.set('noMatchFound', false);
 
   $('.suggest').css('height', '0');

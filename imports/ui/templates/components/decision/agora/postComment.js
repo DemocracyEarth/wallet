@@ -11,7 +11,7 @@ import '../../identity/avatar/avatar.js';
 
 let commentBox;
 
-Template.postComment.onRendered = function onRender() {
+Template.postComment.rendered = function rendered() {
   commentBox = this.lastNode.firstChild.nextElementSibling;
   if (commentBox.innerText !== TAPi18n.__('argue')) {
     commentBox.focus();

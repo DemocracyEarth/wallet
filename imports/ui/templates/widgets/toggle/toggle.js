@@ -10,7 +10,7 @@ import './toggle.html';
 let clickedToggle = '';
 let toggleMap = {};
 
-Template.toggle.onRendered = () => {
+Template.toggle.rendered = () => {
   displayToggle();
   Session.set('clickedToggle', this.setting);
 };
