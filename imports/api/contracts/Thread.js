@@ -31,7 +31,7 @@ Schema.Thread = new SimpleSchema({
     }
   },
   'children.$': {
-    type: Object,
+    type: Schema.Thread,
     blackbox: true,
   },
   ballot: {

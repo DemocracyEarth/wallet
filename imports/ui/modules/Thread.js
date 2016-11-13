@@ -1,7 +1,7 @@
 import { Session } from 'meteor/session';
 
 import { guidGenerator } from '../../startup/both/modules/crypto';
-import Contracts from '../../api/contracts/Contracts';
+import { Contracts } from '../../api/contracts/Contracts';
 
 let node = '';
 let currentParent = '';
@@ -17,9 +17,7 @@ export const postComment = (contractId, eventObject, replyId) => {
   var index = new String();
   var query = {};
   if (replyId == undefined) {
-    Contracts.update(contractId, { $push: {
-      events: eventObject
-    }});
+    Contracts.update(contractId, { $push: { events: eventObject } });
   } else {
     //Add event object dynamic key values since Schema is blackboxed to enable infinite branching.
     eventObject.timestamp = new Date();

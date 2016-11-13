@@ -69,7 +69,7 @@ Schema.Votes = new SimpleSchema({
     optional: true
   },
   wallet: {
-    type: Schema.Wallet,
+    type: Wallet,
     optional: true
   }
 });
