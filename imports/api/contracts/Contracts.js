@@ -386,6 +386,14 @@ Schema.Contract = new SimpleSchema({
     type: String,
     optional: true
   },
+  ballotEnabled: {
+    type: Boolean,
+    autoValue: function () {
+      if (this.isInsert) {
+        return false;
+      }
+    }
+  },  
   "ballot.$.label": {
     type: String,
     optional: true
