@@ -1,6 +1,6 @@
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
-import { placeCaretAtStart, placeCaretAtEnd } from '../../startup/both/modules/Contract';
+import { placeCaretAtStart, placeCaretAtEnd } from '../../startup/both/modules/utils';
 import { verifyDraftFork } from './ballot';
 
 const startEditor = () => {
