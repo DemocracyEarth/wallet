@@ -7,7 +7,7 @@ import { showResults, updateExecutionStatus } from '/imports/ui/modules/ballot';
 import { Wallet } from '/imports/ui/modules/Wallet';
 import { verifyDelegationRight, verifyVotingRight, getProfileFromUsername } from '../both/modules/User';
 import { showFullName } from '../both/modules/utils';
-import { Contracts } from '../../api/contracts/Contracts';
+import { Contracts, schemaContract } from '../../api/contracts/Contracts';
 import { Tags } from '../../api/tags/Tags';
 import { Collectives } from '../../api/collectives/Collectives';
 import { toggleSidebar, setSidebarMenu } from '../../ui/modules/menu';
@@ -81,7 +81,7 @@ let _buildQuery = (params) => {
 * @param {string} key - url querying object
 ****/
 let _matchType = (key) => {
-  var schema = Contracts._firstLevelSchemaKeys;
+  var schema = schemaContract._firstLevelSchemaKeys;
   for (feat in schema) {
     if (schema[feat].toLowerCase() == key.toLowerCase()) {
       return schema[feat];
@@ -479,7 +479,7 @@ const _getQueryFeed = (query) => {
     case 'FINISH':
       switch(query.kind.toUpperCase()) {
         case 'VOTE':
-          switch(query.executionstatus.toUpperCase()) {
+          switch(query.executionStatus.toUpperCase()) {
             case 'APPROVED':
               if (query.peer) {
                 return 'CUSTOM PEER APPROVED VOTES';
@@ -498,7 +498,7 @@ const _getQueryFeed = (query) => {
           }
           return 'ALL VOTES FINISH';
         case 'DELEGATION':
-          switch(query.executionstatus.toUpperCase()) {
+          switch(query.executionStatus.toUpperCase()) {
             case 'APPROVED':
               if (query.peer) {
                 return 'CUSTOM PEER APPROVED DELEGATIONS';
@@ -512,7 +512,7 @@ const _getQueryFeed = (query) => {
           }
           return 'ALL DELEGATIONS';
         case 'MEMBERSHIP':
-          switch(query.executionstatus.toUpperCase()) {
+          switch(query.executionStatus.toUpperCase()) {
             case 'APPROVED':
               if (query.peer) {
                 return 'CUSTOM PEER APPROVED MEMBERSHIPS';

@@ -393,7 +393,7 @@ Schema.Contract = new SimpleSchema({
         return false;
       }
     }
-  },  
+  },
   "ballot.$.label": {
     type: String,
     optional: true
@@ -461,6 +461,7 @@ Schema.Contract = new SimpleSchema({
 
 Contracts.attachSchema(Schema.Contract);
 
+export const schemaContract = Schema.Contract;
 /*
 *  FIX: temporary workaround
 *  TBD: apply security best practices
