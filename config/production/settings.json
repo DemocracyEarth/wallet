@@ -1,21 +1,6 @@
 {
   "galaxy.meteor.com": {
      "env": {
-<<<<<<< HEAD
-       "ROOT_URL": "https://vota.plebiscitodigital.co",
-       "MONGO_URL": "mongodb://sovereignDbAdmin:d3m0cr4cy34rthf0und4t10n@ds043996-a0.mlab.com:43996,ds043996-a1.mlab.com:43996/sovereign_mongodb?replicaSet=rs-ds043996"
-     }
-  },
-
-  "kadira": {
-    "appId": "DYdDg2YFAafkxLSmT",
-    "appSecret": "14cf7cf5-596d-45e1-a109-149726054bd1"
-  },
-
-  "AWSAccessKeyId": "AKIAIEDBX73JZBV65WFA",
-  "AWSSecretAccessKey": "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",
-  "smtpServer": "smtp://postmaster%40mailgun.democracyearth.org:d070665c856bf97baa01bb0540faf765@smtp.mailgun.org:587",
-=======
        "ROOT_URL": "",
        "MONGO_URL": ""
      }
@@ -29,22 +14,12 @@
   "AWSAccessKeyId": "",
   "AWSSecretAccessKey": "",
   "smtpServer": "",
->>>>>>> 1a32aa41fa588c13496da2727d40e10ae1a0bc89
 
   "private": {
 
     "API": {
 
       "facebook": {
-<<<<<<< HEAD
-        "appId": "938857746220706",
-        "appSecret": "5b6327a46f4060ea26a677c8d5948c4b"
-      },
-
-      "twitter": {
-        "APIKey": "aT1uta586WOsjJjpL5CtGfQYh",
-        "APISecret": "GkSAZKNIOFNVS6s5blZIRzKyotC9JC1GXmsOsYAxNTem4a6J98"
-=======
         "appId": "",
         "appSecret": ""
       },
@@ -52,7 +27,6 @@
       "twitter": {
         "APIKey": "",
         "APISecret": ""
->>>>>>> 1a32aa41fa588c13496da2727d40e10ae1a0bc89
       }
 
     }
@@ -60,57 +34,34 @@
   },
 
   "public": {
-
-<<<<<<< HEAD
-    "AWSHostingURL": "https://earth-app.s3-us-west-2.amazonaws.com/",
-=======
     "AWSHostingURL": "",
->>>>>>> 1a32aa41fa588c13496da2727d40e10ae1a0bc89
 
     "analyticsSettings": {
       "Google Analytics" :
         {
-<<<<<<< HEAD
-          "trackingId": "UA-69508804-2"
-=======
           "trackingId": ""
->>>>>>> 1a32aa41fa588c13496da2727d40e10ae1a0bc89
         }
     },
 
     "app": {
 
       "name": "Sovereign",
-<<<<<<< HEAD
-      "language": "es",
-=======
       "language": "en",
->>>>>>> 1a32aa41fa588c13496da2727d40e10ae1a0bc89
       "development": true,
       "version": "0.1.0",
       "codename": "Quixote",
       "config":
         {
           "blockchainLogin": false,
-<<<<<<< HEAD
-          "commentRanking": false,
-          "proposalDrafting": false
-=======
           "commentRanking": true,
           "proposalDrafting": true,
           "appCache": false
->>>>>>> 1a32aa41fa588c13496da2727d40e10ae1a0bc89
         }
     },
 
     "Collective": {
-<<<<<<< HEAD
-      "name": "Democracy Earth Foundation",
-      "domain": "https://democracy.earth",
-=======
       "name": "Democracy Earth",
       "domain": "https://localhost:3000",
->>>>>>> 1a32aa41fa588c13496da2727d40e10ae1a0bc89
       "emails": [
         {
           "address": "hello@democracy.earth",
