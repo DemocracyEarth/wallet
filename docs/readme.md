@@ -2,6 +2,9 @@
 <img src="img/collections.jpg" width="800" title="DB Collections">
 
 # Tests
+## Seed Database
+Go to [seed-db](seed-db/readme.md) and follow the guide to setup our demo database
+
 ## Run
 ### Web Reporter
 For Unit test, in main repository run:
@@ -41,4 +44,10 @@ Follow the meteor guide to get more examples and details [https://guide.meteor.c
 
 # Development
 
-Our recomendations:
+We follow [Meteor style guidelines](https://guide.meteor.com/code-style.html)
+
+Our Meteor code style notes:
+* Check [airbnb style guide](https://github.com/airbnb/javascript)
+* [install ESlint](https://guide.meteor.com/code-style.html#eslint-installing)
+* integrate ESlint it in your [editor](https://guide.meteor.com/code-style.html#eslint-editor)
+* Check your code with ESLint

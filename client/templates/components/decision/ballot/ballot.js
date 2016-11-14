@@ -1,81 +1,29 @@
 var rank = 0;
 
 Template.ballot.rendered = function () {
-    rank = 0;
-    if (!Session.get('contract')) { return };
-    if (Session.get('contract').stage == STAGE_DRAFT) {
-
-      //Dragable options
-      this.$('#ballotOption, #proposalSuggestions').sortable({
-        stop: function(e, ui) {
-          var rankOrder = new Array();
-          $('#ballotOption li').each(function( index ) {
-            rankOrder.push($( this ).attr('value'));
-          });
-          Modules.client.updateBallotRank(Session.get('contract')._id, rankOrder);
-          Session.set('removeProposal', false);
-          if (rankOrder.length == 0) {
-            Session.set('ballotReady', false);
-            if (Session.get('executiveDecision') == false) {
-              Session.set('emptyBallot', true);
-            } else {
-              Session.set('emptyBallot', false);
-            }
-          }
-        },
-        start: function (event, ui) {
-          ui.helper.height(ui.helper.height() - 10);
-          ui.helper.width(ui.helper.width());
-          ui.placeholder.width(ui.helper.width());
-          ui.placeholder.height(ui.helper.height());
-
-          if (this.id == "ballotOption") {
-            Session.set('removeProposal', true);
-          }
-        },
-        receive: function (event, ui) {
-          sortableIn = true;
-        },
-        over: function(e, ui) {
-          sortableIn = true;
-        },
-        out: function(e, ui) {
-          sortableIn = false;
-        },
-        beforeStop: function(e, ui) {
-          if (sortableIn == false) {
-            if (Session.get('removeProposal')) {
-              Modules.client.removeFork(Session.get('contract')._id, ui.item.get(0).getAttribute('value'));
-              ui.item.get(0).remove();
-              Session.set('removeProposal', false);
-            }
-          }
-        },
-        revert: 0,
-        cancel: '.nondraggable',
-        tolerance: 'pointer',
-        scroll: true,
-        items: "> li",
-        forceHelperSize: true,
-        helper: 'clone',
-        zIndex: 9999,
-        placeholder: 'vote vote-placeholder'
-    }).disableSelection();
-
+  rank = 0;
+  if (!Session.get('contract')) { return };
+  if (Session.get('contract').stage == STAGE_DRAFT) {
+    activateDragging();
   }
-
-  //TODO: make ballot a toggable objetc
-
 };
 
 Template.ballot.helpers({
-  //toggles
   allowForks: function () {
-    //console.log('[ballot helper] allowForks in contract = ' + Session.get('contract').allowForks);
     return Session.get('contract').allowForks;
   },
+  ballotEnabled: function () {
+    if (Session.get('contract').ballotEnabled) {
+      activateDragging();
+    }
+    return Session.get('contract').ballotEnabled;
+  },
+  headerStyle: function () {
+    if (this.editorMode && !Session.get('contract').ballotEnabled) {
+      return 'paper-header-empty';
+    }
+  },
   multipleChoice: function () {
-    //console.log('[ballot helper] multipleChoice in contract = ' + Session.get('contract').multipleChoice);
     return Session.get('contract').multipleChoice;
   },
   executiveDecision: function () {
@@ -210,4 +158,63 @@ function verifyEmptyBallot (options) {
     Session.set('emptyBallot',false);
   }
   return false;
+}
+
+function activateDragging() {
+  //Dragable options
+  this.$('#ballotOption, #proposalSuggestions').sortable({
+    stop: function(e, ui) {
+      var rankOrder = new Array();
+      $('#ballotOption li').each(function( index ) {
+        rankOrder.push($( this ).attr('value'));
+      });
+      Modules.client.updateBallotRank(Session.get('contract')._id, rankOrder);
+      Session.set('removeProposal', false);
+      if (rankOrder.length == 0) {
+        Session.set('ballotReady', false);
+        if (Session.get('executiveDecision') == false) {
+          Session.set('emptyBallot', true);
+        } else {
+          Session.set('emptyBallot', false);
+        }
+      }
+    },
+    start: function (event, ui) {
+      ui.helper.height(ui.helper.height() - 10);
+      ui.helper.width(ui.helper.width());
+      ui.placeholder.width(ui.helper.width());
+      ui.placeholder.height(ui.helper.height());
+
+      if (this.id == "ballotOption") {
+        Session.set('removeProposal', true);
+      }
+    },
+    receive: function (event, ui) {
+      sortableIn = true;
+    },
+    over: function(e, ui) {
+      sortableIn = true;
+    },
+    out: function(e, ui) {
+      sortableIn = false;
+    },
+    beforeStop: function(e, ui) {
+      if (sortableIn == false) {
+        if (Session.get('removeProposal')) {
+          Modules.client.removeFork(Session.get('contract')._id, ui.item.get(0).getAttribute('value'));
+          ui.item.get(0).remove();
+          Session.set('removeProposal', false);
+        }
+      }
+    },
+    revert: 0,
+    cancel: '.nondraggable',
+    tolerance: 'pointer',
+    scroll: true,
+    items: "> li",
+    forceHelperSize: true,
+    helper: 'clone',
+    zIndex: 9999,
+    placeholder: 'vote vote-placeholder'
+  }).disableSelection();
 }

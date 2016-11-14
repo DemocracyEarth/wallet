@@ -16,7 +16,7 @@ es5-shim@4.6.15                # ECMAScript 5 compatibility for older browsers.
 ecmascript@0.5.9              # Enable ECMAScript2015+ syntax in app code
 tap:i18n
 accounts-ui@1.1.9
-accounts-password@1.3.1
+accounts-password@1.3.2
 iron:router
 lh84:medium-editor
 meteorhacks:search-source
@@ -41,5 +41,5 @@ okgrow:analytics
 shell-server@0.2.1
 meteorhacks:kadira
 practicalmeteor:mocha
-ddp-rate-limiter
+ddp-rate-limiter@1.0.6
 mdg:validated-method

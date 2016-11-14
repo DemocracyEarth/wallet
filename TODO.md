@@ -6,13 +6,14 @@
 - [ ] 4) write help guide (**wiki**)  
 
 ## Local execution (for contributors)
-- [ ] 1) load DB script for test and fix purpose  
-- [ ] 2) best practices docs (**wiki**) 
+- [X] 1) load DB script for test and fix purpose  
+- [X] 2) best practices docs (**readme**)
+- [ ] 3) best practices docs (**wiki**) 
 
-# Implementation 
+# Implementation
 - [ ] 1) scripts: db generation and collections  
-- [ ] 2) implementation docs: setup, how to, step by step guide (**wiki**) 
-- [ ] 3) user docs (**wiki**) 
+- [ ] 2) implementation docs: setup, how to, step by step guide (**wiki**)
+- [ ] 3) user docs (**wiki**)
 
 # Various
 ## Best Practices

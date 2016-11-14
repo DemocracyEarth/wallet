@@ -391,7 +391,7 @@ Schema.Contract = new SimpleSchema({
     type: Boolean,
     autoValue: function () {
       if (this.isInsert) {
-        return true;
+        return false;
       }
     }
   },

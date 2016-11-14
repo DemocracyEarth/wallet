@@ -105,9 +105,9 @@ Template.action.events({
 });
 
 function disableContractExecution() {
-  if (Session.get('emptyBallot')) {
+  if (Session.get('emptyBallot') && Session.get('contract').ballotEnabled) {
     return true;
-  } else if (Session.get('unauthorizedFork')) {
+  } else if (Session.get('unauthorizedFork') && Session.get('contract').ballotEnabled) {
     return true;
   } else if (Session.get('missingTitle')) {
     return true;
@@ -117,7 +117,7 @@ function disableContractExecution() {
     return true;
   } else if (Session.get('noVotes')) {
     return true;
-  } else if (Session.get('draftOptions')) {
+  } else if (Session.get('draftOptions') && Session.get('contract').ballotEnabled) {
     return true;
   } else if (!Session.get('rightToVote')) {
     return true;

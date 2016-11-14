@@ -136,6 +136,13 @@ blockquote {
   box-shadow: none;
 }
 
+.paper.paper-empty {
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  background-color: transparent;
+  box-shadow: none;
+}
+
 .kind {
   position: absolute;
   left: 0px;
@@ -515,14 +522,9 @@ blockquote {
   height: 60px;
   margin-left: 35%;
   border-style: solid;
-  border-color: #66d8bc;
-  background-color: #66d8bc;
-  text-decoration: none;
-}
-
-.symbol.profile-pic.profile-sign:hover {
   border-color: #00bf8f;
   background-color: #00bf8f;
+  text-decoration: none;
 }
 
 .symbol.profile-pic.profile-sign.profile-active {
@@ -3255,6 +3257,11 @@ blockquote {
   font-size: 10px;
 }
 
+.paper-header.paper-header-empty {
+  border-radius: 3px;
+  box-shadow: 0 3px 20px -13px #000;
+}
+
 .shadow-fake {
   position: absolute;
   left: 33px;
@@ -4349,16 +4356,11 @@ blockquote {
   margin-right: -8px;
   float: right;
   border-radius: 50px;
-  background-color: rgba(0, 191, 143, .6);
-  background-image: url('../images/cross-white.png');
+  background-image: url('../images/cross-green.png');
   background-position: 50% 50%;
   background-size: 14px 14px;
   background-repeat: no-repeat;
   cursor: pointer;
-}
-
-.signature-remove:hover {
-  background-color: #00bf8f;
 }
 
 @media (max-width: 991px) {
@@ -5006,4 +5008,3 @@ blockquote {
     width: 100%;
   }
 }
-
