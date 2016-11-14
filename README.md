@@ -4,15 +4,6 @@
 
 # Sovereign.app
 
-[![Slack Status](https://democracyearth.slack.com/badge.svg)](https://democracyearth.slack.com)
-[![Build Status](https://circleci.com/gh/hackclub/hackclub.svg?style=shield)](https://circleci.com/gh/democracyearth/sovereign)
-
-Sovereign is a decentralized governance platform for small & large organizations.
-
-**Features:**
-
-  - [X] Democracy toolkit: create proposals, design ballots, debate ideas, manage identities.
-=======
 [![Join the chat at https://gitter.im/DemocracyEarth/sovereign](https://badges.gitter.im/DemocracyEarth/sovereign.svg)](https://gitter.im/DemocracyEarth/sovereign?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Slack Status](https://slackearth.herokuapp.com/badge.svg)](https://slackearth.herokuapp.com)
 
@@ -28,7 +19,6 @@ Sovereign is a decentralized governance platform for small & large organizations
     * Voting & delegation of votes.
     * Ballots with multiple options.
     * Bottom-up system of proposals.
->>>>>>> 1a32aa41fa588c13496da2727d40e10ae1a0bc89
   - [X] Transaction engine based on voting tokens (_currently blockchain agnostic_).
   - [X] Mobile & desktop responsive UX.
 
@@ -54,21 +44,6 @@ Sovereign is a decentralized governance platform for small & large organizations
 `version 0.1.0`
 
 > _Notes:_ The tragedy of the commons is how dysfunctional our conversations are. Win-win situations are effectively possible yet talibanization 💣 has won our minds pushing us to rhetorical oblivion. Social media has put gossip in the driver's seat due to the lack of transparency in the existing governance structures. Institutional reality is created from storing & processing promises being this the main task that our aspiring politicians competing for authority perform. Yet the Quixote of the 21st century will not be a knight-errant struggling to revive the glories of feudalism but a bureaucrat in a brown suit. We are on a mission to decentralize power by giving everyone the capability of creating blockchain based institutions operating in peer to peer networks. A planetary commons of peers, for everyone anywhere.
-=======
- Open source project integrations we are actively pursuing:
-
-  - [ ] Decentralized identity key management 🔗 with [Blockstack](https://github.com/blockstack/blockstack).
-  - [ ] Institutional incorporation via smart contracts 🔗 with [Open Zeppelin](https://github.com/OpenZeppelin/zeppelin-solidity).
-  - [ ] Bitcoin integration for budgeting 🔗 with [Bcoin](https://github.com/bcoin-org/bcoin).
-  - [ ] Distributed resource storage 🔗 with [IPFS](https://github.com/ipfs/js-ipfs).
-  - [ ] Native desktop client 🔗 with [Electron](https://github.com/electron/electron).
-
-**Release:**
-
-[`version 0.1.0`](https://github.com/DemocracyEarth/sovereign/milestone/1)
-
-> _Notes:_ The tragedy of the commons is how dysfunctional our conversations are. Win-win situations are effectively possible yet talibanization 💣 has won our minds pushing us to rhetorical oblivion. Social media has put gossip in the driver's seat due to the lack of transparency in the existing governance structures. Institutional reality is created from promises, being this the main asset that our aspiring politicians offer. But as blockchains enabling transactions without the need for authority rise, modern software can be designed to contain hard promises verifiable by everyone without permission. Sovereign decentralization of power is possible: the means for borderless institutions that can securely operate in peer to peer networks shall lead towards a planetary commons of peers.
->>>>>>> 1a32aa41fa588c13496da2727d40e10ae1a0bc89
 
 Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mastering-Transition-Information/dp/0684832720) ✊.
 
