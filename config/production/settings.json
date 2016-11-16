@@ -1,32 +1,32 @@
 {
   "galaxy.meteor.com": {
      "env": {
-       "ROOT_URL": "https://vota.plebiscitodigital.co",
-       "MONGO_URL": "mongodb://sovereignDbAdmin:d3m0cr4cy34rthf0und4t10n@ds043996-a0.mlab.com:43996,ds043996-a1.mlab.com:43996/sovereign_mongodb?replicaSet=rs-ds043996"
+       "ROOT_URL": "",
+       "MONGO_URL": ""
      }
-  },
+   },
 
-  "kadira": {
-    "appId": "DYdDg2YFAafkxLSmT",
-    "appSecret": "14cf7cf5-596d-45e1-a109-149726054bd1"
-  },
+   "kadira": {
+     "appId": "",
+     "appSecret": ""
+   },
 
-  "AWSAccessKeyId": "AKIAIEDBX73JZBV65WFA",
-  "AWSSecretAccessKey": "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",
-  "smtpServer": "smtp://postmaster%40mailgun.democracyearth.org:d070665c856bf97baa01bb0540faf765@smtp.mailgun.org:587",
+  "AWSAccessKeyId": "",
+  "AWSSecretAccessKey": "",
+  "smtpServer": "",
 
   "private": {
 
     "API": {
 
       "facebook": {
-        "appId": "938857746220706",
-        "appSecret": "5b6327a46f4060ea26a677c8d5948c4b"
+        "appId": "",
+        "appSecret": ""
       },
 
       "twitter": {
-        "APIKey": "aT1uta586WOsjJjpL5CtGfQYh",
-        "APISecret": "GkSAZKNIOFNVS6s5blZIRzKyotC9JC1GXmsOsYAxNTem4a6J98"
+        "APIKey": "",
+        "APISecret": ""
       }
 
     }
@@ -34,34 +34,34 @@
   },
 
   "public": {
-
-    "AWSHostingURL": "https://earth-app.s3-us-west-2.amazonaws.com/",
+    "AWSHostingURL": "",
 
     "analyticsSettings": {
       "Google Analytics" :
         {
-          "trackingId": "UA-69508804-2"
+          "trackingId": ""
         }
     },
 
     "app": {
 
       "name": "Sovereign",
-      "language": "es",
+      "language": "en",
       "development": true,
       "version": "0.1.0",
       "codename": "Quixote",
       "config":
         {
           "blockchainLogin": false,
-          "commentRanking": false,
-          "proposalDrafting": false
+          "commentRanking": true,
+          "proposalDrafting": true,
+          "appCache": false
         }
     },
 
     "Collective": {
-      "name": "Democracy Earth Foundation",
-      "domain": "https://democracy.earth",
+      "name": "Democracy Earth",
+      "domain": "https://localhost:3000",
       "emails": [
         {
           "address": "hello@democracy.earth",
