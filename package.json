@@ -13,7 +13,7 @@
   "dependencies": {
     "autoprefixer": "^6.4.1",
     "faker": "^3.0.1",
-    "bcript":"^0.8.7",
+    "bcrypt":"^0.8.7",
     "bindings":"^1.2.1",
     "nan":"^2.3.5"
 
