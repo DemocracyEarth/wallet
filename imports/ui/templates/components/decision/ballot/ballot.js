@@ -38,9 +38,7 @@ Template.ballot.helpers({
     return Session.get('contract').ballotEnabled;
   },
   headerStyle: function () {
-    console.log(this);
     if (this.editorMode && !Session.get('contract').ballotEnabled) {
-      console.log('do it');
       return 'paper-header-empty';
     }
   },

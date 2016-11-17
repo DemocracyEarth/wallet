@@ -10,9 +10,9 @@ import { purgeBallot, ballotReady } from '/imports/ui/modules/ballot';
 import './action.html';
 
 function disableContractExecution() {
-  if (Session.get('emptyBallot')) {
+  if (Session.get('emptyBallot') && Session.get('contract').ballotEnabled) {
     return true;
-  } else if (Session.get('unauthorizedFork')) {
+  } else if (Session.get('unauthorizedFork') && Session.get('contract').ballotEnabled) {
     return true;
   } else if (Session.get('missingTitle')) {
     return true;
@@ -22,18 +22,18 @@ function disableContractExecution() {
     return true;
   } else if (Session.get('noVotes')) {
     return true;
-  } else if (Session.get('draftOptions')) {
+  } else if (Session.get('draftOptions') && Session.get('contract').ballotEnabled) {
     return true;
   } else if (!Session.get('rightToVote')) {
     return true;
   } else {
-    if (Session.get('contract').kind == 'VOTE' && Session.get('contract').stage == 'LIVE') {
-      if (!ballotReady()) {
+    if (Session.get('contract').kind == KIND_VOTE && Session.get('contract').stage == STAGE_LIVE) {
+      if (!Modules.client.ballotReady()) {
         return true;
       }
     }
     if (Session.get('newVote') != undefined) {
-      if (Session.get('newVote').mode === 'PENDING' || Session.get('newVote').mode == undefined) {
+      if (Session.get('newVote').mode == WALLET_MODE_PENDING || Session.get('newVote').mode == undefined) {
         return false;
       } else {
         return true;
