@@ -23,7 +23,7 @@ Sovereign is a decentralized governance platform for small & large organizations
   - [X] Mobile & desktop responsive UX.
 
 **Roadmap:**
- 
+
   - [ ] Decentralized identity key management 🔗 with [Blockstack](https://github.com/blockstack/blockstack).
   - [ ] Institutional incorporation via smart contracts 🔗 with [Open Zeppelin](https://github.com/OpenZeppelin/zeppelin-solidity).
   - [ ] Bitcoin integration for budgeting 🔗 with [Bcoin](https://github.com/bcoin-org/bcoin).
@@ -57,6 +57,20 @@ Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mas
     ```sh
     $ git clone https://github.com/DemocracyEarth/sovereign.git
     $ cd sovereign
+    ```
+
+0. **Install dependencies**
+
+    if you have npm installed, type:
+
+    ```sh
+    $ npm install
+    ```
+
+    if you only have meteor, type:
+
+    ```sh
+    $ meteor npm install
     ```
 
 0. **Run App**
