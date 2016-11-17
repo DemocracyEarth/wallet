@@ -5,6 +5,7 @@ import { Session } from 'meteor/session';
 
 import { removeFork, updateBallotRank, addChoiceToBallot } from '/imports/ui/modules/ballot';
 import { displayTimedWarning } from '/lib/utils';
+import { Contracts } from '/imports/api/contracts/Contracts';
 
 import './ballot.html';
 import '../kind/kind.js';
