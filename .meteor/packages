@@ -4,42 +4,72 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
+
+# meteor libraries
 meteor-base@1.0.4             # Packages every Meteor app needs to have
-mobile-experience@1.0.4       # Packages for a great mobile UX
-mongo@1.1.14                   # The database Meteor supports right now
-blaze-html-templates@1.0.4    # Compile .html files into Meteor Blaze views
-session@1.1.7                 # Client-side reactive dictionary for your app
-jquery@1.11.10                  # Helpful client-side library
 tracker@1.1.1                 # Meteor's client-side reactive programming library
-mrt:jquery-ui
 es5-shim@4.6.15                # ECMAScript 5 compatibility for older browsers.
 ecmascript@0.5.9              # Enable ECMAScript2015+ syntax in app code
-tap:i18n
-accounts-ui@1.1.9
-accounts-password@1.3.2
+
+# standard libraries
+jquery@1.11.10                # Helpful client-side library
+
+# ui, ux
+blaze-html-templates@1.0.4    # Compile .html files into Meteor Blaze views
+mrt:jquery-ui
+rajit:bootstrap3-datepicker
+mystor:device-detection
+standard-minifier-css@1.3.2
+standard-minifier-js@1.2.1
+velocityjs:velocityjs
+
+# data
+mongo@1.1.14                  # The database Meteor supports right now
+aldeed:simple-schema
+aldeed:collection2
+dburles:collection-helpers
+mdg:validated-method
+
+# routing
 iron:router
+
+# i18n
+tap:i18n
+
+# accounts, users
+session@1.1.7                 # Client-side reactive dictionary for your app
+accounts-ui@1.1.9
+accounts-password@1.3.1
+accounts-twitter@1.1.12
+accounts-facebook@1.0.11
+
+# mobile
+mobile-experience@1.0.4       # Packages for a great mobile UX
+
+# production
+
+# rest apis
+
+# testing
+practicalmeteor:mocha
+dburles:factory
+
+# security
+
+# monitoring
+meteorhacks:kadira
+okgrow:analytics
+
+
 lh84:medium-editor
 meteorhacks:search-source
 check@1.2.4
 ejson@1.0.13
-rajit:bootstrap3-datepicker
 houston:admin
-standard-minifier-css@1.3.2
-standard-minifier-js@1.2.1
-velocityjs:velocityjs
-mystor:device-detection
 # meteortoys:allthings
-aldeed:collection2
 edgee:slingshot
 http@1.2.10
 email@1.1.18
 meteorhacks:ssr
-accounts-twitter@1.1.12
-accounts-facebook@1.0.11
 service-configuration@1.0.11
-okgrow:analytics
 shell-server@0.2.1
-meteorhacks:kadira
-practicalmeteor:mocha
-ddp-rate-limiter@1.0.6
-mdg:validated-method

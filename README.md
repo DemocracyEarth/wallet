@@ -23,10 +23,10 @@ Sovereign is a decentralized governance platform for small & large organizations
   - [X] Mobile & desktop responsive UX.
 
 **Roadmap:**
-
+ 
   - [ ] Decentralized identity key management 🔗 with [Blockstack](https://github.com/blockstack/blockstack).
   - [ ] Institutional incorporation via smart contracts 🔗 with [Open Zeppelin](https://github.com/OpenZeppelin/zeppelin-solidity).
-  - [ ] Budget management using cryptocurrency 🔗 with [Bcoin](https://github.com/bcoin-org/bcoin).
+  - [ ] Bitcoin integration for budgeting 🔗 with [Bcoin](https://github.com/bcoin-org/bcoin).
   - [ ] Distributed resource storage 🔗 with [IPFS](https://github.com/ipfs/js-ipfs).
   - [ ] Native desktop client 🔗 with [Electron](https://github.com/electron/electron).
 

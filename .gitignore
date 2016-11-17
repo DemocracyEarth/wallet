@@ -1,3 +1,4 @@
 npm-debug.log
 config/development/settings.json
 config/production/settings.json
+node_modules
