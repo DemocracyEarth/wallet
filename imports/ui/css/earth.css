@@ -4363,6 +4363,11 @@ blockquote {
   cursor: pointer;
 }
 
+.smart {
+  width: 75%;
+  float: left;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
@@ -4516,6 +4521,13 @@ blockquote {
     overflow: visible;
     width: 100%;
     background-color: #f5f5f5;
+  }
+  .smart {
+    display: block;
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    float: none;
   }
 }
 
