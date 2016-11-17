@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Tags } from '/imports/api/tags/Tags';
+import { convertToSlug } from '/lib/utils';
+
 import { Contracts } from './Contracts.js';
 import { Collectives } from '../collectives/Collectives.js';
 
