@@ -1,7 +1,10 @@
-import { Collectives } from '../collectives/Collectives';
+import { Meteor } from 'meteor/meteor';
+
+import { Contracts } from '/imports/api/contracts/Contracts';
+import { Collectives } from '/imports/api/collectives/Collectives';
+import { showFullName } from '/imports/startup/both/modules/utils';
+import { guidGenerator } from '/imports/startup/both/modules/crypto';
 import { Transactions } from './Transactions';
-import { showFullName } from '../../startup/both/modules/utils';
-import { guidGenerator } from '../../startup/both/modules/crypto';
 
 /**
 * @summary create a new transaction between two parties
