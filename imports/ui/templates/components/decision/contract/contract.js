@@ -15,19 +15,19 @@ import '../agora/agora.js';
 Template.contract.helpers({
   editorMode() {
     if (Session.get('contract')) {
-      return (Session.get('contract').stage === STAGE_DRAFT);
+      return (Session.get('contract').stage === 'DRAFT');
     }
     return undefined;
   },
   isDelegation() {
     if (Session.get('contract')) {
-      return (Session.get('contract').kind === KIND_DELEGATION);
+      return (Session.get('contract').kind === 'DELEGATION');
     }
     return undefined;
   },
   pollClosed() {
     if (Session.get('contract')) {
-      return (Session.get('contract').stage === STAGE_FINISH);
+      return (Session.get('contract').stage === 'FINISH');
     }
     return undefined;
   },
