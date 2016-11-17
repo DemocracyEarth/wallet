@@ -4,25 +4,39 @@
 
 # Sovereign.app
 
+[![Join the chat at https://gitter.im/DemocracyEarth/sovereign](https://badges.gitter.im/DemocracyEarth/sovereign.svg)](https://gitter.im/DemocracyEarth/sovereign?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Slack Status](https://slackearth.herokuapp.com/badge.svg)](https://slackearth.herokuapp.com)
+
 Sovereign is a decentralized governance platform for small & large organizations.
+
+<p align="center">
+<img src="public/images/sovereign-screenshot.png" width="800" title="Sovereign Screenshot">
+</p>
 
 **Features:**
 
-  - [X] Democracy toolkit: create proposals, design ballots, debate ideas, manage identities.
+  - [X] Liquid democracy toolkit:
+    * Voting & delegation of votes.
+    * Ballots with multiple options.
+    * Bottom-up system of proposals.
   - [X] Transaction engine based on voting tokens (_currently blockchain agnostic_).
   - [X] Mobile & desktop responsive UX.
 
 **Roadmap:**
 
+ Open source project integrations we are actively pursuing:
+
   - [ ] Decentralized identity key management 🔗 with [Blockstack](https://github.com/blockstack/blockstack).
   - [ ] Institutional incorporation via smart contracts 🔗 with [Open Zeppelin](https://github.com/OpenZeppelin/zeppelin-solidity).
-  - [ ] Budget management using cryptocurrency 🔗 with [Bcoin](https://github.com/bcoin-org/bcoin).
+  - [ ] Bitcoin integration for budgeting 🔗 with [Bcoin](https://github.com/bcoin-org/bcoin).
   - [ ] Distributed resource storage 🔗 with [IPFS](https://github.com/ipfs/js-ipfs).
   - [ ] Native desktop client 🔗 with [Electron](https://github.com/electron/electron).
 
-**Release _(in progress)_:** `version 0.1.0`
+**Release:**
 
-> The Don Quixote of the 21st century will not be a knight-errant struggling to revive the glories of feudalism but a bureaucrat in a brown suit, a tax collector yearning for a citizen to audit.
+[`version 0.1.0`](https://github.com/DemocracyEarth/sovereign/milestone/1)
+
+> _Notes:_ The tragedy of the commons is how dysfunctional our conversations are. Win-win situations are effectively possible yet talibanization 💣 has won our minds pushing us to rhetorical oblivion. Social media has put gossip in the driver's seat due to the lack of transparency in the existing governance structures. Institutional reality is created from promises, being this the main asset that our aspiring politicians offer. But as blockchains enabling transactions without the need for authority rise, modern software can be designed to contain hard promises verifiable by everyone without permission. Sovereign decentralization of power is possible: the means for borderless institutions that can securely operate in peer to peer networks shall lead towards a planetary commons of peers.
 
 Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mastering-Transition-Information/dp/0684832720) ✊.
 
@@ -58,7 +72,7 @@ Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mas
     Load browser and go to [http://localhost:3000/](http://localhost:3000/) 🔥
 
     > _Note:_ For production deploys you should use:  
-    > `$ meteor npm run start`
+    > ``` $ meteor npm run start ```
     > check production/settings.json file to config your keys.
 
 0. **Start a Revolution**
@@ -71,10 +85,12 @@ Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mas
 
 ## Demos
 
-Current live implementations:
+Implementations:
 
 * 🌎 Official Site: [democracy.earth](http://democracy.earth).
-* 🇨🇴 [Colombia Peace Referendum](http://vota.plebiscitodigital.co) and [final report](https://medium.com/@DemocracyEarth/a-digital-referendum-for-colombias-diaspora-aeef071ec014#.xbyqt3blq).
+* 🇨🇴 Report on [Colombia Referendum](https://medium.com/@DemocracyEarth/a-digital-referendum-for-colombias-diaspora-aeef071ec014#.xbyqt3blq).
+
+> _Note:_ Live deploy coming soon.
 
 ## Specifications
 
@@ -90,21 +106,18 @@ Check our [documentation](https://github.com/DemocracyEarth/sovereign/tree/maste
 
 **Supported Browsers:**
 
-_Chrome 18+, Safari 6+_
+| [<img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/edge.png" alt="IE / Edge" width="16px" height="16px" />](http://godban.github.io/browsers-support-badges/)</br>Edge | [<img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/chrome.png" alt="Chrome" width="16px" height="16px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/safari.png" alt="Safari" width="16px" height="16px" />](http://godban.github.io/browsers-support-badges/)</br>Safari | [<img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/safari-ios.png" alt="iOS" width="16px" height="16px" />](http://godban.github.io/browsers-support-badges/)</br>iOS | [<img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/chrome-android.png" alt="Android" width="16px" height="16px" />](http://godban.github.io/browsers-support-badges/)</br>Android |
+| --------- | --------- | --------- | --------- | --------- |
+| IE10, IE11, Edge| last 4 versions| last 4 versions| last 4 versions| last 4 versions
+
 
 ## Contribute
 
-Sovereign is a **free & open source project**. Main contributors so far:
+Sovereign is a **free & open source project**.
 
-* 🇦🇷 [Santiago Siri](http://github.com/santisiri)
-* 🇦🇷 [Lucas Isasmendi](https://github.com/LucasIsasmendi)
-* 🇻🇪 [Eduardo Medina](https://github.com/medied)
-* 🌎 [Mair Williams](https://github.com/mairwilliams)
-* 🇫🇷 [Virgile Deville](https://github.com/virgile-dev)
+Check our [contributors list](CONTRIBUTING.md) and look for available tasks in the [to do list](TODO.md) to join.
 
-For detailed roles check the [contributors list](CONTRIBUTING.md) and look for **available tasks in the [to do list](TODO.md)** to join.
-
-## Backers
+### Backers:
 
 Join our [Open Collective](https://opencollective.com/democracyearth):
 
@@ -171,7 +184,9 @@ Democracy Earth Foundation is a _501 (c) 3 not for profit corporation_ in San Fr
 <a href="https://ffwd.org"><img src="public/images/ffwd.png" width="200" title="Fast Forward"></a>
 </p>
 
+Also check our [donors list](DONORS.md).
+
 ## License
 
 This software is under an [MIT License](LICENSE.md).
-Copyright © 2016 [Democracy Earth Foundation](http://democracy.earth).
+Some rights reserved, 2016 [Democracy Earth Foundation](http://democracy.earth).
