@@ -59,7 +59,7 @@ Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mas
     $ cd sovereign
     ```
 
-0. **Install dependencies**
+0. **Install Dependencies**
 
     if you have npm installed, type:
 
