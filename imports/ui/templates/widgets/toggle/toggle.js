@@ -19,7 +19,7 @@ Template.toggle.helpers({
   value() {
     if (this.setting === Session.get('clickedToggle')) {
       var node = $('.' + this.setting).children();
-      toggle(node, this.value);
+      toggle(node, this.value, false);
     } else {
       if (toggleMap[this.setting] === undefined) {
         toggleMap[this.setting] = this.value;
@@ -40,7 +40,7 @@ Template.toggle.events({
     //clickedToggle = this.setting;
     if (!Session.get('rightToVote') || Session.get('contract').stage === 'DRAFT') {
       Session.set('clickedToggle', this.setting);
-      toggle($('.' + this.setting).children(), !this.value);
+      toggle($('.' + this.setting).children(), !this.value, true);
       const obj = {};
       obj[this.setting] = !this.value;
       Contracts.update(Session.get('contract')._id, { $set: obj });
@@ -51,35 +51,49 @@ Template.toggle.events({
 function displayToggle() {
   for (let item in toggleMap) {
     const node = $('.' + item).children();
-    toggle(node, toggleMap[item]);
+    toggle(node, toggleMap[item], false);
   }
 }
 
 
-function toggle(node, value) {
-  if (value) {
-    node
-      .velocity('stop')
-      .velocity({ 'margin-left': '2px' }, animationSettings)
-      .velocity({ 'margin-left': '42px' }, animationSettings)
-      .velocity('stop');
+function toggle(node, value, animate) {
+  if (animate) {
+    if (value) {
+      node
+        .velocity('stop')
+        .velocity({ 'margin-left': '2px' }, animationSettings)
+        .velocity({ 'margin-left': '42px' }, animationSettings)
+        .velocity('stop');
 
-    node.parent().first()
-      .velocity('stop')
-      .velocity({ backgroundColor: '#ccc' }, animationSettings)
-      .velocity({ backgroundColor: '#00bf8f' }, animationSettings)
-      .velocity('stop');
-  } else {
-    node
-      .velocity('stop')
-      .velocity({ 'margin-left': '42px' }, animationSettings)
-      .velocity({ 'margin-left': '2px' }, animationSettings)
-      .velocity('stop');
+      node.parent().first()
+        .velocity('stop')
+        .velocity({ backgroundColor: '#ccc' }, animationSettings)
+        .velocity({ backgroundColor: '#00bf8f' }, animationSettings)
+        .velocity('stop');
+    } else {
+      node
+        .velocity('stop')
+        .velocity({ 'margin-left': '42px' }, animationSettings)
+        .velocity({ 'margin-left': '2px' }, animationSettings)
+        .velocity('stop');
 
-    node.parent().first()
-      .velocity('stop')
-      .velocity({ backgroundColor: '#00bf8f' }, animationSettings)
-      .velocity({ backgroundColor: '#ccc' }, animationSettings)
-      .velocity('stop');
+      node.parent().first()
+        .velocity('stop')
+        .velocity({ backgroundColor: '#00bf8f' }, animationSettings)
+        .velocity({ backgroundColor: '#ccc' }, animationSettings)
+        .velocity('stop');
+    }
+  } else if (!animate) {
+    if (value) {
+      node
+        .css('margin-left', '42px');
+      node.parent().first()
+        .css('background-color', '#00bf8f');
+    } else {
+      node
+        .css('margin-left', '2px');
+      node.parent().first()
+        .css('background-color', '#ccc');
+    }
   }
 }
