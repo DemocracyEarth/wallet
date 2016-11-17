@@ -28,7 +28,7 @@ function disableContractExecution() {
     return true;
   } else {
     if (Session.get('contract').kind == 'VOTE' && Session.get('contract').stage == 'LIVE') {
-      if (!Modules.client.ballotReady()) {
+      if (!ballotReady()) {
         return true;
       }
     }
