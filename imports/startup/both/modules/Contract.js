@@ -321,7 +321,7 @@ let contractStage = (contractId, stage) => {
 };
 
 let _rightToVote = (contract) => {
-  if (contract.kind == 'DELEGATION') {
+  if (contract.kind === 'DELEGATION') {
     for (i in contract.signatures) {
       if (contract.signatures[i]._id == Meteor.user()._id) {
         return true;

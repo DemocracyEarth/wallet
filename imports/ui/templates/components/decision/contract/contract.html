@@ -41,13 +41,15 @@
               {{> semantics editorMode=false}}
               {{> signatures authorMode=true editorMode=false}}
             </div>
-            <div class="paper">
-              {{> ballot editorMode=false}}
-            </div>
-            {{#if pollClosed}}
+            {{#if ballotEnabled}}
               <div class="paper">
-                {{> results}}
+                {{> ballot editorMode=false}}
               </div>
+              {{#if pollClosed}}
+                <div class="paper">
+                  {{> results}}
+                </div>
+              {{/if}}
             {{/if}}
           </div>
         </div>

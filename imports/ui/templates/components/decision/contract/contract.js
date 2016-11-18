@@ -37,5 +37,10 @@ Template.contract.helpers({
         return 'paper-empty';
       }
     }
+  },
+  ballotEnabled: function () {
+    if (Session.get('contract')) {
+      return Session.get('contract').ballotEnabled;
+    }
   }
 })
