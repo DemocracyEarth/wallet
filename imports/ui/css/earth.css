@@ -3843,7 +3843,7 @@ blockquote {
   display: block;
   margin-right: auto;
   margin-left: auto;
-  padding: 50px 15px 15px;
+  padding: 60px 15px 15px;
   background-color: #ddd;
 }
 
@@ -4211,7 +4211,8 @@ blockquote {
   display: inline-block;
   overflow: auto;
   width: 50%;
-  padding: 0px 15px 15px;
+  padding-right: 15px;
+  padding-left: 15px;
   float: left;
   background-color: #ddd;
 }

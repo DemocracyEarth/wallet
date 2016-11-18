@@ -239,6 +239,7 @@ Template.avatar.events({
   'mouseenter .profile-pic'(event) {
     if (this.displayPopup !== false && this.disabled !== true) {
       if (this.profile !== null && this.profile !== undefined) {
+        console.log(this.profile);
         displayPopup(event.target, true, 'card', this.profile);
       }
     }

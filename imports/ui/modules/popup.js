@@ -11,7 +11,7 @@ const popupCard = {
 let popupTimer;
 
 /**
-/* @param {string} template - the name of the blaze template to be used dynamically on the content of the popup
+/* @param {string} template - the name of the blaze template to be used.
 /* @param {string} element - source element is calling this popup for rankPreferences
 /* @param {boolean} show - specifically set to true or false if popcurd needs to be shown or hidden
 ******/
@@ -22,7 +22,7 @@ const _displayPopup = (element, visible, template, params, eventType) => {
     if (eventType === 'click') {
       timer = 0;
     } else {
-      timer = parseInt(animationSettings.duration * 5);
+      timer = parseInt(animationSettings.duration * 5, 10);
     }
 
     popupTimer = Meteor.setTimeout(function () {

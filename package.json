@@ -54,6 +54,7 @@
           "avoidQuotes": false
         }
       ],
+      "meteor/no-session": "off",
       "meteor/eventmap-params": [
         "error",
         {
