@@ -106,7 +106,7 @@ blockquote {
 
 .paper {
   display: block;
-  margin: 35px auto 25px;
+  margin: 25px auto 35px;
   padding: 10px 30px;
   border-radius: 3px;
   background-color: #fff;
@@ -3855,7 +3855,7 @@ blockquote {
 
 .content.content-agora {
   position: relative;
-  margin-top: 40px;
+  margin-top: 0px;
   margin-bottom: -15px;
   padding-top: 5px;
   padding-right: 25px;
@@ -4116,7 +4116,7 @@ blockquote {
   bottom: 0px;
   width: 100%;
   margin: 0px;
-  padding-top: 30px;
+  padding-top: 0px;
   background-color: #f5f5f5;
 }
 
@@ -4206,12 +4206,12 @@ blockquote {
 
 .split {
   position: absolute;
-  top: 0px;
+  top: 60px;
   bottom: 0px;
   display: inline-block;
   overflow: auto;
   width: 50%;
-  padding: 60px 15px 15px;
+  padding: 0px 15px 15px;
   float: left;
   background-color: #ddd;
 }
@@ -5020,3 +5020,4 @@ blockquote {
     width: 100%;
   }
 }
+
