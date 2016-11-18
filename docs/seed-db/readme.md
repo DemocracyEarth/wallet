@@ -3,11 +3,11 @@
 This tutorial will create a local copy from [Colombia Peace Referendum](http://vota.plebiscitodigital.co)
 
 0. **Install MongoDB**
-    
+
     Follow the instructions [Install MongoDB Community Edition](https://docs.mongodb.com/v3.2/administration/install-community/)
 
 0. **Run App**
-    
+
     In the repository directory type:
 
     ```sh
@@ -15,7 +15,7 @@ This tutorial will create a local copy from [Colombia Peace Referendum](http://v
     ```
 
 0. **Clear Local Database**
-    
+
     Open a new terminal in the repository directory and type:
 
     ```sh
@@ -25,7 +25,7 @@ This tutorial will create a local copy from [Colombia Peace Referendum](http://v
     ```
 
 0. **Load Database**
-    
+
     Open a new terminal in the `docs/seed-db` directory and type:
 
     ```sh
@@ -39,6 +39,12 @@ This tutorial will create a local copy from [Colombia Peace Referendum](http://v
     $ db.collectives.find().pretty()    #Will show the content from collectives
     ```
 
+0. **Change Config file data**
+
+    Go to `config/development/settings` and change:
+      * `Collective.name` field from "Democracy Earth" to "República de Colombia".
+      * `Collective.domain` field from "https://localhost:3000" to "https://vota.plebiscitodigital.co"
+
 0. **Reset App**
 
     You will have to restart the app again in order to get the correct collection _id. This will load the database again and the main program
@@ -46,4 +52,3 @@ This tutorial will create a local copy from [Colombia Peace Referendum](http://v
     Now you can test Sovereign app locally.
 
     If you want to contribute, don't forget to follow our [recomendations](../readme.md#development)
-
