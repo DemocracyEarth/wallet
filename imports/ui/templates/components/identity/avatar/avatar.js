@@ -16,106 +16,98 @@ import { globalObj } from '/lib/global';
 
 import './avatar.html';
 
-Template.avatar.rendered = function rendered() {
+Template.avatar.onRendered(function () {
   Session.set('editor', false);
-}
+});
 
 // this turned out to be kinda polymorphic
 Template.avatar.helpers({
-  url: function () {
-    var user;
-    if (this.profile == undefined) {
-      if (Meteor.user() != undefined) {
-        return '/peer/' + Meteor.user().username;
+  url() {
+    let user;
+    if (this.profile === undefined) {
+      if (Meteor.user() !== undefined) {
+        return `/peer/${Meteor.user().username}`;
       }
-    } else {
-      if (!this.username) {
-        if (!this._id) {
-          if (this.profile._id) {
-            user = Meteor.users.findOne({ _id: this.profile._id });
-          } else {
-            user = Meteor.users.findOne({ _id: this.profile });
-          }
+    } else if (!this.username) {
+      if (!this._id) {
+        if (this.profile._id) {
+          user = Meteor.users.findOne({ _id: this.profile._id });
         } else {
-          user = Meteor.users.findOne({ _id: this._id });
+          user = Meteor.users.findOne({ _id: this.profile });
         }
       } else {
-        user = Meteor.users.findOne({ username: this.username });
+        user = Meteor.users.findOne({ _id: this._id });
       }
-    }
-    if (user == undefined) {
-      return '#';
     } else {
-      return '/peer/' + user.username
+      user = Meteor.users.findOne({ username: this.username });
     }
+    if (user === undefined) {
+      return '#';
+    }
+    return `/peer/${user.username}`;
   },
-  myself: function () {
-    if (this.profile == undefined) {
-      if (Meteor.user() != undefined) {
+  myself() {
+    if (this.profile === undefined) {
+      if (Meteor.user() !== undefined) {
         return true;
       }
-    } else {
-      if (!this.username) {
-        if (!this._id) {
-          if (this.profile._id) {
-            return (this.profile._id == Meteor.user()._id);
-          } else {
-            return (this.profile == Meteor.user()._id);
-          }
-        } else {
-          return (this._id == Meteor.user()._id);
+    } else if (!this.username) {
+      if (!this._id) {
+        if (this.profile._id) {
+          return (this.profile._id === Meteor.user()._id);
         }
-      } else {
-        return (this.username == Meteor.user().username);
+        return (this.profile === Meteor.user()._id);
       }
+      return (this._id === Meteor.user()._id);
     }
+    return (this.username === Meteor.user().username);
   },
-  roleStatus: function () {
+  roleStatus() {
     return signatureStatus(Session.get('contract').signatures, this.profile);
   },
-  roleStyle: function () {
+  roleStyle() {
     switch (signatureStatus(Session.get('contract').signatures, this.profile, true)) {
       case 'CONFIRMED':
         return 'signature-confirmed';
       case 'REJECTED':
         return 'signature-rejected';
+      default:
+        return '';
     }
   },
-  includeRole: function () {
+  includeRole() {
     if (Session.get('contract')) {
-      if (Session.get('contract').signatures == undefined) {
+      if (Session.get('contract').signatures === undefined) {
         return false;
       }
     }
     return this.includeRole;
   },
-  pending: function () {
-    if (Session.get('contract') != undefined) {
-      if (Session.get('contract').kind == 'DELEGATION') {
+  pending() {
+    if (Session.get('contract') !== undefined) {
+      if (Session.get('contract').kind === 'DELEGATION') {
         if (this.includeRole) {
-          if (signatureStatus(Session.get('contract').signatures, this.profile, true) == 'PENDING') {
+          if (signatureStatus(Session.get('contract').signatures, this.profile, true) === 'PENDING') {
             return 'pending';
-          } else {
-            return '';
-          };
+          }
+          return '';
         }
       }
-    } else {
-      return '';
     }
+    return '';
   },
-  elementId: function () {
+  elementId() {
     return guidGenerator();
   },
-  classStyle: function (smallFont) {
-    var style = new String();
+  classStyle(smallFont) {
+    let style = String();
     if (smallFont) {
       style = 'identity-small';
     } else {
       style = '';
     }
 
-    if (this.disabled == true) {
+    if (this.disabled === true) {
       style += ' profile-pic-disabled';
     }
 
@@ -162,57 +154,49 @@ Template.avatar.helpers({
         }
         return Meteor.user().username;
       }
+    } else if (profile.firstName !== undefined) {
+      return showFullName(profile.firstName, profile.lastName, profile.username);
     } else {
-      if (profile.firstName !== undefined) {
-        return showFullName(profile.firstName, profile.lastName, profile.username);
-      } else {
-        var user = Meteor.users.findOne({ _id: profile });
-        if (user === undefined) { user = getAnonymous(); }
-        return showFullName(user.profile.firstName, user.profile.lastName, user.username);
-      }
+      let user = Meteor.users.findOne({ _id: profile });
+      if (user === undefined) { user = getAnonymous(); }
+      return showFullName(user.profile.firstName, user.profile.lastName, user.username);
     }
     return undefined;
   },
-  nationality: function (profile) {
-    if (profile == undefined) {
+  nationality(profile) {
+    if (profile === undefined) {
       if (Meteor.user() != null) {
-        if (Meteor.user().profile.country != undefined) {
+        if (Meteor.user().profile.country !== undefined) {
           const country = searchJSON(globalObj.geoJSON.country, Meteor.user().profile.country.name);
           if (country !== undefined) {
-            return Meteor.user().profile.country.name + ' ' + country[0].emoji;
+            return `${Meteor.user().profile.country.name} ${country[0].emoji}`;
           }
-        } else {
-          return TAPi18n.__('digital-citizen');
         }
+        return TAPi18n.__('digital-citizen');
       }
+    } else if (profile.country !== undefined) {
+      if (profile.country.name !== TAPi18n.__('unknown')) {
+        return `${profile.country.name} ${searchJSON(globalObj.geoJSON.country, profile.country.name)[0].emoji}`;
+      }
+      return TAPi18n.__('unknown');
     } else {
-      if (profile.country != undefined) {
-        if (profile.country.name != TAPi18n.__('unknown')) {
-          return profile.country.name + ' ' + searchJSON(globalObj.geoJSON.country, profile.country.name)[0].emoji;
-        } else {
-          return TAPi18n.__('unknown');
+      let user = Meteor.users.findOne({ _id: profile });
+      if (user === undefined) { user = getAnonymous(); }
+      if (user !== undefined && user.profile.country !== undefined) {
+        const country = searchJSON(globalObj.geoJSON.country, user.profile.country.name);
+        if (user.profile.country.name !== TAPi18n.__('unknown') && country !== undefined) {
+          return `${user.profile.country.name} ${country[0].emoji}`;
         }
-      } else {
-        var user = Meteor.users.findOne({ _id: profile });
-        if (user == undefined) { user = getAnonymous(); }
-        if (user != undefined && user.profile.country != undefined) {
-          var country = searchJSON(globalObj.geoJSON.country, user.profile.country.name);
-          if (user.profile.country.name != TAPi18n.__('unknown') && country != undefined) {
-            return user.profile.country.name + ' ' + country[0].emoji;
-          } else {
-            return TAPi18n.__('unknown');
-          }
-        } else {
-          return TAPi18n.__('digital-citizen');
-        }
+        return TAPi18n.__('unknown');
       }
     }
-  }
-})
+    return TAPi18n.__('digital-citizen');
+  },
+});
 
 Template.avatar.events({
-  'change input[type="file"]'(event, template) {
-    uploadToAmazonS3({ event: event, template: template });
+  'change input[type="file"]'(event, instance) {
+    uploadToAmazonS3({ event: event, template: instance });
   },
   'click #toggleEditor'() {
     const data = Meteor.user().profile;
