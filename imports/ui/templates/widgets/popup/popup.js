@@ -4,7 +4,7 @@ import { Session } from 'meteor/session';
 import { animatePopup } from '/imports/ui/modules/popup';
 import './popup.html';
 
-Template.popup.onRendered(function () {
+Template.popup.onRendered(() => {
   Session.set('displayPopup', false);
 });
 
@@ -13,7 +13,6 @@ Template.popup.helpers({
     animatePopup(Session.get('displayPopup'));
   },
   content() {
-    console.log(Session.get('popupTemplate'));
     return Session.get('popupTemplate');
   },
   dataObject() {

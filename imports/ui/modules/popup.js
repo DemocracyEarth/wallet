@@ -69,11 +69,11 @@ const _positionCard = (element, target) => {
     if (spaceRight < (target.width - (target.width / 2))) {
       // not enough space on the right for Popup centering
       left = parseInt((source.left - target.width) + source.width, 10);
-      pointer = parseInt(target.width - (source.width / 2) - 10, 10);
+      pointer = parseInt((target.width - (source.width / 2)) - 10, 10);
     } else {
       // enough space on the right, Popup is centered.
-      left = parseInt(source.left - ((target.width / 2) + (source.width / 2)), 10);
-      pointer = parseInt(target.width - ((target.width / 2) - 10), 10);
+      left = parseInt((source.left - (target.width / 2)) + (source.width / 2), 10);
+      pointer = parseInt((target.width - (target.width / 2)) - 10, 10);
     }
   // popup will be on left side of screen
   } else if (spaceLeft < (target.width - (target.width / 2))) {
@@ -82,8 +82,8 @@ const _positionCard = (element, target) => {
     pointer = parseInt((source.width / 2) - 10, 10);
   } else {
     // enough space on left;
-    left = parseInt(source.left - ((target.width / 2) + (source.width / 2)), 10);
-    pointer = parseInt(target.width - (target.width / 2) - 10, 10);
+    left = parseInt((source.left - (target.width / 2)) + (source.width / 2), 10);
+    pointer = parseInt((target.width - (target.width / 2)) - 10, 10);
   }
 
   popupCard.position.left = left;
@@ -181,7 +181,6 @@ const _displayPopup = (element, visible, template, params, eventType) => {
 const _cancelPopup = () => {
   Meteor.clearTimeout(popupTimer);
 };
-
 
 /**
 /* @param {boolean} display - if a fade in or fade out will be played
