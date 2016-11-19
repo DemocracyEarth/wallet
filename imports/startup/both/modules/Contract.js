@@ -12,8 +12,8 @@ import { shortUUID } from './crypto';
 * @return {object} contract - if it's empty then call router with new contract,
 * otherwise returns contract object from db
 */
-let _newDraft = (keyword, title) => {
-  //Empty Contract
+const _newDraft = (keyword, title) => {
+  // empty Contract
   if (keyword == undefined) {
     if (!Contracts.findOne({keyword: 'draft-' + Meteor.userId()})) {
       Contracts.insert({ keyword: 'draft-' + Meteor.userId() });

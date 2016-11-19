@@ -36,6 +36,11 @@
     "parserOptions": {
       "allowImportExportEverywhere": true
     },
+    "env": {
+      "browser": true,
+      "node": true,
+      "jasmine": true
+    },
     "plugins": [
       "meteor"
     ],

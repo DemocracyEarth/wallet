@@ -16,9 +16,9 @@ import { globalObj } from '/lib/global';
 
 import './avatar.html';
 
-Template.avatar.onRendered(function () {
+Template.avatar.onRendered = () => {
   Session.set('editor', false);
-});
+};
 
 // this turned out to be kinda polymorphic
 Template.avatar.helpers({
@@ -214,7 +214,7 @@ Template.avatar.events({
         action: TAPi18n.__('remove'),
         displayProfile: false,
       },
-      function () {
+      () => {
         removeSignature(Session.get('contract')._id, Meteor.user()._id);
         Session.set('userSigned', false);
       }

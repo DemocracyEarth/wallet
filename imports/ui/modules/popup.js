@@ -40,7 +40,7 @@ const _cursorPosition = () => {
 /* @param {string} source - the source element used to relatively position the popup
 /* @param {string} target - the expected dimensions the popup will have according to its content
 ******/
-let _positionCard = (element, target) => {
+const _positionCard = (element, target) => {
   let left = Number();
   let pointer = Number();
   const source = element.getBoundingClientRect();
@@ -48,7 +48,7 @@ let _positionCard = (element, target) => {
   const spaceLeft = parseInt(source.left, 10);
   const documentHalf = parseInt(document.body.offsetWidth / 2, 10);
 
-  // y Axis
+  // y axis
   if (source.top < parseInt(target.height + 60, 10)) {
     // popup goes at bottom of target
     popupCard.position.top = source.top;
@@ -63,7 +63,7 @@ let _positionCard = (element, target) => {
     popupCard.pointerClass = '.pointer-down';
   }
 
-  // x Axis
+  // x axis
   if (source.left > documentHalf) {
     // popup will be on right side of screen
     if (spaceRight < (target.width - (target.width / 2))) {
@@ -102,19 +102,19 @@ const _renderPopup = () => {
   $('.popup').css(popupCard.position);
 
   // resize
-  $(window).resize(function () {
+  $(window).resize(() => {
     if (Session.get('displayPopup')) {
       $('.popup').css(_positionCard(popupCard.element, popupCard.target));
     }
   });
 
-  $('.split').on('scroll', function () {
+  $('.split').on('scroll', () => {
     if (Session.get('displayPopup')) {
       $('.popup').css(_positionCard(popupCard.element, popupCard.target));
     }
   });
 
-  $(window).mousemove(function () {
+  $(window).mousemove(() => {
     if (Session.get('displayPopup')) {
       if (Session.get('popupTemplate') === 'card') {
         if ($('#popup:hover').length === 0) {
@@ -140,7 +140,7 @@ const _displayPopup = (element, visible, template, params, eventType) => {
       timer = parseInt(animationSettings.duration * 5, 10);
     }
 
-    popupTimer = Meteor.setTimeout(function () {
+    popupTimer = Meteor.setTimeout(() => {
       // store content and source for resizing Calls
       popupCard.content = template;
       popupCard.element = element;
@@ -198,7 +198,7 @@ const _animatePopup = (display) => {
     $('.popup').css('opacity', '1');
     $('.popup').velocity({ opacity: 0 }, {
       duration: (animationSettings.duration / 2),
-      complete: function () {
+      complete: () => {
         $('.popup').css('margin-top', '-10000px');
         Session.set('displayPopup', false);
       },
@@ -210,10 +210,11 @@ const _animatePopup = (display) => {
 /* @param {object} target - DOM element that is being used as reference for calling login popup
 **/
 const _displayLogin = (event, target) => {
-  if (target === undefined) { target = event.target; }
+  let loginTarget = target;
+  if (target === undefined) { loginTarget = event.target; }
   Session.set('logger', !Session.get('logger'));
   if (Session.get('logger')) {
-    _displayPopup(target, Session.get('logger'), 'login', this, event.type);
+    _displayPopup(loginTarget, Session.get('logger'), 'login', this, event.type);
   } else {
     _animatePopup(false);
   }
