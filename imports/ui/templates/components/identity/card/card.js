@@ -9,21 +9,16 @@ import { animatePopup } from '/imports/ui/modules/popup';
 import './card.html';
 import '../avatar/avatar.js';
 
-let newDelegateName;
-
 Template.card.helpers({
   myself() {
-    return (this.toString() == Meteor.userId() || this._id == '0000000');
+    return (this.toString() === Meteor.userId() || this._id === '0000000');
   },
-  delegationKeyword: function () {
-    var user = Meteor.users.findOne({ _id: this.toString() });
+  delegationKeyword() {
+    const user = Meteor.users.findOne({ _id: this.toString() });
     Session.set('newDelegate', user);
-    if (user != undefined) {
-      newDelegateName = convertToSlug(user.username);
-      return user;
-    }
-  }
-})
+    return user;
+  },
+});
 
 Template.card.events({
   'click #delegate'() {
@@ -37,10 +32,10 @@ Template.card.events({
           },
           {
             username: Session.get('newDelegate').username,
-          }
-        ]
+          },
+        ],
       });
       animatePopup(false);
     }
-  }
+  },
 });

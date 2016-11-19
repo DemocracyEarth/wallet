@@ -23,6 +23,20 @@ const _limitTargetSize = (target) => {
 };
 
 /**
+/* draw the cursor either top or down pointing towards the source element calling this popup.
+**/
+const _cursorPosition = () => {
+  // pointer
+  if (popupCard.pointerClass === '.pointer-up') {
+    $(popupCard.pointerClass).css({ left: popupCard.pointerPosition, opacity: 1 });
+    $('.pointer-down').css({ opacity: 0 });
+  } else {
+    $(popupCard.pointerClass).css({ left: popupCard.pointerPosition, opacity: 1 });
+    $('.pointer-up').css({ opacity: 0 });
+  }
+};
+
+/**
 /* @param {string} source - the source element used to relatively position the popup
 /* @param {string} target - the expected dimensions the popup will have according to its content
 ******/
@@ -37,55 +51,53 @@ let _positionCard = (element, target) => {
   // y Axis
   if (source.top < parseInt(target.height + 60, 10)) {
     // popup goes at bottom of target
-    popupCard.position['top'] = source.top;
+    popupCard.position.top = source.top;
     $('.card').css('margin-top', '0px');
-    $('.pointer-up').css('margin-top', parseInt(source.height));
+    $('.pointer-up').css('margin-top', parseInt(source.height, 10));
     popupCard.pointerClass = '.pointer-up';
   } else {
-    //popup goes on top of target
-    popupCard.position['top'] = parseInt(source.bottom - target.height);
-    $('.card').css('margin-top', parseInt(0 - source.height - 10));
+    // popup goes on top of target
+    popupCard.position.top = parseInt(source.bottom - target.height, 10);
+    $('.card').css('margin-top', parseInt(0 - source.height - 10, 10));
     $('.pointer-up').css('margin-top', '0px');
     popupCard.pointerClass = '.pointer-down';
   }
 
-  //X Axis
+  // x Axis
   if (source.left > documentHalf) {
-    //popup will be on right side of screen
+    // popup will be on right side of screen
     if (spaceRight < (target.width - (target.width / 2))) {
-      //not enough space on the right for Popup centering
-      left = parseInt(source.left - target.width + source.width);
-      pointer = parseInt(target.width - (source.width / 2) - 10);
+      // not enough space on the right for Popup centering
+      left = parseInt((source.left - target.width) + source.width, 10);
+      pointer = parseInt(target.width - (source.width / 2) - 10, 10);
     } else {
-      //enough space on the right, Popup is centered.
-      left = parseInt(source.left - (target.width / 2) + (source.width / 2));
-      pointer = parseInt(target.width - (target.width / 2) - 10);
+      // enough space on the right, Popup is centered.
+      left = parseInt(source.left - ((target.width / 2) + (source.width / 2)), 10);
+      pointer = parseInt(target.width - ((target.width / 2) - 10), 10);
     }
+  // popup will be on left side of screen
+  } else if (spaceLeft < (target.width - (target.width / 2))) {
+    // not enough space on left
+    left = parseInt(source.left, 10);
+    pointer = parseInt((source.width / 2) - 10, 10);
   } else {
-    //popup will be on left side of screen
-    if (spaceLeft < (target.width - (target.width / 2))) {
-      //not enough space on left
-      left = parseInt(source.left);
-      pointer = parseInt((source.width / 2) - 10);
-    } else {
-      //enough space on left;
-      left = parseInt(source.left - (target.width / 2) + (source.width / 2));
-      pointer = parseInt(target.width - (target.width / 2) - 10);
-    }
+    // enough space on left;
+    left = parseInt(source.left - ((target.width / 2) + (source.width / 2)), 10);
+    pointer = parseInt(target.width - (target.width / 2) - 10, 10);
   }
-  popupCard.position['left'] = left;
+
+  popupCard.position.left = left;
   popupCard.pointerPosition = pointer;
 
   _cursorPosition();
 
   return Object.assign(popupCard.position, target);
-}
+};
 
 /**
 /* activates event listeners for proper popup dynamic rendering behaviour
 **/
-let _renderPopup = () => {
-
+const _renderPopup = () => {
   // positioning
   $('.popup').css(popupCard.position);
 
@@ -195,22 +207,8 @@ const _animatePopup = (display) => {
 };
 
 /**
-/* draw the cursor either top or down pointing towards the source element calling this popup.
-**/
-let _cursorPosition = () => {
-  // pointer
-  if (popupCard.pointerClass === '.pointer-up') {
-    $(popupCard.pointerClass).css({ left: popupCard.pointerPosition, opacity: 1 });
-    $('.pointer-down').css({ opacity: 0 });
-  } else {
-    $(popupCard.pointerClass).css({ left: popupCard.pointerPosition, opacity: 1 });
-    $('.pointer-up').css({ opacity: 0 });
-  }
-};
-
-/*****
 /* @param {object} target - DOM element that is being used as reference for calling login popup
-******/
+**/
 const _displayLogin = (event, target) => {
   if (target === undefined) { target = event.target; }
   Session.set('logger', !Session.get('logger'));

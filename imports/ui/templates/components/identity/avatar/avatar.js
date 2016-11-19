@@ -230,7 +230,7 @@ Template.avatar.events({
         action: TAPi18n.__('remove'),
         displayProfile: false,
       },
-      function() {
+      function () {
         removeSignature(Session.get('contract')._id, Meteor.user()._id);
         Session.set('userSigned', false);
       }
@@ -239,7 +239,6 @@ Template.avatar.events({
   'mouseenter .profile-pic'(event) {
     if (this.displayPopup !== false && this.disabled !== true) {
       if (this.profile !== null && this.profile !== undefined) {
-        console.log(this.profile);
         displayPopup(event.target, true, 'card', this.profile);
       }
     }

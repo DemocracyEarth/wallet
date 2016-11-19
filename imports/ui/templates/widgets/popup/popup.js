@@ -1,31 +1,32 @@
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 
-import { animatePopup } from '/imports/ui/modules/popup'
+import { animatePopup } from '/imports/ui/modules/popup';
 import './popup.html';
 
-Template.popup.rendered = function rendered() {
+Template.popup.onRendered(function () {
   Session.set('displayPopup', false);
-};
+});
 
 Template.popup.helpers({
-  visible: function () {
+  visible() {
     animatePopup(Session.get('displayPopup'));
   },
-  content: function () {
+  content() {
+    console.log(Session.get('popupTemplate'));
     return Session.get('popupTemplate');
   },
-  dataObject: function () {
+  dataObject() {
     return Session.get('popupData');
-  }
+  },
 });
 
 Template.popup.events({
-  'mouseleave .popup': function (event) {
-    if (Session.get('popupTemplate') == 'card') {
+  'mouseleave .popup'() {
+    if (Session.get('popupTemplate') === 'card') {
       if (Session.get('displayPopup')) {
         Session.set('displayPopup', false);
       }
     }
-  }
-})
+  },
+});
