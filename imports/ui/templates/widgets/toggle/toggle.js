@@ -7,54 +7,7 @@ import { animationSettings } from '/imports/ui/modules/animation';
 
 import './toggle.html';
 
-let clickedToggle = '';
-let toggleMap = {};
-
-Template.toggle.rendered = () => {
-  displayToggle();
-  Session.set('clickedToggle', this.setting);
-};
-
-Template.toggle.helpers({
-  value() {
-    if (this.setting === Session.get('clickedToggle')) {
-      var node = $('.' + this.setting).children();
-      toggle(node, this.value, false);
-    } else {
-      if (toggleMap[this.setting] === undefined) {
-        toggleMap[this.setting] = this.value;
-      }
-    }
-    // return this.value;
-  },
-  setting() {
-    //console.log('this setting: ' + this.setting + ' valule:' + this.value);
-    toggleMap[this.setting] = this.value;
-    displayToggle();
-    return this.setting;
-  },
-});
-
-Template.toggle.events({
-  "click #toggleButton": function (event) {
-    //clickedToggle = this.setting;
-    if (!Session.get('rightToVote') || Session.get('contract').stage === 'DRAFT') {
-      Session.set('clickedToggle', this.setting);
-      toggle($('.' + this.setting).children(), !this.value, true);
-      const obj = {};
-      obj[this.setting] = !this.value;
-      Contracts.update(Session.get('contract')._id, { $set: obj });
-    }
-  }
-});
-
-function displayToggle() {
-  for (let item in toggleMap) {
-    const node = $('.' + item).children();
-    toggle(node, toggleMap[item], false);
-  }
-}
-
+const toggleMap = {};
 
 function toggle(node, value, animate) {
   if (animate) {
@@ -97,3 +50,43 @@ function toggle(node, value, animate) {
     }
   }
 }
+
+function displayToggle() {
+  for (const item in toggleMap) {
+    const node = $(`.${item}`).children();
+    toggle(node, toggleMap[item], false);
+  }
+}
+
+Template.toggle.onRendered = () => {
+  displayToggle();
+  Session.set('clickedToggle', this.setting);
+};
+
+Template.toggle.helpers({
+  value() {
+    if (this.setting === Session.get('clickedToggle')) {
+      const node = $(`.${this.setting}`).children();
+      toggle(node, this.value, false);
+    } else if (toggleMap[this.setting] === undefined) {
+      toggleMap[this.setting] = this.value;
+    }
+  },
+  setting() {
+    toggleMap[this.setting] = this.value;
+    displayToggle();
+    return this.setting;
+  },
+});
+
+Template.toggle.events({
+  'click #toggleButton'() {
+    if (!Session.get('rightToVote') || Session.get('contract').stage === 'DRAFT') {
+      Session.set('clickedToggle', this.setting);
+      toggle($(`.${this.setting}`).children(), !this.value, true);
+      const obj = {};
+      obj[this.setting] = !this.value;
+      Contracts.update(Session.get('contract')._id, { $set: obj });
+    }
+  },
+});
