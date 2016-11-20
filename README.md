@@ -55,8 +55,6 @@ See our 🇫🇷 [Paris 2016 conference](http://youtube.com/watch?v=UajbQTHnTfM)
 >  0. _Everyone has the right of equal access to public service in his country._
 >  0. _The will of the people shall be the basis of the authority of government; this will shall be expressed in periodic and genuine elections which shall be by universal and equal suffrage and shall be held by secret vote or by equivalent free voting procedures._
 
-_Notes:_ The tragedy of the commons is how dysfunctional our conversations are. Win-win situations are effectively possible yet talibanization 💣 has won our minds pushing us to rhetorical oblivion. Social media has put gossip in the driver's seat due to the lack of transparency in the existing governance structures. Institutional reality is created from storing & processing promises being this the main task that our aspiring politicians competing for authority perform. Yet the Quixote of the 21st century will not be a knight-errant struggling to revive the glories of feudalism but a bureaucrat in a brown suit. We are on a mission to decentralize power by giving everyone the capability of creating blockchain based institutions operating in peer to peer networks. A planetary commons of peers, for everyone anywhere.
-
 Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mastering-Transition-Information/dp/0684832720) ✊.
 
 ## Setup
@@ -206,7 +204,7 @@ A Declaration of the Independence of Cyberspace:
 
 >We will create a civilization of the Mind in Cyberspace. May it be more humane and fair than the world your governments have made before.
 
-[John Perry Barlow](https://www.eff.org/es/cyberspace-independence). Davos, 🇨🇭 (February 8, 1996).
+[John Perry Barlow](https://www.eff.org/es/cyberspace-independence). 🇨🇭 Davos (February 8, 1996).
 
 ## About
 
