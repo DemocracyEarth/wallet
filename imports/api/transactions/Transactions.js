@@ -11,43 +11,43 @@ export const Transactions = new Mongo.Collection('transactions');
 const Schema = {};
 Schema.Ticket = new SimpleSchema({
   entityId: {
-    type: String
+    type: String,
   },
   address: {
-    type: String
+    type: String,
   },
   entityType: {
     type: String,
     allowedValues: ['INDIVIDUAL', 'COLLECTIVE', 'CONTRACT', 'UNKNOWN'],
     autoValue: function () {
       if (this.isInsert) {
-        if (this.field('entityType') == undefined) {
+        if (this.field('entityType') === undefined) {
           return 'UNKNOWN';
         }
       }
-    }
+    },
   },
   quantity: {
     type: Number,
     autoValue: function () {
       if (this.isInsert) {
-        if (this.field('quantity') == undefined) {
+        if (this.field('quantity') === undefined) {
           return 0;
         }
       }
-    }
+    },
   },
   currency: {
     type: String,
     allowedValues: ['BITCOIN', 'SATOSHI', 'VOTES'],
     autoValue: function () {
       if (this.isInsert) {
-        if (this.field('currency') == undefined) {
+        if (this.field('currency') === undefined) {
           return 'VOTES';
         }
       }
-    }
-  }
+    },
+  },
 });
 Schema.Transaction = new SimpleSchema({
   input: {
@@ -165,5 +165,5 @@ Transactions.allow({
     if (Meteor.userId()) {
       return true;
     }
-  },  
+  },
 });
