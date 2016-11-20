@@ -9,7 +9,7 @@ import './thread.html';
 import '../../../identity/avatar/avatar.js';
 import '../postComment.js';
 
-let replyBoxes = new Array();
+const replyBoxes = [];
 
 Template.thread.helpers({
   timestamp: function () {
