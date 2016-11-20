@@ -9,7 +9,7 @@
 
 Sovereign is a decentralized governance platform for small & large organizations.
 
-See our 🇫🇷 [Paris 2016 conference](http://youtube.com/watch?v=UajbQTHnTfM) presentation. 
+See our 🇫🇷 [Paris 2016 conference](http://youtube.com/watch?v=UajbQTHnTfM) presentation.
 
 <p align="center">
 <img src="public/images/sovereign-screenshot.png" width="800" title="Sovereign Screenshot">
@@ -129,7 +129,7 @@ Check our [documentation](https://github.com/DemocracyEarth/sovereign/tree/maste
 
 Sovereign is a **free & open source project**.
 
-Check our [contributors list](CONTRIBUTING.md) and look for available tasks in the [to do list](TODO.md) to join.
+Check our [contributors list](https://github.com/DemocracyEarth/sovereign/graphs/contributors) and look for available tasks in the [to do list](TODO.md) to join.
 
 ### Backers:
 

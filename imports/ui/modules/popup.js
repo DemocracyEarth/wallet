@@ -10,10 +10,10 @@ const popupCard = {
 };
 let popupTimer;
 
-/*
+/**
 /* makes sure target adapts to current screen size accordingly
 /* TODO: specific adaptations to mobile screens.
-*****/
+**/
 const _limitTargetSize = (target) => {
   const targetSize = target;
   if (targetSize.width > 300) {
@@ -117,6 +117,7 @@ const _renderPopup = () => {
   $(window).mousemove(() => {
     if (Session.get('displayPopup')) {
       if (Session.get('popupTemplate') === 'card') {
+        console.log('[onRendered] ' + parseInt($('.card').height() + 40, 10));
         if ($('#popup:hover').length === 0) {
           Session.set('displayPopup', false);
         }
@@ -140,6 +141,10 @@ const _displayPopup = (element, visible, template, params, eventType) => {
       timer = parseInt(animationSettings.duration * 5, 10);
     }
 
+    // draw content based on target content to be used in popup
+    Session.set('popupData', params);
+    Session.set('popupTemplate', template);
+
     popupTimer = Meteor.setTimeout(() => {
       // store content and source for resizing Calls
       popupCard.content = template;
@@ -152,14 +157,12 @@ const _displayPopup = (element, visible, template, params, eventType) => {
         popupCard.eventType = eventType;
       }
 
-      // draw content based on target content to be used in popup
-      Session.set('popupData', params);
-      Session.set('popupTemplate', template);
       let target = {
         width: parseInt($('.popup').width(), 10),
         height: parseInt($('.card').height() + 40, 10),
         opacity: 1,
       };
+      console.log('[_displayPopup] ' + target.height);
       target = _limitTargetSize(target);
       popupCard.visible = true;
       popupCard.target = target;
