@@ -36,19 +36,21 @@ See our 🇫🇷 [Paris 2016 conference](http://youtube.com/watch?v=UajbQTHnTfM)
 
 [`version 0.1.0`](https://github.com/DemocracyEarth/sovereign/milestone/1)
 
+🇺🇳 United Nation's [Universal Declaration of Human Rights](https://en.wikipedia.org/wiki/Universal_Declaration_of_Human_Rights):
+
+> * **Article 2:** _Everyone is entitled to all the rights and freedoms set forth in this Declaration, without distinction of any kind, such as race, colour, sex, language, religion, political or other opinion, national or social origin, property, birth or other status. Furthermore, no distinction shall be made on the basis of the political, jurisdictional or international status of the country or territory to which a person belongs, whether it be independent, trust, non-self-governing or under any other limitation of sovereignty._
+
+> * **Article 19:** _Everyone has the right to freedom of opinion and expression; this right includes freedom to hold opinions without interference and to seek, receive and impart information and ideas through any media and regardless of frontiers._
+
+> * **Article 20:**
+> _0. Everyone has the right to freedom of peaceful assembly and association.
+> _0. No one may be compelled to belong to an association._
+
+> * **Article 21:** _(1) Everyone has the right to take part in the government of his country, directly or through freely chosen representatives. (2) Everyone has the right of equal access to public service in his country. (3) The will of the people shall be the basis of the authority of government; this will shall be expressed in periodic and genuine elections which shall be by universal and equal suffrige and shall be held by secret vote or by equivelent free voting procedures._
+
 > _Notes:_ The tragedy of the commons is how dysfunctional our conversations are. Win-win situations are effectively possible yet talibanization 💣 has won our minds pushing us to rhetorical oblivion. Social media has put gossip in the driver's seat due to the lack of transparency in the existing governance structures. Institutional reality is created from storing & processing promises being this the main task that our aspiring politicians competing for authority perform. Yet the Quixote of the 21st century will not be a knight-errant struggling to revive the glories of feudalism but a bureaucrat in a brown suit. We are on a mission to decentralize power by giving everyone the capability of creating blockchain based institutions operating in peer to peer networks. A planetary commons of peers, for everyone anywhere.
 
 Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mastering-Transition-Information/dp/0684832720) ✊.
-
-United Nation's [Universal Declaration of Human Rights](https://en.wikipedia.org/wiki/Universal_Declaration_of_Human_Rights):
-
-> * **Article 2:** "Everyone is entitled to all the rights and freedoms set forth in this Declaration, without distinction of any kind, such as race, colour, sex, language, religion, political or other opinion, national or social origin, property, birth or other status. Furthermore, no distinction shall be made on the basis of the political, jurisdictional or international status of the country or territory to which a person belongs, whether it be independent, trust, non-self-governing or under any other limitation of sovereignty."
-
-> * **Article 19:** "Everyone has the right to freedom of opinion and expression; this right includes freedom to hold opinions without interference and to seek, receive and impart information and ideas through any media and regardless of frontiers."
-
-> * **Article 20:** "(1) Everyone has the right to freedom of peaceful assembly and association. (2) No one may be compelled to belong to an association."
-
-> * **Article 21:** "(1) Everyone has the right to take part in the government of his country, directly or through freely chosen representatives. (2) Everyone has the right of equal access to public service in his country. (3) The will of the people shall be the basis of the authority of government; this will shall be expressed in periodic and genuine elections which shall be by universal and equal suffrige and shall be held by secret vote or by equivelent free voting procedures."
 
 ## Setup
 
