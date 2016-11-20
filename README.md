@@ -43,10 +43,10 @@ See our 🇫🇷 [Paris 2016 conference](http://youtube.com/watch?v=UajbQTHnTfM)
 > * **Article 19:** _Everyone has the right to freedom of opinion and expression; this right includes freedom to hold opinions without interference and to seek, receive and impart information and ideas through any media and regardless of frontiers._
 
 > * **Article 20:**
-> 0. _Everyone has the right to freedom of peaceful assembly and association._
-> 0. _No one may be compelled to belong to an association._
+>  0. _Everyone has the right to freedom of peaceful assembly and association._
+>  0. _No one may be compelled to belong to an association._
 
-> * **Article 21:** _
+> * **Article 21:**
 >  0. _Everyone has the right to take part in the government of his country, directly or through freely chosen representatives._
 >  0. _Everyone has the right of equal access to public service in his country._
 >  0. _The will of the people shall be the basis of the authority of government; this will shall be expressed in periodic and genuine elections which shall be by universal and equal suffrage and shall be held by secret vote or by equivalent free voting procedures._
