@@ -43,12 +43,15 @@ See our 🇫🇷 [Paris 2016 conference](http://youtube.com/watch?v=UajbQTHnTfM)
 > * **Article 19:** _Everyone has the right to freedom of opinion and expression; this right includes freedom to hold opinions without interference and to seek, receive and impart information and ideas through any media and regardless of frontiers._
 
 > * **Article 20:**
-> _0. Everyone has the right to freedom of peaceful assembly and association.
-> _0. No one may be compelled to belong to an association._
+0. _Everyone has the right to freedom of peaceful assembly and association._
+0. _No one may be compelled to belong to an association._
 
-> * **Article 21:** _(1) Everyone has the right to take part in the government of his country, directly or through freely chosen representatives. (2) Everyone has the right of equal access to public service in his country. (3) The will of the people shall be the basis of the authority of government; this will shall be expressed in periodic and genuine elections which shall be by universal and equal suffrige and shall be held by secret vote or by equivelent free voting procedures._
+> * **Article 21:** _
+0. _Everyone has the right to take part in the government of his country, directly or through freely chosen representatives._
+0. _Everyone has the right of equal access to public service in his country._
+0. _The will of the people shall be the basis of the authority of government; this will shall be expressed in periodic and genuine elections which shall be by universal and equal suffrage and shall be held by secret vote or by equivalent free voting procedures._
 
-> _Notes:_ The tragedy of the commons is how dysfunctional our conversations are. Win-win situations are effectively possible yet talibanization 💣 has won our minds pushing us to rhetorical oblivion. Social media has put gossip in the driver's seat due to the lack of transparency in the existing governance structures. Institutional reality is created from storing & processing promises being this the main task that our aspiring politicians competing for authority perform. Yet the Quixote of the 21st century will not be a knight-errant struggling to revive the glories of feudalism but a bureaucrat in a brown suit. We are on a mission to decentralize power by giving everyone the capability of creating blockchain based institutions operating in peer to peer networks. A planetary commons of peers, for everyone anywhere.
+_Notes:_ The tragedy of the commons is how dysfunctional our conversations are. Win-win situations are effectively possible yet talibanization 💣 has won our minds pushing us to rhetorical oblivion. Social media has put gossip in the driver's seat due to the lack of transparency in the existing governance structures. Institutional reality is created from storing & processing promises being this the main task that our aspiring politicians competing for authority perform. Yet the Quixote of the 21st century will not be a knight-errant struggling to revive the glories of feudalism but a bureaucrat in a brown suit. We are on a mission to decentralize power by giving everyone the capability of creating blockchain based institutions operating in peer to peer networks. A planetary commons of peers, for everyone anywhere.
 
 Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mastering-Transition-Information/dp/0684832720) ✊.
 
