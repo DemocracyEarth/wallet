@@ -117,7 +117,6 @@ const _renderPopup = () => {
   $(window).mousemove(() => {
     if (Session.get('displayPopup')) {
       if (Session.get('popupTemplate') === 'card') {
-        console.log('[onRendered] ' + parseInt($('.card').height() + 40, 10));
         if ($('#popup:hover').length === 0) {
           Session.set('displayPopup', false);
         }
@@ -162,7 +161,6 @@ const _displayPopup = (element, visible, template, params, eventType) => {
         height: parseInt($('.card').height() + 40, 10),
         opacity: 1,
       };
-      console.log('[_displayPopup] ' + target.height);
       target = _limitTargetSize(target);
       popupCard.visible = true;
       popupCard.target = target;
