@@ -263,7 +263,7 @@ Template.bar.helpers({
       }
       return '0px';
     }
-    // user
+    // profile, only logged user
     const wallet = Meteor.user().profile.wallet;
     return `${parseInt((wallet.available * 100) / wallet.balance, 10)}%`;
   },
@@ -278,7 +278,7 @@ Template.bar.helpers({
         return `${percentage}%`;
       }
     }
-    // user
+    // profile, only logged user
     const wallet = Meteor.user().profile.wallet;
     return `${parseInt((wallet.placed * 100) / wallet.balance, 10)}%`;
   },
