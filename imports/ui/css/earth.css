@@ -3449,6 +3449,13 @@ blockquote {
   display: inline-block;
 }
 
+.popup.popup-test {
+  top: -25px;
+  right: 5px;
+  margin-top: 90px;
+  opacity: 1;
+}
+
 .navbar-button {
   display: inline-block;
   height: 45px;
@@ -4369,6 +4376,17 @@ blockquote {
   float: left;
 }
 
+.resize {
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  display: block;
+  width: 4px;
+  float: left;
+  background-color: #ebebeb;
+  cursor: ew-resize;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
@@ -4529,6 +4547,9 @@ blockquote {
     margin-right: auto;
     margin-left: auto;
     float: none;
+  }
+  .resize {
+    display: none;
   }
 }
 
