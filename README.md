@@ -36,7 +36,7 @@ See our 🇫🇷 [Paris 2016 conference](http://youtube.com/watch?v=UajbQTHnTfM)
 
 [`version 0.1.0`](https://github.com/DemocracyEarth/sovereign/milestone/1)
 
-🇺🇳 United Nation's [Universal Declaration of Human Rights](https://en.wikipedia.org/wiki/Universal_Declaration_of_Human_Rights):
+🗺 [Universal Declaration of Human Rights](https://en.wikipedia.org/wiki/Universal_Declaration_of_Human_Rights):
 
 > * **Article 2:**
 

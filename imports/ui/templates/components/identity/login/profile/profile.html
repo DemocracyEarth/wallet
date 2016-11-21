@@ -4,14 +4,10 @@
   {{else}}
     <div class="login">
       {{> avatar includeName=true includeNation=true editable=true}}
-
-      <div class="login-field">
-        <div class="login-label login-label-form">
-          {{_ 'vote-balance'}}
-        </div>
-        {{> power editable=false}}
+      <div class="login-label login-label-form">
+        {{_ 'vote-balance'}}
       </div>
-
+      {{> power editable=false}}
       {{#unless socialMediaLogin}}
         {{#unless currentUser.emails.[0].verified}}
           <div class="extra float-left">
@@ -19,13 +15,11 @@
           </div>
         {{/unless}}
       {{/unless}}
-
     </div>
   {{/if}}
 </template>
 
 <template name="userTags">
-
     <li class="w-clearfix tag"><img src="{{pathFor route='home'}}images/handshake-right.png" class="hash-icon">
       <a class="w-inline-block w-clearfix hash-link">
         <div class="hash-tag">Bitcoin</div>
@@ -41,5 +35,4 @@
         <div class="hash-tag">Cryptocurrencies</div>
       </a>
     </li>
-
 </template>

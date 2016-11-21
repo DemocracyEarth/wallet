@@ -14,7 +14,7 @@ import '../action/action.js';
 
 let voteQuantity;
 
-Template.power.rendered = function render() {
+Template.power.onRendered(function render() {
   if (!Meteor.user()) {
     return;
   }
@@ -29,7 +29,7 @@ Template.power.rendered = function render() {
       ui.position.left = 0;
     },
   });
-}
+});
 
 Template.power.helpers({
   label() {
@@ -232,10 +232,13 @@ Template.power.events({
 
 Template.available.helpers({
   votes() {
-    if (Session.get('newVote') !== undefined) {
-      return Session.get('newVote').available;
+    if (this.editable) {
+      if (Session.get('newVote') !== undefined) {
+        return Session.get('newVote').available;
+      }
+      return 0;
     }
-    return 0;
+    return Meteor.user().profile.wallet.available;
   },
 });
 
@@ -250,24 +253,33 @@ Template.placed.helpers({
 
 Template.bar.helpers({
   allocate() {
-    const wallet = Session.get('newVote');
-    if (wallet !== undefined) {
-      if (Session.get('alreadyVoted') === true) {
-        return '0px';
+    if (this.editable) {
+      const wallet = Session.get('newVote');
+      if (wallet !== undefined) {
+        if (Session.get('alreadyVoted') === true) {
+          return '0px';
+        }
+        return `${wallet.sliderWidth}px`;
       }
-      return `${wallet.sliderWidth}px`;
+      return '0px';
     }
-    return '0px';
+    // user
+    const wallet = Meteor.user().profile.wallet;
+    return `${parseInt((wallet.available * 100) / wallet.balance, 10)}%`;
   },
   placed() {
-    const wallet = Session.get('newVote');
-    if (wallet !== undefined) {
-      const percentage = parseInt((wallet.placed * 100) / wallet.balance, 10);
-      if (wallet.placed === 0) {
-        return '0px';
+    if (this.editable) {
+      const wallet = Session.get('newVote');
+      if (wallet !== undefined) {
+        const percentage = parseInt((wallet.placed * 100) / wallet.balance, 10);
+        if (wallet.placed === 0) {
+          return '0px';
+        }
+        return `${percentage}%`;
       }
-      return `${percentage}%`;
     }
-    return '0px';
+    // user
+    const wallet = Meteor.user().profile.wallet;
+    return `${parseInt((wallet.placed * 100) / wallet.balance, 10)}%`;
   },
 });
