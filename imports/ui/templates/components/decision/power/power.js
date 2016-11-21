@@ -76,27 +76,27 @@ Template.power.helpers({
           voteQuantity = TAPi18n.__('delegate-votes-executed');
           if (isUserSigner(Session.get('contract').signatures)) {
             signatures = Session.get('contract').signatures;
-            for (i in signatures) {
-              if (signatures[i].role == 'DELEGATOR' && signatures[i]._id == Meteor.user()._id) {
-                //delegator
+            for (const i in signatures) {
+              if (signatures[i].role === 'DELEGATOR' && signatures[i]._id === Meteor.user()._id) {
+                // delegator
                 quantity = userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
                 break;
-              } else if (signatures[i].role == 'DELEGATE' && signatures[i]._id == Meteor.user()._id) {
-                //delegate
+              } else if (signatures[i].role === 'DELEGATE' && signatures[i]._id === Meteor.user()._id) {
+                // delegate
                 quantity = Session.get('contract').wallet.balance;
               }
-              if (signatures[i].status == 'REJECTED') {
+              if (signatures[i].status === 'REJECTED') {
                 rejection = true;
               }
             }
           } else {
             signatures = Session.get('contract').signatures;
             for (const i in signatures) {
-              if (signatures[i].status == 'REJECTED') {
+              if (signatures[i].status === 'REJECTED') {
                 rejection = true;
               }
             }
-            if (rejection != true) {
+            if (rejection !== true) {
               if (isUserSigner(Session.get('contract').signatures)) {
                 quantity = Session.get('contract').wallet.available;
               } else {
