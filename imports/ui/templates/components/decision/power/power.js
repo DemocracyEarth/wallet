@@ -35,6 +35,9 @@ Template.power.helpers({
   label() {
     const wallet = Session.get('newVote');
     const contract = Session.get('contract');
+    let rejection = false;
+    let signatures;
+    let quantity;
 
 
     if (contract === undefined) {
@@ -43,21 +46,21 @@ Template.power.helpers({
     if (wallet !== undefined) {
       switch (wallet.mode) {
         case 'PENDING':
-          switch(contract.kind) {
+          switch (contract.kind) {
             case 'DELEGATION':
               voteQuantity = TAPi18n.__('delegate-votes-pending');
               break;
-            case 'VOTE':
+            default: // 'VOTE'
               voteQuantity = TAPi18n.__('contract-votes-pending');
               break;
           }
           break;
         case 'EXECUTED':
-          switch(contract.kind) {
+          switch (contract.kind) {
             case 'DELEGATION':
               voteQuantity = TAPi18n.__('delegate-votes-executed');
               break;
-            case 'VOTE':
+            default: // 'VOTE'
               voteQuantity = TAPi18n.__('contract-votes-executed');
               break;
           }
@@ -65,8 +68,6 @@ Template.power.helpers({
       }
 
       // quantity of votes to display
-      var rejection = false;
-      let quantity;
       if (Session.get('rightToVote') === true) {
         quantity = wallet.allocateQuantity;
       } else {
@@ -74,7 +75,7 @@ Template.power.helpers({
         if (Session.get('contract').kind === 'DELEGATION') {
           voteQuantity = TAPi18n.__('delegate-votes-executed');
           if (isUserSigner(Session.get('contract').signatures)) {
-            var signatures = Session.get('contract').signatures;
+            signatures = Session.get('contract').signatures;
             for (i in signatures) {
               if (signatures[i].role == 'DELEGATOR' && signatures[i]._id == Meteor.user()._id) {
                 //delegator
@@ -89,8 +90,8 @@ Template.power.helpers({
               }
             }
           } else {
-            var signatures = Session.get('contract').signatures;
-            for (i in signatures) {
+            signatures = Session.get('contract').signatures;
+            for (const i in signatures) {
               if (signatures[i].status == 'REJECTED') {
                 rejection = true;
               }
@@ -104,54 +105,57 @@ Template.power.helpers({
             }
           }
         }
-        //live or finish vote
-        if (Session.get('contract').stage != 'DRAFT' && Session.get('contract').kind != 'DELEGATION') {
-          var ledger = Session.get('contract').wallet.ledger;
-          for (i in ledger) {
-            if (ledger[i].ballot != undefined) {
-              if (ledger[i].entityId == Meteor.user()._id && ledger[i].ballot.length > 0) {
+        // live or finish vote
+        if (Session.get('contract').stage !== 'DRAFT' && Session.get('contract').kind !== 'DELEGATION') {
+          const ledger = Session.get('contract').wallet.ledger;
+          for (const i in ledger) {
+            if (ledger[i].ballot !== undefined) {
+              if (ledger[i].entityId === Meteor.user()._id && ledger[i].ballot.length > 0) {
                 voteQuantity = TAPi18n.__('contract-votes-executed');
-                quantity = ledger[i].quantity
+                quantity = ledger[i].quantity;
               }
             }
           }
         }
       }
 
-      //if contract didnt establish
-      if (rejection == true) {
+      // if contract didnt establish
+      if (rejection === true) {
         return TAPi18n.__('rejection-no-delegations');
       }
 
-      //if no votes found
+      // if no votes found
       if (quantity === undefined) {
         quantity = TAPi18n.__('no');
       }
 
-      //string narrative
-      if (voteQuantity != undefined) {
-        voteQuantity = voteQuantity.replace("<quantity>", quantity);
-        voteQuantity = voteQuantity.replace("<type>", function () { if (quantity == 1 ) { return TAPi18n.__('vote-singular') } else { return TAPi18n.__('vote-plural') } } );
-        if (wallet.allocateQuantity == 0 && Session.get('contract').stage != 'DRAFT') {
-          Session.set('noVotes', true)
+      // string narrative
+      if (voteQuantity !== undefined) {
+        voteQuantity = voteQuantity.replace('<quantity>', quantity);
+        voteQuantity = voteQuantity.replace('<type>', function () {
+          if (quantity === 1) {
+            return TAPi18n.__('vote-singular');
+          }
+          return TAPi18n.__('vote-plural');
+        });
+        if (wallet.allocateQuantity === 0 && Session.get('contract').stage !== 'DRAFT') {
+          Session.set('noVotes', true);
         } else {
-          Session.set('noVotes', false)
-        };
+          Session.set('noVotes', false);
+        }
         return voteQuantity;
-      } else {
-        return TAPi18n.__('vote');
       }
-    } else {
-      return 0;
+      return TAPi18n.__('vote');
     }
+    return 0;
   },
-  rightToVote: function () {
+  rightToVote() {
     return Session.get('rightToVote');
   },
-  confirmationRequired: function () {
-    if (Session.get('contract').kind == 'DELEGATION') {
-      var signatures = Session.get('contract').signatures;
-      for (var i in signatures) {
+  confirmationRequired() {
+    if (Session.get('contract').kind === 'DELEGATION') {
+      const signatures = Session.get('contract').signatures;
+      for (const i in signatures) {
         if (signatures[i].role === 'DELEGATE' && signatures[i].status === 'PENDING' && signatures[i]._id === Meteor.user()._id) {
           return true;
         }
@@ -281,5 +285,12 @@ Template.bar.helpers({
     // profile, only logged user
     const wallet = Meteor.user().profile.wallet;
     return `${parseInt((wallet.placed * 100) / wallet.balance, 10)}%`;
+  },
+  hundred() {
+    const wallet = Meteor.user().profile.wallet;
+    if (wallet.placed === 0) {
+      return 'result-unanimous';
+    }
+    return '';
   },
 });
