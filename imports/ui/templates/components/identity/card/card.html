@@ -7,6 +7,8 @@
           <div id="delegate" name="{{delegationKeyword}}" class="button login-button">
             <div>{{_ 'delegate-votes'}}</div>
           </div>
+        {{else}}
+          {{> power editable=false}}
         {{/unless}}
       {{/if}}
     </div>

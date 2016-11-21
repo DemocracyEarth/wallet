@@ -64,14 +64,14 @@ Template.power.helpers({
           break;
       }
 
-      //quantity of votes to display
+      // quantity of votes to display
       var rejection = false;
       let quantity;
       if (Session.get('rightToVote') === true) {
         quantity = wallet.allocateQuantity;
       } else {
-        //delegation
-        if (Session.get('contract').kind == 'DELEGATION') {
+        // delegation
+        if (Session.get('contract').kind === 'DELEGATION') {
           voteQuantity = TAPi18n.__('delegate-votes-executed');
           if (isUserSigner(Session.get('contract').signatures)) {
             var signatures = Session.get('contract').signatures;
@@ -162,10 +162,10 @@ Template.power.helpers({
 });
 
 Template.power.events({
-  'click #confirmation': function (event) {
+  'click #confirmation'() {
     let counterPartyId;
-    for (let stamp in Session.get('contract').signatures) {
-      if (Session.get('contract').signatures[stamp]._id != Meteor.user()._id) {
+    for (const stamp in Session.get('contract').signatures) {
+      if (Session.get('contract').signatures[stamp]._id !== Meteor.user()._id) {
         counterPartyId = Session.get('contract').signatures[stamp]._id;
       }
     }
@@ -178,7 +178,7 @@ Template.power.events({
         cancel: TAPi18n.__('not-now'),
         action: TAPi18n.__('confirm-votes'),
         displayProfile: true,
-        profileId: counterPartyId
+        profileId: counterPartyId,
       },
       function () {
         const settings = {
@@ -195,13 +195,13 @@ Template.power.events({
       }
     );
   },
-  'click #rejection': function (event) {
+  'click #rejection'() {
     let counterPartyId;
-    for (let stamp in Session.get('contract').signatures) {
+    for (const stamp in Session.get('contract').signatures) {
       if (Session.get('contract').signatures[stamp]._id !== Meteor.user()._id) {
         counterPartyId = Session.get('contract').signatures[stamp]._id;
       }
-    };
+    }
     displayModal(
       true,
       {
@@ -228,52 +228,46 @@ Template.power.events({
       }
     );
   },
-})
+});
 
 Template.available.helpers({
-  votes(user) {
+  votes() {
     if (Session.get('newVote') !== undefined) {
       return Session.get('newVote').available;
-    } else {
-      return 0;
     }
-  }
+    return 0;
+  },
 });
 
 Template.placed.helpers({
-  votes: function (user) {
-    if (Session.get('newVote') != undefined) {
+  votes() {
+    if (Session.get('newVote') !== undefined) {
       return Session.get('newVote').placed;
-    } else {
-      return 0;
     }
-  }
+    return 0;
+  },
 });
 
 Template.bar.helpers({
-  allocate: function () {
-    var wallet = Session.get('newVote');
-    if (wallet != undefined) {
-      if (Session.get('alreadyVoted') == true) {
+  allocate() {
+    const wallet = Session.get('newVote');
+    if (wallet !== undefined) {
+      if (Session.get('alreadyVoted') === true) {
         return '0px';
-      } else {
-        return wallet.sliderWidth + 'px';
       }
-    } else {
-      return '0px';
+      return `${wallet.sliderWidth}px`;
     }
+    return '0px';
   },
-  placed: function () {
-    var wallet = Session.get('newVote');
-    if (wallet != undefined) {
-      var percentage = parseInt((wallet.placed * 100) / wallet.balance);
-      if (wallet.placed == 0) {
+  placed() {
+    const wallet = Session.get('newVote');
+    if (wallet !== undefined) {
+      const percentage = parseInt((wallet.placed * 100) / wallet.balance, 10);
+      if (wallet.placed === 0) {
         return '0px';
-      } else {
-        return percentage + '%';
       }
-    } else {
-      return '0px';
+      return `${percentage}%`;
     }
-  }
+    return '0px';
+  },
 });

@@ -5,6 +5,13 @@
     <div class="login">
       {{> avatar includeName=true includeNation=true editable=true}}
 
+      <div class="login-field">
+        <div class="login-label login-label-form">
+          {{_ 'vote-balance'}}
+        </div>
+        {{> power editable=false}}
+      </div>
+
       {{#unless socialMediaLogin}}
         {{#unless currentUser.emails.[0].verified}}
           <div class="extra float-left">
@@ -12,30 +19,6 @@
           </div>
         {{/unless}}
       {{/unless}}
-
-
-      <!-- TODO Delegations, consider if I will show them here (I doubt this)
-
-      {{> power user=userId}}
-
-      {{#if hasDelegations}}
-        <ul class="w-list-unstyled w-clearfix extra">
-          {{#each tags}}
-            {{> tag _id=_id}}
-          {{/each}}
-        </ul>
-        <div class="left">
-          <a>
-            {{_ 'see-all'}} {{totalDelegations}} {{_ 'delegations'}}.
-          </a>
-        </div>
-      {{else}}
-        <div class="tag tag-empty">
-          <div>{{_ 'no-delegations'}}</div>
-        </div>
-      {{/if}}
-
-    -->
 
     </div>
   {{/if}}

@@ -391,5 +391,6 @@
   "no-tags-found": "Search to create a tag.",
   "empty-proposal-list": "Search to create a proposal.",
   "draft-options-ballot": "Ballot has options still as drafts. Edit and publish those first.",
-  "ballot": "Ballot"
+  "ballot": "Ballot",
+  "vote-balance": "Balance"
 }

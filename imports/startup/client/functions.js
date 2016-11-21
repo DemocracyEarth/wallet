@@ -17,17 +17,32 @@ import { toggleSidebar, setSidebarMenu } from '../../ui/modules/menu';
 ******************************/
 
 /**
+* @summary matches url param with db schema string accordingly
+* @param {string} key - url querying object
+*/
+const _matchType = (key) => {
+  const schema = schemaContract._firstLevelSchemaKeys;
+  for (const feat in schema) {
+    if (schema[feat].toLowerCase() === key.toLowerCase()) {
+      return schema[feat];
+    }
+  }
+  return false;
+};
+
+
+/**
 * from the paramaters obtained in a URL builds a query for the db
 * @param {object} params - url querying object
 * @return {object} query - returns a query with object ready for mongo
 ****/
-let _buildQuery = (params) => {
-  let query = {};
-  query['collectiveId'] = Meteor.settings.public.Collective._id;
-  for (key in params) {
-    //strict type with contracts schema
-    var dbKey = _matchType(key);
-    if (dbKey != false) {
+const _buildQuery = (params) => {
+  const query = {};
+  query.collectiveId = Meteor.settings.public.Collective._id;
+  for (let key in params) {
+    // strict type with contracts schema
+    const dbKey = _matchType(key);
+    if (dbKey !== false) {
       if (key !== dbKey) {
         Object.defineProperty(params, dbKey,
             Object.getOwnPropertyDescriptor(params, key));
@@ -37,33 +52,33 @@ let _buildQuery = (params) => {
     }
     switch (key) {
       case 'id':
-        query['_id'] = params[key];
+        query._id = params[key];
         break;
       case 'keyword':
         query[key] = params[key];
         break;
       case 'tag':
-        query['tags'] = {
+        query.tags = {
           $elemMatch: {
-            url: '/tag/' + params[key]
-          }
+            url: `/tag/${params[key]}`,
+          },
         };
         break;
       case 'username':
       case 'peer':
-        query['signatures'] = {
+        query.signatures = {
           $elemMatch: {
-            username: params[key]
-          }
+            username: params[key],
+          },
         };
         break;
       case 'hash':
       case 'query':
         break;
       case 'stage':
-        if (params[key].toUpperCase() == 'DRAFT') {
+        if (params[key].toUpperCase() === 'DRAFT') {
           if (Meteor.user() !== undefined) {
-            query['owner'] = Meteor.user()._id;
+            query.owner = Meteor.user()._id;
           }
         }
       default:
@@ -71,24 +86,9 @@ let _buildQuery = (params) => {
     }
   }
 
-//TODO: rejected must be discarded so 'no vote' proposals also get listed
-
+  // TODO: rejected must be discarded so 'no vote' proposals also get listed
   return query;
-}
-
-/***
-* matches url param with db schema string accordingly
-* @param {string} key - url querying object
-****/
-let _matchType = (key) => {
-  var schema = schemaContract._firstLevelSchemaKeys;
-  for (feat in schema) {
-    if (schema[feat].toLowerCase() == key.toLowerCase()) {
-      return schema[feat];
-    }
-  }
-  return false;
-}
+};
 
 /***
 * generates section title based on url query

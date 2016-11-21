@@ -6,7 +6,6 @@ import { showFullName } from '/imports/startup/both/modules/utils';
 import { guidGenerator } from '/imports/startup/both/modules/crypto';
 import { Transactions } from './Transactions';
 
-
 /**
 * @summary looks at what type of entity (collective or individual) doing transaction
 * @return {string} entityType - a string with constant of entity type

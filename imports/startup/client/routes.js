@@ -126,7 +126,7 @@ Router.route('/vote/:contract', {
   name: 'voteContract',
   template: 'contract',
   waitOn() {
-    return [Meteor.subscribe('contracts', fn.buildQuery(this.params.query)), Meteor.subscribe('userData')];
+    return [Meteor.subscribe('contracts', fn.buildQuery(this.params.query)), Meteor.subscribe('userData'), Meteor.subscribe('transactions')];
   },
   onBeforeAction() {
     fn.clearSessionVars();
