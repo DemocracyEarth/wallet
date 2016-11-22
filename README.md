@@ -36,7 +36,7 @@ See our 🇫🇷 [Paris 2016 conference](http://youtube.com/watch?v=UajbQTHnTfM)
 
 [`version 0.1.0`](https://github.com/DemocracyEarth/sovereign/milestone/1)
 
-📜 [Universal Declaration of Human Rights](https://en.wikipedia.org/wiki/Universal_Declaration_of_Human_Rights):
+📃 [Universal Declaration of Human Rights](https://en.wikipedia.org/wiki/Universal_Declaration_of_Human_Rights):
 
 > * **Article 2:**
 
@@ -170,7 +170,7 @@ Support our work with [Bitcoin](https://github.com/bitcoin) & other cryptocurren
 
 ## Manifesto
 
-A Declaration of the Independence of Cyberspace:
+📃 [A Declaration of the Independence of Cyberspace]((https://www.eff.org/es/cyberspace-independence)):
 
 >Governments of the Industrial World, you weary giants of flesh and steel, I come from Cyberspace, the new home of Mind. On behalf of the future, I ask you of the past to leave us alone. You are not welcome among us. You have no sovereignty where we gather.
 
@@ -204,7 +204,7 @@ A Declaration of the Independence of Cyberspace:
 
 >We will create a civilization of the Mind in Cyberspace. May it be more humane and fair than the world your governments have made before.
 
-[John Perry Barlow](https://www.eff.org/es/cyberspace-independence). 🇨🇭 Davos (February 8, 1996).
+[John Perry Barlow](https://es.wikipedia.org/wiki/John_Perry_Barlow). 🇨🇭 Davos (February 8, 1996).
 
 ## About
 

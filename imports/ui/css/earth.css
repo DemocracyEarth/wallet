@@ -471,10 +471,6 @@ blockquote {
   cursor: pointer;
 }
 
-.symbol.profile-pic:hover {
-  border-color: #00bf8f;
-}
-
 .symbol.profile-pic:active {
   border-color: #00bf8f;
 }
@@ -3437,7 +3433,7 @@ blockquote {
 }
 
 .popup {
-  position: absolute;
+  position: fixed;
   z-index: 12900;
   display: block;
   min-width: 300px;
@@ -4381,10 +4377,15 @@ blockquote {
   top: 0px;
   bottom: 0px;
   display: block;
-  width: 4px;
+  width: 5px;
   float: left;
-  background-color: #ebebeb;
+  border-left: 2px solid #e9e9e9;
   cursor: ew-resize;
+}
+
+.resize:hover {
+  border-left-style: solid;
+  border-left-color: #d5d5d5;
 }
 
 @media (max-width: 991px) {
@@ -4736,6 +4737,13 @@ blockquote {
   }
   .authentication {
     padding-right: 0px;
+  }
+  .popup {
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    width: 100%;
   }
   .vote-cta {
     width: 100%;
