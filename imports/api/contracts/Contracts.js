@@ -12,6 +12,9 @@ export const Contracts = new Mongo.Collection('contracts');
 
 const Schema = {};
 Schema.Contract = new SimpleSchema({
+  owner: {
+    type: String
+  },
   collectiveId: {
     type: String,
     optional: true,
@@ -26,14 +29,7 @@ Schema.Contract = new SimpleSchema({
   title: {
     // title of the contract
     type: String,
-    autoValue: function () {
-      if (this.isInsert) {
-        if (this.field('title').value === undefined) {
-          return '';
-        }
-        return this.field('title').value;
-      }
-    },
+    defaultValue: ''
   },
   keyword: {
     // unique string identifier in db as keyword-based-slug
@@ -50,11 +46,11 @@ Schema.Contract = new SimpleSchema({
                 if (this.field("title").value != '') {
                   return slug;
                 } else {
-                  return 'draft-' + Meteor.userId();
+                  return 'draft-' + this.field('owner').value;
                 }
               }
             } else {
-              return 'draft-' + Meteor.userId();
+              return 'draft-' + this.field('owner').value;
             }
           }
         };
@@ -217,14 +213,7 @@ Schema.Contract = new SimpleSchema({
     type: Object
   },
   "signatures.$._id": {
-    type: String,
-    autoValue: function () {
-      if (this.isInsert) {
-        if (this.field('kind').value === 'VOTE') {
-          return this.userId;
-        }
-      };
-    }
+    type: String
   },
   "signatures.$.username": {
     type: String,
@@ -449,14 +438,6 @@ Schema.Contract = new SimpleSchema({
     type: Wallet,
     optional: true
   },
-  owner: {
-    type: String,
-    autoValue: function () {
-      if (this.isInsert) {
-        return Meteor.user()._id;
-      }
-    }
-  }
 });
 
 Contracts.attachSchema(Schema.Contract);
@@ -468,20 +449,20 @@ export const schemaContract = Schema.Contract;
 *  All to methods, validate paramenters
 */
 Contracts.allow({
-  insert() {
-    if (Meteor.userId()) {
+  insert(userId) {
+    if (userId) {
       return true;
     }
     return false;
   },
-  update() {
-    if (Meteor.userId()) {
+  update(userId) {
+    if (userId) {
       return true;
     }
     return false;
   },
-  remove() {
-    if (Meteor.userId()) {
+  remove(userId) {
+    if (userId) {
       return true;
     }
     return false;
