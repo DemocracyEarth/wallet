@@ -7,7 +7,8 @@ Some of the system design behind our first release of Sovereign is directly insp
 In such condition members of the collective not only have to position themselves according to the proposal but also be smart on how they allocate their voting resources. (Game theory, cost opportunity).
 
 As we've been experimenting in this particular environment really interesting member behaviors have emerged and the feeling we have is that this setting makes voting much more interesting and dynamic for the users as it becomes more complex (not binary).
-Slide about unlocking your vote's potential
+
+![unlocking vote potential](https://drive.google.com/file/d/0B-JRnV6YF3c0b2JpdDB2U3hWQUU/view?usp=sharing)
 
 The problem with this is that it doesn't work in the long run because people will eventually run out of votes. We've been thinking of ways to allocate new votes :
 
@@ -29,3 +30,7 @@ Bitcoin economics are very simple its basically the same as gold extraction. The
 - The limited number of votes in the system guarantees that members abuse (overuse) this easy vote creation features.
 
 PS : I'm dying to know what would Satoshi think of this. ;)
+
+PR welcome
+
+**Votable** --> https://sovereign.opensourcepolitics.eu/vote/votes-allocations-in-the-long-run-for-sovereign-satoshi-nakamotos-way
