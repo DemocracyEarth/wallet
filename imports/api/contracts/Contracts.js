@@ -13,7 +13,9 @@ export const Contracts = new Mongo.Collection('contracts');
 const Schema = {};
 Schema.Contract = new SimpleSchema({
   owner: {
-    type: String
+    type: String,
+    regEx: SimpleSchema.RegEx.Id,
+    optional: true,
   },
   collectiveId: {
     type: String,
