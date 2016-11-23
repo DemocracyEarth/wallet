@@ -5,23 +5,6 @@ import { Accounts } from 'meteor/accounts-base';
 import { convertToSlug } from '/lib/utils';
 
 function normalizeFacebookUser(profile, user) {
-  let username = user.username;
-  if (username) {
-    // No username is defined coming from Facebook login
-    let newUsername = convertToSlug(user.profile.firstName) + convertToSlug(user.profile.lastName);
-    let i = 0;
-    while (Meteor.call('verifyUsername', newUsername, (err, id) => {
-      if (id) {
-        return false;
-      }
-      return true;
-    })) {
-      i += 1;
-      newUsername += i;
-    }
-    username = newUsername;
-  }
-
   const credential = profile.credentials || [];
   credential.push({
     source: 'facebook',
@@ -35,6 +18,23 @@ function normalizeFacebookUser(profile, user) {
     lastName: user.services.facebook.last_name,
     credentials: credential,
   });
+
+  let username = user.username;
+  if (!username) {
+    // No username is defined coming from Facebook login
+    let newUsername = convertToSlug(userProfile.firstName) + convertToSlug(userProfile.lastName);
+    let i = 0;
+    while (Meteor.call('verifyUsername', newUsername, (err, id) => {
+      if (id) {
+        return false;
+      }
+      return true;
+    })) {
+      i += 1;
+      newUsername += i;
+    }
+    username = newUsername;
+  }
 
   return _.extend(user, {
     username,
