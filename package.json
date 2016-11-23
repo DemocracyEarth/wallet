@@ -2,9 +2,9 @@
   "scripts": {
     "start": "meteor --settings=config/production/settings.json",
     "pretest": "npm run lint --silent",
-    "test": "meteor test --once --driver-package dispatch:mocha-phantomjs",
+    "test": "meteor test --settings=config/development/settings.json --once --driver-package dispatch:mocha-phantomjs",
     "test-app": "meteor test --full-app --once --driver-package dispatch:mocha-phantomjs",
-    "test-watch": "meteor test --driver-package practicalmeteor:mocha --port 3100",
+    "test-watch": "meteor test --settings=config/development/settings.json --driver-package practicalmeteor:mocha --port 3100",
     "test-watch:dev": "meteor --settings=config/development/settings.json test --driver-package practicalmeteor:mocha --port 3100",
     "test-watch:prod": "meteor --settings=config/production/settings.json test --driver-package practicalmeteor:mocha --port 3100",
     "test-app-watch": "meteor test --full-app --driver-package practicalmeteor:mocha --port 3100",
