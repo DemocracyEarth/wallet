@@ -8,7 +8,7 @@ In such condition members of the collective not only have to position themselves
 
 As we've been experimenting in this particular environment really interesting member behaviors have emerged and the feeling we have is that this setting makes voting much more interesting and dynamic for the users as it becomes more complex (not binary).
 
-![unlocking vote potential](https://drive.google.com/file/d/0B-JRnV6YF3c0b2JpdDB2U3hWQUU/view?usp=sharing)
+![unlocking vote potential](https://lh3.googleusercontent.com/u6_MifPj4nfaRUq_JL6mglTDA3x-JUTnOjEfiRZdTyTUZ7z09Kbn8aNPwo5RsViSIHF-o2z84add=w1640-h950-no)
 
 The problem with this is that it doesn't work in the long run because people will eventually run out of votes. We've been thinking of ways to allocate new votes :
 
