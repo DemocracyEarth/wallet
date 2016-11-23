@@ -73,3 +73,5 @@ email@1.1.18
 meteorhacks:ssr
 service-configuration@1.0.11
 shell-server@0.2.1
+practicalmeteor:chai
+dispatch:mocha-phantomjs
