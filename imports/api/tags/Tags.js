@@ -79,22 +79,22 @@ Tags.attachSchema(TagSchema);
 */
 //permissions
 Tags.allow({
-  insert: function () {
-    if (Meteor.userId()) {
+  insert: function (userId) {
+    if (userId) {
       return true;
     }
     return false;
   },
-  update: function () {
-    if (Meteor.userId()) {
+  update: function (userId) {
+    if (userId) {
       return true;
     }
     return false;
   },
-  remove() {
-    if (Meteor.userId()) {
+  remove: function (userId) {
+    if (userId) {
       return true;
     }
     return false;
-  },  
+  },
 });
