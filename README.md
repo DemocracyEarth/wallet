@@ -148,6 +148,10 @@ Sovereign is a **free & open source project**.
 
 Check our [contributors list](https://github.com/DemocracyEarth/sovereign/graphs/contributors) and look for available tasks in the [to do list](TODO.md) to join.
 
+Also you can find our projects and tasks in the [project area](https://github.com/DemocracyEarth/sovereign/projects)
+
+If you want to collaborate with pull requests(features, fixes, issues, projects), please follow our [contributing steps](CONTRIBUTING.md).
+
 ### Backers:
 
 Join our [Open Collective](https://opencollective.com/democracyearth):
