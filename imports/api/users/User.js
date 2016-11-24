@@ -207,19 +207,19 @@ export const User = Schema.User;
 */
 //permissions
 Meteor.users.allow({
-  insert: function () {
-    if (Meteor.userId()) {
+  insert: function (userId) {
+    if (userId) {
       return true;
     }
   },
-  update: function () {
-    if (Meteor.userId()) {
+  update: function (userId) {
+    if (userId) {
       return true;
     }
   },
-  remove: function () {
-    if (Meteor.userId()) {
+  remove: function (userId) {
+    if (userId) {
       return true;
     }
-  }  
+  },
 });
