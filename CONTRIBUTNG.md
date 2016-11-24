@@ -20,7 +20,7 @@ Remember to feel free to ask for help in our [Sovereign](https://gitter.im/Democ
 - [Forking The Project](#forking-the-project)
 - [Create A Branch](#create-a-branch)
 - [Setup Linting](#setup-linting)
-- [Setup Sovereign](#setup-Sovereign)
+- [Setup Sovereign](#setup-sovereign)
 - [Make Changes](#make-changes)
 - [Run The Test Suite](#run-the-test-suite)
 - [Squash Your Commits](#squash-your-commits)
