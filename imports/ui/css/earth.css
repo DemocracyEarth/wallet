@@ -4388,6 +4388,103 @@ blockquote {
   border-left-color: #d5d5d5;
 }
 
+.authenticity {
+  margin-top: 10px;
+}
+
+.authenticity-score {
+  width: 75%;
+  float: left;
+}
+
+.authenticity-role {
+  width: 70px;
+  float: right;
+  text-align: center;
+}
+
+.authenticity-role-img {
+  width: 52px;
+  height: 52px;
+}
+
+.authenticity-label {
+  display: block;
+  font-size: 11px;
+  line-height: 20px;
+}
+
+.checkpoint {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  float: left;
+  border: 1px solid #00bf8f;
+  border-radius: 50px;
+  background-color: rgba(0, 191, 143, 0);
+}
+
+.checkpoint.checkpoint-selected {
+  background-color: #00bf8f;
+  cursor: pointer;
+}
+
+.checkpoint-icon {
+  display: inline-block;
+  width: 25px;
+  margin-top: -10px;
+}
+
+.authenticity-bar {
+  display: block;
+  width: 100%;
+  height: 20px;
+  clear: both;
+}
+
+.authenticity-bar-scale {
+  width: 20%;
+  height: 20px;
+  padding-top: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+  float: left;
+  opacity: 0.2;
+}
+
+.authenticity-bar-scale.authenticity-bar-selected {
+  opacity: 1;
+}
+
+.authenticate-defcon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 2px;
+  background-color: #ff2752;
+  opacity: 0.75;
+}
+
+.authenticate-defcon.defcon-2 {
+  background-color: #ff8979;
+}
+
+.authenticate-defcon.defcon-3 {
+  background-color: #ffe079;
+}
+
+.authenticate-defcon.defcon-4 {
+  background-color: #46dfb8;
+}
+
+.authenticate-defcon.defcon-5 {
+  background-color: #00bf8f;
+}
+
+.checkpoints {
+  margin-bottom: 8px;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
