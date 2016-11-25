@@ -146,7 +146,9 @@ Check our [documentation](https://github.com/DemocracyEarth/sovereign/tree/maste
 
 Sovereign is a **free & open source project**.
 
-Check our [contributors list](https://github.com/DemocracyEarth/sovereign/graphs/contributors) and look for available tasks in the [to do list](TODO.md) to join.
+Check our [contributors list](https://github.com/DemocracyEarth/sovereign/graphs/contributors) and our [contributing guidelines](CONTRIBUTING.md).
+
+Available tasks in the [to do list](TODO.md) to join.
 
 Also you can find our projects and tasks in the [project area](https://github.com/DemocracyEarth/sovereign/projects)
 
