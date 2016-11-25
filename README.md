@@ -146,13 +146,13 @@ Check our [documentation](https://github.com/DemocracyEarth/sovereign/tree/maste
 
 Sovereign is a **free & open source project**.
 
-Check our [contributors list](https://github.com/DemocracyEarth/sovereign/graphs/contributors) and our [contributing guidelines](CONTRIBUTING.md).
+Check our [contributors list](https://github.com/DemocracyEarth/sovereign/graphs/contributors).
+
+If you want to collaborate with pull requests (features, fixes, issues, projects), please follow our [contributing guidelines](CONTRIBUTING.md).
 
 Available tasks in the [to do list](TODO.md) to join.
 
-Also you can find our projects and tasks in the [project area](https://github.com/DemocracyEarth/sovereign/projects)
-
-If you want to collaborate with pull requests(features, fixes, issues, projects), please follow our [contributing steps](CONTRIBUTING.md).
+Also you can find our projects and tasks in the [project area](https://github.com/DemocracyEarth/sovereign/projects).
 
 ### Backers:
 
