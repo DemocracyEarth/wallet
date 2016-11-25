@@ -19,6 +19,7 @@
     "bindings": "^1.2.1",
     "core-js": "^2.4.1",
     "faker": "^3.0.1",
+    "json-schema-faker": "^0.3.7",
     "nan": "^2.3.5"
   },
   "devDependencies": {
