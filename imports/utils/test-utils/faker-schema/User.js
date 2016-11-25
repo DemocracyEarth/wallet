@@ -14,7 +14,7 @@ export const Credential = {
       type: 'boolean'
     }
   }
-}
+};
 
 export const Menu = {
   type: 'object',
@@ -28,7 +28,7 @@ export const Menu = {
       minimum: 0
     }
   }
-}
+};
 
 export const Profile = {
   type: 'object',
@@ -78,7 +78,7 @@ export const Profile = {
     },
     wallet: Wallet
   }
-}
+};
 
 export const User = {
   type: 'object',
@@ -133,4 +133,4 @@ export const User = {
     }
   },
   required: ['createdAt']
-}
+};

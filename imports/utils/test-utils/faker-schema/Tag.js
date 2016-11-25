@@ -1,15 +1,15 @@
-import jsf from 'json-schema-faker'
+import jsf from 'json-schema-faker';
 
 export const Tag = {
   type: 'object',
   properties: {
     text: {
-      type: 'string'
+      type: 'string',
     },
     keyword: {
       faker: {
-        "helpers.slugify": [jsf({ faker: 'hacker.phrase' })]
-      }
+        'helpers.slugify': [jsf({ faker: 'hacker.phrase' })],
+      },
     },
     url: {
       faker: 'internet.url'
@@ -44,4 +44,4 @@ export const Tag = {
     'lastUpdate',
     'authorized'
   ]
-}
+};

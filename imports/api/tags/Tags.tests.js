@@ -1,22 +1,22 @@
 import { Meteor } from 'meteor/meteor';
-import { resetDatabase } from 'meteor/xolvio:cleaner'
-import { Factory } from 'meteor/dburles:factory'
-import { fakerSchema } from '../../utils/test-utils/faker-schema/'
-import { Tags } from './Tags'
+import { resetDatabase } from 'meteor/xolvio:cleaner';
+import { Factory } from 'meteor/dburles:factory';
+import { fakerSchema } from '../../utils/test-utils/faker-schema/';
+import { Tags } from './Tags';
 
-const { schema, generateDoc } = fakerSchema
+const { schema, generateDoc } = fakerSchema;
 
-Factory.define('tag', Tags)
+Factory.define('tag', Tags);
 
 describe('tags module', function() {
   beforeEach(function() {
-    resetDatabase()
-  })
+    resetDatabase();
+  });
 
   // sanity check that jsf schema validaes ok
   it('inserts cleanly', function() {
     const testDoc = generateDoc(schema.Tag)
     console.log(testDoc)
-    const tag = Factory.create('tag', testDoc)
-  })
-})
+    const tag = Factory.create('tag', testDoc);
+  });
+});

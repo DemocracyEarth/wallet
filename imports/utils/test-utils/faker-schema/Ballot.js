@@ -22,4 +22,4 @@ export const Ballot = {
     '_id',
     'mode'
   ]
-}
+};

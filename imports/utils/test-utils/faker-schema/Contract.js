@@ -1,8 +1,9 @@
-import { Thread } from './Thread'
-import { Wallet } from './Wallet'
-import { faker } from 'faker'
+import { faker } from 'faker';
 
-const genKeyword = () => `${faker.address.country()} ${faker.address.state()} ${faker.company.companyName()}`
+import { Thread } from './Thread';
+import { Wallet } from './Wallet';
+
+const genKeyword = () => `${faker.address.country()} ${faker.address.state()} ${faker.company.companyName()}`;
 
 export const Contract = {
   type: 'object',
@@ -46,32 +47,32 @@ export const Contract = {
       faker: 'date.past'
     },
     timestamp: {
-      faker: 'date.past'
+      faker: 'date.past',
     },
     tags: {
       type: 'array',
       items: {
         type: 'object',
         properties: {
-         _id: {
-           type: 'string'
-         },
-         label: {
-           type: 'string'
-         },
-         url: {
-           type: 'string',
-           faker: 'internet.url'
-         },
-         rank: {
-           type: 'number'
-         }
-       },
-       required: ['_id']
-      }
+          _id: {
+            type: 'string',
+          },
+          label: {
+            type: 'string',
+          },
+          url: {
+            type: 'string',
+            faker: 'internet.url',
+          },
+          rank: {
+            type: 'number',
+          },
+        },
+        required: ['_id'],
+      },
     },
     membersOnly: {
-      type: 'boolean'
+      type: 'boolean',
     },
     executionStatus: {
       enum: [
@@ -79,11 +80,11 @@ export const Contract = {
         'APPROVED',
         'ALTERNATIVE',
         'REJECTED',
-        'VOID'
-      ]
+        'VOID',
+      ],
     },
     anonymous: {
-      type: 'boolean'
+      type: 'boolean',
     },
     signatures: {
       type: 'array',
@@ -91,74 +92,74 @@ export const Contract = {
         type: 'object',
         properties: {
           _id: {
-            type: 'string'
+            type: 'string',
           },
           username: {
-            type: 'string'
+            type: 'string',
           },
           role: {
             enum: [
               'AUTHOR',
               'DELEGATOR',
               'DELEGATE',
-              'ENDORSER'
-            ]
+              'ENDORSER',
+            ],
           },
           status: {
             enum: [
               'PENDING',
               'REJECTED',
-              'CONFIRMED'
-            ]
+              'CONFIRMED',
+            ],
           },
           hash: {
-            type: 'string'
-          }
+            type: 'string',
+          },
         },
         required: [
-          '_id'
-        ]
-      }
+          '_id',
+        ],
+      },
     },
     closingDate: {
-      faker: 'date.future'
+      faker: 'date.future',
     },
     alwaysOpen: {
-      type: 'boolean'
+      type: 'boolean',
     },
     allowForks: {
-      type: 'boolean'
+      type: 'boolean',
     },
     secretVotes: {
-      type: 'boolean'
+      type: 'boolean',
     },
     realtimeResults: {
-      type: 'boolean'
+      type: 'boolean',
     },
     multipleChoice: {
-      type: 'boolean'
+      type: 'boolean',
     },
     rankPreferences: {
-      type: 'boolean'
+      type: 'boolean',
     },
     executiveDecision: {
-      type: 'boolean'
+      type: 'boolean',
     },
     stage: {
       enum: [
         'DRAFT',
         'LIVE',
-        'FINISH'
-      ]
+        'FINISH',
+      ],
     },
     transferable: {
-      type: 'boolean'
+      type: 'boolean',
     },
     limited: {
-      type: 'boolean'
+      type: 'boolean',
     },
     portable: {
-      type: 'boolean'
+      type: 'boolean',
     },
     ballot: {
       type: 'array',
@@ -169,49 +170,49 @@ export const Contract = {
             type: 'string',
           },
           rank: {
-            type: 'number'
+            type: 'number',
           },
           url: {
             type: 'string',
-            faker: 'internet.url'
+            faker: 'internet.url',
           },
           label: {
-            type: 'string'
-          }
+            type: 'string',
+          },
         },
         required: [
           '_id',
           'rank',
-          'url'
-        ]
-      }
+          'url',
+        ],
+      },
     },
     ballotEnabled: {
-      type: 'boolean'
+      type: 'boolean',
     },
     authorized: {
-      type: 'boolean'
+      type: 'boolean',
     },
     isDefined: {
-      type: 'boolean'
+      type: 'boolean',
     },
     isRoot: {
-      type: 'boolean'
+      type: 'boolean',
     },
     referrers: {
       type: 'array',
       items: {
-        type: 'object'
-      }
+        type: 'object',
+      },
     },
     events: {
       type: 'array',
-      items: Thread
+      items: Thread,
     },
     wallet: Wallet,
     owner: {
-      pattern: '^[23456789ABCDEFGHJKLMNPQRSTWXYZabcdefghijkmnopqrstuvwxyz]{17}$'
-    }
+      pattern: '^[23456789ABCDEFGHJKLMNPQRSTWXYZabcdefghijkmnopqrstuvwxyz]{17}$',
+    },
   },
   required: [
     'ID',
@@ -242,6 +243,6 @@ export const Contract = {
     'isRoot',
     'events',
     'wallet',
-    'owner'
-  ]
-}
+    'owner',
+  ],
+};

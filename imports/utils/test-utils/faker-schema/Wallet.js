@@ -1,4 +1,4 @@
-import { Ballot } from './Ballot'
+import { Ballot } from './Ballot';
 
 export const Wallet = {
   type: 'object',
@@ -72,4 +72,4 @@ export const Wallet = {
     'address',
     'ledger'
   ]
-}
+};

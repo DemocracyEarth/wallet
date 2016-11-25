@@ -1,4 +1,4 @@
-import { Ballot } from './Ballot'
+import { Ballot } from './Ballot';
 
 export const Ticket = {
   type: 'object',
@@ -107,4 +107,4 @@ export const Transaction = {
     'input',
     'output'
   ]
-}
+};

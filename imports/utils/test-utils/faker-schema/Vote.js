@@ -1,4 +1,4 @@
-import { Wallet } from './Wallet'
+import { Wallet } from './Wallet';
 
 export const DelegationContract = {
   type: 'object',
@@ -31,7 +31,7 @@ export const DelegationContract = {
       }
     }
   }
-}
+};
 
 export const Delegation = {
   received: {
@@ -46,7 +46,7 @@ export const Delegation = {
       type: DelegationContract
     }
   }
-}
+};
 
 export const Vote = {
   type: 'object',
@@ -63,4 +63,4 @@ export const Vote = {
   required: [
     'total'
   ]
-}
+};

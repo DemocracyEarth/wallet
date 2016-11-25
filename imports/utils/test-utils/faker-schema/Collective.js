@@ -1,4 +1,4 @@
-import { Wallet } from './Wallet'
+import { Wallet } from './Wallet';
 
 export const Country = {
   type: 'object',
@@ -16,7 +16,7 @@ export const Country = {
     'name',
     'code'
   ]
-}
+};
 
 export const Jurisdiction = {
   type: 'object',

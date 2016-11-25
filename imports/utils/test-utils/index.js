@@ -1,1 +1,1 @@
-export { fakerSchema } from './faker-schema'
+export { fakerSchema } from './faker-schema';

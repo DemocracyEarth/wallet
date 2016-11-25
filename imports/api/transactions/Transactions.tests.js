@@ -1,22 +1,22 @@
 import { Meteor } from 'meteor/meteor';
-import { resetDatabase } from 'meteor/xolvio:cleaner'
-import { Factory } from 'meteor/dburles:factory'
-import { fakerSchema } from '../../utils/test-utils/faker-schema/'
-import { Transactions } from './Transactions'
+import { resetDatabase } from 'meteor/xolvio:cleaner';
+import { Factory } from 'meteor/dburles:factory';
+import { fakerSchema } from '../../utils/test-utils/faker-schema/';
+import { Transactions } from './Transactions';
 
-const { schema, generateDoc } = fakerSchema
+const { schema, generateDoc } = fakerSchema;
 
-Factory.define('transaction', Transactions)
+Factory.define('transaction', Transactions);
 
-describe('transactions module', function() {
-  beforeEach(function() {
-    resetDatabase()
+describe('transactions module', function () {
+  beforeEach(function () {
+    resetDatabase();
   })
 
   // sanity check that jsf schema validaes ok
   it('inserts cleanly', function() {
-    const testDoc = generateDoc(schema.Transaction)
+    const testDoc = generateDoc(schema.Transaction);
     //console.log(testDoc)
-    const transaction = Factory.create('transaction', testDoc)
+    const transaction = Factory.create('transaction', testDoc);
   })
 })
