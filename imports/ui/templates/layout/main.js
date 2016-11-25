@@ -23,7 +23,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { SearchSource } from 'meteor/meteorhacks:search-source';
-import { HTTPS } from 'meteor/http';
+import { HTTP } from 'meteor/http';
 import { globalObj } from '/lib/global';
 import './main.html';
 import '../widgets/modal/modal';
@@ -70,7 +70,7 @@ Meteor.startup(() => {
   });
 
   //Geographical Info
-  HTTPS.get(Meteor.absoluteUrl("data/geo.json"), function(err,result) {
+  HTTP.get(Meteor.absoluteUrl("data/geo.json"), function(err,result) {
     globalObj.geoJSON = result.data;
     Session.set('filteredCountries', result.data.country);
   });
