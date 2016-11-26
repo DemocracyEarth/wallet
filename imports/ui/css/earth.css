@@ -782,7 +782,6 @@ blockquote {
 
 .button.execute {
   display: block;
-  max-width: 1000px;
   margin: 0px auto;
   font-size: 24px;
   line-height: 45px;
