@@ -4399,14 +4399,10 @@ blockquote {
 }
 
 .authenticity-role {
-  width: 60px;
+  width: 55px;
+  margin-top: -15px;
   float: right;
   text-align: center;
-}
-
-.authenticity-role-img {
-  width: 52px;
-  height: 52px;
 }
 
 .authenticity-label {
