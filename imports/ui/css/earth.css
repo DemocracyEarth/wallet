@@ -4389,15 +4389,17 @@ blockquote {
 
 .authenticity {
   margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .authenticity-score {
   width: 75%;
   float: left;
+  text-align: left;
 }
 
 .authenticity-role {
-  width: 70px;
+  width: 60px;
   float: right;
   text-align: center;
 }
@@ -4421,6 +4423,7 @@ blockquote {
   border: 1px solid #00bf8f;
   border-radius: 50px;
   background-color: rgba(0, 191, 143, 0);
+  cursor: pointer;
 }
 
 .checkpoint.checkpoint-selected {
@@ -4431,6 +4434,7 @@ blockquote {
 .checkpoint-icon {
   display: inline-block;
   width: 25px;
+  height: 25px;
   margin-top: -10px;
 }
 

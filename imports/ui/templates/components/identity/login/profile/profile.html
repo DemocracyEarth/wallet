@@ -8,6 +8,10 @@
         {{_ 'vote-balance'}}
       </div>
       {{> power editable=false}}
+      <div class="login-label login-label-form">
+        {{_ 'authenticity'}}
+      </div>
+      {{> authenticity}}
       {{#unless socialMediaLogin}}
         {{#unless currentUser.emails.[0].verified}}
           <div class="extra float-left">
