@@ -4229,6 +4229,11 @@ blockquote {
   border-left: 1px none hsla(0, 0%, 41%, 0);
 }
 
+.split.split-left {
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
 .comment {
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
@@ -4482,6 +4487,11 @@ blockquote {
 
 .checkpoints {
   margin-bottom: 8px;
+}
+
+.proposal-feed {
+  padding-right: 15px;
+  padding-left: 15px;
 }
 
 @media (max-width: 991px) {

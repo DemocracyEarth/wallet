@@ -95,12 +95,9 @@ const _positionCard = (element, target) => {
 };
 
 /**
-/* activates event listeners for proper popup dynamic rendering behaviour
+/* @summary fundamental window refreshing events
 **/
-const _renderPopup = () => {
-  // positioning
-  $('.popup').css(popupCard.position);
-
+const _windowLoop = () => {
   // resize
   $(window).resize(() => {
     if (Session.get('displayPopup')) {
@@ -123,6 +120,15 @@ const _renderPopup = () => {
       }
     }
   });
+};
+
+/**
+/* @summary activates event listeners for proper popup dynamic rendering behaviour
+**/
+const _renderPopup = () => {
+  // positioning
+  $('.popup').css(popupCard.position);
+  _windowLoop();
 };
 
 /**
@@ -224,3 +230,4 @@ export const cancelPopup = _cancelPopup;
 export const displayLogin = _displayLogin;
 export const animatePopup = _animatePopup;
 export const displayPopup = _displayPopup;
+export const windowLoop = _windowLoop;

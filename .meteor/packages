@@ -76,3 +76,4 @@ shell-server@0.2.1
 xolvio:cleaner
 practicalmeteor:chai
 dispatch:mocha-phantomjs
+reactive-var
