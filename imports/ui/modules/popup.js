@@ -119,6 +119,7 @@ const _windowLoop = () => {
         }
       }
     }
+    
     console.log('windowLoop');
   });
 };

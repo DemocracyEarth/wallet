@@ -1,9 +1,6 @@
 import { $ } from 'meteor/jquery';
-import { ReactiveVar } from 'meteor/reactive-var';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
-
-import { windowLoop } from '/imports/ui/modules/popup';
 
 import './agora.html';
 import './postComment.js';
@@ -20,9 +17,26 @@ function resizeSplit(diff) {
 }
 
 Template.agora.onCreated(function () {
-  this.resizingSplit = new ReactiveVar(false);
-  this.cursorPosition = new ReactiveVar({ x: 0, y: 0 });
-  windowLoop();
+  Session.set('resizeSplit', false);
+  Session.set('resizeSplitCursor', { x: 0, y: 0 });
+
+  // windowLoop();
+  $(window).mousemove((event) => {
+    if (Session.get('resizeSplit')) {
+      event.preventDefault();
+      const left = parseInt($('.split-right').css('left'), 10);
+      const delta = {
+        x: parseInt(event.pageX - Session.get('resizeSplitCursor').x, 10),
+        y: parseInt(event.pageY - Session.get('resizeSplitCursor').y, 10),
+      };
+      resizeSplit(delta.x);
+      $('.split-right').css('marginLeft', delta.x);
+      console.log(left);
+    }
+  });
+  $(window).mouseup(() => {
+    Session.set('resizeSplit', false);
+  });
 });
 
 Template.agora.helpers({
@@ -47,25 +61,9 @@ Template.agora.helpers({
 });
 
 Template.agora.events({
-  'mousedown #resizable'(event, instance) {
+  'mousedown #resizable'(event) {
     event.preventDefault();
-    instance.resizingSplit.set(true);
-    instance.cursorPosition.set({ x: event.pageX, y: event.pageY });
-    console.log(instance.cursorPosition.get());
-  },
-  'mouseup'(event, instance) {
-    instance.resizingSplit.set(false);
-  },
-  'mousemove'(event, instance) {
-    if (instance.resizingSplit.get()) {
-      event.preventDefault();
-      const left = parseInt($('.split-right').css('left'), 10);
-      const delta = {
-        x: parseInt(event.pageX - instance.cursorPosition.get().x, 10),
-        y: parseInt(event.pageY - instance.cursorPosition.get().y, 10),
-      };
-      resizeSplit(delta.x);
-      console.log(left);
-    }
+    Session.set('resizeSplit', true);
+    Session.set('resizeSplitCursor', { x: event.pageX, y: event.pageY });
   },
 });
