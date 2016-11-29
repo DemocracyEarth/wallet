@@ -77,3 +77,4 @@ xolvio:cleaner
 practicalmeteor:chai
 dispatch:mocha-phantomjs
 reactive-var
+reactive-dict

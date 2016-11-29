@@ -3,6 +3,8 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 
+import { windowLoop } from '/imports/ui/modules/popup';
+
 import './agora.html';
 import './postComment.js';
 import './thread/thread.js';
@@ -20,6 +22,7 @@ function resizeSplit(diff) {
 Template.agora.onCreated(function () {
   this.resizingSplit = new ReactiveVar(false);
   this.cursorPosition = new ReactiveVar({ x: 0, y: 0 });
+  windowLoop();
 });
 
 Template.agora.helpers({
@@ -62,7 +65,6 @@ Template.agora.events({
         y: parseInt(event.pageY - instance.cursorPosition.get().y, 10),
       };
       resizeSplit(delta.x);
-      $('.split-right').css('left', event.pageX);
       console.log(left);
     }
   },

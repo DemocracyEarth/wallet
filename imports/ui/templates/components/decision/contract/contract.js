@@ -14,6 +14,7 @@ import '../results/results.js';
 import '../agora/agora.js';
 
 function splitRender() {
+  console.log('SPLIT');
   if ($('.split-right') && $('.split-left')) {
     const contentwidth = $('.right').width();
     const half = parseInt(contentwidth / 2, 10);
