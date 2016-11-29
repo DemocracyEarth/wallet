@@ -24,14 +24,12 @@ Template.agora.onCreated(function () {
   $(window).mousemove((event) => {
     if (Session.get('resizeSplit')) {
       event.preventDefault();
-      const left = parseInt($('.split-right').css('left'), 10);
       const delta = {
         x: parseInt(event.pageX - Session.get('resizeSplitCursor').x, 10),
         y: parseInt(event.pageY - Session.get('resizeSplitCursor').y, 10),
       };
       resizeSplit(delta.x);
       $('.split-right').css('marginLeft', delta.x);
-      console.log(left);
     }
   });
   $(window).mouseup(() => {
@@ -63,7 +61,11 @@ Template.agora.helpers({
 Template.agora.events({
   'mousedown #resizable'(event) {
     event.preventDefault();
+    console.log($('.split-right').css('marginLeft'));
     Session.set('resizeSplit', true);
-    Session.set('resizeSplitCursor', { x: event.pageX, y: event.pageY });
+    Session.set('resizeSplitCursor', {
+      x: parseInt(event.pageX - parseInt($('.split-right').css('marginLeft'), 10), 10),
+      y: event.pageY,
+    });
   },
 });
