@@ -1,4 +1,5 @@
 import { $ } from 'meteor/jquery';
+import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
 /**
@@ -54,6 +55,14 @@ const _setupSplit = () => {
   $(window).mouseup(() => {
     Session.set('resizeSplit', false);
     Session.set('resizeSplitCursor', { leftWidth: $('.split-left').width(), rightWidth: $('.split-right').width() });
+    if (Meteor.userId()) {
+      const data = Meteor.user().profile;
+      data.settings = {
+        splitLeftWidth: $('.split-left').width(),
+        splitRightWidth: $('.split-right').width(),
+      };
+      Meteor.users.update(Meteor.userId(), { $set: { profile: data } });
+    }
   });
 };
 

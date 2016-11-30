@@ -140,7 +140,7 @@ Schema.Profile = new SimpleSchema({
   settings: {
     type: Schema.Settings,
     optional: true,
-  }
+  },
 });
 
 Schema.User = new SimpleSchema({
