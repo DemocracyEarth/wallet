@@ -4,6 +4,7 @@ import { Wallet } from './Wallet';
 import { Country } from '../collectives/Collectives';
 
 const Schema = {};
+
 Schema.Credential = new SimpleSchema({
   source: {
     type: String,
@@ -16,6 +17,17 @@ Schema.Credential = new SimpleSchema({
   },
   validated: {
     type: Boolean,
+    optional: true,
+  },
+});
+
+Schema.Settings = new SimpleSchema({
+  splitLeftWidth: {
+    type: Number,
+    optional: true,
+  },
+  splitRightWidth: {
+    type: Number,
     optional: true,
   },
 });
@@ -125,6 +137,10 @@ Schema.Profile = new SimpleSchema({
     type: Wallet,
     optional: true,
   },
+  settings: {
+    type: Schema.Settings,
+    optional: true,
+  }
 });
 
 Schema.User = new SimpleSchema({
