@@ -138,15 +138,14 @@ Meteor.methods({
     const userList = [];
     let user = '';
 
-    let labelUser;
-    if (user.profile.firstName && user.profile.lastName) {
-      labelUser = showFullName(user.profile.firstName, user.profile.lastName);
-    } else {
-      labelUser = user.username;
-    }
-
     for (i in array) {
       user = Meteor.users.findOne({ _id: array[i] });
+      let labelUser;
+      if (user.profile && user.profile.firstName && user.profile.lastName) {
+        labelUser = showFullName(user.profile.firstName, user.profile.lastName);
+      } else {
+        labelUser = user.username;
+      }
       userList.push({
         id: user._id,
         label: labelUser,
