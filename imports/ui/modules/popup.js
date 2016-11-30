@@ -230,4 +230,3 @@ export const cancelPopup = _cancelPopup;
 export const displayLogin = _displayLogin;
 export const animatePopup = _animatePopup;
 export const displayPopup = _displayPopup;
-export const windowLoop = _windowLoop;

@@ -2,6 +2,8 @@ import { $ } from 'meteor/jquery';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 
+import { splitRender } from '/imports/ui/modules/split';
+
 import './contract.html';
 import '../title/title.js';
 import '../agreement/agreement.js';
@@ -12,16 +14,6 @@ import '../ballot/ballot.js';
 import '../action/action.js';
 import '../results/results.js';
 import '../agora/agora.js';
-
-function splitRender() {
-  console.log('SPLIT');
-  if ($('.split-right') && $('.split-left')) {
-    const contentwidth = $('.right').width();
-    const half = parseInt(contentwidth / 2, 10);
-    $('.split-left').width(`${half}px`);
-    $('.split-right').width(`${half}px`);
-  }
-}
 
 Template.contract.onRendered(() => {
   // set pixel width of left and right split panels
