@@ -8,12 +8,13 @@ const _splitRender = () => {
   if ($('.split-right') && $('.split-left')) {
     const contentwidth = $('.right').width();
     const half = parseInt(contentwidth / 2, 10);
-    let diff = half;
-    if (Session.get('resizeSplitCursor').x > 0) {
-      diff = Session.get('resizeSplitCursor').x;
+    if (Session.get('resizeSplitCursor').leftWidth) {
+      $('.split-left').width(Session.get('resizeSplitCursor').leftWidth);
+      $('.split-right').width(Session.get('resizeSplitCursor').rightWidth);
+    } else {
+      $('.split-left').width(`${half}px`);
+      $('.split-right').width(`${half}px`);
     }
-    $('.split-left').width(`${parseInt(diff, 10)}px`);
-    $('.split-right').width(`${half}px`);
   }
 };
 
@@ -36,7 +37,7 @@ const _resizeSplit = (diff) => {
 const _setupSplit = () => {
   if (Session.get('resizeSplit') === undefined) {
     Session.set('resizeSplit', false);
-    Session.set('resizeSplitCursor', { x: 0, y: 0 });
+    Session.set('resizeSplitCursor', { x: 0, y: 0, leftWidth: 0, rightWidth: 0 });
   }
 
   $(window).mousemove((event) => {
@@ -52,6 +53,7 @@ const _setupSplit = () => {
   });
   $(window).mouseup(() => {
     Session.set('resizeSplit', false);
+    Session.set('resizeSplitCursor', { leftWidth: $('.split-left').width(), rightWidth: $('.split-right').width() });
   });
 };
 

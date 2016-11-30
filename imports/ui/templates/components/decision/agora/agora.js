@@ -16,11 +16,8 @@ Template.agora.onCreated(function () {
 Template.agora.helpers({
   emptyThread() {
     if (Session.get('contract')) {
-      if (Session.get('contract').events !== undefined) {
-        if (Session.get('contract').events.length > 0) {
-          return false;
-        }
-        return true;
+      if (Session.get('contract').events !== undefined && Session.get('contract').events.length > 0) {
+        return false;
       }
       return true;
     }
