@@ -3,18 +3,52 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
 /**
+* @summary simply draws each split panel
+* @param {Number} left width of left panel
+* @param {Number} right widht of right panel
+*/
+const _drawPanels = (left, right) => {
+  const diff = parseInt(left - parseInt(($('.right').width() / 2), 10), 10);
+  $('.split-left').width(left);
+  $('.split-right').width(right);
+  $('.split-right').css('marginLeft', diff);
+};
+
+/**
+* @summary saves split preference of user
+*/
+const _saveSplitSettings = (left, right) => {
+  if (Meteor.userId() && (left !== null || right !== null)) {
+    const data = Meteor.user().profile;
+    data.settings = {
+      splitLeftWidth: left,
+      splitRightWidth: right,
+    };
+    Meteor.users.update(Meteor.userId(), { $set: { profile: data } });
+  }
+};
+
+/**
 * @summary splits the view of panels based on user preference
 */
 const _splitRender = () => {
   if ($('.split-right') && $('.split-left')) {
     const contentwidth = $('.right').width();
     const half = parseInt(contentwidth / 2, 10);
-    if (Session.get('resizeSplitCursor').leftWidth) {
-      $('.split-left').width(Session.get('resizeSplitCursor').leftWidth);
-      $('.split-right').width(Session.get('resizeSplitCursor').rightWidth);
+    if (Meteor.user().profile.settings) {
+      const settings = Meteor.user().profile.settings;
+      if (parseInt(settings.splitLeftWidth + settings.splitRightWidth, 10) === parseInt($('.right').width(), 10)) {
+        _drawPanels(settings.splitLeftWidth, settings.splitRightWidth);
+      } else {
+        const oldWidth = parseInt(settings.splitLeftWidth + settings.splitRightWidth, 10);
+        const leftPercentage = parseInt((settings.splitLeftWidth * 100) / oldWidth, 10);
+        const rightPercentage = parseInt((settings.splitRightWidth * 100) / oldWidth, 10);
+        _drawPanels(parseInt($('.right').width() * (leftPercentage / 100), 10), parseInt($('.right').width() * (rightPercentage / 100), 10));
+      }
+    } else if (Session.get('resizeSplitCursor').leftWidth) {
+      _drawPanels(Session.get('resizeSplitCursor').leftWidth, Session.get('resizeSplitCursor').rightWidth);
     } else {
-      $('.split-left').width(`${half}px`);
-      $('.split-right').width(`${half}px`);
+      _drawPanels(half, half);
     }
   }
 };
@@ -40,7 +74,6 @@ const _setupSplit = () => {
     Session.set('resizeSplit', false);
     Session.set('resizeSplitCursor', { x: 0, y: 0, leftWidth: 0, rightWidth: 0 });
   }
-
   $(window).mousemove((event) => {
     if (Session.get('resizeSplit')) {
       event.preventDefault();
@@ -53,15 +86,10 @@ const _setupSplit = () => {
     }
   });
   $(window).mouseup(() => {
-    Session.set('resizeSplit', false);
-    Session.set('resizeSplitCursor', { leftWidth: $('.split-left').width(), rightWidth: $('.split-right').width() });
-    if (Meteor.userId()) {
-      const data = Meteor.user().profile;
-      data.settings = {
-        splitLeftWidth: $('.split-left').width(),
-        splitRightWidth: $('.split-right').width(),
-      };
-      Meteor.users.update(Meteor.userId(), { $set: { profile: data } });
+    if (Session.get('resizeSplit')) {
+      Session.set('resizeSplit', false);
+      Session.set('resizeSplitCursor', { leftWidth: $('.split-left').width(), rightWidth: $('.split-right').width() });
+      _saveSplitSettings($('.split-left').width(), $('.split-right').width());
     }
   });
 };
