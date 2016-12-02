@@ -23,11 +23,11 @@ Schema.Credential = new SimpleSchema({
 
 Schema.Settings = new SimpleSchema({
   splitLeftWidth: {
-    type: Number,
+    type: String,
     optional: true,
   },
   splitRightWidth: {
-    type: Number,
+    type: String,
     optional: true,
   },
 });

@@ -5,8 +5,8 @@ import { gui } from '/lib/const';
 
 /**
 * @summary simply draws each split panel
-* @param {Number} left width of left panel
-* @param {Number} right widht of right panel
+* @param {Number} left width of left panel in pixels
+* @param {Number} right widht of right panel in pixels
 */
 const _drawPanels = (left, right) => {
   const diff = parseInt(left - parseInt(($('.right').width() / 2), 10), 10);
@@ -17,13 +17,18 @@ const _drawPanels = (left, right) => {
 
 /**
 * @summary saves split preference of user
+* @param {Number} left width of left panel in pixels
+* @param {Number} right widht of right panel in pixels
 */
 const _saveSplitSettings = (left, right) => {
   if (Meteor.userId() && (left !== null || right !== null)) {
     const data = Meteor.user().profile;
+    const total = parseInt(left + right, 10);
+    const leftPercentage = `${((left * 100) / total).toFixed(1).toString()}%`;
+    const rightPercentage = `${((right * 100) / total).toFixed(1).toString()}%`;
     data.settings = {
-      splitLeftWidth: left,
-      splitRightWidth: right,
+      splitLeftWidth: leftPercentage,
+      splitRightWidth: rightPercentage,
     };
     Meteor.users.update(Meteor.userId(), { $set: { profile: data } });
   }
