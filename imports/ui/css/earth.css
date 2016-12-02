@@ -4389,7 +4389,10 @@ blockquote {
 
 .resize:hover {
   border-left-style: solid;
-  border-left-color: #d5d5d5;
+}
+
+.resize:active {
+  border-left-color: #c7c7c7;
 }
 
 .authenticity {

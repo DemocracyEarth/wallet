@@ -1,6 +1,7 @@
 import { $ } from 'meteor/jquery';
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
+import { gui } from '/lib/const';
 
 /**
 * @summary simply draws each split panel
@@ -61,8 +62,12 @@ const _resizeSplit = (diff) => {
   if ($('.split-right') && $('.split-left')) {
     const contentWidth = $('.right').width();
     const half = parseInt(contentWidth / 2, 10);
-    $('.split-left').width(`${parseInt(half + diff, 10)}px`);
-    $('.split-right').width(`${parseInt(half - diff, 10)}px`);
+    const agoraWidth = parseInt(half - diff, 10);
+    if (agoraWidth > gui.MIN_AGORA_WIDTH && agoraWidth < half) {
+      $('.split-left').width(`${parseInt(half + diff, 10)}px`);
+      $('.split-right').width(`${agoraWidth}px`);
+      $('.split-right').css('marginLeft', diff);
+    }
   }
 };
 
@@ -82,7 +87,6 @@ const _setupSplit = () => {
         y: parseInt(event.pageY - Session.get('resizeSplitCursor').y, 10),
       };
       _resizeSplit(delta.x);
-      $('.split-right').css('marginLeft', delta.x);
     }
   });
   $(window).mouseup(() => {
@@ -90,6 +94,12 @@ const _setupSplit = () => {
       Session.set('resizeSplit', false);
       Session.set('resizeSplitCursor', { leftWidth: $('.split-left').width(), rightWidth: $('.split-right').width() });
       _saveSplitSettings($('.split-left').width(), $('.split-right').width());
+      // TODO: user % and you avoid the resizing trap
+    }
+  });
+  $(window).resize(() => {
+    if ($('.split-right')) {
+      console.log('resize bitch');
     }
   });
 };
