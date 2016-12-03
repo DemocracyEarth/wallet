@@ -23,6 +23,8 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { SearchSource } from 'meteor/meteorhacks:search-source';
+import { Template } from 'meteor/templating';
+import { displayLogin } from '/imports/ui/modules/popup';
 
 import { globalObj } from '/lib/global';
 import './main.html';
@@ -74,4 +76,18 @@ Meteor.startup(() => {
     globalObj.geoJSON = result.data;
     Session.set('filteredCountries', result.data.country);
   });
+});
+
+Template.main.events({
+  'mouseup #content'(event) {
+    if (Session.get('displayPopup')) {
+      if (event.target.parentElement.id !== 'loggedUser') {
+        if (event.target.id !== 'loggedUser') {
+          if (event.target.id !== 'agora-login') {
+            displayLogin(event);
+          }
+        }
+      }
+    }
+  },
 });
