@@ -5,13 +5,21 @@ import { gui } from '/lib/const';
 
 /**
 * @summary simply draws each split panel
-* @param {Number} left width of left panel in pixels
-* @param {Number} right widht of right panel in pixels
+* @param {String} left width of left panel in pixels or percentage
+* @param {String} right widht of right panel in pixels or percentage
 */
 const _drawPanels = (left, right) => {
-  const diff = parseInt(left - parseInt(($('.right').width() / 2), 10), 10);
-  $('.split-left').width(left);
-  $('.split-right').width(right);
+  let leftPixels = left;
+  let rightPixels = right;
+  const total = parseInt($('.right').width(), 10);
+  if (typeof right === 'string' && right.slice(-1) === '%') {
+    leftPixels = parseInt((left.toNumber() * total) / 100, 10);
+    rightPixels = parseInt((right.toNumber() * total) / 100, 10);
+    Session.set('resizeSplitCursor', { leftWidth: leftPixels, rightWidth: rightPixels });
+  }
+  $('.split-left').width(leftPixels);
+  $('.split-right').width(rightPixels);
+  const diff = parseInt(leftPixels - parseInt(($('.right').width() / 2), 10), 10);
   $('.split-right').css('marginLeft', diff);
 };
 
@@ -43,14 +51,7 @@ const _splitRender = () => {
     const half = parseInt(contentwidth / 2, 10);
     if (Meteor.user().profile.settings) {
       const settings = Meteor.user().profile.settings;
-      if (parseInt(settings.splitLeftWidth + settings.splitRightWidth, 10) === parseInt($('.right').width(), 10)) {
-        _drawPanels(settings.splitLeftWidth, settings.splitRightWidth);
-      } else {
-        const oldWidth = parseInt(settings.splitLeftWidth + settings.splitRightWidth, 10);
-        const leftPercentage = parseInt((settings.splitLeftWidth * 100) / oldWidth, 10);
-        const rightPercentage = parseInt((settings.splitRightWidth * 100) / oldWidth, 10);
-        _drawPanels(parseInt($('.right').width() * (leftPercentage / 100), 10), parseInt($('.right').width() * (rightPercentage / 100), 10));
-      }
+      _drawPanels(settings.splitLeftWidth, settings.splitRightWidth);
     } else if (Session.get('resizeSplitCursor').leftWidth) {
       _drawPanels(Session.get('resizeSplitCursor').leftWidth, Session.get('resizeSplitCursor').rightWidth);
     } else {
@@ -99,12 +100,20 @@ const _setupSplit = () => {
       Session.set('resizeSplit', false);
       Session.set('resizeSplitCursor', { leftWidth: $('.split-left').width(), rightWidth: $('.split-right').width() });
       _saveSplitSettings($('.split-left').width(), $('.split-right').width());
-      // TODO: user % and you avoid the resizing trap
     }
   });
   $(window).resize(() => {
     if ($('.split-right')) {
-      console.log('resize bitch');
+      const total = parseInt(Session.get('resizeSplitCursor').leftWidth + Session.get('resizeSplitCursor').rightWidth, 10);
+      const diff = parseInt($('.right').width() - total, 10);
+      const half = parseInt($('.right').width() / 2, 10);
+      const newLeft = parseInt(Session.get('resizeSplitCursor').leftWidth + diff, 10);
+      const newRight = parseInt(Session.get('resizeSplitCursor').rightWidth, 10);
+      if (newLeft >= newRight) {
+        _drawPanels(newLeft, newRight);
+      } else {
+        _drawPanels(half, half);
+      }
     }
   });
 };
