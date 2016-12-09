@@ -24,26 +24,63 @@ export const postComment = (contractId, eventObject, replyId) => {
     eventObject.status = 'NEW';
     eventObject.id = guidGenerator();
     thread = Contracts.find({_id: Session.get('contract')._id }).fetch()[0].events;
+    console.log('replyId: ', replyId);
+    console.log('thread: ', thread);
     node = '';
     currentParent = '';
     for (var children in thread) {
-      node += searchTree(thread[children], replyId, children, true, '');
+      node += searchTree(thread[children], replyId, children, true, '', '.children');
+      console.log('node: ', node);
     }
     query[node] = eventObject;
+    console.log('query: ', query);
     Contracts.update(
       { _id: contractId },
-      { $push: query}
+      { $push: query }
     );
   };
 }
 
-let searchTree = (element, matchingTitle, iterator, isRoot, inheritedPath) => {
+/**
+/* @summary - upvotes or downvotes a comment
+/* @param {string} contractId - contract where this comment goes.
+/* @param {string} threadId - exact comment that is being up/down voted
+/* @param {string} vote - indicates where it's an upvote (1) or downvote (-1)
+*/
+export const voteComment = (contractId, threadId, vote) => {
+  console.log('voteComment()');
+  thread = Contracts.find({_id: contractId }).fetch()[0].events;
+  node = ''
+  currentParent = ''
+  for (var children in thread) {
+    node += searchTree(thread[children], threadId, children, true, '', '.sortTotal');
+  }
+  console.log('contractId: ', contractId);
+  console.log('node: ', node);
+  console.log('vote: ', vote);
+  Contracts.update(
+    { _id: contractId },
+    { $inc: { node: vote } }
+  );
+}
+
+
+/**
+/* @summary - searches the thread tree to locate the node that's being modified
+/* @param {object} element - object from `events` array
+/* @param {string} matchingTitle - title or id of element in subject
+/* @param {string} iterator
+/* @param {boolean} isRoot - indicates first parent or not
+/* @param {string} inheritedPath - indicates correct path for recurssion
+/* @param {string} target - what is being searched, either '.children' (for postComment) or '.sortTotal' (for voteComment)
+*/
+let searchTree = (element, matchingTitle, iterator, isRoot , inheritedPath, target) => {
   if (element.id == matchingTitle) {
     if (iterator != undefined) {
       if (isRoot) {
-        parentStr = 'events.' + iterator.toString() + '.children';
+        parentStr = 'events.' + iterator.toString() + target;
       } else {
-        parentStr = '.' + iterator.toString() + '.children';
+        parentStr = '.' + iterator.toString() + target;
       }
       if (isRoot) {
         return parentStr;
@@ -61,7 +98,7 @@ let searchTree = (element, matchingTitle, iterator, isRoot, inheritedPath) => {
     }
     currentParent += '.' + iterator.toString() + '.children';
     for( i=0; result == '' && i < element.children.length; i++) {
-      result = searchTree(element.children[i], matchingTitle, i, false, currentParent);
+      result = searchTree(element.children[i], matchingTitle, i, false, currentParent, target);
     }
     if (result == '') {
       currentParent = resolvePath(currentParent);
