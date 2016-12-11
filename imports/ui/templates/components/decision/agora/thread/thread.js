@@ -2,6 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 
+import { displayLogin } from '/imports/ui/modules/popup';
+import { voteComment } from '/imports/ui/modules/Thread';
+
 import { timeSince } from '/imports/ui/modules/chronos';
 import { textFormat } from '/imports/ui/modules/utils';
 
@@ -54,10 +57,26 @@ Template.thread.events({
     replyBoxes.push(replyStringId);
     Session.set(replyStringId, true);
   },
-  'mousedown #upvote'() {
-    console.log('upvote');
+  'mousedown #upvote'(event) {
+    if (!Meteor.user()) {
+      displayLogin(event, document.getElementById('loggedUser'));
+    }else {
+      voteComment(
+        Session.get('contract')._id,
+        this.id,
+        1
+      );
+    }
   },
   'mousedown #downvote'() {
-    console.log('downvote');
+    if (!Meteor.user()) {
+      displayLogin(event, document.getElementById('loggedUser'));
+    }else {
+      voteComment(
+        Session.get('contract')._id,
+        this.id,
+        -1
+      );
+    }
   },
 });
