@@ -12,9 +12,9 @@ import { Tags } from '../../api/tags/Tags';
 import { Collectives } from '../../api/collectives/Collectives';
 import { toggleSidebar, setSidebarMenu } from '../../ui/modules/menu';
 
-/*
+/**
 * private methods for effective routing
-******************************/
+**/
 
 /**
 * @summary matches url param with db schema string accordingly
@@ -326,12 +326,12 @@ let _getExternalScripts = () => {
   };
 }
 
-/***
-* main settings for navbar behaviour
+/**
+* @summary main settings for navbar behaviour
 * @param {string} title - title for it
-****/
-let _configNavbar = (title) => {
-  if (Session.get('sidebar') == undefined) {
+*/
+const _configNavbar = (title) => {
+  if (Session.get('sidebar') === undefined) {
     Session.set('sidebar', true);
     toggleSidebar();
   }
@@ -339,9 +339,9 @@ let _configNavbar = (title) => {
     title: title,
     toggle: Session.get('sidebar'),
     href: '#',
-    action: 'SIDEBAR'
+    action: 'SIDEBAR',
   });
-}
+};
 
 /***
 * clears all sessions vars need to reset view

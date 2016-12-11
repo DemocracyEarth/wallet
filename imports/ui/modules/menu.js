@@ -258,38 +258,49 @@ let _getPersonalMenu = (feed) => {
 /* @param {object} feed - feed to compare with
 ******/
 let _verifySelection = (selection, feed) => {
-  if (selection == feed) {
-
-    //Empty content if void
+  if (selection === feed) {
+    // empty content if void
     Session.set('emptyContent', {
-      label: TAPi18n.__('empty-feed-label-' + feed),
-      detail: TAPi18n.__('empty-feed-detail-' + feed),
-      contribute: TAPi18n.__('empty-feed-contribute-' + feed),
-      url: '/vote/draft?kind=' + feed
+      label: TAPi18n.__(`empty-feed-label-${feed}`),
+      detail: TAPi18n.__(`empty-feed-detail-${feed}`),
+      contribute: TAPi18n.__(`empty-feed-contribute-${feed}`),
+      url: `/vote/draft?kind=${feed}`,
     });
 
-    if (typeof Session.get('sidebarMenuSelectedId') != 'string') {
+    if (typeof Session.get('sidebarMenuSelectedId') !== 'string') {
       return true;
     }
-  } else {
-    return false;
   }
-}
+  return false;
+};
 
-/*****
-/* animation for main menu toggle activation burger button
-******/
-let animateMenu = () => {
-  //TODO make all strings showing pixels compliant with the device screen being used (aka mobiles)
+/**
+/* @summary animation for main menu toggle activation burger button
+*/
+const animateMenu = () => {
+  // TODO make all strings showing pixels compliant with the device screen being used (aka mobiles)
+  const splitLeft = $('.split-left').width();
   Session.set('sidebar', !Session.get('sidebar'));
   if (Session.get('sidebar')) {
+    // show sidebar
+    const diff = parseInt(parseInt(splitLeft - 320, 10) - parseInt(($('.right').width() / 2), 10), 10);
     $('#menu').velocity({ marginLeft: '0px' }, animationSettings);
-    $('#content').velocity({ left: '320px' }, animationSettings);
     $('.navbar').velocity({ left: '320px' }, animationSettings);
+    $('#content').velocity({ left: '320px' }, animationSettings);
+    $('.split-right').velocity({
+      marginLeft: diff + 160,
+    }, animationSettings);
+    $('.split-left').velocity({ width: parseInt(splitLeft - 320, 10) }, animationSettings);
   } else {
+    // hide sidebar
+    const diff = parseInt(parseInt(splitLeft + 320, 10) - parseInt(($(window).width() / 2), 10), 10);
     $('#menu').velocity({ marginLeft: '-320px' }, animationSettings);
-    $('#content').velocity({ left: '0px' }, animationSettings);
     $('.navbar').velocity({ left: '0px' }, animationSettings);
+    $('#content').velocity({ left: '0px' }, animationSettings);
+    $('.split-right').velocity({
+      marginLeft: diff,
+    }, animationSettings);
+    $('.split-left').velocity({ width: parseInt(splitLeft + 320, 10) }, animationSettings);
   }
 };
 
