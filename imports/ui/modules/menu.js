@@ -293,7 +293,7 @@ const animateMenu = () => {
     $('.split-left').velocity({ width: parseInt(splitLeft - 320, 10) }, animationSettings);
   } else {
     // hide sidebar
-    const diff = parseInt(parseInt(splitLeft + 320, 10) - parseInt(($(window).width() / 2), 10), 10);
+    const diff = parseInt((splitLeft + 320) - parseInt(($(window).width() / 2), 10), 10);
     $('#menu').velocity({ marginLeft: '-320px' }, animationSettings);
     $('.navbar').velocity({ left: '0px' }, animationSettings);
     $('#content').velocity({ left: '0px' }, animationSettings);
