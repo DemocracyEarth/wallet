@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { gui } from '/lib/const';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { animationSettings } from './animation';
@@ -284,13 +285,20 @@ const animateMenu = () => {
   if (Session.get('sidebar')) {
     // show sidebar
     const diff = parseInt(parseInt(splitLeft - 320, 10) - parseInt(($('.right').width() / 2), 10), 10);
+    let splitLeftNewWidth = parseInt(splitLeft - 320, 10);
+    let splitRightNewMargin = parseInt(diff + 160, 10);
     $('#menu').velocity({ marginLeft: '0px' }, animationSettings);
     $('.navbar').velocity({ left: '320px' }, animationSettings);
     $('#content').velocity({ left: '320px' }, animationSettings);
+    // content layout
+    if (splitLeftNewWidth < gui.MIN_CONTRACT_WIDTH) {
+      splitRightNewMargin -= parseInt(splitLeftNewWidth - gui.MIN_CONTRACT_WIDTH, 10);
+      splitLeftNewWidth = gui.MIN_CONTRACT_WIDTH;
+    }
     $('.split-right').velocity({
-      marginLeft: diff + 160,
+      marginLeft: splitRightNewMargin,
     }, animationSettings);
-    $('.split-left').velocity({ width: parseInt(splitLeft - 320, 10) }, animationSettings);
+    $('.split-left').velocity({ width: splitLeftNewWidth }, animationSettings);
   } else {
     // hide sidebar
     const diff = parseInt((splitLeft + 320) - parseInt(($(window).width() / 2), 10), 10);

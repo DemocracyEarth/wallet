@@ -69,7 +69,8 @@ const _resizeSplit = (diff) => {
     const contentWidth = $('.right').width();
     const half = parseInt(contentWidth / 2, 10);
     const agoraWidth = parseInt(half - diff, 10);
-    if (agoraWidth > gui.MIN_AGORA_WIDTH && agoraWidth < ((half * 2) * 0.7)) {
+    const contractWidth = parseInt(contentWidth - agoraWidth, 10);
+    if (agoraWidth > gui.MIN_AGORA_WIDTH && contractWidth > gui.MIN_CONTRACT_WIDTH) {
       $('.split-left').width(`${parseInt(half + diff, 10)}px`);
       $('.split-right').width(`${agoraWidth}px`);
       $('.split-right').css('marginLeft', diff);
