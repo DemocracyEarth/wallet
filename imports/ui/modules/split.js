@@ -17,9 +17,14 @@ const _drawPanels = (left, right) => {
     rightPixels = parseInt((right.toNumber() * total) / 100, 10);
     Session.set('resizeSplitCursor', { leftWidth: leftPixels, rightWidth: rightPixels });
   }
+  let diff = parseInt(leftPixels - parseInt(($('.right').width() / 2), 10), 10);
+  if ($(window).width() < gui.DESKTOP_MIN_WIDTH) {
+    leftPixels = '100%';
+    rightPixels = '100%';
+    diff = 0;
+  }
   $('.split-left').width(leftPixels);
   $('.split-right').width(rightPixels);
-  const diff = parseInt(leftPixels - parseInt(($('.right').width() / 2), 10), 10);
   $('.split-right').css('marginLeft', diff);
 };
 
