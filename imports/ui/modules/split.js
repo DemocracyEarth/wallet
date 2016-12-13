@@ -107,14 +107,17 @@ const _setupSplit = () => {
     if ($('.split-right')) {
       const total = parseInt(Session.get('resizeSplitCursor').leftWidth + Session.get('resizeSplitCursor').rightWidth, 10);
       const diff = parseInt($('.right').width() - total, 10);
-      const half = parseInt($('.right').width() / 2, 10);
-      const newLeft = parseInt(Session.get('resizeSplitCursor').leftWidth + diff, 10);
-      const newRight = parseInt(Session.get('resizeSplitCursor').rightWidth, 10);
-      if (newLeft >= newRight) {
-        _drawPanels(newLeft, newRight);
-      } else {
-        _drawPanels(half, half);
+      let newLeft = parseInt(Session.get('resizeSplitCursor').leftWidth + diff, 10);
+      let newRight = parseInt(Session.get('resizeSplitCursor').rightWidth, 10);
+      if (newLeft < gui.MIN_CONTRACT_WIDTH) {
+        newLeft = gui.MIN_CONTRACT_WIDTH;
+        if (Session.get('sidebar')) {
+          newRight = parseInt($(window).width() - (gui.SIDEBAR_WIDTH + newLeft), 10);
+        } else {
+          newRight = parseInt($(window).width() - newLeft, 10);
+        }
       }
+      _drawPanels(newLeft, newRight);
     }
   });
 };
