@@ -471,6 +471,13 @@ blockquote {
   cursor: pointer;
 }
 
+.symbol.profile-pic:hover {
+  width: 62px;
+  height: 62px;
+  margin-top: 9px;
+  margin-left: -1px;
+}
+
 .symbol.profile-pic:active {
   border-color: #00bf8f;
 }
@@ -4650,6 +4657,10 @@ blockquote {
     overflow: visible;
     width: 100%;
     background-color: #f5f5f5;
+  }
+  .split.split-left {
+    margin-top: 60px;
+    margin-bottom: -60px;
   }
   .smart {
     display: block;
