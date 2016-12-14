@@ -285,13 +285,15 @@ const _getPersonalMenu = (feed) => {
 const animateMenu = () => {
   // TODO make all strings showing pixels compliant with the device screen being used (aka mobiles)
   const splitLeft = $('.split-left').width();
+  let diff = 0;
   Session.set('sidebar', !Session.get('sidebar'));
   if (Session.get('sidebar')) {
     // show sidebar
-    const diff = parseInt(parseInt(splitLeft - gui.SIDEBAR_WIDTH, 10) - parseInt(($('.right').width() / 2), 10), 10);
+    diff = parseInt(parseInt(splitLeft - gui.SIDEBAR_WIDTH, 10) - parseInt(($('.right').width() / 2), 10), 10);
     let splitLeftNewWidth = parseInt(splitLeft - gui.SIDEBAR_WIDTH, 10);
-    let splitRightNewMargin = parseInt(diff + 160, 10);
+    let splitRightNewMargin = parseInt(diff + (gui.SIDEBAR_WIDTH / 2), 10);
     let splitRightNewWidth = $('.split-right').width();
+    let splitLeftNewMargin = $('.split-left').css('marginLeft');
     $('#menu').velocity({ marginLeft: '0px' }, animationSettings);
     $('.navbar').velocity({ left: gui.SIDEBAR_WIDTH }, animationSettings);
     $('#content').velocity({ left: gui.SIDEBAR_WIDTH }, animationSettings);
@@ -302,15 +304,26 @@ const animateMenu = () => {
       splitRightNewWidth = parseInt($(window).width()
                            - (gui.SIDEBAR_WIDTH + splitLeftNewWidth), 10);
     }
+    if ($(window).width() < gui.DESKTOP_MIN_WIDTH) {
+      splitLeftNewWidth = '100%';
+      splitRightNewWidth = '100%';
+      splitRightNewMargin = '0px';
+      splitLeftNewMargin = '0px';
+    }
     $('.split-right').velocity({
       marginLeft: splitRightNewMargin,
       width: splitRightNewWidth,
     }, animationSettings);
-    $('.split-left').velocity({ width: splitLeftNewWidth }, animationSettings);
+    $('.split-left').velocity({
+      marginLeft: splitLeftNewMargin,
+      width: splitLeftNewWidth,
+    }, animationSettings);
   } else {
     // hide sidebar
-    const diff = parseInt((splitLeft + gui.SIDEBAR_WIDTH)
-                 - parseInt(($(window).width() / 2), 10), 10);
+    if ($(window).width() >= gui.DESKTOP_MIN_WIDTH) {
+      diff = parseInt((splitLeft + gui.SIDEBAR_WIDTH)
+             - parseInt(($(window).width() / 2), 10), 10);
+    }
     $('#menu').velocity({ marginLeft: parseInt(0 - gui.SIDEBAR_WIDTH, 10) }, animationSettings);
     $('.navbar').velocity({ left: '0px' }, animationSettings);
     $('#content').velocity({ left: '0px' }, animationSettings);

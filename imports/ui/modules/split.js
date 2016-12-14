@@ -26,6 +26,7 @@ const _drawPanels = (left, right) => {
   $('.split-left').width(leftPixels);
   $('.split-right').width(rightPixels);
   $('.split-right').css('marginLeft', diff);
+  $('.split-left').css('marginLeft', 0);
 };
 
 /**
