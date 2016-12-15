@@ -4,6 +4,15 @@ import { Session } from 'meteor/session';
 import { gui } from '/lib/const';
 
 /**
+* @summary redraws split to basic settings
+*/
+const _resetSplitPosition = (split) => {
+  $(split).css('position', 'static');
+  $(split).css('float', 'none');
+  $(split).css('left', 0);
+};
+
+/**
 * @summary simply draws each split panel
 * @param {String} left width of left panel in pixels or percentage
 * @param {String} right widht of right panel in pixels or percentage
@@ -22,6 +31,8 @@ const _drawPanels = (left, right) => {
     leftPixels = '100%';
     rightPixels = '100%';
     diff = 0;
+    //_resetSplitPosition('.split-right');
+    //_resetSplitPosition('.split-left');
   }
   $('.split-left').width(leftPixels);
   $('.split-right').width(rightPixels);
