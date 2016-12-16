@@ -5,6 +5,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 
 import '/imports/ui/templates/layout/main.js';
 import '/imports/ui/templates/layout/url/home/home.js';
+import '/imports/ui/templates/layout/url/notFound/notFound.js';
 import '/imports/ui/templates/layout/load/load.js';
 import '/imports/ui/templates/components/identity/login/login.js';
 import '/imports/ui/templates/components/identity/card/card.js';
@@ -19,6 +20,7 @@ import { fn } from './functions';
 Router.configure({
   layoutTemplate: 'main',
   loadingTemplate: 'load',
+  notFoundTemplate: 'notFound',
 });
 
 /*
@@ -59,11 +61,15 @@ Router.route('/:feed', {
     return [Meteor.subscribe('contracts', fn.buildQuery(this.params.query)), Meteor.subscribe('userData')];
   },
   onBeforeAction() {
-    fn.clearSessionVars();
-    fn.configNavbar(fn.buildTitle(this.params.query));
-    fn.setSessionVars(this.params);
-    Session.set('feed', Contracts.find(fn.buildQuery(this.params.query), { sort: { timestamp: -1 } }).fetch());
-    this.next();
+    if (this.params.feed === 'feed') {
+      fn.clearSessionVars();
+      fn.configNavbar(fn.buildTitle(this.params.query));
+      fn.setSessionVars(this.params);
+      Session.set('feed', Contracts.find(fn.buildQuery(this.params.query), { sort: { timestamp: -1 } }).fetch());
+      this.next();
+    } else {
+      this.render('notFound');
+    }
   },
   onAfterAction() {
     fn.getExternalScripts();
@@ -89,12 +95,6 @@ Router.route('/tag/:tag', {
   onAfterAction() {
     fn.getExternalScripts();
   },
-});
-
-// TODO: figure out what to do when no param is given
-Router.route('/peer', {
-  name: 'peer',
-  template: 'peer',
 });
 
 /*
