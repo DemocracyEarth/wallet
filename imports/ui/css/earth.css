@@ -4902,8 +4902,12 @@ blockquote {
     margin-top: 10px;
     margin-right: -20px;
     margin-left: -20px;
-    padding: 20px 15px 10px;
+    padding: 0px 15px 10px;
     box-shadow: 0 0 25px -10px #000;
+  }
+  .paper.paper-comment {
+    padding-top: 20px;
+    padding-left: 20px;
   }
   .kind {
     width: 50px;
@@ -5173,6 +5177,9 @@ blockquote {
   .feed {
     padding-right: 0px;
     padding-left: 0px;
+  }
+  .content.content-agora {
+    margin-top: -20px;
   }
   .half {
     width: 100%;
