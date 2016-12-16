@@ -472,10 +472,9 @@ blockquote {
 }
 
 .symbol.profile-pic:hover {
-  width: 62px;
-  height: 62px;
-  margin-top: 9px;
-  margin-left: -1px;
+  margin-top: 8px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 7px -4px #000;
 }
 
 .symbol.profile-pic:active {
@@ -4627,8 +4626,8 @@ blockquote {
   }
   .content.content-agora {
     margin-top: 0px;
-    padding-right: 15px;
-    padding-left: 15px;
+    padding-right: 30px;
+    padding-left: 30px;
   }
   .agora {
     margin-top: 0px;
@@ -4901,6 +4900,8 @@ blockquote {
   }
   .paper {
     margin-top: 10px;
+    margin-right: -20px;
+    margin-left: -20px;
     padding: 20px 15px 10px;
     box-shadow: 0 0 25px -10px #000;
   }
@@ -5145,11 +5146,21 @@ blockquote {
   .title-input:hover {
     border-left-color: transparent;
   }
+  .paper-header {
+    margin-right: -15px;
+    margin-left: -15px;
+  }
   .shadow-fake {
     left: 20px;
   }
   .tabs {
     display: inline-block;
+  }
+  .popup.popup-test.hide {
+    display: none;
+  }
+  .left.hide {
+    display: none;
   }
   .type {
     padding-right: 0px;
@@ -5168,6 +5179,9 @@ blockquote {
   }
   .micro-menu {
     width: 100%;
+  }
+  .right.show {
+    margin-left: -320px;
   }
 }
 
