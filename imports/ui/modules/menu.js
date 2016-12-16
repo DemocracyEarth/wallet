@@ -351,7 +351,12 @@ const animateMenu = () => {
     $('.split-right').velocity({
       marginLeft: diff,
     }, animationSettings);
-    $('.split-left').velocity({ width: parseInt(splitLeft + gui.SIDEBAR_WIDTH, 10) }, animationSettings);
+
+    if ($(window).width() >= gui.MOBILE_MAX_WIDTH) {
+      $('.split-left').velocity({ width: parseInt(splitLeft + gui.SIDEBAR_WIDTH, 10) }, animationSettings);
+    } else {
+      $('.split-left').velocity({ width: '100%' }, animationSettings);
+    }
   }
 };
 
