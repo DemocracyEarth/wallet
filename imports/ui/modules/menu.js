@@ -294,16 +294,31 @@ const animateMenu = () => {
     let splitRightNewMargin = parseInt(diff + (gui.SIDEBAR_WIDTH / 2), 10);
     let splitRightNewWidth = $('.split-right').width();
     let splitLeftNewMargin = $('.split-left').css('marginLeft');
+    let newRight = 0;
+
+    if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
+      newRight = parseInt(0 - gui.SIDEBAR_WIDTH, 10);
+    }
+
+    // animate content
     $('#menu').velocity({ marginLeft: '0px' }, animationSettings);
-    $('.navbar').velocity({ left: gui.SIDEBAR_WIDTH }, animationSettings);
-    $('#content').velocity({ left: gui.SIDEBAR_WIDTH }, animationSettings);
-    // content layout
+    $('.navbar').velocity({
+      left: gui.SIDEBAR_WIDTH,
+      right: newRight,
+    }, animationSettings);
+    $('#content').velocity({
+      left: gui.SIDEBAR_WIDTH,
+      right: newRight,
+    }, animationSettings);
+
+    // animate splits
     if (splitLeftNewWidth < gui.MIN_CONTRACT_WIDTH) {
       splitRightNewMargin -= parseInt(splitLeftNewWidth - gui.MIN_CONTRACT_WIDTH, 10);
       splitLeftNewWidth = gui.MIN_CONTRACT_WIDTH;
       splitRightNewWidth = parseInt($(window).width()
                            - (gui.SIDEBAR_WIDTH + splitLeftNewWidth), 10);
     }
+
     if ($(window).width() < gui.DESKTOP_MIN_WIDTH) {
       splitLeftNewWidth = '100%';
       splitRightNewWidth = '100%';
@@ -325,8 +340,14 @@ const animateMenu = () => {
              - parseInt(($(window).width() / 2), 10), 10);
     }
     $('#menu').velocity({ marginLeft: parseInt(0 - gui.SIDEBAR_WIDTH, 10) }, animationSettings);
-    $('.navbar').velocity({ left: '0px' }, animationSettings);
-    $('#content').velocity({ left: '0px' }, animationSettings);
+    $('.navbar').velocity({
+      left: 0,
+      right: 0,
+    }, animationSettings);
+    $('#content').velocity({
+      left: 0,
+      right: 0,
+    }, animationSettings);
     $('.split-right').velocity({
       marginLeft: diff,
     }, animationSettings);
