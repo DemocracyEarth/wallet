@@ -352,7 +352,7 @@ const animateMenu = () => {
       marginLeft: diff,
     }, animationSettings);
 
-    if ($(window).width() >= gui.MOBILE_MAX_WIDTH) {
+    if ($(window).width() >= gui.DESKTOP_MIN_WIDTH) {
       $('.split-left').velocity({ width: parseInt(splitLeft + gui.SIDEBAR_WIDTH, 10) }, animationSettings);
     } else {
       $('.split-left').velocity({ width: '100%' }, animationSettings);
