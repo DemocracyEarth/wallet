@@ -14,6 +14,17 @@ import '../postComment.js';
 
 const replyBoxes = [];
 
+/**
+* @summary counts the votes in a comment
+*/
+function count(votes) {
+  let total = 0;
+  for (const i in votes) {
+    total += votes[i].quantity;
+  }
+  return total;
+}
+
 Template.thread.helpers({
   timestamp() {
     return timeSince(this.timestamp);
@@ -41,8 +52,7 @@ Template.thread.helpers({
     return true;
   },
   sortTotal() {
-    console.log(this);
-    return this.sortTotal;
+    return count(this.votes);
   },
 });
 

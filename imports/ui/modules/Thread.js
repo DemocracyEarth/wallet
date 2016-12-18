@@ -101,7 +101,6 @@ export const postComment = (contractId, eventObj, replyId) => {
 /* @param {string} vote - indicates where it's an upvote (1) or downvote (-1)
 */
 export const voteComment = (contractId, threadId, vote) => {
-  console.log('voteComment()');
   const thread = Contracts.find({ _id: contractId }).fetch()[0].events;
   const query = {};
   node = '';
@@ -109,35 +108,19 @@ export const voteComment = (contractId, threadId, vote) => {
   for (const children in thread) {
     node += searchTree(thread[children], threadId, children, true, '', '.votes');
   }
-  console.log('contractId: ', contractId);
-  console.log('node: ', node);
-  console.log('vote: ', vote);
 
-  let settings;
-  if (vote > 0) {
-    settings = {
-      kind: 'UPVOTE',
-    };
-  } else if (vote < 0) {
-    settings = {
-      kind: 'DOWNVOTE',
-    };
-  }
-
+  // build query
   query[node] = {
     quantity: vote,
     userId: Meteor.userId(),
   };
 
+  // store vote in contract thread
   Contracts.update(
     { _id: contractId },
     { $push: query }
   );
 
-  // transact(Meteor.userId(), contractId, 1, settings);
-
-  /* Contracts.update(
-    { _id: contractId },
-    { $inc: { node: vote } }
-  );*/
+  // make transaction from user wallet
+  transact(Meteor.userId(), contractId, vote);
 };
