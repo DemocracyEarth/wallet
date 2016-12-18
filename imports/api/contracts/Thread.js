@@ -93,23 +93,19 @@ Schema.Thread = new SimpleSchema({
       }
     }
   },
-  sort: {
+  votes: {
     type: Array,
     optional: true
   },
-  'sort.$': {
+  'votes.$': {
     type: Object,
     optional: true
   },
-  'sort.$.upvotes': {
+  'votes.$.quantity': {
     type: Number,
     optional: true,
   },
-  'sort.$.downvotes': {
-    type: Number,
-    optional: true,
-  },
-  'sort.$.userId': {
+  'votes.$.userId': {
     type: String,
   },
   sortTotal: {

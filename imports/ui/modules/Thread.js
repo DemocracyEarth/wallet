@@ -107,7 +107,7 @@ export const voteComment = (contractId, threadId, vote) => {
   node = '';
   currentParent = '';
   for (const children in thread) {
-    node += searchTree(thread[children], threadId, children, true, '', '.sort');
+    node += searchTree(thread[children], threadId, children, true, '', '.votes');
   }
   console.log('contractId: ', contractId);
   console.log('node: ', node);
@@ -118,28 +118,25 @@ export const voteComment = (contractId, threadId, vote) => {
     settings = {
       kind: 'UPVOTE',
     };
-    query[node] = {
-      upvotes: vote,
-      userId: Meteor.userId(),
-    };
   } else if (vote < 0) {
     settings = {
       kind: 'DOWNVOTE',
     };
-    query[node] = {
-      downvotes: vote,
-      userId: Meteor.userId(),
-    };
   }
+
+  query[node] = {
+    quantity: vote,
+    userId: Meteor.userId(),
+  };
 
   Contracts.update(
     { _id: contractId },
     { $push: query }
   );
 
-  //transact(Meteor.userId(), contractId, 1, settings);
+  // transact(Meteor.userId(), contractId, 1, settings);
 
-  /*Contracts.update(
+  /* Contracts.update(
     { _id: contractId },
     { $inc: { node: vote } }
   );*/

@@ -35,8 +35,7 @@ Template.postComment.events({
             userId: Meteor.userId(),
             action: 'COMMENT',
             content: document.getElementById('postComment').innerText,
-            sort: [],
-            sortTotal: 0,
+            votes: [],
           }
         );
         cleanCommentBox();
@@ -48,8 +47,7 @@ Template.postComment.events({
             userId: Meteor.userId(),
             action: 'COMMENT',
             content: commentBox.innerText,
-            sort: [],
-            sortTotal: 0,
+            votes: [],
             children: [],
           },
           event.target.getAttribute('name')
