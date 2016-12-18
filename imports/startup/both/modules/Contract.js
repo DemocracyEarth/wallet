@@ -4,6 +4,7 @@ import { Router } from 'meteor/iron:router';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Contracts } from '../../../api/contracts/Contracts';
 import { shortUUID } from './crypto';
+import { transact } from '../../../api/transactions/transaction';
 
 /**
 * @summary generate a new empty draft
@@ -146,11 +147,17 @@ const _sendDelegation = (sourceId, targetId, quantity, conditions, newStatus) =>
 * @param {object} ballot - specified conditions for this delegation
 */
 const _vote = (userId, contractId, quantity, ballot) => {
-  Meteor.call('vote', userId, contractId, quantity, ballot, function (err, result) {
+
+  /*Meteor.call('vote', userId, contractId, quantity, ballot, function (err, result) {
     if (err) {
       throw new Meteor.Error(err, '[_vote]: vote failed.');
     }
-  });
+  });*/
+
+  console.log('[vote] ' + userId + ' on contract: ' + contractId + ' with quantity: ' + quantity);
+  transact(userId, contractId, quantity, ballot);
+
+
 };
 
 /**

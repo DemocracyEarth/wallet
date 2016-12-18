@@ -14,12 +14,12 @@ let currentParent = '';
 */
 export const postComment = (contractId, eventObject, replyId) => {
   let thread = [];
-  var index = new String();
-  var query = {};
-  if (replyId == undefined) {
+  const index = new String();
+  const query = {};
+  if (replyId === undefined) {
     Contracts.update(contractId, { $push: { events: eventObject } });
   } else {
-    //Add event object dynamic key values since Schema is blackboxed to enable infinite branching.
+    // add event object dynamic key values since Schema is blackboxed to enable infinite branching.
     eventObject.timestamp = new Date();
     eventObject.status = 'NEW';
     eventObject.id = guidGenerator();
@@ -49,10 +49,10 @@ export const postComment = (contractId, eventObject, replyId) => {
 */
 export const voteComment = (contractId, threadId, vote) => {
   console.log('voteComment()');
-  thread = Contracts.find({_id: contractId }).fetch()[0].events;
-  node = ''
-  currentParent = ''
-  for (var children in thread) {
+  const thread = Contracts.find({ _id: contractId }).fetch()[0].events;
+  node = '';
+  currentParent = '';
+  for (const children in thread) {
     node += searchTree(thread[children], threadId, children, true, '', '.sortTotal');
   }
   console.log('contractId: ', contractId);
@@ -62,8 +62,15 @@ export const voteComment = (contractId, threadId, vote) => {
     { _id: contractId },
     { $inc: { node: vote } }
   );
-}
+};
 
+const resolvePath = (uri) => {
+  let path = [];
+  path = uri.split('.');
+  path.splice(-2, 2);
+  // uri = path.toString().replace(/,/g, '.');
+  return path.toString().replace(/,/g, '.');
+};
 
 /**
 /* @summary - searches the thread tree to locate the node that's being modified
@@ -72,46 +79,39 @@ export const voteComment = (contractId, threadId, vote) => {
 /* @param {string} iterator
 /* @param {boolean} isRoot - indicates first parent or not
 /* @param {string} inheritedPath - indicates correct path for recurssion
-/* @param {string} target - what is being searched, either '.children' (for postComment) or '.sortTotal' (for voteComment)
+/* @param {string} target - what is being searched, '.children' (for postComment),
+                          '.sortTotal' (for voteComment)
 */
-let searchTree = (element, matchingTitle, iterator, isRoot , inheritedPath, target) => {
-  if (element.id == matchingTitle) {
-    if (iterator != undefined) {
+let searchTree = (element, matchingTitle, iterator, isRoot, inheritedPath, target) => {
+  let parentStr;
+  if (element.id === matchingTitle) {
+    if (iterator !== undefined) {
       if (isRoot) {
-        parentStr = 'events.' + iterator.toString() + target;
+        parentStr = `events.${iterator.toString()}${target}`;
       } else {
-        parentStr = '.' + iterator.toString() + target;
+        parentStr = `.${iterator.toString()}${target}`;
       }
       if (isRoot) {
         return parentStr;
-      } else {
-        node += inheritedPath + parentStr;
-        return node;
       }
+      node += inheritedPath + parentStr;
+      return node;
     }
-  } else if (element.children != undefined) {
-    var i;
-    var result = '';
-    var arrPath = new Array();
+  } else if (element.children !== undefined) {
+    let i;
+    let result = '';
+    // const arrPath = [];
     if (isRoot) {
       currentParent = 'events';
     }
-    currentParent += '.' + iterator.toString() + '.children';
-    for( i=0; result == '' && i < element.children.length; i++) {
+    currentParent += `.${iterator.toString()}.children`;
+    for (i = 0; result === '' && i < element.children.length; i += 1) {
       result = searchTree(element.children[i], matchingTitle, i, false, currentParent, target);
     }
-    if (result == '') {
+    if (result === '') {
       currentParent = resolvePath(currentParent);
     }
     return result;
   }
   return '';
-}
-
-let resolvePath = (uri) => {
-  var path = new Array();
-  path = uri.split('.');
-  path.splice(-2,2);
-  uri = path.toString().replace(/,/g, ".");
-  return uri;
 };

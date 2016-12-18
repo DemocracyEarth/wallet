@@ -5,13 +5,13 @@ const Schema = {};
 Schema.Thread = new SimpleSchema({
   id: {
     type: String,
-    autoValue: function () {
+    autoValue() {
       return guidGenerator();
-    }
+    },
   },
   userId: {
     type: String,
-    optional: true
+    optional: true,
   },
   action: {
     type: String,

@@ -40,6 +40,10 @@ Template.thread.helpers({
     }
     return true;
   },
+  sortTotal() {
+    console.log(this);
+    return this.sortTotal;
+  },
 });
 
 Template.thread.events({
@@ -60,7 +64,7 @@ Template.thread.events({
   'mousedown #upvote'(event) {
     if (!Meteor.user()) {
       displayLogin(event, document.getElementById('loggedUser'));
-    }else {
+    } else {
       voteComment(
         Session.get('contract')._id,
         this.id,
@@ -71,7 +75,7 @@ Template.thread.events({
   'mousedown #downvote'() {
     if (!Meteor.user()) {
       displayLogin(event, document.getElementById('loggedUser'));
-    }else {
+    } else {
       voteComment(
         Session.get('contract')._id,
         this.id,
