@@ -122,5 +122,5 @@ export const voteComment = (contractId, threadId, vote) => {
   );
 
   // make transaction from user wallet
-  transact(Meteor.userId(), contractId, vote);
+  transact(Meteor.userId(), contractId, Math.abs(vote));
 };

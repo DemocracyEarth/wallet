@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
+import { Router } from 'meteor/iron:router';
 
 import { displayLogin } from '/imports/ui/modules/popup';
 import { voteComment } from '/imports/ui/modules/Thread';
@@ -23,6 +24,17 @@ function count(votes) {
     total += votes[i].quantity;
   }
   return total;
+}
+
+function userVoted(votes, up) {
+  for (const i in votes) {
+    if (votes[i].userId === Meteor.userId()) {
+      if ((up && votes[i].quantity > 0) || (!up && votes[i].quantity < 0)) {
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 Template.thread.helpers({
@@ -53,6 +65,18 @@ Template.thread.helpers({
   },
   sortTotal() {
     return count(this.votes);
+  },
+  upvote() {
+    if (userVoted(this.votes, true)) {
+      return `${Router.path('home')}images/upvote-active.png`;
+    }
+    return `${Router.path('home')}images/upvote.png`;
+  },
+  downvote() {
+    if (userVoted(this.votes, false)) {
+      return `${Router.path('home')}images/downvote-active.png`;
+    }
+    return `${Router.path('home')}images/downvote.png`;
   },
 });
 
