@@ -19,7 +19,7 @@ Schema.Ticket = new SimpleSchema({
   entityType: {
     type: String,
     allowedValues: ['INDIVIDUAL', 'COLLECTIVE', 'CONTRACT', 'UNKNOWN'],
-    autoValue: function () {
+    autoValue() {
       if (this.isInsert) {
         if (this.field('entityType') === undefined) {
           return 'UNKNOWN';
@@ -29,7 +29,7 @@ Schema.Ticket = new SimpleSchema({
   },
   quantity: {
     type: Number,
-    autoValue: function () {
+    autoValue() {
       if (this.isInsert) {
         if (this.field('quantity') === undefined) {
           return 0;
@@ -40,7 +40,7 @@ Schema.Ticket = new SimpleSchema({
   currency: {
     type: String,
     allowedValues: ['BITCOIN', 'SATOSHI', 'VOTES'],
-    autoValue: function () {
+    autoValue() {
       if (this.isInsert) {
         if (this.field('currency') === undefined) {
           return 'VOTES';
@@ -60,86 +60,86 @@ Schema.Transaction = new SimpleSchema({
     type: String,
     allowedValues: ['VOTE', 'DELEGATION', 'MEMBERSHIP', 'UPVOTE', 'DOWNVOTE', 'UNKNOWN'],
     optional: true,
-    autoValue: function () {
+    autoValue() {
       if (this.isInsert) {
-        if (this.field('kind').value == undefined) {
+        if (this.field('kind').value === undefined) {
           return 'UNKNOWN';
         }
       }
-    }
+    },
   },
   contractId: {
     type: String,
-    optional: true
+    optional: true,
   },
   timestamp: {
     type: Date,
     optional: true,
-    autoValue: function () {
+    autoValue() {
       if (this.isInsert) {
         return new Date();
       }
-    }
+    },
   },
   condition: {
     type: Object,
     optional: true
   },
-  "condition.expiration": {
+  'condition.expiration': {
     // for placed tokens, once expired reverses the operation
     type: Date,
     optional: true,
-    autoValue: function () {
+    autoValue() {
       if (this.isInsert) {
-        if (this.field('expiration') == undefined) {
+        if (this.field('expiration') === undefined) {
           return 0;
         }
       }
-    }
+    },
   },
-  "condition.transferable": {
+  'condition.transferable': {
     type: Boolean,
-    autoValue: function () {
+    autoValue() {
       if (this.isInsert) {
-        if (this.field('transferable').value == undefined) {
+        if (this.field('transferable').value === undefined) {
           return true;
         }
       }
-    }
+    },
   },
-  "condition.portable": {
+  'condition.portable': {
     type: Boolean,
-    autoValue: function () {
+    autoValue() {
       if (this.isInsert) {
-        if (this.field('portable').value == undefined) {
+        if (this.field('portable').value === undefined) {
           return true;
         }
       }
-    }
+    },
   },
-  "condition.ballot": {
+  'condition.ballot': {
     type: [Ballot],
-    optional: true
+    optional: true,
   },
-  "condition.tags": {
+  'condition.tags': {
     type: Array,
-    optional: true
+    optional: true,
   },
-  "condition.tags.$": {
+  'condition.tags.$': {
     type: Object,
-    optional: true
+    optional: true,
   },
   status: {
     type: String,
     allowedValues: ['PENDING', 'REJECTED', 'CONFIRMED'],
-    autoValue: function () {
+    autoValue() {
       if (this.isInsert) {
-        if (this.field('status').value == undefined) {
+        if (this.field('status').value === undefined) {
           return 'PENDING';
         }
       }
-    }
-  }
+    },
+  },
 });
 
 Transactions.attachSchema(Schema.Transaction);
@@ -151,19 +151,22 @@ Transactions.attachSchema(Schema.Transaction);
 */
 
 Transactions.allow({
-  insert: function () {
+  insert() {
     if (Meteor.userId()) {
       return true;
     }
+    return false;
   },
-  update: function () {
+  update() {
     if (Meteor.userId()) {
       return true;
     }
+    return false;
   },
-  remove: function () {
+  remove() {
     if (Meteor.userId()) {
       return true;
     }
+    return false;
   },
 });

@@ -126,7 +126,7 @@ export const voteComment = (contractId, threadId, vote) => {
     };
   }
 
-  transact(Meteor.userId(), contractId, vote, settings);
+  transact(Meteor.userId(), contractId, 1, settings);
 
   Contracts.update(
     { _id: contractId },
