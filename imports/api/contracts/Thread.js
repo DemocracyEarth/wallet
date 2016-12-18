@@ -97,23 +97,25 @@ Schema.Thread = new SimpleSchema({
     type: Array,
     optional: true
   },
-  "sort.$": {
+  'sort.$': {
     type: Object,
     optional: true
   },
-  "sort.$.upvotes": {
-    type: Number
+  'sort.$.upvotes': {
+    type: Number,
+    optional: true,
   },
-  "sort.$.downvotes": {
-    type: Number
+  'sort.$.downvotes': {
+    type: Number,
+    optional: true,
   },
-  "sort.$.userId": {
-    type: String
+  'sort.$.userId': {
+    type: String,
   },
   sortTotal: {
     type: Number,
     optional: true,
-    autoValue: function () {
+    autoValue() {
       if (this.isInsert) {
         return 0;
       }

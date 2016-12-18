@@ -8,40 +8,6 @@ import { transact } from '../../api/transactions/transaction';
 let node = '';
 let currentParent = '';
 
-/**
-/* @summary posts a comment on a thread
-/* @param {string} contractId - contract where this comment goes.
-/* @param {object} eventObject - object containing the event info
-/* @param {string} replyId - if reply to another comment, id of such comment.
-*/
-export const postComment = (contractId, eventObject, replyId) => {
-  let thread = [];
-  const index = new String();
-  const query = {};
-  if (replyId === undefined) {
-    Contracts.update(contractId, { $push: { events: eventObject } });
-  } else {
-    // add event object dynamic key values since Schema is blackboxed to enable infinite branching.
-    eventObject.timestamp = new Date();
-    eventObject.status = 'NEW';
-    eventObject.id = guidGenerator();
-    thread = Contracts.find({_id: Session.get('contract')._id }).fetch()[0].events;
-    console.log('replyId: ', replyId);
-    console.log('thread: ', thread);
-    node = '';
-    currentParent = '';
-    for (var children in thread) {
-      node += searchTree(thread[children], replyId, children, true, '', '.children');
-      console.log('node: ', node);
-    }
-    query[node] = eventObject;
-    console.log('query: ', query);
-    Contracts.update(
-      { _id: contractId },
-      { $push: query }
-    );
-  };
-}
 
 /**
 /* @summary - helper function to resolve path on searchTree
@@ -64,18 +30,14 @@ const resolvePath = (uri) => {
 /* @param {string} target - what is being searched, '.children' (for postComment),
                           '.sortTotal' (for voteComment)
 */
-let searchTree = (element, matchingTitle, iterator, isRoot, inheritedPath, target) => {
+const searchTree = (element, matchingTitle, iterator, isRoot, inheritedPath, target) => {
   let parentStr;
   if (element.id === matchingTitle) {
     if (iterator !== undefined) {
       if (isRoot) {
-        parentStr = `events.${iterator.toString()}${target}`;
-      } else {
-        parentStr = `.${iterator.toString()}${target}`;
+        return `events.${iterator.toString()}${target}`;
       }
-      if (isRoot) {
-        return parentStr;
-      }
+      parentStr = `.${iterator.toString()}${target}`;
       node += inheritedPath + parentStr;
       return node;
     }
@@ -98,6 +60,41 @@ let searchTree = (element, matchingTitle, iterator, isRoot, inheritedPath, targe
 };
 
 /**
+/* @summary posts a comment on a thread
+/* @param {string} contractId - contract where this comment goes.
+/* @param {object} eventObject - object containing the event info
+/* @param {string} replyId - if reply to another comment, id of such comment.
+*/
+export const postComment = (contractId, eventObj, replyId) => {
+  let thread = [];
+  const eventObject = eventObj;
+  const query = {};
+  if (replyId === undefined) {
+    Contracts.update(contractId, { $push: { events: eventObject } });
+  } else {
+    // add event object dynamic key values since Schema is blackboxed to enable infinite branching.
+    eventObject.timestamp = new Date();
+    eventObject.status = 'NEW';
+    eventObject.id = guidGenerator();
+    thread = Contracts.find({ _id: Session.get('contract')._id }).fetch()[0].events;
+    console.log('replyId: ', replyId);
+    console.log('thread: ', thread);
+    node = '';
+    currentParent = '';
+    for (const children in thread) {
+      node += searchTree(thread[children], replyId, children, true, '', '.children');
+      console.log('node: ', node);
+    }
+    query[node] = eventObject;
+    console.log('query: ', query);
+    Contracts.update(
+      { _id: contractId },
+      { $push: query }
+    );
+  }
+};
+
+/**
 /* @summary - upvotes or downvotes a comment
 /* @param {string} contractId - contract where this comment goes.
 /* @param {string} threadId - exact comment that is being up/down voted
@@ -106,30 +103,44 @@ let searchTree = (element, matchingTitle, iterator, isRoot, inheritedPath, targe
 export const voteComment = (contractId, threadId, vote) => {
   console.log('voteComment()');
   const thread = Contracts.find({ _id: contractId }).fetch()[0].events;
+  const query = {};
   node = '';
   currentParent = '';
   for (const children in thread) {
-    node += searchTree(thread[children], threadId, children, true, '', '.sortTotal');
+    node += searchTree(thread[children], threadId, children, true, '', '.sort');
   }
   console.log('contractId: ', contractId);
   console.log('node: ', node);
   console.log('vote: ', vote);
 
   let settings;
-  if (vote === 1) {
+  if (vote > 0) {
     settings = {
       kind: 'UPVOTE',
     };
-  } else if (vote === -1) {
+    query[node] = {
+      upvotes: vote,
+      userId: Meteor.userId(),
+    };
+  } else if (vote < 0) {
     settings = {
       kind: 'DOWNVOTE',
     };
+    query[node] = {
+      downvotes: vote,
+      userId: Meteor.userId(),
+    };
   }
-
-  transact(Meteor.userId(), contractId, 1, settings);
 
   Contracts.update(
     { _id: contractId },
-    { $inc: { node: vote } }
+    { $push: query }
   );
+
+  //transact(Meteor.userId(), contractId, 1, settings);
+
+  /*Contracts.update(
+    { _id: contractId },
+    { $inc: { node: vote } }
+  );*/
 };

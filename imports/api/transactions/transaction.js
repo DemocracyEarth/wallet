@@ -160,7 +160,8 @@ const _updateWallet = (entityId, entityType, profile) => {
 * @summary processes de transaction after insert and updates wallet of involved parties
 * @param {string} txId - transaction identificator
 */
-const _processTransaction = (txId) => {
+const _processTransaction = (ticket) => {
+  const txId = ticket;
   const transaction = Transactions.findOne({ _id: txId });
   const senderProfile = _getProfile(transaction.input);
   const receiverProfile = _getProfile(transaction.output);
@@ -171,7 +172,7 @@ const _processTransaction = (txId) => {
   const sender = senderProfile.wallet;
 
   sender.ledger.push({
-    txId: txId,
+    txId: ticket,
     quantity: parseInt(0 - transaction.input.quantity, 10),
     entityId: transaction.output.entityId,
     entityType: transaction.output.entityType,
@@ -190,7 +191,7 @@ const _processTransaction = (txId) => {
 
   const receiver = receiverProfile.wallet;
   receiver.ledger.push({
-    txId: txId,
+    txId: ticket,
     quantity: parseInt(transaction.output.quantity, 10),
     entityId: transaction.input.entityId,
     entityType: transaction.input.entityType,
