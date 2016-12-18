@@ -147,17 +147,13 @@ const _sendDelegation = (sourceId, targetId, quantity, conditions, newStatus) =>
 * @param {object} ballot - specified conditions for this delegation
 */
 const _vote = (userId, contractId, quantity, ballot) => {
-
-  /*Meteor.call('vote', userId, contractId, quantity, ballot, function (err, result) {
+  /* Meteor.call('vote', userId, contractId, quantity, ballot, function (err, result) {
     if (err) {
       throw new Meteor.Error(err, '[_vote]: vote failed.');
     }
   });*/
-
-  console.log('[vote] ' + userId + ' on contract: ' + contractId + ' with quantity: ' + quantity);
+  console.log(`[vote]${userId} on contract: ${contractId} with quantity: ${quantity}`);
   transact(userId, contractId, quantity, ballot);
-
-
 };
 
 /**

@@ -1,7 +1,9 @@
+import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
 import { guidGenerator } from '../../startup/both/modules/crypto';
 import { Contracts } from '../../api/contracts/Contracts';
+import { transact } from '../../api/transactions/transaction';
 
 let node = '';
 let currentParent = '';
@@ -42,28 +44,8 @@ export const postComment = (contractId, eventObject, replyId) => {
 }
 
 /**
-/* @summary - upvotes or downvotes a comment
-/* @param {string} contractId - contract where this comment goes.
-/* @param {string} threadId - exact comment that is being up/down voted
-/* @param {string} vote - indicates where it's an upvote (1) or downvote (-1)
+/* @summary - helper function to resolve path on searchTree
 */
-export const voteComment = (contractId, threadId, vote) => {
-  console.log('voteComment()');
-  const thread = Contracts.find({ _id: contractId }).fetch()[0].events;
-  node = '';
-  currentParent = '';
-  for (const children in thread) {
-    node += searchTree(thread[children], threadId, children, true, '', '.sortTotal');
-  }
-  console.log('contractId: ', contractId);
-  console.log('node: ', node);
-  console.log('vote: ', vote);
-  Contracts.update(
-    { _id: contractId },
-    { $inc: { node: vote } }
-  );
-};
-
 const resolvePath = (uri) => {
   let path = [];
   path = uri.split('.');
@@ -100,7 +82,6 @@ let searchTree = (element, matchingTitle, iterator, isRoot, inheritedPath, targe
   } else if (element.children !== undefined) {
     let i;
     let result = '';
-    // const arrPath = [];
     if (isRoot) {
       currentParent = 'events';
     }
@@ -114,4 +95,41 @@ let searchTree = (element, matchingTitle, iterator, isRoot, inheritedPath, targe
     return result;
   }
   return '';
+};
+
+/**
+/* @summary - upvotes or downvotes a comment
+/* @param {string} contractId - contract where this comment goes.
+/* @param {string} threadId - exact comment that is being up/down voted
+/* @param {string} vote - indicates where it's an upvote (1) or downvote (-1)
+*/
+export const voteComment = (contractId, threadId, vote) => {
+  console.log('voteComment()');
+  const thread = Contracts.find({ _id: contractId }).fetch()[0].events;
+  node = '';
+  currentParent = '';
+  for (const children in thread) {
+    node += searchTree(thread[children], threadId, children, true, '', '.sortTotal');
+  }
+  console.log('contractId: ', contractId);
+  console.log('node: ', node);
+  console.log('vote: ', vote);
+
+  let settings;
+  if (vote === 1) {
+    settings = {
+      kind: 'UPVOTE',
+    };
+  } else if (vote === -1) {
+    settings = {
+      kind: 'DOWNVOTE',
+    };
+  }
+
+  transact(Meteor.userId(), contractId, vote, settings);
+
+  Contracts.update(
+    { _id: contractId },
+    { $inc: { node: vote } }
+  );
 };

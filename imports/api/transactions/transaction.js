@@ -236,13 +236,16 @@ const _processTransaction = (txId) => {
 * @param {string} receiverId - user or collective receiving the funds
 * @param {object} settings - additional settings to be stored on the ledger
 */
-const _createTransaction = (senderId, receiverId, quantity, settings) => {
-  console.log('[_createTransaction] creating new transaction...');
-  console.log(`[_createTransaction] sender: ${senderId}`);
-  console.log(`[_createTransaction] receiver: ${receiverId}`);
+const _createTransaction = (senderId, receiverId, votes, settings) => {
+  if (Meteor.isServer) {
+    console.log('[_createTransaction] creating new transaction...');
+    console.log(`[_createTransaction] sender: ${senderId}`);
+    console.log(`[_createTransaction] receiver: ${receiverId}`);
+  }
 
   // default settings
   let defaultSettings = {};
+  let finalSettings = {};
   defaultSettings = {
     currency: 'VOTES',
     kind: 'VOTE',
@@ -250,9 +253,9 @@ const _createTransaction = (senderId, receiverId, quantity, settings) => {
   };
 
   if (settings === undefined) {
-    settings = defaultSettings;
+    finalSettings = defaultSettings;
   } else {
-    settings = Object.assign(defaultSettings, settings);
+    finalSettings = Object.assign(defaultSettings, settings);
   }
 
   // build transaction
@@ -261,24 +264,26 @@ const _createTransaction = (senderId, receiverId, quantity, settings) => {
       entityId: senderId,
       address: _getWalletAddress(senderId),
       entityType: _getEntityType(senderId),
-      quantity: quantity,
-      currency: settings.currency,
+      quantity: votes,
+      currency: finalSettings.currency,
     },
     output: {
       entityId: receiverId,
       address: _getWalletAddress(receiverId),
       entityType: _getEntityType(receiverId),
-      quantity: quantity,
-      currency: settings.currency,
+      quantity: votes,
+      currency: finalSettings.currency,
     },
-    kind: settings.kind,
-    contractId: settings.contractId,
+    kind: finalSettings.kind,
+    contractId: finalSettings.contractId,
     timestamp: new Date(),
     status: 'PENDING',
-    condition: settings.condition,
+    condition: finalSettings.condition,
   };
 
-  console.log('[_createTransaction] generated new transaction settings');
+  if (Meteor.isServer) {
+    console.log('[_createTransaction] generated new transaction settings');
+  }
 
   // executes the transaction
   const txId = Transactions.insert(newTransaction);
