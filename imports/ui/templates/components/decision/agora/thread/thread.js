@@ -14,6 +14,7 @@ import '../../../identity/avatar/avatar.js';
 import '../postComment.js';
 
 const replyBoxes = [];
+let voteEventId = 0;
 
 /**
 * @summary counts the votes in a comment
@@ -104,7 +105,8 @@ Template.thread.events({
   'click #upvote'(event) {
     if (!Meteor.user()) {
       displayLogin(event, document.getElementById('loggedUser'));
-    } else {
+    } else if (this.id !== voteEventId) {
+      voteEventId = this.id;
       voteComment(
         Session.get('contract')._id,
         this.id,
@@ -115,7 +117,8 @@ Template.thread.events({
   'click #downvote'() {
     if (!Meteor.user()) {
       displayLogin(event, document.getElementById('loggedUser'));
-    } else {
+    } else if (this.id !== voteEventId) {
+      voteEventId = this.id;
       voteComment(
         Session.get('contract')._id,
         this.id,
