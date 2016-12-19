@@ -33,7 +33,7 @@ function count(votes) {
 * @param {object} votes from event object in contract
 * @param {boolean} up if its an upvote or downvote
 */
-function userVoted(votes, up) {
+function check(votes, up) {
   for (const i in votes) {
     if (votes[i].userId === Meteor.userId()) {
       if ((up && votes[i].quantity > 0) || (!up && votes[i].quantity < 0)) {
@@ -42,6 +42,27 @@ function userVoted(votes, up) {
     }
   }
   return false;
+}
+
+/**
+* @summary executes upvote or downvote
+* @param {object} event event from ui
+* @param {object} comment object with comment metadata
+* @param {number} quantity quantity of votes (1 or -1 usually)
+*/
+function vote(event, comment, quantity) {
+  if (!Meteor.user()) {
+    displayLogin(event, document.getElementById('loggedUser'));
+  } else if (comment.id !== voteEventId) {
+    voteEventId = comment.id;
+    if (comment.userVoted === false) {
+      voteComment(
+        Session.get('contract')._id,
+        comment.id,
+        quantity
+      );
+    }
+  }
 }
 
 Template.thread.helpers({
@@ -74,15 +95,19 @@ Template.thread.helpers({
     return count(this.votes);
   },
   upvote() {
-    if (userVoted(this.votes, true)) {
+    if (check(this.votes, true)) {
+      this.userVoted = true;
       return `${Router.path('home')}images/upvote-active.png`;
     }
+    this.userVoted = false;
     return `${Router.path('home')}images/upvote.png`;
   },
   downvote() {
-    if (userVoted(this.votes, false)) {
+    if (check(this.votes, false)) {
+      this.userVoted = true;
       return `${Router.path('home')}images/downvote-active.png`;
     }
+    this.userVoted = false;
     return `${Router.path('home')}images/downvote.png`;
   },
 });
@@ -103,27 +128,9 @@ Template.thread.events({
     Session.set(replyStringId, true);
   },
   'click #upvote'(event) {
-    if (!Meteor.user()) {
-      displayLogin(event, document.getElementById('loggedUser'));
-    } else if (this.id !== voteEventId) {
-      voteEventId = this.id;
-      voteComment(
-        Session.get('contract')._id,
-        this.id,
-        1
-      );
-    }
+    vote(event, this, 1);
   },
-  'click #downvote'() {
-    if (!Meteor.user()) {
-      displayLogin(event, document.getElementById('loggedUser'));
-    } else if (this.id !== voteEventId) {
-      voteEventId = this.id;
-      voteComment(
-        Session.get('contract')._id,
-        this.id,
-        -1
-      );
-    }
+  'click #downvote'(event) {
+    vote(event, this, -1);
   },
 });

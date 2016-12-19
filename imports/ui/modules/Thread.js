@@ -77,16 +77,12 @@ export const postComment = (contractId, eventObj, replyId) => {
     eventObject.status = 'NEW';
     eventObject.id = guidGenerator();
     thread = Contracts.find({ _id: Session.get('contract')._id }).fetch()[0].events;
-    console.log('replyId: ', replyId);
-    console.log('thread: ', thread);
     node = '';
     currentParent = '';
     for (const children in thread) {
       node += searchTree(thread[children], replyId, children, true, '', '.children');
-      console.log('node: ', node);
     }
     query[node] = eventObject;
-    console.log('query: ', query);
     Contracts.update(
       { _id: contractId },
       { $push: query }
