@@ -279,10 +279,10 @@ let _loadContract = (view, id) => {
   }
 }
 
-/****
-* sets which wallet to use for reference in contract based on if the user appears asa signer or not
+/**
+* @summary sets which wallet to use for reference in contract based on if the user appears asa signer or not
 * @param {object} contract - contract to analyze
-****/
+*/
 let _setContractWallet = (contract) => {
   var userContract = false;
   var role = new String();

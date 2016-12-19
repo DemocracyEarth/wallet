@@ -17,6 +17,7 @@ const replyBoxes = [];
 
 /**
 * @summary counts the votes in a comment
+* @param {object} votes from event object in contract
 */
 function count(votes) {
   let total = 0;
@@ -26,6 +27,11 @@ function count(votes) {
   return total;
 }
 
+/**
+* @summary verifies if user has voted on a comment
+* @param {object} votes from event object in contract
+* @param {boolean} up if its an upvote or downvote
+*/
 function userVoted(votes, up) {
   for (const i in votes) {
     if (votes[i].userId === Meteor.userId()) {
@@ -95,7 +101,7 @@ Template.thread.events({
     replyBoxes.push(replyStringId);
     Session.set(replyStringId, true);
   },
-  'mousedown #upvote'(event) {
+  'click #upvote'(event) {
     if (!Meteor.user()) {
       displayLogin(event, document.getElementById('loggedUser'));
     } else {
@@ -106,7 +112,7 @@ Template.thread.events({
       );
     }
   },
-  'mousedown #downvote'() {
+  'click #downvote'() {
     if (!Meteor.user()) {
       displayLogin(event, document.getElementById('loggedUser'));
     } else {

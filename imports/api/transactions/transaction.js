@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { Collectives } from '/imports/api/collectives/Collectives';
-import { showFullName } from '/imports/startup/both/modules/utils';
 import { guidGenerator } from '/imports/startup/both/modules/crypto';
 import { Transactions } from './Transactions';
 
@@ -40,11 +39,11 @@ const _getAddressHash = (address, collectiveId) => {
 * @return {object} object - returns an object containing a new hash and this collective Id.
 */
 const _getCollectiveAddress = () => {
-  console.log('[_getCollectiveAddress] generating new address specific to the collective running this instance...');
-  return {
+  const collective = {
     hash: guidGenerator(),
     collectiveId: Meteor.settings.public.Collective._id,
   };
+  return collective;
 };
 
 /**
@@ -52,7 +51,6 @@ const _getCollectiveAddress = () => {
 * @param {object} wallet - a wallet from a user containing all directions
 ***/
 const _generateWalletAddress = (wallet) => {
-  console.log('[_generateWalletAddress] generating a new address for wallet entered as parameter.');
   wallet.address.push(_getCollectiveAddress());
   return wallet;
 };
@@ -81,7 +79,7 @@ const _getWalletAddress = (entityId) => {
       break;
     }
     default:
-      console.log(`[_getWalletAddress] ERROR: entityId ${entityId} could not be found.`);
+      // ERROR: entityId ${entityId} could not be found.
       return false;
   }
 
@@ -92,14 +90,14 @@ const _getWalletAddress = (entityId) => {
   }
   const collectiveId = Meteor.settings.public.Collective._id;
 
-  console.log(`[_getWalletAddress] getting info for entityId ${entityId}.`);
-
   if (wallet.address !== undefined && wallet.address.length > 0) {
-    console.log('[_getWalletAddress] entity wallet already has an address.');
+    // entity wallet already has an address.
     return _getAddressHash(wallet.address, collectiveId);
   }
-  console.log('[_getWalletAddress] generating a new address for this collective...');
+
+  // generating a new address for this collective...
   wallet = _generateWalletAddress(wallet);
+
   switch (entityType) {
     case 'INDIVIDUAL':
       user.profile.wallet = wallet;
@@ -113,7 +111,7 @@ const _getWalletAddress = (entityId) => {
       Contracts.update({ _id: entityId }, { $set: { wallet: wallet } });
       break;
     default:
-      console.log(`[_getWalletAddress] ERROR: entityId ${entityId} could not be found.`);
+      // console.log(`[_getWalletAddress] ERROR: entityId ${entityId} could not be found.`);
       return false;
   }
   return _getAddressHash(wallet.address, collectiveId);
@@ -139,19 +137,18 @@ const _getProfile = (transactionSignal) => {
 * updates wallet object of an individual or collective
 * @param {string} entityId - entity
 * @param {string} entityType -  individual or collective
-* @param {object} wallet - wallet object of entity
+* @param {object} profileSettings - profile settings
 */
-const _updateWallet = (entityId, entityType, profile) => {
-  console.log(`[_updateWallet] updating wallet of entityId: ${entityId}`);
+const _updateWallet = (entityId, entityType, profileSettings) => {
   switch (entityType) {
     case 'INDIVIDUAL':
-      Meteor.users.update({ _id: entityId }, { $set: { profile: profile } });
+      Meteor.users.update({ _id: entityId }, { $set: { profile: profileSettings } });
       break;
     case 'COLLECTIVE':
-      Collectives.update({ _id: entityId }, { $set: { profile: profile } });
+      Collectives.update({ _id: entityId }, { $set: { profile: profileSettings } });
       break;
     default: // 'CONTRACT'
-      Contracts.update({ _id: entityId }, { $set: { wallet: profile.wallet } });
+      Contracts.update({ _id: entityId }, { $set: { wallet: profileSettings.wallet } });
       break;
   }
 };
@@ -182,13 +179,6 @@ const _processTransaction = (ticket) => {
   sender.available = sender.balance - sender.placed;
   senderProfile.wallet = Object.assign(senderProfile.wallet, sender);
 
-  if (senderProfile.firstName) {
-    console.log(`[_processTransaction] sender in transaction is entity: ${showFullName(senderProfile.firstName, senderProfile.lastName)}`);
-  } else {
-    console.log(`[_processTransaction] sender in transaction is a Contract with title: ${senderProfile.title}`);
-  }
-
-
   const receiver = receiverProfile.wallet;
   receiver.ledger.push({
     txId: ticket,
@@ -200,28 +190,18 @@ const _processTransaction = (ticket) => {
   receiver.available += parseInt(transaction.output.quantity, 10);
   receiver.balance += receiver.available;
 
-  console.log('[_processTransaction] checking if ballot stored in this transaction...');
   if (transaction.condition.ballot) {
-    console.log('[_processTransaction] found ballot in this transaction');
+    // found ballot in this transaction
     const fullBallot = [];
     const last = receiver.ledger.length - 1;
 
     for (const k in transaction.condition.ballot) {
       fullBallot.push(transaction.condition.ballot[k]);
     }
-    console.log('[_processTransaction] ballot content:');
-    console.log(fullBallot);
     receiver.ledger[last] = Object.assign(receiver.ledger[last], { ballot: fullBallot });
-  } else {
-    console.log('[_processTransaction] no ballot found.');
   }
-  receiverProfile.wallet = Object.assign(receiverProfile.wallet, receiver);
 
-  if (receiverProfile.firstName) {
-    console.log(`[_processTransaction] receiver in transaction is entity: ${showFullName(receiverProfile.firstName, receiverProfile.lastName)}`);
-  } else {
-    console.log(`[_processTransaction] receiver in transaction is a Contract with title: ${receiverProfile.title}`);
-  }
+  receiverProfile.wallet = Object.assign(receiverProfile.wallet, receiver);
 
   // update wallets
   _updateWallet(transaction.input.entityId, transaction.input.entityType, senderProfile);
@@ -238,12 +218,6 @@ const _processTransaction = (ticket) => {
 * @param {object} settings - additional settings to be stored on the ledger
 */
 const _createTransaction = (senderId, receiverId, votes, settings) => {
-  if (Meteor.isServer) {
-    console.log('[_createTransaction] creating new transaction...');
-    console.log(`[_createTransaction] sender: ${senderId}`);
-    console.log(`[_createTransaction] receiver: ${receiverId}`);
-  }
-
   // default settings
   let defaultSettings = {};
   let finalSettings = {};
@@ -281,10 +255,6 @@ const _createTransaction = (senderId, receiverId, votes, settings) => {
     status: 'PENDING',
     condition: finalSettings.condition,
   };
-
-  if (Meteor.isServer) {
-    console.log('[_createTransaction] generated new transaction settings');
-  }
 
   // executes the transaction
   const txId = Transactions.insert(newTransaction);
