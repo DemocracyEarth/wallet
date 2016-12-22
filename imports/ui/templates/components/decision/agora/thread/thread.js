@@ -54,13 +54,16 @@ function vote(event, comment, quantity) {
   if (!Meteor.user()) {
     displayLogin(event, document.getElementById('loggedUser'));
   } else if (comment.id !== voteEventId) {
-    voteEventId = comment.id;
-    if (comment.userVoted === false) {
-      voteComment(
-        Session.get('contract')._id,
-        comment.id,
-        quantity
-      );
+    if ((quantity > 0 && this.userUpvoted === false) ||
+    (quantity < 0 && this.userDownvoted === false)) {
+      voteEventId = comment.id;
+      if (comment.userVoted === false) {
+        voteComment(
+          Session.get('contract')._id,
+          comment.id,
+          quantity
+        );
+      }
     }
   }
 }
@@ -96,18 +99,22 @@ Template.thread.helpers({
   },
   upvote() {
     if (check(this.votes, true)) {
-      this.userVoted = true;
+      this.userUpvoted = true;
       return `${Router.path('home')}images/upvote-active.png`;
+    } else if (Meteor.user().profile.wallet.available <= 0) {
+      return `${Router.path('home')}images/upvote-disabled.png`;
     }
-    this.userVoted = false;
+    this.userUpvoted = false;
     return `${Router.path('home')}images/upvote.png`;
   },
   downvote() {
+    this.userDownvoted = false;
     if (check(this.votes, false)) {
-      this.userVoted = true;
+      this.userDownvoted = true;
       return `${Router.path('home')}images/downvote-active.png`;
+    } else if (Meteor.user().profile.wallet.available <= 0) {
+      return `${Router.path('home')}images/downvote-disabled.png`;
     }
-    this.userVoted = false;
     return `${Router.path('home')}images/downvote.png`;
   },
 });
