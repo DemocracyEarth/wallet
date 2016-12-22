@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { Router } from 'meteor/iron:router';
+import { TAPi18n } from 'meteor/tap:i18n';
 
 import { displayLogin } from '/imports/ui/modules/popup';
 import { voteComment } from '/imports/ui/modules/Thread';
@@ -52,10 +53,12 @@ function check(votes, up) {
 */
 function vote(event, comment, quantity) {
   if (!Meteor.user()) {
+    // not logged
     displayLogin(event, document.getElementById('loggedUser'));
   } else if (comment.id !== voteEventId) {
     if ((quantity > 0 && this.userUpvoted === false) ||
     (quantity < 0 && this.userDownvoted === false)) {
+      // able to vote
       voteEventId = comment.id;
       if (comment.userVoted === false) {
         voteComment(
@@ -101,7 +104,7 @@ Template.thread.helpers({
     if (check(this.votes, true)) {
       this.userUpvoted = true;
       return `${Router.path('home')}images/upvote-active.png`;
-    } else if (Meteor.user().profile.wallet.available <= 0) {
+    } else if (Meteor.user().profile.wallet.available <= 90) {
       return `${Router.path('home')}images/upvote-disabled.png`;
     }
     this.userUpvoted = false;
@@ -112,10 +115,22 @@ Template.thread.helpers({
     if (check(this.votes, false)) {
       this.userDownvoted = true;
       return `${Router.path('home')}images/downvote-active.png`;
-    } else if (Meteor.user().profile.wallet.available <= 0) {
+    } else if (Meteor.user().profile.wallet.available <= 90) {
       return `${Router.path('home')}images/downvote-disabled.png`;
     }
     return `${Router.path('home')}images/downvote.png`;
+  },
+  buttonStatus() {
+    if (Meteor.user().profile.wallet.available <= 90) {
+      return 'sort-button-disabled';
+    }
+    return '';
+  },
+  buttonRule() {
+    if (Meteor.user().profile.wallet.available <= 90) {
+      return TAPi18n.__('sort-button-disabled');
+    }
+    return TAPi18n.__('sort-button');
   },
 });
 

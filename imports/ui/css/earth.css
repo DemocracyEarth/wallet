@@ -472,8 +472,7 @@ blockquote {
 }
 
 .symbol.profile-pic:hover {
-  margin-top: 8px;
-  margin-bottom: 12px;
+  border-color: #46dfb8;
   box-shadow: 0 2px 7px -4px #000;
 }
 
@@ -4193,6 +4192,10 @@ blockquote {
   background-color: #00bf8f;
 }
 
+.sort-button.sort-button-disabled {
+  cursor: default;
+}
+
 .sort-score {
   width: 40px;
   color: #00bf8f;
@@ -4882,6 +4885,9 @@ blockquote {
   .menu-item {
     font-weight: 400;
   }
+  .content.content-agora {
+    margin-top: -20px;
+  }
 }
 
 @media (max-width: 479px) {
@@ -5180,6 +5186,8 @@ blockquote {
   }
   .content.content-agora {
     margin-top: -20px;
+    padding-right: 15px;
+    padding-left: 15px;
   }
   .half {
     width: 100%;

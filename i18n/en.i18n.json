@@ -393,5 +393,8 @@
   "draft-options-ballot": "Ballot has options still as drafts. Edit and publish those first.",
   "ballot": "Ballot",
   "vote-balance": "Balance",
-  "authenticity": "Authenticity"
+  "authenticity": "Authenticity",
+  "sort-button-disabled": "Not enough votes.",
+  "sort-button-voted": "Unvote.",
+  "sort-button": "Vote."
 }
