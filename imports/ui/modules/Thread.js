@@ -3,7 +3,7 @@ import { Session } from 'meteor/session';
 
 import { guidGenerator } from '../../startup/both/modules/crypto';
 import { Contracts } from '../../api/contracts/Contracts';
-import { transact } from '../../api/transactions/transaction';
+
 
 let node = '';
 let currentParent = '';
@@ -95,8 +95,9 @@ export const postComment = (contractId, eventObj, replyId) => {
 /* @param {string} contractId - contract where this comment goes.
 /* @param {string} threadId - exact comment that is being up/down voted
 /* @param {string} vote - indicates where it's an upvote (1) or downvote (-1)
+/* @param {boolean} removal - removes the vote rather than adding one
 */
-export const voteComment = (contractId, threadId, vote) => {
+export const voteComment = (contractId, threadId, vote, removal) => {
   const thread = Contracts.find({ _id: contractId }).fetch()[0].events;
   const query = {};
   node = '';
@@ -111,12 +112,16 @@ export const voteComment = (contractId, threadId, vote) => {
     userId: Meteor.userId(),
   };
 
-  // store vote in contract thread
-  Contracts.update(
-    { _id: contractId },
-    { $push: query }
-  );
-
-  // make transaction from user wallet
-  transact(Meteor.userId(), contractId, Math.abs(vote));
+  if (removal === true) {
+    Contracts.update(
+      { _id: contractId },
+      { $pull: query }
+    );
+  } else {
+    // store vote in contract thread
+    Contracts.update(
+      { _id: contractId },
+      { $push: query }
+    );
+  }
 };

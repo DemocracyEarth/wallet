@@ -6,6 +6,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 
 import { displayLogin } from '/imports/ui/modules/popup';
 import { voteComment } from '/imports/ui/modules/Thread';
+import { transact } from '/imports/api/transactions/transaction';
 
 import { timeSince } from '/imports/ui/modules/chronos';
 import { textFormat } from '/imports/ui/modules/utils';
@@ -50,26 +51,52 @@ function check(votes, up) {
 * @param {object} event event from ui
 * @param {object} comment object with comment metadata
 * @param {number} quantity quantity of votes (1 or -1 usually)
+* @param {string} mode either VOTE, SWITCH or REMOVE
 */
-function vote(event, comment, quantity) {
+function vote(event, comment, quantity, mode) {
   if (!Meteor.user()) {
     // not logged
     displayLogin(event, document.getElementById('loggedUser'));
-  } else if (comment.id !== voteEventId) {
-    if ((quantity > 0 && this.userUpvoted === false) ||
-    (quantity < 0 && this.userDownvoted === false)) {
-      // able to vote
-      voteEventId = comment.id;
-      if (comment.userVoted === false) {
-        voteComment(
-          Session.get('contract')._id,
-          comment.id,
-          quantity
-        );
+    return;
+  }
+  switch (mode) {
+    case 'SWITCH':
+      console.log('swtiching...');
+      break;
+    case 'REMOVE':
+      console.log('removing...');
+      break;
+    default: {
+      if ((quantity > 0 && comment.userUpvoted === false) || (quantity < 0 && comment.userDownvoted === false)) {
+        voteComment(Session.get('contract')._id, comment.id, quantity);
+        transact(Meteor.userId(), Session.get('contract')._id, Math.abs(quantity));
+        break;
       }
     }
   }
 }
+
+/**
+* @summary process upvote/downvote event
+* @param {object} event event from ui
+* @param {object} comment object with comment metadata
+* @param {boolean} up if its upvote or downvote
+*/
+function microdelegation(event, comment, up) {
+  if (comment.id !== voteEventId) {
+    voteEventId = comment.id;
+    if ((comment.userDownvoted && !up) || (comment.userUpvoted && up)) {
+      vote(event, comment, 1, 'REMOVE');
+    } else if ((comment.userUpvoted && !up) || (comment.userDownvoted && up)) {
+      vote(event, comment, 1, 'SWITCH');
+    } else if (!up) {
+      vote(event, comment, -1, 'VOTE');
+    } else {
+      vote(event, comment, 1, 'VOTE');
+    }
+  }
+}
+
 
 Template.thread.helpers({
   timestamp() {
@@ -101,13 +128,13 @@ Template.thread.helpers({
     return count(this.votes);
   },
   upvote() {
+    this.userUpvoted = false;
     if (check(this.votes, true)) {
       this.userUpvoted = true;
       return `${Router.path('home')}images/upvote-active.png`;
-    } else if (Meteor.user().profile.wallet.available <= 90) {
+    } else if (Meteor.user().profile.wallet.available <= 0) {
       return `${Router.path('home')}images/upvote-disabled.png`;
     }
-    this.userUpvoted = false;
     return `${Router.path('home')}images/upvote.png`;
   },
   downvote() {
@@ -115,22 +142,28 @@ Template.thread.helpers({
     if (check(this.votes, false)) {
       this.userDownvoted = true;
       return `${Router.path('home')}images/downvote-active.png`;
-    } else if (Meteor.user().profile.wallet.available <= 90) {
+    } else if (Meteor.user().profile.wallet.available <= 0) {
       return `${Router.path('home')}images/downvote-disabled.png`;
     }
     return `${Router.path('home')}images/downvote.png`;
   },
-  buttonStatus() {
-    if (Meteor.user().profile.wallet.available <= 90) {
+  buttonStatus(upvote) {
+    if (check(this.votes, upvote)) {
+      return '';
+    } else if (Meteor.user().profile.wallet.available <= 0) {
       return 'sort-button-disabled';
     }
     return '';
   },
-  buttonRule() {
-    if (Meteor.user().profile.wallet.available <= 90) {
+  buttonRule(upvote) {
+    if (check(this.votes, upvote)) {
+      return TAPi18n.__('sort-button-voted');
+    } else if (Meteor.user().profile.wallet.available <= 0) {
       return TAPi18n.__('sort-button-disabled');
+    } else if (upvote) {
+      return TAPi18n.__('sort-button-delegate');
     }
-    return TAPi18n.__('sort-button');
+    return TAPi18n.__('sort-button-punish');
   },
 });
 
@@ -150,9 +183,9 @@ Template.thread.events({
     Session.set(replyStringId, true);
   },
   'click #upvote'(event) {
-    vote(event, this, 1);
+    microdelegation(event, this, true);
   },
   'click #downvote'(event) {
-    vote(event, this, -1);
+    microdelegation(event, this, false);
   },
 });

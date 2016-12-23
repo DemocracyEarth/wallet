@@ -394,7 +394,8 @@
   "ballot": "Ballot",
   "vote-balance": "Balance",
   "authenticity": "Authenticity",
-  "sort-button-disabled": "Not enough votes.",
-  "sort-button-voted": "Unvote.",
-  "sort-button": "Vote."
+  "sort-button-disabled": "Not enough available votes.",
+  "sort-button-voted": "Get vote back.",
+  "sort-button-delegate": "Delegate single vote.",
+  "sort-button-punish": "Retrieve single vote."
 }
