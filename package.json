@@ -1,4 +1,9 @@
 {
+  "license" : "MIT",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/DemocracyEarth/sovereign.git"
+  },
   "scripts": {
     "start": "meteor --settings=config/production/settings.json",
     "pretest": "npm run lint --silent",
