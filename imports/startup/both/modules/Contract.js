@@ -51,8 +51,9 @@ const _verifyDelegation = (delegatorId, delegateId) => {
 * @param {string} delegatorId - identity assigning the tokens (usually currentUser)
 * @param {string} delegateId - identity that will get a request to approve
 * @param {object} settings - basic settings for this contract
+* @param {boolean} gotoContract - if it should call router to go and show delegation
 */
-const _newDelegation = (delegatorId, delegateId, settings) => {
+const _newDelegation = (delegatorId, delegateId, settings, gotoContract) => {
   let finalTitle = String();
   const existingDelegation = _verifyDelegation(delegatorId, delegateId);
   if (!existingDelegation) {
@@ -86,12 +87,20 @@ const _newDelegation = (delegatorId, delegateId, settings) => {
         ],
       };
 
+    const newContract = Contracts.insert(newDelegation);
+    console.log(newContract);
+
+    if (gotoContract === true || gotoContract === undefined) {
+      Router.go(Contracts.findOne({ _id: newContract }).url);
+    }
+
+    /*
     Meteor.call('insertContract', newDelegation, function (error, result) {
       if (!error) {
         Router.go(Contracts.findOne({ _id: result }).url);
       }
-    });
-  } else {
+    });*/
+  } else if (gotoContract === true || gotoContract === undefined) {
     // goes to existing one
     Router.go(existingDelegation.url);
   }

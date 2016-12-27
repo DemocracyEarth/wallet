@@ -4,13 +4,13 @@
       {{> avatar profile=this includeName=true includeNation=true editable=false disabled=true includeRole=false}}
       {{#if currentUser}}
         {{#unless myself}}
-          {{> authenticity}}
+          <!-- {{> authenticity}} -->
           <div id="delegate" name="{{delegationKeyword}}" class="button login-button">
             <div>{{_ 'delegate-votes'}}</div>
           </div>
         {{else}}
           {{> power editable=false}}
-          {{> authenticity}}
+          <!-- {{> authenticity}} -->
         {{/unless}}
       {{/if}}
     </div>

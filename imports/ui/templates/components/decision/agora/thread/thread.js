@@ -6,7 +6,10 @@ import { TAPi18n } from 'meteor/tap:i18n';
 
 import { displayLogin } from '/imports/ui/modules/popup';
 import { voteComment } from '/imports/ui/modules/Thread';
+import { startDelegation } from '/imports/startup/both/modules/Contract';
 import { transact } from '/imports/api/transactions/transaction';
+import { convertToSlug } from '/lib/utils';
+
 
 import { timeSince } from '/imports/ui/modules/chronos';
 import { textFormat } from '/imports/ui/modules/utils';
@@ -67,9 +70,27 @@ function vote(event, comment, quantity, mode) {
       console.log('removing...');
       break;
     default: {
-      if ((quantity > 0 && comment.userUpvoted === false) || (quantity < 0 && comment.userDownvoted === false)) {
+      if ((quantity > 0 && comment.userUpvoted === false)
+      || (quantity < 0 && comment.userDownvoted === false)) {
         voteComment(Session.get('contract')._id, comment.id, quantity);
-        transact(Meteor.userId(), Session.get('contract')._id, Math.abs(quantity));
+        // transact(Meteor.userId(), Session.get('contract')._id, Math.abs(quantity));
+        const keywordTitle = `${convertToSlug(Meteor.user().username)}-${convertToSlug(Meteor.users.findOne({ _id: comment.userId }).username)}`;
+        startDelegation(
+          Meteor.userId(),
+          this.toString(),
+          {
+            title: keywordTitle,
+            signatures: [
+              {
+                username: Meteor.user().username,
+              },
+              {
+                username: comment.userId,
+              },
+            ],
+          },
+          false
+        );
         break;
       }
     }
@@ -85,7 +106,9 @@ function vote(event, comment, quantity, mode) {
 function microdelegation(event, comment, up) {
   if (comment.id !== voteEventId) {
     voteEventId = comment.id;
-    if ((comment.userDownvoted && !up) || (comment.userUpvoted && up)) {
+    if (Meteor.userId() === comment.userId) {
+      console.log('SAME');
+    } else if ((comment.userDownvoted && !up) || (comment.userUpvoted && up)) {
       vote(event, comment, 1, 'REMOVE');
     } else if ((comment.userUpvoted && !up) || (comment.userDownvoted && up)) {
       vote(event, comment, 1, 'SWITCH');

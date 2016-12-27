@@ -4,6 +4,7 @@ import { $ } from 'meteor/jquery';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { gui } from '/lib/const';
 
+import { showFullName } from '/imports/startup/both/modules/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { animationSettings } from './animation';
 
@@ -151,6 +152,23 @@ const _getDecisionsMenu = (feed) => {
 };
 
 /**
+/* @summary checks if item already present in array
+/* @param {string} id - id to search in array
+/* @param {string} array - item list
+*/
+const _alreadyListed = (id, array) => {
+  if (id === Meteor.user()._id) { return true; }
+  for (const i in array) {
+    if (array.length > 0) {
+      if (array[i] === id) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+
+/**
 /* @summary searches inside a contract
 */
 const _searchContract = (source, list) => {
@@ -167,6 +185,41 @@ const _searchContract = (source, list) => {
       break;
   }
   return list;
+};
+
+/**
+/* @summary gets a list of users given an array
+*/
+const getUserList = (array) => {
+  const userList = [];
+  let user = '';
+
+  for (const i in array) {
+    console.log(array[i]);
+    user = Meteor.users.findOne({ _id: array[i] });
+    let labelUser;
+    if (user !== undefined) {
+      if (user.profile && user.profile.firstName && user.profile.lastName) {
+        labelUser = showFullName(user.profile.firstName, user.profile.lastName);
+      } else {
+        labelUser = user.username;
+      }
+      userList.push({
+        id: user._id,
+        label: labelUser,
+        icon: user.profile.picture,
+        iconActivated: false,
+        feed: 'user',
+        value: true,
+        separator: false,
+        url: `/peer/${user.username}`,
+        selected: false,
+      });
+    } else {
+      return false;
+    }
+  }
+  return userList;
 };
 
 /**
@@ -198,17 +251,22 @@ const _getDelegatesMenu = () => {
   }).fetch();
 
   for (const i in contracts) {
-    users = _searchContract(contracts[i], users)
+    users = _searchContract(contracts[i], users);
   }
 
   // get delegators to me
+  const list = getUserList(users);
+  _toggleSelectedItem(list);
+  Session.set('menuDelegates', list);
+
+  /*
   Meteor.call('getUserList', users, function (error, data) {
     if (error)
       console.log(error);
 
     _toggleSelectedItem(data);
     Session.set('menuDelegates', data);
-  });
+  });*/
 };
 
 /**
@@ -224,23 +282,6 @@ const sidebarMenu = (feed) => {
   } else {
     Session.set('menuDelegates', undefined);
   }
-};
-
-/**
-/* @summary checks if item already present in array
-/* @param {string} id - id to search in array
-/* @param {string} array - item list
-*/
-let _alreadyListed = (id, array) => {
-  if (id === Meteor.user()._id) { return true; }
-  for (const i in array) {
-    if (array.length > 0) {
-      if (array[i] === id) {
-        return true;
-      }
-    }
-  }
-  return false;
 };
 
 /**
