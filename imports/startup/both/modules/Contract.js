@@ -47,13 +47,68 @@ const _verifyDelegation = (delegatorId, delegateId) => {
 };
 
 /**
+* @summary updates the status of the signatures in the contract
+* @param {string} status the status code to save in the contract signature
+*/
+const _updateContractSignatures = (status) => {
+  const signatures = Session.get('contract').signatures;
+  for (const signer in signatures) {
+    if (signatures[signer]._id === Meteor.user()._id) {
+      switch (signatures[signer].status) {
+        case 'PENDING':
+          if (status !== undefined) {
+            signatures[signer].status = status;
+            break;
+          }
+          signatures[signer].status = 'CONFIRMED';
+          break;
+        default:
+          break;
+      }
+    }
+  }
+  Contracts.update(Session.get('contract')._id, { $set: { signatures: signatures } });
+};
+
+/**
+* @summary sends the votes from a delegator to be put on hold until delegate approves deal.
+* @param {string} source - identity assigning the tokens (usually currentUser)
+* @param {string} target - identity that will get a request to approve
+* @param {number} quantity - amount of votes being used
+* @param {object} conditions - specified conditions for this delegation
+*/
+const _sendDelegation = (sourceId, targetId, quantity, conditions, newStatus) => {
+  /*
+    Meteor.call('executeTransaction', sourceId, targetId, quantity, conditions, newStatus, function (err, result) {
+    if (err) {
+      throw new Meteor.Error(err, '[_sendDelegation]: transaction failed.');
+    } else {
+      // update contract status\
+      _updateContractSignatures(result);
+    }
+  });*/
+
+  console.log(`sourceId ${sourceId},
+    targetId ${targetId},
+    quantity ${quantity},
+    conditions ${conditions},
+    newStatus ${newStatus}`
+  );
+
+  const txId = transact(sourceId, targetId, quantity, conditions);
+  if (newStatus !== undefined && txId !== undefined) {
+    _updateContractSignatures(newStatus);
+  }
+};
+
+/**
 * @summary generate delegation contract between two identities.
 * @param {string} delegatorId - identity assigning the tokens (usually currentUser)
 * @param {string} delegateId - identity that will get a request to approve
 * @param {object} settings - basic settings for this contract
-* @param {boolean} gotoContract - if it should call router to go and show delegation
+* @param {boolean} instantaneous - if its a fast, instantaneous delegation
 */
-const _newDelegation = (delegatorId, delegateId, settings, gotoContract) => {
+const _newDelegation = (delegatorId, delegateId, settings, instantaneous) => {
   let finalTitle = String();
   const existingDelegation = _verifyDelegation(delegatorId, delegateId);
   if (!existingDelegation) {
@@ -88,65 +143,34 @@ const _newDelegation = (delegatorId, delegateId, settings, gotoContract) => {
       };
 
     const newContract = Contracts.insert(newDelegation);
-    console.log(newContract);
-
-    if (gotoContract === true || gotoContract === undefined) {
-      Router.go(Contracts.findOne({ _id: newContract }).url);
+    const delegationContract = Contracts.findOne({ _id: newContract });
+    if (instantaneous === false || instantaneous === undefined) {
+      Router.go(delegationContract.url);
+    } else if (instantaneous) {
+      console.log('instant delegation');
+      const delegation = {
+        condition: {
+          transferable: true,
+          portable: true,
+          tags: Session.get('contract').tags,
+        },
+        currency: 'VOTES',
+        kind: delegationContract.kind,
+        contractId: newContract,
+      };
+      _sendDelegation(
+        newContract,
+        delegateId,
+        1,
+        delegation,
+        'CONFIRMED'
+      );
     }
-
-    /*
-    Meteor.call('insertContract', newDelegation, function (error, result) {
-      if (!error) {
-        Router.go(Contracts.findOne({ _id: result }).url);
-      }
-    });*/
-  } else if (gotoContract === true || gotoContract === undefined) {
+  } else if (instantaneous === false || instantaneous === undefined) {
     // goes to existing one
     Router.go(existingDelegation.url);
   }
 };
-
-/**
-* updates the status of the signatures in the contract
-*/
-const _updateContractSignatures = (status) => {
-  const signatures = Session.get('contract').signatures;
-  for (const signer in signatures) {
-    if (signatures[signer]._id === Meteor.user()._id) {
-      switch (signatures[signer].status) {
-        case 'PENDING':
-          if (status !== undefined) {
-            signatures[signer].status = status;
-            break;
-          }
-          signatures[signer].status = 'CONFIRMED';
-          break;
-        default:
-          break;
-      }
-    }
-  }
-  Contracts.update(Session.get('contract')._id, { $set: { signatures: signatures } });
-};
-
-/**
-* @summary sends the votes from a delegator to be put on hold on a contract until delegate approves deal.
-* @param {string} source - identity assigning the tokens (usually currentUser)
-* @param {string} target - identity that will get a request to approve
-* @param {number} quantity - amount of votes being used
-* @param {object} conditions - specified conditions for this delegation
-*/
-const _sendDelegation = (sourceId, targetId, quantity, conditions, newStatus) => {
-  Meteor.call('executeTransaction', sourceId, targetId, quantity, conditions, newStatus, function (err, result) {
-    if (err) {
-      throw new Meteor.Error(err, '[_sendDelegation]: transaction failed.');
-    } else {
-      // update contract status\
-      _updateContractSignatures(result);
-    }
-  });
-};
-
 
 /**
 * @summary signals political preference of user regarding issue proposed in contract
@@ -178,7 +202,7 @@ const _newMembership = (userId, collectiveId) => {
 * @param {object} signatures - object containing signatures
 * @param {object} signerId - identity of signer to verify
 * @param {boolean} getStatus - if boolean value shall be returned rather than string
-***/
+*/
 const _signatureStatus = (signatures, signerId, getStatus) => {
   let label = String();
   let i = 0;

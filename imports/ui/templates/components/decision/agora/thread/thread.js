@@ -74,10 +74,12 @@ function vote(event, comment, quantity, mode) {
       || (quantity < 0 && comment.userDownvoted === false)) {
         voteComment(Session.get('contract')._id, comment.id, quantity);
         // transact(Meteor.userId(), Session.get('contract')._id, Math.abs(quantity));
-        const keywordTitle = `${convertToSlug(Meteor.user().username)}-${convertToSlug(Meteor.users.findOne({ _id: comment.userId }).username)}`;
+        const delegate = Meteor.users.findOne({ _id: comment.userId }).username;
+        const keywordTitle = `${convertToSlug(Meteor.user().username)}-${convertToSlug(delegate)}`;
+        console.log(`making delegation: ${keywordTitle}`);
         startDelegation(
           Meteor.userId(),
-          this.toString(),
+          comment.userId,
           {
             title: keywordTitle,
             signatures: [
@@ -85,11 +87,11 @@ function vote(event, comment, quantity, mode) {
                 username: Meteor.user().username,
               },
               {
-                username: comment.userId,
+                username: delegate,
               },
             ],
           },
-          false
+          true
         );
         break;
       }

@@ -195,7 +195,13 @@ Template.power.events({
           kind: Session.get('contract').kind,
           contractId: Session.get('contract')._id, // _getContractId(senderId, receiverId, settings.kind),
         };
-        sendDelegationVotes(Session.get('contract')._id, Session.get('contract').signatures[1]._id, Session.get('contract').wallet.available, settings, 'CONFIRMED');
+        sendDelegationVotes(
+          Session.get('contract')._id,
+          Session.get('contract').signatures[1]._id,
+          Session.get('contract').wallet.available,
+          settings,
+          'CONFIRMED'
+        );
       }
     );
   },
@@ -228,7 +234,13 @@ Template.power.events({
           kind: Session.get('contract').kind,
           contractId: Session.get('contract')._id, // _getContractId(senderId, receiverId, settings.kind),
         };
-        sendDelegationVotes(Session.get('contract')._id, Session.get('contract').signatures[0]._id, Session.get('contract').wallet.available, settings, 'REJECTED');
+        sendDelegationVotes(
+          Session.get('contract')._id,
+          Session.get('contract').signatures[0]._id,
+          Session.get('contract').wallet.available,
+          settings,
+          'REJECTED'
+        );
       }
     );
   },
