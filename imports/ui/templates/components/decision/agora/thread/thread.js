@@ -77,6 +77,7 @@ function vote(event, comment, quantity, mode) {
         const delegate = Meteor.users.findOne({ _id: comment.userId }).username;
         const keywordTitle = `${convertToSlug(Meteor.user().username)}-${convertToSlug(delegate)}`;
         console.log(`making delegation: ${keywordTitle}`);
+        // TODO: if its upvote, one way; if its downvote the other way.
         startDelegation(
           Meteor.userId(),
           comment.userId,
