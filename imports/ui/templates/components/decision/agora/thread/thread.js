@@ -70,6 +70,9 @@ function vote(event, comment, quantity, mode) {
       console.log('removing...');
       break;
     default: {
+      console.log('voting...');
+      console.log(quantity);
+      console.log(comment.userUpvoted);
       if ((quantity > 0 && comment.userUpvoted === false)
       || (quantity < 0 && comment.userDownvoted === false)) {
         voteComment(Session.get('contract')._id, comment.id, quantity);
@@ -118,6 +121,7 @@ function microdelegation(event, comment, up) {
     } else if (!up) {
       vote(event, comment, -1, 'VOTE');
     } else {
+      console.log(comment);
       vote(event, comment, 1, 'VOTE');
     }
   }
@@ -151,7 +155,17 @@ Template.thread.helpers({
     return true;
   },
   sortTotal() {
+    this.userUpvoted = false;
+    if (check(this.votes, true)) {
+      this.userUpvoted = true;
+    }
     return count(this.votes);
+  },
+  label() {
+    if (count(this.votes) !== 1) {
+      return TAPi18n.__('votes');
+    }
+    return TAPi18n.__('vote');
   },
   upvote() {
     this.userUpvoted = false;
@@ -209,6 +223,7 @@ Template.thread.events({
     Session.set(replyStringId, true);
   },
   'click #upvote'(event) {
+    console.log(this.userUpvoted);
     microdelegation(event, this, true);
   },
   'click #downvote'(event) {
