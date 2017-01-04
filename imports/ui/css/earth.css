@@ -4510,10 +4510,10 @@ blockquote {
 .delegate {
   width: 60px;
   height: 60px;
-  border: 1px solid #00bf8f;
+  border: 1px solid #e6f9f4;
   border-radius: 5px;
-  background-color: transparent;
-  box-shadow: none;
+  background-color: #e6f9f4;
+  box-shadow: 0 1px 10px -5px #000;
   color: #00bf8f;
   font-size: 24px;
   line-height: 41px;
@@ -4522,6 +4522,7 @@ blockquote {
 }
 
 .delegate:hover {
+  border-color: #00bf8f;
   background-color: #00bf8f;
   color: #fff;
 }
