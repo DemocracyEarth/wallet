@@ -155,10 +155,6 @@ Template.thread.helpers({
     return true;
   },
   sortTotal() {
-    this.userUpvoted = false;
-    if (check(this.votes, true)) {
-      this.userUpvoted = true;
-    }
     return count(this.votes);
   },
   label() {
