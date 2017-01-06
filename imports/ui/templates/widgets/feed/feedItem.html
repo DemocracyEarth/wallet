@@ -1,100 +1,105 @@
 <template name="feedItem">
 
-  <li id="feedItem-{{_id}}" class="vote vote-search vote-feed nondraggable">
+  {{#if delegationMode kind}}
 
-    <div class="checkbox checkbox-custom">
+    {{> transaction}}
 
-      <a class="w-inline-block w-clearfix option-proposal" href="{{url}}">
-        <div class="option-title option-link option-search">
-          {{{title}}}
-        </div>
-      </a>
+  {{else}}
+    <li id="feedItem-{{_id}}" class="vote vote-search vote-feed nondraggable">
 
-      <div class="meta meta-search">
+      <div class="checkbox checkbox-custom">
 
-        {{> stage text=stage executionStatus=executionStatus closingDate=closingDate}}
-
-        <div class="data">
-          <img class="url-icon" src="{{pathFor route='home'}}images/time.png">
-          <div class="verifier verifier-live">{{sinceDate timestamp}}</div>
-        </div>
-
-      </div>
-
-      <div class="rich-text rich-text-preview">
-        {{description}}
-      </div>
-
-      <ul class="w-list-unstyled w-clearfix extra">
-        {{#each tags}}
-            {{> tag _id=_id nonDraggable=true}}
-        {{/each}}
-      </ul>
-
-      <ul class="w-list-unstyled w-clearfix identity-list extra">
-        {{#each signatures}}
-        <li class="w-clearfix identity">
-            {{> avatar size=32 profile=this._id includeName=true includeNation=false editable=false smallFont=true disabled=true includeRole=false}}
-        </li>
-        {{/each}}
-      </ul>
-
-    </div>
-
-
-    <div class="block block-list">
-      {{#if embeddedMode}}
-        <div class="micro-menu">
-          <div class="micro">
-            <a id="{{_id}}" title="{{title}}" class="micro-button micro-button-addballot w-clearfix w-inline-block">
-              <img class="micro-icon" src="{{pathFor route='home'}}images/micro-add.png">
-              <div class="micro-label">{{_ 'add-to-ballot'}}</div>
-            </a>
+        <a class="w-inline-block w-clearfix option-proposal" href="{{url}}">
+          <div class="option-title option-link option-search">
+            {{{title}}}
           </div>
+        </a>
+
+        <div class="meta meta-search">
+
+          {{> stage text=stage executionStatus=executionStatus closingDate=closingDate}}
+
+          <div class="data">
+            <img class="url-icon" src="{{pathFor route='home'}}images/time.png">
+            <div class="verifier verifier-live">{{sinceDate timestamp}}</div>
+          </div>
+
         </div>
-      {{else}}
-        {{#if delegationMode kind}}
+
+        <div class="rich-text rich-text-preview">
+          {{description}}
+        </div>
+
+        <ul class="w-list-unstyled w-clearfix extra">
+          {{#each tags}}
+              {{> tag _id=_id nonDraggable=true}}
+          {{/each}}
+        </ul>
+
+        <ul class="w-list-unstyled w-clearfix identity-list extra">
+          {{#each signatures}}
+          <li class="w-clearfix identity">
+              {{> avatar size=32 profile=this._id includeName=true includeNation=false editable=false smallFont=true disabled=true includeRole=false}}
+          </li>
+          {{/each}}
+        </ul>
+
+      </div>
+
+      <div class="block block-list">
+        {{#if embeddedMode}}
           <div class="micro-menu">
             <div class="micro">
-              <a class="micro-button w-clearfix w-inline-block" href="{{url}}">
-                <img class="micro-icon" src="{{pathFor route='home'}}images/micro-view.png">
-                <div class="micro-label">{{_ 'view-this-delegation'}}</div>
+              <a id="{{_id}}" title="{{title}}" class="micro-button micro-button-addballot w-clearfix w-inline-block">
+                <img class="micro-icon" src="{{pathFor route='home'}}images/micro-add.png">
+                <div class="micro-label">{{_ 'add-to-ballot'}}</div>
               </a>
             </div>
           </div>
         {{else}}
-          {{#if editorMode stage}}
+          {{#if delegationMode kind}}
             <div class="micro-menu">
               <div class="micro">
-                <a class="micro-button w-clearfix w-inline-block" href="/vote/draft?id={{_id}}">
-                  <img class="micro-icon" src="{{pathFor route='home'}}images/micro-draft.png">
-                  <div class="micro-label">{{_ 'edit-this-draft'}}</div>
+                <a class="micro-button w-clearfix w-inline-block" href="{{url}}">
+                  <img class="micro-icon" src="{{pathFor route='home'}}images/micro-view.png">
+                  <div class="micro-label">{{_ 'view-this-delegation'}}</div>
                 </a>
               </div>
-              {{#if userIsAuthor signatures}}
-                <div class="micro">
-                  <a id="{{_id}}" title="{{title}}" class="micro-button micro-button-remove w-clearfix w-inline-block">
-                    <img class="micro-icon" src="{{pathFor route='home'}}images/micro-trash.png">
-                    <div class="micro-label">{{_ 'remove'}}</div>
-                  </a>
-                </div>
-              {{/if}}
             </div>
           {{else}}
-            {{#if voterMode stage}}
+            {{#if editorMode stage}}
               <div class="micro-menu">
                 <div class="micro">
-                  <a class="micro-button w-clearfix w-inline-block" href="{{url}}">
-                    <img class="micro-icon" src="{{pathFor route='home'}}images/vote.png">
-                    <div class="micro-label">{{_ 'vote-this-proposal'}}</div>
+                  <a class="micro-button w-clearfix w-inline-block" href="/vote/draft?id={{_id}}">
+                    <img class="micro-icon" src="{{pathFor route='home'}}images/micro-draft.png">
+                    <div class="micro-label">{{_ 'edit-this-draft'}}</div>
                   </a>
                 </div>
+                {{#if userIsAuthor signatures}}
+                  <div class="micro">
+                    <a id="{{_id}}" title="{{title}}" class="micro-button micro-button-remove w-clearfix w-inline-block">
+                      <img class="micro-icon" src="{{pathFor route='home'}}images/micro-trash.png">
+                      <div class="micro-label">{{_ 'remove'}}</div>
+                    </a>
+                  </div>
+                {{/if}}
               </div>
+            {{else}}
+              {{#if voterMode stage}}
+                <div class="micro-menu">
+                  <div class="micro">
+                    <a class="micro-button w-clearfix w-inline-block" href="{{url}}">
+                      <img class="micro-icon" src="{{pathFor route='home'}}images/vote.png">
+                      <div class="micro-label">{{_ 'vote-this-proposal'}}</div>
+                    </a>
+                  </div>
+                </div>
+              {{/if}}
             {{/if}}
           {{/if}}
         {{/if}}
-      {{/if}}
-    </div>
+      </div>
+    </li>
+  {{/if}}
 
-  </li>
 </template>

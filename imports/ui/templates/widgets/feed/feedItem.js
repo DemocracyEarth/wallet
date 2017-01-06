@@ -17,6 +17,7 @@ import './feedItem.html';
 import '../../components/decision/stage/stage.js';
 import '../../components/decision/tag/tag.js';
 import '../../components/identity/avatar/avatar.js';
+import '../../widgets/transaction/transaction.js';
 
 Template.feedItem.rendered = function rendered() {
   // Embedded mode means that Items are in an embedded feed to be selected (ie: for a ballot)
