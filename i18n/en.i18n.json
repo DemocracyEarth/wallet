@@ -397,5 +397,7 @@
   "sort-button-disabled": "Not enough available votes.",
   "sort-button-voted": "Get vote back.",
   "sort-button-delegate": "Delegate a single vote.",
-  "sort-button-punish": "Punish with a single vote."
+  "sort-button-punish": "Punish with a single vote.",
+  "from": "From",
+  "to": "To"
 }
