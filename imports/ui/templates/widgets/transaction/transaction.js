@@ -12,12 +12,13 @@ Template.transaction.onRendered = function (value) {
 
 Template.transaction.helpers({
   sender() {
-
+    return this.signatures[0]._id;
   },
   receiver() {
-
+    return this.signatures[1]._id;
   },
   value() {
+    console.log(this);
     return '393';
   },
   source() {

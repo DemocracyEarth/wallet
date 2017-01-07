@@ -6,32 +6,24 @@
 
     <div class="float-left half transaction-half">
       <div class="identity identity-transaction w-clearfix">
-
         <div class="cards transaction-label transaction-score">
           {{_ 'from'}}
         </div>
-        <img class="profile-pic profile-pic-disabled symbol" src="images/krishnabharat2.jpg">
-        <div class="identity-peer">
-          <a class="identity-label" href="#">Bart Simpson</a>
-          <div class="identity-nation">🌎 United States</div>
-        </div>
-
+        {{#with sender}}
+          {{> avatar profile=this includeName=true includeNation=true editable=false disabled=false includeRole=false allowRemove=false}}
+        {{/with}}
       </div>
     </div>
     <div class="float-left half transaction-half w-clearfix">
       <div class="float-right identity identity-transaction w-clearfix">
-
         <div class="cards transaction-label transaction-score">
           {{_ 'to'}}
         </div>
         <div class="transaction-wrapper w-clearfix">
-          <img class="float-right profile-pic profile-pic-disabled symbol" src="images/Screen-Shot-2016-01-06-at-6.10.41-AM.png">
-          <div class="identity-peer">
-            <a class="identity-label" href="#">Sam Altman</a>
-            <div class="identity-nation">🌎 Nebraska</div>
-          </div>
+          {{#with receiver}}
+            {{> avatar profile=this includeName=true includeNation=true editable=false disabled=false includeRole=false allowRemove=false}}
+          {{/with}}
         </div>
-
       </div>
 
       <div class="transaction w-clearfix">
