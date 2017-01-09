@@ -18,10 +18,10 @@ Template.transaction.helpers({
     return this.signatures[1]._id;
   },
   value() {
-    console.log(this);
-    return '393';
+    return this.wallet.available;
   },
   source() {
-
+    console.log(this);
+    return 'DELEGATION';
   },
 });
