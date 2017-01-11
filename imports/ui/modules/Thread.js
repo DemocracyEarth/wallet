@@ -28,7 +28,7 @@ const resolvePath = (uri) => {
 /* @param {boolean} isRoot - indicates first parent or not
 /* @param {string} inheritedPath - indicates correct path for recurssion
 /* @param {string} target - what is being searched, '.children' (for postComment),
-                          '.sortTotal' (for voteComment)
+                          '.votes' (for voteComment)
 */
 const searchTree = (element, matchingTitle, iterator, isRoot, inheritedPath, target) => {
   let parentStr;

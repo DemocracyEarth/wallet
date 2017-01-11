@@ -19,7 +19,6 @@ import '../../../identity/avatar/avatar.js';
 import '../postComment.js';
 
 const replyBoxes = [];
-let voteEventId = 0;
 
 /**
 * @summary counts the votes in a comment
@@ -64,18 +63,31 @@ function vote(event, comment, quantity, mode) {
   }
   switch (mode) {
     case 'SWITCH':
-      console.log('swtiching...');
+      console.log('switching...');
+      if (quantity > 0 && comment.userDownvoted === true) {
+        // Remove current downvote first
+        voteComment(Session.get('contract')._id, comment.id, -1, true);
+        // Then switch to an upvote
+        voteComment(Session.get('contract')._id, comment.id, 1, false);
+      } else if (quantity < 0 && comment.userUpvoted === true) {
+        // Remove current upvote first
+        voteComment(Session.get('contract')._id, comment.id, 1, true);
+        // Then switch to a downvote
+        voteComment(Session.get('contract')._id, comment.id, -1, false);
+      }
       break;
     case 'REMOVE':
       console.log('removing...');
+      if ((quantity > 0 && comment.userUpvoted === true)
+      || (quantity < 0 && comment.userDownvoted === true)) {
+        voteComment(Session.get('contract')._id, comment.id, quantity, true);
+      }
       break;
     default: {
       console.log('voting...');
-      console.log(quantity);
-      console.log(comment.userUpvoted);
       if ((quantity > 0 && comment.userUpvoted === false)
       || (quantity < 0 && comment.userDownvoted === false)) {
-        voteComment(Session.get('contract')._id, comment.id, quantity);
+        voteComment(Session.get('contract')._id, comment.id, quantity, false);
         // transact(Meteor.userId(), Session.get('contract')._id, Math.abs(quantity));
         const delegate = Meteor.users.findOne({ _id: comment.userId }).username;
         const keywordTitle = `${convertToSlug(Meteor.user().username)}-${convertToSlug(delegate)}`;
@@ -110,20 +122,20 @@ function vote(event, comment, quantity, mode) {
 * @param {boolean} up if its upvote or downvote
 */
 function microdelegation(event, comment, up) {
-  if (comment.id !== voteEventId) {
-    voteEventId = comment.id;
-    if (Meteor.userId() === comment.userId) {
-      console.log('SAME');
-    } else if ((comment.userDownvoted && !up) || (comment.userUpvoted && up)) {
-      vote(event, comment, 1, 'REMOVE');
-    } else if ((comment.userUpvoted && !up) || (comment.userDownvoted && up)) {
-      vote(event, comment, 1, 'SWITCH');
-    } else if (!up) {
-      vote(event, comment, -1, 'VOTE');
-    } else {
-      console.log(comment);
-      vote(event, comment, 1, 'VOTE');
-    }
+  if (Meteor.userId() === comment.userId) {
+    console.log('SAME user');
+  } else if (comment.userDownvoted && !up) {
+    vote(event, comment, -1, 'REMOVE');
+  } else if (comment.userUpvoted && up) {
+    vote(event, comment, 1, 'REMOVE');
+  } else if (comment.userUpvoted && !up) {
+    vote(event, comment, -1, 'SWITCH');
+  } else if(comment.userDownvoted && up) {
+    vote(event, comment, 1, 'SWITCH');
+  } else if (!up) {
+    vote(event, comment, -1, 'VOTE');
+  } else {
+    vote(event, comment, 1, 'VOTE');
   }
 }
 
@@ -219,10 +231,11 @@ Template.thread.events({
     Session.set(replyStringId, true);
   },
   'click #upvote'(event) {
-    console.log(this.userUpvoted);
+    event.stopPropagation(); // Prevents multiple updates to children and grandchildren
     microdelegation(event, this, true);
   },
   'click #downvote'(event) {
+    event.stopPropagation();
     microdelegation(event, this, false);
   },
 });
