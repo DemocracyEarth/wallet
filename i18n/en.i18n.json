@@ -399,5 +399,6 @@
   "sort-button-delegate": "Delegate a single vote.",
   "sort-button-punish": "Punish with a single vote.",
   "from": "From",
-  "to": "To"
+  "to": "To",
+  "delegates-to": "Delegates"
 }
