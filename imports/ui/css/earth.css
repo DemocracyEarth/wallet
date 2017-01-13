@@ -1208,10 +1208,12 @@ blockquote {
 
 .vote.vote-search.vote-feed.vote-delegation {
   overflow: visible;
-  padding: 0px 10px;
+  padding-top: 0px;
+  padding-bottom: 0px;
   border-style: none solid;
   border-width: 1px;
   border-color: #cacaca;
+  border-radius: 2px;
   background-color: #f5f5f5;
   box-shadow: none;
 }
@@ -2005,12 +2007,14 @@ blockquote {
 }
 
 .identity.identity-transaction {
-  width: 70%;
+  display: inline-block;
+  margin-right: 0px;
+  margin-left: 0px;
 }
 
 .identity.identity-transaction.float-right {
   margin-right: 0px;
-  float: right;
+  float: left;
 }
 
 .identity-label {
@@ -3941,6 +3945,10 @@ blockquote {
   width: 50%;
 }
 
+.half.float-left.transaction-half {
+  text-align: center;
+}
+
 .tutorial {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -4189,7 +4197,7 @@ blockquote {
 }
 
 .cards.transaction-score.transaction-label {
-  margin-top: 5px;
+  margin-top: 3px;
   margin-bottom: 0px;
   border-bottom: 1px solid #e0e0e0;
   text-align: left;
@@ -4248,10 +4256,12 @@ blockquote {
 }
 
 .sort-score.transaction-score {
+  display: inline-block;
   width: 100%;
-  margin-top: 15px;
+  margin-top: 10px;
   margin-bottom: 5px;
   font-size: 36px;
+  text-align: center;
 }
 
 .speak {
@@ -4577,12 +4587,11 @@ blockquote {
 }
 
 .transaction {
-  width: 35%;
-  height: 110px;
-  margin-left: -17%;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  float: left;
+  position: relative;
+  display: inline-block;
+  width: 100px;
+  margin-top: -77px;
+  float: right;
 }
 
 .transaction-wrapper {
@@ -4603,8 +4612,8 @@ blockquote {
 .ticket-trim {
   height: 7px;
   margin-top: -1px;
-  margin-right: -10px;
-  margin-left: -10px;
+  margin-right: -15px;
+  margin-left: -15px;
   background-image: url('../images/ticket-trim-up.png');
   background-position: 0px 0px;
   background-size: 6px;
@@ -4612,11 +4621,24 @@ blockquote {
 }
 
 .ticket-trim.ticket-trim-down {
-  height: 6px;
+  height: 7px;
+  margin-top: 3px;
   margin-bottom: -4px;
   clear: both;
   background-image: url('../images/ticket-trim-down.png');
+  background-position: 0px 1px;
   background-size: 6px;
+}
+
+.transaction-actors {
+  display: block;
+  margin-right: 60px;
+}
+
+.transaction-direction {
+  width: 40px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 @media (max-width: 991px) {
@@ -4686,7 +4708,7 @@ blockquote {
     float: right;
   }
   .identity.identity-transaction {
-    width: 100%;
+    float: none;
   }
   .option-link {
     max-width: 70%;
@@ -4754,7 +4776,6 @@ blockquote {
   }
   .half.float-left.transaction-half {
     display: block;
-    width: 100%;
   }
   .agora {
     margin-top: 0px;
@@ -4800,14 +4821,10 @@ blockquote {
   }
   .transaction {
     display: block;
-    width: auto;
-    height: 85px;
-    margin: 110px -10px 0px;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    float: none;
-    border-top: 1px dashed #dfdfdf;
-    background-color: #f1f1f1;
+    width: 100%;
+    margin-top: 0px;
+    padding-bottom: 10px;
+    border-top: 1px solid #dbdbdb;
   }
   .transaction-wrapper {
     float: left;
@@ -4815,6 +4832,12 @@ blockquote {
   .ticket-trim.ticket-trim-down {
     height: 3px;
     background-color: #f1f1f1;
+  }
+  .transaction-actors {
+    margin-right: 0px;
+  }
+  .transaction-direction {
+    display: none;
   }
 }
 
