@@ -36,7 +36,8 @@ Template.emailLogin.events({
   "click #forgot-pw": function (event) {
     Session.set("passwordKnown", !Session.get("passwordKnown"));
   },
-  "click #signin-button": function (event) {
+  "click #signin-button, submit #email-signin-form": function (event) {
+    event.preventDefault();
     var email = document.getElementById('signin-email').value;
     var pass = document.getElementById('signin-password').value;
 
