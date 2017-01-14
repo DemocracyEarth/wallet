@@ -8,7 +8,7 @@
 # meteor libraries
 meteor-base@1.0.4             # Packages every Meteor app needs to have
 tracker@1.1.1                 # Meteor's client-side reactive programming library
-es5-shim@4.6.15                # ECMAScript 5 compatibility for older browsers.
+es5-shim@4.6.15               # ECMAScript 5 compatibility for older browsers
 ecmascript@0.6.1              # Enable ECMAScript2015+ syntax in app code
 
 # standard libraries
@@ -52,7 +52,10 @@ mobile-experience@1.0.4       # Packages for a great mobile UX
 
 # testing
 practicalmeteor:mocha
+practicalmeteor:chai
 dburles:factory
+xolvio:cleaner
+xolvio:backdoor
 
 # security
 
@@ -73,7 +76,4 @@ email@1.1.18
 meteorhacks:ssr
 service-configuration@1.0.11
 shell-server@0.2.1
-xolvio:cleaner
-practicalmeteor:chai
 dispatch:mocha-phantomjs
-xolvio:backdoor
