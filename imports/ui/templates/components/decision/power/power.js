@@ -246,8 +246,8 @@ Template.power.events({
   },
 });
 
-Template.available.helpers({
-  votes() {
+Template.capital.helpers({
+  available() {
     if (this.editable) {
       if (Session.get('newVote') !== undefined) {
         return Session.get('newVote').available;
@@ -255,6 +255,14 @@ Template.available.helpers({
       return 0;
     }
     return Meteor.user().profile.wallet.available;
+  },
+  placed() {
+    if (Session.get('newVote') !== undefined) {
+      if (Session.get('newVote').placed !== 0) {
+        return Session.get('newVote').placed;
+      }
+    }
+    return TAPi18n.__('none');
   },
 });
 

@@ -182,8 +182,8 @@
   "invalid-password": "Pass requires at least 6 letters.",
   "short-password": "Pass requires at least 6 characters.",
   "mismatch-password": "Passwords do not properly match.",
-  "available-votes": "Available votes.",
-  "placed-votes": "Placed votes.",
+  "available-votes": "available votes",
+  "placed-votes": "placed",
   "see-all": "Review all",
   "delegations": "Delegations",
   "log-out": "Logout",
@@ -401,5 +401,6 @@
   "from": "From",
   "to": "To",
   "delegates-to": "Delegates to...",
-  "delegated-votes": "Delegated Votes"
+  "delegated-votes": "Delegated Votes",
+  "none": "none"
 }

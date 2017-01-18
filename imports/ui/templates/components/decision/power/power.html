@@ -3,15 +3,15 @@
     {{#if rightToVote}}
       <div class="w-clearfix rosca rosca-setter">
         {{> bar editable=editable}}
-        {{> available user=user}}
-        {{> placed user=user}}
+        {{> capital user=user}}
+        <!--{{> placed user=user}}-->
       </div>
     {{/if}}
   {{else}}
     <div class="w-clearfix rosca rosca-id {{styleClass}}">
       {{> bar editable=editable}}
-      {{> available user=user}}
-      {{> placed user=user}}
+      {{> capital user=user}}
+      <!--{{> placed user=user}}-->
     </div>
   {{/if}}
   <!--
@@ -39,14 +39,40 @@
   -->
 </template>
 
-<template name="available">
+<template name="capital">
   <div class='vote-available label-votes'>
-    <strong data-new-link='true'>
-      {{{votes user}}}
-    </strong>
-    <span class='vote-label'>
-      {{_ 'available-votes'}}
-    </span>
+    <div class='stage stage-finish-alternative'>
+      <div class='label label-corner'>
+        <strong>
+          {{{available user}}}
+        </strong>
+        <span>
+          {{_ 'votes'}}
+        </span>
+      </div>
+    </div>
+    <div class='stage stage-finish-approved'>
+      <div class='label label-corner'>
+        <strong>
+          {{{placed user}}}
+        </strong>
+        <span>
+          {{_ 'placed-votes'}}
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class='vote-allocated label-votes'>
+    <div class='stage stage-finish-approved'>
+      <div class='label label-corner'>
+        <strong>
+          {{{placed user}}}
+        </strong>
+        <span>
+          {{_ 'placed-votes'}}
+        </span>
+      </div>
+    </div>
   </div>
 </template>
 

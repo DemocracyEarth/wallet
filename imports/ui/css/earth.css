@@ -2380,7 +2380,7 @@ blockquote {
   width: 100%;
   height: 15px;
   margin-top: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   box-shadow: inset 0 3px 13px -2px rgba(0, 0, 0, .5);
 }
 
@@ -2810,6 +2810,7 @@ blockquote {
 }
 
 .vote-allocated.label-votes {
+  margin-right: -10px;
   font-size: 11px;
 }
 
@@ -3166,8 +3167,8 @@ blockquote {
 .options {
   display: block;
   overflow: auto;
-  padding-right: 5px;
-  padding-left: 5px;
+  padding-right: 0px;
+  padding-left: 0px;
 }
 
 .options.options-voted {
