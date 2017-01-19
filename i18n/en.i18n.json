@@ -402,5 +402,6 @@
   "to": "To",
   "delegates-to": "Delegates to...",
   "delegated-votes": "Delegated Votes",
-  "none": "none"
+  "none": "none",
+  "place-here": "place here"
 }

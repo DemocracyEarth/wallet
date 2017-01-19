@@ -41,49 +41,38 @@
 
 <template name="capital">
   <div class='vote-available label-votes'>
-    <div class='stage stage-finish-alternative'>
+    <div class="stage {{style 'available'}}">
       <div class='label label-corner'>
         <strong>
-          {{{available user}}}
+          {{{getVotes 'available'}}}
         </strong>
         <span>
-          {{_ 'votes'}}
+          {{_ 'available-votes'}}
         </span>
       </div>
     </div>
-    <div class='stage stage-finish-approved'>
+    <div class="stage {{style 'allocateQuantity'}}">
       <div class='label label-corner'>
         <strong>
-          {{{placed user}}}
+          {{{getVotes 'allocateQuantity'}}}
+        </strong>
+        <span>
+          {{_ 'place-here'}}
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class='vote-allocated label-votes'>
+    <div class="stage {{style 'placed'}}">
+      <div class='label label-corner'>
+        <strong>
+          {{{getVotes 'placed'}}}
         </strong>
         <span>
           {{_ 'placed-votes'}}
         </span>
       </div>
     </div>
-  </div>
-  <div class='vote-allocated label-votes'>
-    <div class='stage stage-finish-approved'>
-      <div class='label label-corner'>
-        <strong>
-          {{{placed user}}}
-        </strong>
-        <span>
-          {{_ 'placed-votes'}}
-        </span>
-      </div>
-    </div>
-  </div>
-</template>
-
-<template name="placed">
-  <div class='vote-allocated label-votes'>
-    <strong data-new-link='true'>
-      {{{votes user}}}
-    </strong>
-    <span class='vote-label'>
-      {{_ 'placed-votes'}}
-    </span>
   </div>
 </template>
 

@@ -247,31 +247,21 @@ Template.power.events({
 });
 
 Template.capital.helpers({
-  available() {
-    if (this.editable) {
-      if (Session.get('newVote') !== undefined) {
-        return Session.get('newVote').available;
-      }
-      return 0;
-    }
-    return Meteor.user().profile.wallet.available;
-  },
-  placed() {
+  getVotes(value) {
     if (Session.get('newVote') !== undefined) {
-      if (Session.get('newVote').placed !== 0) {
-        return Session.get('newVote').placed;
+      if (Session.get('newVote')[value] !== 0) {
+        return Session.get('newVote')[value];
       }
     }
     return TAPi18n.__('none');
   },
-});
-
-Template.placed.helpers({
-  votes() {
-    if (Session.get('newVote') !== undefined) {
-      return Session.get('newVote').placed;
+  style(value) {
+    let quantity = 0;
+    quantity = Session.get('newVote')[value];
+    if (quantity === 0) {
+      return 'stage-draft';
     }
-    return 0;
+    return 'stage-finish-approved';
   },
 });
 
