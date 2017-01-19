@@ -348,7 +348,7 @@ const _configNavbar = (title) => {
 ***/
 let _clearSessionVars = () => {
   Session.set('contract', undefined);
-  Session.set('newVote', undefined); //used for wallet (refactor name)
+  Session.set('newVote', undefined); // used for wallet (refactor name)
   Session.set('candidateBallot', undefined); //used for ballot
   Session.set('disabledCheckboxes', false);
   contractId = undefined;

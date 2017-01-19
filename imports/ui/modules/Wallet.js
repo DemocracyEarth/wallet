@@ -7,50 +7,60 @@ import { $ } from 'meteor/jquery';
 * @param {object} wallet - wallet object that can be set from a user's profile.
 * @constructor {object} Wallet - constructor function
 */
-export const Wallet = function(wallet) {
-   //properties
-   if (wallet == undefined) {
-     this.address = new Array();
-     this.ledger = new Array();
-     this.available = new Number(0);
-     this.balance = new Number(0);
-     this.placed = new Number(0)
-     this.currency = 'VOTES';
-   } else {
-     Object.assign(this, wallet);
-   }
+export const Wallet = function (wallet, contract) {
+  // properties
+  if (wallet === undefined) {
+    this.address = [];
+    this.ledger = [];
+    this.available = 0;
+    this.balance = 0;
+    this.placed = 0;
+    this.currency = 'VOTES';
+  } else {
+    Object.assign(this, wallet);
+  }
 
-   //private
-   this.initialized = true;
-   this.enabled = true;
-   this.mode =  'PENDING';
+  // private
+  this.initialized = true;
+  this.enabled = true;
+  this.mode = 'PENDING';
 
-   //view
-   this._initialSliderWidth = $('#voteSlider').width();
-   this.sliderWidth = this._initialSliderWidth;
-   this._maxWidth = $('#voteBar').width() - (($('#voteBar').width() * parseInt((this.placed * 100) / this.balance)) / 100) - 2;
+  // view
+  this._initialSliderWidth = $('#voteSlider').width();
+  this.sliderWidth = this._initialSliderWidth;
+  this._maxWidth = $('#voteBar').width() - (($('#voteBar').width() * parseInt((this.placed * 100) / this.balance, 10)) / 100) - 2;
 
-   //methods
-   if (this.initialized == true) {
-     this.allocateVotes(parseInt(this.available * 10 / 100));
-     this.initialized = false;
-   }
+  // methods
+  if (this.initialized === true) {
+    this.allocateVotes(parseInt((this.available * 10) / 100, 10));
+    this.initialized = false;
+  }
 
-   //controller
-   Session.set('newVote', this);
-}
+  // controller
+  if (contract === undefined) {
+    this.controller = 'newVote';
+  } else {
+    this.controller = `newVote${contract}`;
+  }
+  console.log(this.controller);
+  Session.set(this.controller, this);
+};
+
+const _scope = (value, max, min) => {
+  if (min === undefined) { min = 0; } if (value < min) { return min; } else if (value > max) { return max; } return value;
+};
 
 Wallet.prototype.allocateVotes = function (quantity, avoidSlider) {
   if (this.enabled) {
     this.placedPercentage = ((this.placed * 100) / this.balance);
     this.allocatePercentage = ((quantity * 100) / this.balance);
     this.allocateQuantity = _scope(quantity, this.available);
-  };
+  }
   if (!avoidSlider) {
-    var sliderWidth = parseInt(($('#voteSlider').width() * this.available) / this._maxWidth);
-    var sliderCorrected = parseInt((this._maxWidth * this.allocateQuantity) / this.available);
-    this.sliderInput((sliderCorrected - sliderWidth ), true);
-  };
+    const sliderWidth = parseInt(($('#voteSlider').width() * this.available) / this._maxWidth, 10);
+    const sliderCorrected = parseInt((this._maxWidth * this.allocateQuantity) / this.available, 10);
+    this.sliderInput((sliderCorrected - sliderWidth), true);
+  }
 }
 
 Wallet.prototype.sliderInput = function (pixels, avoidAllocation) {
@@ -71,10 +81,6 @@ Wallet.prototype.sliderInput = function (pixels, avoidAllocation) {
 Wallet.prototype.sliderPercentage = function () {
   this.allocatePercentage = parseInt((this.allocateQuantity * 100) / this.balance);
   this.allocateVotes(this.allocateQuantity);
-}
-
-let _scope = (value, max, min) => {
-  if (min == undefined) { var min = 0 }; if (value < min) { return min } else if (value > max) { return max } else { return value };
 }
 
 /**

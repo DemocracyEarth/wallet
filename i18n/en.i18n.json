@@ -403,5 +403,6 @@
   "delegates-to": "Delegates to...",
   "delegated-votes": "Delegated Votes",
   "none": "none",
-  "place-here": "place here"
+  "place-here": "place here",
+  "place-in-ballot": "in this ballot"
 }

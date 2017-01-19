@@ -21,11 +21,11 @@ Template.power.onRendered(function render() {
   $('#voteHandle').draggable({
     axis: 'x',
     start(event, ui) {
-      this.newVote = new Wallet(Meteor.user().profile.wallet);
+      this.newVote = new Wallet(Meteor.user().profile.wallet, Session.get('contract')._id);
     },
     drag(event, ui) {
       this.newVote.sliderInput(ui.position.left);
-      Session.set('newVote', this.newVote);
+      Session.set(`newVote${Session.get('contract')._id}`, this.newVote);
       ui.position.left = 0;
     },
   });
@@ -33,7 +33,7 @@ Template.power.onRendered(function render() {
 
 Template.power.helpers({
   label() {
-    const wallet = Session.get('newVote');
+    const wallet = Session.get(`newVote${Session.get('contract')._id}`);
     const contract = Session.get('contract');
     let rejection = false;
     let signatures;
@@ -248,18 +248,29 @@ Template.power.events({
 
 Template.capital.helpers({
   getVotes(value) {
-    if (Session.get('newVote') !== undefined) {
-      if (Session.get('newVote')[value] !== 0) {
-        return Session.get('newVote')[value];
+    if (Session.get(`newVote${Session.get('contract')._id}`) !== undefined) {
+      if (value === 'available' && Session.get(`newVote${Session.get('contract')._id}`).allocateQuantity > 0) {
+        const available = parseInt(Session.get(`newVote${Session.get('contract')._id}`).available - Session.get(`newVote${Session.get('contract')._id}`).allocateQuantity, 10);
+        if (available > 0) {
+          return available;
+        }
+        return TAPi18n.__('none');
+      } else if (Session.get(`newVote${Session.get('contract')._id}`)[value] !== 0) {
+        return Session.get(`newVote${Session.get('contract')._id}`)[value];
       }
     }
     return TAPi18n.__('none');
   },
   style(value) {
     let quantity = 0;
-    quantity = Session.get('newVote')[value];
+    quantity = Session.get(`newVote${Session.get('contract')._id}`)[value];
     if (quantity === 0) {
+      if (value === 'allocateQuantity') {
+        return 'hide';
+      }
       return 'stage-draft';
+    } else if (value === 'allocateQuantity') {
+      return 'stage-live';
     }
     return 'stage-finish-approved';
   },
@@ -268,7 +279,7 @@ Template.capital.helpers({
 Template.bar.helpers({
   allocate() {
     if (this.editable) {
-      const wallet = Session.get('newVote');
+      const wallet = Session.get(`newVote${Session.get('contract')._id}`);
       if (wallet !== undefined) {
         if (Session.get('alreadyVoted') === true) {
           return '0px';
@@ -283,7 +294,7 @@ Template.bar.helpers({
   },
   placed() {
     if (this.editable) {
-      const wallet = Session.get('newVote');
+      const wallet = Session.get(`newVote${Session.get('contract')._id}`);
       if (wallet !== undefined) {
         const percentage = parseInt((wallet.placed * 100) / wallet.balance, 10);
         if (wallet.placed === 0) {
