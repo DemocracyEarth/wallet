@@ -18,18 +18,14 @@ Template.power.onRendered(function render() {
   if (!Meteor.user()) {
     return;
   }
-  $(`#voteHandle-${Session.get(`newVote${Session.get('contract')._id}`).voteId}`).draggable({
+  $(`#voteHandle-${Session.get(`vote-${Session.get('contract')._id}`).voteId}`).draggable({
     axis: 'x',
-    start(event, ui) {
-      //console.log(`#voteHandle${Session.get(`newVote${Session.get('contract')._id}`).voteId}`);
+    start() {
       this.newVote = new Wallet(Meteor.user().profile.wallet, Session.get('contract')._id);
-      console.log(this.newVote);
     },
     drag(event, ui) {
-      console.log('dragging');
-      console.log(this.newVote);
       this.newVote.sliderInput(ui.position.left);
-      Session.set(`newVote${Session.get('contract')._id}`, this.newVote);
+      Session.set(`vote-${Session.get('contract')._id}`, this.newVote);
       ui.position.left = 0;
     },
   });
@@ -37,7 +33,7 @@ Template.power.onRendered(function render() {
 
 Template.power.helpers({
   label() {
-    const wallet = Session.get(`newVote${Session.get('contract')._id}`);
+    const wallet = Session.get(`vote-${Session.get('contract')._id}`);
     const contract = Session.get('contract');
     let rejection = false;
     let signatures;
@@ -252,38 +248,45 @@ Template.power.events({
 
 Template.capital.helpers({
   getVotes(value) {
-    if (Session.get(`newVote${Session.get('contract')._id}`) !== undefined) {
-      if (value === 'available' && Session.get(`newVote${Session.get('contract')._id}`).allocateQuantity > 0) {
-        const available = parseInt(Session.get(`newVote${Session.get('contract')._id}`).available - Session.get(`newVote${Session.get('contract')._id}`).allocateQuantity, 10);
+    if (Session.get(`vote-${Session.get('contract')._id}`) !== undefined) {
+      if (value === 'available' && Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity > 0) {
+        const available = parseInt(Session.get(`vote-${Session.get('contract')._id}`).available - Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10);
         if (available > 0) {
           return available;
         }
         return TAPi18n.__('none');
-      } else if (Session.get(`newVote${Session.get('contract')._id}`)[value] !== 0) {
-        return Session.get(`newVote${Session.get('contract')._id}`)[value];
+      } else if (Session.get(`vote-${Session.get('contract')._id}`)[value] !== 0) {
+        return Session.get(`vote-${Session.get('contract')._id}`)[value];
       }
     }
     return TAPi18n.__('none');
   },
   style(value) {
     let quantity = 0;
-    quantity = Session.get(`newVote${Session.get('contract')._id}`)[value];
-    if (quantity === 0) {
-      if (value === 'allocateQuantity') {
-        return 'hide';
-      }
-      return 'stage-draft';
-    } else if (value === 'allocateQuantity') {
-      return 'stage-live';
+    quantity = Session.get(`vote-${Session.get('contract')._id}`)[value];
+    const available = parseInt(Session.get(`vote-${Session.get('contract')._id}`)[value] - Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10);
+    switch (value) {
+      case 'available':
+        if (available === 0) {
+          return 'stage-finish-rejected';
+        }
+        return 'stage-finish-approved';
+      case 'allocateQuantity':
+      case 'placed':
+        if (quantity === 0) {
+          return 'stage-draft';
+        }
+        return 'stage-live';
+      default:
+        return 'stage-finish-alternative';
     }
-    return 'stage-finish-approved';
   },
 });
 
 Template.bar.helpers({
   allocate() {
     if (this.editable) {
-      const wallet = Session.get(`newVote${Session.get('contract')._id}`);
+      const wallet = Session.get(`vote-${Session.get('contract')._id}`);
       if (wallet !== undefined) {
         if (Session.get('alreadyVoted') === true) {
           return '0px';
@@ -298,7 +301,7 @@ Template.bar.helpers({
   },
   placed() {
     if (this.editable) {
-      const wallet = Session.get(`newVote${Session.get('contract')._id}`);
+      const wallet = Session.get(`vote-${Session.get('contract')._id}`);
       if (wallet !== undefined) {
         const percentage = parseInt((wallet.placed * 100) / wallet.balance, 10);
         if (wallet.placed === 0) {
@@ -319,6 +322,6 @@ Template.bar.helpers({
     return '';
   },
   voteId() {
-    return Session.get(`newVote${Session.get('contract')._id}`).voteId;
+    return Session.get(`vote-${Session.get('contract')._id}`).voteId;
   },
 });

@@ -44,7 +44,7 @@ export const Wallet = function (wallet, contract) {
   }
 
   // reaction
-  Session.set(`newVote${this.voteId}`, this);
+  Session.set(`vote-${this.voteId}`, this);
 };
 
 const _scope = (value, max, min) => {
