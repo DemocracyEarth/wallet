@@ -25,10 +25,17 @@ export const Wallet = function (wallet, contract) {
   this.enabled = true;
   this.mode = 'PENDING';
 
+  // controller
+  if (contract === undefined) {
+    this.voteId = '';
+  } else {
+    this.voteId = `${contract}`;
+  }
+
   // view
-  this._initialSliderWidth = $('#voteSlider').width();
+  this._initialSliderWidth = $(`#voteSlider-${this.voteId}`).width();
   this.sliderWidth = this._initialSliderWidth;
-  this._maxWidth = $('#voteBar').width() - (($('#voteBar').width() * parseInt((this.placed * 100) / this.balance, 10)) / 100) - 2;
+  this._maxWidth = $(`#voteBar-${this.voteId}`).width() - (($(`#voteBar-${this.voteId}`).width() * parseInt((this.placed * 100) / this.balance, 10)) / 100) - 2;
 
   // methods
   if (this.initialized === true) {
@@ -36,18 +43,15 @@ export const Wallet = function (wallet, contract) {
     this.initialized = false;
   }
 
-  // controller
-  if (contract === undefined) {
-    this.controller = 'newVote';
-  } else {
-    this.controller = `newVote${contract}`;
-  }
-  console.log(this.controller);
-  Session.set(this.controller, this);
+  // reaction
+  Session.set(`newVote${this.voteId}`, this);
 };
 
 const _scope = (value, max, min) => {
-  if (min === undefined) { min = 0; } if (value < min) { return min; } else if (value > max) { return max; } return value;
+  let minval = min;
+  if (minval === undefined) { minval = 0; }
+  if (value < minval) { return minval; } else if (value > max) { return max; }
+  return value;
 };
 
 Wallet.prototype.allocateVotes = function (quantity, avoidSlider) {
@@ -57,31 +61,31 @@ Wallet.prototype.allocateVotes = function (quantity, avoidSlider) {
     this.allocateQuantity = _scope(quantity, this.available);
   }
   if (!avoidSlider) {
-    const sliderWidth = parseInt(($('#voteSlider').width() * this.available) / this._maxWidth, 10);
+    const sliderWidth = parseInt(($(`#voteSlider-${this.voteId}`).width() * this.available) / this._maxWidth, 10);
     const sliderCorrected = parseInt((this._maxWidth * this.allocateQuantity) / this.available, 10);
     this.sliderInput((sliderCorrected - sliderWidth), true);
   }
-}
+};
 
 Wallet.prototype.sliderInput = function (pixels, avoidAllocation) {
-  if (pixels == undefined) { pixels = 0 };
-  if ($('#voteHandle').offset() != undefined) {
-    var percentage = (($('#voteHandle').offset().left - $('#voteBar').offset().left) * 100) / $('#voteBar').width();
-    var delta = ($('#voteBar').offset().left + this._maxWidth) - $('#voteBar').offset().left - ($('#voteHandle').width() / 2);
-    var votes = parseInt(((this.sliderWidth - + ($('#voteHandle').width() / 2)) * this.available) / delta);
-    this.sliderWidth = _scope((this._initialSliderWidth + pixels), this._maxWidth, ($('#voteHandle').width() / 2));
+  if (pixels === undefined) { pixels = 0; }
+  if ($(`#voteHandle-${this.voteId}`).offset() !== undefined) {
+    // var percentage = (($(`#voteHandle-${this.voteId}`).offset().left - $(`#voteBar-${this.voteId}`).offset().left) * 100) / $(`#voteBar-${this.voteId}`).width();
+    var delta = ($(`#voteBar-${this.voteId}`).offset().left + this._maxWidth) - $(`#voteBar-${this.voteId}`).offset().left - ($(`#voteHandle-${this.voteId}`).width() / 2);
+    var votes = parseInt(((this.sliderWidth - + ($(`#voteHandle-${this.voteId}`).width() / 2)) * this.available) / delta, 10);
+    this.sliderWidth = _scope((this._initialSliderWidth + pixels), this._maxWidth, ($(`#voteHandle-${this.voteId}`).width() / 2));
   } else {
     this.sliderWidth = 0;
   }
   if (!avoidAllocation) {
     this.allocateVotes(votes, true);
   }
-}
+};
 
 Wallet.prototype.sliderPercentage = function () {
-  this.allocatePercentage = parseInt((this.allocateQuantity * 100) / this.balance);
+  this.allocatePercentage = parseInt((this.allocateQuantity * 100) / this.balance, 10);
   this.allocateVotes(this.allocateQuantity);
-}
+};
 
 /**
 * @summary decides wether to get vots from a user on DB or from current active sessions of user
@@ -135,6 +139,7 @@ let _setVote = (wallet, sessionVar) => {
 * @return {boolean} value - true or false
 */
 let _verifyVote = (ledger, userId) => {
+  console.log('verifying');
   for (entity in ledger) {
     if (ledger[entity].entityId == userId) {
       var wallet = Session.get('newVote');

@@ -18,12 +18,16 @@ Template.power.onRendered(function render() {
   if (!Meteor.user()) {
     return;
   }
-  $('#voteHandle').draggable({
+  $(`#voteHandle-${Session.get(`newVote${Session.get('contract')._id}`).voteId}`).draggable({
     axis: 'x',
     start(event, ui) {
+      //console.log(`#voteHandle${Session.get(`newVote${Session.get('contract')._id}`).voteId}`);
       this.newVote = new Wallet(Meteor.user().profile.wallet, Session.get('contract')._id);
+      console.log(this.newVote);
     },
     drag(event, ui) {
+      console.log('dragging');
+      console.log(this.newVote);
       this.newVote.sliderInput(ui.position.left);
       Session.set(`newVote${Session.get('contract')._id}`, this.newVote);
       ui.position.left = 0;
@@ -313,5 +317,8 @@ Template.bar.helpers({
       return 'result-unanimous';
     }
     return '';
+  },
+  voteId() {
+    return Session.get(`newVote${Session.get('contract')._id}`).voteId;
   },
 });

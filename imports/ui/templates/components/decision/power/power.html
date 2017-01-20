@@ -78,9 +78,9 @@
 
 <template name="bar">
     {{#if editable}}
-      <div id="voteBar" class="w-clearfix result vote-bar">
-        <div id="voteSlider" class="result-bar vote-bar" style=" width: {{allocate}} ">
-          <div id="voteHandle" class="handle">
+      <div id="voteBar-{{voteId}}" class="w-clearfix result vote-bar">
+        <div id="voteSlider-{{voteId}}" class="result-bar vote-bar" style=" width: {{allocate}} ">
+          <div id="voteHandle-{{voteId}}" class="handle">
           </div>
         </div>
         <div class="result-bar vote-bar vote-bar-allocated"  style=" width: {{placed}} "></div>

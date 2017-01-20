@@ -225,13 +225,13 @@ let _loadFeed = (feed) => {
 let _loadContract = (view, id) => {
   //load contract
   let contract;
-  if (id != undefined) {
+  if (id !== undefined) {
     contract = Contracts.findOne({ _id: id });
   } else {
     contract = Contracts.findOne({ keyword: view });
   }
 
-  if (contract != undefined) {
+  if (contract !== undefined) {
     //settings
     Session.set('contract', contract);
     Session.set("voteKeyword", view);
@@ -284,12 +284,12 @@ let _loadContract = (view, id) => {
 * @param {object} contract - contract to analyze
 */
 let _setContractWallet = (contract) => {
-  var userContract = false;
-  var role = new String();
-  if (contract.kind == 'DELEGATION') {
+  let userContract = false;
+  let role = String();
+  if (contract.kind === 'DELEGATION') {
     if (Meteor.user() != null) {
-      for (i in contract.signatures) {
-        if (contract.signatures[i]._id == Meteor.user()._id) {
+      for (const i in contract.signatures) {
+        if (contract.signatures[i]._id === Meteor.user()._id) {
           userContract = true;
           role = contract.signatures[i].role;
           break;
@@ -298,8 +298,8 @@ let _setContractWallet = (contract) => {
     } else {
       userContract = false;
     }
-    if (userContract == true) {
-      if (role == 'DELEGATE') {
+    if (userContract === true) {
+      if (role === 'DELEGATE') {
         Session.set('newVote', contract.wallet);
       } else {
         Session.set('newVote', new Wallet(Meteor.user().profile.wallet));
@@ -307,24 +307,25 @@ let _setContractWallet = (contract) => {
     } else {
       Session.set('newVote', contract.wallet);
     }
-  } else if (contract.kind == 'VOTE') {
+  } else if (contract.kind === 'VOTE') {
     if (Meteor.user() != null) {
-      Session.set('newVote', new Wallet(Meteor.user().profile.wallet));
+      console.log('newvote setting');
+      Session.set(`newVote${contract._id}`, new Wallet(Meteor.user().profile.wallet, contract._id));
     }
   }
-}
+};
 
-/***
-* loads external scripts if they're not loaded yet
-****/
-let _getExternalScripts = () => {
-  if (typeof window.Spinner == 'undefined')  {
+/**
+* @summary loads external scripts if they're not loaded yet
+*/
+const _getExternalScripts = () => {
+  if (typeof window.Spinner === 'undefined') {
     $.getScript('/js/spinner.js');
-  };
-  if (typeof window.datepicker == 'undefined')  {
+  }
+  if (typeof window.datepicker === 'undefined') {
     $.getScript('/datepicker.js');
-  };
-}
+  }
+};
 
 /**
 * @summary main settings for navbar behaviour
