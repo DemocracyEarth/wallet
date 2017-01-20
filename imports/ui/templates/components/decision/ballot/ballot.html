@@ -103,6 +103,9 @@
             {{#if disabledCheckboxes}}
               {{> warning label="disabled-checkboxes-closed-poll"}}
             {{/if}}
+            {{#if noSelectedOption}}
+              {{> warning label="no-selected-option"}}
+            {{/if}}
           </div>
         {{/if}}
       </div>

@@ -272,11 +272,15 @@ Template.capital.helpers({
         }
         return 'stage-finish-approved';
       case 'allocateQuantity':
-      case 'placed':
         if (quantity === 0) {
           return 'stage-draft';
         }
         return 'stage-live';
+      case 'placed':
+        if (quantity === 0) {
+          return 'stage-draft';
+        }
+        return 'stage-finish-alternative';
       default:
         return 'stage-finish-alternative';
     }

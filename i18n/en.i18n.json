@@ -405,6 +405,7 @@
   "none": "none",
   "place-here": "place here",
   "place-in-ballot": "in this ballot",
-  "cast-vote":"Cast your vote",
-  "slide-to-vote": "Slide to vote."
+  "cast-vote":"Cast vote",
+  "slide-to-vote": "Slide to vote.",
+  "no-selected-option": "No option is selected in the ballot."
 }
