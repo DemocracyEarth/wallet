@@ -5,9 +5,10 @@ import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 
 import { isUserSigner, userVotesInContract } from '/imports/startup/both/modules/User';
-import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
+import { sendDelegationVotes, vote } from '/imports/startup/both/modules/Contract';
 import { displayModal } from '/imports/ui/modules/modal';
 import { Wallet } from '/imports/ui/modules/Wallet';
+import { contractReady, purgeBallot } from '/imports/ui/modules/ballot';
 
 import './power.html';
 import '../action/action.js';
@@ -27,6 +28,74 @@ Template.power.onRendered(function render() {
       this.newVote.sliderInput(ui.position.left);
       Session.set(`vote-${Session.get('contract')._id}`, this.newVote);
       ui.position.left = 0;
+    },
+    stop() {
+      if (contractReady() === true) {
+        let counterPartyId;
+        switch (Session.get('contract').kind) {
+          case 'DELEGATION':
+            for (const stamp in Session.get('contract').signatures) {
+              if (Session.get('contract').signatures[stamp]._id !== Meteor.user()._id) {
+                counterPartyId = Session.get('contract').signatures[stamp]._id;
+              }
+            }
+            displayModal(
+              true,
+              {
+                icon: 'images/modal-delegation.png',
+                title: TAPi18n.__('send-delegation-votes'),
+                message: TAPi18n.__('delegate-votes-warning').replace('<quantity>', Session.get('newVote').allocateQuantity),
+                cancel: TAPi18n.__('not-now'),
+                action: TAPi18n.__('delegate-votes'),
+                displayProfile: true,
+                profileId: counterPartyId,
+              },
+              () => {
+                const settings = {
+                  condition: {
+                    transferable: Session.get('contract').transferable,
+                    portable: Session.get('contract').portable,
+                    tags: Session.get('contract').tags,
+                  },
+                  currency: 'VOTES',
+                  kind: Session.get('contract').kind,
+                  contractId: Session.get('contract')._id,
+                };
+                sendDelegationVotes(Session.get('contract').signatures[0]._id, Session.get('contract')._id, Session.get('newVote').allocateQuantity, settings);
+              }
+            );
+            break;
+          case 'VOTE':
+          default:
+            if (Session.get('contract').stage === 'LIVE') {
+              displayModal(
+                true,
+                {
+                  icon: 'images/modal-vote.png',
+                  title: TAPi18n.__('place-vote'),
+                  message: TAPi18n.__('place-votes-warning').replace('<quantity>', Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity),
+                  cancel: TAPi18n.__('not-now'),
+                  action: TAPi18n.__('vote'),
+                  displayProfile: false,
+                },
+                () => {
+                  const ballot = purgeBallot(Session.get('candidateBallot'));
+                  const settings = {
+                    condition: {
+                      tags: Session.get('contract').tags,
+                      ballot,
+                    },
+                    currency: 'VOTES',
+                    kind: Session.get('contract').kind,
+                    contractId: Session.get('contract')._id,
+                  };
+                  vote(Meteor.user()._id, Session.get('contract')._id, Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, settings);
+                }
+              );
+            }
+            break;
+        }
+      }
     },
   });
 });

@@ -42,7 +42,7 @@ function disableContractExecution() {
 }
 
 Template.action.helpers({
-  disabled: function () {
+  disabled() {
     if (disableContractExecution()) {
       return 'disabled';
     }

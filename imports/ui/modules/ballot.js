@@ -328,43 +328,44 @@ const _removeFork = (contractId, forkId) => {
 };
 
 /**
-* @summary verifies all conditions are met to execute a contract
+* @summary verifies if all conditions are met to execute a contract
 * @param {string} contractId - contract
 * @param {string} forkId - choice id
+* @return {boolean} true if ready, false if not
 */
-const _disableContractExecution = () => {
+const _verifyContractExecution = () => {
   if (Session.get('emptyBallot') && Session.get('contract').ballotEnabled) {
-    return true;
+    return false;
   } else if (Session.get('unauthorizedFork') && Session.get('contract').ballotEnabled) {
-    return true;
+    return false;
   } else if (Session.get('missingTitle')) {
-    return true;
+    return false;
   } else if (Session.get('mistypedTitle')) {
-    return true;
+    return false;
   } else if (Session.get('duplicateURL')) {
-    return true;
+    return false;
   } else if (Session.get('noVotes')) {
-    return true;
+    return false;
   } else if (Session.get('draftOptions') && Session.get('contract').ballotEnabled) {
-    return true;
+    return false;
   } else if (!Session.get('rightToVote')) {
-    return true;
+    return false;
   }
   if (Session.get('contract').kind === 'VOTE' && Session.get('contract').stage === 'LIVE') {
     if (!_ballotReady()) {
-      return true;
+      return false;
     }
   }
   if (Session.get('newVote') !== undefined) {
     if (Session.get('newVote').mode === 'PENDING' || Session.get('newVote').mode === undefined) {
-      return false;
+      return true;
     }
-    return true;
+    return false;
   }
-  return false;
+  return true;
 };
 
-export const disableContractExecution = _disableContractExecution;
+export const contractReady = _verifyContractExecution;
 export const addChoiceToBallot = _addChoiceToBallot;
 export const verifyDraftFork = _verifyDraftFork;
 export const removeFork = _removeFork;
