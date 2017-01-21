@@ -58,7 +58,6 @@ dburles:factory
 
 # monitoring
 meteorhacks:kadira
-okgrow:analytics
 
 
 lh84:medium-editor
@@ -76,3 +75,5 @@ shell-server@0.2.1
 xolvio:cleaner
 practicalmeteor:chai
 dispatch:mocha-phantomjs
+reactive-var
+reactive-dict

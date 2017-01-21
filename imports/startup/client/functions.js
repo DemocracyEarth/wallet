@@ -12,9 +12,9 @@ import { Tags } from '../../api/tags/Tags';
 import { Collectives } from '../../api/collectives/Collectives';
 import { toggleSidebar, setSidebarMenu } from '../../ui/modules/menu';
 
-/*
+/**
 * private methods for effective routing
-******************************/
+**/
 
 /**
 * @summary matches url param with db schema string accordingly
@@ -225,13 +225,13 @@ let _loadFeed = (feed) => {
 let _loadContract = (view, id) => {
   //load contract
   let contract;
-  if (id != undefined) {
+  if (id !== undefined) {
     contract = Contracts.findOne({ _id: id });
   } else {
     contract = Contracts.findOne({ keyword: view });
   }
 
-  if (contract != undefined) {
+  if (contract !== undefined) {
     //settings
     Session.set('contract', contract);
     Session.set("voteKeyword", view);
@@ -279,17 +279,17 @@ let _loadContract = (view, id) => {
   }
 }
 
-/****
-* sets which wallet to use for reference in contract based on if the user appears asa signer or not
+/**
+* @summary sets which wallet to use for reference in contract based on if the user appears asa signer or not
 * @param {object} contract - contract to analyze
-****/
+*/
 let _setContractWallet = (contract) => {
-  var userContract = false;
-  var role = new String();
-  if (contract.kind == 'DELEGATION') {
+  let userContract = false;
+  let role = String();
+  if (contract.kind === 'DELEGATION') {
     if (Meteor.user() != null) {
-      for (i in contract.signatures) {
-        if (contract.signatures[i]._id == Meteor.user()._id) {
+      for (const i in contract.signatures) {
+        if (contract.signatures[i]._id === Meteor.user()._id) {
           userContract = true;
           role = contract.signatures[i].role;
           break;
@@ -298,8 +298,8 @@ let _setContractWallet = (contract) => {
     } else {
       userContract = false;
     }
-    if (userContract == true) {
-      if (role == 'DELEGATE') {
+    if (userContract === true) {
+      if (role === 'DELEGATE') {
         Session.set('newVote', contract.wallet);
       } else {
         Session.set('newVote', new Wallet(Meteor.user().profile.wallet));
@@ -307,31 +307,32 @@ let _setContractWallet = (contract) => {
     } else {
       Session.set('newVote', contract.wallet);
     }
-  } else if (contract.kind == 'VOTE') {
+  } else if (contract.kind === 'VOTE') {
     if (Meteor.user() != null) {
-      Session.set('newVote', new Wallet(Meteor.user().profile.wallet));
+      console.log('newvote setting');
+      Session.set(`vote-${contract._id}`, new Wallet(Meteor.user().profile.wallet, contract._id));
     }
   }
-}
+};
 
-/***
-* loads external scripts if they're not loaded yet
-****/
-let _getExternalScripts = () => {
-  if (typeof window.Spinner == 'undefined')  {
+/**
+* @summary loads external scripts if they're not loaded yet
+*/
+const _getExternalScripts = () => {
+  if (typeof window.Spinner === 'undefined') {
     $.getScript('/js/spinner.js');
-  };
-  if (typeof window.datepicker == 'undefined')  {
+  }
+  if (typeof window.datepicker === 'undefined') {
     $.getScript('/datepicker.js');
-  };
-}
+  }
+};
 
-/***
-* main settings for navbar behaviour
+/**
+* @summary main settings for navbar behaviour
 * @param {string} title - title for it
-****/
-let _configNavbar = (title) => {
-  if (Session.get('sidebar') == undefined) {
+*/
+const _configNavbar = (title) => {
+  if (Session.get('sidebar') === undefined) {
     Session.set('sidebar', true);
     toggleSidebar();
   }
@@ -339,16 +340,16 @@ let _configNavbar = (title) => {
     title: title,
     toggle: Session.get('sidebar'),
     href: '#',
-    action: 'SIDEBAR'
+    action: 'SIDEBAR',
   });
-}
+};
 
 /***
 * clears all sessions vars need to reset view
 ***/
 let _clearSessionVars = () => {
   Session.set('contract', undefined);
-  Session.set('newVote', undefined); //used for wallet (refactor name)
+  Session.set('newVote', undefined); // used for wallet (refactor name)
   Session.set('candidateBallot', undefined); //used for ballot
   Session.set('disabledCheckboxes', false);
   contractId = undefined;

@@ -3,17 +3,18 @@
     {{#if rightToVote}}
       <div class="w-clearfix rosca rosca-setter">
         {{> bar editable=editable}}
-        {{> available user=user}}
-        {{> placed user=user}}
+        {{> capital user=user}}
+        <!--{{> placed user=user}}-->
       </div>
     {{/if}}
   {{else}}
     <div class="w-clearfix rosca rosca-id {{styleClass}}">
       {{> bar editable=editable}}
-      {{> available user=user}}
-      {{> placed user=user}}
+      {{> capital user=user}}
+      <!--{{> placed user=user}}-->
     </div>
   {{/if}}
+  <!--
   {{#if editable}}
     <div class="elements w-clearfix">
       <div class="hundred power">
@@ -35,35 +36,51 @@
       </div>
     </div>
   {{/if}}
+  -->
 </template>
 
-<template name="available">
+<template name="capital">
   <div class='vote-available label-votes'>
-    <strong data-new-link='true'>
-      {{{votes user}}}
-    </strong>
-    <span class='vote-label'>
-      {{_ 'available-votes'}}
-    </span>
+    <div class="stage {{style 'available'}}">
+      <div class='label label-corner'>
+        <strong>
+          {{{getVotes 'available'}}}
+        </strong>
+        <span>
+          {{_ 'available-votes'}}
+        </span>
+      </div>
+    </div>
+    <div class="stage {{style 'allocateQuantity'}}">
+      <div class='label label-corner'>
+        <strong>
+          {{{getVotes 'allocateQuantity'}}}
+        </strong>
+        <span>
+          {{_ 'place-in-ballot'}}
+        </span>
+      </div>
+    </div>
   </div>
-</template>
-
-<template name="placed">
   <div class='vote-allocated label-votes'>
-    <strong data-new-link='true'>
-      {{{votes user}}}
-    </strong>
-    <span class='vote-label'>
-      {{_ 'placed-votes'}}
-    </span>
+    <div class="stage {{style 'placed'}}">
+      <div class='label label-corner'>
+        <strong>
+          {{{getVotes 'placed'}}}
+        </strong>
+        <span>
+          {{_ 'placed-votes'}}
+        </span>
+      </div>
+    </div>
   </div>
 </template>
 
 <template name="bar">
     {{#if editable}}
-      <div id="voteBar" class="w-clearfix result vote-bar">
-        <div id="voteSlider" class="result-bar vote-bar" style=" width: {{allocate}} ">
-          <div id="voteHandle" class="handle">
+      <div id="voteBar-{{voteId}}" class="w-clearfix result vote-bar">
+        <div id="voteSlider-{{voteId}}" class="result-bar vote-bar" style=" width: {{allocate}} ">
+          <div id="voteHandle-{{voteId}}" class="handle" title="{{_ 'slide-to-vote'}}">
           </div>
         </div>
         <div class="result-bar vote-bar vote-bar-allocated"  style=" width: {{placed}} "></div>

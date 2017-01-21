@@ -1,6 +1,8 @@
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 
+import { splitRender } from '/imports/ui/modules/split';
+
 import './contract.html';
 import '../title/title.js';
 import '../agreement/agreement.js';
@@ -11,6 +13,11 @@ import '../ballot/ballot.js';
 import '../action/action.js';
 import '../results/results.js';
 import '../agora/agora.js';
+
+Template.contract.onRendered(() => {
+  // set pixel width of left and right split panels
+  splitRender();
+});
 
 Template.contract.helpers({
   editorMode() {
@@ -31,16 +38,18 @@ Template.contract.helpers({
     }
     return undefined;
   },
-  ballotToggle: function () {
+  ballotToggle() {
     if (Session.get('contract')) {
       if (Session.get('contract').ballotEnabled === false) {
         return 'paper-empty';
       }
     }
+    return '';
   },
-  ballotEnabled: function () {
+  ballotEnabled() {
     if (Session.get('contract')) {
       return Session.get('contract').ballotEnabled;
     }
-  }
-})
+    return false;
+  },
+});

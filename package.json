@@ -1,4 +1,9 @@
 {
+  "license" : "MIT",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/DemocracyEarth/sovereign.git"
+  },
   "scripts": {
     "start": "meteor --settings=config/production/settings.json",
     "pretest": "npm run lint --silent",
@@ -8,14 +13,13 @@
     "test-watch:dev": "meteor --settings=config/development/settings.json test --driver-package practicalmeteor:mocha --port 3100",
     "test-watch:prod": "meteor --settings=config/production/settings.json test --driver-package practicalmeteor:mocha --port 3100",
     "test-app-watch": "meteor test --full-app --driver-package practicalmeteor:mocha --port 3100",
-    "prestart:dev": "echo \"load ENV variables like kadira\"",
     "start:dev": "meteor --settings=config/development/settings.json",
     "lint": "eslint ."
   },
   "dependencies": {
     "autoprefixer": "^6.4.1",
     "babel-runtime": "^6.18.0",
-    "bcrypt": "^0.8.7",
+    "bcryptjs": "^2.4.0",
     "bindings": "^1.2.1",
     "core-js": "^2.4.1",
     "faker": "^3.0.1",

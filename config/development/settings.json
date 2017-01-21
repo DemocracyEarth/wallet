@@ -35,14 +35,7 @@
 
   "public": {
     "AWSHostingURL": "",
-
-    "analyticsSettings": {
-      "Google Analytics" :
-        {
-          "trackingId": ""
-        }
-    },
-
+    
     "app": {
 
       "name": "Sovereign",

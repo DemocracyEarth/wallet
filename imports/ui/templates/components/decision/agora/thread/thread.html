@@ -4,14 +4,14 @@
 
     {{#if settingRanking}}
       <div class="sort">
-        <div id="upvote" value="{{id}}" class="sort-button">
-          <img class="icon" src="{{pathFor route='home'}}images/upvote.png">
+        <div id="upvote" value="{{id}}" class="sort-button {{buttonStatus true}}" title="{{buttonRule true}}">
+          <img class="icon" src="{{upvote}}">
         </div>
         <div class="sort-score">
           <div>{{sortTotal}}</div>
         </div>
-        <div id="downvote" value="{{id}}" class="sort-button">
-          <img class="icon" src="{{pathFor route='home'}}images/downvote.png">
+        <div id="downvote" value="{{id}}" class="sort-button {{buttonStatus false}}" title="{{buttonRule false}}">
+          <img class="icon" src="{{downvote}}">
         </div>
       </div>
     {{/if}}

@@ -18,14 +18,14 @@ Template.power.onRendered(function render() {
   if (!Meteor.user()) {
     return;
   }
-  $('#voteHandle').draggable({
+  $(`#voteHandle-${Session.get(`vote-${Session.get('contract')._id}`).voteId}`).draggable({
     axis: 'x',
-    start(event, ui) {
-      this.newVote = new Wallet(Meteor.user().profile.wallet);
+    start() {
+      this.newVote = new Wallet(Meteor.user().profile.wallet, Session.get('contract')._id);
     },
     drag(event, ui) {
       this.newVote.sliderInput(ui.position.left);
-      Session.set('newVote', this.newVote);
+      Session.set(`vote-${Session.get('contract')._id}`, this.newVote);
       ui.position.left = 0;
     },
   });
@@ -33,7 +33,7 @@ Template.power.onRendered(function render() {
 
 Template.power.helpers({
   label() {
-    const wallet = Session.get('newVote');
+    const wallet = Session.get(`vote-${Session.get('contract')._id}`);
     const contract = Session.get('contract');
     let rejection = false;
     let signatures;
@@ -195,7 +195,13 @@ Template.power.events({
           kind: Session.get('contract').kind,
           contractId: Session.get('contract')._id, // _getContractId(senderId, receiverId, settings.kind),
         };
-        sendDelegationVotes(Session.get('contract')._id, Session.get('contract').signatures[1]._id, Session.get('contract').wallet.available, settings, 'CONFIRMED');
+        sendDelegationVotes(
+          Session.get('contract')._id,
+          Session.get('contract').signatures[1]._id,
+          Session.get('contract').wallet.available,
+          settings,
+          'CONFIRMED'
+        );
       }
     );
   },
@@ -228,37 +234,63 @@ Template.power.events({
           kind: Session.get('contract').kind,
           contractId: Session.get('contract')._id, // _getContractId(senderId, receiverId, settings.kind),
         };
-        sendDelegationVotes(Session.get('contract')._id, Session.get('contract').signatures[0]._id, Session.get('contract').wallet.available, settings, 'REJECTED');
+        sendDelegationVotes(
+          Session.get('contract')._id,
+          Session.get('contract').signatures[0]._id,
+          Session.get('contract').wallet.available,
+          settings,
+          'REJECTED'
+        );
       }
     );
   },
 });
 
-Template.available.helpers({
-  votes() {
-    if (this.editable) {
-      if (Session.get('newVote') !== undefined) {
-        return Session.get('newVote').available;
+Template.capital.helpers({
+  getVotes(value) {
+    if (Session.get(`vote-${Session.get('contract')._id}`) !== undefined) {
+      if (value === 'available' && Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity > 0) {
+        const available = parseInt(Session.get(`vote-${Session.get('contract')._id}`).available - Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10);
+        if (available > 0) {
+          return available;
+        }
+        return TAPi18n.__('none');
+      } else if (Session.get(`vote-${Session.get('contract')._id}`)[value] !== 0) {
+        return Session.get(`vote-${Session.get('contract')._id}`)[value];
       }
-      return 0;
     }
-    return Meteor.user().profile.wallet.available;
+    return TAPi18n.__('none');
   },
-});
-
-Template.placed.helpers({
-  votes() {
-    if (Session.get('newVote') !== undefined) {
-      return Session.get('newVote').placed;
+  style(value) {
+    let quantity = 0;
+    quantity = Session.get(`vote-${Session.get('contract')._id}`)[value];
+    const available = parseInt(Session.get(`vote-${Session.get('contract')._id}`)[value] - Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10);
+    switch (value) {
+      case 'available':
+        if (available === 0) {
+          return 'stage-finish-rejected';
+        }
+        return 'stage-finish-approved';
+      case 'allocateQuantity':
+        if (quantity === 0) {
+          return 'stage-draft';
+        }
+        return 'stage-live';
+      case 'placed':
+        if (quantity === 0) {
+          return 'stage-draft';
+        }
+        return 'stage-finish-alternative';
+      default:
+        return 'stage-finish-alternative';
     }
-    return 0;
   },
 });
 
 Template.bar.helpers({
   allocate() {
     if (this.editable) {
-      const wallet = Session.get('newVote');
+      const wallet = Session.get(`vote-${Session.get('contract')._id}`);
       if (wallet !== undefined) {
         if (Session.get('alreadyVoted') === true) {
           return '0px';
@@ -273,7 +305,7 @@ Template.bar.helpers({
   },
   placed() {
     if (this.editable) {
-      const wallet = Session.get('newVote');
+      const wallet = Session.get(`vote-${Session.get('contract')._id}`);
       if (wallet !== undefined) {
         const percentage = parseInt((wallet.placed * 100) / wallet.balance, 10);
         if (wallet.placed === 0) {
@@ -292,5 +324,8 @@ Template.bar.helpers({
       return 'result-unanimous';
     }
     return '';
+  },
+  voteId() {
+    return Session.get(`vote-${Session.get('contract')._id}`).voteId;
   },
 });

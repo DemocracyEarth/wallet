@@ -103,6 +103,9 @@
             {{#if disabledCheckboxes}}
               {{> warning label="disabled-checkboxes-closed-poll"}}
             {{/if}}
+            {{#if noSelectedOption}}
+              {{> warning label="no-selected-option"}}
+            {{/if}}
           </div>
         {{/if}}
       </div>
@@ -119,6 +122,9 @@
     {{#if currentUser}}
       <div class="execution">
         <div class="block">
+          <h5>
+            {{_ 'cast-vote'}}
+          </h5>
           {{> power editable=true}}
         </div>
       </div>

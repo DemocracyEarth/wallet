@@ -471,6 +471,11 @@ blockquote {
   cursor: pointer;
 }
 
+.symbol.profile-pic:hover {
+  border-color: #46dfb8;
+  box-shadow: 0 2px 7px -4px #000;
+}
+
 .symbol.profile-pic:active {
   border-color: #00bf8f;
 }
@@ -782,7 +787,6 @@ blockquote {
 
 .button.execute {
   display: block;
-  max-width: 1000px;
   margin: 0px auto;
   font-size: 24px;
   line-height: 45px;
@@ -1202,6 +1206,18 @@ blockquote {
   box-shadow: none;
 }
 
+.vote.vote-search.vote-feed.vote-delegation {
+  overflow: visible;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  border-style: none solid;
+  border-width: 1px;
+  border-color: #cacaca;
+  border-radius: 2px;
+  background-color: #f5f5f5;
+  box-shadow: none;
+}
+
 .vote.vote-placeholder {
   width: 50%;
   height: 70px;
@@ -1444,11 +1460,10 @@ blockquote {
 }
 
 .block {
-  margin: 0px -30px -10px;
+  margin: 0px -30px 10px;
   padding: 5px 25px;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
-  background-color: #e6f9f4;
   box-shadow: none;
   text-align: left;
 }
@@ -1986,6 +2001,21 @@ blockquote {
   opacity: 0.25;
 }
 
+.identity.float-right {
+  float: right;
+}
+
+.identity.identity-transaction {
+  display: inline-block;
+  margin-right: 0px;
+  margin-left: 0px;
+}
+
+.identity.identity-transaction.float-right {
+  margin-right: 0px;
+  float: left;
+}
+
 .identity-label {
   display: inline-block;
   color: #00bf8f;
@@ -2349,7 +2379,7 @@ blockquote {
   width: 100%;
   height: 15px;
   margin-top: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   box-shadow: inset 0 3px 13px -2px rgba(0, 0, 0, .5);
 }
 
@@ -2679,10 +2709,6 @@ blockquote {
   font-size: 14px;
 }
 
-.rosca.rosca-setter {
-  padding-top: 20px;
-}
-
 .rosca.rosca-id {
   margin-top: -10px;
 }
@@ -2725,12 +2751,12 @@ blockquote {
 .handle {
   position: relative;
   z-index: 999;
-  width: 40px;
-  height: 40px;
-  margin-top: -12px;
+  width: 29px;
+  height: 29px;
+  margin-top: -7px;
   margin-right: -15px;
   float: right;
-  border: 7px solid #fff;
+  border: 5px solid #fff;
   border-radius: 100px;
   background-color: #f5f5f5;
   box-shadow: 0 0 11px -5px #000, inset 0 0 3px -2px rgba(0, 0, 0, .75);
@@ -2783,6 +2809,7 @@ blockquote {
 }
 
 .vote-allocated.label-votes {
+  margin-right: -10px;
   font-size: 11px;
 }
 
@@ -3139,8 +3166,8 @@ blockquote {
 .options {
   display: block;
   overflow: auto;
-  padding-right: 5px;
-  padding-left: 5px;
+  padding-right: 0px;
+  padding-left: 0px;
 }
 
 .options.options-voted {
@@ -3914,6 +3941,10 @@ blockquote {
   width: 50%;
 }
 
+.half.float-left.transaction-half {
+  text-align: center;
+}
+
 .tutorial {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -4153,19 +4184,36 @@ blockquote {
   text-transform: uppercase;
 }
 
+.cards.transaction-score {
+  width: 100%;
+  margin-top: 0px;
+  margin-left: 0px;
+  font-size: 9px;
+  text-align: center;
+}
+
+.cards.transaction-score.transaction-label {
+  margin-top: 3px;
+  margin-bottom: 0px;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+}
+
 .sort {
   position: absolute;
   z-index: 7500;
   display: inline-block;
-  width: 45px;
-  height: 120px;
+  width: 40px;
+  height: 92px;
+  margin-top: -5px;
   margin-left: 0px;
+  padding-top: 0px;
   float: left;
   background-color: #f5f5f5;
 }
 
 .argument {
-  margin-left: 40px;
+  margin-left: 38px;
   padding-left: 10px;
   float: none;
   border-left: 1px solid #e9e9e9;
@@ -4179,6 +4227,7 @@ blockquote {
 .sort-button {
   display: block;
   width: 40px;
+  height: 40px;
   border-radius: 3px;
   text-align: center;
   cursor: pointer;
@@ -4188,11 +4237,26 @@ blockquote {
   background-color: #00bf8f;
 }
 
+.sort-button.sort-button-disabled {
+  cursor: default;
+}
+
 .sort-score {
   width: 40px;
+  margin-top: -10px;
+  margin-bottom: -10px;
   color: #00bf8f;
-  font-size: 20px;
+  font-size: 16px;
   line-height: 32px;
+  text-align: center;
+}
+
+.sort-score.transaction-score {
+  display: inline-block;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-size: 36px;
   text-align: center;
 }
 
@@ -4228,6 +4292,11 @@ blockquote {
   padding-right: 0px;
   padding-left: 0px;
   border-left: 1px none hsla(0, 0%, 41%, 0);
+}
+
+.split.split-left {
+  padding-right: 0px;
+  padding-left: 0px;
 }
 
 .comment {
@@ -4379,33 +4448,34 @@ blockquote {
   display: block;
   width: 5px;
   float: left;
-  border-left: 2px solid #e9e9e9;
+  border-left: 4px solid #e9e9e9;
   cursor: ew-resize;
 }
 
 .resize:hover {
   border-left-style: solid;
-  border-left-color: #d5d5d5;
+}
+
+.resize:active {
+  border-left-color: #c7c7c7;
 }
 
 .authenticity {
   margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .authenticity-score {
   width: 75%;
   float: left;
+  text-align: left;
 }
 
 .authenticity-role {
-  width: 70px;
+  width: 55px;
+  margin-top: -15px;
   float: right;
   text-align: center;
-}
-
-.authenticity-role-img {
-  width: 52px;
-  height: 52px;
 }
 
 .authenticity-label {
@@ -4422,6 +4492,7 @@ blockquote {
   border: 1px solid #00bf8f;
   border-radius: 50px;
   background-color: rgba(0, 191, 143, 0);
+  cursor: pointer;
 }
 
 .checkpoint.checkpoint-selected {
@@ -4432,6 +4503,7 @@ blockquote {
 .checkpoint-icon {
   display: inline-block;
   width: 25px;
+  height: 25px;
   margin-top: -10px;
 }
 
@@ -4485,6 +4557,86 @@ blockquote {
   margin-bottom: 8px;
 }
 
+.proposal-feed {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.delegate {
+  width: 60px;
+  height: 60px;
+  border: 1px none #00bf8f;
+  border-radius: 5px;
+  background-color: transparent;
+  box-shadow: none;
+  color: #00bf8f;
+  font-size: 36px;
+  line-height: 50px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.delegate-label {
+  font-size: 8px;
+  line-height: 8px;
+  text-transform: uppercase;
+}
+
+.transaction {
+  position: relative;
+  display: inline-block;
+  width: 100px;
+  margin-top: -77px;
+  float: right;
+}
+
+.transaction-wrapper {
+  float: right;
+}
+
+.currency {
+  width: 32px;
+  height: 32px;
+  margin-top: -6px;
+  margin-left: -5px;
+}
+
+.currency-label {
+  display: inline-block;
+}
+
+.ticket-trim {
+  height: 7px;
+  margin-top: -1px;
+  margin-right: -15px;
+  margin-left: -15px;
+  background-image: url('../images/ticket-trim-up.png');
+  background-position: 0px 0px;
+  background-size: 6px;
+  background-repeat: repeat-x;
+}
+
+.ticket-trim.ticket-trim-down {
+  height: 7px;
+  margin-top: 3px;
+  margin-bottom: -4px;
+  clear: both;
+  background-image: url('../images/ticket-trim-down.png');
+  background-position: 0px 1px;
+  background-size: 6px;
+}
+
+.transaction-actors {
+  display: block;
+  margin-right: 60px;
+}
+
+.transaction-direction {
+  width: 40px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
@@ -4519,6 +4671,10 @@ blockquote {
   .vote.vote-search {
     width: 100%;
   }
+  .vote.vote-search.vote-feed.vote-delegation {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
   .vote.vote-placeholder {
     display: block;
     width: 100%;
@@ -4546,6 +4702,9 @@ blockquote {
     min-width: 350px;
     margin-left: 0px;
     float: right;
+  }
+  .identity.identity-transaction {
+    float: none;
   }
   .option-link {
     max-width: 70%;
@@ -4608,8 +4767,11 @@ blockquote {
   }
   .content.content-agora {
     margin-top: 0px;
-    padding-right: 15px;
-    padding-left: 15px;
+    padding-right: 30px;
+    padding-left: 30px;
+  }
+  .half.float-left.transaction-half {
+    display: block;
   }
   .agora {
     margin-top: 0px;
@@ -4639,6 +4801,10 @@ blockquote {
     width: 100%;
     background-color: #f5f5f5;
   }
+  .split.split-left {
+    margin-top: 60px;
+    margin-bottom: -60px;
+  }
   .smart {
     display: block;
     width: 100%;
@@ -4647,6 +4813,26 @@ blockquote {
     float: none;
   }
   .resize {
+    display: none;
+  }
+  .transaction {
+    display: block;
+    width: 100%;
+    margin-top: 0px;
+    padding-bottom: 10px;
+    border-top: 1px solid #dbdbdb;
+  }
+  .transaction-wrapper {
+    float: left;
+  }
+  .ticket-trim.ticket-trim-down {
+    height: 3px;
+    background-color: #f1f1f1;
+  }
+  .transaction-actors {
+    margin-right: 0px;
+  }
+  .transaction-direction {
     display: none;
   }
 }
@@ -4860,6 +5046,9 @@ blockquote {
   .menu-item {
     font-weight: 400;
   }
+  .content.content-agora {
+    margin-top: -20px;
+  }
 }
 
 @media (max-width: 479px) {
@@ -4878,8 +5067,14 @@ blockquote {
   }
   .paper {
     margin-top: 10px;
-    padding: 20px 15px 10px;
+    margin-right: -20px;
+    margin-left: -20px;
+    padding: 0px 15px 10px;
     box-shadow: 0 0 25px -10px #000;
+  }
+  .paper.paper-comment {
+    padding-top: 20px;
+    padding-left: 20px;
   }
   .kind {
     width: 50px;
@@ -5122,11 +5317,21 @@ blockquote {
   .title-input:hover {
     border-left-color: transparent;
   }
+  .paper-header {
+    margin-right: -15px;
+    margin-left: -15px;
+  }
   .shadow-fake {
     left: 20px;
   }
   .tabs {
     display: inline-block;
+  }
+  .popup.popup-test.hide {
+    display: none;
+  }
+  .left.hide {
+    display: none;
   }
   .type {
     padding-right: 0px;
@@ -5140,11 +5345,19 @@ blockquote {
     padding-right: 0px;
     padding-left: 0px;
   }
+  .content.content-agora {
+    margin-top: -20px;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
   .half {
     width: 100%;
   }
   .micro-menu {
     width: 100%;
+  }
+  .right.show {
+    margin-left: -320px;
   }
 }
 

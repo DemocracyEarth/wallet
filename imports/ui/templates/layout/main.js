@@ -32,47 +32,48 @@ import '../widgets/modal/modal';
 import '../widgets/popup/popup';
 import './sidebar/sidebar';
 import './navigation/navigation';
+import './response/verifyEmail/verifyEmail';
 
 Meteor.startup(() => {
   // Mail server settings
   process.env.MAIL_URL = Meteor.settings.smtpServer;
 
   // setup language
-  Session.set("showLoadingIndicator", true);
+  Session.set('showLoadingIndicator', true);
 
   // internationalization library
   TAPi18n.setLanguage(Meteor.settings.public.app.language)
     .done(function () {
-      Session.set("showLoadingIndicator", false);
+      Session.set('showLoadingIndicator', false);
     })
     .fail(function (error_message) {
       console.log(error_message);
     });
 
   //scripts
-  $.getScript('js/spinner.js', function(){});
+  $.getScript('js/spinner.js', function () {});
 
   //time
-  Meteor.call("getServerTime", function (error, result) {
-      Session.set("time", result);
+  Meteor.call('getServerTime', function (error, result) {
+      Session.set('time', result);
   });
 
-  //Search Engine for Tags
+  // search Engine for Tags
   Session.set('createTag', false);
   globalObj.TagSearch = new SearchSource('tags', ['text', 'url'], {
     keepHistory: 1000 * 60 * 5,
-    localSearch: true
+    localSearch: true,
   });
 
-  //Search Engine for Proposals
+  // search Engine for Proposals
   Session.set('createProposal', false);
   globalObj.ProposalSearch = new SearchSource('contracts', ['title', 'description'], {
     keepHistory: 1000 * 60 * 5,
     localSearch: true,
   });
 
-  //Geographical Info
-  HTTP.get(Meteor.absoluteUrl("data/geo.json"), function(err,result) {
+  // geographical Info
+  HTTP.get(Meteor.absoluteUrl('data/geo.json'), function (err, result) {
     globalObj.geoJSON = result.data;
     Session.set('filteredCountries', result.data.country);
   });
