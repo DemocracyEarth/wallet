@@ -3,6 +3,7 @@ import { Session } from 'meteor/session';
 
 import { globalObj } from '/lib/global';
 import { Contracts } from '/imports/api/contracts/Contracts';
+import { Transactions } from '/imports/api/transactions/Transactions';
 import { createContract } from '/imports/startup/both/modules/Contract';
 import { checkDuplicate, convertToSlug } from '/lib/utils';
 
@@ -113,19 +114,20 @@ const _purgeBallot = (options) => {
 * @param {number} quantity - amount of votes to add
 * @return {array} scoreboard - result board
 */
-const _countVotes = (scoreboard, ballot, quantity) => {
+let _countVotes = (scoreboard, ballot, quantity) => {
   for (const i in scoreboard) {
     if (scoreboard[i]._id === ballot._id) {
-      // add votes to exsting item
+      //add votes to exsting item
       scoreboard[i].votes += quantity;
       return scoreboard;
     }
   }
-  // new item in ballot
-  ballot.votes = quantity;
+  //new item in ballot
+  ballot['votes'] = quantity;
   scoreboard.push(ballot);
   return scoreboard;
-};
+}
+
 
 /**
 * @summary shows the results of the current poll
@@ -134,31 +136,27 @@ const _countVotes = (scoreboard, ballot, quantity) => {
 */
 const _showResults = (contract) => {
   let results = [];
-  let quantity;
   const ledger = contract.wallet.ledger;
-  // const ballot = contract.ballot;
+  const ledgerIds = ledger.map(x => x.txId);
 
   // add votes
-  for (const i in ledger) {
-    if (ledger[i].ballot !== undefined && ledger[i].ballot.length > 0) {
-      quantity = (ledger[i].quantity / ledger[i].ballot.length);
-      for (const k in ledger[i].ballot) {
-        results = _countVotes(results, ledger[i].ballot[k], quantity);
-      }
+  Transactions.find({ _id: { $in: ledgerIds } }).forEach((transaction) => {
+    const ballots = transaction.condition.ballot;
+    if (ballots !== undefined && ballots.length > 0) {
+      const quantity = (transaction.output.quantity / ballots.length);
+      ballots.forEach((ballot) => {
+        results = _countVotes(results, ballot, quantity);
+      });
     }
-  }
+  });
 
   // get stats
   let totalvotes = 0;
-  for (const i in results) {
-    totalvotes += results[i].votes;
-  }
+  results.forEach(result => (totalvotes += result.votes));
 
   // set percentage
-  for (const i in results) {
-    const ballotcount = results[i];
-    ballotcount.percentage = ((ballotcount.votes * 100) / totalvotes);
-    results[i] = ballotcount;
+  for (const result of results) {
+    result.percentage = ((result.votes * 100) / totalvotes);
   }
 
   return results;
@@ -252,9 +250,10 @@ const _verifyDraftFork = (ballot) => {
 /**
 * @summary generates a new contract that automatically goes as option in the ballot
 */
-const _forkContract = () => {
+let _forkContract = () => {
   if (Session.get('proposalURLStatus') === 'AVAILABLE') {
-    let contract = createContract(convertToSlug(Session.get('newProposal')), Session.get('newProposal'))[0];
+    var contract = createContract(convertToSlug(Session.get('newProposal')), Session.get('newProposal'))[0];
+
     if (contract) {
       if (_addChoiceToBallot(Session.get('contract')._id, contract._id)) {
         contract = Contracts.findOne({ _id: Session.get('contract')._id }, { reactive: false });
