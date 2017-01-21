@@ -2,6 +2,7 @@ import { Session } from 'meteor/session';
 
 import { globalObj } from '/lib/global';
 import { Contracts } from '/imports/api/contracts/Contracts';
+import { Transactions } from '/imports/api/transactions/Transactions';
 import { createContract } from '/imports/startup/both/modules/Contract';
 import { checkDuplicate, convertToSlug } from '/lib/utils';
 
@@ -106,40 +107,59 @@ let _purgeBallot = (options) => {
 }
 
 /******
+* counts the votes in a given ballot
+* @param {array} scoreboard - array with all ballots to do counting on
+* @param {ballot} ballot - ballot to which compare existence in scoreboard
+* @param {number} quantity - amount of votes to add
+* @return {array} scoreboard - result board
+*******/
+let _countVotes = (scoreboard, ballot, quantity) => {
+  for (i in scoreboard) {
+    if (scoreboard[i]._id == ballot._id) {
+      //add votes to exsting item
+      scoreboard[i].votes += quantity;
+      return scoreboard;
+    }
+  }
+  //new item in ballot
+  ballot['votes'] = quantity;
+  scoreboard.push(ballot);
+  return scoreboard;
+}
+
+
+/******
 * shows the results of the current poll
 * @param {object} contract - contract to check results on
 * @return {array} results - array with a statistical object for every item in the ballot
 *******/
-let _showResults = (contract) => {
-  var results = new Array();
-  var ledger = contract.wallet.ledger;
-  var ballot = contract.ballot;
+const _showResults = (contract) => {
+  let results = [];
+  const ledger = contract.wallet.ledger;
+  const ledgerIds = ledger.map(x => x.txId);
 
-  //add votes
-  for (i in ledger) {
-    if (ledger[i].ballot != undefined && ledger[i].ballot.length > 0) {
-      quantity = (ledger[i].quantity / ledger[i].ballot.length);
-      for (k in ledger[i].ballot) {
-        results = _countVotes(results, ledger[i].ballot[k], quantity);
-      }
+  // add votes
+  Transactions.find({ _id: { $in: ledgerIds } }).forEach((transaction) => {
+    const ballots = transaction.condition.ballot;
+    if (ballots !== undefined && ballots.length > 0) {
+      const quantity = (transaction.output.quantity / ballots.length);
+      ballots.forEach((ballot) => {
+        results = _countVotes(results, ballot, quantity);
+      });
     }
-  }
+  });
 
-  //get stats
-  var totalvotes = 0;
-  for (i in results) {
-    totalvotes += results[i].votes;
-  }
+  // get stats
+  let totalvotes = 0;
+  results.forEach(result => (totalvotes += result.votes));
 
-  //set percentage
-  for (i in results) {
-    const ballotcount = results[i];
-    ballotcount['percentage'] = ((ballotcount.votes * 100) / totalvotes);
-    results[i] = ballotcount;
+  // set percentage
+  for (const result of results) {
+    result.percentage = ((result.votes * 100) / totalvotes);
   }
 
   return results;
-}
+};
 
 /******
 * updates contract execution status based on final results
@@ -175,28 +195,6 @@ let _updateExecutionStatus = (contract, results) => {
     }
   }
 }
-
-/******
-* counts the votes in a given ballot
-* @param {array} scoreboard - array with all ballots to do counting on
-* @param {ballot} ballot - ballot to which compare existence in scoreboard
-* @param {number} quantity - amount of votes to add
-* @return {array} scoreboard - result board
-*******/
-let _countVotes = (scoreboard, ballot, quantity) => {
-  for (i in scoreboard) {
-    if (scoreboard[i]._id == ballot._id) {
-      //add votes to exsting item
-      scoreboard[i].votes += quantity;
-      return scoreboard;
-    }
-  }
-  //new item in ballot
-  ballot['votes'] = quantity;
-  scoreboard.push(ballot);
-  return scoreboard;
-}
-
 
 /******
 * generates a new contract that automatically goes as option in the ballot
