@@ -114,19 +114,19 @@ const _purgeBallot = (options) => {
 * @param {number} quantity - amount of votes to add
 * @return {array} scoreboard - result board
 */
-let _countVotes = (scoreboard, ballot, quantity) => {
+const _countVotes = (scoreboard, ballot, quantity) => {
   for (const i in scoreboard) {
     if (scoreboard[i]._id === ballot._id) {
-      //add votes to exsting item
+      // add votes to exsting item
       scoreboard[i].votes += quantity;
       return scoreboard;
     }
   }
-  //new item in ballot
-  ballot['votes'] = quantity;
+  // new item in ballot
+  ballot.votes = quantity;
   scoreboard.push(ballot);
   return scoreboard;
-}
+};
 
 
 /**
