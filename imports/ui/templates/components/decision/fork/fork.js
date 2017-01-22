@@ -102,21 +102,24 @@ Template.fork.helpers({
 
 
 Template.fork.events({
-  "click #ballotCheckbox": function (event) {
+  'click #ballotCheckbox'() {
     switch (Session.get('contract').stage) {
       case 'DRAFT':
       case 'FINISH':
         Session.set('disabledCheckboxes', true);
         break;
       case 'LIVE':
+      default:
         if (Session.get('rightToVote')) {
           this.tick = setVote(Session.get('contract')._id, this);
+          if (this.tick === true) {
+            Session.set('noSelectedOption', false);
+          }
           break;
         }
     }
   },
-
-  "click #remove-fork": function () {
+  'click #remove-fork'() {
     Meteor.call('removeFork', Session.get('contract')._id, this._id);
-  }
+  },
 });

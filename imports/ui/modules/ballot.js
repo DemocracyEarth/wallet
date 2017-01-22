@@ -250,7 +250,7 @@ const _verifyDraftFork = (ballot) => {
 /**
 * @summary generates a new contract that automatically goes as option in the ballot
 */
-let _forkContract = () => {
+const _forkContract = () => {
   if (Session.get('proposalURLStatus') === 'AVAILABLE') {
     var contract = createContract(convertToSlug(Session.get('newProposal')), Session.get('newProposal'))[0];
 

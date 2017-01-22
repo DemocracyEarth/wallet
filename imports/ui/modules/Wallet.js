@@ -39,7 +39,8 @@ export const Wallet = function (wallet, contract) {
 
   // methods
   if (this.initialized === true) {
-    this.allocateVotes(parseInt((this.available * 10) / 100, 10));
+    // this.allocateVotes(parseInt((this.available * 10) / 100, 10));
+    this.allocateVotes(0);
     this.initialized = false;
   }
 
@@ -118,19 +119,21 @@ let _getWalletVotes = (userId, sessionVar) => {
 * @return {number} value - quantity of votes
 */
 let _setVote = (wallet, sessionVar) => {
-  if (wallet != undefined) {
-    switch(sessionVar) {
+  let value;
+  if (wallet !== undefined) {
+    switch (sessionVar) {
       case 'availableVotes':
         value = wallet.available;
         break;
       case 'placedVotes':
+      default:
         value = wallet.placed;
         break;
     }
     Session.set(sessionVar, value);
     return value;
   }
-}
+};
 
 /**
 * @summary verify if user has already voted
@@ -138,13 +141,13 @@ let _setVote = (wallet, sessionVar) => {
 * @param {string} userId - id of user
 * @return {boolean} value - true or false
 */
-let _verifyVote = (ledger, userId) => {
+const _verifyVote = (ledger, userId) => {
   console.log('verifying');
-  for (entity in ledger) {
-    if (ledger[entity].entityId == userId) {
-      var wallet = Session.get('newVote');
-      if (wallet != undefined) {
-        wallet.allocatePercentage = parseInt((ledger[entity].quantity * 100) / wallet.balance);
+  for (const entity in ledger) {
+    if (ledger[entity].entityId === userId) {
+      const wallet = Session.get('newVote');
+      if (wallet !== undefined) {
+        wallet.allocatePercentage = parseInt((ledger[entity].quantity * 100) / wallet.balance, 10);
         wallet.allocateQuantity = ledger[entity].quantity;
         wallet.mode = 'EXECUTED';
         Session.set('newVote', wallet);

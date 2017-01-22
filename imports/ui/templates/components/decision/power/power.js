@@ -30,6 +30,7 @@ Template.power.onRendered(function render() {
       ui.position.left = 0;
     },
     stop() {
+      // executes the vote
       if (contractReady() === true) {
         let counterPartyId;
         switch (Session.get('contract').kind) {
@@ -94,6 +95,10 @@ Template.power.onRendered(function render() {
               );
             }
             break;
+        }
+      } else {
+        if (purgeBallot(Session.get('candidateBallot')).length === 0) {
+          Session.set('noSelectedOption', true);
         }
       }
     },

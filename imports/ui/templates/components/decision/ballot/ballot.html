@@ -100,12 +100,14 @@
           </div>
         {{else}}
           <div class="extra">
-            {{#if disabledCheckboxes}}
-              {{> warning label="disabled-checkboxes-closed-poll"}}
-            {{/if}}
-            {{#if noSelectedOption}}
-              {{> warning label="no-selected-option"}}
-            {{/if}}
+            <div class="extra">
+              {{#if disabledCheckboxes}}
+                {{> warning label="disabled-checkboxes-closed-poll"}}
+              {{/if}}
+              {{#if noSelectedOption}}
+                {{> warning label="no-selected-option"}}
+              {{/if}}
+            </div>
           </div>
         {{/if}}
       </div>
