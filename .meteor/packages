@@ -23,6 +23,10 @@ standard-minifier-css@1.3.2
 standard-minifier-js@1.2.1
 velocityjs:velocityjs
 
+# react
+react-template-helper
+react-meteor-data
+
 # data
 mongo@1.1.14                  # The database Meteor supports right now
 aldeed:simple-schema
@@ -58,7 +62,6 @@ dburles:factory
 
 # monitoring
 meteorhacks:kadira
-
 
 lh84:medium-editor
 meteorhacks:search-source
