@@ -98,26 +98,24 @@
               {{> warning label="draft-options-ballot" style='forbidden'}}
             {{/if}}
           </div>
-        {{else}}
-          <div class="extra">
-            <div class="extra">
-              {{#if disabledCheckboxes}}
-                {{> warning label="disabled-checkboxes-closed-poll"}}
-              {{/if}}
-              {{#if noSelectedOption}}
-                {{> warning label="no-selected-option"}}
-              {{/if}}
-            </div>
-          </div>
         {{/if}}
       </div>
 
       {{#if editorMode}}
         {{> alternative}}
+      {{else}}
+        <div class="extra">
+          <div class="extra">
+            {{#if disabledCheckboxes}}
+              {{> warning label="disabled-checkboxes-closed-poll"}}
+            {{/if}}
+            {{#if noSelectedOption}}
+              {{> warning label="no-selected-option" style='forbidden'}}
+            {{/if}}
+          </div>
+        </div>
       {{/if}}
-
     {{/if}}
-
   </div>
 
   {{#unless editorMode}}
