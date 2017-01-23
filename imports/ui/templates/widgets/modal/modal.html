@@ -21,7 +21,18 @@
             </div>
           </p>
         {{/if}}
-
+        {{#if displayBallot}}
+          <p>
+            <div class="w-clearfix identity identity-center">
+              <div class="alert-header">
+                {{contractTitle}}
+              </div>
+              {{#each ballot}}
+                {{> fork _id=_id label=label mode=mode rank=rank url=url alternative=true editorMode=false}}
+              {{/each}}
+            </div>
+          </p>
+        {{/if}}
         <div class="modal-buttons">
           <div id="cancel" class="button login-button button-secondary button-half">
             <div>{{cancel}}</div>

@@ -69,6 +69,7 @@ Template.power.onRendered(function render() {
           case 'VOTE':
           default:
             if (Session.get('contract').stage === 'LIVE') {
+              const finalBallot = purgeBallot(Session.get('candidateBallot'));
               displayModal(
                 true,
                 {
@@ -78,13 +79,14 @@ Template.power.onRendered(function render() {
                   cancel: TAPi18n.__('not-now'),
                   action: TAPi18n.__('vote'),
                   displayProfile: false,
+                  displayBallot: true,
+                  ballot: finalBallot,
                 },
                 () => {
-                  const ballot = purgeBallot(Session.get('candidateBallot'));
                   const settings = {
                     condition: {
                       tags: Session.get('contract').tags,
-                      ballot,
+                      ballot: finalBallot,
                     },
                     currency: 'VOTES',
                     kind: Session.get('contract').kind,

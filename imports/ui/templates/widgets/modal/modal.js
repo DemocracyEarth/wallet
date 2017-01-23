@@ -34,7 +34,7 @@ Template.modalWindow.rendered = function rendered() {
   }
 
   // intro animation
-  $('.alert').css(`margin-top${alertHeight}p`);
+  $('.alert').css('margin-top', `${alertHeight}px`);
   $('.modal').css('opacity', '0');
   $('.modal').velocity({ opacity: '1' }, animationSettings);
 };
@@ -73,6 +73,24 @@ Template.modalWindow.helpers({
   displayProfile() {
     if (Session.get('displayModal') !== undefined) {
       return Session.get('displayModal').displayProfile;
+    }
+    return false;
+  },
+  displayBallot() {
+    if (Session.get('displayModal') !== undefined) {
+      return Session.get('displayModal').displayBallot;
+    }
+    return false;
+  },
+  contractTitle() {
+    if (Session.get('displayModal') !== undefined) {
+      return Session.get('contract').title;
+    }
+    return '';
+  },
+  ballot() {
+    if (Session.get('displayModal') !== undefined) {
+      return Session.get('displayModal').ballot;
     }
     return '';
   },
