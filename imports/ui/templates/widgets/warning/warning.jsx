@@ -4,6 +4,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 
 export default class Warning extends Component {
   componentDidMount() {
+    // TODO: fade-and-roll not rendering correctly
     behave(this.props.warning, 'fade-and-roll', { height: '36px' });
   }
 
