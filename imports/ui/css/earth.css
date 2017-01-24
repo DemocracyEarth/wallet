@@ -3301,6 +3301,14 @@ blockquote {
   border-left-style: none;
 }
 
+.title-input.title-input-mini {
+  margin-left: 0px;
+  padding: auto;
+  border-left-style: none;
+  font-size: auto;
+  line-height: auto;
+}
+
 .paper-header {
   margin: -20px -30px 15px;
   padding: 20px 25px 20px 35px;
