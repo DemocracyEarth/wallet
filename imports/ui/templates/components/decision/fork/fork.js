@@ -18,7 +18,7 @@ Template.fork.helpers({
     return '';
   },
   dragMode() {
-    if (Session.get('contract').stage === 'DRAFT') {
+    if (Session.get('contract').stage === 'DRAFT' || this.mini === true) {
       return '';
     }
     return 'vote-nondrag';

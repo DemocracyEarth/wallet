@@ -119,7 +119,7 @@ Template.ballot.helpers({
       return Session.get('contract').executiveDecision;
     }
   },
-  options: function () {
+  options() {
     var contractBallot;
     if (Session.get('dbContractBallot') == undefined) {
       if (Session.get('contract')) {
