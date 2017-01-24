@@ -23,14 +23,14 @@
         {{/if}}
         {{#if displayBallot}}
           <p>
-            <div class="w-clearfix identity identity-center">
-              <div class="alert-header">
-                {{contractTitle}}
-              </div>
-              {{#each ballot}}
-                {{> fork _id=_id label=label mode=mode rank=rank url=url alternative=true editorMode=false}}
-              {{/each}}
+            <div class="alert-header">
+              {{contractTitle}}
             </div>
+            <ul class="options">
+              {{#each ballot}}
+                {{> fork _id=_id label=label mode=mode rank=rank url=url alternative=true editorMode=false mini=true}}
+              {{/each}}
+            </ul>
           </p>
         {{/if}}
         <div class="modal-buttons">
