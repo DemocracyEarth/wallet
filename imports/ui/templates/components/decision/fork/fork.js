@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Session } from 'meteor/session';
+import { Contracts } from '/imports/api/contracts/Contracts';
 
 import { setVote, getVote } from '/imports/ui/modules/ballot';
 import './fork.html';
@@ -54,7 +55,7 @@ Template.fork.helpers({
       case 'AUTHORIZE':
         return '';
       case 'REJECT':
-        return 'option-link';
+        return 'option-link unauthorized';
       default:
         return '';
     }
@@ -103,12 +104,16 @@ Template.fork.helpers({
     }
     return final;
   },
+  isReject() {
+    console.log((this.mode === 'REJECT'));
+    return (this.mode === 'REJECT');
+  },
 });
 
 
 Template.fork.events({
   'click #ballotCheckbox'() {
-    switch (Session.get('contract').stage) {
+    switch (Session.get('contract').stage && this.mini === false) {
       case 'DRAFT':
       case 'FINISH':
         Session.set('disabledCheckboxes', true);
@@ -125,6 +130,10 @@ Template.fork.events({
     }
   },
   'click #remove-fork'() {
-    Meteor.call('removeFork', Session.get('contract')._id, this._id);
+    // Meteor.call('removeFork', Session.get('contract')._id, this._id);
+    Contracts.update(Session.get('contract')._id, { $pull: {
+      ballot:
+        { _id: this._id },
+    } });
   },
 });

@@ -1087,6 +1087,16 @@ blockquote {
   color: #ff2752;
 }
 
+.vote.vote-authorize.vote-mini {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  border-style: none;
+  border-radius: 5px;
+  background-color: rgba(230, 249, 244, .15);
+}
+
 .vote.vote-edit {
   padding: 10px;
   border: 1px dotted #00bf8f;
@@ -1179,9 +1189,10 @@ blockquote {
   padding-bottom: 0px;
   border-style: none;
   border-radius: 5px;
-  background-color: hsla(0, 0%, 100%, .24);
+  background-color: hsla(0, 0%, 100%, .15);
   box-shadow: none;
   color: #00bf8f;
+  cursor: default;
 }
 
 .vote.vote-custom {
@@ -1274,6 +1285,7 @@ blockquote {
   margin-top: 10px;
   margin-bottom: 10px;
   background-color: transparent;
+  cursor: default;
 }
 
 .option-title {

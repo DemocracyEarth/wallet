@@ -381,7 +381,7 @@
   "rejection-no-delegations": "No votes delegated.",
   "place-vote": "Place Vote",
   "confirm-vote": "Open",
-  "place-votes-warning": "Do you confirm placing <strong><quantity> votes</strong>?",
+  "place-votes-warning": "Do you confirm placing <strong><quantity> votes</strong> for this ballot?",
   "results": "Results",
   "total-votes": "(<votes> votes)",
   "no": "No",

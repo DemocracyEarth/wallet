@@ -321,6 +321,7 @@ const _updateBallotRank = (contractId, sortedBallotIDs) => {
 * @param {string} forkId - choice id
 */
 const _removeFork = (contractId, forkId) => {
+  console.log(`removing fork ${contractId} & ${forkId}`);
   Contracts.update({ _id: contractId }, { $pull: {
     ballot:
       { _id: forkId },
