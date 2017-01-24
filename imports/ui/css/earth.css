@@ -169,7 +169,7 @@ blockquote {
 .contract {
   position: relative;
   display: block;
-  max-width: 1000px;
+  max-width: 750px;
   margin-right: auto;
   margin-left: auto;
 }
