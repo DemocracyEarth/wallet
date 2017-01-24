@@ -1172,6 +1172,18 @@ blockquote {
   background-color: transparent;
 }
 
+.vote.vote-alternative.vote-mini {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  border-style: none;
+  border-radius: 5px;
+  background-color: hsla(0, 0%, 100%, .24);
+  box-shadow: none;
+  color: #00bf8f;
+}
+
 .vote.vote-custom {
   width: 100%;
   clear: both;
@@ -1254,6 +1266,14 @@ blockquote {
   display: inline-block;
   margin-right: auto;
   margin-left: auto;
+}
+
+.option.option-mini {
+  width: 28px;
+  height: 28px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: transparent;
 }
 
 .option-title {
@@ -1373,6 +1393,10 @@ blockquote {
   text-decoration: none;
 }
 
+.option-title.option-title-mini {
+  font-size: 16px;
+}
+
 .checkbox {
   display: block;
   font-weight: 300;
@@ -1410,6 +1434,10 @@ blockquote {
 
 .tick.unauthorized {
   background-color: #ff2752;
+}
+
+.tick.tick-mini {
+  background-color: transparent;
 }
 
 .tick-image {
@@ -1451,6 +1479,12 @@ blockquote {
 
 .tick-image.tick-active-unauthorized:hover {
   background-color: #ff2752;
+}
+
+.tick-image.tick-image-mini {
+  width: 26px;
+  height: 26px;
+  opacity: 1;
 }
 
 .execution {
