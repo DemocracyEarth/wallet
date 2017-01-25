@@ -55,6 +55,9 @@ Template.fork.helpers({
       case 'AUTHORIZE':
         return '';
       case 'REJECT':
+        if (this.mini) {
+          return 'unauthorized';
+        }
         return 'option-link unauthorized';
       default:
         return '';
