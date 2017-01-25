@@ -113,20 +113,22 @@ Template.fork.helpers({
 
 Template.fork.events({
   'click #ballotCheckbox'() {
-    switch (Session.get('contract').stage && this.mini === false) {
-      case 'DRAFT':
-      case 'FINISH':
-        Session.set('disabledCheckboxes', true);
-        break;
-      case 'LIVE':
-      default:
-        if (Session.get('rightToVote')) {
-          this.tick = setVote(Session.get('contract')._id, this);
-          if (this.tick === true) {
-            Session.set('noSelectedOption', false);
-          }
+    if (!Session.get('showModal')) {
+      switch (Session.get('contract').stage) {
+        case 'DRAFT':
+        case 'FINISH':
+          Session.set('disabledCheckboxes', true);
           break;
-        }
+        case 'LIVE':
+        default:
+          if (Session.get('rightToVote')) {
+            this.tick = setVote(Session.get('contract')._id, this);
+            if (this.tick === true) {
+              Session.set('noSelectedOption', false);
+            }
+            break;
+          }
+      }
     }
   },
   'click #remove-fork'() {
