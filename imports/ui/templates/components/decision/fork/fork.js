@@ -108,7 +108,6 @@ Template.fork.helpers({
     return final;
   },
   isReject() {
-    console.log((this.mode === 'REJECT'));
     return (this.mode === 'REJECT');
   },
 });

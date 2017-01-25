@@ -4,8 +4,9 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 
+import { transact } from '/imports/api/transactions/transaction';
 import { isUserSigner, userVotesInContract } from '/imports/startup/both/modules/User';
-import { sendDelegationVotes, vote } from '/imports/startup/both/modules/Contract';
+import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
 import { displayModal } from '/imports/ui/modules/modal';
 import { Wallet } from '/imports/ui/modules/Wallet';
 import { contractReady, purgeBallot } from '/imports/ui/modules/ballot';
@@ -92,16 +93,19 @@ Template.power.onRendered(function render() {
                     kind: Session.get('contract').kind,
                     contractId: Session.get('contract')._id,
                   };
-                  vote(Meteor.user()._id, Session.get('contract')._id, Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, settings);
+                  transact(
+                    Meteor.user()._id,
+                    Session.get('contract')._id,
+                    Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity,
+                    settings
+                  );
                 }
               );
             }
             break;
         }
-      } else {
-        if (purgeBallot(Session.get('candidateBallot')).length === 0) {
-          Session.set('noSelectedOption', true);
-        }
+      } else if (purgeBallot(Session.get('candidateBallot')).length === 0) {
+        Session.set('noSelectedOption', true);
       }
     },
   });

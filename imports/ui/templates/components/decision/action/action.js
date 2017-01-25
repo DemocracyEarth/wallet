@@ -114,7 +114,7 @@ Template.action.events({
                   publishContract(Session.get('contract')._id);
                 }
               );
-            } else if (Session.get('contract').stage === 'LIVE') {
+            } /*else if (Session.get('contract').stage === 'LIVE') {
               displayModal(
                 true,
                 {
@@ -139,7 +139,7 @@ Template.action.events({
                   vote(Meteor.user()._id, Session.get('contract')._id, Session.get('newVote').allocateQuantity, settings);
                 }
               );
-            }
+            }*/
             break;
         }
       }
