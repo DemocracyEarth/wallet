@@ -3224,7 +3224,7 @@ blockquote {
 
 .options.options-mini {
   margin: 10px 5px;
-  padding: 0px 10px 10px;
+  padding: 0px 10px 5px;
   border-style: solid;
   border-width: 1px;
   border-color: hsla(0, 0%, 100%, .25);
@@ -3309,11 +3309,12 @@ blockquote {
 }
 
 .title-input.title-input-mini {
-  margin: 0px;
+  margin: 10px 0px;
   padding: 0px;
   border-left-style: none;
+  opacity: 0.5;
   font-size: 20px;
-  line-height: 50px;
+  line-height: 28px;
   letter-spacing: 0px;
 }
 
