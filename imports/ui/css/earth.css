@@ -3215,13 +3215,20 @@ blockquote {
 .options {
   display: block;
   overflow: auto;
-  padding-right: 0px;
-  padding-left: 0px;
 }
 
 .options.options-voted {
   margin-right: -30px;
   margin-left: -30px;
+}
+
+.options.options-mini {
+  margin: 10px 5px;
+  padding: 0px 10px 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: hsla(0, 0%, 100%, .25);
+  border-radius: 5px;
 }
 
 .calendar-icon {
@@ -3302,11 +3309,12 @@ blockquote {
 }
 
 .title-input.title-input-mini {
-  margin-left: 0px;
-  padding: auto;
+  margin: 0px;
+  padding: 0px;
   border-left-style: none;
-  font-size: auto;
-  line-height: auto;
+  font-size: 20px;
+  line-height: 50px;
+  letter-spacing: 0px;
 }
 
 .paper-header {

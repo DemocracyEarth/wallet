@@ -108,6 +108,9 @@ Template.modalWindow.helpers({
     }
     return 'hide';
   },
+  mini(className) {
+    return `${className} ${className}-mini`;
+  },
 });
 
 Template.modalWindow.events({

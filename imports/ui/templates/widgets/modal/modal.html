@@ -23,13 +23,13 @@
         {{/if}}
         {{#if displayBallot}}
           <p>
-            <div class="title-input title-input-mini">
+            <ul class="{{mini 'options'}}">
+            <li class="title-input title-input-mini">
               {{contractTitle}}
-            </div>
-            <ul class="options">
-              {{#each ballot}}
-                {{> fork _id=_id label=label executive=false mode=mode rank=rank url=url editorMode=false mini=true}}
-              {{/each}}
+            </li>
+            {{#each ballot}}
+              {{> fork _id=_id label=label executive=false mode=mode rank=rank url=url editorMode=false mini=true}}
+            {{/each}}
             </ul>
           </p>
         {{/if}}
