@@ -2468,6 +2468,10 @@ blockquote {
   opacity: 0.25;
 }
 
+.result-bar.vote-bar.vote-bar-allocated.vote-bar-allocated-placed {
+  float: left;
+}
+
 .result-bar.result-unanimous {
   width: 100%;
   border-radius: 3px;
@@ -3223,7 +3227,7 @@ blockquote {
 }
 
 .options.options-mini {
-  margin: 10px 5px;
+  margin: 15px 5px 0px;
   padding: 0px 10px 5px;
   border-style: solid;
   border-width: 1px;
@@ -3312,7 +3316,7 @@ blockquote {
   margin: 10px 0px;
   padding: 0px;
   border-left-style: none;
-  opacity: 0.5;
+  opacity: 0.75;
   font-size: 20px;
   line-height: 28px;
   letter-spacing: 0px;

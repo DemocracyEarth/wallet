@@ -63,7 +63,12 @@ Template.power.onRendered(function render() {
                   kind: Session.get('contract').kind,
                   contractId: Session.get('contract')._id,
                 };
-                sendDelegationVotes(Session.get('contract').signatures[0]._id, Session.get('contract')._id, Session.get('newVote').allocateQuantity, settings);
+                sendDelegationVotes(
+                  Session.get('contract').signatures[0]._id,
+                  Session.get('contract')._id,
+                  Session.get('newVote').allocateQuantity,
+                  settings,
+                );
               }
             );
             break;
@@ -326,8 +331,10 @@ Template.power.events({
   },
 });
 
+
 Template.capital.helpers({
   getVotes(value) {
+    let inBallot = userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
     if (Session.get(`vote-${Session.get('contract')._id}`) !== undefined) {
       if (value === 'available' && Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity > 0) {
         const available = parseInt(Session.get(`vote-${Session.get('contract')._id}`).available - Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10);
@@ -335,6 +342,8 @@ Template.capital.helpers({
           return available;
         }
         return TAPi18n.__('none');
+      } else if (value === 'inBallot') {
+        return inBallot;
       } else if (Session.get(`vote-${Session.get('contract')._id}`)[value] !== 0) {
         return Session.get(`vote-${Session.get('contract')._id}`)[value];
       }
@@ -343,6 +352,7 @@ Template.capital.helpers({
   },
   style(value) {
     let quantity = 0;
+    let inBallot = userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
     quantity = Session.get(`vote-${Session.get('contract')._id}`)[value];
     const available = parseInt(Session.get(`vote-${Session.get('contract')._id}`)[value] - Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10);
     switch (value) {
@@ -351,9 +361,14 @@ Template.capital.helpers({
           return 'stage-finish-rejected';
         }
         return 'stage-finish-approved';
+      case 'inBallot':
+        if (inBallot === 0) {
+          return 'stage-draft';
+        }
+        return 'stage-finish-alternative';
       case 'allocateQuantity':
         if (quantity === 0) {
-          return 'stage-draft';
+          return 'hide';
         }
         return 'stage-live';
       case 'placed':
@@ -367,36 +382,38 @@ Template.capital.helpers({
   },
 });
 
+/**
+* @summary given absolute value returns relative pixel width
+* @param {number} value nominal votes to pixel width
+* @param {object} bar helper being rendered
+*/
+function getBarWidth(value, bar) {
+  console.log(bar);
+  if (bar.editable) {
+    const wallet = Session.get(`vote-${Session.get('contract')._id}`);
+    if (wallet !== undefined) {
+      const percentage = parseInt((value * 100) / wallet.balance, 10);
+      if (value === 0) {
+        return '0px';
+      }
+      return `${percentage}%`;
+    }
+  }
+  // profile, only logged user
+  const wallet = Meteor.user().profile.wallet;
+  return `${parseInt((value * 100) / wallet.balance, 10)}%`;
+};
+
 Template.bar.helpers({
   allocate() {
-    if (this.editable) {
-      const wallet = Session.get(`vote-${Session.get('contract')._id}`);
-      if (wallet !== undefined) {
-        if (Session.get('alreadyVoted') === true) {
-          return '0px';
-        }
-        return `${wallet.sliderWidth}px`;
-      }
-      return '0px';
-    }
-    // profile, only logged user
-    const wallet = Meteor.user().profile.wallet;
-    return `${parseInt((wallet.available * 100) / wallet.balance, 10)}%`;
+    return getBarWidth(Session.get(`vote-${Session.get('contract')._id}`).available, this);
   },
   placed() {
-    if (this.editable) {
-      const wallet = Session.get(`vote-${Session.get('contract')._id}`);
-      if (wallet !== undefined) {
-        const percentage = parseInt((wallet.placed * 100) / wallet.balance, 10);
-        if (wallet.placed === 0) {
-          return '0px';
-        }
-        return `${percentage}%`;
-      }
-    }
-    // profile, only logged user
-    const wallet = Meteor.user().profile.wallet;
-    return `${parseInt((wallet.placed * 100) / wallet.balance, 10)}%`;
+    return getBarWidth(Session.get(`vote-${Session.get('contract')._id}`).placed, this);
+  },
+  inBallot() {
+    let inBallot = userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
+    return getBarWidth(inBallot, this);
   },
   hundred() {
     const wallet = Meteor.user().profile.wallet;

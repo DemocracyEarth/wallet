@@ -178,16 +178,18 @@ const _newDelegation = (delegatorId, delegateId, settings, instantaneous) => {
 * @param {string} contractId - identity that will get a request to approve
 * @param {number} quantity - amount of votes being used
 * @param {object} ballot - specified conditions for this delegation
-*/
+
 const _vote = (userId, contractId, quantity, ballot) => {
   /* Meteor.call('vote', userId, contractId, quantity, ballot, function (err, result) {
     if (err) {
       throw new Meteor.Error(err, '[_vote]: vote failed.');
     }
   });*/
+/*
   console.log(`[vote]${userId} on contract: ${contractId} with quantity: ${quantity}`);
   transact(userId, contractId, quantity, ballot);
 };
+*/
 
 /**
 * membership contract between user and collective
@@ -351,4 +353,3 @@ export const startMembership = _newMembership;
 export const startDelegation = _newDelegation;
 export const sendDelegationVotes = _sendDelegation;
 export const createContract = _newDraft;
-export const vote = _vote;

@@ -272,13 +272,15 @@ let _verifyDelegationRight = (signatures) => {
 * @param {string} contractId - the contract to search for
 * @return {number} quantity - quantity of votes in Absolute numbers
 */
-let _userVotesInContract = (userWallet, contractId) => {
-  for (i in userWallet.ledger) {
+const _userVotesInContract = (userWallet, contractId) => {
+  let totalVotes = 0;
+  for (const i in userWallet.ledger) {
     if (userWallet.ledger[i].entityId === contractId && userWallet.ledger[i].entityType === 'CONTRACT') {
-      return Math.abs(userWallet.ledger[i].quantity);
+      totalVotes += parseInt(userWallet.ledger[i].quantity * -1, 10);
     }
   }
-}
+  return totalVotes;
+};
 
 /**
 * @summary verifies if the user is a signer in the contract

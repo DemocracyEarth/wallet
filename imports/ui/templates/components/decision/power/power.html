@@ -4,14 +4,17 @@
       <div class="w-clearfix rosca rosca-setter">
         {{> bar editable=editable}}
         {{> capital user=user}}
-        <!--{{> placed user=user}}-->
+      </div>
+    {{else}}
+      <div class="w-clearfix rosca rosca-setter">
+        {{> bar editable=false}}
+        {{> capital user=user}}
       </div>
     {{/if}}
   {{else}}
     <div class="w-clearfix rosca rosca-id {{styleClass}}">
       {{> bar editable=editable}}
       {{> capital user=user}}
-      <!--{{> placed user=user}}-->
     </div>
   {{/if}}
   <!--
@@ -51,6 +54,16 @@
         </span>
       </div>
     </div>
+    <div class="stage {{style 'inBallot'}}">
+      <div class='label label-corner'>
+        <strong>
+          {{{getVotes 'inBallot'}}}
+        </strong>
+        <span>
+          {{_ 'place-in-ballot'}}
+        </span>
+      </div>
+    </div>
     <div class="stage {{style 'allocateQuantity'}}">
       <div class='label label-corner'>
         <strong>
@@ -80,14 +93,25 @@
     {{#if editable}}
       <div id="voteBar-{{voteId}}" class="w-clearfix result vote-bar">
         <div id="voteSlider-{{voteId}}" class="result-bar vote-bar" style=" width: {{allocate}} ">
+
+          <!-- handle -->
           <div id="voteHandle-{{voteId}}" class="handle" title="{{_ 'slide-to-vote'}}">
           </div>
+
+          <!-- inBallot allocated -->
+          <div class="result-bar vote-bar vote-bar-allocated vote-bar-allocated-placed"  style=" width: {{inBallot}} "></div>
+
         </div>
         <div class="result-bar vote-bar vote-bar-allocated"  style=" width: {{placed}} "></div>
       </div>
     {{else}}
       <div class="w-clearfix result vote-bar">
-        <div class="result-bar vote-bar {{hundred}}" style=" width: {{allocate}} "></div>
+        <div class="result-bar vote-bar {{hundred}}" style=" width: {{allocate}} ">
+
+            <!-- inBallot allocated -->
+            <div class="result-bar vote-bar vote-bar-allocated vote-bar-allocated-placed"  style=" width: {{inBallot}} "></div>
+
+        </div>
         <div class="result-bar vote-bar vote-bar-allocated"  style=" width: {{placed}} "></div>
       </div>
     {{/if}}
