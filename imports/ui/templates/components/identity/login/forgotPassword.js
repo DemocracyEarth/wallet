@@ -1,6 +1,6 @@
 import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
-import { Accounts } from 'meteor/accounts-password';
+import { Accounts } from 'meteor/accounts-base';
 
 import './forgotPassword.html';
 import '../../../widgets/warning/warning.js';
