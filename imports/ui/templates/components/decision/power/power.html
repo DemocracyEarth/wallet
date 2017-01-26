@@ -90,36 +90,21 @@
 </template>
 
 <template name="bar">
-    {{#if editable}}
-      <div id="voteBar-{{voteId}}" class="w-clearfix result vote-bar">
+  <div id="voteBar-{{voteId}}" class="w-clearfix result vote-bar">
 
-        <!-- available -->
-        <div id="voteSlider-{{voteId}}" class="result-bar vote-bar" style=" width: {{allocate}} ">
+    <!-- available -->
+    <div id="voteSlider-{{voteId}}" class="result-bar vote-bar" style=" width: {{allocate}} ">
 
-          <!-- handle -->
-          <div id="voteHandle-{{voteId}}" class="handle" title="{{_ 'slide-to-vote'}}">
-          </div>
-
-        </div>
-
-        <!-- inBallot-->
-        <div class="result-bar vote-bar vote-bar-allocated vote-bar-allocated-placed"  style=" width: {{inBallot}} "></div>
-
-        <!-- placed -->
-        <div class="result-bar vote-bar vote-bar-allocated"  style=" width: {{placed}} "></div>
+      <!-- handle -->
+      <div id="voteHandle-{{voteId}}" class="handle" title="{{_ 'slide-to-vote'}}">
       </div>
-    {{else}}
-      <div class="w-clearfix result vote-bar">
 
-        <!-- available -->
-        <div class="result-bar vote-bar {{hundred}}" style=" width: {{allocate}} ">
-        </div>
+    </div>
 
-        <!-- inBallot -->
-        <div class="result-bar vote-bar vote-bar-allocated vote-bar-allocated-placed"  style=" width: {{inBallot}}; margin-left: -{{allocate}}; "></div>
+    <!-- inBallot-->
+    <div class="result-bar vote-bar vote-bar-allocated vote-bar-allocated-placed"  style=" width: {{inBallot}}; margin-left: -{{allocate}}; "></div>
 
-        <!-- placed -->
-        <div class="result-bar vote-bar vote-bar-allocated"  style=" width: {{placed}} "></div>
-      </div>
-    {{/if}}
+    <!-- placed -->
+    <div class="result-bar vote-bar vote-bar-allocated"  style=" width: {{placed}} "></div>
+  </div>
 </template>

@@ -365,17 +365,14 @@ Template.capital.helpers({
         if (inBallot === 0) {
           return 'hide';
         }
-        return 'stage-finish-alternative';
+        return 'stage-placed';
       case 'allocateQuantity':
         if (quantity === 0) {
           return 'hide';
         }
         return 'stage-live';
       case 'placed':
-        if (quantity === 0) {
-          return 'stage-draft';
-        }
-        return 'stage-finish-alternative';
+        return 'stage-placed';
       default:
         return 'stage-finish-alternative';
     }
