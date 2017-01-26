@@ -269,6 +269,13 @@ blockquote {
   color: #fff;
 }
 
+.card.temporal {
+  position: fixed;
+  left: 80%;
+  right: 0px;
+  width: 40%;
+}
+
 .fingerprint {
   display: block;
   width: 120px;
@@ -2469,7 +2476,10 @@ blockquote {
 }
 
 .result-bar.vote-bar.vote-bar-allocated.vote-bar-allocated-placed {
+  height: 15px;
   float: left;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
 }
 
 .result-bar.result-unanimous {
@@ -3020,6 +3030,11 @@ blockquote {
   color: #00bf8f;
 }
 
+.stage.stage-finish-approved.stage-finished-inballot {
+  border-style: solid;
+  border-color: #000;
+}
+
 .stage.stage-finish-alternative {
   border-style: solid;
   border-color: #e6f9f4;
@@ -3043,6 +3058,11 @@ blockquote {
 
 .stage.stage-list {
   margin-top: 1px;
+}
+
+.stage.stage-placed {
+  border-style: solid;
+  border-color: #00bf8f;
 }
 
 .profile-thumb {

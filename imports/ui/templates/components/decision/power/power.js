@@ -363,7 +363,7 @@ Template.capital.helpers({
         return 'stage-finish-approved';
       case 'inBallot':
         if (inBallot === 0) {
-          return 'stage-draft';
+          return 'hide';
         }
         return 'stage-finish-alternative';
       case 'allocateQuantity':
@@ -385,9 +385,10 @@ Template.capital.helpers({
 /**
 * @summary given absolute value returns relative pixel width
 * @param {number} value nominal votes to pixel width
-* @param {object} bar helper being rendered
+* @param {object} bar the item being rendered
+* @param {boolean} toPixels return value in pixels, otherwise percentage
 */
-function getBarWidth(value, bar) {
+function getBarWidth(value, bar, toPixels) {
   console.log(bar);
   if (bar.editable) {
     const wallet = Session.get(`vote-${Session.get('contract')._id}`);
@@ -396,7 +397,11 @@ function getBarWidth(value, bar) {
       if (value === 0) {
         return '0px';
       }
-      return `${percentage}%`;
+      if (toPixels) {
+        return `${wallet.sliderWidth}px`;
+      } else {
+        return `${percentage}%`;
+      }
     }
   }
   // profile, only logged user
@@ -406,14 +411,17 @@ function getBarWidth(value, bar) {
 
 Template.bar.helpers({
   allocate() {
-    return getBarWidth(Session.get(`vote-${Session.get('contract')._id}`).available, this);
+    return getBarWidth(Session.get(`vote-${Session.get('contract')._id}`).available, this, true);
   },
   placed() {
     return getBarWidth(Session.get(`vote-${Session.get('contract')._id}`).placed, this);
   },
   inBallot() {
     let inBallot = userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
-    return getBarWidth(inBallot, this);
+    if (inBallot > 0) {
+      return getBarWidth(inBallot, this);
+    }
+    return '0px';
   },
   hundred() {
     const wallet = Meteor.user().profile.wallet;
