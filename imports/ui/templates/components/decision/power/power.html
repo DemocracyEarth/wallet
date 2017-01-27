@@ -67,10 +67,18 @@
     <div class="stage {{style 'allocateQuantity'}}">
       <div class='label label-corner'>
         <strong>
-          {{{getVotes 'allocateQuantity'}}}
+          {{#if negativeAllocation}}
+            -{{{getVotes 'allocateQuantity'}}}
+          {{else}}
+            +{{{getVotes 'allocateQuantity'}}}
+          {{/if}}
         </strong>
         <span>
-          {{_ 'allocate-in-ballot'}}
+          {{#if negativeAllocation}}
+            {{_ 'retrieve-from-ballot'}}
+          {{else}}
+            {{_ 'allocate-in-ballot'}}
+          {{/if}}
         </span>
       </div>
     </div>
@@ -96,7 +104,7 @@
     <div id="voteSlider-{{voteId}}" class="result-bar vote-bar" style=" width: {{allocate}} ">
 
       <!-- handle -->
-      <div id="voteHandle-{{voteId}}" class="handle" title="{{_ 'slide-to-vote'}}"></div>
+      <div id="voteHandle-{{voteId}}" class="handle"></div>
 
     </div>
 

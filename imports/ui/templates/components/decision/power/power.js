@@ -336,7 +336,7 @@ Template.power.events({
 
 Template.capital.helpers({
   getVotes(value) {
-    let inBallot = userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
+    const inBallot = userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
     let finalValue;
     if (Session.get(`vote-${Session.get('contract')._id}`) !== undefined) {
       if (value === 'available' && Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity > 0) {
@@ -353,14 +353,14 @@ Template.capital.helpers({
         } else {
           finalValue = Session.get(`vote-${Session.get('contract')._id}`)[value];
         }
-        return finalValue;
+        return Math.abs(finalValue);
       }
     }
     return TAPi18n.__('none');
   },
   style(value) {
     let quantity = 0;
-    let inBallot = userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
+    const inBallot = userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
     quantity = Session.get(`vote-${Session.get('contract')._id}`)[value];
     const available = parseInt(Session.get(`vote-${Session.get('contract')._id}`)[value] - Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10);
     switch (value) {
@@ -370,7 +370,7 @@ Template.capital.helpers({
         }
         return 'stage-finish-approved';
       case 'inBallot':
-        if (Session.get('dragging') == false) {
+        if (Session.get('dragging') === false) {
           if (inBallot === 0) {
             return 'hide';
           }
@@ -378,7 +378,7 @@ Template.capital.helpers({
         }
         return 'hide';
       case 'allocateQuantity':
-        if (Session.get('dragging') == true) {
+        if (Session.get('dragging') === true) {
           if (quantity === 0) {
             return 'hide';
           }
@@ -390,6 +390,9 @@ Template.capital.helpers({
       default:
         return 'stage-finish-alternative';
     }
+  },
+  negativeAllocation() {
+    return (userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id) > Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity);
   },
 });
 
@@ -406,18 +409,16 @@ function getBarWidth(value, bar, toPixels) {
       const percentage = parseInt((value * 100) / wallet.balance, 10);
       if (value === 0) {
         return '0px';
-      }
-      if (toPixels) {
+      } else if (toPixels) {
         return `${wallet.sliderWidth}px`;
-      } else {
-        return `${percentage}%`;
       }
+      return `${percentage}%`;
     }
   }
   // profile, only logged user
   const wallet = Meteor.user().profile.wallet;
   return `${parseInt((value * 100) / wallet.balance, 10)}%`;
-};
+}
 
 Template.bar.helpers({
   allocate() {

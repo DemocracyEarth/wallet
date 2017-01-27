@@ -2468,11 +2468,10 @@ blockquote {
   float: right;
   border-radius: 0px 3px 3px 0px;
   background-color: #ccc;
-  background-image: url('../images/pattern-pinstripes-diagonal_svg_med.png');
+  background-image: url('../images/pattern-pinstripes-diagonal-green.png');
   background-position: 100% 0px;
   background-size: 50px;
   background-repeat: repeat-x;
-  opacity: 0.25;
 }
 
 .result-bar.vote-bar.vote-bar-allocated.vote-bar-allocated-placed {
@@ -2480,6 +2479,9 @@ blockquote {
   float: left;
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
+  background-color: #00bf8f;
+  background-image: none;
+  opacity: 0.2;
 }
 
 .result-bar.result-unanimous {
