@@ -67,11 +67,7 @@
     <div class="stage {{style 'allocateQuantity'}}">
       <div class='label label-corner'>
         <strong>
-          {{#if negativeAllocation}}
-            -{{{getVotes 'allocateQuantity'}}}
-          {{else}}
-            +{{{getVotes 'allocateQuantity'}}}
-          {{/if}}
+          {{{getVotes 'allocateQuantity'}}}
         </strong>
         <span>
           {{#if negativeAllocation}}

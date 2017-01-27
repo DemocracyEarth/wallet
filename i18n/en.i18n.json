@@ -406,10 +406,10 @@
   "delegated-votes": "Delegated Votes",
   "none": "none",
   "place-here": "place here",
-  "place-in-ballot": "in this ballot",
-  "allocate-in-ballot": "to place in ballot",
+  "place-in-ballot": "on this ballot",
+  "allocate-in-ballot": "more votes",
   "cast-vote":"Cast vote",
   "slide-to-vote": "Slide to place vote.",
   "no-selected-option": "No option is selected in the ballot.",
-  "retrieve-from-ballot": "To retrieve from ballot"
+  "retrieve-from-ballot": "less votes"
 }
