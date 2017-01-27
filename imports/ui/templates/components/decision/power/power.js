@@ -23,6 +23,7 @@ Template.power.onRendered(function render() {
   $(`#voteHandle-${Session.get(`vote-${Session.get('contract')._id}`).voteId}`).draggable({
     axis: 'x',
     start() {
+      Session.set('dragging', true);
       this.newVote = new Wallet(Meteor.user().profile.wallet, Session.get('contract')._id);
     },
     drag(event, ui) {
@@ -32,6 +33,7 @@ Template.power.onRendered(function render() {
     },
     stop() {
       // executes the vote
+      Session.set('dragging', false);
       if (contractReady() === true) {
         let counterPartyId;
         switch (Session.get('contract').kind) {
@@ -368,15 +370,21 @@ Template.capital.helpers({
         }
         return 'stage-finish-approved';
       case 'inBallot':
-        if (inBallot === 0) {
-          return 'hide';
+        if (Session.get('dragging') == false) {
+          if (inBallot === 0) {
+            return 'hide';
+          }
+          return 'stage-placed';
         }
-        return 'stage-placed';
+        return 'hide';
       case 'allocateQuantity':
-        if (quantity === 0) {
-          return 'hide';
+        if (Session.get('dragging') == true) {
+          if (quantity === 0) {
+            return 'hide';
+          }
+          return 'stage-live';
         }
-        return 'stage-live';
+        return 'hide';
       case 'placed':
         return 'stage-placed';
       default:
