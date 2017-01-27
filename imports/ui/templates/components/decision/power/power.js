@@ -335,6 +335,7 @@ Template.power.events({
 Template.capital.helpers({
   getVotes(value) {
     let inBallot = userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
+    let finalValue;
     if (Session.get(`vote-${Session.get('contract')._id}`) !== undefined) {
       if (value === 'available' && Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity > 0) {
         const available = parseInt(Session.get(`vote-${Session.get('contract')._id}`).available - Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10);
@@ -345,7 +346,12 @@ Template.capital.helpers({
       } else if (value === 'inBallot') {
         return inBallot;
       } else if (Session.get(`vote-${Session.get('contract')._id}`)[value] !== 0) {
-        return Session.get(`vote-${Session.get('contract')._id}`)[value];
+        if (value === 'allocateQuantity') {
+          finalValue = parseInt(Session.get(`vote-${Session.get('contract')._id}`)[value] - inBallot, 10);
+        } else {
+          finalValue = Session.get(`vote-${Session.get('contract')._id}`)[value];
+        }
+        return finalValue;
       }
     }
     return TAPi18n.__('none');
