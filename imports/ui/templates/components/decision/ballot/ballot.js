@@ -216,7 +216,7 @@ Template.ballot.helpers({
     return false;
   },
   noSelectedOption() {
-    return Session.get('noSelectedOption');
+    return displayTimedWarning('noSelectedOption');
   },
 });
 
