@@ -3067,6 +3067,11 @@ blockquote {
   border-color: #00bf8f;
 }
 
+.stage.stage-inballot {
+  border-style: solid;
+  background-color: #e6f9f4;
+}
+
 .profile-thumb {
   height: 60px;
   opacity: 0.75;

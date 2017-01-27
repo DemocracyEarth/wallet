@@ -77,36 +77,71 @@ Template.power.onRendered(function render() {
           case 'VOTE':
           default:
             if (Session.get('contract').stage === 'LIVE') {
+              let finalCaption;
+              let vote = () => {};
               const finalBallot = purgeBallot(Session.get('candidateBallot'));
-              displayModal(
-                true,
-                {
-                  icon: 'images/modal-vote.png',
-                  title: TAPi18n.__('place-vote'),
-                  message: TAPi18n.__('place-votes-warning').replace('<quantity>', Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity),
-                  cancel: TAPi18n.__('not-now'),
-                  action: TAPi18n.__('vote'),
-                  displayProfile: false,
-                  displayBallot: true,
+              const votesInBallot = userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
+              const newVotes = parseInt(Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity - votesInBallot, 10);
+              const votes = parseInt(votesInBallot + newVotes, 10);
+              const settings = {
+                condition: {
+                  tags: Session.get('contract').tags,
                   ballot: finalBallot,
                 },
-                () => {
-                  const settings = {
-                    condition: {
-                      tags: Session.get('contract').tags,
-                      ballot: finalBallot,
-                    },
-                    currency: 'VOTES',
-                    kind: Session.get('contract').kind,
-                    contractId: Session.get('contract')._id,
-                  };
+                currency: 'VOTES',
+                kind: Session.get('contract').kind,
+                contractId: Session.get('contract')._id,
+              };
+
+              // cook vote
+              if (votesInBallot === 0) {
+                finalCaption = TAPi18n.__('place-votes-warning').replace('<quantity>', Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity);
+                vote = () => {
                   transact(
                     Meteor.user()._id,
                     Session.get('contract')._id,
                     Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity,
                     settings
                   );
-                }
+                };
+              } else if (newVotes > 0) {
+                finalCaption = TAPi18n.__('place-more-votes-warning').replace('<quantity>', votes.toString()).replace('<add>', newVotes);
+                vote = () => {
+                  transact(
+                    Meteor.user()._id,
+                    Session.get('contract')._id,
+                    newVotes,
+                    settings
+                  );
+                };
+              } else if (newVotes < 0) {
+                finalCaption = TAPi18n.__('retrieve-votes-warning').replace('<quantity>', votes.toString()).replace('<retrieve>', Math.abs(newVotes).toString());
+                vote = () => {
+                  transact(
+                    Session.get('contract')._id,
+                    Meteor.user()._id,
+                    Math.abs(newVotes),
+                    settings
+                  );
+                };
+              } else {
+                return;
+              }
+
+              // ask confirmation
+              displayModal(
+                true,
+                {
+                  icon: 'images/modal-vote.png',
+                  title: TAPi18n.__('place-vote'),
+                  message: finalCaption,
+                  cancel: TAPi18n.__('not-now'),
+                  action: TAPi18n.__('vote'),
+                  displayProfile: false,
+                  displayBallot: true,
+                  ballot: finalBallot,
+                },
+                vote
               );
             }
             break;
@@ -374,7 +409,7 @@ Template.capital.helpers({
           if (inBallot === 0) {
             return 'hide';
           }
-          return 'stage-placed';
+          return 'stage-inballot';
         }
         return 'hide';
       case 'allocateQuantity':
