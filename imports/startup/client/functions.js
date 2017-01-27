@@ -32,7 +32,7 @@ const _matchType = (key) => {
 
 
 /**
-* from the paramaters obtained in a URL builds a query for the db
+* @summary from the paramaters obtained in a URL builds a query for the db
 * @param {object} params - url querying object
 * @return {object} query - returns a query with object ready for mongo
 ****/
@@ -90,11 +90,11 @@ const _buildQuery = (params) => {
   return query;
 };
 
-/***
-* generates section title based on url query
+/**
+* @summary generates section title based on url query
 * @param {object} params - url querying object
 * @return {string} title - returns title to fetch on json dictionary
-****/
+*/
 let _buildTitle = (params) => {
   var title = new String();
   if (typeof params == 'string') {
@@ -271,6 +271,7 @@ let _loadContract = (view, id) => {
     Session.set('contract', contract);
     Session.set('voteKeyword', view);
     Session.set('stage', contract.stage);
+    contractId = contract._id;
 
     // close poll if finish
     if (contract.stage === 'LIVE') {
