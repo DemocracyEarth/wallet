@@ -222,15 +222,14 @@ const _userIsDelegate = (signatures) => {
 */
 const _verifyVotingRight = (ledger) => {
   if (Meteor.user() != null) {
-    for (i in ledger) {
+    for (const i in ledger) {
       if (ledger[i].entityId === Meteor.user()._id) {
         return false;
       }
     }
     return true;
-  } else {
-    return false;
   }
+  return false;
 };
 
 

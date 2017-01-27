@@ -386,7 +386,6 @@ Template.capital.helpers({
 * @param {boolean} toPixels return value in pixels, otherwise percentage
 */
 function getBarWidth(value, bar, toPixels) {
-  console.log(bar);
   if (bar.editable) {
     const wallet = Session.get(`vote-${Session.get('contract')._id}`);
     if (wallet !== undefined) {
@@ -414,11 +413,7 @@ Template.bar.helpers({
     return getBarWidth(Session.get(`vote-${Session.get('contract')._id}`).placed, this);
   },
   inBallot() {
-    let inBallot = userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
-    if (inBallot > 0) {
-      return getBarWidth(inBallot, this);
-    }
-    return '0px';
+    return getBarWidth(userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id), this);
   },
   hundred() {
     const wallet = Meteor.user().profile.wallet;

@@ -217,73 +217,11 @@ let _loadFeed = (feed) => {
   }
 }
 
-/***
-* loads contract based on view as in url params
-* @param {object} view - view to be used inferred from params
-* @return {string} id - contract id to load
-****/
-let _loadContract = (view, id) => {
-  //load contract
-  let contract;
-  if (id !== undefined) {
-    contract = Contracts.findOne({ _id: id });
-  } else {
-    contract = Contracts.findOne({ keyword: view });
-  }
-
-  if (contract !== undefined) {
-    //settings
-    Session.set('contract', contract);
-    Session.set("voteKeyword", view);
-    Session.set('stage', contract.stage);
-    contractId = contract._id;
-
-    //close poll if finish
-    if (contract.stage == 'LIVE') {
-      Meteor.call("getServerTime", function (error, result) {
-          Session.set("time", result);
-          if (Session.get('contract').closingDate < new Date(Session.get('time'))) {
-            election =  showResults(Session.get('contract'));
-            updateExecutionStatus(Session.get('contract'), election);
-          }
-      });
-    }
-
-    //status of action button
-    if (contract.kind == 'DELEGATION') {
-      Session.set('rightToVote', verifyDelegationRight(contract.signatures))
-    } else if (contract.kind == 'VOTE' && contract.stage == 'DRAFT' ) {
-      Session.set('rightToVote', true);
-      Session.set('alreadyVoted', false);
-    } else if (contract.kind == 'VOTE' && contract.stage == 'LIVE') {
-      Session.set('rightToVote', verifyVotingRight(contract.wallet.ledger))
-    } else if (contract.kind == 'VOTE' && contract.stage == 'FINISH') {
-      Session.set('rightToVote', false);
-    }
-
-    //wallet
-    _setContractWallet(contract);
-
-    //mode
-    switch (contract.stage) {
-      case 'DRAFT':
-        Session.set('editorMode', true);
-        Session.set('voterMode', false);
-        break;
-      case 'LIVE':
-      default:
-        Session.set('editorMode', false);
-        Session.set('voterMode', true);
-        break;
-    }
-  }
-}
-
 /**
-* @summary sets which wallet to use for reference in contract based on if the user appears asa signer or not
+* @summary sets which wallet to use for reference in contract based on if the user signed or not
 * @param {object} contract - contract to analyze
 */
-let _setContractWallet = (contract) => {
+const _setContractWallet = (contract) => {
   let userContract = false;
   let role = String();
   if (contract.kind === 'DELEGATION') {
@@ -309,8 +247,69 @@ let _setContractWallet = (contract) => {
     }
   } else if (contract.kind === 'VOTE') {
     if (Meteor.user() != null) {
-      console.log('newvote setting');
       Session.set(`vote-${contract._id}`, new Wallet(Meteor.user().profile.wallet, contract._id));
+    }
+  }
+};
+
+/**
+* loads contract based on view as in url params
+* @param {object} view - view to be used inferred from params
+* @return {string} id - contract id to load
+****/
+let _loadContract = (view, id) => {
+  // load contract
+  let contract;
+  if (id !== undefined) {
+    contract = Contracts.findOne({ _id: id });
+  } else {
+    contract = Contracts.findOne({ keyword: view });
+  }
+
+  if (contract !== undefined) {
+    // settings
+    Session.set('contract', contract);
+    Session.set('voteKeyword', view);
+    Session.set('stage', contract.stage);
+
+    // close poll if finish
+    if (contract.stage === 'LIVE') {
+      Meteor.call('getServerTime', function (error, result) {
+        Session.set('time', result);
+        if (Session.get('contract').closingDate < new Date(Session.get('time'))) {
+          const election = showResults(Session.get('contract'));
+          updateExecutionStatus(Session.get('contract'), election);
+        }
+      });
+    }
+
+    // status of action button
+    if (contract.kind === 'DELEGATION') {
+      Session.set('rightToVote', verifyDelegationRight(contract.signatures));
+    } else if (contract.kind === 'VOTE' && contract.stage === 'DRAFT') {
+      Session.set('rightToVote', true);
+      Session.set('alreadyVoted', false);
+    } else if (contract.kind === 'VOTE' && contract.stage === 'LIVE') {
+      Session.set('rightToVote', true);
+      Session.set('alreadyVoted', verifyVotingRight(contract.wallet.ledger));
+    } else if (contract.kind === 'VOTE' && contract.stage === 'FINISH') {
+      Session.set('rightToVote', false);
+    }
+
+    // wallet
+    _setContractWallet(contract);
+
+    // mode
+    switch (contract.stage) {
+      case 'DRAFT':
+        Session.set('editorMode', true);
+        Session.set('voterMode', false);
+        break;
+      case 'LIVE':
+      default:
+        Session.set('editorMode', false);
+        Session.set('voterMode', true);
+        break;
     }
   }
 };
@@ -344,30 +343,8 @@ const _configNavbar = (title) => {
   });
 };
 
-/***
-* clears all sessions vars need to reset view
-***/
-let _clearSessionVars = () => {
-  Session.set('contract', undefined);
-  Session.set('newVote', undefined); // used for wallet (refactor name)
-  Session.set('candidateBallot', undefined); //used for ballot
-  Session.set('disabledCheckboxes', false);
-  contractId = undefined;
-
-  //ensure user gets funds
-  if (Meteor.user() != null) {
-    if (_userHasEmptyWallet()) {
-      Meteor.call('genesisTransaction', Meteor.user()._id, function (error, response) {
-        if (error) {
-          console.log('[genesisTransaction] ERROR: ' + error);
-        }
-      });
-    }
-  }
-}
-
-/***
-* checks if user never had funds
+/**
+* @summary checks if user never had funds
 ***/
 const _userHasEmptyWallet = () => {
   if (Meteor.user().profile.wallet.balance == 0 && Meteor.user().profile.wallet.available == 0 && Meteor.user().profile.wallet.placed == 0) {
@@ -381,16 +358,53 @@ const _userHasEmptyWallet = () => {
     }
   }
   return false;
-}
+};
 
+/**
+* @summary clears all sessions vars need to reset view
+*/
+const _clearSessionVars = () => {
+  Session.set('contract', undefined);
+  Session.set('newVote', undefined); // used for wallet (refactor name)
+  Session.set('candidateBallot', undefined); // used for ballot
+  Session.set('disabledCheckboxes', false);
 
-/***
-* returns the selected feed from menu if unknown in mem
-****/
+  // ensure user gets funds
+  if (Meteor.user() != null) {
+    if (_userHasEmptyWallet()) {
+      Meteor.call('genesisTransaction', Meteor.user()._id, function (error, response) {
+        if (error) {
+          console.log('[genesisTransaction] ERROR: ' + error);
+        }
+      });
+    }
+  }
+};
+
+/**
+* @summary returns from a menu array the selected feed
+* @param {object} menu - menu array
+*/
+const _getMenuFeed = (menu) => {
+  if (Session.get('sidebarMenuSelectedId') && typeof Session.get('sidebarMenuSelectedId') !== 'string') {
+    const item = Session.get('sidebarMenuSelectedId');
+    return menu[item].feed;
+  }
+  for (const item in menu) {
+    if (menu[item].selected === true) {
+      return menu[item].feed;
+    }
+  }
+  return false;
+};
+
+/**
+* @summary returns the selected feed from menu if unknown in mem
+*/
 const _getMenuSelection = (params) => {
-  var menu = Session.get('menuDecisions');
-  var delegates = Session.get('menuDelegates');
-  var feed = _getMenuFeed(menu);
+  const menu = Session.get('menuDecisions');
+  const delegates = Session.get('menuDelegates');
+  let feed = _getMenuFeed(menu);
   if (!feed) {
     feed = _getMenuFeed(delegates);
     if (!feed) {
@@ -404,32 +418,14 @@ const _getMenuSelection = (params) => {
     }
   }
   return feed;
-}
+};
 
-/***
-* returns from a menu array the selected feed
-* @param {object} menu - menu array
-****/
-const _getMenuFeed = (menu) => {
-  if (Session.get('sidebarMenuSelectedId') && typeof Session.get('sidebarMenuSelectedId') !== 'string') {
-    var item = Session.get('sidebarMenuSelectedId');
-    return menu[item].feed;
-  } else {
-    for (item in menu) {
-      if (menu[item].selected == true) {
-        return menu[item].feed;
-      }
-    }
-  }
-  return false;
-}
-
-/***
-* based on the query returns proper feed to fetch
+/**
+* @summary based on the query returns proper feed to fetch
 * @param {object} query - query settings
 * @return {string} feed - feed name constant (false if not found)
-* TODO: this whole switch can easily be done programatically, i don't have time now.
-****/
+* @TODO: this whole switch can easily be done programatically, i don't have time now.
+*/
 const _getQueryFeed = (query) => {
   if (query === undefined) { return false; }
   switch(query.stage.toUpperCase()) {
