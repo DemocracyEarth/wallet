@@ -383,7 +383,7 @@
   "confirm-vote": "Open",
   "place-votes-warning": "Do you confirm placing <strong><quantity> votes</strong> on this ballot?",
   "place-more-votes-warning": "Do you confirm adding <add> votes on this ballot?<br>A total of <strong><quantity> votes</strong> will be placed.",
-  "retrieve-votes-warning": "Do you confirm retrieving <retrieve> votes on this ballot?<br>A total of <strong><quantity> votes</strong> will be left.",
+  "retrieve-votes-warning": "Do you confirm retrieving <retrieve> votes from this ballot?<br>A total of <strong><quantity> votes</strong> will be left.",
   "results": "Results",
   "total-votes": "(<votes> votes)",
   "no": "No",
@@ -411,5 +411,6 @@
   "cast-vote":"Cast vote",
   "slide-to-vote": "Slide to place vote.",
   "no-selected-option": "No option is selected in the ballot.",
-  "retrieve-from-ballot": "less votes"
+  "retrieve-from-ballot": "less votes",
+  "remove-all-votes": "remove all votes"
 }

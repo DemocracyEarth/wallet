@@ -46,48 +46,24 @@
   <div class='vote-available label-votes'>
     <div class="stage {{style 'available'}}">
       <div class='label label-corner'>
-        <strong>
-          {{{getVotes 'available'}}}
-        </strong>
-        <span>
-          {{_ 'available-votes'}}
-        </span>
+        {{{getVotes 'available'}}}
       </div>
     </div>
     <div class="stage {{style 'inBallot'}}">
       <div class='label label-corner'>
-        <strong>
-          {{{getVotes 'inBallot'}}}
-        </strong>
-        <span>
-          {{_ 'place-in-ballot'}}
-        </span>
+        {{{getVotes 'inBallot'}}}
       </div>
     </div>
     <div class="stage {{style 'allocateQuantity'}}">
       <div class='label label-corner'>
-        <strong>
-          {{{getVotes 'allocateQuantity'}}}
-        </strong>
-        <span>
-          {{#if negativeAllocation}}
-            {{_ 'retrieve-from-ballot'}}
-          {{else}}
-            {{_ 'allocate-in-ballot'}}
-          {{/if}}
-        </span>
+        {{{getVotes 'allocateQuantity'}}}
       </div>
     </div>
   </div>
   <div class='vote-allocated label-votes'>
     <div class="stage {{style 'placed'}}">
       <div class='label label-corner'>
-        <strong>
-          {{{getVotes 'placed'}}}
-        </strong>
-        <span>
-          {{_ 'placed-votes'}}
-        </span>
+        {{{getVotes 'placed'}}}
       </div>
     </div>
   </div>

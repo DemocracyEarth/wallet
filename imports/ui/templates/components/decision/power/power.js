@@ -372,30 +372,46 @@ Template.power.events({
 Template.capital.helpers({
   getVotes(value) {
     const inBallot = userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
+    const available = parseInt(Session.get(`vote-${Session.get('contract')._id}`).available - Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10);
     let finalValue;
+    let label;
     if (Session.get(`vote-${Session.get('contract')._id}`) !== undefined) {
-      if (value === 'available' && Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity > 0) {
-        const available = parseInt(Session.get(`vote-${Session.get('contract')._id}`).available - Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10);
-        if (available > 0) {
-          return available;
-        }
-        return TAPi18n.__('none');
-      } else if (value === 'inBallot') {
-        return inBallot;
-      } else if (Session.get(`vote-${Session.get('contract')._id}`)[value] !== 0) {
-        if (value === 'allocateQuantity') {
-          finalValue = parseInt(Session.get(`vote-${Session.get('contract')._id}`)[value] - inBallot, 10);
-          if (finalValue > 0) {
-            return `+${Math.abs(finalValue)}`;
-          } else if (finalValue < 0) {
-            return `-${Math.abs(finalValue)}`;
+      switch (value) {
+        case 'available':
+          if (Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity > 0) {
+            if (available > 0) {
+              label = `<strong>${available}</strong> ${TAPi18n.__('available-votes')}`;
+            } else {
+              label = `<strong>${TAPi18n.__('none')}</strong> ${TAPi18n.__('available-votes')}`;
+            }
+          } else {
+            label = `<strong>${available}</strong> ${TAPi18n.__('available-votes')}`;
           }
-        } else {
-          return Session.get(`vote-${Session.get('contract')._id}`)[value];
-        }
+          break;
+        case 'inBallot':
+          label = `<strong>${inBallot}</strong> ${TAPi18n.__('place-in-ballot')}`;
+          break;
+        case 'allocateQuantity':
+          finalValue = parseInt(Session.get(`vote-${Session.get('contract')._id}`)[value] - inBallot, 10);
+          if (Math.abs(finalValue) === inBallot) {
+            label = TAPi18n.__('remove-all-votes');
+          } else if (finalValue > 0) {
+            label = `<strong>+${Math.abs(finalValue)}</strong> ${TAPi18n.__('allocate-in-ballot')}`;
+          } else if (finalValue < 0) {
+            label = `<strong>-${Math.abs(finalValue)}</strong> ${TAPi18n.__('retrieve-from-ballot')}`;
+          }
+          break;
+        case 'placed':
+        default:
+          if (Meteor.user().profile.wallet.placed === 0) {
+            label = `<strong>${TAPi18n.__('none')}</strong>  ${TAPi18n.__('placed-votes')}`;
+          } else {
+            label = `<strong>${Meteor.user().profile.wallet.placed}</strong>  ${TAPi18n.__('placed-votes')}`;
+          }
+          break;
       }
     }
-    return TAPi18n.__('none');
+    return label;
   },
   style(value) {
     const inBallot = userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
@@ -417,7 +433,9 @@ Template.capital.helpers({
         return 'hide';
       case 'allocateQuantity':
         if (Session.get('dragging') === true) {
-          if (quantity === 0) {
+          if (Math.abs(quantity) === inBallot) {
+            return 'stage-finish-rejected';
+          } else if (quantity === 0) {
             return 'hide';
           }
           return 'stage-live';
