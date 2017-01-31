@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { TAPi18n } from 'meteor/tap:i18n';
-import { Accounts } from 'meteor/accounts-base';
 import Warning from '../../../widgets/warning/Warning.jsx';
 
 export default class Signup extends Component {
