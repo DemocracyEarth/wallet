@@ -7,18 +7,19 @@ export default class EmailLogin extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loginState: 'loginScreen',
+      loginScreen: true,
+      passwordKnown: true,
     };
 
-    this.renderSignup = this.renderSignup.bind(this);
+    this.handleLoginRender = this.handleLoginRender.bind(this);
   }
 
-  renderSignup() {
-    this.setState({ loginState: 'signup' });
+  handleLoginRender() {
+    this.setState({ loginScreen: !(this.state.loginScreen) });
   }
 
   render() {
-    if (this.state.loginState === 'loginScreen') {
+    if (this.state.loginScreen === true) {
       return (
         <div className="login">
           <div className="w-form">
@@ -42,13 +43,13 @@ export default class EmailLogin extends Component {
             <a id="forgot-pw">{TAPi18n.__('forgot-password')}</a>
           </div>
           <div>
-            {TAPi18n.__('dont-have-account')} <a id="signup" onClick={this.renderSignup}>{TAPi18n.__('sign-up')}</a>.
+            {TAPi18n.__('dont-have-account')} <a id="signup" onClick={this.handleLoginRender}>{TAPi18n.__('sign-up')}</a>.
           </div>
         </div>
       );
-    } else if (this.state.loginState === 'signup') {
+    } else if (this.state.loginScreen === false) {
       return (
-        <Signup />
+        <Signup onClick={this.handleLoginRender} />
       );
     }
   }

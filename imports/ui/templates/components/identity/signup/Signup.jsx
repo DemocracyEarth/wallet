@@ -5,10 +5,11 @@ import Warning from '../../../widgets/warning/Warning.jsx';
 export default class Signup extends Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    // };
+    this.handleSignupRender = this.handleSignupRender.bind(this);
+  }
 
-    // this.handleSubmit = this.handleSubmit.bind(this);
+  handleSignupRender() {
+    this.props.onClick();
   }
 
   render() {
@@ -49,7 +50,7 @@ export default class Signup extends Component {
             </div>
           </form>
         </div>
-        <div>{TAPi18n.__('already-have-account')} <a id='signup'>{TAPi18n.__('sign-in')}</a>.</div>
+        <div>{TAPi18n.__('already-have-account')} <a id="signup" onClick={this.handleSignupRender}>{TAPi18n.__('sign-in')}</a>.</div>
       </div>
     );
   }
