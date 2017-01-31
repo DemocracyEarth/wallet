@@ -154,74 +154,6 @@ const _updateWallet = (entityId, entityType, profileSettings) => {
 };
 
 /**
-* @summary processes de transaction after insert and updates wallet of involved parties
-* @param {string} txId - transaction identificator
-* @param {string} success - INSUFFICIENT,
-*/
-const _processTransaction = (ticket) => {
-  const txId = ticket;
-  const transaction = Transactions.findOne({ _id: txId });
-  const senderProfile = _getProfile(transaction.input);
-  const receiverProfile = _getProfile(transaction.output);
-
-  // TODO all transactions are for VOTE type, develop for BITCOIN or multi-currency conversion.
-
-  // verify sender has enough funds
-  if (senderProfile.wallet.available < transaction.input.quantity) {
-    return 'INSUFFICIENT';
-  }
-
-  const sender = senderProfile.wallet;
-
-  sender.ledger.push({
-    txId: ticket,
-    quantity: parseInt(0 - transaction.input.quantity, 10),
-    entityId: transaction.output.entityId,
-    entityType: transaction.output.entityType,
-    currency: transaction.input.currency,
-  });
-  sender.placed += parseInt(transaction.input.quantity, 10);
-  sender.available = sender.balance - sender.placed;
-  senderProfile.wallet = Object.assign(senderProfile.wallet, sender);
-
-  const receiver = receiverProfile.wallet;
-  receiver.ledger.push({
-    txId: ticket,
-    quantity: parseInt(transaction.output.quantity, 10),
-    entityId: transaction.input.entityId,
-    entityType: transaction.input.entityType,
-    currency: transaction.output.currency,
-  });
-  receiver.available += parseInt(transaction.output.quantity, 10);
-  receiver.balance += receiver.available;
-
- /* if (transaction.condition.ballot) {
-    // found ballot in this transaction
-    const fullBallot = [];
-    const last = receiver.ledger.length - 1;
-
-    for (const k in transaction.condition.ballot) {
-      fullBallot.push(transaction.condition.ballot[k]);
-    }
-    receiver.ledger[last] = Object.assign(receiver.ledger[last], { ballot: fullBallot });
-  }
-  */
-  if (transaction.condition.ballot) {
-    sender.ledger = assignBallot(sender.ledger, transaction.condition.ballot);
-    receiver.ledger = assignBallot(receiver.ledger, transaction.condition.ballot);
-  }
-
-  receiverProfile.wallet = Object.assign(receiverProfile.wallet, receiver);
-
-  // update wallets
-  _updateWallet(transaction.input.entityId, transaction.input.entityType, senderProfile);
-  _updateWallet(transaction.output.entityId, transaction.output.entityType, receiverProfile);
-
-  // set this transaction as processed
-  return Transactions.update({ _id: txId }, { $set: { status: 'CONFIRMED' } });
-};
-
-/**
 * @summary assigns value of ballot to transaction Participants
 * @param {object} ballot - object with ballot info
 * @param {object} ledger - ledger to attach ballot to
@@ -237,6 +169,66 @@ const assignBallot = (ledger, ballot) => {
   return finalLedger;
 };
 
+/**
+* @summary processes de transaction after insert and updates wallet of involved parties
+* @param {string} txId - transaction identificator
+* @param {string} success - INSUFFICIENT,
+*/
+const _processTransaction = (ticket) => {
+  const txId = ticket;
+  const transaction = Transactions.findOne({ _id: txId });
+  const senderProfile = _getProfile(transaction.input);
+  const receiverProfile = _getProfile(transaction.output);
+
+  // TODO all transactions are for VOTE type, develop for BITCOIN or multi-currency conversion.
+  // TODO encrypted mode hooks this.
+
+  // verify sender has enough funds
+  if (senderProfile.wallet.available < transaction.input.quantity) {
+    return 'INSUFFICIENT';
+  }
+
+  // push to ledgers
+
+  const sender = senderProfile.wallet;
+  sender.ledger.push({
+    txId: ticket,
+    quantity: transaction.input.quantity,
+    entityId: transaction.output.entityId,
+    entityType: transaction.output.entityType,
+    currency: transaction.input.currency,
+    transactionType: 'OUTPUT',
+  });
+  sender.placed += parseInt(transaction.input.quantity, 10);
+  sender.available = sender.balance - sender.placed;
+  senderProfile.wallet = Object.assign(senderProfile.wallet, sender);
+
+  const receiver = receiverProfile.wallet;
+  receiver.ledger.push({
+    txId: ticket,
+    quantity: parseInt(transaction.output.quantity, 10),
+    entityId: transaction.input.entityId,
+    entityType: transaction.input.entityType,
+    currency: transaction.output.currency,
+    transactionType: 'INPUT',
+  });
+  receiver.available += parseInt(transaction.output.quantity, 10);
+  receiver.balance += receiver.available;
+  receiverProfile.wallet = Object.assign(receiverProfile.wallet, receiver);
+
+  // assign ballots if any
+  if (transaction.condition.ballot) {
+    sender.ledger = assignBallot(sender.ledger, transaction.condition.ballot);
+    receiver.ledger = assignBallot(receiver.ledger, transaction.condition.ballot);
+  }
+
+  // update wallets
+  _updateWallet(transaction.input.entityId, transaction.input.entityType, senderProfile);
+  _updateWallet(transaction.output.entityId, transaction.output.entityType, receiverProfile);
+
+  // set this transaction as processed
+  return Transactions.update({ _id: txId }, { $set: { status: 'CONFIRMED' } });
+};
 
 /**
 * @summary create a new transaction between two parties

@@ -83,10 +83,9 @@ Schema.Wallet = new SimpleSchema({
     type: [Ballot],
     optional: true,
   },
-  'ledger.$.direction': {
+  'ledger.$.transactionType': {
     type: String,
     allowedValues: ['OUTPUT', 'INPUT'],
-    optional: true,
   },
 });
 
