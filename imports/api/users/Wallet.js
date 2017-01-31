@@ -83,6 +83,11 @@ Schema.Wallet = new SimpleSchema({
     type: [Ballot],
     optional: true,
   },
+  'ledger.$.direction': {
+    type: String,
+    allowedValues: ['OUTPUT', 'INPUT'],
+    optional: true,
+  },
 });
 
 export const Wallet = Schema.Wallet;
