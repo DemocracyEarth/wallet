@@ -412,5 +412,7 @@
   "slide-to-vote": "Slide to place vote.",
   "no-selected-option": "No option is selected in the ballot.",
   "retrieve-from-ballot": "less votes",
-  "remove-all-votes": "remove all votes"
+  "remove-all-votes": "remove all votes",
+  "empty-values-ballot": "No values found on ballot.",
+  "not-enough-funds": "Not enough funds."
 }

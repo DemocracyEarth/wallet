@@ -156,6 +156,7 @@ const _updateWallet = (entityId, entityType, profileSettings) => {
 /**
 * @summary processes de transaction after insert and updates wallet of involved parties
 * @param {string} txId - transaction identificator
+* @param {string} success - INSUFFICIENT,
 */
 const _processTransaction = (ticket) => {
   const txId = ticket;
@@ -164,7 +165,11 @@ const _processTransaction = (ticket) => {
   const receiverProfile = _getProfile(transaction.output);
 
   // TODO all transactions are for VOTE type, develop for BITCOIN or multi-currency conversion.
-  // TODO verification of funds
+
+  // verify sender has enough funds
+  if (senderProfile.wallet.available < transaction.input.quantity) {
+    return 'INSUFFICIENT';
+  }
 
   const sender = senderProfile.wallet;
 
@@ -190,7 +195,7 @@ const _processTransaction = (ticket) => {
   receiver.available += parseInt(transaction.output.quantity, 10);
   receiver.balance += receiver.available;
 
-  if (transaction.condition.ballot) {
+ /* if (transaction.condition.ballot) {
     // found ballot in this transaction
     const fullBallot = [];
     const last = receiver.ledger.length - 1;
@@ -199,6 +204,11 @@ const _processTransaction = (ticket) => {
       fullBallot.push(transaction.condition.ballot[k]);
     }
     receiver.ledger[last] = Object.assign(receiver.ledger[last], { ballot: fullBallot });
+  }
+  */
+  if (transaction.condition.ballot) {
+    sender.ledger = assignBallot(sender.ledger, transaction.condition.ballot);
+    receiver.ledger = assignBallot(receiver.ledger, transaction.condition.ballot);
   }
 
   receiverProfile.wallet = Object.assign(receiverProfile.wallet, receiver);
@@ -212,10 +222,28 @@ const _processTransaction = (ticket) => {
 };
 
 /**
+* @summary assigns value of ballot to transaction Participants
+* @param {object} ballot - object with ballot info
+* @param {object} ledger - ledger to attach ballot to
+*/
+const assignBallot = (ledger, ballot) => {
+  const fullBallot = [];
+  const last = ledger.length - 1;
+  const finalLedger = ledger;
+  for (const k in ballot) {
+    fullBallot.push(ballot[k]);
+  }
+  finalLedger[last] = Object.assign(ledger[last], { ballot: fullBallot });
+  return finalLedger;
+};
+
+
+/**
 * @summary create a new transaction between two parties
 * @param {string} senderId - user or collective allocating the funds
 * @param {string} receiverId - user or collective receiving the funds
 * @param {object} settings - additional settings to be stored on the ledger
+* @param {string} process - true if everything turned out right, else: INSUFFICIENT
 */
 const _createTransaction = (senderId, receiverId, votes, settings) => {
   // default settings
@@ -258,8 +286,15 @@ const _createTransaction = (senderId, receiverId, votes, settings) => {
 
   // executes the transaction
   const txId = Transactions.insert(newTransaction);
-  if (_processTransaction(txId)) { return txId; }
-  return newTransaction;
+  const process = _processTransaction(txId);
+
+  switch (process) {
+    case 'INSUFFICIENT':
+      return process;
+    case true:
+    default:
+      return txId;
+  }
 };
 
 export const processTransaction = _processTransaction;

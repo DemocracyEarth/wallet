@@ -4,6 +4,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 
+import displayNotice from '/imports/ui/modules/notice';
 import { transact } from '/imports/api/transactions/transaction';
 import { isUserSigner, userVotesInContract } from '/imports/startup/both/modules/User';
 import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
@@ -80,6 +81,11 @@ Template.power.onRendered(function render() {
               let finalCaption;
               let vote = () => {};
               const finalBallot = purgeBallot(Session.get('candidateBallot'));
+              console.log(finalBallot);
+              if (finalBallot.length === 0) {
+                displayNotice('empty-values-ballot', true);
+                return;
+              }
               const votesInBallot = userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
               const newVotes = parseInt(Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity - votesInBallot, 10);
               const votes = parseInt(votesInBallot + newVotes, 10);
@@ -95,34 +101,43 @@ Template.power.onRendered(function render() {
 
               // cook vote
               if (votesInBallot === 0) {
+                // insert votes
+                console.log('insert votes');
                 finalCaption = TAPi18n.__('place-votes-warning').replace('<quantity>', Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity);
                 vote = () => {
                   transact(
                     Meteor.user()._id,
                     Session.get('contract')._id,
-                    Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity,
+                    parseInt(Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10),
                     settings
                   );
                 };
               } else if (newVotes > 0) {
+                // add votes
+                console.log('add votes');
                 finalCaption = TAPi18n.__('place-more-votes-warning').replace('<quantity>', votes.toString()).replace('<add>', newVotes);
                 vote = () => {
                   transact(
                     Meteor.user()._id,
                     Session.get('contract')._id,
-                    newVotes,
+                    parseInt(newVotes, 10),
                     settings
                   );
                 };
               } else if (newVotes < 0) {
+                // subtract votes
+                console.log('subtract votes');
                 finalCaption = TAPi18n.__('retrieve-votes-warning').replace('<quantity>', votes.toString()).replace('<retrieve>', Math.abs(newVotes).toString());
                 vote = () => {
-                  transact(
+                  const execute = transact(
                     Session.get('contract')._id,
                     Meteor.user()._id,
-                    Math.abs(newVotes),
+                    parseInt(Math.abs(newVotes), 10),
                     settings
                   );
+                  if (execute === 'INSUFFICIENT') {
+                    displayNotice('not-enough-funds', true);
+                  }
                 };
               } else {
                 return;

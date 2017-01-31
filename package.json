@@ -56,9 +56,9 @@
       "plugin:meteor/recommended"
     ],
     "rules": {
-      "import/no-extraneous-dependencies": false,
-      "import/prefer-default-export": false,
-      "no-underscore-dangle": false,
+      "import/no-extraneous-dependencies": 0,
+      "import/prefer-default-export": "off",
+      "no-underscore-dangle": "off",
       "object-shorthand": [
         "error",
         "always",
@@ -66,7 +66,7 @@
           "avoidQuotes": false
         }
       ],
-      "meteor/no-session": false,
+      "meteor/no-session": "off",
       "meteor/eventmap-params": [
         "error",
         {
@@ -75,7 +75,7 @@
         }
       ],
       "meteor/template-names": [
-        false
+        "off"
       ]
     },
     "settings": {
