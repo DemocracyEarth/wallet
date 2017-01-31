@@ -275,7 +275,15 @@ const _userVotesInContract = (userWallet, contractId) => {
   let totalVotes = 0;
   for (const i in userWallet.ledger) {
     if (userWallet.ledger[i].entityId === contractId && userWallet.ledger[i].entityType === 'CONTRACT') {
-      totalVotes += parseInt(userWallet.ledger[i].quantity * -1, 10);
+      switch (userWallet.ledger[i].transactionType) {
+        case 'OUTPUT':
+          totalVotes -= parseInt(userWallet.ledger[i].quantity, 10);
+          break;
+        case 'INPUT':
+        default:
+          totalVotes += parseInt(userWallet.ledger[i].quantity, 10);
+          break;
+      }
     }
   }
   return totalVotes;
