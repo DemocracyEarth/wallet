@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Accounts } from 'meteor/accounts-base';
 import Warning from '../../../widgets/warning/Warning.jsx';
@@ -71,3 +71,7 @@ export default class ForgotPassword extends Component {
     );
   }
 }
+
+ForgotPassword.propTypes = {
+  onClick: PropTypes.func.isRequired,
+};

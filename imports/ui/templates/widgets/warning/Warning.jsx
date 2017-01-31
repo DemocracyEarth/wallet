@@ -10,12 +10,12 @@ export default class Warning extends Component {
   render() {
     return (
       <ul className="w-list-unstyled warning-list animate" ref={(parent) => { this.parentNode = parent; }}>
-        <li className="warning" ref="child">{TAPi18n.__(this.props.label)}</li>
+        <li className="warning" >{TAPi18n.__(this.props.label)}</li>
       </ul>
     );
   }
 }
 
-Warning.PropTypes = {
+Warning.propTypes = {
   label: PropTypes.string.isRequired,
 };

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { TAPi18n } from 'meteor/tap:i18n';
 import Warning from '../../../widgets/warning/Warning.jsx';
 
@@ -55,3 +55,7 @@ export default class Signup extends Component {
     );
   }
 }
+
+Signup.propTypes = {
+  onClick: PropTypes.func.isRequired,
+};
