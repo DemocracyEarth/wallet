@@ -28,14 +28,11 @@ export default class ForgotPassword extends Component {
         if (err) {
           if (err.message === 'User not found [403]') {
             this.setState({ warningState: 'user-not-found' });
-            // this.handleWarningState('user-not-found');
           } else {
             this.setState({ warningState: 'something-wrong' });
-            // this.handleWarningState('something-wrong');
           }
         } else {
           this.setState({ warningState: 'email-sent' });
-          // this.handleWarningState('email-sent');
         }
       }.bind(this));
     }
