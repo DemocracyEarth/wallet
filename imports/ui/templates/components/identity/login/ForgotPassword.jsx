@@ -11,6 +11,7 @@ export default class ForgotPassword extends Component {
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleForgotPasswordRender = this.handleForgotPasswordRender.bind(this);
   }
 
   handleSubmit(event) {
@@ -38,6 +39,10 @@ export default class ForgotPassword extends Component {
     }
   }
 
+  handleForgotPasswordRender() {
+    this.props.onClick();
+  }
+
   render() {
     const warningState = this.state.warningState;
     let warning = null;
@@ -47,7 +52,7 @@ export default class ForgotPassword extends Component {
     }
 
     return (
-      <div>
+      <div className="login">
         <form className="w-form" onSubmit={this.handleSubmit}>
           <div className="w-clearfix login-field">
             <label htmlFor="name" className="login-label login-label-form">{TAPi18n.__('recovery-email')}</label>
@@ -59,6 +64,9 @@ export default class ForgotPassword extends Component {
           </button>
         </form>
         {warning}
+        <div>
+          <a id="forgot-pw" onClick={this.handleForgotPasswordRender}>{TAPi18n.__('cancel-password-recovery')} </a>
+        </div>
       </div>
     );
   }
