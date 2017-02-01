@@ -23,9 +23,12 @@ Template.power.onRendered(function render() {
   }
   $(`#voteHandle-${Session.get(`vote-${Session.get('contract')._id}`).voteId}`).draggable({
     axis: 'x',
-    start() {
-      Session.set('dragging', true);
+    create() {
       this.newVote = new Wallet(Meteor.user().profile.wallet, Session.get('contract')._id);
+    },
+    start() {
+      this.newVote = new Wallet(Meteor.user().profile.wallet, Session.get('contract')._id);
+      Session.set('dragging', true);
     },
     drag(event, ui) {
       this.newVote.sliderInput(ui.position.left);
@@ -129,15 +132,12 @@ Template.power.onRendered(function render() {
                 console.log('subtract votes');
                 finalCaption = TAPi18n.__('retrieve-votes-warning').replace('<quantity>', votes.toString()).replace('<retrieve>', Math.abs(newVotes).toString());
                 vote = () => {
-                  const execute = transact(
+                  transact(
                     Session.get('contract')._id,
                     Meteor.user()._id,
                     parseInt(Math.abs(newVotes), 10),
                     settings
                   );
-                  if (execute === 'INSUFFICIENT') {
-                    displayNotice('not-enough-funds', true);
-                  }
                 };
               } else {
                 return;
@@ -387,8 +387,8 @@ Template.power.events({
 Template.capital.helpers({
   getVotes(value) {
     const inBallot = userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
-    const available = parseInt(Session.get(`vote-${Session.get('contract')._id}`).available - Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10);
-    let finalValue;
+    const available = parseInt(Session.get(`vote-${Session.get('contract')._id}`).balance - Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10);
+    let quantity;
     let label;
     if (Session.get(`vote-${Session.get('contract')._id}`) !== undefined) {
       switch (value) {
@@ -407,13 +407,13 @@ Template.capital.helpers({
           label = `<strong>${inBallot}</strong> ${TAPi18n.__('place-in-ballot')}`;
           break;
         case 'allocateQuantity':
-          finalValue = parseInt(Session.get(`vote-${Session.get('contract')._id}`)[value] - inBallot, 10);
-          if (Math.abs(finalValue) === inBallot) {
+          quantity = parseInt(Session.get(`vote-${Session.get('contract')._id}`)[value] - inBallot, 10);
+          if (Math.abs(quantity) === inBallot && (quantity < 0)) {
             label = TAPi18n.__('remove-all-votes');
-          } else if (finalValue > 0) {
-            label = `<strong>+${Math.abs(finalValue)}</strong> ${TAPi18n.__('allocate-in-ballot')}`;
-          } else if (finalValue < 0) {
-            label = `<strong>-${Math.abs(finalValue)}</strong> ${TAPi18n.__('retrieve-from-ballot')}`;
+          } else if (quantity > 0) {
+            label = `<strong>${Math.abs(quantity)}</strong> ${TAPi18n.__('allocate-in-ballot')}`;
+          } else if (quantity < 0) {
+            label = `<strong>${Math.abs(quantity)}</strong> ${TAPi18n.__('retrieve-from-ballot')}`;
           }
           break;
         case 'placed':
@@ -448,8 +448,10 @@ Template.capital.helpers({
         return 'hide';
       case 'allocateQuantity':
         if (Session.get('dragging') === true) {
-          if (Math.abs(quantity) === inBallot) {
+          if (Math.abs(quantity) === inBallot && (quantity < 0)) {
             return 'stage-finish-rejected';
+          } else if (quantity < 0) {
+            return 'stage-remove';
           } else if (quantity === 0) {
             return 'hide';
           }

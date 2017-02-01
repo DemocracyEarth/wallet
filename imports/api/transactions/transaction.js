@@ -1,9 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 
+import { displayNotice } from '/imports/ui/modules/notice';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { Collectives } from '/imports/api/collectives/Collectives';
 import { guidGenerator } from '/imports/startup/both/modules/crypto';
 import { Transactions } from './Transactions';
+
 
 /**
 * @summary looks at what type of entity (collective or individual) doing transaction
@@ -261,6 +263,7 @@ const _createTransaction = (senderId, receiverId, votes, settings) => {
       entityType: _getEntityType(senderId),
       quantity: votes,
       currency: finalSettings.currency,
+      transactionType: 'INPUT',
     },
     output: {
       entityId: receiverId,
@@ -268,6 +271,7 @@ const _createTransaction = (senderId, receiverId, votes, settings) => {
       entityType: _getEntityType(receiverId),
       quantity: votes,
       currency: finalSettings.currency,
+      transactionType: 'OUTPUT',
     },
     kind: finalSettings.kind,
     contractId: finalSettings.contractId,
@@ -282,7 +286,8 @@ const _createTransaction = (senderId, receiverId, votes, settings) => {
 
   switch (process) {
     case 'INSUFFICIENT':
-      return process;
+      displayNotice('not-enough-funds', true);
+      return false;
     case true:
     default:
       return txId;

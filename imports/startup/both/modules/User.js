@@ -277,11 +277,11 @@ const _userVotesInContract = (userWallet, contractId) => {
     if (userWallet.ledger[i].entityId === contractId && userWallet.ledger[i].entityType === 'CONTRACT') {
       switch (userWallet.ledger[i].transactionType) {
         case 'OUTPUT':
-          totalVotes -= parseInt(userWallet.ledger[i].quantity, 10);
+          totalVotes += parseInt(userWallet.ledger[i].quantity, 10);
           break;
         case 'INPUT':
         default:
-          totalVotes += parseInt(userWallet.ledger[i].quantity, 10);
+          totalVotes -= parseInt(userWallet.ledger[i].quantity, 10);
           break;
       }
     }

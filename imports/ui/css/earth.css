@@ -3069,7 +3069,14 @@ blockquote {
 
 .stage.stage-inballot {
   border-style: solid;
+  border-color: #00bf8f;
   background-color: #e6f9f4;
+}
+
+.stage.stage-remove {
+  border-color: #ff8979;
+  background-color: #ff8979;
+  color: #fff;
 }
 
 .profile-thumb {
