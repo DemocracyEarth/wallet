@@ -112,27 +112,29 @@ let _validatePasswordMatch = (passA, passB) => {
 * @param {string} username - picked username
 */
 let _validateUsername = (username) => {
-  //var regexp = /^[A-Za-z'-\s]+$/ Full name and surname
-  var regexp = /^[a-zA-Z0-9]+$/;
-  Session.set("invalidUsername", !regexp.test(username));
+  const usernameValidationObject = {
+    valid: false,
+    repeated: false,
+  };
+
+  const regexp = /^[a-zA-Z0-9]+$/;
+
+  // Set whether username format is valid or not
+  usernameValidationObject.valid = !regexp.test(username);
+
+  // Only if username is valid, check whether it exists already
   if (regexp.test(username)) {
     if (Meteor.user() === null || username !== Meteor.user().username) {
-      Meteor.call('verifyUsername', username, function(err, id) {
-        if (id == true) {
-          Session.set("repeatedUsername", true);
-        } else {
-          Session.set("repeatedUsername", false);
-        }
-      });
-    } else {
-      Session.set("repeatedUsername", false);
-    }
-    if (Session.get("repeatedUsername")) {
-      return false;
+      if (Meteor.users.findOne({ username: username }) !== undefined) {
+        usernameValidationObject.repeated = true;
+      } else {
+        usernameValidationObject.repeated = false;
+      }
     }
   }
-  return regexp.test(username);
-}
+
+  return usernameValidationObject;
+};
 
 /**
 * @summary returns a profile of an anonoymous user
