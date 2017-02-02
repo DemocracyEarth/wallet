@@ -190,7 +190,7 @@ const _processTransaction = (ticket) => {
     return 'INSUFFICIENT';
   }
 
-  // push to ledgers
+  // transa:
 
   const sender = senderProfile.wallet;
   sender.ledger.push({
@@ -202,7 +202,8 @@ const _processTransaction = (ticket) => {
     transactionType: 'OUTPUT',
   });
   sender.placed += parseInt(transaction.input.quantity, 10);
-  sender.available = sender.balance - sender.placed;
+  sender.available = parseInt(sender.balance - sender.placed, 10);
+  sender.balance = parseInt(sender.placed + sender.available, 10);
   senderProfile.wallet = Object.assign(senderProfile.wallet, sender);
 
   const receiver = receiverProfile.wallet;
@@ -215,7 +216,8 @@ const _processTransaction = (ticket) => {
     transactionType: 'INPUT',
   });
   receiver.available += parseInt(transaction.output.quantity, 10);
-  receiver.balance += receiver.available;
+  receiver.placed = parseInt(receiver.placed, 10);
+  receiver.balance = parseInt(receiver.placed + receiver.available, 10);
   receiverProfile.wallet = Object.assign(receiverProfile.wallet, receiver);
 
   // assign ballots if any
