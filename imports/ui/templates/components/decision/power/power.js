@@ -387,7 +387,7 @@ Template.power.events({
 Template.capital.helpers({
   getVotes(value) {
     const inBallot = userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
-    const available = parseInt(Session.get(`vote-${Session.get('contract')._id}`).balance - Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10);
+    const available = parseInt(Session.get(`vote-${Session.get('contract')._id}`).balance - Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity - Session.get(`vote-${Session.get('contract')._id}`).placed, 10);
     let quantity;
     let label;
     if (Session.get(`vote-${Session.get('contract')._id}`) !== undefined) {
@@ -411,7 +411,11 @@ Template.capital.helpers({
           if (Math.abs(quantity) === inBallot && (quantity < 0)) {
             label = TAPi18n.__('remove-all-votes');
           } else if (quantity > 0) {
-            label = `<strong>${Math.abs(quantity)}</strong> ${TAPi18n.__('allocate-in-ballot')}`;
+            if (inBallot === 0) {
+              label = `<strong>${Math.abs(quantity)}</strong> ${TAPi18n.__('allocate-in-ballot')}`;
+            } else {
+              label = `<strong>${Math.abs(quantity)}</strong> ${TAPi18n.__('more-votes')}`;
+            }
           } else if (quantity < 0) {
             label = `<strong>${Math.abs(quantity)}</strong> ${TAPi18n.__('retrieve-from-ballot')}`;
           }

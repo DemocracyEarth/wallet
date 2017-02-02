@@ -2,10 +2,11 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { check } from 'meteor/check';
 
 import { UserContext, User } from '/imports/api/users/User';
-import { check } from 'meteor/check';
-import displayNotice from '/imports/ui/modules/notice';
+import { displayNotice } from '/imports/ui/modules/notice';
+import { genesisTransaction } from '/imports/api/transactions/transaction';
 import { validateEmail } from './validations.js';
 
 /**
@@ -45,20 +46,21 @@ const _createUser = (data) => {
               break;
           }
         } else {
-          //send verification e-mail
+          // send verification e-mail
           Meteor.call( 'sendVerificationLink', ( error, response ) => {
             if ( error ) {
-              console.log( error.reason, 'danger' );
+              console.log(error.reason, 'danger');
             } else {
               displayNotice('user-created', true);
             }
           });
-          //make first membership transaction
-          Meteor.call ('genesisTransaction', Meteor.user()._id, function (error, response) {
+          // make first membership transaction
+          /* Meteor.call ('genesisTransaction', Meteor.user()._id, function (error, response) {
             if (error) {
               console.log('[genesisTransaction] ERROR: ' + error);
             };
-          });
+          });*/
+          genesisTransaction(Meteor.user()._id);
         }
       });
     } else {

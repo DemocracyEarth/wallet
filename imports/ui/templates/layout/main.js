@@ -50,12 +50,12 @@ Meteor.startup(() => {
       console.log(error_message);
     });
 
-  //scripts
+  // scripts
   $.getScript('js/spinner.js', function () {});
 
-  //time
+  // time
   Meteor.call('getServerTime', function (error, result) {
-      Session.set('time', result);
+    Session.set('time', result);
   });
 
   // search Engine for Tags

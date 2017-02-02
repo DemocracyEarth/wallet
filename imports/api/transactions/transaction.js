@@ -1,4 +1,6 @@
 import { Meteor } from 'meteor/meteor';
+import { Session } from 'meteor/session';
+import { rules } from '/lib/const';
 
 import { displayNotice } from '/imports/ui/modules/notice';
 import { Contracts } from '/imports/api/contracts/Contracts';
@@ -172,6 +174,38 @@ const assignBallot = (ledger, ballot) => {
 };
 
 /**
+* @summary returns how many tokens where previously transacted
+* @param {object} wallet - wallet ledger to be analyzed
+* @param {string} creditorId - creditor to whom verify from
+* @param {string} type - 'OUTPUT', 'INPUT'
+* @return {number} delta - difference between input & output
+*/
+const _debt = (wallet, creditorId, type) => {
+  let totals = 0;
+  for (const i in wallet.ledger) {
+    if (wallet.ledger[i].entityId === creditorId) {
+      if (wallet.ledger[i].transactionType === type) {
+        totals += wallet.ledger[i].quantity;
+      }
+    }
+  }
+  console.log(`totals are : ${totals}`);
+  return totals;
+};
+
+/**
+* @summary returns tokens from sender that used to belong to receiver
+* @param {number} quantity - votes requested
+* @param {number} totals - max present in ledger
+*/
+const _restoredTokens = (quantity, totals) => {
+  if (quantity > totals) {
+    return totals;
+  }
+  return quantity;
+};
+
+/**
 * @summary processes de transaction after insert and updates wallet of involved parties
 * @param {string} txId - transaction identificator
 * @param {string} success - INSUFFICIENT,
@@ -190,7 +224,7 @@ const _processTransaction = (ticket) => {
     return 'INSUFFICIENT';
   }
 
-  // transa:
+  // transact
 
   const sender = senderProfile.wallet;
   sender.ledger.push({
@@ -216,7 +250,7 @@ const _processTransaction = (ticket) => {
     transactionType: 'INPUT',
   });
   receiver.available += parseInt(transaction.output.quantity, 10);
-  receiver.placed = parseInt(receiver.placed, 10);
+  receiver.placed = parseInt(receiver.placed - _restoredTokens(transaction.output.quantity, _debt(receiver, transaction.input.entityId, 'OUTPUT')), 10);
   receiver.balance = parseInt(receiver.placed + receiver.available, 10);
   receiverProfile.wallet = Object.assign(receiverProfile.wallet, receiver);
 
@@ -257,6 +291,11 @@ const _createTransaction = (senderId, receiverId, votes, settings) => {
     finalSettings = Object.assign(defaultSettings, settings);
   }
 
+  // sync time with server
+  Meteor.call('getServerTime', function (error, result) {
+    Session.set('time', result);
+  });
+
   // build transaction
   const newTransaction = {
     input: {
@@ -277,7 +316,7 @@ const _createTransaction = (senderId, receiverId, votes, settings) => {
     },
     kind: finalSettings.kind,
     contractId: finalSettings.contractId,
-    timestamp: new Date(),
+    timestamp: Session.get('time'),
     status: 'PENDING',
     condition: finalSettings.condition,
   };
@@ -296,6 +335,30 @@ const _createTransaction = (senderId, receiverId, votes, settings) => {
   }
 };
 
+/**
+* @summary generates the first transaction a member gets from the collective
+* @param {string} userId - id of user being generated within collective
+*/
+const _genesisTransaction = (userId) => {
+  const user = Meteor.users.findOne({ _id: userId });
+
+  // veryfing genesis...
+  if (user.profile.wallet !== undefined) {
+    if (user.profile.wallet.ledger.length > 0) {
+      if (user.profile.wallet.ledger[0].entityType === 'COLLECTIVE') {
+        // this user already had a genesis
+        return;
+      }
+    }
+  }
+
+  // generate first transaction from collective to new member
+  user.profile.wallet = _generateWalletAddress(user.profile.wallet);
+  Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
+  _createTransaction(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY);
+};
+
 export const processTransaction = _processTransaction;
 export const generateWalletAddress = _generateWalletAddress;
 export const transact = _createTransaction;
+export const genesisTransaction = _genesisTransaction;
