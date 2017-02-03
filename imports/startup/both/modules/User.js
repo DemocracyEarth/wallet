@@ -13,50 +13,49 @@ import { validateEmail } from './validations.js';
 * @param {object} data - input from new user to be used for creation of user in db
 */
 const _createUser = (data) => {
+  let createUserPromise;
   if (_validateUser(data)) {
-    
     const objUser = {
       username: data.username,
       emails: [{
         address: data.email,
-        verified: false
+        verified: false,
       }],
       services: {
-        password: data.password
+        password: data.password,
       },
       profile: {
-        configured: false
+        configured: false,
       },
-      createdAt: new Date()
+      createdAt: new Date(),
     };
 
     if (UserContext.validate(objUser)) {
-      return new Promise(function (resolve, reject) {
+      createUserPromise = new Promise(function (resolve, reject) {
         Accounts.createUser({
           username: objUser.username,
           password: objUser.services.password,
-          email: objUser.email,
+          email: objUser.emails[0].address,
           profile: objUser.profile,
         }, function (error, result) {
           if (error) {
-            return reject(error)
-          } else {
-            //send verification e-mail
-            Meteor.call( 'sendVerificationLink', ( error, response ) => {
-              if ( error ) {
-                console.log( error.reason, 'danger' );
-              } else {
-                displayNotice('user-created', true);
-              }
-            });
-            //make first membership transaction
-            Meteor.call ('genesisTransaction', Meteor.user()._id, function (error, response) {
-              if (error) {
-                console.log('[genesisTransaction] ERROR: ' + error);
-              };
-            });
-            return resolve(result);
+            return reject(error);
           }
+          // send verification e-mail
+          Meteor.call('sendVerificationLink', (verificationError) => {
+            if (verificationError) {
+              console.log(verificationError.reason, 'danger');
+            } else {
+              displayNotice('user-created', true);
+            }
+          });
+          // make first membership transaction
+          Meteor.call('genesisTransaction', Meteor.user()._id, (transactionError) => {
+            if (transactionError) {
+              console.log('[genesisTransaction] ERROR: ', transactionError);
+            }
+          });
+          return resolve(result);
         });
       });
     } else {
@@ -64,6 +63,7 @@ const _createUser = (data) => {
       check(objUser, User);
     }
   }
+  return createUserPromise;
 };
 
 /**
@@ -71,7 +71,6 @@ const _createUser = (data) => {
 * @param {object} data - validates all keys present in data input from new user
 */
 let _validateUser = (data) => {
- 
   const validUsername = _validateUsername(data.username);
 
   var val = !validUsername.valid
