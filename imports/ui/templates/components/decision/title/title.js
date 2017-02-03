@@ -204,7 +204,7 @@ Template.titleContent.events({
   }
 });
 
-//returns the title from the contract
+// returns the title from the contract
 function getTitle() {
   // FIX missed contractId
   const contract = Contracts.findOne({ _id: contractId }, { reactive: false });

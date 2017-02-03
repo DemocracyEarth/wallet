@@ -224,15 +224,14 @@ const _userIsDelegate = (signatures) => {
 */
 const _verifyVotingRight = (ledger) => {
   if (Meteor.user() != null) {
-    for (i in ledger) {
+    for (const i in ledger) {
       if (ledger[i].entityId === Meteor.user()._id) {
         return false;
       }
     }
     return true;
-  } else {
-    return false;
   }
+  return false;
 };
 
 
@@ -274,13 +273,23 @@ let _verifyDelegationRight = (signatures) => {
 * @param {string} contractId - the contract to search for
 * @return {number} quantity - quantity of votes in Absolute numbers
 */
-let _userVotesInContract = (userWallet, contractId) => {
-  for (i in userWallet.ledger) {
+const _userVotesInContract = (userWallet, contractId) => {
+  let totalVotes = 0;
+  for (const i in userWallet.ledger) {
     if (userWallet.ledger[i].entityId === contractId && userWallet.ledger[i].entityType === 'CONTRACT') {
-      return Math.abs(userWallet.ledger[i].quantity);
+      switch (userWallet.ledger[i].transactionType) {
+        case 'OUTPUT':
+          totalVotes -= parseInt(userWallet.ledger[i].quantity, 10);
+          break;
+        case 'INPUT':
+        default:
+          totalVotes += parseInt(userWallet.ledger[i].quantity, 10);
+          break;
+      }
     }
   }
-}
+  return totalVotes;
+};
 
 /**
 * @summary verifies if the user is a signer in the contract

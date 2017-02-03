@@ -2,65 +2,68 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Session } from 'meteor/session';
+import { Contracts } from '/imports/api/contracts/Contracts';
 
 import { setVote, getVote } from '/imports/ui/modules/ballot';
 import './fork.html';
 
 Template.fork.helpers({
-  length: function () {
+  length() {
     if (this.label !== undefined) {
       if (this.label.length > 51) {
         return 'option-link option-long option-longest';
       } else if (this.label.length > 37) {
         return 'option-link option-long';
-      } else {
-        return '';
       }
-    };
+    }
     return '';
   },
-  dragMode: function () {
-    if (Session.get('contract').stage === 'DRAFT') {
+  dragMode() {
+    if (Session.get('contract').stage === 'DRAFT' || this.mini === true) {
       return '';
-    } else {
-      return 'vote-nondrag';
     }
+    return 'vote-nondrag';
   },
-  tickStyle: function () {
+  tickStyle() {
     if (this.mode === 'REJECT') {
       return 'unauthorized';
     }
+    return '';
   },
-  checkbox: function (mode) {
+  checkbox(mode) {
     switch (mode) {
       case 'AUTHORIZE':
         return 'vote-authorize nondraggable';
       case 'REJECT':
         return 'vote-authorize unauthorized nondraggable';
       case 'FORK':
+      default:
         return 'vote vote-alternative';
     }
   },
-  action: function () {
-      if (this.authorized == false) {
-        return 'undefined';
-      }
+  action() {
+    if (this.authorized === false) {
+      return 'undefined';
+    }
+    return '';
   },
-  option: function (mode) {
-    if (Session.get('contract').stage == 'DRAFT' || ( Session.get('rightToVote') == false && Session.get('contract').stage != 'DRAFT' )) {
+  option(mode) {
+    if (Session.get('contract').stage === 'DRAFT' || (Session.get('rightToVote') === false && Session.get('contract').stage !== 'DRAFT')) {
       return 'disabled';
-    } else {
-      switch (mode) {
-        case 'AUTHORIZE':
-          return '';
-        case 'REJECT':
-          return 'option-link';
-        default:
-          return '';
-      }
+    }
+    switch (mode) {
+      case 'AUTHORIZE':
+        return '';
+      case 'REJECT':
+        if (this.mini) {
+          return 'unauthorized';
+        }
+        return 'option-link unauthorized';
+      default:
+        return '';
     }
   },
-  decision: function (mode) {
+  decision(mode) {
     switch (mode) {
       case 'REJECT':
         return 'option-link unauthorized';
@@ -68,55 +71,73 @@ Template.fork.helpers({
         return '';
     }
   },
-  caption: function (mode) {
-    if (mode != 'FORK') {
+  caption(mode) {
+    if (mode !== 'FORK') {
       return TAPi18n.__(mode);
-    } else {
-      return this.label;
     }
+    return this.label;
   },
-  tick: function () {
-    if (Session.get('contract').stage == 'DRAFT') {
-      return 'disabled'
+  tick() {
+    if (Session.get('contract').stage === 'DRAFT') {
+      return 'disabled';
     }
+    return '';
   },
-  tickStatus: function () {
+  tickStatus() {
     this.tick = getVote(Session.get('contract')._id, this._id);
     if (Session.get('candidateBallot')) {
       if (this.tick) {
         if (this.mode === 'REJECT') {
           return 'tick-active-unauthorized';
-        } else {
-          return 'tick-active';
         }
+        return 'tick-active';
       }
     } else if (Session.get('rightToVote') === false && Session.get('contract').stage !== 'DRAFT') {
-      //already voted
+      // already voted
       if (this.tick) {
-        return 'tick-disabled'
+        return 'tick-disabled';
       }
     }
     return '';
-  }
+  },
+  style(className) {
+    let final = className;
+    if (this.mini === true) {
+      final += ` ${final}-mini`;
+    }
+    return final;
+  },
+  isReject() {
+    return (this.mode === 'REJECT');
+  },
 });
 
 
 Template.fork.events({
-  "click #ballotCheckbox": function (event) {
-    switch (Session.get('contract').stage) {
-      case 'DRAFT':
-      case 'FINISH':
-        Session.set('disabledCheckboxes', true);
-        break;
-      case 'LIVE':
-        if (Session.get('rightToVote')) {
-          this.tick = setVote(Session.get('contract')._id, this);
+  'click #ballotCheckbox'() {
+    if (!Session.get('showModal')) {
+      switch (Session.get('contract').stage) {
+        case 'DRAFT':
+        case 'FINISH':
+          Session.set('disabledCheckboxes', true);
           break;
-        }
+        case 'LIVE':
+        default:
+          if (Session.get('rightToVote')) {
+            this.tick = setVote(Session.get('contract')._id, this);
+            if (this.tick === true) {
+              Session.set('noSelectedOption', false);
+            }
+            break;
+          }
+      }
     }
   },
-
-  "click #remove-fork": function () {
-    Meteor.call('removeFork', Session.get('contract')._id, this._id);
-  }
+  'click #remove-fork'() {
+    // Meteor.call('removeFork', Session.get('contract')._id, this._id);
+    Contracts.update(Session.get('contract')._id, { $pull: {
+      ballot:
+        { _id: this._id },
+    } });
+  },
 });

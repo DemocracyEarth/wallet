@@ -4,29 +4,28 @@ import { generateWalletAddress, transact } from './transaction';
 
 Meteor.methods({
 
-  //generate first transaction from collective to user's wallet
-  genesisTransaction: function (userId) {
-    var user = Meteor.users.findOne({ _id: userId });
+  // generate first transaction from collective to user's wallet
+  genesisTransaction(userId) {
+    const user = Meteor.users.findOne({ _id: userId });
 
     console.log('[genesisTransaction] veryfing genesis...')
-    if (user.profile.wallet != undefined) {
+    if (user.profile.wallet !== undefined) {
       if (user.profile.wallet.ledger.length > 0) {
         if (user.profile.wallet.ledger[0].entityType === 'COLLECTIVE') {
           console.log('[genesisTransaction] this user already had a genesis');
           return;
-        } else {
-          console.log('[genesisTransaction] not found, generating first transactino from collective...')
         }
+        console.log('[genesisTransaction] not found, generating first transactino from collective...');
       }
     }
 
     user.profile.wallet = generateWalletAddress(user.profile.wallet);
     console.log('[genesisTransaction] generated first address on wallet.');
-    Meteor.users.update({ _id: userId }, { $set: { profile : user.profile } });
+    Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
     transact(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY);
   },
 
-  executeTransaction: function (delegatorId, delegateId, quantity, conditions, newStatus) {
+  executeTransaction(delegatorId, delegateId, quantity, conditions, newStatus) {
     console.log('[transact]');
     var txId = transact(delegatorId, delegateId, quantity, conditions);
     console.log('[transact] ticketId ' + txId);

@@ -1,31 +1,45 @@
 <template name="fork">
   {{#if executive}}
-    <li id="ballotProposalOption" class="vote {{checkbox mode}}">
+    <li id="ballotProposalOption" class="{{style 'vote'}} {{checkbox mode}}">
       <div class="w-clearfix checkbox">
-        <div id="ballotCheckbox" class="option {{tickStyle}}">
+        <div id="ballotCheckbox" class="{{style 'option'}} {{tickStyle}}">
           <div id="tickbox" class="tick {{tickStyle}}">
-            <img src="{{pathFor route='home'}}images/white-tick-thin.png" class="tick-image hover {{tickStatus}}">
+            <img src="{{pathFor route='home'}}images/white-tick-thin.png" class="{{style 'tick-image'}} hover {{tickStatus}}">
           </div>
         </div>
         <div class="w-clearfix checkbox">
-          <div class="option-title {{decision mode}}">
+          <div class="{{style 'option-title'}} {{decision mode}}">
             {{_ mode}}
           </div>
         </div>
       </div>
     </li>
   {{else}}
-    <li id="ballotProposalOption" class="vote {{checkbox ../mode}} {{dragMode}}" rank="{{../rank}}" value="{{../_id}}">
+    <li id="ballotProposalOption" class="{{style 'vote'}} {{checkbox ../mode}} {{dragMode}}" rank="{{../rank}}" value="{{../_id}}">
       <div class="w-clearfix checkbox">
-        <div id="ballotCheckbox" class="option {{option ../mode}}">
-          <div id="tickbox" class="tick">
-            <img src="{{pathFor route='home'}}images/white-tick-thin.png" class="tick-image hover {{tickStatus}}">
+        <div id="ballotCheckbox" class="{{style 'option'}} {{option ../mode}}">
+          <div id="tickbox" class="{{style 'tick'}} {{option ../mode}}">
+            {{#if mini}}
+              {{#if isReject}}
+                <img src="{{pathFor route='home'}}images/white-tick-red.png" class="{{style 'tick-image'}}">
+              {{else}}
+                <img src="{{pathFor route='home'}}images/white-tick-green.png" class="{{style 'tick-image'}}">
+              {{/if}}
+            {{else}}
+              <img src="{{pathFor route='home'}}images/white-tick-thin.png" class="{{style 'tick-image'}} hover {{tickStatus}}">
+            {{/if}}
           </div>
         </div>
         <div class="w-clearfix checkbox">
-          <a href="{{../url}}" class="option-title {{length}} {{decision ../mode}}">
-            {{caption ../mode ../label}}
-          </a>
+          {{#if mini}}
+            <div class="{{style 'option-title'}} {{length}} {{decision ../mode}}">
+              {{caption ../mode ../label}}
+            </div>
+          {{else}}
+            <a href="{{../url}}" class="{{style 'option-title'}} {{length}} {{decision ../mode}}">
+              {{caption ../mode ../label}}
+            </a>
+          {{/if}}
         </div>
       </div>
     </li>

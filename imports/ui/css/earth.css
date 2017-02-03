@@ -169,7 +169,7 @@ blockquote {
 .contract {
   position: relative;
   display: block;
-  max-width: 1000px;
+  max-width: 750px;
   margin-right: auto;
   margin-left: auto;
 }
@@ -267,6 +267,13 @@ blockquote {
   background-image: none;
   box-shadow: 0 3px 8px -4px #000;
   color: #fff;
+}
+
+.card.temporal {
+  position: fixed;
+  left: 80%;
+  right: 0px;
+  width: 40%;
 }
 
 .fingerprint {
@@ -1087,6 +1094,16 @@ blockquote {
   color: #ff2752;
 }
 
+.vote.vote-authorize.vote-mini {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  border-style: none;
+  border-radius: 5px;
+  background-color: rgba(230, 249, 244, .15);
+}
+
 .vote.vote-edit {
   padding: 10px;
   border: 1px dotted #00bf8f;
@@ -1172,6 +1189,19 @@ blockquote {
   background-color: transparent;
 }
 
+.vote.vote-alternative.vote-mini {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  border-style: none;
+  border-radius: 5px;
+  background-color: hsla(0, 0%, 100%, .15);
+  box-shadow: none;
+  color: #00bf8f;
+  cursor: default;
+}
+
 .vote.vote-custom {
   width: 100%;
   clear: both;
@@ -1254,6 +1284,15 @@ blockquote {
   display: inline-block;
   margin-right: auto;
   margin-left: auto;
+}
+
+.option.option-mini {
+  width: 28px;
+  height: 28px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: transparent;
+  cursor: default;
 }
 
 .option-title {
@@ -1373,6 +1412,10 @@ blockquote {
   text-decoration: none;
 }
 
+.option-title.option-title-mini {
+  font-size: 16px;
+}
+
 .checkbox {
   display: block;
   font-weight: 300;
@@ -1410,6 +1453,10 @@ blockquote {
 
 .tick.unauthorized {
   background-color: #ff2752;
+}
+
+.tick.tick-mini {
+  background-color: transparent;
 }
 
 .tick-image {
@@ -1453,6 +1500,12 @@ blockquote {
   background-color: #ff2752;
 }
 
+.tick-image.tick-image-mini {
+  width: 26px;
+  height: 26px;
+  opacity: 1;
+}
+
 .execution {
   display: block;
   margin-right: auto;
@@ -1461,10 +1514,11 @@ blockquote {
 
 .block {
   margin: 0px -30px -10px;
-  padding: 5px 25px;
+  padding: 15px 25px;
+  border-top: 1px solid #eee;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
-  background-color: #e6f9f4;
+  background-color: #f8f8f8;
   box-shadow: none;
   text-align: left;
 }
@@ -2380,7 +2434,7 @@ blockquote {
   width: 100%;
   height: 15px;
   margin-top: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   box-shadow: inset 0 3px 13px -2px rgba(0, 0, 0, .5);
 }
 
@@ -2414,11 +2468,20 @@ blockquote {
   float: right;
   border-radius: 0px 3px 3px 0px;
   background-color: #ccc;
-  background-image: url('../images/pattern-pinstripes-diagonal_svg_med.png');
+  background-image: url('../images/pattern-pinstripes-diagonal-green.png');
   background-position: 100% 0px;
   background-size: 50px;
   background-repeat: repeat-x;
-  opacity: 0.25;
+}
+
+.result-bar.vote-bar.vote-bar-allocated.vote-bar-allocated-placed {
+  height: 15px;
+  float: left;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  background-color: #00bf8f;
+  background-image: none;
+  opacity: 0.2;
 }
 
 .result-bar.result-unanimous {
@@ -2759,9 +2822,9 @@ blockquote {
   float: right;
   border: 5px solid #fff;
   border-radius: 100px;
-  background-color: #f5f5f5;
+  background-color: #e6f9f4;
   box-shadow: 0 0 11px -5px #000, inset 0 0 3px -2px rgba(0, 0, 0, .75);
-  cursor: pointer;
+  cursor: -webkit-grab;
 }
 
 .handle:hover {
@@ -2770,6 +2833,7 @@ blockquote {
 
 .handle:active {
   background-color: #00bf8f;
+  cursor: -webkit-grabbing;
 }
 
 .close {
@@ -2810,6 +2874,7 @@ blockquote {
 }
 
 .vote-allocated.label-votes {
+  margin-right: -10px;
   font-size: 11px;
 }
 
@@ -2967,6 +3032,11 @@ blockquote {
   color: #00bf8f;
 }
 
+.stage.stage-finish-approved.stage-finished-inballot {
+  border-style: solid;
+  border-color: #000;
+}
+
 .stage.stage-finish-alternative {
   border-style: solid;
   border-color: #e6f9f4;
@@ -2990,6 +3060,16 @@ blockquote {
 
 .stage.stage-list {
   margin-top: 1px;
+}
+
+.stage.stage-placed {
+  border-style: solid;
+  border-color: #00bf8f;
+}
+
+.stage.stage-inballot {
+  border-style: solid;
+  background-color: #e6f9f4;
 }
 
 .profile-thumb {
@@ -3166,13 +3246,20 @@ blockquote {
 .options {
   display: block;
   overflow: auto;
-  padding-right: 5px;
-  padding-left: 5px;
 }
 
 .options.options-voted {
   margin-right: -30px;
   margin-left: -30px;
+}
+
+.options.options-mini {
+  margin: 15px 5px 0px;
+  padding: 0px 10px 5px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: hsla(0, 0%, 100%, .25);
+  border-radius: 5px;
 }
 
 .calendar-icon {
@@ -3250,6 +3337,16 @@ blockquote {
 
 .title-input.title-comment:hover {
   border-left-style: none;
+}
+
+.title-input.title-input-mini {
+  margin: 10px 0px;
+  padding: 0px;
+  border-left-style: none;
+  opacity: 0.75;
+  font-size: 20px;
+  line-height: 28px;
+  letter-spacing: 0px;
 }
 
 .paper-header {

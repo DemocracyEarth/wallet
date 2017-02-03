@@ -21,7 +21,18 @@
             </div>
           </p>
         {{/if}}
-
+        {{#if displayBallot}}
+          <p>
+            <ul class="{{mini 'options'}}">
+            <li class="title-input title-input-mini">
+              {{contractTitle}}
+            </li>
+            {{#each ballot}}
+              {{> fork _id=_id label=label executive=false mode=mode rank=rank url=url editorMode=false mini=true}}
+            {{/each}}
+            </ul>
+          </p>
+        {{/if}}
         <div class="modal-buttons">
           <div id="cancel" class="button login-button button-secondary button-half">
             <div>{{cancel}}</div>

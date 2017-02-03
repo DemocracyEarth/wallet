@@ -5,84 +5,88 @@ const Schema = {};
 Schema.Wallet = new SimpleSchema({
   balance: {
     type: Number,
-    defaultValue: 0
+    defaultValue: 0,
   },
   placed: {
     type: Number,
-    defaultValue: 0
+    defaultValue: 0,
   },
   available: {
     type: Number,
-    defaultValue: 0
+    defaultValue: 0,
   },
   currency: {
     type: String,
     allowedValues: ['BITCOIN', 'SATOSHI', 'VOTES'],
-    autoValue: function () {
+    autoValue() {
       if (this.isInsert) {
-        if (this.field('currency').value == undefined) {
+        if (this.field('currency').value === undefined) {
           return 'VOTES';
         }
       }
-    }
+    },
   },
   address: {
     type: Array,
-    autoValue: function () {
+    autoValue() {
       if (this.isInsert) {
         return [];
       }
-    }
+    },
   },
-  "address.$": {
+  'address.$': {
     type: Object,
-    optional: true
+    optional: true,
   },
-  "address.$.hash": {
+  'address.$.hash': {
     type: String,
-    optional: true
+    optional: true,
   },
-  "address.$.collectiveId": {
+  'address.$.collectiveId': {
     type: String,
-    optional: true
+    optional: true,
   },
   ledger: {
     type: Array,
-    autoValue: function () {
+    autoValue() {
       if (this.isInsert) {
         return [];
       }
-    }
+    },
   },
-  "ledger.$": {
+  'ledger.$': {
     type: Object,
-    optional: true
+    optional: true,
   },
-  "ledger.$.txId": {
-    type: String,
-    optional: true
-  },
-  "ledger.$.quantity": {
-    type: Number,
-    optional: true
-  },
-  "ledger.$.entityId": {
-    type: String,
-    optional: true
-  },
-  "ledger.$.entityType": {
-    type: String,
-    optional: true
-  },
-  "ledger.$.currency": {
+  'ledger.$.txId': {
     type: String,
     optional: true,
-    allowedValues: ['BITCOIN', 'SATOSHI', 'VOTES']
   },
-  "ledger.$.ballot": {
+  'ledger.$.quantity': {
+    type: Number,
+    optional: true,
+  },
+  'ledger.$.entityId': {
+    type: String,
+    optional: true,
+  },
+  'ledger.$.entityType': {
+    type: String,
+    optional: true,
+  },
+  'ledger.$.currency': {
+    type: String,
+    optional: true,
+    allowedValues: ['BITCOIN', 'SATOSHI', 'VOTES'],
+  },
+  'ledger.$.ballot': {
     type: [Ballot],
-    optional: true
-  }
+    optional: true,
+  },
+  'ledger.$.transactionType': {
+    type: String,
+    allowedValues: ['OUTPUT', 'INPUT'],
+  },
 });
 
 export const Wallet = Schema.Wallet;
