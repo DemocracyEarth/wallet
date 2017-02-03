@@ -14,6 +14,7 @@ import { validateEmail } from './validations.js';
 */
 const _createUser = (data) => {
   if (_validateUser(data)) {
+    
     const objUser = {
       username: data.username,
       emails: [{
@@ -29,57 +30,57 @@ const _createUser = (data) => {
       createdAt: new Date()
     };
 
-    // create User
     if (UserContext.validate(objUser)) {
-    //if (true) {
-      Accounts.createUser({
-        username: objUser.username,
-        password: objUser.services.password,
-        email: data.email,
-        profile: objUser.profile
-      }, function (error) {
-        if (error) {
-          switch (error.error) {
-          case 403:
-              Session.set('alreadyRegistered', true);
-              break;
+      return new Promise(function (resolve, reject) {
+        Accounts.createUser({
+          username: objUser.username,
+          password: objUser.services.password,
+          email: objUser.email,
+          profile: objUser.profile,
+        }, function (error, result) {
+          if (error) {
+            return reject(error)
+          } else {
+            //send verification e-mail
+            Meteor.call( 'sendVerificationLink', ( error, response ) => {
+              if ( error ) {
+                console.log( error.reason, 'danger' );
+              } else {
+                displayNotice('user-created', true);
+              }
+            });
+            //make first membership transaction
+            Meteor.call ('genesisTransaction', Meteor.user()._id, function (error, response) {
+              if (error) {
+                console.log('[genesisTransaction] ERROR: ' + error);
+              };
+            });
+            return resolve(result);
           }
-        } else {
-          //send verification e-mail
-          Meteor.call( 'sendVerificationLink', ( error, response ) => {
-            if ( error ) {
-              console.log( error.reason, 'danger' );
-            } else {
-              displayNotice('user-created', true);
-            }
-          });
-          //make first membership transaction
-          Meteor.call ('genesisTransaction', Meteor.user()._id, function (error, response) {
-            if (error) {
-              console.log('[genesisTransaction] ERROR: ' + error);
-            };
-          });
-        }
+        });
       });
     } else {
       // BUG Shema is not defined. When updating = error:  existingKey.indexOf is not a function
       check(objUser, User);
     }
   }
-}
+};
 
 /**
 * @summary new user input data validation
 * @param {object} data - validates all keys present in data input from new user
 */
 let _validateUser = (data) => {
-  var val = _validateUsername(data.username)
+ 
+  const validUsername = _validateUsername(data.username);
+
+  var val = !validUsername.valid
             + validateEmail(data.email)
             + _validatePassword(data.password)
             + _validatePasswordMatch(data.password, data.mismatchPassword);
 
   if (val >= 4) { return true } else { return false };
-}
+};
 
 /**
 * @summary password validation

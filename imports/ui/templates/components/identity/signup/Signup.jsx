@@ -22,6 +22,8 @@ export default class Signup extends Component {
     this.handleSignupRender = this.handleSignupRender.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSignupError = this.handleSignupError.bind(this);
   }
 
   handleSignupRender() {
@@ -30,6 +32,12 @@ export default class Signup extends Component {
 
   handleFocus() {
     this.setState({ alreadyRegistered: false });
+    // Session.set('alreadyRegistered', false);
+    // if (Session.get('alreadyRegistered')) {
+    //   this.setState({ alreadyRegistered: true });
+    // } else {
+    //   this.setState({ alreadyRegistered: false });
+    // }
   }
 
   handleBlur(event) {
@@ -60,12 +68,36 @@ export default class Signup extends Component {
     }
   }
 
+  handleSubmit(event) {
+    const userData = {
+      username: document.getElementsByName('username-signup')[0].value,
+      email: document.getElementsByName('email-signup')[0].value,
+      password: document.getElementsByName('password-signup')[0].value,
+      mismatchPassword: document.getElementsByName('mismatchPassword')[0].value,
+    };
+
+    (async function (handleSignupError) {
+      try {
+        await createUser(userData);
+      } catch (e) {
+        console.log('Atrapaste este error: ', e);
+        // this.setState({ alreadyRegistered: true });
+        handleSignupError();
+      }
+    }(this.handleSignupError));
+  }
+
+  handleSignupError() {
+    this.setState({ alreadyRegistered: true });
+  }
+
   render() {
     const invalidUsernameState = this.state.invalidUsername;
     const repeatedUsernameState = this.state.repeatedUsername;
     const invalidEmailState = this.state.invalidEmail;
     const invalidPasswordState = this.state.invalidPassword;
     const mismatchPasswordState = this.state.mismatchPassword;
+    const alreadyRegisteredState = this.state.alreadyRegistered;
 
     return (
       <div className="login">
@@ -104,7 +136,8 @@ export default class Signup extends Component {
               <input id="signup-input" name="mismatchPassword" type="password" placeholder={TAPi18n.__('password-sample-again')} className="w-input login-input" onFocus={this.handleFocus} onBlur={this.handleBlur} />
               {mismatchPasswordState ? <Warning label="mismatch-password" /> : null}
             </div>
-            <div id="signup-button" className="button login-button">
+            {alreadyRegisteredState ? <div className="extra section"> <Warning label="user-exists" /> </div> : null}
+            <div id="signup-button" className="button login-button" onClick={this.handleSubmit} >
               <div>{TAPi18n.__('sign-up')}</div>
             </div>
           </form>
