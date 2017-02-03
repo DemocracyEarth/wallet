@@ -80,8 +80,6 @@ export default class Signup extends Component {
       try {
         await createUser(userData);
       } catch (e) {
-        console.log('Atrapaste este error: ', e);
-        // this.setState({ alreadyRegistered: true });
         handleSignupError();
       }
     }(this.handleSignupError));
