@@ -78,6 +78,7 @@ Wallet.prototype.sliderInput = function (pixels, avoidAllocation) {
     var votes = parseInt(((this.sliderWidth - + ($(`#voteHandle-${this.voteId}`).width() / 2)) * this.available) / delta, 10);
     this.sliderWidth = _scope((this._initialSliderWidth + pixels), this._maxWidth, ($(`#voteHandle-${this.voteId}`).width() / 2));
   } else {
+    console.log('EY');
     this.sliderWidth = 0;
   }
   if (!avoidAllocation) {

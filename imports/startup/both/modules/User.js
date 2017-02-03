@@ -2,10 +2,11 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { check } from 'meteor/check';
 
 import { UserContext, User } from '/imports/api/users/User';
-import { check } from 'meteor/check';
-import displayNotice from '/imports/ui/modules/notice';
+import { displayNotice } from '/imports/ui/modules/notice';
+import { genesisTransaction } from '/imports/api/transactions/transaction';
 import { validateEmail } from './validations.js';
 
 /**
@@ -50,11 +51,12 @@ const _createUser = (data) => {
             }
           });
           // make first membership transaction
-          Meteor.call('genesisTransaction', Meteor.user()._id, (transactionError) => {
-            if (transactionError) {
-              console.log('[genesisTransaction] ERROR: ', transactionError);
-            }
-          });
+          /* Meteor.call ('genesisTransaction', Meteor.user()._id, function (error, response) {
+            if (error) {
+              console.log('[genesisTransaction] ERROR: ' + error);
+            };
+          });*/
+          genesisTransaction(Meteor.user()._id);
           return resolve(result);
         });
       });
@@ -279,11 +281,11 @@ const _userVotesInContract = (userWallet, contractId) => {
     if (userWallet.ledger[i].entityId === contractId && userWallet.ledger[i].entityType === 'CONTRACT') {
       switch (userWallet.ledger[i].transactionType) {
         case 'OUTPUT':
-          totalVotes -= parseInt(userWallet.ledger[i].quantity, 10);
+          totalVotes += parseInt(userWallet.ledger[i].quantity, 10);
           break;
         case 'INPUT':
         default:
-          totalVotes += parseInt(userWallet.ledger[i].quantity, 10);
+          totalVotes -= parseInt(userWallet.ledger[i].quantity, 10);
           break;
       }
     }
