@@ -2475,10 +2475,9 @@ blockquote {
 }
 
 .result-bar.vote-bar.vote-bar-allocated.vote-bar-allocated-placed {
-  position: absolute;
-  width: 26%;
-  height: 15px;
-  padding-right: 0px;
+  width: 50%;
+  height: 1px;
+  margin-top: 0px;
   float: left;
   border-radius: 3px 0px 0px 3px;
   background-color: transparent;
@@ -4746,58 +4745,60 @@ blockquote {
 .arrow-down {
   width: 0px;
   height: 0px;
-  margin-right: -4px;
   float: right;
   border-style: solid;
-  border-width: 10px 7px 0px;
+  border-width: 8px 5px 0px;
   border-color: #00bf8f transparent;
   background-color: transparent;
 }
 
 .arrow-down.arrow-down-inner {
-  margin-top: -9px;
-  margin-right: -5px;
-  border-top-width: 7px;
+  margin-top: -7px;
+  margin-right: -3px;
+  border-top-width: 5px;
   border-top-color: #e6f9f4;
-  border-right-width: 5px;
-  border-left-width: 5px;
+  border-right-width: 3px;
+  border-left-width: 3px;
 }
 
 .arrow-up {
   width: 0px;
   height: 0px;
   border-style: solid;
-  border-width: 0px 7px 10px;
+  border-width: 0px 5px 8px;
   border-color: #000 transparent #00bf8f;
   background-color: transparent;
 }
 
 .arrow-up.arrow-up-inner {
   display: block;
-  margin-left: -5px;
+  margin-left: -3px;
   padding-top: 2px;
-  border-right-width: 5px;
-  border-bottom-width: 7px;
+  border-right-width: 3px;
+  border-bottom-width: 5px;
   border-bottom-color: #e6f9f4;
-  border-left-width: 5px;
+  border-left-width: 3px;
 }
 
 .arrow-wrapper {
   display: inline-block;
-  width: 14px;
-  height: 10px;
+  width: 10px;
+  height: 8px;
+  margin-right: -5px;
   margin-left: -10px;
   float: right;
 }
 
 .arrow-wrapper.arrow-wrapper-top {
-  margin-top: -12px;
-  margin-right: -2px;
+  margin-top: 10px;
 }
 
 .arrow-wrapper.arrow-wrapper-bottom {
-  margin-top: 18px;
-  margin-right: -6px;
+  margin-top: 37px;
+}
+
+.rosca-absolute {
+  position: absolute;
 }
 
 @media (max-width: 991px) {
