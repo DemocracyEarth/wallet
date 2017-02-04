@@ -32,12 +32,10 @@ export default class Signup extends Component {
 
   handleFocus() {
     this.setState({ alreadyRegistered: false });
-    // Session.set('alreadyRegistered', false);
-    // if (Session.get('alreadyRegistered')) {
-    //   this.setState({ alreadyRegistered: true });
-    // } else {
-    //   this.setState({ alreadyRegistered: false });
-    // }
+  }
+
+  handleSignupError() {
+    this.setState({ alreadyRegistered: true });
   }
 
   handleBlur(event) {
@@ -83,10 +81,6 @@ export default class Signup extends Component {
         handleSignupError();
       }
     }(this.handleSignupError));
-  }
-
-  handleSignupError() {
-    this.setState({ alreadyRegistered: true });
   }
 
   render() {
