@@ -459,7 +459,7 @@ Template.capital.helpers({
           } else if (quantity === 0) {
             return 'hide';
           }
-          return 'stage-live';
+          return 'stage-inballot';
         }
         return 'hide';
       case 'placed':

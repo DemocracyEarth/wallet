@@ -36,6 +36,7 @@ export const Wallet = function (wallet, contract) {
 
   // view
   this._initialSliderWidth = $(`#voteSlider-${this.voteId}`).width();
+  console.log(`initialSliderWidth = ${this._initialSliderWidth}`);
   this.sliderWidth = this._initialSliderWidth;
   this._maxWidth = $(`#voteBar-${this.voteId}`).width() - (($(`#voteBar-${this.voteId}`).width() * parseInt((this.placed * 100) / this.balance, 10)) / 100) - 2;
 
@@ -76,7 +77,7 @@ Wallet.prototype.sliderInput = function (pixels, avoidAllocation) {
     // var percentage = (($(`#voteHandle-${this.voteId}`).offset().left - $(`#voteBar-${this.voteId}`).offset().left) * 100) / $(`#voteBar-${this.voteId}`).width();
     var delta = ($(`#voteBar-${this.voteId}`).offset().left + this._maxWidth) - $(`#voteBar-${this.voteId}`).offset().left - ($(`#voteHandle-${this.voteId}`).width() / 2);
     var votes = parseInt(((this.sliderWidth - + ($(`#voteHandle-${this.voteId}`).width() / 2)) * this.available) / delta, 10);
-    this.sliderWidth = _scope((this._initialSliderWidth + pixels), this._maxWidth, ($(`#voteHandle-${this.voteId}`).width() / 2));
+    this.sliderWidth = _scope((this._initialSliderWidth + pixels), this._maxWidth, 0);
   } else {
     console.log('EY');
     this.sliderWidth = 0;
