@@ -183,7 +183,7 @@
   "short-password": "Pass requires at least 6 characters.",
   "mismatch-password": "Passwords do not properly match.",
   "available-votes": "available votes",
-  "placed-votes": "placed & delegated",
+  "placed-votes": "placed elsewhere",
   "see-all": "Review all",
   "delegations": "Delegations",
   "log-out": "Logout",
