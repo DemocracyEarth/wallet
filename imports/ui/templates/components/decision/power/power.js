@@ -414,10 +414,10 @@ Template.capital.helpers({
             if (inBallot === 0) {
               label = `<strong>${Math.abs(quantity)}</strong> ${TAPi18n.__('allocate-in-ballot')}`;
             } else {
-              label = `<strong>${Math.abs(quantity)}</strong> ${TAPi18n.__('more-votes')}`;
+              label = `<strong>${Math.abs(quantity + inBallot)}</strong> ${TAPi18n.__('more-votes')}`;
             }
           } else if (quantity < 0) {
-            label = `<strong>${Math.abs(quantity)}</strong> ${TAPi18n.__('retrieve-from-ballot')}`;
+            label = `<strong>${Math.abs(inBallot + quantity)}</strong> ${TAPi18n.__('retrieve-from-ballot')}`;
           }
           break;
         case 'placed':
@@ -455,7 +455,7 @@ Template.capital.helpers({
           if (Math.abs(quantity) === inBallot && (quantity < 0)) {
             return 'stage-finish-rejected';
           } else if (quantity < 0) {
-            return 'stage-remove';
+            return 'stage-inballot';
           } else if (quantity === 0) {
             return 'hide';
           }

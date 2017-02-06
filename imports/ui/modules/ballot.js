@@ -49,13 +49,33 @@ const _setVote = (contractId, ballot) => {
 };
 
 /**
+* @summary gets a user ballot value from a ledger
+* @param {object} ledger - ledger to be analyzed
+* @param {object} userId - userId to be checked
+* @param {object} ballotId - ballotId value to verify
+*/
+const _getVoteFromLedger = (ledger, userId, ballotId) => {
+  for (let k = parseInt(ledger.length - 1, 10); k >= 0; k -= 1) {
+    if (ledger[k].entityId === userId && ledger[k].transactionType === 'INPUT') {
+      for (const j in ledger[k].ballot) {
+        if (ledger[k].ballot[j]._id === ballotId) {
+          return ledger[k].ballot[j].tick;
+        }
+      }
+    }
+  }
+  return false;
+};
+
+/**
+* @summary returns ballot value for a given a user
 * @param {string} contractId - contract where this ballot belongs to
 * @param {object} ballotId - ballotId to check
 */
 const _getVote = (contractId, ballotId) => {
-  if (Session.get('rightToVote') === false && Session.get('contract').stage !== 'DRAFT') {
+  /*if (Session.get('rightToVote') === false && Session.get('contract').stage !== 'DRAFT') {
     // check if user already voted
-    let ballot;
+    /* let ballot;
     const ledger = Session.get('contract').wallet.ledger;
     for (const i in ledger) {
       if (ledger[i].entityId === Meteor.user()._id) {
@@ -67,15 +87,23 @@ const _getVote = (contractId, ballotId) => {
         }
       }
     }
-    return false;
-  }
-  // check user current vote
-  const votes = Session.get('candidateBallot');
-  for (const i in votes) {
-    if (votes[i].contractId === contractId && votes[i].ballot._id === ballotId) {
-      return votes[i].ballot.tick;
+    return false;*/
+    /* return _getVoteFromLedger(Session.get('contract').wallet.ledger, Meteor.userId(), ballotId);
+  }*/
+
+  if (Session.get('rightToVote') === true && Session.get('contract').stage === 'LIVE') {
+    // check current live vote
+    const votes = Session.get('candidateBallot');
+    if (votes !== undefined) {
+      for (const i in votes) {
+        if (votes[i].contractId === contractId && votes[i].ballot._id === ballotId) {
+          return votes[i].ballot.tick;
+        }
+      }
     }
   }
+  // check existing vote present in contract ledger
+  return _getVoteFromLedger(Session.get('contract').wallet.ledger, Meteor.userId(), ballotId);
 };
 
 /**
