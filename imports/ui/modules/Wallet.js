@@ -26,6 +26,7 @@ export const Wallet = function (wallet, contract) {
   this.initialized = true;
   this.enabled = true;
   this.mode = 'PENDING';
+  this.inBallot = userVotesInContract(Meteor.user().profile.wallet, contract);
 
   // controller
   if (contract === undefined) {
@@ -36,14 +37,13 @@ export const Wallet = function (wallet, contract) {
 
   // view
   this._initialSliderWidth = $(`#voteSlider-${this.voteId}`).width();
-  console.log(`initialSliderWidth = ${this._initialSliderWidth}`);
   this.sliderWidth = this._initialSliderWidth;
-  this._maxWidth = $(`#voteBar-${this.voteId}`).width() - (($(`#voteBar-${this.voteId}`).width() * parseInt((this.placed * 100) / this.balance, 10)) / 100) - 2;
+  this._maxWidth = $(`#voteBar-${this.voteId}`).width() - (($(`#voteBar-${this.voteId}`).width() * parseInt(((this.placed - this.inBallot) * 100) / this.balance, 10)) / 100) - 2;
 
   // methods
   if (this.initialized === true) {
     // this.allocateVotes(parseInt((this.available * 10) / 100, 10));
-    this.allocateVotes(userVotesInContract(Meteor.user().profile.wallet, contract));
+    this.allocateVotes(this.inBallot);
     this.initialized = false;
   }
 
@@ -73,17 +73,17 @@ Wallet.prototype.allocateVotes = function (quantity, avoidSlider) {
 
 Wallet.prototype.sliderInput = function (pixels, avoidAllocation) {
   if (pixels === undefined) { pixels = 0; }
-  if ($(`#voteHandle-${this.voteId}`).offset() !== undefined) {
-    // var percentage = (($(`#voteHandle-${this.voteId}`).offset().left - $(`#voteBar-${this.voteId}`).offset().left) * 100) / $(`#voteBar-${this.voteId}`).width();
-    var delta = ($(`#voteBar-${this.voteId}`).offset().left + this._maxWidth) - $(`#voteBar-${this.voteId}`).offset().left - ($(`#voteHandle-${this.voteId}`).width() / 2);
-    var votes = parseInt(((this.sliderWidth - + ($(`#voteHandle-${this.voteId}`).width() / 2)) * this.available) / delta, 10);
-    this.sliderWidth = _scope((this._initialSliderWidth + pixels), this._maxWidth, 0);
-  } else {
-    console.log('EY');
-    this.sliderWidth = 0;
-  }
-  if (!avoidAllocation) {
-    this.allocateVotes(votes, true);
+  if ($(`#voteBar-${this.voteId}`).offset() !== undefined) {
+    const delta = ($(`#voteBar-${this.voteId}`).offset().left + this._maxWidth) - $(`#voteBar-${this.voteId}`).offset().left - ($(`#voteHandle-${this.voteId}`).width() / 2);
+    const votes = parseInt(((this.sliderWidth - ($(`#voteHandle-${this.voteId}`).width() / 2)) * this.available) / delta, 10);
+    if ($(`#voteHandle-${this.voteId}`).offset() !== undefined) {
+      this.sliderWidth = _scope((this._initialSliderWidth + pixels), this._maxWidth, 0);
+    } else {
+      this.sliderWidth = 0;
+    }
+    if (!avoidAllocation) {
+      this.allocateVotes(votes, true);
+    }
   }
 };
 

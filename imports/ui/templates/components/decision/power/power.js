@@ -425,7 +425,7 @@ Template.capital.helpers({
           if (Meteor.user().profile.wallet.placed === 0) {
             label = `<strong>${TAPi18n.__('none')}</strong>  ${TAPi18n.__('placed-votes')}`;
           } else {
-            label = `<strong>${Meteor.user().profile.wallet.placed}</strong>  ${TAPi18n.__('placed-votes')}`;
+            label = `<strong>${parseInt(Meteor.user().profile.wallet.placed - inBallot, 10)}</strong>  ${TAPi18n.__('placed-votes')}`;
           }
           break;
       }
@@ -502,7 +502,7 @@ Template.bar.helpers({
     return getBarWidth(Session.get(`vote-${Session.get('contract')._id}`).available, this, true);
   },
   placed() {
-    return getBarWidth(Session.get(`vote-${Session.get('contract')._id}`).placed, this);
+    return getBarWidth(parseInt(Session.get(`vote-${Session.get('contract')._id}`).placed - userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id), 10), this);
   },
   inBallot() {
     return getBarWidth(userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id), this);
