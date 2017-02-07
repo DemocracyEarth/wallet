@@ -4,6 +4,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import Warning from '../../../widgets/warning/Warning.jsx';
 import Signup from '../signup/Signup.jsx';
 import ForgotPassword from './ForgotPassword.jsx';
+import SocialMediaLogin from './SocialMediaLogin.jsx';
 
 export default class EmailLogin extends Component {
   constructor(props) {
@@ -90,6 +91,7 @@ export default class EmailLogin extends Component {
             <div>
               {TAPi18n.__('dont-have-account')} <a id="signup" onClick={this.handleLoginRender}>{TAPi18n.__('sign-up')}</a>.
             </div>
+            <SocialMediaLogin agoraMode={false} />
           </div>
         );
       } else if (this.state.passwordKnown === false) {
