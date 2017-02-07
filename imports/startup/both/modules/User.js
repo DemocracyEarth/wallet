@@ -10,6 +10,19 @@ import { genesisTransaction } from '/imports/api/transactions/transaction';
 import { validateEmail } from './validations.js';
 
 /**
+* @summary new user input data validation
+* @param {object} data - validates all keys present in data input from new user
+*/
+let _validateUser = (data) => {
+  var val = _validateUsername(data.username)
+            + validateEmail(data.email)
+            + _validatePassword(data.password)
+            + _validatePasswordMatch(data.password, data.mismatchPassword);
+
+  if (val >= 4) { return true } else { return false };
+}
+
+/**
 * @summary Create a new user
 * @param {object} data - input from new user to be used for creation of user in db
 */
@@ -19,20 +32,20 @@ const _createUser = (data) => {
       username: data.username,
       emails: [{
         address: data.email,
-        verified: false
+        verified: false,
       }],
       services: {
-        password: data.password
+        password: data.password,
       },
       profile: {
-        configured: false
+        configured: false,
       },
-      createdAt: new Date()
+      createdAt: new Date(),
     };
 
     // create User
     if (UserContext.validate(objUser)) {
-    //if (true) {
+    // if (true) {
       Accounts.createUser({
         username: objUser.username,
         password: objUser.services.password,
@@ -55,11 +68,6 @@ const _createUser = (data) => {
             }
           });
           // make first membership transaction
-          /* Meteor.call ('genesisTransaction', Meteor.user()._id, function (error, response) {
-            if (error) {
-              console.log('[genesisTransaction] ERROR: ' + error);
-            };
-          });*/
           genesisTransaction(Meteor.user()._id);
         }
       });
@@ -68,36 +76,23 @@ const _createUser = (data) => {
       check(objUser, User);
     }
   }
-}
-
-/**
-* @summary new user input data validation
-* @param {object} data - validates all keys present in data input from new user
-*/
-let _validateUser = (data) => {
-  var val = _validateUsername(data.username)
-            + validateEmail(data.email)
-            + _validatePassword(data.password)
-            + _validatePasswordMatch(data.password, data.mismatchPassword);
-
-  if (val >= 4) { return true } else { return false };
-}
+};
 
 /**
 * @summary password validation
 * @param {string} pass - makes sure password meets criteria
 */
 let _validatePassword = (pass) => {
-  var val = true;
+  let val = true;
   if (pass.length < 6) {
-    Session.set("invalidPassword", true);
+    Session.set('invalidPassword', true);
     val = false;
   } else {
-    Session.set("invalidPassword", false);
+    Session.set('invalidPassword', false);
     val = true;
   }
   return val;
-}
+};
 
 /**
 * @summary verify correct password input
@@ -105,9 +100,9 @@ let _validatePassword = (pass) => {
 * @param {string} passB - second version of password introduced in form
 */
 let _validatePasswordMatch = (passA, passB) => {
-  Session.set("mismatchPassword", !(passA == passB));
-  return (passA == passB);
-}
+  Session.set('mismatchPassword', !(passA === passB));
+  return (passA === passB);
+};
 
 /**
 * @summary makes sure username identifier meets criteria and is avaialble

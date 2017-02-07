@@ -58,8 +58,8 @@ Schema.Menu = new SimpleSchema({
       if (this.isInsert) {
         return 0;
       }
-    }
-  }
+    },
+  },
 });
 
 Schema.Profile = new SimpleSchema({
@@ -88,7 +88,7 @@ Schema.Profile = new SimpleSchema({
   },
   birthday: {
     type: Date,
-    optional: true
+    optional: true,
   },
   gender: {
     type: String,

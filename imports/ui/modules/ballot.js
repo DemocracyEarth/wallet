@@ -73,24 +73,6 @@ const _getVoteFromLedger = (ledger, userId, ballotId) => {
 * @param {object} ballotId - ballotId to check
 */
 const _getVote = (contractId, ballotId) => {
-  /*if (Session.get('rightToVote') === false && Session.get('contract').stage !== 'DRAFT') {
-    // check if user already voted
-    /* let ballot;
-    const ledger = Session.get('contract').wallet.ledger;
-    for (const i in ledger) {
-      if (ledger[i].entityId === Meteor.user()._id) {
-        ballot = ledger[i].ballot;
-        for (const k in ballot) {
-          if (ballot[k]._id === ballotId) {
-            return true;
-          }
-        }
-      }
-    }
-    return false;*/
-    /* return _getVoteFromLedger(Session.get('contract').wallet.ledger, Meteor.userId(), ballotId);
-  }*/
-
   if (Session.get('rightToVote') === true && Session.get('contract').stage === 'LIVE') {
     // check current live vote
     const votes = Session.get('candidateBallot');

@@ -166,10 +166,14 @@ const assignBallot = (ledger, ballot) => {
   const fullBallot = [];
   const last = ledger.length - 1;
   const finalLedger = ledger;
+  console.log(`ballot:`);
+  console.log(ballot);
   for (const k in ballot) {
     fullBallot.push(ballot[k]);
   }
   finalLedger[last] = Object.assign(ledger[last], { ballot: fullBallot });
+  console.log(`finalLedger value is:`);
+  console.log(finalLedger);
   return finalLedger;
 };
 
@@ -189,7 +193,6 @@ const _debt = (wallet, creditorId, type) => {
       }
     }
   }
-  console.log(`totals are : ${totals}`);
   return totals;
 };
 
@@ -255,6 +258,8 @@ const _processTransaction = (ticket) => {
   receiverProfile.wallet = Object.assign(receiverProfile.wallet, receiver);
 
   // assign ballots if any
+  console.log('transaction in db:');
+  console.log(transaction.condition.ballot);
   if (transaction.condition.ballot) {
     sender.ledger = assignBallot(sender.ledger, transaction.condition.ballot);
     receiver.ledger = assignBallot(receiver.ledger, transaction.condition.ballot);
@@ -320,6 +325,9 @@ const _createTransaction = (senderId, receiverId, votes, settings) => {
     status: 'PENDING',
     condition: finalSettings.condition,
   };
+
+  console.log('newTransaction:');
+  console.log(newTransaction);
 
   // executes the transaction
   const txId = Transactions.insert(newTransaction);
