@@ -16,8 +16,8 @@ export default class BlockchainLogin extends Component {
   render() {
     return (
       <div className="login">
-        {TAPi18n.__('use-blockchain-id')}
-        <img src="/images/qrplaceholder.png" className="qr-code qr-sign" alt="qrplaceholder.png" onClick={this.handleQrSignin} />
+        <div dangerouslySetInnerHTML={{ __html: TAPi18n.__('use-blockchain-id') }} />
+        <img src="/images/qr.png" className="qr-code qr-sign" alt="qrplaceholder.png" onClick={this.handleQrSignin} />
         <div className="login-label">
           {TAPi18n.__('scan-with')} <a>{TAPi18n.__('phone-app')}</a>.
         </div>
