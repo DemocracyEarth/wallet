@@ -1,5 +1,5 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
-import Ballot from '../transactions/Ballot';
+import { Ballot } from '../transactions/Ballot';
 
 const Schema = {};
 Schema.Wallet = new SimpleSchema({
@@ -79,13 +79,17 @@ Schema.Wallet = new SimpleSchema({
     optional: true,
     allowedValues: ['BITCOIN', 'SATOSHI', 'VOTES'],
   },
-  'ledger.$.ballot': {
-    type: [Ballot],
-    optional: true,
-  },
   'ledger.$.transactionType': {
     type: String,
     allowedValues: ['OUTPUT', 'INPUT'],
+  },
+  'ledger.$.ballot': {
+    type: Array,
+    optional: true,
+  },
+  'ledger.$.ballot.$': {
+    type: Ballot,
+    optional: true,
   },
 });
 

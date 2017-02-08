@@ -49,33 +49,70 @@ const _setVote = (contractId, ballot) => {
 };
 
 /**
-* @param {string} contractId - contract where this ballot belongs to
-* @param {object} ballotId - ballotId to check
+* @summary evaluate if it's last present setting on ledger.
+* @param {object} ledger - ledger to be analyzed
+* @param {object} userId - userId to be checked
+* @param {object} ballotId - ballotId value to verify
 */
-const _getVote = (contractId, ballotId) => {
-  if (Session.get('rightToVote') === false && Session.get('contract').stage !== 'DRAFT') {
-    // check if user already voted
-    let ballot;
-    const ledger = Session.get('contract').wallet.ledger;
-    for (const i in ledger) {
-      if (ledger[i].entityId === Meteor.user()._id) {
-        ballot = ledger[i].ballot;
-        for (const k in ballot) {
-          if (ballot[k]._id === ballotId) {
+const _getVoteFromLedger = (ledger, userId, ballotId) => {
+  // `[_getVoteFromLedger] Evaluate if it's last present setting on ledger.`);
+  for (let index = ledger.length - 1; index >= 0; index -= 1) {
+    if (ledger[index].entityId == userId) {
+        // 'ledger ballot')
+        // ledger[index].ballot)
+        for (const j in ledger[index].ballot) {
+          if (ledger[index].ballot[j]._id == ballotId) {
             return true;
+          }
+        }
+      break;
+    }
+  }
+  return false;
+};
+
+/**
+* @summary returns ballot value for a given a user
+* @param {string} contractId - contract where this ballot belongs to
+* @param {object} ballot - ballot object from template
+*/
+const _getVote = (contractId, ballot) => {
+  // `[_getVote] Value for the ballot for current user of this Session.`);
+  // `ballot._id ${ballot._id}`);
+  // `ballot[0]._id ${ballot}`);
+  // ballot);
+  if (Session.get('rightToVote') === true && Session.get('contract').stage === 'LIVE') {
+    // check current live vote
+    const votes = Session.get('candidateBallot');
+    if (votes !== undefined) {
+      for (const i in votes) {
+        if (votes[i].contractId === contractId && votes[i].ballot._id === ballot._id) {
+          if (votes[i].ballot.tick !== undefined) {
+            return votes[i].ballot.tick;
           }
         }
       }
     }
-    return false;
   }
-  // check user current vote
-  const votes = Session.get('candidateBallot');
-  for (const i in votes) {
-    if (votes[i].contractId === contractId && votes[i].ballot._id === ballotId) {
-      return votes[i].ballot.tick;
+  // check existing vote present in contract ledger
+  // console.log('getVoteFromLedger yo')
+  const ledgervote = _getVoteFromLedger(Session.get('contract').wallet.ledger, Meteor.userId(), ballot._id);
+  // console.log(`(typeof ledgervote === 'string') -> ${(typeof ledgervote === 'string')}`);
+  // console.log(ledgervote);
+  if (Session.get('candidateBallot') === undefined && ledgervote !== undefined) {
+    const candidateBallot = [];
+    for (const j in ballot) {
+      if (ballot[j].tick === undefined) {
+        ballot[j].tick = ledgervote;
+      }
     }
+    candidateBallot.push({
+      contractId: contractId,
+      ballot: ballot,
+    });
+    Session.set('candidateBallot', candidateBallot);
   }
+  return ledgervote;
 };
 
 /**

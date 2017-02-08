@@ -32,6 +32,7 @@ const _createUser = (data) => {
     };
 
     if (UserContext.validate(objUser)) {
+
       createUserPromise = new Promise(function (resolve, reject) {
         Accounts.createUser({
           username: objUser.username,
@@ -51,11 +52,6 @@ const _createUser = (data) => {
             }
           });
           // make first membership transaction
-          /* Meteor.call ('genesisTransaction', Meteor.user()._id, function (error, response) {
-            if (error) {
-              console.log('[genesisTransaction] ERROR: ' + error);
-            };
-          });*/
           genesisTransaction(Meteor.user()._id);
           return resolve(result);
         });
@@ -88,16 +84,16 @@ let _validateUser = (data) => {
 * @param {string} pass - makes sure password meets criteria
 */
 let _validatePassword = (pass) => {
-  var val = true;
+  let val = true;
   if (pass.length < 6) {
-    Session.set("invalidPassword", true);
+    Session.set('invalidPassword', true);
     val = false;
   } else {
-    Session.set("invalidPassword", false);
+    Session.set('invalidPassword', false);
     val = true;
   }
   return val;
-}
+};
 
 /**
 * @summary verify correct password input
@@ -105,9 +101,9 @@ let _validatePassword = (pass) => {
 * @param {string} passB - second version of password introduced in form
 */
 let _validatePasswordMatch = (passA, passB) => {
-  Session.set("mismatchPassword", !(passA == passB));
-  return (passA == passB);
-}
+  Session.set('mismatchPassword', !(passA === passB));
+  return (passA === passB);
+};
 
 /**
 * @summary makes sure username identifier meets criteria and is avaialble

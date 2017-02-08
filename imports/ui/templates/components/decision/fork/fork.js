@@ -84,16 +84,16 @@ Template.fork.helpers({
     return '';
   },
   tickStatus() {
-    this.tick = getVote(Session.get('contract')._id, this._id);
-    if (Session.get('candidateBallot')) {
+    this.tick = getVote(Session.get('contract')._id, this);
+    if (Session.get('candidateBallot') || (this.tick == this._id)) {
       if (this.tick) {
         if (this.mode === 'REJECT') {
           return 'tick-active-unauthorized';
         }
         return 'tick-active';
       }
+    // already voted
     } else if (Session.get('rightToVote') === false && Session.get('contract').stage !== 'DRAFT') {
-      // already voted
       if (this.tick) {
         return 'tick-disabled';
       }

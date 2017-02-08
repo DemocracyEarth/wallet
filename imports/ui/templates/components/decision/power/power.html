@@ -70,6 +70,14 @@
 </template>
 
 <template name="bar">
+  <div class="result-bar vote-bar vote-bar-allocated vote-bar-allocated-placed w-clearfix" style=" width: {{inBallot}};">
+    <div class="arrow-wrapper arrow-wrapper-bottom">
+      <div class="arrow-up">
+        <div class="arrow-up arrow-up-inner"></div>
+      </div>
+    </div>
+  </div>
+
   <div id="voteBar-{{voteId}}" class="w-clearfix result vote-bar">
 
     <!-- available -->
@@ -79,9 +87,6 @@
       <div id="voteHandle-{{voteId}}" class="handle"></div>
 
     </div>
-
-    <!-- inBallot-->
-    <div class="result-bar vote-bar vote-bar-allocated vote-bar-allocated-placed"  style=" width: {{inBallot}}; margin-left: -{{allocate}}; "></div>
 
     <!-- placed -->
     <div class="result-bar vote-bar vote-bar-allocated"  style=" width: {{placed}} "></div>

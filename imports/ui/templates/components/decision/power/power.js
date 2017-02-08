@@ -414,10 +414,10 @@ Template.capital.helpers({
             if (inBallot === 0) {
               label = `<strong>${Math.abs(quantity)}</strong> ${TAPi18n.__('allocate-in-ballot')}`;
             } else {
-              label = `<strong>${Math.abs(quantity)}</strong> ${TAPi18n.__('more-votes')}`;
+              label = `<strong>${Math.abs(quantity + inBallot)}</strong> ${TAPi18n.__('more-votes')}`;
             }
           } else if (quantity < 0) {
-            label = `<strong>${Math.abs(quantity)}</strong> ${TAPi18n.__('retrieve-from-ballot')}`;
+            label = `<strong>${Math.abs(inBallot + quantity)}</strong> ${TAPi18n.__('retrieve-from-ballot')}`;
           }
           break;
         case 'placed':
@@ -425,7 +425,7 @@ Template.capital.helpers({
           if (Meteor.user().profile.wallet.placed === 0) {
             label = `<strong>${TAPi18n.__('none')}</strong>  ${TAPi18n.__('placed-votes')}`;
           } else {
-            label = `<strong>${Meteor.user().profile.wallet.placed}</strong>  ${TAPi18n.__('placed-votes')}`;
+            label = `<strong>${parseInt(Meteor.user().profile.wallet.placed - inBallot, 10)}</strong>  ${TAPi18n.__('placed-votes')}`;
           }
           break;
       }
@@ -455,11 +455,11 @@ Template.capital.helpers({
           if (Math.abs(quantity) === inBallot && (quantity < 0)) {
             return 'stage-finish-rejected';
           } else if (quantity < 0) {
-            return 'stage-remove';
+            return 'stage-inballot';
           } else if (quantity === 0) {
             return 'hide';
           }
-          return 'stage-live';
+          return 'stage-inballot';
         }
         return 'hide';
       case 'placed':
@@ -502,7 +502,7 @@ Template.bar.helpers({
     return getBarWidth(Session.get(`vote-${Session.get('contract')._id}`).available, this, true);
   },
   placed() {
-    return getBarWidth(Session.get(`vote-${Session.get('contract')._id}`).placed, this);
+    return getBarWidth(parseInt(Session.get(`vote-${Session.get('contract')._id}`).placed - userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id), 10), this);
   },
   inBallot() {
     return getBarWidth(userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id), this);

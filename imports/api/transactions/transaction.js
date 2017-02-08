@@ -189,7 +189,6 @@ const _debt = (wallet, creditorId, type) => {
       }
     }
   }
-  console.log(`totals are : ${totals}`);
   return totals;
 };
 

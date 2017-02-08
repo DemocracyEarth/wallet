@@ -7,6 +7,7 @@
 [![Join the chat at https://gitter.im/DemocracyEarth/sovereign](https://badges.gitter.im/DemocracyEarth/sovereign.svg)](https://gitter.im/DemocracyEarth/sovereign?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Slack Status](http://chat.democracy.earth/badge.svg)](http://chat.democracy.earth)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/599/badge)](https://bestpractices.coreinfrastructure.org/projects/599)
+[![Code Climate](https://codeclimate.com/github/DemocracyEarth/sovereign/badges/gpa.svg)](https://codeclimate.com/github/DemocracyEarth/sovereign)
 
 Sovereign is a decentralized governance platform for small & large organizations.
 
