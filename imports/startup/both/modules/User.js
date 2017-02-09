@@ -10,23 +10,11 @@ import { genesisTransaction } from '/imports/api/transactions/transaction';
 import { validateEmail } from './validations.js';
 
 /**
-* @summary new user input data validation
-* @param {object} data - validates all keys present in data input from new user
-*/
-let _validateUser = (data) => {
-  var val = _validateUsername(data.username)
-            + validateEmail(data.email)
-            + _validatePassword(data.password)
-            + _validatePasswordMatch(data.password, data.mismatchPassword);
-
-  if (val >= 4) { return true } else { return false };
-}
-
-/**
 * @summary Create a new user
 * @param {object} data - input from new user to be used for creation of user in db
 */
 const _createUser = (data) => {
+  let createUserPromise;
   if (_validateUser(data)) {
     const objUser = {
       username: data.username,
@@ -43,39 +31,52 @@ const _createUser = (data) => {
       createdAt: new Date(),
     };
 
-    // create User
     if (UserContext.validate(objUser)) {
-    // if (true) {
-      Accounts.createUser({
-        username: objUser.username,
-        password: objUser.services.password,
-        email: data.email,
-        profile: objUser.profile
-      }, function (error) {
-        if (error) {
-          switch (error.error) {
-          case 403:
-              Session.set('alreadyRegistered', true);
-              break;
+
+      createUserPromise = new Promise(function (resolve, reject) {
+        Accounts.createUser({
+          username: objUser.username,
+          password: objUser.services.password,
+          email: objUser.emails[0].address,
+          profile: objUser.profile,
+        }, function (error, result) {
+          if (error) {
+            return reject(error);
           }
-        } else {
           // send verification e-mail
-          Meteor.call( 'sendVerificationLink', ( error, response ) => {
-            if ( error ) {
-              console.log(error.reason, 'danger');
+          Meteor.call('sendVerificationLink', (verificationError) => {
+            if (verificationError) {
+              console.log(verificationError.reason, 'danger');
             } else {
               displayNotice('user-created', true);
             }
           });
           // make first membership transaction
           genesisTransaction(Meteor.user()._id);
-        }
+          return resolve(result);
+        });
       });
     } else {
       // BUG Shema is not defined. When updating = error:  existingKey.indexOf is not a function
       check(objUser, User);
     }
   }
+  return createUserPromise;
+};
+
+/**
+* @summary new user input data validation
+* @param {object} data - validates all keys present in data input from new user
+*/
+let _validateUser = (data) => {
+  const validUsername = _validateUsername(data.username);
+
+  var val = !validUsername.valid
+            + validateEmail(data.email)
+            + _validatePassword(data.password)
+            + _validatePasswordMatch(data.password, data.mismatchPassword);
+
+  if (val >= 4) { return true } else { return false };
 };
 
 /**
@@ -109,27 +110,29 @@ let _validatePasswordMatch = (passA, passB) => {
 * @param {string} username - picked username
 */
 let _validateUsername = (username) => {
-  //var regexp = /^[A-Za-z'-\s]+$/ Full name and surname
-  var regexp = /^[a-zA-Z0-9]+$/;
-  Session.set("invalidUsername", !regexp.test(username));
+  const usernameValidationObject = {
+    valid: false,
+    repeated: false,
+  };
+
+  const regexp = /^[a-zA-Z0-9]+$/;
+
+  // Set whether username format is valid or not
+  usernameValidationObject.valid = !regexp.test(username);
+
+  // Only if username is valid, check whether it exists already
   if (regexp.test(username)) {
     if (Meteor.user() === null || username !== Meteor.user().username) {
-      Meteor.call('verifyUsername', username, function(err, id) {
-        if (id == true) {
-          Session.set("repeatedUsername", true);
-        } else {
-          Session.set("repeatedUsername", false);
-        }
-      });
-    } else {
-      Session.set("repeatedUsername", false);
-    }
-    if (Session.get("repeatedUsername")) {
-      return false;
+      if (Meteor.users.findOne({ username: username }) !== undefined) {
+        usernameValidationObject.repeated = true;
+      } else {
+        usernameValidationObject.repeated = false;
+      }
     }
   }
-  return regexp.test(username);
-}
+
+  return usernameValidationObject;
+};
 
 /**
 * @summary returns a profile of an anonoymous user
