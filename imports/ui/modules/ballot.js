@@ -77,10 +77,7 @@ const _getVoteFromLedger = (ledger, userId, ballotId) => {
 * @param {object} ballot - ballot object from template
 */
 const _getVote = (contractId, ballot) => {
-  // `[_getVote] Value for the ballot for current user of this Session.`);
-  // `ballot._id ${ballot._id}`);
-  // `ballot[0]._id ${ballot}`);
-  // ballot);
+  // first verifies if the user did any interaction regarding ballot
   if (Session.get('rightToVote') === true && Session.get('contract').stage === 'LIVE') {
     // check current live vote
     const votes = Session.get('candidateBallot');
@@ -95,17 +92,15 @@ const _getVote = (contractId, ballot) => {
     }
   }
   // check existing vote present in contract ledger
-  // console.log('getVoteFromLedger yo')
   const ledgervote = _getVoteFromLedger(Session.get('contract').wallet.ledger, Meteor.userId(), ballot._id);
-  // console.log(`(typeof ledgervote === 'string') -> ${(typeof ledgervote === 'string')}`);
-  // console.log(ledgervote);
+
+  // sets candidate ballot of user for given contract
   if (Session.get('candidateBallot') === undefined && ledgervote !== undefined) {
-    const candidateBallot = [];
-    for (const j in ballot) {
-      if (ballot[j].tick === undefined) {
-        ballot[j].tick = ledgervote;
-      }
+    // ticks the ballot if data not present
+    if (ballot.tick === undefined) {
+      ballot.tick = ledgervote;
     }
+    const candidateBallot = [];
     candidateBallot.push({
       contractId: contractId,
       ballot: ballot,

@@ -412,12 +412,12 @@ Template.capital.helpers({
             label = TAPi18n.__('remove-all-votes');
           } else if (quantity > 0) {
             if (inBallot === 0) {
-              label = `<strong>${Math.abs(quantity)}</strong> ${TAPi18n.__('allocate-in-ballot')}`;
+              label = `<strong>${Math.abs(quantity)}</strong> ${TAPi18n.__('place-in-ballot')}`;
             } else {
-              label = `<strong>${Math.abs(quantity + inBallot)}</strong> ${TAPi18n.__('more-votes')}`;
+              label = `<strong>${Math.abs(quantity + inBallot)}</strong> ${TAPi18n.__('place-in-ballot')}`;
             }
           } else if (quantity < 0) {
-            label = `<strong>${Math.abs(inBallot + quantity)}</strong> ${TAPi18n.__('retrieve-from-ballot')}`;
+            label = `<strong>${Math.abs(inBallot + quantity)}</strong> ${TAPi18n.__('place-in-ballot')}`;
           }
           break;
         case 'placed':
