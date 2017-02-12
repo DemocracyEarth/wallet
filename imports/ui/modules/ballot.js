@@ -8,6 +8,7 @@ import { createContract } from '/imports/startup/both/modules/Contract';
 import { checkDuplicate, convertToSlug } from '/lib/utils';
 
 /**
+* @summary sets the vote on the ballot with tick
 * @param {string} contractId - contract where this ballot belongs to
 * @param {object} ballot - ballot object
 */
@@ -26,11 +27,11 @@ const _setVote = (contractId, ballot) => {
   // add or update ballot in memory
   let update = false;
   for (const i in candidateBallot) {
-    if (!multipleChoice) {
-      candidateBallot[i].ballot.tick = false;
-    }
     if (candidateBallot[i].contractId === contractId) {
-      if (candidateBallot[i].ballot._id === ballot._id) {
+      if (!multipleChoice) {
+        candidateBallot[i].ballot.tick = false;
+      }
+      if (candidateBallot[i].ballot._id.toString() === ballot._id.toString()) {
         candidateBallot[i].ballot = ballot;
         update = true;
       }
@@ -54,12 +55,11 @@ const _setVote = (contractId, ballot) => {
 * @param {object} userId - userId to be checked
 * @param {object} ballotId - ballotId value to verify
 */
-const _getVoteFromLedger = (ledger, userId, ballotId) => {
-  // `[_getVoteFromLedger] Evaluate if it's last present setting on ledger.`);
+const _getTickFromLedger = (ledger, userId, ballotId) => {
+  // evaluate if it's last present setting on ledger.
   for (let index = ledger.length - 1; index >= 0; index -= 1) {
+    // use of == is intentional.
     if (ledger[index].entityId == userId) {
-        // 'ledger ballot')
-        // ledger[index].ballot)
         for (const j in ledger[index].ballot) {
           if (ledger[index].ballot[j]._id == ballotId) {
             return true;
@@ -72,18 +72,19 @@ const _getVoteFromLedger = (ledger, userId, ballotId) => {
 };
 
 /**
-* @summary returns ballot value for a given a user
+* @summary returns tick value for a given ballot
 * @param {string} contractId - contract where this ballot belongs to
 * @param {object} ballot - ballot object from template
+* @return {boolean} tick value
 */
-const _getVote = (contractId, ballot) => {
+const _getTickValue = (contractId, ballot) => {
   // first verifies if the user did any interaction regarding ballot
   if (Session.get('rightToVote') === true && Session.get('contract').stage === 'LIVE') {
     // check current live vote
     const votes = Session.get('candidateBallot');
     if (votes !== undefined) {
       for (const i in votes) {
-        if (votes[i].contractId === contractId && votes[i].ballot._id === ballot._id) {
+        if (votes[i].contractId === contractId && votes[i].ballot._id.toString() === ballot._id.toString()) {
           if (votes[i].ballot.tick !== undefined) {
             return votes[i].ballot.tick;
           }
@@ -92,22 +93,31 @@ const _getVote = (contractId, ballot) => {
     }
   }
   // check existing vote present in contract ledger
-  const ledgervote = _getVoteFromLedger(Session.get('contract').wallet.ledger, Meteor.userId(), ballot._id);
-
-  // sets candidate ballot of user for given contract
-  if (Session.get('candidateBallot') === undefined && ledgervote !== undefined) {
-    // ticks the ballot if data not present
-    if (ballot.tick === undefined) {
-      ballot.tick = ledgervote;
-    }
-    const candidateBallot = [];
-    candidateBallot.push({
-      contractId: contractId,
-      ballot: ballot,
-    });
-    Session.set('candidateBallot', candidateBallot);
-  }
+  const ledgervote = _getTickFromLedger(Session.get('contract').wallet.ledger, Meteor.userId(), ballot._id);
   return ledgervote;
+};
+
+/**
+* @summary sets candidate ballot of user for given contract
+* @param {string} contractId - contract where this ballot belongs to
+* @param {object} ballot - ballot object from template
+* @return {boolean} tick value
+*/
+const _candidateBallot = (userId) => {
+  const candidateBallot = [];
+  const ledger = Session.get('contract').wallet.ledger;
+  for (let index = ledger.length - 1; index >= 0; index -= 1) {
+    if (ledger[index].entityId === userId) {
+      for (const j in ledger[index].ballot) {
+        candidateBallot.push({
+          contractId: Session.get('contract')._id,
+          ballot: ledger[index].ballot[j],
+        });
+      }
+      break;
+    }
+  }
+  Session.set('candidateBallot', candidateBallot);
 };
 
 /**
@@ -303,29 +313,6 @@ const _forkContract = () => {
   }
 };
 
-/*
-const _quickContract = (keyword) => {
-  console.log('[createContract] new contract with keyword: ' + keyword);
-  //Adds a new contract to db, returns created insert
-  if (keyword != undefined || keyword != '') {
-    var slug = convertToSlug(keyword);
-  } else {
-    var slug = convertToSlug('draft-' + Meteor.userId());
-  }
-
-  var creationDate = new Date;
-  creationDate.setDate(creationDate.getDate() + 1);
-  console.log('[createContract] new contract by user: ' + Meteor.userId());
-
-  if (keyword != '') {
-    //Creates new contract:
-    console.log('[createContract] contract being created...');
-    return Contracts.insert({ title: keyword });
-
-  }
-}
-*/
-
 /**
 * @summary updates the ranking of an option in a ballot
 * @param {string} contractId - contract
@@ -409,4 +396,5 @@ export const purgeBallot = _purgeBallot;
 export const ballotReady = _ballotReady;
 export const forkContract = _forkContract;
 export const setVote = _setVote;
-export const getVote = _getVote;
+export const getTickValue = _getTickValue;
+export const candidateBallot = _candidateBallot;

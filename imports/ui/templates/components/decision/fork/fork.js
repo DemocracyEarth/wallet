@@ -4,7 +4,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { Session } from 'meteor/session';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
-import { setVote, getVote } from '/imports/ui/modules/ballot';
+import { setVote, getTickValue } from '/imports/ui/modules/ballot';
 import './fork.html';
 
 Template.fork.helpers({
@@ -84,8 +84,10 @@ Template.fork.helpers({
     return '';
   },
   tickStatus() {
-    this.tick = getVote(Session.get('contract')._id, this);
-    if (Session.get('candidateBallot') || (this.tick == this._id)) {
+    this.tick = getTickValue(Session.get('contract')._id, this);
+    console.log('helper tickstatus');
+    console.log(this);
+    if (Session.get('candidateBallot') || (this.tick)) {
       if (this.tick) {
         if (this.mode === 'REJECT') {
           return 'tick-active-unauthorized';

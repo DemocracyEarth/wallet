@@ -3,7 +3,7 @@ import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 
-import { removeFork, updateBallotRank, addChoiceToBallot } from '/imports/ui/modules/ballot';
+import { removeFork, updateBallotRank, addChoiceToBallot, candidateBallot } from '/imports/ui/modules/ballot';
 import { displayTimedWarning } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
@@ -80,34 +80,35 @@ function activateDragging() {
   }).disableSelection();
 }
 
-Template.ballot.rendered = function rendered() {
+Template.ballot.rendered = function () {
   rank = 0;
   if (!Session.get('contract')) { return; }
   if (Session.get('contract').stage === 'DRAFT') {
     activateDragging();
+  } else if (Meteor.userId() !== undefined) {
+    candidateBallot(Meteor.userId());
   }
-  // TODO: make ballot a toggable objetc
 };
 
 Template.ballot.helpers({
-  allowForks: function () {
+  allowForks() {
     return Session.get('contract').allowForks;
   },
-  ballotEnabled: function () {
+  ballotEnabled() {
     if (Session.get('contract').ballotEnabled) {
       activateDragging();
     }
     return Session.get('contract').ballotEnabled;
   },
-  headerStyle: function () {
+  headerStyle() {
     if (this.editorMode && !Session.get('contract').ballotEnabled) {
       return 'paper-header-empty';
     }
   },
-  multipleChoice: function () {
+  multipleChoice() {
     return Session.get('contract').multipleChoice;
   },
-  executiveDecision: function () {
+  executiveDecision() {
     if (Session.get('contract')) {
       if (Session.get('contract').executiveDecision == true) {
         Session.set('emptyBallot', false);
@@ -222,11 +223,11 @@ Template.ballot.helpers({
 
 
 Template.ballot.events({
-  "submit #fork-form, click #add-fork-proposal": function (event) {
+  'submit #fork-form, click #add-fork-proposal'(event) {
     event.preventDefault();
     addChoiceToBallot(Session.get('contract')._id, document.getElementById('text-fork-proposal').value);
-    Meteor.setTimeout(function () {document.getElementById('text-fork-proposal').value = '';},100);
-  }
+    Meteor.setTimeout(function () {document.getElementById('text-fork-proposal').value = ''; }, 100);
+  },
 });
 
 
@@ -239,7 +240,7 @@ function verifyEmptyBallot (options) {
       Session.set('emptyBallot', false);
     }
   } else {
-    Session.set('emptyBallot',false);
+    Session.set('emptyBallot', false);
   }
   return false;
 }
