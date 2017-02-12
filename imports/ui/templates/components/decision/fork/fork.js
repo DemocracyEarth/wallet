@@ -85,8 +85,6 @@ Template.fork.helpers({
   },
   tickStatus() {
     this.tick = getTickValue(Session.get('contract')._id, this);
-    console.log('helper tickstatus');
-    console.log(this);
     if (Session.get('candidateBallot') || (this.tick)) {
       if (this.tick) {
         if (this.mode === 'REJECT') {

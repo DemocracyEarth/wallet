@@ -4801,6 +4801,22 @@ blockquote {
   position: absolute;
 }
 
+.vote-quantity {
+  position: relative;
+  top: -2px;
+  display: inline-block;
+  margin: 1px 3px -4px;
+  padding-right: 5px;
+  padding-left: 5px;
+  border: 1px solid #00bf8f;
+  border-radius: 3px;
+  background-color: #00bf8f;
+  color: #fff;
+  font-size: 10px;
+  line-height: 24px;
+  text-transform: uppercase;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;

@@ -382,7 +382,7 @@
   "place-vote": "Place Vote",
   "confirm-vote": "Open",
   "place-votes-warning": "Do you confirm placing <strong><quantity> votes</strong> on this ballot?",
-  "place-more-votes-warning": "Do you confirm adding <add> votes on this ballot?<br>A total of <strong><quantity> votes</strong> will be placed.",
+  "place-more-votes-warning": "Do you confirm adding <add> votes on this ballot?<br>A total of <span class='vote-quantity'><strong><quantity></strong> votes</span> will be placed.",
   "retrieve-votes-warning": "Do you confirm removing <retrieve> votes from this ballot?<br>A total of <strong><quantity> votes</strong> will be left.",
   "results": "Results",
   "total-votes": "(<votes> votes)",
