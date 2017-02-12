@@ -23,6 +23,14 @@ Schema.Ballot = new SimpleSchema({
     type: String,
     optional: true,
   },
+  executive: {
+    type: Boolean,
+    optional: true,
+  },
+  tick: {
+    type: Boolean,
+    optional: true,
+  },
 });
 
 export const Ballot = Schema.Ballot;
