@@ -3,6 +3,7 @@ import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 
 import { userVotesInContract } from '/imports/startup/both/modules/User';
+import { animationSettings } from '/imports/ui/modules/animation';
 
 /**
 * @summary Wallet class for transaction operations
@@ -90,6 +91,14 @@ Wallet.prototype.sliderInput = function (pixels, avoidAllocation) {
 Wallet.prototype.sliderPercentage = function () {
   this.allocatePercentage = parseInt((this.allocateQuantity * 100) / this.balance, 10);
   this.allocateVotes(this.allocateQuantity);
+};
+
+/**
+* @summary resets slider handle to current in ballot value position
+*/
+Wallet.prototype.resetSlider = function () {
+  const initialValue = parseFloat((this.inBallot * 100) / this.balance, 10).toFixed(2);
+  $(`#voteSlider-${this.voteId}`).velocity({ width: `${initialValue}%` }, animationSettings);
 };
 
 /**
