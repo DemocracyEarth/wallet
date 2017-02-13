@@ -1,10 +1,10 @@
-import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 
 import './blockchainLogin.html';
+import BlockchainLogin from './BlockchainLogin.jsx';
 
-Template.blockchainLogin.events({
-  'click .qr-sign'() {
-    Meteor.loginWithPassword('napoleonDynamite', 'xdwcqc');
+Template.blockchainLogin.helpers({
+  BlockchainLogin() {
+    return BlockchainLogin;
   },
 });
