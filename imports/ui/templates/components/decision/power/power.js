@@ -37,7 +37,6 @@ Template.power.onRendered(function render() {
     },
     stop() {
       // executes the vote
-      Session.set('dragging', false);
       if (contractReady() === true) {
         let counterPartyId;
         switch (Session.get('contract').kind) {
@@ -102,12 +101,13 @@ Template.power.onRendered(function render() {
                 contractId: Session.get('contract')._id,
               };
 
-              // cook vote
+              // first vote
               if (votesInBallot === 0) {
                 // insert votes
                 console.log('insert votes');
                 finalCaption = TAPi18n.__('place-votes-warning').replace('<quantity>', Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity);
                 vote = () => {
+                  Session.set('dragging', false);
                   transact(
                     Meteor.user()._id,
                     Session.get('contract')._id,
@@ -120,6 +120,7 @@ Template.power.onRendered(function render() {
                 console.log('add votes');
                 finalCaption = TAPi18n.__('place-more-votes-warning').replace('<quantity>', votes.toString()).replace('<add>', newVotes);
                 vote = () => {
+                  Session.set('dragging', false);
                   transact(
                     Meteor.user()._id,
                     Session.get('contract')._id,
@@ -132,6 +133,7 @@ Template.power.onRendered(function render() {
                 console.log('subtract votes');
                 finalCaption = TAPi18n.__('retrieve-votes-warning').replace('<quantity>', votes.toString()).replace('<retrieve>', Math.abs(newVotes).toString());
                 vote = () => {
+                  Session.set('dragging', false);
                   transact(
                     Session.get('contract')._id,
                     Meteor.user()._id,
@@ -156,7 +158,10 @@ Template.power.onRendered(function render() {
                   displayBallot: true,
                   ballot: finalBallot,
                 },
-                vote
+                vote,
+                () => {
+                  Session.set('dragging', false);
+                }
               );
             }
             break;
@@ -404,7 +409,7 @@ Template.capital.helpers({
           }
           break;
         case 'inBallot':
-          label = `<strong>${inBallot}</strong> ${TAPi18n.__('place-in-ballot')}`;
+          label = `<strong>${inBallot}</strong> ${TAPi18n.__('on-this-ballot')}`;
           break;
         case 'allocateQuantity':
           quantity = parseInt(Session.get(`vote-${Session.get('contract')._id}`)[value] - inBallot, 10);

@@ -118,6 +118,7 @@ Template.modalWindow.events({
     // Modules.client.displayModal(false);
   },
   'click #cancel'() {
+    if (globalObj.modalCancel !== undefined) { globalObj.modalCancel(); }
     killModal();
   },
   'click #execute'() {
