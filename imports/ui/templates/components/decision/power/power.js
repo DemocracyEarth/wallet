@@ -182,6 +182,7 @@ Template.power.onRendered(function render() {
                 () => {
                   Session.set('dragging', false);
                   this.newVote.resetSlider();
+                  Session.set(`vote-${Session.get('contract')._id}`, this.newVote);
                 }
               );
             }

@@ -62,9 +62,10 @@ const _scope = (value, max, min) => {
 
 Wallet.prototype.allocateVotes = function (quantity, avoidSlider) {
   if (this.enabled) {
+    this.available = this.available;
     this.placedPercentage = ((this.placed * 100) / this.balance);
     this.allocatePercentage = ((quantity * 100) / this.balance);
-    this.allocateQuantity = _scope(quantity, this.available);
+    this.allocateQuantity = parseInt(_scope(quantity, this.available), 10);
   }
   if (!avoidSlider) {
     const sliderWidth = parseFloat(($(`#voteSlider-${this.voteId}`).width() * this.available) / this._maxWidth, 10);
@@ -99,7 +100,8 @@ Wallet.prototype.sliderPercentage = function () {
 */
 Wallet.prototype.resetSlider = function () {
   const initialValue = parseFloat((this.inBallot * 100) / this.balance, 10).toFixed(2);
-  $(`#voteSlider-${this.voteId}`).velocity({ width: `${initialValue}%` }, animationSettings);
+  $(`#voteSlider-${this.voteId}`).velocity({ width: `${initialValue}%` }, animationSettings)
+  this.allocateVotes(initialValue, true);
 };
 
 /**
