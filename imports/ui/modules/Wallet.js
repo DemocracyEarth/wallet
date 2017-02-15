@@ -27,7 +27,7 @@ export const Wallet = function (wallet, contract) {
   this.initialized = true;
   this.enabled = true;
   this.mode = 'PENDING';
-  this.inBallot = userVotesInContract(Meteor.user().profile.wallet, contract);
+  this.inBallot = userVotesInContract(wallet, contract);
 
   // controller
   if (contract === undefined) {
@@ -44,7 +44,8 @@ export const Wallet = function (wallet, contract) {
   // methods
   if (this.initialized === true) {
     // this.allocateVotes(parseInt((this.available * 10) / 100, 10));
-    this.allocateVotes(this.inBallot);
+    this.allocateVotes(0); //this.inBallot
+    this.resetSlider();
     this.initialized = false;
   }
 
@@ -66,8 +67,8 @@ Wallet.prototype.allocateVotes = function (quantity, avoidSlider) {
     this.allocateQuantity = _scope(quantity, this.available);
   }
   if (!avoidSlider) {
-    const sliderWidth = parseInt(($(`#voteSlider-${this.voteId}`).width() * this.available) / this._maxWidth, 10);
-    const sliderCorrected = parseInt((this._maxWidth * this.allocateQuantity) / this.available, 10);
+    const sliderWidth = parseFloat(($(`#voteSlider-${this.voteId}`).width() * this.available) / this._maxWidth, 10);
+    const sliderCorrected = parseFloat((this._maxWidth * this.allocateQuantity) / this.available, 10);
     this.sliderInput((sliderCorrected - sliderWidth), true);
   }
 };
@@ -76,7 +77,7 @@ Wallet.prototype.sliderInput = function (pixels, avoidAllocation) {
   if (pixels === undefined) { pixels = 0; }
   if ($(`#voteBar-${this.voteId}`).offset() !== undefined) {
     const delta = ($(`#voteBar-${this.voteId}`).offset().left + this._maxWidth) - $(`#voteBar-${this.voteId}`).offset().left - ($(`#voteHandle-${this.voteId}`).width() / 2);
-    const votes = parseInt(((this.sliderWidth - ($(`#voteHandle-${this.voteId}`).width() / 2)) * this.available) / delta, 10);
+    const votes = parseFloat(((this.sliderWidth - ($(`#voteHandle-${this.voteId}`).width() / 2)) * this.available) / delta, 10);
     if ($(`#voteHandle-${this.voteId}`).offset() !== undefined) {
       this.sliderWidth = _scope((this._initialSliderWidth + pixels), this._maxWidth, 0);
     } else {

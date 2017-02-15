@@ -2418,7 +2418,7 @@ blockquote {
 
 .result {
   margin-top: 10px;
-  border-radius: 5px;
+  border-radius: 3px;
   background-color: #d1d1d1;
   box-shadow: inset 0 2px 10px -5px rgba(0, 0, 0, .5);
 }
@@ -2458,7 +2458,7 @@ blockquote {
 }
 
 .result-bar.vote-bar {
-  width: 10%;
+  width: 0%;
   height: 100%;
   box-shadow: inset 0 1px 11px -5px hsla(0, 0%, 100%, .5);
 }

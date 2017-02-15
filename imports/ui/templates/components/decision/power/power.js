@@ -413,7 +413,7 @@ Template.power.events({
 Template.capital.helpers({
   getVotes(value) {
     const inBallot = userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
-    const available = parseInt(Session.get(`vote-${Session.get('contract')._id}`).balance - Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity - Session.get(`vote-${Session.get('contract')._id}`).placed, 10);
+    const available = parseInt(Session.get(`vote-${Session.get('contract')._id}`).available - Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10);
     let quantity;
     let label;
     if (Session.get(`vote-${Session.get('contract')._id}`) !== undefined) {
@@ -436,15 +436,10 @@ Template.capital.helpers({
           quantity = parseInt(Session.get(`vote-${Session.get('contract')._id}`)[value] - inBallot, 10);
           if (Math.abs(quantity) === inBallot && (quantity < 0)) {
             label = TAPi18n.__('remove-all-votes');
-          } else if (quantity > 0) {
-            if (inBallot === 0) {
-              label = `<strong>${Math.abs(quantity)}</strong> ${TAPi18n.__('place-in-ballot')}`;
-            } else {
-              label = `<strong>${Math.abs(quantity + inBallot)}</strong> ${TAPi18n.__('place-in-ballot')}`;
-            }
-          } else if (quantity < 0) {
-            label = `<strong>${Math.abs(inBallot + quantity)}</strong> ${TAPi18n.__('place-in-ballot')}`;
+          } else if (quantity > 0 && inBallot === 0) {
+            label = `<strong>${Math.abs(quantity)}</strong> ${TAPi18n.__('place-in-ballot')}`;
           }
+          label = `<strong>${Math.abs(inBallot + quantity)}</strong> ${TAPi18n.__('place-in-ballot')}`;
           break;
         case 'placed':
         default:
@@ -480,10 +475,6 @@ Template.capital.helpers({
         if (Session.get('dragging') === true) {
           if (Math.abs(quantity) === inBallot && (quantity < 0)) {
             return 'stage-finish-rejected';
-          } else if (quantity < 0) {
-            return 'stage-inballot';
-          } else if (quantity === 0) {
-            return 'hide';
           }
           return 'stage-inballot';
         }
@@ -500,7 +491,7 @@ Template.capital.helpers({
 });
 
 Template.bar.helpers({
-  allocate() {
+  available() {
     return getBarWidth(Session.get(`vote-${Session.get('contract')._id}`).available, this, true);
   },
   placed() {
