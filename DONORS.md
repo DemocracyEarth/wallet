@@ -4,9 +4,9 @@ Democracy Earth Foundation is a 501 (c) 3 not for profit corporation based in Sa
 
 ## Institutional
 
-  * [Y Combinator](http://ycombinator.org)
-  * [Fast Forward](http://ffwd.org)
-  * [Teespring](http://teespring.com)
+  * 🇺🇸 [Y Combinator](http://ycombinator.org)
+  * 🇺🇸 [Fast Forward](http://ffwd.org)
+  * 🇺🇸 [Teespring](http://teespring.com)
 
 ## Individuals
 
@@ -56,9 +56,11 @@ Democracy Earth Foundation is a 501 (c) 3 not for profit corporation based in Sa
 
 ## Research
 
-  * [University of Berkeley](https://www.haas.berkeley.edu)
-  * [Alphabet's Jigsaw](https://jigsaw.google.com)
-  * [World Economic Forum](https://weforum.org)  
+  * 🇺🇸 [University of Berkeley](https://www.haas.berkeley.edu)
+  * 🇺🇸 [Alphabet's Jigsaw](https://jigsaw.google.com)
+  * 🇨🇭 [World Economic Forum](https://weforum.org)  
+  * 🇺🇸 [One Global Democracy](https://oneglobaldemocracy.com/)
+  * 🇺🇸 [Coding Democracy](https://codingdemocracy.tv)
 
 ## Team
 
@@ -70,3 +72,5 @@ Democracy Earth Foundation is a 501 (c) 3 not for profit corporation based in Sa
   * 🇫🇷 Louis Margot-Duclot
   * 🇨🇴 Felipe Alvarez  
   * 🇨🇦 Cyprien Grau
+  * 🇺🇸 Peter Schurman
+  * 🇺🇸 Andew James Benson
