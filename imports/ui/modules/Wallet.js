@@ -43,8 +43,7 @@ export const Wallet = function (wallet, contract) {
 
   // methods
   if (this.initialized === true) {
-    // this.allocateVotes(parseInt((this.available * 10) / 100, 10));
-    this.allocateVotes(0); //this.inBallot
+    this.allocateVotes(0);
     this.resetSlider();
     this.initialized = false;
   }
@@ -62,7 +61,6 @@ const _scope = (value, max, min) => {
 
 Wallet.prototype.allocateVotes = function (quantity, avoidSlider) {
   if (this.enabled) {
-    this.available = this.available;
     this.placedPercentage = ((this.placed * 100) / this.balance);
     this.allocatePercentage = ((quantity * 100) / this.balance);
     this.allocateQuantity = parseInt(_scope(quantity, this.available), 10);
@@ -100,7 +98,7 @@ Wallet.prototype.sliderPercentage = function () {
 */
 Wallet.prototype.resetSlider = function () {
   const initialValue = parseFloat((this.inBallot * 100) / this.balance, 10).toFixed(2);
-  $(`#voteSlider-${this.voteId}`).velocity({ width: `${initialValue}%` }, animationSettings)
+  $(`#voteSlider-${this.voteId}`).velocity({ width: `${initialValue}%` }, animationSettings);
   this.allocateVotes(initialValue, true);
 };
 

@@ -52,6 +52,9 @@ Template.power.onRendered(function render() {
     },
     start() {
       this.newVote = new Wallet(Meteor.user().profile.wallet, Session.get('contract')._id);
+      if (Session.get(`vote-${this.newVote.voteId}`) !== undefined) {
+        $(`#voteSlider-${this.newVote.voteId}`).velocity('stop');
+      }
       Session.set('dragging', true);
     },
     drag(event, ui) {
