@@ -425,34 +425,34 @@ Template.power.events({
 Template.capital.helpers({
   getVotes(value) {
     const inBallot = Session.get(`vote-${Session.get('contract')._id}`).inBallot;
-    const available = parseInt((Session.get(`vote-${Session.get('contract')._id}`).available + Session.get(`vote-${Session.get('contract')._id}`).inBallot) - Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10);
-    let quantity;
     let label;
     if (Session.get(`vote-${Session.get('contract')._id}`) !== undefined) {
       switch (value) {
-        case 'available':
-          if (Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity > 0) {
-            if (available > 0) {
-              label = `<strong>${available}</strong> ${TAPi18n.__('available-votes')}`;
-            } else {
-              label = `<strong>${TAPi18n.__('none')}</strong> ${TAPi18n.__('available-votes')}`;
-            }
+        case 'available': {
+          const available = parseInt((Session.get(`vote-${Session.get('contract')._id}`).available + Session.get(`vote-${Session.get('contract')._id}`).inBallot) - Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10);
+          if (Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity > 0 && (available <= 0)) {
+            label = `<strong>${TAPi18n.__('none')}</strong> ${TAPi18n.__('available-votes')}`;
           } else {
             label = `<strong>${available}</strong> ${TAPi18n.__('available-votes')}`;
           }
           break;
+        }
         case 'inBallot':
-          label = `<strong>${inBallot}</strong> ${TAPi18n.__('on-this-ballot')}`;
+          if (inBallot === 0) {
+            label = `<strong>${TAPi18n.__('none')}</strong> ${TAPi18n.__('on-this-ballot')}`;
+          } else {
+            label = `<strong>${inBallot}</strong> ${TAPi18n.__('on-this-ballot')}`;
+          }
           break;
-        case 'allocateQuantity':
-          quantity = parseInt(Session.get(`vote-${Session.get('contract')._id}`)[value] - inBallot, 10);
+        case 'allocateQuantity': {
+          const quantity = parseInt(Session.get(`vote-${Session.get('contract')._id}`)[value] - inBallot, 10);
           if (Math.abs(quantity) === inBallot && (quantity < 0)) {
             label = TAPi18n.__('remove-all-votes');
-          } else if (quantity > 0 && inBallot === 0) {
-            label = `<strong>${Math.abs(quantity)}</strong> ${TAPi18n.__('place-in-ballot')}`;
+          } else {
+            label = `<strong>${Math.abs(inBallot + quantity)}</strong> ${TAPi18n.__('place-in-ballot')}`;
           }
-          label = `<strong>${Math.abs(inBallot + quantity)}</strong> ${TAPi18n.__('place-in-ballot')}`;
           break;
+        }
         case 'placed':
         default:
           if (Meteor.user().profile.wallet.placed === 0) {
@@ -467,14 +467,14 @@ Template.capital.helpers({
   },
   style(value) {
     const inBallot = Session.get(`vote-${Session.get('contract')._id}`).inBallot;
-    const available = parseInt(Session.get(`vote-${Session.get('contract')._id}`)[value] - Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10);
-    const quantity = parseInt(Session.get(`vote-${Session.get('contract')._id}`)[value] - inBallot, 10);
     switch (value) {
-      case 'available':
-        if (available === 0) {
+      case 'available': {
+        const available = parseInt((Session.get(`vote-${Session.get('contract')._id}`).available + Session.get(`vote-${Session.get('contract')._id}`).inBallot) - Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10);
+        if (Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity > 0 && (available <= 0)) {
           return 'stage-finish-rejected';
         }
         return 'stage-finish-approved';
+      }
       case 'inBallot':
         if (Session.get('dragging') === false || Session.get('dragging') === undefined) {
           if (inBallot === 0) {
@@ -483,7 +483,8 @@ Template.capital.helpers({
           return 'stage-inballot';
         }
         return 'hide';
-      case 'allocateQuantity':
+      case 'allocateQuantity': {
+        const quantity = parseInt(Session.get(`vote-${Session.get('contract')._id}`)[value] - inBallot, 10);
         if (Session.get('dragging') === true) {
           if (Math.abs(quantity) === inBallot && (quantity < 0)) {
             return 'stage-finish-rejected';
@@ -491,6 +492,7 @@ Template.capital.helpers({
           return 'stage-inballot';
         }
         return 'hide';
+      }
       case 'placed':
         return 'stage-placed';
       default:

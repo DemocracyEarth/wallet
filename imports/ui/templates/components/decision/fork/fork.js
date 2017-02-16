@@ -4,7 +4,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { Session } from 'meteor/session';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
-import { setVote, getTickValue } from '/imports/ui/modules/ballot';
+import { setVote, getTickValue, candidateBallot } from '/imports/ui/modules/ballot';
 import './fork.html';
 
 Template.fork.helpers({
@@ -124,6 +124,9 @@ Template.fork.events({
         case 'LIVE':
         default:
           if (Session.get('rightToVote')) {
+            if (Session.get('candidateBallot') === undefined) {
+              candidateBallot(Meteor.userId());
+            }
             this.tick = setVote(Session.get('contract')._id, this);
             if (this.tick === true) {
               Session.set('noSelectedOption', false);
