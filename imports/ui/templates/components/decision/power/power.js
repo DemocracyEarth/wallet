@@ -129,7 +129,6 @@ Template.power.onRendered(function render() {
 
               const close = () => {
                 Session.set('dragging', false);
-                this.newVote.resetSlider();
                 Session.set(`vote-${Session.get('contract')._id}`, this.newVote);
               };
 
@@ -188,7 +187,11 @@ Template.power.onRendered(function render() {
                   ballot: finalBallot,
                 },
                 vote,
-                close
+                () => {
+                  Session.set('dragging', false);
+                  this.newVote.resetSlider();
+                  Session.set(`vote-${Session.get('contract')._id}`, this.newVote);
+                }
               );
             }
             break;
