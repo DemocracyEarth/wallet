@@ -10,7 +10,7 @@ import { isUserSigner, userVotesInContract } from '/imports/startup/both/modules
 import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
 import { displayModal } from '/imports/ui/modules/modal';
 import { Wallet } from '/imports/ui/modules/Wallet';
-import { contractReady, purgeBallot } from '/imports/ui/modules/ballot';
+import { contractReady, purgeBallot, candidateBallot } from '/imports/ui/modules/ballot';
 
 import './power.html';
 import '../action/action.js';
@@ -54,6 +54,9 @@ Template.power.onRendered(function render() {
       this.newVote = new Wallet(Meteor.user().profile.wallet, Session.get('contract')._id);
       if (Session.get(`vote-${this.newVote.voteId}`) !== undefined) {
         $(`#voteSlider-${this.newVote.voteId}`).velocity('stop');
+      }
+      if (Session.get('candidateBallot') === undefined) {
+        candidateBallot(Meteor.userId());
       }
       Session.set('dragging', true);
     },
