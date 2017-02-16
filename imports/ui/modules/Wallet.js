@@ -43,7 +43,6 @@ export const Wallet = function (wallet, contract) {
 
   // methods
   if (this.initialized === true) {
-    this.allocateVotes(0);
     this.resetSlider();
     this.initialized = false;
   }
@@ -73,17 +72,21 @@ Wallet.prototype.allocateVotes = function (quantity, avoidSlider) {
 };
 
 Wallet.prototype.sliderInput = function (pixels, avoidAllocation) {
+  //console.log($(`#voteHandle-${this.voteId}`).offset().left - $(`#voteBar-${this.voteId}`).offset().left);
   if (pixels === undefined) { pixels = 0; }
   if ($(`#voteBar-${this.voteId}`).offset() !== undefined) {
-    const delta = ($(`#voteBar-${this.voteId}`).offset().left + this._maxWidth) - $(`#voteBar-${this.voteId}`).offset().left - ($(`#voteHandle-${this.voteId}`).width() / 2);
-    const votes = parseFloat(((this.sliderWidth - ($(`#voteHandle-${this.voteId}`).width() / 2)) * this.available) / delta, 10);
+    // const delta = ($(`#voteBar-${this.voteId}`).offset().left + this._maxWidth) - $(`#voteBar-${this.voteId}`).offset().left - ($(`#voteHandle-${this.voteId}`).width() / 2);
+    // const votes = parseInt(((this.sliderWidth - ($(`#voteHandle-${this.voteId}`).width() / 2)) * this.available) / delta, 10);
     if ($(`#voteHandle-${this.voteId}`).offset() !== undefined) {
       this.sliderWidth = _scope((this._initialSliderWidth + pixels), this._maxWidth, 0);
     } else {
       this.sliderWidth = 0;
     }
     if (!avoidAllocation) {
-      this.allocateVotes(votes, true);
+      const sliderWidth = _scope($(`#voteSlider-${this.voteId}`).width(), this._maxWidth, 0);
+      const barWidth = $(`#voteBar-${this.voteId}`).width();
+      const pixelToVote = _scope(parseInt((sliderWidth * this.balance) / barWidth, 10), this.available, 0);
+      this.allocateVotes(pixelToVote, true);
     }
   }
 };
@@ -99,7 +102,9 @@ Wallet.prototype.sliderPercentage = function () {
 Wallet.prototype.resetSlider = function () {
   const initialValue = parseFloat((this.inBallot * 100) / this.balance, 10).toFixed(2);
   $(`#voteSlider-${this.voteId}`).velocity({ width: `${initialValue}%` }, animationSettings);
-  this.allocateVotes(initialValue, true);
+  this._initialSliderWidth = parseInt(($(`#voteBar-${this.voteId}`).width() * initialValue) / 100, 10);
+  this.sliderWidth = this._initialSliderWidth;
+  this.allocateVotes(this.inBallot, true);
 };
 
 /**
