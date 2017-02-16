@@ -10,7 +10,7 @@ import { isUserSigner, userVotesInContract } from '/imports/startup/both/modules
 import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
 import { displayModal } from '/imports/ui/modules/modal';
 import { Wallet } from '/imports/ui/modules/Wallet';
-import { contractReady, purgeBallot, candidateBallot } from '/imports/ui/modules/ballot';
+import { contractReady, purgeBallot, candidateBallot, executeVote } from '/imports/ui/modules/ballot';
 
 import './power.html';
 import '../action/action.js';
@@ -118,94 +118,7 @@ Template.power.onRendered(function render() {
             break;
           case 'VOTE':
           default:
-            if (Session.get('contract').stage === 'LIVE') {
-              let finalCaption;
-              let vote = () => {};
-              const finalBallot = purgeBallot(Session.get('candidateBallot'));
-              if (finalBallot.length === 0) {
-                displayNotice('empty-values-ballot', true);
-                return;
-              }
-              const votesInBallot = Session.get(`vote-${Session.get('contract')._id}`).inBallot;
-              const newVotes = parseInt(Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity - votesInBallot, 10);
-              const votes = parseInt(votesInBallot + newVotes, 10);
-              const settings = {
-                condition: {
-                  tags: Session.get('contract').tags,
-                  ballot: finalBallot,
-                },
-                currency: 'VOTES',
-                kind: Session.get('contract').kind,
-                contractId: Session.get('contract')._id,
-              };
-
-              const close = () => {
-                Session.set('dragging', false);
-                Session.set(`vote-${Session.get('contract')._id}`, this.newVote);
-              };
-
-              // first vote
-              if (votesInBallot === 0) {
-                // insert votes
-                finalCaption = TAPi18n.__('place-votes-warning').replace('<quantity>', Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity);
-                vote = () => {
-                  transact(
-                    Meteor.user()._id,
-                    Session.get('contract')._id,
-                    parseInt(Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10),
-                    settings,
-                    close
-                  );
-                };
-              } else if (newVotes > 0) {
-                // add votes
-                finalCaption = TAPi18n.__('place-more-votes-warning').replace('<quantity>', votes.toString()).replace('<add>', newVotes);
-                vote = () => {
-                  transact(
-                    Meteor.user()._id,
-                    Session.get('contract')._id,
-                    parseInt(newVotes, 10),
-                    settings,
-                    close
-                  );
-                };
-              } else if (newVotes < 0) {
-                // subtract votes
-                finalCaption = TAPi18n.__('retrieve-votes-warning').replace('<quantity>', votes.toString()).replace('<retrieve>', Math.abs(newVotes).toString());
-                vote = () => {
-                  transact(
-                    Session.get('contract')._id,
-                    Meteor.user()._id,
-                    parseInt(Math.abs(newVotes), 10),
-                    settings,
-                    close
-                  );
-                };
-              } else {
-                return;
-              }
-
-              // ask confirmation
-              displayModal(
-                true,
-                {
-                  icon: 'images/modal-vote.png',
-                  title: TAPi18n.__('place-vote'),
-                  message: finalCaption,
-                  cancel: TAPi18n.__('not-now'),
-                  action: TAPi18n.__('vote'),
-                  displayProfile: false,
-                  displayBallot: true,
-                  ballot: finalBallot,
-                },
-                vote,
-                () => {
-                  Session.set('dragging', false);
-                  this.newVote.resetSlider();
-                  Session.set(`vote-${Session.get('contract')._id}`, this.newVote);
-                }
-              );
-            }
+            executeVote(this);
             break;
         }
       } else if (purgeBallot(Session.get('candidateBallot')).length === 0) {

@@ -1,11 +1,15 @@
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
+import { TAPi18n } from 'meteor/tap:i18n';
 
 import { globalObj } from '/lib/global';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { Transactions } from '/imports/api/transactions/Transactions';
 import { createContract } from '/imports/startup/both/modules/Contract';
 import { checkDuplicate, convertToSlug } from '/lib/utils';
+import { displayNotice } from '/imports/ui/modules/notice';
+import { displayModal } from '/imports/ui/modules/modal';
+import { transact } from '/imports/api/transactions/transaction';
 
 /**
 * @summary sets the vote on the ballot with tick
@@ -47,6 +51,116 @@ const _setVote = (contractId, ballot) => {
   // save to session var
   Session.set('candidateBallot', candidateBallot);
   return ballot.tick;
+};
+
+/**
+* @summary keeps only boolean true values in ballot
+* @param {object} ballot - ballot object
+* @return {object} options - array with only ticked true ballot options
+*/
+const _purgeBallot = (options) => {
+  const finalBallot = [];
+  for (const i in options) {
+    if (options[i].ballot.tick === true) {
+      finalBallot.push(options[i].ballot);
+    }
+  }
+  return finalBallot;
+};
+
+/**
+* @summary executes an already configured vote from a power bar
+* @param {object} powerbar where the vote to be executed takes its input from
+*/
+const _executeVote = (powerBar) => {
+  if (Session.get('contract').stage === 'LIVE') {
+    let finalCaption;
+    let vote = () => {};
+    const finalBallot = _purgeBallot(Session.get('candidateBallot'));
+    if (finalBallot.length === 0) {
+      displayNotice('empty-values-ballot', true);
+      return;
+    }
+    const votesInBallot = Session.get(`vote-${Session.get('contract')._id}`).inBallot;
+    const newVotes = parseInt(Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity - votesInBallot, 10);
+    const votes = parseInt(votesInBallot + newVotes, 10);
+    const settings = {
+      condition: {
+        tags: Session.get('contract').tags,
+        ballot: finalBallot,
+      },
+      currency: 'VOTES',
+      kind: Session.get('contract').kind,
+      contractId: Session.get('contract')._id,
+    };
+
+    const close = () => {
+      Session.set('dragging', false);
+      Session.set(`vote-${Session.get('contract')._id}`, powerBar.newVote);
+    };
+
+    // first vote
+    if (votesInBallot === 0) {
+      // insert votes
+      finalCaption = TAPi18n.__('place-votes-warning').replace('<quantity>', Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity);
+      vote = () => {
+        transact(
+          Meteor.user()._id,
+          Session.get('contract')._id,
+          parseInt(Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10),
+          settings,
+          close
+        );
+      };
+    } else if (newVotes > 0) {
+      // add votes
+      finalCaption = TAPi18n.__('place-more-votes-warning').replace('<quantity>', votes.toString()).replace('<add>', newVotes);
+      vote = () => {
+        transact(
+          Meteor.user()._id,
+          Session.get('contract')._id,
+          parseInt(newVotes, 10),
+          settings,
+          close
+        );
+      };
+    } else if (newVotes < 0) {
+      // subtract votes
+      finalCaption = TAPi18n.__('retrieve-votes-warning').replace('<quantity>', votes.toString()).replace('<retrieve>', Math.abs(newVotes).toString());
+      vote = () => {
+        transact(
+          Session.get('contract')._id,
+          Meteor.user()._id,
+          parseInt(Math.abs(newVotes), 10),
+          settings,
+          close
+        );
+      };
+    } else {
+      return;
+    }
+
+    // ask confirmation
+    displayModal(
+      true,
+      {
+        icon: 'images/modal-vote.png',
+        title: TAPi18n.__('place-vote'),
+        message: finalCaption,
+        cancel: TAPi18n.__('not-now'),
+        action: TAPi18n.__('vote'),
+        displayProfile: false,
+        displayBallot: true,
+        ballot: finalBallot,
+      },
+      vote,
+      () => {
+        Session.set('dragging', false);
+        powerBar.newVote.resetSlider();
+        Session.set(`vote-${Session.get('contract')._id}`, powerBar.newVote);
+      }
+    );
+  }
 };
 
 /**
@@ -131,22 +245,6 @@ const _ballotReady = () => {
     }
   }
   return false;
-};
-
-
-/**
-* @summary keeps only boolean true values in ballot
-* @param {object} ballot - ballot object
-* @return {object} options - array with only ticked true ballot options
-*/
-const _purgeBallot = (options) => {
-  const finalBallot = [];
-  for (const i in options) {
-    if (options[i].ballot.tick === true) {
-      finalBallot.push(options[i].ballot);
-    }
-  }
-  return finalBallot;
 };
 
 /**
@@ -398,3 +496,4 @@ export const forkContract = _forkContract;
 export const setVote = _setVote;
 export const getTickValue = _getTickValue;
 export const candidateBallot = _candidateBallot;
+export const executeVote = _executeVote;
