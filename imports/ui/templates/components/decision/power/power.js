@@ -114,7 +114,7 @@ Template.power.onRendered(function render() {
                 displayNotice('empty-values-ballot', true);
                 return;
               }
-              const votesInBallot = userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
+              const votesInBallot = Session.get(`vote-${Session.get('contract')._id}`).inBallot;
               const newVotes = parseInt(Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity - votesInBallot, 10);
               const votes = parseInt(votesInBallot + newVotes, 10);
               const settings = {
@@ -127,41 +127,47 @@ Template.power.onRendered(function render() {
                 contractId: Session.get('contract')._id,
               };
 
+              const close = () => {
+                Session.set('dragging', false);
+                this.newVote.resetSlider();
+                Session.set(`vote-${Session.get('contract')._id}`, this.newVote);
+              };
+
               // first vote
               if (votesInBallot === 0) {
                 // insert votes
                 finalCaption = TAPi18n.__('place-votes-warning').replace('<quantity>', Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity);
                 vote = () => {
-                  Session.set('dragging', false);
                   transact(
                     Meteor.user()._id,
                     Session.get('contract')._id,
                     parseInt(Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10),
-                    settings
+                    settings,
+                    close
                   );
                 };
               } else if (newVotes > 0) {
                 // add votes
                 finalCaption = TAPi18n.__('place-more-votes-warning').replace('<quantity>', votes.toString()).replace('<add>', newVotes);
                 vote = () => {
-                  Session.set('dragging', false);
                   transact(
                     Meteor.user()._id,
                     Session.get('contract')._id,
                     parseInt(newVotes, 10),
-                    settings
+                    settings,
+                    close
                   );
                 };
               } else if (newVotes < 0) {
                 // subtract votes
                 finalCaption = TAPi18n.__('retrieve-votes-warning').replace('<quantity>', votes.toString()).replace('<retrieve>', Math.abs(newVotes).toString());
                 vote = () => {
-                  Session.set('dragging', false);
                   transact(
                     Session.get('contract')._id,
                     Meteor.user()._id,
                     parseInt(Math.abs(newVotes), 10),
-                    settings
+                    settings,
+                    close
                   );
                 };
               } else {
@@ -182,11 +188,7 @@ Template.power.onRendered(function render() {
                   ballot: finalBallot,
                 },
                 vote,
-                () => {
-                  Session.set('dragging', false);
-                  this.newVote.resetSlider();
-                  Session.set(`vote-${Session.get('contract')._id}`, this.newVote);
-                }
+                close
               );
             }
             break;
@@ -416,8 +418,8 @@ Template.power.events({
 
 Template.capital.helpers({
   getVotes(value) {
-    const inBallot = userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
-    const available = parseInt(Session.get(`vote-${Session.get('contract')._id}`).available - Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10);
+    const inBallot = Session.get(`vote-${Session.get('contract')._id}`).inBallot;
+    const available = parseInt((Session.get(`vote-${Session.get('contract')._id}`).available + Session.get(`vote-${Session.get('contract')._id}`).inBallot) - Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10);
     let quantity;
     let label;
     if (Session.get(`vote-${Session.get('contract')._id}`) !== undefined) {
@@ -458,7 +460,7 @@ Template.capital.helpers({
     return label;
   },
   style(value) {
-    const inBallot = userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
+    const inBallot = Session.get(`vote-${Session.get('contract')._id}`).inBallot;
     const available = parseInt(Session.get(`vote-${Session.get('contract')._id}`)[value] - Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10);
     const quantity = parseInt(Session.get(`vote-${Session.get('contract')._id}`)[value] - inBallot, 10);
     switch (value) {
@@ -490,7 +492,7 @@ Template.capital.helpers({
     }
   },
   negativeAllocation() {
-    return (userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id) > Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity);
+    return (Session.get(`vote-${Session.get('contract')._id}`).inBallot > Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity);
   },
 });
 
@@ -499,10 +501,10 @@ Template.bar.helpers({
     return getBarWidth(Session.get(`vote-${Session.get('contract')._id}`).available, this, true);
   },
   placed() {
-    return getBarWidth(parseFloat(Session.get(`vote-${Session.get('contract')._id}`).placed - userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id), 10), this);
+    return getBarWidth(parseFloat(Session.get(`vote-${Session.get('contract')._id}`).placed - Session.get(`vote-${Session.get('contract')._id}`).inBallot, 10), this);
   },
   inBallot() {
-    return getBarWidth(userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id), this);
+    return getBarWidth(Session.get(`vote-${Session.get('contract')._id}`).inBallot, this);
   },
   hundred() {
     const wallet = Meteor.user().profile.wallet;

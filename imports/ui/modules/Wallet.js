@@ -18,6 +18,7 @@ export const Wallet = function (wallet, contract) {
     this.available = 0;
     this.balance = 0;
     this.placed = 0;
+    this.inBallot = 0;
     this.currency = 'VOTES';
   } else {
     Object.assign(this, wallet);
@@ -62,7 +63,7 @@ Wallet.prototype.allocateVotes = function (quantity, avoidSlider) {
   if (this.enabled) {
     this.placedPercentage = ((this.placed * 100) / this.balance);
     this.allocatePercentage = ((quantity * 100) / this.balance);
-    this.allocateQuantity = parseInt(_scope(quantity, this.available), 10);
+    this.allocateQuantity = parseInt(_scope(quantity, (this.available + this.inBallot)), 10);
   }
   if (!avoidSlider) {
     const sliderWidth = parseFloat(($(`#voteSlider-${this.voteId}`).width() * this.available) / this._maxWidth, 10);
@@ -72,11 +73,8 @@ Wallet.prototype.allocateVotes = function (quantity, avoidSlider) {
 };
 
 Wallet.prototype.sliderInput = function (pixels, avoidAllocation) {
-  //console.log($(`#voteHandle-${this.voteId}`).offset().left - $(`#voteBar-${this.voteId}`).offset().left);
   if (pixels === undefined) { pixels = 0; }
   if ($(`#voteBar-${this.voteId}`).offset() !== undefined) {
-    // const delta = ($(`#voteBar-${this.voteId}`).offset().left + this._maxWidth) - $(`#voteBar-${this.voteId}`).offset().left - ($(`#voteHandle-${this.voteId}`).width() / 2);
-    // const votes = parseInt(((this.sliderWidth - ($(`#voteHandle-${this.voteId}`).width() / 2)) * this.available) / delta, 10);
     if ($(`#voteHandle-${this.voteId}`).offset() !== undefined) {
       this.sliderWidth = _scope((this._initialSliderWidth + pixels), this._maxWidth, 0);
     } else {
@@ -85,7 +83,7 @@ Wallet.prototype.sliderInput = function (pixels, avoidAllocation) {
     if (!avoidAllocation) {
       const sliderWidth = _scope($(`#voteSlider-${this.voteId}`).width(), this._maxWidth, 0);
       const barWidth = $(`#voteBar-${this.voteId}`).width();
-      const pixelToVote = _scope(parseInt((sliderWidth * this.balance) / barWidth, 10), this.available, 0);
+      const pixelToVote = _scope(parseInt((sliderWidth * this.balance) / barWidth, 10), (this.available + this.inBallot), 0);
       this.allocateVotes(pixelToVote, true);
     }
   }

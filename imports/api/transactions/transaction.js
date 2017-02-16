@@ -273,8 +273,9 @@ const _processTransaction = (ticket) => {
 * @param {string} receiverId - user or collective receiving the funds
 * @param {object} settings - additional settings to be stored on the ledger
 * @param {string} process - true if everything turned out right, else: INSUFFICIENT
+* @param {function} callback - once everything's done, what is left to do?
 */
-const _createTransaction = (senderId, receiverId, votes, settings) => {
+const _createTransaction = (senderId, receiverId, votes, settings, callback) => {
   // default settings
   let defaultSettings = {};
   let finalSettings = {};
@@ -323,6 +324,9 @@ const _createTransaction = (senderId, receiverId, votes, settings) => {
   // executes the transaction
   const txId = Transactions.insert(newTransaction);
   const process = _processTransaction(txId);
+
+  // once transaction done, run callback
+  if (callback !== undefined) { callback(); }
 
   switch (process) {
     case 'INSUFFICIENT':
