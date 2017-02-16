@@ -18,10 +18,19 @@ import '../action/action.js';
 let voteQuantity;
 
 /**
+* @summary converts a percentage value to pixels for current power bar
+* @return {number} pixels
+*/
+function percentageToPixel(percentage) {
+  // removes 1 pixel for collision buffer
+  return parseInt(((percentage * $(`#voteBar-${Session.get(`vote-${Session.get('contract')._id}`).voteId}`).width()) / 100) - 1, 10);
+}
+
+/**
 * @summary given absolute value returns relative pixel width
 * @param {number} value nominal votes to pixel width
 * @param {object} bar the item being rendered
-* @param {boolean} toPixels return value in pixels, otherwise percentage
+* @param {boolean} toPixels return value in pixels
 */
 function getBarWidth(value, bar, toPixels) {
   if (bar.editable) {
@@ -33,12 +42,12 @@ function getBarWidth(value, bar, toPixels) {
       } else if (toPixels) {
         return `${wallet.sliderWidth}px`;
       }
-      return `${percentage}%`;
+      return `${percentageToPixel(percentage)}px`;
     }
   }
   // profile, only logged user
   const wallet = Meteor.user().profile.wallet;
-  return `${parseFloat((value * 100) / wallet.balance, 10).toFixed(2)}%`;
+  return `${percentageToPixel(parseFloat((value * 100) / wallet.balance, 10).toFixed(2))}px`;
 }
 
 Template.power.onRendered(function render() {

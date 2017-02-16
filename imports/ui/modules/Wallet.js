@@ -40,7 +40,7 @@ export const Wallet = function (wallet, contract) {
   // view
   this._initialSliderWidth = $(`#voteSlider-${this.voteId}`).width();
   this.sliderWidth = this._initialSliderWidth;
-  this._maxWidth = $(`#voteBar-${this.voteId}`).width() - (($(`#voteBar-${this.voteId}`).width() * parseInt(((this.placed - this.inBallot) * 100) / this.balance, 10)) / 100) - 2;
+  this._maxWidth = $(`#voteBar-${this.voteId}`).width() - (($(`#voteBar-${this.voteId}`).width() * parseInt(((this.placed - this.inBallot) * 100) / this.balance, 10)) / 100);
 
   // methods
   if (this.initialized === true) {
