@@ -4,7 +4,8 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { Session } from 'meteor/session';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
-import { setVote, getTickValue, candidateBallot } from '/imports/ui/modules/ballot';
+import { setVote, getTickValue, candidateBallot, executeVote } from '/imports/ui/modules/ballot';
+import { Wallet } from '/imports/ui/modules/Wallet';
 import './fork.html';
 
 Template.fork.helpers({
@@ -130,6 +131,13 @@ Template.fork.events({
             this.tick = setVote(Session.get('contract')._id, this);
             if (this.tick === true) {
               Session.set('noSelectedOption', false);
+            }
+            if (Session.get(`vote-${Session.get('contract')._id}`).inBallot > 0) {
+              const wallet = new Wallet(Session.get(`vote-${Session.get('contract')._id}`));
+              const cancel = () => {
+                console.log('hello');
+              };
+              executeVote(wallet, cancel);
             }
             break;
           }

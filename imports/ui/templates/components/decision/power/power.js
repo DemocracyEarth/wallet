@@ -4,8 +4,6 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 
-import { displayNotice } from '/imports/ui/modules/notice';
-import { transact } from '/imports/api/transactions/transaction';
 import { isUserSigner, userVotesInContract } from '/imports/startup/both/modules/User';
 import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
 import { displayModal } from '/imports/ui/modules/modal';
@@ -117,9 +115,15 @@ Template.power.onRendered(function render() {
             );
             break;
           case 'VOTE':
-          default:
-            executeVote(this);
+          default: {
+            const cancel = () => {
+              Session.set('dragging', false);
+              this.newVote.resetSlider();
+              Session.set(`vote-${Session.get('contract')._id}`, this.newVote);
+            };
+            executeVote(this.newVote, cancel);
             break;
+          }
         }
       } else if (purgeBallot(Session.get('candidateBallot')).length === 0) {
         Session.set('noSelectedOption', true);

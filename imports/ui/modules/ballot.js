@@ -70,9 +70,10 @@ const _purgeBallot = (options) => {
 
 /**
 * @summary executes an already configured vote from a power bar
-* @param {object} powerbar where the vote to be executed takes its input from
+* @param {Wallet} wallet where the vote to be executed takes its input from
+* @param {function} cancel what happens if execution is cancelled
 */
-const _executeVote = (powerBar) => {
+const _executeVote = (wallet, cancel) => {
   if (Session.get('contract').stage === 'LIVE') {
     let finalCaption;
     let vote = () => {};
@@ -96,13 +97,17 @@ const _executeVote = (powerBar) => {
 
     const close = () => {
       Session.set('dragging', false);
-      Session.set(`vote-${Session.get('contract')._id}`, powerBar.newVote);
+      Session.set(`vote-${Session.get('contract')._id}`, this.newVote);
     };
 
     // first vote
-    if (votesInBallot === 0) {
+    if ((votesInBallot === 0) || (newVotes === 0)) {
       // insert votes
-      finalCaption = TAPi18n.__('place-votes-warning').replace('<quantity>', Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity);
+      if (newVotes === 0) {
+        finalCaption = TAPi18n.__('place-votes-change-ballot').replace('<quantity>', Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity);
+      } else {
+        finalCaption = TAPi18n.__('place-votes-warning').replace('<quantity>', Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity);
+      }
       vote = () => {
         transact(
           Meteor.user()._id,
@@ -154,11 +159,7 @@ const _executeVote = (powerBar) => {
         ballot: finalBallot,
       },
       vote,
-      () => {
-        Session.set('dragging', false);
-        powerBar.newVote.resetSlider();
-        Session.set(`vote-${Session.get('contract')._id}`, powerBar.newVote);
-      }
+      cancel
     );
   }
 };
