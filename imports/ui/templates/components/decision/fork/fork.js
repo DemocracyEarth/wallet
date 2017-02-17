@@ -128,6 +128,7 @@ Template.fork.events({
             if (Session.get('candidateBallot') === undefined) {
               candidateBallot(Meteor.userId());
             }
+            const previous = Session.get('candidateBallot');
             this.tick = setVote(Session.get('contract')._id, this);
             if (this.tick === true) {
               Session.set('noSelectedOption', false);
@@ -135,7 +136,7 @@ Template.fork.events({
             if (Session.get(`vote-${Session.get('contract')._id}`).inBallot > 0) {
               const wallet = new Wallet(Session.get(`vote-${Session.get('contract')._id}`));
               const cancel = () => {
-                console.log('hello');
+                Session.set('candidateBallot', previous);
               };
               executeVote(wallet, cancel);
             }
