@@ -385,6 +385,7 @@
   "place-votes-change-ballot": "Do you confirm changing ballot values?<br>A total of <span class='vote-quantity'><strong><quantity></strong> votes</span> are placed.",
   "place-more-votes-warning": "Do you confirm adding votes on this ballot?<br>A total of <span class='vote-quantity'><strong><quantity></strong> votes</span> will be placed.",
   "retrieve-votes-warning": "Do you confirm removing votes on this ballot?<br>A total of <span class='vote-quantity'><strong><quantity></strong> votes</span> will be left.",
+  "retrieve-all-votes": "Do you confirm removing all votes on this ballot?<br>No votes will be left.",
   "results": "Results",
   "total-votes": "(<votes> votes)",
   "no": "No",

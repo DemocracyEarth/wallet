@@ -129,9 +129,16 @@ Template.fork.events({
               candidateBallot(Meteor.userId());
             }
             const previous = Session.get('candidateBallot');
+            const wallet = new Wallet(Session.get(`vote-${Session.get('contract')._id}`));
+            const cancel = () => {
+              Session.set('candidateBallot', previous);
+            };
             console.log(this.tick);
             if (this.tick === true && Session.get(`vote-${Session.get('contract')._id}`).inBallot > 0) {
               // remove all votes
+              wallet.allocatePercentage = 0;
+              wallet.allocateQuantity = 0;
+              executeVote(wallet, cancel);
               return;
             }
             this.tick = setVote(Session.get('contract')._id, this);
@@ -139,10 +146,6 @@ Template.fork.events({
               Session.set('noSelectedOption', false);
             }
             if (Session.get(`vote-${Session.get('contract')._id}`).inBallot > 0) {
-              const wallet = new Wallet(Session.get(`vote-${Session.get('contract')._id}`));
-              const cancel = () => {
-                Session.set('candidateBallot', previous);
-              };
               executeVote(wallet, cancel);
             }
             break;

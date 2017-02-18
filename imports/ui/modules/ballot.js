@@ -76,14 +76,16 @@ const _purgeBallot = (options) => {
 const _executeVote = (wallet, cancel) => {
   if (Session.get('contract').stage === 'LIVE') {
     let finalCaption;
-    let vote = () => {};
+    let vote;
+    let showBallot = true;
+    let actionLabel = TAPi18n.__('vote');
     const finalBallot = _purgeBallot(Session.get('candidateBallot'));
     if (finalBallot.length === 0) {
       displayNotice('empty-values-ballot', true);
       return;
     }
-    const votesInBallot = Session.get(`vote-${Session.get('contract')._id}`).inBallot;
-    const newVotes = parseInt(Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity - votesInBallot, 10);
+    const votesInBallot = wallet.inBallot;
+    const newVotes = parseInt(wallet.allocateQuantity - votesInBallot, 10);
     const votes = parseInt(votesInBallot + newVotes, 10);
     const settings = {
       condition: {
@@ -97,19 +99,18 @@ const _executeVote = (wallet, cancel) => {
 
     const close = () => {
       Session.set('dragging', false);
-      Session.set(`vote-${Session.get('contract')._id}`, this.newVote);
+      Session.set(`vote-${Session.get('contract')._id}`, wallet);
     };
 
-    // first vote
     if ((votesInBallot === 0) || (newVotes === 0)) {
       // insert votes
       let voteQuantity;
       if (newVotes === 0) {
-        finalCaption = TAPi18n.__('place-votes-change-ballot').replace('<quantity>', Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity);
+        finalCaption = TAPi18n.__('place-votes-change-ballot').replace('<quantity>', wallet.allocateQuantity);
         voteQuantity = 0;
       } else {
-        finalCaption = TAPi18n.__('place-votes-warning').replace('<quantity>', Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity);
-        voteQuantity = parseInt(Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10);
+        finalCaption = TAPi18n.__('place-votes-warning').replace('<quantity>', wallet.allocateQuantity);
+        voteQuantity = parseInt(wallet.allocateQuantity, 10);
       }
       vote = () => {
         transact(
@@ -132,9 +133,15 @@ const _executeVote = (wallet, cancel) => {
           close
         );
       };
-    } else if (newVotes < 0) {
+    } else if (newVotes < 0 || votes === 0) {
       // subtract votes
-      finalCaption = TAPi18n.__('retrieve-votes-warning').replace('<quantity>', votes.toString()).replace('<retrieve>', Math.abs(newVotes).toString());
+      if (votes === 0) {
+        finalCaption = TAPi18n.__('retrieve-all-votes');
+        showBallot = false;
+        actionLabel = TAPi18n.__('remove');
+      } else {
+        finalCaption = TAPi18n.__('retrieve-votes-warning').replace('<quantity>', votes.toString()).replace('<retrieve>', Math.abs(newVotes).toString());
+      }
       vote = () => {
         transact(
           Session.get('contract')._id,
@@ -156,9 +163,9 @@ const _executeVote = (wallet, cancel) => {
         title: TAPi18n.__('place-vote'),
         message: finalCaption,
         cancel: TAPi18n.__('not-now'),
-        action: TAPi18n.__('vote'),
+        action: actionLabel,
         displayProfile: false,
-        displayBallot: true,
+        displayBallot: showBallot,
         ballot: finalBallot,
       },
       vote,
@@ -203,8 +210,7 @@ const _getTickFromLedger = (ledger, userId, ballotId) => {
     for (let index = ledger.length - 1; index >= 0; index -= 1) {
       if (ledger[index].entityId === userId) {
           for (const j in ledger[index].ballot) {
-            // use of == is intentional.
-            if (ledger[index].ballot[j]._id == ballotId) {
+            if (ledger[index].ballot[j]._id.toString() === ballotId.toString()) {
               return true;
             }
           }
