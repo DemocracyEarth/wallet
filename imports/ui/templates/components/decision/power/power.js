@@ -74,6 +74,11 @@ Template.power.onRendered(function render() {
     },
     stop() {
       // executes the vote
+      const cancel = () => {
+        Session.set('dragging', false);
+        this.newVote.resetSlider();
+        Session.set(`vote-${Session.get('contract')._id}`, this.newVote);
+      };
       if (contractReady() === true) {
         let counterPartyId;
         switch (Session.get('contract').kind) {
@@ -116,16 +121,12 @@ Template.power.onRendered(function render() {
             break;
           case 'VOTE':
           default: {
-            const cancel = () => {
-              Session.set('dragging', false);
-              this.newVote.resetSlider();
-              Session.set(`vote-${Session.get('contract')._id}`, this.newVote);
-            };
             executeVote(this.newVote, cancel);
             break;
           }
         }
       } else if (purgeBallot(Session.get('candidateBallot')).length === 0) {
+        cancel();
         Session.set('noSelectedOption', true);
       }
     },
