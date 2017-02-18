@@ -129,6 +129,11 @@ Template.fork.events({
               candidateBallot(Meteor.userId());
             }
             const previous = Session.get('candidateBallot');
+            console.log(this.tick);
+            if (this.tick === true && Session.get(`vote-${Session.get('contract')._id}`).inBallot > 0) {
+              // remove all votes
+              return;
+            }
             this.tick = setVote(Session.get('contract')._id, this);
             if (this.tick === true) {
               Session.set('noSelectedOption', false);

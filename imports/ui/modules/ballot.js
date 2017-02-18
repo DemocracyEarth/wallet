@@ -168,22 +168,48 @@ const _executeVote = (wallet, cancel) => {
 };
 
 /**
+* @summary gets the quantity of votes a given user has on a ledger
+* @param {object} ledger - ledger to be analyzed
+* @param {object} userId - userId to be checked
+*/
+const _getVoteQuantity = (ledger, userId) => {
+  let votes = 0;
+  for (const i in ledger) {
+    if (ledger[i].entityId === userId) {
+      switch (ledger[i].transactionType) {
+        case 'INPUT':
+          votes += ledger[i].quantity;
+          break;
+        case 'OUTPUT':
+        default:
+          votes -= ledger[i].quantity;
+          break;
+      }
+    }
+  }
+  return votes;
+};
+
+/**
 * @summary evaluate if it's last present setting on ledger.
 * @param {object} ledger - ledger to be analyzed
 * @param {object} userId - userId to be checked
 * @param {object} ballotId - ballotId value to verify
 */
 const _getTickFromLedger = (ledger, userId, ballotId) => {
+  const votes = _getVoteQuantity(ledger, userId);
   // evaluate if it's last present setting on ledger.
-  for (let index = ledger.length - 1; index >= 0; index -= 1) {
-    // use of == is intentional.
-    if (ledger[index].entityId == userId) {
-        for (const j in ledger[index].ballot) {
-          if (ledger[index].ballot[j]._id == ballotId) {
-            return true;
+  if (votes > 0) {
+    for (let index = ledger.length - 1; index >= 0; index -= 1) {
+      if (ledger[index].entityId === userId) {
+          for (const j in ledger[index].ballot) {
+            // use of == is intentional.
+            if (ledger[index].ballot[j]._id == ballotId) {
+              return true;
+            }
           }
-        }
-      break;
+        break;
+      }
     }
   }
   return false;
@@ -224,18 +250,21 @@ const _getTickValue = (contractId, ballot) => {
 const _candidateBallot = (userId) => {
   const candidateBallot = [];
   const ledger = Session.get('contract').wallet.ledger;
-  for (let index = ledger.length - 1; index >= 0; index -= 1) {
-    if (ledger[index].entityId === userId) {
-      for (const j in ledger[index].ballot) {
-        candidateBallot.push({
-          contractId: Session.get('contract')._id,
-          ballot: ledger[index].ballot[j],
-        });
+  const votes = _getVoteQuantity(ledger, userId);
+  if (votes > 0) {
+    for (let index = ledger.length - 1; index >= 0; index -= 1) {
+      if (ledger[index].entityId === userId) {
+        for (const j in ledger[index].ballot) {
+          candidateBallot.push({
+            contractId: Session.get('contract')._id,
+            ballot: ledger[index].ballot[j],
+          });
+        }
+        break;
       }
-      break;
     }
+    Session.set('candidateBallot', candidateBallot);
   }
-  Session.set('candidateBallot', candidateBallot);
 };
 
 /**

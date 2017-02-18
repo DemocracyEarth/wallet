@@ -20,8 +20,8 @@ let voteQuantity;
 * @return {number} pixels
 */
 function percentageToPixel(percentage) {
-  // removes 1 pixel for collision buffer
-  return parseInt(((percentage * $(`#voteBar-${Session.get(`vote-${Session.get('contract')._id}`).voteId}`).width()) / 100) - 1, 10);
+  // removes 5 pixels for collision buffer
+  return parseInt(((percentage * $(`#voteBar-${Session.get(`vote-${Session.get('contract')._id}`).voteId}`).width()) / 100) - 5, 10);
 }
 
 /**
@@ -75,6 +75,10 @@ Template.power.onRendered(function render() {
     stop() {
       // executes the vote
       const cancel = () => {
+        console.log(this.newVote.inBallot);
+        if (this.newVote.inBallot === 0) {
+          Session.set('candidateBallot', undefined);
+        }
         Session.set('dragging', false);
         this.newVote.resetSlider();
         Session.set(`vote-${Session.get('contract')._id}`, this.newVote);
@@ -158,6 +162,7 @@ Template.power.helpers({
           }
           break;
         case 'EXECUTED':
+        default:
           switch (contract.kind) {
             case 'DELEGATION':
               voteQuantity = TAPi18n.__('delegate-votes-executed');
