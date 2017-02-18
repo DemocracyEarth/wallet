@@ -103,16 +103,19 @@ const _executeVote = (wallet, cancel) => {
     // first vote
     if ((votesInBallot === 0) || (newVotes === 0)) {
       // insert votes
+      let voteQuantity;
       if (newVotes === 0) {
         finalCaption = TAPi18n.__('place-votes-change-ballot').replace('<quantity>', Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity);
+        voteQuantity = 0;
       } else {
         finalCaption = TAPi18n.__('place-votes-warning').replace('<quantity>', Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity);
+        voteQuantity = parseInt(Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10);
       }
       vote = () => {
         transact(
           Meteor.user()._id,
           Session.get('contract')._id,
-          parseInt(Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10),
+          voteQuantity,
           settings,
           close
         );
