@@ -418,5 +418,6 @@
   "retrieve-from-ballot": "less votes",
   "remove-all-votes": "remove all votes",
   "empty-values-ballot": "No values found on ballot.",
-  "not-enough-funds": "Not enough funds."
+  "not-enough-funds": "Not enough funds.",
+  "events": "Events"
 }
