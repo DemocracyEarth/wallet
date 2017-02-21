@@ -130,22 +130,31 @@ Template.fork.events({
             }
             const previous = Session.get('candidateBallot');
             const wallet = new Wallet(Session.get(`vote-${Session.get('contract')._id}`));
+            wallet.inBallot = Session.get(`vote-${Session.get('contract')._id}`).inBallot;
+            wallet.allocateQuantity = wallet.inBallot;
+            wallet.allocatePercentage = parseFloat((wallet.inBallot * 100) / wallet.balance, 10).toFixed(2);
             const cancel = () => {
               Session.set('candidateBallot', previous);
             };
-            console.log(this.tick);
-            if (this.tick === true && Session.get(`vote-${Session.get('contract')._id}`).inBallot > 0) {
-              // remove all votes
-              wallet.allocatePercentage = 0;
-              wallet.allocateQuantity = 0;
-              executeVote(wallet, cancel);
-              return;
-            }
             this.tick = setVote(Session.get('contract')._id, this);
             if (this.tick === true) {
               Session.set('noSelectedOption', false);
             }
-            if (Session.get(`vote-${Session.get('contract')._id}`).inBallot > 0) {
+
+            // TODO consider multiple choice use case!!
+            // vote
+            if (this.tick === false && Session.get(`vote-${Session.get('contract')._id}`).inBallot > 0) {
+              // remove all votes
+              console.log('REMOVE VOTE');
+              wallet.allocatePercentage = 0;
+              wallet.allocateQuantity = 0;
+              console.log(wallet);
+              console.log(Session.get(`vote-${Session.get('contract')._id}`));
+              executeVote(wallet, cancel);
+              return;
+            } else if (Session.get(`vote-${Session.get('contract')._id}`).inBallot > 0) {
+              console.log('NORMAL')
+              // send new ballot
               executeVote(wallet, cancel);
             }
             break;
