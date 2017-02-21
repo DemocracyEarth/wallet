@@ -103,7 +103,7 @@ const _executeVote = (wallet, cancel, removal) => {
       Session.set(`vote-${Session.get('contract')._id}`, wallet);
     };
 
-    if (newVotes < 0 || votes === 0) {
+    if (newVotes < 0 || votes === 0 || removal === true) {
       // subtract votes
       if (votes === 0) {
         finalCaption = TAPi18n.__('retrieve-all-votes');

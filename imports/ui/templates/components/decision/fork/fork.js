@@ -145,16 +145,11 @@ Template.fork.events({
             // vote
             if (this.tick === false && Session.get(`vote-${Session.get('contract')._id}`).inBallot > 0) {
               // remove all votes
-              console.log('REMOVE VOTE');
               wallet.allocatePercentage = 0;
               wallet.allocateQuantity = 0;
-              wallet.inBallot = 0;
-              console.log(wallet);
-              console.log(Session.get(`vote-${Session.get('contract')._id}`));
               executeVote(wallet, cancel, true);
               return;
             } else if (Session.get(`vote-${Session.get('contract')._id}`).inBallot > 0) {
-              console.log('NORMAL')
               // send new ballot
               executeVote(wallet, cancel);
             }

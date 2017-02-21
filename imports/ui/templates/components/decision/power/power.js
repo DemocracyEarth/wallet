@@ -38,7 +38,8 @@ function getBarWidth(value, bar, toPixels) {
       if (value === 0) {
         return '0px';
       } else if (toPixels) {
-        return `${wallet.sliderWidth}px`;
+        // removes 5 pixels for collision buffer
+        return `${parseInt(wallet.sliderWidth - 5, 10)}px`;
       }
       return `${percentageToPixel(percentage)}px`;
     }
@@ -75,7 +76,6 @@ Template.power.onRendered(function render() {
     stop() {
       // executes the vote
       const cancel = () => {
-        console.log(this.newVote.inBallot);
         if (this.newVote.inBallot === 0) {
           Session.set('candidateBallot', undefined);
         }
@@ -421,7 +421,7 @@ Template.capital.helpers({
           if (Math.abs(quantity) === inBallot && (quantity < 0)) {
             return 'stage-finish-rejected';
           }
-          return 'stage-inballot';
+          return 'stage-live';
         }
         return 'hide';
       }
