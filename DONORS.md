@@ -13,6 +13,7 @@ Democracy Earth Foundation is a 501 (c) 3 not for profit corporation based in Sa
   * 🇦🇷 Ricardo Gorodisch
   * 🇮🇳 Krishna Bahrat
   * 🇦🇷 Matias Mosse
+  * 🇺🇸 Dwight Wilson
   * 🇦🇷 Marcos Galperin
   * 🇦🇷 Alejandro Estrada
   * 🇦🇷 Wenceslao Casares
