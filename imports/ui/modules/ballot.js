@@ -81,10 +81,6 @@ const _executeVote = (wallet, cancel, removal) => {
     let showBallot = true;
     let actionLabel = TAPi18n.__('vote');
     const finalBallot = _purgeBallot(Session.get('candidateBallot'));
-    if (finalBallot.length === 0 && removal !== true) {
-      displayNotice('empty-values-ballot', true);
-      return;
-    }
     const votesInBallot = wallet.inBallot;
     const newVotes = parseInt(wallet.allocateQuantity - votesInBallot, 10);
     const votes = parseInt(votesInBallot + newVotes, 10);
@@ -97,13 +93,35 @@ const _executeVote = (wallet, cancel, removal) => {
       kind: Session.get('contract').kind,
       contractId: Session.get('contract')._id,
     };
+    if (finalBallot.length === 0 && removal !== true) {
+      displayNotice('empty-values-ballot', true);
+      return;
+    }
 
     const close = () => {
       Session.set('dragging', false);
       Session.set(`vote-${Session.get('contract')._id}`, wallet);
     };
 
-    if ((votesInBallot === 0) || (newVotes === 0)) {
+    if (newVotes < 0 || votes === 0) {
+      // subtract votes
+      if (votes === 0) {
+        finalCaption = TAPi18n.__('retrieve-all-votes');
+        showBallot = false;
+        actionLabel = TAPi18n.__('remove');
+      } else {
+        finalCaption = TAPi18n.__('retrieve-votes-warning').replace('<quantity>', votes.toString()).replace('<retrieve>', Math.abs(newVotes).toString());
+      }
+      vote = () => {
+        transact(
+          Session.get('contract')._id,
+          Meteor.user()._id,
+          parseInt(Math.abs(newVotes), 10),
+          settings,
+          close
+        );
+      };
+    } else if ((votesInBallot === 0) || (newVotes === 0)) {
       // insert votes
       let voteQuantity;
       if (newVotes === 0) {
@@ -134,26 +152,6 @@ const _executeVote = (wallet, cancel, removal) => {
           close
         );
       };
-    } else if (newVotes < 0 || votes === 0) {
-      // subtract votes
-      if (votes === 0) {
-        finalCaption = TAPi18n.__('retrieve-all-votes');
-        showBallot = false;
-        actionLabel = TAPi18n.__('remove');
-      } else {
-        finalCaption = TAPi18n.__('retrieve-votes-warning').replace('<quantity>', votes.toString()).replace('<retrieve>', Math.abs(newVotes).toString());
-      }
-      vote = () => {
-        transact(
-          Session.get('contract')._id,
-          Meteor.user()._id,
-          parseInt(Math.abs(newVotes), 10),
-          settings,
-          close
-        );
-      };
-    } else {
-      return;
     }
 
     // ask confirmation
