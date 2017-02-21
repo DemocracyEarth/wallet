@@ -72,15 +72,16 @@ const _purgeBallot = (options) => {
 * @summary executes an already configured vote from a power bar
 * @param {Wallet} wallet where the vote to be executed takes its input from
 * @param {function} cancel what happens if execution is cancelled
+* @param {boolean} removal if operation aims to remove all votes from ballot
 */
-const _executeVote = (wallet, cancel) => {
+const _executeVote = (wallet, cancel, removal) => {
   if (Session.get('contract').stage === 'LIVE') {
     let finalCaption;
     let vote;
     let showBallot = true;
     let actionLabel = TAPi18n.__('vote');
     const finalBallot = _purgeBallot(Session.get('candidateBallot'));
-    if (finalBallot.length === 0) {
+    if (finalBallot.length === 0 && removal !== true) {
       displayNotice('empty-values-ballot', true);
       return;
     }
