@@ -16,6 +16,49 @@ import { globalObj } from '/lib/global';
 
 import './avatar.html';
 
+const getNation = (profile, flagOnly) => {
+  if (profile === undefined) {
+    if (Meteor.user() != null) {
+      if (Meteor.user().profile.country !== undefined) {
+        const country = searchJSON(globalObj.geoJSON.country, Meteor.user().profile.country.name);
+        if (country !== undefined) {
+          if (flagOnly) {
+            return `${country[0].emoji}`;
+          }
+          return `${Meteor.user().profile.country.name} ${country[0].emoji}`;
+        }
+      }
+      if (flagOnly) { return ''; }
+      return TAPi18n.__('digital-citizen');
+    }
+  } else if (profile.country !== undefined) {
+    if (profile.country.name !== TAPi18n.__('unknown')) {
+      if (flagOnly) {
+        return `${searchJSON(globalObj.geoJSON.country, profile.country.name)[0].emoji}`;
+      }
+      return `${profile.country.name} ${searchJSON(globalObj.geoJSON.country, profile.country.name)[0].emoji}`;
+    }
+    if (flagOnly) { return ''; }
+    return TAPi18n.__('unknown');
+  } else {
+    let user = Meteor.users.findOne({ _id: profile });
+    if (user === undefined) { user = getAnonymous(); }
+    if (user !== undefined && user.profile.country !== undefined) {
+      const country = searchJSON(globalObj.geoJSON.country, user.profile.country.name);
+      if (user.profile.country.name !== TAPi18n.__('unknown') && country !== undefined) {
+        if (flagOnly) {
+          return `${country[0].emoji}`;
+        }
+        return `${user.profile.country.name} ${country[0].emoji}`;
+      }
+      if (flagOnly) { return ''; }
+      return TAPi18n.__('unknown');
+    }
+  }
+  if (flagOnly) { return ''; }
+  return TAPi18n.__('digital-citizen');
+};
+
 Template.avatar.onRendered = () => {
   Session.set('editor', false);
 };
@@ -164,33 +207,10 @@ Template.avatar.helpers({
     return undefined;
   },
   nationality(profile) {
-    if (profile === undefined) {
-      if (Meteor.user() != null) {
-        if (Meteor.user().profile.country !== undefined) {
-          const country = searchJSON(globalObj.geoJSON.country, Meteor.user().profile.country.name);
-          if (country !== undefined) {
-            return `${Meteor.user().profile.country.name} ${country[0].emoji}`;
-          }
-        }
-        return TAPi18n.__('digital-citizen');
-      }
-    } else if (profile.country !== undefined) {
-      if (profile.country.name !== TAPi18n.__('unknown')) {
-        return `${profile.country.name} ${searchJSON(globalObj.geoJSON.country, profile.country.name)[0].emoji}`;
-      }
-      return TAPi18n.__('unknown');
-    } else {
-      let user = Meteor.users.findOne({ _id: profile });
-      if (user === undefined) { user = getAnonymous(); }
-      if (user !== undefined && user.profile.country !== undefined) {
-        const country = searchJSON(globalObj.geoJSON.country, user.profile.country.name);
-        if (user.profile.country.name !== TAPi18n.__('unknown') && country !== undefined) {
-          return `${user.profile.country.name} ${country[0].emoji}`;
-        }
-        return TAPi18n.__('unknown');
-      }
-    }
-    return TAPi18n.__('digital-citizen');
+    return getNation(profile);
+  },
+  flag(profile) {
+    return getNation(profile, true);
   },
 });
 

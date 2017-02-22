@@ -34,11 +34,16 @@
         {{#if includeName}}
           {{#if smallFont}}
             <a href="{{url}}" class="identity-label identity-label-small">{{fullName profile}}</a>
+            {{#if includeNation}}
+              {{flag profile}}
+            {{/if}}
           {{else}}
             <a href="{{url}}" class="identity-label">{{fullName profile}}</a>
           {{/if}}
           {{#if includeNation}}
-            <div class="identity-nation">{{nationality profile}}</div>
+            {{#unless smallFont}}
+              <div class="identity-nation">{{nationality profile}}</div>
+            {{/unless}}
           {{/if}}
         {{/if}}
       </div>
