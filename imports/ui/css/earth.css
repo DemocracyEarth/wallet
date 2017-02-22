@@ -1977,6 +1977,12 @@ blockquote {
   margin-top: -5px;
   margin-bottom: -5px;
   float: right;
+  text-transform: none;
+}
+
+.value.value-avatar {
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 .control {
