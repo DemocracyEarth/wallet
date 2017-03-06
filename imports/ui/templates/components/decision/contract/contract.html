@@ -55,7 +55,12 @@
           </div>
         </div>
         <div class="subfeed-title">
-          <h3>{{_ 'votes'}}</h3>
+          <h3>{{_ 'voters'}}</h3>
+        </div>
+        <div class="proposal-feed">
+          {{#each voter}}
+            {{> avatar id=this}}
+          {{/each}}
         </div>
       </div>
       <div class="split split-right">

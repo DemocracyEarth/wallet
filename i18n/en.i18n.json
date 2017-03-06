@@ -419,5 +419,7 @@
   "remove-all-votes": "remove all votes",
   "empty-values-ballot": "No values found on ballot.",
   "not-enough-funds": "Not enough funds.",
-  "events": "Events"
+  "events": "Events",
+  "actions": "Actions",
+  "voters": "Voters"
 }
