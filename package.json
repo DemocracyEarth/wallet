@@ -1,4 +1,5 @@
 {
+  "name": "Sovereign.app",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -19,7 +20,7 @@
     "test-app-watch": "meteor test --full-app --driver-package practicalmeteor:mocha --port 3100",
     "start:dev": "meteor --settings=config/development/settings.json",
     "lint": "eslint .",
-    "postinstall": "./bin/opencollective-postinstall"
+    "postinstall": "./node_modules/.bin/opencollective-postinstall"
   },
   "dependencies": {
     "autoprefixer": "^6.4.1",
@@ -30,7 +31,7 @@
     "faker": "^3.0.1",
     "json-schema-faker": "^0.3.7",
     "nan": "^2.3.5",
-    "opencollective-postinstall": "^1.0.1",
+    "opencollective-postinstall": "^1.0.2",
     "react": "^15.4.2",
     "react-addons-pure-render-mixin": "^15.4.2",
     "react-dom": "^15.4.2"
