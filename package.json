@@ -4,6 +4,10 @@
     "type": "git",
     "url": "https://github.com/DemocracyEarth/sovereign.git"
   },
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/DemocracyEarth"
+  },
   "scripts": {
     "start": "meteor --settings=config/production/settings.json",
     "pretest": "npm run lint --silent",
@@ -25,6 +29,7 @@
     "faker": "^3.0.1",
     "json-schema-faker": "^0.3.7",
     "nan": "^2.3.5",
+    "opencollective-postinstall": "^1.0.1",
     "react": "^15.4.2",
     "react-addons-pure-render-mixin": "^15.4.2",
     "react-dom": "^15.4.2"
