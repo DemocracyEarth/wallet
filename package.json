@@ -18,7 +18,8 @@
     "test-watch:prod": "meteor --settings=config/production/settings.json test --driver-package practicalmeteor:mocha --port 3100",
     "test-app-watch": "meteor test --full-app --driver-package practicalmeteor:mocha --port 3100",
     "start:dev": "meteor --settings=config/development/settings.json",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "postinstall": "./bin/opencollective-postinstall"
   },
   "dependencies": {
     "autoprefixer": "^6.4.1",
