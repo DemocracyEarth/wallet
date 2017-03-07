@@ -2,15 +2,17 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 
+import { guidGenerator } from '/imports/startup/both/modules/crypto';
 import { userVotesInContract } from '/imports/startup/both/modules/User';
 import { animationSettings } from '/imports/ui/modules/animation';
 
 /**
 * @summary Wallet class for transaction operations
 * @param {object} wallet - wallet object that can be set from a user's profile.
+* @param {string} contractId - contrct being used for this vote
 * @constructor {object} Wallet - constructor function
 */
-export const Wallet = function (wallet, contract) {
+export const Wallet = function (wallet, contractId) {
   // properties
   if (wallet === undefined) {
     this.address = [];
@@ -28,13 +30,13 @@ export const Wallet = function (wallet, contract) {
   this.initialized = true;
   this.enabled = true;
   this.mode = 'PENDING';
-  this.inBallot = userVotesInContract(wallet, contract);
+  this.inBallot = userVotesInContract(wallet, contractId);
 
   // controller
-  if (contract === undefined) {
+  if (contractId === undefined) {
     this.voteId = '';
   } else {
-    this.voteId = `${contract}`;
+    this.voteId = `${contractId}`;
   }
 
   // view

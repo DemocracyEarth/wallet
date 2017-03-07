@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import { isUserSigner, userVotesInContract } from '/imports/startup/both/modules/User';
 import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
@@ -48,6 +49,12 @@ function getBarWidth(value, bar, toPixels) {
   const wallet = Meteor.user().profile.wallet;
   return `${percentageToPixel(parseFloat((value * 100) / wallet.balance, 10).toFixed(2))}px`;
 }
+
+Template.power.onCreated(function () {
+  console.log('Created Power bar');
+  this.walletId = new ReactiveVar(`vote-${Session.get('contract')._id}`);
+  console.log(this.walletId.get());
+});
 
 Template.power.onRendered(function render() {
   if (!Meteor.user()) {
