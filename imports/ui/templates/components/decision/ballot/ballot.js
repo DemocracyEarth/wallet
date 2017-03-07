@@ -6,6 +6,7 @@ import { Session } from 'meteor/session';
 import { removeFork, updateBallotRank, addChoiceToBallot, candidateBallot } from '/imports/ui/modules/ballot';
 import { displayTimedWarning } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
+import { guidGenerator } from '/imports/startup/both/modules/crypto';
 
 import './ballot.html';
 import '../kind/kind.js';
@@ -218,6 +219,11 @@ Template.ballot.helpers({
   },
   noSelectedOption() {
     return displayTimedWarning('noSelectedOption');
+  },
+  voteId() {
+    const voteId = guidGenerator();
+    console.log(`generated id ${voteId}`);
+    return voteId;
   },
 });
 

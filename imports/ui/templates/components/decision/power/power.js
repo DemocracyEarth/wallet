@@ -52,8 +52,9 @@ function getBarWidth(value, bar, toPixels) {
 
 Template.power.onCreated(function () {
   console.log('Created Power bar');
-  this.walletId = new ReactiveVar(`vote-${Session.get('contract')._id}`);
-  console.log(this.walletId.get());
+  // this.walletId = new ReactiveVar(`vote-${Session.get('contract')._id}`);
+  console.log(`the id created is: ${this.data._id}`);
+  console.log(this);
 });
 
 Template.power.onRendered(function render() {

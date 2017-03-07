@@ -127,7 +127,9 @@
     {{#if currentUser}}
       <div class="execution">
         <div class="block">
-          {{> power editable=true}}
+          {{#with voteId}}
+            {{> power _id=this editable=true}}
+          {{/with}}
         </div>
       </div>
     {{/if}}
