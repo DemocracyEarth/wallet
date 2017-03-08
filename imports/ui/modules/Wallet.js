@@ -34,10 +34,10 @@ export const Wallet = function (wallet, contractId, sessionId) {
   this.inBallot = userVotesInContract(wallet, contractId);
 
   // controller
-  if (contractId === undefined) {
-    this.voteId = '';
-  } else {
+  if (sessionId === undefined) {
     this.voteId = `${contractId}`;
+  } else {
+    this.voteId = `${sessionId}`;
   }
 
   // view
@@ -49,13 +49,6 @@ export const Wallet = function (wallet, contractId, sessionId) {
   if (this.initialized === true) {
     this.resetSlider();
     this.initialized = false;
-  }
-
-  // reaction
-  if (sessionId === undefined) {
-    Session.set(`vote-${this.voteId}`, this);
-  } else {
-    Session.set(`vote-${sessionId}`, this);
   }
 };
 
