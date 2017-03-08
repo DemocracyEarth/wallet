@@ -97,11 +97,9 @@ Template.power.onRendered(function render() {
         this.newVote.resetSlider();
         Session.set(voteId, this.newVote);
       };
-      console.log('NUEVO VOTO');
-      console.log(this.newVote);
       if (contractReady() === true) {
         let counterPartyId;
-        switch (Session.get('contract').kind) {
+        switch (this.newVote.voteType) {
           case 'DELEGATION':
             /* for (const stamp in Session.get('contract').signatures) {
               if (Session.get('contract').signatures[stamp]._id !== Meteor.user()._id) {

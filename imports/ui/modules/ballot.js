@@ -69,13 +69,31 @@ const _purgeBallot = (options) => {
 };
 
 /**
+* @summary returns the type of object (contract or user) based on wallet info
+* @return {object} contract
+*/
+const getTargetObject = (wallet) => {
+  switch (wallet.voteType) {
+    case 'DELEGATION':
+      return Meteor.users.findOne({ _id: wallet.targetId });
+    case 'VOTE':
+    default:
+      return Contracts.findOne({ _id: wallet.targetId });
+  }
+};
+
+/**
 * @summary executes an already configured vote from a power bar
 * @param {Wallet} wallet where the vote to be executed takes its input from
 * @param {function} cancel what happens if execution is cancelled
 * @param {boolean} removal if operation aims to remove all votes from ballot
 */
 const _executeVote = (wallet, cancel, removal) => {
-  if (Session.get('contract').stage === 'LIVE') {
+  const target = getTargetObject(wallet);
+
+  // TODO delegation use case, only thought for contracts still.
+
+  if (target.stage === 'LIVE') {
     let finalCaption;
     let vote;
     let showBallot = true;
@@ -86,12 +104,12 @@ const _executeVote = (wallet, cancel, removal) => {
     const votes = parseInt(votesInBallot + newVotes, 10);
     const settings = {
       condition: {
-        tags: Session.get('contract').tags,
+        tags: target.tags,
         ballot: finalBallot,
       },
       currency: 'VOTES',
-      kind: Session.get('contract').kind,
-      contractId: Session.get('contract')._id,
+      kind: target.kind,
+      contractId: wallet.targetId,
     };
     if (finalBallot.length === 0 && removal !== true) {
       displayNotice('empty-values-ballot', true);

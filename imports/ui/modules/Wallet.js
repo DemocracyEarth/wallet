@@ -7,11 +7,11 @@ import { animationSettings } from '/imports/ui/modules/animation';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
 /**
-* @summary returns the type of target being used for the power avoidAllocation
+* @summary returns the type of vote being used for the power allocation
 * @param {string} targetId the id of the targeted element
 * @return {string} type VOTE, DELEGATION, UNKNOWN
 */
-const getTargetType = (targetId) => {
+const getVoteType = (targetId) => {
   if (Contracts.findOne({ _id: targetId })) {
     return 'VOTE';
   } else if (Meteor.users.findOne({ _id: targetId })) {
@@ -47,7 +47,7 @@ export const Wallet = function (wallet, targetId, sessionId) {
   this.mode = 'PENDING';
   this.inBallot = userVotesInContract(wallet, targetId);
   this.targetId = targetId;
-  this.targetType = getTargetType(targetId);
+  this.voteType = getVoteType(targetId);
 
   // controller
   if (sessionId === undefined) {
