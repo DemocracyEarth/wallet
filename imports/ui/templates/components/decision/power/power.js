@@ -36,7 +36,7 @@ function percentageToPixel(percentage, voteId) {
 */
 function getBarWidth(value, bar, interactive) {
   if (bar.editable) {
-    const wallet = Session.get(`vote-${bar._id}`);
+    const wallet = Session.get(bar._id);
     if (wallet !== undefined) {
       const percentage = parseFloat((value * 100) / wallet.balance, 10).toFixed(2);
       if (value === 0) {
@@ -54,7 +54,7 @@ function getBarWidth(value, bar, interactive) {
 }
 
 Template.power.onCreated(function () {
-  Session.set(`vote-${this.data._id}`, new Wallet(Meteor.user().profile.wallet, Session.get('contract')._id, this.data._id));
+  Session.set(this.data._id, new Wallet(this.data.wallet, this.data.targetId, this.data._id));
 });
 
 Template.power.onRendered(function render() {
@@ -65,14 +65,16 @@ Template.power.onRendered(function render() {
     axis: 'x',
     create() {
       const voteId = this.id.replace('voteHandle-', '');
-      this.newVote = new Wallet(Meteor.user().profile.wallet, Session.get('contract')._id, voteId);
-      Session.set(`vote-${voteId}`, this.newVote);
+      const wallet = Session.get(voteId);
+      this.newVote = new Wallet(wallet, Session.get(voteId).targetId, voteId);
+      Session.set(voteId, this.newVote);
     },
     start(event, ui) {
       const voteId = ui.helper.context.id.replace('voteHandle-', '');
-      this.newVote = new Wallet(Meteor.user().profile.wallet, Session.get('contract')._id, voteId);
-      Session.set(`vote-${voteId}`, this.newVote);
-      if (Session.get(`vote-${voteId}`) !== undefined) {
+      const wallet = Session.get(voteId);
+      this.newVote = new Wallet(wallet, Session.get(voteId).targetId, voteId);
+      Session.set(voteId, this.newVote);
+      if (Session.get(voteId) !== undefined) {
         $(`#voteSlider-${voteId}`).velocity('stop');
       }
       if (Session.get('candidateBallot') === undefined) {
@@ -83,7 +85,7 @@ Template.power.onRendered(function render() {
     drag(event, ui) {
       const voteId = ui.helper.context.id.replace('voteHandle-', '');
       this.newVote.sliderInput(ui.position.left);
-      Session.set(`vote-${voteId}`, this.newVote);
+      Session.set(voteId, this.newVote);
       ui.position.left = 0;
     },
     stop(event, ui) {
@@ -95,7 +97,7 @@ Template.power.onRendered(function render() {
         }
         Session.set('dragging', false);
         this.newVote.resetSlider();
-        Session.set(`vote-${voteId}`, this.newVote);
+        Session.set(voteId, this.newVote);
       };
       if (contractReady() === true) {
         let counterPartyId;
@@ -153,7 +155,7 @@ Template.power.onRendered(function render() {
 
 Template.power.helpers({
   label() {
-    const wallet = Session.get(`vote-${this.data._id}`);
+    const wallet = Session.get(this.data._id);
     const contract = Session.get('contract');
     let rejection = false;
     let signatures;
@@ -370,13 +372,13 @@ Template.power.events({
 
 Template.capital.helpers({
   getVotes(value) {
-    const inBallot = Session.get(`vote-${this._id}`).inBallot;
+    const inBallot = Session.get(this._id).inBallot;
     let label;
-    if (Session.get(`vote-${this._id}`) !== undefined) {
+    if (Session.get(this._id) !== undefined) {
       switch (value) {
         case 'available': {
-          const available = parseInt((Session.get(`vote-${this._id}`).available + Session.get(`vote-${this._id}`).inBallot) - Session.get(`vote-${this._id}`).allocateQuantity, 10);
-          if (Session.get(`vote-${this._id}`).allocateQuantity > 0 && (available <= 0)) {
+          const available = parseInt((Session.get(this._id).available + Session.get(this._id).inBallot) - Session.get(this._id).allocateQuantity, 10);
+          if (Session.get(this._id).allocateQuantity > 0 && (available <= 0)) {
             label = `<strong>${TAPi18n.__('none')}</strong> ${TAPi18n.__('available-votes')}`;
           } else {
             label = `<strong>${available}</strong> ${TAPi18n.__('available-votes')}`;
@@ -391,7 +393,7 @@ Template.capital.helpers({
           }
           break;
         case 'allocateQuantity': {
-          const quantity = parseInt(Session.get(`vote-${this._id}`)[value] - inBallot, 10);
+          const quantity = parseInt(Session.get(this._id)[value] - inBallot, 10);
           if (Math.abs(quantity) === inBallot && (quantity < 0)) {
             label = TAPi18n.__('remove-all-votes');
           } else {
@@ -412,11 +414,11 @@ Template.capital.helpers({
     return label;
   },
   style(value) {
-    const inBallot = Session.get(`vote-${this._id}`).inBallot;
+    const inBallot = Session.get(this._id).inBallot;
     switch (value) {
       case 'available': {
-        const available = parseInt((Session.get(`vote-${this._id}`).available + Session.get(`vote-${this._id}`).inBallot) - Session.get(`vote-${this._id}`).allocateQuantity, 10);
-        if (Session.get(`vote-${this._id}`).allocateQuantity > 0 && (available <= 0)) {
+        const available = parseInt((Session.get(this._id).available + Session.get(this._id).inBallot) - Session.get(this._id).allocateQuantity, 10);
+        if (Session.get(this._id).allocateQuantity > 0 && (available <= 0)) {
           return 'stage-finish-rejected';
         }
         return 'stage-finish-approved';
@@ -430,7 +432,7 @@ Template.capital.helpers({
         }
         return 'hide';
       case 'allocateQuantity': {
-        const quantity = parseInt(Session.get(`vote-${this._id}`)[value] - inBallot, 10);
+        const quantity = parseInt(Session.get(this._id)[value] - inBallot, 10);
         if (Session.get('dragging') === true) {
           if (Math.abs(quantity) === inBallot && (quantity < 0)) {
             return 'stage-finish-rejected';
@@ -446,16 +448,16 @@ Template.capital.helpers({
     }
   },
   negativeAllocation() {
-    return (Session.get(`vote-${this._id}`).inBallot > Session.get(`vote-${this._id}`).allocateQuantity);
+    return (Session.get(this._id).inBallot > Session.get(this._id).allocateQuantity);
   },
 });
 
 Template.bar.helpers({
   inBallot() {
-    return getBarWidth(Session.get(`vote-${this._id}`).inBallot, this, true);
+    return getBarWidth(Session.get(this._id).inBallot, this, true);
   },
   placed() {
-    return getBarWidth(parseFloat(Session.get(`vote-${this._id}`).placed - Session.get(`vote-${this._id}`).inBallot, 10), this);
+    return getBarWidth(parseFloat(Session.get(this._id).placed - Session.get(this._id).inBallot, 10), this);
   },
   hundred() {
     const wallet = Meteor.user().profile.wallet;

@@ -223,6 +223,7 @@ Template.ballot.helpers({
   voteSettings() {
     return {
       _id: `vote-${Meteor.userId()}-${Session.get('contract')._id}`,
+      wallet: Meteor.user().profile.wallet,
       sourceId: Meteor.userId(),
       targetId: Session.get('contract')._id,
     };

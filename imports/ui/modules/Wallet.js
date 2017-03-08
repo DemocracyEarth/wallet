@@ -27,11 +27,12 @@ export const Wallet = function (wallet, contractId, sessionId) {
     Object.assign(this, wallet);
   }
 
-  // private
+  // defined
   this.initialized = true;
   this.enabled = true;
   this.mode = 'PENDING';
   this.inBallot = userVotesInContract(wallet, contractId);
+  this.targetId = contractId;
 
   // controller
   if (sessionId === undefined) {
@@ -43,6 +44,7 @@ export const Wallet = function (wallet, contractId, sessionId) {
   // view
   this._initialSliderWidth = $(`#voteSlider-${this.voteId}`).width();
   this.sliderWidth = this._initialSliderWidth;
+  // TODO remove 5 pixels for buffer?
   this._maxWidth = $(`#voteBar-${this.voteId}`).width() - (($(`#voteBar-${this.voteId}`).width() * parseInt(((this.placed - this.inBallot) * 100) / this.balance, 10)) / 100);
 
   // methods
