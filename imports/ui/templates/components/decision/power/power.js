@@ -51,25 +51,26 @@ function getBarWidth(value, bar, toPixels) {
 }
 
 Template.power.onCreated(function () {
-  console.log('Created Power bar');
-  // this.walletId = new ReactiveVar(`vote-${Session.get('contract')._id}`);
-  console.log(`the id created is: ${this.data._id}`);
-  console.log(this);
+  Session.set(`vote-${this.data._id}`, new Wallet(Meteor.user().profile.wallet, Session.get('contract')._id, this.data._id));
 });
 
 Template.power.onRendered(function render() {
   if (!Meteor.user()) {
     return;
   }
-  $(`#voteHandle-${Session.get(`vote-${Session.get('contract')._id}`).voteId}`).draggable({
+  console.log(`the id created is: ${this.data._id}`);
+  $(`#voteHandle-${this.data._id}`).draggable({
     axis: 'x',
-    create() {
+    create(event, ui) {
+      console.log(ui);
+      // const voteId = ui.helper.context.id.replace('voteHandle-', '');
       this.newVote = new Wallet(Meteor.user().profile.wallet, Session.get('contract')._id);
     },
-    start() {
-      this.newVote = new Wallet(Meteor.user().profile.wallet, Session.get('contract')._id);
-      if (Session.get(`vote-${this.newVote.voteId}`) !== undefined) {
-        $(`#voteSlider-${this.newVote.voteId}`).velocity('stop');
+    start(event, ui) {
+      const voteId = ui.helper.context.id.replace('voteHandle-', '');
+      this.newVote = new Wallet(Meteor.user().profile.wallet, Session.get('contract')._id, voteId);
+      if (Session.get(`vote-${voteId}`) !== undefined) {
+        $(`#voteSlider-${voteId}`).velocity('stop');
       }
       if (Session.get('candidateBallot') === undefined) {
         candidateBallot(Meteor.userId());
@@ -77,19 +78,21 @@ Template.power.onRendered(function render() {
       Session.set('dragging', true);
     },
     drag(event, ui) {
+      const voteId = ui.helper.context.id.replace('voteHandle-', '');
       this.newVote.sliderInput(ui.position.left);
-      Session.set(`vote-${Session.get('contract')._id}`, this.newVote);
+      Session.set(`vote-${voteId}`, this.newVote);
       ui.position.left = 0;
     },
-    stop() {
+    stop(event, ui) {
       // executes the vote
+      const voteId = ui.helper.context.id.replace('voteHandle-', '');
       const cancel = () => {
         if (this.newVote.inBallot === 0) {
           Session.set('candidateBallot', undefined);
         }
         Session.set('dragging', false);
         this.newVote.resetSlider();
-        Session.set(`vote-${Session.get('contract')._id}`, this.newVote);
+        Session.set(`vote-${voteId}`, this.newVote);
       };
       if (contractReady() === true) {
         let counterPartyId;
@@ -147,7 +150,8 @@ Template.power.onRendered(function render() {
 
 Template.power.helpers({
   label() {
-    const wallet = Session.get(`vote-${Session.get('contract')._id}`);
+    console.log(`label has: ${this.data._id}`);
+    const wallet = Session.get(`vote-${this.data._id}`);
     const contract = Session.get('contract');
     let rejection = false;
     let signatures;
@@ -364,13 +368,14 @@ Template.power.events({
 
 Template.capital.helpers({
   getVotes(value) {
-    const inBallot = Session.get(`vote-${Session.get('contract')._id}`).inBallot;
+    console.log(`getVotes has: ${this._id}`);
+    const inBallot = Session.get(`vote-${this._id}`).inBallot;
     let label;
-    if (Session.get(`vote-${Session.get('contract')._id}`) !== undefined) {
+    if (Session.get(`vote-${this._id}`) !== undefined) {
       switch (value) {
         case 'available': {
-          const available = parseInt((Session.get(`vote-${Session.get('contract')._id}`).available + Session.get(`vote-${Session.get('contract')._id}`).inBallot) - Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10);
-          if (Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity > 0 && (available <= 0)) {
+          const available = parseInt((Session.get(`vote-${this._id}`).available + Session.get(`vote-${this._id}`).inBallot) - Session.get(`vote-${this._id}`).allocateQuantity, 10);
+          if (Session.get(`vote-${this._id}`).allocateQuantity > 0 && (available <= 0)) {
             label = `<strong>${TAPi18n.__('none')}</strong> ${TAPi18n.__('available-votes')}`;
           } else {
             label = `<strong>${available}</strong> ${TAPi18n.__('available-votes')}`;
@@ -385,7 +390,7 @@ Template.capital.helpers({
           }
           break;
         case 'allocateQuantity': {
-          const quantity = parseInt(Session.get(`vote-${Session.get('contract')._id}`)[value] - inBallot, 10);
+          const quantity = parseInt(Session.get(`vote-${this._id}`)[value] - inBallot, 10);
           if (Math.abs(quantity) === inBallot && (quantity < 0)) {
             label = TAPi18n.__('remove-all-votes');
           } else {
@@ -406,11 +411,12 @@ Template.capital.helpers({
     return label;
   },
   style(value) {
-    const inBallot = Session.get(`vote-${Session.get('contract')._id}`).inBallot;
+    console.log(`style has: ${this._id}`);
+    const inBallot = Session.get(`vote-${this._id}`).inBallot;
     switch (value) {
       case 'available': {
-        const available = parseInt((Session.get(`vote-${Session.get('contract')._id}`).available + Session.get(`vote-${Session.get('contract')._id}`).inBallot) - Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity, 10);
-        if (Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity > 0 && (available <= 0)) {
+        const available = parseInt((Session.get(`vote-${this._id}`).available + Session.get(`vote-${this._id}`).inBallot) - Session.get(`vote-${this._id}`).allocateQuantity, 10);
+        if (Session.get(`vote-${this._id}`).allocateQuantity > 0 && (available <= 0)) {
           return 'stage-finish-rejected';
         }
         return 'stage-finish-approved';
@@ -424,7 +430,7 @@ Template.capital.helpers({
         }
         return 'hide';
       case 'allocateQuantity': {
-        const quantity = parseInt(Session.get(`vote-${Session.get('contract')._id}`)[value] - inBallot, 10);
+        const quantity = parseInt(Session.get(`vote-${this._id}`)[value] - inBallot, 10);
         if (Session.get('dragging') === true) {
           if (Math.abs(quantity) === inBallot && (quantity < 0)) {
             return 'stage-finish-rejected';
@@ -440,19 +446,23 @@ Template.capital.helpers({
     }
   },
   negativeAllocation() {
-    return (Session.get(`vote-${Session.get('contract')._id}`).inBallot > Session.get(`vote-${Session.get('contract')._id}`).allocateQuantity);
+    console.log(`negativeAllocation has: ${this._id}`);
+    return (Session.get(`vote-${this._id}`).inBallot > Session.get(`vote-${this._id}`).allocateQuantity);
   },
 });
 
 Template.bar.helpers({
   available() {
-    return getBarWidth(Session.get(`vote-${Session.get('contract')._id}`).available, this, true);
+    console.log(`available has: ${this._id}`);
+    return getBarWidth(Session.get(`vote-${this._id}`).available, this, true);
   },
   placed() {
-    return getBarWidth(parseFloat(Session.get(`vote-${Session.get('contract')._id}`).placed - Session.get(`vote-${Session.get('contract')._id}`).inBallot, 10), this);
+    console.log(`placed has: ${this._id}`);
+    return getBarWidth(parseFloat(Session.get(`vote-${this._id}`).placed - Session.get(`vote-${this._id}`).inBallot, 10), this);
   },
   inBallot() {
-    return getBarWidth(Session.get(`vote-${Session.get('contract')._id}`).inBallot, this);
+    console.log(`inBallot has: ${this._id}`);
+    return getBarWidth(Session.get(`vote-${this._id}`).inBallot, this);
   },
   hundred() {
     const wallet = Meteor.user().profile.wallet;
@@ -462,6 +472,7 @@ Template.bar.helpers({
     return '';
   },
   voteId() {
-    return Session.get(`vote-${Session.get('contract')._id}`).voteId;
+    console.log(`voteID has: ${this._id}`);
+    return Session.get(`vote-${this._id}`).voteId;
   },
 });

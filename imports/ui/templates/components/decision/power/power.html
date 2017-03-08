@@ -2,19 +2,19 @@
   {{#if editable}}
     {{#if rightToVote}}
       <div class="w-clearfix rosca rosca-setter">
-        {{> bar editable=editable}}
-        {{> capital user=user}}
+        {{> bar _id=_id editable=editable}}
+        {{> capital _id=_id user=user}}
       </div>
     {{else}}
       <div class="w-clearfix rosca rosca-setter">
-        {{> bar editable=false}}
-        {{> capital user=user}}
+        {{> bar _id=_id editable=false}}
+        {{> capital _id=_id user=user}}
       </div>
     {{/if}}
   {{else}}
     <div class="w-clearfix rosca rosca-id {{styleClass}}">
-      {{> bar editable=editable}}
-      {{> capital user=user}}
+      {{> bar _id=_id editable=editable}}
+      {{> capital _id=_id user=user}}
     </div>
   {{/if}}
 </template>
@@ -47,13 +47,13 @@
 </template>
 
 <template name="bar">
-  <div id="voteBar-{{voteId}}" class="w-clearfix result vote-bar">
+  <div id="voteBar-{{_id}}" class="w-clearfix result vote-bar">
 
     <!-- available -->
-    <div id="voteSlider-{{voteId}}" class="result-bar vote-bar" style=" width: {{available}} ">
+    <div id="voteSlider-{{_id}}" class="result-bar vote-bar" style=" width: {{available}} ">
 
       <!-- handle -->
-      <div id="voteHandle-{{voteId}}" class="handle"></div>
+      <div id="voteHandle-{{_id}}" class="handle"></div>
 
     </div>
 

@@ -221,9 +221,7 @@ Template.ballot.helpers({
     return displayTimedWarning('noSelectedOption');
   },
   voteId() {
-    const voteId = guidGenerator();
-    console.log(`generated id ${voteId}`);
-    return voteId;
+    return guidGenerator();
   },
 });
 
