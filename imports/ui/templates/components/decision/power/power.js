@@ -67,7 +67,6 @@ Template.power.onRendered(function render() {
       const voteId = this.id.replace('voteHandle-', '');
       this.newVote = new Wallet(Meteor.user().profile.wallet, Session.get('contract')._id, voteId);
       Session.set(`vote-${voteId}`, this.newVote);
-      console.log(this.newVote);
     },
     start(event, ui) {
       const voteId = ui.helper.context.id.replace('voteHandle-', '');

@@ -8,10 +8,10 @@ import { animationSettings } from '/imports/ui/modules/animation';
 
 /**
 * @summary Wallet class for transaction operations
+* @constructor {object} Wallet - constructor function
 * @param {object} wallet - wallet object that can be set from a user's profile.
 * @param {string} contractId - contrct being used for this vote
 * @param {string} sessionId - how this wallet will be identified on a session var
-* @constructor {object} Wallet - constructor function
 */
 export const Wallet = function (wallet, contractId, sessionId) {
   // properties

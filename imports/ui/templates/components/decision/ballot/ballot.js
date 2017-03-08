@@ -220,8 +220,12 @@ Template.ballot.helpers({
   noSelectedOption() {
     return displayTimedWarning('noSelectedOption');
   },
-  voteId() {
-    return guidGenerator();
+  voteSettings() {
+    return {
+      _id: `vote-${Meteor.userId()}-${Session.get('contract')._id}`,
+      sourceId: Meteor.userId(),
+      targetId: Session.get('contract')._id,
+    };
   },
 });
 
