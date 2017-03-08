@@ -65,14 +65,12 @@ Template.power.onRendered(function render() {
     axis: 'x',
     create() {
       const voteId = this.id.replace('voteHandle-', '');
-      const wallet = Session.get(voteId);
-      this.newVote = new Wallet(wallet, Session.get(voteId).targetId, voteId);
+      this.newVote = new Wallet(Session.get(voteId), Session.get(voteId).targetId, voteId);
       Session.set(voteId, this.newVote);
     },
     start(event, ui) {
       const voteId = ui.helper.context.id.replace('voteHandle-', '');
-      const wallet = Session.get(voteId);
-      this.newVote = new Wallet(wallet, Session.get(voteId).targetId, voteId);
+      this.newVote = new Wallet(Session.get(voteId), Session.get(voteId).targetId, voteId);
       Session.set(voteId, this.newVote);
       if (Session.get(voteId) !== undefined) {
         $(`#voteSlider-${voteId}`).velocity('stop');
@@ -99,11 +97,13 @@ Template.power.onRendered(function render() {
         this.newVote.resetSlider();
         Session.set(voteId, this.newVote);
       };
+      console.log('NUEVO VOTO');
+      console.log(this.newVote);
       if (contractReady() === true) {
         let counterPartyId;
         switch (Session.get('contract').kind) {
           case 'DELEGATION':
-            for (const stamp in Session.get('contract').signatures) {
+            /* for (const stamp in Session.get('contract').signatures) {
               if (Session.get('contract').signatures[stamp]._id !== Meteor.user()._id) {
                 counterPartyId = Session.get('contract').signatures[stamp]._id;
               }
@@ -137,7 +137,7 @@ Template.power.onRendered(function render() {
                   settings,
                 );
               }
-            );
+            );*/
             break;
           case 'VOTE':
           default: {

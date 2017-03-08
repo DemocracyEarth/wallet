@@ -2,18 +2,32 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 
-import { guidGenerator } from '/imports/startup/both/modules/crypto';
 import { userVotesInContract } from '/imports/startup/both/modules/User';
 import { animationSettings } from '/imports/ui/modules/animation';
+import { Contracts } from '/imports/api/contracts/Contracts';
+
+/**
+* @summary returns the type of target being used for the power avoidAllocation
+* @param {string} targetId the id of the targeted element
+* @return {string} type VOTE, DELEGATION, UNKNOWN
+*/
+const getTargetType = (targetId) => {
+  if (Contracts.findOne({ _id: targetId })) {
+    return 'VOTE';
+  } else if (Meteor.users.findOne({ _id: targetId })) {
+    return 'DELEGATION';
+  }
+  return 'UNKNOWN';
+};
 
 /**
 * @summary Wallet class for transaction operations
 * @constructor {object} Wallet - constructor function
 * @param {object} wallet - wallet object that can be set from a user's profile.
-* @param {string} contractId - contrct being used for this vote
+* @param {string} targetId - contrct being used for this vote
 * @param {string} sessionId - how this wallet will be identified on a session var
 */
-export const Wallet = function (wallet, contractId, sessionId) {
+export const Wallet = function (wallet, targetId, sessionId) {
   // properties
   if (wallet === undefined) {
     this.address = [];
@@ -31,12 +45,13 @@ export const Wallet = function (wallet, contractId, sessionId) {
   this.initialized = true;
   this.enabled = true;
   this.mode = 'PENDING';
-  this.inBallot = userVotesInContract(wallet, contractId);
-  this.targetId = contractId;
+  this.inBallot = userVotesInContract(wallet, targetId);
+  this.targetId = targetId;
+  this.targetType = getTargetType(targetId);
 
   // controller
   if (sessionId === undefined) {
-    this.voteId = `${contractId}`;
+    this.voteId = `${targetId}`;
   } else {
     this.voteId = `${sessionId}`;
   }

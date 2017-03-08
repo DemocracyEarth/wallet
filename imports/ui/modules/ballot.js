@@ -100,7 +100,7 @@ const _executeVote = (wallet, cancel, removal) => {
 
     const close = () => {
       Session.set('dragging', false);
-      Session.set(`vote-${Session.get('contract')._id}`, wallet);
+      Session.set(wallet.voteId, wallet);
     };
 
     if (newVotes < 0 || votes === 0 || removal === true) {
@@ -114,7 +114,7 @@ const _executeVote = (wallet, cancel, removal) => {
       }
       vote = () => {
         transact(
-          Session.get('contract')._id,
+          wallet.targetId,
           Meteor.user()._id,
           parseInt(Math.abs(newVotes), 10),
           settings,
@@ -134,7 +134,7 @@ const _executeVote = (wallet, cancel, removal) => {
       vote = () => {
         transact(
           Meteor.user()._id,
-          Session.get('contract')._id,
+          wallet.targetId,
           voteQuantity,
           settings,
           close
@@ -146,7 +146,7 @@ const _executeVote = (wallet, cancel, removal) => {
       vote = () => {
         transact(
           Meteor.user()._id,
-          Session.get('contract')._id,
+          wallet.targetId,
           parseInt(newVotes, 10),
           settings,
           close
