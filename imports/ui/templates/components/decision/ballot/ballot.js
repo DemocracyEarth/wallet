@@ -20,6 +20,14 @@ import '../power/power.js';
 
 var rank = 0;
 
+function getVoterContractBond() {
+  return {
+    voteId: `vote-${Meteor.userId()}-${Session.get('contract')._id}`,
+    wallet: Meteor.user().profile.wallet,
+    sourceId: Meteor.userId(),
+    targetId: Session.get('contract')._id,
+  };
+}
 
 function activateDragging() {
   // Dragable options
@@ -121,6 +129,7 @@ Template.ballot.helpers({
       return Session.get('contract').executiveDecision;
     }
   },
+  // NOTE: this algo is tricky af, i'm actually scared to touch it.
   options() {
     var contractBallot;
     if (Session.get('dbContractBallot') == undefined) {
@@ -181,6 +190,7 @@ Template.ballot.helpers({
       if (contract != undefined) {
         if (contract.stage == 'DRAFT') {
           ballot[i].url = '/vote/draft?id=' + ballot[i]._id;
+          ballot[i].voteId = getVoterContractBond().voteId;
         }
       }
     }
@@ -221,12 +231,7 @@ Template.ballot.helpers({
     return displayTimedWarning('noSelectedOption');
   },
   voteSettings() {
-    return {
-      _id: `vote-${Meteor.userId()}-${Session.get('contract')._id}`,
-      wallet: Meteor.user().profile.wallet,
-      sourceId: Meteor.userId(),
-      targetId: Session.get('contract')._id,
-    };
+    return getVoterContractBond();
   },
 });
 

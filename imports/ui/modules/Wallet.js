@@ -57,10 +57,10 @@ export const Wallet = function (wallet, targetId, sessionId) {
   }
 
   // view
-  this._initialSliderWidth = $(`#voteSlider-${this.voteId}`).width();
+  this._initialSliderWidth = parseInt($(`#voteSlider-${this.voteId}`).width(), 10);
   this.sliderWidth = this._initialSliderWidth;
   // TODO remove 5 pixels for buffer?
-  this._maxWidth = $(`#voteBar-${this.voteId}`).width() - (($(`#voteBar-${this.voteId}`).width() * parseInt(((this.placed - this.inBallot) * 100) / this.balance, 10)) / 100);
+  this._maxWidth = parseInt(($(`#voteBar-${this.voteId}`).width() - (($(`#voteBar-${this.voteId}`).width() * parseInt(((this.placed - this.inBallot) * 100) / this.balance, 10)) / 100)), 10);
 
   // methods
   if (this.initialized === true) {

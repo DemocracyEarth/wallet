@@ -75,12 +75,14 @@
           <ul id="ballotOption" class="w-list-unstyled w-clearfix options connectedBallot">
             {{#unless editorMode}}
               {{#if executiveDecision}}
-                {{> fork executive=true mode="AUTHORIZE" _id=1 }}
-                {{> fork executive=true mode="REJECT" _id=0 }}
+                {{#with voteSettings}}
+                  {{> fork executive=true mode="AUTHORIZE" _id=1 voteId=this.voteId}}
+                  {{> fork executive=true mode="REJECT" _id=0 voteId=this.voteId}}
+                {{/with}}
               {{/if}}
             {{/unless}}
             {{#each options}}
-              {{> fork _id=_id label=label mode=mode rank=rank url=url alternative=true editorMode=editorMode}}
+              {{> fork _id=_id label=label mode=mode rank=rank url=url alternative=true editorMode=editorMode voteId=voteId}}
             {{/each}}
           </ul>
         </div>
@@ -128,7 +130,7 @@
       <div class="execution">
         <div class="block">
           {{#with voteSettings}}
-            {{> power _id=this._id sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true}}
+            {{> power _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true}}
           {{/with}}
         </div>
       </div>

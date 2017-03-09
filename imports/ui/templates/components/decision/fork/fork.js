@@ -128,9 +128,10 @@ Template.fork.events({
             if (Session.get('candidateBallot') === undefined) {
               candidateBallot(Meteor.userId());
             }
+            console.log(this.voteId);
             const previous = Session.get('candidateBallot');
-            const wallet = new Wallet(Session.get(`vote-${Session.get('contract')._id}`));
-            wallet.inBallot = Session.get(`vote-${Session.get('contract')._id}`).inBallot;
+            const wallet = new Wallet(Session.get(this.voteId), Session.get(this.voteId).targetId, this.voteId);
+            wallet.inBallot = Session.get(this.voteId).inBallot;
             wallet.allocateQuantity = wallet.inBallot;
             wallet.allocatePercentage = parseFloat((wallet.inBallot * 100) / wallet.balance, 10).toFixed(2);
             const cancel = () => {
@@ -143,13 +144,13 @@ Template.fork.events({
 
             // TODO consider multiple choice use case!!
             // vote
-            if (this.tick === false && Session.get(`vote-${Session.get('contract')._id}`).inBallot > 0) {
+            if (this.tick === false && Session.get(this.voteId).inBallot > 0) {
               // remove all votes
               wallet.allocatePercentage = 0;
               wallet.allocateQuantity = 0;
               executeVote(wallet, cancel, true);
               return;
-            } else if (Session.get(`vote-${Session.get('contract')._id}`).inBallot > 0) {
+            } else if (Session.get(this.voteId).inBallot > 0) {
               // send new ballot
               executeVote(wallet, cancel);
             }

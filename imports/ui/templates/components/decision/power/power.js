@@ -3,7 +3,6 @@ import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
-import { ReactiveVar } from 'meteor/reactive-var';
 
 import { isUserSigner, userVotesInContract } from '/imports/startup/both/modules/User';
 import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
@@ -24,7 +23,7 @@ let voteQuantity;
 */
 function percentageToPixel(percentage, voteId) {
   // removes 5 pixels for collision buffer
-  return parseInt(((percentage * $(`#voteBar-${voteId}`).width()) / 100) - 5, 10);
+  return parseInt(((percentage * $(`#voteBar-${voteId}`).width()) / 100), 10);
 }
 
 /**
@@ -42,8 +41,7 @@ function getBarWidth(value, bar, interactive) {
       if (value === 0) {
         return '0px';
       } else if (interactive) {
-        // removes 5 pixels for collision buffer
-        return `${parseInt(wallet.sliderWidth - 5, 10)}px`;
+        return `${parseInt(wallet.sliderWidth, 10)}px`;
       }
       return `${percentageToPixel(percentage, bar._id)}px`;
     }
@@ -54,7 +52,8 @@ function getBarWidth(value, bar, interactive) {
 }
 
 Template.power.onCreated(function () {
-  Session.set(this.data._id, new Wallet(this.data.wallet, this.data.targetId, this.data._id));
+  const wallet = new Wallet(this.data.wallet, this.data.targetId, this.data._id);
+  Session.set(this.data._id, wallet);
 });
 
 Template.power.onRendered(function render() {
@@ -451,8 +450,8 @@ Template.capital.helpers({
 });
 
 Template.bar.helpers({
-  inBallot() {
-    return getBarWidth(Session.get(this._id).inBallot, this, true);
+  available() {
+    return getBarWidth(Session.get(this._id).available, this, true);
   },
   placed() {
     return getBarWidth(parseFloat(Session.get(this._id).placed - Session.get(this._id).inBallot, 10), this);
