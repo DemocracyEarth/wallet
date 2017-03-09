@@ -10,6 +10,7 @@ import { checkDuplicate, convertToSlug } from '/lib/utils';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { displayModal } from '/imports/ui/modules/modal';
 import { transact } from '/imports/api/transactions/transaction';
+import { Wallet } from '/imports/ui/modules/Wallet';
 
 /**
 * @summary sets the vote on the ballot with tick
@@ -118,7 +119,8 @@ const _executeVote = (wallet, cancel, removal) => {
 
     const close = () => {
       Session.set('dragging', false);
-      Session.set(wallet.voteId, wallet);
+      const newWallet = new Wallet(Meteor.user().profile.wallet, Session.get(wallet.voteId).targetId, wallet.voteId);
+      Session.set(wallet.voteId, newWallet);
     };
 
     if (newVotes < 0 || votes === 0 || removal === true) {

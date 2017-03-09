@@ -128,7 +128,6 @@ Template.fork.events({
             if (Session.get('candidateBallot') === undefined) {
               candidateBallot(Meteor.userId());
             }
-            console.log(this.voteId);
             const previous = Session.get('candidateBallot');
             const wallet = new Wallet(Session.get(this.voteId), Session.get(this.voteId).targetId, this.voteId);
             wallet.inBallot = Session.get(this.voteId).inBallot;
