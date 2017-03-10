@@ -325,6 +325,7 @@ const _getExternalScripts = () => {
   if (typeof window.datepicker === 'undefined') {
     $.getScript('/datepicker.js');
   }
+  $.getScript('/jquery.resize.js');
 };
 
 /**

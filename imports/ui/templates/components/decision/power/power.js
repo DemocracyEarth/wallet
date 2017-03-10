@@ -22,7 +22,8 @@ let voteQuantity;
 * @return {number} pixels
 */
 function percentageToPixel(percentage, voteId) {
-  // removes 5 pixels for collision buffer
+  console.log(`barWidth: ${$(`#voteBar-${voteId}`).width()}`);
+  console.log(`percentage inside: ${percentage}`);
   return parseInt(((percentage * $(`#voteBar-${voteId}`).width()) / 100), 10);
 }
 
@@ -54,12 +55,19 @@ function getBarWidth(value, bar, interactive) {
 Template.power.onCreated(function () {
   const wallet = new Wallet(this.data.wallet, this.data.targetId, this.data._id);
   Session.set(this.data._id, wallet);
+
 });
 
 Template.power.onRendered(function render() {
   if (!Meteor.user()) {
     return;
   }
+
+  // redraw power bar if resize
+  $(`#voteBar-${this.data._id}`).resize(function() {
+    console.log('RESIZE');
+  });
+
   $(`#voteHandle-${this.data._id}`).draggable({
     axis: 'x',
     create() {

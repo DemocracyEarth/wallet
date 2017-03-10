@@ -11,7 +11,7 @@ const popupCard = {
 let popupTimer;
 
 /**
-/* makes sure target adapts to current screen size accordingly
+/* @summary makes sure target adapts to current screen size accordingly
 /* TODO: specific adaptations to mobile screens.
 **/
 const _limitTargetSize = (target) => {
@@ -23,7 +23,7 @@ const _limitTargetSize = (target) => {
 };
 
 /**
-/* draw the cursor either top or down pointing towards the source element calling this popup.
+/* @summary draw the cursor either top or down pointing towards the source element calling this popup.
 **/
 const _cursorPosition = () => {
   // pointer

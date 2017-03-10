@@ -273,6 +273,7 @@ let _verifyDelegationRight = (signatures) => {
 */
 const _userVotesInContract = (userWallet, contractId) => {
   let totalVotes = 0;
+  // if (userWallet === undefined) { return undefined; }
   for (const i in userWallet.ledger) {
     if (userWallet.ledger[i].entityId === contractId && userWallet.ledger[i].entityType === 'CONTRACT') {
       switch (userWallet.ledger[i].transactionType) {
