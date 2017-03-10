@@ -22,8 +22,6 @@ let voteQuantity;
 * @return {number} pixels
 */
 function percentageToPixel(percentage, voteId) {
-  console.log(`barWidth: ${$(`#voteBar-${voteId}`).width()}`);
-  console.log(`percentage inside: ${percentage}`);
   return parseInt(((percentage * $(`#voteBar-${voteId}`).width()) / 100), 10);
 }
 
@@ -34,9 +32,9 @@ function percentageToPixel(percentage, voteId) {
 * @param {string} voteId session var containing vote info
 * @param {boolean} interactive return value from slider
 */
-function getBarWidth(value, bar, interactive) {
-  if (bar.editable) {
-    const wallet = Session.get(bar._id);
+function getBarWidth(value, voteId, editable, interactive) {
+  if (editable) {
+    const wallet = Session.get(voteId);
     if (wallet !== undefined) {
       const percentage = parseFloat((value * 100) / wallet.balance, 10).toFixed(2);
       if (value === 0) {
@@ -44,18 +42,17 @@ function getBarWidth(value, bar, interactive) {
       } else if (interactive) {
         return `${parseInt(wallet.sliderWidth, 10)}px`;
       }
-      return `${percentageToPixel(percentage, bar._id)}px`;
+      return `${percentageToPixel(percentage, voteId)}px`;
     }
   }
   // profile, only logged user
   const wallet = Meteor.user().profile.wallet;
-  return `${percentageToPixel(parseFloat((value * 100) / wallet.balance, 10).toFixed(2), bar._id)}px`;
+  return `${percentageToPixel(parseFloat((value * 100) / wallet.balance, 10).toFixed(2), voteId)}px`;
 }
 
 Template.power.onCreated(function () {
   const wallet = new Wallet(this.data.wallet, this.data.targetId, this.data._id);
   Session.set(this.data._id, wallet);
-
 });
 
 Template.power.onRendered(function render() {
@@ -64,8 +61,10 @@ Template.power.onRendered(function render() {
   }
 
   // redraw power bar if resize
-  $(`#voteBar-${this.data._id}`).resize(function() {
-    console.log('RESIZE');
+  $(`#voteBar-${this.data._id}`).resize(function () {
+    const voteId = this.id.replace('voteBar-', '');
+    $(`#voteSlider-${voteId}`).width(getBarWidth(Session.get(voteId).available, voteId, true, true));
+    $(`#votePlaced-${voteId}`).width(getBarWidth(parseFloat(Session.get(voteId).placed - Session.get(voteId).inBallot, 10), voteId, true));
   });
 
   $(`#voteHandle-${this.data._id}`).draggable({
@@ -459,10 +458,10 @@ Template.capital.helpers({
 
 Template.bar.helpers({
   available() {
-    return getBarWidth(Session.get(this._id).available, this, true);
+    return getBarWidth(Session.get(this._id).available, this._id, this.editable, true);
   },
   placed() {
-    return getBarWidth(parseFloat(Session.get(this._id).placed - Session.get(this._id).inBallot, 10), this);
+    return getBarWidth(parseFloat(Session.get(this._id).placed - Session.get(this._id).inBallot, 10), this._id, this.editable);
   },
   hundred() {
     const wallet = Meteor.user().profile.wallet;
