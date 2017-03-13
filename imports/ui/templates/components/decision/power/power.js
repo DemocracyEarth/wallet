@@ -425,14 +425,14 @@ Template.capital.helpers({
         if (Session.get(this._id).allocateQuantity > 0 && (available <= 0)) {
           return 'stage-finish-rejected';
         }
-        return 'stage-finish-approved';
+        return 'stage-inballot';
       }
       case 'inBallot':
         if (Session.get('dragging') === false || Session.get('dragging') === undefined) {
           if (inBallot === 0) {
             return 'hide';
           }
-          return 'stage-inballot';
+          return 'stage-finish-approved';
         }
         return 'hide';
       case 'allocateQuantity': {
