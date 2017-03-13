@@ -63,7 +63,7 @@ Template.power.onRendered(function render() {
   // redraw power bar if resize
   $(`#voteBar-${this.data._id}`).resize(function () {
     const voteId = this.id.replace('voteBar-', '');
-    $(`#voteSlider-${voteId}`).width(getBarWidth(Session.get(voteId).available, voteId, true, true));
+    $(`#voteSlider-${voteId}`).width(getBarWidth(Session.get(voteId).inBallot, voteId, true));
     $(`#votePlaced-${voteId}`).width(getBarWidth(parseFloat(Session.get(voteId).placed - Session.get(voteId).inBallot, 10), voteId, true));
   });
 
