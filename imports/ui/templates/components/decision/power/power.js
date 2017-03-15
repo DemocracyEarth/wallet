@@ -103,7 +103,10 @@ Template.power.onRendered(function render() {
         this.newVote.resetSlider();
         Session.set(voteId, this.newVote);
       };
-      if (contractReady() === true) {
+      if ((this.newVote.allocateQuantity === 0 && this.newVote.inBallot === 0) || purgeBallot(Session.get('candidateBallot')).length === 0) {
+        cancel();
+        Session.set('noSelectedOption', true);
+      } else if (contractReady() === true) {
         let counterPartyId;
         switch (this.newVote.voteType) {
           case 'DELEGATION':
@@ -149,9 +152,6 @@ Template.power.onRendered(function render() {
             break;
           }
         }
-      } else if (purgeBallot(Session.get('candidateBallot')).length === 0) {
-        cancel();
-        Session.set('noSelectedOption', true);
       }
     },
   });
@@ -381,11 +381,13 @@ Template.capital.helpers({
     if (Session.get(this._id) !== undefined) {
       switch (value) {
         case 'available': {
-          const available = parseInt((Session.get(this._id).available + Session.get(this._id).inBallot) - Session.get(this._id).allocateQuantity, 10);
-          if (Session.get(this._id).allocateQuantity > 0 && (available <= 0)) {
-            label = `<strong>${TAPi18n.__('none')}</strong> ${TAPi18n.__('available-votes')}`;
-          } else {
-            label = `<strong>${available}</strong> ${TAPi18n.__('available-votes')}`;
+          if (inBallot === 0) {
+            const available = parseInt((Session.get(this._id).available + Session.get(this._id).inBallot) - Session.get(this._id).allocateQuantity, 10);
+            if (Session.get(this._id).allocateQuantity > 0 && (available <= 0)) {
+              label = `<strong>${TAPi18n.__('none')}</strong> ${TAPi18n.__('available-votes')}`;
+            } else {
+              label = `<strong>${available}</strong> ${TAPi18n.__('available-votes')}`;
+            }
           }
           break;
         }
@@ -421,11 +423,14 @@ Template.capital.helpers({
     const inBallot = Session.get(this._id).inBallot;
     switch (value) {
       case 'available': {
-        const available = parseInt((Session.get(this._id).available + Session.get(this._id).inBallot) - Session.get(this._id).allocateQuantity, 10);
-        if (Session.get(this._id).allocateQuantity > 0 && (available <= 0)) {
-          return 'stage-finish-rejected';
+        if (inBallot === 0 && (Session.get('dragging') === false || Session.get('dragging') === undefined)) {
+          const available = parseInt((Session.get(this._id).available + Session.get(this._id).inBallot) - Session.get(this._id).allocateQuantity, 10);
+          if (Session.get(this._id).allocateQuantity > 0 && (available <= 0)) {
+            return 'stage-finish-rejected';
+          }
+          return 'stage-inballot';
         }
-        return 'stage-inballot';
+        return 'hide';
       }
       case 'inBallot':
         if (Session.get('dragging') === false || Session.get('dragging') === undefined) {
