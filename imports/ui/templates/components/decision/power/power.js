@@ -160,13 +160,18 @@ Template.power.onRendered(function render() {
 });
 
 Template.power.helpers({
+  isDelegation() {
+    return (Session.get(this._id).voteType === 'DELEGATION');
+  },
   label() {
+    // TODO: erase this whole function once delegation is implemented
     const wallet = Session.get(this.data._id);
     const contract = Session.get('contract');
     let rejection = false;
     let signatures;
     let quantity;
 
+    console.log(`label: ${this.data._id}`);
 
     if (contract === undefined) {
       return TAPi18n.__('contract-votes-pending');
