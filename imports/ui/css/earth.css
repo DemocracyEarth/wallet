@@ -2470,7 +2470,7 @@ blockquote {
 }
 
 .result-bar.vote-bar.vote-bar-allocated {
-  position: relative;
+  position: absolute;
   right: 0px;
   width: 50%;
   height: 15px;
