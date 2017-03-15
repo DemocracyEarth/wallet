@@ -18,6 +18,15 @@ Template.card.helpers({
     Session.set('newDelegate', user);
     return user;
   },
+  voteSettings() {
+    console.log(this.toString());
+    return {
+      voteId: `vote-${Meteor.userId()}-${this.toString()}`,
+      wallet: Meteor.user().profile.wallet,
+      sourceId: Meteor.userId(),
+      targetId: this.toString(),
+    };
+  },
 });
 
 Template.card.events({

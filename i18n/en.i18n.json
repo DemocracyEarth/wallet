@@ -421,5 +421,6 @@
   "not-enough-funds": "Not enough funds.",
   "events": "Events",
   "actions": "Actions",
-  "voters": "Voters"
+  "voters": "Voters",
+  "delegatd-votes": "Delegated Votes"
 }

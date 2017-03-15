@@ -9,11 +9,14 @@
             <div>{{_ 'delegate-votes'}}</div>
           </div>-->
           <div class="login-label login-label-form">
-            {{_ 'delegate'}}
+            {{_ 'delegated-votes'}}
           </div>
-          {{> power user=this editable=true label='hola'}}
+          <!--{{> power user=this editable=true label='hola'}}-->
+          {{#with voteSettings}}
+            {{> power _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true}}
+          {{/with}}
         {{else}}
-          {{> power editable=false}}
+          <!--{{> power editable=false}}-->
           <!-- {{> authenticity}} -->
         {{/unless}}
       {{/if}}

@@ -84,7 +84,7 @@ Template.power.onRendered(function render() {
       if (Session.get('candidateBallot') === undefined) {
         candidateBallot(Meteor.userId());
       }
-      Session.set('dragging', true);
+      Session.set('dragging', voteId);
     },
     drag(event, ui) {
       const voteId = ui.helper.context.id.replace('voteHandle-', '');
@@ -423,7 +423,7 @@ Template.capital.helpers({
     const inBallot = Session.get(this._id).inBallot;
     switch (value) {
       case 'available': {
-        if (inBallot === 0 && (Session.get('dragging') === false || Session.get('dragging') === undefined)) {
+        if (inBallot === 0 && (Session.get('dragging') === false || Session.get('dragging') === undefined || Session.get('dragging') !== this._id)) {
           const available = parseInt((Session.get(this._id).available + Session.get(this._id).inBallot) - Session.get(this._id).allocateQuantity, 10);
           if (Session.get(this._id).allocateQuantity > 0 && (available <= 0)) {
             return 'stage-finish-rejected';
@@ -433,7 +433,7 @@ Template.capital.helpers({
         return 'hide';
       }
       case 'inBallot':
-        if (Session.get('dragging') === false || Session.get('dragging') === undefined) {
+        if (Session.get('dragging') === false || Session.get('dragging') === undefined || Session.get('dragging') !== this._id) {
           if (inBallot === 0) {
             return 'hide';
           }
@@ -442,7 +442,7 @@ Template.capital.helpers({
         return 'hide';
       case 'allocateQuantity': {
         const quantity = parseInt(Session.get(this._id)[value] - inBallot, 10);
-        if (Session.get('dragging') === true) {
+        if (Session.get('dragging') === this._id) {
           if (Math.abs(quantity) === inBallot && (quantity < 0)) {
             return 'stage-finish-rejected';
           }
