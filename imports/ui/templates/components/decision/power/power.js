@@ -96,7 +96,7 @@ Template.power.onRendered(function render() {
       // executes the vote
       const voteId = ui.helper.context.id.replace('voteHandle-', '');
       const cancel = () => {
-        if (this.newVote.inBallot === 0) {
+        if (this.newVote.inBallot === 0 && this.newVote.voteType === 'VOTE') {
           Session.set('candidateBallot', undefined);
         }
         Session.set('dragging', false);
@@ -105,7 +105,9 @@ Template.power.onRendered(function render() {
       };
       if ((this.newVote.allocateQuantity === 0 && this.newVote.inBallot === 0) || purgeBallot(Session.get('candidateBallot')).length === 0) {
         cancel();
-        Session.set('noSelectedOption', true);
+        if (this.newVote.voteType === 'VOTE') {
+          Session.set('noSelectedOption', true);
+        }
       } else if (contractReady() === true) {
         let counterPartyId;
         switch (this.newVote.voteType) {

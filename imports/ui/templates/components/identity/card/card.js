@@ -19,7 +19,6 @@ Template.card.helpers({
     return user;
   },
   voteSettings() {
-    console.log(this.toString());
     return {
       voteId: `vote-${Meteor.userId()}-${this.toString()}`,
       wallet: Meteor.user().profile.wallet,
