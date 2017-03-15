@@ -21,11 +21,6 @@
 
 <template name="capital">
   <div class='vote-available label-votes'>
-    <div class="stage {{style 'available'}}">
-      <div class='label label-corner'>
-        {{{getVotes 'available'}}}
-      </div>
-    </div>
     <div class="stage {{style 'inBallot'}}">
       <div class='label label-corner'>
         {{{getVotes 'inBallot'}}}
@@ -34,6 +29,11 @@
     <div class="stage {{style 'allocateQuantity'}}">
       <div class='label label-corner'>
         {{{getVotes 'allocateQuantity'}}}
+      </div>
+    </div>
+    <div class="stage {{style 'available'}}">
+      <div class='label label-corner'>
+        {{{getVotes 'available'}}}
       </div>
     </div>
   </div>
