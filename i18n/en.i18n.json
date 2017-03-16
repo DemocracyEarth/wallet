@@ -408,7 +408,7 @@
   "delegated-votes": "Delegated Votes",
   "none": "none",
   "place-here": "place here",
-  "place-in-ballot": "to place on ballot",
+  "place-in-ballot": "votes on this ballot",
   "on-this-ballot": "on this ballot",
   "allocate-in-ballot": "votes in this ballot",
   "more-votes": "more votes",
@@ -422,5 +422,8 @@
   "events": "Events",
   "actions": "Actions",
   "voters": "Voters",
-  "delegatd-votes": "Delegated Votes"
+  "delegated-votes": "Delegated Votes",
+  "trust": "Trust",
+  "representation": "Representation",
+  "votes-to-delegate": "votes to delegate"
 }

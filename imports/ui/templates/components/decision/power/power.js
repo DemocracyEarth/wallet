@@ -399,7 +399,13 @@ Template.capital.helpers({
           break;
         }
         case 'inBallot':
-          if (inBallot === 0) {
+          if (Session.get(this._id).voteType === 'DELEGATION') {
+            if (inBallot === 0) {
+              label = `<strong>${TAPi18n.__('no')}</strong> ${TAPi18n.__('delegated-votes')}`;
+            } else {
+              label = `<strong>${inBallot}</strong> ${TAPi18n.__('delegated-votes')}`;
+            }
+          } else if (inBallot === 0) {
             label = `<strong>${TAPi18n.__('none')}</strong> ${TAPi18n.__('on-this-ballot')}`;
           } else {
             label = `<strong>${inBallot}</strong> ${TAPi18n.__('on-this-ballot')}`;
@@ -409,6 +415,8 @@ Template.capital.helpers({
           const quantity = parseInt(Session.get(this._id)[value] - inBallot, 10);
           if (Math.abs(quantity) === inBallot && (quantity < 0)) {
             label = TAPi18n.__('remove-all-votes');
+          } else if (Session.get(this._id).voteType === 'DELEGATION') {
+            label = `<strong>${Math.abs(inBallot + quantity)}</strong> ${TAPi18n.__('votes-to-delegate')}`;
           } else {
             label = `<strong>${Math.abs(inBallot + quantity)}</strong> ${TAPi18n.__('place-in-ballot')}`;
           }
@@ -442,7 +450,11 @@ Template.capital.helpers({
       case 'inBallot':
         if (Session.get('dragging') === false || Session.get('dragging') === undefined || Session.get('dragging') !== this._id) {
           if (inBallot === 0) {
-            return 'hide';
+            if (Session.get(this._id).voteType === 'DELEGATION') {
+              return 'stage-placed';
+            } else {
+              return 'hide';
+            }
           }
           return 'stage-finish-approved';
         }

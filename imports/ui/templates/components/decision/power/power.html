@@ -21,7 +21,16 @@
 
 <template name="capital">
   {{#if isDelegation}}
-    delegate esta gato
+    <div class="stage {{style 'inBallot'}}">
+      <div class='label label-corner'>
+        {{{getVotes 'inBallot'}}}
+      </div>
+    </div>
+    <div class="stage {{style 'allocateQuantity'}}">
+      <div class='label label-corner'>
+        {{{getVotes 'allocateQuantity'}}}
+      </div>
+    </div>
   {{else}}
     <div class='bar-labels'>
       <div class='vote-available label-votes'>
