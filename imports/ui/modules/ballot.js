@@ -92,24 +92,68 @@ const getTargetObject = (wallet) => {
 const _executeVote = (wallet, cancel, removal) => {
   let finalCaption;
   let vote;
-  let showBallot = true;
-  let actionLabel = TAPi18n.__('vote');
+  let showBallot;
   let finalBallot;
   let settings;
+  let iconPic;
+  let actionLabel;
+  let titleLabel;
+  let boolProfile;
+  let counterPartyId;
+  let dictionary;
   const target = getTargetObject(wallet);
   const votesInBallot = wallet.inBallot;
   const newVotes = parseInt(wallet.allocateQuantity - votesInBallot, 10);
   const votes = parseInt(votesInBallot + newVotes, 10);
 
+  const close = () => {
+    Session.set('dragging', false);
+    const newWallet = new Wallet(Meteor.user().profile.wallet, Session.get(wallet.voteId).targetId, wallet.voteId);
+    Session.set(wallet.voteId, newWallet);
+  };
+
   // TODO delegation use case, only thought for contracts still.
 
   switch (wallet.voteType) {
     case 'DELEGATION':
-      console.log('phuck');
-      return;
+      iconPic = 'images/modal-delegation.png';
+      titleLabel = TAPi18n.__('send-delegation-votes');
+      actionLabel = TAPi18n.__('delegate');
+      boolProfile = true;
+      counterPartyId = wallet.targetId;
+      showBallot = false;
+      dictionary = 'delegations';
+
+      /*
+        () => {
+          const settings = {
+            condition: {
+              transferable: Session.get('contract').transferable,
+              portable: Session.get('contract').portable,
+              tags: Session.get('contract').tags,
+            },
+            currency: 'VOTES',
+            kind: Session.get('contract').kind,
+            contractId: Session.get('contract')._id,
+          };
+          sendDelegationVotes(
+            Session.get('contract').signatures[0]._id,
+            Session.get('contract')._id,
+            Session.get('newVote').allocateQuantity,
+            settings,
+          );
+        }
+      );*/
       break;
     case 'VOTE':
+    default:
+      iconPic = 'images/modal-vote.png';
+      titleLabel = TAPi18n.__('place-vote');
+      actionLabel = TAPi18n.__('vote');
+      boolProfile = false;
+      showBallot = true;
       finalBallot = _purgeBallot(Session.get('candidateBallot'));
+      dictionary = 'votes';
       settings = {
         condition: {
           tags: target.tags,
@@ -124,78 +168,75 @@ const _executeVote = (wallet, cancel, removal) => {
         displayNotice('empty-values-ballot', true);
         return;
       }
-
-      const close = () => {
-        Session.set('dragging', false);
-        const newWallet = new Wallet(Meteor.user().profile.wallet, Session.get(wallet.voteId).targetId, wallet.voteId);
-        Session.set(wallet.voteId, newWallet);
-      };
-
-      if (newVotes < 0 || votes === 0 || removal === true) {
-        // subtract votes
-        if (votes === 0) {
-          finalCaption = TAPi18n.__('retrieve-all-votes');
-          showBallot = false;
-          actionLabel = TAPi18n.__('remove');
-        } else {
-          finalCaption = TAPi18n.__('retrieve-votes-warning').replace('<quantity>', votes.toString()).replace('<retrieve>', Math.abs(newVotes).toString());
-        }
-        vote = () => {
-          transact(
-            wallet.targetId,
-            Meteor.user()._id,
-            parseInt(Math.abs(newVotes), 10),
-            settings,
-            close
-          );
-        };
-      } else if ((votesInBallot === 0) || (newVotes === 0)) {
-        // insert votes
-        let voteQuantity;
-        if (newVotes === 0) {
-          finalCaption = TAPi18n.__('place-votes-change-ballot').replace('<quantity>', wallet.allocateQuantity);
-          voteQuantity = 0;
-        } else {
-          finalCaption = TAPi18n.__('place-votes-warning').replace('<quantity>', wallet.allocateQuantity);
-          voteQuantity = parseInt(wallet.allocateQuantity, 10);
-        }
-        vote = () => {
-          transact(
-            Meteor.user()._id,
-            wallet.targetId,
-            voteQuantity,
-            settings,
-            close
-          );
-        };
-      } else if (newVotes > 0) {
-        // add votes
-        finalCaption = TAPi18n.__('place-more-votes-warning').replace('<quantity>', votes.toString()).replace('<add>', newVotes);
-        vote = () => {
-          transact(
-            Meteor.user()._id,
-            wallet.targetId,
-            parseInt(newVotes, 10),
-            settings,
-            close
-          );
-        };
-      }
       break;
+  }
+
+  // voting cases
+
+  if (newVotes < 0 || votes === 0 || removal === true) {
+    // subtract votes
+    if (votes === 0) {
+      finalCaption = TAPi18n.__(`retrieve-all-${dictionary}`);
+      showBallot = false;
+      actionLabel = TAPi18n.__('remove');
+    } else {
+      finalCaption = TAPi18n.__(`retrieve-${dictionary}-warning`).replace('<quantity>', votes.toString()).replace('<retrieve>', Math.abs(newVotes).toString());
+    }
+    vote = () => {
+      transact(
+        wallet.targetId,
+        Meteor.user()._id,
+        parseInt(Math.abs(newVotes), 10),
+        settings,
+        close
+      );
+    };
+  } else if ((votesInBallot === 0) || (newVotes === 0)) {
+    // insert votes
+    let voteQuantity;
+    if (newVotes === 0) {
+      finalCaption = TAPi18n.__('place-votes-change-ballot').replace('<quantity>', wallet.allocateQuantity);
+      voteQuantity = 0;
+    } else {
+      finalCaption = TAPi18n.__(`place-${dictionary}-warning`).replace('<quantity>', wallet.allocateQuantity);
+      voteQuantity = parseInt(wallet.allocateQuantity, 10);
+    }
+    vote = () => {
+      transact(
+        Meteor.user()._id,
+        wallet.targetId,
+        voteQuantity,
+        settings,
+        close
+      );
+    };
+  } else if (newVotes > 0) {
+    // add votes
+    finalCaption = TAPi18n.__(`place-more-${dictionary}-warning`).replace('<quantity>', votes.toString()).replace('<add>', newVotes);
+    vote = () => {
+      transact(
+        Meteor.user()._id,
+        wallet.targetId,
+        parseInt(newVotes, 10),
+        settings,
+        close
+      );
+    };
   }
 
   // ask confirmation
   displayModal(
     true,
     {
-      icon: 'images/modal-vote.png',
-      title: TAPi18n.__('place-vote'),
+      icon: iconPic,
+      title: titleLabel,
       message: finalCaption,
       cancel: TAPi18n.__('not-now'),
       action: actionLabel,
-      displayProfile: false,
+      displayProfile: boolProfile,
       displayBallot: showBallot,
       ballot: finalBallot,
+      profileId: counterPartyId,
     },
     vote,
     cancel

@@ -108,55 +108,8 @@ Template.power.onRendered(function render() {
         if (this.newVote.voteType === 'VOTE') {
           Session.set('noSelectedOption', true);
         }
-      } else if (contractReady() === true) {
-        let counterPartyId;
-        switch (this.newVote.voteType) {
-          case 'DELEGATION':
-            console.log(this.newVote);
-            executeVote(this.newVote, cancel);
-            break;
-            /* for (const stamp in Session.get('contract').signatures) {
-              if (Session.get('contract').signatures[stamp]._id !== Meteor.user()._id) {
-                counterPartyId = Session.get('contract').signatures[stamp]._id;
-              }
-            }
-            displayModal(
-              true,
-              {
-                icon: 'images/modal-delegation.png',
-                title: TAPi18n.__('send-delegation-votes'),
-                message: TAPi18n.__('delegate-votes-warning').replace('<quantity>', Session.get('newVote').allocateQuantity),
-                cancel: TAPi18n.__('not-now'),
-                action: TAPi18n.__('delegate-votes'),
-                displayProfile: true,
-                profileId: counterPartyId,
-              },
-              () => {
-                const settings = {
-                  condition: {
-                    transferable: Session.get('contract').transferable,
-                    portable: Session.get('contract').portable,
-                    tags: Session.get('contract').tags,
-                  },
-                  currency: 'VOTES',
-                  kind: Session.get('contract').kind,
-                  contractId: Session.get('contract')._id,
-                };
-                sendDelegationVotes(
-                  Session.get('contract').signatures[0]._id,
-                  Session.get('contract')._id,
-                  Session.get('newVote').allocateQuantity,
-                  settings,
-                );
-              }
-            );*/
-            break;
-          case 'VOTE':
-          default: {
-            executeVote(this.newVote, cancel);
-            break;
-          }
-        }
+      } else if (contractReady() === true || this.newVote.voteType === 'DELEGATION') {
+        executeVote(this.newVote, cancel);
       }
     },
   });
