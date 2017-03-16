@@ -112,6 +112,9 @@ Template.power.onRendered(function render() {
         let counterPartyId;
         switch (this.newVote.voteType) {
           case 'DELEGATION':
+            console.log(this.newVote);
+            executeVote(this.newVote, cancel);
+            break;
             /* for (const stamp in Session.get('contract').signatures) {
               if (Session.get('contract').signatures[stamp]._id !== Meteor.user()._id) {
                 counterPartyId = Session.get('contract').signatures[stamp]._id;
