@@ -4841,6 +4841,10 @@ blockquote {
   height: 35px;
 }
 
+.card-element {
+  margin-top: 10px;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;

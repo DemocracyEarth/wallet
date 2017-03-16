@@ -15,11 +15,11 @@
         <div>{{{message}}}</div>
 
         {{#if displayProfile}}
-          <p>
+          <div class='card-element'>
             <div class="w-clearfix identity identity-center">
               {{> avatar profile=profileId includeName=true includeNation=true editable=false}}
             </div>
-          </p>
+          </div>
         {{/if}}
         {{#if displayBallot}}
           <p>
