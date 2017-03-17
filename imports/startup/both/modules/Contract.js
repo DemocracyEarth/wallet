@@ -105,11 +105,14 @@ const _sendDelegation = (sourceId, targetId, quantity, conditions, newStatus) =>
 * @summary generate delegation contract between two identities.
 * @param {string} delegatorId - identity assigning the tokens (usually currentUser)
 * @param {string} delegateId - identity that will get a request to approve
-* @param {object} settings - basic settings for this contract
+* @param {number} votes - transaction size in votes
+* @param {object} settings - additional settings to be stored on the ledger
+* @param {function} callback - once everything's done, what is left to do?
 * @param {boolean} instantaneous - if its a fast, instantaneous delegation
 */
-const _newDelegation = (delegatorId, delegateId, settings, instantaneous) => {
-  let finalTitle = String();
+const _newDelegation = (delegatorId, delegateId, votes, settings, callback, instantaneous) => {
+  let finalTitle;
+  console.log(settings);
   const existingDelegation = _verifyDelegation(delegatorId, delegateId);
   if (!existingDelegation) {
     // creates new
@@ -131,21 +134,32 @@ const _newDelegation = (delegatorId, delegateId, settings, instantaneous) => {
             _id: delegatorId,
             username: settings.signatures[0].username,
             role: 'DELEGATOR',
-            status: 'PENDING',
+            status: 'CONFIRMED',
           },
           {
             _id: delegateId,
             username: settings.signatures[1].username,
             role: 'DELEGATE',
-            status: 'PENDING',
+            status: 'CONFIRMED',
           },
         ],
       };
 
     const newContract = Contracts.insert(newDelegation);
     const delegationContract = Contracts.findOne({ _id: newContract });
+
+    // execute the delegation
+
+    transact(
+      delegatorId,
+      delegateId,
+      votes,
+      settings,
+      callback
+    );
+
     if (instantaneous === false || instantaneous === undefined) {
-      Router.go(delegationContract.url);
+      // Router.go(delegationContract.url);
     } else if (instantaneous) {
       console.log('instant delegation');
       const delegation = {
@@ -168,7 +182,8 @@ const _newDelegation = (delegatorId, delegateId, settings, instantaneous) => {
     }
   } else if (instantaneous === false || instantaneous === undefined) {
     // goes to existing one
-    Router.go(existingDelegation.url);
+    // Router.go(existingDelegation.url);
+    console.log('a contract already in place, check this use case!!');
   }
 };
 
@@ -350,6 +365,6 @@ export const removeSignature = _removeSignature;
 export const publishContract = _publish;
 export const removeContract = _remove;
 export const startMembership = _newMembership;
-export const startDelegation = _newDelegation;
+export const delegate = _newDelegation;
 export const sendDelegationVotes = _sendDelegation;
 export const createContract = _newDraft;

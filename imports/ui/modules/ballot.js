@@ -5,7 +5,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { globalObj } from '/lib/global';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { Transactions } from '/imports/api/transactions/Transactions';
-import { createContract } from '/imports/startup/both/modules/Contract';
+import { createContract, delegate } from '/imports/startup/both/modules/Contract';
 import { checkDuplicate, convertToSlug } from '/lib/utils';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { displayModal } from '/imports/ui/modules/modal';
@@ -90,17 +90,18 @@ const getTargetObject = (wallet) => {
 * @param {boolean} removal if operation aims to remove all votes from ballot
 */
 const _executeVote = (wallet, cancel, removal) => {
-  let finalCaption;
   let vote;
   let showBallot;
   let finalBallot;
+  let finalCaption;
   let settings;
   let iconPic;
   let actionLabel;
   let titleLabel;
   let boolProfile;
-  let counterPartyId;
   let dictionary;
+  let delegateUser;
+  let delegateContract;
   const target = getTargetObject(wallet);
   const votesInBallot = wallet.inBallot;
   const newVotes = parseInt(wallet.allocateQuantity - votesInBallot, 10);
@@ -120,29 +121,41 @@ const _executeVote = (wallet, cancel, removal) => {
       titleLabel = TAPi18n.__('send-delegation-votes');
       actionLabel = TAPi18n.__('delegate');
       boolProfile = true;
-      counterPartyId = wallet.targetId;
       showBallot = false;
       dictionary = 'delegations';
 
+      delegateUser = Meteor.users.findOne({ _id: wallet.targetId });
+      delegateContract = `${convertToSlug(Meteor.user().username)}-${convertToSlug(delegateUser.username)}`;
+
+
+      // NOTE: this stuff is legacy, should definitely be reviewed ASAP
+      settings = {
+        title: delegateContract,
+        signatures: [
+          {
+            username: Meteor.user().username,
+          },
+          {
+            username: delegateUser.username,
+          },
+        ],
+        condition: {
+          transferable: Session.get('contract').transferable,
+          portable: Session.get('contract').portable,
+          tags: Session.get('contract').tags,
+        },
+        currency: 'VOTES',
+        kind: Session.get('contract').kind,
+        contractId: Session.get('contract')._id,
+      };
+
       /*
-        () => {
-          const settings = {
-            condition: {
-              transferable: Session.get('contract').transferable,
-              portable: Session.get('contract').portable,
-              tags: Session.get('contract').tags,
-            },
-            currency: 'VOTES',
-            kind: Session.get('contract').kind,
-            contractId: Session.get('contract')._id,
-          };
           sendDelegationVotes(
             Session.get('contract').signatures[0]._id,
             Session.get('contract')._id,
             Session.get('newVote').allocateQuantity,
             settings,
           );
-        }
       );*/
       break;
     case 'VOTE':
@@ -202,13 +215,28 @@ const _executeVote = (wallet, cancel, removal) => {
       voteQuantity = parseInt(wallet.allocateQuantity, 10);
     }
     vote = () => {
-      transact(
-        Meteor.user()._id,
-        wallet.targetId,
-        voteQuantity,
-        settings,
-        close
-      );
+      switch (wallet.voteType) {
+        case 'DELEGATION':
+          console.log('starting delegation...');
+          console.log(delegateContract);
+          delegate(
+            Meteor.userId(),
+            delegateUser._id,
+            voteQuantity,
+            settings,
+            close
+          );
+          break;
+        case 'VOTE':
+        default:
+          transact(
+            Meteor.user()._id,
+            wallet.targetId,
+            voteQuantity,
+            settings,
+            close
+          );
+      }
     };
   } else if (newVotes > 0) {
     // add votes
@@ -236,7 +264,7 @@ const _executeVote = (wallet, cancel, removal) => {
       displayProfile: boolProfile,
       displayBallot: showBallot,
       ballot: finalBallot,
-      profileId: counterPartyId,
+      profileId: wallet.targetId,
     },
     vote,
     cancel

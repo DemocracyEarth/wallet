@@ -271,6 +271,7 @@ const _processTransaction = (ticket) => {
 * @summary create a new transaction between two parties
 * @param {string} senderId - user or collective allocating the funds
 * @param {string} receiverId - user or collective receiving the funds
+* @param {number} votes - transaction size in votes
 * @param {object} settings - additional settings to be stored on the ledger
 * @param {string} process - true if everything turned out right, else: INSUFFICIENT
 * @param {function} callback - once everything's done, what is left to do?
