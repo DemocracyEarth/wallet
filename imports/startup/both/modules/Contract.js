@@ -38,7 +38,7 @@ const _newDraft = (newkeyword, newtitle) => {
 * @param {string} delegatorId - identity assigning the tokens (usually currentUser)
 * @param {string} delegateId - identity that will get a request to approve
 */
-const _verifyDelegation = (delegatorId, delegateId) => {
+const _getDelegationContract = (delegatorId, delegateId) => {
   const delegationContract = Contracts.findOne({ 'signatures.0._id': delegatorId, 'signatures.1._id': delegateId });
   if (delegationContract !== undefined) {
     return delegationContract;
@@ -112,10 +112,10 @@ const _sendDelegation = (sourceId, targetId, quantity, conditions, newStatus) =>
 */
 const _newDelegation = (delegatorId, delegateId, votes, settings, callback, instantaneous) => {
   let finalTitle;
-  console.log(settings);
-  const existingDelegation = _verifyDelegation(delegatorId, delegateId);
-  if (!existingDelegation) {
-    // creates new
+  let delegationContract = _getDelegationContract(delegatorId, delegateId);
+
+  // creates new delegation contract
+  if (!delegationContract) {
     if (!Contracts.findOne({ keyword: settings.title })) {
       // uses given title
       finalTitle = settings.title;
@@ -146,18 +146,10 @@ const _newDelegation = (delegatorId, delegateId, votes, settings, callback, inst
       };
 
     const newContract = Contracts.insert(newDelegation);
-    const delegationContract = Contracts.findOne({ _id: newContract });
+    delegationContract = Contracts.findOne({ _id: newContract });
 
-    // execute the delegation
-
-    transact(
-      delegatorId,
-      delegateId,
-      votes,
-      settings,
-      callback
-    );
-
+    /*
+    TODO: review the use case of instantaneous delegation when refactoring Thread
     if (instantaneous === false || instantaneous === undefined) {
       // Router.go(delegationContract.url);
     } else if (instantaneous) {
@@ -180,11 +172,23 @@ const _newDelegation = (delegatorId, delegateId, votes, settings, callback, inst
         'CONFIRMED'
       );
     }
+
   } else if (instantaneous === false || instantaneous === undefined) {
     // goes to existing one
     // Router.go(existingDelegation.url);
     console.log('a contract already in place, check this use case!!');
+  } */
   }
+
+  // execute the delegation
+  // NOTE: TEST THIS ASAP ***********************************************
+  transact(
+    delegatorId,
+    delegationContract._id,
+    votes,
+    settings,
+    callback
+  );
 };
 
 /**

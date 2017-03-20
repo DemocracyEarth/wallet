@@ -251,7 +251,6 @@ const _executeVote = (wallet, cancel, removal) => {
   }
 
   // ask confirmation
-  Session.set('displayPopup', false);
   displayModal(
     true,
     {
