@@ -11,6 +11,7 @@ let modalCallback;
 * @param {function} cancel if cancelled, then execute this
 */
 const modal = (active, settings, callback, cancel) => {
+  Session.set('displayPopup', false);
   Session.set('displayModal', settings);
   Session.set('showModal', active);
 

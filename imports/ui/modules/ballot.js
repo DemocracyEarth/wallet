@@ -217,8 +217,6 @@ const _executeVote = (wallet, cancel, removal) => {
     vote = () => {
       switch (wallet.voteType) {
         case 'DELEGATION':
-          console.log('starting delegation...');
-          console.log(delegateContract);
           delegate(
             Meteor.userId(),
             delegateUser._id,
@@ -253,6 +251,7 @@ const _executeVote = (wallet, cancel, removal) => {
   }
 
   // ask confirmation
+  Session.set('displayPopup', false);
   displayModal(
     true,
     {

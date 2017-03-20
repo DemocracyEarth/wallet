@@ -23,7 +23,7 @@ Template.popup.helpers({
 Template.popup.events({
   'mouseleave .popup'() {
     if (Session.get('popupTemplate') === 'card') {
-      if (Session.get('displayPopup')) {
+      if (Session.get('displayPopup') && !Session.get('dragging')) {
         Session.set('displayPopup', false);
       }
     }

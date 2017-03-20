@@ -113,7 +113,7 @@ const _windowLoop = () => {
 
   $(window).mousemove(() => {
     if (Session.get('displayPopup')) {
-      if (Session.get('popupTemplate') === 'card') {
+      if (Session.get('popupTemplate') === 'card' && !Session.get('dragging')) {
         if ($('#popup:hover').length === 0) {
           Session.set('displayPopup', false);
         }
