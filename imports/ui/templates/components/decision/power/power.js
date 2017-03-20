@@ -408,9 +408,8 @@ Template.capital.helpers({
           if (inBallot === 0) {
             if (Session.get(this._id).voteType === 'DELEGATION') {
               return 'stage-placed';
-            } else {
-              return 'hide';
             }
+            return 'hide';
           }
           return 'stage-finish-approved';
         }

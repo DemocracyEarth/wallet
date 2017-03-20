@@ -195,7 +195,6 @@ const getUserList = (array) => {
   let user = '';
 
   for (const i in array) {
-    console.log(array[i]);
     user = Meteor.users.findOne({ _id: array[i] });
     let labelUser;
     if (user !== undefined) {

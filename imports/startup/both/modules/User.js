@@ -263,7 +263,7 @@ let _verifyDelegationRight = (signatures) => {
   } else {
     return false;
   }
-}
+};
 
 /**
 * @summary returns vots a user has in a specific contract
@@ -273,9 +273,8 @@ let _verifyDelegationRight = (signatures) => {
 */
 const _userVotesInContract = (userWallet, contractId) => {
   let totalVotes = 0;
-  // if (userWallet === undefined) { return undefined; }
   for (const i in userWallet.ledger) {
-    if (userWallet.ledger[i].entityId === contractId && userWallet.ledger[i].entityType === 'CONTRACT') {
+    if (userWallet.ledger[i].entityId === contractId) {
       switch (userWallet.ledger[i].transactionType) {
         case 'OUTPUT':
           totalVotes += parseInt(userWallet.ledger[i].quantity, 10);
@@ -295,8 +294,8 @@ const _userVotesInContract = (userWallet, contractId) => {
 * @param {object} signatures - contract signature object
 * @return {boolean} bool - yes or no, that simple buddy.
 */
-let _isUserSigner = (signatures) => {
-  for (i in signatures) {
+const _isUserSigner = (signatures) => {
+  for (const i in signatures) {
     if (signatures[i]._id === Meteor.user()._id) {
       return true;
     }
