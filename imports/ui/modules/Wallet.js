@@ -3,6 +3,7 @@ import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 
 import { userVotesInContract } from '/imports/startup/both/modules/User';
+import { getDelegationContract } from '/imports/startup/both/modules/Contract';
 import { animationSettings } from '/imports/ui/modules/animation';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
@@ -11,9 +12,10 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 * @param {string} targetId the id of the targeted element
 * @return {string} type VOTE, DELEGATION, UNKNOWN
 */
-const getVoteType = (targetId) => {
-  if (Contracts.findOne({ _id: targetId })) {
-    return 'VOTE';
+const _getVoteType = (targetId) => {
+  const contract = Contracts.findOne({ _id: targetId });
+  if (contract) {
+    return contract.kind;
   } else if (Meteor.users.findOne({ _id: targetId })) {
     return 'DELEGATION';
   }
@@ -45,9 +47,18 @@ export const Wallet = function (wallet, targetId, sessionId) {
   this.initialized = true;
   this.enabled = true;
   this.mode = 'PENDING';
-  this.inBallot = userVotesInContract(wallet, targetId);
-  this.targetId = targetId;
-  this.voteType = getVoteType(targetId);
+  this.voteType = _getVoteType(targetId);
+  if (this.voteType === 'DELEGATION') {
+    const delegationContract = getDelegationContract(Meteor.userId(), targetId);
+    if (delegationContract) {
+      this.targetId = delegationContract._id;
+    } else {
+      this.targetId = targetId;
+    }
+  } else {
+    this.targetId = targetId;
+  }
+  this.inBallot = userVotesInContract(wallet, this.targetId);
 
   // controller
   if (sessionId === undefined) {

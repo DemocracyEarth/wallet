@@ -181,7 +181,7 @@ const _newDelegation = (delegatorId, delegateId, votes, settings, callback, inst
   }
 
   // execute the delegation
-  // NOTE: TEST THIS ASAP ***********************************************
+
   transact(
     delegatorId,
     delegationContract._id,
@@ -372,3 +372,4 @@ export const startMembership = _newMembership;
 export const delegate = _newDelegation;
 export const sendDelegationVotes = _sendDelegation;
 export const createContract = _newDraft;
+export const getDelegationContract = _getDelegationContract;

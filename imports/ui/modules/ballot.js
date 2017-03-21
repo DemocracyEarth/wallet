@@ -5,7 +5,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { globalObj } from '/lib/global';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { Transactions } from '/imports/api/transactions/Transactions';
-import { createContract, delegate } from '/imports/startup/both/modules/Contract';
+import { createContract, getDelegationContract, delegate } from '/imports/startup/both/modules/Contract';
 import { checkDuplicate, convertToSlug } from '/lib/utils';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { displayModal } from '/imports/ui/modules/modal';
@@ -74,9 +74,14 @@ const _purgeBallot = (options) => {
 * @return {object} contract
 */
 const getTargetObject = (wallet) => {
+  let contract;
   switch (wallet.voteType) {
     case 'DELEGATION':
-      return Meteor.users.findOne({ _id: wallet.targetId });
+      contract = Contracts.findOne({ _id: wallet.targetId });
+      if (!contract) {
+        return Meteor.users.findOne({ _id: wallet.targetId });
+      }
+      return contract;
     case 'VOTE':
     default:
       return Contracts.findOne({ _id: wallet.targetId });
@@ -101,7 +106,9 @@ const _executeVote = (wallet, cancel, removal) => {
   let boolProfile;
   let dictionary;
   let delegateUser;
-  let delegateContract;
+  let delegateContractTitle;
+  let delegationContract;
+  let delegateProfileId;
   const target = getTargetObject(wallet);
   const votesInBallot = wallet.inBallot;
   const newVotes = parseInt(wallet.allocateQuantity - votesInBallot, 10);
@@ -117,6 +124,14 @@ const _executeVote = (wallet, cancel, removal) => {
 
   switch (wallet.voteType) {
     case 'DELEGATION':
+      if (target.signatures.length > 0) {
+        delegateUser = Meteor.users.findOne({ _id: target.signatures[1]._id });
+        delegateContractTitle = target.title;
+      } else {
+        delegateUser = target;
+        delegateContractTitle = `${convertToSlug(Meteor.user().username)}-${convertToSlug(delegateUser.username)}`;
+      }
+      delegateProfileId = delegateUser._id;
       iconPic = 'images/modal-delegation.png';
       titleLabel = TAPi18n.__('send-delegation-votes');
       actionLabel = TAPi18n.__('delegate');
@@ -124,13 +139,9 @@ const _executeVote = (wallet, cancel, removal) => {
       showBallot = false;
       dictionary = 'delegations';
 
-      delegateUser = Meteor.users.findOne({ _id: wallet.targetId });
-      delegateContract = `${convertToSlug(Meteor.user().username)}-${convertToSlug(delegateUser.username)}`;
-
-
       // NOTE: this stuff is legacy, should definitely be reviewed ASAP
       settings = {
-        title: delegateContract,
+        title: delegateContractTitle,
         signatures: [
           {
             username: Meteor.user().username,
@@ -148,15 +159,6 @@ const _executeVote = (wallet, cancel, removal) => {
         kind: Session.get('contract').kind,
         contractId: Session.get('contract')._id,
       };
-
-      /*
-          sendDelegationVotes(
-            Session.get('contract').signatures[0]._id,
-            Session.get('contract')._id,
-            Session.get('newVote').allocateQuantity,
-            settings,
-          );
-      );*/
       break;
     case 'VOTE':
     default:
@@ -262,7 +264,7 @@ const _executeVote = (wallet, cancel, removal) => {
       displayProfile: boolProfile,
       displayBallot: showBallot,
       ballot: finalBallot,
-      profileId: wallet.targetId,
+      profileId: delegateProfileId,
     },
     vote,
     cancel
