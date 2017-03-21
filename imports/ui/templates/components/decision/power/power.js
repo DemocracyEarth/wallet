@@ -53,6 +53,8 @@ function getBarWidth(value, voteId, editable, interactive) {
 Template.power.onCreated(function () {
   const wallet = new Wallet(this.data.wallet, this.data.targetId, this.data._id);
   Session.set(this.data._id, wallet);
+
+  console.log(`creating power bar for id ${this.data._id}`);
 });
 
 Template.power.onRendered(function render() {

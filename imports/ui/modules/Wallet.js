@@ -62,7 +62,7 @@ export const Wallet = function (wallet, targetId, sessionId) {
 
   // controller
   if (sessionId === undefined) {
-    this.voteId = `${targetId}`;
+    this.voteId = `${this.targetId}`;
   } else {
     this.voteId = `${sessionId}`;
   }

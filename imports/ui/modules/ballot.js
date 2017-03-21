@@ -5,7 +5,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { globalObj } from '/lib/global';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { Transactions } from '/imports/api/transactions/Transactions';
-import { createContract, getDelegationContract, delegate } from '/imports/startup/both/modules/Contract';
+import { createContract, delegate } from '/imports/startup/both/modules/Contract';
 import { checkDuplicate, convertToSlug } from '/lib/utils';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { displayModal } from '/imports/ui/modules/modal';
@@ -107,7 +107,6 @@ const _executeVote = (wallet, cancel, removal) => {
   let dictionary;
   let delegateUser;
   let delegateContractTitle;
-  let delegationContract;
   let delegateProfileId;
   const target = getTargetObject(wallet);
   const votesInBallot = wallet.inBallot;
@@ -124,8 +123,11 @@ const _executeVote = (wallet, cancel, removal) => {
 
   switch (wallet.voteType) {
     case 'DELEGATION':
-      if (target.signatures.length > 0) {
-        delegateUser = Meteor.users.findOne({ _id: target.signatures[1]._id });
+      if (target.signatures) {
+        for (let i = 0; i < target.signatures.length; i += 1) {
+          delegateUser = Meteor.users.findOne({ _id: target.signatures[i]._id });
+          if (delegateUser) { break; }
+        }
         delegateContractTitle = target.title;
       } else {
         delegateUser = target;
