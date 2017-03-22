@@ -22,115 +22,11 @@ const _getVoteType = (targetId) => {
   return 'UNKNOWN';
 };
 
-/**
-* @summary Wallet class for transaction operations
-* @constructor {object} Wallet - constructor function
-* @param {object} wallet - wallet object that can be set from a user's profile.
-* @param {string} targetId - contrct being used for this vote
-* @param {string} sessionId - how this wallet will be identified on a session var
-*/
-export const Wallet = function (wallet, targetId, sessionId) {
-  // properties
-  if (wallet === undefined) {
-    this.address = [];
-    this.ledger = [];
-    this.available = 0;
-    this.balance = 0;
-    this.placed = 0;
-    this.inBallot = 0;
-    this.currency = 'VOTES';
-  } else {
-    Object.assign(this, wallet);
-  }
-
-  // defined
-  this.initialized = true;
-  this.enabled = true;
-  this.mode = 'PENDING';
-  this.voteType = _getVoteType(targetId);
-  if (this.voteType === 'DELEGATION') {
-    const delegationContract = getDelegationContract(Meteor.userId(), targetId);
-    if (delegationContract) {
-      this.targetId = delegationContract._id;
-    } else {
-      this.targetId = targetId;
-    }
-  } else {
-    this.targetId = targetId;
-  }
-  this.inBallot = userVotesInContract(wallet, this.targetId);
-
-  // controller
-  if (sessionId === undefined) {
-    this.voteId = `${this.targetId}`;
-  } else {
-    this.voteId = `${sessionId}`;
-  }
-
-  // view
-  this._initialSliderWidth = parseInt($(`#voteSlider-${this.voteId}`).width(), 10);
-  this.sliderWidth = this._initialSliderWidth;
-  // TODO remove 5 pixels for buffer?
-  this._maxWidth = parseInt(($(`#voteBar-${this.voteId}`).width() - (($(`#voteBar-${this.voteId}`).width() * parseInt(((this.placed - this.inBallot) * 100) / this.balance, 10)) / 100)), 10);
-
-  // methods
-  if (this.initialized === true) {
-    this.resetSlider();
-    this.initialized = false;
-  }
-};
-
 const _scope = (value, max, min) => {
   let minval = min;
   if (minval === undefined) { minval = 0; }
   if (value < minval) { return minval; } else if (value > max) { return max; }
   return value;
-};
-
-Wallet.prototype.allocateVotes = function (quantity, avoidSlider) {
-  if (this.enabled) {
-    this.placedPercentage = ((this.placed * 100) / this.balance);
-    this.allocatePercentage = ((quantity * 100) / this.balance);
-    this.allocateQuantity = parseInt(_scope(quantity, (this.available + this.inBallot)), 10);
-  }
-  if (!avoidSlider) {
-    const sliderWidth = parseFloat(($(`#voteSlider-${this.voteId}`).width() * this.available) / this._maxWidth, 10);
-    const sliderCorrected = parseFloat((this._maxWidth * this.allocateQuantity) / this.available, 10);
-    this.sliderInput((sliderCorrected - sliderWidth), true);
-  }
-};
-
-Wallet.prototype.sliderInput = function (pixels, avoidAllocation) {
-  if (pixels === undefined) { pixels = 0; }
-  if ($(`#voteBar-${this.voteId}`).offset() !== undefined) {
-    if ($(`#voteHandle-${this.voteId}`).offset() !== undefined) {
-      this.sliderWidth = _scope((this._initialSliderWidth + pixels), this._maxWidth, 0);
-    } else {
-      this.sliderWidth = 0;
-    }
-    if (!avoidAllocation) {
-      const sliderWidth = _scope($(`#voteSlider-${this.voteId}`).width(), this._maxWidth, 0);
-      const barWidth = $(`#voteBar-${this.voteId}`).width();
-      const pixelToVote = _scope(parseInt((sliderWidth * this.balance) / barWidth, 10), (this.available + this.inBallot), 0);
-      this.allocateVotes(pixelToVote, true);
-    }
-  }
-};
-
-Wallet.prototype.sliderPercentage = function () {
-  this.allocatePercentage = parseInt((this.allocateQuantity * 100) / this.balance, 10);
-  this.allocateVotes(this.allocateQuantity);
-};
-
-/**
-* @summary resets slider handle to current in ballot value position
-*/
-Wallet.prototype.resetSlider = function () {
-  const initialValue = parseFloat((this.inBallot * 100) / this.balance, 10).toFixed(2);
-  $(`#voteSlider-${this.voteId}`).velocity({ width: `${initialValue}%` }, animationSettings);
-  this._initialSliderWidth = parseInt(($(`#voteBar-${this.voteId}`).width() * initialValue) / 100, 10);
-  this.sliderWidth = this._initialSliderWidth;
-  this.allocateVotes(this.inBallot, true);
 };
 
 /**
@@ -154,5 +50,128 @@ const _verifyVote = (ledger, userId) => {
   }
   return false;
 };
+
+/**
+* @summary Wallet class for transaction operations
+*/
+export class Wallet {
+  /**
+  * @constructor constructor function
+  * @param {object} wallet - wallet object that can be set from a user's profile.
+  * @param {string} targetId - contrct being used for this vote
+  * @param {string} sessionId - how this wallet will be identified on a session var
+  */
+  constructor(wallet, targetId, sessionId) {
+    // properties
+    if (wallet === undefined) {
+      this.address = [];
+      this.ledger = [];
+      this.available = 0;
+      this.balance = 0;
+      this.placed = 0;
+      this.inBallot = 0;
+      this.currency = 'VOTES';
+    } else {
+      Object.assign(this, wallet);
+    }
+
+    // defined
+    this.initialized = true;
+    this.enabled = true;
+    this.mode = 'PENDING';
+    this.voteType = _getVoteType(targetId);
+    if (this.voteType === 'DELEGATION') {
+      const delegationContract = getDelegationContract(Meteor.userId(), targetId);
+      if (delegationContract) {
+        this.targetId = delegationContract._id;
+      } else {
+        this.targetId = targetId;
+      }
+    } else {
+      this.targetId = targetId;
+    }
+    this.inBallot = userVotesInContract(wallet, this.targetId);
+
+    // controller
+    if (sessionId === undefined) {
+      this.voteId = `${this.targetId}`;
+    } else {
+      this.voteId = `${sessionId}`;
+    }
+
+    // view
+    this._initialSliderWidth = parseInt($(`#voteSlider-${this.voteId}`).width(), 10);
+    this.sliderWidth = this._initialSliderWidth;
+    // TODO remove 5 pixels for buffer?
+    this._maxWidth = parseInt(($(`#voteBar-${this.voteId}`).width() - (($(`#voteBar-${this.voteId}`).width() * parseInt(((this.placed - this.inBallot) * 100) / this.balance, 10)) / 100)), 10);
+
+    // methods
+    if (this.initialized === true) {
+      this.resetSlider();
+      this.initialized = false;
+    }
+  }
+
+  /**
+  * @summary allocate N amount of votes and display values accordingly
+  * @param {number} quantity amount of votes
+  * @param {boolean} avoidSlider disable updating slider length
+  */
+  allocateVotes(quantity, avoidSlider) {
+    if (this.enabled) {
+      this.placedPercentage = ((this.placed * 100) / this.balance);
+      this.allocatePercentage = ((quantity * 100) / this.balance);
+      this.allocateQuantity = parseInt(_scope(quantity, (this.available + this.inBallot)), 10);
+    }
+    if (!avoidSlider) {
+      const sliderWidth = parseFloat(($(`#voteSlider-${this.voteId}`).width() * this.available) / this._maxWidth, 10);
+      const sliderCorrected = parseFloat(
+        (this._maxWidth * this.allocateQuantity) / this.available, 10);
+      this.sliderInput((sliderCorrected - sliderWidth), true);
+    }
+  }
+
+  /**
+  * @summary given an input in pixels defines the values of wallet
+  * @param {number} pixels length in pixels
+  * @param {boolean} avoidAllocation disable updating wallet values
+  */
+  sliderInput(pixels, avoidAllocation) {
+    if (pixels === undefined) { pixels = 0; }
+    if ($(`#voteBar-${this.voteId}`).offset() !== undefined) {
+      if ($(`#voteHandle-${this.voteId}`).offset() !== undefined) {
+        this.sliderWidth = _scope((this._initialSliderWidth + pixels), this._maxWidth, 0);
+      } else {
+        this.sliderWidth = 0;
+      }
+      if (!avoidAllocation) {
+        const sliderWidth = _scope($(`#voteSlider-${this.voteId}`).width(), this._maxWidth, 0);
+        const barWidth = $(`#voteBar-${this.voteId}`).width();
+        const pixelToVote = _scope(parseInt(
+          (sliderWidth * this.balance) / barWidth, 10), (this.available + this.inBallot), 0);
+        this.allocateVotes(pixelToVote, true);
+      }
+    }
+  }
+
+  /**
+  * @summary defines the percentage of slider length
+  */
+  sliderPercentage() {
+    this.allocatePercentage = parseInt((this.allocateQuantity * 100) / this.balance, 10);
+    this.allocateVotes(this.allocateQuantity);
+  }
+
+  /**
+  * @summary resets slider handle to current in ballot value position
+  */
+  resetSlider() {
+    const initialValue = parseFloat((this.inBallot * 100) / this.balance, 10).toFixed(2);
+    $(`#voteSlider-${this.voteId}`).velocity({ width: `${initialValue}%` }, animationSettings);
+    this._initialSliderWidth = parseInt(($(`#voteBar-${this.voteId}`).width() * initialValue) / 100, 10);
+    this.sliderWidth = this._initialSliderWidth;
+    this.allocateVotes(this.inBallot, true);
+  }
+}
 
 export const verifyVote = _verifyVote;
