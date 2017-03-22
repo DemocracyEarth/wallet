@@ -2,7 +2,10 @@
 
   <!-- App -->
   {{> modal}}
-  {{> popup}}
+
+  {{#each popupList}}
+    {{> popup id=this.id}}
+  {{/each}}
 
   <div id='menu' class="left">
     {{> sidebar}}

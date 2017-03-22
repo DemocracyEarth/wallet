@@ -11,7 +11,7 @@ import { showFullName } from '/imports/startup/both/modules/utils';
 import { searchJSON } from '/imports/ui/modules/JSON';
 import { uploadToAmazonS3 } from '/imports/ui/modules/Files';
 import { displayModal } from '/imports/ui/modules/modal';
-import { displayPopup, cancelPopup } from '/imports/ui/modules/popup';
+import { Popup, displayPopup, cancelPopup } from '/imports/ui/modules/popup';
 import { globalObj } from '/lib/global';
 
 import './avatar.html';
@@ -243,7 +243,11 @@ Template.avatar.events({
   'mouseenter .profile-pic'(event) {
     if (this.displayPopup !== false && this.disabled !== true) {
       if (this.profile !== null && this.profile !== undefined) {
-        displayPopup(event.target, true, 'card', this.profile);
+        // displayPopup(event.target, true, 'card', this.profile);
+        console.log('object oriented ftw');
+        console.log(this.profile);
+        // let popup = new Popup(event.target, true, 'card', this.profile);
+        displayPopup(event.target, true, 'card', this.profile, 'mouseenter', `popup-avatar-${this.profile}`);
       }
     }
   },

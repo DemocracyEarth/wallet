@@ -30,28 +30,6 @@ const _scope = (value, max, min) => {
 };
 
 /**
-* @summary verify if user has already voted
-* @param {object} ledger - ledger of contract or entity to verify on
-* @param {string} userId - id of user
-* @return {boolean} value - true or false
-*/
-const _verifyVote = (ledger, userId) => {
-  for (const entity in ledger) {
-    if (ledger[entity].entityId === userId) {
-      const wallet = Session.get('newVote');
-      if (wallet !== undefined) {
-        wallet.allocatePercentage = parseInt((ledger[entity].quantity * 100) / wallet.balance, 10);
-        wallet.allocateQuantity = ledger[entity].quantity;
-        wallet.mode = 'EXECUTED';
-        Session.set('newVote', wallet);
-      }
-      return true;
-    }
-  }
-  return false;
-};
-
-/**
 * @summary Wallet class for transaction operations
 */
 export class Wallet {
@@ -137,10 +115,11 @@ export class Wallet {
   * @param {boolean} avoidAllocation disable updating wallet values
   */
   sliderInput(pixels, avoidAllocation) {
-    if (pixels === undefined) { pixels = 0; }
+    let inputPixels = pixels;
+    if (pixels === undefined) { inputPixels = 0; }
     if ($(`#voteBar-${this.voteId}`).offset() !== undefined) {
       if ($(`#voteHandle-${this.voteId}`).offset() !== undefined) {
-        this.sliderWidth = _scope((this._initialSliderWidth + pixels), this._maxWidth, 0);
+        this.sliderWidth = _scope((this._initialSliderWidth + inputPixels), this._maxWidth, 0);
       } else {
         this.sliderWidth = 0;
       }
@@ -173,5 +152,3 @@ export class Wallet {
     this.allocateVotes(this.inBallot, true);
   }
 }
-
-export const verifyVote = _verifyVote;

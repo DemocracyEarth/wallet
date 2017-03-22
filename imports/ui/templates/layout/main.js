@@ -16,6 +16,7 @@ Buckminster Fuller, Great San Francisco Architect.
 A Roma, <3
 
 */
+
 /* global alert */
 
 import { Meteor } from 'meteor/meteor';
@@ -77,6 +78,12 @@ Meteor.startup(() => {
     globalObj.geoJSON = result.data;
     Session.set('filteredCountries', result.data.country);
   });
+});
+
+Template.main.helpers({
+  popupList() {
+    return Session.get('popupList');
+  },
 });
 
 Template.main.events({

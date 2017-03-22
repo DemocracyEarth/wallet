@@ -57,6 +57,10 @@ Template.power.onCreated(function () {
   console.log(`creating power bar for id ${this.data._id}`);
 });
 
+Template.power.onDestroyed(function () {
+  console.log(`this is being destroyed ${this.data_id}`);
+});
+
 Template.power.onRendered(function render() {
   if (!Meteor.user()) {
     return;

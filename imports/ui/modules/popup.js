@@ -39,7 +39,7 @@ const _cursorPosition = () => {
 /**
 /* @param {string} source - the source element used to relatively position the popup
 /* @param {string} target - the expected dimensions the popup will have according to its content
-******/
+*/
 const _positionCard = (element, target) => {
   let left = Number();
   let pointer = Number();
@@ -114,7 +114,7 @@ const _windowLoop = () => {
   $(window).mousemove(() => {
     if (Session.get('displayPopup')) {
       if (Session.get('popupTemplate') === 'card' && !Session.get('dragging')) {
-        if ($('#popup:hover').length === 0) {
+        if ($('.popup:hover').length === 0) {
           Session.set('displayPopup', false);
         }
       }
@@ -186,6 +186,8 @@ const _displayPopup = (element, visible, template, params, eventType) => {
 /* cancels the imminent display of the popup
 **/
 const _cancelPopup = () => {
+  console.log('canceling this popup:');
+  console.log(popupTimer);
   Meteor.clearTimeout(popupTimer);
 };
 
@@ -226,7 +228,175 @@ const _displayLogin = (event, target) => {
   }
 };
 
+export class Popup {
+  constructor(element, visible, template, params, eventType, id) {
+    let timer = 0;
+
+    this.visible = false;
+    this.position = {};
+
+    this.id = id;
+
+    if (!Session.get('displayPopup')) {
+      if (eventType === 'click') {
+        timer = 0;
+      } else {
+        timer = parseInt(animationSettings.duration * 5, 10);
+      }
+
+      // draw content based on target content to be used in popup
+      // Session.set('popupData', params);
+      // Session.set('popupTemplate', template);
+      this.data = params;
+      this.template = template;
+
+      this.popupTimer = Meteor.setTimeout(() => {
+        // store content and source for resizing Calls
+        this.content = template;
+        this.element = element;
+
+        // type of event calling, default if left undefined is mouseenter.
+        if (eventType === undefined) {
+          this.eventType = 'mouseenter';
+        } else {
+          this.eventType = eventType;
+        }
+
+        let target = {
+          width: parseInt($('.popup').width(), 10),
+          height: parseInt($('.card').height() + 40, 10),
+          opacity: 1,
+        };
+        target = _limitTargetSize(target);
+        this.visible = true;
+        this.target = target;
+        this.position = this.positionCard(element, target);
+        this.renderPopup();
+
+        if (visible === undefined) {
+          Session.set('displayPopup', !Session.get('displayPopup'));
+        } else {
+          Session.set('displayPopup', visible);
+        }
+      }, timer);
+    }
+  }
+
+  /**
+  /* @param {string} source - the source element used to relatively position the popup
+  /* @param {string} target - the expected dimensions the popup will have according to its content
+  */
+  positionCard(element, target) {
+    let left = Number();
+    let pointer = Number();
+    const source = element.getBoundingClientRect();
+    const spaceRight = parseInt(document.body.offsetWidth - source.right, 10);
+    const spaceLeft = parseInt(source.left, 10);
+    const documentHalf = parseInt(document.body.offsetWidth / 2, 10);
+
+    // y axis
+    if (source.top < parseInt(target.height + 60, 10)) {
+      // popup goes at bottom of target
+      this.position.top = source.top;
+      $('.card').css('margin-top', '0px');
+      $('.pointer-up').css('margin-top', parseInt(source.height, 10));
+      this.pointerClass = '.pointer-up';
+    } else {
+      // popup goes on top of target
+      this.position.top = parseInt(source.bottom - target.height, 10);
+      $('.card').css('margin-top', parseInt(0 - source.height - 10, 10));
+      $('.pointer-up').css('margin-top', '0px');
+      this.pointerClass = '.pointer-down';
+    }
+
+    // x axis
+    if (source.left > documentHalf) {
+      // popup will be on right side of screen
+      if (spaceRight < (target.width - (target.width / 2))) {
+        // not enough space on the right for Popup centering
+        left = parseInt((source.left - target.width) + source.width, 10);
+        pointer = parseInt((target.width - (source.width / 2)) - 10, 10);
+      } else {
+        // enough space on the right, Popup is centered.
+        left = parseInt((source.left - (target.width / 2)) + (source.width / 2), 10);
+        pointer = parseInt((target.width - (target.width / 2)) - 10, 10);
+      }
+    // popup will be on left side of screen
+    } else if (spaceLeft < (target.width - (target.width / 2))) {
+      // not enough space on left
+      left = parseInt(source.left, 10);
+      pointer = parseInt((source.width / 2) - 10, 10);
+    } else {
+      // enough space on left;
+      left = parseInt((source.left - (target.width / 2)) + (source.width / 2), 10);
+      pointer = parseInt((target.width - (target.width / 2)) - 10, 10);
+    }
+
+    this.position.left = left;
+    this.pointerPosition = pointer;
+
+    this.cursorPosition();
+
+    return Object.assign(this.position, target);
+  }
+
+  /**
+  /* @summary activates event listeners for proper popup dynamic rendering behaviour
+  **/
+  renderPopup() {
+    // positioning
+    $('.popup').css(this.position);
+    _windowLoop();
+  }
+
+  /**
+  /* @summary draw the cursor either top or down pointing towards the source.
+  **/
+  cursorPosition() {
+    // pointer
+    if (this.pointerClass === '.pointer-up') {
+      $(this.pointerClass).css({ left: this.pointerPosition, opacity: 1 });
+      $('.pointer-down').css({ opacity: 0 });
+    } else {
+      $(this.pointerClass).css({ left: this.pointerPosition, opacity: 1 });
+      $('.pointer-up').css({ opacity: 0 });
+    }
+  }
+
+  /**
+  /* cancels the imminent display of the popup
+  **/
+  cancelPopup() {
+    console.log('CANCELLING FROM OBJECT');
+    console.log(this.popupTimer);
+    Meteor.clearTimeout(this.popupTimer);
+  }
+
+}
+
+const _popup = (element, visible, template, params, eventType, id) => {
+  const popup = new Popup(element, visible, template, params, eventType, id);
+  let popupList = [];
+  let found = false;
+
+  if (Session.get('popupList')) {
+    popupList = Session.get('popupList');
+    for (let i = 0; i < popupList.length; i += 1) {
+      if (popupList[i].id === id) {
+        popupList[i] = popup;
+        found = true;
+        break;
+      }
+    }
+  }
+  if (!found) {
+    popupList.push(popup);
+  }
+
+  Session.set('popupList', popupList);
+};
+
 export const cancelPopup = _cancelPopup;
 export const displayLogin = _displayLogin;
 export const animatePopup = _animatePopup;
-export const displayPopup = _displayPopup;
+export const displayPopup = _popup;
