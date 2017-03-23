@@ -242,7 +242,7 @@ Template.avatar.events({
   },
   'mouseenter .profile-pic'(event) {
     if (this.displayPopup !== false && this.disabled !== true && this.profile !== null && this.profile !== undefined) {
-      displayPopup(event.target, true, 'card', this.profile, 'mouseenter', `popup-avatar-${this.profile}`);
+      displayPopup(event.target, 'card', this.profile, 'mouseenter', `popup-avatar-${this.profile}`);
     }
   },
   'mouseleave .profile-pic'() {

@@ -13,11 +13,6 @@ Template.card.helpers({
   myself() {
     return (this.toString() === Meteor.userId() || this._id === '0000000');
   },
-  delegationKeyword() {
-    const user = Meteor.users.findOne({ _id: this.toString() });
-    Session.set('newDelegate', user);
-    return user;
-  },
   voteSettings() {
     return {
       voteId: `vote-${Meteor.userId()}-${this.toString()}`,
@@ -25,25 +20,5 @@ Template.card.helpers({
       sourceId: Meteor.userId(),
       targetId: this.toString(),
     };
-  },
-});
-
-Template.card.events({
-  'click #delegate'() {
-    const keywordTitle = `${convertToSlug(Meteor.user().username)}-${convertToSlug(Session.get('newDelegate').username)}`;
-    if (keywordTitle !== undefined) {
-      startDelegation(Meteor.userId(), this.toString(), {
-        title: keywordTitle,
-        signatures: [
-          {
-            username: Meteor.user().username,
-          },
-          {
-            username: Session.get('newDelegate').username,
-          },
-        ],
-      });
-      animatePopup(false);
-    }
   },
 });
