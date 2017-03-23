@@ -17,35 +17,6 @@ const _limitTargetSize = (target) => {
 };
 
 /**
-/* @summary fundamental window refreshing events
-**/
-const _windowLoop = () => {
-  // resize
-  $(window).resize(() => {
-    if (Session.get('displayPopup')) {
-      $('.popup').css(_positionCard(popupCard.element, popupCard.target));
-    }
-  });
-
-  $('.split').on('scroll', () => {
-    if (Session.get('displayPopup')) {
-      $('.popup').css(_positionCard(popupCard.element, popupCard.target));
-    }
-  });
-
-  $(window).mousemove(() => {
-    if (Session.get('displayPopup')) {
-      if (Session.get('popupTemplate') === 'card' && !Session.get('dragging')) {
-        if ($('.popup:hover').length === 0) {
-          Session.set('displayPopup', false);
-        }
-      }
-    }
-  });
-};
-
-
-/**
 /* @param {object} target - DOM element that is being used as reference for calling login popup
 **/
 const _displayLogin = (event, target) => {
@@ -83,12 +54,14 @@ const _update = (id, popup) => {
 };
 
 const _get = (source, id, key) => {
-  for (let i = 0; i < source.length; i += 1) {
-    if (source[i].id === id) {
-      if (!key) {
-        return source[i];
+  if (source !== undefined) {
+    for (let i = 0; i < source.length; i += 1) {
+      if (source[i].id === id) {
+        if (!key) {
+          return source[i];
+        }
+        return source[i][key];
       }
-      return source[i][key];
     }
   }
   return undefined;
@@ -206,7 +179,7 @@ export class Popup {
         left = parseInt((source.left - target.width) + source.width, 10);
         pointer = parseInt((target.width - (source.width / 2)) - 10, 10);
       } else {
-        // enough space on the right, Popup is centered.
+        // enough space on the right, popup is centered.
         left = parseInt((source.left - (target.width / 2)) + (source.width / 2), 10);
         pointer = parseInt((target.width - (target.width / 2)) - 10, 10);
       }
@@ -235,7 +208,7 @@ export class Popup {
   renderPopup() {
     // positioning
     $(this.div).css(this.position);
-    _windowLoop();
+    this.loop();
   }
 
   /**
@@ -251,6 +224,39 @@ export class Popup {
       $(this.pointerUp).css({ opacity: 0 });
     }
   }
+
+  /**
+  /* @summary fundamental window refreshing events
+  **/
+  // TODO: remove this from class, make it general purpose?
+  loop() {
+    // resize
+    $(window).resize(() => {
+      if (this.visible) {
+        console.log('resize');
+        $(this.div).css(this.positionCard(this.element, this.target));
+      }
+    });
+
+    $('.split').on('scroll', () => {
+      if (this.visible) {
+        console.log('scroll');
+        $(this.div).css(this.positionCard(this.element, this.target));
+      }
+    });
+
+    $(window).mousemove(() => {
+      if (this.visible) {
+        if (this.template === 'card' && !Session.get('dragging')) {
+          console.log('mousemove');
+          if ($(`${this.div}:hover`).length === 0) {
+            this.visible = false;
+          }
+        }
+      }
+    });
+  }
+
 }
 
 const _init = (element, template, params, eventType, id) => {

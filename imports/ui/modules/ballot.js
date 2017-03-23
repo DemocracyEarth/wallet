@@ -126,7 +126,7 @@ const _executeVote = (wallet, cancel, removal) => {
       if (target.signatures) {
         for (let i = 0; i < target.signatures.length; i += 1) {
           delegateUser = Meteor.users.findOne({ _id: target.signatures[i]._id });
-          if (delegateUser) { break; }
+          if (delegateUser && delegateUser._id !== Meteor.userId()) { break; }
         }
         delegateContractTitle = target.title;
       } else {

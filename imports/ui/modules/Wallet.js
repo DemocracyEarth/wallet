@@ -58,15 +58,13 @@ export class Wallet {
     this.enabled = true;
     this.mode = 'PENDING';
     this.voteType = _getVoteType(targetId);
+    this.targetId = targetId;
     if (this.voteType === 'DELEGATION') {
       const delegationContract = getDelegationContract(Meteor.userId(), targetId);
       if (delegationContract) {
         this.targetId = delegationContract._id;
-      } else {
-        this.targetId = targetId;
+        this.userTargetId = targetId;
       }
-    } else {
-      this.targetId = targetId;
     }
     this.inBallot = userVotesInContract(wallet, this.targetId);
 

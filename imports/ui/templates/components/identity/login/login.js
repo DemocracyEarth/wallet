@@ -8,12 +8,9 @@ import './login.html';
 import './profile/profile.js';
 import './logger.js';
 
-Template.login.rendered = function rendered() {
-};
-
 Template.login.events({
   'click #logout'() {
-    Session.set('displayPopup', false);
+    // Session.set('displayPopup', false);
     Session.set('logger', false);
     animatePopup(false);
     Meteor.logout();

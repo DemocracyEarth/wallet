@@ -9,6 +9,7 @@ import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
 import { displayModal } from '/imports/ui/modules/modal';
 import { Wallet } from '/imports/ui/modules/Wallet';
 import { contractReady, purgeBallot, candidateBallot, executeVote } from '/imports/ui/modules/ballot';
+import { animatePopup, getPopup } from '/imports/ui/modules/popup';
 
 import './power.html';
 import '../action/action.js';
@@ -53,18 +54,16 @@ function getBarWidth(value, voteId, editable, interactive) {
 Template.power.onCreated(function () {
   const wallet = new Wallet(this.data.wallet, this.data.targetId, this.data._id);
   Session.set(this.data._id, wallet);
-
-  console.log(`creating power bar for id ${this.data._id}`);
-});
-
-Template.power.onDestroyed(function () {
-  console.log(`this is being destroyed ${this.data_id}`);
 });
 
 Template.power.onRendered(function render() {
   if (!Meteor.user()) {
     return;
   }
+
+  // update
+  const wallet = new Wallet(this.data.wallet, this.data.targetId, this.data._id);
+  Session.set(this.data._id, wallet);
 
   // redraw power bar if resize
   $(`#voteBar-${this.data._id}`).resize(function () {
@@ -73,6 +72,7 @@ Template.power.onRendered(function render() {
     $(`#votePlaced-${voteId}`).width(getBarWidth(parseFloat(Session.get(voteId).placed - Session.get(voteId).inBallot, 10), voteId, true));
   });
 
+  // drag event
   $(`#voteHandle-${this.data._id}`).draggable({
     axis: 'x',
     create() {
@@ -115,6 +115,11 @@ Template.power.onRendered(function render() {
           Session.set('noSelectedOption', true);
         }
       } else if (contractReady() === true || this.newVote.voteType === 'DELEGATION') {
+        // if there's a popup, kill it
+        const popup = getPopup(Session.get('popupList'), `popup-avatar-${this.newVote.userTargetId}`);
+        if (popup) { animatePopup(false, `popup-avatar-${this.newVote.userTargetId}`); }
+
+        // democracy wins
         executeVote(this.newVote, cancel);
       }
     },
@@ -132,8 +137,6 @@ Template.power.helpers({
     let rejection = false;
     let signatures;
     let quantity;
-
-    console.log(`label: ${this.data._id}`);
 
     if (contract === undefined) {
       return TAPi18n.__('contract-votes-pending');
