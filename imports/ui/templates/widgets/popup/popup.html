@@ -2,9 +2,9 @@
     <div id="{{id}}" class="popup" style="{{visible}}">
       <div class="pointer-up" style="{{pointer}}"></div>
       <div class="w-clearfix card">
-         {{#with dataObject}}
-            {{> Template.dynamic template=content}}
-         {{/with}}
+
+            {{> Template.dynamic template=content data=dataObject}}
+         
       </div>
       <div class="pointer-down" style="{{pointer}}"></div>
     </div>

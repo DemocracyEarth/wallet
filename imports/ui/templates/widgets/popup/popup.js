@@ -10,9 +10,11 @@ Template.popup.onRendered(() => {
 
 function _getData(source, id, key) {
   for (let i = 0; i < source.length; i += 1) {
-    console.log(`id of this object is ${id}`);
     if (source[i].id === id) {
-      return source[key];
+      if (!key) {
+        return source[i];
+      }
+      return source[i][key];
     }
   }
   return undefined;
@@ -20,27 +22,19 @@ function _getData(source, id, key) {
 
 Template.popup.helpers({
   visible() {
-    animatePopup(Session.get('displayPopup'));
+    animatePopup(Session.get('displayPopup'), this.id);
   },
   content() {
-    // return Session.get('popupTemplate');
-    /* let list = Session.get('popupList');
-    for (let i = 0; i < list.length; i += 1) {
-      if (list[i].id === this.id) {
-        return this.template;
-      }
-    }*/
-    console.log(this);
-    return _getData(Session.get('popupList'), this.id, 'template');
+    return _getData(Session.get('popupList'), this.id).template;
   },
   dataObject() {
-    return Session.get('popupData');
+    return _getData(Session.get('popupList'), this.id).params;
   },
 });
 
 Template.popup.events({
   'mouseleave .popup'() {
-    if (Session.get('popupTemplate') === 'card') {
+    if (_getData(Session.get('popupList'), this.id).template === 'card') {
       if (Session.get('displayPopup') && !Session.get('dragging')) {
         Session.set('displayPopup', false);
       }

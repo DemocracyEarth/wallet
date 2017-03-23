@@ -232,7 +232,7 @@ export class Popup {
   constructor(element, visible, template, params, eventType, id) {
     let timer = 0;
 
-    this.visible = false;
+    this.visible = visible;
     this.position = {};
 
     this.id = id;
@@ -245,9 +245,7 @@ export class Popup {
       }
 
       // draw content based on target content to be used in popup
-      // Session.set('popupData', params);
-      // Session.set('popupTemplate', template);
-      this.data = params;
+      this.params = params;
       this.template = template;
 
       this.popupTimer = Meteor.setTimeout(() => {
@@ -273,10 +271,10 @@ export class Popup {
         this.position = this.positionCard(element, target);
         this.renderPopup();
 
-        if (visible === undefined) {
+        if (this.visible === undefined) {
           Session.set('displayPopup', !Session.get('displayPopup'));
         } else {
-          Session.set('displayPopup', visible);
+          Session.set('displayPopup', this.visible);
         }
       }, timer);
     }
@@ -345,7 +343,7 @@ export class Popup {
   **/
   renderPopup() {
     // positioning
-    $('.popup').css(this.position);
+    $(`#${this.id}`).css(this.position);
     _windowLoop();
   }
 
@@ -364,7 +362,7 @@ export class Popup {
   }
 
   /**
-  /* cancels the imminent display of the popup
+  /* @summary cancels the imminent display of the popup
   **/
   cancelPopup() {
     console.log('CANCELLING FROM OBJECT');
@@ -396,7 +394,32 @@ const _popup = (element, visible, template, params, eventType, id) => {
   Session.set('popupList', popupList);
 };
 
+/**
+/* @summary animate fade in or out of popup instnace
+/* @param {boolean} display - if a fade in or fade out will be played
+***/
+const _animate = (display, id) => {
+  const divId = `#${id}`;
+  if (display) {
+    let pointerFX = '-5px';
+    if (popupCard.pointerClass === '.pointer-up') { pointerFX = '5px'; }
+    $(divId).css('opacity', '0');
+    $(divId).css('margin-top', pointerFX);
+    $(divId).velocity({ opacity: 1 }, { duration: (animationSettings.duration / 2) });
+    $(divId).velocity({ marginTop: '0px' }, { duration: (animationSettings.duration / 2) });
+  } else {
+    $(divId).css('opacity', '1');
+    $(divId).velocity({ opacity: 0 }, {
+      duration: (animationSettings.duration / 2),
+      complete: () => {
+        $(divId).css('margin-top', '-10000px');
+        Session.set('displayPopup', false);
+      },
+    });
+  }
+};
+
 export const cancelPopup = _cancelPopup;
 export const displayLogin = _displayLogin;
-export const animatePopup = _animatePopup;
+export const animatePopup = _animate;
 export const displayPopup = _popup;
