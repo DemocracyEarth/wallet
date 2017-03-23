@@ -228,56 +228,118 @@ const _displayLogin = (event, target) => {
   }
 };
 
+/**
+/* @summary cancels the imminent display of the popup
+**/
+const _cancel = (id) => {
+  const list = Session.get('popupList');
+  for (let i = 0; i < list.length; i += 1) {
+    if (list[i].id === id) {
+      Meteor.clearTimeout(list[i].popupTimer);
+      break;
+    }
+  }
+};
+
+const _update = (id, popup) => {
+  const list = Session.get('popupList');
+  for (let i = 0; i < list.length; i += 1) {
+    if (list[i].id === id) {
+      list[i] = popup;
+    }
+  }
+  Session.set('popupList', list);
+};
+
+const _get = (source, id, key) => {
+  for (let i = 0; i < source.length; i += 1) {
+    if (source[i].id === id) {
+      if (!key) {
+        return source[i];
+      }
+      return source[i][key];
+    }
+  }
+  return undefined;
+};
+
+/**
+/* @summary animate fade in or out of popup instnace
+/* @param {boolean} display - if a fade in or fade out will be played
+***/
+const _animate = (display, id) => {
+  const divId = `#${id}`;
+  if (display) {
+    let pointerFX = '-5px';
+    if (popupCard.pointerClass === '.pointer-up') { pointerFX = '5px'; }
+    $(divId).css('opacity', '0');
+    $(divId).css('margin-top', pointerFX);
+    $(divId).velocity({ opacity: 1 }, { duration: (animationSettings.duration / 2) });
+    $(divId).velocity({ marginTop: '0px' }, { duration: (animationSettings.duration / 2) });
+  } else {
+    $(divId).css('opacity', '1');
+    $(divId).velocity({ opacity: 0 }, {
+      duration: (animationSettings.duration / 2),
+      complete: () => {
+        $(divId).css('margin-top', '-10000px');
+        const updatePopup = _get(Session.get('popupList'), id);
+        updatePopup.visible = false;
+        _update(id, updatePopup);
+      },
+    });
+  }
+};
+
 export class Popup {
   constructor(element, visible, template, params, eventType, id) {
     let timer = 0;
 
-    this.visible = visible;
+    this.visible = false; // visible;
     this.position = {};
 
     this.id = id;
 
-    if (!Session.get('displayPopup')) {
-      if (eventType === 'click') {
-        timer = 0;
+    // if (!Session.get('displayPopup')) {
+    if (eventType !== 'click') {
+      timer = parseInt(animationSettings.duration * 5, 10);
+    }
+
+    // draw content based on target content to be used in popup
+    this.params = params;
+    this.template = template;
+
+    this.popupTimer = Meteor.setTimeout(() => {
+      // store content and source for resizing Calls
+      this.content = template;
+      this.element = element;
+
+      // type of event calling, default if left undefined is mouseenter.
+      if (eventType === undefined) {
+        this.eventType = 'mouseenter';
       } else {
-        timer = parseInt(animationSettings.duration * 5, 10);
+        this.eventType = eventType;
       }
 
-      // draw content based on target content to be used in popup
-      this.params = params;
-      this.template = template;
+      let target = {
+        width: parseInt($(`#${this.id}`).width(), 10),
+        height: parseInt($('.card').height() + 40, 10),
+        opacity: 1,
+      };
+      target = _limitTargetSize(target);
+      this.visible = true;
+      this.target = target;
+      this.position = this.positionCard(element, target);
+      this.renderPopup();
 
-      this.popupTimer = Meteor.setTimeout(() => {
-        // store content and source for resizing Calls
-        this.content = template;
-        this.element = element;
+      _animate(true, this.id);
 
-        // type of event calling, default if left undefined is mouseenter.
-        if (eventType === undefined) {
-          this.eventType = 'mouseenter';
-        } else {
-          this.eventType = eventType;
-        }
-
-        let target = {
-          width: parseInt($('.popup').width(), 10),
-          height: parseInt($('.card').height() + 40, 10),
-          opacity: 1,
-        };
-        target = _limitTargetSize(target);
-        this.visible = true;
-        this.target = target;
-        this.position = this.positionCard(element, target);
-        this.renderPopup();
-
-        if (this.visible === undefined) {
-          Session.set('displayPopup', !Session.get('displayPopup'));
-        } else {
-          Session.set('displayPopup', this.visible);
-        }
-      }, timer);
-    }
+      /*if (this.visible === undefined) {
+        Session.set('displayPopup', !Session.get('displayPopup'));
+      } else {
+        Session.set('displayPopup', this.visible);
+      }*/
+    }, timer);
+    // }
   }
 
   /**
@@ -360,19 +422,9 @@ export class Popup {
       $('.pointer-up').css({ opacity: 0 });
     }
   }
-
-  /**
-  /* @summary cancels the imminent display of the popup
-  **/
-  cancelPopup() {
-    console.log('CANCELLING FROM OBJECT');
-    console.log(this.popupTimer);
-    Meteor.clearTimeout(this.popupTimer);
-  }
-
 }
 
-const _popup = (element, visible, template, params, eventType, id) => {
+const _init = (element, visible, template, params, eventType, id) => {
   const popup = new Popup(element, visible, template, params, eventType, id);
   let popupList = [];
   let found = false;
@@ -394,32 +446,10 @@ const _popup = (element, visible, template, params, eventType, id) => {
   Session.set('popupList', popupList);
 };
 
-/**
-/* @summary animate fade in or out of popup instnace
-/* @param {boolean} display - if a fade in or fade out will be played
-***/
-const _animate = (display, id) => {
-  const divId = `#${id}`;
-  if (display) {
-    let pointerFX = '-5px';
-    if (popupCard.pointerClass === '.pointer-up') { pointerFX = '5px'; }
-    $(divId).css('opacity', '0');
-    $(divId).css('margin-top', pointerFX);
-    $(divId).velocity({ opacity: 1 }, { duration: (animationSettings.duration / 2) });
-    $(divId).velocity({ marginTop: '0px' }, { duration: (animationSettings.duration / 2) });
-  } else {
-    $(divId).css('opacity', '1');
-    $(divId).velocity({ opacity: 0 }, {
-      duration: (animationSettings.duration / 2),
-      complete: () => {
-        $(divId).css('margin-top', '-10000px');
-        Session.set('displayPopup', false);
-      },
-    });
-  }
-};
 
-export const cancelPopup = _cancelPopup;
+export const cancelPopup = _cancel;
 export const displayLogin = _displayLogin;
 export const animatePopup = _animate;
-export const displayPopup = _popup;
+export const displayPopup = _init;
+export const updatePopup = _update;
+export const getPopup = _get;
