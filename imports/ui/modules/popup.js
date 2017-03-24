@@ -163,12 +163,12 @@ const _eventHandler = () => {
       }
     }
   });
-
+/*
   $(window).mousemove(() => {
     let popup;
     for (const i in Session.get('popupList')) {
       popup = Session.get('popupList')[i];
-      if (Session.get(popup).template === 'card' && !Session.get('dragging') && $(`${Session.get(popup).div}:hover`).length === 0) {
+      if ($(Session.get(popup).div).css('opacity').toString() !== '0' && Session.get(popup).template === 'card' && !Session.get('dragging') && $(`${Session.get(popup).div}:hover`).length === 0) {
         console.log('mousemove');
         // TODO: revisar esto
         _animate(false, popup);
@@ -176,6 +176,7 @@ const _eventHandler = () => {
       }
     }
   });
+  */
 };
 
 /**
@@ -262,6 +263,8 @@ export class Popup {
       this.target = _getTargetDimensions(this);
       this.position = _positionCard(element, this.target, this);
       this.renderPopup();
+
+      // Session.set(this.id, this);
 
       _animate(true, this.id);
     }, timer);
