@@ -17,6 +17,168 @@ const _limitTargetSize = (target) => {
 };
 
 /**
+/* @summary draw the cursor either top or down pointing towards the source.
+**/
+const _cursorPosition = (popup) => {
+  // pointer
+  if (popup.pointerClass === popup.pointerUp) {
+    $(popup.pointerClass).css({ left: popup.pointerPosition, opacity: 1 });
+    $(popup.pointerDown).css({ opacity: 0 });
+  } else {
+    $(popup.pointerClass).css({ left: popup.pointerPosition, opacity: 1 });
+    $(popup.pointerUp).css({ opacity: 0 });
+  }
+};
+
+/**
+/* @param {string} source - the source element used to relatively position the popup
+/* @param {string} target - the expected dimensions the popup will have according to its content
+/* @param {Popup} pop - popup object being used
+*/
+const _positionCard = (element, target, pop) => {
+  let left = Number();
+  let pointer = Number();
+  const popup = pop;
+  const source = element.getBoundingClientRect();
+  const spaceRight = parseInt(document.body.offsetWidth - source.right, 10);
+  const spaceLeft = parseInt(source.left, 10);
+  const documentHalf = parseInt(document.body.offsetWidth / 2, 10);
+
+  // y axis
+  if (source.top < parseInt(target.height + 60, 10)) {
+    // popup goes at bottom of target
+    popup.position.top = source.top;
+    $(popup.cardId).css('margin-top', '0px');
+    $(popup.pointerUp).css('margin-top', parseInt(source.height, 10));
+    popup.pointerClass = popup.pointerUp;
+  } else {
+    // popup goes on top of target
+    popup.position.top = parseInt(source.bottom - target.height, 10);
+    $(popup.cardId).css('margin-top', parseInt(0 - source.height - 10, 10));
+    $(popup.pointerUp).css('margin-top', '0px');
+    popup.pointerClass = popup.pointerDown;
+  }
+
+  // x axis
+  if (source.left > documentHalf) {
+    // popup will be on right side of screen
+    if (spaceRight < (target.width - (target.width / 2))) {
+      // not enough space on the right for Popup centering
+      left = parseInt((source.left - target.width) + source.width, 10);
+      pointer = parseInt((target.width - (source.width / 2)) - 10, 10);
+    } else {
+      // enough space on the right, popup is centered.
+      left = parseInt((source.left - (target.width / 2)) + (source.width / 2), 10);
+      pointer = parseInt((target.width - (target.width / 2)) - 10, 10);
+    }
+  // popup will be on left side of screen
+  } else if (spaceLeft < (target.width - (target.width / 2))) {
+    // not enough space on left
+    left = parseInt(source.left, 10);
+    pointer = parseInt((source.width / 2) - 10, 10);
+  } else {
+    // enough space on left;
+    left = parseInt((source.left - (target.width / 2)) + (source.width / 2), 10);
+    pointer = parseInt((target.width - (target.width / 2)) - 10, 10);
+  }
+
+  popup.position.left = left;
+  popup.pointerPosition = pointer;
+
+  _cursorPosition(popup);
+
+  return Object.assign(popup.position, target);
+};
+
+const _getTargetDimensions = (popup) => {
+  const target = {
+    width: parseInt($(popup.div).width(), 10),
+    height: parseInt($(popup.cardId).height() + 40, 10),
+    opacity: 1,
+  };
+  return _limitTargetSize(target);
+};
+
+/**
+/* @summary animate fade in or out of popup instnace
+/* @param {boolean} display - if a fade in or fade out will be played
+***/
+const _animate = (display, id) => {
+  const divId = `#${id}`;
+  const popup = Session.get(id); // _get(Session.get('popupList'), id);
+  if (display) {
+    let pointerFX = '-5px';
+    if (popup.pointerClass === popup.pointerUp) { pointerFX = '5px'; }
+    $(divId).css('opacity', '0');
+    $(divId).css('margin-top', pointerFX);
+    $(divId).velocity({ opacity: 1 }, { duration: (animationSettings.duration / 2) });
+    $(divId).velocity({ marginTop: '0px' }, { duration: (animationSettings.duration / 2) });
+  } else {
+    $(divId).css('opacity', '1');
+    $(divId).velocity({ opacity: 0 }, {
+      duration: (animationSettings.duration / 2),
+      complete: () => {
+        $(divId).css('margin-top', '-10000px');
+        const updatePopup = Session.get(id); // _get(Session.get('popupList'), id);
+        updatePopup.visible = false;
+        Session.set(Session.get(id), updatePopup);
+      },
+    });
+  }
+};
+
+/**
+/* @summary fundamental window refreshing events
+**/
+const _eventHandler = () => {
+  // resize
+  $(window).resize(() => {
+    let popup;
+    for (const i in Session.get('popupList')) {
+      popup = Session.get('popupList')[i];
+      if (Session.get(popup)) {
+        $(Session.get(popup).div).css(
+          _positionCard(
+            $(Session.get(popup).sourceId)[0],
+            _getTargetDimensions(Session.get(popup)),
+            Session.get(popup)
+          )
+        );
+      }
+    }
+  });
+
+  $('.split').on('scroll', () => {
+    let popup;
+    for (const i in Session.get('popupList')) {
+      popup = Session.get('popupList')[i];
+      if (Session.get(popup)) {
+        $(Session.get(popup).div).css(
+          _positionCard(
+            $(Session.get(popup).sourceId)[0],
+            _getTargetDimensions(Session.get(popup)),
+            Session.get(popup)
+          )
+        );
+      }
+    }
+  });
+
+  $(window).mousemove(() => {
+    let popup;
+    for (const i in Session.get('popupList')) {
+      popup = Session.get('popupList')[i];
+      if (Session.get(popup).template === 'card' && !Session.get('dragging') && $(`${Session.get(popup).div}:hover`).length === 0) {
+        console.log('mousemove');
+        // TODO: revisar esto
+        _animate(false, popup);
+        // _cancel(popup);
+      }
+    }
+  });
+};
+
+/**
 /* @param {object} target - DOM element that is being used as reference for calling login popup
 **/
 const _displayLogin = (event, target) => {
@@ -34,20 +196,14 @@ const _displayLogin = (event, target) => {
 /* @summary cancels the imminent display of the popup
 **/
 const _cancel = (id) => {
-  const list = Session.get('popupList');
-  for (let i = 0; i < list.length; i += 1) {
-    if (list[i].id === id) {
-      Meteor.clearTimeout(list[i].popupTimer);
-      break;
-    }
+  if (Session.get(id)) {
+    Meteor.clearTimeout(Session.get(id).popupTimer);
   }
-};
-
-const _update = (id, popup) => {
   const list = Session.get('popupList');
   for (let i = 0; i < list.length; i += 1) {
     if (list[i].id === id) {
-      list[i] = popup;
+      list.splice(i, 1);
+      break;
     }
   }
   Session.set('popupList', list);
@@ -67,34 +223,6 @@ const _get = (source, id, key) => {
   return undefined;
 };
 
-/**
-/* @summary animate fade in or out of popup instnace
-/* @param {boolean} display - if a fade in or fade out will be played
-***/
-const _animate = (display, id) => {
-  const divId = `#${id}`;
-  const popup = _get(Session.get('popupList'), id);
-  if (display) {
-    let pointerFX = '-5px';
-    if (popup.pointerClass === popup.pointerUp) { pointerFX = '5px'; }
-    $(divId).css('opacity', '0');
-    $(divId).css('margin-top', pointerFX);
-    $(divId).velocity({ opacity: 1 }, { duration: (animationSettings.duration / 2) });
-    $(divId).velocity({ marginTop: '0px' }, { duration: (animationSettings.duration / 2) });
-  } else {
-    $(divId).css('opacity', '1');
-    $(divId).velocity({ opacity: 0 }, {
-      duration: (animationSettings.duration / 2),
-      complete: () => {
-        $(divId).css('margin-top', '-10000px');
-        const updatePopup = _get(Session.get('popupList'), id);
-        updatePopup.visible = false;
-        _update(id, updatePopup);
-      },
-    });
-  }
-};
-
 export class Popup {
   constructor(element, template, params, eventType, id) {
     let timer = 0;
@@ -108,6 +236,7 @@ export class Popup {
     this.pointerUp = `#pointer-up-${this.id}`;
     this.pointerDown = `#pointer-down-${this.id}`;
     this.cardId = `#card-${this.id}`;
+    this.sourceId = `#${element.id}`;
 
     if (eventType !== 'click') {
       timer = parseInt(animationSettings.duration * 5, 10);
@@ -129,77 +258,13 @@ export class Popup {
         this.eventType = eventType;
       }
 
-      let target = {
-        width: parseInt($(this.div).width(), 10),
-        height: parseInt($(this.cardId).height() + 40, 10),
-        opacity: 1,
-      };
-      target = _limitTargetSize(target);
       this.visible = true;
-      this.target = target;
-      this.position = this.positionCard(element, target);
+      this.target = _getTargetDimensions(this);
+      this.position = _positionCard(element, this.target, this);
       this.renderPopup();
 
       _animate(true, this.id);
     }, timer);
-  }
-
-  /**
-  /* @param {string} source - the source element used to relatively position the popup
-  /* @param {string} target - the expected dimensions the popup will have according to its content
-  */
-  positionCard(element, target) {
-    let left = Number();
-    let pointer = Number();
-    const source = element.getBoundingClientRect();
-    const spaceRight = parseInt(document.body.offsetWidth - source.right, 10);
-    const spaceLeft = parseInt(source.left, 10);
-    const documentHalf = parseInt(document.body.offsetWidth / 2, 10);
-
-    // y axis
-    if (source.top < parseInt(target.height + 60, 10)) {
-      // popup goes at bottom of target
-      this.position.top = source.top;
-      $(this.cardId).css('margin-top', '0px');
-      $(this.pointerUp).css('margin-top', parseInt(source.height, 10));
-      this.pointerClass = this.pointerUp;
-    } else {
-      // popup goes on top of target
-      this.position.top = parseInt(source.bottom - target.height, 10);
-      $(this.cardId).css('margin-top', parseInt(0 - source.height - 10, 10));
-      $(this.pointerUp).css('margin-top', '0px');
-      this.pointerClass = this.pointerDown;
-    }
-
-    // x axis
-    if (source.left > documentHalf) {
-      // popup will be on right side of screen
-      if (spaceRight < (target.width - (target.width / 2))) {
-        // not enough space on the right for Popup centering
-        left = parseInt((source.left - target.width) + source.width, 10);
-        pointer = parseInt((target.width - (source.width / 2)) - 10, 10);
-      } else {
-        // enough space on the right, popup is centered.
-        left = parseInt((source.left - (target.width / 2)) + (source.width / 2), 10);
-        pointer = parseInt((target.width - (target.width / 2)) - 10, 10);
-      }
-    // popup will be on left side of screen
-    } else if (spaceLeft < (target.width - (target.width / 2))) {
-      // not enough space on left
-      left = parseInt(source.left, 10);
-      pointer = parseInt((source.width / 2) - 10, 10);
-    } else {
-      // enough space on left;
-      left = parseInt((source.left - (target.width / 2)) + (source.width / 2), 10);
-      pointer = parseInt((target.width - (target.width / 2)) - 10, 10);
-    }
-
-    this.position.left = left;
-    this.pointerPosition = pointer;
-
-    this.cursorPosition();
-
-    return Object.assign(this.position, target);
   }
 
   /**
@@ -208,53 +273,7 @@ export class Popup {
   renderPopup() {
     // positioning
     $(this.div).css(this.position);
-    this.loop();
-  }
-
-  /**
-  /* @summary draw the cursor either top or down pointing towards the source.
-  **/
-  cursorPosition() {
-    // pointer
-    if (this.pointerClass === this.pointerUp) {
-      $(this.pointerClass).css({ left: this.pointerPosition, opacity: 1 });
-      $(this.pointerDown).css({ opacity: 0 });
-    } else {
-      $(this.pointerClass).css({ left: this.pointerPosition, opacity: 1 });
-      $(this.pointerUp).css({ opacity: 0 });
-    }
-  }
-
-  /**
-  /* @summary fundamental window refreshing events
-  **/
-  // TODO: remove this from class, make it general purpose?
-  loop() {
-    // resize
-    $(window).resize(() => {
-      if (this.visible) {
-        console.log('resize');
-        $(this.div).css(this.positionCard(this.element, this.target));
-      }
-    });
-
-    $('.split').on('scroll', () => {
-      if (this.visible) {
-        console.log('scroll');
-        $(this.div).css(this.positionCard(this.element, this.target));
-      }
-    });
-
-    $(window).mousemove(() => {
-      if (this.visible) {
-        if (this.template === 'card' && !Session.get('dragging')) {
-          console.log('mousemove');
-          if ($(`${this.div}:hover`).length === 0) {
-            this.visible = false;
-          }
-        }
-      }
-    });
+    _eventHandler();
   }
 
 }
@@ -264,27 +283,26 @@ const _init = (element, template, params, eventType, id) => {
   let popupList = [];
   let found = false;
 
+  Session.set(popup.id, popup);
+
   if (Session.get('popupList')) {
     popupList = Session.get('popupList');
     for (let i = 0; i < popupList.length; i += 1) {
-      if (popupList[i].id === id) {
-        popupList[i] = popup;
+      if (popupList[i] === id) {
         found = true;
         break;
       }
     }
   }
   if (!found) {
-    popupList.push(popup);
+    popupList.push(popup.id);
   }
 
   Session.set('popupList', popupList);
 };
 
-
 export const cancelPopup = _cancel;
 export const displayLogin = _displayLogin;
 export const animatePopup = _animate;
 export const displayPopup = _init;
-export const updatePopup = _update;
 export const getPopup = _get;

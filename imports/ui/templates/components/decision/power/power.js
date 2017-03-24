@@ -114,10 +114,11 @@ Template.power.onRendered(function render() {
         if (this.newVote.voteType === 'VOTE') {
           Session.set('noSelectedOption', true);
         }
-      } else if (contractReady() === true || this.newVote.voteType === 'DELEGATION') {
+      } else if (contractReady() || this.newVote.voteType === 'DELEGATION') {
         // if there's a popup, kill it
-        const popup = getPopup(Session.get('popupList'), `popup-avatar-${this.newVote.userTargetId}`);
-        if (popup) { animatePopup(false, `popup-avatar-${this.newVote.userTargetId}`); }
+        if (Session.get(`popup-avatar-${this.newVote.userTargetId}`)) {
+          animatePopup(false, `popup-avatar-${this.newVote.userTargetId}`);
+        }
 
         // democracy wins
         executeVote(this.newVote, cancel);

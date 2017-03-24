@@ -6,19 +6,19 @@ import './popup.html';
 
 Template.popup.helpers({
   visible() {
-    animatePopup(getPopup(Session.get('popupList'), this.id).visible, this.id);
+    animatePopup(Session.get(this.id).visible, this.id);
   },
   content() {
-    return getPopup(Session.get('popupList'), this.id).template;
+    return Session.get(this.id).template;
   },
   dataObject() {
-    return getPopup(Session.get('popupList'), this.id).params;
+    return Session.get(this.id).params;
   },
 });
 
 Template.popup.events({
   'mouseleave .popup'() {
-    const popup = getPopup(Session.get('popupList'), this.id);
+    const popup = Session.get(this.id); // getPopup(Session.get('popupList'), this.id);
     if (popup.template === 'card' && !Session.get('dragging')) {
       animatePopup(false, this.id);
     }
