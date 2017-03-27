@@ -99,6 +99,33 @@ const _getTargetDimensions = (popup) => {
   return _limitTargetSize(target);
 };
 
+const _visiblePopup = (id, enabled) => {
+  const updatePopup = Session.get(id);
+  updatePopup.visible = enabled;
+  Session.set(id, updatePopup);
+
+  // remove from index
+  if (enabled === false) {
+    const list = Session.get('popupList');
+    for (let i = 0; i < list.length; i += 1) {
+      if (list[i] === id) {
+        list.splice(i, 1);
+        break;
+      }
+    }
+    Session.set('popupList', list);
+  }
+};
+
+/**
+/* @summary cancels the imminent display of the popup
+**/
+const _cancel = (id) => {
+  if (Session.get(id)) {
+    Meteor.clearTimeout(Session.get(id).popupTimer);
+  }
+};
+
 /**
 /* @summary animate fade in or out of popup instnace
 /* @param {boolean} display - if a fade in or fade out will be played
@@ -107,21 +134,23 @@ const _animate = (display, id) => {
   const divId = `#${id}`;
   const popup = Session.get(id); // _get(Session.get('popupList'), id);
   if (display) {
+    _visiblePopup(id, true);
     let pointerFX = '-5px';
     if (popup.pointerClass === popup.pointerUp) { pointerFX = '5px'; }
     $(divId).css('opacity', '0');
     $(divId).css('margin-top', pointerFX);
     $(divId).velocity({ opacity: 1 }, { duration: (animationSettings.duration / 2) });
-    $(divId).velocity({ marginTop: '0px' }, { duration: (animationSettings.duration / 2) });
+    $(divId).velocity({ marginTop: '0px' }, {
+      duration: (animationSettings.duration / 2),
+    });
   } else {
     $(divId).css('opacity', '1');
     $(divId).velocity({ opacity: 0 }, {
       duration: (animationSettings.duration / 2),
       complete: () => {
         $(divId).css('margin-top', '-10000px');
-        const updatePopup = Session.get(id); // _get(Session.get('popupList'), id);
-        updatePopup.visible = false;
-        Session.set(Session.get(id), updatePopup);
+        _visiblePopup(id, false);
+        _cancel(id);
       },
     });
   }
@@ -163,20 +192,16 @@ const _eventHandler = () => {
       }
     }
   });
-/*
+
   $(window).mousemove(() => {
     let popup;
     for (const i in Session.get('popupList')) {
       popup = Session.get('popupList')[i];
-      if ($(Session.get(popup).div).css('opacity').toString() !== '0' && Session.get(popup).template === 'card' && !Session.get('dragging') && $(`${Session.get(popup).div}:hover`).length === 0) {
-        console.log('mousemove');
-        // TODO: revisar esto
+      if (Session.get(popup).visible && Session.get(popup).template === 'card' && !Session.get('dragging') && $(`${Session.get(popup).div}:hover`).length === 0) {
         _animate(false, popup);
-        // _cancel(popup);
       }
     }
   });
-  */
 };
 
 /**
@@ -191,23 +216,6 @@ const _displayLogin = (event, target) => {
   } else {
     _animatePopup(false);
   }
-};
-
-/**
-/* @summary cancels the imminent display of the popup
-**/
-const _cancel = (id) => {
-  if (Session.get(id)) {
-    Meteor.clearTimeout(Session.get(id).popupTimer);
-  }
-  const list = Session.get('popupList');
-  for (let i = 0; i < list.length; i += 1) {
-    if (list[i].id === id) {
-      list.splice(i, 1);
-      break;
-    }
-  }
-  Session.set('popupList', list);
 };
 
 const _get = (source, id, key) => {
@@ -263,8 +271,6 @@ export class Popup {
       this.target = _getTargetDimensions(this);
       this.position = _positionCard(element, this.target, this);
       this.renderPopup();
-
-      // Session.set(this.id, this);
 
       _animate(true, this.id);
     }, timer);

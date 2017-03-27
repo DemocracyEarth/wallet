@@ -246,8 +246,8 @@ Template.avatar.events({
     }
   },
   'mouseleave .profile-pic'() {
-    if (this.displayPopup !== false && this.disabled !== true && this.profile !== null && this.profile !== undefined) {
-      if (Session.get(`popup-avatar-${this.profile}`).visible) {
+    if (Session.get(`popup-avatar-${this.profile}`)) {
+      if (Session.get(`popup-avatar-${this.profile}`).visible && this.displayPopup !== false && this.disabled !== true && this.profile !== null && this.profile !== undefined) {
         cancelPopup(`popup-avatar-${this.profile}`);
       }
     }
