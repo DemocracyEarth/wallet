@@ -204,20 +204,6 @@ const _eventHandler = () => {
   });
 };
 
-/**
-/* @param {object} target - DOM element that is being used as reference for calling login popup
-**/
-const _displayLogin = (event, target) => {
-  let loginTarget = target;
-  if (target === undefined) { loginTarget = event.target; }
-  Session.set('logger', !Session.get('logger'));
-  if (Session.get('logger')) {
-    _displayPopup(loginTarget, Session.get('logger'), 'login', this, event.type);
-  } else {
-    _animatePopup(false);
-  }
-};
-
 const _get = (source, id, key) => {
   if (source !== undefined) {
     for (let i = 0; i < source.length; i += 1) {
@@ -311,7 +297,6 @@ const _init = (element, template, params, eventType, id) => {
 };
 
 export const cancelPopup = _cancel;
-export const displayLogin = _displayLogin;
 export const animatePopup = _animate;
 export const displayPopup = _init;
 export const getPopup = _get;
