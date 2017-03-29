@@ -29,6 +29,26 @@ const _scope = (value, max, min) => {
   return value;
 };
 
+const _insertVoteList = (wallet, id) => {
+  let voteList = [];
+  let found = false;
+
+  if (Session.get('voteList')) {
+    voteList = Session.get('voteList');
+    for (let i = 0; i < voteList.length; i += 1) {
+      if (voteList[i] === id) {
+        found = true;
+        break;
+      }
+    }
+  }
+  if (!found) {
+    voteList.push(id);
+  }
+
+  Session.set('voteList', voteList);
+};
+
 /**
 * @summary Wallet class for transaction operations
 */
@@ -63,9 +83,9 @@ export class Wallet {
       const delegationContract = getDelegationContract(Meteor.userId(), targetId);
       if (delegationContract) {
         this.targetId = delegationContract._id;
-        this.userTargetId = targetId;
       }
     }
+    this.userTargetId = targetId;
     this.inBallot = userVotesInContract(wallet, this.targetId);
 
     // controller
@@ -86,6 +106,9 @@ export class Wallet {
       this.resetSlider();
       this.initialized = false;
     }
+
+    // session list
+    _insertVoteList(this, this.voteId);
   }
 
   /**
@@ -140,7 +163,7 @@ export class Wallet {
   }
 
   /**
-  * @summary resets slider handle to current in ballot value position
+  * @summary resets slider handle to current inBallot value position
   */
   resetSlider() {
     const initialValue = parseFloat((this.inBallot * 100) / this.balance, 10).toFixed(2);
@@ -149,4 +172,32 @@ export class Wallet {
     this.sliderWidth = this._initialSliderWidth;
     this.allocateVotes(this.inBallot, true);
   }
+
+  /**
+  * @summary updates a session var if present with wallet info
+  */
+  refresh() {
+    if (Session.get(this.voteId)) {
+      const newWallet = new Wallet(this, this.targetId, this.voteId);
+      Session.set(this.voteId, newWallet);
+    }
+  }
 }
+
+const _updateState = () => {
+  const voteList = Session.get('voteList');
+  let voteController;
+  let newWallet;
+
+  if (!voteList) { return; }
+
+  for (let i = 0; i < voteList.length; i += 1) {
+    voteController = Session.get(voteList[i]);
+    if (voteController) {
+      newWallet = new Wallet(voteController, voteController.userTargetId, this.voteId);
+      Session.set(voteList[i], newWallet);
+    }
+  }
+};
+
+export const updateState = _updateState;

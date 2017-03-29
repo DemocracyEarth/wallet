@@ -247,7 +247,7 @@ const _setContractWallet = (contract) => {
     }
   } else if (contract.kind === 'VOTE') {
     if (Meteor.user() != null) {
-      Session.set(`vote-${contract._id}`, new Wallet(Meteor.user().profile.wallet, contract._id));
+      Session.set(`vote-${contract._id}`, new Wallet(Meteor.user().profile.wallet, contract._id, `vote-${contract._id}`));
     }
   }
 };

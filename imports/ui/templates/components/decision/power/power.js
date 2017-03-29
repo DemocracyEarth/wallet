@@ -9,7 +9,7 @@ import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
 import { displayModal } from '/imports/ui/modules/modal';
 import { Wallet } from '/imports/ui/modules/Wallet';
 import { contractReady, purgeBallot, candidateBallot, executeVote } from '/imports/ui/modules/ballot';
-import { animatePopup, getPopup } from '/imports/ui/modules/popup';
+import { animatePopup } from '/imports/ui/modules/popup';
 
 import './power.html';
 import '../action/action.js';
