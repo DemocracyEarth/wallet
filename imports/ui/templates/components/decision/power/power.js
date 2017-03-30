@@ -116,8 +116,8 @@ Template.power.onRendered(function render() {
         }
       } else if (contractReady() || this.newVote.voteType === 'DELEGATION') {
         // if there's a popup, kill it
-        if (Session.get(`popup-avatar-${this.newVote.userTargetId}`)) {
-          animatePopup(false, `popup-avatar-${this.newVote.userTargetId}`);
+        if (Session.get(`popup-avatar-${this.newVote.originalTargetId}`)) {
+          animatePopup(false, `popup-avatar-${this.newVote.originalTargetId}`);
         }
 
         // democracy wins

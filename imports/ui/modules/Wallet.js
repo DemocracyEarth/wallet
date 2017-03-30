@@ -85,7 +85,7 @@ export class Wallet {
         this.targetId = delegationContract._id;
       }
     }
-    this.userTargetId = targetId;
+    this.originalTargetId = targetId;
     this.inBallot = userVotesInContract(wallet, this.targetId);
 
     // controller
@@ -166,6 +166,7 @@ export class Wallet {
   * @summary resets slider handle to current inBallot value position
   */
   resetSlider() {
+    console.log('resetSlider()');
     const initialValue = parseFloat((this.inBallot * 100) / this.balance, 10).toFixed(2);
     $(`#voteSlider-${this.voteId}`).velocity({ width: `${initialValue}%` }, animationSettings);
     this._initialSliderWidth = parseInt(($(`#voteBar-${this.voteId}`).width() * initialValue) / 100, 10);
@@ -194,7 +195,13 @@ const _updateState = () => {
   for (let i = 0; i < voteList.length; i += 1) {
     voteController = Session.get(voteList[i]);
     if (voteController) {
-      newWallet = new Wallet(voteController, voteController.userTargetId, this.voteId);
+      newWallet = new Wallet(Meteor.user().profile.wallet, voteController.originalTargetId, voteList[i]);
+      if (voteList[i] === 'vote-hs52pDTPmMyowj2Wd-pzwgWWZNpAKQM2jvi') {
+        console.log('RESETTING:');
+        console.log(newWallet);
+        newWallet.resetSlider();
+        console.log(newWallet);
+      }
       Session.set(voteList[i], newWallet);
     }
   }

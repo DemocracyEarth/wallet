@@ -220,6 +220,7 @@ let _loadFeed = (feed) => {
 /**
 * @summary sets which wallet to use for reference in contract based on if the user signed or not
 * @param {object} contract - contract to analyze
+* NOTE: this might be totally deprecated by now.. need to test it.
 */
 const _setContractWallet = (contract) => {
   let userContract = false;
@@ -244,10 +245,6 @@ const _setContractWallet = (contract) => {
       }
     } else {
       Session.set('newVote', contract.wallet);
-    }
-  } else if (contract.kind === 'VOTE') {
-    if (Meteor.user() != null) {
-      Session.set(`vote-${contract._id}`, new Wallet(Meteor.user().profile.wallet, contract._id, `vote-${contract._id}`));
     }
   }
 };

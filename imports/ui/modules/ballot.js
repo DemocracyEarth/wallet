@@ -10,7 +10,7 @@ import { checkDuplicate, convertToSlug } from '/lib/utils';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { displayModal } from '/imports/ui/modules/modal';
 import { transact } from '/imports/api/transactions/transaction';
-import { Wallet } from '/imports/ui/modules/Wallet';
+import { Wallet, updateState } from '/imports/ui/modules/Wallet';
 
 /**
 * @summary sets the vote on the ballot with tick
@@ -207,6 +207,7 @@ const _executeVote = (wallet, cancel, removal) => {
         settings,
         close
       );
+      updateState();
     };
   } else if ((votesInBallot === 0) || (newVotes === 0)) {
     // insert votes
@@ -239,6 +240,7 @@ const _executeVote = (wallet, cancel, removal) => {
             close
           );
       }
+      updateState();
     };
   } else if (newVotes > 0) {
     // add votes
@@ -251,6 +253,7 @@ const _executeVote = (wallet, cancel, removal) => {
         settings,
         close
       );
+      updateState();
     };
   }
 
