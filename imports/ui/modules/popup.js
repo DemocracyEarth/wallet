@@ -129,6 +129,7 @@ const _cancel = (id) => {
 /**
 /* @summary animate fade in or out of popup instnace
 /* @param {boolean} display - if a fade in or fade out will be played
+/* @param {id} string popup identifier
 ***/
 const _animate = (display, id) => {
   const divId = `#${id}`;
@@ -165,7 +166,7 @@ const _eventHandler = () => {
     let popup;
     for (const i in Session.get('popupList')) {
       popup = Session.get('popupList')[i];
-      if (Session.get(popup)) {
+      if (Session.get(popup).visible) {
         $(Session.get(popup).div).css(
           _positionCard(
             $(Session.get(popup).sourceId)[0],
@@ -181,7 +182,7 @@ const _eventHandler = () => {
     let popup;
     for (const i in Session.get('popupList')) {
       popup = Session.get('popupList')[i];
-      if (Session.get(popup)) {
+      if (Session.get(popup).visible) {
         $(Session.get(popup).div).css(
           _positionCard(
             $(Session.get(popup).sourceId)[0],
@@ -219,6 +220,15 @@ const _get = (source, id, key) => {
 };
 
 export class Popup {
+  /**
+  * @summary a popup window
+  * @constructor
+  * @param {object} element source of popup caller
+  * @param {string} template what template to display inside it
+  * @param {object} params configuration of the popup
+  * @param {stirng} eventType if click or mouseenter trigger caller
+  * @param {string} id how to call this popup in DOM
+  **/
   constructor(element, template, params, eventType, id) {
     let timer = 0;
 
@@ -273,6 +283,14 @@ export class Popup {
 
 }
 
+/**
+* @summary initializes a new popup and includes it in state manager
+* @param {object} element source of popup caller
+* @param {string} template what template to display inside it
+* @param {object} params configuration of the popup
+* @param {stirng} eventType if click or mouseenter trigger caller
+* @param {string} id how to call this popup in DOM
+**/
 const _init = (element, template, params, eventType, id) => {
   const popup = new Popup(element, template, params, eventType, id);
   let popupList = [];
@@ -296,7 +314,21 @@ const _init = (element, template, params, eventType, id) => {
   Session.set('popupList', popupList);
 };
 
+/**
+* @summary clears all visible popups in screen
+**/
+const _clear = () => {
+  const popupList = Session.get('popupList');
+
+  for (let i = 0; i < popupList.length; i += 1) {
+    if (Session.get(popupList[i]).visible) {
+      _animate(false, popupList[i]);
+    }
+  }
+};
+
 export const cancelPopup = _cancel;
 export const animatePopup = _animate;
 export const displayPopup = _init;
 export const getPopup = _get;
+export const clearPopups = _clear;

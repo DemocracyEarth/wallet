@@ -9,7 +9,7 @@ import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
 import { displayModal } from '/imports/ui/modules/modal';
 import { Wallet } from '/imports/ui/modules/Wallet';
 import { contractReady, purgeBallot, candidateBallot, executeVote } from '/imports/ui/modules/ballot';
-import { animatePopup } from '/imports/ui/modules/popup';
+import { clearPopups } from '/imports/ui/modules/popup';
 
 import './power.html';
 import '../action/action.js';
@@ -115,10 +115,7 @@ Template.power.onRendered(function render() {
           Session.set('noSelectedOption', true);
         }
       } else if (contractReady() || this.newVote.voteType === 'DELEGATION') {
-        // if there's a popup, kill it
-        if (Session.get(`popup-avatar-${this.newVote.originalTargetId}`)) {
-          animatePopup(false, `popup-avatar-${this.newVote.originalTargetId}`);
-        }
+        clearPopups();
 
         // democracy wins
         executeVote(this.newVote, cancel);
@@ -262,7 +259,7 @@ Template.power.helpers({
       }
     }
     return false;
-  }
+  },
 });
 
 Template.power.events({
