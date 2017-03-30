@@ -71,6 +71,12 @@
       "no-underscore-dangle": "off",
       "guard-for-in": "off",
       "no-restricted-syntax": "off",
+      "max-len": [
+        "error",
+        { 
+          "code": 300
+        }
+      ],
       "object-shorthand": [
         "error",
         "always",

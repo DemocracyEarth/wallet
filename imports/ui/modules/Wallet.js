@@ -166,7 +166,6 @@ export class Wallet {
   * @summary resets slider handle to current inBallot value position
   */
   resetSlider() {
-    console.log('resetSlider()');
     const initialValue = parseFloat((this.inBallot * 100) / this.balance, 10).toFixed(2);
     $(`#voteSlider-${this.voteId}`).velocity({ width: `${initialValue}%` }, animationSettings);
     this._initialSliderWidth = parseInt(($(`#voteBar-${this.voteId}`).width() * initialValue) / 100, 10);
@@ -196,12 +195,7 @@ const _updateState = () => {
     voteController = Session.get(voteList[i]);
     if (voteController) {
       newWallet = new Wallet(Meteor.user().profile.wallet, voteController.originalTargetId, voteList[i]);
-      if (voteList[i] === 'vote-hs52pDTPmMyowj2Wd-pzwgWWZNpAKQM2jvi') {
-        console.log('RESETTING:');
-        console.log(newWallet);
-        newWallet.resetSlider();
-        console.log(newWallet);
-      }
+      newWallet.resetSlider();
       Session.set(voteList[i], newWallet);
     }
   }
