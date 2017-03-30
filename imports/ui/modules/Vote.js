@@ -50,9 +50,9 @@ const _insertVoteList = (wallet, id) => {
 };
 
 /**
-* @summary Wallet class for transaction operations
+* @summary Vote class for transaction operations
 */
-export class Wallet {
+export class Vote {
   /**
   * @constructor constructor function
   * @param {object} wallet - wallet object that can be set from a user's profile.
@@ -179,7 +179,7 @@ export class Wallet {
   */
   refresh() {
     if (Session.get(this.voteId)) {
-      const newWallet = new Wallet(this, this.targetId, this.voteId);
+      const newWallet = new Vote(this, this.targetId, this.voteId);
       Session.set(this.voteId, newWallet);
     }
   }
@@ -195,7 +195,7 @@ const _updateState = () => {
   for (let i = 0; i < voteList.length; i += 1) {
     voteController = Session.get(voteList[i]);
     if (voteController) {
-      newWallet = new Wallet(Meteor.user().profile.wallet, voteController.originalTargetId, voteList[i]);
+      newWallet = new Vote(Meteor.user().profile.wallet, voteController.originalTargetId, voteList[i]);
       newWallet.resetSlider();
       Session.set(voteList[i], newWallet);
     }

@@ -7,7 +7,7 @@ import { Session } from 'meteor/session';
 import { isUserSigner, userVotesInContract } from '/imports/startup/both/modules/User';
 import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
 import { displayModal } from '/imports/ui/modules/modal';
-import { Wallet } from '/imports/ui/modules/Wallet';
+import { Vote } from '/imports/ui/modules/Vote';
 import { contractReady, purgeBallot, candidateBallot, executeVote } from '/imports/ui/modules/ballot';
 import { clearPopups } from '/imports/ui/modules/popup';
 
@@ -52,7 +52,7 @@ function getBarWidth(value, voteId, editable, interactive) {
 }
 
 Template.power.onCreated(function () {
-  const wallet = new Wallet(this.data.wallet, this.data.targetId, this.data._id);
+  const wallet = new Vote(this.data.wallet, this.data.targetId, this.data._id);
   Session.set(this.data._id, wallet);
 });
 
@@ -62,7 +62,7 @@ Template.power.onRendered(function render() {
   }
 
   // update
-  const wallet = new Wallet(this.data.wallet, this.data.targetId, this.data._id);
+  const wallet = new Vote(this.data.wallet, this.data.targetId, this.data._id);
   Session.set(this.data._id, wallet);
 
   // redraw power bar if resize
@@ -77,12 +77,12 @@ Template.power.onRendered(function render() {
     axis: 'x',
     create() {
       const voteId = this.id.replace('voteHandle-', '');
-      this.newVote = new Wallet(Session.get(voteId), Session.get(voteId).targetId, voteId);
+      this.newVote = new Vote(Session.get(voteId), Session.get(voteId).targetId, voteId);
       Session.set(voteId, this.newVote);
     },
     start(event, ui) {
       const voteId = ui.helper.context.id.replace('voteHandle-', '');
-      this.newVote = new Wallet(Session.get(voteId), Session.get(voteId).targetId, voteId);
+      this.newVote = new Vote(Session.get(voteId), Session.get(voteId).targetId, voteId);
       Session.set(voteId, this.newVote);
       if (Session.get(voteId) !== undefined) {
         $(`#voteSlider-${voteId}`).velocity('stop');

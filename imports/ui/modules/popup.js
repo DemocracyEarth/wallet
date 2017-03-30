@@ -319,10 +319,11 @@ const _init = (element, template, params, eventType, id) => {
 **/
 const _clear = () => {
   const popupList = Session.get('popupList');
-
-  for (let i = 0; i < popupList.length; i += 1) {
-    if (Session.get(popupList[i]).visible) {
-      _animate(false, popupList[i]);
+  if (popupList) {
+    for (let i = 0; i < popupList.length; i += 1) {
+      if (Session.get(popupList[i]).visible) {
+        _animate(false, popupList[i]);
+      }
     }
   }
 };

@@ -5,7 +5,7 @@ import { Session } from 'meteor/session';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
 import { setVote, getTickValue, candidateBallot, executeVote } from '/imports/ui/modules/ballot';
-import { Wallet } from '/imports/ui/modules/Wallet';
+import { Vote } from '/imports/ui/modules/Vote';
 import './fork.html';
 
 Template.fork.helpers({
@@ -129,7 +129,7 @@ Template.fork.events({
               candidateBallot(Meteor.userId());
             }
             const previous = Session.get('candidateBallot');
-            const wallet = new Wallet(Session.get(this.voteId), Session.get(this.voteId).targetId, this.voteId);
+            const wallet = new Vote(Session.get(this.voteId), Session.get(this.voteId).targetId, this.voteId);
             wallet.inBallot = Session.get(this.voteId).inBallot;
             wallet.allocateQuantity = wallet.inBallot;
             wallet.allocatePercentage = parseFloat((wallet.inBallot * 100) / wallet.balance, 10).toFixed(2);

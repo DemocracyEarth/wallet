@@ -4,7 +4,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 
 import { showResults, updateExecutionStatus } from '/imports/ui/modules/ballot';
-import { Wallet } from '/imports/ui/modules/Wallet';
+import { Vote } from '/imports/ui/modules/Vote';
 import { verifyDelegationRight, verifyVotingRight, getProfileFromUsername } from '../both/modules/User';
 import { showFullName } from '../both/modules/utils';
 import { Contracts, schemaContract } from '../../api/contracts/Contracts';
@@ -241,7 +241,7 @@ const _setContractWallet = (contract) => {
       if (role === 'DELEGATE') {
         Session.set('newVote', contract.wallet);
       } else {
-        Session.set('newVote', new Wallet(Meteor.user().profile.wallet));
+        Session.set('newVote', new Vote(Meteor.user().profile.wallet));
       }
     } else {
       Session.set('newVote', contract.wallet);
