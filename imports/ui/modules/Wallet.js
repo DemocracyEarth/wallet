@@ -164,6 +164,7 @@ export class Wallet {
 
   /**
   * @summary resets slider handle to current inBallot value position
+  * @param {boolean} doPlaced if also reset the placed value of power bar
   */
   resetSlider() {
     const initialValue = parseFloat((this.inBallot * 100) / this.balance, 10).toFixed(2);
