@@ -82,3 +82,4 @@ reactive-var@1.0.11
 reactive-dict@1.1.8
 facebook-config-ui
 twitter-config-ui
+meteorhacks:kadira-profiler
