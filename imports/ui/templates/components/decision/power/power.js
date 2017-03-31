@@ -8,7 +8,7 @@ import { isUserSigner, userVotesInContract } from '/imports/startup/both/modules
 import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
 import { displayModal } from '/imports/ui/modules/modal';
 import { Vote } from '/imports/ui/modules/Vote';
-import { contractReady, purgeBallot, candidateBallot, executeVote } from '/imports/ui/modules/ballot';
+import { contractReady, purgeBallot, candidateBallot } from '/imports/ui/modules/ballot';
 import { clearPopups } from '/imports/ui/modules/popup';
 
 import './power.html';
@@ -118,7 +118,7 @@ Template.power.onRendered(function render() {
         clearPopups();
 
         // democracy wins
-        executeVote(this.newVote, cancel);
+        this.newVote.execute(cancel);
       }
     },
   });

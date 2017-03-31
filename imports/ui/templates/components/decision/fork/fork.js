@@ -4,7 +4,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { Session } from 'meteor/session';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
-import { setVote, getTickValue, candidateBallot, executeVote } from '/imports/ui/modules/ballot';
+import { setVote, getTickValue, candidateBallot } from '/imports/ui/modules/ballot';
 import { Vote } from '/imports/ui/modules/Vote';
 import './fork.html';
 
@@ -147,11 +147,11 @@ Template.fork.events({
               // remove all votes
               wallet.allocatePercentage = 0;
               wallet.allocateQuantity = 0;
-              executeVote(wallet, cancel, true);
+              wallet.execute(cancel, true);
               return;
             } else if (Session.get(this.voteId).inBallot > 0) {
               // send new ballot
-              executeVote(wallet, cancel);
+              wallet.execute(cancel);
             }
             break;
           }

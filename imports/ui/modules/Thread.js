@@ -4,10 +4,8 @@ import { Session } from 'meteor/session';
 import { guidGenerator } from '../../startup/both/modules/crypto';
 import { Contracts } from '../../api/contracts/Contracts';
 
-
 let node = '';
 let currentParent = '';
-
 
 /**
 /* @summary - helper function to resolve path on searchTree
@@ -27,8 +25,7 @@ const resolvePath = (uri) => {
 /* @param {string} iterator
 /* @param {boolean} isRoot - indicates first parent or not
 /* @param {string} inheritedPath - indicates correct path for recurssion
-/* @param {string} target - what is being searched, '.children' (for postComment),
-                          '.sortTotal' (for voteComment)
+/* @param {string} target - what is being searched, '.children' (for postComment), '.sortTotal' (for voteComment)
 */
 const searchTree = (element, matchingTitle, iterator, isRoot, inheritedPath, target) => {
   let parentStr;
