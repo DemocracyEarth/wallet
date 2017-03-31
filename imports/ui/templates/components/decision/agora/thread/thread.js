@@ -218,9 +218,10 @@ Template.thread.events({
     Session.set(replyStringId, true);
   },
   'click #upvote'(event) {
-    console.log(this.userUpvoted);
-    console.log(this);
-    //vote = new Vote()
+    let vote = new Vote(Meteor.user().profile.wallet, this.userId);
+    vote.place(parseInt(vote.inBallot + 1, 10), true);
+    vote.execute(function () { console.log('executed')});
+    console.log(vote);
 
     // microdelegation(event, this, true);
   },

@@ -119,27 +119,29 @@ export class Vote {
     this.originalTargetId = targetId;
     this.inBallot = userVotesInContract(wallet, this.targetId);
 
-    // controller
-    if (sessionId === undefined) {
-      this.voteId = `${this.targetId}`;
-    } else {
-      this.voteId = `${sessionId}`;
-    }
-
     // view
-    this._initialSliderWidth = parseInt($(`#voteSlider-${this.voteId}`).width(), 10);
-    this.sliderWidth = this._initialSliderWidth;
-    // TODO remove 5 pixels for buffer?
-    this._maxWidth = parseInt(($(`#voteBar-${this.voteId}`).width() - (($(`#voteBar-${this.voteId}`).width() * parseInt(((this.placed - this.inBallot) * 100) / this.balance, 10)) / 100)), 10);
+    if (sessionId) {
+      // controller
+      this.voteId = `${sessionId}`;
 
-    // methods
-    if (this.initialized === true) {
-      this.resetSlider();
-      this.initialized = false;
+      // gui
+      this._initialSliderWidth = parseInt($(`#voteSlider-${this.voteId}`).width(), 10);
+      this.sliderWidth = this._initialSliderWidth;
+      this._maxWidth = parseInt(($(`#voteBar-${this.voteId}`).width() - (($(`#voteBar-${this.voteId}`).width() * parseInt(((this.placed - this.inBallot) * 100) / this.balance, 10)) / 100)), 10);
+
+      // methods
+      if (this.initialized === true) {
+        this.resetSlider();
+        this.initialized = false;
+      }
+
+      // state manager
+      this.requireConfirmation = true;
+      _insertVoteList(this, this.voteId);
+    } else {
+      this.requireConfirmation = false;
+      this.voteId = `${this.targetId}`;
     }
-
-    // session list
-    _insertVoteList(this, this.voteId);
   }
 
   /**
@@ -147,7 +149,7 @@ export class Vote {
   * @param {number} quantity amount of votes
   * @param {boolean} avoidSlider disable updating slider length
   */
-  allocateVotes(quantity, avoidSlider) {
+  place(quantity, avoidSlider) {
     if (this.enabled) {
       this.placedPercentage = ((this.placed * 100) / this.balance);
       this.allocatePercentage = ((quantity * 100) / this.balance);
@@ -179,7 +181,7 @@ export class Vote {
         const barWidth = $(`#voteBar-${this.voteId}`).width();
         const pixelToVote = _scope(parseInt(
           (sliderWidth * this.balance) / barWidth, 10), (this.available + this.inBallot), 0);
-        this.allocateVotes(pixelToVote, true);
+        this.place(pixelToVote, true);
       }
     }
   }
@@ -189,7 +191,7 @@ export class Vote {
   */
   sliderPercentage() {
     this.allocatePercentage = parseInt((this.allocateQuantity * 100) / this.balance, 10);
-    this.allocateVotes(this.allocateQuantity);
+    this.place(this.allocateQuantity);
   }
 
   /**
@@ -201,17 +203,7 @@ export class Vote {
     $(`#voteSlider-${this.voteId}`).velocity({ width: `${initialValue}%` }, animationSettings);
     this._initialSliderWidth = parseInt(($(`#voteBar-${this.voteId}`).width() * initialValue) / 100, 10);
     this.sliderWidth = this._initialSliderWidth;
-    this.allocateVotes(this.inBallot, true);
-  }
-
-  /**
-  * @summary updates a session var if present with wallet info
-  */
-  refresh() {
-    if (Session.get(this.voteId)) {
-      const newWallet = new Vote(this, this.targetId, this.voteId);
-      Session.set(this.voteId, newWallet);
-    }
+    this.place(this.inBallot, true);
   }
 
   /**
@@ -236,10 +228,10 @@ export class Vote {
   /**
   * @summary executes an already configured vote from a power bar
   * @param {Wallet} wallet where the vote to be executed takes its input from
-  * @param {function} cancel callback if execution is cancelled
+  * @param {function} callback callback if execution is cancelled or after vote if no sessionId
   * @param {boolean} removal if operation aims to remove all votes from ballot
   */
-  execute(cancel, removal) {
+  execute(callback, removal) {
     let vote;
     let showBallot;
     let finalBallot;
@@ -259,9 +251,11 @@ export class Vote {
     const votes = parseInt(votesInBallot + newVotes, 10);
 
     const close = () => {
-      Session.set('dragging', false);
-      const newWallet = new Vote(Meteor.user().profile.wallet, Session.get(this.voteId).targetId, this.voteId);
-      Session.set(this.voteId, newWallet);
+      if (this.requireConfirmation) {
+        Session.set('dragging', false);
+        const newWallet = new Vote(Meteor.user().profile.wallet, Session.get(this.voteId).targetId, this.voteId);
+        Session.set(this.voteId, newWallet);
+      }
     };
 
     // TODO delegation use case, only thought for contracts still.
@@ -402,22 +396,26 @@ export class Vote {
       };
     }
 
-    // ask confirmation
-    displayModal(
-      true,
-      {
-        icon: iconPic,
-        title: titleLabel,
-        message: finalCaption,
-        cancel: TAPi18n.__('not-now'),
-        action: actionLabel,
-        displayProfile: boolProfile,
-        displayBallot: showBallot,
-        ballot: finalBallot,
-        profileId: delegateProfileId,
-      },
-      vote,
-      cancel
-    );
+    if (this.requireConfirmation) {
+      displayModal(
+        true,
+        {
+          icon: iconPic,
+          title: titleLabel,
+          message: finalCaption,
+          cancel: TAPi18n.__('not-now'),
+          action: actionLabel,
+          displayProfile: boolProfile,
+          displayBallot: showBallot,
+          ballot: finalBallot,
+          profileId: delegateProfileId,
+        },
+        vote,
+        callback
+      );
+    } else {
+      vote();
+      if (callback) { callback(); }
+    }
   }
 }
