@@ -17,6 +17,7 @@ describe('transactions module', function () {
   it('inserts cleanly', function() {
     const testDoc = generateDoc(schema.Transaction);
     //console.log(testDoc)
+    console.log(`const transaction = Factory.create('transaction', testDoc);`);
     const transaction = Factory.create('transaction', testDoc);
   })
 })

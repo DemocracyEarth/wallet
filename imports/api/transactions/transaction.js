@@ -115,7 +115,6 @@ const _getWalletAddress = (entityId) => {
       Contracts.update({ _id: entityId }, { $set: { wallet: wallet } });
       break;
     default:
-      // console.log(`[_getWalletAddress] ERROR: entityId ${entityId} could not be found.`);
       return false;
   }
   return _getAddressHash(wallet.address, collectiveId);
@@ -224,7 +223,6 @@ const _processTransaction = (ticket) => {
   }
 
   // transact
-
   const sender = senderProfile.wallet;
   sender.ledger.push({
     txId: ticket,

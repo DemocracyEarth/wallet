@@ -3,7 +3,7 @@ import { rules } from '/lib/const';
 import { generateWalletAddress, transact } from './transaction';
 
 Meteor.methods({
-
+/*
   // generate first transaction from collective to user's wallet
   genesisTransaction(userId) {
     const user = Meteor.users.findOne({ _id: userId });
@@ -38,5 +38,5 @@ Meteor.methods({
     console.log('[vote] ' + userId + ' on contract: ' + contractId + ' with quantity: ' + quantity);
     transact(userId, contractId, quantity, settings);
   },
-
+*/
 })

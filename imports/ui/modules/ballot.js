@@ -70,46 +70,61 @@ const _purgeBallot = (options) => {
 };
 
 /**
+* @summary gets array with all the transactions of a given user with a contract
+* @param {string} userId - userId to be checked
+* @param {string} contractId - contractId to be checked
+*/
+const _getTransactions = (userId, contractId) => {
+    return _.sortBy(
+      _.union(
+        _.filter(Transactions.find({ 'input.entityId': userId }).fetch(), (item) => { return (item.output.entityId === contractId) }, 0),
+        _.filter(Transactions.find({ 'output.entityId': userId }).fetch(), (item) => { return (item.input.entityId === contractId) }, 0)),
+        'timestamp');
+}
+
+/**
+* @summary basic criteria to count votes on transaction records
+* @param {object} ticket specific ticket containing transaction info
+* @param {string} entityId the entity having votes counterPartyId
+*/
+const _voteCount = (ticket, entityId) => {
+  if (ticket.input.entityId === entityId) {
+    return ticket.input.quantity;
+  } else if (ticket.output.entityId === entityId) {
+    return 0 - ticket.output.quantity;
+  }
+}
+
+/**
 * @summary gets the quantity of votes a given user has on a ledger
-* @param {object} ledger - ledger to be analyzed
+* @param {object} contractId - contractId to be checked
 * @param {object} userId - userId to be checked
 */
-const _getVoteQuantity = (ledger, userId) => {
-  let votes = 0;
-  for (const i in ledger) {
-    if (ledger[i].entityId === userId) {
-      switch (ledger[i].transactionType) {
-        case 'INPUT':
-          votes += ledger[i].quantity;
-          break;
-        case 'OUTPUT':
-        default:
-          votes -= ledger[i].quantity;
-          break;
+const _getVoteQuantity = (contractId, userId) => {
+  return _.reduce(_getTransactions(userId, contractId), (memo, num, index) => {
+      if (index === 1) {
+        return _voteCount(memo, userId) + _voteCount(num, userId);
       }
-    }
-  }
-  return votes;
+      return memo + _voteCount(num, userId);
+  });
 };
 
 /**
 * @summary evaluate if it's last present setting on ledger.
-* @param {object} ledger - ledger to be analyzed
+* @param {object} contract - what contract to analyze
 * @param {object} userId - userId to be checked
 * @param {object} ballotId - ballotId value to verify
+* @return {boolean} if there's a tick or not
 */
-const _getTickFromLedger = (ledger, userId, ballotId) => {
-  const votes = _getVoteQuantity(ledger, userId);
+const _getTickFromLedger = (contract, userId, ballotId) => {
+  const votes = _getVoteQuantity(contract._id, userId);
+
   // evaluate if it's last present setting on ledger.
   if (votes > 0) {
-    for (let index = ledger.length - 1; index >= 0; index -= 1) {
-      if (ledger[index].entityId === userId) {
-          for (const j in ledger[index].ballot) {
-            if (ledger[index].ballot[j]._id.toString() === ballotId.toString()) {
-              return true;
-            }
-          }
-        break;
+    const last = _.last(_getTransactions(userId, contract._id));
+    for (const j in last.condition.ballot) {
+      if (last.condition.ballot[j]._id.toString() === ballotId.toString()) {
+        return true;
       }
     }
   }
@@ -138,7 +153,7 @@ const _getTickValue = (contractId, ballot) => {
     }
   }
   // check existing vote present in contract ledger
-  const ledgervote = _getTickFromLedger(Session.get('contract').wallet.ledger, Meteor.userId(), ballot._id);
+  const ledgervote = _getTickFromLedger(Session.get('contract'), Meteor.userId(), ballot._id);
   return ledgervote;
 };
 
@@ -150,22 +165,14 @@ const _getTickValue = (contractId, ballot) => {
 */
 const _candidateBallot = (userId) => {
   const candidateBallot = [];
-  const ledger = Session.get('contract').wallet.ledger;
-  const votes = _getVoteQuantity(ledger, userId);
-  if (votes > 0) {
-    for (let index = ledger.length - 1; index >= 0; index -= 1) {
-      if (ledger[index].entityId === userId) {
-        for (const j in ledger[index].ballot) {
-          candidateBallot.push({
-            contractId: Session.get('contract')._id,
-            ballot: ledger[index].ballot[j],
-          });
-        }
-        break;
-      }
-    }
-    Session.set('candidateBallot', candidateBallot);
+  const last = _.last(_getTransactions(userId, Session.get('contract')._id));
+  for (const j in last.condition.ballot) {
+    candidateBallot.push({
+      contractId: Session.get('contract')._id,
+      ballot: last.condition.ballot[j],
+    });
   }
+  Session.set('candidateBallot', candidateBallot);
 };
 
 /**
