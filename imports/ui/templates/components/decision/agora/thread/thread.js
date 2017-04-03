@@ -49,84 +49,6 @@ function check(votes, up) {
   return false;
 }
 
-/**
-* @summary executes upvote or downvote
-* @param {object} event event from ui
-* @param {object} comment object with comment metadata
-* @param {number} quantity quantity of votes (1 or -1 usually)
-* @param {string} mode either VOTE, SWITCH or REMOVE
-*/
-function vote(event, comment, quantity, mode) {
-  if (!Meteor.user()) {
-    // not logged
-    displayLogin(event, document.getElementById('loggedUser'));
-    return;
-  }
-  switch (mode) {
-    case 'SWITCH':
-      console.log('swtiching...');
-      break;
-    case 'REMOVE':
-      console.log('removing...');
-      break;
-    default: {
-      console.log('voting...');
-      console.log(quantity);
-      console.log(comment.userUpvoted);
-      if ((quantity > 0 && comment.userUpvoted === false) || (quantity < 0 && comment.userDownvoted === false)) {
-        voteComment(Session.get('contract')._id, comment.id, quantity);
-        // transact(Meteor.userId(), Session.get('contract')._id, Math.abs(quantity));
-        const delegate = Meteor.users.findOne({ _id: comment.userId }).username;
-        const keywordTitle = `${convertToSlug(Meteor.user().username)}-${convertToSlug(delegate)}`;
-        console.log(`making delegation: ${keywordTitle}`);
-        // TODO: if its upvote, one way; if its downvote the other way.
-        startDelegation(
-          Meteor.userId(),
-          comment.userId,
-          {
-            title: keywordTitle,
-            signatures: [
-              {
-                username: Meteor.user().username,
-              },
-              {
-                username: delegate,
-              },
-            ],
-          },
-          true
-        );
-        break;
-      }
-    }
-  }
-}
-
-/**
-* @summary process upvote/downvote event
-* @param {object} event event from ui
-* @param {object} comment object with comment metadata
-* @param {boolean} up if its upvote or downvote
-*/
-function microdelegation(event, comment, up) {
-  if (comment.id !== voteEventId) {
-    voteEventId = comment.id;
-    if (Meteor.userId() === comment.userId) {
-      console.log('SAME');
-    } else if ((comment.userDownvoted && !up) || (comment.userUpvoted && up)) {
-      vote(event, comment, 1, 'REMOVE');
-    } else if ((comment.userUpvoted && !up) || (comment.userDownvoted && up)) {
-      vote(event, comment, 1, 'SWITCH');
-    } else if (!up) {
-      vote(event, comment, -1, 'VOTE');
-    } else {
-      console.log(comment);
-      vote(event, comment, 1, 'VOTE');
-    }
-  }
-}
-
-
 Template.thread.helpers({
   timestamp() {
     return timeSince(this.timestamp);
@@ -217,12 +139,14 @@ Template.thread.events({
     replyBoxes.push(replyStringId);
     Session.set(replyStringId, true);
   },
-  'click #upvote'(event) {
-    let vote = new Vote(Meteor.user().profile.wallet, this.userId);
+  'click #upvote'() {
+    // transact
+    const vote = new Vote(Meteor.user().profile.wallet, this.userId);
     vote.place(parseInt(vote.inBallot + 1, 10), true);
-    vote.execute(function () { console.log('executed')});
+    vote.execute();
+    voteComment(Session.get('contract')._id, this.id, 1);
     console.log(vote);
-
+    console.log(this);
     // microdelegation(event, this, true);
   },
   'click #downvote'(event) {
