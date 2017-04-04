@@ -11,7 +11,7 @@ import { convertToSlug } from '/lib/utils';
 import { purgeBallot } from '/imports/ui/modules/ballot';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { displayModal } from '/imports/ui/modules/modal';
-import { transact } from '/imports/api/transactions/transaction';
+import { transact, getVotes } from '/imports/api/transactions/transaction';
 
 /**
 * @summary returns the type of vote being used for the power allocation
@@ -117,7 +117,7 @@ export class Vote {
       }
     }
     this.originalTargetId = targetId;
-    this.inBallot = userVotesInContract(wallet, this.targetId);
+    this.inBallot = getVotes(this.targetId, Meteor.userId());
 
     // view
     if (sessionId) {

@@ -130,7 +130,7 @@ Template.power.helpers({
   },
   label() {
     // TODO: erase this whole function once delegation is implemented
-    const wallet = Session.get(this.data._id);
+/*    const wallet = Session.get(this.data._id);
     const contract = Session.get('contract');
     let rejection = false;
     let signatures;
@@ -245,6 +245,7 @@ Template.power.helpers({
       return TAPi18n.__('vote');
     }
     return 0;
+  */
   },
   rightToVote() {
     return Session.get('rightToVote');

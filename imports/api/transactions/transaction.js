@@ -181,11 +181,11 @@ const assignBallot = (ledger, ballot) => {
 */
 const _debt = (wallet, creditorId, type) => {
   let totals = 0;
-  for (const i in wallet.ledger) {
-    if (wallet.ledger[i].entityId === creditorId) {
-      if (wallet.ledger[i].transactionType === type) {
-        totals += wallet.ledger[i].quantity;
-      }
+  let transactions = _getTransactions(wallet, creditorId);
+
+  for (const i in transactions) {
+    if (transactions[i][type].entityId === creditorId) {
+      totals += transactions[i][type].quantity;
     }
   }
   return totals;
@@ -247,19 +247,21 @@ const _processTransaction = (ticket) => {
     transactionType: 'INPUT',
   });
   receiver.available += parseInt(transaction.output.quantity, 10);
-  receiver.placed = parseInt(receiver.placed - _restoredTokens(transaction.output.quantity, _debt(receiver, transaction.input.entityId, 'OUTPUT')), 10);
+  //receiver.placed = parseInt(receiver.placed - _restoredTokens(transaction.output.quantity, _debt(receiver, transaction.input.entityId, 'OUTPUT')), 10);
+  receiver.placed = parseInt(receiver.placed - _restoredTokens(transaction.output.quantity, _debt(transaction.output.entityId, transaction.input.entityId, 'output')), 10);
+
   receiver.balance = parseInt(receiver.placed + receiver.available, 10);
   receiverProfile.wallet = Object.assign(receiverProfile.wallet, receiver);
 
   // assign ballots if any
   if (transaction.condition.ballot) {
-    sender.ledger = assignBallot(sender.ledger, transaction.condition.ballot);
-    receiver.ledger = assignBallot(receiver.ledger, transaction.condition.ballot);
+  //  sender.ledger = assignBallot(sender.ledger, transaction.condition.ballot);
+  //  receiver.ledger = assignBallot(receiver.ledger, transaction.condition.ballot);
   }
 
   // update wallets
-  _updateWallet(transaction.input.entityId, transaction.input.entityType, senderProfile);
-  _updateWallet(transaction.output.entityId, transaction.output.entityType, receiverProfile);
+  //_updateWallet(transaction.input.entityId, transaction.input.entityType, senderProfile);
+  //_updateWallet(transaction.output.entityId, transaction.output.entityType, receiverProfile);
 
   // set this transaction as processed
   return Transactions.update({ _id: txId }, { $set: { status: 'CONFIRMED' } });
@@ -360,7 +362,50 @@ const _genesisTransaction = (userId) => {
   _createTransaction(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY);
 };
 
+/**
+* @summary gets array with all the transactions of a given user with a contract
+* @param {string} userId - userId to be checked
+* @param {string} contractId - contractId to be checked
+*/
+const _getTransactions = (userId, contractId) => {
+    return _.sortBy(
+      _.union(
+        _.filter(Transactions.find({ 'input.entityId': userId }).fetch(), (item) => { return (item.output.entityId === contractId) }, 0),
+        _.filter(Transactions.find({ 'output.entityId': userId }).fetch(), (item) => { return (item.input.entityId === contractId) }, 0)),
+        'timestamp');
+}
+
+/**
+* @summary basic criteria to count votes on transaction records
+* @param {object} ticket specific ticket containing transaction info
+* @param {string} entityId the entity having votes counterPartyId
+*/
+const _voteCount = (ticket, entityId) => {
+  if (ticket.input.entityId === entityId) {
+    return ticket.input.quantity;
+  } else if (ticket.output.entityId === entityId) {
+    return 0 - ticket.output.quantity;
+  }
+}
+
+/**
+* @summary gets the quantity of votes a given user has on a ledger
+* @param {object} contractId - contractId to be checked
+* @param {object} userId - userId to be checked
+*/
+const _getVotes = (contractId, userId) => {
+  return _.reduce(getTransactions(userId, contractId), (memo, num, index) => {
+      if (index === 1) {
+        return _voteCount(memo, userId) + _voteCount(num, userId);
+      }
+      return memo + _voteCount(num, userId);
+  });
+};
+
+
 export const processTransaction = _processTransaction;
 export const generateWalletAddress = _generateWalletAddress;
+export const getTransactions = _getTransactions;
+export const getVotes = _getVotes;
 export const transact = _createTransaction;
 export const genesisTransaction = _genesisTransaction;

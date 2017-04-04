@@ -9,7 +9,7 @@ import { createContract, delegate } from '/imports/startup/both/modules/Contract
 import { checkDuplicate, convertToSlug } from '/lib/utils';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { displayModal } from '/imports/ui/modules/modal';
-import { transact } from '/imports/api/transactions/transaction';
+import { transact, getTransactions, getVotes } from '/imports/api/transactions/transaction';
 import { Vote } from '/imports/ui/modules/Vote';
 
 /**
@@ -70,46 +70,6 @@ const _purgeBallot = (options) => {
 };
 
 /**
-* @summary gets array with all the transactions of a given user with a contract
-* @param {string} userId - userId to be checked
-* @param {string} contractId - contractId to be checked
-*/
-const _getTransactions = (userId, contractId) => {
-    return _.sortBy(
-      _.union(
-        _.filter(Transactions.find({ 'input.entityId': userId }).fetch(), (item) => { return (item.output.entityId === contractId) }, 0),
-        _.filter(Transactions.find({ 'output.entityId': userId }).fetch(), (item) => { return (item.input.entityId === contractId) }, 0)),
-        'timestamp');
-}
-
-/**
-* @summary basic criteria to count votes on transaction records
-* @param {object} ticket specific ticket containing transaction info
-* @param {string} entityId the entity having votes counterPartyId
-*/
-const _voteCount = (ticket, entityId) => {
-  if (ticket.input.entityId === entityId) {
-    return ticket.input.quantity;
-  } else if (ticket.output.entityId === entityId) {
-    return 0 - ticket.output.quantity;
-  }
-}
-
-/**
-* @summary gets the quantity of votes a given user has on a ledger
-* @param {object} contractId - contractId to be checked
-* @param {object} userId - userId to be checked
-*/
-const _getVoteQuantity = (contractId, userId) => {
-  return _.reduce(_getTransactions(userId, contractId), (memo, num, index) => {
-      if (index === 1) {
-        return _voteCount(memo, userId) + _voteCount(num, userId);
-      }
-      return memo + _voteCount(num, userId);
-  });
-};
-
-/**
 * @summary evaluate if it's last present setting on ledger.
 * @param {object} contract - what contract to analyze
 * @param {object} userId - userId to be checked
@@ -117,11 +77,11 @@ const _getVoteQuantity = (contractId, userId) => {
 * @return {boolean} if there's a tick or not
 */
 const _getTickFromLedger = (contract, userId, ballotId) => {
-  const votes = _getVoteQuantity(contract._id, userId);
+  const votes = getVotes(contract._id, userId);
 
   // evaluate if it's last present setting on ledger.
   if (votes > 0) {
-    const last = _.last(_getTransactions(userId, contract._id));
+    const last = _.last(getTransactions(userId, contract._id));
     for (const j in last.condition.ballot) {
       if (last.condition.ballot[j]._id.toString() === ballotId.toString()) {
         return true;
@@ -165,7 +125,7 @@ const _getTickValue = (contractId, ballot) => {
 */
 const _candidateBallot = (userId) => {
   const candidateBallot = [];
-  const last = _.last(_getTransactions(userId, Session.get('contract')._id));
+  const last = _.last(getTransactions(userId, Session.get('contract')._id));
   for (const j in last.condition.ballot) {
     candidateBallot.push({
       contractId: Session.get('contract')._id,
