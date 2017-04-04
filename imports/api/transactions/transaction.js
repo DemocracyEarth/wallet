@@ -216,6 +216,7 @@ const _processTransaction = (ticket) => {
 
   // TODO all transactions are for VOTE type, develop for BITCOIN or multi-currency conversion.
   // TODO encrypted mode hooks this.
+  // TODO compress db removing redundant historical transaction data
 
   // verify sender has enough funds
   if (senderProfile.wallet.available < transaction.input.quantity) {
@@ -224,42 +225,16 @@ const _processTransaction = (ticket) => {
 
   // transact
   const sender = senderProfile.wallet;
-  /*sender.ledger.push({
-    txId: ticket,
-    quantity: transaction.input.quantity,
-    entityId: transaction.output.entityId,
-    entityType: transaction.output.entityType,
-    currency: transaction.input.currency,
-    transactionType: 'OUTPUT',
-  });*/
   sender.placed += parseInt(transaction.input.quantity, 10);
   sender.available = parseInt(sender.balance - sender.placed, 10);
   sender.balance = parseInt(sender.placed + sender.available, 10);
   senderProfile.wallet = Object.assign(senderProfile.wallet, sender);
 
   const receiver = receiverProfile.wallet;
-  /*receiver.ledger.push({
-    txId: ticket,
-    quantity: parseInt(transaction.output.quantity, 10),
-    entityId: transaction.input.entityId,
-    entityType: transaction.input.entityType,
-    currency: transaction.output.currency,
-    transactionType: 'INPUT',
-  });*/
   receiver.available += parseInt(transaction.output.quantity, 10);
-  //receiver.placed = parseInt(receiver.placed - _restoredTokens(transaction.output.quantity, _debt(receiver, transaction.input.entityId, 'OUTPUT')), 10);
   receiver.placed = parseInt(receiver.placed - _restoredTokens(transaction.output.quantity, _debt(transaction.output.entityId, transaction.input.entityId, 'output')), 10);
-
   receiver.balance = parseInt(receiver.placed + receiver.available, 10);
   receiverProfile.wallet = Object.assign(receiverProfile.wallet, receiver);
-
-  // assign ballots if any
-  /*if (transaction.condition.ballot) {
-    sender.ledger = []; //assignBallot(sender.ledger, transaction.condition.ballot);
-    receiver.ledger = []; //assignBallot(receiver.ledger, transaction.condition.ballot);
-  }*/
-  sender.ledger = [];
-  receiver.ledger = [];
 
   // update wallets
   _updateWallet(transaction.input.entityId, transaction.input.entityType, senderProfile);

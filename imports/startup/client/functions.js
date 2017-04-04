@@ -346,10 +346,10 @@ const _configNavbar = (title) => {
 * @summary checks if user never had funds
 ***/
 const _userHasEmptyWallet = () => {
-  if (Meteor.user().profile.wallet.balance == 0 && Meteor.user().profile.wallet.available == 0 && Meteor.user().profile.wallet.placed == 0) {
-    if (Meteor.user().profile.wallet.address.length == 0 && Meteor.user().profile.wallet.ledger == 0) {
-      if (Meteor.user().profile.credentials != undefined) {
-        if (Meteor.user().profile.credentials[0].source == 'facebook') {
+  if (Meteor.user().profile.wallet.balance === 0 && Meteor.user().profile.wallet.available == 0 && Meteor.user().profile.wallet.placed === 0) {
+    if (Meteor.user().profile.wallet.address.length === 0) {
+      if (Meteor.user().profile.credentials !== undefined) {
+        if (Meteor.user().profile.credentials[0].source === 'facebook') {
           //TODO this should be less hardcoded than it looks like
           return true;
         }

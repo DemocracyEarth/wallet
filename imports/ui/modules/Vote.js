@@ -93,7 +93,6 @@ export class Vote {
     // properties
     if (wallet === undefined) {
       this.address = [];
-      this.ledger = [];
       this.available = 0;
       this.balance = 0;
       this.placed = 0;

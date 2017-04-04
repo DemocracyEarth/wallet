@@ -13,8 +13,6 @@ import { clearPopups } from '/imports/ui/modules/popup';
 import './power.html';
 import '../action/action.js';
 
-let voteQuantity;
-
 /**
 * @summary converts a percentage value to pixels for current power bar
 * @param {number} percentage percentage value to be converted
@@ -126,125 +124,6 @@ Template.power.onRendered(function render() {
 Template.power.helpers({
   isDelegation() {
     return (Session.get(this._id).voteType === 'DELEGATION');
-  },
-  label() {
-    // TODO: erase this whole function once delegation is implemented
-/*    const wallet = Session.get(this.data._id);
-    const contract = Session.get('contract');
-    let rejection = false;
-    let signatures;
-    let quantity;
-
-    if (contract === undefined) {
-      return TAPi18n.__('contract-votes-pending');
-    }
-    if (wallet !== undefined) {
-      switch (wallet.mode) {
-        case 'PENDING':
-          switch (contract.kind) {
-            case 'DELEGATION':
-              voteQuantity = TAPi18n.__('delegate-votes-pending');
-              break;
-            default: // 'VOTE'
-              voteQuantity = TAPi18n.__('contract-votes-pending');
-              break;
-          }
-          break;
-        case 'EXECUTED':
-        default:
-          switch (contract.kind) {
-            case 'DELEGATION':
-              voteQuantity = TAPi18n.__('delegate-votes-executed');
-              break;
-            default: // 'VOTE'
-              voteQuantity = TAPi18n.__('contract-votes-executed');
-              break;
-          }
-          break;
-      }
-
-      // quantity of votes to display
-      if (Session.get('rightToVote') === true) {
-        quantity = wallet.allocateQuantity;
-      } else {
-        // delegation
-        if (Session.get('contract').kind === 'DELEGATION') {
-          voteQuantity = TAPi18n.__('delegate-votes-executed');
-          if (isUserSigner(Session.get('contract').signatures)) {
-            signatures = Session.get('contract').signatures;
-            for (const i in signatures) {
-              if (signatures[i].role === 'DELEGATOR' && signatures[i]._id === Meteor.user()._id) {
-                // delegator
-                quantity = userVotesInContract(Meteor.user().profile.wallet, Session.get('contract')._id);
-                break;
-              } else if (signatures[i].role === 'DELEGATE' && signatures[i]._id === Meteor.user()._id) {
-                // delegate
-                quantity = Session.get('contract').wallet.balance;
-              }
-              if (signatures[i].status === 'REJECTED') {
-                rejection = true;
-              }
-            }
-          } else {
-            signatures = Session.get('contract').signatures;
-            for (const i in signatures) {
-              if (signatures[i].status === 'REJECTED') {
-                rejection = true;
-              }
-            }
-            if (rejection !== true) {
-              if (isUserSigner(Session.get('contract').signatures)) {
-                quantity = Session.get('contract').wallet.available;
-              } else {
-                quantity = Session.get('contract').wallet.balance;
-              }
-            }
-          }
-        }
-        // live or finish vote
-        if (Session.get('contract').stage !== 'DRAFT' && Session.get('contract').kind !== 'DELEGATION') {
-          const ledger = Session.get('contract').wallet.ledger;
-          for (const i in ledger) {
-            if (ledger[i].ballot !== undefined) {
-              if (ledger[i].entityId === Meteor.user()._id && ledger[i].ballot.length > 0) {
-                voteQuantity = TAPi18n.__('contract-votes-executed');
-                quantity = ledger[i].quantity;
-              }
-            }
-          }
-        }
-      }
-
-      // if contract didnt establish
-      if (rejection === true) {
-        return TAPi18n.__('rejection-no-delegations');
-      }
-
-      // if no votes found
-      if (quantity === undefined) {
-        quantity = TAPi18n.__('no');
-      }
-
-      // string narrative
-      if (voteQuantity !== undefined) {
-        voteQuantity = voteQuantity.replace('<quantity>', quantity);
-        voteQuantity = voteQuantity.replace('<type>', function () {
-          if (quantity === 1) {
-            return TAPi18n.__('vote-singular');
-          }
-          return TAPi18n.__('vote-plural');
-        });
-        if (wallet.allocateQuantity === 0 && Session.get('contract').stage !== 'DRAFT') {
-          Session.set('noVotes', true);
-        } else {
-          Session.set('noVotes', false);
-        }
-        return voteQuantity;
-      }
-      return TAPi18n.__('vote');
-    }
-    return 0;
-  */
   },
   rightToVote() {
     return Session.get('rightToVote');
