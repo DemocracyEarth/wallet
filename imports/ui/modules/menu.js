@@ -345,8 +345,7 @@ const animateMenu = () => {
     if (splitLeftNewWidth < gui.MIN_CONTRACT_WIDTH) {
       splitRightNewMargin -= parseInt(splitLeftNewWidth - gui.MIN_CONTRACT_WIDTH, 10);
       splitLeftNewWidth = gui.MIN_CONTRACT_WIDTH;
-      splitRightNewWidth = parseInt($(window).width()
-                           - (gui.SIDEBAR_WIDTH + splitLeftNewWidth), 10);
+      splitRightNewWidth = parseInt($(window).width() - (gui.SIDEBAR_WIDTH + splitLeftNewWidth), 10);
     }
 
     if ($(window).width() < gui.DESKTOP_MIN_WIDTH) {

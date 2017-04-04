@@ -6,7 +6,6 @@ import { Session } from 'meteor/session';
 import { removeFork, updateBallotRank, addChoiceToBallot, candidateBallot } from '/imports/ui/modules/ballot';
 import { displayTimedWarning } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
-import { guidGenerator } from '/imports/startup/both/modules/crypto';
 
 import './ballot.html';
 import '../kind/kind.js';
@@ -18,58 +17,56 @@ import '../fork/fork.js';
 import '../alternative/alternative.js';
 import '../power/power.js';
 
-var rank = 0;
-
-function getVoterContractBond() {
-  return {
+function getVoterContractBond(object) {
+  return Object.assign(object, {
     voteId: `vote-${Meteor.userId()}-${Session.get('contract')._id}`,
     wallet: Meteor.user().profile.wallet,
     sourceId: Meteor.userId(),
     targetId: Session.get('contract')._id,
-  };
+  });
 }
 
 function activateDragging() {
   // Dragable options
   let sortableIn;
   this.$('#ballotOption, #proposalSuggestions').sortable({
-    stop: function(e, ui) {
-      var rankOrder = new Array();
-      $('#ballotOption li').each(function( index ) {
-        rankOrder.push($( this ).attr('value'));
+    stop() {
+      const rankOrder = [];
+      $('#ballotOption li').each(function () {
+        rankOrder.push($(this).attr('value'));
       });
       updateBallotRank(Session.get('contract')._id, rankOrder);
       Session.set('removeProposal', false);
-      if (rankOrder.length == 0) {
+      if (rankOrder.length === 0) {
         Session.set('ballotReady', false);
-        if (Session.get('executiveDecision') == false) {
+        if (Session.get('executiveDecision') === false) {
           Session.set('emptyBallot', true);
         } else {
           Session.set('emptyBallot', false);
         }
       }
     },
-    start: function (event, ui) {
+    start(event, ui) {
       ui.helper.height(ui.helper.height() - 10);
       ui.helper.width(ui.helper.width());
       ui.placeholder.width(ui.helper.width());
       ui.placeholder.height(ui.helper.height());
 
-      if (this.id == "ballotOption") {
+      if (this.id === 'ballotOption') {
         Session.set('removeProposal', true);
       }
     },
-    receive: function (event, ui) {
+    receive() {
       sortableIn = true;
     },
-    over: function(e, ui) {
+    over() {
       sortableIn = true;
     },
-    out: function(e, ui) {
+    out() {
       sortableIn = false;
     },
-    beforeStop: function(e, ui) {
-      if (sortableIn == false) {
+    beforeStop(e, ui) {
+      if (sortableIn === false) {
         if (Session.get('removeProposal')) {
           removeFork(Session.get('contract')._id, ui.item.get(0).getAttribute('value'));
           ui.item.get(0).remove();
@@ -89,8 +86,7 @@ function activateDragging() {
   }).disableSelection();
 }
 
-Template.ballot.rendered = function () {
-  rank = 0;
+Template.ballot.onRendered = () => {
   if (!Session.get('contract')) { return; }
   if (Session.get('contract').stage === 'DRAFT') {
     activateDragging();
@@ -113,21 +109,21 @@ Template.ballot.helpers({
     if (this.editorMode && !Session.get('contract').ballotEnabled) {
       return 'paper-header-empty';
     }
+    return '';
   },
   multipleChoice() {
     return Session.get('contract').multipleChoice;
   },
   executiveDecision() {
     if (Session.get('contract')) {
-      if (Session.get('contract').executiveDecision == true) {
+      if (Session.get('contract').executiveDecision === true) {
         Session.set('emptyBallot', false);
-      } else {
-        if (Session.get('ballotReady') == false) {
-          Session.set('emptyBallot', true);
-        }
+      } else if (Session.get('ballotReady') === false) {
+        Session.set('emptyBallot', true);
       }
       return Session.get('contract').executiveDecision;
     }
+    return '';
   },
   // NOTE: this algo is tricky af, i'm actually scared to touch it.
   options() {
@@ -190,7 +186,7 @@ Template.ballot.helpers({
       if (contract != undefined) {
         if (contract.stage == 'DRAFT') {
           ballot[i].url = '/vote/draft?id=' + ballot[i]._id;
-          ballot[i].voteId = getVoterContractBond().voteId;
+          ballot[i].voteId = getVoterContractBond(this).voteId;
         }
       }
     }
@@ -231,7 +227,7 @@ Template.ballot.helpers({
     return displayTimedWarning('noSelectedOption');
   },
   voteSettings() {
-    return getVoterContractBond();
+    return getVoterContractBond(this);
   },
 });
 
@@ -240,21 +236,6 @@ Template.ballot.events({
   'submit #fork-form, click #add-fork-proposal'(event) {
     event.preventDefault();
     addChoiceToBallot(Session.get('contract')._id, document.getElementById('text-fork-proposal').value);
-    Meteor.setTimeout(function () {document.getElementById('text-fork-proposal').value = ''; }, 100);
+    Meteor.setTimeout(() => { document.getElementById('text-fork-proposal').value = ''; }, 100);
   },
 });
-
-
-function verifyEmptyBallot (options) {
-  if (options.length == 0) {
-    if (Session.get('contract').executiveDecision == false) {
-      Session.set('emptyBallot', true);
-      return true;
-    } else {
-      Session.set('emptyBallot', false);
-    }
-  } else {
-    Session.set('emptyBallot', false);
-  }
-  return false;
-}

@@ -82,7 +82,9 @@
               {{/if}}
             {{/unless}}
             {{#each options}}
-              {{> fork _id=_id label=label mode=mode rank=rank url=url alternative=true editorMode=editorMode voteId=voteId}}
+              {{#with voteSettings}}
+                {{> fork _id=this._id label=this.label mode=this.mode rank=this.rank url=this.url alternative=true editorMode=this.editorMode voteId=this.voteId}}
+              {{/with}}
             {{/each}}
           </ul>
         </div>

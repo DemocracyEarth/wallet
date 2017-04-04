@@ -350,7 +350,7 @@ const _userHasEmptyWallet = () => {
     if (Meteor.user().profile.wallet.address.length === 0) {
       if (Meteor.user().profile.credentials !== undefined) {
         if (Meteor.user().profile.credentials[0].source === 'facebook') {
-          //TODO this should be less hardcoded than it looks like
+          // TODO this should be less hardcoded than it looks like
           return true;
         }
       }
