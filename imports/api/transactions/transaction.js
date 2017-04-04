@@ -398,13 +398,15 @@ const _voteCount = (ticket, entityId) => {
 */
 const _getVotes = (contractId, userId) => {
   const transactions = _getTransactions(userId, contractId);
-  if (transactions.length > 0) {
+  if (transactions.length > 1) {
     return _.reduce(transactions, (memo, num, index) => {
       if (index === 1) {
         return _voteCount(memo, userId) + _voteCount(num, userId);
       }
       return memo + _voteCount(num, userId);
     });
+  } else if (transactions.length === 1) {
+    return _voteCount(transactions[0], userId);
   }
   return 0;
 };
