@@ -6,7 +6,7 @@ import { check } from 'meteor/check';
 
 import { UserContext, User } from '/imports/api/users/User';
 import { displayNotice } from '/imports/ui/modules/notice';
-import { genesisTransaction } from '/imports/api/transactions/transaction';
+import { genesisTransaction, getVotes } from '/imports/api/transactions/transaction';
 import { validateEmail } from './validations.js';
 
 /**
@@ -220,12 +220,10 @@ const _userIsDelegate = (signatures) => {
 * @param {object} ledger - ledger with transactional data of this contract
 * @return {boolean} status - yes or no
 */
-const _verifyVotingRight = (ledger) => {
+const _verifyVotingRight = (contractId) => {
   if (Meteor.user() != null) {
-    for (const i in ledger) {
-      if (ledger[i].entityId === Meteor.user()._id) {
-        return false;
-      }
+    if (getVotes(contractId, Meteor.user()._id) > 0) {
+      return false;
     }
     return true;
   }

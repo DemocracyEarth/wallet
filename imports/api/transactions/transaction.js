@@ -224,28 +224,28 @@ const _processTransaction = (ticket) => {
 
   // transact
   const sender = senderProfile.wallet;
-  sender.ledger.push({
+  /*sender.ledger.push({
     txId: ticket,
     quantity: transaction.input.quantity,
     entityId: transaction.output.entityId,
     entityType: transaction.output.entityType,
     currency: transaction.input.currency,
     transactionType: 'OUTPUT',
-  });
+  });*/
   sender.placed += parseInt(transaction.input.quantity, 10);
   sender.available = parseInt(sender.balance - sender.placed, 10);
   sender.balance = parseInt(sender.placed + sender.available, 10);
   senderProfile.wallet = Object.assign(senderProfile.wallet, sender);
 
   const receiver = receiverProfile.wallet;
-  receiver.ledger.push({
+  /*receiver.ledger.push({
     txId: ticket,
     quantity: parseInt(transaction.output.quantity, 10),
     entityId: transaction.input.entityId,
     entityType: transaction.input.entityType,
     currency: transaction.output.currency,
     transactionType: 'INPUT',
-  });
+  });*/
   receiver.available += parseInt(transaction.output.quantity, 10);
   //receiver.placed = parseInt(receiver.placed - _restoredTokens(transaction.output.quantity, _debt(receiver, transaction.input.entityId, 'OUTPUT')), 10);
   receiver.placed = parseInt(receiver.placed - _restoredTokens(transaction.output.quantity, _debt(transaction.output.entityId, transaction.input.entityId, 'output')), 10);
@@ -254,14 +254,16 @@ const _processTransaction = (ticket) => {
   receiverProfile.wallet = Object.assign(receiverProfile.wallet, receiver);
 
   // assign ballots if any
-  if (transaction.condition.ballot) {
-  //  sender.ledger = assignBallot(sender.ledger, transaction.condition.ballot);
-  //  receiver.ledger = assignBallot(receiver.ledger, transaction.condition.ballot);
-  }
+  /*if (transaction.condition.ballot) {
+    sender.ledger = []; //assignBallot(sender.ledger, transaction.condition.ballot);
+    receiver.ledger = []; //assignBallot(receiver.ledger, transaction.condition.ballot);
+  }*/
+  sender.ledger = [];
+  receiver.ledger = [];
 
   // update wallets
-  //_updateWallet(transaction.input.entityId, transaction.input.entityType, senderProfile);
-  //_updateWallet(transaction.output.entityId, transaction.output.entityType, receiverProfile);
+  _updateWallet(transaction.input.entityId, transaction.input.entityType, senderProfile);
+  _updateWallet(transaction.output.entityId, transaction.output.entityType, receiverProfile);
 
   // set this transaction as processed
   return Transactions.update({ _id: txId }, { $set: { status: 'CONFIRMED' } });
@@ -368,12 +370,12 @@ const _genesisTransaction = (userId) => {
 * @param {string} contractId - contractId to be checked
 */
 const _getTransactions = (userId, contractId) => {
-    return _.sortBy(
-      _.union(
-        _.filter(Transactions.find({ 'input.entityId': userId }).fetch(), (item) => { return (item.output.entityId === contractId) }, 0),
-        _.filter(Transactions.find({ 'output.entityId': userId }).fetch(), (item) => { return (item.input.entityId === contractId) }, 0)),
-        'timestamp');
-}
+  return _.sortBy(
+    _.union(
+      _.filter(Transactions.find({ 'input.entityId': userId }).fetch(), (item) => { return (item.output.entityId === contractId); }, 0),
+      _.filter(Transactions.find({ 'output.entityId': userId }).fetch(), (item) => { return (item.input.entityId === contractId); }, 0)),
+      'timestamp');
+};
 
 /**
 * @summary basic criteria to count votes on transaction records
@@ -386,7 +388,8 @@ const _voteCount = (ticket, entityId) => {
   } else if (ticket.output.entityId === entityId) {
     return 0 - ticket.output.quantity;
   }
-}
+  return 0;
+};
 
 /**
 * @summary gets the quantity of votes a given user has on a ledger
@@ -394,12 +397,16 @@ const _voteCount = (ticket, entityId) => {
 * @param {object} userId - userId to be checked
 */
 const _getVotes = (contractId, userId) => {
-  return _.reduce(getTransactions(userId, contractId), (memo, num, index) => {
+  const transactions = _getTransactions(userId, contractId);
+  if (transactions.length > 0) {
+    return _.reduce(transactions, (memo, num, index) => {
       if (index === 1) {
         return _voteCount(memo, userId) + _voteCount(num, userId);
       }
       return memo + _voteCount(num, userId);
-  });
+    });
+  }
+  return 0;
 };
 
 

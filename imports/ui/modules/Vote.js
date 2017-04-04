@@ -291,13 +291,13 @@ export class Vote {
             },
           ],
           condition: {
-            transferable: Session.get('contract').transferable,
-            portable: Session.get('contract').portable,
-            tags: Session.get('contract').tags,
+            transferable: true,
+            portable: true,
+            tags: [],
           },
           currency: 'VOTES',
-          kind: Session.get('contract').kind,
-          contractId: Session.get('contract')._id,
+          kind: 'DELEGATION',
+          contractId: this.targetId,
         };
         break;
       case 'VOTE':

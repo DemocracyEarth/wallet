@@ -289,7 +289,7 @@ let _loadContract = (view, id) => {
       Session.set('alreadyVoted', false);
     } else if (contract.kind === 'VOTE' && contract.stage === 'LIVE') {
       Session.set('rightToVote', true);
-      Session.set('alreadyVoted', verifyVotingRight(contract.wallet.ledger));
+      Session.set('alreadyVoted', verifyVotingRight(contract._id));
     } else if (contract.kind === 'VOTE' && contract.stage === 'FINISH') {
       Session.set('rightToVote', false);
     }

@@ -125,14 +125,17 @@ const _getTickValue = (contractId, ballot) => {
 */
 const _candidateBallot = (userId) => {
   const candidateBallot = [];
-  const last = _.last(getTransactions(userId, Session.get('contract')._id));
-  for (const j in last.condition.ballot) {
-    candidateBallot.push({
-      contractId: Session.get('contract')._id,
-      ballot: last.condition.ballot[j],
-    });
+  const transactions = getTransactions(userId, Session.get('contract')._id);
+  if (transactions.length > 0) {
+    const last = _.last(getTransactions(userId, Session.get('contract')._id));
+    for (const j in last.condition.ballot) {
+      candidateBallot.push({
+        contractId: Session.get('contract')._id,
+        ballot: last.condition.ballot[j],
+      });
+    }
+    Session.set('candidateBallot', candidateBallot);
   }
-  Session.set('candidateBallot', candidateBallot);
 };
 
 /**

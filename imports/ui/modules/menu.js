@@ -6,6 +6,8 @@ import { gui } from '/lib/const';
 
 import { showFullName } from '/imports/startup/both/modules/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
+import { Transactions } from '/imports/api/transactions/Transactions';
+
 import { animationSettings } from './animation';
 
 /**
@@ -226,20 +228,17 @@ const getUserList = (array) => {
 */
 const _getDelegatesMenu = () => {
   let users = [];
-  const wallet = Meteor.user().profile.wallet.ledger;
+  let delegations = [];
+  const transactions = _.filter(Transactions.find({ kind: 'DELEGATION' }).fetch(),
+    (item) => { return (item.input.entityId === Meteor.userId() || item.output.entityId === Meteor.userId()); }, 0);
 
-  // search wallet
-  for (const entity in wallet) {
-    switch (wallet[entity].entityType) {
-      case 'CONTRACT': {
-        const source = Contracts.findOne({ _id: wallet[entity].entityId });
-        if (source !== undefined) {
-          users = _searchContract(source, users);
-        }
-        break;
+  if (transactions.length > 0) {
+    delegations = _.uniq(_.pluck(transactions, 'contractId'));
+    for (const i in delegations) {
+      const source = Contracts.findOne({ _id: delegations[i] });
+      if (source !== undefined) {
+        users = _searchContract(source, users);
       }
-      default:
-        break;
     }
   }
 
@@ -257,15 +256,6 @@ const _getDelegatesMenu = () => {
   const list = getUserList(users);
   _toggleSelectedItem(list);
   Session.set('menuDelegates', list);
-
-  /*
-  Meteor.call('getUserList', users, function (error, data) {
-    if (error)
-      console.log(error);
-
-    _toggleSelectedItem(data);
-    Session.set('menuDelegates', data);
-  });*/
 };
 
 /**
