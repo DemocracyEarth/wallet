@@ -3,7 +3,6 @@ import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 
-import { userVotesInContract } from '/imports/startup/both/modules/User';
 import { getDelegationContract, delegate } from '/imports/startup/both/modules/Contract';
 import { animationSettings } from '/imports/ui/modules/animation';
 import { Contracts } from '/imports/api/contracts/Contracts';

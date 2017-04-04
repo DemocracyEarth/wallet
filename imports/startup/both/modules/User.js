@@ -266,30 +266,6 @@ let _verifyDelegationRight = (signatures) => {
 };
 
 /**
-* @summary returns vots a user has in a specific contract
-* @param {object} userWallet - the wallet of the user
-* @param {string} contractId - the contract to search for
-* @return {number} quantity - quantity of votes in Absolute numbers
-*/
-const _userVotesInContract = (userWallet, contractId) => {
-  let totalVotes = 0;
-  for (const i in userWallet.ledger) {
-    if (userWallet.ledger[i].entityId === contractId) {
-      switch (userWallet.ledger[i].transactionType) {
-        case 'OUTPUT':
-          totalVotes += parseInt(userWallet.ledger[i].quantity, 10);
-          break;
-        case 'INPUT':
-        default:
-          totalVotes -= parseInt(userWallet.ledger[i].quantity, 10);
-          break;
-      }
-    }
-  }
-  return totalVotes;
-};
-
-/**
 * @summary verifies if the user is a signer in the contract
 * @param {object} signatures - contract signature object
 * @return {boolean} bool - yes or no, that simple buddy.
@@ -304,7 +280,6 @@ const _isUserSigner = (signatures) => {
 };
 
 export const isUserSigner = _isUserSigner;
-export const userVotesInContract = _userVotesInContract;
 export const verifyVotingRight = _verifyVotingRight;
 export const verifyDelegationRight = _verifyDelegationRight;
 export const userIsDelegate = _userIsDelegate;
