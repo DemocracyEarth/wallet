@@ -44,6 +44,10 @@ function check(votes, up) {
   return false;
 }
 
+const _cantVote = (item) => {
+  return (Meteor.user().profile.wallet.available <= 0 || (item.userId === Meteor.userId()));
+};
+
 Template.thread.helpers({
   timestamp() {
     return timeSince(this.timestamp);
@@ -84,7 +88,7 @@ Template.thread.helpers({
     if (check(this.votes, true)) {
       this.userUpvoted = true;
       return `${Router.path('home')}images/upvote-active.png`;
-    } else if (Meteor.user().profile.wallet.available <= 0) {
+    } else if (_cantVote(this)) {
       return `${Router.path('home')}images/upvote-disabled.png`;
     }
     return `${Router.path('home')}images/upvote.png`;
@@ -94,13 +98,13 @@ Template.thread.helpers({
     if (check(this.votes, false)) {
       this.userDownvoted = true;
       return `${Router.path('home')}images/downvote-active.png`;
-    } else if (Meteor.user().profile.wallet.available <= 0) {
+    } else if (_cantVote(this)) {
       return `${Router.path('home')}images/downvote-disabled.png`;
     }
     return `${Router.path('home')}images/downvote.png`;
   },
   buttonStatus() {
-    if ((Meteor.user().profile.wallet.available <= 0) || (this.userId === Meteor.userId())) {
+    if (_cantVote(this)) {
       return 'sort-button-disabled';
     }
     return '';
@@ -140,7 +144,6 @@ Template.thread.events({
     if (vote.execute()) {
       voteComment(Session.get('contract')._id, this.id, 1);
     }
-    // microdelegation(event, this, true);
   },
   'click #downvote'(event) {
     // microdelegation(event, this, false);

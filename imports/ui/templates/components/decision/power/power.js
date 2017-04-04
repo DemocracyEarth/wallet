@@ -98,6 +98,7 @@ Template.power.onRendered(function render() {
     stop(event, ui) {
       // executes the vote
       const voteId = ui.helper.context.id.replace('voteHandle-', '');
+
       const cancel = () => {
         if (this.newVote.inBallot === 0 && this.newVote.voteType === 'VOTE') {
           Session.set('candidateBallot', undefined);
@@ -106,12 +107,13 @@ Template.power.onRendered(function render() {
         this.newVote.resetSlider();
         Session.set(voteId, this.newVote);
       };
-      if ((this.newVote.allocateQuantity === 0 && this.newVote.inBallot === 0) || purgeBallot(Session.get('candidateBallot')).length === 0) {
+
+      if ((this.newVote.allocateQuantity === 0 && this.newVote.inBallot === 0) || (this.newVote.voteType === 'VOTE' && purgeBallot(Session.get('candidateBallot')).length === 0)) {
         cancel();
         if (this.newVote.voteType === 'VOTE') {
           Session.set('noSelectedOption', true);
         }
-      } else if (contractReady() || this.newVote.voteType === 'DELEGATION') {
+      } else if (contractReady(this.newVote) || this.newVote.voteType === 'DELEGATION') {
         clearPopups();
 
         // democracy wins

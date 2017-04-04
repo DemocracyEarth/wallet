@@ -355,7 +355,7 @@ const _removeFork = (contractId, forkId) => {
 * @param {string} forkId - choice id
 * @return {boolean} true if ready, false if not
 */
-const _verifyContractExecution = () => {
+const _verifyContractExecution = (vote) => {
   if (Session.get('emptyBallot') && Session.get('contract').ballotEnabled) {
     return false;
   } else if (Session.get('unauthorizedFork') && Session.get('contract').ballotEnabled) {
@@ -373,16 +373,18 @@ const _verifyContractExecution = () => {
   } else if (!Session.get('rightToVote')) {
     return false;
   }
-  if (Session.get('contract').kind === 'VOTE' && Session.get('contract').stage === 'LIVE') {
-    if (!_ballotReady()) {
+  if (vote.voteType === 'VOTE') {
+    if (Session.get('contract').kind === 'VOTE' && Session.get('contract').stage === 'LIVE') {
+      if (!_ballotReady()) {
+        return false;
+      }
+    }
+    if (Session.get('newVote') !== undefined) {
+      if (Session.get('newVote').mode === 'PENDING' || Session.get('newVote').mode === undefined) {
+        return true;
+      }
       return false;
     }
-  }
-  if (Session.get('newVote') !== undefined) {
-    if (Session.get('newVote').mode === 'PENDING' || Session.get('newVote').mode === undefined) {
-      return true;
-    }
-    return false;
   }
   return true;
 };

@@ -177,19 +177,10 @@ export class Vote {
       if (!avoidAllocation) {
         const sliderWidth = _scope($(`#voteSlider-${this.voteId}`).width(), this._maxWidth, 0);
         const barWidth = $(`#voteBar-${this.voteId}`).width();
-        const pixelToVote = _scope(parseInt(
-          (sliderWidth * this.balance) / barWidth, 10), (this.available + this.inBallot), 0);
+        const pixelToVote = _scope(parseInt((sliderWidth * this.balance) / barWidth, 10), (this.available + this.inBallot), 0);
         this.place(pixelToVote, true);
       }
     }
-  }
-
-  /**
-  * @summary defines the percentage of slider length
-  */
-  sliderPercentage() {
-    this.allocatePercentage = parseInt((this.allocateQuantity * 100) / this.balance, 10);
-    this.place(this.allocateQuantity);
   }
 
   /**
