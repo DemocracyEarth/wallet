@@ -4,7 +4,7 @@ import { Router } from 'meteor/iron:router';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Contracts } from '../../../api/contracts/Contracts';
 import { shortUUID } from './crypto';
-import { transact } from '../../../api/transactions/transaction';
+import { transact, transactionMessage } from '../../../api/transactions/transaction';
 
 /**
 * @summary generate a new empty draft
@@ -110,8 +110,12 @@ const _sendDelegation = (sourceId, targetId, quantity, conditions, newStatus) =>
 * @param {function} callback - once everything's done, what is left to do?
 * @param {boolean} instantaneous - if its a fast, instantaneous delegation
 */
-const _newDelegation = (delegatorId, delegateId, votes, settings, callback, instantaneous) => {
+const _newDelegation = (delegatorId, delegateId, votes, settings, callback) => {
   let finalTitle;
+  if (delegatorId === delegateId) {
+    transactionMessage('INVALID');
+    return null;
+  }
   let delegationContract = _getDelegationContract(delegatorId, delegateId);
 
   // creates new delegation contract
@@ -147,41 +151,9 @@ const _newDelegation = (delegatorId, delegateId, votes, settings, callback, inst
 
     const newContract = Contracts.insert(newDelegation);
     delegationContract = Contracts.findOne({ _id: newContract });
-
-    /*
-    TODO: review the use case of instantaneous delegation when refactoring Thread
-    if (instantaneous === false || instantaneous === undefined) {
-      // Router.go(delegationContract.url);
-    } else if (instantaneous) {
-      console.log('instant delegation');
-      const delegation = {
-        condition: {
-          transferable: true,
-          portable: true,
-          tags: Session.get('contract').tags,
-        },
-        currency: 'VOTES',
-        kind: delegationContract.kind,
-        contractId: newContract,
-      };
-      _sendDelegation(
-        newContract,
-        delegateId,
-        1,
-        delegation,
-        'CONFIRMED'
-      );
-    }
-
-  } else if (instantaneous === false || instantaneous === undefined) {
-    // goes to existing one
-    // Router.go(existingDelegation.url);
-    console.log('a contract already in place, check this use case!!');
-  } */
   }
 
   // execute the delegation
-
   transact(
     delegatorId,
     delegationContract._id,

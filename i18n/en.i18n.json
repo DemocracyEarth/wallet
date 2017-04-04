@@ -423,6 +423,7 @@
   "remove-all-votes": "remove all votes",
   "empty-values-ballot": "No values found on ballot.",
   "not-enough-funds": "Not enough funds.",
+  "invalid-transaction": "Invalid transaction.",
   "events": "Events",
   "actions": "Actions",
   "voters": "Voters",

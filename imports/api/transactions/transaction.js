@@ -203,6 +203,21 @@ const _restoredTokens = (quantity, totals) => {
   return quantity;
 };
 
+const _transactionMessage = (code) => {
+  switch (code) {
+    case 'INSUFFICIENT':
+      displayNotice('not-enough-funds', true);
+      return false;
+    case 'INVALID':
+      displayNotice('invalid-transaction', true);
+      return false;
+    case true:
+    default:
+      // TODO update status from 'PENDING' to 'CONFIRMED'
+      return true;
+  }
+};
+
 /**
 * @summary processes de transaction after insert and updates wallet of involved parties
 * @param {string} txId - transaction identificator
@@ -218,9 +233,11 @@ const _processTransaction = (ticket) => {
   // TODO encrypted mode hooks this.
   // TODO compress db removing redundant historical transaction data
 
-  // verify sender has enough funds
+  // verify transaction
   if (senderProfile.wallet.available < transaction.input.quantity) {
     return 'INSUFFICIENT';
+  } else if (transaction.input.entityId === transaction.output.entityId) {
+    return 'INVALID';
   }
 
   // transact
@@ -303,17 +320,12 @@ const _createTransaction = (senderId, receiverId, votes, settings, callback) => 
   const txId = Transactions.insert(newTransaction);
   const process = _processTransaction(txId);
 
-  // once transaction done, run callback
-  if (callback !== undefined) { callback(); }
-
-  switch (process) {
-    case 'INSUFFICIENT':
-      displayNotice('not-enough-funds', true);
-      return false;
-    case true:
-    default:
-      return txId;
+  if (_transactionMessage(process)) {
+    // once transaction done, run callback
+    if (callback !== undefined) { callback(); }
+    return txId;
   }
+  return null;
 };
 
 /**
@@ -386,10 +398,10 @@ const _getVotes = (contractId, userId) => {
   return 0;
 };
 
-
 export const processTransaction = _processTransaction;
 export const generateWalletAddress = _generateWalletAddress;
 export const getTransactions = _getTransactions;
+export const transactionMessage = _transactionMessage;
 export const getVotes = _getVotes;
 export const transact = _createTransaction;
 export const genesisTransaction = _genesisTransaction;

@@ -108,7 +108,7 @@ export class Vote {
     this.mode = 'PENDING';
     this.voteType = _getVoteType(targetId);
     this.targetId = targetId;
-    if (this.voteType === 'DELEGATION') {
+    if (this.voteType === 'DELEGATION' && (Meteor.userId() !== targetId)) {
       const delegationContract = getDelegationContract(Meteor.userId(), targetId);
       if (delegationContract) {
         this.targetId = delegationContract._id;
@@ -337,14 +337,16 @@ export class Vote {
         finalCaption = TAPi18n.__(`retrieve-${dictionary}-warning`).replace('<quantity>', votes.toString()).replace('<retrieve>', Math.abs(newVotes).toString());
       }
       vote = () => {
-        transact(
+        let tx;
+        tx = transact(
           this.targetId,
           Meteor.user()._id,
           parseInt(Math.abs(newVotes), 10),
           settings,
           close
         );
-        _updateState();
+        if (tx) { _updateState(); }
+        return tx;
       };
     } else if ((votesInBallot === 0) || (newVotes === 0)) {
       // insert votes
@@ -357,9 +359,10 @@ export class Vote {
         voteQuantity = parseInt(this.allocateQuantity, 10);
       }
       vote = () => {
+        let tx;
         switch (this.voteType) {
           case 'DELEGATION':
-            delegate(
+            tx = delegate(
               Meteor.userId(),
               delegateUser._id,
               voteQuantity,
@@ -369,7 +372,7 @@ export class Vote {
             break;
           case 'VOTE':
           default:
-            transact(
+            tx = transact(
               Meteor.user()._id,
               this.targetId,
               voteQuantity,
@@ -377,20 +380,23 @@ export class Vote {
               close
             );
         }
-        _updateState();
+        if (tx) { _updateState(); }
+        return tx;
       };
     } else if (newVotes > 0) {
       // add votes
       finalCaption = TAPi18n.__(`place-more-${dictionary}-warning`).replace('<quantity>', votes.toString()).replace('<add>', newVotes);
       vote = () => {
-        transact(
+        let tx;
+        tx = transact(
           Meteor.user()._id,
           this.targetId,
           parseInt(newVotes, 10),
           settings,
           close
         );
-        _updateState();
+        if (tx) { _updateState(); }
+        return tx;
       };
     }
 
@@ -412,8 +418,12 @@ export class Vote {
         callback
       );
     } else {
-      vote();
-      if (callback) { callback(); }
+      let v;
+      v = vote();
+      if (v) {
+        if (callback) { callback(); }
+      }
+      return v;
     }
   }
 }

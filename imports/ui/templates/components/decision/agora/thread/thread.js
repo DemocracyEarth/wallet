@@ -4,12 +4,8 @@ import { Session } from 'meteor/session';
 import { Router } from 'meteor/iron:router';
 import { TAPi18n } from 'meteor/tap:i18n';
 
-import { displayLogin } from '/imports/ui/modules/popup';
 import { voteComment } from '/imports/ui/modules/Thread';
-import { startDelegation } from '/imports/startup/both/modules/Contract';
 import { Vote } from '/imports/ui/modules/Vote';
-import { convertToSlug } from '/lib/utils';
-
 
 import { timeSince } from '/imports/ui/modules/chronos';
 import { textFormat } from '/imports/ui/modules/utils';
@@ -19,7 +15,6 @@ import '../../../identity/avatar/avatar.js';
 import '../postComment.js';
 
 const replyBoxes = [];
-let voteEventId = 0;
 
 /**
 * @summary counts the votes in a comment
@@ -104,10 +99,8 @@ Template.thread.helpers({
     }
     return `${Router.path('home')}images/downvote.png`;
   },
-  buttonStatus(upvote) {
-    if (check(this.votes, upvote)) {
-      return '';
-    } else if (Meteor.user().profile.wallet.available <= 0) {
+  buttonStatus() {
+    if ((Meteor.user().profile.wallet.available <= 0) || (this.userId === Meteor.userId())) {
       return 'sort-button-disabled';
     }
     return '';
@@ -141,12 +134,12 @@ Template.thread.events({
   },
   'click #upvote'() {
     // transact
+    console.log(this.userId);
     const vote = new Vote(Meteor.user().profile.wallet, this.userId);
     vote.place(parseInt(vote.inBallot + 1, 10), true);
-    vote.execute();
-    voteComment(Session.get('contract')._id, this.id, 1);
-    console.log(vote);
-    console.log(this);
+    if (vote.execute()) {
+      voteComment(Session.get('contract')._id, this.id, 1);
+    }
     // microdelegation(event, this, true);
   },
   'click #downvote'(event) {
