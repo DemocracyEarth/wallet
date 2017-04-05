@@ -4,9 +4,7 @@ import { Session } from 'meteor/session';
 import { Router } from 'meteor/iron:router';
 import { TAPi18n } from 'meteor/tap:i18n';
 
-import { voteComment } from '/imports/ui/modules/Thread';
-import { Vote } from '/imports/ui/modules/Vote';
-
+import { singleVote } from '/imports/ui/modules/Thread';
 import { timeSince } from '/imports/ui/modules/chronos';
 import { textFormat } from '/imports/ui/modules/utils';
 
@@ -136,16 +134,16 @@ Template.thread.events({
     replyBoxes.push(replyStringId);
     Session.set(replyStringId, true);
   },
-  'click #upvote'() {
-    // transact
-    console.log(this.userId);
-    const vote = new Vote(Meteor.user().profile.wallet, this.userId);
-    vote.place(parseInt(vote.inBallot + 1, 10), true);
-    if (vote.execute()) {
-      voteComment(Session.get('contract')._id, this.id, 1);
+  'click #upvote'(event) {
+    event.stopPropagation();
+    if (!_cantVote(this)) {
+      singleVote(Meteor.user().profile.wallet, this.userId, Session.get('contract')._id, this.id);
     }
   },
   'click #downvote'(event) {
-    // microdelegation(event, this, false);
+    event.stopPropagation();
+    if (!_cantVote(this)) {
+      singleVote(Meteor.user().profile.wallet, this.userId, Session.get('contract')._id, this.id, true);
+    }
   },
 });

@@ -1,6 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
+import { Vote } from '/imports/ui/modules/Vote';
+
 import { guidGenerator } from '../../startup/both/modules/crypto';
 import { Contracts } from '../../api/contracts/Contracts';
 
@@ -62,7 +64,7 @@ const searchTree = (element, matchingTitle, iterator, isRoot, inheritedPath, tar
 /* @param {object} eventObject - object containing the event info
 /* @param {string} replyId - if reply to another comment, id of such comment.
 */
-export const postComment = (contractId, eventObj, replyId) => {
+const _postComment = (contractId, eventObj, replyId) => {
   let thread = [];
   const eventObject = eventObj;
   const query = {};
@@ -94,7 +96,7 @@ export const postComment = (contractId, eventObj, replyId) => {
 /* @param {string} vote - indicates where it's an upvote (1) or downvote (-1)
 /* @param {boolean} removal - removes the vote rather than adding one
 */
-export const voteComment = (contractId, threadId, vote, removal) => {
+const _voteComment = (contractId, threadId, vote, removal) => {
   const thread = Contracts.find({ _id: contractId }).fetch()[0].events;
   const query = {};
   node = '';
@@ -122,3 +124,25 @@ export const voteComment = (contractId, threadId, vote, removal) => {
     );
   }
 };
+
+/**
+/* @summary instant upvote or downvote
+/* @param {string} wallet - wallet object to process
+/* @param {boolean} userId - user id duh
+/* @param {string} contractId - contract where this comment goes.
+/* @param {string} threadId - exact comment that is being up/down voted
+/* @param {boolean} negative downvote if true.
+*/
+const _singleVote = (wallet, userId, contractId, threadId, negative) => {
+  let quantity;
+  const vote = new Vote(wallet, userId);
+  if (negative) { quantity = -1; } else { quantity = 1; }
+  vote.place(parseInt(vote.inBallot + quantity, 10), true);
+  if (vote.execute()) {
+    _voteComment(contractId, threadId, quantity);
+  }
+};
+
+export const singleVote = _singleVote;
+export const voteComment = _voteComment;
+export const postComment = _postComment;
