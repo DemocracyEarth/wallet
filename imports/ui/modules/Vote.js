@@ -250,11 +250,8 @@ export class Vote {
     let titleLabel;
     let boolProfile;
     let dictionary;
-    let delegateUser;
-    let delegateContractTitle;
     let delegateProfileId;
     const target = this._getContract(this.targetId);
-    const source = this._getContract(this.userId);
     const votesInBallot = this.inBallot;
     const newVotes = parseInt(this.allocateQuantity - votesInBallot, 10);
     const votes = parseInt(votesInBallot + newVotes, 10);
@@ -289,17 +286,18 @@ export class Vote {
           // no delegation
           delegateProfileId = this.targetId;
           settings.title = `${convertToSlug(Meteor.users.findOne({ _id: this.userId }).username)}-${convertToSlug(Meteor.users.findOne({ _id: this.targetId }).username)}`;
-          settings.signature = [{ username: Meteor.users.findOne({ _id: this.userId }).username, }, { username: Meteor.users.findOne({ _id: this.targetId }).username, }];
+          settings.signatures = [{ username: Meteor.users.findOne({ _id: this.userId }).username }, { username: Meteor.users.findOne({ _id: this.targetId }).username }];
           this.delegationContract = createDelegation(this.userId, this.targetId, 0, settings, close);
           settings.contractId = this.delegationContract._id;
         }
 
-        switch(this.arrow) {
+        switch (this.arrow) {
           case 'INPUT':
             this.targetId = this.userId;
             this.userId = this.delegationContract._id;
             break;
           case 'OUTPUT':
+          default:
             this.targetId = this.delegationContract._id;
             break;
         }
@@ -351,8 +349,7 @@ export class Vote {
         finalCaption = TAPi18n.__(`retrieve-${dictionary}-warning`).replace('<quantity>', votes.toString()).replace('<retrieve>', Math.abs(newVotes).toString());
       }
       vote = () => {
-        let tx;
-        tx = transact(
+        const tx = transact(
           this.targetId,
           this.userId,
           parseInt(Math.abs(newVotes), 10),
@@ -374,8 +371,7 @@ export class Vote {
         voteQuantity = parseInt(this.allocateQuantity, 10);
       }
       vote = () => {
-        let tx;
-        tx = transact(
+        const tx = transact(
           this.userId,
           this.targetId,
           voteQuantity,
@@ -390,8 +386,7 @@ export class Vote {
 
       finalCaption = TAPi18n.__(`place-more-${dictionary}-warning`).replace('<quantity>', votes.toString()).replace('<add>', newVotes);
       vote = () => {
-        let tx;
-        tx = transact(
+        const tx = transact(
           this.userId,
           this.targetId,
           parseInt(newVotes, 10),
@@ -421,8 +416,7 @@ export class Vote {
         callback
       );
     } else {
-      let v;
-      v = vote();
+      const v = vote();
       if (v) {
         if (callback) { callback(); }
       }

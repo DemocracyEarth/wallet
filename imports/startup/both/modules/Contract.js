@@ -122,6 +122,7 @@ const _newDelegation = (delegatorId, delegateId, votes, settings) => {
     // adds random if coincidence among people with similar names happened
     finalTitle = settings.title + shortUUID();
   }
+
   const newDelegation =
     {
       keyword: finalTitle,
@@ -298,7 +299,6 @@ export const signContract = _sign;
 export const removeSignature = _removeSignature;
 export const publishContract = _publish;
 export const removeContract = _remove;
-export const startMembership = _newMembership;
 export const createDelegation = _newDelegation;
 export const sendDelegationVotes = _sendDelegation;
 export const createContract = _newDraft;

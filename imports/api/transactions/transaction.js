@@ -157,22 +157,6 @@ const _updateWallet = (entityId, entityType, profileSettings) => {
 };
 
 /**
-* @summary assigns value of ballot to transaction Participants
-* @param {object} ballot - object with ballot info
-* @param {object} ledger - ledger to attach ballot to
-*/
-const assignBallot = (ledger, ballot) => {
-  const fullBallot = [];
-  const last = ledger.length - 1;
-  const finalLedger = ledger;
-  for (const k in ballot) {
-    fullBallot.push(ballot[k]);
-  }
-  finalLedger[last] = Object.assign(ledger[last], { ballot: fullBallot });
-  return finalLedger;
-};
-
-/**
 * @summary returns how many tokens where previously transacted
 * @param {object} wallet - wallet ledger to be analyzed
 * @param {string} creditorId - creditor to whom verify from

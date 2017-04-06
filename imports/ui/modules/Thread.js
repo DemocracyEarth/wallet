@@ -3,6 +3,7 @@ import { Session } from 'meteor/session';
 
 import { Vote } from '/imports/ui/modules/Vote';
 import { getDelegationContract } from '/imports/startup/both/modules/Contract';
+import { transact } from '/imports/api/transactions/transaction';
 
 import { guidGenerator } from '../../startup/both/modules/crypto';
 import { Contracts } from '../../api/contracts/Contracts';
@@ -138,24 +139,30 @@ const _voteComment = (contractId, threadId, vote, removal) => {
 const _singleVote = (sourceId, targetId, contractId, threadId, negative, undo) => {
   let quantity;
   let vote;
+  let execute;
+  const settings = {
+    condition: {
+      transferable: true,
+      portable: true,
+      tags: [],
+    },
+    currency: 'VOTES',
+    kind: 'DELEGATION',
+  };
   if (!undo) {
     vote = new Vote(Meteor.user().profile.wallet, targetId);
+    if (negative) { quantity = -1; } else { quantity = 1; }
+    vote.place(parseInt(vote.inBallot + quantity, 10), true);
+    execute = vote.execute();
   } else {
     const delegation = getDelegationContract(sourceId, targetId);
-    vote = new Vote(delegation.wallet, targetId, undefined, sourceId);
+    settings.contractId = delegation._id;
+    execute = transact(delegation._id, targetId, 1, settings);
   }
-  console.log(vote);
-
-  if (negative) { quantity = -1; } else { quantity = 1; }
-  vote.place(parseInt(vote.inBallot + quantity, 10), true);
-  const execute = vote.execute();
-  console.log(execute);
   if (execute) {
     if (!undo) {
-      console.log('not undo');
       _voteComment(contractId, threadId, quantity);
     } else {
-      console.log('undo')
       _voteComment(contractId, threadId, quantity, true);
     }
   }
