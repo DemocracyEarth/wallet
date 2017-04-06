@@ -173,6 +173,40 @@ const _singleVote = (sourceId, targetId, contractId, threadId, negative, direct,
 };
 
 /**
+* @summary dispatches an upvote or downvote
+* @param {boolean} up if up or down baby
+* @param {object} thread specific thread object to edit on
+* @param {string} contractId where are this votes stored
+*/
+const _thumbVote = (up, thread, contractId) => {
+  if (up) {
+    if (!thread.userUpvoted && !thread.userDownvoted) {
+      // new 1
+      _singleVote(Meteor.userId(), thread.userId, contractId, thread.id, false, false, false);
+    } else if (thread.userUpvoted && !thread.userDownvoted) {
+      // restores 1
+      _singleVote(thread.userId, Meteor.userId(), contractId, thread.id, false, true, true);
+    } else if (!thread.userUpvoted && thread.userDownvoted) {
+      // restores -1 & new 1
+      _singleVote(Meteor.settings.public.Collective._id, thread.userId, contractId, thread.id, true, true, true);
+      _singleVote(Meteor.userId(), thread.userId, contractId, thread.id, false, false, false);
+    }
+  } else if (!up) {
+    if (!thread.userDownvoted && thread.userUpvoted) {
+      // restores 1 & new -1
+      _singleVote(thread.userId, Meteor.userId(), contractId, thread.id, false, true, true);
+      _singleVote(thread.userId, Meteor.settings.public.Collective._id, contractId, thread.id, true, true, false);
+    } else if (!thread.userDownvoted && !thread.userUpvoted) {
+      // new -1
+      _singleVote(thread.userId, Meteor.settings.public.Collective._id, contractId, thread.id, true, true, false);
+    } else if (thread.userDownvoted && !thread.userUpvoted) {
+      // restores -1
+      _singleVote(Meteor.settings.public.Collective._id, thread.userId, contractId, thread.id, true, true, true);
+    }
+  }
+};
+
+/**
 * @summary cancels upvote/downvote to comment
 * @param {string} contractId - contract where this comment goes.
 * @param {string} threadId - exact comment that is being up/down voted
@@ -184,5 +218,6 @@ const _cancelVote = (contractId, threadId, vote) => {
 
 export const singleVote = _singleVote;
 export const cancelVote = _cancelVote;
+export const thumbVote = _thumbVote;
 export const voteComment = _voteComment;
 export const postComment = _postComment;

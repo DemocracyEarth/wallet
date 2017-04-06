@@ -4,7 +4,7 @@ import { Session } from 'meteor/session';
 import { Router } from 'meteor/iron:router';
 import { TAPi18n } from 'meteor/tap:i18n';
 
-import { singleVote, cancelVote } from '/imports/ui/modules/Thread';
+import { thumbVote } from '/imports/ui/modules/Thread';
 import { timeSince } from '/imports/ui/modules/chronos';
 import { textFormat } from '/imports/ui/modules/utils';
 
@@ -137,33 +137,13 @@ Template.thread.events({
   'click #upvote'(event) {
     event.stopPropagation();
     if (!_cantVote(this)) {
-      if (!this.userUpvoted && !this.userDownvoted) {
-        // new 1
-        singleVote(Meteor.userId(), this.userId, Session.get('contract')._id, this.id, false, false, false);
-      } else if (this.userUpvoted && !this.userDownvoted) {
-        // restores 1
-        singleVote(this.userId, Meteor.userId(), Session.get('contract')._id, this.id, false, true, true);
-      } else if (!this.userUpvoted && this.userDownvoted) {
-        // restores -1 & new 1
-        singleVote(Meteor.settings.public.Collective._id, this.userId, Session.get('contract')._id, this.id, true, true, true);
-        singleVote(Meteor.userId(), this.userId, Session.get('contract')._id, this.id, false, false, false);
-      }
+      thumbVote(true, this, Session.get('contract')._id);
     }
   },
   'click #downvote'(event) {
     event.stopPropagation();
     if (!_cantVote(this)) {
-      if (!this.userDownvoted && this.userUpvoted) {
-        // restores 1 & new -1
-        singleVote(this.userId, Meteor.userId(), Session.get('contract')._id, this.id, false, true, true);
-        singleVote(this.userId, Meteor.settings.public.Collective._id, Session.get('contract')._id, this.id, true, true, false);
-      } else if (!this.userDownvoted && !this.userUpvoted) {
-        // new -1
-        singleVote(this.userId, Meteor.settings.public.Collective._id, Session.get('contract')._id, this.id, true, true, false);
-      } else if (this.userDownvoted && !this.userUpvoted) {
-        // restores -1
-        singleVote(Meteor.settings.public.Collective._id, this.userId, Session.get('contract')._id, this.id, true, true, true);
-      }
+      thumbVote(false, this, Session.get('contract')._id);
     }
   },
 });
