@@ -3,7 +3,7 @@ import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 
-import { getDelegationContract, delegate } from '/imports/startup/both/modules/Contract';
+import { getDelegationContract, createDelegation } from '/imports/startup/both/modules/Contract';
 import { animationSettings } from '/imports/ui/modules/animation';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { convertToSlug } from '/lib/utils';
@@ -88,8 +88,9 @@ export class Vote {
   * @param {object} wallet - wallet object that can be set from a user's profile.
   * @param {string} targetId - contract being voted
   * @param {string} sessionId - how this wallet will be identified in session
+  * @param {string} sourceId - if a vote does not come from user but from a different source.
   */
-  constructor(wallet, targetId, sessionId) {
+  constructor(wallet, targetId, sessionId, sourceId) {
     // properties
     if (wallet === undefined) {
       this.address = [];
@@ -102,23 +103,32 @@ export class Vote {
       Object.assign(this, wallet);
     }
 
+    if (sourceId !== undefined) {
+      this.userId = sourceId;
+      this.arrow = 'INPUT';
+    } else {
+      this.userId = Meteor.userId();
+      this.arrow = 'OUTPUT';
+    }
+
     // defined
     this.initialized = true;
     this.enabled = true;
     this.mode = 'PENDING';
     this.voteType = _getVoteType(targetId);
     this.targetId = targetId;
-    if (this.voteType === 'DELEGATION' && (Meteor.userId() !== targetId)) {
-      const delegationContract = getDelegationContract(Meteor.userId(), targetId);
-      if (delegationContract) {
-        this.targetId = delegationContract._id;
-      }
+    this.sourceId = sourceId;
+    if (this.voteType === 'DELEGATION' && (this.userId !== targetId)) {
+      this.delegationContract = getDelegationContract(this.userId, this.targetId);
+      this.inBallot = getVotes(this.delegationContract._id, this.userId);
+    } else {
+      this.inBallot = getVotes(this.targetId, this.userId);
     }
     this.originalTargetId = targetId;
-    this.inBallot = getVotes(this.targetId, Meteor.userId());
+
 
     // view
-    if (sessionId) {
+    if (sessionId && !sourceId) {
       // controller
       this.voteId = `${sessionId}`;
 
@@ -197,20 +207,29 @@ export class Vote {
 
   /**
   * @summary returns the type of object (contract or user) based on wallet info
+  * @param {string} contractId
   * @return {object} contract
   */
-  _getTargetObject() {
+  _getContract(contractId) {
     let contract;
     switch (this.voteType) {
       case 'DELEGATION':
-        contract = Contracts.findOne({ _id: this.targetId });
+        contract = Contracts.findOne({ _id: contractId });
         if (!contract) {
-          return Meteor.users.findOne({ _id: this.targetId });
+          return Meteor.users.findOne({ _id: contractId });
         }
         return contract;
       case 'VOTE':
       default:
-        return Contracts.findOne({ _id: this.targetId });
+        return Contracts.findOne({ _id: contractId });
+    }
+  }
+
+  _getSigner (signatures) {
+    let signer;
+    for (let i = 0; i < signatures.length; i += 1) {
+      signer = Meteor.users.findOne({ _id: signatures[i]._id });
+      if (signer && signer._id !== this.userId) { return signer._id; }
     }
   }
 
@@ -234,7 +253,8 @@ export class Vote {
     let delegateUser;
     let delegateContractTitle;
     let delegateProfileId;
-    const target = this._getTargetObject();
+    const target = this._getContract(this.targetId);
+    const source = this._getContract(this.userId);
     const votesInBallot = this.inBallot;
     const newVotes = parseInt(this.allocateQuantity - votesInBallot, 10);
     const votes = parseInt(votesInBallot + newVotes, 10);
@@ -242,44 +262,14 @@ export class Vote {
     const close = () => {
       if (this.requireConfirmation) {
         Session.set('dragging', false);
-        const newWallet = new Vote(Meteor.user().profile.wallet, Session.get(this.voteId).targetId, this.voteId);
+        const newWallet = new Vote(Meteor.users.findOne({ _id: this.userId }).profile.wallet, Session.get(this.voteId).targetId, this.voteId);
         Session.set(this.voteId, newWallet);
       }
     };
 
-    // TODO delegation use case, only thought for contracts still.
-
     switch (this.voteType) {
       case 'DELEGATION':
-        if (target.signatures) {
-          for (let i = 0; i < target.signatures.length; i += 1) {
-            delegateUser = Meteor.users.findOne({ _id: target.signatures[i]._id });
-            if (delegateUser && delegateUser._id !== Meteor.userId()) { break; }
-          }
-          delegateContractTitle = target.title;
-        } else {
-          delegateUser = target;
-          delegateContractTitle = `${convertToSlug(Meteor.user().username)}-${convertToSlug(delegateUser.username)}`;
-        }
-        delegateProfileId = delegateUser._id;
-        iconPic = 'images/modal-delegation.png';
-        titleLabel = TAPi18n.__('send-delegation-votes');
-        actionLabel = TAPi18n.__('delegate');
-        boolProfile = true;
-        showBallot = false;
-        dictionary = 'delegations';
-
-        // NOTE: this stuff is legacy, should definitely be reviewed ASAP
         settings = {
-          title: delegateContractTitle,
-          signatures: [
-            {
-              username: Meteor.user().username,
-            },
-            {
-              username: delegateUser.username,
-            },
-          ],
           condition: {
             transferable: true,
             portable: true,
@@ -287,8 +277,40 @@ export class Vote {
           },
           currency: 'VOTES',
           kind: 'DELEGATION',
-          contractId: this.targetId,
         };
+
+        if (this.delegationContract) {
+          // there was a delegation already
+          delegateProfileId = this._getSigner(this.delegationContract.signatures);
+          settings.title = this.delegationContract.title;
+          settings.signatures = this.delegationContract.signatures;
+          settings.contractId = this.delegationContract._id;
+        } else {
+          // no delegation
+          delegateProfileId = this.targetId;
+          settings.title = `${convertToSlug(Meteor.users.findOne({ _id: this.userId }).username)}-${convertToSlug(Meteor.users.findOne({ _id: this.targetId }).username)}`;
+          settings.signature = [{ username: Meteor.users.findOne({ _id: this.userId }).username, }, { username: Meteor.users.findOne({ _id: this.targetId }).username, }];
+          this.delegationContract = createDelegation(this.userId, this.targetId, 0, settings, close);
+          settings.contractId = this.delegationContract._id;
+        }
+
+        switch(this.arrow) {
+          case 'INPUT':
+            this.targetId = this.userId;
+            this.userId = this.delegationContract._id;
+            break;
+          case 'OUTPUT':
+            this.targetId = this.delegationContract._id;
+            break;
+        }
+
+        iconPic = 'images/modal-delegation.png';
+        titleLabel = TAPi18n.__('send-delegation-votes');
+        actionLabel = TAPi18n.__('delegate');
+        boolProfile = true;
+        showBallot = false;
+        dictionary = 'delegations';
+
         break;
       case 'VOTE':
       default:
@@ -320,6 +342,7 @@ export class Vote {
 
     if (newVotes < 0 || votes === 0 || removal === true) {
       // subtract votes
+
       if (votes === 0) {
         finalCaption = TAPi18n.__(`retrieve-all-${dictionary}`);
         showBallot = false;
@@ -331,7 +354,7 @@ export class Vote {
         let tx;
         tx = transact(
           this.targetId,
-          Meteor.user()._id,
+          this.userId,
           parseInt(Math.abs(newVotes), 10),
           settings,
           close
@@ -341,6 +364,7 @@ export class Vote {
       };
     } else if ((votesInBallot === 0) || (newVotes === 0)) {
       // insert votes
+
       let voteQuantity;
       if (newVotes === 0) {
         finalCaption = TAPi18n.__('place-votes-change-ballot').replace('<quantity>', this.allocateQuantity);
@@ -351,36 +375,24 @@ export class Vote {
       }
       vote = () => {
         let tx;
-        switch (this.voteType) {
-          case 'DELEGATION':
-            tx = delegate(
-              Meteor.userId(),
-              delegateUser._id,
-              voteQuantity,
-              settings,
-              close
-            );
-            break;
-          case 'VOTE':
-          default:
-            tx = transact(
-              Meteor.user()._id,
-              this.targetId,
-              voteQuantity,
-              settings,
-              close
-            );
-        }
+        tx = transact(
+          this.userId,
+          this.targetId,
+          voteQuantity,
+          settings,
+          close
+        );
         if (tx) { _updateState(); }
         return tx;
       };
     } else if (newVotes > 0) {
       // add votes
+
       finalCaption = TAPi18n.__(`place-more-${dictionary}-warning`).replace('<quantity>', votes.toString()).replace('<add>', newVotes);
       vote = () => {
         let tx;
         tx = transact(
-          Meteor.user()._id,
+          this.userId,
           this.targetId,
           parseInt(newVotes, 10),
           settings,

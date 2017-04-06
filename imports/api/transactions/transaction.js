@@ -286,6 +286,11 @@ const _createTransaction = (senderId, receiverId, votes, settings, callback) => 
     finalSettings = Object.assign(defaultSettings, settings);
   }
 
+  if (senderId === receiverId) {
+    _transactionMessage('INVALID');
+    return null;
+  }
+
   // sync time with server
   Meteor.call('getServerTime', function (error, result) {
     Session.set('time', result);

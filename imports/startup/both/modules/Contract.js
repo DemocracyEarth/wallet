@@ -39,7 +39,7 @@ const _newDraft = (newkeyword, newtitle) => {
 * @param {string} delegateId - identity that will get a request to approve
 */
 const _getDelegationContract = (delegatorId, delegateId) => {
-  const delegationContract = Contracts.findOne({ 'signatures.0._id': delegatorId, 'signatures.1._id': delegateId });
+  const delegationContract = Contracts.findOne({ 'signatures.0._id': delegatorId, 'signatures.1._id': delegateId }) || Contracts.findOne({ 'signatures.0._id': delegateId, 'signatures.1._id': delegatorId });
   if (delegationContract !== undefined) {
     return delegationContract;
   }
@@ -110,84 +110,42 @@ const _sendDelegation = (sourceId, targetId, quantity, conditions, newStatus) =>
 * @param {function} callback - once everything's done, what is left to do?
 * @param {boolean} instantaneous - if its a fast, instantaneous delegation
 */
-const _newDelegation = (delegatorId, delegateId, votes, settings, callback) => {
+const _newDelegation = (delegatorId, delegateId, votes, settings) => {
   let finalTitle;
-  if (delegatorId === delegateId) {
-    transactionMessage('INVALID');
-    return null;
-  }
-  let delegationContract = _getDelegationContract(delegatorId, delegateId);
+  if (_getDelegationContract(delegatorId, delegateId)) { return false };
 
   // creates new delegation contract
-  if (!delegationContract) {
-    if (!Contracts.findOne({ keyword: settings.title })) {
-      // uses given title
-      finalTitle = settings.title;
-    } else {
-      // adds random if coincidence among people with similar names happened
-      finalTitle = settings.title + shortUUID();
-    }
-    const newDelegation =
-      {
-        keyword: finalTitle,
-        title: TAPi18n.__('delegation-voting-rights'),
-        kind: 'DELEGATION',
-        description: TAPi18n.__('default-delegation-contract'),
-        signatures: [
-          {
-            _id: delegatorId,
-            username: settings.signatures[0].username,
-            role: 'DELEGATOR',
-            status: 'CONFIRMED',
-          },
-          {
-            _id: delegateId,
-            username: settings.signatures[1].username,
-            role: 'DELEGATE',
-            status: 'CONFIRMED',
-          },
-        ],
-      };
-
-    const newContract = Contracts.insert(newDelegation);
-    delegationContract = Contracts.findOne({ _id: newContract });
+  if (!Contracts.findOne({ keyword: settings.title })) {
+    // uses given title
+    finalTitle = settings.title;
+  } else {
+    // adds random if coincidence among people with similar names happened
+    finalTitle = settings.title + shortUUID();
   }
+  const newDelegation =
+    {
+      keyword: finalTitle,
+      title: TAPi18n.__('delegation-voting-rights'),
+      kind: 'DELEGATION',
+      description: TAPi18n.__('default-delegation-contract'),
+      signatures: [
+        {
+          _id: delegatorId,
+          username: settings.signatures[0].username,
+          role: 'DELEGATOR',
+          status: 'CONFIRMED',
+        },
+        {
+          _id: delegateId,
+          username: settings.signatures[1].username,
+          role: 'DELEGATE',
+          status: 'CONFIRMED',
+        },
+      ],
+    };
 
-  // execute the delegation
-  transact(
-    delegatorId,
-    delegationContract._id,
-    votes,
-    settings,
-    callback
-  );
-};
-
-/**
-* @summary signals political preference of user regarding issue proposed in contract
-* @param {string} userId - identity assigning the tokens (usually currentUser)
-* @param {string} contractId - identity that will get a request to approve
-* @param {number} quantity - amount of votes being used
-* @param {object} ballot - specified conditions for this delegation
-
-const _vote = (userId, contractId, quantity, ballot) => {
-  /* Meteor.call('vote', userId, contractId, quantity, ballot, function (err, result) {
-    if (err) {
-      throw new Meteor.Error(err, '[_vote]: vote failed.');
-    }
-  });*/
-/*
-  console.log(`[vote]${userId} on contract: ${contractId} with quantity: ${quantity}`);
-  transact(userId, contractId, quantity, ballot);
-};
-*/
-
-/**
-* membership contract between user and collective
-* @param {string} userId - member requesting membership to collective
-* @param {string} collectiveId - collective being requested
-*/
-const _newMembership = (userId, collectiveId) => {
+  const newContract = Contracts.insert(newDelegation);
+  return Contracts.findOne({ _id: newContract });
 };
 
 /**
@@ -341,7 +299,7 @@ export const removeSignature = _removeSignature;
 export const publishContract = _publish;
 export const removeContract = _remove;
 export const startMembership = _newMembership;
-export const delegate = _newDelegation;
+export const createDelegation = _newDelegation;
 export const sendDelegationVotes = _sendDelegation;
 export const createContract = _newDraft;
 export const getDelegationContract = _getDelegationContract;

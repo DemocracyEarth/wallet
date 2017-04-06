@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
 import { Vote } from '/imports/ui/modules/Vote';
+import { getDelegationContract } from '/imports/startup/both/modules/Contract';
 
 import { guidGenerator } from '../../startup/both/modules/crypto';
 import { Contracts } from '../../api/contracts/Contracts';
@@ -10,7 +11,7 @@ let node = '';
 let currentParent = '';
 
 /**
-/* @summary - helper function to resolve path on searchTree
+* @summary - helper function to resolve path on searchTree
 */
 const resolvePath = (uri) => {
   let path = [];
@@ -21,13 +22,13 @@ const resolvePath = (uri) => {
 };
 
 /**
-/* @summary - searches the thread tree to locate the node that's being modified
-/* @param {object} element - object from `events` array
-/* @param {string} matchingTitle - title or id of element in subject
-/* @param {string} iterator
-/* @param {boolean} isRoot - indicates first parent or not
-/* @param {string} inheritedPath - indicates correct path for recurssion
-/* @param {string} target - what is being searched, '.children' (for postComment), '.sortTotal' (for voteComment)
+* @summary - searches the thread tree to locate the node that's being modified
+* @param {object} element - object from `events` array
+* @param {string} matchingTitle - title or id of element in subject
+* @param {string} iterator
+* @param {boolean} isRoot - indicates first parent or not
+* @param {string} inheritedPath - indicates correct path for recurssion
+* @param {string} target - what is being searched, '.children' (for postComment), '.sortTotal' (for voteComment)
 */
 const searchTree = (element, matchingTitle, iterator, isRoot, inheritedPath, target) => {
   let parentStr;
@@ -59,10 +60,10 @@ const searchTree = (element, matchingTitle, iterator, isRoot, inheritedPath, tar
 };
 
 /**
-/* @summary posts a comment on a thread
-/* @param {string} contractId - contract where this comment goes.
-/* @param {object} eventObject - object containing the event info
-/* @param {string} replyId - if reply to another comment, id of such comment.
+* @summary posts a comment on a thread
+* @param {string} contractId - contract where this comment goes.
+* @param {object} eventObject - object containing the event info
+* @param {string} replyId - if reply to another comment, id of such comment.
 */
 const _postComment = (contractId, eventObj, replyId) => {
   let thread = [];
@@ -90,11 +91,11 @@ const _postComment = (contractId, eventObj, replyId) => {
 };
 
 /**
-/* @summary - upvotes or downvotes a comment
-/* @param {string} contractId - contract where this comment goes.
-/* @param {string} threadId - exact comment that is being up/down voted
-/* @param {string} vote - indicates where it's an upvote (1) or downvote (-1)
-/* @param {boolean} removal - removes the vote rather than adding one
+* @summary - upvotes or downvotes a comment
+* @param {string} contractId - contract where this comment goes.
+* @param {string} threadId - exact comment that is being up/down voted
+* @param {string} vote - indicates where it's an upvote (1) or downvote (-1)
+* @param {boolean} removal - removes the vote rather than adding one
 */
 const _voteComment = (contractId, threadId, vote, removal) => {
   const thread = Contracts.find({ _id: contractId }).fetch()[0].events;
@@ -126,23 +127,51 @@ const _voteComment = (contractId, threadId, vote, removal) => {
 };
 
 /**
-/* @summary instant upvote or downvote
-/* @param {string} wallet - wallet object to process
-/* @param {boolean} userId - user id duh
-/* @param {string} contractId - contract where this comment goes.
-/* @param {string} threadId - exact comment that is being up/down voted
-/* @param {boolean} negative downvote if true.
+* @summary instant upvote or downvote
+* @param {string} wallet - wallet object to process
+* @param {boolean} userId - user id duh
+* @param {string} contractId - contract where this comment goes.
+* @param {string} threadId - exact comment that is being up/down voted
+* @param {boolean} negative downvote if true.
+* @param {boolean} undo remove a vote if true.
 */
-const _singleVote = (wallet, userId, contractId, threadId, negative) => {
+const _singleVote = (sourceId, targetId, contractId, threadId, negative, undo) => {
   let quantity;
-  const vote = new Vote(wallet, userId);
+  let vote;
+  if (!undo) {
+    vote = new Vote(Meteor.user().profile.wallet, targetId);
+  } else {
+    const delegation = getDelegationContract(sourceId, targetId);
+    vote = new Vote(delegation.wallet, targetId, undefined, sourceId);
+  }
+  console.log(vote);
+
   if (negative) { quantity = -1; } else { quantity = 1; }
   vote.place(parseInt(vote.inBallot + quantity, 10), true);
-  if (vote.execute()) {
-    _voteComment(contractId, threadId, quantity);
+  const execute = vote.execute();
+  console.log(execute);
+  if (execute) {
+    if (!undo) {
+      console.log('not undo');
+      _voteComment(contractId, threadId, quantity);
+    } else {
+      console.log('undo')
+      _voteComment(contractId, threadId, quantity, true);
+    }
   }
 };
 
+/**
+* @summary cancels upvote/downvote to comment
+* @param {string} contractId - contract where this comment goes.
+* @param {string} threadId - exact comment that is being up/down voted
+* @param {number} vote unit positive or negative
+*/
+const _cancelVote = (contractId, threadId, vote) => {
+  _voteComment(contractId, threadId, vote, true);
+};
+
 export const singleVote = _singleVote;
+export const cancelVote = _cancelVote;
 export const voteComment = _voteComment;
 export const postComment = _postComment;

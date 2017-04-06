@@ -4,7 +4,7 @@ import { Session } from 'meteor/session';
 import { Router } from 'meteor/iron:router';
 import { TAPi18n } from 'meteor/tap:i18n';
 
-import { singleVote } from '/imports/ui/modules/Thread';
+import { singleVote, cancelVote } from '/imports/ui/modules/Thread';
 import { timeSince } from '/imports/ui/modules/chronos';
 import { textFormat } from '/imports/ui/modules/utils';
 
@@ -137,7 +137,13 @@ Template.thread.events({
   'click #upvote'(event) {
     event.stopPropagation();
     if (!_cantVote(this)) {
-      singleVote(Meteor.user().profile.wallet, this.userId, Session.get('contract')._id, this.id);
+      if (!this.userUpvoted) {
+        console.log('first upvote')
+        singleVote(Meteor.userId(), this.userId, Session.get('contract')._id, this.id, false, false);
+      } else {
+        console.log('undo upvote')
+        singleVote(this.userId, Meteor.userId(), Session.get('contract')._id, this.id, false, true);
+      }
     }
   },
   'click #downvote'(event) {
