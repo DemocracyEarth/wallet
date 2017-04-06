@@ -135,11 +135,13 @@ const _voteComment = (contractId, threadId, vote, removal) => {
 * @param {string} threadId - exact comment that is being up/down voted
 * @param {boolean} negative downvote if true.
 * @param {boolean} direct do a transact instead of a Vote.execute
+* @param {boolean} removal if action is to remove a vote
 */
-const _singleVote = (sourceId, targetId, contractId, threadId, negative, direct) => {
+const _singleVote = (sourceId, targetId, contractId, threadId, negative, direct, removal) => {
   // console.log(arguments);
   let quantity;
   let vote;
+  let success = false;
   const settings = {
     condition: {
       transferable: true,
@@ -151,22 +153,23 @@ const _singleVote = (sourceId, targetId, contractId, threadId, negative, direct)
   };
   if (negative) { quantity = -1; settings.kind = 'DISCIPLINE'; } else { quantity = 1; }
   if (!direct) {
+    // vote
     vote = new Vote(Meteor.user().profile.wallet, targetId);
     vote.place(parseInt(vote.inBallot + quantity, 10), true);
-    if (vote.execute()) { _voteComment(contractId, threadId, quantity); }
+    success = vote.execute();
   } else {
     const delegation = getDelegationContract(sourceId, targetId);
     if (delegation) {
+      // transact on existing delegation
       settings.condition = _.pick(Object.assign(settings.condition, delegation), 'transferable', 'portable', 'tags');
-      if (transact(delegation._id, targetId, 1, settings)) {
-        console.log('hace removal');
-        _voteComment(contractId, threadId, quantity, true);
-      }
+      success = transact(delegation._id, targetId, quantity, settings);
     } else {
-      console.log('hace esto?');
-      if (transact(sourceId, targetId, quantity, settings)) { _voteComment(contractId, threadId, quantity); }
+      // transact
+      success = transact(sourceId, targetId, quantity, settings);
     }
   }
+  // persist in thread
+  if (success) { _voteComment(contractId, threadId, quantity, removal); }
 };
 
 /**

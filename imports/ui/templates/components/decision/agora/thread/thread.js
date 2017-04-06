@@ -137,10 +137,16 @@ Template.thread.events({
   'click #upvote'(event) {
     event.stopPropagation();
     if (!_cantVote(this)) {
-      if (!this.userUpvoted) {
-        singleVote(Meteor.userId(), this.userId, Session.get('contract')._id, this.id, false, false);
-      } else {
-        singleVote(this.userId, Meteor.userId(), Session.get('contract')._id, this.id, false, true);
+      if (!this.userUpvoted && !this.userDownvoted) {
+        // new 1
+        singleVote(Meteor.userId(), this.userId, Session.get('contract')._id, this.id, false, false, false);
+      } else if (this.userUpvoted && !this.userDownvoted) {
+        // restores 1
+        singleVote(this.userId, Meteor.userId(), Session.get('contract')._id, this.id, false, true, true);
+      } else if (!this.userUpvoted && this.userDownvoted) {
+        // restores -1 & new 1
+        singleVote(Meteor.settings.public.Collective._id, this.userId, Session.get('contract')._id, this.id, true, true, true);
+        singleVote(Meteor.userId(), this.userId, Session.get('contract')._id, this.id, false, false, false);
       }
     }
   },
@@ -148,15 +154,15 @@ Template.thread.events({
     event.stopPropagation();
     if (!_cantVote(this)) {
       if (!this.userDownvoted && this.userUpvoted) {
-        singleVote(this.userId, Meteor.userId(), Session.get('contract')._id, this.id, false, true);
-        singleVote(this.userId, Meteor.settings.public.Collective._id, Session.get('contract')._id, this.id, true, true);
-        console.log('saca upvote y manda voto -1');
+        // restores 1 & new -1
+        singleVote(this.userId, Meteor.userId(), Session.get('contract')._id, this.id, false, true, true);
+        singleVote(this.userId, Meteor.settings.public.Collective._id, Session.get('contract')._id, this.id, true, true, false);
       } else if (!this.userDownvoted && !this.userUpvoted) {
-        console.log('voto -1');
+        // new -1
+        singleVote(this.userId, Meteor.settings.public.Collective._id, Session.get('contract')._id, this.id, true, true, false);
       } else if (this.userDownvoted && !this.userUpvoted) {
-        console.log('restaura voto -1');
-      } else if (this.userDownvoted && this.userUpvoted) {
-        console.log('no deberia existir');
+        // restores -1
+        singleVote(Meteor.settings.public.Collective._id, this.userId, Session.get('contract')._id, this.id, true, true, true);
       }
     }
   },
