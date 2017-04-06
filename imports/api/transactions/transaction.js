@@ -254,7 +254,7 @@ const _processTransaction = (ticket) => {
 * @param {string} process - true if everything turned out right, else: INSUFFICIENT
 * @param {function} callback - once everything's done, what is left to do?
 */
-const _createTransaction = (senderId, receiverId, votes, settings, callback) => {
+const _transact = (senderId, receiverId, votes, settings, callback) => {
   // default settings
   let defaultSettings = {};
   let finalSettings = {};
@@ -325,6 +325,7 @@ const _genesisTransaction = (userId) => {
   const user = Meteor.users.findOne({ _id: userId });
 
   // veryfing genesis...
+  // TODO this is not right, should check against Transactions collection.
   if (user.profile.wallet !== undefined) {
     if (user.profile.wallet.ledger.length > 0) {
       if (user.profile.wallet.ledger[0].entityType === 'COLLECTIVE') {
@@ -337,7 +338,7 @@ const _genesisTransaction = (userId) => {
   // generate first transaction from collective to new member
   user.profile.wallet = _generateWalletAddress(user.profile.wallet);
   Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
-  _createTransaction(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY);
+  _transact(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY);
 };
 
 /**
@@ -392,5 +393,5 @@ export const generateWalletAddress = _generateWalletAddress;
 export const getTransactions = _getTransactions;
 export const transactionMessage = _transactionMessage;
 export const getVotes = _getVotes;
-export const transact = _createTransaction;
+export const transact = _transact;
 export const genesisTransaction = _genesisTransaction;

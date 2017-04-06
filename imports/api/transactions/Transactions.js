@@ -58,7 +58,7 @@ Schema.Transaction = new SimpleSchema({
   },
   kind: {
     type: String,
-    allowedValues: ['VOTE', 'DELEGATION', 'MEMBERSHIP', 'UNKNOWN'],
+    allowedValues: ['VOTE', 'DELEGATION', 'MEMBERSHIP', 'DISCIPLINE', 'UNKNOWN'],
     optional: true,
     autoValue() {
       if (this.isInsert) {

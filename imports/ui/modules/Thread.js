@@ -134,12 +134,12 @@ const _voteComment = (contractId, threadId, vote, removal) => {
 * @param {string} contractId - contract where this comment goes.
 * @param {string} threadId - exact comment that is being up/down voted
 * @param {boolean} negative downvote if true.
-* @param {boolean} undo remove a vote if true.
+* @param {boolean} direct do a transact instead of a Vote.execute
 */
-const _singleVote = (sourceId, targetId, contractId, threadId, negative, undo) => {
+const _singleVote = (sourceId, targetId, contractId, threadId, negative, direct) => {
+  // console.log(arguments);
   let quantity;
   let vote;
-  let execute;
   const settings = {
     condition: {
       transferable: true,
@@ -149,21 +149,22 @@ const _singleVote = (sourceId, targetId, contractId, threadId, negative, undo) =
     currency: 'VOTES',
     kind: 'DELEGATION',
   };
-  if (!undo) {
+  if (negative) { quantity = -1; settings.kind = 'DISCIPLINE'; } else { quantity = 1; }
+  if (!direct) {
     vote = new Vote(Meteor.user().profile.wallet, targetId);
-    if (negative) { quantity = -1; } else { quantity = 1; }
     vote.place(parseInt(vote.inBallot + quantity, 10), true);
-    execute = vote.execute();
+    if (vote.execute()) { _voteComment(contractId, threadId, quantity); }
   } else {
     const delegation = getDelegationContract(sourceId, targetId);
-    settings.contractId = delegation._id;
-    execute = transact(delegation._id, targetId, 1, settings);
-  }
-  if (execute) {
-    if (!undo) {
-      _voteComment(contractId, threadId, quantity);
+    if (delegation) {
+      settings.condition = _.pick(Object.assign(settings.condition, delegation), 'transferable', 'portable', 'tags');
+      if (transact(delegation._id, targetId, 1, settings)) {
+        console.log('hace removal');
+        _voteComment(contractId, threadId, quantity, true);
+      }
     } else {
-      _voteComment(contractId, threadId, quantity, true);
+      console.log('hace esto?');
+      if (transact(sourceId, targetId, quantity, settings)) { _voteComment(contractId, threadId, quantity); }
     }
   }
 };

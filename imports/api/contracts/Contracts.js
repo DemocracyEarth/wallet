@@ -62,7 +62,7 @@ Schema.Contract = new SimpleSchema({
   kind: {
     //Kind of contract
     type: String,
-    allowedValues: ['DRAFT', 'VOTE', 'DELEGATION', 'MEMBERSHIP'],
+    allowedValues: ['DRAFT', 'VOTE', 'DELEGATION', 'MEMBERSHIP', 'DISCIPLINE'],
     autoValue: function () {
       if (this.isInsert) {
         if (this.field('kind').value === undefined) {

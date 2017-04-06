@@ -138,10 +138,8 @@ Template.thread.events({
     event.stopPropagation();
     if (!_cantVote(this)) {
       if (!this.userUpvoted) {
-        console.log('first upvote')
         singleVote(Meteor.userId(), this.userId, Session.get('contract')._id, this.id, false, false);
       } else {
-        console.log('undo upvote')
         singleVote(this.userId, Meteor.userId(), Session.get('contract')._id, this.id, false, true);
       }
     }
@@ -149,7 +147,17 @@ Template.thread.events({
   'click #downvote'(event) {
     event.stopPropagation();
     if (!_cantVote(this)) {
-      singleVote(Meteor.user().profile.wallet, this.userId, Session.get('contract')._id, this.id, true);
+      if (!this.userDownvoted && this.userUpvoted) {
+        singleVote(this.userId, Meteor.userId(), Session.get('contract')._id, this.id, false, true);
+        singleVote(this.userId, Meteor.settings.public.Collective._id, Session.get('contract')._id, this.id, true, true);
+        console.log('saca upvote y manda voto -1');
+      } else if (!this.userDownvoted && !this.userUpvoted) {
+        console.log('voto -1');
+      } else if (this.userDownvoted && !this.userUpvoted) {
+        console.log('restaura voto -1');
+      } else if (this.userDownvoted && this.userUpvoted) {
+        console.log('no deberia existir');
+      }
     }
   },
 });
