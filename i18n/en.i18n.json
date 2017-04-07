@@ -405,7 +405,7 @@
   "sort-button-disabled": "Not enough available votes.",
   "sort-button-voted": "Get vote back.",
   "sort-button-delegate": "Delegate single vote.",
-  "sort-button-punish": "Undelegate single vote.",
+  "sort-button-punish": "Disciplinary vote.",
   "from": "From",
   "to": "To",
   "delegates-to": "Delegates to...",

@@ -137,39 +137,21 @@ const _voteComment = (contractId, threadId, vote, removal) => {
 * @param {boolean} direct do a transact instead of a Vote.execute
 * @param {boolean} removal if action is to remove a vote
 */
-const _singleVote = (sourceId, targetId, contractId, threadId, negative, direct, removal) => {
-  // console.log(arguments);
-  let quantity;
+const _singleVote = (sourceId, targetId, contractId, threadId, quantity, direct, removal, settings) => {
   let vote;
+  let load = quantity;
   let success = false;
-  const settings = {
-    condition: {
-      transferable: true,
-      portable: true,
-      tags: [],
-    },
-    currency: 'VOTES',
-    kind: 'DELEGATION',
-  };
-  if (negative) { quantity = -1; settings.kind = 'DISCIPLINE'; } else { quantity = 1; }
   if (!direct) {
     // vote
     vote = new Vote(Meteor.user().profile.wallet, targetId);
-    vote.place(parseInt(vote.inBallot + quantity, 10), true);
+    vote.place(parseInt(vote.inBallot + load, 10), true);
     success = vote.execute();
+    if (removal) { load *= -1; }
   } else {
-    const delegation = getDelegationContract(sourceId, targetId);
-    if (delegation) {
-      // transact on existing delegation
-      settings.condition = _.pick(Object.assign(settings.condition, delegation), 'transferable', 'portable', 'tags');
-      success = transact(delegation._id, targetId, quantity, settings);
-    } else {
-      // transact
-      success = transact(sourceId, targetId, quantity, settings);
-    }
+    success = transact(sourceId, targetId, load, settings);
   }
   // persist in thread
-  if (success) { _voteComment(contractId, threadId, quantity, removal); }
+  if (success) { _voteComment(contractId, threadId, load, removal); }
 };
 
 /**
@@ -179,29 +161,69 @@ const _singleVote = (sourceId, targetId, contractId, threadId, negative, direct,
 * @param {string} contractId where are this votes stored
 */
 const _thumbVote = (up, thread, contractId) => {
+  let counterParty;
+  let quantity;
+  let hasDelegation = false;
+  const settings = {
+    condition: {
+      transferable: true,
+      portable: true,
+      tags: [],
+    },
+    currency: 'VOTES',
+    kind: 'DELEGATION',
+  };
+  if (!up) { quantity = -1; } else { quantity = 1; }
+
+  const delegation = getDelegationContract(thread.userId, Meteor.userId());
+  if (delegation.wallet.available > 0) {
+    counterParty = delegation._id;
+    hasDelegation = true;
+    settings.condition = _.pick(Object.assign(settings.condition, delegation), 'transferable', 'portable', 'tags');
+  } else {
+    settings.kind = 'DISCIPLINE';
+    counterParty = Meteor.settings.public.Collective._id;
+  }
+
   if (up) {
     if (!thread.userUpvoted && !thread.userDownvoted) {
       // new 1
-      _singleVote(Meteor.userId(), thread.userId, contractId, thread.id, false, false, false);
+      _singleVote(Meteor.userId(), thread.userId, contractId, thread.id, quantity, false, false, settings);
     } else if (thread.userUpvoted && !thread.userDownvoted) {
       // restores 1
-      _singleVote(thread.userId, Meteor.userId(), contractId, thread.id, false, true, true);
+      _singleVote(counterParty, Meteor.userId(), contractId, thread.id, quantity, true, true, settings);
     } else if (!thread.userUpvoted && thread.userDownvoted) {
       // restores -1 & new 1
-      _singleVote(Meteor.settings.public.Collective._id, thread.userId, contractId, thread.id, true, true, true);
-      _singleVote(Meteor.userId(), thread.userId, contractId, thread.id, false, false, false);
+      if (hasDelegation) {
+        _singleVote(Meteor.userId(), thread.userId, contractId, thread.id, 1, false, true, settings);
+      } else {
+        _singleVote(counterParty, thread.userId, contractId, thread.id, quantity, true, true, settings);
+      }
+      _singleVote(Meteor.userId(), thread.userId, contractId, thread.id, quantity, false, false, settings);
     }
   } else if (!up) {
     if (!thread.userDownvoted && thread.userUpvoted) {
       // restores 1 & new -1
-      _singleVote(thread.userId, Meteor.userId(), contractId, thread.id, false, true, true);
-      _singleVote(thread.userId, Meteor.settings.public.Collective._id, contractId, thread.id, true, true, false);
+      if (hasDelegation) {
+        _singleVote(counterParty, Meteor.userId(), contractId, thread.id, 1, true, true, settings);
+        _singleVote(Meteor.userId(), thread.userId, contractId, thread.id, quantity, false, false, settings);
+      } else {
+        _singleVote(thread.userId, counterParty, contractId, thread.id, quantity, true, false, settings);
+      }
     } else if (!thread.userDownvoted && !thread.userUpvoted) {
       // new -1
-      _singleVote(thread.userId, Meteor.settings.public.Collective._id, contractId, thread.id, true, true, false);
+      if (hasDelegation) {
+        _singleVote(Meteor.userId(), thread.userId, contractId, thread.id, quantity, false, false, settings);
+      } else {
+        _singleVote(thread.userId, counterParty, contractId, thread.id, quantity, true, false, settings);
+      }
     } else if (thread.userDownvoted && !thread.userUpvoted) {
       // restores -1
-      _singleVote(Meteor.settings.public.Collective._id, thread.userId, contractId, thread.id, true, true, true);
+      if (hasDelegation) {
+        _singleVote(Meteor.userId(), thread.userId, contractId, thread.id, 1, false, true, settings);
+      } else {
+        _singleVote(counterParty, thread.userId, contractId, thread.id, quantity, true, true, settings);
+      }
     }
   }
 };
