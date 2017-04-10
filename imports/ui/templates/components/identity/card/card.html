@@ -1,6 +1,6 @@
 <template name="card">
   <div class="login">
-    <div class="w-form">
+    
       {{> avatar profile=this includeName=true includeNation=true editable=false disabled=true includeRole=false}}
       {{#if currentUser}}
         {{#unless myself}}
@@ -15,6 +15,6 @@
           <!-- {{> authenticity}} -->
         {{/unless}}
       {{/if}}
-    </div>
+
   </div>
 </template>

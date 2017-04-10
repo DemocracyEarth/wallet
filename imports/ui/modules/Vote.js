@@ -18,6 +18,7 @@ import { transact, getVotes } from '/imports/api/transactions/transaction';
 * @return {string} type VOTE, DELEGATION, UNKNOWN
 */
 const _getVoteType = (targetId) => {
+  if (targetId === Meteor.userId()) { return 'BALANCE'; }
   const contract = Contracts.findOne({ _id: targetId });
   if (contract) {
     return contract.kind;
@@ -121,6 +122,8 @@ export class Vote {
     if (this.voteType === 'DELEGATION' && (this.userId !== targetId)) {
       this.delegationContract = getDelegationContract(this.userId, this.targetId);
       this.inBallot = getVotes(this.delegationContract._id, this.userId);
+    } else if (this.voteType === 'BALANCE') {
+      this.inBallot = this.available;
     } else {
       this.inBallot = getVotes(this.targetId, this.userId);
     }
@@ -138,7 +141,7 @@ export class Vote {
       this._maxWidth = parseInt(($(`#voteBar-${this.voteId}`).width() - (($(`#voteBar-${this.voteId}`).width() * parseInt(((this.placed - this.inBallot) * 100) / this.balance, 10)) / 100)), 10);
 
       // methods
-      if (this.initialized === true) {
+      if (this.initialized === true && this.voteType !== 'BALANCE') {
         this.resetSlider();
         this.initialized = false;
       }

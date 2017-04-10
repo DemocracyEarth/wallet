@@ -38,6 +38,7 @@ function getBarWidth(value, voteId, editable, interactive) {
       if (value === 0) {
         return '0px';
       } else if (interactive) {
+        console.log('so?');
         return `${parseInt(wallet.sliderWidth, 10)}px`;
       }
       return `${percentageToPixel(percentage, voteId)}px`;
@@ -66,61 +67,67 @@ Template.power.onRendered(function render() {
   $(`#voteBar-${this.data._id}`).resize(function () {
     const voteId = this.id.replace('voteBar-', '');
     $(`#voteSlider-${voteId}`).width(getBarWidth(Session.get(voteId).inBallot, voteId, true));
-    $(`#votePlaced-${voteId}`).width(getBarWidth(parseFloat(Session.get(voteId).placed - Session.get(voteId).inBallot, 10), voteId, true));
+    if (Session.get(voteId).voteType === 'BALANCE') {
+      $(`#votePlaced-${voteId}`).width(getBarWidth(parseFloat(Session.get(voteId).placed, 10), voteId, true));
+    } else {
+      $(`#votePlaced-${voteId}`).width(getBarWidth(parseFloat(Session.get(voteId).placed - Session.get(voteId).inBallot, 10), voteId, true));
+    }
   });
 
-  // drag event
-  $(`#voteHandle-${this.data._id}`).draggable({
-    axis: 'x',
-    create() {
-      const voteId = this.id.replace('voteHandle-', '');
-      this.newVote = new Vote(Session.get(voteId), Session.get(voteId).targetId, voteId);
-      Session.set(voteId, this.newVote);
-    },
-    start(event, ui) {
-      const voteId = ui.helper.context.id.replace('voteHandle-', '');
-      this.newVote = new Vote(Session.get(voteId), Session.get(voteId).targetId, voteId);
-      Session.set(voteId, this.newVote);
-      if (Session.get(voteId) !== undefined) {
-        $(`#voteSlider-${voteId}`).velocity('stop');
-      }
-      if (Session.get('candidateBallot') === undefined) {
-        candidateBallot(Meteor.userId());
-      }
-      Session.set('dragging', voteId);
-    },
-    drag(event, ui) {
-      const voteId = ui.helper.context.id.replace('voteHandle-', '');
-      this.newVote.sliderInput(ui.position.left);
-      Session.set(voteId, this.newVote);
-      ui.position.left = 0;
-    },
-    stop(event, ui) {
-      // executes the vote
-      const voteId = ui.helper.context.id.replace('voteHandle-', '');
-
-      const cancel = () => {
-        if (this.newVote.inBallot === 0 && this.newVote.voteType === 'VOTE') {
-          Session.set('candidateBallot', undefined);
-        }
-        Session.set('dragging', false);
-        this.newVote.resetSlider();
+  if (this.data.editable) {
+    // drag event
+    $(`#voteHandle-${this.data._id}`).draggable({
+      axis: 'x',
+      create() {
+        const voteId = this.id.replace('voteHandle-', '');
+        this.newVote = new Vote(Session.get(voteId), Session.get(voteId).targetId, voteId);
         Session.set(voteId, this.newVote);
-      };
-
-      if ((this.newVote.allocateQuantity === 0 && this.newVote.inBallot === 0) || (this.newVote.voteType === 'VOTE' && purgeBallot(Session.get('candidateBallot')).length === 0)) {
-        cancel();
-        if (this.newVote.voteType === 'VOTE') {
-          Session.set('noSelectedOption', true);
+      },
+      start(event, ui) {
+        const voteId = ui.helper.context.id.replace('voteHandle-', '');
+        this.newVote = new Vote(Session.get(voteId), Session.get(voteId).targetId, voteId);
+        Session.set(voteId, this.newVote);
+        if (Session.get(voteId) !== undefined) {
+          $(`#voteSlider-${voteId}`).velocity('stop');
         }
-      } else if (contractReady(this.newVote) || this.newVote.voteType === 'DELEGATION') {
-        clearPopups();
+        if (Session.get('candidateBallot') === undefined) {
+          candidateBallot(Meteor.userId());
+        }
+        Session.set('dragging', voteId);
+      },
+      drag(event, ui) {
+        const voteId = ui.helper.context.id.replace('voteHandle-', '');
+        this.newVote.sliderInput(ui.position.left);
+        Session.set(voteId, this.newVote);
+        ui.position.left = 0;
+      },
+      stop(event, ui) {
+        // executes the vote
+        const voteId = ui.helper.context.id.replace('voteHandle-', '');
 
-        // democracy wins
-        this.newVote.execute(cancel);
-      }
-    },
-  });
+        const cancel = () => {
+          if (this.newVote.inBallot === 0 && this.newVote.voteType === 'VOTE') {
+            Session.set('candidateBallot', undefined);
+          }
+          Session.set('dragging', false);
+          this.newVote.resetSlider();
+          Session.set(voteId, this.newVote);
+        };
+
+        if ((this.newVote.allocateQuantity === 0 && this.newVote.inBallot === 0) || (this.newVote.voteType === 'VOTE' && purgeBallot(Session.get('candidateBallot')).length === 0)) {
+          cancel();
+          if (this.newVote.voteType === 'VOTE') {
+            Session.set('noSelectedOption', true);
+          }
+        } else if (contractReady(this.newVote) || this.newVote.voteType === 'DELEGATION') {
+          clearPopups();
+
+          // democracy wins
+          this.newVote.execute(cancel);
+        }
+      },
+    });
+  }
 });
 
 Template.power.helpers({
@@ -227,8 +234,8 @@ Template.power.events({
 
 Template.capital.helpers({
   getVotes(value) {
-    const inBallot = Session.get(this._id).inBallot;
     let label;
+    const inBallot = Session.get(this._id).inBallot;
     if (Session.get(this._id) !== undefined) {
       switch (value) {
         case 'available': {
@@ -251,6 +258,8 @@ Template.capital.helpers({
             }
           } else if (inBallot === 0) {
             label = `<strong>${TAPi18n.__('none')}</strong> ${TAPi18n.__('on-this-ballot')}`;
+          } else if (Session.get(this._id).voteType === 'BALANCE') {
+            label = `<strong>${inBallot}</strong> ${TAPi18n.__('available-votes')}`;
           } else {
             label = `<strong>${inBallot}</strong> ${TAPi18n.__('on-this-ballot')}`;
           }
@@ -270,6 +279,8 @@ Template.capital.helpers({
         default:
           if (Meteor.user().profile.wallet.placed === 0) {
             label = `<strong>${TAPi18n.__('none')}</strong>  ${TAPi18n.__('placed-votes')}`;
+          } else if (Session.get(this._id).voteType === 'BALANCE') {
+            label = `<strong>${Meteor.user().profile.wallet.placed}</strong>  ${TAPi18n.__('placed')}`;
           } else {
             label = `<strong>${parseInt(Meteor.user().profile.wallet.placed - inBallot, 10)}</strong>  ${TAPi18n.__('placed-votes')}`;
           }
@@ -328,6 +339,9 @@ Template.bar.helpers({
     return getBarWidth(Session.get(this._id).available, this._id, this.editable, true);
   },
   placed() {
+    if (Session.get(this._id).voteType === 'BALANCE') {
+      return getBarWidth(Session.get(this._id).placed, this._id, true);
+    }
     return getBarWidth(parseFloat(Session.get(this._id).placed - Session.get(this._id).inBallot, 10), this._id, this.editable);
   },
   hundred() {

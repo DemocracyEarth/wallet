@@ -14,7 +14,7 @@
   {{else}}
     <div class="w-clearfix rosca rosca-id {{styleClass}}">
       {{> bar _id=_id editable=editable}}
-      {{> capital _id=_id user=user isDelegation=isDelegation}}
+      {{> capital _id=_id user=user isDelegation=isDelegation editable=editable}}
     </div>
   {{/if}}
 </template>
@@ -64,7 +64,9 @@
 <template name="bar">
   <div id="voteBar-{{_id}}" class="w-clearfix result vote-bar">
     <div id="voteSlider-{{_id}}" class="result-bar vote-bar" style=" width: {{available}} ">
-      <div id="voteHandle-{{_id}}" class="handle"></div>
+      {{#if editable}}
+        <div id="voteHandle-{{_id}}" class="handle"></div>
+       {{/if}}
     </div>
     <div id="votePlaced-{{_id}}" class="result-bar vote-bar vote-bar-allocated"  style=" width: {{placed}} "></div>
   </div>

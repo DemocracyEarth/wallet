@@ -184,6 +184,7 @@
   "mismatch-password": "Passwords do not properly match.",
   "available-votes": "available votes",
   "placed-votes": "placed elsewhere",
+  "placed": "placed votes",
   "see-all": "Review all",
   "delegations": "Delegations",
   "log-out": "Logout",
