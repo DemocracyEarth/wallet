@@ -431,5 +431,6 @@
   "delegated-votes": "Delegated Votes",
   "trust": "Trust",
   "representation": "Representation",
-  "votes-to-delegate": "votes to delegate"
+  "votes-to-delegate": "votes to delegate",
+  "total-votes": "Total Votes"
 }

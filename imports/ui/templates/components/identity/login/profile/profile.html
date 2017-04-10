@@ -6,13 +6,9 @@
       {{> avatar includeName=true includeNation=true editable=true}}
       <div class="w-form">
         <div class="login-label login-label-form">
-          {{_ 'vote-balance'}}
+          {{_ 'total-votes'}}
         </div>
-        <!-- NOTE: display on own avatar
-        {{> power editable=false}}
-        -->
         {{> power _id='vote-user-balance' targetId=currentUser._id wallet=currentUser.profile.wallet isDelegation=false editable=false}}
-
         <!--<div class="login-label login-label-form">
           {{_ 'authenticity'}}
         </div>
