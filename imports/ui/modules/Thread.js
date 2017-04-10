@@ -3,7 +3,7 @@ import { Session } from 'meteor/session';
 
 import { Vote } from '/imports/ui/modules/Vote';
 import { getDelegationContract } from '/imports/startup/both/modules/Contract';
-import { transact } from '/imports/api/transactions/transaction';
+import { transact, getVotes } from '/imports/api/transactions/transaction';
 
 import { guidGenerator } from '../../startup/both/modules/crypto';
 import { Contracts } from '../../api/contracts/Contracts';
@@ -137,7 +137,7 @@ const _voteComment = (contractId, threadId, vote, removal) => {
 * @param {boolean} direct do a transact instead of a Vote.execute
 * @param {boolean} removal if action is to remove a vote
 */
-const _singleVote = (sourceId, targetId, contractId, threadId, quantity, direct, removal, settings) => {
+const _singleVote = (sourceId, targetId, contractId, threadId, quantity, direct, removal, settings, flip) => {
   let vote;
   let load = quantity;
   let success = false;
@@ -146,9 +146,10 @@ const _singleVote = (sourceId, targetId, contractId, threadId, quantity, direct,
     vote = new Vote(Meteor.user().profile.wallet, targetId);
     vote.place(parseInt(vote.inBallot + load, 10), true);
     success = vote.execute();
-    if (removal) { load *= -1; }
+    if (flip) { load *= -1; }
   } else {
     success = transact(sourceId, targetId, load, settings);
+    if (flip) { load *= -1; }
   }
   // persist in thread
   if (success) { _voteComment(contractId, threadId, load, removal); }
@@ -176,7 +177,7 @@ const _thumbVote = (up, thread, contractId) => {
   if (!up) { quantity = -1; } else { quantity = 1; }
 
   const delegation = getDelegationContract(thread.userId, Meteor.userId());
-  if (delegation.wallet.available > 0) {
+  if (getVotes(delegation._id, Meteor.userId()) > 0) {
     counterParty = delegation._id;
     hasDelegation = true;
     settings.condition = _.pick(Object.assign(settings.condition, delegation), 'transferable', 'portable', 'tags');
@@ -185,44 +186,45 @@ const _thumbVote = (up, thread, contractId) => {
     counterParty = Meteor.settings.public.Collective._id;
   }
 
-  if (up) {
-    if (!thread.userUpvoted && !thread.userDownvoted) {
-      // new 1
-      _singleVote(Meteor.userId(), thread.userId, contractId, thread.id, quantity, false, false, settings);
-    } else if (thread.userUpvoted && !thread.userDownvoted) {
-      // restores 1
-      _singleVote(counterParty, Meteor.userId(), contractId, thread.id, quantity, true, true, settings);
-    } else if (!thread.userUpvoted && thread.userDownvoted) {
-      // restores -1 & new 1
-      if (hasDelegation) {
-        _singleVote(Meteor.userId(), thread.userId, contractId, thread.id, 1, false, true, settings);
-      } else {
-        _singleVote(counterParty, thread.userId, contractId, thread.id, quantity, true, true, settings);
-      }
-      _singleVote(Meteor.userId(), thread.userId, contractId, thread.id, quantity, false, false, settings);
-    }
-  } else if (!up) {
-    if (!thread.userDownvoted && thread.userUpvoted) {
-      // restores 1 & new -1
-      if (hasDelegation) {
-        _singleVote(counterParty, Meteor.userId(), contractId, thread.id, 1, true, true, settings);
+  if (Meteor.user().profile.wallet.available > 0) {
+    if (up) {
+      if (!thread.userUpvoted && !thread.userDownvoted) {
+        // new 1
         _singleVote(Meteor.userId(), thread.userId, contractId, thread.id, quantity, false, false, settings);
-      } else {
-        _singleVote(thread.userId, counterParty, contractId, thread.id, quantity, true, false, settings);
+      } else if (thread.userUpvoted && !thread.userDownvoted) {
+        // getback 1
+        _singleVote(counterParty, Meteor.userId(), contractId, thread.id, quantity, true, true, settings);
+      } else if (!thread.userUpvoted && thread.userDownvoted) {
+        // getback -1 & new 1
+        if (hasDelegation) {
+          _singleVote(Meteor.userId(), thread.userId, contractId, thread.id, 1, false, true, settings, true);
+          _singleVote(Meteor.userId(), thread.userId, contractId, thread.id, quantity, false, false, settings);
+        } else {
+          _singleVote(counterParty, thread.userId, contractId, thread.id, quantity, true, true, settings, true);
+          _singleVote(Meteor.userId(), thread.userId, contractId, thread.id, quantity, false, false, settings);
+        }
       }
-    } else if (!thread.userDownvoted && !thread.userUpvoted) {
-      // new -1
-      if (hasDelegation) {
-        _singleVote(Meteor.userId(), thread.userId, contractId, thread.id, quantity, false, false, settings);
-      } else {
-        _singleVote(thread.userId, counterParty, contractId, thread.id, quantity, true, false, settings);
-      }
-    } else if (thread.userDownvoted && !thread.userUpvoted) {
-      // restores -1
-      if (hasDelegation) {
-        _singleVote(Meteor.userId(), thread.userId, contractId, thread.id, 1, false, true, settings);
-      } else {
-        _singleVote(counterParty, thread.userId, contractId, thread.id, quantity, true, true, settings);
+    } else if (!up) {
+      if (!thread.userDownvoted && thread.userUpvoted) {
+        // getback 1 & new -1, can never not have a delegation
+        if (hasDelegation) {
+          _singleVote(counterParty, Meteor.userId(), contractId, thread.id, 1, true, true, settings);
+          _singleVote(Meteor.userId(), thread.userId, contractId, thread.id, quantity, false, false, settings);
+        }
+      } else if (!thread.userDownvoted && !thread.userUpvoted) {
+        // new -1
+        if (hasDelegation) {
+          _singleVote(Meteor.userId(), thread.userId, contractId, thread.id, quantity, false, false, settings);
+        } else {
+          _singleVote(thread.userId, counterParty, contractId, thread.id, quantity, true, false, settings);
+        }
+      } else if (thread.userDownvoted && !thread.userUpvoted) {
+        // getback -1
+        if (hasDelegation) {
+          _singleVote(Meteor.userId(), thread.userId, contractId, thread.id, 1, false, true, settings, true);
+        } else {
+          _singleVote(counterParty, thread.userId, contractId, thread.id, quantity, true, true, settings);
+        }
       }
     }
   }
