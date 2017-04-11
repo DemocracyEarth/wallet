@@ -265,6 +265,14 @@ const _pay = (wallet, mode, transaction, quantity) => {
       _wallet.available = parseInt(_wallet.balance - _wallet.placed, 10);
       _wallet.balance = parseInt(_wallet.placed + _wallet.available, 10);
       break;
+    case 'RETRIEVE':
+      _wallet.available += parseInt(0 - quantity, 10);
+      _wallet.balance = parseInt(_wallet.placed + _wallet.available, 10);
+      break;
+    case 'DELEGATE':
+      _wallet.available += parseInt(quantity, 10);
+      _wallet.balance = parseInt(_wallet.placed + _wallet.available, 10);
+      break;
     case 'OUTPUT':
     default:
       _wallet.available += parseInt(quantity, 10);
@@ -303,14 +311,14 @@ const _processDelegation = (transaction) => {
     // outgoing
     delegate = _getDelegate(transaction.output.entityId, transaction.input.entityId);
     if (delegate) {
-      delegate.profile.wallet = _pay(delegate.profile.wallet, 'OUTPUT', transaction, transaction.output.quantity);
+      delegate.profile.wallet = _pay(delegate.profile.wallet, 'DELEGATE', transaction, transaction.output.quantity);
     }
   } else if (transaction.input.entityType === 'CONTRACT' && transaction.output.entityType === 'INDIVIDUAL') {
     console.log('incoming');
     // incoming
     delegate = _getDelegate(transaction.input.entityId, transaction.output.entityId);
     if (delegate) {
-      delegate.profile.wallet = _pay(delegate.profile.wallet, 'INPUT', transaction, transaction.input.quantity);
+      delegate.profile.wallet = _pay(delegate.profile.wallet, 'RETRIEVE', transaction, transaction.input.quantity);
     }
   }
   if (delegate) {
