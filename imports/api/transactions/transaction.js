@@ -131,7 +131,8 @@ const _getProfile = (transactionSignal) => {
       return Meteor.users.findOne({ _id: transactionSignal.entityId }).profile;
     case 'COLLECTIVE':
       return Collectives.findOne({ _id: transactionSignal.entityId }).profile;
-    default: // 'CONTRACT'
+    case 'CONTRACT':
+    default:
       return Contracts.findOne({ _id: transactionSignal.entityId });
   }
 };
@@ -157,6 +158,53 @@ const _updateWallet = (entityId, entityType, profileSettings) => {
 };
 
 /**
+* @summary gets array with all the transactions of a given user with a contract
+* @param {string} userId - userId to be checked
+* @param {string} contractId - contractId to be checked
+*/
+const _getTransactions = (userId, contractId) => {
+  return _.sortBy(
+    _.union(
+      _.filter(Transactions.find({ 'input.entityId': userId }).fetch(), (item) => { return (item.output.entityId === contractId); }, 0),
+      _.filter(Transactions.find({ 'output.entityId': userId }).fetch(), (item) => { return (item.input.entityId === contractId); }, 0)),
+      'timestamp');
+};
+
+/**
+* @summary basic criteria to count votes on transaction records
+* @param {object} ticket specific ticket containing transaction info
+* @param {string} entityId the entity having votes counterPartyId
+*/
+const _voteCount = (ticket, entityId) => {
+  if (ticket.input.entityId === entityId) {
+    return ticket.input.quantity;
+  } else if (ticket.output.entityId === entityId) {
+    return 0 - ticket.output.quantity;
+  }
+  return 0;
+};
+
+/**
+* @summary gets the quantity of votes a given user has on a ledger
+* @param {object} contractId - contractId to be checked
+* @param {object} userId - userId to be checked
+*/
+const _getVotes = (contractId, userId) => {
+  const transactions = _getTransactions(userId, contractId);
+  if (transactions.length > 1) {
+    return _.reduce(transactions, (memo, num, index) => {
+      if (index === 1) {
+        return _voteCount(memo, userId) + _voteCount(num, userId);
+      }
+      return memo + _voteCount(num, userId);
+    });
+  } else if (transactions.length === 1) {
+    return _voteCount(transactions[0], userId);
+  }
+  return 0;
+};
+
+/**
 * @summary returns how many tokens where previously transacted
 * @param {object} wallet - wallet ledger to be analyzed
 * @param {string} creditorId - creditor to whom verify from
@@ -165,7 +213,7 @@ const _updateWallet = (entityId, entityType, profileSettings) => {
 */
 const _debt = (wallet, creditorId, type) => {
   let totals = 0;
-  let transactions = _getTransactions(wallet, creditorId);
+  const transactions = _getTransactions(wallet, creditorId);
 
   for (const i in transactions) {
     if (transactions[i][type].entityId === creditorId) {
@@ -203,6 +251,31 @@ const _transactionMessage = (code) => {
 };
 
 /**
+* @summary executes incoming or outgoing payment in a wallet
+* @param {object} wallet the wallet being processed
+* @param {string} mode OUTPUT, INPUT, blue outlook and jack to jack.
+* @param {object} transaction containing specific transaction details
+* @param {number} quantity the amount of dough.
+*/
+const _pay = (wallet, mode, transaction, quantity) => {
+  const _wallet = wallet;
+  switch (mode) {
+    case 'INPUT':
+      _wallet.placed += parseInt(quantity, 10);
+      _wallet.available = parseInt(_wallet.balance - _wallet.placed, 10);
+      _wallet.balance = parseInt(_wallet.placed + _wallet.available, 10);
+      break;
+    case 'OUTPUT':
+    default:
+      _wallet.available += parseInt(quantity, 10);
+      _wallet.placed = parseInt(_wallet.placed - _restoredTokens(quantity, _debt(transaction.output.entityId, transaction.input.entityId, 'output')), 10);
+      _wallet.balance = parseInt(_wallet.placed + _wallet.available, 10);
+      break;
+  }
+  return Object.assign(wallet, _wallet);
+};
+
+/**
 * @summary processes de transaction after insert and updates wallet of involved parties
 * @param {string} txId - transaction identificator
 * @param {string} success - INSUFFICIENT,
@@ -225,17 +298,8 @@ const _processTransaction = (ticket) => {
   }
 
   // transact
-  const sender = senderProfile.wallet;
-  sender.placed += parseInt(transaction.input.quantity, 10);
-  sender.available = parseInt(sender.balance - sender.placed, 10);
-  sender.balance = parseInt(sender.placed + sender.available, 10);
-  senderProfile.wallet = Object.assign(senderProfile.wallet, sender);
-
-  const receiver = receiverProfile.wallet;
-  receiver.available += parseInt(transaction.output.quantity, 10);
-  receiver.placed = parseInt(receiver.placed - _restoredTokens(transaction.output.quantity, _debt(transaction.output.entityId, transaction.input.entityId, 'output')), 10);
-  receiver.balance = parseInt(receiver.placed + receiver.available, 10);
-  receiverProfile.wallet = Object.assign(receiverProfile.wallet, receiver);
+  senderProfile.wallet = _pay(senderProfile.wallet, 'INPUT', transaction, transaction.input.quantity);
+  receiverProfile.wallet = _pay(receiverProfile.wallet, 'OUTPUT', transaction, transaction.output.quantity);
 
   // update wallets
   _updateWallet(transaction.input.entityId, transaction.input.entityType, senderProfile);
@@ -339,53 +403,6 @@ const _genesisTransaction = (userId) => {
   user.profile.wallet = _generateWalletAddress(user.profile.wallet);
   Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
   _transact(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY);
-};
-
-/**
-* @summary gets array with all the transactions of a given user with a contract
-* @param {string} userId - userId to be checked
-* @param {string} contractId - contractId to be checked
-*/
-const _getTransactions = (userId, contractId) => {
-  return _.sortBy(
-    _.union(
-      _.filter(Transactions.find({ 'input.entityId': userId }).fetch(), (item) => { return (item.output.entityId === contractId); }, 0),
-      _.filter(Transactions.find({ 'output.entityId': userId }).fetch(), (item) => { return (item.input.entityId === contractId); }, 0)),
-      'timestamp');
-};
-
-/**
-* @summary basic criteria to count votes on transaction records
-* @param {object} ticket specific ticket containing transaction info
-* @param {string} entityId the entity having votes counterPartyId
-*/
-const _voteCount = (ticket, entityId) => {
-  if (ticket.input.entityId === entityId) {
-    return ticket.input.quantity;
-  } else if (ticket.output.entityId === entityId) {
-    return 0 - ticket.output.quantity;
-  }
-  return 0;
-};
-
-/**
-* @summary gets the quantity of votes a given user has on a ledger
-* @param {object} contractId - contractId to be checked
-* @param {object} userId - userId to be checked
-*/
-const _getVotes = (contractId, userId) => {
-  const transactions = _getTransactions(userId, contractId);
-  if (transactions.length > 1) {
-    return _.reduce(transactions, (memo, num, index) => {
-      if (index === 1) {
-        return _voteCount(memo, userId) + _voteCount(num, userId);
-      }
-      return memo + _voteCount(num, userId);
-    });
-  } else if (transactions.length === 1) {
-    return _voteCount(transactions[0], userId);
-  }
-  return 0;
 };
 
 export const processTransaction = _processTransaction;
