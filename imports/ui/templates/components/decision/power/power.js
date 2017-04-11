@@ -343,9 +343,8 @@ Template.bar.helpers({
     }
     return getBarWidth(parseFloat(Session.get(this._id).placed - Session.get(this._id).inBallot, 10), this._id, this.editable);
   },
-  hundred() {
-    const wallet = Meteor.user().profile.wallet;
-    if (wallet.placed === 0) {
+  unanimous() {
+    if (Session.get(this._id).available === Session.get(this._id).balance) {
       return 'result-unanimous';
     }
     return '';
