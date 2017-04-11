@@ -38,7 +38,6 @@ function getBarWidth(value, voteId, editable, interactive) {
       if (value === 0) {
         return '0px';
       } else if (interactive) {
-        console.log('so?');
         return `${parseInt(wallet.sliderWidth, 10)}px`;
       }
       return `${percentageToPixel(percentage, voteId)}px`;

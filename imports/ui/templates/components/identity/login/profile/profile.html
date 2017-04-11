@@ -4,7 +4,7 @@
   {{else}}
     <div class="login">
       {{> avatar includeName=true includeNation=true editable=true}}
-      <div class="w-form">
+
         <div class="login-label login-label-form">
           {{_ 'total-votes'}}
         </div>
@@ -13,9 +13,9 @@
           {{_ 'authenticity'}}
         </div>
         {{> authenticity}}-->
-      </div>
+
       {{#unless socialMediaLogin}}
-        {{#unless currentUser.emails.[0].verified}}
+        {{#unless verifiedMail}}
           <div class="extra float-left">
             {{> warning label="pending-verification"}}
           </div>

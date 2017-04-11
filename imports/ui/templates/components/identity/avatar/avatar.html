@@ -23,7 +23,7 @@
       {{#if profile}}
         <img id="{{elementId}}" src="{{profilePicture profile}}" class="symbol profile-pic {{classStyle smallFont}} {{pending}}" style="{{pictureSize size includeName}}">
       {{else}}
-        <img src="{{profilePicture}}" class="symbol profile-pic {{classStyle smallFont}}" style="{{pictureSize size includeName}}">
+        <img id='avatar-pic-{{elementId}}' src="{{profilePicture}}" class="symbol profile-pic {{classStyle smallFont}}" style="{{pictureSize size includeName}}">
       {{/if}}
       <div class="identity-peer {{classStyle smallFont}} {{pending}}">
         {{#if verifiedIdentity}}

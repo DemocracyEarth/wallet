@@ -4845,6 +4845,11 @@ blockquote {
   margin-top: 10px;
 }
 
+.user-logger {
+  width: 40px;
+  height: 60px;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;

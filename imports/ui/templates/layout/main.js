@@ -25,7 +25,6 @@ import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { SearchSource } from 'meteor/meteorhacks:search-source';
 import { Template } from 'meteor/templating';
-import { displayLogin } from '/imports/ui/modules/popup';
 
 import { globalObj } from '/lib/global';
 import './main.html';
@@ -83,19 +82,5 @@ Meteor.startup(() => {
 Template.main.helpers({
   popupList() {
     return Session.get('popupList');
-  },
-});
-
-Template.main.events({
-  'mouseup #content'(event) {
-    if (Session.get('displayPopup')) {
-      if (event.target.parentElement.id !== 'loggedUser') {
-        if (event.target.id !== 'loggedUser') {
-          if (event.target.id !== 'agora-login') {
-            displayLogin(event);
-          }
-        }
-      }
-    }
   },
 });

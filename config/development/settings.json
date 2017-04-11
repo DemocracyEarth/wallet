@@ -48,7 +48,8 @@
           "blockchainLogin": false,
           "commentRanking": true,
           "proposalDrafting": true,
-          "appCache": false
+          "appCache": false,
+          "mailNotifications": false,
         }
     },
 

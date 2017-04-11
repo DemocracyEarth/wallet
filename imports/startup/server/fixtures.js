@@ -70,12 +70,14 @@ Meteor.startup(() => {
     console.log('Amazon Web Services for resource storage in cloud... OK');
   }
 
-  //smtpServer
-  if (Meteor.settings.smtpServer == undefined || Meteor.settings.smtpServer == "") {
+  // smtpServer
+  if (Meteor.settings.smtpServer === undefined || Meteor.settings.smtpServer === '') {
     console.log('-- MISSING SETTING: Mailgun SMTP server keys not configured.');
     console.log('-- FIX: Configure `smtpServer` on settings.json.');
-  } else {
+  } else if (Meteor.settings.public.app.config.mailNotifications === true) {
     console.log('Mailgun SMTP server for e-mail notificiations... OK');
+  } else {
+    console.log('Mailgun SMTP server for e-mail notificiations.... DISABLED');
   }
 
   //Facebook

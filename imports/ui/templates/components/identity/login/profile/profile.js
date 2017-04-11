@@ -27,6 +27,12 @@ Template.profile.helpers({
     }
     return false;
   },
+  verifiedMail() {
+    if (Meteor.settings.public.app.config.mailNotifications) {
+      return Meteor.user().emails[0].verified;
+    }
+    return true;
+  },
   hasDelegations() {
     // TODO implement delegation reader to display them.
     return false;
