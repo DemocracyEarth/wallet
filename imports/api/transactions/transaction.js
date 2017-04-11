@@ -276,6 +276,50 @@ const _pay = (wallet, mode, transaction, quantity) => {
 };
 
 /**
+* @summary get info of delegate that is not party listed in transaction info
+* @param {string} delegationId delegation contract to work with
+* @param {string} counterPartyId who we are NOT searching for in delegation
+*/
+const _getDelegate = (delegationId, counterPartyId) => {
+  const delegation = Contracts.findOne({ _id: delegationId });
+  console.log(delegation);
+  for (const i in delegation.signatures) {
+    if (delegation.signatures[i]._id !== counterPartyId) {
+      return Meteor.users.findOne({ _id: delegation.signatures[i]._id });
+    }
+  }
+  return undefined;
+};
+
+/**
+* @summary updates wallet of individual that is part of delegation contract
+* @param {object} transaction - ticket with transaction impacting individual.
+*/
+const _processDelegation = (transaction) => {
+  let delegate;
+  console.log(transaction);
+  if (transaction.input.entityType === 'INDIVIDUAL' && transaction.output.entityType === 'CONTRACT') {
+    console.log('outgoing');
+    // outgoing
+    delegate = _getDelegate(transaction.output.entityId, transaction.input.entityId);
+    if (delegate) {
+      delegate.profile.wallet = _pay(delegate.profile.wallet, 'OUTPUT', transaction, transaction.output.quantity);
+    }
+  } else if (transaction.input.entityType === 'CONTRACT' && transaction.output.entityType === 'INDIVIDUAL') {
+    console.log('incoming');
+    // incoming
+    delegate = _getDelegate(transaction.input.entityId, transaction.output.entityId);
+    if (delegate) {
+      delegate.profile.wallet = _pay(delegate.profile.wallet, 'INPUT', transaction, transaction.input.quantity);
+    }
+  }
+  if (delegate) {
+    console.log('updating wallet');
+    _updateWallet(delegate._id, 'INDIVIDUAL', delegate.profile);
+  }
+};
+
+/**
 * @summary processes de transaction after insert and updates wallet of involved parties
 * @param {string} txId - transaction identificator
 * @param {string} success - INSUFFICIENT,
@@ -304,6 +348,11 @@ const _processTransaction = (ticket) => {
   // update wallets
   _updateWallet(transaction.input.entityId, transaction.input.entityType, senderProfile);
   _updateWallet(transaction.output.entityId, transaction.output.entityType, receiverProfile);
+
+  // delegation
+  if (transaction.kind === 'DELEGATION') {
+    _processDelegation(transaction);
+  }
 
   // set this transaction as processed
   return Transactions.update({ _id: txId }, { $set: { status: 'CONFIRMED' } });
