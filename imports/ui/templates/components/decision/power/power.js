@@ -343,9 +343,9 @@ Template.bar.helpers({
     }
     return getBarWidth(parseFloat(Session.get(this._id).placed - Session.get(this._id).inBallot, 10), this._id, this.editable);
   },
-  unanimous() {
-    if (Session.get(this._id).available === Session.get(this._id).balance) {
-      return 'result-unanimous';
+  unanimous(value) {
+    if (Session.get(this._id)[value] === Session.get(this._id).balance) {
+      return 'unanimous';
     }
     return '';
   },

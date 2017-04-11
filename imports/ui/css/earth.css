@@ -2494,6 +2494,11 @@ blockquote {
   box-shadow: none;
 }
 
+.result-bar.vote-bar.vote-bar-allocated.unanimous {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
 .result-bar.result-unanimous {
   width: 100%;
   border-radius: 3px;
@@ -4848,6 +4853,10 @@ blockquote {
 .user-logger {
   width: 40px;
   height: 60px;
+}
+
+.unanimous {
+  border-radius: 3px;
 }
 
 @media (max-width: 991px) {
