@@ -69,10 +69,9 @@ Template.power.onRendered(function render() {
     if (Session.get(voteId).voteType === 'BALANCE') {
       $(`#votePlaced-${voteId}`).width(getBarWidth(parseFloat(Session.get(voteId).placed, 10), voteId, true));
     } else {
-      $(`#votePlaced-${voteId}`).width(getBarWidth(parseFloat(Session.get(voteId).placed - Session.get(voteId).inBallot, 10), voteId, true));
+      $(`#votePlaced-${voteId}`).width(getBarWidth(parseFloat((Session.get(voteId).placed - Session.get(voteId).inBallot) + Session.get(voteId).delegated, 10), voteId, true));
     }
   });
-
   if (this.data.editable) {
     // drag event
     $(`#voteHandle-${this.data._id}`).draggable({
@@ -239,7 +238,13 @@ Template.capital.helpers({
       switch (value) {
         case 'available': {
           if (inBallot === 0) {
-            const available = parseInt((Session.get(this._id).available + Session.get(this._id).inBallot) - Session.get(this._id).allocateQuantity, 10);
+            let available;
+            if (Session.get(this._id).voteType === 'BALANCE') {
+              available = Session.get(this._id).available;
+              if (available === 0) { available = TAPi18n.__('none'); }
+            } else {
+              available = parseInt((Session.get(this._id).available + Session.get(this._id).inBallot) - Session.get(this._id).allocateQuantity, 10);
+            }
             if (Session.get(this._id).allocateQuantity > 0 && (available <= 0)) {
               label = `<strong>${TAPi18n.__('none')}</strong> ${TAPi18n.__('available-votes')}`;
             } else {
@@ -341,7 +346,7 @@ Template.bar.helpers({
     if (Session.get(this._id).voteType === 'BALANCE') {
       return getBarWidth(Session.get(this._id).placed, this._id, true);
     }
-    return getBarWidth(parseFloat(Session.get(this._id).placed - Session.get(this._id).inBallot, 10), this._id, this.editable);
+    return getBarWidth(parseFloat((Session.get(this._id).placed - Session.get(this._id).inBallot) + Session.get(this._id).delegated, 10), this._id, this.editable);
   },
   unanimous(value) {
     if (Session.get(this._id)[value] === Session.get(this._id).balance) {

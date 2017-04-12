@@ -103,6 +103,7 @@ export class Vote {
     } else {
       Object.assign(this, wallet);
     }
+    this.delegated = 0;
 
     if (sourceId !== undefined) {
       this.userId = sourceId;
@@ -122,6 +123,7 @@ export class Vote {
     if (this.voteType === 'DELEGATION' && (this.userId !== targetId)) {
       this.delegationContract = getDelegationContract(this.userId, this.targetId);
       this.inBallot = getVotes(this.delegationContract._id, this.userId);
+      this.delegated = getVotes(this.delegationContract._id, this.targetId);
     } else if (this.voteType === 'BALANCE') {
       this.inBallot = this.available;
     } else {
@@ -138,7 +140,7 @@ export class Vote {
       // gui
       this._initialSliderWidth = parseInt($(`#voteSlider-${this.voteId}`).width(), 10);
       this.sliderWidth = this._initialSliderWidth;
-      this._maxWidth = parseInt(($(`#voteBar-${this.voteId}`).width() - (($(`#voteBar-${this.voteId}`).width() * parseInt(((this.placed - this.inBallot) * 100) / this.balance, 10)) / 100)), 10);
+      this._maxWidth = parseInt(($(`#voteBar-${this.voteId}`).width() - (($(`#voteBar-${this.voteId}`).width() * parseInt((((this.placed - this.inBallot) + this.delegated) * 100) / this.balance, 10)) / 100)), 10);
 
       // methods
       if (this.initialized === true && this.voteType !== 'BALANCE') {
