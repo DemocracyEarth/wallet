@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
-import { Vote } from '/imports/ui/modules/Vote';
+import { Vote, updateState } from '/imports/ui/modules/Vote';
 import { getDelegationContract } from '/imports/startup/both/modules/Contract';
 import { transact, getVotes } from '/imports/api/transactions/transaction';
 
@@ -149,6 +149,7 @@ const _singleVote = (sourceId, targetId, contractId, threadId, quantity, direct,
     if (flip) { load *= -1; }
   } else {
     success = transact(sourceId, targetId, load, settings);
+    updateState();
     if (flip) { load *= -1; }
   }
   // persist in thread

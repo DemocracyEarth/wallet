@@ -69,12 +69,14 @@ const _updateState = () => {
   let voteController;
   let newWallet;
 
+  console.log(voteList);
+
   if (!voteList) { return; }
 
   for (let i = 0; i < voteList.length; i += 1) {
     voteController = Session.get(voteList[i]);
     if (voteController) {
-      newWallet = new Vote(Meteor.user().profile.wallet, voteController.originalTargetId, voteList[i]);
+      newWallet = new Vote(Meteor.user().profile.wallet, voteController.targetId, voteList[i]);
       newWallet.resetSlider();
       Session.set(voteList[i], newWallet);
     }
@@ -423,9 +425,12 @@ export class Vote {
     } else {
       const v = vote();
       if (v) {
+        _updateState();
         if (callback) { callback(); }
       }
       return v;
     }
   }
 }
+
+export const updateState = _updateState;

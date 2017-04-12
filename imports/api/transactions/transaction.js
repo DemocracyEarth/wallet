@@ -290,7 +290,6 @@ const _pay = (wallet, mode, transaction, quantity) => {
 */
 const _getDelegate = (delegationId, counterPartyId) => {
   const delegation = Contracts.findOne({ _id: delegationId });
-  console.log(delegation);
   for (const i in delegation.signatures) {
     if (delegation.signatures[i]._id !== counterPartyId) {
       return Meteor.users.findOne({ _id: delegation.signatures[i]._id });
@@ -305,16 +304,13 @@ const _getDelegate = (delegationId, counterPartyId) => {
 */
 const _processDelegation = (transaction) => {
   let delegate;
-  console.log(transaction);
   if (transaction.input.entityType === 'INDIVIDUAL' && transaction.output.entityType === 'CONTRACT') {
-    console.log('outgoing');
     // outgoing
     delegate = _getDelegate(transaction.output.entityId, transaction.input.entityId);
     if (delegate) {
       delegate.profile.wallet = _pay(delegate.profile.wallet, 'DELEGATE', transaction, transaction.output.quantity);
     }
   } else if (transaction.input.entityType === 'CONTRACT' && transaction.output.entityType === 'INDIVIDUAL') {
-    console.log('incoming');
     // incoming
     delegate = _getDelegate(transaction.input.entityId, transaction.output.entityId);
     if (delegate) {
@@ -322,7 +318,6 @@ const _processDelegation = (transaction) => {
     }
   }
   if (delegate) {
-    console.log('updating wallet');
     _updateWallet(delegate._id, 'INDIVIDUAL', delegate.profile);
   }
 };
