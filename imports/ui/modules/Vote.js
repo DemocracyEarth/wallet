@@ -192,7 +192,7 @@ export class Vote {
       if (!avoidAllocation) {
         const sliderWidth = _scope($(`#voteSlider-${this.voteId}`).width(), this._maxWidth, 0);
         const barWidth = $(`#voteBar-${this.voteId}`).width();
-        const pixelToVote = _scope(parseInt((sliderWidth * this.balance) / barWidth, 10), (this.available + this.inBallot), 0);
+        const pixelToVote = _scope(parseInt((sliderWidth * this.balance) / barWidth, 10), ((this.available + this.inBallot) - this.delegated), 0);
         this.place(pixelToVote, true);
       }
     }
@@ -230,17 +230,17 @@ export class Vote {
     }
   }
 
-  _getSigner (signatures) {
+  _getSigner(signatures) {
     let signer;
     for (let i = 0; i < signatures.length; i += 1) {
       signer = Meteor.users.findOne({ _id: signatures[i]._id });
       if (signer && signer._id !== this.userId) { return signer._id; }
     }
+    return undefined;
   }
 
   /**
   * @summary executes an already configured vote from a power bar
-  * @param {Wallet} wallet where the vote to be executed takes its input from
   * @param {function} callback callback if execution is cancelled or after vote if no sessionId
   * @param {boolean} removal if operation aims to remove all votes from ballot
   */
