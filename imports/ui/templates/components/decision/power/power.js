@@ -3,10 +3,11 @@ import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
+import { Tracker } from 'meteor/tracker';
 
 import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
 import { displayModal } from '/imports/ui/modules/modal';
-import { Vote } from '/imports/ui/modules/Vote';
+import { Vote, updateState } from '/imports/ui/modules/Vote';
 import { contractReady, purgeBallot, candidateBallot } from '/imports/ui/modules/ballot';
 import { clearPopups } from '/imports/ui/modules/popup';
 
@@ -58,9 +59,17 @@ Template.power.onRendered(function render() {
     return;
   }
 
-  // update
   const wallet = new Vote(this.data.wallet, this.data.targetId, this.data._id);
   Session.set(this.data._id, wallet);
+
+  // real time update
+  Tracker.autorun(() => {
+    if (this.data.sourceId === Meteor.userId()) {
+      const newWallet = new Vote(Meteor.user().profile.wallet, this.data.targetId, this.data._id);
+      newWallet.resetSlider();
+      Session.set(this.data._id, newWallet);
+    }
+  });
 
   // redraw power bar if resize
   $(`#voteBar-${this.data._id}`).resize(function () {

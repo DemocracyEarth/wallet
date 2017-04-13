@@ -69,8 +69,6 @@ const _updateState = () => {
   let voteController;
   let newWallet;
 
-  console.log(voteList);
-
   if (!voteList) { return; }
 
   for (let i = 0; i < voteList.length; i += 1) {
