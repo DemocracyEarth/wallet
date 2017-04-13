@@ -7,7 +7,7 @@ import { Tracker } from 'meteor/tracker';
 
 import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
 import { displayModal } from '/imports/ui/modules/modal';
-import { Vote, updateState } from '/imports/ui/modules/Vote';
+import { Vote } from '/imports/ui/modules/Vote';
 import { contractReady, purgeBallot, candidateBallot } from '/imports/ui/modules/ballot';
 import { clearPopups } from '/imports/ui/modules/popup';
 
@@ -49,6 +49,18 @@ function getBarWidth(value, voteId, editable, interactive) {
   return `${percentageToPixel(parseFloat((value * 100) / wallet.balance, 10).toFixed(2), voteId)}px`;
 }
 
+/**
+* @summary decides what to display in liquid bar as counterparty value
+* @param {string} voteId vote controller for gui
+* @param {boolean} editable if its an editable liquid vote
+*/
+function agreement(voteId, editable) {
+  if (Session.get(voteId).voteType === 'BALANCE') {
+    return getBarWidth(Session.get(voteId).placed, voteId, true);
+  }
+  return getBarWidth(parseFloat((Session.get(voteId).placed - Session.get(voteId).inBallot) + Session.get(voteId).delegated, 10), voteId, editable);
+}
+
 Template.power.onCreated(function () {
   const wallet = new Vote(this.data.wallet, this.data.targetId, this.data._id);
   Session.set(this.data._id, wallet);
@@ -75,11 +87,7 @@ Template.power.onRendered(function render() {
   $(`#voteBar-${this.data._id}`).resize(function () {
     const voteId = this.id.replace('voteBar-', '');
     $(`#voteSlider-${voteId}`).width(getBarWidth(Session.get(voteId).inBallot, voteId, true));
-    if (Session.get(voteId).voteType === 'BALANCE') {
-      $(`#votePlaced-${voteId}`).width(getBarWidth(parseFloat(Session.get(voteId).placed, 10), voteId, true));
-    } else {
-      $(`#votePlaced-${voteId}`).width(getBarWidth(parseFloat((Session.get(voteId).placed - Session.get(voteId).inBallot) + Session.get(voteId).delegated, 10), voteId, true));
-    }
+    $(`#votePlaced-${voteId}`).width(agreement(voteId, true));
   });
   if (this.data.editable) {
     // drag event
@@ -352,10 +360,7 @@ Template.bar.helpers({
     return getBarWidth(Session.get(this._id).available, this._id, this.editable, true);
   },
   placed() {
-    if (Session.get(this._id).voteType === 'BALANCE') {
-      return getBarWidth(Session.get(this._id).placed, this._id, true);
-    }
-    return getBarWidth(parseFloat((Session.get(this._id).placed - Session.get(this._id).inBallot) + Session.get(this._id).delegated, 10), this._id, this.editable);
+    return agreement(this._id, this.editable);
   },
   unanimous(value) {
     if (Session.get(this._id)[value] === Session.get(this._id).balance) {
