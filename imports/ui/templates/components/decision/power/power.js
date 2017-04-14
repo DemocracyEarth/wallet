@@ -57,6 +57,8 @@ function getBarWidth(value, voteId, editable, interactive) {
 function agreement(voteId, editable) {
   if (Session.get(voteId).voteType === 'BALANCE') {
     return getBarWidth(Session.get(voteId).placed, voteId, true);
+  } if (Session.get(voteId).delegated > 0) {
+    // return getBarWidth(parseFloat(Session.get(voteId).delegated, 10), voteId, editable);
   }
   return getBarWidth(parseFloat((Session.get(voteId).placed - Session.get(voteId).inBallot) + Session.get(voteId).delegated, 10), voteId, editable);
 }
@@ -265,7 +267,7 @@ Template.capital.helpers({
             if (Session.get(this._id).allocateQuantity > 0 && (available <= 0)) {
               label = `<strong>${TAPi18n.__('none')}</strong> ${TAPi18n.__('available-votes')}`;
             } else {
-              label = `<strong>${available}</strong> ${TAPi18n.__('available-votes')}`;
+              label = `<strong>${available.toLocaleString()}</strong> ${TAPi18n.__('available-votes')}`;
             }
           }
           break;
@@ -275,14 +277,14 @@ Template.capital.helpers({
             if (inBallot === 0) {
               label = `<strong>${TAPi18n.__('no')}</strong> ${TAPi18n.__('delegated-votes')}`;
             } else {
-              label = `<strong>${inBallot}</strong> ${TAPi18n.__('delegated-votes')}`;
+              label = `<strong>${inBallot.toLocaleString()}</strong> ${TAPi18n.__('delegated-votes')}`;
             }
           } else if (inBallot === 0) {
             label = `<strong>${TAPi18n.__('none')}</strong> ${TAPi18n.__('on-this-ballot')}`;
           } else if (Session.get(this._id).voteType === 'BALANCE') {
-            label = `<strong>${inBallot}</strong> ${TAPi18n.__('available-votes')}`;
+            label = `<strong>${inBallot.toLocaleString()}</strong> ${TAPi18n.__('available-votes')}`;
           } else {
-            label = `<strong>${inBallot}</strong> ${TAPi18n.__('on-this-ballot')}`;
+            label = `<strong>${inBallot.toLocaleString()}</strong> ${TAPi18n.__('on-this-ballot')}`;
           }
           break;
         case 'allocateQuantity': {
@@ -290,9 +292,9 @@ Template.capital.helpers({
           if (Math.abs(quantity) === inBallot && (quantity < 0)) {
             label = TAPi18n.__('remove-all-votes');
           } else if (Session.get(this._id).voteType === 'DELEGATION') {
-            label = `<strong>${Math.abs(inBallot + quantity)}</strong> ${TAPi18n.__('votes-to-delegate')}`;
+            label = `<strong>${Math.abs(inBallot + quantity).toLocaleString()}</strong> ${TAPi18n.__('votes-to-delegate')}`;
           } else {
-            label = `<strong>${Math.abs(inBallot + quantity)}</strong> ${TAPi18n.__('place-in-ballot')}`;
+            label = `<strong>${Math.abs(inBallot + quantity).toLocaleString()}</strong> ${TAPi18n.__('place-in-ballot')}`;
           }
           break;
         }
@@ -301,9 +303,9 @@ Template.capital.helpers({
           if (Meteor.user().profile.wallet.placed === 0) {
             label = `<strong>${TAPi18n.__('none')}</strong>  ${TAPi18n.__('placed-votes')}`;
           } else if (Session.get(this._id).voteType === 'BALANCE') {
-            label = `<strong>${Meteor.user().profile.wallet.placed}</strong>  ${TAPi18n.__('placed')}`;
+            label = `<strong>${Meteor.user().profile.wallet.placed.toLocaleString()}</strong>  ${TAPi18n.__('placed')}`;
           } else {
-            label = `<strong>${parseInt(Meteor.user().profile.wallet.placed - inBallot, 10)}</strong>  ${TAPi18n.__('placed-votes')}`;
+            label = `<strong>${parseInt(Meteor.user().profile.wallet.placed - inBallot, 10).toLocaleString()}</strong>  ${TAPi18n.__('placed-votes')}`;
           }
           break;
       }

@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { TAPi18n } from 'meteor/tap:i18n';
 
 import './profile.html';
 import './profileEditor.js';
@@ -36,6 +37,9 @@ Template.profile.helpers({
   hasDelegations() {
     // TODO implement delegation reader to display them.
     return false;
+  },
+  totalVotes() {
+    return `<strong>${Meteor.user().profile.wallet.balance.toLocaleString()}</strong> ${TAPi18n.__('total-votes')}`;
   },
 });
 

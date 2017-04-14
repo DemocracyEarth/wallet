@@ -6,7 +6,7 @@
       {{> avatar includeName=true includeNation=true editable=true}}
 
         <div class="login-label login-label-form">
-          {{_ 'total-votes'}}
+          {{{totalVotes}}}
         </div>
         {{> power _id='vote-user-balance' targetId=currentUser._id wallet=currentUser.profile.wallet isDelegation=false editable=false}}
         <!--<div class="login-label login-label-form">
