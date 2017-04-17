@@ -1,6 +1,5 @@
 import { Template } from 'meteor/templating';
-import { Session } from 'meteor/session';
-import { addTag } from '/lib/data';
+import Tag from './Tag.jsx';
 
 import './tag.html';
 
@@ -13,10 +12,7 @@ Template.tag.helpers({
       return 'tag-no-grab';
     }
   },
-});
-
-Template.tag.events({
-  'click #add-suggested-tag'(event) {
-    addTag(this._id, parseInt(Session.get('dbTagList').length) + 1);
-  },
+  Tag() {
+    return Tag;
+  }
 });
