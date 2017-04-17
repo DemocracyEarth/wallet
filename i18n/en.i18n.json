@@ -434,5 +434,7 @@
   "total-votes": "Total Votes",
   "received-votes": "Received Votes",
   "sent-votes": "Sent Votes",
-  "delegation-status": "Delegation Status"
+  "delegation-status": "Delegation Status",
+  "received-votes-tip": "Delegated votes from this user to you.",
+  "sent-votes-tip": "Delegated votes from you to this user."
 }

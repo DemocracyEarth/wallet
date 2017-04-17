@@ -22,7 +22,7 @@
 <template name="capital">
   {{#if isDelegation}}
     <div class="stage {{style 'inBallot'}}">
-      <div class='label label-corner'>
+      <div class='label label-corner' title="{{_ 'sent-votes-tip'}}">
         {{{getVotes 'inBallot'}}}
       </div>
     </div>
@@ -32,7 +32,7 @@
       </div>
     </div>
     <div class='vote-allocated label-votes'>
-      <div class="stage {{style 'received'}}">
+      <div class="stage {{style 'received'}}" title="{{_ 'received-votes-tip'}}">
         <div class='label label-corner'>
           {{{getVotes 'received'}}}
         </div>
