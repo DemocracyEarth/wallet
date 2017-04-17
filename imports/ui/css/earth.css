@@ -2500,7 +2500,7 @@ blockquote {
 }
 
 .result-bar.vote-bar.vote-bar-allocated.vote-bar-delegated {
-  background-color: #ff8979;
+  background-color: rgba(0, 191, 143, .4);
   background-image: none;
   background-size: auto;
   background-repeat: repeat;
@@ -3103,8 +3103,9 @@ blockquote {
 }
 
 .stage.stage-delegated {
-  border-color: #ff8979;
-  background-color: #ff8979;
+  border-style: solid;
+  border-color: rgba(0, 191, 143, 0);
+  background-color: #7ac5b2;
   color: #fff;
 }
 
