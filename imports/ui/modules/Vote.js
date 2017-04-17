@@ -125,7 +125,7 @@ export class Vote {
       if (this.delegationContract) {
         this.inBallot = getVotes(this.delegationContract._id, this.userId);
         this.delegated = getVotes(this.delegationContract._id, this.targetId);
-        this.balance = this.inBallot + this.available + this.delegated;
+        this.balance = this.inBallot + (this.available - this.delegated) + this.delegated;
         this.placed = this.inBallot;
       }
     } else if (this.voteType === 'BALANCE') {
