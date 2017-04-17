@@ -31,6 +31,13 @@
         {{{getVotes 'allocateQuantity'}}}
       </div>
     </div>
+    <div class='vote-allocated label-votes'>
+      <div class="stage {{style 'received'}}">
+        <div class='label label-corner'>
+          {{{getVotes 'received'}}}
+        </div>
+      </div>
+    </div>
   {{else}}
     <div class='bar-labels'>
       <div class='vote-available label-votes'>
@@ -68,6 +75,6 @@
         <div id="voteHandle-{{_id}}" class="handle"></div>
        {{/if}}
     </div>
-    <div id="votePlaced-{{_id}}" class="result-bar vote-bar vote-bar-allocated {{unanimous 'placed'}}"  style=" width: {{placed}} "></div>
+    <div id="votePlaced-{{_id}}" class="result-bar vote-bar vote-bar-allocated {{unanimous 'placed'}} {{isDelegation}}"  style=" width: {{placed}} "></div>
   </div>
 </template>

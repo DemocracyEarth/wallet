@@ -39,7 +39,7 @@ Template.profile.helpers({
     return false;
   },
   totalVotes() {
-    return `<strong>${Meteor.user().profile.wallet.balance.toLocaleString()}</strong> ${TAPi18n.__('total-votes')}`;
+    return `${TAPi18n.__('total-votes')} <strong style='color: white'>${Meteor.user().profile.wallet.balance.toLocaleString()}</strong> `;
   },
 });
 

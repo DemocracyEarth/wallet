@@ -57,8 +57,6 @@ function getBarWidth(value, voteId, editable, interactive) {
 function agreement(voteId, editable) {
   if (Session.get(voteId).voteType === 'BALANCE') {
     return getBarWidth(Session.get(voteId).placed, voteId, true);
-  } if (Session.get(voteId).delegated > 0) {
-    // return getBarWidth(parseFloat(Session.get(voteId).delegated, 10), voteId, editable);
   }
   return getBarWidth(parseFloat((Session.get(voteId).placed - Session.get(voteId).inBallot) + Session.get(voteId).delegated, 10), voteId, editable);
 }
@@ -275,9 +273,9 @@ Template.capital.helpers({
         case 'inBallot':
           if (Session.get(this._id).voteType === 'DELEGATION') {
             if (inBallot === 0) {
-              label = `<strong>${TAPi18n.__('no')}</strong> ${TAPi18n.__('delegated-votes')}`;
+              label = `<strong>${TAPi18n.__('no')}</strong> ${TAPi18n.__('sent-votes')}`;
             } else {
-              label = `<strong>${inBallot.toLocaleString()}</strong> ${TAPi18n.__('delegated-votes')}`;
+              label = `<strong>${inBallot.toLocaleString()}</strong> ${TAPi18n.__('sent-votes')}`;
             }
           } else if (inBallot === 0) {
             label = `<strong>${TAPi18n.__('none')}</strong> ${TAPi18n.__('on-this-ballot')}`;
@@ -298,6 +296,9 @@ Template.capital.helpers({
           }
           break;
         }
+        case 'received':
+          label = `<strong>${Session.get(this._id).delegated.toLocaleString()}</strong> ${TAPi18n.__('received-votes')}`;
+          break;
         case 'placed':
         default:
           if (Meteor.user().profile.wallet.placed === 0) {
@@ -348,6 +349,11 @@ Template.capital.helpers({
       }
       case 'placed':
         return 'stage-placed';
+      case 'received':
+        if (Session.get(this._id).delegated === 0) {
+          return 'hide';
+        }
+        return 'stage-delegated';
       default:
         return 'stage-finish-alternative';
     }
@@ -367,6 +373,12 @@ Template.bar.helpers({
   unanimous(value) {
     if (Session.get(this._id)[value] === Session.get(this._id).balance) {
       return 'unanimous';
+    }
+    return '';
+  },
+  isDelegation() {
+    if (Session.get(this._id).delegated > 0) {
+      return 'vote-bar-delegated';
     }
     return '';
   },

@@ -1,11 +1,11 @@
 <template name="card">
   <div class="login">
-    
+
       {{> avatar profile=this includeName=true includeNation=true editable=false disabled=true includeRole=false}}
       {{#if currentUser}}
         {{#unless myself}}
           <div class="login-label login-label-form">
-            {{_ 'representation'}}
+            {{_ 'delegation-status'}}
           </div>
           {{#with voteSettings}}
             {{> power _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true}}

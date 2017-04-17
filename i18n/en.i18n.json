@@ -410,7 +410,6 @@
   "from": "From",
   "to": "To",
   "delegates-to": "Delegates to...",
-  "delegated-votes": "Delegated Votes",
   "none": "none",
   "place-here": "place here",
   "place-in-ballot": "votes on this ballot",
@@ -431,6 +430,9 @@
   "delegated-votes": "Delegated Votes",
   "trust": "Trust",
   "representation": "Representation",
-  "votes-to-delegate": "votes to delegate",
-  "total-votes": "Total Votes"
+  "votes-to-delegate": "delegate votes",
+  "total-votes": "Total Votes",
+  "received-votes": "Received Votes",
+  "sent-votes": "Sent Votes",
+  "delegation-status": "Delegation Status"
 }

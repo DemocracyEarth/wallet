@@ -2464,7 +2464,7 @@ blockquote {
 }
 
 .result-bar.vote-bar {
-  width: 0%;
+  width: 25%;
   height: 100%;
   box-shadow: inset 0 1px 11px -5px hsla(0, 0%, 100%, .5);
 }
@@ -2497,6 +2497,13 @@ blockquote {
 .result-bar.vote-bar.vote-bar-allocated.unanimous {
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
+}
+
+.result-bar.vote-bar.vote-bar-allocated.vote-bar-delegated {
+  background-color: #ff8979;
+  background-image: none;
+  background-size: auto;
+  background-repeat: repeat;
 }
 
 .result-bar.result-unanimous {
@@ -3090,6 +3097,12 @@ blockquote {
 }
 
 .stage.stage-remove {
+  border-color: #ff8979;
+  background-color: #ff8979;
+  color: #fff;
+}
+
+.stage.stage-delegated {
   border-color: #ff8979;
   background-color: #ff8979;
   color: #fff;
@@ -4857,6 +4870,14 @@ blockquote {
 
 .unanimous {
   border-radius: 3px;
+}
+
+.votes {
+  height: 60px;
+  border: 1px solid #00bf8f;
+  border-radius: 3px;
+  background-color: transparent;
+  color: #00bf8f;
 }
 
 @media (max-width: 991px) {

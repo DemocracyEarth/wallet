@@ -122,10 +122,12 @@ export class Vote {
     this.sourceId = sourceId;
     if (this.voteType === 'DELEGATION' && (this.userId !== targetId)) {
       this.delegationContract = getDelegationContract(this.userId, this.targetId);
-      this.inBallot = getVotes(this.delegationContract._id, this.userId);
-      this.delegated = getVotes(this.delegationContract._id, this.targetId);
-      // this.balance = this.inBallot + this.delegated;
-      // this.available += this.inBallot;
+      if (this.delegationContract) {
+        this.inBallot = getVotes(this.delegationContract._id, this.userId);
+        this.delegated = getVotes(this.delegationContract._id, this.targetId);
+        this.balance = this.inBallot + this.available + this.delegated;
+        this.placed = this.inBallot;
+      }
     } else if (this.voteType === 'BALANCE') {
       this.inBallot = this.available;
     } else {
@@ -194,7 +196,7 @@ export class Vote {
       if (!avoidAllocation) {
         const sliderWidth = _scope($(`#voteSlider-${this.voteId}`).width(), this._maxWidth, 0);
         const barWidth = $(`#voteBar-${this.voteId}`).width();
-        const pixelToVote = _scope(parseInt((sliderWidth * this.balance) / barWidth, 10), ((this.available + this.inBallot) - this.delegated), 0);
+        const pixelToVote = _scope(parseInt((sliderWidth * this.balance) / barWidth, 10), (this.available + this.inBallot), 0);
         this.place(pixelToVote, true);
       }
     }
