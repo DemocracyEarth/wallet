@@ -318,6 +318,7 @@ const _processDelegation = (transaction) => {
     }
   }
   if (delegate) {
+    console.log(delegate);
     _updateWallet(delegate._id, 'INDIVIDUAL', delegate.profile);
   }
 };
@@ -347,6 +348,9 @@ const _processTransaction = (ticket) => {
   // transact
   senderProfile.wallet = _pay(senderProfile.wallet, 'INPUT', transaction, transaction.input.quantity);
   receiverProfile.wallet = _pay(receiverProfile.wallet, 'OUTPUT', transaction, transaction.output.quantity);
+
+  console.log(senderProfile.wallet);
+  console.log(receiverProfile.wallet);
 
   // update wallets
   _updateWallet(transaction.input.entityId, transaction.input.entityType, senderProfile);
