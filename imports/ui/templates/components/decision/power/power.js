@@ -105,8 +105,10 @@ Template.power.onRendered(function render() {
         if (Session.get(voteId) !== undefined) {
           $(`#voteSlider-${voteId}`).velocity('stop');
         }
-        if (Session.get('candidateBallot') === undefined) {
-          candidateBallot(Meteor.userId());
+        if (Session.get('candidateBallot') === undefined && this.newVote.voteType === 'VOTE') {
+          if (this.newVote.inBallot > 0) {
+            candidateBallot(Meteor.userId());
+          }
         }
         Session.set('dragging', voteId);
       },
