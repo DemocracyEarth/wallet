@@ -336,6 +336,9 @@ Template.capital.helpers({
             }
             return 'hide';
           }
+          if (this.editable === false) {
+            return 'stage-delegated';
+          }
           return 'stage-finish-approved';
         }
         return 'hide';
@@ -378,9 +381,9 @@ Template.bar.helpers({
     }
     return '';
   },
-  isDelegation() {
-    if (Session.get(this._id).delegated > 0) {
-      return 'vote-bar-delegated';
+  fixed(value) {
+    if ((Session.get(this._id).delegated > 0 && value === 'placed') || (this.editable === false && value === 'available')) {
+      return 'vote-bar-fixed';
     }
     return '';
   },

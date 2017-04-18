@@ -2499,11 +2499,15 @@ blockquote {
   border-bottom-left-radius: 3px;
 }
 
-.result-bar.vote-bar.vote-bar-allocated.vote-bar-delegated {
+.result-bar.vote-bar.vote-bar-allocated.vote-bar-fixed {
   background-color: #e6f9f4;
   background-image: none;
   background-size: auto;
   background-repeat: repeat;
+}
+
+.result-bar.vote-bar.vote-bar-fixed {
+  background-color: #e6f9f4;
 }
 
 .result-bar.result-unanimous {

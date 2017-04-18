@@ -70,11 +70,11 @@
 
 <template name="bar">
   <div id="voteBar-{{_id}}" class="w-clearfix result vote-bar">
-    <div id="voteSlider-{{_id}}" class="result-bar vote-bar {{unanimous 'available'}}" style=" width: {{available}} ">
+    <div id="voteSlider-{{_id}}" class="result-bar vote-bar {{fixed 'available'}} {{unanimous 'available'}}" style=" width: {{available}} ">
       {{#if editable}}
         <div id="voteHandle-{{_id}}" class="handle"></div>
        {{/if}}
     </div>
-    <div id="votePlaced-{{_id}}" class="result-bar vote-bar vote-bar-allocated {{unanimous 'placed'}} {{isDelegation}}"  style=" width: {{placed}} "></div>
+    <div id="votePlaced-{{_id}}" class="result-bar vote-bar vote-bar-allocated {{unanimous 'placed'}} {{fixed 'placed'}}"  style=" width: {{placed}} "></div>
   </div>
 </template>
