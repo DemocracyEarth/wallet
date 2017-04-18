@@ -120,6 +120,7 @@ export class Vote {
     this.voteType = _getVoteType(targetId);
     this.targetId = targetId;
     this.sourceId = sourceId;
+    this.maxVotes = parseInt(this.available + this.inBallot, 10);
     if (this.voteType === 'DELEGATION' && (this.userId !== targetId)) {
       this.delegationContract = getDelegationContract(this.userId, this.targetId);
       if (this.delegationContract) {
@@ -131,6 +132,7 @@ export class Vote {
         }
         this.placed = this.inBallot;
       }
+      this.maxVotes = parseInt(this.inBallot + (this.available - this.delegated), 10);
     } else if (this.voteType === 'BALANCE') {
       this.inBallot = this.available;
     } else {
@@ -199,7 +201,7 @@ export class Vote {
       if (!avoidAllocation) {
         const sliderWidth = _scope($(`#voteSlider-${this.voteId}`).width(), this._maxWidth, 0);
         const barWidth = $(`#voteBar-${this.voteId}`).width();
-        const pixelToVote = _scope(parseInt((sliderWidth * this.balance) / barWidth, 10), (this.available + this.inBallot), 0);
+        const pixelToVote = _scope(parseInt((sliderWidth * this.balance) / barWidth, 10), this.maxVotes, 0);
         this.place(pixelToVote, true);
       }
     }
