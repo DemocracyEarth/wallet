@@ -133,6 +133,7 @@ export class Vote {
         this.placed = this.inBallot;
       }
       this.maxVotes = parseInt(this.inBallot + (this.available - this.delegated), 10);
+      this.minVotes = parseInt(this.inBallot - Meteor.users.findOne({ _id: this.targetId }).profile.wallet.available, 10);
     } else if (this.voteType === 'BALANCE') {
       this.inBallot = this.available;
     } else {
