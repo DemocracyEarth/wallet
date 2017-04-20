@@ -127,14 +127,16 @@ export class Vote {
       if (this.delegationContract) {
         this.inBallot = getVotes(this.delegationContract._id, this.userId);
         this.delegated = getVotes(this.delegationContract._id, this.targetId);
-        this.balance = parseInt(this.inBallot + (this.available - this.delegated) + this.delegated, 10);
-        if (this.balance < parseInt(this.inBallot + this.delegated, 10)) {
+        this.balance = parseInt(this.inBallot + this.available + this.delegated, 10);
+        /* if (this.balance < parseInt(this.inBallot + this.delegated, 10)) {
           this.balance = parseInt(this.inBallot + this.delegated, 10);
-        }
+        } */
         this.placed = this.inBallot;
       }
-      this.maxVotes = parseInt(this.inBallot + (this.available - this.delegated), 10);
-      this.minVotes = parseInt((this.inBallot - Meteor.users.findOne({ _id: this.targetId }).profile.wallet.available) - 1, 10);
+      this.maxVotes = parseInt(this.balance - this.delegated); // parseInt(this.inBallot + (this.available - this.delegated), 10);
+      if (Meteor.users.findOne({ _id: this.targetId })) {
+        this.minVotes = parseInt((this.inBallot - Meteor.users.findOne({ _id: this.targetId }).profile.wallet.available) - 1, 10);
+      }
       if (this.minVotes < 0) { this.minVotes = 0; }
     } else if (this.voteType === 'BALANCE') {
       this.inBallot = this.available;
