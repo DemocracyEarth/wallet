@@ -131,7 +131,7 @@ Template.power.onRendered(function render() {
           Session.set(voteId, this.newVote);
         };
 
-        if ((this.newVote.allocateQuantity === 0 && this.newVote.inBallot === 0) || (this.newVote.voteType === 'VOTE' && purgeBallot(Session.get('candidateBallot')).length === 0)) {
+        if ((this.newVote.allocateQuantity <= this.newVote.minVotes) || (this.newVote.allocateQuantity === 0 && this.newVote.inBallot === 0) || (this.newVote.voteType === 'VOTE' && purgeBallot(Session.get('candidateBallot')).length === 0)) {
           cancel();
           if (this.newVote.voteType === 'VOTE') {
             Session.set('noSelectedOption', true);
@@ -292,7 +292,11 @@ Template.capital.helpers({
           if (Math.abs(quantity) === inBallot && (quantity < 0)) {
             label = TAPi18n.__('remove-all-votes');
           } else if (Session.get(this._id).voteType === 'DELEGATION') {
-            label = `<strong>${Math.abs(inBallot + quantity).toLocaleString()}</strong> ${TAPi18n.__('votes-to-delegate')}`;
+            if (Math.abs(inBallot + quantity) <= Session.get(this._id).minVotes) {
+              label = TAPi18n.__('votes-in-use');
+            } else {
+              label = `<strong>${Math.abs(inBallot + quantity).toLocaleString()}</strong> ${TAPi18n.__('votes-to-delegate')}`;
+            }
           } else {
             label = `<strong>${Math.abs(inBallot + quantity).toLocaleString()}</strong> ${TAPi18n.__('place-in-ballot')}`;
           }
@@ -345,7 +349,7 @@ Template.capital.helpers({
       case 'allocateQuantity': {
         const quantity = parseInt(Session.get(this._id)[value] - inBallot, 10);
         if (Session.get('dragging') === this._id) {
-          if (Math.abs(quantity) === inBallot && (quantity < 0)) {
+          if ((Math.abs(quantity) === inBallot && (quantity < 0)) || Math.abs(inBallot + quantity) <= Session.get(this._id).minVotes) {
             return 'stage-finish-rejected';
           }
           return 'stage-live';

@@ -121,6 +121,7 @@ export class Vote {
     this.targetId = targetId;
     this.sourceId = sourceId;
     this.maxVotes = parseInt(this.available + this.inBallot, 10);
+    this.minVotes = 0;
     if (this.voteType === 'DELEGATION' && (this.userId !== targetId)) {
       this.delegationContract = getDelegationContract(this.userId, this.targetId);
       if (this.delegationContract) {
@@ -133,14 +134,14 @@ export class Vote {
         this.placed = this.inBallot;
       }
       this.maxVotes = parseInt(this.inBallot + (this.available - this.delegated), 10);
-      this.minVotes = parseInt(this.inBallot - Meteor.users.findOne({ _id: this.targetId }).profile.wallet.available, 10);
+      this.minVotes = parseInt((this.inBallot - Meteor.users.findOne({ _id: this.targetId }).profile.wallet.available) - 1, 10);
+      if (this.minVotes < 0) { this.minVotes = 0; }
     } else if (this.voteType === 'BALANCE') {
       this.inBallot = this.available;
     } else {
       this.inBallot = getVotes(this.targetId, this.userId);
     }
     this.originalTargetId = targetId;
-
 
     // view
     if (sessionId && !sourceId) {
@@ -151,6 +152,7 @@ export class Vote {
       this._initialSliderWidth = parseInt($(`#voteSlider-${this.voteId}`).width(), 10);
       this.sliderWidth = this._initialSliderWidth;
       this._maxWidth = parseInt(($(`#voteBar-${this.voteId}`).width() - (($(`#voteBar-${this.voteId}`).width() * parseInt((((this.placed - this.inBallot) + this.delegated) * 100) / this.balance, 10)) / 100)), 10);
+      this._minWidth = parseInt(($(`#voteBar-${this.voteId}`).width() * this.minVotes) / this.balance, 10);
 
       // methods
       if (this.initialized === true && this.voteType !== 'BALANCE') {
@@ -195,14 +197,14 @@ export class Vote {
     if (pixels === undefined) { inputPixels = 0; }
     if ($(`#voteBar-${this.voteId}`).offset() !== undefined) {
       if ($(`#voteHandle-${this.voteId}`).offset() !== undefined) {
-        this.sliderWidth = _scope((this._initialSliderWidth + inputPixels), this._maxWidth, 0);
+        this.sliderWidth = _scope((this._initialSliderWidth + inputPixels), this._maxWidth, this._minWidth);
       } else {
         this.sliderWidth = 0;
       }
       if (!avoidAllocation) {
         const sliderWidth = _scope($(`#voteSlider-${this.voteId}`).width(), this._maxWidth, 0);
         const barWidth = $(`#voteBar-${this.voteId}`).width();
-        const pixelToVote = _scope(parseInt((sliderWidth * this.balance) / barWidth, 10), this.maxVotes, 0);
+        const pixelToVote = _scope(parseInt((sliderWidth * this.balance) / barWidth, 10), this.maxVotes, this.minVotes);
         this.place(pixelToVote, true);
       }
     }
