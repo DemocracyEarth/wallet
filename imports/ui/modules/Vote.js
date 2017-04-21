@@ -125,19 +125,17 @@ export class Vote {
     if (this.voteType === 'DELEGATION' && (this.userId !== targetId)) {
       this.delegationContract = getDelegationContract(this.userId, this.targetId);
       if (this.delegationContract) {
+        // delegation context
         this.inBallot = getVotes(this.delegationContract._id, this.userId);
         this.delegated = getVotes(this.delegationContract._id, this.targetId);
         this.balance = parseInt(this.inBallot + this.available + this.delegated, 10);
-        /* if (this.balance < parseInt(this.inBallot + this.delegated, 10)) {
-          this.balance = parseInt(this.inBallot + this.delegated, 10);
-        } */
         this.placed = this.inBallot;
+        this.maxVotes = parseInt(this.balance - this.delegated, 10);
+        if (Meteor.users.findOne({ _id: this.targetId })) {
+          this.minVotes = parseInt((this.inBallot - Meteor.users.findOne({ _id: this.targetId }).profile.wallet.available) - 1, 10);
+        }
+        if (this.minVotes < 0) { this.minVotes = 0; }
       }
-      this.maxVotes = parseInt(this.balance - this.delegated); // parseInt(this.inBallot + (this.available - this.delegated), 10);
-      if (Meteor.users.findOne({ _id: this.targetId })) {
-        this.minVotes = parseInt((this.inBallot - Meteor.users.findOne({ _id: this.targetId }).profile.wallet.available) - 1, 10);
-      }
-      if (this.minVotes < 0) { this.minVotes = 0; }
     } else if (this.voteType === 'BALANCE') {
       this.inBallot = this.available;
     } else {
@@ -180,7 +178,7 @@ export class Vote {
     if (this.enabled) {
       this.placedPercentage = ((this.placed * 100) / this.balance);
       this.allocatePercentage = ((quantity * 100) / this.balance);
-      this.allocateQuantity = parseInt(_scope(quantity, (this.available + this.inBallot)), 10);
+      this.allocateQuantity = parseInt(_scope(quantity, this.maxVotes), 10); // used to have instead of maxvotes : (this.available + this.inBallot)
     }
     if (!avoidSlider) {
       const sliderWidth = parseFloat(($(`#voteSlider-${this.voteId}`).width() * this.available) / this._maxWidth, 10);

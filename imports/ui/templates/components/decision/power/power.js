@@ -36,9 +36,7 @@ function getBarWidth(value, voteId, editable, interactive) {
     const wallet = Session.get(voteId);
     if (wallet !== undefined) {
       const percentage = parseFloat((value * 100) / wallet.balance, 10).toFixed(2);
-      if (value === 0) {
-        return '0px';
-      } else if (interactive) {
+      if (interactive) {
         return `${parseInt(wallet.sliderWidth, 10)}px`;
       }
       return `${percentageToPixel(percentage, voteId)}px`;
