@@ -52,10 +52,10 @@ function getBarWidth(value, voteId, editable, interactive) {
 * @param {Vote} vote
 */
 function voteFailure(vote) {
-  return (vote.allocateQuantity <= vote.minVotes && vote.voteType === 'DELEGATION') ||
+  console.log(vote);
+  return (vote.allocateQuantity <= vote.minVotes && vote.minVotes !== 0 && vote.voteType === 'DELEGATION') ||
     (vote.allocateQuantity < vote.minVotes && vote.voteType === 'VOTE') ||
     (vote.allocateQuantity === vote.inBallot) ||
-    (vote.allocateQuantity === 0 && vote.inBallot === 0) ||
     (vote.voteType === 'VOTE' && purgeBallot(Session.get('candidateBallot')).length === 0);
 }
 
@@ -302,7 +302,7 @@ Template.capital.helpers({
           if (Math.abs(quantity) === inBallot && (quantity < 0)) {
             label = TAPi18n.__('remove-all-votes');
           } else if (Session.get(this._id).voteType === 'DELEGATION') {
-            if (Math.abs(inBallot + quantity) <= Session.get(this._id).minVotes) {
+            if (Math.abs(inBallot + quantity) <= Session.get(this._id).minVotes && inBallot > 0) {
               label = TAPi18n.__('votes-in-use');
             } else {
               label = `<strong>${Math.abs(inBallot + quantity).toLocaleString()}</strong> ${TAPi18n.__('votes-to-delegate')}`;
@@ -364,7 +364,7 @@ Template.capital.helpers({
       case 'allocateQuantity': {
         const quantity = parseInt(Session.get(this._id)[value] - inBallot, 10);
         if (Session.get('dragging') === this._id) {
-          if ((Math.abs(quantity) === inBallot && (quantity < 0)) || Math.abs(inBallot + quantity) <= Session.get(this._id).minVotes) {
+          if ((Math.abs(quantity) === inBallot && (quantity < 0)) || (Math.abs(inBallot + quantity) <= Session.get(this._id).minVotes && inBallot > 0)) {
             return 'stage-finish-rejected';
           }
           return 'stage-live';
