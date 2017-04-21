@@ -9,7 +9,7 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 
 import './ballot.html';
 import '../kind/kind.js';
-import '../../../widgets/calendar/calendar.js';
+import Calendar from '../../../widgets/calendar/Calendar.jsx';
 import '../../../widgets/toggle/toggle.js';
 import '../../../widgets/warning/warning.js';
 import '../execute/execute.js';
@@ -204,9 +204,8 @@ Template.ballot.helpers({
   ballotReady() {
     return Session.get('ballotReady');
   },
-  // calendar
-  datePicker() {
-    $('#date-picker').datepicker();
+  Calendar() {
+    return Calendar;
   },
   unauthorizedFork() {
     return Session.get('unauthorizedFork');
