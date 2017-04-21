@@ -52,7 +52,6 @@ function getBarWidth(value, voteId, editable, interactive) {
 * @param {Vote} vote
 */
 function voteFailure(vote) {
-  console.log(vote);
   return (vote.allocateQuantity <= vote.minVotes && vote.minVotes !== 0 && vote.voteType === 'DELEGATION') ||
     (vote.allocateQuantity < vote.minVotes && vote.voteType === 'VOTE') ||
     (vote.allocateQuantity === vote.inBallot) ||
