@@ -142,7 +142,7 @@ Template.power.onRendered(function render() {
 
         if (voteFailure(this.newVote)) {
           cancel();
-          if (this.newVote.voteType === 'VOTE' && (this.newVote.allocateQuantity !== this.newVote.inBallot)) {
+          if (this.newVote.voteType === 'VOTE' && (this.newVote.allocateQuantity !== this.newVote.inBallot || this.newVote.inBallot === 0)) {
             Session.set('noSelectedOption', true);
           }
         } else if (contractReady(this.newVote) || this.newVote.voteType === 'DELEGATION') {
