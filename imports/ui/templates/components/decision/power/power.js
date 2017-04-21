@@ -48,6 +48,18 @@ function getBarWidth(value, voteId, editable, interactive) {
 }
 
 /**
+* @summary verifies vote settings are in onRendered
+* @param {Vote} vote
+*/
+function voteFailure(vote) {
+  return (vote.allocateQuantity <= vote.minVotes && vote.voteType === 'DELEGATION') ||
+    (vote.allocateQuantity < vote.minVotes && vote.voteType === 'VOTE') ||
+    (vote.allocateQuantity === vote.inBallot) ||
+    (vote.allocateQuantity === 0 && vote.inBallot === 0) ||
+    (vote.voteType === 'VOTE' && purgeBallot(Session.get('candidateBallot')).length === 0);
+}
+
+/**
 * @summary decides what to display in liquid bar as counterparty value
 * @param {string} voteId vote controller for gui
 * @param {boolean} editable if its an editable liquid vote
@@ -129,9 +141,9 @@ Template.power.onRendered(function render() {
           Session.set(voteId, this.newVote);
         };
 
-        if ((this.newVote.allocateQuantity <= this.newVote.minVotes) || (this.newVote.allocateQuantity === 0 && this.newVote.inBallot === 0) || (this.newVote.voteType === 'VOTE' && purgeBallot(Session.get('candidateBallot')).length === 0)) {
+        if (voteFailure(this.newVote)) {
           cancel();
-          if (this.newVote.voteType === 'VOTE') {
+          if (this.newVote.voteType === 'VOTE' && (this.newVote.allocateQuantity !== this.newVote.inBallot)) {
             Session.set('noSelectedOption', true);
           }
         } else if (contractReady(this.newVote) || this.newVote.voteType === 'DELEGATION') {
@@ -322,8 +334,13 @@ Template.capital.helpers({
     switch (value) {
       case 'available': {
         if (inBallot === 0 && (Session.get('dragging') === false || Session.get('dragging') === undefined || Session.get('dragging') !== this._id)) {
-          const available = parseInt((Session.get(this._id).available + Session.get(this._id).inBallot) - Session.get(this._id).allocateQuantity, 10);
-          if (Session.get(this._id).allocateQuantity > 0 && (available <= 0)) {
+          let available;
+          if (Session.get(this._id).voteType === 'BALANCE') {
+            available = Session.get(this._id).available;
+          } else {
+            available = parseInt((Session.get(this._id).available + Session.get(this._id).inBallot) - Session.get(this._id).allocateQuantity, 10);
+          }
+          if ((Session.get(this._id).allocateQuantity > 0 || !Session.get(this._id).allocateQuantity) && (available <= 0)) {
             return 'stage-finish-rejected';
           }
           return 'stage-inballot';
