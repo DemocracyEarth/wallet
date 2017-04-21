@@ -216,8 +216,13 @@ export class Vote {
           pixelToVote = _scope(parseInt((precisionValue * this.balance) / barWidth, 10), this.maxVotes, this.minVotes);
           this.place(this.inBallot + precisionValue, true);
         } else {
-          // standard allocation based on slider pixel width
-          pixelToVote = _scope(parseInt((sliderWidth * this.balance) / barWidth, 10), this.maxVotes, this.minVotes);
+          // standard allocation based on relative slider pixel width
+          console.log(precisionRange);
+          if (inputPixels > 0) {
+            pixelToVote = _scope(parseInt(((sliderWidth - precisionRange) * this.balance) / (barWidth), 10) + MAX_VOTES_PRECISION + 1, this.maxVotes, this.minVotes);
+          } else {
+            pixelToVote = _scope(parseInt(((sliderWidth + precisionRange) * this.balance) / (barWidth), 10) - MAX_VOTES_PRECISION - 1, this.maxVotes, this.minVotes);
+          }
           this.place(pixelToVote, true);
         }
       }
