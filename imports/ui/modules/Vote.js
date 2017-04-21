@@ -193,7 +193,14 @@ export class Vote {
   * @param {boolean} avoidAllocation disable updating wallet values
   */
   sliderInput(pixels, avoidAllocation) {
+    let pixelToVote;
+    let precisionValue;
     let inputPixels = pixels;
+    const MAX_VOTES_PRECISION = 10;
+    const MAX_PERCENTAGE_PRECISION = 5;
+    const barWidth = $(`#voteBar-${this.voteId}`).width();
+    const precisionRange = parseInt((MAX_PERCENTAGE_PRECISION * barWidth) / 100, 10);
+
     if (pixels === undefined) { inputPixels = 0; }
     if ($(`#voteBar-${this.voteId}`).offset() !== undefined) {
       if ($(`#voteHandle-${this.voteId}`).offset() !== undefined) {
@@ -203,9 +210,16 @@ export class Vote {
       }
       if (!avoidAllocation) {
         const sliderWidth = _scope($(`#voteSlider-${this.voteId}`).width(), this._maxWidth, 0);
-        const barWidth = $(`#voteBar-${this.voteId}`).width();
-        const pixelToVote = _scope(parseInt((sliderWidth * this.balance) / barWidth, 10), this.maxVotes, this.minVotes);
-        this.place(pixelToVote, true);
+        if (Math.abs(pixels) <= precisionRange) {
+          // precise allocation based on small pixel movement
+          precisionValue = parseInt((pixels * MAX_VOTES_PRECISION) / precisionRange, 10);
+          pixelToVote = _scope(parseInt((precisionValue * this.balance) / barWidth, 10), this.maxVotes, this.minVotes);
+          this.place(this.inBallot + precisionValue, true);
+        } else {
+          // standard allocation based on slider pixel width
+          pixelToVote = _scope(parseInt((sliderWidth * this.balance) / barWidth, 10), this.maxVotes, this.minVotes);
+          this.place(pixelToVote, true);
+        }
       }
     }
   }
