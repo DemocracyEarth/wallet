@@ -187,6 +187,10 @@ export class Vote {
     }
   }
 
+  _getSliderCenter(pixels) {
+    return parseInt($(`#voteSlider-${this.voteId}`).width() - pixels, 10);
+  }
+
   /**
   * @summary given an input in pixels defines the values of wallet
   * @param {number} pixels length in pixels
@@ -194,14 +198,15 @@ export class Vote {
   */
   sliderInput(pixels, avoidAllocation) {
     let pixelToVote;
-    let precisionValue;
     let inputPixels = pixels;
-    const MAX_VOTES_PRECISION = 10;
-    const MAX_PERCENTAGE_PRECISION = 5;
-    const barWidth = $(`#voteBar-${this.voteId}`).width();
-    const precisionRange = parseInt((MAX_PERCENTAGE_PRECISION * barWidth) / 100, 10);
-
     if (pixels === undefined) { inputPixels = 0; }
+    const MAX_VOTES_PRECISION = 10;
+    const MAX_PERCENTAGE_PRECISION = 15;
+    const barWidth = $(`#voteBar-${this.voteId}`).width();
+    const placedWidth = $(`#votePlaced-${this.voteId}`).width();
+    const precisionRange = parseInt((MAX_PERCENTAGE_PRECISION * barWidth) / 100, 10);
+    const precisionValue = parseInt((inputPixels * MAX_VOTES_PRECISION) / precisionRange, 10);
+
     if ($(`#voteBar-${this.voteId}`).offset() !== undefined) {
       if ($(`#voteHandle-${this.voteId}`).offset() !== undefined) {
         this.sliderWidth = _scope((this._initialSliderWidth + inputPixels), this._maxWidth, this._minWidth);
@@ -210,16 +215,19 @@ export class Vote {
       }
       if (!avoidAllocation) {
         const sliderWidth = _scope($(`#voteSlider-${this.voteId}`).width(), this._maxWidth, 0);
-        if (Math.abs(pixels) <= precisionRange) {
+        if (Math.abs(inputPixels) <= precisionRange) {
           // precise allocation based on small pixel movement
-          precisionValue = parseInt((pixels * MAX_VOTES_PRECISION) / precisionRange, 10);
           pixelToVote = _scope(parseInt((precisionValue * this.balance) / barWidth, 10), this.maxVotes, this.minVotes);
           this.place(this.inBallot + precisionValue, true);
         } else {
           // standard allocation based on relative slider pixel width
-          console.log(precisionRange);
           if (inputPixels > 0) {
-            pixelToVote = _scope(parseInt(((sliderWidth - precisionRange) * this.balance) / (barWidth), 10) + MAX_VOTES_PRECISION + 1, this.maxVotes, this.minVotes);
+            const remainingSpace = parseInt(barWidth - precisionRange - placedWidth - this._getSliderCenter(inputPixels), 10);
+            const remainingVotes = parseInt(this.maxVotes - this.inBallot, 10);
+            const sliderInRemainingSpace = parseInt(inputPixels - precisionRange, 10);
+            // console.log(`remainingSpace = ${remainingSpace}; remainingVotes = ${remainingVotes}; sliderInRemainingSpace = ${sliderInRemainingSpace}`);
+            pixelToVote = _scope(parseInt((sliderInRemainingSpace * remainingVotes) / remainingSpace, 10) + MAX_VOTES_PRECISION + this.inBallot, this.maxVotes, this.minVotes);
+            // pixelToVote = _scope(parseInt(((sliderWidth - precisionRange) * this.balance) / (barWidth), 10) + MAX_VOTES_PRECISION + 1, this.maxVotes, this.minVotes);
           } else {
             pixelToVote = _scope(parseInt(((sliderWidth + precisionRange) * this.balance) / (barWidth), 10) - MAX_VOTES_PRECISION - 1, this.maxVotes, this.minVotes);
           }
@@ -231,7 +239,6 @@ export class Vote {
 
   /**
   * @summary resets slider handle to current inBallot value position
-  * @param {boolean} doPlaced if also reset the placed value of power bar
   */
   resetSlider() {
     const initialValue = parseFloat((this.inBallot * 100) / this.balance, 10).toFixed(2);
