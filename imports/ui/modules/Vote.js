@@ -235,7 +235,7 @@ export class Vote {
             sliderInRemainingSpace = parseInt(inputPixels - precisionRange, 10);
             pixelToVote = _scope(parseInt((sliderInRemainingSpace * remainingVotes) / remainingSpace, 10) + MAX_VOTES_PRECISION + this.inBallot, this.maxVotes, this.minVotes);
           } else {
-            remainingSpace = parseInt(this._getSliderCenter(inputPixels) - precisionRange, 10);
+            remainingSpace = parseInt(this._getSliderCenter(inputPixels) - precisionRange - parseInt((this.minVotes * barWidth) / this.balance, 10), 10);
             remainingVotes = parseInt(this.inBallot - this.minVotes - MAX_VOTES_PRECISION, 10);
             sliderInRemainingSpace = parseInt(Math.abs(inputPixels) - precisionRange, 10);
             pixelToVote = _scope(this.inBallot - MAX_VOTES_PRECISION - parseInt((sliderInRemainingSpace * remainingVotes) / remainingSpace, 10), this.maxVotes, this.minVotes);
