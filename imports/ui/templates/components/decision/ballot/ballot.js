@@ -15,7 +15,7 @@ import '../../../widgets/warning/warning.js';
 import '../execute/execute.js';
 import '../fork/fork.js';
 import '../alternative/alternative.js';
-import '../power/power.js';
+import '../liquid/liquid.js';
 
 function getVoterContractBond(object) {
   return Object.assign(object, {

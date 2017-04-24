@@ -4,6 +4,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { Tracker } from 'meteor/tracker';
+import { timers } from '/lib/const';
 
 import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
 import { displayModal } from '/imports/ui/modules/modal';
@@ -11,11 +12,11 @@ import { Vote } from '/imports/ui/modules/Vote';
 import { contractReady, purgeBallot, candidateBallot } from '/imports/ui/modules/ballot';
 import { clearPopups } from '/imports/ui/modules/popup';
 
-import './power.html';
+import './liquid.html';
 import '../action/action.js';
 
 /**
-* @summary converts a percentage value to pixels for current power bar
+* @summary converts a percentage value to pixels for current liquid bar
 * @param {number} percentage percentage value to be converted
 * @param {string} voteId where to store the vote
 * @return {number} pixels
@@ -70,12 +71,12 @@ function agreement(voteId, editable) {
   return getBarWidth(parseFloat((Session.get(voteId).placed - Session.get(voteId).inBallot) + Session.get(voteId).delegated, 10), voteId, editable);
 }
 
-Template.power.onCreated(function () {
+Template.liquid.onCreated(function () {
   const wallet = new Vote(this.data.wallet, this.data.targetId, this.data._id);
   Session.set(this.data._id, wallet);
 });
 
-Template.power.onRendered(function render() {
+Template.liquid.onRendered(function render() {
   if (!Meteor.user()) {
     return;
   }
@@ -92,7 +93,7 @@ Template.power.onRendered(function render() {
     }
   });
 
-  // redraw power bar if resize
+  // redraw liquid bar if resize
   $(`#voteBar-${this.data._id}`).resize(function () {
     const voteId = this.id.replace('voteBar-', '');
     $(`#voteSlider-${voteId}`).width(getBarWidth(Session.get(voteId).inBallot, voteId, true));
@@ -109,6 +110,8 @@ Template.power.onRendered(function render() {
       },
       start(event, ui) {
         const voteId = ui.helper.context.id.replace('voteHandle-', '');
+        this.calibrateNewPos = 0;
+        this.calibrateCurrentPos = 0;
         this.newVote = new Vote(Session.get(voteId), Session.get(voteId).targetId, voteId);
         Session.set(voteId, this.newVote);
         if (Session.get(voteId) !== undefined) {
@@ -124,7 +127,21 @@ Template.power.onRendered(function render() {
       drag(event, ui) {
         const voteId = ui.helper.context.id.replace('voteHandle-', '');
         this.newVote.sliderInput(ui.position.left);
+        this.calibrateCurrentPos = ui.position.left;
         Session.set(voteId, this.newVote);
+        /*
+        NOTE: dynamic calibration of slider will be done in the future
+        if (this.calibrateCurrentPos !== this.calibrateNewPos) {
+          this.timer = Meteor.setTimeout(() => {
+            if ((this.calibrateCurrentPos - this.calibrateNewPos) > 10 || (this.calibrateCurrentPos - this.calibrateNewPos) < -10) {
+              this.calibrateNewPos = this.calibrateCurrentPos;
+              Session.set('liquidDynamicCenter', this.calibrateNewPos);
+              Meteor.clearTimeout(this.timer);
+            }
+          }, timers.LIQUID_CALIBRATION);
+        } else {
+          Meteor.clearTimeout(this.timer);
+        } */
         ui.position.left = 0;
       },
       stop(event, ui) {
@@ -139,6 +156,8 @@ Template.power.onRendered(function render() {
           this.newVote.resetSlider();
           Session.set(voteId, this.newVote);
         };
+
+        Meteor.clearTimeout(this.timer);
 
         if (voteFailure(this.newVote)) {
           cancel();
@@ -156,7 +175,7 @@ Template.power.onRendered(function render() {
   }
 });
 
-Template.power.helpers({
+Template.liquid.helpers({
   isDelegation() {
     return (Session.get(this._id).voteType === 'DELEGATION');
   },
@@ -176,7 +195,7 @@ Template.power.helpers({
   },
 });
 
-Template.power.events({
+Template.liquid.events({
   'click #confirmation'() {
     let counterPartyId;
     for (const stamp in Session.get('contract').signatures) {

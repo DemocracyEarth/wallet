@@ -8,10 +8,10 @@
             {{_ 'delegation-status'}}
           </div>
           {{#with voteSettings}}
-            {{> power _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true}}
+            {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true}}
           {{/with}}
         {{else}}
-          <!--{{> power editable=false}}-->
+          <!--{{> liquid editable=false}}-->
           <!-- {{> authenticity}} -->
         {{/unless}}
       {{/if}}

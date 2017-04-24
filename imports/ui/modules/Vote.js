@@ -13,7 +13,7 @@ import { displayModal } from '/imports/ui/modules/modal';
 import { transact, getVotes } from '/imports/api/transactions/transaction';
 
 /**
-* @summary returns the type of vote being used for the power allocation
+* @summary returns the type of vote being used for the liquid allocation
 * @param {string} targetId the id of the targeted element
 * @return {string} type VOTE, DELEGATION, UNKNOWN
 */
@@ -216,6 +216,16 @@ export class Vote {
     const precisionRange = parseInt((MAX_PERCENTAGE_PRECISION * barWidth) / 100, 10);
     const precisionValue = parseInt((inputPixels * MAX_VOTES_PRECISION) / precisionRange, 10);
 
+
+    /*
+    NOTE: dynamic calibration of bar will be done in the future.
+    let calibrate = 0;
+    if (Session.get('liquidDynamicCenter') !== undefined) {
+      calibrate = Session.get('liquidDynamicCenter');
+      inputPixels += calibrate; // testing
+    }
+    */
+
     if ($(`#voteBar-${this.voteId}`).offset() !== undefined) {
       if ($(`#voteHandle-${this.voteId}`).offset() !== undefined) {
         this.sliderWidth = _scope((this._initialSliderWidth + inputPixels), this._maxWidth, this._minWidth);
@@ -287,7 +297,7 @@ export class Vote {
   }
 
   /**
-  * @summary executes an already configured vote from a power bar
+  * @summary executes an already configured vote from a liquid bar
   * @param {function} callback callback if execution is cancelled or after vote if no sessionId
   * @param {boolean} removal if operation aims to remove all votes from ballot
   */

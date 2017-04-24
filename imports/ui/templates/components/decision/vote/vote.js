@@ -1,2 +1,2 @@
 import './vote.html';
-import '../power/power.js';
+import '../liquid/liquid.js';
