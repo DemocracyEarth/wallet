@@ -71,30 +71,6 @@ function agreement(voteId, editable) {
   return getBarWidth(parseFloat((Session.get(voteId).placed - Session.get(voteId).inBallot) + Session.get(voteId).delegated, 10), voteId, editable);
 }
 
-function touchHandler(event) {
-    var touch = event.changedTouches[0];
-
-    var simulatedEvent = document.createEvent("MouseEvent");
-        simulatedEvent.initMouseEvent({
-        touchstart: "mousedown",
-        touchmove: "mousemove",
-        touchend: "mouseup"
-    }[event.type], true, true, window, 1,
-        touch.screenX, touch.screenY,
-        touch.clientX, touch.clientY, false,
-        false, false, false, 0, null);
-
-    touch.target.dispatchEvent(simulatedEvent);
-    event.preventDefault();
-}
-
-function init() {
-    document.addEventListener("touchstart", touchHandler, true);
-    document.addEventListener("touchmove", touchHandler, true);
-    document.addEventListener("touchend", touchHandler, true);
-    document.addEventListener("touchcancel", touchHandler, true);
-}
-
 Template.liquid.onCreated(function () {
   const wallet = new Vote(this.data.wallet, this.data.targetId, this.data._id);
   Session.set(this.data._id, wallet);

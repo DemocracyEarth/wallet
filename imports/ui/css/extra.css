@@ -49,13 +49,7 @@ input[type="file"] {
   left: 0px;
 }
 
-
-.feed {
-  overflow-y: scroll; /* has to be scroll, not auto */
-  -webkit-overflow-scrolling: touch;
-}
-
-.content, .split {
+#content {
   overflow-y: scroll; /* has to be scroll, not auto */
   -webkit-overflow-scrolling: touch;
 }
