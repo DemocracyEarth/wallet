@@ -4132,7 +4132,6 @@ blockquote {
   width: 28px;
   height: 28px;
   margin-right: 5px;
-  float: left;
 }
 
 .micro-label {
@@ -5114,6 +5113,7 @@ blockquote {
     font-weight: 400;
   }
   .paper {
+    border-radius: 0px;
     box-shadow: none;
   }
   .paper.paper-execute {
@@ -5156,6 +5156,7 @@ blockquote {
     padding: 10px;
   }
   .vote.vote-search.vote-feed {
+    margin-bottom: 5px;
     box-shadow: none;
   }
   .option {
@@ -5311,6 +5312,9 @@ blockquote {
     bottom: 0px;
     width: 100%;
   }
+  .type.content {
+    padding-top: 40px;
+  }
   .vote-cta {
     width: 100%;
   }
@@ -5323,14 +5327,35 @@ blockquote {
   .polis.remove {
     width: 100%;
   }
+  .cast {
+    box-shadow: none;
+  }
   .menu.menu-empty {
     font-weight: 400;
   }
   .menu-item {
     font-weight: 400;
   }
+  .feed {
+    padding-right: 5px;
+    padding-left: 5px;
+  }
+  .content.content-feed {
+    padding: 55px 5px 5px;
+  }
   .content.content-agora {
-    margin-top: -20px;
+    margin-top: -35px;
+    padding-top: 1px;
+  }
+  .split.split-right {
+    top: 35px;
+  }
+  .split.split-left {
+    margin-top: 55px;
+  }
+  .proposal-feed {
+    padding-right: 10px;
+    padding-left: 10px;
   }
   .subfeed-title {
     margin-right: -10px;
