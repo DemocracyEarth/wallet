@@ -4270,6 +4270,10 @@ blockquote {
   background-color: #ddd;
 }
 
+.right.show {
+  left: 0px;
+}
+
 .float-left {
   float: left;
 }
@@ -5109,6 +5113,9 @@ blockquote {
   blockquote {
     font-weight: 400;
   }
+  .paper {
+    box-shadow: none;
+  }
   .paper.paper-execute {
     border-radius: 0px;
   }
@@ -5121,6 +5128,9 @@ blockquote {
   }
   .declaration {
     line-height: 40px;
+  }
+  .label.label-corner {
+    font-size: 11px;
   }
   .power {
     width: 100%;
@@ -5138,8 +5148,18 @@ blockquote {
   .setting {
     font-weight: 400;
   }
+  .symbol.profile-pic {
+    border-color: #dfdfdf;
+    box-shadow: none;
+  }
   .vote.vote-search {
     padding: 10px;
+  }
+  .vote.vote-search.vote-feed {
+    box-shadow: none;
+  }
+  .option {
+    box-shadow: none;
   }
   .option-title.option-link {
     max-width: 100%;
@@ -5180,6 +5200,10 @@ blockquote {
   .input.headline-input.input-active {
     line-height: 50px;
   }
+  .navbar {
+    background-color: #392e42;
+    box-shadow: none;
+  }
   .logo {
     padding-left: 0px;
   }
@@ -5208,6 +5232,7 @@ blockquote {
     text-align: left;
   }
   .verifier {
+    font-size: 14px;
     line-height: 20px;
   }
   .portrait {
@@ -5228,12 +5253,19 @@ blockquote {
     width: 40px;
     float: right;
   }
+  .result.vote-bar {
+    box-shadow: inset 0 3px 13px -2px rgba(0, 0, 0, .5);
+  }
   .election {
     float: left;
     text-align: center;
   }
   .election-label {
     float: none;
+  }
+  .handle {
+    border-color: #fff;
+    box-shadow: none;
   }
   .data {
     display: inline-block;
@@ -5258,6 +5290,9 @@ blockquote {
     font-size: 40px;
     line-height: 50px;
     font-weight: 400;
+  }
+  .paper-header {
+    box-shadow: none;
   }
   .shadow-fake {
     left: 25px;
@@ -5297,6 +5332,10 @@ blockquote {
   .content.content-agora {
     margin-top: -20px;
   }
+  .subfeed-title {
+    margin-right: -10px;
+    margin-left: -10px;
+  }
 }
 
 @media (max-width: 479px) {
@@ -5318,7 +5357,7 @@ blockquote {
     margin-right: -20px;
     margin-left: -20px;
     padding: 0px 15px 10px;
-    box-shadow: 0 0 25px -10px #000;
+    box-shadow: none;
   }
   .paper.paper-comment {
     padding-top: 20px;
@@ -5334,10 +5373,6 @@ blockquote {
     display: inline;
     font-size: 26px;
     line-height: 32px;
-  }
-  .label.label-corner {
-    font-size: 8px;
-    line-height: 12px;
   }
   .description.editor {
     font-size: 16px;
@@ -5415,7 +5450,6 @@ blockquote {
   .option {
     width: 40px;
     height: 40px;
-    margin-right: 10px;
   }
   .option-title {
     margin-top: 0px;
@@ -5515,6 +5549,9 @@ blockquote {
   .verifier {
     font-size: 10px;
     line-height: 18px;
+  }
+  .verifier.verifier-live {
+    font-size: 14px;
   }
   .rich-text.editor-draft {
     border-left-color: transparent;
