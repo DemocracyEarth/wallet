@@ -48,3 +48,14 @@ input[type="file"] {
 .right {
   left: 0px;
 }
+
+
+.feed {
+  overflow-y: scroll; /* has to be scroll, not auto */
+  -webkit-overflow-scrolling: touch;
+}
+
+.content, .split {
+  overflow-y: scroll; /* has to be scroll, not auto */
+  -webkit-overflow-scrolling: touch;
+}
