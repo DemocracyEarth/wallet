@@ -2439,8 +2439,8 @@ blockquote {
 .result.vote-bar {
   width: 100%;
   height: 20px;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top: 20px;
+  margin-bottom: 10px;
   box-shadow: inset 0 3px 7px -3px rgba(0, 0, 0, .5);
 }
 
@@ -2796,6 +2796,7 @@ blockquote {
 .rosca {
   display: inline-block;
   width: 100%;
+  margin-top: 5px;
   font-size: 14px;
 }
 
@@ -3010,10 +3011,10 @@ blockquote {
   display: inline-block;
   margin-top: 3px;
   margin-right: 10px;
-  padding: 0px 5px 5px;
+  padding: 0px 10px 5px;
   float: left;
   border: 1px dashed #46dfb8;
-  border-radius: 3px;
+  border-radius: 25px;
   background-color: transparent;
   color: #00bf8f;
   font-size: 10px;
@@ -5263,6 +5264,9 @@ blockquote {
   }
   .election-label {
     float: none;
+  }
+  .rosca.rosca-setter {
+    margin-top: 5px;
   }
   .handle {
     border-color: #fff;

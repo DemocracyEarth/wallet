@@ -4,16 +4,7 @@
   {{else}}
     <div class="login">
       {{> avatar includeName=true includeNation=true editable=true}}
-
-        <div class="login-label login-label-form">
-          {{{totalVotes}}}
-        </div>
-        {{> liquid _id='vote-user-balance' targetId=currentUser._id wallet=currentUser.profile.wallet isDelegation=false editable=false}}
-        <!--<div class="login-label login-label-form">
-          {{_ 'authenticity'}}
-        </div>
-        {{> authenticity}}-->
-
+      {{> liquid _id='vote-user-balance' targetId=currentUser._id wallet=currentUser.profile.wallet isDelegation=false editable=false}}
       {{#unless socialMediaLogin}}
         {{#unless verifiedMail}}
           <div class="extra float-left">
