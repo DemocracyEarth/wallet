@@ -323,6 +323,7 @@ const _getExternalScripts = () => {
     $.getScript('/datepicker.js');
   }
   $.getScript('/jquery.resize.js');
+  $.getScript('/js/jquery.ui.touch-punch.min.js');
 };
 
 /**
