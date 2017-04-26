@@ -2424,7 +2424,7 @@ blockquote {
 
 .result {
   margin-top: 10px;
-  border-radius: 3px;
+  border-radius: 25px;
   background-color: #d1d1d1;
   box-shadow: inset 0 2px 10px -5px rgba(0, 0, 0, .5);
 }
@@ -2438,18 +2438,18 @@ blockquote {
 
 .result.vote-bar {
   width: 100%;
-  height: 15px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  box-shadow: inset 0 3px 13px -2px rgba(0, 0, 0, .5);
+  height: 20px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  box-shadow: inset 0 3px 7px -3px rgba(0, 0, 0, .5);
 }
 
 .result-bar {
   width: 35%;
   height: 30px;
   float: left;
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
   background-color: #00bf8f;
   line-height: 30px;
 }
@@ -2473,9 +2473,9 @@ blockquote {
   position: absolute;
   right: 0px;
   width: 50%;
-  height: 15px;
+  height: 20px;
   float: right;
-  border-radius: 0px 3px 3px 0px;
+  border-radius: 0px 25px 25px 0px;
   background-color: #ccc;
   background-image: url('../images/pattern-pinstripes-diagonal-green.png');
   background-position: 100% 0px;
@@ -2495,8 +2495,8 @@ blockquote {
 }
 
 .result-bar.vote-bar.vote-bar-allocated.unanimous {
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
 
 .result-bar.vote-bar.vote-bar-allocated.vote-bar-fixed {
@@ -2841,15 +2841,15 @@ blockquote {
 .handle {
   position: relative;
   z-index: 999;
-  width: 29px;
-  height: 29px;
-  margin-top: -7px;
-  margin-right: -14px;
+  width: 35px;
+  height: 35px;
+  margin-top: -8px;
+  margin-right: -17px;
   float: right;
-  border: 5px solid #fff;
+  border: 6px solid #fff;
   border-radius: 100px;
   background-color: #e6f9f4;
-  box-shadow: 0 0 11px -5px #000, inset 0 0 3px -2px rgba(0, 0, 0, .75);
+  box-shadow: 0 0 1px -1px #000, inset 0 0 1px 0 #52d4b4;
   cursor: -webkit-grab;
 }
 
@@ -5266,7 +5266,7 @@ blockquote {
   }
   .handle {
     border-color: #fff;
-    box-shadow: none;
+    box-shadow: 0 0 2px -1px #000, inset 0 0 1px 0 #52d4b4;
   }
   .data {
     display: inline-block;

@@ -2,19 +2,19 @@
   {{#if editable}}
     {{#if rightToVote}}
       <div class="w-clearfix rosca rosca-setter">
-        {{> bar _id=_id editable=editable}}
         {{> capital _id=_id user=user isDelegation=isDelegation}}
+        {{> bar _id=_id editable=editable}}
       </div>
     {{else}}
       <div class="w-clearfix rosca rosca-setter">
-        {{> bar _id=_id editable=false}}
         {{> capital _id=_id user=user isDelegation=isDelegation}}
+        {{> bar _id=_id editable=false}}
       </div>
     {{/if}}
   {{else}}
     <div class="w-clearfix rosca rosca-setter">
-      {{> bar _id=_id editable=editable}}
       {{> capital _id=_id user=user isDelegation=isDelegation editable=editable}}
+      {{> bar _id=_id editable=editable}}
     </div>
   {{/if}}
 </template>
