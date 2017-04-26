@@ -184,7 +184,7 @@
   "mismatch-password": "Passwords do not properly match.",
   "available-votes": "available votes",
   "placed-votes": "placed elsewhere",
-  "placed": "placed votes",
+  "placed": "placed",
   "see-all": "Review all",
   "delegations": "Delegations",
   "log-out": "Logout",
@@ -437,5 +437,5 @@
   "delegation-status": "Delegation Status",
   "received-votes-tip": "Delegated votes from this user to you.",
   "sent-votes-tip": "Delegated votes from you to this user.",
-  "votes-in-use": "Votes are being used"
+  "votes-in-use": "Votes being used"
 }

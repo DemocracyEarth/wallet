@@ -2850,7 +2850,7 @@ blockquote {
   border: 6px solid #fff;
   border-radius: 100px;
   background-color: #e6f9f4;
-  box-shadow: 0 0 1px -1px #000, inset 0 0 1px 0 #52d4b4;
+  box-shadow: 0 1px 3px -2px #000, inset 0 0 1px 0 #52d4b4;
   cursor: -webkit-grab;
 }
 
@@ -5270,7 +5270,7 @@ blockquote {
   }
   .handle {
     border-color: #fff;
-    box-shadow: 0 0 2px -1px #000, inset 0 0 1px 0 #52d4b4;
+    box-shadow: 0 1px 3px -1px #000, inset 0 0 1px 0 #52d4b4;
   }
   .data {
     display: inline-block;

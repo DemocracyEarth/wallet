@@ -71,6 +71,10 @@ function agreement(voteId, editable) {
   return getBarWidth(parseFloat((Session.get(voteId).placed - Session.get(voteId).inBallot) + Session.get(voteId).delegated, 10), voteId, editable);
 }
 
+function getPercentage(value, voteId) {
+  return parseInt((value * 100) / Session.get(voteId).balance, 10);
+}
+
 Template.liquid.onCreated(function () {
   const wallet = new Vote(this.data.wallet, this.data.targetId, this.data._id);
   Session.set(this.data._id, wallet);
@@ -287,15 +291,16 @@ Template.capital.helpers({
           if (inBallot === 0) {
             let available;
             if (Session.get(this._id).voteType === 'BALANCE') {
-              available = Session.get(this._id).available;
+              available = Session.get(this._id).balance;
               if (available === 0) { available = TAPi18n.__('none'); }
+              label = `<strong>${available.toLocaleString()}</strong> ${TAPi18n.__('total-votes')}`;
             } else {
               available = parseInt((Session.get(this._id).available + Session.get(this._id).inBallot) - Session.get(this._id).allocateQuantity, 10);
-            }
-            if (Session.get(this._id).allocateQuantity > 0 && (available <= 0)) {
-              label = `<strong>${TAPi18n.__('none')}</strong> ${TAPi18n.__('available-votes')}`;
-            } else {
-              label = `<strong>${available.toLocaleString()}</strong> ${TAPi18n.__('available-votes')}`;
+              if (Session.get(this._id).allocateQuantity > 0 && (available <= 0)) {
+                label = `<strong>${TAPi18n.__('none')}</strong> ${TAPi18n.__('available-votes')}`;
+              } else {
+                label = `<strong>${available.toLocaleString()}</strong> ${TAPi18n.__('available-votes')}`;
+              }
             }
           }
           break;
@@ -310,7 +315,7 @@ Template.capital.helpers({
           } else if (inBallot === 0) {
             label = `<strong>${TAPi18n.__('none')}</strong> ${TAPi18n.__('on-this-ballot')}`;
           } else if (Session.get(this._id).voteType === 'BALANCE') {
-            label = `<strong>${inBallot.toLocaleString()}</strong> ${TAPi18n.__('available-votes')}`;
+            label = `<strong>${Session.get(this._id).balance.toLocaleString()}</strong> ${TAPi18n.__('total-votes')}`;
           } else {
             label = `<strong>${inBallot.toLocaleString()}</strong> ${TAPi18n.__('on-this-ballot')}`;
           }
@@ -338,9 +343,9 @@ Template.capital.helpers({
           if (Meteor.user().profile.wallet.placed === 0) {
             label = `<strong>${TAPi18n.__('none')}</strong>  ${TAPi18n.__('placed-votes')}`;
           } else if (Session.get(this._id).voteType === 'BALANCE') {
-            label = `<strong>${Meteor.user().profile.wallet.placed.toLocaleString()}</strong>  ${TAPi18n.__('placed')}`;
+            label = `<strong>${getPercentage(Meteor.user().profile.wallet.placed, this._id).toLocaleString()}%</strong>  ${TAPi18n.__('placed')}`;
           } else {
-            label = `<strong>${parseInt(Meteor.user().profile.wallet.placed - inBallot, 10).toLocaleString()}</strong>  ${TAPi18n.__('placed-votes')}`;
+            label = `<strong>${getPercentage(parseInt(Session.get(this._id).placed - inBallot, 10), this._id).toLocaleString()}%</strong>  ${TAPi18n.__('placed-votes')}`;
           }
           break;
       }
