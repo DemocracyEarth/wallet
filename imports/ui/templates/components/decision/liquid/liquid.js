@@ -378,8 +378,8 @@ Template.capital.helpers({
             }
             return 'hide';
           }
-          if (this.editable === false) {
-            return 'stage-delegated';
+          if (this.editable === false && Session.get(this._id).voteType === 'BALANCE') {
+            return 'stage-vote-totals';
           }
           return 'stage-finish-approved';
         }

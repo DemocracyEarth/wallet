@@ -3115,6 +3115,13 @@ blockquote {
   color: #00bf8f;
 }
 
+.stage.stage-vote-totals {
+  border-style: solid;
+  border-color: #8865a5;
+  background-color: #8865a5;
+  color: #fff;
+}
+
 .profile-thumb {
   height: 60px;
   opacity: 0.75;
