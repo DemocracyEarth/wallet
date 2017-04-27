@@ -153,6 +153,7 @@ export class Vote {
       this.sliderWidth = this._initialSliderWidth;
       this._maxWidth = parseInt(($(`#voteBar-${this.voteId}`).width() - (($(`#voteBar-${this.voteId}`).width() * parseInt((((this.placed - this.inBallot) + this.delegated) * 100) / this.balance, 10)) / 100)), 10);
       this._minWidth = parseInt(($(`#voteBar-${this.voteId}`).width() * this.minVotes) / this.balance, 10);
+      this.positionHandle(this._initialSliderWidth);
 
       // methods
       if (this.initialized === true && this.voteType !== 'BALANCE') {
@@ -216,9 +217,8 @@ export class Vote {
     const precisionRange = parseInt((MAX_PERCENTAGE_PRECISION * barWidth) / 100, 10);
     const precisionValue = parseInt((inputPixels * MAX_VOTES_PRECISION) / precisionRange, 10);
 
-
     /*
-    NOTE: dynamic calibration of bar will be done in the future.
+    NOTE: dynamic calibration of bar for precise range while subtle sliding anywhere will be done in the future
     let calibrate = 0;
     if (Session.get('liquidDynamicCenter') !== undefined) {
       calibrate = Session.get('liquidDynamicCenter');
@@ -232,6 +232,7 @@ export class Vote {
       } else {
         this.sliderWidth = 0;
       }
+      this.positionHandle(this.sliderWidth);
       if (!avoidAllocation) {
         if (Math.abs(inputPixels) <= precisionRange) {
           // precise allocation based on small pixel movement
@@ -264,7 +265,15 @@ export class Vote {
     $(`#voteSlider-${this.voteId}`).velocity({ width: `${initialValue}%` }, animationSettings);
     this._initialSliderWidth = parseInt(($(`#voteBar-${this.voteId}`).width() * initialValue) / 100, 10);
     this.sliderWidth = this._initialSliderWidth;
+    this.positionHandle(this.sliderWidth);
     this.place(this.inBallot, true);
+  }
+
+  /**
+  * @summary position handle to properly fit in the extremes
+  */
+  positionHandle(width) {
+    $(`#voteHandle-${this.voteId}`).css('margin-right', `${parseInt(((width * 23) / $(`#voteBar-${this.voteId}`).width()) - 29, 10)}px`);
   }
 
   /**
