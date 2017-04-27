@@ -877,9 +877,9 @@ blockquote {
 }
 
 .button.login-button.button-half {
-  width: 170px;
-  margin-right: 5px;
-  margin-left: 5px;
+  width: 100%;
+  margin-right: 0px;
+  margin-left: 0px;
   float: left;
 }
 
@@ -2755,7 +2755,7 @@ blockquote {
 }
 
 .modal.hide {
-  display: none;
+  display: block;
   overflow: scroll;
   padding-top: 10px;
   background-color: #fff;
@@ -3795,11 +3795,9 @@ blockquote {
   margin-top: 20%;
   margin-right: auto;
   margin-left: auto;
-  padding-right: 10px;
-  padding-bottom: 25px;
-  padding-left: 10px;
-  border-radius: 3px;
-  background-color: rgba(49, 38, 59, .95);
+  padding: 15px 10px;
+  border-radius: 10px;
+  background-color: #442f58;
   box-shadow: 0 3px 8px -4px #000;
   color: #fff;
   text-align: center;
@@ -3814,9 +3812,8 @@ blockquote {
 .alert-icon {
   width: 70px;
   height: 70px;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  opacity: 0.75;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .alert-title {
@@ -4170,8 +4167,9 @@ blockquote {
 
 .modal-buttons {
   display: inline-block;
-  margin-top: 10px;
-  margin-bottom: -10px;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 0px;
 }
 
 .collective {
@@ -4897,6 +4895,13 @@ blockquote {
   color: #00bf8f;
 }
 
+.modal-buttons-padder {
+  width: 50%;
+  padding-right: 5px;
+  padding-left: 5px;
+  float: left;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
@@ -5323,6 +5328,9 @@ blockquote {
     right: 0px;
     bottom: 0px;
     width: 100%;
+  }
+  .alert {
+    max-width: 360px;
   }
   .type.content {
     padding-top: 40px;

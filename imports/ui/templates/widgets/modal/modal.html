@@ -11,38 +11,41 @@
         <img class="alert-icon" src="{{pathFor route='home'}}{{icon}}">
         <div>{{{title}}}</div>
       </div>
-      <div class="w-clearfix login">
-        <div>{{{message}}}</div>
 
-        {{#if displayProfile}}
-          <div class='card-element'>
-            <div class="w-clearfix identity identity-center">
-              {{> avatar profile=profileId includeName=true includeNation=true editable=false disabled=true}}
-            </div>
+      <div>{{{message}}}</div>
+
+      {{#if displayProfile}}
+        <div class='card-element'>
+          <div class="w-clearfix identity identity-center">
+            {{> avatar profile=profileId includeName=true includeNation=true editable=false disabled=true}}
           </div>
-        {{/if}}
-        {{#if displayBallot}}
-          <p>
-            <ul class="{{mini 'options'}}">
-            <li class="title-input title-input-mini">
-              {{contractTitle}}
-            </li>
-            {{#each ballot}}
-              {{> fork _id=_id label=label executive=false mode=mode rank=rank url=url editorMode=false mini=true}}
-            {{/each}}
-            </ul>
-          </p>
-        {{/if}}
-        <div class="modal-buttons">
+        </div>
+      {{/if}}
+      {{#if displayBallot}}
+        <p>
+          <ul class="{{mini 'options'}}">
+          <li class="title-input title-input-mini">
+            {{contractTitle}}
+          </li>
+          {{#each ballot}}
+            {{> fork _id=_id label=label executive=false mode=mode rank=rank url=url editorMode=false mini=true}}
+          {{/each}}
+          </ul>
+        </p>
+      {{/if}}
+      <div class="modal-buttons">
+        <div class="modal-buttons-padder">
           <div id="cancel" class="button login-button button-secondary button-half">
             <div>{{cancel}}</div>
           </div>
+        </div>
+        <div class="modal-buttons-padder">
           <div id="execute" class="button login-button button-half">
             <div>{{action}}</div>
           </div>
         </div>
-
       </div>
+
     </div>
   </div>
 </template>
