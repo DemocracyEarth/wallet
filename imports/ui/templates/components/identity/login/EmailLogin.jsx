@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { clearPopups } from '/imports/ui/modules/popup';
 import Warning from '../../../widgets/warning/Warning.jsx';
 import Signup from '../signup/Signup.jsx';
 import ForgotPassword from './ForgotPassword.jsx';
@@ -55,10 +56,10 @@ export default class EmailLogin extends Component {
             // User not found or incorrect password
             this.handleSigninError();
             break;
-        } else {
+        }
+      } else {
         // Successful login
         clearPopups();
-       }
       }
     });
   }
