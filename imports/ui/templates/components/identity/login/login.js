@@ -12,7 +12,7 @@ Template.login.events({
   'click #logout'() {
     // Session.set('displayPopup', false);
     Session.set('logger', false);
-    animatePopup(false);
+    animatePopup(false, `login-${Meteor.userId()}`);
     Meteor.logout();
     Router.go('/');
   },

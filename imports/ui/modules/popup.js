@@ -127,7 +127,7 @@ const _cancel = (id) => {
 };
 
 /**
-/* @summary animate fade in or out of popup instnace
+/* @summary animate fade in or out of popup instance
 /* @param {boolean} display - if a fade in or fade out will be played
 /* @param {id} string popup identifier
 ***/

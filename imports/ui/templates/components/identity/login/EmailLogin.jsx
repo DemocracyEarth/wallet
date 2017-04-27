@@ -55,7 +55,10 @@ export default class EmailLogin extends Component {
             // User not found or incorrect password
             this.handleSigninError();
             break;
-        }
+        } else {
++        // Successful login
++        clearPopups();
+       }
       }
     });
   }
