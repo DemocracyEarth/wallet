@@ -9,11 +9,9 @@
     <div class="w-clearfix alert">
       <div class="alert-header">
         <img class="alert-icon" src="{{pathFor route='home'}}{{icon}}">
-        <div>{{{title}}}</div>
+        <div class="modal-title">{{{title}}}</div>
       </div>
-
       <div>{{{message}}}</div>
-
       {{#if displayProfile}}
         <div class='card-element'>
           <div class="w-clearfix identity identity-center">
@@ -45,7 +43,6 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </template>

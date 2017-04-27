@@ -3796,10 +3796,11 @@ blockquote {
   margin-right: auto;
   margin-left: auto;
   padding: 15px 10px;
-  border-radius: 10px;
+  border-radius: 5px;
   background-color: #442f58;
   box-shadow: 0 3px 8px -4px #000;
   color: #fff;
+  font-size: 16px;
   text-align: center;
 }
 
@@ -3810,8 +3811,8 @@ blockquote {
 }
 
 .alert-icon {
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   margin-top: 5px;
   margin-bottom: 5px;
 }
@@ -4849,10 +4850,10 @@ blockquote {
   top: -2px;
   display: inline-block;
   margin: 1px 3px -4px;
-  padding-right: 5px;
-  padding-left: 5px;
+  padding-right: 10px;
+  padding-left: 10px;
   border: 1px solid #ffe079;
-  border-radius: 3px;
+  border-radius: 25px;
   background-color: #ffe079;
   color: #af8d1e;
   font-size: 10px;
@@ -4900,6 +4901,12 @@ blockquote {
   padding-right: 5px;
   padding-left: 5px;
   float: left;
+}
+
+.modal-title {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-weight: 600;
 }
 
 @media (max-width: 991px) {
@@ -5191,6 +5198,9 @@ blockquote {
   .option-title.option-link.option-search {
     font-weight: 400;
   }
+  .option-title.option-title-mini {
+    font-size: 18px;
+  }
   .checkbox {
     font-weight: 400;
   }
@@ -5330,7 +5340,9 @@ blockquote {
     width: 100%;
   }
   .alert {
+    width: 90%;
     max-width: 360px;
+    border-radius: 10px;
   }
   .type.content {
     padding-top: 40px;
@@ -5377,9 +5389,15 @@ blockquote {
     padding-right: 10px;
     padding-left: 10px;
   }
+  .vote-quantity {
+    font-size: 12px;
+  }
   .subfeed-title {
     margin-right: -10px;
     margin-left: -10px;
+  }
+  .modal-title {
+    font-weight: 700;
   }
 }
 
@@ -5521,6 +5539,9 @@ blockquote {
   }
   .option-title.option-link.option-search {
     font-size: 22px;
+  }
+  .option-title.option-title-mini {
+    margin-top: 4px;
   }
   .checkbox.checkbox-custom {
     width: 100%;

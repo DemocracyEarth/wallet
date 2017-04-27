@@ -1,5 +1,6 @@
 import { Session } from 'meteor/session';
 import { globalObj } from '/lib/global';
+import { $ } from 'meteor/jquery';
 
 let modalCallback;
 
@@ -13,6 +14,14 @@ let modalCallback;
 const modal = (active, settings, callback, cancel) => {
   Session.set('displayModal', settings);
   Session.set('showModal', active);
+
+  if (active) {
+    $('#content').css('overflow', 'hidden');
+    $('.alert').css('overflow', 'scroll');
+  } else {
+    $('#content').css('overflow', 'scroll');
+    $('.alert').css('overflow', 'hidden');
+  }
 
   if (callback !== undefined) {
     globalObj.modalCallback = callback;
