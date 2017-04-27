@@ -56,8 +56,8 @@ export default class EmailLogin extends Component {
             this.handleSigninError();
             break;
         } else {
-+        // Successful login
-+        clearPopups();
+        // Successful login
+        clearPopups();
        }
       }
     });
