@@ -412,7 +412,7 @@ Template.capital.helpers({
       case 'placed':
         percentagePlaced = getPercentage(parseInt(Session.get(this._id).placed - inBallot, 10), this._id);
         if (percentagePlaced === 100) {
-          return 'stage-finish-approved';
+          return 'stage-finish-rejected';
         }
         return 'stage-placed';
       case 'received':
