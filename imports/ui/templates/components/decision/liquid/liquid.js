@@ -331,8 +331,12 @@ Template.capital.helpers({
           } else if (Session.get(this._id).voteType === 'DELEGATION') {
             if (Math.abs(inBallot + quantity) <= Session.get(this._id).minVotes && inBallot > 0) {
               label = TAPi18n.__('votes-in-use');
-            } else if (inBallot <= 0) {
-              label = `<strong>${TAPi18n.__('no')}</strong> ${TAPi18n.__('votes-to-delegate')}`;
+            } else if (Session.get(this._id).allocateQuantity <= 0 || isNaN(Session.get(this._id).allocateQuantity)) {
+              if (Session.get(this._id).available === 0) {
+                label = `${TAPi18n.__('not-enough-votes')}`;
+              } else {
+                label = `<strong>${TAPi18n.__('no')}</strong> ${TAPi18n.__('votes-to-delegate')}`;
+              }
             } else {
               label = `<strong>${Math.abs(inBallot + quantity).toLocaleString()}</strong> ${TAPi18n.__('votes-to-delegate')}`;
             }
@@ -396,7 +400,9 @@ Template.capital.helpers({
       case 'allocateQuantity': {
         const quantity = parseInt(Session.get(this._id)[value] - inBallot, 10);
         if (Session.get('dragging') === this._id) {
-          if ((Math.abs(quantity) === inBallot && (quantity < 0)) || (Math.abs(inBallot + quantity) <= Session.get(this._id).minVotes && inBallot > 0)) {
+          if ((Math.abs(quantity) === inBallot && (quantity < 0)) ||
+          (Math.abs(inBallot + quantity) <= Session.get(this._id).minVotes && inBallot > 0) ||
+          (Session.get(this._id).available === 0 && (Session.get(this._id).allocateQuantity <= 0 || isNaN(Session.get(this._id).allocateQuantity)))) {
             return 'stage-finish-rejected';
           }
           return 'stage-live';

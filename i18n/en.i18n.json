@@ -438,5 +438,6 @@
   "received-votes-tip": "Delegated votes from this user to you.",
   "sent-votes-tip": "Delegated votes from you to this user.",
   "votes-in-use": "Votes being used",
-  "less-than-one": "Less 1%"
+  "less-than-one": "Less 1%",
+  "not-enough-votes": "Not enough votes"
 }
