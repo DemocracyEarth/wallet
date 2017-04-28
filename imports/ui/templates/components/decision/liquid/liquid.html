@@ -13,8 +13,10 @@
     {{/if}}
   {{else}}
     <div class="w-clearfix rosca rosca-setter">
-      {{> capital _id=_id user=user isDelegation=isDelegation editable=editable}}
-      {{> bar _id=_id editable=editable}}
+      {{> capital _id=_id user=user isDelegation=isDelegation editable=editable hideBar=hideBar}}
+      {{#unless hideBar}}
+        {{> bar _id=_id editable=editable}}
+      {{/unless}}
     </div>
   {{/if}}
 </template>
@@ -60,14 +62,23 @@
             {{{getVotes 'available'}}}
           </div>
         </div>
+        {{#if hideBar}}
+          <div class="stage {{style 'placed'}}">
+            <div class='label label-corner'>
+              {{{getVotes 'placed'}}}
+            </div>
+          </div>
+        {{/if}}
       </div>
-      <div class='vote-allocated label-votes'>
-        <div class="stage {{style 'placed'}}">
-          <div class='label label-corner'>
-            {{{getVotes 'placed'}}}
+      {{#unless hideBar}}
+        <div class='vote-allocated label-votes'>
+          <div class="stage {{style 'placed'}}">
+            <div class='label label-corner'>
+              {{{getVotes 'placed'}}}
+            </div>
           </div>
         </div>
-      </div>
+     {{/unless}}
     </div>
   {{/if}}
 </template>

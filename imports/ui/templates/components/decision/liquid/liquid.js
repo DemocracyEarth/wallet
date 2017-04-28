@@ -437,7 +437,8 @@ Template.bar.helpers({
     return agreement(this._id, this.editable);
   },
   unanimous(value) {
-    if (Session.get(this._id)[value] === Session.get(this._id).balance) {
+    const quantity = parseInt(Session.get(this._id)[value] - Session.get(this._id).inBallot, 10);
+    if (quantity === Session.get(this._id).balance) {
       return 'unanimous';
     }
     return '';
