@@ -355,7 +355,7 @@ Template.capital.helpers({
           if (placed === 0 || percentagePlaced === 0) {
             label = `<strong>${TAPi18n.__('none')}</strong>  ${TAPi18n.__('placed-votes')}`;
           } else if (Session.get(this._id).voteType === 'BALANCE') {
-            label = `<strong>${parseInt(percentagePlaced, 10).toLocaleString()}%</strong>  ${TAPi18n.__('placed')}`;
+            label = `<strong>${parseInt(getPercentage(Session.get(this._id).placed, this._id), 10).toLocaleString()}%</strong>  ${TAPi18n.__('placed')}`;
           } else if (percentagePlaced < 1 && percentagePlaced > 0) {
             label = `<strong>${TAPi18n.__('less-than-one')}</strong>  ${TAPi18n.__('placed-votes')}`;
           } else {
