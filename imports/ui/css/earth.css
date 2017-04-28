@@ -2496,8 +2496,8 @@ blockquote {
 }
 
 .result-bar.vote-bar.vote-bar-allocated.unanimous {
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
 }
 
 .result-bar.vote-bar.vote-bar-allocated.vote-bar-fixed {
@@ -2755,7 +2755,7 @@ blockquote {
 }
 
 .modal.hide {
-  display: block;
+  display: none;
   overflow: scroll;
   padding-top: 10px;
   background-color: #fff;
@@ -4885,7 +4885,7 @@ blockquote {
 }
 
 .unanimous {
-  border-radius: 3px;
+  border-radius: 25px;
 }
 
 .votes {

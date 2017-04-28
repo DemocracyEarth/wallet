@@ -437,5 +437,6 @@
   "delegation-status": "Delegation Status",
   "received-votes-tip": "Delegated votes from this user to you.",
   "sent-votes-tip": "Delegated votes from you to this user.",
-  "votes-in-use": "Votes being used"
+  "votes-in-use": "Votes being used",
+  "less-than-one": "Less 1%"
 }

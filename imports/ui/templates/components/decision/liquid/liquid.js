@@ -36,6 +36,7 @@ function getBarWidth(value, voteId, editable, interactive) {
   if (editable) {
     const wallet = Session.get(voteId);
     if (wallet !== undefined) {
+      if (wallet.balance === 0) { return 0; }
       const percentage = parseFloat((value * 100) / wallet.balance, 10).toFixed(2);
       if (interactive) {
         return `${parseInt(wallet.sliderWidth, 10)}px`;
@@ -56,7 +57,8 @@ function voteFailure(vote) {
   return (vote.allocateQuantity <= vote.minVotes && vote.minVotes !== 0 && vote.voteType === 'DELEGATION') ||
     (vote.allocateQuantity < vote.minVotes && vote.voteType === 'VOTE') ||
     (vote.allocateQuantity === vote.inBallot) ||
-    (vote.voteType === 'VOTE' && purgeBallot(Session.get('candidateBallot')).length === 0);
+    (vote.voteType === 'VOTE' && purgeBallot(Session.get('candidateBallot')).length === 0) ||
+    (isNaN(vote.allocateQuantity));
 }
 
 /**
@@ -72,7 +74,7 @@ function agreement(voteId, editable) {
 }
 
 function getPercentage(value, voteId) {
-  return parseInt((value * 100) / Session.get(voteId).balance, 10);
+  return parseFloat((value * 100) / Session.get(voteId).balance, 10);
 }
 
 Template.liquid.onCreated(function () {
@@ -284,6 +286,8 @@ Template.liquid.events({
 Template.capital.helpers({
   getVotes(value) {
     let label;
+    let placed;
+    let percentagePlaced;
     const inBallot = Session.get(this._id).inBallot;
     if (Session.get(this._id) !== undefined) {
       switch (value) {
@@ -307,7 +311,7 @@ Template.capital.helpers({
         }
         case 'inBallot':
           if (Session.get(this._id).voteType === 'DELEGATION') {
-            if (inBallot === 0) {
+            if (inBallot <= 0) {
               label = `<strong>${TAPi18n.__('no')}</strong> ${TAPi18n.__('sent-votes')}`;
             } else {
               label = `<strong>${inBallot.toLocaleString()}</strong> ${TAPi18n.__('sent-votes')}`;
@@ -327,6 +331,8 @@ Template.capital.helpers({
           } else if (Session.get(this._id).voteType === 'DELEGATION') {
             if (Math.abs(inBallot + quantity) <= Session.get(this._id).minVotes && inBallot > 0) {
               label = TAPi18n.__('votes-in-use');
+            } else if (inBallot <= 0) {
+              label = `<strong>${TAPi18n.__('no')}</strong> ${TAPi18n.__('votes-to-delegate')}`;
             } else {
               label = `<strong>${Math.abs(inBallot + quantity).toLocaleString()}</strong> ${TAPi18n.__('votes-to-delegate')}`;
             }
@@ -340,12 +346,16 @@ Template.capital.helpers({
           break;
         case 'placed':
         default:
-          if (Meteor.user().profile.wallet.placed === 0) {
+          placed = Session.get(this._id).placed;
+          percentagePlaced = getPercentage(parseInt(placed - inBallot, 10), this._id);
+          if (placed === 0 || percentagePlaced === 0) {
             label = `<strong>${TAPi18n.__('none')}</strong>  ${TAPi18n.__('placed-votes')}`;
           } else if (Session.get(this._id).voteType === 'BALANCE') {
-            label = `<strong>${getPercentage(Meteor.user().profile.wallet.placed, this._id).toLocaleString()}%</strong>  ${TAPi18n.__('placed')}`;
+            label = `<strong>${parseInt(percentagePlaced, 10).toLocaleString()}%</strong>  ${TAPi18n.__('placed')}`;
+          } else if (percentagePlaced < 1 && percentagePlaced > 0) {
+            label = `<strong>${TAPi18n.__('less-than-one')}</strong>  ${TAPi18n.__('placed-votes')}`;
           } else {
-            label = `<strong>${getPercentage(parseInt(Session.get(this._id).placed - inBallot, 10), this._id).toLocaleString()}%</strong>  ${TAPi18n.__('placed-votes')}`;
+            label = `<strong>${parseInt(percentagePlaced, 10).toLocaleString()}%</strong>  ${TAPi18n.__('placed-votes')}`;
           }
           break;
       }
@@ -353,16 +363,15 @@ Template.capital.helpers({
     return label;
   },
   style(value) {
+    let percentagePlaced;
     const inBallot = Session.get(this._id).inBallot;
     switch (value) {
       case 'available': {
         if (inBallot === 0 && (Session.get('dragging') === false || Session.get('dragging') === undefined || Session.get('dragging') !== this._id)) {
-          let available;
           if (Session.get(this._id).voteType === 'BALANCE') {
-            available = Session.get(this._id).available;
-          } else {
-            available = parseInt((Session.get(this._id).available + Session.get(this._id).inBallot) - Session.get(this._id).allocateQuantity, 10);
+            return 'stage-vote-totals';
           }
+          const available = parseInt((Session.get(this._id).available + Session.get(this._id).inBallot) - Session.get(this._id).allocateQuantity, 10);
           if ((Session.get(this._id).allocateQuantity > 0 || !Session.get(this._id).allocateQuantity) && (available <= 0)) {
             return 'stage-finish-rejected';
           }
@@ -395,6 +404,10 @@ Template.capital.helpers({
         return 'hide';
       }
       case 'placed':
+        percentagePlaced = getPercentage(parseInt(Session.get(this._id).placed - inBallot, 10), this._id);
+        if (percentagePlaced === 100) {
+          return 'stage-finish-approved';
+        }
         return 'stage-placed';
       case 'received':
         if (Session.get(this._id).delegated === 0) {
