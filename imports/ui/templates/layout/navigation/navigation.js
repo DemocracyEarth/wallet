@@ -17,21 +17,23 @@ import '../../widgets/notice/notice.js';
 let lastScrollTop = 0;
 let scrollDown = false;
 
-if (Meteor.Device.isPhone()) {
-  $(window).scroll(function () {
-    const node = $('.navbar');
-    const st = $(this).scrollTop();
-    if (st > lastScrollTop) {
-      if (scrollDown === false && st > 150) {
-        scrollDown = true;
-        animate(node, 'hide-up', { duration: parseInt(timers.ANIMATION_DURATION * 2.5, 10), easing: 'ease-in' });
+function hideBar() {
+  if (Meteor.Device.isPhone()) {
+    $('.right').scroll(() => {
+      const node = $('.navbar');
+      const st = $('.right').scrollTop();
+      if (st > lastScrollTop) {
+        if (scrollDown === false && st > 150) {
+          scrollDown = true;
+          animate(node, 'hide-up', { duration: parseInt(timers.ANIMATION_DURATION, 10), easing: 'ease-in' });
+        }
+      } else if (scrollDown === true) {
+        scrollDown = false;
+        animate(node, 'show-down', { duration: parseInt(timers.ANIMATION_DURATION, 10), easing: 'ease-out' });
       }
-    } else if (scrollDown === true) {
-      scrollDown = false;
-      animate(node, 'show-down', { duration: parseInt(timers.ANIMATION_DURATION * 2.5, 10), easing: 'ease-out' });
-    }
-    lastScrollTop = st;
-  });
+      lastScrollTop = st;
+    });
+  }
 }
 
 function displayMenuIcon() {
@@ -41,8 +43,9 @@ function displayMenuIcon() {
   return 'images/burger.png';
 }
 
-Template.navigation.rendered = function rendered() {
-};
+Template.navigation.onRendered(() => {
+  // hideBar();
+});
 
 Template.navigation.helpers({
   screen() {

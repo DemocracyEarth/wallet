@@ -414,6 +414,9 @@ Template.capital.helpers({
         if (percentagePlaced === 100) {
           return 'stage-finish-rejected';
         }
+        if (Session.get(this._id).voteType === 'BALANCE') {
+          return 'stage-finish-approved';
+        }
         return 'stage-placed';
       case 'received':
         if (Session.get(this._id).delegated === 0) {

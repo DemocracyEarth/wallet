@@ -134,26 +134,34 @@ const _cancel = (id) => {
 const _animate = (display, id) => {
   const divId = `#${id}`;
   const popup = Session.get(id); // _get(Session.get('popupList'), id);
-  if (display) {
-    _visiblePopup(id, true);
-    let pointerFX = '-5px';
-    if (popup.pointerClass === popup.pointerUp) { pointerFX = '5px'; }
-    $(divId).css('opacity', '0');
-    $(divId).css('margin-top', pointerFX);
-    $(divId).velocity({ opacity: 1 }, { duration: (animationSettings.duration / 2) });
-    $(divId).velocity({ marginTop: '0px' }, {
-      duration: (animationSettings.duration / 2),
-    });
+  if (Meteor.Device.isPhone()) {
+    if (!display) {
+      $(divId).style.visibility = 'hidden';
+    } else {
+      $(divId).style.visibility = 'visible';
+    }
   } else {
-    $(divId).css('opacity', '1');
-    $(divId).velocity({ opacity: 0 }, {
-      duration: (animationSettings.duration / 2),
-      complete: () => {
-        $(divId).css('margin-top', '-10000px');
-        _visiblePopup(id, false);
-        _cancel(id);
-      },
-    });
+    if (display) {
+      _visiblePopup(id, true);
+      let pointerFX = '-5px';
+      if (popup.pointerClass === popup.pointerUp) { pointerFX = '5px'; }
+      $(divId).css('opacity', '0');
+      $(divId).css('margin-top', pointerFX);
+      $(divId).velocity({ opacity: 1 }, { duration: (animationSettings.duration / 2) });
+      $(divId).velocity({ marginTop: '0px' }, {
+        duration: (animationSettings.duration / 2),
+      });
+    } else {
+      $(divId).css('opacity', '1');
+      $(divId).velocity({ opacity: 0 }, {
+        duration: (animationSettings.duration / 2),
+        complete: () => {
+          $(divId).css('margin-top', '-10000px');
+          _visiblePopup(id, false);
+          _cancel(id);
+        },
+      });
+    }
   }
 };
 
@@ -251,25 +259,29 @@ export class Popup {
     this.params = params;
     this.template = template;
 
-    this.popupTimer = Meteor.setTimeout(() => {
-      // store content and source for resizing Calls
-      this.content = template;
-      this.element = element;
+    if (!Meteor.Device.isPhone()) {
+      this.popupTimer = Meteor.setTimeout(() => {
+        // store content and source for resizing Calls
+        this.content = template;
+        this.element = element;
 
-      // type of event calling, default if left undefined is mouseenter.
-      if (eventType === undefined) {
-        this.eventType = 'mouseenter';
-      } else {
-        this.eventType = eventType;
-      }
+        // type of event calling, default if left undefined is mouseenter.
+        if (eventType === undefined) {
+          this.eventType = 'mouseenter';
+        } else {
+          this.eventType = eventType;
+        }
 
+        this.visible = true;
+
+        this.target = _getTargetDimensions(this);
+        this.position = _positionCard(element, this.target, this);
+        this.renderPopup();
+        _animate(true, this.id);
+      }, timer);
+    } else {
       this.visible = true;
-      this.target = _getTargetDimensions(this);
-      this.position = _positionCard(element, this.target, this);
-      this.renderPopup();
-
-      _animate(true, this.id);
-    }, timer);
+    }
   }
 
   /**

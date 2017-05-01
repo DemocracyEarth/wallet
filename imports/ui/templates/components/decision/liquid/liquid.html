@@ -2,13 +2,17 @@
   {{#if editable}}
     {{#if rightToVote}}
       <div class="w-clearfix rosca rosca-setter">
-        {{> capital _id=_id user=user isDelegation=isDelegation}}
-        {{> bar _id=_id editable=editable}}
+        {{> capital _id=_id user=user isDelegation=isDelegation hideBar=hideBar}}
+        {{#unless hideBar}}
+          {{> bar _id=_id editable=editable}}
+        {{/unless}}
       </div>
     {{else}}
       <div class="w-clearfix rosca rosca-setter">
-        {{> capital _id=_id user=user isDelegation=isDelegation}}
-        {{> bar _id=_id editable=false}}
+        {{> capital _id=_id user=user isDelegation=isDelegation hideBar=hideBar}}
+        {{#unless hideBar}}
+          {{> bar _id=_id editable=false}}
+        {{/unless}}
       </div>
     {{/if}}
   {{else}}
@@ -35,14 +39,23 @@
             {{{getVotes 'allocateQuantity'}}}
           </div>
         </div>
+        {{#if hideBar}}
+          <div class="stage {{style 'received'}}" title="{{_ 'received-votes-tip'}}">
+            <div class='label label-corner'>
+              {{{getVotes 'received'}}}
+            </div>
+          </div>
+        {{/if}}
       </div>
-      <div class='vote-allocated label-votes'>
-        <div class="stage {{style 'received'}}" title="{{_ 'received-votes-tip'}}">
-          <div class='label label-corner'>
-            {{{getVotes 'received'}}}
+      {{#unless hideBar}}
+        <div class='vote-allocated label-votes'>
+          <div class="stage {{style 'received'}}" title="{{_ 'received-votes-tip'}}">
+            <div class='label label-corner'>
+              {{{getVotes 'received'}}}
+            </div>
           </div>
         </div>
-      </div>
+      {{/unless}}
     </div>
   {{else}}
     <div class='bar-labels'>
