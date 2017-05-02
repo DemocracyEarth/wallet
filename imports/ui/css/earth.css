@@ -1906,7 +1906,7 @@ blockquote {
 }
 
 .navbar {
-  position: fixed;
+  position: absolute;
   left: 320px;
   top: 0px;
   right: 0px;

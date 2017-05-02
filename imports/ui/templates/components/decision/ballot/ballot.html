@@ -11,9 +11,10 @@
       {{else}}
         {{> kind title="ballot" icon="images/ballotbox.png" stage=stage}}
         {{#if currentUser}}
-          <div class="w-clearfix value value-avatar">
-             <!--{{> avatar size=32 profile=this._id includeName=true includeNation=true editable=false smallFont=true disabled=true includeRole=false}}-->
+          <div class="w-clearfix value value-avatar extra">
+            <div class="extra">
              {{> stage text=stageLabel executionStatus=executionStatus closingDate=closingDate}}
+            </div>
           </div>
         {{/if}}
       {{/if}}

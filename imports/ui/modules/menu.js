@@ -332,10 +332,6 @@ const animateMenu = () => {
 
     // animate content
     $('#menu').velocity({ marginLeft: '0px' }, animationSettings);
-    $('.navbar').velocity({
-      left: gui.SIDEBAR_WIDTH,
-      right: newRight,
-    }, animationSettings);
     $('#content').velocity({
       left: gui.SIDEBAR_WIDTH,
       right: newRight,
@@ -369,10 +365,6 @@ const animateMenu = () => {
              - parseInt(($(window).width() / 2), 10), 10);
     }
     $('#menu').velocity({ marginLeft: parseInt(0 - gui.SIDEBAR_WIDTH, 10) }, animationSettings);
-    $('.navbar').velocity({
-      left: 0,
-      right: 0,
-    }, animationSettings);
     $('#content').velocity({
       left: 0,
       right: 0,

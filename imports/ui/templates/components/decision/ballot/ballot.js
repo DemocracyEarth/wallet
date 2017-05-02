@@ -230,19 +230,22 @@ Template.ballot.helpers({
     return getVoterContractBond(this);
   },
   executionStatus() {
-    if (Session.get('contract') != undefined) {
+    if (Session.get('contract') !== undefined) {
       return Session.get('contract').executionStatus;
     }
+    return '';
   },
   stageLabel() {
-    if (Session.get('contract') != undefined) {
+    if (Session.get('contract') !== undefined) {
       return Session.get('contract').stage;
     }
+    return '';
   },
   closingDate() {
-    if (Session.get('contract') != undefined) {
+    if (Session.get('contract') !== undefined) {
       return Session.get('contract').closingDate;
     }
+    return '';
   },
 });
 
