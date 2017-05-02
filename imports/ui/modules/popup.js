@@ -10,8 +10,10 @@ import { animationSettings } from './animation';
 **/
 const _limitTargetSize = (target) => {
   const targetSize = target;
-  if (targetSize.width > 300) {
-    targetSize.width = 300;
+  if (!Meteor.Device.isPhone()) {
+    if (targetSize.width > 300) {
+      targetSize.width = 300;
+    }
   }
   return targetSize;
 };
@@ -134,34 +136,28 @@ const _cancel = (id) => {
 const _animate = (display, id) => {
   const divId = `#${id}`;
   const popup = Session.get(id); // _get(Session.get('popupList'), id);
-  if (Meteor.Device.isPhone()) {
-    if (!display) {
-      $(divId).style.visibility = 'hidden';
-    } else {
-      $(divId).style.visibility = 'visible';
-    }
-  } else {
-    if (display) {
-      _visiblePopup(id, true);
+  if (display) {
+    _visiblePopup(id, true);
+    if (!Meteor.Device.isPhone()) {
       let pointerFX = '-5px';
       if (popup.pointerClass === popup.pointerUp) { pointerFX = '5px'; }
-      $(divId).css('opacity', '0');
       $(divId).css('margin-top', pointerFX);
-      $(divId).velocity({ opacity: 1 }, { duration: (animationSettings.duration / 2) });
       $(divId).velocity({ marginTop: '0px' }, {
         duration: (animationSettings.duration / 2),
       });
-    } else {
-      $(divId).css('opacity', '1');
-      $(divId).velocity({ opacity: 0 }, {
-        duration: (animationSettings.duration / 2),
-        complete: () => {
-          $(divId).css('margin-top', '-10000px');
-          _visiblePopup(id, false);
-          _cancel(id);
-        },
-      });
     }
+    $(divId).css('opacity', '0');
+    $(divId).velocity({ opacity: 1 }, { duration: (animationSettings.duration / 2) });
+  } else {
+    $(divId).css('opacity', '1');
+    $(divId).velocity({ opacity: 0 }, {
+      duration: (animationSettings.duration / 2),
+      complete: () => {
+        $(divId).css('margin-top', '-10000px');
+        _visiblePopup(id, false);
+        _cancel(id);
+      },
+    });
   }
 };
 
@@ -280,7 +276,17 @@ export class Popup {
         _animate(true, this.id);
       }, timer);
     } else {
-      this.visible = true;
+      this.popupTimer = Meteor.setTimeout(() => {
+        this.visible = true;
+        $(this.div).css('opacity', '0');
+        const controller = Session.get(this.id);
+        controller.position = {
+          width: $(this.cardId).width(),
+          height: $(this.cardId).height() + 40,
+        };
+        Session.set(this.id, controller);
+        _animate(true, this.id);
+      }, 10);
     }
   }
 

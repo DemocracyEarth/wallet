@@ -1,6 +1,6 @@
 <template name="popup">
     {{#unless mobile}}
-      <div id="{{id}}" class="popup" style="{{visible}}">
+      <div id="{{id}}" class="popup">
         <div id="pointer-up-{{id}}" class="pointer-up" style="{{pointer}}"></div>
         <div id="card-{{id}}" class="w-clearfix card">
           {{> Template.dynamic template=content data=dataObject}}
@@ -8,10 +8,10 @@
         <div id="pointer-down-{{id}}" class="pointer-down" style="{{pointer}}"></div>
       </div>
     {{else}}
-      <div id="{{id}}" class="w-clearfix modal" style="{{visible}}">
-        <div class="w-clearfix alert">
+      <a id="{{id}}" class="w-clearfix modal" style="{{visible}}">
+        <div id="card-{{id}}" class="w-clearfix alert" style="{{modalPosition}}">
           {{> Template.dynamic template=content data=dataObject}}
         </div>
-      </div>
+      </a>
     {{/unless}}
 </template>

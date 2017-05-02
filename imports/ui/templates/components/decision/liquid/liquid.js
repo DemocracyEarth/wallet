@@ -4,7 +4,6 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { Tracker } from 'meteor/tracker';
-import { timers } from '/lib/const';
 
 import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
 import { displayModal } from '/imports/ui/modules/modal';
@@ -105,6 +104,7 @@ Template.liquid.onRendered(function render() {
     $(`#voteSlider-${voteId}`).width(getBarWidth(Session.get(voteId).inBallot, voteId, true));
     $(`#votePlaced-${voteId}`).width(agreement(voteId, true));
   });
+
   if (this.data.editable) {
     // drag event
     $(`#voteHandle-${this.data._id}`).draggable({

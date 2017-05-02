@@ -2751,7 +2751,7 @@ blockquote {
 }
 
 .modal.hide {
-  display: none;
+  display: block;
   overflow: scroll;
   padding-top: 10px;
   background-color: #fff;
@@ -5338,6 +5338,8 @@ blockquote {
   .alert {
     width: 90%;
     max-width: 360px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     border-radius: 10px;
   }
   .type.content {
@@ -5374,6 +5376,9 @@ blockquote {
   .content.content-agora {
     margin-top: -35px;
     padding-top: 1px;
+  }
+  .modal-buttons {
+    margin-bottom: 5px;
   }
   .split.split-right {
     top: 35px;

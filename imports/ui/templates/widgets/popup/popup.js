@@ -7,6 +7,10 @@ import { animatePopup, clearPopups } from '/imports/ui/modules/popup';
 
 import './popup.html';
 
+
+Template.popup.onRendered(() => {
+});
+
 Template.popup.helpers({
   content() {
     return Session.get(this.id).template;
@@ -16,6 +20,16 @@ Template.popup.helpers({
   },
   mobile() {
     return Meteor.Device.isPhone();
+  },
+  modalPosition() {
+    if (!Session.get(this.id).position.height) { return 'margin-top: -10000px'; }
+    const modalH = $(`#card-${this.id}`)[0].getBoundingClientRect().height;
+    const screenH = $(window).height();
+    return `margin-top: ${parseFloat((screenH - modalH) / 2, 10).toString()}px`;
+  },
+  visible() {
+    if (!Session.get(this.id).position.height) { return 'opacity: 0'; }
+    return '';
   },
 });
 
@@ -29,8 +43,7 @@ Template.popup.events({
   'click .modal'(event) {
     event.stopPropagation();
     if (event.target.id === this.id) {
-      console.log(this.id);
-      $(`#${this.id}`)[0].style.visibility = 'hidden';
+      animatePopup(false, this.id);
     }
   },
 });

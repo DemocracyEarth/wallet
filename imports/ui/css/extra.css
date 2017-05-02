@@ -49,7 +49,7 @@ input[type="file"] {
   left: 0px;
 }
 
-#content, #modalToggle {
+#content, #modalToggle, .modal {
   overflow-y: scroll; /* has to be scroll, not auto */
   -webkit-overflow-scrolling: touch;
 }
