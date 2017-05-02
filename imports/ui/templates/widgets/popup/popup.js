@@ -22,14 +22,16 @@ Template.popup.helpers({
     return Meteor.Device.isPhone();
   },
   modalPosition() {
-    if (!Session.get(this.id).position.height) { return 'margin-top: -10000px'; }
-    const modalH = $(`#card-${this.id}`)[0].getBoundingClientRect().height;
-    const screenH = $(window).height();
-    return `margin-top: ${parseFloat((screenH - modalH) / 2, 10).toString()}px`;
+    if (Session.get(this.id).position.height) {
+      const modalH = $(`#card-${this.id}`)[0].getBoundingClientRect().height;
+      const screenH = $(window).height();
+      return `margin-top: ${parseInt(((screenH - modalH) / 2) - 10, 10).toString()}px`;
+    }
+    return '';
   },
   visible() {
-    if (!Session.get(this.id).position.height) { return 'opacity: 0'; }
-    return '';
+   // if (!Session.get(this.id).position.height) { return 'margin-top: -10000px'; }
+   // return 'margin-top: 0px';
   },
 });
 

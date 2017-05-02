@@ -277,8 +277,10 @@ export class Popup {
       }, timer);
     } else {
       this.popupTimer = Meteor.setTimeout(() => {
+        this.content = template;
+        this.element = element;
         this.visible = true;
-        $(this.div).css('opacity', '0');
+        this.eventType = 'click';
         const controller = Session.get(this.id);
         controller.position = {
           width: $(this.cardId).width(),
@@ -286,7 +288,7 @@ export class Popup {
         };
         Session.set(this.id, controller);
         _animate(true, this.id);
-      }, 10);
+      }, 250);
     }
   }
 

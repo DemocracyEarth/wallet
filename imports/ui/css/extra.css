@@ -53,3 +53,7 @@ input[type="file"] {
   overflow-y: scroll; /* has to be scroll, not auto */
   -webkit-overflow-scrolling: touch;
 }
+
+.modal {
+  opacity: 0;
+}
