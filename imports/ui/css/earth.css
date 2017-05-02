@@ -2751,7 +2751,7 @@ blockquote {
 }
 
 .modal.hide {
-  display: block;
+  display: none;
   overflow: scroll;
   padding-top: 10px;
   background-color: #fff;
@@ -5169,6 +5169,15 @@ blockquote {
     border-color: #dfdfdf;
     box-shadow: none;
   }
+  .symbol.profile-pic:hover {
+    border-color: #dfdfdf;
+    box-shadow: none;
+  }
+  .symbol.profile-pic:active {
+    margin-top: 12px;
+    margin-bottom: 8px;
+    box-shadow: none;
+  }
   .vote.vote-search {
     padding: 10px;
   }
@@ -5283,6 +5292,9 @@ blockquote {
   }
   .election-label {
     float: none;
+  }
+  .modal.hide {
+    display: none;
   }
   .rosca.rosca-setter {
     margin-top: 5px;
