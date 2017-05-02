@@ -229,6 +229,21 @@ Template.ballot.helpers({
   voteSettings() {
     return getVoterContractBond(this);
   },
+  executionStatus() {
+    if (Session.get('contract') != undefined) {
+      return Session.get('contract').executionStatus;
+    }
+  },
+  stageLabel() {
+    if (Session.get('contract') != undefined) {
+      return Session.get('contract').stage;
+    }
+  },
+  closingDate() {
+    if (Session.get('contract') != undefined) {
+      return Session.get('contract').closingDate;
+    }
+  },
 });
 
 

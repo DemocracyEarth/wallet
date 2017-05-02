@@ -19,14 +19,14 @@ import '../../../widgets/warning/warning.js';
 
 let typingTimer; // timer identifier
 
-Template.title.rendered = function rendered() {
+Template.title.onRendered(() => {
   initEditor();
 
-  //TODO: figure out how to make tab work properly on first try.
+  // TODO: figure out how to make tab work properly on first try.
 
-  //tab focus next object
-  $('#titleContent').on('focus', function(e){
-    $(window).keyup(function (e) {
+  // tab focus next object
+  $('#titleContent').on('focus', () => {
+    $(window).keyup((e) => {
       const code = (e.keyCode ? e.keyCode : e.which);
       if (code === 9) {
         $('#editor').focus();
@@ -35,17 +35,16 @@ Template.title.rendered = function rendered() {
   });
 
   // paste
-  document.getElementById('titleContent').addEventListener('paste', function (e) {
+  document.getElementById('titleContent').addEventListener('paste', (e) => {
     e.preventDefault();
     const text = stripHTMLfromText(e.clipboardData.getData('text/plain'));
     const newtitle = $('#titleContent')[0].innerText;
-    const delta = parseInt(rules.TITLE_MAX_LENGTH - newtitle.length);
+    const delta = parseInt(rules.TITLE_MAX_LENGTH - newtitle.length, 10);
     if (delta > 0) {
       document.execCommand('insertHTML', false, text);
     }
   });
-
-};
+});
 
 Template.titleContent.helpers({
   sampleMode() {
@@ -118,21 +117,6 @@ Template.title.helpers({
       }
     }
   },
-  executionStatus() {
-    if (Session.get('contract') != undefined) {
-      return Session.get('contract').executionStatus;
-    }
-  },
-  stageLabel() {
-    if (Session.get('contract') != undefined) {
-      return Session.get('contract').stage;
-    }
-  },
-  closingDate() {
-    if (Session.get('contract') != undefined) {
-      return Session.get('contract').closingDate;
-    }
-  }
 });
 
 
