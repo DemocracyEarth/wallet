@@ -3,7 +3,7 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 
-import { animatePopup, clearPopups } from '/imports/ui/modules/popup';
+import { animatePopup } from '/imports/ui/modules/popup';
 
 import './popup.html';
 
@@ -25,13 +25,11 @@ Template.popup.helpers({
     if (Session.get(this.id).position.height) {
       const modalH = $(`#card-${this.id}`)[0].getBoundingClientRect().height;
       const screenH = $(window).height();
-      return `margin-top: ${parseInt(((screenH - modalH) / 2) - 10, 10).toString()}px`;
+      let pos = parseInt(((screenH - modalH) / 2) - 10, 10);
+      if (pos <= 70) { pos = 70; }
+      return `margin-top: ${pos.toString()}px`;
     }
     return '';
-  },
-  visible() {
-   // if (!Session.get(this.id).position.height) { return 'margin-top: -10000px'; }
-   // return 'margin-top: 0px';
   },
 });
 

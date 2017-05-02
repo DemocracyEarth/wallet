@@ -288,7 +288,7 @@ export class Popup {
         };
         Session.set(this.id, controller);
         _animate(true, this.id);
-      }, 250);
+      }, animationSettings.duration);
     }
   }
 
