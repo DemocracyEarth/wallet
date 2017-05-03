@@ -326,20 +326,32 @@ const _getExternalScripts = () => {
   $.getScript('/js/jquery.ui.touch-punch.min.js');
 };
 
+const _getNavbarAction = (path) => {
+  if (Meteor.Device.isPhone()) {
+    switch (path) {
+      case '/vote':
+        return 'BACK';
+      default:
+        return 'SIDEBAR';
+    }
+  }
+  return 'SIDEBAR';
+};
+
 /**
 * @summary main settings for navbar behaviour
 * @param {string} title - title for it
 */
-const _configNavbar = (title) => {
+const _configNavbar = (label, path) => {
   if (Session.get('sidebar') === undefined) {
     Session.set('sidebar', true);
     toggleSidebar();
   }
   Session.set('navbar', {
-    title: title,
+    title: label,
     toggle: Session.get('sidebar'),
     href: '#',
-    action: 'SIDEBAR',
+    action: _getNavbarAction(path),
   });
 };
 

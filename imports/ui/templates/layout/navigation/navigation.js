@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
+import { Router, history } from 'meteor/iron:router';
 
 import { timers } from '/lib/const';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
@@ -37,6 +38,12 @@ function hideBar() {
 }
 
 function displayMenuIcon() {
+  console.log(Router.current());
+  if (Meteor.Device.isPhone()) {
+    if (Router.current().url.search('/vote') >= 0) {
+      return 'images/back.png';
+    }
+  }
   if (Session.get('sidebar')) {
     return 'images/burger-active.png';
   }
@@ -77,6 +84,8 @@ Template.navigation.events({
   'click #menu'() {
     if (Session.get('navbar').action === 'SIDEBAR') {
       toggleSidebar();
+    } else if (Session.get('navbar').action === 'BACK') {
+      window.history.back();
     }
   },
 });
