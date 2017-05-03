@@ -1018,7 +1018,6 @@ blockquote {
 }
 
 .signature {
-  margin-top: 40px;
   margin-bottom: 10px;
 }
 
@@ -4945,7 +4944,7 @@ blockquote {
 }
 
 .timestamp {
-  margin-top: -10px;
+  margin-top: -20px;
   float: right;
 }
 
@@ -5376,6 +5375,8 @@ blockquote {
     font-weight: 400;
   }
   .paper-header {
+    padding-right: 15px;
+    padding-left: 25px;
     box-shadow: none;
   }
   .shadow-fake {
