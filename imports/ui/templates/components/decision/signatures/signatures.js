@@ -48,6 +48,16 @@ Template.signatures.helpers({
     }
     return undefined;
   },
+  timestamp() {
+    if (Session.get('contract')) {
+      let d = Date();
+      if (Session.get('contract').timestamp !== undefined) {
+        d = Session.get('contract').timestamp;
+        return d.format('{Month} {d}, {yyyy}');
+      }
+    }
+    return '';
+  },
 });
 
 Template.signatures.events({

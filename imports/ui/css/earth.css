@@ -581,8 +581,8 @@ blockquote {
 }
 
 .symbol.profile-pic.identity-small {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   margin-top: 0px;
   margin-bottom: 0px;
 }
@@ -2115,6 +2115,7 @@ blockquote {
 }
 
 .identity-label.identity-label-small {
+  margin-top: 8px;
   font-size: 16px;
   line-height: 20px;
 }
@@ -4943,6 +4944,11 @@ blockquote {
   font-weight: 600;
 }
 
+.timestamp {
+  margin-top: -10px;
+  float: right;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
@@ -5215,6 +5221,10 @@ blockquote {
     margin-top: 12px;
     margin-bottom: 8px;
     box-shadow: none;
+  }
+  .symbol.profile-pic.identity-small:active {
+    margin-top: 1px;
+    margin-bottom: -1px;
   }
   .vote.vote-search {
     padding: 10px;

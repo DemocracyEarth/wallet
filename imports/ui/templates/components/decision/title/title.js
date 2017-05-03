@@ -110,12 +110,13 @@ Template.title.helpers({
   },
   timestamp() {
     if (Session.get('contract')) {
-      var d = new Date;
-      if (Session.get('contract').timestamp != undefined) {
+      let d = Date();
+      if (Session.get('contract').timestamp !== undefined) {
         d = Session.get('contract').timestamp;
         return d.format('{Month} {d}, {yyyy}');
       }
     }
+    return '';
   },
 });
 
