@@ -2,7 +2,6 @@ body {
   padding-right: 0px;
   padding-left: 0px;
   background-color: #535353;
-  font-family: Lato, sans-serif;
   color: #333;
   font-size: 18px;
   line-height: 28px;
@@ -129,10 +128,9 @@ blockquote {
 .paper.paper-comment {
   position: relative;
   width: 100%;
-  margin-top: 0px;
-  margin-bottom: -10px;
-  padding-right: 5px;
-  padding-left: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 0px;
   background-color: transparent;
   box-shadow: none;
 }
@@ -3461,8 +3459,10 @@ blockquote {
 }
 
 .path {
+  position: absolute;
+  left: 50px;
+  right: 70px;
   overflow: hidden;
-  width: 35%;
   height: 28px;
   margin-top: 15px;
   margin-bottom: 15px;
@@ -3599,6 +3599,27 @@ blockquote {
   border-style: solid;
   border-width: 0px 10px 15px;
   border-color: transparent transparent rgba(49, 38, 59, .95);
+  background-color: transparent;
+}
+
+.pointer-up.pointer-agora {
+  margin-bottom: -1px;
+  margin-left: 8px;
+  padding-top: 4px;
+  border-right-width: 9px;
+  border-bottom-width: 12px;
+  border-bottom-color: #e7e7e7;
+  border-left-width: 9px;
+  background-color: transparent;
+}
+
+.pointer-up.pointer-agora.pointer-agora-inner {
+  margin-left: -9px;
+  padding-top: 2px;
+  border-right-width: 9px;
+  border-bottom-width: 11px;
+  border-bottom-color: #f3f3f3;
+  border-left-width: 9px;
   background-color: transparent;
 }
 
@@ -4122,19 +4143,28 @@ blockquote {
 }
 
 .micro-button.agora-button {
-  margin-right: 15px;
-  margin-bottom: 0px;
-  margin-left: -7px;
+  margin: 5px 15px 0px -7px;
 }
 
 .micro-button.agora-button:active {
   background-color: #e9e9e9;
 }
 
+.micro-button.agora-button.agora-time {
+  margin-top: 5px;
+  margin-right: 0px;
+  padding-right: 0px;
+  float: right;
+  text-align: right;
+}
+
+.micro-button.agora-button.agora-time:active {
+  background-color: transparent;
+}
+
 .micro-icon {
   width: 28px;
   height: 28px;
-  margin-right: 5px;
 }
 
 .micro-label {
@@ -4358,10 +4388,11 @@ blockquote {
 }
 
 .argument {
+  margin-top: 5px;
   margin-left: 38px;
   padding-left: 10px;
   float: none;
-  border-left: 1px solid #e9e9e9;
+  border-left: 1px none #e9e9e9;
 }
 
 .argument.no-children {
@@ -4445,6 +4476,11 @@ blockquote {
 }
 
 .comment {
+  display: block;
+  padding: 10px;
+  border: 1px solid #e7e7e7;
+  border-radius: 3px;
+  background-color: #f3f3f3;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   line-height: 26px;
@@ -4453,9 +4489,10 @@ blockquote {
 .comment.quote {
   display: inline-block;
   margin-bottom: 10px;
-  padding-right: 5px;
-  padding-left: 5px;
-  background-color: rgba(255, 224, 121, .55);
+  padding: 3px 5px;
+  border-color: #fae9b1;
+  border-radius: 0px;
+  background-color: #fae9b1;
 }
 
 .comment.comment-post {
@@ -4465,6 +4502,7 @@ blockquote {
   margin-bottom: 20px;
   padding: 5px 10px;
   float: none;
+  border-style: none;
   border-radius: 3px;
   background-color: #fff;
   box-shadow: inset 0 0 1px 0 rgba(0, 0, 0, .5);
@@ -5335,7 +5373,8 @@ blockquote {
     right: 25px;
   }
   .path {
-    width: 50%;
+    left: 70px;
+    text-align: center;
   }
   .authentication {
     padding-right: 0px;
@@ -5388,9 +5427,18 @@ blockquote {
   .content.content-agora {
     margin-top: -35px;
     padding-top: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+  .micro-button.agora-button {
+    margin-bottom: 5px;
   }
   .modal-buttons {
     margin-bottom: 5px;
+  }
+  .menu-button:active {
+    margin-top: 5px;
+    margin-bottom: 1px;
   }
   .split.split-right {
     top: 35px;
@@ -5436,8 +5484,8 @@ blockquote {
     box-shadow: none;
   }
   .paper.paper-comment {
-    padding-top: 20px;
-    padding-left: 20px;
+    margin-right: 0px;
+    margin-left: 0px;
   }
   .kind {
     width: 50px;
@@ -5711,8 +5759,6 @@ blockquote {
   }
   .content.content-agora {
     margin-top: -20px;
-    padding-right: 15px;
-    padding-left: 15px;
   }
   .half {
     width: 100%;

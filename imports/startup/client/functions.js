@@ -95,49 +95,53 @@ const _buildQuery = (params) => {
 * @param {object} params - url querying object
 * @return {string} title - returns title to fetch on json dictionary
 */
-let _buildTitle = (params) => {
-  var title = new String();
-  if (typeof params == 'string') {
-    if (params == 'draft') {
-      title = 'navbar-' + params;
+const _buildTitle = (params) => {
+  let title = String();
+  if (typeof params === 'string') {
+    if (params === 'draft') {
+      title = `navbar-${params}`;
     } else {
-      var contractTitle = Contracts.findOne({ keyword: params }).title;
-      return TAPi18n.__('proposal') + ' <strong><em>' + contractTitle + '</em></strong>';
+      const contractTitle = Contracts.findOne({ keyword: params }).title;
+      if (Meteor.Device.isPhone()) {
+        return TAPi18n.__('proposal');
+      }
+      return `${TAPi18n.__('proposal')} <strong><em>${contractTitle}</em></strong>`;
     }
-  } else  {
-    for (key in params) {
-      if (title.length != 0) { title += '-'; }
+  } else {
+    for (const key in params) {
+      if (title.length !== 0) { title += '-'; }
       switch (key) {
         case 'tag':
-          return '<strong><em>' + Tags.findOne({ keyword: params[key] }).text + '</em></strong> ' + TAPi18n.__('proposals');
-        case 'username':
-          //TODO builds string strictly from cache search, no request to server is ever done. Eventually might be needed.
-          var profile = getProfileFromUsername(params[key]);
+          return `<strong><em>${Tags.findOne({ keyword: params[key] }).text}</em></strong>${TAPi18n.__('proposals')}`;
+        case 'username': {
+          // TODO builds string strictly from cache search, no request to server is ever done. Eventually might be needed.
+          const profile = getProfileFromUsername(params[key]);
           if (profile) {
-            var fullname = showFullName(profile.firstName, profile.lastName);
-            return '<strong><em>' + fullname + '</em></strong> ' + TAPi18n.__('proposals');
+            const fullname = showFullName(profile.firstName, profile.lastName);
+            return `<strong><em>${fullname}</em></strong>${TAPi18n.__('proposals')}`;
           }
-          return TAPi18n.__('peer') + ' ' + TAPi18n.__('proposals');
+          return `${TAPi18n.__('peer')} ${TAPi18n.__('proposals')}`;
+        }
         case 'hash':
         case 'query':
           break;
         default:
-          if (key != 'peer') {
-            title += key + '-' + params[key]
+          if (key !== 'peer') {
+            title += `${key}-${params[key]}`;
           } else {
             title += key;
           }
-        }
+      }
     }
   }
   return TAPi18n.__(title.toLowerCase());
-}
+};
 
 
-/***
-* set session variables for specific view based on query
+/**
+* @summary set session variables for specific view based on query
 * @param {object} query - url query
-****/
+*/
 let _setSessionVars = (params) => {
   if (params) {
     var query = params.query;

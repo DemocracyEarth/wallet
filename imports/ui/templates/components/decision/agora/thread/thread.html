@@ -19,11 +19,14 @@
     <div class="argument {{noChildren}}">
       <ul class="extra w-clearfix w-list-unstyled">
         <li class="identity w-clearfix">
-          {{> avatar profile=userId includeName=true includeNation=true editable=false}}
-          <div class="cards">{{timestamp}}</div>
+          {{> avatar size=36 profile=userId includeName=true includeNation=true editable=false smallFont=true includeRole=false}}
         </li>
       </ul>
       <div class="paper paper-comment">
+        <div class="pointer-up pointer-agora">
+          <div class="pointer-up pointer-agora pointer-agora-inner">
+          </div>
+        </div>
         <div class="comment">
           <div>{{{content}}}</div>
         </div>
@@ -40,6 +43,9 @@
             <div class="micro-label">{{_ 'reply'}}</div>
           </a>
         {{/if}}
+        <div class="agora-button micro-button agora-time">
+          <div class="cards">{{timestamp}}</div>
+        </div>
       {{/if}}
 
       {{#each children}}
