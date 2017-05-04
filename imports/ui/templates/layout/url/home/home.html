@@ -4,6 +4,8 @@
       {{> feed}}
     </div>
 
-    {{> compose}}
+    {{#unless isPhone}}
+      {{> compose}}
+    {{/unless}}
 
 </template>

@@ -439,5 +439,9 @@
   "sent-votes-tip": "Delegated votes from you to this user.",
   "votes-in-use": "Votes being used",
   "less-than-one": "Less 1%",
-  "not-enough-votes": "Not enough votes"
+  "not-enough-votes": "Not enough votes",
+  "menu-home": "Home",
+  "menu-voted": "Voted",
+  "menu-notifications": "Notifications",
+  "menu-new-post": "New Post"
 }

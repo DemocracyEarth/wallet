@@ -1,0 +1,18 @@
+<template name="touchmenu">
+  <div class="mobile-menu">
+    <div class="mobile-menu-index w-clearfix">
+      <div class="mobile-menu-button"><img class="menu-button-icon" src="{{pathFor route='home'}}images/flag.png">
+        <div>{{_ 'menu-home'}}</div>
+      </div>
+      <div class="mobile-menu-button"><img class="menu-button-icon" src="{{pathFor route='home'}}images/menu-vote.png">
+        <div>{{_ 'menu-voted'}}</div>
+      </div>
+      <div class="mobile-menu-button"><img class="menu-button-icon" src="{{pathFor route='home'}}images/earth-button.png">
+        <div>{{_ 'menu-notifications'}} {{hello}}</div>
+      </div>
+      <div class="mobile-menu-button"><img class="menu-button-icon" src="{{pathFor route='home'}}images/menu-compose.png">
+        <div>{{_ 'menu-new-post'}}</div>
+      </div>
+    </div>
+  </div>
+</template>

@@ -3,7 +3,7 @@ import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
-import { Router, history } from 'meteor/iron:router';
+import { Router } from 'meteor/iron:router';
 
 import { timers } from '/lib/const';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
@@ -38,7 +38,6 @@ function hideBar() {
 }
 
 function displayMenuIcon() {
-  console.log(Router.current());
   if (Meteor.Device.isPhone()) {
     if (Router.current().url.search('/vote') >= 0) {
       return 'images/back.png';

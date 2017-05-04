@@ -33,6 +33,8 @@ import '../widgets/popup/popup';
 import './sidebar/sidebar';
 import './navigation/navigation';
 import './response/verifyEmail/verifyEmail';
+import './touchmenu/touchmenu.html';
+import './touchmenu/touchmenu.js';
 
 Meteor.startup(() => {
   // Mail server settings

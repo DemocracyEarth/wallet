@@ -13,6 +13,10 @@
   <div id='content' class="right">
     {{> navigation}}
     {{> yield}}
+
+    {{#if isPhone}}
+      {{> touchmenu}}
+    {{/if}}
   </div>
 
 </template>
