@@ -4409,6 +4409,12 @@ blockquote {
   cursor: pointer;
 }
 
+.sort-button:active {
+  display: inline-block;
+  margin-top: 1px;
+  margin-bottom: -1px;
+}
+
 .sort-button.sort-button-active {
   background-color: #00bf8f;
 }
@@ -4946,6 +4952,35 @@ blockquote {
 .timestamp {
   margin-top: -20px;
   float: right;
+}
+
+.mobile-menu {
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 20000;
+  height: 56px;
+  padding-top: 6px;
+  padding-bottom: 10px;
+  border-top: 1px solid #000;
+  background-color: #000;
+  text-align: center;
+}
+
+.mobile-menu-button {
+  width: 25%;
+  float: left;
+  color: #fff;
+  font-size: 8px;
+  line-height: 22px;
+  text-transform: uppercase;
+}
+
+.menu-button-icon {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 1px;
 }
 
 @media (max-width: 991px) {
