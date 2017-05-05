@@ -23,14 +23,39 @@ function hideBar() {
     $('.right').scroll(() => {
       const node = $('.navbar');
       const st = $('.right').scrollTop();
-      if (st > lastScrollTop) {
-        if (scrollDown === false && st > 150) {
-          scrollDown = true;
-          animate(node, 'hide-up', { duration: parseInt(timers.ANIMATION_DURATION, 10), easing: 'ease-in' });
-        }
+      if (st > lastScrollTop && st > 60) {
+        scrollDown = true;
+        node
+          .velocity('stop')
+          .velocity({ translateY: '0px' }, { duration: parseInt(timers.ANIMATION_DURATION, 10), easing: 'ease-out' })
+          .velocity({ translateY: '-100px' }, {
+            duration: parseInt(timers.ANIMATION_DURATION, 10),
+            easing: 'ease-out',
+            complete: () => {
+              console.log('ABS');
+              node.css('position', 'absolute');
+              node.css('top', '0px');
+            },
+          })
+          .velocity('stop');
+        console.log('DOWN');
       } else if (scrollDown === true) {
         scrollDown = false;
-        animate(node, 'show-down', { duration: parseInt(timers.ANIMATION_DURATION, 10), easing: 'ease-out' });
+        node.css('position', 'fixed');
+        node
+          .velocity('stop')
+          .velocity({ translateY: '-100px' }, { duration: parseInt(timers.ANIMATION_DURATION, 10), easing: 'ease-out' })
+          .velocity({ translateY: '0px' }, {
+            duration: parseInt(timers.ANIMATION_DURATION, 10),
+            easing: 'ease-out',
+            complete: () => {
+              console.log('FIX');
+              // node.css('position', 'absolute');
+              // node.css('top', '0px');
+            },
+          })
+          .velocity('stop');
+        console.log('UP');
       }
       lastScrollTop = st;
     });
@@ -50,7 +75,7 @@ function displayMenuIcon() {
 }
 
 Template.navigation.onRendered(() => {
-  // hideBar();
+  hideBar();
 });
 
 Template.navigation.helpers({

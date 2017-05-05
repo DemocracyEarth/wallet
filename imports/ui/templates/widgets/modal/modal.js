@@ -25,7 +25,7 @@ Template.modal.helpers({
   },
 });
 
-Template.modalWindow.rendered = function rendered() {
+Template.modalWindow.onRendered(() => {
   // initial position
   const paddingTotal = parseInt($('.alert').css('padding-bottom'), 10) + parseInt($('.alert').css('padding-top'), 10);
   let alertHeight = parseInt((window.innerHeight / 2) - (($('.alert').height() + paddingTotal) / 2), 10);
@@ -33,11 +33,13 @@ Template.modalWindow.rendered = function rendered() {
     alertHeight = 200;
   }
 
+  document.getElementsByClassName('modal')[0].addEventListener('touchmove', (e) => { e.preventDefault(); });
+
   // intro animation
   $('.alert').css('margin-top', `${alertHeight}px`);
   $('.modal').css('opacity', '0');
   $('.modal').velocity({ opacity: '1' }, animationSettings);
-};
+});
 
 Template.modalWindow.helpers({
   icon() {
