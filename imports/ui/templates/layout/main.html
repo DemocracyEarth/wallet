@@ -1,6 +1,6 @@
 <template name="main">
-
   <!-- App -->
+
   {{> modal}}
   {{#each popupList}}
     {{> popup id=this}}
@@ -9,14 +9,13 @@
   <div id='menu' class="left">
     {{> sidebar}}
   </div>
-
   <div id='content' class="right">
     {{> navigation}}
     {{> yield}}
-
     {{#if isPhone}}
       {{> touchmenu}}
     {{/if}}
   </div>
+
 
 </template>

@@ -4047,6 +4047,7 @@ blockquote {
 
 .content.content-agora {
   position: relative;
+  min-width: 360px;
   margin-top: 0px;
   margin-bottom: -15px;
   padding-top: 5px;
@@ -4955,14 +4956,12 @@ blockquote {
 }
 
 .mobile-menu {
-  position: absolute;
+  position: fixed;
   left: 0px;
   right: 0px;
   bottom: 0px;
   z-index: 20000;
   height: 56px;
-  padding-top: 8px;
-  padding-bottom: 10px;
   border-top: 1px solid #000;
   background-color: #000;
   text-align: center;
@@ -4970,6 +4969,8 @@ blockquote {
 
 .mobile-menu-button {
   width: 25%;
+  padding-top: 10px;
+  padding-bottom: 10px;
   float: left;
   color: #fff;
   font-size: 8px;
@@ -5472,9 +5473,7 @@ blockquote {
   }
   .content.content-agora {
     margin-top: -35px;
-    padding-top: 1px;
-    padding-right: 10px;
-    padding-left: 10px;
+    padding: 1px 10px 56px;
   }
   .micro-button.agora-button {
     margin-bottom: 5px;

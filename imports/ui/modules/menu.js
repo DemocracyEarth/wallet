@@ -330,6 +330,12 @@ const animateMenu = () => {
       newRight = parseInt(0 - gui.SIDEBAR_WIDTH, 10);
     }
 
+    // loose mobile menu
+    if (Meteor.Device.isPhone()) {
+      $('.mobile-menu').css('margin-top', '56px');
+      $('.mobile-menu').css('position', 'absolute');
+    }
+
     // animate content
     $('#menu').velocity({ marginLeft: '0px' }, animationSettings);
     $('#content').velocity({
@@ -364,6 +370,12 @@ const animateMenu = () => {
       diff = parseInt((splitLeft + gui.SIDEBAR_WIDTH)
              - parseInt(($(window).width() / 2), 10), 10);
     }
+
+    // fix mobile menu
+    if (Meteor.Device.isPhone()) {
+      $('.mobile-menu').css('position', 'fixed');
+    }
+
     $('#menu').velocity({ marginLeft: parseInt(0 - gui.SIDEBAR_WIDTH, 10) }, animationSettings);
     $('#content').velocity({
       left: 0,

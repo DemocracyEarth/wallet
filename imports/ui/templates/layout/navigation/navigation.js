@@ -50,7 +50,7 @@ function displayMenuIcon() {
 }
 
 Template.navigation.onRendered(() => {
-  // hideBar();
+  hideBar();
 });
 
 Template.navigation.helpers({
