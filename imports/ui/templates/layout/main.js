@@ -25,6 +25,7 @@ import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { SearchSource } from 'meteor/meteorhacks:search-source';
 import { Template } from 'meteor/templating';
+import { toggleSidebar } from '/imports/ui/modules/menu';
 
 import { globalObj } from '/lib/global';
 import './main.html';
@@ -81,8 +82,18 @@ Meteor.startup(() => {
   });
 });
 
+Template.main.onRendered(() => {
+  document.getElementsByClassName('inhibitor')[0].addEventListener('touchmove', (e) => { e.preventDefault(); });
+});
+
 Template.main.helpers({
   popupList() {
     return Session.get('popupList');
+  },
+});
+
+Template.main.events({
+  'click .inhibitor'() {
+    toggleSidebar();
   },
 });

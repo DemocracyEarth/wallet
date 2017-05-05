@@ -50,10 +50,15 @@ input[type="file"] {
 }
 
 #content, #modalToggle, .modal {
-  overflow-y: scroll; /* has to be scroll, not auto */
+  overflow: scroll; /* has to be scroll, not auto */
   -webkit-overflow-scrolling: touch;
 }
 
 .modal {
   opacity: 0;
+}
+
+body {
+  overflow-x: hidden;
+  position: relative;
 }

@@ -1,4 +1,4 @@
-<template name="main">
+<template name='main'>
   <!-- App -->
 
   {{> modal}}
@@ -6,16 +6,18 @@
     {{> popup id=this}}
   {{/each}}
 
-  <div id='menu' class="left">
+  <div id='menu' class='left'>
     {{> sidebar}}
   </div>
-  <div id='content' class="right">
+  <div id='content' class='right'>
+    {{#if isPhone}}
+      <div class='inhibitor' style='display: none;'></div>
+    {{/if}}
     {{> navigation}}
     {{> yield}}
     {{#if isPhone}}
       {{> touchmenu}}
     {{/if}}
   </div>
-
 
 </template>

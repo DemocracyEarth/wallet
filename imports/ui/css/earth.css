@@ -4985,13 +4985,18 @@ blockquote {
 }
 
 .inhibitor {
-  position: fixed;
+  position: absolute;
   left: 0px;
   top: 0px;
   right: 0px;
   bottom: 0px;
   z-index: 20500;
-  background-color: hsla(0, 0%, 100%, .75);
+  overflow: hidden;
+  background-color: transparent;
+}
+
+.body {
+  overflow: hidden;
 }
 
 @media (max-width: 991px) {

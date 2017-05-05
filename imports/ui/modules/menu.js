@@ -334,6 +334,8 @@ const animateMenu = () => {
     if (Meteor.Device.isPhone()) {
       $('.mobile-menu').css('margin-top', '56px');
       $('.mobile-menu').css('position', 'absolute');
+     $('.inhibitor').css('display', 'block');
+      $('.content').css('overflow', 'hidden');
     }
 
     // animate content
@@ -373,7 +375,9 @@ const animateMenu = () => {
 
     // fix mobile menu
     if (Meteor.Device.isPhone()) {
+      $('.inhibitor').css('display', 'none');
       $('.mobile-menu').css('position', 'fixed');
+      $('.content').css('overflow', 'scroll');
     }
 
     $('#menu').velocity({ marginLeft: parseInt(0 - gui.SIDEBAR_WIDTH, 10) }, animationSettings);
