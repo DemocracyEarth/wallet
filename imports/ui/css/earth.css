@@ -1860,7 +1860,7 @@ blockquote {
   overflow: hidden;
   margin: 0px 5px 5px;
   padding: 3px 10px;
-  border-radius: 5px 5px 3px;
+  border-radius: 5px;
   background-color: #ffe079;
   color: #af8d1e;
   font-size: 14px;
@@ -3618,7 +3618,7 @@ blockquote {
   padding-top: 2px;
   border-right-width: 9px;
   border-bottom-width: 11px;
-  border-bottom-color: #f3f3f3;
+  border-bottom-color: #f0f0f0;
   border-left-width: 9px;
   background-color: transparent;
 }
@@ -4487,7 +4487,7 @@ blockquote {
   padding: 10px;
   border: 1px solid #e7e7e7;
   border-radius: 3px;
-  background-color: #f3f3f3;
+  background-color: #f0f0f0;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   line-height: 26px;
@@ -4982,6 +4982,16 @@ blockquote {
   width: 24px;
   height: 24px;
   margin-bottom: 1px;
+}
+
+.inhibitor {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 20500;
+  background-color: hsla(0, 0%, 100%, .75);
 }
 
 @media (max-width: 991px) {
