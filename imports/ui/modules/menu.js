@@ -332,9 +332,14 @@ const animateMenu = () => {
 
     // loose mobile menu
     if (Meteor.Device.isPhone()) {
-      $('.mobile-menu').css('margin-top', '56px');
+      $('.mobile-menu').css('margin-top', '-55px');
       $('.mobile-menu').css('position', 'absolute');
-     $('.inhibitor').css('display', 'block');
+      $('.mobile-menu').css('top', `${$('#content').scrollTop() + $(window).height()}px`);
+      $('.navbar').css('position', 'absolute');
+      $('.navbar').css('top', `${$('#content').scrollTop()}px`);
+      $('.inhibitor').css('display', 'block');
+      $('.inhibitor').css('position', 'fixed');
+      $('.inhibitor').css('left', `${gui.SIDEBAR_WIDTH}px`);
       $('.content').css('overflow', 'hidden');
     }
 
@@ -373,18 +378,25 @@ const animateMenu = () => {
              - parseInt(($(window).width() / 2), 10), 10);
     }
 
-    // fix mobile menu
-    if (Meteor.Device.isPhone()) {
-      $('.inhibitor').css('display', 'none');
-      $('.mobile-menu').css('position', 'fixed');
-      $('.content').css('overflow', 'scroll');
-    }
-
     $('#menu').velocity({ marginLeft: parseInt(0 - gui.SIDEBAR_WIDTH, 10) }, animationSettings);
     $('#content').velocity({
       left: 0,
       right: 0,
-    }, animationSettings);
+    }, {
+      duration: animationSettings.duration,
+      complete: () => {
+        if (Meteor.Device.isPhone()) {
+          $('.mobile-menu').css('margin-top', '0px');
+          $('.mobile-menu').css('position', 'fixed');
+          $('.mobile-menu').css('top', '');
+          $('.mobile-menu').css('bottom', '0px');
+          $('.navbar').css('position', 'fixed');
+          $('.navbar').css('top', '0px');
+          $('.inhibitor').css('display', 'none');
+          $('.content').css('overflow', 'scroll');
+        }
+      },
+    });
     $('.split-right').velocity({
       marginLeft: diff,
     }, animationSettings);

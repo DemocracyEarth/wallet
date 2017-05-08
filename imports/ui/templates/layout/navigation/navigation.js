@@ -9,7 +9,6 @@ import { timers } from '/lib/const';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { toggleSidebar } from '/imports/ui/modules/menu';
 
-import { animate } from '/imports/ui/modules/animation';
 import './navigation.html';
 import '../authentication/authentication.js';
 import '../../widgets/notice/notice.js';
@@ -32,13 +31,11 @@ function hideBar() {
             duration: parseInt(timers.ANIMATION_DURATION, 10),
             easing: 'ease-out',
             complete: () => {
-              console.log('ABS');
               node.css('position', 'absolute');
               node.css('top', '0px');
             },
           })
           .velocity('stop');
-        console.log('DOWN');
       } else if (scrollDown === true) {
         scrollDown = false;
         node.css('position', 'fixed');
@@ -49,13 +46,9 @@ function hideBar() {
             duration: parseInt(timers.ANIMATION_DURATION, 10),
             easing: 'ease-out',
             complete: () => {
-              console.log('FIX');
-              // node.css('position', 'absolute');
-              // node.css('top', '0px');
             },
           })
           .velocity('stop');
-        console.log('UP');
       }
       lastScrollTop = st;
     });
