@@ -161,9 +161,9 @@ const aniExit = {
   height: '0px',
 };
 
-//**********
-//Animations
-//**********
+// **
+// Animations
+// **
 
 function fadeInRolldown(node, next) {
   $(node).addClass('off-screen');
