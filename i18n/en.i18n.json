@@ -443,5 +443,7 @@
   "menu-home": "Home",
   "menu-voted": "Voted",
   "menu-notifications": "Notifications",
-  "menu-new-post": "New Post"
+  "menu-new-post": "New Post",
+  "menu-voice": "Voice",
+  "menu-news": "News"
 }

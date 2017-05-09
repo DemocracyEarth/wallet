@@ -16,18 +16,22 @@
     {{#if editorMode}}
       <!-- Editable -->
       <div class="content">
-        <div class="contract">
-          <div class="paper">
-            {{> title editorMode=true}}
-            {{> agreement editorMode=true}}
-            {{> semantics editorMode=true}}
-            {{> signatures authorMode=true editorMode=true}}
-          </div>
-          <div class="paper {{ballotToggle}}">
-            {{> ballot editorMode=true}}
-          </div>
-          <div class="paper paper-execute">
-            {{> action label='launch-vote' enabled=true}}
+        <div class="voice">
+          <div class="contract">
+            <div class="paper paper-editor">
+              {{> title editorMode=true}}
+              {{> agreement editorMode=true}}
+              {{> semantics editorMode=true}}
+              {{> signatures authorMode=true editorMode=true}}
+            </div>
+            <div class="paper paper-editor {{ballotToggle}}">
+              {{> ballot editorMode=true}}
+            </div>
+            {{#unless isPhone}}
+              <div class="paper paper-execute">
+                {{> action label='launch-vote' enabled=true}}
+              </div>
+            {{/unless}}
           </div>
         </div>
       </div>
