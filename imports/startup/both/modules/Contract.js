@@ -2,9 +2,10 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { Router } from 'meteor/iron:router';
 import { TAPi18n } from 'meteor/tap:i18n';
+
 import { Contracts } from '../../../api/contracts/Contracts';
 import { shortUUID } from './crypto';
-import { transact, transactionMessage } from '../../../api/transactions/transaction';
+import { transact } from '../../../api/transactions/transaction';
 
 /**
 * @summary generate a new empty draft
@@ -19,8 +20,13 @@ const _newDraft = (newkeyword, newtitle) => {
     if (!Contracts.findOne({ keyword: `draft-${Meteor.userId()}` })) {
       Contracts.insert({ keyword: `draft-${Meteor.userId()}` });
     }
-    const id = Contracts.findOne({ keyword: `draft-${Meteor.userId()}` })._id;
-    Router.go(`/vote/draft?id=${id}`);
+    const contract = Contracts.findOne({ keyword: `draft-${Meteor.userId()}` });
+    if (Meteor.Device.isPhone()) {
+      Session.set('contract', contract);
+      Session.set('showEditor', true);
+    } else {
+      Router.go(`/vote/draft?id=${contract._id}`);
+    }
   // has title & keyword
   } else if (!Contracts.findOne({ keyword: newkeyword })) {
     if (!newtitle) {

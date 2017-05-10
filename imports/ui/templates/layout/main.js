@@ -83,7 +83,9 @@ Meteor.startup(() => {
 });
 
 Template.main.onRendered(() => {
-  document.getElementsByClassName('inhibitor')[0].addEventListener('touchmove', (e) => { e.preventDefault(); });
+  if (document.getElementsByClassName('inhibitor').length > 0) {
+    document.getElementsByClassName('inhibitor')[0].addEventListener('touchmove', (e) => { e.preventDefault(); });
+  }
 });
 
 Template.main.helpers({
@@ -95,5 +97,14 @@ Template.main.helpers({
 Template.main.events({
   'click .inhibitor'() {
     toggleSidebar();
+  },
+});
+
+Template.voice.helpers({
+  display() {
+    if (Session.get('showEditor')) {
+      return '';
+    }
+    return 'display: none';
   },
 });

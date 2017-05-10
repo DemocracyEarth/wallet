@@ -19,6 +19,30 @@ import '../../../widgets/warning/warning.js';
 
 let typingTimer; // timer identifier
 
+function displayTitle(title) {
+  if (title === '' || title === undefined) {
+    Session.set('missingTitle', true);
+    return TAPi18n.__('no-title');
+  }
+  Session.set('missingTitle', false);
+  return title;
+}
+
+// returns the title from the contract
+function getTitle(voice) {
+  if (Meteor.Device.isPhone() && voice.editorMode) {
+    return displayTitle('');
+  }
+
+  // TODO: Fix this fucking incredibly lame global shit of contractId somehow.
+  const contract = Contracts.findOne({ _id: contractId }, { reactive: false });
+  console.log(contract.title);
+  if (!contract) {
+    return '';
+  }
+  return displayTitle(contract.title);
+}
+
 Template.title.onRendered(() => {
   initEditor();
 
@@ -54,7 +78,7 @@ Template.titleContent.helpers({
     return '';
   },
   declaration() {
-    return getTitle();
+    return getTitle(this);
   },
   editable() {
     const html = `<div id='titleContent' contenteditable='true' tabindex=0> ${this.toString()} </div>`;
@@ -68,16 +92,16 @@ Template.title.helpers({
     return '';
   },
   declaration() {
-    return getTitle();
+    return getTitle(this);
   },
   contractURL() {
-    var host =  window.location.host;
-    var keyword = '';
+    const host = window.location.host;
+    let keyword = '';
 
     if (Session.get('contract')) {
-      if (Session.get('contractKeyword') == undefined) {
+      if (Session.get('contractKeyword') === undefined) {
         Session.set('contractKeyword', Session.get('contract').keyword);
-      } else if (Session.get('contractKeyword') != Session.get('contract').keyword) {
+      } else if (Session.get('contractKeyword') !== Session.get('contract').keyword) {
         keyword = Session.get('contractKeyword');
       } else {
         keyword = Session.get('contract').keyword;
@@ -89,7 +113,7 @@ Template.title.helpers({
     if (Session.get('missingTitle')) {
       Session.set('URLStatus', 'UNAVAILABLE');
     }
-    if ($('#titleContent').is(":focus")) {
+    if ($('#titleContent').is(':focus')) {
       Session.set('URLStatus', 'NONE');
     }
     if (!Session.get('firstEditorLoad')) {
@@ -120,9 +144,17 @@ Template.title.helpers({
   },
 });
 
+Template.titleContent.onRendered(() => {
+  $('#titleContent').bind('click', (e) => {
+    e.preventDefault(); // the important thing I think
+    e.stopPropagation();
+
+    $('#titleContent').focus();
+  });
+});
 
 Template.titleContent.events({
-  'input #titleContent'(event) {
+  'input #titleContent'() {
     const content = document.getElementById('titleContent').innerText;// jQuery($("#titleContent").html()).text();
     const keyword = convertToSlug(content);
     const contract = Contracts.findOne({ keyword: keyword });
@@ -152,17 +184,17 @@ Template.titleContent.events({
       Session.set('mistypedTitle', true);
       Session.set('missingTitle', false);
       return;
-    } else {
-      Session.set('missingTitle', false);
-      Session.set('mistypedTitle', false);
     }
+    Session.set('missingTitle', false);
+    Session.set('mistypedTitle', false);
 
-    //Call function when typing seems to be finished.
-    typingTimer = Meteor.setTimeout(function () {
+
+    // call function when typing seems to be finished.
+    typingTimer = Meteor.setTimeout(() => {
       if (contract !== undefined && contract._id !== Session.get('contract')._id) {
-          Session.set('URLStatus', 'UNAVAILABLE');
+        Session.set('URLStatus', 'UNAVAILABLE');
       } else {
-        const url = "/" + Session.get('contract').kind.toLowerCase() + "/" + keyword
+        const url = `/${Session.get('contract').kind.toLowerCase()}/${keyword}`;
         if (Contracts.update({ _id: Session.get('contract')._id }, { $set: { title: content, keyword, url } })) {
           Session.set('URLStatus', 'AVAILABLE');
         }
@@ -174,34 +206,17 @@ Template.titleContent.events({
     const content = document.getElementById('titleContent').innerText;
     return (content.length <= rules.TITLE_MAX_LENGTH) && event.which !== 13 && event.which !== 9;
   },
-  'focus #titleContent'(event) {
+  'focus #titleContent'() {
     if (Session.get('missingTitle')) {
       document.getElementById('titleContent').innerText = '';
       Session.set('missingTitle', false);
     }
   },
-  'blur #titleContent'(event) {
+  'blur #titleContent'() {
     const content = document.getElementById('titleContent').innerText;
     if (content === '' || content === ' ') {
       Session.set('missingTitle', true);
       document.getElementById('titleContent').innerText = TAPi18n.__('no-title');
     }
-  }
+  },
 });
-
-// returns the title from the contract
-function getTitle() {
-  // FIX missed contractId
-  const contract = Contracts.findOne({ _id: contractId }, { reactive: false });
-  if (!contract) {
-    return;
-  }
-  const title = contract.title;
-  if (title === '' || title === undefined) {
-    Session.set('missingTitle', true);
-    return TAPi18n.__('no-title');
-  } else {
-    Session.set('missingTitle', false);
-    return title;
-  }
-}

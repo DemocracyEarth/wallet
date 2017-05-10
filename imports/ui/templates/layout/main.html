@@ -9,15 +9,43 @@
   <div id='menu' class='left'>
     {{> sidebar}}
   </div>
+
   <div id='content' class='right'>
+
     {{#if isPhone}}
       <div class='inhibitor' style='display: none;'></div>
     {{/if}}
+
     {{> navigation}}
     {{> yield}}
+
     {{#if isPhone}}
       {{> touchmenu}}
     {{/if}}
+
   </div>
 
+  {{> voice}}
+
+</template>
+
+<template name="voice">
+  <div class="voice" style="display:none;">
+    <div class="contract">
+      <div class="paper paper-editor">
+        {{> title editorMode=true}}
+        {{> agreement editorMode=true}}
+        {{> semantics editorMode=true}}
+        {{> signatures authorMode=true editorMode=true}}
+      </div>
+      <div class="paper paper-editor {{ballotToggle}}">
+        {{> ballot editorMode=true}}
+      </div>
+      {{#unless isPhone}}
+        <div class="paper paper-execute">
+          {{> action label='launch-vote' enabled=true}}
+        </div>
+      {{/unless}}
+    </div>
+  </div>
 </template>

@@ -16,23 +16,21 @@
     {{#if editorMode}}
       <!-- Editable -->
       <div class="content">
-        <div class="voice">
-          <div class="contract">
-            <div class="paper paper-editor">
-              {{> title editorMode=true}}
-              {{> agreement editorMode=true}}
-              {{> semantics editorMode=true}}
-              {{> signatures authorMode=true editorMode=true}}
-            </div>
-            <div class="paper paper-editor {{ballotToggle}}">
-              {{> ballot editorMode=true}}
-            </div>
-            {{#unless isPhone}}
-              <div class="paper paper-execute">
-                {{> action label='launch-vote' enabled=true}}
-              </div>
-            {{/unless}}
+        <div class="contract">
+          <div class="paper paper-editor">
+            {{> title editorMode=true}}
+            {{> agreement editorMode=true}}
+            {{> semantics editorMode=true}}
+            {{> signatures authorMode=true editorMode=true}}
           </div>
+          <div class="paper paper-editor {{ballotToggle}}">
+            {{> ballot editorMode=true}}
+          </div>
+          {{#unless isPhone}}
+            <div class="paper paper-execute">
+              {{> action label='launch-vote' enabled=true}}
+            </div>
+          {{/unless}}
         </div>
       </div>
     {{else}}
@@ -58,16 +56,6 @@
             {{/if}}
           </div>
         </div>
-        <!--
-        <div class="subfeed-title">
-          <h3>{{_ 'voters'}}</h3>
-        </div>
-        <div class="proposal-feed">
-          {{#each voter}}
-            {{> avatar id=this}}
-          {{/each}}
-        </div>
-        -->
       </div>
       <div class="split split-right">
         {{> agora}}
