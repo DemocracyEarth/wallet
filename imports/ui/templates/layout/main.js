@@ -34,8 +34,8 @@ import '../widgets/popup/popup';
 import './sidebar/sidebar';
 import './navigation/navigation';
 import './response/verifyEmail/verifyEmail';
-import './touchmenu/touchmenu.html';
-import './touchmenu/touchmenu.js';
+import './touchmenu/touchmenu';
+import '../components/decision/voice/voice';
 
 Meteor.startup(() => {
   // Mail server settings
@@ -97,14 +97,5 @@ Template.main.helpers({
 Template.main.events({
   'click .inhibitor'() {
     toggleSidebar();
-  },
-});
-
-Template.voice.helpers({
-  display() {
-    if (Session.get('showEditor')) {
-      return '';
-    }
-    return 'display: none';
   },
 });
