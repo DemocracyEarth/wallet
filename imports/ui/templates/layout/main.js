@@ -35,7 +35,7 @@ import './sidebar/sidebar';
 import './navigation/navigation';
 import './response/verifyEmail/verifyEmail';
 import './touchmenu/touchmenu';
-import '../components/decision/voice/voice';
+import '../components/decision/editor/editor';
 
 Meteor.startup(() => {
   // Mail server settings

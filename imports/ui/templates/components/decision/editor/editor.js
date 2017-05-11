@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 
-import './voice.html';
+import './editor.html';
 
-Template.voice.helpers({
+Template.editor.helpers({
 });

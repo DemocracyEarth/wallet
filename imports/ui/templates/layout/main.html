@@ -6,6 +6,11 @@
     {{> popup id=this}}
   {{/each}}
 
+  {{#if isPhone}}
+    <div id='mobileKeyboard' contenteditable="true" style="opacity: 0; width: 0px; height:0px;"></div>
+  {{/if}}
+
+
   <div id='menu' class='left'>
     {{> sidebar}}
   </div>
@@ -26,7 +31,7 @@
   </div>
 
   {{#if isPhone}}
-    {{> voice}}
+    {{> editor}}
   {{/if}}
 
 </template>

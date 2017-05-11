@@ -14,15 +14,19 @@ Template.touchmenu.helpers({
 });
 
 Template.touchmenu.events({
-  'click #button-voice'() {
+  'click #button-post'() {
     createContract();
-    $('#voice-editor').css('margin-top', '100px');
-    $('#voice-editor').css('display', '');
+    $('#post-editor').css('margin-top', `${$(window).height()}px`);
+    $('#post-editor').css('display', '');
 
-    $('#voice-editor').velocity({ 'margin-top': '0px' }, {
+    $('#post-editor').velocity({ 'margin-top': '0px' }, {
       duration: timers.ANIMATION_DURATION,
+      complete: () => {
+        $('#titleContent').focus();
+      },
     });
 
-    $('#titleContent').focus();
+    //
+    $('#mobileKeyboard').focus();
   },
 });
