@@ -40,7 +40,9 @@ See our 🇫🇷 [Paris 2016 conference](http://youtube.com/watch?v=UajbQTHnTfM)
 
 [`version 0.1.0`](https://github.com/DemocracyEarth/sovereign/milestone/1)
 
-**📃 [Universal Declaration of Human Rights](https://en.wikipedia.org/wiki/Universal_Declaration_of_Human_Rights):**
+**Also:**
+
+Inspired by the 📃 [Universal Declaration of Human Rights](https://en.wikipedia.org/wiki/Universal_Declaration_of_Human_Rights).
 
 >   _Everyone has the right to freedom of opinion and expression; this right includes freedom to hold opinions without interference and to seek, receive and impart information and ideas through any media and regardless of frontiers. Everyone has the right to freedom of peaceful assembly and association. Everyone has the right to take part in the government of his country, directly or through freely chosen representatives._
 
@@ -221,4 +223,4 @@ Also check our [donors list](DONORS.md).
 ## License
 
 This software is under an [MIT License](LICENSE.md).
-Some rights reserved, 2016 [Democracy Earth Foundation](http://democracy.earth).
+Some rights reserved, 2015 - 2017 [Democracy Earth Foundation](http://democracy.earth).
