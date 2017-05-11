@@ -21,13 +21,16 @@ const _newDraft = (newkeyword, newtitle) => {
       Contracts.insert({ keyword: `draft-${Meteor.userId()}` });
     }
     const contract = Contracts.findOne({ keyword: `draft-${Meteor.userId()}` });
-    if (Meteor.Device.isPhone()) {
-      Session.set('contract', contract);
-      Session.set('showEditor', true);
-    } else {
-      Router.go(`/vote/draft?id=${contract._id}`);
+    if (Meteor.user()) {
+      _sign(contract._id, Meteor.user(), 'AUTHOR');
+      console.log(contract._id);
     }
-  // has title & keyword
+    if (Meteor.Device.isPhone()) {
+      console.log(contract);
+      Session.set('contract', contract);
+    }
+    Router.go(`/vote/draft?id=${contract._id}`);
+  // has title & keyword, used for forks
   } else if (!Contracts.findOne({ keyword: newkeyword })) {
     if (!newtitle) {
       Contracts.insert({ keyword: newkeyword });

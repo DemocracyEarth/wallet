@@ -69,7 +69,7 @@ Template.signatures.events({
         title: TAPi18n.__('proposal-author'),
         message: TAPi18n.__('proposal-signed-identity'),
         cancel: TAPi18n.__('not-now'),
-        action: TAPi18n.__('sign-proposal'),
+        action: TAPi18n.__('sign'),
         displayProfile: true,
         profileId: Meteor.user()._id,
       },

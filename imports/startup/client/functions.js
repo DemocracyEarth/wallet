@@ -139,72 +139,39 @@ const _buildTitle = (params) => {
 
 
 /**
-* @summary set session variables for specific view based on query
-* @param {object} query - url query
-*/
-let _setSessionVars = (params) => {
-  if (params) {
-    var query = params.query;
-  }
-
-  //collective
-  if (Session.get('collective') == undefined) {
-    Session.set('collectiveId', Meteor.settings.public.Collective._id);
-    Session.set('collective', Collectives.findOne({ _id: Session.get('collectiveId')}));
-  }
-
-  //view
-  if (!params) {
-    var feed = 'live-votes-custom';
-    _loadFeed(feed);
-  } else {
-    if (params.contract) {
-      var feed = _getMenuSelection(params.contract);
-      _loadContract(params.contract, params.query.id);
-    } else {
-      var feed = _getQueryFeed(params.query);
-      _loadFeed(feed);
-    }
-  }
-
-  setSidebarMenu(feed);
-}
-
-
-/***
 * loads a feed based on url query
 * @param {object} query - query settings
 ****/
-let _loadFeed = (feed) => {
+const _loadFeed = (feed) => {
   switch (feed) {
     case 'live-votes':
       Session.set('voterMode', true);
       Session.set('editorMode', false);
-      if (typeof Session.get('sidebarMenuSelectedId') != 'string') {
+      if (typeof Session.get('sidebarMenuSelectedId') !== 'string') {
         Session.set('sidebarMenuSelectedId', 0);
       }
       break;
     case 'live-votes-peer':
-      if (typeof Session.get('sidebarMenuSelectedId') != 'string') {
+      if (typeof Session.get('sidebarMenuSelectedId') !== 'string') {
         Session.set('sidebarMenuSelectedId', 1);
       }
       break;
     case 'votes-finish-approved':
-      if (typeof Session.get('sidebarMenuSelectedId') != 'string') {
+      if (typeof Session.get('sidebarMenuSelectedId') !== 'string') {
         Session.set('sidebarMenuSelectedId', 2);
       }
       break;
     case 'vote-drafts':
       Session.set('voterMode', false);
       Session.set('editorMode', true);
-      if (typeof Session.get('sidebarMenuSelectedId') != 'string') {
+      if (typeof Session.get('sidebarMenuSelectedId') !== 'string') {
         Session.set('sidebarMenuSelectedId', 3);
       }
       break;
     case 'votes-finish-rejected':
       Session.set('voterMode', false);
       Session.set('editorMode', true);
-      if (typeof Session.get('sidebarMenuSelectedId') != 'string') {
+      if (typeof Session.get('sidebarMenuSelectedId') !== 'string') {
         Session.set('sidebarMenuSelectedId', 4);
       }
       break;
@@ -212,14 +179,15 @@ let _loadFeed = (feed) => {
       Session.set('voterMode', true);
       Session.set('editorMode', false);
       Session.set('emptyContent', {
-        label: TAPi18n.__('empty-feed-label-' + feed),
-        detail: TAPi18n.__('empty-feed-detail-' + feed),
-        contribute: TAPi18n.__('empty-feed-contribute-' + feed),
-        url: '/vote/draft?kind=' + feed
+        label: TAPi18n.__(`empty-feed-label-${feed}`),
+        detail: TAPi18n.__(`empty-feed-detail-${feed}`),
+        contribute: TAPi18n.__(`empty-feed-contribute-${feed}`),
+        url: `/vote/draft?kind=${feed}`,
       });
       break;
   }
-}
+};
+
 
 /**
 * @summary sets which wallet to use for reference in contract based on if the user signed or not
@@ -253,12 +221,13 @@ const _setContractWallet = (contract) => {
   }
 };
 
+
 /**
 * loads contract based on view as in url params
 * @param {object} view - view to be used inferred from params
 * @return {string} id - contract id to load
 ****/
-let _loadContract = (view, id) => {
+const _loadContract = (view, id) => {
   // load contract
   let contract;
   if (id !== undefined) {
@@ -314,6 +283,182 @@ let _loadContract = (view, id) => {
         break;
     }
   }
+};
+
+
+/**
+* @summary returns from a menu array the selected feed
+* @param {object} menu - menu array
+*/
+const _getMenuFeed = (menu) => {
+  if (Session.get('sidebarMenuSelectedId') && typeof Session.get('sidebarMenuSelectedId') !== 'string') {
+    const item = Session.get('sidebarMenuSelectedId');
+    return menu[item].feed;
+  }
+  for (const item in menu) {
+    if (menu[item].selected === true) {
+      return menu[item].feed;
+    }
+  }
+  return false;
+};
+
+/**
+* @summary based on the query returns proper feed to fetch
+* @param {object} query - query settings
+* @return {string} feed - feed name constant (false if not found)
+* @TODO: this whole switch can easily be done programatically, i don't have time now.
+*/
+const _getQueryFeed = (query) => {
+  if (query === undefined) { return false; }
+  switch(query.stage.toUpperCase()) {
+    case 'DRAFT':
+      switch(query.kind.toUpperCase()) {
+        case 'VOTE':
+          if (query.peer) {
+            return 'CUSTOM PEER DRAFTS';
+          } else {
+            return 'vote-drafts';
+          }
+        case 'DELEGATION':
+          if (query.peer) {
+            return 'CUSTOM PEER DELEGATION DRAFTS';
+          } else {
+            return 'DELEGATION DRAFTS';
+          }
+        case 'MEMBERSHIP':
+          if (query.peer) {
+            return 'CUSTOM PEER MEMBERSHIP DRAFT';
+          } else {
+            return 'MEMBERSHIP DRAFTS';
+          }
+      }
+      return 'ALL DRAFTS';
+    case 'LIVE':
+      switch(query.kind.toUpperCase()) {
+        case 'VOTE':
+          if (query.peer) {
+            return 'live-votes-peer';
+          }
+          return 'live-votes';
+        case 'DELEGATION':
+          if (query.peer) {
+            return 'CUSTOM PEER DELEGATION SENT';
+          }
+          return 'LIVE DELEGATIONS';
+        case 'MEMBERSHIP':
+          if (query.peer) {
+            return 'CUSTOM PEER MEMBERSHIP REQUEST';
+          }
+          return 'LIVE MEMBERSHIPS';
+      }
+      return 'ALL LIVE';
+    case 'FINISH':
+      switch (query.kind.toUpperCase()) {
+        case 'VOTE':
+          switch (query.executionStatus.toUpperCase()) {
+            case 'APPROVED':
+              if (query.peer) {
+                return 'CUSTOM PEER APPROVED VOTES';
+              }
+              return 'votes-finish-approved';
+            case 'REJECTED':
+              if (query.peer) {
+                return 'CUSTOM PEER REJECTED VOTES';
+              }
+              return 'votes-finish-rejected';
+            case 'ALTERNATIVE':
+              if (query.peer) {
+                return 'CUSTOM PEER ALTERNATIVE VOTES';
+              }
+              return 'VOTES FINISH ALTERNATIVE';
+          }
+          return 'ALL VOTES FINISH';
+        case 'DELEGATION':
+          switch (query.executionStatus.toUpperCase()) {
+            case 'APPROVED':
+              if (query.peer) {
+                return 'CUSTOM PEER APPROVED DELEGATIONS';
+              }
+              return 'CONFIRMED DELEGATIONS';
+            case 'REJECTED':
+            default:
+              if (query.peer) {
+                return 'CUSTOM PEER REJECTED DELEGATIONS';
+              }
+              return 'REJECTED DELEGATIONS';
+          }
+          return 'ALL DELEGATIONS';
+        case 'MEMBERSHIP':
+          switch (query.executionStatus.toUpperCase()) {
+            case 'APPROVED':
+              if (query.peer) {
+                return 'CUSTOM PEER APPROVED MEMBERSHIPS';
+              }
+              return 'APPROVED MEMBERSHIPS';
+            case 'REJECTED':
+            default:
+              if (query.peer) {
+                return 'CUSTOM PEER REJECTED MEMBERSHIPS';
+              }
+              return 'REJECTED MEMBERSHIPS';
+          }
+        default:
+          return 'ALL CONFIRMED MEMBERSHIPS';
+      }
+    default:
+      return 'ALL FINISH';
+  }
+};
+
+/**
+* @summary returns the selected feed from menu if unknown in mem
+*/
+const _getMenuSelection = (params) => {
+  const menu = Session.get('menuDecisions');
+  const delegates = Session.get('menuDelegates');
+  let feed = _getMenuFeed(menu);
+  if (!feed) {
+    feed = _getMenuFeed(delegates);
+    if (!feed) {
+      switch (params) {
+        case 'draft':
+          feed = 'vote-drafts';
+          break;
+        default:
+          feed = 'live-votes';
+      }
+    }
+  }
+  return feed;
+};
+
+/**
+* @summary set session variables for specific view based on query
+* @param {object} query - url query
+*/
+const _setSessionVars = (params) => {
+  let feed;
+
+  // collective
+  if (Session.get('collective') === undefined) {
+    Session.set('collectiveId', Meteor.settings.public.Collective._id);
+    Session.set('collective', Collectives.findOne({ _id: Session.get('collectiveId') }));
+  }
+
+  // view
+  if (!params) {
+    feed = 'live-votes-custom';
+    _loadFeed(feed);
+  } else if (params.contract) {
+    feed = _getMenuSelection(params.contract);
+    _loadContract(params.contract, params.query.id);
+  } else {
+    feed = _getQueryFeed(params.query);
+    _loadFeed(feed);
+  }
+
+  setSidebarMenu(feed);
 };
 
 /**
@@ -388,158 +533,12 @@ const _clearSessionVars = () => {
   // ensure user gets funds
   if (Meteor.user() != null) {
     if (_userHasEmptyWallet()) {
-      Meteor.call('genesisTransaction', Meteor.user()._id, function (error, response) {
+      Meteor.call('genesisTransaction', Meteor.user()._id, (error) => {
         if (error) {
-          console.log('[genesisTransaction] ERROR: ' + error);
+          console.log(`[genesisTransaction] ERROR: ${error}`);
         }
       });
     }
-  }
-};
-
-/**
-* @summary returns from a menu array the selected feed
-* @param {object} menu - menu array
-*/
-const _getMenuFeed = (menu) => {
-  if (Session.get('sidebarMenuSelectedId') && typeof Session.get('sidebarMenuSelectedId') !== 'string') {
-    const item = Session.get('sidebarMenuSelectedId');
-    return menu[item].feed;
-  }
-  for (const item in menu) {
-    if (menu[item].selected === true) {
-      return menu[item].feed;
-    }
-  }
-  return false;
-};
-
-/**
-* @summary returns the selected feed from menu if unknown in mem
-*/
-const _getMenuSelection = (params) => {
-  const menu = Session.get('menuDecisions');
-  const delegates = Session.get('menuDelegates');
-  let feed = _getMenuFeed(menu);
-  if (!feed) {
-    feed = _getMenuFeed(delegates);
-    if (!feed) {
-      switch (params) {
-        case 'draft':
-          feed = 'vote-drafts';
-          break;
-        default:
-          feed = 'live-votes';
-      }
-    }
-  }
-  return feed;
-};
-
-/**
-* @summary based on the query returns proper feed to fetch
-* @param {object} query - query settings
-* @return {string} feed - feed name constant (false if not found)
-* @TODO: this whole switch can easily be done programatically, i don't have time now.
-*/
-const _getQueryFeed = (query) => {
-  if (query === undefined) { return false; }
-  switch(query.stage.toUpperCase()) {
-    case 'DRAFT':
-      switch(query.kind.toUpperCase()) {
-        case 'VOTE':
-          if (query.peer) {
-            return 'CUSTOM PEER DRAFTS';
-          } else {
-            return 'vote-drafts';
-          }
-        case 'DELEGATION':
-          if (query.peer) {
-            return 'CUSTOM PEER DELEGATION DRAFTS';
-          } else {
-            return 'DELEGATION DRAFTS';
-          }
-        case 'MEMBERSHIP':
-          if (query.peer) {
-            return 'CUSTOM PEER MEMBERSHIP DRAFT';
-          } else {
-            return 'MEMBERSHIP DRAFTS';
-          }
-      }
-      return 'ALL DRAFTS';
-    case 'LIVE':
-      switch(query.kind.toUpperCase()) {
-        case 'VOTE':
-          if (query.peer) {
-            return 'live-votes-peer';
-          } else {
-            return 'live-votes';
-          }
-        case 'DELEGATION':
-          if (query.peer) {
-            return 'CUSTOM PEER DELEGATION SENT';
-          } else {
-            return 'LIVE DELEGATIONS';
-          }
-        case 'MEMBERSHIP':
-          if (query.peer) {
-            return 'CUSTOM PEER MEMBERSHIP REQUEST';
-          } else {
-            return 'LIVE MEMBERSHIPS';
-          }
-      }
-      return 'ALL LIVE';
-    case 'FINISH':
-      switch(query.kind.toUpperCase()) {
-        case 'VOTE':
-          switch(query.executionStatus.toUpperCase()) {
-            case 'APPROVED':
-              if (query.peer) {
-                return 'CUSTOM PEER APPROVED VOTES';
-              }
-              return 'votes-finish-approved';
-            case 'REJECTED':
-              if (query.peer) {
-                return 'CUSTOM PEER REJECTED VOTES';
-              }
-              return 'votes-finish-rejected';
-            case 'ALTERNATIVE':
-              if (query.peer) {
-                return 'CUSTOM PEER ALTERNATIVE VOTES';
-              }
-              return 'VOTES FINISH ALTERNATIVE';
-          }
-          return 'ALL VOTES FINISH';
-        case 'DELEGATION':
-          switch(query.executionStatus.toUpperCase()) {
-            case 'APPROVED':
-              if (query.peer) {
-                return 'CUSTOM PEER APPROVED DELEGATIONS';
-              }
-              return 'CONFIRMED DELEGATIONS';
-            case 'REJECTED':
-              if (query.peer) {
-                return 'CUSTOM PEER REJECTED DELEGATIONS';
-              }
-              return 'REJECTED DELEGATIONS';
-          }
-          return 'ALL DELEGATIONS';
-        case 'MEMBERSHIP':
-          switch(query.executionStatus.toUpperCase()) {
-            case 'APPROVED':
-              if (query.peer) {
-                return 'CUSTOM PEER APPROVED MEMBERSHIPS';
-              }
-              return 'APPROVED MEMBERSHIPS';
-            case 'REJECTED':
-              if (query.peer) {
-                return 'CUSTOM PEER REJECTED MEMBERSHIPS';
-              }
-              return 'REJECTED MEMBERSHIPS';
-          }
-          return 'ALL CONFIRMED MEMBERSHIPS';
-      }
-      return 'ALL FINISH';
   }
 };
 

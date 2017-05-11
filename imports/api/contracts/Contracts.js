@@ -233,7 +233,7 @@ Schema.Contract = new SimpleSchema({
     type: Date,
     autoValue() {
       if (this.isInsert) {
-        const creationDate = Date();
+        const creationDate = new Date();
         creationDate.setDate(creationDate.getDate() + 1);
         return creationDate;
       }

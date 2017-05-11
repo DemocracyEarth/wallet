@@ -23,8 +23,8 @@ Router.configure({
   notFoundTemplate: 'notFound',
 });
 
-/*
-* home route
+/**
+* @summary home route
 */
 Router.route('/', {
   name: 'home',
@@ -119,9 +119,9 @@ Router.route('/peer/:username', {
 });
 
 
-/*
-* loads a contract meant for voting either to edit or vote.
-****/
+/**
+* @summary loads a contract meant for voting either to edit or vote.
+*/
 Router.route('/vote/:contract', {
   name: 'voteContract',
   template: 'contract',

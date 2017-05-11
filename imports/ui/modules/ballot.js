@@ -1,16 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
-import { TAPi18n } from 'meteor/tap:i18n';
 
 import { globalObj } from '/lib/global';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { Transactions } from '/imports/api/transactions/Transactions';
-import { createContract, delegate } from '/imports/startup/both/modules/Contract';
+import { createContract } from '/imports/startup/both/modules/Contract';
 import { checkDuplicate, convertToSlug } from '/lib/utils';
-import { displayNotice } from '/imports/ui/modules/notice';
-import { displayModal } from '/imports/ui/modules/modal';
-import { transact, getTransactions, getVotes } from '/imports/api/transactions/transaction';
-import { Vote } from '/imports/ui/modules/Vote';
+import { getTransactions, getVotes } from '/imports/api/transactions/transaction';
 
 /**
 * @summary sets the vote on the ballot with tick
@@ -296,7 +292,7 @@ const _verifyDraftFork = (ballot) => {
 */
 const _forkContract = () => {
   if (Session.get('proposalURLStatus') === 'AVAILABLE') {
-    var contract = createContract(convertToSlug(Session.get('newProposal')), Session.get('newProposal'))[0];
+    let contract = createContract(convertToSlug(Session.get('newProposal')), Session.get('newProposal'))[0];
 
     if (contract) {
       if (_addChoiceToBallot(Session.get('contract')._id, contract._id)) {

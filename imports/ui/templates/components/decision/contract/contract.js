@@ -1,6 +1,5 @@
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
-import { Meteor } from 'meteor/meteor';
 
 import { splitRender } from '/imports/ui/modules/split';
 
