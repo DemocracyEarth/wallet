@@ -4332,8 +4332,13 @@ blockquote {
 }
 
 .voice {
-  position: absolute;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
   z-index: 14600;
+  background-color: #f5f5f5;
 }
 
 .event {
