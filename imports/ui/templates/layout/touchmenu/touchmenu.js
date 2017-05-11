@@ -26,7 +26,6 @@ Template.touchmenu.events({
       },
     });
 
-    //
     $('#mobileKeyboard').focus();
   },
 });

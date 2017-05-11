@@ -1,12 +1,16 @@
 <template name="signatures">
   <div class="signature">
-    <h5>{{_ "signatures"}}</h5>
+    {{#unless isPhone}}
+      <h5>{{_ "signatures"}}</h5>
+    {{/unless}}
     {{#if editorMode}}
       {{#if currentUser}}
         {{#unless userSigned}}
           <div class="w-clearfix highlight">
-            <div class="highlight-label">{{_ 'sign-here'}}</div>
-            <div class="arrow"></div>
+            {{#unless isPhone}}
+              <div class="highlight-label">{{_ 'sign-here'}}</div>
+              <div class="arrow"></div>
+            {{/unless}}
           </div>
         {{/unless}}
       {{/if}}
@@ -48,8 +52,10 @@
           {{/if}}
         {{/if}}
       </ul>
-      <div class="timestamp">
-        <div class="cards">{{timestamp}}</div>
-      </div>
+      {{#unless isPhone}}
+        <div class="timestamp">
+          <div class="cards">{{timestamp}}</div>
+        </div>
+      {{/unless}}
   </div>
 </template>

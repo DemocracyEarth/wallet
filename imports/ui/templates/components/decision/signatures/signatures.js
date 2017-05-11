@@ -10,11 +10,11 @@ import { displayModal } from '/imports/ui/modules/modal';
 import './signatures.html';
 import '../../identity/avatar/avatar.js';
 
-Template.signatures.rendered = function rendered() {
+Template.signatures.onRendered(() => {
   if (!Session.get('contract')) { return; }
   const contractAuthors = Session.get('contract').signatures;
   if (contractAuthors !== undefined) {
-    for (let i = 0; i < contractAuthors.length; i++) {
+    for (let i = 0; i < contractAuthors.length; i += 1) {
       if (Meteor.user() != null) {
         if (contractAuthors[i]._id === Meteor.user()._id) {
           Session.set('userSigned', true);
@@ -26,7 +26,7 @@ Template.signatures.rendered = function rendered() {
     }
   }
   Session.set('displaySignaturePopup', false);
-};
+});
 
 Template.signatures.helpers({
   userSigned() {
@@ -36,7 +36,7 @@ Template.signatures.helpers({
     if (Session.get('contract')) {
       const signerIds = [];
       if (Session.get('contract').signatures !== undefined) {
-        for (let i in Session.get('contract').signatures) {
+        for (const i in Session.get('contract').signatures) {
           signerIds.push(Session.get('contract').signatures[i]._id);
         }
         return signerIds;
@@ -73,7 +73,7 @@ Template.signatures.events({
         displayProfile: true,
         profileId: Meteor.user()._id,
       },
-      function () {
+      () => {
         Session.set('userSigned', true);
         signContract(Session.get('contract')._id, Meteor.user(), 'AUTHOR');
       }

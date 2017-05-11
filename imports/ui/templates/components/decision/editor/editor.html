@@ -2,11 +2,13 @@
   <div id="post-editor" class="voice" style="display:none;">
     <div class="contract">
       <div class="paper paper-editor">
+        {{> signatures authorMode=true editorMode=true}}
         {{> title editorMode=true}}
         {{> agreement editorMode=true}}
 <!--        {{> semantics editorMode=true}}
-        {{> signatures authorMode=true editorMode=true}}-->
-      </div>
+
+</div>
+-->
 <!--
       <div class="paper paper-editor {{ballotToggle}}">
         {{> ballot editorMode=true}}
@@ -17,6 +19,7 @@
         </div>
       {{/unless}}
 -->
+      </div>
     </div>
   </div>
 </template>
