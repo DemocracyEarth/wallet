@@ -23,10 +23,8 @@ const _newDraft = (newkeyword, newtitle) => {
     const contract = Contracts.findOne({ keyword: `draft-${Meteor.userId()}` });
     if (Meteor.user()) {
       _sign(contract._id, Meteor.user(), 'AUTHOR');
-      console.log(contract._id);
     }
     if (Meteor.Device.isPhone()) {
-      console.log(contract);
       Session.set('contract', contract);
     }
     Router.go(`/vote/draft?id=${contract._id}`);
@@ -250,16 +248,27 @@ const _publish = (contractId) => {
 * NOTE: simplify this and don't store a cache of data of a user, that was a stupid idea.
 */
 const _sign = (contractId, userObject, userRole) => {
-  Contracts.update({ _id: contractId }, { $push: {
-    signatures:
-    {
-      _id: userObject._id,
-      role: userRole,
-      hash: '', // TODO pending crypto TBD
-      username: userObject.username,
-      status: 'CONFIRMED',
-    },
-  } });
+  let found = false;
+  const contract = Contracts.findOne({ _id: contractId });
+
+  // avoids signature duplication
+  if (contract.signatures) {
+    contract.signatures.forEach((item) => { if (item._id === userObject._id) { found = true; return; } });
+  }
+
+  // signs
+  if (!found) {
+    Contracts.update({ _id: contractId }, { $push: {
+      signatures:
+      {
+        _id: userObject._id,
+        role: userRole,
+        hash: '', // TODO pending crypto TBD
+        username: userObject.username,
+        status: 'CONFIRMED',
+      },
+    } });
+  }
 };
 
 
