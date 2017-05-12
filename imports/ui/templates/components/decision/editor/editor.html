@@ -1,8 +1,15 @@
 <template name="editor">
-  <div id="post-editor" class="voice" style="display:none;">
+  <div id="post-editor" class="mobile-editor" style="display:none;">
     <div class="contract">
       <div class="paper paper-editor">
-        {{> signatures authorMode=true editorMode=true}}
+        <div class="mobile-editor-topbar">
+          <div class="mobile-editor-authors">
+            {{> signatures authorMode=true editorMode=true}}
+          </div>
+          <div id="close-mobile-editor" class="mobile-editor-close" ontouchstart="">
+            <img src="{{pathFor route='home'}}images/close.png" class="close-icon">
+          </div>
+        </div>
         {{> title editorMode=true}}
         {{> agreement editorMode=true}}
 <!--        {{> semantics editorMode=true}}

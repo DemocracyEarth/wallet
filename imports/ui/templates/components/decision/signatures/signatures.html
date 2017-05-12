@@ -33,7 +33,11 @@
         {{#if editorMode}}
           {{#each signer}}
             <li class="w-clearfix identity identity-sign">
+              {{#if isPhone}}
+                {{> avatar size=36 profile=this includeName=false includeNation=true editable=false disabled=false includeRole=false allowRemove=true smallFont=true}}
+              {{else}}
                 {{> avatar profile=this includeName=true includeNation=true editable=false disabled=false includeRole=true allowRemove=true}}
+              {{/if}}
             </li>
           {{/each}}
         {{else}}

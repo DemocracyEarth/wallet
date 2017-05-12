@@ -4,11 +4,10 @@ import { placeCaretAtStart, placeCaretAtEnd } from '../../startup/both/modules/u
 import { verifyDraftFork } from './ballot';
 
 const startEditor = () => {
-  var titleContent = document.getElementById('titleContent');
-  var editor = document.getElementById('editor');
+  const titleContent = document.getElementById('titleContent');
 
   if (Session.get('contract')) {
-    //Place caret in right place
+    // place caret in right place
     if (Session.get('contract').stage === 'DRAFT') {
       titleContent.focus();
       // Session.set('userSigned', false); NOTE: by default editor will include logged user signature.
@@ -16,22 +15,21 @@ const startEditor = () => {
       Session.set('emptyBallot', false);
       verifyDraftFork(Session.get('contract').ballot);
 
-      //Empty new document
-      if (Session.get('contract').title == '') {
+      // empty new document
+      if (Session.get('contract').title === '') {
         titleContent.innerHTML = TAPi18n.__('no-title');
         Session.set('missingTitle', true);
         Session.set('firstEditorLoad', true);
         Session.set('disableActionButton', true);
         placeCaretAtStart(titleContent);
 
-      //Open existing document
+      // open existing document
       } else {
         Session.set('firstEditorLoad', false);
         placeCaretAtEnd(titleContent);
       }
-
     }
-    //Keyword based URL
+    // keyword based URL
     Session.set('contractKeyword', Session.get('contract').keyword);
   }
 };
