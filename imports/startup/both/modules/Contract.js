@@ -175,7 +175,11 @@ const _signatureStatus = (signatures, signerId, getStatus) => {
           label = TAPi18n.__('delegate');
           break;
         default:
-          label = TAPi18n.__('author');
+          if (Meteor.Device.isPhone()) {
+            label = `<a id="removeSignature">${TAPi18n.__('remove')}</a>`;
+          } else {
+            label = TAPi18n.__('author');
+          }
       }
       switch (signatures[i].status) {
         case 'PENDING':

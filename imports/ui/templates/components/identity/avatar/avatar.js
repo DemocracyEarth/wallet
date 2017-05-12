@@ -109,14 +109,22 @@ Template.avatar.helpers({
     return signatureStatus(Session.get('contract').signatures, this.profile);
   },
   roleStyle() {
-    switch (signatureStatus(Session.get('contract').signatures, this.profile, true)) {
-      case 'CONFIRMED':
-        return 'signature-confirmed';
-      case 'REJECTED':
-        return 'signature-rejected';
-      default:
-        return '';
+    let label;
+    if (!Meteor.Device.isPhone()) {
+      switch (signatureStatus(Session.get('contract').signatures, this.profile, true)) {
+        case 'CONFIRMED':
+          label = 'signature-confirmed';
+          break;
+        case 'REJECTED':
+          label = 'signature-rejected';
+          break;
+        default:
+          label = '';
+      }
+    } else {
+      label = ' signature-role-mobile';
     }
+    return label;
   },
   includeRole() {
     if (Session.get('contract')) {

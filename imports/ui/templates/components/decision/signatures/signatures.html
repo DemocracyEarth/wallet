@@ -19,14 +19,24 @@
         {{#if editorMode}}
           {{#if currentUser}}
             {{#unless userSigned}}
-              <li class="w-clearfix identity identity-sign">
-                <img id='sign-author' class="symbol profile-pic profile-sign" src="{{pathFor route='home'}}images/fingerprint-white.png">
-                  {{#if authorMode}}
-                    <div class="signature-role {{roleStyle}}">
-                      {{_ 'author'}}
-                    </div>
-                  {{/if}}
-              </li>
+              {{#if isPhone}}
+                <li class="w-clearfix identity identity-sign">
+                  <img id='sign-author' class="symbol profile-pic profile-sign identity-small" src="{{pathFor route='home'}}images/fingerprint-white.png" style="width:36px; height:36px; float: none">
+                  <div class="identity-peer identity-small"></div>
+                  <div class="signature-role signature-role-mobile">
+                    <a id='sign-author-link'>{{_ 'sign-post'}}</a>
+                  </div>
+                </li>
+              {{else}}
+                <li class="w-clearfix identity identity-sign">
+                  <img id='sign-author' class="symbol profile-pic profile-sign" src="{{pathFor route='home'}}images/fingerprint-white.png">
+                    {{#if authorMode}}
+                      <div class="signature-role {{roleStyle}}">
+                        {{_ 'author'}}
+                      </div>
+                    {{/if}}
+                </li>
+              {{/if}}
             {{/unless}}
           {{/if}}
         {{/if}}
@@ -34,7 +44,7 @@
           {{#each signer}}
             <li class="w-clearfix identity identity-sign">
               {{#if isPhone}}
-                {{> avatar size=36 profile=this includeName=false includeNation=true editable=false disabled=false includeRole=false allowRemove=true smallFont=true}}
+                {{> avatar size=36 profile=this includeName=false includeNation=true editable=false disabled=false includeRole=true allowRemove=true smallFont=true}}
               {{else}}
                 {{> avatar profile=this includeName=true includeNation=true editable=false disabled=false includeRole=true allowRemove=true}}
               {{/if}}

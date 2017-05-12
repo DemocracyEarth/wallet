@@ -52,7 +52,9 @@
           {{{roleStatus}}}
           {{#if allowRemove}}
             {{#if myself}}
-              <div id="removeSignature" title="{{_ 'remove-signature-tooltip'}}" class="signature-remove"></div>
+              {{#unless isPhone}}
+                <div id="removeSignature" title="{{_ 'remove-signature-tooltip'}}" class="signature-remove"></div>
+              {{/unless}}
             {{/if}}
           {{/if}}
         </div>

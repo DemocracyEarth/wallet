@@ -473,13 +473,11 @@ blockquote {
   border: 1px solid #e6f9f4;
   border-radius: 100px;
   background-color: #e6f9f4;
-  box-shadow: 0 1px 7px -4px #000;
   cursor: pointer;
 }
 
 .symbol.profile-pic:hover {
   border-color: #46dfb8;
-  box-shadow: 0 2px 7px -4px #000;
 }
 
 .symbol.profile-pic:active {
@@ -4618,6 +4616,14 @@ blockquote {
   background-color: #fae6e6;
 }
 
+.signature-role.signature-role-mobile {
+  min-width: 100px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  float: right;
+  clear: none;
+}
+
 .shadow-bar {
   margin-right: -10px;
   margin-left: -10px;
@@ -5014,12 +5020,14 @@ blockquote {
 .mobile-editor-close {
   width: 32px;
   height: 32px;
+  margin-top: -5px;
+  margin-right: -10px;
   padding: 3px 6px;
   float: right;
 }
 
 .mobile-editor-close:active {
-  margin-top: 2px;
+  margin-top: -3px;
   margin-bottom: -2px;
 }
 
@@ -5300,15 +5308,22 @@ blockquote {
   }
   .symbol.profile-pic {
     border-color: #dfdfdf;
-    box-shadow: none;
   }
   .symbol.profile-pic:hover {
     border-color: #dfdfdf;
-    box-shadow: none;
   }
   .symbol.profile-pic:active {
     margin-top: 12px;
     margin-bottom: 8px;
+  }
+  .symbol.profile-pic.profile-sign {
+    margin-left: 0px;
+  }
+  .symbol.profile-pic.profile-sign:hover {
+    border-style: solid;
+    border-color: #00bf8f;
+  }
+  .symbol.profile-pic.profile-sign:active {
     box-shadow: none;
   }
   .symbol.profile-pic.identity-small:active {

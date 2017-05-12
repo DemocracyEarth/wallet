@@ -17,7 +17,6 @@ Template.editor.onRendered(() => {
 
 Template.editor.events({
   'click #close-mobile-editor'() {
-    console.log('huh');
     $('#post-editor').css('display', '');
     $('#post-editor').velocity({ 'margin-top': `${$(window).height()}px` }, {
       duration: timers.ANIMATION_DURATION,

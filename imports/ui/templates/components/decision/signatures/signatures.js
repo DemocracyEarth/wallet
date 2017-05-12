@@ -59,7 +59,7 @@ Template.signatures.helpers({
 });
 
 Template.signatures.events({
-  'click #sign-author'() {
+  'click #sign-author, click #sign-author-link'() {
     displayModal(
       true,
       {
