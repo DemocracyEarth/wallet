@@ -11,7 +11,7 @@ const startEditor = () => {
     //Place caret in right place
     if (Session.get('contract').stage === 'DRAFT') {
       titleContent.focus();
-      Session.set('userSigned', false);
+      // Session.set('userSigned', false); NOTE: by default editor will include logged user signature.
       Session.set('dbContractBallot', undefined);
       Session.set('emptyBallot', false);
       verifyDraftFork(Session.get('contract').ballot);

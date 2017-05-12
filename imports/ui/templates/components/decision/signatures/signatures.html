@@ -6,12 +6,12 @@
     {{#if editorMode}}
       {{#if currentUser}}
         {{#unless userSigned}}
-          <div class="w-clearfix highlight">
-            {{#unless isPhone}}
+          {{#unless isPhone}}
+            <div class="w-clearfix highlight">
               <div class="highlight-label">{{_ 'sign-here'}}</div>
               <div class="arrow"></div>
-            {{/unless}}
-          </div>
+            </div>
+          {{/unless}}
         {{/unless}}
       {{/if}}
     {{/if}}

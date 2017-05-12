@@ -12,16 +12,17 @@ import '../../identity/avatar/avatar.js';
 
 Template.signatures.onRendered(() => {
   if (!Session.get('contract')) { return; }
-  const contractAuthors = Session.get('contract').signatures;
-  if (contractAuthors !== undefined) {
-    for (let i = 0; i < contractAuthors.length; i += 1) {
-      if (Meteor.user() != null) {
-        if (contractAuthors[i]._id === Meteor.user()._id) {
-          Session.set('userSigned', true);
-          break;
-        } else {
-          Session.set('userSigned', false);
-        }
+  const signers = Session.get('contract').signatures;
+  console.log(signers);
+  if (signers && Meteor.user()) {
+    for (const i in signers) {
+      console.log(signers[i]._id);
+      if (signers[i]._id === Meteor.userId()) {
+        console.log('sign');
+        Session.set('userSigned', true);
+        break;
+      } else {
+        Session.set('userSigned', false);
       }
     }
   }
