@@ -12,12 +12,40 @@ import { initEditor } from '/imports/ui/modules/editor';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { URLCheck, URLVerifier } from '/imports/ui/modules/Files';
 import { displayNotice } from '/imports/ui/modules/notice';
+import { shortUUID } from '/imports/startup/both/modules/crypto';
 
 import './title.html';
 import '../stage/stage.js';
 import '../../../widgets/warning/warning.js';
 
 let typingTimer; // timer identifier
+
+/**
+* @summary dynamically generates a valid URL keyword regardless the case
+* @param {string} keyword tentative title being used for contract
+*/
+function setCustomURL(keyword) {
+  let dynamicURL;
+  let contract = Session.get('contract');
+
+  while (contract) {
+    if (Meteor.Device.isPhone() && (keyword.length < 3)) {
+      dynamicURL = convertToSlug(`${keyword}-${shortUUID()}`);
+    } else if (!dynamicURL) {
+      dynamicURL = convertToSlug(keyword);
+    }
+    contract = Contracts.findOne({ keyword: dynamicURL });
+    if (contract) {
+      if (contract._id !== Session.get('contract')._id) {
+        dynamicURL = convertToSlug(`${keyword}-${shortUUID()}`);
+        contract = undefined;
+      } else if (contract._id === Session.get('contract')._id) {
+        contract = undefined;
+      }
+    }
+  }
+  return dynamicURL;
+}
 
 function displayTitle(title) {
   if (title === '' || title === undefined) {
@@ -163,7 +191,7 @@ Template.titleContent.onRendered(() => {
 Template.titleContent.events({
   'input #titleContent'() {
     const content = document.getElementById('titleContent').innerText;
-    const keyword = convertToSlug(content);
+    const keyword = setCustomURL(content);
     const contract = Contracts.findOne({ keyword: keyword });
 
     // Set timer to check upload to db
@@ -184,7 +212,7 @@ Template.titleContent.events({
       Session.set('URLStatus', 'UNAVAILABLE');
       Session.set('missingTitle', true);
       return;
-    } else if (keyword.length < 3) {
+    } else if (keyword.length < 3 && !Meteor.Device.isPhone()) {
       Session.set('contractKeyword', keyword);
       Session.set('URLStatus', 'UNAVAILABLE');
       Session.set('mistypedTitle', true);

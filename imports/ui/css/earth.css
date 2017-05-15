@@ -893,6 +893,15 @@ blockquote {
   line-height: 18px;
 }
 
+.button.login-button.button-half.mobile-button.mobile-button-disabled {
+  border-color: #bbb;
+  background-color: #bbb;
+}
+
+.button.login-button.button-half.mobile-button.mobile-button-disabled:active {
+  color: #fff;
+}
+
 .button.login-button.facebook {
   margin-bottom: 5px;
   background-color: #3c5b96;
