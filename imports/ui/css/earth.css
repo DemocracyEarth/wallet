@@ -879,6 +879,16 @@ blockquote {
   float: left;
 }
 
+.button.login-button.button-half.button-remove {
+  border-color: #ff2752;
+  background-color: #ff2752;
+}
+
+.button.login-button.button-half.button-remove:active {
+  background-color: transparent;
+  color: #ff2752;
+}
+
 .button.login-button.facebook {
   margin-bottom: 5px;
   background-color: #3c5b96;
@@ -3169,7 +3179,7 @@ blockquote {
 .context {
   position: absolute;
   left: 50%;
-  z-index: 9000;
+  z-index: 15000;
   display: inline-block;
   overflow: hidden;
   width: 300px;
@@ -5457,6 +5467,20 @@ blockquote {
   }
   .data {
     display: inline-block;
+  }
+  .context {
+    position: fixed;
+    left: 0%;
+    right: 0px;
+    bottom: 56px;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 0px;
+    margin-left: 0px;
+    border-top: 2px solid #ffe079;
+    border-bottom-width: 0px;
+    border-radius: 0px;
+    background-color: #707070;
   }
   .selector-modal {
     left: 20px;
