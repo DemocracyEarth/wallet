@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { placeCaretAtStart, placeCaretAtEnd } from '../../startup/both/modules/utils';
@@ -17,7 +18,9 @@ const startEditor = () => {
 
       // empty new document
       if (Session.get('contract').title === '') {
-        titleContent.innerHTML = TAPi18n.__('no-title');
+        if (!Meteor.Device.isPhone()) {
+          titleContent.innerHTML = TAPi18n.__('no-title');
+        }
         Session.set('missingTitle', true);
         Session.set('firstEditorLoad', true);
         Session.set('disableActionButton', true);

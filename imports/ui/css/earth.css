@@ -889,6 +889,10 @@ blockquote {
   color: #ff2752;
 }
 
+.button.login-button.button-half.mobile-button {
+  line-height: 18px;
+}
+
 .button.login-button.facebook {
   margin-bottom: 5px;
   background-color: #3c5b96;
@@ -3365,8 +3369,6 @@ blockquote {
   border-left: 5px solid #fff;
   font-size: 45px;
   line-height: 55px;
-  font-weight: 300;
-  letter-spacing: -1px;
 }
 
 .title-input:hover {
@@ -3399,6 +3401,16 @@ blockquote {
 }
 
 .title-input.title-input-read:hover {
+  border-left-color: #fff;
+}
+
+.title-input.title-input-void {
+  position: absolute;
+  color: #ccc;
+}
+
+.title-input.title-input-void:hover {
+  border-left-style: solid;
   border-left-color: #fff;
 }
 
@@ -4995,6 +5007,13 @@ blockquote {
   text-align: center;
 }
 
+.mobile-menu.mobile-menu-toolbar {
+  z-index: 20001;
+  padding: 3px 10px;
+  border-top-color: #ddd;
+  background-color: #f8f8f8;
+}
+
 .mobile-menu-button {
   width: 25%;
   padding-top: 10px;
@@ -5048,6 +5067,15 @@ blockquote {
 
 .mobile-editor-authors {
   float: left;
+}
+
+.toolbar {
+  position: fixed;
+}
+
+.mobile-menu-action {
+  width: 100px;
+  float: right;
 }
 
 @media (max-width: 991px) {
@@ -5499,9 +5527,9 @@ blockquote {
     right: 25px;
   }
   .title-input {
-    font-size: 40px;
-    line-height: 50px;
-    font-weight: 400;
+    font-size: 28px;
+    line-height: 36px;
+    font-weight: 300;
   }
   .paper-header {
     padding-right: 15px;
@@ -5866,8 +5894,8 @@ blockquote {
   }
   .title-input {
     border-left-color: transparent;
-    font-size: 35px;
-    line-height: 45px;
+    font-size: 24px;
+    line-height: 32px;
   }
   .title-input:hover {
     border-left-color: transparent;

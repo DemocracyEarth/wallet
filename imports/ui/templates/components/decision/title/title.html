@@ -1,6 +1,13 @@
 <template name="title">
   <div class="field headline-field">
     {{#if editorMode}}
+      {{#if isPhone}}
+        {{#if missingTitle}}
+          <div class="title-input title-input-void">
+            {{_ 'whats-going-on'}}
+          </div>
+        {{/if}}
+      {{/if}}
       {{> titleContent editorMode=editorMode}}
     {{else}}
       <div id="titleContent" tab=0 class="title-input">

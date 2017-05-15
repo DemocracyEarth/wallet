@@ -22,6 +22,9 @@ let typingTimer; // timer identifier
 function displayTitle(title) {
   if (title === '' || title === undefined) {
     Session.set('missingTitle', true);
+    if (Meteor.Device.isPhone()) {
+      return ' ';
+    }
     return TAPi18n.__('no-title');
   }
   Session.set('missingTitle', false);
@@ -36,7 +39,7 @@ function getTitle(voice) {
 
   // TODO: Fix this fucking incredibly lame global shit of contractId somehow.
   const contract = Contracts.findOne({ _id: contractId }, { reactive: false });
-  console.log(contract.title);
+
   if (!contract) {
     return '';
   }
@@ -81,6 +84,7 @@ Template.titleContent.helpers({
     return getTitle(this);
   },
   editable() {
+    console.log(this);
     const html = `<div id='titleContent' contenteditable='true' tabindex=0> ${this.toString()} </div>`;
     return html;
   },
@@ -110,15 +114,18 @@ Template.title.helpers({
     }
   },
   missingTitle() {
-    if (Session.get('missingTitle')) {
-      Session.set('URLStatus', 'UNAVAILABLE');
+    if (!Meteor.Device.isPhone()) {
+      if (Session.get('missingTitle')) {
+        Session.set('URLStatus', 'UNAVAILABLE');
+      }
+      if ($('#titleContent').is(':focus')) {
+        Session.set('URLStatus', 'NONE');
+      }
+      if (Session.get('firstEditorLoad')) {
+        return false;
+      }
     }
-    if ($('#titleContent').is(':focus')) {
-      Session.set('URLStatus', 'NONE');
-    }
-    if (!Session.get('firstEditorLoad')) {
-      return Session.get('missingTitle');
-    }
+    return Session.get('missingTitle');
   },
   mistypedTitle() {
     return Session.get('mistypedTitle');
@@ -155,7 +162,7 @@ Template.titleContent.onRendered(() => {
 
 Template.titleContent.events({
   'input #titleContent'() {
-    const content = document.getElementById('titleContent').innerText;// jQuery($("#titleContent").html()).text();
+    const content = document.getElementById('titleContent').innerText;
     const keyword = convertToSlug(content);
     const contract = Contracts.findOne({ keyword: keyword });
 
@@ -164,9 +171,8 @@ Template.titleContent.events({
     Session.set('contractKeyword', keyword);
     Session.set('URLStatus', 'VERIFY');
 
-    if (Session.get('firstEditorLoad')) {
-      const currentTitle = document.getElementById('titleContent').innerText;
-      const newTitle = currentTitle.replace(TAPi18n.__('no-title'), '');
+    if (Session.get('firstEditorLoad') && !Meteor.Device.isPhone()) {
+      const newTitle = content.replace(TAPi18n.__('no-title'), '');
       document.getElementById('titleContent').innerText = newTitle;
       placeCaretAtEnd(document.getElementById('titleContent'));
       Session.set('firstEditorLoad', false);
@@ -207,16 +213,20 @@ Template.titleContent.events({
     return (content.length <= rules.TITLE_MAX_LENGTH) && event.which !== 13 && event.which !== 9;
   },
   'focus #titleContent'() {
-    if (Session.get('missingTitle')) {
-      document.getElementById('titleContent').innerText = '';
-      Session.set('missingTitle', false);
+    if (!Meteor.Device.isPhone()) {
+      if (Session.get('missingTitle')) {
+        document.getElementById('titleContent').innerText = '';
+        Session.set('missingTitle', false);
+      }
     }
   },
   'blur #titleContent'() {
     const content = document.getElementById('titleContent').innerText;
     if (content === '' || content === ' ') {
       Session.set('missingTitle', true);
-      document.getElementById('titleContent').innerText = TAPi18n.__('no-title');
+      if (!Meteor.Device.isPhone()) {
+        document.getElementById('titleContent').innerText = TAPi18n.__('no-title');
+      }
     }
   },
 });

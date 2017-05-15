@@ -1,14 +1,19 @@
 import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 
 import { createContract } from '/imports/startup/both/modules/Contract';
 
 import './touchmenu.html';
+import './toolbar/toolbar.html';
 
 Template.touchmenu.onRendered(() => {
 });
 
 Template.touchmenu.helpers({
+  displayToolbar() {
+    return Session.get('displayToolbar');
+  },
 });
 
 Template.touchmenu.events({
