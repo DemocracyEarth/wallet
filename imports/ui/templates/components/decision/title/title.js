@@ -112,7 +112,6 @@ Template.titleContent.helpers({
     return getTitle(this);
   },
   editable() {
-    console.log(this);
     const html = `<div id='titleContent' contenteditable='true' tabindex=0> ${this.toString()} </div>`;
     return html;
   },

@@ -6,6 +6,7 @@ import { createContract } from '/imports/startup/both/modules/Contract';
 
 import './touchmenu.html';
 import './toolbar/toolbar.html';
+import './toolbar/toolbar.js';
 
 Template.touchmenu.onRendered(() => {
 });
