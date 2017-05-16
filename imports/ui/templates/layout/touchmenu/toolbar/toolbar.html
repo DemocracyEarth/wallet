@@ -5,5 +5,12 @@
         <div>{{_ 'post'}}</div>
       </div>
     </div>
+    {{> counter}}
+  </div>
+</template>
+
+<template name="counter">
+  <div class="counter {{excess}}">
+    {{characters}}
   </div>
 </template>

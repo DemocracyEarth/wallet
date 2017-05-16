@@ -5087,6 +5087,19 @@ blockquote {
   float: right;
 }
 
+.counter {
+  width: 60px;
+  padding: 10px 15px;
+  float: right;
+  color: #aaa;
+  font-size: 14px;
+  font-weight: 100;
+}
+
+.counter.counter-excess {
+  color: #ff2752;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;

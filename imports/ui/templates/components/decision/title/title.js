@@ -80,14 +80,19 @@ Template.title.onRendered(() => {
   // TODO: figure out how to make tab work properly on first try.
 
   // tab focus next object
-  $('#titleContent').on('focus', () => {
-    $(window).keyup((e) => {
-      const code = (e.keyCode ? e.keyCode : e.which);
-      if (code === 9) {
-        $('#editor').focus();
-      }
+  if (!Meteor.Device.isPhone()) {
+    $('#titleContent').on('focus', () => {
+      $(window).keyup((e) => {
+        const code = (e.keyCode ? e.keyCode : e.which);
+        if (code === 9) {
+          $('#editor').focus();
+        }
+      });
     });
-  });
+  }
+
+  // text length
+  Session.set('availableChars', rules.TITLE_MAX_LENGTH);
 
   // paste
   document.getElementById('titleContent').addEventListener('paste', (e) => {
@@ -203,6 +208,7 @@ Template.titleContent.events({
     Meteor.clearTimeout(typingTimer);
     Session.set('contractKeyword', keyword);
     Session.set('URLStatus', 'VERIFY');
+    Session.set('availableChars', parseInt(rules.TITLE_MAX_LENGTH - content.length, 10));
 
     if (Session.get('firstEditorLoad') && !Meteor.Device.isPhone()) {
       const newTitle = content.replace(TAPi18n.__('no-title'), '');
@@ -243,6 +249,9 @@ Template.titleContent.events({
   },
   'keypress #titleContent'(event) {
     const content = document.getElementById('titleContent').innerText;
+    if (Meteor.Device.isPhone()) {
+      return event.which !== 13 && event.which !== 9;
+    }
     return (content.length <= rules.TITLE_MAX_LENGTH) && event.which !== 13 && event.which !== 9;
   },
   'focus #titleContent'() {

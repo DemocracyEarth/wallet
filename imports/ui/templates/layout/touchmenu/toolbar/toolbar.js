@@ -22,3 +22,15 @@ Template.toolbar.helpers({
 
 Template.toolbar.events({
 });
+
+Template.counter.helpers({
+  characters() {
+    return Session.get('availableChars');
+  },
+  excess() {
+    if (Session.get('availableChars') <= 20) {
+      return 'counter-excess';
+    }
+    return '';
+  },
+});
