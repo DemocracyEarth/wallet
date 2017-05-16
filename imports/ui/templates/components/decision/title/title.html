@@ -3,14 +3,14 @@
     {{#if editorMode}}
       {{#if isPhone}}
         {{#if missingTitle}}
-          <div class="title-input title-input-void">
+          <div id="emptyTitle" class="title-input title-input-void">
             {{_ 'whats-going-on'}}
           </div>
         {{/if}}
       {{/if}}
       {{> titleContent editorMode=editorMode}}
     {{else}}
-      <div id="titleContent" tab=0 class="title-input">
+      <div tab=0 class="title-input">
         {{declaration}}
       </div>
     {{/if}}

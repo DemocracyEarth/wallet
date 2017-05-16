@@ -187,6 +187,12 @@ Template.titleContent.onRendered(() => {
   });
 });
 
+Template.title.events({
+  'click #emptyTitle'() {
+    $('#titleContent').focus();
+  },
+});
+
 Template.titleContent.events({
   'input #titleContent'() {
     const content = document.getElementById('titleContent').innerText;

@@ -6,11 +6,6 @@
      }
    },
 
-   "kadira": {
-     "appId": "DYdDg2YFAafkxLSmT",
-     "appSecret": "61a48663-a968-43a2-b02d-b0b16722dedc"
-   },
-
   "AWSAccessKeyId": "",
   "AWSSecretAccessKey": "",
   "smtpServer": "",
