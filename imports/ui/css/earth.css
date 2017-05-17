@@ -895,11 +895,8 @@ blockquote {
 
 .button.login-button.button-half.mobile-button.mobile-button-disabled {
   border-color: #bbb;
-  background-color: #bbb;
-}
-
-.button.login-button.button-half.mobile-button.mobile-button-disabled:active {
-  color: #fff;
+  background-color: transparent;
+  color: #bbb;
 }
 
 .button.login-button.facebook {
@@ -5088,16 +5085,12 @@ blockquote {
 }
 
 .counter {
-  width: 60px;
-  padding: 10px 15px;
+  width: 50px;
+  padding: 10px;
   float: right;
   color: #aaa;
   font-size: 14px;
   font-weight: 100;
-}
-
-.counter.counter-excess {
-  color: #ff2752;
 }
 
 @media (max-width: 991px) {
@@ -5549,8 +5542,9 @@ blockquote {
     right: 25px;
   }
   .title-input {
-    font-size: 28px;
-    line-height: 36px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+    line-height: 26px;
     font-weight: 300;
   }
   .paper-header {
