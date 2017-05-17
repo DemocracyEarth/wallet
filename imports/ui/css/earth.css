@@ -5329,6 +5329,7 @@ blockquote {
     margin-top: 0px;
     margin-right: -15px;
     margin-left: -15px;
+    padding: 0px;
   }
   .kind {
     width: 100px;
@@ -5342,6 +5343,11 @@ blockquote {
   }
   .label.label-corner {
     font-size: 11px;
+  }
+  .section.mobile-section {
+    overflow: scroll;
+    padding-right: 15px;
+    padding-left: 15px;
   }
   .power {
     width: 100%;
@@ -5626,6 +5632,8 @@ blockquote {
     left: 0px;
     top: 0px;
     right: 0px;
+    overflow: hidden;
+    padding-top: 0px;
   }
   .split.split-right {
     top: 35px;
@@ -5646,6 +5654,15 @@ blockquote {
   }
   .modal-title {
     font-weight: 700;
+  }
+  .mobile-editor-topbar {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 60px;
+    padding-top: 10px;
+    padding-right: 15px;
+    padding-left: 15px;
   }
 }
 
