@@ -5093,6 +5093,10 @@ blockquote {
   font-weight: 100;
 }
 
+.counter.counter-excess {
+  color: #ff2752;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
@@ -5291,6 +5295,10 @@ blockquote {
   .transaction-direction {
     display: none;
   }
+  .mobile-editor-topbar {
+    position: fixed;
+    background-color: #fff;
+  }
 }
 
 @media (max-width: 767px) {
@@ -5346,8 +5354,7 @@ blockquote {
   }
   .section.mobile-section {
     overflow: scroll;
-    padding-right: 15px;
-    padding-left: 15px;
+    padding: 5px 15px;
   }
   .power {
     width: 100%;
@@ -5419,6 +5426,10 @@ blockquote {
   }
   .checkbox {
     font-weight: 400;
+  }
+  .field.headline-field {
+    margin-top: 0px;
+    margin-bottom: 0px;
   }
   .field.headline-field.split {
     padding-right: 0px;
@@ -5548,6 +5559,11 @@ blockquote {
     right: 25px;
   }
   .title-input {
+    width: 100%;
+    min-height: 120px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    padding: 0px;
     font-family: 'Open Sans', sans-serif;
     font-size: 18px;
     line-height: 26px;

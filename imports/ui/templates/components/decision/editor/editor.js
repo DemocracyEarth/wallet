@@ -8,7 +8,9 @@ import './editor.html';
 Template.editor.onRendered(() => {
   Session.set('displayToolbar', true);
 
-  document.getElementById('post-editor').addEventListener('touchmove', (e) => { e.preventDefault(); }, false);
+  document.getElementById('post-editor-topbar').addEventListener('touchmove', (e) => {
+    e.preventDefault();
+  }, false);
 
   // hack to get virtual keyboard height in any mobile device without native access
   $(document.body).on('focus', '#titleContent', () => {
@@ -50,5 +52,8 @@ Template.editor.events({
         window.history.back();
       },
     });
+  },
+  'click .mobile-section'() {
+    $('#titleContent').focus();
   },
 });

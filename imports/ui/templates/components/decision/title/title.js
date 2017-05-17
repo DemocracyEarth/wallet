@@ -200,7 +200,7 @@ Template.title.events({
 
 Template.titleContent.events({
   'input #titleContent'() {
-    const content = document.getElementById('titleContent').innerText;
+    let content = document.getElementById('titleContent').innerText;
     const keyword = setCustomURL(content);
     const contract = Contracts.findOne({ keyword: keyword });
 
@@ -208,6 +208,11 @@ Template.titleContent.events({
     Meteor.clearTimeout(typingTimer);
     Session.set('contractKeyword', keyword);
     Session.set('URLStatus', 'VERIFY');
+
+    // avoids invisible character when contenteditable gets empty in touch
+    const divHTML = $('#titleContent').html();
+    const checkEmpty = divHTML.replace(' ', '').replace('<br>', '');
+    if (checkEmpty.length === 0) { content = ''; }
     Session.set('availableChars', parseInt(rules.TITLE_MAX_LENGTH - content.length, 10));
 
     if (Session.get('firstEditorLoad') && !Meteor.Device.isPhone()) {
@@ -249,10 +254,9 @@ Template.titleContent.events({
   },
   'keypress #titleContent'(event) {
     const content = document.getElementById('titleContent').innerText;
-    if (Meteor.Device.isPhone()) {
-      return event.which !== 13 && event.which !== 9;
+    if (!Meteor.Device.isPhone()) {
+      return (content.length <= rules.TITLE_MAX_LENGTH) && event.which !== 13 && event.which !== 9;
     }
-    return (content.length <= rules.TITLE_MAX_LENGTH) && event.which !== 13 && event.which !== 9;
   },
   'focus #titleContent'() {
     if (!Meteor.Device.isPhone()) {
