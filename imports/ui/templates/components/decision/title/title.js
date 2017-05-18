@@ -183,15 +183,6 @@ Template.title.helpers({
   },
 });
 
-Template.titleContent.onRendered(() => {
-  $('#titleContent').bind('click', (e) => {
-    e.preventDefault(); // the important thing I think
-    e.stopPropagation();
-
-    $('#titleContent').focus();
-  });
-});
-
 Template.title.events({
   'click #emptyTitle'() {
     $('#titleContent').focus();
