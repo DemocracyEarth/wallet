@@ -15,7 +15,7 @@ Template.editor.onRendered(() => {
   // hack to get virtual keyboard height in any mobile device without native access
   $(document.body).on('focus', '#titleContent', () => {
     setTimeout(() => {
-      window.scrollTo(0, $('#mobileToolbar').offset().top - 100);
+      window.scrollTo(0, $('#mobileToolbar').offset().top);
       setTimeout(() => {
         $('#post-editor').css('top', `${$(window).scrollTop()}px`);
         $('#post-editor-content').velocity({ opacity: 1 }, { duration: 50 });
@@ -24,7 +24,7 @@ Template.editor.onRendered(() => {
   });
 
   // smoke and mirrors
-  $('#post-editor-content').css('opacity', 0);
+ // $('#post-editor-content').css('opacity', 0);
   $('#post-editor').css('margin-top', `${$(window).height()}px`);
   $('#post-editor').css('display', '');
   $('#post-editor').velocity({ 'margin-top': '0px' }, {
@@ -53,7 +53,7 @@ Template.editor.events({
       },
     });
   },
-  'click .mobile-section'() {
+  'click .mobile-editor-wrapper'() {
     $('#titleContent').focus();
   },
 });

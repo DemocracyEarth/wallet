@@ -5354,7 +5354,7 @@ blockquote {
   }
   .section.mobile-section {
     overflow: scroll;
-    padding: 5px 15px;
+    padding: 6px 12px;
   }
   .power {
     width: 100%;
@@ -5648,6 +5648,7 @@ blockquote {
     left: 0px;
     top: 0px;
     right: 0px;
+    bottom: 56px;
     overflow: hidden;
     padding-top: 0px;
   }
@@ -5672,13 +5673,22 @@ blockquote {
     font-weight: 700;
   }
   .mobile-editor-topbar {
-    position: relative;
+    position: fixed;
+    z-index: 20001;
     overflow: hidden;
     width: 100%;
-    height: 60px;
+    height: 56px;
+    margin-top: 0px;
     padding-top: 10px;
     padding-right: 15px;
     padding-left: 15px;
+  }
+  .mobile-editor-wrapper {
+    position: absolute;
+    top: 56px;
+    bottom: 0px;
+    overflow: scroll;
+    width: 100%;
   }
 }
 

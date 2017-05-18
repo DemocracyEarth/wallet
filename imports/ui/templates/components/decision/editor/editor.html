@@ -1,7 +1,6 @@
 <template name="editor">
   <div id="post-editor" class="mobile-editor" style="display:none;">
-    <div id="post-editor-content" class="contract">
-      <div class="paper paper-editor">
+    <div id="post-editor-content">
         <div id="post-editor-topbar" class="mobile-editor-topbar">
           <div class="mobile-editor-authors">
             {{> signatures authorMode=true editorMode=true}}
@@ -11,19 +10,14 @@
           </div>
         </div>
 
-        <div class='section mobile-section'>
-          {{> title editorMode=true}}
-        </div>
-
 <!--    {{> semantics editorMode=true}}
-
-</div>
--->
-<!--
-      <div class="paper paper-editor {{ballotToggle}}">
         {{> ballot editorMode=true}}
-      </div>
 -->
+
+    </div>
+    <div class='mobile-editor-wrapper'>
+      <div class='section mobile-section'>
+        {{> title editorMode=true}}
       </div>
     </div>
   </div>
