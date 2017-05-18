@@ -18,13 +18,11 @@ Template.editor.onRendered(() => {
       window.scrollTo(0, $('#mobileToolbar').offset().top);
       setTimeout(() => {
         $('#post-editor').css('top', `${$(window).scrollTop()}px`);
-        $('#post-editor-content').velocity({ opacity: 1 }, { duration: 50 });
       }, 150);
     }, 0);
   });
 
   // smoke and mirrors
- // $('#post-editor-content').css('opacity', 0);
   $('#post-editor').css('margin-top', `${$(window).height()}px`);
   $('#post-editor').css('display', '');
   $('#post-editor').velocity({ 'margin-top': '0px' }, {
