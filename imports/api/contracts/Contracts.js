@@ -278,39 +278,23 @@ Schema.Contract = new SimpleSchema({
   multipleChoice: {
     // if selection of multiple options on ballot is allowed
     type: Boolean,
-    autoValue() {
-      if (this.isInsert) {
-        return false;
-      }
-    },
+    defaultValue: false,
   },
   rankPreferences: {
     // if Ballot dynamic is based on ranking preferences
     type: Boolean,
-    autoValue: function () {
-      if (this.isInsert) {
-        return false;
-      }
-    },
+    defaultValue: false,
   },
   executiveDecision: {
     // if contract includes options of final decisoin (AUTHORIZE & REJECT)
     type: Boolean,
-    autoValue() {
-      if (this.isInsert) {
-        return true;
-      }
-    },
+    defaultValue: true,
   },
   stage: {
     // current stage of this contract: DRAFT, LIVE, FINISH
     type: String,
     allowedValues: ['DRAFT', 'LIVE', 'FINISH'],
-    autoValue() {
-      if (this.isInsert) {
-        return 'DRAFT';
-      }
-    },
+    defaultValue: 'DRAFT',
   },
   transferable: {
     type: Boolean,
@@ -372,11 +356,7 @@ Schema.Contract = new SimpleSchema({
   },
   ballotEnabled: {
     type: Boolean,
-    autoValue() {
-      if (this.isInsert) {
-        return false;
-      }
-    },
+    defaultValue: false,
   },
   'ballot.$.label': {
     type: String,
@@ -385,29 +365,17 @@ Schema.Contract = new SimpleSchema({
   authorized: {
     // this contract has been authorized
     type: Boolean,
-    autoValue() {
-      if (this.isInsert) {
-        return false;
-      }
-    },
+    defaultValue: false,
   },
   isDefined: {
     // this contract has a definition/description
     type: Boolean,
-    autoValue() {
-      if (this.isInsert) {
-        return false;
-      }
-    },
+    defaultValue: false,
   },
   isRoot: {
     // this contract is core to the organization (Constitutional)
     type: Boolean,
-    autoValue() {
-      if (this.isInsert) {
-        return true;
-      }
-    },
+    defaultValue: true,
   },
   referrers: {
     // other contracts referring to this one
@@ -415,15 +383,11 @@ Schema.Contract = new SimpleSchema({
     optional: true,
   },
   'referrers.$': {
-      type: Object,
+    type: Object,
   },
   events: {
     type: Array,
-    autoValue() {
-      if (this.isInsert) {
-        return [];
-      }
-    },
+    defaultValue: [],
   },
   'events.$': {
     type: Thread,

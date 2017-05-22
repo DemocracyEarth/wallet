@@ -449,5 +449,7 @@
   "sign": "Sign",
   "sign-post": "Sign Post",
   "post": "Post",
-  "whats-going-on": "What's going on?"
+  "whats-going-on": "What's going on?",
+  "posted-idea": "Idea posted.",
+  "include-ballot": "Include Ballot"
 }

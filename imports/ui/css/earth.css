@@ -5560,7 +5560,7 @@ blockquote {
   }
   .title-input {
     width: 100%;
-    min-height: 120px;
+    min-height: 60px;
     margin-bottom: 0px;
     margin-left: 0px;
     padding: 0px;
@@ -5570,13 +5570,20 @@ blockquote {
     font-weight: 300;
   }
   .paper-header {
-    padding-right: 15px;
-    padding-left: 25px;
+    margin: 0px 15px;
+    padding: 6px;
+    border: 1px dashed #ccc;
+    border-radius: 3px;
+    background-color: #fff;
     box-shadow: none;
   }
   .shadow-fake {
     left: 25px;
     right: 25px;
+  }
+  .section-icon {
+    margin-top: 5px;
+    margin-left: 0px;
   }
   .path {
     left: 70px;
@@ -5643,6 +5650,11 @@ blockquote {
   .menu-button:active {
     margin-top: 5px;
     margin-bottom: 1px;
+  }
+  .paper-header-title {
+    padding-top: 5px;
+    font-size: 16px;
+    text-transform: none;
   }
   .mobile-editor {
     left: 0px;
@@ -5959,9 +5971,8 @@ blockquote {
   .title-input:hover {
     border-left-color: transparent;
   }
-  .paper-header {
-    margin-right: -15px;
-    margin-left: -15px;
+  .paper-header.paper-header-empty {
+    box-shadow: none;
   }
   .shadow-fake {
     left: 20px;
