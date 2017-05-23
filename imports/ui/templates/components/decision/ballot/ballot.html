@@ -1,6 +1,6 @@
 <template name="ballot">
 
-  <div class="section">
+  <div class="section section-mobile">
 
     <div class="w-clearfix paper-header {{headerStyle}}">
       {{#if editorMode}}
@@ -32,6 +32,8 @@
                 {{> calendar}}
               </div>
             </li>
+            <!--
+            On hold until future improvements
             <li class="w-clearfix setting">
               <div class="text setting-label">{{_ "enable-multiple-choice"}}</div>
               <div class="w-clearfix value">
@@ -44,6 +46,7 @@
                 {{> toggle setting="executiveDecision" value=executiveDecision}}
               </div>
             </li>
+          -->
           </ul>
         </div>
         <div class="extra">
@@ -64,6 +67,7 @@
       {{/if}}
 
       <div class="section">
+        <!--
         {{#if editorMode}}
           {{#if ballotReady}}
             {{#if executiveDecision}}
@@ -73,6 +77,7 @@
             {{/if}}
           {{/if}}
         {{/if}}
+      -->
         <div class="w-clearfix elements">
           <ul id="ballotOption" class="w-list-unstyled w-clearfix options connectedBallot">
             {{#unless editorMode}}
@@ -112,6 +117,7 @@
         {{/if}}
       </div>
 
+      <!--
       {{#if editorMode}}
         {{> alternative}}
       {{else}}
@@ -126,6 +132,8 @@
           </div>
         </div>
       {{/if}}
+      -->
+
     {{/if}}
   </div>
 

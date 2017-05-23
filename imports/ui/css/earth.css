@@ -5356,6 +5356,14 @@ blockquote {
     overflow: scroll;
     padding: 6px 12px;
   }
+  .section.section-mobile {
+    margin-right: 10px;
+    margin-left: 10px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: transparent;
+  }
   .power {
     width: 100%;
     padding-right: 0px;
@@ -5367,10 +5375,11 @@ blockquote {
   }
   .text.setting-label {
     font-size: 16px;
-    line-height: 30px;
+    line-height: 40px;
   }
   .setting {
-    font-weight: 400;
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
   .symbol.profile-pic {
     border-color: #dfdfdf;
@@ -5570,11 +5579,10 @@ blockquote {
     font-weight: 300;
   }
   .paper-header {
-    margin: 0px 15px;
-    padding: 6px;
-    border: 1px dashed #ccc;
+    margin: 0px;
+    padding: 6px 0px;
     border-radius: 3px;
-    background-color: #fff;
+    background-color: transparent;
     box-shadow: none;
   }
   .shadow-fake {
