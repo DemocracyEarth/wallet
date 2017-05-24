@@ -2,13 +2,17 @@
 
   <div class="section section-mobile">
 
-    <div class="w-clearfix paper-header {{headerStyle}}">
-      {{#if editorMode}}
-        {{> kind title="include-ballot" icon="images/modal-vote.png" stage=stage}}
-        <div class="w-clearfix value">
-          {{> toggle setting="ballotEnabled" value=ballotEnabled}}
+    {{#if editorMode}}
+      {{#unless isPhone}}
+        <div class="w-clearfix paper-header {{headerStyle}}">
+          {{> kind title="include-ballot" icon="images/modal-vote.png" stage=stage}}
+          <div class="w-clearfix value">
+            {{> toggle setting="ballotEnabled" value=ballotEnabled}}
+          </div>
         </div>
-      {{else}}
+      {{/unless}}
+    {{else}}
+      <div class="w-clearfix paper-header {{headerStyle}}">
         {{> kind title="ballot" icon="images/modal-vote.png" stage=stage}}
         {{#if currentUser}}
           <div class="w-clearfix value value-avatar extra">
@@ -17,45 +21,48 @@
             </div>
           </div>
         {{/if}}
-      {{/if}}
-    </div>
+      </div>
+    {{/if}}
+
 
 
     {{#if ballotEnabled}}
 
       {{#if editorMode}}
-        <div class="description">
-          <ul class="w-list-unstyled settings">
-            <li class="w-clearfix setting">
-              <div class="text setting-label">{{_ "closing-date-of-poll"}}</div>
-              <div class="value">
-                {{> calendar}}
-              </div>
-            </li>
-            <!--
-            On hold until future improvements
-            <li class="w-clearfix setting">
-              <div class="text setting-label">{{_ "enable-multiple-choice"}}</div>
-              <div class="w-clearfix value">
-                {{> toggle setting="multipleChoice" value=multipleChoice}}
-              </div>
-            </li>
-            <li class="w-clearfix setting">
-              <div class="text setting-label">{{_ "executive-decision"}}</div>
-              <div class="w-clearfix value">
-                {{> toggle setting="executiveDecision" value=executiveDecision}}
-              </div>
-            </li>
-          -->
-          </ul>
-        </div>
-        <div class="extra">
-          <ul class="w-list-unstyled" style="margin-top:10px">
-          {{#if backdating}}
-            {{> warning label="backdating"}}
-          {{/if}}
-          </ul>
-        </div>
+        {{#unless isPhone}}
+          <div class="description">
+            <ul class="w-list-unstyled settings">
+              <li class="w-clearfix setting">
+                <div class="text setting-label">{{_ "closing-date-of-poll"}}</div>
+                <div class="value">
+                  {{> calendar}}
+                </div>
+              </li>
+              <!--
+              On hold until future improvements
+              <li class="w-clearfix setting">
+                <div class="text setting-label">{{_ "enable-multiple-choice"}}</div>
+                <div class="w-clearfix value">
+                  {{> toggle setting="multipleChoice" value=multipleChoice}}
+                </div>
+              </li>
+              <li class="w-clearfix setting">
+                <div class="text setting-label">{{_ "executive-decision"}}</div>
+                <div class="w-clearfix value">
+                  {{> toggle setting="executiveDecision" value=executiveDecision}}
+                </div>
+              </li>
+            -->
+            </ul>
+          </div>
+          <div class="extra">
+            <ul class="w-list-unstyled" style="margin-top:10px">
+            {{#if backdating}}
+              {{> warning label="backdating"}}
+            {{/if}}
+            </ul>
+          </div>
+        {{/unless}}
       {{/if}}
 
       {{#if editorMode}}
@@ -66,58 +73,61 @@
         {{/if}}
       {{/if}}
 
-      <div class="section">
-        <!--
-        {{#if editorMode}}
-          {{#if ballotReady}}
-            {{#if executiveDecision}}
-              <h5>{{_ "alternative-options"}}</h5>
-            {{else}}
-              <h5>{{_ "only-ballot-options"}}</h5>
+      {{#unless isPhone}}
+        <div class="section">
+          <!--
+          {{#if editorMode}}
+            {{#if ballotReady}}
+              {{#if executiveDecision}}
+                <h5>{{_ "alternative-options"}}</h5>
+              {{else}}
+                <h5>{{_ "only-ballot-options"}}</h5>
+              {{/if}}
             {{/if}}
           {{/if}}
-        {{/if}}
-      -->
-        <div class="w-clearfix elements">
-          <ul id="ballotOption" class="w-list-unstyled w-clearfix options connectedBallot">
-            {{#unless editorMode}}
-              {{#if executiveDecision}}
+        -->
+          <div class="w-clearfix elements">
+            <ul id="ballotOption" class="w-list-unstyled w-clearfix options connectedBallot">
+              {{#unless editorMode}}
+                {{#if executiveDecision}}
+                  {{#with voteSettings}}
+                    {{> fork executive=true mode="AUTHORIZE" _id=1 voteId=this.voteId}}
+                    {{> fork executive=true mode="REJECT" _id=0 voteId=this.voteId}}
+                  {{/with}}
+                {{/if}}
+              {{/unless}}
+              {{#each options}}
                 {{#with voteSettings}}
-                  {{> fork executive=true mode="AUTHORIZE" _id=1 voteId=this.voteId}}
-                  {{> fork executive=true mode="REJECT" _id=0 voteId=this.voteId}}
+                  {{> fork _id=this._id label=this.label mode=this.mode rank=this.rank url=this.url alternative=true editorMode=this.editorMode voteId=this.voteId}}
                 {{/with}}
-              {{/if}}
-            {{/unless}}
-            {{#each options}}
-              {{#with voteSettings}}
-                {{> fork _id=this._id label=this.label mode=this.mode rank=this.rank url=this.url alternative=true editorMode=this.editorMode voteId=this.voteId}}
-              {{/with}}
-            {{/each}}
-          </ul>
-        </div>
-
-        {{#if editorMode}}
-          <div class="extra">
-            {{#if disabledCheckboxes}}
-              {{> warning label="disabled-checkboxes"}}
-            {{/if}}
-            {{#if duplicateFork}}
-              {{> warning label="duplicate-fork"}}
-            {{/if}}
-            {{#if unauthorizedFork}}
-              {{> warning label="unauthorized-fork"}}
-            {{/if}}
-            {{#if emptyBallot}}
-              {{> warning label="empty-ballot" style='forbidden'}}
-            {{/if}}
-            {{#if draftOptions}}
-              {{> warning label="draft-options-ballot" style='forbidden'}}
-            {{/if}}
+              {{/each}}
+            </ul>
           </div>
-        {{/if}}
-      </div>
 
-      <!--
+        </div>
+      {{/unless}}
+
+      {{#if editorMode}}
+        <div class="extra">
+          {{#if disabledCheckboxes}}
+            {{> warning label="disabled-checkboxes"}}
+          {{/if}}
+          {{#if duplicateFork}}
+            {{> warning label="duplicate-fork"}}
+          {{/if}}
+          {{#if unauthorizedFork}}
+            {{> warning label="unauthorized-fork"}}
+          {{/if}}
+          {{#if emptyBallot}}
+            {{> warning label="empty-ballot" style='forbidden'}}
+          {{/if}}
+          {{#if draftOptions}}
+            {{> warning label="draft-options-ballot" style='forbidden'}}
+          {{/if}}
+        </div>
+      {{/if}}
+
+        <!--
       {{#if editorMode}}
         {{> alternative}}
       {{else}}

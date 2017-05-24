@@ -1,7 +1,9 @@
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { $ } from 'meteor/jquery';
 
+import { Contracts } from '/imports/api/contracts/Contracts';
 import { publishContract } from '/imports/startup/both/modules/Contract';
 import { displayNotice } from '/imports/ui/modules/notice';
 
@@ -12,7 +14,16 @@ function isDisabled() {
   return (Session.get('missingTitle') || Session.get('mistypedTitle') || Session.get('duplicateURL') || (Session.get('availableChars') < 0));
 }
 
+function toggle(key, value) {
+  const obj = {};
+  obj[key] = value;
+  Contracts.update(Session.get('contract')._id, { $set: obj });
+}
+
 Template.toolbar.onRendered(() => {
+  document.getElementById('mobileToolbar').addEventListener('touchmove', (e) => {
+    e.preventDefault();
+  }, false);
 });
 
 Template.toolbar.helpers({
@@ -22,6 +33,12 @@ Template.toolbar.helpers({
     }
     return '';
   },
+  ballotToggle() {
+    if (Session.get('contract').ballotEnabled) {
+      return 'images/toggle-ballot-on.png';
+    }
+    return 'images/toggle-ballot-off.png';
+  },
 });
 
 Template.toolbar.events({
@@ -30,6 +47,15 @@ Template.toolbar.events({
       publishContract(Session.get('contract')._id);
       displayNotice(TAPi18n.__('posted-idea'), true);
       Session.set('displayToolbar', false);
+    }
+  },
+  'click #toolbar-toggle-ballot'(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (Session.get('contract').stage === 'DRAFT') {
+      $('#toolbar-hidden-keyboard').focus();
+      // $('#post-editor').css('top', '0px');
+      toggle('ballotEnabled', !Session.get('contract').ballotEnabled);
     }
   },
 });

@@ -5103,6 +5103,7 @@ blockquote {
     margin-left: 15px;
   }
   .section {
+    margin-bottom: 0px;
     clear: both;
   }
   .power {
@@ -5358,9 +5359,10 @@ blockquote {
   }
   .section.section-mobile {
     margin-right: 10px;
+    margin-bottom: 0px;
     margin-left: 10px;
     padding: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid #f0f0f0;
     border-radius: 5px;
     background-color: transparent;
   }
@@ -5578,6 +5580,9 @@ blockquote {
     line-height: 26px;
     font-weight: 300;
   }
+  .title-input.title-input-void {
+    width: 90%;
+  }
   .paper-header {
     margin: 0px;
     padding: 6px 0px;
@@ -5692,6 +5697,9 @@ blockquote {
   .modal-title {
     font-weight: 700;
   }
+  .mobile-menu.mobile-menu-toolbar {
+    padding-left: 5px;
+  }
   .mobile-editor-topbar {
     position: fixed;
     z-index: 20001;
@@ -5709,6 +5717,17 @@ blockquote {
     bottom: 0px;
     overflow: scroll;
     width: 100%;
+  }
+  .mobile-menu-toolbar-toggle {
+    width: 50px;
+    height: 50px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    float: left;
+  }
+  .toolbar-icon {
+    width: 36px;
+    height: 36px;
   }
 }
 

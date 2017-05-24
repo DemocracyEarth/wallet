@@ -12,13 +12,45 @@ Template.editor.onRendered(() => {
     e.preventDefault();
   }, false);
 
+ /* document.getElementById('post-editor').addEventListener('touchmove', (e) => {
+    console.log(e.target);
+    e.preventDefault();
+  }, false);*/
+
+  // $('body').on('touchmove', (e) => { e.preventDefault(); });
+  /*$('body').on('touchmove', (e) => {
+    //if (!$('.mobile-section').has($(e.target)).length) {
+      e.preventDefault();
+      Session.set('mobileLog', e.target);
+    //}
+  });*/
+
+  /*$(document).on('touchmove', (e) => {
+    if (!$('#post-editor-wrapper').has($(e.target)).length) {
+      e.preventDefault();
+    }
+  });*/
+
+  $('#post-editor-wrapper').on('touchmove scroll', (e) => {
+    Session.set('mobileLog', e.type);
+    if (e.type === 'touchmove') {
+      e.preventDefault();
+    }
+  });
+
+  // $(document).on('touchmove', '#post-editor-wrapper', (e) => { e.stopPropagation(); });
+
   // hack to get virtual keyboard height in any mobile device without native access
-  $(document.body).on('focus', '#titleContent', () => {
+  $(document.body).on('focus', '#titleContent', (event) => {
+    // Session.set('mobileLog', `${$('#post-editor').css('top')} & ${$(window).scrollTop()}px`);
+    event.preventDefault();
     setTimeout(() => {
       window.scrollTo(0, $('#mobileToolbar').offset().top);
       setTimeout(() => {
         $('#post-editor').css('top', `${$(window).scrollTop()}px`);
-        $('#post-editor-topbar').velocity({ opacity: 1 }, { duration: 160 });
+        if ($('#post-editor-topbar').css('opacity') === '0') {
+          $('#post-editor-topbar').velocity({ opacity: 1 }, { duration: 160 });
+        }
       }, 150);
     }, 0);
   });
@@ -38,6 +70,9 @@ Template.editor.onRendered(() => {
 Template.editor.helpers({
   log() {
     return Session.get('mobileLog');
+  },
+  ballotEnabled() {
+    return Session.get('contract').ballotEnabled;
   },
 });
 

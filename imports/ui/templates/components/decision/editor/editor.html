@@ -11,11 +11,15 @@
         </div>
         <!-- {{> semantics editorMode=true}}
         -->
-      <div class='mobile-editor-wrapper'>
+      <div id="post-editor-wrapper" class='mobile-editor-wrapper'>
         <div class='section mobile-section'>
           {{> title editorMode=true}}
+          {{log}}
+          
         </div>
-        {{> ballot editorMode=true}}
+        {{#if ballotEnabled}}
+          {{> ballot editorMode=true}}
+        {{/if}}
       </div>
     </div>
   </div>
