@@ -12,33 +12,20 @@ Template.editor.onRendered(() => {
     e.preventDefault();
   }, false);
 
- /* document.getElementById('post-editor').addEventListener('touchmove', (e) => {
-    console.log(e.target);
+  document.getElementById('content').addEventListener('touchmove', (e) => {
     e.preventDefault();
-  }, false);*/
+  }, false);
 
-  // $('body').on('touchmove', (e) => { e.preventDefault(); });
-  /*$('body').on('touchmove', (e) => {
-    //if (!$('.mobile-section').has($(e.target)).length) {
+  document.getElementById('post-editor-wrapper').addEventListener('touchmove', (e) => {
+    //if (e.target.className !== '') {
+     // e.stopPropagation();
       e.preventDefault();
-      Session.set('mobileLog', e.target);
     //}
-  });*/
+    console.log(e);
+    Session.set('mobileLog', e.target.className);
+  }, false);
 
-  /*$(document).on('touchmove', (e) => {
-    if (!$('#post-editor-wrapper').has($(e.target)).length) {
-      e.preventDefault();
-    }
-  });*/
-
-  $('#post-editor-wrapper').on('touchmove scroll', (e) => {
-    Session.set('mobileLog', e.type);
-    if (e.type === 'touchmove') {
-      e.preventDefault();
-    }
-  });
-
-  // $(document).on('touchmove', '#post-editor-wrapper', (e) => { e.stopPropagation(); });
+  // document.body.addEventListener('touchmove', function(e){ e.preventDefault(); });
 
   // hack to get virtual keyboard height in any mobile device without native access
   $(document.body).on('focus', '#titleContent', (event) => {
@@ -47,7 +34,11 @@ Template.editor.onRendered(() => {
     setTimeout(() => {
       window.scrollTo(0, $('#mobileToolbar').offset().top);
       setTimeout(() => {
+        const toolbarDelta = parseInt($(window).scrollTop() + 56, 10);
+        // $('#mobileToolbar').css('top', `${toolbarDelta}px`);
+        Session.set('mobileLog', toolbarDelta);
         $('#post-editor').css('top', `${$(window).scrollTop()}px`);
+        $('#content').css('overflow', 'hidden');
         if ($('#post-editor-topbar').css('opacity') === '0') {
           $('#post-editor-topbar').velocity({ opacity: 1 }, { duration: 160 });
         }
