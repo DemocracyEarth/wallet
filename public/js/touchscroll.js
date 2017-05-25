@@ -5,13 +5,14 @@
  *
  * More information: http://www.hnldesign.nl/work/code/momentum-scrolling-using-jquery/
  */
-/* jslint browser: true*/
-/* global $, jQuery*/
+/*jslint browser: true*/
+/*global $, jQuery*/
 
 /* SETTINGS */
 var i_v = {
-  i_touchlistener: '#post-editor-wrapper',         // element to monitor for touches, set to null to use document. Otherwise use quotes. Eg. '.myElement'. Note: if the finger leaves this listener while still touching, movement is stopped.
-  i_scrollElement: '#post-editor-wrapper',         // element (class) to be scrolled on touch movement
+  i_touchlistener: '.inertialScroll',         // element to monitor for touches, set to null to use document. Otherwise use quotes. Eg. '.myElement'. Note: if the finger leaves this listener while still touching, movement is stopped.
+  i_scrollElement: '.inertialScroll',         // element (class) to be scrolled on touch movement
+  i_inputElement: 'titleContent',
   i_duration: window.innerHeight * 1.5, // (ms) duration of the inertial scrolling simulation. Devices with larger screens take longer durations (phone vs tablet is around 500ms vs 1500ms). This is a fixed value and does not influence speed and amount of momentum.
   i_speedLimit: 1.2,                      // set maximum speed. Higher values will allow faster scroll (which comes down to a bigger offset for the duration of the momentum scroll) note: touch motion determines actual speed, this is just a limit.
   i_handleY: true,                     // should scroller handle vertical movement on element?
@@ -44,8 +45,13 @@ $(i_v.i_touchlistener || document)
   .on('touchstart touchmove touchend', function (e) {
     "use strict";
     //prevent default scrolling
-    e.preventDefault();
-    //store timeStamp for this event
+    if (e.target.id !== i_v.i_inputElement) {
+      e.preventDefault();
+      $('#toolbar-hidden-keyboard').focus();
+    } else if (e.type === 'touchmove') {
+      e.preventDefault();
+    }
+    // store timeStamp for this event
     i_v.i_time[e.type] = e.timeStamp;
   })
   .on('touchstart', function (e) {

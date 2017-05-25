@@ -62,3 +62,7 @@ body {
   overflow-x: hidden;
   position: relative;
 }
+
+#titleContent {
+  caret-color: black;
+}

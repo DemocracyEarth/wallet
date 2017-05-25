@@ -1,25 +1,22 @@
 <template name="editor">
   <div id="post-editor" class="mobile-editor" style="display:none;">
     <div id="post-editor-content">
-        <div id="post-editor-topbar" class="mobile-editor-topbar">
-          <div class="mobile-editor-authors">
-            {{> signatures authorMode=true editorMode=true}}
-          </div>
-          <div id="close-mobile-editor" class="mobile-editor-close" ontouchstart="">
-            <img src="{{pathFor route='home'}}images/close.png" class="close-icon">
-          </div>
+      <div id="post-editor-topbar" class="mobile-editor-topbar">
+        <div class="mobile-editor-authors">
+          {{> signatures authorMode=true editorMode=true}}
         </div>
-        <!-- {{> semantics editorMode=true}}
-        -->
-      <div id="post-editor-wrapper" class='mobile-editor-wrapper'>
+        <div id="close-mobile-editor" class="mobile-editor-close" ontouchstart="">
+          <img src="{{pathFor route='home'}}images/close.png" class="close-icon">
+        </div>
+      </div>
+      <div id="post-editor-wrapper" class='mobile-editor-wrapper inertialScroll'>
         <div class='section mobile-section'>
           {{> title editorMode=true}}
-          {{log}}
-          
         </div>
         {{#if ballotEnabled}}
           {{> ballot editorMode=true}}
         {{/if}}
+        <!-- {{> semantics editorMode=true}}-->
       </div>
     </div>
   </div>

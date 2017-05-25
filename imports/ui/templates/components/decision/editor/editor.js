@@ -12,38 +12,56 @@ Template.editor.onRendered(() => {
     e.preventDefault();
   }, false);
 
-  document.getElementById('content').addEventListener('touchmove', (e) => {
-    e.preventDefault();
-  }, false);
-
   document.getElementById('post-editor-wrapper').addEventListener('touchmove', (e) => {
-    //if (e.target.className !== '') {
-     // e.stopPropagation();
-      e.preventDefault();
-    //}
-    console.log(e);
-    Session.set('mobileLog', e.target.className);
+    // e.preventDefault();
+    // $('#titleContent').focus();
   }, false);
 
-  // document.body.addEventListener('touchmove', function(e){ e.preventDefault(); });
+  document.getElementById('titleContent').addEventListener('click', (e) => {
+    console.log('hey');
+  });
+
+  $('.scrollFix').css("pointer-events","none");
+
+  $('body').on('touchstart', function(e) {
+      $('.scrollFix').css("pointer-events","auto");
+  });
+  $('body').on('touchmove', function(e) {
+      $('.scrollFix').css("pointer-events","none");
+  });
+  $('body').on('touchend', function(e) {
+      setTimeout(function() {
+          $('.scrollFix').css("pointer-events", "none");
+      },0);
+  });
+
+
+  Session.set('mobileEditorScrollTop', 0);
 
   // hack to get virtual keyboard height in any mobile device without native access
   $(document.body).on('focus', '#titleContent', (event) => {
-    // Session.set('mobileLog', `${$('#post-editor').css('top')} & ${$(window).scrollTop()}px`);
-    event.preventDefault();
-    setTimeout(() => {
-      window.scrollTo(0, $('#mobileToolbar').offset().top);
+    if (Session.get('mobileEditorScrollTop') === 0) {
+      event.preventDefault();
       setTimeout(() => {
-        const toolbarDelta = parseInt($(window).scrollTop() + 56, 10);
-        // $('#mobileToolbar').css('top', `${toolbarDelta}px`);
-        Session.set('mobileLog', toolbarDelta);
-        $('#post-editor').css('top', `${$(window).scrollTop()}px`);
-        $('#content').css('overflow', 'hidden');
-        if ($('#post-editor-topbar').css('opacity') === '0') {
-          $('#post-editor-topbar').velocity({ opacity: 1 }, { duration: 160 });
-        }
-      }, 150);
-    }, 0);
+        window.scrollTo(0, $('#mobileToolbar').offset().top);
+        setTimeout(() => {
+          $('#post-editor').css('top', `${$(window).scrollTop()}px`);
+          if ($('#post-editor-topbar').css('opacity') === '0') {
+            $('#post-editor-topbar').velocity({ opacity: 1 }, { duration: 160 });
+          }
+          Session.set('mobileEditorScrollTop', $(window).scrollTop());
+        }, 150);
+      }, 0);
+    } else {
+      event.preventDefault();
+      setTimeout(() => {
+        window.scrollTo(0, $('#mobileToolbar').offset().top);
+        setTimeout(() => {
+          $('#post-editor').css('top', `${$(window).scrollTop()}px`);
+          Session.set('mobileEditorScrollTop', $(window).scrollTop());
+        }, 150);
+      }, 0);
+    }
   });
 
   // smoke and mirrors
