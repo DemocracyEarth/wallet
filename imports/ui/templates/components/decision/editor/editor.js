@@ -5,6 +5,10 @@ import { timers } from '/lib/const';
 
 import './editor.html';
 
+const _keepKeyboard = () => {
+  $('#toolbar-hidden-keyboard').focus();
+};
+
 Template.editor.onRendered(() => {
   Session.set('displayToolbar', true);
 
@@ -12,35 +16,11 @@ Template.editor.onRendered(() => {
     e.preventDefault();
   }, false);
 
-  document.getElementById('post-editor-wrapper').addEventListener('touchmove', (e) => {
-    // e.preventDefault();
-    // $('#titleContent').focus();
-  }, false);
-
-  document.getElementById('titleContent').addEventListener('click', (e) => {
-    console.log('hey');
-  });
-
-  $('.scrollFix').css("pointer-events","none");
-
-  $('body').on('touchstart', function(e) {
-      $('.scrollFix').css("pointer-events","auto");
-  });
-  $('body').on('touchmove', function(e) {
-      $('.scrollFix').css("pointer-events","none");
-  });
-  $('body').on('touchend', function(e) {
-      setTimeout(function() {
-          $('.scrollFix').css("pointer-events", "none");
-      },0);
-  });
-
-
-  Session.set('mobileEditorScrollTop', 0);
+  Session.set('editorViewportHeight', 0);
 
   // hack to get virtual keyboard height in any mobile device without native access
   $(document.body).on('focus', '#titleContent', (event) => {
-    if (Session.get('mobileEditorScrollTop') === 0) {
+    if (Session.get('editorViewportHeight') === 0) {
       event.preventDefault();
       setTimeout(() => {
         window.scrollTo(0, $('#mobileToolbar').offset().top);
@@ -49,19 +29,21 @@ Template.editor.onRendered(() => {
           if ($('#post-editor-topbar').css('opacity') === '0') {
             $('#post-editor-topbar').velocity({ opacity: 1 }, { duration: 160 });
           }
-          Session.set('mobileEditorScrollTop', $(window).scrollTop());
+          const viewportH = parseInt($('#post-editor-wrapper').outerHeight(), 10);
+          Session.set('editorViewportHeight', viewportH);
+          $('#titleContent').css('min-height', `${viewportH}px`);
         }, 150);
       }, 0);
     } else {
       event.preventDefault();
-      setTimeout(() => {
-        window.scrollTo(0, $('#mobileToolbar').offset().top);
-        setTimeout(() => {
-          $('#post-editor').css('top', `${$(window).scrollTop()}px`);
-          Session.set('mobileEditorScrollTop', $(window).scrollTop());
-        }, 150);
-      }, 0);
+      // $('#titleContent').focusWithoutScrolling();
+      // window.scrollTo(0, Session.get('mobileEditorScrollTop'));
+      // $(this).select();
     }
+  });
+
+  $(document.body).on('blur', '#titleContent', () => {
+    _keepKeyboard();
   });
 
   // smoke and mirrors
@@ -83,6 +65,9 @@ Template.editor.helpers({
   ballotEnabled() {
     return Session.get('contract').ballotEnabled;
   },
+  widgetTop() {
+    return `${parseInt((Session.get('editorViewportHeight') * -1) + 64, 10)}px`;
+  }
 });
 
 Template.editor.events({
@@ -97,7 +82,9 @@ Template.editor.events({
       },
     });
   },
-  'click .mobile-editor-wrapper'() {
+  'click .mobile-section'() {
     $('#titleContent').focus();
   },
 });
+
+export const keepKeyboard = _keepKeyboard;

@@ -6,6 +6,7 @@ import { $ } from 'meteor/jquery';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { publishContract } from '/imports/startup/both/modules/Contract';
 import { displayNotice } from '/imports/ui/modules/notice';
+import { keepKeyboard } from '/imports/ui/templates/components/decision/editor/editor';
 
 
 import './toolbar.html';
@@ -53,8 +54,7 @@ Template.toolbar.events({
     event.preventDefault();
     event.stopPropagation();
     if (Session.get('contract').stage === 'DRAFT') {
-      $('#toolbar-hidden-keyboard').focus();
-      // $('#post-editor').css('top', '0px');
+      keepKeyboard();
       toggle('ballotEnabled', !Session.get('contract').ballotEnabled);
     }
   },

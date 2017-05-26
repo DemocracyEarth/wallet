@@ -45,11 +45,9 @@ $(i_v.i_touchlistener || document)
   .on('touchstart touchmove touchend', function (e) {
     "use strict";
     //prevent default scrolling
-    if (e.target.id !== i_v.i_inputElement) {
+    if ((e.target.id !== i_v.i_inputElement) || ((e.target.id === i_v.i_inputElement) && (e.type === 'touchmove'))) {
       e.preventDefault();
       $('#toolbar-hidden-keyboard').focus();
-    } else if (e.type === 'touchmove') {
-      e.preventDefault();
     }
     // store timeStamp for this event
     i_v.i_time[e.type] = e.timeStamp;

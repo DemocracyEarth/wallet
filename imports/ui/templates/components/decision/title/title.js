@@ -81,14 +81,14 @@ Template.title.onRendered(() => {
 
   // tab focus next object
   if (!Meteor.Device.isPhone()) {
-    $('#titleContent').on('focus', () => {
+    /*$('#titleContent').on('focus', () => {
       $(window).keyup((e) => {
         const code = (e.keyCode ? e.keyCode : e.which);
         if (code === 9) {
           $('#editor').focus();
         }
       });
-    });
+    });*/
   }
 
   // text length
@@ -117,8 +117,21 @@ Template.titleContent.helpers({
     return getTitle(this);
   },
   editable() {
-    const html = `<div id='titleContent' contenteditable='true' tabindex=0> ${this.toString()} </div>`;
+    let html;
+    let viewportHeight;
+    if (Meteor.Device.isPhone()) {
+      viewportHeight = 300; // Session.get('editorViewportHeight');
+      html = `<div id='titleContent' contenteditable='true' style='min-height: ${viewportHeight}px' tabindex=0> ${this.toString()} </div>`;
+    } else {
+      html = `<div id='titleContent' contenteditable='true' tabindex=0> ${this.toString()} </div>`;
+    }
     return html;
+  },
+  viewport() {
+    return Session.get('editorViewportHeight');
+  },
+  text() {
+    return this.toString();
   },
 });
 
@@ -243,9 +256,22 @@ Template.titleContent.events({
       }
     }, timers.SERVER_INTERVAL);
   },
-  'keypress #titleContent'(event) {
+  'keyup #titleContent'(event) {
     const content = document.getElementById('titleContent').innerText;
-    if (!Meteor.Device.isPhone()) {
+    if (Meteor.Device.isPhone()) {
+      let lines = $('#titleContent').children('br, p, div').length;
+      if ($('#titleContent').html().length && !lines) {
+        lines = 1;
+      }
+      switch (event.which) {
+        case 13:
+        default:
+          lines += 1;
+          break;
+      }
+      $('#post-editor-widgets').css('margin-top', `${parseInt(-200 + (32 * lines), 10)}px`);
+      console.log(lines);
+    } else {
       return (content.length <= rules.TITLE_MAX_LENGTH) && event.which !== 13 && event.which !== 9;
     }
   },

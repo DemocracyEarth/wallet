@@ -14,7 +14,9 @@
           {{> title editorMode=true}}
         </div>
         {{#if ballotEnabled}}
-          {{> ballot editorMode=true}}
+          <div id='post-editor-widgets' style='margin-top: {{widgetTop}}'>
+            {{> ballot editorMode=true}}
+          </div>
         {{/if}}
         <!-- {{> semantics editorMode=true}}-->
       </div>

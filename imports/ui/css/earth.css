@@ -5361,7 +5361,7 @@ blockquote {
     margin-right: 10px;
     margin-bottom: 0px;
     margin-left: 10px;
-    padding: 5px;
+    padding: 5px 8px;
     border: 1px solid #f0f0f0;
     border-radius: 5px;
     background-color: transparent;
@@ -5571,7 +5571,7 @@ blockquote {
   }
   .title-input {
     width: 100%;
-    min-height: 60px;
+    min-height: 120px;
     margin-bottom: 0px;
     margin-left: 0px;
     padding: 0px;
@@ -5717,6 +5717,7 @@ blockquote {
     bottom: 0px;
     overflow: scroll;
     width: 100%;
+    padding-bottom: 20px;
   }
   .mobile-menu-toolbar-toggle {
     width: 50px;
@@ -6036,6 +6037,10 @@ blockquote {
   }
   .right.show {
     margin-left: -320px;
+  }
+  .mobile-widget-wrapper {
+    margin-top: -100px;
+    padding-top: 15px;
   }
 }
 
