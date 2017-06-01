@@ -3,6 +3,8 @@ import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 import { timers } from '/lib/const';
 
+import { Contracts } from '/imports/api/contracts/Contracts';
+
 import './editor.html';
 import './editorButton.js';
 
@@ -10,44 +12,14 @@ const _keepKeyboard = () => {
   $('#toolbar-hidden-keyboard').focus();
 };
 
+function toggle(key, value) {
+  const obj = {};
+  obj[key] = value;
+  Contracts.update(Session.get('contract')._id, { $set: obj });
+}
+
 Template.editor.onRendered(() => {
   Session.set('hideTouchmenu', true);
-
-  /*
-  document.getElementById('post-editor-topbar').addEventListener('touchmove', (e) => {
-    e.preventDefault();
-  }, false);
-  *
-  Session.set('editorViewportHeight', 0);
-
-  // hack to get virtual keyboard height in any mobile device without native access
-  $(document.body).on('focus', '#titleContent', (event) => {
-    if (Session.get('editorViewportHeight') === 0) {
-      event.preventDefault();
-      setTimeout(() => {
-        window.scrollTo(0, $('#mobileToolbar').offset().top);
-        setTimeout(() => {
-          $('#post-editor').css('top', `${$(window).scrollTop()}px`);
-          if ($('#post-editor-topbar').css('opacity') === '0') {
-            $('#post-editor-topbar').velocity({ opacity: 1 }, { duration: 160 });
-          }
-          const viewportH = parseInt($('#post-editor-wrapper').outerHeight(), 10);
-          Session.set('editorViewportHeight', viewportH);
-          $('#titleContent').css('min-height', `${viewportH}px`);
-        }, 150);
-      }, 0);
-    } else {
-      event.preventDefault();
-      // $('#titleContent').focusWithoutScrolling();
-      // window.scrollTo(0, Session.get('mobileEditorScrollTop'));
-      // $(this).select();
-    }
-  });
-
-  $(document.body).on('blur', '#titleContent', () => {
-    _keepKeyboard();
-  });
-*/
 
   // smoke and mirrors
   $('#post-editor-topbar').css('opacity', 0);
@@ -68,14 +40,19 @@ Template.editor.helpers({
   ballotEnabled() {
     return Session.get('contract').ballotEnabled;
   },
-/*  widgetTop() {
-    return `${parseInt((Session.get('editorViewportHeight') * -1) + 64, 10)}px`;
-  },*/
   menu() {
     return [
       {
         icon: 'editor-ballot',
-        status: 'enabled',
+        status: () => {
+          if (Session.get('contract').ballotEnabled) {
+            return 'active';
+          }
+          return 'enabled';
+        },
+        action: () => {
+          toggle('ballotEnabled', !Session.get('contract').ballotEnabled);
+        },
       },
     ];
   },
