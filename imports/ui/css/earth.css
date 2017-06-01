@@ -207,7 +207,7 @@ blockquote {
 .label.label-corner {
   margin-top: 5px;
   float: left;
-  line-height: 16px;
+  line-height: 15px;
 }
 
 .description {
@@ -276,7 +276,7 @@ blockquote {
 
 .card.temporal {
   position: fixed;
-  left: 80%;
+  left: 30%;
   right: 0px;
   width: 40%;
 }
@@ -4322,6 +4322,8 @@ blockquote {
 
 .spinner {
   display: block;
+  width: 100px;
+  height: 100px;
   margin-right: auto;
   margin-left: auto;
   opacity: 0.5;
@@ -5426,6 +5428,14 @@ blockquote {
     margin-top: 12px;
     margin-bottom: 8px;
   }
+  .symbol.profile-pic.profile-pic-navbar:hover {
+    border-style: solid;
+    border-color: transparent;
+  }
+  .symbol.profile-pic.profile-pic-navbar:active {
+    margin-top: 3px;
+    margin-bottom: 3px;
+  }
   .symbol.profile-pic.profile-sign {
     margin-left: 0px;
   }
@@ -5627,10 +5637,6 @@ blockquote {
   .shadow-fake {
     left: 25px;
     right: 25px;
-  }
-  .section-icon {
-    margin-top: 5px;
-    margin-left: 0px;
   }
   .path {
     left: 70px;

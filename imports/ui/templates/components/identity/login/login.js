@@ -11,7 +11,6 @@ import './logger.js';
 Template.login.events({
   'click #logout'() {
     // Session.set('displayPopup', false);
-    Session.set('logger', false);
     animatePopup(false, `login-${Meteor.userId()}`);
     Meteor.logout();
     Router.go('/');

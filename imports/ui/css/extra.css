@@ -15,6 +15,17 @@ input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0px 1000px #3A3044 inset;
 }
 
+@media (max-width: 767px) {
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    transition: #442f58 5000s ease-in-out 0s;
+    -webkit-text-fill-color: white !important;
+    -webkit-box-shadow: 0 0 0px 1000px #442f58 inset;
+  }
+}
+
 input[type="file"] {
     display: none;
 }

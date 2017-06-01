@@ -156,6 +156,9 @@ const _animate = (display, id) => {
         $(divId).css('margin-top', '-10000px');
         _visiblePopup(id, false);
         _cancel(id);
+        if (Session.get('logger')) {
+          Session.set('logger', false);
+        }
       },
     });
   }

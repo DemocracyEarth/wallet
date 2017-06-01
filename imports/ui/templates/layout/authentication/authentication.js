@@ -8,9 +8,9 @@ import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
 import './authentication.html';
 import '../../components/identity/avatar/avatar.js';
 
-Template.authentication.rendered = function rendered() {
+Template.authentication.onRendered(() => {
   Session.set('logger', false);
-};
+});
 
 Template.authentication.helpers({
   toggle() {
@@ -25,8 +25,10 @@ Template.authentication.events({
   'click #loggedUser'(event) {
     const logger = `login-${Meteor.userId()}`;
     if (!Session.get(logger) || !Session.get(logger).visible) {
+      Session.set('logger', true);
       displayPopup($('#loggedUser')[0], 'login', Meteor.userId(), event.type, logger);
     } else {
+      Session.set('logger', false);
       animatePopup(false, logger);
     }
   },
