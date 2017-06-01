@@ -19,6 +19,9 @@ Template.authentication.helpers({
     }
     return '';
   },
+  postButton() {
+    
+  }
 });
 
 Template.authentication.events({

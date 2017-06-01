@@ -1,14 +1,31 @@
 <template name="authentication">
   <div class="w-clearfix authentication">
 
-    {{#if currentUser}}
-      <div id='loggedUser' class="user-logger {{toggle}}">
-        {{> avatar includeName=false size=40 displayPopup=false}}
+    {{#if postButton}}
+      <div class='navbar-button navbar-button-active navbar-button-action'>
+        <div class='navbar-button-action-label'>
+          {{_ 'post-as'}}
+        </div>
+        {{#if currentUser}}
+          <div id='loggedUser' class="user-logger {{toggle}}">
+            {{> avatar includeName=false size=32 displayPopup=false}}
+          </div>
+        {{else}}
+          <div id='loggedUser' class="{{toggle}}">
+            <img src="{{pathFor route='home'}}images/anonymous-white.png" class="symbol profile-pic profile-pic-navbar">
+          </div>
+        {{/if}}
       </div>
     {{else}}
-      <div id='loggedUser' class="navbar-button {{toggle}}">
-        <img src="{{pathFor route='home'}}images/anonymous-white.png" class="symbol profile-pic profile-pic-navbar">
-      </div>
+      {{#if currentUser}}
+        <div id='loggedUser' class="user-logger {{toggle}}">
+          {{> avatar includeName=false size=40 displayPopup=false}}
+        </div>
+      {{else}}
+        <div id='loggedUser' class="navbar-button {{toggle}}">
+          <img src="{{pathFor route='home'}}images/anonymous-white.png" class="symbol profile-pic profile-pic-navbar">
+        </div>
+      {{/if}}
     {{/if}}
 
   </div>

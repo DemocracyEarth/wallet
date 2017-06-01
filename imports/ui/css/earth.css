@@ -207,7 +207,7 @@ blockquote {
 .label.label-corner {
   margin-top: 5px;
   float: left;
-  line-height: 15px;
+  line-height: 16px;
 }
 
 .description {
@@ -5387,6 +5387,7 @@ blockquote {
   }
   .label.label-corner {
     font-size: 11px;
+    line-height: 15px;
   }
   .section.mobile-section {
     overflow: scroll;
@@ -5449,6 +5450,12 @@ blockquote {
   .symbol.profile-pic.identity-small:active {
     margin-top: 1px;
     margin-bottom: -1px;
+  }
+  .symbol.profile-pic.profile-adhoc {
+    width: 32px;
+    height: 32px;
+    margin-top: 7px;
+    float: right;
   }
   .vote.vote-search {
     padding: 10px;
@@ -5583,6 +5590,9 @@ blockquote {
   .data {
     display: inline-block;
   }
+  .stage.stage-card {
+    margin-top: 6px;
+  }
   .context {
     position: fixed;
     left: 0%;
@@ -5639,7 +5649,6 @@ blockquote {
     right: 25px;
   }
   .path {
-    left: 70px;
     text-align: center;
   }
   .authentication {
@@ -5651,6 +5660,10 @@ blockquote {
     right: 0px;
     bottom: 0px;
     width: 100%;
+  }
+  .navbar-button.navbar-button-active.navbar-button-action {
+    font-size: 16px;
+    line-height: 18px;
   }
   .alert {
     width: 90%;
@@ -5763,6 +5776,15 @@ blockquote {
     padding-top: 6px;
     padding-bottom: 6px;
     float: left;
+  }
+  .navbar-button-action-label {
+    display: block;
+    margin-top: 14px;
+    margin-right: 10px;
+    margin-left: 5px;
+    float: left;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
   }
 }
 

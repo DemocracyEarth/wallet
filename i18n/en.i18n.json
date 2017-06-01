@@ -286,7 +286,7 @@
   "votes-finish-rejected": "Discarded",
   "agreements": "Agreements",
   "navbar-home": "Home",
-  "navbar-draft": "Contract Editor",
+  "navbar-draft": "New Article",
   "add-to-ballot": "Add proposal to ballot.",
   "create-add-ballot": "Create &amp; add to ballot.",
   "launch-vote-proposal": "Publish Idea",
@@ -443,7 +443,7 @@
   "menu-home": "Home",
   "menu-voted": "Voted",
   "menu-notifications": "Notifications",
-  "menu-new-post": "New Post",
+  "menu-new-post": "Post",
   "menu-voice": "Voice",
   "menu-news": "News",
   "sign": "Sign",
@@ -451,5 +451,6 @@
   "post": "Post",
   "whats-going-on": "What's going on?",
   "posted-idea": "Idea posted.",
-  "include-ballot": "Include Ballot"
+  "include-ballot": "Include Ballot",
+  "post-as": "Post as"
 }
