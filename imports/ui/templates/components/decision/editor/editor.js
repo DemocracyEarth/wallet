@@ -4,18 +4,20 @@ import { $ } from 'meteor/jquery';
 import { timers } from '/lib/const';
 
 import './editor.html';
+import './editorButton.js';
 
 const _keepKeyboard = () => {
   $('#toolbar-hidden-keyboard').focus();
 };
 
 Template.editor.onRendered(() => {
-  Session.set('displayToolbar', true);
+  Session.set('hideTouchmenu', true);
 
+  /*
   document.getElementById('post-editor-topbar').addEventListener('touchmove', (e) => {
     e.preventDefault();
   }, false);
-
+  *
   Session.set('editorViewportHeight', 0);
 
   // hack to get virtual keyboard height in any mobile device without native access
@@ -45,12 +47,13 @@ Template.editor.onRendered(() => {
   $(document.body).on('blur', '#titleContent', () => {
     _keepKeyboard();
   });
+*/
 
   // smoke and mirrors
   $('#post-editor-topbar').css('opacity', 0);
   $('#post-editor').css('margin-top', `${$(window).height()}px`);
   $('#post-editor').css('display', '');
-  $('#post-editor').velocity({ 'margin-top': '0px' }, {
+  $('#post-editor').velocity({ 'margin-top': '60px' }, {
     duration: timers.ANIMATION_DURATION,
     complete: () => {
       $('#titleContent').focus();
@@ -65,9 +68,17 @@ Template.editor.helpers({
   ballotEnabled() {
     return Session.get('contract').ballotEnabled;
   },
-  widgetTop() {
+/*  widgetTop() {
     return `${parseInt((Session.get('editorViewportHeight') * -1) + 64, 10)}px`;
-  }
+  },*/
+  menu() {
+    return [
+      {
+        icon: 'editor-ballot',
+        status: 'enabled',
+      },
+    ];
+  },
 });
 
 Template.editor.events({
@@ -77,7 +88,7 @@ Template.editor.events({
       duration: timers.ANIMATION_DURATION,
       complete: () => {
         $('#post-editor').css('display', 'none');
-        Session.set('displayToolbar', false);
+        Session.set('hideTouchmenu', false);
         window.history.back();
       },
     });

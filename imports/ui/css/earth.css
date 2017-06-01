@@ -254,6 +254,12 @@ blockquote {
   box-shadow: inset 0 0 14px 0 #000;
 }
 
+.section.section-editor {
+  margin-top: 10px;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
 .card {
   position: static;
   right: 10px;
@@ -4364,6 +4370,7 @@ blockquote {
   right: 0px;
   bottom: 0px;
   z-index: 14600;
+  margin-top: 60px;
   padding-top: 10px;
   background-color: #fff;
 }
@@ -5097,6 +5104,32 @@ blockquote {
   color: #ff2752;
 }
 
+.toolbar-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.editor-button {
+  margin: 5px;
+  padding: 10px;
+  float: left;
+  border: 1px solid #00bf8f;
+  border-radius: 100px;
+}
+
+.editor-button.editor-button-disabled {
+  border-color: #ccc;
+}
+
+.editor-button.editor-button-active {
+  background-color: #00bf8f;
+}
+
+.section-editor-separator {
+  margin: 10px;
+  border-top: 1px dotted #00bf8f;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
@@ -5464,6 +5497,7 @@ blockquote {
     line-height: 50px;
   }
   .navbar {
+    left: 0px;
     background-color: #392e42;
     box-shadow: none;
   }
@@ -5673,7 +5707,7 @@ blockquote {
     left: 0px;
     top: 0px;
     right: 0px;
-    bottom: 56px;
+    bottom: 0px;
     overflow: hidden;
     padding-top: 0px;
   }
@@ -5712,11 +5746,9 @@ blockquote {
     padding-left: 15px;
   }
   .mobile-editor-wrapper {
-    position: absolute;
-    top: 56px;
-    bottom: 0px;
     overflow: scroll;
     width: 100%;
+    padding-top: 10px;
     padding-bottom: 20px;
   }
   .mobile-menu-toolbar-toggle {
@@ -5725,10 +5757,6 @@ blockquote {
     padding-top: 6px;
     padding-bottom: 6px;
     float: left;
-  }
-  .toolbar-icon {
-    width: 36px;
-    height: 36px;
   }
 }
 
@@ -5930,6 +5958,9 @@ blockquote {
     padding-bottom: 10px;
     line-height: 22px;
   }
+  .navbar {
+    left: 0px;
+  }
   .value {
     margin-top: 0px;
     margin-bottom: 0px;
@@ -6039,8 +6070,11 @@ blockquote {
     margin-left: -320px;
   }
   .mobile-widget-wrapper {
-    margin-top: -100px;
     padding-top: 15px;
+  }
+  .section-editor-separator {
+    margin: 10px;
+    border-top: 1px dotted #00bf8f;
   }
 }
 

@@ -12,8 +12,8 @@ Template.touchmenu.onRendered(() => {
 });
 
 Template.touchmenu.helpers({
-  displayToolbar() {
-    return Session.get('displayToolbar');
+  hideTouchmenu() {
+    return Session.get('hideTouchmenu');
   },
 });
 
