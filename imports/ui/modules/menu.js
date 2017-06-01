@@ -15,7 +15,7 @@ import { animationSettings } from './animation';
 /* @param {string} feed - feed name from url query
 ******/
 const _getSectionValue = (feed) => {
-  if (Meteor.user() !== undefined) {
+  if (Meteor.user() !== null) {
     const menu = Meteor.user().profile.menu;
     if (menu !== undefined && menu.length > 0) {
       for (const item in menu) {
@@ -77,7 +77,7 @@ const _getDecisionsMenu = (feed) => {
   const menu = [];
   let username = String();
 
-  if (Meteor.user() !== undefined) {
+  if (Meteor.user() !== null) {
     username = Meteor.user().username;
   } else {
     username = 'anonymous';
@@ -266,7 +266,7 @@ const sidebarMenu = (feed) => {
   _getDecisionsMenu(feed);
 
   // specific to user
-  if (Meteor.user() != null) {
+  if (Meteor.user() !== null) {
     _getDelegatesMenu(feed);
   } else {
     Session.set('menuDelegates', undefined);

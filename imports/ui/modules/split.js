@@ -55,7 +55,7 @@ const _splitRender = () => {
   if ($('.split-right') && $('.split-left')) {
     const contentwidth = $('.right').width();
     const half = parseInt(contentwidth / 2, 10);
-    if (Meteor.user().profile.settings) {
+    if (Meteor.user() !== null && Meteor.user().profile.settings) {
       const settings = Meteor.user().profile.settings;
       _drawPanels(settings.splitLeftWidth, settings.splitRightWidth);
     } else if (Session.get('resizeSplitCursor').leftWidth) {

@@ -95,15 +95,17 @@ Template.title.onRendered(() => {
   Session.set('availableChars', rules.TITLE_MAX_LENGTH);
 
   // paste
-  document.getElementById('titleContent').addEventListener('paste', (e) => {
-    e.preventDefault();
-    const text = stripHTMLfromText(e.clipboardData.getData('text/plain'));
-    const newtitle = $('#titleContent')[0].innerText;
-    const delta = parseInt(rules.TITLE_MAX_LENGTH - newtitle.length, 10);
-    if (delta > 0) {
-      document.execCommand('insertHTML', false, text);
-    }
-  });
+  if (document.getElementById('titleContent') !== null) {
+    document.getElementById('titleContent').addEventListener('paste', (e) => {
+      e.preventDefault();
+      const text = stripHTMLfromText(e.clipboardData.getData('text/plain'));
+      const newtitle = $('#titleContent')[0].innerText;
+      const delta = parseInt(rules.TITLE_MAX_LENGTH - newtitle.length, 10);
+      if (delta > 0) {
+        document.execCommand('insertHTML', false, text);
+      }
+    });
+  }
 });
 
 Template.titleContent.helpers({
