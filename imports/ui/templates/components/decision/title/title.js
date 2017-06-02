@@ -260,20 +260,7 @@ Template.titleContent.events({
   },
   'keyup #titleContent'(event) {
     const content = document.getElementById('titleContent').innerText;
-    if (Meteor.Device.isPhone()) {
-      let lines = $('#titleContent').children('br, p, div').length;
-      if ($('#titleContent').html().length && !lines) {
-        lines = 1;
-      }
-      switch (event.which) {
-        case 13:
-        default:
-          lines += 1;
-          break;
-      }
-      $('#post-editor-widgets').css('margin-top', `${parseInt(-200 + (32 * lines), 10)}px`);
-      console.log(lines);
-    } else {
+    if (!Meteor.Device.isPhone()) {
       return (content.length <= rules.TITLE_MAX_LENGTH) && event.which !== 13 && event.which !== 9;
     }
   },
