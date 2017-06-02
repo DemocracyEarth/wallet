@@ -12,8 +12,8 @@ Template.touchmenu.onRendered(() => {
 });
 
 Template.touchmenu.helpers({
-  hideTouchmenu() {
-    return Session.get('hideTouchmenu');
+  newPostEditor() {
+    return Session.get('newPostEditor');
   },
 });
 

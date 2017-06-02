@@ -102,6 +102,7 @@ Template.navigation.events({
     if (Session.get('navbar').action === 'SIDEBAR') {
       toggleSidebar();
     } else if (Session.get('navbar').action === 'BACK') {
+      Session.set('newPostEditor', false);
       window.history.back();
     }
   },

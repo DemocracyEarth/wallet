@@ -1,13 +1,12 @@
 <template name="authentication">
   <div class="w-clearfix authentication">
-
     {{#if postButton}}
-      <div class='navbar-button navbar-button-active navbar-button-action'>
+      <div id='navbar-post-button' class='navbar-button navbar-button-active navbar-button-action {{postDisabled}}' ontouchstart=''>
         <div class='navbar-button-action-label'>
           {{_ 'post-as'}}
         </div>
         {{#if currentUser}}
-          <div id='loggedUser' class="user-logger {{toggle}}">
+          <div id='loggedUser' class="user-logger avatar-wrapper {{toggle}}">
             {{> avatar includeName=false size=32 displayPopup=false}}
           </div>
         {{else}}
@@ -27,6 +26,5 @@
         </div>
       {{/if}}
     {{/if}}
-
   </div>
 </template>

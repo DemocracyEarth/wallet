@@ -7,6 +7,7 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 
 import './editor.html';
 import './editorButton.js';
+import './counter.js';
 
 const _keepKeyboard = () => {
   $('#toolbar-hidden-keyboard').focus();
@@ -19,7 +20,7 @@ function toggle(key, value) {
 }
 
 Template.editor.onRendered(() => {
-  Session.set('hideTouchmenu', true);
+  Session.set('newPostEditor', true);
 
   // smoke and mirrors
   $('#post-editor-topbar').css('opacity', 0);
@@ -65,7 +66,7 @@ Template.editor.events({
       duration: timers.ANIMATION_DURATION,
       complete: () => {
         $('#post-editor').css('display', 'none');
-        Session.set('hideTouchmenu', false);
+        Session.set('newPostEditor', false);
         window.history.back();
       },
     });

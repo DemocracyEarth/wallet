@@ -3494,7 +3494,7 @@ blockquote {
 .path {
   position: absolute;
   left: 50px;
-  right: 70px;
+  right: 130px;
   overflow: hidden;
   height: 28px;
   margin-top: 15px;
@@ -5648,9 +5648,6 @@ blockquote {
     left: 25px;
     right: 25px;
   }
-  .path {
-    text-align: center;
-  }
   .authentication {
     padding-right: 0px;
   }
@@ -5662,8 +5659,19 @@ blockquote {
     width: 100%;
   }
   .navbar-button.navbar-button-active.navbar-button-action {
+    border: 1px solid #00bf8f;
     font-size: 16px;
     line-height: 18px;
+    cursor: pointer;
+  }
+  .navbar-button.navbar-button-active.navbar-button-action:active {
+    background-color: transparent;
+    color: #00bf8f;
+  }
+  .navbar-button.navbar-button-active.navbar-button-action.navbar-button-action-disabled {
+    border-color: #aaa;
+    background-color: transparent;
+    color: #999;
   }
   .alert {
     width: 90%;
@@ -5785,6 +5793,11 @@ blockquote {
     float: left;
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
+  }
+  .avatar-wrapper {
+    margin-top: -4px;
+    margin-right: -8px;
+    float: right;
   }
 }
 
