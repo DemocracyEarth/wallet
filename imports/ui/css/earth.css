@@ -5647,6 +5647,9 @@ blockquote {
     left: 25px;
     right: 25px;
   }
+  .warning-list {
+    margin-bottom: 10px;
+  }
   .authentication {
     padding-right: 0px;
   }
@@ -5797,6 +5800,10 @@ blockquote {
     margin-top: -4px;
     margin-right: -8px;
     float: right;
+  }
+  .ballot-section {
+    margin-top: 5px;
+    margin-bottom: 5px;
   }
 }
 
@@ -5993,7 +6000,6 @@ blockquote {
     line-height: 30px;
   }
   .warning {
-    margin-bottom: 5px;
     padding-top: 10px;
     padding-bottom: 10px;
     line-height: 22px;

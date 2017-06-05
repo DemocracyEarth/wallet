@@ -39,6 +39,7 @@ Template.authentication.helpers({
 
 Template.authentication.events({
   'click #loggedUser'(event) {
+    event.stopPropagation();
     const logger = `login-${Meteor.userId()}`;
     if (!Session.get(logger) || !Session.get(logger).visible) {
       Session.set('logger', true);
