@@ -5390,6 +5390,7 @@ blockquote {
   }
   .section.mobile-section {
     overflow: scroll;
+    margin-bottom: 20px;
     padding: 6px 12px;
   }
   .section.section-mobile {
@@ -5785,9 +5786,9 @@ blockquote {
   }
   .navbar-button-action-label {
     display: block;
-    margin-top: 14px;
-    margin-right: 10px;
-    margin-left: 5px;
+    margin-top: 12px;
+    margin-right: 15px;
+    margin-left: 10px;
     float: left;
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
