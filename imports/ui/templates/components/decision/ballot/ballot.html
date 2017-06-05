@@ -81,11 +81,6 @@
                 </li>
               </ul>
             </div>
-            {{#if backdating}}
-              <div class="extra">
-                {{> warning label="backdating"}}
-              </div>
-            {{/if}}
           {{/if}}
         {{/if}}
       {{/if}}
@@ -126,6 +121,9 @@
 
       {{#if editorMode}}
         <div class="extra ballot-section">
+          {{#if backdating}}
+            {{> warning label="backdating"}}
+          {{/if}}
           {{#if disabledCheckboxes}}
             {{> warning label="disabled-checkboxes"}}
           {{/if}}

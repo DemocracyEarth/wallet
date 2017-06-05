@@ -8,6 +8,12 @@
       {{> dateSelector}}
   {{/if}}
 </template>
+
 <template name="dateSelector">
-  <div id='date-picker' class="calendar"></div>
+  <div class="calendar">
+    <div id='date-picker'></div>
+    <div class='calendar-button'>
+      {{_ 'always-on'}}
+    </div>
+  </div>
 </template>
