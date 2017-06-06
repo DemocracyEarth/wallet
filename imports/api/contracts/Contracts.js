@@ -180,6 +180,10 @@ Schema.Contract = new SimpleSchema({
       }
     },
   },
+  permanentElection: {
+    type: Boolean,
+    defaultValue: false,
+  },
   executionStatus: {
     // execution status: DRAFT, APPROVED, ALTERNATIVE, REJECTED
     type: String,

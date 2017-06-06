@@ -82,3 +82,9 @@ Template.calendar.events({
     Session.set('showCalendar', !Session.get('showCalendar'));
   },
 });
+
+Template.dateSelector.events({
+  'click #date-always-on'() {
+    
+  }
+});
