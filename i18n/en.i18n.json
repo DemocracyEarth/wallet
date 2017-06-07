@@ -42,7 +42,7 @@
   "no-tags": "This proposal has no tags",
   "authors": "Participants",
   "make-proposal-anonymoys": "Make this proposal anonymous.",
-  "closing-date-of-poll": "Closing Date of poll.",
+  "closing-date-of-poll": "Closing Date.",
   "allow-voters-suggest": "Allow voters add proposals.",
   "secret-voting-with-encryption": "Keep votes secret with encryption.",
   "enable-multiple-choice": "Enable multiple choice",
@@ -452,5 +452,7 @@
   "whats-going-on": "What's going on?",
   "posted-idea": "Article posted.",
   "include-ballot": "Include Ballot",
-  "post-as": "Post as"
+  "post-as": "Post as",
+  "always-on": "Always On",
+  "now": "Now"
 }

@@ -10,25 +10,39 @@
       <div class="checkbox checkbox-custom">
 
         <a class="w-inline-block w-clearfix option-proposal" href="{{url}}">
-          <div class="option-title option-link option-search">
-            {{{title}}}
+          <div class="option-title option-link option-search title-input">
+             <div class="title-input">
+              {{{title}}}
+            </div>
           </div>
         </a>
 
         <div class="meta meta-search">
 
-          {{> stage text=stage executionStatus=executionStatus closingDate=closingDate}}
+          <div class="w-list-unstyled w-clearfix identity-list extra">
+            {{#each signatures}}
+              <div class="w-clearfix identity">
+                  {{> avatar size=32 profile=this._id includeName=true includeNation=true editable=false smallFont=true disabled=false includeRole=false}}
+              </div>
+            {{/each}}
 
-          <div class="data">
-            <img class="url-icon" src="{{pathFor route='home'}}images/time.png">
-            <div class="verifier verifier-live">{{sinceDate timestamp}}</div>
+            <div class="data">
+              <img class="url-icon" src="{{pathFor route='home'}}images/time.png">
+              <div class="verifier verifier-live">{{sinceDate timestamp}}</div>
+            </div>
           </div>
 
+
+          <!--
+          {{> stage text=stage executionStatus=executionStatus closingDate=closingDate permanentElection=permanentElection}}
+-->
         </div>
 
+        <!-- deprecated
         <div class="rich-text rich-text-preview">
           {{description}}
         </div>
+        -->
 
         <ul class="w-list-unstyled w-clearfix extra">
           {{#each tags}}
@@ -36,13 +50,7 @@
           {{/each}}
         </ul>
 
-        <ul class="w-list-unstyled w-clearfix identity-list extra">
-          {{#each signatures}}
-          <li class="w-clearfix identity">
-              {{> avatar size=32 profile=this._id includeName=true includeNation=false editable=false smallFont=true disabled=true includeRole=false}}
-          </li>
-          {{/each}}
-        </ul>
+
 
       </div>
 

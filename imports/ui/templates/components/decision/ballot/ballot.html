@@ -70,6 +70,18 @@
           {{#if executiveDecision}}
             {{> execute}}
           {{/if}}
+          {{#if isPhone}}
+            <div class='ballot-section'>
+              <ul class="w-list-unstyled settings section">
+                <li class="w-clearfix setting">
+                  <div class="text setting-label">{{_ "closing-date-of-poll"}}</div>
+                  <div class="value">
+                    {{> calendar}}
+                  </div>
+                </li>
+              </ul>
+            </div>
+          {{/if}}
         {{/if}}
       {{/if}}
 
@@ -108,7 +120,10 @@
       {{/unless}}
 
       {{#if editorMode}}
-        <div class="extra">
+        <div class="extra ballot-section">
+          {{#if backdating}}
+            {{> warning label="backdating"}}
+          {{/if}}
           {{#if disabledCheckboxes}}
             {{> warning label="disabled-checkboxes"}}
           {{/if}}
