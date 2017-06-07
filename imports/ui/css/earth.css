@@ -5464,7 +5464,8 @@ blockquote {
     float: right;
   }
   .vote.vote-search {
-    padding: 10px;
+    padding: 12px;
+    box-shadow: none;
   }
   .vote.vote-search.vote-feed {
     margin-bottom: 5px;
@@ -5493,6 +5494,9 @@ blockquote {
   }
   .checkbox {
     font-weight: 400;
+  }
+  .checkbox.checkbox-custom {
+    padding-right: 0px;
   }
   .field.headline-field {
     margin-top: 0px;
@@ -5552,8 +5556,11 @@ blockquote {
     text-align: left;
   }
   .verifier {
-    font-size: 14px;
+    font-size: 12px;
     line-height: 20px;
+  }
+  .verifier.verifier-live {
+    font-size: 12px;
   }
   .portrait {
     display: block;
@@ -5595,6 +5602,8 @@ blockquote {
   }
   .data {
     display: inline-block;
+    margin-right: 0px;
+    float: right;
   }
   .stage.stage-card {
     margin-top: 6px;
@@ -5635,10 +5644,16 @@ blockquote {
     margin-bottom: 0px;
     margin-left: 0px;
     padding: 0px;
+    border-left-style: none;
+    border-left-width: 0px;
     font-family: 'Open Sans', sans-serif;
     font-size: 18px;
     line-height: 26px;
     font-weight: 300;
+  }
+  .title-input.title-input-read {
+    border-left-style: none;
+    border-left-width: 0px;
   }
   .title-input.title-input-void {
     width: 90%;
@@ -5747,6 +5762,9 @@ blockquote {
     overflow: scroll;
     padding-top: 0px;
   }
+  .mobile-editor.hide {
+    display: none;
+  }
   .split.split-right {
     top: 35px;
   }
@@ -5794,6 +5812,10 @@ blockquote {
     padding-bottom: 6px;
     float: left;
   }
+  .section-editor-separator {
+    margin-right: 5px;
+    margin-left: 5px;
+  }
   .navbar-button-action-label {
     display: block;
     margin-top: 12px;
@@ -5818,8 +5840,10 @@ blockquote {
     margin-right: 5px;
     margin-bottom: 5px;
     padding: 5px 10px;
+    float: right;
+    border: 1px solid #00bf8f;
     border-radius: 5px;
-    background-color: #d4f4ec;
+    background-color: transparent;
     color: #00bf8f;
   }
   .calendar-button:active {
@@ -5935,11 +5959,7 @@ blockquote {
     line-height: 36px;
   }
   .vote.vote-search {
-    padding-right: 10px;
-    padding-left: 10px;
-  }
-  .vote.vote-search.vote-feed {
-    border-radius: 0px;
+    box-shadow: none;
   }
   .option {
     width: 40px;
@@ -6050,7 +6070,7 @@ blockquote {
     line-height: 18px;
   }
   .verifier.verifier-live {
-    font-size: 14px;
+    font-size: 12px;
   }
   .rich-text.editor-draft {
     border-left-color: transparent;
@@ -6094,7 +6114,7 @@ blockquote {
     right: 20px;
   }
   .title-input {
-    border-left-color: transparent;
+    border-left: 0px none transparent;
     font-size: 24px;
     line-height: 32px;
   }
@@ -6138,13 +6158,16 @@ blockquote {
     width: 100%;
   }
   .right.show {
-    margin-left: -320px;
+    margin-left: 0px;
+  }
+  .mobile-editor.hide {
+    display: block;
   }
   .mobile-widget-wrapper {
     padding-top: 15px;
   }
   .section-editor-separator {
-    margin: 10px;
+    margin: 10px 5px;
     border-top: 1px dotted #00bf8f;
   }
 }

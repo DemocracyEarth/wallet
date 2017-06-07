@@ -55,7 +55,7 @@ Template.feedItem.helpers({
     return this.tags;
   },
   sinceDate(timestamp) {
-    return `${TAPi18n.__('posted')} ${timeSince(timestamp)}`;
+    return `${timeSince(timestamp)}`;
   },
   editorMode(stage) {
     if (stage === 'DRAFT') { return true; } return false;
