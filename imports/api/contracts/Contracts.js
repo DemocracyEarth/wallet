@@ -182,7 +182,7 @@ Schema.Contract = new SimpleSchema({
   },
   permanentElection: {
     type: Boolean,
-    defaultValue: false,
+    defaultValue: true,
   },
   executionStatus: {
     // execution status: DRAFT, APPROVED, ALTERNATIVE, REJECTED
