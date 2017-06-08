@@ -9,18 +9,65 @@ import { checkDuplicate, convertToSlug } from '/lib/utils';
 import { getTransactions, getVotes } from '/imports/api/transactions/transaction';
 
 /**
-* @summary sets the vote on the ballot with tick
+* @summary gets the candidate ballot set by user for a specific contract
 * @param {string} contractId - contract where this ballot belongs to
+*/
+const _getBallot = (contractId) => {
+  if (Session.get('ballotManager')) {
+    const manager = Session.get('ballotManager');
+    for (const i in manager) {
+      if (manager[i].contractId === contractId) {
+        return manager[i].candidateBallot;
+      }
+    }
+  }
+  return [];
+};
+
+/**
+* @summary stores a ballot in the ballot manager for a given contract
+* @param {string} contractId - contract where this ballot belongs to
+* @param {object} ballot a given ballot object
+*/
+const _setBallot = (contractId, ballot) => {
+  let manager = [];
+
+  if (Session.get('ballotManager')) {
+    manager = Session.get('ballotManager');
+  }
+
+  let found = false;
+  for (const i in manager) {
+    if (manager[i].contractId === contractId) {
+      manager[i].candidateBallot = ballot;
+      found = true;
+      break;
+    }
+  }
+
+  if (!found) {
+    manager.push({
+      contractId: contractId,
+      candidateBallot: ballot,
+    });
+  }
+
+  Session.set('ballotManager', manager);
+};
+
+/**
+* @summary sets the vote on the ballot with tick
+* @param {string} contract - contract where this ballot belongs to
 * @param {object} ballot - ballot object
 */
-const _setVote = (contractId, ballot) => {
-  let candidateBallot = [];
+const _setVote = (contract, ballot) => {
+  const candidateBallot = _getBallot(contract._id);
 
   // see candidate ballots
-  if (Session.get('candidateBallot') !== undefined) {
+  /*if (Session.get('candidateBallot') !== undefined) {
     candidateBallot = Session.get('candidateBallot');
-  }
-  const multipleChoice = Session.get('contract').multipleChoice;
+  }*/
+  const multipleChoice = contract.multipleChoice;
 
   // fate
   if (ballot.tick === undefined) { ballot.tick = true } else { ballot.tick = !ballot.tick; }
@@ -28,7 +75,7 @@ const _setVote = (contractId, ballot) => {
   // add or update ballot in memory
   let update = false;
   for (const i in candidateBallot) {
-    if (candidateBallot[i].contractId === contractId) {
+    if (candidateBallot[i].contractId === contract._id) {
       if (!multipleChoice) {
         candidateBallot[i].ballot.tick = false;
       }
@@ -40,13 +87,14 @@ const _setVote = (contractId, ballot) => {
   }
   if (!update) {
     candidateBallot.push({
-      contractId: contractId,
+      contractId: contract._id,
       ballot: ballot,
     });
   }
 
   // save to session var
-  Session.set('candidateBallot', candidateBallot);
+  // Session.set('candidateBallot', candidateBallot);
+  _setBallot(contract._id, candidateBallot);
   return ballot.tick;
 };
 
@@ -98,7 +146,7 @@ const _getTickValue = (contractId, ballot, contract) => {
   // first verifies if the user did any interaction regarding ballot
   if (Session.get('rightToVote') === true && contract.stage === 'LIVE') {
     // check current live vote
-    const votes = Session.get('candidateBallot');
+    const votes = _getBallot(contractId); // Session.get('candidateBallot');
     if (votes !== undefined) {
       for (const i in votes) {
         if (votes[i].contractId === contractId && votes[i].ballot._id.toString() === ballot._id.toString()) {
@@ -131,15 +179,17 @@ const _candidateBallot = (userId, contractId) => {
         ballot: last.condition.ballot[j],
       });
     }
-    Session.set('candidateBallot', candidateBallot);
+    // Session.set('candidateBallot', candidateBallot);
+    _setBallot(contractId, candidateBallot);
   }
 };
 
 /**
 * @summary checks if at least one item from ballot has been checked for voting
+* @param {string} contractId - contract where this ballot belongs to
 */
-const _ballotReady = () => {
-  const votes = Session.get('candidateBallot');
+const _ballotReady = (contractId) => {
+  const votes = _getBallot(contractId); // Session.get('candidateBallot');
   for (const i in votes) {
     if (votes[i].ballot.tick === true) {
       return true;
@@ -352,10 +402,10 @@ const _removeFork = (contractId, forkId) => {
 * @param {string} forkId - choice id
 * @return {boolean} true if ready, false if not
 */
-const _verifyContractExecution = (vote) => {
-  if (Session.get('emptyBallot') && Session.get('contract').ballotEnabled) {
+const _contractReady = (vote, contract) => {
+  if (Session.get('emptyBallot') && contract.ballotEnabled) {
     return false;
-  } else if (Session.get('unauthorizedFork') && Session.get('contract').ballotEnabled) {
+  } else if (Session.get('unauthorizedFork') && contract.ballotEnabled) {
     return false;
   } else if (Session.get('missingTitle')) {
     return false;
@@ -365,14 +415,14 @@ const _verifyContractExecution = (vote) => {
     return false;
   } else if (Session.get('noVotes')) {
     return false;
-  } else if (Session.get('draftOptions') && Session.get('contract').ballotEnabled) {
+  } else if (Session.get('draftOptions') && contract.ballotEnabled) {
     return false;
   } else if (!Session.get('rightToVote')) {
     return false;
   }
   if (vote.voteType === 'VOTE') {
-    if (Session.get('contract').kind === 'VOTE' && Session.get('contract').stage === 'LIVE') {
-      if (!_ballotReady()) {
+    if (contract.kind === 'VOTE' && contract.stage === 'LIVE') {
+      if (!_ballotReady(contract._id)) {
         return false;
       }
     }
@@ -386,7 +436,8 @@ const _verifyContractExecution = (vote) => {
   return true;
 };
 
-export const contractReady = _verifyContractExecution;
+export const getBallot = _getBallot;
+export const contractReady = _contractReady;
 export const addChoiceToBallot = _addChoiceToBallot;
 export const verifyDraftFork = _verifyDraftFork;
 export const removeFork = _removeFork;

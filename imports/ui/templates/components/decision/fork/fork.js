@@ -145,7 +145,7 @@ Template.fork.events({
             const cancel = () => {
               Session.set('candidateBallot', previous);
             };
-            this.tick = setVote(Template.instance().contract.get()._id, this);
+            this.tick = setVote(Template.instance().contract.get(), this);
             if (this.tick === true) {
               Session.set('noSelectedOption', false);
             }

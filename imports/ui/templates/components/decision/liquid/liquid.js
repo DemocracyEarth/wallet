@@ -4,12 +4,14 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { Tracker } from 'meteor/tracker';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
 import { displayModal } from '/imports/ui/modules/modal';
 import { Vote } from '/imports/ui/modules/Vote';
 import { contractReady, purgeBallot, candidateBallot } from '/imports/ui/modules/ballot';
 import { clearPopups } from '/imports/ui/modules/popup';
+import { Contracts } from '/imports/api/contracts/Contracts';
 
 import './liquid.html';
 import '../action/action.js';
@@ -79,6 +81,12 @@ function getPercentage(value, voteId) {
 Template.liquid.onCreated(function () {
   const wallet = new Vote(this.data.wallet, this.data.targetId, this.data._id);
   Session.set(this.data._id, wallet);
+
+  if (!Session.get('contract')) {
+    Template.instance().contract = new ReactiveVar(Template.currentData().contract);
+  } else {
+    Template.instance().contract = new ReactiveVar(Contracts.findOne({ _id: Session.get('contract')._id }));
+  }
 });
 
 Template.liquid.onRendered(function render() {
@@ -170,7 +178,7 @@ Template.liquid.onRendered(function render() {
           if (this.newVote.voteType === 'VOTE' && (this.newVote.allocateQuantity !== this.newVote.inBallot || this.newVote.inBallot === 0)) {
             Session.set('noSelectedOption', true);
           }
-        } else if (contractReady(this.newVote) || this.newVote.voteType === 'DELEGATION') {
+        } else if (contractReady(this.newVote, Template.instance().contract.get()) || this.newVote.voteType === 'DELEGATION') {
           clearPopups();
 
           // democracy wins
