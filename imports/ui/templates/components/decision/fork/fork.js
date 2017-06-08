@@ -3,10 +3,19 @@ import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Session } from 'meteor/session';
 import { Contracts } from '/imports/api/contracts/Contracts';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import { setVote, getTickValue, candidateBallot } from '/imports/ui/modules/ballot';
 import { Vote } from '/imports/ui/modules/Vote';
 import './fork.html';
+
+Template.fork.onCreated(() => {
+  if (!Session.get('contract')) {
+    Template.instance().contract = new ReactiveVar(Template.currentData().contract);
+  } else {
+    Template.instance().contract = new ReactiveVar(Contracts.findOne({ _id: Session.get('contract')._id }));
+  }
+});
 
 Template.fork.helpers({
   length() {
@@ -20,7 +29,7 @@ Template.fork.helpers({
     return '';
   },
   dragMode() {
-    if (Session.get('contract').stage === 'DRAFT' || this.mini === true) {
+    if (Template.instance().contract.get().stage === 'DRAFT' || this.mini === true) {
       return '';
     }
     return 'vote-nondrag';
@@ -49,7 +58,7 @@ Template.fork.helpers({
     return '';
   },
   option(mode) {
-    if (Session.get('contract').stage === 'DRAFT' || (Session.get('rightToVote') === false && Session.get('contract').stage !== 'DRAFT')) {
+    if (Template.instance().contract.get().stage === 'DRAFT' || (Session.get('rightToVote') === false && Template.instance().contract.get().stage !== 'DRAFT')) {
       return 'disabled';
     }
     switch (mode) {
@@ -79,13 +88,13 @@ Template.fork.helpers({
     return this.label;
   },
   tick() {
-    if (Session.get('contract').stage === 'DRAFT') {
+    if (Template.instance().contract.get().stage === 'DRAFT') {
       return 'disabled';
     }
     return '';
   },
   tickStatus() {
-    this.tick = getTickValue(Session.get('contract')._id, this);
+    this.tick = getTickValue(Template.instance().contract.get()._id, this, Template.instance().contract);
     if (Session.get('candidateBallot') || (this.tick)) {
       if (this.tick) {
         if (this.mode === 'REJECT') {
@@ -94,7 +103,7 @@ Template.fork.helpers({
         return 'tick-active';
       }
     // already voted
-    } else if (Session.get('rightToVote') === false && Session.get('contract').stage !== 'DRAFT') {
+    } else if (Session.get('rightToVote') === false && Template.instance().contract.get().stage !== 'DRAFT') {
       if (this.tick) {
         return 'tick-disabled';
       }
@@ -117,7 +126,7 @@ Template.fork.helpers({
 Template.fork.events({
   'click #ballotCheckbox'() {
     if (!Session.get('showModal')) {
-      switch (Session.get('contract').stage) {
+      switch (Template.instance().contract.get().stage) {
         case 'DRAFT':
         case 'FINISH':
           Session.set('disabledCheckboxes', true);
@@ -126,7 +135,7 @@ Template.fork.events({
         default:
           if (Session.get('rightToVote')) {
             if (Session.get('candidateBallot') === undefined) {
-              candidateBallot(Meteor.userId());
+              candidateBallot(Meteor.userId(), Template.instance().contract.get()._id);
             }
             const previous = Session.get('candidateBallot');
             const wallet = new Vote(Session.get(this.voteId), Session.get(this.voteId).targetId, this.voteId);
@@ -136,7 +145,7 @@ Template.fork.events({
             const cancel = () => {
               Session.set('candidateBallot', previous);
             };
-            this.tick = setVote(Session.get('contract')._id, this);
+            this.tick = setVote(Template.instance().contract.get()._id, this);
             if (this.tick === true) {
               Session.set('noSelectedOption', false);
             }
@@ -159,8 +168,7 @@ Template.fork.events({
     }
   },
   'click #remove-fork'() {
-    // Meteor.call('removeFork', Session.get('contract')._id, this._id);
-    Contracts.update(Session.get('contract')._id, { $pull: {
+    Contracts.update(Template.instance().contract.get()._id, { $pull: {
       ballot:
         { _id: this._id },
     } });

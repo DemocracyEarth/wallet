@@ -1,6 +1,6 @@
 <template name="ballot">
 
-  <div class="section section-mobile">
+  <div class="section section-mobile {{ballotStyle}}">
     {{#if editorMode}}
       {{#unless isPhone}}
         <div class="w-clearfix paper-header {{headerStyle}}">
@@ -29,9 +29,6 @@
         {{/if}}
       </div>
     {{/if}}
-
-
-
 
     {{#if ballotEnabled}}
 
@@ -92,7 +89,7 @@
         {{/if}}
       {{/if}}
 
-      {{#unless isPhone}}
+
         <div class="section">
           <!--
           {{#if editorMode}}
@@ -110,21 +107,21 @@
               {{#unless editorMode}}
                 {{#if executiveDecision}}
                   {{#with voteSettings}}
-                    {{> fork executive=true mode="AUTHORIZE" _id=1 voteId=this.voteId}}
-                    {{> fork executive=true mode="REJECT" _id=0 voteId=this.voteId}}
+                    {{> fork executive=true mode="AUTHORIZE" _id=1 voteId=this.voteId contract=contract}}
+                    {{> fork executive=true mode="REJECT" _id=0 voteId=this.voteId contract=contract}}
                   {{/with}}
                 {{/if}}
               {{/unless}}
               {{#each options}}
                 {{#with voteSettings}}
-                  {{> fork _id=this._id label=this.label mode=this.mode rank=this.rank url=this.url alternative=true editorMode=this.editorMode voteId=this.voteId}}
+                  {{> fork _id=this._id label=this.label mode=this.mode rank=this.rank url=this.url alternative=true editorMode=this.editorMode voteId=this.voteId contract=contract}}
                 {{/with}}
               {{/each}}
             </ul>
           </div>
 
         </div>
-      {{/unless}}
+
 
       {{#if editorMode}}
         <div class="extra ballot-section">

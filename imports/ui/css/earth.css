@@ -5402,6 +5402,11 @@ blockquote {
     border-radius: 5px;
     background-color: transparent;
   }
+  .section.section-mobile.section-mobile-feed {
+    margin-right: 0px;
+    margin-bottom: 10px;
+    margin-left: 0px;
+  }
   .power {
     width: 100%;
     padding-right: 0px;

@@ -91,11 +91,12 @@ const _getTickFromLedger = (contract, userId, ballotId) => {
 * @summary returns tick value for a given ballot
 * @param {string} contractId - contract where this ballot belongs to
 * @param {object} ballot - ballot object from template
+* @param {object} contract - contract object being analyzed
 * @return {boolean} tick value
 */
-const _getTickValue = (contractId, ballot) => {
+const _getTickValue = (contractId, ballot, contract) => {
   // first verifies if the user did any interaction regarding ballot
-  if (Session.get('rightToVote') === true && Session.get('contract').stage === 'LIVE') {
+  if (Session.get('rightToVote') === true && contract.stage === 'LIVE') {
     // check current live vote
     const votes = Session.get('candidateBallot');
     if (votes !== undefined) {
@@ -109,24 +110,24 @@ const _getTickValue = (contractId, ballot) => {
     }
   }
   // check existing vote present in contract ledger
-  const ledgervote = _getTickFromLedger(Session.get('contract'), Meteor.userId(), ballot._id);
+  const ledgervote = _getTickFromLedger(contract, Meteor.userId(), ballot._id);
   return ledgervote;
 };
 
 /**
 * @summary sets candidate ballot of user for given contract
+* @param {string} userId - user preferences on this ballot
 * @param {string} contractId - contract where this ballot belongs to
-* @param {object} ballot - ballot object from template
 * @return {boolean} tick value
 */
-const _candidateBallot = (userId) => {
+const _candidateBallot = (userId, contractId) => {
   const candidateBallot = [];
-  const transactions = getTransactions(userId, Session.get('contract')._id);
+  const transactions = getTransactions(userId, contractId);
   if (transactions.length > 0) {
-    const last = _.last(getTransactions(userId, Session.get('contract')._id));
+    const last = _.last(getTransactions(userId, contractId));
     for (const j in last.condition.ballot) {
       candidateBallot.push({
-        contractId: Session.get('contract')._id,
+        contractId: contractId,
         ballot: last.condition.ballot[j],
       });
     }

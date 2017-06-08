@@ -32,7 +32,7 @@
         </div>
 
         {{#if ballotEnabled}}
-          {{> ballot editorMode=false feedMode=true contract=feedContract}}
+          {{> ballot editorMode=false feedMode=true contract=feedContract url=url}}
         {{/if}}
 
         <!--
@@ -112,7 +112,7 @@
           {{/if}}
         </div>
       {{/unless}}
-      
+
     </li>
   {{/if}}
 

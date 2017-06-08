@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import { getProfileFromUsername, getAnonymous } from '/imports/startup/both/modules/User';
 import { removeContract } from '/imports/startup/both/modules/Contract';
@@ -20,12 +21,12 @@ import '../../components/decision/tag/tag.js';
 import '../../components/identity/avatar/avatar.js';
 import '../../widgets/transaction/transaction.js';
 
-Template.feedItem.onRendered(() => {
+Template.feedItem.onCreated(() => {
   // Embedded mode means that Items are in an embedded feed to be selected (ie: for a ballot)
-  if (this.firstNode.parentNode.id === 'proposalSuggestions') {
-    Session.set('embeddedMode', true);
+  if (this.firstNode && this.firstNode.parentNode.id === 'proposalSuggestions') {
+    Template.instance().embeddedMode = new ReactiveVar(true);
   } else {
-    Session.set('embeddedMode', false);
+    Template.instance().embeddedMode = new ReactiveVar(false);
   }
 });
 
@@ -65,7 +66,7 @@ Template.feedItem.helpers({
     if (stage === 'LIVE') { return true; } return false;
   },
   embeddedMode() {
-    return Session.get('embeddedMode');
+    return Template.instance().embeddedMode.get();
   },
   signatures() {
     if (this.signatures) {

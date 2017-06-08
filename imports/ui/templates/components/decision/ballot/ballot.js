@@ -37,13 +37,13 @@ function activateDragging() {
         rankOrder.push($(this).attr('value'));
       });
       updateBallotRank(Template.instance().contract.get()._id, rankOrder);
-      Session.set('removeProposal', false);
+      Template.instance().removeProposal.set(false);
       if (rankOrder.length === 0) {
-        Session.set('ballotReady', false);
+        Template.instance().ballotReady.set(false);
         if (Session.get('executiveDecision') === false) {
-          Session.set('emptyBallot', true);
+          Template.instance().emptyBallot.set(true);
         } else {
-          Session.set('emptyBallot', false);
+          Template.instance().emptyBallot.set(false);
         }
       }
     },
@@ -54,7 +54,7 @@ function activateDragging() {
       ui.placeholder.height(ui.helper.height());
 
       if (this.id === 'ballotOption') {
-        Session.set('removeProposal', true);
+        Template.instance().removeProposal.set(true);
       }
     },
     receive() {
@@ -68,10 +68,10 @@ function activateDragging() {
     },
     beforeStop(e, ui) {
       if (sortableIn === false) {
-        if (Session.get('removeProposal')) {
+        if (Template.instance().removeProposal.get()) {
           removeFork(Template.instance().contract.get()._id, ui.item.get(0).getAttribute('value'));
           ui.item.get(0).remove();
-          Session.set('removeProposal', false);
+          Template.instance().removeProposal.set(false);
         }
       }
     },
@@ -94,6 +94,14 @@ Template.ballot.onCreated(() => {
   } else {
     Template.instance().contract = new ReactiveVar(Contracts.findOne({ _id: Session.get('contract')._id }));
   }
+
+  Template.instance().dbContractBallot = new ReactiveVar();
+  Template.instance().emptyBallot = new ReactiveVar();
+  Template.instance().ballotReady = new ReactiveVar();
+  Template.instance().removeProposal = new ReactiveVar();
+  Template.instance().draftOptions = new ReactiveVar(); // not set here
+  Template.instance().unauthorizedFork = new ReactiveVar(); // not set here
+  Template.instance().executiveDecision = new ReactiveVar(); // not set here
 });
 
 
@@ -101,20 +109,11 @@ Template.ballot.onRendered(() => {
   if (Template.instance().contract.get().stage === 'DRAFT') {
     activateDragging();
   } else if (Meteor.userId() !== undefined) {
-    candidateBallot(Meteor.userId());
+    candidateBallot(Meteor.userId(), Template.instance().contract.get()._id);
   }
 });
 
 Template.ballot.helpers({
-  contract() {
-    console.log(Template.instance());
-    const instance = Template.instance();
-    if (Template.instance().contract) {
-      console.log(instance.contract.get().ballotEnabled);
-      return Template.instance().contract.get().ballotEnabled;
-    }
-    return '';
-  },
   allowForks() {
     return Template.instance().contract.get().allowForks;
   },
@@ -134,10 +133,10 @@ Template.ballot.helpers({
     return Template.instance().contract.get().multipleChoice;
   },
   executiveDecision() {
-    if (Template.instance().contract.get().executiveDecision === true) {
-      Session.set('emptyBallot', false);
-    } else if (Session.get('ballotReady') === false) {
-      Session.set('emptyBallot', true);
+    if (Template.instance().contract.get().executiveDecision) {
+      Template.instance().emptyBallot.set(false);
+    } else if (Template.instance().ballotReady.get()) {
+      Template.instance().emptyBallot.set(true);
     }
     return Template.instance().contract.get().executiveDecision;
   },
@@ -165,10 +164,10 @@ Template.ballot.helpers({
         k, i, len;
 
     //warn if ballot is empty
-    if (contractBallot.length == 0) {
-      Session.set('ballotReady', false);
+    if (contractBallot.length === 0) {
+      Template.instance().ballotReady.set(false);
     } else {
-      Session.set('ballotReady', true);
+      Template.instance().ballotReady.set(true);
     };
 
     //sort by rank on db
@@ -189,12 +188,11 @@ Template.ballot.helpers({
     }
 
     if (ballot.length > 0) {
-      Session.set('emptyBallot', false);
-    } else {
-      if (Template.instance().contract.get().executiveDecision == false) {
-        Session.set('emptyBallot', true);
-      }
+      Template.instance().emptyBallot.set(false);
+    } else if (Template.instance().contract.get().executiveDecision === false) {
+      Template.instance().emptyBallot.set(true);
     }
+
 
     //if draft, route to editor
     for (i in ballot) {
@@ -220,13 +218,13 @@ Template.ballot.helpers({
     return displayTimedWarning('duplicateFork');
   },
   emptyBallot() {
-    return Session.get('emptyBallot');
+    return Template.instance().emptyBallot.get();
   },
   draftOptions() {
     return Session.get('draftOptions');
   },
   ballotReady() {
-    return Session.get('ballotReady');
+    return Template.instance().ballotReady.get();
   },
   // calendar
   datePicker() {
@@ -253,6 +251,12 @@ Template.ballot.helpers({
   },
   closingDate() {
     return Template.instance().contract.get().closingDate;
+  },
+  ballotStyle() {
+    if (this.feedMode) {
+      return 'section-mobile-feed';
+    }
+    return '';
   },
 });
 
