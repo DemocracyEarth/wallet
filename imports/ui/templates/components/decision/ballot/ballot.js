@@ -20,10 +20,10 @@ import '../liquid/liquid.js';
 
 function getVoterContractBond(object) {
   return Object.assign(object, {
-    voteId: `vote-${Meteor.userId()}-${Session.get('contract')._id}`,
+    voteId: `vote-${Meteor.userId()}-${Template.instance().contract.get()._id}`,
     wallet: Meteor.user().profile.wallet,
     sourceId: Meteor.userId(),
-    targetId: Session.get('contract')._id,
+    targetId: Template.instance().contract.get()._id,
   });
 }
 
@@ -36,7 +36,7 @@ function activateDragging() {
       $('#ballotOption li').each(function () {
         rankOrder.push($(this).attr('value'));
       });
-      updateBallotRank(Session.get('contract')._id, rankOrder);
+      updateBallotRank(Template.instance().contract.get()._id, rankOrder);
       Session.set('removeProposal', false);
       if (rankOrder.length === 0) {
         Session.set('ballotReady', false);
@@ -69,7 +69,7 @@ function activateDragging() {
     beforeStop(e, ui) {
       if (sortableIn === false) {
         if (Session.get('removeProposal')) {
-          removeFork(Session.get('contract')._id, ui.item.get(0).getAttribute('value'));
+          removeFork(Template.instance().contract.get()._id, ui.item.get(0).getAttribute('value'));
           ui.item.get(0).remove();
           Session.set('removeProposal', false);
         }
@@ -90,18 +90,15 @@ function activateDragging() {
 
 Template.ballot.onCreated(() => {
   if (!Session.get('contract')) {
-    this.contract = new ReactiveVar(Template.currentData().contract);
+    Template.instance().contract = new ReactiveVar(Template.currentData().contract);
   } else {
-    this.contract = new ReactiveVar(Contracts.findOne({ _id: Session.get('contract')._id }));
+    Template.instance().contract = new ReactiveVar(Contracts.findOne({ _id: Session.get('contract')._id }));
   }
 });
 
 
 Template.ballot.onRendered(() => {
-  if (!Session.get('contract')) {
-    return;
-  }
-  if (Session.get('contract').stage === 'DRAFT') {
+  if (Template.instance().contract.get().stage === 'DRAFT') {
     activateDragging();
   } else if (Meteor.userId() !== undefined) {
     candidateBallot(Meteor.userId());
@@ -119,40 +116,37 @@ Template.ballot.helpers({
     return '';
   },
   allowForks() {
-    return Session.get('contract').allowForks;
+    return Template.instance().contract.get().allowForks;
   },
   ballotEnabled() {
-    if (Session.get('contract').ballotEnabled) {
+    if (Template.instance().contract.get().ballotEnabled) {
       activateDragging();
     }
-    return Session.get('contract').ballotEnabled;
+    return Template.instance().contract.get().ballotEnabled;
   },
   headerStyle() {
-    if (this.editorMode && !Session.get('contract').ballotEnabled) {
+    if (this.editorMode && !Template.instance().contract.get().ballotEnabled) {
       return 'paper-header-empty';
     }
     return '';
   },
   multipleChoice() {
-    return Session.get('contract').multipleChoice;
+    return Template.instance().contract.get().multipleChoice;
   },
   executiveDecision() {
-    if (Session.get('contract')) {
-      if (Session.get('contract').executiveDecision === true) {
-        Session.set('emptyBallot', false);
-      } else if (Session.get('ballotReady') === false) {
-        Session.set('emptyBallot', true);
-      }
-      return Session.get('contract').executiveDecision;
+    if (Template.instance().contract.get().executiveDecision === true) {
+      Session.set('emptyBallot', false);
+    } else if (Session.get('ballotReady') === false) {
+      Session.set('emptyBallot', true);
     }
-    return '';
+    return Template.instance().contract.get().executiveDecision;
   },
   // NOTE: this algo is tricky af, i'm actually scared to touch it.
   options() {
     var contractBallot;
     if (Session.get('dbContractBallot') == undefined) {
-      if (Session.get('contract')) {
-        contractBallot = Session.get('contract').ballot;
+      if (Template.instance().contract.get()) {
+        contractBallot = Template.instance().contract.get().ballot;
       } else {
         contractBallot = undefined;
       }
@@ -197,7 +191,7 @@ Template.ballot.helpers({
     if (ballot.length > 0) {
       Session.set('emptyBallot', false);
     } else {
-      if (Session.get('contract').executiveDecision == false) {
+      if (Template.instance().contract.get().executiveDecision == false) {
         Session.set('emptyBallot', true);
       }
     }
@@ -252,22 +246,13 @@ Template.ballot.helpers({
     return getVoterContractBond(this);
   },
   executionStatus() {
-    if (Session.get('contract') !== undefined) {
-      return Session.get('contract').executionStatus;
-    }
-    return '';
+    return Template.instance().contract.get().executionStatus;
   },
   stageLabel() {
-    if (Session.get('contract') !== undefined) {
-      return Session.get('contract').stage;
-    }
-    return '';
+    return Template.instance().contract.get().stage;
   },
   closingDate() {
-    if (Session.get('contract') !== undefined) {
-      return Session.get('contract').closingDate;
-    }
-    return '';
+    return Template.instance().contract.get().closingDate;
   },
 });
 
@@ -275,7 +260,7 @@ Template.ballot.helpers({
 Template.ballot.events({
   'submit #fork-form, click #add-fork-proposal'(event) {
     event.preventDefault();
-    addChoiceToBallot(Session.get('contract')._id, document.getElementById('text-fork-proposal').value);
+    addChoiceToBallot(Template.instance().contract.get()._id, document.getElementById('text-fork-proposal').value);
     Meteor.setTimeout(() => { document.getElementById('text-fork-proposal').value = ''; }, 100);
   },
 });
