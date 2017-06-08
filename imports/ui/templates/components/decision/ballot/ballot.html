@@ -12,7 +12,14 @@
       {{/unless}}
     {{else}}
       <div class="w-clearfix paper-header {{headerStyle}}">
-        {{> kind title="ballot" icon="images/modal-vote.png" stage=stage}}
+        {{#if feedMode}}
+          <a class="micro-button micro-button-header w-clearfix w-inline-block" href="{{url}}">
+            <img class="micro-icon" src="{{pathFor route='home'}}images/debate.png">
+            <div class="micro-label">{{_ 'debate'}}</div>
+          </a>
+        {{else}}
+          {{> kind title="ballot" icon="images/modal-vote.png" stage=stage}}
+        {{/if}}
         {{#if currentUser}}
           <div class="w-clearfix value value-avatar extra">
             <div class="extra">

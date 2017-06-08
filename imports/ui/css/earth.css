@@ -5469,6 +5469,7 @@ blockquote {
   }
   .vote.vote-search.vote-feed {
     margin-bottom: 5px;
+    padding-bottom: 0px;
     box-shadow: none;
   }
   .option {
@@ -5664,6 +5665,7 @@ blockquote {
     border-radius: 3px;
     background-color: transparent;
     box-shadow: none;
+    text-transform: none;
   }
   .shadow-fake {
     left: 25px;
@@ -5696,6 +5698,9 @@ blockquote {
     border-color: #aaa;
     background-color: transparent;
     color: #999;
+  }
+  .avatar-editor {
+    margin-bottom: 5px;
   }
   .alert {
     width: 90%;
@@ -5741,6 +5746,13 @@ blockquote {
   }
   .micro-button.agora-button {
     margin-bottom: 5px;
+  }
+  .micro-button.micro-button-header {
+    overflow: visible;
+    margin: 0px;
+    padding: 0px;
+    border-radius: 0px;
+    text-align: left;
   }
   .modal-buttons {
     margin-bottom: 5px;
