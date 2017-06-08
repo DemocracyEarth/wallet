@@ -12,6 +12,7 @@ import { displayModal } from '/imports/ui/modules/modal';
 import { animationSettings } from '/imports/ui/modules/animation';
 import { addChoiceToBallot } from '/imports/ui/modules/ballot';
 import { displayNotice } from '/imports/ui/modules/notice';
+import { Contracts } from '/imports/api/contracts/Contracts';
 
 import './feedItem.html';
 import '../../components/decision/stage/stage.js';
@@ -19,14 +20,14 @@ import '../../components/decision/tag/tag.js';
 import '../../components/identity/avatar/avatar.js';
 import '../../widgets/transaction/transaction.js';
 
-Template.feedItem.rendered = function rendered() {
+Template.feedItem.onRendered(() => {
   // Embedded mode means that Items are in an embedded feed to be selected (ie: for a ballot)
   if (this.firstNode.parentNode.id === 'proposalSuggestions') {
     Session.set('embeddedMode', true);
   } else {
     Session.set('embeddedMode', false);
   }
-};
+});
 
 Template.feedItem.helpers({
   description() {
@@ -90,6 +91,9 @@ Template.feedItem.helpers({
       return true;
     }
     return false;
+  },
+  feedContract() {
+    return Contracts.findOne({ _id: this._id });
   },
 });
 

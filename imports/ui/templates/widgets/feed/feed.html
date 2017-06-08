@@ -1,18 +1,12 @@
 <template name="feed">
-
   <div class="feed">
-
-      <ul class="type w-clearfix w-list-unstyled">
-        {{#each item}}
-          {{> feedItem}}
-        {{/each}}
-      </ul>
-
-      {{#if emptyFeed}}
-        {{> feedEmpty emptyContent}}
-      {{/if}}
-
-    
+    <ul class="type w-clearfix w-list-unstyled">
+      {{#each item}}
+        {{> feedItem}}
+      {{/each}}
+    </ul>
+    {{#if emptyFeed}}
+      {{> feedEmpty emptyContent}}
+    {{/if}}
   </div>
-
 </template>

@@ -18,38 +18,41 @@
         </a>
 
         <div class="meta meta-search">
-
           <div class="w-list-unstyled w-clearfix identity-list extra">
             {{#each signatures}}
               <div class="w-clearfix identity">
                   {{> avatar size=32 profile=this._id includeName=true includeNation=true editable=false smallFont=true disabled=false includeRole=false}}
               </div>
             {{/each}}
-
             <div class="data">
               <img class="url-icon" src="{{pathFor route='home'}}images/time.png">
               <div class="verifier verifier-live">{{sinceDate timestamp}}</div>
             </div>
           </div>
-
-
-          <!--
-          {{> stage text=stage executionStatus=executionStatus closingDate=closingDate permanentElection=permanentElection}}
--->
         </div>
 
-        <!-- deprecated
+        {{#if ballotEnabled}}
+          {{> ballot editorMode=false feedMode=true contract=feedContract}}
+        {{/if}}
+
+        <!--
+        will be shown on ballot
+        {{> stage text=stage executionStatus=executionStatus closingDate=closingDate permanentElection=permanentElection}}
+        -->
+        <!--
+        deprecated
         <div class="rich-text rich-text-preview">
           {{description}}
         </div>
         -->
-
+        <!--
+        for future implementation
         <ul class="w-list-unstyled w-clearfix extra">
           {{#each tags}}
               {{> tag _id=_id nonDraggable=true}}
           {{/each}}
         </ul>
-
+        -->
 
 
       </div>

@@ -1,7 +1,6 @@
 <template name="ballot">
 
   <div class="section section-mobile">
-
     {{#if editorMode}}
       {{#unless isPhone}}
         <div class="w-clearfix paper-header {{headerStyle}}">
@@ -27,7 +26,7 @@
 
 
     {{#if ballotEnabled}}
-
+      {{contract}}
       {{#if editorMode}}
         {{#unless isPhone}}
           <div class="description">

@@ -3157,8 +3157,8 @@ blockquote {
 
 .meta.meta-search {
   display: block;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   clear: both;
   opacity: 1;
   color: #9c9c9c;
@@ -5560,7 +5560,7 @@ blockquote {
     line-height: 20px;
   }
   .verifier.verifier-live {
-    font-size: 12px;
+    font-size: 14px;
   }
   .portrait {
     display: block;
@@ -6068,9 +6068,6 @@ blockquote {
   .verifier {
     font-size: 10px;
     line-height: 18px;
-  }
-  .verifier.verifier-live {
-    font-size: 12px;
   }
   .rich-text.editor-draft {
     border-left-color: transparent;

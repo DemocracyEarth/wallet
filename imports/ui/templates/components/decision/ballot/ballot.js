@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import { removeFork, updateBallotRank, addChoiceToBallot, candidateBallot } from '/imports/ui/modules/ballot';
 import { displayTimedWarning } from '/lib/utils';
@@ -86,16 +87,37 @@ function activateDragging() {
   }).disableSelection();
 }
 
-Template.ballot.onRendered = () => {
-  if (!Session.get('contract')) { return; }
+
+Template.ballot.onCreated(() => {
+  if (!Session.get('contract')) {
+    this.contract = new ReactiveVar(Template.currentData().contract);
+  } else {
+    this.contract = new ReactiveVar(Contracts.findOne({ _id: Session.get('contract')._id }));
+  }
+});
+
+
+Template.ballot.onRendered(() => {
+  if (!Session.get('contract')) {
+    return;
+  }
   if (Session.get('contract').stage === 'DRAFT') {
     activateDragging();
   } else if (Meteor.userId() !== undefined) {
     candidateBallot(Meteor.userId());
   }
-};
+});
 
 Template.ballot.helpers({
+  contract() {
+    console.log(Template.instance());
+    const instance = Template.instance();
+    if (Template.instance().contract) {
+      console.log(instance.contract.get().ballotEnabled);
+      return Template.instance().contract.get().ballotEnabled;
+    }
+    return '';
+  },
   allowForks() {
     return Session.get('contract').allowForks;
   },
