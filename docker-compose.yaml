@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+    app:
+      build: ./docker
+      image: democracy-earth:latest
+      ports:
+        - 3000:3000
+      volumes:
+        - ./:/app
+        - /home/meteor
+      environment:
+        USER_ID: ${USER_ID}
+        MONGO_URL: "mongodb://mongo:27017"
+      depends_on:
+        - mongo
+    mongo:
+      image: mongo
+      expose:
+        - 27017
