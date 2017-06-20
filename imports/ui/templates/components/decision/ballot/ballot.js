@@ -258,6 +258,9 @@ Template.ballot.helpers({
     }
     return '';
   },
+  permanentElection() {
+    return Template.instance().contract.get().permanentElection;
+  },
 });
 
 
