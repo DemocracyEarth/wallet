@@ -236,31 +236,27 @@ const _verifyVotingRight = (contractId) => {
 * @param {object} signatures - signatures of the contract (for delegations)
 * @return {boolean} status - yes or no
 */
-let _verifyDelegationRight = (signatures) => {
+const _verifyDelegationRight = (signatures) => {
   if (Meteor.user() != null) {
-    for (i in signatures) {
-      if (signatures[i]._id == Meteor.user()._id) {
-        switch(signatures[i].role) {
+    for (const i in signatures) {
+      if (signatures[i]._id === Meteor.user()._id) {
+        switch (signatures[i].role) {
           case 'DELEGATOR':
             if (signatures[i].status === 'PENDING') {
               return true;
-            } else {
-              return false;
             }
+            return false;
           case 'DELEGATE':
+          default:
             if (signatures[i].status === 'PENDING') {
               return false;
-            } else {
-              return false;
             }
-            break;
-         }
+            return false;
+        }
       }
     }
-    return false;
-  } else {
-    return false;
   }
+  return false;
 };
 
 /**

@@ -7,6 +7,7 @@ import { Transactions } from '/imports/api/transactions/Transactions';
 import { createContract } from '/imports/startup/both/modules/Contract';
 import { checkDuplicate, convertToSlug } from '/lib/utils';
 import { getTransactions, getVotes } from '/imports/api/transactions/transaction';
+import { verifyDelegationRight, verifyVotingRight } from '/imports/startup/both/modules/User';
 
 /**
 * @summary gets the candidate ballot set by user for a specific contract
@@ -136,6 +137,30 @@ const _getTickFromLedger = (contract, userId, ballotId) => {
 };
 
 /**
+* @summary defines if user has the right to vote on a contract
+* @param {object} contract - what contract to analyze
+*/
+const _getRightToVote = (contract) => {
+  if (contract.kind === 'DELEGATION') {
+    return verifyDelegationRight(contract.signatures);
+  } else if ((contract.kind === 'VOTE' && contract.stage === 'DRAFT') || (contract.kind === 'VOTE' && contract.stage === 'LIVE')) {
+    return true;
+  }
+  return false;
+};
+
+/**
+* @summary see if user has already voted regardless of the right to vote.
+* @param {object} contract - what contract to analyze
+*/
+const _userAlreadyVoted = (contract) => {
+  if (contract.kind === 'VOTE' && contract.stage === 'DRAFT') {
+    return false;
+  }
+  return verifyVotingRight(contract._id);
+};
+
+/**
 * @summary returns tick value for a given ballot
 * @param {string} contractId - contract where this ballot belongs to
 * @param {object} ballot - ballot object from template
@@ -144,7 +169,7 @@ const _getTickFromLedger = (contract, userId, ballotId) => {
 */
 const _getTickValue = (contractId, ballot, contract) => {
   // first verifies if the user did any interaction regarding ballot
-  if (Session.get('rightToVote') === true && contract.stage === 'LIVE') {
+  if (_getRightToVote(contract) && contract.stage === 'LIVE') {
     // check current live vote
     const votes = _getBallot(contractId); // Session.get('candidateBallot');
     if (votes !== undefined) {
@@ -179,9 +204,10 @@ const _candidateBallot = (userId, contractId) => {
         ballot: last.condition.ballot[j],
       });
     }
-    // Session.set('candidateBallot', candidateBallot);
     _setBallot(contractId, candidateBallot);
+    return candidateBallot;
   }
+  return [];
 };
 
 /**
@@ -417,7 +443,7 @@ const _contractReady = (vote, contract) => {
     return false;
   } else if (Session.get('draftOptions') && contract.ballotEnabled) {
     return false;
-  } else if (!Session.get('rightToVote')) {
+  } else if (!_getRightToVote(contract)) {
     return false;
   }
   if (vote.voteType === 'VOTE') {
@@ -436,7 +462,10 @@ const _contractReady = (vote, contract) => {
   return true;
 };
 
+export const getRightToVote = _getRightToVote;
+export const userAlreadyVoted = _userAlreadyVoted;
 export const getBallot = _getBallot;
+export const setBallot = _setBallot;
 export const contractReady = _contractReady;
 export const addChoiceToBallot = _addChoiceToBallot;
 export const verifyDraftFork = _verifyDraftFork;

@@ -9,7 +9,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
 import { displayModal } from '/imports/ui/modules/modal';
 import { Vote } from '/imports/ui/modules/Vote';
-import { contractReady, purgeBallot, candidateBallot } from '/imports/ui/modules/ballot';
+import { contractReady, purgeBallot, candidateBallot, getRightToVote } from '/imports/ui/modules/ballot';
 import { clearPopups } from '/imports/ui/modules/popup';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
@@ -87,6 +87,8 @@ Template.liquid.onCreated(function () {
   } else {
     Template.instance().contract = new ReactiveVar(Contracts.findOne({ _id: Session.get('contract')._id }));
   }
+
+  Template.instance().rightToVote = new ReactiveVar(getRightToVote(Template.instance().contract.get()));
 });
 
 Template.liquid.onRendered(function render() {
@@ -194,7 +196,7 @@ Template.liquid.helpers({
     return (Session.get(this._id).voteType === 'DELEGATION');
   },
   rightToVote() {
-    return Session.get('rightToVote');
+    return Template.instance().rightToVote.get();
   },
   confirmationRequired() {
     if (Session.get('contract').kind === 'DELEGATION') {

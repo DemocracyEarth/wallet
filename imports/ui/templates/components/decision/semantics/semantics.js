@@ -1,23 +1,35 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { Tags } from '/imports/api/tags/Tags';
 import { addTag, removeTag, sortRanks, addCustomTag, resetTagSearch } from '/lib/data';
 import { globalObj } from '/lib/global';
 import { displayTimedWarning, displayElement } from '/lib/utils';
+import { getRightToVote } from '/imports/ui/modules/ballot';
 
 import './semantics.html';
 import '../tag/tag.js';
 import '../../../widgets/warning/warning.js';
 
-// Makes tags in contract draggable
-Template.semantics.rendered = function rendered() {
+Template.semantics.onCreated(() => {
   if (!Session.get('contract')) {
+    Template.instance().contract = new ReactiveVar(Template.currentData().contract);
+  } else {
+    Template.instance().contract = new ReactiveVar(Contracts.findOne({ _id: Session.get('contract')._id }));
+  }
+
+  Template.instance().rightToVote = new ReactiveVar(getRightToVote(Template.instance().contract.get()));
+});
+
+// Makes tags in contract draggable
+Template.semantics.onRendered(() => {
+  if (!Template.instance().contract.get()) {
     return;
   }
-  if (Session.get('contract').stage === 'DRAFT') {
+  if (Template.instance().contract.get().stage === 'DRAFT') {
     this.$('#tagSuggestions, #tagList').sortable({
       stop(e, ui) {
         Session.set('removeTag', false);
@@ -59,13 +71,12 @@ Template.semantics.rendered = function rendered() {
     globalObj.TagSearch.search('');
   }
 
-  Session.set('dbTagList', Contracts.findOne({ _id: Session.get('contract')._id }, { reactive: false }).tags);
-
-};
+  Session.set('dbTagList', Contracts.findOne({ _id: Template.instance().contract.get()._id }, { reactive: false }).tags);
+});
 
 Template.semantics.helpers({
   emptyTags() {
-    if (Session.get('contract').stage !== 'DRAFT' && Session.get('contract').tags.length === 0) {
+    if (Template.instance().contract.get().stage !== 'DRAFT' && Template.instance().contract.get().tags.length === 0) {
       return true;
     }
     return false;
@@ -147,8 +158,8 @@ Template.semantics.helpers({
     return Session.get('alreadyVoted');
   },
   rightToVote() {
-    return Session.get('rightToVote');
-  }
+    return Template.instance().rightToVote.get();
+  },
 });
 
 Template.semantics.events({

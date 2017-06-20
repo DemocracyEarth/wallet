@@ -194,7 +194,7 @@ Template.ballot.helpers({
     }
 
 
-    //if draft, route to editor
+    // if draft, route to editor
     for (i in ballot) {
       var contract = Contracts.findOne({ _id: ballot[i]._id});
       if (contract != undefined) {
