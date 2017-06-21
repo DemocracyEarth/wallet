@@ -255,7 +255,7 @@ const _loadContract = (view, id) => {
     }
 
     // status of action button
-    if (contract.kind === 'DELEGATION') {
+    /*if (contract.kind === 'DELEGATION') {
       Session.set('rightToVote', verifyDelegationRight(contract.signatures));
     } else if (contract.kind === 'VOTE' && contract.stage === 'DRAFT') {
       Session.set('rightToVote', true);
@@ -265,7 +265,7 @@ const _loadContract = (view, id) => {
       Session.set('alreadyVoted', verifyVotingRight(contract._id));
     } else if (contract.kind === 'VOTE' && contract.stage === 'FINISH') {
       Session.set('rightToVote', false);
-    }
+    }*/
 
     // wallet
     _setContractWallet(contract);

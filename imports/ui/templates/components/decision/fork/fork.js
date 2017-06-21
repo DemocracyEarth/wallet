@@ -18,7 +18,6 @@ Template.fork.onCreated(() => {
 
   Template.instance().rightToVote = new ReactiveVar(getRightToVote(Template.instance().contract.get()));
   Template.instance().candidateBallot = new ReactiveVar(getBallot(Template.instance().contract.get()._id));
-  Template.instance().noSelectedOption = new ReactiveVar();
 });
 
 Template.fork.helpers({
@@ -130,6 +129,8 @@ Template.fork.helpers({
 Template.fork.events({
   'click #ballotCheckbox'() {
     if (!Session.get('showModal')) {
+      // TODO consider multiple choice use case when feature becomes active.
+
       switch (Template.instance().contract.get().stage) {
         case 'DRAFT':
         case 'FINISH':
@@ -142,7 +143,6 @@ Template.fork.events({
               Template.instance().candidateBallot.set(candidateBallot(Meteor.userId(), Template.instance().contract.get()._id));
             }
             const previous = Template.instance().candidateBallot.get();
-            console.log(this.voteId);
             const wallet = new Vote(Session.get(this.voteId), Session.get(this.voteId).targetId, this.voteId);
             wallet.inBallot = Session.get(this.voteId).inBallot;
             wallet.allocateQuantity = wallet.inBallot;
@@ -152,12 +152,10 @@ Template.fork.events({
               Template.instance().candidateBallot.set(setBallot(Template.instance().contract.get()._id, previous));
             };
             this.tick = setVote(Template.instance().contract.get(), this);
-            console.log(this.tick);
             if (this.tick === true) {
-              Session.set('noSelectedOption', false);
+              Session.set('noSelectedOption', this.voteId);
             }
 
-            // TODO consider multiple choice use case!!
             // vote
             if (this.tick === false && Session.get(this.voteId).inBallot > 0) {
               // remove all votes

@@ -9,7 +9,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
 import { displayModal } from '/imports/ui/modules/modal';
 import { Vote } from '/imports/ui/modules/Vote';
-import { contractReady, purgeBallot, candidateBallot, getRightToVote } from '/imports/ui/modules/ballot';
+import { contractReady, purgeBallot, candidateBallot, getRightToVote, getBallot } from '/imports/ui/modules/ballot';
 import { clearPopups } from '/imports/ui/modules/popup';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
@@ -58,7 +58,7 @@ function voteFailure(vote) {
   return (vote.allocateQuantity <= vote.minVotes && vote.minVotes !== 0 && vote.voteType === 'DELEGATION') ||
     (vote.allocateQuantity < vote.minVotes && vote.voteType === 'VOTE') ||
     (vote.allocateQuantity === vote.inBallot) ||
-    (vote.voteType === 'VOTE' && purgeBallot(Session.get('candidateBallot')).length === 0) ||
+    (vote.voteType === 'VOTE' && purgeBallot(getBallot(vote.targetId)).length === 0) ||
     (isNaN(vote.allocateQuantity));
 }
 
@@ -133,9 +133,9 @@ Template.liquid.onRendered(function render() {
         if (Session.get(voteId) !== undefined) {
           $(`#voteSlider-${voteId}`).velocity('stop');
         }
-        if (Session.get('candidateBallot') === undefined && this.newVote.voteType === 'VOTE') {
+        if (getBallot(this.newVote.targetId) === undefined && this.newVote.voteType === 'VOTE') {
           if (this.newVote.inBallot > 0) {
-            candidateBallot(Meteor.userId());
+            candidateBallot(Meteor.userId(), this.newVote.targetId);
           }
         }
         Session.set('dragging', voteId);
@@ -175,12 +175,15 @@ Template.liquid.onRendered(function render() {
 
         Meteor.clearTimeout(this.timer);
 
+        console.log(this.newVote);
+        console.log(voteFailure(this.newVote));
+
         if (voteFailure(this.newVote)) {
           cancel();
           if (this.newVote.voteType === 'VOTE' && (this.newVote.allocateQuantity !== this.newVote.inBallot || this.newVote.inBallot === 0)) {
-            Session.set('noSelectedOption', true);
+            Session.set('noSelectedOption', this.newVote.voteId);
           }
-        } else if (contractReady(this.newVote, Template.instance().contract.get()) || this.newVote.voteType === 'DELEGATION') {
+        } else if (contractReady(this.newVote, this.newVote.targetId) || this.newVote.voteType === 'DELEGATION') {
           clearPopups();
 
           // democracy wins
@@ -199,8 +202,8 @@ Template.liquid.helpers({
     return Template.instance().rightToVote.get();
   },
   confirmationRequired() {
-    if (Session.get('contract').kind === 'DELEGATION') {
-      const signatures = Session.get('contract').signatures;
+    if (Template.instance().contract.get().kind === 'DELEGATION') {
+      const signatures = Template.instance().contract.get().signatures;
       for (const i in signatures) {
         if (signatures[i].role === 'DELEGATE' && signatures[i].status === 'PENDING' && signatures[i]._id === Meteor.user()._id) {
           return true;
@@ -214,9 +217,9 @@ Template.liquid.helpers({
 Template.liquid.events({
   'click #confirmation'() {
     let counterPartyId;
-    for (const stamp in Session.get('contract').signatures) {
-      if (Session.get('contract').signatures[stamp]._id !== Meteor.user()._id) {
-        counterPartyId = Session.get('contract').signatures[stamp]._id;
+    for (const stamp in Template.instance().contract.get().signatures) {
+      if (Template.instance().contract.get().signatures[stamp]._id !== Meteor.user()._id) {
+        counterPartyId = Template.instance().contract.get().signatures[stamp]._id;
       }
     }
     displayModal(
@@ -224,7 +227,7 @@ Template.liquid.events({
       {
         icon: 'images/modal-delegation.png',
         title: TAPi18n.__('confirm-delegation-votes'),
-        message: TAPi18n.__('confirm-delegation-warning').replace('<quantity>', Session.get('contract').wallet.available),
+        message: TAPi18n.__('confirm-delegation-warning').replace('<quantity>', Template.instance().contract.get().wallet.available),
         cancel: TAPi18n.__('not-now'),
         action: TAPi18n.__('confirm-votes'),
         displayProfile: true,
@@ -233,18 +236,18 @@ Template.liquid.events({
       function () {
         const settings = {
           condition: {
-            transferable: Session.get('contract').transferable,
-            portable: Session.get('contract').portable,
-            tags: Session.get('contract').tags,
+            transferable: Template.instance().contract.get().transferable,
+            portable: Template.instance().contract.get().portable,
+            tags: Template.instance().contract.get().tags,
           },
           currency: 'VOTES',
-          kind: Session.get('contract').kind,
-          contractId: Session.get('contract')._id, // _getContractId(senderId, receiverId, settings.kind),
+          kind: Template.instance().contract.get().kind,
+          contractId: Template.instance().contract.get()._id, // _getContractId(senderId, receiverId, settings.kind),
         };
         sendDelegationVotes(
-          Session.get('contract')._id,
-          Session.get('contract').signatures[1]._id,
-          Session.get('contract').wallet.available,
+          Template.instance().contract.get()._id,
+          Template.instance().contract.get().signatures[1]._id,
+          Template.instance().contract.get().wallet.available,
           settings,
           'CONFIRMED'
         );
@@ -253,9 +256,9 @@ Template.liquid.events({
   },
   'click #rejection'() {
     let counterPartyId;
-    for (const stamp in Session.get('contract').signatures) {
-      if (Session.get('contract').signatures[stamp]._id !== Meteor.user()._id) {
-        counterPartyId = Session.get('contract').signatures[stamp]._id;
+    for (const stamp in Template.instance().contract.get().signatures) {
+      if (Template.instance().contract.get().signatures[stamp]._id !== Meteor.user()._id) {
+        counterPartyId = Template.instance().contract.get().signatures[stamp]._id;
       }
     }
     displayModal(
@@ -263,7 +266,7 @@ Template.liquid.events({
       {
         icon: 'images/modal-delegation.png',
         title: TAPi18n.__('reject-delegation-votes'),
-        message: TAPi18n.__('reject-delegation-warning').replace('<quantity>', Session.get('contract').wallet.available),
+        message: TAPi18n.__('reject-delegation-warning').replace('<quantity>', Template.instance().contract.get().wallet.available),
         cancel: TAPi18n.__('not-now'),
         action: TAPi18n.__('reject-votes'),
         displayProfile: true,
@@ -272,18 +275,18 @@ Template.liquid.events({
       function () {
         const settings = {
           condition: {
-            transferable: Session.get('contract').transferable,
-            portable: Session.get('contract').portable,
-            tags: Session.get('contract').tags,
+            transferable: Template.instance().contract.get().transferable,
+            portable: Template.instance().contract.get().portable,
+            tags: Template.instance().contract.get().tags,
           },
           currency: 'VOTES',
-          kind: Session.get('contract').kind,
-          contractId: Session.get('contract')._id, // _getContractId(senderId, receiverId, settings.kind),
+          kind: Template.instance().contract.get().kind,
+          contractId: Template.instance().contract.get()._id, // _getContractId(senderId, receiverId, settings.kind),
         };
         sendDelegationVotes(
-          Session.get('contract')._id,
-          Session.get('contract').signatures[0]._id,
-          Session.get('contract').wallet.available,
+          Template.instance().contract.get()._id,
+          Template.instance().contract.get().signatures[0]._id,
+          Template.instance().contract.get().wallet.available,
           settings,
           'REJECTED'
         );

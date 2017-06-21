@@ -238,7 +238,10 @@ Template.ballot.helpers({
     return false;
   },
   noSelectedOption() {
-    return displayTimedWarning('noSelectedOption');
+    if (Session.get('noSelectedOption') === this.voteId) {
+      return true; // displayTimedWarning('noSelectedOption');
+    }
+    return false;
   },
   voteSettings() {
     return getVoterContractBond(this);
