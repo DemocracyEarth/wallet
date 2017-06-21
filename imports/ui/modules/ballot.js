@@ -63,7 +63,7 @@ const _setBallot = (contractId, ballot) => {
 */
 const _setVote = (contract, ballot) => {
   const candidateBallot = _getBallot(contract._id);
-
+  console.log(candidateBallot);
   // see candidate ballots
   /*if (Session.get('candidateBallot') !== undefined) {
     candidateBallot = Session.get('candidateBallot');

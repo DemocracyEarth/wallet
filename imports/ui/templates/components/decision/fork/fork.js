@@ -18,6 +18,7 @@ Template.fork.onCreated(() => {
 
   Template.instance().rightToVote = new ReactiveVar(getRightToVote(Template.instance().contract.get()));
   Template.instance().candidateBallot = new ReactiveVar(getBallot(Template.instance().contract.get()._id));
+  Template.instance().noSelectedOption = new ReactiveVar();
 });
 
 Template.fork.helpers({
@@ -97,7 +98,7 @@ Template.fork.helpers({
     return '';
   },
   tickStatus() {
-    this.tick = getTickValue(Template.instance().contract.get()._id, this, Template.instance().contract);
+    this.tick = getTickValue(Template.instance().contract.get()._id, this, Template.instance().contract.get());
     if (Template.instance().candidateBallot.get() || (this.tick)) {
       if (this.tick) {
         if (this.mode === 'REJECT') {
@@ -151,6 +152,7 @@ Template.fork.events({
               Template.instance().candidateBallot.set(setBallot(Template.instance().contract.get()._id, previous));
             };
             this.tick = setVote(Template.instance().contract.get(), this);
+            console.log(this.tick);
             if (this.tick === true) {
               Session.set('noSelectedOption', false);
             }
