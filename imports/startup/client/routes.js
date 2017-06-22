@@ -32,7 +32,7 @@ Router.route('/', {
   waitOn() {
     // Feed data will come from here:
     if (Meteor.settings.public.Collective) {
-      return [Meteor.subscribe('contracts', { collectiveId: Meteor.settings.public.Collective._id }), Meteor.subscribe('userData')];
+      return [Meteor.subscribe('contracts', { collectiveId: Meteor.settings.public.Collective._id }), Meteor.subscribe('userData'), Meteor.subscribe('transactions')];
     }
     return null;
   },
@@ -58,7 +58,7 @@ Router.route('/:feed', {
   name: 'homeFeed',
   template: 'home',
   waitOn() {
-    return [Meteor.subscribe('contracts', fn.buildQuery(this.params.query)), Meteor.subscribe('userData')];
+    return [Meteor.subscribe('contracts', fn.buildQuery(this.params.query)), Meteor.subscribe('userData'), Meteor.subscribe('transactions')];
   },
   onBeforeAction() {
     if (this.params.feed === 'feed') {

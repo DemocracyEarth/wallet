@@ -87,7 +87,7 @@ Template.liquid.onCreated(function () {
   } else {
     Template.instance().contract = new ReactiveVar(Contracts.findOne({ _id: Session.get('contract')._id }));
   }
-  console.log('creating liquid');
+
   Template.instance().rightToVote = new ReactiveVar(getRightToVote(Template.instance().contract.get()));
 });
 
@@ -102,7 +102,6 @@ Template.liquid.onRendered(function render() {
   // real time update
   Tracker.autorun(() => {
     if (this.data.sourceId === Meteor.userId()) {
-      console.log('huh');
       const newWallet = new Vote(Meteor.user().profile.wallet, this.data.targetId, this.data._id);
       newWallet.resetSlider();
       Session.set(this.data._id, newWallet);
@@ -182,7 +181,6 @@ Template.liquid.onRendered(function render() {
             Session.set('noSelectedOption', this.newVote.voteId);
           }
         } else if (contractReady(this.newVote, Contracts.findOne({ _id: this.newVote.targetId })) || this.newVote.voteType === 'DELEGATION') {
-          console.log('contract yeah');
           clearPopups();
 
           // democracy wins

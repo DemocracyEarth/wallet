@@ -191,6 +191,8 @@ const _voteCount = (ticket, entityId) => {
 */
 const _getVotes = (contractId, userId) => {
   const transactions = _getTransactions(userId, contractId);
+  console.log(`contractId = ${contractId} & userId = ${userId}`);
+  console.log(transactions);
   if (transactions.length > 1) {
     return _.reduce(transactions, (memo, num, index) => {
       if (index === 1) {
@@ -428,6 +430,7 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
   if (_transactionMessage(process)) {
     // once transaction done, run callback
     if (callback !== undefined) { callback(); }
+    console.log(txId);
     return txId;
   }
   return null;
