@@ -424,26 +424,36 @@ const _removeFork = (contractId, forkId) => {
 * @return {boolean} true if ready, false if not
 */
 const _contractReady = (vote, contract) => {
+  console.log('contractready');
   if (Session.get('emptyBallot') && contract.ballotEnabled) {
+    console.log('a');
     return false;
   } else if (Session.get('unauthorizedFork') && contract.ballotEnabled) {
+    console.log('b');
     return false;
   } else if (Session.get('missingTitle')) {
+    console.log('c');
     return false;
   } else if (Session.get('mistypedTitle')) {
+    console.log('d');
     return false;
   } else if (Session.get('duplicateURL')) {
+    console.log('e');
     return false;
   } else if (Session.get('noVotes')) {
+    console.log('f');
     return false;
   } else if (Session.get('draftOptions') && contract.ballotEnabled) {
+    console.log('g');
     return false;
   } else if (!_getRightToVote(contract)) {
+    console.log('h');
     return false;
   }
   if (vote.voteType === 'VOTE') {
     if (contract.kind === 'VOTE' && contract.stage === 'LIVE') {
       if (!_ballotReady(contract._id)) {
+        console.log('i');
         return false;
       }
     }
@@ -451,6 +461,7 @@ const _contractReady = (vote, contract) => {
       if (Session.get('newVote').mode === 'PENDING' || Session.get('newVote').mode === undefined) {
         return true;
       }
+      console.log('j');
       return false;
     }
   }

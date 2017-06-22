@@ -468,7 +468,7 @@ export class Vote {
         return tx;
       };
     }
-
+    console.log('todo liso');
     if (this.requireConfirmation) {
       displayModal(
         true,
@@ -482,6 +482,7 @@ export class Vote {
           displayBallot: showBallot,
           ballot: finalBallot,
           profileId: delegateProfileId,
+          contract: target,
         },
         vote,
         callback

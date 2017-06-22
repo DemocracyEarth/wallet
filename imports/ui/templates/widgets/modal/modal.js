@@ -85,9 +85,12 @@ Template.modalWindow.helpers({
     }
     return false;
   },
+  contract() {
+    return Session.get('displayModal').contract;
+  },
   contractTitle() {
     if (Session.get('displayModal') !== undefined) {
-      return Session.get('contract').title;
+      return Session.get('displayModal').contract.title;
     }
     return '';
   },

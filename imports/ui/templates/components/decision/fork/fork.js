@@ -16,6 +16,8 @@ Template.fork.onCreated(() => {
     Template.instance().contract = new ReactiveVar(Contracts.findOne({ _id: Session.get('contract')._id }));
   }
 
+  console.log('fork');
+  console.log(Template.instance().contract.get());
   Template.instance().rightToVote = new ReactiveVar(getRightToVote(Template.instance().contract.get()));
   Template.instance().candidateBallot = new ReactiveVar(getBallot(Template.instance().contract.get()._id));
 });
