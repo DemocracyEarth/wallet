@@ -4,7 +4,7 @@ import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import { removeFork, updateBallotRank, addChoiceToBallot, candidateBallot } from '/imports/ui/modules/ballot';
+import { removeFork, updateBallotRank, addChoiceToBallot, candidateBallot, getBallot } from '/imports/ui/modules/ballot';
 import { displayTimedWarning } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
@@ -95,6 +95,7 @@ Template.ballot.onCreated(() => {
     Template.instance().contract = new ReactiveVar(Contracts.findOne({ _id: Session.get('contract')._id }));
   }
 
+  Template.instance().candidateBallot = new ReactiveVar(getBallot(Template.instance().contract.get()._id));
   Template.instance().dbContractBallot = new ReactiveVar();
   Template.instance().emptyBallot = new ReactiveVar();
   Template.instance().ballotReady = new ReactiveVar();
@@ -263,6 +264,9 @@ Template.ballot.helpers({
   },
   permanentElection() {
     return Template.instance().contract.get().permanentElection;
+  },
+  candidateBallot() {
+    return Template.instance().candidateBallot.get();
   },
 });
 

@@ -139,17 +139,17 @@ Template.fork.events({
         case 'LIVE':
         default:
           if (Template.instance().rightToVote.get()) {
-            if (Template.instance().candidateBallot.get().length === 0) {
+            if (Template.instance().candidateBallot.get() === undefined || Template.instance().candidateBallot.get().length === 0) {
               Template.instance().candidateBallot.set(candidateBallot(Meteor.userId(), Template.instance().contract.get()._id));
             }
             const previous = Template.instance().candidateBallot.get();
             const wallet = new Vote(Session.get(this.voteId), Session.get(this.voteId).targetId, this.voteId);
+            const template = Template.instance();
             wallet.inBallot = Session.get(this.voteId).inBallot;
             wallet.allocateQuantity = wallet.inBallot;
             wallet.allocatePercentage = parseFloat((wallet.inBallot * 100) / wallet.balance, 10).toFixed(2);
             const cancel = () => {
-              // Session.set('candidateBallot', previous);
-              Template.instance().candidateBallot.set(setBallot(Template.instance().contract.get()._id, previous));
+              template.candidateBallot.set(setBallot(template.contract.get()._id, previous));
             };
             this.tick = setVote(Template.instance().contract.get(), this);
             if (this.tick === true) {

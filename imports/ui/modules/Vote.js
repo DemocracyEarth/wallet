@@ -468,7 +468,7 @@ export class Vote {
         return tx;
       };
     }
-    console.log('todo liso');
+
     if (this.requireConfirmation) {
       displayModal(
         true,

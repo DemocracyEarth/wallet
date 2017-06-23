@@ -424,7 +424,6 @@ const _removeFork = (contractId, forkId) => {
 * @return {boolean} true if ready, false if not
 */
 const _contractReady = (vote, contract) => {
-  console.log('contractready');
   if (Session.get('emptyBallot') && contract.ballotEnabled) {
     console.log('a');
     return false;

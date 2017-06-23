@@ -9,7 +9,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
 import { displayModal } from '/imports/ui/modules/modal';
 import { Vote } from '/imports/ui/modules/Vote';
-import { contractReady, purgeBallot, candidateBallot, getRightToVote, getBallot } from '/imports/ui/modules/ballot';
+import { contractReady, purgeBallot, candidateBallot, getRightToVote, getBallot, setBallot } from '/imports/ui/modules/ballot';
 import { clearPopups } from '/imports/ui/modules/popup';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
@@ -89,6 +89,7 @@ Template.liquid.onCreated(function () {
   }
 
   Template.instance().rightToVote = new ReactiveVar(getRightToVote(Template.instance().contract.get()));
+  Template.instance().candidateBallot = new ReactiveVar(Template.currentData().candidateBallot);
 });
 
 Template.liquid.onRendered(function render() {
@@ -157,7 +158,8 @@ Template.liquid.onRendered(function render() {
           }, timers.LIQUID_CALIBRATION);
         } else {
           Meteor.clearTimeout(this.timer);
-        } */
+        }
+        */
         ui.position.left = 0;
       },
       stop(event, ui) {
@@ -166,7 +168,7 @@ Template.liquid.onRendered(function render() {
 
         const cancel = () => {
           if (this.newVote.inBallot === 0 && this.newVote.voteType === 'VOTE') {
-            Session.set('candidateBallot', undefined);
+            setBallot(this.newVote.targetId, undefined);
           }
           Session.set('dragging', false);
           this.newVote.resetSlider();
