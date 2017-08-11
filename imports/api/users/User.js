@@ -203,7 +203,7 @@ export const User = Schema.User;
 /*
 *  FIX: temporary workaround
 *  TBD: apply security best practices
-*  All to methods, validate paramenters
+*  All to methods, validate parameters
 */
 //permissions
 Meteor.users.allow({
