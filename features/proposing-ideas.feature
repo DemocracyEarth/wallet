@@ -17,11 +17,11 @@ Feature: Proposing ideas
 #      And I should see the form to propose an idea
 
 #      The id is "titleContent" WTF?!
-     When I fill the idea title with "Require libre software in all governmental endeavours."
+     When I set the idea title to "Require libre software in all governmental endeavours."
 
 
 #      The id is "editor" WTF!!!
-      And I fill the idea description with "Otherwise, I will draw my katanas."
+      And I set the idea description to "Otherwise, I will draw my katanas."
 
       And I pause for 10s
 

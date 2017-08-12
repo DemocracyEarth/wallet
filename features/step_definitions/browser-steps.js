@@ -1,12 +1,11 @@
 
-import { log, fail, getServer } from './support/utils';
+import { log, fail, getServer, camelCase } from './support/utils';
 import { visit, getBrowser } from './support/browser';
 
 const findOneDomElement  = (name) => {
+    name = camelCase(name);
+
     let element = null;
-
-    // todo : if name has spaces in it, make it camelCase or snake_case or union-case
-
     const elementsById = getBrowser().elements(`#${name}`).value;
     if (elementsById.length > 0) {
         if (elementsById.length > 1) { fail(`There is more than one DOM element with the id '${name}'.`) }
@@ -15,6 +14,8 @@ const findOneDomElement  = (name) => {
 
     return element;
 };
+
+
 
 export default function () {
 
@@ -30,10 +31,10 @@ export default function () {
         getBrowser().pause(parseFloat(seconds) * 1000);
     });
 
-    this.When(/^I fill the (.+) with "(.*)"$/, (elementQuery, content) => {
+    this.When(/^I (?:fill|set) the (.+) (?:with|to) "(.*)"$/, (elementQuery, content) => {
         let element = findOneDomElement(elementQuery);
 
-        if ( ! element) { fail(`Could not find any editable DOM element for query '${name}'.`); }
+        if ( ! element) { fail(`Could not find any editable DOM element for query '${elementQuery}'.`); }
 
         if (element.getAttribute("contenteditable")) {
             element.click();
