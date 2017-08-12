@@ -130,26 +130,22 @@ Template.agreement.helpers({
     }
   },
   emptyDescription: function () {
-    if (Session.get('contract').description == "") {
-      return true;
-    } else {
-      return false;
-    }
+    return '' == Session.get('contract').description;
   }
 });
 
 Template.agreement.events({
   "focus #editor": function (event) {
     if (Session.get('missingDescription')) {
-      document.getElementById("editor").innerText = '';
+      document.getElementById('editor').innerText = '';
       Session.set('missingDescription',false);
     }
   },
   "blur #editor": function (event) {
-    var content = stripHTMLfromText(document.getElementById("editor").innerHTML);
+    const content = stripHTMLfromText(document.getElementById('editor').innerHTML);
     if (content.length <= 1) {
       Session.set('missingDescription',true);
-      document.getElementById("editor").innerText = TAPi18n.__('placeholder-editor');
+      document.getElementById('editor').innerText = TAPi18n.__('placeholder-editor');
     }
   }
 });
