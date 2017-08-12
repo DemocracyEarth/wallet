@@ -1,6 +1,6 @@
 import { CONSOLE_INDENT as INDENT } from './constants';
 
-const util = require('util'); // fixme: this is creating a warning, no idea how to solve it properly
+const util = require('util');
 
 /**
  * We queue in here the logs for each step, and display them all in one go once the step has completed.

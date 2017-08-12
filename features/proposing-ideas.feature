@@ -13,16 +13,17 @@ Feature: Proposing ideas
       And I trigger the floating action button
      Then I should be on the page to propose an idea
 
-#      Wow. There is no form in the page. Since when did we stop using forms ? I'm confused. WTF?
+#      Note: There is no actual form in the page, just a bunch of contenteditable divs
 #      And I should see the form to propose an idea
 
 #      The id is "titleContent" WTF?!
-#     When I fill the title with "Require libre software in all governmental endeavours."
+     When I fill the idea title with "Require libre software in all governmental endeavours."
+
 
 #      The id is "editor" WTF!!!
-#      And I fill the description with "Otherwise, I will draw my katanas."
+      And I fill the idea description with "Otherwise, I will draw my katanas."
 
-
+      And I pause for 10s
 
 #      And I add the tag Transparency
 #      And I sign the idea
