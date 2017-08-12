@@ -25,7 +25,7 @@ Template.title.rendered = function rendered() {
   //TODO: figure out how to make tab work properly on first try.
 
   //tab focus next object
-  $('#titleContent').on('focus', function(e){
+  $('#ideaTitle').on('focus', function(e){
     $(window).keyup(function (e) {
       const code = (e.keyCode ? e.keyCode : e.which);
       if (code === 9) {
@@ -35,10 +35,10 @@ Template.title.rendered = function rendered() {
   });
 
   // paste
-  document.getElementById('titleContent').addEventListener('paste', function (e) {
+  document.getElementById('ideaTitle').addEventListener('paste', function (e) {
     e.preventDefault();
     const text = stripHTMLfromText(e.clipboardData.getData('text/plain'));
-    const newtitle = $('#titleContent')[0].innerText;
+    const newtitle = $('#ideaTitle')[0].innerText;
     const delta = parseInt(rules.TITLE_MAX_LENGTH - newtitle.length);
     if (delta > 0) {
       document.execCommand('insertHTML', false, text);
@@ -58,8 +58,7 @@ Template.titleContent.helpers({
     return getTitle();
   },
   editable() {
-    const html = `<div id='titleContent' contenteditable='true' tabindex=0> ${this.toString()} </div>`;
-    return html;
+    return `<div id='ideaTitle' contenteditable='true' tabindex=0> ${this.toString()} </div>`;
   },
 });
 
@@ -90,7 +89,7 @@ Template.title.helpers({
     if (Session.get('missingTitle')) {
       Session.set('URLStatus', 'UNAVAILABLE');
     }
-    if ($('#titleContent').is(":focus")) {
+    if ($('#ideaTitle').is(":focus")) {
       Session.set('URLStatus', 'NONE');
     }
     if (!Session.get('firstEditorLoad')) {
@@ -111,7 +110,7 @@ Template.title.helpers({
   },
   timestamp() {
     if (Session.get('contract')) {
-      var d = new Date;
+      let d = new Date;
       if (Session.get('contract').timestamp != undefined) {
         d = Session.get('contract').timestamp;
         return d.format('{Month} {d}, {yyyy}');
@@ -137,8 +136,8 @@ Template.title.helpers({
 
 
 Template.titleContent.events({
-  'input #titleContent'(event) {
-    const content = document.getElementById('titleContent').innerText;// jQuery($("#titleContent").html()).text();
+  'input #ideaTitle'(event) {
+    const content = document.getElementById('ideaTitle').innerText;// jQuery($("#ideaTitle").html()).text();
     const keyword = convertToSlug(content);
     const contract = Contracts.findOne({ keyword: keyword });
 
@@ -148,10 +147,10 @@ Template.titleContent.events({
     Session.set('URLStatus', 'VERIFY');
 
     if (Session.get('firstEditorLoad')) {
-      const currentTitle = document.getElementById('titleContent').innerText;
+      const currentTitle = document.getElementById('ideaTitle').innerText;
       const newTitle = currentTitle.replace(TAPi18n.__('no-title'), '');
-      document.getElementById('titleContent').innerText = newTitle;
-      placeCaretAtEnd(document.getElementById('titleContent'));
+      document.getElementById('ideaTitle').innerText = newTitle;
+      placeCaretAtEnd(document.getElementById('ideaTitle'));
       Session.set('firstEditorLoad', false);
     }
 
@@ -185,21 +184,21 @@ Template.titleContent.events({
       }
     }, timers.SERVER_INTERVAL);
   },
-  'keypress #titleContent'(event) {
-    const content = document.getElementById('titleContent').innerText;
+  'keypress #ideaTitle'(event) {
+    const content = document.getElementById('ideaTitle').innerText;
     return (content.length <= rules.TITLE_MAX_LENGTH) && event.which !== 13 && event.which !== 9;
   },
-  'focus #titleContent'(event) {
+  'focus #ideaTitle'(event) {
     if (Session.get('missingTitle')) {
-      document.getElementById('titleContent').innerText = '';
+      document.getElementById('ideaTitle').innerText = '';
       Session.set('missingTitle', false);
     }
   },
-  'blur #titleContent'(event) {
-    const content = document.getElementById('titleContent').innerText;
+  'blur #ideaTitle'(event) {
+    const content = document.getElementById('ideaTitle').innerText;
     if (content === '' || content === ' ') {
       Session.set('missingTitle', true);
-      document.getElementById('titleContent').innerText = TAPi18n.__('no-title');
+      document.getElementById('ideaTitle').innerText = TAPi18n.__('no-title');
     }
   }
 });

@@ -4,13 +4,13 @@ import { placeCaretAtStart, placeCaretAtEnd } from '../../startup/both/modules/u
 import { verifyDraftFork } from './ballot';
 
 const startEditor = () => {
-  var titleContent = document.getElementById('titleContent');
-  var editor = document.getElementById('editor');
+  const ideaTitle = document.getElementById('ideaTitle');
+  const editor = document.getElementById('editor');
 
   if (Session.get('contract')) {
     //Place caret in right place
     if (Session.get('contract').stage === 'DRAFT') {
-      titleContent.focus();
+      ideaTitle.focus();
       Session.set('userSigned', false);
       Session.set('dbContractBallot', undefined);
       Session.set('emptyBallot', false);
@@ -18,16 +18,16 @@ const startEditor = () => {
 
       //Empty new document
       if (Session.get('contract').title == '') {
-        titleContent.innerHTML = TAPi18n.__('no-title');
+        ideaTitle.innerHTML = TAPi18n.__('no-title');
         Session.set('missingTitle', true);
         Session.set('firstEditorLoad', true);
         Session.set('disableActionButton', true);
-        placeCaretAtStart(titleContent);
+        placeCaretAtStart(ideaTitle);
 
       //Open existing document
       } else {
         Session.set('firstEditorLoad', false);
-        placeCaretAtEnd(titleContent);
+        placeCaretAtEnd(ideaTitle);
       }
 
     }
