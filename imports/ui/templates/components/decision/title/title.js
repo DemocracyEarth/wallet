@@ -29,7 +29,7 @@ Template.title.rendered = function rendered() {
     $(window).keyup(function (e) {
       const code = (e.keyCode ? e.keyCode : e.which);
       if (code === 9) {
-        $('#editor').focus();
+        $('#ideaDescription').focus();
       }
     });
   });

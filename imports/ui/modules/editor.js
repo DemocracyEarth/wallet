@@ -5,7 +5,7 @@ import { verifyDraftFork } from './ballot';
 
 const startEditor = () => {
   const ideaTitle = document.getElementById('ideaTitle');
-  const editor = document.getElementById('editor');
+  const editor = document.getElementById('ideaDescription');
 
   if (Session.get('contract')) {
     //Place caret in right place

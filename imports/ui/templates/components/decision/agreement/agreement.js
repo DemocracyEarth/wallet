@@ -17,7 +17,7 @@ Template.agreement.rendered = function rendered() {
   if (!Session.get('contract')) { return; }
 
   if (Session.get('contract').stage == 'DRAFT' && Session.get('contract').kind == 'VOTE') {
-    var editor = new MediumEditor('#editor', {
+    var editor = new MediumEditor('#ideaDescription', {
       /* These are the default options for the editor,
           if nothing is passed this is what is used */
       activeButtonClass: 'medium-editor-button-active',
@@ -83,7 +83,7 @@ Template.agreement.rendered = function rendered() {
       Meteor.clearTimeout(typingTimer);
       typingTimer = Meteor.setTimeout(function () {
         if (Session.get('missingDescription') == false) {
-          saveDescription(document.getElementById('editor').innerHTML);
+          saveDescription(document.getElementById('ideaDescription').innerHTML);
         } else {
           saveDescription('');
         }
@@ -130,22 +130,26 @@ Template.agreement.helpers({
     }
   },
   emptyDescription: function () {
-    return '' == Session.get('contract').description;
+    if (Session.get('contract').description == "") {
+      return true;
+    } else {
+      return false;
+    }
   }
 });
 
 Template.agreement.events({
-  "focus #editor": function (event) {
+  "focus #ideaDescription": function (event) {
     if (Session.get('missingDescription')) {
-      document.getElementById('editor').innerText = '';
+      document.getElementById('ideaDescription').innerText = '';
       Session.set('missingDescription',false);
     }
   },
-  "blur #editor": function (event) {
-    const content = stripHTMLfromText(document.getElementById('editor').innerHTML);
+  "blur #ideaDescription": function (event) {
+    const content = stripHTMLfromText(document.getElementById('ideaDescription').innerHTML);
     if (content.length <= 1) {
       Session.set('missingDescription',true);
-      document.getElementById('editor').innerText = TAPi18n.__('placeholder-editor');
+      document.getElementById('ideaDescription').innerText = TAPi18n.__('placeholder-editor');
     }
   }
 });
