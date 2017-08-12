@@ -14,7 +14,7 @@ import { getBrowser } from './support/browser';
 export default function () {
 
     this.Given(/^I am the citizen named (.+)$/, (name) => {
-        log(`Creating citizen '${name}'.`);
+        log(`Creating citizen '${name}'…`);
 
         const server = getServer(),
               browser = getBrowser();
@@ -33,8 +33,8 @@ export default function () {
 
         if ( ! user) { fail('No user was returned after user creation.'); }
 
+        log(`Logging in as '${name}'…`);
         fixtures.users.login(user.emails[0].address, name);
-
     });
 
     this.Given(/^there is a tag titled (.+)$/, (title) => {
