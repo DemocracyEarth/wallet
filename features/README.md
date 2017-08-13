@@ -25,6 +25,7 @@ Then, in another terminal, run :
 ## Assert
 
 Assertions are done using [Chai](http://chaijs.com/).
+Basically we're throwing errors when something goes awry or against expectations.
 
 
 ## Pitfalls
@@ -32,3 +33,14 @@ Assertions are done using [Chai](http://chaijs.com/).
 ### Cannot find module 'chai-string'
 
     $ npm install --save-dev chai-string
+
+### Access Meteor from a step definition
+
+Tests that run in the Chimp context do not run in Meteor,
+they run outside Meteor and talk to the app, from a completely different node.js process.
+Hence, the following imports won't work but you can still access them in `server.execute()` :
+
+    import { Meteor } from 'meteor/meteor';
+    import { Tags } from '/imports/api/tags/Tags';
+
+See `setup-steps.js` for an example.
