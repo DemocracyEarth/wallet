@@ -15,12 +15,7 @@ export default function () {
 
     this.Given(/^I am the citizen named (.+)$/, (name) => {
         log(`Creating citizen '${name}'…`);
-
-        const server = getServer(),
-              browser = getBrowser();
-
-        // Implicitly (but synchronously!) create a citizen
-        const user = server.execute((name) => {
+        const user = getServer().execute((name) => {
             const slug = require('/lib/utils').convertToSlug(name);
             return Meteor.users.findOne(Accounts.createUser({
                 email: slug+'@democracy.earth',

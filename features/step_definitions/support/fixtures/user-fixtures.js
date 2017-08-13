@@ -1,11 +1,10 @@
-import { getServer } from '../utils';
 import { getBrowser } from '../browser';
 
 
 
 fixtures.users = {
 
-    // create() { // fixme
+    // create() {
     //     server.execute(() => {
     //         const email = 'test@example.com';
     //         const password = 'jkjkjkjk';

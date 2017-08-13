@@ -1,7 +1,7 @@
 
 
 // Scheme and authority of the URL of the website we're testing.
-let baseUrl = "http://localhost:3000"; // not the best design, this.
+let baseUrl = "http://localhost:3000"; // would be best to grab the --ddp parameter. How?
 
 
 /**
