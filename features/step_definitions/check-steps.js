@@ -1,6 +1,5 @@
 
-import { log, fail, getServer } from './support/utils';
-import { getBrowser, getRoute } from './support/browser';
+import { log, fail, getServer, getRoute } from './support/utils';
 
 export default function () {
 

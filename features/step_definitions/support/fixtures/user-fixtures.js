@@ -1,4 +1,4 @@
-import { getBrowser } from '../browser';
+import { getBrowser, getServer } from '../utils';
 
 
 
@@ -26,7 +26,7 @@ fixtures.users = {
     // },
 
     serverLogin(email, password) {
-        server.call('login', { user: { email: email }, password: password });
+        getServer().call('login', { user: { email: email }, password: password });
     },
 
     clientLogin(email, password) {

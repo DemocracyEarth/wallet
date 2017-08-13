@@ -1,4 +1,4 @@
-import { getBrowser } from '../browser';
+import { getBrowser } from '../utils';
 
 function FabWidget() {
     const selectors = {

@@ -1,5 +1,4 @@
-import { getBrowser, visit } from '../browser';
-import { getServer } from '../utils';
+import { getServer, getBrowser, visit } from '../utils';
 
 
 fixtures.common = {

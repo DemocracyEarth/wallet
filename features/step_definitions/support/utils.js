@@ -1,6 +1,5 @@
-import { CONSOLE_INDENT as INDENT } from './constants';
+import {CONSOLE_INDENT as INDENT} from './constants';
 
-const util = require('util');
 
 /**
  * We queue in here the logs for each step, and display them all in one go once the step has completed.
@@ -8,6 +7,7 @@ const util = require('util');
  * @type {Array}
  */
 export const logs = [];
+
 
 /**
  * Log the arguments to the console, in the fashion of console.log,
@@ -19,7 +19,7 @@ export const logs = [];
  * This is completed by an AfterStep hook defined in `../hooks`.
  */
 export const log = (...args) => {
-    logs.push(indent_console_output(args));
+  logs.push(indent_console_output(args));
 };
 
 
@@ -28,7 +28,7 @@ export const log = (...args) => {
  * @param message
  */
 export const fail = (message) => {
-    throw new Error(message);
+  throw new Error(message);
 };
 
 
@@ -37,25 +37,71 @@ export const fail = (message) => {
  * @returns object
  */
 export const getServer = () => {
-    if (server) return server;
-    throw new Error('Server is unavailable. Run chimp with the --ddp option.');
+  if (server) return server;
+  throw new Error('Server is unavailable. Run chimp with the --ddp option.');
 };
 
+
+/**
+ * Get the current browser and fail when not available.
+ * @see http://webdriver.io/api.html for what the browser can do
+ * @returns object
+ */
+export const getBrowser = () => {
+  if ( ! browser) throw new Error('Browser is unavailable, for some reason.');
+
+  if (browser.getUrl() == 'data:,') {
+    browser.url(getBaseUrl()); // make sure Meteor and consorts are defined
+  }
+
+  return browser;
+};
+
+
+/**
+ * Scheme and authority of the URL of the website we're testing.
+ * @returns {string} Usually 'http://localhost:3000'.
+ */
+export const getBaseUrl = () => {
+  const ddp = server._original;
+  const protocol = 'http' + (ddp.ssl ? 's' : '');
+  return `${protocol}://${ddp.host}` + (ddp.port ? `:${ddp.port}` : '');
+};
+
+
+/**
+ * Get the current browser's current route, which is the URL's path + query + fragment.
+ * @returns string
+ */
+export const getRoute = () => {
+  return getBrowser().getUrl().substring(getBaseUrl().length);
+};
+
+
+/**
+ * Send the current browser to the provided route, which is the URL's path + query + fragment.
+ * @param route
+ */
+export const visit = (route) => {
+  browser.url(`${getBaseUrl()}${route}`);
+};
+
+
+//// STRING UTILS //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const capitalize = str => str.charAt(0).toUpperCase() + str.toLowerCase().slice(1);
 
 
 export const camelCase = str => {
   let string = str.toLowerCase().replace(/[^A-Za-z0-9]/g, ' ').split(' ')
-                  .reduce((result, word) => result + capitalize(word.toLowerCase()));
+      .reduce((result, word) => result + capitalize(word.toLowerCase()));
   return string.charAt(0).toLowerCase() + string.slice(1)
 };
 
 
-
 //// PRIVATE ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const indent_console_output = (args) => INDENT + args.map(e => stringify(e)).join(' ').replace(/\n/g, '\n'+INDENT);
+const indent_console_output = (args) => INDENT + args.map(e => stringify(e)).join(' ').replace(/\n/g, '\n' + INDENT);
 
 /**
  * Stringify the provided thing in the fashion of console.log
@@ -69,18 +115,20 @@ const indent_console_output = (args) => INDENT + args.map(e => stringify(e)).joi
  * @returns string
  */
 const stringify = (thing) => {
-    switch (typeof thing) {
-        case 'string':
-            return thing; // just like console.log, don't write quotes
-        case 'object':
-        case 'array':
-            try {
-                return JSON.stringify(thing, null, '\t');
-            } catch (e) {
-                if (e instanceof TypeError) return util.inspect(thing);
-                throw e;
-            }
-        default:
-            return String(thing);
-    }
+  switch (typeof thing) {
+    case 'string':
+      return thing; // just like console.log, don't write quotes
+    case 'object':
+    case 'array':
+      try {
+        return JSON.stringify(thing, null, '\t');
+      } catch (e) {
+        if (e instanceof TypeError) {
+          return require('util').inspect(thing);
+        }
+        throw e;
+      }
+    default:
+      return String(thing);
+  }
 };

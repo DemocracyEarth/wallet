@@ -1,5 +1,4 @@
-import {log, fail, getServer, camelCase} from './support/utils';
-import {visit, getBrowser} from './support/browser';
+import {log, fail, visit, getBrowser, getServer, camelCase} from './support/utils';
 
 const findOneDomElement = (name) => {
   name = camelCase(name);
