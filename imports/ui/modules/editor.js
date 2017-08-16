@@ -4,7 +4,7 @@ import { placeCaretAtStart, placeCaretAtEnd } from '../../startup/both/modules/u
 import { verifyDraftFork } from './ballot';
 
 const startEditor = () => {
-  const titleContent = document.getElementById('ideaTitle');
+  const titleContent = document.getElementById('titleContent');
 
   if (Session.get('contract')) {
     // place caret in right place

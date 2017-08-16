@@ -29,6 +29,7 @@
             <div class="paper paper-editor {{ballotToggle}}">
               {{> ballot editorMode=true}}
             </div>
+            <!-- what's the purpose of a second check (always true) ? -->
             {{#unless isPhone}}
               <div class="paper paper-execute">
                 {{> action label='launch-vote' enabled=true}}
