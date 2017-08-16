@@ -10,10 +10,26 @@ import {log, fail, visit, getBrowser, getServer, camelCase} from './support/util
  */
 const findOneDomElement = (query) => {
   const elements = getBrowser().elements(`${query}`).value;
-  if (elements.length == 0) { fail(`No DOM element matching '${query}'.`) }
-  if (elements.length >= 2) { fail(`There is more than one DOM element matching '${query}'.`) }
+  if (elements.length == 0) { fail(`No DOM element matching '${query}'.`); }
+  if (elements.length >= 2) { fail(`There is more than one DOM element matching '${query}'.`); }
 
   return elements[0];
+};
+
+
+const findByIdOrClass = (name) => {
+  const ids = getBrowser().elements(`#${name}`).value;
+  if      (ids.length == 1) { return ids[0]; }
+  else if (ids.length >= 2) { fail(`There is more than one DOM element matching '#${name}'.`); }
+  else if (ids.length == 0) {
+    const classes = getBrowser().elements(`.${name}`).value;
+    if      (classes.length == 1) { return classes[0]; }
+    else if (classes.length >= 2) { fail(`There is more than one DOM element matching '.${name}'.`); }
+    else if (classes.length == 0) { fail(`No DOM element matching '#${name}' or '.${name}'.`); }
+    else { fail("Negative length. Bring the flamethrower!"); }
+  }
+  else { fail("Negative length. Bring the flamethrower!"); }
+  fail("I am a teapot.");
 };
 
 
@@ -63,7 +79,7 @@ export default function () {
   });
 
   this.When(/^I (?:fill|set) the (.+) (?:with|to) "(.*)"$/, (elementQuery, content) => {
-    let element = findOneDomElement('#'+camelCase(elementQuery));
+    let element = findByIdOrClass(camelCase(elementQuery));
     if ( ! element) { fail(`Could not find any editable DOM element for query '${elementQuery}'.`); }
 
     if (element.getAttribute('contenteditable') || hasClass(element, 'editable')) {
@@ -75,15 +91,13 @@ export default function () {
   });
 
   this.When(/^I add the tag (.+)$/, (tagTitle) => {
-    // There has got to be a general way to create local functions wrapping a call on the server... Spread operator ?
-    const tagSlug = getServer().execute((name) => {
-      return require('/lib/utils').convertToSlug(name);
-    }, tagTitle);
+    // There has got to be a generic way to create local functions wrapping a call on the server... Spread operator ?
+    const tagSlug = getServer().execute((title) => { return require('/lib/utils').convertToSlug(title); }, tagTitle);
     clickOnElement(`#add-suggested-tag-${tagSlug}`);
   });
 
-  this.When(/^I sign the idea$/, () => {
-    clickOnElement('#sign-author');
+  this.When(/^I remove my signature$/, () => {
+    clickOnElement('#removeSignature');
     widgets.modal.confirm();
   });
 

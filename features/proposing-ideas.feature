@@ -17,7 +17,6 @@ Feature: Proposing ideas
       And I set the idea description to "Trusting closed software is a loss of sovereignty."
       And I add the tag Transparency
       And I add the tag Sovereignty
-      And I sign the idea
       And I submit the idea
      Then there should be an idea titled "Require libre software in all governmental endeavours."
 
