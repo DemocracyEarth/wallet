@@ -118,17 +118,6 @@ Template.titleContent.helpers({
   declaration() {
     return getTitle(this);
   },
-  editable() {
-    let html;
-    let viewportHeight;
-    if (Meteor.Device.isPhone()) {
-      viewportHeight = 300; // Session.get('editorViewportHeight');
-      html = `<div id='titleContent' contenteditable='true' style='min-height: ${viewportHeight}px' tabindex=0> ${this.toString()} </div>`;
-    } else {
-      html = `<div id='titleContent' contenteditable='true' tabindex=0> ${this.toString()} </div>`;
-    }
-    return html;
-  },
   viewport() {
     return Session.get('editorViewportHeight');
   },
