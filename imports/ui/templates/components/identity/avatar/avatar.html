@@ -1,7 +1,7 @@
 <template name="avatar">
   <div class="w-clearfix avatar-editor">
     {{#if editor}}
-      <img src="{{profilePicture}}" class="symbol profile-pic profile-pic-edit">
+      <img src="{{profilePicture}}" class="symbol profile-pic profile-pic-edit" ontouchstart="">
       <div class="avatar-description">
         <div class="login-label">{{_ 'profile-picture'}}</div>
       </div>
@@ -16,14 +16,14 @@
       </form>
     {{else}}
       {{#if editable}}
-        <div id="toggleEditor" class="symbol profile-pic profile-edit">
+        <div id="toggleEditor" class="symbol profile-pic profile-edit" ontouchstart="">
           <div class="label">{{_ 'edit'}}</div>
         </div>
       {{/if}}
       {{#if profile}}
-        <img id="{{elementId}}" src="{{profilePicture profile}}" class="symbol profile-pic {{classStyle smallFont}} {{pending}}" style="{{pictureSize size includeName}}">
+        <img id="{{elementId}}" src="{{profilePicture profile}}" class="symbol profile-pic {{classStyle smallFont}} {{pending}}" style="{{pictureSize size includeName}}" ontouchstart="">
       {{else}}
-        <img src="{{profilePicture}}" class="symbol profile-pic {{classStyle smallFont}}" style="{{pictureSize size includeName}}">
+        <img id='avatar-pic-{{elementId}}' src="{{profilePicture}}" class="symbol profile-pic {{classStyle smallFont}}" style="{{pictureSize size includeName}}" ontouchstart="">
       {{/if}}
       <div class="identity-peer {{classStyle smallFont}} {{pending}}">
         {{#if verifiedIdentity}}
@@ -34,11 +34,16 @@
         {{#if includeName}}
           {{#if smallFont}}
             <a href="{{url}}" class="identity-label identity-label-small">{{fullName profile}}</a>
+            {{#if includeNation}}
+              {{flag profile}}
+            {{/if}}
           {{else}}
             <a href="{{url}}" class="identity-label">{{fullName profile}}</a>
           {{/if}}
           {{#if includeNation}}
-            <div class="identity-nation">{{nationality profile}}</div>
+            {{#unless smallFont}}
+              <div class="identity-nation">{{nationality profile}}</div>
+            {{/unless}}
           {{/if}}
         {{/if}}
       </div>
@@ -47,7 +52,9 @@
           {{{roleStatus}}}
           {{#if allowRemove}}
             {{#if myself}}
-              <div id="removeSignature" title="{{_ 'remove-signature-tooltip'}}" class="signature-remove"></div>
+              {{#unless isPhone}}
+                <div id="removeSignature" title="{{_ 'remove-signature-tooltip'}}" class="signature-remove"></div>
+              {{/unless}}
             {{/if}}
           {{/if}}
         </div>

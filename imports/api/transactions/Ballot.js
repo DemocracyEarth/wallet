@@ -1,25 +1,36 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 const Schema = {};
+
 Schema.Ballot = new SimpleSchema({
   _id: {
-    type: String
+    type: String,
+    optional: true,
   },
   mode: {
-    type: String
+    type: String,
+    optional: true,
   },
   rank: {
     type: Number,
-    optional: true
+    optional: true,
   },
   url: {
     type: String,
-    optional: true
+    optional: true,
   },
   label: {
     type: String,
-    optional: true
-  }
+    optional: true,
+  },
+  executive: {
+    type: Boolean,
+    optional: true,
+  },
+  tick: {
+    type: Boolean,
+    optional: true,
+  },
 });
 
 export const Ballot = Schema.Ballot;

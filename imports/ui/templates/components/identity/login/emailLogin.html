@@ -1,44 +1,5 @@
 <template name="emailLogin">
-  {{#if loginScreen}}
-    <div class="login">
-      {{#if passwordKnown}}
-        <div class="w-form">
-          <form id="email-signin-form" name="email-form-3" data-name="Email Form 3">
-            <div class="w-clearfix login-field">
-              <label for="name" class="login-label login-label-form">{{_ "email-username"}}</label>
-              <img src="{{pathFor route='home'}}images/mail-closed.png" class="login-icon">
-              <input id="signin-email" type="text" placeholder="{{_ 'email-sample'}}" class="w-input login-input">
-              {{#if invalidEmail}}
-                {{> warning label="invalid-email"}}
-              {{/if}}
-            </div>
-            <div class="w-clearfix login-field">
-              <label for="name" class="login-label login-label-form">{{_ "password"}}</label>
-              <img src="{{pathFor route='home'}}images/lock.png" class="login-icon">
-              <input id="signin-password" type="password" placeholder="{{_ 'password-sample'}}" class="w-input login-input">
-            </div>
-            {{#if incorrectUser}}
-              <div class="extra section">
-                {{> warning label="user-not-found"}}
-              </div>
-            {{/if}}
-            <div id="signin-button" class="button login-button">
-              <div>{{_ 'sign-in'}}</div>
-            </div>
-          </form>
-        </div>
-        <div>
-          <a id='forgot-pw'>{{_ "forgot-password"}}</a>
-        </div>
-      {{else}}
-        {{> forgotPassword}}
-      {{/if}}
-      <div>{{_ "dont-have-account"}} <a id='signup'>{{_ "sign-up"}}</a>.</div>
-
-      {{> socialMediaLogin}}
-
-    </div>
-  {{else}}
-    {{> signup}}
-  {{/if}}
+  <div>
+    {{> React component=EmailLogin}}
+  </div>
 </template>

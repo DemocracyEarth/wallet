@@ -135,14 +135,20 @@ Meteor.methods({
   },
 
   getUserList: function (array) {
-    var userList = new Array();
-    var user = new String();
+    const userList = [];
+    let user = '';
 
     for (i in array) {
       user = Meteor.users.findOne({ _id: array[i] });
+      let labelUser;
+      if (user.profile && user.profile.firstName && user.profile.lastName) {
+        labelUser = showFullName(user.profile.firstName, user.profile.lastName);
+      } else {
+        labelUser = user.username;
+      }
       userList.push({
         id: user._id,
-        label: showFullName(user.profile.firstName, user.profile.lastName),
+        label: labelUser,
         icon: user.profile.picture,
         iconActivated: false,
         feed: 'user',

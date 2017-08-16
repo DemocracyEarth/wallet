@@ -6,11 +6,6 @@
      }
    },
 
-   "kadira": {
-     "appId": "",
-     "appSecret": ""
-   },
-
   "AWSAccessKeyId": "",
   "AWSSecretAccessKey": "",
   "smtpServer": "",
@@ -36,13 +31,6 @@
   "public": {
     "AWSHostingURL": "",
 
-    "analyticsSettings": {
-      "Google Analytics" :
-        {
-          "trackingId": ""
-        }
-    },
-
     "app": {
 
       "name": "Sovereign",
@@ -55,7 +43,8 @@
           "blockchainLogin": false,
           "commentRanking": true,
           "proposalDrafting": true,
-          "appCache": false
+          "appCache": false,
+          "mailNotifications": false
         }
     },
 

@@ -26,7 +26,7 @@ Template.load.rendered = function () {
   };
 
   const target = document.getElementById('spinner')
-  if (typeof Spinner != 'undefined') {
+  if (typeof Spinner !== 'undefined') {
     let spinner = new Spinner(opts).spin(target);
   }
-}
+};

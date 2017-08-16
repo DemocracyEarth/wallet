@@ -23,8 +23,8 @@ Router.configure({
   notFoundTemplate: 'notFound',
 });
 
-/*
-* home route
+/**
+* @summary home route
 */
 Router.route('/', {
   name: 'home',
@@ -32,14 +32,14 @@ Router.route('/', {
   waitOn() {
     // Feed data will come from here:
     if (Meteor.settings.public.Collective) {
-      return [Meteor.subscribe('contracts', { collectiveId: Meteor.settings.public.Collective._id }), Meteor.subscribe('userData')];
+      return [Meteor.subscribe('contracts', { collectiveId: Meteor.settings.public.Collective._id }), Meteor.subscribe('userData'), Meteor.subscribe('transactions')];
     }
     return null;
   },
   onBeforeAction() {
     if (Meteor.settings.public.Collective) {
       fn.clearSessionVars();
-      fn.configNavbar(Meteor.settings.public.Collective.name);
+      fn.configNavbar(Meteor.settings.public.Collective.name, '/');
       fn.setSessionVars();
       Session.set('feed', Contracts.find({ collectiveId: Session.get('collectiveId'), stage: 'LIVE', kind: 'VOTE', executionStatus: 'OPEN' }, { sort: { timestamp: -1 } }).fetch());
     }
@@ -58,12 +58,12 @@ Router.route('/:feed', {
   name: 'homeFeed',
   template: 'home',
   waitOn() {
-    return [Meteor.subscribe('contracts', fn.buildQuery(this.params.query)), Meteor.subscribe('userData')];
+    return [Meteor.subscribe('contracts', fn.buildQuery(this.params.query)), Meteor.subscribe('userData'), Meteor.subscribe('transactions')];
   },
   onBeforeAction() {
     if (this.params.feed === 'feed') {
       fn.clearSessionVars();
-      fn.configNavbar(fn.buildTitle(this.params.query));
+      fn.configNavbar(fn.buildTitle(this.params.query), '/');
       fn.setSessionVars(this.params);
       Session.set('feed', Contracts.find(fn.buildQuery(this.params.query), { sort: { timestamp: -1 } }).fetch());
       this.next();
@@ -87,7 +87,7 @@ Router.route('/tag/:tag', {
   },
   onBeforeAction() {
     fn.clearSessionVars();
-    fn.configNavbar(fn.buildTitle(this.params));
+    fn.configNavbar(fn.buildTitle(this.params), '/tag');
     fn.setSessionVars();
     Session.set('feed', Contracts.find(fn.buildQuery(this.params), { sort: { timestamp: -1 } }).fetch());
     this.next();
@@ -108,7 +108,7 @@ Router.route('/peer/:username', {
   },
   onBeforeAction() {
     fn.clearSessionVars();
-    fn.configNavbar(fn.buildTitle(this.params));
+    fn.configNavbar(fn.buildTitle(this.params), '/peer');
     fn.setSessionVars();
     Session.set('feed', Contracts.find(fn.buildQuery(this.params), { sort: { timestamp: -1 } }).fetch());
     this.next();
@@ -119,9 +119,9 @@ Router.route('/peer/:username', {
 });
 
 
-/*
-* loads a contract meant for voting either to edit or vote.
-****/
+/**
+* @summary loads a contract meant for voting either to edit or vote.
+*/
 Router.route('/vote/:contract', {
   name: 'voteContract',
   template: 'contract',
@@ -130,7 +130,7 @@ Router.route('/vote/:contract', {
   },
   onBeforeAction() {
     fn.clearSessionVars();
-    fn.configNavbar(fn.buildTitle(this.params.contract));
+    fn.configNavbar(fn.buildTitle(this.params.contract), '/vote');
     fn.setSessionVars(this.params);
     this.next();
   },
@@ -153,7 +153,7 @@ Router.route('/delegation/:contract', {
   },
   onBeforeAction() {
     fn.clearSessionVars();
-    fn.configNavbar(TAPi18n.__('navbar-delegation'));
+    fn.configNavbar(TAPi18n.__('navbar-delegation'), '/delegation');
     fn.setSessionVars(this.params);
     this.next();
   },

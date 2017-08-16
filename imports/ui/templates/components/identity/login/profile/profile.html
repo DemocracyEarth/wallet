@@ -4,12 +4,9 @@
   {{else}}
     <div class="login">
       {{> avatar includeName=true includeNation=true editable=true}}
-      <div class="login-label login-label-form">
-        {{_ 'vote-balance'}}
-      </div>
-      {{> power editable=false}}
+      {{> liquid _id='vote-user-balance' targetId=currentUser._id wallet=currentUser.profile.wallet isDelegation=false editable=false hideBar=true}}
       {{#unless socialMediaLogin}}
-        {{#unless currentUser.emails.[0].verified}}
+        {{#unless verifiedMail}}
           <div class="extra float-left">
             {{> warning label="pending-verification"}}
           </div>

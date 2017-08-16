@@ -1,9 +1,11 @@
 <template name="home">
 
-    <div class="content content-feed">
+    <div class="content content-feed" style="{{mobileStyle}}">
       {{> feed}}
     </div>
 
-    {{> compose}}
+    {{#unless isPhone}}
+      {{> compose}}
+    {{/unless}}
 
 </template>

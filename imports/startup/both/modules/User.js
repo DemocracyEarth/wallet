@@ -2,10 +2,11 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { check } from 'meteor/check';
 
 import { UserContext, User } from '/imports/api/users/User';
-import { check } from 'meteor/check';
-import displayNotice from '/imports/ui/modules/notice';
+import { displayNotice } from '/imports/ui/modules/notice';
+import { genesisTransaction, getVotes } from '/imports/api/transactions/transaction';
 import { validateEmail } from './validations.js';
 
 /**
@@ -13,89 +14,86 @@ import { validateEmail } from './validations.js';
 * @param {object} data - input from new user to be used for creation of user in db
 */
 const _createUser = (data) => {
+  let createUserPromise;
   if (_validateUser(data)) {
     const objUser = {
       username: data.username,
       emails: [{
         address: data.email,
-        verified: false
+        verified: false,
       }],
       services: {
-        password: data.password
+        password: data.password,
       },
       profile: {
-        configured: false
+        configured: false,
       },
-      createdAt: new Date()
+      createdAt: new Date(),
     };
 
-    // create User
     if (UserContext.validate(objUser)) {
-    //if (true) {
-      Accounts.createUser({
-        username: objUser.username,
-        password: objUser.services.password,
-        email: data.email,
-        profile: objUser.profile
-      }, function (error) {
-        if (error) {
-          switch (error.error) {
-          case 403:
-              Session.set('alreadyRegistered', true);
-              break;
+
+      createUserPromise = new Promise(function (resolve, reject) {
+        Accounts.createUser({
+          username: objUser.username,
+          password: objUser.services.password,
+          email: objUser.emails[0].address,
+          profile: objUser.profile,
+        }, function (error, result) {
+          if (error) {
+            return reject(error);
           }
-        } else {
-          //send verification e-mail
-          Meteor.call( 'sendVerificationLink', ( error, response ) => {
-            if ( error ) {
-              console.log( error.reason, 'danger' );
+          // send verification e-mail
+          Meteor.call('sendVerificationLink', (verificationError) => {
+            if (verificationError) {
+              console.log(verificationError.reason, 'danger');
             } else {
               displayNotice('user-created', true);
             }
           });
-          //make first membership transaction
-          Meteor.call ('genesisTransaction', Meteor.user()._id, function (error, response) {
-            if (error) {
-              console.log('[genesisTransaction] ERROR: ' + error);
-            };
-          });
-        }
+          // make first membership transaction
+          genesisTransaction(Meteor.user()._id);
+          return resolve(result);
+        });
       });
     } else {
       // BUG Shema is not defined. When updating = error:  existingKey.indexOf is not a function
       check(objUser, User);
     }
   }
-}
+  return createUserPromise;
+};
 
 /**
 * @summary new user input data validation
 * @param {object} data - validates all keys present in data input from new user
 */
 let _validateUser = (data) => {
-  var val = _validateUsername(data.username)
+  const validUsername = _validateUsername(data.username);
+
+  var val = !validUsername.valid
             + validateEmail(data.email)
             + _validatePassword(data.password)
             + _validatePasswordMatch(data.password, data.mismatchPassword);
 
   if (val >= 4) { return true } else { return false };
-}
+};
 
 /**
 * @summary password validation
 * @param {string} pass - makes sure password meets criteria
 */
 let _validatePassword = (pass) => {
-  var val = true;
+  let val = true;
   if (pass.length < 6) {
-    Session.set("invalidPassword", true);
+    Session.set('invalidPassword', true);
     val = false;
   } else {
-    Session.set("invalidPassword", false);
+    Session.set('invalidPassword', false);
     val = true;
   }
   return val;
-}
+};
 
 /**
 * @summary verify correct password input
@@ -103,36 +101,38 @@ let _validatePassword = (pass) => {
 * @param {string} passB - second version of password introduced in form
 */
 let _validatePasswordMatch = (passA, passB) => {
-  Session.set("mismatchPassword", !(passA == passB));
-  return (passA == passB);
-}
+  Session.set('mismatchPassword', !(passA === passB));
+  return (passA === passB);
+};
 
 /**
 * @summary makes sure username identifier meets criteria and is avaialble
 * @param {string} username - picked username
 */
 let _validateUsername = (username) => {
-  //var regexp = /^[A-Za-z'-\s]+$/ Full name and surname
-  var regexp = /^[a-zA-Z0-9]+$/;
-  Session.set("invalidUsername", !regexp.test(username));
+  const usernameValidationObject = {
+    valid: false,
+    repeated: false,
+  };
+
+  const regexp = /^[a-zA-Z0-9]+$/;
+
+  // Set whether username format is valid or not
+  usernameValidationObject.valid = !regexp.test(username);
+
+  // Only if username is valid, check whether it exists already
   if (regexp.test(username)) {
     if (Meteor.user() === null || username !== Meteor.user().username) {
-      Meteor.call('verifyUsername', username, function(err, id) {
-        if (id == true) {
-          Session.set("repeatedUsername", true);
-        } else {
-          Session.set("repeatedUsername", false);
-        }
-      });
-    } else {
-      Session.set("repeatedUsername", false);
-    }
-    if (Session.get("repeatedUsername")) {
-      return false;
+      if (Meteor.users.findOne({ username: username }) !== undefined) {
+        usernameValidationObject.repeated = true;
+      } else {
+        usernameValidationObject.repeated = false;
+      }
     }
   }
-  return regexp.test(username);
-}
+
+  return usernameValidationObject;
+};
 
 /**
 * @summary returns a profile of an anonoymous user
@@ -220,17 +220,14 @@ const _userIsDelegate = (signatures) => {
 * @param {object} ledger - ledger with transactional data of this contract
 * @return {boolean} status - yes or no
 */
-const _verifyVotingRight = (ledger) => {
+const _verifyVotingRight = (contractId) => {
   if (Meteor.user() != null) {
-    for (i in ledger) {
-      if (ledger[i].entityId === Meteor.user()._id) {
-        return false;
-      }
+    if (getVotes(contractId, Meteor.user()._id) > 0) {
+      return false;
     }
     return true;
-  } else {
-    return false;
   }
+  return false;
 };
 
 
@@ -239,54 +236,36 @@ const _verifyVotingRight = (ledger) => {
 * @param {object} signatures - signatures of the contract (for delegations)
 * @return {boolean} status - yes or no
 */
-let _verifyDelegationRight = (signatures) => {
+const _verifyDelegationRight = (signatures) => {
   if (Meteor.user() != null) {
-    for (i in signatures) {
-      if (signatures[i]._id == Meteor.user()._id) {
-        switch(signatures[i].role) {
+    for (const i in signatures) {
+      if (signatures[i]._id === Meteor.user()._id) {
+        switch (signatures[i].role) {
           case 'DELEGATOR':
             if (signatures[i].status === 'PENDING') {
               return true;
-            } else {
-              return false;
             }
+            return false;
           case 'DELEGATE':
+          default:
             if (signatures[i].status === 'PENDING') {
               return false;
-            } else {
-              return false;
             }
-            break;
-         }
+            return false;
+        }
       }
     }
-    return false;
-  } else {
-    return false;
   }
-}
-
-/**
-* @summary returns vots a user has in a specific contract
-* @param {object} userWallet - the wallet of the user
-* @param {string} contractId - the contract to search for
-* @return {number} quantity - quantity of votes in Absolute numbers
-*/
-let _userVotesInContract = (userWallet, contractId) => {
-  for (i in userWallet.ledger) {
-    if (userWallet.ledger[i].entityId === contractId && userWallet.ledger[i].entityType === 'CONTRACT') {
-      return Math.abs(userWallet.ledger[i].quantity);
-    }
-  }
-}
+  return false;
+};
 
 /**
 * @summary verifies if the user is a signer in the contract
 * @param {object} signatures - contract signature object
 * @return {boolean} bool - yes or no, that simple buddy.
 */
-let _isUserSigner = (signatures) => {
-  for (i in signatures) {
+const _isUserSigner = (signatures) => {
+  for (const i in signatures) {
     if (signatures[i]._id === Meteor.user()._id) {
       return true;
     }
@@ -295,7 +274,6 @@ let _isUserSigner = (signatures) => {
 };
 
 export const isUserSigner = _isUserSigner;
-export const userVotesInContract = _userVotesInContract;
 export const verifyVotingRight = _verifyVotingRight;
 export const verifyDelegationRight = _verifyDelegationRight;
 export const userIsDelegate = _userIsDelegate;

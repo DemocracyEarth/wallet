@@ -8,35 +8,35 @@ const Schema = {};
 Schema.DelegationContract = new SimpleSchema({
   collectiveId: {
     type: String,
-    optional: true
+    optional: true,
   },
   delegatorId: {
     type: String,
-    optional: true
+    optional: true,
   },
   contractId: {
     type: String,
-    optional: true
+    optional: true,
   },
   votes: {
     type: Number,
-    optional: true
+    optional: true,
   },
   tags: {
     type: Array,
-    optional: true
+    optional: true,
   },
   "tags.$": {
     type: Object,
-    optional: true
+    optional: true,
   },
   "tags.$._id": {
     type: String,
-    optional: true
+    optional: true,
   },
   "tags.$.text": {
     type: String,
-    optional: true
+    optional: true,
   }
 });
 

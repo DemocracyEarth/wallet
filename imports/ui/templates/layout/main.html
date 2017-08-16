@@ -1,16 +1,33 @@
-<template name="main">
-
+<template name='main'>
   <!-- App -->
-  {{> modal}}
-  {{> popup}}
 
-  <div id='menu' class="left">
+  {{> modal}}
+  {{#each popupList}}
+    {{> popup id=this}}
+  {{/each}}
+
+  {{#if isPhone}}
+    <div id='mobileKeyboard' contenteditable="true" style="opacity: 0; width: 0px; height:0px;"></div>
+  {{/if}}
+
+
+  <div id='menu' class='left'>
     {{> sidebar}}
   </div>
 
-  <div id='content' class="right">
+  <div id='content' class='right'>
+
+    {{#if isPhone}}
+      <div class='inhibitor' style='display: none;'></div>
+    {{/if}}
+
     {{> navigation}}
     {{> yield}}
+
+    {{#if isPhone}}
+      {{> touchmenu}}
+    {{/if}}
+
   </div>
 
 </template>

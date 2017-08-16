@@ -1,9 +1,11 @@
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { animationSettings } from '/imports/ui/modules/animation';
+import { getRightToVote } from '/imports/ui/modules/ballot';
 
 import './toggle.html';
 
@@ -58,10 +60,20 @@ function displayToggle() {
   }
 }
 
-Template.toggle.onRendered = () => {
+Template.toggle.onRendered(() => {
   displayToggle();
   Session.set('clickedToggle', this.setting);
-};
+});
+
+Template.toggle.onCreated(() => {
+  if (!Session.get('contract')) {
+    Template.instance().contract = new ReactiveVar(Template.currentData().contract);
+  } else {
+    Template.instance().contract = new ReactiveVar(Contracts.findOne({ _id: Session.get('contract')._id }));
+  }
+
+  Template.instance().rightToVote = new ReactiveVar(getRightToVote(Template.instance().contract.get()));
+});
 
 Template.toggle.helpers({
   value() {
@@ -81,12 +93,12 @@ Template.toggle.helpers({
 
 Template.toggle.events({
   'click #toggleButton'() {
-    if (!Session.get('rightToVote') || Session.get('contract').stage === 'DRAFT') {
+    if (!Template.instance().rightToVote.get() || Template.instance().contract.get().stage === 'DRAFT') {
       Session.set('clickedToggle', this.setting);
       toggle($(`.${this.setting}`).children(), !this.value, true);
       const obj = {};
       obj[this.setting] = !this.value;
-      Contracts.update(Session.get('contract')._id, { $set: obj });
+      Contracts.update(Template.instance().contract.get()._id, { $set: obj });
     }
   },
 });

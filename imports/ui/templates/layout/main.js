@@ -16,6 +16,7 @@ Buckminster Fuller, Great San Francisco Architect.
 A Roma, <3
 
 */
+
 /* global alert */
 
 import { Meteor } from 'meteor/meteor';
@@ -24,7 +25,7 @@ import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { SearchSource } from 'meteor/meteorhacks:search-source';
 import { Template } from 'meteor/templating';
-import { displayLogin } from '/imports/ui/modules/popup';
+import { toggleSidebar } from '/imports/ui/modules/menu';
 
 import { globalObj } from '/lib/global';
 import './main.html';
@@ -32,62 +33,69 @@ import '../widgets/modal/modal';
 import '../widgets/popup/popup';
 import './sidebar/sidebar';
 import './navigation/navigation';
+import './response/verifyEmail/verifyEmail';
+import './touchmenu/touchmenu';
+import '../components/decision/editor/editor';
 
 Meteor.startup(() => {
   // Mail server settings
   process.env.MAIL_URL = Meteor.settings.smtpServer;
 
   // setup language
-  Session.set("showLoadingIndicator", true);
+  Session.set('showLoadingIndicator', true);
 
   // internationalization library
   TAPi18n.setLanguage(Meteor.settings.public.app.language)
     .done(function () {
-      Session.set("showLoadingIndicator", false);
+      Session.set('showLoadingIndicator', false);
     })
     .fail(function (error_message) {
       console.log(error_message);
     });
 
-  //scripts
-  $.getScript('js/spinner.js', function(){});
+  // scripts
+  $.getScript('js/spinner.js', function () {});
 
-  //time
-  Meteor.call("getServerTime", function (error, result) {
-      Session.set("time", result);
+  // time
+  Meteor.call('getServerTime', function (error, result) {
+    Session.set('time', result);
   });
 
-  //Search Engine for Tags
+  // search Engine for Tags
   Session.set('createTag', false);
   globalObj.TagSearch = new SearchSource('tags', ['text', 'url'], {
     keepHistory: 1000 * 60 * 5,
-    localSearch: true
+    localSearch: true,
   });
 
-  //Search Engine for Proposals
+  // search Engine for Proposals
   Session.set('createProposal', false);
   globalObj.ProposalSearch = new SearchSource('contracts', ['title', 'description'], {
     keepHistory: 1000 * 60 * 5,
     localSearch: true,
   });
 
-  //Geographical Info
-  HTTP.get(Meteor.absoluteUrl("data/geo.json"), function(err,result) {
+  // geographical Info
+  HTTP.get(Meteor.absoluteUrl('data/geo.json'), function (err, result) {
     globalObj.geoJSON = result.data;
     Session.set('filteredCountries', result.data.country);
   });
 });
 
+Template.main.onRendered(() => {
+  if (document.getElementsByClassName('inhibitor').length > 0) {
+    document.getElementsByClassName('inhibitor')[0].addEventListener('touchmove', (e) => { e.preventDefault(); });
+  }
+});
+
+Template.main.helpers({
+  popupList() {
+    return Session.get('popupList');
+  },
+});
+
 Template.main.events({
-  'mouseup #content'(event) {
-    if (Session.get('displayPopup')) {
-      if (event.target.parentElement.id !== 'loggedUser') {
-        if (event.target.id !== 'loggedUser') {
-          if (event.target.id !== 'agora-login') {
-            displayLogin(event);
-          }
-        }
-      }
-    }
+  'click .inhibitor'() {
+    toggleSidebar();
   },
 });

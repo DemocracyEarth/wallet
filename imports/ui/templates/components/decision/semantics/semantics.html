@@ -1,8 +1,9 @@
 <template name="semantics">
   {{#unless emptyTags}}
-    <!-- Tag Cloud -->
     <div class="section">
-      <h5>{{_ "topics"}}</h5>
+      {{#if editorMode}}
+        <h5>{{_ "topics"}}</h5>
+      {{/if}}
       <div class="extra">
         <ul id="tagList" class="w-list-unstyled w-clearfix  connectedSortable">
           {{#if rightToVote}}

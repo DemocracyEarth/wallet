@@ -2,57 +2,42 @@
   <div class="field headline-field">
 
     {{#if editorMode}}
+      {{#if isPhone}}
+        {{#if missingTitle}}
+          <div id="emptyTitle" class="title-input title-input-void scrollFix">
+            {{_ 'whats-going-on'}}
+          </div>
+        {{/if}}
+      {{/if}}
       {{> titleContent editorMode=editorMode}}
     {{else}}
-      <div id="ideaTitle" tab=0 class="title-input">
+      <div tab=0 class="title-input scrollFix">
         {{declaration}}
       </div>
     {{/if}}
 
-    <div class="meta">
-
-      {{> stage text=stageLabel executionStatus=executionStatus closingDate=closingDate}}
-
-      {{#if editorMode}}
-        <div class="data"><img src="{{pathFor route='home'}}images/globe.png" class="url-icon">
-          <div class="verifier verifier-live">
-              <a data-new-link="true">{{{contractURL}}}</a>
-              <div data-new-link='true' class='state {{verifierMode}}'>{{{URLStatus}}}</div>
+    {{#if editorMode}}
+      {{#unless isPhone}}
+        <div class="meta">
+          <div class="data"><img src="{{pathFor route='home'}}images/globe.png" class="url-icon">
+            <div class="verifier verifier-live">
+                <a data-new-link="true">{{{contractURL}}}</a>
+                <div data-new-link='true' class='state {{verifierMode}}'>{{{URLStatus}}}</div>
+            </div>
           </div>
         </div>
-      {{/if}}
-
-      <div class="data">
-        <img src="{{pathFor route='home'}}images/time.png" class="url-icon">
-        <div class="verifier verifier-live">
-          {{#if editorMode}}
-            {{timestamp}}
-          {{else}}
-            {{timestamp}}
+        <div class='extra'>
+          {{#if missingTitle}}
+            {{> warning label="title-required" style='forbidden'}}
+          {{/if}}
+          {{#if mistypedTitle}}
+            {{> warning label="title-mistyped" style='forbidden'}}
+          {{/if}}
+          {{#if duplicateURL}}
+            {{> warning label="url-duplicate" style='forbidden'}}
           {{/if}}
         </div>
-      </div>
-
-      <!-- TODO blockchain stuff:
-      <div class="data"><img src="{{pathFor route='home'}}images/block.png" class="url-icon">
-        <div class="verifier verifier-live">
-          <a>{{_ "blockchain-address"}} <strong>{{blockchainAddress}}</strong></a>
-        </div>
-      </div>-->
-    </div>
-
-    {{#if editorMode}}
-      <div class='extra'>
-        {{#if missingTitle}}
-          {{> warning label="title-required" style='forbidden'}}
-        {{/if}}
-        {{#if mistypedTitle}}
-          {{> warning label="title-mistyped" style='forbidden'}}
-        {{/if}}
-        {{#if duplicateURL}}
-          {{> warning label="url-duplicate" style='forbidden'}}
-        {{/if}}
-      </div>
+      {{/unless}}
     {{/if}}
 
   </div>
@@ -61,7 +46,11 @@
 <template name="titleContent">
   <div class="title-input {{sampleMode}}">
     {{#with declaration}}
-      {{{editable}}}
+      {{#if isPhone}}
+        <div id='ideaTitle' contenteditable='true' style='height: {{viewport}};' tabindex=0>{{text}}</div>
+      {{else}}
+        {{{editable}}}
+      {{/if}}
     {{/with}}
   </div>
 </template>

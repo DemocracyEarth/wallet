@@ -3,9 +3,9 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 
-import { sendDelegationVotes, publishContract, vote } from '/imports/startup/both/modules/Contract';
+import { sendDelegationVotes, publishContract } from '/imports/startup/both/modules/Contract';
 import { displayModal } from '/imports/ui/modules/modal';
-import { purgeBallot, ballotReady } from '/imports/ui/modules/ballot';
+import { ballotReady } from '/imports/ui/modules/ballot';
 
 import './action.html';
 
@@ -42,7 +42,7 @@ function disableContractExecution() {
 }
 
 Template.action.helpers({
-  disabled: function () {
+  disabled() {
     if (disableContractExecution()) {
       return 'disabled';
     }
@@ -114,7 +114,7 @@ Template.action.events({
                   publishContract(Session.get('contract')._id);
                 }
               );
-            } else if (Session.get('contract').stage === 'LIVE') {
+            } /*else if (Session.get('contract').stage === 'LIVE') {
               displayModal(
                 true,
                 {
@@ -139,7 +139,7 @@ Template.action.events({
                   vote(Meteor.user()._id, Session.get('contract')._id, Session.get('newVote').allocateQuantity, settings);
                 }
               );
-            }
+            }*/
             break;
         }
       }

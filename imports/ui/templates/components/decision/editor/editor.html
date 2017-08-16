@@ -1,0 +1,24 @@
+<template name="editor">
+  <div id="post-editor" class="mobile-editor" style="display:none;">
+    <div id="post-editor-content">
+      <div id="post-editor-wrapper" class='mobile-editor-wrapper inertialScroll'>
+        <div class='section mobile-section'>
+          {{> title editorMode=true}}
+        </div>
+        {{#if ballotEnabled}}
+          <div id='post-editor-widgets' style='margin-top: {{widgetTop}}'>
+            {{> ballot editorMode=true}}
+          </div>
+        {{/if}}
+        <!-- {{> semantics editorMode=true}}-->
+        <div class="section section-editor w-clearfix">
+          <div class="section-editor-separator"></div>
+          {{#each menu}}
+            {{> editorButton}}
+          {{/each}}
+          {{> counter}}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

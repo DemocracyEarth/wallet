@@ -1,10 +1,13 @@
 import { Meteor } from 'meteor/meteor';
+import { Session } from 'meteor/session';
+import { rules } from '/lib/const';
 
+import { displayNotice } from '/imports/ui/modules/notice';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { Collectives } from '/imports/api/collectives/Collectives';
-import { showFullName } from '/imports/startup/both/modules/utils';
 import { guidGenerator } from '/imports/startup/both/modules/crypto';
 import { Transactions } from './Transactions';
+
 
 /**
 * @summary looks at what type of entity (collective or individual) doing transaction
@@ -40,11 +43,11 @@ const _getAddressHash = (address, collectiveId) => {
 * @return {object} object - returns an object containing a new hash and this collective Id.
 */
 const _getCollectiveAddress = () => {
-  console.log('[_getCollectiveAddress] generating new address specific to the collective running this instance...');
-  return {
+  const collective = {
     hash: guidGenerator(),
     collectiveId: Meteor.settings.public.Collective._id,
   };
+  return collective;
 };
 
 /**
@@ -52,7 +55,6 @@ const _getCollectiveAddress = () => {
 * @param {object} wallet - a wallet from a user containing all directions
 ***/
 const _generateWalletAddress = (wallet) => {
-  console.log('[_generateWalletAddress] generating a new address for wallet entered as parameter.');
   wallet.address.push(_getCollectiveAddress());
   return wallet;
 };
@@ -81,7 +83,7 @@ const _getWalletAddress = (entityId) => {
       break;
     }
     default:
-      console.log(`[_getWalletAddress] ERROR: entityId ${entityId} could not be found.`);
+      // ERROR: entityId ${entityId} could not be found.
       return false;
   }
 
@@ -92,14 +94,14 @@ const _getWalletAddress = (entityId) => {
   }
   const collectiveId = Meteor.settings.public.Collective._id;
 
-  console.log(`[_getWalletAddress] getting info for entityId ${entityId}.`);
-
   if (wallet.address !== undefined && wallet.address.length > 0) {
-    console.log('[_getWalletAddress] entity wallet already has an address.');
+    // entity wallet already has an address.
     return _getAddressHash(wallet.address, collectiveId);
   }
-  console.log('[_getWalletAddress] generating a new address for this collective...');
+
+  // generating a new address for this collective...
   wallet = _generateWalletAddress(wallet);
+
   switch (entityType) {
     case 'INDIVIDUAL':
       user.profile.wallet = wallet;
@@ -113,7 +115,6 @@ const _getWalletAddress = (entityId) => {
       Contracts.update({ _id: entityId }, { $set: { wallet: wallet } });
       break;
     default:
-      console.log(`[_getWalletAddress] ERROR: entityId ${entityId} could not be found.`);
       return false;
   }
   return _getAddressHash(wallet.address, collectiveId);
@@ -130,7 +131,8 @@ const _getProfile = (transactionSignal) => {
       return Meteor.users.findOne({ _id: transactionSignal.entityId }).profile;
     case 'COLLECTIVE':
       return Collectives.findOne({ _id: transactionSignal.entityId }).profile;
-    default: // 'CONTRACT'
+    case 'CONTRACT':
+    default:
       return Contracts.findOne({ _id: transactionSignal.entityId });
   }
 };
@@ -139,92 +141,221 @@ const _getProfile = (transactionSignal) => {
 * updates wallet object of an individual or collective
 * @param {string} entityId - entity
 * @param {string} entityType -  individual or collective
-* @param {object} wallet - wallet object of entity
+* @param {object} profileSettings - profile settings
 */
-const _updateWallet = (entityId, entityType, profile) => {
-  console.log(`[_updateWallet] updating wallet of entityId: ${entityId}`);
+const _updateWallet = (entityId, entityType, profileSettings) => {
   switch (entityType) {
     case 'INDIVIDUAL':
-      Meteor.users.update({ _id: entityId }, { $set: { profile: profile } });
+      Meteor.users.update({ _id: entityId }, { $set: { profile: profileSettings } });
       break;
     case 'COLLECTIVE':
-      Collectives.update({ _id: entityId }, { $set: { profile: profile } });
+      Collectives.update({ _id: entityId }, { $set: { profile: profileSettings } });
       break;
     default: // 'CONTRACT'
-      Contracts.update({ _id: entityId }, { $set: { wallet: profile.wallet } });
+      Contracts.update({ _id: entityId }, { $set: { wallet: profileSettings.wallet } });
       break;
+  }
+};
+
+/**
+* @summary gets array with all the transactions of a given user with a contract
+* @param {string} userId - userId to be checked
+* @param {string} contractId - contractId to be checked
+*/
+const _getTransactions = (userId, contractId) => {
+  return _.sortBy(
+    _.union(
+      _.filter(Transactions.find({ 'input.entityId': userId }).fetch(), (item) => { return (item.output.entityId === contractId); }, 0),
+      _.filter(Transactions.find({ 'output.entityId': userId }).fetch(), (item) => { return (item.input.entityId === contractId); }, 0)),
+      'timestamp');
+};
+
+/**
+* @summary basic criteria to count votes on transaction records
+* @param {object} ticket specific ticket containing transaction info
+* @param {string} entityId the entity having votes counterPartyId
+*/
+const _voteCount = (ticket, entityId) => {
+  if (ticket.input.entityId === entityId) {
+    return ticket.input.quantity;
+  } else if (ticket.output.entityId === entityId) {
+    return 0 - ticket.output.quantity;
+  }
+  return 0;
+};
+
+/**
+* @summary gets the quantity of votes a given user has on a ledger
+* @param {object} contractId - contractId to be checked
+* @param {object} userId - userId to be checked
+*/
+const _getVotes = (contractId, userId) => {
+  const transactions = _getTransactions(userId, contractId);
+  if (transactions.length > 1) {
+    return _.reduce(transactions, (memo, num, index) => {
+      if (index === 1) {
+        return _voteCount(memo, userId) + _voteCount(num, userId);
+      }
+      return memo + _voteCount(num, userId);
+    });
+  } else if (transactions.length === 1) {
+    return _voteCount(transactions[0], userId);
+  }
+  return 0;
+};
+
+/**
+* @summary returns how many tokens where previously transacted
+* @param {object} wallet - wallet ledger to be analyzed
+* @param {string} creditorId - creditor to whom verify from
+* @param {string} type - 'OUTPUT', 'INPUT'
+* @return {number} delta - difference between input & output
+*/
+const _debt = (wallet, creditorId, type) => {
+  let totals = 0;
+  const transactions = _getTransactions(wallet, creditorId);
+
+  for (const i in transactions) {
+    if (transactions[i][type].entityId === creditorId) {
+      totals += transactions[i][type].quantity;
+    }
+  }
+  return totals;
+};
+
+/**
+* @summary returns tokens from sender that used to belong to receiver
+* @param {number} quantity - votes requested
+* @param {number} totals - max present in ledger
+*/
+const _restoredTokens = (quantity, totals) => {
+  if (quantity > totals) {
+    return totals;
+  }
+  return quantity;
+};
+
+const _transactionMessage = (code) => {
+  switch (code) {
+    case 'INSUFFICIENT':
+      displayNotice('not-enough-funds', true);
+      return false;
+    case 'INVALID':
+      displayNotice('invalid-transaction', true);
+      return false;
+    case true:
+    default:
+      // TODO update status from 'PENDING' to 'CONFIRMED'
+      return true;
+  }
+};
+
+/**
+* @summary executes incoming or outgoing payment in a wallet
+* @param {object} wallet the wallet being processed
+* @param {string} mode OUTPUT, INPUT, blue outlook and jack to jack.
+* @param {object} transaction containing specific transaction details
+* @param {number} quantity the amount of dough.
+*/
+const _pay = (wallet, mode, transaction, quantity) => {
+  const _wallet = wallet;
+  switch (mode) {
+    case 'INPUT':
+      _wallet.placed += parseInt(quantity, 10);
+      _wallet.available = parseInt(_wallet.balance - _wallet.placed, 10);
+      _wallet.balance = parseInt(_wallet.placed + _wallet.available, 10);
+      break;
+    case 'RETRIEVE':
+      _wallet.available += parseInt(0 - quantity, 10);
+      _wallet.balance = parseInt(_wallet.placed + _wallet.available, 10);
+      break;
+    case 'DELEGATE':
+      _wallet.available += parseInt(quantity, 10);
+      _wallet.balance = parseInt(_wallet.placed + _wallet.available, 10);
+      break;
+    case 'OUTPUT':
+    default:
+      _wallet.available += parseInt(quantity, 10);
+      _wallet.placed = parseInt(_wallet.placed - _restoredTokens(quantity, _debt(transaction.output.entityId, transaction.input.entityId, 'output')), 10);
+      _wallet.balance = parseInt(_wallet.placed + _wallet.available, 10);
+      break;
+  }
+  return Object.assign(wallet, _wallet);
+};
+
+/**
+* @summary get info of delegate that is not party listed in transaction info
+* @param {string} delegationId delegation contract to work with
+* @param {string} counterPartyId who we are NOT searching for in delegation
+*/
+const _getDelegate = (delegationId, counterPartyId) => {
+  const delegation = Contracts.findOne({ _id: delegationId });
+  for (const i in delegation.signatures) {
+    if (delegation.signatures[i]._id !== counterPartyId) {
+      return Meteor.users.findOne({ _id: delegation.signatures[i]._id });
+    }
+  }
+  return undefined;
+};
+
+/**
+* @summary updates wallet of individual that is part of delegation contract
+* @param {object} transaction - ticket with transaction impacting individual.
+*/
+const _processDelegation = (transaction) => {
+  let delegate;
+  if (transaction.input.entityType === 'INDIVIDUAL' && transaction.output.entityType === 'CONTRACT') {
+    // outgoing
+    delegate = _getDelegate(transaction.output.entityId, transaction.input.entityId);
+    if (delegate) {
+      delegate.profile.wallet = _pay(delegate.profile.wallet, 'DELEGATE', transaction, transaction.output.quantity);
+    }
+  } else if (transaction.input.entityType === 'CONTRACT' && transaction.output.entityType === 'INDIVIDUAL') {
+    // incoming
+    delegate = _getDelegate(transaction.input.entityId, transaction.output.entityId);
+    if (delegate) {
+      delegate.profile.wallet = _pay(delegate.profile.wallet, 'RETRIEVE', transaction, transaction.input.quantity);
+    }
+  }
+  if (delegate) {
+    _updateWallet(delegate._id, 'INDIVIDUAL', delegate.profile);
   }
 };
 
 /**
 * @summary processes de transaction after insert and updates wallet of involved parties
 * @param {string} txId - transaction identificator
+* @param {string} success - INSUFFICIENT,
 */
-const _processTransaction = (txId) => {
+const _processTransaction = (ticket) => {
+  const txId = ticket;
   const transaction = Transactions.findOne({ _id: txId });
   const senderProfile = _getProfile(transaction.input);
   const receiverProfile = _getProfile(transaction.output);
 
   // TODO all transactions are for VOTE type, develop for BITCOIN or multi-currency conversion.
-  // TODO verification of funds
+  // TODO encrypted mode hooks this.
+  // TODO compress db removing redundant historical transaction data
 
-  const sender = senderProfile.wallet;
-
-  sender.ledger.push({
-    txId: txId,
-    quantity: parseInt(0 - transaction.input.quantity, 10),
-    entityId: transaction.output.entityId,
-    entityType: transaction.output.entityType,
-    currency: transaction.input.currency,
-  });
-  sender.placed += parseInt(transaction.input.quantity, 10);
-  sender.available = sender.balance - sender.placed;
-  senderProfile.wallet = Object.assign(senderProfile.wallet, sender);
-
-  if (senderProfile.firstName) {
-    console.log(`[_processTransaction] sender in transaction is entity: ${showFullName(senderProfile.firstName, senderProfile.lastName)}`);
-  } else {
-    console.log(`[_processTransaction] sender in transaction is a Contract with title: ${senderProfile.title}`);
+  // verify transaction
+  if (senderProfile.wallet.available < transaction.input.quantity) {
+    return 'INSUFFICIENT';
+  } else if (transaction.input.entityId === transaction.output.entityId) {
+    return 'INVALID';
   }
 
-
-  const receiver = receiverProfile.wallet;
-  receiver.ledger.push({
-    txId: txId,
-    quantity: parseInt(transaction.output.quantity, 10),
-    entityId: transaction.input.entityId,
-    entityType: transaction.input.entityType,
-    currency: transaction.output.currency,
-  });
-  receiver.available += parseInt(transaction.output.quantity, 10);
-  receiver.balance += receiver.available;
-
-  console.log('[_processTransaction] checking if ballot stored in this transaction...');
-  if (transaction.condition.ballot) {
-    console.log('[_processTransaction] found ballot in this transaction');
-    const fullBallot = [];
-    const last = receiver.ledger.length - 1;
-
-    for (const k in transaction.condition.ballot) {
-      fullBallot.push(transaction.condition.ballot[k]);
-    }
-    console.log('[_processTransaction] ballot content:');
-    console.log(fullBallot);
-    receiver.ledger[last] = Object.assign(receiver.ledger[last], { ballot: fullBallot });
-  } else {
-    console.log('[_processTransaction] no ballot found.');
-  }
-  receiverProfile.wallet = Object.assign(receiverProfile.wallet, receiver);
-
-  if (receiverProfile.firstName) {
-    console.log(`[_processTransaction] receiver in transaction is entity: ${showFullName(receiverProfile.firstName, receiverProfile.lastName)}`);
-  } else {
-    console.log(`[_processTransaction] receiver in transaction is a Contract with title: ${receiverProfile.title}`);
-  }
+  // transact
+  senderProfile.wallet = _pay(senderProfile.wallet, 'INPUT', transaction, transaction.input.quantity);
+  receiverProfile.wallet = _pay(receiverProfile.wallet, 'OUTPUT', transaction, transaction.output.quantity);
 
   // update wallets
   _updateWallet(transaction.input.entityId, transaction.input.entityType, senderProfile);
   _updateWallet(transaction.output.entityId, transaction.output.entityType, receiverProfile);
+
+  // delegation
+  if (transaction.kind === 'DELEGATION') {
+    _processDelegation(transaction);
+  }
 
   // set this transaction as processed
   return Transactions.update({ _id: txId }, { $set: { status: 'CONFIRMED' } });
@@ -234,15 +365,15 @@ const _processTransaction = (txId) => {
 * @summary create a new transaction between two parties
 * @param {string} senderId - user or collective allocating the funds
 * @param {string} receiverId - user or collective receiving the funds
+* @param {number} votes - transaction size in votes
 * @param {object} settings - additional settings to be stored on the ledger
+* @param {string} process - true if everything turned out right, else: INSUFFICIENT
+* @param {function} callback - once everything's done, what is left to do?
 */
-const _createTransaction = (senderId, receiverId, quantity, settings) => {
-  console.log('[_createTransaction] creating new transaction...');
-  console.log(`[_createTransaction] sender: ${senderId}`);
-  console.log(`[_createTransaction] receiver: ${receiverId}`);
-
+const _transact = (senderId, receiverId, votes, settings, callback) => {
   // default settings
   let defaultSettings = {};
+  let finalSettings = {};
   defaultSettings = {
     currency: 'VOTES',
     kind: 'VOTE',
@@ -250,10 +381,20 @@ const _createTransaction = (senderId, receiverId, quantity, settings) => {
   };
 
   if (settings === undefined) {
-    settings = defaultSettings;
+    finalSettings = defaultSettings;
   } else {
-    settings = Object.assign(defaultSettings, settings);
+    finalSettings = Object.assign(defaultSettings, settings);
   }
+
+  if (senderId === receiverId) {
+    _transactionMessage('INVALID');
+    return null;
+  }
+
+  // sync time with server
+  Meteor.call('getServerTime', function (error, result) {
+    Session.set('time', result);
+  });
 
   // build transaction
   const newTransaction = {
@@ -261,31 +402,65 @@ const _createTransaction = (senderId, receiverId, quantity, settings) => {
       entityId: senderId,
       address: _getWalletAddress(senderId),
       entityType: _getEntityType(senderId),
-      quantity: quantity,
-      currency: settings.currency,
+      quantity: votes,
+      currency: finalSettings.currency,
+      transactionType: 'INPUT',
     },
     output: {
       entityId: receiverId,
       address: _getWalletAddress(receiverId),
       entityType: _getEntityType(receiverId),
-      quantity: quantity,
-      currency: settings.currency,
+      quantity: votes,
+      currency: finalSettings.currency,
+      transactionType: 'OUTPUT',
     },
-    kind: settings.kind,
-    contractId: settings.contractId,
-    timestamp: new Date(),
+    kind: finalSettings.kind,
+    contractId: finalSettings.contractId,
+    timestamp: Session.get('time'),
     status: 'PENDING',
-    condition: settings.condition,
+    condition: finalSettings.condition,
   };
-
-  console.log('[_createTransaction] generated new transaction settings');
 
   // executes the transaction
   const txId = Transactions.insert(newTransaction);
-  if (_processTransaction(txId)) { return txId; }
-  return newTransaction;
+  const process = _processTransaction(txId);
+
+  if (_transactionMessage(process)) {
+    // once transaction done, run callback
+    if (callback !== undefined) { callback(); }
+    return txId;
+  }
+  return null;
+};
+
+/**
+* @summary generates the first transaction a member gets from the collective
+* @param {string} userId - id of user being generated within collective
+*/
+const _genesisTransaction = (userId) => {
+  const user = Meteor.users.findOne({ _id: userId });
+
+  // veryfing genesis...
+  // TODO this is not right, should check against Transactions collection.
+  if (user.profile.wallet !== undefined) {
+    if (user.profile.wallet.ledger.length > 0) {
+      if (user.profile.wallet.ledger[0].entityType === 'COLLECTIVE') {
+        // this user already had a genesis
+        return;
+      }
+    }
+  }
+
+  // generate first transaction from collective to new member
+  user.profile.wallet = _generateWalletAddress(user.profile.wallet);
+  Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
+  _transact(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY);
 };
 
 export const processTransaction = _processTransaction;
 export const generateWalletAddress = _generateWalletAddress;
-export const transact = _createTransaction;
+export const getTransactions = _getTransactions;
+export const transactionMessage = _transactionMessage;
+export const getVotes = _getVotes;
+export const transact = _transact;
+export const genesisTransaction = _genesisTransaction;

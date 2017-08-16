@@ -1,38 +1,45 @@
 <template name="contract">
-    {{#if isDelegation}}
-      <div class="content">
-        <div class="contract">
-          <div class="paper">
-            {{> title editorMode=false}}
-            {{> agreement editorMode=false dynamicMode=true}}
-            <!--{{> conditions}}-->
-            {{> semantics editorMode=true}}
-            {{> signatures delegationMode=true editorMode=false}}
-            {{> vote user=currentUser._id editable=true}}
-          </div>
+  {{#if isDelegation}}
+    <div class="content">
+      <div class="contract">
+        <div class="paper">
+          {{> title editorMode=false}}
+          {{> agreement editorMode=false dynamicMode=true}}
+          <!--{{> conditions}}-->
+          {{> semantics editorMode=true}}
+          {{> signatures delegationMode=true editorMode=false}}
+          {{> vote user=currentUser._id editable=true}}
         </div>
       </div>
-    {{else}}
-      {{#if editorMode}}
+    </div>
+  {{else}}
+    {{#if editorMode}}
+      {{#if isPhone}}
+        {{> editor}}
+      {{else}}
         <!-- Editable -->
         <div class="content">
           <div class="contract">
-            <div class="paper">
+            <div class="paper paper-editor">
               {{> title editorMode=true}}
               {{> agreement editorMode=true}}
               {{> semantics editorMode=true}}
               {{> signatures authorMode=true editorMode=true}}
             </div>
-            <div class="paper {{ballotToggle}}">
+            <div class="paper paper-editor {{ballotToggle}}">
               {{> ballot editorMode=true}}
             </div>
-            <div class="paper paper-execute">
-              {{> action label='launch-vote' enabled=true}}
-            </div>
+            {{#unless isPhone}}
+              <div class="paper paper-execute">
+                {{> action label='launch-vote' enabled=true}}
+              </div>
+            {{/unless}}
           </div>
         </div>
-      {{else}}
-        <div class="split">
+      {{/if}}
+    {{else}}
+      <div class="split split-left">
+        <div class="proposal-feed">
           <!-- Votable -->
           <div class="contract">
             <div class="paper">
@@ -53,9 +60,10 @@
             {{/if}}
           </div>
         </div>
-        <div class="split split-right">
-          {{> agora}}
-        </div>
-      {{/if}}
+      </div>
+      <div class="split split-right">
+        {{> agora}}
+      </div>
     {{/if}}
+  {{/if}}
 </template>

@@ -3,80 +3,107 @@ import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
+import { Router } from 'meteor/iron:router';
 
 import { timers } from '/lib/const';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { toggleSidebar } from '/imports/ui/modules/menu';
 
-import { animate } from '/imports/ui/modules/animation';
 import './navigation.html';
 import '../authentication/authentication.js';
 import '../../widgets/notice/notice.js';
 
-//Scroll behaviour
-var lastScrollTop = 0;
-var scrollDown = false;
+// Scroll behaviour
+let lastScrollTop = 0;
+let scrollDown = false;
 
-if (Meteor.Device.isPhone()) {
-  $(window).scroll(function(event) {
-    const node = $('.navbar');
-    const st = $(this).scrollTop();
-    if (st > lastScrollTop) {
-      if (scrollDown === false && st > 150) {
+function hideBar() {
+  if (Meteor.Device.isPhone()) {
+    $('.right').scroll(() => {
+      const node = $('.navbar');
+      const st = $('.right').scrollTop();
+      if (st > lastScrollTop && st > 60) {
         scrollDown = true;
-        animate(node, 'hide-up', { duration: parseInt(timers.ANIMATION_DURATION * 2.5), easing: 'ease-in' });
-      }
-    } else {
-      if (scrollDown === true) {
+        node
+          .velocity('stop')
+          .velocity({ translateY: '0px' }, { duration: parseInt(timers.ANIMATION_DURATION, 10), easing: 'ease-out' })
+          .velocity({ translateY: '-100px' }, {
+            duration: parseInt(timers.ANIMATION_DURATION, 10),
+            easing: 'ease-out',
+            complete: () => {
+              node.css('position', 'absolute');
+              node.css('top', '0px');
+            },
+          })
+          .velocity('stop');
+      } else if (scrollDown === true) {
         scrollDown = false;
-        animate(node, 'show-down', { duration: parseInt(timers.ANIMATION_DURATION * 2.5), easing: 'ease-out' });
+        node.css('position', 'fixed');
+        node
+          .velocity('stop')
+          .velocity({ translateY: '-100px' }, { duration: parseInt(timers.ANIMATION_DURATION, 10), easing: 'ease-out' })
+          .velocity({ translateY: '0px' }, {
+            duration: parseInt(timers.ANIMATION_DURATION, 10),
+            easing: 'ease-out',
+            complete: () => {
+            },
+          })
+          .velocity('stop');
       }
-    }
-    lastScrollTop = st;
-  });
+      lastScrollTop = st;
+    });
+  }
 }
 
-Template.navigation.rendered = function rendered() {
-};
+function displayMenuIcon() {
+  if (Meteor.Device.isPhone()) {
+    if (Router.current().url.search('/vote') >= 0) {
+      return 'images/back.png';
+    }
+  }
+  if (Session.get('sidebar')) {
+    return 'images/burger-active.png';
+  }
+  return 'images/burger.png';
+}
+
+Template.navigation.onRendered(() => {
+  hideBar();
+});
 
 Template.navigation.helpers({
-  screen: function () {
+  screen() {
     if (Session.get('navbar')) {
-      document.title = stripHTMLfromText(TAPi18n.__('democracy-of') + ' ' + Meteor.settings.public.Collective.name + ' - ' + Session.get('navbar').title);
+      document.title = stripHTMLfromText(`${TAPi18n.__('democracy-of')} ${Meteor.settings.public.Collective.name} - ${Session.get('navbar').title}`);
       return Session.get('navbar').title;
-    } else {
-      document.title = stripHTMLfromText(TAPi18n.__('democracy-earth'));
     }
+    document.title = stripHTMLfromText(TAPi18n.__('democracy-earth'));
+    return '';
   },
-  icon: function () {
-    if (Session.get('navbar') != undefined) {
+  icon() {
+    if (Session.get('navbar') !== undefined) {
       return displayMenuIcon();
-    } else {
-      return 'images/burger.png';
     }
+    return 'images/burger.png';
   },
-  link: function () {
+  link() {
     if (Session.get('navbar')) {
       return Session.get('navbar').href;
     }
+    return '';
   },
-  showNotice: function () {
+  showNotice() {
     return Session.get('showNotice');
-  }
+  },
 });
 
 Template.navigation.events({
-  "click #menu": function (event) {
-    if (Session.get('navbar').action == 'SIDEBAR') {
+  'click #menu'() {
+    if (Session.get('navbar').action === 'SIDEBAR') {
       toggleSidebar();
+    } else if (Session.get('navbar').action === 'BACK') {
+      Session.set('newPostEditor', false);
+      window.history.back();
     }
-  }
-})
-
-function displayMenuIcon() {
-  if (Session.get('sidebar')) {
-    return 'images/burger-active.png';
-  } else {
-    return 'images/burger.png';
-  }
-}
+  },
+});

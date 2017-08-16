@@ -1,4 +1,14 @@
 {
+  "name": "Sovereign.app",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DemocracyEarth/sovereign.git"
+  },
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/DemocracyEarth"
+  },
   "scripts": {
     "start": "meteor --settings=config/production/settings.json",
     "pretest": "npm run lint --silent",
@@ -8,19 +18,22 @@
     "test-watch:dev": "meteor --settings=config/development/settings.json test --driver-package practicalmeteor:mocha --port 3100",
     "test-watch:prod": "meteor --settings=config/production/settings.json test --driver-package practicalmeteor:mocha --port 3100",
     "test-app-watch": "meteor test --full-app --driver-package practicalmeteor:mocha --port 3100",
-    "prestart:dev": "echo \"load ENV variables like kadira\"",
     "start:dev": "meteor --settings=config/development/settings.json",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "postinstall": "./node_modules/.bin/opencollective-postinstall || exit 0"
   },
   "dependencies": {
     "autoprefixer": "^6.4.1",
-    "babel-runtime": "^6.20.0",
-    "bcrypt": "^0.8.7",
+    "babel-runtime": "^6.18.0",
+    "bcryptjs": "^2.4.0",
     "bindings": "^1.2.1",
     "core-js": "^2.4.1",
-    "faker": "^3.1.0",
+    "faker": "^3.0.1",
     "json-schema-faker": "^0.3.7",
-    "nan": "^2.3.5"
+    "nan": "^2.3.5",
+    "react": "^15.4.2",
+    "react-addons-pure-render-mixin": "^15.4.2",
+    "react-dom": "^15.4.2"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.0",
@@ -31,6 +44,7 @@
     "eslint-plugin-jsx-a11y": "^2.2.2",
     "eslint-plugin-meteor": "^4.0.0",
     "eslint-plugin-react": "^6.2.2",
+    "opencollective-postinstall": "^1.0.11",
     "shell-source": "^1.1.0",
     "shelljs": "^0.7.4",
     "meteor-node-stubs": "^0.2.4",
@@ -46,6 +60,9 @@
       "node": true,
       "jasmine": true
     },
+    "globals": {
+        "_": true
+    },
     "plugins": [
       "meteor"
     ],
@@ -54,9 +71,21 @@
       "plugin:meteor/recommended"
     ],
     "rules": {
-      "import/no-extraneous-dependencies": "off",
+      "import/no-extraneous-dependencies": 0,
       "import/prefer-default-export": "off",
       "no-underscore-dangle": "off",
+      "guard-for-in": "off",
+      "no-restricted-syntax": "off",
+      "max-len": [
+        "error",
+        {
+          "code": 300
+        }
+      ],
+      "arrow-body-style": [
+        "error",
+        "always"
+      ],
       "object-shorthand": [
         "error",
         "always",

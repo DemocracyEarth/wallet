@@ -8,7 +8,7 @@
 ## Local execution (for contributors)
 - [X] 1) load DB script for test and fix purpose  
 - [X] 2) best practices docs (**readme**)
-- [ ] 3) best practices docs (**wiki**) 
+- [ ] 3) best practices docs (**wiki**)
 
 # Implementation
 - [ ] 1) scripts: db generation and collections  
@@ -17,7 +17,7 @@
 
 # Various
 ## Best Practices
-- [ ] 1) new staging environment to QA, with own metrics and data: google analytics, kadira  
+- [ ] 1) new staging environment to QA, with own metrics and data: ~~google analytics~~, kadira  
 - [ ] 2) rewrite config files with dynamic values (process.ENV):
 ``` js
     mongodb:{
