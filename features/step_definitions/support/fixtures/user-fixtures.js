@@ -3,26 +3,18 @@ import {log, fail, getBrowser, getServer} from '../utils';
 
 fixtures.users = {
 
-  // create() {
-  //     server.execute(() => {
-  //         const email = 'test@example.com';
-  //         const password = 'jkjkjkjk';
-  //         let userId;
-  //         try {
-  //             const user = Meteor.users.findOne({ emails: { $elemMatch: { address: email } } });
-  //             userId = user._id;
-  //         } catch (e) {
-  //             userId = Accounts.createUser({
-  //                 username: 'test',
-  //                 email,
-  //                 password,
-  //                 profile: { firstName: 'Tim', lastName: 'Fletcher' },
-  //             });
-  //         }
-  //         // Always reset user password as a test may have changed it
-  //         Accounts.setPassword(userId, password, { logout: false });
-  //     });
-  // },
+  create(name) {
+    return getServer().execute((name) => {
+      const slug = require('/lib/utils').convertToSlug(name);
+      return Meteor.users.findOne(Accounts.createUser({
+        email: slug + '@democracy.earth',
+        username: slug,
+        password: name,
+        // fixme: profile is ignored, for some reason
+        profile: {firstName: name, lastName: 'The Tester'},
+      }));
+    }, name);
+  },
 
   serverLogin(email, password) {
     getServer().call('login', {user: {email: email}, password: password});

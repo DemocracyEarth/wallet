@@ -1,6 +1,8 @@
 import {CONSOLE_INDENT as INDENT} from './constants';
 
 
+//// LOGGING ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 /**
  * We queue in here the logs for each step, and display them all in one go once the step has completed.
  * This is much better-looking than the default rendering of console.log
@@ -22,6 +24,8 @@ export const log = (...args) => {
   logs.push(indent_console_output(args));
 };
 
+
+//// CORE //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Sugar to throw an Error more idiomatically, in order to ensure a step fails.
@@ -45,7 +49,6 @@ export const getServer = () => {
 /**
  * Get the current browser and fail when not available.
  * @see http://webdriver.io/api.html for what the browser can do
- * @returns object
  */
 export const getBrowser = () => {
   if ( ! browser) throw new Error('Browser is unavailable, for some reason.');

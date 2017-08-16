@@ -13,20 +13,9 @@ export default function () {
 
   this.Given(/^I am the citizen named (.+)$/, (name) => {
     log(`Creating citizen '${name}'…`);
-    const user = getServer().execute((name) => {
-      const slug = require('/lib/utils').convertToSlug(name);
-      return Meteor.users.findOne(Accounts.createUser({
-        email: slug + '@democracy.earth',
-        username: slug,
-        password: name,
-        // fixme: profile is ignored, for some reason
-        profile: {firstName: name, lastName: 'The Tester'},
-      }));
-    }, name);
+    const user = fixtures.users.create(name);
 
-    if (!user) {
-      fail('No user was returned after user creation.');
-    }
+    if ( ! user) { fail('No user was returned after user creation.'); }
 
     log(`Logging in as '${name}'…`);
     fixtures.users.login(user.emails[0].address, name);
@@ -40,9 +29,7 @@ export default function () {
       return repository.findOne({text: title});
     }, title);
 
-    if ( ! tag) {
-      throw new Error('No tag was returned after tag creation.');
-    }
+    if ( ! tag) { fail('No tag was returned after tag creation.'); }
   });
 
 };

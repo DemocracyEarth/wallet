@@ -1,18 +1,19 @@
 import {log, fail, visit, getBrowser, getServer, camelCase} from './support/utils';
 
-const findOneDomElement = (name) => {
-  name = camelCase(name);
+/**
+ * Find exactly one DOM element matching the `query`.
+ * Rationale:
+ *   `browser.element` will return the first(?) element matching the query if there's more than one.
+ *   Most of the time we want to make sure there's no ambiguity.
+ *
+ * @param query A CSS-like element query
+ */
+const findOneDomElement = (query) => {
+  const elements = getBrowser().elements(`${query}`).value;
+  if (elements.length == 0) { fail(`No DOM element matching '${query}'.`) }
+  if (elements.length >= 2) { fail(`There is more than one DOM element matching '${query}'.`) }
 
-  let element = null;
-  const elementsById = getBrowser().elements(`#${name}`).value;
-  if (elementsById.length > 0) {
-    if (elementsById.length > 1) {
-      fail(`There is more than one DOM element with the id '${name}'.`)
-    }
-    element = elementsById[0];
-  }
-
-  return element;
+  return elements[0];
 };
 
 
@@ -36,14 +37,6 @@ const pause = (seconds) => {
 };
 
 
-const confirmPopin = () => {
-  getBrowser().waitForExist("#execute");
-  getBrowser().element('#execute').click();
-  // Wait for the modal (popin) to disappear as it prevents clicking on other parts of the page in further steps.
-  getBrowser().waitForVisible("#modalToggle", 666, true);
-};
-
-
 const clickOnElement = (query) => {
   try {
     getBrowser().waitForExist(query);
@@ -62,7 +55,7 @@ export default function () {
   });
 
   this.When(/^I trigger the floating action button$/, () => {
-    widgets.fab.click(); // unsure about this design
+    widgets.fab.click();
   });
 
   this.Then(/^I (?:wait|pause) (?:for )?(\d+(?:\.\d*)?) ?s(?:econds?)?$/, (seconds) => {
@@ -70,7 +63,7 @@ export default function () {
   });
 
   this.When(/^I (?:fill|set) the (.+) (?:with|to) "(.*)"$/, (elementQuery, content) => {
-    let element = findOneDomElement(elementQuery);
+    let element = findOneDomElement('#'+camelCase(elementQuery));
     if ( ! element) { fail(`Could not find any editable DOM element for query '${elementQuery}'.`); }
 
     if (element.getAttribute('contenteditable') || hasClass(element, 'editable')) {
@@ -91,12 +84,12 @@ export default function () {
 
   this.When(/^I sign the idea$/, () => {
     clickOnElement('#sign-author');
-    confirmPopin();
+    widgets.modal.confirm();
   });
 
   this.When(/^I submit the idea$/, () => {
-    clickOnElement('a.button.execute.action-button');  //
-    confirmPopin();
+    clickOnElement('a.button.execute.action-button');  // fix this with an id pls
+    widgets.modal.confirm();
   });
 
 };
