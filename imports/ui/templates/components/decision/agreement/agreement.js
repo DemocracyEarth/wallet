@@ -17,7 +17,7 @@ Template.agreement.rendered = function rendered() {
   if (!Session.get('contract')) { return; }
 
   if (Session.get('contract').stage == 'DRAFT' && Session.get('contract').kind == 'VOTE') {
-    var editor = new MediumEditor('#ideaDescription', {
+    var editor = new MediumEditor('#editor', {
       /* These are the default options for the editor,
           if nothing is passed this is what is used */
       activeButtonClass: 'medium-editor-button-active',
@@ -83,7 +83,7 @@ Template.agreement.rendered = function rendered() {
       Meteor.clearTimeout(typingTimer);
       typingTimer = Meteor.setTimeout(function () {
         if (Session.get('missingDescription') == false) {
-          saveDescription(document.getElementById('ideaDescription').innerHTML);
+          saveDescription(document.getElementById('editor').innerHTML);
         } else {
           saveDescription('');
         }
@@ -139,17 +139,17 @@ Template.agreement.helpers({
 });
 
 Template.agreement.events({
-  "focus #ideaDescription": function (event) {
+  "focus #editor": function (event) {
     if (Session.get('missingDescription')) {
-      document.getElementById('ideaDescription').innerText = '';
+      document.getElementById('editor').innerText = '';
       Session.set('missingDescription',false);
     }
   },
-  "blur #ideaDescription": function (event) {
-    const content = stripHTMLfromText(document.getElementById('ideaDescription').innerHTML);
+  "blur #editor": function (event) {
+    const content = stripHTMLfromText(document.getElementById('editor').innerHTML);
     if (content.length <= 1) {
       Session.set('missingDescription',true);
-      document.getElementById('ideaDescription').innerText = TAPi18n.__('placeholder-editor');
+      document.getElementById('editor').innerText = TAPi18n.__('placeholder-editor');
     }
   }
 });
