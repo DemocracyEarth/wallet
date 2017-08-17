@@ -5,6 +5,7 @@ Feature: Proposing ideas
 
   Background:
     Given I am the citizen named Richard S.
+#      And Richard S. has 42 votes available
       And there is a tag titled Transparency
       And there is a tag titled Sovereignty
 
@@ -17,6 +18,7 @@ Feature: Proposing ideas
       And I set the idea description to "Trusting closed software is a loss of sovereignty."
       And I add the tag Transparency
       And I add the tag Sovereignty
+      And I enable ballot voting
       And I submit the idea
      Then there should be an idea titled "Require libre software in all governmental endeavours."
 

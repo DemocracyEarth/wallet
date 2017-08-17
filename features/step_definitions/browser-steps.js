@@ -101,6 +101,15 @@ export default function () {
     widgets.modal.confirm();
   });
 
+  this.When(/^I sign the idea/, () => {
+    clickOnElement('#author-sign');
+    widgets.modal.confirm();
+  });
+
+  this.When(/^I enable ballot voting/, () => {
+    clickOnElement('.toggle.ballotEnabled');
+  });
+
   this.When(/^I submit the idea$/, () => {
     clickOnElement('a.button.execute.action-button');  // fix this with an id pls
     widgets.modal.confirm();
