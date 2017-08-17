@@ -24,8 +24,8 @@ function disableContractExecution() {
     return true;
   } else if (Session.get('draftOptions') && Session.get('contract').ballotEnabled) {
     return true;
-  } else if (!Session.get('rightToVote')) {
-    return true;
+  // } else if (!Session.get('rightToVote')) {
+  //   return true;
   }
   if (Session.get('contract').kind === 'VOTE' && Session.get('contract').stage === 'LIVE') {
     if (!ballotReady()) {

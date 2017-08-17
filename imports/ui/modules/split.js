@@ -52,6 +52,10 @@ const _saveSplitSettings = (left, right) => {
 * @summary splits the view of panels based on user preference
 */
 const _splitRender = () => {
+  // fixme @santisiri
+  // This is ran once BEFORE the _setupSplit because agora is what calls it upon its creation,
+  // which is only the case for phones when in editor mode. See contract.html
+  if (Session.get('resizeSplit') === undefined) { return; }
   if ($('.split-right') && $('.split-left')) {
     const contentwidth = $('.right').width();
     const half = parseInt(contentwidth / 2, 10);
