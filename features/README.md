@@ -11,6 +11,18 @@ You will lose everything you had on the development server.
 At the end of the test suite, the very last Scenario is not cleared,
 so we can use that to create a fixtures Scenario to bootstrap local development.
 
+## Roadmap
+
+- [ ] Authoring
+  - [ ] Ideas without ballots
+  - [ ] Ideas with ballots
+- [ ] Voting
+  - [ ] Receiving votes upon account creation
+  - [ ] Using votes on ideas
+- [ ] Delegating
+- [ ] Debating
+  - [ ] Using a chronological tree
+
 ## Run
 
 Launch the development server :
