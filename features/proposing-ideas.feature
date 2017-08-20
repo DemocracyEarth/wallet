@@ -11,8 +11,8 @@ Feature: Proposing ideas
 
   Scenario: Propose a fully qualified idea successfully
     Given there should not be an idea titled "Require libre software in all governmental endeavours."
-     When I am on the homepage
-      And I trigger the floating action button
+      And I am on the homepage
+     When I trigger the floating action button
      Then I should be on the page to propose an idea
      When I set the idea title to "Require libre software in all governmental endeavours."
       And I set the idea description to "Trusting closed software is a loss of sovereignty."
