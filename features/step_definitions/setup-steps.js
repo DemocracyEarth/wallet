@@ -21,6 +21,12 @@ export default function () {
     this.I = name;
   });
 
+  this.Given(/^there is a citizen named (.+)$/, (name) => {
+    log(`Creating citizen '${name}'…`);
+    const user = fixtures.users.create(name);
+    if ( ! user) { fail('No user was returned after user creation.'); }
+  });
+
   this.Given(/^there is a tag titled (.+)$/, (title) => {
     // todo: refactor using the (private!) createTag method in /imports/api/contracts/methods ? @santisiri
     const tag = getServer().execute((title) => {
@@ -41,10 +47,6 @@ export default function () {
 
   this.Then(/^(.+) should have (\d+) votes available$/, (name, votes) => {
     expect(this.getUser(name).profile.wallet.available).to.equal(votes);
-  });
-
-  this.Then(/^I dump the citizen (.+)$/, (name) => {
-    log(this.getUser(name));
   });
 
 };
