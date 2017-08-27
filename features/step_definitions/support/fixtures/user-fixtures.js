@@ -2,6 +2,7 @@ import {log, fail, getBrowser, getServer} from '../utils';
 
 fixtures.users = {
 
+  /* note: this is synchronous */
   create(name) {
     return getServer().execute((name) => {
       const slug = require('/lib/utils').convertToSlug(name).replace(/-+/, '');

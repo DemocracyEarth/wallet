@@ -8,8 +8,6 @@
 // Also, cucumberry looks nice at first glance :
 // https://github.com/hackhat/cucumberry/blob/prod/Readme.MD#parse-values-automatically
 
-import {log, fail} from './utils';
-
 let transforms = [];
 
 function cast(value) {
@@ -45,7 +43,7 @@ function t(fn) {
 //   };
 // }
 
-module.exports = function () {
+export default function () {
   console.log("Setting up the transformers…");
   const _defineStep = this.defineStep;
   this.defineStep = function (pattern, fn) {

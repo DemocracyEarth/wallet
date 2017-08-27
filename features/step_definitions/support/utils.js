@@ -135,3 +135,18 @@ const stringify = (thing) => {
       return String(thing);
   }
 };
+
+
+
+//// FEATURE CONTEXT ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+export default function () {
+
+  console.log("Setting up the tools…");
+
+  this.getUser = (name) => {
+    if (name == 'I' && this.I) { name = this.I; }
+    return fixtures.users.findOneByName(name);
+  };
+
+};

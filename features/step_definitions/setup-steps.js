@@ -10,11 +10,6 @@ import {log, fail, getServer} from './support/utils';
 
 export default function () {
 
-  this.getUser = (name) => {
-    if (name == 'I' && this.I) { name = this.I; }
-    return fixtures.users.findOneByName(name);
-  };
-
   this.Given(/^I am the (?:newly created )?citizen named (.+)$/, (name) => {
     log(`Creating citizen '${name}'…`);
     const user = fixtures.users.create(name);
@@ -41,12 +36,7 @@ export default function () {
     const user = this.getUser(name);
     const wallet = user.profile.wallet;
     log(wallet);
-    log(wallet.balance);
-    log(wallet.placed);
-    log(wallet.available);
-    log(wallet.currency);
-    // fixme
-
+    fail("fixme: how to do this ? Make a transaction with the Collective ?")
   });
 
   this.Then(/^(.+) should have (\d+) votes available$/, (name, votes) => {
