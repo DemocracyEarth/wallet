@@ -392,8 +392,10 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
   }
 
   // sync time with server
+  let currentTime = null;
   Meteor.call('getServerTime', function (error, result) {
-    Session.set('time', result);
+    currentTime = result;
+    if (Session) Session.set('time', result);
   });
 
   // build transaction
@@ -416,7 +418,7 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     },
     kind: finalSettings.kind,
     contractId: finalSettings.contractId,
-    timestamp: Session.get('time'),
+    timestamp: currentTime,
     status: 'PENDING',
     condition: finalSettings.condition,
   };
