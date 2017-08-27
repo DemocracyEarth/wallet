@@ -5,7 +5,6 @@ Feature: Proposing ideas
 
   Background:
     Given I am the citizen named Richard S.
-#      And Richard S. has 42 votes available
       And there is a tag titled Transparency
       And there is a tag titled Sovereignty
 
@@ -22,4 +21,6 @@ Feature: Proposing ideas
       And I submit the idea
      Then there should be an idea titled "Require libre software in all governmental endeavours."
 
-#      And ...
+  # possible additional scenarios
+  Scenario: Propose an idea without ballot voting
+  Scenario: Fail to propose an idea without title
