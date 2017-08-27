@@ -53,4 +53,8 @@ export default function () {
     expect(this.getUser(name).profile.wallet.available).to.equal(votes);
   });
 
+  this.Then(/^I dump the citizen (.+)$/, (name) => {
+    log(this.getUser(name));
+  });
+
 };
