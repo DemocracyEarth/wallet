@@ -1,4 +1,5 @@
-This is an experimental feature suite in Gherkin, to write Specifications by Example.
+This is an experimental feature suite in [Gherkin](https://cucumber.io/docs/reference),
+to write [Specifications by Example](https://en.wikipedia.org/wiki/Specification_by_example).
 It's a work in progress, and there's a lot of work ahead. Write a feature, and dive in !
 
 ``` gherkin
@@ -27,14 +28,15 @@ so we can use that to create a fixtures Scenario to bootstrap local development.
 
 ## Roadmap
 
-- [x] Authoring
+- Authoring
     - [x] Ideas without ballots
     - [x] Ideas with ballots
-- [ ] Voting
+- Voting
     - [x] Receiving votes upon account creation
     - [ ] Using votes on ideas
-- [ ] Delegating
-- [ ] Debating
+- Delegating
+    - [ ] Giving votes to another citizen
+- Debating
     - [ ] Using a chronological tree
 
 
@@ -64,8 +66,10 @@ expect(user.profile.wallet.available).to.equal(expectedVotesAvailable);
 Some step variables (integers and floats) will be automatically parsed from the gherkin strings,
 and provided to the step definition as variables of the correct type, eg: `1000` instead of `'1000'`.
 
+Transformers dry up the step definitions by removing the usage of `parseInt`, `parseFloat`, etc.
+
 This is a local (understand: _not a maintained third-party library_)
-and somewhat fragile feature with too much voodoo and evil, but it seems to work.
+and somewhat fragile feature with too much evil voodoo, but it seems to work.
 Tread carefully.
 
 
