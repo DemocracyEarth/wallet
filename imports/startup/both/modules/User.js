@@ -43,16 +43,21 @@ const _createUser = (data) => {
           if (error) {
             return reject(error);
           }
-          // send verification e-mail
-          Meteor.call('sendVerificationLink', (verificationError) => {
-            if (verificationError) {
-              console.log(verificationError.reason, 'danger');
-            } else {
-              displayNotice('user-created', true);
-            }
-          });
-          // make first membership transaction
-          genesisTransaction(Meteor.user()._id);
+          try {
+            // send verification e-mail
+            Meteor.call('sendVerificationLink', (verificationError) => {
+              if (verificationError) {
+                console.log(verificationError.reason, 'danger');
+              } else {
+                displayNotice('user-created', true);
+              }
+            });
+            // make first membership transaction
+            genesisTransaction(Meteor.user()._id);
+          } catch (e) {
+            reject(e);
+          }
+
           return resolve(result);
         });
       });
@@ -86,10 +91,10 @@ let _validateUser = (data) => {
 let _validatePassword = (pass) => {
   let val = true;
   if (pass.length < 6) {
-    Session.set('invalidPassword', true);
+    if (Session) Session.set('invalidPassword', true);
     val = false;
   } else {
-    Session.set('invalidPassword', false);
+    if (Session) Session.set('invalidPassword', false);
     val = true;
   }
   return val;
@@ -101,12 +106,12 @@ let _validatePassword = (pass) => {
 * @param {string} passB - second version of password introduced in form
 */
 let _validatePasswordMatch = (passA, passB) => {
-  Session.set('mismatchPassword', !(passA === passB));
+  if (Session) Session.set('mismatchPassword', !(passA === passB));
   return (passA === passB);
 };
 
 /**
-* @summary makes sure username identifier meets criteria and is avaialble
+* @summary makes sure username identifier meets criteria and is available
 * @param {string} username - picked username
 */
 let _validateUsername = (username) => {
@@ -135,7 +140,7 @@ let _validateUsername = (username) => {
 };
 
 /**
-* @summary returns a profile of an anonoymous user
+* @summary returns a profile of an anonymous user
 */
 const _getAnonObject = (signatureMode) => {
   if (signatureMode) {
@@ -197,7 +202,7 @@ let _cacheSearch = (param, value) => {
     }
   }
   return false;
-}
+};
 
 /**
 * @summary verifies if a user is having a delegate role in a contract
