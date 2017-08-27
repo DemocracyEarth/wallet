@@ -28,16 +28,16 @@ so we can use that to create a fixtures Scenario to bootstrap local development.
 
 ## Roadmap
 
-- Authoring
-    - [x] Ideas without ballots
-    - [x] Ideas with ballots
-- Voting
-    - [x] Receiving votes upon account creation
-    - [ ] Using votes on ideas
-- Delegating
+- [x] Authoring
+    - [x] Ideas without ballots
+    - [x] Ideas with ballots
+- [ ] Voting
+    - [x] Receiving votes upon account creation
+    - [ ] Using votes on ideas
+- [ ] Delegating
     - [ ] Giving votes to another citizen
-- Debating
-    - [ ] Using a chronological tree
+- [ ] Debating
+    - [ ] Using a chronological tree
 
 
 ## Run
