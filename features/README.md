@@ -40,6 +40,16 @@ Assertions are done using [Chai](http://chaijs.com/).
 Basically we're throwing errors when something goes awry or against expectations.
 
 
+## Transformers
+
+Some step variables (integers and floats) will be automatically parsed from the gherkin strings,
+and provided to the step definition as variables of the correct type, eg: `1000` instead of `'1000'`.
+
+This is a local (understand: _not a maintained third-party library_)
+and somewhat fragile feature with too much voodoo and evil, but it seems to work.
+Tread carefully.
+
+
 ## Pitfalls
 
 ### Cannot find module 'chai-string'
@@ -56,3 +66,9 @@ Hence, the following imports won't work but you can still access them in `server
     import { Tags } from '/imports/api/tags/Tags';
 
 See `setup-steps.js` for an example.
+
+### Naming a user 'I'
+
+**Don't.**
+The features will not like it, as they will try to fetch the logged in user defined from previous steps.
+
