@@ -7,7 +7,7 @@ fixtures.common = {
     visit('/'); // browser.execute below NEEDS this
     getBrowser().execute(() => Meteor.logout());
     getServer().execute(() => Package['xolvio:cleaner'].resetDatabase());
-    getServer().execute(() => { // Basically a copy of what's in Meteor.startup() -- refacto needed there
+    getServer().execute(() => { // Basically a copy of what's in Meteor.startup() -- todo: refacto needed there
       require('/imports/api/collectives/Collectives').Collectives.insert(Meteor.settings.public.Collective, (e, id) => {
         if (e) throw new Error("Could not add main collective to database. " + e);
         if (id) {

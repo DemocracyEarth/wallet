@@ -13,15 +13,15 @@ so we can use that to create a fixtures Scenario to bootstrap local development.
 
 ## Roadmap
 
-- [ ] Authoring
-  - [ ] Ideas without ballots
-  - [ ] Ideas with ballots
+- [x] Authoring
+    - [x] Ideas without ballots
+    - [x] Ideas with ballots
 - [ ] Voting
-  - [ ] Receiving votes upon account creation
-  - [ ] Using votes on ideas
+    - [x] Receiving votes upon account creation
+    - [ ] Using votes on ideas
 - [ ] Delegating
 - [ ] Debating
-  - [ ] Using a chronological tree
+    - [ ] Using a chronological tree
 
 ## Run
 
