@@ -101,12 +101,12 @@ export default function () {
     widgets.modal.confirm();
   });
 
-  this.When(/^I sign the idea/, () => {
+  this.When(/^I sign the idea$/, () => {
     clickOnElement('#author-sign');
     widgets.modal.confirm();
   });
 
-  this.When(/^I enable ballot voting/, () => {
+  this.When(/^I enable ballot voting$/, () => {
     clickOnElement('.toggle.ballotEnabled');
   });
 
