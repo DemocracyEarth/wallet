@@ -36,7 +36,7 @@ const findByIdOrClass = (name) => {
 /**
  * Compensate for the absence of element.hasClass('...') in Chimp's API.
  *
- * @param element An element from the webdriver. http://webdriver.io/api.html
+ * @param element An element from the web driver. http://webdriver.io/api.html
  * @param classesAsString One class (eg: 'editable') or the intersection of multiple classes (eg: 'alert button').
  */
 const hasClass = (element, classesAsString) => {
@@ -66,7 +66,7 @@ const clickOnElement = (query) => {
 
 export default function () {
 
-  this.Given(/^I am on the homepage$/, () => {
+  this.Given(/^I (?:am on|go to) the homepage$/, () => {
     visit('/');
   });
 
@@ -113,6 +113,51 @@ export default function () {
   this.When(/^I submit the idea$/, () => {
     clickOnElement('a.button.execute.action-button');  // fix this with an id pls
     widgets.modal.confirm();
+  });
+
+  this.Then(/^I should see "(.+)" in the page$/, (text) => {
+    // It's not enough, as the source here is the one initially provided by the server, not from an up-to-date DOM.
+    // const source = getBrowser().source().value;
+    // expect(source.includes(text)).to.be.true();
+
+    return 'pending';
+  });
+
+  this.Then(/^I should see "(.+)" in the feed$/, (text) => {
+    const query = ".content > .feed li .title-input > .title-input";
+    getBrowser().waitForExist(query);
+    const feed = getBrowser().elements(query).value;
+    let found = false;
+    feed.forEach((feedItem) => {
+      if (feedItem.getText().trim() == text.trim()) { found = true; }
+    });
+    if ( ! found) { fail(`Could not find the text "${text}" in the feed.`); }
+  });
+
+  this.Then(/^I click on "(.+)" in the feed$/, (text) => {
+    const query = ".content > .feed li .title-input > .title-input";
+    getBrowser().waitForExist(query);
+    const feed = getBrowser().elements(query).value;
+    let found = [];
+    feed.forEach((feedItem) => {
+      if (feedItem.getText().trim() == text.trim()) { found.push(feedItem); }
+    });
+    if ( ! found) { fail(`Could not find the text "${text}" in the feed.`); }
+    if (1 < found.length) { fail(`Ambiguous click : too many items in the feed match the title "${text}".`); }
+
+    found[0].click();
+  });
+
+  this.Then(/^I click on the (Yes|No) ballot option$/, (yesno) => {
+    const query = "#ballotOption #tickbox";  // T_T ; (it actually works and returns 2 elements)
+    getBrowser().waitForExist(query);
+    const feed = getBrowser().elements(query).value;
+
+    if (0 == feed.length) { fail(`Could not find a ballot option to click on.`); }
+    if (3 <= feed.length) { fail(`Ambiguous ballot click : too many (${feed.length}) tickboxes found.`); }
+
+    if      (yesno == 'Yes') { feed[0].click(); }
+    else if (yesno == 'No')  { feed[1].click(); }
   });
 
 };
