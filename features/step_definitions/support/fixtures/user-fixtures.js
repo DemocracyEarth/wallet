@@ -99,6 +99,9 @@ fixtures.users = {
     }
   },
 
+
+  // These two do not belong here in the fixtures. Where ?
+
   findByName(name) {
     const user = getServer().execute((name) => {
       const slug = require('/lib/utils').convertToSlug(name).replace(/-+/, '');

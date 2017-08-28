@@ -137,13 +137,19 @@ const stringify = (thing) => {
 };
 
 
-
 //// FEATURE CONTEXT ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 export default function () {
 
   console.log("Setting up the tools…");
 
+  // Q: Why are some utils methods defined here and not in the global scope ?
+  // A: We want access to the current feature context (this). Feel free to refactor.
+
+  /**
+   * @param name The full user name used in the gherkin steps. Will be slugged.
+   * @returns User
+   */
   this.getUser = (name) => {
     if (name == 'I' && this.I) { name = this.I; }
     return fixtures.users.findOneByName(name);
