@@ -1,20 +1,6 @@
-import {log, fail, visit, getBrowser, getServer, camelCase} from './support/utils';
+import {log, fail, visit, getBrowser, getServer, camelCase, findOneDomElement} from './support/utils';
 
-/**
- * Find exactly one DOM element matching the `query`.
- * Rationale:
- *   `browser.element` will return the first(?) element matching the query if there's more than one.
- *   Most of the time we want to make sure there's no ambiguity.
- *
- * @param query A CSS-like element query
- */
-const findOneDomElement = (query) => {
-  const elements = getBrowser().elements(`${query}`).value;
-  if (elements.length == 0) { fail(`No DOM element matching '${query}'.`); }
-  if (elements.length >= 2) { fail(`There is more than one DOM element matching '${query}'.`); }
 
-  return elements[0];
-};
 
 
 const findByIdOrClass = (name) => {
@@ -159,5 +145,57 @@ export default function () {
     if      (yesno == 'Yes') { feed[0].click(); }
     else if (yesno == 'No')  { feed[1].click(); }
   });
+
+  this.Then(/^I commit all my votes to the idea$/, () => {
+    widgets.voteBar.moveToRight();
+    widgets.modal.confirm();
+  });
+
+  this.Then(/^I commit (\d+) votes to the idea$/, (votesCommited) => {
+    // We're going to drag the handle to the exact spot, and then confirm the modal. It is sketchy and unreliable.
+    // Ideally, there should be an API set votes in imports/ui/templates/components/decision/liquid/liquid.js
+
+    return 'pending'; // can't slide the handle where we want it, but we can slide it all the way right.
+
+    const barQuery = ".result.vote-bar";
+    const handleQuery = ".vote-bar > .handle";
+
+    const bar = findOneDomElement(barQuery);
+    const handle = findOneDomElement(handleQuery);
+
+    const barWidth = bar.getElementSize('width');
+
+    const xPos = Math.ceil(barWidth * votesCommited / 1000); // fixme : hardcoded thousand votes
+
+    log(xPos);
+    // getBrowser().moveToObject(handleQuery).buttonDown().moveToObject(barQuery, barWidth).buttonUp();
+
+    getBrowser().moveToObject(handleQuery).buttonDown();
+    // getBrowser().pause(2000);
+    // getBrowser().moveToObject(barQuery);
+    getBrowser().pause(1000);
+    getBrowser().moveToObject(barQuery, xPos, 10);
+    getBrowser().pause(4000);
+    // getBrowser().moveToObject(barQuery, xPos, -30);
+    // getBrowser().pause(1000);
+    getBrowser().pause(1000);
+    getBrowser().moveToObject(barQuery, barWidth, 30);
+    getBrowser().moveToObject(barQuery, barWidth+1000, 30);
+    // getBrowser().pause(1000);
+    // getBrowser().moveToObject(barQuery, 100, 30);
+    // getBrowser().pause(1000);
+    // getBrowser().moveToObject(barQuery, -100, -30);
+    // getBrowser().pause(1000);
+    // getBrowser().moveToObject(barQuery, -100, 30);
+    // getBrowser().pause(1000);
+    // getBrowser().moveToObject(barQuery, xPos, -30);
+    getBrowser().pause(1000);
+    getBrowser().buttonUp();
+    getBrowser().pause(1000);
+
+    widgets.modal.confirm();
+  });
+
+
 
 };

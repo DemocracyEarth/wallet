@@ -90,6 +90,28 @@ export const visit = (route) => {
 };
 
 
+/**
+ * Find exactly one DOM element matching the `query`.
+ * Rationale:
+ *   `browser.element` will return the first(?) element matching the query if there's more than one.
+ *   Most of the time we want to make sure there's no ambiguity.
+ *
+ * @param query A CSS-like element query
+ */
+export const findOneDomElement = (query) => {
+  try {
+    getBrowser().waitForExist(query);
+  } catch (e) {
+    fail(`No element found for query '${query}' : ${e}`);
+  }
+  const elements = getBrowser().elements(`${query}`).value;
+  if (elements.length == 0) { fail(`No DOM element matching '${query}'.`); }
+  if (elements.length >= 2) { fail(`Ambiguous query : there is more than one DOM element matching '${query}'.`); }
+
+  return elements[0];
+};
+
+
 //// STRING UTILS //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const capitalize = str => str.charAt(0).toUpperCase() + str.toLowerCase().slice(1);
