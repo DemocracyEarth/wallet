@@ -1,4 +1,4 @@
-import {log, fail, visit, getBrowser, getServer, camelCase, findOneDomElement} from './support/utils';
+import {log, fail, visit, getBrowser, getServer, camelCase, findOneDomElement, findDomElements} from './support/utils';
 
 
 
@@ -111,23 +111,17 @@ export default function () {
 
   this.Then(/^I should see "(.+)" in the feed$/, (text) => {
     const query = ".content > .feed li .title-input > .title-input";
-    getBrowser().waitForExist(query);
-    const feed = getBrowser().elements(query).value;
+    const feed = findDomElements(query);
     let found = false;
-    feed.forEach((feedItem) => {
-      if (feedItem.getText().trim() == text.trim()) { found = true; }
-    });
+    feed.forEach((feedItem) => { if (feedItem.getText().trim() == text.trim()) { found = true; } });
     if ( ! found) { fail(`Could not find the text "${text}" in the feed.`); }
   });
 
   this.Then(/^I click on "(.+)" in the feed$/, (text) => {
     const query = ".content > .feed li .title-input > .title-input";
-    getBrowser().waitForExist(query);
-    const feed = getBrowser().elements(query).value;
+    const feed = findDomElements(query);
     let found = [];
-    feed.forEach((feedItem) => {
-      if (feedItem.getText().trim() == text.trim()) { found.push(feedItem); }
-    });
+    feed.forEach((feedItem) => { if (feedItem.getText().trim() == text.trim()) { found.push(feedItem); } });
     if ( ! found) { fail(`Could not find the text "${text}" in the feed.`); }
     if (1 < found.length) { fail(`Ambiguous click : too many items in the feed match the title "${text}".`); }
 
@@ -136,8 +130,7 @@ export default function () {
 
   this.Then(/^I click on the (Yes|No) ballot option$/, (yesno) => {
     const query = "#ballotOption #tickbox";  // T_T ; (it actually works and returns 2 elements)
-    getBrowser().waitForExist(query);
-    const feed = getBrowser().elements(query).value;
+    const feed = findDomElements(query);
 
     if (0 == feed.length) { fail(`Could not find a ballot option to click on.`); }
     if (3 <= feed.length) { fail(`Ambiguous ballot click : too many (${feed.length}) tickboxes found.`); }
@@ -152,46 +145,28 @@ export default function () {
   });
 
   this.Then(/^I commit (\d+) votes to the idea$/, (votesCommited) => {
-    // We're going to drag the handle to the exact spot, and then confirm the modal. It is sketchy and unreliable.
-    // Ideally, there should be an API set votes in imports/ui/templates/components/decision/liquid/liquid.js
+    // 1. Drag the handle to the exact spot, and then confirm the modal. It is too sketchy and unreliable.
+    // The moveTo and buttonXXXX APIs of the webdriver are deprecated, try Actions when they're released.
+    // getBrowser().moveToObject(handleQuery).buttonDown().moveToObject(barQuery, xPos).buttonUp();
 
-    return 'pending'; // can't slide the handle where we want it, but we can slide it all the way right.
-
+    // 2. Hack around, grab the Vote instance from the draggable handle and call its API
     const barQuery = ".result.vote-bar";
     const handleQuery = ".vote-bar > .handle";
-
     const bar = findOneDomElement(barQuery);
     const handle = findOneDomElement(handleQuery);
-
     const barWidth = bar.getElementSize('width');
-
     const xPos = Math.ceil(barWidth * votesCommited / 1000); // fixme : hardcoded thousand votes
+    const voteId = bar.getAttribute('id').slice('voteBar-'.length);
 
-    log(xPos);
-    // getBrowser().moveToObject(handleQuery).buttonDown().moveToObject(barQuery, barWidth).buttonUp();
-
-    getBrowser().moveToObject(handleQuery).buttonDown();
-    // getBrowser().pause(2000);
-    // getBrowser().moveToObject(barQuery);
-    getBrowser().pause(1000);
-    getBrowser().moveToObject(barQuery, xPos, 10);
-    getBrowser().pause(4000);
-    // getBrowser().moveToObject(barQuery, xPos, -30);
-    // getBrowser().pause(1000);
-    getBrowser().pause(1000);
-    getBrowser().moveToObject(barQuery, barWidth, 30);
-    getBrowser().moveToObject(barQuery, barWidth+1000, 30);
-    // getBrowser().pause(1000);
-    // getBrowser().moveToObject(barQuery, 100, 30);
-    // getBrowser().pause(1000);
-    // getBrowser().moveToObject(barQuery, -100, -30);
-    // getBrowser().pause(1000);
-    // getBrowser().moveToObject(barQuery, -100, 30);
-    // getBrowser().pause(1000);
-    // getBrowser().moveToObject(barQuery, xPos, -30);
-    getBrowser().pause(1000);
-    getBrowser().buttonUp();
-    getBrowser().pause(1000);
+    getBrowser().timeoutsAsyncScript(3000);
+    getBrowser().execute((voteId, votesCommited, xPos) => {
+      const vote = $('#voteHandle-'+voteId).draggable('widget')[0].newVote;
+      if ( ! vote) { fail("Cannot find the vote instance. Did you refactor stuff ?"); }
+      Session.set(voteId, vote);
+      vote.sliderInput(xPos);
+      vote.place(votesCommited, false);
+      vote.execute(()=>{ console.error("Vote was canceled.", vote); });
+    }, voteId, votesCommited, xPos);
 
     widgets.modal.confirm();
   });

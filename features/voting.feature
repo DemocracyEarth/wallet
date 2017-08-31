@@ -18,9 +18,10 @@ Feature: Voting on ideas
      Then I should see "Bob's Idea" in the feed
      When I click on "Bob's Idea" in the feed
      Then I should be on the page /vote/bobs-idea
+     #Then I should be on the detail page of the idea titled "Bob's Idea"
      When I click on the Yes ballot option
-     When I commit all my votes to the idea
-     Then I should have 0 votes available
+      And I commit 200 votes to the idea
+     Then I should have 800 votes available
 
 
   Scenario: Vote against someone else's idea
@@ -32,7 +33,8 @@ Feature: Voting on ideas
      Then I should see "Bob's Idea" in the feed
      When I click on "Bob's Idea" in the feed
      Then I should be on the page /vote/bobs-idea
+     #Then I should be on the detail page of the idea titled "Bob's Idea"
      When I click on the No ballot option
-     When I commit all my votes to the idea
+      And I commit all my votes to the idea
      Then I should have 0 votes available
 
