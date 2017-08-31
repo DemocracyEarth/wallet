@@ -54,6 +54,6 @@ export default function () {
     transforms.push({ pattern: pattern, fn: fn });
   };
 
-  this.Transform(/^(\d+)$/, function (matches) { return parseInt(matches[0]); });
-  this.Transform(/^(\d+\.\d*|\d*\.\d+)$/, function (matches) { return parseFloat(matches[0]); });
+  this.Transform(/^-?\d+$/, function (matches) { return parseInt(matches[0]); });
+  this.Transform(/^-?\d+\.\d*|-?\d*\.\d+$/, function (matches) { return parseFloat(matches[0]); });
 };
