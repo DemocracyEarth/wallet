@@ -113,6 +113,43 @@ export const pause = (seconds) => {
 };
 
 
+//// DOM ELEMENTS //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Compensate for the absence of element.hasClass('...') in the webdriver Element API.
+ *
+ * @param element An Element from the webdriver. http://webdriver.io/api.html
+ * @param {string} classes One class (eg: 'editable') or the intersection of multiple classes (eg: 'alert button').
+ */
+export const hasClass = (element, classes) => {
+  const unique = (e, i, self) => { return i == self.indexOf(e); };
+  const requiredClasses = classes.split(' ').filter(unique);
+  const existingClasses = element.getAttribute('class').split(' ').filter(unique);
+
+  return existingClasses.concat(requiredClasses).filter(unique).length == existingClasses.length;
+};
+
+
+/**
+ * Find exactly one DOM element by its id or class. (and maybe more in the future?)
+ * @param {string} idOrClass
+ */
+export const findByIdOrClass = (idOrClass) => {
+  const ids = getBrowser().elements(`#${idOrClass}`).value;
+  if      (ids.length == 1) { return ids[0]; }
+  else if (ids.length >= 2) { fail(`There is more than one DOM element matching '#${idOrClass}'.`); }
+  else if (ids.length == 0) {
+    const classes = getBrowser().elements(`.${idOrClass}`).value;
+    if      (classes.length == 1) { return classes[0]; }
+    else if (classes.length >= 2) { fail(`There is more than one DOM element matching '.${idOrClass}'.`); }
+    else if (classes.length == 0) { fail(`No DOM element matching '#${idOrClass}' or '.${idOrClass}'.`); }
+    else { fail("Negative length. Bring the flamethrower!"); }
+  }
+  else { fail("Negative length. Bring the flamethrower!"); }
+  fail("I am a teapot.");
+};
+
+
 /**
  * Find exactly one DOM element matching the `query`.
  *

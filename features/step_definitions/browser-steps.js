@@ -1,38 +1,7 @@
-import {log, fail, visit, getBrowser, getServer, camelCase, findOneDomElement, findDomElements, refresh, pause, clickOnElement} from './support/utils';
-
-
-
-
-const findByIdOrClass = (name) => {
-  const ids = getBrowser().elements(`#${name}`).value;
-  if      (ids.length == 1) { return ids[0]; }
-  else if (ids.length >= 2) { fail(`There is more than one DOM element matching '#${name}'.`); }
-  else if (ids.length == 0) {
-    const classes = getBrowser().elements(`.${name}`).value;
-    if      (classes.length == 1) { return classes[0]; }
-    else if (classes.length >= 2) { fail(`There is more than one DOM element matching '.${name}'.`); }
-    else if (classes.length == 0) { fail(`No DOM element matching '#${name}' or '.${name}'.`); }
-    else { fail("Negative length. Bring the flamethrower!"); }
-  }
-  else { fail("Negative length. Bring the flamethrower!"); }
-  fail("I am a teapot.");
-};
-
-
-/**
- * Compensate for the absence of element.hasClass('...') in Chimp's API.
- *
- * @param element An element from the web driver. http://webdriver.io/api.html
- * @param classesAsString One class (eg: 'editable') or the intersection of multiple classes (eg: 'alert button').
- */
-const hasClass = (element, classesAsString) => {
-  const unique = (e, i, self) => { return i == self.indexOf(e); };
-  const requiredClasses = classesAsString.split(' ').filter(unique);
-  const existingClasses = element.getAttribute('class').split(' ').filter(unique);
-
-  return existingClasses.concat(requiredClasses).filter(unique).length == existingClasses.length;
-};
-
+import {
+  log, fail, visit, getBrowser, getServer, camelCase, refresh, pause,
+  findByIdOrClass, findOneDomElement, findDomElements, clickOnElement, hasClass,
+} from './support/utils';
 
 
 export default function () {
@@ -64,7 +33,7 @@ export default function () {
   this.When(/^I add the tag (.+)$/, (tagTitle) => {
     // There has got to be a generic way to create local functions wrapping a call on the server... Spread operator ?
     const tagSlug = getServer().execute((title) => { return require('/lib/utils').convertToSlug(title); }, tagTitle);
-    clickOnElement(`#add-suggested-tag-${tagSlug}`);
+    clickOnElement(`#add-suggested-tag-${tagSlug}`); // might fail with more complex tag titles, tweak slugging
   });
 
   this.When(/^I remove my signature$/, () => {
