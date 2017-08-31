@@ -1246,7 +1246,7 @@ blockquote {
 .vote.vote-search.vote-feed {
   margin-bottom: 25px;
   border-style: none;
-  border-radius: 3px;
+  border-radius: 5px;
   box-shadow: 0 5px 15px -12px #000;
 }
 
@@ -4377,6 +4377,10 @@ blockquote {
   background-color: #fff;
 }
 
+.mobile-editor.hide {
+  display: none;
+}
+
 .event {
   position: static;
   left: 0px;
@@ -5473,7 +5477,7 @@ blockquote {
     box-shadow: none;
   }
   .vote.vote-search.vote-feed {
-    margin-bottom: 10px;
+    margin-bottom: 30px;
     padding-bottom: 0px;
     box-shadow: none;
   }
@@ -5653,8 +5657,8 @@ blockquote {
     border-left-style: none;
     border-left-width: 0px;
     font-family: 'Open Sans', sans-serif;
-    font-size: 18px;
-    line-height: 26px;
+    font-size: 24px;
+    line-height: 34px;
     font-weight: 300;
   }
   .title-input.title-input-read {
@@ -6175,7 +6179,7 @@ blockquote {
     margin-left: 0px;
   }
   .mobile-editor.hide {
-    display: block;
+    display: none;
   }
   .mobile-widget-wrapper {
     padding-top: 15px;
