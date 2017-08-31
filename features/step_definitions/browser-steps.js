@@ -1,4 +1,4 @@
-import {log, fail, visit, getBrowser, getServer, camelCase, findOneDomElement, findDomElements, refresh} from './support/utils';
+import {log, fail, visit, getBrowser, getServer, camelCase, findOneDomElement, findDomElements, refresh, pause, clickOnElement} from './support/utils';
 
 
 
@@ -34,21 +34,6 @@ const hasClass = (element, classesAsString) => {
 };
 
 
-const pause = (seconds) => {
-  getBrowser().pause(parseFloat(seconds) * 1000);
-};
-
-
-const clickOnElement = (query) => {
-  try {
-    getBrowser().waitForExist(query);
-    getBrowser().element(query).click();
-  }
-  catch (e) {
-    fail(`Cannot click on the element '${query}' : ${e.message}`);
-  }
-};
-
 
 export default function () {
 
@@ -60,7 +45,7 @@ export default function () {
     widgets.fab.click();
   });
 
-  this.Then(/^I (?:wait|pause) (?:for )?(\d+(?:\.\d*)?) ?s(?:econds?)?$/, (seconds) => {
+  this.Then(/^I (?:wait|pause) (?:for)? *(\d+\.\d*|\d*\.\d+) ?s(?:econds?)?$/, (seconds) => {
     pause(seconds);
   });
 
@@ -161,6 +146,7 @@ export default function () {
     widgets.voteBar.moveTo(votesCommitted);
     widgets.modal.confirm();
     // We can't use this step twice in the same page load, it will bug because it's a hack. Feel free to fix it!
+    log("Reloading the whole page as well…");
     refresh(); // reloading the whole page makes using this step twice in a row OK
   });
 

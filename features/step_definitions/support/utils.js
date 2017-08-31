@@ -5,16 +5,16 @@ import {CONSOLE_INDENT as INDENT} from './constants';
 
 /**
  * We queue in here the logs for each step, and display them all in one go once the step has completed.
- * This is much better-looking than the default rendering of console.log
+ * This is much better-looking than the default rendering of `console.log`.
  * @type {Array}
  */
 export const logs = [];
 
 
 /**
- * Log the arguments to the console, in the fashion of console.log,
+ * Log the arguments to the console, in the fashion of `console.log`,
  * but with an indentation so that it is more visible. (Behat-style)
- * This should otherwise behave as closely as console.log as can be.
+ * This should otherwise behave as closely as `console.log` as possible.
  * Features :
  *   - proper indentation
  *   - display logs *below* the step that generated them
@@ -28,8 +28,9 @@ export const log = (...args) => {
 //// CORE //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Sugar to throw an Error more idiomatically, in order to ensure a step fails. We might throw a custom Error there.
- * @param message
+ * Sugar to throw an Error more idiomatically, in order to ensure a step fails. We might throw a custom Error here.
+ *
+ * @param {string} message
  */
 export const fail = (message) => {
   throw new Error(message);
@@ -38,7 +39,8 @@ export const fail = (message) => {
 
 /**
  * Get the server (see Chimp doc) and fail when not available.
- * @returns object
+ *
+ * @returns The server as provided by Chimp.
  */
 export const getServer = () => {
   if (server) return server;
@@ -48,10 +50,12 @@ export const getServer = () => {
 
 /**
  * Get the current browser and fail when not available.
+ *
  * @see http://webdriver.io/api.html for what the browser can do
+ * @returns The browser as provided by Chimp.
  */
 export const getBrowser = () => {
-  if ( ! browser) throw new Error('Browser is unavailable, for some reason.');
+  if ( ! browser) fail('Browser is unavailable, for some reason.');
 
   if (browser.getUrl() == 'data:,') {
     browser.url(getBaseUrl()); // make sure Meteor and consorts are defined
@@ -74,7 +78,7 @@ export const getBaseUrl = () => {
 
 /**
  * Get the current browser's current route, which is the URL's path + query + fragment.
- * @returns string
+ * @returns {string}
  */
 export const getRoute = () => {
   return getBrowser().getUrl().substring(getBaseUrl().length);
@@ -99,12 +103,24 @@ export const refresh = () => {
 
 
 /**
+ * Pause the browser for `seconds`. This will effectively pause the test runner, as it is synchronous.
+ * Use wisely, and do your best NOT to use. It's most useful during development, to slow down what's happening.
+ *
+ * @param {float} seconds
+ */
+export const pause = (seconds) => {
+  getBrowser().pause(seconds * 1000);
+};
+
+
+/**
  * Find exactly one DOM element matching the `query`.
  *
  * `browser.element` will return the first(?) element matching the query if there's more than one.
  * Most of the time we want to make sure there's no ambiguity, so we don't want them to be silent.
  *
- * @param query A CSS-like element query
+ * @param {string} query A CSS-like element query, such as "#myId" or ".feed .feed-item:nth-child(2)".
+ * @returns A webdriver Element
  */
 export const findOneDomElement = (query) => {
   try {
@@ -123,7 +139,8 @@ export const findOneDomElement = (query) => {
 /**
  * Find at least one DOM element matching the `query`. Always returns an array, even for one element.
  *
- * @param query A CSS-like element query, as string.
+ * @param {string} query A CSS-like element query, such as "#myId" or ".feed .feed-item:nth-child(2)".
+ * @returns {array} An array of webdriver Elements.
  */
 export const findDomElements = (query) => {
   try {
@@ -136,6 +153,22 @@ export const findDomElements = (query) => {
   if (elements.length == 0) { fail(`No DOM element matching '${query}'.`); }
 
   return elements;
+};
+
+
+/**
+ * Find and click on the element described by the `query`.
+ * Exactly one element must exist in the page for the provided `query`.
+ *
+ * @param {string} query A CSS-like element query, such as "#myId" or ".feed .feed-item:nth-child(2)".
+ */
+export const clickOnElement = (query) => {
+  try {
+    findOneDomElement(query).click();
+  }
+  catch (e) {
+    fail(`Cannot click on the element '${query}' : ${e.message}`);
+  }
 };
 
 
