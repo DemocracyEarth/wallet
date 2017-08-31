@@ -104,9 +104,15 @@ export default function () {
   this.Then(/^I should see "(.+)" in the page$/, (text) => {
     // It's not enough, as the source here is the one initially provided by the server, not from an up-to-date DOM.
     // const source = getBrowser().source().value;
-    // expect(source.includes(text)).to.be.true();
-
-    return 'pending';
+    const source = getBrowser().getText('body');
+    // Sweet, but not very verbose nor explicit when it fails
+    // expect(source.includes(text)).to.be.true;
+    if ( ! source.includes(text)) {
+      log("PAGE CONTENTS");
+      log("-------------");
+      log(source); // we log here because multi-line Error message are wrongly colored in Chimp.
+      fail(`Failed to find the text "${text}" in the source.`);
+    }
   });
 
   this.Then(/^I should see "(.+)" in the feed$/, (text) => {

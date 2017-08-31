@@ -28,7 +28,7 @@ export const log = (...args) => {
 //// CORE //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Sugar to throw an Error more idiomatically, in order to ensure a step fails.
+ * Sugar to throw an Error more idiomatically, in order to ensure a step fails. We might throw a custom Error there.
  * @param message
  */
 export const fail = (message) => {
@@ -100,9 +100,9 @@ export const refresh = () => {
 
 /**
  * Find exactly one DOM element matching the `query`.
- * Rationale:
- *   `browser.element` will return the first(?) element matching the query if there's more than one.
- *   Most of the time we want to make sure there's no ambiguity, so we don't want them to be silent.
+ *
+ * `browser.element` will return the first(?) element matching the query if there's more than one.
+ * Most of the time we want to make sure there's no ambiguity, so we don't want them to be silent.
  *
  * @param query A CSS-like element query
  */
@@ -192,7 +192,7 @@ export default function () {
 
   console.log("Setting up the tools…");
 
-  // Q: Why are some utils methods defined here and not in the global scope ?
+  // Q: Why are some utility methods defined here and not in the global scope ?
   // A: We want access to the current feature context (this). Feel free to refactor.
 
   /**
