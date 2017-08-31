@@ -1,6 +1,7 @@
 import {CONSOLE_INDENT as INDENT} from './constants';
 
 
+
 //// LOGGING ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
@@ -21,8 +22,9 @@ export const logs = [];
  * This is completed by an AfterStep hook defined in `../hooks`.
  */
 export const log = (...args) => {
-  logs.push(indent_console_output(args));
+  logs.push(_indent_console_output(args));
 };
+
 
 
 //// CORE //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -58,6 +60,7 @@ export const getBrowser = () => {
   if ( ! browser) fail('Browser is unavailable, for some reason.');
 
   if (browser.getUrl() == 'data:,') {
+    console.warn("Browser has no URL. See hooks.js that should prevent this.");
     browser.url(getBaseUrl()); // make sure Meteor and consorts are defined
   }
 
@@ -87,7 +90,7 @@ export const getRoute = () => {
 
 /**
  * Send the current browser to the provided route, which is the URL's path + query + fragment.
- * @param route
+ * @param {string} route
  */
 export const visit = (route) => {
   getBrowser().url(`${getBaseUrl()}${route}`);
@@ -111,6 +114,24 @@ export const refresh = () => {
 export const pause = (seconds) => {
   getBrowser().pause(seconds * 1000);
 };
+
+
+
+//// CONTEXT-DEPENDENT UTILS ///////////////////////////////////////////////////////////////////////////////////////////
+
+const _hasContext = () => { return typeof context !== 'undefined'; }; // long version of context?.I  (livescript FTW)
+
+/**
+ * Retrieve fresh data about a user.
+ *
+ * @param {string} name Display name of the user, as used in the gherkin steps. 'I' is converted to the current user.
+ * @returns User
+ */
+export const getUser = (name) => {
+  if (name == 'I' && _hasContext() && context.I) { name = context.I; }
+  return fixtures.users.findOneByName(name);
+};
+
 
 
 //// DOM ELEMENTS //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -209,6 +230,7 @@ export const clickOnElement = (query) => {
 };
 
 
+
 //// STRING UTILS //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const capitalize = str => str.charAt(0).toUpperCase() + str.toLowerCase().slice(1);
@@ -221,9 +243,10 @@ export const camelCase = str => {
 };
 
 
+
 //// PRIVATE ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const indent_console_output = (args) => INDENT + args.map(e => stringify(e)).join(' ').replace(/\n/g, '\n' + INDENT);
+const _indent_console_output = (args) => INDENT + args.map(e => stringify(e)).join(' ').replace(/\n/g, '\n' + INDENT);
 
 /**
  * Stringify the provided thing in the fashion of console.log
@@ -255,23 +278,3 @@ const stringify = (thing) => {
   }
 };
 
-
-//// FEATURE CONTEXT ///////////////////////////////////////////////////////////////////////////////////////////////////
-
-export default function () {
-
-  console.log("Setting up the tools…");
-
-  // Q: Why are some utility methods defined here and not in the global scope ?
-  // A: We want access to the current feature context (this). Feel free to refactor.
-
-  /**
-   * @param name The full user name used in the gherkin steps. Will be slugged.
-   * @returns User
-   */
-  this.getUser = (name) => {
-    if (name == 'I' && this.I) { name = this.I; }
-    return fixtures.users.findOneByName(name);
-  };
-
-};

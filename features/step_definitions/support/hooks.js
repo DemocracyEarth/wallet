@@ -1,9 +1,10 @@
 // These are custom hooks into the runner.
 // See https://github.com/cucumber/cucumber-js/blob/master/docs/support_files/event_handlers.md
 
-import {logs} from './utils';
+import {getBaseUrl, logs} from './utils';
 
-global.context = {};
+if (global.context) throw new Error("Something is fishy. Context should not be defined already.");
+global.context = {}; // global context object, reset before each Scenario
 
 export default function () {
 
@@ -11,6 +12,7 @@ export default function () {
 
   // Load Chai extensions, because life is simpler with them.
   // See http://chaijs.com/plugins/ for more extensions.
+  // Note: browser and server are unavailable here
   this.BeforeFeatures(() => {
     if (typeof chai == 'undefined') throw new Error("We're using Chai ; please run Chimp with the --chai option.");
     chai.use(require('chai-string'));
@@ -24,10 +26,9 @@ export default function () {
 
   // Swipe the slate clean before each scenario.
   this.BeforeScenario(() => {
-    fixtures.common.reset();
-    this.I = null; // nope nope nope ; we need a better way to have a scenario-scoped context.
-    this.context = {}; // maybe something like this ?
-    context = {}; // or like this, so we don't need the `this` to access it ? The evils are similar, no ?
+    if (browser.getUrl() == 'data:,') { browser.url(getBaseUrl()); } // Visit the website, or Meteor is undefined
+    fixtures.common.reset(); // Reset the database, and re-add the mandatory fixtures, like the Collective
+    context = {}; // Reset the scenario-scoped context global variable
   });
 
 };

@@ -61,6 +61,12 @@ expect(user.profile.wallet.available).to.equal(expectedVotesAvailable);
 ```
 
 
+## Scenario-scoped context
+
+Inside your step definitions, you may use the global object `context`, which is emptied before each scenario.
+It is useful to store state between steps, for example `I`, which is defined at one step and used at another.
+
+
 ## Transformers
 
 Some step variables (integers and floats) will be automatically parsed from the gherkin strings,

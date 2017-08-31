@@ -5,7 +5,7 @@
 // import { Meteor } from 'meteor/meteor';
 // import { Tags } from '/imports/api/tags/Tags';
 
-import {log, fail, getServer} from './support/utils';
+import {log, fail, getServer, getUser} from './support/utils';
 
 
 export default function () {
@@ -18,7 +18,7 @@ export default function () {
     log(`Logging in as '${name}'…`);
     fixtures.users.login(user.emails[0].address, name);
 
-    this.I = name;
+    context.I = name;
   });
 
   this.Given(/^there is a citizen named (.+)$/, (name) => {
@@ -40,7 +40,7 @@ export default function () {
 
   this.Given(/^(.+) has proposed a(n| votable) idea titled "(.+)"$/, (name, votable, title) => {
     votable = votable === " votable";
-    const author = this.getUser(name);
+    const author = getUser(name);
     const idea = getServer().execute((title, authorId, votable) => {
       repository = require('/imports/api/contracts/Contracts').Contracts;
       const ideaId = repository.insert({
@@ -57,14 +57,15 @@ export default function () {
   });
 
   this.Given(/^(.+) has (\d+) votes available$/, (name, votes) => {
-    const user = this.getUser(name);
+    const user = getUser(name);
     const wallet = user.profile.wallet;
     log(wallet);
-    fail("fixme: how to do this ? Make a transaction with the Collective ?")
+    // how to do this ? Make a transaction with the Collective ?
+    return 'pending';
   });
 
   this.Then(/^(.+) should have (\d+) votes available$/, (name, votes) => {
-    expect(this.getUser(name).profile.wallet.available).to.equal(votes);
+    expect(getUser(name).profile.wallet.available).to.equal(votes);
   });
 
 };
