@@ -1,4 +1,4 @@
-import {getBrowser} from '../utils';
+import {log, getBrowser} from '../utils';
 
 function ModalWidget() {
   const selectors = {
@@ -7,6 +7,7 @@ function ModalWidget() {
   };
 
   this.confirm = () => {
+    log("Confirming modal…");
     getBrowser().waitForVisible(selectors.self);
     getBrowser().waitForVisible(selectors.confirm);
     getBrowser().element(selectors.confirm).click();

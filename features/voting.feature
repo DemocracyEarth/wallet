@@ -28,7 +28,12 @@ Feature: Voting on ideas
      Then I should have 1000 votes available
 
 
-  Scenario: Vote *for* someone else's idea
+# The step "I commit (\d+) votes to the idea" will refresh the page afterwards
+# because it's a hack that leaves the page in a somewhat invalid state. Help welcomed.
+# It also automatically confirms the choice in the modal that opens.
+
+
+  Scenario: Vote in favor of someone else's idea
      When I go to the homepage
       And I click on "Bob's Idea" in the feed
      When I click on the Yes ballot option
@@ -36,7 +41,7 @@ Feature: Voting on ideas
      Then I should have 800 votes available
 
 
-  Scenario: Vote *against* someone else's idea
+  Scenario: Vote against someone else's idea
      When I go to the homepage
      When I click on "Bob's Idea" in the feed
      When I click on the No ballot option
@@ -44,12 +49,7 @@ Feature: Voting on ideas
      Then I should have 0 votes available
 
 
-# The step "I commit (\d+) votes to the idea" will refresh the page afterwards
-# because it's a hack that leaves the page in a somewhat invalid state.
-# It also automatically confirms the choice in the modal that opens.
-
-
-  Scenario: Change my mind about an idea
+  Scenario: Change my mind about someone else's idea
      When I go to the homepage
      When I click on "Bob's Idea" in the feed
      When I click on the No ballot option
