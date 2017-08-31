@@ -1,4 +1,4 @@
-import {log, fail, visit, getBrowser, getServer, camelCase, findOneDomElement, findDomElements} from './support/utils';
+import {log, fail, visit, getBrowser, getServer, camelCase, findOneDomElement, findDomElements, refresh} from './support/utils';
 
 
 
@@ -144,7 +144,7 @@ export default function () {
     widgets.modal.confirm();
   });
 
-  this.Then(/^I commit (\d+) votes to the idea$/, (votesCommited) => {
+  this.Then(/^I commit (\d+) votes to the idea$/, (votesCommitted) => {
     // 1. Drag the handle to the exact spot, and then confirm the modal. It is too sketchy and unreliable.
     // The moveTo and buttonXXXX APIs of the webdriver are deprecated, try Actions when they're released.
     // getBrowser().moveToObject(handleQuery).buttonDown().moveToObject(barQuery, xPos).buttonUp();
@@ -155,20 +155,25 @@ export default function () {
     const bar = findOneDomElement(barQuery);
     const handle = findOneDomElement(handleQuery);
     const barWidth = bar.getElementSize('width');
-    const xPos = Math.ceil(barWidth * votesCommited / 1000); // fixme : hardcoded thousand votes
+    const xPos = Math.ceil(barWidth * votesCommitted / 1000); // fixme : hardcoded thousand votes
     const voteId = bar.getAttribute('id').slice('voteBar-'.length);
 
-    getBrowser().timeoutsAsyncScript(3000);
-    getBrowser().execute((voteId, votesCommited, xPos) => {
+    getBrowser().execute((voteId, votesCommitted, xPos) => {
       const vote = $('#voteHandle-'+voteId).draggable('widget')[0].newVote;
       if ( ! vote) { fail("Cannot find the vote instance. Did you refactor stuff ?"); }
       Session.set(voteId, vote);
       vote.sliderInput(xPos);
-      vote.place(votesCommited, false);
+      vote.place(votesCommitted, false);
       vote.execute(()=>{ console.error("Vote was canceled.", vote); });
-    }, voteId, votesCommited, xPos);
+    }, voteId, votesCommitted, xPos);
+
+    // 3. The dream way
+    // theInstanceOfTheVoteBar.setVotesTo(votesCommitted).submit();
 
     widgets.modal.confirm();
+
+    // We can't use this step twice in the same page load, it will bug because of its hacky nature. Feel free to fix it!
+    refresh(); // reloading the whole page makes using this step twice in a row OK
   });
 
 

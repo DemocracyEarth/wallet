@@ -86,7 +86,15 @@ export const getRoute = () => {
  * @param route
  */
 export const visit = (route) => {
-  browser.url(`${getBaseUrl()}${route}`);
+  getBrowser().url(`${getBaseUrl()}${route}`);
+};
+
+
+/**
+ * F5
+ */
+export const refresh = () => {
+  getBrowser().url(getBrowser().getUrl());
 };
 
 
