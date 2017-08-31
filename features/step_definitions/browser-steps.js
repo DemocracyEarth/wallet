@@ -47,7 +47,7 @@ export default function () {
   });
 
   this.When(/^I enable ballot voting$/, () => {
-    clickOnElement('.toggle.ballotEnabled');
+    clickOnElement('.toggle.ballotEnabled'); // an id pls
   });
 
   this.When(/^I submit the idea$/, () => {
@@ -73,21 +73,13 @@ export default function () {
   });
 
   this.Then(/^I should see "(.+)" in the feed$/, (text) => {
-    const query = ".content > .feed li .title-input > .title-input";
-    const feed = findDomElements(query);
+    const feed = widgets.feed.getItems(text);
 
-    let found = false;
-    feed.forEach((feedItem) => { if (feedItem.getText().trim() == text.trim()) { found = true; } });
-
-    if ( ! found) { fail(`Could not find the text "${text}" in the feed.`); }
+    if (0 == feed.length) { fail(`Could not find the text "${text}" in the feed.`); }
   });
 
-  this.Then(/^I click on "(.+)" in the feed$/, (text) => {
-    const query = ".content > .feed li .title-input > .title-input";
-    const feed = findDomElements(query);
-
-    let found = [];
-    feed.forEach((feedItem) => { if (feedItem.getText().trim() == text.trim()) { found.push(feedItem); } });
+  this.Then(/^I (?:click on|select) "(.+)" in the feed$/, (text) => {
+    let found = widgets.feed.getItems(text);
 
     if (1 > found.length) { fail(`Could not find the text "${text}" in the feed.`); }
     if (1 < found.length) { fail(`Ambiguous click : too many items in the feed match the title "${text}".`); }
@@ -95,7 +87,7 @@ export default function () {
     found[0].click();
   });
 
-  this.Then(/^I click on the (Yes|No) ballot option$/, (yesno) => {
+  this.Then(/^I (?:click on|select) the (Yes|No) ballot option$/, (yesno) => {
     const query = "#ballotOption #tickbox";  // T_T ; (it actually works and returns 2 elements)
     const ballots = findDomElements(query);
 
