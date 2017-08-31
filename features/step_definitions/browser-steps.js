@@ -4,6 +4,9 @@ import {
 } from './support/utils';
 
 
+// This is getting too big. Ideas about how to refactor are welcome.
+
+
 export default function () {
 
   this.Given(/^I (?:am on|go to) the homepage$/, () => {
@@ -87,7 +90,7 @@ export default function () {
     found[0].click();
   });
 
-  this.Then(/^I (?:click on|select) the (Yes|No) ballot option$/, (yesno) => {
+  this.Then(/^I (?:wrongly )?(?:click on|select) the (Yes|No) ballot option$/, (yesno) => {
     const query = "#ballotOption #tickbox";  // T_T ; (it actually works and returns 2 elements)
     const ballots = findDomElements(query);
 

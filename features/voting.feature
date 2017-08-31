@@ -36,7 +36,7 @@ Feature: Voting on ideas
   Scenario: Vote in favor of someone else's idea
      When I go to the homepage
       And I click on "Bob's Idea" in the feed
-     When I click on the Yes ballot option
+     When I select the Yes ballot option
       And I commit 200 votes to the idea
      Then I should have 800 votes available
 
@@ -44,7 +44,7 @@ Feature: Voting on ideas
   Scenario: Vote against someone else's idea
      When I go to the homepage
      When I click on "Bob's Idea" in the feed
-     When I click on the No ballot option
+     When I select the No ballot option
       And I commit all my votes to the idea
      Then I should have 0 votes available
 
@@ -52,12 +52,16 @@ Feature: Voting on ideas
   Scenario: Change my mind about someone else's idea
      When I go to the homepage
      When I click on "Bob's Idea" in the feed
-     When I click on the No ballot option
+     When I wrongly select the No ballot option
       And I commit 10 votes to the idea
      Then I should have 990 votes available
-      But I click on the Yes ballot option
+      But I realize my mistake
+      And I select the Yes ballot option
       And I confirm my choice
      Then I should have 990 votes available
       And I commit 20 votes to the idea
      Then I should have 980 votes available
 
+
+  Scenario: Vote in favor of my own idea
+  Scenario: Vote against my own idea /!\
