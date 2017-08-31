@@ -145,34 +145,9 @@ export default function () {
   });
 
   this.Then(/^I commit (\d+) votes to the idea$/, (votesCommitted) => {
-    // 1. Drag the handle to the exact spot, and then confirm the modal. It is too sketchy and unreliable.
-    // The moveTo and buttonXXXX APIs of the webdriver are deprecated, try Actions when they're released.
-    // getBrowser().moveToObject(handleQuery).buttonDown().moveToObject(barQuery, xPos).buttonUp();
-
-    // 2. Hack around, grab the Vote instance from the draggable handle and call its API
-    const barQuery = ".result.vote-bar";
-    const handleQuery = ".vote-bar > .handle";
-    const bar = findOneDomElement(barQuery);
-    const handle = findOneDomElement(handleQuery);
-    const barWidth = bar.getElementSize('width');
-    const xPos = Math.ceil(barWidth * votesCommitted / 1000); // fixme : hardcoded thousand votes
-    const voteId = bar.getAttribute('id').slice('voteBar-'.length);
-
-    getBrowser().execute((voteId, votesCommitted, xPos) => {
-      const vote = $('#voteHandle-'+voteId).draggable('widget')[0].newVote;
-      if ( ! vote) { fail("Cannot find the vote instance. Did you refactor stuff ?"); }
-      Session.set(voteId, vote);
-      vote.sliderInput(xPos);
-      vote.place(votesCommitted, false);
-      vote.execute(()=>{ console.error("Vote was canceled.", vote); });
-    }, voteId, votesCommitted, xPos);
-
-    // 3. The dream way
-    // theInstanceOfTheVoteBar.setVotesTo(votesCommitted).submit();
-
+    widgets.voteBar.moveTo(votesCommitted);
     widgets.modal.confirm();
-
-    // We can't use this step twice in the same page load, it will bug because of its hacky nature. Feel free to fix it!
+    // We can't use this step twice in the same page load, it will bug because it's a hack. Feel free to fix it!
     refresh(); // reloading the whole page makes using this step twice in a row OK
   });
 
