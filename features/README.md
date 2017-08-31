@@ -31,9 +31,9 @@ so we can use that to create a fixtures Scenario to bootstrap local development.
 - [x] Authoring
     - [x] Ideas without ballots
     - [x] Ideas with ballots
-- [ ] Voting
+- [x] Voting
     - [x] Receiving votes upon account creation
-    - [ ] Using votes on ideas
+    - [x] Using votes on ideas
 - [ ] Delegating
     - [ ] Giving votes to another citizen
 - [ ] Debating
