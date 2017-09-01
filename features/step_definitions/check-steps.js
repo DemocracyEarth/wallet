@@ -1,4 +1,4 @@
-import {log, fail, getServer, getRoute} from './support/utils';
+import {log, fail, getServer, getRoute, getUser, wordsToNumbers} from './support/utils';
 
 export default function () {
 
@@ -26,6 +26,11 @@ export default function () {
     };
     if (mapping[route]) route = mapping[route];
     expect(getRoute()).to.startWith(route);
+  });
+
+  this.Then(/^(.+) should have (.+) votes available$/, (name, votes) => {
+    votes = wordsToNumbers(votes);
+    expect(getUser(name).profile.wallet.available).to.equal(votes);
   });
 
 };

@@ -68,8 +68,4 @@ export default function () {
     return 'pending';
   });
 
-  this.Then(/^(.+) should have (\d+) votes available$/, (name, votes) => {
-    expect(getUser(name).profile.wallet.available).to.equal(votes);
-  });
-
 };

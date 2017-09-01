@@ -25,7 +25,7 @@ Feature: Voting on ideas
   # How to (sanely) express it as Scenarios ?
   Scenario: Receive a thousand votes upon account creation
     Given I am the newly created citizen named N00B
-     Then I should have 1000 votes available
+     Then I should have a thousand votes available
 
 
 # The step "I commit (\d+) votes to the idea" will refresh the page afterwards
