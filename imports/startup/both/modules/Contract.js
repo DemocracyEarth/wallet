@@ -235,7 +235,7 @@ const _remove = (contractId) => {
 };
 
 /**
-* publishes a contract and goes to home
+* @summary publishes a contract and goes to home
 * @param {string} contractId - id of the contract to publish
 */
 const _publish = (contractId) => {
@@ -248,7 +248,7 @@ const _publish = (contractId) => {
 * @summary signs a contract with a verified user
 * @param {string} contractId - contract Id to be signed
 * @param {string} userObject - object containing profile of the user signing
-* @param {string} role - type of role required in this signature
+* @param {string} userRole - type of role required in this signature (see 'signatures.$.role' in Contracts.js)
 * NOTE: simplify this and don't store a cache of data of a user, that was a stupid idea.
 */
 const _sign = (contractId, userObject, userRole) => {

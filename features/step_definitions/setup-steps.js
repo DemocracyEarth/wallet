@@ -50,6 +50,10 @@ export default function () {
         stage: 'LIVE',
         ballotEnabled: votable,
       });
+
+      const author = Meteor.users.findOne({_id: authorId});
+      require('/imports/startup/both/modules/Contract').signContract(ideaId, author, 'AUTHOR');
+
       return repository.findOne({_id: ideaId});
     }, title, author._id, votable);
 
