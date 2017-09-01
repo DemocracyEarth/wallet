@@ -1,5 +1,5 @@
 import {
-  log, fail, visit, getBrowser, getServer, camelCase, refresh, pause, wordsToNumbers,
+  log, fail, visit, getBrowser, getServer, camelCase, refresh, pause, castNum,
   findByIdOrClass, findOneDomElement, findDomElements, clickOnElement, hasClass,
 } from './support/utils';
 
@@ -107,8 +107,7 @@ export default function () {
   });
 
   this.Then(/^I commit (\d+) votes to the idea$/, (votesCommitted) => {
-    votesCommitted = wordsToNumbers(votesCommitted);
-    widgets.voteBar.moveTo(votesCommitted);
+    widgets.voteBar.moveTo(castNum(votesCommitted));
     widgets.modal.confirm();
     // We can't use this step twice in the same page load, it will bug because it's a hack. Feel free to fix it!
     log("Reloading the whole page as well…");

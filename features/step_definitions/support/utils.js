@@ -243,10 +243,10 @@ export const camelCase = str => {
 };
 
 
-export const wordsToNumbers = (words) => {
-  const asFloat = parseFloat(words);
+export const castNum = (thing) => {
+  const asFloat = parseFloat(thing);
   if ( ! isNaN(asFloat) && typeof asFloat === 'number') { return asFloat; }
-  return require('words-to-numbers').wordsToNumbers(words);
+  return require('words-to-numbers').wordsToNumbers(thing);
 };
 
 

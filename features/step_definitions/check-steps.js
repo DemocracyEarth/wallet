@@ -1,4 +1,4 @@
-import {log, fail, getServer, getRoute, getUser, wordsToNumbers} from './support/utils';
+import {log, fail, getServer, getRoute, getUser, castNum} from './support/utils';
 
 export default function () {
 
@@ -29,8 +29,7 @@ export default function () {
   });
 
   this.Then(/^(.+) should have (.+) votes available$/, (name, votes) => {
-    votes = wordsToNumbers(votes);
-    expect(getUser(name).profile.wallet.available).to.equal(votes);
+    expect(getUser(name).profile.wallet.available).to.equal(castNum(votes));
   });
 
 };
