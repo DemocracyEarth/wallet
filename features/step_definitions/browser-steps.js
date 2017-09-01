@@ -67,9 +67,7 @@ export default function () {
   });
 
   this.When(/^I add the tag (.+)$/, (tagTitle) => {
-    // There has got to be a generic way to create local functions wrapping a call on the server... Spread operator ?
-    const tagSlug = getServer().execute((title) => { return require('/lib/utils').convertToSlug(title); }, tagTitle);
-    clickOnElement(`#add-suggested-tag-${tagSlug}`); // might fail with more complex tag titles, tweak slugging
+    clickOnElement(`#add-suggested-tag-${slugCase(tagTitle)}`);
   });
 
   this.When(/^I remove my signature$/, () => {
@@ -83,7 +81,7 @@ export default function () {
   });
 
   this.When(/^I enable ballot voting$/, () => {
-    clickOnElement('.toggle.ballotEnabled'); // an id pls
+    clickOnElement('.toggle.ballotEnabled');  // an id pls
   });
 
   this.When(/^I submit the idea$/, () => {
@@ -96,17 +94,11 @@ export default function () {
   });
 
   this.Then(/^I should see "(.+)" (?:(.+) times )?in the page$/, (text, expectedCount) => {
-    // It's not enough, as the source here is the one initially provided by the server, not from an up-to-date DOM.
-    // const source = getBrowser().source().value;
     if (typeof expectedCount === 'undefined') { expectedCount = 1; } else { expectedCount = castNum(expectedCount); }
     const pageText = getBrowser().getText('body');
-    const regex = require('escape-string-regexp')(text);
-    const actualCount = (pageText.match(new RegExp(regex, "g")) || []).length;
-    // expect(pageText.includes(text)).to.be.true; // Sweet, but not very verbose nor explicit when it fails
+    const actualCount = (pageText.match(new RegExp(require('escape-string-regexp')(text), "g")) || []).length;
     if (actualCount != expectedCount) {
-      log("PAGE CONTENTS");
-      log("-------------");
-      log(pageText); // Log here because multi-line Error message are wrongly colored in Chimp.
+      log("PAGE CONTENTS","-------------",pageText);  // multi-line Error|fail messages are wrongly colored, so we log
       fail(`Failed to find the text "${text}" in the source.`);
     }
   });

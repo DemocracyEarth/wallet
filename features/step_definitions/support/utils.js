@@ -260,9 +260,12 @@ export const camelCase = str => {
 
 
 /**
- * Computes the slug just like the rest of sovereign does.
+ * Computes the slug just like the rest of sovereign does. We're simply using `convertToSlug` from the server.
+ *
+ * /!\ see Issue #201
  *
  *     slugCase("Bob's Idea") == 'bobs-idea'
+ *     slugCase("L'œuf de Noël") == 'luf-de-nol'
  *
  * @param {string} str
  * @returns {string}
@@ -272,6 +275,20 @@ export const slugCase = (str) => {
 };
 
 
+/**
+ * Cast the provided thing into a number, as humans would. Should yell if it can't cast.
+ *
+ *     castNum(1.6) == 1.6
+ *     castNum(10) == 10
+ *     castNum('10') == 10
+ *     castNum('1.5') == 1.5
+ *     castNum('-.5') == -.5
+ *     castNum('three thousand') == 3000
+ *     castNum('seventy five') == 75
+ *
+ * @param thing
+ * @returns {number}
+ */
 export const castNum = (thing) => {
   const asFloat = parseFloat(thing);
   if ( ! isNaN(asFloat) && typeof asFloat === 'number') { return asFloat; }
@@ -293,7 +310,7 @@ const _indent_console_output = (args) => INDENT + args.map(e => stringify(e)).jo
  *     stringify({'foo': 'bar'}) == '{\n\t'foo': 'bar'\n}'
  *
  * @param thing
- * @returns string
+ * @returns {string}
  */
 const stringify = (thing) => {
   switch (typeof thing) {

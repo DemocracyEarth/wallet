@@ -47,7 +47,7 @@ export default function () {
     if ( ! tag) { fail('No tag was returned after tag creation.'); }
   });
 
-  this.Given(/^(.+) has proposed a(n| votable) idea titled "(.+)"$/, (name, votable, title) => {
+  this.Given(/^(.+) ha(?:s|ve) proposed a(n| votable) idea titled "(.+)"$/, (name, votable, title) => {
     votable = votable === " votable";
     const author = getUser(name);
     const idea = getServer().execute((title, authorId, votable) => {
