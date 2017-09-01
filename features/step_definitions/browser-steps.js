@@ -1,16 +1,28 @@
 import {
-  log, fail, visit, getBrowser, getServer, camelCase, refresh, pause, castNum,
-  findByIdOrClass, findOneDomElement, findDomElements, clickOnElement, hasClass,
+  log, fail, visit, getBrowser, getServer, camelCase, slugCase, refresh, pause, castNum,
+  findByIdOrClass, findOneDomElement, findDomElements, clickOnElement, typeInEditable
 } from './support/utils';
 
 
 // This is getting too big. Ideas about how to refactor are welcome.
 
 
+
+
 export default function () {
+
+  this.Given(/^I reload the page$/, () => {
+    refresh();
+    // We want to wait for meteor to finish hydrating the page before leaving this step
+    pause(0.5);
+  });
 
   this.Given(/^I (?:am on|go to) the homepage$/, () => {
     visit('/');
+  });
+
+  this.Given(/^I go on the detail page of the idea titled "(.+)"$/, (title) => {
+    visit('/vote/' + slugCase(title));
   });
 
   this.When(/^I trigger the floating action button$/, () => {
@@ -21,16 +33,37 @@ export default function () {
     pause(seconds);
   });
 
-  this.When(/^I (?:fill|set) the (.+) (?:with|to) "(.*)"$/, (elementQuery, content) => {
+  this.When(/^I (?:fill|set) the (.+) (?:with|to) "(.+)"$/, (elementQuery, content) => {
     let element = findByIdOrClass(camelCase(elementQuery));
     if ( ! element) { fail(`Could not find any editable DOM element for query '${elementQuery}'.`); }
+    typeInEditable(element, content);
+  });
 
-    if (element.getAttribute('contenteditable') || hasClass(element, 'editable')) {
-      element.click();
-      element.keys(content);
-    } else {  // here, add support for input fields
-      fail(`DOM element found for query '${elementQuery}' seems not editable.`);
-    }
+  this.When(/^I comment on the idea with "(.+)"$/, (content) => {
+    let element = findOneDomElement('#postComment');
+    if ( ! element) { fail(`Could not find any editable DOM element for query '${elementQuery}'.`); }
+    typeInEditable(element, content, true);
+  });
+
+  this.When(/^I reply to the comment "(.+)" with "(.+)"$/, (parentContent, content) => {
+    const contracts = getServer().execute((title) => {
+      return require('/imports/api/contracts/Contracts').Contracts.find({'events.content': title}).fetch();
+    }, parentContent);
+    if (1 > contracts.length) { fail(`No thread found with content "${parentContent}".`); }
+    if (1 < contracts.length) { fail(`Too many threads found with content "${parentContent}".`); }
+
+    const threads = contracts[0].events.filter((thread)=>{
+      return thread.action == 'COMMENT' && thread.content == parentContent;
+    });
+    if (1 > threads.length) { fail(`No thread found with content "${parentContent}".`); }
+    if (1 < threads.length) { fail(`Too many threads found with content "${parentContent}".`); }
+
+    const thread = threads[0];
+    const parentThreadId = thread.id;
+
+    const replyLink = findOneDomElement(`#replyToThread[value="${parentThreadId}"]`);
+    replyLink.click();
+    typeInEditable(findOneDomElement(`#postComment[name="${parentThreadId}"]`), content, true);
   });
 
   this.When(/^I add the tag (.+)$/, (tagTitle) => {
@@ -62,12 +95,15 @@ export default function () {
     widgets.modal.confirm();
   });
 
-  this.Then(/^I should see "(.+)" in the page$/, (text) => {
+  this.Then(/^I should see "(.+)" (?:(.+) times )?in the page$/, (text, expectedCount) => {
     // It's not enough, as the source here is the one initially provided by the server, not from an up-to-date DOM.
     // const source = getBrowser().source().value;
+    if (typeof expectedCount === 'undefined') { expectedCount = 1; } else { expectedCount = castNum(expectedCount); }
     const pageText = getBrowser().getText('body');
+    const regex = require('escape-string-regexp')(text);
+    const actualCount = (pageText.match(new RegExp(regex, "g")) || []).length;
     // expect(pageText.includes(text)).to.be.true; // Sweet, but not very verbose nor explicit when it fails
-    if ( ! pageText.includes(text)) {
+    if (actualCount != expectedCount) {
       log("PAGE CONTENTS");
       log("-------------");
       log(pageText); // Log here because multi-line Error message are wrongly colored in Chimp.

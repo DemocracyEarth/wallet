@@ -21,7 +21,8 @@ Feature: Voting on ideas
         # maybe the former makes more sense in "bug report" features ?
 
 
-  # From what we gather, the initial received votes count will not be constant over time...
+  # From what we gather, the initial received votes count will not be constant over time…
+  # https://github.com/DemocracyEarth/paper#332-equality
   # How to (sanely) express it as Scenarios ?
   Scenario: Receive a thousand votes upon account creation
     Given I am the newly created citizen named N00B

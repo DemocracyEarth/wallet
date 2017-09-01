@@ -122,9 +122,9 @@ export const pause = (seconds) => {
 const _hasContext = () => { return typeof context !== 'undefined'; }; // long version of context?.I  (livescript FTW)
 
 /**
- * Retrieve fresh data about a user.
+ * Retrieve fresh data about a user. Yells if the user does not exist.
  *
- * @param {string} name Display name of the user, as used in the gherkin steps. 'I' is converted to the current user.
+ * @param {string} name - Display name of the user, as used in the gherkin steps. 'I' is converted to the current user.
  * @returns User
  */
 export const getUser = (name) => {
@@ -140,7 +140,7 @@ export const getUser = (name) => {
  * Compensate for the absence of element.hasClass('...') in the webdriver Element API.
  *
  * @param element An Element from the webdriver. http://webdriver.io/api.html
- * @param {string} classes One class (eg: 'editable') or the intersection of multiple classes (eg: 'alert button').
+ * @param {string} classes - One class (eg: 'editable') or the intersection of multiple classes (eg: 'alert button').
  */
 export const hasClass = (element, classes) => {
   const unique = (e, i, self) => { return i == self.indexOf(e); };
@@ -177,7 +177,7 @@ export const findByIdOrClass = (idOrClass) => {
  * `browser.element` will return the first(?) element matching the query if there's more than one.
  * Most of the time we want to make sure there's no ambiguity, so we don't want them to be silent.
  *
- * @param {string} query A CSS-like element query, such as "#myId" or ".feed .feed-item:nth-child(2)".
+ * @param {string} query - A CSS-like element query, such as "#myId" or ".feed .feed-item:nth-child(2)".
  * @returns A webdriver Element
  */
 export const findOneDomElement = (query) => {
@@ -197,7 +197,7 @@ export const findOneDomElement = (query) => {
 /**
  * Find at least one DOM element matching the `query`. Always returns an array, even for one element.
  *
- * @param {string} query A CSS-like element query, such as "#myId" or ".feed .feed-item:nth-child(2)".
+ * @param {string} query - A CSS-like element query, such as "#myId" or ".feed .feed-item:nth-child(2)".
  * @returns {array} An array of webdriver Elements.
  */
 export const findDomElements = (query) => {
@@ -218,7 +218,7 @@ export const findDomElements = (query) => {
  * Find and click on the element described by the `query`.
  * Exactly one element must exist in the page for the provided `query`.
  *
- * @param {string} query A CSS-like element query, such as "#myId" or ".feed .feed-item:nth-child(2)".
+ * @param {string} query - A CSS-like element query, such as "#myId" or ".feed .feed-item:nth-child(2)".
  */
 export const clickOnElement = (query) => {
   try {
@@ -226,6 +226,22 @@ export const clickOnElement = (query) => {
   }
   catch (e) {
     fail(`Cannot click on the element '${query}' : ${e.message}`);
+  }
+};
+
+
+/**
+ * @param element
+ * @param {string} text
+ * @param {boolean} submit - Defaults to false. Hits Enter after the text when true.
+ */
+export const typeInEditable = (element, text, submit) => {
+  if (element.getAttribute('contenteditable') || hasClass(element, 'editable')) {
+    element.click();
+    element.keys(text);
+    if (typeof submit !== 'undefined' && submit) { element.keys("\uE006"); }
+  } else {  // here, add support for input fields
+    fail(`DOM element found seems not editable.`);
   }
 };
 
@@ -240,6 +256,19 @@ export const camelCase = str => {
   let string = str.toLowerCase().replace(/[^A-Za-z0-9]/g, ' ').split(' ')
       .reduce((result, word) => result + capitalize(word.toLowerCase()));
   return string.charAt(0).toLowerCase() + string.slice(1)
+};
+
+
+/**
+ * Computes the slug just like the rest of sovereign does.
+ *
+ *     slugCase("Bob's Idea") == 'bobs-idea'
+ *
+ * @param {string} str
+ * @returns {string}
+ */
+export const slugCase = (str) => {
+  return getServer().execute((str) => { return require('/lib/utils').convertToSlug(str); }, str);
 };
 
 

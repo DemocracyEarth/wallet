@@ -21,6 +21,15 @@ export default function () {
     context.I = name;
   });
 
+  this.Given(/^I log in as (.+)$/, (name) => {
+    const user = getUser(name);
+
+    log(`Logging in as '${name}'…`);
+    fixtures.users.login(user.emails[0].address, name);
+
+    context.I = name;
+  });
+
   this.Given(/^there is a citizen named (.+)$/, (name) => {
     log(`Creating citizen '${name}'…`);
     const user = fixtures.users.create(name);
