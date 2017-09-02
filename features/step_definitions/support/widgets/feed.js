@@ -21,4 +21,5 @@ class FeedWidget extends widgets.Base {
   };
 }
 
+widgets.Feed = FeedWidget;
 widgets.feed = new FeedWidget();

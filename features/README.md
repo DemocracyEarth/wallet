@@ -34,10 +34,10 @@ so we can use that to create a fixtures Scenario to bootstrap local development.
 - [x] Voting
     - [x] Receiving votes upon account creation
     - [x] Using votes on ideas
+- [x] Debating
+    - [x] Using a chronological tree
 - [ ] Delegating
     - [ ] Giving votes to another citizen
-- [ ] Debating
-    - [ ] Using a chronological tree
 
 
 ## Run

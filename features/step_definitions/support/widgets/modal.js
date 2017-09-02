@@ -17,4 +17,5 @@ class ModalWidget extends widgets.Base {
   }
 }
 
+widgets.Modal = ModalWidget;
 widgets.modal = new ModalWidget();

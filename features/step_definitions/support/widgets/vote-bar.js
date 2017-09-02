@@ -53,4 +53,5 @@ class VoteBarWidget extends widgets.Base {
 
 }
 
+widgets.VoteBar = VoteBarWidget;
 widgets.voteBar = new VoteBarWidget();

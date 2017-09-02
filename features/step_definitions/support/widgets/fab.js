@@ -10,4 +10,5 @@ class FabWidget extends widgets.Base {
 
 }
 
+widgets.Fab = FabWidget;
 widgets.fab = new FabWidget();
