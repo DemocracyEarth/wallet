@@ -1,6 +1,7 @@
 import {
   log, fail, visit, getBrowser, getServer, camelCase, slugCase, refresh, pause, castNum,
-  findByIdOrClass, findOneDomElement, findDomElements, clickOnElement, typeInEditable, getIdeas, getIdeaByTitle
+  findByIdOrClass, findOneDomElement, findDomElements, clickOnElement, typeInEditable, getIdeas, getIdeaByTitle,
+  getMissing
 } from './support/utils';
 
 
@@ -81,47 +82,10 @@ export default function () {
   });
 
   this.Then(/^the comment tree of the idea titled "(.+)" should look like :$/, (ideaTitle, expected) => {
+    const YAML = require('yamljs');
     const idea = getIdeaByTitle(ideaTitle);
     const comments = idea.events.filter(_keepCommentsOnly);
-
-    const YAML = require('yamljs');
-
-    expected = YAML.parse(expected);
-
-    const getMissing = (needles, haystack) => {
-      let missing = null;
-      let empty = true;
-      let v;
-
-      if (needles instanceof Array) {
-        if ( ! (haystack instanceof Array)) { return needles; }
-        missing = [];
-        for (let i = 0; i < needles.length; i++) {
-          v = getMissing(needles[i], haystack[i]);
-          if (v !== null) { missing.push(v); }
-        }
-        if (0 == missing.length) { missing = null; }
-      } else if (needles instanceof Object) {
-        if ( ! (haystack instanceof Object)) { return needles; }
-        missing = {}; empty = true;
-        for (let i in needles) {
-          if (needles.hasOwnProperty(i)) {
-            v = getMissing(needles[i], haystack[i]);
-            if (v !== null) { missing[i] = v; empty = false; }
-          }
-        }
-        if (empty) { missing = null; }
-      } else {
-        if (needles !== haystack) {
-          missing = needles;
-        }
-      }
-
-      return missing;
-    };
-
-    const missing = getMissing(expected, comments);
-
+    const missing = getMissing(YAML.parse(expected), comments);
     if (missing) {
       fail(`Could not find :\n${YAML.stringify(missing,8)}\nin\n${YAML.stringify(comments,8)}`);
     }

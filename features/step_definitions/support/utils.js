@@ -315,6 +315,50 @@ export const castNum = (thing) => {
 
 
 
+//// ASSERTIONS UTILS //////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Returns whatever needles were not recursively found in haystack, or null.
+ * Please help better naming this function and its vars.
+ * Note that for arrays, the order matters.
+ *
+ * @param {*} needles
+ * @param {*} haystack
+ * @returns {*}
+ */
+export const getMissing = (needles, haystack) => {
+  let missing = null;
+  let empty = true;
+  let v;
+
+  if (needles instanceof Array) {
+    if ( ! (haystack instanceof Array)) { return needles; }
+    missing = [];
+    for (let i = 0; i < needles.length; i++) {
+      v = getMissing(needles[i], haystack[i]);
+      if (v !== null) { missing.push(v); }
+    }
+    if (0 == missing.length) { missing = null; }
+  } else if (needles instanceof Object) {
+    if ( ! (haystack instanceof Object)) { return needles; }
+    missing = {}; empty = true;
+    for (let i in needles) {
+      if (needles.hasOwnProperty(i)) {
+        v = getMissing(needles[i], haystack[i]);
+        if (v !== null) { missing[i] = v; empty = false; }
+      }
+    }
+    if (empty) { missing = null; }
+  } else {
+    if (needles !== haystack) {
+      missing = needles;
+    }
+  }
+
+  return missing;
+};
+
+
 //// PRIVATE ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const _indent_console_output = (args) => INDENT + args.map(e => stringify(e)).join(' ').replace(/\n/g, '\n' + INDENT);
