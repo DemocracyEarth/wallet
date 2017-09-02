@@ -134,6 +134,16 @@ export const getUser = (name) => {
 
 
 
+//// SERVER REPOSITORY SUGAR ///////////////////////////////////////////////////////////////////////////////////////////
+
+export const getIdeas = (query) => {
+  return getServer().execute((query) => {
+    return require('/imports/api/contracts/Contracts').Contracts.find(query).fetch();
+  }, query);
+};
+
+
+
 //// DOM ELEMENTS //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**

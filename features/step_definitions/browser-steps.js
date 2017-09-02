@@ -1,6 +1,6 @@
 import {
   log, fail, visit, getBrowser, getServer, camelCase, slugCase, refresh, pause, castNum,
-  findByIdOrClass, findOneDomElement, findDomElements, clickOnElement, typeInEditable
+  findByIdOrClass, findOneDomElement, findDomElements, clickOnElement, typeInEditable, getIdeas
 } from './support/utils';
 
 
@@ -64,6 +64,24 @@ export default function () {
     const replyLink = findOneDomElement(`#replyToThread[value="${parentThreadId}"]`);
     replyLink.click();
     typeInEditable(findOneDomElement(`#postComment[name="${parentThreadId}"]`), content, true);
+  });
+
+  this.When(/^I dump the comment tree of the idea titled "(.+)"$/, (ideaTitle) => {
+    const ideas = getIdeas({'title': ideaTitle});
+    if (1 > ideas.length) { fail(`No idea found with "${ideaTitle}".`); }
+    if (1 < ideas.length) { fail(`Too many ideas found with content "${ideaTitle}".`); }
+    const idea = ideas[0];
+
+    const keepCommentsOnly = (o) => {
+      if ( ! o.action.includes("COMMENT")) { return false; }
+      if (o.children) {
+        o.children = o.children.filter(keepCommentsOnly);
+      }
+      return true;
+    };
+    const comments = idea.events.filter(keepCommentsOnly);
+
+    log(require('yamljs').stringify(comments, 8));
   });
 
   this.When(/^I add the tag (.+)$/, (tagTitle) => {

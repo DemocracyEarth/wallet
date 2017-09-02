@@ -7,4 +7,8 @@ export default function () {
     log(getUser(name));
   });
 
+  this.Then(/^I use a pystring$/, (pystring) => {  // Last step var is the pystring (multiline string wrapped by `"""`)
+    log(pystring);
+  });
+
 };
