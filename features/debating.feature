@@ -11,6 +11,7 @@ Feature: Debating on ideas
       And Bob has proposed a votable idea titled "Bob's Idea"
 
 
+  @watch
   Scenario: Comment on someone else's idea
      When I go on the detail page of the idea titled "Bob's Idea"
      Then I should be on the page /vote/bobs-idea
@@ -28,6 +29,21 @@ Feature: Debating on ideas
      When I reply to the comment "First!" with "Child!"
      When I reply to the comment "Second!" with "Child!"
      Then I should see "Child!" two times in the page
-     #And more assertions about the comment structure
+     #Then I dump the comment tree of the idea titled "Bob's Idea"
+     Then the comment tree of the idea titled "Bob's Idea" should look like :
+"""
+- content: "First!"
+  children:
+    - content: "Child!"
+- content: "Second!"
+  children:
+    - content: "Child!"
+- content: "Third!"
+"""
 
 
+  # Ideas to debate
+  Scenario: Fail to comment more than a hundred times per hour (papy mougeot!)
+  Scenario: Fail to comment when banned, blocked, etc.
+  Scenario: Fail to comment when not logged in
+  Scenario: ...

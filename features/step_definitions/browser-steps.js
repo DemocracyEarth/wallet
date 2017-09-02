@@ -1,6 +1,6 @@
 import {
   log, fail, visit, getBrowser, getServer, camelCase, slugCase, refresh, pause, castNum,
-  findByIdOrClass, findOneDomElement, findDomElements, clickOnElement, typeInEditable, getIdeas
+  findByIdOrClass, findOneDomElement, findDomElements, clickOnElement, typeInEditable, getIdeas, getIdeaByTitle
 } from './support/utils';
 
 
@@ -66,22 +66,65 @@ export default function () {
     typeInEditable(findOneDomElement(`#postComment[name="${parentThreadId}"]`), content, true);
   });
 
-  this.When(/^I dump the comment tree of the idea titled "(.+)"$/, (ideaTitle) => {
-    const ideas = getIdeas({'title': ideaTitle});
-    if (1 > ideas.length) { fail(`No idea found with "${ideaTitle}".`); }
-    if (1 < ideas.length) { fail(`Too many ideas found with content "${ideaTitle}".`); }
-    const idea = ideas[0];
 
-    const keepCommentsOnly = (o) => {
-      if ( ! o.action.includes("COMMENT")) { return false; }
-      if (o.children) {
-        o.children = o.children.filter(keepCommentsOnly);
-      }
-      return true;
-    };
-    const comments = idea.events.filter(keepCommentsOnly);
+  const _keepCommentsOnly = (o) => {
+    if ( ! o.action.includes("COMMENT")) { return false; }
+    if (o.children) { o.children = o.children.filter(_keepCommentsOnly); }
+    return true;
+  };
+
+  this.When(/^I dump the comment tree of the idea titled "(.+)"$/, (ideaTitle) => {
+    const idea = getIdeaByTitle(ideaTitle);
+    const comments = idea.events.filter(_keepCommentsOnly);
 
     log(require('yamljs').stringify(comments, 8));
+  });
+
+  this.Then(/^the comment tree of the idea titled "(.+)" should look like :$/, (ideaTitle, expected) => {
+    const idea = getIdeaByTitle(ideaTitle);
+    const comments = idea.events.filter(_keepCommentsOnly);
+
+    const YAML = require('yamljs');
+
+    expected = YAML.parse(expected);
+
+    const getMissing = (needles, haystack) => {
+      let missing = null;
+      let empty = true;
+      let v;
+
+      if (needles instanceof Array) {
+        if ( ! (haystack instanceof Array)) { return needles; }
+        missing = [];
+        for (let i = 0; i < needles.length; i++) {
+          v = getMissing(needles[i], haystack[i]);
+          if (v !== null) { missing.push(v); }
+        }
+        if (0 == missing.length) { missing = null; }
+      } else if (needles instanceof Object) {
+        if ( ! (haystack instanceof Object)) { return needles; }
+        missing = {}; empty = true;
+        for (let i in needles) {
+          if (needles.hasOwnProperty(i)) {
+            v = getMissing(needles[i], haystack[i]);
+            if (v !== null) { missing[i] = v; empty = false; }
+          }
+        }
+        if (empty) { missing = null; }
+      } else {
+        if (needles !== haystack) {
+          missing = needles;
+        }
+      }
+
+      return missing;
+    };
+
+    const missing = getMissing(expected, comments);
+
+    if (missing) {
+      fail(`Could not find :\n${YAML.stringify(missing,8)}\nin\n${YAML.stringify(comments,8)}`);
+    }
   });
 
   this.When(/^I add the tag (.+)$/, (tagTitle) => {

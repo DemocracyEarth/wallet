@@ -143,6 +143,14 @@ export const getIdeas = (query) => {
 };
 
 
+export const getIdeaByTitle = (title) => {
+  const ideas = getIdeas({'title': title});
+  if (1 > ideas.length) { fail(`No idea found with "${title}".`); }
+  if (1 < ideas.length) { fail(`Ambiguity ! Too many ideas found with title "${title}".`); }
+  return ideas[0];
+};
+
+
 
 //// DOM ELEMENTS //////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -194,7 +202,7 @@ export const findOneDomElement = (query) => {
   try {
     getBrowser().waitForExist(query);
   } catch (e) {
-    fail(`No element found for query '${query}' : ${e}`);
+    fail(`No element found for query '${query}' : ${e.message}`);
   }
   const elements = getBrowser().elements(query).value;
   if (elements.length == 0) { fail(`No DOM element matching '${query}'.`); }
@@ -214,7 +222,7 @@ export const findDomElements = (query) => {
   try {
     getBrowser().waitForExist(query);
   } catch (e) {
-    fail(`No element found for query '${query}' : ${e}`);
+    fail(`No element found for query '${query}' : ${e.message}`);
   }
   const elements = getBrowser().elements(query).value;
   // Not 100% sure this is always false because of waitForExist. Best leave it, it's cheap.
