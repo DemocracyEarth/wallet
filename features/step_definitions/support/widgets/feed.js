@@ -1,12 +1,14 @@
 import {getBrowser, fail, findDomElements} from '../utils';
 
-function FeedWidget() {
-  const selectors = {
-    items: '.content > .feed li .title-input > .title-input',
-  };
+class FeedWidget extends widgets.Base {
 
-  this.getItems = (titleFilter) => {
-    const feed = findDomElements(selectors.items);
+  get selectors() { return {
+    // self: '#action',
+    items: '.content > .feed li .title-input > .title-input',
+  }; }
+
+  getItems (titleFilter) {
+    const feed = findDomElements(this.selectors.items);
 
     if (typeof titleFilter === 'undefined') { return feed; }
     if (typeof titleFilter !== 'string') { fail(`Title filter (${titleFilter}) is not a string.`); }

@@ -11,7 +11,6 @@ Feature: Debating on ideas
       And Bob has proposed a votable idea titled "Bob's Idea"
 
 
-  @watch
   Scenario: Comment on someone else's idea
      When I go on the detail page of the idea titled "Bob's Idea"
      Then I should be on the page /vote/bobs-idea

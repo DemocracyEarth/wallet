@@ -1,18 +1,19 @@
 import {log, getBrowser} from '../utils';
 
-function ModalWidget() {
-  const selectors = {
+class ModalWidget extends widgets.Base {
+
+  get selectors() { return {
     self: '#modalToggle',
     confirm: '#execute',
-  };
+  }; }
 
-  this.confirm = () => {
+  confirm () {
     log("Confirming modal…");
-    getBrowser().waitForVisible(selectors.self);
-    getBrowser().waitForVisible(selectors.confirm);
-    getBrowser().element(selectors.confirm).click();
+    getBrowser().waitForVisible(this.selectors.self);
+    getBrowser().waitForVisible(this.selectors.confirm);
+    getBrowser().element(this.selectors.confirm).click();
     // Wait for the modal to disappear as it prevents clicking on other parts of the page in further steps.
-    getBrowser().waitForVisible(selectors.self, 5000, true);
+    getBrowser().waitForVisible(this.selectors.self, 5000, true);
   }
 }
 

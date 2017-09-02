@@ -1,14 +1,13 @@
-import { getBrowser } from '../utils';
+/**
+ * Floating Action Button
+ * @type {Widget}
+ */
+class FabWidget extends widgets.Base {
 
-function FabWidget() {
-    const selectors = {
-        self: '#action'
-    };
+  get selectors() { return {
+    self: '#action',
+  }; }
 
-    this.click = () => {
-        getBrowser().waitForExist(selectors.self);
-        getBrowser().click(selectors.self);
-    }
 }
 
 widgets.fab = new FabWidget();
