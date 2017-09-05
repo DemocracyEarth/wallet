@@ -5,7 +5,7 @@ Feature: Solving issues
 
 
   Scenario: Issue #201 - Improve unicode support in slugs
-    Given I am the citizen named Ali
-      And I have proposed a votable idea titled "L'œuf de Noël"
-     When I go on the detail page of the idea titled "L'œuf de Noël"
-     Then I should be on the page /vote/l-oeuf-de-noel
+    Given I am the citizen named Santa
+      And I have proposed a votable idea titled "L'œuf de Noël !"
+     When I go on the detail page of the idea titled "L'œuf de Noël !"
+     Then I should be on the page /vote/loeuf-de-noel
