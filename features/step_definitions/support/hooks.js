@@ -20,8 +20,12 @@ export default function () {
 
   // Allows us to print the log messages BELOW the step definition. See `log` in `./utils.js`.
   this.AfterStep(() => {
-    logs.forEach((s) => console.log(s));
-    logs.length = 0;
+    try {
+      logs.forEach((s) => console.log(s));
+      logs.length = 0;
+    } catch (e) {
+      console.error("Failed to print the logs.", logs);
+    }
   });
 
   // Swipe the slate clean before each scenario.

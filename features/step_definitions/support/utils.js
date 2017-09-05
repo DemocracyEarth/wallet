@@ -129,7 +129,7 @@ const _hasContext = () => { return typeof context !== 'undefined'; }; // long ve
  */
 export const getUser = (name) => {
   if (name == 'I' && _hasContext() && context.I) { name = context.I; }
-  return fixtures.users.findOneByName(name);
+  return models.users.findOneByName(name);
 };
 
 
@@ -137,17 +137,12 @@ export const getUser = (name) => {
 //// SERVER REPOSITORY SUGAR ///////////////////////////////////////////////////////////////////////////////////////////
 
 export const getIdeas = (query) => {
-  return getServer().execute((query) => {
-    return require('/imports/api/contracts/Contracts').Contracts.find(query).fetch();
-  }, query);
+  return models.ideas.find(query);
 };
 
 
 export const getIdeaByTitle = (title) => {
-  const ideas = getIdeas({'title': title});
-  if (1 > ideas.length) { fail(`No idea found with "${title}".`); }
-  if (1 < ideas.length) { fail(`Ambiguity ! Too many ideas found with title "${title}".`); }
-  return ideas[0];
+  return models.ideas.findOneByTitle(title);
 };
 
 

@@ -36,39 +36,6 @@ export default function () {
     if ( ! user) { fail('No user was returned after user creation.'); }
   });
 
-  this.Given(/^there is a tag titled (.+)$/, (title) => {
-    // todo: refactor using the (private!) createTag method in /imports/api/contracts/methods ? @santisiri
-    const tag = getServer().execute((title) => {
-      repository = require('/imports/api/tags/Tags').Tags;
-      repository.insert({text: title});
-      return repository.findOne({text: title});
-    }, title);
-
-    if ( ! tag) { fail('No tag was returned after tag creation.'); }
-  });
-
-  this.Given(/^(.+) ha(?:s|ve) proposed a(n| votable) idea titled "(.+)"$/, (name, votable, title) => {
-    votable = votable === " votable";
-    const author = getUser(name);
-    const idea = getServer().execute((title, authorId, votable) => {
-      repository = require('/imports/api/contracts/Contracts').Contracts;
-      const ideaId = repository.insert({
-        owner: authorId,
-        title: title,
-        kind:  'VOTE',
-        stage: 'LIVE',
-        ballotEnabled: votable,
-      });
-
-      const author = Meteor.users.findOne({_id: authorId});
-      require('/imports/startup/both/modules/Contract').signContract(ideaId, author, 'AUTHOR');
-
-      return repository.findOne({_id: ideaId});
-    }, title, author._id, votable);
-
-    if ( ! idea) { fail(`No idea was created with title "${title}".`); }
-  });
-
   this.Given(/^(.+) has (\d+) votes available$/, (name, votes) => {
     const user = getUser(name);
     const wallet = user.profile.wallet;

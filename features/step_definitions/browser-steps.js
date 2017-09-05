@@ -1,16 +1,32 @@
 import {
-  log, fail, visit, getBrowser, getServer, camelCase, slugCase, refresh, pause, castNum,
-  findByIdOrClass, findOneDomElement, findDomElements, clickOnElement, typeInEditable, getIdeas, getIdeaByTitle,
+  log,
+  fail,
+  getBrowser,
+  getServer,
+  camelCase,
+  slugCase,
+  refresh,
+  pause,
+  castNum,
+  findByIdOrClass,
+  findOneDomElement,
+  findDomElements,
+  clickOnElement,
+  typeInEditable,
+  getIdeaByTitle,
   getMissing
-} from './support/utils';
+} from "./support/utils";
 
 
-// This is getting too big. Ideas about how to refactor are welcome.
-
+// Don't let this become too big.
 
 
 
 export default function () {
+
+  this.Then(/^I (?:wait|pause) (?:for)? *(\d+\.\d*|\d*\.\d+) ?s(?:econds?)?$/, (seconds) => {
+    pause(seconds);
+  });
 
   this.Given(/^I reload the page$/, () => {
     refresh();
@@ -18,20 +34,8 @@ export default function () {
     pause(0.5);
   });
 
-  this.Given(/^I (?:am on|go to) the homepage$/, () => {
-    visit('/');
-  });
-
-  this.Given(/^I go on the detail page of the idea titled "(.+)"$/, (title) => {
-    visit('/vote/' + slugCase(title));
-  });
-
   this.When(/^I trigger the floating action button$/, () => {
     widgets.fab.click();
-  });
-
-  this.Then(/^I (?:wait|pause) (?:for)? *(\d+\.\d*|\d*\.\d+) ?s(?:econds?)?$/, (seconds) => {
-    pause(seconds);
   });
 
   this.When(/^I (?:fill|set) the (.+) (?:with|to) "(.+)"$/, (elementQuery, content) => {

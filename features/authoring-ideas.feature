@@ -1,7 +1,7 @@
-Feature: Proposing ideas
+Feature: Authoring ideas
   In order to share knowledge and initiate legal updates
   As a citizen
-  I need to be able to propose ideas
+  I need to be able to author and publish ideas
 
   Background:
     Given I am the citizen named Richard S.

@@ -7,9 +7,9 @@ import {getBrowser} from '../utils';
  */
 class Widget {
 
-  constructor() {
-    //this.selectors = {};
-  }
+  constructor() {}
+
+  get selectors() { return {}; }
 
   click() {
     if ( ! this.selectors.self) { throw new Error("No selector for `self`."); }
@@ -21,14 +21,14 @@ class Widget {
 
 
 /**
- * Instances and classes of widgets may be accessed via this variable.
+ * Instances and classes of widgets must be registered into this map, to may be accessed in the step definitions.
  *
- * We'll mostly use the default instances, but in case we want to create ours in the future, let's have both.
+ * We'll mostly use the default instances, but in case we want to create ours in the future, let's have both :
  *
- * UpperCased properties are class definitions
- * lowerCased properties are instances of said classes
+ *   - UpperCased properties are class definitions
+ *   - lowerCased properties are instances of said classes
  *
- * The base widget does not get an instance, it's abstract.
+ * The base widget does not get an instance, let's say it's abstract.
  */
 global.widgets = {
   Base: Widget

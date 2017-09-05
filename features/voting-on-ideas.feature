@@ -15,10 +15,7 @@ Feature: Voting on ideas
      When I go to the homepage
      Then I should see "Bob's Idea" in the feed
      When I click on "Bob's Idea" in the feed
-     Then I should be on the page /vote/bobs-idea
-    #Then I should be on the detail page of the idea titled "Bob's Idea"
-        # not sure which is best. Favoring the latter, but maybe both make sense, as we may want to check slugs
-        # maybe the former makes more sense in "bug report" features ?
+     Then I should be on the detail page of the idea titled "Bob's Idea"
 
 
   # From what we gather, the initial received votes count will not be constant over time…
