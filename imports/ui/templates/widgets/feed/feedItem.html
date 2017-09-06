@@ -9,19 +9,11 @@
 
       <div class="checkbox checkbox-custom">
 
-        <a class="w-inline-block w-clearfix option-proposal" href="{{url}}">
-          <div class="option-title option-link option-search title-input">
-             <div class="title-input">
-              {{{title}}}
-            </div>
-          </div>
-        </a>
-
         <div class="meta meta-search">
           <div class="w-list-unstyled w-clearfix identity-list extra">
             {{#each signatures}}
               <div class="w-clearfix identity">
-                  {{> avatar size=32 profile=this._id includeName=true includeNation=true editable=false smallFont=true disabled=false includeRole=false}}
+                  {{> avatar size=24 profile=this._id includeName=true includeNation=true editable=false microFont=true disabled=false includeRole=false}}
               </div>
             {{/each}}
             <div class="data">
@@ -30,6 +22,14 @@
             </div>
           </div>
         </div>
+
+        <a class="w-inline-block w-clearfix option-proposal" href="{{url}}">
+          <div class="option-title option-link option-search title-input">
+             <div class="title-input title-feed">
+              {{{title}}}
+            </div>
+          </div>
+        </a>
 
         {{#if ballotEnabled}}
           {{> ballot editorMode=false feedMode=true contract=feedContract url=url}}
