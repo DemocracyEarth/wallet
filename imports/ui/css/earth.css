@@ -5644,7 +5644,7 @@ blockquote {
     padding-right: 15px;
     padding-left: 15px;
     border-bottom: 1px dotted #e8e8e8;
-    background-color: transparent;
+    background-color: #f7f7f7;
   }
   .context {
     position: fixed;

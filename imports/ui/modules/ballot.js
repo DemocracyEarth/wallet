@@ -18,7 +18,9 @@ const _getBallot = (contractId) => {
     const manager = Session.get('ballotManager');
     for (const i in manager) {
       if (manager[i].contractId === contractId) {
-        return manager[i].candidateBallot;
+        if (manager[i].candidateBallot) {
+          return manager[i].candidateBallot;
+        }
       }
     }
   }
@@ -32,12 +34,12 @@ const _getBallot = (contractId) => {
 */
 const _setBallot = (contractId, ballot) => {
   let manager = [];
+  let found = false;
 
   if (Session.get('ballotManager')) {
     manager = Session.get('ballotManager');
   }
 
-  let found = false;
   for (const i in manager) {
     if (manager[i].contractId === contractId) {
       manager[i].candidateBallot = ballot;
@@ -64,6 +66,9 @@ const _setBallot = (contractId, ballot) => {
 const _setVote = (contract, ballot) => {
   const candidateBallot = _getBallot(contract._id);
   const multipleChoice = contract.multipleChoice;
+
+  console.log(contract._id);
+  console.log(candidateBallot);
 
   // fate
   if (ballot.tick === undefined) { ballot.tick = true } else { ballot.tick = !ballot.tick; }
