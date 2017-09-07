@@ -104,6 +104,7 @@
       ]
     },
     "settings": {
+      "import/core-modules": [ "meteor/meteor" ],
       "import/resolver": "meteor"
     }
   }

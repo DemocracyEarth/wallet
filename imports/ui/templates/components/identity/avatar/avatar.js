@@ -37,6 +37,7 @@ const getNation = (profile, flagOnly) => {
       if (flagOnly) {
         return `${searchJSON(globalObj.geoJSON.country, profile.country.name)[0].emoji}`;
       }
+      console.log(globalObj)
       return `${profile.country.name} ${searchJSON(globalObj.geoJSON.country, profile.country.name)[0].emoji}`;
     }
     if (flagOnly) { return ''; }
@@ -44,6 +45,7 @@ const getNation = (profile, flagOnly) => {
   } else {
     let user = Meteor.users.findOne({ _id: profile });
     if (user === undefined) { user = getAnonymous(); }
+    console.log(globalObj);
     if (user !== undefined && user.profile.country !== undefined) {
       const country = searchJSON(globalObj.geoJSON.country, user.profile.country.name);
       if (user.profile.country.name !== TAPi18n.__('unknown') && country !== undefined) {

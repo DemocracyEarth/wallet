@@ -67,9 +67,6 @@ const _setVote = (contract, ballot) => {
   const candidateBallot = _getBallot(contract._id);
   const multipleChoice = contract.multipleChoice;
 
-  console.log(contract._id);
-  console.log(candidateBallot);
-
   // fate
   if (ballot.tick === undefined) { ballot.tick = true } else { ballot.tick = !ballot.tick; }
 

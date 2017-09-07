@@ -25,6 +25,7 @@ import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { SearchSource } from 'meteor/meteorhacks:search-source';
 import { Template } from 'meteor/templating';
+import { HTTP } from 'meteor/http';
 import { toggleSidebar } from '/imports/ui/modules/menu';
 
 import { globalObj } from '/lib/global';
@@ -76,7 +77,7 @@ Meteor.startup(() => {
   });
 
   // geographical Info
-  HTTP.get(Meteor.absoluteUrl('data/geo.json'), function (err, result) {
+  HTTP.get(Meteor.absoluteUrl('data/geo.json'), (err, result) => {
     globalObj.geoJSON = result.data;
     Session.set('filteredCountries', result.data.country);
   });
