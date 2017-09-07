@@ -10,15 +10,15 @@
       <div class="checkbox checkbox-custom">
 
         <div class="meta meta-search">
-          <div class="w-list-unstyled w-clearfix identity-list extra">
+          <div class="w-list-unstyled w-clearfix identity-list identity-feed-item extra">
             {{#each signatures}}
               <div class="w-clearfix identity">
                   {{> avatar size=24 profile=this._id includeName=true includeNation=true editable=false microFont=true disabled=false includeRole=false}}
               </div>
             {{/each}}
-            <div class="data">
+            <div class="data data-feed">
               <img class="url-icon" src="{{pathFor route='home'}}images/time.png">
-              <div class="verifier verifier-live">{{sinceDate timestamp}}</div>
+              <div class="verifier verifier-live verifier-feed">{{sinceDate timestamp}}</div>
             </div>
           </div>
         </div>

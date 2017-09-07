@@ -33,10 +33,12 @@
         {{/if}}
         {{#if includeName}}
           {{#if microFont}}
-            <a href="{{url}}" class="identity-label identity-label-micro">{{fullName profile}}</a>
-            {{#if includeNation}}
-              {{flag profile}}
-            {{/if}}
+            <a href="{{url}}" class="identity-label identity-label-micro">
+              {{fullName profile}}
+              {{#if includeNation}}
+                {{flag profile}}
+              {{/if}}
+            </a>
           {{else}}
             {{#if smallFont}}
               <a href="{{url}}" class="identity-label identity-label-small">{{fullName profile}}</a>

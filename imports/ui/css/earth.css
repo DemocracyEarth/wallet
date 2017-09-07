@@ -5412,9 +5412,7 @@ blockquote {
     background-color: transparent;
   }
   .section.section-mobile.section-mobile-feed {
-    margin-right: 0px;
-    margin-bottom: 10px;
-    margin-left: 0px;
+    margin: 10px 0px 15px;
   }
   .power {
     width: 100%;
@@ -5477,12 +5475,15 @@ blockquote {
     margin-top: 7px;
     float: right;
   }
+  .extra.identity-list.avatar-editor {
+    padding-bottom: 0px;
+  }
   .vote.vote-search {
     padding: 12px;
     box-shadow: none;
   }
   .vote.vote-search.vote-feed {
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     padding: 0px 15px;
     border-radius: 10px;
     box-shadow: none;
@@ -5578,6 +5579,9 @@ blockquote {
   .verifier.verifier-live {
     font-size: 14px;
   }
+  .verifier.verifier-live.verifier-feed {
+    font-size: 12px;
+  }
   .portrait {
     display: block;
     width: auto;
@@ -5590,6 +5594,9 @@ blockquote {
   }
   .score-block {
     height: 15px;
+  }
+  .identity-list.identity-feed-item {
+    padding: 0px;
   }
   .search.search-blur {
     overflow: hidden;
@@ -5606,6 +5613,9 @@ blockquote {
   .election-label {
     float: none;
   }
+  .identity-peer {
+    margin-top: 7px;
+  }
   .modal.hide {
     display: none;
   }
@@ -5621,12 +5631,16 @@ blockquote {
     margin-right: 0px;
     float: right;
   }
+  .data.data-feed {
+    margin-top: 6px;
+  }
   .stage.stage-card {
     margin-top: 6px;
   }
   .meta.meta-search {
-    margin: -10px -15px 10px;
-    padding-top: 10px;
+    overflow: hidden;
+    height: 55px;
+    margin: -10px -15px 0px;
     padding-right: 15px;
     padding-left: 15px;
     border-bottom: 1px dotted #e8e8e8;
@@ -5683,6 +5697,7 @@ blockquote {
     width: 90%;
   }
   .title-input.title-feed {
+    margin-top: 20px;
     margin-bottom: 20px;
   }
   .paper-header {
@@ -5726,7 +5741,8 @@ blockquote {
     color: #999;
   }
   .avatar-editor {
-    margin-bottom: 5px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
   }
   .alert {
     width: 90%;
