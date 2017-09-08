@@ -11,6 +11,8 @@
 
 Sovereign is a decentralized governance platform for small & large organizations.
 
+Read our [open source white paper](https://github.com/DemocracyEarth/paper).
+
 See our 🇫🇷 [Paris 2016 conference](http://youtube.com/watch?v=UajbQTHnTfM) presentation.
 
 <p align="center">
