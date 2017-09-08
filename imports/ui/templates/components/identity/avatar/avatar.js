@@ -5,6 +5,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { Router } from 'meteor/iron:router';
 import { $ } from 'meteor/jquery';
 
+import { geo } from '/lib/geo';
 import { signatureStatus, removeSignature } from '/imports/startup/both/modules/Contract';
 import { guidGenerator } from '/imports/startup/both/modules/crypto';
 import { getAnonymous } from '/imports/startup/both/modules/User';
@@ -21,7 +22,7 @@ const getNation = (profile, flagOnly) => {
   if (profile === undefined) {
     if (Meteor.user() != null) {
       if (Meteor.user().profile.country !== undefined) {
-        const country = searchJSON(globalObj.geoJSON.country, Meteor.user().profile.country.name);
+        const country = searchJSON(geo.country, Meteor.user().profile.country.name);
         if (country !== undefined) {
           if (flagOnly) {
             return `${country[0].emoji}`;
@@ -35,19 +36,17 @@ const getNation = (profile, flagOnly) => {
   } else if (profile.country !== undefined) {
     if (profile.country.name !== TAPi18n.__('unknown')) {
       if (flagOnly) {
-        return `${searchJSON(globalObj.geoJSON.country, profile.country.name)[0].emoji}`;
+        return `${searchJSON(geo.country, profile.country.name)[0].emoji}`;
       }
-      console.log(globalObj)
-      return `${profile.country.name} ${searchJSON(globalObj.geoJSON.country, profile.country.name)[0].emoji}`;
+      return `${profile.country.name} ${searchJSON(geo.country, profile.country.name)[0].emoji}`;
     }
     if (flagOnly) { return ''; }
     return TAPi18n.__('unknown');
   } else {
     let user = Meteor.users.findOne({ _id: profile });
     if (user === undefined) { user = getAnonymous(); }
-    console.log(globalObj);
     if (user !== undefined && user.profile.country !== undefined) {
-      const country = searchJSON(globalObj.geoJSON.country, user.profile.country.name);
+      const country = searchJSON(geo.country, user.profile.country.name);
       if (user.profile.country.name !== TAPi18n.__('unknown') && country !== undefined) {
         if (flagOnly) {
           return `${country[0].emoji}`;
