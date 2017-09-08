@@ -116,7 +116,9 @@ Template.liquid.onRendered(function render() {
     $(`#votePlaced-${voteId}`).width(agreement(voteId, true));
   });
 
+  console.log(this.data.editable);
   if (this.data.editable) {
+    console.log(`#voteHandle-${this.data._id}`);
     // drag event
     $(`#voteHandle-${this.data._id}`).draggable({
       axis: 'x',
@@ -126,6 +128,7 @@ Template.liquid.onRendered(function render() {
         Session.set(voteId, this.newVote);
       },
       start(event, ui) {
+        console.log('dragging start');
         const voteId = ui.helper.context.id.replace('voteHandle-', '');
         this.calibrateNewPos = 0;
         this.calibrateCurrentPos = 0;
