@@ -81,5 +81,4 @@ reactive-var@1.0.11
 reactive-dict@1.1.9
 facebook-config-ui@1.0.0
 twitter-config-ui@1.0.0
-meteorhacks:kadira-profiler
 dynamic-import
