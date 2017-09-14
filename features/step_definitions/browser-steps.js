@@ -115,6 +115,4 @@ export default function () {
     refresh(); // reloading the whole page makes using this step twice in a row OK
   });
 
-
-
 };

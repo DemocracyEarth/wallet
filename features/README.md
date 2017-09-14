@@ -51,6 +51,9 @@ Then, _in another terminal,_ run :
     $ chimp --chai --ddp=http://localhost:3000
 
 
+**If you are sensitive to epilepsy, you should take the necessary precautions.**
+
+
 ## Assert
 
 Assertions are done using [Chai](http://chaijs.com/).
@@ -73,10 +76,19 @@ Some step variables (integers and floats) will be automatically parsed from the 
 and provided to the step definition as variables of the correct type, eg: `1000` instead of `'1000'`.
 
 Transformers dry up the step definitions by removing the usage of `parseInt`, `parseFloat`, etc.
+We could also use them with user names or idea titles, with a bit of tweaking.
 
 This is a local (understand: _not a maintained third-party library_)
 and somewhat fragile feature with too much evil voodoo, but it seems to work.
-Tread carefully.
+Tread carefully. Ideally this should be supported mainstream, in Chimp.
+
+As we'll want to support word numbers like `three thousand` pretty much everywhere numbers could be written,
+we'll probably have to do a `castNum()` ourselves anyway. As they are, the transformers are not very useful.
+
+If we make them more eager, we could try always casting with a global `.+` regex for the numbers' `Transformer`,
+and silently ask forgiveness when it fails, to the cost of adding a pitfall when using "Six" as user name in the steps.
+
+Undecided which is best. Should we remove the transformers ? Or improve them ? Chip in !
 
 
 ## Pitfalls
@@ -89,12 +101,13 @@ Tread carefully.
 
 Tests that run in the Chimp context do not run in Meteor,
 they run outside Meteor and talk to the app, from a completely different node.js process.
-Hence, the following imports won't work but you can still access them in `server.execute()` :
+Hence, the following imports won't work :
 
     import { Meteor } from 'meteor/meteor';
     import { Tags } from '/imports/api/tags/Tags';
 
-See `setup-steps.js` for an example.
+You can still access them in `getServer.execute()`,
+where `Meteor` will be defined, and you can use `require` to load the `Tags`.
 
 ### Naming a user 'I'
 
