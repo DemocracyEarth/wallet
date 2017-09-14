@@ -1,4 +1,4 @@
-import {visit, getRoute, slugCase} from "./support/utils";
+import {visit, getRoute, slugCase} from './support/utils';
 
 
 export default function () {
@@ -8,13 +8,13 @@ export default function () {
   };
 
   this.Given(/^I (?:am|go) (?:on|to) the page (.+)$/, (route) => {
-    if (routeConstraints[route]) route = routeConstraints[route];
+    if (routeConstraints[route]) { route = routeConstraints[route]; }
     visit(route);
   });
 
   this.Then(/^I should be on the page (.+)$/, (route) => {
-    if (routeConstraints[route]) route = routeConstraints[route];
-    expect(getRoute()).to.startWith(route);
+    if (routeConstraints[route]) { expect(getRoute()).to.startWith(routeConstraints[route]); }
+    else                         { expect(getRoute()).to.equal(route); }
   });
 
   this.Given(/^I (?:am|go) (?:on|to) the homepage$/, () => {

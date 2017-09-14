@@ -1,4 +1,4 @@
-import {log, fail, getServer, getRoute, getUser, castNum} from './support/utils';
+import {getUser, castNum} from './support/utils';
 
 export default function () {
 
