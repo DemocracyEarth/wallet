@@ -70,27 +70,6 @@ Inside your step definitions, you may use the global object `context`, which is 
 It is useful to store state between steps, for example `I`, which is defined at one step and used at another.
 
 
-## Transformers
-
-Some step variables (integers and floats) will be automatically parsed from the gherkin strings,
-and provided to the step definition as variables of the correct type, eg: `1000` instead of `'1000'`.
-
-Transformers dry up the step definitions by removing the usage of `parseInt`, `parseFloat`, etc.
-We could also use them with user names or idea titles, with a bit of tweaking.
-
-This is a local (understand: _not a maintained third-party library_)
-and somewhat fragile feature with too much evil voodoo, but it seems to work.
-Tread carefully. Ideally this should be supported mainstream, in Chimp.
-
-As we'll want to support word numbers like `three thousand` pretty much everywhere numbers could be written,
-we'll probably have to do a `castNum()` ourselves anyway. As they are, the transformers are not very useful.
-
-If we make them more eager, we could try always casting with a global `.+` regex for the numbers' `Transformer`,
-and silently ask forgiveness when it fails, to the cost of adding a pitfall when using "Six" as user name in the steps.
-
-Undecided which is best. Should we remove the transformers ? Or improve them ? Chip in !
-
-
 ## Pitfalls
 
 ### Cannot find module 'chai-string'
@@ -113,4 +92,12 @@ where `Meteor` will be defined, and you can use `require` to load the `Tags`.
 
 **Don't.**
 The features will first try to fetch the logged in user defined from previous steps.
+
+### Transformers
+
+We don't use [transformers](https://github.com/cucumber/cucumber/wiki/Step-Argument-Transforms).
+Chimp does not natively support them, and each of our implementation attempts had severe drawbacks.
+Use the `castNum` and `getUser` functions in your steps to grab numbers and users from their string counterparts.
+
+When Chimp supports them or if you figure out a bugless way to have them, please open an issue or a PR!
 
