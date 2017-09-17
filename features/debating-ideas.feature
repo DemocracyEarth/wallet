@@ -13,7 +13,7 @@ Feature: Debating on ideas
 
   Scenario: Comment on someone else's idea
      When I go on the detail page of the idea titled "Bob's Idea"
-     Then I should be on the page /vote/bobs-idea
+     Then I should be on the page "/vote/bobs-idea"
      When I comment on the idea with "First!"
       And I reload the page
      Then I should see "First!" in the page

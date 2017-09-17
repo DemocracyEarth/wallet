@@ -8,4 +8,4 @@ Feature: Solving issues
     Given I am the citizen named Santa
       And I have proposed a votable idea titled "L'œuf de Noël !"
      When I go on the detail page of the idea titled "L'œuf de Noël !"
-     Then I should be on the page /vote/loeuf-de-noel
+     Then I should be on the page "/vote/loeuf-de-noel"
