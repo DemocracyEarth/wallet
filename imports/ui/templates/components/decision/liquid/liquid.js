@@ -78,9 +78,9 @@ function getPercentage(value, voteId) {
   return parseFloat((value * 100) / Session.get(voteId).balance, 10);
 }
 
-Template.liquid.onCreated(function () {
-  const wallet = new Vote(this.data.wallet, this.data.targetId, this.data._id);
-  Session.set(this.data._id, wallet);
+Template.liquid.onCreated(() => {
+  const wallet = new Vote(Template.instance().data.wallet, Template.instance().data.targetId, Template.instance().data._id);
+  Session.set(Template.instance().data._id, wallet);
 
   if (!Session.get('contract')) {
     Template.instance().contract = new ReactiveVar(Template.currentData().contract);
@@ -92,35 +92,40 @@ Template.liquid.onCreated(function () {
   Template.instance().candidateBallot = new ReactiveVar(Template.currentData().candidateBallot);
 });
 
-Template.liquid.onRendered(function render() {
+Template.liquid.onRendered(function () {
+  console.log('onRendered');
+
   if (!Meteor.user()) {
+    console.log('huh');
     return;
   }
 
-  const wallet = new Vote(this.data.wallet, this.data.targetId, this.data._id);
-  Session.set(this.data._id, wallet);
+  const wallet = new Vote(Template.instance().data.wallet, Template.instance().data.targetId, Template.instance().data._id);
+  Session.set(Template.instance().data._id, wallet);
 
   // real time update
   Tracker.autorun(() => {
-    if (this.data.sourceId === Meteor.userId()) {
-      const newWallet = new Vote(Meteor.user().profile.wallet, this.data.targetId, this.data._id);
+    if (Template.instance().data.sourceId === Meteor.userId()) {
+      const newWallet = new Vote(Meteor.user().profile.wallet, Template.instance().data.targetId, Template.instance().data._id);
       newWallet.resetSlider();
-      Session.set(this.data._id, newWallet);
+      Session.set(Template.instance().data._id, newWallet);
+    }
+    if (this.subscriptionsReady()) {
+      Tracker.afterFlush(() => {
+        // redraw liquid bar if resize
+        $(`#voteBar-${this.data._id}`).resize(function () {
+          console.log('redrawing ON');
+          const voteId = this.id.replace('voteBar-', '');
+          $(`#voteSlider-${voteId}`).width(getBarWidth(Session.get(voteId).inBallot, voteId, true));
+          $(`#votePlaced-${voteId}`).width(agreement(voteId, true));
+        });
+      });
     }
   });
 
-  // redraw liquid bar if resize
-  $(`#voteBar-${this.data._id}`).resize(function () {
-    const voteId = this.id.replace('voteBar-', '');
-    $(`#voteSlider-${voteId}`).width(getBarWidth(Session.get(voteId).inBallot, voteId, true));
-    $(`#votePlaced-${voteId}`).width(agreement(voteId, true));
-  });
-
-  console.log(this.data.editable);
-  if (this.data.editable) {
-    console.log(`#voteHandle-${this.data._id}`);
+  if (Template.instance().data.editable) {
     // drag event
-    $(`#voteHandle-${this.data._id}`).draggable({
+    $(`#voteHandle-${Template.instance().data._id}`).draggable({
       axis: 'x',
       create() {
         const voteId = this.id.replace('voteHandle-', '');
