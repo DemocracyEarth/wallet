@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
 import { Session } from 'meteor/session';
 import { addTag } from '/lib/data';
+import { convertToSlug } from '../../../../../utils/functions';
 
 
 export default class Tag extends Component {
@@ -19,7 +20,7 @@ export default class Tag extends Component {
           <div className="hash-tag">{ content }</div>
         </a>
         { suggestion &&
-          <div className="action" onClick={() => this.addTagClick(id)}>
+          <div id={`add-suggested-tag-${convertToSlug(content)}`} className="action" onClick={() => this.addTagClick(id)}>
             <div>
               <strong>＋</strong>
             </div>
