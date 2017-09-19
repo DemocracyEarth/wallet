@@ -39,13 +39,8 @@ Template.semantics.rendered = function rendered() {
           Session.set('maxReached', false);
           Session.set('duplicateTags', false);
         } else if (this.id == 'tagList') {
-          if (addTag(ui.item.get(0).getAttribute('value'), ui.item.index()) === true) {
-            const element = ui.item.get(0).childNodes[1].childNodes[6];
-            element.parentNode.removeChild(element);
-            ui.item.get(0).remove();
-          } else {
-            ui.item.get(0).remove();
-          }
+          addTag(ui.item.get(0).getAttribute('value'), ui.item.index());
+          ui.item.get(0).remove();
         }
       },
       revert: 100,
