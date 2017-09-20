@@ -471,8 +471,6 @@ const _getExternalScripts = () => {
   if (typeof window.datepicker === 'undefined') {
     $.getScript('/datepicker.js');
   }
-  $.getScript('/jquery.resize.js');
-  $.getScript('/js/jquery.ui.touch-punch.min.js');
 };
 
 const _getNavbarAction = (path) => {

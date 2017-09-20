@@ -12,6 +12,7 @@ import { Vote } from '/imports/ui/modules/Vote';
 import { contractReady, purgeBallot, candidateBallot, getRightToVote, getBallot, setBallot } from '/imports/ui/modules/ballot';
 import { clearPopups } from '/imports/ui/modules/popup';
 import { Contracts } from '/imports/api/contracts/Contracts';
+import { fn } from '/imports/startup/client/functions';
 
 import './liquid.html';
 import '../action/action.js';
@@ -93,10 +94,9 @@ Template.liquid.onCreated(() => {
 });
 
 Template.liquid.onRendered(function () {
-  console.log('onRendered');
+  fn.getExternalScripts();
 
   if (!Meteor.user()) {
-    console.log('huh');
     return;
   }
 
@@ -110,17 +110,12 @@ Template.liquid.onRendered(function () {
       newWallet.resetSlider();
       Session.set(Template.instance().data._id, newWallet);
     }
-    if (this.subscriptionsReady()) {
-      Tracker.afterFlush(() => {
-        // redraw liquid bar if resize
-        $(`#voteBar-${this.data._id}`).resize(function () {
-          console.log('redrawing ON');
-          const voteId = this.id.replace('voteBar-', '');
-          $(`#voteSlider-${voteId}`).width(getBarWidth(Session.get(voteId).inBallot, voteId, true));
-          $(`#votePlaced-${voteId}`).width(agreement(voteId, true));
-        });
-      });
-    }
+  });
+
+  $(`#voteBar-${this.data._id}`).resize(function () {
+    const voteId = this.id.replace('voteBar-', '');
+    $(`#voteSlider-${voteId}`).width(getBarWidth(Session.get(voteId).inBallot, voteId, true));
+    $(`#votePlaced-${voteId}`).width(agreement(voteId, true));
   });
 
   if (Template.instance().data.editable) {
@@ -133,7 +128,6 @@ Template.liquid.onRendered(function () {
         Session.set(voteId, this.newVote);
       },
       start(event, ui) {
-        console.log('dragging start');
         const voteId = ui.helper.context.id.replace('voteHandle-', '');
         this.calibrateNewPos = 0;
         this.calibrateCurrentPos = 0;
