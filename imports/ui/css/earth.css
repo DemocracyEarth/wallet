@@ -1358,7 +1358,7 @@ blockquote {
 
 .option-title.option-link:hover {
   border-bottom: 1px none #00bf8f;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .option-title.option-link.option-edit {
@@ -1408,10 +1408,6 @@ blockquote {
   font-size: 30px;
   line-height: 40px;
   font-weight: 300;
-}
-
-.option-title.option-link.option-search:hover {
-  text-decoration: underline;
 }
 
 .option-title.option-link.option-search.option-nolink {
@@ -5501,9 +5497,6 @@ blockquote {
   }
   .option-title.option-link.option-long {
     max-width: 80%;
-  }
-  .option-title.option-link.option-search {
-    font-weight: 400;
   }
   .option-title.option-title-mini {
     font-size: 18px;
