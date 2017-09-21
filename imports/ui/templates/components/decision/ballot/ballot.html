@@ -14,8 +14,8 @@
       <div class="w-clearfix paper-header {{headerStyle}}">
         {{#if feedMode}}
           <a class="micro-button micro-button-header w-clearfix w-inline-block" href="{{url}}">
-            <img class="micro-icon" src="{{pathFor route='home'}}images/debate.png">
-            <div class="micro-label">{{_ 'debate'}}</div>
+            <img class="micro-icon" src="{{pathFor route='home'}}images/vote-icon.png">
+            <div class="micro-label">{{voters}}</div>
           </a>
         {{else}}
           {{> kind title="ballot" icon="images/modal-vote.png" stage=stage}}
