@@ -3861,10 +3861,10 @@ blockquote {
 }
 
 .alert-icon {
-  width: 60px;
-  height: 60px;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  width: 30px;
+  height: 30px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .alert-title {
@@ -6140,6 +6140,9 @@ blockquote {
   }
   .score-details {
     margin-top: 20px;
+  }
+  .modal.hide {
+    display: inline-block;
   }
   .selector-modal {
     left: 0px;
