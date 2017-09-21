@@ -113,7 +113,7 @@ Template.feedItem.events({
         action: TAPi18n.__('remove-draft'),
         displayProfile: false,
       },
-      function () {
+      () => {
         $(dom)
           .velocity({ opacity: 0, marginTop: '0px', marginBottom: '0px', height: 0 }, {
             duration: animationSettings.duration,

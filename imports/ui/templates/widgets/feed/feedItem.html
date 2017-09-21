@@ -23,13 +23,13 @@
           </div>
         </div>
 
-        <a class="w-inline-block w-clearfix option-proposal" href="{{url}}">
+        <div class="w-inline-block w-clearfix option-proposal">
           <div class="option-title option-link option-search title-input">
              <div class="title-input title-feed">
               {{{title}}}
             </div>
           </div>
-        </a>
+        </div>
 
         {{#if ballotEnabled}}
           {{> ballot editorMode=false feedMode=true contract=feedContract url=url}}

@@ -3375,7 +3375,6 @@ blockquote {
 .option-proposal:hover {
   border-bottom-style: none;
   color: #00bf8f;
-  text-decoration: underline;
 }
 
 .title-input {
