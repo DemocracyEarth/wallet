@@ -277,7 +277,7 @@ const _showResults = (contract) => {
 };
 
 /**
-* @summary shows total unique voters to a given issue
+* @summary shows total unique voters on a given issue
 * @param {object} contract - contract to make voter count on
 * @return {number} integer with final count
 */

@@ -272,11 +272,11 @@ Template.ballot.helpers({
   voters() {
     const total = getTotalVoters(Template.instance().contract.get());
     if (total === 1) {
-      return `${total} ${TAPi18n.__('voter')}.`;
+      return `${total} ${TAPi18n.__('voter').toLowerCase()}.`;
     } else if (total === 0) {
       return TAPi18n.__('no-voters');
     }
-    return `${total} ${TAPi18n.__('voters')}.`;
+    return `${total} ${TAPi18n.__('voters').toLowerCase()}.`;
   },
 });
 

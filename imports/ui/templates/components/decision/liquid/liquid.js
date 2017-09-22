@@ -104,13 +104,18 @@ Template.liquid.onRendered(function () {
   Session.set(Template.instance().data._id, wallet);
 
   // real time update
+  /**
+  NOTE: this was used likely to check for updates on remote instances but looks it should be deprecated now. Will leave as is for a while tho
   Tracker.autorun(() => {
+    console.log(Template.instance());
     if (Template.instance().data.sourceId === Meteor.userId()) {
       const newWallet = new Vote(Meteor.user().profile.wallet, Template.instance().data.targetId, Template.instance().data._id);
       newWallet.resetSlider();
+      console.log(Template.instance().data._id);
       Session.set(Template.instance().data._id, newWallet);
     }
   });
+  */
 
   $(`#voteBar-${this.data._id}`).resize(function () {
     const voteId = this.id.replace('voteBar-', '');
