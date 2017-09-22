@@ -1969,6 +1969,16 @@ blockquote {
   cursor: pointer;
 }
 
+.logo.logo-path {
+  display: block;
+  width: auto;
+  height: 28px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
 .main {
   position: relative;
   display: inline-block;
