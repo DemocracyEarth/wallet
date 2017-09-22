@@ -277,6 +277,29 @@ const _showResults = (contract) => {
 };
 
 /**
+* @summary shows total unique voters to a given issue
+* @param {object} contract - contract to make voter count on
+* @return {number} integer with final count
+*/
+const _getTotalVoters = (contract) => {
+  let voters = 0;
+  const transactions =
+    _.uniq(
+      _.pluck(
+        _.union(
+          _.pluck(Transactions.find({ 'output.entityId': contract._id }).fetch(), 'input'),
+          _.pluck(Transactions.find({ 'input.entityId': contract._id }).fetch(), 'output')),
+          'entityId')
+    );
+  for (const participant in transactions) {
+    if (getVotes(contract._id, transactions[participant]) > 0) {
+      voters += 1;
+    }
+  }
+  return voters;
+};
+
+/**
 * @summary updates contract execution status based on final results
 * @param {object} contract - contract to check results on
 * @param {object} results - object with poll results
@@ -486,3 +509,4 @@ export const forkContract = _forkContract;
 export const setVote = _setVote;
 export const getTickValue = _getTickValue;
 export const candidateBallot = _candidateBallot;
+export const getTotalVoters = _getTotalVoters;

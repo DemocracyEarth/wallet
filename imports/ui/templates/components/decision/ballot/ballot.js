@@ -5,7 +5,7 @@ import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { TAPi18n } from 'meteor/tap:i18n';
 
-import { removeFork, updateBallotRank, addChoiceToBallot, candidateBallot, getBallot } from '/imports/ui/modules/ballot';
+import { removeFork, updateBallotRank, addChoiceToBallot, candidateBallot, getBallot, getTotalVoters } from '/imports/ui/modules/ballot';
 import { displayTimedWarning } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
@@ -270,7 +270,13 @@ Template.ballot.helpers({
     return Template.instance().candidateBallot.get();
   },
   voters() {
-    return `0 ${TAPi18n.__('voters')}.`;
+    const total = getTotalVoters(Template.instance().contract.get());
+    if (total === 1) {
+      return `${total} ${TAPi18n.__('voter')}.`;
+    } else if (total === 0) {
+      return TAPi18n.__('no-voters');
+    }
+    return `${total} ${TAPi18n.__('voters')}.`;
   },
 });
 
