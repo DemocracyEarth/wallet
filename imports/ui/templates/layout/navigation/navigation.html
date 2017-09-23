@@ -2,6 +2,12 @@
   <div data-collapse="medium" data-animation="default" data-duration="400" data-contain="1" class="w-nav navbar">
     <div class="w-container navcontainer">
 
+      {{#if logo}}
+        <div class='logo-navbar'>
+          <img src="{{pathFor route='home'}}images/olive.png" class="logo logo-path">
+        </div>
+      {{/if}}
+
       <a id="menu" class="logo w-nav-brand">
         <img src="{{pathFor route='home'}}{{icon}}" class="menu-button" ontouchstart="">
       </a>

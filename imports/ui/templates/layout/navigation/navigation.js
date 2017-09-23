@@ -76,12 +76,15 @@ Template.navigation.helpers({
     if (Session.get('navbar')) {
       document.title = stripHTMLfromText(`${TAPi18n.__('democracy-of')} ${Meteor.settings.public.Collective.name} - ${Session.get('navbar').title}`);
       if (Session.get('navbar').title === TAPi18n.__('democracy-earth')) {
-        return `<img src='${Router.path('home')}images/olive.png' class='logo logo-path'>`;
+        return '';
       }
       return Session.get('navbar').title;
     }
     document.title = stripHTMLfromText(TAPi18n.__('democracy-earth'));
     return '';
+  },
+  logo() {
+    return (Session.get('navbar').title === TAPi18n.__('democracy-earth'));
   },
   icon() {
     if (Session.get('navbar') !== undefined) {

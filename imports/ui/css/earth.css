@@ -1970,11 +1970,9 @@ blockquote {
 }
 
 .logo.logo-path {
-  display: block;
+  display: inline;
   width: auto;
-  height: 28px;
-  margin-right: auto;
-  margin-left: auto;
+  height: 35px;
   padding-top: 0px;
   padding-bottom: 0px;
 }
@@ -2354,6 +2352,10 @@ blockquote {
 .search.search-blur {
   color: hsla(0, 0%, 100%, .5);
   cursor: text;
+}
+
+.search.search-blur.hide {
+  display: none;
 }
 
 .rich-text {
@@ -3873,8 +3875,8 @@ blockquote {
 .alert-icon {
   width: 30px;
   height: 30px;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .alert-title {
@@ -5143,6 +5145,15 @@ blockquote {
 .section-editor-separator {
   margin: 10px;
   border-top: 1px dotted #00bf8f;
+}
+
+.logo-navbar {
+  position: absolute;
+  display: block;
+  width: 100%;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
 }
 
 @media (max-width: 991px) {
