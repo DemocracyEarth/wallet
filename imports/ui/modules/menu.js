@@ -315,19 +315,20 @@ const _getPersonalMenu = (feed) => {
 const animateMenu = () => {
   // TODO make all strings showing pixels compliant with the device screen being used (aka mobiles)
   const splitLeft = $('.split-left').width();
+  const sidebarPixelWidth = parseInt(($(window).width() * gui.SIDEBAR_WIDTH_PERCENTAGE) / 100, 10);
   let diff = 0;
   Session.set('sidebar', !Session.get('sidebar'));
   if (Session.get('sidebar')) {
     // show sidebar
-    diff = parseInt(parseInt(splitLeft - gui.SIDEBAR_WIDTH, 10) - parseInt(($('.right').width() / 2), 10), 10);
-    let splitLeftNewWidth = parseInt(splitLeft - gui.SIDEBAR_WIDTH, 10);
-    let splitRightNewMargin = parseInt(diff + (gui.SIDEBAR_WIDTH / 2), 10);
+    diff = parseInt(parseInt(splitLeft - sidebarPixelWidth, 10) - parseInt(($('.right').width() / 2), 10), 10);
+    let splitLeftNewWidth = parseInt(splitLeft - sidebarPixelWidth, 10);
+    let splitRightNewMargin = parseInt(diff + (sidebarPixelWidth / 2), 10);
     let splitRightNewWidth = $('.split-right').width();
     let splitLeftNewMargin = $('.split-left').css('marginLeft');
     let newRight = 0;
 
     if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
-      newRight = parseInt(0 - gui.SIDEBAR_WIDTH, 10);
+      newRight = parseInt(0 - sidebarPixelWidth, 10);
     }
 
     // loose mobile menu
@@ -339,14 +340,14 @@ const animateMenu = () => {
       $('.navbar').css('top', `${$('#content').scrollTop()}px`);
       $('.inhibitor').css('display', 'block');
       $('.inhibitor').css('position', 'fixed');
-      $('.inhibitor').css('left', `${gui.SIDEBAR_WIDTH}px`);
+      $('.inhibitor').css('left', `${sidebarPixelWidth}px`);
       $('.content').css('overflow', 'hidden');
     }
 
     // animate content
     $('#menu').velocity({ marginLeft: '0px' }, animationSettings);
     $('#content').velocity({
-      left: gui.SIDEBAR_WIDTH,
+      left: sidebarPixelWidth,
       right: newRight,
     }, animationSettings);
 
@@ -354,7 +355,7 @@ const animateMenu = () => {
     if (splitLeftNewWidth < gui.MIN_CONTRACT_WIDTH) {
       splitRightNewMargin -= parseInt(splitLeftNewWidth - gui.MIN_CONTRACT_WIDTH, 10);
       splitLeftNewWidth = gui.MIN_CONTRACT_WIDTH;
-      splitRightNewWidth = parseInt($(window).width() - (gui.SIDEBAR_WIDTH + splitLeftNewWidth), 10);
+      splitRightNewWidth = parseInt($(window).width() - (sidebarPixelWidth + splitLeftNewWidth), 10);
     }
 
     if ($(window).width() < gui.DESKTOP_MIN_WIDTH) {
@@ -374,11 +375,11 @@ const animateMenu = () => {
   } else {
     // hide sidebar
     if ($(window).width() >= gui.DESKTOP_MIN_WIDTH) {
-      diff = parseInt((splitLeft + gui.SIDEBAR_WIDTH)
+      diff = parseInt((splitLeft + sidebarPixelWidth)
              - parseInt(($(window).width() / 2), 10), 10);
     }
 
-    $('#menu').velocity({ marginLeft: parseInt(0 - gui.SIDEBAR_WIDTH, 10) }, animationSettings);
+    $('#menu').velocity({ marginLeft: parseInt(0 - sidebarPixelWidth, 10) }, animationSettings);
     $('#content').velocity({
       left: 0,
       right: 0,
@@ -402,7 +403,7 @@ const animateMenu = () => {
     }, animationSettings);
 
     if ($(window).width() >= gui.DESKTOP_MIN_WIDTH) {
-      $('.split-left').velocity({ width: parseInt(splitLeft + gui.SIDEBAR_WIDTH, 10) }, animationSettings);
+      $('.split-left').velocity({ width: parseInt(splitLeft + sidebarPixelWidth, 10) }, animationSettings);
     } else {
       $('.split-left').velocity({ width: '100%' }, animationSettings);
     }

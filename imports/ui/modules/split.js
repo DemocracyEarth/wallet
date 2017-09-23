@@ -113,12 +113,13 @@ const _setupSplit = () => {
     if ($('.split-right')) {
       const total = parseInt(Session.get('resizeSplitCursor').leftWidth + Session.get('resizeSplitCursor').rightWidth, 10);
       const diff = parseInt($('.right').width() - total, 10);
+      const sidebarPixelWidth = parseInt(($(window).width() * gui.SIDEBAR_WIDTH_PERCENTAGE) / 100, 10);
       let newLeft = parseInt(Session.get('resizeSplitCursor').leftWidth + diff, 10);
       let newRight = parseInt(Session.get('resizeSplitCursor').rightWidth, 10);
       if (newLeft < gui.MIN_CONTRACT_WIDTH) {
         newLeft = gui.MIN_CONTRACT_WIDTH;
         if (Session.get('sidebar')) {
-          newRight = parseInt($(window).width() - (gui.SIDEBAR_WIDTH + newLeft), 10);
+          newRight = parseInt($(window).width() - (sidebarPixelWidth + newLeft), 10);
         } else {
           newRight = parseInt($(window).width() - newLeft, 10);
         }
