@@ -21,9 +21,8 @@ Template.sidebar.onRendered(() => {
   drawSidebar();
 
   $(window).resize(() => {
-    const sidebarPixelWidth = sidebarWidth();
+    $('.left').width(`${sidebarPercentage()}%`);
     if (!Session.get('sidebar')) {
-      $('.left').width(`${sidebarPercentage()}%`);
       $('#menu').css('margin-left', `${parseInt(0 - sidebarWidth(), 10)}px`);
     } else {
       let newRight = 0;

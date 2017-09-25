@@ -3831,6 +3831,11 @@ blockquote {
   text-align: left;
 }
 
+.left.left-edit {
+  width: 320px;
+  margin-left: 0px;
+}
+
 .vote-label {
   margin-left: 3px;
   letter-spacing: 0.3px;
@@ -4255,7 +4260,7 @@ blockquote {
 
 .collective-icon {
   max-height: 80px;
-  max-width: 250px;
+  max-width: 90%;
   margin-bottom: 10px;
   border-radius: 5px;
   box-shadow: none;
