@@ -310,11 +310,21 @@ const _getPersonalMenu = (feed) => {
 };
 
 /**
+* @summary sets the percentage for the sidebar based on space for burger visibility
+*/
+const _sidebarPercentage = () => {
+  return parseInt((($(window).width() - 50) * 100) / $(window).width(), 10);
+};
+
+/**
 * @summary dynamically set sidebar width based on window width.
 * @return integer for pixels
 */
 const _sidebarWidth = () => {
-  return parseInt(($(window).width() * gui.SIDEBAR_WIDTH_PERCENTAGE) / 100, 10);
+  if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
+    return parseInt(($(window).width() * _sidebarPercentage()) / 100, 10);
+  }
+  return;
 };
 
 /**
@@ -422,3 +432,4 @@ export const toggleSelectedItem = _toggleSelectedItem;
 export const toggleSidebar = animateMenu;
 export const setSidebarMenu = sidebarMenu;
 export const sidebarWidth = _sidebarWidth;
+export const sidebarPercentage = _sidebarPercentage;
