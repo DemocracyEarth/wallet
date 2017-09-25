@@ -3822,7 +3822,8 @@ blockquote {
   bottom: 0px;
   z-index: 12500;
   display: inline-block;
-  width: 320px;
+  width: 0px;
+  margin-left: -10000px;
   float: left;
   background-color: #d4cfd8;
   background-image: -webkit-linear-gradient(94deg, hsla(0, 0%, 92%, 0), #ebebeb);

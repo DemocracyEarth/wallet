@@ -310,12 +310,20 @@ const _getPersonalMenu = (feed) => {
 };
 
 /**
+* @summary dynamically set sidebar width based on window width.
+* @return integer for pixels
+*/
+const _sidebarWidth = () => {
+  return parseInt(($(window).width() * gui.SIDEBAR_WIDTH_PERCENTAGE) / 100, 10);
+};
+
+/**
 /* @summary animation for main menu toggle activation burger button
 */
 const animateMenu = () => {
   // TODO make all strings showing pixels compliant with the device screen being used (aka mobiles)
   const splitLeft = $('.split-left').width();
-  const sidebarPixelWidth = parseInt(($(window).width() * gui.SIDEBAR_WIDTH_PERCENTAGE) / 100, 10);
+  const sidebarPixelWidth = _sidebarWidth();
   let diff = 0;
   Session.set('sidebar', !Session.get('sidebar'));
   if (Session.get('sidebar')) {
@@ -413,3 +421,4 @@ const animateMenu = () => {
 export const toggleSelectedItem = _toggleSelectedItem;
 export const toggleSidebar = animateMenu;
 export const setSidebarMenu = sidebarMenu;
+export const sidebarWidth = _sidebarWidth;

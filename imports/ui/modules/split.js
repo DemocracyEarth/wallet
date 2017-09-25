@@ -3,6 +3,8 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { gui } from '/lib/const';
 
+import { sidebarWidth } from '/imports/ui/modules/menu';
+
 /**
 * @summary simply draws each split panel
 * @param {String} left width of left panel in pixels or percentage
@@ -113,7 +115,7 @@ const _setupSplit = () => {
     if ($('.split-right')) {
       const total = parseInt(Session.get('resizeSplitCursor').leftWidth + Session.get('resizeSplitCursor').rightWidth, 10);
       const diff = parseInt($('.right').width() - total, 10);
-      const sidebarPixelWidth = parseInt(($(window).width() * gui.SIDEBAR_WIDTH_PERCENTAGE) / 100, 10);
+      const sidebarPixelWidth = sidebarWidth();
       let newLeft = parseInt(Session.get('resizeSplitCursor').leftWidth + diff, 10);
       let newRight = parseInt(Session.get('resizeSplitCursor').rightWidth, 10);
       if (newLeft < gui.MIN_CONTRACT_WIDTH) {

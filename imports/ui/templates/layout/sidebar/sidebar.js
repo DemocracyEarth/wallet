@@ -3,6 +3,8 @@ import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { gui } from '/lib/const';
 
+import { sidebarWidth } from '/imports/ui/modules/menu';
+
 import './sidebar.html';
 import '../../components/collective/collective.js';
 import '../../widgets/inbox/inbox.js';
@@ -19,7 +21,7 @@ Template.sidebar.onRendered(() => {
   drawSidebar();
 
   $(window).resize(() => {
-    const sidebarPixelWidth = parseInt(($(window).width() * gui.SIDEBAR_WIDTH_PERCENTAGE) / 100, 10);
+    const sidebarPixelWidth = sidebarWidth();
     if (!Session.get('sidebar')) {
       $('#menu').css('margin-left', parseInt(0 - sidebarPixelWidth, 10));
     } else {
