@@ -20,7 +20,16 @@ Template.sidebar.onRendered(() => {
 
   $(window).resize(() => {
     const sidebarPixelWidth = parseInt(($(window).width() * gui.SIDEBAR_WIDTH_PERCENTAGE) / 100, 10);
-    $('#menu').css('margin-left', parseInt(0 - sidebarPixelWidth, 10));
+    if (!Session.get('sidebar')) {
+      $('#menu').css('margin-left', parseInt(0 - sidebarPixelWidth, 10));
+    } else {
+      let newRight = 0;
+      if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
+        newRight = parseInt(0 - sidebarPixelWidth, 10);
+      }
+      $('#content').css('left', sidebarPixelWidth);
+      $('#content').css('right', newRight);
+    }
   });
 });
 
