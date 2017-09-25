@@ -8,6 +8,8 @@
 
       {{> inbox label='proposals' separator=true}}
 
+      <!--
+      NOTE: Deprecated in order to aim for extreme simplification of UX.
       {{#each decisions}}
         {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon iconActivated=iconActivated feed=feed}}
       {{else}}
@@ -15,6 +17,7 @@
           {{_ 'no-decisions-found'}}
         </div>
       {{/each}}
+      -->
 
       {{> inbox label='delegates' separator=true}}
 
