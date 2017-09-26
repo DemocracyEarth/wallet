@@ -33,7 +33,7 @@
       {{> inbox label='members' separator=true}}
 
       {{#each member}}
-        {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon isAvatar=true iconActivated=iconActivated feed=feed}}
+        {{> inbox id=_id label=username separator=false value=value url=url selected=selected icon=false isAvatar=true iconActivated=false feed=feed}}
       {{else}}
         <div class="menu menu-empty">
           {{_ 'no-members-found'}}

@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
@@ -46,6 +47,6 @@ Template.sidebar.helpers({
     return Session.get('menuDelegates');
   },
   member() {
-    return Session.get('menuMembers');
+    return Meteor.users.find().fetch();
   },
 });
