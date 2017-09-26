@@ -5804,7 +5804,10 @@ blockquote {
     width: 100%;
   }
   .cast {
-    box-shadow: none;
+    right: 5px;
+    bottom: 10px;
+    width: 60px;
+    height: 60px;
   }
   .menu.menu-empty {
     font-weight: 400;
@@ -6230,10 +6233,6 @@ blockquote {
   .type {
     padding-right: 0px;
     padding-left: 0px;
-  }
-  .cast {
-    right: 10px;
-    bottom: 10px;
   }
   .feed {
     padding-right: 0px;
