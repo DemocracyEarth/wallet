@@ -36,3 +36,9 @@ Template.feed.helpers({
     return Session.get('feedVoterMode');
   }
 });
+
+Template.feed.events({
+  'click #feed-bottom'() {
+    $('.right').animate({ scrollTop: 0 });
+  },
+});

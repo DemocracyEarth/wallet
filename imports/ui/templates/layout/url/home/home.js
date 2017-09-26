@@ -5,6 +5,8 @@ import './home.html';
 import '../../../widgets/feed/feed.js';
 import '../../../widgets/compose/compose.js';
 
+/**
+NOTE: deprecated since touchmenu is no longer in use.
 Template.home.helpers({
   mobileStyle() {
     if (Meteor.Device.isPhone()) {
@@ -13,3 +15,4 @@ Template.home.helpers({
     return '';
   },
 });
+*/

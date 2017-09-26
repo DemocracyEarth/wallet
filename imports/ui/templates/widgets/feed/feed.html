@@ -7,6 +7,13 @@
     </ul>
     {{#if emptyFeed}}
       {{> feedEmpty emptyContent}}
+    {{else}}
+      <div id="feed-bottom" class="feed-footer">
+        <img src="{{pathFor route='home'}}images/arrow-up.png" class="back-top">
+        <div>
+          {{_ 'back-to-top'}}
+        </div>
+      </div>
     {{/if}}
   </div>
 </template>
