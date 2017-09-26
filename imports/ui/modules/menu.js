@@ -331,7 +331,6 @@ const _sidebarWidth = () => {
 /* @summary animation for main menu toggle activation burger button
 */
 const animateMenu = () => {
-  // TODO make all strings showing pixels compliant with the device screen being used (aka mobiles)
   const splitLeft = $('.split-left').width();
   const sidebarPixelWidth = _sidebarWidth();
   let diff = 0;
@@ -368,6 +367,9 @@ const animateMenu = () => {
       left: sidebarPixelWidth,
       right: newRight,
     }, animationSettings);
+    if (Meteor.Device.isPhone()) {
+      $('.cast').velocity({ opacity: 0 }, animationSettings);
+    }
 
     // animate splits
     if (splitLeftNewWidth < gui.MIN_CONTRACT_WIDTH) {
@@ -413,6 +415,7 @@ const animateMenu = () => {
           $('.navbar').css('top', '0px');
           $('.inhibitor').css('display', 'none');
           $('.content').css('overflow', 'scroll');
+          $('.cast').velocity({ opacity: 1 }, animationSettings);
         }
       },
     });
