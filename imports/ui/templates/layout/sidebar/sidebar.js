@@ -42,7 +42,10 @@ Template.sidebar.helpers({
   personal() {
     return Session.get('menuPersonal');
   },
-  delegates() {
+  delegate() {
     return Session.get('menuDelegates');
+  },
+  member() {
+    return Session.get('menuMembers');
   },
 });
