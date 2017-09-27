@@ -3983,11 +3983,15 @@ blockquote {
 }
 
 .menu.menu-empty {
+  margin-right: 10px;
+  margin-left: 10px;
   padding: 10px;
-  border: 1px none #bbb;
   border-radius: 5px;
   color: #6c5b7c;
+  font-size: 10px;
+  line-height: 16px;
   text-align: center;
+  text-transform: uppercase;
 }
 
 .menu-item {
@@ -5178,6 +5182,22 @@ blockquote {
 .back-top {
   width: 20px;
   height: 20px;
+}
+
+.separator-count {
+  font-weight: 400;
+}
+
+.sidebar-tag {
+  margin-right: 3px;
+  margin-left: 3px;
+  padding: 3px;
+  border-radius: 2px;
+  background-color: #d4ccdb;
+  color: #6c5b7c;
+  font-size: 9px;
+  line-height: 20px;
+  text-transform: uppercase;
 }
 
 @media (max-width: 991px) {

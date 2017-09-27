@@ -364,7 +364,7 @@
   "stage-live-kind-vote-peer": "Participations",
   "stage-finish-kind-vote-executionstatus-approved": "Approved Proposals",
   "stage-finish-kind-vote-executionstatus-rejected": "Discarded Proposals",
-  "no-delegations-found": "You have no delegates in this organization.",
+  "no-delegations-found": "No delegations found.",
   "no-decisions-found": "No public decisions in this collective.",
   "democracy-earth": "Democracy Earth",
   "democracy-of": "Democracy of",

@@ -2,9 +2,9 @@
 
   {{#if separator}}
     <div class="separator">
-      {{_ label}}
+      {{{_ label}}}
       {{#if count}}
-        ({{count}})
+        <span class="separator-count">({{count}})</span>
       {{/if}}
     </div>
   {{else}}
@@ -19,7 +19,9 @@
             <img class="icon-inbox" src="{{pathFor route='home'}}{{icon}}">
           {{/if}}
         {{/if}}
-        <div>{{_ label}}</div>
+        <div>
+          {{{_ label}}}
+        </div>
       </li>
     </a>
   {{/if}}
