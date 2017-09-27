@@ -20,16 +20,16 @@ const positionCaret = (atStart) => {
 };
 
 const getName = (firstName, lastName, username) => {
-  let completeName;
-  if (!username) {
-    username = '';
-  }
-  if (!firstName) { firstName = username; }
-  if (!lastName) { lastName = ''; }
+  let first = firstName;
+  let last = lastName;
 
-  completeName = `${firstName} ${lastName}`;
+  if (!username) { first = ''; }
+  if (!firstName) { first = username; }
+  if (!lastName) { last = ''; }
+
+  const completeName = `${first} ${last}`;
   if (completeName.length > rules.MAX_PROFILE_NAME_LENGTH) {
-    completeName = completeName.slice(0, parseInt(0 + (rules.MAX_PROFILE_NAME_LENGTH - completeName.length), 10)) + '...';
+    return `${completeName.slice(0, parseInt(0 + (rules.MAX_PROFILE_NAME_LENGTH - completeName.length), 10))}...`;
   }
   return completeName;
 };
