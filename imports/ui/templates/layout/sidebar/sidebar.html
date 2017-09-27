@@ -20,7 +20,7 @@
       {{/each}}
       -->
 
-      {{> inbox label='delegates' separator=true}}
+      {{> inbox label='delegates' separator=true count=totalDelegates}}
 
       {{#each delegate}}
         {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon isAvatar=true iconActivated=iconActivated feed=feed}}
@@ -30,7 +30,7 @@
         </div>
       {{/each}}
 
-      {{> inbox label='members' separator=true}}
+      {{> inbox label='members' separator=true count=totalMembers}}
 
       {{#each member}}
         {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon isAvatar=true iconActivated=iconActivated feed=feed}}

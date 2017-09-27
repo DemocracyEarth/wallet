@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { gui } from '/lib/const';
+import { TAPi18n } from 'meteor/tap:i18n';
 
 import { sidebarWidth, sidebarPercentage } from '/imports/ui/modules/menu';
 import { showFullName } from '/imports/startup/both/modules/utils';
@@ -21,6 +22,14 @@ function drawSidebar() {
   }
 }
 
+function labelName(user) {
+  let name = `${showFullName(user.profile.firstName, user.profile.lastName, user.username)} ${getFlag(user.profile, true)}`;
+  if (user._id === Meteor.userId()) {
+    name += ` ${TAPi18n.__('you')}`;
+  }
+  return name;
+}
+
 /**
 * @summary translates db object to a menu ux object
 * @param {object} user database user object
@@ -28,7 +37,7 @@ function drawSidebar() {
 function dataToMenu(user) {
   return {
     id: user._id,
-    label: `${showFullName(user.profile.firstName, user.profile.lastName, user.username)} ${getFlag(user.profile, true)}`,
+    label: labelName(user),
     icon: user.profile.picture,
     iconActivated: false,
     feed: 'user',
@@ -73,10 +82,14 @@ Template.sidebar.helpers({
     const members = [];
     const db = Meteor.users.find().fetch();
     for (const i in db) {
-      if (db[i]._id !== Meteor.userId()) {
-        members.push(dataToMenu(db[i]));
-      }
+      members.push(dataToMenu(db[i]));
     }
     return members;
+  },
+  totalMembers() {
+    return Meteor.users.find().count();
+  },
+  totalDelegates() {
+    return Session.get('menuDelegates');
   },
 });

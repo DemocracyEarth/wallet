@@ -3,6 +3,9 @@
   {{#if separator}}
     <div class="separator">
       {{_ label}}
+      {{#if count}}
+        ({{count}})
+      {{/if}}
     </div>
   {{else}}
     <a id='menuButton' href="{{url}}">
