@@ -264,3 +264,5 @@ Template.avatar.events({
     }
   },
 });
+
+export const getFlag = getNation;

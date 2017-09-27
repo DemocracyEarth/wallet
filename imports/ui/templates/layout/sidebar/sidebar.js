@@ -6,6 +6,7 @@ import { gui } from '/lib/const';
 
 import { sidebarWidth, sidebarPercentage } from '/imports/ui/modules/menu';
 import { showFullName } from '/imports/startup/both/modules/utils';
+import { getFlag } from '/imports/ui/templates/components/identity/avatar/avatar';
 
 import './sidebar.html';
 import '../../components/collective/collective.js';
@@ -27,7 +28,7 @@ function drawSidebar() {
 function dataToMenu(user) {
   return {
     id: user._id,
-    label: showFullName(user.profile.firstName, user.profile.lastName, user.username),
+    label: `${showFullName(user.profile.firstName, user.profile.lastName, user.username)} ${getFlag(user.profile, true)}`,
     icon: user.profile.picture,
     iconActivated: false,
     feed: 'user',
