@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 
@@ -5,24 +6,18 @@ import './collective.html';
 
 Template.collective.helpers({
   title() {
-    if (Session.get('collective') !== undefined) {
-      return Session.get('collective').name;
-    }
+    return Meteor.settings.public.Collective.name;
   },
   description() {
-    if (Session.get('collective') !== undefined) {
-      return Session.get('collective').profile.bio;
-    }
+    return Meteor.settings.public.Collective.profile.bio;
   },
   picture() {
-    if (Session.get('collective') !== undefined) {
-      return Session.get('collective').profile.logo;
+    if (Meteor.settings.public.Collective.profile.logo) {
+      return Meteor.settings.public.Collective.profile.logo;
     }
-    return 'images/earth-avatar.png';
+    return 'images/earth.png';
   },
   hasLogo() {
-    if (Session.get('collective') !== undefined) {
-      return (Session.get('collective').profile.logo !== undefined);
-    }
+    return (Meteor.settings.public.Collective.profile.logo !== undefined);
   },
 });

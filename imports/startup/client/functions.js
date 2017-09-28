@@ -441,10 +441,13 @@ const _setSessionVars = (params) => {
   let feed;
 
   // collective
+  /*
+  NOTE: this is being deprecated
   if (Session.get('collective') === undefined) {
     Session.set('collectiveId', Meteor.settings.public.Collective._id);
-    Session.set('collective', Collectives.findOne({ _id: Session.get('collectiveId') }));
+    Session.set('collective', Collectives.findOne({ _id: Meteor.settings.public.Collective._id }));
   }
+  */
 
   // view
   if (!params) {

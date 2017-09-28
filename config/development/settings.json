@@ -49,7 +49,7 @@
     },
 
     "Collective": {
-      "name": "Democracy Earth",
+      "name": "Democracy Earth Foundation",
       "domain": "https://localhost:3000",
       "emails": [
         {
@@ -65,7 +65,7 @@
         "blockchain": {
           "address": "0"
         },
-        "logo": "images/democracy-earth.png",
+        "logo": "images/earth.png",
         "jurisdiction": {
           "legal": {
               "taxId": "37-1776296",

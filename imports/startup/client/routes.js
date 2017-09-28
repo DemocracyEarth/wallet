@@ -41,7 +41,7 @@ Router.route('/', {
       fn.clearSessionVars();
       fn.configNavbar(Meteor.settings.public.Collective.name, '/');
       fn.setSessionVars();
-      Session.set('feed', Contracts.find({ collectiveId: Session.get('collectiveId'), stage: 'LIVE', kind: 'VOTE', executionStatus: 'OPEN' }, { sort: { timestamp: -1 } }).fetch());
+      Session.set('feed', Contracts.find({ collectiveId: Meteor.settings.public.Collective._id, stage: 'LIVE', kind: 'VOTE', executionStatus: 'OPEN' }, { sort: { timestamp: -1 } }).fetch());
     }
     this.next();
   },
