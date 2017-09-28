@@ -4,25 +4,25 @@ import { Session } from 'meteor/session';
 import './collective.html';
 
 Template.collective.helpers({
-  title: function () {
+  title() {
     if (Session.get('collective') !== undefined) {
       return Session.get('collective').name;
     }
   },
-  description: function () {
+  description() {
     if (Session.get('collective') !== undefined) {
       return Session.get('collective').profile.bio;
     }
   },
-  picture: function () {
+  picture() {
     if (Session.get('collective') !== undefined) {
       return Session.get('collective').profile.logo;
     }
     return 'images/earth-avatar.png';
   },
-  hasLogo: function () {
+  hasLogo() {
     if (Session.get('collective') !== undefined) {
-      return (Session.get('collective').profile.logo !== undefined)
+      return (Session.get('collective').profile.logo !== undefined);
     }
-  }
-})
+  },
+});

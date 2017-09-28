@@ -2,10 +2,13 @@
   <div class="collective">
     {{#if hasLogo}}
       <img class="collective-icon" src="{{pathFor route='home'}}{{picture}}">
-    {{else}}
-      <div class="collective-title">{{title}}</div>
     {{/if}}
-    <div>{{description}}</div>
+    <div class="collective-title">
+      {{title}}
+    </div>
+    <div>
+      {{description}}
+    </div>
 
     <!-- TODO: stats of collective
       <div class="collective-info">
