@@ -75,7 +75,7 @@ Template.navigation.helpers({
   screen() {
     if (Session.get('navbar')) {
       document.title = stripHTMLfromText(`${TAPi18n.__('democracy-of')} ${Meteor.settings.public.Collective.name} - ${Session.get('navbar').title}`);
-      if (Session.get('navbar').title === TAPi18n.__('democracy-earth')) {
+      if (Session.get('navbar').title === Meteor.settings.public.Collective.name) {
         return '';
       }
       return Session.get('navbar').title;
@@ -84,7 +84,7 @@ Template.navigation.helpers({
     return '';
   },
   logo() {
-    return (Session.get('navbar').title === TAPi18n.__('democracy-earth'));
+    return (Session.get('navbar').title === Meteor.settings.public.Collective.name);
   },
   icon() {
     if (Session.get('navbar') !== undefined) {

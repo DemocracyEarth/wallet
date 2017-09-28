@@ -4258,8 +4258,8 @@ blockquote {
 .collective {
   padding: 20px 10px;
   color: #333;
-  font-size: 15px;
-  line-height: 24px;
+  font-size: 14px;
+  line-height: 22px;
 }
 
 .collective-icon {
@@ -4278,11 +4278,11 @@ blockquote {
 }
 
 .collective-title {
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   color: #6c5b7c;
-  font-size: 18px;
-  line-height: 28px;
+  font-size: 16px;
+  line-height: 24px;
   font-weight: 400;
   text-shadow: none;
 }
