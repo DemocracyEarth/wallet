@@ -5189,15 +5189,21 @@ blockquote {
 }
 
 .sidebar-tag {
+  margin-top: 3px;
   margin-right: 3px;
-  margin-left: 3px;
-  padding: 3px;
+  margin-left: 5px;
+  padding: 0px 3px;
+  float: right;
   border-radius: 2px;
   background-color: #d4ccdb;
   color: #6c5b7c;
   font-size: 9px;
   line-height: 20px;
   text-transform: uppercase;
+}
+
+.sidebar-label {
+  float: left;
 }
 
 @media (max-width: 991px) {
