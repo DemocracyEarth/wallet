@@ -80,11 +80,11 @@ Template.sidebar.helpers({
   },
   member() {
     const members = [];
-    const db = Meteor.users.find({}, { sort: { 'profile.firstName': 1, username: 1 } }).fetch();
+    const db = Meteor.users.find({}, { sort: { 'profile.firstName': 1 } }).fetch();
     for (const i in db) {
       members.push(dataToMenu(db[i]));
     }
-    return members;
+    return _.sortBy(members, (user) => { return user.label; });
   },
   totalMembers() {
     return Meteor.users.find().count();
