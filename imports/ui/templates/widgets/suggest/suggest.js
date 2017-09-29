@@ -6,21 +6,23 @@ import { $ } from 'meteor/jquery';
 import { animationSettings } from '/imports/ui/modules/animation';
 import './suggest.html';
 
-Template.suggest.rendered = function rendered() {
+Template.suggest.onRendered(() => {
   Session.set('noMatchFound', false);
 
-  $('.suggest').css('height', '0');
-  $('.suggest').velocity({ height: '110px' }, animationSettings);
-};
+  if (!Meteor.Device.isPhone()) {
+    $('.suggest').css('height', '0');
+    $('.suggest').velocity({ height: '110px' }, animationSettings);
+  }
+});
 
 Template.suggest.helpers({
   country() {
     if (Session.get('filteredCountries').length === 0) {
       Session.set('noMatchFound', true);
       return [{
-          "code": "EA",
-          "emoji": "🌎",
-          "name": "Earth"
+        code: 'EA',
+        emoji: '🌎',
+        name: 'Earth',
       }];
     }
     Session.set('noMatchFound', false);
@@ -29,12 +31,11 @@ Template.suggest.helpers({
   noMatchFound() {
     return Session.get('noMatchFound');
   },
-})
+});
 
 Template.suggest.events({
   'click #country'(event) {
-    const data = Meteor.user().profile;
-    let country = {
+    const country = {
       code: event.target.parentNode.getAttribute('value'),
       name: event.target.innerText.slice(4),
       emoji: event.target.firstChild.data,
@@ -46,4 +47,4 @@ Template.suggest.events({
     Session.set('noMatchFound', false);
     Session.set('showNations', false);
   },
-})
+});
