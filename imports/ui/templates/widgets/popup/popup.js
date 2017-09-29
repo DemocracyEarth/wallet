@@ -11,21 +11,23 @@ import './popup.html';
 function autoPosition(height) {
   const screenH = $(window).height();
   let pos = parseInt(((screenH - height) / 2) - 10, 10);
-  console.log(pos);
   if (pos <= 70) { pos = 70; }
   return pos;
 }
 
 Template.popup.onRendered(() => {
+  $(`#card-${Template.instance().data.id}`).attr('legacyheight', $(`#card-${Template.instance().data.id}`)[0].getBoundingClientRect().height);
   $(`#card-${Template.instance().data.id}`).resize(function () {
     if (Meteor.Device.isPhone()) {
       const divId = `#${this.id}`;
-      const newMargin = autoPosition($(divId)[0].getBoundingClientRect().height);
       if (!$(divId).is('.velocity-animating')) {
-        $(divId).velocity({ marginTop: newMargin }, { duration: animationSettings.duration }, 'easeIn');
+        const newMargin = autoPosition($(divId)[0].getBoundingClientRect().height);
+        const newHeight = $(divId)[0].getBoundingClientRect().height;
+        // $(divId).css('height', $(divId).attr('legacyheight'));
+        $(divId).velocity({ marginTop: newMargin }, { duration: animationSettings.duration, easing: 'ease-out' });
         Meteor.setTimeout(function () {
-          console.log(`${divId} stop`);
           $(divId).velocity('stop');
+          $(divId).attr('legacyheight', newHeight);
         }, animationSettings.duration);
       }
     }

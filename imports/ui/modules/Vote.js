@@ -135,6 +135,9 @@ export class Vote {
           this.minVotes = parseInt((this.inBallot - Meteor.users.findOne({ _id: this.targetId }).profile.wallet.available) - 1, 10);
         }
         if (this.minVotes < 0) { this.minVotes = 0; }
+      } else {
+        console.log('aquie el problema muneco gallardo')
+        this.inBallot = 0;
       }
     } else if (this.voteType === 'BALANCE') {
       this.inBallot = this.available;

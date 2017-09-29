@@ -308,6 +308,8 @@ Template.capital.helpers({
     let placed;
     let percentagePlaced;
     const inBallot = Session.get(this._id).inBallot;
+    console.log(Session.get(this._id));
+    console.log(inBallot);
     if (Session.get(this._id) !== undefined) {
       switch (value) {
         case 'available': {
