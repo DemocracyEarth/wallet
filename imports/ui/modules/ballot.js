@@ -138,6 +138,7 @@ const _getTickFromLedger = (contract, userId, ballotId) => {
 * @param {object} contract - what contract to analyze
 */
 const _getRightToVote = (contract) => {
+  if (!contract) { return false; }
   if (contract.kind === 'DELEGATION') {
     return verifyDelegationRight(contract.signatures);
   } else if ((contract.kind === 'VOTE' && contract.stage === 'DRAFT') || (contract.kind === 'VOTE' && contract.stage === 'LIVE')) {

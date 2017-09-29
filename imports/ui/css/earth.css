@@ -5159,10 +5159,12 @@ blockquote {
 
 .logo-navbar {
   position: absolute;
+  left: 0px;
+  right: 60px;
   display: block;
-  width: 100%;
   padding-top: 12px;
   padding-bottom: 12px;
+  padding-left: 60px;
   text-align: center;
 }
 
