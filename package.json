@@ -24,16 +24,16 @@
   },
   "dependencies": {
     "autoprefixer": "^6.4.1",
-    "babel-runtime": "^6.18.0",
+    "babel-runtime": "^6.26.0",
     "bcryptjs": "^2.4.0",
     "bindings": "^1.2.1",
-    "core-js": "^2.4.1",
+    "core-js": "^2.5.1",
     "faker": "^3.0.1",
     "json-schema-faker": "^0.3.7",
     "nan": "^2.3.5",
-    "react": "^15.4.2",
-    "react-addons-pure-render-mixin": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react": "^15.6.2",
+    "react-addons-pure-render-mixin": "^15.6.2",
+    "react-dom": "^15.6.2"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.0",
@@ -59,7 +59,7 @@
       "jasmine": true
     },
     "globals": {
-        "_": true
+      "_": true
     },
     "plugins": [
       "meteor"
@@ -104,7 +104,9 @@
       ]
     },
     "settings": {
-      "import/core-modules": [ "meteor/meteor" ],
+      "import/core-modules": [
+        "meteor/meteor"
+      ],
       "import/resolver": "meteor"
     }
   }
