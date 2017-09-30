@@ -1,3 +1,7 @@
+# NodeJS
 npm-debug.log
 node_modules
 config/production/settings.json
+
+# IDE
+.idea

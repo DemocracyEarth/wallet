@@ -76,5 +76,7 @@ Accounts.onCreateUser((options, user) => {
     }
   }
 
-  return user;
+  // The default onCreateUser copies the profile into the document, so we need to do it too.
+  // http://docs.meteor.com/api/accounts-multi.html#AccountsServer-onCreateUser
+  return _.extend(user, { profile: profile });
 });

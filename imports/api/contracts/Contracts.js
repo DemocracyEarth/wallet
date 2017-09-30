@@ -409,7 +409,7 @@ export const schemaContract = Schema.Contract;
 /*
 *  FIX: temporary workaround
 *  TBD: apply security best practices
-*  All to methods, validate paramenters
+*  All to methods, validate parameters
 */
 Contracts.allow({
   insert(userId) {
