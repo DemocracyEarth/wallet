@@ -1,6 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 
+import { getDelegationContract } from '/imports/startup/both/modules/Contract';
+
 import './card.html';
 import '../avatar/avatar.js';
 
@@ -15,5 +17,8 @@ Template.card.helpers({
       sourceId: Meteor.userId(),
       targetId: this.toString(),
     };
+  },
+  contract() {
+    return getDelegationContract(Meteor.userId(), this._id);
   },
 });

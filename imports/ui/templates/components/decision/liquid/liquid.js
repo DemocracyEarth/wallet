@@ -84,6 +84,7 @@ Template.liquid.onCreated(() => {
   Session.set(Template.instance().data._id, wallet);
 
   if (!Session.get('contract')) {
+    console.log(Template.currentData());
     Template.instance().contract = new ReactiveVar(Template.currentData().contract);
   } else {
     Template.instance().contract = new ReactiveVar(Contracts.findOne({ _id: Session.get('contract')._id }));

@@ -128,9 +128,6 @@ export class Vote {
         // delegation context
         this.inBallot = getVotes(this.delegationContract._id, this.userId);
         this.delegated = getVotes(this.delegationContract._id, this.targetId);
-        this.balance = parseInt(this.inBallot + this.available + this.delegated, 10);
-        this.placed = this.inBallot;
-        this.maxVotes = parseInt(this.balance - this.delegated, 10);
         if (Meteor.users.findOne({ _id: this.targetId })) {
           this.minVotes = parseInt((this.inBallot - Meteor.users.findOne({ _id: this.targetId }).profile.wallet.available) - 1, 10);
         }
@@ -139,6 +136,9 @@ export class Vote {
         console.log('aquie el problema muneco gallardo')
         this.inBallot = 0;
       }
+      this.balance = parseInt(this.inBallot + this.available + this.delegated, 10);
+      this.placed = this.inBallot;
+      this.maxVotes = parseInt(this.balance - this.delegated, 10);
     } else if (this.voteType === 'BALANCE') {
       this.inBallot = this.available;
     } else {

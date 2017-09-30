@@ -5,7 +5,7 @@
       {{#if currentUser}}
         {{#unless myself}}
           {{#with voteSettings}}
-            {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true}}
+            {{> liquid _id=this.voteId sourceId=this.sourceId contract=contract targetId=this.targetId wallet=this.wallet editable=true}}
           {{/with}}
         {{else}}
           <!--{{> liquid editable=false}}-->
