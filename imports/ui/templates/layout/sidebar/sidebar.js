@@ -5,7 +5,7 @@ import { Session } from 'meteor/session';
 import { gui } from '/lib/const';
 import { TAPi18n } from 'meteor/tap:i18n';
 
-import { sidebarWidth, sidebarPercentage } from '/imports/ui/modules/menu';
+import { sidebarWidth, sidebarPercentage, getDelegatesMenu } from '/imports/ui/modules/menu';
 import { showFullName } from '/imports/startup/both/modules/utils';
 import { getFlag } from '/imports/ui/templates/components/identity/avatar/avatar';
 
@@ -48,6 +48,18 @@ function dataToMenu(user) {
   };
 }
 
+/**
+* @summary for a given db result returns list with menu options
+* @param {object} db data to parse for menu options
+*/
+function getList(db) {
+  const members = [];
+  for (const i in db) {
+    members.push(dataToMenu(db[i]));
+  }
+  return _.sortBy(members, (user) => { return user.label; });
+}
+
 Template.sidebar.onRendered(() => {
   $('.left').width(`${sidebarPercentage()}%`);
 
@@ -76,15 +88,16 @@ Template.sidebar.helpers({
     return Session.get('menuPersonal');
   },
   delegate() {
-    return Session.get('menuDelegates');
+    const delegates = getDelegatesMenu();
+    const delegateList = [];
+    for (const i in delegates) {
+      delegateList.push(Meteor.users.find({ _id: delegates[i] }).fetch()[0]);
+    }
+    console.log(delegateList);
+    return getList(delegateList);
   },
   member() {
-    const members = [];
-    const db = Meteor.users.find().fetch();
-    for (const i in db) {
-      members.push(dataToMenu(db[i]));
-    }
-    return _.sortBy(members, (user) => { return user.label; });
+    return getList(Meteor.users.find().fetch());
   },
   totalMembers() {
     return Meteor.users.find().count();

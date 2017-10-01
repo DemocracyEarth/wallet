@@ -84,7 +84,6 @@ Template.liquid.onCreated(() => {
   Session.set(Template.instance().data._id, wallet);
 
   if (!Session.get('contract')) {
-    console.log(Template.currentData());
     Template.instance().contract = new ReactiveVar(Template.currentData().contract);
   } else {
     Template.instance().contract = new ReactiveVar(Contracts.findOne({ _id: Session.get('contract')._id }));
@@ -309,8 +308,6 @@ Template.capital.helpers({
     let placed;
     let percentagePlaced;
     const inBallot = Session.get(this._id).inBallot;
-    console.log(Session.get(this._id));
-    console.log(inBallot);
     if (Session.get(this._id) !== undefined) {
       switch (value) {
         case 'available': {

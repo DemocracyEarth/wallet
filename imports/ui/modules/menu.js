@@ -252,10 +252,14 @@ const _getDelegatesMenu = () => {
     users = _searchContract(contracts[i], users);
   }
 
+  return users;
+  //
   // get delegators to me
-  const list = getUserList(users);
+  /*const list = getUserList(users);
   _toggleSelectedItem(list);
-  Session.set('menuDelegates', list);
+
+  return list;
+  // Session.set('menuDelegates', list);*/
 };
 
 /**
@@ -431,6 +435,7 @@ const animateMenu = () => {
   }
 };
 
+export const getDelegatesMenu = _getDelegatesMenu;
 export const toggleSelectedItem = _toggleSelectedItem;
 export const toggleSidebar = animateMenu;
 export const setSidebarMenu = sidebarMenu;
