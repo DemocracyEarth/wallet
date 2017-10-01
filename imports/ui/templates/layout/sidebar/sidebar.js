@@ -60,6 +60,18 @@ function getList(db) {
   return _.sortBy(members, (user) => { return user.label; });
 }
 
+/**
+* @summary gets list of delegats for current user
+*/
+function getDelegates() {
+  const delegates = getDelegatesMenu();
+  const delegateList = [];
+  for (const i in delegates) {
+    delegateList.push(Meteor.users.find({ _id: delegates[i] }).fetch()[0]);
+  }
+  return getList(delegateList);
+}
+
 Template.sidebar.onRendered(() => {
   $('.left').width(`${sidebarPercentage()}%`);
 
@@ -88,13 +100,7 @@ Template.sidebar.helpers({
     return Session.get('menuPersonal');
   },
   delegate() {
-    const delegates = getDelegatesMenu();
-    const delegateList = [];
-    for (const i in delegates) {
-      delegateList.push(Meteor.users.find({ _id: delegates[i] }).fetch()[0]);
-    }
-    console.log(delegateList);
-    return getList(delegateList);
+    return getDelegates();
   },
   member() {
     return getList(Meteor.users.find().fetch());
@@ -103,6 +109,6 @@ Template.sidebar.helpers({
     return Meteor.users.find().count();
   },
   totalDelegates() {
-    return Session.get('menuDelegates');
+    return getDelegates().count();
   },
 });
