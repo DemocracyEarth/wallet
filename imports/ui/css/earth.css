@@ -476,7 +476,7 @@ blockquote {
   margin-top: 10px;
   margin-bottom: 10px;
   float: left;
-  border: 1px solid #e6f9f4;
+  border: 1px solid #dfdfdf;
   border-radius: 100px;
   background-color: #e6f9f4;
   cursor: pointer;
@@ -1444,9 +1444,6 @@ blockquote {
   display: inline-block;
   width: 100%;
   margin-bottom: 5px;
-  padding-top: 0px;
-  padding-right: 10px;
-  padding-bottom: 0px;
   border-radius: 3px;
   box-shadow: none;
 }
@@ -2660,7 +2657,7 @@ blockquote {
 }
 
 .identity-peer {
-  margin-top: 15px;
+  margin-top: 7px;
   margin-left: 10px;
   float: left;
 }
@@ -3019,6 +3016,13 @@ blockquote {
   display: inline-block;
   margin-right: 10px;
   margin-bottom: 5px;
+}
+
+.data.data-feed {
+  margin-top: 6px;
+  margin-right: 0px;
+  margin-bottom: 5px;
+  float: right;
 }
 
 .contract-collapse {
@@ -4079,8 +4083,11 @@ blockquote {
 .feed {
   position: relative;
   display: block;
+  width: 100%;
   margin-right: auto;
   margin-left: auto;
+  padding-right: 5px;
+  padding-left: 5px;
 }
 
 .sidebar {
@@ -4103,9 +4110,7 @@ blockquote {
 }
 
 .content.content-feed {
-  padding-top: 75px;
-  padding-right: 100px;
-  padding-left: 15px;
+  padding: 60px 10px 10px;
 }
 
 .content.content-agora {
@@ -5325,12 +5330,6 @@ blockquote {
     right: 15px;
     bottom: 15px;
   }
-  .feed {
-    width: 100%;
-    padding-right: 10px;
-    padding-left: 10px;
-    float: none;
-  }
   .sidebar {
     top: 0px;
     z-index: 15000;
@@ -5341,9 +5340,6 @@ blockquote {
     right: 0px;
     padding-right: 0px;
     padding-left: 0px;
-  }
-  .content.content-feed {
-    padding-right: 15px;
   }
   .content.content-agora {
     margin-top: 0px;
@@ -5581,9 +5577,6 @@ blockquote {
   .checkbox {
     font-weight: 400;
   }
-  .checkbox.checkbox-custom {
-    padding-right: 0px;
-  }
   .field.headline-field {
     margin-top: 0px;
     margin-bottom: 0px;
@@ -5682,9 +5675,6 @@ blockquote {
   .election-label {
     float: none;
   }
-  .identity-peer {
-    margin-top: 7px;
-  }
   .modal.hide {
     display: none;
   }
@@ -5698,10 +5688,6 @@ blockquote {
   .data {
     display: inline-block;
     margin-right: 0px;
-    float: right;
-  }
-  .data.data-feed {
-    margin-top: 6px;
   }
   .stage.stage-card {
     margin-top: 6px;
@@ -5825,13 +5811,6 @@ blockquote {
   }
   .menu-item {
     font-weight: 400;
-  }
-  .feed {
-    padding-right: 5px;
-    padding-left: 5px;
-  }
-  .content.content-feed {
-    padding: 60px 10px 10px;
   }
   .content.content-agora {
     margin-top: -35px;
