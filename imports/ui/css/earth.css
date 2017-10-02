@@ -207,7 +207,8 @@ blockquote {
 .label.label-corner {
   margin-top: 5px;
   float: left;
-  line-height: 16px;
+  font-size: 11px;
+  line-height: 15px;
 }
 
 .description {
@@ -240,8 +241,6 @@ blockquote {
 }
 
 .section {
-  margin-top: 0px;
-  margin-bottom: 20px;
   clear: both;
 }
 
@@ -327,10 +326,6 @@ blockquote {
   max-width: 200px;
   padding: 0px;
   text-align: left;
-}
-
-.elements {
-  margin: 0px -10px;
 }
 
 .detail {
@@ -1295,8 +1290,8 @@ blockquote {
 
 .option {
   display: block;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   margin-right: 0px;
   margin-left: 10px;
   float: right;
@@ -1334,9 +1329,9 @@ blockquote {
 .option-title {
   display: inline-block;
   max-width: 100%;
-  margin-top: 10px;
-  font-size: 24px;
-  line-height: 30px;
+  margin-top: 0px;
+  font-size: 18px;
+  line-height: 40px;
   text-align: left;
   letter-spacing: 0px;
   text-transform: none;
@@ -1489,9 +1484,8 @@ blockquote {
 
 .tick-image {
   display: block;
-  width: 48px;
-  height: 48px;
-  max-width: none;
+  width: 38px;
+  height: 38px;
   border-radius: 100px;
 }
 
@@ -1537,8 +1531,8 @@ blockquote {
 }
 
 .block {
-  margin: 0px -30px -10px;
-  padding: 15px 25px;
+  margin: 0px -15px -10px;
+  padding: 15px;
   border-top: 1px solid #eee;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
@@ -2334,6 +2328,10 @@ blockquote {
   margin: 0px -30px 0px 0px;
   padding-bottom: 0px;
   float: right;
+}
+
+.identity-list.identity-feed-item {
+  padding: 0px;
 }
 
 .budget {
@@ -3348,6 +3346,10 @@ blockquote {
 .options {
   display: block;
   overflow: auto;
+  margin-right: -5px;
+  margin-left: -5px;
+  padding-right: 0px;
+  padding-left: 0px;
 }
 
 .options.options-voted {
@@ -5260,9 +5262,6 @@ blockquote {
     margin: -10px -5px;
     text-align: left;
   }
-  .vote.vote-authorize {
-    width: 100%;
-  }
   .vote.vote-alternative {
     width: 100%;
   }
@@ -5481,10 +5480,6 @@ blockquote {
   .declaration {
     line-height: 40px;
   }
-  .label.label-corner {
-    font-size: 11px;
-    line-height: 15px;
-  }
   .section.mobile-section {
     overflow: scroll;
     margin-bottom: 20px;
@@ -5494,10 +5489,6 @@ blockquote {
     width: 100%;
     padding-right: 0px;
     padding-left: 0px;
-  }
-  .elements {
-    margin-right: 0px;
-    margin-left: 0px;
   }
   .text.setting-label {
     font-size: 16px;
@@ -5642,12 +5633,6 @@ blockquote {
     font-size: 12px;
     line-height: 20px;
   }
-  .verifier.verifier-live {
-    font-size: 14px;
-  }
-  .verifier.verifier-live.verifier-feed {
-    font-size: 12px;
-  }
   .portrait {
     display: block;
     width: auto;
@@ -5660,9 +5645,6 @@ blockquote {
   }
   .score-block {
     height: 15px;
-  }
-  .identity-list.identity-feed-item {
-    padding: 0px;
   }
   .search.search-blur {
     overflow: hidden;
@@ -5684,10 +5666,6 @@ blockquote {
   }
   .rosca.rosca-setter {
     margin-top: 5px;
-  }
-  .handle {
-    border-color: #fff;
-    box-shadow: 0 1px 3px -1px #000, inset 0 0 1px 0 #52d4b4;
   }
   .data {
     display: inline-block;
@@ -5716,12 +5694,6 @@ blockquote {
   }
   .references {
     margin-left: 20px;
-  }
-  .options {
-    margin-right: -5px;
-    margin-left: -5px;
-    padding-right: 0px;
-    padding-left: 0px;
   }
   .calendar {
     right: 25px;
@@ -6037,16 +6009,6 @@ blockquote {
   .vote.vote-search {
     box-shadow: none;
   }
-  .option {
-    width: 40px;
-    height: 40px;
-  }
-  .option-title {
-    margin-top: 0px;
-    font-size: 18px;
-    line-height: 40px;
-    letter-spacing: 0px;
-  }
   .option-title.input {
     height: 40px;
     max-width: 75%;
@@ -6072,16 +6034,6 @@ blockquote {
   }
   .checkbox.checkbox-custom {
     width: 100%;
-  }
-  .tick-image {
-    width: 38px;
-    height: 38px;
-  }
-  .block {
-    margin-right: -15px;
-    margin-left: -15px;
-    padding-right: 15px;
-    padding-left: 15px;
   }
   .field.split {
     width: 100%;
@@ -6135,10 +6087,6 @@ blockquote {
   }
   .user {
     margin-left: 0px;
-  }
-  .verifier {
-    font-size: 10px;
-    line-height: 18px;
   }
   .rich-text.editor-draft {
     border-left-color: transparent;
