@@ -471,6 +471,7 @@ const _getNavbarAction = (path) => {
   if (Meteor.Device.isPhone()) {
     switch (path) {
       case '/vote':
+      case '/peer':
         return 'BACK';
       default:
         return 'SIDEBAR';

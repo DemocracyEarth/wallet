@@ -55,11 +55,16 @@ function hideBar() {
   }
 }
 
+/**
+* @summary verifies if current screen should have back button on navbar
+*/
+function displayBackButton() {
+  return (Meteor.Device.isPhone() && (Router.current().url.search('/vote') >= 0 || Router.current().url.search('/peer') >= 0));
+}
+
 function displayMenuIcon() {
-  if (Meteor.Device.isPhone()) {
-    if (Router.current().url.search('/vote') >= 0) {
-      return 'images/back.png';
-    }
+  if (displayBackButton()) {
+    return 'images/back.png';
   }
   if (Session.get('sidebar')) {
     return 'images/burger-active.png';
@@ -105,11 +110,11 @@ Template.navigation.helpers({
 
 Template.navigation.events({
   'click #menu'() {
-    if (Session.get('navbar').action === 'SIDEBAR') {
-      toggleSidebar();
-    } else if (Session.get('navbar').action === 'BACK') {
+    if (displayBackButton()) {
       Session.set('newPostEditor', false);
       window.history.back();
+    } else if (Session.get('navbar').action === 'SIDEBAR') {
+      toggleSidebar();
     }
   },
 });
