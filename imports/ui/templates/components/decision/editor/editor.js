@@ -18,8 +18,6 @@ const _keepKeyboard = () => {
 function toggle(key, value, id) {
   const obj = {};
   obj[key] = value;
-  // Contracts.update(Session.get('contract')._id, { $set: obj });
-  console.log(id);
   Contracts.update(id, { $set: obj });
 }
 
@@ -54,11 +52,14 @@ Template.editor.helpers({
   feedMode() {
     return Session.get('feedEditorMode');
   },
-  sinceDate(timestamp) {
-    return `${timeSince(timestamp)}`;
+  sinceDate() {
+    return `${timeSince(Template.instance().contract.get().timestamp)}`;
   },
   ballotEnabled() {
     return Template.instance().contract.get().ballotEnabled; // Session.get('contract').ballotEnabled;
+  },
+  signatures() {
+    return Template.instance().contract.get().signatures;
   },
   menu() {
     const contract = Template.instance().contract.get();
