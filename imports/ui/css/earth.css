@@ -3982,19 +3982,16 @@ blockquote {
   height: 70px;
   border-radius: 50px;
   background-color: #fa4266;
-  box-shadow: 0 2px 20px -6px #000;
+  box-shadow: 0 2px 20px -5px #000;
   color: #fff;
   font-weight: 200;
   text-align: center;
   cursor: pointer;
 }
 
-.cast:hover {
-  background-color: #ff2752;
-}
-
 .cast:active {
-  background-color: #f03;
+  bottom: 13px;
+  box-shadow: 0 0 20px -7px #000;
 }
 
 .menu {
@@ -5778,6 +5775,9 @@ blockquote {
     bottom: 10px;
     width: 60px;
     height: 60px;
+  }
+  .cast:active {
+    bottom: 9px;
   }
   .menu.menu-empty {
     font-weight: 400;

@@ -21,9 +21,11 @@ const animationExit = () => {
 };
 
 Template.compose.onRendered(() => {
-  $('.action-label').css('opacity', 0);
-  $('.action-label').css('overflow', 'hidden');
-  $('.action-icon-mouseover').css('opacity', 0);
+  if (!Meteor.Device.isPhone()) {
+    $('.action-label').css('opacity', 0);
+    $('.action-label').css('overflow', 'hidden');
+    $('.action-icon-mouseover').css('opacity', 0);
+  }
 });
 
 Template.compose.helpers({
