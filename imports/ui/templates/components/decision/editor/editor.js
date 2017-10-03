@@ -18,7 +18,8 @@ const _keepKeyboard = () => {
 function toggle(key, value, id) {
   const obj = {};
   obj[key] = value;
-  Contracts.update(id, { $set: obj });
+  console.log(`${key} and ${value} for ${id}`);
+  Contracts.update({ _id: id }, { $set: obj });
 }
 
 Template.editor.onCreated(() => {
@@ -62,18 +63,20 @@ Template.editor.helpers({
     return Template.instance().contract.get().signatures;
   },
   menu() {
-    const contract = Template.instance().contract.get();
+    const template = Template.instance();
+    console.log(`fuera: ${template.contract.get().ballotEnabled}`);
     return [
       {
         icon: 'editor-ballot',
         status: () => {
-          if (contract.ballotEnabled) { // Session.get('contract').ballotEnabled) {
+          if (template.contract.get().ballotEnabled) { // Session.get('contract').ballotEnabled) {
             return 'active';
           }
           return 'enabled';
         },
-        action() {
-          toggle('ballotEnabled', !contract.ballotEnabled, contract._id); // !Session.get('contract').ballotEnabled);
+        action: () => {
+          console.log(template.contract.get().ballotEnabled);
+          toggle('ballotEnabled', !template.contract.get().ballotEnabled, template.contract.get()._id); // !Session.get('contract').ballotEnabled);
         },
       },
     ];
