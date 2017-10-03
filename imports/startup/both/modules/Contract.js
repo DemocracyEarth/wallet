@@ -24,10 +24,14 @@ const _newDraft = (newkeyword, newtitle) => {
     if (Meteor.user()) {
       _sign(contract._id, Meteor.user(), 'AUTHOR');
     }
+    /*
+    @NOTE: we are deprecating session.get('contract') everywhere.
     if (Meteor.Device.isPhone()) {
       Session.set('contract', contract);
     }
-    Router.go(`/vote/draft?id=${contract._id}`);
+    */
+    return contract;
+    // Router.go(`/vote/draft?id=${contract._id}`);
   // has title & keyword, used for forks
   } else if (!Contracts.findOne({ keyword: newkeyword })) {
     if (!newtitle) {

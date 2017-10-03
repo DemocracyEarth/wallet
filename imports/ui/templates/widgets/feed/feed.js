@@ -2,17 +2,19 @@ import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 
+import { createContract } from '/imports/startup/both/modules/Contract';
+
 import './feed.html';
 import './feedItem.js';
 import './feedEmpty.js';
 
-Template.feed.rendered = function rendered() {
+Template.feed.onRendered(() => {
   Session.set('editorMode', false);
   Session.set('voterMode', false);
   if ($('.right').scrollTop() > 0) {
     $('.right').animate({ scrollTop: 0 });
   }
-};
+});
 
 Template.feed.helpers({
   item() {
@@ -34,6 +36,9 @@ Template.feed.helpers({
   },
   voterMode() {
     return Session.get('feedVoterMode');
+  },
+  newContract() {
+    return createContract();
   },
 });
 

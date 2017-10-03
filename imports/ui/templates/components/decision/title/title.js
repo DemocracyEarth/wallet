@@ -26,7 +26,7 @@ let typingTimer; // timer identifier
 */
 function setCustomURL(keyword) {
   let dynamicURL;
-  let contract = Session.get('contract');
+  let contract = Template.currentData().contract;
 
   while (contract) {
     if (Meteor.Device.isPhone() && (keyword.length < 3)) {
@@ -36,10 +36,10 @@ function setCustomURL(keyword) {
     }
     contract = Contracts.findOne({ keyword: dynamicURL });
     if (contract) {
-      if (contract._id !== Session.get('contract')._id) {
+      if (contract._id !== Template.currentData().contract._id) {
         dynamicURL = convertToSlug(`${keyword}-${shortUUID()}`);
         contract = undefined;
-      } else if (contract._id === Session.get('contract')._id) {
+      } else if (contract._id === Template.currentData().contract._id) {
         contract = undefined;
       }
     }
@@ -76,6 +76,8 @@ function getTitle(voice) {
 
 Template.title.onRendered(() => {
   initEditor();
+
+  console.log(Template.currentData().contract);
 
   // TODO: figure out how to make tab work properly on first try.
 
@@ -149,15 +151,16 @@ Template.title.helpers({
     const host = window.location.host;
     let keyword = '';
 
-    if (Session.get('contract')) {
+    console.log(Template.currentData().contract);
+    if (Template.currentData().contract) {
       if (Session.get('contractKeyword') === undefined) {
-        Session.set('contractKeyword', Session.get('contract').keyword);
-      } else if (Session.get('contractKeyword') !== Session.get('contract').keyword) {
+        Session.set('contractKeyword', Template.currentData().contract.keyword);
+      } else if (Session.get('contractKeyword') !== Template.currentData().contract.keyword) {
         keyword = Session.get('contractKeyword');
       } else {
-        keyword = Session.get('contract').keyword;
+        keyword = Template.currentData().contract.keyword;
       }
-      return `${host}/${Session.get('contract').kind.toLowerCase()}/<strong>${keyword}</strong>`;
+      return `${host}/${Template.currentData().contract.kind.toLowerCase()}/<strong>${keyword}</strong>`;
     }
   },
   missingTitle() {
@@ -187,10 +190,10 @@ Template.title.helpers({
     return Session.get('duplicateURL');
   },
   timestamp() {
-    if (Session.get('contract')) {
+    if (Template.currentData().contract) {
       let d = Date();
-      if (Session.get('contract').timestamp !== undefined) {
-        d = Session.get('contract').timestamp;
+      if (Template.currentData().contract.timestamp !== undefined) {
+        d = Template.currentData().contract.timestamp;
         return d.format('{Month} {d}, {yyyy}');
       }
     }
@@ -247,11 +250,11 @@ Template.titleContent.events({
 
     // call function when typing seems to be finished.
     typingTimer = Meteor.setTimeout(() => {
-      if (contract !== undefined && contract._id !== Session.get('contract')._id) {
+      if (contract !== undefined && contract._id !== Template.currentData().contract._id) {
         Session.set('URLStatus', 'UNAVAILABLE');
       } else {
-        const url = `/${Session.get('contract').kind.toLowerCase()}/${keyword}`;
-        if (Contracts.update({ _id: Session.get('contract')._id }, { $set: { title: content, keyword, url } })) {
+        const url = `/${Template.currentData().contract.kind.toLowerCase()}/${keyword}`;
+        if (Contracts.update({ _id: Template.currentData().contract._id }, { $set: { title: content, keyword, url } })) {
           Session.set('URLStatus', 'AVAILABLE');
         }
         displayNotice(TAPi18n.__('saved-draft-description'), true);

@@ -3,7 +3,6 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 
-import { createContract } from '/imports/startup/both/modules/Contract';
 import { animationSettings } from '/imports/ui/modules/animation';
 import './compose.html';
 
@@ -25,8 +24,8 @@ const animationExit = () => {
 */
 const _introEditor = () => {
   $('.right').animate({ scrollTop: 0 });
-
-  // createContract();
+  $('#non-editable-feed').velocity({ opacity: 0.5 }, animationSettings);
+  Session.set('feedEditorMode', true);
 };
 
 Template.compose.onRendered(() => {
@@ -54,12 +53,16 @@ Template.compose.helpers({
 
 Template.compose.events({
   'mouseover #action-hotspace'() {
-    Session.set('showCompose', true);
-    animationIntro();
+    if (!Meteor.Device.isPhone()) {
+      Session.set('showCompose', true);
+      animationIntro();
+    }
   },
   'mouseleave #action-hotspace'() {
-    Session.set('showCompose', false);
-    animationExit();
+    if (!Meteor.Device.isPhone()) {
+      Session.set('showCompose', false);
+      animationExit();
+    }
   },
   'click #action-hotspace'() {
     _introEditor();

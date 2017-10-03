@@ -1,9 +1,14 @@
 <template name="feed">
   <div class="feed">
     <ul class="type w-clearfix w-list-unstyled">
-      {{#each item}}
-        {{> feedItem}}
-      {{/each}}
+      {{#if editorMode}}
+        {{> editor contract=newContract}}
+      {{/if}}
+      <div id="non-editable-feed">
+        {{#each item}}
+          {{> feedItem}}
+        {{/each}}
+      </div>
     </ul>
     {{#if emptyFeed}}
       {{> feedEmpty emptyContent}}
