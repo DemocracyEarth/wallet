@@ -4398,6 +4398,7 @@ blockquote {
 
 .card-title {
   margin-top: 5px;
+  text-transform: uppercase;
 }
 
 .non-draggable {

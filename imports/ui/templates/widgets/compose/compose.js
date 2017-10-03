@@ -20,6 +20,15 @@ const animationExit = () => {
   $('.action-label').velocity({ opacity: 0, 'margin-left': -115, width: '0px' }, animationSettings);
 };
 
+/**
+* @summary prepares the territory for editor display
+*/
+const _introEditor = () => {
+  $('.right').animate({ scrollTop: 0 });
+
+  // createContract();
+};
+
 Template.compose.onRendered(() => {
   if (!Meteor.Device.isPhone()) {
     $('.action-label').css('opacity', 0);
@@ -30,7 +39,10 @@ Template.compose.onRendered(() => {
 
 Template.compose.helpers({
   mouseActive() {
-    return Session.get('showCompose');
+    if (!Meteor.Device.isPhone()) {
+      return Session.get('showCompose');
+    }
+    return false;
   },
   proposalDrafting() {
     if (Meteor.settings.public.app.config.proposalDrafting === false) {
@@ -50,6 +62,6 @@ Template.compose.events({
     animationExit();
   },
   'click #action-hotspace'() {
-    createContract();
+    _introEditor();
   },
 });

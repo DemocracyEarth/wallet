@@ -15,26 +15,26 @@ Template.feed.rendered = function rendered() {
 };
 
 Template.feed.helpers({
-  item: function () {
-    if (Session.get('feed').length == 0) {
+  item() {
+    if (Session.get('feed').length === 0) {
       Session.set('emptyFeed', true);
     } else {
       Session.set('emptyFeed', false);
     }
     return Session.get('feed');
   },
-  emptyFeed: function () {
+  emptyFeed() {
     return Session.get('emptyFeed');
   },
-  emptyContent: function () {
+  emptyContent() {
     return Session.get('emptyContent');
   },
-  editorMode: function () {
+  editorMode() {
     return Session.get('feedEditorMode');
   },
-  voterMode: function () {
+  voterMode() {
     return Session.get('feedVoterMode');
-  }
+  },
 });
 
 Template.feed.events({
