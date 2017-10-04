@@ -2,7 +2,6 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 import { timers } from '/lib/const';
-import { ReactiveVar } from 'meteor/reactive-var';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { timeSince } from '/imports/ui/modules/chronos';
@@ -18,13 +17,8 @@ const _keepKeyboard = () => {
 function toggle(key, value, id) {
   const obj = {};
   obj[key] = value;
-  console.log(`${key} and ${value} for ${id}`);
   Contracts.update({ _id: id }, { $set: obj });
 }
-
-Template.editor.onCreated(() => {
-  Template.instance().contract = new ReactiveVar(Template.currentData().contract);
-});
 
 /**
 Template.editor.onRendered(function () {
@@ -54,29 +48,26 @@ Template.editor.helpers({
     return Session.get('feedEditorMode');
   },
   sinceDate() {
-    return `${timeSince(Template.instance().contract.get().timestamp)}`;
+    return `${timeSince(Contracts.findOne({ _id: this.contractId }).timestamp)}`;
   },
   ballotEnabled() {
-    return Template.instance().contract.get().ballotEnabled; // Session.get('contract').ballotEnabled;
+    return Contracts.findOne({ _id: this.contractId }).ballotEnabled; // Session.get('contract').ballotEnabled;
   },
   signatures() {
-    return Template.instance().contract.get().signatures;
+    return Contracts.findOne({ _id: this.contractId }).signatures;
   },
   menu() {
-    const template = Template.instance();
-    console.log(`fuera: ${template.contract.get().ballotEnabled}`);
     return [
       {
         icon: 'editor-ballot',
         status: () => {
-          if (template.contract.get().ballotEnabled) { // Session.get('contract').ballotEnabled) {
+          if (Contracts.findOne({ _id: this.contractId }).ballotEnabled) { // Session.get('contract').ballotEnabled) {
             return 'active';
           }
           return 'enabled';
         },
         action: () => {
-          console.log(template.contract.get().ballotEnabled);
-          toggle('ballotEnabled', !template.contract.get().ballotEnabled, template.contract.get()._id); // !Session.get('contract').ballotEnabled);
+          toggle('ballotEnabled', !Contracts.findOne({ _id: this.contractId }).ballotEnabled, this.contractId); // !Session.get('contract').ballotEnabled);
         },
       },
     ];

@@ -24,9 +24,9 @@ let typingTimer; // timer identifier
 * @summary dynamically generates a valid URL keyword regardless the case
 * @param {string} keyword tentative title being used for contract
 */
-function setCustomURL(keyword) {
+function setCustomURL(keyword, contractId) {
   let dynamicURL;
-  let contract = Template.currentData().contract;
+  let contract = Contracts.findOne({ _id: contractId });
 
   while (contract) {
     if (Meteor.Device.isPhone() && (keyword.length < 3)) {
@@ -36,10 +36,10 @@ function setCustomURL(keyword) {
     }
     contract = Contracts.findOne({ keyword: dynamicURL });
     if (contract) {
-      if (contract._id !== Template.currentData().contract._id) {
+      if (contract._id !== contractId) {
         dynamicURL = convertToSlug(`${keyword}-${shortUUID()}`);
         contract = undefined;
-      } else if (contract._id === Template.currentData().contract._id) {
+      } else if (contract._id === contractId) {
         contract = undefined;
       }
     }
@@ -66,7 +66,7 @@ function getTitle(voice) {
   }
 
   // TODO: Fix this fucking incredibly lame global shit of contractId somehow.
-  const contract = Contracts.findOne({ _id: contractId }, { reactive: false });
+  const contract = Contracts.findOne({ _id: voice.contractId }, { reactive: false });
 
   if (!contract) {
     return '';
@@ -76,8 +76,6 @@ function getTitle(voice) {
 
 Template.title.onRendered(() => {
   initEditor();
-
-  console.log(Template.currentData().contract);
 
   // TODO: figure out how to make tab work properly on first try.
 
@@ -151,16 +149,15 @@ Template.title.helpers({
     const host = window.location.host;
     let keyword = '';
 
-    console.log(Template.currentData().contract);
-    if (Template.currentData().contract) {
+    if (Contracts.findOne({ _id: this.contractId })) {
       if (Session.get('contractKeyword') === undefined) {
-        Session.set('contractKeyword', Template.currentData().contract.keyword);
-      } else if (Session.get('contractKeyword') !== Template.currentData().contract.keyword) {
+        Session.set('contractKeyword', Contracts.findOne({ _id: this.contractId }).keyword);
+      } else if (Session.get('contractKeyword') !== Contracts.findOne({ _id: this.contractId }).keyword) {
         keyword = Session.get('contractKeyword');
       } else {
-        keyword = Template.currentData().contract.keyword;
+        keyword = Contracts.findOne({ _id: this.contractId }).keyword;
       }
-      return `${host}/${Template.currentData().contract.kind.toLowerCase()}/<strong>${keyword}</strong>`;
+      return `${host}/${Contracts.findOne({ _id: this.contractId }).kind.toLowerCase()}/<strong>${keyword}</strong>`;
     }
   },
   missingTitle() {
@@ -190,10 +187,10 @@ Template.title.helpers({
     return Session.get('duplicateURL');
   },
   timestamp() {
-    if (Template.currentData().contract) {
+    if (Contracts.findOne({ _id: this.contractId })) {
       let d = Date();
-      if (Template.currentData().contract.timestamp !== undefined) {
-        d = Template.currentData().contract.timestamp;
+      if (Contracts.findOne({ _id: this.contractId }).timestamp !== undefined) {
+        d = Contracts.findOne({ _id: this.contractId }).timestamp;
         return d.format('{Month} {d}, {yyyy}');
       }
     }
@@ -208,9 +205,10 @@ Template.title.events({
 });
 
 Template.titleContent.events({
-  'input #titleContent'() {
+  'input #titleContent'(event, instance) {
     let content = document.getElementById('titleContent').innerText;
-    const keyword = setCustomURL(content);
+    console.log(instance.data.contractId);
+    const keyword = setCustomURL(content, instance.data.contractId);
     const contract = Contracts.findOne({ keyword: keyword });
 
     // Set timer to check upload to db
@@ -250,11 +248,11 @@ Template.titleContent.events({
 
     // call function when typing seems to be finished.
     typingTimer = Meteor.setTimeout(() => {
-      if (contract !== undefined && contract._id !== Template.currentData().contract._id) {
+      if (contract !== undefined && contract._id !== instance.data.contractId) {
         Session.set('URLStatus', 'UNAVAILABLE');
       } else {
-        const url = `/${Template.currentData().contract.kind.toLowerCase()}/${keyword}`;
-        if (Contracts.update({ _id: Template.currentData().contract._id }, { $set: { title: content, keyword, url } })) {
+        const url = `/${Contracts.findOne({ _id: instance.data.contractId }).kind.toLowerCase()}/${keyword}`;
+        if (Contracts.update({ _id: instance.data.contractId }, { $set: { title: content, keyword, url } })) {
           Session.set('URLStatus', 'AVAILABLE');
         }
         displayNotice(TAPi18n.__('saved-draft-description'), true);

@@ -5674,20 +5674,6 @@ blockquote {
   .stage.stage-card {
     margin-top: 6px;
   }
-  .context {
-    position: fixed;
-    left: 0%;
-    right: 0px;
-    bottom: 56px;
-    width: 100%;
-    max-width: 100%;
-    margin-top: 0px;
-    margin-left: 0px;
-    border-top: 2px solid #ffe079;
-    border-bottom-width: 0px;
-    border-radius: 0px;
-    background-color: #707070;
-  }
   .selector-modal {
     left: 20px;
     right: 20px;

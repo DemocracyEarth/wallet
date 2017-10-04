@@ -37,8 +37,8 @@ Template.feed.helpers({
   voterMode() {
     return Session.get('feedVoterMode');
   },
-  newContract() {
-    return createContract();
+  newContractId() {
+    return createContract()._id;
   },
 });
 
