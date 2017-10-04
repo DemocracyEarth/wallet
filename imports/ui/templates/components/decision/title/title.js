@@ -207,7 +207,6 @@ Template.title.events({
 Template.titleContent.events({
   'input #titleContent'(event, instance) {
     let content = document.getElementById('titleContent').innerText;
-    console.log(instance.data.contractId);
     const keyword = setCustomURL(content, instance.data.contractId);
     const contract = Contracts.findOne({ keyword: keyword });
 
@@ -251,12 +250,12 @@ Template.titleContent.events({
       if (contract !== undefined && contract._id !== instance.data.contractId) {
         Session.set('URLStatus', 'UNAVAILABLE');
       } else {
-        console.log(instance.data.contractId);
         const url = `/${Contracts.findOne({ _id: instance.data.contractId }).kind.toLowerCase()}/${keyword}`;
         if (Contracts.update({ _id: instance.data.contractId }, { $set: { title: content, keyword, url } })) {
           Session.set('URLStatus', 'AVAILABLE');
         }
-        displayNotice(TAPi18n.__('saved-draft-description'), true);
+        // @NOTE: no longer stores drafts but this might want to be reactivated in the future.
+        // displayNotice(TAPi18n.__('saved-draft-description'), true);
       }
     }, timers.SERVER_INTERVAL);
   },
@@ -267,20 +266,20 @@ Template.titleContent.events({
     }
   },
   'focus #titleContent'() {
-    // if (!Meteor.Device.isPhone()) {
+    if (!Meteor.Device.isPhone()) {
       if (Session.get('missingTitle')) {
         document.getElementById('titleContent').innerText = '';
         Session.set('missingTitle', false);
       }
-    // }
+    }
   },
   'blur #titleContent'() {
     const content = document.getElementById('titleContent').innerText;
     if (content === '' || content === ' ') {
       Session.set('missingTitle', true);
-      // if (!Meteor.Device.isPhone()) {
+      if (!Meteor.Device.isPhone()) {
         document.getElementById('titleContent').innerText = TAPi18n.__('no-title');
-      // }
+      }
     }
   },
 });
