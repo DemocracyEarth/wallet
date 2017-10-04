@@ -2,8 +2,6 @@ import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 
-import { createContract } from '/imports/startup/both/modules/Contract';
-
 import './feed.html';
 import './feedItem.js';
 import './feedEmpty.js';
@@ -32,13 +30,14 @@ Template.feed.helpers({
     return Session.get('emptyContent');
   },
   editorMode() {
-    return Session.get('feedEditorMode');
+    return Session.get('showPostEditor');
   },
   voterMode() {
     return Session.get('feedVoterMode');
   },
   newContractId() {
-    return createContract()._id;
+    console.log(`new contract being created ${Session.get('draftContract')._id}`);
+    return Session.get('draftContract')._id;
   },
 });
 

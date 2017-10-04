@@ -44,9 +44,12 @@ Template.editor.helpers({
   log() {
     return Session.get('mobileLog');
   },
+  /*
+  @NOTE: deprecating differentiated editor for device type
   feedMode() {
-    return Session.get('feedEditorMode');
+    return Session.get('showPostEditor');
   },
+  */
   sinceDate() {
     return `${timeSince(Contracts.findOne({ _id: this.contractId }).timestamp)}`;
   },

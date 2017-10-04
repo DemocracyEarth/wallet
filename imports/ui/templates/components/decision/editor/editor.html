@@ -1,5 +1,5 @@
 <template name="editor">
-  {{#if feedMode}}
+  <!--{{#if feedMode}}-->
 
     <li id="feedItem-{{contractId}}" class="vote vote-search vote-feed nondraggable">
       <div class="checkbox checkbox-custom">
@@ -19,14 +19,13 @@
         <div class="w-inline-block w-clearfix option-proposal">
           <div class="option-title option-link option-search title-input">
              <div class="title-input title-feed">
-              <!--{{{title}}}-->
-              {{> title contractId=contractId editorMode=true}}
+             {{> title contractId=contractId editorMode=true}}
             </div>
-            <!--{{#if ballotEnabled}}
+            {{#if ballotEnabled}}
               <div id='post-editor-widgets' style='margin-top: {{widgetTop}}'>
                 {{> ballot editorMode=true}}
               </div>
-            {{/if}}-->
+            {{/if}}
           </div>
         </div>
       </div>
@@ -39,6 +38,8 @@
       {{/each}}
       {{> counter}}
     </div>
+<!--
+  @NOTE: deprecating differentiated editor between mobile and desktop
   {{else}}
     <div id="post-editor" class="mobile-editor" style="display:none;">
       <div id="post-editor-content">
@@ -51,7 +52,8 @@
               {{> ballot editorMode=true}}
             </div>
           {{/if}}
-          <!-- {{> semantics editorMode=true}}-->
+
+          <! - - {{> semantics editorMode=true}}- - >
           <div class="section section-editor w-clearfix">
             <div class="section-editor-separator"></div>
             {{#each menu}}
@@ -63,4 +65,5 @@
       </div>
     </div>
   {{/if}}
+  -->
 </template>

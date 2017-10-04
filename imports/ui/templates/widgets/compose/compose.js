@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 
+import { createContract } from '/imports/startup/both/modules/Contract';
 import { animationSettings } from '/imports/ui/modules/animation';
 import './compose.html';
 
@@ -25,7 +26,8 @@ const animationExit = () => {
 const _introEditor = () => {
   $('.right').animate({ scrollTop: 0 });
   $('#non-editable-feed').velocity({ opacity: 0.5 }, animationSettings);
-  Session.set('feedEditorMode', true);
+  Session.set('draftContract', createContract());
+  Session.set('showPostEditor', true);
 };
 
 Template.compose.onRendered(() => {
