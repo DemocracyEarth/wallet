@@ -62,8 +62,17 @@ function displayBackButton() {
   return (Meteor.Device.isPhone() && (Router.current().url.search('/vote') >= 0 || Router.current().url.search('/peer') >= 0));
 }
 
+/**
+* @summary verifies if editor mode is on in mobile devices
+*/
+function displayCancelButton() {
+  return (Meteor.Device.isPhone() && Session.get('showPostEditor'));
+}
+
 function displayMenuIcon() {
-  if (displayBackButton()) {
+  if (displayCancelButton()) {
+    return 'images/cross.png';
+  } else if (displayBackButton()) {
     return 'images/back.png';
   }
   if (Session.get('sidebar')) {
@@ -110,8 +119,9 @@ Template.navigation.helpers({
 
 Template.navigation.events({
   'click #menu'() {
-    if (displayBackButton()) {
-      Session.set('newPostEditor', false);
+    if (displayCancelButton()) {
+      Session.set('showPostEditor', false);
+    } else if (displayBackButton()) {
       window.history.back();
     } else if (Session.get('navbar').action === 'SIDEBAR') {
       toggleSidebar();

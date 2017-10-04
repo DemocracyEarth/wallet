@@ -36,7 +36,6 @@ Template.feed.helpers({
     return Session.get('feedVoterMode');
   },
   newContractId() {
-    console.log(`new contract being created ${Session.get('draftContract')._id}`);
     return Session.get('draftContract')._id;
   },
 });

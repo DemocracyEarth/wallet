@@ -13,7 +13,7 @@ Template.touchmenu.onRendered(() => {
 
 Template.touchmenu.helpers({
   newPostEditor() {
-    return Session.get('newPostEditor');
+    return Session.get('showPostEditor');
   },
 });
 

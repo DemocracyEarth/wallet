@@ -27,7 +27,7 @@ Template.authentication.helpers({
     return '';
   },
   postButton() {
-    return Session.get('newPostEditor');
+    return Session.get('showPostEditor');
   },
   postDisabled() {
     if (isDisabled()) {
@@ -51,10 +51,10 @@ Template.authentication.events({
   },
   'click #navbar-post-button'() {
     if (!isDisabled()) {
-      publishContract(Session.get('contract')._id);
+      publishContract(Session.get('draftContract')._id);
       displayNotice(TAPi18n.__('posted-idea'), true);
-      Session.set('newPostEditor', false);
-      window.history.back();
+      Session.set('showPostEditor', false);
+      // window.history.back();
     }
   },
 });

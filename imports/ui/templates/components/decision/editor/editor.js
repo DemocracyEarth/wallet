@@ -84,7 +84,7 @@ Template.editor.events({
       duration: timers.ANIMATION_DURATION,
       complete: () => {
         $('#post-editor').css('display', 'none');
-        Session.set('newPostEditor', false);
+        Session.set('showPostEditor', false);
         window.history.back();
       },
     });
