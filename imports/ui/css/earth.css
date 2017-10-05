@@ -266,9 +266,7 @@ blockquote {
 }
 
 .section.section-editor {
-  margin-top: 10px;
-  padding-right: 5px;
-  padding-left: 5px;
+  margin: 20px -5px;
 }
 
 .card {
@@ -6110,7 +6108,7 @@ blockquote {
     margin-top: 20px;
   }
   .modal.hide {
-    display: inline-block;
+    display: none;
   }
   .selector-modal {
     left: 0px;
@@ -6171,7 +6169,7 @@ blockquote {
     margin-left: 0px;
   }
   .mobile-editor.hide {
-    display: none;
+    display: inline;
   }
   .mobile-widget-wrapper {
     padding-top: 15px;
