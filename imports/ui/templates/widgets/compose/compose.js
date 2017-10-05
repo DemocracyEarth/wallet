@@ -26,7 +26,7 @@ const animationExit = () => {
 const _introEditor = () => {
   $('.right').animate({ scrollTop: 0 }, {
     complete: () => {
-      $('#non-editable-feed').velocity({ opacity: 0.5 },
+      $('#non-editable-feed').velocity({ opacity: 0 },
         { duration: animationSettings.duration,
           complete: () => {
             Session.set('draftContract', createContract());

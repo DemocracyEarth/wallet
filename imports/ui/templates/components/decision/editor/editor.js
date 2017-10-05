@@ -40,6 +40,10 @@ Template.editor.onRendered(function () {
 });
 */
 
+Template.editor.onRendered(function () {
+  console.log($(`#feedItem-${this.data.contractId}`)[0].getBoundingClientRect().height);
+});
+
 Template.editor.helpers({
   log() {
     return Session.get('mobileLog');
