@@ -26,14 +26,15 @@ const animationExit = () => {
 const _introEditor = () => {
   $('.right').animate({ scrollTop: 0 }, {
     complete: () => {
-      $('#non-editable-feed').velocity({ opacity: 0 },
+      Session.set('draftContract', createContract());
+      Session.set('showPostEditor', true);
+      /* $('#non-editable-feed').velocity({ opacity: 0 },
         { duration: animationSettings.duration,
           complete: () => {
-            Session.set('draftContract', createContract());
-            Session.set('showPostEditor', true);
+
           },
         }
-      );
+      );*/
     },
   });
 };

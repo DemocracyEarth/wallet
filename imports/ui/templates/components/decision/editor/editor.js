@@ -40,8 +40,19 @@ Template.editor.onRendered(function () {
 });
 */
 
+Template.editor.onCreated(function () {
+});
+
 Template.editor.onRendered(function () {
-  console.log($(`#feedItem-${this.data.contractId}`)[0].getBoundingClientRect().height);
+  const originalHeight = $(`#feedItem-${this.data.contractId}`)[0].getBoundingClientRect().height;
+  $(`#feedItem-${this.data.contractId}`).css({
+    height: 0,
+    marginLeft: $('.right').width(),
+  });
+  $(`#feedItem-${this.data.contractId}`).velocity({
+    marginLeft: 0,
+    height: originalHeight,
+  });
 });
 
 Template.editor.helpers({
