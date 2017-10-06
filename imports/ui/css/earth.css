@@ -5214,6 +5214,12 @@ blockquote {
   font-family: 'Open Sans', sans-serif;
 }
 
+.avatar-wrapper {
+  margin-top: -4px;
+  margin-right: -8px;
+  float: right;
+}
+
 .logo-navbar {
   position: absolute;
   left: 0px;
@@ -5870,11 +5876,6 @@ blockquote {
   .section-editor-separator {
     margin-right: 5px;
     margin-left: 5px;
-  }
-  .avatar-wrapper {
-    margin-top: -4px;
-    margin-right: -8px;
-    float: right;
   }
   .ballot-section {
     margin-top: 5px;
