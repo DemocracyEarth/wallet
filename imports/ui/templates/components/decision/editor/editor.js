@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
@@ -40,8 +41,18 @@ Template.editor.onRendered(function () {
 });
 */
 
-Template.editor.onCreated(function () {
-});
+/**
+* @summary animation intro of editorMode
+*/
+function fxIntro(contractId, originalHeight) {
+  if (Meteor.Device.isPhone()) {
+    $('#non-editable-feed').velocity({ opacity: 0 });
+  }
+  $(`#feedItem-${contractId}`).velocity({
+    marginLeft: 0,
+    height: originalHeight,
+  });
+}
 
 Template.editor.onRendered(function () {
   const originalHeight = $(`#feedItem-${this.data.contractId}`)[0].getBoundingClientRect().height;
@@ -49,10 +60,15 @@ Template.editor.onRendered(function () {
     height: 0,
     marginLeft: $('.right').width(),
   });
-  $(`#feedItem-${this.data.contractId}`).velocity({
-    marginLeft: 0,
-    height: originalHeight,
-  });
+  if ($('.right').scrollTop() > 0) {
+    $('.right').animate({ scrollTop: 0 }, {
+      complete: () => {
+        fxIntro(this.data.contractId, originalHeight);
+      },
+    });
+  } else {
+    fxIntro(this.data.contractId, originalHeight);
+  }
 });
 
 Template.editor.helpers({

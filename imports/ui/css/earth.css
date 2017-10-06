@@ -266,7 +266,10 @@ blockquote {
 }
 
 .section.section-editor {
-  margin: 20px -5px;
+  margin: 0px -15px;
+  padding: 5px;
+  border-top: 1px dotted #e8e8e8;
+  background-color: #f7f7f7;
 }
 
 .card {
@@ -620,6 +623,13 @@ blockquote {
 
 .symbol.profile-pic.profile-inbox:hover {
   border-color: #e6f9f4;
+}
+
+.symbol.profile-pic.profile-adhoc {
+  width: 32px;
+  height: 32px;
+  margin-top: 7px;
+  float: right;
 }
 
 .semantics {
@@ -3723,6 +3733,19 @@ blockquote {
   background-color: #00bf8f;
 }
 
+.navbar-button.navbar-button-active.navbar-button-action {
+  border: 1px solid #00bf8f;
+  font-size: 16px;
+  line-height: 18px;
+  cursor: pointer;
+}
+
+.navbar-button.navbar-button-active.navbar-button-action.navbar-button-action-disabled {
+  border: 1px solid #aaa;
+  background-color: transparent;
+  color: #999;
+}
+
 .tab-content {
   display: block;
 }
@@ -5183,6 +5206,14 @@ blockquote {
   border-top: 1px dotted #00bf8f;
 }
 
+.navbar-button-action-label {
+  margin-top: 12px;
+  margin-right: 15px;
+  margin-left: 10px;
+  float: left;
+  font-family: 'Open Sans', sans-serif;
+}
+
 .logo-navbar {
   position: absolute;
   left: 0px;
@@ -5531,12 +5562,6 @@ blockquote {
     margin-top: 1px;
     margin-bottom: -1px;
   }
-  .symbol.profile-pic.profile-adhoc {
-    width: 32px;
-    height: 32px;
-    margin-top: 7px;
-    float: right;
-  }
   .extra.identity-list.avatar-editor {
     padding-bottom: 0px;
   }
@@ -5715,20 +5740,9 @@ blockquote {
     bottom: 0px;
     width: 100%;
   }
-  .navbar-button.navbar-button-active.navbar-button-action {
-    border: 1px solid #00bf8f;
-    font-size: 16px;
-    line-height: 18px;
-    cursor: pointer;
-  }
   .navbar-button.navbar-button-active.navbar-button-action:active {
     background-color: transparent;
     color: #00bf8f;
-  }
-  .navbar-button.navbar-button-active.navbar-button-action.navbar-button-action-disabled {
-    border-color: #aaa;
-    background-color: transparent;
-    color: #999;
   }
   .avatar-editor {
     margin-bottom: 0px;
@@ -5856,15 +5870,6 @@ blockquote {
   .section-editor-separator {
     margin-right: 5px;
     margin-left: 5px;
-  }
-  .navbar-button-action-label {
-    display: block;
-    margin-top: 12px;
-    margin-right: 15px;
-    margin-left: 10px;
-    float: left;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 16px;
   }
   .avatar-wrapper {
     margin-top: -4px;

@@ -29,15 +29,15 @@
           </div>
         </div>
       </div>
+      <div class="section section-editor w-clearfix">
+        {{#each menu}}
+          {{> editorButton}}
+        {{/each}}
+        {{> counter}}
+      </div>
     </li>
 
-    <div class="section section-editor w-clearfix">
-      {{#each menu}}
-        {{> editorButton}}
-      {{/each}}
-      {{> counter}}
-    </div>
-<!--
+  <!--
   @NOTE: deprecating differentiated editor between mobile and desktop
   {{else}}
     <div id="post-editor" class="mobile-editor" style="display:none;">

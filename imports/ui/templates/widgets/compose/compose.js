@@ -24,19 +24,8 @@ const animationExit = () => {
 * @summary prepares the territory for editor display
 */
 const _introEditor = () => {
-  $('.right').animate({ scrollTop: 0 }, {
-    complete: () => {
-      Session.set('draftContract', createContract());
-      Session.set('showPostEditor', true);
-      /* $('#non-editable-feed').velocity({ opacity: 0 },
-        { duration: animationSettings.duration,
-          complete: () => {
-
-          },
-        }
-      );*/
-    },
-  });
+  Session.set('draftContract', createContract());
+  Session.set('showPostEditor', true);
 };
 
 Template.compose.onRendered(() => {
