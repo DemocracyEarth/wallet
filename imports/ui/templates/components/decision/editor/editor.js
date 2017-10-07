@@ -42,33 +42,52 @@ Template.editor.onRendered(function () {
 */
 
 /**
-* @summary animation intro of editorMode
+* @summary enables or disables feed and disables scrolling in mobile devices
+* @param {boolean} enabled show feed
 */
-function fxIntro(contractId, originalHeight) {
+function toggleFeed(enabled) {
   if (Meteor.Device.isPhone()) {
-    $('#non-editable-feed').velocity({ opacity: 0 });
+    if (!enabled) {
+      $('#non-editable-feed').velocity({ opacity: 0 });
+    }
   }
-  $(`#feedItem-${contractId}`).velocity({
-    marginLeft: 0,
-    height: originalHeight,
-  });
 }
 
-Template.editor.onRendered(function () {
-  const originalHeight = $(`#feedItem-${this.data.contractId}`)[0].getBoundingClientRect().height;
-  $(`#feedItem-${this.data.contractId}`).css({
-    height: 0,
-    marginLeft: $('.right').width(),
-  });
+/**
+* @summary animation intro of editorMode
+* @param {string} contractId contract being edited to grab div
+*/
+function fxIntro(contractId) {
+  const originalHeight = $(`#feedItem-${contractId}`)[0].getBoundingClientRect().height;
   if ($('.right').scrollTop() > 0) {
     $('.right').animate({ scrollTop: 0 }, {
       complete: () => {
-        fxIntro(this.data.contractId, originalHeight);
+        toggleFeed(false);
       },
     });
   } else {
-    fxIntro(this.data.contractId, originalHeight);
+    $(`#feedItem-${contractId}`).css({
+      marginTop: -100,
+      height: 0,
+      marginLeft: $('.right').width(),
+    });
+    if (Meteor.Device.isPhone()) {
+      $(`#feedItem-${contractId}`).velocity({
+        height: originalHeight,
+        marginLeft: 0,
+        marginTop: 0,
+      }, {
+        complete: () => {
+          $(`#feedItem-${contractId}`).css('height', 'auto');
+          toggleFeed(false);
+        },
+      });
+    }
   }
+}
+
+Template.editor.onRendered(function () {
+  fxIntro(this.data.contractId);
 });
 
 Template.editor.helpers({
