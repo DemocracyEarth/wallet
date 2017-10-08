@@ -53,7 +53,7 @@ function toggleFeed(enabled) {
       $('#non-editable-feed').velocity({ opacity: 0 }, {
         complete: () => {
           $('#non-editable-feed').css({
-            overflow: 'hidden',
+            // overflow: 'hidden',
             height: 0,
           });
         },
@@ -61,14 +61,14 @@ function toggleFeed(enabled) {
     } else {
       $('#non-editable-feed').css({
         height: 'auto',
-        overflow: 'auto',
+        // overflow: 'none',
       });
       $('#non-editable-feed').velocity({
         opacity: 1,
       }, {
         complete: () => {
           $('.cast').velocity({ opacity: 1 });
-          $('#feed-bottom').velocity({ opacity: 1 });
+          $('#feed-bottom').velocity({ opacity: 0.3 });
         },
       });
     }
@@ -97,10 +97,12 @@ const _editorFadeIn = (contractId) => {
       $(`#feedItem-${contractId}`).velocity({
         height: originalHeight,
         marginLeft: 0,
-        overflow: 'auto',
       }, {
         complete: () => {
-          $(`#feedItem-${contractId}`).css('height', 'auto');
+          $(`#feedItem-${contractId}`).css({
+            height: 'auto',
+            overflow: 'none',
+          });
           toggleFeed(false);
         },
       });
@@ -113,7 +115,8 @@ const _editorFadeOut = (contractId) => {
     opacity: 0,
   }, {
     complete: () => {
-      $(`#feedItem-${contractId}`).remove();
+      Session.set('showPostEditor', false);
+      delete Session.keys.draftContract;
       toggleFeed(true);
     },
   });

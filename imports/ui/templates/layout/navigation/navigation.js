@@ -123,7 +123,6 @@ Template.navigation.events({
     if (displayCancelButton()) {
       editorFadeOut(Session.get('draftContract')._id);
       Session.set('showPostEditor', false);
-      delete Session.keys.draftContract;
     } else if (displayBackButton()) {
       window.history.back();
     } else if (Session.get('navbar').action === 'SIDEBAR') {
