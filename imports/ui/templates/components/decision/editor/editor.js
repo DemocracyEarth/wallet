@@ -48,7 +48,29 @@ Template.editor.onRendered(function () {
 function toggleFeed(enabled) {
   if (Meteor.Device.isPhone()) {
     if (!enabled) {
-      $('#non-editable-feed').velocity({ opacity: 0 });
+      $('.cast').velocity({ opacity: 0 });
+      $('#feed-bottom').velocity({ opacity: 0 });
+      $('#non-editable-feed').velocity({ opacity: 0 }, {
+        complete: () => {
+          $('#non-editable-feed').css({
+            overflow: 'hidden',
+            height: 0,
+          });
+        },
+      });
+    } else {
+      $('#non-editable-feed').css({
+        height: 'auto',
+        overflow: 'auto',
+      });
+      $('#non-editable-feed').velocity({
+        opacity: 1,
+      }, {
+        complete: () => {
+          $('.cast').velocity({ opacity: 1 });
+          $('#feed-bottom').velocity({ opacity: 1 });
+        },
+      });
     }
   }
 }
@@ -57,7 +79,7 @@ function toggleFeed(enabled) {
 * @summary animation intro of editorMode
 * @param {string} contractId contract being edited to grab div
 */
-function fxIntro(contractId) {
+const _editorFadeIn = (contractId) => {
   const originalHeight = $(`#feedItem-${contractId}`)[0].getBoundingClientRect().height;
   if ($('.right').scrollTop() > 0) {
     $('.right').animate({ scrollTop: 0 }, {
@@ -67,7 +89,7 @@ function fxIntro(contractId) {
     });
   } else {
     $(`#feedItem-${contractId}`).css({
-      marginTop: -100,
+      overflow: 'hidden',
       height: 0,
       marginLeft: $('.right').width(),
     });
@@ -75,7 +97,7 @@ function fxIntro(contractId) {
       $(`#feedItem-${contractId}`).velocity({
         height: originalHeight,
         marginLeft: 0,
-        marginTop: 0,
+        overflow: 'auto',
       }, {
         complete: () => {
           $(`#feedItem-${contractId}`).css('height', 'auto');
@@ -84,10 +106,21 @@ function fxIntro(contractId) {
       });
     }
   }
-}
+};
+
+const _editorFadeOut = (contractId) => {
+  $(`#feedItem-${contractId}`).velocity({
+    opacity: 0,
+  }, {
+    complete: () => {
+      $(`#feedItem-${contractId}`).remove();
+      toggleFeed(true);
+    },
+  });
+};
 
 Template.editor.onRendered(function () {
-  fxIntro(this.data.contractId);
+  _editorFadeIn(this.data.contractId);
 });
 
 Template.editor.helpers({
@@ -145,3 +178,5 @@ Template.editor.events({
 });
 
 export const keepKeyboard = _keepKeyboard;
+export const editorFadeOut = _editorFadeOut;
+export const editorFadeIn = _editorFadeIn;

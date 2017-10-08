@@ -5,6 +5,7 @@ import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { Router } from 'meteor/iron:router';
 
+import { editorFadeOut } from '/imports/ui/templates/components/decision/editor/editor';
 import { timers } from '/lib/const';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { toggleSidebar } from '/imports/ui/modules/menu';
@@ -120,7 +121,9 @@ Template.navigation.helpers({
 Template.navigation.events({
   'click #menu'() {
     if (displayCancelButton()) {
+      editorFadeOut(Session.get('draftContract')._id);
       Session.set('showPostEditor', false);
+      delete Session.keys.draftContract;
     } else if (displayBackButton()) {
       window.history.back();
     } else if (Session.get('navbar').action === 'SIDEBAR') {
