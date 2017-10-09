@@ -1,12 +1,9 @@
 <template name="execute">
   <div class="section">
-    {{#unless isPhone}}
-      <h5>{{_ "executive-options"}}</h5>
-    {{/unless}}
     <div class="w-clearfix elements">
       <ul class="w-list-unstyled w-clearfix options">
-        {{> fork executive=true mode="AUTHORIZE"}}
-        {{> fork executive=true mode="REJECT"}}
+        {{> fork executive=true mode="AUTHORIZE" contract=contract}}
+        {{> fork executive=true mode="REJECT" contract=contract}}
       </ul>
     </div>
   </div>

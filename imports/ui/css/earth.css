@@ -3233,7 +3233,7 @@ blockquote {
 }
 
 .context {
-  position: absolute;
+  position: fixed;
   left: 10px;
   bottom: 20px;
   z-index: 15000;

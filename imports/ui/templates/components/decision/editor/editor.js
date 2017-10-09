@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
-import { Router } from 'meteor/iron:router';
 
 import { timers } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
@@ -146,6 +145,9 @@ Template.editor.helpers({
   },
   signatures() {
     return Contracts.findOne({ _id: this.contractId }).signatures;
+  },
+  draftContract() {
+    return Contracts.findOne({ _id: this.contractId });
   },
   menu() {
     return [

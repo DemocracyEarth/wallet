@@ -31,7 +31,8 @@
     {{/if}}
 
     {{#if ballotEnabled}}
-
+      <!--
+      @NOTE: On hold until future improvements
       {{#if editorMode}}
         {{#unless isPhone}}
           <div class="description">
@@ -42,8 +43,7 @@
                   {{> calendar}}
                 </div>
               </li>
-              <!--
-              On hold until future improvements
+
               <li class="w-clearfix setting">
                 <div class="text setting-label">{{_ "enable-multiple-choice"}}</div>
                 <div class="w-clearfix value">
@@ -56,7 +56,7 @@
                   {{> toggle setting="executiveDecision" value=executiveDecision}}
                 </div>
               </li>
-            -->
+
             </ul>
           </div>
           <div class="extra">
@@ -68,50 +68,38 @@
           </div>
         {{/unless}}
       {{/if}}
-
-      {{#if editorMode}}
-        {{#if ballotEnabled}}
-          {{#if executiveDecision}}
-            {{> execute}}
-          {{/if}}
-          {{#if isPhone}}
-            <div class='ballot-section'>
-              <ul class="w-list-unstyled settings section">
-                <li class="w-clearfix setting">
-                  <div class="text setting-label">{{_ "closing-date-of-poll"}}</div>
-                  <div class="value">
-                    {{> calendar}}
-                  </div>
-                </li>
-              </ul>
-            </div>
-          {{/if}}
-        {{/if}}
-      {{/if}}
+      -->
 
 
         <div class="section">
-          <!--
-          {{#if editorMode}}
-            {{#if ballotReady}}
-              {{#if executiveDecision}}
-                <h5>{{_ "alternative-options"}}</h5>
-              {{else}}
-                <h5>{{_ "only-ballot-options"}}</h5>
-              {{/if}}
-            {{/if}}
-          {{/if}}
-        -->
           <div class="w-clearfix elements">
             <ul id="ballotOption" class="w-list-unstyled w-clearfix options connectedBallot">
-              {{#unless editorMode}}
+              {{#if editorMode}}
+                {{#if ballotEnabled}}
+                  {{#if executiveDecision}}
+                    {{> execute contract=contract}}
+                  {{/if}}
+                  {{#if isPhone}}
+                    <div class='ballot-section'>
+                      <ul class="w-list-unstyled settings section">
+                        <li class="w-clearfix setting">
+                          <div class="text setting-label">{{_ "closing-date-of-poll"}}</div>
+                          <div class="value">
+                            {{> calendar contract=contract}}
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  {{/if}}
+                {{/if}}
+              {{else}}
                 {{#if executiveDecision}}
                   {{#with voteSettings}}
                     {{> fork executive=true mode="AUTHORIZE" _id=1 voteId=this.voteId contract=contract}}
                     {{> fork executive=true mode="REJECT" _id=0 voteId=this.voteId contract=contract}}
                   {{/with}}
                 {{/if}}
-              {{/unless}}
+              {{/if}}
               {{#each options}}
                 {{#with voteSettings}}
                   {{> fork _id=this._id label=this.label mode=this.mode rank=this.rank url=this.url alternative=true editorMode=this.editorMode voteId=this.voteId contract=contract}}
@@ -146,7 +134,7 @@
         </div>
       {{/if}}
 
-        <!--
+      <!--
       {{#if editorMode}}
         {{> alternative}}
       {{else}}

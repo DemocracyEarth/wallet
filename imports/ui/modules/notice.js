@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
+import { $ } from 'meteor/jquery';
 
 import { timers } from '/lib/const';
 
@@ -9,7 +10,11 @@ const showNotice = (label, temporary) => {
 
   if (temporary) {
     Meteor.setTimeout(() => {
-      Session.set('showNotice', false);
+      $('.context').velocity({ opacity: 0 }, {
+        complete: () => {
+          Session.set('showNotice', false);
+        },
+      });
     }, timers.WARNING_DURATION);
   }
 };
