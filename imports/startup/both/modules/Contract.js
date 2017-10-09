@@ -30,8 +30,8 @@ const _newDraft = (newkeyword, newtitle) => {
       Session.set('contract', contract);
     }
     */
+    Router.go(`/vote/draft?id=${contract._id}`);
     return contract;
-    // Router.go(`/vote/draft?id=${contract._id}`);
   // has title & keyword, used for forks
   } else if (!Contracts.findOne({ keyword: newkeyword })) {
     if (!newtitle) {
