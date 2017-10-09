@@ -56,6 +56,8 @@ function toggleFeed(enabled) {
             overflow: 'hidden',
             height: 0,
           });
+          $('.cast').css('height', 0);
+          $('#feed-bottom').css('width', 0);
           $('#titleContent').focus();
         },
       });
@@ -68,6 +70,8 @@ function toggleFeed(enabled) {
         opacity: 1,
       }, {
         complete: () => {
+          $('.cast').css('height', '60px');
+          $('#feed-bottom').css('width', 'auto');
           $('.cast').velocity({ opacity: 1 });
           $('#feed-bottom').velocity({ opacity: 0.3 });
         },

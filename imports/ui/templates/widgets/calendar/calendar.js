@@ -17,6 +17,7 @@ function initCalendar(template) {
       const currentDate = new Date();
       if (currentDate.getTime() < e.date.getTime()) {
         Session.set('backdating', false);
+        console.log(template);
         template.showCalendar.set(!template.showCalendar.get());
         template.displaySelector.set(!template.displaySelector.get());
         Contracts.update(template.contract.get()._id, { $set: { permanentElection: false, closingDate: e.date } });
@@ -83,6 +84,8 @@ Template.calendar.helpers({
       if (Template.instance().showCalendar.get()) {
         return 'display:none';
       }
+      return '';
+    } else if (Template.instance().showCalendar.get()) {
       return '';
     }
     Template.instance().showCalendar.set(false);
