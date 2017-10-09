@@ -1,34 +1,24 @@
 <template name="ballot">
 
   <div class="section section-mobile {{ballotStyle}}">
-    {{#if editorMode}}
-      {{#unless isPhone}}
-        <div class="w-clearfix paper-header {{headerStyle}}">
-          {{> kind title="include-ballot" icon="images/modal-vote.png" stage=stage}}
-          <div class="w-clearfix value">
-            {{> toggle setting="ballotEnabled" value=ballotEnabled}}
+    <div class="w-clearfix paper-header {{headerStyle}}">
+      {{#if feedMode}}
+        <!--<a class="micro-button micro-button-header w-clearfix w-inline-block" href="{{url}}">-->
+          <img class="micro-icon" src="{{pathFor route='home'}}images/vote-icon.png">
+          <div class="micro-label">{{voters}}</div>
+        <!--</a>-->
+      {{else}}
+        {{> kind title="ballot" icon="images/modal-vote.png" stage=stage}}
+      {{/if}}
+      {{#if currentUser}}
+        <div class="w-clearfix value value-avatar extra">
+          <div class="extra">
+            {{> stage text=stageLabel executionStatus=executionStatus closingDate=closingDate permanentElection=permanentElection}}
           </div>
         </div>
-      {{/unless}}
-    {{else}}
-      <div class="w-clearfix paper-header {{headerStyle}}">
-        {{#if feedMode}}
-          <a class="micro-button micro-button-header w-clearfix w-inline-block" href="{{url}}">
-            <img class="micro-icon" src="{{pathFor route='home'}}images/vote-icon.png">
-            <div class="micro-label">{{voters}}</div>
-          </a>
-        {{else}}
-          {{> kind title="ballot" icon="images/modal-vote.png" stage=stage}}
-        {{/if}}
-        {{#if currentUser}}
-          <div class="w-clearfix value value-avatar extra">
-            <div class="extra">
-              {{> stage text=stageLabel executionStatus=executionStatus closingDate=closingDate permanentElection=permanentElection}}
-            </div>
-          </div>
-        {{/if}}
-      </div>
-    {{/if}}
+      {{/if}}
+    </div>
+
 
     {{#if ballotEnabled}}
       <!--
@@ -77,20 +67,19 @@
               {{#if editorMode}}
                 {{#if ballotEnabled}}
                   {{#if executiveDecision}}
-                    {{> execute contract=contract}}
+                    {{> fork executive=true mode="AUTHORIZE" contract=contract}}
+                    {{> fork executive=true mode="REJECT" contract=contract}}
                   {{/if}}
-                  {{#if isPhone}}
-                    <div class='ballot-section'>
-                      <ul class="w-list-unstyled settings section">
-                        <li class="w-clearfix setting">
-                          <div class="text setting-label">{{_ "closing-date-of-poll"}}</div>
-                          <div class="value">
-                            {{> calendar contract=contract}}
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  {{/if}}
+                  <div class='ballot-section'>
+                    <ul class="w-list-unstyled settings section">
+                      <li class="w-clearfix setting">
+                        <div class="text setting-label">{{_ "closing-date-of-poll"}}</div>
+                        <div class="value">
+                          {{> calendar contract=contract}}
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
                 {{/if}}
               {{else}}
                 {{#if executiveDecision}}

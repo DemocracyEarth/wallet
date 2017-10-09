@@ -56,18 +56,20 @@ Template.dateSelector.onRendered(() => {
 Template.calendar.helpers({
   closingDate() {
     const today = new Date();
+    const contract = Contracts.findOne({ _id: Template.instance().contract.get()._id });
     let d = new Date();
-    if (Template.instance().contract.get().permanentElection) {
+    if (contract.permanentElection) {
       return TAPi18n.__('always-on');
     }
-    if (today > Template.instance().contract.get().closingDate) {
+    if (today > contract.closingDate) {
       // const contract = Template.instance().contract.get();
       // contract.closingDate = today;
       // contract.closingDate.setDate(today.getDate() + 1);
-      Contracts.update(Template.instance().contract.get()._id, { $set: { closingDate: today.setDate(today.getDate() + 1) } });
-      //Session.set('contract', contract);
+      d = today.setDate(today.getDate() + 1);
+      Contracts.update(contract._id, { $set: { closingDate: d } });
+      // Session.set('contract', contract);
     }
-    d = Template.instance().contract.get().closingDate;
+    // d = Template.instance().contract.get().closingDate;
     return d.format('{Month} {d}, {yyyy}');
   },
   toggleStatus() {

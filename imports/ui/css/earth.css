@@ -2,6 +2,7 @@ body {
   padding-right: 0px;
   padding-left: 0px;
   background-color: #535353;
+  font-family: 'Open Sans', sans-serif;
   color: #333;
   font-size: 18px;
   line-height: 28px;
@@ -379,10 +380,12 @@ blockquote {
 
 .setting {
   display: block;
-  height: 50px;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
   margin-bottom: 2px;
-  padding: 10px 5px;
-  background-color: #f5f5f5;
+  padding: 5px;
+  background-color: transparent;
 }
 
 .dropdown {
@@ -1452,7 +1455,6 @@ blockquote {
 
 .checkbox {
   display: block;
-  font-weight: 300;
 }
 
 .checkbox.checkbox-custom {
@@ -5530,13 +5532,6 @@ blockquote {
   .calendar-menu.calendar-menu-active {
     margin-bottom: -1px;
   }
-  .setting {
-    padding-top: 5px;
-    padding-right: 0px;
-    padding-bottom: 5px;
-    border-bottom: 1px solid #f6f6f6;
-    background-color: transparent;
-  }
   .symbol.profile-pic {
     border-color: #dfdfdf;
   }
@@ -5596,9 +5591,6 @@ blockquote {
   }
   .option-title.option-title-mini {
     font-size: 18px;
-  }
-  .checkbox {
-    box-shadow: none;
   }
   .field.headline-field {
     margin-top: 0px;
@@ -5956,11 +5948,6 @@ blockquote {
     overflow: hidden;
     max-height: none;
     max-width: 75%;
-  }
-  .setting {
-    overflow: hidden;
-    width: 100%;
-    height: auto;
   }
   .amount {
     font-size: 32px;

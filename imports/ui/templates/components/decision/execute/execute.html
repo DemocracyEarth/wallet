@@ -1,7 +1,7 @@
 <template name="execute">
   <div class="section">
     <div class="w-clearfix elements">
-      <ul class="w-list-unstyled w-clearfix options">
+      <ul class="w-list-unstyled w-clearfix options connectedBallot ui-sortable">
         {{> fork executive=true mode="AUTHORIZE" contract=contract}}
         {{> fork executive=true mode="REJECT" contract=contract}}
       </ul>
