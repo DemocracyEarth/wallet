@@ -3234,19 +3234,16 @@ blockquote {
 
 .context {
   position: absolute;
-  left: 50%;
+  left: 10px;
+  bottom: 20px;
   z-index: 15000;
-  display: inline-block;
+  display: block;
   overflow: hidden;
-  width: 300px;
-  max-width: 300px;
-  margin-top: 70px;
   margin-right: auto;
-  margin-left: -150px;
-  padding: 3px 10px;
+  padding: 3px 30px;
   border-bottom: 2px solid #ffe079;
   border-radius: 5px;
-  background-color: rgba(0, 0, 0, .6);
+  background-color: rgba(0, 0, 0, .7);
   opacity: 0;
   color: #fff;
   font-size: 14px;
