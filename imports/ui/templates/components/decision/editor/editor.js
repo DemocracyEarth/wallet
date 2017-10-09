@@ -57,6 +57,7 @@ function toggleFeed(enabled) {
             overflow: 'hidden',
             height: 0,
           });
+          $('#titleContent').focus();
         },
       });
     } else {

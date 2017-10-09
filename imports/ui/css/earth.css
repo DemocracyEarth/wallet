@@ -3472,6 +3472,10 @@ blockquote {
   margin-bottom: 20px;
 }
 
+.title-input.title-input-editor {
+  min-height: 65px;
+}
+
 .paper-header {
   margin: 0px;
   padding: 6px 0px;
