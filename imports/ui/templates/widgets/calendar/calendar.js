@@ -17,14 +17,11 @@ function initCalendar(template) {
       const currentDate = new Date();
       if (currentDate.getTime() < e.date.getTime()) {
         Session.set('backdating', false);
-        console.log(template);
-        template.showCalendar.set(!template.showCalendar.get());
-        template.displaySelector.set(!template.displaySelector.get());
+        Session.set('showCalendar', !Session.get('showCalendar'));
         Contracts.update(template.contract.get()._id, { $set: { permanentElection: false, closingDate: e.date } });
       } else {
         Session.set('backdating', true);
-        template.showCalendar.set(!template.showCalendar.get());
-        template.displaySelector.set(!template.displaySelector.get());
+        Session.set('showCalendar', !Session.get('showCalendar'));
       }
     });
   }
@@ -32,14 +29,11 @@ function initCalendar(template) {
 
 Template.calendar.onCreated(() => {
   Template.instance().contract = new ReactiveVar(Template.currentData().contract);
-  Template.instance().showCalendar = new ReactiveVar(false);
-  Template.instance().displaySelector = new ReactiveVar(false);
+  Session.set('showCalendar', false);
 });
 
 Template.dateSelector.onCreated(() => {
   Template.instance().contract = new ReactiveVar(Template.currentData().contract);
-  Template.instance().showCalendar = new ReactiveVar(Template.currentData().showCalendar);
-  Template.instance().displaySelector = new ReactiveVar(Template.currentData().displaySelector);
 });
 
 
@@ -63,47 +57,38 @@ Template.calendar.helpers({
       return TAPi18n.__('always-on');
     }
     if (today > contract.closingDate) {
-      // const contract = Template.instance().contract.get();
-      // contract.closingDate = today;
-      // contract.closingDate.setDate(today.getDate() + 1);
       d = today.setDate(today.getDate() + 1);
       Contracts.update(contract._id, { $set: { closingDate: d } });
-      // Session.set('contract', contract);
     }
-    // d = Template.instance().contract.get().closingDate;
-    return d.format('{Month} {d}, {yyyy}');
+    return contract.closingDate.format('{Month} {d}, {yyyy}');
   },
   toggleStatus() {
-    if (Template.instance().showCalendar.get()) {
+    if (Session.get('showCalendar')) {
       return 'calendar-menu-active';
     }
     return '';
   },
   displayCalendar(icon) {
     if (icon) {
-      if (Template.instance().showCalendar.get()) {
+      if (Session.get('showCalendar')) {
         return 'display:none';
       }
       return '';
-    } else if (Template.instance().showCalendar.get()) {
+    } else if (Session.get('showCalendar')) {
       return '';
     }
-    Template.instance().showCalendar.set(false);
+    Session.set('showCalendar', false);
     return 'display:none';
   },
   displaySelector() {
-    return Template.instance().displaySelector.get();
-  },
-  showCalendar() {
-    return Template.instance().showCalendar.get();
+    return Session.get('showCalendar');
   },
 });
 
 Template.calendar.events({
   'click #toggleCalendar'() {
     initCalendar(Template.instance());
-    Template.instance().displaySelector.set(!Template.instance().displaySelector.get());
-    Template.instance().showCalendar.set(!Template.instance().showCalendar.get());
+    Session.set('showCalendar', !Session.get('showCalendar'));
   },
 });
 
@@ -120,7 +105,6 @@ Template.dateSelector.events({
   'click #date-always-on'() {
     Contracts.update(Template.instance().contract.get()._id, { $set: { permanentElection: !Template.instance().contract.get().permanentElection } });
     Session.set('backdating', false);
-    Template.instance().showCalendar.set(!Template.instance().showCalendar.get());
-    Template.instance().displaySelector.set(!Template.instance().displaySelector.get());
+    Session.set('showCalendar', !Session.get('showCalendar'));
   },
 });
