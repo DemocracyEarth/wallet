@@ -2,8 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
-import { timers } from '/lib/const';
+import { Router } from 'meteor/iron:router';
 
+import { timers } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { timeSince } from '/imports/ui/modules/chronos';
 
@@ -53,7 +54,7 @@ function toggleFeed(enabled) {
       $('#non-editable-feed').velocity({ opacity: 0 }, {
         complete: () => {
           $('#non-editable-feed').css({
-            // overflow: 'hidden',
+            overflow: 'hidden',
             height: 0,
           });
         },
@@ -61,7 +62,7 @@ function toggleFeed(enabled) {
     } else {
       $('#non-editable-feed').css({
         height: 'auto',
-        // overflow: 'none',
+        overflow: 'inherit',
       });
       $('#non-editable-feed').velocity({
         opacity: 1,
