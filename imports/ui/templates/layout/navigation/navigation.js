@@ -113,9 +113,6 @@ Template.navigation.helpers({
     }
     return '';
   },
-  showNotice() {
-    return Session.get('showNotice');
-  },
 });
 
 Template.navigation.events({

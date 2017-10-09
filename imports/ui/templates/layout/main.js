@@ -93,6 +93,9 @@ Template.main.helpers({
   popupList() {
     return Session.get('popupList');
   },
+  showNotice() {
+    return Session.get('showNotice');
+  },
 });
 
 Template.main.events({
