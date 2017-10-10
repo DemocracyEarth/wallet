@@ -120,7 +120,7 @@
   "url-verify": "verifying...",
   "url-unavailable": "unavailable",
   "url-lookup": "verifying availability",
-  "kind-draft-vote": "NEW DRAFT",
+  "kind-draft-vote": "DRAFT",
   "kind-live-vote": "LIVE VOTE",
   "kind-finish-vote-approved": "APPROVED",
   "kind-finish-vote-alternative": "ALTERNATIVE",
