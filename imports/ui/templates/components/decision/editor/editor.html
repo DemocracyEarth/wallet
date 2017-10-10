@@ -1,68 +1,37 @@
 <template name="editor">
-  <!--{{#if feedMode}}-->
-
-    <li id="feedItem-{{contractId}}" class="vote vote-search vote-feed nondraggable">
-      <div class="checkbox checkbox-custom">
-        <div class="meta meta-search">
-          <div class="w-list-unstyled w-clearfix identity-list identity-feed-item extra">
-            {{#each signatures}}
-              <div class="w-clearfix identity">
-                  {{> avatar size=24 profile=this._id includeName=true includeNation=true editable=false microFont=true disabled=false includeRole=false}}
-              </div>
-            {{/each}}
-            <div class="data data-feed">
-              <img class="url-icon" src="{{pathFor route='home'}}images/time.png">
-              <div class="verifier verifier-live verifier-feed">{{sinceDate}}</div>
+  <li id="feedItem-{{contractId}}" class="vote vote-search vote-feed nondraggable">
+    <div class="checkbox checkbox-custom">
+      <div class="meta meta-search">
+        <div class="w-list-unstyled w-clearfix identity-list identity-feed-item extra">
+          {{#each signatures}}
+            <div class="w-clearfix identity">
+                {{> avatar size=24 profile=this._id includeName=true includeNation=true editable=false microFont=true disabled=false includeRole=false}}
             </div>
-          </div>
-        </div>
-        <div class="w-inline-block w-clearfix option-proposal">
-          <div class="option-title option-link option-search title-input">
-             <div class="title-input title-feed">
-             {{> title contractId=contractId editorMode=true}}
-            </div>
-            {{#if ballotEnabled}}
-              <div id='post-editor-widgets' style='margin-top: {{widgetTop}}'>
-                {{> ballot editorMode=true contract=draftContract feedMode=true}}
-              </div>
-            {{/if}}
+          {{/each}}
+          <div class="data data-feed">
+            <img class="url-icon" src="{{pathFor route='home'}}images/time.png">
+            <div class="verifier verifier-live verifier-feed">{{sinceDate}}</div>
           </div>
         </div>
       </div>
-      <div class="section section-editor w-clearfix">
-        {{#each menu}}
-          {{> editorButton}}
-        {{/each}}
-        {{> counter}}
-      </div>
-    </li>
-
-  <!--
-  @NOTE: deprecating differentiated editor between mobile and desktop
-  {{else}}
-    <div id="post-editor" class="mobile-editor" style="display:none;">
-      <div id="post-editor-content">
-        <div id="post-editor-wrapper" class='mobile-editor-wrapper inertialScroll'>
-          <div class='section mobile-section'>
-            {{> title editorMode=true}}
+      <div class="w-inline-block w-clearfix option-proposal">
+        <div class="option-title option-link option-search title-input">
+           <div class="title-input title-feed">
+           {{> title contractId=contractId editorMode=true}}
           </div>
           {{#if ballotEnabled}}
             <div id='post-editor-widgets' style='margin-top: {{widgetTop}}'>
-              {{> ballot editorMode=true}}
+              {{> ballot editorMode=true contract=draftContract feedMode=true}}
             </div>
           {{/if}}
-
-          <! - - {{> semantics editorMode=true}}- - >
-          <div class="section section-editor w-clearfix">
-            <div class="section-editor-separator"></div>
-            {{#each menu}}
-              {{> editorButton}}
-            {{/each}}
-            {{> counter}}
-          </div>
         </div>
       </div>
     </div>
-  {{/if}}
-  -->
+    <div class="section section-editor w-clearfix">
+      {{#each menu}}
+        {{> editorButton}}
+      {{/each}}
+      {{> counter}}
+    </div>
+  </li>
 </template>
