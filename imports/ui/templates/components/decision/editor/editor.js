@@ -77,6 +77,8 @@ function toggleFeed(enabled) {
         },
       });
     }
+  } else {
+    $('#titleContent').focus();
   }
 }
 
@@ -98,20 +100,18 @@ const _editorFadeIn = (contractId) => {
       height: 0,
       marginLeft: $('.right').width(),
     });
-    if (Meteor.Device.isPhone()) {
-      $(`#feedItem-${contractId}`).velocity({
-        height: originalHeight,
-        marginLeft: 0,
-      }, {
-        complete: () => {
-          $(`#feedItem-${contractId}`).css({
-            height: 'auto',
-            overflow: 'none',
-          });
-          toggleFeed(false);
-        },
-      });
-    }
+    $(`#feedItem-${contractId}`).velocity({
+      height: originalHeight,
+      marginLeft: 0,
+    }, {
+      complete: () => {
+        $(`#feedItem-${contractId}`).css({
+          height: 'auto',
+          overflow: 'none',
+        });
+        toggleFeed(false);
+      },
+    });
   }
 };
 

@@ -29,7 +29,7 @@ function setCustomURL(keyword, contractId) {
   let contract = Contracts.findOne({ _id: contractId });
 
   while (contract) {
-    if (Meteor.Device.isPhone() && (keyword.length < 3)) {
+    if (keyword.length < 3) { // Meteor.Device.isPhone() &&
       dynamicURL = convertToSlug(`${keyword}-${shortUUID()}`);
     } else if (!dynamicURL) {
       dynamicURL = convertToSlug(keyword);
@@ -50,10 +50,10 @@ function setCustomURL(keyword, contractId) {
 function displayTitle(title) {
   if (title === '' || title === undefined) {
     Session.set('missingTitle', true);
-    if (Meteor.Device.isPhone()) {
+    // if (Meteor.Device.isPhone()) {
       return ' ';
-    }
-    return TAPi18n.__('no-title');
+    // }
+    // return TAPi18n.__('no-title');
   }
   Session.set('missingTitle', false);
   return title;
@@ -76,20 +76,6 @@ function getTitle(voice) {
 
 Template.title.onRendered(() => {
   initEditor();
-
-  // TODO: figure out how to make tab work properly on first try.
-
-  // tab focus next object
-  if (!Meteor.Device.isPhone()) {
-    /*$('#titleContent').on('focus', () => {
-      $(window).keyup((e) => {
-        const code = (e.keyCode ? e.keyCode : e.which);
-        if (code === 9) {
-          $('#editor').focus();
-        }
-      });
-    });*/
-  }
 
   // text length
   Session.set('availableChars', rules.TITLE_MAX_LENGTH);
@@ -121,12 +107,12 @@ Template.titleContent.helpers({
   editable() {
     let html;
     let viewportHeight;
-    if (Meteor.Device.isPhone()) {
+    // if (Meteor.Device.isPhone()) {
       viewportHeight = 300; // Session.get('editorViewportHeight');
       html = `<div id='titleContent' contenteditable='true' style='min-height: ${viewportHeight}px' tabindex=0> ${this.toString()} </div>`;
-    } else {
-      html = `<div id='titleContent' contenteditable='true' tabindex=0> ${this.toString()} </div>`;
-    }
+    // } else {
+    //  html = `<div id='titleContent' contenteditable='true' tabindex=0> ${this.toString()} </div>`;
+    // }
     return html;
   },
   viewport() {
@@ -161,7 +147,7 @@ Template.title.helpers({
     }
   },
   missingTitle() {
-    if (!Meteor.Device.isPhone()) {
+    /* if (!Meteor.Device.isPhone()) {
       if (Session.get('missingTitle')) {
         Session.set('URLStatus', 'UNAVAILABLE');
       }
@@ -171,7 +157,7 @@ Template.title.helpers({
       if (Session.get('firstEditorLoad')) {
         return false;
       }
-    }
+    }*/
     return Session.get('missingTitle');
   },
   mistypedTitle() {
@@ -234,12 +220,12 @@ Template.titleContent.events({
       Session.set('URLStatus', 'UNAVAILABLE');
       Session.set('missingTitle', true);
       return;
-    } else if (keyword.length < 3 && !Meteor.Device.isPhone()) {
+    /* } else if (keyword.length < 3 && !Meteor.Device.isPhone()) {
       Session.set('contractKeyword', keyword);
       Session.set('URLStatus', 'UNAVAILABLE');
       Session.set('mistypedTitle', true);
       Session.set('missingTitle', false);
-      return;
+      return;*/
     }
     Session.set('missingTitle', false);
     Session.set('mistypedTitle', false);
@@ -261,25 +247,25 @@ Template.titleContent.events({
   },
   'keyup #titleContent'(event) {
     const content = document.getElementById('titleContent').innerText;
-    if (!Meteor.Device.isPhone()) {
-      return (content.length <= rules.TITLE_MAX_LENGTH) && event.which !== 13 && event.which !== 9;
-    }
+    // if (!Meteor.Device.isPhone()) {
+    //  return (content.length <= rules.TITLE_MAX_LENGTH) && event.which !== 13 && event.which !== 9;
+    // }
   },
   'focus #titleContent'() {
-    if (!Meteor.Device.isPhone()) {
+    /* if (!Meteor.Device.isPhone()) {
       if (Session.get('missingTitle')) {
         document.getElementById('titleContent').innerText = '';
         Session.set('missingTitle', false);
       }
-    }
+    }*/
   },
   'blur #titleContent'() {
     const content = document.getElementById('titleContent').innerText;
     if (content === '' || content === ' ') {
       Session.set('missingTitle', true);
-      if (!Meteor.Device.isPhone()) {
-        document.getElementById('titleContent').innerText = TAPi18n.__('no-title');
-      }
+      // if (!Meteor.Device.isPhone()) {
+      //  document.getElementById('titleContent').innerText = TAPi18n.__('no-title');
+      // }
     }
   },
 });

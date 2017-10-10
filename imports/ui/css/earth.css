@@ -344,10 +344,11 @@ blockquote {
 
 .text.setting-label {
   overflow: hidden;
-  max-height: 35px;
-  max-width: 60%;
+  max-width: 75%;
   float: left;
   clear: both;
+  font-size: 16px;
+  line-height: 40px;
 }
 
 .calendar-menu {
@@ -2013,8 +2014,6 @@ blockquote {
 }
 
 .value {
-  margin-top: -5px;
-  margin-bottom: -5px;
   float: right;
   text-transform: none;
 }
@@ -3404,12 +3403,11 @@ blockquote {
 
 .calendar {
   position: absolute;
-  right: 35px;
+  right: 29px;
   display: block;
   padding: 10px 0px 10px 10px;
   border-radius: 3px 0px 3px 3px;
   background-color: #e6f9f4;
-  box-shadow: -2px 2px 10px -3px rgba(0, 0, 0, .25);
   color: #00bf8f;
   font-size: 14px;
   line-height: 22px;
@@ -5545,10 +5543,6 @@ blockquote {
     padding-right: 0px;
     padding-left: 0px;
   }
-  .text.setting-label {
-    font-size: 16px;
-    line-height: 40px;
-  }
   .calendar-menu.calendar-menu-active {
     margin-bottom: -1px;
   }
@@ -5725,7 +5719,6 @@ blockquote {
     margin-left: 20px;
   }
   .calendar {
-    right: 25px;
     box-shadow: none;
   }
   .title-input {
@@ -5964,11 +5957,6 @@ blockquote {
     right: 0px;
     width: 100%;
   }
-  .text.setting-label {
-    overflow: hidden;
-    max-height: none;
-    max-width: 75%;
-  }
   .amount {
     font-size: 32px;
   }
@@ -6082,10 +6070,6 @@ blockquote {
   .navbar {
     left: 0px;
   }
-  .value {
-    margin-top: 0px;
-    margin-bottom: 0px;
-  }
   .identity-label {
     font-size: 15px;
   }
@@ -6135,9 +6119,6 @@ blockquote {
   }
   .references {
     margin-left: 15px;
-  }
-  .calendar {
-    right: 20px;
   }
   .title-input {
     border-left: 0px none transparent;
