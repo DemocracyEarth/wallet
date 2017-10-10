@@ -38,13 +38,6 @@ Template.dateSelector.onCreated(() => {
 
 
 Template.dateSelector.onRendered(() => {
-  // intro animation
-  if (!Meteor.Device.isPhone()) {
-    $('.calendar').css('height', '0');
-    $('.calendar').css('overflow', 'hidden');
-    $('.calendar').velocity({ height: '260px' }, animationSettings);
-  }
-
   initCalendar(Template.instance());
 });
 
