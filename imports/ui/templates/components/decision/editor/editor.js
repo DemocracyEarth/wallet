@@ -118,6 +118,7 @@ const _editorFadeIn = (contractId) => {
 const _editorFadeOut = (contractId) => {
   $(`#feedItem-${contractId}`).velocity({
     opacity: 0,
+    height: 0,
   }, {
     complete: () => {
       Session.set('showPostEditor', false);

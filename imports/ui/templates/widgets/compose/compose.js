@@ -30,7 +30,6 @@ const _introEditor = () => {
     Session.set('showPostEditor', true);
   } else if (!Meteor.Device.isPhone()) {
     editorFadeOut(Session.get('draftContract')._id);
-    Session.set('showPostEditor', false);
   }
 };
 
