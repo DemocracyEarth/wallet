@@ -28,6 +28,9 @@ Template.authentication.helpers({
     return '';
   },
   postButton() {
+    if (this.desktop) {
+      return (!Meteor.Device.isPhone());
+    }
     return Session.get('showPostEditor');
   },
   postDisabled() {
@@ -35,6 +38,9 @@ Template.authentication.helpers({
       return 'navbar-button-action-disabled';
     }
     return '';
+  },
+  context() {
+    return ((Meteor.Device.isPhone() && !this.desktop) || (!Meteor.Device.isPhone() && this.desktop));
   },
 });
 

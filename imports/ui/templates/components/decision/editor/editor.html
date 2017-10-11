@@ -32,6 +32,9 @@
         {{> editorButton}}
       {{/each}}
       {{> counter}}
+      {{#unless isPhone}}
+        {{> authentication desktop=true}}
+      {{/unless}}
     </div>
   </li>
 </template>
