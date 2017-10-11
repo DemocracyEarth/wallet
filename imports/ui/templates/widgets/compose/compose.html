@@ -2,20 +2,10 @@
   {{#if currentUser}}
     {{#if proposalDrafting}}
       <div id="action" class="cast" ontouchstart="">
-
         <div class="action-label">
           <div>{{_ 'propose'}}</div>
         </div>
-
-        {{#unless isPhone}}
-          {{#if mouseActive}}
-            <img id="action-hotspace" class="action-icon action-icon-mouseover" src="{{pathFor route='home'}}images/compose.png">
-          {{/if}}
-          <img id="action-hotspace" class="action-icon action-icon-mouseleave" src="{{pathFor route='home'}}images/action.png">
-        {{else}}
-          <img id="action-hotspace" class="action-icon action-icon-mouseover" src="{{pathFor route='home'}}images/compose.png">
-        {{/unless}}
-
+        <img id="action-hotspace" class="action-icon" src="{{pathFor route='home'}}images/compose.png">
       </div>
     {{/if}}
   {{/if}}

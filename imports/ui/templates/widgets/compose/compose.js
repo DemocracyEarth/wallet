@@ -24,8 +24,10 @@ const animationExit = () => {
 * @summary prepares the territory for editor display
 */
 const _introEditor = () => {
-  Session.set('draftContract', createContract());
-  Session.set('showPostEditor', true);
+  if (!Session.get('showPostEditor')) {
+    Session.set('draftContract', createContract());
+    Session.set('showPostEditor', true);
+  }
 };
 
 Template.compose.onRendered(() => {
@@ -52,18 +54,6 @@ Template.compose.helpers({
 });
 
 Template.compose.events({
-  'mouseover #action-hotspace'() {
-    if (!Meteor.Device.isPhone()) {
-      Session.set('showCompose', true);
-      animationIntro();
-    }
-  },
-  'mouseleave #action-hotspace'() {
-    if (!Meteor.Device.isPhone()) {
-      Session.set('showCompose', false);
-      animationExit();
-    }
-  },
   'click #action-hotspace'() {
     _introEditor();
   },
