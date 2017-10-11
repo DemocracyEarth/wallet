@@ -99,10 +99,13 @@ Template.navigation.helpers({
     return '';
   },
   logo() {
-    return (Session.get('navbar').title === Meteor.settings.public.Collective.name);
+    if (Session.get('navbar')) {
+      return (Session.get('navbar').title === Meteor.settings.public.Collective.name);
+    }
+    return false;
   },
   icon() {
-    if (Session.get('navbar') !== undefined) {
+    if (Session.get('navbar')) {
       return displayMenuIcon();
     }
     return 'images/burger.png';

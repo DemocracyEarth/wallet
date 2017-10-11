@@ -243,23 +243,18 @@ const _getDelegatesMenu = () => {
   }
 
   // search contracts
-  const contracts = Contracts.find({
-    collectiveId: Meteor.settings.public.Collective._id,
-    signatures: { $elemMatch: { username: Meteor.user().username } },
-  }).fetch();
+  if (Meteor.user()) {
+    const contracts = Contracts.find({
+      collectiveId: Meteor.settings.public.Collective._id,
+      signatures: { $elemMatch: { username: Meteor.user().username } },
+    }).fetch();
 
-  for (const i in contracts) {
-    users = _searchContract(contracts[i], users);
+    for (const i in contracts) {
+      users = _searchContract(contracts[i], users);
+    }
   }
 
   return users;
-  //
-  // get delegators to me
-  /*const list = getUserList(users);
-  _toggleSelectedItem(list);
-
-  return list;
-  // Session.set('menuDelegates', list);*/
 };
 
 /**
