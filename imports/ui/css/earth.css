@@ -384,9 +384,7 @@ blockquote {
   display: block;
   overflow: hidden;
   height: auto;
-  margin-top: 5px;
-  margin-right: 5px;
-  margin-left: 5px;
+  margin: 5px;
   padding: 5px 5px 5px 10px;
   border-radius: 3px;
   background-color: #f7f7f7;
@@ -1577,8 +1575,7 @@ blockquote {
 .field.headline-field {
   width: 100%;
   max-width: 100%;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 }
 
 .field.headline-field.split {
@@ -5293,6 +5290,11 @@ blockquote {
   float: left;
 }
 
+.post-button {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
@@ -5603,10 +5605,6 @@ blockquote {
   .option-title.option-title-mini {
     font-size: 18px;
   }
-  .field.headline-field {
-    margin-top: 0px;
-    margin-bottom: 0px;
-  }
   .field.headline-field.split {
     padding-right: 0px;
   }
@@ -5879,10 +5877,6 @@ blockquote {
   .section-editor-separator {
     margin-right: 5px;
     margin-left: 5px;
-  }
-  .ballot-section {
-    margin-top: 5px;
-    margin-bottom: 5px;
   }
   .calendar-button {
     display: inline-block;

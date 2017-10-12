@@ -31,10 +31,12 @@
       {{#each menu}}
         {{> editorButton}}
       {{/each}}
-      {{> counter}}
       {{#unless isPhone}}
-        {{> authentication desktop=true}}
+        <div class="post-button">
+          {{> authentication desktop=true}}
+        </div>
       {{/unless}}
+      {{> counter}}
     </div>
   </li>
 </template>
