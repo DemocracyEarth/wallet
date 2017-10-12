@@ -3442,10 +3442,6 @@ blockquote {
   font-weight: 300;
 }
 
-.title-input:focus {
-  border-left-color: #00bf8f;
-}
-
 .title-input.title-comment {
   border-left-style: none;
   font-size: 23px;
@@ -3474,11 +3470,6 @@ blockquote {
 .title-input.title-input-void {
   position: absolute;
   color: #ccc;
-}
-
-.title-input.title-input-void:hover {
-  border-left-style: solid;
-  border-left-color: #fff;
 }
 
 .title-input.title-feed {
@@ -5209,6 +5200,7 @@ blockquote {
   float: left;
   border: 1px solid #00bf8f;
   border-radius: 100px;
+  cursor: pointer;
 }
 
 .editor-button.editor-button-disabled {
@@ -5291,8 +5283,9 @@ blockquote {
 }
 
 .post-button {
-  margin-right: 10px;
-  margin-left: 10px;
+  margin: 2px 10px -5px;
+  float: right;
+  color: #fff;
 }
 
 @media (max-width: 991px) {
