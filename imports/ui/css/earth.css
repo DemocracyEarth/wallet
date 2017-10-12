@@ -3253,7 +3253,7 @@ blockquote {
 .context {
   position: fixed;
   left: 10px;
-  bottom: 20px;
+  bottom: 10px;
   z-index: 15000;
   display: block;
   overflow: hidden;
@@ -4022,6 +4022,10 @@ blockquote {
 .cast:active {
   bottom: 13px;
   box-shadow: 0 0 20px -7px #000;
+}
+
+.cast.cast-cancel {
+  background-color: #aaa;
 }
 
 .menu {

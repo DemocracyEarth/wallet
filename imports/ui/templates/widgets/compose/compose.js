@@ -54,6 +54,18 @@ Template.compose.helpers({
     }
     return true;
   },
+  displayCancel() {
+    if (Session.get('showPostEditor') && !Meteor.Device.isPhone()) {
+      return 'cast-cancel';
+    }
+    return '';
+  },
+  icon() {
+    if (Session.get('showPostEditor') && !Meteor.Device.isPhone()) {
+      return 'images/compose-cancel.png';
+    }
+    return 'images/compose.png';
+  },
 });
 
 Template.compose.events({
