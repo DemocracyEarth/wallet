@@ -2477,7 +2477,7 @@ blockquote {
   margin-top: 10px;
   border: 1px solid #2dbd90;
   border-radius: 5px;
-  background-color: hsla(0, 0%, 100%, .75);
+  background-color: hsla(0, 0%, 100%, .5);
   box-shadow: none;
 }
 
@@ -2509,12 +2509,12 @@ blockquote {
   float: left;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
-  background-color: #00bf8f;
+  background-color: rgba(0, 191, 143, .6);
   line-height: 30px;
 }
 
 .result-bar.unauthorized {
-  background-color: #ff2752;
+  background-color: rgba(255, 39, 82, .6);
 }
 
 .result-bar.result-hundred {
@@ -2527,6 +2527,7 @@ blockquote {
   height: 100%;
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
+  background-color: #00bf8f;
   box-shadow: inset 0 1px 11px -5px hsla(0, 0%, 100%, .5);
 }
 

@@ -145,15 +145,10 @@ Template.fork.helpers({
 
 Template.result.helpers({
   checkbox(mode) {
-    switch (mode) {
-      case 'AUTHORIZE':
-        return 'vote-authorize nondraggable';
-      case 'REJECT':
-        return 'result-unauthorized unauthorized nondraggable';
-      case 'FORK':
-      default:
-        return 'vote vote-alternative';
+    if (mode === 'REJECT') {
+      return 'result-unauthorized unauthorized nondraggable';
     }
+    return _checkboxStyle(mode);
   },
 });
 
