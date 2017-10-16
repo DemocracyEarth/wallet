@@ -5,17 +5,24 @@ import { Session } from 'meteor/session';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import { setVote, getTickValue, candidateBallot, getRightToVote, getBallot, setBallot } from '/imports/ui/modules/ballot';
+import { setVote, getTickValue, candidateBallot, getRightToVote, getBallot, setBallot, getTotalVoters } from '/imports/ui/modules/ballot';
 import { Vote } from '/imports/ui/modules/Vote';
 import './fork.html';
 
-Template.fork.onCreated(() => {
-  if (!Session.get('contract')) {
-    Template.instance().contract = new ReactiveVar(Template.currentData().contract);
-  } else {
-    Template.instance().contract = new ReactiveVar(Contracts.findOne({ _id: Session.get('contract')._id }));
+/**
+* @summary determines whether this decision can display results or notice
+* @return {boolean} yes or no
+*/
+const _displayResults = (contract) => {
+  console.log(contract);
+  if (getTotalVoters(contract) > 0) {
+    return ((contract.stage === 'FINISH') || (contract.permanentElection && contract.stage !== 'DRAFT'));
   }
+  return false;
+};
 
+Template.fork.onCreated(() => {
+  Template.instance().contract = new ReactiveVar(Template.currentData().contract);
   Template.instance().rightToVote = new ReactiveVar(getRightToVote(Template.instance().contract.get()));
   Template.instance().candidateBallot = new ReactiveVar(getBallot(Template.instance().contract.get()._id));
 });
@@ -122,6 +129,9 @@ Template.fork.helpers({
   },
   isReject() {
     return (this.mode === 'REJECT');
+  },
+  displayResult() {
+    return _displayResults(Template.instance().contract.get());
   },
 });
 

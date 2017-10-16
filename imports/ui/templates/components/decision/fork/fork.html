@@ -13,6 +13,9 @@
           </div>
         </div>
       </div>
+      {{#if displayResult}}
+        {{> result}}
+      {{/if}}
     </li>
   {{else}}
     <li id="ballotProposalOption" class="{{style 'vote'}} {{checkbox ../mode}} {{dragMode}}" rank="{{../rank}}" value="{{../_id}}">
@@ -44,4 +47,14 @@
       </div>
     </li>
   {{/if}}
+</template>
+
+<template name="result">
+  <div class="result">
+    <div class="result-bar"></div>
+    <div class="result-score">
+      <span class="result-total">
+      </span>
+    </div>
+  </div>
 </template>
