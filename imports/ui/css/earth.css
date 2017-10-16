@@ -2582,9 +2582,19 @@ blockquote {
   display: block;
   margin-left: 10px;
   float: left;
-  color: #047a5d;
+  color: #028061;
   font-size: 12px;
   line-height: 30px;
+}
+
+.result-total.result-right {
+  margin-right: 10px;
+  float: right;
+  font-weight: 400;
+}
+
+.result-total.unauthorized {
+  color: #b10023;
 }
 
 .result-percentage {
