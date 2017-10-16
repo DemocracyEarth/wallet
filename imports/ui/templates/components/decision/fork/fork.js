@@ -2,11 +2,12 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Session } from 'meteor/session';
-import { Contracts } from '/imports/api/contracts/Contracts';
 import { ReactiveVar } from 'meteor/reactive-var';
 
+import { Contracts } from '/imports/api/contracts/Contracts';
 import { setVote, getTickValue, candidateBallot, getRightToVote, getBallot, setBallot, getTotalVoters } from '/imports/ui/modules/ballot';
 import { Vote } from '/imports/ui/modules/Vote';
+
 import './fork.html';
 
 /**
@@ -14,11 +15,26 @@ import './fork.html';
 * @return {boolean} yes or no
 */
 const _displayResults = (contract) => {
-  console.log(contract);
   if (getTotalVoters(contract) > 0) {
     return ((contract.stage === 'FINISH') || (contract.permanentElection && contract.stage !== 'DRAFT'));
   }
   return false;
+};
+
+/**
+* @summary color to render the checkbox
+* @param {string} mode current mode of the checkbox
+*/
+const _checkboxStyle = (mode) => {
+  switch (mode) {
+    case 'AUTHORIZE':
+      return 'vote-authorize nondraggable';
+    case 'REJECT':
+      return 'vote-authorize unauthorized nondraggable';
+    case 'FORK':
+    default:
+      return 'vote vote-alternative';
+  }
 };
 
 Template.fork.onCreated(() => {
@@ -51,15 +67,7 @@ Template.fork.helpers({
     return '';
   },
   checkbox(mode) {
-    switch (mode) {
-      case 'AUTHORIZE':
-        return 'vote-authorize nondraggable';
-      case 'REJECT':
-        return 'vote-authorize unauthorized nondraggable';
-      case 'FORK':
-      default:
-        return 'vote vote-alternative';
-    }
+    return _checkboxStyle(mode);
   },
   action() {
     if (this.authorized === false) {
@@ -132,6 +140,20 @@ Template.fork.helpers({
   },
   displayResult() {
     return _displayResults(Template.instance().contract.get());
+  },
+});
+
+Template.result.helpers({
+  checkbox(mode) {
+    switch (mode) {
+      case 'AUTHORIZE':
+        return 'vote-authorize nondraggable';
+      case 'REJECT':
+        return 'result-unauthorized unauthorized nondraggable';
+      case 'FORK':
+      default:
+        return 'vote vote-alternative';
+    }
   },
 });
 

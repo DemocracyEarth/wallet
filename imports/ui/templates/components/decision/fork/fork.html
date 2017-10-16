@@ -14,7 +14,7 @@
         </div>
       </div>
       {{#if displayResult}}
-        {{> result}}
+        {{> result mode=mode}}
       {{/if}}
     </li>
   {{else}}
@@ -50,10 +50,10 @@
 </template>
 
 <template name="result">
-  <div class="result">
-    <div class="result-bar"></div>
-    <div class="result-score">
-      <span class="result-total">
+  <div class="result {{checkbox mode}}">
+    <div class="result-bar {{checkbox mode}}"></div>
+    <div class="result-score {{checkbox mode}}">
+      <span class="result-total {{checkbox mode}}">
       </span>
     </div>
   </div>

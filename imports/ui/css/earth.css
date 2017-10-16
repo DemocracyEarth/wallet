@@ -2473,8 +2473,9 @@ blockquote {
 }
 
 .result {
+  height: 32px;
   margin-top: 10px;
-  border: 1px none #2dbd90;
+  border: 1px solid #2dbd90;
   border-radius: 5px;
   background-color: hsla(0, 0%, 100%, .75);
   box-shadow: none;
@@ -2580,7 +2581,7 @@ blockquote {
   display: block;
   margin-left: 10px;
   float: left;
-  color: #00bf8f;
+  color: #047a5d;
   font-size: 12px;
   line-height: 30px;
 }
