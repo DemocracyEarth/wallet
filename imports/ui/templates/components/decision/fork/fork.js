@@ -5,7 +5,7 @@ import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
-import { setVote, getTickValue, candidateBallot, getRightToVote, getBallot, setBallot, getTotalVoters, getTally } from '/imports/ui/modules/ballot';
+import { setVote, getTickValue, candidateBallot, getRightToVote, getBallot, setBallot, getTotalVoters, getTally, getTallyPercentage } from '/imports/ui/modules/ballot';
 import { Vote } from '/imports/ui/modules/Vote';
 
 import './fork.html';
@@ -158,7 +158,10 @@ Template.result.helpers({
     return `<strong>${total}</strong> ${TAPi18n.__('vote')}`;
   },
   percentage() {
-    // getTally(Template.instance().contract.get());
+    return `${parseInt(getTallyPercentage(this), 10)}%`;
+  },
+  forkId() {
+    return this.contract._id;
   },
 });
 

@@ -14,7 +14,7 @@
         </div>
       </div>
       {{#if displayResult}}
-        {{> result mode=mode contract=contract}}
+        {{> result mode=mode contract=contract _id=_id}}
       {{/if}}
     </li>
   {{else}}
@@ -51,7 +51,7 @@
 
 <template name="result">
   <div class="result {{checkbox mode}}">
-    <div class="result-bar {{checkbox mode}}">
+    <div id="result-bar-{{forkId}}" class="result-bar {{checkbox mode}}">
       <div class="result-score {{checkbox mode}}">
         <span class="result-total {{checkbox mode}}">
           {{{total}}}

@@ -321,13 +321,37 @@ const _getTally = (fork) => {
       voterTransactions = getTransactions(transactions[participant], fork.contract._id);
       ballot = voterTransactions[parseInt(voterTransactions.length - 1, 10)].condition.ballot;
       for (const tick in ballot) {
-        if (ballot[tick].mode === fork.mode) {
+        if (ballot[tick]._id.toString() === fork._id.toString()) {
           votes += voterVotes;
         }
       }
     }
   }
   return votes;
+};
+
+/**
+* @summary total votes cast for a contract
+* @param {object} contract which contract
+*/
+const _getTallyTotal = (contract) => {
+  const transactions = _getVoteTransactions(contract);
+  let totalVotes = 0;
+  for (const participant in transactions) {
+    totalVotes += getVotes(contract._id, transactions[participant]);
+  }
+  console.log(`totalVotes: ${totalVotes}`);
+  return totalVotes;
+};
+
+/**
+* @summary calculates the percentage of the tally for a given options
+* @param {object} fork for which option is the tally being counted
+*/
+const _getTallyPercentage = (fork) => {
+  const totalVotes = _getTallyTotal(fork.contract);
+  const forkVotes = _getTally(fork);
+  return parseFloat((forkVotes * 100) / totalVotes, 10);
 };
 
 /**
@@ -524,6 +548,8 @@ const _contractReady = (vote, contract) => {
 };
 
 export const getTally = _getTally;
+export const getTallyPercentage = _getTallyPercentage;
+export const getTallyTotal = _getTallyTotal;
 export const getRightToVote = _getRightToVote;
 export const userAlreadyVoted = _userAlreadyVoted;
 export const getBallot = _getBallot;
