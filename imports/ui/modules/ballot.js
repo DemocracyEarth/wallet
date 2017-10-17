@@ -340,7 +340,6 @@ const _getTallyTotal = (contract) => {
   for (const participant in transactions) {
     totalVotes += getVotes(contract._id, transactions[participant]);
   }
-  console.log(`totalVotes: ${totalVotes}`);
   return totalVotes;
 };
 

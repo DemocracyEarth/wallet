@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Session } from 'meteor/session';
+import { $ } from 'meteor/jquery';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
@@ -158,10 +159,13 @@ Template.result.helpers({
     return `<strong>${total}</strong> ${TAPi18n.__('vote')}`;
   },
   percentage() {
-    return `${parseInt(getTallyPercentage(this), 10)}%`;
+    const percentage = parseInt(getTallyPercentage(this), 10);
+    $(`#result-bar-${this.contract._id}-${this._id}`).velocity({ width: `${percentage}%` });
+    console.log($(`#result-bar-${this.contract._id}-${this._id}`));
+    return `${percentage}%`;
   },
   forkId() {
-    return this.contract._id;
+    return `${this.contract._id}-${this._id}`;
   },
 });
 
