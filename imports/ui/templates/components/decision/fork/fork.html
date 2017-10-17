@@ -14,7 +14,7 @@
         </div>
       </div>
       {{#if displayResult}}
-        {{> result mode=mode}}
+        {{> result mode=mode contract=contract}}
       {{/if}}
     </li>
   {{else}}
@@ -54,12 +54,12 @@
     <div class="result-bar {{checkbox mode}}">
       <div class="result-score {{checkbox mode}}">
         <span class="result-total {{checkbox mode}}">
-          {{percentage}} percentage
+          {{total}}
         </span>
       </div>
     </div>
     <div class="result-total result-right {{checkbox mode}}">
-      {{total}} total
+      {{percentage}}
     </div>
   </div>
 </template>

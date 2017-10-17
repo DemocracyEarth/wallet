@@ -5,7 +5,7 @@ import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
-import { setVote, getTickValue, candidateBallot, getRightToVote, getBallot, setBallot, getTotalVoters } from '/imports/ui/modules/ballot';
+import { setVote, getTickValue, candidateBallot, getRightToVote, getBallot, setBallot, getTotalVoters, getTally } from '/imports/ui/modules/ballot';
 import { Vote } from '/imports/ui/modules/Vote';
 
 import './fork.html';
@@ -149,6 +149,16 @@ Template.result.helpers({
       return 'result-unauthorized unauthorized nondraggable';
     }
     return _checkboxStyle(mode);
+  },
+  total() {
+    const total = getTally(this);
+    if (total !== 1) {
+      return `${total} ${TAPi18n.__('vote')}`;
+    }
+    return `${total} ${TAPi18n.__('vote')}`;
+  },
+  percentage() {
+    // getTally(Template.instance().contract.get());
   },
 });
 
