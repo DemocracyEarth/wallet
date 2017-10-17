@@ -2583,8 +2583,9 @@ blockquote {
   margin-left: 10px;
   float: left;
   color: #028061;
-  font-size: 12px;
+  font-size: 11px;
   line-height: 30px;
+  text-transform: uppercase;
 }
 
 .result-total.result-right {

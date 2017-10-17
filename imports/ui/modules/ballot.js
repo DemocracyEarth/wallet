@@ -307,27 +307,18 @@ const _getTotalVoters = (contract) => {
 
 /**
 * @summary gets the votes a contract has received on a given ballot optional
-* @param {object} contract which contract are we counting votes on
-* @param {object} fork for which fork is the tally being counted
+* @param {object} fork for which option is the tally being counted
 */
 const _getTally = (fork) => {
   const transactions = _getVoteTransactions(fork.contract);
+  let ballot = [];
   let voterTransactions = [];
   let voterVotes = 0;
   let votes = 0;
-  let ballot = [];
   for (const participant in transactions) {
     voterVotes = getVotes(fork.contract._id, transactions[participant]);
-    console.log('----');
-    console.log(`participant: ${transactions[participant]}`);
-    console.log(voterVotes);
     if (voterVotes > 0) {
       voterTransactions = getTransactions(transactions[participant], fork.contract._id);
-      console.log(`condition:`);
-      console.log(voterTransactions[parseInt(voterTransactions.length - 1, 10)].condition);
-      console.log(`fork:`);
-      console.log(fork);
-      console.log(`if: ${(voterTransactions[parseInt(voterTransactions.length - 1, 10)].condition.ballot.mode === fork.mode)}`);
       ballot = voterTransactions[parseInt(voterTransactions.length - 1, 10)].condition.ballot;
       for (const tick in ballot) {
         if (ballot[tick].mode === fork.mode) {

@@ -153,9 +153,9 @@ Template.result.helpers({
   total() {
     const total = getTally(this);
     if (total !== 1) {
-      return `${total} ${TAPi18n.__('vote')}`;
+      return `<strong>${total}</strong> ${TAPi18n.__('votes')}`;
     }
-    return `${total} ${TAPi18n.__('vote')}`;
+    return `<strong>${total}</strong> ${TAPi18n.__('vote')}`;
   },
   percentage() {
     // getTally(Template.instance().contract.get());
