@@ -41,7 +41,7 @@ Router.route('/', {
       fn.clearSessionVars();
       fn.configNavbar(Meteor.settings.public.Collective.name, '/');
       fn.setSessionVars();
-      Session.set('feed', Contracts.find({ collectiveId: Meteor.settings.public.Collective._id, stage: 'LIVE', kind: 'VOTE', executionStatus: 'OPEN' }, { sort: { timestamp: -1 } }).fetch());
+      Session.set('feed', Contracts.find({ collectiveId: Meteor.settings.public.Collective._id, stage: 'LIVE', kind: 'VOTE' }, { sort: { createdAt: -1 } }).fetch());
     }
     this.next();
   },
@@ -65,7 +65,7 @@ Router.route('/:feed', {
       fn.clearSessionVars();
       fn.configNavbar(fn.buildTitle(this.params.query), '/');
       fn.setSessionVars(this.params);
-      Session.set('feed', Contracts.find(fn.buildQuery(this.params.query), { sort: { timestamp: -1 } }).fetch());
+      Session.set('feed', Contracts.find(fn.buildQuery(this.params.query), { sort: { createdAt: -1 } }).fetch());
       this.next();
     } else {
       this.render('notFound');
@@ -89,7 +89,7 @@ Router.route('/tag/:tag', {
     fn.clearSessionVars();
     fn.configNavbar(fn.buildTitle(this.params), '/tag');
     fn.setSessionVars();
-    Session.set('feed', Contracts.find(fn.buildQuery(this.params), { sort: { timestamp: -1 } }).fetch());
+    Session.set('feed', Contracts.find(fn.buildQuery(this.params), { sort: { createdAt: -1 } }).fetch());
     this.next();
   },
   onAfterAction() {
@@ -110,7 +110,7 @@ Router.route('/peer/:username', {
     fn.clearSessionVars();
     fn.configNavbar(fn.buildTitle(this.params), '/peer');
     fn.setSessionVars();
-    Session.set('feed', Contracts.find(fn.buildQuery(this.params), { sort: { timestamp: -1 } }).fetch());
+    Session.set('feed', Contracts.find(fn.buildQuery(this.params), { sort: { createdAt: -1 } }).fetch());
     this.next();
   },
   onAfterAction() {
