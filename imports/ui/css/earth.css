@@ -2504,9 +2504,8 @@ blockquote {
 }
 
 .result-bar {
-  width: 10%;
+  width: 32%;
   height: 30px;
-  float: left;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
   background-color: rgba(0, 191, 143, .6);
@@ -2536,6 +2535,7 @@ blockquote {
   right: 0px;
   width: 50%;
   height: 20px;
+  margin-top: -20px;
   float: right;
   border-radius: 0px 25px 25px 0px;
   background-color: #ccc;
@@ -2584,7 +2584,7 @@ blockquote {
   float: left;
   color: #028061;
   font-size: 11px;
-  line-height: 30px;
+  line-height: 31px;
   text-transform: uppercase;
 }
 
@@ -2604,13 +2604,21 @@ blockquote {
 }
 
 .result-score {
-  position: absolute;
-  display: inline-block;
+  position: static;
+  display: block;
+  width: 100%;
+  margin-top: 10px;
 }
 
 .result-score.result-percentage {
   position: relative;
   display: block;
+  float: right;
+}
+
+.result-score.result-right {
+  position: static;
+  display: inline-block;
   float: right;
 }
 

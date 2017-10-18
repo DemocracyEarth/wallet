@@ -50,16 +50,16 @@
 </template>
 
 <template name="result">
-  <div class="result {{checkbox mode}}">
-    <div id="result-bar-{{forkId}}" class="result-bar {{checkbox mode}}">
-      <div class="result-score {{checkbox mode}}">
-        <span class="result-total {{checkbox mode}}">
-          {{{total}}}
-        </span>
-      </div>
+  <div class="result-score {{checkbox mode}}">
+    <div class="result-total {{checkbox mode}}">
+      {{{total}}}
     </div>
     <div class="result-total result-right {{checkbox mode}}">
       {{{percentage}}}
+    </div>
+  </div>
+  <div class="result {{checkbox mode}}">
+    <div id="result-bar-{{forkId}}" class="result-bar {{checkbox mode}}">
     </div>
   </div>
 </template>
