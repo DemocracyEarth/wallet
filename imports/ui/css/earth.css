@@ -260,10 +260,7 @@ blockquote {
 }
 
 .section.section-mobile.section-mobile-feed {
-  margin-top: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #f0f0f0;
-  border-radius: 5px;
+  margin: 0px -10px 10px;
 }
 
 .section.section-editor {
@@ -2517,8 +2514,7 @@ blockquote {
 }
 
 .result-bar.result-hundred {
-  width: 100%;
-  border-radius: 3px;
+  border-radius: 4px;
 }
 
 .result-bar.vote-bar {

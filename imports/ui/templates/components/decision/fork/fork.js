@@ -183,6 +183,12 @@ Template.result.helpers({
   forkId() {
     return `${this.contract._id}-${this._id}`;
   },
+  hundred() {
+    if (Template.instance().percentage.get() === 100) {
+      return 'result-hundred';
+    }
+    return '';
+  },
 });
 
 
