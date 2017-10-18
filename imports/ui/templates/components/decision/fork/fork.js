@@ -144,6 +144,23 @@ Template.fork.helpers({
   },
 });
 
+/**
+* @summary animates the percentage bar according to percentage value
+* @param {string} identifier DOM ID to animates
+* @param {number} percentage integer with percentage value
+*/
+const _animateBar = (identifier, percentage) => {
+  $(identifier).velocity({ width: `${percentage}%` });
+};
+
+Template.result.onCreated(() => {
+  Template.instance().percentage = new ReactiveVar();
+});
+
+Template.result.onRendered(function () {
+  _animateBar(`#result-bar-${this.data.contract._id}-${this.data._id}`, Template.instance().percentage.get());
+});
+
 Template.result.helpers({
   checkbox(mode) {
     if (mode === 'REJECT') {
@@ -159,10 +176,9 @@ Template.result.helpers({
     return `<strong>${total}</strong> ${TAPi18n.__('vote')}`;
   },
   percentage() {
-    const percentage = parseInt(getTallyPercentage(this), 10);
-    $(`#result-bar-${this.contract._id}-${this._id}`).velocity({ width: `${percentage}%` });
-    console.log($(`#result-bar-${this.contract._id}-${this._id}`));
-    return `${percentage}%`;
+    Template.instance().percentage.set(parseInt(getTallyPercentage(this), 10));
+    _animateBar(`#result-bar-${this.contract._id}-${this._id}`, Template.instance().percentage.get());
+    return `${Template.instance().percentage.get()}%`;
   },
   forkId() {
     return `${this.contract._id}-${this._id}`;
