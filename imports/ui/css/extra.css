@@ -57,7 +57,7 @@ input[type="file"] {
   left: 0px;
 }
 
-#content, #modalToggle, .modal, .title-input {
+#content, #modalToggle, .modal { /* .title-input {*/
   overflow: scroll; /* has to be scroll, not auto */
   -webkit-overflow-scrolling: touch;
 }

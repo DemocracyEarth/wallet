@@ -1366,8 +1366,6 @@ blockquote {
 
 .option-title.option-link {
   display: inline-block;
-  overflow: hidden;
-  max-width: 365px;
   float: left;
   border-bottom: 1px solid transparent;
   color: #00bf8f;
@@ -6016,10 +6014,6 @@ blockquote {
   }
   .option-title.input.option-input {
     font-size: 20px;
-  }
-  .option-title.option-link {
-    margin-top: 0px;
-    font-size: 18px;
   }
   .option-title.option-link.option-edit {
     max-width: 80%;
