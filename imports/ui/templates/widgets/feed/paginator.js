@@ -28,8 +28,10 @@ Template.paginator.onRendered(function () {
   const loaded = Template.instance().loaded;
 
   $('.right').scroll(() => {
-    if (_aboveFold(identifier)) {
-      loaded.set(true);
+    if (!loaded.get()) {
+      if (_aboveFold(identifier)) {
+        loaded.set(true);
+      }
     }
   });
 });
@@ -45,7 +47,7 @@ Template.paginator.helpers({
     return Template.instance().loaded.get();
   },
   nextSkip() {
-    let nextSkip = (this.skip + gui.ITEMS_PER_PAGE + 1);
+    let nextSkip = (this.skip + gui.ITEMS_PER_PAGE);
     if (nextSkip > this.count) { nextSkip = this.count; }
     return nextSkip;
   },

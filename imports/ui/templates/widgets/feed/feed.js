@@ -11,7 +11,6 @@ import './feedItem.js';
 import './feedEmpty.js';
 
 Template.feed.onRendered(function () {
-  console.log(this);
   Session.set('editorMode', false);
   Session.set('voterMode', false);
   /* if ($('.right').scrollTop() > 0) {
