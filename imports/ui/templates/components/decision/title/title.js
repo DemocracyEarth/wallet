@@ -58,11 +58,6 @@ function displayTitle(title) {
 
 // returns the title from the contract
 function getTitle(voice) {
-  if (Meteor.Device.isPhone() && voice.editorMode) {
-    return displayTitle('');
-  }
-
-  // TODO: Fix this fucking incredibly lame global shit of contractId somehow.
   const contract = Contracts.findOne({ _id: voice.contractId }, { reactive: false });
 
   if (!contract) {
@@ -99,6 +94,7 @@ Template.titleContent.helpers({
     return '';
   },
   declaration() {
+    console.log(getTitle(this));
     return getTitle(this);
   },
   editable() {
@@ -112,6 +108,7 @@ Template.titleContent.helpers({
     return Session.get('editorViewportHeight');
   },
   text() {
+    console.log(this.toString());
     return this.toString();
   },
 });
