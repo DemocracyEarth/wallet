@@ -103,7 +103,23 @@ Template.sidebar.helpers({
     return getDelegates();
   },
   member() {
-    return getList(Meteor.users.find().fetch());
+    const members = getList(Meteor.users.find().fetch());
+    const delegates = getDelegates();
+    const finalList = [];
+    let isDelegate;
+    for (const id in members) {
+      isDelegate = false;
+      for (const del in delegates) {
+        if (members[id].id === delegates[del].id) {
+          isDelegate = true;
+          break;
+        }
+      }
+      if (!isDelegate) {
+        finalList.push(members[id]);
+      }
+    }
+    return finalList;
   },
   totalMembers() {
     return Meteor.users.find().count();

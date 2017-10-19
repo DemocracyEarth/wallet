@@ -6,20 +6,6 @@
 
     <ul class="menu w-clearfix w-list-unstyled">
 
-      <!--
-      NOTE: Deprecated in order to aim for extreme simplification of UX.
-
-      {{> inbox label='proposals' separator=true}}
-
-      {{#each decisions}}
-        {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon iconActivated=iconActivated feed=feed}}
-      {{else}}
-        <div class="menu menu-empty">
-          {{_ 'no-decisions-found'}}
-        </div>
-      {{/each}}
-      -->
-
       {{> inbox label='delegations' separator=true count=totalDelegates}}
 
       {{#each delegate}}
