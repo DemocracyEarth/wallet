@@ -9,7 +9,7 @@
       </div>
     {{else}}
       {{#if visible}}
-        {{> feed skip=nextSkip limit=limit kind=kind count=count stage=stage editorMode=false}}
+        {{> feed skip=nextSkip query=query sort=sort limit=limit count=count}}
       {{else}}
         <div id="spinner-feed"></div>
       {{/if}}

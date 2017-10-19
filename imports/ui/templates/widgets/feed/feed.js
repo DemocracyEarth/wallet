@@ -16,7 +16,7 @@ Template.feed.onRendered(function () {
 
 Template.feed.helpers({
   item() {
-    const feed = Contracts.find({ collectiveId: Meteor.settings.public.Collective._id, stage: this.stage, kind: this.kind }, { sort: { createdAt: -1 }, skip: this.skip, limit: this.limit }).fetch();
+    const feed = Contracts.find(this.query, { sort: this.sort, skip: this.skip, limit: this.limit }).fetch();
     if (feed.length === 0) {
       Session.set('emptyFeed', true);
     } else {
