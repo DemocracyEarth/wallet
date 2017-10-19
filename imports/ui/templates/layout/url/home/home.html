@@ -1,13 +1,15 @@
 <template name="home">
-
   <div class="content content-feed">
     {{#if editorMode}}
       {{> editor contractId=newContractId}}
     {{/if}}
-
-    {{> feed}}
+    {{#if emptyFeed}}
+      {{> feedEmpty emptyContent}}
+    {{else}}
+      <div id="non-editable-feed">
+        {{> feed}}
+      </div>
+    {{/if}}
   </div>
-
   {{> compose}}
-
 </template>

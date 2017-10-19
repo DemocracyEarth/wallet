@@ -1,15 +1,6 @@
 <template name="feed">
-  <div class="feed">
-    <ul class="type w-clearfix w-list-unstyled">
-      <div id="non-editable-feed">
-        {{#each item}}
-          {{> feedItem}}
-        {{/each}}
-      </div>
-    </ul>
-    {{#if emptyFeed}}
-      {{> feedEmpty emptyContent}}
-    {{/if}}
-  </div>
+  {{#each item}}
+    {{> feedItem}}
+  {{/each}}
   {{> paginator skip=skip limit=limit count=count kind=kind count=count stage=stage}}
 </template>

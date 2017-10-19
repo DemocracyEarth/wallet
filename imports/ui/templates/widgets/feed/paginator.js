@@ -13,7 +13,8 @@ import './paginator.html';
 const _aboveFold = (id) => {
   if ($(`#page-${id}`)) {
     const rect = $(`#page-${id}`)[0].getBoundingClientRect();
-    return (rect.top > -1 && rect.bottom <= parseInt($(window).height() + 200, 10));
+    // console.log(`${id} and ${rect.top} = ${(rect.top > -1 && rect.bottom <= parseInt($(window).height() + 200, 10))}`);
+    return (rect.top > -1 && rect.bottom <= parseInt($(window).height() + 300, 10));
   }
   return false;
 };

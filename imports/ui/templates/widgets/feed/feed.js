@@ -1,9 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 
-import { Router } from 'meteor/iron:router';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
 import './feed.html';
