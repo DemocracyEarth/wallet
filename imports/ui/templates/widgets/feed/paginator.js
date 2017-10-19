@@ -44,6 +44,11 @@ Template.paginator.helpers({
   visible() {
     return Template.instance().loaded.get();
   },
+  nextSkip() {
+    let nextSkip = (this.skip + gui.ITEMS_PER_PAGE + 1);
+    if (nextSkip > this.count) { nextSkip = this.count; }
+    return nextSkip;
+  },
 });
 
 Template.paginator.events({

@@ -51,8 +51,9 @@ Router.route('/', {
     return {
       skip: 0,
       limit: gui.ITEMS_PER_PAGE,
+      stage: 'LIVE',
+      kind: 'VOTE',
       count: Contracts.find({ collectiveId: Meteor.settings.public.Collective._id, stage: 'LIVE', kind: 'VOTE' }).count(),
-      feed: Contracts.find({ collectiveId: Meteor.settings.public.Collective._id, stage: 'LIVE', kind: 'VOTE' }, { sort: { createdAt: -1 }, skip: 0, limit: 10 }).fetch(),
     };
   },
   onAfterAction() {

@@ -18,9 +18,5 @@ Template.home.helpers({
     }
     return '';
   },
-});
+});s
 */
-
-Template.home.onRendered(function () {
-
-});

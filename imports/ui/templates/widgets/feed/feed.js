@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
@@ -12,19 +13,21 @@ import './feedEmpty.js';
 Template.feed.onRendered(() => {
   Session.set('editorMode', false);
   Session.set('voterMode', false);
-  if ($('.right').scrollTop() > 0) {
+  /* if ($('.right').scrollTop() > 0) {
     $('.right').animate({ scrollTop: 0 });
-  }
+  }*/
 });
 
 Template.feed.helpers({
   item() {
-    if (this.length === 0) {
+    console.log(this);
+    const feed = Contracts.find({ collectiveId: Meteor.settings.public.Collective._id, stage: this.stage, kind: this.kind }, { sort: { createdAt: -1 }, skip: this.skip, limit: this.limit }).fetch();
+    if (feed.length === 0) {
       Session.set('emptyFeed', true);
     } else {
       Session.set('emptyFeed', false);
     }
-    return this.feed;
+    return feed;
   },
   emptyFeed() {
     return Session.get('emptyFeed');

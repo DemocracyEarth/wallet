@@ -9,9 +9,10 @@
       </div>
     {{else}}
       {{#if visible}}
-        show new feed
+        {{> feed skip=nextSkip limit=limit kind=kind count=count stage=stage}}
+      {{else}}
+        Loading....
       {{/if}}
-      load shit
     {{/if}}
   </div>
 </template>
