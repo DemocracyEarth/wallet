@@ -55,9 +55,6 @@ Router.route('/', {
       count: Contracts.find({ collectiveId: Meteor.settings.public.Collective._id, stage: 'LIVE', kind: 'VOTE' }).count(),
     };
   },
-  onAfterAction() {
-    fn.getExternalScripts();
-  },
 });
 
 /*
@@ -93,9 +90,6 @@ Router.route('/:feed', {
       this.render('notFound');
     }
   },
-  onAfterAction() {
-    fn.getExternalScripts();
-  },
 });
 
 /*
@@ -113,9 +107,6 @@ Router.route('/tag/:tag', {
     fn.setSessionVars();
     Session.set('feed', Contracts.find(fn.buildQuery(this.params), { sort: { createdAt: -1 } }).fetch());
     this.next();
-  },
-  onAfterAction() {
-    fn.getExternalScripts();
   },
 });
 
@@ -135,9 +126,6 @@ Router.route('/peer/:username', {
     Session.set('feed', Contracts.find(fn.buildQuery(this.params), { sort: { createdAt: -1 } }).fetch());
     this.next();
   },
-  onAfterAction() {
-    fn.getExternalScripts();
-  },
 });
 
 
@@ -155,9 +143,6 @@ Router.route('/vote/:contract', {
     fn.configNavbar(fn.buildTitle(this.params.contract), '/vote');
     fn.setSessionVars(this.params);
     this.next();
-  },
-  onAfterAction() {
-    fn.getExternalScripts();
   },
 });
 
@@ -178,9 +163,6 @@ Router.route('/delegation/:contract', {
     fn.configNavbar(TAPi18n.__('navbar-delegation'), '/delegation');
     fn.setSessionVars(this.params);
     this.next();
-  },
-  onAfterAction() {
-    fn.getExternalScripts();
   },
 });
 

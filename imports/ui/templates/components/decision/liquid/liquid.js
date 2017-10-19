@@ -94,8 +94,6 @@ Template.liquid.onCreated(() => {
 });
 
 Template.liquid.onRendered(function () {
-  fn.getExternalScripts();
-
   if (!Meteor.user()) {
     return;
   }

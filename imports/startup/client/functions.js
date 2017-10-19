@@ -455,18 +455,6 @@ const _setSessionVars = (params) => {
   setSidebarMenu(feed);
 };
 
-/**
-* @summary loads external scripts if they're not loaded yet
-*/
-const _getExternalScripts = () => {
-  if (typeof window.Spinner === 'undefined') {
-    $.getScript('/js/spinner.js');
-  }
-  if (typeof window.datepicker === 'undefined') {
-    $.getScript('/datepicker.js');
-  }
-};
-
 const _getNavbarAction = (path) => {
   if (Meteor.Device.isPhone()) {
     switch (path) {
@@ -540,6 +528,5 @@ export const fn = {
   configNavbar: _configNavbar,
   buildTitle: _buildTitle,
   buildQuery: _buildQuery,
-  getExternalScripts: _getExternalScripts,
   setSessionVars: _setSessionVars,
 };
