@@ -15,6 +15,7 @@ const modal = (active, settings, callback, cancel) => {
   Session.set('displayModal', settings);
   Session.set('showModal', active);
 
+/*
   if (active) {
     $('#content').css('overflow', 'hidden');
     $('.alert').css('overflow', 'scroll');
@@ -22,6 +23,7 @@ const modal = (active, settings, callback, cancel) => {
     $('#content').css('overflow', 'scroll');
     $('.alert').css('overflow', 'hidden');
   }
+*/
 
   if (callback !== undefined) {
     globalObj.modalCallback = callback;

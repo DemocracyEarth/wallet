@@ -58,6 +58,34 @@ Router.route('/', {
 });
 
 /**
+* @summary loads a peer feed
+****/
+Router.route('/peer/:username', {
+  name: 'peerFeed',
+  template: 'home',
+  waitOn() {
+    return [Meteor.subscribe('contracts', fn.buildQuery(this.params)), Meteor.subscribe('userData'), Meteor.subscribe('transactions')];
+  },
+  onBeforeAction() {
+    fn.clearSessionVars();
+    fn.configNavbar(fn.buildTitle(this.params), '/peer');
+    fn.setSessionVars();
+    this.next();
+  },
+  data() {
+    console.log(fn.buildQuery(this.params));
+    const feedQuery = fn.buildQuery(this.params);
+    return {
+      skip: 0,
+      limit: gui.ITEMS_PER_PAGE,
+      query: feedQuery,
+      sort: { createdAt: -1 },
+      count: Contracts.find(feedQuery).count(),
+    };
+  },
+});
+
+/**
 * routing for feeds displaying contracts
 * NOTE: called when item clicked on sidebar menu
 **/
@@ -80,8 +108,8 @@ Router.route('/:feed', {
   },
 });
 
-/*
-* loads a tag feed
+/**
+* @summary loads a tag feed
 ****/
 Router.route('/tag/:tag', {
   name: 'tagFeed',
@@ -97,25 +125,6 @@ Router.route('/tag/:tag', {
     this.next();
   },
 });
-
-/*
-* loads a peer feed
-****/
-Router.route('/peer/:username', {
-  name: 'peerFeed',
-  template: 'home',
-  waitOn() {
-    return [Meteor.subscribe('contracts', fn.buildQuery(this.params)), Meteor.subscribe('userData')];
-  },
-  onBeforeAction() {
-    fn.clearSessionVars();
-    fn.configNavbar(fn.buildTitle(this.params), '/peer');
-    fn.setSessionVars();
-    Session.set('feed', Contracts.find(fn.buildQuery(this.params), { sort: { createdAt: -1 } }).fetch());
-    this.next();
-  },
-});
-
 
 /**
 * @summary loads a contract meant for voting either to edit or vote.

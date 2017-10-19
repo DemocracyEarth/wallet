@@ -114,11 +114,10 @@ const _buildTitle = (params) => {
         case 'tag':
           return `<strong><em>${Tags.findOne({ keyword: params[key] }).text}</em></strong>${TAPi18n.__('proposals')}`;
         case 'username': {
-          // TODO builds string strictly from cache search, no request to server is ever done. Eventually might be needed.
-          const profile = getProfileFromUsername(params[key]);
-          if (profile) {
-            const fullname = showFullName(profile.firstName, profile.lastName);
-            return `<strong><em>${fullname}</em></strong>${TAPi18n.__('proposals')}`;
+          const identity = Meteor.users.findOne({ username: params[key] });
+          if (identity) {
+            const fullname = showFullName(identity.profile.firstName, identity.profile.lastName, identity.username);
+            return `${fullname}`;
           }
           return `${TAPi18n.__('peer')} ${TAPi18n.__('proposals')}`;
         }

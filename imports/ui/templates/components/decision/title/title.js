@@ -94,7 +94,6 @@ Template.titleContent.helpers({
     return '';
   },
   declaration() {
-    console.log(getTitle(this));
     return getTitle(this);
   },
   editable() {
@@ -108,7 +107,6 @@ Template.titleContent.helpers({
     return Session.get('editorViewportHeight');
   },
   text() {
-    console.log(this.toString());
     return this.toString();
   },
 });
