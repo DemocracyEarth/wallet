@@ -1,9 +1,6 @@
 <template name="feed">
   <div class="feed">
     <ul class="type w-clearfix w-list-unstyled">
-      {{#if editorMode}}
-        {{> editor contractId=newContractId}}
-      {{/if}}
       <div id="non-editable-feed">
         {{#each item}}
           {{> feedItem}}

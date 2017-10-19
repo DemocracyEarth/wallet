@@ -11,8 +11,6 @@ import './feedItem.js';
 import './feedEmpty.js';
 
 Template.feed.onRendered(function () {
-  Session.set('editorMode', false);
-  Session.set('voterMode', false);
   /* if ($('.right').scrollTop() > 0) {
     $('.right').animate({ scrollTop: 0 });
   }*/
@@ -33,14 +31,5 @@ Template.feed.helpers({
   },
   emptyContent() {
     return Session.get('emptyContent');
-  },
-  editorMode() {
-    return Session.get('showPostEditor');
-  },
-  voterMode() {
-    return Session.get('feedVoterMode');
-  },
-  newContractId() {
-    return Session.get('draftContract')._id;
   },
 });

@@ -1,8 +1,5 @@
-import { $ } from 'meteor/jquery';
 import { Template } from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
-
-import { gui } from '/lib/const';
+import { Session } from 'meteor/session';
 
 import './home.html';
 import '../../../widgets/feed/feed.js';
@@ -20,3 +17,16 @@ Template.home.helpers({
   },
 });s
 */
+
+Template.home.onRendered(() => {
+  Session.set('editorMode', false);
+});
+
+Template.home.helpers({
+  editorMode() {
+    return Session.get('showPostEditor');
+  },
+  newContractId() {
+    return Session.get('draftContract')._id;
+  },
+});
