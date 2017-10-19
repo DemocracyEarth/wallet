@@ -4345,6 +4345,7 @@ blockquote {
   margin-bottom: 10px;
   border-radius: 5px;
   box-shadow: none;
+  cursor: pointer;
 }
 
 .menu-button {
@@ -5274,7 +5275,7 @@ blockquote {
 }
 
 .feed-footer:active {
-  opacity: 0.82;
+  opacity: 0.75;
 }
 
 .back-top {

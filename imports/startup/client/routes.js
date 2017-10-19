@@ -73,7 +73,6 @@ Router.route('/peer/:username', {
     this.next();
   },
   data() {
-    console.log(fn.buildQuery(this.params));
     const feedQuery = fn.buildQuery(this.params);
     return {
       skip: 0,
