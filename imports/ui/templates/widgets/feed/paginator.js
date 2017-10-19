@@ -19,7 +19,7 @@ const _aboveFold = (id) => {
 };
 
 Template.paginator.onCreated(function () {
-  Template.instance().identifier = ((this.data.limit / gui.ITEMS_PER_PAGE) + 1);
+  Template.instance().identifier = parseInt(((this.data.limit + this.data.skip) / gui.ITEMS_PER_PAGE) + 1, 10);
   Template.instance().loaded = new ReactiveVar(false);
 });
 
@@ -36,7 +36,7 @@ Template.paginator.onRendered(function () {
 
 Template.paginator.helpers({
   end() {
-    return !(this.limit < this.count);
+    return !((this.skip + this.limit) < this.count);
   },
   identifier() {
     return Template.instance().identifier;

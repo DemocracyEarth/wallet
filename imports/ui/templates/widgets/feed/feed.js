@@ -10,7 +10,8 @@ import './feed.html';
 import './feedItem.js';
 import './feedEmpty.js';
 
-Template.feed.onRendered(() => {
+Template.feed.onRendered(function () {
+  console.log(this);
   Session.set('editorMode', false);
   Session.set('voterMode', false);
   /* if ($('.right').scrollTop() > 0) {
@@ -20,7 +21,6 @@ Template.feed.onRendered(() => {
 
 Template.feed.helpers({
   item() {
-    console.log(this);
     const feed = Contracts.find({ collectiveId: Meteor.settings.public.Collective._id, stage: this.stage, kind: this.kind }, { sort: { createdAt: -1 }, skip: this.skip, limit: this.limit }).fetch();
     if (feed.length === 0) {
       Session.set('emptyFeed', true);

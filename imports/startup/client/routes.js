@@ -43,7 +43,6 @@ Router.route('/', {
       fn.clearSessionVars();
       fn.configNavbar(Meteor.settings.public.Collective.name, '/');
       fn.setSessionVars();
-      // Session.set('feed', Contracts.find({ collectiveId: Meteor.settings.public.Collective._id, stage: 'LIVE', kind: 'VOTE' }, { sort: { createdAt: -1 }, skip: 0, limit: 10 }).fetch());
     }
     this.next();
   },
