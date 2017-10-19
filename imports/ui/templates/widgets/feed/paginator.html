@@ -1,0 +1,17 @@
+<template name="paginator">
+  <div id="page-{{identifier}}">
+    {{#if end}}
+      <div id="feed-bottom" class="feed-footer">
+        <img src="{{pathFor route='home'}}images/arrow-up.png" class="back-top">
+        <div>
+          {{_ 'back-to-top'}}
+        </div>
+      </div>
+    {{else}}
+      {{#if visible}}
+        show new feed
+      {{/if}}
+      load shit
+    {{/if}}
+  </div>
+</template>

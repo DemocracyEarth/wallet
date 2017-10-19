@@ -1,8 +1,12 @@
-import { Meteor } from 'meteor/meteor';
+import { $ } from 'meteor/jquery';
 import { Template } from 'meteor/templating';
+import { ReactiveVar } from 'meteor/reactive-var';
+
+import { gui } from '/lib/const';
 
 import './home.html';
 import '../../../widgets/feed/feed.js';
+import '../../../widgets/feed/paginator.js';
 import '../../../widgets/compose/compose.js';
 
 /**
@@ -16,3 +20,7 @@ Template.home.helpers({
   },
 });
 */
+
+Template.home.onRendered(function () {
+
+});

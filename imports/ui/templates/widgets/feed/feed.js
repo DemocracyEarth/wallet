@@ -2,6 +2,9 @@ import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 
+import { Router } from 'meteor/iron:router';
+import { Contracts } from '/imports/api/contracts/Contracts';
+
 import './feed.html';
 import './feedItem.js';
 import './feedEmpty.js';
@@ -16,12 +19,12 @@ Template.feed.onRendered(() => {
 
 Template.feed.helpers({
   item() {
-    if (Session.get('feed').length === 0) {
+    if (this.length === 0) {
       Session.set('emptyFeed', true);
     } else {
       Session.set('emptyFeed', false);
     }
-    return Session.get('feed');
+    return this.feed;
   },
   emptyFeed() {
     return Session.get('emptyFeed');
@@ -37,11 +40,5 @@ Template.feed.helpers({
   },
   newContractId() {
     return Session.get('draftContract')._id;
-  },
-});
-
-Template.feed.events({
-  'click #feed-bottom'() {
-    $('.right').animate({ scrollTop: 0 });
   },
 });

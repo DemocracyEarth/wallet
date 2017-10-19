@@ -3,6 +3,7 @@ import { Router } from 'meteor/iron:router';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 
+import { gui } from '/lib/const';
 import '/imports/ui/templates/layout/main.js';
 import '/imports/ui/templates/layout/url/home/home.js';
 import '/imports/ui/templates/layout/url/notFound/notFound.js';
@@ -29,6 +30,7 @@ Router.configure({
 Router.route('/', {
   name: 'home',
   template: 'home',
+  loadingTemplate: 'load',
   waitOn() {
     // Feed data will come from here:
     if (Meteor.settings.public.Collective) {
@@ -41,14 +43,34 @@ Router.route('/', {
       fn.clearSessionVars();
       fn.configNavbar(Meteor.settings.public.Collective.name, '/');
       fn.setSessionVars();
-      Session.set('feed', Contracts.find({ collectiveId: Meteor.settings.public.Collective._id, stage: 'LIVE', kind: 'VOTE' }, { sort: { createdAt: -1 } }).fetch());
+      // Session.set('feed', Contracts.find({ collectiveId: Meteor.settings.public.Collective._id, stage: 'LIVE', kind: 'VOTE' }, { sort: { createdAt: -1 }, skip: 0, limit: 10 }).fetch());
     }
     this.next();
+  },
+  data() {
+    return {
+      skip: 0,
+      limit: gui.ITEMS_PER_PAGE,
+      count: Contracts.find({ collectiveId: Meteor.settings.public.Collective._id, stage: 'LIVE', kind: 'VOTE' }).count(),
+      feed: Contracts.find({ collectiveId: Meteor.settings.public.Collective._id, stage: 'LIVE', kind: 'VOTE' }, { sort: { createdAt: -1 }, skip: 0, limit: 10 }).fetch(),
+    };
   },
   onAfterAction() {
     fn.getExternalScripts();
   },
 });
+
+/*
+Router.map(function () {
+  this.route('main', {
+    path: '/',
+    template: 'feed', // <-- to be explicit
+    data() {
+      return Contracts.find({ collectiveId: Meteor.settings.public.Collective._id, stage: 'LIVE', kind: 'VOTE' }, { sort: { createdAt: -1 }, skip: 0, limit: 10 }).fetch();
+    },
+  });
+});
+*/
 
 /**
 * routing for feeds displaying contracts
