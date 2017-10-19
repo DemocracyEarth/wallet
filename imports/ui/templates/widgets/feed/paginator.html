@@ -11,7 +11,7 @@
       {{#if visible}}
         {{> feed skip=nextSkip limit=limit kind=kind count=count stage=stage}}
       {{else}}
-        Loading....
+        <div id="spinner-feed"></div>
       {{/if}}
     {{/if}}
   </div>
