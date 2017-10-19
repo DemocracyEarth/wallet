@@ -1,7 +1,8 @@
 import { Template } from 'meteor/templating';
+
 import './load.html';
 
-Template.load.rendered = function () {
+Template.load.onRendered(() => {
   const opts = {
     lines: 17, // The number of lines to draw
     length: 13, // The length of each line
@@ -29,4 +30,4 @@ Template.load.rendered = function () {
   if (typeof Spinner !== 'undefined') {
     let spinner = new Spinner(opts).spin(target);
   }
-};
+});

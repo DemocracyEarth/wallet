@@ -22,26 +22,6 @@ function toggle(key, value, id) {
 }
 
 /**
-Template.editor.onRendered(function () {
-  @NOTE deprecated animation favoring integrated desktop and mobile UX
-  if (!this.data.stage === 'DRAFT') {
-    Session.set('newPostEditor', true);
-
-    // smoke and mirrors
-    $('#post-editor-topbar').css('opacity', 0);
-    $('#post-editor').css('margin-top', `${$(window).height()}px`);
-    $('#post-editor').css('display', '');
-    $('#post-editor').velocity({ 'margin-top': '60px' }, {
-      duration: timers.ANIMATION_DURATION,
-      complete: () => {
-        $('#titleContent').focus();
-      },
-    });
-  }
-});
-*/
-
-/**
 * @summary enables or disables feed and disables scrolling in mobile devices
 * @param {boolean} enabled show feed
 */

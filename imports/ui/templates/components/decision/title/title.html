@@ -12,33 +12,6 @@
         {{declaration}}
       </div>
     {{/if}}
-
-    <!--
-    @NOTE: this goes deprecated with new unified editor for mobile and desktop
-    {{#if editorMode}}
-      {{#unless isPhone}}
-        <div class="meta">
-          <div class="data"><img src="{{pathFor route='home'}}images/globe.png" class="url-icon">
-            <div class="verifier verifier-live">
-                <a data-new-link="true">{{{contractURL}}}</a>
-                <div data-new-link='true' class='state {{verifierMode}}'>{{{URLStatus}}}</div>
-            </div>
-          </div>
-        </div>
-        <div class='extra'>
-          {{#if missingTitle}}
-            {{> warning label="title-required" style='forbidden'}}
-          {{/if}}
-          {{#if mistypedTitle}}
-            {{> warning label="title-mistyped" style='forbidden'}}
-          {{/if}}
-          {{#if duplicateURL}}
-            {{> warning label="url-duplicate" style='forbidden'}}
-          {{/if}}
-        </div>
-      {{/unless}}
-    {{/if}}
-    -->
   </div>
 </template>
 

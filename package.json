@@ -73,6 +73,7 @@
       "import/prefer-default-export": "off",
       "no-underscore-dangle": "off",
       "guard-for-in": "off",
+      "import/no-unresolved": ["error", { "ignore": ["^meteor/", "^/"] }],
       "no-restricted-syntax": "off",
       "max-len": [
         "error",

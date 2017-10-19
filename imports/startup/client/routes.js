@@ -57,18 +57,6 @@ Router.route('/', {
   },
 });
 
-/*
-Router.map(function () {
-  this.route('main', {
-    path: '/',
-    template: 'feed', // <-- to be explicit
-    data() {
-      return Contracts.find({ collectiveId: Meteor.settings.public.Collective._id, stage: 'LIVE', kind: 'VOTE' }, { sort: { createdAt: -1 }, skip: 0, limit: 10 }).fetch();
-    },
-  });
-});
-*/
-
 /**
 * routing for feeds displaying contracts
 * NOTE: called when item clicked on sidebar menu
