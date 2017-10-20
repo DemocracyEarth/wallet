@@ -177,10 +177,11 @@ Template.result.helpers({
     }
     return `<strong>${total}</strong> ${TAPi18n.__('vote')} (${Template.instance().percentage.get()}%)`;
   },
-  percentage() {
-    Template.instance().percentage.set(parseInt(getTallyPercentage(this), 10));
-    _animateBar(`#result-bar-${this.contract._id}-${this._id}`, Template.instance().percentage.get());
-    return `${Template.instance().percentage.get()}%`;
+  highlight() {
+    if (Template.instance().percentage.get() > 49) {
+      return 'color: #fff';
+    }
+    return '';
   },
   forkId() {
     return `${this.contract._id}-${this._id}`;
