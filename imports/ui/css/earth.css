@@ -1134,6 +1134,7 @@ blockquote {
 }
 
 .vote.vote-authorize.vote-mini {
+  width: 100%;
   margin-top: 5px;
   margin-bottom: 5px;
   padding-top: 0px;
@@ -5410,6 +5411,9 @@ blockquote {
   }
   .fact {
     font-weight: 300;
+  }
+  .modal.hide {
+    display: none;
   }
   .cast {
     right: 15px;

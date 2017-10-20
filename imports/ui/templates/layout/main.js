@@ -88,6 +88,11 @@ Template.main.onRendered(() => {
   if (document.getElementsByClassName('inhibitor').length > 0) {
     document.getElementsByClassName('inhibitor')[0].addEventListener('touchmove', (e) => { e.preventDefault(); });
   }
+
+  if (!Meteor.Device.isPhone()) {
+    Session.set('sidebar', false);
+    toggleSidebar(true);
+  }
 });
 
 Template.main.helpers({

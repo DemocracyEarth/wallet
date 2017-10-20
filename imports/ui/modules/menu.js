@@ -393,7 +393,6 @@ const animateMenu = (disableAnimation) => {
         width: splitLeftNewWidth,
       }, animationSettings);
     } else {
-      console.log('de una papurri');
       $('#menu').css({ marginLeft: '0px' });
       $('#content').css({
         left: sidebarPixelWidth,
