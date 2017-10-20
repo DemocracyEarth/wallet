@@ -72,6 +72,29 @@ function getDelegates() {
   return getList(delegateList);
 }
 
+/**
+* @summary all members of the collective without the delegates
+*/
+const _otherMembers = () => {
+  const members = getList(Meteor.users.find().fetch());
+  const delegates = getDelegates();
+  const finalList = [];
+  let isDelegate;
+  for (const id in members) {
+    isDelegate = false;
+    for (const del in delegates) {
+      if (members[id].id === delegates[del].id) {
+        isDelegate = true;
+        break;
+      }
+    }
+    if (!isDelegate) {
+      finalList.push(members[id]);
+    }
+  }
+  return finalList;
+};
+
 Template.sidebar.onRendered(() => {
   $('.left').width(`${sidebarPercentage()}%`);
 
@@ -103,26 +126,10 @@ Template.sidebar.helpers({
     return getDelegates();
   },
   member() {
-    const members = getList(Meteor.users.find().fetch());
-    const delegates = getDelegates();
-    const finalList = [];
-    let isDelegate;
-    for (const id in members) {
-      isDelegate = false;
-      for (const del in delegates) {
-        if (members[id].id === delegates[del].id) {
-          isDelegate = true;
-          break;
-        }
-      }
-      if (!isDelegate) {
-        finalList.push(members[id]);
-      }
-    }
-    return finalList;
+    return _otherMembers();
   },
   totalMembers() {
-    return Meteor.users.find().count();
+    return _otherMembers().length;
   },
   totalDelegates() {
     return getDelegates().count();

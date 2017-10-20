@@ -8,9 +8,11 @@
         </div>
       {{/if}}
 
-      <a id="menu" class="logo w-nav-brand">
-        <img src="{{pathFor route='home'}}{{icon}}" class="menu-button" ontouchstart="">
-      </a>
+      {{#if isPhone}}
+        <a id="menu" class="logo w-nav-brand">
+          <img src="{{pathFor route='home'}}{{icon}}" class="menu-button" ontouchstart="">
+        </a>
+      {{/if}}
 
       <div class="w-clearfix path">
         {{{screen}}}

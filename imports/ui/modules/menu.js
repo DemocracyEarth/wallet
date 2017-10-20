@@ -329,7 +329,7 @@ const _sidebarWidth = () => {
 /**
 /* @summary animation for main menu toggle activation burger button
 */
-const animateMenu = () => {
+const animateMenu = (disableAnimation) => {
   const splitLeft = $('.split-left').width();
   const sidebarPixelWidth = _sidebarWidth();
   let diff = 0;
@@ -359,17 +359,6 @@ const animateMenu = () => {
       $('.inhibitor').css('left', `${sidebarPixelWidth}px`);
       $('.content').css('overflow', 'hidden');
     }
-
-    // animate content
-    $('#menu').velocity({ marginLeft: '0px' }, animationSettings);
-    $('#content').velocity({
-      left: sidebarPixelWidth,
-      right: newRight,
-    }, animationSettings);
-    if (Meteor.Device.isPhone()) {
-      $('.cast').velocity({ opacity: 0 }, animationSettings);
-    }
-
     // animate splits
     if (splitLeftNewWidth < gui.MIN_CONTRACT_WIDTH) {
       splitRightNewMargin -= parseInt(splitLeftNewWidth - gui.MIN_CONTRACT_WIDTH, 10);
@@ -383,14 +372,34 @@ const animateMenu = () => {
       splitRightNewMargin = '0px';
       splitLeftNewMargin = '0px';
     }
-    $('.split-right').velocity({
-      marginLeft: splitRightNewMargin,
-      width: splitRightNewWidth,
-    }, animationSettings);
-    $('.split-left').velocity({
-      marginLeft: splitLeftNewMargin,
-      width: splitLeftNewWidth,
-    }, animationSettings);
+
+    if (!disableAnimation) {
+      // animate content
+      $('#menu').velocity({ marginLeft: '0px' }, animationSettings);
+      $('#content').velocity({
+        left: sidebarPixelWidth,
+        right: newRight,
+      }, animationSettings);
+      if (Meteor.Device.isPhone()) {
+        $('.cast').velocity({ opacity: 0 }, animationSettings);
+      }
+
+      $('.split-right').velocity({
+        marginLeft: splitRightNewMargin,
+        width: splitRightNewWidth,
+      }, animationSettings);
+      $('.split-left').velocity({
+        marginLeft: splitLeftNewMargin,
+        width: splitLeftNewWidth,
+      }, animationSettings);
+    } else {
+      console.log('de una papurri');
+      $('#menu').css({ marginLeft: '0px' });
+      $('#content').css({
+        left: sidebarPixelWidth,
+        right: newRight,
+      });
+    }
   } else {
     // hide sidebar
     if ($(window).width() >= gui.DESKTOP_MIN_WIDTH) {

@@ -472,9 +472,14 @@ const _getNavbarAction = (path) => {
 * @param {string} title - title for it
 */
 const _configNavbar = (label, path) => {
-  if (Session.get('sidebar') === undefined) {
-    Session.set('sidebar', true);
-    toggleSidebar();
+  if (Meteor.Device.isPhone()) {
+    if (Session.get('sidebar') === undefined) {
+      Session.set('sidebar', true);
+      toggleSidebar();
+    }
+  } else if (Session.get('sidebar') === undefined) {
+    Session.set('sidebar', false);
+    toggleSidebar(true);
   }
   Session.set('navbar', {
     title: label,

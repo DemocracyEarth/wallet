@@ -1114,7 +1114,7 @@ blockquote {
 
 .vote {
   display: block;
-  width: 100%;
+  width: 50%;
   margin: 0px;
   padding: 10px;
   float: left;
@@ -3561,7 +3561,7 @@ blockquote {
 
 .path {
   position: absolute;
-  left: 50px;
+  left: 20px;
   right: 130px;
   overflow: hidden;
   height: 28px;
@@ -4080,11 +4080,6 @@ blockquote {
   background-color: rgba(180, 171, 189, .2);
 }
 
-.menu-item:active {
-  background-color: #00bf8f;
-  color: #fff;
-}
-
 .menu-item.cast-action {
   position: absolute;
   top: 50%;
@@ -4151,7 +4146,7 @@ blockquote {
   top: 0px;
   bottom: 0px;
   display: inline-block;
-  overflow: auto;
+  overflow: scroll;
   width: 100%;
   padding: 0px 10px 10px;
   box-shadow: inset -6px 0 50px -20px rgba(0, 0, 0, .5);
@@ -4353,6 +4348,7 @@ blockquote {
   height: 40px;
   margin-top: 3px;
   margin-bottom: 3px;
+  opacity: 0;
 }
 
 .collective-title {
@@ -5759,6 +5755,9 @@ blockquote {
   .warning-list {
     margin-bottom: 10px;
   }
+  .path {
+    left: 50px;
+  }
   .authentication {
     padding-right: 0px;
   }
@@ -5828,6 +5827,9 @@ blockquote {
   }
   .modal-buttons {
     margin-bottom: 5px;
+  }
+  .menu-button {
+    opacity: 1;
   }
   .menu-button:active {
     margin-top: 5px;
