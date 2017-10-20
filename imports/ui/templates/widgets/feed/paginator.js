@@ -11,9 +11,8 @@ import './paginator.html';
 * @param {string} id div element signalling end of feed
 */
 const _aboveFold = (id) => {
-  if ($(`#page-${id}`)) {
+  if ($(`#page-${id}`)[0]) {
     const rect = $(`#page-${id}`)[0].getBoundingClientRect();
-    // console.log(`${id} and ${rect.top} = ${(rect.top > -1 && rect.bottom <= parseInt($(window).height() + 200, 10))}`);
     return (rect.top > -1 && rect.bottom <= parseInt($(window).height() + 300, 10));
   }
   return false;
