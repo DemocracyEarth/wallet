@@ -20,10 +20,18 @@ import '../alternative/alternative.js';
 import '../liquid/liquid.js';
 
 function getVoterContractBond(object) {
+  if (Meteor.user()) {
+    return Object.assign(object, {
+      voteId: `vote-${Meteor.userId()}-${Template.instance().contract.get()._id}`,
+      wallet: Meteor.user().profile.wallet,
+      sourceId: Meteor.userId(),
+      targetId: Template.instance().contract.get()._id,
+    });
+  }
   return Object.assign(object, {
-    voteId: `vote-${Meteor.userId()}-${Template.instance().contract.get()._id}`,
-    wallet: Meteor.user().profile.wallet,
-    sourceId: Meteor.userId(),
+    voteId: `vote-0000000-${Template.instance().contract.get()._id}`,
+    wallet: undefined,
+    sourceId: '0000000',
     targetId: Template.instance().contract.get()._id,
   });
 }

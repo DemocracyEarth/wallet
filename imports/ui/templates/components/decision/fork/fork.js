@@ -178,7 +178,7 @@ Template.result.helpers({
     return `<strong>${total}</strong> ${TAPi18n.__('vote')} (${Template.instance().percentage.get()}%)`;
   },
   highlight() {
-    if (Template.instance().percentage.get() > 49) {
+    if (Template.instance().percentage.get() >= 50) {
       return 'color: #fff';
     }
     return '';

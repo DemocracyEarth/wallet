@@ -9,13 +9,11 @@
       {{else}}
         {{> kind title="ballot" icon="images/modal-vote.png" stage=stage}}
       {{/if}}
-      {{#if currentUser}}
-        <div class="w-clearfix value value-avatar extra">
-          <div class="extra">
-            {{> stage text=stageLabel executionStatus=executionStatus closingDate=closingDate permanentElection=permanentElection}}
-          </div>
+      <div class="w-clearfix value value-avatar extra">
+        <div class="extra">
+          {{> stage text=stageLabel executionStatus=executionStatus closingDate=closingDate permanentElection=permanentElection}}
         </div>
-      {{/if}}
+      </div>
     </div>
     {{#if ballotEnabled}}
       <div class="section">

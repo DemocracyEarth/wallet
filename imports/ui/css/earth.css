@@ -5602,6 +5602,9 @@ blockquote {
   .extra.identity-list.avatar-editor {
     padding-bottom: 0px;
   }
+  .vote {
+    width: 100%;
+  }
   .vote.vote-search {
     box-shadow: none;
   }
