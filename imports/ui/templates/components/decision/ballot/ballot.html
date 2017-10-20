@@ -73,6 +73,12 @@
             {{> warning label="draft-options-ballot" style='forbidden'}}
           {{/if}}
         </div>
+      {{else}}
+        {{#with feedWarning}}
+          <div class="extra">
+            {{> warning label=label style=style}}
+          </div>
+        {{/with}}
       {{/if}}
     {{/if}}
   </div>

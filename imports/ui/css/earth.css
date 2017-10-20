@@ -260,7 +260,8 @@ blockquote {
 }
 
 .section.section-mobile.section-mobile-feed {
-  margin: 0px -10px 10px;
+  margin-right: -10px;
+  margin-left: -10px;
 }
 
 .section.section-editor {

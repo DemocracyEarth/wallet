@@ -198,46 +198,56 @@ Template.result.helpers({
 Template.fork.events({
   'click #ballotCheckbox'() {
     if (!Session.get('showModal')) {
-      // TODO consider multiple choice use case when feature becomes active.
-
-      switch (Template.instance().contract.get().stage) {
-        case 'DRAFT':
-        case 'FINISH':
-          Session.set('disabledCheckboxes', true);
-          break;
-        case 'LIVE':
-        default:
-          if (Template.instance().rightToVote.get()) {
-            if (Template.instance().candidateBallot.get() === undefined || Template.instance().candidateBallot.get().length === 0) {
-              Template.instance().candidateBallot.set(candidateBallot(Meteor.userId(), Template.instance().contract.get()._id));
-            }
-            const previous = Template.instance().candidateBallot.get();
-            const wallet = new Vote(Session.get(this.voteId), Session.get(this.voteId).targetId, this.voteId);
-            const template = Template.instance();
-            wallet.inBallot = Session.get(this.voteId).inBallot;
-            wallet.allocateQuantity = wallet.inBallot;
-            wallet.allocatePercentage = parseFloat((wallet.inBallot * 100) / wallet.balance, 10).toFixed(2);
-            const cancel = () => {
-              template.candidateBallot.set(setBallot(template.contract.get()._id, previous));
-            };
-            this.tick = setVote(Template.instance().contract.get(), this);
-            if (this.tick === true) {
-              Session.set('noSelectedOption', this.voteId);
-            }
-
-            // vote
-            if (this.tick === false && Session.get(this.voteId).inBallot > 0) {
-              // remove all votes
-              wallet.allocatePercentage = 0;
-              wallet.allocateQuantity = 0;
-              wallet.execute(cancel, true);
-              return;
-            } else if (Session.get(this.voteId).inBallot > 0) {
-              // send new ballot
-              wallet.execute(cancel);
-            }
+      if (Meteor.user()) {
+        switch (Template.instance().contract.get().stage) {
+          case 'DRAFT':
+          case 'FINISH':
+            Session.set('disabledCheckboxes', true);
             break;
-          }
+          case 'LIVE':
+          default:
+            if (Template.instance().rightToVote.get()) {
+              if (Template.instance().candidateBallot.get() === undefined || Template.instance().candidateBallot.get().length === 0) {
+                Template.instance().candidateBallot.set(candidateBallot(Meteor.userId(), Template.instance().contract.get()._id));
+              }
+              const previous = Template.instance().candidateBallot.get();
+              const wallet = new Vote(Session.get(this.voteId), Session.get(this.voteId).targetId, this.voteId);
+              const template = Template.instance();
+              wallet.inBallot = Session.get(this.voteId).inBallot;
+              wallet.allocateQuantity = wallet.inBallot;
+              wallet.allocatePercentage = parseFloat((wallet.inBallot * 100) / wallet.balance, 10).toFixed(2);
+              const cancel = () => {
+                template.candidateBallot.set(setBallot(template.contract.get()._id, previous));
+              };
+              this.tick = setVote(Template.instance().contract.get(), this);
+              if (this.tick === true) {
+                Session.set('noSelectedOption', this.voteId);
+              }
+
+              // vote
+              if (this.tick === false && Session.get(this.voteId).inBallot > 0) {
+                // remove all votes
+                wallet.allocatePercentage = 0;
+                wallet.allocateQuantity = 0;
+                wallet.execute(cancel, true);
+                return;
+              } else if (Session.get(this.voteId).inBallot > 0) {
+                // send new ballot
+                wallet.execute(cancel);
+              }
+              break;
+            }
+        }
+      } else {
+        const warnings = [];
+        if (Session.get('feedWarning')) {
+          warnings.push(Session.get('feedWarning'));
+        }
+        warnings.push({
+          voteId: this.voteId,
+          label: 'unlogged-cant-vote',
+        });
+        Session.set('feedWarning', warnings);
       }
     }
   },

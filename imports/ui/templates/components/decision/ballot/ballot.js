@@ -8,6 +8,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { removeFork, updateBallotRank, addChoiceToBallot, candidateBallot, getBallot, getTotalVoters } from '/imports/ui/modules/ballot';
 import { displayTimedWarning } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
+import { timers } from '/lib/const';
 
 import './ballot.html';
 import '../kind/kind.js';
@@ -98,12 +99,7 @@ function activateDragging() {
 
 
 Template.ballot.onCreated(() => {
-  if (!Session.get('contract')) {
-    Template.instance().contract = new ReactiveVar(Template.currentData().contract);
-  } else {
-    Template.instance().contract = new ReactiveVar(Contracts.findOne({ _id: Session.get('contract')._id }));
-  }
-
+  Template.instance().contract = new ReactiveVar(Template.currentData().contract);
   Template.instance().candidateBallot = new ReactiveVar(getBallot(Template.instance().contract.get()._id));
   Template.instance().dbContractBallot = new ReactiveVar();
   Template.instance().emptyBallot = new ReactiveVar();
@@ -285,6 +281,19 @@ Template.ballot.helpers({
       return TAPi18n.__('no-voters');
     }
     return `${total} ${TAPi18n.__('voters').toLowerCase()}.`;
+  },
+  feedWarning() {
+    const warnings = Session.get('feedWarning');
+    for (const message in warnings) {
+      if (warnings[message].voteId === this.voteId) {
+        Meteor.setTimeout(() => {
+          warnings.splice(message, 1);
+          Session.set('feedWarning', warnings);
+        }, timers.WARNING_DURATION);
+        return warnings[message];
+      }
+    }
+    return false;
   },
 });
 

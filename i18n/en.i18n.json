@@ -461,5 +461,6 @@
   "no-members-found": "No members found.",
   "you": "You",
   "all-members": "Other Members",
-  "your-delegations": "Your Delegations"
+  "your-delegations": "Your Delegations",
+  "unlogged-cant-vote": "You need to be logged in to vote."
 }
