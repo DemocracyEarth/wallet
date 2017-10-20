@@ -170,10 +170,12 @@ Template.result.helpers({
   },
   total() {
     const total = getTally(this);
+    Template.instance().percentage.set(parseInt(getTallyPercentage(this), 10));
+    _animateBar(`#result-bar-${this.contract._id}-${this._id}`, Template.instance().percentage.get());
     if (total !== 1) {
-      return `<strong>${total}</strong> ${TAPi18n.__('votes')}`;
+      return `<strong>${total}</strong> ${TAPi18n.__('votes')} (${Template.instance().percentage.get()}%)`;
     }
-    return `<strong>${total}</strong> ${TAPi18n.__('vote')}`;
+    return `<strong>${total}</strong> ${TAPi18n.__('vote')} (${Template.instance().percentage.get()}%)`;
   },
   percentage() {
     Template.instance().percentage.set(parseInt(getTallyPercentage(this), 10));
