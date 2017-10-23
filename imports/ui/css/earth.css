@@ -1369,14 +1369,8 @@ blockquote {
 .option-title.option-link {
   display: inline-block;
   float: left;
-  border-bottom: 1px solid transparent;
   color: #00bf8f;
   text-align: left;
-}
-
-.option-title.option-link:hover {
-  border-bottom: 1px none #00bf8f;
-  text-decoration: none;
 }
 
 .option-title.option-link.option-edit {
@@ -1399,10 +1393,6 @@ blockquote {
 
 .option-title.option-link.unauthorized {
   color: #ff2752;
-}
-
-.option-title.option-link.unauthorized:hover {
-  border-bottom-color: #ff2752;
 }
 
 .option-title.option-link.option-long {
@@ -5817,6 +5807,12 @@ blockquote {
   }
   .menu-item {
     font-weight: 400;
+  }
+  .menu-item:hover {
+    background-color: transparent;
+  }
+  .menu-item.menu-item-selected:hover {
+    background-color: #6d5c7d;
   }
   .content.content-feed {
     padding-top: 70px;

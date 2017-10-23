@@ -7,6 +7,7 @@ import { gui } from '/lib/const';
 import { showFullName } from '/imports/startup/both/modules/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { Transactions } from '/imports/api/transactions/Transactions';
+import { getVotes } from '/imports/api/transactions/transaction';
 
 import { animationSettings } from './animation';
 
@@ -232,6 +233,7 @@ const _getDelegatesMenu = () => {
   const transactions = _.filter(Transactions.find({ kind: 'DELEGATION' }).fetch(),
     (item) => { return (item.input.entityId === Meteor.userId() || item.output.entityId === Meteor.userId()); }, 0);
 
+  console.log(transactions);
   if (transactions.length > 0) {
     delegations = _.uniq(_.pluck(transactions, 'contractId'));
     for (const i in delegations) {
@@ -243,16 +245,19 @@ const _getDelegatesMenu = () => {
   }
 
   // search contracts
+  /*
   if (Meteor.user()) {
     const contracts = Contracts.find({
       collectiveId: Meteor.settings.public.Collective._id,
       signatures: { $elemMatch: { username: Meteor.user().username } },
     }).fetch();
 
+    console.log(contracts);
     for (const i in contracts) {
       users = _searchContract(contracts[i], users);
     }
   }
+  */
 
   return users;
 };
