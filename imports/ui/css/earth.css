@@ -1120,7 +1120,7 @@ blockquote {
   padding: 10px;
   float: left;
   border: 5px solid #fff;
-  border-radius: 8px;
+  border-radius: 10px;
   text-align: left;
 }
 
@@ -1419,8 +1419,6 @@ blockquote {
 .option-title.option-link.option-search {
   display: inline-block;
   max-width: 100%;
-  margin-top: 0px;
-  margin-bottom: -5px;
   border-bottom-style: none;
   color: #4b4b4b;
   font-size: 30px;
@@ -2410,7 +2408,6 @@ blockquote {
   padding-left: 0px;
   font-size: 16px;
   line-height: 26px;
-  font-style: italic;
 }
 
 .rich-text.rich-text-preview:hover {
@@ -2501,7 +2498,7 @@ blockquote {
 }
 
 .result-bar {
-  width: 32%;
+  width: 0%;
   height: 30px;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;

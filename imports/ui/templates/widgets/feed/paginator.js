@@ -68,6 +68,9 @@ Template.paginator.helpers({
   end() {
     return !((this.skip + this.limit) < this.count);
   },
+  empty() {
+    return (this.count === 0);
+  },
   identifier() {
     return Template.instance().identifier;
   },

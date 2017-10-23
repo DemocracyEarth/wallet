@@ -4,14 +4,10 @@
     {{#if editorMode}}
       {{> editor contractId=newContractId}}
     {{/if}}
-
-    {{#if emptyFeed}}
-      {{> feedEmpty emptyContent}}
-    {{else}}
-      <div id="non-editable-feed">
-        {{> feed}}
-      </div>
-    {{/if}}
+            
+    <div id="non-editable-feed">
+      {{> feed}}
+    </div>
 
   </div>
 

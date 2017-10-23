@@ -1,12 +1,14 @@
 <template name="paginator">
   <div id="page-{{identifier}}" class="page">
     {{#if end}}
-      <div id="feed-bottom" class="feed-footer">
-        <img src="{{pathFor route='home'}}images/arrow-up.png" class="back-top">
-        <div>
-          {{_ 'back-to-top'}}
+      {{#unless empty}}
+        <div id="feed-bottom" class="feed-footer">
+          <img src="{{pathFor route='home'}}images/arrow-up.png" class="back-top">
+          <div>
+            {{_ 'back-to-top'}}
+          </div>
         </div>
-      </div>
+      {{/unless}}
     {{else}}
       {{#if visible}}
         {{> feed skip=nextSkip query=query sort=sort limit=limit count=count}}
