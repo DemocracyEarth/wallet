@@ -3,6 +3,7 @@ import { Session } from 'meteor/session';
 import { Router } from 'meteor/iron:router';
 import { TAPi18n } from 'meteor/tap:i18n';
 
+import { convertToSlug } from '/lib/utils';
 import { Contracts } from '../../../api/contracts/Contracts';
 import { shortUUID } from './crypto';
 import { transact } from '../../../api/transactions/transaction';
@@ -238,6 +239,34 @@ const _remove = (contractId) => {
   }
 };
 
+
+/**
+* @summary dynamically generates a valid URL keyword regardless the case
+* @param {string} keyword tentative title being used for contract
+*/
+const _generateURL = (keyword, contractId) => {
+  let dynamicURL;
+  let contract = Contracts.findOne({ _id: contractId });
+
+  while (contract) {
+    if (keyword.length < 3) { // Meteor.Device.isPhone() &&
+      dynamicURL = convertToSlug(`${keyword}-${shortUUID()}`);
+    } else if (!dynamicURL) {
+      dynamicURL = convertToSlug(keyword);
+    }
+    contract = Contracts.findOne({ keyword: dynamicURL });
+    if (contract) {
+      if (contract._id !== contractId) {
+        dynamicURL = convertToSlug(`${keyword}-${shortUUID()}`);
+        contract = undefined;
+      } else if (contract._id === contractId) {
+        contract = undefined;
+      }
+    }
+  }
+  return dynamicURL;
+};
+
 /**
 * publishes a contract and goes to home
 * @param {string} contractId - id of the contract to publish
@@ -245,6 +274,8 @@ const _remove = (contractId) => {
 const _publish = (contractId) => {
   const draft = Session.get('draftContract');
   draft.stage = 'LIVE';
+  draft.keyword = _generateURL(document.getElementById('titleContent').innerText, draft._id);
+  draft.url = `/vote/${draft.keyword}`;
   Contracts.update({ _id: contractId }, { $set: {
     stage: draft.stage,
     title: draft.title,
