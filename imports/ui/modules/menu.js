@@ -237,9 +237,12 @@ const _getDelegatesMenu = () => {
   if (transactions.length > 0) {
     delegations = _.uniq(_.pluck(transactions, 'contractId'));
     for (const i in delegations) {
-      const source = Contracts.findOne({ _id: delegations[i] });
-      if (source !== undefined) {
-        users = _searchContract(source, users);
+      console.log(`delegation: ${delegations[i]} has ${getVotes(delegations[i], Meteor.userId())} votes`);
+      if (getVotes(delegations[i], Meteor.userId()) > 0) {
+        const source = Contracts.findOne({ _id: delegations[i] });
+        if (source !== undefined) {
+          users = _searchContract(source, users);
+        }
       }
     }
   }
