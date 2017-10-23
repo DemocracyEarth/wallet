@@ -243,9 +243,16 @@ const _remove = (contractId) => {
 * @param {string} contractId - id of the contract to publish
 */
 const _publish = (contractId) => {
-  Contracts.update({ _id: contractId }, { $set: { stage: 'LIVE' } });
+  const draft = Session.get('draftContract');
+  draft.stage = 'LIVE';
+  Contracts.update({ _id: contractId }, { $set: {
+    stage: draft.stage,
+    title: draft.title,
+    keyword: draft.keyword,
+    url: draft.url,
+  },
+  });
   Router.go('/');
-  // TODO security checks of all kinds, i know, i know.
 };
 
 /**

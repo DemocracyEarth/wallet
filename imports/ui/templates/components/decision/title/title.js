@@ -56,16 +56,6 @@ function displayTitle(title) {
   return title;
 }
 
-// returns the title from the contract
-function getTitle(voice) {
-  const contract = Contracts.findOne({ _id: voice.contractId }, { reactive: false });
-
-  if (!contract) {
-    return '';
-  }
-  return displayTitle(contract.title);
-}
-
 Template.title.onRendered(() => {
   initEditor();
 
@@ -94,7 +84,10 @@ Template.titleContent.helpers({
     return '';
   },
   declaration() {
-    return getTitle(this);
+    if (Session.get('draftContract')) {
+      return displayTitle(Session.get('draftContract').title);
+    }
+    return displayTitle('');
   },
   editable() {
     let html;
@@ -117,7 +110,7 @@ Template.title.helpers({
     return '';
   },
   declaration() {
-    return getTitle(this);
+    return displayTitle(this.title);
   },
   contractURL() {
     const host = window.location.host;
@@ -149,16 +142,6 @@ Template.title.helpers({
   duplicateURL() {
     return Session.get('duplicateURL');
   },
-  timestamp() {
-    if (Contracts.findOne({ _id: this.contractId })) {
-      let d = Date();
-      if (Contracts.findOne({ _id: this.contractId }).timestamp !== undefined) {
-        d = Contracts.findOne({ _id: this.contractId }).timestamp;
-        return d.format('{Month} {d}, {yyyy}');
-      }
-    }
-    return '';
-  },
 });
 
 Template.title.events({
@@ -171,7 +154,7 @@ Template.titleContent.events({
   'input #titleContent'(event, instance) {
     let content = document.getElementById('titleContent').innerText;
     const keyword = setCustomURL(content, instance.data.contractId);
-    const contract = Contracts.findOne({ keyword: keyword });
+    const draft = Session.get('draftContract');
 
     // Set timer to check upload to db
     Meteor.clearTimeout(typingTimer);
@@ -204,16 +187,13 @@ Template.titleContent.events({
 
     // call function when typing seems to be finished.
     typingTimer = Meteor.setTimeout(() => {
-      if (contract !== undefined && contract._id !== instance.data.contractId) {
-        Session.set('URLStatus', 'UNAVAILABLE');
-      } else {
-        const url = `/${Contracts.findOne({ _id: instance.data.contractId }).kind.toLowerCase()}/${keyword}`;
-        if (Contracts.update({ _id: instance.data.contractId }, { $set: { title: content, keyword, url } })) {
-          Session.set('URLStatus', 'AVAILABLE');
-        }
-        // @NOTE: no longer stores drafts but this might want to be reactivated in the future.
-        // displayNotice(TAPi18n.__('saved-draft-description'), true);
-      }
+      const url = `/vote/${keyword}`;
+      const changes = {
+        title: content,
+        keyword,
+        url,
+      };
+      Session.set('draftContract', Object.assign(draft, changes));
     }, timers.SERVER_INTERVAL);
   },
   'blur #titleContent'() {
