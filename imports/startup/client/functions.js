@@ -77,7 +77,7 @@ const _buildQuery = (params) => {
         break;
       case 'stage':
         if (params[key].toUpperCase() === 'DRAFT') {
-          if (Meteor.user() !== undefined) {
+          if (Meteor.user()) {
             query.owner = Meteor.user()._id;
           }
         }

@@ -70,7 +70,7 @@ Template.avatar.helpers({
   url() {
     let user;
     if (this.profile === undefined) {
-      if (Meteor.user() !== undefined) {
+      if (Meteor.user()) {
         return `/peer/${Meteor.user().username}`;
       }
     } else if (!this.username) {
@@ -93,7 +93,7 @@ Template.avatar.helpers({
   },
   myself() {
     if (this.profile === undefined) {
-      if (Meteor.user() !== undefined) {
+      if (Meteor.user()) {
         return true;
       }
     } else if (!this.username) {
@@ -168,7 +168,7 @@ Template.avatar.helpers({
   },
   profilePicture(profile) {
     if (profile === undefined) {
-      if (Meteor.user() !== undefined) {
+      if (Meteor.user()) {
         if (Meteor.user().profile.picture === undefined) {
           return `${Router.path('home')}images/noprofile.png`;
         }
@@ -198,7 +198,7 @@ Template.avatar.helpers({
   },
   fullName(profile) {
     if (profile === undefined) {
-      if (Meteor.user() !== undefined) {
+      if (Meteor.user()) {
         if (Meteor.user().profile.firstName !== undefined) {
           const firstname = Meteor.user().profile.firstName;
           const lastName = Meteor.user().profile.lastName;

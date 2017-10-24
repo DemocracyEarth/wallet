@@ -5273,16 +5273,17 @@ blockquote {
 }
 
 .sidebar-tag {
-  margin-top: 3px;
+  margin-top: 4px;
   margin-right: 3px;
   margin-left: 5px;
   padding: 0px 3px;
   float: right;
   border-radius: 2px;
-  background-color: #d4ccdb;
+  background-color: #ccbcda;
   color: #6c5b7c;
   font-size: 9px;
-  line-height: 20px;
+  line-height: 19px;
+  font-weight: 400;
   text-transform: uppercase;
 }
 
