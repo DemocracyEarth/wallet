@@ -119,11 +119,17 @@ Template.sidebar.onCreated(function () {
 
 Template.sidebar.onRendered(() => {
   $('.left').width(`${sidebarPercentage()}%`);
+  if (!Meteor.Device.isPhone()) {
+    $('.navbar').css('left', `${sidebarPercentage()}%`);
+  }
 
   drawSidebar();
 
   $(window).resize(() => {
     $('.left').width(`${sidebarPercentage()}%`);
+    if (!Meteor.Device.isPhone()) {
+      $('.navbar').css('left', `${sidebarPercentage()}%`);
+    }
     if (!Session.get('sidebar')) {
       $('#menu').css('margin-left', `${parseInt(0 - sidebarWidth(), 10)}px`);
     } else {

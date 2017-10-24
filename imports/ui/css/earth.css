@@ -3573,9 +3573,7 @@ blockquote {
 
 .login {
   width: 100%;
-  padding-right: 10px;
-  padding-bottom: 5px;
-  padding-left: 10px;
+  padding: 10px 10px 5px;
   float: left;
   font-size: 14px;
   text-align: center;

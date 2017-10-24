@@ -53,6 +53,8 @@ function hideBar() {
       }
       lastScrollTop = st;
     });
+  } else {
+    $('.navbar').css('position', 'fixed');
   }
 }
 
