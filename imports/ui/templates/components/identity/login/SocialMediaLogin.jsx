@@ -47,6 +47,7 @@ export default class SocialMediaLogin extends Component {
     }
     return (
       <div id="facebook-login" className="button login-button facebook" onClick={this.handleFacebookLogin} >
+        <img src="/images/facebook.png" className="button-icon" alt="lock" />
         {TAPi18n.__('facebook')}
       </div>
       // <div id="twitter-login" className="button button-social twitter" onClick={this.handleTwitterLogin} >{{_ 'twitter'}}</div>

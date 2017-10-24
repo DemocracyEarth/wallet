@@ -882,7 +882,6 @@ blockquote {
 .button.login-button {
   width: 100%;
   margin-right: 0px;
-  margin-bottom: -5px;
   margin-left: 0px;
   font-size: 16px;
 }
@@ -926,12 +925,13 @@ blockquote {
 .button.login-button.facebook {
   margin-bottom: 5px;
   background-color: #3c5b96;
+  text-align: center;
 }
 
 .button.login-button.facebook:active {
   border-color: #3c5b96;
   background-color: transparent;
-  color: #3c5b96;
+  color: #f5f5f5;
 }
 
 .button.login-button.facebook.half {
@@ -1005,9 +1005,9 @@ blockquote {
 }
 
 .button-icon {
-  width: 22px;
-  height: 22px;
-  margin-right: 10px;
+  width: 24px;
+  height: 24px;
+  margin: 0px -12px -10px -10px;
   float: left;
 }
 
@@ -5321,7 +5321,7 @@ blockquote {
 
 .popup-text {
   margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 @media (max-width: 991px) {
