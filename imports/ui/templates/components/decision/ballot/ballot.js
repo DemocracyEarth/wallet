@@ -38,7 +38,6 @@ function getVoterContractBond(object) {
 }
 
 function activateDragging() {
-  // Dragable options
   let sortableIn;
   this.$('#ballotOption, #proposalSuggestions').sortable({
     stop() {
@@ -113,7 +112,8 @@ Template.ballot.onCreated(() => {
 
 Template.ballot.onRendered(() => {
   if (Template.instance().contract.get().stage === 'DRAFT') {
-    activateDragging();
+    // TODO: use this when dragging becomes a feature
+    // activateDragging();
   } else if (Meteor.userId() !== undefined) {
     candidateBallot(Meteor.userId(), Template.instance().contract.get()._id);
   }
@@ -125,7 +125,8 @@ Template.ballot.helpers({
   },
   ballotEnabled() {
     if (Template.instance().contract.get().ballotEnabled) {
-      activateDragging();
+      // TODO: use this when dragging becomes a feature
+      // activateDragging();
     }
     return Template.instance().contract.get().ballotEnabled;
   },
