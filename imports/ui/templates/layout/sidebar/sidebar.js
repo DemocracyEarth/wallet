@@ -70,7 +70,19 @@ function getDelegates() {
   for (const i in delegates) {
     delegateList.push(Meteor.users.find({ _id: delegates[i].userId }).fetch()[0]);
   }
-  return getList(delegateList);
+
+  // display statistics of delegate
+  const inboxList = getList(delegateList);
+  for (const item in inboxList) {
+    for (const delegate in delegateList) {
+      if ((inboxList[item].id === delegates[delegate].userId) && (delegates[delegate].sent > 0 || delegates[delegate].received > 0)) {
+        inboxList[item].label += ` <span class='sidebar-tag'>${parseInt((delegates[delegate].sent + delegates[delegate].received), 10)} ${TAPi18n.__('votes')}</span>`;
+        break;
+      }
+    }
+  }
+
+  return inboxList;
 }
 
 /**
@@ -129,7 +141,6 @@ Template.sidebar.helpers({
   member() {
     Template.instance().members.set(_otherMembers());
     return Template.instance().members.get();
-    // return _otherMembers();
   },
   totalMembers() {
     if (Template.instance().members.get()) {

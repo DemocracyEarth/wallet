@@ -188,6 +188,7 @@ const _voteCount = (ticket, entityId) => {
 * @summary gets the quantity of votes a given user has on a ledger
 * @param {object} contractId - contractId to be checked
 * @param {object} userId - userId to be checked
+* @return {number} total vote count
 */
 const _getVotes = (contractId, userId) => {
   const transactions = _getTransactions(userId, contractId);
