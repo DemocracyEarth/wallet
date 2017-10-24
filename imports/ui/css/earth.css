@@ -1973,6 +1973,7 @@ blockquote {
   display: inline;
   width: auto;
   height: 35px;
+  min-width: 35px;
   padding-top: 0px;
   padding-bottom: 0px;
 }
@@ -5257,7 +5258,7 @@ blockquote {
   left: 0px;
   right: 130px;
   display: block;
-  overflow: hidden;
+  overflow: visible;
   padding-top: 12px;
   padding-bottom: 12px;
   padding-left: 130px;
