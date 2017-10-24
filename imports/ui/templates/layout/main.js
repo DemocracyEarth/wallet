@@ -56,7 +56,7 @@ Meteor.startup(() => {
     });
 
   // scripts
-  $.getScript('js/spinner.js', function () {});
+  $.getScript('js/datepicker.js', () => {});
 
   // time
   Meteor.call('getServerTime', function (error, result) {

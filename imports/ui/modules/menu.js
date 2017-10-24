@@ -407,7 +407,7 @@ const animateMenu = (disableAnimation) => {
           $('.navbar').css('position', 'fixed');
           $('.navbar').css('top', '0px');
           $('.inhibitor').css('display', 'none');
-          $('.content').css('overflow', 'scroll');
+          // $('.content').css('overflow', 'scroll');
           $('.cast').velocity({ opacity: 1 }, animationSettings);
         }
       },

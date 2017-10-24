@@ -3405,7 +3405,7 @@ blockquote {
 
 .calendar {
   position: absolute;
-  right: 29px;
+  right: 118px;
   display: block;
   padding: 10px 0px 10px 10px;
   border-radius: 3px 0px 3px 3px;
@@ -5236,6 +5236,24 @@ blockquote {
   float: right;
 }
 
+.calendar-button {
+  display: inline-block;
+  margin-top: 5px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  padding: 5px 10px;
+  float: right;
+  border: 1px solid #00bf8f;
+  border-radius: 5px;
+  background-color: transparent;
+  color: #00bf8f;
+}
+
+.calendar-button.calendar-button-selected {
+  background-color: #00bf8f;
+  color: #f5f5f5;
+}
+
 .logo-navbar {
   position: absolute;
   left: 0px;
@@ -5728,6 +5746,7 @@ blockquote {
     margin-left: 20px;
   }
   .calendar {
+    right: 28px;
     box-shadow: none;
   }
   .title-input {
@@ -5904,23 +5923,7 @@ blockquote {
     margin-right: 5px;
     margin-left: 5px;
   }
-  .calendar-button {
-    display: inline-block;
-    margin-top: 5px;
-    margin-right: 5px;
-    margin-bottom: 5px;
-    padding: 5px 10px;
-    float: right;
-    border: 1px solid #00bf8f;
-    border-radius: 5px;
-    background-color: transparent;
-    color: #00bf8f;
-  }
   .calendar-button:active {
-    background-color: #00bf8f;
-    color: #f5f5f5;
-  }
-  .calendar-button.calendar-button-selected {
     background-color: #00bf8f;
     color: #f5f5f5;
   }
