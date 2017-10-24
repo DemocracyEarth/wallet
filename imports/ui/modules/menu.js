@@ -225,59 +225,37 @@ const getUserList = (array) => {
 };
 
 /**
-/* @summary constructs object for delegates menu (aka chat)
+* @summary constructs object for delegates menu (aka chat)
+* @return {object} an object with userId, received & sent delegations
 */
 const _getDelegatesMenu = () => {
   let users = [];
   let delegations = [];
+  let sent;
+  let received;
+  let source;
+  const politics = [];
   const transactions = _.filter(Transactions.find({ kind: 'DELEGATION' }).fetch(),
     (item) => { return (item.input.entityId === Meteor.userId() || item.output.entityId === Meteor.userId()); }, 0);
 
-  console.log(transactions);
   if (transactions.length > 0) {
     delegations = _.uniq(_.pluck(transactions, 'contractId'));
     for (const i in delegations) {
-      console.log(`delegation: ${delegations[i]} has ${getVotes(delegations[i], Meteor.userId())} votes`);
-      if (getVotes(delegations[i], Meteor.userId()) > 0) {
-        const source = Contracts.findOne({ _id: delegations[i] });
-        if (source !== undefined) {
-          users = _searchContract(source, users);
-        }
+      source = Contracts.findOne({ _id: delegations[i] });
+      if (source !== undefined) {
+        users = _searchContract(source, users);
+        sent = getVotes(delegations[i], Meteor.userId());
+        received = getVotes(delegations[i], users[users.length - 1]);
+        politics.push({
+          userId: users[users.length - 1],
+          sent,
+          received,
+        });
       }
     }
   }
 
-  // search contracts
-  /*
-  if (Meteor.user()) {
-    const contracts = Contracts.find({
-      collectiveId: Meteor.settings.public.Collective._id,
-      signatures: { $elemMatch: { username: Meteor.user().username } },
-    }).fetch();
-
-    console.log(contracts);
-    for (const i in contracts) {
-      users = _searchContract(contracts[i], users);
-    }
-  }
-  */
-
-  return users;
-};
-
-/**
-/* @summary builds the menu for the sidebar
-/* @param {string} feed - option selected from url query.
-*/
-const sidebarMenu = (feed) => {
-  _getDecisionsMenu(feed);
-
-  // specific to user
-  if (Meteor.user() !== null) {
-    _getDelegatesMenu(feed);
-  } else {
-    Session.set('menuDelegates', undefined);
-  }
+  return politics;
 };
 
 /**
@@ -449,6 +427,5 @@ const animateMenu = (disableAnimation) => {
 export const getDelegatesMenu = _getDelegatesMenu;
 export const toggleSelectedItem = _toggleSelectedItem;
 export const toggleSidebar = animateMenu;
-export const setSidebarMenu = sidebarMenu;
 export const sidebarWidth = _sidebarWidth;
 export const sidebarPercentage = _sidebarPercentage;

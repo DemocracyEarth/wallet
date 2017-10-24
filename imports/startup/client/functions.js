@@ -450,8 +450,6 @@ const _setSessionVars = (params) => {
     feed = _getQueryFeed(params.query);
     _loadFeed(feed);
   }
-
-  setSidebarMenu(feed);
 };
 
 const _getNavbarAction = (path) => {

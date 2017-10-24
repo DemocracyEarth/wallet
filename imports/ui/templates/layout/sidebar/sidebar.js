@@ -4,6 +4,7 @@ import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { gui } from '/lib/const';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import { sidebarWidth, sidebarPercentage, getDelegatesMenu } from '/imports/ui/modules/menu';
 import { showFullName } from '/imports/startup/both/modules/utils';
@@ -67,7 +68,7 @@ function getDelegates() {
   const delegates = getDelegatesMenu();
   const delegateList = [];
   for (const i in delegates) {
-    delegateList.push(Meteor.users.find({ _id: delegates[i] }).fetch()[0]);
+    delegateList.push(Meteor.users.find({ _id: delegates[i].userId }).fetch()[0]);
   }
   return getList(delegateList);
 }
@@ -95,6 +96,11 @@ const _otherMembers = () => {
   return finalList;
 };
 
+Template.sidebar.onCreated(function () {
+  Template.instance().delegates = new ReactiveVar();
+  Template.instance().members = new ReactiveVar();
+});
+
 Template.sidebar.onRendered(() => {
   $('.left').width(`${sidebarPercentage()}%`);
 
@@ -116,22 +122,25 @@ Template.sidebar.onRendered(() => {
 });
 
 Template.sidebar.helpers({
-  decisions() {
-    return Session.get('menuDecisions');
-  },
-  personal() {
-    return Session.get('menuPersonal');
-  },
   delegate() {
-    return getDelegates();
+    Template.instance().delegates.set(getDelegates());
+    return Template.instance().delegates.get();
   },
   member() {
-    return _otherMembers();
+    Template.instance().members.set(_otherMembers());
+    return Template.instance().members.get();
+    // return _otherMembers();
   },
   totalMembers() {
-    return _otherMembers().length;
+    if (Template.instance().members.get()) {
+      return Template.instance().members.get().length;
+    }
+    return 0;
   },
   totalDelegates() {
-    return getDelegates().count();
+    if (Template.instance().delegates.get()) {
+      return Template.instance().delegates.get().length;
+    }
+    return 0;
   },
 });
