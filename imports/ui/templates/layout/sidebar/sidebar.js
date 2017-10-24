@@ -52,27 +52,31 @@ function dataToMenu(user) {
 /**
 * @summary for a given db result returns list with menu options
 * @param {object} db data to parse for menu options
+* @param {boolean} sort if do alphabetical sort or not
 */
-function getList(db) {
+function getList(db, sort) {
   const members = [];
   for (const i in db) {
     members.push(dataToMenu(db[i]));
   }
-  return _.sortBy(members, (user) => { return user.label; });
+  if (sort) {
+    return _.sortBy(members, (user) => { return user.label; });
+  }
+  return members;
 }
 
 /**
 * @summary gets list of delegats for current user
 */
 function getDelegates() {
-  const delegates = getDelegatesMenu();
+  const delegates = _.sortBy(getDelegatesMenu(), (user) => { return parseInt(0 - (user.sent + user.received), 10); });
   const delegateList = [];
   for (const i in delegates) {
     delegateList.push(Meteor.users.find({ _id: delegates[i].userId }).fetch()[0]);
   }
 
   // display statistics of delegate
-  const inboxList = getList(delegateList);
+  const inboxList = getList(delegateList, false);
   for (const item in inboxList) {
     for (const delegate in delegateList) {
       if ((inboxList[item].id === delegates[delegate].userId) && (delegates[delegate].sent > 0 || delegates[delegate].received > 0)) {
@@ -89,7 +93,7 @@ function getDelegates() {
 * @summary all members of the collective without the delegates
 */
 const _otherMembers = () => {
-  const members = getList(Meteor.users.find().fetch());
+  const members = getList(Meteor.users.find().fetch(), true);
   const delegates = getDelegates();
   const finalList = [];
   let isDelegate;
