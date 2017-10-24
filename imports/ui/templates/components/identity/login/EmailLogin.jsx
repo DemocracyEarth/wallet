@@ -84,16 +84,13 @@ export default class EmailLogin extends Component {
                   <input id="signin-password" type="password" placeholder={TAPi18n.__('password-sample')} className="w-input login-input" onFocus={this.handleFocus} />
                 </div>
                 {incorrectUserState ? <div className="extra section"> <Warning label="user-not-found" /> </div> : null}
-                <button type="submit" id="signin-button" className="button login-button" onClick={this.handleSubmit}>
+                <div className="popup-text">
+                  <a id="signup" onClick={this.handleLoginRender}>{TAPi18n.__('sign-up')}</a> {TAPi18n.__('or')} <a id="forgot-pw" onClick={this.handleForgotPasswordRender}>{TAPi18n.__('recover-password')}</a>.
+                </div>
+                <div type="submit" id="signin-button" className="button login-button" onClick={this.handleSubmit}>
                   <div>{TAPi18n.__('sign-in')}</div>
-                </button>
+                </div>
               </form>
-            </div>
-            <div>
-              <a id="forgot-pw" onClick={this.handleForgotPasswordRender}>{TAPi18n.__('forgot-password')}</a>
-            </div>
-            <div>
-              {TAPi18n.__('dont-have-account')} <a id="signup" onClick={this.handleLoginRender}>{TAPi18n.__('sign-up')}</a>.
             </div>
             <SocialMediaLogin agoraMode={false} />
           </div>

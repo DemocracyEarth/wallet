@@ -5319,6 +5319,11 @@ blockquote {
   clear: both;
 }
 
+.popup-text {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
