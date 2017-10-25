@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Accounts } from 'meteor/accounts-base';
+import { Session } from 'meteor/session';
 import Warning from '../../../widgets/warning/Warning.jsx';
 
 export default class ForgotPassword extends Component {
@@ -51,22 +52,24 @@ export default class ForgotPassword extends Component {
       warning = <Warning label={warningState} />;
     }
 
+    Session.set('cardSection', true);
+
     return (
       <div className="login">
-        <form className="w-form" onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit}>
           <div className="w-clearfix login-field">
+            <div>
+              <a id="forgot-pw" onClick={this.handleForgotPasswordRender}>{TAPi18n.__('cancel-password-recovery')} </a>
+            </div>
             <label htmlFor="name" className="login-label login-label-form">{TAPi18n.__('recovery-email')}</label>
             <img src="/images/mail-closed.png" className="login-icon" alt="mail-closed" />
             <input id="recovery-email" type="text" placeholder={TAPi18n.__('email-sample')} className="w-input login-input" />
           </div>
-          <button type="submit" id="recovery-button" className="button login-button" onClick={this.handleSubmit}>
+          {warning}
+          <div type="submit" id="recovery-button" className="button login-button" onClick={this.handleSubmit}>
             <div>{TAPi18n.__('continue-password-recovery')}</div>
-          </button>
+          </div>
         </form>
-        {warning}
-        <div>
-          <a id="forgot-pw" onClick={this.handleForgotPasswordRender}>{TAPi18n.__('cancel-password-recovery')} </a>
-        </div>
       </div>
     );
   }

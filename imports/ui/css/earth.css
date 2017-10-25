@@ -3534,13 +3534,16 @@ blockquote {
   margin-bottom: -5px;
   margin-left: -10px;
   float: left;
-  opacity: 0.65;
 }
 
 .section-icon.section-icon-small {
   width: 20px;
   height: 20px;
   margin-top: 5px;
+}
+
+.section-icon.section-icon-active {
+  cursor: pointer;
 }
 
 .warning-list {
@@ -4432,7 +4435,7 @@ blockquote {
 }
 
 .card-title {
-  margin-top: 5px;
+  margin-top: 3px;
   text-transform: uppercase;
 }
 
@@ -5864,6 +5867,9 @@ blockquote {
     padding-top: 5px;
     font-size: 16px;
     text-transform: none;
+  }
+  .card-title {
+    margin-top: 5px;
   }
   .mobile-editor {
     left: 0px;

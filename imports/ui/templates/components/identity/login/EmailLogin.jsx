@@ -1,6 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { Session } from 'meteor/session';
+
 import { clearPopups } from '/imports/ui/modules/popup';
 import Warning from '../../../widgets/warning/Warning.jsx';
 import Signup from '../signup/Signup.jsx';
@@ -28,6 +30,7 @@ export default class EmailLogin extends Component {
   }
 
   handleForgotPasswordRender() {
+    Session.set('cardNavigation', (this.state.passwordKnown));
     this.setState({ passwordKnown: !(this.state.passwordKnown) });
   }
 
