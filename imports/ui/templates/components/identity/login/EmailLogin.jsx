@@ -83,10 +83,10 @@ export default class EmailLogin extends Component {
               </div>
               <div className="card-title">
                 {loginScreen ?
-                  <img src="images/fingerprint-white.png" className="section-icon" alt="lock" />
+                  <img src="/images/fingerprint-white.png" className="section-icon" alt="lock" />
                 :
                   <div id="card-back">
-                    <img src="images/back.png" className="section-icon section-icon-active" alt="lock" />
+                    <img src="/images/back.png" className="section-icon section-icon-active" alt="lock" />
                   </div>
                 }
                 {TAPi18n.__('identity')}

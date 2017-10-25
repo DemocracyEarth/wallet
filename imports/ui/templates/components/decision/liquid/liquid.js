@@ -82,13 +82,7 @@ function getPercentage(value, voteId) {
 Template.liquid.onCreated(() => {
   const wallet = new Vote(Template.instance().data.wallet, Template.instance().data.targetId, Template.instance().data._id);
   Session.set(Template.instance().data._id, wallet);
-
-  if (!Session.get('contract')) {
-    Template.instance().contract = new ReactiveVar(Template.currentData().contract);
-  } else {
-    Template.instance().contract = new ReactiveVar(Contracts.findOne({ _id: Session.get('contract')._id }));
-  }
-
+  Template.instance().contract = new ReactiveVar(Template.currentData().contract);
   Template.instance().rightToVote = new ReactiveVar(getRightToVote(Template.instance().contract.get()));
   Template.instance().candidateBallot = new ReactiveVar(Template.currentData().candidateBallot);
 });
@@ -99,6 +93,8 @@ Template.liquid.onRendered(function () {
   }
 
   const wallet = new Vote(Template.instance().data.wallet, Template.instance().data.targetId, Template.instance().data._id);
+  console.log(Template.instance().data);
+  console.log(wallet);
   Session.set(Template.instance().data._id, wallet);
 
   // real time update

@@ -62,6 +62,21 @@ const _insertVoteList = (wallet, id) => {
 };
 
 /**
+* @summary sets standard settings for a delegation contract
+*/
+const _defaultDelegationSettings = () => {
+  return {
+    condition: {
+      transferable: true,
+      portable: true,
+      tags: [],
+    },
+    currency: 'VOTES',
+    kind: 'DELEGATION',
+  };
+};
+
+/**
 * @summary updates the state of all live vote gui
 */
 const _updateState = () => {
@@ -133,7 +148,11 @@ export class Vote {
         }
         if (this.minVotes < 0) { this.minVotes = 0; }
       } else {
-        console.log('aquie el problema muneco gallardo')
+        const settings = _defaultDelegationSettings();
+        settings.title = `${convertToSlug(Meteor.users.findOne({ _id: this.userId }).username)}-${convertToSlug(Meteor.users.findOne({ _id: this.targetId }).username)}`;
+        settings.signatures = [{ username: Meteor.users.findOne({ _id: this.userId }).username }, { username: Meteor.users.findOne({ _id: this.targetId }).username }];
+        this.delegationContract = createDelegation(this.userId, this.targetId, 0, settings);
+        console.log('aquie el problema muneco gallardo');
         this.inBallot = 0;
       }
       this.balance = parseInt(this.inBallot + this.available + this.delegated, 10);
@@ -340,15 +359,7 @@ export class Vote {
 
     switch (this.voteType) {
       case 'DELEGATION':
-        settings = {
-          condition: {
-            transferable: true,
-            portable: true,
-            tags: [],
-          },
-          currency: 'VOTES',
-          kind: 'DELEGATION',
-        };
+        settings = _defaultDelegationSettings();
 
         if (this.delegationContract) {
           // there was a delegation already

@@ -62,7 +62,7 @@ export default class ForgotPassword extends Component {
           </div>
           <div className="card-title">
             <div id="card-back">
-              <img src="images/back.png" className="section-icon section-icon-active" onClick={this.handleForgotPasswordRender} alt="lock" />
+              <img src="/images/back.png" className="section-icon section-icon-active" onClick={this.handleForgotPasswordRender} alt="lock" />
             </div>
             {TAPi18n.__('identity')}
           </div>

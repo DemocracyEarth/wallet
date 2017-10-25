@@ -101,7 +101,7 @@ export default class Signup extends Component {
           </div>
           <div className="card-title">
             <div id="card-back">
-              <img src="images/back.png" className="section-icon section-icon-active" onClick={this.handleSignupRender} alt="lock" />
+              <img src="/images/back.png" className="section-icon section-icon-active" onClick={this.handleSignupRender} alt="lock" />
             </div>
             {TAPi18n.__('identity')}
           </div>

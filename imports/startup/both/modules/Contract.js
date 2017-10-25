@@ -124,7 +124,7 @@ const _sendDelegation = (sourceId, targetId, quantity, conditions, newStatus) =>
 */
 const _newDelegation = (delegatorId, delegateId, votes, settings) => {
   let finalTitle;
-  if (_getDelegationContract(delegatorId, delegateId)) { return false };
+  if (_getDelegationContract(delegatorId, delegateId)) { return false; }
 
   // creates new delegation contract
   if (!Contracts.findOne({ keyword: settings.title })) {
