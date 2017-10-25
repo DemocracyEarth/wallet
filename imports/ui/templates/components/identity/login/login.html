@@ -14,7 +14,7 @@
     </div>
     {{> profile}}
   {{else}}
-    <div class="w-clearfix paper-header card-header">
+    <!--<div class="w-clearfix paper-header card-header">
       <div class="stage stage-finish-approved stage-card stage-anon button">
         <div class="label label-corner">
           {{_ 'anonymous-mode'}}
@@ -24,17 +24,17 @@
         {{> cardNavigation}}
         {{_ 'identity'}}
       </div>
-    </div>
-    {{> logger}}
+    </div>-->
+    {{> emailLogin}}
   {{/if}}
 </template>
 
 <template name="cardNavigation">
   {{#if main}}
-    <div id="card-back">
-      <img src="{{pathFor route='home'}}images/fingerprint-white.png" class="section-icon">
-    </div>
+    <img src="{{pathFor route='home'}}images/fingerprint-white.png" class="section-icon">
   {{else}}
-    <img src="{{pathFor route='home'}}images/back.png" class="section-icon section-icon-active">
+    <div id="card-back">
+      <img src="{{pathFor route='home'}}images/back.png" class="section-icon section-icon-active">
+    </div>
   {{/if}}
 </template>

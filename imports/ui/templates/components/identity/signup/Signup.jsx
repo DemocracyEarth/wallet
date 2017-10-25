@@ -92,8 +92,21 @@ export default class Signup extends Component {
     const alreadyRegisteredState = this.state.alreadyRegistered;
 
     return (
-      <div className="login">
-        <div className="w-form">
+      <div>
+        <div className="w-clearfix paper-header card-header">
+          <div className="stage stage-finish-approved stage-card stage-anon button">
+            <div className="label label-corner">
+              {TAPi18n.__('anonymous-mode')}
+            </div>
+          </div>
+          <div className="card-title">
+            <div id="card-back">
+              <img src="images/back.png" className="section-icon section-icon-active" onClick={this.handleSignupRender} alt="lock" />
+            </div>
+            {TAPi18n.__('identity')}
+          </div>
+        </div>
+        <div className="login">
           <form id="signup-new-user" name="signup-form">
             <div className="w-clearfix login-field">
               <label htmlFor="signup-username" className="login-label login-label-form">
@@ -134,7 +147,6 @@ export default class Signup extends Component {
             </div>
           </form>
         </div>
-        <div>{TAPi18n.__('already-have-account')} <a id="signup" onClick={this.handleSignupRender}>{TAPi18n.__('sign-in')}</a>.</div>
       </div>
     );
   }

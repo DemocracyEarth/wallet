@@ -52,24 +52,34 @@ export default class ForgotPassword extends Component {
       warning = <Warning label={warningState} />;
     }
 
-    Session.set('cardSection', true);
-
     return (
-      <div className="login">
-        <form onSubmit={this.handleSubmit}>
-          <div className="w-clearfix login-field">
-            <div>
-              <a id="forgot-pw" onClick={this.handleForgotPasswordRender}>{TAPi18n.__('cancel-password-recovery')} </a>
+      <div>
+        <div className="w-clearfix paper-header card-header">
+          <div className="stage stage-finish-approved stage-card stage-anon button">
+            <div className="label label-corner">
+              {TAPi18n.__('anonymous-mode')}
             </div>
-            <label htmlFor="name" className="login-label login-label-form">{TAPi18n.__('recovery-email')}</label>
-            <img src="/images/mail-closed.png" className="login-icon" alt="mail-closed" />
-            <input id="recovery-email" type="text" placeholder={TAPi18n.__('email-sample')} className="w-input login-input" />
           </div>
-          {warning}
-          <div type="submit" id="recovery-button" className="button login-button" onClick={this.handleSubmit}>
-            <div>{TAPi18n.__('continue-password-recovery')}</div>
+          <div className="card-title">
+            <div id="card-back">
+              <img src="images/back.png" className="section-icon section-icon-active" onClick={this.handleForgotPasswordRender} alt="lock" />
+            </div>
+            {TAPi18n.__('identity')}
           </div>
-        </form>
+        </div>
+        <div className="login">
+          <form onSubmit={this.handleSubmit}>
+            <div className="w-clearfix login-field">
+              <label htmlFor="name" className="login-label login-label-form">{TAPi18n.__('recovery-email')}</label>
+              <img src="/images/mail-closed.png" className="login-icon" alt="mail-closed" />
+              <input id="recovery-email" type="text" placeholder={TAPi18n.__('email-sample')} className="w-input login-input" />
+            </div>
+            {warning}
+            <div type="submit" id="recovery-button" className="button login-button" onClick={this.handleSubmit}>
+              <div>{TAPi18n.__('continue-password-recovery')}</div>
+            </div>
+          </form>
+        </div>
       </div>
     );
   }

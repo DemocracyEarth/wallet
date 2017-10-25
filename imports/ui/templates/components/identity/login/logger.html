@@ -1,26 +1,7 @@
 <template name="logger">
-  {{#if multipleLoggers}}
-    <div class="tabs" value="{{update}}">
-      <div id="tab-button" value=true tab=0 class="tab tab-active">
-        <div>{{_ "default"}}</div>
-      </div>
-      <div id="tab-button" value=false tab=1 class="tab">
-        <div>{{_ "authenticate"}}</div>
-      </div>
+  <div id="tab-view">
+    <div class="tab-content" tab=0 style="{{tabDisplay}}">
+      {{> emailLogin}}
     </div>
-    <div id="tab-view">
-      <div class="tab-content" tab=1 style="{{tabDisplay}}">
-        {{> blockchainLogin}}
-      </div>
-      <div class="tab-content" tab=0 style="{{tabDisplay}}">
-        {{> emailLogin}}
-      </div>
-    </div>
-  {{else}}
-    <div id="tab-view">
-      <div class="tab-content" tab=0 style="{{tabDisplay}}">
-        {{> emailLogin}}
-      </div>
-    </div>
-  {{/if}}
+  </div>
 </template>
