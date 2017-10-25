@@ -237,18 +237,19 @@ const _verifyVotingRight = (contractId) => {
 * @return {boolean} status - yes or no
 */
 const _verifyDelegationRight = (signatures) => {
-  if (Meteor.user() != null) {
+  console.log(signatures);
+  if (Meteor.user()) {
     for (const i in signatures) {
       if (signatures[i]._id === Meteor.user()._id) {
         switch (signatures[i].role) {
           case 'DELEGATOR':
-            if (signatures[i].status === 'PENDING') {
+            if (signatures[i].status === 'CONFIRMED') {
               return true;
             }
             return false;
           case 'DELEGATE':
           default:
-            if (signatures[i].status === 'PENDING') {
+            if (signatures[i].status === 'CONFIRMED') {
               return false;
             }
             return false;

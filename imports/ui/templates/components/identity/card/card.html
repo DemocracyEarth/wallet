@@ -5,6 +5,7 @@
       {{#if currentUser}}
         {{#unless myself}}
           {{#with voteSettings}}
+            el llamado viene de aca.
             {{> liquid _id=this.voteId sourceId=this.sourceId contract=contract targetId=this.targetId wallet=this.wallet editable=true}}
           {{/with}}
         {{else}}
