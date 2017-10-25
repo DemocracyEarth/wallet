@@ -67,7 +67,7 @@ const _positionCard = (element, target, pop) => {
     if (spaceRight < (target.width - (target.width / 2))) {
       // not enough space on the right for Popup centering
       left = parseInt((source.left - target.width) + source.width, 10);
-      pointer = parseInt((target.width - (source.width / 2)) - 10, 10);
+      pointer = parseInt((target.width - (source.width / 2)) - 12, 10);
     } else {
       // enough space on the right, popup is centered.
       left = parseInt((source.left - (target.width / 2)) + (source.width / 2), 10);
@@ -77,7 +77,7 @@ const _positionCard = (element, target, pop) => {
   } else if (spaceLeft < (target.width - (target.width / 2))) {
     // not enough space on left
     left = parseInt(source.left, 10);
-    pointer = parseInt((source.width / 2) - 10, 10);
+    pointer = parseInt((source.width / 2) - 12, 10);
   } else {
     // enough space on left;
     left = parseInt((source.left - (target.width / 2)) + (source.width / 2), 10);
