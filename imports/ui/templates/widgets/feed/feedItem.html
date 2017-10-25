@@ -1,12 +1,9 @@
 <template name="feedItem">
 
-  {{#if delegationMode kind}}
+  {{#if delegationMode}}
 
-    <!--
-    @NOTE this will be left for version 0.2
     {{> transaction this}}
-    -->
-    
+
   {{else}}
     <div id="feedItem-{{_id}}" class="vote vote-search vote-feed nondraggable">
 

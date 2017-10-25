@@ -12,7 +12,6 @@ import { Vote } from '/imports/ui/modules/Vote';
 import { contractReady, purgeBallot, candidateBallot, getRightToVote, getBallot, setBallot } from '/imports/ui/modules/ballot';
 import { clearPopups } from '/imports/ui/modules/popup';
 import { Contracts } from '/imports/api/contracts/Contracts';
-import { fn } from '/imports/startup/client/functions';
 
 import './liquid.html';
 import '../action/action.js';

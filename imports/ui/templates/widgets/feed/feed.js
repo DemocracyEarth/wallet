@@ -8,12 +8,6 @@ import './feed.html';
 import './feedItem.js';
 import './feedEmpty.js';
 
-Template.feed.onRendered(function () {
-  /* if ($('.right').scrollTop() > 0) {
-    $('.right').animate({ scrollTop: 0 });
-  }*/
-});
-
 Template.feed.helpers({
   item() {
     const feed = Contracts.find(this.query, { sort: this.sort, skip: this.skip, limit: this.limit }).fetch();

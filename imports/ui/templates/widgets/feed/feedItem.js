@@ -87,11 +87,8 @@ Template.feedItem.helpers({
     }
     return false;
   },
-  delegationMode(kind) {
-    if (kind === 'DELEGATION') {
-      return true;
-    }
-    return false;
+  delegationMode() {
+    return (this.kind === 'DELEGATION');
   },
   feedContract() {
     return Contracts.findOne({ _id: this._id });

@@ -1,31 +1,34 @@
 <template name="transaction">
   <li class="vote vote-delegation vote-feed vote-search w-clearfix">
-    <div class="ticket-trim"></div>
-    <div class="transaction-actors w-clearfix">
-      <div class="float-left half transaction-half w-clearfix">
+    <div class="transaction-data w-clearfix">
+      <div class="actor w-clearfix">
         <div class="identity identity-transaction w-clearfix">
         {{#with sender}}
-          {{> avatar profile=this includeName=true includeNation=true editable=false disabled=false includeRole=false allowRemove=false}}
+          {{> avatar size=24 profile=this includeName=true includeNation=true editable=false microFont=true disabled=false includeRole=false}}
         {{/with}}
         </div>
-        <img class="transaction-direction" title="{{_ 'delegates-to'}}" src="{{pathFor route='home'}}images/arrow-right.png">
       </div>
-      <div class="float-left half transaction-half">
+      <div class="actor">
+        <img src="{{pathFor route='home'}}images/arrow-right.png" class="transaction-direction">
+      </div>
+      <div class="actor">
         {{#with receiver}}
-          {{> avatar profile=this includeName=true includeNation=true editable=false disabled=false includeRole=false allowRemove=false}}
+          {{> avatar size=24 profile=this includeName=true includeNation=true editable=false microFont=true disabled=false includeRole=false}}
         {{/with}}
       </div>
-    </div>
-    <div class="transaction w-clearfix">
-      <div class="sort-score transaction-score">
-        <div class="currency-label">{{value}}</div>
+      <div class="actor">
+        <div class="transaction-value">
+          <div class="bar-labels">
+            <div class="vote-available label-votes">
+              <div class="stage stage-finish-approved">
+                <div class="label label-corner">
+                  {{value}} {{_ 'votes'}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="cards transaction-score">
-        <a href="{{url}}">
-          {{source}}
-        </a>
-      </div>
     </div>
-    <div class="ticket-trim ticket-trim-down"></div>
   </li>
 </template>

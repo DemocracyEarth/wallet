@@ -1254,7 +1254,6 @@ blockquote {
   display: inline-block;
   overflow: hidden;
   width: 100%;
-  min-height: 60px;
   padding: 15px;
   border: 5px solid #f5f5f5;
   border-radius: 8px;
@@ -1281,14 +1280,10 @@ blockquote {
 
 .vote.vote-search.vote-feed.vote-delegation {
   overflow: visible;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  border-style: none solid;
-  border-width: 1px;
-  border-color: #cacaca;
-  border-radius: 2px;
-  background-color: #f5f5f5;
-  box-shadow: none;
+  padding: 0px;
+  border-radius: 10px;
+  background-color: #f7f7f7;
+  box-shadow: 0 5px 15px -12px #000;
 }
 
 .vote.vote-placeholder {
@@ -4965,13 +4960,11 @@ blockquote {
 
 .transaction-actors {
   display: block;
-  margin-right: 60px;
 }
 
 .transaction-direction {
-  width: 40px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  width: 24px;
+  margin-top: 10px;
 }
 
 .arrow-down {
@@ -5328,6 +5321,22 @@ blockquote {
   margin-bottom: 20px;
 }
 
+.actor {
+  overflow: hidden;
+  width: 25%;
+  padding-right: 10px;
+  padding-left: 10px;
+  float: left;
+  text-align: center;
+}
+
+.transaction-value {
+  margin-top: 5px;
+  margin-right: -10px;
+  margin-left: auto;
+  float: right;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
@@ -5355,10 +5364,6 @@ blockquote {
   }
   .vote.vote-search {
     width: 100%;
-  }
-  .vote.vote-search.vote-feed.vote-delegation {
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
   }
   .vote.vote-placeholder {
     display: block;
@@ -5624,6 +5629,9 @@ blockquote {
   }
   .vote.vote-search.vote-feed {
     margin-bottom: 10px;
+    box-shadow: none;
+  }
+  .vote.vote-search.vote-feed.vote-delegation {
     box-shadow: none;
   }
   .option {
