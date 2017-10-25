@@ -73,8 +73,8 @@ export default class ForgotPassword extends Component {
               <label htmlFor="name" className="login-label login-label-form">{TAPi18n.__('recovery-email')}</label>
               <img src="/images/mail-closed.png" className="login-icon" alt="mail-closed" />
               <input id="recovery-email" type="text" placeholder={TAPi18n.__('email-sample')} className="w-input login-input" />
+              {warning}
             </div>
-            {warning}
             <div type="submit" id="recovery-button" className="button login-button" onClick={this.handleSubmit}>
               <div>{TAPi18n.__('continue-password-recovery')}</div>
             </div>
