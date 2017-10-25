@@ -93,12 +93,8 @@ Template.liquid.onRendered(function () {
   }
 
   const wallet = new Vote(Template.instance().data.wallet, Template.instance().data.targetId, Template.instance().data._id);
-  console.log(wallet);
   if (wallet.voteType === 'DELEGATION') {
-    console.log(wallet.delegationContract);
-    console.log(getRightToVote(wallet.delegationContract));
     Template.instance().rightToVote.set(getRightToVote(wallet.delegationContract));
-    console.log(Template.instance().rightToVote.get());
     Template.instance().contract.set(wallet.delegationContract);
   }
   Session.set(Template.instance().data._id, wallet);

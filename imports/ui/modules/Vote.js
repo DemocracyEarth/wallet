@@ -152,7 +152,6 @@ export class Vote {
         settings.title = `${convertToSlug(Meteor.users.findOne({ _id: this.userId }).username)}-${convertToSlug(Meteor.users.findOne({ _id: this.targetId }).username)}`;
         settings.signatures = [{ username: Meteor.users.findOne({ _id: this.userId }).username }, { username: Meteor.users.findOne({ _id: this.targetId }).username }];
         this.delegationContract = createDelegation(this.userId, this.targetId, 0, settings);
-        console.log('aquie el problema muneco gallardo');
         this.inBallot = 0;
       }
       this.balance = parseInt(this.inBallot + this.available + this.delegated, 10);
