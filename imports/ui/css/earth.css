@@ -4364,6 +4364,11 @@ blockquote {
   line-height: 24px;
   font-weight: 400;
   text-shadow: none;
+  cursor: pointer;
+}
+
+.collective-title:hover {
+  text-decoration: underline;
 }
 
 .collective-stat {

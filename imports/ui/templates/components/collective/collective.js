@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { Router } from 'meteor/iron:router';
 
 import './collective.html';
 
@@ -18,5 +19,11 @@ Template.collective.helpers({
   },
   hasLogo() {
     return (Meteor.settings.public.Collective.profile.logo !== undefined);
+  },
+});
+
+Template.collective.events({
+  'click #collective-home'() {
+    Router.go('/');
   },
 });
