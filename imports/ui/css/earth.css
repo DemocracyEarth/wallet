@@ -1282,9 +1282,9 @@ blockquote {
   overflow: hidden;
   width: auto;
   margin-right: 10px;
-  margin-bottom: 10px;
   padding: 0px 10px;
-  float: none;
+  float: left;
+  clear: both;
   border-radius: 10px;
   background-color: #f7f7f7;
   box-shadow: 0 5px 15px -12px #000;
@@ -5654,7 +5654,6 @@ blockquote {
     box-shadow: none;
   }
   .vote.vote-search.vote-feed.vote-delegation {
-    margin-bottom: 0px;
     box-shadow: none;
   }
   .option {
