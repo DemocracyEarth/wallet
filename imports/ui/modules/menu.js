@@ -246,11 +246,13 @@ const _getDelegatesMenu = () => {
         users = _searchContract(source, users);
         sent = getVotes(delegations[i], Meteor.userId());
         received = getVotes(delegations[i], users[users.length - 1]);
-        politics.push({
-          userId: users[users.length - 1],
-          sent,
-          received,
-        });
+        if (parseInt(sent + received, 10) !== 0) {
+          politics.push({
+            userId: users[users.length - 1],
+            sent,
+            received,
+          });
+        }
       }
     }
   }

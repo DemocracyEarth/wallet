@@ -11,13 +11,14 @@ Template.transaction.helpers({
     return this.signatures[1]._id;
   },
   value() {
+    // TODO: this data should be from ledger
     return this.wallet.available;
   },
   source() {
     return TAPi18n.__('delegated-votes');
   },
   emptyVotes() {
-    console.log(this);
+    // TODO: this data should be from ledger
     if (this.wallet.available === 0) {
       return 'display:none';
     }
