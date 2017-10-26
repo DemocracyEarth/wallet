@@ -66,6 +66,7 @@ const _buildQuery = (params) => {
         break;
       case 'username':
       case 'peer':
+        query.stage = { $ne: 'DRAFT' };
         query.signatures = {
           $elemMatch: {
             username: params[key],

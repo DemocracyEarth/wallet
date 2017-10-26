@@ -140,6 +140,7 @@ const _newDelegation = (delegatorId, delegateId, votes, settings) => {
       keyword: finalTitle,
       title: TAPi18n.__('delegation-voting-rights'),
       kind: 'DELEGATION',
+      stage: 'LIVE',
       description: TAPi18n.__('default-delegation-contract'),
       signatures: [
         {
