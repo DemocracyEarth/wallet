@@ -1279,8 +1279,12 @@ blockquote {
 }
 
 .vote.vote-search.vote-feed.vote-delegation {
-  overflow: visible;
-  padding: 0px;
+  overflow: hidden;
+  width: auto;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  padding: 0px 10px;
+  float: none;
   border-radius: 10px;
   background-color: #f7f7f7;
   box-shadow: 0 5px 15px -12px #000;
@@ -2085,6 +2089,9 @@ blockquote {
 
 .identity.identity-transaction {
   display: inline-block;
+  overflow: hidden;
+  height: 40px;
+  margin-top: -3px;
   margin-right: 0px;
   margin-left: 0px;
 }
@@ -2705,6 +2712,18 @@ blockquote {
 
 .identity-peer.pending {
   opacity: 0.25;
+}
+
+.identity-peer.identity-peer-flex {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  overflow: hidden;
+  height: 12px;
+  margin-top: 16px;
+  margin-left: 30px;
+  float: none;
 }
 
 .fact-votes {
@@ -4964,7 +4983,7 @@ blockquote {
 
 .transaction-direction {
   width: 24px;
-  margin-top: 10px;
+  height: 24px;
 }
 
 .arrow-down {
@@ -5322,17 +5341,26 @@ blockquote {
 }
 
 .actor {
-  overflow: hidden;
-  width: 25%;
-  padding-right: 10px;
-  padding-left: 10px;
-  float: left;
+  padding-right: 20px;
   text-align: center;
 }
 
+.actor.actor-arrow {
+  min-width: 50px;
+}
+
+.actor.actor-score {
+  padding-right: 0px;
+  float: right;
+}
+
+.transaction-data {
+  float: left;
+}
+
 .transaction-value {
-  margin-top: 5px;
-  margin-right: -10px;
+  margin-top: 2px;
+  margin-right: -15px;
   margin-left: auto;
   float: right;
 }
@@ -5392,9 +5420,6 @@ blockquote {
     min-width: 350px;
     margin-left: 0px;
     float: right;
-  }
-  .identity.identity-transaction {
-    float: none;
   }
   .option-link {
     max-width: 70%;
@@ -5516,9 +5541,6 @@ blockquote {
   .transaction-actors {
     margin-right: 0px;
   }
-  .transaction-direction {
-    display: none;
-  }
   .mobile-editor-topbar {
     position: fixed;
     background-color: #fff;
@@ -5632,6 +5654,7 @@ blockquote {
     box-shadow: none;
   }
   .vote.vote-search.vote-feed.vote-delegation {
+    margin-bottom: 0px;
     box-shadow: none;
   }
   .option {
@@ -5945,6 +5968,15 @@ blockquote {
     background-color: #00bf8f;
     color: #f5f5f5;
   }
+  .actor {
+    padding-right: 0px;
+  }
+  .actor.actor-score {
+    right: 0px;
+  }
+  .transaction-data {
+    max-width: 75%;
+  }
 }
 
 @media (max-width: 479px) {
@@ -6041,6 +6073,9 @@ blockquote {
   }
   .vote.vote-search {
     box-shadow: none;
+  }
+  .vote.vote-search.vote-feed.vote-delegation {
+    width: 100%;
   }
   .option-title.input {
     height: 40px;

@@ -157,7 +157,7 @@ Template.avatar.helpers({
     if (smallFont) {
       style = 'identity-small';
     } else {
-      style = '';
+      style = 'identity-peer-flex';
     }
 
     if (this.disabled === true) {
