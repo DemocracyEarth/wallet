@@ -5967,14 +5967,8 @@ blockquote {
     background-color: #00bf8f;
     color: #f5f5f5;
   }
-  .actor {
-    padding-right: 0px;
-  }
   .actor.actor-score {
     right: 0px;
-  }
-  .transaction-data {
-    max-width: 75%;
   }
 }
 
@@ -6240,6 +6234,12 @@ blockquote {
   .section-editor-separator {
     margin: 10px 5px;
     border-top: 1px dotted #00bf8f;
+  }
+  .actor {
+    padding-right: 0px;
+  }
+  .transaction-data {
+    max-width: 75%;
   }
 }
 

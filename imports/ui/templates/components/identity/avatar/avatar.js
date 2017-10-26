@@ -153,17 +153,17 @@ Template.avatar.helpers({
     return guidGenerator();
   },
   classStyle(smallFont) {
-    let style = String();
+    let style = '';
+
     if (smallFont) {
       style = 'identity-small';
-    } else {
-      style = 'identity-peer-flex';
     }
-
-    if (this.disabled === true) {
+    if (this.flex) {
+      style += ' identity-peer-flex';
+    }
+    if (this.disabled) {
       style += ' profile-pic-disabled';
     }
-
     return style;
   },
   profilePicture(profile) {
