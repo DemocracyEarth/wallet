@@ -29,6 +29,7 @@ import { HTTP } from 'meteor/http';
 
 import { toggleSidebar } from '/imports/ui/modules/menu';
 import { globalObj } from '/lib/global';
+import { geo } from '/lib/geo';
 
 import './main.html';
 import '../widgets/modal/modal';
@@ -78,10 +79,10 @@ Meteor.startup(() => {
   });
 
   // geographical Info
-  HTTP.get(Meteor.absoluteUrl('data/geo.json'), (err, result) => {
-    globalObj.geoJSON = result.data;
-    Session.set('filteredCountries', result.data.country);
-  });
+  // HTTP.get(Meteor.absoluteUrl('data/geo.json'), (err, result) => {
+  // });
+  globalObj.geoJSON = geo;
+  Session.set('filteredCountries', geo.country);
 });
 
 Template.main.onRendered(() => {

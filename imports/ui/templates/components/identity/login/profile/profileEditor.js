@@ -4,7 +4,7 @@ import { Session } from 'meteor/session';
 
 import { validateUsername } from '/imports/startup/both/modules/User';
 import { searchJSON } from '/imports/ui/modules/JSON';
-import { globalObj } from '/lib/global';
+import { geo } from '/lib/geo';
 
 import './profileEditor.html';
 import '../../avatar/avatar.js';
@@ -44,8 +44,8 @@ Template.profileEditor.helpers({
   },
   noUsernameFound() {
     return Session.get('noUsernameFound');
-  }
-})
+  },
+});
 
 Template.profileEditor.events({
   'focus .country-search'() {
@@ -56,9 +56,9 @@ Template.profileEditor.events({
   },
   'input .country-search'(event) {
     if (event.target.value !== '') {
-      Session.set('filteredCountries', searchJSON(globalObj.geoJSON.country, event.target.value));
+      Session.set('filteredCountries', searchJSON(geo.country, event.target.value));
     } else {
-      Session.set('filteredCountries', globalObj.geoJSON.country);
+      Session.set('filteredCountries', geo.country);
     }
   },
   'click #skip-step'() {
@@ -77,8 +77,8 @@ Template.profileEditor.events({
       Session.set('noUsernameFound', false);
 
       // Save
-      let data = Meteor.user().profile;
-      let editUsername = document.getElementById('editUserName').value;
+      const data = Meteor.user().profile;
+      const editUsername = document.getElementById('editUserName').value;
       data.firstName = document.getElementById('editFirstName').value;
       data.lastName = document.getElementById('editLastName').value;
 
