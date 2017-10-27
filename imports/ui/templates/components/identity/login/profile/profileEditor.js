@@ -66,6 +66,7 @@ Template.profileEditor.events({
     Session.set('newCountry', undefined);
     data.configured = true;
     Meteor.users.update(Meteor.userId(), { $set: { profile: data } });
+    Session.set('cardNavigation', false);
   },
   'click #save-profile'() {
     if (document.getElementById('editFirstName').value === '') {

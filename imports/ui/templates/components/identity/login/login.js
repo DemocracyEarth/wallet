@@ -27,6 +27,10 @@ Template.login.events({
 
 Template.cardNavigation.events({
   'click #card-back'() {
+    const data = Meteor.user().profile;
+    Session.set('newCountry', undefined);
+    data.configured = true;
+    Meteor.users.update(Meteor.userId(), { $set: { profile: data } });
     Session.set('cardNavigation', false);
   },
 });

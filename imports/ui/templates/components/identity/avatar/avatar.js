@@ -232,6 +232,7 @@ Template.avatar.events({
     const data = Meteor.user().profile;
     data.configured = false;
     Meteor.users.update(Meteor.userId(), { $set: { profile: data } });
+    Session.set('cardNavigation', true);
   },
   'click #removeSignature'() {
     if (Meteor.Device.isPhone()) {
