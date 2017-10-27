@@ -453,6 +453,12 @@ Template.bar.helpers({
   placed() {
     return agreement(this._id, this.editable);
   },
+  min() {
+    if (agreement(this._id, this.editable).toNumber() > 0) {
+      return 'min-width: 10px;';
+    }
+    return '';
+  },
   unanimous(value) {
     const quantity = parseInt(Session.get(this._id)[value] - Session.get(this._id).inBallot, 10);
     if (quantity === Session.get(this._id).balance) {

@@ -70,7 +70,6 @@ function getList(db, sort) {
 */
 function getDelegates() {
   const delegates = _.sortBy(getDelegatesMenu(), (user) => { return parseInt(0 - (user.sent + user.received), 10); });
-  console.log(delegates);
   const delegateList = [];
   for (const i in delegates) {
     delegateList.push(Meteor.users.find({ _id: delegates[i].userId }).fetch()[0]);
