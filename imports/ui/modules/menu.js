@@ -234,9 +234,27 @@ const _getDelegatesMenu = () => {
   let sent;
   let received;
   let source;
+  let contracts = [];
   const politics = [];
+
+  // unilaterally received delegations
+  if (Meteor.user()) {
+    contracts = _.pluck(Contracts.find({ signatures: { $elemMatch: { username: Meteor.user().username } } }).fetch(), '_id');
+  }
+
+  // sent delegations
   const transactions = _.filter(Transactions.find({ kind: 'DELEGATION' }).fetch(),
-    (item) => { return (item.input.entityId === Meteor.userId() || item.output.entityId === Meteor.userId()); }, 0);
+    (item) => {
+      if (contracts.length > 0) {
+        for (const signed in contracts) {
+          if (item.input.entityId === contracts[signed] || item.output.entityId === contracts[signed]) {
+            return true;
+          }
+        }
+      }
+      return (item.input.entityId === Meteor.userId() || item.output.entityId === Meteor.userId());
+    }, 0);
+
 
   if (transactions.length > 0) {
     delegations = _.uniq(_.pluck(transactions, 'contractId'));

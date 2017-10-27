@@ -79,8 +79,6 @@ Meteor.startup(() => {
   });
 
   // geographical Info
-  // HTTP.get(Meteor.absoluteUrl('data/geo.json'), (err, result) => {
-  // });
   globalObj.geoJSON = geo;
   Session.set('filteredCountries', geo.country);
 });
