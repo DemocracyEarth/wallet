@@ -235,7 +235,6 @@ export class Vote {
     const MAX_PERCENTAGE_PRECISION = 7;
     const barWidth = $(`#voteBar-${this.voteId}`).width();
     const placedWidth = $(`#votePlaced-${this.voteId}`).width();
-    console.log(placedWidth);
     const precisionRange = parseInt((MAX_PERCENTAGE_PRECISION * barWidth) / 100, 10);
     const precisionValue = parseInt((inputPixels * MAX_VOTES_PRECISION) / precisionRange, 10);
 
