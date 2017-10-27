@@ -3,6 +3,7 @@ import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 
+import { genesisTransaction } from '/imports/api/transactions/transaction';
 import { showResults, updateExecutionStatus } from '/imports/ui/modules/ballot';
 import { Vote } from '/imports/ui/modules/Vote';
 import { verifyDelegationRight, verifyVotingRight, getProfileFromUsername } from '../both/modules/User';
@@ -11,6 +12,7 @@ import { Contracts, schemaContract } from '../../api/contracts/Contracts';
 import { Tags } from '../../api/tags/Tags';
 import { Collectives } from '../../api/collectives/Collectives';
 import { toggleSidebar, setSidebarMenu } from '../../ui/modules/menu';
+
 
 /**
 * private methods for effective routing
@@ -517,11 +519,7 @@ const _clearSessionVars = () => {
   // ensure user gets funds
   if (Meteor.user() != null) {
     if (_userHasEmptyWallet()) {
-      Meteor.call('genesisTransaction', Meteor.user()._id, (error) => {
-        if (error) {
-          console.log(`[genesisTransaction] ERROR: ${error}`);
-        }
-      });
+      genesisTransaction(Meteor.userId());
     }
   }
 };
