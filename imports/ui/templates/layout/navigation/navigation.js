@@ -62,7 +62,7 @@ function hideBar() {
 * @summary verifies if current screen should have back button on navbar
 */
 function displayBackButton() {
-  return (Meteor.Device.isPhone() && (Router.current().url.search('/vote') >= 0 || Router.current().url.search('/peer') >= 0));
+  return (Meteor.Device.isPhone() && (Router.current().url.search('/idea/') >= 0 || Router.current().url.search('/peer/') >= 0));
 }
 
 /**

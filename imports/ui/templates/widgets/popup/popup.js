@@ -12,7 +12,7 @@ function autoPosition(height) {
   console.log('TEST - autoPosition()');
   const screenH = $(window).height();
   let pos = parseInt(((screenH - height) / 2) - 10, 10);
-  if (pos <= 70) { 
+  if (pos <= 70) {
     console.log('TEST - pos <=70');
     pos = 70;
   }
@@ -72,6 +72,9 @@ Template.popup.events({
     }
   },
   'click .modal'(event) {
+    console.log('click');
+    console.log(event.target.id);
+    console.log(this.id);
     event.stopPropagation();
     if (event.target.id === this.id) {
       animatePopup(false, this.id);

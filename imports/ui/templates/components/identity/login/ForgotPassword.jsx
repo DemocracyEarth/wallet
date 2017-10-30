@@ -75,12 +75,6 @@ export default class ForgotPassword extends Component {
               <input id="recovery-email" type="text" placeholder={TAPi18n.__('email-sample')} className="w-input login-input" />
               {warning}
             </div>
-            <div className="w-clearfix login-field">
-              <label htmlFor="name" className="login-label login-label-form">TESTING, TO REMOVE</label>
-              <img src="/images/mail-closed.png" className="login-icon" alt="mail-closed" />
-              <input id="recovery-email" type="text" placeholder="TESING, TO REMOVE" className="w-input login-input" />
-              {warning}
-            </div>
             <div type="submit" id="recovery-button" className="button login-button" onClick={this.handleSubmit}>
               <div>{TAPi18n.__('continue-password-recovery')}</div>
             </div>
