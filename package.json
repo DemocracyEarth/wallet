@@ -33,7 +33,8 @@
     "nan": "^2.3.5",
     "react": "^15.6.2",
     "react-addons-pure-render-mixin": "^15.6.2",
-    "react-dom": "^15.6.2"
+    "react-dom": "^15.6.2",
+    "react-fastclick": "^3.0.2"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.0",
@@ -73,7 +74,15 @@
       "import/prefer-default-export": "off",
       "no-underscore-dangle": "off",
       "guard-for-in": "off",
-      "import/no-unresolved": ["error", { "ignore": ["^meteor/", "^/"] }],
+      "import/no-unresolved": [
+        "error",
+        {
+          "ignore": [
+            "^meteor/",
+            "^/"
+          ]
+        }
+      ],
       "no-restricted-syntax": "off",
       "max-len": [
         "error",
