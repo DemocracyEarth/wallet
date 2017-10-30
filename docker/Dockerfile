@@ -1,5 +1,9 @@
 FROM victorhundo/meteor
 
+ARG USER_ID
+ARG GROUP_ID
+
+RUN usermod -u $USER_ID meteor && groupmod -g $USER_ID meteor
 USER meteor
 WORKDIR /app
 
