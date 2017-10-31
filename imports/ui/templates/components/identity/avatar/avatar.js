@@ -226,7 +226,7 @@ Template.avatar.helpers({
 
 Template.avatar.events({
   'change input[type="file"]'(event, instance) {
-    uploadToAmazonS3({ event: event, template: instance });
+    uploadToAmazonS3({ event, template: instance });
   },
   'click #toggleEditor'() {
     const data = Meteor.user().profile;

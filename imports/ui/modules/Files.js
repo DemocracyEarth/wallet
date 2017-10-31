@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
+import { Slingshot } from 'meteor/edgee:slingshot';
 
 import { displayNotice } from './notice';
 import { animate } from './animation';
@@ -19,6 +20,7 @@ let _setPlaceholderText = (string = TAPi18n.__('upload-picture')) => {
 let _addUrlToDatabase = (url) => {
   Meteor.call('storeUrlInDatabase', url, (error) => {
     if (error) {
+      console.log(error);
       displayNotice(error.reason, true);
 
       _setPlaceholderText();
@@ -34,11 +36,13 @@ let _addUrlToDatabase = (url) => {
 };
 
 
-let _uploadFileToAmazon = ( file ) => {
-  const uploader = new Slingshot.Upload( "uploadToAmazonS3" );
+const _uploadFileToAmazon = (file) => {
+  const uploader = new Slingshot.Upload('uploadToAmazonS3');
+  console.log(uploader);
 
   uploader.send(file, (error, url) => {
     if (error) {
+      console.log(error);
       displayNotice(error.message, true);
 
       _setPlaceholderText();

@@ -4,10 +4,10 @@ import { Session } from 'meteor/session';
 
 import { Files } from '/imports/api/files/Files';
 
-let _validateEmail = (email) => {
-  var val = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const _validateEmail = (email) => {
+  const val = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  //TODO verify if email already exists in db
+  // TODO verify if email already exists in db
 
   Session.set("invalidEmail", !val.test(email));
   return val.test(email);
