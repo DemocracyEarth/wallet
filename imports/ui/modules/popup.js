@@ -149,7 +149,6 @@ const _animate = (display, id) => {
     $(divId).css('opacity', '0');
     $(divId).velocity({ opacity: 1 }, { duration: (animationSettings.duration / 2) });
   } else {
-    console.log('HIDE IT');
     $(divId).css('opacity', '1');
     $(divId).velocity({ opacity: 0 }, {
       duration: (animationSettings.duration / 2),
