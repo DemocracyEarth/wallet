@@ -115,8 +115,6 @@ Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mas
 * 🇨🇴 Report on [2016 Colombia Referendum](https://medium.com/@DemocracyEarth/a-digital-referendum-for-colombias-diaspora-aeef071ec014#.xbyqt3blq).
 * 🇺🇳 OECD Report on [Blockchain Voting for Peace](https://www.oecd.org/gov/innovative-government/embracing-innovation-in-government-colombia.pdf).
 
-> _Note:_ Live deploy coming soon.
-
 ## Specifications
 
 * Built on [Meteor](https://www.meteor.com/) version 1.5.0
