@@ -26,6 +26,7 @@ const _validateUrl = (url) => {
     return { valid: false, error: 'Sorry, this file already exists!' };
   }
   if (_isNotAmazonUrl(url)) {
+    console.log(url);
     return { valid: false, error: `Sorry, this isn't a valid URL! ${url}` };
   }
   return { valid: true };

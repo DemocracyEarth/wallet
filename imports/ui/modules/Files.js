@@ -9,28 +9,27 @@ import { animate } from './animation';
 
 let template;
 
-let _getFileFromInput = (event) => {
+const _getFileFromInput = (event) => {
   return event.target.files[0];
 };
 
-let _setPlaceholderText = (string = TAPi18n.__('upload-picture')) => {
+const _setPlaceholderText = (string = TAPi18n.__('upload-picture')) => {
   template.find('.uploader-button').innerText = string;
 };
 
-let _addUrlToDatabase = (url) => {
+const _addUrlToDatabase = (url) => {
   Meteor.call('storeUrlInDatabase', url, (error) => {
     if (error) {
-      console.log(error);
       displayNotice(error.reason, true);
 
       _setPlaceholderText();
     } else {
-      //Success
-      var data = Meteor.user().profile;
+      // Success
+      const data = Meteor.user().profile;
       displayNotice(TAPi18n.__('new-profile-pic'), true);
       _setPlaceholderText();
       data.picture = url;
-      Meteor.users.update(Meteor.userId(), { $set: { profile : data }})
+      Meteor.users.update(Meteor.userId(), { $set: { profile: data } });
     }
   });
 };
@@ -38,11 +37,9 @@ let _addUrlToDatabase = (url) => {
 
 const _uploadFileToAmazon = (file) => {
   const uploader = new Slingshot.Upload('uploadToAmazonS3');
-  console.log(uploader);
 
   uploader.send(file, (error, url) => {
     if (error) {
-      console.log(error);
       displayNotice(error.message, true);
 
       _setPlaceholderText();
@@ -52,45 +49,39 @@ const _uploadFileToAmazon = (file) => {
   });
 };
 
-let upload = (options) => {
+const upload = (options) => {
   template = options.template;
-  let file = _getFileFromInput(options.event);
+  const file = _getFileFromInput(options.event);
 
   _setPlaceholderText(TAPi18n.__('uploading'));
   _uploadFileToAmazon(file);
 };
 
 
-let URLStatus = (sessionVar) => {
+const URLStatus = (sessionVar) => {
   switch (Session.get(sessionVar)) {
-    case "VERIFY":
+    case 'VERIFY':
       return TAPi18n.__('url-verify');
-      break;
-    case "UNAVAILABLE":
+    case 'UNAVAILABLE':
       return TAPi18n.__('url-unavailable');
-      break;
-    case "AVAILABLE":
+    case 'AVAILABLE':
       return TAPi18n.__('url-available');
-      break;
     default:
       return 'invalid-value';
   }
 };
 
-let verifierMode = (sessionVar) => {
+const verifierMode = (sessionVar) => {
   switch (Session.get(sessionVar)) {
-    case "VERIFY":
+    case 'VERIFY':
       animate($('.state'), 'tilt', { loop: true, duration: 750 });
       return 'verifying';
-      break;
-    case "UNAVAILABLE":
+    case 'UNAVAILABLE':
       animate($('.state'), 'fade-in');
       return 'unavailable';
-      break;
-    case "AVAILABLE":
+    case 'AVAILABLE':
       animate($('.state'), 'fade-in');
       return 'available';
-      break;
     default:
       return 'hide';
   }

@@ -6,8 +6,8 @@
      }
    },
 
- "AWSAccessKeyId": "AKIAINY5L2CTMJSXWM2A",
- "AWSSecretAccessKey": "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",
+ "AWSAccessKeyId": "",
+ "AWSSecretAccessKey": "",
  "smtpServer": "",
 
   "private": {
@@ -25,9 +25,9 @@
       },
 
       "amazon": {
-        "AWSBucket": "vote-democracy-earth",
-        "AWSRegion": "us-west-2",
-        "AWSAcl": "public-read"
+        "AWSBucket": "",
+        "AWSRegion": "",
+        "AWSAcl": ""
       }
 
     }
@@ -36,7 +36,7 @@
 
   "public": {
 
-    "AWSHostingURL": "http://vote-democracy-earth.s3-website-us-west-2.amazonaws.com",
+    "AWSHostingURL": "",
 
     "app": {
 
