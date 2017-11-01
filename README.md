@@ -9,14 +9,14 @@
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/599/badge)](https://bestpractices.coreinfrastructure.org/projects/599)
 [![Code Climate](https://codeclimate.com/github/DemocracyEarth/sovereign/badges/gpa.svg)](https://codeclimate.com/github/DemocracyEarth/sovereign)
 
-Sovereign is a decentralized governance platform for small & large organizations.
+Sovereign is a token based liquid democracy software.
 
 Read our 📃 [open source white paper](https://github.com/DemocracyEarth/paper).
 
 See our 🇫🇷 [Paris 2016 conference](http://youtube.com/watch?v=UajbQTHnTfM) presentation.
 
 <p align="center">
-<img src="public/images/sovereign-screenshot.png" width="800" title="Sovereign Screenshot">
+<img src="public/images/sovereign-screenshot-2017.png" width="800" title="Sovereign Screenshot 2017">
 </p>
 
 **Features:**
@@ -38,7 +38,7 @@ See our 🇫🇷 [Paris 2016 conference](http://youtube.com/watch?v=UajbQTHnTfM)
 
 **Release:**
 
-[`version 1.0.1-alpha`](https://github.com/DemocracyEarth/sovereign/releases/tag/v1.0.1-alpha)
+[`version 1.0.2-alpha`](https://github.com/DemocracyEarth/sovereign/releases/tag/v1.0.2-alpha)
 
 **Also:**
 
