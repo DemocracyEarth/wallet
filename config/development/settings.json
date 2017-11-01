@@ -26,8 +26,8 @@
 
       "amazon": {
         "AWSBucket": "",
-        "AWSRegion": "",
-        "AWSAcl": ""
+        "AWSRegion": "us-west-2",
+        "AWSAcl": "public-read"
       }
 
     }
