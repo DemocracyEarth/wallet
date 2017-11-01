@@ -106,24 +106,21 @@ Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mas
 
     🕊
 
-## Demos
+## Live
 
-Implementations:
+* 🌎 Democracy Earth Foundation: [vote.democracy.earth](https://vote.democracy.earth).
 
-* 🌎 Official Site: [democracy.earth](http://democracy.earth).
-* 🇨🇴 Report on [Colombia Referendum](https://medium.com/@DemocracyEarth/a-digital-referendum-for-colombias-diaspora-aeef071ec014#.xbyqt3blq).
+### Reports
+
+* 🇨🇴 Report on [2016 Colombia Referendum](https://medium.com/@DemocracyEarth/a-digital-referendum-for-colombias-diaspora-aeef071ec014#.xbyqt3blq).
+* 🇺🇳 OECD Report on [Blockchain Voting for Peace](https://www.oecd.org/gov/innovative-government/embracing-innovation-in-government-colombia.pdf).
 
 > _Note:_ Live deploy coming soon.
 
 ## Specifications
 
-Built on [Meteor](https://www.meteor.com/) version 1.4.2
-
-* Rapid cross platform deployment (web + desktop + mobile).
-* Simple code structure.
-* Fast and reliable stack (node + mongo).
-
-Designed with [Webflow](https://www.webflow.com).
+* Built on [Meteor](https://www.meteor.com/) version 1.5.0
+* Designed with [Webflow](https://www.webflow.com).
 
 Check our [documentation](https://github.com/DemocracyEarth/sovereign/tree/master/docs) for technical reference.
 
