@@ -16,7 +16,7 @@ describe('accounts', function () {
         id: 1,
         first_name: 'neymar',
         last_name: 'jr',
-        link: 'http://facebook.com/neymarjr',
+        link: 'https://facebook.com/neymarjr',
       };
 
       const userId = Accounts.updateOrCreateUserFromExternalService(

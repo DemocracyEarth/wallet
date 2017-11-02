@@ -6,9 +6,9 @@
      }
    },
 
- "AWSAccessKeyId": "",
- "AWSSecretAccessKey": "",
- "smtpServer": "",
+  "AWSAccessKeyId": "",
+  "AWSSecretAccessKey": "",
+  "smtpServer": "",
 
   "private": {
 

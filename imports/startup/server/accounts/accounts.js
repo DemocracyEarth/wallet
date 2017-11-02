@@ -13,7 +13,7 @@ function normalizeFacebookUser(profile, user) {
   });
 
   const userProfile = _.extend(profile, {
-    picture: `http://graph.facebook.com/${user.services.facebook.id}/picture/?type=large`,
+    picture: `https://graph.facebook.com/${user.services.facebook.id}/picture/?type=large`,
     firstName: user.services.facebook.first_name,
     lastName: user.services.facebook.last_name,
     credentials: credential,
