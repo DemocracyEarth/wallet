@@ -7,7 +7,6 @@ body {
   font-size: 18px;
   line-height: 28px;
   font-weight: 300;
-  -webkit-tap-highlight-color: transparent;
 }
 
 h1 {
@@ -3210,9 +3209,9 @@ blockquote {
 
 .stage.stage-vote-totals {
   border-style: solid;
-  border-color: #8865a5;
-  background-color: #8865a5;
-  color: #fff;
+  border-color: #ccbcda;
+  background-color: #ccbcda;
+  color: #6c5b7c;
 }
 
 .profile-thumb {

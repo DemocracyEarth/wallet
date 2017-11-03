@@ -113,7 +113,7 @@ Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mas
 ### Reports
 
 * 🇨🇴 Report on [2016 Colombia Referendum](https://medium.com/@DemocracyEarth/a-digital-referendum-for-colombias-diaspora-aeef071ec014#.xbyqt3blq).
-* 🇺🇳 OECD Report on [Blockchain Voting for Peace](https://www.oecd.org/gov/innovative-government/embracing-innovation-in-government-colombia.pdf).
+* 🗺 OECD Report on [Blockchain Voting for Peace](https://www.oecd.org/gov/innovative-government/embracing-innovation-in-government-colombia.pdf).
 
 ## Specifications
 
@@ -180,4 +180,4 @@ Also check our [donors list](DONORS.md).
 ## License
 
 This software is under an [MIT License](LICENSE.md).
-Some rights reserved, 2015 - 2017 [Democracy Earth Foundation](http://democracy.earth).
+Some rights reserved, 2015 - 2018 [Democracy Earth Foundation](http://democracy.earth).
