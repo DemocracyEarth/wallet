@@ -222,6 +222,12 @@ Template.avatar.helpers({
   flag(profile) {
     return getNation(profile, true);
   },
+  sidebarIcon() {
+    if (this.sidebar) {
+      return 'avatar-icon-box';
+    }
+    return '';
+  },
 });
 
 Template.avatar.events({

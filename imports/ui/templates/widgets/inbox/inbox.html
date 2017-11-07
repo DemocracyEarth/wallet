@@ -11,7 +11,8 @@
     <a id='menuButton' href="{{url}}">
       <li id='sidebar-button-{{id}}' class="menu-item {{selected}} w-clearfix" feed="{{feed}}">
         {{#if isAvatar}}
-            <img class="symbol profile-pic profile-inbox " src="{{icon}}">
+          {{> avatar size=24 profile=this.id includeName=false includeNation=false editable=false microFont=true disabled=false includeRole=false sidebar=true}}
+          <!--<img class="symbol profile-pic profile-inbox " src="{{icon}}">-->
         {{else}}
           {{#if selected}}
             <img class="icon-inbox" src="{{pathFor route='home'}}{{iconActivated}}">
