@@ -17,8 +17,10 @@ import { transact, getVotes } from '/imports/api/transactions/transaction';
 * @param {string} targetId the id of the targeted element
 * @return {string} type VOTE, DELEGATION, UNKNOWN
 */
-const _getVoteType = (targetId) => {
-  if (targetId === Meteor.userId()) { return 'BALANCE'; }
+const _getVoteType = (targetId, sessionId) => {
+  if (targetId === Meteor.userId() || sessionId.first(17) === 'vote-user-balance') {
+    return 'BALANCE';
+  }
   const contract = Contracts.findOne({ _id: targetId });
   if (contract) {
     return contract.kind;
@@ -132,7 +134,7 @@ export class Vote {
     this.initialized = true;
     this.enabled = true;
     this.mode = 'PENDING';
-    this.voteType = _getVoteType(targetId);
+    this.voteType = _getVoteType(targetId, sessionId);
     this.targetId = targetId;
     this.sourceId = sourceId;
     this.maxVotes = parseInt(this.available + this.inBallot, 10);

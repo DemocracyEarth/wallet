@@ -1,13 +1,16 @@
 <template name="card">
   <div class="login">
       {{> avatar profile=this includeName=true includeNation=true editable=false disabled=true includeRole=false}}
+
+      {{#with profile}}
+        {{> liquid _id=this.balanceId targetId=this.targetId wallet=this.wallet isDelegation=false editable=false hideBar=true balanceMode=true}}
+      {{/with}}
+
       {{#if currentUser}}
         {{#unless myself}}
-
           <div class="login-label title-label">
             {{_ 'delegation-status'}}
           </div>
-
           {{#with voteSettings}}
             {{> liquid _id=this.voteId sourceId=this.sourceId contract=contract targetId=this.targetId wallet=this.wallet editable=true}}
           {{/with}}

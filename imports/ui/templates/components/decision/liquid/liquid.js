@@ -429,7 +429,7 @@ Template.capital.helpers({
           return 'stage-finish-rejected';
         }
         if (Session.get(this._id).voteType === 'BALANCE') {
-          return 'stage-finish-approved';
+          return 'stage-placed';
         }
         return 'stage-placed';
       case 'received':

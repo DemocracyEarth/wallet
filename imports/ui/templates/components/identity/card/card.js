@@ -21,4 +21,12 @@ Template.card.helpers({
   contract() {
     return getDelegationContract(Meteor.userId(), this._id);
   },
+  profile() {
+    const userId = this.toString();
+    return {
+      balanceId: `vote-user-balance-${userId}`,
+      targetId: userId,
+      wallet: Meteor.users.findOne({ _id: userId }).profile.wallet,
+    };
+  },
 });
