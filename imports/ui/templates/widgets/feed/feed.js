@@ -11,6 +11,7 @@ import './feedEmpty.js';
 Template.feed.helpers({
   item() {
     const feed = Contracts.find(this.query, { sort: this.sort, skip: this.skip, limit: this.limit }).fetch();
+    console.log(feed);
     if (feed.length === 0) {
       Session.set('emptyFeed', true);
     } else {

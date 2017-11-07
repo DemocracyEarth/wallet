@@ -3591,7 +3591,7 @@ blockquote {
 
 .login {
   width: 100%;
-  padding: 10px 10px 5px;
+  padding: 5px 5px 0px;
   float: left;
   font-size: 14px;
   text-align: center;
@@ -3650,6 +3650,13 @@ blockquote {
 .login-label.login-label-form.login-label-split {
   width: 50%;
   float: left;
+}
+
+.login-label.title-label {
+  margin: 5px -20px 10px;
+  padding: 5px 20px;
+  border-bottom: 1px dotted #6c5b7c;
+  text-align: left;
 }
 
 .authenticate {
@@ -5980,6 +5987,9 @@ blockquote {
   }
   .actor.actor-score {
     right: 0px;
+  }
+  .avatar-icon-box {
+    max-height: 24px;
   }
 }
 

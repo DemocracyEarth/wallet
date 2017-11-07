@@ -62,7 +62,8 @@ function hideBar() {
 * @summary verifies if current screen should have back button on navbar
 */
 function displayBackButton() {
-  return (Meteor.Device.isPhone() && (Router.current().url.search('/idea/') >= 0 || Router.current().url.search('/peer/') >= 0));
+  return false;
+  // return (Meteor.Device.isPhone() && (Router.current().url.search('/idea/') >= 0 || Router.current().url.search('/peer/') >= 0));
 }
 
 /**
@@ -127,7 +128,7 @@ Template.navigation.events({
       Session.set('showPostEditor', false);
     } else if (displayBackButton()) {
       window.history.back();
-    } else if (Session.get('navbar').action === 'SIDEBAR') {
+    } else { // if (Session.get('navbar').action === 'SIDEBAR')
       toggleSidebar();
     }
   },
