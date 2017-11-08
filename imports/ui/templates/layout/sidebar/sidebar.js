@@ -71,13 +71,13 @@ function getList(db, sort) {
 function getDelegates() {
   const delegates = _.sortBy(getDelegatesMenu(), (user) => { return parseInt(0 - (user.sent + user.received), 10); });
   const delegateList = [];
-  let totalVotes = 0;
+  // let totalVotes = 0;
   for (const i in delegates) {
     delegateList.push(Meteor.users.find({ _id: delegates[i].userId }).fetch()[0]);
   }
 
   // display statistics of delegate
-  const inboxList = getList(delegateList, false);
+  /* const inboxList = getList(delegateList, false);
   for (const item in inboxList) {
     for (const delegate in delegateList) {
       totalVotes = delegateList[delegate].profile.wallet.balance;
@@ -86,9 +86,9 @@ function getDelegates() {
         break;
       }
     }
-  }
+  }*/
 
-  return inboxList;
+  return getList(delegateList, false);
 }
 
 /**

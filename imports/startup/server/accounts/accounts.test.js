@@ -27,7 +27,7 @@ describe('accounts', function () {
 
       const user = Meteor.users.findOne(userId);
 
-      assert.equal(user.profile.picture, `http://graph.facebook.com/${fbUser.id}/picture/?type=large`);
+      assert.equal(user.profile.picture, `https://graph.facebook.com/${fbUser.id}/picture/?type=large`);
       assert.equal(user.profile.firstName, fbUser.first_name);
       assert.equal(user.profile.lastName, fbUser.last_name);
       assert.equal(user.profile.credentials[0].URL, fbUser.link);
