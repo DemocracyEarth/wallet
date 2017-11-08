@@ -50,9 +50,9 @@ Router.route('/', {
     return {
       skip: 0,
       limit: gui.ITEMS_PER_PAGE,
-      query: { collectiveId: Meteor.settings.public.Collective._id, stage: 'LIVE', kind: 'VOTE' },
+      query: { collectiveId: Meteor.settings.public.Collective._id, stage: { $ne: 'DRAFT' } },
       sort: { createdAt: -1 },
-      count: Contracts.find({ collectiveId: Meteor.settings.public.Collective._id, stage: 'LIVE', kind: 'VOTE' }).count(),
+      count: Contracts.find({ collectiveId: Meteor.settings.public.Collective._id, stage: { $ne: 'DRAFT' } }).count(),
     };
   },
 });
