@@ -76,18 +76,6 @@ function getDelegates() {
     delegateList.push(Meteor.users.find({ _id: delegates[i].userId }).fetch()[0]);
   }
 
-  // display statistics of delegate
-  /* const inboxList = getList(delegateList, false);
-  for (const item in inboxList) {
-    for (const delegate in delegateList) {
-      totalVotes = delegateList[delegate].profile.wallet.balance;
-      if ((inboxList[item].id === delegates[delegate].userId) && totalVotes > 0) {
-        inboxList[item].label += ` <span class='sidebar-tag'>${totalVotes} ${TAPi18n.__('votes')}</span>`;
-        break;
-      }
-    }
-  }*/
-
   return getList(delegateList, false);
 }
 
