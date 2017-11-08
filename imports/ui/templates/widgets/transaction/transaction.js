@@ -20,7 +20,7 @@ Template.transaction.helpers({
   emptyVotes() {
     // TODO: this data should be from ledger
     if (this.wallet.available === 0) {
-      return 'display:none';
+      // return 'display:none';
     }
     return '';
   },
