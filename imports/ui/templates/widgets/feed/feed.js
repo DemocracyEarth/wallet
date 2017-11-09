@@ -16,10 +16,6 @@ const _sanitize = (feed) => {
   return _.filter(feed, (value) => { return ((value.kind === 'DELEGATION' && value.wallet.available > 0) || (value.kind !== 'DELEGATION')); });
 };
 
-Template.feed.onCreated(function () {
-  // Template.instance().feed = new ReactiveVar(_sanitize(Contracts.find(Template.currentData().query, { sort: Template.currentData().sort, skip: Template.currentData().skip, limit: Template.currentData().limit }).fetch()));
-});
-
 Template.feed.helpers({
   item() {
     return _sanitize(Contracts.find(Template.currentData().query, {
