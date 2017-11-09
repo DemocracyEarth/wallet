@@ -17,22 +17,16 @@ const _sanitize = (feed) => {
 };
 
 Template.feed.onCreated(function () {
-  Template.instance().feed = new ReactiveVar(_sanitize(Contracts.find(Template.currentData().query, { sort: Template.currentData().sort, skip: Template.currentData().skip, limit: Template.currentData().limit }).fetch()));
+  // Template.instance().feed = new ReactiveVar(_sanitize(Contracts.find(Template.currentData().query, { sort: Template.currentData().sort, skip: Template.currentData().skip, limit: Template.currentData().limit }).fetch()));
 });
 
 Template.feed.helpers({
   item() {
-    const feed = Template.instance().feed.get();
-    console.log(feed);
-    if (feed.length === 0) {
-      Session.set('emptyFeed', true);
-    } else {
-      Session.set('emptyFeed', false);
-    }
-    return feed;
-  },
-  emptyFeed() {
-    return Session.get('emptyFeed');
+    return _sanitize(Contracts.find(Template.currentData().query, {
+      sort: Template.currentData().sort,
+      skip: Template.currentData().skip,
+      limit: Template.currentData().limit,
+    }).fetch());
   },
   emptyContent() {
     return Session.get('emptyContent');
