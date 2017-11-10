@@ -17,16 +17,17 @@ A Roma, <3
 
 */
 import { Meteor } from 'meteor/meteor';
+
 import { Collectives } from '../../api/collectives/Collectives';
 
 
 // This script runs the first time Democracy Earth gets implemented on a server.
-console.log(Meteor.settings.public.app.name + ' version: ' + Meteor.settings.public.app.version + ' codename: ' + Meteor.settings.public.app.codename );
+console.log(`[startup] ${Meteor.settings.public.app.name} version: ${Meteor.settings.public.app.version} codename: ${Meteor.settings.public.app.codename}`);
 
 function setupCollectiveInApp(collective) {
   Meteor.settings.public.Collective._id = collective._id;
-  console.log('[startup] This server is being run by collective ' + collective.name);
-  console.log('[startup] The collective can be reached with id ' + collective._id);
+  console.log(`[startup] This server is being run by collective ${collective.name}`);
+  console.log(`[startup] The collective can be reached with id ${collective._id}`);
 }
 
 Meteor.startup(() => {
@@ -47,60 +48,52 @@ Meteor.startup(() => {
     // Organization has no Collective in db yet
     console.log('[startup] Installing democracy in server...');
     if (Meteor.settings.public.Collective === undefined) {
-      console.log('[WARNING] Collective was not found. Please setup settings.json on config/development')
+      console.log('[WARNING] Collective was not found. Please setup settings.json on config/development');
     } else {
       console.log('[startup] Setting up main Collective in database...');
-      Collectives.insert(Meteor.settings.public.Collective, function(error, result) {
-        if (error) console.log ( "[ERROR] Could not add main collective to database. " + error );
+      Collectives.insert(Meteor.settings.public.Collective, function (error, result) {
+        if (error) console.log(`[ERROR] Could not add main collective to database. ${error}`);
         if (result) {
-          console.log ( "[startup] Main collective set up with id " + result );
+          console.log(`[startup] Main collective set up with id ${result}`);
           setupCollectiveInApp(Collectives.findOne({ domain: Meteor.settings.public.Collective.domain }));
         }
       });
     }
   }
 
-  console.log('[setup] Verifying key configuration for this instance...');
+  console.log('[config] Verifying key configuration for this instance...');
 
   // AWS
-  if (Meteor.settings.AWSAccessKeyId == undefined || Meteor.settings.AWSAccessKeyId == "") {
-    console.log('[setup WARNING] Amazon Web Services for resource storage keys not configured.');
-    console.log('[setup FIX] Configure `AWSAccessKeyId`, `AWSSecretAccessKey` and `public.AWSHostingURL` on settings.json.');
+  if (Meteor.settings.AWSAccessKeyId === undefined || Meteor.settings.AWSAccessKeyId === '') {
+    console.log('[config WARNING] Amazon Web Services for resource storage keys not configured.');
+    console.log('[config FIX] Configure `AWSAccessKeyId`, `AWSSecretAccessKey` and `public.AWSHostingURL` on settings.json.');
   } else {
-    console.log('[setup] Amazon Web Services for resource storage in cloud... OK');
+    console.log('[config] Amazon Web Services for resource storage in cloud... OK');
   }
 
   // smtpServer
   if (Meteor.settings.smtpServer === undefined || Meteor.settings.smtpServer === '') {
-    console.log('[setup WARNING] Mailgun SMTP server keys not configured.');
-    console.log('[setup FIX] Configure `smtpServer` on settings.json.');
+    console.log('[config WARNING] Mailgun SMTP server keys not configured.');
+    console.log('[config FIX] Configure `smtpServer` on settings.json.');
   } else if (Meteor.settings.public.app.config.mailNotifications === true) {
-    console.log('[setup] Mailgun SMTP server for e-mail notificiations... OK');
+    console.log('[config] Mailgun SMTP server for e-mail notificiations... OK');
   } else {
-    console.log('[setup] Mailgun SMTP server for e-mail notificiations.... DISABLED');
+    console.log('[config] Mailgun SMTP server for e-mail notificiations.... DISABLED');
   }
 
   // Facebook
-  if (Meteor.settings.private.API.facebook.appId == undefined || Meteor.settings.private.API.facebook.appId == "") {
-    console.log('[setup WARNING] Facebook API keys not configured.');
-    console.log('[setup FIX] Configure `private.API.facebook.appId` and `private.API.facebook.appSecret` on settings.json.');
+  if (Meteor.settings.private.API.facebook.appId === undefined || Meteor.settings.private.API.facebook.appId === '') {
+    console.log('[config WARNING] Facebook API keys not configured.');
+    console.log('[config FIX] Configure `private.API.facebook.appId` and `private.API.facebook.appSecret` on settings.json.');
   } else {
-    console.log('[setup] Facebook API key for identity login... OK');
+    console.log('[config] Facebook API key for identity login... OK');
   }
 
   // Twitter
-  if (Meteor.settings.private.API.twitter.APIKey == undefined || Meteor.settings.private.API.twitter.APIKey == "") {
-    console.log('[setup WARNING] Twitter API keys not configured.');
-    console.log('[setup FIX] Configure `private.API.twitter.APIKey` and `private.API.twitter.APISecret` on settings.json.');
+  if (Meteor.settings.private.API.twitter.APIKey === undefined || Meteor.settings.private.API.twitter.APIKey === '') {
+    console.log('[config WARNING] Twitter API keys not configured.');
+    console.log('[config FIX] Configure `private.API.twitter.APIKey` and `private.API.twitter.APISecret` on settings.json.');
   } else {
-    console.log('[setup] Twitter API key for identity login... OK');
+    console.log('[config] Twitter API key for identity login... OK');
   }
-
-  //Kadira
-/*  if (Meteor.settings.kadira.appId == undefined || Meteor.settings.kadira.appId == "") {
-    console.log('-- MISSING SETTING: Kadira keys for performance app testing not configured.');
-    console.log('-- FIX: Configure `kadira.appId` and `kadira.appSecret` on settings.json.');
-  } else {
-    console.log('Kadira keys for performance app testing... OK');
-  }*/
 });

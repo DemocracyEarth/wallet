@@ -16,6 +16,18 @@ const _sanitize = (feed) => {
   return _.filter(feed, (value) => { return ((value.kind === 'DELEGATION' && value.wallet.available > 0) || (value.kind !== 'DELEGATION')); });
 };
 
+Template.feed.onCreated(function () {
+  const instance = this;
+
+  instance.autorun(function () {
+    instance.subscribe('feed', {
+      view: 'latest',
+      limit: Template.currentData().limit,
+      skip: Template.currentData().skip,
+    });
+  });
+});
+
 Template.feed.helpers({
   item() {
     return _sanitize(Contracts.find(Template.currentData().query, {

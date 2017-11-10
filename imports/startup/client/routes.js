@@ -34,7 +34,11 @@ Router.route('/', {
   waitOn() {
     // Feed data will come from here:
     if (Meteor.settings.public.Collective) {
-      return [Meteor.subscribe('contracts', { collectiveId: Meteor.settings.public.Collective._id }), Meteor.subscribe('userData'), Meteor.subscribe('transactions')];
+      return [
+        // Meteor.subscribe('contracts', { collectiveId: Meteor.settings.public.Collective._id }),
+        // Meteor.subscribe('userData'),
+        // Meteor.subscribe('transactions'),
+      ];
     }
     return null;
   },
