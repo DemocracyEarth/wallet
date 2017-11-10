@@ -1,6 +1,5 @@
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
-import { ReactiveVar } from 'meteor/reactive-var';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
 
@@ -21,20 +20,16 @@ Template.feed.onCreated(function () {
 
   instance.autorun(function () {
     instance.subscribe('feed', {
-      view: 'latest',
-      limit: Template.currentData().limit,
+      view: Template.currentData().view,
       skip: Template.currentData().skip,
+      limit: Template.currentData().limit,
     });
   });
 });
 
 Template.feed.helpers({
   item() {
-    return _sanitize(Contracts.find(Template.currentData().query, {
-      sort: Template.currentData().sort,
-      skip: Template.currentData().skip,
-      limit: Template.currentData().limit,
-    }).fetch());
+    return _sanitize(Contracts.find().fetch());
   },
   emptyContent() {
     return Session.get('emptyContent');

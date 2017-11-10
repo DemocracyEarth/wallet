@@ -61,6 +61,28 @@ const getNation = (profile, flagOnly) => {
   return TAPi18n.__('digital-citizen');
 };
 
+Template.avatar.onCreated(function () {
+  console.log(this);
+
+  const instance = this;
+
+  instance.autorun(function () {
+    let subscription;
+    console.log(instance.data);
+    if (instance.data) {
+      console.log(`subscribing ${instance.data.profile}`);
+      subscription = instance.subscribe('singleUser', instance.data.profile);
+
+      if (subscription.ready()) {
+        console.log('user ready');
+        console.log(Meteor.users.find().fetch());
+      } else {
+        console.log('user not ready');
+      }
+    }
+  });
+});
+
 Template.avatar.onRendered = () => {
   Session.set('editor', false);
 };

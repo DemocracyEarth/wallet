@@ -1,4 +1,7 @@
 import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
+
+import { guidGenerator } from '/imports/startup/both/modules/crypto';
 
 // The user fields we are willing to publish.
 const USER_FIELDS = {
@@ -8,7 +11,7 @@ const USER_FIELDS = {
 
 
 // This will be used to store the subscription objects for later management
-var subs = { };
+const subs = {};
 
 // The helper publication
 Meteor.publish('helperPublication', function() {
@@ -26,48 +29,37 @@ Meteor.publish('helperPublication', function() {
 });
 
 Meteor.publish("userData", function () {
-  return Meteor.users.find({}, {fields: { profile: 1, username: 1 }});
+  return Meteor.users.find({}, { fields: { profile: 1, username: 1 } });
 });
 
-Meteor.publish('singleUser', function (userId) {
+Meteor.publish('singleUser', (userId) => {
+  check(userId, String);
 
-  if (userId == undefined) {
-    return '000'
-  } else {
-    console.log('[Meteor.publish] singleUser called with userId ' + userId);
-    // Make sure userId is a string.
-    check(userId, String);
+  console.log(`[publish] singleUser called for userId ${userId}`);
+  return Meteor.users.find({ _id: userId }, { fields: { profile: 1, username: 1 } });
 
-    var newId = guidGenerator();
+  /*
+  const newId = guidGenerator();
 
-    // console.log(Meteor.users.find({ _id: userId}, {fields: {profile: 1});
-    var profile = Meteor.users.find({_id: userId}).fetch()[0].profile;
+  // console.log(Meteor.users.find({ _id: userId}, {fields: {profile: 1});
+  const profile = Meteor.users.find({ _id: userId }).fetch()[0].profile;
 
-    this.newId = newId;
-    this.profile = profile;
-    var subscription = this;
-    subs[this.userId] = subscription;
+  this.newId = newId;
+  this.profile = profile;
 
-    subscription.added( 'serverTime', newId,  {date: new Date()});
+  const subscription = this;
+  subs[this.userId] = subscription;
 
-    // #3
-    // Publish a single user - make sure only allowed fields are sent.
-    subscription.onStop(function() {
-       delete subs[this.userId];
-    });
+  subscription.added('serverTime', newId, { date: new Date() });
+  subscription.onStop(function () {
+    delete subs[this.userId];
+  });
 
-    Meteor.setInterval(function() {
-        var currentTime = new Date();
-        for (var subscriptionID in subs) {
-            var subscription = subs[subscriptionID];
-            subscription.changed( 'serverTime', newId,  {date: currentTime}  );
-        }
-    }, 1000);
-
-  }
-});
-
-// on the server
-Meteor.publish('posts', function(author) {
-  return  Meteor.users.find({}, {fields: {profile: 1}});
+  Meteor.setInterval(function () {
+    const currentTime = new Date();
+    for (const subscriptionID in subs) {
+      subs[subscriptionID].changed('serverTime', newId, { date: currentTime });
+    }
+  }, 1000);
+  */
 });

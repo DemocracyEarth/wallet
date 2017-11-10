@@ -10,7 +10,8 @@ Meteor.publish('contracts', () => {
 
 Meteor.publish('feed', (terms) => {
   check(terms, Object);
-
   const parameters = query(terms);
+
+  console.log(`[publish] generating feed with contracts for userId ${Meteor.userId()}`);
   return Contracts.find(parameters.find, parameters.options);
 });

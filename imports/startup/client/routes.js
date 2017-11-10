@@ -52,11 +52,9 @@ Router.route('/', {
   },
   data() {
     return {
+      view: 'latest',
       skip: 0,
       limit: gui.ITEMS_PER_PAGE,
-      query: { collectiveId: Meteor.settings.public.Collective._id, stage: { $ne: 'DRAFT' } },
-      sort: { createdAt: -1 },
-      count: Contracts.find({ collectiveId: Meteor.settings.public.Collective._id, stage: { $ne: 'DRAFT' } }).count(),
     };
   },
 });
