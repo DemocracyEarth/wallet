@@ -61,25 +61,41 @@ const getNation = (profile, flagOnly) => {
   return TAPi18n.__('digital-citizen');
 };
 
-Template.avatar.onCreated(function () {
-  console.log(this);
+/**
+* @summary generates a query to get user data based on dynamic ways of calling avatar template
+* @returns {object} with key and value to be used for collection query.
+*/
+const _getDynamicID = (data) => {
+  if (data) {
+    if (!data.username) {
+      if (!data._id) {
+        if (data.profile) {
+          if (data.profile._id) {
+            return {
+              _id: data.profile._id,
+            };
+          }
+          return {
+            _id: data.profile,
+          };
+        }
+      }
+      return {
+        _id: data._id,
+      };
+    }
+    return {
+      username: data.username,
+    };
+  }
+  return undefined;
+};
 
+Template.avatar.onCreated(function () {
   const instance = this;
 
   instance.autorun(function () {
-    let subscription;
-    console.log(instance.data);
-    if (instance.data) {
-      console.log(`subscribing ${instance.data.profile}`);
-      subscription = instance.subscribe('singleUser', instance.data.profile);
-
-      if (subscription.ready()) {
-        console.log('user ready');
-        console.log(Meteor.users.find().fetch());
-      } else {
-        console.log('user not ready');
-      }
-    }
+    instance.subscribe('singleUser', _getDynamicID(instance.data));
   });
 });
 
@@ -90,25 +106,13 @@ Template.avatar.onRendered = () => {
 // this turned out to be kinda polymorphic
 Template.avatar.helpers({
   url() {
-    let user;
     if (this.profile === undefined) {
       if (Meteor.user()) {
         return `/peer/${Meteor.user().username}`;
       }
-    } else if (!this.username) {
-      if (!this._id) {
-        if (this.profile._id) {
-          user = Meteor.users.findOne({ _id: this.profile._id });
-        } else {
-          user = Meteor.users.findOne({ _id: this.profile });
-        }
-      } else {
-        user = Meteor.users.findOne({ _id: this._id });
-      }
-    } else {
-      user = Meteor.users.findOne({ username: this.username });
     }
-    if (user === undefined) {
+    const user = Meteor.users.findOne(_getDynamicID(this));
+    if (!user) {
       return '#';
     }
     return `/peer/${user.username}`;
