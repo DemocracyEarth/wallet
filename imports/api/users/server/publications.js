@@ -8,7 +8,7 @@ const USER_FIELDS = {
 };
 
 Meteor.publish('userData', function () {
-  return Meteor.users.find({}, { fields: { profile: 1, username: 1 } });
+  return Meteor.users.find({}, { fields: USER_FIELDS });
 });
 
 Meteor.publish('singleUser', (query) => {

@@ -226,9 +226,11 @@ const getUserList = (array) => {
 
 /**
 * @summary constructs object for delegates menu (aka chat)
+* @param {object} contractFeed
+* @param {object} transactionFeed
 * @return {object} an object with userId, received & sent delegations
 */
-const _getDelegatesMenu = () => {
+const _getDelegatesMenu = (contractFeed, transactionFeed) => {
   let users = [];
   let delegations = [];
   let sent;
@@ -239,11 +241,13 @@ const _getDelegatesMenu = () => {
 
   // unilaterally received delegations
   if (Meteor.user()) {
-    contracts = _.pluck(Contracts.find({ signatures: { $elemMatch: { username: Meteor.user().username } } }).fetch(), '_id');
+    // contracts = _.pluck(Contracts.find({ signatures: { $elemMatch: { username: Meteor.user().username } } }).fetch(), '_id');
+    contracts = _.pluck(contractFeed, '_id');
   }
 
   // sent delegations
-  const transactions = _.filter(Transactions.find({ kind: 'DELEGATION' }).fetch(),
+  // const transactions = _.filter(Transactions.find({ kind: 'DELEGATION' }).fetch(),
+  const transactions = _.filter(transactionFeed,
     (item) => {
       if (contracts.length > 0) {
         for (const signed in contracts) {

@@ -9,6 +9,8 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { sidebarWidth, sidebarPercentage, getDelegatesMenu } from '/imports/ui/modules/menu';
 import { showFullName } from '/imports/startup/both/modules/utils';
 import { getFlag } from '/imports/ui/templates/components/identity/avatar/avatar';
+import { Contracts } from '/imports/api/contracts/Contracts';
+import { Transactions } from '/imports/api/transactions/Transactions';
 
 import './sidebar.html';
 import '../../components/collective/collective.js';
@@ -67,9 +69,11 @@ function getList(db, sort) {
 
 /**
 * @summary gets list of delegats for current user
+* @param {object} contractFeed
+* @param {object} transactionFeed
 */
-function getDelegates() {
-  const delegates = _.sortBy(getDelegatesMenu(), (user) => { return parseInt(0 - (user.sent + user.received), 10); });
+function getDelegates(contractFeed, transactionFeed) {
+  const delegates = _.sortBy(getDelegatesMenu(contractFeed, transactionFeed), (user) => { return parseInt(0 - (user.sent + user.received), 10); });
   const delegateList = [];
   // let totalVotes = 0;
   for (const i in delegates) {
@@ -105,6 +109,17 @@ const _otherMembers = () => {
 Template.sidebar.onCreated(function () {
   Template.instance().delegates = new ReactiveVar();
   Template.instance().members = new ReactiveVar();
+
+  const instance = this;
+
+  instance.autorun(function () {
+    instance.subscribe('feed', {
+      view: 'delegationContracts',
+    });
+    instance.subscribe('userTransactions', {
+      view: 'delegationTransactions',
+    });
+  });
 });
 
 Template.sidebar.onRendered(() => {
@@ -135,7 +150,10 @@ Template.sidebar.onRendered(() => {
 
 Template.sidebar.helpers({
   delegate() {
-    Template.instance().delegates.set(getDelegates());
+    Template.instance().delegates.set(getDelegates(
+      Contracts.find({ signatures: { $elemMatch: { username: Meteor.user().username } } }).fetch(),
+      Transactions.find({ kind: 'DELEGATION' }).fetch()
+    ));
     return Template.instance().delegates.get();
   },
   member() {
