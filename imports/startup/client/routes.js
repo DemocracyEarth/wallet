@@ -44,8 +44,7 @@ TODO: review this whole thing.. if possible: remove from here
   data() {
     return {
       query: { collectiveId: Meteor.settings.public.Collective._id, stage: { $ne: 'DRAFT' } },
-      options: { sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0 },
-      view: 'latest',
+      options: { view: 'latest', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0 },
       skip: 0,
       limit: gui.ITEMS_PER_PAGE,
     };

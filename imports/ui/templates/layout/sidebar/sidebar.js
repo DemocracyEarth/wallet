@@ -150,10 +150,12 @@ Template.sidebar.onRendered(() => {
 
 Template.sidebar.helpers({
   delegate() {
-    Template.instance().delegates.set(getDelegates(
-      Contracts.find({ signatures: { $elemMatch: { username: Meteor.user().username } } }).fetch(),
-      Transactions.find({ kind: 'DELEGATION' }).fetch()
-    ));
+    if (Meteor.user()) {
+      Template.instance().delegates.set(getDelegates(
+        Contracts.find({ signatures: { $elemMatch: { username: Meteor.user().username } } }).fetch(),
+        Transactions.find({ kind: 'DELEGATION' }).fetch()
+      ));
+    }
     return Template.instance().delegates.get();
   },
   member() {

@@ -28,11 +28,11 @@ Template.feed.onCreated(function () {
     }
   });
 
-  Template.currentData().options = {
+  /*Template.currentData().options = {
     view: Template.currentData().view,
     skip: Template.currentData().skip,
     limit: Template.currentData().limit,
-  };
+  };*/
 
   instance.autorun(function () {
     console.log('calling...')
