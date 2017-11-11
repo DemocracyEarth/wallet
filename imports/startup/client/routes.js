@@ -52,6 +52,8 @@ Router.route('/', {
   },
   data() {
     return {
+      query: { collectiveId: Meteor.settings.public.Collective._id, stage: { $ne: 'DRAFT' } },
+      options: { sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0 },
       view: 'latest',
       skip: 0,
       limit: gui.ITEMS_PER_PAGE,

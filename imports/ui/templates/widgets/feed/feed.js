@@ -1,5 +1,7 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
 
@@ -16,22 +18,37 @@ const _sanitize = (feed) => {
 };
 
 Template.feed.onCreated(function () {
+  Template.instance().count = new ReactiveVar(0);
+
   const instance = this;
 
+  Meteor.call('feedCount', Template.currentData().query, {}, (error, result) => {
+    if (!error) {
+      instance.count.set(result);
+    }
+  });
+
+  Template.currentData().options = {
+    view: Template.currentData().view,
+    skip: Template.currentData().skip,
+    limit: Template.currentData().limit,
+  };
+
   instance.autorun(function () {
-    instance.subscribe('feed', {
-      view: Template.currentData().view,
-      skip: Template.currentData().skip,
-      limit: Template.currentData().limit,
-    });
+    instance.subscribe('feed', Template.currentData().options);
   });
 });
 
 Template.feed.helpers({
   item() {
-    return _sanitize(Contracts.find().fetch());
+    console.log(Template.currentData());
+    const feed = Contracts.find(Template.currentData().query, Template.currentData().options);
+    return _sanitize(feed.fetch());
   },
   emptyContent() {
     return Session.get('emptyContent');
+  },
+  count() {
+    return Template.instance().count.get();
   },
 });

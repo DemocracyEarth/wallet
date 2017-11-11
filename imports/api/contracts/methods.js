@@ -1,16 +1,35 @@
 import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
+
+import { Contracts } from '/imports/api/contracts/Contracts';
+
+/*
 import { Tags } from '/imports/api/tags/Tags';
 import { convertToSlug } from '/lib/utils';
 
-import { Contracts } from './Contracts.js';
+
 import { Collectives } from '../collectives/Collectives.js';
 
 import { showFullName } from '../../startup/both/modules/utils';
+*/
 
 Meteor.methods({
+  /**
+  * @summary counts the total items on a collection.
+  * @return {number} total count.
+  */
+  feedCount(query, options) {
+    check(query, Object);
+    check(options, Object);
 
-  //CRUD for Contracts
-  //TBD: blockchain support goes here.
+    const count = Contracts.find(query, options).count();
+
+    console.log(`[method] counting ${count} feed items for ${Meteor.userId()}`);
+    return count;
+  },
+});
+
+/**
 
   'updateContractTitle'({ contractId, text }) {
     Contracts.update(contractId, { $set: { title: text } });
@@ -247,3 +266,4 @@ function createTag (tag) {
   Tags.insert({ text: tag });
   return Tags.findOne({keyword: slug});
 }
+*/
