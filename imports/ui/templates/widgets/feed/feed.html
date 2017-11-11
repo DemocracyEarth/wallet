@@ -1,8 +1,16 @@
 <template name="feed">
-  {{#each item}}
-    {{> feedItem}}
+  {{#if Template.subscriptionsReady}}
+    {{#each item}}
+      {{> feedItem}}
+    {{else}}
+      {{> feedEmpty emptyContent}}
+    {{/each}}
+    {{> paginator query=query options=options view=view skip=skip limit=limit count=count}}
   {{else}}
-    {{> feedEmpty emptyContent}}
-  {{/each}}
-  {{> paginator query=query options=options view=view skip=skip limit=limit count=count}}
+    {{> feedPlaceholder}}
+  {{/if}}
+</template>
+
+<template name="feedPlaceholder">
+  {{> feedItem placeholder=true}}
 </template>

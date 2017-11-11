@@ -31,23 +31,14 @@ Router.route('/', {
   name: 'home',
   template: 'home',
   loadingTemplate: 'load',
-  waitOn() {
-    // Feed data will come from here:
-    if (Meteor.settings.public.Collective) {
-      return [
-        // Meteor.subscribe('contracts', { collectiveId: Meteor.settings.public.Collective._id }),
-        // Meteor.subscribe('userData'),
-        // Meteor.subscribe('transactions'),
-      ];
-    }
-    return null;
-  },
   onBeforeAction() {
+/*
+TODO: review this whole thing.. if possible: remove from here
     if (Meteor.settings.public.Collective) {
       fn.clearSessionVars();
       fn.configNavbar(Meteor.settings.public.Collective.name, '/');
       fn.setSessionVars();
-    }
+    }    */
     this.next();
   },
   data() {

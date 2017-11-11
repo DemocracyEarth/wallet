@@ -35,13 +35,13 @@ Template.feed.onCreated(function () {
   };
 
   instance.autorun(function () {
+    console.log('calling...')
     instance.subscribe('feed', Template.currentData().options);
   });
 });
 
 Template.feed.helpers({
   item() {
-    console.log(Template.currentData());
     const feed = Contracts.find(Template.currentData().query, Template.currentData().options);
     return _sanitize(feed.fetch());
   },
