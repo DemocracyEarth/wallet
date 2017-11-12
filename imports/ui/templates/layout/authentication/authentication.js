@@ -7,7 +7,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { editorFadeOut } from '/imports/ui/templates/components/decision/editor/editor';
 import { publishContract } from '/imports/startup/both/modules/Contract';
 import { displayNotice } from '/imports/ui/modules/notice';
-import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
+import { displayPopup, animatePopup, clearPopups } from '/imports/ui/modules/popup';
 
 import './authentication.html';
 import '../../components/identity/avatar/avatar.js';
@@ -17,12 +17,12 @@ function isDisabled() {
 }
 
 Template.authentication.onRendered(() => {
-  Session.set('logger', false);
+  Session.set('userLoginVisible', false);
 });
 
 Template.authentication.helpers({
   toggle() {
-    if (Session.get('logger')) {
+    if (Session.get('userLoginVisible')) {
       return 'navbar-button-active';
     }
     return '';
@@ -47,13 +47,15 @@ Template.authentication.helpers({
 Template.authentication.events({
   'click #loggedUser'(event) {
     event.stopPropagation();
-    const logger = `login-${Meteor.userId()}`;
-    if (!Session.get(logger) || !Session.get(logger).visible) {
-      Session.set('logger', true);
-      displayPopup($('#loggedUser')[0], 'login', Meteor.userId(), event.type, logger);
+
+    const userLogin = "user-login"
+
+    if (!Session.get(userLogin) || !Session.get(userLogin).visible) {
+      Session.set('userLoginVisible', true);
+      displayPopup($('#loggedUser')[0], 'login', Meteor.userId(), event.type, userLogin);
     } else {
-      Session.set('logger', false);
-      animatePopup(false, logger);
+      Session.set('userLoginVisible', false);
+      animatePopup(false, userLogin);
     }
   },
   'click #navbar-post-button'() {
