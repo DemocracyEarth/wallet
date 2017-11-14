@@ -11,7 +11,7 @@
       {{/unless}}
     {{else}}
       {{#if visible}}
-        {{> feed skip=nextSkip query=query options=options limit=limit count=count}}
+        {{> feed query=query options=nextOptions count=count}}
       {{else}}
         <div id="spinner-feed"></div>
       {{/if}}

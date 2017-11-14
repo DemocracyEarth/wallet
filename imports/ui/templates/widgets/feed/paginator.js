@@ -19,7 +19,7 @@ const _aboveFold = (id) => {
 };
 
 Template.paginator.onCreated(function () {
-  Template.instance().identifier = parseInt(((this.data.limit + this.data.skip) / gui.ITEMS_PER_PAGE) + 1, 10);
+  Template.instance().identifier = parseInt(((this.data.options.limit + this.data.options.skip) / gui.ITEMS_PER_PAGE) + 1, 10);
   Template.instance().loaded = new ReactiveVar(false);
 });
 
@@ -66,7 +66,7 @@ Template.paginator.onRendered(function () {
 
 Template.paginator.helpers({
   end() {
-    return !((this.skip + this.limit) < this.count);
+    return !((this.options.skip + this.options.limit) < this.count);
   },
   empty() {
     return (this.count === 0);
@@ -77,10 +77,11 @@ Template.paginator.helpers({
   visible() {
     return Template.instance().loaded.get();
   },
-  nextSkip() {
-    let nextSkip = (this.skip + gui.ITEMS_PER_PAGE);
+  nextOptions() {
+    let nextSkip = (this.options.skip + gui.ITEMS_PER_PAGE);
     if (nextSkip > this.count) { nextSkip = this.count; }
-    return nextSkip;
+    this.options.skip = nextSkip;
+    return this.options;
   },
 });
 

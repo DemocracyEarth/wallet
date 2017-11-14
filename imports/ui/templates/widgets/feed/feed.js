@@ -36,6 +36,7 @@ Template.feed.onCreated(function () {
 
   instance.autorun(function () {
     console.log('calling...')
+    console.log(Template.currentData().options);
     instance.subscribe('feed', Template.currentData().options);
   });
 });

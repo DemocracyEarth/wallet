@@ -5,7 +5,7 @@
     {{else}}
       {{> feedEmpty emptyContent}}
     {{/each}}
-    {{> paginator query=query options=options skip=skip limit=limit count=count}}
+    {{> paginator query=query options=options count=count}}
   {{else}}
     {{> feedPlaceholder}}
   {{/if}}
