@@ -7,10 +7,10 @@
     {{/each}}
     {{> paginator query=query options=options count=count}}
   {{else}}
-    {{> feedPlaceholder}}
+    {{#if beginning}}
+      {{> feedItem placeholder=true}}
+    {{else}}
+      {{> feedLoad}}
+    {{/if}}
   {{/if}}
-</template>
-
-<template name="feedPlaceholder">
-  {{> feedItem placeholder=true}}
 </template>

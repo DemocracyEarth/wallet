@@ -8,6 +8,7 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 import './feed.html';
 import './feedItem.js';
 import './feedEmpty.js';
+import './feedLoad.js';
 
 /**
 * @summary remove delegations without votes left
@@ -35,8 +36,6 @@ Template.feed.onCreated(function () {
   };*/
 
   instance.autorun(function () {
-    console.log('calling...')
-    console.log(Template.currentData().options);
     instance.subscribe('feed', Template.currentData().options);
   });
 });
@@ -45,6 +44,9 @@ Template.feed.helpers({
   item() {
     const feed = Contracts.find(Template.currentData().query, Template.currentData().options);
     return _sanitize(feed.fetch());
+  },
+  beginning() {
+    return (Template.currentData().options.skip === 0);
   },
   emptyContent() {
     return Session.get('emptyContent');

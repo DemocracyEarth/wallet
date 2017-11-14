@@ -13,7 +13,7 @@
       {{#if visible}}
         {{> feed query=query options=nextOptions count=count}}
       {{else}}
-        <div id="spinner-feed"></div>
+        {{> feedLoad}}
       {{/if}}
     {{/if}}
   </div>
