@@ -12,6 +12,6 @@ Meteor.publish('userTransactions', (terms) => {
   check(terms, Object);
   const parameters = query(terms);
 
-  console.log(`[publish] transactions by userId ${Meteor.userId()}`);
+  console.log(`[id=${Meteor.userId()} publish] transactions by user`);
   return Transactions.find(parameters.find, parameters.options);
 });

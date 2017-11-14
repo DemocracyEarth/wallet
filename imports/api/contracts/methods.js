@@ -24,7 +24,7 @@ Meteor.methods({
 
     const count = Contracts.find(query, options).count();
 
-    console.log(`[method] counting ${count} feed items for ${Meteor.userId()}`);
+    console.log(`[id=${Meteor.userId()} method] counting ${count} feed items`);
     return count;
   },
 });

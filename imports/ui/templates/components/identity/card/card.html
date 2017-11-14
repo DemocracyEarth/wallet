@@ -9,7 +9,7 @@
       {{#if currentUser}}
         {{#unless myself}}
           <div class="login-label title-label">
-            {{_ 'delegation-status'}}
+            {{_ 'alliance'}}
           </div>
           {{#with voteSettings}}
             {{> liquid _id=this.voteId sourceId=this.sourceId contract=contract targetId=this.targetId wallet=this.wallet editable=true}}
