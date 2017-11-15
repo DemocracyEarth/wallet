@@ -133,7 +133,7 @@ const _setupDrag = () => {
           Session.set(voteId, this.newVote);
         };
 
-        Meteor.clearTimeout(this.timer);
+        //Meteor.clearTimeout(this.timer);
 
         if (voteFailure(this.newVote)) {
           cancel();

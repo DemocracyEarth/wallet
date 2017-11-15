@@ -15,7 +15,7 @@ Template.profileEditor.rendered = function rendered() {
   Session.set('showNations', false);
   Session.set('noNameFound', false);
   Session.set('noUsernameFound', false);
-}
+};
 
 Template.profileEditor.helpers({
   firstName() {
@@ -44,7 +44,7 @@ Template.profileEditor.helpers({
   },
   noUsernameFound() {
     return Session.get('noUsernameFound');
-  },
+  }
 });
 
 Template.profileEditor.events({
