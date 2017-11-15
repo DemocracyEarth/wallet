@@ -28,14 +28,15 @@ so we can use that to create a fixtures Scenario to bootstrap local development.
 
 ## Roadmap
 
-- [x] Authoring
-    - [x] Ideas without ballots
-    - [x] Ideas with ballots
-- [x] Voting
-    - [x] Receiving votes upon account creation
-    - [x] Using votes on ideas
-- [x] Debating
-    - [x] Using a chronological tree
+- [x] Exposing issues
+- [ ] Authoring
+    - [ ] Ideas without ballots
+    - [ ] Ideas with ballots
+- [ ] Voting
+    - [ ] Receiving votes upon account creation
+    - [ ] Using votes on ideas
+- [ ] Debating
+    - [ ] Using a chronological tree
 - [ ] Delegating
     - [ ] Giving votes to another citizen
 
@@ -46,7 +47,7 @@ Launch the development server :
 
     $ meteor npm run start:dev
 
-Then, _in another terminal,_ run :
+Then, _in another shell,_ run :
 
     $ chimp --chai --ddp=http://localhost:3000
 
