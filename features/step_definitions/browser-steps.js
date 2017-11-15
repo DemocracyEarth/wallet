@@ -19,7 +19,7 @@ import {
 
 export default function () {
 
-  this.Then(/^I (?:wait|pause) (?:for)? *(\d+\.\d*|\d*\.\d+) ?s(?:econds?)?$/, (seconds) => {
+  this.Then(/^I (?:wait|pause) (?:for)? *(\d+\.?\d*|\d*\.?\d+) ?s(?:econds?)?$/, (seconds) => {
     pause(seconds);
   });
 
@@ -27,6 +27,10 @@ export default function () {
     refresh();
     // We want to wait for meteor to finish hydrating the page before leaving this step
     pause(0.5);
+  });
+
+  this.Given(/^I type "(.+)"$/, (keys) => {
+    getBrowser().keys(keys);
   });
 
   this.When(/^I trigger the floating action button$/, () => {
@@ -58,8 +62,8 @@ export default function () {
   });
 
   this.When(/^I submit the idea$/, () => {
-    clickOnElement('a.button.execute.action-button');  // fix this with an id pls
-    widgets.modal.confirm();
+    clickOnElement('#navbar-post-button');
+    // widgets.modal.confirm();
   });
 
   this.When(/^I confirm my choice$/, () => {

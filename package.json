@@ -56,6 +56,7 @@
     "shell-source": "^1.1.0",
     "shelljs": "^0.7.4",
     "meteor-node-stubs": "^0.2.4",
+    "chai": "^4.1.2",
     "chai-string": "^1.3.0",
     "words-to-numbers": "^1.3.1",
     "escape-string-regexp": "^1.0.5"

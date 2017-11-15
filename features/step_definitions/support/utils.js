@@ -136,6 +136,11 @@ export const getUser = (name) => {
 
 //// SERVER REPOSITORY SUGAR ///////////////////////////////////////////////////////////////////////////////////////////
 
+export const getIdea = (query) => {
+  return models.ideas.findOne(query);
+};
+
+
 export const getIdeas = (query) => {
   return models.ideas.find(query);
 };

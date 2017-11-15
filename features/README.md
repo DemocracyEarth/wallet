@@ -30,7 +30,7 @@ so we can use that to create a fixtures Scenario to bootstrap local development.
 
 - [x] Exposing issues
 - [ ] Authoring
-    - [ ] Ideas without ballots
+    - [x] Simple Ideas (twister-like)
     - [ ] Ideas with ballots
 - [ ] Voting
     - [ ] Receiving votes upon account creation
@@ -41,7 +41,7 @@ so we can use that to create a fixtures Scenario to bootstrap local development.
     - [ ] Giving votes to another citizen
 
 
-## Run
+## How to Run
 
 Launch the development server :
 
@@ -57,7 +57,7 @@ Then, _in another shell,_ run :
 To run a specific feature or scenario, tag it with `@watch` and run chimp with `--watch`.
 
 
-## Assert
+## Assertions
 
 Assertions are done using [Chai](http://chaijs.com/).
 Basically we're throwing errors when something goes awry or against expectations.
