@@ -56,22 +56,20 @@ Router.route('/peer/:username', {
   name: 'peerFeed',
   template: 'home',
   waitOn() {
-    return [Meteor.subscribe('contracts', fn.buildQuery(this.params)), Meteor.subscribe('userData'), Meteor.subscribe('transactions')];
+    // return [Meteor.subscribe('contracts', fn.buildQuery(this.params)), Meteor.subscribe('userData'), Meteor.subscribe('transactions')];
   },
   onBeforeAction() {
-    fn.clearSessionVars();
-    fn.configNavbar(fn.buildTitle(this.params), '/peer');
-    fn.setSessionVars();
+    // fn.clearSessionVars();
+    // fn.configNavbar(fn.buildTitle(this.params), '/peer');
+    // fn.setSessionVars();
     this.next();
   },
   data() {
     const feedQuery = fn.buildQuery(this.params);
+    console.log(feedQuery);
     return {
-      skip: 0,
-      limit: gui.ITEMS_PER_PAGE,
       query: feedQuery,
-      sort: { createdAt: -1 },
-      count: Contracts.find(feedQuery).count(),
+      options: { view: 'latest', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0 },
     };
   },
 });
