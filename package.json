@@ -54,7 +54,11 @@
     "eslint-plugin-react": "^6.2.2",
     "opencollective-postinstall": "^1.0.11",
     "shell-source": "^1.1.0",
-    "shelljs": "^0.7.4"
+    "shelljs": "^0.7.4",
+    "meteor-node-stubs": "^0.2.4",
+    "chai-string": "^1.3.0",
+    "words-to-numbers": "^1.3.1",
+    "escape-string-regexp": "^1.0.5"
   },
   "eslintConfig": {
     "parser": "babel-eslint",
