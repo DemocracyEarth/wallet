@@ -85,10 +85,11 @@ function getDelegates(contractFeed, transactionFeed) {
 
 /**
 * @summary all members of the collective without the delegates
+* @param {object} currentDelegates list of delegates
 */
-const _otherMembers = () => {
+const _otherMembers = (currentDelegates) => {
   const members = getList(Meteor.users.find().fetch(), true);
-  const delegates = getDelegates();
+  const delegates = currentDelegates;
   const finalList = [];
   let isDelegate;
   for (const id in members) {
@@ -159,7 +160,7 @@ Template.sidebar.helpers({
     return Template.instance().delegates.get();
   },
   member() {
-    Template.instance().members.set(_otherMembers());
+    Template.instance().members.set(_otherMembers(Template.instance().delegates.get()));
     return Template.instance().members.get();
   },
   totalMembers() {
