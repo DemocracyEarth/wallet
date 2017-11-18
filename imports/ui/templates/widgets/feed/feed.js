@@ -20,34 +20,36 @@ const _sanitize = (feed) => {
 
 Template.feed.onCreated(function () {
   Template.instance().count = new ReactiveVar(0);
+  Template.instance().feed = new ReactiveVar();
 
   const instance = this;
 
-  /*Template.currentData().options = {
-    view: Template.currentData().view,
-    skip: Template.currentData().skip,
-    limit: Template.currentData().limit,
-  };*/
-
   instance.autorun(function () {
-    console.log('running...');
-    console.log(Template.currentData());
-
-    Meteor.call('feedCount', Template.currentData().query, {}, (error, result) => {
-      if (!error) {
-        instance.count.set(result);
-        console.log(`feed has ${result} items`);
-      }
-    });
     console.log('suscribe feed...');
-    instance.subscribe('feed', Template.currentData().options);
+    console.log(Template.currentData().query);
+    const subscription = instance.subscribe('feed', Template.currentData().options);
+
+    if (subscription.ready()) {
+      const feed = Contracts.find(Template.currentData().query, Template.currentData().options);
+      Meteor.call('feedCount', Template.currentData().query, {}, function (error, result) {
+        if (!error) {
+          instance.count.set(result);
+          instance.feed.set(_sanitize(feed.fetch()));
+          console.log(Template.currentData());
+          console.log(feed.fetch());
+          console.log(instance.feed.get());
+          console.log(`feed has ${result} items`);
+        }
+      });
+    }
   });
 });
 
 Template.feed.helpers({
   item() {
-    const feed = Contracts.find(Template.currentData().query, Template.currentData().options);
-    return _sanitize(feed.fetch());
+    // const feed = Contracts.find(Template.currentData().query, Template.currentData().options);
+    // return _sanitize(feed.fetch());
+    return Template.instance().feed.get();
   },
   beginning() {
     return (Template.currentData().options.skip === 0);
