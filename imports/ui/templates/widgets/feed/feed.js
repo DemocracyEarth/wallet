@@ -23,12 +23,6 @@ Template.feed.onCreated(function () {
 
   const instance = this;
 
-  Meteor.call('feedCount', Template.currentData().query, {}, (error, result) => {
-    if (!error) {
-      instance.count.set(result);
-    }
-  });
-
   /*Template.currentData().options = {
     view: Template.currentData().view,
     skip: Template.currentData().skip,
@@ -36,6 +30,16 @@ Template.feed.onCreated(function () {
   };*/
 
   instance.autorun(function () {
+    console.log('running...');
+    console.log(Template.currentData());
+
+    Meteor.call('feedCount', Template.currentData().query, {}, (error, result) => {
+      if (!error) {
+        instance.count.set(result);
+        console.log(`feed has ${result} items`);
+      }
+    });
+    console.log('suscribe feed...');
     instance.subscribe('feed', Template.currentData().options);
   });
 });

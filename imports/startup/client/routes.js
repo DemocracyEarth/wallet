@@ -66,7 +66,6 @@ Router.route('/peer/:username', {
   },
   data() {
     const feedQuery = fn.buildQuery(this.params);
-    console.log(feedQuery);
     return {
       query: feedQuery,
       options: { view: 'latest', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0 },

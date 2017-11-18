@@ -38,17 +38,20 @@ function labelName(user) {
 * @param {object} user database user object
 */
 function dataToMenu(user) {
-  return {
-    id: user._id,
-    label: labelName(user),
-    icon: user.profile.picture,
-    iconActivated: false,
-    feed: 'user',
-    value: true,
-    separator: false,
-    url: `/peer/${user.username}`,
-    selected: false,
-  };
+  if (user) {
+    return {
+      id: user._id,
+      label: labelName(user),
+      icon: user.profile.picture,
+      iconActivated: false,
+      feed: 'user',
+      value: true,
+      separator: false,
+      url: `/peer/${user.username}`,
+      selected: false,
+    };
+  }
+  return undefined;
 }
 
 /**

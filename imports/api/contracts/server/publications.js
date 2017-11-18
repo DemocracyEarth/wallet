@@ -12,6 +12,6 @@ Meteor.publish('feed', (terms) => {
   check(terms, Object);
   const parameters = query(terms);
 
-  console.log(`[id=${Meteor.userId()} publish] generating contracts feed.`);
+  console.log(`[publish][user=${Meteor.user().username}] generating contracts feed.`);
   return Contracts.find(parameters.find, parameters.options);
 });
