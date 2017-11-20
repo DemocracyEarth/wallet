@@ -26,8 +26,10 @@ Template.feed.onCreated(function () {
 
   instance.autorun(function () {
     console.log('suscribe feed...');
+    console.log(Template.currentData().options);
     console.log(Template.currentData().query);
     const subscription = instance.subscribe('feed', Template.currentData().options);
+    const data = Template.currentData();
 
     if (subscription.ready()) {
       const feed = Contracts.find(Template.currentData().query, Template.currentData().options);
@@ -35,9 +37,8 @@ Template.feed.onCreated(function () {
         if (!error) {
           instance.count.set(result);
           instance.feed.set(_sanitize(feed.fetch()));
-          console.log(Template.currentData());
+          console.log(data);
           console.log(feed.fetch());
-          console.log(instance.feed.get());
           console.log(`feed has ${result} items`);
         }
       });
