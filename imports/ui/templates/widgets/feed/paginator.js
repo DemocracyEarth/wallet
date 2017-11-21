@@ -32,6 +32,7 @@ Template.paginator.onRendered(function () {
   $('.right').scroll(() => {
     if (!loaded.get()) {
       if (_aboveFold(identifier)) {
+        console.log('sub feed loaded');
         loaded.set(true);
       }
     }

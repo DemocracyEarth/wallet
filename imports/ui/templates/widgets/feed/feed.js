@@ -15,6 +15,7 @@ import './feedLoad.js';
 * @param {object} feed the query from db
 */
 const _sanitize = (feed) => {
+  return feed;
   return _.filter(feed, (value) => { return ((value.kind === 'DELEGATION' && value.wallet.available > 0) || (value.kind !== 'DELEGATION')); });
 };
 
@@ -25,9 +26,6 @@ Template.feed.onCreated(function () {
   const instance = this;
 
   instance.autorun(function () {
-    console.log('suscribe feed...');
-    console.log(Template.currentData().options);
-    console.log(Template.currentData().query);
     const subscription = instance.subscribe('feed', Template.currentData().options);
     const data = Template.currentData();
 
@@ -37,19 +35,18 @@ Template.feed.onCreated(function () {
         if (!error) {
           instance.count.set(result);
           instance.feed.set(_sanitize(feed.fetch()));
-          console.log(data);
-          console.log(feed.fetch());
-          console.log(`feed has ${result} items`);
+          console.log(data.options);
+          console.log(`READY: feed has ${result} items`);
         }
       });
+    } else {
+      console.log('NOT READY');
     }
   });
 });
 
 Template.feed.helpers({
   item() {
-    // const feed = Contracts.find(Template.currentData().query, Template.currentData().options);
-    // return _sanitize(feed.fetch());
     return Template.instance().feed.get();
   },
   beginning() {

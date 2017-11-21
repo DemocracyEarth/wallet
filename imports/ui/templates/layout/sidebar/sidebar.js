@@ -95,16 +95,18 @@ const _otherMembers = (currentDelegates) => {
   const delegates = currentDelegates;
   const finalList = [];
   let isDelegate;
-  for (const id in members) {
-    isDelegate = false;
-    for (const del in delegates) {
-      if (members[id].id === delegates[del].id) {
-        isDelegate = true;
-        break;
+  if (delegates !== undefined && delegates.length > 0) {
+    for (const id in members) {
+      isDelegate = false;
+      for (const del in delegates) {
+        if (members[id].id === delegates[del].id) {
+          isDelegate = true;
+          break;
+        }
       }
-    }
-    if (!isDelegate) {
-      finalList.push(members[id]);
+      if (!isDelegate) {
+        finalList.push(members[id]);
+      }
     }
   }
   return finalList;
