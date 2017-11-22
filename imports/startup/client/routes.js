@@ -68,7 +68,7 @@ Router.route('/peer/:username', {
     const feedQuery = fn.buildQuery(this.params);
     return {
       query: feedQuery,
-      options: { view: 'latest', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0 },
+      options: { view: 'latest', sort: { createdAt: -1 }, skip: 0 },
     };
   },
 });

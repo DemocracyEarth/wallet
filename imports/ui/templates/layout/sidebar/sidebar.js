@@ -99,9 +99,11 @@ const _otherMembers = (currentDelegates) => {
     for (const id in members) {
       isDelegate = false;
       for (const del in delegates) {
-        if (members[id].id === delegates[del].id) {
-          isDelegate = true;
-          break;
+        if (delegates[del] !== undefined) {
+          if (members[id].id === delegates[del].id) {
+            isDelegate = true;
+            break;
+          }
         }
       }
       if (!isDelegate) {
