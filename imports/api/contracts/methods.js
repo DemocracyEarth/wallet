@@ -25,11 +25,6 @@ Meteor.methods({
     const count = Contracts.find(query, options).count();
 
     console.log(`[method][user=${Meteor.user().username}] counting ${count} feed items`);
-    console.log('QUERY:')
-    console.log(options);
-    console.log('RESULT:')
-    // console.log(Contracts.find(query, options).fetch());
-    console.log('---------------')
     return count;
   },
 });
