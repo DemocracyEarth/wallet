@@ -22,13 +22,13 @@ const _sanitize = (feed) => {
 Template.feed.onCreated(function () {
   Template.instance().count = new ReactiveVar(0);
   Template.instance().feed = new ReactiveVar();
+  Template.instance().refresh = new ReactiveVar(false);
 
   const instance = this;
 
   instance.autorun(function () {
     const subscription = instance.subscribe('feed', Template.currentData().options);
-    const data = Template.currentData();
-
+    instance.refresh.set((Template.currentData().options.skip === 0));
     if (subscription.ready()) {
       Template.currentData().options.limit = gui.ITEMS_PER_PAGE;
       const feed = Contracts.find(Template.currentData().query, Template.currentData().options);
@@ -36,15 +36,9 @@ Template.feed.onCreated(function () {
         if (!error) {
           instance.count.set(result);
           instance.feed.set(_sanitize(feed.fetch()));
-          console.log(`READY: feed has ${result} items`);
-          console.log(data.query);
-          console.log(data.options);
-          console.log(feed.fetch());
-          console.log('---------');
+          instance.refresh.set(false);
         }
       });
-    } else {
-      console.log('NOT READY');
     }
   });
 });
@@ -52,6 +46,9 @@ Template.feed.onCreated(function () {
 Template.feed.helpers({
   item() {
     return Template.instance().feed.get();
+  },
+  refresh() {
+    return Template.instance().refresh.get();
   },
   beginning() {
     return (Template.currentData().options.skip === 0);

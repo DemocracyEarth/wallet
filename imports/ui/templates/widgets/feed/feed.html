@@ -1,11 +1,15 @@
 <template name="feed">
   {{#if Template.subscriptionsReady}}
-    {{#each item}}
-      {{> feedItem}}
+    {{#if refresh}}
+      {{> feedItem placeholder=true}}
     {{else}}
-      {{> feedEmpty emptyContent}}
-    {{/each}}
-    {{> paginator query=query options=options count=count}}
+      {{#each item}}
+        {{> feedItem}}
+      {{else}}
+        {{> feedEmpty emptyContent}}
+      {{/each}}
+      {{> paginator query=query options=options count=count}}
+    {{/if}}
   {{else}}
     {{#if beginning}}
       {{> feedItem placeholder=true}}
