@@ -4174,6 +4174,8 @@ blockquote {
 
 .content.content-feed {
   padding: 80px 100px 10px 15px;
+  -webkit-transition: opacity 892ms ease;
+  transition: opacity 892ms ease;
 }
 
 .content.content-agora {
@@ -5381,6 +5383,17 @@ blockquote {
   max-width: 24px;
   margin: -9px 5px -15px -3px;
   float: left;
+}
+
+.option-placeholder {
+  height: 25px;
+  margin-bottom: 15px;
+  border-radius: 25px;
+  background-color: #ddd;
+}
+
+.option-placeholder.fifty {
+  width: 50%;
 }
 
 @media (max-width: 991px) {
