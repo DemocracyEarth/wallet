@@ -59,4 +59,7 @@ Template.feed.helpers({
   count() {
     return Template.instance().count.get();
   },
+  placeholderItem() {
+    return [1, 2, 3, 4, 5];
+  },
 });

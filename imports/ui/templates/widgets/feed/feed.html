@@ -1,7 +1,9 @@
 <template name="feed">
   {{#if Template.subscriptionsReady}}
     {{#if refresh}}
-      {{> feedItem placeholder=true}}
+      {{#each placeholderItem}}
+        {{> feedItem placeholder=true}}
+      {{/each}}
     {{else}}
       {{#each item}}
         {{> feedItem}}
@@ -12,7 +14,9 @@
     {{/if}}
   {{else}}
     {{#if beginning}}
-      {{> feedItem placeholder=true}}
+      {{#each placeholderItem}}
+        {{> feedItem placeholder=true}}
+      {{/each}}
     {{else}}
       {{> feedLoad}}
     {{/if}}

@@ -5,11 +5,12 @@
         <div class="meta meta-search">
           <div class="w-list-unstyled w-clearfix identity-list identity-feed-item extra">
             <div class="w-clearfix identity">
-              <!-- {{> avatar size=24 profile=this._id includeName=true includeNation=true editable=false microFont=true disabled=false includeRole=false}}-->
+              {{> avatar placeholder=true size=24}}
             </div>
             <div class="data data-feed">
-              <img class="url-icon" src="{{pathFor route='home'}}images/time.png">
-              <div class="verifier verifier-live verifier-feed"><!--{{sinceDate timestamp}}--></div>
+              <div class="verifier verifier-live verifier-feed">
+                <div class="option-placeholder short"></div>
+              </div>
             </div>
           </div>
         </div>

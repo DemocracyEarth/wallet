@@ -1,73 +1,83 @@
 <template name="avatar">
-  <div class="w-clearfix avatar-editor {{sidebarIcon}}">
-    {{#if editor}}
-      <img src="{{profilePicture}}" class="symbol profile-pic profile-pic-edit" ontouchstart="">
-      <div class="avatar-description">
-        <div class="login-label">{{_ 'profile-picture'}}</div>
+  {{#if placeholder}}
+    <div class="w-clearfix avatar-editor">
+      <div class="symbol profile-pic profile-pic-placeholder" style="{{pictureSize size includeName}}">
       </div>
-      <form id="upload">
-        <div class="">
-          <label class="button button-upload upload-button-label">
-            <input type="file">
-            <img src="{{pathFor route='home'}}images/camera.png" class="upload-icon">
-            <span class='uploader-button'>{{_ 'upload-picture'}}</span>
-          </label>
-        </div>
-      </form>
-    {{else}}
-      {{#if editable}}
-        <div id="toggleEditor" class="symbol profile-pic profile-edit" ontouchstart="">
-          <div class="label">{{_ 'edit'}}</div>
-        </div>
-      {{/if}}
-      {{#if profile}}
-        <img id="{{elementId}}" src="{{profilePicture profile}}" class="symbol profile-pic {{classStyle smallFont}} {{pending}}" style="{{pictureSize size includeName}}" ontouchstart="">
-      {{else}}
-        <img id='avatar-pic-{{elementId}}' src="{{profilePicture}}" class="symbol profile-pic {{classStyle smallFont}}" style="{{pictureSize size includeName}}" ontouchstart="">
-      {{/if}}
       <div class="identity-peer {{classStyle smallFont}} {{pending}}">
-        {{#if verifiedIdentity}}
-          <div class="identity-verified">
-            <img src="{{pathFor route='home'}}images/white-tick.png" class="identity-verified-tick">
+          <div class="option-placeholder identity-placeholder"></div>
+      </div>
+    </div>
+  {{else}}
+    <div class="w-clearfix avatar-editor {{sidebarIcon}}">
+      {{#if editor}}
+        <img src="{{profilePicture}}" class="symbol profile-pic profile-pic-edit" ontouchstart="">
+        <div class="avatar-description">
+          <div class="login-label">{{_ 'profile-picture'}}</div>
+        </div>
+        <form id="upload">
+          <div class="">
+            <label class="button button-upload upload-button-label">
+              <input type="file">
+              <img src="{{pathFor route='home'}}images/camera.png" class="upload-icon">
+              <span class='uploader-button'>{{_ 'upload-picture'}}</span>
+            </label>
+          </div>
+        </form>
+      {{else}}
+        {{#if editable}}
+          <div id="toggleEditor" class="symbol profile-pic profile-edit" ontouchstart="">
+            <div class="label">{{_ 'edit'}}</div>
           </div>
         {{/if}}
-        {{#if includeName}}
-          {{#if microFont}}
-            <a href="{{url}}" class="identity-label identity-label-micro">
-              {{fullName profile}}
-              {{#if includeNation}}
-                {{flag profile}}
-              {{/if}}
-            </a>
-          {{else}}
-            {{#if smallFont}}
-              <a href="{{url}}" class="identity-label identity-label-small">{{fullName profile}}</a>
-              {{#if includeNation}}
-                {{flag profile}}
-              {{/if}}
-            {{else}}
-              <a href="{{url}}" class="identity-label">{{fullName profile}}</a>
-            {{/if}}
-            {{#if includeNation}}
-              {{#unless smallFont}}
-                <div class="identity-nation">{{nationality profile}}</div>
-              {{/unless}}
-            {{/if}}
-          {{/if}}
+        {{#if profile}}
+          <img id="{{elementId}}" src="{{profilePicture profile}}" class="symbol profile-pic {{classStyle smallFont}} {{pending}}" style="{{pictureSize size includeName}}" ontouchstart="">
+        {{else}}
+          <img id='avatar-pic-{{elementId}}' src="{{profilePicture}}" class="symbol profile-pic {{classStyle smallFont}}" style="{{pictureSize size includeName}}" ontouchstart="">
         {{/if}}
-      </div>
-      {{#if includeRole}}
-        <div class="signature-role {{roleStyle}}">
-          {{{roleStatus}}}
-          {{#if allowRemove}}
-            {{#if myself}}
-              {{#unless isPhone}}
-                <div id="removeSignature" title="{{_ 'remove-signature-tooltip'}}" class="signature-remove"></div>
-              {{/unless}}
+        <div class="identity-peer {{classStyle smallFont}} {{pending}}">
+          {{#if verifiedIdentity}}
+            <div class="identity-verified">
+              <img src="{{pathFor route='home'}}images/white-tick.png" class="identity-verified-tick">
+            </div>
+          {{/if}}
+          {{#if includeName}}
+            {{#if microFont}}
+              <a href="{{url}}" class="identity-label identity-label-micro">
+                {{fullName profile}}
+                {{#if includeNation}}
+                  {{flag profile}}
+                {{/if}}
+              </a>
+            {{else}}
+              {{#if smallFont}}
+                <a href="{{url}}" class="identity-label identity-label-small">{{fullName profile}}</a>
+                {{#if includeNation}}
+                  {{flag profile}}
+                {{/if}}
+              {{else}}
+                <a href="{{url}}" class="identity-label">{{fullName profile}}</a>
+              {{/if}}
+              {{#if includeNation}}
+                {{#unless smallFont}}
+                  <div class="identity-nation">{{nationality profile}}</div>
+                {{/unless}}
+              {{/if}}
             {{/if}}
           {{/if}}
         </div>
+        {{#if includeRole}}
+          <div class="signature-role {{roleStyle}}">
+            {{{roleStatus}}}
+            {{#if allowRemove}}
+              {{#if myself}}
+                {{#unless isPhone}}
+                  <div id="removeSignature" title="{{_ 'remove-signature-tooltip'}}" class="signature-remove"></div>
+                {{/unless}}
+              {{/if}}
+            {{/if}}
+          </div>
+        {{/if}}
       {{/if}}
-    {{/if}}
-  </div>
+    </div>
+  {{/if}}
 </template>

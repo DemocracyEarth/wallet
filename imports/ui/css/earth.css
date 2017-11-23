@@ -606,6 +606,10 @@ blockquote {
   margin-right: -5px;
 }
 
+.symbol.profile-pic.identity-small.profile-pic-placeholder {
+  border-style: none;
+}
+
 .symbol.profile-pic.profile-pic-disabled {
   cursor: default;
 }
@@ -633,6 +637,11 @@ blockquote {
   height: 32px;
   margin-top: 7px;
   float: right;
+}
+
+.symbol.profile-pic.profile-pic-placeholder {
+  border-style: none;
+  background-color: #c8ece1;
 }
 
 .semantics {
@@ -5386,14 +5395,26 @@ blockquote {
 }
 
 .option-placeholder {
-  height: 25px;
+  height: 20px;
+  min-width: 100px;
   margin-bottom: 15px;
   border-radius: 25px;
-  background-color: #ddd;
+  background-color: #ececec;
 }
 
 .option-placeholder.fifty {
   width: 50%;
+}
+
+.option-placeholder.identity-placeholder {
+  height: 15px;
+  margin-top: 8px;
+  background-color: #c8ece1;
+}
+
+.option-placeholder.short {
+  height: 15px;
+  margin-top: 5px;
 }
 
 @media (max-width: 991px) {
