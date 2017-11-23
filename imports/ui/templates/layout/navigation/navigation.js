@@ -9,6 +9,7 @@ import { editorFadeOut } from '/imports/ui/templates/components/decision/editor/
 import { timers } from '/lib/const';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { toggleSidebar } from '/imports/ui/modules/menu';
+import { showFullName } from '/imports/startup/both/modules/utils';
 
 import './navigation.html';
 import '../authentication/authentication.js';
@@ -85,39 +86,33 @@ function displayMenuIcon() {
   return 'images/burger.png';
 }
 
+/**
+* @summary verifies if user is currently at remove-option
+*/
+const _isRoot = () => {
+  return (Router.current().url === '/' || Router.current().params.username === undefined);
+};
+
 Template.navigation.onRendered(() => {
   hideBar();
 });
 
 Template.navigation.helpers({
   screen() {
-    if (Session.get('navbar')) {
-      document.title = stripHTMLfromText(`${TAPi18n.__('democracy-of')} ${Meteor.settings.public.Collective.name} - ${Session.get('navbar').title}`);
-      if (Session.get('navbar').title === Meteor.settings.public.Collective.name) {
-        return '';
-      }
-      return Session.get('navbar').title;
+    if (Router.current().params.username) {
+      const user = Meteor.users.findOne({ username: Router.current().params.username });
+      return showFullName(user.profile.firstName, user.profile.lastName, user.username);
     }
-    document.title = stripHTMLfromText(TAPi18n.__('democracy-earth'));
     return '';
   },
   logo() {
-    if (Session.get('navbar')) {
-      return (Session.get('navbar').title === Meteor.settings.public.Collective.name);
+    if (_isRoot()) {
+      return true;
     }
     return false;
   },
   icon() {
-    if (Session.get('navbar')) {
-      return displayMenuIcon();
-    }
-    return 'images/burger.png';
-  },
-  link() {
-    if (Session.get('navbar')) {
-      return Session.get('navbar').href;
-    }
-    return '';
+    return displayMenuIcon();
   },
 });
 
@@ -128,7 +123,7 @@ Template.navigation.events({
       Session.set('showPostEditor', false);
     } else if (displayBackButton()) {
       window.history.back();
-    } else { // if (Session.get('navbar').action === 'SIDEBAR')
+    } else {
       toggleSidebar();
     }
   },
