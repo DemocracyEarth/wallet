@@ -251,7 +251,7 @@ export class Popup {
     this.sourceId = `#${element.id}`;
 
     if (eventType !== 'click') {
-      timer = parseInt(animationSettings.duration * 2, 10);
+      timer = parseInt(animationSettings.duration * 3, 10);
     }
 
     // draw content based on target content to be used in popup

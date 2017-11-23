@@ -60,6 +60,6 @@ Template.feed.helpers({
     return Template.instance().count.get();
   },
   placeholderItem() {
-    return [1, 2, 3];
+    return [1, 2, 3, 4, 5];
   },
 });
