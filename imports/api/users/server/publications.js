@@ -7,10 +7,6 @@ const USER_FIELDS = {
   profile: 1,
 };
 
-Meteor.publish('userData', function () {
-  return Meteor.users.find({}, { fields: USER_FIELDS });
-});
-
 Meteor.publish('singleUser', (query) => {
   check(query, Object);
   return Meteor.users.find(query, { fields: USER_FIELDS });

@@ -12,6 +12,14 @@ Meteor.publish('feed', (terms) => {
   check(terms, Object);
   const parameters = query(terms);
 
-  console.log(`[publish=feed][user=${Meteor.user().username}] generating contracts feed.`);
+  console.log(`[publish=feed] [user=${Meteor.user().username}] generating contracts feed.`);
+  return Contracts.find(parameters.find, parameters.options);
+});
+
+Meteor.publish('singleContract', (terms) => {
+  check(terms, Object);
+  const parameters = query(terms);
+
+  console.log(`[publish=singleVote] [user=${Meteor.user().username}] [contract=${terms.contractId}]`);
   return Contracts.find(parameters.find, parameters.options);
 });

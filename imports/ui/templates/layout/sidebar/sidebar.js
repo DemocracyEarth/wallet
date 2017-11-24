@@ -124,8 +124,8 @@ Template.sidebar.onCreated(function () {
     instance.subscribe('feed', {
       view: 'delegationContracts',
     });
-    instance.subscribe('userTransactions', {
-      view: 'delegationTransactions',
+    instance.subscribe('transaction', {
+      view: 'delegations',
     });
   });
 });

@@ -78,12 +78,21 @@ function getPercentage(value, voteId) {
   return parseFloat((value * 100) / Session.get(voteId).balance, 10);
 }
 
-Template.liquid.onCreated(() => {
+Template.liquid.onCreated(function () {
   const wallet = new Vote(Template.instance().data.wallet, Template.instance().data.targetId, Template.instance().data._id);
   Session.set(Template.instance().data._id, wallet);
   Template.instance().contract = new ReactiveVar(Template.currentData().contract);
   Template.instance().rightToVote = new ReactiveVar(getRightToVote(Template.instance().contract.get()));
   Template.instance().candidateBallot = new ReactiveVar(Template.currentData().candidateBallot);
+
+  const instance = this;
+
+  instance.autorun(function () {
+    const subscription = instance.subscribe('transaction', { view: 'singleVote', contractId: instance.data.targetId });
+    if (subscription.ready()) {
+      console.log(`loaded single vote for contract ${instance.data.targetId}`);
+    }
+  });
 });
 
 Template.liquid.onRendered(function () {

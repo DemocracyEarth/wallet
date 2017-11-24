@@ -8,7 +8,6 @@ import './inbox.html';
 
 Template.inbox.helpers({
   selected() {
-    console.log(this.url);
     if (Router.current().params.username === this.url.substring(6)) {
       return 'menu-item-selected';
     }

@@ -284,7 +284,6 @@ const _publish = (contractId) => {
     url: draft.url,
   },
   });
-  console.log(Router);
   Router.go('/');
 };
 
