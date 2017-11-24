@@ -101,7 +101,9 @@ Template.navigation.helpers({
   screen() {
     if (Router.current().params.username) {
       const user = Meteor.users.findOne({ username: Router.current().params.username });
-      return showFullName(user.profile.firstName, user.profile.lastName, user.username);
+      if (user) {
+        return showFullName(user.profile.firstName, user.profile.lastName, user.username);
+      }
     }
     return '';
   },

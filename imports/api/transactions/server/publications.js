@@ -12,6 +12,6 @@ Meteor.publish('userTransactions', (terms) => {
   check(terms, Object);
   const parameters = query(terms);
 
-  console.log(`[publish][user=${Meteor.user().username}] generating user transaction feed.`);
+  console.log(`[publish=userTransactions][user=${Meteor.user().username}] generating user transaction feed.`);
   return Transactions.find(parameters.find, parameters.options);
 });
