@@ -50,7 +50,7 @@ const _setBallot = (contractId, ballot) => {
 
   if (!found) {
     manager.push({
-      contractId: contractId,
+      contractId,
       candidateBallot: ballot,
     });
   }

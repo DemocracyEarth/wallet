@@ -55,6 +55,11 @@ function getBarWidth(value, voteId, editable, interactive) {
 * @param {Vote} vote
 */
 function voteFailure(vote) {
+  console.log(vote.allocateQuantity);
+  console.log((vote.allocateQuantity === vote.inBallot));
+  console.log((vote.allocateQuantity < vote.minVotes && vote.voteType === 'VOTE'));
+  console.log((vote.voteType === 'VOTE' && purgeBallot(getBallot(vote.targetId)).length === 0));
+  console.log((isNaN(vote.allocateQuantity)));
   return (vote.allocateQuantity <= vote.minVotes && vote.minVotes !== 0 && vote.voteType === 'DELEGATION') ||
     (vote.allocateQuantity < vote.minVotes && vote.voteType === 'VOTE') ||
     (vote.allocateQuantity === vote.inBallot) ||
@@ -100,7 +105,7 @@ const _setupDrag = () => {
         if (Session.get(voteId) !== undefined) {
           $(`#voteSlider-${voteId}`).velocity('stop');
         }
-        if (getBallot(this.newVote.targetId) === undefined && this.newVote.voteType === 'VOTE') {
+        if (getBallot(this.newVote.targetId).length === 0 && this.newVote.voteType === 'VOTE') {
           if (this.newVote.inBallot > 0) {
             candidateBallot(Meteor.userId(), this.newVote.targetId);
           }
@@ -144,11 +149,13 @@ const _setupDrag = () => {
         Meteor.clearTimeout(this.timer);
 
         if (voteFailure(this.newVote)) {
+          console.log('failure');
           cancel();
           if (this.newVote.voteType === 'VOTE' && (this.newVote.allocateQuantity !== this.newVote.inBallot || this.newVote.inBallot === 0)) {
             Session.set('noSelectedOption', this.newVote.voteId);
           }
         } else if (contractReady(this.newVote, Contracts.findOne({ _id: this.newVote.targetId })) || this.newVote.voteType === 'DELEGATION') {
+          console.log('ready');
           clearPopups();
 
           // democracy wins
