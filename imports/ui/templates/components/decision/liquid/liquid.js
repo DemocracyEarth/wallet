@@ -68,7 +68,6 @@ function voteFailure(vote) {
 * @param {boolean} editable if its an editable liquid vote
 */
 function agreement(voteId, editable) {
-  console.log(Session.get(voteId));
   if (Session.get(voteId).voteType === 'BALANCE') {
     return getBarWidth(Session.get(voteId).placed, voteId, true);
   }
@@ -79,15 +78,15 @@ function getPercentage(value, voteId) {
   return parseFloat((value * 100) / Session.get(voteId).balance, 10);
 }
 
+/**
+* @summary configures dragger for liquid bar handle
+*/
 const _setupDrag = () => {
   if (Template.instance().data.editable) {
-    console.log('DRAG');
-    console.log($(`#voteHandle-${Template.instance().data._id}`));
     // drag event
     $(`#voteHandle-${Template.instance().data._id}`).draggable({
       axis: 'x',
       create() {
-        console.log('CREATE DRAG');
         const voteId = this.id.replace('voteHandle-', '');
         this.newVote = new Vote(Session.get(voteId), Session.get(voteId).targetId, voteId);
         Session.set(voteId, this.newVote);
@@ -161,34 +160,25 @@ const _setupDrag = () => {
 };
 
 Template.liquid.onCreated(function () {
-
-  const wallet = new Vote(Template.instance().data.wallet, Template.instance().data.targetId, Template.instance().data._id);
+  let wallet = new Vote(Template.instance().data.wallet, Template.instance().data.targetId, Template.instance().data._id);
   Session.set(Template.instance().data._id, wallet);
   Template.instance().contract = new ReactiveVar(Template.currentData().contract);
   Template.instance().rightToVote = new ReactiveVar(getRightToVote(Template.instance().contract.get()));
   Template.instance().candidateBallot = new ReactiveVar(Template.currentData().candidateBallot);
-
-/*
-  Template.instance().contract = new ReactiveVar(Template.currentData().contract);
-  Template.instance().rightToVote = new ReactiveVar();
-  Template.instance().candidateBallot = new ReactiveVar(Template.currentData().candidateBallot);
-  Template.instance().ready = new ReactiveVar(false);*/
-  Template.instance().ready = new ReactiveVar(true)
+  Template.instance().ready = new ReactiveVar(false);
 
   const instance = this;
 
   instance.autorun(function () {
     const subscription = instance.subscribe('transaction', { view: 'singleVote', contractId: instance.data.targetId });
     if (subscription.ready()) {
-      console.log(`loaded single vote for contract ${instance.data.targetId}`);
-      const wallet = new Vote(instance.data.wallet, instance.data.targetId, instance.data._id);
+      wallet = new Vote(instance.data.wallet, instance.data.targetId, instance.data._id);
+      if (wallet.voteType === 'DELEGATION') {
+        instance.rightToVote.set(getRightToVote(wallet.delegationContract));
+        instance.contract.set(wallet.delegationContract);
+      }
       Session.set(instance.data._id, wallet);
-      /*instance.ready.set(true);
-      const wallet = new Vote(instance.data.wallet, instance.data.targetId, instance.data._id);
-      Session.set(instance.data._id, wallet);
-      instance.rightToVote.set(getRightToVote(instance.contract.get()));
-      _setupDrag();
-      console.log(instance.rightToVote);*/
+      instance.ready.set(true);
     }
   });
 });
@@ -198,13 +188,6 @@ Template.liquid.onRendered(function () {
   if (!Meteor.user()) {
     return;
   }
-
-  const wallet = new Vote(Template.instance().data.wallet, Template.instance().data.targetId, Template.instance().data._id);
-  if (wallet.voteType === 'DELEGATION') {
-    Template.instance().rightToVote.set(getRightToVote(wallet.delegationContract));
-    Template.instance().contract.set(wallet.delegationContract);
-  }
-  Session.set(Template.instance().data._id, wallet);
 
   // real time update
   /**
@@ -488,8 +471,6 @@ Template.bar.helpers({
     return getBarWidth(Session.get(this._id).available, this._id, this.editable, true);
   },
   placed() {
-    console.log('PLACED');
-    console.log(agreement(this._id, this.editable));
     return agreement(this._id, this.editable);
   },
   min() {
