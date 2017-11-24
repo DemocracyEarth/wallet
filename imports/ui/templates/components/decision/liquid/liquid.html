@@ -1,27 +1,31 @@
 <template name="liquid">
-  {{#if editable}}
-    {{#if rightToVote}}
+  {{#if ready}}
+    {{#if editable}}
+      {{#if rightToVote}}
+        <div class="w-clearfix rosca rosca-setter">
+          {{> capital _id=_id user=user isDelegation=isDelegation hideBar=hideBar}}
+          {{#unless hideBar}}
+            {{> bar _id=_id editable=editable}}
+          {{/unless}}
+        </div>
+      {{else}}
+        <div class="w-clearfix rosca rosca-setter">
+          {{> capital _id=_id user=user isDelegation=isDelegation hideBar=hideBar}}
+          {{#unless hideBar}}
+            {{> bar _id=_id editable=false}}
+          {{/unless}}
+        </div>
+      {{/if}}
+    {{else}}
       <div class="w-clearfix rosca rosca-setter">
-        {{> capital _id=_id user=user isDelegation=isDelegation hideBar=hideBar}}
+        {{> capital _id=_id user=user isDelegation=isDelegation editable=editable hideBar=hideBar}}
         {{#unless hideBar}}
           {{> bar _id=_id editable=editable}}
         {{/unless}}
       </div>
-    {{else}}
-      <div class="w-clearfix rosca rosca-setter">
-        {{> capital _id=_id user=user isDelegation=isDelegation hideBar=hideBar}}
-        {{#unless hideBar}}
-          {{> bar _id=_id editable=false}}
-        {{/unless}}
-      </div>
     {{/if}}
   {{else}}
-    <div class="w-clearfix rosca rosca-setter">
-      {{> capital _id=_id user=user isDelegation=isDelegation editable=editable hideBar=hideBar}}
-      {{#unless hideBar}}
-        {{> bar _id=_id editable=editable}}
-      {{/unless}}
-    </div>
+    loading...
   {{/if}}
 </template>
 
