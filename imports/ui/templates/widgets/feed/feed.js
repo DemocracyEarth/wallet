@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { $ } from 'meteor/jquery';
 
 import { gui } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
@@ -28,7 +29,9 @@ Template.feed.onCreated(function () {
 
   instance.autorun(function () {
     const subscription = instance.subscribe('feed', Template.currentData().options);
-    instance.refresh.set((Template.currentData().options.skip === 0));
+    const beginning = (Template.currentData().options.skip === 0);
+    if (beginning) { $('.right').scrollTop(0); }
+    instance.refresh.set(beginning);
     if (subscription.ready()) {
       Template.currentData().options.limit = gui.ITEMS_PER_PAGE;
       const feed = Contracts.find(Template.currentData().query, Template.currentData().options);
