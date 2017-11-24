@@ -8,8 +8,10 @@ import './inbox.html';
 
 Template.inbox.helpers({
   selected() {
-    if (Router.current().params.username === this.url.substring(6)) {
-      return 'menu-item-selected';
+    if (this.url) {
+      if (Router.current().params.username === this.url.substring(6)) {
+        return 'menu-item-selected';
+      }
     }
     return '';
   },
