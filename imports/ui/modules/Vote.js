@@ -355,6 +355,7 @@ export class Vote {
         Session.set('dragging', false);
         const newWallet = new Vote(Meteor.users.findOne({ _id: this.userId }).profile.wallet, Session.get(this.voteId).targetId, this.voteId);
         Session.set(this.voteId, newWallet);
+        console.log(`setting new vote status for ${this.voteId}`);
       }
     };
 
@@ -403,7 +404,7 @@ export class Vote {
         actionLabel = TAPi18n.__('vote');
         boolProfile = false;
         showBallot = true;
-        finalBallot = purgeBallot(getBallot(this.targetId)); // purgeBallot(Session.get('candidateBallot'));
+        finalBallot = purgeBallot(getBallot(this.targetId));
         dictionary = 'votes';
         settings = {
           condition: {

@@ -378,7 +378,7 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
   defaultSettings = {
     currency: 'VOTES',
     kind: 'VOTE',
-    contractId: false, // _getContractId(senderId, receiverId, settings.kind),
+    contractId: false,
   };
 
   if (settings === undefined) {

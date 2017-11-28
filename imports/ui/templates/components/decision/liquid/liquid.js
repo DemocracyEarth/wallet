@@ -170,15 +170,17 @@ Template.liquid.onCreated(function () {
   const instance = this;
 
   instance.autorun(function () {
-    const subscription = instance.subscribe('transaction', { view: 'singleVote', contractId: instance.data.targetId });
-    if (subscription.ready()) {
-      wallet = new Vote(instance.data.wallet, instance.data.targetId, instance.data._id);
-      if (wallet.voteType === 'DELEGATION') {
-        instance.rightToVote.set(getRightToVote(wallet.delegationContract));
-        instance.contract.set(wallet.delegationContract);
+    if (!Session.get('dragging')) {
+      const subscription = instance.subscribe('transaction', { view: 'singleVote', contractId: instance.data.targetId, sessionId: Session.get(instance.data._id) });
+      if (subscription.ready()) {
+        wallet = new Vote(instance.data.wallet, instance.data.targetId, instance.data._id);
+        if (wallet.voteType === 'DELEGATION') {
+          instance.rightToVote.set(getRightToVote(wallet.delegationContract));
+          instance.contract.set(wallet.delegationContract);
+        }
+        Session.set(instance.data._id, wallet);
+        instance.ready.set(true);
       }
-      Session.set(instance.data._id, wallet);
-      instance.ready.set(true);
     }
   });
 });
@@ -385,6 +387,7 @@ Template.capital.helpers({
         case 'placed':
         default:
           placed = Session.get(this._id).placed;
+          console.log(placed);
           percentagePlaced = getPercentage(parseInt(placed - inBallot, 10), this._id);
           if (placed === 0 || percentagePlaced === 0) {
             label = `<strong>${TAPi18n.__('none')}</strong>  ${TAPi18n.__('placed-votes')}`;
