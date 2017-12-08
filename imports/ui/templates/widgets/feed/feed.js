@@ -33,11 +33,14 @@ Template.feed.onCreated(function () {
     if (beginning) { $('.right').scrollTop(0); }
     instance.refresh.set(beginning);
     if (subscription.ready()) {
+      console.log(Template.currentData());
       Template.currentData().options.limit = gui.ITEMS_PER_PAGE;
       const feed = Contracts.find(Template.currentData().query, Template.currentData().options);
+      console.log(feed.fetch());
       Meteor.call('feedCount', Template.currentData().query, Template.currentData().options, {}, function (error, result) {
         if (!error) {
           instance.count.set(result);
+          console.log(result);
           instance.feed.set(_sanitize(feed.fetch()));
           instance.refresh.set(false);
         }

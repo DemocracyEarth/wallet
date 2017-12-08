@@ -15,7 +15,7 @@ import './feedLoad.js';
 const _aboveFold = (id) => {
   if ($(`#page-${id}`)[0]) {
     const rect = $(`#page-${id}`)[0].getBoundingClientRect();
-    return (rect.top > -1 && rect.bottom <= parseInt($(window).height() + 300, 10));
+    return (rect.top > -1 && rect.bottom <= parseInt($(window).height(), 10));
   }
   return false;
 };
@@ -23,11 +23,15 @@ const _aboveFold = (id) => {
 Template.paginator.onCreated(function () {
   Template.instance().identifier = parseInt(((this.data.options.limit + this.data.options.skip) / gui.ITEMS_PER_PAGE) + 1, 10);
   Template.instance().loaded = new ReactiveVar(false);
+  console.log(Template.instance().data);
 });
 
 Template.paginator.onRendered(function () {
   const identifier = Template.instance().identifier;
   const loaded = Template.instance().loaded;
+
+  console.log(identifier);
+  console.log(loaded);
 
   $('.right').scroll(() => {
     if (!loaded.get()) {
@@ -49,6 +53,7 @@ Template.paginator.helpers({
     return Template.instance().identifier;
   },
   visible() {
+    console.log(`visible: ${Template.instance().loaded.get()}`);
     return Template.instance().loaded.get();
   },
   nextOptions() {
