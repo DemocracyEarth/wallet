@@ -47,6 +47,7 @@ Template.feed.onCreated(function () {
       Template.currentData().options.limit = gui.ITEMS_PER_PAGE;
       const feed = Contracts.find(Template.currentData().query, Template.currentData().options);
       console.log(feed.fetch());
+      console.log(Contracts.find().fetch());
       instance.feed.set(_sanitize(feed.fetch()));
       instance.refresh.set(false);
     }

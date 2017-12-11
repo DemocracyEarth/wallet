@@ -37,6 +37,6 @@ Meteor.publish('singleContract', (terms) => {
   check(terms, Object);
   const parameters = query(terms);
 
-  console.log(`{ publish: 'singleContract', user: '${Meteor.user().username}', { contractId: ${terms.contractId} }`);
+  console.log(`{ publish: 'singleContract', user: '${Meteor.user().username}', { contractId: ${terms.contractId} };`);
   return Contracts.find(parameters.find, parameters.options);
 });
