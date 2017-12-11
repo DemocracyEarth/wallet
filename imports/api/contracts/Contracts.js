@@ -360,7 +360,7 @@ Schema.Contract = new SimpleSchema({
   },
   ballotEnabled: {
     type: Boolean,
-    defaultValue: false,
+    defaultValue: true,
   },
   'ballot.$.label': {
     type: String,

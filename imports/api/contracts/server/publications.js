@@ -16,7 +16,7 @@ Meteor.publish('feed', function (terms) {
   console.log(`{ publish: 'feed', user: '${Meteor.user().username}', `);
   console.log('', terms, ',');
   console.log('', parameters.find, ',');
-  console.log(` { length: ${Contracts.find(parameters.find, parameters.options).fetch().length} } };`);
+  console.log(` { length: ${Contracts.find(parameters.find, parameters.options).fetch().length} } }`);
 
   const feed = Contracts.find(parameters.find, parameters.options);
 
@@ -37,6 +37,6 @@ Meteor.publish('singleContract', (terms) => {
   check(terms, Object);
   const parameters = query(terms);
 
-  console.log(`{ publish: 'singleContract', user: '${Meteor.user().username}', { contractId: ${terms.contractId} };`);
+  console.log(`{ publish: 'singleContract', user: '${Meteor.user().username}', { contractId: ${terms.contractId} }`);
   return Contracts.find(parameters.find, parameters.options);
 });
