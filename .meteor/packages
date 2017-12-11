@@ -83,3 +83,4 @@ facebook-config-ui@1.0.0
 twitter-config-ui@1.0.0
 dynamic-import@0.2.0
 mdg:meteor-apm-agent
+tmeasday:publish-counts

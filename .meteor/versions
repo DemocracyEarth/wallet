@@ -133,6 +133,7 @@ templating-runtime@1.3.2
 templating-tools@1.1.2
 tmeasday:check-npm-versions@0.3.1
 tmeasday:paginated-subscription@0.2.4
+tmeasday:publish-counts@0.8.0
 tmeasday:test-reporter-helpers@0.2.1
 tracker@1.1.3
 twitter-config-ui@1.0.0

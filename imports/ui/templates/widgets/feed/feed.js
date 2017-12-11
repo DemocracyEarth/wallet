@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { $ } from 'meteor/jquery';
+import { Counts } from 'meteor/tmeasday:publish-counts';
 
 import { gui } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
@@ -29,22 +30,25 @@ Template.feed.onCreated(function () {
 
   instance.autorun(function () {
     const subscription = instance.subscribe('feed', Template.currentData().options);
+    const count = instance.subscribe('feedCount', Template.currentData().options);
+
+    // verify if beginning of the feed
     const beginning = (Template.currentData().options.skip === 0);
     if (beginning) { $('.right').scrollTop(0); }
     instance.refresh.set(beginning);
+
+    if (count.ready()) {
+      instance.count.set(Counts.get('feedItems'));
+      console.log(Counts.get('feedItems'));
+    }
+
     if (subscription.ready()) {
       console.log(Template.currentData());
       Template.currentData().options.limit = gui.ITEMS_PER_PAGE;
       const feed = Contracts.find(Template.currentData().query, Template.currentData().options);
       console.log(feed.fetch());
-      Meteor.call('feedCount', Template.currentData().query, Template.currentData().options, {}, function (error, result) {
-        if (!error) {
-          instance.count.set(result);
-          console.log(result);
-          instance.feed.set(_sanitize(feed.fetch()));
-          instance.refresh.set(false);
-        }
-      });
+      instance.feed.set(_sanitize(feed.fetch()));
+      instance.refresh.set(false);
     }
   });
 });
