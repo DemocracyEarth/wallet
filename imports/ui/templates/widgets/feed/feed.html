@@ -10,7 +10,7 @@
       {{else}}
         {{> feedEmpty emptyContent}}
       {{/each}}
-      {{> paginator query=query options=options count=count}}
+      {{> paginator options=options count=count}}
     {{/if}}
   {{else}}
     {{#if beginning}}

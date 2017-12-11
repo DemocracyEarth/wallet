@@ -15,7 +15,7 @@ import './feedLoad.js';
 const _aboveFold = (id) => {
   if ($(`#page-${id}`)[0]) {
     const rect = $(`#page-${id}`)[0].getBoundingClientRect();
-    return (rect.top > -1 && rect.bottom <= parseInt($(window).height(), 10));
+    return (rect.top > -1 && rect.bottom <= parseInt($(window).height() + 300, 10));
   }
   return false;
 };

@@ -120,14 +120,14 @@ Template.sidebar.onCreated(function () {
 
   const instance = this;
 
-  /*instance.autorun(function () {
+  instance.autorun(function () {
     instance.subscribe('feed', {
       view: 'delegationContracts',
     });
     instance.subscribe('transaction', {
       view: 'delegations',
     });
-  });*/
+  });
 });
 
 Template.sidebar.onRendered(() => {

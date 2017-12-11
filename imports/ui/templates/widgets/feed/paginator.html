@@ -11,7 +11,7 @@
       {{/unless}}
     {{else}}
       {{#if visible}}
-        {{> feed query=query options=nextOptions count=count}}
+        {{> feed options=nextOptions count=count}}
       {{else}}
         {{> feedLoad}}
       {{/if}}

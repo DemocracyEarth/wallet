@@ -6,6 +6,7 @@ import { $ } from 'meteor/jquery';
 import { Counts } from 'meteor/tmeasday:publish-counts';
 
 import { gui } from '/lib/const';
+import { query } from '/lib/views';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
 import './feed.html';
@@ -31,23 +32,23 @@ Template.feed.onCreated(function () {
   instance.autorun(function () {
     const subscription = instance.subscribe('feed', Template.currentData().options);
     const count = instance.subscribe('feedCount', Template.currentData().options);
+    const parameters = query(Template.currentData().options);
 
-    // verify if beginning of the feed
+    // verify if beginning
     const beginning = (Template.currentData().options.skip === 0);
     if (beginning) { $('.right').scrollTop(0); }
     instance.refresh.set(beginning);
 
+    // total items on the feed
     if (count.ready()) {
       instance.count.set(Counts.get('feedItems'));
       console.log(Counts.get('feedItems'));
     }
 
+    // feed content
     if (subscription.ready()) {
-      console.log(Template.currentData());
-      Template.currentData().options.limit = gui.ITEMS_PER_PAGE;
-      const feed = Contracts.find(Template.currentData().query, Template.currentData().options);
+      const feed = Contracts.find(parameters.find, parameters.options);
       console.log(feed.fetch());
-      console.log(Contracts.find().fetch());
       instance.feed.set(_sanitize(feed.fetch()));
       instance.refresh.set(false);
     }
