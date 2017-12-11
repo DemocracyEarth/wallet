@@ -32,13 +32,6 @@ Router.route('/', {
   template: 'home',
   loadingTemplate: 'load',
   onBeforeAction() {
-/*
-TODO: review this whole thing.. if possible: remove from here
-    if (Meteor.settings.public.Collective) {
-      fn.clearSessionVars();
-      fn.configNavbar(Meteor.settings.public.Collective.name, '/');
-      fn.setSessionVars();
-    }    */
     this.next();
   },
   data() {
@@ -54,20 +47,12 @@ TODO: review this whole thing.. if possible: remove from here
 Router.route('/peer/:username', {
   name: 'peerFeed',
   template: 'home',
-  waitOn() {
-    // return [Meteor.subscribe('contracts', fn.buildQuery(this.params)), Meteor.subscribe('userData'), Meteor.subscribe('transactions')];
-  },
   onBeforeAction() {
-    // fn.clearSessionVars();
-    // fn.configNavbar(fn.buildTitle(this.params), '/peer');
-    // fn.setSessionVars();
     this.next();
   },
   data() {
-    const feedQuery = fn.buildQuery(this.params);
     return {
-      query: feedQuery,
-      options: { view: 'latest', sort: { createdAt: -1 }, skip: 0 },
+      options: { view: 'peer', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, username: this.params.username },
     };
   },
 });
