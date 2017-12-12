@@ -2205,6 +2205,7 @@ blockquote {
   margin-top: 5px;
   padding-left: 0px;
   clear: both;
+  color: #9c9c9c;
   font-size: 12px;
   line-height: 20px;
 }
@@ -3504,10 +3505,6 @@ blockquote {
 .title-input.title-feed {
   margin-top: 20px;
   margin-bottom: 20px;
-}
-
-.title-input.title-input-editor {
-  min-height: 65px;
 }
 
 .paper-header {
