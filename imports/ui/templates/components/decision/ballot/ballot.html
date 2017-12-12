@@ -1,26 +1,5 @@
 <template name="ballot">
   <div class="section section-mobile {{ballotStyle}}">
-    <div class="w-clearfix paper-header {{headerStyle}}">
-      {{#if feedMode}}
-        <!--<a class="micro-button micro-button-header w-clearfix w-inline-block" href="{{url}}">-->
-        <!--<img class="micro-icon" src="{{pathFor route='home'}}images/vote-icon.png">-->
-          <div class="micro-label">
-            <img class="url-icon" src="{{pathFor route='home'}}images/vote-icon-black.png">
-            <div class="verifier verifier-live verifier-feed">{{voters}}</div>
-          </div>
-          <!--<div class="micro-label"></div>-->
-        <!--</a>-->
-      {{else}}
-        {{> kind title="ballot" icon="images/modal-vote.png" stage=stage}}
-      {{/if}}
-      <!--
-      <div class="w-clearfix value value-avatar extra">
-        <div class="extra">
-          {{> stage text=stageLabel executionStatus=executionStatus closingDate=closingDate permanentElection=permanentElection}}
-        </div>
-      </div>
-      -->
-    </div>
     {{#if ballotEnabled}}
       <div class="section">
         <div class="w-clearfix elements">

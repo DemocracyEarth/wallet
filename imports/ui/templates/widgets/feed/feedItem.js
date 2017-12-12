@@ -11,7 +11,7 @@ import { getProfileName, stripHTMLfromText } from '/imports/ui/modules/utils';
 import { timeSince } from '/imports/ui/modules/chronos';
 import { displayModal } from '/imports/ui/modules/modal';
 import { animationSettings } from '/imports/ui/modules/animation';
-import { addChoiceToBallot } from '/imports/ui/modules/ballot';
+import { addChoiceToBallot, getTotalVoters } from '/imports/ui/modules/ballot';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
@@ -92,6 +92,15 @@ Template.feedItem.helpers({
   },
   feedContract() {
     return Contracts.findOne({ _id: this._id });
+  },
+  voters() {
+    const total = getTotalVoters(this);
+    if (total === 1) {
+      return `${total} ${TAPi18n.__('voter').toLowerCase()}`;
+    } else if (total === 0) {
+      return TAPi18n.__('no-voters');
+    }
+    return `${total} ${TAPi18n.__('voters').toLowerCase()}`;
   },
 });
 
