@@ -10,6 +10,7 @@ export default class SocialMediaLogin extends Component {
     this.handleFacebookLogin = this.handleFacebookLogin.bind(this);
     this.handleTwitterLogin = this.handleTwitterLogin.bind(this);
     this.handleAgoraLogin = this.handleAgoraLogin.bind(this);
+    this.handleBlockstackLogin = this.handleBlockstackLogin.bind(this);
   }
 
   handleFacebookLogin() {
@@ -26,6 +27,14 @@ export default class SocialMediaLogin extends Component {
         throw new Meteor.Error('Twitter login failed ', err.reason);
       }
     });
+  }
+
+  handleBlockstackLogin() {
+    Meteor.loginWithBlockstack({}, function (err) {
+      if (err.reason) {
+        throw new Meteor.Error('Blockstack login failed', err.reason);
+      }
+    })
   }
 
   handleAgoraLogin() {
@@ -46,11 +55,16 @@ export default class SocialMediaLogin extends Component {
       );
     }
     return (
-      <div id="facebook-login" className="button login-button facebook" onClick={this.handleFacebookLogin} >
-        <img src="/images/facebook.png" className="button-icon" alt="lock" />
-        {TAPi18n.__('facebook')}
+      <div>
+        <div id="facebook-login" className="button login-button facebook" onClick={this.handleFacebookLogin} >
+          <img src="/images/facebook.png" className="button-icon" alt="lock" />
+          {TAPi18n.__('facebook')}
+        </div>
+        <div id="blockstack-login" className="button login-button blockstack" onClick={this.handleBlockstackLogin}>
+          sign in with Blockstack
+        </div>
+        {/* <div id="twitter-login" className="button button-social twitter" onClick={this.handleTwitterLogin} >{{_ 'twitter'}}</div> */}
       </div>
-      // <div id="twitter-login" className="button button-social twitter" onClick={this.handleTwitterLogin} >{{_ 'twitter'}}</div>
     );
   }
 }
