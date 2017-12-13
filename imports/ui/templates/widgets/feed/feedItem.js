@@ -14,6 +14,7 @@ import { animationSettings } from '/imports/ui/modules/animation';
 import { addChoiceToBallot, getTotalVoters } from '/imports/ui/modules/ballot';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { Contracts } from '/imports/api/contracts/Contracts';
+import { Vote } from '/imports/ui/modules/Vote';
 
 import './feedItem.html';
 import '../../components/decision/stage/stage.js';
@@ -21,13 +22,26 @@ import '../../components/decision/tag/tag.js';
 import '../../components/identity/avatar/avatar.js';
 import '../../widgets/transaction/transaction.js';
 
-Template.feedItem.onCreated(() => {
+Template.feedItem.onCreated(function () {
   // Embedded mode means that Items are in an embedded feed to be selected (ie: for a ballot)
-  if (this.firstNode && this.firstNode.parentNode.id === 'proposalSuggestions') {
+  /*if (this.firstNode && this.firstNode.parentNode.id === 'proposalSuggestions') {
     Template.instance().embeddedMode = new ReactiveVar(true);
   } else {
     Template.instance().embeddedMode = new ReactiveVar(false);
+  }*/
+  const instance = this;
+
+  if (Meteor.userId()) {
+    instance.voteId = `vote-${Meteor.userId()}-${instance.data._id}`;
   }
+
+  instance.autorun(function () {
+    const subscription = instance.subscribe('transaction', { view: 'singleVote', contractId: instance.data._id, sessionId: Session.get(instance.voteId) });
+    if (subscription.ready()) {
+      const wallet = new Vote(instance.data.wallet, instance.data._id, instance.voteId);
+      Session.set(instance.voteId, wallet);
+    }
+  });
 });
 
 Template.feedItem.helpers({
