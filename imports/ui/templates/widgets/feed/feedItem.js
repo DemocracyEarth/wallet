@@ -8,7 +8,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { getProfileFromUsername, getAnonymous } from '/imports/startup/both/modules/User';
 import { removeContract } from '/imports/startup/both/modules/Contract';
 import { getProfileName, stripHTMLfromText } from '/imports/ui/modules/utils';
-import { timeSince } from '/imports/ui/modules/chronos';
+import { timeCompressed } from '/imports/ui/modules/chronos';
 import { displayModal } from '/imports/ui/modules/modal';
 import { animationSettings } from '/imports/ui/modules/animation';
 import { addChoiceToBallot, getTotalVoters } from '/imports/ui/modules/ballot';
@@ -57,7 +57,7 @@ Template.feedItem.helpers({
     return this.tags;
   },
   sinceDate(timestamp) {
-    return `${timeSince(timestamp)}`;
+    return `${timeCompressed(timestamp)}`;
   },
   editorMode(stage) {
     if (stage === 'DRAFT') { return true; } return false;

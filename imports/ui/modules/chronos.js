@@ -32,6 +32,12 @@ const timeAgo = (date) => {
   return buildSentence(seconds, 'ago');
 };
 
+const _timeCompressed = (date) => {
+  const seconds = Math.floor((new Date() - date) / 1000);
+  return buildSentence(seconds, 'compressed');
+};
+
+
 const timeLeft = (date) => {
   const seconds = Math.floor((date - new Date()) / 1000);
   if (seconds > 0) {
@@ -40,5 +46,6 @@ const timeLeft = (date) => {
   return false;
 };
 
+export const timeCompressed = _timeCompressed;
 export const timeSince = timeAgo;
 export const countdown = timeLeft;

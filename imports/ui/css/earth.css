@@ -2711,7 +2711,7 @@ blockquote {
 }
 
 .identity-peer {
-  margin-top: 7px;
+  margin-top: 6px;
   margin-left: 10px;
   float: left;
 }
@@ -3089,6 +3089,11 @@ blockquote {
   margin-right: 0px;
   margin-bottom: 5px;
   float: right;
+}
+
+.data.data-feed.data-identity {
+  margin-left: -15px;
+  float: left;
 }
 
 .contract-collapse {

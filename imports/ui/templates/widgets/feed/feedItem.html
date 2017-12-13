@@ -41,10 +41,12 @@
                   {{> avatar size=24 profile=this._id includeName=true includeNation=true editable=false microFont=true disabled=false includeRole=false}}
                 </div>
               {{/each}}
+              <div class="data data-feed data-identity">
+                <div class="verifier verifier-live verifier-feed">&#183; {{sinceDate timestamp}}</div>
+              </div>
               <div class="data data-feed">
                 <img class="url-icon" src="{{pathFor route='home'}}images/vote-icon-black.png">
                 <div class="verifier verifier-live verifier-feed">{{voters}}</div>
-                <div class="verifier verifier-live verifier-feed">&#183; {{sinceDate timestamp}}</div>
               </div>
             </div>
           </div>
