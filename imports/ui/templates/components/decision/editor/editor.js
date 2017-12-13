@@ -5,7 +5,7 @@ import { $ } from 'meteor/jquery';
 
 import { timers } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
-import { timeSince } from '/imports/ui/modules/chronos';
+import { timeCompressed } from '/imports/ui/modules/chronos';
 
 import './editor.html';
 import './editorButton.js';
@@ -123,7 +123,7 @@ Template.editor.helpers({
   },
   */
   sinceDate() {
-    return `${timeSince(Contracts.findOne({ _id: this.contractId }).timestamp)}`;
+    return `${timeCompressed(Contracts.findOne({ _id: this.contractId }).timestamp)}`;
   },
   ballotEnabled() {
     return Contracts.findOne({ _id: this.contractId }).ballotEnabled; // Session.get('contract').ballotEnabled;

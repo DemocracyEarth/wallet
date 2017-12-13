@@ -431,7 +431,7 @@
   "invalid-transaction": "Self voting is not allowed.",
   "events": "Events",
   "actions": "Actions",
-  "voters": "Voters",
+  "voters": "Voters.",
   "delegated-votes": "Delegated Votes",
   "trust": "Trust",
   "representation": "Representation",
@@ -460,8 +460,8 @@
   "post-as": "Post as",
   "always-on": "Always On",
   "now": "Now.",
-  "voter": "Voter",
-  "no-voters": "No voters",
+  "voter": "Voter.",
+  "no-voters": "No voters.",
   "back-to-top": "Back to top.",
   "no-members-found": "No members found.",
   "you": "You",
@@ -469,5 +469,6 @@
   "your-delegations": "Your Delegations",
   "unlogged-cant-vote": "You need to be logged in to vote.",
   "email-recovery-instructions": "Password reset instructions will be sent to the Email used to register an account.",
-  "alliance": "Alliance"
+  "alliance": "Alliance",
+  "draft": "Draft."
 }

@@ -8,9 +8,12 @@
                 {{> avatar size=24 profile=this._id includeName=true includeNation=true editable=false microFont=true disabled=false includeRole=false}}
             </div>
           {{/each}}
+          <div class="data data-feed data-identity">
+            <div class="verifier verifier-live verifier-feed">&#183; {{sinceDate}}</div>
+          </div>
           <div class="data data-feed">
-            <img class="url-icon" src="{{pathFor route='home'}}images/time.png">
-            <div class="verifier verifier-live verifier-feed">{{sinceDate}}</div>
+            <img class="url-icon" src="{{pathFor route='home'}}images/decision-draft.png">
+            <div class="verifier verifier-live verifier-feed">{{_ 'draft'}}</div>
           </div>
         </div>
       </div>
