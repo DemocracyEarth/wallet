@@ -15,7 +15,7 @@ Template.collective.helpers({
     if (Meteor.settings.public.Collective.profile.logo) {
       return Meteor.settings.public.Collective.profile.logo;
     }
-    return 'images/earth.png';
+    return 'images/earth-icon.jpg';
   },
   hasLogo() {
     return (Meteor.settings.public.Collective.profile.logo !== undefined);
