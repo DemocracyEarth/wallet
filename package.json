@@ -29,7 +29,7 @@
     "bcrypt": "^1.0.3",
     "bcryptjs": "^2.4.0",
     "bindings": "^1.2.1",
-    "blockstack": "^0.13.7",
+    "blockstack": "^0.14.0",
     "core-js": "^2.5.1",
     "faker": "^3.0.1",
     "json-schema-faker": "^0.3.7",
