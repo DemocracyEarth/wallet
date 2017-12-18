@@ -40,7 +40,6 @@ Router.route('/accounts/callbacks/blockstack', async function () {
     // filled in.
     if (!userData.profile.name) {
         const msg = 'Blockstack login failed, likely because the profile was not found. Have you filled in your Blockstack profile?';
-        console.log(msg)
         throw new Error(msg);
     }
 
@@ -85,9 +84,6 @@ if (Meteor.isServer) {
 
         // The Blockstack token is a JWT token. Decode it using the jsontokens lib.
         const decodedToken = decodeToken(bsToken);
-
-        console.log(`*** blockstack raw decoded token: ${decodedToken}`);
-        console.log(`*** blockstack userData: ${userData}`);
 
         if (!decodedToken || !decodedToken.payload) {
             throw new Error("Blockstack token was invalid.");
