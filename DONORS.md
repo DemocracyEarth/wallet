@@ -5,8 +5,8 @@ Democracy Earth Foundation is a 501 (c) 3 not for profit corporation based in Sa
 ## Institutional
 
   * 🇺🇸 [Y Combinator](http://ycombinator.org)
-  * 🇺🇸 [Fast Forward](http://ffwd.org)
-  * 🇺🇸 [Teespring](http://teespring.com)
+  * 🇺🇸 [Fast Forward](https://ffwd.org)
+  * 🇺🇸 [Teespring](https://teespring.com)
 
 ## Individuals
 
