@@ -1,6 +1,6 @@
 # Seed Database
 
-This tutorial will create a local copy from [Colombia Peace Referendum](http://vota.plebiscitodigital.co)
+This tutorial will create a local copy from [Colombia Peace Referendum](https://vota.plebiscitodigital.co)
 
 0. **Install MongoDB**
 

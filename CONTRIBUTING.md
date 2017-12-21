@@ -39,7 +39,7 @@ On Linux & MacOS, load a terminal and type:
 $ curl https://install.meteor.com/ | sh
 ```
 
-This will setup [Meteor](http://github.com/meteor/meteor) (including [Node](https://github.com/nodejs/node) and [Mongo](https://github.com/mongodb/mongo) if necessary).
+This will setup [Meteor](https://github.com/meteor/meteor) (including [Node](https://github.com/nodejs/node) and [Mongo](https://github.com/mongodb/mongo) if necessary).
 
 > _Note:_ Windows users must [download installer](https://www.meteor.com/install).
 
@@ -153,7 +153,7 @@ $ git push origin [name_of_your_new_branch]
 You should have [ESLint running in your editor](https://guide.meteor.com/code-style.html#eslint-editor), and install all the dependencies with `meteor npm install` in sovereign folder.
 It will highlight anything doesn't conform to [Airbnb styleguide](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb).
 
-For more information, read the [meteor style guide](https://guide.meteor.com/code-style.html#eslint) that also includes a link to [ESlint](http://eslint.org/docs/user-guide/getting-started).
+For more information, read the [meteor style guide](https://guide.meteor.com/code-style.html#eslint) that also includes a link to [ESlint](https://eslint.org/docs/user-guide/getting-started).
 
 > Please do not ignore any linting errors, as they are meant to **help** you and to ensure a clean and simple code base.
 
@@ -191,7 +191,7 @@ When you make a pull request, all of your changes need to be in one commit.
 
 If you have made more then one commit, then you will need to _squash_ your commits.
 
-To do this, see [Squashing Your Commits](http://forum.freecodecamp.com/t/how-to-squash-multiple-commits-into-one-with-git/13231).
+To do this, see [Squashing Your Commits](https://forum.freecodecamp.com/t/how-to-squash-multiple-commits-into-one-with-git/13231).
 
 ### Creating A Pull Request
 
@@ -274,7 +274,7 @@ possible to update your fork via GitHub's interface without deleting and
 recreating your fork.
 
 Read the [Wiki
-article](http://forum.freecodecamp.com/t/how-to-make-a-pull-request-on-free-code-camp/19114)
+article](https://forum.freecodecamp.com/t/how-to-make-a-pull-request-on-free-code-camp/19114)
 for further information
 
 ### Common Steps
@@ -286,7 +286,7 @@ for further information
     branch.
 
 3.  Submit a [pull
-    request](http://forum.freecodecamp.com/t/how-to-contribute-via-a-pull-request/19368)
+    request](https://forum.freecodecamp.com/t/how-to-contribute-via-a-pull-request/19368)
     from your branch to Sovereign's `staging` branch.
 
 4.  The title (also called the subject) of your PR should be descriptive of your
