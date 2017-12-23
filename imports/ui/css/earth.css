@@ -932,7 +932,6 @@ blockquote {
 }
 
 .button.login-button.facebook {
-  margin-bottom: 5px;
   background-color: #3c5b96;
   text-align: center;
 }
@@ -957,6 +956,31 @@ blockquote {
 
 .button.facebook.button-social {
   width: 50%;
+}
+
+.button.login-button {
+  margin-bottom: 5px;
+}
+
+.button.login-button.blockstack {
+  text-align: center;
+  border-color: #270f34;
+  background-color: white;
+  color: #270f34;
+}
+
+.button.login-button.blockstack:active,
+.button.login-button.blockstack:hover {
+  border-color: #270f34;
+  background-color: #270f34;
+  color: #fff;
+}
+
+.button.login-button.blockstack.half {
+  width: 50%;
+  margin-right: 0px;
+  margin-left: 0px;
+  float: left;
 }
 
 .button.twitter {
@@ -6299,4 +6323,3 @@ blockquote {
     max-width: 75%;
   }
 }
-
