@@ -30,7 +30,8 @@ See our 🇫🇷 [Paris 2016 conference](https://youtube.com/watch?v=UajbQTHnTfM
 
 **Roadmap:**
 
-  - [ ] Decentralized identity key management 🔗 with [Blockstack](https://github.com/blockstack/blockstack).
+  - [X] Decentralized identity key management 🔗 with [Blockstack](https://github.com/blockstack/blockstack).
+  - [ ] Satoshi-based governance 🔗 with [Lightning](https://github.com/lightningnetwork/lnd).
   - [ ] Institutional incorporation via smart contracts 🔗 with [Open Zeppelin](https://github.com/OpenZeppelin/zeppelin-solidity).
   - [ ] Bitcoin integration for budgeting 🔗 with [Bcoin](https://github.com/bcoin-org/bcoin).
   - [ ] Distributed resource storage 🔗 with [IPFS](https://github.com/ipfs/js-ipfs).
