@@ -39,7 +39,7 @@ See our 🇫🇷 [Paris 2016 conference](https://youtube.com/watch?v=UajbQTHnTfM
 
 **Release:**
 
-[`version 1.0.2-alpha`](https://github.com/DemocracyEarth/sovereign/releases/tag/v1.0.2-alpha)
+[`version 1.0.4-alpha`](https://github.com/DemocracyEarth/sovereign/releases/tag/v1.0.4-alpha)
 
 **Also:**
 
