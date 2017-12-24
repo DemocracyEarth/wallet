@@ -8,6 +8,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { setVote, getTickValue, candidateBallot, getRightToVote, getBallot, setBallot, getTotalVoters, getTally, getTallyPercentage } from '/imports/ui/modules/ballot';
 import { Vote } from '/imports/ui/modules/Vote';
+import { displayModal } from '/imports/ui/modules/modal';
 
 import './fork.html';
 
@@ -199,19 +200,33 @@ Template.fork.events({
   'click #ballotCheckbox'() {
     if (!Session.get('showModal')) {
       if (Meteor.user() && Template.instance().contract.get().stage === 'LIVE') {
+        console.log(Template.instance());
+
+        // has right to vote
         if (Template.instance().rightToVote.get()) {
+
+          // candidate ballot
           if (Template.instance().candidateBallot.get() === undefined || Template.instance().candidateBallot.get().length === 0) {
             Template.instance().candidateBallot.set(candidateBallot(Meteor.userId(), Template.instance().contract.get()._id));
           }
+
           const previous = Template.instance().candidateBallot.get();
           const wallet = new Vote(Session.get(this.voteId), Session.get(this.voteId).targetId, this.voteId);
           const template = Template.instance();
+
+          /*
+          deprecated data from liquid bar
           wallet.inBallot = Session.get(this.voteId).inBallot;
           wallet.allocateQuantity = wallet.inBallot;
           wallet.allocatePercentage = parseFloat((wallet.inBallot * 100) / wallet.balance, 10).toFixed(2);
+          */
+
+          // cancel function
           const cancel = () => {
             template.candidateBallot.set(setBallot(template.contract.get()._id, previous));
           };
+
+          // ticking
           this.tick = setVote(Template.instance().contract.get(), this);
           if (this.tick === true) {
             Session.set('noSelectedOption', this.voteId);
@@ -227,6 +242,24 @@ Template.fork.events({
           } else if (Session.get(this.voteId).inBallot > 0) {
             // send new ballot
             wallet.execute(cancel);
+          } else {
+            console.log('show new modal');
+            displayModal(
+              true,
+              {
+                icon: 'images/modal-vote.png',
+                title: TAPi18n.__('place-vote'),
+                message: TAPi18n.__('place-votes-change-ballot'),
+                cancel: TAPi18n.__('not-now'),
+                action: TAPi18n.__('vote'),
+                displayProfile: false,
+                displayBallot: true,
+                ballot: Template.instance().candidateBallot.get(),
+                contract: Template.instance().contract.get(),
+              },
+              () => { console.log('que tal'); },
+              cancel
+            );
           }
         }
       } else {

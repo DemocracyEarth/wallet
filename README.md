@@ -27,10 +27,10 @@ See our 🇫🇷 [Paris 2016 conference](https://youtube.com/watch?v=UajbQTHnTfM
     * Bottom-up system of proposals.
   - [X] Transaction engine based on voting tokens (_currently blockchain agnostic_).
   - [X] Mobile & desktop responsive UX.
+  - [X] Decentralized identity key management 🔗 with [Blockstack](https://github.com/blockstack/blockstack).
 
 **Roadmap:**
 
-  - [X] Decentralized identity key management 🔗 with [Blockstack](https://github.com/blockstack/blockstack).
   - [ ] Satoshi-based governance 🔗 with [Lightning](https://github.com/lightningnetwork/lnd).
   - [ ] Institutional incorporation via smart contracts 🔗 with [Open Zeppelin](https://github.com/OpenZeppelin/zeppelin-solidity).
   - [ ] Bitcoin integration for budgeting 🔗 with [Bcoin](https://github.com/bcoin-org/bcoin).
