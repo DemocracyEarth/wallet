@@ -114,6 +114,18 @@ Template.modalWindow.helpers({
     }
     return 'hide';
   },
+  voteMode() {
+    if (Session.get('displayModal') !== undefined) {
+      return Session.get('displayModal').voteMode;
+    }
+    return false;
+  },
+  voteSettings() {
+    if (Session.get('displayModal') !== undefined) {
+      return Session.get('displayModal').voteSettings;
+    }
+    return false;
+  },
   mini(className) {
     return `${className} ${className}-mini`;
   },

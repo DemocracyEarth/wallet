@@ -246,11 +246,12 @@ Template.ballot.helpers({
   },
   noSelectedOption() {
     if (Session.get('noSelectedOption') === this.voteId) {
-      return true; // displayTimedWarning('noSelectedOption');
+      return true;
     }
     return false;
   },
   voteSettings() {
+    console.log(getVoterContractBond(this));
     return getVoterContractBond(this);
   },
   executionStatus() {

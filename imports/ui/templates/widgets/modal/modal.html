@@ -31,18 +31,24 @@
           </ul>
         </p>
       {{/if}}
-      <div class="modal-buttons">
-        <div class="modal-buttons-padder">
-          <div id="cancel" class="button login-button button-secondary button-half">
-            <div>{{cancel}}</div>
+      {{#if voteMode}}
+        {{#with voteSettings}}
+          {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=this.contract candidateBallot=this.candidateBallot}}
+        {{/with}}
+      {{else}}
+        <div class="modal-buttons">
+          <div class="modal-buttons-padder">
+            <div id="cancel" class="button login-button button-secondary button-half">
+              <div>{{cancel}}</div>
+            </div>
+          </div>
+          <div class="modal-buttons-padder">
+            <div id="execute" class="button login-button button-half {{removal}}">
+              <div>{{action}}</div>
+            </div>
           </div>
         </div>
-        <div class="modal-buttons-padder">
-          <div id="execute" class="button login-button button-half {{removal}}">
-            <div>{{action}}</div>
-          </div>
-        </div>
-      </div>
+      {{/if}}
     </div>
   </div>
 </template>

@@ -210,9 +210,22 @@ Template.fork.events({
             Template.instance().candidateBallot.set(candidateBallot(Meteor.userId(), Template.instance().contract.get()._id));
           }
 
+          console.log(Template.instance().candidateBallot.get());
+          console.log(Template.instance().candidateBallot.get().length);
+
           const previous = Template.instance().candidateBallot.get();
           const wallet = new Vote(Session.get(this.voteId), Session.get(this.voteId).targetId, this.voteId);
           const template = Template.instance();
+
+          // ticking
+          this.tick = setVote(Template.instance().contract.get(), this);
+          console.log(this);
+          if (this.tick === true) {
+            Session.set('noSelectedOption', this.voteId);
+            setBallot(Template.instance().contract.get()._id, this);
+            // Template.instance().candidateBallot.set(this);
+            console.log(getBallot(Template.instance().contract.get()._id));
+          }
 
           /*
           deprecated data from liquid bar
@@ -226,12 +239,6 @@ Template.fork.events({
             template.candidateBallot.set(setBallot(template.contract.get()._id, previous));
           };
 
-          // ticking
-          this.tick = setVote(Template.instance().contract.get(), this);
-          if (this.tick === true) {
-            Session.set('noSelectedOption', this.voteId);
-          }
-
           // vote
           if (this.tick === false && Session.get(this.voteId).inBallot > 0) {
             // remove all votes
@@ -240,10 +247,20 @@ Template.fork.events({
             wallet.execute(cancel, true);
             return;
           } else if (Session.get(this.voteId).inBallot > 0) {
-            // send new ballot
+            // change ballot
             wallet.execute(cancel);
           } else {
+            // new vote
             console.log('show new modal');
+            const voteSettings = {
+              voteId: this.voteId,
+              sourceId: Meteor.userId(),
+              targetId: Template.instance().contract.get()._id,
+              wallet: Meteor.user().profile.wallet,
+              contract: Template.instance().contract.get(),
+              candidateBallot: this,
+            };
+            console.log(voteSettings);
             displayModal(
               true,
               {
@@ -254,7 +271,9 @@ Template.fork.events({
                 action: TAPi18n.__('vote'),
                 displayProfile: false,
                 displayBallot: true,
-                ballot: Template.instance().candidateBallot.get(),
+                voteMode: true,
+                voteSettings,
+                ballot: [this],
                 contract: Template.instance().contract.get(),
               },
               () => { console.log('que tal'); },
