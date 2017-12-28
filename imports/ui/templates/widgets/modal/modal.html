@@ -22,20 +22,21 @@
       {{#if displayBallot}}
         <p>
           <ul class="{{mini 'options'}}">
-          <li class="title-input title-input-mini">
-            {{contractTitle}}
-          </li>
-          {{#each ballot}}
-            {{> fork _id=_id label=label executive=false mode=mode rank=rank url=url editorMode=false mini=true contract=contract}}
-          {{/each}}
+            <li class="title-input title-input-mini">
+              {{contractTitle}}
+            </li>
+            {{#each ballot}}
+              {{> fork _id=_id label=label executive=false mode=mode rank=rank url=url editorMode=false mini=true contract=contract}}
+            {{/each}}
           </ul>
+          {{#if voteMode}}
+            {{#with voteSettings}}
+              {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=this.contract candidateBallot=this.candidateBallot}}
+            {{/with}}
+          {{/if}}
         </p>
       {{/if}}
-      {{#if voteMode}}
-        {{#with voteSettings}}
-          {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=this.contract candidateBallot=this.candidateBallot}}
-        {{/with}}
-      {{else}}
+      {{#unless voteMode}}
         <div class="modal-buttons">
           <div class="modal-buttons-padder">
             <div id="cancel" class="button login-button button-secondary button-half">
@@ -48,7 +49,7 @@
             </div>
           </div>
         </div>
-      {{/if}}
+      {{/unless}}
     </div>
   </div>
 </template>

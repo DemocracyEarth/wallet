@@ -251,7 +251,6 @@ Template.ballot.helpers({
     return false;
   },
   voteSettings() {
-    console.log(getVoterContractBond(this));
     return getVoterContractBond(this);
   },
   executionStatus() {

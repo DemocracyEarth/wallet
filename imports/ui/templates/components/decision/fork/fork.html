@@ -1,7 +1,7 @@
 <template name="fork">
   {{#if executive}}
     <li id="ballotProposalOption" class="{{style 'vote'}} {{checkbox mode}}">
-      <div class="w-clearfix checkbox">
+      <div class="w-clearfix checkbox {{resultBar}}" style="{{showResult}}">
         <div id="ballotCheckbox" class="{{style 'option'}} {{tickStyle}}">
           <div id="tickbox" class="tick {{tickStyle}}">
             <img src="{{pathFor route='home'}}images/white-tick-thin.png" class="{{style 'tick-image'}} hover {{tickStatus}}">
@@ -13,9 +13,6 @@
           </div>
         </div>
       </div>
-      {{#if displayResult}}
-        {{> result mode=mode contract=contract _id=_id}}
-      {{/if}}
     </li>
   {{else}}
     <li id="ballotProposalOption" class="{{style 'vote'}} {{checkbox ../mode}} {{dragMode}}" rank="{{../rank}}" value="{{../_id}}">

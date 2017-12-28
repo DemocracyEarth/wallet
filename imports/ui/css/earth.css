@@ -932,6 +932,7 @@ blockquote {
 }
 
 .button.login-button.facebook {
+  margin-bottom: 5px;
   background-color: #3c5b96;
   text-align: center;
 }
@@ -956,31 +957,6 @@ blockquote {
 
 .button.facebook.button-social {
   width: 50%;
-}
-
-.button.login-button {
-  margin-bottom: 5px;
-}
-
-.button.login-button.blockstack {
-  text-align: center;
-  border-color: #270f34;
-  background-color: white;
-  color: #270f34;
-}
-
-.button.login-button.blockstack:active,
-.button.login-button.blockstack:hover {
-  border-color: #270f34;
-  background-color: #270f34;
-  color: #fff;
-}
-
-.button.login-button.blockstack.half {
-  width: 50%;
-  margin-right: 0px;
-  margin-left: 0px;
-  float: left;
 }
 
 .button.twitter {
@@ -1148,12 +1124,12 @@ blockquote {
 
 .vote {
   display: block;
-  width: 50%;
+  width: 100%;
   margin: 0px;
-  padding: 10px;
+  padding: 10px 10px 10px 15px;
   float: left;
-  border: 5px solid #fff;
-  border-radius: 10px;
+  border: 3px solid #fff;
+  border-radius: 50px;
   text-align: left;
 }
 
@@ -1470,6 +1446,7 @@ blockquote {
 
 .option-title.option-title-mini {
   font-size: 16px;
+  line-height: 48px;
 }
 
 .checkbox {
@@ -1482,6 +1459,19 @@ blockquote {
   margin-bottom: 5px;
   border-radius: 3px;
   box-shadow: none;
+}
+
+.checkbox.checkbox-result {
+  margin: -5px -5px -5px -10px;
+  padding: 5px 5px 5px 10px;
+  border-radius: 50px;
+  background-image: -webkit-linear-gradient(0deg, #b7f3e1 48%, transparent 0);
+  background-image: linear-gradient(90deg, #b7f3e1 48%, transparent 0);
+}
+
+.checkbox.checkbox-result.unauthorized {
+  background-image: -webkit-linear-gradient(0deg, #fdc5c5 48%, transparent 0);
+  background-image: linear-gradient(90deg, #fdc5c5 48%, transparent 0);
 }
 
 .date {
@@ -6323,3 +6313,4 @@ blockquote {
     max-width: 75%;
   }
 }
+

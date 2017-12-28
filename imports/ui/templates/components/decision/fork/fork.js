@@ -39,6 +39,17 @@ const _checkboxStyle = (mode) => {
   }
 };
 
+/**
+* @summary color to render the result bar
+* @param {string} mode current mode of the checkbox
+*/
+const _modeColor = (mode) => {
+  if (mode === 'REJECT') {
+    return '#fdc5c5';
+  }
+  return '#b7f3e1';
+};
+
 Template.fork.onCreated(() => {
   Template.instance().contract = new ReactiveVar(Template.currentData().contract);
   Template.instance().rightToVote = new ReactiveVar(getRightToVote(Template.instance().contract.get()));
@@ -142,6 +153,23 @@ Template.fork.helpers({
   },
   displayResult() {
     return _displayResults(Template.instance().contract.get());
+  },
+  showResult() {
+    if (_displayResults(Template.instance().contract.get())) {
+      return `background-image: linear-gradient(90deg, ${_modeColor(this.mode)} ${parseInt(getTallyPercentage(this), 10)}%, transparent 0)`;
+    }
+    return '';
+  },
+  resultBar() {
+    let style;
+    if (_displayResults(Template.instance().contract.get())) {
+      style = 'checkbox-result ';
+      if (this.mode === 'REJECT') {
+        style += 'unauthorized';
+      }
+      return style;
+    }
+    return '';
   },
 });
 
@@ -258,7 +286,7 @@ Template.fork.events({
               targetId: Template.instance().contract.get()._id,
               wallet: Meteor.user().profile.wallet,
               contract: Template.instance().contract.get(),
-              candidateBallot: this,
+              candidateBallot: [this],
             };
             console.log(voteSettings);
             displayModal(
@@ -266,7 +294,7 @@ Template.fork.events({
               {
                 icon: 'images/modal-vote.png',
                 title: TAPi18n.__('place-vote'),
-                message: TAPi18n.__('place-votes-change-ballot'),
+                message: TAPi18n.__('cast-vote-modal'),
                 cancel: TAPi18n.__('not-now'),
                 action: TAPi18n.__('vote'),
                 displayProfile: false,
