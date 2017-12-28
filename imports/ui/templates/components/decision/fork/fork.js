@@ -54,6 +54,7 @@ Template.fork.onCreated(() => {
   Template.instance().contract = new ReactiveVar(Template.currentData().contract);
   Template.instance().rightToVote = new ReactiveVar(getRightToVote(Template.instance().contract.get()));
   Template.instance().candidateBallot = new ReactiveVar(getBallot(Template.instance().contract.get()._id));
+  Template.instance().percentage = new ReactiveVar();
 });
 
 Template.fork.helpers({
@@ -171,6 +172,14 @@ Template.fork.helpers({
     }
     return '';
   },
+  total() {
+    const total = getTally(this);
+    Template.instance().percentage.set(parseInt(getTallyPercentage(this), 10));
+    if (total !== 1) {
+      return `<strong>${total}</strong> ${TAPi18n.__('votes')} (${Template.instance().percentage.get()}%)`;
+    }
+    return `<strong>${total}</strong> ${TAPi18n.__('vote')} (${Template.instance().percentage.get()}%)`;
+  },
 });
 
 /**
@@ -181,48 +190,6 @@ Template.fork.helpers({
 const _animateBar = (identifier, percentage) => {
   $(identifier).velocity({ width: `${percentage}%` });
 };
-
-Template.result.onCreated(() => {
-  Template.instance().percentage = new ReactiveVar();
-});
-
-Template.result.onRendered(function () {
-  _animateBar(`#result-bar-${this.data.contract._id}-${this.data._id}`, Template.instance().percentage.get());
-});
-
-Template.result.helpers({
-  checkbox(mode) {
-    if (mode === 'REJECT') {
-      return 'result-unauthorized unauthorized nondraggable';
-    }
-    return _checkboxStyle(mode);
-  },
-  total() {
-    const total = getTally(this);
-    Template.instance().percentage.set(parseInt(getTallyPercentage(this), 10));
-    _animateBar(`#result-bar-${this.contract._id}-${this._id}`, Template.instance().percentage.get());
-    if (total !== 1) {
-      return `<strong>${total}</strong> ${TAPi18n.__('votes')} (${Template.instance().percentage.get()}%)`;
-    }
-    return `<strong>${total}</strong> ${TAPi18n.__('vote')} (${Template.instance().percentage.get()}%)`;
-  },
-  highlight() {
-    if (Template.instance().percentage.get() >= 50) {
-      return 'color: #fff';
-    }
-    return '';
-  },
-  forkId() {
-    return `${this.contract._id}-${this._id}`;
-  },
-  hundred() {
-    if (Template.instance().percentage.get() === 100) {
-      return 'result-hundred';
-    }
-    return '';
-  },
-});
-
 
 Template.fork.events({
   'click #ballotCheckbox'() {

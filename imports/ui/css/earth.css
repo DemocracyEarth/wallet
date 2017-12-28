@@ -2590,8 +2590,8 @@ blockquote {
 .result-total {
   position: relative;
   display: block;
-  margin-left: 10px;
-  float: left;
+  margin-top: 5px;
+  float: right;
   color: #028061;
   font-size: 11px;
   line-height: 31px;

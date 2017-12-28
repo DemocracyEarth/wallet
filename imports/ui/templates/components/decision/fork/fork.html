@@ -11,6 +11,11 @@
           <div class="{{style 'option-title'}} {{decision mode}}">
             {{_ mode}}
           </div>
+          {{#if displayResult}}
+            <div class="result-total {{checkbox mode}}">
+              {{{total}}}
+            </div>
+          {{/if}}
         </div>
       </div>
     </li>
@@ -44,19 +49,4 @@
       </div>
     </li>
   {{/if}}
-</template>
-
-<template name="result">
-  <div class="result-score {{checkbox mode}}">
-    <div class="result-total {{checkbox mode}}" style="{{highlight}}">
-      {{{total}}}
-    </div>
-    <div class="result-total result-right {{checkbox mode}}">
-      <!--{{{percentage}}}-->
-    </div>
-  </div>
-  <div class="result {{checkbox mode}} {{hundred}}">
-    <div id="result-bar-{{forkId}}" class="result-bar {{checkbox mode}}">
-    </div>
-  </div>
 </template>
