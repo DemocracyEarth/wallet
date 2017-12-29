@@ -45,9 +45,9 @@ const _checkboxStyle = (mode) => {
 */
 const _modeColor = (mode) => {
   if (mode === 'REJECT') {
-    return '#fdc5c5';
+    return '#fe5a77';
   }
-  return '#b7f3e1';
+  return '#00c091';
 };
 
 Template.fork.onCreated(() => {
@@ -55,6 +55,7 @@ Template.fork.onCreated(() => {
   Template.instance().rightToVote = new ReactiveVar(getRightToVote(Template.instance().contract.get()));
   Template.instance().candidateBallot = new ReactiveVar(getBallot(Template.instance().contract.get()._id));
   Template.instance().percentage = new ReactiveVar();
+  Template.instance().displayResults = new ReactiveVar(false);
 });
 
 Template.fork.helpers({
@@ -105,13 +106,33 @@ Template.fork.helpers({
         return '';
     }
   },
+  highlight(div) {
+    if ($(`#fork-${this.voteId}-${this._id}`)[0]) {
+      const width = $(`#fork-${this.voteId}-${this._id}`)[0].offsetWidth;
+      const percentage = Template.instance().percentage.get();
+      let min = 35;
+      if (div === 'result-total') { min = parseInt(width - 66, 10); }
+      if (percentage) {
+        if (parseInt((percentage * width) / 100, 10) > min) {
+          return 'color: #fff';
+        }
+      }
+    }
+    return '';
+  },
   decision(mode) {
+    let style;
     switch (mode) {
       case 'REJECT':
-        return 'option-link unauthorized';
+        style = 'option-link unauthorized';
+        break;
       default:
-        return '';
+        style = '';
     }
+    if (Template.instance().displayResults.get()) {
+      style += ' option-result';
+    }
+    return style;
   },
   caption(mode) {
     if (mode !== 'FORK') {
@@ -153,17 +174,18 @@ Template.fork.helpers({
     return (this.mode === 'REJECT');
   },
   displayResult() {
-    return _displayResults(Template.instance().contract.get());
+    Template.instance().displayResults.set(_displayResults(Template.instance().contract.get()));
+    return Template.instance().displayResults.get();
   },
   showResult() {
-    if (_displayResults(Template.instance().contract.get())) {
-      return `background-image: linear-gradient(90deg, ${_modeColor(this.mode)} ${parseInt(getTallyPercentage(this), 10)}%, transparent 0)`;
+    if (Template.instance().displayResults.get()) {
+      return `background-image: linear-gradient(90deg, ${_modeColor(this.mode)} ${Template.instance().percentage.get()}%, transparent 0)`;
     }
     return '';
   },
   resultBar() {
     let style;
-    if (_displayResults(Template.instance().contract.get())) {
+    if (Template.instance().displayResults.get()) {
       style = 'checkbox-result ';
       if (this.mode === 'REJECT') {
         style += 'unauthorized';
