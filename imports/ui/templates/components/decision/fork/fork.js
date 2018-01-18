@@ -245,11 +245,11 @@ Template.fork.events({
           }
 
           /*
-          deprecated data from liquid bar
+          deprecated data from liquid bar*/
           wallet.inBallot = Session.get(this.voteId).inBallot;
           wallet.allocateQuantity = wallet.inBallot;
           wallet.allocatePercentage = parseFloat((wallet.inBallot * 100) / wallet.balance, 10).toFixed(2);
-          */
+
 
           // cancel function
           const cancel = () => {
