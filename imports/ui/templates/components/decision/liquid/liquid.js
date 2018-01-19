@@ -162,7 +162,6 @@ const _setupDrag = () => {
 Template.liquid.onCreated(function () {
   const wallet = new Vote(Template.instance().data.wallet, Template.instance().data.targetId, Template.instance().data._id);
   Session.set(Template.instance().data._id, wallet);
-  console.log(Template.instance().data._id);
   Template.instance().contract = new ReactiveVar(Template.currentData().contract);
   Template.instance().rightToVote = new ReactiveVar(getRightToVote(Template.instance().contract.get()));
   Template.instance().candidateBallot = new ReactiveVar(Template.currentData().candidateBallot);
@@ -170,7 +169,7 @@ Template.liquid.onCreated(function () {
 
   const instance = this;
 
-/*  instance.autorun(function () {
+  instance.autorun(function () {
     if (!Session.get('dragging')) {
       const subscription = instance.subscribe('transaction', { view: 'singleVote', contractId: instance.data.targetId, sessionId: Session.get(instance.data._id) });
       if (subscription.ready()) {
@@ -184,7 +183,7 @@ Template.liquid.onCreated(function () {
       }
     }
   });
-  */
+
   if (wallet.voteType === 'DELEGATION') {
     Template.instance().rightToVote.set(getRightToVote(wallet.delegationContract));
     Template.instance().contract.set(wallet.delegationContract);
