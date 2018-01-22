@@ -170,7 +170,6 @@ Template.liquid.onCreated(function () {
   const instance = this;
 
   instance.autorun(function () {
-    console.log(instance.ready.get());
     if (!Session.get('dragging')) {
       const subscription = instance.subscribe('transaction', { view: 'singleVote', contractId: instance.data.targetId, sessionId: Session.get(instance.data._id) });
       if (subscription.ready()) {

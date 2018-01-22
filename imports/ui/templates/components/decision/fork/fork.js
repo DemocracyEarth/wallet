@@ -216,87 +216,45 @@ const _animateBar = (identifier, percentage) => {
 Template.fork.events({
   'click #ballotCheckbox'() {
     if (!Session.get('showModal')) {
-      if (Meteor.user() && Template.instance().contract.get().stage === 'LIVE') {
-        console.log(Template.instance());
+      if (Meteor.user()) {
+        switch (Template.instance().contract.get().stage) {
+          case 'DRAFT':
+          case 'FINISH':
+            Session.set('disabledCheckboxes', true);
+            break;
+          case 'LIVE':
+          default:
+            if (Template.instance().rightToVote.get()) {
+              if (Template.instance().candidateBallot.get() === undefined || Template.instance().candidateBallot.get().length === 0) {
+                Template.instance().candidateBallot.set(candidateBallot(Meteor.userId(), Template.instance().contract.get()._id));
+              }
+              const previous = Template.instance().candidateBallot.get();
+              const wallet = new Vote(Session.get(this.voteId), Session.get(this.voteId).targetId, this.voteId);
+              const template = Template.instance();
+              wallet.inBallot = Session.get(this.voteId).inBallot;
+              wallet.allocateQuantity = wallet.inBallot;
+              wallet.allocatePercentage = parseFloat((wallet.inBallot * 100) / wallet.balance, 10).toFixed(2);
+              const cancel = () => {
+                template.candidateBallot.set(setBallot(template.contract.get()._id, previous));
+              };
+              this.tick = setVote(Template.instance().contract.get(), this);
+              if (this.tick === true) {
+                Session.set('noSelectedOption', this.voteId);
+              }
 
-        // has right to vote
-        if (Template.instance().rightToVote.get()) {
-
-          // candidate ballot
-          if (Template.instance().candidateBallot.get() === undefined || Template.instance().candidateBallot.get().length === 0) {
-            Template.instance().candidateBallot.set(candidateBallot(Meteor.userId(), Template.instance().contract.get()._id));
-          }
-
-          console.log(Template.instance().candidateBallot.get());
-          console.log(Template.instance().candidateBallot.get().length);
-
-          const previous = Template.instance().candidateBallot.get();
-          const wallet = new Vote(Session.get(this.voteId), Session.get(this.voteId).targetId, this.voteId);
-          const template = Template.instance();
-
-          // ticking
-          this.tick = setVote(Template.instance().contract.get(), this);
-          console.log(this);
-          if (this.tick === true) {
-            Session.set('noSelectedOption', this.voteId);
-            setBallot(Template.instance().contract.get()._id, this);
-            // Template.instance().candidateBallot.set(this);
-            console.log(getBallot(Template.instance().contract.get()._id));
-          }
-
-          /*
-          deprecated data from liquid bar*/
-          wallet.inBallot = Session.get(this.voteId).inBallot;
-          wallet.allocateQuantity = wallet.inBallot;
-          wallet.allocatePercentage = parseFloat((wallet.inBallot * 100) / wallet.balance, 10).toFixed(2);
-
-
-          // cancel function
-          const cancel = () => {
-            template.candidateBallot.set(setBallot(template.contract.get()._id, previous));
-          };
-
-          // vote
-          if (this.tick === false && Session.get(this.voteId).inBallot > 0) {
-            // remove all votes
-            wallet.allocatePercentage = 0;
-            wallet.allocateQuantity = 0;
-            wallet.execute(cancel, true);
-            return;
-          } else if (Session.get(this.voteId).inBallot > 0) {
-            // change ballot
-            wallet.execute(cancel);
-          } else {
-            // new vote
-            console.log('show new modal');
-            const voteSettings = {
-              voteId: this.voteId,
-              sourceId: Meteor.userId(),
-              targetId: Template.instance().contract.get()._id,
-              wallet: Meteor.user().profile.wallet,
-              contract: Template.instance().contract.get(),
-              candidateBallot: [this],
-            };
-            console.log(voteSettings);
-            displayModal(
-              true,
-              {
-                icon: 'images/modal-vote.png',
-                title: TAPi18n.__('place-vote'),
-                message: TAPi18n.__('cast-vote-modal'),
-                cancel: TAPi18n.__('not-now'),
-                action: TAPi18n.__('vote'),
-                displayProfile: false,
-                displayBallot: true,
-                voteMode: true,
-                voteSettings,
-                ballot: [this],
-                contract: Template.instance().contract.get(),
-              },
-              () => { console.log('que tal'); },
-              cancel
-            );
-          }
+              // vote
+              if (this.tick === false && Session.get(this.voteId).inBallot > 0) {
+                // remove all votes
+                wallet.allocatePercentage = 0;
+                wallet.allocateQuantity = 0;
+                wallet.execute(cancel, true);
+                return;
+              } else if (Session.get(this.voteId).inBallot > 0) {
+                // send new ballot
+                wallet.execute(cancel);
+              }
+              break;
+            }
         }
       } else {
         const warnings = [];
