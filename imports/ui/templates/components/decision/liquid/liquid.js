@@ -170,8 +170,8 @@ Template.liquid.onCreated(function () {
   const instance = this;
 
   instance.autorun(function () {
-    if (!Session.get('dragging')) {
-      const subscription = instance.subscribe('transaction', { view: 'singleVote', contractId: instance.data.targetId, sessionId: Session.get(instance.data._id) });
+
+      const subscription = instance.subscribe('transaction', { view: 'singleVote', contractId: instance.data.targetId, sessionId: wallet });
       if (subscription.ready()) {
         wallet = new Vote(instance.data.wallet, instance.data.targetId, instance.data._id);
         if (wallet.voteType === 'DELEGATION') {
@@ -181,7 +181,7 @@ Template.liquid.onCreated(function () {
         Session.set(instance.data._id, wallet);
         instance.ready.set(true);
       }
-    }
+
   });
 
 /*
