@@ -129,7 +129,7 @@ Template.fork.helpers({
       default:
         style = '';
     }
-    if (Template.instance().displayResults.get()) {
+    if (Template.instance().displayResults.get() && Template.instance().percentage.get() > 0) {
       style += ' option-result';
     }
     return style;

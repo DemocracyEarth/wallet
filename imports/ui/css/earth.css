@@ -1310,8 +1310,8 @@ blockquote {
 
 .option {
   display: block;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   margin-right: 0px;
   margin-left: 10px;
   float: right;
@@ -1350,8 +1350,8 @@ blockquote {
   display: inline-block;
   max-width: 100%;
   margin-top: 0px;
-  font-size: 18px;
-  line-height: 40px;
+  font-size: 16px;
+  line-height: 30px;
   text-align: left;
   letter-spacing: 0px;
   text-transform: none;
@@ -1437,11 +1437,7 @@ blockquote {
 }
 
 .option-title.option-link.option-result {
-  margin-top: 5px;
-  margin-bottom: -5px;
   border-bottom-style: none;
-  font-size: 18px;
-  line-height: 32px;
 }
 
 .option-title.option-link.option-result:hover {
@@ -1511,8 +1507,8 @@ blockquote {
 
 .tick-image {
   display: block;
-  width: 38px;
-  height: 38px;
+  width: 28px;
+  height: 28px;
   border-radius: 100px;
 }
 
@@ -1553,6 +1549,7 @@ blockquote {
 
 .execution {
   display: block;
+  height: 0px;
   margin-right: auto;
   margin-left: auto;
 }
@@ -2602,8 +2599,8 @@ blockquote {
   margin-top: 5px;
   float: right;
   color: #028061;
-  font-size: 11px;
-  line-height: 31px;
+  font-size: 10px;
+  line-height: 21px;
   text-transform: uppercase;
 }
 
