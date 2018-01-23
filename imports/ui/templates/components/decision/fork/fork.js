@@ -147,23 +147,27 @@ Template.fork.helpers({
     return '';
   },
   tickStatus() {
-    this.tick = getTickValue(Template.instance().contract.get()._id, this, Template.instance().contract.get());
+    const election = getTickValue(this, Template.instance().contract.get());
+    this.tick = election.tick;
     const execution = $(`#execution-${this.voteId}`);
 
+    // display liquid bar
+    if (execution.length > 0 && execution.height() === 0) {
+      if (this.tick || election.alternative) {
+        $(execution).velocity({ height: `${115}px` });
+      }
+    }
+
+    // show tick
     if (Template.instance().candidateBallot.get() || (this.tick)) {
       if (this.tick) {
-        // display liquid bar
-        if (execution.length > 0 && execution.height() === 0) {
-          $(execution).velocity({ height: `${115}px` });
-        }
-
         if (this.mode === 'REJECT') {
           return 'tick-active-unauthorized';
         }
         return 'tick-active';
       }
 
-    // already voted
+    // if user already voted
     } else if (Template.instance().rightToVote.get() === false && Template.instance().contract.get().stage !== 'DRAFT') {
       if (this.tick) {
         return 'tick-disabled';
@@ -171,7 +175,7 @@ Template.fork.helpers({
     }
 
     // hide liquid bar
-    if (execution.length > 0 && execution.height() !== 0) {
+    if ((execution.length > 0 && execution.height() !== 0) && !election.alternative) {
       $(execution).velocity({ height: `${0}px` });
     }
     return '';

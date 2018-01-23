@@ -112,28 +112,6 @@ const _purgeBallot = (options) => {
 };
 
 /**
-* @summary evaluate if it's last present setting on ledger.
-* @param {object} contract - what contract to analyze
-* @param {object} userId - userId to be checked
-* @param {object} ballotId - ballotId value to verify
-* @return {boolean} if there's a tick or not
-*/
-const _getTickFromLedger = (contract, userId, ballotId) => {
-  const votes = getVotes(contract._id, userId);
-
-  // evaluate if it's last present setting on ledger.
-  if (votes > 0) {
-    const last = _.last(getTransactions(userId, contract._id));
-    for (const j in last.condition.ballot) {
-      if (last.condition.ballot[j]._id.toString() === ballotId.toString()) {
-        return true;
-      }
-    }
-  }
-  return false;
-};
-
-/**
 * @summary defines if user has the right to vote on a contract
 * @param {object} contract - what contract to analyze
 */
@@ -159,30 +137,70 @@ const _userAlreadyVoted = (contract) => {
 };
 
 /**
+* @summary evaluate if it's last present setting on ledger.
+* @param {object} contract - what contract to analyze
+* @param {object} userId - userId to be checked
+* @param {object} ballotId - ballotId value to verify
+* @return {object} tick value on given ballot and if an alternative is ticked
+*/
+const _getTickFromLedger = (contract, userId, ballotId) => {
+  const election = {
+    tick: false,
+    alternative: false,
+  };
+  const votes = getVotes(contract._id, userId);
+  // console.log(votes);
+  // evaluate if it's last present setting on ledger.
+  if (votes > 0) {
+    const last = _.last(getTransactions(userId, contract._id));
+    for (const j in last.condition.ballot) {
+      if (last.condition.ballot[j]._id.toString() === ballotId.toString()) {
+        // return true;
+        election.tick = true;
+        return election;
+      }
+      election.alternative = true;
+    }
+  }
+  return election;
+};
+
+/**
 * @summary returns tick value for a given ballot
-* @param {string} contractId - contract where this ballot belongs to
 * @param {object} ballot - ballot object from template
 * @param {object} contract - contract object being analyzed
-* @return {boolean} tick value
+* @return {object} tick value on given ballot and if an alternative is ticked
 */
-const _getTickValue = (contractId, ballot, contract) => {
+const _getTickValue = (ballot, contract) => {
+  const election = {
+    tick: false,
+    alternative: false,
+  };
   // first verifies if the user did any interaction regarding ballot
   if (_getRightToVote(contract) && contract.stage === 'LIVE') {
     // check current live vote
-    const votes = _getBallot(contractId); // Session.get('candidateBallot');
+    const votes = _getBallot(contract._id);
     if (votes !== undefined) {
       for (const i in votes) {
-        if (votes[i].contractId === contractId && votes[i].ballot._id.toString() === ballot._id.toString()) {
-          if (votes[i].ballot.tick !== undefined) {
-            return votes[i].ballot.tick;
+        if (votes[i].contractId === contract._id) {
+          if (votes[i].ballot._id.toString() === ballot._id.toString() && votes[i].ballot.tick !== undefined) {
+            election.tick = votes[i].ballot.tick;
+            // return votes[i].ballot.tick;
+          } else if (votes[i].ballot._id.toString() !== ballot._id.toString() && votes[i].ballot.tick) {
+            election.alternative = votes[i].ballot.tick;
           }
         }
+      }
+      // user ticked something
+      if (election.tick || election.alternative) {
+        // console.log('USER TRIGGER');
+        return election;
       }
     }
   }
   // check existing vote present in contract ledger
-  const ledgervote = _getTickFromLedger(contract, Meteor.userId(), ballot._id);
-  return ledgervote;
+  // console.log('DATA TRIGGER');
+  return _getTickFromLedger(contract, Meteor.userId(), ballot._id);
 };
 
 /**
