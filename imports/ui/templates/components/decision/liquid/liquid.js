@@ -170,16 +170,16 @@ Template.liquid.onCreated(function () {
   const instance = this;
 
   instance.autorun(function () {
-      const subscription = instance.subscribe('transaction', { view: 'singleVote', contractId: instance.data.targetId, sessionId: wallet });
-      if (subscription.ready()) {
-        wallet = new Vote(instance.data.wallet, instance.data.targetId, instance.data._id);
-        if (wallet.voteType === 'DELEGATION') {
-          instance.rightToVote.set(getRightToVote(wallet.delegationContract));
-          instance.contract.set(wallet.delegationContract);
-        }
-        Session.set(instance.data._id, wallet);
-        instance.ready.set(true);
+    const subscription = instance.subscribe('transaction', { view: 'singleVote', contractId: instance.data.targetId, sessionId: wallet });
+    if (subscription.ready()) {
+      wallet = new Vote(instance.data.wallet, instance.data.targetId, instance.data._id);
+      if (wallet.voteType === 'DELEGATION') {
+        instance.rightToVote.set(getRightToVote(wallet.delegationContract));
+        instance.contract.set(wallet.delegationContract);
       }
+      Session.set(instance.data._id, wallet);
+      instance.ready.set(true);
+    }
   });
 
 /*

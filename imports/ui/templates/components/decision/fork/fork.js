@@ -148,18 +148,31 @@ Template.fork.helpers({
   },
   tickStatus() {
     this.tick = getTickValue(Template.instance().contract.get()._id, this, Template.instance().contract.get());
+    const execution = $(`#execution-${this.voteId}`);
+
     if (Template.instance().candidateBallot.get() || (this.tick)) {
       if (this.tick) {
+        // display liquid bar
+        if (execution.length > 0 && execution.height() === 0) {
+          $(execution).velocity({ height: `${115}px` });
+        }
+
         if (this.mode === 'REJECT') {
           return 'tick-active-unauthorized';
         }
         return 'tick-active';
       }
+
     // already voted
     } else if (Template.instance().rightToVote.get() === false && Template.instance().contract.get().stage !== 'DRAFT') {
       if (this.tick) {
         return 'tick-disabled';
       }
+    }
+
+    // hide liquid bar
+    if (execution.length > 0 && execution.height() !== 0) {
+      $(execution).velocity({ height: `${0}px` });
     }
     return '';
   },

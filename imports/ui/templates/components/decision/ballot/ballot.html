@@ -76,7 +76,7 @@
 
   {{#unless editorMode}}
     {{#if currentUser}}
-      <div class="execution">
+      <div class="execution" id="execution-{{this.voteId}}">
         <div class="block">
           {{#with voteSettings}}
             {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot}}
