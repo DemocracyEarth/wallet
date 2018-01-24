@@ -405,6 +405,7 @@ export class Vote {
         boolProfile = false;
         showBallot = true;
         finalBallot = purgeBallot(getBallot(this.targetId));
+        console.log(finalBallot);
         dictionary = 'votes';
         settings = {
           condition: {
@@ -424,7 +425,6 @@ export class Vote {
     }
 
     // voting cases
-
     if (newVotes < 0 || votes === 0 || removal === true) {
       // subtract votes
 

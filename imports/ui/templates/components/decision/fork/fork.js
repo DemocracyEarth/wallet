@@ -149,12 +149,8 @@ Template.fork.helpers({
   tickStatus() {
     const election = getTickValue(this, Template.instance().contract.get());
     this.tick = election.tick;
-    if (Session.get('showModal')) {
-      console.log(this);
-      if (election.tick && election.onLedger && Session.get('displayModal').contract._id === this.contract._id) {
-        this.tick = !election.tick;
-      }
-      console.log(election);
+    if (Session.get('showModal') && election.tick && election.onLedger && Session.get('displayModal').contract._id === this.contract._id) {
+      this.tick = !election.tick;
     }
     const execution = $(`#execution-${this.voteId}`);
 
@@ -258,7 +254,7 @@ Template.fork.events({
               wallet.inBallot = Session.get(this.voteId).inBallot;
               wallet.allocateQuantity = wallet.inBallot;
               wallet.allocatePercentage = parseFloat((wallet.inBallot * 100) / wallet.balance, 10).toFixed(2);
-              const cancel = () => {
+              let cancel = () => {
                 template.candidateBallot.set(setBallot(template.contract.get()._id, previous));
               };
               this.tick = setVote(Template.instance().contract.get(), this);
@@ -271,6 +267,9 @@ Template.fork.events({
                 // remove all votes
                 wallet.allocatePercentage = 0;
                 wallet.allocateQuantity = 0;
+                cancel = () => {
+                  template.candidateBallot.set(setBallot(template.contract.get()._id, []));
+                };
                 wallet.execute(cancel, true);
                 return;
               } else if (Session.get(this.voteId).inBallot > 0) {
