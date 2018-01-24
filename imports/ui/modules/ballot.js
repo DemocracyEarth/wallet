@@ -68,7 +68,7 @@ const _setVote = (contract, ballot) => {
   const multipleChoice = contract.multipleChoice;
 
   // fate
-  if (ballot.tick === undefined) { ballot.tick = true } else { ballot.tick = !ballot.tick; }
+  if (ballot.tick === undefined) { ballot.tick = true; } else { ballot.tick = !ballot.tick; }
 
   // add or update ballot in memory
   let update = false;
@@ -86,12 +86,11 @@ const _setVote = (contract, ballot) => {
   if (!update) {
     candidateBallot.push({
       contractId: contract._id,
-      ballot: ballot,
+      ballot,
     });
   }
 
   // save to session var
-  // Session.set('candidateBallot', candidateBallot);
   _setBallot(contract._id, candidateBallot);
   return ballot.tick;
 };
@@ -147,6 +146,7 @@ const _getTickFromLedger = (contract, userId, ballotId) => {
   const election = {
     tick: false,
     alternative: false,
+    onLedger: true,
   };
   const votes = getVotes(contract._id, userId);
   // console.log(votes);
@@ -175,6 +175,7 @@ const _getTickValue = (ballot, contract) => {
   const election = {
     tick: false,
     alternative: false,
+    onLedger: false,
   };
   // first verifies if the user did any interaction regarding ballot
   if (_getRightToVote(contract) && contract.stage === 'LIVE') {
@@ -193,13 +194,11 @@ const _getTickValue = (ballot, contract) => {
       }
       // user ticked something
       if (election.tick || election.alternative) {
-        // console.log('USER TRIGGER');
         return election;
       }
     }
   }
   // check existing vote present in contract ledger
-  // console.log('DATA TRIGGER');
   return _getTickFromLedger(contract, Meteor.userId(), ballot._id);
 };
 

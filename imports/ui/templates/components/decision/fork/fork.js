@@ -149,6 +149,13 @@ Template.fork.helpers({
   tickStatus() {
     const election = getTickValue(this, Template.instance().contract.get());
     this.tick = election.tick;
+    if (Session.get('showModal')) {
+      console.log(this);
+      if (election.tick && election.onLedger && Session.get('displayModal').contract._id === this.contract._id) {
+        this.tick = !election.tick;
+      }
+      console.log(election);
+    }
     const execution = $(`#execution-${this.voteId}`);
 
     // display liquid bar
