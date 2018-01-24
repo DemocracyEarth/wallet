@@ -113,7 +113,7 @@ Template.fork.helpers({
       let min = 35;
       if (div === 'result-total') { min = parseInt(width - 66, 10); }
       if (percentage) {
-        if (parseInt((percentage * width) / 100, 10) > min) {
+        if ((parseInt((percentage * width) / 100, 10) > min) && Template.instance().displayResults.get()) {
           return 'color: #fff';
         }
       }
