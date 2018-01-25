@@ -16,17 +16,19 @@ function isDisabled() {
   return (Session.get('missingTitle') || Session.get('mistypedTitle') || Session.get('duplicateURL') || (Session.get('availableChars') < 0));
 }
 
-function promptLogin() {
-  Session.set('userLoginVisible', true);
-  displayPopup($('#loggedUser')[0], 'login', Meteor.userId(), event.type, 'user-login');
+function promptLogin(logged) {
+  if (logged) {
+    Session.set('userLoginVisible', true);
+    displayPopup($('#loggedUser')[0], 'login', Meteor.userId(), event.type, 'user-login');
+  } else {
+    Session.set('userLoginVisible', false);
+    animatePopup(false, 'user-login');
+  }
 }
 
 Template.authentication.onRendered(() => {
   Session.set('userLoginVisible', false);
-
-  if (!Meteor.user()) {
-    promptLogin();
-  }
+  promptLogin(Meteor.user());
 });
 
 Template.authentication.helpers({
@@ -56,14 +58,7 @@ Template.authentication.helpers({
 Template.authentication.events({
   'click #loggedUser'(event) {
     event.stopPropagation();
-    const userLogin = 'user-login';
-
-    if (!Session.get(userLogin) || !Session.get(userLogin).visible) {
-      promptLogin();
-    } else {
-      Session.set('userLoginVisible', false);
-      animatePopup(false, userLogin);
-    }
+    promptLogin((!Session.get('user-login') || !Session.get('user-login').visible));
   },
   'click #navbar-post-button'() {
     if (!isDisabled()) {
