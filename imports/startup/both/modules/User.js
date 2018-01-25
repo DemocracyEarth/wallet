@@ -156,7 +156,13 @@ const _createUser = (data) => {
           // make first membership transaction
           console.log('does user exist?');
           console.log(Meteor.user());
-          genesisTransaction(Meteor.user()._id);
+
+          Meteor.call('subsidizeUser', (subsidyError) => {
+            if (subsidyError) {
+              console.log(subsidyError.reason, 'danger');
+            }
+          });
+          // genesisTransaction(Meteor.user()._id);
           return resolve(result);
         });
       });

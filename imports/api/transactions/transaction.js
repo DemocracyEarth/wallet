@@ -6,6 +6,7 @@ import { displayNotice } from '/imports/ui/modules/notice';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { Collectives } from '/imports/api/collectives/Collectives';
 import { guidGenerator } from '/imports/startup/both/modules/crypto';
+import { getTime } from '/imports/api/methods';
 import { Transactions } from './Transactions';
 
 
@@ -363,6 +364,16 @@ const _processTransaction = (ticket) => {
 };
 
 /**
+* @summary gets time from server
+*/
+const getTimestamp = () => {
+  if (Meteor.isClient) {
+    return Session.get('time');
+  }
+  return getTime();
+};
+
+/**
 * @summary create a new transaction between two parties
 * @param {string} senderId - user or collective allocating the funds
 * @param {string} receiverId - user or collective receiving the funds
@@ -392,11 +403,6 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     return null;
   }
 
-  // sync time with server
-  Meteor.call('getServerTime', function (error, result) {
-    Session.set('time', result);
-  });
-
   // build transaction
   const newTransaction = {
     input: {
@@ -417,7 +423,7 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     },
     kind: finalSettings.kind,
     contractId: finalSettings.contractId,
-    timestamp: Session.get('time'),
+    timestamp: getTimestamp(),
     status: 'PENDING',
     condition: finalSettings.condition,
   };

@@ -1,4 +1,4 @@
-import { Meteor } from 'meteor/meteor';
+/*import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
@@ -7,7 +7,7 @@ Meteor.methods({
   /**
   * @summary counts the total items on a collection.
   * @return {number} total count.
-  */
+
   feedCount(query, options) {
     check(query, Object);
     check(options, Object);
@@ -18,3 +18,4 @@ Meteor.methods({
     return count;
   },
 });
+  */

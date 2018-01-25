@@ -60,9 +60,11 @@ Meteor.startup(() => {
   $.getScript('js/datepicker.js', () => {});
 
   // time
-  Meteor.call('getServerTime', function (error, result) {
-    Session.set('time', result);
-  });
+  Meteor.setInterval(function () {
+    Meteor.call('getServerTime', function (error, result) {
+      Session.set('time', result);
+    });
+  }, 1000);
 
   // search Engine for Tags
   Session.set('createTag', false);
