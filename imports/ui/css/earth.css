@@ -950,6 +950,16 @@ blockquote {
   float: left;
 }
 
+.button.login-button.blockstack {
+  border-color: #270e34;
+  background-color: #270e34;
+}
+
+.button.login-button.blockstack:active {
+  background-color: transparent;
+  color: #fff;
+}
+
 .button.facebook {
   border-color: #3c5b96;
   background-color: #3c5b96;

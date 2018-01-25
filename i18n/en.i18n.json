@@ -471,5 +471,6 @@
   "unlogged-cant-vote": "You need to be logged in to vote.",
   "email-recovery-instructions": "Password reset instructions will be sent to the Email used to register an account.",
   "alliance": "Delegation Status",
-  "draft": "Draft."
+  "draft": "Draft.",
+  "blockstack-id": "Blockstack ID"
 }
