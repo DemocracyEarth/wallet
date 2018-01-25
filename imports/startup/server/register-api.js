@@ -1,3 +1,6 @@
+import '/imports/api/server/methods';
+import '/imports/api/server/publications';
+/*
 // import '../../api/collectives/methods.js';
 import '../../api/collectives/server/publications.js';
 
@@ -15,3 +18,4 @@ import '../../api/transactions/server/publications.js';
 
 import '../../api/users/methods.js';
 import '../../api/users/server/publications.js';
+*/
