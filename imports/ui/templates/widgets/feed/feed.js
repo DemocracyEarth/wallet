@@ -30,7 +30,6 @@ Template.feed.onCreated(function () {
   const instance = this;
 
   instance.autorun(function () {
-    console.log(Template.currentData().options);
     const subscription = instance.subscribe('feed', Template.currentData().options);
     const count = instance.subscribe('feedCount', Template.currentData().options);
     const parameters = query(Template.currentData().options);

@@ -18,16 +18,19 @@ Meteor.publish('feed', function (terms) {
   } else {
     console.log("{ publish: 'feed', user: undefined, ");
   }
+
   console.log('', terms, ',');
-  console.log('', parameters.find, ',');
-  console.log(` { length: ${Contracts.find(parameters.find, parameters.options).fetch().length} } }`);
+  if (parameters) {
+    console.log('', parameters.find, ',');
+    console.log(` { length: ${Contracts.find(parameters.find, parameters.options).fetch().length} } }`);
 
-  const feed = Contracts.find(parameters.find, parameters.options);
-
-  if (feed) {
-    return feed;
+    const feed = Contracts.find(parameters.find, parameters.options);
+    if (feed) {
+      return feed;
+    }
+  } else {
+    console.log(' } }');
   }
-
   return this.ready();
 });
 
