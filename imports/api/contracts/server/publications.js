@@ -13,7 +13,11 @@ Meteor.publish('feed', function (terms) {
   check(terms, Object);
   const parameters = query(terms);
 
-  console.log(`{ publish: 'feed', user: '${Meteor.user().username}', `);
+  if (Meteor.user()) {
+    console.log(`{ publish: 'feed', user: '${Meteor.user().username}', `);
+  } else {
+    console.log("{ publish: 'feed', user: undefined, ");
+  }
   console.log('', terms, ',');
   console.log('', parameters.find, ',');
   console.log(` { length: ${Contracts.find(parameters.find, parameters.options).fetch().length} } }`);
