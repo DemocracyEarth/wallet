@@ -113,7 +113,7 @@ export default class Signup extends Component {
                 {TAPi18n.__('username')}
               </label>
               <img src="/images/id-card.png" className="login-icon" alt="id-card" />
-              <input id="signup-input" name="username-signup" type="text" placeholder={TAPi18n.__('username-sample')} className="w-input login-input" onFocus={this.handleFocus} onBlur={this.handleBlur} />
+              <input name="username-signup" type="text" placeholder={TAPi18n.__('username-sample')} className="w-input login-input" onFocus={this.handleFocus} onBlur={this.handleBlur} />
               {invalidUsernameState ? <Warning label="invalid-username" /> : null}
               {repeatedUsernameState ? <Warning label="repeated-username" /> : null}
             </div>
@@ -122,7 +122,7 @@ export default class Signup extends Component {
                 {TAPi18n.__('email')}
               </label>
               <img src="/images/mail-closed.png" className="login-icon" alt="mail-closed" />
-              <input id="signup-input" name="email-signup" type="text" placeholder={TAPi18n.__('email-sample')} className="w-input login-input" onFocus={this.handleFocus} onBlur={this.handleBlur} />
+              <input name="email-signup" type="text" placeholder={TAPi18n.__('email-sample')} className="w-input login-input" onFocus={this.handleFocus} onBlur={this.handleBlur} />
               {invalidEmailState ? <Warning label="invalid-email" /> : null}
             </div>
             <div className="w-clearfix login-field">
@@ -130,7 +130,7 @@ export default class Signup extends Component {
                 {TAPi18n.__('password')}
               </label>
               <img src="/images/lock.png" className="login-icon" alt="lock" />
-              <input id="signup-input" name="password-signup" type="password" placeholder={TAPi18n.__('password-sample')} className="w-input login-input" onFocus={this.handleFocus} onBlur={this.handleBlur} />
+              <input name="password-signup" type="password" placeholder={TAPi18n.__('password-sample')} className="w-input login-input" onFocus={this.handleFocus} onBlur={this.handleBlur} />
               {invalidPasswordState ? <Warning label="invalid-password" /> : null}
             </div>
             <div className="w-clearfix login-field">
@@ -138,7 +138,7 @@ export default class Signup extends Component {
                 {TAPi18n.__('password-again')}
               </label>
               <img src="/images/lock.png" className="login-icon" alt="lock" />
-              <input id="signup-input" name="mismatchPassword" type="password" placeholder={TAPi18n.__('password-sample-again')} className="w-input login-input" onFocus={this.handleFocus} onBlur={this.handleBlur} />
+              <input name="mismatchPassword" type="password" placeholder={TAPi18n.__('password-sample-again')} className="w-input login-input" onFocus={this.handleFocus} onBlur={this.handleBlur} />
               {mismatchPasswordState ? <Warning label="mismatch-password" /> : null}
             </div>
             {alreadyRegisteredState ? <div className="extra section"> <Warning label="user-exists" /> </div> : null}
