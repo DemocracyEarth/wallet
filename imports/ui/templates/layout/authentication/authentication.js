@@ -16,8 +16,17 @@ function isDisabled() {
   return (Session.get('missingTitle') || Session.get('mistypedTitle') || Session.get('duplicateURL') || (Session.get('availableChars') < 0));
 }
 
+function promptLogin() {
+  Session.set('userLoginVisible', true);
+  displayPopup($('#loggedUser')[0], 'login', Meteor.userId(), event.type, 'user-login');
+}
+
 Template.authentication.onRendered(() => {
   Session.set('userLoginVisible', false);
+
+  if (!Meteor.user()) {
+    promptLogin();
+  }
 });
 
 Template.authentication.helpers({
@@ -47,12 +56,10 @@ Template.authentication.helpers({
 Template.authentication.events({
   'click #loggedUser'(event) {
     event.stopPropagation();
-
-    const userLogin = "user-login"
+    const userLogin = 'user-login';
 
     if (!Session.get(userLogin) || !Session.get(userLogin).visible) {
-      Session.set('userLoginVisible', true);
-      displayPopup($('#loggedUser')[0], 'login', Meteor.userId(), event.type, userLogin);
+      promptLogin();
     } else {
       Session.set('userLoginVisible', false);
       animatePopup(false, userLogin);
