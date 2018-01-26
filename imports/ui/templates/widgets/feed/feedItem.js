@@ -36,11 +36,12 @@ Template.feedItem.onCreated(function () {
   }
 
   instance.autorun(function () {
-   /* const subscription = instance.subscribe('transaction', { view: 'singleVote', contractId: instance.data._id, sessionId: Session.get(instance.voteId) });
+    const subscription = instance.subscribe('transaction', { view: 'contractVotes', contractId: instance.data._id });
     if (subscription.ready()) {
-      const wallet = new Vote(instance.data.wallet, instance.data._id, instance.voteId);
-      Session.set(instance.voteId, wallet);
-    }*/
+      console.log(`suscription for ${instance.data._di} READY`);
+    } else {
+      console.log(`suscription for ${instance.data._di} not ready`);
+    }
   });
 });
 
