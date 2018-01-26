@@ -7,7 +7,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { editorFadeOut } from '/imports/ui/templates/components/decision/editor/editor';
 import { publishContract } from '/imports/startup/both/modules/Contract';
 import { displayNotice } from '/imports/ui/modules/notice';
-import { displayPopup, animatePopup, clearPopups } from '/imports/ui/modules/popup';
+import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
 
 import './authentication.html';
 import '../../components/identity/avatar/avatar.js';

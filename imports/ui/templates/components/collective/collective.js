@@ -1,6 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Router } from 'meteor/iron:router';
+import { TAPi18n } from 'meteor/tap:i18n';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import './collective.html';
 
@@ -19,6 +21,13 @@ Template.collective.helpers({
   },
   hasLogo() {
     return (Meteor.settings.public.Collective.profile.logo !== undefined);
+  },
+  members() {
+    const count = Meteor.users.find().count();
+    if (count === 1) {
+      return `${Meteor.users.find().count()} ${TAPi18n.__('member')}`;
+    }
+    return `${Meteor.users.find().count()} ${TAPi18n.__('members')}`;
   },
 });
 

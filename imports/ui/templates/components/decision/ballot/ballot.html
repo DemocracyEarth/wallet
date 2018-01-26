@@ -7,8 +7,8 @@
             {{#if editorMode}}
               {{#if ballotEnabled}}
                 {{#if executiveDecision}}
-                  {{> fork executive=true mode="AUTHORIZE" contract=contract}}
-                  {{> fork executive=true mode="REJECT" contract=contract}}
+                  {{> fork executive=true mode="AUTHORIZE" contract=contract placeholder=placeholder}}
+                  {{> fork executive=true mode="REJECT" contract=contract placeholder=placeholder}}
                 {{/if}}
                 <!--
                 <div class='ballot-section'>
@@ -26,14 +26,14 @@
             {{else}}
               {{#if executiveDecision}}
                 {{#with voteSettings}}
-                  {{> fork executive=true mode="AUTHORIZE" _id=1 voteId=this.voteId contract=contract}}
-                  {{> fork executive=true mode="REJECT" _id=0 voteId=this.voteId contract=contract}}
+                  {{> fork executive=true mode="AUTHORIZE" _id=1 voteId=this.voteId contract=contract placeholder=placeholder}}
+                  {{> fork executive=true mode="REJECT" _id=0 voteId=this.voteId contract=contract placeholder=placeholder}}
                 {{/with}}
               {{/if}}
             {{/if}}
             {{#each options}}
               {{#with voteSettings}}
-                {{> fork _id=this._id label=this.label mode=this.mode rank=this.rank url=this.url alternative=true editorMode=this.editorMode voteId=this.voteId contract=contract}}
+                {{> fork _id=this._id label=this.label mode=this.mode rank=this.rank url=this.url alternative=true editorMode=this.editorMode voteId=this.voteId contract=contract placeholder=placeholder}}
               {{/with}}
             {{/each}}
           </ul>
@@ -69,11 +69,6 @@
       {{/if}}
     {{/if}}
   </div>
-
-  {{#with voteSettings}}
-  {{/with}}
-
-
   {{#unless editorMode}}
     {{#if currentUser}}
       <div class="execution" id="execution-{{this.voteId}}">
@@ -85,6 +80,4 @@
       </div>
     {{/if}}
   {{/unless}}
-
-
 </template>

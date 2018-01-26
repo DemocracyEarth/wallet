@@ -2546,7 +2546,7 @@ blockquote {
 }
 
 .result-bar.vote-bar {
-  width: 25%;
+  width: 0%;
   height: 100%;
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
@@ -2557,7 +2557,7 @@ blockquote {
 .result-bar.vote-bar.vote-bar-allocated {
   position: absolute;
   right: 0px;
-  width: 50%;
+  width: 0%;
   height: 20px;
   margin-top: -20px;
   float: right;
@@ -4443,6 +4443,7 @@ blockquote {
 
 .collective-info {
   margin-top: 15px;
+  margin-bottom: 40px;
   font-size: 15px;
 }
 
@@ -5375,6 +5376,14 @@ blockquote {
   line-height: 19px;
   font-weight: 400;
   text-transform: uppercase;
+}
+
+.sidebar-tag.sidebar-stat {
+  margin: 0px 5px 0px 0px;
+  float: left;
+  border-radius: 3px;
+  font-size: 9px;
+  line-height: 25px;
 }
 
 .sidebar-label {

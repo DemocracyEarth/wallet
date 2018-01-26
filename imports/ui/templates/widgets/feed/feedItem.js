@@ -23,12 +23,8 @@ import '../../components/identity/avatar/avatar.js';
 import '../../widgets/transaction/transaction.js';
 
 Template.feedItem.onCreated(function () {
-  // Embedded mode means that Items are in an embedded feed to be selected (ie: for a ballot)
-  /*if (this.firstNode && this.firstNode.parentNode.id === 'proposalSuggestions') {
-    Template.instance().embeddedMode = new ReactiveVar(true);
-  } else {
-    Template.instance().embeddedMode = new ReactiveVar(false);
-  }*/
+  Template.instance().ready = new ReactiveVar(false);
+
   const instance = this;
 
   if (Meteor.userId()) {
@@ -38,9 +34,7 @@ Template.feedItem.onCreated(function () {
   instance.autorun(function () {
     const subscription = instance.subscribe('transaction', { view: 'contractVotes', contractId: instance.data._id });
     if (subscription.ready()) {
-      console.log(`suscription for ${instance.data._id} READY`);
-    } else {
-      console.log(`suscription for ${instance.data._id} not ready`);
+      instance.ready.set(true);
     }
   });
 });
@@ -116,6 +110,9 @@ Template.feedItem.helpers({
       return TAPi18n.__('no-voters');
     }
     return `${total} ${TAPi18n.__('voters').toLowerCase()}`;
+  },
+  electionData() {
+    return Template.instance().ready.get();
   },
 });
 

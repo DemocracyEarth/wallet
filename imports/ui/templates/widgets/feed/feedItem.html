@@ -45,8 +45,14 @@
                 <div class="verifier verifier-live verifier-feed">&#183; {{sinceDate timestamp}}</div>
               </div>
               <div class="data data-feed">
-                <img class="url-icon" src="{{pathFor route='home'}}images/vote-icon-black.png">
-                <div class="verifier verifier-live verifier-feed">{{voters}}</div>
+                {{#if electionData}}
+                  <img class="url-icon" src="{{pathFor route='home'}}images/vote-icon-black.png">
+                  <div class="verifier verifier-live verifier-feed">{{voters}}</div>
+                {{else}}
+                  <div class="verifier verifier-live verifier-feed">
+                    <div class="option-placeholder short"></div>
+                  </div>
+                {{/if}}
               </div>
             </div>
           </div>
@@ -60,7 +66,7 @@
           </div>
 
           {{#if ballotEnabled}}
-            {{> ballot editorMode=false feedMode=true contract=feedContract url=url}}
+            {{> ballot editorMode=false feedMode=true contract=feedContract url=url placeholder=electionData}}
           {{/if}}
         </div>
       </div>
