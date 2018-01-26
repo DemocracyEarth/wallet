@@ -241,12 +241,10 @@ const _getDelegatesMenu = (contractFeed, transactionFeed) => {
 
   // unilaterally received delegations
   if (Meteor.user()) {
-    // contracts = _.pluck(Contracts.find({ signatures: { $elemMatch: { username: Meteor.user().username } } }).fetch(), '_id');
     contracts = _.pluck(contractFeed, '_id');
   }
 
   // sent delegations
-  // const transactions = _.filter(Transactions.find({ kind: 'DELEGATION' }).fetch(),
   const transactions = _.filter(transactionFeed,
     (item) => {
       if (contracts.length > 0) {

@@ -121,12 +121,25 @@ Template.sidebar.onCreated(function () {
   const instance = this;
 
   instance.autorun(function () {
-    instance.subscribe('feed', {
+    const subscriptionContracts = instance.subscribe('feed', {
       view: 'delegationContracts',
     });
-    instance.subscribe('transaction', {
-      view: 'delegations',
-    });
+    if (subscriptionContracts.ready()) {
+      const contracts = Contracts.find({ $and: [{ signatures: { $elemMatch: { username: Meteor.user().username } } }, { kind: 'DELEGATION' }] }).fetch();
+      const subscriptionTransactions = instance.subscribe('delegations', {
+        view: 'delegationTransactions',
+        items: _.pluck(contracts, '_id'),
+      });
+      if (subscriptionTransactions.ready()) {
+        const transactions = Transactions.find({ kind: 'DELEGATION' }).fetch();
+        if (Meteor.user()) {
+          Template.instance().delegates.set(getDelegates(
+            contracts,
+            transactions,
+          ));
+        }
+      }
+    }
   });
 });
 
@@ -158,12 +171,6 @@ Template.sidebar.onRendered(() => {
 
 Template.sidebar.helpers({
   delegate() {
-    if (Meteor.user()) {
-      Template.instance().delegates.set(getDelegates(
-        Contracts.find({ signatures: { $elemMatch: { username: Meteor.user().username } } }).fetch(),
-        Transactions.find({ kind: 'DELEGATION' }).fetch()
-      ));
-    }
     return Template.instance().delegates.get();
   },
   member() {

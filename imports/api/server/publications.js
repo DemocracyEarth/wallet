@@ -37,6 +37,17 @@ Meteor.publish('transaction', (terms) => {
   return Transactions.find(parameters.find, parameters.options);
 });
 
+Meteor.publish('delegations', (terms) => {
+  check(terms, Object);
+  const parameters = query(terms);
+  if (Meteor.user()) {
+    terms.items.push(Meteor.userId());
+    console.log(terms.items);
+    console.log(`{ publish: 'delegations', user: '${Meteor.user().username}', contractId: '${terms.contractId}' }`);
+  }
+  return Transactions.find(parameters.find, parameters.options);
+});
+
 /**
 * @summary files related to a user account
 * @return {Object} file
