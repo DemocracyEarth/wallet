@@ -38,9 +38,9 @@ Template.feedItem.onCreated(function () {
   instance.autorun(function () {
     const subscription = instance.subscribe('transaction', { view: 'contractVotes', contractId: instance.data._id });
     if (subscription.ready()) {
-      console.log(`suscription for ${instance.data._di} READY`);
+      console.log(`suscription for ${instance.data._id} READY`);
     } else {
-      console.log(`suscription for ${instance.data._di} not ready`);
+      console.log(`suscription for ${instance.data._id} not ready`);
     }
   });
 });

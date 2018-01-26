@@ -28,7 +28,10 @@ function promptLogin(logged) {
 
 Template.authentication.onRendered(() => {
   Session.set('userLoginVisible', false);
-  promptLogin(Meteor.user());
+  if (!Session.get('checkInitialSetup')) {
+    promptLogin(Meteor.user());
+    Session.set('checkInitialSetup', true);
+  }
 });
 
 Template.authentication.helpers({
