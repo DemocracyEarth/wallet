@@ -30,11 +30,12 @@ Meteor.publish('singleUser', (userQuery) => {
 */
 Meteor.publish('transaction', (terms) => {
   check(terms, Object);
-  const parameters = query(terms);
-  if (Meteor.user()) {
+  if (Meteor.user() && terms.contractId) {
+    const parameters = query(terms);
     console.log(`{ publish: 'transaction', user: '${Meteor.user().username}', contractId: '${terms.contractId}' }`);
+    return Transactions.find(parameters.find, parameters.options);
   }
-  return Transactions.find(parameters.find, parameters.options);
+  return undefined;
 });
 
 Meteor.publish('delegations', (terms) => {

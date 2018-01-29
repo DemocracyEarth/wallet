@@ -6,6 +6,10 @@ import { ReactiveVar } from 'meteor/reactive-var';
 
 import './collective.html';
 
+Template.collective.onRendered(() => {
+  
+});
+
 Template.collective.helpers({
   title() {
     return Meteor.settings.public.Collective.name;
