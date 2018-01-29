@@ -50,4 +50,18 @@ Meteor.methods({
     console.log(`{ method: 'feedCount', user: '${Meteor.user().username}', count: ${count} }`);
     return count;
   },
+
+  /**
+  * @summary counts the total users on the collective
+  * @return {Number} total count.
+  */
+  userCount(query, options) {
+    check(query, Object);
+    check(options, Object);
+
+    const count = Meteor.users.find().count();
+
+    console.log(`{ method: 'userCount', user: '${Meteor.user().username}', count: ${count} }`);
+    return count;
+  },
 });

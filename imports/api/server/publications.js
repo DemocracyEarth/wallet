@@ -40,13 +40,13 @@ Meteor.publish('transaction', (terms) => {
 
 Meteor.publish('delegations', (terms) => {
   check(terms, Object);
-  const parameters = query(terms);
   if (Meteor.user()) {
+    const parameters = query(terms);
     terms.items.push(Meteor.userId());
-    console.log(terms.items);
-    console.log(`{ publish: 'delegations', user: '${Meteor.user().username}', contractId: '${terms.contractId}' }`);
+    console.log(`{ publish: 'delegations', user: '${Meteor.user().username}', delegates: '${terms.items}' }`);
+    return Transactions.find(parameters.find, parameters.options);
   }
-  return Transactions.find(parameters.find, parameters.options);
+  return undefined;
 });
 
 /**
@@ -105,6 +105,10 @@ Meteor.publish('feedCount', function (terms) {
   check(terms, Object);
   const parameters = query(terms);
   Counts.publish(this, 'feedItems', Contracts.find(parameters.find, parameters.options));
+});
+
+Meteor.publish('userCount', function () {
+  Counts.publish(this, 'totalUsers', Meteor.users.find());
 });
 
 /**

@@ -116,7 +116,7 @@ const _otherMembers = (currentDelegates) => {
 
 Template.sidebar.onCreated(function () {
   Template.instance().delegates = new ReactiveVar();
-  Template.instance().members = new ReactiveVar();
+  Template.instance().members = new ReactiveVar(0);
 
   const instance = this;
 
@@ -176,7 +176,7 @@ Template.sidebar.helpers({
     return Template.instance().delegates.get();
   },
   member() {
-    Template.instance().members.set(_otherMembers(Template.instance().delegates.get()));
+    // Template.instance().members.set(_otherMembers(Template.instance().delegates.get()));
     return Template.instance().members.get();
   },
   totalMembers() {
