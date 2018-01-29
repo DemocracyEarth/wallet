@@ -125,18 +125,20 @@ Template.sidebar.onCreated(function () {
       view: 'delegationContracts',
     });
     if (subscriptionContracts.ready()) {
-      const contracts = Contracts.find({ $and: [{ signatures: { $elemMatch: { username: Meteor.user().username } } }, { kind: 'DELEGATION' }] }).fetch();
-      const subscriptionTransactions = instance.subscribe('delegations', {
-        view: 'delegationTransactions',
-        items: _.pluck(contracts, '_id'),
-      });
-      if (subscriptionTransactions.ready()) {
-        const transactions = Transactions.find({ kind: 'DELEGATION' }).fetch();
-        if (Meteor.user()) {
-          Template.instance().delegates.set(getDelegates(
-            contracts,
-            transactions,
-          ));
+      if (Meteor.user()) {
+        const contracts = Contracts.find({ $and: [{ signatures: { $elemMatch: { username: Meteor.user().username } } }, { kind: 'DELEGATION' }] }).fetch();
+        const subscriptionTransactions = instance.subscribe('delegations', {
+          view: 'delegationTransactions',
+          items: _.pluck(contracts, '_id'),
+        });
+        if (subscriptionTransactions.ready()) {
+          const transactions = Transactions.find({ kind: 'DELEGATION' }).fetch();
+          if (Meteor.user()) {
+            Template.instance().delegates.set(getDelegates(
+              contracts,
+              transactions,
+            ));
+          }
         }
       }
     }

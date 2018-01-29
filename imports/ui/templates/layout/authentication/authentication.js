@@ -16,7 +16,7 @@ function isDisabled() {
   return (Session.get('missingTitle') || Session.get('mistypedTitle') || Session.get('duplicateURL') || (Session.get('availableChars') < 0));
 }
 
-function promptLogin(logged) {
+function promptLogin(logged, event) {
   if (logged) {
     Session.set('userLoginVisible', true);
     displayPopup($('#loggedUser')[0], 'login', Meteor.userId(), event.type, 'user-login');
@@ -28,8 +28,8 @@ function promptLogin(logged) {
 
 Template.authentication.onRendered(() => {
   Session.set('userLoginVisible', false);
-  if (!Session.get('checkInitialSetup') && !Meteor.user()) {
-    promptLogin(!Meteor.user());
+  if (!Session.get('checkInitialSetup') && Meteor.userId() === null) {
+    promptLogin(true, 'click');
     Session.set('checkInitialSetup', true);
   }
 });
@@ -61,7 +61,7 @@ Template.authentication.helpers({
 Template.authentication.events({
   'click #loggedUser'(event) {
     event.stopPropagation();
-    promptLogin((!Session.get('user-login') || !Session.get('user-login').visible));
+    promptLogin((!Session.get('user-login') || !Session.get('user-login').visible), event);
   },
   'click #navbar-post-button'() {
     if (!isDisabled()) {
