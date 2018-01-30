@@ -54,11 +54,7 @@ Template.feed.onCreated(function () {
     }
 
     if (Meteor.user()) {
-      const drafts = instance.subscribe('contractDrafts', { view: 'contractByKeyword', keyword: `draft-${Meteor.userId()}` });
-      // drafts
-      if (drafts.ready()) {
-        console.log('LOEADED DRAFTS');
-      }
+      instance.subscribe('contractDrafts', { view: 'contractByKeyword', keyword: `draft-${Meteor.userId()}` });
     }
   });
 });
