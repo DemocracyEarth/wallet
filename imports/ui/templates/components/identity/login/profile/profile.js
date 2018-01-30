@@ -8,7 +8,6 @@ import '../../avatar/avatar.js';
 import '../../authenticity/authenticity.js';
 import '../../../../widgets/warning/warning.js';
 
-
 Template.profile.helpers({
   configProfile() {
     return !Meteor.user().profile.configured;

@@ -9,13 +9,44 @@ import { shortUUID } from './crypto';
 import { transact } from '../../../api/transactions/transaction';
 
 /**
+* @summary signs a contract with a verified user
+* @param {string} contractId - contract Id to be signed
+* @param {string} userObject - object containing profile of the user signing
+* @param {string} role - type of role required in this signature
+* NOTE: simplify this and don't store a cache of data of a user, that was a stupid idea.
+*/
+const _sign = (contractId, userObject, userRole) => {
+  let found = false;
+  const contract = Contracts.findOne({ _id: contractId });
+
+  // avoids signature duplication
+  if (contract.signatures) {
+    contract.signatures.forEach((item) => { if (item._id === userObject._id) { found = true; return; } });
+  }
+
+  // signs
+  if (!found) {
+    Contracts.update({ _id: contractId }, { $push: {
+      signatures:
+      {
+        _id: userObject._id,
+        role: userRole,
+        hash: '', // TODO pending crypto TBD
+        username: userObject.username,
+        status: 'CONFIRMED',
+      },
+    } });
+  }
+};
+
+/**
 * @summary generate a new empty draft
 * @param {string} keyword - name of the contract to be specifically used for this delegation
 * @param {string} title - title of the contract without slug
 * @return {object} contract - if it's empty then call router with new contract,
 * otherwise returns contract object from db
 */
-const _newDraft = (newkeyword, newtitle) => {
+const _createContract = (newkeyword, newtitle) => {
   // empty Contract
   if (newkeyword === undefined) {
     if (!Contracts.findOne({ keyword: `draft-${Meteor.userId()}` })) {
@@ -25,14 +56,8 @@ const _newDraft = (newkeyword, newtitle) => {
     if (Meteor.user()) {
       _sign(contract._id, Meteor.user(), 'AUTHOR');
     }
-    /*
-    @NOTE: we are deprecating session.get('contract') everywhere.
-    if (Meteor.Device.isPhone()) {
-      Session.set('contract', contract);
-    }
-    */
+
     return contract;
-    // Router.go(`/vote/draft?id=${contract._id}`);
   // has title & keyword, used for forks
   } else if (!Contracts.findOne({ keyword: newkeyword })) {
     if (!newtitle) {
@@ -288,38 +313,6 @@ const _publish = (contractId) => {
 };
 
 /**
-* @summary signs a contract with a verified user
-* @param {string} contractId - contract Id to be signed
-* @param {string} userObject - object containing profile of the user signing
-* @param {string} role - type of role required in this signature
-* NOTE: simplify this and don't store a cache of data of a user, that was a stupid idea.
-*/
-const _sign = (contractId, userObject, userRole) => {
-  let found = false;
-  const contract = Contracts.findOne({ _id: contractId });
-
-  // avoids signature duplication
-  if (contract.signatures) {
-    contract.signatures.forEach((item) => { if (item._id === userObject._id) { found = true; return; } });
-  }
-
-  // signs
-  if (!found) {
-    Contracts.update({ _id: contractId }, { $push: {
-      signatures:
-      {
-        _id: userObject._id,
-        role: userRole,
-        hash: '', // TODO pending crypto TBD
-        username: userObject.username,
-        status: 'CONFIRMED',
-      },
-    } });
-  }
-};
-
-
-/**
 * @summary removes a signature from a contract
 * @param {string} contractId - contract Id to be signed
 * @param {string} userId - user signature to remove.
@@ -366,5 +359,5 @@ export const publishContract = _publish;
 export const removeContract = _remove;
 export const createDelegation = _newDelegation;
 export const sendDelegationVotes = _sendDelegation;
-export const createContract = _newDraft;
+export const createContract = _createContract;
 export const getDelegationContract = _getDelegationContract;

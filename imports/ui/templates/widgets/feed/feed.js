@@ -52,6 +52,14 @@ Template.feed.onCreated(function () {
       instance.feed.set(_sanitize(feed.fetch()));
       instance.refresh.set(false);
     }
+
+    if (Meteor.user()) {
+      const drafts = instance.subscribe('contractDrafts', { view: 'contractByKeyword', keyword: `draft-${Meteor.userId()}` });
+      // drafts
+      if (drafts.ready()) {
+        console.log('LOEADED DRAFTS');
+      }
+    }
   });
 });
 

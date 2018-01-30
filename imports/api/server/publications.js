@@ -124,6 +124,26 @@ Meteor.publish('singleContract', (terms) => {
 });
 
 /**
+* @summary loads drafts by user
+* @return {Object} querying terms
+*/
+Meteor.publish('contractDrafts', (terms) => {
+  check(terms, Object);
+  if (Meteor.user()) {
+    const parameters = query(terms);
+    const contract = Contracts.find(parameters.find, parameters.options);
+    if (contract) {
+      console.log(`{ publish: 'contractDrafts', user: '${Meteor.user().username}', { newDraft: false }`);
+      return contract;
+    }
+    console.log(`{ publish: 'contractDrafts', user: '${Meteor.user().username}', { newDraft: true }`);
+    Contracts.insert({ keyword: terms.keyword });
+    return Contracts.find(parameters.find, parameters.options);
+  }
+  return false;
+});
+
+/**
 * @summary gets information of registered collectives on this instance
 */
 Meteor.publish('collectives', () => {

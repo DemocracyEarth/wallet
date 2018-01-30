@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import { timers } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
@@ -108,6 +109,17 @@ const _editorFadeOut = (contractId) => {
   });
 };
 
+Template.editor.onCreated(function () {
+  Template.instance().ready = new ReactiveVar(false);
+  const instance = this;
+  instance.autorun(function () {
+    const subscription = instance.subscribe('singleContract', { view: 'contract', contractId: instance.data.contractId });
+    if (subscription.ready()) {
+      instance.ready.set(true);
+    }
+  });
+});
+
 Template.editor.onRendered(function () {
   _editorFadeIn(this.data.contractId);
 });
@@ -116,36 +128,42 @@ Template.editor.helpers({
   log() {
     return Session.get('mobileLog');
   },
-  /*
-  @NOTE: deprecating differentiated editor for device type
-  feedMode() {
-    return Session.get('showPostEditor');
-  },
-  */
   sinceDate() {
-    return `${timeCompressed(Contracts.findOne({ _id: this.contractId }).timestamp)}`;
+    if (Template.instance().ready.get()) {
+      return `${timeCompressed(Contracts.findOne({ _id: this.contractId }).timestamp)}`;
+    }
+    return '';
   },
   ballotEnabled() {
-    return Contracts.findOne({ _id: this.contractId }).ballotEnabled; // Session.get('contract').ballotEnabled;
+    if (Template.instance().ready.get()) {
+      return Contracts.findOne({ _id: this.contractId }).ballotEnabled;
+    }
+    return false;
   },
   signatures() {
-    return Contracts.findOne({ _id: this.contractId }).signatures;
+    if (Template.instance().ready.get()) {
+      return Contracts.findOne({ _id: this.contractId }).signatures;
+    }
+    return [];
   },
   draftContract() {
-    return Contracts.findOne({ _id: this.contractId });
+    if (Template.instance().ready.get()) {
+      return Contracts.findOne({ _id: this.contractId });
+    }
+    return undefined;
   },
   menu() {
     return [
       {
         icon: 'editor-ballot',
         status: () => {
-          if (Contracts.findOne({ _id: this.contractId }).ballotEnabled) { // Session.get('contract').ballotEnabled) {
+          if (Contracts.findOne({ _id: this.contractId }).ballotEnabled) {
             return 'active';
           }
           return 'enabled';
         },
         action: () => {
-          toggle('ballotEnabled', !Contracts.findOne({ _id: this.contractId }).ballotEnabled, this.contractId); // !Session.get('contract').ballotEnabled);
+          toggle('ballotEnabled', !Contracts.findOne({ _id: this.contractId }).ballotEnabled, this.contractId);
         },
       },
     ];
