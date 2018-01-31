@@ -15,12 +15,42 @@ import '../../../widgets/warning/warning.js';
 
 let typingTimer; // timer identifier
 
+function getIndexArray(search, text, caseSensitive) {
+  const searchStrLen = search.length;
+  if (searchStrLen === 0) {
+    return [];
+  }
+  const indices = [];
+  let str = text;
+  let searchStr = search;
+  let startIndex = 0;
+  let index;
+  if (!caseSensitive) {
+    str = text.toLowerCase();
+    searchStr = search.toLowerCase();
+  }
+  while ((index = str.indexOf(searchStr, startIndex)) > -1) {
+    indices.push(index);
+    startIndex = index + searchStrLen;
+  }
+  return indices;
+}
+
+/**
+* @summary converts string text using markdown signals to HTML
+*/
+const textToCode = (text) => {
+  const hash = text.indexOf('#');
+}
+
 function displayTitle(title) {
   if (title === '' || title === undefined) {
     Session.set('missingTitle', true);
     return ' ';
   }
   Session.set('missingTitle', false);
+  console.log(`title is: ${title}`);
+  console.log(getIndexArray('@', title, false));
   return title;
 }
 
