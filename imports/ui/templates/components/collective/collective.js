@@ -3,7 +3,6 @@ import { Template } from 'meteor/templating';
 import { Router } from 'meteor/iron:router';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { Counts } from 'meteor/tmeasday:publish-counts';
 
 import './collective.html';
 
@@ -12,11 +11,8 @@ Template.collective.onCreated(function () {
 
   const instance = this;
 
-  instance.autorun(function () {
-    const count = instance.subscribe('userCount');
-    if (count.ready()) {
-      instance.members.set(Counts.get('totalUsers'));
-    }
+  Meteor.call('userCount', function (error, result) {
+    instance.members.set(result);
   });
 });
 

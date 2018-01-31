@@ -107,10 +107,6 @@ Meteor.publish('feedCount', function (terms) {
   Counts.publish(this, 'feedItems', Contracts.find(parameters.find, parameters.options));
 });
 
-Meteor.publish('userCount', function () {
-  Counts.publish(this, 'totalUsers', Meteor.users.find());
-});
-
 /**
 * @summary gets a single contract
 * @return {Object} querying terms

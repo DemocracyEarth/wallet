@@ -55,10 +55,7 @@ Meteor.methods({
   * @summary counts the total users on the collective
   * @return {Number} total count.
   */
-  userCount(query, options) {
-    check(query, Object);
-    check(options, Object);
-
+  userCount() {
     const count = Meteor.users.find().count();
 
     console.log(`{ method: 'userCount', user: '${Meteor.user().username}', count: ${count} }`);
