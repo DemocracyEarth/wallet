@@ -15,7 +15,7 @@ import '../../../widgets/warning/warning.js';
 
 let typingTimer; // timer identifier
 
-function getIndexArray(search, text, caseSensitive) {
+const getIndexArray = (search, text, caseSensitive) => {
   const searchStrLen = search.length;
   if (searchStrLen === 0) {
     return [];
@@ -34,14 +34,37 @@ function getIndexArray(search, text, caseSensitive) {
     startIndex = index + searchStrLen;
   }
   return indices;
-}
+};
+
+const applyCode = (symbol, array) => {
+  switch (symbol) {
+    case '#':
+      break;
+    case '@':
+      break;
+    case '**':
+      break;
+    case '--':
+      break;
+    default:
+      break;
+  }
+};
 
 /**
 * @summary converts string text using markdown signals to HTML
+* @param {string} text
 */
-const textToCode = (text) => {
-  const hash = text.indexOf('#');
-}
+const textToHTML = (text) => {
+  const markup = {
+    hash: getIndexArray('#', text, false),
+    at: getIndexArray('@', text, false),
+    bold: getIndexArray('**', text, false),
+    italic: getIndexArray('--', text, false),
+  };
+
+  console.log(markup);
+};
 
 function displayTitle(title) {
   if (title === '' || title === undefined) {
@@ -49,8 +72,10 @@ function displayTitle(title) {
     return ' ';
   }
   Session.set('missingTitle', false);
+
   console.log(`title is: ${title}`);
-  console.log(getIndexArray('@', title, false));
+  console.log(textToHTML(title));
+
   return title;
 }
 
