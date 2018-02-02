@@ -36,34 +36,14 @@ const getIndexArray = (search, text, caseSensitive) => {
   return indices;
 };
 
-const applyCode = (symbol, array) => {
-  switch (symbol) {
-    case '#':
-      break;
-    case '@':
-      break;
-    case '**':
-      break;
-    case '--':
-      break;
-    default:
-      break;
-  }
-};
-
 /**
 * @summary converts string text using markdown signals to HTML
 * @param {string} text
 */
-const textToHTML = (text) => {
-  const markup = {
-    hash: getIndexArray('#', text, false),
-    at: getIndexArray('@', text, false),
-    bold: getIndexArray('**', text, false),
-    italic: getIndexArray('--', text, false),
-  };
-
-  console.log(markup);
+const parseMarkup = (text) => {
+  // hashtags
+  const html = text.replace(/(^|\s)(#[a-z\d][\w-]*)/ig, `$1<a href='${window.location.href}tag/$2'>$2</a>`);
+  return html;
 };
 
 function displayTitle(title) {
@@ -72,11 +52,7 @@ function displayTitle(title) {
     return ' ';
   }
   Session.set('missingTitle', false);
-
-  console.log(`title is: ${title}`);
-  console.log(textToHTML(title));
-
-  return title;
+  return title; // textToHTML(title);
 }
 
 Template.title.onRendered(() => {
@@ -171,7 +147,7 @@ Template.titleContent.events({
 
     // call function when typing seems to be finished.
     typingTimer = Meteor.setTimeout(() => {
-      Session.set('draftContract', Object.assign(draft, { title: content }));
+      Session.set('draftContract', Object.assign(draft, { title: parseMarkup(content) }));
     }, timers.SERVER_INTERVAL);
   },
   'blur #titleContent'() {
