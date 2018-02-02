@@ -43,7 +43,7 @@ Router.route('/', {
 
 /**
 * @summary loads a peer feed
-****/
+**/
 Router.route('/peer/:username', {
   name: 'peerFeed',
   template: 'home',
@@ -56,6 +56,23 @@ Router.route('/peer/:username', {
     };
   },
 });
+
+/**
+* @summary loads a peer feed
+**/
+Router.route('/tag/:hashtag', {
+  name: 'tagFeed',
+  template: 'home',
+  onBeforeAction() {
+    this.next();
+  },
+  data() {
+    return {
+      options: { view: 'tag', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, tag: this.params.hashtag },
+    };
+  },
+});
+
 
 /**
 * routing for feeds displaying contracts
@@ -77,24 +94,6 @@ Router.route('/:feed', {
     } else {
       this.render('notFound');
     }
-  },
-});
-
-/**
-* @summary loads a tag feed
-****/
-Router.route('/tag/:tag', {
-  name: 'tagFeed',
-  template: 'home',
-  waitOn() {
-    return [Meteor.subscribe('contracts', fn.buildQuery(this.params)), Meteor.subscribe('userData')];
-  },
-  onBeforeAction() {
-    fn.clearSessionVars();
-    fn.configNavbar(fn.buildTitle(this.params), '/tag');
-    fn.setSessionVars();
-    Session.set('feed', Contracts.find(fn.buildQuery(this.params), { sort: { createdAt: -1 } }).fetch());
-    this.next();
   },
 });
 
