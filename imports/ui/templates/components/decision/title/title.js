@@ -42,7 +42,7 @@ const getIndexArray = (search, text, caseSensitive) => {
 */
 const parseMarkup = (text) => {
   // hashtags
-  const html = text.replace(/(^|\s)(#[a-z\d][\w-]*)/ig, `$1<a href='/tag/$2'>$2</a>`);
+  const html = text.replace(/(^|\s)(#[a-z\d][\w-]*)/ig, `$1<a href='/tag/$2'>$2</a>`).replace("href='/tag/#", "href='/tag/");
   return html;
 };
 
