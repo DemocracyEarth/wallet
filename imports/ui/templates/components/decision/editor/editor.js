@@ -111,12 +111,16 @@ const _editorFadeOut = (contractId) => {
 
 Template.editor.onCreated(function () {
   Template.instance().ready = new ReactiveVar(false);
+  Template.instance().contract = new ReactiveVar();
   const instance = this;
   instance.autorun(function () {
-    const subscription = instance.subscribe('singleContract', { view: 'contract', contractId: instance.data.contractId });
+  /*  const subscription = instance.subscribe('singleContract', { view: 'contract', contractId: instance.data.contractId });
     if (subscription.ready()) {
       instance.ready.set(true);
     }
+    */
+    instance.contract.set(Session.get('draftContract'));
+    instance.ready.set(true);
   });
 });
 
@@ -130,25 +134,25 @@ Template.editor.helpers({
   },
   sinceDate() {
     if (Template.instance().ready.get()) {
-      return `${timeCompressed(Contracts.findOne({ _id: this.contractId }).timestamp)}`;
+      return `${timeCompressed(Template.instance().contract.get().timestamp)}`;
     }
     return '';
   },
   ballotEnabled() {
     if (Template.instance().ready.get()) {
-      return Contracts.findOne({ _id: this.contractId }).ballotEnabled;
+      return Template.instance().contract.get().ballotEnabled;
     }
     return false;
   },
   signatures() {
     if (Template.instance().ready.get()) {
-      return Contracts.findOne({ _id: this.contractId }).signatures;
+      return Template.instance().contract.get().signatures;
     }
     return [];
   },
   draftContract() {
     if (Template.instance().ready.get()) {
-      return Contracts.findOne({ _id: this.contractId });
+      return Template.instance().contract.get();
     }
     return undefined;
   },
