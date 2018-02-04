@@ -20,6 +20,7 @@ function toggle(key, value, id) {
   const obj = {};
   obj[key] = value;
   Contracts.update({ _id: id }, { $set: obj });
+  Session.set('draftContract', Contracts.findOne({ _id: id }));
 }
 
 /**
@@ -161,13 +162,17 @@ Template.editor.helpers({
       {
         icon: 'editor-ballot',
         status: () => {
-          if (Contracts.findOne({ _id: this.contractId }).ballotEnabled) {
-            return 'active';
+          if (Contracts.findOne({ _id: this.contractId })) {
+            if (Contracts.findOne({ _id: this.contractId }).ballotEnabled) {
+              return 'active';
+            }
           }
           return 'enabled';
         },
         action: () => {
-          toggle('ballotEnabled', !Contracts.findOne({ _id: this.contractId }).ballotEnabled, this.contractId);
+          if (Contracts.findOne({ _id: this.contractId })) {
+            toggle('ballotEnabled', !Contracts.findOne({ _id: this.contractId }).ballotEnabled, this.contractId);
+          }
         },
       },
     ];
