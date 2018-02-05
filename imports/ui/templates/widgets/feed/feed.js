@@ -8,6 +8,7 @@ import { Counts } from 'meteor/tmeasday:publish-counts';
 import { gui } from '/lib/const';
 import { query } from '/lib/views';
 import { Contracts } from '/imports/api/contracts/Contracts';
+import { createContract } from '/imports/startup/both/modules/Contract';
 
 import './feed.html';
 import './feedItem.js';
@@ -61,6 +62,9 @@ Template.feed.onCreated(function () {
         if (draftContract) {
           console.log(`setting draft contract id ${draftContract._id}`);
           Session.set('draftContract', draftContract);
+        } else {
+          console.log('creating new draft contract....');
+          Session.set('draftContract', createContract());
         }
       }
     }

@@ -27,6 +27,9 @@ Template.home.helpers({
     return Session.get('showPostEditor');
   },
   newContractId() {
-    return Session.get('draftContract')._id;
+    if (Session.get('draftContract')) {
+      return Session.get('draftContract')._id;
+    }
+    return undefined;
   },
 });
