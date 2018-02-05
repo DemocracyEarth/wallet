@@ -307,6 +307,7 @@ const _publish = (contractId) => {
     title: draft.title,
     keyword: draft.keyword,
     url: draft.url,
+    ballotEnabled: draft.ballotEnabled,
   },
   });
   Router.go('/');

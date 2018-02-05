@@ -54,7 +54,15 @@ Template.feed.onCreated(function () {
     }
 
     if (Meteor.user()) {
-      instance.subscribe('contractDrafts', { view: 'contractByKeyword', keyword: `draft-${Meteor.userId()}` });
+      const draft = instance.subscribe('contractDrafts', { view: 'contractByKeyword', keyword: `draft-${Meteor.userId()}` });
+      if (draft.ready()) {
+        const draftContract = Contracts.findOne({ keyword: `draft-${Meteor.userId()}` });
+        console.log(draftContract);
+        if (draftContract) {
+          console.log(`setting draft contract id ${draftContract._id}`);
+          Session.set('draftContract', draftContract);
+        }
+      }
     }
   });
 });

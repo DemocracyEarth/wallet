@@ -16,11 +16,16 @@ const _keepKeyboard = () => {
   $('#toolbar-hidden-keyboard').focus();
 };
 
-function toggle(key, value, id) {
-  const obj = {};
+function toggle(key, value) {
+  const contract = Session.get('draftContract');
+  contract[key] = value;
+  Session.set('draftContract', contract);
+
+/*  const obj = {};
   obj[key] = value;
   Contracts.update({ _id: id }, { $set: obj });
   Session.set('draftContract', Contracts.findOne({ _id: id }));
+*/
 }
 
 /**
@@ -111,18 +116,19 @@ const _editorFadeOut = (contractId) => {
 };
 
 Template.editor.onCreated(function () {
-  Template.instance().ready = new ReactiveVar(false);
-  Template.instance().contract = new ReactiveVar();
-  const instance = this;
+  Template.instance().ready = new ReactiveVar(true);
+  Template.instance().contract = new ReactiveVar(Session.get('draftContract'));
+
+
+  /* const instance = this;
   instance.autorun(function () {
   /*  const subscription = instance.subscribe('singleContract', { view: 'contract', contractId: instance.data.contractId });
     if (subscription.ready()) {
       instance.ready.set(true);
     }
-    */
     instance.contract.set(Session.get('draftContract'));
     instance.ready.set(true);
-  });
+  }); */
 });
 
 Template.editor.onRendered(function () {
@@ -134,26 +140,26 @@ Template.editor.helpers({
     return Session.get('mobileLog');
   },
   sinceDate() {
-    if (Template.instance().ready.get()) {
-      return `${timeCompressed(Template.instance().contract.get().timestamp)}`;
+    if (Session.get('draftContract')) {
+      return `${timeCompressed(Session.get('draftContract').timestamp)}`;
     }
     return '';
   },
   ballotEnabled() {
-    if (Template.instance().ready.get()) {
-      return Template.instance().contract.get().ballotEnabled;
+    if (Session.get('draftContract')) {
+      return Session.get('draftContract').ballotEnabled;
     }
     return false;
   },
   signatures() {
-    if (Template.instance().ready.get()) {
-      return Template.instance().contract.get().signatures;
+    if (Session.get('draftContract')) {
+      return Session.get('draftContract').signatures;
     }
     return [];
   },
   draftContract() {
-    if (Template.instance().ready.get()) {
-      return Template.instance().contract.get();
+    if (Session.get('draftContract')) {
+      return Session.get('draftContract');
     }
     return undefined;
   },
@@ -162,16 +168,16 @@ Template.editor.helpers({
       {
         icon: 'editor-ballot',
         status: () => {
-          if (Contracts.findOne({ _id: this.contractId })) {
-            if (Contracts.findOne({ _id: this.contractId }).ballotEnabled) {
+          if (Session.get('draftContract')) {
+            if (Session.get('draftContract').ballotEnabled) {
               return 'active';
             }
           }
           return 'enabled';
         },
         action: () => {
-          if (Contracts.findOne({ _id: this.contractId })) {
-            toggle('ballotEnabled', !Contracts.findOne({ _id: this.contractId }).ballotEnabled, this.contractId);
+          if (Session.get('draftContract')) {
+            toggle('ballotEnabled', !Session.get('draftContract').ballotEnabled);
           }
         },
       },
