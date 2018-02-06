@@ -1160,7 +1160,7 @@ blockquote {
   padding-top: 0px;
   padding-bottom: 0px;
   border-style: none;
-  border-radius: 5px;
+  border-radius: 25px;
   background-color: rgba(230, 249, 244, .15);
 }
 
@@ -3518,12 +3518,13 @@ blockquote {
 }
 
 .title-input.title-input-mini {
-  margin: 10px 0px;
+  margin: 0px 0px 15px;
   padding: 0px;
   border-left-style: none;
   opacity: 0.75;
-  font-size: 20px;
-  line-height: 28px;
+  font-size: 14px;
+  line-height: 18px;
+  font-style: italic;
   letter-spacing: 0px;
 }
 
@@ -4382,7 +4383,7 @@ blockquote {
   display: inline-block;
   width: 100%;
   margin-top: 20px;
-  margin-bottom: 0px;
+  margin-bottom: -10px;
 }
 
 .collective {

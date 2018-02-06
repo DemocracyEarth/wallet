@@ -130,10 +130,10 @@ Meteor.publish('contractDrafts', (terms) => {
     const parameters = query(terms);
     const contract = Contracts.find(parameters.find, parameters.options);
     if (contract) {
-      console.log(`{ publish: 'contractDrafts', user: '${Meteor.user().username}', { newDraft: false }`);
+      console.log(`{ publish: 'contractDrafts', user: '${Meteor.user().username}', insert: false }`);
       return contract;
     }
-    console.log(`{ publish: 'contractDrafts', user: '${Meteor.user().username}', { newDraft: true }`);
+    console.log(`{ publish: 'contractDrafts', user: '${Meteor.user().username}', insert: true }`);
     Contracts.insert({ keyword: terms.keyword });
     return Contracts.find(parameters.find, parameters.options);
   }
