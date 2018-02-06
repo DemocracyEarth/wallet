@@ -42,20 +42,22 @@
           {{/if}}
           {{#if includeName}}
             {{#if microFont}}
-              <a href="{{url}}" class="identity-label identity-label-micro">
+              <a href="{{url}}" title="{{username}}" class="identity-label identity-label-micro">
                 {{fullName profile}}
+              </a>
+              <span class="identity-label identity-label-micro">
                 {{#if includeNation}}
                   {{flag profile}}
                 {{/if}}
-              </a>
+              </span>
             {{else}}
               {{#if smallFont}}
-                <a href="{{url}}" class="identity-label identity-label-small">{{fullName profile}}</a>
+                <a href="{{url}}" title="{{username}}" class="identity-label identity-label-small">{{fullName profile}}</a>
                 {{#if includeNation}}
                   {{flag profile}}
                 {{/if}}
               {{else}}
-                <a href="{{url}}" class="identity-label">{{fullName profile}}</a>
+                <a href="{{url}}" title="{{username}}" class="identity-label">{{fullName profile}}</a>
               {{/if}}
               {{#if includeNation}}
                 {{#unless smallFont}}

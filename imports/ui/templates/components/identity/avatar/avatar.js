@@ -242,6 +242,13 @@ Template.avatar.helpers({
     }
     return undefined;
   },
+  username() {
+    const user = Meteor.users.findOne(_getDynamicID(this));
+    if (!user) {
+      return '';
+    }
+    return user.username;
+  },
   nationality(profile) {
     return getNation(profile);
   },
