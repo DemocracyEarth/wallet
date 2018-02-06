@@ -80,7 +80,7 @@ Meteor.publish('feed', function (terms) {
   if (Meteor.user()) {
     log = `{ publish: 'feed', user: '${Meteor.user().username}', ${JSON.stringify(terms)}, `;
   } else {
-    log = `{ publish: 'feed', user: undefined, ${JSON.stringify(terms)}, `;
+    log = `{ publish: 'feed', user: [anonymous], ${JSON.stringify(terms)}, `;
   }
 
   if (parameters) {

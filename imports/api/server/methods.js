@@ -46,8 +46,12 @@ Meteor.methods({
     check(options, Object);
 
     const count = Contracts.find(query, options).count();
+    if (Meteor.user()) {
+      console.log(`{ method: 'feedCount', user: '${Meteor.user().username}', count: ${count} }`);
+    } else {
+      console.log(`{ method: 'feedCount', user: [anonymous], count: ${count} }`);
+    }
 
-    console.log(`{ method: 'feedCount', user: '${Meteor.user().username}', count: ${count} }`);
     return count;
   },
 
@@ -58,7 +62,11 @@ Meteor.methods({
   userCount() {
     const count = Meteor.users.find().count();
 
-    console.log(`{ method: 'userCount', user: '${Meteor.user().username}', count: ${count} }`);
+    if (Meteor.user()) {
+      console.log(`{ method: 'userCount', user: '${Meteor.user().username}', count: ${count} }`);
+    } else {
+      console.log(`{ method: 'userCount', user: [anonymous], count: ${count} }`);
+    }
     return count;
   },
 });
