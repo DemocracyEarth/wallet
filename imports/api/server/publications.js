@@ -75,24 +75,25 @@ Meteor.publish('contracts', () => {
 Meteor.publish('feed', function (terms) {
   check(terms, Object);
   const parameters = query(terms);
+  let log = String();
 
   if (Meteor.user()) {
-    console.log(`{ publish: 'feed', user: '${Meteor.user().username}', `);
+    log = `{ publish: 'feed', user: '${Meteor.user().username}', ${JSON.stringify(terms)}, `;
   } else {
-    console.log("{ publish: 'feed', user: undefined, ");
+    log = `{ publish: 'feed', user: undefined, ${JSON.stringify(terms)}, `;
   }
 
-  console.log('', terms, ',');
   if (parameters) {
-    console.log('', parameters.find, ',');
-    console.log(` { length: ${Contracts.find(parameters.find, parameters.options).fetch().length} } }`);
+    log += (`${JSON.stringify(parameters.find)}, { length: ${Contracts.find(parameters.find, parameters.options).fetch().length} } }`);
+    console.log(log);
 
     const feed = Contracts.find(parameters.find, parameters.options);
     if (feed) {
       return feed;
     }
   } else {
-    console.log(' } }');
+    log += ' } }';
+    console.log(log);
   }
   return this.ready();
 });
