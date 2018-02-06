@@ -36,6 +36,28 @@ const getIndexArray = (search, text, caseSensitive) => {
   return indices;
 };
 
+const parseURL = (text) => {
+  const exp = /(\b(((https?|ftp|file|):\/\/)|www[.])[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+  let temp = text.replace(exp, "<a href='$1' target='_blank'>$1</a>");
+  let result = '';
+
+  while (temp.length > 0) {
+    const pos = temp.indexOf("href='");
+    if (pos === -1) {
+      result += temp;
+      break;
+    }
+    result += temp.substring(0, pos + 6);
+
+    temp = temp.substring(pos + 6, temp.length);
+    if ((temp.indexOf('://') > 8) || (temp.indexOf('://') === -1)) {
+      result += 'http://';
+    }
+  }
+
+  return result;
+};
+
 /**
 * @summary converts string text using markdown signals to HTML
 * @param {string} text
@@ -54,6 +76,7 @@ const parseMarkup = (text) => {
   html = html.replace(/(^|\s)(\$[a-z\d][\w-]*)/ig, "$1<a href='/token/$2'>$2</a>").replace("href='/token/$", "href='/token/");
 
   // urls
+  html = parseURL(html);
 
   // markup
   html = html.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
