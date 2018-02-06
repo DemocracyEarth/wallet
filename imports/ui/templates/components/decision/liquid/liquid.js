@@ -179,16 +179,9 @@ Template.liquid.onCreated(function () {
     }
     Session.set(instance.data._id, wallet);
     instance.ready.set(true);
+    console.log('hola');
     // }
   });
-
-/*
-  if (wallet.voteType === 'DELEGATION') {
-    Template.instance().rightToVote.set(getRightToVote(wallet.delegationContract));
-    Template.instance().contract.set(wallet.delegationContract);
-  }
-  Template.instance().ready.set(true);
-*/
 });
 
 

@@ -14,7 +14,6 @@ let modalCallback;
 const modal = (active, settings, callback, cancel) => {
   Session.set('displayModal', settings);
   Session.set('showModal', active);
-
 /*
   if (active) {
     $('#content').css('overflow', 'hidden');

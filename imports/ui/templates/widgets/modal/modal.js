@@ -90,7 +90,11 @@ Template.modalWindow.helpers({
   },
   contractTitle() {
     if (Session.get('displayModal') !== undefined) {
-      return Session.get('displayModal').contract.title;
+      let text = Session.get('displayModal').contract.title.replace(/<(?:.|\n)*?>/gm, '');
+      if (text.length > 100) {
+        text = `${text.substring(0, 100)}...`;
+      }
+      return text;
     }
     return '';
   },
