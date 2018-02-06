@@ -41,8 +41,28 @@ const getIndexArray = (search, text, caseSensitive) => {
 * @param {string} text
 */
 const parseMarkup = (text) => {
+  // remove html injections
+  let html = text.replace(/<(?:.|\n)*?>/gm, '');
+
   // hashtags
-  const html = text.replace(/(^|\s)(#[a-z\d][\w-]*)/ig, `$1<a href='/tag/$2'>$2</a>`).replace("href='/tag/#", "href='/tag/");
+  html = html.replace(/(^|\s)(#[a-z\d][\w-]*)/ig, "$1<a href='/tag/$2'>$2</a>").replace("href='/tag/#", "href='/tag/");
+
+  // mentions
+  html = html.replace(/(^|\s)(@[a-z\d][\w-]*)/ig, "$1<a href='/peer/$2'>$2</a>").replace("href='/peer/@", "href='/peer/");
+
+  // tokens
+  html = html.replace(/(^|\s)(\$[a-z\d][\w-]*)/ig, "$1<a href='/token/$2'>$2</a>").replace("href='/token/$", "href='/token/");
+
+  // urls
+
+  // markup
+  html = html.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+  html = html.replace(/__(.*?)__/g, '<u>$1</u>');
+  html = html.replace(/--(.*?)--/g, '<i>$1</i>');
+  html = html.replace(/~~(.*?)~~/g, '<del>$1</del>');
+
+  // paragraphs
+
   return html;
 };
 

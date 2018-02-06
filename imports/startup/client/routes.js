@@ -58,7 +58,7 @@ Router.route('/peer/:username', {
 });
 
 /**
-* @summary loads a peer feed
+* @summary loads a tag feed
 **/
 Router.route('/tag/:hashtag', {
   name: 'tagFeed',
@@ -73,6 +73,21 @@ Router.route('/tag/:hashtag', {
   },
 });
 
+/**
+* @summary loads a token feed
+**/
+Router.route('/token/:hashtag', {
+  name: 'tokenFeed',
+  template: 'home',
+  onBeforeAction() {
+    this.next();
+  },
+  data() {
+    return {
+      options: { view: 'tag', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, tag: this.params.hashtag },
+    };
+  },
+});
 
 /**
 * routing for feeds displaying contracts
