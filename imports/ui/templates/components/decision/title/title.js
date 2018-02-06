@@ -66,6 +66,9 @@ const parseMarkup = (text) => {
   // remove html injections
   let html = text.replace(/<(?:.|\n)*?>/gm, '');
 
+  // urls
+  html = parseURL(html);
+
   // hashtags
   html = html.replace(/(^|\s)(#[a-z\d][\w-]*)/ig, "$1<a href='/tag/$2'>$2</a>").replace("href='/tag/#", "href='/tag/");
 
@@ -75,9 +78,6 @@ const parseMarkup = (text) => {
   // tokens
   html = html.replace(/(^|\s)(\$[a-z\d][\w-]*)/ig, "$1<a href='/token/$2'>$2</a>").replace("href='/token/$", "href='/token/");
 
-  // urls
-  html = parseURL(html);
-
   // markup
   html = html.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
   html = html.replace(/__(.*?)__/g, '<u>$1</u>');
@@ -85,6 +85,7 @@ const parseMarkup = (text) => {
   html = html.replace(/~~(.*?)~~/g, '<del>$1</del>');
 
   // paragraphs
+  html = html.replace(/\n/g, '<br>');
 
   return html;
 };
