@@ -1958,6 +1958,12 @@ blockquote {
   color: #fff;
 }
 
+.warning.download {
+  border-radius: 25px;
+  background-color: #f5f5f5;
+  color: #b9b9b9;
+}
+
 .navbar {
   position: absolute;
   left: 320px;

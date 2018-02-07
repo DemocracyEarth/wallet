@@ -21,6 +21,7 @@ import '../../components/decision/stage/stage.js';
 import '../../components/decision/tag/tag.js';
 import '../../components/identity/avatar/avatar.js';
 import '../../widgets/transaction/transaction.js';
+import '../../widgets/spinner/spinner.js';
 
 Template.feedItem.onCreated(function () {
   Template.instance().ready = new ReactiveVar(false);
@@ -113,6 +114,13 @@ Template.feedItem.helpers({
   },
   electionData() {
     return Template.instance().ready.get();
+  },
+  spinnerStyle() {
+    return `height: 0px;
+            float: right;
+            margin-top: 14px;
+            margin-left: 10px;
+            width: 20px;`;
   },
 });
 

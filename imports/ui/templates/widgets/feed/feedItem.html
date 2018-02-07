@@ -64,9 +64,17 @@
               </div>
             </div>
           </div>
-
           {{#if ballotEnabled}}
-            {{> ballot editorMode=false feedMode=true contract=feedContract url=url placeholder=electionData}}
+            {{#if electionData}}
+              {{> ballot editorMode=false feedMode=true contract=feedContract url=url}}
+            {{else}}
+              <div class="extra">
+                <div class="warning download">
+                  {{_ 'get-election-votes'}}
+                  {{> spinner id=_id style=spinnerStyle}}
+                </div>
+              </div>
+            {{/if}}
           {{/if}}
         </div>
       </div>

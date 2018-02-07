@@ -473,5 +473,6 @@
   "alliance": "Delegation Status",
   "draft": "Draft.",
   "blockstack-id": "Blockstack ID",
-  "member": "Member"
+  "member": "Member",
+  "get-election-votes": "Counting votes..."
 }

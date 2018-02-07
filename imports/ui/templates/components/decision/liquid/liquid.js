@@ -170,17 +170,12 @@ Template.liquid.onCreated(function () {
   const instance = this;
 
   instance.autorun(function () {
-    // const subscription = instance.subscribe('transaction', { view: 'singleVote', contractId: instance.data.targetId, sessionId: wallet });
-    // if (subscription.ready()) {
     wallet = new Vote(instance.data.wallet, instance.data.targetId, instance.data._id);
     if (wallet.voteType === 'DELEGATION') {
       instance.rightToVote.set(getRightToVote(wallet.delegationContract));
       instance.contract.set(wallet.delegationContract);
     }
     Session.set(instance.data._id, wallet);
-    instance.ready.set(true);
-    console.log('hola');
-    // }
   });
 });
 
@@ -189,20 +184,6 @@ Template.liquid.onRendered(function () {
   if (!Meteor.user()) {
     return;
   }
-
-  // real time update
-  /**
-  NOTE: this was used likely to check for updates on remote instances but looks it should be deprecated now. Will leave as is for a while tho
-  Tracker.autorun(() => {
-    console.log(Template.instance());
-    if (Template.instance().data.sourceId === Meteor.userId()) {
-      const newWallet = new Vote(Meteor.user().profile.wallet, Template.instance().data.targetId, Template.instance().data._id);
-      newWallet.resetSlider();
-      console.log(Template.instance().data._id);
-      Session.set(Template.instance().data._id, newWallet);
-    }
-  });
-  */
 
   $(`#voteBar-${this.data._id}`).resize(function () {
     const voteId = this.id.replace('voteBar-', '');
@@ -214,9 +195,6 @@ Template.liquid.onRendered(function () {
 });
 
 Template.liquid.helpers({
-  ready() {
-    return Template.instance().ready.get();
-  },
   isDelegation() {
     return (Session.get(this._id).voteType === 'DELEGATION');
   },
