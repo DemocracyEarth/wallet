@@ -45,9 +45,9 @@ const _checkboxStyle = (mode) => {
 */
 const _modeColor = (mode) => {
   if (mode === 'REJECT') {
-    return '#fe5a77';
+    return '#fdc5c5';
   }
-  return '#00c091';
+  return '#b7f3e1';
 };
 
 Template.fork.onCreated(() => {
@@ -124,13 +124,10 @@ Template.fork.helpers({
     let style;
     switch (mode) {
       case 'REJECT':
-        style = 'option-link unauthorized';
+        style = ' unauthorized';
         break;
       default:
         style = '';
-    }
-    if (Template.instance().displayResults.get() && Template.instance().percentage.get() > 0) {
-      style += ' option-result';
     }
     return style;
   },

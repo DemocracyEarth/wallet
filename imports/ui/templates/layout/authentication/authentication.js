@@ -68,6 +68,8 @@ Template.authentication.events({
       publishContract(Session.get('draftContract')._id);
       editorFadeOut(Session.get('draftContract')._id);
       displayNotice(TAPi18n.__('posted-idea'), true);
+
+      Session.set('missingTitle', false);
     }
   },
 });

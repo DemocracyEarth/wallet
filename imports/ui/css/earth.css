@@ -1149,7 +1149,7 @@ blockquote {
 }
 
 .vote.vote-authorize.unauthorized {
-  background-color: #fae6e6;
+  background-color: #fff3f3;
   color: #ff2752;
 }
 
@@ -2613,7 +2613,6 @@ blockquote {
   display: block;
   margin-top: 5px;
   float: right;
-  color: #028061;
   font-size: 10px;
   line-height: 21px;
   text-transform: uppercase;
@@ -2623,10 +2622,6 @@ blockquote {
   margin-right: 10px;
   float: right;
   font-weight: 400;
-}
-
-.result-total.unauthorized {
-  color: #8c001c;
 }
 
 .result-percentage {

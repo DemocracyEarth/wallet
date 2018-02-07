@@ -506,7 +506,6 @@ const _updateBallotRank = (contractId, sortedBallotIDs) => {
 * @param {string} forkId - choice id
 */
 const _removeFork = (contractId, forkId) => {
-  console.log(`removing fork ${contractId} & ${forkId}`);
   Contracts.update({ _id: contractId }, { $pull: {
     ballot:
       { _id: forkId },
@@ -523,8 +522,6 @@ const _contractReady = (vote, contract) => {
   if (Session.get('emptyBallot') && contract.ballotEnabled) {
     return false;
   } else if (Session.get('unauthorizedFork') && contract.ballotEnabled) {
-    return false;
-  } else if (Session.get('missingTitle')) {
     return false;
   } else if (Session.get('mistypedTitle')) {
     return false;

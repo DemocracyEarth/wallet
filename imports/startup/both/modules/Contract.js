@@ -310,7 +310,6 @@ const _publish = (contractId) => {
     ballotEnabled: draft.ballotEnabled,
   },
   });
-  // Router.go('/');
 };
 
 /**

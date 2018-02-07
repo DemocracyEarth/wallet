@@ -68,12 +68,14 @@
             {{#if electionData}}
               {{> ballot editorMode=false feedMode=true contract=feedContract url=url}}
             {{else}}
-              <div class="extra">
-                <div class="warning download">
-                  {{_ 'get-election-votes'}}
-                  {{> spinner id=_id style=spinnerStyle}}
+              {{#if currentUser}}
+                <div class="extra">
+                  <div class="warning download">
+                    {{_ 'get-election-votes'}}
+                    {{> spinner id=_id style=spinnerStyle}}
+                  </div>
                 </div>
-              </div>
+             {{/if}}
             {{/if}}
           {{/if}}
         </div>
