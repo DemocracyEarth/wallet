@@ -107,8 +107,8 @@ Template.fork.helpers({
     }
   },
   highlight(div) {
-    if ($(`#fork-${this.voteId}-${this._id}`)[0]) {
-      const width = $(`#fork-${this.voteId}-${this._id}`)[0].offsetWidth;
+    if (document.querySelector(`#fork-${this.voteId}-${this._id}`)) {
+      const width = document.querySelector(`#fork-${this.voteId}-${this._id}`).offsetWidth;
       const percentage = Template.instance().percentage.get();
       let min = 35;
       if (div === 'result-total') { min = parseInt(width - 66, 10); }
