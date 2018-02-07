@@ -1135,22 +1135,17 @@ blockquote {
 .vote {
   display: block;
   width: 100%;
-  margin: 0px;
+  margin: 3px 0px;
   padding: 10px 10px 10px 15px;
   float: left;
-  border: 3px solid #fff;
+  border: 1px solid #eee;
   border-radius: 50px;
+  color: #6c5b7c;
   text-align: left;
 }
 
 .vote.vote-authorize {
-  background-color: #e6f9f4;
-  color: #00bf8f;
-}
-
-.vote.vote-authorize.unauthorized {
-  background-color: #fff3f3;
-  color: #ff2752;
+  background-color: #f7f7f7;
 }
 
 .vote.vote-authorize.vote-mini {
@@ -1162,6 +1157,7 @@ blockquote {
   border-style: none;
   border-radius: 25px;
   background-color: rgba(230, 249, 244, .15);
+  color: #fff;
 }
 
 .vote.vote-edit {
@@ -1325,7 +1321,7 @@ blockquote {
   margin-right: 0px;
   margin-left: 10px;
   float: right;
-  border: 1px solid #00c091;
+  border: 1px solid #6e5b7e;
   border-radius: 100px;
   background-color: #fff;
   box-shadow: 0 1px 9px -5px #000;
@@ -1333,7 +1329,7 @@ blockquote {
 }
 
 .option.unauthorized {
-  border-color: #ff2752;
+  border-color: #6e5b7e;
 }
 
 .option.disabled {
@@ -1495,11 +1491,11 @@ blockquote {
 .tick {
   display: inline-block;
   border-radius: 100px;
-  background-color: #00c091;
+  background-color: #6e5b7e;
 }
 
 .tick.unathorized {
-  background-color: #ff2752;
+  background-color: #6e5b7e;
 }
 
 .tick.unathorized:hover {
@@ -1531,23 +1527,23 @@ blockquote {
 }
 
 .tick-image.tick-disabled {
-  background-color: #aaa;
+  background-color: #dfdfdf;
 }
 
 .tick-image.tick-active {
-  background-color: #00bf8f;
+  background-color: #6c5b7c;
 }
 
 .tick-image.tick-active:hover {
-  background-color: #00bf8f;
+  background-color: #6c5b7c;
 }
 
 .tick-image.tick-active-unauthorized {
-  background-color: #ff2752;
+  background-color: #6e5b7e;
 }
 
 .tick-image.tick-active-unauthorized:hover {
-  background-color: #ff2752;
+  background-color: #6e5b7e;
 }
 
 .tick-image.tick-image-mini {
@@ -3435,6 +3431,7 @@ blockquote {
   display: block;
   overflow: auto;
   margin-right: -5px;
+  margin-bottom: 5px;
   margin-left: -5px;
   padding-right: 0px;
   padding-left: 0px;

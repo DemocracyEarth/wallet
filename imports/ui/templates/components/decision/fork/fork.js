@@ -47,7 +47,7 @@ const _modeColor = (mode) => {
   if (mode === 'REJECT') {
     return '#fdc5c5';
   }
-  return '#b7f3e1';
+  return '#bee8db';
 };
 
 Template.fork.onCreated(() => {
@@ -196,7 +196,12 @@ Template.fork.helpers({
   },
   showResult() {
     if (Template.instance().displayResults.get()) {
-      return `background-image: linear-gradient(90deg, ${_modeColor(this.mode)} ${Template.instance().percentage.get()}%, transparent 0)`;
+      const percentage = Template.instance().percentage.get();
+      let color = '#e6e6e6';
+      if (percentage > 50) {
+        color = '#ccbcda';
+      }
+      return `background-image: linear-gradient(90deg, ${color} ${Template.instance().percentage.get()}%, transparent 0)`;
     }
     return '';
   },
