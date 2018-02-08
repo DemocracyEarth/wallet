@@ -64,7 +64,6 @@ function hideBar() {
 */
 function displayBackButton() {
   return false;
-  // return (Meteor.Device.isPhone() && (Router.current().url.search('/idea/') >= 0 || Router.current().url.search('/peer/') >= 0));
 }
 
 /**

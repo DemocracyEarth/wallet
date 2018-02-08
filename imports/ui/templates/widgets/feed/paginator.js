@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { $ } from 'meteor/jquery';
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
@@ -28,13 +29,21 @@ Template.paginator.onCreated(function () {
 Template.paginator.onRendered(function () {
   const identifier = Template.instance().identifier;
   const loaded = Template.instance().loaded;
+  let isScrolling;
 
   $('.right').scroll(() => {
-    if (!loaded.get()) {
-      if (_aboveFold(identifier)) {
-        loaded.set(true);
-      }
+    let lag = 500;
+    Meteor.clearTimeout(isScrolling);
+    if (Meteor.isPhone()) {
+      lag = 2500;
     }
+    isScrolling = Meteor.setTimeout(function () {
+      if (!loaded.get()) {
+        if (_aboveFold(identifier)) {
+          loaded.set(true);
+        }
+      }
+    }, lag);
   });
 });
 
