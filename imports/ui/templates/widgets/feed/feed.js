@@ -27,7 +27,9 @@ Template.feed.onCreated(function () {
   Template.instance().count = new ReactiveVar(0);
   Template.instance().feed = new ReactiveVar();
   Template.instance().refresh = new ReactiveVar(false);
+});
 
+Template.feed.onRendered(function () {
   const instance = this;
 
   instance.autorun(function () {

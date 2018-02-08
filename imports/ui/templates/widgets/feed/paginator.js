@@ -32,18 +32,14 @@ Template.paginator.onRendered(function () {
   let isScrolling;
 
   $('.right').scroll(() => {
-    let lag = 500;
     Meteor.clearTimeout(isScrolling);
-    if (Meteor.isPhone()) {
-      lag = 2500;
-    }
     isScrolling = Meteor.setTimeout(function () {
       if (!loaded.get()) {
         if (_aboveFold(identifier)) {
           loaded.set(true);
         }
       }
-    }, lag);
+    }, 100);
   });
 });
 
