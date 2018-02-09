@@ -68,7 +68,7 @@
           </div>
           {{#if ballotEnabled}}
             {{#if electionData}}
-              {{> ballot editorMode=false feedMode=true contract=feedContract url=url}}
+              {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
             {{else}}
               {{#if currentUser}}
                 <div class="extra">

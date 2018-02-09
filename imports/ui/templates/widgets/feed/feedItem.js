@@ -11,10 +11,10 @@ import { getProfileName, stripHTMLfromText } from '/imports/ui/modules/utils';
 import { timeCompressed } from '/imports/ui/modules/chronos';
 import { displayModal } from '/imports/ui/modules/modal';
 import { animationSettings } from '/imports/ui/modules/animation';
-import { addChoiceToBallot, getTotalVoters } from '/imports/ui/modules/ballot';
+import { addChoiceToBallot, getTotalVoters, getRightToVote, getBallot } from '/imports/ui/modules/ballot';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { Contracts } from '/imports/api/contracts/Contracts';
-import { Vote } from '/imports/ui/modules/Vote';
+// import { setVote, getTickValue, candidateBallot, getRightToVote, getBallot, setBallot, getTotalVoters, getTally, getTallyPercentage } from '/imports/ui/modules/ballot';
 
 import './feedItem.html';
 import '../../components/decision/stage/stage.js';
@@ -23,9 +23,26 @@ import '../../components/identity/avatar/avatar.js';
 import '../../widgets/transaction/transaction.js';
 import '../../widgets/spinner/spinner.js';
 
+/**
+* @summary determines whether this decision can display results or notice
+* @return {boolean} yes or no
+*/
+const _displayResults = (contract) => {
+  if (getTotalVoters(contract) > 0) {
+    return ((contract.stage === 'FINISH') || (contract.permanentElection && contract.stage !== 'DRAFT'));
+  }
+  return false;
+};
+
 Template.feedItem.onCreated(function () {
   Template.instance().ready = new ReactiveVar(false);
+  Template.instance().contract = new ReactiveVar(Contracts.findOne({ _id: this.data._id }));
+  Template.instance().rightToVote = new ReactiveVar(false);
+  Template.instance().candidateBallot = new ReactiveVar();
+  Template.instance().displayResults = new ReactiveVar(false);
+});
 
+Template.feedItem.onRendered(function () {
   const instance = this;
 
   if (Meteor.userId()) {
@@ -35,7 +52,12 @@ Template.feedItem.onCreated(function () {
   instance.autorun(function () {
     if (instance.data._id) {
       const subscription = instance.subscribe('transaction', { view: 'contractVotes', contractId: instance.data._id });
-      if (subscription.ready()) {
+      const contract = instance.contract.get();
+      if (subscription.ready() && !instance.ready.get()) {
+        console.log('configuring vote...');
+        instance.rightToVote.set(getRightToVote(contract));
+        instance.candidateBallot.set(getBallot(instance.data._id));
+        instance.displayResults.set(_displayResults(contract));
         instance.ready.set(true);
       }
     }
@@ -103,7 +125,7 @@ Template.feedItem.helpers({
     return (this.kind === 'DELEGATION');
   },
   feedContract() {
-    return Contracts.findOne({ _id: this._id });
+    return Template.instance().contract.get();
   },
   voters() {
     const total = getTotalVoters(this);
@@ -123,6 +145,15 @@ Template.feedItem.helpers({
             margin-top: 14px;
             margin-left: 10px;
             width: 20px;`;
+  },
+  rightToVote() {
+    return Template.instance().rightToVote.get();
+  },
+  candidateBallot() {
+    return Template.instance().candidateBallot.get();
+  },
+  displayResults() {
+    return Template.instance().displayResults.get();
   },
 });
 

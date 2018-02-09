@@ -121,38 +121,38 @@ Template.ballot.onRendered(() => {
 
 Template.ballot.helpers({
   allowForks() {
-    return Template.instance().contract.get().allowForks;
+    return this.contract.allowForks;
   },
   ballotEnabled() {
-    if (Template.instance().contract.get().ballotEnabled) {
+    if (this.contract.ballotEnabled) {
       // TODO: use this when dragging becomes a feature
       // activateDragging();
     }
-    return Template.instance().contract.get().ballotEnabled;
+    return this.contract.ballotEnabled;
   },
   headerStyle() {
-    if (this.editorMode && !Template.instance().contract.get().ballotEnabled) {
+    if (this.editorMode && !this.contract.ballotEnabled) {
       return 'paper-header-empty';
     }
     return '';
   },
   multipleChoice() {
-    return Template.instance().contract.get().multipleChoice;
+    return this.contract.multipleChoice;
   },
   executiveDecision() {
-    if (Template.instance().contract.get().executiveDecision) {
+    if (this.contract.executiveDecision) {
       Template.instance().emptyBallot.set(false);
     } else if (Template.instance().ballotReady.get()) {
       Template.instance().emptyBallot.set(true);
     }
-    return Template.instance().contract.get().executiveDecision;
+    return this.contract.executiveDecision;
   },
   // NOTE: this algo is tricky af, i'm actually scared to touch it.
   options() {
     var contractBallot;
     if (Session.get('dbContractBallot') == undefined) {
-      if (Template.instance().contract.get()) {
-        contractBallot = Template.instance().contract.get().ballot;
+      if (this.contract) {
+        contractBallot = this.contract.ballot;
       } else {
         contractBallot = undefined;
       }
@@ -196,7 +196,7 @@ Template.ballot.helpers({
 
     if (ballot.length > 0) {
       Template.instance().emptyBallot.set(false);
-    } else if (Template.instance().contract.get().executiveDecision === false) {
+    } else if (this.contract.executiveDecision === false) {
       Template.instance().emptyBallot.set(true);
     }
 
@@ -254,13 +254,13 @@ Template.ballot.helpers({
     return getVoterContractBond(this);
   },
   executionStatus() {
-    return Template.instance().contract.get().executionStatus;
+    return this.contract.executionStatus;
   },
   stageLabel() {
-    return Template.instance().contract.get().stage;
+    return this.contract.stage;
   },
   closingDate() {
-    return Template.instance().contract.get().closingDate;
+    return this.contract.closingDate;
   },
   ballotStyle() {
     if (this.feedMode) {
@@ -269,13 +269,13 @@ Template.ballot.helpers({
     return '';
   },
   permanentElection() {
-    return Template.instance().contract.get().permanentElection;
+    return this.contract.permanentElection;
   },
   candidateBallot() {
     return Template.instance().candidateBallot.get();
   },
   voters() {
-    const total = getTotalVoters(Template.instance().contract.get());
+    const total = getTotalVoters(this.contract);
     if (total === 1) {
       return `${total} ${TAPi18n.__('voter').toLowerCase()}.`;
     } else if (total === 0) {
@@ -302,7 +302,7 @@ Template.ballot.helpers({
 Template.ballot.events({
   'submit #fork-form, click #add-fork-proposal'(event) {
     event.preventDefault();
-    addChoiceToBallot(Template.instance().contract.get()._id, document.getElementById('text-fork-proposal').value);
+    addChoiceToBallot(this.contract._id, document.getElementById('text-fork-proposal').value);
     Meteor.setTimeout(() => { document.getElementById('text-fork-proposal').value = ''; }, 100);
   },
 });

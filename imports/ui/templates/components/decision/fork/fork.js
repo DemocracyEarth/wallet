@@ -6,22 +6,10 @@ import { $ } from 'meteor/jquery';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
-import { setVote, getTickValue, candidateBallot, getRightToVote, getBallot, setBallot, getTotalVoters, getTally, getTallyPercentage } from '/imports/ui/modules/ballot';
+import { setVote, getTickValue, candidateBallot, setBallot, getTotalVoters, getTally, getTallyPercentage } from '/imports/ui/modules/ballot';
 import { Vote } from '/imports/ui/modules/Vote';
-import { displayModal } from '/imports/ui/modules/modal';
 
 import './fork.html';
-
-/**
-* @summary determines whether this decision can display results or notice
-* @return {boolean} yes or no
-*/
-const _displayResults = (contract) => {
-  if (getTotalVoters(contract) > 0) {
-    return ((contract.stage === 'FINISH') || (contract.permanentElection && contract.stage !== 'DRAFT'));
-  }
-  return false;
-};
 
 /**
 * @summary color to render the checkbox
@@ -51,11 +39,8 @@ const _modeColor = (mode) => {
 };
 
 Template.fork.onCreated(() => {
-  Template.instance().contract = new ReactiveVar(Template.currentData().contract);
-  Template.instance().rightToVote = new ReactiveVar(getRightToVote(Template.instance().contract.get()));
-  Template.instance().candidateBallot = new ReactiveVar(getBallot(Template.instance().contract.get()._id));
+  Template.instance().candidateBallot = new ReactiveVar(Template.currentData().candidateBallot);
   Template.instance().percentage = new ReactiveVar();
-  Template.instance().displayResults = new ReactiveVar(false);
 });
 
 Template.fork.helpers({
@@ -91,7 +76,7 @@ Template.fork.helpers({
     return '';
   },
   option(mode) {
-    if (this.contract.stage === 'DRAFT' || (Template.instance().rightToVote.get() === false && this.contract.stage !== 'DRAFT')) {
+    if (this.contract.stage === 'DRAFT' || (this.rightToVote === false && this.contract.stage !== 'DRAFT')) {
       return 'disabled';
     }
     switch (mode) {
@@ -113,7 +98,7 @@ Template.fork.helpers({
       let min = 35;
       if (div === 'result-total') { min = parseInt(width - 66, 10); }
       if (percentage) {
-        if ((parseInt((percentage * width) / 100, 10) > min) && Template.instance().displayResults.get()) {
+        if ((parseInt((percentage * width) / 100, 10) > min) && this.displayResults) {
           return 'color: #fff';
         }
       }
@@ -168,7 +153,7 @@ Template.fork.helpers({
       }
 
     // if user already voted
-    } else if (Template.instance().rightToVote.get() === false && this.contract.stage !== 'DRAFT') {
+    } else if (this.rightToVote === false && this.contract.stage !== 'DRAFT') {
       if (this.tick) {
         return 'tick-disabled';
       }
@@ -191,11 +176,10 @@ Template.fork.helpers({
     return (this.mode === 'REJECT');
   },
   displayResult() {
-    Template.instance().displayResults.set(_displayResults(this.contract));
-    return Template.instance().displayResults.get();
+    return this.displayResults;
   },
   showResult() {
-    if (Template.instance().displayResults.get()) {
+    if (this.displayResults) {
       const percentage = Template.instance().percentage.get();
       let color = '#e6e6e6';
       if (percentage > 50) {
@@ -207,7 +191,7 @@ Template.fork.helpers({
   },
   resultBar() {
     let style;
-    if (Template.instance().displayResults.get()) {
+    if (this.displayResults) {
       style = 'checkbox-result ';
       if (this.mode === 'REJECT') {
         style += 'unauthorized';
@@ -246,7 +230,7 @@ Template.fork.events({
             break;
           case 'LIVE':
           default:
-            if (Template.instance().rightToVote.get()) {
+            if (this.rightToVote) {
               if (Template.instance().candidateBallot.get() === undefined || Template.instance().candidateBallot.get().length === 0) {
                 Template.instance().candidateBallot.set(candidateBallot(Meteor.userId(), this.contract._id));
               }
@@ -257,7 +241,7 @@ Template.fork.events({
               wallet.allocateQuantity = wallet.inBallot;
               wallet.allocatePercentage = parseFloat((wallet.inBallot * 100) / wallet.balance, 10).toFixed(2);
               let cancel = () => {
-                template.candidateBallot.set(setBallot(template.contract.get()._id, previous));
+                template.candidateBallot.set(setBallot(this.contract._id, previous));
               };
               this.tick = setVote(this.contract, this);
               if (this.tick === true) {
@@ -270,7 +254,7 @@ Template.fork.events({
                 wallet.allocatePercentage = 0;
                 wallet.allocateQuantity = 0;
                 cancel = () => {
-                  template.candidateBallot.set(setBallot(template.contract.get()._id, []));
+                  template.candidateBallot.set(setBallot(this.contract._id, []));
                 };
                 wallet.execute(cancel, true);
                 return;

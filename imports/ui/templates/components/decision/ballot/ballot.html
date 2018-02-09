@@ -17,8 +17,8 @@
                 {{#with voteSettings}}
                   <!--{{#nrr nrrargs 'fork' executive=true mode="AUTHORIZE" _id=1 voteId=this.voteId contract=contract placeholder=placeholder}}{{/nrr}}
                   {{#nrr nrrargs 'fork' executive=true mode="REJECT" _id=0 voteId=this.voteId contract=contract placeholder=placeholder}}{{/nrr}}-->
-                  {{> fork executive=true mode="AUTHORIZE" _id=1 voteId=this.voteId contract=contract placeholder=placeholder}}
-                  {{> fork executive=true mode="REJECT" _id=0 voteId=this.voteId contract=contract placeholder=placeholder}}
+                  {{> fork executive=true mode="AUTHORIZE" _id=1 voteId=this.voteId contract=contract placeholder=placeholder rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
+                  {{> fork executive=true mode="REJECT" _id=0 voteId=this.voteId contract=contract placeholder=placeholder rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
                 {{/with}}
               {{/if}}
 
