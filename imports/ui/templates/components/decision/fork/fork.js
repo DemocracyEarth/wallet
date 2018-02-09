@@ -70,7 +70,7 @@ Template.fork.helpers({
     return '';
   },
   dragMode() {
-    if (Template.instance().contract.get().stage === 'DRAFT' || this.mini === true) {
+    if (this.contract.stage === 'DRAFT' || this.mini === true) {
       return '';
     }
     return 'vote-nondrag';
@@ -91,7 +91,7 @@ Template.fork.helpers({
     return '';
   },
   option(mode) {
-    if (Template.instance().contract.get().stage === 'DRAFT' || (Template.instance().rightToVote.get() === false && Template.instance().contract.get().stage !== 'DRAFT')) {
+    if (this.contract.stage === 'DRAFT' || (Template.instance().rightToVote.get() === false && this.contract.stage !== 'DRAFT')) {
       return 'disabled';
     }
     switch (mode) {
@@ -138,13 +138,13 @@ Template.fork.helpers({
     return this.label;
   },
   tick() {
-    if (Template.instance().contract.get().stage === 'DRAFT') {
+    if (this.contract.stage === 'DRAFT') {
       return 'disabled';
     }
     return '';
   },
   tickStatus() {
-    const election = getTickValue(this, Template.instance().contract.get());
+    const election = getTickValue(this, this.contract);
     this.tick = election.tick;
     if (Session.get('showModal') && election.tick && election.onLedger && Session.get('displayModal').contract._id === this.contract._id) {
       this.tick = !election.tick;
@@ -168,7 +168,7 @@ Template.fork.helpers({
       }
 
     // if user already voted
-    } else if (Template.instance().rightToVote.get() === false && Template.instance().contract.get().stage !== 'DRAFT') {
+    } else if (Template.instance().rightToVote.get() === false && this.contract.stage !== 'DRAFT') {
       if (this.tick) {
         return 'tick-disabled';
       }
@@ -191,7 +191,7 @@ Template.fork.helpers({
     return (this.mode === 'REJECT');
   },
   displayResult() {
-    Template.instance().displayResults.set(_displayResults(Template.instance().contract.get()));
+    Template.instance().displayResults.set(_displayResults(this.contract));
     return Template.instance().displayResults.get();
   },
   showResult() {
@@ -239,7 +239,7 @@ Template.fork.events({
   'click #ballotCheckbox'() {
     if (!Session.get('showModal')) {
       if (Meteor.user()) {
-        switch (Template.instance().contract.get().stage) {
+        switch (this.contract.stage) {
           case 'DRAFT':
           case 'FINISH':
             Session.set('disabledCheckboxes', true);
@@ -248,7 +248,7 @@ Template.fork.events({
           default:
             if (Template.instance().rightToVote.get()) {
               if (Template.instance().candidateBallot.get() === undefined || Template.instance().candidateBallot.get().length === 0) {
-                Template.instance().candidateBallot.set(candidateBallot(Meteor.userId(), Template.instance().contract.get()._id));
+                Template.instance().candidateBallot.set(candidateBallot(Meteor.userId(), this.contract._id));
               }
               const previous = Template.instance().candidateBallot.get();
               const wallet = new Vote(Session.get(this.voteId), Session.get(this.voteId).targetId, this.voteId);
@@ -259,7 +259,7 @@ Template.fork.events({
               let cancel = () => {
                 template.candidateBallot.set(setBallot(template.contract.get()._id, previous));
               };
-              this.tick = setVote(Template.instance().contract.get(), this);
+              this.tick = setVote(this.contract, this);
               if (this.tick === true) {
                 Session.set('noSelectedOption', this.voteId);
               }
@@ -295,7 +295,7 @@ Template.fork.events({
     }
   },
   'click #remove-fork'() {
-    Contracts.update(Template.instance().contract.get()._id, { $pull: {
+    Contracts.update(this.contract._id, { $pull: {
       ballot:
         { _id: this._id },
     } });

@@ -10,26 +10,18 @@
                   {{> fork executive=true mode="AUTHORIZE" contract=contract placeholder=placeholder}}
                   {{> fork executive=true mode="REJECT" contract=contract placeholder=placeholder}}
                 {{/if}}
-                <!--
-                <div class='ballot-section'>
-                  <ul class="w-list-unstyled settings section">
-                    <li class="w-clearfix setting">
-                      <div class="text setting-label">{{_ "closing-date-of-poll"}}</div>
-                      <div class="value">
-                        {{> calendar contract=contract}}
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-                -->
               {{/if}}
             {{else}}
+
               {{#if executiveDecision}}
                 {{#with voteSettings}}
+                  <!--{{#nrr nrrargs 'fork' executive=true mode="AUTHORIZE" _id=1 voteId=this.voteId contract=contract placeholder=placeholder}}{{/nrr}}
+                  {{#nrr nrrargs 'fork' executive=true mode="REJECT" _id=0 voteId=this.voteId contract=contract placeholder=placeholder}}{{/nrr}}-->
                   {{> fork executive=true mode="AUTHORIZE" _id=1 voteId=this.voteId contract=contract placeholder=placeholder}}
                   {{> fork executive=true mode="REJECT" _id=0 voteId=this.voteId contract=contract placeholder=placeholder}}
                 {{/with}}
               {{/if}}
+
             {{/if}}
             {{#each options}}
               {{#with voteSettings}}
@@ -71,6 +63,7 @@
   </div>
   {{#unless editorMode}}
     {{#if currentUser}}
+
       <div class="execution" id="execution-{{this.voteId}}">
         <div class="block">
           {{#with voteSettings}}
@@ -78,6 +71,7 @@
           {{/with}}
         </div>
       </div>
+
     {{/if}}
   {{/unless}}
 </template>
