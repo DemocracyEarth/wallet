@@ -33,9 +33,14 @@ Template.feedItem.onCreated(function () {
   }
 
   instance.autorun(function () {
-    const subscription = instance.subscribe('transaction', { view: 'contractVotes', contractId: instance.data._id });
-    if (subscription.ready()) {
-      instance.ready.set(true);
+    if (instance.data._id) {
+      const subscription = instance.subscribe('transaction', { view: 'contractVotes', contractId: instance.data._id });
+      console.log('subscribing to votes...');
+      console.log(instance.data._id);
+      if (subscription.ready()) {
+        console.log('votes here....');
+        instance.ready.set(true);
+      }
     }
   });
 });

@@ -78,3 +78,7 @@ body {
 .rosca {
   display: table;
 }
+
+.vote {
+  /* will-change: transform; */
+}
