@@ -3,6 +3,7 @@ import { Router } from 'meteor/iron:router';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 
+
 import { gui } from '/lib/const';
 import '/imports/ui/templates/layout/main.js';
 import '/imports/ui/templates/layout/url/home/home.js';
@@ -31,6 +32,7 @@ Router.route('/', {
   name: 'home',
   template: 'home',
   loadingTemplate: 'load',
+  fastRender: true,
   onBeforeAction() {
     this.next();
   },
