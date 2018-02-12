@@ -7,7 +7,7 @@ import { getDelegationContract, createDelegation } from '/imports/startup/both/m
 import { animationSettings } from '/imports/ui/modules/animation';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { convertToSlug } from '/lib/utils';
-import { purgeBallot, getBallot } from '/imports/ui/modules/ballot';
+import { purgeBallot, getBallot, getTickValue } from '/imports/ui/modules/ballot';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { displayModal } from '/imports/ui/modules/modal';
 import { transact, getVotes } from '/imports/api/transactions/transaction';

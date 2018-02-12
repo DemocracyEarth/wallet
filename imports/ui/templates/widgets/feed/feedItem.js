@@ -70,9 +70,7 @@ Template.feedItem.onRendered(function () {
     isScrolling = Meteor.setTimeout(function () {
       if (document.querySelector(`#ballot-${instance.data._id}`)) {
         instance.aboveFold.set(isScrolledIntoView(document.querySelector(`#ballot-${instance.data._id}`)));
-      } /* else if (document.querySelector(`#feedItem-${instance.data._id}`)) {
-        instance.aboveFold.set(isScrolledIntoView(document.querySelector(`#feedItem-${instance.data._id}`)));
-      }*/
+      }
     }, 100);
   });
 
@@ -183,10 +181,7 @@ Template.feedItem.helpers({
     return Template.instance().displayResults.get();
   },
   onScreen() {
-    console.log(`#feedItem-${this._id} is ${Template.instance().aboveFold.get()}`);
     return Template.instance().aboveFold.get();
-    // console.log(isScrolledIntoView(document.querySelector(`#feedItem-${this._id}`)));
-    // return isScrolledIntoView(document.querySelector(`#feedItem-${this._id}`));
   },
 });
 

@@ -6,7 +6,7 @@ import { $ } from 'meteor/jquery';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
-import { setVote, getTickValue, candidateBallot, setBallot, getTotalVoters, getTally, getTallyPercentage } from '/imports/ui/modules/ballot';
+import { setVote, getTickValue, candidateBallot, setBallot, getTally, getTallyPercentage } from '/imports/ui/modules/ballot';
 import { Vote } from '/imports/ui/modules/Vote';
 
 import './fork.html';
@@ -27,20 +27,32 @@ const _checkboxStyle = (mode) => {
   }
 };
 
-/**
-* @summary color to render the result bar
-* @param {string} mode current mode of the checkbox
-*/
-const _modeColor = (mode) => {
-  if (mode === 'REJECT') {
-    return '#fdc5c5';
+const _displayLiquidBar = (fork) => {
+  const execution = $(`#execution-${fork.voteId}`);
+  if (execution) {
+    // display liquid bar
+    if (execution.length > 0 && execution.height() === 0) {
+      if (fork.tick || Template.instance().election.get().alternative) {
+        $(execution).velocity({ height: `${115}px` });
+      }
+    }
+
+    // hide liquid bar
+    if ((execution.length > 0 && execution.height() !== 0) && !Template.instance().election.get().alternative) {
+      $(execution).velocity({ height: `${0}px` });
+    }
   }
-  return '#bee8db';
 };
 
 Template.fork.onCreated(() => {
   Template.instance().candidateBallot = new ReactiveVar(Template.currentData().candidateBallot);
   Template.instance().percentage = new ReactiveVar();
+  Template.instance().election = new ReactiveVar();
+});
+
+Template.fork.onRendered(function () {
+  Template.instance().election.set(getTickValue(this.data, this.data.contract));
+//  _displayLiquidBar(this.data);
 });
 
 Template.fork.helpers({
@@ -130,39 +142,33 @@ Template.fork.helpers({
   },
   tickStatus() {
     const election = getTickValue(this, this.contract);
-    this.tick = election.tick;
-    if (Session.get('showModal') && election.tick && election.onLedger && Session.get('displayModal').contract._id === this.contract._id) {
-      this.tick = !election.tick;
-    }
-    const execution = $(`#execution-${this.voteId}`);
-
-    // display liquid bar
-    if (execution.length > 0 && execution.height() === 0) {
-      if (this.tick || election.alternative) {
-        $(execution).velocity({ height: `${115}px` });
+    // const election = Template.instance().election.set(getTickValue(this, this.contract));
+//    Template.instance().election.set(getTickValue(this, this.contract));
+    if (Template.instance().election.get()) {
+      this.tick = election.tick;
+      if (Session.get('showModal') && election.tick && election.onLedger && Session.get('displayModal').contract._id === this.contract._id) {
+        this.tick = !election.tick;
       }
-    }
 
-    // show tick
-    if (Template.instance().candidateBallot.get() || (this.tick)) {
-      if (this.tick) {
-        if (this.mode === 'REJECT') {
-          return 'tick-active-unauthorized';
+     // _displayLiquidBar(this);
+
+      // show tick
+      if (Template.instance().candidateBallot.get() || (this.tick)) {
+        if (this.tick) {
+          if (this.mode === 'REJECT') {
+            return 'tick-active-unauthorized';
+          }
+          return 'tick-active';
         }
-        return 'tick-active';
-      }
 
-    // if user already voted
-    } else if (this.rightToVote === false && this.contract.stage !== 'DRAFT') {
-      if (this.tick) {
-        return 'tick-disabled';
+      // if user already voted
+      } else if (this.rightToVote === false && this.contract.stage !== 'DRAFT') {
+        if (this.tick) {
+          return 'tick-disabled';
+        }
       }
     }
 
-    // hide liquid bar
-    if ((execution.length > 0 && execution.height() !== 0) && !election.alternative) {
-      $(execution).velocity({ height: `${0}px` });
-    }
     return '';
   },
   style(className) {
@@ -237,19 +243,22 @@ Template.fork.events({
               const previous = Template.instance().candidateBallot.get();
               const wallet = new Vote(Session.get(this.voteId), Session.get(this.voteId).targetId, this.voteId);
               const template = Template.instance();
+              const election = Template.instance().election.get();
               wallet.inBallot = Session.get(this.voteId).inBallot;
               wallet.allocateQuantity = wallet.inBallot;
               wallet.allocatePercentage = parseFloat((wallet.inBallot * 100) / wallet.balance, 10).toFixed(2);
               let cancel = () => {
                 template.candidateBallot.set(setBallot(this.contract._id, previous));
               };
-              this.tick = setVote(this.contract, this);
-              if (this.tick === true) {
+
+              election.tick = setVote(this.contract, this);
+              if (election.tick === true) {
                 Session.set('noSelectedOption', this.voteId);
               }
+              Template.instance().election.set(election);
 
               // vote
-              if (this.tick === false && Session.get(this.voteId).inBallot > 0) {
+              if (election.tick === false && Session.get(this.voteId).inBallot > 0) {
                 // remove all votes
                 wallet.allocatePercentage = 0;
                 wallet.allocateQuantity = 0;

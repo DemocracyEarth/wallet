@@ -5,7 +5,7 @@ import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { TAPi18n } from 'meteor/tap:i18n';
 
-import { removeFork, updateBallotRank, addChoiceToBallot, candidateBallot, getBallot, getTotalVoters } from '/imports/ui/modules/ballot';
+import { removeFork, updateBallotRank, addChoiceToBallot, getTickValue, candidateBallot, getBallot, getTotalVoters } from '/imports/ui/modules/ballot';
 import { displayTimedWarning } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { timers } from '/lib/const';
@@ -36,6 +36,31 @@ function getVoterContractBond(object) {
     targetId: object.contract._id,
   });
 }
+
+const _userCanVote = (contract) => {
+  const forks = [
+    {
+      executive: true,
+      mode: 'AUTHORIZE',
+      _id: 1,
+      tick: false,
+    },
+    {
+      executive: true,
+      mode: 'REJECT',
+      _id: 0,
+      tick: false,
+    },
+  ];
+
+  for (const i in forks) {
+    // forks[i].tick = getTickValue(forks[i], this.data.contract).tick;
+    if (getTickValue(forks[i], contract).tick) {
+      return true;
+    }
+  }
+  return false;
+};
 
 function activateDragging() {
   let sortableIn;
@@ -98,6 +123,8 @@ function activateDragging() {
 
 
 Template.ballot.onCreated(() => {
+  Template.instance().readyToVote = new ReactiveVar(false);
+
   Template.instance().emptyBallot = new ReactiveVar();
   Template.instance().ballotReady = new ReactiveVar();
   Template.instance().removeProposal = new ReactiveVar();
@@ -279,6 +306,9 @@ Template.ballot.helpers({
       }
     }
     return false;
+  },
+  votingContext() {
+    return _userCanVote(this.contract);
   },
 });
 
