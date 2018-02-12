@@ -23,17 +23,17 @@ import '../liquid/liquid.js';
 function getVoterContractBond(object) {
   if (Meteor.user()) {
     return Object.assign(object, {
-      voteId: `vote-${Meteor.userId()}-${Template.instance().contract.get()._id}`,
+      voteId: `vote-${Meteor.userId()}-${object.contract._id}`,
       wallet: Meteor.user().profile.wallet,
       sourceId: Meteor.userId(),
-      targetId: Template.instance().contract.get()._id,
+      targetId: object.contract._id,
     });
   }
   return Object.assign(object, {
-    voteId: `vote-0000000-${Template.instance().contract.get()._id}`,
+    voteId: `vote-0000000-${object.contract._id}`,
     wallet: undefined,
     sourceId: '0000000',
-    targetId: Template.instance().contract.get()._id,
+    targetId: object.contract._id,
   });
 }
 
@@ -49,7 +49,7 @@ function activateDragging() {
       Template.instance().removeProposal.set(false);
       if (rankOrder.length === 0) {
         Template.instance().ballotReady.set(false);
-        if (Session.get('executiveDecision') === false) {
+        if (Template.currentData().contract.executiveDecision === false) {
           Template.instance().emptyBallot.set(true);
         } else {
           Template.instance().emptyBallot.set(false);
@@ -98,25 +98,9 @@ function activateDragging() {
 
 
 Template.ballot.onCreated(() => {
-  Template.instance().contract = new ReactiveVar(Template.currentData().contract);
-  Template.instance().candidateBallot = new ReactiveVar(getBallot(Template.instance().contract.get()._id));
-  Template.instance().dbContractBallot = new ReactiveVar();
   Template.instance().emptyBallot = new ReactiveVar();
   Template.instance().ballotReady = new ReactiveVar();
   Template.instance().removeProposal = new ReactiveVar();
-  Template.instance().draftOptions = new ReactiveVar(); // not set here
-  Template.instance().unauthorizedFork = new ReactiveVar(); // not set here
-  Template.instance().executiveDecision = new ReactiveVar(); // not set here
-});
-
-
-Template.ballot.onRendered(() => {
-  if (Template.instance().contract.get().stage === 'DRAFT') {
-    // TODO: use this when dragging becomes a feature
-    // activateDragging();
-  } else if (Meteor.userId() !== undefined) {
-    candidateBallot(Meteor.userId(), Template.instance().contract.get()._id);
-  }
 });
 
 Template.ballot.helpers({
@@ -272,7 +256,7 @@ Template.ballot.helpers({
     return this.contract.permanentElection;
   },
   candidateBallot() {
-    return Template.instance().candidateBallot.get();
+    return this.candidateBallot; // Template.instance().candidateBallot.get();
   },
   voters() {
     const total = getTotalVoters(this.contract);

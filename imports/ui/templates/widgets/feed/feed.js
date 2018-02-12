@@ -45,13 +45,11 @@ Template.feed.onRendered(function () {
     // total items on the feed
     if (count.ready()) {
       instance.count.set(Counts.get('feedItems'));
-      console.log(Counts.get('feedItems'));
     }
 
     // feed content
     if (subscription.ready()) {
       const feed = Contracts.find(parameters.find, parameters.options);
-      console.log(feed.fetch());
       instance.feed.set(_sanitize(feed.fetch()));
       instance.refresh.set(false);
     }
@@ -60,12 +58,9 @@ Template.feed.onRendered(function () {
       const draft = instance.subscribe('contractDrafts', { view: 'contractByKeyword', keyword: `draft-${Meteor.userId()}` });
       if (draft.ready()) {
         const draftContract = Contracts.findOne({ keyword: `draft-${Meteor.userId()}` });
-        console.log(draftContract);
         if (draftContract) {
-          console.log(`setting draft contract id ${draftContract._id}`);
           Session.set('draftContract', draftContract);
         } else {
-          console.log('creating new draft contract....');
           Session.set('draftContract', createContract());
         }
       }

@@ -68,7 +68,11 @@
           </div>
           {{#if ballotEnabled}}
             {{#if electionData}}
-              {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
+              {{#if onScreen}}
+                {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
+              {{else}}
+                <!--{{#nrr nrrargs 'ballot' editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}{{/nrr}}-->
+              {{/if}}
             {{else}}
               {{#if currentUser}}
                 <div class="extra">

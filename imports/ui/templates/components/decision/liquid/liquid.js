@@ -112,20 +112,6 @@ const _setupDrag = () => {
         this.newVote.sliderInput(ui.position.left);
         this.calibrateCurrentPos = ui.position.left;
         Session.set(voteId, this.newVote);
-        /*
-        NOTE: dynamic calibration of slider will be done in the future
-        if (this.calibrateCurrentPos !== this.calibrateNewPos) {
-          this.timer = Meteor.setTimeout(() => {
-            if ((this.calibrateCurrentPos - this.calibrateNewPos) > 10 || (this.calibrateCurrentPos - this.calibrateNewPos) < -10) {
-              this.calibrateNewPos = this.calibrateCurrentPos;
-              Session.set('liquidDynamicCenter', this.calibrateNewPos);
-              Meteor.clearTimeout(this.timer);
-            }
-          }, timers.LIQUID_CALIBRATION);
-        } else {
-          Meteor.clearTimeout(this.timer);
-        }
-        */
         ui.position.left = 0;
       },
       stop(event, ui) {

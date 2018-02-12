@@ -34,20 +34,45 @@ const _displayResults = (contract) => {
   return false;
 };
 
+const isScrolledIntoView = (elem) => {
+  if (elem) {
+    const docViewTop = $(window).scrollTop();
+    const docViewBottom = docViewTop + $(window).height();
+
+    const elemTop = $(elem).offset().top;
+    const elemBottom = elemTop + $(elem).height();
+
+    return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+  }
+  return false;
+};
+
 Template.feedItem.onCreated(function () {
   Template.instance().ready = new ReactiveVar(false);
   Template.instance().contract = new ReactiveVar(Contracts.findOne({ _id: this.data._id }));
   Template.instance().rightToVote = new ReactiveVar(false);
   Template.instance().candidateBallot = new ReactiveVar();
   Template.instance().displayResults = new ReactiveVar(false);
+  Template.instance().aboveFold = new ReactiveVar();
 });
 
 Template.feedItem.onRendered(function () {
+  Template.instance().aboveFold.set(isScrolledIntoView(document.querySelector(`#feedItem-${Template.currentData()._id}`)));
   const instance = this;
+  let isScrolling;
 
   if (Meteor.userId()) {
     instance.voteId = `vote-${Meteor.userId()}-${instance.data._id}`;
   }
+
+  $('.right').scroll(function () {
+    Meteor.clearTimeout(isScrolling);
+    isScrolling = Meteor.setTimeout(function () {
+      if (document.querySelector(`#feedItem-${instance.data._id}`)) {
+        instance.aboveFold.set(isScrolledIntoView(document.querySelector(`#feedItem-${instance.data._id}`)));
+      }
+    }, 100);
+  });
 
   instance.autorun(function () {
     if (instance.data._id) {
@@ -154,6 +179,12 @@ Template.feedItem.helpers({
   },
   displayResults() {
     return Template.instance().displayResults.get();
+  },
+  onScreen() {
+    console.log(`#feedItem-${this._id} is ${Template.instance().aboveFold.get()}`);
+    return Template.instance().aboveFold.get();
+    // console.log(isScrolledIntoView(document.querySelector(`#feedItem-${this._id}`)));
+    // return isScrolledIntoView(document.querySelector(`#feedItem-${this._id}`));
   },
 });
 
