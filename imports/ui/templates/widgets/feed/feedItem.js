@@ -68,9 +68,11 @@ Template.feedItem.onRendered(function () {
   $('.right').scroll(function () {
     Meteor.clearTimeout(isScrolling);
     isScrolling = Meteor.setTimeout(function () {
-      if (document.querySelector(`#feedItem-${instance.data._id}`)) {
+      if (document.querySelector(`#ballot-${instance.data._id}`)) {
+        instance.aboveFold.set(isScrolledIntoView(document.querySelector(`#ballot-${instance.data._id}`)));
+      } /* else if (document.querySelector(`#feedItem-${instance.data._id}`)) {
         instance.aboveFold.set(isScrolledIntoView(document.querySelector(`#feedItem-${instance.data._id}`)));
-      }
+      }*/
     }, 100);
   });
 

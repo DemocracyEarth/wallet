@@ -1,5 +1,5 @@
 <template name="ballot">
-  <div class="section section-mobile {{ballotStyle}}">
+  <div id="ballot-{{contract._id}}" class="section section-mobile {{ballotStyle}}">
     {{#if ballotEnabled}}
       <div class="section">
         <div class="w-clearfix elements">
@@ -12,16 +12,12 @@
                 {{/if}}
               {{/if}}
             {{else}}
-
               {{#if executiveDecision}}
                 {{#with voteSettings}}
-                  <!--{{#nrr nrrargs 'fork' executive=true mode="AUTHORIZE" _id=1 voteId=this.voteId contract=contract placeholder=placeholder}}{{/nrr}}
-                  {{#nrr nrrargs 'fork' executive=true mode="REJECT" _id=0 voteId=this.voteId contract=contract placeholder=placeholder}}{{/nrr}}-->
                   {{> fork executive=true mode="AUTHORIZE" _id=1 voteId=this.voteId contract=contract placeholder=placeholder rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
                   {{> fork executive=true mode="REJECT" _id=0 voteId=this.voteId contract=contract placeholder=placeholder rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
                 {{/with}}
               {{/if}}
-
             {{/if}}
             {{#each options}}
               {{#with voteSettings}}
