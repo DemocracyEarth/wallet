@@ -16,6 +16,23 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 import './liquid.html';
 import '../action/action.js';
 
+const _animateLiquidBar = (fork) => {
+  const execution = $(`#execution-${fork.voteId}`);
+  if (execution) {
+    // display liquid bar
+    if (execution.length > 0 && execution.height() === 0) {
+      if (fork.tick || Template.instance().election.get().alternative) {
+        $(execution).velocity({ height: `${115}px` });
+      }
+    }
+
+    // hide liquid bar
+    if ((execution.length > 0 && execution.height() !== 0) && !Template.instance().election.get().alternative) {
+      $(execution).velocity({ height: `${0}px` });
+    }
+  }
+};
+
 /**
 * @summary converts a percentage value to pixels for current liquid bar
 * @param {number} percentage percentage value to be converted
@@ -197,6 +214,12 @@ Template.liquid.helpers({
       }
     }
     return false;
+  },
+  displayBar() {
+    if (this.display === false) {
+      return 'display:none';
+    }
+    return '';
   },
 });
 

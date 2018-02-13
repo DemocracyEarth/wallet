@@ -27,23 +27,6 @@ const _checkboxStyle = (mode) => {
   }
 };
 
-const _displayLiquidBar = (fork) => {
-  const execution = $(`#execution-${fork.voteId}`);
-  if (execution) {
-    // display liquid bar
-    if (execution.length > 0 && execution.height() === 0) {
-      if (fork.tick || Template.instance().election.get().alternative) {
-        $(execution).velocity({ height: `${115}px` });
-      }
-    }
-
-    // hide liquid bar
-    if ((execution.length > 0 && execution.height() !== 0) && !Template.instance().election.get().alternative) {
-      $(execution).velocity({ height: `${0}px` });
-    }
-  }
-};
-
 Template.fork.onCreated(() => {
   Template.instance().candidateBallot = new ReactiveVar(Template.currentData().candidateBallot);
   Template.instance().percentage = new ReactiveVar();
@@ -52,7 +35,6 @@ Template.fork.onCreated(() => {
 
 Template.fork.onRendered(function () {
   Template.instance().election.set(getTickValue(this.data, this.data.contract));
-//  _displayLiquidBar(this.data);
 });
 
 Template.fork.helpers({
@@ -142,16 +124,11 @@ Template.fork.helpers({
   },
   tickStatus() {
     const election = getTickValue(this, this.contract);
-    // const election = Template.instance().election.set(getTickValue(this, this.contract));
-//    Template.instance().election.set(getTickValue(this, this.contract));
     if (Template.instance().election.get()) {
       this.tick = election.tick;
       if (Session.get('showModal') && election.tick && election.onLedger && Session.get('displayModal').contract._id === this.contract._id) {
         this.tick = !election.tick;
       }
-
-     // _displayLiquidBar(this);
-
       // show tick
       if (Template.instance().candidateBallot.get() || (this.tick)) {
         if (this.tick) {
@@ -160,7 +137,6 @@ Template.fork.helpers({
           }
           return 'tick-active';
         }
-
       // if user already voted
       } else if (this.rightToVote === false && this.contract.stage !== 'DRAFT') {
         if (this.tick) {
@@ -168,7 +144,6 @@ Template.fork.helpers({
         }
       }
     }
-
     return '';
   },
   style(className) {
