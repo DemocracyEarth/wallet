@@ -60,9 +60,9 @@
   {{#unless editorMode}}
     {{#if currentUser}}
       <div class="execution" id="execution-{{this.voteId}}">
-        <div class="block">
+        <div class="block" style={{displayBar}}>
           {{#with voteSettings}}
-            {{> liquid _id=this.voteId display=votingContext sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot}}
+            {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot}}
           {{/with}}
         </div>
       </div>

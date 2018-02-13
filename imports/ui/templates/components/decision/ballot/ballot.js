@@ -307,8 +307,11 @@ Template.ballot.helpers({
     }
     return false;
   },
-  votingContext() {
-    return _userCanVote(this.contract);
+  displayBar() {
+    if (_userCanVote(this.contract) === false) {
+      return 'display:none';
+    }
+    return '';
   },
 });
 

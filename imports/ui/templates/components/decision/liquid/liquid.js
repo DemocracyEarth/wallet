@@ -215,12 +215,6 @@ Template.liquid.helpers({
     }
     return false;
   },
-  displayBar() {
-    if (this.display === false) {
-      return 'display:none';
-    }
-    return '';
-  },
 });
 
 Template.liquid.events({
