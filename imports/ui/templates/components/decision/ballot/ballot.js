@@ -20,6 +20,39 @@ import '../fork/fork.js';
 import '../alternative/alternative.js';
 import '../liquid/liquid.js';
 
+const _userCanVote = (contract, forkId) => {
+  const forks = Template.instance().forks;
+  if (forks) {
+    for (const i in forks) {
+      if (forkId === undefined) {
+        if (getTickValue(forks[i], contract).tick) {
+          return true;
+        }
+      } else if (forks[i]._id === forkId) {
+        return getTickValue(forks[i], contract);
+      }
+    }
+  }
+  return false;
+};
+
+const _generateForks = (contract) => {
+  return [
+    {
+      executive: true,
+      mode: 'AUTHORIZE',
+      _id: 1,
+      election: _userCanVote(contract, 1),
+    },
+    {
+      executive: true,
+      mode: 'REJECT',
+      _id: 0,
+      election: _userCanVote(contract, 0),
+    },
+  ];
+};
+
 function getVoterContractBond(object) {
   if (Meteor.user()) {
     return Object.assign(object, {
@@ -27,6 +60,7 @@ function getVoterContractBond(object) {
       wallet: Meteor.user().profile.wallet,
       sourceId: Meteor.userId(),
       targetId: object.contract._id,
+      forks: _generateForks(object.contract),
     });
   }
   return Object.assign(object, {
@@ -37,30 +71,12 @@ function getVoterContractBond(object) {
   });
 }
 
-const _userCanVote = (contract) => {
-  const forks = [
-    {
-      executive: true,
-      mode: 'AUTHORIZE',
-      _id: 1,
-      tick: false,
-    },
-    {
-      executive: true,
-      mode: 'REJECT',
-      _id: 0,
-      tick: false,
-    },
-  ];
-
-  for (const i in forks) {
-    // forks[i].tick = getTickValue(forks[i], this.data.contract).tick;
-    if (getTickValue(forks[i], contract).tick) {
-      return true;
-    }
-  }
-  return false;
-};
+Template.ballot.onCreated(() => {
+  Template.instance().forks = _generateForks(this.contract);
+  Template.instance().emptyBallot = new ReactiveVar();
+  Template.instance().ballotReady = new ReactiveVar();
+  Template.instance().removeProposal = new ReactiveVar();
+});
 
 function activateDragging() {
   let sortableIn;
@@ -120,15 +136,6 @@ function activateDragging() {
     placeholder: 'vote vote-placeholder',
   }).disableSelection();
 }
-
-
-Template.ballot.onCreated(() => {
-  Template.instance().readyToVote = new ReactiveVar(false);
-
-  Template.instance().emptyBallot = new ReactiveVar();
-  Template.instance().ballotReady = new ReactiveVar();
-  Template.instance().removeProposal = new ReactiveVar();
-});
 
 Template.ballot.helpers({
   allowForks() {
@@ -262,6 +269,8 @@ Template.ballot.helpers({
     return false;
   },
   voteSettings() {
+    console.log('processing ballot....');
+    console.log(getVoterContractBond(this));
     return getVoterContractBond(this);
   },
   executionStatus() {

@@ -71,7 +71,7 @@ Template.feedItem.onRendered(function () {
       if (document.querySelector(`#ballot-${instance.data._id}`)) {
         instance.aboveFold.set(isScrolledIntoView(document.querySelector(`#ballot-${instance.data._id}`)));
       }
-    }, 100);
+    }, 1);
   });
 
   instance.autorun(function () {

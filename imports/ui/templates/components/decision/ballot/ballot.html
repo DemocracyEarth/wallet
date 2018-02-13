@@ -14,8 +14,8 @@
             {{else}}
               {{#if executiveDecision}}
                 {{#with voteSettings}}
-                  {{> fork executive=true mode="AUTHORIZE" _id=1 voteId=this.voteId contract=contract placeholder=placeholder rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
-                  {{> fork executive=true mode="REJECT" _id=0 voteId=this.voteId contract=contract placeholder=placeholder rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
+                  {{> fork executive=true mode="AUTHORIZE" _id=1 ballot=this.forks voteId=this.voteId contract=contract placeholder=placeholder rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
+                  {{> fork executive=true mode="REJECT" _id=0 ballot=this.forks voteId=this.voteId contract=contract placeholder=placeholder rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
                 {{/with}}
               {{/if}}
             {{/if}}

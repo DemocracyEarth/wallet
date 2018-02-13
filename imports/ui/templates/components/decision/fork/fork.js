@@ -27,14 +27,19 @@ const _checkboxStyle = (mode) => {
   }
 };
 
+const _getElection = (fork) => {
+  for (const i in fork.ballot) {
+    if (fork.ballot[i]._id === fork._id) {
+      return fork.ballot[i].election;
+    }
+  }
+  return false;
+};
+
 Template.fork.onCreated(() => {
   Template.instance().candidateBallot = new ReactiveVar(Template.currentData().candidateBallot);
   Template.instance().percentage = new ReactiveVar();
-  Template.instance().election = new ReactiveVar();
-});
-
-Template.fork.onRendered(function () {
-  Template.instance().election.set(getTickValue(this.data, this.data.contract));
+  Template.instance().election = new ReactiveVar(_getElection(Template.currentData()));
 });
 
 Template.fork.helpers({
@@ -123,8 +128,9 @@ Template.fork.helpers({
     return '';
   },
   tickStatus() {
-    const election = getTickValue(this, this.contract);
-    if (Template.instance().election.get()) {
+    Template.instance().election.set(_getElection(this));
+    const election = Template.instance().election.get();
+    if (election) {
       this.tick = election.tick;
       if (Session.get('showModal') && election.tick && election.onLedger && Session.get('displayModal').contract._id === this.contract._id) {
         this.tick = !election.tick;
@@ -230,6 +236,7 @@ Template.fork.events({
               if (election.tick === true) {
                 Session.set('noSelectedOption', this.voteId);
               }
+              // this.election = election;
               Template.instance().election.set(election);
 
               // vote
