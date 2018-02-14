@@ -5,20 +5,15 @@ import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { TAPi18n } from 'meteor/tap:i18n';
 
-import { removeFork, updateBallotRank, addChoiceToBallot, getTickValue, candidateBallot, getBallot, getTotalVoters } from '/imports/ui/modules/ballot';
+import { removeFork, updateBallotRank, addChoiceToBallot, getTickValue, getTotalVoters } from '/imports/ui/modules/ballot';
 import { displayTimedWarning } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { timers } from '/lib/const';
 
-import './ballot.html';
-import '../kind/kind.js';
-import '../../../widgets/calendar/calendar.js';
-import '../../../widgets/toggle/toggle.js';
-import '../../../widgets/warning/warning.js';
-import '../execute/execute.js';
-import '../fork/fork.js';
-import '../alternative/alternative.js';
-import '../liquid/liquid.js';
+import '/imports/ui/templates/components/decision/ballot/ballot.html';
+import '/imports/ui/templates/components/decision/fork/fork.js';
+import '/imports/ui/templates/components/decision/liquid/liquid.js';
+import '/imports/ui/templates/widgets/warning/warning.js';
 
 const _userCanVote = (contract, forkId) => {
   const forks = Template.instance().forks;
@@ -269,8 +264,6 @@ Template.ballot.helpers({
     return false;
   },
   voteSettings() {
-    console.log('processing ballot....');
-    console.log(getVoterContractBond(this));
     return getVoterContractBond(this);
   },
   executionStatus() {

@@ -6,10 +6,10 @@ import { $ } from 'meteor/jquery';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
-import { setVote, getTickValue, candidateBallot, setBallot, getTally, getTallyPercentage } from '/imports/ui/modules/ballot';
+import { setVote, candidateBallot, setBallot, getTally, getTallyPercentage } from '/imports/ui/modules/ballot';
 import { Vote } from '/imports/ui/modules/Vote';
 
-import './fork.html';
+import '/imports/ui/templates/components/decision/fork/fork.html';
 
 /**
 * @summary color to render the checkbox
@@ -236,7 +236,6 @@ Template.fork.events({
               if (election.tick === true) {
                 Session.set('noSelectedOption', this.voteId);
               }
-              // this.election = election;
               Template.instance().election.set(election);
 
               // vote

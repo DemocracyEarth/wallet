@@ -166,6 +166,8 @@ export class Vote {
     }
     this.originalTargetId = targetId;
 
+    this.TOGGLE_DISPLAY_PLACED_BAR = false;
+
     // view
     if (sessionId && !sourceId) {
       // controller
@@ -174,7 +176,7 @@ export class Vote {
       // gui
       this._initialSliderWidth = parseInt($(`#voteSlider-${this.voteId}`).width(), 10);
       this.sliderWidth = this._initialSliderWidth;
-      this._maxWidth = parseInt(($(`#voteBar-${this.voteId}`).width() - (($(`#voteBar-${this.voteId}`).width() * parseInt((((this.placed - this.inBallot) + this.delegated) * 100) / this.balance, 10)) / 100)), 10);
+      this._maxWidth = parseInt(($(`#voteBar-${this.voteId}`).width() - (($(`#voteBar-${this.voteId}`).width() * parseInt(((((this.placed * this.TOGGLE_DISPLAY_PLACED_BAR) - this.inBallot) + this.delegated) * 100) / this.balance, 10)) / 100)), 10);
       this._minWidth = parseInt(($(`#voteBar-${this.voteId}`).width() * this.minVotes) / this.balance, 10);
       this.positionHandle(this._initialSliderWidth);
 
@@ -236,7 +238,7 @@ export class Vote {
     const MAX_VOTES_PRECISION = 10;
     const MAX_PERCENTAGE_PRECISION = 7;
     const barWidth = $(`#voteBar-${this.voteId}`).width();
-    const placedWidth = $(`#votePlaced-${this.voteId}`).width();
+    const placedWidth = parseInt($(`#votePlaced-${this.voteId}`).width() * this.TOGGLE_DISPLAY_PLACED_BAR, 10);
     const precisionRange = parseInt((MAX_PERCENTAGE_PRECISION * barWidth) / 100, 10);
     const precisionValue = parseInt((inputPixels * MAX_VOTES_PRECISION) / precisionRange, 10);
 
