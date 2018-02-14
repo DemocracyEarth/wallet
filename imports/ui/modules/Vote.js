@@ -176,7 +176,6 @@ export class Vote {
       // gui
       this._initialSliderWidth = parseInt($(`#voteSlider-${this.voteId}`).width(), 10);
       this.sliderWidth = this._initialSliderWidth;
-      console.log(`WIDTH: ${parseInt($(`#voteBar-${this.voteId}`).width(), 10)}`);
       this._maxWdidth = parseInt($(`#voteBar-${this.voteId}`).width(), 10);
       /*
       NOTE: there's both madness and absolute genius on this commented code.
@@ -225,7 +224,6 @@ export class Vote {
   */
   _getSliderCenter(pixels) {
     if (pixels > 0) {
-      console.log(`domwidth: ${$(`#voteSlider-${this.voteId}`).width()} & this._maxWidth: ${this._maxWidth}`);
       return parseInt($(`#voteSlider-${this.voteId}`).width() - pixels, 10);
     }
     return parseInt($(`#voteSlider-${this.voteId}`).width() + Math.abs(pixels), 10);
