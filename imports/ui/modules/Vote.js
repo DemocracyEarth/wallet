@@ -176,7 +176,14 @@ export class Vote {
       // gui
       this._initialSliderWidth = parseInt($(`#voteSlider-${this.voteId}`).width(), 10);
       this.sliderWidth = this._initialSliderWidth;
-      this._maxWidth = parseInt(($(`#voteBar-${this.voteId}`).width() - (($(`#voteBar-${this.voteId}`).width() * parseInt(((((this.placed * this.TOGGLE_DISPLAY_PLACED_BAR) - this.inBallot) + this.delegated) * 100) / this.balance, 10)) / 100)), 10);
+      console.log(`WIDTH: ${parseInt($(`#voteBar-${this.voteId}`).width(), 10)}`);
+      this._maxWdidth = parseInt($(`#voteBar-${this.voteId}`).width(), 10);
+      /*
+      NOTE: there's both madness and absolute genius on this commented code.
+      this._maxWidth = parseInt(($(`#voteBar-${this.voteId}`).width() -
+        (($(`#voteBar-${this.voteId}`).width() *
+        parseInt(((((this.placed * this.TOGGLE_DISPLAY_PLACED_BAR) - this.inBallot) + this.delegated) * 100) / this.balance, 10)) / 100)), 10);
+      */
       this._minWidth = parseInt(($(`#voteBar-${this.voteId}`).width() * this.minVotes) / this.balance, 10);
       this.positionHandle(this._initialSliderWidth);
 
@@ -218,6 +225,7 @@ export class Vote {
   */
   _getSliderCenter(pixels) {
     if (pixels > 0) {
+      console.log(`domwidth: ${$(`#voteSlider-${this.voteId}`).width()} & this._maxWidth: ${this._maxWidth}`);
       return parseInt($(`#voteSlider-${this.voteId}`).width() - pixels, 10);
     }
     return parseInt($(`#voteSlider-${this.voteId}`).width() + Math.abs(pixels), 10);
@@ -235,8 +243,8 @@ export class Vote {
     let sliderInRemainingSpace;
     let inputPixels = pixels;
     if (pixels === undefined) { inputPixels = 0; }
-    const MAX_VOTES_PRECISION = 10;
-    const MAX_PERCENTAGE_PRECISION = 7;
+    const MAX_VOTES_PRECISION = 0 * this.TOGGLE_DISPLAY_PLACED_BAR;   // 10;
+    const MAX_PERCENTAGE_PRECISION = 0 * this.TOGGLE_DISPLAY_PLACED_BAR; // 7;
     const barWidth = $(`#voteBar-${this.voteId}`).width();
     const placedWidth = parseInt($(`#votePlaced-${this.voteId}`).width() * this.TOGGLE_DISPLAY_PLACED_BAR, 10);
     const precisionRange = parseInt((MAX_PERCENTAGE_PRECISION * barWidth) / 100, 10);
@@ -250,6 +258,10 @@ export class Vote {
       inputPixels += calibrate; // testing
     }
     */
+
+    if (!this._maxWidth) {
+      this._maxWidth = $(`#voteBar-${this.voteId}`).width();
+    }
 
     if ($(`#voteBar-${this.voteId}`).offset() !== undefined) {
       if ($(`#voteHandle-${this.voteId}`).offset() !== undefined) {
@@ -266,7 +278,7 @@ export class Vote {
         } else {
           // standard allocation based on relative slider pixel width
           if (inputPixels > 0) {
-            remainingSpace = parseInt(barWidth - precisionRange - placedWidth - this._getSliderCenter(inputPixels), 10);
+            remainingSpace = parseInt(barWidth - precisionRange - (placedWidth * this.TOGGLE_DISPLAY_PLACED_BAR) - this._getSliderCenter(inputPixels), 10);
             remainingVotes = parseInt(this.maxVotes - this.inBallot, 10);
             sliderInRemainingSpace = parseInt(inputPixels - precisionRange, 10);
             pixelToVote = _scope(parseInt((sliderInRemainingSpace * remainingVotes) / remainingSpace, 10) + MAX_VOTES_PRECISION + this.inBallot, this.maxVotes, this.minVotes);

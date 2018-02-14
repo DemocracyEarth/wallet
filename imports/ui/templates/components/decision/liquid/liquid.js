@@ -88,7 +88,7 @@ function agreement(voteId, editable) {
   if (Session.get(voteId).voteType === 'BALANCE') {
     return getBarWidth(Session.get(voteId).placed, voteId, true);
   }
-  return getBarWidth(parseFloat((Session.get(voteId).placed - Session.get(voteId).inBallot) + Session.get(voteId).delegated, 10), voteId, editable);
+  return getBarWidth(parseFloat(((Session.get(voteId).placed * Session.get(voteId).TOGGLE_DISPLAY_PLACED_BAR) - Session.get(voteId).inBallot) + Session.get(voteId).delegated, 10), voteId, editable);
 }
 
 function getPercentage(value, voteId) {
@@ -188,11 +188,13 @@ Template.liquid.onRendered(function () {
     return;
   }
 
+/*
   $(`#voteBar-${this.data._id}`).resize(function () {
     const voteId = this.id.replace('voteBar-', '');
-    $(`#voteSlider-${voteId}`).width(getBarWidth(Session.get(voteId).inBallot, voteId, true));
-    $(`#votePlaced-${voteId}`).width(agreement(voteId, true));
+   // $(`#voteSlider-${voteId}`).width(getBarWidth(Session.get(voteId).inBallot, voteId, true));
+   // $(`#votePlaced-${voteId}`).width(agreement(voteId, true));
   });
+*/
 
   _setupDrag();
 });
