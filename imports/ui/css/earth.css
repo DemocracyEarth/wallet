@@ -2558,6 +2558,7 @@ blockquote {
 .result-bar.vote-bar.vote-bar-allocated {
   position: absolute;
   right: 0px;
+  display: none;
   width: 0%;
   height: 20px;
   margin-top: -20px;
