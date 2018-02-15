@@ -7,7 +7,7 @@ import { getDelegationContract, createDelegation } from '/imports/startup/both/m
 import { animationSettings } from '/imports/ui/modules/animation';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { convertToSlug } from '/lib/utils';
-import { purgeBallot, getBallot, getTickValue } from '/imports/ui/modules/ballot';
+import { purgeBallot, getBallot } from '/imports/ui/modules/ballot';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { displayModal } from '/imports/ui/modules/modal';
 import { transact, getVotes } from '/imports/api/transactions/transaction';
@@ -109,95 +109,108 @@ export class Vote {
   * @param {string} sourceId - if a vote does not come from user but from a different source.
   */
   constructor(wallet, targetId, sessionId, sourceId) {
-    // properties
-    if (wallet === undefined) {
-      this.address = [];
-      this.available = 0;
-      this.balance = 0;
-      this.placed = 0;
-      this.inBallot = 0;
-      this.currency = 'VOTES';
+    console.log('constructing a vote...');
+    if (Session.get(sessionId)) {
+      console.log('IN MEMORY');
+      console.log(Session.get(sessionId));
+      Object.assign(this, Session.get(sessionId));
     } else {
-      Object.assign(this, wallet);
-    }
-    this.delegated = 0;
-
-    if (sourceId !== undefined) {
-      this.userId = sourceId;
-      this.arrow = 'INPUT';
-    } else {
-      this.userId = Meteor.userId();
-      this.arrow = 'OUTPUT';
-    }
-
-    // defined
-    this.initialized = true;
-    this.enabled = true;
-    this.mode = 'PENDING';
-    this.voteType = _getVoteType(targetId, sessionId);
-    this.targetId = targetId;
-    this.sourceId = sourceId;
-    this.maxVotes = parseInt(this.available + this.inBallot, 10);
-    this.minVotes = 0;
-    if (this.voteType === 'DELEGATION' && (this.userId !== targetId)) {
-      this.delegationContract = getDelegationContract(this.userId, this.targetId);
-      if (this.delegationContract) {
-        // delegation context
-        this.inBallot = getVotes(this.delegationContract._id, this.userId);
-        this.delegated = getVotes(this.delegationContract._id, this.targetId);
-        if (Meteor.users.findOne({ _id: this.targetId })) {
-          this.minVotes = parseInt((this.inBallot - Meteor.users.findOne({ _id: this.targetId }).profile.wallet.available) - 1, 10);
-        }
-        if (this.minVotes < 0) { this.minVotes = 0; }
-      } else {
-        const settings = _defaultDelegationSettings();
-        settings.title = `${convertToSlug(Meteor.users.findOne({ _id: this.userId }).username)}-${convertToSlug(Meteor.users.findOne({ _id: this.targetId }).username)}`;
-        settings.signatures = [{ username: Meteor.users.findOne({ _id: this.userId }).username }, { username: Meteor.users.findOne({ _id: this.targetId }).username }];
-        this.delegationContract = createDelegation(this.userId, this.targetId, 0, settings);
+      console.log('NEW');
+      console.log(wallet);
+      // properties
+      if (wallet === undefined) {
+        this.address = [];
+        this.available = 0;
+        this.balance = 0;
+        this.placed = 0;
         this.inBallot = 0;
+        this.currency = 'VOTES';
+      } else {
+        Object.assign(this, wallet);
+        this.inBallot = getVotes(targetId, this.userId);
       }
-      this.balance = parseInt(this.inBallot + this.available + this.delegated, 10);
-      this.placed = this.inBallot;
-      this.maxVotes = parseInt(this.balance - this.delegated, 10);
-    } else if (this.voteType === 'BALANCE') {
-      this.inBallot = this.available;
-    } else {
-      this.inBallot = getVotes(this.targetId, this.userId);
-    }
-    this.originalTargetId = targetId;
+      this.delegated = 0;
 
-    this.TOGGLE_DISPLAY_PLACED_BAR = false;
-
-    // view
-    if (sessionId && !sourceId) {
-      // controller
-      this.voteId = `${sessionId}`;
-
-      // gui
-      this._initialSliderWidth = parseInt($(`#voteSlider-${this.voteId}`).width(), 10);
-      this.sliderWidth = this._initialSliderWidth;
-      this._maxWdidth = parseInt($(`#voteBar-${this.voteId}`).width(), 10);
-      /*
-      NOTE: there's both madness and absolute genius on this commented code.
-      this._maxWidth = parseInt(($(`#voteBar-${this.voteId}`).width() -
-        (($(`#voteBar-${this.voteId}`).width() *
-        parseInt(((((this.placed * this.TOGGLE_DISPLAY_PLACED_BAR) - this.inBallot) + this.delegated) * 100) / this.balance, 10)) / 100)), 10);
-      */
-      this._minWidth = parseInt(($(`#voteBar-${this.voteId}`).width() * this.minVotes) / this.balance, 10);
-      this.positionHandle(this._initialSliderWidth);
-
-      // methods
-      if (this.initialized === true && this.voteType !== 'BALANCE') {
-        this.resetSlider();
-        this.initialized = false;
+      if (sourceId !== undefined) {
+        this.userId = sourceId;
+        this.arrow = 'INPUT';
+      } else {
+        this.userId = Meteor.userId();
+        this.arrow = 'OUTPUT';
       }
 
-      // state manager
-      this.requireConfirmation = true;
-      _insertVoteList(this, this.voteId);
-    } else {
-      this.requireConfirmation = false;
-      this.voteId = `${this.targetId}`;
+      // defined
+      this.initialized = true;
+      this.enabled = true;
+      this.mode = 'PENDING';
+      this.voteType = _getVoteType(targetId, sessionId);
+      this.targetId = targetId;
+      this.sourceId = sourceId;
+      this.maxVotes = parseInt(this.available + this.inBallot, 10);
+      console.log(this.available);
+      console.log(this.inBallot);
+      console.log(this.maxVotes);
+      this.minVotes = 0;
+      if (this.voteType === 'DELEGATION' && (this.userId !== targetId)) {
+        this.delegationContract = getDelegationContract(this.userId, this.targetId);
+        if (this.delegationContract) {
+          // delegation context
+          this.inBallot = getVotes(this.delegationContract._id, this.userId);
+          this.delegated = getVotes(this.delegationContract._id, this.targetId);
+          if (Meteor.users.findOne({ _id: this.targetId })) {
+            this.minVotes = parseInt((this.inBallot - Meteor.users.findOne({ _id: this.targetId }).profile.wallet.available) - 1, 10);
+          }
+          if (this.minVotes < 0) { this.minVotes = 0; }
+        } else {
+          const settings = _defaultDelegationSettings();
+          settings.title = `${convertToSlug(Meteor.users.findOne({ _id: this.userId }).username)}-${convertToSlug(Meteor.users.findOne({ _id: this.targetId }).username)}`;
+          settings.signatures = [{ username: Meteor.users.findOne({ _id: this.userId }).username }, { username: Meteor.users.findOne({ _id: this.targetId }).username }];
+          this.delegationContract = createDelegation(this.userId, this.targetId, 0, settings);
+          this.inBallot = 0;
+        }
+        this.balance = parseInt(this.inBallot + this.available + this.delegated, 10);
+        this.placed = this.inBallot;
+        this.maxVotes = parseInt(this.balance - this.delegated, 10);
+      } else if (this.voteType === 'BALANCE') {
+        this.inBallot = this.available;
+      } else {
+        this.inBallot = getVotes(this.targetId, this.userId);
+      }
+      this.originalTargetId = targetId;
+
+      this.TOGGLE_DISPLAY_PLACED_BAR = false;
+
+      // view
+      if (sessionId && !sourceId) {
+        // controller
+        this.voteId = `${sessionId}`;
+
+        // gui
+        this._initialSliderWidth = parseInt($(`#voteSlider-${this.voteId}`).width(), 10);
+        this.sliderWidth = this._initialSliderWidth;
+        this._maxWdidth = parseInt($(`#voteBar-${this.voteId}`).width(), 10);
+        /*
+        NOTE: there's both madness and absolute genius on this commented code.
+        this._maxWidth = parseInt(($(`#voteBar-${this.voteId}`).width() -
+          (($(`#voteBar-${this.voteId}`).width() *
+          parseInt(((((this.placed * this.TOGGLE_DISPLAY_PLACED_BAR) - this.inBallot) + this.delegated) * 100) / this.balance, 10)) / 100)), 10);
+        */
+        this._minWidth = parseInt(($(`#voteBar-${this.voteId}`).width() * this.minVotes) / this.balance, 10);
+        this.positionHandle(this._initialSliderWidth);
+
+        // methods
+        if (this.initialized === true && this.voteType !== 'BALANCE') {
+          this.resetSlider();
+          this.initialized = false;
+        }
+
+        // state manager
+        this.requireConfirmation = true;
+        _insertVoteList(this, this.voteId);
+      } else {
+        this.requireConfirmation = false;
+        this.voteId = `${this.targetId}`;
+      }
     }
   }
 
