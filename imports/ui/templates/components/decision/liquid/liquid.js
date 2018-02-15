@@ -49,22 +49,29 @@ function percentageToPixel(percentage, voteId) {
 * @param {object} bar the item being rendered
 * @param {string} voteId session var containing vote info
 * @param {boolean} interactive return value from slider
+* @param {boolean} getPercentageValue return value in percentage form
 */
-function getBarWidth(value, voteId, editable, interactive) {
+function getBarWidth(value, voteId, editable, interactive, getPercentageValue) {
   if (editable) {
     const wallet = Session.get(voteId);
     if (wallet !== undefined) {
-      if (wallet.balance === 0) { return 0; }
-      const percentage = parseFloat((value * 100) / wallet.balance, 10).toFixed(2);
+      if (wallet.maxVotes === 0) { return 0; }
+      const percentage = parseFloat((value * 100) / wallet.maxVotes, 10).toFixed(2);
       if (interactive) {
+        if (getPercentageValue) {
+          return `${percentage}%`;
+        }
         return `${parseInt(wallet.sliderWidth, 10)}px`;
+      }
+      if (getPercentageValue) {
+        return `${percentage}%`;
       }
       return `${percentageToPixel(percentage, voteId)}px`;
     }
   }
   // profile, only logged user
   const wallet = Meteor.user().profile.wallet;
-  return `${percentageToPixel(parseFloat((value * 100) / wallet.balance, 10).toFixed(2), voteId)}px`;
+  return `${percentageToPixel(parseFloat((value * 100) / wallet.maxVotes, 10).toFixed(2), voteId)}px`;
 }
 
 /**
@@ -106,7 +113,9 @@ const _setupDrag = () => {
       create() {
         const voteId = this.id.replace('voteHandle-', '');
         this.newVote = new Vote(Session.get(voteId), Session.get(voteId).targetId, voteId);
+        this.newVote.resetSlider();
         Session.set(voteId, this.newVote);
+        console.log(Session.get(voteId));
       },
       start(event, ui) {
         const voteId = ui.helper.context.id.replace('voteHandle-', '');
@@ -142,6 +151,7 @@ const _setupDrag = () => {
           Session.set('dragging', false);
           this.newVote.resetSlider();
           Session.set(voteId, this.newVote);
+          console.log(Session.get(voteId));
         };
 
         Meteor.clearTimeout(this.timer);
@@ -188,6 +198,7 @@ Template.liquid.onRendered(function () {
     return;
   }
 
+  console.log('rendering liquid...');
 /*
   $(`#voteBar-${this.data._id}`).resize(function () {
     const voteId = this.id.replace('voteBar-', '');
@@ -195,6 +206,9 @@ Template.liquid.onRendered(function () {
    // $(`#votePlaced-${voteId}`).width(agreement(voteId, true));
   });
 */
+  // console.log(this.data._id);
+ // console.log(Session.get(this.data._id));
+  // $(`#voteSlider-${Template.currentData()._id}`).width(getBarWidth(Session.get(Template.currentData()._id).inBallot, Template.currentData()._id, true));
 
   _setupDrag();
 });
@@ -452,7 +466,12 @@ Template.capital.helpers({
 
 Template.bar.helpers({
   available() {
-    return getBarWidth(Session.get(this._id).available, this._id, this.editable, true);
+    if (isNaN(Session.get(this._id)._maxWidth)) {
+      console.log(`percentage ${parseInt(Session.get(this._id).available - Session.get(this._id).inBallot, 10)} `);
+      return getBarWidth(Session.get(this._id).inBallot, this._id, this.editable, true, true);
+    }
+    console.log(`full number ${parseInt(Session.get(this._id).available - Session.get(this._id).inBallot, 10)}`);
+    return getBarWidth(Session.get(this._id).inBallot, this._id, this.editable, true);
   },
   placed() {
     return agreement(this._id, this.editable);
