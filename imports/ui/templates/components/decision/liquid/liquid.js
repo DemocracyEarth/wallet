@@ -115,7 +115,6 @@ const _setupDrag = () => {
         this.newVote = new Vote(Session.get(voteId), Session.get(voteId).targetId, voteId);
         this.newVote.resetSlider();
         Session.set(voteId, this.newVote);
-        console.log(Session.get(voteId));
       },
       start(event, ui) {
         const voteId = ui.helper.context.id.replace('voteHandle-', '');
@@ -199,13 +198,18 @@ Template.liquid.onRendered(function () {
   }
 
   console.log('rendering liquid...');
-/*
-  $(`#voteBar-${this.data._id}`).resize(function () {
-    const voteId = this.id.replace('voteBar-', '');
-   // $(`#voteSlider-${voteId}`).width(getBarWidth(Session.get(voteId).inBallot, voteId, true));
-   // $(`#votePlaced-${voteId}`).width(agreement(voteId, true));
-  });
-*/
+
+  if (!Meteor.Device.isPhone()) {
+    $(`#voteBar-${this.data._id}`).resize(function () {
+      const voteId = this.id.replace('voteBar-', '');
+      /*$(`#voteSlider-${voteId}`).width(getBarWidth(Session.get(voteId).inBallot, voteId, true));
+      $(`#votePlaced-${voteId}`).width(agreement(voteId, true));*/
+      this.newVote = new Vote(Session.get(voteId), Session.get(voteId).targetId, voteId);
+      this.newVote.resetSlider();
+      Session.set(voteId, this.newVote);
+    });
+  }
+
   // console.log(this.data._id);
  // console.log(Session.get(this.data._id));
   // $(`#voteSlider-${Template.currentData()._id}`).width(getBarWidth(Session.get(Template.currentData()._id).inBallot, Template.currentData()._id, true));
@@ -466,11 +470,21 @@ Template.capital.helpers({
 
 Template.bar.helpers({
   available() {
+    console.log(`starting id: ${this._id}`);
     if (isNaN(Session.get(this._id)._maxWidth)) {
-      console.log(`percentage ${parseInt(Session.get(this._id).available - Session.get(this._id).inBallot, 10)} `);
-      return getBarWidth(Session.get(this._id).inBallot, this._id, this.editable, true, true);
+      console.log(`is NAN: ${this._id}`);
+      const vote = Session.get(this._id);
+      vote.maxVotes = parseInt(vote.available + vote.inBallot, 10);
+      const initialValue = parseFloat((vote.inBallot * 100) / vote.maxVotes, 10).toFixed(2);
+      // const width = parseInt(($(`#voteBar-${this.voteId}`).width() * initialValue) / 100, 10);
+      $(`#voteHandle-${this._id}`).css('margin-right', `${parseInt(((initialValue * 23) / 100) - 29, 10)}px`);
+      console.log(`id: ${this._id} is ${parseInt(((initialValue * 23) / 100) - 29, 10)}px`);
+      return `${initialValue}%`;
+      /* $(`#voteSlider-${this.voteId}`).width(`${initialValue}%`);
+      this._initialSliderWidth = parseInt(($(`#voteBar-${this.voteId}`).width() * initialValue) / 100, 10);
+      this.sliderWidth = this._initialSliderWidth;
+      return getBarWidth(Session.get(this._id).inBallot, this._id, this.editable, true, true);*/
     }
-    console.log(`full number ${parseInt(Session.get(this._id).available - Session.get(this._id).inBallot, 10)}`);
     return getBarWidth(Session.get(this._id).inBallot, this._id, this.editable, true);
   },
   placed() {

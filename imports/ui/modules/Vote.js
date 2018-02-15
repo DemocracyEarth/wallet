@@ -142,8 +142,6 @@ export class Vote {
       this.targetId = targetId;
       this.sourceId = sourceId;
       this.maxVotes = parseInt(this.available + this.inBallot, 10);
-      console.log(this.inBallot);
-      console.log(this.maxVotes);
       this.minVotes = 0;
       if (this.voteType === 'DELEGATION' && (this.userId !== targetId)) {
         this.delegationContract = getDelegationContract(this.userId, this.targetId);
@@ -179,9 +177,6 @@ export class Vote {
         // controller
         this.voteId = `${sessionId}`;
 
-        // gui
-        this.setupGUI();
-
         // methods
         if (this.initialized === true && this.voteType !== 'BALANCE') {
           this.resetSlider();
@@ -201,10 +196,10 @@ export class Vote {
   /**
   * @summary allocate N amount of votes and display values accordingly
   */
+  /*
   setupGUI() {
     this._maxWidth = parseInt($(`#voteBar-${this.voteId}`).width(), 10);
     if (!isNaN(this._maxWidth)) {
-      console.log('setting up gui....');
       const percentage = parseFloat((this.inBallot * 100) / this.balance, 10).toFixed(2);
       const pixels = parseInt(((percentage * this._maxWidth) / 100), 10);
       this._initialSliderWidth = pixels; // parseInt($(`#voteSlider-${this.voteId}`).width(), 10);
@@ -213,6 +208,7 @@ export class Vote {
       this.positionHandle(this._initialSliderWidth);
     }
   }
+  */
 
   /**
   * @summary allocate N amount of votes and display values accordingly
@@ -237,8 +233,10 @@ export class Vote {
   */
   _getSliderCenter(pixels) {
     if (pixels > 0) {
+      console.log(`slider ${this.voteId} and ${parseInt($(`#voteSlider-${this.voteId}`).width() - pixels, 10)}`);
       return parseInt($(`#voteSlider-${this.voteId}`).width() - pixels, 10);
     }
+    console.log(`slider ABS ${this.voteId} and ${parseInt($(`#voteSlider-${this.voteId}`).width() + Math.abs(pixels), 10)}`);
     return parseInt($(`#voteSlider-${this.voteId}`).width() + Math.abs(pixels), 10);
   }
 
@@ -309,10 +307,8 @@ export class Vote {
   * @summary resets slider handle to current inBallot value position
   */
   resetSlider() {
-    console.log('resetting slider....');
     this.maxVotes = parseInt(this.available + this.inBallot, 10);
     const initialValue = parseFloat((this.inBallot * 100) / this.maxVotes, 10).toFixed(2);
-    // $(`#voteSlider-${this.voteId}`).velocity({ width: `${initialValue}%` }, animationSettings);
     $(`#voteSlider-${this.voteId}`).width(`${initialValue}%`);
     this._initialSliderWidth = parseInt(($(`#voteBar-${this.voteId}`).width() * initialValue) / 100, 10);
     this.sliderWidth = this._initialSliderWidth;
@@ -324,6 +320,7 @@ export class Vote {
   * @summary position handle to properly fit in the extremes
   */
   positionHandle(width) {
+    console.log(`VOTE: ${this.voteId} is ${$(`#voteHandle-${this.voteId}`).css('margin-right')}`);
     $(`#voteHandle-${this.voteId}`).css('margin-right', `${parseInt(((width * 23) / $(`#voteBar-${this.voteId}`).width()) - 29, 10)}px`);
   }
 
