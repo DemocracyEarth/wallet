@@ -14,14 +14,11 @@ import { animationSettings } from '/imports/ui/modules/animation';
 import { addChoiceToBallot, getTotalVoters, getRightToVote, getBallot } from '/imports/ui/modules/ballot';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { Contracts } from '/imports/api/contracts/Contracts';
-// import { setVote, getTickValue, candidateBallot, getRightToVote, getBallot, setBallot, getTotalVoters, getTally, getTallyPercentage } from '/imports/ui/modules/ballot';
 
-import './feedItem.html';
-import '../../components/decision/stage/stage.js';
-import '../../components/decision/tag/tag.js';
-import '../../components/identity/avatar/avatar.js';
-import '../../widgets/transaction/transaction.js';
-import '../../widgets/spinner/spinner.js';
+import '/imports/ui/templates/widgets/feed/feedItem.html';
+import '/imports/ui/templates/widgets/transaction/transaction.js';
+import '/imports/ui/templates/widgets/spinner/spinner.js';
+import '/imports/ui/templates/components/identity/avatar/avatar.js';
 
 /**
 * @summary determines whether this decision can display results or notice
@@ -69,7 +66,7 @@ Template.feedItem.onRendered(function () {
     Meteor.clearTimeout(isScrolling);
     isScrolling = Meteor.setTimeout(function () {
       if (document.querySelector(`#ballot-${instance.data._id}`)) {
-        instance.aboveFold.set(isScrolledIntoView(document.querySelector(`#ballot-${instance.data._id}`)));
+        instance.aboveFold.set(isScrolledIntoView(document.querySelector(`#voteBar-vote-${Meteor.userId()}-${instance.data._id}`)));
       }
     }, 1);
   });
@@ -79,7 +76,6 @@ Template.feedItem.onRendered(function () {
       const subscription = instance.subscribe('transaction', { view: 'contractVotes', contractId: instance.data._id });
       const contract = instance.contract.get();
       if (subscription.ready() && !instance.ready.get()) {
-        console.log('configuring vote...');
         instance.rightToVote.set(getRightToVote(contract));
         instance.candidateBallot.set(getBallot(instance.data._id));
         instance.displayResults.set(_displayResults(contract));

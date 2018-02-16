@@ -4,7 +4,6 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 
 import { getDelegationContract, createDelegation } from '/imports/startup/both/modules/Contract';
-import { animationSettings } from '/imports/ui/modules/animation';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { convertToSlug } from '/lib/utils';
 import { purgeBallot, getBallot } from '/imports/ui/modules/ballot';
@@ -111,8 +110,6 @@ export class Vote {
   constructor(wallet, targetId, sessionId, sourceId) {
     if (Session.get(sessionId)) {
       Object.assign(this, Session.get(sessionId));
-      this.positionHandle(this.sliderWidth);
-      console.log('calling memory');
     } else {
       // properties
       if (wallet === undefined) {
@@ -278,7 +275,6 @@ export class Vote {
       } else {
         this.sliderWidth = 0;
       }
-      console.log('sliderinput...');
       this.positionHandle(this.sliderWidth);
       if (!avoidAllocation) {
         if (Math.abs(inputPixels) <= precisionRange) {
@@ -321,7 +317,6 @@ export class Vote {
   * @summary position handle to properly fit in the extremes
   */
   positionHandle(width) {
-    console.log(`positioning handle...${$(`#voteHandle-${this.voteId}`).css('margin-right')}`);
     $(`#voteHandle-${this.voteId}`).css('margin-right', `${parseInt(((width * 23) / $(`#voteBar-${this.voteId}`).width()) - 29, 10)}px`);
   }
 

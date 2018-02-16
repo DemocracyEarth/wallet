@@ -271,6 +271,8 @@ const _remove = (contractId) => {
 * @param {string} keyword tentative title being used for contract
 */
 const _generateURL = (keyword, contractId) => {
+  return convertToSlug(`${keyword}-${shortUUID()}`);
+/*
   let dynamicURL;
   let contract = Contracts.findOne({ _id: contractId });
 
@@ -291,6 +293,7 @@ const _generateURL = (keyword, contractId) => {
     }
   }
   return dynamicURL;
+  */
 };
 
 /**

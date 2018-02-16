@@ -3,7 +3,6 @@ import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
-import { Tracker } from 'meteor/tracker';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
@@ -13,8 +12,8 @@ import { contractReady, purgeBallot, candidateBallot, getRightToVote, getBallot,
 import { clearPopups } from '/imports/ui/modules/popup';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
-import './liquid.html';
-import '../action/action.js';
+import '/imports/ui/templates/components/decision/liquid/liquid.html';
+import '/imports/ui/templates/components/decision/action/action.js';
 
 const _animateLiquidBar = (fork) => {
   const execution = $(`#execution-${fork.voteId}`);
@@ -150,7 +149,6 @@ const _setupDrag = () => {
           Session.set('dragging', false);
           this.newVote.resetSlider();
           Session.set(voteId, this.newVote);
-          console.log(Session.get(voteId));
         };
 
         Meteor.clearTimeout(this.timer);
@@ -172,7 +170,7 @@ const _setupDrag = () => {
 };
 
 Template.liquid.onCreated(function () {
-  const wallet = new Vote(Template.instance().data.wallet, Template.instance().data.targetId, Template.instance().data._id);
+  let wallet = new Vote(Template.instance().data.wallet, Template.instance().data.targetId, Template.instance().data._id);
   Session.set(Template.instance().data._id, wallet);
   Template.instance().contract = new ReactiveVar(Template.currentData().contract);
   Template.instance().rightToVote = new ReactiveVar(getRightToVote(Template.instance().contract.get()));
@@ -181,14 +179,14 @@ Template.liquid.onCreated(function () {
 
   const instance = this;
 
-  // instance.autorun(function () {
-  //  wallet = new Vote(instance.data.wallet, instance.data.targetId, instance.data._id);
-  if (wallet.voteType === 'DELEGATION') {
-    instance.rightToVote.set(getRightToVote(wallet.delegationContract));
-    instance.contract.set(wallet.delegationContract);
-  }
-  Session.set(instance.data._id, wallet);
-  // });
+  instance.autorun(function () {
+    wallet = new Vote(instance.data.wallet, instance.data.targetId, instance.data._id);
+    if (wallet.voteType === 'DELEGATION') {
+      instance.rightToVote.set(getRightToVote(wallet.delegationContract));
+      instance.contract.set(wallet.delegationContract);
+    }
+    Session.set(instance.data._id, wallet);
+  });
 });
 
 
@@ -196,8 +194,6 @@ Template.liquid.onRendered(function () {
   if (!Meteor.user()) {
     return;
   }
-
-  console.log('rendering liquid...');
 
   if (!Meteor.Device.isPhone()) {
     $(`#voteBar-${this.data._id}`).resize(function () {
@@ -209,11 +205,6 @@ Template.liquid.onRendered(function () {
       Session.set(voteId, this.newVote);
     });
   }
-
-  // console.log(this.data._id);
- // console.log(Session.get(this.data._id));
-  // $(`#voteSlider-${Template.currentData()._id}`).width(getBarWidth(Session.get(Template.currentData()._id).inBallot, Template.currentData()._id, true));
-
   _setupDrag();
 });
 
@@ -472,9 +463,7 @@ Template.bar.helpers({
   available() {
     if (isNaN(Session.get(this._id)._maxWidth)) {
       const vote = Session.get(this._id);
-      vote.maxVotes = parseInt(vote.available + vote.inBallot, 10);
       const initialValue = parseFloat((vote.inBallot * 100) / vote.maxVotes, 10).toFixed(2);
-      $(`#voteHandle-${this._id}`).css('margin-right', `${parseInt(((initialValue * 23) / 100) - 29, 10)}px`);
       return `${initialValue}%`;
     }
     return getBarWidth(Session.get(this._id).inBallot, this._id, this.editable, true);
@@ -490,7 +479,6 @@ Template.bar.helpers({
   },
   positionHandle() {
     const vote = Session.get(this._id);
-    vote.maxVotes = parseInt(vote.available + vote.inBallot, 10);
     const initialValue = parseFloat((vote.inBallot * 100) / vote.maxVotes, 10).toFixed(2);
     return `margin-right: ${parseInt(((initialValue * 23) / 100) - 29, 10)}px `;
   },
