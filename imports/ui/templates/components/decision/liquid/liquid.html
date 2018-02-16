@@ -100,7 +100,7 @@
   <div id="voteBar-{{_id}}" class="w-clearfix result vote-bar">
     <div id="voteSlider-{{_id}}" class="result-bar vote-bar {{fixed 'available'}} {{unanimous 'inBallot'}}" style=" width: {{available}} ">
       {{#if editable}}
-        <div id="voteHandle-{{_id}}" class="handle"></div>
+        <div id="voteHandle-{{_id}}" class="handle" style="{{positionHandle}}"></div>
       {{/if}}
     </div>
     <div id="votePlaced-{{_id}}" class="result-bar vote-bar vote-bar-allocated {{unanimous 'placed'}} {{fixed 'placed'}}"  style=" width: {{placed}}; {{min}}"></div>

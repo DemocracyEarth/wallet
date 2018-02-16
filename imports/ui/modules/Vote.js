@@ -111,6 +111,8 @@ export class Vote {
   constructor(wallet, targetId, sessionId, sourceId) {
     if (Session.get(sessionId)) {
       Object.assign(this, Session.get(sessionId));
+      this.positionHandle(this.sliderWidth);
+      console.log('calling memory');
     } else {
       // properties
       if (wallet === undefined) {
@@ -233,10 +235,8 @@ export class Vote {
   */
   _getSliderCenter(pixels) {
     if (pixels > 0) {
-      console.log(`slider ${this.voteId} and ${parseInt($(`#voteSlider-${this.voteId}`).width() - pixels, 10)}`);
       return parseInt($(`#voteSlider-${this.voteId}`).width() - pixels, 10);
     }
-    console.log(`slider ABS ${this.voteId} and ${parseInt($(`#voteSlider-${this.voteId}`).width() + Math.abs(pixels), 10)}`);
     return parseInt($(`#voteSlider-${this.voteId}`).width() + Math.abs(pixels), 10);
   }
 
@@ -278,6 +278,7 @@ export class Vote {
       } else {
         this.sliderWidth = 0;
       }
+      console.log('sliderinput...');
       this.positionHandle(this.sliderWidth);
       if (!avoidAllocation) {
         if (Math.abs(inputPixels) <= precisionRange) {
@@ -320,7 +321,7 @@ export class Vote {
   * @summary position handle to properly fit in the extremes
   */
   positionHandle(width) {
-    console.log(`VOTE: ${this.voteId} is ${$(`#voteHandle-${this.voteId}`).css('margin-right')}`);
+    console.log(`positioning handle...${$(`#voteHandle-${this.voteId}`).css('margin-right')}`);
     $(`#voteHandle-${this.voteId}`).css('margin-right', `${parseInt(((width * 23) / $(`#voteBar-${this.voteId}`).width()) - 29, 10)}px`);
   }
 

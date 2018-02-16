@@ -172,7 +172,7 @@ const _setupDrag = () => {
 };
 
 Template.liquid.onCreated(function () {
-  let wallet = new Vote(Template.instance().data.wallet, Template.instance().data.targetId, Template.instance().data._id);
+  const wallet = new Vote(Template.instance().data.wallet, Template.instance().data.targetId, Template.instance().data._id);
   Session.set(Template.instance().data._id, wallet);
   Template.instance().contract = new ReactiveVar(Template.currentData().contract);
   Template.instance().rightToVote = new ReactiveVar(getRightToVote(Template.instance().contract.get()));
@@ -181,14 +181,14 @@ Template.liquid.onCreated(function () {
 
   const instance = this;
 
-  instance.autorun(function () {
-    wallet = new Vote(instance.data.wallet, instance.data.targetId, instance.data._id);
-    if (wallet.voteType === 'DELEGATION') {
-      instance.rightToVote.set(getRightToVote(wallet.delegationContract));
-      instance.contract.set(wallet.delegationContract);
-    }
-    Session.set(instance.data._id, wallet);
-  });
+  // instance.autorun(function () {
+  //  wallet = new Vote(instance.data.wallet, instance.data.targetId, instance.data._id);
+  if (wallet.voteType === 'DELEGATION') {
+    instance.rightToVote.set(getRightToVote(wallet.delegationContract));
+    instance.contract.set(wallet.delegationContract);
+  }
+  Session.set(instance.data._id, wallet);
+  // });
 });
 
 
@@ -470,20 +470,12 @@ Template.capital.helpers({
 
 Template.bar.helpers({
   available() {
-    console.log(`starting id: ${this._id}`);
     if (isNaN(Session.get(this._id)._maxWidth)) {
-      console.log(`is NAN: ${this._id}`);
       const vote = Session.get(this._id);
       vote.maxVotes = parseInt(vote.available + vote.inBallot, 10);
       const initialValue = parseFloat((vote.inBallot * 100) / vote.maxVotes, 10).toFixed(2);
-      // const width = parseInt(($(`#voteBar-${this.voteId}`).width() * initialValue) / 100, 10);
       $(`#voteHandle-${this._id}`).css('margin-right', `${parseInt(((initialValue * 23) / 100) - 29, 10)}px`);
-      console.log(`id: ${this._id} is ${parseInt(((initialValue * 23) / 100) - 29, 10)}px`);
       return `${initialValue}%`;
-      /* $(`#voteSlider-${this.voteId}`).width(`${initialValue}%`);
-      this._initialSliderWidth = parseInt(($(`#voteBar-${this.voteId}`).width() * initialValue) / 100, 10);
-      this.sliderWidth = this._initialSliderWidth;
-      return getBarWidth(Session.get(this._id).inBallot, this._id, this.editable, true, true);*/
     }
     return getBarWidth(Session.get(this._id).inBallot, this._id, this.editable, true);
   },
@@ -495,6 +487,12 @@ Template.bar.helpers({
       return 'min-width: 10px;';
     }
     return '';
+  },
+  positionHandle() {
+    const vote = Session.get(this._id);
+    vote.maxVotes = parseInt(vote.available + vote.inBallot, 10);
+    const initialValue = parseFloat((vote.inBallot * 100) / vote.maxVotes, 10).toFixed(2);
+    return `margin-right: ${parseInt(((initialValue * 23) / 100) - 29, 10)}px `;
   },
   unanimous(value) {
     const quantity = parseInt(Session.get(this._id)[value] - Session.get(this._id).inBallot, 10);
