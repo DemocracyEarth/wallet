@@ -184,7 +184,7 @@ Template.avatar.helpers({
     if (smallFont) {
       style = 'identity-small';
     }
-    if (this.flex) {
+    if (this.flex && Meteor.Device.isPhone()) {
       style += ' identity-peer-flex';
     }
     if (this.disabled) {

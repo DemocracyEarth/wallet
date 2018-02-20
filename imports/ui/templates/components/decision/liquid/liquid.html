@@ -27,9 +27,11 @@
 
 <template name="capital">
   {{#if isDelegation}}
+    {{> transaction this}}
     <div class='bar-labels'>
-      <div class='vote-available label-votes'>
+      <!--<div class='vote-available label-votes'>
         <div class="stage {{style 'inBallot'}}">
+
           <div class='label label-corner' title="{{_ 'sent-votes-tip'}}">
             {{{getVotes 'inBallot'}}}
           </div>
@@ -55,7 +57,7 @@
             </div>
           </div>
         </div>
-      {{/unless}}
+      {{/unless}}-->
     </div>
   {{else}}
     <div class='bar-labels'>

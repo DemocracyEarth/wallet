@@ -1295,12 +1295,12 @@ blockquote {
 
 .vote.vote-search.vote-feed.vote-delegation {
   overflow: hidden;
-  width: auto;
+  width: 100%;
   margin-right: 10px;
   padding: 0px 10px;
   float: left;
   clear: both;
-  border-radius: 10px;
+  border-radius: 25px;
   background-color: #f7f7f7;
   box-shadow: 0 5px 15px -12px #000;
 }
