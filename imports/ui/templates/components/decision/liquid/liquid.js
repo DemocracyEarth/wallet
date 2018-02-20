@@ -367,8 +367,11 @@ Template.capital.helpers({
             } else {
               label = `<strong>${Math.abs(inBallot + quantity).toLocaleString()}</strong> ${TAPi18n.__('votes-to-delegate')}`;
             }
+          } else if (isNaN(Math.abs(inBallot + quantity))) {
+            // irrational black hole
+            label = `<strong> ${Math.abs(inBallot).toLocaleString()}</strong> ${TAPi18n.__('place-in-ballot')}`;
           } else {
-            label = `<strong>${Math.abs(inBallot + quantity).toLocaleString()}</strong> ${TAPi18n.__('place-in-ballot')}`;
+            label = `<strong> ${Math.abs(inBallot + quantity).toLocaleString()}</strong> ${TAPi18n.__('place-in-ballot')}`;
           }
           break;
         }
