@@ -73,13 +73,13 @@
         </div>
         <div class="stage {{style 'available'}}">
           <div class='label label-corner'>
-            {{{getVotes 'available'}}}
+            <a href="{{getURL 'placed'}}">{{{getVotes 'available'}}}</a>
           </div>
         </div>
         {{#if hideBar}}
           <div class="stage {{style 'placed'}}">
             <div class='label label-corner'>
-              {{{getVotes 'placed'}}}
+              <a href="{{getURL 'placed'}}">{{{getVotes 'placed'}}}</a>
             </div>
           </div>
         {{/if}}
@@ -88,7 +88,7 @@
         <div class='vote-allocated label-votes'>
           <div class="stage {{style 'placed'}}">
             <div class='label label-corner'>
-              {{{getVotes 'placed'}}}
+              <a href="{{getURL 'placed'}}">{{{getVotes 'placed'}}}</a>
             </div>
           </div>
         </div>

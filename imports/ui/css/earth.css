@@ -5460,6 +5460,11 @@ blockquote {
   margin-top: 5px;
 }
 
+.white-link {
+  border-bottom-color: #fff;
+  color: #fff;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;

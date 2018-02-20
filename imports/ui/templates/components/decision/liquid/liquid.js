@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
+import { Router } from 'meteor/iron:router';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import { sendDelegationVotes } from '/imports/startup/both/modules/Contract';
@@ -459,6 +460,16 @@ Template.capital.helpers({
   },
   negativeAllocation() {
     return (Session.get(this._id).inBallot > Session.get(this._id).allocateQuantity);
+  },
+  getURL(value) {
+    switch (value) {
+      case 'placed':
+      default:
+        if (Meteor.userId()) {
+          return `${Router.path('home')}peer/${Meteor.user().username}`;
+        }
+    }
+    return '';
   },
 });
 
