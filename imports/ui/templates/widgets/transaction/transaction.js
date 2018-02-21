@@ -3,23 +3,26 @@ import { TAPi18n } from 'meteor/tap:i18n';
 
 import './transaction.html';
 
+Template.transaction.onCreated(function () {
+});
+
 Template.transaction.helpers({
   sender() {
-    return this.signatures[0]._id;
+    return this.contract.signatures[0]._id;
   },
   receiver() {
-    return this.signatures[1]._id;
+    return this.contract.signatures[1]._id;
   },
   value() {
     // TODO: this data should be from ledger
-    return this.wallet.available;
+    return this.contract.wallet.available;
   },
   source() {
     return TAPi18n.__('delegated-votes');
   },
   emptyVotes() {
     // TODO: this data should be from ledger
-    if (this.wallet.available === 0) {
+    if (this.contract.wallet.available === 0) {
       // return 'display:none';
     }
     return '';

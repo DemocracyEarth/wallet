@@ -11,10 +11,16 @@
           <div class="login-label title-label">
             {{_ 'alliance'}}
           </div>
-          {{> transaction onCard=true}}
-          {{#with voteSettings}}
-            {{> liquid _id=this.voteId sourceId=this.sourceId contract=contract targetId=this.targetId wallet=this.wallet editable=true}}
-          {{/with}}
+          {{#if Template.subscriptionsReady}}
+            {{#with delegationContract}}
+              {{> transaction contract=this onCard=true}}
+            {{/with}}
+            {{#with voteSettings}}
+              {{> liquid _id=this.voteId sourceId=this.sourceId contract=contract targetId=this.targetId wallet=this.wallet editable=true}}
+            {{/with}}
+          {{else}}
+            loading..
+          {{/if}}
         {{/unless}}
       {{/if}}
   </div>

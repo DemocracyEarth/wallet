@@ -30,7 +30,7 @@
     </div>
   {{else}}
     {{#if delegationMode}}
-      {{> transaction this}}
+      {{> transaction contract=this}}
     {{else}}
       <div id="feedItem-{{_id}}" class="vote vote-search vote-feed nondraggable">
         <div class="checkbox checkbox-custom">

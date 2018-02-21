@@ -17,7 +17,7 @@ Template.card.onRendered(function () {
   instance.autorun(function () {
     const subscription = instance.subscribe('singleDelegation', { view: 'singleDelegationContract', delegateId: instance.data.toString() });
     if (subscription.ready()) {
-      instance.delegationContract = getDelegationContract(Meteor.userId(), this._id);
+      instance.delegationContract.set(getDelegationContract(Meteor.userId(), this._id));
     }
   });
 });
@@ -34,7 +34,7 @@ Template.card.helpers({
       targetId: this.toString(),
     };
   },
-  contract() {
+  delegationContract() {
     return Template.instance().delegationContract.get();
   },
   profile() {
