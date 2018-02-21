@@ -466,7 +466,8 @@ Template.capital.helpers({
       case 'placed':
       default:
         if (Meteor.userId()) {
-          return `${Router.path('home')}peer/${Meteor.user().username}`;
+          console.log(this);
+          return `${Router.path('home')}peer/${Meteor.user().username}?filter=cast`;
         }
     }
     return '';

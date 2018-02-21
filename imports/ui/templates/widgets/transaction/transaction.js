@@ -24,4 +24,10 @@ Template.transaction.helpers({
     }
     return '';
   },
+  onCard() {
+    if (this.onCard) {
+      return 'vote-delegation-card';
+    }
+    return '';
+  },
 });

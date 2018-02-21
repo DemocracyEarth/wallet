@@ -1305,6 +1305,13 @@ blockquote {
   box-shadow: 0 5px 15px -12px #000;
 }
 
+.vote.vote-search.vote-feed.vote-delegation-card {
+  margin-bottom: 0px;
+  padding-right: 5px;
+  padding-left: 5px;
+  background-color: transparent;
+}
+
 .vote.vote-placeholder {
   width: 50%;
   height: 70px;
