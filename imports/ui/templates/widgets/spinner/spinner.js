@@ -26,6 +26,8 @@ Template.spinner.onRendered(function () {
     position: 'relative',
   };
 
+  Object.assign(opts, this.data);
+
   const target = document.getElementById(`spinner-feed-${this.data.id}`);
   if (typeof Spinner !== 'undefined') {
     let spinner = new Spinner(opts).spin(target);

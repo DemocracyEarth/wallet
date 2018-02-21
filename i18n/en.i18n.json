@@ -474,5 +474,6 @@
   "draft": "Draft.",
   "blockstack-id": "Blockstack ID",
   "member": "Member",
-  "get-election-votes": "Tallying votes..."
+  "get-election-votes": "Tallying votes...",
+  "get-delegation-votes": "Getting delegation status..."
 }

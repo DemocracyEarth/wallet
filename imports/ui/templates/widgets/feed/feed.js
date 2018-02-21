@@ -5,15 +5,14 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { $ } from 'meteor/jquery';
 import { Counts } from 'meteor/tmeasday:publish-counts';
 
-import { gui } from '/lib/const';
 import { query } from '/lib/views';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { createContract } from '/imports/startup/both/modules/Contract';
 
-import './feed.html';
-import './feedItem.js';
-import './feedEmpty.js';
-import './feedLoad.js';
+import '/imports/ui/templates/widgets/feed/feed.html';
+import '/imports/ui/templates/widgets/feed/feedItem.js';
+import '/imports/ui/templates/widgets/feed/feedEmpty.js';
+import '/imports/ui/templates/widgets/feed/feedLoad.js';
 
 /**
 * @summary remove delegations without votes left
@@ -70,7 +69,6 @@ Template.feed.onRendered(function () {
 
 Template.feed.helpers({
   item() {
-    console.log(Template.instance().feed.get());
     return Template.instance().feed.get();
   },
   refresh() {
