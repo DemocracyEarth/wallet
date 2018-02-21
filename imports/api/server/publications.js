@@ -39,6 +39,10 @@ Meteor.publish('transaction', (terms) => {
   return Transactions.find(parameters.find, parameters.options);
 });
 
+/**
+* @summary get all delegations for the logged user
+* @return {Object} querying terms
+*/
 Meteor.publish('delegations', (terms) => {
   check(terms, Object);
   if (Meteor.user()) {
@@ -60,13 +64,6 @@ Meteor.publish('files', function files() {
     return data;
   }
   return this.ready();
-});
-
-/**
-* @summary gets all contracts
-*/
-Meteor.publish('contracts', () => {
-  Contracts.find();
 });
 
 /**
@@ -118,6 +115,18 @@ Meteor.publish('singleContract', (terms) => {
   const parameters = query(terms);
 
   console.log(`{ publish: 'singleContract', user: '${Meteor.user().username}', { contractId: ${terms.contractId} }`);
+  return Contracts.find(parameters.find, parameters.options);
+});
+
+/**
+* @summary gets a specific delegation
+* @return {Object} querying terms
+*/
+Meteor.publish('singleDelegation', (terms) => {
+  check(terms, Object);
+  const parameters = query(terms);
+
+  console.log(`{ publish: 'singleDelegation', user: '${Meteor.user().username}', delegateId: ${terms.delegateId} }`);
   return Contracts.find(parameters.find, parameters.options);
 });
 

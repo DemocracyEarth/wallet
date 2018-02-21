@@ -70,6 +70,7 @@ Template.feed.onRendered(function () {
 
 Template.feed.helpers({
   item() {
+    console.log(Template.instance().feed.get());
     return Template.instance().feed.get();
   },
   refresh() {
