@@ -1308,7 +1308,7 @@ blockquote {
 .vote.vote-search.vote-feed.vote-delegation-card {
   margin-bottom: 0px;
   padding-right: 5px;
-  padding-left: 5px;
+  padding-left: 0px;
   background-color: transparent;
 }
 

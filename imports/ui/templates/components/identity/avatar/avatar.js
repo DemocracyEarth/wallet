@@ -185,7 +185,7 @@ Template.avatar.helpers({
       style = 'identity-small';
     }
     if (this.flex && Meteor.Device.isPhone()) {
-      style += ' identity-peer-flex';
+      // style += ' identity-peer-flex';
     }
     if (this.disabled) {
       style += ' profile-pic-disabled';
