@@ -27,7 +27,7 @@
     </div>
   {{else}}
     {{#if delegationMode}}
-      {{> transaction contract=this}}
+      {{> transaction contract=this senderId=senderId receiverId=receiverId}}
     {{else}}
       <div id="feedItem-{{_id}}" class="vote vote-search vote-feed nondraggable">
         <div class="checkbox checkbox-custom">

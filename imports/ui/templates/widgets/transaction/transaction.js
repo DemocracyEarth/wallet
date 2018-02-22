@@ -9,7 +9,7 @@ Template.transaction.onCreated(function () {
 Template.transaction.helpers({
   sender() {
     return {
-      _id: this.contract.signatures[0]._id,
+      _id: this.senderId,
       imgStyle: () => {
         if (this.compressed) {
           return 'float: left; margin-top: 4px;';
@@ -19,9 +19,8 @@ Template.transaction.helpers({
     };
   },
   receiver() {
-    // return this.contract.signatures[1]._id;
     return {
-      _id: this.contract.signatures[1]._id,
+      _id: this.receiverId,
       imgStyle: () => {
         if (this.compressed) {
           return ' margin-top: 4px; margin-left: 5px; ';

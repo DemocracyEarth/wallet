@@ -145,6 +145,12 @@ Template.feedItem.helpers({
   delegationMode() {
     return (this.kind === 'DELEGATION');
   },
+  senderId() {
+    return this.signatures[0]._id;
+  },
+  receiverId() {
+    return this.signatures[1]._id;
+  },
   feedContract() {
     return Template.instance().contract.get();
   },

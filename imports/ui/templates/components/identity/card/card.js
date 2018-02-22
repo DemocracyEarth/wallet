@@ -36,7 +36,24 @@ Template.card.helpers({
     };
   },
   delegationContract() {
-    return Template.instance().delegationContract.get();
+    const contract = Template.instance().delegationContract.get();
+    let senderId;
+    let receiverId;
+    if (contract) {
+      if (contract.signatures[0]._id === Meteor.userId()) {
+        senderId = contract.signatures[0]._id;
+        receiverId = contract.signatures[1]._id;
+      } else {
+        senderId = contract.signatures[1]._id;
+        receiverId = contract.signatures[0]._id;
+      }
+      return {
+        contract,
+        senderId,
+        receiverId,
+      };
+    }
+    return undefined;
   },
   profile() {
     const userId = this.toString();

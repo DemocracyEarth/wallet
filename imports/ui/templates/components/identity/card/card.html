@@ -13,7 +13,7 @@
           </div>
           {{#if Template.subscriptionsReady}}
             {{#with delegationContract}}
-              {{> transaction contract=this onCard=true compressed=true}}
+              {{> transaction contract=this.contract senderId=this.senderId receiverId=this.receiverId onCard=true compressed=true}}
             {{/with}}
             {{#with voteSettings}}
               {{> liquid _id=this.voteId sourceId=this.sourceId contract=contract targetId=this.targetId wallet=this.wallet editable=true}}
