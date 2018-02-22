@@ -475,5 +475,6 @@
   "blockstack-id": "Blockstack ID",
   "member": "Member",
   "get-election-votes": "Tallying votes...",
-  "get-delegation-votes": "Getting delegation status..."
+  "get-delegation-votes": "Getting delegation status...",
+  "no-delegated-votes": "No delegations"
 }

@@ -5475,6 +5475,14 @@ blockquote {
   color: #fff;
 }
 
+.bottom-10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 10px;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
