@@ -1295,9 +1295,9 @@ blockquote {
 
 .vote.vote-search.vote-feed.vote-delegation {
   overflow: hidden;
-  width: 100%;
+  width: auto;
   margin-right: 10px;
-  padding: 0px 10px;
+  padding: 0px 10px 0px 5px;
   float: left;
   clear: both;
   border-radius: 25px;
@@ -1306,9 +1306,11 @@ blockquote {
 }
 
 .vote.vote-search.vote-feed.vote-delegation-card {
+  width: auto;
   margin-bottom: 0px;
   padding-right: 5px;
   padding-left: 0px;
+  border-radius: 0px;
   background-color: transparent;
 }
 
@@ -5414,7 +5416,8 @@ blockquote {
 }
 
 .actor {
-  padding-right: 20px;
+  margin-right: 15px;
+  padding-right: 0px;
   text-align: center;
 }
 
@@ -5424,7 +5427,7 @@ blockquote {
 
 .actor.actor-score {
   padding-right: 0px;
-  float: right;
+  float: left;
 }
 
 .transaction-data {

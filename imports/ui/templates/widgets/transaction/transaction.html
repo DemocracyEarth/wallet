@@ -1,42 +1,5 @@
 <template name="transaction">
   <div id="feedItem-{{contract._id}}" class="vote vote-delegation vote-feed vote-search {{onCard}} w-clearfix" style="{{emptyVotes}}">
-    {{#if compressed}}
-      <div class="identity identity-transaction w-clearfix" style="float:left">
-        {{#with sender}}
-          {{> avatar size=24 profile=this includeName=false includeNation=false editable=false microFont=true disabled=true includeRole=false}}
-        {{/with}}
-      </div>
-      <div style="float:left">
-        <img src="{{pathFor route='home'}}images/arrow-right.png" class="transaction-direction">
-      </div>
-      <div class="identity identity-transaction w-clearfix" style="float:left">
-        {{#with receiver}}
-          {{> avatar size=24 profile=this includeName=false includeNation=false editable=false microFont=true disabled=true includeRole=false}}
-        {{/with}}
-      </div>
-    {{else}}
-      <table class="transaction-data w-clearfix">
-        <tr>
-          <td class="actor">
-            <div class="identity identity-transaction w-clearfix">
-              {{#with sender}}
-                {{> avatar size=24 profile=this includeName=true includeNation=true editable=false microFont=true disabled=false includeRole=false flex=true}}
-              {{/with}}
-            </div>
-          </td>
-          <td class="actor actor-arrow">
-            <img src="{{pathFor route='home'}}images/arrow-right.png" class="transaction-direction">
-          </td>
-          <td class="actor">
-            <div class="identity identity-transaction w-clearfix">
-              {{#with receiver}}
-                {{> avatar size=24 profile=this includeName=true includeNation=true editable=false microFont=true disabled=false includeRole=false flex=true}}
-              {{/with}}
-            </div>
-          </td>
-        </tr>
-      </table>
-    {{/if}}
     <div class="actor actor-score">
       <div class="transaction-value">
         <div class="bar-labels">
@@ -50,5 +13,42 @@
         </div>
       </div>
     </div>
+    {{#if compressed}}
+      <div class="identity identity-transaction w-clearfix" style="float:left">
+        {{#with sender}}
+          {{> avatar size=32 profile=this._id includeName=false includeNation=false editable=false microFont=true disabled=true includeRole=false imgStyle=this.imgStyle}}
+        {{/with}}
+      </div>
+      <div style="float:left">
+        <img src="{{pathFor route='home'}}images/arrow-right.png" class="transaction-direction" style="margin-top: 3px; ">
+      </div>
+      <div class="identity identity-transaction w-clearfix" style="float:left">
+        {{#with receiver}}
+          {{> avatar size=32 profile=this._id includeName=false includeNation=false editable=false microFont=true disabled=true includeRole=false imgStyle=this.imgStyle}}}
+        {{/with}}
+      </div>
+    {{else}}
+      <table class="transaction-data w-clearfix">
+        <tr>
+          <td class="actor">
+            <div class="identity identity-transaction w-clearfix">
+              {{#with sender}}
+                {{> avatar size=24 profile=this_id includeName=true includeNation=true editable=false microFont=true disabled=false includeRole=false flex=true}}
+              {{/with}}
+            </div>
+          </td>
+          <td class="actor actor-arrow">
+            <img src="{{pathFor route='home'}}images/arrow-right.png" class="transaction-direction">
+          </td>
+          <td class="actor">
+            <div class="identity identity-transaction w-clearfix">
+              {{#with receiver}}
+                {{> avatar size=24 profile=this_id includeName=true includeNation=true editable=false microFont=true disabled=false includeRole=false flex=true}}
+              {{/with}}
+            </div>
+          </td>
+        </tr>
+      </table>
+    {{/if}}
   </div>
 </template>

@@ -8,10 +8,27 @@ Template.transaction.onCreated(function () {
 
 Template.transaction.helpers({
   sender() {
-    return this.contract.signatures[0]._id;
+    return {
+      _id: this.contract.signatures[0]._id,
+      imgStyle: () => {
+        if (this.compressed) {
+          return 'float: left; margin-top: 4px;';
+        }
+        return '';
+      },
+    };
   },
   receiver() {
-    return this.contract.signatures[1]._id;
+    // return this.contract.signatures[1]._id;
+    return {
+      _id: this.contract.signatures[1]._id,
+      imgStyle: () => {
+        if (this.compressed) {
+          return ' margin-top: 4px; margin-left: 5px; ';
+        }
+        return '';
+      },
+    };
   },
   value() {
     // TODO: this data should be from ledger

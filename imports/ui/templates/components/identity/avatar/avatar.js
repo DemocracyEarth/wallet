@@ -218,7 +218,10 @@ Template.avatar.helpers({
       style = `width:${size}px; height:${size}px; `;
     }
     if (includeName === false) {
-      style += 'float: none';
+      style += 'float: none; ';
+    }
+    if (this.imgStyle) {
+      style += ` ${this.imgStyle}`;
     }
     return style;
   },
