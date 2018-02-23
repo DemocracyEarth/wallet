@@ -5868,7 +5868,7 @@ blockquote {
     float: right;
   }
   .result.vote-bar {
-    box-shadow: inset 0 3px 13px -2px rgba(0, 0, 0, .5);
+    box-shadow: none;
   }
   .election {
     float: left;
@@ -5884,7 +5884,7 @@ blockquote {
     margin-top: 5px;
   }
   .handle {
-    box-shadow: 0 1px 3px -1px #000, inset 0 0 1px 0 #52d4b4;
+    box-shadow: 0 0 0 1px #cff0e7, inset 0 0 1px 0 #52d4b4;
   }
   .data {
     display: inline-block;

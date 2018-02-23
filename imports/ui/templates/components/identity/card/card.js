@@ -10,6 +10,7 @@ import '/imports/ui/templates/widgets/spinner/spinner.js';
 
 Template.card.onCreated(function () {
   Template.instance().delegationContract = new ReactiveVar();
+  Template.instance().displayDelegation = new ReactiveVar(false);
 });
 
 Template.card.onRendered(function () {
@@ -18,7 +19,15 @@ Template.card.onRendered(function () {
   instance.autorun(function () {
     const subscription = instance.subscribe('singleDelegation', { view: 'sentDelegation', delegateId: instance.data.toString() });
     if (subscription.ready()) {
-      instance.delegationContract.set(getDelegationContract(Meteor.userId(), this._id));
+      console.log(`asking for delegation contract of this._id ${instance.data.toString()}`)
+      const delegationContract = getDelegationContract(Meteor.userId(), instance.data.toString());
+      console.log(`delegationContract is ${delegationContract._id}`)
+      console.log(`delegationContract alternative is ${getDelegationContract(instance.data.toString(), Meteor.userId())._id}`)
+      instance.delegationContract.set(delegationContract);
+      const transactions = instance.subscribe('transaction', { view: 'contractVotes', contractId: delegationContract._id });
+      if (transactions.ready()) {
+        instance.displayDelegation.set(true);
+      }
     }
   });
 });
@@ -29,11 +38,14 @@ Template.card.helpers({
   },
   voteSettings() {
     return {
-      voteId: `vote-${Meteor.userId()}-${this.toString()}`,
+      voteId: `vote-${Meteor.userId()}-${Template.instance().delegationContract.get()._id}`,
       wallet: Meteor.user().profile.wallet,
       sourceId: Meteor.userId(),
       targetId: this.toString(),
     };
+  },
+  displayDelegation() {
+    return Template.instance().displayDelegation.get();
   },
   delegationContract() {
     const contract = Template.instance().delegationContract.get();
@@ -51,7 +63,7 @@ Template.card.helpers({
         contract,
         senderId,
         receiverId,
-        voteId: `vote-${Meteor.userId()}-${this.toString()}`,
+        voteId: `vote-${Meteor.userId()}-${contract._id}`,
       };
     }
     return undefined;

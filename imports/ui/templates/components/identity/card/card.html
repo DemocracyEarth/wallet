@@ -11,7 +11,7 @@
           <div class="login-label title-label">
             {{_ 'alliance'}}
           </div>
-          {{#if Template.subscriptionsReady}}
+          {{#if displayDelegation}}
             {{#with delegationContract}}
               {{> transaction contract=this.contract senderId=this.receiverId receiverId=this.senderId onCard=true compressed=true}}
               {{> transaction contract=this.contract senderId=this.senderId receiverId=this.receiverId onCard=true compressed=true editable=true voteId=this.voteId}}

@@ -36,6 +36,7 @@ Meteor.publish('transaction', (terms) => {
   }
   const parameters = query(terms);
   console.log(`{ publish: 'transaction', user: '${username}', contractId: '${terms.contractId}' }`);
+  console.log(Transactions.find(parameters.find, parameters.options).fetch());
   return Transactions.find(parameters.find, parameters.options);
 });
 
