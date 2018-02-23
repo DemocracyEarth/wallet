@@ -9,7 +9,8 @@ import '/imports/ui/templates/components/identity/avatar/avatar.js';
 import '/imports/ui/templates/widgets/spinner/spinner.js';
 
 Template.card.onCreated(function () {
-  Template.instance().delegationContract = new ReactiveVar();
+  Template.instance().senderDelegationContract = new ReactiveVar();
+  Template.instance().receiverDelegationContract = new ReactiveVar();
   Template.instance().displayDelegation = new ReactiveVar(false);
 });
 
@@ -17,14 +18,19 @@ Template.card.onRendered(function () {
   const instance = this;
 
   instance.autorun(function () {
-    const subscription = instance.subscribe('singleDelegation', { view: 'sentDelegation', delegateId: instance.data.toString() });
+    const subscription = instance.subscribe('delegationContracts', { view: 'bothDelegationContracts', delegateId: instance.data.toString() });
     if (subscription.ready()) {
-      console.log(`asking for delegation contract of this._id ${instance.data.toString()}`)
-      const delegationContract = getDelegationContract(Meteor.userId(), instance.data.toString());
-      console.log(`delegationContract is ${delegationContract._id}`)
-      console.log(`delegationContract alternative is ${getDelegationContract(instance.data.toString(), Meteor.userId())._id}`)
-      instance.delegationContract.set(delegationContract);
-      const transactions = instance.subscribe('transaction', { view: 'contractVotes', contractId: delegationContract._id });
+      // console.log(`asking for delegation contract of this._id ${instance.data.toString()}`)
+      // const delegationContract = getDelegationContract(Meteor.userId(), instance.data.toString());
+      // console.log(`delegationContract is ${delegationContract._id}`)
+      // console.log(`delegationContract alternative is ${getDelegationContract(instance.data.toString(), Meteor.userId())._id}`)
+      // instance.delegationContract.set(delegationContract);
+      const sent = getDelegationContract(Meteor.userId(), instance.data.toString());
+      const received = getDelegationContract(instance.data.toString(), Meteor.userId());
+      instance.senderDelegationContract.set(sent);
+      instance.receiverDelegationContract.set(received);
+
+      const transactions = instance.subscribe('delegations', { view: 'delegationTransactions', items: [sent._id, received._id] });
       if (transactions.ready()) {
         instance.displayDelegation.set(true);
       }
@@ -38,7 +44,7 @@ Template.card.helpers({
   },
   voteSettings() {
     return {
-      voteId: `vote-${Meteor.userId()}-${Template.instance().delegationContract.get()._id}`,
+      voteId: `vote-${Meteor.userId()}-${Template.instance().receiverDelegationContract.get()._id}`,
       wallet: Meteor.user().profile.wallet,
       sourceId: Meteor.userId(),
       targetId: this.toString(),
@@ -48,7 +54,11 @@ Template.card.helpers({
     return Template.instance().displayDelegation.get();
   },
   delegationContract() {
-    const contract = Template.instance().delegationContract.get();
+    const sender = Template.instance().senderDelegationContract.get();
+    const receiver = Template.instance().receiverDelegationContract.get();
+    console.log(sender);
+    console.log(receiver);
+    /* const contract = Template.instance().delegationContract.get();
     let senderId;
     let receiverId;
     if (contract) {
@@ -58,15 +68,16 @@ Template.card.helpers({
       } else {
         senderId = contract.signatures[1]._id;
         receiverId = contract.signatures[0]._id;
-      }
-      return {
-        contract,
-        senderId,
-        receiverId,
-        voteId: `vote-${Meteor.userId()}-${contract._id}`,
-      };
-    }
-    return undefined;
+      }*/
+    return {
+      contractSender: sender,
+      contractReceiver: receiver,
+      senderId: sender.signatures[0]._id,
+      receiverId: sender.signatures[1]._id,
+      voteId: `vote-${Meteor.userId()}-${receiver._id}`,
+    };
+    // }
+    // return undefined;
   },
   profile() {
     const userId = this.toString();
