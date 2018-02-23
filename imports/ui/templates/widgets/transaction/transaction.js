@@ -38,6 +38,7 @@ Template.transaction.helpers({
     let votes;
     if (this.editable) {
       votes = Session.get(this.voteId).allocateQuantity;
+      if (isNaN(votes)) { votes = Session.get(this.voteId).inBallot; }
       Template.instance().totalVotes.set(votes);
     } else {
       Template.instance().totalVotes.set(getVotes(this.contract._id, this.senderId));
