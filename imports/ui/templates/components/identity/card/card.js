@@ -51,6 +51,7 @@ Template.card.helpers({
         contract,
         senderId,
         receiverId,
+        voteId: `vote-${Meteor.userId()}-${this.toString()}`,
       };
     }
     return undefined;

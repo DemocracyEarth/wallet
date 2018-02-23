@@ -14,7 +14,7 @@
           {{#if Template.subscriptionsReady}}
             {{#with delegationContract}}
               {{> transaction contract=this.contract senderId=this.receiverId receiverId=this.senderId onCard=true compressed=true}}
-              {{> transaction contract=this.contract senderId=this.senderId receiverId=this.receiverId onCard=true compressed=true}}
+              {{> transaction contract=this.contract senderId=this.senderId receiverId=this.receiverId onCard=true compressed=true editable=true voteId=this.voteId}}
             {{/with}}
             {{#with voteSettings}}
               {{> liquid _id=this.voteId sourceId=this.sourceId contract=contract targetId=this.targetId wallet=this.wallet editable=true}}

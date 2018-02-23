@@ -1,10 +1,11 @@
 import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { Session } from 'meteor/session';
 
 import { getVotes } from '/imports/api/transactions/transaction';
 
-import './transaction.html';
+import '/imports/ui/templates/widgets/transaction/transaction.html';
 
 Template.transaction.onCreated(function () {
   Template.instance().totalVotes = new ReactiveVar(0);
@@ -34,8 +35,14 @@ Template.transaction.helpers({
     };
   },
   value() {
-    Template.instance().totalVotes.set(getVotes(this.contract._id, this.senderId));
-    const votes = Template.instance().totalVotes.get();
+    let votes;
+    if (this.editable) {
+      votes = Session.get(this.voteId).allocateQuantity;
+      Template.instance().totalVotes.set(votes);
+    } else {
+      Template.instance().totalVotes.set(getVotes(this.contract._id, this.senderId));
+      votes = Template.instance().totalVotes.get();
+    }
     if (votes === 1) {
       return `${votes} ${TAPi18n.__('vote')}`;
     } else if (votes > 0) {
