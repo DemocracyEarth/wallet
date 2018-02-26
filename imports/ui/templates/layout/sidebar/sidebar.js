@@ -132,7 +132,9 @@ Template.sidebar.onCreated(function () {
         if (subscriptionTransactions.ready()) {
           console.log(subscriptionTransactions);
           const transactions = Transactions.find({ $or: [{ $and: [{ 'output.entityId': Meteor.userId() }, { kind: 'DELEGATION' }] },
-                                                         { $and: [{ 'input.entityId': Meteor.userId() }, { kind: 'DELEGATION' }] }] }).fetch();
+                                                         { $and: [{ 'input.entityId': Meteor.userId() }, { kind: 'DELEGATION' }] },
+                                                         { $and: [{ 'input.delegateId': Meteor.userId() }, { kind: 'DELEGATION' }] },
+                                                         { $and: [{ 'output.delegateId': Meteor.userId() }, { kind: 'DELEGATION' }] }] }).fetch();
           console.log(transactions);
           if (Meteor.user()) {
             Template.instance().delegates.set(getDelegates(

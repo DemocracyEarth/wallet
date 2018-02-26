@@ -378,17 +378,32 @@ const getTimestamp = () => {
 * @param {string} entityId the id whether contract or user
 * @param {boolean} getSender if sender or receiver
 */
-const _getDelegateId = (entityId, getSender, kind) => {
+const _getDelegateId = (senderId, receiverId, getSender, kind) => {
+  let entityId;
+  let contractIndex;
+
   if (kind === 'DELEGATION') {
-    const contract = Contracts.findOne({ _id: entityId });
+    if (getSender) {
+      entityId = senderId;
+    } else {
+      entityId = receiverId;
+    }
     const user = Meteor.users.findOne({ _id: entityId });
+    if (user) {
+      return user._id;
+    }
+    const contract = Contracts.findOne({ _id: entityId });
     if (contract) {
       if (getSender) {
+        if (receiverId === contract.signatures[0]._id) {
+          return contract.signatures[1]._id;
+        }
         return contract.signatures[0]._id;
       }
-      return contract.signatures[1]._id;
-    } else if (user) {
-      return user._id;
+      if (senderId === contract.signatures[0]._id) {
+        return contract.signatures[1]._id;
+      }
+      return contract.signatures[0]._id;
     }
   }
   console.log('could not find delegate entity');
@@ -433,7 +448,7 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
       entityType: _getEntityType(senderId),
       quantity: votes,
       currency: finalSettings.currency,
-      delegateId: _getDelegateId(senderId, true, finalSettings.kind),
+      delegateId: _getDelegateId(senderId, receiverId, true, finalSettings.kind),
     },
     output: {
       entityId: receiverId,
@@ -441,7 +456,7 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
       entityType: _getEntityType(receiverId),
       quantity: votes,
       currency: finalSettings.currency,
-      delegateId: _getDelegateId(receiverId, false, finalSettings.kind),
+      delegateId: _getDelegateId(senderId, receiverId, false, finalSettings.kind),
     },
     kind: finalSettings.kind,
     contractId: finalSettings.contractId,
@@ -451,7 +466,6 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
   };
 
   // executes the transaction
-  console.log(newTransaction);
   const txId = Transactions.insert(newTransaction);
   const process = _processTransaction(txId);
 
