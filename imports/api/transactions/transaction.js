@@ -411,7 +411,6 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
       entityType: _getEntityType(senderId),
       quantity: votes,
       currency: finalSettings.currency,
-      transactionType: 'INPUT',
     },
     output: {
       entityId: receiverId,
@@ -419,7 +418,6 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
       entityType: _getEntityType(receiverId),
       quantity: votes,
       currency: finalSettings.currency,
-      transactionType: 'OUTPUT',
     },
     kind: finalSettings.kind,
     contractId: finalSettings.contractId,

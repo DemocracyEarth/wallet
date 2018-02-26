@@ -48,6 +48,10 @@ Schema.Ticket = new SimpleSchema({
       }
     },
   },
+  delegateId: {
+    type: String,
+    optional: true,
+  },
 });
 Schema.Transaction = new SimpleSchema({
   input: {
