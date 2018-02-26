@@ -77,11 +77,25 @@ function getList(db, sort) {
 */
 function getDelegates(contractFeed, transactionFeed) {
   const delegates = _.sortBy(getDelegatesMenu(contractFeed, transactionFeed), (user) => { return parseInt(0 - (user.sent + user.received), 10); });
-  const delegateList = [];
+  let delegateList = [];
   // let totalVotes = 0;
   for (const i in delegates) {
     delegateList.push(Meteor.users.find({ _id: delegates[i].userId }).fetch()[0]);
   }
+
+  // remove duplicates
+  let finalList = delegateList;
+  for (let i = 0; i < delegateList.length; i += 1) {
+    for (let k = 0; k < finalList.length; k += 1) {
+      if (i !== k) {
+        if (delegateList[i]._id === delegateList[k]._id) {
+          finalList[k] = 'EMPTY';
+        }
+      }
+    }
+  }
+  finalList = _.without(finalList, 'EMPTY');
+  delegateList = finalList;
 
   return getList(delegateList, false);
 }
