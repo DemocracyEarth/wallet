@@ -374,6 +374,28 @@ const getTimestamp = () => {
 };
 
 /**
+* @summary gets the id of a user for a given delegation transaction Participants
+* @param {string} entityId the id whether contract or user
+* @param {boolean} getSender if sender or receiver
+*/
+const _getDelegateId = (entityId, getSender, kind) => {
+  if (kind === 'DELEGATION') {
+    const contract = Contracts.findOne({ _id: entityId });
+    const user = Meteor.users.findOne({ _id: entityId });
+    if (contract) {
+      if (getSender) {
+        return contract.signatures[0]._id;
+      }
+      return contract.signatures[1]._id;
+    } else if (user) {
+      return user._id;
+    }
+  }
+  console.log('could not find delegate entity');
+  return undefined;
+};
+
+/**
 * @summary create a new transaction between two parties
 * @param {string} senderId - user or collective allocating the funds
 * @param {string} receiverId - user or collective receiving the funds
@@ -411,6 +433,7 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
       entityType: _getEntityType(senderId),
       quantity: votes,
       currency: finalSettings.currency,
+      delegateId: _getDelegateId(senderId, true, finalSettings.kind),
     },
     output: {
       entityId: receiverId,
@@ -418,6 +441,7 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
       entityType: _getEntityType(receiverId),
       quantity: votes,
       currency: finalSettings.currency,
+      delegateId: _getDelegateId(receiverId, false, finalSettings.kind),
     },
     kind: finalSettings.kind,
     contractId: finalSettings.contractId,
@@ -427,6 +451,7 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
   };
 
   // executes the transaction
+  console.log(newTransaction);
   const txId = Transactions.insert(newTransaction);
   const process = _processTransaction(txId);
 
