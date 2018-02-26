@@ -124,10 +124,12 @@ Meteor.publish('singleContract', (terms) => {
 */
 Meteor.publish('delegationContracts', (terms) => {
   check(terms, Object);
-  const parameters = query(terms);
-
-  console.log(`{ publish: 'delegationContracts', user: '${Meteor.user().username}', delegateId: ${terms.delegateId} }`);
-  return Contracts.find(parameters.find, parameters.options);
+  if (Meteor.user()) {
+    const parameters = query(terms);
+    console.log(`{ publish: 'delegationContracts', user: '${Meteor.user().username}', delegateId: ${terms.delegateId} }`);
+    return Contracts.find(parameters.find, parameters.options);
+  }
+  return undefined;
 });
 
 /**
