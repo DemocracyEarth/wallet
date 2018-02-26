@@ -113,7 +113,7 @@ const _getWalletAddress = (entityId) => {
       Collectives.update({ _id: entityId }, { $set: { profile: user.profile } });
       break;
     case 'CONTRACT':
-      Contracts.update({ _id: entityId }, { $set: { wallet: wallet } });
+      Contracts.update({ _id: entityId }, { $set: { wallet } });
       break;
     default:
       return false;

@@ -37,11 +37,11 @@ Template.transaction.helpers({
   value() {
     let votes;
     if (this.editable) {
-      votes = Session.get(this.voteId).allocateQuantity;
-      console.log(this.voteId);
-      console.log(Session.get(this.voteId));
-      if (isNaN(votes)) { votes = Session.get(this.voteId).inBallot; }
-      Template.instance().totalVotes.set(votes);
+      if (Session.get(this.voteId)) {
+        votes = Session.get(this.voteId).allocateQuantity;
+        if (isNaN(votes)) { votes = Session.get(this.voteId).inBallot; }
+        Template.instance().totalVotes.set(votes);
+      }
     } else {
       Template.instance().totalVotes.set(getVotes(this.contract._id, this.senderId));
       votes = Template.instance().totalVotes.get();

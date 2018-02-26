@@ -81,6 +81,8 @@
       "import/prefer-default-export": "off",
       "no-underscore-dangle": "off",
       "guard-for-in": "off",
+      "prefer-arrow-callback": "off",
+      "func-names": ["error", "never"],
       "import/no-unresolved": [
         "error",
         {

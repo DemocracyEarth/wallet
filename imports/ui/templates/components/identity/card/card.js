@@ -20,11 +20,6 @@ Template.card.onRendered(function () {
   instance.autorun(function () {
     const subscription = instance.subscribe('delegationContracts', { view: 'bothDelegationContracts', delegateId: instance.data.toString() });
     if (subscription.ready()) {
-      // console.log(`asking for delegation contract of this._id ${instance.data.toString()}`)
-      // const delegationContract = getDelegationContract(Meteor.userId(), instance.data.toString());
-      // console.log(`delegationContract is ${delegationContract._id}`)
-      // console.log(`delegationContract alternative is ${getDelegationContract(instance.data.toString(), Meteor.userId())._id}`)
-      // instance.delegationContract.set(delegationContract);
       const sent = getDelegationContract(Meteor.userId(), instance.data.toString());
       const received = getDelegationContract(instance.data.toString(), Meteor.userId());
       instance.senderDelegationContract.set(sent);
@@ -56,19 +51,6 @@ Template.card.helpers({
   delegationContract() {
     const sender = Template.instance().senderDelegationContract.get();
     const receiver = Template.instance().receiverDelegationContract.get();
-    console.log(sender);
-    console.log(receiver);
-    /* const contract = Template.instance().delegationContract.get();
-    let senderId;
-    let receiverId;
-    if (contract) {
-      if (contract.signatures[0]._id === Meteor.userId()) {
-        senderId = contract.signatures[0]._id;
-        receiverId = contract.signatures[1]._id;
-      } else {
-        senderId = contract.signatures[1]._id;
-        receiverId = contract.signatures[0]._id;
-      }*/
     return {
       contractSender: sender,
       contractReceiver: receiver,
@@ -76,8 +58,6 @@ Template.card.helpers({
       receiverId: sender.signatures[1]._id,
       voteId: `vote-${Meteor.userId()}-${receiver._id}`,
     };
-    // }
-    // return undefined;
   },
   profile() {
     const userId = this.toString();
