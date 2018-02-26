@@ -64,8 +64,8 @@ Template.transaction.helpers({
   },
   emptyVotes() {
     // TODO: this data should be from ledger
-    if (this.contract.wallet.available === 0) {
-      // return 'display:none';
+    if (Template.instance().totalVotes.get() === 0 && !this.onCard) {
+      return 'display:none';
     }
     return '';
   },
