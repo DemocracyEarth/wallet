@@ -58,7 +58,7 @@ export default function () {
   });
 
   this.When(/^I enable ballot voting$/, () => {
-    clickOnElement('.toggle.ballotEnabled');  // an id pls
+    clickOnElement('.editor-button');  // use an id, pls
   });
 
   this.When(/^I submit the idea$/, () => {
