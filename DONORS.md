@@ -75,3 +75,10 @@ Democracy Earth Foundation is a 501 (c) 3 not for profit corporation based in Sa
   * 🇨🇦 Cyprien Grau
   * 🇺🇸 Peter Schurman
   * 🇺🇸 Andew James Benson
+  * 🇺🇸 Sandra Miller
+  * 🇧🇷 Paula Berman
+  * 🇻🇪 Eduardo Medina
+  * 🇺🇸 Agatha Bacelar
+  
+  
+  
