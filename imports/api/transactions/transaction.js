@@ -485,7 +485,7 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     if (callback !== undefined) { callback(); }
 
     console.log(newTransaction);
-    _updateWalletCache();
+    _updateWalletCache(`vote-${Meteor.userId()}-${0}`, 0);
 
     return txId;
   }
