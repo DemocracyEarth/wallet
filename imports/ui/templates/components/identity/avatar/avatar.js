@@ -14,9 +14,8 @@ import { searchJSON } from '/imports/ui/modules/JSON';
 import { uploadToAmazonS3 } from '/imports/ui/modules/Files';
 import { displayModal } from '/imports/ui/modules/modal';
 import { displayPopup, cancelPopup } from '/imports/ui/modules/popup';
-import { globalObj } from '/lib/global';
 
-import './avatar.html';
+import '/imports/ui/templates/components/identity/avatar/avatar.html';
 
 const getNation = (profile, flagOnly) => {
   if (profile === undefined) {

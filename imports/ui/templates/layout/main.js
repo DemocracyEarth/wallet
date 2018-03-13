@@ -30,14 +30,14 @@ import { toggleSidebar } from '/imports/ui/modules/menu';
 import { globalObj } from '/lib/global';
 import { geo } from '/lib/geo';
 
-import './main.html';
-import '../widgets/modal/modal';
-import '../widgets/popup/popup';
-import './sidebar/sidebar';
-import './navigation/navigation';
-import './response/verifyEmail/verifyEmail';
-import './touchmenu/touchmenu';
-import '../components/decision/editor/editor';
+import '/imports/ui/templates/layout/main.html';
+import '/imports/ui/templates/widgets/modal/modal';
+import '/imports/ui/templates/widgets/popup/popup';
+import '/imports/ui/templates/layout/sidebar/sidebar';
+import '/imports/ui/templates/layout/navigation/navigation';
+import '/imports/ui/templates/layout/response/verifyEmail/verifyEmail';
+import '/imports/ui/templates/layout/touchmenu/touchmenu';
+import '/imports/ui/templates/components/decision/editor/editor';
 
 Meteor.startup(() => {
   // Mail server settings
@@ -51,8 +51,8 @@ Meteor.startup(() => {
     .done(function () {
       Session.set('showLoadingIndicator', false);
     })
-    .fail(function (error_message) {
-      console.log(error_message);
+    .fail(function (errorMessage) {
+      console.log(errorMessage);
     });
 
   // scripts

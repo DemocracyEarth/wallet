@@ -5,8 +5,8 @@ import { ReactiveVar } from 'meteor/reactive-var';
 
 import { gui } from '/lib/const';
 
-import './paginator.html';
-import './feedLoad.js';
+import '/imports/ui/templates/widgets/feed/paginator.html';
+import '/imports/ui/templates/widgets/feed/feedLoad.js';
 
 
 /**

@@ -12,9 +12,9 @@ import { getFlag } from '/imports/ui/templates/components/identity/avatar/avatar
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { Transactions } from '/imports/api/transactions/Transactions';
 
-import './sidebar.html';
-import '../../components/collective/collective.js';
-import '../../widgets/inbox/inbox.js';
+import '/imports/ui/templates/layout/sidebar/sidebar.html';
+import '/imports/ui/templates/components/collective/collective.js';
+import '/imports/ui/templates/widgets/inbox/inbox.js';
 
 /**
 * @summary draws the sidebar if activated

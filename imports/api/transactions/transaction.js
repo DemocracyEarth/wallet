@@ -7,7 +7,7 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 import { Collectives } from '/imports/api/collectives/Collectives';
 import { guidGenerator } from '/imports/startup/both/modules/crypto';
 import { getTime } from '/imports/api/time';
-import { Transactions } from './Transactions';
+import { Transactions } from '/imports/api/transactions/Transactions';
 
 
 /**
