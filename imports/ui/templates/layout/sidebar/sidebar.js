@@ -144,7 +144,6 @@ Template.sidebar.onCreated(function () {
           items: _.pluck(contracts, '_id'),
         });
         if (subscriptionTransactions.ready()) {
-          console.log(subscriptionTransactions);
           const transactions = Transactions.find({ $or: [{ $and: [{ 'output.entityId': Meteor.userId() }, { kind: 'DELEGATION' }] },
                                                          { $and: [{ 'input.entityId': Meteor.userId() }, { kind: 'DELEGATION' }] },
                                                          { $and: [{ 'input.delegateId': Meteor.userId() }, { kind: 'DELEGATION' }] },

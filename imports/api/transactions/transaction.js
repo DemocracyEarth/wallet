@@ -411,6 +411,17 @@ const _getDelegateId = (senderId, receiverId, getSender, kind) => {
 };
 
 /**
+* @summary updates the session variables related to an executed transactions
+* @param {string} voteId the session variable name
+* @param {number} balance the change to be reflected in the session var
+*/
+
+const _updateWalletCache = (voteId, balance) => {
+  console.log(voteId);
+  console.log(balance);
+};
+
+/**
 * @summary create a new transaction between two parties
 * @param {string} senderId - user or collective allocating the funds
 * @param {string} receiverId - user or collective receiving the funds
@@ -472,6 +483,10 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
   if (_transactionMessage(process)) {
     // once transaction done, run callback
     if (callback !== undefined) { callback(); }
+
+    console.log(newTransaction);
+    _updateWalletCache();
+
     return txId;
   }
   return null;
