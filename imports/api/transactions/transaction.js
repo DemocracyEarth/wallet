@@ -412,13 +412,23 @@ const _getDelegateId = (senderId, receiverId, getSender, kind) => {
 
 /**
 * @summary updates the session variables related to an executed transactions
-* @param {string} voteId the session variable name
+* @param {object} transaction the transaction to find in the cache
 * @param {number} balance the change to be reflected in the session var
 */
 
-const _updateWalletCache = (voteId, balance) => {
-  console.log(voteId);
-  console.log(balance);
+const _updateWalletCache = (transaction, balance) => {
+  let counterPartyId;
+  if (transaction.input.entityId === Meteor.userId()) {
+    counterPartyId = transaction.output.entityId;
+  } else {
+    counterPartyId = transaction.input.entityId;
+  }
+  if (Session.get(`vote-${Meteor.userId()}-${counterPartyId}`)) {
+    console.log('session var found');
+    console.log(Session.get(`vote-${Meteor.userId()}-${counterPartyId}`));
+  } else {
+    console.log('session var not found');
+  }
 };
 
 /**
@@ -485,7 +495,7 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     if (callback !== undefined) { callback(); }
 
     console.log(newTransaction);
-    _updateWalletCache(`vote-${Meteor.userId()}-${0}`, 0);
+    _updateWalletCache(newTransaction);
 
     return txId;
   }
