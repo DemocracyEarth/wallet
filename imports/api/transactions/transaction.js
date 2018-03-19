@@ -430,12 +430,16 @@ const _updateWalletCache = (transaction) => {
   const list = Session.get('voteList');
   const currentTx = `vote-${Meteor.userId()}-${counterPartyId}`;
   for (const item in list) {
-    if (list[item] !== currentTx) {
-      cacheItem = Session.get(list[item]);
-      cacheItem.available += delta;
-      Session.set(list[item], cacheItem);
-      console.log(`updated ${list[item]}`);
+    cacheItem = Session.get(list[item]);
+    cacheItem.available += delta;
+    if (list[item] === currentTx) {
+      cacheItem.inBallot += parseInt(delta * -1, 10);
+    } else {
+      cacheItem.placed += parseInt(delta * -1, 10);
     }
+    cacheItem.maxVotes = parseInt(cacheItem.available + cacheItem.inBallot, 10);
+    Session.set(list[item], cacheItem);
+    console.log(`updated ${list[item]}`);
   }
 };
 
