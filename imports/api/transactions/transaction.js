@@ -416,18 +416,26 @@ const _getDelegateId = (senderId, receiverId, getSender, kind) => {
 * @param {number} balance the change to be reflected in the session var
 */
 
-const _updateWalletCache = (transaction, balance) => {
+const _updateWalletCache = (transaction) => {
   let counterPartyId;
+  let delta;
+  let cacheItem;
   if (transaction.input.entityId === Meteor.userId()) {
     counterPartyId = transaction.output.entityId;
+    delta = parseInt(transaction.input.quantity * -1, 10);
   } else {
     counterPartyId = transaction.input.entityId;
+    delta = transaction.output.quantity;
   }
-  if (Session.get(`vote-${Meteor.userId()}-${counterPartyId}`)) {
-    console.log('session var found');
-    console.log(Session.get(`vote-${Meteor.userId()}-${counterPartyId}`));
-  } else {
-    console.log('session var not found');
+  const list = Session.get('voteList');
+  const currentTx = `vote-${Meteor.userId()}-${counterPartyId}`;
+  for (const item in list) {
+    if (list[item] !== currentTx) {
+      cacheItem = Session.get(list[item]);
+      cacheItem.available += delta;
+      Session.set(list[item], cacheItem);
+      console.log(`updated ${list[item]}`);
+    }
   }
 };
 

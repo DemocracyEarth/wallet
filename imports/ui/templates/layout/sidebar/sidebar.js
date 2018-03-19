@@ -148,7 +148,7 @@ Template.sidebar.onCreated(function () {
                                                          { $and: [{ 'input.entityId': Meteor.userId() }, { kind: 'DELEGATION' }] },
                                                          { $and: [{ 'input.delegateId': Meteor.userId() }, { kind: 'DELEGATION' }] },
                                                          { $and: [{ 'output.delegateId': Meteor.userId() }, { kind: 'DELEGATION' }] }] }).fetch();
-          console.log(transactions);
+          // console.log(transactions);
           if (Meteor.user()) {
             Template.instance().delegates.set(getDelegates(
               contracts,
