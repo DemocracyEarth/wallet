@@ -44,7 +44,13 @@ Template.transaction.helpers({
         Template.instance().totalVotes.set(votes);
       }
     } else {
-      Template.instance().totalVotes.set(getVotes(Meteor.userId(), this.contract._id));
+      console.log(`inside transaction im getting ${this.contract._id}`);
+      console.log(`> senderId = ${this.senderId}`);
+      // if (this.notUser) {
+        Template.instance().totalVotes.set(getVotes(this.contract._id, this.senderId));
+      // } else {
+      //  Template.instance().totalVotes.set(getVotes(this.contract._id, Meteor.userId()));
+      // }
       votes = Template.instance().totalVotes.get();
     }
     if (votes === 1) {

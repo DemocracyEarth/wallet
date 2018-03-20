@@ -58,6 +58,7 @@ Template.card.helpers({
   delegationContract() {
     const sender = Template.instance().senderDelegationContract.get();
     const receiver = Template.instance().receiverDelegationContract.get();
+    console.log(`> transaction contractReceiver=${receiver._id}`);
     console.log(`> tranasaction contractSender=${sender._id}`);
     return {
       contractSender: sender,
