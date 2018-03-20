@@ -238,6 +238,7 @@ const _restoredTokens = (quantity, totals) => {
 };
 
 const _transactionMessage = (code) => {
+  console.log(code);
   switch (code) {
     case 'INSUFFICIENT':
       displayNotice('not-enough-funds', true);
@@ -413,7 +414,6 @@ const _getDelegateId = (senderId, receiverId, getSender, kind) => {
 /**
 * @summary updates the session variables related to an executed transactions
 * @param {object} transaction the transaction to find in the cache
-* @param {number} balance the change to be reflected in the session var
 */
 
 const _updateWalletCache = (transaction) => {
@@ -439,7 +439,6 @@ const _updateWalletCache = (transaction) => {
     }
     cacheItem.maxVotes = parseInt(cacheItem.available + cacheItem.inBallot, 10);
     Session.set(list[item], cacheItem);
-    console.log(`updated ${list[item]}`);
   }
 };
 
@@ -449,7 +448,6 @@ const _updateWalletCache = (transaction) => {
 * @param {string} receiverId - user or collective receiving the funds
 * @param {number} votes - transaction size in votes
 * @param {object} settings - additional settings to be stored on the ledger
-* @param {string} process - true if everything turned out right, else: INSUFFICIENT
 * @param {function} callback - once everything's done, what is left to do?
 */
 const _transact = (senderId, receiverId, votes, settings, callback) => {

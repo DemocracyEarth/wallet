@@ -108,6 +108,7 @@ export class Vote {
   * @param {string} sourceId - if a vote does not come from user but from a different source.
   */
   constructor(wallet, targetId, sessionId, sourceId) {
+    // console.log(sessionId);
     if (Session.get(sessionId)) {
       Object.assign(this, Session.get(sessionId));
     } else {
@@ -142,8 +143,15 @@ export class Vote {
       this.sourceId = sourceId;
       this.maxVotes = parseInt(this.available + this.inBallot, 10);
       this.minVotes = 0;
+      console.log(`vote type: ${this.voteType}`);
       if (this.voteType === 'DELEGATION' && (this.userId !== targetId)) {
-        this.delegationContract = getDelegationContract(this.userId, this.targetId);
+        console.log(`the targetId being used is ${this.targetId}`);
+        if (this.arrow === 'OUTPUT') {
+          this.delegationContract = getDelegationContract(this.userId, this.targetId);
+        } else {
+          this.delegationContract = getDelegationContract(this.targetId, this.userId);
+        }
+        console.log(`this delegationcontract is ${this.delegationContract._id}`);
         if (this.delegationContract) {
           // delegation context
           this.inBallot = getVotes(this.delegationContract._id, this.userId);
@@ -156,7 +164,11 @@ export class Vote {
           const settings = _defaultDelegationSettings();
           settings.title = `${convertToSlug(Meteor.users.findOne({ _id: this.userId }).username)}-${convertToSlug(Meteor.users.findOne({ _id: this.targetId }).username)}`;
           settings.signatures = [{ username: Meteor.users.findOne({ _id: this.userId }).username }, { username: Meteor.users.findOne({ _id: this.targetId }).username }];
-          this.delegationContract = createDelegation(this.userId, this.targetId, 0, settings);
+          if (this.arrow === 'OUTPUT') {
+            this.delegationContract = createDelegation(this.userId, this.targetId, 0, settings);
+          } else {
+            this.delegationContract = createDelegation(this.targetId, this.userId, 0, settings);
+          }
           this.inBallot = 0;
         }
         this.balance = parseInt(this.inBallot + this.available + this.delegated, 10);
@@ -191,23 +203,6 @@ export class Vote {
       }
     }
   }
-
-  /**
-  * @summary allocate N amount of votes and display values accordingly
-  */
-  /*
-  setupGUI() {
-    this._maxWidth = parseInt($(`#voteBar-${this.voteId}`).width(), 10);
-    if (!isNaN(this._maxWidth)) {
-      const percentage = parseFloat((this.inBallot * 100) / this.balance, 10).toFixed(2);
-      const pixels = parseInt(((percentage * this._maxWidth) / 100), 10);
-      this._initialSliderWidth = pixels; // parseInt($(`#voteSlider-${this.voteId}`).width(), 10);
-      this.sliderWidth = this._initialSliderWidth;
-      this._minWidth = parseInt(($(`#voteBar-${this.voteId}`).width() * this.minVotes) / this.balance, 10);
-      this.positionHandle(this._initialSliderWidth);
-    }
-  }
-  */
 
   /**
   * @summary allocate N amount of votes and display values accordingly

@@ -76,9 +76,16 @@ const _createContract = (newkeyword, newtitle) => {
 * @param {string} delegateId - identity that will get a request to approve
 */
 const _getDelegationContract = (delegatorId, delegateId) => {
-  const delegationContract = Contracts.findOne({ 'signatures.0._id': delegatorId, 'signatures.1._id': delegateId }); // || Contracts.findOne({ 'signatures.0._id': delegateId, 'signatures.1._id': delegatorId });
-  if (delegationContract !== undefined) {
-    return delegationContract;
+  const contract = Contracts.findOne({ _id: delegateId });
+  if (contract) {
+    if (contract.kind === 'DELEGATION') {
+      return contract;
+    }
+  } else {
+    const delegationContract = Contracts.findOne({ 'signatures.0._id': delegatorId, 'signatures.1._id': delegateId }); // || Contracts.findOne({ 'signatures.0._id': delegateId, 'signatures.1._id': delegatorId });
+    if (delegationContract !== undefined) {
+      return delegationContract;
+    }
   }
   return false;
 };

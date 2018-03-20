@@ -43,11 +43,13 @@ Template.card.helpers({
     return (this.toString() === Meteor.userId() || this._id === '0000000');
   },
   voteSettings() {
+    console.log(`the object is: vote-${Meteor.userId()}-${Template.instance().senderDelegationContract.get()._id}`);
+    console.log(`the target id is: ${this.toString()}`);
     return {
-      voteId: `vote-${Meteor.userId()}-${Template.instance().receiverDelegationContract.get()._id}`,
+      voteId: `vote-${Meteor.userId()}-${Template.instance().senderDelegationContract.get()._id}`,
       wallet: Meteor.user().profile.wallet,
       sourceId: Meteor.userId(),
-      targetId: this.toString(),
+      targetId: Template.instance().senderDelegationContract.get()._id, // this.toString(),
     };
   },
   displayDelegation() {
@@ -56,12 +58,13 @@ Template.card.helpers({
   delegationContract() {
     const sender = Template.instance().senderDelegationContract.get();
     const receiver = Template.instance().receiverDelegationContract.get();
+    console.log(`> tranasaction contractSender=${sender._id}`);
     return {
       contractSender: sender,
       contractReceiver: receiver,
-      senderId: sender.signatures[0]._id,
-      receiverId: sender.signatures[1]._id,
-      voteId: `vote-${Meteor.userId()}-${receiver._id}`,
+      senderId: sender._id, // sender.signatures[0]._id,
+      receiverId: receiver._id, // sender.signatures[1]._id,
+      voteId: `vote-${Meteor.userId()}-${sender._id}`,
     };
   },
   profile() {
