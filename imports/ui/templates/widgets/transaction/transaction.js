@@ -1,4 +1,5 @@
 import { Template } from 'meteor/templating';
+import { Meteor } from 'meteor/meteor';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Session } from 'meteor/session';
@@ -43,7 +44,7 @@ Template.transaction.helpers({
         Template.instance().totalVotes.set(votes);
       }
     } else {
-      Template.instance().totalVotes.set(getVotes(this.contract._id, this.senderId));
+      Template.instance().totalVotes.set(getVotes(Meteor.userId(), this.contract._id));
       votes = Template.instance().totalVotes.get();
     }
     if (votes === 1) {

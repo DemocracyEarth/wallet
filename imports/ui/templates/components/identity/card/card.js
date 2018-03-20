@@ -62,8 +62,8 @@ Template.card.helpers({
     return {
       contractSender: sender,
       contractReceiver: receiver,
-      senderId: sender._id, // sender.signatures[0]._id,
-      receiverId: receiver._id, // sender.signatures[1]._id,
+      senderId: sender.signatures[0]._id,
+      receiverId: sender.signatures[1]._id,
       voteId: `vote-${Meteor.userId()}-${sender._id}`,
     };
   },
