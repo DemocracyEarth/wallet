@@ -383,7 +383,8 @@ Template.capital.helpers({
         default:
           placed = Session.get(this._id).placed;
           percentagePlaced = getPercentage(parseInt(placed - inBallot, 10), this._id);
-          if (placed === 0 || percentagePlaced === 0) {
+          if ((placed === 0 || percentagePlaced === 0) && Session.get(this._id).voteType !== 'BALANCE') {
+            console.log('heyho');
             label = `<strong>${TAPi18n.__('none')}</strong>  ${TAPi18n.__('placed-votes')}`;
           } else if (Session.get(this._id).voteType === 'BALANCE') {
             console.log('wtf');

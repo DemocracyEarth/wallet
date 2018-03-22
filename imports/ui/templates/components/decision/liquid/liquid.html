@@ -26,38 +26,7 @@
 </template>
 
 <template name="capital">
-  {{#if isDelegation}}
-    
-      <!--<div class='vote-available label-votes'>
-        <div class="stage {{style 'inBallot'}}">
-
-          <div class='label label-corner' title="{{_ 'sent-votes-tip'}}">
-            {{{getVotes 'inBallot'}}}
-          </div>
-        </div>
-        <div class="stage {{style 'allocateQuantity'}}">
-          <div class='label label-corner'>
-            {{{getVotes 'allocateQuantity'}}}
-          </div>
-        </div>
-        {{#if hideBar}}
-          <div class="stage {{style 'received'}}" title="{{_ 'received-votes-tip'}}">
-            <div class='label label-corner'>
-              {{{getVotes 'received'}}}
-            </div>
-          </div>
-        {{/if}}
-      </div>
-      {{#unless hideBar}}
-        <div class='vote-allocated label-votes'>
-          <div class="stage {{style 'received'}}" title="{{_ 'received-votes-tip'}}">
-            <div class='label label-corner'>
-              {{{getVotes 'received'}}}
-            </div>
-          </div>
-        </div>
-      {{/unless}}-->
-  {{else}}
+  {{#unless isDelegation}}
     <div class='bar-labels'>
       <div class='vote-available label-votes'>
         <div class="stage {{style 'inBallot'}}">
@@ -93,7 +62,7 @@
         </div>
      {{/unless}}
     </div>
-  {{/if}}
+  {{/unless}}
 </template>
 
 <template name="bar">
