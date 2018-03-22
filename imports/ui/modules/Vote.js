@@ -108,7 +108,6 @@ export class Vote {
   * @param {string} sourceId - if a vote does not come from user but from a different source.
   */
   constructor(wallet, targetId, sessionId, sourceId) {
-    // console.log(sessionId);
     if (Session.get(sessionId)) {
       Object.assign(this, Session.get(sessionId));
     } else {
