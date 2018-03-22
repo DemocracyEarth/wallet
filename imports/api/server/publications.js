@@ -130,6 +130,7 @@ Meteor.publish('delegationContracts', (terms) => {
   if (Meteor.user()) {
     const parameters = query(terms);
     console.log(`{ publish: 'delegationContracts', user: '${Meteor.user().username}', delegateId: ${terms.delegateId} }`);
+    console.log(Contracts.findOne(parameters.find, parameters.options));
     return Contracts.find(parameters.find, parameters.options);
   }
   return undefined;
