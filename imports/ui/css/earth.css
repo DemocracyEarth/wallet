@@ -3152,8 +3152,9 @@ blockquote {
 
 .stage {
   display: inline-block;
-  margin-top: 3px;
+  margin-top: 5px;
   margin-right: 10px;
+  margin-bottom: 5px;
   padding: 0px 10px 5px;
   float: left;
   border: 1px dashed #46dfb8;
@@ -3261,6 +3262,13 @@ blockquote {
   border-style: solid;
   border-color: #8562a7;
   background-color: #8562a7;
+  color: #fff;
+}
+
+.stage.stage-vote-totals-available {
+  border-style: solid;
+  border-color: #8364a5;
+  background-color: transparent;
   color: #fff;
 }
 

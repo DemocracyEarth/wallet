@@ -27,7 +27,7 @@
 
 <template name="capital">
   {{#unless isDelegation}}
-    <div class='bar-labels'>
+    <div class='{{walletRender}}'>
       <div class='vote-available label-votes'>
         <div class="stage {{style 'inBallot'}}">
           <div class='label label-corner'>
@@ -41,7 +41,8 @@
         </div>
         <div class="stage {{style 'available'}}">
           <div class='label label-corner'>
-            <a href="{{getURL 'placed'}}">{{{getVotes 'available'}}}</a>
+            <!--<a href="{{getURL 'placed'}}"></a>-->
+            {{{getVotes 'available'}}}
           </div>
         </div>
         {{#if hideBar}}

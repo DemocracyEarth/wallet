@@ -312,16 +312,22 @@ Template.liquid.events({
 
 
 Template.capital.helpers({
+  walletRender() {
+    if (Session.get(this._id).voteType === 'BALANCE') {
+      return '';
+    }
+    return 'bar-labels';
+  },
   getVotes(value) {
     let label;
     let placed;
     let percentagePlaced;
+    let available;
     const inBallot = Session.get(this._id).inBallot;
     if (Session.get(this._id) !== undefined) {
       switch (value) {
         case 'available': {
           if (inBallot === 0) {
-            let available;
             if (Session.get(this._id).voteType === 'BALANCE') {
               available = Session.get(this._id).balance;
               if (available === 0) { available = TAPi18n.__('none'); }
@@ -334,6 +340,10 @@ Template.capital.helpers({
                 label = `<strong>${available.toLocaleString()}</strong> ${TAPi18n.__('available-votes')}`;
               }
             }
+          } else if (Session.get(this._id).voteType === 'BALANCE') {
+            available = Session.get(this._id).balance;
+            if (available === 0) { available = TAPi18n.__('none'); }
+            label = `<strong>${available.toLocaleString()}</strong> ${TAPi18n.__('available')}`;
           }
           break;
         }
@@ -384,10 +394,8 @@ Template.capital.helpers({
           placed = Session.get(this._id).placed;
           percentagePlaced = getPercentage(parseInt(placed - inBallot, 10), this._id);
           if ((placed === 0 || percentagePlaced === 0) && Session.get(this._id).voteType !== 'BALANCE') {
-            console.log('heyho');
             label = `<strong>${TAPi18n.__('none')}</strong>  ${TAPi18n.__('placed-votes')}`;
           } else if (Session.get(this._id).voteType === 'BALANCE') {
-            console.log('wtf');
             label = `<strong>${parseInt(getPercentage(Session.get(this._id).placed, this._id), 10).toLocaleString()}%</strong>  ${TAPi18n.__('placed')}`;
           } else if (percentagePlaced < 1 && percentagePlaced > 0) {
             label = `<strong>${TAPi18n.__('less-than-one')}</strong>  ${TAPi18n.__('placed-votes')}`;
@@ -404,10 +412,10 @@ Template.capital.helpers({
     const inBallot = Session.get(this._id).inBallot;
     switch (value) {
       case 'available': {
+        if (Session.get(this._id).voteType === 'BALANCE') {
+          return 'stage-vote-totals-available';
+        }
         if (inBallot === 0 && (Session.get('dragging') === false || Session.get('dragging') === undefined || Session.get('dragging') !== this._id)) {
-          if (Session.get(this._id).voteType === 'BALANCE') {
-            return 'stage-vote-totals';
-          }
           const available = parseInt((Session.get(this._id).available + Session.get(this._id).inBallot) - Session.get(this._id).allocateQuantity, 10);
           if ((Session.get(this._id).allocateQuantity > 0 || !Session.get(this._id).allocateQuantity) && (available <= 0)) {
             return 'stage-finish-rejected';
