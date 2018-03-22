@@ -46,10 +46,13 @@ Meteor.publish('transaction', (terms) => {
 Meteor.publish('delegations', (terms) => {
   check(terms, Object);
   if (Meteor.user()) {
-    const parameters = query(terms);
-    terms.items.push(Meteor.userId());
-    console.log(`{ publish: 'delegations', user: '${Meteor.user().username}', delegates: '${terms.items}' }`);
-    return Transactions.find(parameters.find, parameters.options);
+    if (terms.items.length > 0) {
+      const parameters = query(terms);
+      terms.items.push(Meteor.userId());
+      console.log(`{ publish: 'delegations', user: '${Meteor.user().username}', delegates: '${terms.items}' }`);
+      return Transactions.find(parameters.find, parameters.options);
+    }
+    console.log(`{ publish: 'delegations', user: '${Meteor.user().username}', delegates: [empty] }`);
   }
   return undefined;
 });

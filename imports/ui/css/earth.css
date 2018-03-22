@@ -3260,16 +3260,16 @@ blockquote {
 
 .stage.stage-vote-totals {
   border-style: solid;
-  border-color: #8562a7;
-  background-color: #8562a7;
+  border-color: #9e6fcc;
+  background-color: #9e6fcc;
   color: #fff;
 }
 
 .stage.stage-vote-totals-available {
   border-style: solid;
-  border-color: #8364a5;
+  border-color: #9e6fcc;
   background-color: transparent;
-  color: #c8a6e6;
+  color: #9e6fcc;
 }
 
 .profile-thumb {
