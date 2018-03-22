@@ -341,7 +341,7 @@ Template.capital.helpers({
               }
             }
           } else if (Session.get(this._id).voteType === 'BALANCE') {
-            available = Session.get(this._id).balance;
+            available = Session.get(this._id).available;
             if (available === 0) { available = TAPi18n.__('none'); }
             label = `<strong>${available.toLocaleString()}</strong> ${TAPi18n.__('available')}`;
           }
@@ -393,6 +393,7 @@ Template.capital.helpers({
         default:
           placed = Session.get(this._id).placed;
           percentagePlaced = getPercentage(parseInt(placed - inBallot, 10), this._id);
+          console.log(percentagePlaced);
           if ((placed === 0 || percentagePlaced === 0) && Session.get(this._id).voteType !== 'BALANCE') {
             label = `<strong>${TAPi18n.__('none')}</strong>  ${TAPi18n.__('placed-votes')}`;
           } else if (Session.get(this._id).voteType === 'BALANCE') {

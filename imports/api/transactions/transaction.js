@@ -434,9 +434,8 @@ const _updateWalletCache = (transaction) => {
     cacheItem.available += delta;
     if (list[item] === currentTx) {
       cacheItem.inBallot += parseInt(delta * -1, 10);
-    } else {
-      cacheItem.placed += parseInt(delta * -1, 10);
     }
+    cacheItem.placed += parseInt(delta * -1, 10);
     cacheItem.maxVotes = parseInt(cacheItem.available + cacheItem.inBallot, 10);
     Session.set(list[item], cacheItem);
   }
