@@ -420,25 +420,42 @@ const _updateWalletCache = (transaction) => {
   let counterPartyId;
   let delta;
   let cacheItem;
-  console.log(transaction);
-  if (transaction.input.entityId === Meteor.userId()) {
-    counterPartyId = transaction.output.entityId;
-    delta = parseInt(transaction.input.quantity * -1, 10);
-  } else {
-    counterPartyId = transaction.input.entityId;
-    delta = transaction.output.quantity;
-  }
   const list = Session.get('voteList');
-  const currentTx = `vote-${Meteor.userId()}-${counterPartyId}`;
-  for (const item in list) {
-    cacheItem = Session.get(list[item]);
-    cacheItem.available += delta;
-    if (list[item] === currentTx) {
-      cacheItem.inBallot += parseInt(delta * -1, 10);
+  console.log(transaction);
+
+  // incoming delegations
+  if (transaction.kind === 'DELEGATION') {
+    if (transaction.output.delegateId === Meteor.userId()) {
+      delta = transaction.output.quantity;
+    } else if (transaction.input.delegateId === Meteor.userId()) {
+      delta = parseInt(transaction.input.quantity * -1, 10);
     }
-    cacheItem.placed += parseInt(delta * -1, 10);
-    cacheItem.maxVotes = parseInt(cacheItem.available + cacheItem.inBallot, 10);
-    Session.set(list[item], cacheItem);
+    for (const item in list) {
+      cacheItem = Session.get(list[item]);
+      cacheItem.balance += delta;
+      cacheItem.available += delta;
+      cacheItem.maxVotes = parseInt(cacheItem.available + cacheItem.inBallot, 10);
+      Session.set(list[item], cacheItem);
+    }
+  } else if (transaction.kind === 'VOTE') {
+    if (transaction.input.entityId === Meteor.userId()) {
+      counterPartyId = transaction.output.entityId;
+      delta = parseInt(transaction.input.quantity * -1, 10);
+    } else {
+      counterPartyId = transaction.input.entityId;
+      delta = transaction.output.quantity;
+    }
+    const currentTx = `vote-${Meteor.userId()}-${counterPartyId}`;
+    for (const item in list) {
+      cacheItem = Session.get(list[item]);
+      cacheItem.available += delta;
+      if (list[item] === currentTx) {
+        cacheItem.inBallot += parseInt(delta * -1, 10);
+      }
+      cacheItem.placed += parseInt(delta * -1, 10);
+      cacheItem.maxVotes = parseInt(cacheItem.available + cacheItem.inBallot, 10);
+      Session.set(list[item], cacheItem);
+    }
   }
 };
 
