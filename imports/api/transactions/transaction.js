@@ -420,6 +420,7 @@ const _updateWalletCache = (transaction) => {
   let counterPartyId;
   let delta;
   let cacheItem;
+  console.log(transaction);
   if (transaction.input.entityId === Meteor.userId()) {
     counterPartyId = transaction.output.entityId;
     delta = parseInt(transaction.input.quantity * -1, 10);
@@ -534,6 +535,7 @@ const _genesisTransaction = (userId) => {
   _transact(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY);
 };
 
+export const updateWalletCache = _updateWalletCache;
 export const processTransaction = _processTransaction;
 export const generateWalletAddress = _generateWalletAddress;
 export const getTransactions = _getTransactions;

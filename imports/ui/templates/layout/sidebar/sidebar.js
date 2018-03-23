@@ -11,6 +11,7 @@ import { showFullName } from '/imports/startup/both/modules/utils';
 import { getFlag } from '/imports/ui/templates/components/identity/avatar/avatar';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { Transactions } from '/imports/api/transactions/Transactions';
+import { updateWalletCache } from '/imports/api/transactions/transaction';
 
 import '/imports/ui/templates/layout/sidebar/sidebar.html';
 import '/imports/ui/templates/components/collective/collective.js';
@@ -136,9 +137,7 @@ Template.sidebar.onCreated(function () {
 
   instance.autorun(function () {
     const subscriptionContracts = instance.subscribe('feed', { view: 'delegationContracts' });
-    console.log('finding delegations...');
     if (subscriptionContracts.ready()) {
-      console.log('.. delegations ready');
       if (Meteor.user()) {
         const contracts = Contracts.find({ $and: [{ signatures: { $elemMatch: { _id: Meteor.userId() } } }, { kind: 'DELEGATION' }] }).fetch();
         const subscriptionTransactions = instance.subscribe('delegations', {
@@ -150,7 +149,21 @@ Template.sidebar.onCreated(function () {
                                                          { $and: [{ 'input.entityId': Meteor.userId() }, { kind: 'DELEGATION' }] },
                                                          { $and: [{ 'input.delegateId': Meteor.userId() }, { kind: 'DELEGATION' }] },
                                                          { $and: [{ 'output.delegateId': Meteor.userId() }, { kind: 'DELEGATION' }] }] }).fetch();
-          // console.log(transactions);
+
+          const txList = _.pluck(transactions, '_id');
+          if (Session.get('delegationTransactions')) {
+            const txNew = _.difference(txList, Session.get('delegationTransactions'));
+            console.log('These are the new tx:');
+            console.log(txNew);
+            if (txNew.length > 0) {
+              for (const i in txNew) {
+                console.log(Transactions.findOne({ _id: txNew[i] }));
+                updateWalletCache(Transactions.findOne({ _id: txNew[i] }));
+              }
+            }
+          }
+          Session.set('delegationTransactions', txList);
+
           if (Meteor.user()) {
             Template.instance().delegates.set(getDelegates(
               contracts,
