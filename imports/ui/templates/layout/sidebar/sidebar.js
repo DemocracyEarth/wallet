@@ -136,7 +136,9 @@ Template.sidebar.onCreated(function () {
 
   instance.autorun(function () {
     const subscriptionContracts = instance.subscribe('feed', { view: 'delegationContracts' });
+    console.log('finding delegations...');
     if (subscriptionContracts.ready()) {
+      console.log('.. delegations ready');
       if (Meteor.user()) {
         const contracts = Contracts.find({ $and: [{ signatures: { $elemMatch: { _id: Meteor.userId() } } }, { kind: 'DELEGATION' }] }).fetch();
         const subscriptionTransactions = instance.subscribe('delegations', {

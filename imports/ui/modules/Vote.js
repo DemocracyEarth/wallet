@@ -144,15 +144,13 @@ export class Vote {
       this.sourceId = sourceId;
       this.maxVotes = parseInt(this.available + this.inBallot, 10);
       this.minVotes = 0;
-      console.log(`vote type: ${this.voteType}`);
+
       if (this.voteType === 'DELEGATION' && (this.userId !== targetId)) {
-        console.log(`the targetId being used is ${this.targetId}`);
         if (this.arrow === 'OUTPUT') {
           this.delegationContract = getDelegationContract(this.userId, this.targetId);
         } else {
           this.delegationContract = getDelegationContract(this.targetId, this.userId);
         }
-        console.log(`this delegationcontract is ${this.delegationContract._id}`);
         if (this.delegationContract) {
           // delegation context
           this.inBallot = getVotes(this.delegationContract._id, this.userId);
@@ -162,6 +160,7 @@ export class Vote {
           }
           if (this.minVotes < 0) { this.minVotes = 0; }
         } else {
+          /*
           const settings = _defaultDelegationSettings();
           settings.title = `${convertToSlug(Meteor.users.findOne({ _id: this.userId }).username)}-${convertToSlug(Meteor.users.findOne({ _id: this.targetId }).username)}`;
           settings.signatures = [{ username: Meteor.users.findOne({ _id: this.userId }).username }, { username: Meteor.users.findOne({ _id: this.targetId }).username }];
@@ -171,6 +170,8 @@ export class Vote {
             this.delegationContract = createDelegation(this.targetId, this.userId, settings);
           }
           this.inBallot = 0;
+          */
+          console.log('trying to create delegation from client... ');
         }
         this.balance = parseInt(this.inBallot + this.available + this.delegated, 10);
         this.placed = this.inBallot;
@@ -387,11 +388,13 @@ export class Vote {
           settings.contractId = this.delegationContract._id;
         } else {
           // no delegation
-          delegateProfileId = this.targetId;
+          /* delegateProfileId = this.targetId;
           settings.title = `${convertToSlug(Meteor.users.findOne({ _id: this.userId }).username)}-${convertToSlug(Meteor.users.findOne({ _id: this.targetId }).username)}`;
           settings.signatures = [{ username: Meteor.users.findOne({ _id: this.userId }).username }, { username: Meteor.users.findOne({ _id: this.targetId }).username }];
           this.delegationContract = createDelegation(this.userId, this.targetId, settings);
           settings.contractId = this.delegationContract._id;
+          */
+          console.log('trying to create delegation at execution...');
         }
 
         switch (this.arrow) {

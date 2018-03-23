@@ -503,7 +503,6 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     // once transaction done, run callback
     if (callback !== undefined) { callback(); }
 
-    console.log(newTransaction);
     _updateWalletCache(newTransaction);
 
     return txId;
