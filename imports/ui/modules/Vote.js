@@ -6,6 +6,7 @@ import { $ } from 'meteor/jquery';
 import { getDelegationContract, createDelegation } from '/imports/startup/both/modules/Contract';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { convertToSlug } from '/lib/utils';
+import { defaultSettings } from '/lib/const';
 import { purgeBallot, getBallot } from '/imports/ui/modules/ballot';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { displayModal } from '/imports/ui/modules/modal';
@@ -66,7 +67,8 @@ const _insertVoteList = (wallet, id) => {
 * @summary sets standard settings for a delegation contract
 */
 const _defaultDelegationSettings = () => {
-  return {
+  return defaultSettings.delegations;
+  /* return {
     condition: {
       transferable: true,
       portable: true,
@@ -74,7 +76,7 @@ const _defaultDelegationSettings = () => {
     },
     currency: 'VOTES',
     kind: 'DELEGATION',
-  };
+  };*/
 };
 
 /**
@@ -164,9 +166,9 @@ export class Vote {
           settings.title = `${convertToSlug(Meteor.users.findOne({ _id: this.userId }).username)}-${convertToSlug(Meteor.users.findOne({ _id: this.targetId }).username)}`;
           settings.signatures = [{ username: Meteor.users.findOne({ _id: this.userId }).username }, { username: Meteor.users.findOne({ _id: this.targetId }).username }];
           if (this.arrow === 'OUTPUT') {
-            this.delegationContract = createDelegation(this.userId, this.targetId, 0, settings);
+            this.delegationContract = createDelegation(this.userId, this.targetId, settings);
           } else {
-            this.delegationContract = createDelegation(this.targetId, this.userId, 0, settings);
+            this.delegationContract = createDelegation(this.targetId, this.userId, settings);
           }
           this.inBallot = 0;
         }
@@ -388,7 +390,7 @@ export class Vote {
           delegateProfileId = this.targetId;
           settings.title = `${convertToSlug(Meteor.users.findOne({ _id: this.userId }).username)}-${convertToSlug(Meteor.users.findOne({ _id: this.targetId }).username)}`;
           settings.signatures = [{ username: Meteor.users.findOne({ _id: this.userId }).username }, { username: Meteor.users.findOne({ _id: this.targetId }).username }];
-          this.delegationContract = createDelegation(this.userId, this.targetId, 0, settings, close);
+          this.delegationContract = createDelegation(this.userId, this.targetId, settings);
           settings.contractId = this.delegationContract._id;
         }
 

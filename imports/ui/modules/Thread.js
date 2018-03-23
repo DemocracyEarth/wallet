@@ -4,9 +4,10 @@ import { Session } from 'meteor/session';
 import { Vote, updateState } from '/imports/ui/modules/Vote';
 import { getDelegationContract } from '/imports/startup/both/modules/Contract';
 import { transact, getVotes } from '/imports/api/transactions/transaction';
+import { Contracts } from '/imports/api/contracts/Contracts';
 
 import { guidGenerator } from '../../startup/both/modules/crypto';
-import { Contracts } from '../../api/contracts/Contracts';
+
 
 let node = '';
 let currentParent = '';

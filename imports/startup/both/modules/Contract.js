@@ -4,7 +4,7 @@ import { Router } from 'meteor/iron:router';
 import { TAPi18n } from 'meteor/tap:i18n';
 
 import { convertToSlug } from '/lib/utils';
-import { Contracts } from '../../../api/contracts/Contracts';
+import { Contracts } from '/imports/api/contracts/Contracts';
 import { shortUUID } from './crypto';
 import { transact } from '../../../api/transactions/transaction';
 
@@ -149,12 +149,9 @@ const _sendDelegation = (sourceId, targetId, quantity, conditions, newStatus) =>
 * @summary generate delegation contract between two identities.
 * @param {string} delegatorId - identity assigning the tokens (usually currentUser)
 * @param {string} delegateId - identity that will get a request to approve
-* @param {number} votes - transaction size in votes
 * @param {object} settings - additional settings to be stored on the ledger
-* @param {function} callback - once everything's done, what is left to do?
-* @param {boolean} instantaneous - if its a fast, instantaneous delegation
 */
-const _newDelegation = (delegatorId, delegateId, votes, settings) => {
+const _newDelegation = (delegatorId, delegateId, settings) => {
   let finalTitle;
   if (_getDelegationContract(delegatorId, delegateId)) { return false; }
 
