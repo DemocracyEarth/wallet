@@ -44,13 +44,7 @@ Template.transaction.helpers({
         Template.instance().totalVotes.set(votes);
       }
     } else {
-      console.log(`inside transaction im getting ${this.contract._id}`);
-      console.log(`> senderId = ${this.senderId}`);
-      // if (this.notUser) {
-        Template.instance().totalVotes.set(getVotes(this.contract._id, this.senderId));
-      // } else {
-      //  Template.instance().totalVotes.set(getVotes(this.contract._id, Meteor.userId()));
-      // }
+      Template.instance().totalVotes.set(getVotes(this.contract._id, this.senderId));
       votes = Template.instance().totalVotes.get();
     }
     if (votes === 1) {

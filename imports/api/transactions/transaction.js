@@ -238,7 +238,6 @@ const _restoredTokens = (quantity, totals) => {
 };
 
 const _transactionMessage = (code) => {
-  console.log(code);
   switch (code) {
     case 'INSUFFICIENT':
       displayNotice('not-enough-funds', true);
@@ -422,51 +421,49 @@ const _updateWalletCache = (transaction, foreign) => {
   let delta;
   let cacheItem;
   const list = Session.get('voteList');
-  console.log(transaction);
 
-  // delegations
   if (foreign) {
     if (transaction.kind === 'DELEGATION') {
       if (transaction.output.delegateId === Meteor.userId()) {
-        console.log('its an incoming transaction');
         delta = transaction.output.quantity;
       } else if (transaction.input.delegateId === Meteor.userId()) {
-        console.log('its an outgoing transaction');
         delta = parseInt(transaction.input.quantity * -1, 10);
       }
       for (const item in list) {
         cacheItem = Session.get(list[item]);
-        cacheItem.balance += delta;
-        cacheItem.available += delta;
-        cacheItem.maxVotes = parseInt(cacheItem.available + cacheItem.inBallot, 10);
-        Session.set(list[item], cacheItem);
+        if (list[item] !== `vote-user-balance-${transaction.output.delegateId}` && list[item] !== `vote-user-balance-${transaction.input.delegateId}`) {
+          cacheItem.balance += delta;
+          cacheItem.available += delta;
+          cacheItem.maxVotes = parseInt(cacheItem.available + cacheItem.inBallot, 10);
+          Session.set(list[item], cacheItem);
+        }
       }
       return;
     }
-  // voting
   } else {
     if (transaction.input.entityId === Meteor.userId()) {
-      console.log('user send it');
       counterPartyId = transaction.output.entityId;
       delta = parseInt(transaction.input.quantity * -1, 10);
     } else {
-      console.log('user did NOT send it');
       counterPartyId = transaction.input.entityId;
       delta = transaction.output.quantity;
     }
     const currentTx = `vote-${Meteor.userId()}-${counterPartyId}`;
-    console.log(`currenttx = ${currentTx}`);
     for (const item in list) {
       cacheItem = Session.get(list[item]);
       if (cacheItem) {
-        console.log('found the item list');
-        console.log(list[item]);
-        cacheItem.available += delta;
-        if (list[item] === currentTx) {
-          cacheItem.inBallot += parseInt(delta * -1, 10);
+        if (list[item] === `vote-user-balance-${transaction.output.delegateId}` || list[item] === `vote-user-balance-${transaction.input.delegateId}`) {
+          cacheItem.balance += parseInt(delta * -1, 10);
+          cacheItem.available += parseInt(delta * -1, 10);
+          cacheItem.placedPercentage = ((cacheItem.placed * 100) / cacheItem.balance);
+        } else {
+          cacheItem.available += delta;
+          if (list[item] === currentTx) {
+            cacheItem.inBallot += parseInt(delta * -1, 10);
+          }
+          cacheItem.placed += parseInt(delta * -1, 10);
+          cacheItem.maxVotes = parseInt(cacheItem.available + cacheItem.inBallot, 10);
         }
-        cacheItem.placed += parseInt(delta * -1, 10);
-        cacheItem.maxVotes = parseInt(cacheItem.available + cacheItem.inBallot, 10);
         Session.set(list[item], cacheItem);
       }
     }
