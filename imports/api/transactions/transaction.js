@@ -414,47 +414,61 @@ const _getDelegateId = (senderId, receiverId, getSender, kind) => {
 /**
 * @summary updates the session variables related to an executed transactions
 * @param {object} transaction the transaction to find in the cache
+* @param {boolean} foreign the transaction comes from user in another session
 */
 
-const _updateWalletCache = (transaction) => {
+const _updateWalletCache = (transaction, foreign) => {
   let counterPartyId;
   let delta;
   let cacheItem;
   const list = Session.get('voteList');
   console.log(transaction);
 
-  // incoming delegations
-  if (transaction.kind === 'DELEGATION') {
-    if (transaction.output.delegateId === Meteor.userId()) {
-      delta = transaction.output.quantity;
-    } else if (transaction.input.delegateId === Meteor.userId()) {
-      delta = parseInt(transaction.input.quantity * -1, 10);
+  // delegations
+  if (foreign) {
+    if (transaction.kind === 'DELEGATION') {
+      if (transaction.output.delegateId === Meteor.userId()) {
+        console.log('its an incoming transaction');
+        delta = transaction.output.quantity;
+      } else if (transaction.input.delegateId === Meteor.userId()) {
+        console.log('its an outgoing transaction');
+        delta = parseInt(transaction.input.quantity * -1, 10);
+      }
+      for (const item in list) {
+        cacheItem = Session.get(list[item]);
+        cacheItem.balance += delta;
+        cacheItem.available += delta;
+        cacheItem.maxVotes = parseInt(cacheItem.available + cacheItem.inBallot, 10);
+        Session.set(list[item], cacheItem);
+      }
+      return;
     }
-    for (const item in list) {
-      cacheItem = Session.get(list[item]);
-      cacheItem.balance += delta;
-      cacheItem.available += delta;
-      cacheItem.maxVotes = parseInt(cacheItem.available + cacheItem.inBallot, 10);
-      Session.set(list[item], cacheItem);
-    }
-  } else if (transaction.kind === 'VOTE') {
+  // voting
+  } else {
     if (transaction.input.entityId === Meteor.userId()) {
+      console.log('user send it');
       counterPartyId = transaction.output.entityId;
       delta = parseInt(transaction.input.quantity * -1, 10);
     } else {
+      console.log('user did NOT send it');
       counterPartyId = transaction.input.entityId;
       delta = transaction.output.quantity;
     }
     const currentTx = `vote-${Meteor.userId()}-${counterPartyId}`;
+    console.log(`currenttx = ${currentTx}`);
     for (const item in list) {
       cacheItem = Session.get(list[item]);
-      cacheItem.available += delta;
-      if (list[item] === currentTx) {
-        cacheItem.inBallot += parseInt(delta * -1, 10);
+      if (cacheItem) {
+        console.log('found the item list');
+        console.log(list[item]);
+        cacheItem.available += delta;
+        if (list[item] === currentTx) {
+          cacheItem.inBallot += parseInt(delta * -1, 10);
+        }
+        cacheItem.placed += parseInt(delta * -1, 10);
+        cacheItem.maxVotes = parseInt(cacheItem.available + cacheItem.inBallot, 10);
+        Session.set(list[item], cacheItem);
       }
-      cacheItem.placed += parseInt(delta * -1, 10);
-      cacheItem.maxVotes = parseInt(cacheItem.available + cacheItem.inBallot, 10);
-      Session.set(list[item], cacheItem);
     }
   }
 };
@@ -521,7 +535,7 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     // once transaction done, run callback
     if (callback !== undefined) { callback(); }
 
-    _updateWalletCache(newTransaction);
+    _updateWalletCache(newTransaction, false);
 
     return txId;
   }

@@ -151,14 +151,19 @@ Template.sidebar.onCreated(function () {
                                                          { $and: [{ 'output.delegateId': Meteor.userId() }, { kind: 'DELEGATION' }] }] }).fetch();
 
           const txList = _.pluck(transactions, '_id');
+          let newTransaction;
           if (Session.get('delegationTransactions')) {
             const txNew = _.difference(txList, Session.get('delegationTransactions'));
             console.log('These are the new tx:');
             console.log(txNew);
             if (txNew.length > 0) {
               for (const i in txNew) {
-                console.log(Transactions.findOne({ _id: txNew[i] }));
-                updateWalletCache(Transactions.findOne({ _id: txNew[i] }));
+                newTransaction = Transactions.findOne({ _id: txNew[i] });
+                console.log(newTransaction);
+                if (newTransaction.input.entityId !== Meteor.userId() && !Session.get(`vote-${Meteor.userId()}-${newTransaction.output.entityId}`)) {
+                  console.log('UPDATE CACHE FROM FOREIGN CAUSE');
+                  updateWalletCache(Transactions.findOne({ _id: txNew[i] }), true);
+                }
               }
             }
           }
