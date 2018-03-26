@@ -435,8 +435,17 @@ const _updateWalletCache = (transaction, foreign) => {
           cacheItem.balance += delta;
           cacheItem.available += delta;
           cacheItem.maxVotes = parseInt(cacheItem.available + cacheItem.inBallot, 10);
-          Session.set(list[item], cacheItem);
+        } else if (list[item] !== `vote-user-balance-${transaction.output.delegateId}`) {
+          console.log('transaction.output.delegateId');
+          console.log(delta);
+          cacheItem.available += parseInt(delta * -1, 10);
+          cacheItem.placed += parseInt(delta * -1, 10);
+          cacheItem.placedPercentage = ((cacheItem.placed * 100) / cacheItem.balance);
+        } else if (list[item] === `vote-user-balance-${transaction.input.delegateId}`) {
+          console.log('transaction.input.delegateId');
+          console.log(delta);
         }
+        Session.set(list[item], cacheItem);
       }
       return;
     }
