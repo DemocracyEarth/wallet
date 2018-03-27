@@ -431,36 +431,15 @@ const _updateWalletCache = (transaction, foreign) => {
       }
       for (const item in list) {
         cacheItem = Session.get(list[item]);
-        console.log(`List Item: ${list[item]}`);
         if (list[item] !== 'voter-user-balance' && list[item] !== `vote-user-balance-${transaction.output.delegateId}` && list[item] !== `vote-user-balance-${transaction.input.delegateId}`) {
-          console.log('GORBACHOV');
-          console.log(cacheItem);
+          // votes
           cacheItem.balance += delta;
           cacheItem.available += delta;
           cacheItem.maxVotes = parseInt(cacheItem.available + cacheItem.inBallot, 10);
-          console.log(cacheItem);
-        } else if (list[item] !== 'voter-user-balance' && list[item] !== `vote-user-balance-${transaction.output.delegateId}` && list[item] !== `vote-user-balance-${transaction.input.delegateId}`) {
-          console.log("AHSHFASLKHFLSAJKHFASKJFHLKDSJFHSDKLJFHLSKDJHFSKLDJHFLKSJDHFLKSJDHF")
-          console.log('transaction.output.delegateId');
-          console.log(list[item]);
-          console.log(cacheItem);
-          console.log(transaction);
-          console.log(delta);
-          if (delta > 0) {
-            cacheItem.available += parseInt(delta * -1, 10);
-            cacheItem.placed += delta;
-          } else {
-            console.log('reverse operation wihen revoking');
-            cacheItem.available += delta;
-            cacheItem.placed += parseInt(delta * -1, 10);
-          }
-        } else if (list[item] === `vote-user-balance-${transaction.input.delegateId}`) {
-          console.log('transaction.input.delegateId');
-          console.log(delta);
-          // cacheItem.available += parseInt(delta * -1, 10);
-          // cacheItem.placed += parseInt(delta * -1, 10);
-        } else {
-          console.log(`exception found on ${list[item]}`);
+        } else if (list[item] === `vote-user-balance-${transaction.input.delegateId}` || list[item] === `vote-user-balance-${transaction.output.delegateId}`) {
+          // profiles
+          cacheItem.available += parseInt(delta * -1, 10);
+          cacheItem.placed += delta;
         }
         cacheItem.placedPercentage = ((cacheItem.placed * 100) / cacheItem.balance);
         Session.set(list[item], cacheItem);
@@ -480,16 +459,23 @@ const _updateWalletCache = (transaction, foreign) => {
       cacheItem = Session.get(list[item]);
       if (cacheItem) {
         if (list[item] === `vote-user-balance-${transaction.output.delegateId}` || list[item] === `vote-user-balance-${transaction.input.delegateId}`) {
+          // profiles
           cacheItem.balance += parseInt(delta * -1, 10);
           cacheItem.available += parseInt(delta * -1, 10);
           cacheItem.placedPercentage = ((cacheItem.placed * 100) / cacheItem.balance);
-        } else {
+        } else if ((list[item] === 'vote-user-balance' && transaction.output.delegateId !== Meteor.userId()) || list[item] !== 'vote-user-balance') {
+          // votes
           cacheItem.available += delta;
           if (list[item] === currentTx) {
             cacheItem.inBallot += parseInt(delta * -1, 10);
           }
           cacheItem.placed += parseInt(delta * -1, 10);
           cacheItem.maxVotes = parseInt(cacheItem.available + cacheItem.inBallot, 10);
+        } else if (list[item] === 'vote-user-balance' && transaction.output.delegateId === Meteor.userId()) {
+          // revokes
+          cacheItem.balance += parseInt(delta * -1, 10);
+          cacheItem.placed += parseInt(delta * -1, 10);
+          cacheItem.placedPercentage = ((cacheItem.placed * 100) / cacheItem.balance);
         }
         Session.set(list[item], cacheItem);
       }
