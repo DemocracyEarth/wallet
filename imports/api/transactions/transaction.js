@@ -438,9 +438,14 @@ const _updateWalletCache = (transaction, foreign) => {
         } else if (list[item] !== `vote-user-balance-${transaction.output.delegateId}`) {
           console.log('transaction.output.delegateId');
           console.log(delta);
+          console.log('before:');
+          console.log(cacheItem);
+          // cacheItem.balance += parseInt(delta * -1, 10);
           cacheItem.available += parseInt(delta * -1, 10);
-          cacheItem.placed += parseInt(delta * -1, 10);
+          cacheItem.placed += delta;
           cacheItem.placedPercentage = ((cacheItem.placed * 100) / cacheItem.balance);
+          console.log('after:');
+          console.log(cacheItem);
         } else if (list[item] === `vote-user-balance-${transaction.input.delegateId}`) {
           console.log('transaction.input.delegateId');
           console.log(delta);

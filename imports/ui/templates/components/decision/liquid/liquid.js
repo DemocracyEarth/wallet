@@ -93,6 +93,7 @@ function voteFailure(vote) {
 */
 function agreement(voteId, editable) {
   if (Session.get(voteId).voteType === 'BALANCE') {
+    console.log('what?');
     return getBarWidth(Session.get(voteId).placed, voteId, true);
   }
   return getBarWidth(parseFloat(((Session.get(voteId).placed * Session.get(voteId).TOGGLE_DISPLAY_PLACED_BAR) - Session.get(voteId).inBallot) + Session.get(voteId).delegated, 10), voteId, editable);
@@ -396,6 +397,9 @@ Template.capital.helpers({
           if ((placed === 0 || percentagePlaced === 0) && Session.get(this._id).voteType !== 'BALANCE') {
             label = `<strong>${TAPi18n.__('none')}</strong>  ${TAPi18n.__('placed-votes')}`;
           } else if (Session.get(this._id).voteType === 'BALANCE') {
+            console.log('heh?');
+            console.log(this._id);
+            console.log(parseInt(getPercentage(Session.get(this._id).placed, this._id), 10).toLocaleString());
             label = `<strong>${parseInt(getPercentage(Session.get(this._id).placed, this._id), 10).toLocaleString()}%</strong>  ${TAPi18n.__('placed')}`;
           } else if (percentagePlaced < 1 && percentagePlaced > 0) {
             label = `<strong>${TAPi18n.__('less-than-one')}</strong>  ${TAPi18n.__('placed-votes')}`;
