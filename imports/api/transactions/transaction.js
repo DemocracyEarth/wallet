@@ -431,25 +431,38 @@ const _updateWalletCache = (transaction, foreign) => {
       }
       for (const item in list) {
         cacheItem = Session.get(list[item]);
-        if (list[item] !== `vote-user-balance-${transaction.output.delegateId}` && list[item] !== `vote-user-balance-${transaction.input.delegateId}`) {
+        console.log(`List Item: ${list[item]}`);
+        if (list[item] !== 'voter-user-balance' && list[item] !== `vote-user-balance-${transaction.output.delegateId}` && list[item] !== `vote-user-balance-${transaction.input.delegateId}`) {
+          console.log('GORBACHOV');
+          console.log(cacheItem);
           cacheItem.balance += delta;
           cacheItem.available += delta;
           cacheItem.maxVotes = parseInt(cacheItem.available + cacheItem.inBallot, 10);
-        } else if (list[item] !== `vote-user-balance-${transaction.output.delegateId}`) {
+          console.log(cacheItem);
+        } else if (list[item] !== 'voter-user-balance' && list[item] !== `vote-user-balance-${transaction.output.delegateId}` && list[item] !== `vote-user-balance-${transaction.input.delegateId}`) {
+          console.log("AHSHFASLKHFLSAJKHFASKJFHLKDSJFHSDKLJFHLSKDJHFSKLDJHFLKSJDHFLKSJDHF")
           console.log('transaction.output.delegateId');
+          console.log(list[item]);
+          console.log(cacheItem);
+          console.log(transaction);
           console.log(delta);
-          console.log('before:');
-          console.log(cacheItem);
-          // cacheItem.balance += parseInt(delta * -1, 10);
-          cacheItem.available += parseInt(delta * -1, 10);
-          cacheItem.placed += delta;
-          cacheItem.placedPercentage = ((cacheItem.placed * 100) / cacheItem.balance);
-          console.log('after:');
-          console.log(cacheItem);
+          if (delta > 0) {
+            cacheItem.available += parseInt(delta * -1, 10);
+            cacheItem.placed += delta;
+          } else {
+            console.log('reverse operation wihen revoking');
+            cacheItem.available += delta;
+            cacheItem.placed += parseInt(delta * -1, 10);
+          }
         } else if (list[item] === `vote-user-balance-${transaction.input.delegateId}`) {
           console.log('transaction.input.delegateId');
           console.log(delta);
+          // cacheItem.available += parseInt(delta * -1, 10);
+          // cacheItem.placed += parseInt(delta * -1, 10);
+        } else {
+          console.log(`exception found on ${list[item]}`);
         }
+        cacheItem.placedPercentage = ((cacheItem.placed * 100) / cacheItem.balance);
         Session.set(list[item], cacheItem);
       }
       return;
