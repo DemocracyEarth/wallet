@@ -157,7 +157,8 @@ Template.sidebar.onCreated(function () {
             if (txNew.length > 0) {
               for (const i in txNew) {
                 newTransaction = Transactions.findOne({ _id: txNew[i] });
-                if (newTransaction.input.entityId !== Meteor.userId() && !Session.get(`vote-${Meteor.userId()}-${newTransaction.output.entityId}`)) {
+                if (newTransaction.input.entityId !== Meteor.userId()
+                    && !Session.get(`vote-${Meteor.userId()}-${newTransaction.output.entityId}`)) {
                   updateWalletCache(Transactions.findOne({ _id: txNew[i] }), true);
                 }
               }

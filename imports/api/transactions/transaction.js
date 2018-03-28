@@ -463,15 +463,12 @@ const _updateWalletCache = (transaction, foreign) => {
           cacheItem.balance += parseInt(delta * -1, 10);
           if (transaction.input.delegateId === Meteor.userId()) {
             cacheItem.available += parseInt(delta * -1, 10);
+          } else if (transaction.output.delegateId === Meteor.userId()) {
+            cacheItem.placed -= delta;
           } else {
             cacheItem.available += delta;
           }
           cacheItem.placedPercentage = ((cacheItem.placed * 100) / cacheItem.balance);
-          if (transaction.input.delegateId === Meteor.userId()) {
-            console.log('BINGOOOOOIHEOFIJEHFJKDHGF');
-            console.log(cacheItem.available);
-            console.log(delta);
-          }
         } else if ((list[item] === 'vote-user-balance' && transaction.output.delegateId !== Meteor.userId()) || list[item] !== 'vote-user-balance') {
           // votes
           cacheItem.available += delta;
