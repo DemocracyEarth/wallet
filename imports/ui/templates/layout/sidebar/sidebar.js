@@ -11,7 +11,7 @@ import { showFullName } from '/imports/startup/both/modules/utils';
 import { getFlag } from '/imports/ui/templates/components/identity/avatar/avatar';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { Transactions } from '/imports/api/transactions/Transactions';
-import { updateWalletCache } from '/imports/api/transactions/transaction';
+import { processedTx, updateWalletCache } from '/imports/api/transactions/transaction';
 
 import '/imports/ui/templates/layout/sidebar/sidebar.html';
 import '/imports/ui/templates/components/collective/collective.js';
@@ -158,8 +158,9 @@ Template.sidebar.onCreated(function () {
               for (const i in txNew) {
                 newTransaction = Transactions.findOne({ _id: txNew[i] });
                 if (newTransaction.input.entityId !== Meteor.userId()
+                    && !processedTx(newTransaction._id)
                     && !Session.get(`vote-${Meteor.userId()}-${newTransaction.output.entityId}`)) {
-                  updateWalletCache(Transactions.findOne({ _id: txNew[i] }), true);
+                  updateWalletCache(newTransaction, true);
                 }
               }
             }

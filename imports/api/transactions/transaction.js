@@ -411,6 +411,34 @@ const _getDelegateId = (senderId, receiverId, getSender, kind) => {
 };
 
 /**
+* @summary adds the transaction id to a stack to prevent double processing
+* @param {string} transactionId the id of the transaction
+* @return {boolean} if it is included or not in the stack already
+*/
+const _processedTx = (transactionId) => {
+  const list = Session.get('txList');
+  if (!list) {
+    Session.set('txList', [transactionId]);
+    console.log('started list');
+    console.log(Session.get('txList'));
+    return false;
+  }
+
+  for (const i in list) {
+    if (list[i] === transactionId) {
+      console.log('ALREADY DONE');
+      console.log(transactionId);
+      return true;
+    }
+  }
+  list.push(transactionId);
+  Session.set('txList', list);
+  console.log(Session.get('txList'));
+  return false;
+};
+
+
+/**
 * @summary updates the session variables related to an executed transactions
 * @param {object} transaction the transaction to find in the cache
 * @param {boolean} foreign the transaction comes from user in another session
@@ -422,7 +450,10 @@ const _updateWalletCache = (transaction, foreign) => {
   let cacheItem;
   const list = Session.get('voteList');
 
+  console.log('pero para la transaccion local me hace el cache');
+
   if (foreign) {
+    console.log('IT IS DOING FOREIGN');
     if (transaction.kind === 'DELEGATION') {
       if (transaction.output.delegateId === Meteor.userId()) {
         delta = transaction.output.quantity;
@@ -431,7 +462,7 @@ const _updateWalletCache = (transaction, foreign) => {
       }
       for (const item in list) {
         cacheItem = Session.get(list[item]);
-        if (list[item] !== 'voter-user-balance' && list[item] !== `vote-user-balance-${transaction.output.delegateId}` && list[item] !== `vote-user-balance-${transaction.input.delegateId}`) {
+        if (list[item] !== 'voter-user-balance' && list[item].substring(0, 18) !== 'vote-user-balance-') {
           // votes
           cacheItem.balance += delta;
           cacheItem.available += delta;
@@ -460,16 +491,31 @@ const _updateWalletCache = (transaction, foreign) => {
       if (cacheItem) {
         if (list[item] === `vote-user-balance-${transaction.output.delegateId}` || list[item] === `vote-user-balance-${transaction.input.delegateId}`) {
           // profiles
+          console.log('ALSO DOING PROFILE');
           cacheItem.balance += parseInt(delta * -1, 10);
-          if (transaction.input.delegateId === Meteor.userId()) {
-            cacheItem.available += parseInt(delta * -1, 10);
+          cacheItem.available += parseInt(delta * -1, 10);
+          /* if (transaction.input.delegateId === Meteor.userId()) {
           } else if (transaction.output.delegateId === Meteor.userId()) {
-            cacheItem.placed -= delta;
-          } else {
+            if (list[item] === `vote-user-balance-${transaction.output.delegateId}`) {
+              console.log('UN USER A MI MISMO');
+              cacheItem.placed += delta;
+            } else {
+              console.log('el OTRO chavalll');
+              cacheItem.available += parseInt(delta * -1, 10);
+            }
+          } */
+          cacheItem.placedPercentage = ((cacheItem.placed * 100) / cacheItem.balance);
+        } else if (list[item] !== 'vote-user-balance') {
+          // votes
+          if (list[item].substring(0, 18) !== 'vote-user-balance-') {
             cacheItem.available += delta;
           }
-          cacheItem.placedPercentage = ((cacheItem.placed * 100) / cacheItem.balance);
-        } else if ((list[item] === 'vote-user-balance' && transaction.output.delegateId !== Meteor.userId()) || list[item] !== 'vote-user-balance') {
+          if (list[item] === currentTx) {
+            cacheItem.inBallot += parseInt(delta * -1, 10);
+          }
+          cacheItem.placed += parseInt(delta * -1, 10);
+          cacheItem.maxVotes = parseInt(cacheItem.available + cacheItem.inBallot, 10);
+        } else if (list[item] === 'vote-user-balance' && transaction.output.delegateId !== Meteor.userId()) {
           // votes
           cacheItem.available += delta;
           if (list[item] === currentTx) {
@@ -479,7 +525,8 @@ const _updateWalletCache = (transaction, foreign) => {
           cacheItem.maxVotes = parseInt(cacheItem.available + cacheItem.inBallot, 10);
         } else if (list[item] === 'vote-user-balance' && transaction.output.delegateId === Meteor.userId()) {
           // revokes
-          cacheItem.balance += parseInt(delta * -1, 10);
+          console.log('REVOKE');
+          cacheItem.available += delta;
           cacheItem.placed += parseInt(delta * -1, 10);
           cacheItem.placedPercentage = ((cacheItem.placed * 100) / cacheItem.balance);
         }
@@ -487,6 +534,7 @@ const _updateWalletCache = (transaction, foreign) => {
       }
     }
   }
+
 };
 
 /**
@@ -551,7 +599,9 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     // once transaction done, run callback
     if (callback !== undefined) { callback(); }
 
-    _updateWalletCache(newTransaction, false);
+    const newTx = Transactions.findOne({ _id: txId });
+    _processedTx(newTx._id);
+    _updateWalletCache(newTx, false);
 
     return txId;
   }
@@ -582,6 +632,7 @@ const _genesisTransaction = (userId) => {
   _transact(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY);
 };
 
+export const processedTx = _processedTx;
 export const updateWalletCache = _updateWalletCache;
 export const processTransaction = _processTransaction;
 export const generateWalletAddress = _generateWalletAddress;
