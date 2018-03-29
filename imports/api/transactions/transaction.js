@@ -380,8 +380,6 @@ const getTimestamp = () => {
 */
 const _getDelegateId = (senderId, receiverId, getSender, kind) => {
   let entityId;
-  let contractIndex;
-
   if (kind === 'DELEGATION') {
     if (getSender) {
       entityId = senderId;
@@ -406,7 +404,6 @@ const _getDelegateId = (senderId, receiverId, getSender, kind) => {
       return contract.signatures[0]._id;
     }
   }
-  console.log('could not find delegate entity');
   return undefined;
 };
 
@@ -419,24 +416,18 @@ const _processedTx = (transactionId) => {
   const list = Session.get('txList');
   if (!list) {
     Session.set('txList', [transactionId]);
-    console.log('started list');
-    console.log(Session.get('txList'));
     return false;
   }
 
   for (const i in list) {
     if (list[i] === transactionId) {
-      console.log('ALREADY DONE');
-      console.log(transactionId);
       return true;
     }
   }
   list.push(transactionId);
   Session.set('txList', list);
-  console.log(Session.get('txList'));
   return false;
 };
-
 
 /**
 * @summary updates the session variables related to an executed transactions

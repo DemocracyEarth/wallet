@@ -367,6 +367,7 @@ const _getTallyTotal = (contract) => {
 const _getTallyPercentage = (fork) => {
   const totalVotes = _getTallyTotal(fork.contract);
   const forkVotes = _getTally(fork);
+  if (totalVotes === 0) { return 0; }
   return parseFloat((forkVotes * 100) / totalVotes, 10);
 };
 
