@@ -494,26 +494,25 @@ const _updateWalletCache = (transaction, foreign) => {
           console.log('ALSO DOING PROFILE');
           cacheItem.balance += parseInt(delta * -1, 10);
           cacheItem.available += parseInt(delta * -1, 10);
-          /* if (transaction.input.delegateId === Meteor.userId()) {
-          } else if (transaction.output.delegateId === Meteor.userId()) {
+          if (transaction.output.delegateId === Meteor.userId()) {
             if (list[item] === `vote-user-balance-${transaction.output.delegateId}`) {
               console.log('UN USER A MI MISMO');
               cacheItem.placed += delta;
             } else {
               console.log('el OTRO chavalll');
-              cacheItem.available += parseInt(delta * -1, 10);
+              // cacheItem.placed += delta;
             }
-          } */
+          }
           cacheItem.placedPercentage = ((cacheItem.placed * 100) / cacheItem.balance);
         } else if (list[item] !== 'vote-user-balance') {
           // votes
           if (list[item].substring(0, 18) !== 'vote-user-balance-') {
             cacheItem.available += delta;
+            cacheItem.placed += parseInt(delta * -1, 10);
           }
           if (list[item] === currentTx) {
             cacheItem.inBallot += parseInt(delta * -1, 10);
           }
-          cacheItem.placed += parseInt(delta * -1, 10);
           cacheItem.maxVotes = parseInt(cacheItem.available + cacheItem.inBallot, 10);
         } else if (list[item] === 'vote-user-balance' && transaction.output.delegateId !== Meteor.userId()) {
           // votes
