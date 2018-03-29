@@ -138,8 +138,6 @@ const _setupDrag = () => {
 
         Meteor.clearTimeout(this.timer);
 
-        console.log(Contracts.findOne({ _id: this.newVote.targetId }));
-
         if (voteFailure(this.newVote)) {
           cancel();
           if (this.newVote.voteType === 'VOTE' && (this.newVote.allocateQuantity !== this.newVote.inBallot || this.newVote.inBallot === 0)) {
