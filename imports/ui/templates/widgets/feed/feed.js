@@ -37,7 +37,7 @@ Template.feed.onRendered(function () {
     const parameters = query(Template.currentData().options);
 
     // verify if beginning
-    const beginning = (Template.currentData().options.skip === 0);
+    const beginning = ((Template.currentData().options.skip === 0) && !instance.feed.get());
     if (beginning) { $('.right').scrollTop(0); }
     instance.refresh.set(beginning);
 
@@ -48,8 +48,10 @@ Template.feed.onRendered(function () {
 
     // feed content
     if (subscription.ready()) {
-      const feed = Contracts.find(parameters.find, parameters.options);
-      instance.feed.set(_sanitize(feed.fetch()));
+      const feed = Contracts.find(parameters.find, parameters.options).fetch();
+      if (!instance.feed.get() || instance.feed.get().length !== feed.length) {
+        instance.feed.set(_sanitize(feed));
+      }
       instance.refresh.set(false);
     }
 

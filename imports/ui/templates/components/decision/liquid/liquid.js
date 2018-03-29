@@ -16,23 +16,6 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 import '/imports/ui/templates/components/decision/liquid/liquid.html';
 import '/imports/ui/templates/components/decision/action/action.js';
 
-const _animateLiquidBar = (fork) => {
-  const execution = $(`#execution-${fork.voteId}`);
-  if (execution) {
-    // display liquid bar
-    if (execution.length > 0 && execution.height() === 0) {
-      if (fork.tick || Template.instance().election.get().alternative) {
-        $(execution).velocity({ height: `${115}px` });
-      }
-    }
-
-    // hide liquid bar
-    if ((execution.length > 0 && execution.height() !== 0) && !Template.instance().election.get().alternative) {
-      $(execution).velocity({ height: `${0}px` });
-    }
-  }
-};
-
 /**
 * @summary converts a percentage value to pixels for current liquid bar
 * @param {number} percentage percentage value to be converted
@@ -154,6 +137,8 @@ const _setupDrag = () => {
         };
 
         Meteor.clearTimeout(this.timer);
+
+        console.log(Contracts.findOne({ _id: this.newVote.targetId }));
 
         if (voteFailure(this.newVote)) {
           cancel();
@@ -397,9 +382,6 @@ Template.capital.helpers({
           if ((placed === 0 || percentagePlaced === 0) && Session.get(this._id).voteType !== 'BALANCE') {
             label = `<strong>${TAPi18n.__('none')}</strong>  ${TAPi18n.__('placed-votes')}`;
           } else if (Session.get(this._id).voteType === 'BALANCE') {
-            console.log('heh?');
-            console.log(this._id);
-            console.log(parseInt(getPercentage(Session.get(this._id).placed, this._id), 10).toLocaleString());
             label = `<strong>${parseInt(getPercentage(Session.get(this._id).placed, this._id), 10).toLocaleString()}%</strong>  ${TAPi18n.__('placed')}`;
           } else if (percentagePlaced < 1 && percentagePlaced > 0) {
             label = `<strong>${TAPi18n.__('less-than-one')}</strong>  ${TAPi18n.__('placed-votes')}`;
