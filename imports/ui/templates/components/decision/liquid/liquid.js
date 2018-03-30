@@ -106,9 +106,6 @@ const _setupDrag = () => {
         this.calibrateCurrentPos = 0;
         this.newVote = new Vote(Session.get(voteId), Session.get(voteId).targetId, voteId);
         Session.set(voteId, this.newVote);
-        if (Session.get(voteId) !== undefined) {
-          $(`#voteSlider-${voteId}`).velocity('stop');
-        }
         if (getBallot(this.newVote.targetId).length === 0 && this.newVote.voteType === 'VOTE') {
           if (this.newVote.inBallot > 0) {
             candidateBallot(Meteor.userId(), this.newVote.targetId);
@@ -199,7 +196,8 @@ Template.liquid.helpers({
     return Template.instance().rightToVote.get();
   },
   minimumReached() {
-    return (Session.get(this._id).allocateQuantity <= Session.get(this._id).minVotes);
+    console.log(Session.get(this._id));
+    return ((Session.get(this._id).allocateQuantity <= Session.get(this._id).minVotes) && Session.get(this._id).inBallot > 0);
   },
   confirmationRequired() {
     if (Template.instance().contract.get().kind === 'DELEGATION') {
