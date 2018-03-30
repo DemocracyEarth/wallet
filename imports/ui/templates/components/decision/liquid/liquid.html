@@ -6,6 +6,11 @@
         {{#unless hideBar}}
           {{> bar _id=_id editable=editable}}
         {{/unless}}
+        {{#if isDelegation}}
+          {{#if minimumReached}}
+            {{> warning label="minimum-delegation-revoke"}}
+          {{/if}}
+        {{/if}}
       </div>
     {{else}}
       <div class="w-clearfix rosca rosca-setter">
@@ -41,7 +46,6 @@
         </div>
         <div class="stage {{style 'available'}}">
           <div class='label label-corner'>
-            <!--<a href="{{getURL 'placed'}}"></a>-->
             {{{getVotes 'available'}}}
           </div>
         </div>

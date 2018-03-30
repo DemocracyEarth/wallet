@@ -476,5 +476,6 @@
   "member": "Member",
   "get-election-votes": "Tallying votes...",
   "get-delegation-votes": "Getting delegation status...",
-  "no-delegated-votes": "No delegations"
+  "no-delegated-votes": "No delegations",
+  "minimum-delegation-revoke": "Delegated votes are currently in use."
 }

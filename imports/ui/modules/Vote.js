@@ -153,7 +153,7 @@ export class Vote {
             delegate = Meteor.users.findOne({ _id: this.delegationContract.signatures[0]._id });
           }
           if (delegate) {
-            this.minVotes = parseInt((this.inBallot - delegate.profile.wallet.available), 10);
+            this.minVotes = parseInt((this.inBallot - delegate.profile.wallet.available) - 1, 10);
           }
           if (this.minVotes < 0) { this.minVotes = 0; }
         }

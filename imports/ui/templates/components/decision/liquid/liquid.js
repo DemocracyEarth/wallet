@@ -200,6 +200,11 @@ Template.liquid.helpers({
   rightToVote() {
     return Template.instance().rightToVote.get();
   },
+  minimumReached() {
+    // console.log(Session.get(this._id).minVotes);
+    console.log(Session.get(this._id).allocateQuantity);
+    return (Session.get(this._id).allocateQuantity <= Session.get(this._id).minVotes);
+  },
   confirmationRequired() {
     if (Template.instance().contract.get().kind === 'DELEGATION') {
       const signatures = Template.instance().contract.get().signatures;
