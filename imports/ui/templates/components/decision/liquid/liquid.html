@@ -8,7 +8,9 @@
         {{/unless}}
         {{#if isDelegation}}
           {{#if minimumReached}}
-            {{> warning label="minimum-delegation-revoke"}}
+            <div class="float-left extra">
+              {{> warning label="minimum-delegation-revoke"}}
+            </div>
           {{/if}}
         {{/if}}
       </div>

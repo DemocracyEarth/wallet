@@ -183,8 +183,6 @@ Template.liquid.onRendered(function () {
   if (!Meteor.Device.isPhone()) {
     $(`#voteBar-${this.data._id}`).resize(function () {
       const voteId = this.id.replace('voteBar-', '');
-      /*$(`#voteSlider-${voteId}`).width(getBarWidth(Session.get(voteId).inBallot, voteId, true));
-      $(`#votePlaced-${voteId}`).width(agreement(voteId, true));*/
       this.newVote = new Vote(Session.get(voteId), Session.get(voteId).targetId, voteId);
       this.newVote.resetSlider();
       Session.set(voteId, this.newVote);
@@ -201,8 +199,6 @@ Template.liquid.helpers({
     return Template.instance().rightToVote.get();
   },
   minimumReached() {
-    // console.log(Session.get(this._id).minVotes);
-    console.log(Session.get(this._id).allocateQuantity);
     return (Session.get(this._id).allocateQuantity <= Session.get(this._id).minVotes);
   },
   confirmationRequired() {
