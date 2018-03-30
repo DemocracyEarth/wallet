@@ -392,7 +392,6 @@ Template.capital.helpers({
     return label;
   },
   style(value) {
-    let percentagePlaced;
     const inBallot = Session.get(this._id).inBallot;
     switch (value) {
       case 'available': {
@@ -435,7 +434,6 @@ Template.capital.helpers({
         return 'hide';
       }
       case 'placed':
-        percentagePlaced = getPercentage(parseInt(Session.get(this._id).placed - inBallot, 10), this._id);
         if (Session.get(this._id).voteType === 'BALANCE') {
           return 'stage-placed';
         }

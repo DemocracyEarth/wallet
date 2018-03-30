@@ -68,15 +68,6 @@ const _insertVoteList = (wallet, id) => {
 */
 const _defaultDelegationSettings = () => {
   return defaultSettings.delegations;
-  /* return {
-    condition: {
-      transferable: true,
-      portable: true,
-      tags: [],
-    },
-    currency: 'VOTES',
-    kind: 'DELEGATION',
-  };*/
 };
 
 /**
@@ -155,23 +146,16 @@ export class Vote {
           // delegation context
           this.inBallot = getVotes(this.delegationContract._id, this.userId);
           this.delegated = getVotes(this.delegationContract._id, this.targetId);
-          if (Meteor.users.findOne({ _id: this.targetId })) {
-            this.minVotes = parseInt((this.inBallot - Meteor.users.findOne({ _id: this.targetId }).profile.wallet.available) - 1, 10);
+          let delegate;
+          if (this.delegationContract.signatures[0]._id === Meteor.userId()) {
+            delegate = Meteor.users.findOne({ _id: this.delegationContract.signatures[1]._id });
+          } else {
+            delegate = Meteor.users.findOne({ _id: this.delegationContract.signatures[0]._id });
+          }
+          if (delegate) {
+            this.minVotes = parseInt((this.inBallot - delegate.profile.wallet.available), 10);
           }
           if (this.minVotes < 0) { this.minVotes = 0; }
-        } else {
-          /*
-          const settings = _defaultDelegationSettings();
-          settings.title = `${convertToSlug(Meteor.users.findOne({ _id: this.userId }).username)}-${convertToSlug(Meteor.users.findOne({ _id: this.targetId }).username)}`;
-          settings.signatures = [{ username: Meteor.users.findOne({ _id: this.userId }).username }, { username: Meteor.users.findOne({ _id: this.targetId }).username }];
-          if (this.arrow === 'OUTPUT') {
-            this.delegationContract = createDelegation(this.userId, this.targetId, settings);
-          } else {
-            this.delegationContract = createDelegation(this.targetId, this.userId, settings);
-          }
-          this.inBallot = 0;
-          */
-          console.log('trying to create delegation from client... ');
         }
         this.balance = parseInt(this.inBallot + this.available + this.delegated, 10);
         this.placed = this.inBallot;
