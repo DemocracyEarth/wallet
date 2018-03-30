@@ -196,7 +196,9 @@ Template.liquid.helpers({
     return Template.instance().rightToVote.get();
   },
   minimumReached() {
-    return ((Session.get(this._id).allocateQuantity <= Session.get(this._id).minVotes) && Session.get(this._id).inBallot > 0);
+    return ((Session.get(this._id).allocateQuantity <= Session.get(this._id).minVotes)
+      && Session.get(this._id).inBallot > 0
+      && Session.get(this._id).allocateQuantity !== 0);
   },
   confirmationRequired() {
     if (Template.instance().contract.get().kind === 'DELEGATION') {

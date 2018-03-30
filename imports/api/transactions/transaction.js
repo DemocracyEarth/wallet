@@ -434,7 +434,6 @@ const _processedTx = (transactionId) => {
 * @param {object} transaction the transaction to find in the cache
 * @param {boolean} foreign the transaction comes from user in another session
 */
-
 const _updateWalletCache = (transaction, foreign) => {
   let counterPartyId;
   let delta;
@@ -507,6 +506,42 @@ const _updateWalletCache = (transaction, foreign) => {
           cacheItem.placedPercentage = ((cacheItem.placed * 100) / cacheItem.balance);
         }
         Session.set(list[item], cacheItem);
+      }
+    }
+  }
+};
+
+/**
+* @summary updates the cache of a foreign user balance with information from user collection
+* @param {string} sessionId the transaction to find in the cache
+* @param {string} userId the user being updated
+* @param {object} wallet the wallet info to be used
+*/
+const _updateUserCache = (sessionId, userId, wallet) => {
+  let delegation;
+  const cacheWallet = Session.get(sessionId);
+  const list = Session.get('voteList');
+
+  if (cacheWallet) {
+    if (cacheWallet.available !== wallet.available) {
+      cacheWallet.available = wallet.available;
+      cacheWallet.balance = wallet.balance;
+      cacheWallet.placed = wallet.placed;
+      Session.set(sessionId, cacheWallet);
+
+      // check for delegations balances in cache
+      for (const item in list) {
+        delegation = Session.get(list[item]);
+        if (delegation.delegationContract) {
+          if (delegation.delegationContract.signatures[0]._id === userId ||
+            delegation.delegationContract.signatures[1]._id === userId) {
+            delegation.minVotes = parseInt((delegation.inBallot - wallet.available) - 1, 10);
+            delegation.balance = wallet.balance;
+            delegation.placedPercentage = ((delegation.placed * 100) / delegation.balance);
+            Session.set(list[item], delegation);
+            break;
+          }
+        }
       }
     }
   }
@@ -608,6 +643,7 @@ const _genesisTransaction = (userId) => {
 };
 
 export const processedTx = _processedTx;
+export const updateUserCache = _updateUserCache;
 export const updateWalletCache = _updateWalletCache;
 export const processTransaction = _processTransaction;
 export const generateWalletAddress = _generateWalletAddress;

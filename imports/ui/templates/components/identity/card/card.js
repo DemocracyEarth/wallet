@@ -1,9 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { Session } from 'meteor/session';
 
 import { ReactiveVar } from 'meteor/reactive-var';
 import { getDelegationContract } from '/imports/startup/both/modules/Contract';
+import { updateUserCache } from '/imports/api/transactions/transaction';
 
 import '/imports/ui/templates/components/identity/card/card.html';
 import '/imports/ui/templates/components/identity/avatar/avatar.js';
@@ -67,16 +67,8 @@ Template.card.helpers({
       id = 'vote-user-balance';
     } else {
       id = `vote-user-balance-${userId}`;
-      const cacheWallet = Session.get(id);
-      if (cacheWallet) {
-        console.log(Session.get(id));
-        console.log(userWallet);
-        if (cacheWallet.available !== userWallet.available) {
-          cacheWallet.available = userWallet.available;
-          cacheWallet.balance = userWallet.balance;
-          cacheWallet.placed = userWallet.placed;
-          Session.set(id, cacheWallet);
-        }
+      if (userWallet) {
+        updateUserCache(id, userId, userWallet);
       }
     }
     return {
