@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
 
 import { ReactiveVar } from 'meteor/reactive-var';
 import { getDelegationContract } from '/imports/startup/both/modules/Contract';
@@ -61,15 +62,27 @@ Template.card.helpers({
   profile() {
     let id;
     const userId = this.toString();
+    const userWallet = Meteor.users.findOne({ _id: userId }).profile.wallet;
     if (userId === Meteor.userId()) {
       id = 'vote-user-balance';
     } else {
       id = `vote-user-balance-${userId}`;
+      const cacheWallet = Session.get(id);
+      if (cacheWallet) {
+        console.log(Session.get(id));
+        console.log(userWallet);
+        if (cacheWallet.available !== userWallet.available) {
+          cacheWallet.available = userWallet.available;
+          cacheWallet.balance = userWallet.balance;
+          cacheWallet.placed = userWallet.placed;
+          Session.set(id, cacheWallet);
+        }
+      }
     }
     return {
       balanceId: id,
       targetId: userId,
-      wallet: Meteor.users.findOne({ _id: userId }).profile.wallet,
+      wallet: userWallet,
     };
   },
   spinnerId() {

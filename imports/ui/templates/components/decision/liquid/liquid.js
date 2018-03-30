@@ -196,7 +196,6 @@ Template.liquid.helpers({
     return Template.instance().rightToVote.get();
   },
   minimumReached() {
-    console.log(Session.get(this._id));
     return ((Session.get(this._id).allocateQuantity <= Session.get(this._id).minVotes) && Session.get(this._id).inBallot > 0);
   },
   confirmationRequired() {

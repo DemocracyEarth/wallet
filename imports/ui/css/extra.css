@@ -80,5 +80,5 @@ body {
 }
 
 .vote {
-  /* will-change: transform; */
+  will-change: transform;
 }
