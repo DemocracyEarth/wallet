@@ -20,6 +20,8 @@ let lastScrollTop = 0;
 let scrollDown = false;
 
 function hideBar() {
+  $('.navbar').css('position', 'fixed');
+  /*
   if (Meteor.Device.isPhone()) {
     $('.right').scroll(() => {
       const node = $('.navbar');
@@ -56,7 +58,7 @@ function hideBar() {
     });
   } else {
     $('.navbar').css('position', 'fixed');
-  }
+  }*/
 }
 
 /**
