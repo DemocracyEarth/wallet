@@ -1357,7 +1357,7 @@ blockquote {
   height: 28px;
   margin-top: 10px;
   margin-bottom: 10px;
-  background-color: transparent;
+  background-color: #fff;
   cursor: default;
 }
 
@@ -6225,9 +6225,6 @@ blockquote {
   }
   .option-title.option-link.option-search {
     font-size: 22px;
-  }
-  .option-title.option-title-mini {
-    margin-top: 4px;
   }
   .checkbox.checkbox-custom {
     width: 100%;

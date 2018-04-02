@@ -135,11 +135,12 @@ Template.fork.helpers({
       if (Session.get('showModal') && election.tick && election.onLedger && Session.get('displayModal').contract._id === this.contract._id) {
         this.tick = !election.tick;
       }
+    }
+    return this.tick;
+      /*
       // show tick
       if (Template.instance().candidateBallot.get() || (this.tick)) {
-        if (this.tick) {
-          return 'tick-active';
-        }
+        return this.tick;
       // if user already voted
       } else if (this.rightToVote === false && this.contract.stage !== 'DRAFT') {
         if (this.tick) {
@@ -147,7 +148,7 @@ Template.fork.helpers({
         }
       }
     }
-    return '';
+    return false;*/
   },
   style(className) {
     let final = className;
