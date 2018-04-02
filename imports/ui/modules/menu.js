@@ -445,6 +445,7 @@ const animateMenu = (disableAnimation) => {
         $('.split-left').velocity({ width: '100%' }, animationSettings);
       }
     } else {
+      $('.inhibitor').css('display', 'none');
       $('.navbar').css('position', 'fixed');
       $('.navbar').css('top', '0px');
       $('#menu').css({ marginLeft: parseInt(0 - sidebarPixelWidth, 10) });
