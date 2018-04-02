@@ -50,6 +50,7 @@ email@1.2.3
 es5-shim@4.7.3
 facebook-config-ui@1.0.1
 facebook-oauth@1.4.0
+flowkey:raven@1.1.0
 geojson-utils@1.0.10
 hot-code-push@1.0.4
 houston:admin@2.0.7

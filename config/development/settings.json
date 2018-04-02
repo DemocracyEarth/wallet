@@ -31,13 +31,17 @@
         "AWSAcl": "public-read"
       }
 
-    }
+    },
+
+    "sentryPrivateDSN": ""
 
   },
 
   "public": {
 
     "AWSHostingURL": "",
+
+    "sentryPublicDSN": "",
 
     "app": {
 
