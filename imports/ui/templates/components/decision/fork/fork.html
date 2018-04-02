@@ -3,16 +3,14 @@
     <li id="fork-{{voteId}}-{{_id}}" class="{{style 'vote'}} {{checkbox mode}}">
       <div class="w-clearfix checkbox {{resultBar}}" style="{{showResult}}">
         <div id="ballotCheckbox" class="{{style 'option'}} {{tickStyle}}">
-          <div id="tickbox" class="tick {{tickStyle}}">
-            <img src="{{pathFor route='home'}}images/white-tick-thin.png" class="{{style 'tick-image'}} hover {{tickStatus}}">
-          </div>
+          <div id="tickbox" class="tick {{tickStatus}}"></div>
         </div>
         <div class="w-clearfix checkbox">
-          <div class="{{style 'option-title'}} {{decision mode}}"> <!-- style="{{highlight 'checkbox'}}">-->
+          <div class="{{style 'option-title'}} {{decision mode}}">
             {{_ mode}}
           </div>
           {{#if displayResult}}
-            <div class="result-total {{checkbox mode}}"> <!--style="{{highlight 'result-total'}}">-->
+            <div class="result-total {{checkbox mode}}">
               {{{total}}}
             </div>
           {{/if}}

@@ -1499,8 +1499,11 @@ blockquote {
 
 .tick {
   display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin: 4px;
   border-radius: 100px;
-  background-color: #6e5b7e;
+  background-color: #fff;
 }
 
 .tick.unathorized {
@@ -1517,6 +1520,14 @@ blockquote {
 
 .tick.tick-mini {
   background-color: transparent;
+}
+
+.tick.tick-active {
+  background-color: #6c5b7c;
+}
+
+.tick.tick-disabled {
+  background-color: #dfdfdf;
 }
 
 .tick-image {

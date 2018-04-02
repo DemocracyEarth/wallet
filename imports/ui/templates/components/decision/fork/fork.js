@@ -138,9 +138,6 @@ Template.fork.helpers({
       // show tick
       if (Template.instance().candidateBallot.get() || (this.tick)) {
         if (this.tick) {
-          if (this.mode === 'REJECT') {
-            return 'tick-active-unauthorized';
-          }
           return 'tick-active';
         }
       // if user already voted
