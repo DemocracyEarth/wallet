@@ -3,7 +3,9 @@
     <li id="fork-{{voteId}}-{{_id}}" class="{{style 'vote'}} {{checkbox mode}}">
       <div class="w-clearfix checkbox {{resultBar}}" style="{{showResult}}">
         <div id="ballotCheckbox" class="{{style 'option'}} {{tickStyle}}">
-          <div id="tickbox" class="tick {{tickStatus}}"></div>
+          <div id="tickbox" class="tick {{tickStatus}}">
+            <div class="checkmark_kick"></div><div class="checkmark_stem"></div>
+          </div>
         </div>
         <div class="w-clearfix checkbox">
           <div class="{{style 'option-title'}} {{decision mode}}">
