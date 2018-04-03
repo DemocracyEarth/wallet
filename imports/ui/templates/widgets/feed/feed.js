@@ -26,11 +26,11 @@ Template.feed.onCreated(function () {
   Template.instance().count = new ReactiveVar(0);
   Template.instance().feed = new ReactiveVar();
   Template.instance().refresh = new ReactiveVar(false);
+  Template.currentData().singlePost = new ReactiveVar(false);
 });
 
 Template.feed.onRendered(function () {
   const instance = this;
-
   instance.autorun(function (computation) {
     const subscription = instance.subscribe('feed', Template.currentData().options);
     const count = instance.subscribe('feedCount', Template.currentData().options);
@@ -40,6 +40,11 @@ Template.feed.onRendered(function () {
     const beginning = ((Template.currentData().options.skip === 0) && !instance.feed.get());
     if (beginning) { $('.right').scrollTop(0); }
     instance.refresh.set(beginning);
+
+    console.log(instance);
+    instance.data.singlePost = (instance.data.options.view === 'post');
+    console.log(instance.data.singlePost);
+
 
     // total items on the feed
     if (count.ready()) {
@@ -78,6 +83,9 @@ Template.feed.helpers({
   },
   beginning() {
     return (Template.currentData().options.skip === 0);
+  },
+  single() {
+    return Template.currentData().singlePost;
   },
   emptyContent() {
     return Session.get('emptyContent');

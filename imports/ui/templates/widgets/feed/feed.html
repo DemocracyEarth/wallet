@@ -10,7 +10,11 @@
       {{else}}
         {{> feedEmpty emptyContent}}
       {{/each}}
-      {{> paginator options=options count=count}}
+      {{#unless single}}
+        {{> paginator options=options count=count}}
+      {{else}}
+        hola
+      {{/unless}}
     {{/if}}
   {{else}}
     {{#if beginning}}
