@@ -46,7 +46,7 @@
               <div class="data data-feed">
                 {{#if electionData}}
                   <img class="url-icon" src="{{pathFor route='home'}}images/vote-icon-black.png">
-                  <div class="verifier verifier-live verifier-feed">{{voters}}</div>
+                  <a href="{{url}}#votes" class="verifier verifier-live verifier-feed">{{voters}}</a>
                 {{else}}
                   <div class="verifier verifier-live verifier-feed">
                     <div class="option-placeholder short"></div>

@@ -2263,6 +2263,16 @@ blockquote {
   display: inline-block;
 }
 
+.verifier.verifier-live.verifier-feed {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.verifier.verifier-live.verifier-feed:hover {
+  border-style: none;
+  text-decoration: underline;
+}
+
 .available {
   margin-right: 2px;
   margin-left: 2px;
