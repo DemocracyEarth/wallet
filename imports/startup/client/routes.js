@@ -55,6 +55,23 @@ Router.route('/peer/:username', {
 });
 
 /**
+* @summary loads a post
+**/
+Router.route('/vote/:keyword', {
+  name: 'post',
+  template: 'home',
+  onBeforeAction() {
+    this.next();
+  },
+  data() {
+    return {
+      options: { view: 'post', sort: { createdAt: -1 }, keyword: this.params.keyword },
+    };
+  },
+});
+
+
+/**
 * @summary loads a tag feed
 **/
 Router.route('/tag/:hashtag', {
