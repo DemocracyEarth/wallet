@@ -2273,6 +2273,14 @@ blockquote {
   text-decoration: underline;
 }
 
+.verifier.verifier-live.verifier-feed.no-link {
+  cursor: default;
+}
+
+.verifier.verifier-live.verifier-feed.no-link:hover {
+  text-decoration: none;
+}
+
 .available {
   margin-right: 2px;
   margin-left: 2px;

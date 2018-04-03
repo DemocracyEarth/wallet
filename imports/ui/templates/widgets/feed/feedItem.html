@@ -46,9 +46,11 @@
               <div class="data data-feed">
                 {{#if electionData}}
                   <img class="url-icon" src="{{pathFor route='home'}}images/vote-icon-black.png">
-                  <a href="{{url}}#votes" class="verifier verifier-live verifier-feed">{{voters}}</a>
+                  <a href="{{url}}#votes" class="verifier verifier-live verifier-feed">
+                    {{voters}}
+                  </a>
                 {{else}}
-                  <div class="verifier verifier-live verifier-feed">
+                  <div class="verifier verifier-live verifier-feed no-link">
                     <div class="option-placeholder short"></div>
                   </div>
                 {{/if}}
@@ -57,9 +59,9 @@
           </div>
           <div class="w-inline-block w-clearfix option-proposal">
             <div class="option-title option-link option-search title-input">
-               <div class="title-input title-feed">
+               <a href="{{url}}" class="title-input title-feed">
                 {{{title}}}
-              </div>
+              </a>
             </div>
           </div>
           {{#if ballotEnabled}}
