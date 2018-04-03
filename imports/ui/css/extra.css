@@ -123,3 +123,7 @@ body {
   margin-bottom: 0px;
   margin-left: 2px;
 }
+
+html {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
