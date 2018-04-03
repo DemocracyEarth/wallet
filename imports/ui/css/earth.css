@@ -3584,6 +3584,13 @@ blockquote {
 .title-input.title-feed {
   margin-top: 20px;
   margin-bottom: 20px;
+  border-style: none;
+  color: #4b4b4b;
+}
+
+.title-input.title-feed:hover {
+  border-style: none;
+  color: #000;
 }
 
 .paper-header {
