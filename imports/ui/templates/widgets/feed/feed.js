@@ -17,15 +17,17 @@ import '/imports/ui/templates/widgets/feed/feedLoad.js';
 /**
 * @summary remove delegations without votes left
 * @param {object} feed the query from db
-*/
+
+NOTE: remove this
 const _sanitize = (feed) => {
   return _.filter(feed, (value) => { return ((value.kind === 'DELEGATION' && value.wallet.available > 0) || (value.kind !== 'DELEGATION')); });
 };
+*/
 
 Template.feed.onCreated(function () {
   Template.instance().count = new ReactiveVar(0);
   Template.instance().feed = new ReactiveVar();
-  Template.instance().refresh = new ReactiveVar(false);
+  Template.currentData().refresh = false;
   Template.currentData().singlePost = false;
 });
 
@@ -39,7 +41,7 @@ Template.feed.onRendered(function () {
     // verify if beginning
     const beginning = ((Template.currentData().options.skip === 0) && !instance.feed.get());
     if (beginning) { $('.right').scrollTop(0); }
-    instance.refresh.set(beginning);
+    instance.data.refresh = beginning;
     instance.data.singlePost = (instance.data.options.view === 'post');
 
     // total items on the feed
@@ -51,9 +53,10 @@ Template.feed.onRendered(function () {
     if (subscription.ready()) {
       const feed = Contracts.find(parameters.find, parameters.options).fetch();
       if (!instance.feed.get() || instance.feed.get().length !== feed.length) {
-        instance.feed.set(_sanitize(feed));
+        instance.feed.set(feed);
       }
-      instance.refresh.set(false);
+      instance.data.refresh = false;
+      //computation.stop();
     }
 
     if (Meteor.user()) {
@@ -75,7 +78,7 @@ Template.feed.helpers({
     return Template.instance().feed.get();
   },
   refresh() {
-    return Template.instance().refresh.get();
+    return Template.currentData().refresh;
   },
   beginning() {
     return (Template.currentData().options.skip === 0);

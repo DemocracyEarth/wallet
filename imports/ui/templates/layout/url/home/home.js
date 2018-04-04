@@ -1,22 +1,10 @@
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 
-import './home.html';
-import '../../../widgets/feed/feed.js';
-import '../../../widgets/feed/paginator.js';
-import '../../../widgets/compose/compose.js';
-
-/**
-NOTE: deprecated since touchmenu is no longer in use.
-Template.home.helpers({
-  mobileStyle() {
-    if (Meteor.Device.isPhone()) {
-      return 'margin-bottom: 56px;';
-    }
-    return '';
-  },
-});
-*/
+import '/imports/ui/templates/layout/url/home/home.html';
+import '/imports/ui/templates/widgets/feed/feed.js';
+import '/imports/ui/templates/widgets/feed/paginator.js';
+import '/imports/ui/templates/widgets/compose/compose.js';
 
 Template.home.onRendered(() => {
   Session.set('editorMode', false);
@@ -33,6 +21,7 @@ Template.home.helpers({
     return undefined;
   },
   listVotes() {
+    console.log(this);
     return (this.options.view === 'post');
   },
 });
