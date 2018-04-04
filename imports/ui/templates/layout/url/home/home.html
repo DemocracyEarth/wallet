@@ -11,5 +11,11 @@
 
   </div>
 
+  {{#if listVotes}}
+    <div class="subfeed-title">
+      <h3>{{_ 'votes'}}</h3>
+    </div>
+  {{/if}}
+
   {{> compose}}
 </template>

@@ -4257,6 +4257,7 @@ blockquote {
 
 .content {
   display: inline-block;
+  min-width: 100%;
   margin-right: auto;
   margin-left: auto;
   padding: 60px 15px 15px;
@@ -5429,8 +5430,8 @@ blockquote {
   margin: 0px 5px 0px 0px;
   float: left;
   border-radius: 3px;
-  font-size: 9px;
-  line-height: 25px;
+  font-size: 11px;
+  line-height: 24px;
 }
 
 .sidebar-label {

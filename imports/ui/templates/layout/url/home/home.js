@@ -32,4 +32,7 @@ Template.home.helpers({
     }
     return undefined;
   },
+  listVotes() {
+    return (this.options.view === 'post');
+  },
 });
