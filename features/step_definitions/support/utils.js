@@ -59,7 +59,7 @@ export const getServer = () => {
 export const getBrowser = () => {
   if ( ! browser) fail('Browser is unavailable, for some reason.');
 
-  if (browser.getUrl() == 'data:,') {
+  if (browser.getUrl() === 'data:,') {
     console.warn("Browser has no URL. See hooks.js that should prevent this.");
     browser.url(getBaseUrl()); // make sure Meteor and consorts are defined
   }
@@ -128,7 +128,7 @@ const _hasContext = () => { return typeof context !== 'undefined'; }; // long ve
  * @returns User
  */
 export const getUser = (name) => {
-  if (name == 'I' && _hasContext() && context.I) { name = context.I; }
+  if (name === 'I' && _hasContext() && context.I) { name = context.I; }
   return models.users.findOneByName(name);
 };
 
@@ -161,11 +161,11 @@ export const getIdeaByTitle = (title) => {
  * @param {string} classes - One class (eg: 'editable') or the intersection of multiple classes (eg: 'alert button').
  */
 export const hasClass = (element, classes) => {
-  const unique = (e, i, self) => { return i == self.indexOf(e); };
+  const unique = (e, i, self) => { return i === self.indexOf(e); };
   const requiredClasses = classes.split(' ').filter(unique);
   const existingClasses = element.getAttribute('class').split(' ').filter(unique);
 
-  return existingClasses.concat(requiredClasses).filter(unique).length == existingClasses.length;
+  return existingClasses.concat(requiredClasses).filter(unique).length === existingClasses.length;
 };
 
 
@@ -226,7 +226,7 @@ export const findDomElements = (query) => {
   }
   const elements = getBrowser().elements(query).value;
   // Not 100% sure this is always false because of waitForExist. Best leave it, it's cheap.
-  if (elements.length == 0) { fail(`No DOM element matching '${query}'.`); }
+  if (elements.length === 0) { fail(`No DOM element matching '${query}'.`); }
 
   return elements;
 };
@@ -338,7 +338,7 @@ export const getMissing = (needles, haystack) => {
       v = getMissing(needles[i], haystack[i]);
       if (v !== null) { missing.push(v); }
     }
-    if (0 == missing.length) { missing = null; }
+    if (0 === missing.length) { missing = null; }
   } else if (needles instanceof Object) {
     if ( ! (haystack instanceof Object)) { return needles; }
     missing = {}; empty = true;
@@ -364,7 +364,7 @@ export const getMissing = (needles, haystack) => {
 const _indent_console_output = (args) => INDENT + args.map(e => stringify(e)).join(' ').replace(/\n/g, '\n' + INDENT);
 
 /**
- * Stringify the provided thing in the fashion of console.log
+ * Stringify the provided thing in the fashion of `console.log`.
  *
  * @tests
  *     stringify('babylon') == 'babylon'
