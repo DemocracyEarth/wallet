@@ -1,4 +1,4 @@
-Feature: Solving issues
+Feature: Exposing issues
   In order to share how to reproduce an issue
   As a bug reporter
   I want to be able to describe that issue using failing scenarios

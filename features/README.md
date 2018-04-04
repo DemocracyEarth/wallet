@@ -51,6 +51,7 @@ Then, _in another shell,_ run :
 
     $ chimp --chai --ddp=http://localhost:3000
 
+If `chimp` is not found, try `./node_modules/.bin/chimp` instead.
 
 **If you are sensitive to epilepsy, you should take the necessary precautions.**
 

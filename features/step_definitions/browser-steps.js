@@ -74,7 +74,7 @@ export default function () {
     if (typeof expectedCount === 'undefined') { expectedCount = 1; } else { expectedCount = castNum(expectedCount); }
     const pageText = getBrowser().getText('body');
     const actualCount = (pageText.match(new RegExp(require('escape-string-regexp')(text), "g")) || []).length;
-    if (actualCount != expectedCount) {
+    if (actualCount !== expectedCount) {
       log("PAGE CONTENTS","-------------",pageText);  // multi-line Error|fail messages are wrongly colored, so we log
       fail(`Failed to find the text "${text}" in the source.`);
     }
@@ -83,7 +83,7 @@ export default function () {
   this.Then(/^I should see "(.+)" in the feed$/, (text) => {
     const feed = widgets.feed.getItems(text);
 
-    if (0 == feed.length) { fail(`Could not find the text "${text}" in the feed.`); }
+    if (0 === feed.length) { fail(`Could not find the text "${text}" in the feed.`); }
   });
 
   this.Then(/^I (?:click on|select) "(.+)" in the feed$/, (text) => {
@@ -99,11 +99,11 @@ export default function () {
     const query = "#ballotOption #tickbox";  // T_T ; (it actually works and returns 2 elements)
     const ballots = findDomElements(query);
 
-    if (0 == ballots.length) { fail(`Could not find a ballot option to click on.`); }
+    if (0 === ballots.length) { fail(`Could not find a ballot option to click on.`); }
     if (3 <= ballots.length) { fail(`Ambiguous ballot click : too many (${ballots.length}) tickboxes found.`); }
 
-    if      (yesno == 'Yes') { ballots[0].click(); }
-    else if (yesno == 'No')  { ballots[1].click(); }
+    if      (yesno === 'Yes') { ballots[0].click(); }
+    else if (yesno === 'No')  { ballots[1].click(); }
   });
 
   this.Then(/^I commit all my votes to the idea$/, () => {
