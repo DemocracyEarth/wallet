@@ -610,8 +610,10 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     if (callback !== undefined) { callback(); }
 
     const newTx = Transactions.findOne({ _id: txId });
-    _processedTx(newTx._id);
-    _updateWalletCache(newTx, false);
+    if (Meteor.isClient) {
+      _processedTx(newTx._id);
+      _updateWalletCache(newTx, false);
+    }
 
     return txId;
   }
