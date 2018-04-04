@@ -40,11 +40,7 @@ Template.feed.onRendered(function () {
     const beginning = ((Template.currentData().options.skip === 0) && !instance.feed.get());
     if (beginning) { $('.right').scrollTop(0); }
     instance.refresh.set(beginning);
-
-    console.log(instance);
     instance.data.singlePost = (instance.data.options.view === 'post');
-    console.log(instance.data.singlePost);
-
 
     // total items on the feed
     if (count.ready()) {

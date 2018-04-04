@@ -4256,7 +4256,7 @@ blockquote {
 }
 
 .content {
-  display: block;
+  display: inline-block;
   margin-right: auto;
   margin-left: auto;
   padding: 60px 15px 15px;
