@@ -21,7 +21,7 @@ and it should be done using a meteor command such as `test-features`.
 ## WARNING
 
 Running the feature suite will TRUNCATE THE DATABASE before each Scenario.
-You will lose everything on your development environment database.
+You WILL LOSE EVERYTHING on your development environment database.
 At the end of the test suite, the very last Scenario is not cleared,
 so we can use that to create a fixtures Scenario to bootstrap local development.
 

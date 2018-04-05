@@ -1,4 +1,4 @@
-import {fail, getServer, getUser, getIdeas, getIdea, castNum} from "./support/utils";
+import {fail, getServer, getUser, getIdeas, getIdea, getIdeasDrafts, castNum} from "./support/utils";
 
 
 export default function () {
@@ -34,6 +34,10 @@ export default function () {
 
   this.Then(/^there should be (.+) ideas? in the database$/, (cnt) => {
     expect(getIdeas()).to.have.lengthOf(castNum(cnt));
+  });
+
+  this.Then(/^there should be (.+) ideas? drafts? in the database$/, (cnt) => {
+    expect(getIdeasDrafts()).to.have.lengthOf(castNum(cnt));
   });
 
 };

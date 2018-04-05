@@ -146,6 +146,11 @@ export const getIdeas = (query) => {
 };
 
 
+export const getIdeasDrafts = (query) => {
+  return models.ideas.findDrafts(query);
+};
+
+
 export const getIdeaByTitle = (title) => {
   return models.ideas.findOneByTitle(title);
 };
