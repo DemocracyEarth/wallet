@@ -1,6 +1,15 @@
 <template name="home">
-  <div class="content content-feed">
+  {{#if isHome}}
+    {{> homeFeed this}}
+  {{else}}
+    {{#if isPost}}
+      {{> postFeed this}}
+    {{/if}}
+  {{/if}}
+</template>
 
+<template name="homeFeed">
+  <div class="content content-feed">
     {{#if editorMode}}
       {{> editor contractId=newContractId}}
     {{/if}}
@@ -8,15 +17,46 @@
     <div id="non-editable-feed">
       {{> feed this}}
     </div>
-
   </div>
 
-  {{#if listVotes}}
-    <div class="subfeed-title">
-      <a href="#votes"></a>
-      <h3>{{_ 'votes'}}</h3>
-    </div>
-  {{/if}}
-
   {{> compose}}
+</template>
+
+<template name="peerFeed">
+
+      <div class="content content-feed">
+
+        {{#if editorMode}}
+          {{> editor contractId=newContractId}}
+        {{/if}}
+
+        {{#with content}}
+          <div id="non-editable-feed">
+            {{> Template.dynamic template=this.template data=this.dataObject}}
+          </div>
+        {{/with}}
+
+      </div>
+
+      {{#if listVotes}}
+        <div class="subfeed-title">
+          <a href="#votes"></a>
+          <h3>{{_ 'votes'}}</h3>
+        </div>
+      {{/if}}
+
+      {{> compose}}
+</template>
+
+<template name="postFeed">
+  <div class="content content-feed">
+    <div id="non-editable-feed">
+      {{> feed this}}
+    </div>
+  </div>
+
+  <div class="subfeed-title">
+    <a href="#votes"></a>
+    <h3>{{_ 'votes'}}</h3>
+  </div>
 </template>

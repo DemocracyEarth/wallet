@@ -29,34 +29,52 @@ Template.feed.onCreated(function () {
   Template.instance().feed = new ReactiveVar();
   Template.currentData().refresh = false;
   Template.currentData().singlePost = false;
+
+  const instance = this;
+
+  console.log('STARTING ANEW');
+
+  instance.subscribe('feed', Template.currentData().options);
+  const parameters = query(Template.currentData().options);
+
+  // verify if beginning
+  const beginning = ((Template.currentData().options.skip === 0) && !instance.feed.get());
+  if (beginning) { $('.right').scrollTop(0); }
+  instance.data.refresh = beginning;
+  instance.data.singlePost = (instance.data.options.view === 'post');
+
+  const dbQuery = Contracts.find(parameters.find, parameters.options); // Uploads.find();
+  this.handle = dbQuery.observeChanges({
+    changed: (id, fields) => {
+      // changed stuff
+      console.log('changed query');
+      console.log(id);
+      console.log(fields);
+    },
+    addedBefore: (id, fields) => {
+      // added stuff
+      const currentFeed = instance.feed.get();
+      const post = fields;
+      post._id = id;
+      if (!currentFeed) {
+        instance.feed.set([post]);
+        instance.data.refresh = false;
+      } else {
+        currentFeed.push(post);
+        instance.feed.set(currentFeed);
+      }
+    },
+  });
 });
 
 Template.feed.onRendered(function () {
   const instance = this;
-  instance.autorun(function (computation) {
-    const subscription = instance.subscribe('feed', Template.currentData().options);
+  instance.autorun(function () {
     const count = instance.subscribe('feedCount', Template.currentData().options);
-    const parameters = query(Template.currentData().options);
-
-    // verify if beginning
-    const beginning = ((Template.currentData().options.skip === 0) && !instance.feed.get());
-    if (beginning) { $('.right').scrollTop(0); }
-    instance.data.refresh = beginning;
-    instance.data.singlePost = (instance.data.options.view === 'post');
 
     // total items on the feed
     if (count.ready()) {
       instance.count.set(Counts.get('feedItems'));
-    }
-
-    // feed content
-    if (subscription.ready()) {
-      const feed = Contracts.find(parameters.find, parameters.options).fetch();
-      if (!instance.feed.get() || instance.feed.get().length !== feed.length) {
-        instance.feed.set(feed);
-      }
-      instance.data.refresh = false;
-      //computation.stop();
     }
 
     if (Meteor.user()) {
@@ -71,6 +89,13 @@ Template.feed.onRendered(function () {
       }
     }
   });
+});
+
+Template.feed.onDestroyed(function () {
+  console.log(`killing ${this.handle}`);
+  console.log(this.handle);
+  this.handle.stop();
+  delete this.handle;
 });
 
 Template.feed.helpers({

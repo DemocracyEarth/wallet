@@ -20,8 +20,29 @@ Template.home.helpers({
     }
     return undefined;
   },
-  listVotes() {
-    console.log(this);
+  isPost() {
     return (this.options.view === 'post');
+  },
+  isHome() {
+    return (this.options.view !== 'post');
+  },
+  content() {
+    console.log(this);
+    return {
+      template: 'feed',
+      dataObject: this,
+    };
+  },
+});
+
+Template.homeFeed.helpers({
+  editorMode() {
+    return Session.get('showPostEditor');
+  },
+  newContractId() {
+    if (Session.get('draftContract')) {
+      return Session.get('draftContract')._id;
+    }
+    return undefined;
   },
 });
