@@ -43,7 +43,7 @@ Template.feed.onCreated(function () {
   instance.data.refresh = beginning;
   instance.data.singlePost = (instance.data.options.view === 'post');
 
-  const dbQuery = Contracts.find(parameters.find, parameters.options); // Uploads.find();
+  const dbQuery = Contracts.find(parameters.find, parameters.options);
   this.handle = dbQuery.observeChanges({
     changed: (id, fields) => {
       // changed stuff
@@ -61,7 +61,7 @@ Template.feed.onCreated(function () {
         instance.data.refresh = false;
       } else {
         currentFeed.push(post);
-        instance.feed.set(currentFeed);
+        instance.feed.set(_.uniq(currentFeed));
       }
     },
   });
