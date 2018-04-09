@@ -4,16 +4,17 @@ import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { $ } from 'meteor/jquery';
 import { Counts } from 'meteor/tmeasday:publish-counts';
+import { TAPi18n } from 'meteor/tap:i18n';
 
 import { query } from '/lib/views';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { createContract } from '/imports/startup/both/modules/Contract';
+import { displayNotice } from '/imports/ui/modules/notice';
 
 import '/imports/ui/templates/widgets/feed/feed.html';
 import '/imports/ui/templates/widgets/feed/feedItem.js';
 import '/imports/ui/templates/widgets/feed/feedEmpty.js';
 import '/imports/ui/templates/widgets/feed/feedLoad.js';
-
 
 /**
 * @summary if _here
@@ -21,7 +22,6 @@ import '/imports/ui/templates/widgets/feed/feedLoad.js';
 * @param {array} feed list
 * @return {boolean} 🙏
 */
-
 const _here = (post, feed) => {
   for (const items in feed) {
     if (feed[items]._id === post._id) {
@@ -50,6 +50,7 @@ Template.feed.onCreated(function () {
   const instance = this;
 
   console.log('STARTING ANEW');
+  console.log(Template.currentData().options);
 
   instance.subscribe('feed', Template.currentData().options);
   const parameters = query(Template.currentData().options);
@@ -62,11 +63,32 @@ Template.feed.onCreated(function () {
 
   const dbQuery = Contracts.find(parameters.find, parameters.options);
   this.handle = dbQuery.observeChanges({
-    changed: (id, fields) => {
+    changed: () => {
+      displayNotice(TAPi18n.__('notify-new-posts'), true);
       // changed stuff
-      console.log('changed query');
+     /* console.log('changed query');
       console.log(id);
+      console.log('changed');
+      console.log(instance.feed.get());
+
+/*      const list = instance.feed.get();
+      const b = list[list.length - 1];
+      list[list.length - 1] = list[list[0]];
+      list[0] = b;
+      console.log(list);
+
       console.log(fields);
+      console.log(this);
+      const newContract = Contracts.findOne({ _id: id });
+      const currentFeed = instance.feed.get();
+      console.log(currentFeed);
+      console.log(newContract);
+      currentFeed.push(newContract);
+      console.log('added');
+      console.log(currentFeed);
+      instance.feed.set(currentFeed);
+      console.log(instance.feed.get());
+      */
     },
     addedBefore: (id, fields) => {
       // added stuff
@@ -77,6 +99,7 @@ Template.feed.onCreated(function () {
         instance.feed.set([post]);
         instance.data.refresh = false;
       } else if (!_here(post, currentFeed)) {
+        console.log('PUSH');
         currentFeed.push(post);
         instance.feed.set(_.uniq(currentFeed));
       }
@@ -117,6 +140,9 @@ Template.feed.onDestroyed(function () {
 
 Template.feed.helpers({
   item() {
+    console.log('reaction of instance.feed data retrieval');
+    console.log('system uses:');
+    console.log(Template.instance().feed.get());
     return Template.instance().feed.get();
   },
   refresh() {

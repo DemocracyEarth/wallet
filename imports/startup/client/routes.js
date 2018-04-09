@@ -45,13 +45,33 @@ Router.route('/', {
 Router.route('/peer/:username', {
   name: 'peerFeed',
   template: 'home',
+  waitOn() {
+    if (!Meteor.users.findOne({ username: this.params.username })) {
+      console.log('cant find the user');
+      console.log(Meteor.users.find());
+      console.log(this.params.username);
+      // Meteor.subscribe('singleUser', { username: this.params.username });
+      // console.log(Meteor.users.findOne({ username: this.params.username }));
+      return Meteor.subscribe('singleUser', { });
+    }
+  },
   onBeforeAction() {
     this.next();
   },
   data() {
+    let settings;
     const user = Meteor.users.findOne({ username: this.params.username });
+    if (!user) {
+      settings = {
+        username: this.params.username,
+      };
+    } else {
+      settings = {
+        userId: user._id,
+      };
+    }
     return {
-      options: { view: 'peer', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, userId: user._id },
+      options: { view: 'peer', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, userId: settings.userId, username: settings.username },
     };
   },
 });

@@ -477,5 +477,6 @@
   "get-election-votes": "Tallying votes...",
   "get-delegation-votes": "Getting delegation status...",
   "no-delegated-votes": "No delegations",
-  "minimum-delegation-revoke": "These delegated votes are in use."
+  "minimum-delegation-revoke": "These delegated votes are in use.",
+  "notify-new-posts": "New posts avaialable on refresh."
 }
