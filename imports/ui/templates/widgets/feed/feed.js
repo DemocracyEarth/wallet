@@ -52,7 +52,7 @@ Template.feed.onCreated(function () {
   console.log('STARTING ANEW');
   console.log(Template.currentData().options);
 
-  instance.subscribe('feed', Template.currentData().options);
+  this.subscription = instance.subscribe('feed', Template.currentData().options);
   const parameters = query(Template.currentData().options);
 
   // verify if beginning
@@ -132,10 +132,8 @@ Template.feed.onRendered(function () {
 });
 
 Template.feed.onDestroyed(function () {
-  console.log(`killing ${this.handle}`);
-  console.log(this.handle);
   this.handle.stop();
-  delete this.handle;
+  this.subscription.stop();
 });
 
 Template.feed.helpers({

@@ -24,7 +24,11 @@ Template.home.helpers({
     return (this.options.view === 'post');
   },
   isHome() {
-    return (this.options.view !== 'post');
+    console.log(this.options);
+    return (this.options.view === 'latest');
+  },
+  isPeer() {
+    return (this.options.view === 'peer');
   },
   content() {
     console.log(this);
@@ -45,4 +49,7 @@ Template.homeFeed.helpers({
     }
     return undefined;
   },
+});
+
+Template.peerFeed.helpers({
 });

@@ -23,12 +23,8 @@ const USER_FIELDS = {
 */
 Meteor.publish('singleUser', (userQuery) => {
   check(userQuery, Object);
-  if (Meteor.user()) {
-    console.log(`{ publish: 'singleUser', userQuery: ${JSON.stringify(userQuery)} }`);
-    return Meteor.users.find(userQuery, { fields: USER_FIELDS });
-  }
-  // Meteor.publish('users');
-  // return Meteor.users.find();
+  console.log(`{ publish: 'singleUser', userQuery: ${JSON.stringify(userQuery)} }`);
+  return Meteor.users.find(userQuery, { fields: USER_FIELDS });
 });
 
 /**

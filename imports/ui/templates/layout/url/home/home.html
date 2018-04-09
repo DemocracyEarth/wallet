@@ -4,6 +4,10 @@
   {{else}}
     {{#if isPost}}
       {{> postFeed this}}
+    {{else}}
+      {{#if isPeer}}
+        {{> peerFeed this}}
+      {{/if}}
     {{/if}}
   {{/if}}
 </template>
@@ -23,29 +27,11 @@
 </template>
 
 <template name="peerFeed">
-
-      <div class="content content-feed">
-
-        {{#if editorMode}}
-          {{> editor contractId=newContractId}}
-        {{/if}}
-
-        {{#with content}}
-          <div id="non-editable-feed">
-            {{> Template.dynamic template=this.template data=this.dataObject}}
-          </div>
-        {{/with}}
-
-      </div>
-
-      {{#if listVotes}}
-        <div class="subfeed-title">
-          <a href="#votes"></a>
-          <h3>{{_ 'votes'}}</h3>
-        </div>
-      {{/if}}
-
-      {{> compose}}
+  <div class="content content-feed">
+    <div id="non-editable-feed">
+      {{> feed this}}
+    </div>
+  </div>
 </template>
 
 <template name="postFeed">
@@ -59,4 +45,6 @@
     <a href="#votes"></a>
     <h3>{{_ 'votes'}}</h3>
   </div>
+
+  {{> compose}}
 </template>
