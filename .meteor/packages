@@ -12,10 +12,10 @@
 meteor-base@1.3.0             # Packages every Meteor app needs to have
 tracker@1.1.3                 # Meteor's client-side reactive programming library
 es5-shim@4.7.0                # ECMAScript 5 compatibility for older browsers.
-ecmascript@0.10.6             # Enable ECMAScript2015+ syntax in app code
+ecmascript@0.10.0             # Enable ECMAScript2015+ syntax in app code
 
 # standard libraries
-jquery@1.11.11                # Helpful client-side library
+jquery@1.11.10                # Helpful client-side library
 
 # ui, ux
 blaze-html-templates@1.0.4    # Compile .html files into Meteor Blaze views
@@ -31,7 +31,7 @@ react-template-helper
 react-meteor-data
 
 # data
-mongo@1.4.5                   # The database Meteor supports right now
+mongo@1.4.2                   # The database Meteor supports right now
 aldeed:simple-schema
 aldeed:collection2
 dburles:collection-helpers
