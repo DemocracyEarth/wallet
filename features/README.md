@@ -14,18 +14,6 @@ As a developer
 I want to be able to run the feature suite
 ```
 
-Ideally running the feature suite should not ruin the dev database, _(unless we want it to)_
-and it should be done using a meteor command such as `test-features`.
-
-
-## WARNING
-
-Running the feature suite will TRUNCATE THE DATABASE before each Scenario.
-You WILL LOSE EVERYTHING on your development environment database.
-At the end of the test suite, the very last Scenario is not cleared,
-so we can use that to create a fixtures Scenario to bootstrap local development.
-
-
 ## Roadmap
 
 - [x] Exposing issues
@@ -43,15 +31,13 @@ so we can use that to create a fixtures Scenario to bootstrap local development.
 
 ## How to Run
 
-Launch the development server :
+Launch the development server, in test mode :
 
-    $ meteor npm run start:dev
+    $ meteor npm run start:features
 
 Then, _in another shell,_ run :
 
-    $ chimp --chai --ddp=http://localhost:3000
-
-If `chimp` is not found, try `./node_modules/.bin/chimp` instead.
+    $ meteor npm run test:features
 
 **If you are sensitive to epilepsy, you should take the necessary precautions.**
 
@@ -75,10 +61,6 @@ It is useful to store state between steps, for example `I`, which is defined at 
 
 
 ## Pitfalls
-
-### Cannot find module 'chai-string'
-
-    $ npm install --save-dev chai-string
 
 ### Access Meteor from a step definition
 
