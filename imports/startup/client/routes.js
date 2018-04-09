@@ -45,16 +45,6 @@ Router.route('/', {
 Router.route('/peer/:username', {
   name: 'peerFeed',
   template: 'home',
-  waitOn() {
-    if (!Meteor.users.findOne({ username: this.params.username })) {
-      console.log('cant find the user');
-      console.log(Meteor.users.find());
-      console.log(this.params.username);
-      // Meteor.subscribe('singleUser', { username: this.params.username });
-      // console.log(Meteor.users.findOne({ username: this.params.username }));
-      return Meteor.subscribe('singleUser', { });
-    }
-  },
   onBeforeAction() {
     this.next();
   },

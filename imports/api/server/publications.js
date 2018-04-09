@@ -25,14 +25,8 @@ Meteor.publish('singleUser', (userQuery) => {
   check(userQuery, Object);
   if (Meteor.user()) {
     console.log(`{ publish: 'singleUser', userQuery: ${JSON.stringify(userQuery)} }`);
-    const dbQuery = Meteor.users.find(userQuery, { fields: USER_FIELDS }).fetch();
-    console.log(dbQuery._id);
-    if (dbQuery._id) {
-      return Meteor.users.find(userQuery, { fields: USER_FIELDS });
-    }
-    console.log('No quiery');
+    return Meteor.users.find(userQuery, { fields: USER_FIELDS });
   }
-  return Meteor.users.find(userQuery, { fields: USER_FIELDS });
   // Meteor.publish('users');
   // return Meteor.users.find();
 });
