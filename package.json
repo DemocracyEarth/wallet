@@ -18,8 +18,10 @@
     "test-watch:dev": "meteor --settings=config/development/settings.json test --driver-package practicalmeteor:mocha --port 3100",
     "test-watch:prod": "meteor --settings=config/production/settings.json test --driver-package practicalmeteor:mocha --port 3100",
     "test-app-watch": "meteor test --full-app --driver-package practicalmeteor:mocha --port 3100",
+    "test:features": "./node_modules/.bin/chimp --chai --ddp=http://localhost:3003",
     "start:dev": "meteor --settings=config/development/settings.json",
     "start:debug": "meteor debug --inspect-brk=5959 --settings=config/development/settings.json",
+    "start:features": "MONGO_URL=mongodb://localhost:27017/sovereign_test meteor --settings=config/development/settings.json --port 3003",
     "lint": "eslint .",
     "postinstall": "./node_modules/.bin/opencollective-postinstall || exit 0"
   },
