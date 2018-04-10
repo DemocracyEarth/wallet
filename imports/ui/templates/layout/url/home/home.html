@@ -39,7 +39,7 @@
 
   <div class="content content-feed content-feed-subsection">
     <div id="non-editable-feed">
-      {{> feed onlyPosts}}
+      {{> feed options=this.options kind='VOTE'}}
     </div>
   </div>
 
@@ -50,7 +50,7 @@
 
   <div class="content content-feed content-feed-subsection">
     <div id="non-editable-feed">
-      {{> feed onlyDelegations}}
+      {{> feed options=this.options kind='DELEGATION'}}
     </div>
   </div>
 

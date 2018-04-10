@@ -64,18 +64,3 @@ Template.homeFeed.helpers({
     return undefined;
   },
 });
-
-Template.peerFeed.helpers({
-  onlyPosts() {
-    const feed = this;
-    feed.kind = 'VOTE';
-    console.log(feed);
-    return feed;
-  },
-  onlyDelegations() {
-    const feed = this;
-    feed.kind = 'DELEGATIONS';
-    console.log(feed);
-    return feed;
-  },
-});
