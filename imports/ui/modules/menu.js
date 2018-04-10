@@ -381,7 +381,7 @@ const animateMenu = (disableAnimation) => {
       splitLeftNewMargin = '0px';
     }
 
-    if (!disableAnimation) {
+    if (!Meteor.Device.isPhone()) {
       // animate content
       $('#menu').velocity({ marginLeft: '0px' }, animationSettings);
       $('#content').velocity({
@@ -414,34 +414,45 @@ const animateMenu = (disableAnimation) => {
              - parseInt(($(window).width() / 2), 10), 10);
     }
 
-    $('#menu').velocity({ marginLeft: parseInt(0 - sidebarPixelWidth, 10) }, animationSettings);
-    $('#content').velocity({
-      left: 0,
-      right: 0,
-    }, {
-      duration: animationSettings.duration,
-      complete: () => {
-        if (Meteor.Device.isPhone()) {
-          $('.mobile-menu').css('margin-top', '0px');
-          $('.mobile-menu').css('position', 'fixed');
-          $('.mobile-menu').css('top', '');
-          $('.mobile-menu').css('bottom', '0px');
-          $('.navbar').css('position', 'fixed');
-          $('.navbar').css('top', '0px');
-          $('.inhibitor').css('display', 'none');
-          // $('.content').css('overflow', 'scroll');
-          $('.cast').velocity({ opacity: 1 }, animationSettings);
-        }
-      },
-    });
-    $('.split-right').velocity({
-      marginLeft: diff,
-    }, animationSettings);
+    if (!Meteor.Device.isPhone()) {
+      $('#menu').velocity({ marginLeft: parseInt(0 - sidebarPixelWidth, 10) }, animationSettings);
+      $('#content').velocity({
+        left: 0,
+        right: 0,
+      }, {
+        duration: animationSettings.duration,
+        complete: () => {
+          if (Meteor.Device.isPhone()) {
+            $('.mobile-menu').css('margin-top', '0px');
+            $('.mobile-menu').css('position', 'fixed');
+            $('.mobile-menu').css('top', '');
+            $('.mobile-menu').css('bottom', '0px');
+            $('.navbar').css('position', 'fixed');
+            $('.navbar').css('top', '0px');
+            $('.inhibitor').css('display', 'none');
+            // $('.content').css('overflow', 'scroll');
+            $('.cast').velocity({ opacity: 1 }, animationSettings);
+          }
+        },
+      });
+      $('.split-right').velocity({
+        marginLeft: diff,
+      }, animationSettings);
 
-    if ($(window).width() >= gui.DESKTOP_MIN_WIDTH) {
-      $('.split-left').velocity({ width: parseInt(splitLeft + sidebarPixelWidth, 10) }, animationSettings);
+      if ($(window).width() >= gui.DESKTOP_MIN_WIDTH) {
+        $('.split-left').velocity({ width: parseInt(splitLeft + sidebarPixelWidth, 10) }, animationSettings);
+      } else {
+        $('.split-left').velocity({ width: '100%' }, animationSettings);
+      }
     } else {
-      $('.split-left').velocity({ width: '100%' }, animationSettings);
+      $('.inhibitor').css('display', 'none');
+      $('.navbar').css('position', 'fixed');
+      $('.navbar').css('top', '0px');
+      $('#menu').css({ marginLeft: parseInt(0 - sidebarPixelWidth, 10) });
+      $('#content').css({
+        left: 0,
+        right: 0,
+      });
     }
   }
 };

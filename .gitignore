@@ -68,3 +68,6 @@ jslint.xml
 # deployments
 .deploy
 .deploy-staging
+
+# IDE
+.idea

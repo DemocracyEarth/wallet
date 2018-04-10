@@ -19,7 +19,7 @@ Schema.Thread = new SimpleSchema({
     autoValue: function () {
       if (this.isInsert) {
         return 'COMMENT';
-      };
+      }
     }
   },
   children: {

@@ -82,3 +82,48 @@ body {
 .vote {
   will-change: transform;
 }
+
+.checkmark {
+  display: inline-block;
+
+  &:after {
+    /*Add another block-level blank space*/
+    content: "";
+    display: block;
+
+    /*Make it a small rectangle so the border will create an L-shape*/
+    width: 3px;
+    height: 6px;
+
+    /*Add a white border on the bottom and left, creating that 'L' */
+    border: solid #000;
+    border-width: 0 2px 2px 0;
+
+    /*Rotate the L 45 degrees to turn it into a checkmark*/
+    transform: rotate(45deg);
+  }
+}
+
+.checkmark_stem {
+  width: 2px;
+  height: 20px;
+  background-color: #6c5b7c;
+  transform: rotate(37deg);
+  margin: auto;
+  margin-top: -19px;
+  margin-left: 11px;
+}
+
+.checkmark_kick {
+  width: 2px;
+  height: 9px;
+  background-color: #6c5b7c;
+  transform: rotate(129deg);
+  margin-top: 10px;
+  margin-bottom: 0px;
+  margin-left: 2px;
+}
+
+html {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}

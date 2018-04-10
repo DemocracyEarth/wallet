@@ -70,14 +70,9 @@ p {
 }
 
 a {
-  border-bottom: 1px none #00c091;
   color: #00c091;
   text-decoration: none;
   cursor: pointer;
-}
-
-a:hover {
-  border-bottom-style: solid;
 }
 
 ul {
@@ -1357,7 +1352,7 @@ blockquote {
   height: 28px;
   margin-top: 10px;
   margin-bottom: 10px;
-  background-color: transparent;
+  background-color: #fff;
   cursor: default;
 }
 
@@ -1499,8 +1494,11 @@ blockquote {
 
 .tick {
   display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin: 4px;
   border-radius: 100px;
-  background-color: #6e5b7e;
+  background-color: #fff;
 }
 
 .tick.unathorized {
@@ -1517,6 +1515,14 @@ blockquote {
 
 .tick.tick-mini {
   background-color: transparent;
+}
+
+.tick.tick-active {
+  background-color: #6c5b7c;
+}
+
+.tick.tick-disabled {
+  background-color: #dfdfdf;
 }
 
 .tick-image {
@@ -2250,6 +2256,24 @@ blockquote {
 
 .verifier.verifier-live {
   display: inline-block;
+}
+
+.verifier.verifier-live.verifier-feed {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.verifier.verifier-live.verifier-feed:hover {
+  border-style: none;
+  text-decoration: underline;
+}
+
+.verifier.verifier-live.verifier-feed.no-link {
+  cursor: default;
+}
+
+.verifier.verifier-live.verifier-feed.no-link:hover {
+  text-decoration: none;
 }
 
 .available {
@@ -3152,9 +3176,9 @@ blockquote {
 
 .stage {
   display: inline-block;
-  margin-top: 5px;
+  margin-top: 3px;
   margin-right: 10px;
-  margin-bottom: 5px;
+  margin-bottom: 3px;
   padding: 0px 10px 5px;
   float: left;
   border: 1px dashed #46dfb8;
@@ -3555,6 +3579,13 @@ blockquote {
 .title-input.title-feed {
   margin-top: 20px;
   margin-bottom: 20px;
+  border-style: none;
+  color: #4b4b4b;
+}
+
+.title-input.title-feed:hover {
+  border-style: none;
+  color: #000;
 }
 
 .paper-header {
@@ -4225,7 +4256,8 @@ blockquote {
 }
 
 .content {
-  display: block;
+  display: inline-block;
+  min-width: 100%;
   margin-right: auto;
   margin-left: auto;
   padding: 60px 15px 15px;
@@ -5398,8 +5430,8 @@ blockquote {
   margin: 0px 5px 0px 0px;
   float: left;
   border-radius: 3px;
-  font-size: 9px;
-  line-height: 25px;
+  font-size: 11px;
+  line-height: 24px;
 }
 
 .sidebar-label {
@@ -6214,9 +6246,6 @@ blockquote {
   }
   .option-title.option-link.option-search {
     font-size: 22px;
-  }
-  .option-title.option-title-mini {
-    margin-top: 4px;
   }
   .checkbox.checkbox-custom {
     width: 100%;

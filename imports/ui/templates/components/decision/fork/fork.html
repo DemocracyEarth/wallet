@@ -3,16 +3,18 @@
     <li id="fork-{{voteId}}-{{_id}}" class="{{style 'vote'}} {{checkbox mode}}">
       <div class="w-clearfix checkbox {{resultBar}}" style="{{showResult}}">
         <div id="ballotCheckbox" class="{{style 'option'}} {{tickStyle}}">
-          <div id="tickbox" class="tick {{tickStyle}}">
-            <img src="{{pathFor route='home'}}images/white-tick-thin.png" class="{{style 'tick-image'}} hover {{tickStatus}}">
+          <div id="tickbox" class="tick" ontouchstart="">
+            {{#if tickStatus}}
+              <div class="checkmark_kick"></div><div class="checkmark_stem"></div>
+            {{/if}}
           </div>
         </div>
         <div class="w-clearfix checkbox">
-          <div class="{{style 'option-title'}} {{decision mode}}"> <!-- style="{{highlight 'checkbox'}}">-->
+          <div class="{{style 'option-title'}} {{decision mode}}">
             {{_ mode}}
           </div>
           {{#if displayResult}}
-            <div class="result-total {{checkbox mode}}"> <!--style="{{highlight 'result-total'}}">-->
+            <div class="result-total {{checkbox mode}}">
               {{{total}}}
             </div>
           {{/if}}
@@ -23,16 +25,8 @@
     <li id="ballotProposalOption" class="{{style 'vote'}} {{checkbox ../mode}} {{dragMode}}" rank="{{../rank}}" value="{{../_id}}">
       <div class="w-clearfix checkbox">
         <div id="ballotCheckbox" class="{{style 'option'}} {{option ../mode}}">
-          <div id="tickbox" class="{{style 'tick'}} {{option ../mode}}">
-            {{#if mini}}
-              {{#if isReject}}
-                <img src="{{pathFor route='home'}}images/white-tick-thin.png" class="{{style 'tick-image'}}">
-              {{else}}
-                <img src="{{pathFor route='home'}}images/white-tick-thin.png" class="{{style 'tick-image'}}">
-              {{/if}}
-            {{else}}
-              <img src="{{pathFor route='home'}}images/white-tick-thin.png" class="{{style 'tick-image'}} hover {{tickStatus}}">
-            {{/if}}
+          <div id="tickbox" class="{{style 'tick'}}">
+            <div class="checkmark_kick"></div><div class="checkmark_stem"></div>
           </div>
         </div>
         <div class="w-clearfix checkbox">

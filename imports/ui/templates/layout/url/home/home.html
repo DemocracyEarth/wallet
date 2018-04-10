@@ -1,6 +1,23 @@
 <template name="home">
-  <div class="content content-feed">
+  {{#each mode in modeArray}}
+    {{> screen this}}
+  {{/each}}
+</template>
 
+<template name="screen">
+  {{#if peer}}
+    {{> peerFeed this}}
+  {{/if}}
+  {{#if post}}
+    {{> postFeed this}}
+  {{/if}}
+  {{#if home}}
+    {{> homeFeed this}}
+  {{/if}}
+</template>
+
+<template name="homeFeed">
+  <div class="content content-feed">
     {{#if editorMode}}
       {{> editor contractId=newContractId}}
     {{/if}}
@@ -8,7 +25,41 @@
     <div id="non-editable-feed">
       {{> feed this}}
     </div>
+  </div>
 
+  {{> compose}}
+</template>
+
+<template name="peerFeed">
+
+  <div class="subfeed-title">
+    <a href="#votes"></a>
+    <h3>{{_ 'posts'}}</h3>
+  </div>
+
+  <div class="content content-feed">
+    <div id="non-editable-feed">
+      {{> feed this}}
+    </div>
+  </div>
+
+  <div class="subfeed-title">
+    <a href="#votes"></a>
+    <h3>{{_ 'delegations'}}</h3>
+  </div>
+
+</template>
+
+<template name="postFeed">
+  <div class="content content-feed">
+    <div id="non-editable-feed">
+      {{> feed this}}
+    </div>
+  </div>
+
+  <div class="subfeed-title">
+    <a href="#votes"></a>
+    <h3>{{_ 'votes'}}</h3>
   </div>
 
   {{> compose}}

@@ -26,7 +26,7 @@ Template.load.onRendered(() => {
     position: 'absolute', // Element positioning
   };
 
-  const target = document.getElementById('spinner')
+  const target = document.getElementById('spinner');
   if (typeof Spinner !== 'undefined') {
     let spinner = new Spinner(opts).spin(target);
   }

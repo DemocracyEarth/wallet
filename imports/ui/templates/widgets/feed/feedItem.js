@@ -44,6 +44,16 @@ const isScrolledIntoView = (elem) => {
   return false;
 };
 
+/**
+@summary if its on a mobile waits a second to refresh feed item with reactive one
+*/
+const scrollRefresh = () => {
+  if (Meteor.Device.isPhone()) {
+    return 1000;
+  }
+  return 1;
+};
+
 Template.feedItem.onCreated(function () {
   Template.instance().ready = new ReactiveVar(false);
   Template.instance().contract = new ReactiveVar(Contracts.findOne({ _id: this.data._id }));
@@ -68,7 +78,7 @@ Template.feedItem.onRendered(function () {
       if (document.querySelector(`#ballot-${instance.data._id}`)) {
         instance.aboveFold.set(isScrolledIntoView(document.querySelector(`#voteBar-vote-${Meteor.userId()}-${instance.data._id}`)));
       }
-    }, 1);
+    }, scrollRefresh());
   });
 
   instance.autorun(function () {

@@ -16,7 +16,7 @@ Template.tag.helpers({
 });
 
 Template.tag.events({
-  'click #add-suggested-tag'(event) {
+  'click .add-suggested-tag'(event) {
     addTag(this._id, parseInt(Session.get('dbTagList').length) + 1);
   },
 });

@@ -276,7 +276,7 @@
   "empty-feed-label-vote-drafts": "No drafts found.",
   "empty-feed-detail-vote-drafts": "All the drafts by citizens of this collective get listed here.",
   "empty-feed-contribute-vote-drafts": "Propose an Idea",
-  "empty-feed-label-live-votes-peer": "No particiation found.",
+  "empty-feed-label-live-votes-peer": "No participation found.",
   "empty-feed-detail-live-votes-peer": "All proposals with your participation get listed here.",
   "empty-feed-contribute-live-votes-peer": "Propose an Idea",
   "live-votes-peer": "Participations",
@@ -477,5 +477,6 @@
   "get-election-votes": "Tallying votes...",
   "get-delegation-votes": "Getting delegation status...",
   "no-delegated-votes": "No delegations",
-  "minimum-delegation-revoke": "These delegated votes are in use."
+  "minimum-delegation-revoke": "These delegated votes are in use.",
+  "notify-new-posts": "New posts avaialable on refresh."
 }

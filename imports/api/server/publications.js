@@ -9,6 +9,8 @@ import { Files } from '/imports/api/files/Files';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { Collectives } from '/imports/api/collectives/Collectives';
 
+console.log('[starting publications]');
+
 // The user fields we are willing to publish.
 const USER_FIELDS = {
   username: 1,
@@ -21,6 +23,7 @@ const USER_FIELDS = {
 */
 Meteor.publish('singleUser', (userQuery) => {
   check(userQuery, Object);
+  console.log(`{ publish: 'singleUser', userQuery: ${JSON.stringify(userQuery)} }`);
   return Meteor.users.find(userQuery, { fields: USER_FIELDS });
 });
 
