@@ -21,7 +21,7 @@
     "start:dev": "meteor --settings=config/development/settings.json",
     "start:debug": "meteor debug --inspect-brk=5959 --settings=config/development/settings.json",
     "lint": "eslint .",
-    "postinstall": "./node_modules/.bin/opencollective-postinstall || exit 0"
+    "postinstall": "opencollective-postinstall || exit 0"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.38",
@@ -52,7 +52,7 @@
     "eslint-plugin-jsx-a11y": "^2.2.2",
     "eslint-plugin-meteor": "^4.0.0",
     "eslint-plugin-react": "^6.2.2",
-    "opencollective-postinstall": "^1.0.11",
+    "opencollective-postinstall": "^2.0.0",
     "shell-source": "^1.1.0",
     "shelljs": "^0.7.4"
   },
@@ -82,7 +82,10 @@
       "no-underscore-dangle": "off",
       "guard-for-in": "off",
       "prefer-arrow-callback": "off",
-      "func-names": ["error", "never"],
+      "func-names": [
+        "error",
+        "never"
+      ],
       "import/no-unresolved": [
         "error",
         {
