@@ -1,14 +1,18 @@
 <template name="home">
-  {{#if isHome}}
+  {{#each mode in modeArray}}
+    {{> screen this}}
+  {{/each}}
+</template>
+
+<template name="screen">
+  {{#if peer}}
+    {{> peerFeed this}}
+  {{/if}}
+  {{#if post}}
+    {{> postFeed this}}
+  {{/if}}
+  {{#if home}}
     {{> homeFeed this}}
-  {{else}}
-    {{#if isPost}}
-      {{> postFeed this}}
-    {{else}}
-      {{#if isPeer}}
-        {{> peerFeed this}}
-      {{/if}}
-    {{/if}}
   {{/if}}
 </template>
 

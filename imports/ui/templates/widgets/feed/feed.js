@@ -65,30 +65,6 @@ Template.feed.onCreated(function () {
   this.handle = dbQuery.observeChanges({
     changed: () => {
       displayNotice(TAPi18n.__('notify-new-posts'), true);
-      // changed stuff
-     /* console.log('changed query');
-      console.log(id);
-      console.log('changed');
-      console.log(instance.feed.get());
-
-/*      const list = instance.feed.get();
-      const b = list[list.length - 1];
-      list[list.length - 1] = list[list[0]];
-      list[0] = b;
-      console.log(list);
-
-      console.log(fields);
-      console.log(this);
-      const newContract = Contracts.findOne({ _id: id });
-      const currentFeed = instance.feed.get();
-      console.log(currentFeed);
-      console.log(newContract);
-      currentFeed.push(newContract);
-      console.log('added');
-      console.log(currentFeed);
-      instance.feed.set(currentFeed);
-      console.log(instance.feed.get());
-      */
     },
     addedBefore: (id, fields) => {
       // added stuff
@@ -99,7 +75,6 @@ Template.feed.onCreated(function () {
         instance.feed.set([post]);
         instance.data.refresh = false;
       } else if (!_here(post, currentFeed)) {
-        console.log('PUSH');
         currentFeed.push(post);
         instance.feed.set(_.uniq(currentFeed));
       }
@@ -138,9 +113,6 @@ Template.feed.onDestroyed(function () {
 
 Template.feed.helpers({
   item() {
-    console.log('reaction of instance.feed data retrieval');
-    console.log('system uses:');
-    console.log(Template.instance().feed.get());
     return Template.instance().feed.get();
   },
   refresh() {

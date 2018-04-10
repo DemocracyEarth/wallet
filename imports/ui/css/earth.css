@@ -3176,9 +3176,9 @@ blockquote {
 
 .stage {
   display: inline-block;
-  margin-top: 5px;
+  margin-top: 3px;
   margin-right: 10px;
-  margin-bottom: 5px;
+  margin-bottom: 3px;
   padding: 0px 10px 5px;
   float: left;
   border: 1px dashed #46dfb8;
