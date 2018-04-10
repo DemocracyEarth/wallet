@@ -31,16 +31,6 @@ const _here = (post, feed) => {
   return false;
 };
 
-/**
-* @summary remove delegations without votes left
-* @param {object} feed the query from db
-
-NOTE: remove this
-const _sanitize = (feed) => {
-  return _.filter(feed, (value) => { return ((value.kind === 'DELEGATION' && value.wallet.available > 0) || (value.kind !== 'DELEGATION')); });
-};
-*/
-
 Template.feed.onCreated(function () {
   Template.instance().count = new ReactiveVar(0);
   Template.instance().feed = new ReactiveVar();
@@ -48,9 +38,6 @@ Template.feed.onCreated(function () {
   Template.currentData().singlePost = false;
 
   const instance = this;
-
-  console.log('STARTING ANEW');
-  console.log(Template.currentData().options);
 
   this.subscription = instance.subscribe('feed', Template.currentData().options);
   const parameters = query(Template.currentData().options);
