@@ -1,5 +1,6 @@
 ## Custom
 config/production/settings.json
+config/staging/settings.json
 .vscode
 
 # Logs
@@ -60,6 +61,13 @@ typings/
 
 # dotenv environment variables file
 .env
+
+# continuos integration output
+jslint.xml
+
+# deployments
+.deploy
+.deploy-staging
 
 # IDE
 .idea

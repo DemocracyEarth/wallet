@@ -95,4 +95,14 @@ Meteor.startup(() => {
   } else {
     console.log('[config] Twitter API key for identity login... OK');
   }
+
+  // Raven
+  if (Meteor.settings.private.sentryPrivateDSN === undefined || Meteor.settings.private.sentryPrivateDSN === '' ||
+      Meteor.settings.public.sentryPublicDSN === undefined || Meteor.settings.public.sentryPublicDSN === ''
+  ) {
+    console.log('[config WARNING] Sentry DSN keys not configured.');
+    console.log('[config FIX] Configure `private.sentryPrivateDSN` and `public.sentryPublicDSN` on settings.json.');
+  } else {
+    console.log('[config] Sentry DSN keys... OK');
+  }
 });
