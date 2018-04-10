@@ -1,5 +1,6 @@
 import { Router } from 'meteor/iron:router';
 import { Session } from 'meteor/session';
+import { Meteor } from 'meteor/meteor';
 import { gui } from '/lib/const';
 
 import '/imports/ui/templates/layout/main.js';
@@ -48,8 +49,19 @@ Router.route('/peer/:username', {
     this.next();
   },
   data() {
+    let settings;
+    const user = Meteor.users.findOne({ username: this.params.username });
+    if (!user) {
+      settings = {
+        username: this.params.username,
+      };
+    } else {
+      settings = {
+        userId: user._id,
+      };
+    }
     return {
-      options: { view: 'peer', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, username: this.params.username },
+      options: { view: 'peer', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, userId: settings.userId, username: settings.username },
     };
   },
 });

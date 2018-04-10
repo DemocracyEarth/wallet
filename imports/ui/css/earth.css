@@ -3176,9 +3176,9 @@ blockquote {
 
 .stage {
   display: inline-block;
-  margin-top: 5px;
+  margin-top: 3px;
   margin-right: 10px;
-  margin-bottom: 5px;
+  margin-bottom: 3px;
   padding: 0px 10px 5px;
   float: left;
   border: 1px dashed #46dfb8;
@@ -4256,7 +4256,8 @@ blockquote {
 }
 
 .content {
-  display: block;
+  display: inline-block;
+  min-width: 100%;
   margin-right: auto;
   margin-left: auto;
   padding: 60px 15px 15px;
@@ -5429,8 +5430,8 @@ blockquote {
   margin: 0px 5px 0px 0px;
   float: left;
   border-radius: 3px;
-  font-size: 9px;
-  line-height: 25px;
+  font-size: 11px;
+  line-height: 24px;
 }
 
 .sidebar-label {
