@@ -118,7 +118,7 @@ Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mas
 
 ## Specifications
 
-* Built on [Meteor](https://www.meteor.com/) version 1.5.0
+* Built on [Meteor](https://www.meteor.com/) version 1.6.1
 * Designed with [Webflow](https://www.webflow.com).
 
 Check our [documentation](https://github.com/DemocracyEarth/sovereign/tree/master/docs) for technical reference.
