@@ -31,11 +31,23 @@
 </template>
 
 <template name="peerFeed">
+
+  <div class="subfeed-title">
+    <a href="#votes"></a>
+    <h3>{{_ 'posts'}}</h3>
+  </div>
+
   <div class="content content-feed">
     <div id="non-editable-feed">
       {{> feed this}}
     </div>
   </div>
+
+  <div class="subfeed-title">
+    <a href="#votes"></a>
+    <h3>{{_ 'delegations'}}</h3>
+  </div>
+
 </template>
 
 <template name="postFeed">
