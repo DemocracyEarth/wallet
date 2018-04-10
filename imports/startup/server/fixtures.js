@@ -17,7 +17,6 @@ A Roma, <3
 
 */
 import { Meteor } from 'meteor/meteor';
-
 import { Collectives } from '../../api/collectives/Collectives';
 
 
