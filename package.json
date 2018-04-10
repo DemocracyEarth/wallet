@@ -39,6 +39,7 @@
     "jsontokens": "^0.7.6",
     "lodash": "^4.17.4",
     "nan": "^2.3.5",
+    "randomfill": "^1.0.4",
     "react": "^15.6.2",
     "react-addons-pure-render-mixin": "^15.6.2",
     "react-dom": "^15.6.2",

@@ -201,7 +201,7 @@ blockquote {
 }
 
 .label.label-corner {
-  margin-top: 5px;
+  margin-top: 6px;
   float: left;
   font-size: 11px;
   line-height: 15px;
@@ -4270,6 +4270,10 @@ blockquote {
   transition: opacity 892ms ease;
 }
 
+.content.content-feed.content-feed-subsection {
+  padding-top: 0px;
+}
+
 .content.content-agora {
   position: relative;
   min-width: 360px;
@@ -5175,6 +5179,15 @@ blockquote {
   background-color: #d6d6d6;
   background-image: -webkit-linear-gradient(90deg, #d6d6d6, #ddd 65%);
   background-image: linear-gradient(0deg, #d6d6d6, #ddd 65%);
+}
+
+.subfeed-title.subfeed-title-main {
+  margin-top: 60px;
+  margin-bottom: 20px;
+}
+
+.subfeed-title.subfeed-title-secondary {
+  margin-bottom: 20px;
 }
 
 .bar-labels {
