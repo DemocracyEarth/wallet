@@ -32,7 +32,7 @@ fixtures.users = {
   },
 
   clientLogin(email, password) {
-    getBrowser().timeouts('script', 5000);
+    getBrowser().timeouts('script', 15000);
     const returned = getBrowser().executeAsync((email, password, done) => {
       //console.log("I am printed in the browser's developer console.");
       Meteor.loginWithPassword(email, password, (err) => { done(err); });
