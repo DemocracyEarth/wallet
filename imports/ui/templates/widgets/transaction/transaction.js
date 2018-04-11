@@ -5,6 +5,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { Session } from 'meteor/session';
 
 import { getVotes } from '/imports/api/transactions/transaction';
+import { timeCompressed } from '/imports/ui/modules/chronos';
 
 import '/imports/ui/templates/widgets/transaction/transaction.html';
 
@@ -69,6 +70,9 @@ Template.transaction.helpers({
       return 'display:none';
     }
     return '';
+  },
+  sinceDate() {
+    return `${timeCompressed(this.contract.timestamp)}`;
   },
   onCard() {
     if (this.onCard) {

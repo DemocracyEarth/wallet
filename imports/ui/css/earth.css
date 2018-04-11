@@ -3155,6 +3155,11 @@ blockquote {
   float: left;
 }
 
+.data.data-feed.data-transaction {
+  margin: 3px 10px 7px -4px;
+  float: left;
+}
+
 .contract-collapse {
   position: absolute;
   top: 0px;
@@ -5535,6 +5540,12 @@ blockquote {
   display: -ms-flexbox;
   display: flex;
   margin-bottom: 10px;
+}
+
+.transaction-date {
+  margin-top: 3px;
+  margin-bottom: 10px;
+  margin-left: -4px;
 }
 
 @media (max-width: 991px) {
