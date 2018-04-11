@@ -10,6 +10,7 @@ A token based liquid democracy software.
 [![Slack Status](http://chat.democracy.earth/badge.svg)](http://chat.democracy.earth)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/599/badge)](https://bestpractices.coreinfrastructure.org/projects/599)
 [![Code Climate](https://codeclimate.com/github/DemocracyEarth/sovereign/badges/gpa.svg)](https://codeclimate.com/github/DemocracyEarth/sovereign)
+[![Build Status](http://ci.comunes.org/buildStatus/icon?job=sovereign)](http://ci.comunes.org/job/sovereign/)
 
 Read our 📃 [open source white paper](https://github.com/DemocracyEarth/paper).
 
@@ -95,7 +96,7 @@ Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mas
 
     Load browser and go to [http://localhost:3000/](http://localhost:3000/) 🔥
 
-    > _Note:_ For production deploys you should use:  
+    > _Note:_ For production deploys you should use:
     > ``` $ meteor npm run start ```
     > check production/settings.json file to config your keys.
 
