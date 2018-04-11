@@ -52,25 +52,6 @@ const _verifySelection = (selection, feed) => {
 };
 
 /**
-/* stores the current selected item in case of refresh
-/* @param {array} arrMenu - arry items from menu
-******/
-const _toggleSelectedItem = (arrMenu) => {
-  const menu = arrMenu;
-  if (Session.get('sidebarMenuSelectedId')) {
-    for (const item in menu) {
-      if (menu[item].id === Session.get('sidebarMenuSelectedId')) {
-        menu[item].selected = true;
-      } else {
-        menu[item].selected = false;
-      }
-    }
-    return menu;
-  }
-  return false;
-};
-
-/**
 /* @summary constructs object for decisions menu (aka main)
 /* @param {string} feed - feed name from url query
 */
@@ -462,6 +443,30 @@ const animateMenu = (disableAnimation) => {
     }
   }
 };
+
+/**
+/* stores the current selected item in case of refresh
+/* @param {array} arrMenu - arry items from menu
+******/
+const _toggleSelectedItem = (arrMenu) => {
+  const menu = arrMenu;
+  if (Session.get('sidebarMenuSelectedId')) {
+    for (const item in menu) {
+      if (menu[item].id === Session.get('sidebarMenuSelectedId')) {
+        menu[item].selected = true;
+      } else {
+        menu[item].selected = false;
+      }
+    }
+    if (Meteor.Device.isPhone() && Session.get('sidebar')) {
+      console.log('whut?');
+      animateMenu(false);
+    }
+    return menu;
+  }
+  return false;
+};
+
 
 export const getDelegatesMenu = _getDelegatesMenu;
 export const toggleSelectedItem = _toggleSelectedItem;

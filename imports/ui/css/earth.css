@@ -6109,8 +6109,8 @@ blockquote {
     font-size: 12px;
   }
   .subfeed-title {
-    margin-right: -10px;
-    margin-left: -10px;
+    margin-right: 0px;
+    margin-left: 0px;
   }
   .modal-title {
     font-weight: 700;
