@@ -1295,7 +1295,7 @@ blockquote {
   padding: 0px 10px 0px 5px;
   float: left;
   clear: both;
-  border-radius: 25px;
+  border-radius: 5px;
   background-color: #f7f7f7;
   box-shadow: 0 5px 15px -12px #000;
 }
@@ -5490,7 +5490,9 @@ blockquote {
 }
 
 .transaction-data {
+  max-width: auto;
   float: left;
+  clear: none;
 }
 
 .transaction-value {
@@ -6425,7 +6427,9 @@ blockquote {
     padding-right: 0px;
   }
   .transaction-data {
-    max-width: 75%;
+    max-width: 100%;
+    float: none;
+    clear: both;
   }
 }
 
