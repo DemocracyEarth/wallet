@@ -74,6 +74,9 @@ Template.transaction.helpers({
   sinceDate() {
     return `${timeCompressed(this.contract.timestamp)}`;
   },
+  noDate() {
+    return this.noDate;
+  },
   onCard() {
     if (this.onCard) {
       return 'vote-delegation-card';

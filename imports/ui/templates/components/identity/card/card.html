@@ -13,8 +13,8 @@
           </div>
           {{#if displayDelegation}}
             {{#with delegationContract}}
-              {{> transaction contract=this.contractReceiver senderId=this.receiverId receiverId=this.senderId onCard=true compressed=true notUser=true}}
-              {{> transaction contract=this.contractSender senderId=this.senderId receiverId=this.receiverId onCard=true compressed=true editable=true voteId=this.voteId}}
+              {{> transaction contract=this.contractReceiver senderId=this.receiverId receiverId=this.senderId onCard=true compressed=true notUser=true noDate=true}}
+              {{> transaction contract=this.contractSender senderId=this.senderId receiverId=this.receiverId onCard=true compressed=true editable=true voteId=this.voteId noDate=true}}
             {{/with}}
             {{#with voteSettings}}
               {{> liquid _id=this.voteId sourceId=this.sourceId contract=contract targetId=this.targetId wallet=this.wallet editable=true}}
