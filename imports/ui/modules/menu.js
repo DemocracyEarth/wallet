@@ -458,10 +458,6 @@ const _toggleSelectedItem = (arrMenu) => {
         menu[item].selected = false;
       }
     }
-    if (Meteor.Device.isPhone() && Session.get('sidebar')) {
-      console.log('whut?');
-      animateMenu(false);
-    }
     return menu;
   }
   return false;
