@@ -478,5 +478,7 @@
   "get-delegation-votes": "Getting delegation status...",
   "no-delegated-votes": "No delegations",
   "minimum-delegation-revoke": "These delegated votes are in use.",
-  "notify-new-posts": "New posts avaialable on refresh."
+  "notify-new-posts": "New posts avaialable on refresh.",
+  "empty-feed": "No posts or votes found.",
+  "posted-ideas": "Posted ideas"
 }

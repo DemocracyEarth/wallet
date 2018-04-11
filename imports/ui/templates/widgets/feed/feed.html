@@ -1,9 +1,13 @@
 <template name="feed">
   {{#if Template.subscriptionsReady}}
     {{#if refresh}}
-      {{#each placeholderItem}}
-        {{> feedItem placeholder=true}}
-      {{/each}}
+      {{#unless empty}}
+        {{#each placeholderItem}}
+          {{> feedItem placeholder=true}}
+        {{/each}}
+      {{else}}
+        {{> warning label="empty-feed"}}
+      {{/unless}}
     {{else}}
       {{#each item}}
         {{> feedItem}}
@@ -11,7 +15,7 @@
         {{> feedEmpty emptyContent}}
       {{/each}}
       {{#unless single}}
-        {{> paginator options=options count=count}}
+        {{> paginator options=options count=count subfeed=subfeed}}
       {{/unless}}
     {{/if}}
   {{else}}

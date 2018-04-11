@@ -107,6 +107,9 @@ Template.feed.helpers({
   item() {
     return Template.instance().feed.get();
   },
+  empty() {
+    return true;
+  },
   refresh() {
     return Template.currentData().refresh;
   },

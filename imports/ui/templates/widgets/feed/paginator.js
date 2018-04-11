@@ -52,6 +52,10 @@ Template.paginator.helpers({
   empty() {
     return (this.count === 0);
   },
+  subfeed() {
+    console.log(this);
+    return this.subfeed;
+  },
   identifier() {
     return Template.instance().identifier;
   },
