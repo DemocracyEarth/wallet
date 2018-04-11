@@ -105,10 +105,15 @@ Template.feed.onDestroyed(function () {
 
 Template.feed.helpers({
   item() {
+    console.log(this);
     return Template.instance().feed.get();
   },
   empty() {
-    return true;
+    console.log(Template.instance().feed.get());
+    if (Template.instance().feed.get()) {
+      return (Template.instance().feed.get().length === 0);
+    }
+    return (!Template.instance().feed.get());
   },
   refresh() {
     return Template.currentData().refresh;

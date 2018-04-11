@@ -14,6 +14,9 @@
       {{else}}
         {{> feedEmpty emptyContent}}
       {{/each}}
+      {{#if empty}}
+        {{> warning label="empty-feed"}}
+      {{/if}}
       {{#unless single}}
         {{> paginator options=options count=count subfeed=subfeed}}
       {{/unless}}
