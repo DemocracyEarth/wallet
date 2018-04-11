@@ -39,6 +39,11 @@ Template.feed.onCreated(function () {
 
   const instance = this;
 
+  // tailor feed to show a specific kind of post
+  if (Template.currentData().kind) {
+    Template.currentData().options.kind = Template.currentData().kind;
+  }
+
   this.subscription = instance.subscribe('feed', Template.currentData().options);
   const parameters = query(Template.currentData().options);
 

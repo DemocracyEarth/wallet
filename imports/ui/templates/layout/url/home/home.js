@@ -64,6 +64,3 @@ Template.homeFeed.helpers({
     return undefined;
   },
 });
-
-Template.peerFeed.helpers({
-});
