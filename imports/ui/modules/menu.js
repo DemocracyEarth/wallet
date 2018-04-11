@@ -340,8 +340,13 @@ const _sidebarWidth = () => {
 const animateMenu = (disableAnimation) => {
   const splitLeft = $('.split-left').width();
   const sidebarPixelWidth = _sidebarWidth();
+  const PERFORM_ANIMATION = true;
+
+  console.log('animated menu');
+
   let diff = 0;
   Session.set('sidebar', !Session.get('sidebar'));
+  console.log(Session.get('sidebar'));
   if (Session.get('sidebar')) {
     // show sidebar
     diff = parseInt(parseInt(splitLeft - sidebarPixelWidth, 10) - parseInt(($('.right').width() / 2), 10), 10);
@@ -381,7 +386,8 @@ const animateMenu = (disableAnimation) => {
       splitLeftNewMargin = '0px';
     }
 
-    if (!Meteor.Device.isPhone()) {
+    if (!Meteor.Device.isPhone() && !PERFORM_ANIMATION) {
+      console.log('animating');
       // animate content
       $('#menu').velocity({ marginLeft: '0px' }, animationSettings);
       $('#content').velocity({
