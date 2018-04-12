@@ -56,7 +56,12 @@
           "commentRanking": true,
           "proposalDrafting": true,
           "appCache": false,
-          "mailNotifications": false
+          "mailNotifications": false,
+          "permissioned": {
+            "active": true,
+            "checkDomain": false,
+            "checkList": true
+          }
         }
     },
 
