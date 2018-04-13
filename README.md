@@ -33,7 +33,7 @@ See our 🇫🇷 [Paris 2016 conference](https://youtube.com/watch?v=UajbQTHnTfM
 **Roadmap:**
 
   - [ ] Satoshi-based governance 🔗 with [Lightning](https://github.com/lightningnetwork/lnd).
-  - [ ] Institutional incorporation via smart contracts 🔗 with [Open Zeppelin](https://github.com/OpenZeppelin/zeppelin-solidity).
+  - [ ] Institutional incorporation via smart contracts 🔗 with [Open Zeppelin](https://github.com/OpenZeppelin/zeppelin-solidity) and [NeoCompiler-eco](https://github.com/NeoResearch/neocompiler-eco).
   - [ ] Bitcoin integration for budgeting 🔗 with [Bcoin](https://github.com/bcoin-org/bcoin).
   - [ ] Distributed resource storage 🔗 with [IPFS](https://github.com/ipfs/js-ipfs).
   - [ ] Native desktop client 🔗 with [Electron](https://github.com/electron/electron).
