@@ -33,6 +33,14 @@ export default function () {
     getBrowser().keys(keys);
   });
 
+  this.When(/^I click in the user loggin button$/, () => {
+    widgets.loggedUserButton.click();
+  });
+
+  this.When(/^I click in the sign up link$/, () => {
+    clickOnElement('#signup');
+  });
+
   this.When(/^I trigger the floating action button$/, () => {
     widgets.fab.click();
   });
