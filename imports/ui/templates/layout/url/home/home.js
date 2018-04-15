@@ -65,3 +65,12 @@ Template.homeFeed.helpers({
     return undefined;
   },
 });
+
+Template.postFeed.helpers({
+  tallyView() {
+    const tally = this;
+    tally.options.view = 'votes';
+    console.log(tally);
+    return tally;
+  },
+});
