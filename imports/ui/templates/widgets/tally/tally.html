@@ -1,3 +1,7 @@
 <template name="tally">
-
+  {{#if Template.subscriptionsReady}}
+    {{#each vote}}
+      {{> feedItem vote}}
+    {{/each}}
+  {{/if}}
 </template>
