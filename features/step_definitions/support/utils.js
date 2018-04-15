@@ -268,6 +268,18 @@ export const typeInEditable = (element, text, submit) => {
   }
 };
 
+/**
+ * @param element
+ * @param {string} text
+ * @param {boolean} submit - Defaults to false. Hits Enter after the text when true.
+ */
+export const typeInInput = (elementId, text) => {
+  try {
+    getBrowser().setValue(`input[name="${elementId}"]`, text);
+  } catch (e) {
+    getBrowser().setValue(`#${elementId}`, text);
+  }
+};
 
 
 //// STRING UTILS //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -318,9 +330,26 @@ export const castNum = (thing) => {
   return require('words-to-numbers').wordsToNumbers(thing);
 };
 
+// https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+const makeid = (size) => {
+  let text = '';
+  const possible = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  for (let i = 0; i < size; i += 1) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
+};
 
 
-//// ASSERTIONS UTILS //////////////////////////////////////////////////////////////////////////////////////////////////
+export const randomText = (n) => { return makeid(n); };
+
+export const randomUsername = () => { return makeid(7); };
+
+export const randomPassword = () => { return randomUsername(); };
+
+export const randomEmail = () => { return `${randomUsername()}@example.com`; };
+
+// // ASSERTIONS UTILS //////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Returns whatever needles were not recursively found in haystack, or null.
