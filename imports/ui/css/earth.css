@@ -3304,6 +3304,7 @@ blockquote {
   border-color: #ccbcda;
   background-color: #ccbcda;
   color: #6c5b7c;
+  text-transform: none;
 }
 
 .profile-thumb {

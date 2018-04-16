@@ -14,11 +14,10 @@ import '/imports/ui/templates/widgets/tally/tally.html';
 * @summary translates data info about vote into a renderable contracts
 * @param {object} post a transaction Object
 */
-const _voteToContract = (post) => {
-  console.log(post);
+const _voteToContract = (post, contract) => {
   return {
     contract: {
-      _id: post.contractId, // `txId-${post._id}-${post.contractId}`,
+      _id: contract._id,
       timestamp: post.timestamp,
       wallet: {
         balance: post.input.quantity,
@@ -28,19 +27,20 @@ const _voteToContract = (post) => {
     ballot: post.condition.ballot,
     senderId: post.input.entityId,
     receiverId: post.output.entityId,
+    title: contract.title,
     isVote: true,
   };
 };
 
 Template.tally.onCreated(function () {
   Template.instance().feed = new ReactiveVar();
-  Template.instance().contractId = new ReactiveVar();
+  Template.instance().contract = new ReactiveVar();
 
   const instance = this;
 
-  Meteor.call('getContractId', Template.currentData().options.keyword, function (error, result) {
+  Meteor.call('getContract', Template.currentData().options.keyword, function (error, result) {
     if (result) {
-      instance.contractId.set(result);
+      instance.contract.set(result);
     } else if (error) {
       console.log(error);
     }
@@ -52,10 +52,10 @@ Template.tally.onCreated(function () {
 Template.tally.onRendered(function () {
   const instance = this;
   instance.autorun(function () {
-    const contractId = instance.contractId.get();
+    const contract = instance.contract.get();
 
-    if (contractId) {
-      Template.currentData().options.contractId = contractId;
+    if (contract) {
+      Template.currentData().options.contractId = contract._id;
       const parameters = query(Template.currentData().options);
       const dbQuery = Transactions.find(parameters.find, parameters.options);
 
@@ -67,12 +67,12 @@ Template.tally.onRendered(function () {
           // added stuff
           const currentFeed = instance.feed.get();
           const post = fields;
-          const contract = _voteToContract(post);
+          const voteContract = _voteToContract(post, contract);
           post._id = id;
           if (!currentFeed) {
-            instance.feed.set([contract]);
-          } else if (!here(contract, currentFeed)) {
-            currentFeed.push(contract);
+            instance.feed.set([voteContract]);
+          } else if (!here(voteContract, currentFeed)) {
+            currentFeed.push(voteContract);
             instance.feed.set(_.uniq(currentFeed));
           }
         },
@@ -86,6 +86,6 @@ Template.tally.helpers({
     return Template.instance().feed.get();
   },
   ready() {
-    return Template.instance().contractId.get();
+    return Template.instance().contract.get();
   },
 });
