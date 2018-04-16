@@ -1,0 +1,7 @@
+<template name="tally">
+  {{#if ready}}
+    {{#each vote}}
+      {{> feedItem vote}}
+    {{/each}}
+  {{/if}}
+</template>

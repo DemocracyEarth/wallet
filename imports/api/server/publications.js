@@ -72,6 +72,37 @@ Meteor.publish('files', function files() {
   return this.ready();
 });
 
+
+/**
+* @summary generates feed that shows every vote
+* @return {Object} querying terms
+*/
+Meteor.publish('tally', function (terms) {
+  check(terms, Object);
+  const parameters = query(terms);
+  let log = String();
+
+  if (Meteor.user()) {
+    log = `{ publish: 'tally', user: '${Meteor.user().username}', ${JSON.stringify(terms)}, `;
+  } else {
+    log = `{ publish: 'tally', user: [anonymous], ${JSON.stringify(terms)}, `;
+  }
+
+  if (parameters) {
+    log += (`${JSON.stringify(parameters.find)}, { length: ${Transactions.find(parameters.find, parameters.options).fetch().length} } }`);
+    console.log(log);
+
+    const feed = Transactions.find(parameters.find, parameters.options);
+    if (feed) {
+      return feed;
+    }
+  } else {
+    log += ' } }';
+    console.log(log);
+  }
+  return this.ready();
+});
+
 /**
 * @summary generates feed for a specific user
 * @return {Object} querying terms

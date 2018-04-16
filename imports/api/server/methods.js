@@ -29,6 +29,18 @@ Meteor.methods({
     genesisTransaction(Meteor.user()._id);
   },
 
+
+  /**
+  * @summary given a keyword returns contract id
+  * @param {keyword} keyword identify contract by given keyword
+  */
+  getContractId(keyword) {
+    check(keyword, String);
+
+    console.log(`{ method: 'getContractId', user: ${Meteor.user().username}, keyword: '${keyword}' }`);
+    return Contracts.findOne({ keyword })._id;
+  },
+
   /**
   * @summary reports server time from server to client
   * @return {Date} time

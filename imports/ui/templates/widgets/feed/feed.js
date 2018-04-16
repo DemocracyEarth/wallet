@@ -10,6 +10,7 @@ import { query } from '/lib/views';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { createContract } from '/imports/startup/both/modules/Contract';
 import { displayNotice } from '/imports/ui/modules/notice';
+import { toggleSidebar } from '/imports/ui/modules/menu';
 
 import '/imports/ui/templates/widgets/feed/feed.html';
 import '/imports/ui/templates/widgets/feed/feedItem.js';
@@ -38,6 +39,10 @@ Template.feed.onCreated(function () {
   Template.currentData().singlePost = false;
 
   const instance = this;
+
+  if (Meteor.Device.isPhone() && Session.get('sidebar')) {
+    toggleSidebar(false);
+  }
 
   // tailor feed to show a specific kind of post
   if (Template.currentData().kind) {
@@ -105,7 +110,15 @@ Template.feed.onDestroyed(function () {
 
 Template.feed.helpers({
   item() {
+    console.log(this);
     return Template.instance().feed.get();
+  },
+  empty() {
+    console.log(Template.instance().feed.get());
+    if (Template.instance().feed.get()) {
+      return (Template.instance().feed.get().length === 0);
+    }
+    return (!Template.instance().feed.get());
   },
   refresh() {
     return Template.currentData().refresh;

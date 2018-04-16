@@ -34,12 +34,12 @@
 
   <div class="subfeed-title subfeed-title-main">
     <a href="#votes"></a>
-    <h3>{{_ 'posts'}}</h3>
+    <h3>{{_ 'posted-ideas'}}</h3>
   </div>
 
   <div class="content content-feed content-feed-subsection">
     <div id="non-editable-feed">
-      {{> feed options=this.options kind='VOTE'}}
+      {{> feed options=this.options kind='VOTE' subfeed=true}}
     </div>
   </div>
 
@@ -66,6 +66,12 @@
   <div class="subfeed-title">
     <a href="#votes"></a>
     <h3>{{_ 'votes'}}</h3>
+  </div>
+
+  <div class="content content-feed content-feed-subsection">
+    <div id="non-editable-feed">
+      {{> tally tallyView}}
+    </div>
   </div>
 
   {{> compose}}

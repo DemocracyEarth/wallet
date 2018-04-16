@@ -2,12 +2,14 @@
   <div id="page-{{identifier}}" class="page">
     {{#if end}}
       {{#unless empty}}
-        <div id="feed-bottom" class="feed-footer">
-          <img src="{{pathFor route='home'}}images/arrow-up.png" class="back-top">
-          <div>
-            {{_ 'back-to-top'}}
+        {{#unless subfeed}}
+          <div id="feed-bottom" class="feed-footer">
+            <img src="{{pathFor route='home'}}images/arrow-up.png" class="back-top">
+            <div>
+              {{_ 'back-to-top'}}
+            </div>
           </div>
-        </div>
+        {{/unless}}
       {{/unless}}
     {{else}}
       {{#if visible}}

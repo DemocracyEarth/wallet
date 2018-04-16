@@ -13,6 +13,11 @@
         </div>
       </div>
     </div>
+    {{#unless noDate}}
+      <div class="data data-feed data-transaction">
+        <div class="verifier verifier-live verifier-feed">&#183; {{sinceDate}}</div>
+      </div>
+    {{/unless}}
     {{#if compressed}}
       <div class="identity identity-transaction w-clearfix" style="float:left">
         {{#with sender}}
