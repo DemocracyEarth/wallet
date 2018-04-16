@@ -88,4 +88,11 @@ Template.transaction.helpers({
     }
     return '';
   },
+  shortTitle() {
+    console.log(this);
+    return this.contract.title;
+  },
+  fullTitle() {
+    return this.contract.title;
+  },
 });

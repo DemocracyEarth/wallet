@@ -2206,6 +2206,11 @@ blockquote {
   line-height: 12px;
 }
 
+.identity-label.identity-label-micro.identity-label-post {
+  display: inline;
+  overflow: hidden;
+}
+
 .option-link:hover {
   border-bottom-style: none;
 }
@@ -2792,6 +2797,10 @@ blockquote {
   margin-top: 16px;
   margin-left: 30px;
   float: none;
+}
+
+.identity-peer.identity-post {
+  margin-left: 0px;
 }
 
 .fact-votes {

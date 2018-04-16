@@ -15,6 +15,7 @@ import '/imports/ui/templates/widgets/tally/tally.html';
 * @param {object} post a transaction Object
 */
 const _voteToContract = (post, contract) => {
+  console.log(contract.title);
   return {
     contract: {
       _id: contract._id,
@@ -22,12 +23,11 @@ const _voteToContract = (post, contract) => {
       wallet: {
         balance: post.input.quantity,
       },
-      title: '',
+      title: contract.title,
     },
     ballot: post.condition.ballot,
     senderId: post.input.entityId,
     receiverId: post.output.entityId,
-    title: contract.title,
     isVote: true,
   };
 };
