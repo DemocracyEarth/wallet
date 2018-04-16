@@ -28,54 +28,6 @@ const _voteToContract = (post) => {
     receiverId: post.output.entityId,
     isVote: true,
   };
-/*      keyword : "what-if-i-post-here-what-do-you-see-q3nb",
-     "collectiveId" : "hSBYovddB7jpCMhQY",
-     "title" : "What if I post here. What do you see?",
-     "kind" : "VOTE",
-     "context" : "GLOBAL",
-     "url" : "/vote/what-if-i-post-here-what-do-you-see-q3nb",
-     "description" : "",
-     "createdAt" : ISODate("2018-04-02T20:58:15.738Z"),
-     "lastUpdate" : ISODate("2018-04-09T17:50:32.872Z"),
-     "timestamp" : ISODate("2018-04-09T17:50:32.872Z"),
-     "tags" : [ ],
-     "membersOnly" : false,
-     "permanentElection" : true,
-     "executionStatus" : "OPEN",
-     "anonymous" : false,
-     "closingDate" : ISODate("2018-04-03T20:58:15.740Z"),
-     "alwaysOpen" : false,
-     "allowForks" : false,
-     "secretVotes" : false,
-     "realtimeResults" : false,
-     "multipleChoice" : false,
-     "rankPreferences" : false,
-     "executiveDecision" : true,
-     "stage" : "LIVE",
-     "ballot" : [ ],
-     "ballotEnabled" : true,
-     "authorized" : false,
-     "isDefined" : false,
-     "isRoot" : true,
-     "events" : [ ],
-     "wallet" : {
-             "balance" : 0,
-             "placed" : 0,
-             "available" : 0,
-             "currency" : "VOTES",
-             "address" : [ ],
-             "ledger" : [ ]
-     },
-     "signatures" : [
-             {
-                     "_id" : "vZd5S8kuC5HCsjARH",
-                     "role" : "AUTHOR",
-                     "hash" : "",
-                     "username" : "eve",
-                     "status" : "CONFIRMED"
-             }
-     ]
-   },*/
 };
 
 Template.tally.onCreated(function () {

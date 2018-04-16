@@ -34,7 +34,25 @@
       </div>
     {{else}}
       {{#if isVote}}
-        isVote
+        <table class="transaction-data w-clearfix">
+          <tr>
+            <td class="actor">
+              <div class="identity identity-transaction w-clearfix">
+                {{#with sender}}
+                  {{> avatar size=24 profile=this._id includeName=true includeNation=true editable=false microFont=true disabled=false includeRole=false flex=true}}
+                {{/with}}
+              </div>
+            </td>
+            <td class="actor actor-arrow">
+              <img src="{{pathFor route='home'}}images/arrow-right.png" class="transaction-direction">
+            </td>
+            <td class="actor">
+              <div class="identity identity-transaction w-clearfix">
+                Contracto
+              </div>
+            </td>
+          </tr>
+        </table>
       {{else}}
         <table class="transaction-data w-clearfix">
           <tr>
