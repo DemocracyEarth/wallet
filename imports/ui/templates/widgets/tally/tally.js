@@ -4,6 +4,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { Meteor } from 'meteor/meteor';
 
 import { query } from '/lib/views';
+import { here } from '/lib/utils';
 import { Transactions } from '/imports/api/transactions/Transactions';
 import { displayNotice } from '/imports/ui/modules/notice';
 
@@ -51,7 +52,7 @@ Template.tally.onCreated(function () {
         post._id = id;
         if (!currentFeed) {
           instance.feed.set([post]);
-        } else if (!_here(post, currentFeed)) {
+        } else if (!here(post, currentFeed)) {
           currentFeed.push(post);
           instance.feed.set(_.uniq(currentFeed));
         }
@@ -69,6 +70,7 @@ Template.tally.helpers({
     const instance = Template.instance();
     const contractId = instance.contractId.get();
     console.log('ready');
+    console.log(contractId);
     if (contractId) {
       console.log('instance ready');
       Template.currentData().options.contractId = contractId;
@@ -91,7 +93,7 @@ Template.tally.helpers({
           post._id = id;
           if (!currentFeed) {
             instance.feed.set([post]);
-          } else if (!_here(post, currentFeed)) {
+          } else if (!here(post, currentFeed)) {
             currentFeed.push(post);
             instance.feed.set(_.uniq(currentFeed));
           }
