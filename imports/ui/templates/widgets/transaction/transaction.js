@@ -37,7 +37,6 @@ Template.transaction.helpers({
     };
   },
   isVote() {
-    console.log(this.isVote);
     return this.isVote;
   },
   value() {
@@ -69,7 +68,6 @@ Template.transaction.helpers({
     return 'stage stage-live';
   },
   emptyVotes() {
-    // TODO: this data should be from ledger
     if (Template.instance().totalVotes.get() === 0 && !this.onCard) {
       return 'display:none';
     }

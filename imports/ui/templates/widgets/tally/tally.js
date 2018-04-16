@@ -113,12 +113,12 @@ Template.tally.onRendered(function () {
           // added stuff
           const currentFeed = instance.feed.get();
           const post = fields;
+          const contract = _voteToContract(post);
           post._id = id;
-          console.log(_voteToContract(post));
           if (!currentFeed) {
-            instance.feed.set([_voteToContract(post)]);
-          } else if (!here(_voteToContract(post), currentFeed)) {
-            currentFeed.push(_voteToContract(post));
+            instance.feed.set([contract]);
+          } else if (!here(contract, currentFeed)) {
+            currentFeed.push(contract);
             instance.feed.set(_.uniq(currentFeed));
           }
         },
