@@ -1295,7 +1295,6 @@ blockquote {
   padding: 0px 10px 0px 5px;
   float: left;
   clear: both;
-  border-radius: 5px;
   background-color: #f7f7f7;
   box-shadow: 0 5px 15px -12px #000;
 }
@@ -3156,7 +3155,7 @@ blockquote {
 }
 
 .data.data-feed.data-transaction {
-  margin: 3px 10px 7px -4px;
+  margin: 3px 4px 7px 7px;
   float: left;
 }
 
@@ -3299,6 +3298,13 @@ blockquote {
   border-color: #9e6fcc;
   background-color: transparent;
   color: #9e6fcc;
+}
+
+.stage.stage-vote {
+  border-style: solid;
+  border-color: #ccbcda;
+  background-color: #ccbcda;
+  color: #6c5b7c;
 }
 
 .profile-thumb {
@@ -6428,8 +6434,7 @@ blockquote {
   }
   .transaction-data {
     max-width: 100%;
-    float: none;
-    clear: both;
+    clear: left;
   }
 }
 

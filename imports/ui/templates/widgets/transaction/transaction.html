@@ -13,11 +13,6 @@
         </div>
       </div>
     </div>
-    {{#unless noDate}}
-      <div class="data data-feed data-transaction">
-        <div class="verifier verifier-live verifier-feed">&#183; {{sinceDate}}</div>
-      </div>
-    {{/unless}}
     {{#if compressed}}
       <div class="identity identity-transaction w-clearfix" style="float:left">
         {{#with sender}}
@@ -47,8 +42,18 @@
               <img src="{{pathFor route='home'}}images/arrow-right.png" class="transaction-direction">
             </td>
             <td class="actor">
-              <div class="identity identity-transaction w-clearfix">
-                Contracto
+              <div class="actor actor-score">
+                <div class="transaction-value">
+                  <div class="bar-labels">
+                    <div class="vote-available label-votes">
+                      <div class="stage stage-vote">
+                        <div class="label label-corner">
+                          Yes
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </td>
           </tr>
@@ -77,5 +82,10 @@
         </table>
       {{/if}}
     {{/if}}
+    {{#unless noDate}}
+      <div class="data data-feed data-transaction">
+        <div class="verifier verifier-live verifier-feed">&#183; {{sinceDate}}</div>
+      </div>
+    {{/unless}}
   </div>
 </template>
