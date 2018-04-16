@@ -3052,7 +3052,6 @@ blockquote {
 
 .vote-allocated {
   display: inline-block;
-  float: right;
 }
 
 .vote-allocated.label-votes {

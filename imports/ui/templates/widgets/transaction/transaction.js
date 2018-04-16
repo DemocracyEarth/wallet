@@ -67,6 +67,9 @@ Template.transaction.helpers({
     }
     return 'stage stage-live';
   },
+  ballotValue() {
+    return TAPi18n.__(this.ballot[0].mode);
+  },
   emptyVotes() {
     if (Template.instance().totalVotes.get() === 0 && !this.onCard) {
       return 'display:none';
