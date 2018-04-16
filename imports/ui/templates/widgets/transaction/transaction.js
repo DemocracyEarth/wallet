@@ -36,6 +36,10 @@ Template.transaction.helpers({
       },
     };
   },
+  isVote() {
+    console.log(this.isVote);
+    return this.isVote;
+  },
   value() {
     let votes;
     if (this.editable) {
