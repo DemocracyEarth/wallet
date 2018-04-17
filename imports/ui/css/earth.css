@@ -5565,6 +5565,19 @@ blockquote {
   margin-left: -4px;
 }
 
+.checkbox-mini {
+  width: 17px;
+  height: 17px;
+  margin-top: -2px;
+  margin-right: 5px;
+  margin-left: -6px;
+  padding: 8%;
+  float: left;
+  border: 1px solid #6c5b7c;
+  border-radius: 25px;
+  background-color: #fff;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
