@@ -54,6 +54,14 @@ Template.screen.helpers({
   },
 });
 
+Template.peerFeed.helpers({
+  votes() {
+    const tally = this;
+    // tally.options.view = 'userVotes';
+    return tally;
+  },
+});
+
 Template.homeFeed.helpers({
   editorMode() {
     return Session.get('showPostEditor');
@@ -67,10 +75,10 @@ Template.homeFeed.helpers({
 });
 
 Template.postFeed.helpers({
-  tallyView() {
+  votes() {
     const tally = this;
     tally.options.view = 'votes';
-    console.log(tally);
+    tally.options.sort = { timestamp: -1 };
     return tally;
   },
 });

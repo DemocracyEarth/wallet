@@ -34,11 +34,11 @@ Meteor.methods({
   * @summary given a keyword returns contract id
   * @param {keyword} keyword identify contract by given keyword
   */
-  getContractId(keyword) {
+  getContract(keyword) {
     check(keyword, String);
 
     console.log(`{ method: 'getContractId', user: ${Meteor.user().username}, keyword: '${keyword}' }`);
-    return Contracts.findOne({ keyword })._id;
+    return Contracts.findOne({ keyword });
   },
 
   /**

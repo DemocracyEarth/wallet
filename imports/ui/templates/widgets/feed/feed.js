@@ -7,6 +7,7 @@ import { Counts } from 'meteor/tmeasday:publish-counts';
 import { TAPi18n } from 'meteor/tap:i18n';
 
 import { query } from '/lib/views';
+import { here } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { createContract } from '/imports/startup/both/modules/Contract';
 import { displayNotice } from '/imports/ui/modules/notice';
@@ -16,21 +17,6 @@ import '/imports/ui/templates/widgets/feed/feed.html';
 import '/imports/ui/templates/widgets/feed/feedItem.js';
 import '/imports/ui/templates/widgets/feed/feedEmpty.js';
 import '/imports/ui/templates/widgets/feed/feedLoad.js';
-
-/**
-* @summary if _here
-* @param {object} post data
-* @param {array} feed list
-* @return {boolean} 🙏
-*/
-const _here = (post, feed) => {
-  for (const items in feed) {
-    if (feed[items]._id === post._id) {
-      return true;
-    }
-  }
-  return false;
-};
 
 Template.feed.onCreated(function () {
   Template.instance().count = new ReactiveVar(0);
@@ -71,7 +57,7 @@ Template.feed.onCreated(function () {
       if (!currentFeed) {
         instance.feed.set([post]);
         instance.data.refresh = false;
-      } else if (!_here(post, currentFeed)) {
+      } else if (!here(post, currentFeed)) {
         currentFeed.push(post);
         instance.feed.set(_.uniq(currentFeed));
       }

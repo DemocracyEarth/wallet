@@ -1295,7 +1295,6 @@ blockquote {
   padding: 0px 10px 0px 5px;
   float: left;
   clear: both;
-  border-radius: 5px;
   background-color: #f7f7f7;
   box-shadow: 0 5px 15px -12px #000;
 }
@@ -2207,6 +2206,11 @@ blockquote {
   line-height: 12px;
 }
 
+.identity-label.identity-label-micro.identity-label-post {
+  display: inline;
+  overflow: hidden;
+}
+
 .option-link:hover {
   border-bottom-style: none;
 }
@@ -2795,6 +2799,10 @@ blockquote {
   float: none;
 }
 
+.identity-peer.identity-post {
+  margin-left: 0px;
+}
+
 .fact-votes {
   margin-right: 10px;
   margin-left: 10px;
@@ -3053,7 +3061,6 @@ blockquote {
 
 .vote-allocated {
   display: inline-block;
-  float: right;
 }
 
 .vote-allocated.label-votes {
@@ -3156,7 +3163,7 @@ blockquote {
 }
 
 .data.data-feed.data-transaction {
-  margin: 3px 10px 7px -4px;
+  margin: 3px 4px 7px 7px;
   float: left;
 }
 
@@ -3299,6 +3306,15 @@ blockquote {
   border-color: #9e6fcc;
   background-color: transparent;
   color: #9e6fcc;
+}
+
+.stage.stage-vote {
+  min-width: 60px;
+  border-style: solid;
+  border-color: #ccbcda;
+  background-color: #ccbcda;
+  color: #6c5b7c;
+  text-transform: none;
 }
 
 .profile-thumb {
@@ -5550,6 +5566,19 @@ blockquote {
   margin-left: -4px;
 }
 
+.checkbox-mini {
+  width: 17px;
+  height: 17px;
+  margin-top: -2px;
+  margin-right: 5px;
+  margin-left: -6px;
+  padding: 8%;
+  float: left;
+  border: 1px solid #6c5b7c;
+  border-radius: 25px;
+  background-color: #fff;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
@@ -6428,8 +6457,7 @@ blockquote {
   }
   .transaction-data {
     max-width: 100%;
-    float: none;
-    clear: both;
+    clear: left;
   }
 }
 
