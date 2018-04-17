@@ -78,6 +78,7 @@ Template.postFeed.helpers({
   votes() {
     const tally = this;
     tally.options.view = 'votes';
+    tally.options.sort = { timestamp: -1 };
     return tally;
   },
 });

@@ -92,10 +92,14 @@ Template.transaction.helpers({
     }
     return '';
   },
+  isRevoke() {
+    console.log(this);
+    return this.isRevoke;
+  },
   displayTitle() {
-    let chars = 50;
+    let chars = 30;
     if (Meteor.Device.isPhone()) {
-      chars = 20;
+      chars = 15;
     }
     return `${stripHTMLfromText(this.contract.title).substring(0, chars)}...`;
   },

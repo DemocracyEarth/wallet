@@ -11,6 +11,15 @@ import { displayNotice } from '/imports/ui/modules/notice';
 import '/imports/ui/templates/widgets/tally/tally.html';
 
 /**
+* @summary checks if this transaction is a revoke
+* @param {string} userId check if user exists
+*/
+const _isRevoke = (userId) => {
+  console.log(!Meteor.users.findOne({ _id: userId }));
+  return !Meteor.users.findOne({ _id: userId });
+};
+
+/**
 * @summary translates data info about vote into a renderable contracts
 * @param {object} post a transaction Object
 */
@@ -29,6 +38,7 @@ const _voteToContract = (post, contract) => {
     senderId: post.input.entityId,
     receiverId: post.output.entityId,
     isVote: true,
+    isRevoke: _isRevoke(post.input.entityId),
   };
 };
 
@@ -57,7 +67,6 @@ Template.tally.onRendered(function () {
     if (contract) {
       Template.currentData().options.contractId = contract._id;
       const parameters = query(Template.currentData().options);
-      console.log(parameters.find);
       const dbQuery = Transactions.find(parameters.find, parameters.options);
 
       instance.handle = dbQuery.observeChanges({
@@ -70,12 +79,9 @@ Template.tally.onRendered(function () {
           const post = fields;
           post._id = id;
           const voteContract = _voteToContract(post, contract);
-          console.log(voteContract);
-          console.log(id);
           if (!currentFeed) {
             instance.feed.set([voteContract]);
           } else if (!here(voteContract, currentFeed)) {
-            console.log('NOT HERE');
             currentFeed.push(voteContract);
             instance.feed.set(_.uniq(currentFeed));
           }
