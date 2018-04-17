@@ -3309,6 +3309,7 @@ blockquote {
 }
 
 .stage.stage-vote {
+  min-width: 60px;
   border-style: solid;
   border-color: #ccbcda;
   background-color: #ccbcda;

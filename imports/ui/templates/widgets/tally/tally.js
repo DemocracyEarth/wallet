@@ -15,8 +15,8 @@ import '/imports/ui/templates/widgets/tally/tally.html';
 * @param {object} post a transaction Object
 */
 const _voteToContract = (post, contract) => {
-  console.log(contract.title);
   return {
+    _id: post._id,
     contract: {
       _id: contract._id,
       timestamp: post.timestamp,
@@ -57,6 +57,7 @@ Template.tally.onRendered(function () {
     if (contract) {
       Template.currentData().options.contractId = contract._id;
       const parameters = query(Template.currentData().options);
+      console.log(parameters.find);
       const dbQuery = Transactions.find(parameters.find, parameters.options);
 
       instance.handle = dbQuery.observeChanges({
@@ -67,11 +68,14 @@ Template.tally.onRendered(function () {
           // added stuff
           const currentFeed = instance.feed.get();
           const post = fields;
-          const voteContract = _voteToContract(post, contract);
           post._id = id;
+          const voteContract = _voteToContract(post, contract);
+          console.log(voteContract);
+          console.log(id);
           if (!currentFeed) {
             instance.feed.set([voteContract]);
           } else if (!here(voteContract, currentFeed)) {
+            console.log('NOT HERE');
             currentFeed.push(voteContract);
             instance.feed.set(_.uniq(currentFeed));
           }

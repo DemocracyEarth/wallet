@@ -3,6 +3,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Session } from 'meteor/session';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
+import { Meteor } from 'meteor/meteor';
 
 import { getVotes } from '/imports/api/transactions/transaction';
 import { timeCompressed } from '/imports/ui/modules/chronos';
@@ -68,6 +69,7 @@ Template.transaction.helpers({
     return 'stage stage-live';
   },
   ballotValue() {
+    console.log(this.ballot[0]);
     return TAPi18n.__(this.ballot[0].mode);
   },
   emptyVotes() {
@@ -89,7 +91,11 @@ Template.transaction.helpers({
     return '';
   },
   displayTitle() {
-    return `${stripHTMLfromText(this.contract.title).substring(0, 50)}...`;
+    let chars = 50;
+    if (Meteor.Device.isPhone()) {
+      chars = 20;
+    }
+    return `${stripHTMLfromText(this.contract.title).substring(0, chars)}...`;
   },
   fullTitle() {
     return stripHTMLfromText(this.contract.title);
