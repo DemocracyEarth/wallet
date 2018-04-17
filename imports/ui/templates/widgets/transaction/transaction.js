@@ -102,7 +102,6 @@ Template.transaction.helpers({
     return this.isRevoke;
   },
   hidePost() {
-    console.log(this);
     return this.hidePost;
   },
   displayTitle() {

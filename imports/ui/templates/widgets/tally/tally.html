@@ -1,7 +1,9 @@
 <template name="tally">
   {{#if ready}}
     {{#each vote}}
-      {{> transaction this}}
+      {{> transaction this hidePost=this.hidePost}}
+    {{else}}
+      {{> warning label="empty-feed"}}
     {{/each}}
   {{/if}}
 </template>

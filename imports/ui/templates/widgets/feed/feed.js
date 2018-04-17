@@ -94,11 +94,9 @@ Template.feed.onDestroyed(function () {
 
 Template.feed.helpers({
   item() {
-    console.log(this);
     return Template.instance().feed.get();
   },
   empty() {
-    console.log(Template.instance().feed.get());
     if (Template.instance().feed.get()) {
       return (Template.instance().feed.get().length === 0);
     }
