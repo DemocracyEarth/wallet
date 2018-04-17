@@ -44,6 +44,9 @@ Template.transaction.helpers({
     let votes;
     if (this.isVote) {
       votes = this.contract.wallet.balance;
+      if (this.isRevoke) {
+        votes *= -1;
+      }
       Template.instance().totalVotes.set(votes);
     } else if (this.editable) {
       if (Session.get(this.voteId)) {
@@ -55,9 +58,9 @@ Template.transaction.helpers({
       Template.instance().totalVotes.set(getVotes(this.contract._id, this.senderId));
       votes = Template.instance().totalVotes.get();
     }
-    if (votes === 1) {
+    if (votes === 1 || votes === -1) {
       return `${votes} ${TAPi18n.__('vote')}`;
-    } else if (votes > 0) {
+    } else if (votes > 0 || votes < 0) {
       return `${votes} ${TAPi18n.__('votes')}`;
     }
     return TAPi18n.__('no-delegated-votes');
@@ -66,7 +69,10 @@ Template.transaction.helpers({
     return TAPi18n.__('delegated-votes');
   },
   voteStyle() {
-    if (Template.instance().totalVotes.get() > 0) {
+    if (Template.instance().totalVotes.get() !== 0) {
+      if (this.isRevoke) {
+        return 'stage stage-finish-rejected';
+      }
       return 'stage stage-finish-approved';
     }
     return 'stage stage-live';
@@ -93,7 +99,6 @@ Template.transaction.helpers({
     return '';
   },
   isRevoke() {
-    console.log(this);
     return this.isRevoke;
   },
   displayTitle() {

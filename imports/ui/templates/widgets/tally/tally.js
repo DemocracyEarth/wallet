@@ -15,7 +15,6 @@ import '/imports/ui/templates/widgets/tally/tally.html';
 * @param {string} userId check if user exists
 */
 const _isRevoke = (userId) => {
-  console.log(!Meteor.users.findOne({ _id: userId }));
   return !Meteor.users.findOne({ _id: userId });
 };
 

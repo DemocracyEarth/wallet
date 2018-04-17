@@ -57,7 +57,7 @@ Template.screen.helpers({
 Template.peerFeed.helpers({
   votes() {
     const tally = this;
-    tally.options.view = 'userVotes';
+    // tally.options.view = 'userVotes';
     return tally;
   },
 });
