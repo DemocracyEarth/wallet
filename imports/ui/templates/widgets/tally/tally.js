@@ -32,11 +32,13 @@ const _voteToContract = (post, contract) => {
         balance: post.input.quantity,
       },
       title: contract.title,
+      url: contract.url,
     },
     ballot: post.condition.ballot,
     senderId: post.input.entityId,
     receiverId: post.output.entityId,
     isVote: true,
+    hidePost: true,
     isRevoke: _isRevoke(post.input.entityId),
   };
 };
