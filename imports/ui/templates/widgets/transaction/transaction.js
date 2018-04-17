@@ -1,8 +1,8 @@
 import { Template } from 'meteor/templating';
-import { Meteor } from 'meteor/meteor';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Session } from 'meteor/session';
+import { stripHTMLfromText } from '/imports/ui/modules/utils';
 
 import { getVotes } from '/imports/api/transactions/transaction';
 import { timeCompressed } from '/imports/ui/modules/chronos';
@@ -88,11 +88,10 @@ Template.transaction.helpers({
     }
     return '';
   },
-  shortTitle() {
-    console.log(this);
-    return this.contract.title;
+  displayTitle() {
+    return `${stripHTMLfromText(this.contract.title).substring(0, 50)}...`;
   },
   fullTitle() {
-    return this.contract.title;
+    return stripHTMLfromText(this.contract.title);
   },
 });
