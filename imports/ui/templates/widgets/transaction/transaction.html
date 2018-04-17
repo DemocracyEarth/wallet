@@ -1,18 +1,5 @@
 <template name="transaction">
   <div id="feedItem-{{contract._id}}" class="vote vote-delegation vote-feed vote-search {{onCard}} w-clearfix" style="{{emptyVotes}}">
-    <div class="actor actor-score">
-      <div class="transaction-value">
-        <div class="bar-labels">
-          <div class="vote-available label-votes">
-            <div class="{{voteStyle}}">
-              <div class="label label-corner">
-                {{value}}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
     {{#if compressed}}
       <div class="identity identity-transaction w-clearfix" style="float:left">
         {{#with sender}}
@@ -145,5 +132,18 @@
         <div class="verifier verifier-live verifier-feed">&#183; {{sinceDate}}</div>
       </div>
     {{/unless}}
+    <div class="actor actor-score">
+      <div class="transaction-value">
+        <div class="bar-labels">
+          <div class="vote-available label-votes">
+            <div class="{{voteStyle}}">
+              <div class="label label-corner">
+                {{value}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>    
   </div>
 </template>
