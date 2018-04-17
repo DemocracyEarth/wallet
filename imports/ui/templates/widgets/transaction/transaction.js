@@ -42,7 +42,10 @@ Template.transaction.helpers({
   },
   value() {
     let votes;
-    if (this.editable) {
+    if (this.isVote) {
+      votes = this.contract.wallet.balance;
+      Template.instance().totalVotes.set(votes);
+    } else if (this.editable) {
       if (Session.get(this.voteId)) {
         votes = Session.get(this.voteId).allocateQuantity;
         if (isNaN(votes)) { votes = Session.get(this.voteId).inBallot; }
@@ -68,8 +71,7 @@ Template.transaction.helpers({
     }
     return 'stage stage-live';
   },
-  ballotValue() {
-    console.log(this.ballot[0]);
+  ballotOption() {
     return TAPi18n.__(this.ballot[0].mode);
   },
   emptyVotes() {
