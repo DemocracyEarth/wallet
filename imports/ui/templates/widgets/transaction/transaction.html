@@ -24,7 +24,7 @@
                   <div class="transaction-value">
                     <div class="bar-labels">
                       <div class="vote-available label-votes">
-                        <div class="stage stage-vote">
+                        <div class="stage stage-vote {{revokeStyle}}">
                           <div class="label label-corner">
                             <div class="checkbox-mini">
                               <div class="checkmark_kick"></div>
@@ -38,15 +38,7 @@
                   </div>
                 </div>
                 {{#unless hidePost}}
-                  <div class="identity identity-transaction w-clearfix" style="float:left">
-                    <div class="w-clearfix avatar-editor">
-                      <div class="identity-peer identity-post">
-                        <a href="{{contract.url}}" title="{{fullTitle}}" class="identity-label identity-label-micro identity-label-post">
-                          {{displayTitle}}
-                        </a>
-                      </div>
-                    </div>
-                  </div>
+                  {{> preview contractId=this.senderId}}
                 {{/unless}}
               </td>
             {{else}}
@@ -90,15 +82,7 @@
                 </div>
               </td>
               {{#unless hidePost}}
-                <div class="identity identity-transaction w-clearfix" style="float:left">
-                  <div class="w-clearfix avatar-editor">
-                    <div class="identity-peer identity-post">
-                      <a href="{{contract.url}}" title="{{fullTitle}}" class="identity-label identity-label-micro identity-label-post">
-                        {{displayTitle}}
-                      </a>
-                    </div>
-                  </div>
-                </div>
+                {{> preview contractId=this.receiverId}}
               {{/unless}}
              {{/if}}
           </tr>
@@ -144,6 +128,6 @@
           </div>
         </div>
       </div>
-    </div>    
+    </div>
   </div>
 </template>

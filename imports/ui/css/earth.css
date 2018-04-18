@@ -3317,6 +3317,11 @@ blockquote {
   text-transform: none;
 }
 
+.stage.stage-vote.stage-revoke {
+  margin-right: 0px;
+  margin-left: 10px;
+}
+
 .profile-thumb {
   height: 60px;
   opacity: 0.75;

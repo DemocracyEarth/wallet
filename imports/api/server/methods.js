@@ -48,7 +48,7 @@ Meteor.methods({
   getContractById(contractId) {
     check(contractId, String);
 
-    console.log(`{ method: 'getContractById', user: ${Meteor.user().username}, _id: '${contractId}' }`);
+    console.log(`{ method: 'getContractById', user: '${Meteor.user().username}', _id: '${contractId}' }`);
     return Contracts.findOne({ _id: contractId });
   },
 

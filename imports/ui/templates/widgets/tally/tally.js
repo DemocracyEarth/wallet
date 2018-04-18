@@ -41,8 +41,6 @@ const _voteToContract = (post, contract, hidePost) => {
     isRevoke: _isRevoke(post.input.entityId),
   };
   if (!hidePost) {
-    console.log(post);
-    console.log(contract);
     let contractId;
     if (post.input.entityId === contract._id) {
       contractId = post.output.entityId;
