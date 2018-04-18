@@ -37,8 +37,35 @@ Meteor.methods({
   getContract(keyword) {
     check(keyword, String);
 
-    console.log(`{ method: 'getContractId', user: ${Meteor.user().username}, keyword: '${keyword}' }`);
+    console.log(`{ method: 'getContract', user: ${Meteor.user().username}, keyword: '${keyword}' }`);
     return Contracts.findOne({ keyword });
+  },
+
+  /**
+  * @summary given a keyword returns contract id
+  * @param {keyword} keyword identify contract by given keyword
+  */
+  getContractById(contractId) {
+    check(contractId, String);
+
+    console.log(`{ method: 'getContractById', user: ${Meteor.user().username}, _id: '${contractId}' }`);
+    return Contracts.findOne({ _id: contractId });
+  },
+
+  /**
+  * @summary given a username returns user Id
+  * @param {keyword} keyword identify contract by given keyword
+  */
+  getUser(username) {
+    check(username, String);
+
+    console.log(`{ method: 'getUser', user: '${Meteor.user().username}', keyword: '${username}' }`);
+    const user = Meteor.users.findOne({ username });
+    return {
+      _id: user._id,
+      username: user.username,
+      profile: user.profile,
+    };
   },
 
   /**

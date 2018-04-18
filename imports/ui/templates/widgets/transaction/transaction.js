@@ -101,6 +101,9 @@ Template.transaction.helpers({
   isRevoke() {
     return this.isRevoke;
   },
+  hidePost() {
+    return this.hidePost;
+  },
   displayTitle() {
     let chars = 30;
     if (Meteor.Device.isPhone()) {

@@ -22,7 +22,6 @@ Template.feed.onCreated(function () {
   Template.instance().count = new ReactiveVar(0);
   Template.instance().feed = new ReactiveVar();
   Template.currentData().refresh = false;
-  Template.currentData().singlePost = false;
 
   const instance = this;
 
@@ -42,7 +41,6 @@ Template.feed.onCreated(function () {
   const beginning = ((Template.currentData().options.skip === 0) && !instance.feed.get());
   if (beginning) { $('.right').scrollTop(0); }
   instance.data.refresh = beginning;
-  instance.data.singlePost = (instance.data.options.view === 'post');
 
   const dbQuery = Contracts.find(parameters.find, parameters.options);
   this.handle = dbQuery.observeChanges({
@@ -96,11 +94,9 @@ Template.feed.onDestroyed(function () {
 
 Template.feed.helpers({
   item() {
-    console.log(this);
     return Template.instance().feed.get();
   },
   empty() {
-    console.log(Template.instance().feed.get());
     if (Template.instance().feed.get()) {
       return (Template.instance().feed.get().length === 0);
     }

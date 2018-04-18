@@ -27,12 +27,12 @@ export default function () {
   });
 
   this.Then(/^I should be registered$/, function () {
-    getBrowser().waitForVisible('#logout', 10000, true);
+    getBrowser().waitForVisible('#logout', 10000);
   });
 
 
   this.Then(/^I should be logged in$/, function () {
-    getBrowser().waitForVisible('#action', 10000, true);
+    getBrowser().waitForVisible('#action', 10000);
   });
 
 

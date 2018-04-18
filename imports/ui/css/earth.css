@@ -1290,9 +1290,9 @@ blockquote {
 
 .vote.vote-search.vote-feed.vote-delegation {
   overflow: hidden;
-  width: auto;
   margin-right: 10px;
-  padding: 0px 10px 0px 5px;
+  margin-bottom: 5px;
+  padding: 3px 15px 3px 10px;
   float: left;
   clear: both;
   background-color: #f7f7f7;
@@ -5491,7 +5491,6 @@ blockquote {
 }
 
 .actor {
-  margin-right: 15px;
   padding-right: 0px;
   text-align: center;
 }
@@ -5502,7 +5501,11 @@ blockquote {
 
 .actor.actor-score {
   padding-right: 0px;
-  float: left;
+  float: right;
+}
+
+.actor.actor-score.actor-score-ballot {
+  margin-right: 10px;
 }
 
 .transaction-data {

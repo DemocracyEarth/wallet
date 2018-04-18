@@ -38,7 +38,7 @@
 
   <div class="content content-feed content-feed-subsection">
     <div id="non-editable-feed">
-      {{> feed options=this.options kind='VOTE' subfeed=true}}
+      {{> feed options=this.options kind='VOTE' subfeed=true singlePost=true}}
     </div>
   </div>
 
@@ -49,7 +49,7 @@
 
   <div class="content content-feed content-feed-subsection">
     <div id="non-editable-feed">
-      {{> feed options=this.options kind='DELEGATION'}}
+      {{> feed options=this.options kind='DELEGATION' singlePost=true}}
     </div>
   </div>
 
@@ -60,7 +60,7 @@
 
   <div class="content content-feed content-feed-subsection">
     <div id="non-editable-feed">
-      {{> tally votes}}
+      {{> tally votes hidePost=false}}
     </div>
   </div>
 </template>
@@ -68,7 +68,7 @@
 <template name="postFeed">
   <div class="content content-feed">
     <div id="non-editable-feed">
-      {{> feed this}}
+      {{> feed this  singlePost=true}}
     </div>
   </div>
 
@@ -79,9 +79,11 @@
 
   <div class="content content-feed content-feed-subsection">
     <div id="non-editable-feed">
-      {{> tally votes}}
+      {{> tally votes hidePost=true}}
     </div>
   </div>
 
+  <!--
   {{> compose}}
+  -->
 </template>

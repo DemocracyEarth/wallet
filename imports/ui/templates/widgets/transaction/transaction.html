@@ -1,18 +1,5 @@
 <template name="transaction">
   <div id="feedItem-{{contract._id}}" class="vote vote-delegation vote-feed vote-search {{onCard}} w-clearfix" style="{{emptyVotes}}">
-    <div class="actor actor-score">
-      <div class="transaction-value">
-        <div class="bar-labels">
-          <div class="vote-available label-votes">
-            <div class="{{voteStyle}}">
-              <div class="label label-corner">
-                {{value}}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
     {{#if compressed}}
       <div class="identity identity-transaction w-clearfix" style="float:left">
         {{#with sender}}
@@ -33,7 +20,7 @@
           <tr>
             {{#if isRevoke}}
               <td class="actor">
-                <div class="actor actor-score">
+                <div class="actor actor-score actor-score-ballot">
                   <div class="transaction-value">
                     <div class="bar-labels">
                       <div class="vote-available label-votes">
@@ -50,15 +37,17 @@
                     </div>
                   </div>
                 </div>
-                <div class="identity identity-transaction w-clearfix" style="float:left">
-                  <div class="w-clearfix avatar-editor">
-                    <div class="identity-peer identity-post">
-                      <a href="{{contract.url}}" title="{{fullTitle}}" class="identity-label identity-label-micro identity-label-post">
-                        {{displayTitle}}
-                      </a>
+                {{#unless hidePost}}
+                  <div class="identity identity-transaction w-clearfix" style="float:left">
+                    <div class="w-clearfix avatar-editor">
+                      <div class="identity-peer identity-post">
+                        <a href="{{contract.url}}" title="{{fullTitle}}" class="identity-label identity-label-micro identity-label-post">
+                          {{displayTitle}}
+                        </a>
+                      </div>
                     </div>
                   </div>
-                </div>
+                {{/unless}}
               </td>
             {{else}}
               <td class="actor">
@@ -82,7 +71,7 @@
               </td>
             {{else}}
               <td class="actor">
-                <div class="actor actor-score">
+                <div class="actor actor-score actor-score-ballot">
                   <div class="transaction-value">
                     <div class="bar-labels">
                       <div class="vote-available label-votes">
@@ -100,15 +89,17 @@
                   </div>
                 </div>
               </td>
-              <div class="identity identity-transaction w-clearfix" style="float:left">
-                <div class="w-clearfix avatar-editor">
-                  <div class="identity-peer identity-post">
-                    <a href="{{contract.url}}" title="{{fullTitle}}" class="identity-label identity-label-micro identity-label-post">
-                      {{displayTitle}}
-                    </a>
+              {{#unless hidePost}}
+                <div class="identity identity-transaction w-clearfix" style="float:left">
+                  <div class="w-clearfix avatar-editor">
+                    <div class="identity-peer identity-post">
+                      <a href="{{contract.url}}" title="{{fullTitle}}" class="identity-label identity-label-micro identity-label-post">
+                        {{displayTitle}}
+                      </a>
+                    </div>
                   </div>
                 </div>
-              </div>
+              {{/unless}}
              {{/if}}
           </tr>
         </table>
@@ -141,5 +132,18 @@
         <div class="verifier verifier-live verifier-feed">&#183; {{sinceDate}}</div>
       </div>
     {{/unless}}
+    <div class="actor actor-score">
+      <div class="transaction-value">
+        <div class="bar-labels">
+          <div class="vote-available label-votes">
+            <div class="{{voteStyle}}">
+              <div class="label label-corner">
+                {{value}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>    
   </div>
 </template>
