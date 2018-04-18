@@ -6,7 +6,7 @@ import { gui } from '/lib/const';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import { sidebarWidth, sidebarPercentage, getDelegatesMenu } from '/imports/ui/modules/menu';
+import { sidebarWidth, sidebarPercentage, getDelegatesMenu, toggleSidebar } from '/imports/ui/modules/menu';
 import { showFullName } from '/imports/startup/both/modules/utils';
 import { getFlag } from '/imports/ui/templates/components/identity/avatar/avatar';
 import { Contracts } from '/imports/api/contracts/Contracts';
@@ -191,6 +191,9 @@ Template.sidebar.onRendered(() => {
     $('.left').width(`${sidebarPercentage()}%`);
     if (!Meteor.Device.isPhone()) {
       $('.navbar').css('left', `${sidebarPercentage()}%`);
+      if (($(window).width() < gui.MOBILE_MAX_WIDTH && Session.get('sidebar')) || ($(window).width() >= gui.MOBILE_MAX_WIDTH && !Session.get('sidebar'))) {
+        toggleSidebar(true);
+      }
     }
     if (!Session.get('sidebar')) {
       $('#menu').css('margin-left', `${parseInt(0 - sidebarWidth(), 10)}px`);
