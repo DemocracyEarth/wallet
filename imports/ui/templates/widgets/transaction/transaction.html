@@ -19,28 +19,32 @@
         <table class="transaction-data w-clearfix">
           <tr>
             {{#if isRevoke}}
-              <td class="actor">
-                <div class="actor actor-score actor-score-ballot">
-                  <div class="transaction-value">
-                    <div class="bar-labels">
-                      <div class="vote-available label-votes">
-                        <div class="stage stage-vote {{revokeStyle}}">
-                          <div class="label label-corner">
-                            <div class="checkbox-mini">
-                              <div class="checkmark_kick"></div>
-                              <div class="checkmark_stem"></div>
+              {{#if isSubsidy}}
+                Subsidy
+              {{else}}
+                <td class="actor">
+                  <div class="actor actor-score actor-score-ballot">
+                    <div class="transaction-value">
+                      <div class="bar-labels">
+                        <div class="vote-available label-votes">
+                          <div class="stage stage-vote {{revokeStyle}}">
+                            <div class="label label-corner">
+                              <div class="checkbox-mini">
+                                <div class="checkmark_kick"></div>
+                                <div class="checkmark_stem"></div>
+                              </div>
+                              {{ballotOption}}
                             </div>
-                            {{ballotOption}}
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                {{#unless hidePost}}
-                  {{> preview contractId=this.senderId}}
-                {{/unless}}
-              </td>
+                  {{#unless hidePost}}
+                    {{> preview contractId=this.senderId}}
+                  {{/unless}}
+                </td>
+              {{/if}}
             {{else}}
               <td class="actor">
                 <div class="identity identity-transaction w-clearfix">
@@ -62,29 +66,31 @@
                 </div>
               </td>
             {{else}}
-              <td class="actor">
-                <div class="actor actor-score actor-score-ballot">
-                  <div class="transaction-value">
-                    <div class="bar-labels">
-                      <div class="vote-available label-votes">
-                        <div class="stage stage-vote">
-                          <div class="label label-corner">
-                            <div class="checkbox-mini">
-                              <div class="checkmark_kick"></div>
-                              <div class="checkmark_stem"></div>
+              {{#unless isSubsidy}}
+                <td class="actor">
+                  <div class="actor actor-score actor-score-ballot">
+                    <div class="transaction-value">
+                      <div class="bar-labels">
+                        <div class="vote-available label-votes">
+                          <div class="stage stage-vote">
+                            <div class="label label-corner">
+                              <div class="checkbox-mini">
+                                <div class="checkmark_kick"></div>
+                                <div class="checkmark_stem"></div>
+                              </div>
+                              {{ballotOption}}
                             </div>
-                            {{ballotOption}}
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </td>
-              {{#unless hidePost}}
-                {{> preview contractId=this.receiverId}}
+                </td>
+                {{#unless hidePost}}
+                  {{> preview contractId=this.receiverId}}
+                {{/unless}}
               {{/unless}}
-             {{/if}}
+            {{/if}}
           </tr>
         </table>
       {{else}}

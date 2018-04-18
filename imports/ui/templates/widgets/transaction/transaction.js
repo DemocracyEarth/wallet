@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Session } from 'meteor/session';
+import { Meteor } from 'meteor/meteor';
 
 import { getVotes } from '/imports/api/transactions/transaction';
 import { timeCompressed } from '/imports/ui/modules/chronos';
@@ -35,6 +36,10 @@ Template.transaction.helpers({
         return '';
       },
     };
+  },
+  isSubsidy() {
+    console.log((Meteor.settings.public.Collective._id === this.senderId));
+    return (Meteor.settings.public.Collective._id === this.senderId);
   },
   isVote() {
     return this.isVote;
@@ -77,6 +82,7 @@ Template.transaction.helpers({
     return 'stage stage-live';
   },
   ballotOption() {
+    console.log(this.ballot[0]);
     return TAPi18n.__(this.ballot[0].mode);
   },
   emptyVotes() {

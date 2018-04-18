@@ -3,9 +3,6 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { Meteor } from 'meteor/meteor';
 
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
-import { query } from '/lib/views';
-import { here } from '/lib/utils';
-import { Transactions } from '/imports/api/transactions/Transactions';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
 import '/imports/ui/templates/widgets/preview/preview.html';
@@ -22,7 +19,6 @@ Template.preview.onCreated(function () {
     if (!contract) {
       Meteor.call('getContractById', Template.currentData().contractId, function (error, result) {
         if (result) {
-          console.log(result);
           instance.contract.set(result);
         } else if (error) {
           console.log(error);
@@ -35,6 +31,10 @@ Template.preview.onCreated(function () {
 });
 
 Template.preview.helpers({
+  ready() {
+    console.log(Template.instance().contract.get());
+    return (Template.instance().contract.get() !== undefined);
+  },
   displayTitle() {
     const contract = Template.instance().contract.get();
     let chars = 30;

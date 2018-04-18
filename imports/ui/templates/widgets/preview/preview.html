@@ -2,9 +2,15 @@
   <div class="identity identity-transaction w-clearfix" style="float:left">
     <div class="w-clearfix avatar-editor">
       <div class="identity-peer identity-post">
-        <a href="{{url}}" title="{{fullTitle}}" class="identity-label identity-label-micro identity-label-post">
-          {{displayTitle}}
-        </a>
+        {{#if ready}}
+          <a href="{{url}}" title="{{fullTitle}}" class="identity-label identity-label-micro identity-label-post">
+            {{displayTitle}}
+          </a>
+        {{else}}
+          <div class="identity-label identity-label-micro identity-label-post">
+            {{_ 'await'}}
+          </div>
+        {{/if}}
       </div>
     </div>
   </div>
