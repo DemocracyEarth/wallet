@@ -14,27 +14,29 @@ export default function () {
     getBrowser().click('#signin-button');
   }
 
-  this.When(/^I register with some name, password and email$/, function () {
+  function register() {
     getBrowser().waitForVisible('input[name="username-signup"]', 5000);
-    userName = randomUsername();
-    email = randomEmail();
-    pass = randomPassword();
     typeInInput('username-signup', userName);
     typeInInput('email-signup', email);
     typeInInput('password-signup', pass);
     typeInInput('mismatchPassword', pass);
     clickOnElement('#signup-button');
+  }
+
+  this.When(/^I register with some name, password and email$/, function () {
+    userName = randomUsername();
+    email = randomEmail();
+    pass = randomPassword();
+    register();
   });
 
   this.Then(/^I should be registered$/, function () {
     getBrowser().waitForVisible('#logout', 10000);
   });
 
-
   this.Then(/^I should be logged in$/, function () {
     getBrowser().waitForVisible('#action', 10000);
   });
-
 
   this.When(/^I sign out$/, function () {
     clickOnElement('#logout');
@@ -61,5 +63,16 @@ export default function () {
 
   this.Then(/^I should see a user not found error$/, function () {
     getBrowser().waitForText('.warning', 'User not found.');
+  });
+
+  this.Given(/^I am a registered citizen with name (.+)$/, function (name) {
+    widgets.loggedUserButton.click();
+    clickOnElement('#signup');
+    userName = name.replace(/[ .]/g, '');
+    email = randomEmail();
+    pass = randomPassword();
+    register();
+    getBrowser().waitForVisible('#action', 10000, true);
+    getBrowser().pause(2000);
   });
 }
