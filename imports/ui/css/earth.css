@@ -4479,6 +4479,13 @@ blockquote {
   cursor: pointer;
 }
 
+.collective-icon.collective-icon-small {
+  width: 25px;
+  height: 25px;
+  margin-top: 9px;
+  margin-bottom: 0px;
+}
+
 .menu-button {
   width: 40px;
   height: 40px;

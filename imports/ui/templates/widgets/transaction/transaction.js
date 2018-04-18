@@ -10,6 +10,10 @@ import { timeCompressed } from '/imports/ui/modules/chronos';
 import '/imports/ui/templates/widgets/transaction/transaction.html';
 import '/imports/ui/templates/widgets/preview/preview.js';
 
+const _verifySubsidy = (id) => {
+  return (Meteor.settings.public.Collective._id === id);
+};
+
 Template.transaction.onCreated(function () {
   Template.instance().totalVotes = new ReactiveVar(0);
 });
@@ -38,17 +42,19 @@ Template.transaction.helpers({
     };
   },
   isSubsidy() {
-    console.log((Meteor.settings.public.Collective._id === this.senderId));
-    return (Meteor.settings.public.Collective._id === this.senderId);
+    return _verifySubsidy(this.senderId);
   },
   isVote() {
     return this.isVote;
   },
   value() {
     let votes;
+    let plus = '';
     if (this.isVote) {
       votes = this.contract.wallet.balance;
-      if (this.isRevoke) {
+      if (_verifySubsidy(this.senderId)) {
+        plus = '+';
+      } else if (this.isRevoke) {
         votes *= -1;
       }
       Template.instance().totalVotes.set(votes);
@@ -63,9 +69,9 @@ Template.transaction.helpers({
       votes = Template.instance().totalVotes.get();
     }
     if (votes === 1 || votes === -1) {
-      return `${votes} ${TAPi18n.__('vote')}`;
+      return `${plus}${votes} ${TAPi18n.__('vote')}`;
     } else if (votes > 0 || votes < 0) {
-      return `${votes} ${TAPi18n.__('votes')}`;
+      return `${plus}${votes} ${TAPi18n.__('votes')}`;
     }
     return TAPi18n.__('no-delegated-votes');
   },
@@ -74,7 +80,9 @@ Template.transaction.helpers({
   },
   voteStyle() {
     if (Template.instance().totalVotes.get() !== 0) {
-      if (this.isRevoke) {
+      if (_verifySubsidy(this.senderId)) {
+        return 'stage stage-vote-totals';
+      } else if (this.isRevoke) {
         return 'stage stage-finish-rejected';
       }
       return 'stage stage-finish-approved';
@@ -82,7 +90,6 @@ Template.transaction.helpers({
     return 'stage stage-live';
   },
   ballotOption() {
-    console.log(this.ballot[0]);
     return TAPi18n.__(this.ballot[0].mode);
   },
   emptyVotes() {
@@ -111,5 +118,17 @@ Template.transaction.helpers({
   },
   revokeStyle() {
     if (!this.hidePost) { return 'stage-revoke'; } return '';
+  },
+});
+
+Template.collectivePreview.helpers({
+  flag() {
+    return Meteor.settings.public.Collective.profile.logo;
+  },
+  name() {
+    return Meteor.settings.public.Collective.name;
+  },
+  url() {
+    return '/';
   },
 });

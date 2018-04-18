@@ -20,7 +20,7 @@
           <tr>
             {{#if isRevoke}}
               {{#if isSubsidy}}
-                Subsidy
+                {{> collectivePreview collectiveId=this.senderId}}
               {{else}}
                 <td class="actor">
                   <div class="actor actor-score actor-score-ballot">
@@ -136,4 +136,21 @@
       </div>
     </div>
   </div>
+</template>
+
+<template name="collectivePreview">
+  <td class="actor">
+    <div class="identity identity-transaction w-clearfix">
+      <img class="collective-icon collective-icon-small" src="{{pathFor route='home'}}{{flag}}">
+    </div>
+  </td>
+  <td class="actor">
+    <div class="identity identity-transaction w-clearfix">
+      <div class="identity-peer">
+        <a href="{{url}}" class="identity-label identity-label-micro">
+          {{name}}
+        </a>
+      </div>
+    </div>
+  </td>
 </template>
