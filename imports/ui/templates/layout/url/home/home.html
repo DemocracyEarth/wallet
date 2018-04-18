@@ -63,6 +63,8 @@
       {{> tally votes hidePost=false}}
     </div>
   </div>
+
+  {{> footnote}}
 </template>
 
 <template name="postFeed">
@@ -86,4 +88,27 @@
   <!--
   {{> compose}}
   -->
+</template>
+
+<template name="footnote">
+  <div class="foot">
+    <div class="foot-note">
+      <div class="foot-note-dot"></div>
+      <div class="foot-note-label">
+        {{_ 'cast-votes'}}
+      </div>
+    </div>
+    <div class="foot-note">
+      <div class="foot-note-dot revoke"></div>
+      <div class="foot-note-label">
+        {{_ 'revoked-votes'}}
+      </div>
+    </div>
+    <div class="foot-note">
+      <div class="foot-note-dot grant"></div>
+      <div class="foot-note-label">
+        {{_ 'granted-votes'}}
+      </div>
+    </div>
+  </div>
 </template>

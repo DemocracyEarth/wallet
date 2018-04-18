@@ -5594,6 +5594,39 @@ blockquote {
   background-color: #fff;
 }
 
+.foot {
+  margin-top: 20px;
+  font-size: 10px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.foot-note {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.foot-note-dot {
+  width: 10px;
+  height: 10px;
+  margin: 9px 5px;
+  float: left;
+  border-radius: 25px;
+  background-color: #00bf8f;
+}
+
+.foot-note-dot.revoke {
+  background-color: #ff2752;
+}
+
+.foot-note-dot.grant {
+  background-color: #9b73ca;
+}
+
+.foot-note-label {
+  float: left;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
