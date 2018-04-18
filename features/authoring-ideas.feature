@@ -1,13 +1,13 @@
+@watch
 Feature: Authoring ideas
   In order to share knowledge and initiate legal updates
   As a citizen
   I need to be able to author and publish ideas
 
   Background:
-    Given I am the citizen named Richard S.
+    Given I am a registered citizen with name Richard S.
       And there is a tag titled Transparency
       And there is a tag titled Sovereignty
-
 
   # See https://github.com/DemocracyEarth/sovereign/pull/220#issuecomment-378731546
   Scenario: Create an idea draft upon user creation
