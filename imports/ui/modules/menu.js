@@ -331,10 +331,6 @@ const animateMenu = (disableAnimation) => {
   if (Session.get('sidebar')) {
     // show sidebar
     diff = parseInt(parseInt(splitLeft - sidebarPixelWidth, 10) - parseInt(($('.right').width() / 2), 10), 10);
-    let splitLeftNewWidth = parseInt(splitLeft - sidebarPixelWidth, 10);
-    let splitRightNewMargin = parseInt(diff + (sidebarPixelWidth / 2), 10);
-    let splitRightNewWidth = $('.split-right').width();
-    let splitLeftNewMargin = $('.split-left').css('marginLeft');
     let newRight = 0;
 
     if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
@@ -353,47 +349,12 @@ const animateMenu = (disableAnimation) => {
       $('.inhibitor').css('left', `${sidebarPixelWidth}px`);
       $('.content').css('overflow', 'hidden');
     }
-    // animate splits
-    if (splitLeftNewWidth < gui.MIN_CONTRACT_WIDTH) {
-      splitRightNewMargin -= parseInt(splitLeftNewWidth - gui.MIN_CONTRACT_WIDTH, 10);
-      splitLeftNewWidth = gui.MIN_CONTRACT_WIDTH;
-      splitRightNewWidth = parseInt($(window).width() - (sidebarPixelWidth + splitLeftNewWidth), 10);
-    }
 
-    if ($(window).width() < gui.DESKTOP_MIN_WIDTH) {
-      splitLeftNewWidth = '100%';
-      splitRightNewWidth = '100%';
-      splitRightNewMargin = '0px';
-      splitLeftNewMargin = '0px';
-    }
-
-    /*if (!Meteor.Device.isPhone()) {
-      console.log('animating');
-      // animate content
-      $('#menu').velocity({ marginLeft: '0px' }, animationSettings);
-      $('#content').velocity({
-        left: sidebarPixelWidth,
-        right: newRight,
-      }, animationSettings);
-      if (Meteor.Device.isPhone()) {
-        $('.cast').velocity({ opacity: 0 }, animationSettings);
-      }
-
-      $('.split-right').velocity({
-        marginLeft: splitRightNewMargin,
-        width: splitRightNewWidth,
-      }, animationSettings);
-      $('.split-left').velocity({
-        marginLeft: splitLeftNewMargin,
-        width: splitLeftNewWidth,
-      }, animationSettings);
-    } else {*/
-      $('#menu').css({ marginLeft: '0px' });
-      $('#content').css({
-        left: sidebarPixelWidth,
-        right: newRight,
-      });
-    //}
+    $('#menu').css({ marginLeft: '0px' });
+    $('#content').css({
+      left: sidebarPixelWidth,
+      right: newRight,
+    });
   } else if (Meteor.Device.isPhone() || Session.get('miniWindow')) {
     // hide sidebar
     if ($(window).width() >= gui.DESKTOP_MIN_WIDTH) {
@@ -401,46 +362,14 @@ const animateMenu = (disableAnimation) => {
              - parseInt(($(window).width() / 2), 10), 10);
     }
 
-   /* if (!Meteor.Device.isPhone()) {
-      $('#menu').velocity({ marginLeft: parseInt(0 - sidebarPixelWidth, 10) }, animationSettings);
-      $('#content').velocity({
-        left: 0,
-        right: 0,
-      }, {
-        duration: animationSettings.duration,
-        complete: () => {
-          if (Meteor.Device.isPhone()) {
-            $('.mobile-menu').css('margin-top', '0px');
-            $('.mobile-menu').css('position', 'fixed');
-            $('.mobile-menu').css('top', '');
-            $('.mobile-menu').css('bottom', '0px');
-            $('.navbar').css('position', 'fixed');
-            $('.navbar').css('top', '0px');
-            $('.inhibitor').css('display', 'none');
-            // $('.content').css('overflow', 'scroll');
-            $('.cast').velocity({ opacity: 1 }, animationSettings);
-          }
-        },
-      });
-      $('.split-right').velocity({
-        marginLeft: diff,
-      }, animationSettings);
-
-      if ($(window).width() >= gui.DESKTOP_MIN_WIDTH) {
-        $('.split-left').velocity({ width: parseInt(splitLeft + sidebarPixelWidth, 10) }, animationSettings);
-      } else {
-        $('.split-left').velocity({ width: '100%' }, animationSettings);
-      }
-    } else {*/
-      $('.inhibitor').css('display', 'none');
-      $('.navbar').css('position', 'fixed');
-      $('.navbar').css('top', '0px');
-      $('#menu').css({ marginLeft: parseInt(0 - sidebarPixelWidth, 10) });
-      $('#content').css({
-        left: 0,
-        right: 0,
-      });
-    //}
+    $('.inhibitor').css('display', 'none');
+    $('.navbar').css('position', 'fixed');
+    $('.navbar').css('top', '0px');
+    $('#menu').css({ marginLeft: parseInt(0 - sidebarPixelWidth, 10) });
+    $('#content').css({
+      left: 0,
+      right: 0,
+    });
   }
 };
 

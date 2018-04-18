@@ -25,7 +25,7 @@ Template.feed.onCreated(function () {
 
   const instance = this;
 
-  if (Meteor.Device.isPhone() && Session.get('sidebar')) {
+  if ((Meteor.Device.isPhone() && Session.get('sidebar')) || (Session.get('miniWindow') && Session.get('sidebar'))) {
     toggleSidebar(false);
   }
 
