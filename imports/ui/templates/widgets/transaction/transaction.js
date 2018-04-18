@@ -126,6 +126,13 @@ Template.collectivePreview.helpers({
     return Meteor.settings.public.Collective.profile.logo;
   },
   name() {
+    let chars = 30;
+    if (Meteor.Device.isPhone()) {
+      chars = 15;
+    }
+    if (Meteor.settings.public.Collective.name.length > chars) {
+      return `${Meteor.settings.public.Collective.name.substring(0, chars)}...`;
+    }
     return Meteor.settings.public.Collective.name;
   },
   url() {
