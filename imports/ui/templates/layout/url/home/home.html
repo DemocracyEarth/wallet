@@ -85,6 +85,7 @@
     </div>
   </div>
 
+  {{> footnote noGrant=true}}
   <!--
   {{> compose}}
   -->
@@ -104,11 +105,13 @@
         {{_ 'revoked-votes'}}
       </div>
     </div>
-    <div class="foot-note">
-      <div class="foot-note-dot grant"></div>
-      <div class="foot-note-label">
-        {{_ 'granted-votes'}}
+    {{#unless noGrant}}
+      <div class="foot-note">
+        <div class="foot-note-dot grant"></div>
+        <div class="foot-note-label">
+          {{_ 'granted-votes'}}
+        </div>
       </div>
-    </div>
+    {{/unless}}
   </div>
 </template>
