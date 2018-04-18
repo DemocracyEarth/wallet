@@ -32,16 +32,19 @@ Template.preview.onCreated(function () {
 
 Template.preview.helpers({
   ready() {
-    console.log(Template.instance().contract.get());
     return (Template.instance().contract.get() !== undefined);
   },
   displayTitle() {
     const contract = Template.instance().contract.get();
+    const title = stripHTMLfromText(contract.title);
     let chars = 30;
     if (Meteor.Device.isPhone()) {
       chars = 15;
     }
-    return `${stripHTMLfromText(contract.title).substring(0, chars)}...`;
+    if (title.length > chars) {
+      return `${title.substring(0, chars)}...`;
+    }
+    return title;
   },
   fullTitle() {
     return stripHTMLfromText(Template.instance().contract.get().title);
