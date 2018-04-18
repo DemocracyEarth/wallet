@@ -81,7 +81,7 @@ Template.navigation.helpers({
     return displayMenuIcon();
   },
   phoneScreen() {
-    return (Meteor.Device.isPhone() || $(window).width() < gui.MOBILE_MAX_WIDTH);
+    return (Meteor.Device.isPhone() || Session.get('miniWindow'));
   },
 });
 

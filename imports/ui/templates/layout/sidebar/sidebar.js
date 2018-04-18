@@ -193,8 +193,10 @@ Template.sidebar.onRendered(() => {
     if (!Meteor.Device.isPhone()) {
       if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
         $('.navbar').css('left', 0);
+        Session.set('miniWindow', true);
       } else {
         $('.navbar').css('left', `${percentage}%`);
+        Session.set('miniWindow', false);
       }
       if (($(window).width() < gui.MOBILE_MAX_WIDTH && Session.get('sidebar')) || ($(window).width() >= gui.MOBILE_MAX_WIDTH && !Session.get('sidebar'))) {
         toggleSidebar(true);

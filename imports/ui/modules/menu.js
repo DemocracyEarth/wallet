@@ -342,7 +342,7 @@ const animateMenu = (disableAnimation) => {
     }
 
     // loose mobile menu
-    if (Meteor.Device.isPhone()) {
+    if (Meteor.Device.isPhone() || Session.get('miniWindow')) {
       $('.mobile-menu').css('margin-top', '-55px');
       $('.mobile-menu').css('position', 'absolute');
       $('.mobile-menu').css('top', `${$('#content').scrollTop() + $(window).height()}px`);
@@ -367,7 +367,7 @@ const animateMenu = (disableAnimation) => {
       splitLeftNewMargin = '0px';
     }
 
-    if (!Meteor.Device.isPhone() && !PERFORM_ANIMATION) {
+    /*if (!Meteor.Device.isPhone()) {
       console.log('animating');
       // animate content
       $('#menu').velocity({ marginLeft: '0px' }, animationSettings);
@@ -387,21 +387,21 @@ const animateMenu = (disableAnimation) => {
         marginLeft: splitLeftNewMargin,
         width: splitLeftNewWidth,
       }, animationSettings);
-    } else {
+    } else {*/
       $('#menu').css({ marginLeft: '0px' });
       $('#content').css({
         left: sidebarPixelWidth,
         right: newRight,
       });
-    }
-  } else {
+    //}
+  } else if (Meteor.Device.isPhone() || Session.get('miniWindow')) {
     // hide sidebar
     if ($(window).width() >= gui.DESKTOP_MIN_WIDTH) {
       diff = parseInt((splitLeft + sidebarPixelWidth)
              - parseInt(($(window).width() / 2), 10), 10);
     }
 
-    if (!Meteor.Device.isPhone()) {
+   /* if (!Meteor.Device.isPhone()) {
       $('#menu').velocity({ marginLeft: parseInt(0 - sidebarPixelWidth, 10) }, animationSettings);
       $('#content').velocity({
         left: 0,
@@ -431,7 +431,7 @@ const animateMenu = (disableAnimation) => {
       } else {
         $('.split-left').velocity({ width: '100%' }, animationSettings);
       }
-    } else {
+    } else {*/
       $('.inhibitor').css('display', 'none');
       $('.navbar').css('position', 'fixed');
       $('.navbar').css('top', '0px');
@@ -440,7 +440,7 @@ const animateMenu = (disableAnimation) => {
         left: 0,
         right: 0,
       });
-    }
+    //}
   }
 };
 
