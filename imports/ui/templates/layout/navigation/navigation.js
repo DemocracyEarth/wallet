@@ -5,6 +5,7 @@ import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { Router } from 'meteor/iron:router';
 
+import { gui } from '/lib/const';
 import { editorFadeOut } from '/imports/ui/templates/components/decision/editor/editor';
 import { timers } from '/lib/const';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
@@ -21,44 +22,6 @@ let scrollDown = false;
 
 function hideBar() {
   $('.navbar').css('position', 'fixed');
-  /*
-  if (Meteor.Device.isPhone()) {
-    $('.right').scroll(() => {
-      const node = $('.navbar');
-      const st = $('.right').scrollTop();
-      if (st > lastScrollTop && st > 60) {
-        scrollDown = true;
-        node
-          .velocity('stop')
-          .velocity({ translateY: '0px' }, { duration: parseInt(timers.ANIMATION_DURATION, 10), easing: 'ease-out' })
-          .velocity({ translateY: '-100px' }, {
-            duration: parseInt(timers.ANIMATION_DURATION, 10),
-            easing: 'ease-out',
-            complete: () => {
-              node.css('position', 'absolute');
-              node.css('top', '0px');
-            },
-          })
-          .velocity('stop');
-      } else if (scrollDown === true) {
-        scrollDown = false;
-        node.css('position', 'fixed');
-        node
-          .velocity('stop')
-          .velocity({ translateY: '-100px' }, { duration: parseInt(timers.ANIMATION_DURATION, 10), easing: 'ease-out' })
-          .velocity({ translateY: '0px' }, {
-            duration: parseInt(timers.ANIMATION_DURATION, 10),
-            easing: 'ease-out',
-            complete: () => {
-            },
-          })
-          .velocity('stop');
-      }
-      lastScrollTop = st;
-    });
-  } else {
-    $('.navbar').css('position', 'fixed');
-  }*/
 }
 
 /**
@@ -116,6 +79,9 @@ Template.navigation.helpers({
   },
   icon() {
     return displayMenuIcon();
+  },
+  phoneScreen() {
+    return (Meteor.Device.isPhone() || $(window).width() < gui.MOBILE_MAX_WIDTH);
   },
 });
 

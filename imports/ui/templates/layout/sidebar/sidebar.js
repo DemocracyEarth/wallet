@@ -188,9 +188,14 @@ Template.sidebar.onRendered(() => {
   drawSidebar();
 
   $(window).resize(() => {
-    $('.left').width(`${sidebarPercentage()}%`);
+    const percentage = sidebarPercentage();
+    $('.left').width(`${percentage}%`);
     if (!Meteor.Device.isPhone()) {
-      $('.navbar').css('left', `${sidebarPercentage()}%`);
+      if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
+        $('.navbar').css('left', 0);
+      } else {
+        $('.navbar').css('left', `${percentage}%`);
+      }
       if (($(window).width() < gui.MOBILE_MAX_WIDTH && Session.get('sidebar')) || ($(window).width() >= gui.MOBILE_MAX_WIDTH && !Session.get('sidebar'))) {
         toggleSidebar(true);
       }
@@ -213,7 +218,6 @@ Template.sidebar.helpers({
     return Template.instance().delegates.get();
   },
   member() {
-    // Template.instance().members.set(_otherMembers(Template.instance().delegates.get()));
     return Template.instance().members.get();
   },
   totalMembers() {
