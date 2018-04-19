@@ -37,12 +37,18 @@ Schema.Tally = new SimpleSchema({
     type: Boolean,
     optional: true,
   },
-  voters: {
+  voter: {
     type: Array,
     defaultValue: [],
   },
-  'voters.$': {
+  'voter.$': {
+    type: Object,
+  },
+  'voter.$._id': {
     type: String,
+  },
+  'voter.$.votes': {
+    type: Number,
   },
 });
 
