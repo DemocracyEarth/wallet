@@ -79,15 +79,22 @@ Template.transaction.helpers({
     return TAPi18n.__('delegated-votes');
   },
   voteStyle() {
+    let style;
     if (Template.instance().totalVotes.get() !== 0) {
       if (_verifySubsidy(this.senderId)) {
-        return 'stage stage-vote-totals';
+        style = 'stage stage-vote-totals';
       } else if (this.isRevoke) {
-        return 'stage stage-finish-rejected';
+        style = 'stage stage-finish-rejected';
+      } else {
+        style = 'stage stage-finish-approved';
       }
-      return 'stage stage-finish-approved';
+    } else {
+      style = 'stage stage-live';
     }
-    return 'stage stage-live';
+    if (this.compressed) {
+      style += ' stage-compressed';
+    }
+    return style;
   },
   ballotOption() {
     return TAPi18n.__(this.ballot[0].mode);

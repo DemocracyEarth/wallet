@@ -3322,6 +3322,11 @@ blockquote {
   margin-left: 10px;
 }
 
+.stage.stage-compressed {
+  margin-top: 1px;
+  margin-left: 10px;
+}
+
 .profile-thumb {
   height: 60px;
   opacity: 0.75;
@@ -5625,6 +5630,11 @@ blockquote {
 
 .foot-note-label {
   float: left;
+}
+
+.stage-card {
+  margin-top: 0px;
+  margin-left: 10px;
 }
 
 @media (max-width: 991px) {

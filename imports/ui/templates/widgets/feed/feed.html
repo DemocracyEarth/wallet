@@ -11,8 +11,6 @@
     {{else}}
       {{#each item}}
         {{> feedItem}}
-      {{else}}
-        <!--{{> feedEmpty emptyContent}}-->
       {{/each}}
       {{#if empty}}
         {{> warning label="empty-feed"}}
