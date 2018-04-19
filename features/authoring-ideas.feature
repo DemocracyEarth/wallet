@@ -26,6 +26,7 @@ Feature: Authoring ideas
         # Not sure what this issue is about nor how to solve it. Help?
       And I wait for 1 second
       And I submit the idea
+      And I wait for 2 seconds
      #And I dump all the ideas
      Then there should be one idea in the database
       And there should be an idea titled "Require libre software in all governmental endeavours."
@@ -44,6 +45,7 @@ Feature: Authoring ideas
       And I wait for 1 second
       And I enable ballot voting
       And I submit the idea
+      And I wait for 2 seconds
      #And I dump all the ideas
      Then there should be one idea in the database
       And there should be an idea titled "Require libre software in all governmental endeavours."
