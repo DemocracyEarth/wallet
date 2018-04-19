@@ -26,7 +26,7 @@ Schema.Tally = new SimpleSchema({
     optional: true,
   },
   'choice.$.ballot': {
-    type: Ballot,
+    type: [Ballot],
     optional: true,
   },
   'choice.$.votes': {
@@ -36,6 +36,13 @@ Schema.Tally = new SimpleSchema({
   'choice.$.winner': {
     type: Boolean,
     optional: true,
+  },
+  voters: {
+    type: Array,
+    defaultValue: [],
+  },
+  'voters.$': {
+    type: String,
   },
 });
 

@@ -247,7 +247,6 @@ const _transactionMessage = (code) => {
       return false;
     case true:
     default:
-      // TODO update status from 'PENDING' to 'CONFIRMED'
       return true;
   }
 };
@@ -548,6 +547,49 @@ const _updateUserCache = (sessionId, userId, wallet) => {
 };
 
 /**
+* @summary decided whether to add or subtract quantity based on tx structure
+* @param {object} transaction - the transaction
+*/
+const _tallyAddition = (transaction) => {
+  if (transaction.output.entityId === transaction.contractId) {
+    return transaction.output.quantity;
+  } else if (transaction.input.entityId === transaction.contractId) {
+    return parseInt(transaction.input.quantity * -1, 10);
+  }
+  return 0;
+};
+
+/**
+* @summary on the contract it updates the tally to current vote count
+* @param {object} transaction - the new transaction to include in tally
+*/
+const _updateTally = (transaction) => {
+  const contract = Contracts.findOne({ _id: transaction.contractId });
+  let found = false;
+
+  // has tally
+  if (contract.tally) {
+    for (const i in contract.tally.choice) {
+      if (contract.tally.choice[i].ballot._id === transaction.condition.ballot._id) {
+        contract.tally.choice[i].votes += _tallyAddition(transaction);
+        found = true;
+      }
+    }
+  }
+  // new count
+  if (!found) {
+    contract.tally.choice.push({ ballot: transaction.condition.ballot });
+    contract.tally.choice[contract.tally.choice.length - 1].votes = _tallyAddition(transaction);
+  }
+  contract.tally.lastTransaction = transaction._id;
+
+  console.log(contract);
+
+  // update in db
+  Contracts.update({ _id: transaction.contractId }, { $set: contract });
+};
+
+/**
 * @summary create a new transaction between two parties
 * @param {string} senderId - user or collective allocating the funds
 * @param {string} receiverId - user or collective receiving the funds
@@ -613,6 +655,11 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     if (Meteor.isClient) {
       _processedTx(newTx._id);
       _updateWalletCache(newTx, false);
+    }
+
+    // update tally in contract
+    if (newTx.kind === 'VOTE') {
+      _updateTally(newTx);
     }
 
     return txId;
