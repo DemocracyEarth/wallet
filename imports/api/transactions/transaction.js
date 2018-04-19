@@ -559,6 +559,10 @@ const _tallyAddition = (transaction) => {
   return 0;
 };
 
+const _counterParty = (transaction) => {
+  if (transaction.contractId === transaction.input.entityId) { return transaction.output.entityId; } return transaction.input.entityId;
+};
+
 /**
 * @summary on the contract it updates the tally to current vote count
 * @param {object} transaction - the new transaction to include in tally
@@ -566,11 +570,15 @@ const _tallyAddition = (transaction) => {
 const _updateTally = (transaction) => {
   const contract = Contracts.findOne({ _id: transaction.contractId });
   let found = false;
+  let contractChoice;
+  let transactionChoice;
 
   // has tally
   if (contract.tally) {
     for (const i in contract.tally.choice) {
-      if (contract.tally.choice[i].ballot._id === transaction.condition.ballot._id) {
+      contractChoice = JSON.stringify(contract.tally.choice[i].ballot);
+      transactionChoice = JSON.stringify(transaction.condition.ballot);
+      if (contractChoice === transactionChoice) {
         contract.tally.choice[i].votes += _tallyAddition(transaction);
         found = true;
       }
@@ -583,10 +591,26 @@ const _updateTally = (transaction) => {
   }
   contract.tally.lastTransaction = transaction._id;
 
-  console.log(contract);
+  if (!contract.tally.voter || contract.tally.voter.length === 0) {
+    contract.tally.voter = [{
+      _id: _counterParty(transaction),
+      votes: 0,
+    }];
+  }
+  if (contract.tally.voter) {
+    for (const i in contract.tally.voter) {
+      if ((contract.tally.voter[i]._id === transaction.input.entityId) || (contract.tally.voter[i]._id === transaction.output.entityId)) {
+        contract.tally.voter[i].votes += _tallyAddition(transaction);
+      }
+      if (contract.tally.voter[i].votes === 0) {
+        contract.tally.voter.splice(i, 1);
+        break;
+      }
+    }
+  }
 
   // update in db
-  Contracts.update({ _id: transaction.contractId }, { $set: contract });
+  Contracts.update({ _id: transaction.contractId }, { $set: { tally: contract.tally } });
 };
 
 /**
