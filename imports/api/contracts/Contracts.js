@@ -3,14 +3,42 @@ import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { TAPi18n } from 'meteor/tap:i18n';
 
+import { Ballot } from '/imports/api/transactions/Ballot';
 import { convertToSlug } from '/lib/utils';
-import { Thread } from './Thread';
-import { Wallet } from '../users/Wallet';
-
+import { Thread } from '/imports/api/contracts/Thread';
+import { Wallet } from '/imports/api/users/Wallet';
 
 export const Contracts = new Mongo.Collection('contracts');
 
 const Schema = {};
+
+Schema.Tally = new SimpleSchema({
+  lastCount: {
+    type: Date,
+    defaultValue: 0,
+  },
+  choice: {
+    type: Array,
+    defaultValue: [],
+  },
+  'choice.$': {
+    type: Object,
+    optional: true,
+  },
+  'choice.$.ballot': {
+    type: Ballot,
+    optional: true,
+  },
+  'choice.$.votes': {
+    type: Number,
+    defaultValue: 0,
+  },
+  'choice.$.winner': {
+    type: Boolean,
+    optional: true,
+  },
+});
+
 Schema.Contract = new SimpleSchema({
   owner: {
     type: String,
@@ -399,6 +427,10 @@ Schema.Contract = new SimpleSchema({
   },
   wallet: {
     type: Wallet,
+    optional: true,
+  },
+  tally: {
+    type: Schema.Tally,
     optional: true,
   },
 });
