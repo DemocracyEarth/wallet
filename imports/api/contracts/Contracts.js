@@ -13,9 +13,9 @@ export const Contracts = new Mongo.Collection('contracts');
 const Schema = {};
 
 Schema.Tally = new SimpleSchema({
-  lastCount: {
-    type: Date,
-    defaultValue: 0,
+  lastTransaction: {
+    type: String,
+    defaultValue: '',
   },
   choice: {
     type: Array,
@@ -431,7 +431,6 @@ Schema.Contract = new SimpleSchema({
   },
   tally: {
     type: Schema.Tally,
-    optional: true,
   },
 });
 
