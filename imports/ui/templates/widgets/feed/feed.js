@@ -45,7 +45,8 @@ Template.feed.onCreated(function () {
   const dbQuery = Contracts.find(parameters.find, parameters.options);
   this.handle = dbQuery.observeChanges({
     changed: () => {
-      displayNotice(TAPi18n.__('notify-new-posts'), true);
+      // TODO: be reactive please
+      // displayNotice(TAPi18n.__('notify-new-posts'), true);
     },
     addedBefore: (id, fields) => {
       // added stuff

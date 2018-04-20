@@ -597,15 +597,24 @@ const _updateTally = (transaction) => {
       votes: 0,
     }];
   }
+
+  found = false;
   if (contract.tally.voter) {
     for (const i in contract.tally.voter) {
       if ((contract.tally.voter[i]._id === transaction.input.entityId) || (contract.tally.voter[i]._id === transaction.output.entityId)) {
+        found = true;
         contract.tally.voter[i].votes += _tallyAddition(transaction);
+        if (contract.tally.voter[i].votes === 0) {
+          contract.tally.voter.splice(i, 1);
+          break;
+        }
       }
-      if (contract.tally.voter[i].votes === 0) {
-        contract.tally.voter.splice(i, 1);
-        break;
-      }
+    }
+    if (!found) {
+      contract.tally.voter.push({
+        _id: _counterParty(transaction),
+        votes: _tallyAddition(transaction),
+      });
     }
   }
 
