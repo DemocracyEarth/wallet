@@ -308,16 +308,25 @@ const _getVoteTransactions = (contract) => {
 /**
 * @summary shows total unique voters on a given issue
 * @param {object} contract - contract to make voter count on
+* @param {boolean} generateList - return an array with list
 * @return {number} integer with final count
+* @return {array} if generatelist is true returns list of voter ids
 */
-const _getTotalVoters = (contract) => {
+const _getTotalVoters = (contract, generateList) => {
   let voters = 0;
+  const voterList = [];
   const transactions = _getVoteTransactions(contract);
 
   for (const participant in transactions) {
     if (getVotes(contract._id, transactions[participant]) > 0) {
       voters += 1;
+      if (generateList) {
+        voterList.push(transactions[participant]);
+      }
     }
+  }
+  if (generateList) {
+    return _.uniq(voterList);
   }
   return voters;
 };

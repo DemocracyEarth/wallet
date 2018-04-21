@@ -8,6 +8,7 @@ import { Collectives } from '/imports/api/collectives/Collectives';
 import { guidGenerator } from '/imports/startup/both/modules/crypto';
 import { getTime } from '/imports/api/time';
 import { Transactions } from '/imports/api/transactions/Transactions';
+import { getTotalVoters } from '/imports/ui/modules/ballot';
 
 
 /**
@@ -546,6 +547,26 @@ const _updateUserCache = (sessionId, userId, wallet) => {
   }
 };
 
+const _choiceList = (contractId) => {
+
+};
+
+const _voterList = (contractId) => {
+  const voters = getTotalVoters(Contracts.findOne({ _id: contractId }), true);
+  const voterList = [];
+
+  if (voters.length > 0) {
+    for (const i in voters) {
+      voterList[i] = {
+        _id: voters[i],
+        votes: _getVotes(contractId, voters[i]),
+      };
+    }
+  }
+
+  return voterList;
+};
+
 /**
 * @summary decided whether to add or subtract quantity based on tx structure
 * @param {object} transaction - the transaction
@@ -573,6 +594,15 @@ const _updateTally = (transaction) => {
   let contractChoice;
   let transactionChoice;
 
+  // backwards compatibility
+  if (!contract.tally) {
+    contract.tally = {
+      lastTransaction: '',
+      choice: _choiceList(transaction.contractId),
+      voter: _voterList(transaction.contractId),
+    };
+  }
+
   // has tally
   if (contract.tally) {
     for (const i in contract.tally.choice) {
@@ -584,6 +614,7 @@ const _updateTally = (transaction) => {
       }
     }
   }
+  console.log(contract);
   // new count
   if (!found) {
     contract.tally.choice.push({ ballot: transaction.condition.ballot });
