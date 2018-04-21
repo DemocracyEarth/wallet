@@ -562,6 +562,7 @@ const _contractReady = (vote, contract) => {
 
 export const getTally = _getTally;
 export const getTallyPercentage = _getTallyPercentage;
+export const getVoteTransactions = _getVoteTransactions;
 export const getTallyTotal = _getTallyTotal;
 export const getRightToVote = _getRightToVote;
 export const userAlreadyVoted = _userAlreadyVoted;

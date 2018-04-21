@@ -8,7 +8,7 @@ import { Collectives } from '/imports/api/collectives/Collectives';
 import { guidGenerator } from '/imports/startup/both/modules/crypto';
 import { getTime } from '/imports/api/time';
 import { Transactions } from '/imports/api/transactions/Transactions';
-import { getTotalVoters } from '/imports/ui/modules/ballot';
+import { getTotalVoters, getVoteTransactions } from '/imports/ui/modules/ballot';
 
 
 /**
@@ -547,19 +547,49 @@ const _updateUserCache = (sessionId, userId, wallet) => {
   }
 };
 
-const _choiceList = (contractId) => {
-
+/**
+* @summary generates a list of the current tally with each ballot choice
+* @param {string} contract - the contract to include a choice list in tally property
+* @returns {array} choice list with tally per ballot
+*/
+const _choiceList = (contract) => {
+  const transactions = Transactions.find({ $or: [{ 'output.entityId': contract._id }, { 'input.entityId': contract._id }] }).fetch();
+  const choice = [];
+  let found;
+  for (const i in transactions) {
+    found = false;
+    for (const k in choice) {
+      console.log(transactions[i].condition.ballot);
+      if (JSON.stringify(transactions[i].condition.ballot) === JSON.stringify(choice[k].ballot)) {
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      choice.push({
+        ballot: transactions[i].condition.ballot,
+        votes: 0,
+      });
+    }
+  }
+  console.log(choice);
+  return choice;
 };
 
-const _voterList = (contractId) => {
-  const voters = getTotalVoters(Contracts.findOne({ _id: contractId }), true);
+/**
+* @summary generates a list of voters for a contract without tally
+* @param {string} contract - the contract to include a voter list in tally property
+* @returns {array} each item being an object with id and vote quantity.
+*/
+const _voterList = (contract) => {
+  const voters = getTotalVoters(contract, true);
   const voterList = [];
 
   if (voters.length > 0) {
     for (const i in voters) {
       voterList[i] = {
         _id: voters[i],
-        votes: _getVotes(contractId, voters[i]),
+        votes: _getVotes(contract._id, voters[i]),
       };
     }
   }
@@ -596,10 +626,11 @@ const _updateTally = (transaction) => {
 
   // backwards compatibility
   if (!contract.tally) {
+    const dbContract = Contracts.findOne({ _id: transaction.contractId });
     contract.tally = {
       lastTransaction: '',
-      choice: _choiceList(transaction.contractId),
-      voter: _voterList(transaction.contractId),
+      choice: _choiceList(dbContract),
+      voter: _voterList(dbContract),
     };
   }
 
