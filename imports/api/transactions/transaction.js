@@ -8,7 +8,7 @@ import { Collectives } from '/imports/api/collectives/Collectives';
 import { guidGenerator } from '/imports/startup/both/modules/crypto';
 import { getTime } from '/imports/api/time';
 import { Transactions } from '/imports/api/transactions/Transactions';
-import { getTotalVoters, getVoteTransactions } from '/imports/ui/modules/ballot';
+import { getTotalVoters, getTally } from '/imports/ui/modules/ballot';
 
 
 /**
@@ -335,10 +335,6 @@ const _processTransaction = (ticket) => {
   const senderProfile = _getProfile(transaction.input);
   const receiverProfile = _getProfile(transaction.output);
 
-  // TODO all transactions are for VOTE type, develop for BITCOIN or multi-currency conversion.
-  // TODO encrypted mode hooks this.
-  // TODO compress db removing redundant historical transaction data
-
   // verify transaction
   if (senderProfile.wallet.available < transaction.input.quantity) {
     return 'INSUFFICIENT';
@@ -548,6 +544,19 @@ const _updateUserCache = (sessionId, userId, wallet) => {
 };
 
 /**
+* @summary decided whether to add or subtract quantity based on tx structure
+* @param {object} transaction - the transaction
+*/
+const _tallyAddition = (transaction) => {
+  if (transaction.output.entityId === transaction.contractId) {
+    return transaction.output.quantity;
+  } else if (transaction.input.entityId === transaction.contractId) {
+    return parseInt(transaction.input.quantity * -1, 10);
+  }
+  return 0;
+};
+
+/**
 * @summary generates a list of the current tally with each ballot choice
 * @param {string} contract - the contract to include a choice list in tally property
 * @returns {array} choice list with tally per ballot
@@ -556,10 +565,10 @@ const _choiceList = (contract) => {
   const transactions = Transactions.find({ $or: [{ 'output.entityId': contract._id }, { 'input.entityId': contract._id }] }).fetch();
   const choice = [];
   let found;
+
   for (const i in transactions) {
     found = false;
     for (const k in choice) {
-      console.log(transactions[i].condition.ballot);
       if (JSON.stringify(transactions[i].condition.ballot) === JSON.stringify(choice[k].ballot)) {
         found = true;
         break;
@@ -568,8 +577,19 @@ const _choiceList = (contract) => {
     if (!found) {
       choice.push({
         ballot: transactions[i].condition.ballot,
-        votes: 0,
       });
+    }
+  }
+  console.log(choice);
+  console.log(transactions);
+  for (const j in choice) {
+    choice[j].votes = 0;
+    for (const h in transactions) {
+      console.log(`comparitng: ${JSON.stringify(transactions[h].condition.ballot)} ---- WITH ---- ${JSON.stringify(choice[j].ballot)}`);
+      if (JSON.stringify(transactions[h].condition.ballot) === JSON.stringify(choice[j].ballot)) {
+        choice[j].votes += _tallyAddition(transactions[h]);
+        console.log(choice[j].votes);
+      }
     }
   }
   console.log(choice);
@@ -597,19 +617,6 @@ const _voterList = (contract) => {
   return voterList;
 };
 
-/**
-* @summary decided whether to add or subtract quantity based on tx structure
-* @param {object} transaction - the transaction
-*/
-const _tallyAddition = (transaction) => {
-  if (transaction.output.entityId === transaction.contractId) {
-    return transaction.output.quantity;
-  } else if (transaction.input.entityId === transaction.contractId) {
-    return parseInt(transaction.input.quantity * -1, 10);
-  }
-  return 0;
-};
-
 const _counterParty = (transaction) => {
   if (transaction.contractId === transaction.input.entityId) { return transaction.output.entityId; } return transaction.input.entityId;
 };
@@ -623,6 +630,7 @@ const _updateTally = (transaction) => {
   let found = false;
   let contractChoice;
   let transactionChoice;
+  let backwardCompatible = false;
 
   // backwards compatibility
   if (!contract.tally) {
@@ -632,6 +640,7 @@ const _updateTally = (transaction) => {
       choice: _choiceList(dbContract),
       voter: _voterList(dbContract),
     };
+    backwardCompatible = true;
   }
 
   // has tally
@@ -661,7 +670,7 @@ const _updateTally = (transaction) => {
   }
 
   found = false;
-  if (contract.tally.voter) {
+  if (contract.tally.voter && !backwardCompatible) {
     for (const i in contract.tally.voter) {
       if ((contract.tally.voter[i]._id === transaction.input.entityId) || (contract.tally.voter[i]._id === transaction.output.entityId)) {
         found = true;
@@ -679,6 +688,9 @@ const _updateTally = (transaction) => {
       });
     }
   }
+
+  console.log(contract.tally);
+  debugger;
 
   // update in db
   Contracts.update({ _id: transaction.contractId }, { $set: { tally: contract.tally } });

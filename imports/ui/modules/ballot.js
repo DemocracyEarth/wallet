@@ -215,7 +215,7 @@ const _candidateBallot = (userId, contractId) => {
     const last = _.last(getTransactions(userId, contractId));
     for (const j in last.condition.ballot) {
       candidateBallot.push({
-        contractId: contractId,
+        contractId,
         ballot: last.condition.ballot[j],
       });
     }
