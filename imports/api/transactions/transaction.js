@@ -643,6 +643,7 @@ const _updateTally = (transaction) => {
   let found = false;
   let contractChoice;
   let transactionChoice;
+  let swap;
   let backwardCompatible = false;
 
   // backwards compatibility
@@ -659,6 +660,7 @@ const _updateTally = (transaction) => {
 
   // has tally
   if (contract.tally && !backwardCompatible) {
+    contract.tally.choice = _.reject(contract.tally.choice, function (choice) { return choice.votes === 0; });
     for (const i in contract.tally.choice) {
       contractChoice = JSON.stringify(contract.tally.choice[i].ballot);
       transactionChoice = JSON.stringify(transaction.condition.ballot);
@@ -671,7 +673,7 @@ const _updateTally = (transaction) => {
 
   // new count
   if (!found && !backwardCompatible) {
-    const swap = _detectSwap(contract.tally.voter, contract.tally.choice, transaction.input.entityId);
+    swap = _detectSwap(contract.tally.voter, contract.tally.choice, transaction.input.entityId);
 
     contract.tally.choice.push({ ballot: transaction.condition.ballot });
     if (!swap) {
