@@ -50,6 +50,9 @@ Schema.Tally = new SimpleSchema({
   'voter.$.votes': {
     type: Number,
   },
+  'voter.$.ballotId': {
+    type: String,
+  },
 });
 
 Schema.Contract = new SimpleSchema({
