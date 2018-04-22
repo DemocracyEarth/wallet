@@ -660,7 +660,6 @@ const _updateTally = (transaction) => {
 
   // has tally
   if (contract.tally && !backwardCompatible) {
-    contract.tally.choice = _.reject(contract.tally.choice, function (choice) { return choice.votes === 0; });
     for (const i in contract.tally.choice) {
       contractChoice = JSON.stringify(contract.tally.choice[i].ballot);
       transactionChoice = JSON.stringify(transaction.condition.ballot);
@@ -711,6 +710,9 @@ const _updateTally = (transaction) => {
       });
     }
   }
+
+  // remove unnecessary data
+  contract.tally.choice = _.reject(contract.tally.choice, function (choice) { return choice.votes === 0; });
 
   console.log(contract.tally);
 
