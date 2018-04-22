@@ -615,6 +615,26 @@ const _counterParty = (transaction) => {
 };
 
 /**
+* @summary catch case of swapping ballot choice (ie: 0 quantity transaction)
+* @param {array} voterList current voters
+* @param {array} choiceList what has persisted in contract tally
+* @param {string} voterId who is transacting now
+*/
+const _detectSwap = (voterList, choiceList, voterId) => {
+  for (const i in voterList) {
+    if (voterId === voterList[i]._id) {
+      if (choiceList.length > 0) {
+        return {
+          votes: voterList[i].votes,
+          index: i,
+        };
+      }
+    }
+  }
+  return false;
+};
+
+/**
 * @summary on the contract it updates the tally to current vote count
 * @param {object} transaction - the new transaction to include in tally
 */
@@ -651,24 +671,14 @@ const _updateTally = (transaction) => {
 
   // new count
   if (!found && !backwardCompatible) {
-    let choiceSwap = false;
-    let index;
-    // catch case of swapping ballot choice (ie: 0 quantity transaction)
-    for (const i in contract.tally.voter) {
-      if (transaction.input.entityId === contract.tally.voter[i]._id) {
-        if (contract.tally.choice.length > 0) {
-          contract.tally.choice[0].votes -= contract.tally.voter[i].votes;
-          choiceSwap = true;
-          index = i;
-          break;
-        }
-      }
-    }
+    const swap = _detectSwap(contract.tally.voter, contract.tally.choice, transaction.input.entityId);
+
     contract.tally.choice.push({ ballot: transaction.condition.ballot });
-    if (!choiceSwap) {
+    if (!swap) {
       contract.tally.choice[contract.tally.choice.length - 1].votes = _tallyAddition(transaction);
     } else {
-      contract.tally.choice[contract.tally.choice.length - 1].votes = contract.tally.voter[index].votes;
+      contract.tally.choice[0].votes -= swap.votes;
+      contract.tally.choice[contract.tally.choice.length - 1].votes = contract.tally.voter[swap.index].votes;
     }
   }
   contract.tally.lastTransaction = transaction._id;
