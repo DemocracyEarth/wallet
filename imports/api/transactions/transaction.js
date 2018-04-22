@@ -592,9 +592,10 @@ const _choiceList = (contract, voterList) => {
 /**
 * @summary generates a list of voters for a contract without tally
 * @param {string} contract - the contract to include a voter list in tally property
+* @param {array} ballotList - to include info from transaction
 * @returns {array} each item being an object with id and vote quantity.
 */
-const _voterList = (contract) => {
+const _voterList = (contract, ballotList) => {
   const voters = getTotalVoters(contract, true);
   const voterList = [];
 
@@ -603,6 +604,7 @@ const _voterList = (contract) => {
       voterList[i] = {
         _id: voters[i],
         votes: _getVotes(contract._id, voters[i]),
+        ballotList,
       };
     }
   }
@@ -634,12 +636,17 @@ const _detectSwap = (voterList, choiceList, voterId) => {
   return false;
 };
 
+const _zeroQuantity = (transaction) => {
+  return (transaction.input.quantity === 0 && transaction.output.quantity === 0);
+};
+
 /**
 * @summary on the contract it updates the tally to current vote count
 * @param {object} transaction - the new transaction to include in tally
 */
 const _updateTally = (transaction) => {
   const contract = Contracts.findOne({ _id: transaction.contractId });
+  const ballotList = _.pluck(transaction.condition.ballot, '_id');
   let found = false;
   let contractChoice;
   let transactionChoice;
@@ -649,7 +656,7 @@ const _updateTally = (transaction) => {
   // backwards compatibility
   if (!contract.tally) {
     const dbContract = Contracts.findOne({ _id: transaction.contractId });
-    const voterList = _voterList(dbContract);
+    const voterList = _voterList(dbContract, ballotList);
     contract.tally = {
       lastTransaction: '',
       voter: voterList,
@@ -658,19 +665,26 @@ const _updateTally = (transaction) => {
     backwardCompatible = true;
   }
 
-  // has tally
+  // tally choice data
+  swap = _detectSwap(contract.tally.voter, contract.tally.choice, transaction.input.entityId);
   if (contract.tally && !backwardCompatible) {
     for (const i in contract.tally.choice) {
       contractChoice = JSON.stringify(contract.tally.choice[i].ballot);
       transactionChoice = JSON.stringify(transaction.condition.ballot);
+      /* if (_zeroQuantity(transaction)) {
+        if (contractChoice === transactionChoice) {
+        //  contract.tally.choice[i].votes += swap.votes;
+        //  contract.tally.choice[i].votes += swap.votes;
+        }
+      } else {*/
       if (contractChoice === transactionChoice) {
         contract.tally.choice[i].votes += _tallyAddition(transaction);
         found = true;
       }
+      // }
     }
   }
 
-  // new count
   if (!found && !backwardCompatible) {
     swap = _detectSwap(contract.tally.voter, contract.tally.choice, transaction.input.entityId);
 
@@ -684,10 +698,13 @@ const _updateTally = (transaction) => {
   }
   contract.tally.lastTransaction = transaction._id;
 
+
+  // tally voter data
   if (!contract.tally.voter || contract.tally.voter.length === 0) {
     contract.tally.voter = [{
       _id: _counterParty(transaction),
       votes: 0,
+      ballotList,
     }];
   }
 
@@ -701,12 +718,14 @@ const _updateTally = (transaction) => {
           contract.tally.voter.splice(i, 1);
           break;
         }
+        contract.tally.voter[i].ballotList = ballotList;
       }
     }
     if (!found) {
       contract.tally.voter.push({
         _id: _counterParty(transaction),
         votes: _tallyAddition(transaction),
+        ballotList,
       });
     }
   }
