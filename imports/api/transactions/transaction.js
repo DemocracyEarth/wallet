@@ -559,40 +559,33 @@ const _tallyAddition = (transaction) => {
 /**
 * @summary generates a list of the current tally with each ballot choice
 * @param {string} contract - the contract to include a choice list in tally property
+* @param {array} voterList the generated list of voters, their vote included
 * @returns {array} choice list with tally per ballot
 */
-const _choiceList = (contract) => {
-  const transactions = Transactions.find({ $or: [{ 'output.entityId': contract._id }, { 'input.entityId': contract._id }] }).fetch();
+const _choiceList = (contract, voterList) => {
+  const transactions = Transactions.find({ $or: [{ 'output.entityId': contract._id }, { 'input.entityId': contract._id }] }, { sort: { timestamp: -1 } }).fetch();
   const choice = [];
-  let found;
 
-  for (const i in transactions) {
-    found = false;
-    for (const k in choice) {
-      if (JSON.stringify(transactions[i].condition.ballot) === JSON.stringify(choice[k].ballot)) {
-        found = true;
+  for (const i in voterList) {
+    for (const k in transactions) {
+      if ((transactions[k].output.entityId === voterList[i]._id) || (transactions[k].input.entityId === voterList[i]._id)
+          || (transactions[k].output.delegateId === voterList[i]._id) || (transactions[k].input.delegateId === voterList[i]._id)) {
+        if (choice.length > 0) {
+          for (const j in choice) {
+            if (JSON.stringify(transactions[k].condition.ballot) === JSON.stringify(choice[j].ballot)) {
+              choice[j].votes += voterList[i].votes;
+            }
+          }
+        } else {
+          choice.push({
+            ballot: transactions[k].condition.ballot,
+            votes: voterList[i].votes,
+          });
+        }
         break;
       }
     }
-    if (!found) {
-      choice.push({
-        ballot: transactions[i].condition.ballot,
-      });
-    }
   }
-  console.log(choice);
-  console.log(transactions);
-  for (const j in choice) {
-    choice[j].votes = 0;
-    for (const h in transactions) {
-      console.log(`comparitng: ${JSON.stringify(transactions[h].condition.ballot)} ---- WITH ---- ${JSON.stringify(choice[j].ballot)}`);
-      if (JSON.stringify(transactions[h].condition.ballot) === JSON.stringify(choice[j].ballot)) {
-        choice[j].votes += _tallyAddition(transactions[h]);
-        console.log(choice[j].votes);
-      }
-    }
-  }
-  console.log(choice);
   return choice;
 };
 
@@ -635,16 +628,17 @@ const _updateTally = (transaction) => {
   // backwards compatibility
   if (!contract.tally) {
     const dbContract = Contracts.findOne({ _id: transaction.contractId });
+    const voterList = _voterList(dbContract);
     contract.tally = {
       lastTransaction: '',
-      choice: _choiceList(dbContract),
-      voter: _voterList(dbContract),
+      voter: voterList,
     };
+    contract.tally.choice = _choiceList(dbContract, voterList);
     backwardCompatible = true;
   }
 
   // has tally
-  if (contract.tally) {
+  if (contract.tally && !backwardCompatible) {
     for (const i in contract.tally.choice) {
       contractChoice = JSON.stringify(contract.tally.choice[i].ballot);
       transactionChoice = JSON.stringify(transaction.condition.ballot);
@@ -654,9 +648,9 @@ const _updateTally = (transaction) => {
       }
     }
   }
-  console.log(contract);
+
   // new count
-  if (!found) {
+  if (!found && !backwardCompatible) {
     contract.tally.choice.push({ ballot: transaction.condition.ballot });
     contract.tally.choice[contract.tally.choice.length - 1].votes = _tallyAddition(transaction);
   }
@@ -690,7 +684,6 @@ const _updateTally = (transaction) => {
   }
 
   console.log(contract.tally);
-  debugger;
 
   // update in db
   Contracts.update({ _id: transaction.contractId }, { $set: { tally: contract.tally } });
