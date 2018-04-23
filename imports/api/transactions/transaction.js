@@ -629,6 +629,7 @@ const _detectSwap = (voterList, choiceList, voterId) => {
         return {
           votes: voterList[i].votes,
           index: i,
+          ballotList: voterList[i].ballotList,
         };
       }
     }
@@ -671,17 +672,10 @@ const _updateTally = (transaction) => {
     for (const i in contract.tally.choice) {
       contractChoice = JSON.stringify(contract.tally.choice[i].ballot);
       transactionChoice = JSON.stringify(transaction.condition.ballot);
-      /* if (_zeroQuantity(transaction)) {
-        if (contractChoice === transactionChoice) {
-        //  contract.tally.choice[i].votes += swap.votes;
-        //  contract.tally.choice[i].votes += swap.votes;
-        }
-      } else {*/
       if (contractChoice === transactionChoice) {
         contract.tally.choice[i].votes += _tallyAddition(transaction);
         found = true;
       }
-      // }
     }
   }
 
@@ -692,6 +686,11 @@ const _updateTally = (transaction) => {
     if (!swap) {
       contract.tally.choice[contract.tally.choice.length - 1].votes = _tallyAddition(transaction);
     } else {
+      for (const k in swap.ballotList) {
+        for (const j in contract.tally.choice) {
+          // if (_.find(contract.tally.choice[j].ballot, function (ballot) { return _.pluck(ballot, )})
+        }
+      }
       contract.tally.choice[0].votes -= swap.votes;
       contract.tally.choice[contract.tally.choice.length - 1].votes = contract.tally.voter[swap.index].votes;
     }
