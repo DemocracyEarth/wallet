@@ -589,13 +589,19 @@ const _choiceList = (contract, voterList) => {
   return choice;
 };
 
+const _getBallot = (voterId, contractId) => {
+  const tx = Transactions.find({ $and: [{ $or: [{ 'output.entityId': voterId }, { 'input.entityId': voterId }] }, { contractId }] }, { sort: { timestamp: -1 } }).fetch();
+  console.log(tx);
+  return _.pluck(tx[0].condition.ballot, '_id');
+};
+
 /**
 * @summary generates a list of voters for a contract without tally
 * @param {string} contract - the contract to include a voter list in tally property
 * @param {array} ballotList - to include info from transaction
 * @returns {array} each item being an object with id and vote quantity.
 */
-const _voterList = (contract, ballotList) => {
+const _voterList = (contract) => {
   const voters = getTotalVoters(contract, true);
   const voterList = [];
 
@@ -604,7 +610,7 @@ const _voterList = (contract, ballotList) => {
       voterList[i] = {
         _id: voters[i],
         votes: _getVotes(contract._id, voters[i]),
-        ballotList,
+        ballotList: _getBallot(voters[i], contract._id),
       };
     }
   }
@@ -657,7 +663,7 @@ const _updateTally = (transaction) => {
   // backwards compatibility
   if (!contract.tally) {
     const dbContract = Contracts.findOne({ _id: transaction.contractId });
-    const voterList = _voterList(dbContract, ballotList);
+    const voterList = _voterList(dbContract);
     contract.tally = {
       lastTransaction: '',
       voter: voterList,
