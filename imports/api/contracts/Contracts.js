@@ -397,6 +397,15 @@ Schema.Contract = new SimpleSchema({
   },
   'ballot.$.rank': {
     type: Number,
+    optional: true,
+  },
+  'ballot.$.tick': {
+    type: Boolean,
+    optional: true,
+  },
+  'ballot.$.executive': {
+    type: Boolean,
+    optional: true,
   },
   'ballot.$.url': {
     type: String,

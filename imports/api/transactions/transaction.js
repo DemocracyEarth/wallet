@@ -654,16 +654,14 @@ const _updateTally = (transaction) => {
   const contract = Contracts.findOne({ _id: transaction.contractId });
   const ballotList = _.pluck(transaction.condition.ballot, '_id');
   let found = false;
-  let contractChoice;
-  let transactionChoice;
-  let swap;
+  let votes;
   const template = [
     {
       ballot: [{
         executive: true,
         mode: 'AUTHORIZE',
         _id: '1',
-        tick: true,
+        tick: false,
       }],
       votes: 0,
     },
@@ -672,7 +670,7 @@ const _updateTally = (transaction) => {
         executive: true,
         mode: 'REJECT',
         _id: '0',
-        tick: true,
+        tick: false,
       }],
       votes: 0,
     },
@@ -689,47 +687,20 @@ const _updateTally = (transaction) => {
       voter: voterList,
     };
     // contract.tally.choice = _choiceList(dbContract, voterList);
+    contract.tally.choice = [];
     backwardCompatible = true;
   }
 
-  // tally choice data
-  /*
-  swap = _detectSwap(contract.tally.voter, contract.tally.choice, transaction.input.entityId);
-  if (contract.tally && !backwardCompatible) {
-    for (const i in contract.tally.choice) {
-      contractChoice = JSON.stringify(contract.tally.choice[i].ballot);
-      transactionChoice = JSON.stringify(transaction.condition.ballot);
-      if (contractChoice === transactionChoice) {
-        contract.tally.choice[i].votes += _tallyAddition(transaction);
-        found = true;
-      }
+  if (!contract.ballot.length) {
+    for (const i in template) {
+      contract.ballot.push(template[i].ballot[0]);
     }
   }
-
-  if (!found && !backwardCompatible) {
-    swap = _detectSwap(contract.tally.voter, contract.tally.choice, transaction.input.entityId);
-
-    contract.tally.choice.push({ ballot: transaction.condition.ballot });
-    if (!swap) {
-      contract.tally.choice[contract.tally.choice.length - 1].votes = _tallyAddition(transaction);
-    } else {
-      for (const k in swap.ballotList) {
-        for (const j in contract.tally.choice) {
-          // if (_.find(contract.tally.choice[j].ballot, function (ballot) { return _.pluck(ballot, )})
-        }
-      }
-      contract.tally.choice[0].votes -= swap.votes;
-      contract.tally.choice[contract.tally.choice.length - 1].votes = contract.tally.voter[swap.index].votes;
-    }
-  }*/
-
-  const transactions = Transactions.find({ contractId: contract._id }, { sort: { timestamp: -1 } }).fetch();
-  const ballots = _.values(transactions.condition.ballot)
 
   // last transaction
   contract.tally.lastTransaction = transaction._id;
 
-  // tally voter data
+  // voter tally
   if (!contract.tally.voter || contract.tally.voter.length === 0) {
     contract.tally.voter = [{
       _id: _counterParty(transaction),
@@ -760,13 +731,27 @@ const _updateTally = (transaction) => {
     }
   }
 
+  // choice tally
+  for (const i in contract.ballot) {
+    votes = 0;
+    for (const j in contract.tally.voter) {
+      if (_.contains(contract.tally.voter[j].ballotList, contract.ballot[i]._id)) {
+        votes += contract.tally.voter[j].votes;
+      }
+    }
+    contract.tally.choice.push({
+      ballot: [contract.ballot[i]],
+      votes,
+    });
+  }
+
   // remove unnecessary data
-  contract.tally.choice = _.reject(contract.tally.choice, function (choice) { return choice.votes === 0; });
+  // contract.tally.choice = _.reject(contract.tally.choice, function (choice) { return choice.votes === 0; });
 
   console.log(contract.tally);
 
   // update in db
-  Contracts.update({ _id: transaction.contractId }, { $set: { tally: contract.tally } });
+  Contracts.update({ _id: transaction.contractId }, { $set: { tally: contract.tally, ballot: contract.ballot } });
 };
 
 /**
