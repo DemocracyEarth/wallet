@@ -657,6 +657,27 @@ const _updateTally = (transaction) => {
   let contractChoice;
   let transactionChoice;
   let swap;
+  const template = [
+    {
+      ballot: [{
+        executive: true,
+        mode: 'AUTHORIZE',
+        _id: '1',
+        tick: true,
+      }],
+      votes: 0,
+    },
+    {
+      ballot: [{
+        executive: true,
+        mode: 'REJECT',
+        _id: '0',
+        tick: true,
+      }],
+      votes: 0,
+    },
+  ];
+
   let backwardCompatible = false;
 
   // backwards compatibility
