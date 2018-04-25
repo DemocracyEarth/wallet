@@ -592,7 +592,7 @@ const _counterParty = (transaction) => {
 * @summary on the contract it updates the tally to current vote count
 * @param {object} transaction - the new transaction to include in tally
 */
-const _updateTally = (transaction) => {
+const _tally = (transaction) => {
   const contract = Contracts.findOne({ _id: transaction.contractId });
   const ballotList = _.pluck(transaction.condition.ballot, '_id');
   let found = false;
@@ -702,8 +702,6 @@ const _updateTally = (transaction) => {
     }
   }
 
-  console.log(contract.tally);
-
   // update in db
   Contracts.update({ _id: transaction.contractId }, { $set: { tally: contract.tally, ballot: contract.ballot } });
 };
@@ -778,7 +776,7 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
 
     // update tally in contract
     if (newTx.kind === 'VOTE') {
-      _updateTally(newTx);
+      _tally(newTx);
     }
 
     return txId;
