@@ -556,39 +556,6 @@ const _tallyAddition = (transaction) => {
   return 0;
 };
 
-/**
-* @summary generates a list of the current tally with each ballot choice
-* @param {string} contract - the contract to include a choice list in tally property
-* @param {array} voterList the generated list of voters, their vote included
-* @returns {array} choice list with tally per ballot
-*/
-const _choiceList = (contract, voterList) => {
-  const transactions = Transactions.find({ $or: [{ 'output.entityId': contract._id }, { 'input.entityId': contract._id }] }, { sort: { timestamp: -1 } }).fetch();
-  const choice = [];
-
-  for (const i in voterList) {
-    for (const k in transactions) {
-      if ((transactions[k].output.entityId === voterList[i]._id) || (transactions[k].input.entityId === voterList[i]._id)
-          || (transactions[k].output.delegateId === voterList[i]._id) || (transactions[k].input.delegateId === voterList[i]._id)) {
-        if (choice.length > 0) {
-          for (const j in choice) {
-            if (JSON.stringify(transactions[k].condition.ballot) === JSON.stringify(choice[j].ballot)) {
-              choice[j].votes += voterList[i].votes;
-            }
-          }
-        } else {
-          choice.push({
-            ballot: transactions[k].condition.ballot,
-            votes: voterList[i].votes,
-          });
-        }
-        break;
-      }
-    }
-  }
-  return choice;
-};
-
 const _getLastBallot = (voterId, contractId) => {
   const tx = Transactions.find({ $and: [{ $or: [{ 'output.entityId': voterId }, { 'input.entityId': voterId }] }, { contractId }] }, { sort: { timestamp: -1 } }).fetch();
   return _.pluck(tx[0].condition.ballot, '_id');
@@ -619,31 +586,6 @@ const _voterList = (contract) => {
 
 const _counterParty = (transaction) => {
   if (transaction.contractId === transaction.input.entityId) { return transaction.output.entityId; } return transaction.input.entityId;
-};
-
-/**
-* @summary catch case of swapping ballot choice (ie: 0 quantity transaction)
-* @param {array} voterList current voters
-* @param {array} choiceList what has persisted in contract tally
-* @param {string} voterId who is transacting now
-*/
-const _detectSwap = (voterList, choiceList, voterId) => {
-  for (const i in voterList) {
-    if (voterId === voterList[i]._id) {
-      if (choiceList.length > 0) {
-        return {
-          votes: voterList[i].votes,
-          index: i,
-          ballotList: voterList[i].ballotList,
-        };
-      }
-    }
-  }
-  return false;
-};
-
-const _zeroQuantity = (transaction) => {
-  return (transaction.input.quantity === 0 && transaction.output.quantity === 0);
 };
 
 /**
@@ -744,9 +686,6 @@ const _updateTally = (transaction) => {
       votes,
     });
   }
-
-  // remove unnecessary data
-  // contract.tally.choice = _.reject(contract.tally.choice, function (choice) { return choice.votes === 0; });
 
   console.log(contract.tally);
 
