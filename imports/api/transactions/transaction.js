@@ -676,6 +676,7 @@ const _updateTally = (transaction) => {
   // choice tally
   for (const i in contract.ballot) {
     votes = 0;
+    found = false;
     for (const j in contract.tally.voter) {
       if (_.contains(contract.tally.voter[j].ballotList, contract.ballot[i]._id)) {
         votes += contract.tally.voter[j].votes;
@@ -686,11 +687,14 @@ const _updateTally = (transaction) => {
         for (const k in contract.tally.choice[j].ballot) {
           if (contract.tally.choice[j].ballot[k]._id === contract.ballot[i]._id) {
             contract.tally.choice[j].votes = votes;
+            found = true;
             break;
           }
         }
+        if (found) { break; }
       }
-    } else {
+    }
+    if (!found || !contract.tally.choice || contract.tally.choice.length === 0) {
       contract.tally.choice.push({
         ballot: [contract.ballot[i]],
         votes,
