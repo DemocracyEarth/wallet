@@ -589,9 +589,8 @@ const _choiceList = (contract, voterList) => {
   return choice;
 };
 
-const _getBallot = (voterId, contractId) => {
+const _getLastBallot = (voterId, contractId) => {
   const tx = Transactions.find({ $and: [{ $or: [{ 'output.entityId': voterId }, { 'input.entityId': voterId }] }, { contractId }] }, { sort: { timestamp: -1 } }).fetch();
-  console.log(tx);
   return _.pluck(tx[0].condition.ballot, '_id');
 };
 
@@ -610,7 +609,7 @@ const _voterList = (contract) => {
       voterList[i] = {
         _id: voters[i],
         votes: _getVotes(contract._id, voters[i]),
-        ballotList: _getBallot(voters[i], contract._id),
+        ballotList: _getLastBallot(voters[i], contract._id),
       };
     }
   }
@@ -668,11 +667,12 @@ const _updateTally = (transaction) => {
       lastTransaction: '',
       voter: voterList,
     };
-    contract.tally.choice = _choiceList(dbContract, voterList);
+    // contract.tally.choice = _choiceList(dbContract, voterList);
     backwardCompatible = true;
   }
 
   // tally choice data
+  /*
   swap = _detectSwap(contract.tally.voter, contract.tally.choice, transaction.input.entityId);
   if (contract.tally && !backwardCompatible) {
     for (const i in contract.tally.choice) {
@@ -700,9 +700,13 @@ const _updateTally = (transaction) => {
       contract.tally.choice[0].votes -= swap.votes;
       contract.tally.choice[contract.tally.choice.length - 1].votes = contract.tally.voter[swap.index].votes;
     }
-  }
-  contract.tally.lastTransaction = transaction._id;
+  }*/
 
+  const transactions = Transactions.find({ contractId: contract._id }, { sort: { timestamp: -1 } }).fetch();
+  const ballots = _.values(transactions.condition.ballot)
+
+  // last transaction
+  contract.tally.lastTransaction = transaction._id;
 
   // tally voter data
   if (!contract.tally.voter || contract.tally.voter.length === 0) {
