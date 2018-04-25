@@ -681,10 +681,21 @@ const _updateTally = (transaction) => {
         votes += contract.tally.voter[j].votes;
       }
     }
-    contract.tally.choice.push({
-      ballot: [contract.ballot[i]],
-      votes,
-    });
+    if (contract.tally.choice.length > 0) {
+      for (const j in contract.tally.choice) {
+        for (const k in contract.tally.choice[j].ballot) {
+          if (contract.tally.choice[j].ballot[k]._id === contract.ballot[i]._id) {
+            contract.tally.choice[j].votes = votes;
+            break;
+          }
+        }
+      }
+    } else {
+      contract.tally.choice.push({
+        ballot: [contract.ballot[i]],
+        votes,
+      });
+    }
   }
 
   console.log(contract.tally);
