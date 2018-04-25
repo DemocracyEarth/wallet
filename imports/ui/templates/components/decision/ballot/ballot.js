@@ -288,11 +288,18 @@ Template.ballot.helpers({
     return this.candidateBallot; // Template.instance().candidateBallot.get();
   },
   voters() {
-    const total = getTotalVoters(this.contract);
-    if (total === 1) {
-      return `${total} ${TAPi18n.__('voter').toLowerCase()}.`;
-    } else if (total === 0) {
-      return TAPi18n.__('no-voters');
+    let total;
+    console.log(this.contract);
+    if (this.contract.tally) {
+      total = this.contract.tally.voters.length;
+      console.log(total);
+    } else {
+      total = getTotalVoters(this.contract);
+      if (total === 1) {
+        return `${total} ${TAPi18n.__('voter').toLowerCase()}.`;
+      } else if (total === 0) {
+        return TAPi18n.__('no-voters');
+      }
     }
     return `${total} ${TAPi18n.__('voters').toLowerCase()}.`;
   },

@@ -139,6 +139,9 @@ Template.feedItem.helpers({
     }
     return [getAnonymous()];
   },
+  tally() {
+    return this.tally;
+  },
   userIsAuthor(signatures) {
     if (Meteor.user() != null) {
       if (Meteor.user()._id === this.owner) {

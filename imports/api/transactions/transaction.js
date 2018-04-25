@@ -165,11 +165,15 @@ const _updateWallet = (entityId, entityType, profileSettings) => {
 * @param {string} contractId - contractId to be checked
 */
 const _getTransactions = (userId, contractId) => {
+  const tx = Transactions.find({ $and: [{ $or: [{ 'output.entityId': userId }, { 'input.entityId': userId }] }, { contractId }] }, { sort: { timestamp: -1 } }).fetch();
+  return tx;
+  /*
   return _.sortBy(
     _.union(
       _.filter(Transactions.find({ 'input.entityId': userId }).fetch(), (item) => { return (item.output.entityId === contractId); }, 0),
       _.filter(Transactions.find({ 'output.entityId': userId }).fetch(), (item) => { return (item.input.entityId === contractId); }, 0)),
       'timestamp');
+      */
 };
 
 /**
@@ -193,16 +197,29 @@ const _voteCount = (ticket, entityId) => {
 * @return {number} total vote count
 */
 const _getVotes = (contractId, userId) => {
-  const transactions = _getTransactions(userId, contractId);
-  if (transactions.length > 1) {
-    return _.reduce(transactions, (memo, num, index) => {
-      if (index === 1) {
-        return _voteCount(memo, userId) + _voteCount(num, userId);
+  // getting tally
+  const contract = Contracts.findOne({ _id: contractId });
+
+  if (contract && contract.tally !== undefined) {
+    for (const i in contract.tally.voter) {
+      if (contract.tally.voter[i]._id === userId) {
+        console.log('found on tally');
+        return contract.tally.voter[i].votes;
       }
-      return memo + _voteCount(num, userId);
-    });
-  } else if (transactions.length === 1) {
-    return _voteCount(transactions[0], userId);
+    }
+  } else {
+    // counting from ledger
+    const transactions = _getTransactions(userId, contractId);
+    if (transactions.length > 1) {
+      return _.reduce(transactions, (memo, num, index) => {
+        if (index === 1) {
+          return _voteCount(memo, userId) + _voteCount(num, userId);
+        }
+        return memo + _voteCount(num, userId);
+      });
+    } else if (transactions.length === 1) {
+      return _voteCount(transactions[0], userId);
+    }
   }
   return 0;
 };

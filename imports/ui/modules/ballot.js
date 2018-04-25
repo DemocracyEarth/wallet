@@ -149,17 +149,30 @@ const _getTickFromLedger = (contract, userId, ballotId) => {
     onLedger: true,
   };
   const votes = getVotes(contract._id, userId);
-  // console.log(votes);
+  console.log(votes);
   // evaluate if it's last present setting on ledger.
   if (votes > 0) {
-    const last = _.last(getTransactions(userId, contract._id));
-    for (const j in last.condition.ballot) {
-      if (last.condition.ballot[j]._id.toString() === ballotId.toString()) {
-        // return true;
-        election.tick = true;
-        return election;
+    if (contract && contract.tally !== undefined) {
+      for (const i in contract.tally.voter) {
+        if (contract.tally.voter[i]._id === userId) {
+          if (_.contains(contract.tally.voter[i].ballotList, ballotId.toString())) {
+            console.log('found election tick');
+            election.tick = true;
+            return election;
+          }
+          election.alternative = true;
+        }
       }
-      election.alternative = true;
+    } else {
+      const last = _.last(getTransactions(userId, contract._id));
+      for (const j in last.condition.ballot) {
+        if (last.condition.ballot[j]._id.toString() === ballotId.toString()) {
+          // return true;
+          election.tick = true;
+          return election;
+        }
+        election.alternative = true;
+      }
     }
   }
   return election;

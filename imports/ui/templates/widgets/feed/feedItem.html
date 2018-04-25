@@ -65,21 +65,29 @@
             </div>
           </div>
           {{#if ballotEnabled}}
-            {{#if electionData}}
+            {{#if tally}}
               {{#if onScreen}}
                 {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
               {{else}}
                 {{#nrr nrrargs 'ballot' editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}{{/nrr}}
               {{/if}}
             {{else}}
-              {{#if currentUser}}
-                <div class="extra">
-                  <div class="warning download">
-                    {{_ 'get-election-votes'}}
-                    {{> spinner id=_id style=spinnerStyle}}
+              {{#if electionData}}
+                {{#if onScreen}}
+                  {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
+                {{else}}
+                  {{#nrr nrrargs 'ballot' editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}{{/nrr}}
+                {{/if}}
+              {{else}}
+                {{#if currentUser}}
+                  <div class="extra">
+                    <div class="warning download">
+                      {{_ 'get-election-votes'}}
+                      {{> spinner id=_id style=spinnerStyle}}
+                    </div>
                   </div>
-                </div>
-             {{/if}}
+               {{/if}}
+              {{/if}}
             {{/if}}
           {{/if}}
         </div>
