@@ -59,13 +59,24 @@
   </div>
   {{#unless editorMode}}
     {{#if currentUser}}
-      <div class="execution" id="execution-{{this.voteId}}">
-        <div class="block" style={{displayBar}}>
-          {{#with voteSettings}}
-            {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot}}
-          {{/with}}
+      {{#if postView}}
+        <div class="execution" id="execution-{{this.voteId}}">
+          <div class="block" style={{displayBar}}>
+            {{#with voteSettings}}
+              {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot}}
+            {{/with}}
+          </div>
         </div>
-      </div>
+      {{else}}
+        <div class="block">
+          <div class="micro-menu">
+            <a href="{{contract.url}}" class="micro">
+              <img src="{{pathFor route='home'}}images/editor-ballot-enabled.png" class="micro-icon">
+              <span class="micro-button">{{_ 'vote'}}</span>
+            </a>
+          </div>
+        </div>
+      {{/if}}
     {{/if}}
   {{/unless}}
 </template>

@@ -319,7 +319,6 @@ const _sidebarWidth = () => {
 /* @summary animation for main menu toggle activation burger button
 */
 const animateMenu = () => {
-  const splitLeft = $('.split-left').width();
   const sidebarPixelWidth = _sidebarWidth();
 
   Session.set('sidebar', !Session.get('sidebar'));

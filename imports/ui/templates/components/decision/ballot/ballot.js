@@ -287,6 +287,10 @@ Template.ballot.helpers({
   candidateBallot() {
     return this.candidateBallot; // Template.instance().candidateBallot.get();
   },
+  postView() {
+    console.log(this);
+    return false;
+  },
   voters() {
     let total;
     if (this.contract.tally) {
