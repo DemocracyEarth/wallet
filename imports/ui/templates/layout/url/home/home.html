@@ -5,6 +5,9 @@
 </template>
 
 <template name="screen">
+  {{#if tag}}
+    {{> homeFeed this}}
+  {{/if}}
   {{#if peer}}
     {{> peerFeed this}}
   {{/if}}

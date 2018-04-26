@@ -43,6 +43,11 @@ Template.home.helpers({
 });
 
 Template.screen.helpers({
+  tag() {
+    console.log((this.options.view === 'tag'));
+    console.log(this.options);
+    return (this.options.view === 'tag');
+  },
   peer() {
     return (this.options.view === 'peer');
   },
