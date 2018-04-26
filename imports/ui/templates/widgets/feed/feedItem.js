@@ -179,7 +179,7 @@ Template.feedItem.helpers({
   voters() {
     let total;
     const dbContract = Contracts.findOne({ _id: this._id });
-    if (dbContract) {
+    if (dbContract && dbContract.tally) {
       total = dbContract.tally.voter.length;
     } else {
       total = getTotalVoters(this);

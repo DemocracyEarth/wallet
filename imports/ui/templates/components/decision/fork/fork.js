@@ -175,7 +175,7 @@ Template.fork.helpers({
   },
   total() {
     const dbContract = Contracts.findOne({ _id: this.contract._id });
-    if (dbContract) {
+    if (dbContract && dbContract.tally) {
       const tally = dbContract.tally;
       this.contract.tally = tally;
     }
