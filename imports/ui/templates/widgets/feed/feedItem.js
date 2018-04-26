@@ -176,7 +176,12 @@ Template.feedItem.helpers({
     return Template.instance().contract.get();
   },
   voters() {
-    const total = getTotalVoters(this);
+    let total;
+    if (this.tally) {
+      total = Contracts.findOne({ _id: this._id }).tally.voter.length;
+    } else {
+      total = getTotalVoters(this);
+    }
     if (total === 1) {
       return `${total} ${TAPi18n.__('voter').toLowerCase()}`;
     } else if (total === 0) {

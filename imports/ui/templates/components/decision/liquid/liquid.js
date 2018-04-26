@@ -62,8 +62,6 @@ function getBarWidth(value, voteId, editable, interactive, getPercentageValue) {
 * @param {Vote} vote
 */
 function voteFailure(vote) {
-  console.log(vote);
-  console.log(purgeBallot(getBallot(vote.targetId)).length === 0);
   return (vote.allocateQuantity <= vote.minVotes && vote.minVotes !== 0 && vote.voteType === 'DELEGATION') ||
     (vote.allocateQuantity < vote.minVotes && vote.voteType === 'VOTE') ||
     (vote.allocateQuantity === vote.inBallot) ||
@@ -78,7 +76,6 @@ function voteFailure(vote) {
 */
 function agreement(voteId, editable) {
   if (Session.get(voteId).voteType === 'BALANCE') {
-    console.log('what?');
     return getBarWidth(Session.get(voteId).placed, voteId, true);
   }
   return getBarWidth(parseFloat(((Session.get(voteId).placed * Session.get(voteId).TOGGLE_DISPLAY_PLACED_BAR) - Session.get(voteId).inBallot) + Session.get(voteId).delegated, 10), voteId, editable);
@@ -135,8 +132,8 @@ const _setupDrag = () => {
           Session.set(voteId, this.newVote);
         };
 
-        //Meteor.clearTimeout(this.timer);
-        console.log(voteFailure(this.newVote));
+        // Meteor.clearTimeout(this.timer);
+
         if (voteFailure(this.newVote)) {
           cancel();
           if (this.newVote.voteType === 'VOTE' && (this.newVote.allocateQuantity !== this.newVote.inBallot || this.newVote.inBallot === 0)) {
