@@ -152,7 +152,6 @@ Template.fork.helpers({
     return this.displayResults;
   },
   showResult() {
-    console.log(this);
     if (this.displayResults) {
       const percentage = Template.instance().percentage.get();
       let color = '#e6e6e6';
