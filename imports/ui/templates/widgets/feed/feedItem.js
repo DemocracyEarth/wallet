@@ -25,7 +25,8 @@ import '/imports/ui/templates/components/identity/avatar/avatar.js';
 * @return {boolean} yes or no
 */
 const _displayResults = (contract) => {
-  if (getTotalVoters(contract) > 0) {
+  const dbContract = Contracts.findOne({ _id: contract._id });
+  if (getTotalVoters(contract) > 0 || (dbContract.tally && dbContract.tally.voter.length > 0)) {
     return ((contract.stage === 'FINISH') || (contract.permanentElection && contract.stage !== 'DRAFT'));
   }
   return false;
@@ -206,6 +207,10 @@ Template.feedItem.helpers({
     return Template.instance().candidateBallot.get();
   },
   displayResults() {
+    const dbContract = Contracts.findOne({ _id: this._id });
+    if (dbContract.tally && dbContract.tally.voter.length > 0) {
+      return true;
+    }
     return Template.instance().displayResults.get();
   },
   onScreen() {
