@@ -4576,6 +4576,7 @@ blockquote {
   height: 100px;
   margin-right: auto;
   margin-left: auto;
+  padding-left: 80px;
   opacity: 0.5;
 }
 
@@ -6169,6 +6170,9 @@ blockquote {
     padding-top: 5px;
     font-size: 16px;
     text-transform: none;
+  }
+  .spinner {
+    padding-left: 0px;
   }
   .card-title {
     margin-top: 5px;
