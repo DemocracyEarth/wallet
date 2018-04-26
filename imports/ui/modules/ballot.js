@@ -214,16 +214,24 @@ const _getTickValue = (ballot, contract) => {
   return _getTickFromLedger(contract, Meteor.userId(), ballot._id);
 };
 
+/**
+* @summary from the list of a voter, builds ballot array
+* @param {object} contract the contract with voter info
+* @param {array} list the ballot list from the voter of a contract
+* @return {object} ballot to be included in candidate ballot
+*/
 const _getBallotFromList = (contract, list) => {
   const ballot = [];
+  let item;
   for (const i in list) {
     for (const k in contract.ballot) {
       if (contract.ballot[k]._id === list[i]) {
-        ballot.push(contract.ballot[k]);
+        item = contract.ballot[k];
+        item.tick = true;
+        ballot.push(item);
       }
     }
   }
-  console.log(ballot);
   return ballot;
 };
 
@@ -237,7 +245,7 @@ const _candidateBallot = (userId, contractId) => {
   const candidateBallot = [];
   let list = [];
   const contract = Contracts.findOne({ _id: contractId });
-  console.log(contract);
+
   if (contract && contract.tally) {
     // optimized
     for (const i in contract.tally.voter) {
@@ -246,12 +254,11 @@ const _candidateBallot = (userId, contractId) => {
         for (const j in list) {
           candidateBallot.push({
             contractId,
-            ballot: list[j], // _getBallotFromList(contract, contract.tally.voter[i].ballotList),
+            ballot: list[j],
           });
         }
       }
     }
-    console.log(candidateBallot);
     _setBallot(contractId, candidateBallot);
     return candidateBallot;
   }

@@ -62,6 +62,8 @@ function getBarWidth(value, voteId, editable, interactive, getPercentageValue) {
 * @param {Vote} vote
 */
 function voteFailure(vote) {
+  console.log(vote);
+  console.log(purgeBallot(getBallot(vote.targetId)).length === 0);
   return (vote.allocateQuantity <= vote.minVotes && vote.minVotes !== 0 && vote.voteType === 'DELEGATION') ||
     (vote.allocateQuantity < vote.minVotes && vote.voteType === 'VOTE') ||
     (vote.allocateQuantity === vote.inBallot) ||
@@ -134,7 +136,7 @@ const _setupDrag = () => {
         };
 
         //Meteor.clearTimeout(this.timer);
-
+        console.log(voteFailure(this.newVote));
         if (voteFailure(this.newVote)) {
           cancel();
           if (this.newVote.voteType === 'VOTE' && (this.newVote.allocateQuantity !== this.newVote.inBallot || this.newVote.inBallot === 0)) {
