@@ -289,10 +289,8 @@ Template.ballot.helpers({
   },
   voters() {
     let total;
-    console.log(this.contract);
     if (this.contract.tally) {
       total = this.contract.tally.voters.length;
-      console.log(total);
     } else {
       total = getTotalVoters(this.contract);
       if (total === 1) {

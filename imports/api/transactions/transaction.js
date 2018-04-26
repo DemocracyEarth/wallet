@@ -8,7 +8,7 @@ import { Collectives } from '/imports/api/collectives/Collectives';
 import { guidGenerator } from '/imports/startup/both/modules/crypto';
 import { getTime } from '/imports/api/time';
 import { Transactions } from '/imports/api/transactions/Transactions';
-import { getTotalVoters, getTally } from '/imports/ui/modules/ballot';
+import { getTotalVoters } from '/imports/ui/modules/ballot';
 
 
 /**
@@ -573,6 +573,8 @@ const _tallyAddition = (transaction) => {
 
 const _getLastBallot = (voterId, contractId) => {
   const tx = Transactions.find({ $and: [{ $or: [{ 'output.entityId': voterId }, { 'input.entityId': voterId }] }, { contractId }] }, { sort: { timestamp: -1 } }).fetch();
+  console.log(tx);
+  console.log(_.pluck(tx[0].condition.ballot, '_id'));
   return _.pluck(tx[0].condition.ballot, '_id');
 };
 
@@ -716,6 +718,8 @@ const _tally = (transaction) => {
       });
     }
   }
+
+  console.log(contract);
 
   // update in db
   Contracts.update({ _id: transaction.contractId }, { $set: { tally: contract.tally, ballot: contract.ballot } });

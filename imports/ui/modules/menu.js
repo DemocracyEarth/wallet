@@ -318,19 +318,13 @@ const _sidebarWidth = () => {
 /**
 /* @summary animation for main menu toggle activation burger button
 */
-const animateMenu = (disableAnimation) => {
+const animateMenu = () => {
   const splitLeft = $('.split-left').width();
   const sidebarPixelWidth = _sidebarWidth();
-  const PERFORM_ANIMATION = true;
 
-  console.log('animated menu');
-
-  let diff = 0;
   Session.set('sidebar', !Session.get('sidebar'));
-  console.log(Session.get('sidebar'));
   if (Session.get('sidebar')) {
     // show sidebar
-    diff = parseInt(parseInt(splitLeft - sidebarPixelWidth, 10) - parseInt(($('.right').width() / 2), 10), 10);
     let newRight = 0;
 
     if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
@@ -357,11 +351,6 @@ const animateMenu = (disableAnimation) => {
     });
   } else if (Meteor.Device.isPhone() || Session.get('miniWindow')) {
     // hide sidebar
-    if ($(window).width() >= gui.DESKTOP_MIN_WIDTH) {
-      diff = parseInt((splitLeft + sidebarPixelWidth)
-             - parseInt(($(window).width() / 2), 10), 10);
-    }
-
     $('.inhibitor').css('display', 'none');
     $('.navbar').css('position', 'fixed');
     $('.navbar').css('top', '0px');

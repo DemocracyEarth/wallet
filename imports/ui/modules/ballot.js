@@ -403,6 +403,7 @@ const _getTally = (fork) => {
     for (const i in choice) {
       if (_.contains(_.pluck(choice[i].ballot, '_id'), fork._id.toString())) {
         votes += choice[i].votes;
+        break; // NOTE: this break assumes no multiple choice.
       }
     }
   } else {
@@ -454,6 +455,7 @@ const _getTallyTotal = (contract) => {
 */
 const _getTallyPercentage = (fork) => {
   const totalVotes = _getTallyTotal(fork.contract);
+  console.log(totalVotes);
   const forkVotes = _getTally(fork);
   if (totalVotes === 0) { return 0; }
   return parseFloat((forkVotes * 100) / totalVotes, 10);

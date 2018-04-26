@@ -137,18 +137,6 @@ Template.fork.helpers({
       }
     }
     return this.tick;
-      /*
-      // show tick
-      if (Template.instance().candidateBallot.get() || (this.tick)) {
-        return this.tick;
-      // if user already voted
-      } else if (this.rightToVote === false && this.contract.stage !== 'DRAFT') {
-        if (this.tick) {
-          return 'tick-disabled';
-        }
-      }
-    }
-    return false;*/
   },
   style(className) {
     let final = className;
@@ -186,6 +174,10 @@ Template.fork.helpers({
     return '';
   },
   total() {
+    if (this.contract.tally) {
+      const tally = Contracts.findOne({ _id: this.contract._id }).tally;
+      this.contract.tally = tally;
+    }
     const total = getTally(this);
     Template.instance().percentage.set(parseInt(getTallyPercentage(this), 10));
     if (total !== 1) {
@@ -194,15 +186,6 @@ Template.fork.helpers({
     return `<strong>${total}</strong> ${TAPi18n.__('vote')} (${Template.instance().percentage.get()}%)`;
   },
 });
-
-/**
-* @summary animates the percentage bar according to percentage value
-* @param {string} identifier DOM ID to animates
-* @param {number} percentage integer with percentage value
-*/
-const _animateBar = (identifier, percentage) => {
-  $(identifier).velocity({ width: `${percentage}%` });
-};
 
 Template.fork.events({
   'click #ballotCheckbox'() {

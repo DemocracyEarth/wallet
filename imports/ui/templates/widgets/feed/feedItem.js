@@ -81,8 +81,6 @@ Template.feedItem.onRendered(function () {
     }, scrollRefresh());
   });
 
-  console.log(instance);
-
   if (!instance.data.tally) {
     instance.autorun(function () {
       if (instance.data._id) {
