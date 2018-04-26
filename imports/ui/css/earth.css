@@ -4431,6 +4431,10 @@ blockquote {
   text-align: left;
 }
 
+.micro-button.micro-button-feed {
+  margin: 8px 25px 0px;
+}
+
 .micro-icon {
   width: 28px;
   height: 28px;

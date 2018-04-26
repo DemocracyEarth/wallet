@@ -68,11 +68,15 @@
           </div>
         </div>
       {{else}}
-        <div class="block">
+        <div class="block block-list">
           <div class="micro-menu">
-            <a href="{{contract.url}}" class="micro">
-              <img src="{{pathFor route='home'}}images/editor-ballot-enabled.png" class="micro-icon">
-              <span class="micro-button">{{_ 'vote'}}</span>
+            <a href="{{contract.url}}" class="micro-button micro-button-feed" ontouchstart="">
+              <img src="{{pathFor route='home'}}images/vote.png" class="micro-icon">
+              <span class="micro-label">{{_ 'vote'}}</span>
+            </a>
+            <a href="{{contract.url}}" class="micro-button micro-button-feed" ontouchstart="">
+              <img src="{{pathFor route='home'}}images/debate.png" class="micro-icon">
+              <span class="micro-label">{{_ 'debate'}}</span>
             </a>
           </div>
         </div>
