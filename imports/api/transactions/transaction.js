@@ -165,15 +165,14 @@ const _updateWallet = (entityId, entityType, profileSettings) => {
 * @param {string} contractId - contractId to be checked
 */
 const _getTransactions = (userId, contractId) => {
-  const tx = Transactions.find({ $and: [{ $or: [{ 'output.entityId': userId }, { 'input.entityId': userId }] }, { contractId }] }, { sort: { timestamp: -1 } }).fetch();
-  return tx;
-  /*
+ // const tx = Transactions.find({ $and: [{ $or: [{ 'output.entityId': userId }, { 'input.entityId': userId }] }, { contractId }] }, { sort: { timestamp: -1 } }).fetch();
+ //  return tx;
+
   return _.sortBy(
     _.union(
       _.filter(Transactions.find({ 'input.entityId': userId }).fetch(), (item) => { return (item.output.entityId === contractId); }, 0),
       _.filter(Transactions.find({ 'output.entityId': userId }).fetch(), (item) => { return (item.input.entityId === contractId); }, 0)),
       'timestamp');
-      */
 };
 
 /**
@@ -203,7 +202,6 @@ const _getVotes = (contractId, userId) => {
   if (contract && contract.tally !== undefined) {
     for (const i in contract.tally.voter) {
       if (contract.tally.voter[i]._id === userId) {
-        console.log('found on tally');
         return contract.tally.voter[i].votes;
       }
     }

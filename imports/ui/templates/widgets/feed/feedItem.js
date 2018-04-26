@@ -81,18 +81,28 @@ Template.feedItem.onRendered(function () {
     }, scrollRefresh());
   });
 
-  instance.autorun(function () {
-    if (instance.data._id) {
-      const subscription = instance.subscribe('transaction', { view: 'contractVotes', contractId: instance.data._id });
-      const contract = instance.contract.get();
-      if (subscription.ready() && !instance.ready.get()) {
-        instance.rightToVote.set(getRightToVote(contract));
-        instance.candidateBallot.set(getBallot(instance.data._id));
-        instance.displayResults.set(_displayResults(contract));
-        instance.ready.set(true);
+  console.log(instance);
+
+  if (!instance.data.tally) {
+    instance.autorun(function () {
+      if (instance.data._id) {
+        const subscription = instance.subscribe('transaction', { view: 'contractVotes', contractId: instance.data._id });
+        const contract = instance.contract.get();
+        if (subscription.ready() && !instance.ready.get()) {
+          instance.rightToVote.set(getRightToVote(contract));
+          instance.candidateBallot.set(getBallot(instance.data._id));
+          instance.displayResults.set(_displayResults(contract));
+          instance.ready.set(true);
+        }
       }
-    }
-  });
+    });
+  } else {
+    const contract = instance.data;
+    instance.rightToVote.set(getRightToVote(instance.data));
+    instance.candidateBallot.set(getBallot(instance.data._id));
+    instance.displayResults.set(_displayResults(contract));
+    instance.ready.set(true);
+  }
 });
 
 Template.feedItem.helpers({

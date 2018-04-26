@@ -149,14 +149,12 @@ const _getTickFromLedger = (contract, userId, ballotId) => {
     onLedger: true,
   };
   const votes = getVotes(contract._id, userId);
-  console.log(votes);
-  // evaluate if it's last present setting on ledger.
   if (votes > 0) {
+    // optimized
     if (contract && contract.tally !== undefined) {
       for (const i in contract.tally.voter) {
         if (contract.tally.voter[i]._id === userId) {
           if (_.contains(contract.tally.voter[i].ballotList, ballotId.toString())) {
-            console.log('found election tick');
             election.tick = true;
             return election;
           }
@@ -164,6 +162,7 @@ const _getTickFromLedger = (contract, userId, ballotId) => {
         }
       }
     } else {
+      // brute force
       const last = _.last(getTransactions(userId, contract._id));
       for (const j in last.condition.ballot) {
         if (last.condition.ballot[j]._id.toString() === ballotId.toString()) {
@@ -215,6 +214,19 @@ const _getTickValue = (ballot, contract) => {
   return _getTickFromLedger(contract, Meteor.userId(), ballot._id);
 };
 
+const _getBallotFromList = (contract, list) => {
+  const ballot = [];
+  for (const i in list) {
+    for (const k in contract.ballot) {
+      if (contract.ballot[k]._id === list[i]) {
+        ballot.push(contract.ballot[k]);
+      }
+    }
+  }
+  console.log(ballot);
+  return ballot;
+};
+
 /**
 * @summary sets candidate ballot of user for given contract
 * @param {string} userId - user preferences on this ballot
@@ -223,6 +235,27 @@ const _getTickValue = (ballot, contract) => {
 */
 const _candidateBallot = (userId, contractId) => {
   const candidateBallot = [];
+  let list = [];
+  const contract = Contracts.findOne({ _id: contractId });
+  console.log(contract);
+  if (contract && contract.tally) {
+    // optimized
+    for (const i in contract.tally.voter) {
+      if (contract.tally.voter[i]._id === userId) {
+        list = _getBallotFromList(contract, contract.tally.voter[i].ballotList);
+        for (const j in list) {
+          candidateBallot.push({
+            contractId,
+            ballot: list[j], // _getBallotFromList(contract, contract.tally.voter[i].ballotList),
+          });
+        }
+      }
+    }
+    console.log(candidateBallot);
+    _setBallot(contractId, candidateBallot);
+    return candidateBallot;
+  }
+  // brute force
   const transactions = getTransactions(userId, contractId);
   if (transactions.length > 0) {
     const last = _.last(getTransactions(userId, contractId));
@@ -327,19 +360,26 @@ const _getVoteTransactions = (contract) => {
 */
 const _getTotalVoters = (contract, generateList) => {
   let voters = 0;
-  const voterList = [];
-  const transactions = _getVoteTransactions(contract);
 
-  for (const participant in transactions) {
-    if (getVotes(contract._id, transactions[participant]) > 0) {
-      voters += 1;
-      if (generateList) {
-        voterList.push(transactions[participant]);
+  if (contract.tally) {
+    // optimized
+    voters = contract.tally.voter.length;
+  } else {
+    // brute force
+    const voterList = [];
+    const transactions = _getVoteTransactions(contract);
+
+    for (const participant in transactions) {
+      if (getVotes(contract._id, transactions[participant]) > 0) {
+        voters += 1;
+        if (generateList) {
+          voterList.push(transactions[participant]);
+        }
       }
     }
-  }
-  if (generateList) {
-    return _.uniq(voterList);
+    if (generateList) {
+      return _.uniq(voterList);
+    }
   }
   return voters;
 };
@@ -349,19 +389,30 @@ const _getTotalVoters = (contract, generateList) => {
 * @param {object} fork for which option is the tally being counted
 */
 const _getTally = (fork) => {
-  const transactions = _getVoteTransactions(fork.contract);
-  let ballot = [];
-  let voterTransactions = [];
-  let voterVotes = 0;
   let votes = 0;
-  for (const participant in transactions) {
-    voterVotes = getVotes(fork.contract._id, transactions[participant]);
-    if (voterVotes > 0) {
-      voterTransactions = getTransactions(transactions[participant], fork.contract._id);
-      ballot = voterTransactions[parseInt(voterTransactions.length - 1, 10)].condition.ballot;
-      for (const tick in ballot) {
-        if (ballot[tick]._id.toString() === fork._id.toString()) {
-          votes += voterVotes;
+  if (fork.contract.tally) {
+    // optimized
+    const choice = fork.contract.tally.choice;
+    for (const i in choice) {
+      if (_.contains(_.pluck(choice[i].ballot, '_id'), fork._id.toString())) {
+        votes += choice[i].votes;
+      }
+    }
+  } else {
+    // brute force
+    let ballot = [];
+    let voterTransactions = [];
+    let voterVotes = 0;
+    const transactions = _getVoteTransactions(fork.contract);
+    for (const participant in transactions) {
+      voterVotes = getVotes(fork.contract._id, transactions[participant]);
+      if (voterVotes > 0) {
+        voterTransactions = getTransactions(transactions[participant], fork.contract._id);
+        ballot = voterTransactions[parseInt(voterTransactions.length - 1, 10)].condition.ballot;
+        for (const tick in ballot) {
+          if (ballot[tick]._id.toString() === fork._id.toString()) {
+            votes += voterVotes;
+          }
         }
       }
     }
@@ -374,10 +425,18 @@ const _getTally = (fork) => {
 * @param {object} contract which contract
 */
 const _getTallyTotal = (contract) => {
-  const transactions = _getVoteTransactions(contract);
   let totalVotes = 0;
-  for (const participant in transactions) {
-    totalVotes += getVotes(contract._id, transactions[participant]);
+  if (contract.tally) {
+    // optimized
+    for (const i in contract.tally.voter) {
+      totalVotes += contract.tally.voter[i].votes;
+    }
+  } else {
+    // brute force
+    const transactions = _getVoteTransactions(contract);
+    for (const participant in transactions) {
+      totalVotes += getVotes(contract._id, transactions[participant]);
+    }
   }
   return totalVotes;
 };
