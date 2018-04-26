@@ -178,8 +178,9 @@ Template.feedItem.helpers({
   },
   voters() {
     let total;
-    if (this.tally) {
-      total = Contracts.findOne({ _id: this._id }).tally.voter.length;
+    const dbContract = Contracts.findOne({ _id: this._id });
+    if (dbContract) {
+      total = dbContract.tally.voter.length;
     } else {
       total = getTotalVoters(this);
     }
@@ -208,7 +209,7 @@ Template.feedItem.helpers({
   },
   displayResults() {
     const dbContract = Contracts.findOne({ _id: this._id });
-    if (dbContract.tally && dbContract.tally.voter.length > 0) {
+    if (dbContract && dbContract.tally && dbContract.tally.voter.length > 0) {
       return true;
     }
     return Template.instance().displayResults.get();

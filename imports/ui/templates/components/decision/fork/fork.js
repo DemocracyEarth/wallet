@@ -174,8 +174,9 @@ Template.fork.helpers({
     return '';
   },
   total() {
-    if (this.contract.tally) {
-      const tally = Contracts.findOne({ _id: this.contract._id }).tally;
+    const dbContract = Contracts.findOne({ _id: this.contract._id });
+    if (dbContract) {
+      const tally = dbContract.tally;
       this.contract.tally = tally;
     }
     const total = getTally(this);
