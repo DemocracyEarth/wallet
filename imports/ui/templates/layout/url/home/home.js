@@ -59,7 +59,6 @@ Template.screen.helpers({
 
 Template.peerFeed.helpers({
   votes() {
-    console.log(this);
     const tally = this;
     tally.options.view = 'userVotes';
     tally.options.sort = { timestamp: -1 };

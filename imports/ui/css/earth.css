@@ -5638,6 +5638,10 @@ blockquote {
   margin-left: 10px;
 }
 
+.max100 {
+  max-width: 100%;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;

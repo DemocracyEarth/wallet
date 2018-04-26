@@ -20,7 +20,7 @@
 </template>
 
 <template name="homeFeed">
-  <div class="content content-feed">
+  <div class="content content-feed max100">
     {{#if editorMode}}
       {{> editor contractId=newContractId}}
     {{/if}}
@@ -39,7 +39,7 @@
     <h3>{{_ 'posted-ideas'}}</h3>
   </div>
 
-  <div class="content content-feed content-feed-subsection">
+  <div class="content content-feed content-feed-subsection max100" >
     <div id="non-editable-feed">
       {{> feed options=this.options kind='VOTE' subfeed=true singlePost=true}}
     </div>
@@ -50,7 +50,7 @@
     <h3>{{_ 'delegations'}}</h3>
   </div>
 
-  <div class="content content-feed content-feed-subsection">
+  <div class="content content-feed content-feed-subsection max100">
     <div id="non-editable-feed">
       {{> feed options=this.options kind='DELEGATION' singlePost=true}}
     </div>
@@ -61,7 +61,7 @@
     <h3>{{_ 'votes'}}</h3>
   </div>
 
-  <div class="content content-feed content-feed-subsection">
+  <div class="content content-feed content-feed-subsection max100">
     <div id="non-editable-feed">
       {{> tally votes hidePost=false}}
     </div>
@@ -71,7 +71,7 @@
 </template>
 
 <template name="postFeed">
-  <div class="content content-feed">
+  <div class="content content-feed max100">
     <div id="non-editable-feed">
       {{> feed this  singlePost=true}}
     </div>
@@ -82,7 +82,7 @@
     <h3>{{_ 'votes'}}</h3>
   </div>
 
-  <div class="content content-feed content-feed-subsection">
+  <div class="content content-feed content-feed-subsection max100">
     <div id="non-editable-feed">
       {{> tally votes hidePost=true}}
     </div>
