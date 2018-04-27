@@ -72,11 +72,12 @@
           <div class="micro-menu">
             <a href="{{contract.url}}" class="micro-button micro-button-feed" ontouchstart="">
               <img src="{{pathFor route='home'}}images/vote.png" class="micro-icon">
-              <span class="micro-label">{{_ 'vote'}}</span>
+              <span class="micro-label">{{label 'vote'}} {{quantity 'vote'}}</span>
+              <div class="verifier verifier-live verifier-feed"></div>
             </a>
             <a href="{{contract.url}}" class="micro-button micro-button-feed" ontouchstart="">
               <img src="{{pathFor route='home'}}images/debate.png" class="micro-icon">
-              <span class="micro-label">{{_ 'debate'}}</span>
+              <span class="micro-label">{{label 'debate'}}</span>
             </a>
           </div>
         </div>

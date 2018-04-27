@@ -288,8 +288,38 @@ Template.ballot.helpers({
     return this.candidateBallot; // Template.instance().candidateBallot.get();
   },
   postView() {
-    console.log(this);
     return false;
+  },
+  label(button) {
+    let label = '';
+    switch (button) {
+      case 'debate':
+        label = TAPi18n.__('debate');
+        break;
+      case 'vote':
+        label = TAPi18n.__('vote');
+        break;
+      default:
+    }
+    return label;
+  },
+  quantity(button) {
+    let label = '';
+    switch (button) {
+      case 'vote':
+        if (this.contract.tally.voter.length > 1) {
+          label = `· ${_.reduce(this.contract.tally.voter, function (memo, voter) {
+            let votes = 0;
+            votes = parseInt(memo.votes + voter.votes, 10);
+            return votes;
+          })} ${TAPi18n.__('total')}`;
+        } else if (this.contract.tally.voter.length === 1) {
+          label += `· ${(this.contract.tally.voter[0].votes)} ${TAPi18n.__('total')}`;
+        }
+        break;
+      default:
+    }
+    return label;
   },
   voters() {
     let total;
