@@ -309,13 +309,13 @@ Template.ballot.helpers({
     let label = '';
     switch (button) {
       case 'vote':
-        if (this.contract.tally.voter.length > 1) {
+        if (this.contract.tally && this.contract.tally.voter.length > 1) {
           label = `· ${_.reduce(this.contract.tally.voter, function (memo, voter) {
             let votes = 0;
             votes = parseInt(memo.votes + voter.votes, 10);
             return votes;
           })}`;
-        } else if (this.contract.tally.voter.length === 1) {
+        } else if (this.contract.tally && this.contract.tally.voter.length === 1) {
           label += `· ${(this.contract.tally.voter[0].votes)}`;
         }
         break;
