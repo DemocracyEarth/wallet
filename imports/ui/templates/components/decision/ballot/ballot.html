@@ -59,7 +59,7 @@
   </div>
   {{#unless editorMode}}
     {{#if currentUser}}
-      {{#if postView}}
+      {{#unless readOnly}}
         <div class="execution" id="execution-{{this.voteId}}">
           <div class="block" style={{displayBar}}>
             {{#with voteSettings}}
@@ -81,7 +81,7 @@
             </a>
           </div>
         </div>
-      {{/if}}
+      {{/unless}}
     {{/if}}
   {{/unless}}
 </template>

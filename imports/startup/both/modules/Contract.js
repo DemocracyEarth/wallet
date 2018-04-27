@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
-import { Router } from 'meteor/iron:router';
 import { TAPi18n } from 'meteor/tap:i18n';
 
 import { convertToSlug } from '/lib/utils';

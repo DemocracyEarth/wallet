@@ -4,6 +4,7 @@ import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { Router } from 'meteor/iron:router';
 
 import { removeFork, updateBallotRank, addChoiceToBallot, getTickValue, getTotalVoters } from '/imports/ui/modules/ballot';
 import { displayTimedWarning } from '/lib/utils';
@@ -287,8 +288,9 @@ Template.ballot.helpers({
   candidateBallot() {
     return this.candidateBallot; // Template.instance().candidateBallot.get();
   },
-  postView() {
-    return false;
+  readOnly() {
+    // NOTE: it's all about context
+    return (Router.current().route.options.name !== 'post');
   },
   label(button) {
     let label = '';
@@ -312,9 +314,9 @@ Template.ballot.helpers({
             let votes = 0;
             votes = parseInt(memo.votes + voter.votes, 10);
             return votes;
-          })} ${TAPi18n.__('total')}`;
+          })}`;
         } else if (this.contract.tally.voter.length === 1) {
-          label += `· ${(this.contract.tally.voter[0].votes)} ${TAPi18n.__('total')}`;
+          label += `· ${(this.contract.tally.voter[0].votes)}`;
         }
         break;
       default:

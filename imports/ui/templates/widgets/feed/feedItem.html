@@ -67,16 +67,16 @@
           {{#if ballotEnabled}}
             {{#if tally}}
               {{#if onScreen}}
-                {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
+                {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly}}
               {{else}}
-                {{#nrr nrrargs 'ballot' editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}{{/nrr}}
+                {{#nrr nrrargs 'ballot' editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly}}{{/nrr}}
               {{/if}}
             {{else}}
               {{#if electionData}}
                 {{#if onScreen}}
-                  {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
+                  {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly}}
                 {{else}}
-                  {{#nrr nrrargs 'ballot' editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}{{/nrr}}
+                  {{#nrr nrrargs 'ballot' editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly}}{{/nrr}}
                 {{/if}}
               {{else}}
                 {{#if currentUser}}
