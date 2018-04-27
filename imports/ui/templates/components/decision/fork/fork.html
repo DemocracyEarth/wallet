@@ -2,13 +2,15 @@
   {{#if executive}}
     <li id="fork-{{voteId}}-{{_id}}" class="{{style 'vote'}} {{checkbox mode}}">
       <div class="w-clearfix checkbox {{resultBar}}" style="{{showResult}}">
-        <div id="ballotCheckbox" class="{{style 'option'}} {{tickStyle}}">
-          <div id="tickbox" class="tick" ontouchstart="">
-            {{#if tickStatus}}
-              <div class="checkmark_kick"></div><div class="checkmark_stem"></div>
-            {{/if}}
+        {{#unless readOnly}}
+          <div id="ballotCheckbox" class="{{style 'option'}} {{tickStyle}}">
+            <div id="tickbox" class="tick" ontouchstart="">
+              {{#if tickStatus}}
+                <div class="checkmark_kick"></div><div class="checkmark_stem"></div>
+              {{/if}}
+            </div>
           </div>
-        </div>
+        {{/unless}}
         <div class="w-clearfix checkbox">
           <div class="{{style 'option-title'}} {{decision mode}}">
             {{_ mode}}

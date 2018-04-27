@@ -4,6 +4,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { Router } from 'meteor/iron:router';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { setVote, candidateBallot, setBallot, getTally, getTallyPercentage } from '/imports/ui/modules/ballot';
@@ -89,6 +90,10 @@ Template.fork.helpers({
       default:
         return '';
     }
+  },
+  readOnly() {
+    // NOTE: it's all about context
+    return (Router.current().route.options.name !== 'post');
   },
   highlight(div) {
     if (document.querySelector(`#fork-${this.voteId}-${this._id}`)) {

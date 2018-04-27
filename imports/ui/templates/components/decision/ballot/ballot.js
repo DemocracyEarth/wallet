@@ -286,7 +286,7 @@ Template.ballot.helpers({
     return this.contract.permanentElection;
   },
   candidateBallot() {
-    return this.candidateBallot; // Template.instance().candidateBallot.get();
+    return this.candidateBallot;
   },
   readOnly() {
     // NOTE: it's all about context
