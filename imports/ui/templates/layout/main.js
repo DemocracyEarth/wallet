@@ -29,6 +29,7 @@ import { Template } from 'meteor/templating';
 import { toggleSidebar } from '/imports/ui/modules/menu';
 import { globalObj } from '/lib/global';
 import { geo } from '/lib/geo';
+import { gui } from '/lib/const';
 
 import '/imports/ui/templates/layout/main.html';
 import '/imports/ui/templates/widgets/modal/modal';
@@ -89,9 +90,16 @@ Template.main.onRendered(() => {
     document.getElementsByClassName('inhibitor')[0].addEventListener('touchmove', (e) => { e.preventDefault(); });
   }
 
-  if (!Meteor.Device.isPhone()) {
+  console.log($(window).width());
+
+  if (!Meteor.Device.isPhone() && $(window).width() < gui.MOBILE_MAX_WIDTH) {
+    $('.navbar').css('left', 0);
+    Session.set('miniWindow', true);
+    Session.set('sidebar', true);
+    toggleSidebar();
+  } else if (!Meteor.Device.isPhone()) {
     Session.set('sidebar', false);
-    toggleSidebar(true);
+    toggleSidebar();
   }
 });
 
