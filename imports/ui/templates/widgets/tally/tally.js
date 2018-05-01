@@ -22,6 +22,7 @@ const _isRevoke = (userId) => {
 * @param {object} post a transaction Object
 */
 const _voteToContract = (post, contract, hidePost) => {
+
   const transaction = {
     _id: post._id,
     contract: {
@@ -55,6 +56,19 @@ const _voteToContract = (post, contract, hidePost) => {
   return transaction;
 };
 
+const _requiresUserSubscription = (transaction) => {
+  let userId;
+  if (transaction.input.entityType === 'INDIVIDUAL') {
+    userId = transaction.input.entityId;
+  } else if (transaction.output.entityType === 'INDIVIDUAL') {
+    userId = transaction.output.entityId;
+  }
+  if (userId && !Meteor.users.findOne({ _id: userId })) {
+    return userId;
+  }
+  return false;
+};
+
 Template.tally.onCreated(function () {
   Template.instance().feed = new ReactiveVar();
   Template.instance().contract = new ReactiveVar();
@@ -85,6 +99,7 @@ Template.tally.onCreated(function () {
   this.subscription = instance.subscribe('tally', Template.currentData().options);
 });
 
+
 Template.tally.onRendered(function () {
   const instance = this;
   instance.autorun(function () {
@@ -103,12 +118,27 @@ Template.tally.onRendered(function () {
           const currentFeed = instance.feed.get();
           const post = fields;
           post._id = id;
-          const voteContract = _voteToContract(post, contract, noTitle);
-          if (!currentFeed) {
-            instance.feed.set([voteContract]);
-          } else if (!here(voteContract, currentFeed)) {
-            currentFeed.push(voteContract);
-            instance.feed.set(_.uniq(currentFeed));
+          let voteContract;
+          const userSubscriptionId = _requiresUserSubscription(post);
+          if (userSubscriptionId) {
+            const user = instance.subscribe('singleUser', userSubscriptionId);
+            if (user.ready()) {
+              voteContract = _voteToContract(post, contract, noTitle);
+              if (!currentFeed) {
+                instance.feed.set([voteContract]);
+              } else if (!here(voteContract, currentFeed)) {
+                currentFeed.push(voteContract);
+                instance.feed.set(_.uniq(currentFeed));
+              }
+            }
+          } else {
+            voteContract = _voteToContract(post, contract, noTitle);
+            if (!currentFeed) {
+              instance.feed.set([voteContract]);
+            } else if (!here(voteContract, currentFeed)) {
+              currentFeed.push(voteContract);
+              instance.feed.set(_.uniq(currentFeed));
+            }
           }
         },
       });
