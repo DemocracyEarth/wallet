@@ -6,6 +6,12 @@ import { genesisTransaction } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { getTime } from '/imports/api/time';
 
+const _getUser = () => {
+  if (Meteor.user()) {
+    return Meteor.user().username;
+  }
+  return '[anonymous]';
+};
 
 Meteor.methods({
   /**
@@ -14,7 +20,7 @@ Meteor.methods({
   */
   sendVerificationLink() {
     const userId = Meteor.userId();
-    console.log(`{ method: 'sendVerificationLink', user: ${Meteor.user().username} }`);
+    console.log(`{ method: 'sendVerificationLink', user: ${_getUser()} }`);
     if (userId) {
       return Accounts.sendVerificationEmail(userId);
     }
@@ -25,7 +31,7 @@ Meteor.methods({
   * @summary gives user subsidy with inital tokens
   */
   subsidizeUser() {
-    console.log(`{ method: 'subsidizeUser', user: ${Meteor.user().username} }`);
+    console.log(`{ method: 'subsidizeUser', user: ${_getUser()} }`);
     genesisTransaction(Meteor.user()._id);
   },
 
@@ -37,7 +43,7 @@ Meteor.methods({
   getContract(keyword) {
     check(keyword, String);
 
-    console.log(`{ method: 'getContract', user: ${Meteor.user().username}, keyword: '${keyword}' }`);
+    console.log(`{ method: 'getContract', user: ${_getUser()}, keyword: '${keyword}' }`);
     return Contracts.findOne({ keyword });
   },
 
@@ -48,7 +54,7 @@ Meteor.methods({
   getContractById(contractId) {
     check(contractId, String);
 
-    console.log(`{ method: 'getContractById', user: '${Meteor.user().username}', _id: '${contractId}' }`);
+    console.log(`{ method: 'getContractById', user: '${_getUser()}', _id: '${contractId}' }`);
     return Contracts.findOne({ _id: contractId });
   },
 
@@ -59,7 +65,7 @@ Meteor.methods({
   getUser(username) {
     check(username, String);
 
-    console.log(`{ method: 'getUser', user: '${Meteor.user().username}', keyword: '${username}' }`);
+    console.log(`{ method: 'getUser', user: '${_getUser()}', keyword: '${username}' }`);
     const user = Meteor.users.findOne({ username });
     return {
       _id: user._id,
@@ -85,12 +91,7 @@ Meteor.methods({
     check(options, Object);
 
     const count = Contracts.find(query, options).count();
-    if (Meteor.user()) {
-      console.log(`{ method: 'feedCount', user: '${Meteor.user().username}', count: ${count} }`);
-    } else {
-      console.log(`{ method: 'feedCount', user: [anonymous], count: ${count} }`);
-    }
-
+    console.log(`{ method: 'feedCount', user: '${_getUser()}', count: ${count} }`);
     return count;
   },
 
@@ -100,12 +101,7 @@ Meteor.methods({
   */
   userCount() {
     const count = Meteor.users.find().count();
-
-    if (Meteor.user()) {
-      console.log(`{ method: 'userCount', user: '${Meteor.user().username}', count: ${count} }`);
-    } else {
-      console.log(`{ method: 'userCount', user: [anonymous], count: ${count} }`);
-    }
+    console.log(`{ method: 'userCount', user: '${_getUser()}', count: ${count} }`);
     return count;
   },
 });
