@@ -90,8 +90,6 @@ Template.main.onRendered(() => {
     document.getElementsByClassName('inhibitor')[0].addEventListener('touchmove', (e) => { e.preventDefault(); });
   }
 
-  console.log($(window).width());
-
   if (!Meteor.Device.isPhone() && $(window).width() < gui.MOBILE_MAX_WIDTH) {
     $('.navbar').css('left', 0);
     Session.set('miniWindow', true);
