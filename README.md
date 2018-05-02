@@ -12,8 +12,7 @@ A token based liquid democracy software.
 
 Read our 📃 [white paper](https://github.com/DemocracyEarth/paper).
 
-[Paris 🇫🇷 2016 conference](https://youtube.com/watch?v=UajbQTHnTfM).
-[Berlin 🇩🇪 2018 conference](https://youtu.be/xqafNk_VsMM).
+Conferences: [Paris 🇫🇷 2016](https://youtube.com/watch?v=UajbQTHnTfM), [Berlin 🇩🇪 2018](https://youtu.be/xqafNk_VsMM).
 
 <p align="center">
 <img src="public/images/sovereign-screenshot-2017.png" width="800" title="Sovereign Screenshot 2017">
