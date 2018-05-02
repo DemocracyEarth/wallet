@@ -10,9 +10,10 @@ A token based liquid democracy software.
 [![Slack Status](http://chat.democracy.earth/badge.svg)](http://chat.democracy.earth)
 [![Build Status](http://ci.comunes.org/buildStatus/icon?job=sovereign)](http://ci.comunes.org/job/sovereign/)
 
-Read our 📃 [open source white paper](https://github.com/DemocracyEarth/paper).
+Read our 📃 [white paper](https://github.com/DemocracyEarth/paper).
 
-See our 🇫🇷 [Paris 2016 conference](https://youtube.com/watch?v=UajbQTHnTfM) presentation.
+[Paris 🇫🇷 2016 conference](https://youtube.com/watch?v=UajbQTHnTfM).
+[Berlin 🇩🇪 2018 conference](https://youtu.be/xqafNk_VsMM).
 
 <p align="center">
 <img src="public/images/sovereign-screenshot-2017.png" width="800" title="Sovereign Screenshot 2017">
