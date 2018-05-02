@@ -11,14 +11,6 @@ import { getUser } from '/imports/ui/templates/components/identity/avatar/avatar
 import '/imports/ui/templates/widgets/tally/tally.html';
 
 /**
-* @summary checks if this transaction is a revoke
-* @param {string} userId check if user exists
-*/
-const _isRevoke = (userId) => {
-  return !Meteor.users.findOne({ _id: userId });
-};
-
-/**
 * @summary translates data info about vote into a renderable contracts
 * @param {object} post a transaction Object
 */
@@ -119,28 +111,16 @@ Template.tally.onRendered(function () {
           const currentFeed = instance.feed.get();
           const post = fields;
           post._id = id;
-          let voteContract;
           const userSubscriptionId = _requiresUserSubscription(post);
-          console.log(userSubscriptionId);
           if (userSubscriptionId) {
             getUser(userSubscriptionId);
-            voteContract = _voteToContract(post, contract, noTitle);
-            /*
-            if (!currentFeed) {
-              instance.feed.set([voteContract]);
-            } else if (!here(voteContract, currentFeed)) {
-              currentFeed.push(voteContract);
-              instance.feed.set(_.uniq(currentFeed));
-            }
-            */
-          } else if (Meteor.userId()) {
-            voteContract = _voteToContract(post, contract, noTitle);
-            if (!currentFeed) {
-              instance.feed.set([voteContract]);
-            } else if (!here(voteContract, currentFeed)) {
-              currentFeed.push(voteContract);
-              instance.feed.set(_.uniq(currentFeed));
-            }
+          }
+          const voteContract = _voteToContract(post, contract, noTitle);
+          if (!currentFeed) {
+            instance.feed.set([voteContract]);
+          } else if (!here(voteContract, currentFeed)) {
+            currentFeed.push(voteContract);
+            instance.feed.set(_.uniq(currentFeed));
           }
         },
       });
