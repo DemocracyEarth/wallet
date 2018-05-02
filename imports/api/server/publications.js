@@ -3,13 +3,14 @@ import { check } from 'meteor/check';
 import { Counts } from 'meteor/tmeasday:publish-counts';
 
 import { query } from '/lib/views';
+import { log, logUser } from '/lib/const';
 
 import { Transactions } from '/imports/api/transactions/Transactions';
 import { Files } from '/imports/api/files/Files';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { Collectives } from '/imports/api/collectives/Collectives';
 
-console.log('[starting publications]');
+log('[starting publications]');
 
 // The user fields we are willing to publish.
 const USER_FIELDS = {
@@ -23,7 +24,7 @@ const USER_FIELDS = {
 */
 Meteor.publish('singleUser', (userQuery) => {
   check(userQuery, Object);
-  console.log(`{ publish: 'singleUser', userQuery: ${JSON.stringify(userQuery)} }`);
+  log(`{ publish: 'singleUser', userQuery: ${JSON.stringify(userQuery)} }`);
   return Meteor.users.find(userQuery, { fields: USER_FIELDS });
 });
 
@@ -38,7 +39,7 @@ Meteor.publish('transaction', (terms) => {
     username = Meteor.user().username;
   }
   const parameters = query(terms);
-  console.log(`{ publish: 'transaction', user: '${username}', contractId: '${terms.contractId}' }`);
+  log(`{ publish: 'transaction', user: '${username}', contractId: '${terms.contractId}' }`);
   return Transactions.find(parameters.find, parameters.options);
 });
 
@@ -52,10 +53,10 @@ Meteor.publish('delegations', (terms) => {
     if (terms.items.length > 0) {
       const parameters = query(terms);
       terms.items.push(Meteor.userId());
-      console.log(`{ publish: 'delegations', user: '${Meteor.user().username}', delegates: '${terms.items}' }`);
+      log(`{ publish: 'delegations', user: '${logUser()}', delegates: '${terms.items}' }`);
       return Transactions.find(parameters.find, parameters.options);
     }
-    console.log(`{ publish: 'delegations', user: '${Meteor.user().username}', delegates: [empty] }`);
+    log(`{ publish: 'delegations', user: '${logUser()}', delegates: [empty] }`);
   }
   return undefined;
 });
@@ -80,25 +81,21 @@ Meteor.publish('files', function files() {
 Meteor.publish('tally', function (terms) {
   check(terms, Object);
   const parameters = query(terms);
-  let log = String();
+  let _log = String();
 
-  if (Meteor.user()) {
-    log = `{ publish: 'tally', user: '${Meteor.user().username}', ${JSON.stringify(terms)}, `;
-  } else {
-    log = `{ publish: 'tally', user: [anonymous], ${JSON.stringify(terms)}, `;
-  }
+  _log = `{ publish: 'tally', user: '${logUser()}', ${JSON.stringify(terms)}, `;
 
   if (parameters) {
-    log += (`${JSON.stringify(parameters.find)}, { length: ${Transactions.find(parameters.find, parameters.options).fetch().length} } }`);
-    console.log(log);
+    _log += (`${JSON.stringify(parameters.find)}, { length: ${Transactions.find(parameters.find, parameters.options).fetch().length} } }`);
+    log(_log);
 
     const feed = Transactions.find(parameters.find, parameters.options);
     if (feed) {
       return feed;
     }
   } else {
-    log += ' } }';
-    console.log(log);
+    _log += ' } }';
+    log(_log);
   }
   return this.ready();
 });
@@ -110,25 +107,21 @@ Meteor.publish('tally', function (terms) {
 Meteor.publish('feed', function (terms) {
   check(terms, Object);
   const parameters = query(terms);
-  let log = String();
+  let _log = String();
 
-  if (Meteor.user()) {
-    log = `{ publish: 'feed', user: '${Meteor.user().username}', ${JSON.stringify(terms)}, `;
-  } else {
-    log = `{ publish: 'feed', user: [anonymous], ${JSON.stringify(terms)}, `;
-  }
+  _log = `{ publish: 'feed', user: '${logUser()}', ${JSON.stringify(terms)}, `;
 
   if (parameters) {
-    log += (`${JSON.stringify(parameters.find)}, { length: ${Contracts.find(parameters.find, parameters.options).fetch().length} } }`);
-    console.log(log);
+    _log += (`${JSON.stringify(parameters.find)}, { length: ${Contracts.find(parameters.find, parameters.options).fetch().length} } }`);
+    log(_log);
 
     const feed = Contracts.find(parameters.find, parameters.options);
     if (feed) {
       return feed;
     }
   } else {
-    log += ' } }';
-    console.log(log);
+    _log += ' } }';
+    log(_log);
   }
   return this.ready();
 });
@@ -151,7 +144,7 @@ Meteor.publish('singleContract', (terms) => {
   check(terms, Object);
   const parameters = query(terms);
 
-  console.log(`{ publish: 'singleContract', user: '${Meteor.user().username}', { contractId: ${terms.contractId} }`);
+  log(`{ publish: 'singleContract', user: '${logUser()}', { contractId: ${terms.contractId} }`);
   return Contracts.find(parameters.find, parameters.options);
 });
 
@@ -163,7 +156,7 @@ Meteor.publish('delegationContracts', (terms) => {
   check(terms, Object);
   if (Meteor.user()) {
     const parameters = query(terms);
-    console.log(`{ publish: 'delegationContracts', user: '${Meteor.user().username}', delegateId: ${terms.delegateId} }`);
+    log(`{ publish: 'delegationContracts', user: '${logUser()}', delegateId: ${terms.delegateId} }`);
     return Contracts.find(parameters.find, parameters.options);
   }
   return undefined;
@@ -179,10 +172,10 @@ Meteor.publish('contractDrafts', (terms) => {
     const parameters = query(terms);
     const contract = Contracts.find(parameters.find, parameters.options);
     if (contract) {
-      console.log(`{ publish: 'contractDrafts', user: '${Meteor.user().username}', insert: false }`);
+      log(`{ publish: 'contractDrafts', user: '${logUser()}', insert: false }`);
       return contract;
     }
-    console.log(`{ publish: 'contractDrafts', user: '${Meteor.user().username}', insert: true }`);
+    log(`{ publish: 'contractDrafts', user: '${logUser()}', insert: true }`);
     Contracts.insert({ keyword: terms.keyword });
     return Contracts.find(parameters.find, parameters.options);
   }

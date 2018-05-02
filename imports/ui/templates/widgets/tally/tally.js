@@ -120,8 +120,9 @@ Template.tally.onRendered(function () {
           post._id = id;
           let voteContract;
           const userSubscriptionId = _requiresUserSubscription(post);
+          console.log(userSubscriptionId);
           if (userSubscriptionId) {
-            const user = instance.subscribe('singleUser', userSubscriptionId);
+            const user = instance.subscribe('singleUser', { _id: userSubscriptionId });
             if (user.ready()) {
               voteContract = _voteToContract(post, contract, noTitle);
               if (!currentFeed) {
