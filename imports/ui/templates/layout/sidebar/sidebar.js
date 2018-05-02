@@ -8,7 +8,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 
 import { sidebarWidth, sidebarPercentage, getDelegatesMenu, toggleSidebar } from '/imports/ui/modules/menu';
 import { showFullName } from '/imports/startup/both/modules/utils';
-import { getFlag } from '/imports/ui/templates/components/identity/avatar/avatar';
+import { getFlag, getUser } from '/imports/ui/templates/components/identity/avatar/avatar';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { Transactions } from '/imports/api/transactions/Transactions';
 import { processedTx, updateWalletCache } from '/imports/api/transactions/transaction';
@@ -81,7 +81,11 @@ function getDelegates(contractFeed, transactionFeed) {
   let delegateList = [];
   // let totalVotes = 0;
   for (const i in delegates) {
-    delegateList.push(Meteor.users.find({ _id: delegates[i].userId }).fetch()[0]);
+    if (!Meteor.users.find({ _id: delegates[i].userId }).fetch()[0]) {
+      getUser(delegates[i].userId);
+    } else {
+      delegateList.push(Meteor.users.find({ _id: delegates[i].userId }).fetch()[0]);
+    }
   }
 
   // remove duplicates
@@ -89,7 +93,7 @@ function getDelegates(contractFeed, transactionFeed) {
   for (let i = 0; i < delegateList.length; i += 1) {
     for (let k = 0; k < finalList.length; k += 1) {
       if (i !== k) {
-        if (delegateList[i]._id === delegateList[k]._id) {
+        if (delegateList[k] && delegateList[i] && delegateList[i]._id === delegateList[k]._id) {
           finalList[k] = 'EMPTY';
         }
       }
