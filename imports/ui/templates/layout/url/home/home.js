@@ -11,9 +11,23 @@ import '/imports/ui/templates/widgets/compose/compose.js';
 
 Template.home.onCreated(function () {
   this.modeVar = new ReactiveVar();
+  const instance = this;
 
   this.autorun(() => {
     Template.instance().modeVar.set(Router.current().url);
+    const avatarList = Session.get('avatarList');
+    if (avatarList) {
+      const query = [];
+      for (const i in avatarList) {
+        query.push({ _id: avatarList[i] });
+      }
+      console.log(query);
+      this.subscription = instance.subscribe('singleUser', { $or: query });
+
+//      if (this.subsscription.ready()) {
+    //    console.log('SUBSCRIPTION READY');
+  //    }
+    }
   });
 });
 

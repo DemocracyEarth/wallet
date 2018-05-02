@@ -17,6 +17,51 @@ import { displayPopup, cancelPopup } from '/imports/ui/modules/popup';
 
 import '/imports/ui/templates/components/identity/avatar/avatar.html';
 
+/**
+* @summary subscribes to user data
+* @param {object} user user to parse
+* @param {object} instance template running this
+* @param {function} callback when ready take this action
+* @returns {string} country
+*/
+const _getUser = (user, instance, callback) => {
+  console.log(`find user ${JSON.stringify(user)}?: ${Meteor.users.findOne(user)}`);
+  console.log(user);
+
+  const avatarList = Session.get('avatarList');
+  if (user && user._id && avatarList) {
+    if (!_.contains(avatarList, user._id)) {
+      avatarList.push(user._id);
+      Session.set('avatarList', avatarList);
+    }
+  } else if (user && user._id) {
+    Session.set('avatarList', [user._id]);
+  }
+
+/*
+  if (user && user._id && !Meteor.users.findOne(user)) {
+    instance.autorun(function () {
+      console.log(instance);
+      // let subscription = instance.avatarSubscription;
+      const subscription = instance.subscribe('singleUser', user);
+
+      if (subscription.ready()) {
+        console.log('READY');
+        if (callback) { callback(); }
+      }
+    });
+  } else {
+    instance.subscribe('singleUser', user);
+  }
+  */
+};
+
+/**
+* @summary describes nationality of user in ux
+* @param {object} profile user to parse
+* @param {boolean} flagOnly just show emoji
+* @returns {string} country
+*/
 const getNation = (profile, flagOnly) => {
   if (profile === undefined) {
     if (Meteor.user() != null) {
@@ -93,9 +138,7 @@ const _getDynamicID = (data) => {
 Template.avatar.onCreated(function () {
   const instance = this;
 
-  instance.autorun(function () {
-    instance.subscribe('singleUser', _getDynamicID(instance.data));
-  });
+  _getUser(_getDynamicID(instance.data), this);
 });
 
 Template.avatar.onRendered = () => {
@@ -308,3 +351,4 @@ Template.avatar.events({
 });
 
 export const getFlag = getNation;
+export const getUser = _getUser;

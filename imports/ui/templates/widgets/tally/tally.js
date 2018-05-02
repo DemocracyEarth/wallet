@@ -6,6 +6,7 @@ import { query } from '/lib/views';
 import { here } from '/lib/utils';
 import { Transactions } from '/imports/api/transactions/Transactions';
 import { Contracts } from '/imports/api/contracts/Contracts';
+import { getUser } from '/imports/ui/templates/components/identity/avatar/avatar';
 
 import '/imports/ui/templates/widgets/tally/tally.html';
 
@@ -122,17 +123,19 @@ Template.tally.onRendered(function () {
           const userSubscriptionId = _requiresUserSubscription(post);
           console.log(userSubscriptionId);
           if (userSubscriptionId) {
-            const user = instance.subscribe('singleUser', { _id: userSubscriptionId });
-            if (user.ready()) {
-              voteContract = _voteToContract(post, contract, noTitle);
+            /*getUser({ _id: userSubscriptionId }, instance, function (hello) {
+              console.log('is ready');
+              console.log(hello);
+              /* voteContract = _voteToContract(post, contract, noTitle);
               if (!currentFeed) {
                 instance.feed.set([voteContract]);
               } else if (!here(voteContract, currentFeed)) {
                 currentFeed.push(voteContract);
                 instance.feed.set(_.uniq(currentFeed));
               }
-            }
-          } else {
+            });*/
+          } else if (Meteor.userId()) {
+            console.log('doing it this way');
             voteContract = _voteToContract(post, contract, noTitle);
             if (!currentFeed) {
               instance.feed.set([voteContract]);
