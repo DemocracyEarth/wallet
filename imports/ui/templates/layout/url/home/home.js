@@ -21,12 +21,11 @@ Template.home.onCreated(function () {
       for (const i in avatarList) {
         query.push({ _id: avatarList[i] });
       }
-      console.log(query);
       this.subscription = instance.subscribe('singleUser', { $or: query });
 
-//      if (this.subsscription.ready()) {
-    //    console.log('SUBSCRIPTION READY');
-  //    }
+      if (this.subscription.ready()) {
+        console.log('READY');
+      }
     }
   });
 });

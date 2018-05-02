@@ -24,7 +24,7 @@ const USER_FIELDS = {
 */
 Meteor.publish('singleUser', (userQuery) => {
   check(userQuery, Object);
-  log(`{ publish: 'singleUser', userQuery: ${JSON.stringify(userQuery)} }`);
+  log(`{ publish: 'singleUser', user: ${logUser()}, query: ${JSON.stringify(userQuery)} }`);
   return Meteor.users.find(userQuery, { fields: USER_FIELDS });
 });
 
@@ -34,12 +34,8 @@ Meteor.publish('singleUser', (userQuery) => {
 */
 Meteor.publish('transaction', (terms) => {
   check(terms, Object);
-  let username = '[anonymous]';
-  if (Meteor.user() && terms.contractId) {
-    username = Meteor.user().username;
-  }
   const parameters = query(terms);
-  log(`{ publish: 'transaction', user: '${username}', contractId: '${terms.contractId}' }`);
+  log(`{ publish: 'transaction', user: ${logUser()}, contractId: '${terms.contractId}' }`);
   return Transactions.find(parameters.find, parameters.options);
 });
 
@@ -53,10 +49,10 @@ Meteor.publish('delegations', (terms) => {
     if (terms.items.length > 0) {
       const parameters = query(terms);
       terms.items.push(Meteor.userId());
-      log(`{ publish: 'delegations', user: '${logUser()}', delegates: '${terms.items}' }`);
+      log(`{ publish: 'delegations', user: ${logUser()}, delegates: '${terms.items}' }`);
       return Transactions.find(parameters.find, parameters.options);
     }
-    log(`{ publish: 'delegations', user: '${logUser()}', delegates: [empty] }`);
+    log(`{ publish: 'delegations', user: ${logUser()}, delegates: [empty] }`);
   }
   return undefined;
 });
@@ -83,7 +79,7 @@ Meteor.publish('tally', function (terms) {
   const parameters = query(terms);
   let _log = String();
 
-  _log = `{ publish: 'tally', user: '${logUser()}', ${JSON.stringify(terms)}, `;
+  _log = `{ publish: 'tally', user: ${logUser()}, ${JSON.stringify(terms)}, `;
 
   if (parameters) {
     _log += (`${JSON.stringify(parameters.find)}, { length: ${Transactions.find(parameters.find, parameters.options).fetch().length} } }`);
@@ -109,7 +105,7 @@ Meteor.publish('feed', function (terms) {
   const parameters = query(terms);
   let _log = String();
 
-  _log = `{ publish: 'feed', user: '${logUser()}', ${JSON.stringify(terms)}, `;
+  _log = `{ publish: 'feed', user: ${logUser()}, ${JSON.stringify(terms)}, `;
 
   if (parameters) {
     _log += (`${JSON.stringify(parameters.find)}, { length: ${Contracts.find(parameters.find, parameters.options).fetch().length} } }`);
@@ -144,7 +140,7 @@ Meteor.publish('singleContract', (terms) => {
   check(terms, Object);
   const parameters = query(terms);
 
-  log(`{ publish: 'singleContract', user: '${logUser()}', { contractId: ${terms.contractId} }`);
+  log(`{ publish: 'singleContract', user: ${logUser()}, { contractId: ${terms.contractId} }`);
   return Contracts.find(parameters.find, parameters.options);
 });
 
@@ -156,7 +152,7 @@ Meteor.publish('delegationContracts', (terms) => {
   check(terms, Object);
   if (Meteor.user()) {
     const parameters = query(terms);
-    log(`{ publish: 'delegationContracts', user: '${logUser()}', delegateId: ${terms.delegateId} }`);
+    log(`{ publish: 'delegationContracts', user: ${logUser()}, delegateId: ${terms.delegateId} }`);
     return Contracts.find(parameters.find, parameters.options);
   }
   return undefined;
@@ -172,10 +168,10 @@ Meteor.publish('contractDrafts', (terms) => {
     const parameters = query(terms);
     const contract = Contracts.find(parameters.find, parameters.options);
     if (contract) {
-      log(`{ publish: 'contractDrafts', user: '${logUser()}', insert: false }`);
+      log(`{ publish: 'contractDrafts', user: ${logUser()}, insert: false }`);
       return contract;
     }
-    log(`{ publish: 'contractDrafts', user: '${logUser()}', insert: true }`);
+    log(`{ publish: 'contractDrafts', user: ${logUser()}, insert: true }`);
     Contracts.insert({ keyword: terms.keyword });
     return Contracts.find(parameters.find, parameters.options);
   }

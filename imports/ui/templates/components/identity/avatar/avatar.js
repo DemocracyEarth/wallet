@@ -24,18 +24,15 @@ import '/imports/ui/templates/components/identity/avatar/avatar.html';
 * @param {function} callback when ready take this action
 * @returns {string} country
 */
-const _getUser = (user, instance, callback) => {
-  console.log(`find user ${JSON.stringify(user)}?: ${Meteor.users.findOne(user)}`);
-  console.log(user);
-
+const _getUser = (userId) => {
   const avatarList = Session.get('avatarList');
-  if (user && user._id && avatarList) {
-    if (!_.contains(avatarList, user._id)) {
-      avatarList.push(user._id);
+  if (userId && avatarList) {
+    if (!_.contains(avatarList, userId)) {
+      avatarList.push(userId);
       Session.set('avatarList', avatarList);
     }
-  } else if (user && user._id) {
-    Session.set('avatarList', [user._id]);
+  } else if (userId) {
+    Session.set('avatarList', [userId]);
   }
 
 /*
@@ -138,7 +135,7 @@ const _getDynamicID = (data) => {
 Template.avatar.onCreated(function () {
   const instance = this;
 
-  _getUser(_getDynamicID(instance.data), this);
+  _getUser(_getDynamicID(instance.data)._id);
 });
 
 Template.avatar.onRendered = () => {

@@ -40,7 +40,7 @@ const _voteToContract = (post, contract, hidePost) => {
     receiverId: post.output.entityId,
     isVote: true,
     hidePost,
-    isRevoke: _isRevoke(post.input.entityId),
+    isRevoke: (post.input.entityType !== 'INDIVIDUAL'),
   };
   if (!hidePost) {
     let contractId;
@@ -123,19 +123,17 @@ Template.tally.onRendered(function () {
           const userSubscriptionId = _requiresUserSubscription(post);
           console.log(userSubscriptionId);
           if (userSubscriptionId) {
-            /*getUser({ _id: userSubscriptionId }, instance, function (hello) {
-              console.log('is ready');
-              console.log(hello);
-              /* voteContract = _voteToContract(post, contract, noTitle);
-              if (!currentFeed) {
-                instance.feed.set([voteContract]);
-              } else if (!here(voteContract, currentFeed)) {
-                currentFeed.push(voteContract);
-                instance.feed.set(_.uniq(currentFeed));
-              }
-            });*/
+            getUser(userSubscriptionId);
+            voteContract = _voteToContract(post, contract, noTitle);
+            /*
+            if (!currentFeed) {
+              instance.feed.set([voteContract]);
+            } else if (!here(voteContract, currentFeed)) {
+              currentFeed.push(voteContract);
+              instance.feed.set(_.uniq(currentFeed));
+            }
+            */
           } else if (Meteor.userId()) {
-            console.log('doing it this way');
             voteContract = _voteToContract(post, contract, noTitle);
             if (!currentFeed) {
               instance.feed.set([voteContract]);

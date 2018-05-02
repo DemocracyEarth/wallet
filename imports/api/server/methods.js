@@ -48,7 +48,7 @@ Meteor.methods({
   getContractById(contractId) {
     check(contractId, String);
 
-    log(`{ method: 'getContractById', user: '${logUser()}', _id: '${contractId}' }`);
+    log(`{ method: 'getContractById', user: ${logUser()}, _id: '${contractId}' }`);
     return Contracts.findOne({ _id: contractId });
   },
 
@@ -59,7 +59,7 @@ Meteor.methods({
   getUser(username) {
     check(username, String);
 
-    log(`{ method: 'getUser', user: '${logUser()}', keyword: '${username}' }`);
+    log(`{ method: 'getUser', user: ${logUser()}, keyword: '${username}' }`);
     const user = Meteor.users.findOne({ username });
     return {
       _id: user._id,
@@ -85,7 +85,7 @@ Meteor.methods({
     check(options, Object);
 
     const count = Contracts.find(query, options).count();
-    log(`{ method: 'feedCount', user: '${logUser()}', count: ${count} }`);
+    log(`{ method: 'feedCount', user: ${logUser()}, count: ${count} }`);
     return count;
   },
 
@@ -95,7 +95,7 @@ Meteor.methods({
   */
   userCount() {
     const count = Meteor.users.find().count();
-    log(`{ method: 'userCount', user: '${logUser()}', count: ${count} }`);
+    log(`{ method: 'userCount', user: ${logUser()}, count: ${count} }`);
     return count;
   },
 });
