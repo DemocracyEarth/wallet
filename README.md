@@ -8,8 +8,6 @@ A token based liquid democracy software.
 
 [![Join the chat at https://gitter.im/DemocracyEarth/sovereign](https://badges.gitter.im/DemocracyEarth/sovereign.svg)](https://gitter.im/DemocracyEarth/sovereign?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Slack Status](http://chat.democracy.earth/badge.svg)](http://chat.democracy.earth)
-[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/599/badge)](https://bestpractices.coreinfrastructure.org/projects/599)
-[![Code Climate](https://codeclimate.com/github/DemocracyEarth/sovereign/badges/gpa.svg)](https://codeclimate.com/github/DemocracyEarth/sovereign)
 [![Build Status](http://ci.comunes.org/buildStatus/icon?job=sovereign)](http://ci.comunes.org/job/sovereign/)
 
 Read our 📃 [open source white paper](https://github.com/DemocracyEarth/paper).
@@ -40,7 +38,7 @@ See our 🇫🇷 [Paris 2016 conference](https://youtube.com/watch?v=UajbQTHnTfM
 
 **Release:**
 
-[`version 1.0.4-alpha`](https://github.com/DemocracyEarth/sovereign/releases/tag/1.0.4-alpha)
+[`version 1.0 alpha`](https://github.com/DemocracyEarth/sovereign/releases)
 
 **Also:**
 
