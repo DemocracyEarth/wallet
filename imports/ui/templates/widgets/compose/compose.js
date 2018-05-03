@@ -5,28 +5,19 @@ import { $ } from 'meteor/jquery';
 
 import { editorFadeOut } from '/imports/ui/templates/components/decision/editor/editor';
 import { createContract } from '/imports/startup/both/modules/Contract';
-import { animationSettings } from '/imports/ui/modules/animation';
-import './compose.html';
 
-
-const animationIntro = () => {
-  $('.action-icon-mouseleave').velocity({ opacity: 0 }, animationSettings);
-  $('.action-icon-mouseover').velocity({ opacity: 1 }, animationSettings);
-  $('.action-label').velocity({ opacity: 1, 'margin-left': '-135px', width: '120px' }, animationSettings);
-};
-
-const animationExit = () => {
-  $('.action-icon-mouseleave').velocity({ opacity: 1 }, animationSettings);
-  $('.action-icon-mouseover').velocity({ opacity: 0 }, animationSettings);
-  $('.action-label').velocity({ opacity: 0, 'margin-left': -115, width: '0px' }, animationSettings);
-};
+import '/imports/ui/templates/widgets/compose/compose.html';
 
 /**
 * @summary prepares the territory for editor display
 */
-const _introEditor = () => {
+const _introEditor = (settings) => {
   if (!Session.get('showPostEditor')) {
-    Session.set('draftContract', createContract());
+    const draft = createContract();
+    if (settings.replyMode && settings.replyId) {
+      draft.replyId = settings.replyId;
+    }
+    Session.set('draftContract', draft);
     Session.set('showPostEditor', true);
   } else if (!Meteor.Device.isPhone()) {
     editorFadeOut(Session.get('draftContract')._id);
@@ -70,6 +61,7 @@ Template.compose.helpers({
 
 Template.compose.events({
   'click #action-hotspace'() {
-    _introEditor();
+    console.log(this);
+    _introEditor(this);
   },
 });

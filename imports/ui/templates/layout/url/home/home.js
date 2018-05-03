@@ -3,6 +3,8 @@ import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Router } from 'meteor/iron:router';
 
+import { Contracts } from '/imports/api/contracts/Contracts';
+
 import '/imports/ui/templates/layout/url/home/home.html';
 import '/imports/ui/templates/widgets/feed/feed.js';
 import '/imports/ui/templates/widgets/tally/tally.js';
@@ -93,5 +95,21 @@ Template.postFeed.helpers({
     tally.options.view = 'votes';
     tally.options.sort = { timestamp: -1 };
     return tally;
+  },
+  newContractId() {
+    if (Session.get('draftContract')) {
+      return Session.get('draftContract')._id;
+    }
+    return undefined;
+  },
+  editorMode() {
+    return Session.get('showPostEditor');
+  },
+  replyId() {
+    const contract = Contracts.findOne({ keyword: this.options.keyword });
+    if (contract) {
+      return contract._id;
+    }
+    return undefined;
   },
 });
