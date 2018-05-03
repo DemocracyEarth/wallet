@@ -793,8 +793,8 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
       _updateWalletCache(newTx, false);
     }
 
-    // update tally in contract
-    if (newTx.kind === 'VOTE') {
+    // update tally in contract excluding subsidy
+    if (newTx.kind === 'VOTE' && newTx.input.entityType !== 'COLLECTIVE' && newTx.output.entityType !== 'COLLECTIVE') {
       _tally(newTx);
     }
 
