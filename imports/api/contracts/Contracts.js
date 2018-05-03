@@ -457,6 +457,10 @@ Schema.Contract = new SimpleSchema({
   tally: {
     type: Schema.Tally,
   },
+  replyId: {
+    type: String,
+    optional: true,
+  },
 });
 
 Contracts.attachSchema(Schema.Contract);
