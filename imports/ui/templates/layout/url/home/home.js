@@ -22,10 +22,6 @@ Template.home.onCreated(function () {
         query.push({ _id: avatarList[i] });
       }
       this.subscription = instance.subscribe('singleUser', { $or: query });
-
-      if (this.subscription.ready()) {
-        console.log('READY');
-      }
     }
   });
 });

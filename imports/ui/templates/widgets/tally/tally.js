@@ -15,7 +15,6 @@ import '/imports/ui/templates/widgets/tally/tally.html';
 * @param {object} post a transaction Object
 */
 const _voteToContract = (post, contract, hidePost) => {
-
   const transaction = {
     _id: post._id,
     contract: {

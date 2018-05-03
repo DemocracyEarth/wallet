@@ -4,13 +4,11 @@ import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { $ } from 'meteor/jquery';
 import { Counts } from 'meteor/tmeasday:publish-counts';
-import { TAPi18n } from 'meteor/tap:i18n';
 
 import { query } from '/lib/views';
 import { here } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { createContract } from '/imports/startup/both/modules/Contract';
-import { displayNotice } from '/imports/ui/modules/notice';
 import { toggleSidebar } from '/imports/ui/modules/menu';
 
 import '/imports/ui/templates/widgets/feed/feed.html';

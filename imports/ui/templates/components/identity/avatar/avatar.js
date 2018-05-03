@@ -34,23 +34,6 @@ const _getUser = (userId) => {
   } else if (userId) {
     Session.set('avatarList', [userId]);
   }
-
-/*
-  if (user && user._id && !Meteor.users.findOne(user)) {
-    instance.autorun(function () {
-      console.log(instance);
-      // let subscription = instance.avatarSubscription;
-      const subscription = instance.subscribe('singleUser', user);
-
-      if (subscription.ready()) {
-        console.log('READY');
-        if (callback) { callback(); }
-      }
-    });
-  } else {
-    instance.subscribe('singleUser', user);
-  }
-  */
 };
 
 /**
