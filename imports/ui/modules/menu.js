@@ -238,15 +238,21 @@ const _getDelegatesMenu = (contractFeed, transactionFeed) => {
       return (item.input.entityId === Meteor.userId() || item.output.entityId === Meteor.userId());
     }, 0);
 
+  console.log(transactions);
+
 
   if (transactions.length > 0) {
     delegations = _.uniq(_.pluck(transactions, 'contractId'));
     for (const i in delegations) {
       source = Contracts.findOne({ _id: delegations[i] });
+      console.log(source);
       if (source !== undefined) {
         users = _searchContract(source, users);
+        console.log(users);
         sent = getVotes(delegations[i], Meteor.userId());
         received = getVotes(delegations[i], users[users.length - 1]);
+        console.log(sent);
+        console.log(received);
         if (parseInt(sent + received, 10) !== 0) {
           politics.push({
             userId: users[users.length - 1],

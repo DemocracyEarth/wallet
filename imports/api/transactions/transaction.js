@@ -199,7 +199,7 @@ const _getVotes = (contractId, userId) => {
   // getting tally
   const contract = Contracts.findOne({ _id: contractId });
 
-  if (contract && contract.tally !== undefined) {
+  if (contract && contract.tally !== undefined && contract.tally.choice.length > 0) {
     for (const i in contract.tally.voter) {
       if (contract.tally.voter[i]._id === userId) {
         return contract.tally.voter[i].votes;

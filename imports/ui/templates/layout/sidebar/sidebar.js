@@ -78,6 +78,7 @@ function getList(db, sort) {
 */
 function getDelegates(contractFeed, transactionFeed) {
   const delegates = _.sortBy(getDelegatesMenu(contractFeed, transactionFeed), (user) => { return parseInt(0 - (user.sent + user.received), 10); });
+  console.log(delegates);
   let delegateList = [];
   // let totalVotes = 0;
   for (const i in delegates) {
@@ -155,6 +156,7 @@ Template.sidebar.onCreated(function () {
                                                          { $and: [{ 'output.delegateId': Meteor.userId() }, { kind: 'DELEGATION' }] }] }).fetch();
 
           const txList = _.pluck(transactions, '_id');
+          console.log(txList);
           let newTransaction;
           if (Session.get('delegationTransactions')) {
             const txNew = _.difference(txList, Session.get('delegationTransactions'));
@@ -172,6 +174,12 @@ Template.sidebar.onCreated(function () {
           Session.set('delegationTransactions', txList);
 
           if (Meteor.user()) {
+            console.log(contracts);
+            console.log(transactions);
+            console.log(getDelegates(
+              contracts,
+              transactions,
+            ));
             Template.instance().delegates.set(getDelegates(
               contracts,
               transactions,

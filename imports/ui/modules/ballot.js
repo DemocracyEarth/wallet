@@ -151,7 +151,7 @@ const _getTickFromLedger = (contract, userId, ballotId) => {
   const votes = getVotes(contract._id, userId);
   if (votes > 0) {
     // optimized
-    if (contract && contract.tally !== undefined) {
+    if (contract && contract.tally !== undefined && contract.tally.choice.length > 0) {
       for (const i in contract.tally.voter) {
         if (contract.tally.voter[i]._id === userId) {
           if (_.contains(contract.tally.voter[i].ballotList, ballotId.toString())) {
