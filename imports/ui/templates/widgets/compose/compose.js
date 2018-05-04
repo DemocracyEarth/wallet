@@ -61,7 +61,6 @@ Template.compose.helpers({
 
 Template.compose.events({
   'click #action-hotspace'() {
-    console.log(this);
     _introEditor(this);
   },
 });

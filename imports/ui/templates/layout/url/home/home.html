@@ -84,7 +84,7 @@
 
   <div class="content content-feed content-feed-subsection max100">
     {{#if editorMode}}
-      {{> editor contractId=newContractId}}
+      {{> editor contractId=newContractId replyMode=true replyId=replyId}}
     {{/if}}
     <div id="non-editable-feed">
       {{> feed this}}

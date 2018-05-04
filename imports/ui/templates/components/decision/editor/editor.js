@@ -116,10 +116,14 @@ const _editorFadeOut = (contractId) => {
 };
 
 Template.editor.onCreated(function () {
+  const contract = Session.get('draftContract');
   Template.instance().ready = new ReactiveVar(true);
-  Template.instance().contract = new ReactiveVar(Session.get('draftContract'));
+  Template.instance().contract = new ReactiveVar(contract);
 
-
+  if (this.data.replyMode) {
+    contract.ballotEnabled = false;
+    Session.set('draftContract', contract);
+  }
   /* const instance = this;
   instance.autorun(function () {
   /*  const subscription = instance.subscribe('singleContract', { view: 'contract', contractId: instance.data.contractId });
