@@ -10,7 +10,7 @@
           {{/each}}
           <div class="data data-feed data-identity">
             {{#if replyMode}}
-              <a href="#" title="{{sinceDate}}"><div class="verifier verifier-live verifier-feed">&#183; {{_ 'reply-to'}} {{sinceDate}}</div></a>
+              <a href="{{replyURL}}" title="{{sinceDate}}"><div class="verifier verifier-live verifier-feed">&#183; {{_ 'reply-to'}} {{replyTitle}}</div></a>
             {{else}}
               <div class="verifier verifier-live verifier-feed">&#183; {{sinceDate}}</div>
             {{/if}}

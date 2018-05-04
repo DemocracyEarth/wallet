@@ -120,7 +120,9 @@ Template.editor.onCreated(function () {
   Template.instance().ready = new ReactiveVar(true);
   Template.instance().contract = new ReactiveVar(contract);
 
+  console.log(this.data);
   if (this.data.replyMode) {
+    Template.instance().reply = new ReactiveVar(Contracts.findOne({ _id: this.data.replyId }));
     contract.ballotEnabled = false;
     Session.set('draftContract', contract);
   }
@@ -139,6 +141,20 @@ Template.editor.helpers({
       return `${timeCompressed(Session.get('draftContract').timestamp)}`;
     }
     return '';
+  },
+  replyTitle() {
+    const reply = Template.instance().reply.get();
+    if (reply) {
+      return `"${reply.title.substring(0, 21)}..."`;
+    }
+    return '';
+  },
+  replyURL() {
+    const reply = Template.instance().reply.get();
+    if (reply) {
+      return reply.url;
+    }
+    return '#';
   },
   ballotEnabled() {
     if (Session.get('draftContract')) {
