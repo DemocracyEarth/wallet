@@ -124,15 +124,6 @@ Template.editor.onCreated(function () {
     contract.ballotEnabled = false;
     Session.set('draftContract', contract);
   }
-  /* const instance = this;
-  instance.autorun(function () {
-  /*  const subscription = instance.subscribe('singleContract', { view: 'contract', contractId: instance.data.contractId });
-    if (subscription.ready()) {
-      instance.ready.set(true);
-    }
-    instance.contract.set(Session.get('draftContract'));
-    instance.ready.set(true);
-  }); */
 });
 
 Template.editor.onRendered(function () {

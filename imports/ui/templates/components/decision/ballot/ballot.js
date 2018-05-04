@@ -310,7 +310,7 @@ Template.ballot.helpers({
     switch (button) {
       case 'vote':
         if (this.contract.tally && this.contract.tally.choice.length > 1) {
-          label = `· ${_.reduce(this.contract.tally.choice, function (memo, voter) {
+          label = `&#183; ${_.reduce(this.contract.tally.choice, function (memo, voter) {
             let votes = 0;
             let count;
             if (!memo.votes && memo.votes !== 0) { count = memo; } else { count = memo.votes; }
@@ -318,7 +318,7 @@ Template.ballot.helpers({
             return votes;
           })}`;
         } else if (this.contract.tally && this.contract.tally.voter.length === 1) {
-          label += `· ${(this.contract.tally.voter[0].votes)}`;
+          label += `&#183; ${(this.contract.tally.voter[0].votes)}`;
         }
         break;
       default:

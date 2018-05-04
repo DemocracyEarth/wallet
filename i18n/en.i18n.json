@@ -485,5 +485,6 @@
   "cast-votes": "Cast Votes",
   "revoked-votes": "Revoked Votes",
   "granted-votes": "Granted Votes",
-  "winning-options": "Winning Option"
+  "winning-options": "Winning Option",
+  "reply-to": "Reply to"
 }
