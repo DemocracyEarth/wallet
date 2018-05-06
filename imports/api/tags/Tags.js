@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
-import { convertToSlug } from '../../utils/functions';
+import { convertToSlug } from '../../../lib/utils';
 
 export const Tags = new Mongo.Collection('tags');
 
