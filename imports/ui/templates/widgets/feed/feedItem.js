@@ -177,11 +177,23 @@ Template.feedItem.helpers({
     return Template.instance().contract.get();
   },
   replyMode() {
-    console.log(this);
     return this.replyId;
   },
   replyURL() {
-
+    if (this.replyId) {
+      const dbReply = Contracts.findOne({ _id: this.replyId });
+      return dbReply.url;
+    }
+    return '';
+  },
+  replyTitle() {
+    if (this.replyId) {
+      const dbReply = Contracts.findOne({ _id: this.replyId });
+      if (dbReply) {
+        return `"${dbReply.title.substring(0, 21)}..."`;
+      }
+    }
+    return '';
   },
   voters() {
     let total;

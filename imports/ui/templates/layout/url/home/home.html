@@ -73,7 +73,7 @@
 <template name="postFeed">
   <div class="content content-feed max100">
     <div id="non-editable-feed">
-      {{> feed this singlePost=true}}
+      {{> feed options=this.options singlePost=true}}
     </div>
   </div>
 
@@ -87,7 +87,11 @@
       {{> editor contractId=newContractId replyMode=true replyId=replyId}}
     {{/if}}
     <div id="non-editable-feed">
-      {{> feed this}}
+      {{#if postReady}}
+        {{#with replies}}
+          {{> feed this}}
+        {{/with}}
+      {{/if}}
     </div>
   </div>
 
@@ -98,7 +102,9 @@
 
   <div class="content content-feed content-feed-subsection max100">
     <div id="non-editable-feed">
-      {{> tally votes hidePost=true}}
+      {{#if postReady}}
+        {{> tally votes hidePost=true}}
+      {{/if}}
     </div>
   </div>
 

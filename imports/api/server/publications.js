@@ -140,6 +140,11 @@ Meteor.publish('singleContract', (terms) => {
   check(terms, Object);
   const parameters = query(terms);
 
+  if (!terms.contractId) {
+    console.log('WHASAAA');
+    console.log(terms);
+  }
+
   log(`{ publish: 'singleContract', user: ${logUser()}, { contractId: ${terms.contractId} }`);
   return Contracts.find(parameters.find, parameters.options);
 });

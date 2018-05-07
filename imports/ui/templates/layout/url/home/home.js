@@ -89,12 +89,36 @@ Template.homeFeed.helpers({
   },
 });
 
+Template.postFeed.onCreated(function () {
+  Template.instance().postReady = new ReactiveVar(false);
+
+  const instance = this;
+  const options = Template.currentData().options;
+  const subscription = instance.subscribe('singleContract', options: { view: 'post', sort: { createdAt: -1 }, keyword: options.keyword });
+
+  instance.autorun(function (computation) {
+    if (subscription.ready()) {
+      instance.postReady.set(true);
+      computation.stop();
+    }
+  });
+});
+
 Template.postFeed.helpers({
   votes() {
     const tally = this;
     tally.options.view = 'votes';
     tally.options.sort = { timestamp: -1 };
     return tally;
+  },
+  postReady() {
+    return Template.instance().postReady.get();
+  },
+  replies() {
+    const replies = this;
+    replies.options.view = 'replies';
+    replies.singlePost = true;
+    return replies;
   },
   newContractId() {
     if (Session.get('draftContract')) {
