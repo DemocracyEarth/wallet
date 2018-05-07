@@ -54,7 +54,7 @@ Meteor.methods({
 
   /**
   * @summary given a username returns user Id
-  * @param {keyword} keyword identify contract by given keyword
+  * @param {string} keyword identify contract by given keyword
   */
   getUser(username) {
     check(username, String);
@@ -69,10 +69,22 @@ Meteor.methods({
   },
 
   /**
+  * @summary returns the quantity of replies in a contract
+  * @param {string} contractId contract to search replies for
+  */
+  countReplies(contractId) {
+    check(contractId, String);
+
+    log(`{ method: 'countReplies', user: ${logUser()}, contractId: '${contractId}' }`);
+    return Contracts.find({ replyId: contractId }).count();
+  },
+
+  /**
   * @summary reports server time from server to client
   * @return {Date} time
   */
   getServerTime() {
+    // log(`{ method: 'getServerTime', user: ${logUser()} }`);
     return getTime();
   },
 

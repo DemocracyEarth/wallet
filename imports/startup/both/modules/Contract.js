@@ -317,6 +317,17 @@ const _publish = (contractId) => {
     replyId: draft.replyId,
   },
   });
+
+  // add reply to counter in contract
+  if (draft.replyId) {
+    const reply = Contracts.findOne({ _id: draft.replyId });
+    if (reply.totalReplies) {
+      reply.totalReplies += 1;
+    } else {
+      reply.totalReplies = 1;
+    }
+    Contracts.update({ _id: draft.replyId }, { $set: { totalReplies: reply.totalReplies } });
+  }
 };
 
 /**
