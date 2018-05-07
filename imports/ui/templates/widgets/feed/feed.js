@@ -58,7 +58,7 @@ Template.feed.onCreated(function () {
         instance.feed.set([post]);
         instance.data.refresh = false;
       } else if (!here(post, currentFeed)) {
-        currentFeed.push(post);
+        currentFeed.unshift(post);
         instance.feed.set(_.uniq(currentFeed));
       }
     },
