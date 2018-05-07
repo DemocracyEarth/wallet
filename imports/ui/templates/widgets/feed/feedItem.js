@@ -26,8 +26,10 @@ import '/imports/ui/templates/components/identity/avatar/avatar.js';
 */
 const _displayResults = (contract) => {
   const dbContract = Contracts.findOne({ _id: contract._id });
-  if (getTotalVoters(contract) > 0 || (dbContract.tally && dbContract.tally.voter.length > 0)) {
-    return ((contract.stage === 'FINISH') || (contract.permanentElection && contract.stage !== 'DRAFT'));
+  if (dbContract) {
+    if (getTotalVoters(contract) > 0 || (dbContract.tally && dbContract.tally.voter.length > 0)) {
+      return ((contract.stage === 'FINISH') || (contract.permanentElection && contract.stage !== 'DRAFT'));
+    }
   }
   return false;
 };
@@ -62,6 +64,7 @@ Template.feedItem.onCreated(function () {
   Template.instance().candidateBallot = new ReactiveVar();
   Template.instance().displayResults = new ReactiveVar(false);
   Template.instance().aboveFold = new ReactiveVar();
+  Template.instance().replySource = new ReactiveVar(false);
 });
 
 Template.feedItem.onRendered(function () {
@@ -82,7 +85,22 @@ Template.feedItem.onRendered(function () {
     }, scrollRefresh());
   });
 
-  if (!instance.data.tally) {
+  if (instance.data.replyId) {
+    const dbReply = Contracts.findOne({ _id: instance.data.replyId });
+    if (!dbReply) {
+      const source = instance.subscribe('singleContract', { view: 'contract', sort: { createdAt: -1 }, contractId: instance.data.replyId });
+      instance.autorun(function (computation) {
+        if (source.ready()) {
+          Template.instance().replySource.set(true);
+          computation.stop();
+        }
+      });
+    } else {
+      Template.instance().replySource.set(true);
+    }
+  }
+
+  if (!instance.data.tally && !instance.data.placeholder) {
     instance.autorun(function () {
       if (instance.data._id) {
         const subscription = instance.subscribe('transaction', { view: 'contractVotes', contractId: instance.data._id });
@@ -182,7 +200,9 @@ Template.feedItem.helpers({
   replyURL() {
     if (this.replyId) {
       const dbReply = Contracts.findOne({ _id: this.replyId });
-      return dbReply.url;
+      if (dbReply) {
+        return dbReply.url;
+      }
     }
     return '';
   },
@@ -212,6 +232,9 @@ Template.feedItem.helpers({
   },
   electionData() {
     return Template.instance().ready.get();
+  },
+  replySource() {
+    return Template.instance().replySource.get();
   },
   spinnerStyle() {
     return `height: 0px;

@@ -139,13 +139,7 @@ Meteor.publish('feedCount', function (terms) {
 Meteor.publish('singleContract', (terms) => {
   check(terms, Object);
   const parameters = query(terms);
-
-  if (!terms.contractId) {
-    console.log('WHASAAA');
-    console.log(terms);
-  }
-
-  log(`{ publish: 'singleContract', user: ${logUser()}, { contractId: ${terms.contractId} }`);
+  log(`{ publish: 'singleContract', user: ${logUser()}, { contractId: '${terms.contractId}' }`);
   return Contracts.find(parameters.find, parameters.options);
 });
 
@@ -157,7 +151,7 @@ Meteor.publish('delegationContracts', (terms) => {
   check(terms, Object);
   if (Meteor.user()) {
     const parameters = query(terms);
-    log(`{ publish: 'delegationContracts', user: ${logUser()}, delegateId: ${terms.delegateId} }`);
+    log(`{ publish: 'delegationContracts', user: ${logUser()}, delegateId: '${terms.delegateId}' }`);
     return Contracts.find(parameters.find, parameters.options);
   }
   return undefined;

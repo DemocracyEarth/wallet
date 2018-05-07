@@ -309,7 +309,7 @@ Template.ballot.helpers({
     let label = '';
     switch (button) {
       case 'vote':
-        if (this.contract.tally && this.contract.tally.choice.length > 1) {
+        if (this.contract && this.contract.tally && this.contract.tally.choice.length > 1) {
           label = `&#183; ${_.reduce(this.contract.tally.choice, function (memo, voter) {
             let votes = 0;
             let count;

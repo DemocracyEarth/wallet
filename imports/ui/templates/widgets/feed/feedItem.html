@@ -42,7 +42,9 @@
               {{/each}}
               <div class="data data-feed data-identity">
                 {{#if replyMode}}
-                  <a href="{{replyURL}}" title="{{sinceDate timestamp}}"><div class="verifier verifier-live verifier-feed">&#183; {{_ 'reply-to'}} {{replyTitle}}</div></a>
+                  {{#if replySource}}
+                    <a href="{{replyURL}}" title="{{sinceDate timestamp}}"><div class="verifier verifier-live verifier-feed">&#183; {{_ 'reply-to'}} {{replyTitle}}</div></a>
+                  {{/if}}
                 {{else}}
                   <div class="verifier verifier-live verifier-feed">&#183; {{sinceDate timestamp}}</div>
                 {{/if}}
@@ -68,30 +70,28 @@
               </div>
             </div>
           </div>
-          {{#if ballotEnabled}}
-            {{#if tally}}
+          {{#if tally}}
+            {{#if onScreen}}
+              {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly}}
+            {{else}}
+              {{#nrr nrrargs 'ballot' editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly}}{{/nrr}}
+            {{/if}}
+          {{else}}
+            {{#if electionData}}
               {{#if onScreen}}
                 {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly}}
               {{else}}
                 {{#nrr nrrargs 'ballot' editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly}}{{/nrr}}
               {{/if}}
             {{else}}
-              {{#if electionData}}
-                {{#if onScreen}}
-                  {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly}}
-                {{else}}
-                  {{#nrr nrrargs 'ballot' editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly}}{{/nrr}}
-                {{/if}}
-              {{else}}
-                {{#if currentUser}}
-                  <div class="extra">
-                    <div class="warning download">
-                      {{_ 'get-election-votes'}}
-                      {{> spinner id=_id style=spinnerStyle}}
-                    </div>
+              {{#if currentUser}}
+                <div class="extra">
+                  <div class="warning download">
+                    {{_ 'get-election-votes'}}
+                    {{> spinner id=_id style=spinnerStyle}}
                   </div>
-               {{/if}}
-              {{/if}}
+                </div>
+             {{/if}}
             {{/if}}
           {{/if}}
         </div>
