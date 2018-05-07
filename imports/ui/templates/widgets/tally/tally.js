@@ -118,7 +118,7 @@ Template.tally.onRendered(function () {
           if (!currentFeed) {
             instance.feed.set([voteContract]);
           } else if (!here(voteContract, currentFeed)) {
-            currentFeed.unshift(voteContract);
+            currentFeed.push(voteContract);
             instance.feed.set(_.uniq(currentFeed));
           }
         },
