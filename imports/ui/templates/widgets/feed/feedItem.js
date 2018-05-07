@@ -176,6 +176,13 @@ Template.feedItem.helpers({
   feedContract() {
     return Template.instance().contract.get();
   },
+  replyMode() {
+    console.log(this);
+    return this.replyId;
+  },
+  replyURL() {
+
+  },
   voters() {
     let total;
     const dbContract = Contracts.findOne({ _id: this._id });

@@ -314,6 +314,7 @@ const _publish = (contractId) => {
     keyword: draft.keyword,
     url: draft.url,
     ballotEnabled: draft.ballotEnabled,
+    replyId: draft.replyId,
   },
   });
 };

@@ -8,9 +8,9 @@ import { timers } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { timeCompressed } from '/imports/ui/modules/chronos';
 
-import './editor.html';
-import './editorButton.js';
-import './counter.js';
+import '/imports/ui/templates/components/decision/editor/editor.html';
+import '/imports/ui/templates/components/decision/editor/editorButton.js';
+import '/imports/ui/templates/components/decision/editor/counter.js';
 
 const _keepKeyboard = () => {
   $('#toolbar-hidden-keyboard').focus();
@@ -120,7 +120,6 @@ Template.editor.onCreated(function () {
   Template.instance().ready = new ReactiveVar(true);
   Template.instance().contract = new ReactiveVar(contract);
 
-  console.log(this.data);
   if (this.data.replyMode) {
     Template.instance().reply = new ReactiveVar(Contracts.findOne({ _id: this.data.replyId }));
     contract.ballotEnabled = false;

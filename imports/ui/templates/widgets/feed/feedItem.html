@@ -41,7 +41,11 @@
                 {{> avatar placeholder=true size=24}}
               {{/each}}
               <div class="data data-feed data-identity">
-                <div class="verifier verifier-live verifier-feed">&#183; {{sinceDate timestamp}}</div>
+                {{#if replyMode}}
+                  <a href="{{replyURL}}" title="{{sinceDate timestamp}}"><div class="verifier verifier-live verifier-feed">&#183; {{_ 'reply-to'}} {{replyTitle}}</div></a>
+                {{else}}
+                  <div class="verifier verifier-live verifier-feed">&#183; {{sinceDate timestamp}}</div>
+                {{/if}}
               </div>
               <div class="data data-feed">
                 {{#if electionData}}
