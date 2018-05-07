@@ -72,16 +72,16 @@
           </div>
           {{#if tally}}
             {{#if onScreen}}
-              {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly}}
+              {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly displayActions=displayActions}}
             {{else}}
-              {{#nrr nrrargs 'ballot' editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly}}{{/nrr}}
+              {{#nrr nrrargs 'ballot' editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly displayActions=displayActions}}{{/nrr}}
             {{/if}}
           {{else}}
             {{#if electionData}}
               {{#if onScreen}}
-                {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly}}
+                {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly displayActions=displayActions}}
               {{else}}
-                {{#nrr nrrargs 'ballot' editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly}}{{/nrr}}
+                {{#nrr nrrargs 'ballot' editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly displayActions=displayActions}}{{/nrr}}
               {{/if}}
             {{else}}
               {{#if currentUser}}

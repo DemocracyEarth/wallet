@@ -51,6 +51,9 @@ Template.feed.onCreated(function () {
       const currentFeed = instance.feed.get();
       const post = fields;
       post._id = id;
+      if (instance.data.displayActions) {
+        post.displayActions = true;
+      }
       if (!currentFeed) {
         instance.feed.set([post]);
         instance.data.refresh = false;

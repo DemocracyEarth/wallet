@@ -290,6 +290,9 @@ Template.ballot.helpers({
   },
   readOnly() {
     // NOTE: it's all about context
+    if (this.displayActions) {
+      return true;
+    }
     return (Router.current().route.options.name !== 'post');
   },
   label(button) {

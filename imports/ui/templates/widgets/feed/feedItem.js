@@ -25,10 +25,12 @@ import '/imports/ui/templates/components/identity/avatar/avatar.js';
 * @return {boolean} yes or no
 */
 const _displayResults = (contract) => {
-  const dbContract = Contracts.findOne({ _id: contract._id });
-  if (dbContract) {
-    if (getTotalVoters(contract) > 0 || (dbContract.tally && dbContract.tally.voter.length > 0)) {
-      return ((contract.stage === 'FINISH') || (contract.permanentElection && contract.stage !== 'DRAFT'));
+  if (contract) {
+    const dbContract = Contracts.findOne({ _id: contract._id });
+    if (dbContract) {
+      if (getTotalVoters(contract) > 0 || (dbContract.tally && dbContract.tally.voter.length > 0)) {
+        return ((contract.stage === 'FINISH') || (contract.permanentElection && contract.stage !== 'DRAFT'));
+      }
     }
   }
   return false;
@@ -184,6 +186,9 @@ Template.feedItem.helpers({
   },
   delegationMode() {
     return (this.kind === 'DELEGATION');
+  },
+  displayActions() {
+    return this.displayActions;
   },
   senderId() {
     return this.signatures[0]._id;

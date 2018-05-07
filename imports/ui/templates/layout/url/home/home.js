@@ -117,6 +117,7 @@ Template.postFeed.helpers({
     const replies = this;
     replies.options.view = 'replies';
     replies.singlePost = true;
+    replies.displayActions = true;
     return replies;
   },
   newContractId() {
