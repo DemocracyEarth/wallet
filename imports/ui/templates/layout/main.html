@@ -1,40 +1,54 @@
 <template name='main'>
   <!-- App -->
+  {{#if currentUser}}
 
-  {{> modal}}
-  {{#each popupList}}
-    {{> popup id=this}}
-  {{/each}}
+    {{> modal}}
 
-  {{#if isPhone}}
-    <div id='mobileKeyboard' contenteditable="true" style="opacity: 0; width: 0px; height:0px;"></div>
-  {{/if}}
+    {{#each popupList}}
 
+      {{> popup id=this}}
 
-  <div id='menu' class='left'>
-    {{> sidebar}}
-  </div>
-
-  <div id='content' class='right'>
+    {{/each}}
 
     {{#if isPhone}}
-      <div class='inhibitor' style='display: none;'></div>
+
+      <div id='mobileKeyboard' contenteditable="true" style="opacity: 0; width: 0px; height:0px;"></div>
+
     {{/if}}
 
-    {{> navigation}}
-    {{> yield}}
+    <div id='menu' class='left'>
 
-    <!--
-    NOTE: we will go for navigation without a touch menu and reconcile mobile with desktop ux
-    {{#if isPhone}}
-      {{> touchmenu}}
+      {{> sidebar}}
+
+    </div>
+    <div id='content' class='right'>
+
+      {{#if isPhone}}
+        <div class='inhibitor' style='display: none;'></div>
+      {{/if}}
+
+      {{> navigation}}
+
+      {{> yield}}
+
+      <!--
+      NOTE: we will go for navigation without a touch menu and reconcile mobile with desktop ux
+      {{#if isPhone}}
+        {{> touchmenu}}
+      {{/if}}
+      -->
+
+    </div>
+
+    {{#if showNotice}}
+
+      {{> notice}}
+
     {{/if}}
-    -->
 
-  </div>
+  {{else}}
 
-  {{#if showNotice}}
-    {{> notice}}
+    {{> onboarding}}
+
   {{/if}}
-
 </template>

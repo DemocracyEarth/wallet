@@ -31,14 +31,15 @@ import { globalObj } from '/lib/global';
 import { geo } from '/lib/geo';
 import { gui } from '/lib/const';
 
+import '/imports/ui/templates/components/decision/editor/editor';
 import '/imports/ui/templates/layout/main.html';
+import '/imports/ui/templates/layout/navigation/navigation';
+import '/imports/ui/templates/layout/onboarding/onboarding';
+import '/imports/ui/templates/layout/response/verifyEmail/verifyEmail';
+import '/imports/ui/templates/layout/sidebar/sidebar';
+import '/imports/ui/templates/layout/touchmenu/touchmenu';
 import '/imports/ui/templates/widgets/modal/modal';
 import '/imports/ui/templates/widgets/popup/popup';
-import '/imports/ui/templates/layout/sidebar/sidebar';
-import '/imports/ui/templates/layout/navigation/navigation';
-import '/imports/ui/templates/layout/response/verifyEmail/verifyEmail';
-import '/imports/ui/templates/layout/touchmenu/touchmenu';
-import '/imports/ui/templates/components/decision/editor/editor';
 
 Meteor.startup(() => {
   // Mail server settings
@@ -87,7 +88,9 @@ Meteor.startup(() => {
 
 Template.main.onRendered(() => {
   if (document.getElementsByClassName('inhibitor').length > 0) {
-    document.getElementsByClassName('inhibitor')[0].addEventListener('touchmove', (e) => { e.preventDefault(); });
+    document.getElementsByClassName('inhibitor')[0].addEventListener('touchmove', (e) => {
+      e.preventDefault();
+    });
   }
 
   if (!Meteor.Device.isPhone() && $(window).width() < gui.MOBILE_MAX_WIDTH) {
