@@ -120,6 +120,10 @@ Template.postFeed.helpers({
     replies.displayActions = true;
     return replies;
   },
+  ballotEnabled() {
+    const contract = Contracts.findOne({ keyword: Template.currentData().options.keyword });
+    return contract.ballotEnabled;
+  },
   newContractId() {
     if (Session.get('draftContract')) {
       return Session.get('draftContract')._id;

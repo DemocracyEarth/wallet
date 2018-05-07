@@ -95,18 +95,20 @@
     </div>
   </div>
 
-  <div class="subfeed-title subfeed-title-secondary">
-    <a href="#votes"></a>
-    <h3>{{_ 'votes'}}</h3>
-  </div>
+  {{#if postReady}}
+    {{#if ballotEnabled}}
+      <div class="subfeed-title subfeed-title-secondary">
+        <a href="#votes"></a>
+        <h3>{{_ 'votes'}}</h3>
+      </div>
 
-  <div class="content content-feed content-feed-subsection max100">
-    <div id="non-editable-feed">
-      {{#if postReady}}
-        {{> tally votes hidePost=true}}
-      {{/if}}
-    </div>
-  </div>
+      <div class="content content-feed content-feed-subsection max100">
+        <div id="non-editable-feed">
+          {{> tally votes hidePost=true}}
+        </div>
+      </div>
+    {{/if}}
+  {{/if}}
 
   {{> footnote noGrant=true}}
 
