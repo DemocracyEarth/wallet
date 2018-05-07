@@ -96,6 +96,9 @@ Template.feed.helpers({
     return Template.instance().feed.get();
   },
   empty() {
+    if (Session.get('showPostEditor')) {
+      return false;
+    }
     if (Template.instance().feed.get()) {
       return (Template.instance().feed.get().length === 0);
     }

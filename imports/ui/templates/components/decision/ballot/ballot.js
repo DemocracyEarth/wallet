@@ -309,6 +309,9 @@ Template.ballot.helpers({
     let label = '';
     switch (button) {
       case 'debate':
+        if (this.contract && this.contract.totalReplies) {
+          label = `&#183; ${(this.contract.totalReplies)}`;
+        }
         break;
       case 'vote':
         if (this.contract && this.contract.tally && this.contract.tally.choice.length > 1) {
