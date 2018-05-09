@@ -111,7 +111,6 @@ Template.feed.helpers({
     return Template.currentData().refresh;
   },
   beginning() {
-    console.log(Template.currentData());
     return (Template.currentData().options.skip === 0 || Template.currentData().singlePost);
   },
   single() {
