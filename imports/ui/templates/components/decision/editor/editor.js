@@ -55,10 +55,6 @@ function toggleFeed(enabled) {
         },
       });
     } else {
-      $('#non-editable-feed').css({
-        height: 'auto',
-        overflow: 'inherit',
-      });
       $('#non-editable-debate-header').velocity({ opacity: 1 });
       $('#non-editable-reply-feed').velocity({ opacity: 1 });
       $('#non-editable-vote-feed').velocity({ opacity: 1 });
@@ -67,12 +63,16 @@ function toggleFeed(enabled) {
       }, {
         complete: () => {
           $('.cast').css('height', '60px');
-          $('#feed-bottom').css('width', 'auto');
+          $('#feed-bottom').css('width', '');
           $('.cast').velocity({ opacity: 1 });
           $('#feed-bottom').velocity({ opacity: 0.3 });
-          $('#non-editable-debate-header').css({ height: 'auto', overflow: 'auto', marginBottom: '20px', marginTop: '0px', paddingTop: '3px' });
-          $('#non-editable-reply-feed').css({ height: 'auto', overflow: 'auto' });
-          $('#non-editable-vote-feed').css({ height: 'auto', overflow: 'auto' });
+          $('#non-editable-debate-header').css({ height: '', overflow: '', marginBottom: '20px', marginTop: '0px', paddingTop: '3px' });
+          $('#non-editable-reply-feed').css({ height: '', overflow: '' });
+          $('#non-editable-vote-feed').css({ height: '', overflow: '' });
+          $('#non-editable-feed').css({
+            height: '',
+            overflow: '',
+          });
         },
       });
     }
@@ -115,33 +115,6 @@ const _editorFadeIn = (contractId) => {
       },
     });
   }
-
-  /* if ($('.right').scrollTop() > scrollY) {
-    console.log('ANIMATING');
-    $('.right').animate({ scrollTop: diff }, {
-      complete: () => {
-        toggleFeed(false);
-      },
-    });
-  } else {
-    $(`#feedItem-${contractId}`).css({
-      overflow: 'hidden',
-      height: 0,
-      marginLeft: $('.right').width(),
-    });
-    $(`#feedItem-${contractId}`).velocity({
-      height: originalHeight,
-      marginLeft: 0,
-    }, {
-      complete: () => {
-        $(`#feedItem-${contractId}`).css({
-          height: 'auto',
-          overflow: 'none',
-        });
-        toggleFeed(false);
-      },
-    });
-  }*/
 };
 
 const _editorFadeOut = (contractId) => {
