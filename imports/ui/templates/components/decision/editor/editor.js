@@ -86,14 +86,35 @@ function toggleFeed(enabled) {
 * @param {string} contractId contract being edited to grab div
 */
 const _editorFadeIn = (contractId) => {
-  // const originalHeight = $(`#feedItem-${contractId}`)[0].getBoundingClientRect().height;
+  const originalHeight = $(`#feedItem-${contractId}`)[0].getBoundingClientRect().height;
   const tag = $('#postEditorItem');
   const diff = parseInt((tag.offset().top + $('.right').scrollTop()) - 80, 10);
-  $('.right').animate({ scrollTop: diff }, {
-    complete: () => {
-      toggleFeed(false);
-    },
-  });
+
+  if ($('.right').scrollTop() === 0 && !$('#non-editable-vote-feed').offset()) {
+    $(`#feedItem-${contractId}`).css({
+      overflow: 'hidden',
+      height: 0,
+      marginLeft: $('.right').width(),
+    });
+    $(`#feedItem-${contractId}`).velocity({
+      height: originalHeight,
+      marginLeft: 0,
+    }, {
+      complete: () => {
+        $(`#feedItem-${contractId}`).css({
+          height: 'auto',
+          overflow: 'none',
+        });
+        toggleFeed(false);
+      },
+    });
+  } else {
+    $('.right').animate({ scrollTop: diff }, {
+      complete: () => {
+        toggleFeed(false);
+      },
+    });
+  }
 
   /* if ($('.right').scrollTop() > scrollY) {
     console.log('ANIMATING');
