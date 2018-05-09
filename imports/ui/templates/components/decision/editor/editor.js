@@ -37,6 +37,9 @@ function toggleFeed(enabled) {
     if (!enabled) {
       $('.cast').velocity({ opacity: 0 });
       $('#feed-bottom').velocity({ opacity: 0 });
+      $('#non-editable-debate-header').velocity({ opacity: 0 });
+      $('#non-editable-reply-feed').velocity({ opacity: 0 });
+      $('#non-editable-vote-feed').velocity({ opacity: 0 });
       $('#non-editable-feed').velocity({ opacity: 0 }, {
         complete: () => {
           $('#non-editable-feed').css({
@@ -45,6 +48,9 @@ function toggleFeed(enabled) {
           });
           $('.cast').css('height', 0);
           $('#feed-bottom').css('width', 0);
+          $('#non-editable-debate-header').css({ height: 0, overflow: 'hidden', marginBottom: '-10px', marginTop: '-10px', paddingTop: '0px' });
+          $('#non-editable-reply-feed').css({ height: 0, overflow: 'hidden' });
+          $('#non-editable-vote-feed').css({ height: 0, overflow: 'hidden' });
           $('#titleContent').focus();
         },
       });
@@ -53,6 +59,9 @@ function toggleFeed(enabled) {
         height: 'auto',
         overflow: 'inherit',
       });
+      $('#non-editable-debate-header').velocity({ opacity: 1 });
+      $('#non-editable-reply-feed').velocity({ opacity: 1 });
+      $('#non-editable-vote-feed').velocity({ opacity: 1 });
       $('#non-editable-feed').velocity({
         opacity: 1,
       }, {
@@ -61,6 +70,9 @@ function toggleFeed(enabled) {
           $('#feed-bottom').css('width', 'auto');
           $('.cast').velocity({ opacity: 1 });
           $('#feed-bottom').velocity({ opacity: 0.3 });
+          $('#non-editable-debate-header').css({ height: 'auto', overflow: 'auto', marginBottom: '20px', marginTop: '0px', paddingTop: '3px' });
+          $('#non-editable-reply-feed').css({ height: 'auto', overflow: 'auto' });
+          $('#non-editable-vote-feed').css({ height: 'auto', overflow: 'auto' });
         },
       });
     }
@@ -74,9 +86,18 @@ function toggleFeed(enabled) {
 * @param {string} contractId contract being edited to grab div
 */
 const _editorFadeIn = (contractId) => {
-  const originalHeight = $(`#feedItem-${contractId}`)[0].getBoundingClientRect().height;
-  if ($('.right').scrollTop() > 0) {
-    $('.right').animate({ scrollTop: 0 }, {
+  // const originalHeight = $(`#feedItem-${contractId}`)[0].getBoundingClientRect().height;
+  const tag = $('#postEditorItem');
+  const diff = parseInt((tag.offset().top + $('.right').scrollTop()) - 80, 10);
+  $('.right').animate({ scrollTop: diff }, {
+    complete: () => {
+      toggleFeed(false);
+    },
+  });
+
+  /* if ($('.right').scrollTop() > scrollY) {
+    console.log('ANIMATING');
+    $('.right').animate({ scrollTop: diff }, {
       complete: () => {
         toggleFeed(false);
       },
@@ -99,7 +120,7 @@ const _editorFadeIn = (contractId) => {
         toggleFeed(false);
       },
     });
-  }
+  }*/
 };
 
 const _editorFadeOut = (contractId) => {

@@ -77,7 +77,7 @@
     </div>
   </div>
 
-  <div class="subfeed-title subfeed-title-secondary">
+  <div id="non-editable-debate-header" class="subfeed-title subfeed-title-secondary">
     <a href="#votes"></a>
     <h3>{{_ 'debate'}}</h3>
   </div>
@@ -86,7 +86,7 @@
     {{#if editorMode}}
       {{> editor contractId=newContractId replyMode=true replyId=replyId}}
     {{/if}}
-    <div id="non-editable-feed">
+    <div id="non-editable-reply-feed">
       {{#if postReady}}
         {{#with replies}}
           {{> feed this}}
@@ -95,22 +95,22 @@
     </div>
   </div>
 
-  {{#if postReady}}
-    {{#if ballotEnabled}}
-      <div class="subfeed-title subfeed-title-secondary">
-        <a href="#votes"></a>
-        <h3>{{_ 'votes'}}</h3>
-      </div>
+  <div id="non-editable-vote-feed">
+    {{#if postReady}}
+      {{#if ballotEnabled}}
+        <div class="subfeed-title subfeed-title-secondary">
+          <a href="#votes"></a>
+          <h3>{{_ 'votes'}}</h3>
+        </div>
 
-      <div class="content content-feed content-feed-subsection max100">
-        <div id="non-editable-feed">
+        <div class="content content-feed content-feed-subsection max100">
           {{> tally votes hidePost=true}}
         </div>
-      </div>
+      {{/if}}
     {{/if}}
-  {{/if}}
 
-  {{> footnote noGrant=true}}
+    {{> footnote noGrant=true}}
+  </div>
 
   {{> compose replyMode=true replyId=replyId}}
 </template>
