@@ -30,6 +30,19 @@ export default function () {
     register();
   });
 
+  this.Given(/^I am a registered citizen with name (.+)$/, function (name) {
+    widgets.loggedUserButton.click();
+    clickOnElement('#signup');
+    userName = name.replace(/[ .]/g, '');
+    email = randomEmail();
+    pass = randomPassword();
+    register();
+    getBrowser().waitForVisible('#action', 10000, true);
+    getBrowser().pause(2000);
+
+    context.I = name;
+  });
+
   this.Then(/^I should be registered$/, function () {
     getBrowser().waitForVisible('#logout', 10000);
   });
@@ -63,16 +76,5 @@ export default function () {
 
   this.Then(/^I should see a user not found error$/, function () {
     getBrowser().waitForText('.warning', 'User not found.');
-  });
-
-  this.Given(/^I am a registered citizen with name (.+)$/, function (name) {
-    widgets.loggedUserButton.click();
-    clickOnElement('#signup');
-    userName = name.replace(/[ .]/g, '');
-    email = randomEmail();
-    pass = randomPassword();
-    register();
-    getBrowser().waitForVisible('#action', 10000, true);
-    getBrowser().pause(2000);
   });
 }

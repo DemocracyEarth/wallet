@@ -1,4 +1,4 @@
-This is an experimental feature suite in [Gherkin](https://cucumber.io/docs/reference),
+Sovereign has a feature suite in [Gherkin](https://cucumber.io/docs/reference),
 to write [Specifications by Example](https://en.wikipedia.org/wiki/Specification_by_example).
 It's a work in progress, and there's a lot of work ahead. Write a feature, and dive in !
 

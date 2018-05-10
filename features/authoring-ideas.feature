@@ -1,4 +1,3 @@
-@watch
 Feature: Authoring ideas
   In order to share knowledge and initiate legal updates
   As a citizen
@@ -9,6 +8,8 @@ Feature: Authoring ideas
       And there is a tag titled Transparency
       And there is a tag titled Sovereignty
 
+
+  # Flow fluidity optimization
   # See https://github.com/DemocracyEarth/sovereign/pull/220#issuecomment-378731546
   Scenario: Create an idea draft upon user creation
      Then there should be one idea draft in the database
