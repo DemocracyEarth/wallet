@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 
-import { convertToSlug } from '/lib/utils';
+import { convertToSlug, convertToUsername } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { shortUUID } from './crypto';
 import { transact } from '../../../api/transactions/transaction';
@@ -308,6 +308,11 @@ const _publish = (contractId) => {
   draft.stage = 'LIVE';
   draft.keyword = _generateURL(document.getElementById('titleContent').innerText, draft._id);
   draft.url = `/vote/${draft.keyword}`;
+  if (Meteor.user() && Meteor.user().profile.country.name) {
+    draft.geo = convertToUsername(Meteor.user().profile.country.name);
+  } else {
+    draft.geo = '';
+  }
   Contracts.update({ _id: contractId }, { $set: {
     stage: draft.stage,
     title: draft.title,
@@ -315,6 +320,7 @@ const _publish = (contractId) => {
     url: draft.url,
     ballotEnabled: draft.ballotEnabled,
     replyId: draft.replyId,
+    geo: draft.geo,
   },
   });
 
