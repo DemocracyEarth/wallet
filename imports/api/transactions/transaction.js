@@ -719,8 +719,6 @@ const _tally = (transaction) => {
     }
   }
 
-  console.log(contract);
-
   // update in db
   Contracts.update({ _id: transaction.contractId }, { $set: { tally: contract.tally, ballot: contract.ballot } });
 };

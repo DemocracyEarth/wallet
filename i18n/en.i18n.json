@@ -486,5 +486,6 @@
   "revoked-votes": "Revoked Votes",
   "granted-votes": "Granted Votes",
   "winning-options": "Winning Option",
-  "reply-to": "Reply to"
+  "reply-to": "Reply to",
+  "choice-swap": "Changed Vote"
 }

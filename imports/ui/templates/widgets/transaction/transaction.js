@@ -73,6 +73,9 @@ Template.transaction.helpers({
     } else if (votes > 0 || votes < 0) {
       return `${plus}${votes} ${TAPi18n.__('votes')}`;
     }
+    if (this.isVote) {
+      return TAPi18n.__('choice-swap');
+    }
     return TAPi18n.__('no-delegated-votes');
   },
   source() {
@@ -100,7 +103,8 @@ Template.transaction.helpers({
     return TAPi18n.__(this.ballot[0].mode);
   },
   emptyVotes() {
-    if (Template.instance().totalVotes.get() === 0 && !this.onCard) {
+    console.log(this);
+    if (Template.instance().totalVotes.get() === 0 && !this.onCard && !this.isVote) {
       return 'display:none';
     }
     return '';
