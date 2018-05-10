@@ -66,6 +66,9 @@ Template.screen.helpers({
   post() {
     return (this.options.view === 'post');
   },
+  geo() {
+    return (this.options.view === 'geo');
+  },
 });
 
 Template.peerFeed.helpers({
