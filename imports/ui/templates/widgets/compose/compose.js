@@ -61,6 +61,12 @@ Template.compose.helpers({
 
 Template.compose.events({
   'click #action-hotspace'() {
+    if (Meteor.Device.isPhone()) {
+      const inputElement = document.getElementById('hiddenInput');
+      inputElement.style.visibility = 'visible'; // unhide the input
+      inputElement.focus(); // focus on it so keyboard pops
+      inputElement.style.visibility = 'hidden'; // hide it again
+    }
     _introEditor(this);
   },
 });
