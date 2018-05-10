@@ -103,7 +103,6 @@ Template.transaction.helpers({
     return TAPi18n.__(this.ballot[0].mode);
   },
   emptyVotes() {
-    console.log(this);
     if (Template.instance().totalVotes.get() === 0 && !this.onCard && !this.isVote) {
       return 'display:none';
     }
@@ -114,6 +113,13 @@ Template.transaction.helpers({
   },
   noDate() {
     return this.noDate;
+  },
+  loosing() {
+    console.log(this);
+    if (!this.winningBallot) {
+      return 'stage-loosing';
+    }
+    return '';
   },
   onCard() {
     if (this.onCard) {

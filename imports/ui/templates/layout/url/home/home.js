@@ -108,6 +108,21 @@ Template.postFeed.helpers({
     const tally = this;
     tally.options.view = 'votes';
     tally.options.sort = { timestamp: -1 };
+
+    // winning options
+    const contract = Contracts.findOne({ keyword: Template.currentData().options.keyword });
+    let maxVotes = 0;
+    let winningBallot;
+    if (contract && contract.tally) {
+      for (const i in contract.tally.choice) {
+        if (contract.tally.choice[i].votes > maxVotes) {
+          maxVotes = contract.tally.choice[i].votes;
+          winningBallot = contract.tally.choice[i].ballot;
+        }
+      }
+      tally.winningBallot = winningBallot;
+    }
+
     return tally;
   },
   postReady() {

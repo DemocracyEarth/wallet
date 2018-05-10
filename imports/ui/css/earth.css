@@ -3322,6 +3322,11 @@ blockquote {
   margin-left: 10px;
 }
 
+.stage.stage-vote.stage-loosing {
+  border-color: #e6e6e6;
+  background-color: #e6e6e6;
+}
+
 .stage.stage-compressed {
   margin-top: 1px;
   margin-left: 10px;

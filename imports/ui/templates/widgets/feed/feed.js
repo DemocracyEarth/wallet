@@ -54,12 +54,14 @@ Template.feed.onCreated(function () {
       if (instance.data.displayActions) {
         post.displayActions = true;
       }
-      if (!currentFeed) {
-        instance.feed.set([post]);
-        instance.data.refresh = false;
-      } else if (!here(post, currentFeed)) {
-        currentFeed.push(post);
-        instance.feed.set(_.uniq(currentFeed));
+      if (!(instance.data.noReplies && post.replyId)) {
+        if (!currentFeed) {
+          instance.feed.set([post]);
+          instance.data.refresh = false;
+        } else if (!here(post, currentFeed)) {
+          currentFeed.push(post);
+          instance.feed.set(_.uniq(currentFeed));
+        }
       }
     },
   });

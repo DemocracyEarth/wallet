@@ -479,7 +479,7 @@
   "no-delegated-votes": "No delegations",
   "minimum-delegation-revoke": "These delegated votes are in use.",
   "notify-new-posts": "New posts avaialable on refresh.",
-  "empty-feed": "No actions found.",
+  "empty-feed": "No action found.",
   "posted-ideas": "Posted ideas",
   "await-contract": "📄...",
   "cast-votes": "Cast Votes",
@@ -487,5 +487,5 @@
   "granted-votes": "Granted Votes",
   "winning-options": "Winning Option",
   "reply-to": "Reply to",
-  "choice-swap": "Changed Vote"
+  "choice-swap": "Modified"
 }
