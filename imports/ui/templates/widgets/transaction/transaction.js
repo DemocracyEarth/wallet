@@ -115,7 +115,6 @@ Template.transaction.helpers({
     return this.noDate;
   },
   loosing() {
-    console.log(this);
     if (!this.winningBallot) {
       return 'stage-loosing';
     }

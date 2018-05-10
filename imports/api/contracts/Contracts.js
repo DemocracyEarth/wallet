@@ -465,6 +465,10 @@ Schema.Contract = new SimpleSchema({
     type: Number,
     optional: true,
   },
+  geo: {
+    type: String,
+    optional: true,
+  },
 });
 
 Contracts.attachSchema(Schema.Contract);
