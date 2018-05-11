@@ -1586,9 +1586,10 @@ blockquote {
 }
 
 .block.block-list {
-  margin-right: 0px;
-  margin-bottom: -15px;
-  margin-left: 0px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   padding: 0px;
   border-top: 1px solid #e6f9f4;
   background-color: transparent;
@@ -4441,7 +4442,9 @@ blockquote {
 }
 
 .micro-button.micro-button-feed {
-  margin: 5px 25px 0px;
+  display: block;
+  margin: 5px 25px 0px 10px;
+  float: left;
 }
 
 .micro-icon {
@@ -4466,9 +4469,12 @@ blockquote {
 
 .micro-menu {
   display: block;
-  width: 90%;
   margin-right: auto;
   margin-left: auto;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
   text-align: center;
 }
 
@@ -5941,7 +5947,6 @@ blockquote {
     box-shadow: none;
   }
   .vote.vote-search.vote-feed {
-    margin-bottom: 10px;
     box-shadow: none;
   }
   .vote.vote-search.vote-feed.vote-delegation {
