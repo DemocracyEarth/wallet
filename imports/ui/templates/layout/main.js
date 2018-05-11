@@ -41,9 +41,6 @@ import '/imports/ui/templates/layout/touchmenu/touchmenu';
 import '/imports/ui/templates/components/decision/editor/editor';
 
 Meteor.startup(() => {
-  // Mail server settings
-  process.env.MAIL_URL = Meteor.settings.smtpServer;
-
   // setup language
   Session.set('showLoadingIndicator', true);
 
