@@ -6482,6 +6482,9 @@ blockquote {
   .title-input:hover {
     border-left-color: transparent;
   }
+  .title-input.title-feed {
+    margin-bottom: 10px;
+  }
   .paper-header.paper-header-empty {
     box-shadow: none;
   }
