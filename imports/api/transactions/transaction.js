@@ -9,6 +9,7 @@ import { guidGenerator } from '/imports/startup/both/modules/crypto';
 import { getTime } from '/imports/api/time';
 import { Transactions } from '/imports/api/transactions/Transactions';
 import { getTotalVoters } from '/imports/ui/modules/ballot';
+import { notify } from '/imports/api/notifier/notifier';
 
 
 /**
@@ -795,6 +796,8 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     if (newTx.kind === 'VOTE' && newTx.input.entityType !== 'COLLECTIVE' && newTx.output.entityType !== 'COLLECTIVE') {
       _tally(newTx);
     }
+
+    notify(newTx);
 
     return txId;
   }
