@@ -32,11 +32,12 @@ h2 {
 h3 {
   display: block;
   margin: 10px auto;
+  padding-left: 20px;
   color: dimgrey;
-  font-size: 14px;
-  line-height: 30px;
+  font-size: 12px;
+  line-height: 20px;
   font-weight: 300;
-  text-align: center;
+  text-align: left;
   text-transform: uppercase;
 }
 
@@ -5229,7 +5230,6 @@ blockquote {
 }
 
 .subfeed-title {
-  padding-top: 3px;
   padding-bottom: 0px;
   border-bottom: 1px solid #cacaca;
   background-color: #d6d6d6;
@@ -5238,12 +5238,12 @@ blockquote {
 }
 
 .subfeed-title.subfeed-title-main {
-  margin-top: 60px;
-  margin-bottom: 20px;
+  margin-top: 70px;
+  margin-bottom: 10px;
 }
 
 .subfeed-title.subfeed-title-secondary {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .bar-labels {
@@ -5855,6 +5855,9 @@ blockquote {
   h2 {
     font-size: 14px;
     font-weight: 400;
+  }
+  h3 {
+    padding-left: 15px;
   }
   h5 {
     font-weight: 400;
