@@ -10,6 +10,11 @@ export default function () {
 
   console.log("Setting up the hooks…"); // :(|) oook?
 
+  // http://webdriver.io/guide/testrunner/timeouts.html
+  exports.config = {
+    waitforTimeout: 10000
+  };
+
   // Load Chai extensions, because life is simpler with them.
   // See http://chaijs.com/plugins/ for more extensions.
   // Note: browser and server are unavailable here
@@ -31,6 +36,7 @@ export default function () {
   // Swipe the slate clean before each scenario.
   this.BeforeScenario(() => {
     if (browser.getUrl() == 'data:,') { browser.url(getBaseUrl()); } // Visit the website, or Meteor is undefined
+
     fixtures.common.reset(); // Reset the database, and re-add the mandatory fixtures, like the Collective
     context = {}; // Reset the scenario-scoped context global variable
   });
