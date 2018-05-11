@@ -12,6 +12,14 @@ import { Transactions } from '/imports/api/transactions/Transactions';
 const _notify = (transaction) => {
   console.log('NOTIFYING');
   console.log(transaction);
+  // stories:
+  // delegation
+  // vote to your proposal
+  // a reply to your comment
+
+  if (transaction.kind === 'DELEGATION') {
+    
+  }
 };
 
 export const notify = _notify;

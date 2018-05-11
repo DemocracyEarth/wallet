@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { check } from 'meteor/check';
+import { Email } from 'meteor/email';
 
 import { genesisTransaction } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
@@ -19,6 +20,21 @@ Meteor.methods({
       return Accounts.sendVerificationEmail(userId);
     }
     return false;
+  },
+
+  /**
+  * @summary sends email
+  * @return {Object} email content
+  */
+  sendEmail(to, from, subject, text) {
+    // Make sure that all arguments are strings.
+    check([to, from, subject, text], [String]);
+
+    // Let other method calls from the same client start running, without
+    // waiting for the email sending to complete.
+    this.unblock();
+
+    Email.send({ to, from, subject, text });
   },
 
   /**
