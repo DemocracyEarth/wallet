@@ -308,7 +308,9 @@ const _publish = (contractId) => {
   draft.stage = 'LIVE';
   draft.keyword = _generateURL(document.getElementById('titleContent').innerText, draft._id);
   draft.url = `/vote/${draft.keyword}`;
-  if (Meteor.user() && Meteor.user().profile.country.name) {
+  // profile & country is optional
+  if (Meteor.user() && Meteor.user().profile &&
+      Meteor.user().profile.country && Meteor.user().profile.country.name) {
     draft.geo = convertToUsername(Meteor.user().profile.country.name);
   } else {
     draft.geo = '';
