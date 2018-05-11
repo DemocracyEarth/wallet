@@ -1273,7 +1273,7 @@ blockquote {
 }
 
 .vote.vote-search.vote-feed {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding-top: 0px;
   padding-bottom: 0px;
   border-style: none;
@@ -1349,10 +1349,9 @@ blockquote {
 }
 
 .option.option-mini {
-  width: 28px;
-  height: 28px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 5px;
+  margin-right: -1px;
+  margin-bottom: 2px;
   background-color: #fff;
   cursor: default;
 }
@@ -1455,8 +1454,7 @@ blockquote {
 }
 
 .option-title.option-title-mini {
-  font-size: 16px;
-  line-height: 48px;
+  padding-top: 8px;
 }
 
 .option-title.option-result {
@@ -4388,10 +4386,10 @@ blockquote {
   display: inline-block;
   overflow: hidden;
   margin: 10px auto;
-  padding: 5px 10px 5px 5px;
+  padding: 0px 10px 0px 5px;
   border-radius: 5px;
   color: #00bf8f;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 28px;
   text-align: center;
   cursor: pointer;
@@ -4443,12 +4441,12 @@ blockquote {
 }
 
 .micro-button.micro-button-feed {
-  margin: 8px 25px 0px;
+  margin: 5px 25px 0px;
 }
 
 .micro-icon {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
 }
 
 .micro-label {
@@ -4469,8 +4467,6 @@ blockquote {
 .micro-menu {
   display: block;
   width: 90%;
-  height: 60px;
-  max-height: 65px;
   margin-right: auto;
   margin-left: auto;
   text-align: center;
@@ -5966,9 +5962,6 @@ blockquote {
   .option-title.option-link.option-long {
     max-width: 80%;
   }
-  .option-title.option-title-mini {
-    font-size: 18px;
-  }
   .field.headline-field.split {
     padding-right: 0px;
   }
@@ -6485,8 +6478,6 @@ blockquote {
   }
   .title-input {
     border-left: 0px none transparent;
-    font-size: 24px;
-    line-height: 32px;
   }
   .title-input:hover {
     border-left-color: transparent;
