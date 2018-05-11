@@ -1130,16 +1130,17 @@ blockquote {
 .vote {
   display: block;
   width: 100%;
-  margin: 3px 0px;
-  padding: 10px 10px 10px 15px;
+  margin: 1px 0px;
+  padding: 5px 5px 5px 10px;
   float: left;
-  border: 1px solid #eee;
+  border: 1px solid #fff;
   border-radius: 50px;
   color: #6c5b7c;
   text-align: left;
 }
 
 .vote.vote-authorize {
+  display: block;
   background-color: #f7f7f7;
 }
 
@@ -1319,8 +1320,9 @@ blockquote {
 
 .option {
   display: block;
-  width: 30px;
-  height: 30px;
+  width: 26px;
+  height: 26px;
+  margin-top: 1px;
   margin-right: 0px;
   margin-left: 10px;
   float: right;
@@ -1359,8 +1361,8 @@ blockquote {
   display: inline-block;
   max-width: 100%;
   margin-top: 0px;
-  font-size: 16px;
-  line-height: 30px;
+  font-size: 12px;
+  line-height: 20px;
   text-align: left;
   letter-spacing: 0px;
   text-transform: none;
@@ -1463,6 +1465,8 @@ blockquote {
 
 .checkbox {
   display: block;
+  margin-top: -1px;
+  margin-bottom: 1px;
 }
 
 .checkbox.checkbox-custom {
@@ -1493,8 +1497,8 @@ blockquote {
 
 .tick {
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   margin: 4px;
   border-radius: 100px;
   background-color: #fff;
@@ -2645,6 +2649,7 @@ blockquote {
   position: relative;
   display: block;
   margin-top: 5px;
+  margin-right: 5px;
   float: right;
   font-size: 10px;
   line-height: 21px;
@@ -3507,6 +3512,7 @@ blockquote {
 .options {
   display: block;
   overflow: auto;
+  max-width: 400px;
   margin-right: -5px;
   margin-bottom: 5px;
   margin-left: -5px;
@@ -3576,8 +3582,8 @@ blockquote {
   margin-left: 0px;
   padding: 0px;
   font-family: 'Open Sans', sans-serif;
-  font-size: 24px;
-  line-height: 34px;
+  font-size: 16px;
+  line-height: 24px;
   font-weight: 300;
 }
 
@@ -3613,8 +3619,8 @@ blockquote {
 }
 
 .title-input.title-feed {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   border-style: none;
   color: #4b4b4b;
 }
@@ -5774,6 +5780,9 @@ blockquote {
     margin-left: 0px;
     padding-top: 0px;
     background-color: #f5f5f5;
+  }
+  .mobile-editor.hide {
+    display: none;
   }
   .event {
     margin-left: 0px;

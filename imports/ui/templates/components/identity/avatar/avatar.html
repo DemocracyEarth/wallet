@@ -45,11 +45,11 @@
               <a href="{{url}}" title="{{username}}" class="identity-label identity-label-micro">
                 {{fullName profile}}
               </a>
-              <span class="identity-label identity-label-micro">
-                {{#if includeNation}}
+              {{#if includeNation}}
+                <a href="{{geoURL profile}}" class="identity-label identity-label-micro">
                     {{flag profile}}
-                {{/if}}
-              </span>
+                </a>
+              {{/if}}
             {{else}}
               {{#if smallFont}}
                 <a href="{{url}}" title="{{username}}" class="identity-label identity-label-small">{{fullName profile}}</a>

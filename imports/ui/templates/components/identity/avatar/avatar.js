@@ -6,6 +6,7 @@ import { Router } from 'meteor/iron:router';
 import { $ } from 'meteor/jquery';
 
 import { geo } from '/lib/geo';
+import { convertToUsername } from '/lib/utils';
 import { signatureStatus, removeSignature } from '/imports/startup/both/modules/Contract';
 import { guidGenerator } from '/imports/startup/both/modules/crypto';
 import { getAnonymous } from '/imports/startup/both/modules/User';
@@ -40,9 +41,10 @@ const _getUser = (userId) => {
 * @summary describes nationality of user in ux
 * @param {object} profile user to parse
 * @param {boolean} flagOnly just show emoji
+* @param {boolean} nameOnly just show name
 * @returns {string} country
 */
-const getNation = (profile, flagOnly) => {
+const getNation = (profile, flagOnly, nameOnly) => {
   if (profile === undefined) {
     if (Meteor.user() != null) {
       if (Meteor.user().profile.country !== undefined) {
@@ -51,16 +53,22 @@ const getNation = (profile, flagOnly) => {
           if (flagOnly) {
             return `${country[0].emoji}`;
           }
+          if (nameOnly) {
+            return `${country[0].name}`;
+          }
           return `${Meteor.user().profile.country.name} ${country[0].emoji}`;
         }
       }
-      if (flagOnly) { return ''; }
+      if (flagOnly || nameOnly) { return ''; }
       return TAPi18n.__('digital-citizen');
     }
   } else if (profile.country !== undefined) {
     if (profile.country.name !== TAPi18n.__('unknown')) {
       if (flagOnly) {
         return `${searchJSON(geo.country, profile.country.name)[0].emoji}`;
+      }
+      if (nameOnly) {
+        return `${searchJSON(geo.country, profile.country.name)[0].name}`;
       }
       return `${profile.country.name} ${searchJSON(geo.country, profile.country.name)[0].emoji}`;
     }
@@ -75,13 +83,16 @@ const getNation = (profile, flagOnly) => {
         if (flagOnly) {
           return `${country[0].emoji}`;
         }
+        if (nameOnly) {
+          return user.profile.country.name;
+        }
         return `${user.profile.country.name} ${country[0].emoji}`;
       }
-      if (flagOnly) { return ''; }
+      if (flagOnly || nameOnly) { return ''; }
       return TAPi18n.__('unknown');
     }
   }
-  if (flagOnly) { return ''; }
+  if (flagOnly || nameOnly) { return ''; }
   return TAPi18n.__('digital-citizen');
 };
 
@@ -279,6 +290,9 @@ Template.avatar.helpers({
   },
   flag(profile) {
     return getNation(profile, true);
+  },
+  geoURL(profile) {
+    return `${Router.path('home')}geo/${convertToUsername(profile, false, true)}`;
   },
   sidebarIcon() {
     if (this.sidebar) {
