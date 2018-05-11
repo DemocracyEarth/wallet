@@ -292,7 +292,7 @@ Template.avatar.helpers({
     return getNation(profile, true);
   },
   geoURL(profile) {
-    return `${Router.path('home')}geo/${convertToUsername(profile, false, true)}`;
+    return `${Router.path('home')}geo/${convertToUsername(getNation(profile, false, true))}`;
   },
   sidebarIcon() {
     if (this.sidebar) {
