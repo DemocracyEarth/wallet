@@ -8,14 +8,14 @@ export default function () {
   let email;
 
   function login(badpass) {
-    getBrowser().waitForVisible('#signin-button', 5000);
+    getBrowser().waitForVisible('#signin-button');
     typeInInput('signin-email', email);
     typeInInput('signin-password', badpass ? randomPassword() : pass);
     getBrowser().click('#signin-button');
   }
 
   function register() {
-    getBrowser().waitForVisible('input[name="username-signup"]', 5000);
+    getBrowser().waitForVisible('input[name="username-signup"]');
     typeInInput('username-signup', userName);
     typeInInput('email-signup', email);
     typeInInput('password-signup', pass);
@@ -37,22 +37,23 @@ export default function () {
     email = randomEmail();
     pass = randomPassword();
     register();
-    getBrowser().waitForVisible('#action', 10000, true);
+    getBrowser().waitForVisible('#action', 10000);
     getBrowser().pause(2000);
 
     context.I = name;
   });
 
   this.Then(/^I should be registered$/, function () {
-    getBrowser().waitForVisible('#logout', 10000);
+    getBrowser().waitForVisible('#logout');
   });
 
   this.Then(/^I should be logged in$/, function () {
-    getBrowser().waitForVisible('#action', 10000);
+    getBrowser().waitForVisible('#action');
   });
 
   this.When(/^I sign out$/, function () {
     clickOnElement('#logout');
+    getBrowser().waitForVisible('#logout', 10000, true);
   });
 
   this.When(/^I enter my email and password$/, function () {
@@ -60,7 +61,7 @@ export default function () {
   });
 
   this.Then(/^I can edit my profile$/, function () {
-    getBrowser().waitForVisible('#logout', 5000);
+    getBrowser().waitForVisible('#logout');
     firstName = randomUsername();
     lastName = randomUsername();
     typeInInput('editFirstName', firstName);
