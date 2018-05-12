@@ -5,21 +5,19 @@ import { Meteor } from 'meteor/meteor';
 * @param {object} transaction likely to be the last ticket to parse
 */
 const _notify = (transaction) => {
-  console.log('NOTIFYING');
-  console.log(transaction);
-  // stories:
-  // delegation
-  // vote to your proposal
-  // a reply to your comment
-
   let story = transaction.kind;
   let toId = transaction.output.entityId;
   let fromId = transaction.input.entityId;
 
   switch (transaction.kind) {
-    case 'DELEGATE':
+    case 'DELEGATION':
       fromId = transaction.input.delegateId;
       toId = transaction.output.delegateId;
+      if (transaction.output.delegateId === Meteor.userId()) {
+        story = 'REVOKE-DELEGATE';
+        fromId = transaction.output.delegateId;
+        toId = transaction.input.delegateId;
+      }
       break;
     case 'VOTE':
       if (transaction.output.entityId === Meteor.userId()) {

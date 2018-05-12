@@ -13,7 +13,9 @@ import { notifierHTML } from '/imports/api/notifier/notifierTemplate.js';
 
 const _includeQuantity = (quantity, message) => {
   let modified;
-  if (quantity === 1) {
+  if (quantity === 0) {
+    modified = message.replace('{{quantity}}', `${TAPi18n.__('email-modified-vote')}`);
+  } else if (quantity === 1) {
     modified = message.replace('{{quantity}}', `${quantity} ${TAPi18n.__('vote').toLowerCase()}`);
   } else {
     modified = message.replace('{{quantity}}', `${quantity} ${TAPi18n.__('votes').toLowerCase()}`);
@@ -61,20 +63,21 @@ Meteor.methods({
     switch (story) {
       case 'REPLY':
         break;
-      case 'DELEGATION':
-        subject = `${TAPi18n.__('email-received-delegation-by')}`;
-        receiver = Meteor.users.findOne({ _id: toId });
-        break;
       case 'REVOKE':
-        subject = `${TAPi18n.__('email-revoked-votes-by')}`;
-        break;
+      case 'REVOKE-DELEGATE':
       case 'VOTE':
-        subject = `${TAPi18n.__('email-voted-your-proposal-by')}`;
-        subject = subject.replace('{{title}}', `'${contract.title.substring(0, 30)}...'`);
-        receiver = Meteor.users.findOne({ _id: contract.signatures[0]._id });
-        html = html.replace('{{message}}', `${TAPi18n.__('email-message-vote')}`);
-        html = html.replace('{{action}}', `${TAPi18n.__('email-action-vote')}`);
-        text = `${TAPi18n.__('email-text-vote')}`;
+      case 'DELEGATION':
+        subject = `${TAPi18n.__(`email-subject-${story.toLowerCase()}`)}`;
+        html = html.replace('{{action}}', `${TAPi18n.__(`email-action-${story.toLowerCase()}`)}`);
+        html = html.replace('{{message}}', `${TAPi18n.__(`email-html-${story.toLowerCase()}`)}`);
+        text = `${TAPi18n.__(`email-text-${story.toLowerCase()}`)}`;
+        html = html.replace('{{url}}', `${Meteor.settings.public.app.url}/peer/${sender.username}`);
+        if (story === 'DELEGATION' || story === 'REVOKE-DELEGATE') {
+          receiver = Meteor.users.findOne({ _id: toId });
+        } else {
+          receiver = Meteor.users.findOne({ _id: contract.signatures[0]._id });
+          html = html.replace('{{url}}', `${Meteor.settings.public.app.url}${contract.url}`);
+        }
         break;
       default:
         break;
@@ -85,13 +88,13 @@ Meteor.methods({
     const from = `${Meteor.settings.public.Collective.name} <${Meteor.settings.public.Collective.emails[0].address}>`;
 
     subject = subject.replace('{{user}}', `@${sender.username}`);
+    subject = subject.replace('{{title}}', `'${contract.title.substring(0, 30)}...'`);
     subject = _includeQuantity(transaction.input.quantity, subject);
 
     html = _includeQuantity(transaction.input.quantity, html);
     html = html.replace('{{user}}', `@${sender.username}`);
     html = html.replace('{{userURL}}', `${Meteor.settings.public.app.url}/peer/${sender.username}`);
     html = html.replace('{{title}}', `${contract.title}`);
-    html = html.replace('{{url}}', `${Meteor.settings.public.app.url}${contract.url}`);
     html = html.replace('{{greeting}}', `${TAPi18n.__('email-greeting-hello')} @${receiver.username},`);
     html = html.replace('{{farewell}}', `${TAPi18n.__('email-farewell')}`);
     html = html.replace('{{collective}}', `<a href='${Meteor.settings.public.Collective.profile.website}'>${Meteor.settings.public.Collective.name}</a>`);

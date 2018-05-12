@@ -29,5 +29,6 @@ export const notifierHTML = `
   <img align="left" src="https://vote.democracy.earth/images/olive.png" style="max-width: 40px;">
   <br />
   <br />
+  &nbsp;
 </div>
 `;
