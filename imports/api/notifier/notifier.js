@@ -1,9 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-import { Session } from 'meteor/session';
-
-import { Contracts } from '/imports/api/contracts/Contracts';
-import { Collectives } from '/imports/api/collectives/Collectives';
-import { Transactions } from '/imports/api/transactions/Transactions';
 
 /**
 * @summary notifies of transaction in personal channels
@@ -17,9 +12,32 @@ const _notify = (transaction) => {
   // vote to your proposal
   // a reply to your comment
 
-  if (transaction.kind === 'DELEGATION') {
-    
+  let story = transaction.kind;
+  let toId = transaction.output.entityId;
+  let fromId = transaction.input.entityId;
+
+  switch (transaction.kind) {
+    case 'DELEGATE':
+      fromId = transaction.input.delegateId;
+      toId = transaction.output.delegateId;
+      break;
+    case 'VOTE':
+      if (transaction.output.entityId === Meteor.userId()) {
+        story = 'REVOKE';
+        toId = transaction.input.entityId;
+        fromId = transaction.output.entityId;
+      }
+      break;
+    default:
   }
+
+  Meteor.call(
+    'sendNotification',
+    toId,
+    fromId,
+    story,
+    transaction,
+  );
 };
 
 export const notify = _notify;

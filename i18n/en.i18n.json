@@ -488,5 +488,8 @@
   "winning-options": "Winning Option",
   "reply-to": "Reply to",
   "choice-swap": "Modified",
-  "start-voting": "Start voting"
+  "start-voting": "Start voting",
+  "email-received-delegation-by": "You received <quantity> delegated by <user>.",
+  "email-revoked-votes-by": "You got <quantity> revoked by <user>.",
+  "email-voted-your-proposal-by": "<user> has cast <quantity> on your proposal '<title>'."
 }

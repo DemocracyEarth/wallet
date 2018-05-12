@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { check } from 'meteor/check';
 import { Email } from 'meteor/email';
+import { TAPi18n } from 'meteor/tap:i18n';
 
 import { genesisTransaction } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
@@ -24,17 +25,62 @@ Meteor.methods({
 
   /**
   * @summary sends email
+  * @param {string} toId userId receiving message
+  * @param {string} fromId userId sending message
+  * @param {string} story title of emails
+  * @param {object} transaction votes transacted
   * @return {Object} email content
   */
-  sendEmail(to, from, subject, text) {
+  sendNotification(toId, fromId, story, transaction) {
     // Make sure that all arguments are strings.
-    check([to, from, subject, text], [String]);
+    check([toId, fromId, story], [String]);
+    check(transaction, Object);
+
+    log(`{ method: 'sendEmail', user: ${logUser()}, story: '${story}' }`);
+    console.log(toId);
+    console.log(fromId);
+    console.log(transaction);
+    let receiver;
+    let subject;
+    let content;
+    const contract = Contracts.findOne({ _id: transaction.contractId });
+
+    switch (story) {
+      case 'DELEGATION':
+        subject = `${TAPi18n.__('email-received-delegation-by')}`;
+        receiver = Meteor.users.findOne({ _id: toId });
+        break;
+      case 'REVOKE':
+        subject = `${TAPi18n.__('email-revoked-votes-by')}`;
+        break;
+      case 'VOTE':
+        subject = `${TAPi18n.__('email-voted-your-proposal-by')}`;
+        receiver = Meteor.users.findOne({ _id: contract.signatures[0]._id });
+        break;
+      default:
+        break;
+    }
+    const sender = Meteor.users.findOne({ _id: fromId });
+    const to = receiver.emails[0].address;
+    const from = Meteor.settings.public.Collective.emails[0].address;
+
+    subject = subject.replace('<user>', `@${sender.username}`);
+
+    if (transaction.input.quantity === 1) {
+      subject = subject.replace('<quantity>', `${transaction.input.quantity} ${TAPi18n.__('vote')}`);
+    } else {
+      subject = subject.replace('<quantity>', `${transaction.input.quantity} ${TAPi18n.__('votes')}`);
+    }
+
+    if (contract) {
+      content = `Go here: ${contract.url}`;
+    }
 
     // Let other method calls from the same client start running, without
     // waiting for the email sending to complete.
     this.unblock();
 
-    Email.send({ to, from, subject, text });
+    Email.send({ to, from, subject, content });
   },
 
   /**
