@@ -9,7 +9,6 @@
 
   "AWSAccessKeyId": "",
   "AWSSecretAccessKey": "",
-  "smtpServer": "",
 
   "private": {
 
@@ -32,6 +31,8 @@
       }
 
     },
+
+    "smtpServer": "",
 
     "sentryPrivateDSN": ""
 
