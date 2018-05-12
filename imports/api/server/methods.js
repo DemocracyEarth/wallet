@@ -3,12 +3,23 @@ import { Accounts } from 'meteor/accounts-base';
 import { check } from 'meteor/check';
 import { Email } from 'meteor/email';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { Router } from 'meteor/iron:router';
 
 import { genesisTransaction } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { getTime } from '/imports/api/time';
 import { logUser, log } from '/lib/const';
 import { notifierHTML } from '/imports/api/notifier/notifierTemplate.js';
+
+const _includeQuantity = (quantity, message) => {
+  let modified;
+  if (quantity === 1) {
+    modified = message.replace('{{quantity}}', `${quantity} ${TAPi18n.__('vote').toLowerCase()}`);
+  } else {
+    modified = message.replace('{{quantity}}', `${quantity} ${TAPi18n.__('votes').toLowerCase()}`);
+  }
+  return modified;
+};
 
 Meteor.methods({
   /**
@@ -38,16 +49,18 @@ Meteor.methods({
     check(transaction, Object);
 
     log(`{ method: 'sendEmail', user: ${logUser()}, story: '${story}' }`);
-    console.log(toId);
-    console.log(fromId);
-    console.log(transaction);
+
     let receiver;
     let subject;
     let text;
-    let html;
+    let html = notifierHTML;
     const contract = Contracts.findOne({ _id: transaction.contractId });
+    const sender = Meteor.users.findOne({ _id: fromId });
 
+    // define story
     switch (story) {
+      case 'REPLY':
+        break;
       case 'DELEGATION':
         subject = `${TAPi18n.__('email-received-delegation-by')}`;
         receiver = Meteor.users.findOne({ _id: toId });
@@ -57,31 +70,37 @@ Meteor.methods({
         break;
       case 'VOTE':
         subject = `${TAPi18n.__('email-voted-your-proposal-by')}`;
-        subject = subject.replace('<title>', `'${contract.title.substring(0, 30)}...'`);
+        subject = subject.replace('{{title}}', `'${contract.title.substring(0, 30)}...'`);
         receiver = Meteor.users.findOne({ _id: contract.signatures[0]._id });
+        html = html.replace('{{message}}', `${TAPi18n.__('email-message-vote')}`);
+        html = html.replace('{{action}}', `${TAPi18n.__('email-action-vote')}`);
+        text = `${TAPi18n.__('email-text-vote')}`;
         break;
       default:
         break;
     }
-    const sender = Meteor.users.findOne({ _id: fromId });
+
+    // compose message
     const to = receiver.emails[0].address;
     const from = `${Meteor.settings.public.Collective.name} <${Meteor.settings.public.Collective.emails[0].address}>`;
 
-    subject = subject.replace('<user>', `@${sender.username}`);
+    subject = subject.replace('{{user}}', `@${sender.username}`);
+    subject = _includeQuantity(transaction.input.quantity, subject);
 
-    if (transaction.input.quantity === 1) {
-      subject = subject.replace('<quantity>', `${transaction.input.quantity} ${TAPi18n.__('vote').toLowerCase()}`);
-    } else {
-      subject = subject.replace('<quantity>', `${transaction.input.quantity} ${TAPi18n.__('votes').toLowerCase()}`);
-    }
+    html = _includeQuantity(transaction.input.quantity, html);
+    html = html.replace('{{user}}', `@${sender.username}`);
+    html = html.replace('{{userURL}}', `${Meteor.settings.public.app.url}/peer/${sender.username}`);
+    html = html.replace('{{title}}', `${contract.title}`);
+    html = html.replace('{{url}}', `${Meteor.settings.public.app.url}${contract.url}`);
+    html = html.replace('{{greeting}}', `${TAPi18n.__('email-greeting-hello')} @${receiver.username},`);
+    html = html.replace('{{farewell}}', `${TAPi18n.__('email-farewell')}`);
+    html = html.replace('{{collective}}', `<a href='${Meteor.settings.public.Collective.profile.website}'>${Meteor.settings.public.Collective.name}</a>`);
 
-    if (contract) {
-      text = `Go here: ${contract.url}`;
-    }
+    text = text.replace('{{user}}', `@${sender.username}`);
+    text = text.replace('{{title}}', `${contract.title}`);
+    text = _includeQuantity(transaction.input.quantity, text);
 
-    html = notifierHTML;
-
-    // Let other method calls from the same client start running, without
+    // let other method calls from the same client start running, without
     // waiting for the email sending to complete.
     this.unblock();
 
