@@ -8,6 +8,7 @@ import { genesisTransaction } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { getTime } from '/imports/api/time';
 import { logUser, log } from '/lib/const';
+import { notifierHTML } from '/imports/api/notifier/notifierTemplate.js';
 
 Meteor.methods({
   /**
@@ -42,7 +43,8 @@ Meteor.methods({
     console.log(transaction);
     let receiver;
     let subject;
-    let content;
+    let text;
+    let html;
     const contract = Contracts.findOne({ _id: transaction.contractId });
 
     switch (story) {
@@ -55,6 +57,7 @@ Meteor.methods({
         break;
       case 'VOTE':
         subject = `${TAPi18n.__('email-voted-your-proposal-by')}`;
+        subject = subject.replace('<title>', `'${contract.title.substring(0, 30)}...'`);
         receiver = Meteor.users.findOne({ _id: contract.signatures[0]._id });
         break;
       default:
@@ -62,25 +65,27 @@ Meteor.methods({
     }
     const sender = Meteor.users.findOne({ _id: fromId });
     const to = receiver.emails[0].address;
-    const from = Meteor.settings.public.Collective.emails[0].address;
+    const from = `${Meteor.settings.public.Collective.name} <${Meteor.settings.public.Collective.emails[0].address}>`;
 
     subject = subject.replace('<user>', `@${sender.username}`);
 
     if (transaction.input.quantity === 1) {
-      subject = subject.replace('<quantity>', `${transaction.input.quantity} ${TAPi18n.__('vote')}`);
+      subject = subject.replace('<quantity>', `${transaction.input.quantity} ${TAPi18n.__('vote').toLowerCase()}`);
     } else {
-      subject = subject.replace('<quantity>', `${transaction.input.quantity} ${TAPi18n.__('votes')}`);
+      subject = subject.replace('<quantity>', `${transaction.input.quantity} ${TAPi18n.__('votes').toLowerCase()}`);
     }
 
     if (contract) {
-      content = `Go here: ${contract.url}`;
+      text = `Go here: ${contract.url}`;
     }
+
+    html = notifierHTML;
 
     // Let other method calls from the same client start running, without
     // waiting for the email sending to complete.
     this.unblock();
 
-    Email.send({ to, from, subject, content });
+    Email.send({ to, from, subject, text, html });
   },
 
   /**

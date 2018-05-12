@@ -491,5 +491,5 @@
   "start-voting": "Start voting",
   "email-received-delegation-by": "You received <quantity> delegated by <user>.",
   "email-revoked-votes-by": "You got <quantity> revoked by <user>.",
-  "email-voted-your-proposal-by": "<user> has cast <quantity> on your proposal '<title>'."
+  "email-voted-your-proposal-by": "<user> has cast <quantity> on your proposal: <title>"
 }
