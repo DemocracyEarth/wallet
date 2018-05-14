@@ -461,6 +461,14 @@ Schema.Contract = new SimpleSchema({
     type: String,
     optional: true,
   },
+  totalReplies: {
+    type: Number,
+    optional: true,
+  },
+  geo: {
+    type: String,
+    optional: true,
+  },
 });
 
 Contracts.attachSchema(Schema.Contract);

@@ -290,6 +290,9 @@ Template.ballot.helpers({
   },
   readOnly() {
     // NOTE: it's all about context
+    if (this.displayActions) {
+      return true;
+    }
     return (Router.current().route.options.name !== 'post');
   },
   label(button) {
@@ -308,6 +311,11 @@ Template.ballot.helpers({
   quantity(button) {
     let label = '';
     switch (button) {
+      case 'debate':
+        if (this.contract && this.contract.totalReplies) {
+          label = `&#183; ${(this.contract.totalReplies)}`;
+        }
+        break;
       case 'vote':
         if (this.contract && this.contract.tally && this.contract.tally.choice.length > 1) {
           label = `&#183; ${_.reduce(this.contract.tally.choice, function (memo, voter) {

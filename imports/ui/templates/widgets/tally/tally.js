@@ -14,7 +14,7 @@ import '/imports/ui/templates/widgets/tally/tally.html';
 * @summary translates data info about vote into a renderable contracts
 * @param {object} post a transaction Object
 */
-const _voteToContract = (post, contract, hidePost) => {
+const _voteToContract = (post, contract, hidePost, winningBallot) => {
   const transaction = {
     _id: post._id,
     contract: {
@@ -31,6 +31,7 @@ const _voteToContract = (post, contract, hidePost) => {
     receiverId: post.output.entityId,
     isVote: true,
     hidePost,
+    winningBallot,
     isRevoke: (post.input.entityType !== 'INDIVIDUAL'),
   };
   if (!hidePost) {
@@ -60,6 +61,18 @@ const _requiresUserSubscription = (transaction) => {
   }
   return false;
 };
+
+const _isWinningVote = (winningBallot, voterBallot) => {
+  for (const i in voterBallot) {
+    for (const k in winningBallot) {
+      if (voterBallot[i]._id === winningBallot[k]._id) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+
 
 Template.tally.onCreated(function () {
   Template.instance().feed = new ReactiveVar();
@@ -114,7 +127,7 @@ Template.tally.onRendered(function () {
           if (userSubscriptionId) {
             getUser(userSubscriptionId);
           }
-          const voteContract = _voteToContract(post, contract, noTitle);
+          const voteContract = _voteToContract(post, contract, noTitle, _isWinningVote(instance.data.winningBallot, post.condition.ballot));
           if (!currentFeed) {
             instance.feed.set([voteContract]);
           } else if (!here(voteContract, currentFeed)) {

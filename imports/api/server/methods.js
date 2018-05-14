@@ -1,11 +1,27 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { check } from 'meteor/check';
+import { Email } from 'meteor/email';
+import { TAPi18n } from 'meteor/tap:i18n';
+import { Router } from 'meteor/iron:router';
 
 import { genesisTransaction } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { getTime } from '/imports/api/time';
 import { logUser, log } from '/lib/const';
+import { notifierHTML } from '/imports/api/notifier/notifierTemplate.js';
+
+const _includeQuantity = (quantity, message) => {
+  let modified;
+  if (quantity === 0) {
+    modified = message.replace('{{quantity}}', `${TAPi18n.__('email-modified-vote')}`);
+  } else if (quantity === 1) {
+    modified = message.replace('{{quantity}}', `${quantity} ${TAPi18n.__('vote').toLowerCase()}`);
+  } else {
+    modified = message.replace('{{quantity}}', `${quantity} ${TAPi18n.__('votes').toLowerCase()}`);
+  }
+  return modified;
+};
 
 Meteor.methods({
   /**
@@ -19,6 +35,79 @@ Meteor.methods({
       return Accounts.sendVerificationEmail(userId);
     }
     return false;
+  },
+
+  /**
+  * @summary sends email
+  * @param {string} toId userId receiving message
+  * @param {string} fromId userId sending message
+  * @param {string} story title of emails
+  * @param {object} transaction votes transacted
+  * @return {Object} email content
+  */
+  sendNotification(toId, fromId, story, transaction) {
+    // Make sure that all arguments are strings.
+    check([toId, fromId, story], [String]);
+    check(transaction, Object);
+
+    log(`{ method: 'sendEmail', user: ${logUser()}, story: '${story}' }`);
+
+    let receiver;
+    let subject;
+    let text;
+    let html = notifierHTML;
+    const contract = Contracts.findOne({ _id: transaction.contractId });
+    const sender = Meteor.users.findOne({ _id: fromId });
+
+    // define story
+    switch (story) {
+      case 'REPLY':
+        break;
+      case 'REVOKE':
+      case 'REVOKE-DELEGATE':
+      case 'VOTE':
+      case 'DELEGATION':
+        subject = `${TAPi18n.__(`email-subject-${story.toLowerCase()}`)}`;
+        html = html.replace('{{action}}', `${TAPi18n.__(`email-action-${story.toLowerCase()}`)}`);
+        html = html.replace('{{message}}', `${TAPi18n.__(`email-html-${story.toLowerCase()}`)}`);
+        text = `${TAPi18n.__(`email-text-${story.toLowerCase()}`)}`;
+        html = html.replace('{{url}}', `${Meteor.settings.public.app.url}/peer/${sender.username}`);
+        if (story === 'DELEGATION' || story === 'REVOKE-DELEGATE') {
+          receiver = Meteor.users.findOne({ _id: toId });
+        } else {
+          receiver = Meteor.users.findOne({ _id: contract.signatures[0]._id });
+          html = html.replace('{{url}}', `${Meteor.settings.public.app.url}${contract.url}`);
+        }
+        break;
+      default:
+        break;
+    }
+
+    // compose message
+    const to = receiver.emails[0].address;
+    const from = `${Meteor.settings.public.Collective.name} <${Meteor.settings.public.Collective.emails[0].address}>`;
+
+    subject = subject.replace('{{user}}', `@${sender.username}`);
+    subject = subject.replace('{{title}}', `'${contract.title.substring(0, 30)}...'`);
+    subject = _includeQuantity(transaction.input.quantity, subject);
+
+    html = _includeQuantity(transaction.input.quantity, html);
+    html = html.replace('{{user}}', `@${sender.username}`);
+    html = html.replace('{{userURL}}', `${Meteor.settings.public.app.url}/peer/${sender.username}`);
+    html = html.replace('{{title}}', `${contract.title}`);
+    html = html.replace('{{greeting}}', `${TAPi18n.__('email-greeting-hello')} @${receiver.username},`);
+    html = html.replace('{{farewell}}', `${TAPi18n.__('email-farewell')}`);
+    html = html.replace('{{collective}}', `<a href='${Meteor.settings.public.Collective.profile.website}'>${Meteor.settings.public.Collective.name}</a>`);
+
+    text = text.replace('{{user}}', `@${sender.username}`);
+    text = text.replace('{{title}}', `${contract.title}`);
+    text = _includeQuantity(transaction.input.quantity, text);
+
+    // let other method calls from the same client start running, without
+    // waiting for the email sending to complete.
+    this.unblock();
+
+    Email.send({ to, from, subject, text, html });
   },
 
   /**
@@ -54,7 +143,7 @@ Meteor.methods({
 
   /**
   * @summary given a username returns user Id
-  * @param {keyword} keyword identify contract by given keyword
+  * @param {string} keyword identify contract by given keyword
   */
   getUser(username) {
     check(username, String);
@@ -69,10 +158,22 @@ Meteor.methods({
   },
 
   /**
+  * @summary returns the quantity of replies in a contract
+  * @param {string} contractId contract to search replies for
+  */
+  countReplies(contractId) {
+    check(contractId, String);
+
+    log(`{ method: 'countReplies', user: ${logUser()}, contractId: '${contractId}' }`);
+    return Contracts.find({ replyId: contractId }).count();
+  },
+
+  /**
   * @summary reports server time from server to client
   * @return {Date} time
   */
   getServerTime() {
+    // log(`{ method: 'getServerTime', user: ${logUser()} }`);
     return getTime();
   },
 

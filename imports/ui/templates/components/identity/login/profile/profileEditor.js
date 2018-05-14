@@ -69,9 +69,10 @@ Template.profileEditor.events({
     Session.set('cardNavigation', false);
   },
   'click #save-profile'() {
+    const validation = validateUsername(document.getElementById('editUserName').value);
     if (document.getElementById('editFirstName').value === '') {
       Session.set('noNameFound', true);
-    } else if (!validateUsername(document.getElementById('editUserName').value)) {
+    } else if (!validation.valid) {
       Session.set('noUsernameFound', true);
     } else {
       Session.set('noNameFound', false);
@@ -83,10 +84,11 @@ Template.profileEditor.events({
       data.firstName = document.getElementById('editFirstName').value;
       data.lastName = document.getElementById('editLastName').value;
 
-      if (Session.get('newCountry') != undefined) {
+      if (Session.get('newCountry') !== undefined) {
         data.country = Session.get('newCountry');
       }
       data.configured = true;
+      console.log(data);
       Meteor.users.update(Meteor.userId(), { $set: { profile: data } });
       Meteor.users.update(Meteor.userId(), { $set: { username: editUsername } });
     }

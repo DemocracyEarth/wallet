@@ -19,10 +19,13 @@ const _validateUsername = (username) => {
     repeated: false,
   };
 
-  const regexp = /^[a-zA-Z0-9]+$/;
+  const regexp = /^[a-zA-Z0-9\-_]{0,40}$/;
 
   // Set whether username format is valid or not
-  usernameValidationObject.valid = !regexp.test(username);
+  usernameValidationObject.valid = regexp.test(username);
+
+  console.log(username);
+  console.log(usernameValidationObject);
 
   // Only if username is valid, check whether it exists already
   if (regexp.test(username)) {

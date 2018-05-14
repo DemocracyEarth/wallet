@@ -51,12 +51,17 @@ Template.feed.onCreated(function () {
       const currentFeed = instance.feed.get();
       const post = fields;
       post._id = id;
-      if (!currentFeed) {
-        instance.feed.set([post]);
-        instance.data.refresh = false;
-      } else if (!here(post, currentFeed)) {
-        currentFeed.push(post);
-        instance.feed.set(_.uniq(currentFeed));
+      if (instance.data.displayActions) {
+        post.displayActions = true;
+      }
+      if (!(instance.data.noReplies && post.replyId)) {
+        if (!currentFeed) {
+          instance.feed.set([post]);
+          instance.data.refresh = false;
+        } else if (!here(post, currentFeed)) {
+          currentFeed.push(post);
+          instance.feed.set(_.uniq(currentFeed));
+        }
       }
     },
   });
@@ -96,6 +101,9 @@ Template.feed.helpers({
     return Template.instance().feed.get();
   },
   empty() {
+    if (Session.get('showPostEditor')) {
+      return false;
+    }
     if (Template.instance().feed.get()) {
       return (Template.instance().feed.get().length === 0);
     }
@@ -105,7 +113,7 @@ Template.feed.helpers({
     return Template.currentData().refresh;
   },
   beginning() {
-    return (Template.currentData().options.skip === 0);
+    return (Template.currentData().options.skip === 0 || Template.currentData().singlePost);
   },
   single() {
     return Template.currentData().singlePost;
@@ -117,6 +125,9 @@ Template.feed.helpers({
     return Template.instance().count.get();
   },
   placeholderItem() {
+    if (Template.currentData().singlePost) {
+      return [1];
+    }
     return [1, 2, 3, 4, 5];
   },
 });

@@ -9,7 +9,6 @@
 
   "AWSAccessKeyId": "",
   "AWSSecretAccessKey": "",
-  "smtpServer": "",
 
   "private": {
 
@@ -33,6 +32,8 @@
 
     },
 
+    "smtpServer": "",
+
     "sentryPrivateDSN": ""
 
   },
@@ -44,7 +45,7 @@
     "sentryPublicDSN": "",
 
     "app": {
-
+      "url": "https://vote.democracy.earth",
       "name": "Sovereign",
       "language": "en",
       "development": true,

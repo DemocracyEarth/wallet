@@ -37,9 +37,10 @@ Template.suggest.events({
   'click #country'(event) {
     const country = {
       code: event.target.parentNode.getAttribute('value'),
-      name: event.target.innerText.slice(4),
+      name: event.target.innerText.replace(/[^\x00-\x7F]/g, '').substring(1),
       emoji: event.target.firstChild.data,
     };
+    console.log(event.target.innerText);
     if (country.name === 'arth') {
       country.name = 'Earth';
     }

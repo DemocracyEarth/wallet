@@ -101,6 +101,22 @@ Router.route('/tag/:hashtag', {
 });
 
 /**
+* @summary loads a tag feed
+**/
+Router.route('/geo/:country', {
+  name: 'geoFeed',
+  template: 'home',
+  onBeforeAction() {
+    this.next();
+  },
+  data() {
+    return {
+      options: { view: 'geo', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, country: this.params.country },
+    };
+  },
+});
+
+/**
 * @summary loads a token feed
 **/
 Router.route('/token/:hashtag', {

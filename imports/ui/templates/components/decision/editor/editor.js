@@ -37,6 +37,9 @@ function toggleFeed(enabled) {
     if (!enabled) {
       $('.cast').velocity({ opacity: 0 });
       $('#feed-bottom').velocity({ opacity: 0 });
+      $('#non-editable-debate-header').velocity({ opacity: 0 });
+      $('#non-editable-reply-feed').velocity({ opacity: 0 });
+      $('#non-editable-vote-feed').velocity({ opacity: 0 });
       $('#non-editable-feed').velocity({ opacity: 0 }, {
         complete: () => {
           $('#non-editable-feed').css({
@@ -45,22 +48,31 @@ function toggleFeed(enabled) {
           });
           $('.cast').css('height', 0);
           $('#feed-bottom').css('width', 0);
+          $('#non-editable-debate-header').css({ height: 0, overflow: 'hidden', marginBottom: '-10px', marginTop: '-10px', paddingTop: '0px' });
+          $('#non-editable-reply-feed').css({ height: 0, overflow: 'hidden' });
+          $('#non-editable-vote-feed').css({ height: 0, overflow: 'hidden' });
           $('#titleContent').focus();
         },
       });
     } else {
-      $('#non-editable-feed').css({
-        height: 'auto',
-        overflow: 'inherit',
-      });
+      $('#non-editable-debate-header').velocity({ opacity: 1 });
+      $('#non-editable-reply-feed').velocity({ opacity: 1 });
+      $('#non-editable-vote-feed').velocity({ opacity: 1 });
       $('#non-editable-feed').velocity({
         opacity: 1,
       }, {
         complete: () => {
           $('.cast').css('height', '60px');
-          $('#feed-bottom').css('width', 'auto');
+          $('#feed-bottom').css('width', '');
           $('.cast').velocity({ opacity: 1 });
           $('#feed-bottom').velocity({ opacity: 0.3 });
+          $('#non-editable-debate-header').css({ height: '', overflow: '', marginBottom: '20px', marginTop: '0px', paddingTop: '3px' });
+          $('#non-editable-reply-feed').css({ height: '', overflow: '' });
+          $('#non-editable-vote-feed').css({ height: '', overflow: '' });
+          $('#non-editable-feed').css({
+            height: '',
+            overflow: '',
+          });
         },
       });
     }
@@ -75,13 +87,10 @@ function toggleFeed(enabled) {
 */
 const _editorFadeIn = (contractId) => {
   const originalHeight = $(`#feedItem-${contractId}`)[0].getBoundingClientRect().height;
-  if ($('.right').scrollTop() > 0) {
-    $('.right').animate({ scrollTop: 0 }, {
-      complete: () => {
-        toggleFeed(false);
-      },
-    });
-  } else {
+  const tag = $('#postEditorItem');
+  const diff = parseInt((tag.offset().top + $('.right').scrollTop()) - 80, 10);
+
+  if ($('.right').scrollTop() === 0 && !$('#non-editable-vote-feed').offset()) {
     $(`#feedItem-${contractId}`).css({
       overflow: 'hidden',
       height: 0,
@@ -96,6 +105,12 @@ const _editorFadeIn = (contractId) => {
           height: 'auto',
           overflow: 'none',
         });
+        toggleFeed(false);
+      },
+    });
+  } else {
+    $('.right').animate({ scrollTop: diff }, {
+      complete: () => {
         toggleFeed(false);
       },
     });

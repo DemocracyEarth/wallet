@@ -42,9 +42,6 @@ import '/imports/ui/templates/widgets/modal/modal';
 import '/imports/ui/templates/widgets/popup/popup';
 
 Meteor.startup(() => {
-  // Mail server settings
-  process.env.MAIL_URL = Meteor.settings.smtpServer;
-
   // setup language
   Session.set('showLoadingIndicator', true);
 
