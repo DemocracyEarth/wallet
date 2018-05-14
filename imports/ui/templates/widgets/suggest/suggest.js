@@ -40,10 +40,6 @@ Template.suggest.events({
       name: event.target.innerText.replace(/[^\x00-\x7F]/g, '').substring(1),
       emoji: event.target.firstChild.data,
     };
-    console.log(event.target.innerText);
-    if (country.name === 'arth') {
-      country.name = 'Earth';
-    }
     Session.set('newCountry', country);
     Session.set('noMatchFound', false);
     Session.set('showNations', false);

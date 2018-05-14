@@ -61,6 +61,14 @@ Template.profileEditor.events({
       Session.set('filteredCountries', geo.country);
     }
   },
+  'blur #editUserName'() {
+    const validation = validateUsername(document.getElementById('editUserName').value);
+    if (validation.valid) {
+      Session.set('noUsernameFound', true);
+    } else {
+      Session.set('noUsernameFound', false);
+    }
+  },
   'click #skip-step'() {
     const data = Meteor.user().profile;
     Session.set('newCountry', undefined);
@@ -72,7 +80,7 @@ Template.profileEditor.events({
     const validation = validateUsername(document.getElementById('editUserName').value);
     if (document.getElementById('editFirstName').value === '') {
       Session.set('noNameFound', true);
-    } else if (!validation.valid) {
+    } else if (validation.valid) {
       Session.set('noUsernameFound', true);
     } else {
       Session.set('noNameFound', false);
@@ -88,7 +96,6 @@ Template.profileEditor.events({
         data.country = Session.get('newCountry');
       }
       data.configured = true;
-      console.log(data);
       Meteor.users.update(Meteor.userId(), { $set: { profile: data } });
       Meteor.users.update(Meteor.userId(), { $set: { username: editUsername } });
     }

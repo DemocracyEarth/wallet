@@ -146,7 +146,11 @@ Schema.Profile = new SimpleSchema({
 Schema.User = new SimpleSchema({
   username: {
     type: String,
-    optional: true,
+    autoValue() {
+      if (this.value) {
+        return this.value.toLowerCase();
+      }
+    },
   },
   emails: {
     type: Array,
