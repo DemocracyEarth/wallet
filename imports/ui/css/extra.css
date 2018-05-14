@@ -105,23 +105,23 @@ body {
 }
 
 .checkmark_stem {
-  width: 2px;
-  height: 20px;
+  width: 10%;
+  height: 83%;
   background-color: #6c5b7c;
   transform: rotate(37deg);
   margin: auto;
-  margin-top: -19px;
-  margin-left: 11px;
+  margin-top: -84%;
+  margin-left: 56%;
 }
 
 .checkmark_kick {
-  width: 2px;
-  height: 9px;
+  width: 12%;
+  height: 41%;
   background-color: #6c5b7c;
   transform: rotate(129deg);
-  margin-top: 10px;
-  margin-bottom: 0px;
-  margin-left: 2px;
+  margin-top: 47%;
+  margin-bottom: 0%;
+  margin-left: 16%;
 }
 
 html {

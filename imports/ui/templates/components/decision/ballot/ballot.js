@@ -4,6 +4,7 @@ import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { Router } from 'meteor/iron:router';
 
 import { removeFork, updateBallotRank, addChoiceToBallot, getTickValue, getTotalVoters } from '/imports/ui/modules/ballot';
 import { displayTimedWarning } from '/lib/utils';
@@ -285,14 +286,64 @@ Template.ballot.helpers({
     return this.contract.permanentElection;
   },
   candidateBallot() {
-    return this.candidateBallot; // Template.instance().candidateBallot.get();
+    return this.candidateBallot;
+  },
+  readOnly() {
+    // NOTE: it's all about context
+    if (this.displayActions) {
+      return true;
+    }
+    return (Router.current().route.options.name !== 'post');
+  },
+  label(button) {
+    let label = '';
+    switch (button) {
+      case 'debate':
+        label = TAPi18n.__('debate');
+        break;
+      case 'vote':
+        label = TAPi18n.__('vote');
+        break;
+      default:
+    }
+    return label;
+  },
+  quantity(button) {
+    let label = '';
+    switch (button) {
+      case 'debate':
+        if (this.contract && this.contract.totalReplies) {
+          label = `&#183; ${(this.contract.totalReplies)}`;
+        }
+        break;
+      case 'vote':
+        if (this.contract && this.contract.tally && this.contract.tally.choice.length > 1) {
+          label = `&#183; ${_.reduce(this.contract.tally.choice, function (memo, voter) {
+            let votes = 0;
+            let count;
+            if (!memo.votes && memo.votes !== 0) { count = memo; } else { count = memo.votes; }
+            votes = parseInt(count + voter.votes, 10);
+            return votes;
+          })}`;
+        } else if (this.contract.tally && this.contract.tally.voter.length === 1) {
+          label += `&#183; ${(this.contract.tally.voter[0].votes)}`;
+        }
+        break;
+      default:
+    }
+    return label;
   },
   voters() {
-    const total = getTotalVoters(this.contract);
-    if (total === 1) {
-      return `${total} ${TAPi18n.__('voter').toLowerCase()}.`;
-    } else if (total === 0) {
-      return TAPi18n.__('no-voters');
+    let total;
+    if (this.contract.tally) {
+      total = this.contract.tally.voters.length;
+    } else {
+      total = getTotalVoters(this.contract);
+      if (total === 1) {
+        return `${total} ${TAPi18n.__('voter').toLowerCase()}.`;
+      } else if (total === 0) {
+        return TAPi18n.__('no-voters');
+      }
     }
     return `${total} ${TAPi18n.__('voters').toLowerCase()}.`;
   },

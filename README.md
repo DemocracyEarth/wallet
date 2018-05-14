@@ -8,12 +8,9 @@ A token based liquid democracy software.
 
 [![Join the chat at https://gitter.im/DemocracyEarth/sovereign](https://badges.gitter.im/DemocracyEarth/sovereign.svg)](https://gitter.im/DemocracyEarth/sovereign?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Slack Status](http://chat.democracy.earth/badge.svg)](http://chat.democracy.earth)
-[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/599/badge)](https://bestpractices.coreinfrastructure.org/projects/599)
-[![Code Climate](https://codeclimate.com/github/DemocracyEarth/sovereign/badges/gpa.svg)](https://codeclimate.com/github/DemocracyEarth/sovereign)
+[![Build Status](http://ci.comunes.org/buildStatus/icon?job=sovereign)](http://ci.comunes.org/job/sovereign/)
 
-Read our 📃 [open source white paper](https://github.com/DemocracyEarth/paper).
-
-See our 🇫🇷 [Paris 2016 conference](https://youtube.com/watch?v=UajbQTHnTfM) presentation.
+Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check our recent conferences in [Paris 🇫🇷 2016](https://youtube.com/watch?v=UajbQTHnTfM) and [Berlin 🇩🇪 2018](https://youtu.be/xqafNk_VsMM).
 
 <p align="center">
 <img src="public/images/sovereign-screenshot-2017.png" width="800" title="Sovereign Screenshot 2017">
@@ -39,7 +36,7 @@ See our 🇫🇷 [Paris 2016 conference](https://youtube.com/watch?v=UajbQTHnTfM
 
 **Release:**
 
-[`version 1.0.4-alpha`](https://github.com/DemocracyEarth/sovereign/releases/tag/1.0.4-alpha)
+[`version 1.0 alpha`](https://github.com/DemocracyEarth/sovereign/releases)
 
 **Also:**
 
@@ -95,7 +92,7 @@ Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mas
 
     Load browser and go to [http://localhost:3000/](http://localhost:3000/) 🔥
 
-    > _Note:_ For production deploys you should use:  
+    > _Note:_ For production deploys you should use:
     > ``` $ meteor npm run start ```
     > check production/settings.json file to config your keys.
 

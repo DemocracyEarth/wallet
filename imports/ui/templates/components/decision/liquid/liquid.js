@@ -76,7 +76,6 @@ function voteFailure(vote) {
 */
 function agreement(voteId, editable) {
   if (Session.get(voteId).voteType === 'BALANCE') {
-    console.log('what?');
     return getBarWidth(Session.get(voteId).placed, voteId, true);
   }
   return getBarWidth(parseFloat(((Session.get(voteId).placed * Session.get(voteId).TOGGLE_DISPLAY_PLACED_BAR) - Session.get(voteId).inBallot) + Session.get(voteId).delegated, 10), voteId, editable);
@@ -133,7 +132,7 @@ const _setupDrag = () => {
           Session.set(voteId, this.newVote);
         };
 
-        //Meteor.clearTimeout(this.timer);
+        // Meteor.clearTimeout(this.timer);
 
         if (voteFailure(this.newVote)) {
           cancel();

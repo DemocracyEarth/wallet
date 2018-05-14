@@ -1,6 +1,7 @@
 import { Router } from 'meteor/iron:router';
 import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
+
 import { gui } from '/lib/const';
 
 import '/imports/ui/templates/layout/main.js';
@@ -95,6 +96,22 @@ Router.route('/tag/:hashtag', {
   data() {
     return {
       options: { view: 'tag', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, tag: this.params.hashtag },
+    };
+  },
+});
+
+/**
+* @summary loads a tag feed
+**/
+Router.route('/geo/:country', {
+  name: 'geoFeed',
+  template: 'home',
+  onBeforeAction() {
+    this.next();
+  },
+  data() {
+    return {
+      options: { view: 'geo', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, country: this.params.country },
     };
   },
 });

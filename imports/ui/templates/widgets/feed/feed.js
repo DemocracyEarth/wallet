@@ -4,40 +4,28 @@ import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { $ } from 'meteor/jquery';
 import { Counts } from 'meteor/tmeasday:publish-counts';
-import { TAPi18n } from 'meteor/tap:i18n';
 
 import { query } from '/lib/views';
+import { here } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { createContract } from '/imports/startup/both/modules/Contract';
-import { displayNotice } from '/imports/ui/modules/notice';
+import { toggleSidebar } from '/imports/ui/modules/menu';
 
 import '/imports/ui/templates/widgets/feed/feed.html';
 import '/imports/ui/templates/widgets/feed/feedItem.js';
 import '/imports/ui/templates/widgets/feed/feedEmpty.js';
 import '/imports/ui/templates/widgets/feed/feedLoad.js';
 
-/**
-* @summary if _here
-* @param {object} post data
-* @param {array} feed list
-* @return {boolean} 🙏
-*/
-const _here = (post, feed) => {
-  for (const items in feed) {
-    if (feed[items]._id === post._id) {
-      return true;
-    }
-  }
-  return false;
-};
-
 Template.feed.onCreated(function () {
   Template.instance().count = new ReactiveVar(0);
   Template.instance().feed = new ReactiveVar();
   Template.currentData().refresh = false;
-  Template.currentData().singlePost = false;
 
   const instance = this;
+
+  if ((Meteor.Device.isPhone() && Session.get('sidebar')) || (Session.get('miniWindow') && Session.get('sidebar'))) {
+    toggleSidebar(false);
+  }
 
   // tailor feed to show a specific kind of post
   if (Template.currentData().kind) {
@@ -51,24 +39,29 @@ Template.feed.onCreated(function () {
   const beginning = ((Template.currentData().options.skip === 0) && !instance.feed.get());
   if (beginning) { $('.right').scrollTop(0); }
   instance.data.refresh = beginning;
-  instance.data.singlePost = (instance.data.options.view === 'post');
 
   const dbQuery = Contracts.find(parameters.find, parameters.options);
   this.handle = dbQuery.observeChanges({
     changed: () => {
-      displayNotice(TAPi18n.__('notify-new-posts'), true);
+      // TODO: be reactive please
+      // displayNotice(TAPi18n.__('notify-new-posts'), true);
     },
     addedBefore: (id, fields) => {
       // added stuff
       const currentFeed = instance.feed.get();
       const post = fields;
       post._id = id;
-      if (!currentFeed) {
-        instance.feed.set([post]);
-        instance.data.refresh = false;
-      } else if (!_here(post, currentFeed)) {
-        currentFeed.push(post);
-        instance.feed.set(_.uniq(currentFeed));
+      if (instance.data.displayActions) {
+        post.displayActions = true;
+      }
+      if (!(instance.data.noReplies && post.replyId)) {
+        if (!currentFeed) {
+          instance.feed.set([post]);
+          instance.data.refresh = false;
+        } else if (!here(post, currentFeed)) {
+          currentFeed.push(post);
+          instance.feed.set(_.uniq(currentFeed));
+        }
       }
     },
   });
@@ -107,11 +100,20 @@ Template.feed.helpers({
   item() {
     return Template.instance().feed.get();
   },
+  empty() {
+    if (Session.get('showPostEditor')) {
+      return false;
+    }
+    if (Template.instance().feed.get()) {
+      return (Template.instance().feed.get().length === 0);
+    }
+    return (!Template.instance().feed.get());
+  },
   refresh() {
     return Template.currentData().refresh;
   },
   beginning() {
-    return (Template.currentData().options.skip === 0);
+    return (Template.currentData().options.skip === 0 || Template.currentData().singlePost);
   },
   single() {
     return Template.currentData().singlePost;
@@ -123,6 +125,9 @@ Template.feed.helpers({
     return Template.instance().count.get();
   },
   placeholderItem() {
+    if (Template.currentData().singlePost) {
+      return [1];
+    }
     return [1, 2, 3, 4, 5];
   },
 });

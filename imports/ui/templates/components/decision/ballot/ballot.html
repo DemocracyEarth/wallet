@@ -58,14 +58,32 @@
     {{/if}}
   </div>
   {{#unless editorMode}}
-    {{#if currentUser}}
-      <div class="execution" id="execution-{{this.voteId}}">
-        <div class="block" style={{displayBar}}>
-          {{#with voteSettings}}
-            {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot}}
-          {{/with}}
+    {{#unless readOnly}}
+      {{#if currentUser}}
+        <div class="execution" id="execution-{{this.voteId}}">
+          <div class="block" style={{displayBar}}>
+            {{#with voteSettings}}
+              {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot}}
+            {{/with}}
+          </div>
+        </div>
+      {{/if}}
+    {{else}}
+      <div class="block block-list">
+        <div class="micro-menu">
+          {{#if ballotEnabled}}
+            <a href="{{contract.url}}" class="micro-button micro-button-feed" ontouchstart="">
+              <img src="{{pathFor route='home'}}images/vote.png" class="micro-icon">
+              <span class="micro-label">{{label 'vote'}} {{{quantity 'vote'}}}</span>
+              <div class="verifier verifier-live verifier-feed"></div>
+            </a>
+          {{/if}}
+          <a href="{{contract.url}}#debate" class="micro-button micro-button-feed" ontouchstart="">
+            <img src="{{pathFor route='home'}}images/debate.png" class="micro-icon">
+            <span class="micro-label">{{label 'debate'}} {{{quantity 'debate'}}}</span>
+          </a>
         </div>
       </div>
-    {{/if}}
+    {{/unless}}
   {{/unless}}
 </template>

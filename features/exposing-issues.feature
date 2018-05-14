@@ -3,7 +3,7 @@ Feature: Exposing issues
   As a bug reporter
   I want to be able to describe that issue using failing scenarios
 
-  @ignore
+
   Scenario: Issue #201 - Improve unicode support in slugs
     Given I am the citizen named Santa
       And I have proposed a votable idea titled "L'œuf de Noël !"

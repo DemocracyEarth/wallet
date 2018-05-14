@@ -1,0 +1,9 @@
+<template name="tally">
+  {{#if ready}}
+    {{#each vote}}
+      {{> transaction this}}
+    {{else}}
+      {{> warning label="empty-feed"}}
+    {{/each}}
+  {{/if}}
+</template>

@@ -71,9 +71,9 @@ Meteor.startup(() => {
   }
 
   // smtpServer
-  if (Meteor.settings.smtpServer === undefined || Meteor.settings.smtpServer === '') {
+  if (Meteor.settings.private.smtpServer === undefined || Meteor.settings.private.smtpServer === '') {
     console.log('[config WARNING] Mailgun SMTP server keys not configured.');
-    console.log('[config FIX] Configure `smtpServer` on settings.json.');
+    console.log('[config FIX] Configure `private.smtpServer` on settings.json.');
   } else if (Meteor.settings.public.app.config.mailNotifications === true) {
     console.log('[config] Mailgun SMTP server for e-mail notificiations... OK');
   } else {

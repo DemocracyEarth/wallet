@@ -25,8 +25,13 @@ import '/imports/ui/templates/components/identity/avatar/avatar.js';
 * @return {boolean} yes or no
 */
 const _displayResults = (contract) => {
-  if (getTotalVoters(contract) > 0) {
-    return ((contract.stage === 'FINISH') || (contract.permanentElection && contract.stage !== 'DRAFT'));
+  if (contract) {
+    const dbContract = Contracts.findOne({ _id: contract._id });
+    if (dbContract) {
+      if (getTotalVoters(contract) > 0 || (dbContract.tally && dbContract.tally.voter.length > 0)) {
+        return ((contract.stage === 'FINISH') || (contract.permanentElection && contract.stage !== 'DRAFT'));
+      }
+    }
   }
   return false;
 };
@@ -61,6 +66,7 @@ Template.feedItem.onCreated(function () {
   Template.instance().candidateBallot = new ReactiveVar();
   Template.instance().displayResults = new ReactiveVar(false);
   Template.instance().aboveFold = new ReactiveVar();
+  Template.instance().replySource = new ReactiveVar(false);
 });
 
 Template.feedItem.onRendered(function () {
@@ -81,18 +87,41 @@ Template.feedItem.onRendered(function () {
     }, scrollRefresh());
   });
 
-  instance.autorun(function () {
-    if (instance.data._id) {
-      const subscription = instance.subscribe('transaction', { view: 'contractVotes', contractId: instance.data._id });
-      const contract = instance.contract.get();
-      if (subscription.ready() && !instance.ready.get()) {
-        instance.rightToVote.set(getRightToVote(contract));
-        instance.candidateBallot.set(getBallot(instance.data._id));
-        instance.displayResults.set(_displayResults(contract));
-        instance.ready.set(true);
-      }
+  if (instance.data.replyId) {
+    const dbReply = Contracts.findOne({ _id: instance.data.replyId });
+    if (!dbReply) {
+      const source = instance.subscribe('singleContract', { view: 'contract', sort: { createdAt: -1 }, contractId: instance.data.replyId });
+      instance.autorun(function (computation) {
+        if (source.ready()) {
+          Template.instance().replySource.set(true);
+          computation.stop();
+        }
+      });
+    } else {
+      Template.instance().replySource.set(true);
     }
-  });
+  }
+
+  if (!instance.data.tally && !instance.data.placeholder) {
+    instance.autorun(function () {
+      if (instance.data._id) {
+        const subscription = instance.subscribe('transaction', { view: 'contractVotes', contractId: instance.data._id });
+        const contract = instance.contract.get();
+        if (subscription.ready() && !instance.ready.get()) {
+          instance.rightToVote.set(getRightToVote(contract));
+          instance.candidateBallot.set(getBallot(instance.data._id));
+          instance.displayResults.set(_displayResults(contract));
+          instance.ready.set(true);
+        }
+      }
+    });
+  } else {
+    const contract = instance.data;
+    instance.rightToVote.set(getRightToVote(instance.data));
+    instance.candidateBallot.set(getBallot(instance.data._id));
+    instance.displayResults.set(_displayResults(contract));
+    instance.ready.set(true);
+  }
 });
 
 Template.feedItem.helpers({
@@ -139,6 +168,9 @@ Template.feedItem.helpers({
     }
     return [getAnonymous()];
   },
+  tally() {
+    return this.tally;
+  },
   userIsAuthor(signatures) {
     if (Meteor.user() != null) {
       if (Meteor.user()._id === this.owner) {
@@ -155,6 +187,9 @@ Template.feedItem.helpers({
   delegationMode() {
     return (this.kind === 'DELEGATION');
   },
+  displayActions() {
+    return this.displayActions;
+  },
   senderId() {
     return this.signatures[0]._id;
   },
@@ -164,8 +199,35 @@ Template.feedItem.helpers({
   feedContract() {
     return Template.instance().contract.get();
   },
+  replyMode() {
+    return this.replyId;
+  },
+  replyURL() {
+    if (this.replyId) {
+      const dbReply = Contracts.findOne({ _id: this.replyId });
+      if (dbReply) {
+        return dbReply.url;
+      }
+    }
+    return '';
+  },
+  replyTitle() {
+    if (this.replyId) {
+      const dbReply = Contracts.findOne({ _id: this.replyId });
+      if (dbReply) {
+        return `"${dbReply.title.substring(0, 21)}..."`;
+      }
+    }
+    return '';
+  },
   voters() {
-    const total = getTotalVoters(this);
+    let total;
+    const dbContract = Contracts.findOne({ _id: this._id });
+    if (dbContract && dbContract.tally) {
+      total = dbContract.tally.voter.length;
+    } else {
+      total = getTotalVoters(this);
+    }
     if (total === 1) {
       return `${total} ${TAPi18n.__('voter').toLowerCase()}`;
     } else if (total === 0) {
@@ -175,6 +237,9 @@ Template.feedItem.helpers({
   },
   electionData() {
     return Template.instance().ready.get();
+  },
+  replySource() {
+    return Template.instance().replySource.get();
   },
   spinnerStyle() {
     return `height: 0px;
@@ -190,6 +255,10 @@ Template.feedItem.helpers({
     return Template.instance().candidateBallot.get();
   },
   displayResults() {
+    const dbContract = Contracts.findOne({ _id: this._id });
+    if (dbContract && dbContract.tally && dbContract.tally.voter.length > 0) {
+      return true;
+    }
     return Template.instance().displayResults.get();
   },
   onScreen() {

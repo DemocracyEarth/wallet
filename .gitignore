@@ -9,6 +9,7 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+chimp-output.json
 
 # Runtime data
 pids

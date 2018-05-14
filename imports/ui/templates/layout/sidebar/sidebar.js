@@ -6,9 +6,9 @@ import { gui } from '/lib/const';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import { sidebarWidth, sidebarPercentage, getDelegatesMenu } from '/imports/ui/modules/menu';
+import { sidebarWidth, sidebarPercentage, getDelegatesMenu, toggleSidebar } from '/imports/ui/modules/menu';
 import { showFullName } from '/imports/startup/both/modules/utils';
-import { getFlag } from '/imports/ui/templates/components/identity/avatar/avatar';
+import { getFlag, getUser } from '/imports/ui/templates/components/identity/avatar/avatar';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { Transactions } from '/imports/api/transactions/Transactions';
 import { processedTx, updateWalletCache } from '/imports/api/transactions/transaction';
@@ -81,7 +81,11 @@ function getDelegates(contractFeed, transactionFeed) {
   let delegateList = [];
   // let totalVotes = 0;
   for (const i in delegates) {
-    delegateList.push(Meteor.users.find({ _id: delegates[i].userId }).fetch()[0]);
+    if (!Meteor.users.find({ _id: delegates[i].userId }).fetch()[0]) {
+      getUser(delegates[i].userId);
+    } else {
+      delegateList.push(Meteor.users.find({ _id: delegates[i].userId }).fetch()[0]);
+    }
   }
 
   // remove duplicates
@@ -89,7 +93,7 @@ function getDelegates(contractFeed, transactionFeed) {
   for (let i = 0; i < delegateList.length; i += 1) {
     for (let k = 0; k < finalList.length; k += 1) {
       if (i !== k) {
-        if (delegateList[i]._id === delegateList[k]._id) {
+        if (delegateList[k] && delegateList[i] && delegateList[i]._id === delegateList[k]._id) {
           finalList[k] = 'EMPTY';
         }
       }
@@ -188,9 +192,19 @@ Template.sidebar.onRendered(() => {
   drawSidebar();
 
   $(window).resize(() => {
-    $('.left').width(`${sidebarPercentage()}%`);
+    const percentage = sidebarPercentage();
+    $('.left').width(`${percentage}%`);
     if (!Meteor.Device.isPhone()) {
-      $('.navbar').css('left', `${sidebarPercentage()}%`);
+      if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
+        $('.navbar').css('left', 0);
+        Session.set('miniWindow', true);
+      } else {
+        $('.navbar').css('left', `${percentage}%`);
+        Session.set('miniWindow', false);
+      }
+      if (($(window).width() < gui.MOBILE_MAX_WIDTH && Session.get('sidebar')) || ($(window).width() >= gui.MOBILE_MAX_WIDTH && !Session.get('sidebar'))) {
+        toggleSidebar(true);
+      }
     }
     if (!Session.get('sidebar')) {
       $('#menu').css('margin-left', `${parseInt(0 - sidebarWidth(), 10)}px`);
@@ -210,7 +224,6 @@ Template.sidebar.helpers({
     return Template.instance().delegates.get();
   },
   member() {
-    // Template.instance().members.set(_otherMembers(Template.instance().delegates.get()));
     return Template.instance().members.get();
   },
   totalMembers() {

@@ -32,11 +32,12 @@ h2 {
 h3 {
   display: block;
   margin: 10px auto;
+  padding-left: 20px;
   color: dimgrey;
-  font-size: 14px;
-  line-height: 30px;
+  font-size: 12px;
+  line-height: 20px;
   font-weight: 300;
-  text-align: center;
+  text-align: left;
   text-transform: uppercase;
 }
 
@@ -1130,16 +1131,17 @@ blockquote {
 .vote {
   display: block;
   width: 100%;
-  margin: 3px 0px;
-  padding: 10px 10px 10px 15px;
+  margin: 1px 0px;
+  padding: 5px 5px 5px 10px;
   float: left;
-  border: 1px solid #eee;
+  border: 1px solid #fff;
   border-radius: 50px;
   color: #6c5b7c;
   text-align: left;
 }
 
 .vote.vote-authorize {
+  display: block;
   background-color: #f7f7f7;
 }
 
@@ -1272,7 +1274,7 @@ blockquote {
 }
 
 .vote.vote-search.vote-feed {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding-top: 0px;
   padding-bottom: 0px;
   border-style: none;
@@ -1290,12 +1292,11 @@ blockquote {
 
 .vote.vote-search.vote-feed.vote-delegation {
   overflow: hidden;
-  width: auto;
   margin-right: 10px;
-  padding: 0px 10px 0px 5px;
+  margin-bottom: 5px;
+  padding: 3px 15px 3px 10px;
   float: left;
   clear: both;
-  border-radius: 25px;
   background-color: #f7f7f7;
   box-shadow: 0 5px 15px -12px #000;
 }
@@ -1320,8 +1321,9 @@ blockquote {
 
 .option {
   display: block;
-  width: 30px;
-  height: 30px;
+  width: 26px;
+  height: 26px;
+  margin-top: 1px;
   margin-right: 0px;
   margin-left: 10px;
   float: right;
@@ -1348,10 +1350,9 @@ blockquote {
 }
 
 .option.option-mini {
-  width: 28px;
-  height: 28px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 5px;
+  margin-right: -1px;
+  margin-bottom: 2px;
   background-color: #fff;
   cursor: default;
 }
@@ -1360,8 +1361,8 @@ blockquote {
   display: inline-block;
   max-width: 100%;
   margin-top: 0px;
-  font-size: 16px;
-  line-height: 30px;
+  font-size: 12px;
+  line-height: 20px;
   text-align: left;
   letter-spacing: 0px;
   text-transform: none;
@@ -1454,8 +1455,7 @@ blockquote {
 }
 
 .option-title.option-title-mini {
-  font-size: 16px;
-  line-height: 48px;
+  padding-top: 8px;
 }
 
 .option-title.option-result {
@@ -1464,6 +1464,8 @@ blockquote {
 
 .checkbox {
   display: block;
+  margin-top: -1px;
+  margin-bottom: 1px;
 }
 
 .checkbox.checkbox-custom {
@@ -1494,8 +1496,8 @@ blockquote {
 
 .tick {
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   margin: 4px;
   border-radius: 100px;
   background-color: #fff;
@@ -1585,9 +1587,10 @@ blockquote {
 }
 
 .block.block-list {
-  margin-right: 0px;
-  margin-bottom: -15px;
-  margin-left: 0px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   padding: 0px;
   border-top: 1px solid #e6f9f4;
   background-color: transparent;
@@ -2207,6 +2210,11 @@ blockquote {
   line-height: 12px;
 }
 
+.identity-label.identity-label-micro.identity-label-post {
+  display: inline;
+  overflow: hidden;
+}
+
 .option-link:hover {
   border-bottom-style: none;
 }
@@ -2641,6 +2649,7 @@ blockquote {
   position: relative;
   display: block;
   margin-top: 5px;
+  margin-right: 5px;
   float: right;
   font-size: 10px;
   line-height: 21px;
@@ -2793,6 +2802,10 @@ blockquote {
   margin-top: 16px;
   margin-left: 30px;
   float: none;
+}
+
+.identity-peer.identity-post {
+  margin-left: 0px;
 }
 
 .fact-votes {
@@ -3053,7 +3066,6 @@ blockquote {
 
 .vote-allocated {
   display: inline-block;
-  float: right;
 }
 
 .vote-allocated.label-votes {
@@ -3152,6 +3164,11 @@ blockquote {
 
 .data.data-feed.data-identity {
   margin-left: -15px;
+  float: left;
+}
+
+.data.data-feed.data-transaction {
+  margin: 3px 4px 7px 7px;
   float: left;
 }
 
@@ -3294,6 +3311,30 @@ blockquote {
   border-color: #9e6fcc;
   background-color: transparent;
   color: #9e6fcc;
+}
+
+.stage.stage-vote {
+  min-width: 60px;
+  border-style: solid;
+  border-color: #ccbcda;
+  background-color: #ccbcda;
+  color: #6c5b7c;
+  text-transform: none;
+}
+
+.stage.stage-vote.stage-revoke {
+  margin-right: 0px;
+  margin-left: 10px;
+}
+
+.stage.stage-vote.stage-loosing {
+  border-color: #e6e6e6;
+  background-color: #e6e6e6;
+}
+
+.stage.stage-compressed {
+  margin-top: 1px;
+  margin-left: 10px;
 }
 
 .profile-thumb {
@@ -3471,6 +3512,7 @@ blockquote {
 .options {
   display: block;
   overflow: auto;
+  max-width: 400px;
   margin-right: -5px;
   margin-bottom: 5px;
   margin-left: -5px;
@@ -3540,8 +3582,8 @@ blockquote {
   margin-left: 0px;
   padding: 0px;
   font-family: 'Open Sans', sans-serif;
-  font-size: 24px;
-  line-height: 34px;
+  font-size: 16px;
+  line-height: 24px;
   font-weight: 300;
 }
 
@@ -3577,8 +3619,8 @@ blockquote {
 }
 
 .title-input.title-feed {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 15px;
+  margin-bottom: 5px;
   border-style: none;
   color: #4b4b4b;
 }
@@ -4144,7 +4186,7 @@ blockquote {
 }
 
 .cast.cast-cancel {
-  background-color: #aaa;
+  background-color: #9793c5;
 }
 
 .menu {
@@ -4346,10 +4388,10 @@ blockquote {
   display: inline-block;
   overflow: hidden;
   margin: 10px auto;
-  padding: 5px 10px 5px 5px;
+  padding: 0px 10px 0px 5px;
   border-radius: 5px;
   color: #00bf8f;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 28px;
   text-align: center;
   cursor: pointer;
@@ -4400,9 +4442,15 @@ blockquote {
   text-align: left;
 }
 
+.micro-button.micro-button-feed {
+  display: block;
+  margin: 5px 25px 0px 10px;
+  float: left;
+}
+
 .micro-icon {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
 }
 
 .micro-label {
@@ -4422,11 +4470,12 @@ blockquote {
 
 .micro-menu {
   display: block;
-  width: 90%;
-  height: 60px;
-  max-height: 65px;
   margin-right: auto;
   margin-left: auto;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
   text-align: center;
 }
 
@@ -4451,6 +4500,13 @@ blockquote {
   border-radius: 5px;
   box-shadow: none;
   cursor: pointer;
+}
+
+.collective-icon.collective-icon-small {
+  width: 25px;
+  height: 25px;
+  margin-top: 9px;
+  margin-bottom: 0px;
 }
 
 .menu-button {
@@ -4538,6 +4594,7 @@ blockquote {
   height: 100px;
   margin-right: auto;
   margin-left: auto;
+  padding-left: 80px;
   opacity: 0.5;
 }
 
@@ -5173,7 +5230,6 @@ blockquote {
 }
 
 .subfeed-title {
-  padding-top: 3px;
   padding-bottom: 0px;
   border-bottom: 1px solid #cacaca;
   background-color: #d6d6d6;
@@ -5182,12 +5238,12 @@ blockquote {
 }
 
 .subfeed-title.subfeed-title-main {
-  margin-top: 60px;
-  margin-bottom: 20px;
+  margin-top: 70px;
+  margin-bottom: 10px;
 }
 
 .subfeed-title.subfeed-title-secondary {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .bar-labels {
@@ -5403,6 +5459,7 @@ blockquote {
 .feed-footer {
   margin-top: 15px;
   margin-bottom: 15px;
+  padding-left: 85px;
   opacity: 0.4;
   color: #000;
   font-size: 10px;
@@ -5469,7 +5526,6 @@ blockquote {
 }
 
 .actor {
-  margin-right: 15px;
   padding-right: 0px;
   text-align: center;
 }
@@ -5480,11 +5536,17 @@ blockquote {
 
 .actor.actor-score {
   padding-right: 0px;
-  float: left;
+  float: right;
+}
+
+.actor.actor-score.actor-score-ballot {
+  margin-right: 10px;
 }
 
 .transaction-data {
+  max-width: auto;
   float: left;
+  clear: none;
 }
 
 .transaction-value {
@@ -5534,6 +5596,67 @@ blockquote {
   display: -ms-flexbox;
   display: flex;
   margin-bottom: 10px;
+}
+
+.transaction-date {
+  margin-top: 3px;
+  margin-bottom: 10px;
+  margin-left: -4px;
+}
+
+.checkbox-mini {
+  width: 17px;
+  height: 17px;
+  margin-top: -2px;
+  margin-right: 5px;
+  margin-left: -6px;
+  padding: 8%;
+  float: left;
+  border: 1px solid #6c5b7c;
+  border-radius: 25px;
+  background-color: #fff;
+}
+
+.foot {
+  margin-top: 20px;
+  font-size: 10px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.foot-note {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.foot-note-dot {
+  width: 10px;
+  height: 10px;
+  margin: 9px 5px;
+  float: left;
+  border-radius: 25px;
+  background-color: #00bf8f;
+}
+
+.foot-note-dot.revoke {
+  background-color: #ff2752;
+}
+
+.foot-note-dot.grant {
+  background-color: #9b73ca;
+}
+
+.foot-note-label {
+  float: left;
+}
+
+.stage-card {
+  margin-top: 0px;
+  margin-left: 10px;
+}
+
+.max100 {
+  max-width: 100%;
 }
 
 @media (max-width: 991px) {
@@ -5660,6 +5783,9 @@ blockquote {
     padding-top: 0px;
     background-color: #f5f5f5;
   }
+  .mobile-editor.hide {
+    display: none;
+  }
   .event {
     margin-left: 0px;
   }
@@ -5729,6 +5855,9 @@ blockquote {
   h2 {
     font-size: 14px;
     font-weight: 400;
+  }
+  h3 {
+    padding-left: 15px;
   }
   h5 {
     font-weight: 400;
@@ -5821,7 +5950,6 @@ blockquote {
     box-shadow: none;
   }
   .vote.vote-search.vote-feed {
-    margin-bottom: 10px;
     box-shadow: none;
   }
   .vote.vote-search.vote-feed.vote-delegation {
@@ -5841,9 +5969,6 @@ blockquote {
   }
   .option-title.option-link.option-long {
     max-width: 80%;
-  }
-  .option-title.option-title-mini {
-    font-size: 18px;
   }
   .field.headline-field.split {
     padding-right: 0px;
@@ -6069,6 +6194,9 @@ blockquote {
     font-size: 16px;
     text-transform: none;
   }
+  .spinner {
+    padding-left: 0px;
+  }
   .card-title {
     margin-top: 5px;
   }
@@ -6097,8 +6225,8 @@ blockquote {
     font-size: 12px;
   }
   .subfeed-title {
-    margin-right: -10px;
-    margin-left: -10px;
+    margin-right: 0px;
+    margin-left: 0px;
   }
   .modal-title {
     font-weight: 700;
@@ -6137,6 +6265,9 @@ blockquote {
   .calendar-button:active {
     background-color: #00bf8f;
     color: #f5f5f5;
+  }
+  .feed-footer {
+    padding-left: 0px;
   }
   .actor.actor-score {
     right: 0px;
@@ -6355,11 +6486,12 @@ blockquote {
   }
   .title-input {
     border-left: 0px none transparent;
-    font-size: 24px;
-    line-height: 32px;
   }
   .title-input:hover {
     border-left-color: transparent;
+  }
+  .title-input.title-feed {
+    margin-bottom: 10px;
   }
   .paper-header.paper-header-empty {
     box-shadow: none;
@@ -6410,7 +6542,8 @@ blockquote {
     padding-right: 0px;
   }
   .transaction-data {
-    max-width: 75%;
+    max-width: 100%;
+    clear: left;
   }
 }
 

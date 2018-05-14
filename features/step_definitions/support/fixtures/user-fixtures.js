@@ -2,21 +2,36 @@ import {log, fail, getBrowser, getServer} from '../utils';
 
 fixtures.users = {
 
+  // Create a user from inside the blackbox. This should be as terse (DRY) as possible.
+  // Blackbox user creation has advantages over registration through interface :
+  // - should be faster
+  // - less side effects client-side (automatic login, etc.)
+  // and drawbacks :
+  // - requires strict factorization to keep things DRY
+  // - no side-effects (sometimes we want them)
   create(name) {
     return getServer().execute((name) => {
-      const slug = require('/lib/utils').convertToSlug(name).replace(/-+/, ''); // argh
+      const username = require('/lib/utils').convertToUsername(name);
 
+      // Instead of Accounts.createUser, here we should call _one_ method that handles everything
       const user = Meteor.users.findOne(Accounts.createUser({
-        email: slug + '@democracy.earth',
-        username: slug,
+        email: username + '@democracy.earth',
+        username: username,
         password: name,
         profile: {firstName: name, lastName: '(Tester)'},
       }));
 
-      // no need or this anymore, but it's a nice snippet, maybe to set email as validated ?
+      // No need or this anymore, but it's a nice snippet, maybe to set email as validated ?
       // Meteor.users.update(user, { $set: { 'profile.firstName': name }});
 
-      require('/imports/api/transactions/transaction').genesisTransaction(user._id);
+      // We don't do the genesis anymore (but maybe we should)
+      // require('/imports/api/transactions/transaction').genesisTransaction(user._id);
+
+      // Meteor.call('subsidizeUser', (subsidyError) => {
+      //   if (subsidyError) {
+      //     log("/!. Subsidy Error: " + subsidyError.reason);
+      //   }
+      // });
 
       return user;
     }, name);
@@ -32,7 +47,7 @@ fixtures.users = {
   },
 
   clientLogin(email, password) {
-    getBrowser().timeouts('script', 5000);
+    getBrowser().timeouts('script', 15000);
     const returned = getBrowser().executeAsync((email, password, done) => {
       //console.log("I am printed in the browser's developer console.");
       Meteor.loginWithPassword(email, password, (err) => { done(err); });

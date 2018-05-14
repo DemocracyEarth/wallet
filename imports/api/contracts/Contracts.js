@@ -3,14 +3,58 @@ import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { TAPi18n } from 'meteor/tap:i18n';
 
+import { Ballot } from '/imports/api/transactions/Ballot';
 import { convertToSlug } from '/lib/utils';
-import { Thread } from './Thread';
-import { Wallet } from '../users/Wallet';
-
+import { Thread } from '/imports/api/contracts/Thread';
+import { Wallet } from '/imports/api/users/Wallet';
 
 export const Contracts = new Mongo.Collection('contracts');
 
 const Schema = {};
+
+Schema.Tally = new SimpleSchema({
+  lastTransaction: {
+    type: String,
+    defaultValue: '',
+  },
+  choice: {
+    type: Array,
+    defaultValue: [],
+  },
+  'choice.$': {
+    type: Object,
+    optional: true,
+  },
+  'choice.$.ballot': {
+    type: [Ballot],
+    optional: true,
+  },
+  'choice.$.votes': {
+    type: Number,
+    defaultValue: 0,
+  },
+  'choice.$.winner': {
+    type: Boolean,
+    optional: true,
+  },
+  voter: {
+    type: Array,
+    defaultValue: [],
+  },
+  'voter.$': {
+    type: Object,
+  },
+  'voter.$._id': {
+    type: String,
+  },
+  'voter.$.votes': {
+    type: Number,
+  },
+  'voter.$.ballotList': {
+    type: [String],
+  },
+});
+
 Schema.Contract = new SimpleSchema({
   owner: {
     type: String,
@@ -353,6 +397,15 @@ Schema.Contract = new SimpleSchema({
   },
   'ballot.$.rank': {
     type: Number,
+    optional: true,
+  },
+  'ballot.$.tick': {
+    type: Boolean,
+    optional: true,
+  },
+  'ballot.$.executive': {
+    type: Boolean,
+    optional: true,
   },
   'ballot.$.url': {
     type: String,
@@ -399,6 +452,21 @@ Schema.Contract = new SimpleSchema({
   },
   wallet: {
     type: Wallet,
+    optional: true,
+  },
+  tally: {
+    type: Schema.Tally,
+  },
+  replyId: {
+    type: String,
+    optional: true,
+  },
+  totalReplies: {
+    type: Number,
+    optional: true,
+  },
+  geo: {
+    type: String,
     optional: true,
   },
 });

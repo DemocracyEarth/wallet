@@ -18,7 +18,6 @@ export const Thread = {
     children: {
       type: 'array',
       items: {
-        type: Thread
       }
     },
     ballot: {
@@ -112,3 +111,7 @@ export const Thread = {
     'status'
   ]
 };
+
+// Avoid: https://eslint.org/docs/rules/no-use-before-define and
+// ReferenceError: Thread is not defined
+Thread.properties.children.items.type = Thread;

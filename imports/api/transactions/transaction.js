@@ -8,6 +8,8 @@ import { Collectives } from '/imports/api/collectives/Collectives';
 import { guidGenerator } from '/imports/startup/both/modules/crypto';
 import { getTime } from '/imports/api/time';
 import { Transactions } from '/imports/api/transactions/Transactions';
+import { getTotalVoters } from '/imports/ui/modules/ballot';
+import { notify } from '/imports/api/notifier/notifier';
 
 
 /**
@@ -164,6 +166,9 @@ const _updateWallet = (entityId, entityType, profileSettings) => {
 * @param {string} contractId - contractId to be checked
 */
 const _getTransactions = (userId, contractId) => {
+ // const tx = Transactions.find({ $and: [{ $or: [{ 'output.entityId': userId }, { 'input.entityId': userId }] }, { contractId }] }, { sort: { timestamp: -1 } }).fetch();
+ //  return tx;
+
   return _.sortBy(
     _.union(
       _.filter(Transactions.find({ 'input.entityId': userId }).fetch(), (item) => { return (item.output.entityId === contractId); }, 0),
@@ -192,16 +197,28 @@ const _voteCount = (ticket, entityId) => {
 * @return {number} total vote count
 */
 const _getVotes = (contractId, userId) => {
-  const transactions = _getTransactions(userId, contractId);
-  if (transactions.length > 1) {
-    return _.reduce(transactions, (memo, num, index) => {
-      if (index === 1) {
-        return _voteCount(memo, userId) + _voteCount(num, userId);
+  // getting tally
+  const contract = Contracts.findOne({ _id: contractId });
+
+  if (contract && contract.tally !== undefined && contract.tally.choice.length > 0) {
+    for (const i in contract.tally.voter) {
+      if (contract.tally.voter[i]._id === userId) {
+        return contract.tally.voter[i].votes;
       }
-      return memo + _voteCount(num, userId);
-    });
-  } else if (transactions.length === 1) {
-    return _voteCount(transactions[0], userId);
+    }
+  } else {
+    // counting from ledger
+    const transactions = _getTransactions(userId, contractId);
+    if (transactions.length > 1) {
+      return _.reduce(transactions, (memo, num, index) => {
+        if (index === 1) {
+          return _voteCount(memo, userId) + _voteCount(num, userId);
+        }
+        return memo + _voteCount(num, userId);
+      });
+    } else if (transactions.length === 1) {
+      return _voteCount(transactions[0], userId);
+    }
   }
   return 0;
 };
@@ -247,7 +264,6 @@ const _transactionMessage = (code) => {
       return false;
     case true:
     default:
-      // TODO update status from 'PENDING' to 'CONFIRMED'
       return true;
   }
 };
@@ -334,10 +350,6 @@ const _processTransaction = (ticket) => {
   const transaction = Transactions.findOne({ _id: txId });
   const senderProfile = _getProfile(transaction.input);
   const receiverProfile = _getProfile(transaction.output);
-
-  // TODO all transactions are for VOTE type, develop for BITCOIN or multi-currency conversion.
-  // TODO encrypted mode hooks this.
-  // TODO compress db removing redundant historical transaction data
 
   // verify transaction
   if (senderProfile.wallet.available < transaction.input.quantity) {
@@ -548,6 +560,171 @@ const _updateUserCache = (sessionId, userId, wallet) => {
 };
 
 /**
+* @summary decided whether to add or subtract quantity based on tx structure
+* @param {object} transaction - the transaction
+*/
+const _tallyAddition = (transaction) => {
+  if (transaction.output.entityId === transaction.contractId) {
+    return transaction.output.quantity;
+  } else if (transaction.input.entityId === transaction.contractId) {
+    return parseInt(transaction.input.quantity * -1, 10);
+  }
+  return 0;
+};
+
+const _getLastBallot = (voterId, contractId) => {
+  const tx = Transactions.find({ $and: [{ $or: [{ 'output.entityId': voterId }, { 'input.entityId': voterId }] }, { contractId }] }, { sort: { timestamp: -1 } }).fetch();
+  console.log(tx);
+  console.log(_.pluck(tx[0].condition.ballot, '_id'));
+  return _.pluck(tx[0].condition.ballot, '_id');
+};
+
+/**
+* @summary generates a list of voters for a contract without tally
+* @param {string} contract - the contract to include a voter list in tally property
+* @param {array} ballotList - to include info from transaction
+* @returns {array} each item being an object with id and vote quantity.
+*/
+const _voterList = (contract) => {
+  const voters = getTotalVoters(contract, true);
+  const voterList = [];
+
+  if (voters.length > 0) {
+    for (const i in voters) {
+      voterList[i] = {
+        _id: voters[i],
+        votes: _getVotes(contract._id, voters[i]),
+        ballotList: _getLastBallot(voters[i], contract._id),
+      };
+    }
+  }
+
+  return voterList;
+};
+
+const _counterParty = (transaction) => {
+  if (transaction.contractId === transaction.input.entityId) { return transaction.output.entityId; } return transaction.input.entityId;
+};
+
+/**
+* @summary on the contract it updates the tally to current vote count
+* @param {object} transaction - the new transaction to include in tally
+*/
+const _tally = (transaction) => {
+  const contract = Contracts.findOne({ _id: transaction.contractId });
+  const ballotList = _.pluck(transaction.condition.ballot, '_id');
+  let found = false;
+  let votes;
+  const template = [
+    {
+      ballot: [{
+        executive: true,
+        mode: 'AUTHORIZE',
+        _id: '1',
+        tick: false,
+      }],
+      votes: 0,
+    },
+    {
+      ballot: [{
+        executive: true,
+        mode: 'REJECT',
+        _id: '0',
+        tick: false,
+      }],
+      votes: 0,
+    },
+  ];
+
+  let backwardCompatible = false;
+
+  // backwards compatibility
+  if (!contract.tally) {
+    const dbContract = Contracts.findOne({ _id: transaction.contractId });
+    const voterList = _voterList(dbContract);
+    contract.tally = {
+      lastTransaction: '',
+      voter: voterList,
+    };
+    // contract.tally.choice = _choiceList(dbContract, voterList);
+    contract.tally.choice = [];
+    backwardCompatible = true;
+  }
+
+  if (!contract.ballot.length) {
+    for (const i in template) {
+      contract.ballot.push(template[i].ballot[0]);
+    }
+  }
+
+  // last transaction
+  contract.tally.lastTransaction = transaction._id;
+
+  // voter tally
+  if (!contract.tally.voter || contract.tally.voter.length === 0) {
+    contract.tally.voter = [{
+      _id: _counterParty(transaction),
+      votes: 0,
+      ballotList,
+    }];
+  }
+
+  found = false;
+  if (contract.tally.voter && !backwardCompatible) {
+    for (const i in contract.tally.voter) {
+      if ((contract.tally.voter[i]._id === transaction.input.entityId) || (contract.tally.voter[i]._id === transaction.output.entityId)) {
+        found = true;
+        contract.tally.voter[i].votes += _tallyAddition(transaction);
+        if (contract.tally.voter[i].votes === 0) {
+          contract.tally.voter.splice(i, 1);
+          break;
+        }
+        contract.tally.voter[i].ballotList = ballotList;
+      }
+    }
+    if (!found) {
+      contract.tally.voter.push({
+        _id: _counterParty(transaction),
+        votes: _tallyAddition(transaction),
+        ballotList,
+      });
+    }
+  }
+
+  // choice tally
+  for (const i in contract.ballot) {
+    votes = 0;
+    found = false;
+    for (const j in contract.tally.voter) {
+      if (_.contains(contract.tally.voter[j].ballotList, contract.ballot[i]._id)) {
+        votes += contract.tally.voter[j].votes;
+      }
+    }
+    if (contract.tally.choice.length > 0) {
+      for (const j in contract.tally.choice) {
+        for (const k in contract.tally.choice[j].ballot) {
+          if (contract.tally.choice[j].ballot[k]._id === contract.ballot[i]._id) {
+            contract.tally.choice[j].votes = votes;
+            found = true;
+            break;
+          }
+        }
+        if (found) { break; }
+      }
+    }
+    if (!found || !contract.tally.choice || contract.tally.choice.length === 0) {
+      contract.tally.choice.push({
+        ballot: [contract.ballot[i]],
+        votes,
+      });
+    }
+  }
+
+  // update in db
+  Contracts.update({ _id: transaction.contractId }, { $set: { tally: contract.tally, ballot: contract.ballot } });
+};
+
+/**
 * @summary create a new transaction between two parties
 * @param {string} senderId - user or collective allocating the funds
 * @param {string} receiverId - user or collective receiving the funds
@@ -614,6 +791,13 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
       _processedTx(newTx._id);
       _updateWalletCache(newTx, false);
     }
+
+    // update tally in contract excluding subsidy
+    if (newTx.kind === 'VOTE' && newTx.input.entityType !== 'COLLECTIVE' && newTx.output.entityType !== 'COLLECTIVE') {
+      _tally(newTx);
+    }
+
+    notify(newTx);
 
     return txId;
   }

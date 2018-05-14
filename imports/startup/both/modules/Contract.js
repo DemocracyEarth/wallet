@@ -1,9 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
-import { Router } from 'meteor/iron:router';
 import { TAPi18n } from 'meteor/tap:i18n';
 
-import { convertToSlug } from '/lib/utils';
+import { convertToSlug, convertToUsername } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { shortUUID } from './crypto';
 import { transact } from '../../../api/transactions/transaction';
@@ -309,14 +308,34 @@ const _publish = (contractId) => {
   draft.stage = 'LIVE';
   draft.keyword = _generateURL(document.getElementById('titleContent').innerText, draft._id);
   draft.url = `/vote/${draft.keyword}`;
+  // profile & country is optional
+  if (Meteor.user() && Meteor.user().profile &&
+      Meteor.user().profile.country && Meteor.user().profile.country.name) {
+    draft.geo = convertToUsername(Meteor.user().profile.country.name);
+  } else {
+    draft.geo = '';
+  }
   Contracts.update({ _id: contractId }, { $set: {
     stage: draft.stage,
     title: draft.title,
     keyword: draft.keyword,
     url: draft.url,
     ballotEnabled: draft.ballotEnabled,
+    replyId: draft.replyId,
+    geo: draft.geo,
   },
   });
+
+  // add reply to counter in contract
+  if (draft.replyId) {
+    const reply = Contracts.findOne({ _id: draft.replyId });
+    if (reply.totalReplies) {
+      reply.totalReplies += 1;
+    } else {
+      reply.totalReplies = 1;
+    }
+    Contracts.update({ _id: draft.replyId }, { $set: { totalReplies: reply.totalReplies } });
+  }
 };
 
 /**

@@ -31,6 +31,7 @@ export default function () {
   // Swipe the slate clean before each scenario.
   this.BeforeScenario(() => {
     if (browser.getUrl() == 'data:,') { browser.url(getBaseUrl()); } // Visit the website, or Meteor is undefined
+
     fixtures.common.reset(); // Reset the database, and re-add the mandatory fixtures, like the Collective
     context = {}; // Reset the scenario-scoped context global variable
   });

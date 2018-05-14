@@ -1,4 +1,5 @@
 <template name="editor">
+  <div id='postEditorItem'></div>
   <div id="feedItem-{{contractId}}" class="vote vote-search vote-feed nondraggable">
     <div class="checkbox checkbox-custom">
       <div class="meta meta-search">
@@ -9,7 +10,11 @@
             </div>
           {{/each}}
           <div class="data data-feed data-identity">
-            <div class="verifier verifier-live verifier-feed">&#183; {{sinceDate}}</div>
+            {{#if replyMode}}
+              <a href="{{replyURL}}" title="{{sinceDate}}"><div class="verifier verifier-live verifier-feed">&#183; {{_ 'reply-to'}} {{replyTitle}}</div></a>
+            {{else}}
+              <div class="verifier verifier-live verifier-feed">&#183; {{sinceDate}}</div>
+            {{/if}}
           </div>
           <div class="data data-feed">
             <img class="url-icon" src="{{pathFor route='home'}}images/decision-draft.png">
