@@ -24,30 +24,21 @@ const _validateUsername = (username) => {
   // Set whether username format is valid or not
   usernameValidationObject.valid = !regexp.test(username);
 
-  console.log(username);
-  console.log(usernameValidationObject);
-
   // Only if username is valid, check whether it exists already
   if (regexp.test(username)) {
-    /*
-    if (Meteor.user() === null || username !== Meteor.user().username) {
-      if (Meteor.users.findOne({ username }) !== undefined) {
-        usernameValidationObject.repeated = true;
-      } else {
-        usernameValidationObject.repeated = false;
-      }
-    }*/
-    /*Meteor.call('getUser', username, function (error, result) {
+    Meteor.call('getUser', username, function (error, result) {
       if (result) {
-        usernameValidationObject.repeated = true;
+        if (result.username !== Meteor.user().username) {
+          Session.set('queryUsernameStatus', 'DUPLICATE');
+        } else {
+          Session.set('queryUsernameStatus', 'SINGULAR');
+        }
         // instance.contract.set(result);
       } else if (error) {
-        usernameValidationObject.repeated = false;
-        console.log(error);
+        Session.set('queryUsernameStatus', 'SINGULAR');
       }
-    });*/
+    });
   }
-  console.log(usernameValidationObject);
   return usernameValidationObject;
 };
 

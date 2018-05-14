@@ -30,6 +30,11 @@
             {{> warning label="missing-username"}}
           </div>
         {{/if}}
+        {{#if usernameAlreadyExists}}
+          <div class="extra extra-warning">
+            {{> warning label="username-already-exists"}}
+          </div>
+        {{/if}}
         <div class="login-field">
           <label for="name" class="login-label login-label-form">{{_ "nationality"}}</label>
           <img src="{{pathFor route='home'}}images/flag.png" class="login-icon">
