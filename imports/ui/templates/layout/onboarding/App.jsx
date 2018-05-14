@@ -5,10 +5,23 @@ import Swiper from './partials/Swiper.jsx';
 
 const OnboardingWrapper = styled.div`
   background: white;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
+  justify-content: space-between;
+  position: relative;
   width: 100vw;
 `;
-const Slide = styled.div``;
+const OnboardingSwiper = styled(Swiper)``;
+const OnboardingActionbar = styled.div``;
+const Slide = styled.div`
+  align-content: center;
+  align-items: flex-start;
+  background: grey;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
 const SlideHd = styled.div`
   background: yellow;
 `;
@@ -27,8 +40,7 @@ export default class Onboarding extends Component {
   render() {
     return (
       <OnboardingWrapper>
-        <h1>Hello world</h1>
-        <Swiper>
+        <OnboardingSwiper>
           <Slide>
             <SlideHd>SlideHd</SlideHd>
             <SlideBd>SlideBd</SlideBd>
@@ -39,7 +51,8 @@ export default class Onboarding extends Component {
             <SlideBd>SlideBd</SlideBd>
             <SlideFt>SlideBd</SlideFt>
           </Slide>
-        </Swiper>
+        </OnboardingSwiper>
+        <OnboardingActionbar>Hello Footer</OnboardingActionbar>
       </OnboardingWrapper>
     );
   }

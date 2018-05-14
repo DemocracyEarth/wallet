@@ -10,12 +10,13 @@ export default class Swiper extends Component {
     super(props);
     this.state = {
       dots: true,
+      fade: true,
       infinite: false,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
       initialSlide: 0,
       responsive: [],
+      slidesToScroll: 1,
+      slidesToShow: 1,
+      speed: 500,
     };
   }
   render() {
