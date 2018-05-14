@@ -10,11 +10,6 @@ export default function () {
 
   console.log("Setting up the hooks…"); // :(|) oook?
 
-  // http://webdriver.io/guide/testrunner/timeouts.html
-  exports.config = {
-    waitforTimeout: 10000
-  };
-
   // Load Chai extensions, because life is simpler with them.
   // See http://chaijs.com/plugins/ for more extensions.
   // Note: browser and server are unavailable here

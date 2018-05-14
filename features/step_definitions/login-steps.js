@@ -32,12 +32,13 @@ export default function () {
 
   this.Given(/^I am a registered citizen with name (.+)$/, function (name) {
     widgets.loggedUserButton.click();
+    getBrowser().waitForVisible('#signup');
     clickOnElement('#signup');
     userName = name.replace(/[ .]/g, '');
     email = randomEmail();
     pass = randomPassword();
     register();
-    getBrowser().waitForVisible('#action', 10000);
+    getBrowser().waitForVisible('#action');
     getBrowser().pause(2000);
 
     context.I = name;
