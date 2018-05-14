@@ -44,7 +44,8 @@
     "react": "^15.6.2",
     "react-addons-pure-render-mixin": "^15.6.2",
     "react-dom": "^15.6.2",
-    "react-fastclick": "^3.0.2"
+    "react-fastclick": "^3.0.2",
+    "react-slick": "^0.23.1"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.0",
@@ -63,6 +64,7 @@
     "opencollective-postinstall": "^2.0.0",
     "shell-source": "^1.1.0",
     "shelljs": "^0.7.4",
+    "styled-components": "^3.2.6",
     "words-to-numbers": "^1.3.1",
     "yamljs": "^0.3.0"
   },
