@@ -12,24 +12,24 @@
           </label>
           <input type="text" id="editFirstName" placeholder="Satoshi" autocomplete="false" class="w-input login-input login-input-split login-input-split-right" value="{{firstName}}">
           <input type="text" id="editLastName" placeholder="Nakamoto" autocomplete="false" class="w-input login-input login-input-split login-input-split-right" value="{{lastName}}">
-          {{#if noNameFound}}
-            <div class="extra">
-              {{> warning label="missing-name"}}
-            </div>
-          {{/if}}
         </div>
+        {{#if noNameFound}}
+          <div class="extra extra-warning">
+            {{> warning label="missing-name"}}
+          </div>
+        {{/if}}
         <div class="login-field">
           <label for="name" class="login-label login-label-form">
             {{_ "digital-name"}}
           </label>
           <img src="{{pathFor route='home'}}images/fingerprint-white.png" class="login-icon">
            <input type="text" id="editUserName" placeholder="satoshn" autocomplete="false" class="w-input login-input" value="{{userName}}">
-           {{#if noUsernameFound}}
-             <div class="extra">
-               {{> warning label="missing-username"}}
-             </div>
-           {{/if}}
         </div>
+        {{#if noUsernameFound}}
+          <div class="extra extra-warning">
+            {{> warning label="missing-username"}}
+          </div>
+        {{/if}}
         <div class="login-field">
           <label for="name" class="login-label login-label-form">{{_ "nationality"}}</label>
           <img src="{{pathFor route='home'}}images/flag.png" class="login-icon">

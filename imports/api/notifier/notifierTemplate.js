@@ -1,6 +1,6 @@
 export const notifierHTML = `
 <div style="text-align: center;">
-  <img align="none" src="https://gallery.mailchimp.com/301becd69e00afa63c21122f3/images/994c42eb-8752-4bd8-9def-bbdd1e96bf49.jpg" style="max-width: 500px; max-height: 168px; margin: 0px auto;" width="100%" />
+  <img align="none" src="https://gallery.mailchimp.com/301becd69e00afa63c21122f3/images/994c42eb-8752-4bd8-9def-bbdd1e96bf49.jpg" style="max-width: 500px; margin: 0px auto;" width="100%" />
 </div>
 &nbsp;
 <div style="max-width: 500px; margin: 0px auto;">

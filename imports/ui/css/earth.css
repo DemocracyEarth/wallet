@@ -5659,6 +5659,13 @@ blockquote {
   max-width: 100%;
 }
 
+.extra-warning {
+  width: 100%;
+  margin-top: -15px;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
