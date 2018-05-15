@@ -31,7 +31,6 @@ import { globalObj } from '/lib/global';
 import { geo } from '/lib/geo';
 import { gui } from '/lib/const';
 
-import '/imports/ui/templates/components/decision/editor/editor';
 import '/imports/ui/templates/layout/main.html';
 import '/imports/ui/templates/layout/navigation/navigation';
 import '/imports/ui/templates/layout/onboarding/onboarding';
