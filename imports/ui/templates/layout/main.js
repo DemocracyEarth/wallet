@@ -26,10 +26,12 @@ import { Session } from 'meteor/session';
 import { SearchSource } from 'meteor/meteorhacks:search-source';
 import { Template } from 'meteor/templating';
 
+
 import { toggleSidebar } from '/imports/ui/modules/menu';
 import { globalObj } from '/lib/global';
 import { geo } from '/lib/geo';
 import { gui } from '/lib/const';
+
 
 import '/imports/ui/templates/layout/main.html';
 import '/imports/ui/templates/widgets/modal/modal';

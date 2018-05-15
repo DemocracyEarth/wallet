@@ -1,6 +1,7 @@
 import { Router } from 'meteor/iron:router';
 import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
+import { DocHead } from 'meteor/kadira:dochead';
 
 import { gui } from '/lib/const';
 
@@ -12,6 +13,21 @@ import '/imports/ui/templates/components/identity/login/login.js';
 import '/imports/ui/templates/components/identity/card/card.js';
 import '/imports/ui/templates/components/decision/contract/contract.js';
 import '/imports/ui/templates/widgets/feed/feed.js';
+
+
+const _meta = (title, description, image, twitter) => {
+  DocHead.setTitle(title);
+  DocHead.addMeta({ name: 'description', content: description });
+  DocHead.addMeta({ property: 'og:title', content: title });
+  DocHead.addMeta({ property: 'og:description', content: description });
+  DocHead.addMeta({ property: 'og:image', content: image });
+  DocHead.addMeta({ property: 'twitter:card', content: description });
+  DocHead.addMeta({ name: 'twitter:card', content: 'summary' });
+  DocHead.addMeta({ name: 'twitter:site', content: twitter });
+  DocHead.addMeta({ name: 'twitter:title', content: title });
+  DocHead.addMeta({ name: 'twitter:description', content: description });
+  DocHead.addMeta({ name: 'twitter:image', content: image });
+};
 
 
 /*
@@ -37,6 +53,14 @@ Router.route('/', {
     return {
       options: { view: 'latest', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0 },
     };
+  },
+  onAfterAction() {
+    _meta(
+      Meteor.settings.public.Collective.name,
+      Meteor.settings.public.Collective.profile.bio,
+      `${Router.path('home')}${Meteor.settings.public.Collective.profile.logo}`,
+      Meteor.settings.public.Collective.profile.twitter
+    );
   },
 });
 
