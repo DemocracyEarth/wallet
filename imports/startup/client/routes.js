@@ -15,18 +15,22 @@ import '/imports/ui/templates/components/decision/contract/contract.js';
 import '/imports/ui/templates/widgets/feed/feed.js';
 
 
-const _meta = (title, description, image, twitter) => {
-  DocHead.setTitle(title);
-  DocHead.addMeta({ name: 'description', content: description });
-  DocHead.addMeta({ property: 'og:title', content: title });
-  DocHead.addMeta({ property: 'og:description', content: description });
-  DocHead.addMeta({ property: 'og:image', content: image });
-  DocHead.addMeta({ property: 'twitter:card', content: description });
+/**
+* @summary writes meta tags in HTML page
+* @param {object} tag includes a key value for each tag
+*/
+const _meta = (tag) => {
+  DocHead.setTitle(tag.title);
+  DocHead.addMeta({ name: 'description', content: tag.description });
+  DocHead.addMeta({ property: 'og:title', content: tag.title });
+  DocHead.addMeta({ property: 'og:description', content: tag.description });
+  DocHead.addMeta({ property: 'og:image', content: tag.image });
+  DocHead.addMeta({ property: 'twitter:card', content: tag.description });
   DocHead.addMeta({ name: 'twitter:card', content: 'summary' });
-  DocHead.addMeta({ name: 'twitter:site', content: twitter });
-  DocHead.addMeta({ name: 'twitter:title', content: title });
-  DocHead.addMeta({ name: 'twitter:description', content: description });
-  DocHead.addMeta({ name: 'twitter:image', content: image });
+  DocHead.addMeta({ name: 'twitter:site', content: tag.twitter });
+  DocHead.addMeta({ name: 'twitter:title', content: tag.title });
+  DocHead.addMeta({ name: 'twitter:description', content: tag.description });
+  DocHead.addMeta({ name: 'twitter:image', content: tag.image });
 };
 
 
@@ -55,12 +59,12 @@ Router.route('/', {
     };
   },
   onAfterAction() {
-    _meta(
-      Meteor.settings.public.Collective.name,
-      Meteor.settings.public.Collective.profile.bio,
-      `${Router.path('home')}${Meteor.settings.public.Collective.profile.logo}`,
-      Meteor.settings.public.Collective.profile.twitter
-    );
+    _meta({
+      title: Meteor.settings.public.Collective.name,
+      description: Meteor.settings.public.Collective.profile.bio,
+      image: `${Router.path('home')}${Meteor.settings.public.Collective.profile.logo}`,
+      twitter: Meteor.settings.public.Collective.profile.twitter,
+    });
   },
 });
 
@@ -88,6 +92,14 @@ Router.route('/peer/:username', {
     return {
       options: { view: 'peer', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, userId: settings.userId, username: settings.username },
     };
+  },
+  onAfterAction() {
+    _meta(
+      Meteor.settings.public.Collective.name,
+      Meteor.settings.public.Collective.profile.bio,
+      `${Router.path('home')}${Meteor.settings.public.Collective.profile.logo}`,
+      Meteor.settings.public.Collective.profile.twitter
+    );
   },
 });
 
