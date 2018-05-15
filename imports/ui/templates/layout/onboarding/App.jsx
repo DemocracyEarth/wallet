@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import { Action, Actionbar } from '../../../styled/components/';
-import { color, setSpace } from '../../../styled/utils/';
+import { color, font, setHeight, setSpace, setType, track } from '../../../styled/utils/';
 
 // import BEINFORMED from './assets/onboarding-beinformed.jpg';
 // import DELEGATE from './images/onboarding-delegate.jpg';
@@ -16,11 +16,16 @@ const OnboardingWrapper = styled.div`
   width: 100vw;
 `;
 const OnboardingHd = styled.div`
+  ${setSpace('pth')};
   left: 0;
   position: fixed;
   right: 0;
+  text-align: center;
   top: 0;
   z-index: 5;
+`;
+const Logo = styled.img`
+  ${setHeight('h')};
 `;
 const OnboardingBd = styled.div`
   display: flex;
@@ -47,6 +52,8 @@ const OnboardingFt = styled.div`
 `;
 const OnboardingSwiper = styled(Swiper)``;
 const Slide = styled.div`
+  ${setSpace('phm')};
+  ${setSpace('pvl')};
   align-content: center;
   align-items: flex-start;
   background-color: ${color.eggplantM};
@@ -58,9 +65,9 @@ const Slide = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  justify-content: space-between;
+  justify-content: flex-end;
   &:before {
-    background: linear-gradient(rgba(51, 38, 61, 0) 0, rgba(51, 38, 61, 0.35) 60%, ${color.eggplantM}) 100%;
+    background: linear-gradient(rgba(51, 38, 61, 0.2) 0, rgba(51, 38, 61, 0.4) 60%, ${color.eggplantM}) 100%;
     bottom: 0;
     content: ' ';
     height: 100%;
@@ -71,20 +78,31 @@ const Slide = styled.div`
     top: 0;
   }
 `;
-const SlideHd = styled.div`
-  background: yellow;
-  position: relative;
-  z-index: 3;
-`;
 const SlideBd = styled.div`
-  background: magenta;
+  ${setSpace('pvl')};
+  color: ${color.white};
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 360px;
   position: relative;
+  text-align: center;
+  width: 100%;
   z-index: 3;
 `;
-const SlideFt = styled.div`
-  background: cyan;
-  position: relative;
-  z-index: 3;
+const SlideTitle = styled.h1`
+  ${setType('l')};
+  ${setSpace('mbm')};
+  color: ${color.white};
+  font-family: ${font.mont};
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: ${track.m};
+`;
+const SlideText = styled.p`
+  ${setType('l')};
+  color: ${color.white};
+  font-family: ${font.lato};
 `;
 
 export default class Onboarding extends Component {
@@ -95,28 +113,33 @@ export default class Onboarding extends Component {
   render() {
     return (
       <OnboardingWrapper>
-        <OnboardingHd>Head</OnboardingHd>
+        <OnboardingHd>
+          <Logo src="images/democracy-earth-inverted.png" alt="Democracy Earth" />
+        </OnboardingHd>
         <OnboardingBd>
           <OnboardingSwiper>
             <div>
               <Slide backg="images/onboarding-vote.png">
-                <SlideHd>SlideHd</SlideHd>
-                <SlideBd>SlideBd</SlideBd>
-                <SlideFt>SlideBd</SlideFt>
+                <SlideBd>
+                  <SlideTitle>Vote</SlideTitle>
+                  <SlideText>Participate in ballots of interest. Vote anonymously. Create your own ballots.</SlideText>
+                </SlideBd>
               </Slide>
             </div>
             <div>
               <Slide backg="images/onboarding-delegate.png">
-                <SlideHd>SlideHd</SlideHd>
-                <SlideBd>SlideBd</SlideBd>
-                <SlideFt>SlideBd</SlideFt>
+                <SlideBd>
+                  <SlideTitle>Delegate</SlideTitle>
+                  <SlideText>Lend your voting power to a representative. Get it back anytime.</SlideText>
+                </SlideBd>
               </Slide>
             </div>
             <div>
               <Slide backg="images/onboarding-beinformed.png">
-                <SlideHd>SlideHd</SlideHd>
-                <SlideBd>SlideBd</SlideBd>
-                <SlideFt>SlideBd</SlideFt>
+                <SlideBd>
+                  <SlideTitle>Be informed</SlideTitle>
+                  <SlideText>Stay up to date with all of the ballots that concern you. Witness a tranparent democracy.</SlideText>
+                </SlideBd>
               </Slide>
             </div>
           </OnboardingSwiper>

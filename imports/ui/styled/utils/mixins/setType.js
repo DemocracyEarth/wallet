@@ -8,7 +8,7 @@ export const setType = (size) => {
     case 'h':
       return `${fluid('font-size', fsize.h[0], fsize.h[1])}line-height: ${lead.m}`;
     case 'l':
-      return `${fluid('font-size', fsize.l[0], fsize.l[1])}line-height: ${lead.m}`;
+      return `${fluid('font-size', fsize.l[0], fsize.l[1])}line-height: ${lead.l}`;
     case 's':
       return `${fluid('font-size', fsize.s[0], fsize.s[1])}line-height: ${lead.l}`;
     case 'x':
