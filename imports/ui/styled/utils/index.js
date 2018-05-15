@@ -16,6 +16,3 @@ export * from './mixins/paint';
 export * from './mixins/setSize';
 export * from './mixins/setSpace';
 export * from './mixins/setType';
-
-// themes
-export * from './skins/default';
