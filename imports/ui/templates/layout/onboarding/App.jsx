@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import { Action, Actionbar, Container } from '../../../styled/components/';
+import { Action, Actionbar, Container, Separator } from '../../../styled/components/';
 import { color, font, radius, setHeight, setSpace, setType, track } from '../../../styled/utils/';
 
 import EmailLogin from '../../components/identity/login/EmailLogin.jsx';
@@ -19,7 +19,7 @@ const OnboardingWrapper = styled.div`
   width: 100vw;
 `;
 const OnboardingHd = styled.div`
-  ${setSpace('pth')};
+  ${setSpace('pam')};
   left: 0;
   position: fixed;
   right: 0;
@@ -162,6 +162,12 @@ export default class Onboarding extends Component {
       return (
         <OnboardingWrapper>
           <OnboardingHd>
+            <Actionbar satellite="right">
+              <Action secondary inverted iconic>
+                ?
+              </Action>
+            </Actionbar>
+            <Separator size="s" silent />
             <Logo src="images/democracy-earth-inverted.png" alt="Democracy Earth" />
           </OnboardingHd>
           <OnboardingBd>
@@ -222,6 +228,22 @@ export default class Onboarding extends Component {
       return (
         <OnboardingWrapper>
           <OnboardingHd>
+            <Actionbar satellite="both">
+              <Action
+                secondary
+                inverted
+                iconic
+                onClick={() => {
+                  return this.toggleView('default');
+                }}
+              >
+                «
+              </Action>
+              <Action secondary inverted iconic>
+                ?
+              </Action>
+            </Actionbar>
+            <Separator size="s" silent />
             <Logo src="images/democracy-earth-inverted.png" alt="Democracy Earth" />
             <FormHolder>
               <EmailLogin />
@@ -234,6 +256,22 @@ export default class Onboarding extends Component {
       return (
         <OnboardingWrapper>
           <OnboardingHd>
+            <Actionbar satellite="both">
+              <Action
+                secondary
+                inverted
+                iconic
+                onClick={() => {
+                  return this.toggleView('default');
+                }}
+              >
+                «
+              </Action>
+              <Action secondary inverted iconic>
+                ?
+              </Action>
+            </Actionbar>
+            <Separator size="s" silent />
             <Logo src="images/democracy-earth-inverted.png" alt="Democracy Earth" />
             <FormHolder>
               <Signup />

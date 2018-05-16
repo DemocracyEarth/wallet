@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { bool } from 'prop-types';
 
-import { breakpoint, color, font, radius, setSpace, setType } from '../../utils';
+import { breakpoint, color, font, radius, setSpace, setType, setSize, setWidth } from '../../utils';
 
 const Button = styled.button`
   ${setSpace('pam')};
@@ -51,6 +51,25 @@ const Button = styled.button`
   `
       : '';
   }};
+
+  /* iconic */
+
+
+  /* iconic */
+  ${({ iconic }) => {
+    if (iconic) {
+      return `
+        ${setSize('m')};
+        ${setSpace('pan')};
+        border-radius: ${radius.a};
+        line-height: 1em;
+        text-align: center;
+        text-transform: none;
+      `;
+    }
+    return null;
+  }}
+
 `;
 
 Button.propTypes = {
