@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import { Action, Actionbar } from '../../../styled/components/';
+import { Action, Actionbar, Container } from '../../../styled/components/';
 import { color, font, radius, setHeight, setSpace, setType, track } from '../../../styled/utils/';
+
+import EmailLogin from '../../components/identity/login/EmailLogin.jsx';
+import Signup from '../../components/identity/signup/Signup.jsx';
 
 // import BEINFORMED from './assets/onboarding-beinformed.jpg';
 // import DELEGATE from './images/onboarding-delegate.jpg';
@@ -135,58 +138,112 @@ const SlideText = styled.p`
   color: ${color.white};
   font-family: ${font.lato};
 `;
+const FormHolder = styled(Container)`
+  ${setSpace('mth')};
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 360px;
+`;
 
 export default class Onboarding extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      currentView: 'default',
+    };
+    this.toggleView = this.toggleView.bind(this);
+  }
+  toggleView(view) {
+    this.setState({ currentView: view });
   }
   render() {
-    return (
-      <OnboardingWrapper>
-        <OnboardingHd>
-          <Logo src="images/democracy-earth-inverted.png" alt="Democracy Earth" />
-        </OnboardingHd>
-        <OnboardingBd>
-          <OnboardingSwiper>
-            <div>
-              <Slide backg="images/onboarding-vote.png">
-                <SlideBd>
-                  <SlideTitle>Vote</SlideTitle>
-                  <SlideText>Participate in ballots of interest. Vote anonymously. Create your own ballots.</SlideText>
-                </SlideBd>
-              </Slide>
-            </div>
-            <div>
-              <Slide backg="images/onboarding-delegate.png">
-                <SlideBd>
-                  <SlideTitle>Delegate</SlideTitle>
-                  <SlideText>Lend your voting power to a representative. Get it back anytime.</SlideText>
-                </SlideBd>
-              </Slide>
-            </div>
-            <div>
-              <Slide backg="images/onboarding-beinformed.png">
-                <SlideBd>
-                  <SlideTitle>Be informed</SlideTitle>
-                  <SlideText>Stay up to date with all of the ballots that concern you. Witness a tranparent democracy.</SlideText>
-                </SlideBd>
-              </Slide>
-            </div>
-          </OnboardingSwiper>
-          <OnboardingFt>
-            <Actionbar>
-              <Action fixed secondary inverted>
-                Log in
-              </Action>
-              <Action fixed primary inverted>
-                Sign up
-              </Action>
-            </Actionbar>
-          </OnboardingFt>
-        </OnboardingBd>
-      </OnboardingWrapper>
-    );
+    const { currentView } = this.state;
+    if (currentView === 'default') {
+      return (
+        <OnboardingWrapper>
+          <OnboardingHd>
+            <Logo src="images/democracy-earth-inverted.png" alt="Democracy Earth" />
+          </OnboardingHd>
+          <OnboardingBd>
+            <OnboardingSwiper>
+              <div>
+                <Slide backg="images/onboarding-vote.png">
+                  <SlideBd>
+                    <SlideTitle>Vote</SlideTitle>
+                    <SlideText>Participate in ballots of interest. Vote anonymously. Create your own ballots.</SlideText>
+                  </SlideBd>
+                </Slide>
+              </div>
+              <div>
+                <Slide backg="images/onboarding-delegate.png">
+                  <SlideBd>
+                    <SlideTitle>Delegate</SlideTitle>
+                    <SlideText>Lend your voting power to a representative. Get it back anytime.</SlideText>
+                  </SlideBd>
+                </Slide>
+              </div>
+              <div>
+                <Slide backg="images/onboarding-beinformed.png">
+                  <SlideBd>
+                    <SlideTitle>Be informed</SlideTitle>
+                    <SlideText>Stay up to date with all of the ballots that concern you. Witness a tranparent democracy.</SlideText>
+                  </SlideBd>
+                </Slide>
+              </div>
+            </OnboardingSwiper>
+            <OnboardingFt>
+              <Actionbar>
+                <Action
+                  fixed
+                  secondary
+                  inverted
+                  onClick={() => {
+                    return this.toggleView('login');
+                  }}
+                >
+                  Log in
+                </Action>
+                <Action
+                  fixed
+                  primary
+                  inverted
+                  onClick={() => {
+                    return this.toggleView('signup');
+                  }}
+                >
+                  Sign up
+                </Action>
+              </Actionbar>
+            </OnboardingFt>
+          </OnboardingBd>
+        </OnboardingWrapper>
+      );
+    } else if (currentView === 'login') {
+      return (
+        <OnboardingWrapper>
+          <OnboardingHd>
+            <Logo src="images/democracy-earth-inverted.png" alt="Democracy Earth" />
+            <FormHolder>
+              <EmailLogin />
+            </FormHolder>
+          </OnboardingHd>
+          <OnboardingBd />
+        </OnboardingWrapper>
+      );
+    } else if (currentView === 'signup') {
+      return (
+        <OnboardingWrapper>
+          <OnboardingHd>
+            <Logo src="images/democracy-earth-inverted.png" alt="Democracy Earth" />
+            <FormHolder>
+              <Signup />
+            </FormHolder>
+          </OnboardingHd>
+          <OnboardingBd />
+        </OnboardingWrapper>
+      );
+    }
+    return null;
   }
 }
 
