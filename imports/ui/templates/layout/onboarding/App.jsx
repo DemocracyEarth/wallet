@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import { Action, Actionbar } from '../../../styled/components/';
-import { color, font, setHeight, setSpace, setType, track } from '../../../styled/utils/';
+import { color, font, radius, setHeight, setSpace, setType, track } from '../../../styled/utils/';
 
 // import BEINFORMED from './assets/onboarding-beinformed.jpg';
 // import DELEGATE from './images/onboarding-delegate.jpg';
@@ -44,6 +44,37 @@ const OnboardingBd = styled.div`
   .slick-slide > div > div {
     height: 100%;
   }
+  .slick-dots {
+    ${setSpace('mbl')};
+    ${setSpace('pbm')};
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    li {
+      ${setSpace('man')};
+      height: auto;
+      line-height: 0;
+      width: auto;
+    }
+    li button {
+      &:before {
+        background: ${color.flareLLt};
+        border-radius: ${radius.a};
+        display: inline-block;
+        height: 6px;
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 6px;
+      }
+    }
+    li.slick-active button:before {
+      background: ${color.white};
+      width: 12px;
+    }
+  }
 `;
 const OnboardingFt = styled.div`
   ${setSpace('phm')};
@@ -53,7 +84,7 @@ const OnboardingFt = styled.div`
 const OnboardingSwiper = styled(Swiper)``;
 const Slide = styled.div`
   ${setSpace('phm')};
-  ${setSpace('pvl')};
+  ${setSpace('pvh')};
   align-content: center;
   align-items: flex-start;
   background-color: ${color.eggplantM};

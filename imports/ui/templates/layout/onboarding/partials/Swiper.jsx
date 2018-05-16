@@ -8,20 +8,20 @@ import './slick-theme.css';
 export default class Swiper extends Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = {};
+  }
+  render() {
+    const settings = {
       adaptiveHeight: false,
+      arrows: false,
+      autoplay: true,
       dots: true,
-      fade: true,
-      infinite: false,
+      infinite: true,
       initialSlide: 0,
-      responsive: [],
       slidesToScroll: 1,
       slidesToShow: 1,
       speed: 500,
     };
-  }
-  render() {
-    const settings = {};
     return <Slick {...settings}>{this.props.children}</Slick>;
   }
 }
