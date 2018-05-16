@@ -22,28 +22,36 @@ const USER_FIELDS = {
 * @summary gets information of a single user
 * @return {Object} user data
 */
-Meteor.publish('singleUser', (userQuery) => {
+Meteor.publish('singleUser', function (userQuery) {
   check(userQuery, Object);
-  log(`{ publish: 'singleUser', user: ${logUser()}, query: ${JSON.stringify(userQuery)} }`);
-  return Meteor.users.find(userQuery, { fields: USER_FIELDS });
+  const users = Meteor.users.find(userQuery, { fields: USER_FIELDS });
+  log(`{ publish: 'singleUser', user: ${logUser()}, query: ${JSON.stringify(userQuery)}, count: ${users.count()} }`);
+  if (users.count() > 0) {
+    return users;
+  }
+  return this.ready();
 });
 
 /**
 * @summary transactions between a user and a contract
 * @return {Object} querying terms
 */
-Meteor.publish('transaction', (terms) => {
+Meteor.publish('transaction', function (terms) {
   check(terms, Object);
   const parameters = query(terms);
-  log(`{ publish: 'transaction', user: ${logUser()}, contractId: '${terms.contractId}' }`);
-  return Transactions.find(parameters.find, parameters.options);
+  const transactions = Transactions.find(parameters.find, parameters.options);
+  log(`{ publish: 'transaction', user: ${logUser()}, contractId: '${terms.contractId}', count: ${transactions.count()} }`);
+  if (transactions.count() > 0) {
+    return transactions;
+  }
+  return this.ready();
 });
 
 /**
 * @summary get all delegations for the logged user
 * @return {Object} querying terms
 */
-Meteor.publish('delegations', (terms) => {
+Meteor.publish('delegations', function (terms) {
   check(terms, Object);
   if (Meteor.user()) {
     if (terms.items.length > 0) {
@@ -54,7 +62,7 @@ Meteor.publish('delegations', (terms) => {
     }
     log(`{ publish: 'delegations', user: ${logUser()}, delegates: [empty] }`);
   }
-  return undefined;
+  return this.ready();
 });
 
 /**
@@ -136,7 +144,7 @@ Meteor.publish('feedCount', function (terms) {
 * @summary gets a single contract
 * @return {Object} querying terms
 */
-Meteor.publish('singleContract', (terms) => {
+Meteor.publish('singleContract', function (terms) {
   check(terms, Object);
   const parameters = query(terms);
   log(`{ publish: 'singleContract', user: ${logUser()}, { contractId: '${terms.contractId}' }`);
@@ -147,21 +155,21 @@ Meteor.publish('singleContract', (terms) => {
 * @summary gets a specific delegation
 * @return {Object} querying terms
 */
-Meteor.publish('delegationContracts', (terms) => {
+Meteor.publish('delegationContracts', function (terms) {
   check(terms, Object);
   if (Meteor.user()) {
     const parameters = query(terms);
     log(`{ publish: 'delegationContracts', user: ${logUser()}, delegateId: '${terms.delegateId}' }`);
     return Contracts.find(parameters.find, parameters.options);
   }
-  return undefined;
+  return this.ready();
 });
 
 /**
 * @summary loads drafts by user
 * @return {Object} querying terms
 */
-Meteor.publish('contractDrafts', (terms) => {
+Meteor.publish('contractDrafts', function (terms) {
   check(terms, Object);
   if (Meteor.user()) {
     const parameters = query(terms);
@@ -174,12 +182,16 @@ Meteor.publish('contractDrafts', (terms) => {
     Contracts.insert({ keyword: terms.keyword });
     return Contracts.find(parameters.find, parameters.options);
   }
-  return false;
+  return this.ready();
 });
 
 /**
 * @summary gets information of registered collectives on this instance
 */
-Meteor.publish('collectives', () => {
-  Collectives.find();
+Meteor.publish('collectives', function () {
+  const collectives = Collectives.find();
+  if (collectives.count() > 0) {
+    return collectives;
+  }
+  return this.ready();
 });

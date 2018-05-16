@@ -40,6 +40,7 @@
     "jsontokens": "^0.7.6",
     "lodash": "^4.17.10",
     "nan": "^2.3.5",
+    "phantomjs-prebuilt": "^2.1.16",
     "randomfill": "^1.0.4",
     "react": "^15.6.2",
     "react-addons-pure-render-mixin": "^15.6.2",
