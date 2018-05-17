@@ -110,7 +110,7 @@ function getDelegates(contractFeed, transactionFeed) {
 * @param {object} currentDelegates list of delegates
 */
 const _otherMembers = (currentDelegates) => {
-  const members = getList(Meteor.users.find().fetch(), true);
+  const members = getList(Meteor.users.find({}, { limit: 5 }).fetch(), true);
   const delegates = currentDelegates;
   const finalList = [];
   let isDelegate;
@@ -136,6 +136,7 @@ const _otherMembers = (currentDelegates) => {
 Template.sidebar.onCreated(function () {
   Template.instance().delegates = new ReactiveVar();
   Template.instance().members = new ReactiveVar(0);
+  Template.instance().participants = new ReactiveVar();
 
   const instance = this;
 
@@ -172,10 +173,9 @@ Template.sidebar.onCreated(function () {
           Session.set('delegationTransactions', txList);
 
           if (Meteor.user()) {
-            Template.instance().delegates.set(getDelegates(
-              contracts,
-              transactions,
-            ));
+            const delegateList = getDelegates(contracts, transactions);
+            Template.instance().delegates.set(delegateList);
+            Template.instance().participants.set(_otherMembers(delegateList));
           }
         }
       }
@@ -222,6 +222,9 @@ Template.sidebar.onRendered(() => {
 Template.sidebar.helpers({
   delegate() {
     return Template.instance().delegates.get();
+  },
+  participant() {
+    return Template.instance().participants.get();
   },
   member() {
     return Template.instance().members.get();

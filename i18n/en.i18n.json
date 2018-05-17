@@ -516,5 +516,6 @@
   "hashtag-tag-title": "hashtag posts on",
   "hashtag-tag-description": ": all the related posts to this hashtag on",
   "country-tag-title": "related posts on",
-  "country-tag-description": ": every post from a user belonging to this country on"
+  "country-tag-description": ": every post from a user belonging to this country on",
+  "recent-activity": "Recent Activity"
 }

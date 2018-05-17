@@ -4191,7 +4191,7 @@ blockquote {
 
 .menu {
   margin-top: 0px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   border-bottom: 1px none #bbb;
   font-size: 15px;
   line-height: 28px;
@@ -4215,7 +4215,7 @@ blockquote {
   margin-bottom: 3px;
   padding: 1px 0px 1px 5px;
   border-radius: 3px;
-  color: #442f58;
+  color: #333;
   font-size: 13px;
   line-height: 30px;
   font-weight: 300;
@@ -4351,7 +4351,7 @@ blockquote {
 
 .separator {
   margin-right: -10px;
-  margin-bottom: 3px;
+  margin-bottom: 5px;
   margin-left: -10px;
   padding: 5px 20px 5px 13px;
   border-bottom: 1px solid rgba(109, 92, 125, .11);
@@ -5491,16 +5491,16 @@ blockquote {
 }
 
 .sidebar-tag {
-  margin-top: 4px;
+  margin-top: 8px;
   margin-right: 3px;
   margin-left: 5px;
-  padding: 0px 5px;
+  padding: 0px 4px;
   float: right;
-  border-radius: 25px;
+  border-radius: 3px;
   background-color: #ccbcda;
   color: #6c5b7c;
-  font-size: 9px;
-  line-height: 19px;
+  font-size: 7px;
+  line-height: 14px;
   font-weight: 400;
   text-transform: uppercase;
 }

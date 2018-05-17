@@ -21,7 +21,44 @@ let lastScrollTop = 0;
 let scrollDown = false;
 
 function hideBar() {
-  $('.navbar').css('position', 'fixed');
+  //$('.navbar').css('position', 'fixed');
+  if (Meteor.Device.isPhone()) {
+    $('.right').scroll(() => {
+      const node = $('.navbar');
+      const st = $('.right').scrollTop();
+      if (st > lastScrollTop && st > 60) {
+        scrollDown = true;
+        node
+          .velocity('stop')
+          .velocity({ translateY: '0px' }, { duration: parseInt(timers.ANIMATION_DURATION, 10), easing: 'ease-out' })
+          .velocity({ translateY: '-100px' }, {
+            duration: parseInt(timers.ANIMATION_DURATION, 10),
+            easing: 'ease-out',
+            complete: () => {
+              node.css('position', 'absolute');
+              node.css('top', '0px');
+            },
+          })
+          .velocity('stop');
+      } else if (scrollDown === true) {
+        scrollDown = false;
+        node.css('position', 'fixed');
+        node
+          .velocity('stop')
+          .velocity({ translateY: '-100px' }, { duration: parseInt(timers.ANIMATION_DURATION, 10), easing: 'ease-out' })
+          .velocity({ translateY: '0px' }, {
+            duration: parseInt(timers.ANIMATION_DURATION, 10),
+            easing: 'ease-out',
+            complete: () => {
+            },
+          })
+          .velocity('stop');
+      }
+      lastScrollTop = st;
+    });
+  } else {
+    $('.navbar').css('position', 'fixed');
+  }
 }
 
 /**
