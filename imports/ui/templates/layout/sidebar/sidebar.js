@@ -27,7 +27,7 @@ function drawSidebar() {
 }
 
 function labelName(user) {
-  let name = `${showFullName(user.profile.firstName, user.profile.lastName, user.username)} ${getFlag(user.profile, true)}`;
+  let name = `${getFlag(user.profile, true)} ${user.username}`;
   if (user._id === Meteor.userId()) {
     name += ` <span class='sidebar-tag'>${TAPi18n.__('you')}</span>`;
   }

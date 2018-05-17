@@ -283,7 +283,7 @@ Template.avatar.helpers({
     if (!user) {
       return '';
     }
-    return user.username;
+    return `${user.username}`;
   },
   nationality(profile) {
     return getNation(profile);

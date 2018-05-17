@@ -41,6 +41,7 @@
     "lodash": "^4.17.10",
     "nan": "^2.3.5",
     "polished": "^1.9.2",
+    "phantomjs-prebuilt": "^2.1.16",
     "randomfill": "^1.0.4",
     "react": "^15.6.2",
     "react-addons-pure-render-mixin": "^15.6.2",
@@ -83,30 +84,19 @@
     "globals": {
       "_": true
     },
-    "plugins": [
-      "meteor"
-    ],
-    "extends": [
-      "airbnb",
-      "plugin:meteor/recommended"
-    ],
+    "plugins": ["meteor"],
+    "extends": ["airbnb", "plugin:meteor/recommended"],
     "rules": {
       "import/no-extraneous-dependencies": 0,
       "import/prefer-default-export": "off",
       "no-underscore-dangle": "off",
       "guard-for-in": "off",
       "prefer-arrow-callback": "off",
-      "func-names": [
-        "error",
-        "never"
-      ],
+      "func-names": ["error", "never"],
       "import/no-unresolved": [
         "error",
         {
-          "ignore": [
-            "^meteor/",
-            "^/"
-          ]
+          "ignore": ["^meteor/", "^/"]
         }
       ],
       "no-restricted-syntax": "off",
@@ -116,10 +106,7 @@
           "code": 300
         }
       ],
-      "arrow-body-style": [
-        "error",
-        "always"
-      ],
+      "arrow-body-style": ["error", "always"],
       "object-shorthand": [
         "error",
         "always",
@@ -135,14 +122,10 @@
           "templateInstanceParamName": "instance"
         }
       ],
-      "meteor/template-names": [
-        "off"
-      ]
+      "meteor/template-names": ["off"]
     },
     "settings": {
-      "import/core-modules": [
-        "meteor/meteor"
-      ],
+      "import/core-modules": ["meteor/meteor"],
       "import/resolver": "meteor"
     }
   }
