@@ -21,7 +21,6 @@ let lastScrollTop = 0;
 let scrollDown = false;
 
 function hideBar() {
-  //$('.navbar').css('position', 'fixed');
   if (Meteor.Device.isPhone()) {
     $('.right').scroll(() => {
       const node = $('.navbar');
@@ -91,7 +90,7 @@ function displayMenuIcon() {
 * @summary verifies if user is currently at remove-option
 */
 const _isRoot = () => {
-  return (Router.current().url === '/' || Router.current().params.username === undefined);
+  return (Router.current().params.username === undefined && Router.current().params.hashtag === undefined);
 };
 
 Template.navigation.onRendered(() => {
@@ -105,6 +104,8 @@ Template.navigation.helpers({
       if (user) {
         return `@${user.username}`;
       }
+    } else if (Router.current().params.hashtag) {
+      return `#${Router.current().params.hashtag}`;
     }
     return '';
   },

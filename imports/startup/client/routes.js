@@ -91,6 +91,7 @@ Router.route('/', {
   template: 'home',
   loadingTemplate: 'load',
   onBeforeAction() {
+    Session.clear();
     this.next();
   },
   data() {

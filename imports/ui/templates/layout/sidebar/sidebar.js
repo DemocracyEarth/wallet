@@ -27,7 +27,7 @@ function drawSidebar() {
 }
 
 function labelName(user) {
-  let name = `${getFlag(user.profile, true)} ${user.username}`;
+  let name = `${getFlag(user.profile, true)} ${showFullName(user.profile.firstName, user.profile.lastName, user.username)}`;
   if (user._id === Meteor.userId()) {
     name += ` <span class='sidebar-tag'>${TAPi18n.__('you')}</span>`;
   }
@@ -112,7 +112,7 @@ function getDelegates(contractFeed, transactionFeed) {
 const _otherMembers = (currentDelegates) => {
   const members = getList(Meteor.users.find({}, { limit: 10 }).fetch(), true);
   const delegates = currentDelegates;
-  const finalList = [];
+  let finalList = [];
   let isDelegate;
   if (delegates !== undefined && delegates.length > 0) {
     for (const id in members) {
@@ -129,6 +129,8 @@ const _otherMembers = (currentDelegates) => {
         finalList.push(members[id]);
       }
     }
+  } else {
+    finalList = members;
   }
   return finalList;
 };
@@ -178,6 +180,8 @@ Template.sidebar.onCreated(function () {
             Template.instance().participants.set(_otherMembers(delegateList));
           }
         }
+      } else {
+        Template.instance().participants.set(_otherMembers());
       }
     }
   });
