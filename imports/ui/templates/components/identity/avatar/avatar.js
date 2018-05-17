@@ -281,6 +281,9 @@ Template.avatar.helpers({
   username() {
     const user = Meteor.users.findOne(_getDynamicID(this));
     if (!user) {
+      if (Meteor.user()) {
+        return Meteor.user().username;
+      }
       return '';
     }
     return `${user.username}`;
