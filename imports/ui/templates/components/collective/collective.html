@@ -5,10 +5,12 @@
         <img class="collective-icon" src="{{pathFor route='home'}}{{picture}}">
       </a>
     {{/if}}
-    <div id="collective-home" class="collective-title">
-      {{title}}
+    <div class="collective-profile">
+      <div id="collective-home" class="collective-title">
+        {{title}}
+      </div>
+      {{description}}
     </div>
-    {{description}}
     <div class="collective-info">
       <div class="sidebar-tag sidebar-stat">
         {{members}}

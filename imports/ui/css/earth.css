@@ -4046,7 +4046,7 @@ blockquote {
 }
 
 .left.left-edit {
-  width: 320px;
+  width: 250px;
   margin-left: 0px;
 }
 
@@ -4211,18 +4211,23 @@ blockquote {
 
 .menu-item {
   min-width: 100%;
-  margin-bottom: 10px;
-  padding: 5px 0px 5px 10px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  padding: 1px 0px 1px 5px;
   border-radius: 3px;
-  color: #333;
-  font-size: 15px;
-  line-height: 27px;
+  color: #442f58;
+  font-size: 13px;
+  line-height: 30px;
   font-weight: 300;
   cursor: pointer;
 }
 
 .menu-item:hover {
   background-color: rgba(180, 171, 189, .2);
+}
+
+.menu-item:active {
+  background-color: #dbd8de;
 }
 
 .menu-item.cast-action {
@@ -4346,15 +4351,15 @@ blockquote {
 
 .separator {
   margin-right: -10px;
-  margin-bottom: 10px;
+  margin-bottom: 3px;
   margin-left: -10px;
-  padding: 15px 20px 5px 13px;
+  padding: 5px 20px 5px 13px;
   border-bottom: 1px solid rgba(109, 92, 125, .11);
   box-shadow: none;
   color: #6c5b7c;
   font-size: 10px;
   line-height: 22px;
-  font-weight: 700;
+  font-weight: 500;
   text-align: left;
   text-transform: uppercase;
 }
@@ -4487,16 +4492,19 @@ blockquote {
 }
 
 .collective {
-  padding: 20px 5px;
+  display: inline-block;
+  padding: 20px 5px 0px;
   color: #333;
-  font-size: 14px;
-  line-height: 22px;
+  font-size: 12px;
+  line-height: 18px;
 }
 
 .collective-icon {
-  max-height: 80px;
+  max-height: 70px;
   max-width: 90%;
+  margin-right: 10px;
   margin-bottom: 10px;
+  float: left;
   border-radius: 5px;
   box-shadow: none;
   cursor: pointer;
@@ -4521,8 +4529,8 @@ blockquote {
   margin-top: 5px;
   margin-bottom: 5px;
   color: #6c5b7c;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 14px;
+  line-height: 18px;
   font-weight: 400;
   text-shadow: none;
   cursor: pointer;
@@ -4550,8 +4558,9 @@ blockquote {
 }
 
 .collective-info {
+  display: inline;
   margin-top: 15px;
-  margin-bottom: 40px;
+  clear: both;
   font-size: 15px;
 }
 
@@ -4600,7 +4609,7 @@ blockquote {
 
 .right {
   position: absolute;
-  left: 320px;
+  left: 250px;
   top: 0px;
   right: 0px;
   bottom: 0px;
@@ -5500,8 +5509,9 @@ blockquote {
   margin: 0px 5px 0px 0px;
   float: left;
   border-radius: 3px;
-  font-size: 11px;
-  line-height: 24px;
+  font-size: 10px;
+  line-height: 22px;
+  font-weight: 300;
 }
 
 .sidebar-label {
@@ -5664,6 +5674,14 @@ blockquote {
   margin-top: -15px;
   margin-bottom: 15px;
   text-align: left;
+}
+
+.collective-profile {
+  margin-top: -6px;
+  margin-bottom: 10px;
+  float: left;
+  font-size: 12px;
+  line-height: 16px;
 }
 
 @media (max-width: 991px) {
