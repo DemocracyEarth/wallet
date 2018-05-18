@@ -30,9 +30,9 @@
           </div>
         {{/if}}
         {{#if profile}}
-          <img id="{{elementId}}" src="{{profilePicture profile}}" class="symbol profile-pic {{classStyle smallFont}} {{pending}}" style="{{pictureSize size includeName}}" title="{{username}}" ontouchstart="">
+          <img id="{{elementId}}" src="{{profilePicture profile}}" class="symbol profile-pic {{classStyle smallFont}} {{pending}}" style="{{pictureSize size includeName}}" title="{{username profile}}" ontouchstart="">
         {{else}}
-          <img id='avatar-pic-{{elementId}}' src="{{profilePicture}}" class="symbol profile-pic {{classStyle smallFont}}" style="{{pictureSize size includeName}}" title="{{username}}" ontouchstart="">
+          <img id='avatar-pic-{{elementId}}' src="{{profilePicture}}" class="symbol profile-pic {{classStyle smallFont}}" style="{{pictureSize size includeName}}" title="{{username profile}}" ontouchstart="">
         {{/if}}
         <div class="identity-peer {{classStyle smallFont}} {{pending}}">
           {{#if verifiedIdentity}}
@@ -48,7 +48,7 @@
                 </a>
               {{/if}}
               <a href="{{url}}" title="{{fullName profile}}" class="identity-label identity-label-micro">
-                {{username}}
+                {{username profile}}
               </a>
             {{else}}
               {{#if smallFont}}
@@ -56,11 +56,11 @@
                   {{flag profile}}
                 {{/if}}
                 <a href="{{url}}" title="{{fullName profile}}" class="identity-label identity-label-small">
-                  {{username}}
+                  {{username profile}}
                 </a>
               {{else}}
                 <a href="{{url}}" title="{{fullName profile}}" class="identity-label">
-                  {{username}}
+                  {{username profile}}
                 </a>
               {{/if}}
               {{#if includeNation}}

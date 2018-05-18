@@ -278,7 +278,14 @@ Template.avatar.helpers({
     }
     return undefined;
   },
-  username() {
+  username(profile) {
+    console.log('eheheheh:');
+    console.log(profile);
+    if (this.profile === undefined) {
+      if (Meteor.user()) {
+        return Meteor.user().username;
+      }
+    }
     const user = Meteor.users.findOne(_getDynamicID(this));
     if (!user) {
       return '';
