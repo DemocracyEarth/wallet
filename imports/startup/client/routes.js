@@ -22,6 +22,9 @@ import '/imports/ui/templates/widgets/feed/feed.js';
 * @param {object} tag includes a key value for each tag
 */
 const _meta = (tag) => {
+  // hacky fixes
+  tag.image.replace('/http', 'http');
+
   DocHead.addMeta({ name: 'description', content: tag.description });
   DocHead.addMeta({ property: 'og:title', content: tag.title });
   DocHead.addMeta({ property: 'og:description', content: tag.description });
@@ -44,7 +47,7 @@ const _boilerPlate = () => {
   _meta({
     title: `${Meteor.settings.public.Collective.name} - ${Meteor.settings.public.Collective.profile.bio}`,
     description: Meteor.settings.public.Collective.profile.bio,
-    image: `${Router.path('home')}${Meteor.settings.public.Collective.profile.logo}`,
+    image: `${Meteor.absoluteUrl.defaultOptions.rootUrl}${Meteor.settings.public.Collective.profile.logo}`,
     twitter: Meteor.settings.public.Collective.profile.twitter,
   });
 };
