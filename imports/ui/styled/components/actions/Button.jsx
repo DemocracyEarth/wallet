@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { bool } from 'prop-types';
 
-import { breakpoint, color, font, radius, setSpace, setType, setSize, setWidth } from '../../utils';
+import { breakpoint, color, font, radius, setSpace, setType, setSize } from '../../utils';
 
 const Button = styled.button`
   ${setSpace('pam')};
@@ -9,10 +9,11 @@ const Button = styled.button`
   border-radius: ${radius.s};
   border-style: solid;
   border-width: 1px;
+  display: inline-block;
   font-family: ${font.mont};
   font-weight: bold;
-  text-transform: uppercase;
   outline: none;
+  text-transform: uppercase;
 
   ${({ primary, inverted }) => {
     if (primary) {
@@ -52,8 +53,17 @@ const Button = styled.button`
       : '';
   }};
 
-  /* iconic */
-
+  /* block */
+  ${({ block }) => {
+    return block
+      ? `
+    display: block;
+    margin: 0 auto;
+    max-width: 300px;
+    width: 100%;
+  `
+      : '';
+  }};
 
   /* iconic */
   ${({ iconic }) => {

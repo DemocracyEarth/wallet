@@ -244,7 +244,7 @@ export default class Onboarding extends Component {
                 }}
                 secondary
               >
-                «
+                ←
               </Action>
               <Action
                 iconic
@@ -277,7 +277,7 @@ export default class Onboarding extends Component {
                     return this.toggleView('default');
                   }}
                 >
-                  «
+                  ←
                 </Action>
                 <Action
                   iconic
@@ -304,7 +304,15 @@ export default class Onboarding extends Component {
     return (
       <OnboardingWrapper key="wrapper">
         {getCurrentView()}
-        {detailsModal ? <DetailsModal key="modal" isOpen={this.state.detailsModal} /> : null}
+        {detailsModal ? (
+          <DetailsModal
+            isOpen={this.state.detailsModal}
+            key="modal"
+            onClose={() => {
+              return this.toggleModal('detailsModal');
+            }}
+          />
+        ) : null}
       </OnboardingWrapper>
     );
   }

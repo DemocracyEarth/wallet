@@ -1,0 +1,33 @@
+.ReactModal__Overlay {
+  opacity: 0;
+  z-index: 9999;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+  transition: opacity 100ms ease-out;
+}
+
+.ReactModal__Content {
+  /* overwrite default styles */
+  border-radius: 0 !important;
+  border: none !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  padding: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+  transition: opacity 100ms ease-out;
+}
+
+.ReactModal__Content--before-close {
+}
+
+.ReactModal__Body--open,
+.ReactModal__Html--open {
+  overflow: hidden;
+}

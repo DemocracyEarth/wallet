@@ -2,8 +2,8 @@ import { array, object, oneOfType, string } from 'prop-types';
 import React, { Component } from 'react';
 import Slick from 'react-slick';
 
-import './slick.css';
-import './slick-theme.css';
+import '../../../../css/slick.css';
+import '../../../../css/slick-theme.css';
 
 export default class Swiper extends Component {
   constructor(props) {
