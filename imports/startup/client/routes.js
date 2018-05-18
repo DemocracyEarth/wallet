@@ -142,7 +142,7 @@ Router.route('/peer/:username', {
     } else {
       title = `@${this.params.username} ${TAPi18n.__('profile-tag-title')} ${Meteor.settings.public.Collective.name}`;
       description = `@${this.params.username} ${TAPi18n.__('profile-tag-description')} ${Meteor.settings.public.Collective.name}`;
-      image = `${Router.path('home')}${Meteor.settings.public.Collective.profile.logo}`;
+      image = `${Meteor.absoluteUrl.defaultOptions.rootUrl}${Meteor.settings.public.Collective.profile.logo}`;
     }
 
     DocHead.setTitle(title);
@@ -185,11 +185,11 @@ Router.route('/vote/:keyword', {
         title = `${_getAllUsernames(contract)}${TAPi18n.__('vote-tag-title')} ${Meteor.settings.public.Collective.name}`;
       }
       description = contract.title;
-      image = `${Router.path('home')}${Meteor.settings.public.Collective.profile.logo}`;
+      image = `${Meteor.absoluteUrl.defaultOptions.rootUrl}${Meteor.settings.public.Collective.profile.logo}`;
     } else {
       title = `${Meteor.settings.public.Collective.name} - ${Meteor.settings.public.Collective.profile.bio}`;
       description = Meteor.settings.public.Collective.profile.bio;
-      image = `${Router.path('home')}${Meteor.settings.public.Collective.profile.logo}`;
+      image = `${Meteor.absoluteUrl.defaultOptions.rootUrl}${Meteor.settings.public.Collective.profile.logo}`;
       DocHead.setTitle(title);
     }
 
@@ -224,7 +224,7 @@ Router.route('/tag/:hashtag', {
     _meta({
       title: `#${this.params.hashtag}${TAPi18n.__('hashtag-tag-title')} ${Meteor.settings.public.Collective.name}`,
       description: `#${this.params.hashtag}${TAPi18n.__('hashtag-tag-description')} ${Meteor.settings.public.Collective.name}.`,
-      image: `${Router.path('home')}${Meteor.settings.public.Collective.profile.logo}`,
+      image: `${Meteor.absoluteUrl.defaultOptions.rootUrl}${Meteor.settings.public.Collective.profile.logo}`,
       twitter: Meteor.settings.public.Collective.profile.twitter,
     });
   },
@@ -252,7 +252,7 @@ Router.route('/geo/:country', {
     _meta({
       title: `${country} ${TAPi18n.__('country-tag-title')} ${Meteor.settings.public.Collective.name}`,
       description: `${country}${TAPi18n.__('country-tag-description')} ${Meteor.settings.public.Collective.name}.`,
-      image: `${Router.path('home')}${Meteor.settings.public.Collective.profile.logo}`,
+      image: `${Meteor.absoluteUrl.defaultOptions.rootUrl}${Meteor.settings.public.Collective.profile.logo}`,
       twitter: Meteor.settings.public.Collective.profile.twitter,
     });
   },
