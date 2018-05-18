@@ -47,7 +47,7 @@ const OnboardingBd = styled.div`
   .slick-dots {
     ${setSpace('mbl')};
     ${setSpace('pbm')};
-    bottom: 0;
+    bottom: 70px;
     left: 0;
     position: absolute;
     right: 0;
@@ -79,12 +79,16 @@ const OnboardingBd = styled.div`
 const OnboardingFt = styled.div`
   ${setSpace('phm')};
   ${setSpace('pvl')};
-  flex: 1 1 auto;
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
 `;
 const OnboardingSwiper = styled(Swiper)``;
 const Slide = styled.div`
   ${setSpace('phm')};
-  ${setSpace('pvh')};
+  ${setSpace('pth')};
+  padding-bottom: 120px;
   align-content: center;
   align-items: flex-start;
   background-color: ${color.eggplantM};
