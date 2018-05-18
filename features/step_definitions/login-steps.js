@@ -1,4 +1,4 @@
-import { clickOnElement, getBrowser, typeInInput, randomUsername, randomPassword, randomEmail } from './support/utils';
+import { clickOnElement, getBrowser, waitUntilText, typeInInput, randomUsername, randomPassword, randomEmail } from './support/utils';
 
 export default function () {
   let userName;
@@ -23,6 +23,19 @@ export default function () {
     clickOnElement('#signup-button');
   }
 
+  function completeMyProfile() {
+    getBrowser().waitForVisible('#logout');
+    firstName = randomUsername();
+    lastName = randomUsername();
+    typeInInput('editFirstName', firstName);
+    typeInInput('editLastName', lastName);
+    getBrowser().click('#save-profile');
+    waitUntilText('div.stage.stage-vote-totals', '1,000 TOTAL VOTES');
+    waitUntilText('div.stage.stage-vote-totals-available', '1,000 AVAILABLE');
+    waitUntilText('div.stage.stage-placed a', '0% CAST');
+    waitUntilText('div.identity-peer a.identity-label', userName.toLowerCase());
+  }
+
   this.When(/^I register with some name, password and email$/, function () {
     userName = randomUsername();
     email = randomEmail();
@@ -39,8 +52,8 @@ export default function () {
     pass = randomPassword();
     register();
     getBrowser().waitForVisible('#action');
+    completeMyProfile();
     getBrowser().pause(2000);
-
     context.I = name;
   });
 
@@ -62,14 +75,7 @@ export default function () {
   });
 
   this.Then(/^I can edit my profile$/, function () {
-    getBrowser().waitForVisible('#logout');
-    firstName = randomUsername();
-    lastName = randomUsername();
-    typeInInput('editFirstName', firstName);
-    typeInInput('editLastName', lastName);
-    getBrowser().click('#save-profile');
-    getBrowser().waitForText('.identity-label', `${firstName} ${lastName}`);
-    getBrowser().waitForText('.vote-available', '1,000 TOTAL VOTES');
+    completeMyProfile();
   });
 
   this.When(/^I enter incorrect authentication information$/, function () {
@@ -77,6 +83,7 @@ export default function () {
   });
 
   this.Then(/^I should see a user not found error$/, function () {
-    getBrowser().waitForText('.warning', 'User not found.');
+    // http://webdriver.io/guide/usage/selectors.html
+    waitUntilText('#email-signin-form li.warning', 'User not found.');
   });
 }
