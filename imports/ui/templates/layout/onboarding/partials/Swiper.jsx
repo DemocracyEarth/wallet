@@ -14,13 +14,14 @@ export default class Swiper extends Component {
     const settings = {
       adaptiveHeight: false,
       arrows: false,
+      autoplaySpeed: 5000,
       autoplay: true,
       dots: true,
       infinite: true,
       initialSlide: 0,
       slidesToScroll: 1,
       slidesToShow: 1,
-      speed: 500,
+      speed: 1000,
     };
     return <Slick {...settings}>{this.props.children}</Slick>;
   }
