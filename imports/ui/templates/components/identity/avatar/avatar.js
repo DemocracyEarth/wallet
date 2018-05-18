@@ -279,9 +279,7 @@ Template.avatar.helpers({
     return undefined;
   },
   username(profile) {
-    console.log('eheheheh:');
-    console.log(profile);
-    if (this.profile === undefined) {
+    if (profile === undefined) {
       if (Meteor.user()) {
         return Meteor.user().username;
       }
