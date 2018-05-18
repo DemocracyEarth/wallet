@@ -7,10 +7,7 @@ import { color, font, radius, setHeight, setSpace, setType, track } from '../../
 import EmailLogin from '../../components/identity/login/EmailLogin.jsx';
 import Signup from '../../components/identity/signup/Signup.jsx';
 
-// import BEINFORMED from './assets/onboarding-beinformed.jpg';
-// import DELEGATE from './images/onboarding-delegate.jpg';
-// import VOTE from './images/onboarding-vote.jpeg';
-
+import DetailsModal from './partials/DetailsModal.jsx';
 import Swiper from './partials/Swiper.jsx';
 
 const OnboardingWrapper = styled.div`
@@ -150,27 +147,39 @@ export default class Onboarding extends Component {
     super(props);
     this.state = {
       currentView: 'default',
+      detailsModal: false,
     };
+    this.toggleModal = this.toggleModal.bind(this);
     this.toggleView = this.toggleView.bind(this);
+  }
+  toggleModal(modal) {
+    this.setState({ [modal]: !this.state[modal] });
   }
   toggleView(view) {
     this.setState({ currentView: view });
   }
   render() {
-    const { currentView } = this.state;
-    if (currentView === 'default') {
-      return (
-        <OnboardingWrapper>
-          <OnboardingHd>
+    const { currentView, detailsModal } = this.state;
+    const getCurrentView = () => {
+      if (currentView === 'default') {
+        return [
+          <OnboardingHd key="hd">
             <Actionbar satellite="right">
-              <Action secondary inverted iconic>
+              <Action
+                iconic
+                inverted
+                onClick={() => {
+                  return this.toggleModal('detailsModal');
+                }}
+                secondary
+              >
                 ?
               </Action>
             </Actionbar>
             <Separator size="s" silent />
             <Logo src="images/democracy-earth-inverted.png" alt="Democracy Earth" />
-          </OnboardingHd>
-          <OnboardingBd>
+          </OnboardingHd>,
+          <OnboardingBd key="bd">
             <OnboardingSwiper>
               <div>
                 <Slide backg="images/onboarding-vote.png">
@@ -221,25 +230,30 @@ export default class Onboarding extends Component {
                 </Action>
               </Actionbar>
             </OnboardingFt>
-          </OnboardingBd>
-        </OnboardingWrapper>
-      );
-    } else if (currentView === 'login') {
-      return (
-        <OnboardingWrapper>
+          </OnboardingBd>,
+        ];
+      } else if (currentView === 'login') {
+        return (
           <OnboardingHd>
             <Actionbar satellite="both">
               <Action
-                secondary
-                inverted
                 iconic
+                inverted
                 onClick={() => {
                   return this.toggleView('default');
                 }}
+                secondary
               >
                 «
               </Action>
-              <Action secondary inverted iconic>
+              <Action
+                iconic
+                inverted
+                onClick={() => {
+                  return this.toggleModal('detailsModal');
+                }}
+                secondary
+              >
                 ?
               </Action>
             </Actionbar>
@@ -249,39 +263,50 @@ export default class Onboarding extends Component {
               <EmailLogin />
             </FormHolder>
           </OnboardingHd>
-          <OnboardingBd />
-        </OnboardingWrapper>
-      );
-    } else if (currentView === 'signup') {
-      return (
-        <OnboardingWrapper>
-          <OnboardingHd>
-            <Actionbar satellite="both">
-              <Action
-                secondary
-                inverted
-                iconic
-                onClick={() => {
-                  return this.toggleView('default');
-                }}
-              >
-                «
-              </Action>
-              <Action secondary inverted iconic>
-                ?
-              </Action>
-            </Actionbar>
-            <Separator size="s" silent />
-            <Logo src="images/democracy-earth-inverted.png" alt="Democracy Earth" />
-            <FormHolder>
-              <Signup />
-            </FormHolder>
-          </OnboardingHd>
-          <OnboardingBd />
-        </OnboardingWrapper>
-      );
-    }
-    return null;
+        );
+      } else if (currentView === 'signup') {
+        return (
+          <OnboardingWrapper>
+            <OnboardingHd>
+              <Actionbar satellite="both">
+                <Action
+                  secondary
+                  inverted
+                  iconic
+                  onClick={() => {
+                    return this.toggleView('default');
+                  }}
+                >
+                  «
+                </Action>
+                <Action
+                  iconic
+                  inverted
+                  onClick={() => {
+                    return this.toggleModal('detailsModal');
+                  }}
+                  secondary
+                >
+                  ?
+                </Action>
+              </Actionbar>
+              <Separator size="s" silent />
+              <Logo src="images/democracy-earth-inverted.png" alt="Democracy Earth" />
+              <FormHolder>
+                <Signup />
+              </FormHolder>
+            </OnboardingHd>
+          </OnboardingWrapper>
+        );
+      }
+      return null;
+    };
+    return (
+      <OnboardingWrapper key="wrapper">
+        {getCurrentView()}
+        {detailsModal ? <DetailsModal key="modal" isOpen={this.state.detailsModal} /> : null}
+      </OnboardingWrapper>
+    );
   }
 }
 
