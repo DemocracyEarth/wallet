@@ -22,7 +22,9 @@ onPageLoad(function (sink) {
 
   switch (path[0]) {
     case 'vote':
-      console.log('DEFAULT');
+    case 'peer':
+    case 'geo':
+    default:
       head = meta({
         title: `${Meteor.settings.public.Collective.name} - ${Meteor.settings.public.Collective.profile.bio}`,
         description: Meteor.settings.public.Collective.profile.bio,
@@ -30,18 +32,6 @@ onPageLoad(function (sink) {
         twitter: Meteor.settings.public.Collective.profile.twitter,
       });
       sink.appendToHead(head);
-      console.log('VOTE');
-      break;
-    case 'peer':
-    case 'geo':
-    default:
-      console.log('DEFAULT');
-      meta({
-        title: `${Meteor.settings.public.Collective.name} - ${Meteor.settings.public.Collective.profile.bio}`,
-        description: Meteor.settings.public.Collective.profile.bio,
-        image: `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`,
-        twitter: Meteor.settings.public.Collective.profile.twitter,
-      });
       break;
   }
 

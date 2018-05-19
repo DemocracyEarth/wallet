@@ -23,19 +23,23 @@ if (Meteor.isClient) {
 * @param {object} tag includes a key value for each tag
 */
 const _meta = (tag) => {
-  const head = `
-    <meta name="description" content="${tag.description}">
-    <meta property="og:title" content="${tag.title}">
-    <meta property="og:description" content="${tag.description}">
-    <meta property="og:image" content="${tag.image}">
-    <meta property="twitter:card" content="${tag.description}">
-    <meta name="twitter:card" content='summary'>
-    <meta name="twitter:site" content="${tag.twitter}">
-    <meta name="twitter:title" content="${tag.title}">
-    <meta name="twitter:description" content="${tag.description}">
-    <meta name="twitter:image" content="${tag.image}">
-    `;
-  return head;
+  if (Meteor.isServer) {
+    const head = `
+      <meta name="description" content="${tag.description}">
+      <meta property="og:title" content="${tag.title}">
+      <meta property="og:description" content="${tag.description}">
+      <meta property="og:image" content="${tag.image}">
+      <meta property="twitter:card" content="${tag.description}">
+      <meta name="twitter:card" content='summary'>
+      <meta name="twitter:site" content="${tag.twitter}">
+      <meta name="twitter:title" content="${tag.title}">
+      <meta name="twitter:description" content="${tag.description}">
+      <meta name="twitter:image" content="${tag.image}">
+      `;
+    return head;
+  }
+
+  return '';
 };
 
 /**
