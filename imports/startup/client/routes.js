@@ -22,9 +22,6 @@ import '/imports/ui/templates/widgets/feed/feed.js';
 * @param {object} tag includes a key value for each tag
 */
 const _meta = (tag) => {
-  // hacky fixes
-  tag.image.replace('/http', 'http');
-
   DocHead.addMeta({ name: 'description', content: tag.description });
   DocHead.addMeta({ property: 'og:title', content: tag.title });
   DocHead.addMeta({ property: 'og:description', content: tag.description });
@@ -38,6 +35,19 @@ const _meta = (tag) => {
 };
 
 /**
+* @summary hacky fixes for url strings
+* @param {string} url to fix
+* @return {string}
+*/
+const _urlDoctor = (url) => {
+  let newUrl = url.replace('/http', 'http');
+  if (newUrl.last() !== '/') {
+    newUrl = newUrl.add('/');
+  }
+  return newUrl;
+};
+
+/**
 * @summary default meta tags
 */
 const _boilerPlate = () => {
@@ -47,7 +57,7 @@ const _boilerPlate = () => {
   _meta({
     title: `${Meteor.settings.public.Collective.name} - ${Meteor.settings.public.Collective.profile.bio}`,
     description: Meteor.settings.public.Collective.profile.bio,
-    image: `${Meteor.absoluteUrl.defaultOptions.rootUrl}${Meteor.settings.public.Collective.profile.logo}`,
+    image: `${_urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`,
     twitter: Meteor.settings.public.Collective.profile.twitter,
   });
 };
@@ -145,7 +155,7 @@ Router.route('/peer/:username', {
     } else {
       title = `@${this.params.username} ${TAPi18n.__('profile-tag-title')} ${Meteor.settings.public.Collective.name}`;
       description = `@${this.params.username} ${TAPi18n.__('profile-tag-description')} ${Meteor.settings.public.Collective.name}`;
-      image = `${Meteor.absoluteUrl.defaultOptions.rootUrl}${Meteor.settings.public.Collective.profile.logo}`;
+      image = `${_urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`;
     }
 
     DocHead.setTitle(title);
@@ -188,11 +198,11 @@ Router.route('/vote/:keyword', {
         title = `${_getAllUsernames(contract)}${TAPi18n.__('vote-tag-title')} ${Meteor.settings.public.Collective.name}`;
       }
       description = contract.title;
-      image = `${Meteor.absoluteUrl.defaultOptions.rootUrl}${Meteor.settings.public.Collective.profile.logo}`;
+      image = `${_urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`;
     } else {
       title = `${Meteor.settings.public.Collective.name} - ${Meteor.settings.public.Collective.profile.bio}`;
       description = Meteor.settings.public.Collective.profile.bio;
-      image = `${Meteor.absoluteUrl.defaultOptions.rootUrl}${Meteor.settings.public.Collective.profile.logo}`;
+      image = `${_urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`;
       DocHead.setTitle(title);
     }
 
@@ -227,7 +237,7 @@ Router.route('/tag/:hashtag', {
     _meta({
       title: `#${this.params.hashtag}${TAPi18n.__('hashtag-tag-title')} ${Meteor.settings.public.Collective.name}`,
       description: `#${this.params.hashtag}${TAPi18n.__('hashtag-tag-description')} ${Meteor.settings.public.Collective.name}.`,
-      image: `${Meteor.absoluteUrl.defaultOptions.rootUrl}${Meteor.settings.public.Collective.profile.logo}`,
+      image: `${_urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`,
       twitter: Meteor.settings.public.Collective.profile.twitter,
     });
   },
@@ -255,7 +265,7 @@ Router.route('/geo/:country', {
     _meta({
       title: `${country} ${TAPi18n.__('country-tag-title')} ${Meteor.settings.public.Collective.name}`,
       description: `${country}${TAPi18n.__('country-tag-description')} ${Meteor.settings.public.Collective.name}.`,
-      image: `${Meteor.absoluteUrl.defaultOptions.rootUrl}${Meteor.settings.public.Collective.profile.logo}`,
+      image: `${_urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`,
       twitter: Meteor.settings.public.Collective.profile.twitter,
     });
   },
