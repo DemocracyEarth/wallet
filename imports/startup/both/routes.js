@@ -7,31 +7,35 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { gui } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
-import '/imports/ui/templates/layout/main.js';
-import '/imports/ui/templates/layout/url/home/home.js';
-import '/imports/ui/templates/layout/url/notFound/notFound.js';
-import '/imports/ui/templates/layout/load/load.js';
-import '/imports/ui/templates/components/identity/login/login.js';
-import '/imports/ui/templates/components/identity/card/card.js';
-import '/imports/ui/templates/components/decision/contract/contract.js';
-import '/imports/ui/templates/widgets/feed/feed.js';
-
+if (Meteor.isClient) {
+  import '/imports/ui/templates/layout/main.js';
+  import '/imports/ui/templates/layout/url/home/home.js';
+  import '/imports/ui/templates/layout/url/notFound/notFound.js';
+  import '/imports/ui/templates/layout/load/load.js';
+  import '/imports/ui/templates/components/identity/login/login.js';
+  import '/imports/ui/templates/components/identity/card/card.js';
+  import '/imports/ui/templates/components/decision/contract/contract.js';
+  import '/imports/ui/templates/widgets/feed/feed.js';
+}
 
 /**
 * @summary writes meta tags in HTML page
 * @param {object} tag includes a key value for each tag
 */
 const _meta = (tag) => {
-  DocHead.addMeta({ name: 'description', content: tag.description });
-  DocHead.addMeta({ property: 'og:title', content: tag.title });
-  DocHead.addMeta({ property: 'og:description', content: tag.description });
-  DocHead.addMeta({ property: 'og:image', content: tag.image });
-  DocHead.addMeta({ property: 'twitter:card', content: tag.description });
-  DocHead.addMeta({ name: 'twitter:card', content: 'summary' });
-  DocHead.addMeta({ name: 'twitter:site', content: tag.twitter });
-  DocHead.addMeta({ name: 'twitter:title', content: tag.title });
-  DocHead.addMeta({ name: 'twitter:description', content: tag.description });
-  DocHead.addMeta({ name: 'twitter:image', content: tag.image });
+  const head = `
+    <meta name="description" content="${tag.description}">
+    <meta property="og:title" content="${tag.title}">
+    <meta property="og:description" content="${tag.description}">
+    <meta property="og:image" content="${tag.image}">
+    <meta property="twitter:card" content="${tag.description}">
+    <meta name="twitter:card" content='summary'>
+    <meta name="twitter:site" content="${tag.twitter}">
+    <meta name="twitter:title" content="${tag.title}">
+    <meta name="twitter:description" content="${tag.description}">
+    <meta name="twitter:image" content="${tag.image}">
+    `;
+  return head;
 };
 
 /**
@@ -303,3 +307,6 @@ Router.route('/verify-email/:token', {
 Router.route('/login', {
   name: 'login',
 });
+
+export const meta = _meta;
+export const urlDoctor = _urlDoctor;
