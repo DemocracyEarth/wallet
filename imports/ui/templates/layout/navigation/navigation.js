@@ -21,7 +21,43 @@ let lastScrollTop = 0;
 let scrollDown = false;
 
 function hideBar() {
-  $('.navbar').css('position', 'fixed');
+  if (Meteor.Device.isPhone()) {
+    $('.right').scroll(() => {
+      const node = $('.navbar');
+      const st = $('.right').scrollTop();
+      if (st > lastScrollTop && st > 60) {
+        scrollDown = true;
+        node
+          .velocity('stop')
+          .velocity({ translateY: '0px' }, { duration: parseInt(timers.ANIMATION_DURATION, 10), easing: 'ease-out' })
+          .velocity({ translateY: '-100px' }, {
+            duration: parseInt(timers.ANIMATION_DURATION, 10),
+            easing: 'ease-out',
+            complete: () => {
+              node.css('position', 'absolute');
+              node.css('top', '0px');
+            },
+          })
+          .velocity('stop');
+      } else if (scrollDown === true) {
+        scrollDown = false;
+        node.css('position', 'fixed');
+        node
+          .velocity('stop')
+          .velocity({ translateY: '-100px' }, { duration: parseInt(timers.ANIMATION_DURATION, 10), easing: 'ease-out' })
+          .velocity({ translateY: '0px' }, {
+            duration: parseInt(timers.ANIMATION_DURATION, 10),
+            easing: 'ease-out',
+            complete: () => {
+            },
+          })
+          .velocity('stop');
+      }
+      lastScrollTop = st;
+    });
+  } else {
+    $('.navbar').css('position', 'fixed');
+  }
 }
 
 /**
@@ -54,7 +90,7 @@ function displayMenuIcon() {
 * @summary verifies if user is currently at remove-option
 */
 const _isRoot = () => {
-  return (Router.current().url === '/' || Router.current().params.username === undefined);
+  return (Router.current().params.username === undefined && Router.current().params.hashtag === undefined);
 };
 
 Template.navigation.onRendered(() => {
@@ -66,8 +102,10 @@ Template.navigation.helpers({
     if (Router.current().params.username) {
       const user = Meteor.users.findOne({ username: Router.current().params.username });
       if (user) {
-        return showFullName(user.profile.firstName, user.profile.lastName, user.username);
+        return `@${user.username}`;
       }
+    } else if (Router.current().params.hashtag) {
+      return `#${Router.current().params.hashtag}`;
     }
     return '';
   },

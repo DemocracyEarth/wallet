@@ -243,9 +243,9 @@ Template.fork.events({
             }
         }
       } else {
-        const warnings = [];
+        let warnings = [];
         if (Session.get('feedWarning')) {
-          warnings.push(Session.get('feedWarning'));
+          warnings = Session.get('feedWarning');
         }
         warnings.push({
           voteId: this.voteId,

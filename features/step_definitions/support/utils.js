@@ -132,6 +132,13 @@ export const getUser = (name) => {
   return models.users.findOneByName(name);
 };
 
+export const waitUntilText = (selector, text, ms) => {
+  ms = ms || 5000;
+  getBrowser().waitForVisible(selector);
+  getBrowser().waitUntil(function () {
+    return getBrowser().getText(selector) === text;
+  }, ms, `expected text in ${selector} be different after ${ms/1000}s. Obtained: '${getBrowser().getText(selector)}' expected: '${text}'`);
+}
 
 
 //// SERVER REPOSITORY SUGAR ///////////////////////////////////////////////////////////////////////////////////////////
@@ -426,4 +433,3 @@ const stringify = (thing) => {
       return String(thing);
   }
 };
-

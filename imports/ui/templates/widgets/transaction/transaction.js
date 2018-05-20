@@ -104,7 +104,7 @@ Template.transaction.helpers({
   },
   emptyVotes() {
     if (Template.instance().totalVotes.get() === 0 && !this.onCard && !this.isVote) {
-      return 'display:none';
+      // return 'display:none';
     }
     return '';
   },

@@ -44,7 +44,10 @@ Template.profileEditor.helpers({
   },
   noUsernameFound() {
     return Session.get('noUsernameFound');
-  }
+  },
+  usernameAlreadyExists() {
+    return (Session.get('queryUsernameStatus') === 'DUPLICATE');
+  },
 });
 
 Template.profileEditor.events({
@@ -61,6 +64,15 @@ Template.profileEditor.events({
       Session.set('filteredCountries', geo.country);
     }
   },
+  'blur #editUserName'() {
+    const validation = validateUsername(document.getElementById('editUserName').value);
+    if (validation.valid) {
+      Session.set('noUsernameFound', true);
+      Session.set('queryUsernameStatus', '');
+    } else {
+      Session.set('noUsernameFound', false);
+    }
+  },
   'click #skip-step'() {
     const data = Meteor.user().profile;
     Session.set('newCountry', undefined);
@@ -69,11 +81,13 @@ Template.profileEditor.events({
     Session.set('cardNavigation', false);
   },
   'click #save-profile'() {
+    const validation = validateUsername(document.getElementById('editUserName').value);
     if (document.getElementById('editFirstName').value === '') {
       Session.set('noNameFound', true);
-    } else if (!validateUsername(document.getElementById('editUserName').value)) {
+    } else if (validation.valid || document.getElementById('editUserName').value === '') {
       Session.set('noUsernameFound', true);
-    } else {
+      Session.set('queryUsernameStatus', '');
+    } else if (Session.get('queryUsernameStatus') === 'SINGULAR') {
       Session.set('noNameFound', false);
       Session.set('noUsernameFound', false);
 
@@ -83,7 +97,7 @@ Template.profileEditor.events({
       data.firstName = document.getElementById('editFirstName').value;
       data.lastName = document.getElementById('editLastName').value;
 
-      if (Session.get('newCountry') != undefined) {
+      if (Session.get('newCountry') !== undefined) {
         data.country = Session.get('newCountry');
       }
       data.configured = true;

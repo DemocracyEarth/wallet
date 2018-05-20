@@ -11,7 +11,6 @@ Schema.Country = new SimpleSchema({
   },
   code: {
     type: String,
-    regEx: /^[A-Z]{2}$/,
   },
 });
 

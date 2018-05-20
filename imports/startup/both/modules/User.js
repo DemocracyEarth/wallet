@@ -19,22 +19,26 @@ const _validateUsername = (username) => {
     repeated: false,
   };
 
-  const regexp = /^[a-zA-Z0-9]+$/;
+  const regexp = /^[a-zA-Z0-9\-_]{0,40}$/;
 
   // Set whether username format is valid or not
   usernameValidationObject.valid = !regexp.test(username);
 
   // Only if username is valid, check whether it exists already
   if (regexp.test(username)) {
-    if (Meteor.user() === null || username !== Meteor.user().username) {
-      if (Meteor.users.findOne({ username }) !== undefined) {
-        usernameValidationObject.repeated = true;
-      } else {
-        usernameValidationObject.repeated = false;
+    Meteor.call('getUser', username, function (error, result) {
+      if (result) {
+        if (result.username !== Meteor.user().username) {
+          Session.set('queryUsernameStatus', 'DUPLICATE');
+        } else {
+          Session.set('queryUsernameStatus', 'SINGULAR');
+        }
+        // instance.contract.set(result);
+      } else if (error) {
+        Session.set('queryUsernameStatus', 'SINGULAR');
       }
-    }
+    });
   }
-
   return usernameValidationObject;
 };
 

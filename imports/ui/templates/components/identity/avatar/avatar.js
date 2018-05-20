@@ -278,12 +278,17 @@ Template.avatar.helpers({
     }
     return undefined;
   },
-  username() {
+  username(profile) {
+    if (profile === undefined) {
+      if (Meteor.user()) {
+        return Meteor.user().username;
+      }
+    }
     const user = Meteor.users.findOne(_getDynamicID(this));
     if (!user) {
       return '';
     }
-    return user.username;
+    return `${user.username}`;
   },
   nationality(profile) {
     return getNation(profile);

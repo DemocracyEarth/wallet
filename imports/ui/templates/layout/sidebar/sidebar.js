@@ -27,7 +27,7 @@ function drawSidebar() {
 }
 
 function labelName(user) {
-  let name = `${showFullName(user.profile.firstName, user.profile.lastName, user.username)} ${getFlag(user.profile, true)}`;
+  let name = `${getFlag(user.profile, true)} ${showFullName(user.profile.firstName, user.profile.lastName, user.username)}`;
   if (user._id === Meteor.userId()) {
     name += ` <span class='sidebar-tag'>${TAPi18n.__('you')}</span>`;
   }
@@ -110,9 +110,9 @@ function getDelegates(contractFeed, transactionFeed) {
 * @param {object} currentDelegates list of delegates
 */
 const _otherMembers = (currentDelegates) => {
-  const members = getList(Meteor.users.find().fetch(), true);
+  const members = getList(Meteor.users.find({}, { limit: 10 }).fetch(), true);
   const delegates = currentDelegates;
-  const finalList = [];
+  let finalList = [];
   let isDelegate;
   if (delegates !== undefined && delegates.length > 0) {
     for (const id in members) {
@@ -129,6 +129,8 @@ const _otherMembers = (currentDelegates) => {
         finalList.push(members[id]);
       }
     }
+  } else {
+    finalList = members;
   }
   return finalList;
 };
@@ -136,6 +138,7 @@ const _otherMembers = (currentDelegates) => {
 Template.sidebar.onCreated(function () {
   Template.instance().delegates = new ReactiveVar();
   Template.instance().members = new ReactiveVar(0);
+  Template.instance().participants = new ReactiveVar();
 
   const instance = this;
 
@@ -172,12 +175,13 @@ Template.sidebar.onCreated(function () {
           Session.set('delegationTransactions', txList);
 
           if (Meteor.user()) {
-            Template.instance().delegates.set(getDelegates(
-              contracts,
-              transactions,
-            ));
+            const delegateList = getDelegates(contracts, transactions);
+            Template.instance().delegates.set(delegateList);
+            Template.instance().participants.set(_otherMembers(delegateList));
           }
         }
+      } else {
+        Template.instance().participants.set(_otherMembers());
       }
     }
   });
@@ -222,6 +226,9 @@ Template.sidebar.onRendered(() => {
 Template.sidebar.helpers({
   delegate() {
     return Template.instance().delegates.get();
+  },
+  participant() {
+    return Template.instance().participants.get();
   },
   member() {
     return Template.instance().members.get();

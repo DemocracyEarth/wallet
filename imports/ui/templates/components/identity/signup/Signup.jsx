@@ -141,7 +141,7 @@ export default class Signup extends Component {
               <input name="mismatchPassword" type="password" placeholder={TAPi18n.__('password-sample-again')} className="w-input login-input" onFocus={this.handleFocus} onBlur={this.handleBlur} />
               {mismatchPasswordState ? <Warning label="mismatch-password" /> : null}
             </div>
-            {alreadyRegisteredState ? <div className="extra section"> <Warning label="user-exists" /> </div> : null}
+            {alreadyRegisteredState ? <div className="extra extra-warning section"> <Warning label="user-exists" /> </div> : null}
             <div id="signup-button" className="button login-button" onClick={this.handleSubmit} >
               <div>{TAPi18n.__('sign-up')}</div>
             </div>

@@ -90,5 +90,8 @@ dynamic-import@0.3.0
 mdg:meteor-apm-agent
 tmeasday:publish-counts
 konecty:nrr
-staringatlights:fast-render
 flowkey:raven
+kadira:dochead
+spiderable
+server-render
+jazeee:spiderable-longer-timeout

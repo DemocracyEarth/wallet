@@ -58,6 +58,10 @@ const parseURL = (text) => {
   return result;
 };
 
+const _replaceAll = (target, search, replacement) => {
+  return target.split(search).join(replacement);
+};
+
 /**
 * @summary converts string text using markdown signals to HTML
 * @param {string} text
@@ -70,13 +74,16 @@ const parseMarkup = (text) => {
   html = parseURL(html);
 
   // hashtags
-  html = html.replace(/(^|\s)(#[a-z\d][\w-]*)/ig, "$1<a href='/tag/$2'>$2</a>").replace("href='/tag/#", "href='/tag/");
+  html = html.replace(/(^|\s)(#[a-z\d][\w-]*)/ig, "$1<a href='/tag/$2'>$2</a>");
+  html = _replaceAll(html, "href='/tag/#", "href='/tag/");
 
   // mentions
-  html = html.replace(/(^|\s)(@[a-z\d][\w-]*)/ig, "$1<a href='/peer/$2'>$2</a>").replace("href='/peer/@", "href='/peer/");
+  html = html.replace(/(^|\s)(@[a-z\d][\w-]*)/ig, "$1<a href='/peer/$2'>$2</a>");
+  html = _replaceAll(html, "href='/peer/@", "href='/peer/");
 
   // tokens
-  html = html.replace(/(^|\s)(\$[a-z\d][\w-]*)/ig, "$1<a href='/token/$2'>$2</a>").replace("href='/token/$", "href='/token/");
+  html = html.replace(/(^|\s)(\$[a-z\d][\w-]*)/ig, "$1<a href='/token/$2'>$2</a>");
+  html = _replaceAll(html, "href='/token/$", "href='/token/");
 
   // markup
   html = html.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
