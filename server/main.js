@@ -32,6 +32,7 @@ onPageLoad(function (sink) {
         twitter: Meteor.settings.public.Collective.profile.twitter,
       });
       sink.appendToHead(head);
+      console.log(head);
       break;
   }
 

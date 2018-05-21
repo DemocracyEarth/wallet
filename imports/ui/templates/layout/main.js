@@ -56,7 +56,7 @@ Meteor.startup(() => {
     });
 
   // scripts
-  $.getScript('js/datepicker.js', () => {});
+  // $.getScript('js/datepicker.js', () => {});
 
   // time
   Meteor.setInterval(function () {

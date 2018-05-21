@@ -2,6 +2,7 @@
 config/production/settings.json
 config/staging/settings.json
 .vscode
+_deprecations
 
 # Logs
 logs
