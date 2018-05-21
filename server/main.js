@@ -18,23 +18,36 @@ onPageLoad(function (sink) {
   }
   const path = url.split('/');
 
-  let head;
+  let tags;
 
   switch (path[0]) {
     case 'vote':
     case 'peer':
     case 'geo':
     default:
-      head = meta({
+      tags = {
         title: `${Meteor.settings.public.Collective.name} - ${Meteor.settings.public.Collective.profile.bio}`,
         description: Meteor.settings.public.Collective.profile.bio,
         image: `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`,
-        twitter: Meteor.settings.public.Collective.profile.twitter,
-      });
-      sink.appendToHead(head);
-      console.log(head);
+      };
+      if (Meteor.settings.private.API.facebook.appId) {
+        tags.facebookId = Meteor.settings.private.API.facebook.appId;
+      }
+      if (Meteor.settings.public.Collective.profile.twitter) {
+        tags.twitter = Meteor.settings.public.Collective.profile.twitter;
+      }
       break;
   }
 
-  log(`{ server: 'onPageLoad', path: ${url} }`);
+  const head = meta(tags);
+  sink.appendToHead(head);
+
+  let hostname;
+  if (Meteor.isServer) {
+    Meteor.onConnection(function (result) {
+      hostname = result.httpHeaders;
+    });
+  }
+
+  log(`{ server: 'onPageLoad', path: '${url}', httpHeader: '${JSON.stringify(hostname)}' }`);
 });

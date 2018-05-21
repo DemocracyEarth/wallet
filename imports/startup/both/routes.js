@@ -35,6 +35,7 @@ const _meta = (tag) => {
       <meta name="twitter:title" content="${tag.title}">
       <meta name="twitter:description" content="${tag.description}">
       <meta name="twitter:image" content="${tag.image}">
+      <meta property="fb:app_id" content="${tag.facebookId}">
       `;
     return head;
   }

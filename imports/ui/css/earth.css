@@ -4046,7 +4046,7 @@ blockquote {
 }
 
 .left.left-edit {
-  width: 250px;
+  width: 260px;
   margin-left: 0px;
 }
 
@@ -4195,18 +4195,23 @@ blockquote {
   border-bottom: 1px none #bbb;
   font-size: 15px;
   line-height: 28px;
+  text-align: left;
 }
 
 .menu.menu-empty {
-  margin-right: 10px;
-  margin-left: 10px;
-  padding: 10px;
+  padding: 10px 5px;
+  clear: both;
   border-radius: 5px;
   color: #6c5b7c;
   font-size: 10px;
   line-height: 16px;
   text-align: center;
   text-transform: uppercase;
+}
+
+.menu.menu-empty.menu-crypto {
+  margin-right: 0px;
+  margin-left: 0px;
 }
 
 .menu-item {
@@ -4219,6 +4224,7 @@ blockquote {
   font-size: 13px;
   line-height: 30px;
   font-weight: 300;
+  text-align: left;
   cursor: pointer;
 }
 
@@ -4300,6 +4306,7 @@ blockquote {
   width: 100%;
   padding: 0px 10px 10px;
   box-shadow: inset -6px 0 50px -20px rgba(0, 0, 0, .5);
+  text-align: center;
 }
 
 .content {
@@ -5506,12 +5513,30 @@ blockquote {
 }
 
 .sidebar-tag.sidebar-stat {
-  margin: 0px 5px 0px 0px;
+  margin-top: 0px;
+  margin-right: 5px;
+  margin-left: 0px;
   float: left;
   border-radius: 3px;
   font-size: 10px;
   line-height: 22px;
   font-weight: 300;
+}
+
+.sidebar-tag.sidebar-stat.sidebar-crypto {
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+
+.sidebar-tag.sidebar-stat.sidebar-crypto.sidebar-title {
+  padding-left: 0px;
+  clear: right;
+  background-color: transparent;
+}
+
+.sidebar-tag.sidebar-address {
+  float: left;
+  font-size: 9px;
 }
 
 .sidebar-label {
@@ -5682,6 +5707,41 @@ blockquote {
   float: left;
   font-size: 12px;
   line-height: 16px;
+  text-align: left;
+}
+
+.collective-profile.collective-crypto {
+  margin-top: 0px;
+  font-size: 10px;
+}
+
+.crypto-address {
+  max-height: 80px;
+  max-width: 90%;
+  margin-right: 10px;
+  float: left;
+  border: 1px solid #d6d2d9;
+  border-radius: 5px;
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.crypto-address:hover {
+  opacity: 1;
+}
+
+.text-block {
+  text-align: center;
+}
+
+.crypto-menu {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.crypto-address-label {
+  font-size: 9px;
+  text-align: left;
 }
 
 @media (max-width: 991px) {

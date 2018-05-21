@@ -24,6 +24,28 @@
         </div>
       {{/each}}
     </ul>
+    {{#if bitcoinAddress}}
+      <ul class="menu w-clearfix w-list-unstyled">
+        {{> inbox label='fund-organization' separator=true}}
+        <div class="crypto-menu">
+          <a href='https://blockchain.info/address/{{bitcoinAddress}}' target='_blank' class='crypto-link'>
+            <img src="{{pathFor route='home'}}images/qr.png" class="crypto-address">
+          </a>
+          <div class="sidebar-tag sidebar-stat sidebar-crypto sidebar-title">
+            {{_ 'bitcoin'}} &#8212; <strong>{{_ 'btc'}}</strong>
+          </div>
+          <div class="sidebar-tag sidebar-stat sidebar-crypto">
+            {{{bitcoinReceived}}}
+          </div>
+          <div class="sidebar-tag sidebar-stat sidebar-crypto">
+            {{{bitcoinSent}}}
+          </div>
+          <div class="menu menu-empty">
+            <div class="crypto-address-label">{{bitcoinAddress}}</div>
+          </div>
+        </div>
+      </ul>
+    {{/if}}
 
   </div>
 

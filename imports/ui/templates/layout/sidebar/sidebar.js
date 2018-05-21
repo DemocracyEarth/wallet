@@ -233,6 +233,15 @@ Template.sidebar.helpers({
   member() {
     return Template.instance().members.get();
   },
+  bitcoinAddress() {
+    return Meteor.settings.public.Collective.profile.blockchain.Bitcoin.address;
+  },
+  bitcoinReceived() {
+    return `<strong>4.35422053</strong> ${TAPi18n.__('received')}`;
+  },
+  bitcoinSent() {
+    return `<strong>0.00</strong> ${TAPi18n.__('spent')}`;
+  },
   totalMembers() {
     if (Template.instance().members.get()) {
       return Template.instance().members.get().length;

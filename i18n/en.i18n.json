@@ -517,5 +517,10 @@
   "hashtag-tag-description": ": all the related posts to this hashtag on",
   "country-tag-title": "related posts on",
   "country-tag-description": ": every post from a user belonging to this country on",
-  "recent-activity": "Recent Activity"
+  "recent-activity": "Recent Activity",
+  "bitcoin": "Bitcoin",
+  "fund-organization": "Fund Organization",
+  "btc": "BTC",
+  "spent": "Spent",
+  "copy": "Copy"
 }
