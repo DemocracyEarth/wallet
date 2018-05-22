@@ -21,6 +21,10 @@ const _fixDBUrl = (url) => {
   return url;
 };
 
+/**
+* @summary server side rendering of html
+* @param {function} sink class with http request info
+*/
 onPageLoad(function (sink) {
   let url = sink.request.url.path;
   if (url.charAt(0) === '/') {
@@ -61,7 +65,8 @@ onPageLoad(function (sink) {
       }
       break;
     case 'tag':
-      tags.title = `#${path[1]}${TAPi18n.__('hashtag-tag-title')} ${Meteor.settings.public.Collective.name}`;
+    case 'token':
+      tags.title = `#${path[1]} ${TAPi18n.__('hashtag-tag-title')} ${Meteor.settings.public.Collective.name}`;
       tags.description = `#${path[1]}${TAPi18n.__('hashtag-tag-description')} ${Meteor.settings.public.Collective.name}.`;
       tags.image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${_fixDBUrl(Meteor.settings.public.Collective.profile.logo)}`;
       break;
@@ -86,7 +91,7 @@ onPageLoad(function (sink) {
     tags.twitter = Meteor.settings.public.Collective.profile.twitter;
   }
 
-  const head = meta(tags);
+  const head = meta(tags, true);
   sink.appendToHead(head);
 
   let hostname;

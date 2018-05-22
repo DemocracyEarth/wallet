@@ -21,10 +21,11 @@ if (Meteor.isClient) {
 /**
 * @summary writes meta tags in HTML page
 * @param {object} tag includes a key value for each tag
+* @param {boolean} includeTitle if including title on head is required
 */
-const _meta = (tag) => {
+const _meta = (tag, includeTitle) => {
   if (Meteor.isServer) {
-    const head = `
+    let head = `
       <meta name="description" content="${tag.description}">
       <meta property="og:title" content="${tag.title}">
       <meta property="og:description" content="${tag.description}">
@@ -37,9 +38,25 @@ const _meta = (tag) => {
       <meta name="twitter:image" content="${tag.image}">
       <meta property="fb:app_id" content="${tag.facebookId}">
       `;
+
+    if (includeTitle) {
+      head += `
+        <title>${tag.title}</title>
+      `;
+    }
     return head;
   }
-
+  DocHead.addMeta({ name: 'description', content: tag.description });
+  DocHead.addMeta({ property: 'og:title', content: tag.title });
+  DocHead.addMeta({ property: 'og:description', content: tag.description });
+  DocHead.addMeta({ property: 'og:image', content: tag.image });
+  DocHead.addMeta({ property: 'twitter:card', content: tag.description });
+  DocHead.addMeta({ name: 'twitter:card', content: 'summary' });
+  DocHead.addMeta({ name: 'twitter:site', content: tag.twitter });
+  DocHead.addMeta({ name: 'twitter:title', content: tag.title });
+  DocHead.addMeta({ name: 'twitter:description', content: tag.description });
+  DocHead.addMeta({ name: 'twitter:image', content: tag.image });
+  DocHead.addMeta({ property: 'fb:app_id', content: tag.facebookId });
   return '';
 };
 
