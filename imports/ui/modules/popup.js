@@ -14,6 +14,9 @@ const _limitTargetSize = (target) => {
     if (targetSize.width > 300) {
       targetSize.width = 300;
     }
+    if (targetSize.height < 350) {
+      targetSize.height = 350;
+    }
   }
   return targetSize;
 };
@@ -55,7 +58,7 @@ const _positionCard = (element, target, pop) => {
     popup.pointerClass = popup.pointerUp;
   } else {
     // popup goes on top of target
-    popup.position.top = parseInt(source.bottom - target.height, 10);
+    popup.position.top = parseInt(source.bottom - target.height - source.height - 15, 10);
     $(popup.cardId).css('margin-top', parseInt(0 - source.height - 10, 10));
     $(popup.pointerUp).css('margin-top', '0px');
     popup.pointerClass = popup.pointerDown;
@@ -95,7 +98,7 @@ const _positionCard = (element, target, pop) => {
 const _getTargetDimensions = (popup) => {
   const target = {
     width: parseInt($(popup.div).width(), 10),
-    height: parseInt($(popup.cardId).height() + 40, 10),
+    height: parseInt($(popup.cardId).height(), 10),
     opacity: 1,
   };
   return _limitTargetSize(target);
