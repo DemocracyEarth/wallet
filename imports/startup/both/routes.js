@@ -5,6 +5,8 @@ import { DocHead } from 'meteor/kadira:dochead';
 import { TAPi18n } from 'meteor/tap:i18n';
 
 import { gui } from '/lib/const';
+import { geo } from '/lib/geo';
+import { convertToUsername } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
 if (Meteor.isClient) {
@@ -107,9 +109,12 @@ const _getAllUsernames = (contract) => {
 * @returns {string} with Title Case
 */
 const _toTitleCase = (str) => {
-  return str.replace(/\w\S*/g, function (txt) {
-    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-  });
+  for (const i in geo.country) {
+    if (convertToUsername(geo.country[i].name) === str) {
+      return `${geo.country[i].emoji} ${geo.country[i].name}`;
+    }
+  }
+  return '';
 };
 
 
