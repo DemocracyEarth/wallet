@@ -315,3 +315,5 @@ Router.route('/login', {
 
 export const meta = _meta;
 export const urlDoctor = _urlDoctor;
+export const getAllUsernames = _getAllUsernames;
+export const toTitleCase = _toTitleCase;

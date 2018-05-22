@@ -240,7 +240,7 @@ Template.sidebar.helpers({
     return `<strong>4.35422053</strong> ${TAPi18n.__('received')}`;
   },
   bitcoinSent() {
-    return `<strong>0.00</strong> ${TAPi18n.__('spent')}`;
+    return `<strong>0.00000000</strong> ${TAPi18n.__('spent')}`;
   },
   totalMembers() {
     if (Template.instance().members.get()) {

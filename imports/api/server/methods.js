@@ -3,7 +3,6 @@ import { Accounts } from 'meteor/accounts-base';
 import { check } from 'meteor/check';
 import { Email } from 'meteor/email';
 import { TAPi18n } from 'meteor/tap:i18n';
-import { Router } from 'meteor/iron:router';
 
 import { genesisTransaction } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
