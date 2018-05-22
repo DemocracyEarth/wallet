@@ -215,7 +215,7 @@ Template.feedItem.helpers({
     if (this.replyId) {
       const dbReply = Contracts.findOne({ _id: this.replyId });
       if (dbReply) {
-        return `"${dbReply.title.substring(0, 21)}..."`;
+        return `"${stripHTMLfromText(dbReply.title).substring(0, 30)}..."`;
       }
     }
     return '';

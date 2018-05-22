@@ -8,6 +8,7 @@ import { gui } from '/lib/const';
 import { geo } from '/lib/geo';
 import { convertToUsername } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
+import { stripHTMLfromText } from '/imports/ui/modules/utils';
 
 if (Meteor.isClient) {
   import '/imports/ui/templates/layout/main.js';
@@ -180,11 +181,11 @@ Router.route('/peer/:username', {
     DocHead.removeDocHeadAddedTags();
 
     if (user) {
-      title = `@${user.username}${TAPi18n.__('profile-tag-title')} ${Meteor.settings.public.Collective.name}`;
+      title = `${TAPi18n.__('profile-tag-title').replace('{{user}}', `@${user.username}`).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
       description = `@${user.username}${TAPi18n.__('profile-tag-description')} ${Meteor.settings.public.Collective.name}`;
       image = `${Router.path('home')}${user.profile.picture}`;
     } else {
-      title = `@${this.params.username} ${TAPi18n.__('profile-tag-title')} ${Meteor.settings.public.Collective.name}`;
+      title = `${TAPi18n.__('profile-tag-title').replace('{{user}}', `@${this.params.username}`).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
       description = `@${this.params.username} ${TAPi18n.__('profile-tag-description')} ${Meteor.settings.public.Collective.name}`;
       image = `${_urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`;
     }
@@ -222,13 +223,13 @@ Router.route('/vote/:keyword', {
     DocHead.removeDocHeadAddedTags();
 
     if (contract) {
-      DocHead.setTitle(`${_getAllUsernames(contract)}${TAPi18n.__('vote-tag-ballot-title')} "${contract.title}"`);
+      DocHead.setTitle(`${TAPi18n.__('vote-tag-ballot-title').replace('{{collective}}', Meteor.settings.public.Collective.name)} - ${stripHTMLfromText(contract.title)}`);
       if (contract.ballotEnabled) {
-        title = `${_getAllUsernames(contract)}${TAPi18n.__('vote-tag-ballot-title')} ${Meteor.settings.public.Collective.name}`;
+        title = `${TAPi18n.__('vote-tag-ballot-title').replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
       } else {
-        title = `${_getAllUsernames(contract)}${TAPi18n.__('vote-tag-title')} ${Meteor.settings.public.Collective.name}`;
+        title = `${TAPi18n.__('vote-tag-title').replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
       }
-      description = contract.title;
+      description = stripHTMLfromText(contract.title);
       image = `${_urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`;
     } else {
       title = `${Meteor.settings.public.Collective.name} - ${Meteor.settings.public.Collective.profile.bio}`;
@@ -263,10 +264,10 @@ Router.route('/tag/:hashtag', {
   },
   onAfterAction() {
     DocHead.removeDocHeadAddedTags();
-    DocHead.setTitle(`#${this.params.hashtag} ${TAPi18n.__('hashtag-tag-title')} ${Meteor.settings.public.Collective.name}`);
+    DocHead.setTitle(`${TAPi18n.__('hashtag-tag-title').replace('{{hashtag}}', this.params.hashtag).replace('{{collective}}', Meteor.settings.public.Collective.name)}`);
 
     _meta({
-      title: `#${this.params.hashtag}${TAPi18n.__('hashtag-tag-title')} ${Meteor.settings.public.Collective.name}`,
+      title: `${TAPi18n.__('hashtag-tag-title').replace('{{hashtag}}', this.params.hashtag).replace('{{collective}}', Meteor.settings.public.Collective.name)}`,
       description: `#${this.params.hashtag}${TAPi18n.__('hashtag-tag-description')} ${Meteor.settings.public.Collective.name}.`,
       image: `${_urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`,
       twitter: Meteor.settings.public.Collective.profile.twitter,
@@ -292,9 +293,9 @@ Router.route('/geo/:country', {
     DocHead.removeDocHeadAddedTags();
     const country = _toTitleCase(this.params.country);
 
-    DocHead.setTitle(`${country} ${TAPi18n.__('country-tag-title')} ${Meteor.settings.public.Collective.name}`);
+    DocHead.setTitle(`${TAPi18n.__('country-tag-title').replace('{{country}}', country).replace('{{collective}}', Meteor.settings.public.Collective.name)}`);
     _meta({
-      title: `${country} ${TAPi18n.__('country-tag-title')} ${Meteor.settings.public.Collective.name}`,
+      title: `${TAPi18n.__('country-tag-title').replace('{{country}}', country).replace('{{collective}}', Meteor.settings.public.Collective.name)}`,
       description: `${country}${TAPi18n.__('country-tag-description')} ${Meteor.settings.public.Collective.name}.`,
       image: `${_urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`,
       twitter: Meteor.settings.public.Collective.profile.twitter,

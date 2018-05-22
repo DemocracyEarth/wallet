@@ -4,6 +4,7 @@ import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 import { ReactiveVar } from 'meteor/reactive-var';
 
+import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { timers } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { timeCompressed } from '/imports/ui/modules/chronos';
@@ -159,7 +160,7 @@ Template.editor.helpers({
   replyTitle() {
     const reply = Template.instance().reply.get();
     if (reply) {
-      return `"${reply.title.substring(0, 21)}..."`;
+      return `"${stripHTMLfromText(reply.title).substring(0, 30)}..."`;
     }
     return '';
   },
