@@ -1,11 +1,11 @@
 import { onPageLoad } from 'meteor/server-render';
 import { Meteor } from 'meteor/meteor';
-import { meta, urlDoctor, toTitleCase } from '/imports/startup/both/routes';
+import { meta } from '/imports/startup/both/routes';
 import { TAPi18n } from 'meteor/tap:i18n';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { log } from '/lib/const';
-import { fixDBUrl, stripHTML, parseURL } from '/lib/utils';
+import { fixDBUrl, stripHTML, parseURL, urlDoctor, toTitleCase } from '/lib/utils';
 
 import '/imports/startup/server';
 import '/imports/startup/both';

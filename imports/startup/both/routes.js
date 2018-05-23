@@ -5,8 +5,7 @@ import { DocHead } from 'meteor/kadira:dochead';
 import { TAPi18n } from 'meteor/tap:i18n';
 
 import { gui } from '/lib/const';
-import { geo } from '/lib/geo';
-import { convertToUsername } from '/lib/utils';
+import { urlDoctor, toTitleCase } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 
@@ -64,19 +63,6 @@ const _meta = (tag, includeTitle) => {
 };
 
 /**
-* @summary hacky fixes for url strings
-* @param {string} url to fix
-* @return {string}
-*/
-const _urlDoctor = (url) => {
-  let newUrl = url.replace('/http', 'http');
-  if (newUrl.last() !== '/') {
-    newUrl = newUrl.add('/');
-  }
-  return newUrl;
-};
-
-/**
 * @summary default meta tags
 */
 const _boilerPlate = () => {
@@ -86,38 +72,10 @@ const _boilerPlate = () => {
   _meta({
     title: `${Meteor.settings.public.Collective.name} - ${Meteor.settings.public.Collective.profile.bio}`,
     description: Meteor.settings.public.Collective.profile.bio,
-    image: `${_urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`,
+    image: `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`,
     twitter: Meteor.settings.public.Collective.profile.twitter,
   });
 };
-
-/**
-* @summary all the usernames mentioned in a contract
-* @param {object} contract to parse
-* @returns {string} list with all @names
-*/
-const _getAllUsernames = (contract) => {
-  let list = '';
-  for (const i in contract.signatures) {
-    list += `@${contract.signatures[i].username} `;
-  }
-  return list;
-};
-
-/**
-* @summary title case for any string
-* @param {string} str title this
-* @returns {string} with Title Case
-*/
-const _toTitleCase = (str) => {
-  for (const i in geo.country) {
-    if (convertToUsername(geo.country[i].name) === str) {
-      return `${geo.country[i].emoji} ${geo.country[i].name}`;
-    }
-  }
-  return '';
-};
-
 
 /*
 * router settings
@@ -187,7 +145,7 @@ Router.route('/peer/:username', {
     } else {
       title = `${TAPi18n.__('profile-tag-title').replace('{{user}}', `@${this.params.username}`).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
       description = `@${this.params.username} ${TAPi18n.__('profile-tag-description')} ${Meteor.settings.public.Collective.name}`;
-      image = `${_urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`;
+      image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`;
     }
 
     DocHead.setTitle(title);
@@ -230,11 +188,11 @@ Router.route('/vote/:keyword', {
         title = `${TAPi18n.__('vote-tag-title').replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
       }
       description = stripHTMLfromText(contract.title);
-      image = `${_urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`;
+      image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`;
     } else {
       title = `${Meteor.settings.public.Collective.name} - ${Meteor.settings.public.Collective.profile.bio}`;
       description = Meteor.settings.public.Collective.profile.bio;
-      image = `${_urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`;
+      image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`;
       DocHead.setTitle(title);
     }
 
@@ -269,7 +227,7 @@ Router.route('/tag/:hashtag', {
     _meta({
       title: `${TAPi18n.__('hashtag-tag-title').replace('{{hashtag}}', this.params.hashtag).replace('{{collective}}', Meteor.settings.public.Collective.name)}`,
       description: `#${this.params.hashtag}${TAPi18n.__('hashtag-tag-description')} ${Meteor.settings.public.Collective.name}.`,
-      image: `${_urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`,
+      image: `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`,
       twitter: Meteor.settings.public.Collective.profile.twitter,
     });
   },
@@ -291,13 +249,13 @@ Router.route('/geo/:country', {
   },
   onAfterAction() {
     DocHead.removeDocHeadAddedTags();
-    const country = _toTitleCase(this.params.country);
+    const country = toTitleCase(this.params.country);
 
     DocHead.setTitle(`${TAPi18n.__('country-tag-title').replace('{{country}}', country).replace('{{collective}}', Meteor.settings.public.Collective.name)}`);
     _meta({
       title: `${TAPi18n.__('country-tag-title').replace('{{country}}', country).replace('{{collective}}', Meteor.settings.public.Collective.name)}`,
       description: `${country}${TAPi18n.__('country-tag-description')} ${Meteor.settings.public.Collective.name}.`,
-      image: `${_urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`,
+      image: `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`,
       twitter: Meteor.settings.public.Collective.profile.twitter,
     });
   },
@@ -337,6 +295,3 @@ Router.route('/login', {
 });
 
 export const meta = _meta;
-export const urlDoctor = _urlDoctor;
-export const getAllUsernames = _getAllUsernames;
-export const toTitleCase = _toTitleCase;

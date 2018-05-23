@@ -3,12 +3,12 @@ import { Accounts } from 'meteor/accounts-base';
 import { check } from 'meteor/check';
 import { Email } from 'meteor/email';
 import { TAPi18n } from 'meteor/tap:i18n';
-import { Router } from 'meteor/iron:router';
 
 import { genesisTransaction } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { getTime } from '/imports/api/time';
 import { logUser, log } from '/lib/const';
+import { stripHTML } from '/lib/utils';
 import { notifierHTML } from '/imports/api/notifier/notifierTemplate.js';
 
 const _includeQuantity = (quantity, message) => {
@@ -88,7 +88,7 @@ Meteor.methods({
     const from = `${Meteor.settings.public.Collective.name} <${Meteor.settings.public.Collective.emails[0].address}>`;
 
     subject = subject.replace('{{user}}', `@${sender.username}`);
-    subject = subject.replace('{{title}}', `'${contract.title.substring(0, 30)}...'`);
+    subject = subject.replace('{{title}}', `'${stripHTML(contract.title).substring(0, 30)}...'`);
     subject = _includeQuantity(transaction.input.quantity, subject);
 
     html = _includeQuantity(transaction.input.quantity, html);
