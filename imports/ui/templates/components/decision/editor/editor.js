@@ -133,16 +133,15 @@ Template.editor.onCreated(function () {
 });
 
 Template.editor.onRendered(function () {
+  const draft = Session.get('draftContract');
   if (Template.currentData().replyMode && Template.currentData().replyId) {
-    console.log('is a reply');
-    console.log(Template.currentData().replyId);
     Template.instance().reply.set(Contracts.findOne({ _id: this.data.replyId }));
-    const draft = Session.get('draftContract');
     draft.ballotEnabled = false;
     draft.replyId = Template.currentData().replyId;
-    console.log(draft);
-    Session.set('draftContract', draft);
+  } else {
+    draft.replyId = '';
   }
+  Session.set('draftContract', draft);
   _editorFadeIn(this.data.contractId);
 });
 

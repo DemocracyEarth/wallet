@@ -16,6 +16,8 @@ const _introEditor = (settings) => {
     const draft = createContract();
     if (settings.replyMode && settings.replyId) {
       draft.replyId = settings.replyId;
+    } else {
+      draft.replyId = '';
     }
     Session.set('draftContract', draft);
     Session.set('showPostEditor', true);
