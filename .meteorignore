@@ -1,0 +1,3 @@
+# Don't reload meteor server when we modify or do tests
+chimp-output.json
+features
