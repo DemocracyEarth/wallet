@@ -8,7 +8,7 @@ import { genesisTransaction } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { getTime } from '/imports/api/time';
 import { logUser, log } from '/lib/const';
-import { stripHTML } from '/lib/utils';
+import { stripHTML, urlDoctor, fixDBUrl } from '/lib/utils';
 import { notifierHTML } from '/imports/api/notifier/notifierTemplate.js';
 
 const _includeQuantity = (quantity, message) => {
@@ -71,20 +71,26 @@ Meteor.methods({
         break;
       case 'REVOKE':
       case 'VOTE':
-        html = html.replace('{{url}}', `${Meteor.settings.public.app.url}${contract.url}`);
+        html = html.replace('{{url}}', `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${fixDBUrl(contract.url)}`);
         break;
       case 'DELEGATION':
       case 'REVOKE-DELEGATE':
       default:
         if (story === 'DELEGATION' || story === 'REVOKE-DELEGATE') {
           receiver = Meteor.users.findOne({ _id: toId });
-          html = html.replace('{{url}}', `${Meteor.settings.public.app.url}/peer/${sender.username}`);
+          html = html.replace('{{url}}', `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}peer/${sender.username}`);
         }
         break;
     }
 
     // compose message
-    const to = receiver.emails[0].address;
+    let emailAddress;
+    if (receiver.emails[0].address) {
+      emailAddress = receiver.emails[0].address;
+    } else if (receiver.services.facebook.email) {
+      emailAddress = receiver.services.facebook.email;
+    }
+    const to = emailAddress;
     const from = `${Meteor.settings.public.Collective.name} <${Meteor.settings.public.Collective.emails[0].address}>`;
 
     subject = subject.replace('{{user}}', `@${sender.username}`);
@@ -93,7 +99,7 @@ Meteor.methods({
 
     html = _includeQuantity(transaction.input.quantity, html);
     html = html.replace('{{user}}', `@${sender.username}`);
-    html = html.replace('{{userURL}}', `${Meteor.settings.public.app.url}/peer/${sender.username}`);
+    html = html.replace('{{userURL}}', `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}peer/${sender.username}`);
     html = html.replace('{{title}}', `${contract.title}`);
     html = html.replace('{{greeting}}', `${TAPi18n.__('email-greeting-hello')} @${receiver.username},`);
     html = html.replace('{{farewell}}', `${TAPi18n.__('email-farewell')}`);
