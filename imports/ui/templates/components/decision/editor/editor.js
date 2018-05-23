@@ -21,12 +21,6 @@ function toggle(key, value) {
   const contract = Session.get('draftContract');
   contract[key] = value;
   Session.set('draftContract', contract);
-
-/*  const obj = {};
-  obj[key] = value;
-  Contracts.update({ _id: id }, { $set: obj });
-  Session.set('draftContract', Contracts.findOne({ _id: id }));
-*/
 }
 
 /**
@@ -135,15 +129,20 @@ Template.editor.onCreated(function () {
   const contract = Session.get('draftContract');
   Template.instance().ready = new ReactiveVar(true);
   Template.instance().contract = new ReactiveVar(contract);
-
-  if (this.data.replyMode) {
-    Template.instance().reply = new ReactiveVar(Contracts.findOne({ _id: this.data.replyId }));
-    contract.ballotEnabled = false;
-    Session.set('draftContract', contract);
-  }
+  Template.instance().reply = new ReactiveVar();
 });
 
 Template.editor.onRendered(function () {
+  if (Template.currentData().replyMode && Template.currentData().replyId) {
+    console.log('is a reply');
+    console.log(Template.currentData().replyId);
+    Template.instance().reply.set(Contracts.findOne({ _id: this.data.replyId }));
+    const draft = Session.get('draftContract');
+    draft.ballotEnabled = false;
+    draft.replyId = Template.currentData().replyId;
+    console.log(draft);
+    Session.set('draftContract', draft);
+  }
   _editorFadeIn(this.data.contractId);
 });
 

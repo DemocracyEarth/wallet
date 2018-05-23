@@ -76,7 +76,7 @@ Template.feed.onRendered(function () {
     if (count.ready()) {
       instance.count.set(Counts.get('feedItems'));
     }
-
+/*
     if (Meteor.user()) {
       const draft = instance.subscribe('contractDrafts', { view: 'contractByKeyword', keyword: `draft-${Meteor.userId()}` });
       if (draft.ready()) {
@@ -88,6 +88,7 @@ Template.feed.onRendered(function () {
         }
       }
     }
+  */
   });
 });
 

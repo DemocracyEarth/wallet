@@ -20,7 +20,12 @@ const _sign = (contractId, userObject, userRole) => {
 
   // avoids signature duplication
   if (contract.signatures) {
-    contract.signatures.forEach((item) => { if (item._id === userObject._id) { found = true; return; } });
+    contract.signatures.forEach((item) => {
+      if (item._id === userObject._id) {
+        found = true;
+        return;
+      }
+    });
   }
 
   // signs
@@ -30,7 +35,6 @@ const _sign = (contractId, userObject, userRole) => {
       {
         _id: userObject._id,
         role: userRole,
-        hash: '', // TODO pending crypto TBD
         username: userObject.username,
         status: 'CONFIRMED',
       },
@@ -55,8 +59,7 @@ const _createContract = (newkeyword, newtitle) => {
     if (Meteor.user()) {
       _sign(contract._id, Meteor.user(), 'AUTHOR');
     }
-
-    return contract;
+    return Contracts.findOne({ keyword: `draft-${Meteor.userId()}` });
   // has title & keyword, used for forks
   } else if (!Contracts.findOne({ keyword: newkeyword })) {
     if (!newtitle) {

@@ -250,7 +250,7 @@ Schema.Contract = new SimpleSchema({
   signatures: {
     // collection of authors that signed this contract
     type: Array,
-    optional: true,
+    defaultValue: [],
   },
   'signatures.$': {
     type: Object,
