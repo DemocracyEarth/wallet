@@ -62,11 +62,11 @@ onPageLoad(function (sink) {
       contract = Contracts.findOne({ keyword: path[1] });
       if (contract) {
         if (contract.ballotEnabled) {
-          tags.title = `${TAPi18n.__('vote-tag-ballot-title').replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
+          tags.description = `${TAPi18n.__('vote-tag-ballot-title').replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
         } else {
-          tags.title = `${TAPi18n.__('vote-tag-title').replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
+          tags.description = `${TAPi18n.__('vote-tag-title').replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
         }
-        tags.description = _stripHTML(contract.title);
+        tags.title = _stripHTML(contract.title);
         tags.image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${_fixDBUrl(Meteor.settings.public.Collective.profile.logo)}`;
       } else {
         tags.title = `${Meteor.settings.public.Collective.name} - ${Meteor.settings.public.Collective.profile.bio}`;

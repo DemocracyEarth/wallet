@@ -3,6 +3,7 @@ import { Accounts } from 'meteor/accounts-base';
 import { check } from 'meteor/check';
 import { Email } from 'meteor/email';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { Router } from 'meteor/iron:router';
 
 import { genesisTransaction } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
@@ -58,27 +59,27 @@ Meteor.methods({
     const contract = Contracts.findOne({ _id: transaction.contractId });
     const sender = Meteor.users.findOne({ _id: fromId });
 
+    subject = `${TAPi18n.__(`email-subject-${story.toLowerCase()}`)}`;
+    html = html.replace('{{action}}', `${TAPi18n.__(`email-action-${story.toLowerCase()}`)}`);
+    html = html.replace('{{message}}', `${TAPi18n.__(`email-html-${story.toLowerCase()}`)}`);
+    text = `${TAPi18n.__(`email-text-${story.toLowerCase()}`)}`;
+    receiver = Meteor.users.findOne({ _id: contract.signatures[0]._id });
+
     // define story
     switch (story) {
       case 'REPLY':
         break;
       case 'REVOKE':
-      case 'REVOKE-DELEGATE':
       case 'VOTE':
+        html = html.replace('{{url}}', `${Meteor.settings.public.app.url}${contract.url}`);
+        break;
       case 'DELEGATION':
-        subject = `${TAPi18n.__(`email-subject-${story.toLowerCase()}`)}`;
-        html = html.replace('{{action}}', `${TAPi18n.__(`email-action-${story.toLowerCase()}`)}`);
-        html = html.replace('{{message}}', `${TAPi18n.__(`email-html-${story.toLowerCase()}`)}`);
-        text = `${TAPi18n.__(`email-text-${story.toLowerCase()}`)}`;
-        html = html.replace('{{url}}', `${Meteor.settings.public.app.url}/peer/${sender.username}`);
+      case 'REVOKE-DELEGATE':
+      default:
         if (story === 'DELEGATION' || story === 'REVOKE-DELEGATE') {
           receiver = Meteor.users.findOne({ _id: toId });
-        } else {
-          receiver = Meteor.users.findOne({ _id: contract.signatures[0]._id });
-          html = html.replace('{{url}}', `${Meteor.settings.public.app.url}${contract.url}`);
+          html = html.replace('{{url}}', `${Meteor.settings.public.app.url}/peer/${sender.username}`);
         }
-        break;
-      default:
         break;
     }
 
