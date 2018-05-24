@@ -1,0 +1,42 @@
+<template name="ledger">
+  <div class="agora">
+    <div class="content content-agora">
+      <h5>{{_ 'delegations'}}</h5>
+      <div id="non-editable-feed">
+        {{> feed options=options kind=kind singlePost=singlePost}}
+      </div>
+      <h5>{{_ 'votes'}}</h5>
+      <div id="non-editable-feed">
+        <!--{{> tally votes hidePost=false}}-->
+      </div>
+      {{> footnote}}
+    </div>
+    <div id="resizable" class="resize"></div>
+  </div>
+</template>
+
+
+<template name="footnote">
+  <div class="foot">
+    <div class="foot-note">
+      <div class="foot-note-dot"></div>
+      <div class="foot-note-label">
+        {{_ 'cast-votes'}}
+      </div>
+    </div>
+    <div class="foot-note">
+      <div class="foot-note-dot revoke"></div>
+      <div class="foot-note-label">
+        {{_ 'revoked-votes'}}
+      </div>
+    </div>
+    {{#unless noGrant}}
+      <div class="foot-note">
+        <div class="foot-note-dot grant"></div>
+        <div class="foot-note-label">
+          {{_ 'granted-votes'}}
+        </div>
+      </div>
+    {{/unless}}
+  </div>
+</template>
