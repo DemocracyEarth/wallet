@@ -84,9 +84,9 @@ Meteor.methods({
 
     // compose message
     let emailAddress;
-    if (receiver.emails[0].address) {
+    if (receiver.emails && receiver.emails[0].address) {
       emailAddress = receiver.emails[0].address;
-    } else if (receiver.services.facebook.email) {
+    } else if (receiver.services.facebook && receiver.services.facebook.email) {
       emailAddress = receiver.services.facebook.email;
     }
 

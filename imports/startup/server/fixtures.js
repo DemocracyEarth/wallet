@@ -107,7 +107,7 @@ Meteor.startup(() => {
   }
 
   // Google
-  if (Meteor.settings.public.analyticsSettings['Google Analytics'].trackingId === undefined || Meteor.settings.public.analyticsSettings['Google Analytics'].trackingId === '') {
+  if (!Meteor.settings.public.analyticsSettings || (Meteor.settings.public.analyticsSettings['Google Analytics'].trackingId === undefined || Meteor.settings.public.analyticsSettings['Google Analytics'].trackingId === '')) {
     console.log('[config WARNING] Google Analytics tracking Id not configured.');
     console.log('[config FIX] Configure `public.analyticsSettings.Google Analytics.trackingId` on settings.json.');
   } else {
