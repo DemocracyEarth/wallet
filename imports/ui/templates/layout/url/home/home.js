@@ -10,6 +10,7 @@ import '/imports/ui/templates/widgets/feed/feed.js';
 import '/imports/ui/templates/widgets/tally/tally.js';
 import '/imports/ui/templates/widgets/feed/paginator.js';
 import '/imports/ui/templates/widgets/compose/compose.js';
+import '/imports/ui/templates/components/decision/ledger/ledger.js';
 
 Template.home.onCreated(function () {
   this.modeVar = new ReactiveVar();

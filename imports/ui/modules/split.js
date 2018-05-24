@@ -13,6 +13,7 @@ import { sidebarWidth } from '/imports/ui/modules/menu';
 const _drawPanels = (left, right) => {
   let leftPixels = left;
   let rightPixels = right;
+  console.log(`left: ${left}, right: ${right}`);
   const total = parseInt($('.right').width(), 10);
   if (typeof right === 'string' && right.slice(-1) === '%') {
     leftPixels = parseInt((left.toNumber() * total) / 100, 10);
@@ -25,6 +26,7 @@ const _drawPanels = (left, right) => {
     rightPixels = '100%';
     diff = 0;
   }
+  console.log('iiwieje');
   $('.split-left').width(leftPixels);
   $('.split-right').width(rightPixels);
   $('.split-right').css('marginLeft', diff);
@@ -58,11 +60,17 @@ const _splitRender = () => {
     const contentwidth = $('.right').width();
     const half = parseInt(contentwidth / 2, 10);
     if (Meteor.user() !== null && Meteor.user().profile.settings) {
-      const settings = Meteor.user().profile.settings;
+      // const settings = Meteor.user().profile.settings;
+      const settings = {
+        splitLeftWidth: '50%',
+        splitRightWidth: '50%',
+      };
+      console.log('NOPE');
       _drawPanels(settings.splitLeftWidth, settings.splitRightWidth);
     } else if (Session.get('resizeSplitCursor').leftWidth) {
       _drawPanels(Session.get('resizeSplitCursor').leftWidth, Session.get('resizeSplitCursor').rightWidth);
     } else {
+      console.log('ACACA')
       _drawPanels(half, half);
     }
   }
@@ -79,6 +87,7 @@ const _resizeSplit = (diff) => {
     const agoraWidth = parseInt(half - diff, 10);
     const contractWidth = parseInt(contentWidth - agoraWidth, 10);
     if (agoraWidth > gui.MIN_AGORA_WIDTH && contractWidth > gui.MIN_CONTRACT_WIDTH) {
+      console.log('ACAAOSFD');
       $('.split-left').width(`${parseInt(half + diff, 10)}px`);
       $('.split-right').width(`${agoraWidth}px`);
       $('.split-right').css('marginLeft', diff);
@@ -92,7 +101,7 @@ const _resizeSplit = (diff) => {
 const _setupSplit = () => {
   if (Session.get('resizeSplit') === undefined) {
     Session.set('resizeSplit', false);
-    Session.set('resizeSplitCursor', { x: 0, y: 0, leftWidth: 0, rightWidth: 0 });
+    Session.set('resizeSplitCursor', { x: 0, y: 0, leftWidth: '70%', rightWidth: '30%' });
   }
   $(window).mousemove((event) => {
     if (Session.get('resizeSplit')) {
@@ -101,12 +110,14 @@ const _setupSplit = () => {
         x: parseInt(event.pageX - Session.get('resizeSplitCursor').x, 10),
         y: parseInt(event.pageY - Session.get('resizeSplitCursor').y, 10),
       };
+      console.log('eh');
       _resizeSplit(delta.x);
     }
   });
   $(window).mouseup(() => {
     if (Session.get('resizeSplit')) {
       Session.set('resizeSplit', false);
+      console.log('esto esta pasando?');
       Session.set('resizeSplitCursor', { leftWidth: $('.split-left').width(), rightWidth: $('.split-right').width() });
       _saveSplitSettings($('.split-left').width(), $('.split-right').width());
     }
@@ -126,6 +137,7 @@ const _setupSplit = () => {
           newRight = parseInt($(window).width() - newLeft, 10);
         }
       }
+      console.log('so vo?');
       _drawPanels(newLeft, newRight);
     }
   });

@@ -304,7 +304,7 @@ const _sidebarPercentage = () => {
   if ($(window).width() < gui.SIDEBAR_WIDTH_MAX) {
     return parseInt((($(window).width() - 50) * 100) / $(window).width(), 10);
   }
-  return parseInt((260 * 100) / $(window).width(), 10);
+  return parseInt((gui.SIDEBAR_WIDTH_MAX * 100) / $(window).width(), 10);
 };
 
 /**
