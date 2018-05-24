@@ -3,7 +3,7 @@ import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 
-import { getDelegationContract, createDelegation } from '/imports/startup/both/modules/Contract';
+import { getDelegationContract } from '/imports/startup/both/modules/Contract';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { convertToSlug } from '/lib/utils';
 import { defaultSettings } from '/lib/const';
@@ -370,15 +370,6 @@ export class Vote {
           settings.title = this.delegationContract.title;
           settings.signatures = this.delegationContract.signatures;
           settings.contractId = this.delegationContract._id;
-        } else {
-          // no delegation
-          /* delegateProfileId = this.targetId;
-          settings.title = `${convertToSlug(Meteor.users.findOne({ _id: this.userId }).username)}-${convertToSlug(Meteor.users.findOne({ _id: this.targetId }).username)}`;
-          settings.signatures = [{ username: Meteor.users.findOne({ _id: this.userId }).username }, { username: Meteor.users.findOne({ _id: this.targetId }).username }];
-          this.delegationContract = createDelegation(this.userId, this.targetId, settings);
-          settings.contractId = this.delegationContract._id;
-          */
-          console.log('trying to create delegation at execution...');
         }
 
         switch (this.arrow) {
