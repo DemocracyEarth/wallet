@@ -26,6 +26,12 @@ Template.ledger.helpers({
     }
     return undefined;
   },
+  votes() {
+    const tally = this;
+    tally.options.view = 'userVotes';
+    tally.options.sort = { timestamp: -1 };
+    return tally;
+  },
 });
 
 Template.ledger.events({
