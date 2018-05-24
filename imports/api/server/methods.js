@@ -68,7 +68,6 @@ Meteor.methods({
     // define story
     switch (story) {
       case 'REPLY':
-        break;
       case 'REVOKE':
       case 'VOTE':
         html = html.replace('{{url}}', `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${fixDBUrl(contract.url)}`);
@@ -90,29 +89,34 @@ Meteor.methods({
     } else if (receiver.services.facebook.email) {
       emailAddress = receiver.services.facebook.email;
     }
+
     const to = emailAddress;
     const from = `${Meteor.settings.public.Collective.name} <${Meteor.settings.public.Collective.emails[0].address}>`;
-
     subject = subject.replace('{{user}}', `@${sender.username}`);
     subject = subject.replace('{{title}}', `'${stripHTML(contract.title).substring(0, 30)}...'`);
-    subject = _includeQuantity(transaction.input.quantity, subject);
-
-    html = _includeQuantity(transaction.input.quantity, html);
     html = html.replace('{{user}}', `@${sender.username}`);
     html = html.replace('{{userURL}}', `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}peer/${sender.username}`);
     html = html.replace('{{title}}', `${contract.title}`);
+    html = html.replace('{{titleBrief}}', `${contract.title.substring(0, 30)}...`);
+    html = html.replace('{{postURL}}', `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${fixDBUrl(contract.url)}`);
+    html = html.replace('{{reply}}', `${transaction.reply}`);
     html = html.replace('{{greeting}}', `${TAPi18n.__('email-greeting-hello')} @${receiver.username},`);
     html = html.replace('{{farewell}}', `${TAPi18n.__('email-farewell')}`);
     html = html.replace('{{collective}}', `<a href='${Meteor.settings.public.Collective.profile.website}'>${Meteor.settings.public.Collective.name}</a>`);
-
     text = text.replace('{{user}}', `@${sender.username}`);
     text = text.replace('{{title}}', `${contract.title}`);
-    text = _includeQuantity(transaction.input.quantity, text);
+
+    if (transaction.input) {
+      subject = _includeQuantity(transaction.input.quantity, subject);
+      html = _includeQuantity(transaction.input.quantity, html);
+      text = _includeQuantity(transaction.input.quantity, text);
+    }
 
     // let other method calls from the same client start running, without
     // waiting for the email sending to complete.
     this.unblock();
 
+    console.log(`{ server: 'sendNotification', from: '${sender.username}', to: '${receiver.username}', text: "${text}" }`);
     Email.send({ to, from, subject, text, html });
   },
 

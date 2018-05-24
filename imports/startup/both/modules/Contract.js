@@ -331,13 +331,35 @@ const _publish = (contractId) => {
 
   // add reply to counter in contract
   if (draft.replyId) {
+    // count
     const reply = Contracts.findOne({ _id: draft.replyId });
     if (reply.totalReplies) {
       reply.totalReplies += 1;
     } else {
       reply.totalReplies = 1;
     }
+
+    // notify
     Contracts.update({ _id: draft.replyId }, { $set: { totalReplies: reply.totalReplies } });
+    let story;
+    let toId;
+    let fromId;
+    let transaction;
+
+    for (const i in reply.signatures) {
+      story = 'REPLY';
+      toId = reply.signatures[i]._id;
+      fromId = Meteor.userId();
+      transaction = { contractId: draft.replyId, reply: draft.title };
+
+      Meteor.call(
+        'sendNotification',
+        toId,
+        fromId,
+        story,
+        transaction,
+      );
+    }
   }
 };
 
