@@ -44,6 +44,12 @@
 
     "sentryPublicDSN": "",
 
+    "analyticsSettings": {
+      "Google Analytics": {
+        "trackingId": ""
+      }
+    },
+
     "app": {
       "url": "https://vote.democracy.earth",
       "name": "Sovereign",
@@ -77,7 +83,12 @@
         "bio": "Borderless governance.",
         "twitter": "@DemocracyEarth",
         "blockchain": {
-          "address": "0"
+          "Bitcoin": {
+            "address": ""
+          },
+          "Ethereum": {
+            "address": ""
+          }
         },
         "logo": "images/earth.png",
         "jurisdiction": {

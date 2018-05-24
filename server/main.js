@@ -102,6 +102,7 @@ onPageLoad(function (sink) {
       hostname = result;
     });
   }
-
-  log(`{ server: 'onPageLoad', path: '${url}', httpHeader: '${JSON.stringify(hostname)}' }`);
+  if (path) {
+    log(`{ server: 'onPageLoad', path: '${url}', httpHeader: '${JSON.stringify(hostname)}' }`);
+  }
 });
