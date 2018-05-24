@@ -105,4 +105,12 @@ Meteor.startup(() => {
   } else {
     console.log('[config] Sentry DSN keys... OK');
   }
+
+  // Google
+  if (Meteor.settings.public.analyticsSettings['Google Analytics'].trackingId === undefined || Meteor.settings.public.analyticsSettings['Google Analytics'].trackingId === '') {
+    console.log('[config WARNING] Google Analytics tracking Id not configured.');
+    console.log('[config FIX] Configure `public.analyticsSettings.Google Analytics.trackingId` on settings.json.');
+  } else {
+    console.log('[config] Google Analytics tracking Id... OK');
+  }
 });
