@@ -23,6 +23,8 @@ Template.card.onRendered(function () {
     if (subscription.ready()) {
       const sent = getDelegationContract(Meteor.userId(), instance.data.toString());
       const received = getDelegationContract(instance.data.toString(), Meteor.userId());
+      console.log(sent);
+      console.log(received);
       instance.senderDelegationContract.set(sent);
       instance.receiverDelegationContract.set(received);
       const transactions = instance.subscribe('delegations', { view: 'delegationTransactions', items: [sent._id, received._id] });

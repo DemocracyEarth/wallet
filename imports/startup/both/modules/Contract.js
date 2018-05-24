@@ -84,7 +84,9 @@ const _getDelegationContract = (delegatorId, delegateId) => {
       return contract;
     }
   } else {
-    const delegationContract = Contracts.findOne({ 'signatures.0._id': delegatorId, 'signatures.1._id': delegateId }); // || Contracts.findOne({ 'signatures.0._id': delegateId, 'signatures.1._id': delegatorId });
+    const delegationContract = Contracts.findOne({
+      // $and: [{ signatures: { $elemMatch: { _id: delegatorId } } }, { signatures: { $elemMatch: { _id: delegateId } } }, { kind: 'DELEGATION' }] });
+      'signatures.0._id': delegatorId, 'signatures.1._id': delegateId }); // || Contracts.findOne({ 'signatures.0._id': delegateId, 'signatures.1._id': delegatorId });
     if (delegationContract !== undefined) {
       return delegationContract;
     }
