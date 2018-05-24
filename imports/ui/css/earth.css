@@ -50,6 +50,8 @@ h4 {
 }
 
 h5 {
+  display: inline-block;
+  width: 100%;
   margin-top: 20px;
   margin-bottom: 10px;
   padding-bottom: 5px;
@@ -4319,24 +4321,25 @@ blockquote {
 }
 
 .content.content-feed {
-  padding: 80px 100px 10px 15px;
+  padding: 80px 15px 10px;
   -webkit-transition: opacity 892ms ease;
   transition: opacity 892ms ease;
 }
 
 .content.content-feed.content-feed-subsection {
-  padding-top: 0px;
+  padding-top: 75px;
 }
 
 .content.content-agora {
   position: relative;
+  width: 100%;
   min-width: 360px;
-  margin-top: 0px;
+  margin-top: 50px;
   margin-bottom: -15px;
   padding-top: 5px;
-  padding-right: 25px;
-  padding-left: 25px;
-  background-color: #f5f5f5;
+  padding-right: 15px;
+  padding-left: 15px;
+  background-color: #e6e6e6;
 }
 
 .action-label {
@@ -4648,7 +4651,7 @@ blockquote {
   width: 100%;
   margin: 0px;
   padding-top: 0px;
-  background-color: #f5f5f5;
+  background-color: #e6e6e6;
 }
 
 .mobile-editor {
@@ -4793,7 +4796,7 @@ blockquote {
 
 .split {
   position: absolute;
-  top: 60px;
+  top: 0px;
   bottom: 0px;
   display: inline-block;
   overflow: auto;
@@ -4983,7 +4986,7 @@ blockquote {
   display: block;
   width: 5px;
   float: left;
-  border-left: 2px solid #d8d8d8;
+  border-left: 2px solid #e2e2e2;
   cursor: ew-resize;
 }
 
@@ -4992,7 +4995,7 @@ blockquote {
 }
 
 .resize:active {
-  border-left-color: #c7c7c7;
+  border-left-color: #d8d8d8;
 }
 
 .authenticity {
@@ -5744,6 +5747,10 @@ blockquote {
   text-align: left;
 }
 
+.heading {
+  color: #a5a5a5;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
@@ -5891,10 +5898,6 @@ blockquote {
     overflow: visible;
     width: 100%;
     background-color: #f5f5f5;
-  }
-  .split.split-left {
-    margin-top: 60px;
-    margin-bottom: -60px;
   }
   .smart {
     display: block;
@@ -6298,9 +6301,6 @@ blockquote {
   }
   .split.split-right {
     top: 35px;
-  }
-  .split.split-left {
-    margin-top: 55px;
   }
   .proposal-feed {
     padding-right: 10px;

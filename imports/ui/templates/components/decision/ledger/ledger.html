@@ -1,10 +1,12 @@
 <template name="ledger">
   <div class="agora">
     <div class="content content-agora">
+      <a href="#delegations"></a>
       <h5>{{_ 'delegations'}}</h5>
       <div id="non-editable-feed">
         {{> feed options=options kind=kind singlePost=singlePost}}
       </div>
+      <a href="#votes"></a>
       <h5>{{_ 'votes'}}</h5>
       <div id="non-editable-feed">
         <!--{{> tally votes hidePost=false}}-->

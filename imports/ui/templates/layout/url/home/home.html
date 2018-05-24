@@ -41,10 +41,6 @@
 
 <template name="peerFeed">
   <div class="split split-left">
-    <div class="subfeed-title subfeed-title-main">
-      <a href="#votes"></a>
-      <h3>{{_ 'posted-ideas'}}</h3>
-    </div>
 
     <div class="content content-feed content-feed-subsection max100" >
       <div id="non-editable-feed">
@@ -54,9 +50,7 @@
 
   </div>
   <div class="split split-right">
-
     {{> ledger options=this.options kind='DELEGATION' singlePost=true}}
-
   </div>
 
 </template>
