@@ -50,17 +50,16 @@ h4 {
 }
 
 h5 {
-  display: inline-block;
   width: 100%;
-  margin-top: 20px;
-  margin-bottom: 10px;
+  margin-top: 30px;
+  margin-bottom: 0px;
   padding-bottom: 5px;
-  border-bottom: 1px none #888;
-  color: #a2a2a2;
+  border-bottom: 1px none #d1d1d1;
+  color: #5c5c5c;
   font-size: 12px;
   line-height: 20px;
   font-weight: 300;
-  text-align: left;
+  text-align: center;
   text-transform: uppercase;
 }
 
@@ -4340,6 +4339,7 @@ blockquote {
   padding-right: 15px;
   padding-left: 15px;
   background-color: #e6e6e6;
+  box-shadow: 0 -4px 19px -14px #000;
 }
 
 .action-label {
@@ -5756,6 +5756,27 @@ blockquote {
   width: 100%;
 }
 
+.vote-reply {
+  display: inline-block;
+  width: 100%;
+}
+
+.thread {
+  display: block;
+  width: 2px;
+  height: 19px;
+  margin-right: auto;
+  margin-left: auto;
+  border-right: 1px dotted #b1b1b1;
+}
+
+.ledger-title {
+  margin-right: -15px;
+  margin-bottom: 10px;
+  margin-left: -15px;
+  border-bottom: 1px dotted #cfcccc;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;
@@ -5867,8 +5888,6 @@ blockquote {
   }
   .content.content-agora {
     margin-top: 0px;
-    padding-right: 30px;
-    padding-left: 30px;
   }
   .half.float-left.transaction-half {
     display: block;
@@ -6266,8 +6285,8 @@ blockquote {
     padding-left: 10px;
   }
   .content.content-agora {
-    margin-top: -35px;
-    padding: 1px 10px 56px;
+    margin-top: -50px;
+    padding: 1px 10px 20px;
   }
   .micro-button.agora-button {
     margin-bottom: 5px;

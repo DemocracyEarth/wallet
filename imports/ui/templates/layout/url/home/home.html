@@ -54,35 +54,33 @@
 
 <template name="postFeed">
   <div class="split split-left">
-    <div class="content content-feed max100">
+    <div class="content content-feed subsection max100">
       <div id="non-editable-feed">
         {{> feed options=this.options singlePost=true}}
-      </div>
-    </div>
 
-    <div id="non-editable-debate-header" class="subfeed-title subfeed-title-secondary">
-      <a href="#votes"></a>
-      <h3>{{_ 'debate'}}</h3>
-    </div>
+        <div class="vote-reply"><div class="thread"></div></div>
 
-    <div class="content content-feed content-feed-subsection max100">
-      {{#if editorMode}}
-        {{> editor contractId=newContractId replyMode=true replyId=replyId}}
-      {{/if}}
-      {{#if isPhone}}
-        <input id="hiddenInput" style="visibility: hidden; position: absolute;">
-      {{/if}}
-      <div id="non-editable-reply-feed">
-        {{#if postReady}}
-          {{#with replies}}
-            {{> feed this}}
-          {{/with}}
+        {{#if editorMode}}
+          {{> editor contractId=newContractId replyMode=true replyId=replyId}}
         {{/if}}
+        {{#if isPhone}}
+          <input id="hiddenInput" style="visibility: hidden; position: absolute;">
+        {{/if}}
+
+        <div id="non-editable-reply-feed">
+          {{#if postReady}}
+            {{#with replies}}
+              {{> feed this}}
+            {{/with}}
+          {{/if}}
+        </div>
       </div>
     </div>
   </div>
+
   <div class="split split-right">
     {{> ledger options=this.options ballotEnabled=ballotEnabled postReady=postReady peerFeed=false postFeed=true}}
   </div>
+
   {{> compose replyMode=true replyId=replyId}}
 </template>

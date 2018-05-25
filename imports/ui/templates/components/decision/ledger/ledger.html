@@ -3,12 +3,16 @@
     {{#if peerFeed}}
       <div class="content content-agora">
         <a href="#delegations"></a>
-        <h5>{{_ 'delegations'}}</h5>
+        <div class="ledger-title">
+          <h5>{{_ 'delegations'}}</h5>
+        </div>
         <div id="non-editable-feed" class="ledger">
           {{> feed options=options kind=kind singlePost=singlePost}}
         </div>
         <a href="#votes"></a>
-        <h5>{{_ 'votes'}}</h5>
+        <div class="ledger-title">
+          <h5>{{_ 'votes'}}</h5>
+        </div>
         <div id="non-editable-feed" class="ledger">
           {{> tally peerVotes hidePost=hidePost}}
         </div>
@@ -18,7 +22,9 @@
     {{#if postFeed}}
       <div class="content content-agora">
         <a href="#votes"></a>
-        <h5>{{_ 'votes'}}</h5>
+        <div class="ledger-title">
+          <h5>{{_ 'votes'}}</h5>
+        </div>
         <div id="non-editable-feed" class="ledger">
           {{#if postReady}}
             {{#if ballotEnabled}}
