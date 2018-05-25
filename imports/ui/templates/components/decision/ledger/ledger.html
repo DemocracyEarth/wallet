@@ -3,12 +3,12 @@
     <div class="content content-agora">
       <a href="#delegations"></a>
       <h5>{{_ 'delegations'}}</h5>
-      <div id="non-editable-feed">
+      <div id="non-editable-feed" class="ledger">
         {{> feed options=options kind=kind singlePost=singlePost}}
       </div>
       <a href="#votes"></a>
       <h5>{{_ 'votes'}}</h5>
-      <div id="non-editable-feed">
+      <div id="non-editable-feed" class="ledger">
         {{> tally votes hidePost=hidePost}}
       </div>
       {{> footnote}}

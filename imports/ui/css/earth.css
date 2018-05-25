@@ -55,8 +55,8 @@ h5 {
   margin-top: 20px;
   margin-bottom: 10px;
   padding-bottom: 5px;
-  border-bottom: 1px dotted silver;
-  color: silver;
+  border-bottom: 1px none #888;
+  color: #a2a2a2;
   font-size: 12px;
   line-height: 20px;
   font-weight: 300;
@@ -5748,7 +5748,12 @@ blockquote {
 }
 
 .heading {
-  color: #a5a5a5;
+  color: #888;
+}
+
+.ledger {
+  display: inline-block;
+  width: 100%;
 }
 
 @media (max-width: 991px) {
