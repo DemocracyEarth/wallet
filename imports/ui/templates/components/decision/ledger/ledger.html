@@ -1,22 +1,37 @@
 <template name="ledger">
   <div class="agora">
-    <div class="content content-agora">
-      <a href="#delegations"></a>
-      <h5>{{_ 'delegations'}}</h5>
-      <div id="non-editable-feed" class="ledger">
-        {{> feed options=options kind=kind singlePost=singlePost}}
+    {{#if peerFeed}}
+      <div class="content content-agora">
+        <a href="#delegations"></a>
+        <h5>{{_ 'delegations'}}</h5>
+        <div id="non-editable-feed" class="ledger">
+          {{> feed options=options kind=kind singlePost=singlePost}}
+        </div>
+        <a href="#votes"></a>
+        <h5>{{_ 'votes'}}</h5>
+        <div id="non-editable-feed" class="ledger">
+          {{> tally peerVotes hidePost=hidePost}}
+        </div>
+        {{> footnote}}
       </div>
-      <a href="#votes"></a>
-      <h5>{{_ 'votes'}}</h5>
-      <div id="non-editable-feed" class="ledger">
-        {{> tally votes hidePost=hidePost}}
+    {{/if}}
+    {{#if postFeed}}
+      <div class="content content-agora">
+        <a href="#votes"></a>
+        <h5>{{_ 'votes'}}</h5>
+        <div id="non-editable-feed" class="ledger">
+          {{#if postReady}}
+            {{#if ballotEnabled}}
+              {{> tally postVotes hidePost=true}}
+            {{/if}}
+          {{/if}}
+        </div>
+        {{> footnote noGrant=true}}
       </div>
-      {{> footnote}}
-    </div>
+    {{/if}}
     <div id="resizable" class="resize"></div>
   </div>
 </template>
-
 
 <template name="footnote">
   <div class="foot">

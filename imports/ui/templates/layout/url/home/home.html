@@ -41,64 +41,48 @@
 
 <template name="peerFeed">
   <div class="split split-left">
-
     <div class="content content-feed content-feed-subsection max100" >
       <div id="non-editable-feed">
         {{> feed options=this.options kind='VOTE' subfeed=true singlePost=true noReplies=true}}
       </div>
     </div>
-
   </div>
   <div class="split split-right">
-    {{> ledger options=this.options kind='DELEGATION' singlePost=true hidePost=false}}
+    {{> ledger options=this.options kind='DELEGATION' singlePost=true hidePost=false peerFeed=true postFeed=false}}
   </div>
-
 </template>
 
 <template name="postFeed">
-  <div class="content content-feed max100">
-    <div id="non-editable-feed">
-      {{> feed options=this.options singlePost=true}}
+  <div class="split split-left">
+    <div class="content content-feed max100">
+      <div id="non-editable-feed">
+        {{> feed options=this.options singlePost=true}}
+      </div>
+    </div>
+
+    <div id="non-editable-debate-header" class="subfeed-title subfeed-title-secondary">
+      <a href="#votes"></a>
+      <h3>{{_ 'debate'}}</h3>
+    </div>
+
+    <div class="content content-feed content-feed-subsection max100">
+      {{#if editorMode}}
+        {{> editor contractId=newContractId replyMode=true replyId=replyId}}
+      {{/if}}
+      {{#if isPhone}}
+        <input id="hiddenInput" style="visibility: hidden; position: absolute;">
+      {{/if}}
+      <div id="non-editable-reply-feed">
+        {{#if postReady}}
+          {{#with replies}}
+            {{> feed this}}
+          {{/with}}
+        {{/if}}
+      </div>
     </div>
   </div>
-
-  <div id="non-editable-debate-header" class="subfeed-title subfeed-title-secondary">
-    <a href="#votes"></a>
-    <h3>{{_ 'debate'}}</h3>
+  <div class="split split-right">
+    {{> ledger options=this.options ballotEnabled=ballotEnabled postReady=postReady peerFeed=false postFeed=true}}
   </div>
-
-  <div class="content content-feed content-feed-subsection max100">
-    {{#if editorMode}}
-      {{> editor contractId=newContractId replyMode=true replyId=replyId}}
-    {{/if}}
-    {{#if isPhone}}
-      <input id="hiddenInput" style="visibility: hidden; position: absolute;">
-    {{/if}}
-    <div id="non-editable-reply-feed">
-      {{#if postReady}}
-        {{#with replies}}
-          {{> feed this}}
-        {{/with}}
-      {{/if}}
-    </div>
-  </div>
-
-  <div id="non-editable-vote-feed">
-    {{#if postReady}}
-      {{#if ballotEnabled}}
-        <div class="subfeed-title subfeed-title-secondary">
-          <a href="#votes"></a>
-          <h3>{{_ 'votes'}}</h3>
-        </div>
-
-        <div class="content content-feed content-feed-subsection max100">
-          {{> tally votes hidePost=true}}
-        </div>
-      {{/if}}
-    {{/if}}
-
-    {{> footnote noGrant=true}}
-  </div>
-
   {{> compose replyMode=true replyId=replyId}}
 </template>

@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 
 import { setupSplit } from '/imports/ui/modules/split';
+import { Contracts } from '/imports/api/contracts/Contracts';
 
 import '/imports/ui/templates/components/decision/ledger/ledger.html';
 
@@ -26,10 +27,31 @@ Template.ledger.helpers({
     }
     return undefined;
   },
-  votes() {
+  peerVotes() {
     const tally = this;
     tally.options.view = 'userVotes';
     tally.options.sort = { timestamp: -1 };
+    return tally;
+  },
+  postVotes() {
+    const tally = this;
+    tally.options.view = 'votes';
+    tally.options.sort = { timestamp: -1 };
+
+    // winning options
+    const contract = Contracts.findOne({ keyword: Template.currentData().options.keyword });
+    let maxVotes = 0;
+    let winningBallot;
+    if (contract && contract.tally) {
+      for (const i in contract.tally.choice) {
+        if (contract.tally.choice[i].votes > maxVotes) {
+          maxVotes = contract.tally.choice[i].votes;
+          winningBallot = contract.tally.choice[i].ballot;
+        }
+      }
+      tally.winningBallot = winningBallot;
+    }
+
     return tally;
   },
 });
