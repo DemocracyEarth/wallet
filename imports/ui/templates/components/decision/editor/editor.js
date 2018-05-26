@@ -33,7 +33,7 @@ function toggleFeed(enabled) {
       $('.cast').velocity({ opacity: 0 });
       $('#feed-bottom').velocity({ opacity: 0 });
       $('#non-editable-debate-header').velocity({ opacity: 0 });
-      $('#non-editable-reply-feed').velocity({ opacity: 0 });
+      // $('#non-editable-reply-feed').velocity({ opacity: 0 });
       $('#non-editable-vote-feed').velocity({ opacity: 0 });
       $('#non-editable-feed').velocity({ opacity: 0 }, {
         complete: () => {
@@ -41,6 +41,7 @@ function toggleFeed(enabled) {
             overflow: 'hidden',
             height: 0,
           });
+          console.log('path C');
           $('.cast').css('height', 0);
           $('#feed-bottom').css('width', 0);
           $('#non-editable-debate-header').css({ height: 0, overflow: 'hidden', marginBottom: '-10px', marginTop: '-10px', paddingTop: '0px' });
@@ -86,6 +87,7 @@ const _editorFadeIn = (contractId) => {
   const diff = parseInt((tag.offset().top + $('.right').scrollTop()) - 80, 10);
 
   if ($('.right').scrollTop() === 0 && !$('#non-editable-vote-feed').offset()) {
+    console.log('path A')
     $(`#feedItem-${contractId}`).css({
       overflow: 'hidden',
       height: 0,
@@ -104,6 +106,7 @@ const _editorFadeIn = (contractId) => {
       },
     });
   } else {
+    console.log('path B')
     $('.right').animate({ scrollTop: diff }, {
       complete: () => {
         toggleFeed(false);

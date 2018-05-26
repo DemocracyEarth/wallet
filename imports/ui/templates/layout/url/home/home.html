@@ -57,23 +57,22 @@
     <div class="content content-feed subsection max100">
       <div id="non-editable-feed">
         {{> feed options=this.options singlePost=true}}
+      </div>
+      <div class="vote-reply"><div class="thread"></div></div>
 
-        <div class="vote-reply"><div class="thread"></div></div>
+      {{#if editorMode}}
+        {{> editor contractId=newContractId replyMode=true replyId=replyId}}
+      {{/if}}
+      {{#if isPhone}}
+        <input id="hiddenInput" style="visibility: hidden; position: absolute;">
+      {{/if}}
 
-        {{#if editorMode}}
-          {{> editor contractId=newContractId replyMode=true replyId=replyId}}
+      <div id="non-editable-reply-feed">
+        {{#if postReady}}
+          {{#with replies}}
+            {{> feed this}}
+          {{/with}}
         {{/if}}
-        {{#if isPhone}}
-          <input id="hiddenInput" style="visibility: hidden; position: absolute;">
-        {{/if}}
-
-        <div id="non-editable-reply-feed">
-          {{#if postReady}}
-            {{#with replies}}
-              {{> feed this}}
-            {{/with}}
-          {{/if}}
-        </div>
       </div>
     </div>
   </div>
