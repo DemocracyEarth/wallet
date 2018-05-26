@@ -5889,6 +5889,7 @@ blockquote {
   .content.content-agora {
     margin-top: 0px;
     padding-top: 5px;
+    box-shadow: none;
   }
   .half.float-left.transaction-half {
     display: block;
@@ -6287,6 +6288,7 @@ blockquote {
   }
   .content.content-agora {
     margin-top: -50px;
+    box-shadow: 0 0 0 0 #000;
   }
   .micro-button.agora-button {
     margin-bottom: 5px;
