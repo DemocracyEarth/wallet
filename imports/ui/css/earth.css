@@ -51,8 +51,8 @@ h4 {
 
 h5 {
   width: 100%;
-  margin-top: 30px;
-  margin-bottom: 0px;
+  margin-top: 15px;
+  margin-bottom: 10px;
   padding-bottom: 5px;
   border-bottom: 1px none #d1d1d1;
   color: #5c5c5c;
@@ -4335,11 +4335,11 @@ blockquote {
   min-width: 360px;
   margin-top: 50px;
   margin-bottom: -15px;
-  padding-top: 5px;
+  padding-top: 20px;
   padding-right: 15px;
   padding-left: 15px;
   background-color: #e6e6e6;
-  box-shadow: 0 -4px 19px -14px #000;
+  box-shadow: 0 -4px 16px -14px #000;
 }
 
 .action-label {
@@ -4624,7 +4624,7 @@ blockquote {
   right: 0px;
   bottom: 0px;
   overflow: scroll;
-  background-color: #ddd;
+  background-color: #e6e6e6;
 }
 
 .right.show {
@@ -5888,12 +5888,13 @@ blockquote {
   }
   .content.content-agora {
     margin-top: 0px;
+    padding-top: 5px;
   }
   .half.float-left.transaction-half {
     display: block;
   }
   .agora {
-    margin-top: 0px;
+    margin-top: -30px;
     margin-right: 0px;
     margin-left: 0px;
     padding-top: 0px;
@@ -6286,7 +6287,6 @@ blockquote {
   }
   .content.content-agora {
     margin-top: -50px;
-    padding: 1px 10px 20px;
   }
   .micro-button.agora-button {
     margin-bottom: 5px;
@@ -6311,6 +6311,9 @@ blockquote {
   }
   .card-title {
     margin-top: 5px;
+  }
+  .agora {
+    margin-top: -15px;
   }
   .mobile-editor {
     left: 0px;
@@ -6636,6 +6639,9 @@ blockquote {
   }
   .right.show {
     margin-left: 0px;
+  }
+  .agora {
+    margin-top: -45px;
   }
   .mobile-editor.hide {
     display: inline;
