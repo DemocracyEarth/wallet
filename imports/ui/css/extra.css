@@ -132,3 +132,9 @@ html {
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
 }
+
+#content {
+    overflow: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
