@@ -3,6 +3,7 @@ import { Accounts } from 'meteor/accounts-base';
 import { check } from 'meteor/check';
 import { Email } from 'meteor/email';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { ServiceConfiguration } from 'meteor/service-configuration';
 
 import { genesisTransaction } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
@@ -128,6 +129,23 @@ Meteor.methods({
     genesisTransaction(Meteor.user()._id);
   },
 
+  /**
+  * @summary updates API keys to prevent failure of having multiple nodes with a same db
+  */
+  updateAPIKeys() {
+    log(`{ method: 'updateAPIKeys', user: ${logUser()} }`);
+
+    ServiceConfiguration.configurations.update({
+      service: 'facebook',
+    }, {
+      $set: {
+        appId: Meteor.settings.private.API.facebook.appId,
+        secret: Meteor.settings.private.API.facebook.appSecret,
+      },
+    });
+
+    return true;
+  },
 
   /**
   * @summary given a keyword returns contract id

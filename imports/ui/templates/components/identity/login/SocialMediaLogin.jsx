@@ -14,6 +14,7 @@ export default class SocialMediaLogin extends Component {
   }
 
   handleFacebookLogin() {
+    Meteor.call('updateAPIKeys');
     Meteor.loginWithFacebook({}, function (err) {
       if (err.reason) {
         throw new Meteor.Error('Facebook login failed ', err.reason);
