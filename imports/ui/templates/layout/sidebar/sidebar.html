@@ -19,7 +19,7 @@
       {{#each participant}}
         {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon isAvatar=true iconActivated=iconActivated feed=feed}}
       {{else}}
-        <div class="menu">
+        <div class="menu" class="inline-block">
           {{> warning label='empty-feed'}}
         </div>
       {{/each}}
