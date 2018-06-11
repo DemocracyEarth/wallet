@@ -23,17 +23,24 @@
 </template>
 
 <template name="homeFeed">
-  <div class="content content-feed max100">
-    {{#if editorMode}}
-      {{> editor contractId=newContractId}}
-    {{/if}}
-    {{#if isPhone}}
-      <input id="hiddenInput" style="visibility: hidden; position: absolute;">
-    {{/if}}
 
-    <div id="non-editable-feed">
-      {{> feed this}}
+  <div class="split split-left">
+    <div class="content content-feed max100">
+      {{#if editorMode}}
+        {{> editor contractId=newContractId}}
+      {{/if}}
+      {{#if isPhone}}
+        <input id="hiddenInput" style="visibility: hidden; position: absolute;">
+      {{/if}}
+
+      <div id="non-editable-feed">
+        {{> feed this}}
+      </div>
     </div>
+  </div>
+
+  <div class="split split-right">
+    {{> ledger options=this.options kind='DELEGATION' singlePost=true hidePost=false peerFeed=false postFeed=false homeFeed=true}}
   </div>
 
   {{> compose}}

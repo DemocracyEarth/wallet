@@ -35,6 +35,20 @@
         {{> footnote noGrant=true}}
       </div>
     {{/if}}
+    {{#if homeFeed}}
+      <div class="content content-agora">
+        <a href="#votes"></a>
+        <div class="ledger-title">
+          <h5>{{_ 'recent-activity'}}</h5>
+        </div>
+        <div id="non-editable-feed" class="ledger">
+          {{#if postReady}}
+            {{> tally homeVotes hidePost=true}}
+          {{/if}}
+        </div>
+        {{> footnote}}
+      </div>
+    {{/if}}
     <div id="resizable" class="resize"></div>
   </div>
 </template>

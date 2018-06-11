@@ -54,6 +54,12 @@ Template.ledger.helpers({
 
     return tally;
   },
+  homeVotes() {
+    const tally = this;
+    tally.options.view = 'lastVotes';
+    tally.options.sort = { timestamp: -1 };
+    return tally;
+  },
 });
 
 Template.ledger.events({
