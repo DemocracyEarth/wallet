@@ -5745,6 +5745,7 @@ blockquote {
 .crypto-address-label {
   font-size: 9px;
   text-align: left;
+  text-transform: none;
 }
 
 .heading {
