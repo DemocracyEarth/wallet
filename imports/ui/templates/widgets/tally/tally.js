@@ -36,45 +36,17 @@ const _voteToContract = (post, contract, hidePost, winningBallot, openFeed) => {
       url: contract.url,
     };
   } else if (openFeed) {
+    // for a feed in a general context (home page)
     if (post.kind === 'DELEGATION') {
-      // let delegationContractId;
-      // let counterPartyDelegate;
-      // let missingSender;
       if (post.input.entityType === 'CONTRACT') {
-        // delegationContractId = post.input.entityId;
-        // counterPartyDelegate = post.output.entityId;
-        // missingSender = true;
         transaction.missingContractId = post.input.entityId;
         transaction.missingCounterPartyId = post.output.entityId;
         transaction.missingSender = true;
       } else if (post.output.entityType === 'CONTRACT') {
-        // delegationContractId = post.output.entityId;
-        // counterPartyDelegate = post.input.entityId;
         transaction.missingContractId = post.output.entityId;
         transaction.missingCounterPartyId = post.input.entityId;
         transaction.missingReceiver = true;
       }
-      /*
-      const delegation = Contracts.findOne({ _id: delegationContractId });
-      console.log(delegationContractId);
-      console.log(delegation);
-      if (!delegation) {
-        Meteor.call('getOtherDelegate', delegationContractId, counterPartyDelegate, function (error, result) {
-          if (result) {
-            console.log('found it');
-            console.log(result);
-            transaction.contract = result;
-            if (missingSender) {
-              transaction.senderId = result._id;
-            } else {
-              transaction.receiverId = result._id;
-            }
-          } else if (error) {
-            console.log(error);
-          }
-        });
-      }*/
-      console.log('then this...');
       transaction.isVote = false;
     }
     transaction.contract = {

@@ -22,14 +22,10 @@ Template.transaction.helpers({
   sender() {
     const helper = this;
     if (this.missingSender) {
-      console.log('MISSING SENDER');
       Meteor.call('getOtherDelegate', this.missingContractId, this.missingCounterPartyId, function (error, result) {
         if (result) {
-          console.log('found it');
-          console.log(result);
           helper.senderId = result._id;
         } else if (error) {
-          console.log(error);
         }
       });
     }
@@ -46,11 +42,8 @@ Template.transaction.helpers({
   receiver() {
     const helper = this;
     if (this.missingReceiver) {
-      console.log('MISSING Receiver');
       Meteor.call('getOtherDelegate', this.missingContractId, this.missingCounterPartyId, function (error, result) {
         if (result) {
-          console.log('found it');
-          console.log(result);
           helper.receiverId = result._id;
         } else if (error) {
           console.log(error);
