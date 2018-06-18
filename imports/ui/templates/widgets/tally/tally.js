@@ -47,6 +47,7 @@ const _voteToContract = (post, contract, hidePost, winningBallot, openFeed) => {
     }
     transaction.contract = {
       timestamp: post.timestamp,
+      kind: post.kind,
       wallet: {
         balance: post.input.quantity,
       },

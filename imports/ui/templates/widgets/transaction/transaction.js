@@ -66,6 +66,9 @@ Template.transaction.helpers({
         if (isNaN(votes)) { votes = Session.get(this.voteId).inBallot; }
         Template.instance().totalVotes.set(votes);
       }
+    } else if (this.contract.kind === 'DELEGATION') {
+      Template.instance().totalVotes.set(this.contract.wallet.balance);
+      votes = Template.instance().totalVotes.get();
     } else {
       Template.instance().totalVotes.set(getVotes(this.contract._id, this.senderId));
       votes = Template.instance().totalVotes.get();
