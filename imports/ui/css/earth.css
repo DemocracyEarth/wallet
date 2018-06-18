@@ -3513,7 +3513,6 @@ blockquote {
 .options {
   display: block;
   overflow: auto;
-  max-width: 400px;
   margin-right: -5px;
   margin-bottom: 5px;
   margin-left: -5px;
@@ -4613,7 +4612,6 @@ blockquote {
   height: 100px;
   margin-right: auto;
   margin-left: auto;
-  padding-left: 80px;
   opacity: 0.5;
 }
 
