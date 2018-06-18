@@ -42,9 +42,7 @@
           <h5>{{_ 'recent-activity'}}</h5>
         </div>
         <div id="non-editable-feed" class="ledger">
-          {{#if postReady}}
-            {{> tally homeVotes hidePost=true}}
-          {{/if}}
+          {{> tally homeVotes hidePost=true}}
         </div>
         {{> footnote}}
       </div>

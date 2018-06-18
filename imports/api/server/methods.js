@@ -186,6 +186,37 @@ Meteor.methods({
   },
 
   /**
+  * @summary get the user object of the other delegate in the contract
+  * @param {string} contractId delegate contract
+  * @param {string} currentDelegateId already identified delegate
+  */
+  getOtherDelegate(contractId, currentDelegateId) {
+    check(contractId, String);
+    check(currentDelegateId, String);
+
+    log(`{ method: 'getOtherDelegate', user: ${logUser()}, contractId: '${contractId}', currentDelegateId: '${currentDelegateId}' }`);
+    const contract = Contracts.findOne({ _id: contractId });
+    let user;
+
+    for (const i in contract.signatures) {
+      if (contract.signatures[i]._id !== currentDelegateId) {
+        user = Meteor.users.findOne({ _id: contract.signatures[i]._id });
+        break;
+      }
+    }
+
+    if (user) {
+      return {
+        _id: user._id,
+        username: user.username,
+        profile: user.profile,
+      };
+    }
+
+    return user;
+  },
+
+  /**
   * @summary returns the quantity of replies in a contract
   * @param {string} contractId contract to search replies for
   */

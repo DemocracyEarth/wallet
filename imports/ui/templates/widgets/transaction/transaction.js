@@ -20,10 +20,23 @@ Template.transaction.onCreated(function () {
 
 Template.transaction.helpers({
   sender() {
+    const helper = this;
+    if (this.missingSender) {
+      console.log('MISSING SENDER');
+      Meteor.call('getOtherDelegate', this.missingContractId, this.missingCounterPartyId, function (error, result) {
+        if (result) {
+          console.log('found it');
+          console.log(result);
+          helper.senderId = result._id;
+        } else if (error) {
+          console.log(error);
+        }
+      });
+    }
     return {
-      _id: this.senderId,
+      _id: helper.senderId,
       imgStyle: () => {
-        if (this.compressed) {
+        if (helper.compressed) {
           return 'float: left; margin-top: 4px;';
         }
         return '';
@@ -31,10 +44,23 @@ Template.transaction.helpers({
     };
   },
   receiver() {
+    const helper = this;
+    if (this.missingReceiver) {
+      console.log('MISSING Receiver');
+      Meteor.call('getOtherDelegate', this.missingContractId, this.missingCounterPartyId, function (error, result) {
+        if (result) {
+          console.log('found it');
+          console.log(result);
+          helper.receiverId = result._id;
+        } else if (error) {
+          console.log(error);
+        }
+      });
+    }
     return {
-      _id: this.receiverId,
+      _id: helper.receiverId,
       imgStyle: () => {
-        if (this.compressed) {
+        if (helper.compressed) {
           return ' margin-top: 4px; margin-left: 5px; ';
         }
         return '';
@@ -100,7 +126,10 @@ Template.transaction.helpers({
     return style;
   },
   ballotOption() {
-    return TAPi18n.__(this.ballot[0].mode);
+    if (this.ballot) {
+      return TAPi18n.__(this.ballot[0].mode);
+    }
+    return '';
   },
   emptyVotes() {
     if (Template.instance().totalVotes.get() === 0 && !this.onCard && !this.isVote) {
