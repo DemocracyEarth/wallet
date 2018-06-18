@@ -39,13 +39,9 @@ const _voteToContract = (post, contract, hidePost, winningBallot, openFeed) => {
     // for a feed in a general context (home page)
     if (post.kind === 'DELEGATION') {
       if (post.input.entityType === 'CONTRACT') {
-        transaction.missingContractId = post.input.entityId;
-        transaction.missingCounterPartyId = post.output.entityId;
-        transaction.missingSender = true;
+        transaction.senderId = post.input.delegateId;
       } else if (post.output.entityType === 'CONTRACT') {
-        transaction.missingContractId = post.output.entityId;
-        transaction.missingCounterPartyId = post.input.entityId;
-        transaction.missingReceiver = true;
+        transaction.receiverId = post.output.delegateId;
       }
       transaction.isVote = false;
     }
@@ -54,6 +50,7 @@ const _voteToContract = (post, contract, hidePost, winningBallot, openFeed) => {
       wallet: {
         balance: post.input.quantity,
       },
+      _id: post._id,
     };
   }
   if (!hidePost) {

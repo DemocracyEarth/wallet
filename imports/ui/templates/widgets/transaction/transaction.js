@@ -16,23 +16,15 @@ const _verifySubsidy = (id) => {
 
 Template.transaction.onCreated(function () {
   Template.instance().totalVotes = new ReactiveVar(0);
+  Template.instance().loading = new ReactiveVar(false);
 });
 
 Template.transaction.helpers({
   sender() {
-    const helper = this;
-    if (this.missingSender) {
-      Meteor.call('getOtherDelegate', this.missingContractId, this.missingCounterPartyId, function (error, result) {
-        if (result) {
-          helper.senderId = result._id;
-        } else if (error) {
-        }
-      });
-    }
     return {
-      _id: helper.senderId,
+      _id: this.senderId,
       imgStyle: () => {
-        if (helper.compressed) {
+        if (this.compressed) {
           return 'float: left; margin-top: 4px;';
         }
         return '';
@@ -40,20 +32,11 @@ Template.transaction.helpers({
     };
   },
   receiver() {
-    const helper = this;
-    if (this.missingReceiver) {
-      Meteor.call('getOtherDelegate', this.missingContractId, this.missingCounterPartyId, function (error, result) {
-        if (result) {
-          helper.receiverId = result._id;
-        } else if (error) {
-          console.log(error);
-        }
-      });
-    }
+    // const helper = this;
     return {
-      _id: helper.receiverId,
+      _id: this.receiverId,
       imgStyle: () => {
-        if (helper.compressed) {
+        if (this.compressed) {
           return ' margin-top: 4px; margin-left: 5px; ';
         }
         return '';
