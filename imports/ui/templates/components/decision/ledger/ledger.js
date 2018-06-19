@@ -27,12 +27,16 @@ Template.ledger.helpers({
     }
     return undefined;
   },
+  delegationVotes() {
+    const tally = this;
+    tally.options.view = 'delegationVotes';
+    tally.options.sort = { timestamp: -1 };
+    return tally;
+  },
   peerVotes() {
     const tally = this;
-    console.log('peerVotes:');
     tally.options.view = 'userVotes';
     tally.options.sort = { timestamp: -1 };
-    console.log(tally.options.view);
     return tally;
   },
   postVotes() {
@@ -60,14 +64,6 @@ Template.ledger.helpers({
     const tally = this;
     tally.options.view = 'lastVotes';
     tally.options.sort = { timestamp: -1 };
-    return tally;
-  },
-  delegationVotes() {
-    const tally = this;
-    console.log('delegationVotes:');
-    tally.options.view = 'delegationVotes';
-    tally.options.sort = { timestamp: -1 };
-    console.log(tally.options.view);
     return tally;
   },
 });

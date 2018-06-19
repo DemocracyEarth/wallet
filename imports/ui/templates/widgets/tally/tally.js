@@ -25,17 +25,7 @@ const _voteToContract = (post, contract, hidePost, winningBallot, openFeed) => {
     winningBallot,
     isRevoke: (post.input.entityType !== 'INDIVIDUAL'),
   };
-  if (contract) {
-    transaction.contract = {
-      _id: contract._id,
-      timestamp: post.timestamp,
-      wallet: {
-        balance: post.input.quantity,
-      },
-      title: contract.title,
-      url: contract.url,
-    };
-  } else if (openFeed) {
+  if (openFeed) {
     // for a feed in a general context (home page)
     if (post.kind === 'DELEGATION') {
       if (post.input.entityType === 'CONTRACT') {
@@ -52,6 +42,16 @@ const _voteToContract = (post, contract, hidePost, winningBallot, openFeed) => {
         balance: post.input.quantity,
       },
       _id: post._id,
+    };
+  } else if (contract) {
+    transaction.contract = {
+      _id: contract._id,
+      timestamp: post.timestamp,
+      wallet: {
+        balance: post.input.quantity,
+      },
+      title: contract.title,
+      url: contract.url,
     };
   }
   if (!hidePost) {
@@ -101,40 +101,40 @@ Template.tally.onCreated(function () {
   Template.instance().contract = new ReactiveVar();
   Template.instance().openFeed = false;
 
+  console.log(this.data.options.view);
+
   const instance = this;
 
-  if (Template.currentData().options.view === 'votes') {
-    Meteor.call('getContract', Template.currentData().options.keyword, function (error, result) {
+  if (this.data.options.view === 'votes') {
+    Meteor.call('getContract', this.data.options.keyword, function (error, result) {
       if (result) {
         instance.contract.set(result);
       } else if (error) {
         console.log(error);
       }
     });
-  } else if (Template.currentData().options.view === 'userVotes' || Template.currentData().options.view === 'delegationVotes') {
-    if (Template.currentData().options.username) {
-      Meteor.call('getUser', Template.currentData().options.username, function (error, result) {
+  } else if (this.data.options.view === 'userVotes' || this.data.options.view === 'delegationVotes') {
+    if (this.data.options.username) {
+      Meteor.call('getUser', this.data.options.username, function (error, result) {
         if (result) {
-          console.log(`got result`);
-          console.log(result);
           instance.contract.set(result);
         } else if (error) {
           console.log(error);
         }
       });
-    } else if (Template.currentData().options.userId) {
-      instance.contract.set(Meteor.users.findOne({ _id: Template.currentData().options.userId }));
+    } else if (this.data.options.userId) {
+      instance.contract.set(Meteor.users.findOne({ _id: this.data.options.userId }));
     }
-  } else if (Template.currentData().options.view === 'lastVotes') {
+    if (this.data.options.view === 'delegationVotes') {
+      instance.openFeed = true;
+    }
+  } else if (this.data.options.view === 'lastVotes') {
     instance.openFeed = true;
   }
 
-  this.subscription = instance.subscribe('tally', Template.currentData().options);
-});
+  console.log(this.data.options);
+  this.subscription = instance.subscribe('tally', this.data.options);
 
-
-Template.tally.onRendered(function () {
-  const instance = this;
   instance.autorun(function () {
     const contract = instance.contract.get();
     let parameters;
@@ -151,39 +151,42 @@ Template.tally.onRendered(function () {
       }
     }
 
-    instance.handle = dbQuery.observeChanges({
-      addedBefore: (id, fields) => {
-        // added stuff
-        const currentFeed = instance.feed.get();
-        const post = fields;
-        post._id = id;
-        const userSubscriptionId = _requiresUserSubscription(post);
-        if (userSubscriptionId) {
-          getUser(userSubscriptionId);
-        }
-        const voteContract = _voteToContract(post, contract, noTitle, _isWinningVote(instance.data.winningBallot, post.condition.ballot), instance.openFeed);
+    if (parameters) {
+      console.log(`query`);
+      console.log(parameters.find.kind);
+    }
 
-        if (!currentFeed) {
-          instance.feed.set([voteContract]);
-        } else if (!here(voteContract, currentFeed)) {
-          currentFeed.push(voteContract);
-          instance.feed.set(_.uniq(currentFeed));
-        }
-      },
-    });
+    if (dbQuery) {
+      instance.handle = dbQuery.observeChanges({
+        addedBefore: (id, fields) => {
+          // added stuff
+          const currentFeed = instance.feed.get();
+          const post = fields;
+          post._id = id;
+          const userSubscriptionId = _requiresUserSubscription(post);
+          if (userSubscriptionId) {
+            getUser(userSubscriptionId);
+          }
+          const voteContract = _voteToContract(post, contract, noTitle, _isWinningVote(instance.data.winningBallot, post.condition.ballot), instance.openFeed);
+
+          if (!currentFeed) {
+            instance.feed.set([voteContract]);
+          } else if (!here(voteContract, currentFeed)) {
+            currentFeed.push(voteContract);
+            instance.feed.set(_.uniq(currentFeed));
+          }
+        },
+      });
+    }
   });
 });
 
 Template.tally.helpers({
   vote() {
-    console.log('getting votes');
-    console.log(Template.instance().feed.get());
     return Template.instance().feed.get();
   },
   ready() {
     if (Template.instance().openFeed) { return true; }
-    console.log('getting contract:')
-    console.log(Template.instance().contract.get());
     return Template.instance().contract.get();
   },
 });
