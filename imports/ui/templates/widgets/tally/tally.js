@@ -111,10 +111,12 @@ Template.tally.onCreated(function () {
         console.log(error);
       }
     });
-  } else if (Template.currentData().options.view === 'userVotes') {
+  } else if (Template.currentData().options.view === 'userVotes' || Template.currentData().options.view === 'delegationVotes') {
     if (Template.currentData().options.username) {
       Meteor.call('getUser', Template.currentData().options.username, function (error, result) {
         if (result) {
+          console.log(`got result`);
+          console.log(result);
           instance.contract.set(result);
         } else if (error) {
           console.log(error);
@@ -135,13 +137,18 @@ Template.tally.onRendered(function () {
   const instance = this;
   instance.autorun(function () {
     const contract = instance.contract.get();
-    const parameters = query(Template.currentData().options);
-    const dbQuery = Transactions.find(parameters.find, parameters.options);
-    const noTitle = (Template.currentData().options.view === 'votes');
+    let parameters;
+    let dbQuery;
+    let noTitle;
 
-    if (contract) {
-      Template.currentData().options.contractId = contract._id;
-      Template.currentData().options.userId = contract._id;
+    if (contract || instance.openFeed) {
+      parameters = query(Template.currentData().options);
+      dbQuery = Transactions.find(parameters.find, parameters.options);
+      noTitle = (Template.currentData().options.view === 'votes');
+      if (contract) {
+        Template.currentData().options.contractId = contract._id;
+        Template.currentData().options.userId = contract._id;
+      }
     }
 
     instance.handle = dbQuery.observeChanges({
@@ -169,10 +176,15 @@ Template.tally.onRendered(function () {
 
 Template.tally.helpers({
   vote() {
+    console.log('getting votes');
+    console.log(Template.instance().feed.get());
     return Template.instance().feed.get();
   },
   ready() {
-    return (Template.instance().contract.get() || Template.instance().openFeed);
+    if (Template.instance().openFeed) { return true; }
+    console.log('getting contract:')
+    console.log(Template.instance().contract.get());
+    return Template.instance().contract.get();
   },
 });
 

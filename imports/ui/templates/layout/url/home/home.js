@@ -72,15 +72,6 @@ Template.screen.helpers({
   },
 });
 
-Template.peerFeed.helpers({
-  votes() {
-    const tally = this;
-    tally.options.view = 'userVotes';
-    tally.options.sort = { timestamp: -1 };
-    return tally;
-  },
-});
-
 Template.homeFeed.helpers({
   editorMode() {
     return Session.get('showPostEditor');
