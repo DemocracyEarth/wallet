@@ -136,7 +136,10 @@ export const waitUntilText = (selector, text, ms) => {
   ms = ms || 5000;
   getBrowser().waitForVisible(selector);
   getBrowser().waitUntil(function () {
-    return getBrowser().getText(selector) === text;
+    // We check here that only contains that text (more relaxed that previous equal)
+    // return getBrowser().getText(selector) === text;
+    return getBrowser().getText(selector).indexOf(text) !== -1;
+
   }, ms, `expected text in ${selector} be different after ${ms/1000}s. Obtained: '${getBrowser().getText(selector)}' expected: '${text}'`);
 }
 
