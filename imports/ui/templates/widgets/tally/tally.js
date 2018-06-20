@@ -6,7 +6,6 @@ import { Session } from 'meteor/session';
 import { query } from '/lib/views';
 import { here } from '/lib/utils';
 import { Transactions } from '/imports/api/transactions/Transactions';
-import { Contracts } from '/imports/api/contracts/Contracts';
 import { getUser } from '/imports/ui/templates/components/identity/avatar/avatar';
 
 import '/imports/ui/templates/widgets/tally/tally.html';
@@ -175,10 +174,6 @@ Template.tally.onCreated(function () {
 
 Template.tally.helpers({
   vote() {
-    console.log(this.options.kind);
-    const feed = Template.instance().feed.get();
-    console.log(feed);
-    console.log('----');
     return Template.instance().feed.get();
   },
   ready() {

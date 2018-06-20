@@ -31,7 +31,7 @@ Template.paginator.onRendered(function () {
   const loaded = Template.instance().loaded;
   let isScrolling;
 
-  $('.right').scroll(() => {
+  $('.split-left').scroll(() => {
     Meteor.clearTimeout(isScrolling);
     isScrolling = Meteor.setTimeout(function () {
       if (!loaded.get()) {
