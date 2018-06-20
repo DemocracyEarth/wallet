@@ -160,7 +160,9 @@ Template.tally.onCreated(function () {
     if (dbQuery) {
       if (instance.subscription.ready()) {
         Session.set('isLedgerReady', true);
-        computation.stop();
+        if (instance.data.options.view === 'userVotes' || instance.data.options.view === 'delegationVotes') {
+          computation.stop();
+        }
       }
       instance.handle = dbQuery.observeChanges({
         addedBefore: (id, fields) => {
