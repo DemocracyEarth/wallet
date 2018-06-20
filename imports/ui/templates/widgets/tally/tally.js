@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Meteor } from 'meteor/meteor';
+import { Session } from 'meteor/session';
 
 import { query } from '/lib/views';
 import { here } from '/lib/utils';
@@ -39,7 +40,7 @@ const _voteToContract = (post, contract, hidePost, winningBallot, openFeed) => {
       timestamp: post.timestamp,
       kind: post.kind,
       wallet: {
-        balance: post.input.quantity,
+        balance: post.output.quantity,
       },
       _id: post._id,
     };
@@ -53,20 +54,6 @@ const _voteToContract = (post, contract, hidePost, winningBallot, openFeed) => {
       title: contract.title,
       url: contract.url,
     };
-  }
-  if (!hidePost) {
-    let contractId;
-    if (contract && post.input.entityId === contract._id) {
-      contractId = post.output.entityId;
-    } else if (contract) {
-      contractId = post.input.entityId;
-    }
-    if (contractId) {
-      const dbContract = Contracts.findOne({ _id: contractId });
-      if (dbContract) {
-        transaction.contract = dbContract;
-      }
-    }
   }
   return transaction;
 };
@@ -95,13 +82,33 @@ const _isWinningVote = (winningBallot, voterBallot) => {
   return false;
 };
 
+const _buildFeed = (id, fields, instance, contract, noTitle) => {
+  // added stuff
+  // if (fields.kind === instance.data.options.kind) {
+  const currentFeed = instance.feed.get();
+  const post = fields;
+  post._id = id;
+  const userSubscriptionId = _requiresUserSubscription(post);
+  if (userSubscriptionId) {
+    getUser(userSubscriptionId);
+  }
+
+  const voteContract = _voteToContract(post, contract, noTitle, _isWinningVote(instance.data.winningBallot, post.condition.ballot), instance.openFeed);
+
+  if (!currentFeed) {
+    instance.feed.set([voteContract]);
+  } else if (!here(voteContract, currentFeed)) {
+    currentFeed.push(voteContract);
+    instance.feed.set(_.uniq(currentFeed));
+  }
+  // }
+};
 
 Template.tally.onCreated(function () {
   Template.instance().feed = new ReactiveVar();
   Template.instance().contract = new ReactiveVar();
   Template.instance().openFeed = false;
-
-  console.log(this.data.options.view);
+  Template.instance().subscriptions = [];
 
   const instance = this;
 
@@ -125,23 +132,22 @@ Template.tally.onCreated(function () {
     } else if (this.data.options.userId) {
       instance.contract.set(Meteor.users.findOne({ _id: this.data.options.userId }));
     }
-    if (this.data.options.view === 'delegationVotes') {
-      instance.openFeed = true;
-    }
   } else if (this.data.options.view === 'lastVotes') {
     instance.openFeed = true;
   }
 
-  console.log(this.data.options);
   this.subscription = instance.subscribe('tally', this.data.options);
 
-  instance.autorun(function () {
+  instance.autorun(function (computation) {
     const contract = instance.contract.get();
     let parameters;
     let dbQuery;
     let noTitle;
 
     if (contract || instance.openFeed) {
+      if (instance.data.options.view === 'delegationVotes') {
+        instance.openFeed = true;
+      }
       parameters = query(Template.currentData().options);
       dbQuery = Transactions.find(parameters.find, parameters.options);
       noTitle = (Template.currentData().options.view === 'votes');
@@ -151,30 +157,14 @@ Template.tally.onCreated(function () {
       }
     }
 
-    if (parameters) {
-      console.log(`query`);
-      console.log(parameters.find.kind);
-    }
-
     if (dbQuery) {
+      if (instance.subscription.ready()) {
+        Session.set('isLedgerReady', true);
+        computation.stop();
+      }
       instance.handle = dbQuery.observeChanges({
         addedBefore: (id, fields) => {
-          // added stuff
-          const currentFeed = instance.feed.get();
-          const post = fields;
-          post._id = id;
-          const userSubscriptionId = _requiresUserSubscription(post);
-          if (userSubscriptionId) {
-            getUser(userSubscriptionId);
-          }
-          const voteContract = _voteToContract(post, contract, noTitle, _isWinningVote(instance.data.winningBallot, post.condition.ballot), instance.openFeed);
-
-          if (!currentFeed) {
-            instance.feed.set([voteContract]);
-          } else if (!here(voteContract, currentFeed)) {
-            currentFeed.push(voteContract);
-            instance.feed.set(_.uniq(currentFeed));
-          }
+          _buildFeed(id, fields, instance, contract, noTitle);
         },
       });
     }
@@ -183,6 +173,10 @@ Template.tally.onCreated(function () {
 
 Template.tally.helpers({
   vote() {
+    console.log(this.options.kind);
+    const feed = Template.instance().feed.get();
+    console.log(feed);
+    console.log('----');
     return Template.instance().feed.get();
   },
   ready() {

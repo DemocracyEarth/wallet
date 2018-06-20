@@ -1,5 +1,6 @@
 import { $ } from 'meteor/jquery';
 import { Template } from 'meteor/templating';
+import { ReactiveVar } from 'meteor/reactive-var';
 import { Session } from 'meteor/session';
 
 import { setupSplit } from '/imports/ui/modules/split';
@@ -9,9 +10,13 @@ import '/imports/ui/templates/components/decision/ledger/ledger.html';
 
 Template.ledger.onCreated(function () {
   setupSplit();
+  Session.set('isLedgerReady', false);
 });
 
 Template.ledger.helpers({
+  ready() {
+    return Template.instance().ready.get();
+  },
   emptyThread() {
     if (Session.get('contract')) {
       if (Session.get('contract').events !== undefined && Session.get('contract').events.length > 0) {
@@ -30,12 +35,14 @@ Template.ledger.helpers({
   delegationVotes() {
     const tally = this;
     tally.options.view = 'delegationVotes';
+    tally.options.kind = 'DELEGATION';
     tally.options.sort = { timestamp: -1 };
     return tally;
   },
   peerVotes() {
     const tally = this;
     tally.options.view = 'userVotes';
+    tally.options.kind = 'VOTE';
     tally.options.sort = { timestamp: -1 };
     return tally;
   },
@@ -65,6 +72,9 @@ Template.ledger.helpers({
     tally.options.view = 'lastVotes';
     tally.options.sort = { timestamp: -1 };
     return tally;
+  },
+  isLedgerReady() {
+    return Session.get('isLedgerReady');
   },
 });
 
