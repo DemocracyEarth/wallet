@@ -34,13 +34,13 @@
       {{/if}}
 
       <div id="non-editable-feed">
-        {{> feed this}}
+        {{> feed mainFeed}}
       </div>
     </div>
   </div>
 
   <div class="split split-right">
-    {{> ledger options=this.options kind='DELEGATION' singlePost=true hidePost=false peerFeed=false postFeed=false homeFeed=true}}
+    {{> ledger mainLedger}}
   </div>
 
   {{> compose}}

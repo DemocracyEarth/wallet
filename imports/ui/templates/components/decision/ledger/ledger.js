@@ -1,6 +1,7 @@
 import { $ } from 'meteor/jquery';
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { Tracker } from 'meteor/tracker';
 import { Session } from 'meteor/session';
 
 import { setupSplit } from '/imports/ui/modules/split';

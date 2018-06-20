@@ -76,19 +76,6 @@ Template.feed.onRendered(function () {
     if (count.ready()) {
       instance.count.set(Counts.get('feedItems'));
     }
-/*
-    if (Meteor.user()) {
-      const draft = instance.subscribe('contractDrafts', { view: 'contractByKeyword', keyword: `draft-${Meteor.userId()}` });
-      if (draft.ready()) {
-        const draftContract = Contracts.findOne({ keyword: `draft-${Meteor.userId()}` });
-        if (draftContract) {
-          Session.set('draftContract', draftContract);
-        } else {
-          Session.set('draftContract', createContract());
-        }
-      }
-    }
-  */
   });
 });
 

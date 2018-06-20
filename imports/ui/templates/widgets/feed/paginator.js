@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { $ } from 'meteor/jquery';
 import { Template } from 'meteor/templating';
+import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import { gui } from '/lib/const';
@@ -63,6 +64,8 @@ Template.paginator.helpers({
     let nextSkip = (this.options.skip + gui.ITEMS_PER_PAGE);
     if (nextSkip > this.count) { nextSkip = this.count; }
     this.options.skip = nextSkip;
+    this.options.view = Session.get('longFeedView');
+    console.log(`nextOptions: ${JSON.stringify(this.options)}`);
     return this.options;
   },
 });

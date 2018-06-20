@@ -82,6 +82,25 @@ Template.homeFeed.helpers({
     }
     return undefined;
   },
+  mainFeed() {
+    const tally = this;
+    Session.set('longFeedView', this.options.view);
+    console.log(tally.options.view);
+    return tally;
+  },
+  mainLedger() {
+    // options=this.options kind='DELEGATION' singlePost=true hidePost=false peerFeed=false postFeed=false homeFeed=true
+    const tally = this;
+    return {
+      options: tally.options,
+      kind: 'DELEGATION',
+      singlePost: true,
+      hidePost: false,
+      peerFeed: false,
+      postFeed: false,
+      homeFeed: true,
+    };
+  },
 });
 
 Template.postFeed.onCreated(function () {
