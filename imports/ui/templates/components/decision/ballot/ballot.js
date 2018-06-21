@@ -327,11 +327,19 @@ Template.ballot.helpers({
           })}`;
         } else if (this.contract.tally && this.contract.tally.voter.length === 1) {
           label += `&#183; ${(this.contract.tally.voter[0].votes)}`;
+        } else {
+          label += '&#183; 0';
         }
         break;
       default:
     }
     return label;
+  },
+  singleVote() {
+    if (!this.contract.ballotEnabled) {
+      return '?vote=true';
+    }
+    return '';
   },
   voters() {
     let total;
