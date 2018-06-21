@@ -1928,11 +1928,12 @@ blockquote {
 .warning {
   display: inline-block;
   overflow: hidden;
+  width: 100%;
   margin: 0px 5px 5px;
   padding: 3px 10px;
   border-radius: 5px;
-  background-color: #ffe079;
-  color: #af8d1e;
+  background-color: #fae6e6;
+  color: #ff2752;
   font-size: 14px;
   line-height: 30px;
 }

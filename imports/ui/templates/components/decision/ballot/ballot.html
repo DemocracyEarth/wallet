@@ -57,6 +57,11 @@
       {{/if}}
     {{/if}}
   </div>
+  {{#if castSingleVote}}
+    {{#with voteSettings}}
+      {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot singleVote=true}}
+    {{/with}}
+  {{/if}}
   {{#unless editorMode}}
     {{#unless readOnly}}
       {{#if currentUser}}

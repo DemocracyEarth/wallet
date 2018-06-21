@@ -63,6 +63,13 @@ const _meta = (tag, includeTitle) => {
 };
 
 /**
+* @summary resets session variables
+*/
+const _reset = () => {
+  Session.set('castSingleVote', undefined);
+};
+
+/**
 * @summary default meta tags
 */
 const _boilerPlate = () => {
@@ -94,6 +101,7 @@ Router.route('/', {
   template: 'home',
   loadingTemplate: 'load',
   onBeforeAction() {
+    _reset();
     this.next();
   },
   data() {
@@ -113,6 +121,7 @@ Router.route('/peer/:username', {
   name: 'peerFeed',
   template: 'home',
   onBeforeAction() {
+    _reset();
     this.next();
   },
   data() {
@@ -166,6 +175,7 @@ Router.route('/vote/:keyword', {
   name: 'post',
   template: 'home',
   onBeforeAction() {
+    _reset();
     this.next();
   },
   data() {
@@ -202,6 +212,15 @@ Router.route('/vote/:keyword', {
       image,
       twitter: Meteor.settings.public.Collective.profile.twitter,
     });
+
+    console.log(this);
+
+    switch (this.params.query.ask) {
+      case 'vote':
+        Session.set('castSingleVote', this.params.keyword);
+        break;
+      default:
+    }
   },
 });
 
@@ -213,6 +232,7 @@ Router.route('/tag/:hashtag', {
   name: 'tagFeed',
   template: 'home',
   onBeforeAction() {
+    _reset();
     this.next();
   },
   data() {
@@ -240,6 +260,7 @@ Router.route('/geo/:country', {
   name: 'geoFeed',
   template: 'home',
   onBeforeAction() {
+    _reset();
     this.next();
   },
   data() {
@@ -268,6 +289,7 @@ Router.route('/token/:hashtag', {
   name: 'tokenFeed',
   template: 'home',
   onBeforeAction() {
+    _reset();
     this.next();
   },
   data() {
@@ -281,6 +303,7 @@ Router.route('/token/:hashtag', {
 Router.route('/verify-email/:token', {
   name: 'verify-email',
   onBeforeAction() {
+    _reset();
     Session.set('emailToken', this.params.token);
     this.next();
   },

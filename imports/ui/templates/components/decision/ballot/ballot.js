@@ -337,9 +337,12 @@ Template.ballot.helpers({
   },
   singleVote() {
     if (!this.contract.ballotEnabled) {
-      return '?vote=true';
+      return '?ask=vote';
     }
     return '';
+  },
+  castSingleVote() {
+    return (Session.get('castSingleVote') === this.contract.keyword);
   },
   voters() {
     let total;

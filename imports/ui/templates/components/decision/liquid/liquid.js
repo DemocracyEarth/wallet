@@ -62,6 +62,11 @@ function getBarWidth(value, voteId, editable, interactive, getPercentageValue) {
 * @param {Vote} vote
 */
 function voteFailure(vote) {
+  console.log((vote.allocateQuantity <= vote.minVotes && vote.minVotes !== 0 && vote.voteType === 'DELEGATION'));
+  console.log((vote.allocateQuantity < vote.minVotes && vote.voteType === 'VOTE'));
+  console.log((vote.allocateQuantity === vote.inBallot));
+  console.log((vote.voteType === 'VOTE' && purgeBallot(getBallot(vote.targetId)).length === 0));
+  console.log((isNaN(vote.allocateQuantity)));
   return (vote.allocateQuantity <= vote.minVotes && vote.minVotes !== 0 && vote.voteType === 'DELEGATION') ||
     (vote.allocateQuantity < vote.minVotes && vote.voteType === 'VOTE') ||
     (vote.allocateQuantity === vote.inBallot) ||
@@ -188,6 +193,41 @@ Template.liquid.onRendered(function () {
 });
 
 Template.liquid.helpers({
+  castSingleVote() {
+    const voteId = `vote-${this.sourceId}-${this.targetId}`;
+    this.newVote = new Vote(Session.get(voteId), Session.get(voteId).targetId, voteId);
+    this.newVote.resetSlider();
+    this.newVote.place(1, true);
+    if (getBallot(this.newVote.targetId).length === 0 && this.newVote.voteType === 'VOTE') {
+      if (this.newVote.inBallot > 0) {
+        candidateBallot(Meteor.userId(), this.newVote.targetId);
+      }
+    }
+    Session.set(voteId, this.newVote);
+
+    const cancel = () => {
+      Session.set('castSingleVote', undefined);
+    };
+
+    if (voteFailure(this.newVote)) {
+      console.log('failure');
+      console.log(this.newVote);
+      cancel();
+      if (this.newVote.voteType === 'VOTE' && (this.newVote.allocateQuantity !== this.newVote.inBallot || this.newVote.inBallot === 0)) {
+        Session.set('noSelectedOption', this.newVote.voteId);
+      }
+    } else if (contractReady(this.newVote, Contracts.findOne({ _id: this.newVote.targetId })) || this.newVote.voteType === 'DELEGATION') {
+      console.log('execute');
+      clearPopups();
+
+      // democracy wins
+      this.newVote.execute(cancel);
+    }
+    console.log(`voteId: ${voteId}`);
+  },
+  signleVote() {
+    return this.singleVote;
+  },
   isDelegation() {
     return (Session.get(this._id).voteType === 'DELEGATION');
   },
