@@ -473,6 +473,7 @@
   "alliance": "Delegation of Votes",
   "draft": "Draft.",
   "blockstack-id": "Blockstack ID",
+  "metamask": "Metamask",
   "member": "Member",
   "get-election-votes": "Tallying votes...",
   "get-delegation-votes": "Getting delegation status...",
