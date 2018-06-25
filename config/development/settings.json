@@ -65,7 +65,7 @@
           "appCache": false,
           "mailNotifications": false,
           "permissioned": {
-            "active": true,
+            "active": false,
             "checkDomain": false,
             "checkList": true
           }
