@@ -28,7 +28,9 @@ const _validateUsername = (username) => {
   if (regexp.test(username)) {
     Meteor.call('getUser', username, function (error, result) {
       if (result) {
-        if (result.username !== Meteor.user().username) {
+        console.log(result);
+        console.log(username);
+        if (result.username === username) {
           Session.set('queryUsernameStatus', 'DUPLICATE');
         } else {
           Session.set('queryUsernameStatus', 'SINGULAR');
@@ -161,7 +163,7 @@ const _createUser = (data) => {
           console.log('does user exist?');
           console.log(Meteor.user());
 
-          Meteor.call('subsidizeUser', (subsidyError) => {
+          Meteor.call('subsidizeUser', Meteor.userId(), (subsidyError) => {
             if (subsidyError) {
               console.log(subsidyError.reason, 'danger');
             }
