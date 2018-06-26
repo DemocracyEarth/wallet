@@ -28,9 +28,7 @@ const _validateUsername = (username) => {
   if (regexp.test(username)) {
     Meteor.call('getUser', username, function (error, result) {
       if (result) {
-        console.log(result);
-        console.log(username);
-        if (result.username === username) {
+        if (result.username !== Meteor.user().username) {
           Session.set('queryUsernameStatus', 'DUPLICATE');
         } else {
           Session.set('queryUsernameStatus', 'SINGULAR');
