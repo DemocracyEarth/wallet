@@ -410,10 +410,13 @@ export class Vote {
           contractId: this.targetId,
         };
 
+        /**
+        NOTE: no longer valid as every feed item is now votable
         if (finalBallot.length === 0 && removal !== true) {
           displayNotice('empty-values-ballot', true);
           return;
         }
+        */
         break;
     }
 

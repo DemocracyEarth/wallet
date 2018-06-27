@@ -61,16 +61,11 @@ function getBarWidth(value, voteId, editable, interactive, getPercentageValue) {
 * @summary verifies vote settings are in onRendered
 * @param {Vote} vote
 */
-function voteFailure(vote) {
-  console.log((vote.allocateQuantity <= vote.minVotes && vote.minVotes !== 0 && vote.voteType === 'DELEGATION'));
-  console.log((vote.allocateQuantity < vote.minVotes && vote.voteType === 'VOTE'));
-  console.log((vote.allocateQuantity === vote.inBallot));
-  console.log((vote.voteType === 'VOTE' && purgeBallot(getBallot(vote.targetId)).length === 0));
-  console.log((isNaN(vote.allocateQuantity)));
+function voteFailure(vote, isSingleVote) {
   return (vote.allocateQuantity <= vote.minVotes && vote.minVotes !== 0 && vote.voteType === 'DELEGATION') ||
     (vote.allocateQuantity < vote.minVotes && vote.voteType === 'VOTE') ||
     (vote.allocateQuantity === vote.inBallot) ||
-    (vote.voteType === 'VOTE' && purgeBallot(getBallot(vote.targetId)).length === 0) ||
+    ((vote.voteType === 'VOTE' && purgeBallot(getBallot(vote.targetId)).length === 0) && isSingleVote !== true) ||
     (isNaN(vote.allocateQuantity));
 }
 
@@ -198,18 +193,22 @@ Template.liquid.helpers({
     this.newVote = new Vote(Session.get(voteId), Session.get(voteId).targetId, voteId);
     this.newVote.resetSlider();
     this.newVote.place(1, true);
-    if (getBallot(this.newVote.targetId).length === 0 && this.newVote.voteType === 'VOTE') {
+    /*if (getBallot(this.newVote.targetId).length === 0 && this.newVote.voteType === 'VOTE') {
       if (this.newVote.inBallot > 0) {
         candidateBallot(Meteor.userId(), this.newVote.targetId);
       }
-    }
+    }*/
     Session.set(voteId, this.newVote);
 
     const cancel = () => {
       Session.set('castSingleVote', undefined);
     };
 
-    if (voteFailure(this.newVote)) {
+
+    console.log('contractReady');
+    console.log(contractReady(this.newVote, Contracts.findOne({ _id: this.newVote.targetId })));
+
+    if (voteFailure(this.newVote, true)) {
       console.log('failure');
       console.log(this.newVote);
       cancel();
