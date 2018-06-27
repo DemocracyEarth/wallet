@@ -1,10 +1,53 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
+import { Web3 } from 'meteor/ethereum:web3'
+import ethUtil from 'ethereumjs-util';
+
 
 if (Meteor.isClient) {
-  console.log('DEBUG - metamask.js - Meteor.isClient ');
+  const handleSignMessage = (publicAddress, nonce) => {
+    return new Promise((resolve, reject) =>
+      web3.personal.sign(
+        web3.fromUtf8(`I am signing my one-time nonce: ${nonce}`),
+        publicAddress,
+        function (err, signature) {
+          if (err) return reject(err);
+          return resolve({ signature });
+        }
+      )
+    );
+  }
+
+  const verifySignature = function(signature, publicAddress, nonce) {
+    const msg = `I am signing my one-time nonce: ${nonce}`;
+
+    // We now are in possession of msg, publicAddress and signature. We
+    // can perform an elliptic curve signature verification with ecrecover
+    const msgBuffer = ethUtil.toBuffer(msg);
+    const msgHash = ethUtil.hashPersonalMessage(msgBuffer);
+    const signatureBuffer = ethUtil.toBuffer(signature.signature);
+    const signatureParams = ethUtil.fromRpcSig(signatureBuffer);
+    const publicKey = ethUtil.ecrecover(
+      msgHash,
+      signatureParams.v,
+      signatureParams.r,
+      signatureParams.s
+    );
+    const addressBuffer = ethUtil.publicToAddress(publicKey);
+    const address = ethUtil.bufferToHex(addressBuffer);
+
+    // The signature verification is successful if the address found with
+    // ecrecover matches the initial publicAddress
+    if (address.toLowerCase() === publicAddress.toLowerCase()) {
+      return 'success';
+    } else {
+      return res
+        .status(401)
+        .send({ error: 'Signature verification failed' });
+    }
+  }
+
   const loginWithMetamask = function() {
-    console.log('DEBUG - metamask.js - Meteor.isClient  - loginWithMetamask');
     if (!window.web3) {
       window.alert('Please install MetaMask first.');
       return;
@@ -18,32 +61,61 @@ if (Meteor.isClient) {
       window.alert('Please activate MetaMask first.');
       return;
     }
+
+    var nonce = Math.floor(Math.random() * 10000);
     const publicAddress = web3.eth.coinbase.toLowerCase();
-    console.log('DEBUG - metamask.js - Meteor.isClient  - publicAddress ', publicAddress);
-
-    var methodArguments = [{publicAddress: publicAddress}];
     
-    Accounts.callLoginMethod({
-      methodArguments,
-      userCallback: function () {
-        console.log('DEBUG - metamask.js - Meteor.isClient - callLoginMethod');
+    handleSignMessage(publicAddress, nonce).then(function (signature){
+      var verification =  verifySignature(signature, publicAddress, nonce);
+      
+      if (verification == 'success') {
+        var methodName = 'login';
+        var methodArguments = [{publicAddress: publicAddress}];
+        Accounts.callLoginMethod({
+          methodArguments,
+          userCallback: function (err) {
+            Accounts._pageLoadLogin({
+              type: 'metamask',
+              allowed: !err,
+              error: err,
+              methodName: methodName,
+              methodArguments: methodArguments
+            })
+          }
+        });
+      } else {
+        console.log('Login error with Metamask');
       }
-    });
-
+    })
   }
+  
   Accounts.registerClientLoginFunction('metamask', loginWithMetamask);
+
   Meteor.loginWithMetamask = function() {
     return Accounts.applyLoginFunction('metamask', arguments);
   };
 }
 
 if (Meteor.isServer) {
-  console.log('DEBUG - Meteor.isServer - metamask.js');
-  Accounts.registerLoginHandler('metamask', function() {
-    console.log('DEBUG - metamask.js - Meteor.isServer - registerLoginHandler');
-    // Look if user with current publicAddress is already present on backend
-
-    // If yes, retrieve it. If no, create it.
+  Accounts.registerLoginHandler('metamask', function(opts) {
+    const publicAddress = opts.publicAddress;
+    var user = null;
+    var userQuery = Meteor.users.find({username: publicAddress}).fetch();
+    var serviceUserId = {}
     
+    // Check if user with current publicAddress already exists
+    if(userQuery.length == 0) {
+      // If not, create it
+      user = Accounts.updateOrCreateUserFromExternalService('metamask', {
+        id: publicAddress,
+        publicAddress: publicAddress
+      });
+      serviceUserId = {userId: user.userId};
+    } else {
+      // Otherwise, retrieve it
+      user = userQuery;
+      serviceUserId = {userId: user[0]._id};
+    }
+    return serviceUserId;
   });
 }

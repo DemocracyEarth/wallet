@@ -36,11 +36,15 @@ export default class SocialMediaLogin extends Component {
       if (err.reason) {
         throw new Meteor.Error('Blockstack login failed', err.reason);
       }
-    })
+    });
   }
   
   handleMetamaskLogin() {
-    console.log('handleMetamaskLogin()');
+    Meteor.loginWithMetamask({}, function (err) {
+      if (err.reason) {
+        throw new Meteor.Error('Metamask login failed', err.reason);
+      }
+    });
   }
 
   handleAgoraLogin() {

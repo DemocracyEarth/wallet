@@ -8,7 +8,7 @@ const Schema = {};
 Schema.Credential = new SimpleSchema({
   source: {
     type: String,
-    allowedValues: ['facebook', 'twitter', 'linkedin', 'github', 'peer', 'blockstack'],
+    allowedValues: ['facebook', 'twitter', 'linkedin', 'github', 'peer', 'blockstack', 'metamask'],
     optional: true,
   },
   URL: {
@@ -195,6 +195,19 @@ Schema.User = new SimpleSchema({
   heartbeat: {
     type: Date,
     optional: true,
+  },
+  publicAddress: {
+    type: String,
+    optional: true,
+    // unique
+    // validate isLowerCase
+    // allowNull false
+  },
+  nonce: {
+    type: Number,
+    optional: true,
+    // defaultValue: () => Number(Math.floor(Math.random() * 10000)) // Initialize with a random nonce
+    // allowNull false
   },
 });
 
