@@ -196,19 +196,6 @@ Schema.User = new SimpleSchema({
     type: Date,
     optional: true,
   },
-  publicAddress: {
-    type: String,
-    optional: true,
-    // unique
-    // validate isLowerCase
-    // allowNull false
-  },
-  nonce: {
-    type: Number,
-    optional: true,
-    // defaultValue: () => Number(Math.floor(Math.random() * 10000)) // Initialize with a random nonce
-    // allowNull false
-  },
 });
 
 export const UserContext = Schema.User.newContext();
