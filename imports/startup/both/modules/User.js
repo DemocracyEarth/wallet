@@ -28,10 +28,12 @@ const _validateUsername = (username) => {
   if (regexp.test(username)) {
     Meteor.call('getUser', username, function (error, result) {
       if (result) {
-        if (result.username !== Meteor.user().username) {
-          Session.set('queryUsernameStatus', 'DUPLICATE');
-        } else {
-          Session.set('queryUsernameStatus', 'SINGULAR');
+        if (Meteor.user()) {
+          if (result.username !== Meteor.user().username) {
+            Session.set('queryUsernameStatus', 'DUPLICATE');
+          } else {
+            Session.set('queryUsernameStatus', 'SINGULAR');
+          }
         }
         // instance.contract.set(result);
       } else if (error) {
