@@ -119,6 +119,7 @@ Meteor.methods({
     this.unblock();
 
     console.log(`{ server: 'sendNotification', from: '${sender.username}', to: '${receiver.username}', text: "${text}" }`);
+
     Email.send({ to, from, subject, text, html });
   },
 

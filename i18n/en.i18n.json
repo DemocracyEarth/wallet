@@ -526,5 +526,6 @@
   "fund-organization": "Fund Organization",
   "btc": "BTC",
   "spent": "Spent",
-  "copy": "Copy"
+  "copy": "Copy",
+  "unvote": "Unvote"
 }

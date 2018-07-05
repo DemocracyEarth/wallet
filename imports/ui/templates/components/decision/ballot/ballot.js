@@ -303,6 +303,12 @@ Template.ballot.helpers({
         break;
       case 'vote':
         label = TAPi18n.__('vote');
+        for (const i in this.contract.tally.voter) {
+          if (this.contract.tally.voter[i]._id === Meteor.userId()) {
+            label = TAPi18n.__('unvote');
+            break;
+          }
+        }
         break;
       default:
     }
