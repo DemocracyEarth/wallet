@@ -213,8 +213,6 @@ Router.route('/vote/:keyword', {
       twitter: Meteor.settings.public.Collective.profile.twitter,
     });
 
-    console.log(this);
-
     switch (this.params.query.ask) {
       case 'vote':
         Session.set('castSingleVote', this.params.keyword);

@@ -616,7 +616,7 @@ const _tally = (transaction) => {
   let found = false;
   let votes;
 
-
+/*
   const template = [
     {
       ballot: [{
@@ -637,7 +637,7 @@ const _tally = (transaction) => {
       votes: 0,
     },
   ];
-
+*/
 
   let backwardCompatible = false;
 
@@ -654,12 +654,13 @@ const _tally = (transaction) => {
     backwardCompatible = true;
   }
 
-
+/*
   if (!contract.ballot.length) {
     for (const i in template) {
       contract.ballot.push(template[i].ballot[0]);
     }
   }
+  */
 
 
   // last transaction
