@@ -161,6 +161,14 @@ Template.ballot.helpers({
     }
     return this.contract.executiveDecision;
   },
+  voted() {
+    for (const i in this.contract.tally.voter) {
+      if (this.contract.tally.voter[i]._id === Meteor.userId()) {
+        return true;
+      }
+    }
+    return false;
+  },
   // NOTE: this algo is tricky af, i'm actually scared to touch it.
   options() {
     var contractBallot;
@@ -266,6 +274,15 @@ Template.ballot.helpers({
   },
   voteSettings() {
     return getVoterContractBond(this);
+  },
+  revokeSettings() {
+    return Object.assign(this, {
+      voteId: `vote-${this.contract._id}-${Meteor.userId()}`,
+      wallet: this.contract.wallet,
+      sourceId: this.contract._id,
+      targetId: Meteor.userId(),
+      forks: _generateForks(this.contract),
+    });
   },
   executionStatus() {
     return this.contract.executionStatus;

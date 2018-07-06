@@ -58,9 +58,15 @@
     {{/if}}
   </div>
   {{#if castSingleVote}}
-    {{#with voteSettings}}
-      {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot singleVote=true}}
-    {{/with}}
+    {{#unless voted}}
+      {{#with voteSettings}}
+        {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot singleVote=true}}
+      {{/with}}
+    {{else}}
+      {{#with revokeSettings}}
+        {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot singleVote=true}}
+      {{/with}}
+    {{/unless}}
   {{/if}}
   {{#unless editorMode}}
     {{#unless readOnly}}

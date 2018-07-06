@@ -111,7 +111,7 @@ Template.transaction.helpers({
     return style;
   },
   ballotOption() {
-    if (this.ballot) {
+    if (this.ballot.length > 0) {
       return TAPi18n.__(this.ballot[0].mode);
     }
     return '';

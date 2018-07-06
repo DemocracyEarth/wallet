@@ -193,36 +193,23 @@ Template.liquid.helpers({
     this.newVote = new Vote(Session.get(voteId), Session.get(voteId).targetId, voteId);
     this.newVote.resetSlider();
     this.newVote.place(1, true);
-    /*if (getBallot(this.newVote.targetId).length === 0 && this.newVote.voteType === 'VOTE') {
-      if (this.newVote.inBallot > 0) {
-        candidateBallot(Meteor.userId(), this.newVote.targetId);
-      }
-    }*/
     Session.set(voteId, this.newVote);
 
     const cancel = () => {
       Session.set('castSingleVote', undefined);
     };
 
-
-    console.log('contractReady');
-    console.log(contractReady(this.newVote, Contracts.findOne({ _id: this.newVote.targetId })));
-
     if (voteFailure(this.newVote, true)) {
-      console.log('failure');
-      console.log(this.newVote);
       cancel();
       if (this.newVote.voteType === 'VOTE' && (this.newVote.allocateQuantity !== this.newVote.inBallot || this.newVote.inBallot === 0)) {
         Session.set('noSelectedOption', this.newVote.voteId);
       }
     } else if (contractReady(this.newVote, Contracts.findOne({ _id: this.newVote.targetId })) || this.newVote.voteType === 'DELEGATION') {
-      console.log('execute');
       clearPopups();
 
       // democracy wins
       this.newVote.execute(cancel);
     }
-    console.log(`voteId: ${voteId}`);
   },
   signleVote() {
     return this.singleVote;
