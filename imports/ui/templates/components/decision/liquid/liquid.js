@@ -189,10 +189,18 @@ Template.liquid.onRendered(function () {
 
 Template.liquid.helpers({
   castSingleVote() {
+    console.log('casting single vote');
+    console.log(`singleRevoke: ${this.singleRevoke}`);
+    console.log(this);
+
     const voteId = `vote-${this.sourceId}-${this.targetId}`;
     this.newVote = new Vote(Session.get(voteId), Session.get(voteId).targetId, voteId);
     this.newVote.resetSlider();
-    this.newVote.place(1, true);
+    if (this.singleRevoke) {
+      this.newVote.place(-1, true);
+    } else {
+      this.newVote.place(1, true);
+    }
     Session.set(voteId, this.newVote);
 
     const cancel = () => {
