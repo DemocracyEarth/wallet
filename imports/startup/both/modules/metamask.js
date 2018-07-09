@@ -8,7 +8,7 @@ if (Meteor.isClient) {
   const handleSignMessage = (publicAddress, nonce) => {
     return new Promise((resolve, reject) =>
       web3.personal.sign(
-        web3.fromUtf8(`I am signing my one-time nonce: ${nonce}`),
+        web3.fromUtf8(`I am signing my one-time Democracy Earth nonce: ${nonce}`),
         publicAddress,
         function (err, signature) {
           if (err) return reject(err);
@@ -19,10 +19,9 @@ if (Meteor.isClient) {
   }
 
   const verifySignature = function(signature, publicAddress, nonce) {
-    const msg = `I am signing my one-time nonce: ${nonce}`;
+    const msg = `I am signing my one-time Democracy Earth nonce: ${nonce}`;
 
-    // We now are in possession of msg, publicAddress and signature. We
-    // can perform an elliptic curve signature verification with ecrecover
+    // Perform an elliptic curve signature verification with ecrecover
     const msgBuffer = ethUtil.toBuffer(msg);
     const msgHash = ethUtil.hashPersonalMessage(msgBuffer);
     const signatureBuffer = ethUtil.toBuffer(signature.signature);
