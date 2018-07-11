@@ -128,7 +128,12 @@ Template.transaction.helpers({
   noDate() {
     return this.noDate;
   },
-  loosing() {
+  stage() {
+    console.log('stage:');
+    console.log(this);
+    if (this.ballot.length === 0) {
+      return 'stage-single';
+    }
     if (!this.winningBallot) {
       return 'stage-loosing';
     }

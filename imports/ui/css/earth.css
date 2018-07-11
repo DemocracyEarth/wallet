@@ -3334,6 +3334,14 @@ blockquote {
   background-color: #e6e6e6;
 }
 
+.stage.stage-vote.stage-single {
+  min-width: 0px;
+  padding-top: 1px;
+  padding-right: 0px;
+  padding-left: 11px;
+  border-width: 0px;
+}
+
 .stage.stage-compressed {
   margin-top: 1px;
   margin-left: 10px;
