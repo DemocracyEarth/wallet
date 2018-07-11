@@ -129,8 +129,6 @@ Template.transaction.helpers({
     return this.noDate;
   },
   stage() {
-    console.log('stage:');
-    console.log(this);
     if (this.ballot.length === 0) {
       return 'stage-single';
     }

@@ -62,6 +62,15 @@ function getBarWidth(value, voteId, editable, interactive, getPercentageValue) {
 * @param {Vote} vote
 */
 function voteFailure(vote, isSingleVote) {
+  /**
+  * NOTE: uncomment for testing
+  console.log(vote);
+  console.log((vote.allocateQuantity <= vote.minVotes && vote.minVotes !== 0 && vote.voteType === 'DELEGATION'));
+  console.log((vote.allocateQuantity < vote.minVotes && vote.voteType === 'VOTE'));
+  console.log((vote.allocateQuantity === vote.inBallot));
+  console.log(((vote.voteType === 'VOTE' && purgeBallot(getBallot(vote.targetId)).length === 0) && isSingleVote !== true));
+  console.log((isNaN(vote.allocateQuantity)));
+  **/
   return (vote.allocateQuantity <= vote.minVotes && vote.minVotes !== 0 && vote.voteType === 'DELEGATION') ||
     (vote.allocateQuantity < vote.minVotes && vote.voteType === 'VOTE') ||
     (vote.allocateQuantity === vote.inBallot) ||
@@ -132,7 +141,8 @@ const _setupDrag = () => {
           Session.set(voteId, this.newVote);
         };
 
-        // Meteor.clearTimeout(this.timer);
+        // NOTE:
+        console.log(this.newVote);
 
         if (voteFailure(this.newVote)) {
           cancel();
@@ -194,18 +204,31 @@ Template.liquid.helpers({
     console.log(this);
 
     const voteId = `vote-${this.sourceId}-${this.targetId}`;
-    this.newVote = new Vote(Session.get(voteId), Session.get(voteId).targetId, voteId);
-    this.newVote.resetSlider();
     if (this.singleRevoke) {
-      this.newVote.place(-1, true);
+      console.log('do revoke vote:');
+      this.newVote = new Vote(Session.get(voteId), this.sourceId, voteId);
+      this.newVote.targetId = this.sourceId;
+      this.newVote.originalTargetId = this.sourceId;
     } else {
-      this.newVote.place(1, true);
+      this.newVote = new Vote(Session.get(voteId), this.targetId, voteId);
     }
+    this.newVote.resetSlider();
+    this.newVote.place(1, true);
+    if (this.singleRevoke) {
+      this.newVote.place(0, true);
+    }
+    console.log(this.newVote);
     Session.set(voteId, this.newVote);
 
     const cancel = () => {
       Session.set('castSingleVote', undefined);
     };
+
+    /**
+    * NOTE: uncomment for testing
+    console.log('voteFailure');
+    console.log(voteFailure(this.newVote, true));
+    **/
 
     if (voteFailure(this.newVote, true)) {
       cancel();
