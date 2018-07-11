@@ -215,6 +215,7 @@ Router.route('/vote/:keyword', {
 
     switch (this.params.query.ask) {
       case 'vote':
+        console.log('CAST SINGLE VOTE');
         Session.set('castSingleVote', this.params.keyword);
         break;
       default:

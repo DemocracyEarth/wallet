@@ -409,4 +409,10 @@ Template.ballot.events({
     addChoiceToBallot(this.contract._id, document.getElementById('text-fork-proposal').value);
     Meteor.setTimeout(() => { document.getElementById('text-fork-proposal').value = ''; }, 100);
   },
+  'click #single-vote'(event) {
+    console.log('EVENT');
+    console.log(this);
+    event.preventDefault();
+    Session.set('castSingleVote', this.contract.keyword);
+  },
 });

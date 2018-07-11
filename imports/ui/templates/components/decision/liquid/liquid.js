@@ -62,14 +62,14 @@ function getBarWidth(value, voteId, editable, interactive, getPercentageValue) {
 * @param {Vote} vote
 */
 function voteFailure(vote, isSingleVote) {
-  /**
-  * NOTE: uncomment for testing
   console.log(vote);
   console.log((vote.allocateQuantity <= vote.minVotes && vote.minVotes !== 0 && vote.voteType === 'DELEGATION'));
   console.log((vote.allocateQuantity < vote.minVotes && vote.voteType === 'VOTE'));
   console.log((vote.allocateQuantity === vote.inBallot));
   console.log(((vote.voteType === 'VOTE' && purgeBallot(getBallot(vote.targetId)).length === 0) && isSingleVote !== true));
   console.log((isNaN(vote.allocateQuantity)));
+  /**
+  * NOTE: uncomment for testing
   **/
   return (vote.allocateQuantity <= vote.minVotes && vote.minVotes !== 0 && vote.voteType === 'DELEGATION') ||
     (vote.allocateQuantity < vote.minVotes && vote.voteType === 'VOTE') ||
@@ -203,43 +203,45 @@ Template.liquid.helpers({
     console.log(`singleRevoke: ${this.singleRevoke}`);
     console.log(this);
 
-    const voteId = `vote-${this.sourceId}-${this.targetId}`;
-    if (this.singleRevoke) {
-      console.log('do revoke vote:');
-      this.newVote = new Vote(Session.get(voteId), this.sourceId, voteId);
-      this.newVote.targetId = this.sourceId;
-      this.newVote.originalTargetId = this.sourceId;
-    } else {
-      this.newVote = new Vote(Session.get(voteId), this.targetId, voteId);
-    }
-    this.newVote.resetSlider();
-    this.newVote.place(1, true);
-    if (this.singleRevoke) {
-      this.newVote.place(0, true);
-    }
-    console.log(this.newVote);
-    Session.set(voteId, this.newVote);
-
-    const cancel = () => {
-      Session.set('castSingleVote', undefined);
-    };
-
-    /**
-    * NOTE: uncomment for testing
-    console.log('voteFailure');
-    console.log(voteFailure(this.newVote, true));
-    **/
-
-    if (voteFailure(this.newVote, true)) {
-      cancel();
-      if (this.newVote.voteType === 'VOTE' && (this.newVote.allocateQuantity !== this.newVote.inBallot || this.newVote.inBallot === 0)) {
-        Session.set('noSelectedOption', this.newVote.voteId);
+    if (Session.get('castSingleVote')) {
+      const voteId = `vote-${this.sourceId}-${this.targetId}`;
+      if (this.singleRevoke) {
+        console.log('do revoke vote:');
+        this.newVote = new Vote(Session.get(voteId), this.sourceId, voteId);
+        this.newVote.targetId = this.sourceId;
+        this.newVote.originalTargetId = this.sourceId;
+      } else {
+        this.newVote = new Vote(Session.get(voteId), this.targetId, voteId);
       }
-    } else if (contractReady(this.newVote, Contracts.findOne({ _id: this.newVote.targetId })) || this.newVote.voteType === 'DELEGATION') {
-      clearPopups();
+      this.newVote.resetSlider();
+      this.newVote.place(1, true);
+      if (this.singleRevoke) {
+        this.newVote.place(0, true);
+      }
+      console.log(this.newVote);
+      Session.set(voteId, this.newVote);
 
-      // democracy wins
-      this.newVote.execute(cancel);
+      const cancel = () => {
+        // Session.set('castSingleVote', undefined);
+      };
+
+      /**
+      * NOTE: uncomment for testing
+      console.log('voteFailure');
+      console.log(voteFailure(this.newVote, true));
+      **/
+
+      if (voteFailure(this.newVote, true)) {
+        cancel();
+        if (this.newVote.voteType === 'VOTE' && (this.newVote.allocateQuantity !== this.newVote.inBallot || this.newVote.inBallot === 0)) {
+          Session.set('noSelectedOption', this.newVote.voteId);
+        }
+      } else if (contractReady(this.newVote, Contracts.findOne({ _id: this.newVote.targetId })) || this.newVote.voteType === 'DELEGATION') {
+        clearPopups();
+
+        // democracy wins
+        this.newVote.execute(cancel);
+      }
     }
   },
   signleVote() {
