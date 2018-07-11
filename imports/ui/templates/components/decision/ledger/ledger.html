@@ -29,9 +29,7 @@
         </div>
         <div id="non-editable-feed" class="ledger">
           {{#if postReady}}
-            {{#if ballotEnabled}}
-              {{> tally postVotes}}
-            {{/if}}
+            {{> tally postVotes}}
           {{/if}}
         </div>
         {{> footnote noGrant=true}}
