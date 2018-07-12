@@ -15,6 +15,7 @@ function killModal() {
   displayModal(false);
   $('#modalToggle').remove();
   Session.set('showModal', false);
+  Session.set('castSingleVote', undefined);
 }
 
 Template.modal.helpers({
@@ -150,6 +151,7 @@ Template.modalWindow.events({
   },
   'click #execute'() {
     globalObj.modalCallback();
+    console.log(globalObj);
     killModal();
   },
 });
