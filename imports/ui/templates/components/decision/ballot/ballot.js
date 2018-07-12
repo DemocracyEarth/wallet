@@ -171,8 +171,7 @@ Template.ballot.helpers({
   },
   voteType() {
     if (!this.contract.ballotEnabled) {
-      // document.getElementById(`singleVote-${this.contract._id}`).addEventListener('click', function () { console.log('holaA'); });
-      return `singleVote-${this.contract._id}`;
+      return 'single-vote';
     }
     return '';
   },
@@ -417,8 +416,8 @@ Template.ballot.helpers({
 
 
 Template.ballot.events({
-  'click .single-vote'() {
-    console.log('AHAHA');
+  'click #single-vote'(event) {
+    event.preventDefault();
     Session.set('castSingleVote', this.contract.keyword);
   },
   'submit #fork-form, click #add-fork-proposal'(event) {

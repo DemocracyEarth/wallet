@@ -11,13 +11,9 @@ import './modal.html';
 import '../../components/identity/avatar/avatar.js';
 
 function killModal() {
-  const settings = Object.assign({
-    complete() {
-      Session.set('showModal', false);
-      displayModal(false);
-    },
-  }, animationSettings);
-  $('.modal').velocity({ opacity: '0' }, settings);
+  $('.modal').css('opacity', '0');
+  Session.set('showModal', false);
+  displayModal(false);
 }
 
 Template.modal.helpers({
@@ -143,7 +139,7 @@ Template.modalWindow.helpers({
 
 Template.modalWindow.events({
   'click #modalToggle'() {
-    // Modules.client.displayModal(false);
+    //Modules.client.displayModal(false);
   },
   'click #cancel'() {
     if (globalObj.modalCancel !== undefined) { globalObj.modalCancel(); }
