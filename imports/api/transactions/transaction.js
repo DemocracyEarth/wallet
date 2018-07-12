@@ -810,22 +810,30 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
 */
 const _genesisTransaction = (userId) => {
   const user = Meteor.users.findOne({ _id: userId });
+  // console.log(`DEBUG - _genesisTransaction() - user: ${user}`);
+  console.log('DEBUG - _genesisTransaction() - user ', user);
 
-  // veryfing genesis...
-  // TODO this is not right, should check against Transactions collection.
-  if (user.profile.wallet !== undefined) {
-    if (user.profile.wallet.ledger.length > 0) {
-      if (user.profile.wallet.ledger[0].entityType === 'COLLECTIVE') {
-        // this user already had a genesis
-        return;
+  if (user.services.metamask != null){
+    console.log('DEBUG - _genesisTransaction() - add eth balance to wallet ');
+    user.profile.wallet = _generateWalletAddress(user.profile.wallet);
+    console.log('DEBUG - _genesisTransaction() - user ', user);
+  } else {
+    // veryfing genesis...
+    // TODO this is not right, should check against Transactions collection.
+    if (user.profile.wallet !== undefined) {
+      if (user.profile.wallet.ledger.length > 0) {
+        if (user.profile.wallet.ledger[0].entityType === 'COLLECTIVE') {
+          // this user already had a genesis
+          return;
+        }
       }
     }
-  }
 
-  // generate first transaction from collective to new member
-  user.profile.wallet = _generateWalletAddress(user.profile.wallet);
-  Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
-  _transact(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY);
+    // generate first transaction from collective to new member
+    user.profile.wallet = _generateWalletAddress(user.profile.wallet);
+    Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
+    _transact(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY);
+  }
 };
 
 export const processedTx = _processedTx;
