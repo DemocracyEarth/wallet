@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
-import { Web3 } from 'meteor/ethereum:web3'
+import Web3 from 'web3';
 import ethUtil from 'ethereumjs-util';
 
 

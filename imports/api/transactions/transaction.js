@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { rules } from '/lib/const';
+import Web3 from 'web3';
 
 import { displayNotice } from '/imports/ui/modules/notice';
 import { Contracts } from '/imports/api/contracts/Contracts';
@@ -811,12 +812,22 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
 const _genesisTransaction = (userId) => {
   const user = Meteor.users.findOne({ _id: userId });
   // console.log(`DEBUG - _genesisTransaction() - user: ${user}`);
-  console.log('DEBUG - _genesisTransaction() - user ', user);
+  // console.log('DEBUG - _genesisTransaction() - user ', user);
 
   if (user.services.metamask != null){
-    console.log('DEBUG - _genesisTransaction() - add eth balance to wallet ');
     user.profile.wallet = _generateWalletAddress(user.profile.wallet);
+    let publicAddress = user.services.metamask.publicAddress
+    let ethBalance = getEthBalance(publicAddress);
+    console.log('DEBUG - _genesisTransaction() - ethBalance ', ethBalance);
+    
+
+    user.profile.wallet.currency = 'ETH';
+    user.profile.wallet.balance = ethBalance;
+
+    Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
+
     console.log('DEBUG - _genesisTransaction() - user ', user);
+
   } else {
     // veryfing genesis...
     // TODO this is not right, should check against Transactions collection.
@@ -834,6 +845,22 @@ const _genesisTransaction = (userId) => {
     Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
     _transact(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY);
   }
+};
+
+const getEthBalance = (publicAddress) => {
+  
+  if (typeof web3 !== 'undefined') {
+    web3 = new Web3(web3.currentProvider);
+  } else {
+    // set the provider you want from Web3.providers
+    web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+  }
+  
+  let balance = web3.eth.getBalance(publicAddress);
+  console.log('DEBUG - getEthBalance() - balance in wei', balance.toNumber());
+  let ethBalance = web3.fromWei(balance, 'ether');
+
+  return ethBalance.toNumber();
 };
 
 export const processedTx = _processedTx;
