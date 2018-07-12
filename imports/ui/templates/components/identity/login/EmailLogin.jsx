@@ -16,6 +16,7 @@ export default class EmailLogin extends Component {
       loginScreen: true,
       passwordKnown: true,
       incorrectUser: false,
+      cryptoJurisdiction: true,
     };
 
     this.handleLoginRender = this.handleLoginRender.bind(this);
@@ -70,8 +71,16 @@ export default class EmailLogin extends Component {
   render() {
     const incorrectUserState = this.state.incorrectUser;
     const loginScreen = this.state.loginScreen;
+    const cryptoJurisdiction = this.state.cryptoJurisdiction;
 
-    if (this.state.loginScreen === true) {
+    if (cryptoJurisdiction) {
+      return (
+        <div>
+          <SocialMediaLogin agoraMode={false} cryptoJurisdiction={cryptoJurisdiction} />
+        </div>
+      );
+    }
+    else if (this.state.loginScreen === true) {
       if (this.state.passwordKnown === true) {
         return (
           <div>
