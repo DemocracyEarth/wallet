@@ -5790,6 +5790,10 @@ blockquote {
   display: inline-block;
 }
 
+.text-align-center {
+  text-align: center;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;

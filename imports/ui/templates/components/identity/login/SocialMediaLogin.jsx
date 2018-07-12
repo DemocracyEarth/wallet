@@ -88,7 +88,9 @@ export default class SocialMediaLogin extends Component {
         <div>
           <div id="metamask-login" className="button login-button metamask" onClick={this.handleMetamaskLogin}>
             <img src="/images/metamask.png" className="button-icon" alt="lock" />
-            {TAPi18n.__('metamask')}
+            <div className="text-align-center">
+              {TAPi18n.__('metamask')}
+            </div>
           </div>
         </div>
       );
