@@ -82,7 +82,7 @@
     {{else}}
       <div class="block block-list">
         <div class="micro-menu">
-          <a id="single-vote" href="{{contract.url}}{{singleVote}}" class="micro-button micro-button-feed" ontouchstart="">
+          <a id="{{voteType}}" href="{{voteURL}}" class="single-vote micro-button micro-button-feed" ontouchstart="">
             <img src="{{pathFor route='home'}}images/vote.png" class="micro-icon">
             <span class="micro-label">{{label 'vote'}} {{{quantity 'vote'}}}</span>
             <div class="verifier verifier-live verifier-feed"></div>

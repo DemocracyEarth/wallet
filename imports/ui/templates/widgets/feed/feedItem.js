@@ -36,6 +36,7 @@ const _displayResults = (contract) => {
   return false;
 };
 
+/*
 const isScrolledIntoView = (elem) => {
   if (elem) {
     const docViewTop = $(window).scrollTop();
@@ -51,13 +52,14 @@ const isScrolledIntoView = (elem) => {
 
 /**
 @summary if its on a mobile waits a second to refresh feed item with reactive one
-*/
+
 const scrollRefresh = () => {
   if (Meteor.Device.isPhone()) {
     return 1000;
   }
   return 1;
 };
+*/
 
 Template.feedItem.onCreated(function () {
   Template.instance().ready = new ReactiveVar(false);
@@ -65,12 +67,12 @@ Template.feedItem.onCreated(function () {
   Template.instance().rightToVote = new ReactiveVar(false);
   Template.instance().candidateBallot = new ReactiveVar();
   Template.instance().displayResults = new ReactiveVar(false);
-  Template.instance().aboveFold = new ReactiveVar();
+  //Template.instance().aboveFold = new ReactiveVar();
   Template.instance().replySource = new ReactiveVar(false);
 });
 
 Template.feedItem.onRendered(function () {
-  Template.instance().aboveFold.set(isScrolledIntoView(document.querySelector(`#feedItem-${Template.currentData()._id}`)));
+  // Template.instance().aboveFold.set(isScrolledIntoView(document.querySelector(`#feedItem-${Template.currentData()._id}`)));
   const instance = this;
   let isScrolling;
 
@@ -78,6 +80,7 @@ Template.feedItem.onRendered(function () {
     instance.voteId = `vote-${Meteor.userId()}-${instance.data._id}`;
   }
 
+/*
   $('.right').scroll(function () {
     Meteor.clearTimeout(isScrolling);
     isScrolling = Meteor.setTimeout(function () {
@@ -86,6 +89,7 @@ Template.feedItem.onRendered(function () {
       }
     }, scrollRefresh());
   });
+*/
 
   if (instance.data.replyId) {
     const dbReply = Contracts.findOne({ _id: instance.data.replyId });
@@ -261,9 +265,9 @@ Template.feedItem.helpers({
     }
     return Template.instance().displayResults.get();
   },
-  onScreen() {
+  /* onScreen() {
     return Template.instance().aboveFold.get();
-  },
+  },*/
 });
 
 Template.feedItem.events({

@@ -169,6 +169,19 @@ Template.ballot.helpers({
     }
     return false;
   },
+  voteType() {
+    if (!this.contract.ballotEnabled) {
+      // document.getElementById(`singleVote-${this.contract._id}`).addEventListener('click', function () { console.log('holaA'); });
+      return `singleVote-${this.contract._id}`;
+    }
+    return '';
+  },
+  voteURL() {
+    if (!this.contract.ballotEnabled) {
+      return '';
+    }
+    return this.contract.url;
+  },
   // NOTE: this algo is tricky af, i'm actually scared to touch it.
   options() {
     var contractBallot;
@@ -404,15 +417,13 @@ Template.ballot.helpers({
 
 
 Template.ballot.events({
+  'click .single-vote'() {
+    console.log('AHAHA');
+    Session.set('castSingleVote', this.contract.keyword);
+  },
   'submit #fork-form, click #add-fork-proposal'(event) {
     event.preventDefault();
     addChoiceToBallot(this.contract._id, document.getElementById('text-fork-proposal').value);
     Meteor.setTimeout(() => { document.getElementById('text-fork-proposal').value = ''; }, 100);
-  },
-  'click #single-vote'(event) {
-    console.log('EVENT');
-    console.log(this);
-    event.preventDefault();
-    Session.set('castSingleVote', this.contract.keyword);
   },
 });
