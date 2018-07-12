@@ -823,6 +823,7 @@ const _genesisTransaction = (userId) => {
 
     user.profile.wallet.currency = 'ETH';
     user.profile.wallet.balance = ethBalance;
+    user.profile.wallet.available = ethBalance;
 
     Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
 
