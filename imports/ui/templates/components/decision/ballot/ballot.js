@@ -72,6 +72,10 @@ Template.ballot.onCreated(() => {
   Template.instance().emptyBallot = new ReactiveVar();
   Template.instance().ballotReady = new ReactiveVar();
   Template.instance().removeProposal = new ReactiveVar();
+  Template.instance().contract = new ReactiveVar(Template.currentData().contract);
+});
+
+Template.ballot.onRendered(() => {
 });
 
 function activateDragging() {
@@ -325,6 +329,8 @@ Template.ballot.helpers({
     return (Router.current().route.options.name !== 'post');
   },
   label(button) {
+    // Template.instance().contract.set(Template.currentData().contract);
+    const contract = Contracts.findOne({ _id: this.contract._id });
     let label = '';
     switch (button) {
       case 'debate':
@@ -332,8 +338,8 @@ Template.ballot.helpers({
         break;
       case 'vote':
         label = TAPi18n.__('vote');
-        for (const i in this.contract.tally.voter) {
-          if (this.contract.tally.voter[i]._id === Meteor.userId()) {
+        for (const i in contract.tally.voter) {
+          if (contract.tally.voter[i]._id === Meteor.userId()) {
             label = TAPi18n.__('unvote');
             break;
           }
@@ -344,24 +350,25 @@ Template.ballot.helpers({
     return label;
   },
   quantity(button) {
+    const contract = Contracts.findOne({ _id: this.contract._id });
     let label = '';
     switch (button) {
       case 'debate':
-        if (this.contract && this.contract.totalReplies) {
-          label = `&#183; ${(this.contract.totalReplies)}`;
+        if (contract && contract.totalReplies) {
+          label = `&#183; ${(contract.totalReplies)}`;
         }
         break;
       case 'vote':
-        if (this.contract && this.contract.tally && this.contract.tally.choice.length > 1) {
-          label = `&#183; ${_.reduce(this.contract.tally.choice, function (memo, voter) {
+        if (contract && contract.tally && contract.tally.choice.length > 1) {
+          label = `&#183; ${_.reduce(contract.tally.choice, function (memo, voter) {
             let votes = 0;
             let count;
             if (!memo.votes && memo.votes !== 0) { count = memo; } else { count = memo.votes; }
             votes = parseInt(count + voter.votes, 10);
             return votes;
           })}`;
-        } else if (this.contract.tally && this.contract.tally.voter.length === 1) {
-          label += `&#183; ${(this.contract.tally.voter[0].votes)}`;
+        } else if (contract.tally && contract.tally.voter.length === 1) {
+          label += `&#183; ${(contract.tally.voter[0].votes)}`;
         } else {
           label += '&#183; 0';
         }

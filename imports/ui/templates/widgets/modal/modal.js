@@ -13,6 +13,7 @@ import '../../components/identity/avatar/avatar.js';
 function killModal() {
   $('.modal').css('opacity', '0');
   displayModal(false);
+  $('#modalToggle').remove();
   Session.set('showModal', false);
 }
 
