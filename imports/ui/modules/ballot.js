@@ -626,7 +626,7 @@ const _contractReady = (vote, contract) => {
   }
   if (vote.voteType === 'VOTE') {
     if (contract.kind === 'VOTE' && contract.stage === 'LIVE') {
-      if (contract.ballot.length > 0) {
+      if (contract.ballotEnabled) {
         if (!_ballotReady(contract._id)) {
           return false;
         }

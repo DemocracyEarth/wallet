@@ -370,12 +370,6 @@ Template.ballot.helpers({
     }
     return label;
   },
-  singleVote() {
-    if (!this.contract.ballotEnabled) {
-      return '?ask=vote';
-    }
-    return '';
-  },
   castSingleVote() {
     return (Session.get('castSingleVote') === this.contract.keyword);
   },
@@ -417,6 +411,7 @@ Template.ballot.helpers({
 
 Template.ballot.events({
   'click #single-vote'(event) {
+    console.log('hello');
     event.preventDefault();
     Session.set('castSingleVote', this.contract.keyword);
   },

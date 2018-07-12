@@ -12,8 +12,8 @@ import '../../components/identity/avatar/avatar.js';
 
 function killModal() {
   $('.modal').css('opacity', '0');
-  Session.set('showModal', false);
   displayModal(false);
+  Session.set('showModal', false);
 }
 
 Template.modal.helpers({
@@ -130,8 +130,10 @@ Template.modalWindow.helpers({
     return `${className} ${className}-mini`;
   },
   removal() {
-    if (Session.get('displayModal').action === TAPi18n.__('remove')) {
-      return 'button-remove';
+    if (Session.get('displayModal') !== undefined) {
+      if (Session.get('displayModal').action === TAPi18n.__('remove')) {
+        return 'button-remove';
+      }
     }
     return '';
   },
