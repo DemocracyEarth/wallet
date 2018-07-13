@@ -527,5 +527,6 @@
   "btc": "BTC",
   "spent": "Spent",
   "copy": "Copy",
-  "unvote": "Unvote"
+  "unvote": "Unvote",
+  "stake": "Stake"
 }

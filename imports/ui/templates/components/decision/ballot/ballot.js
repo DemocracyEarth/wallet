@@ -353,10 +353,14 @@ Template.ballot.helpers({
       case 'vote':
         label = TAPi18n.__('vote');
         if (contract) {
-          for (const i in contract.tally.voter) {
-            if (contract.tally.voter[i]._id === Meteor.userId()) {
-              label = TAPi18n.__('unvote');
-              break;
+          if (contract.ballotEnabled) {
+            label = TAPi18n.__('stake');
+          } else {
+            for (const i in contract.tally.voter) {
+              if (contract.tally.voter[i]._id === Meteor.userId()) {
+                label = TAPi18n.__('unvote');
+                break;
+              }
             }
           }
         }
