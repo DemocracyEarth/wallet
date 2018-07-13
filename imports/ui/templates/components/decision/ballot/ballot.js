@@ -166,8 +166,9 @@ Template.ballot.helpers({
     return this.contract.executiveDecision;
   },
   voted() {
-    for (const i in this.contract.tally.voter) {
-      if (this.contract.tally.voter[i]._id === Meteor.userId()) {
+    const contract = Contracts.findOne({ _id: this.contract._id });
+    for (const i in contract.tally.voter) {
+      if (contract.tally.voter[i]._id === Meteor.userId()) {
         return true;
       }
     }

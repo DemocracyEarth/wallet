@@ -65,15 +65,15 @@ function voteFailure(vote, isSingleVote) {
   /**
   * NOTE: uncomment for testing
   console.log(vote);
+  **/
   console.log((vote.allocateQuantity <= vote.minVotes && vote.minVotes !== 0 && vote.voteType === 'DELEGATION'));
   console.log((vote.allocateQuantity < vote.minVotes && vote.voteType === 'VOTE'));
   console.log((vote.allocateQuantity === vote.inBallot));
   console.log(((vote.voteType === 'VOTE' && purgeBallot(getBallot(vote.targetId)).length === 0) && isSingleVote !== true));
   console.log((isNaN(vote.allocateQuantity)));
-  **/
   return (vote.allocateQuantity <= vote.minVotes && vote.minVotes !== 0 && vote.voteType === 'DELEGATION') ||
     (vote.allocateQuantity < vote.minVotes && vote.voteType === 'VOTE') ||
-    (vote.allocateQuantity === vote.inBallot) ||
+    ((vote.allocateQuantity === vote.inBallot) && isSingleVote !== true) ||
     ((vote.voteType === 'VOTE' && purgeBallot(getBallot(vote.targetId)).length === 0) && isSingleVote !== true) ||
     (isNaN(vote.allocateQuantity));
 }
@@ -216,10 +216,10 @@ Template.liquid.helpers({
         Session.set('castSingleVote', undefined);
       };
 
-      /**
-      * NOTE: uncomment for testing
       console.log('voteFailure');
       console.log(voteFailure(this.newVote, true));
+      /**
+      * NOTE: uncomment for testing
       **/
 
       if (voteFailure(this.newVote, true)) {
