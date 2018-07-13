@@ -351,10 +351,13 @@ export class Vote {
     const votesInBallot = this.inBallot;
     const newVotes = parseInt(this.allocateQuantity - votesInBallot, 10);
     const votes = parseInt(votesInBallot + newVotes, 10);
-    console.log(`this.allocateQuantity: ${this.allocateQuantity}`);
-    console.log(`votesInBallot: ${votesInBallot}`);
-    console.log(`votes: ${votes}`);
-    console.log(`newvotes: ${newVotes}`);
+    /**
+    * NOTE: uncomment for testing
+    console.log(`this.allocateQuantity: ${this.allocateQuantity}`); // 0
+    console.log(`votesInBallot: ${votesInBallot}`); // 1
+    console.log(`votes: ${votes}`); // 0
+    console.log(`newvotes: ${newVotes}`); // -1
+    **/
 
     const close = () => {
       if (this.requireConfirmation) {
@@ -435,7 +438,6 @@ export class Vote {
       } else {
         finalCaption = TAPi18n.__(`retrieve-${dictionary}-warning`).replace('<quantity>', votes.toString()).replace('<retrieve>', Math.abs(newVotes).toString());
       }
-      console.log(settings);
       vote = () => {
         const tx = transact(
           this.targetId,
@@ -444,7 +446,6 @@ export class Vote {
           settings,
           close
         );
-        console.log(tx);
         if (tx) { _updateState(); }
         return tx;
       };

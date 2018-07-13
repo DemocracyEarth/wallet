@@ -151,7 +151,6 @@ Template.modalWindow.events({
   },
   'click #execute'() {
     globalObj.modalCallback();
-    console.log(globalObj);
     killModal();
   },
 });

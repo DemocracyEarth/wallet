@@ -85,7 +85,6 @@ Template.homeFeed.helpers({
   mainFeed() {
     const tally = this;
     Session.set('longFeedView', this.options.view);
-    console.log(tally.options.view);
     return tally;
   },
   mainLedger() {

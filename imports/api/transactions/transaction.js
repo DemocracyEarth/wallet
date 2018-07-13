@@ -574,8 +574,6 @@ const _tallyAddition = (transaction) => {
 
 const _getLastBallot = (voterId, contractId) => {
   const tx = Transactions.find({ $and: [{ $or: [{ 'output.entityId': voterId }, { 'input.entityId': voterId }] }, { contractId }] }, { sort: { timestamp: -1 } }).fetch();
-  console.log(tx);
-  console.log(_.pluck(tx[0].condition.ballot, '_id'));
   return _.pluck(tx[0].condition.ballot, '_id');
 };
 
@@ -756,8 +754,11 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
   const txId = Transactions.insert(newTransaction);
   const process = _processTransaction(txId);
 
+  /**
+  NOTE: uncomment for testing
   console.log(txId);
   console.log(process);
+  **/
 
   if (_transactionMessage(process)) {
     // once transaction done, run callback
