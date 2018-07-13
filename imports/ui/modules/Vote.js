@@ -73,7 +73,10 @@ const _defaultDelegationSettings = () => {
 /**
 * @summary updates the state of all live vote gui
 */
-const _updateState = () => {
+const _updateState = (voteId) => {
+  delete Session.keys[voteId];
+/*
+@NOTE this was used when caching an optimization thats no longer necessary
   const voteList = Session.get('voteList');
   let voteController;
   let newWallet;
@@ -88,6 +91,7 @@ const _updateState = () => {
       Session.set(voteList[i], newWallet);
     }
   }
+*/
 };
 
 /**
@@ -188,7 +192,7 @@ export class Vote {
 
         // state manager
         this.requireConfirmation = true;
-        _insertVoteList(this, this.voteId);
+        // _insertVoteList(this, this.voteId);
       } else {
         this.requireConfirmation = false;
         this.voteId = `${this.targetId}`;
@@ -453,7 +457,7 @@ export class Vote {
           settings,
           close
         );
-        if (tx) { _updateState(); }
+        if (tx) { _updateState(this.voteId); }
         return tx;
       };
     } else if ((votesInBallot === 0) || (newVotes === 0)) {
@@ -475,7 +479,7 @@ export class Vote {
           settings,
           close
         );
-        if (tx) { _updateState(); }
+        if (tx) { _updateState(this.voteId); }
         return tx;
       };
     } else if (newVotes > 0) {
@@ -490,7 +494,7 @@ export class Vote {
           settings,
           close
         );
-        if (tx) { _updateState(); }
+        if (tx) { _updateState(this.voteId); }
         return tx;
       };
     }
@@ -516,7 +520,7 @@ export class Vote {
     } else {
       const v = vote();
       if (v) {
-        _updateState();
+        _updateState(this.voteId);
         if (callback) { callback(); }
       }
       return v;

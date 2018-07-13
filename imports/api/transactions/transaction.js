@@ -356,6 +356,9 @@ const _processTransaction = (ticket) => {
   const receiverProfile = _getProfile(transaction.output);
 
   // verify transaction
+  console.log('verification');
+  console.log(senderProfile);
+  console.log(transaction);
   if (senderProfile.wallet.available < transaction.input.quantity) {
     return 'INSUFFICIENT';
   } else if (transaction.input.entityId === transaction.output.entityId) {
