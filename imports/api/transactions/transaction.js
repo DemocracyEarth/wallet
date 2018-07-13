@@ -200,16 +200,19 @@ const _getVotes = (contractId, userId) => {
   // getting tally
   const contract = Contracts.findOne({ _id: contractId });
 
-  if (contract && contract.tally !== undefined && contract.tally.choice.length > 0) {
+  if (contract && contract.tally !== undefined && contract.tally.voter.length > 0) {
     for (const i in contract.tally.voter) {
       if (contract.tally.voter[i]._id === userId) {
+        console.log('sale de tally');
+        console.log(`contract.tally.voter[i].votes:${contract.tally.voter[i].votes}`);
         return contract.tally.voter[i].votes;
       }
     }
   } else {
     // counting from ledger
-    const transactions = _getTransactions(userId, contractId);
+  /*  const transactions = _getTransactions(userId, contractId);
     if (transactions.length > 1) {
+      console.log('sale de else');
       return _.reduce(transactions, (memo, num, index) => {
         if (index === 1) {
           return _voteCount(memo, userId) + _voteCount(num, userId);
@@ -217,8 +220,9 @@ const _getVotes = (contractId, userId) => {
         return memo + _voteCount(num, userId);
       });
     } else if (transactions.length === 1) {
+      console.log('sale de tx');
       return _voteCount(transactions[0], userId);
-    }
+    }*/
   }
   return 0;
 };
@@ -756,9 +760,10 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
 
   /**
   NOTE: uncomment for testing
+  **/
   console.log(txId);
   console.log(process);
-  **/
+
 
   if (_transactionMessage(process)) {
     // once transaction done, run callback

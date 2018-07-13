@@ -49,6 +49,20 @@ const _generateForks = (contract) => {
   ];
 };
 
+/**
+* @summary counts votes
+* @param {object} tally from contract
+*/
+const _count = (tally) => {
+  return _.reduce(tally, function (memo, voter) {
+    let votes = 0;
+    let count;
+    if (!memo.votes && memo.votes !== 0) { count = memo; } else { count = memo.votes; }
+    votes = parseInt(count + voter.votes, 10);
+    return votes;
+  });
+};
+
 function getVoterContractBond(object) {
   if (Meteor.user()) {
     return Object.assign(object, {
@@ -186,10 +200,9 @@ Template.ballot.helpers({
     }
     return this.contract.url;
   },
-  // NOTE: this algo is tricky af, i'm actually scared to touch it.
   options() {
-    var contractBallot;
-    if (Session.get('dbContractBallot') == undefined) {
+    let contractBallot;
+    if (Session.get('dbContractBallot') === undefined) {
       if (this.contract) {
         contractBallot = this.contract.ballot;
       } else {
@@ -199,35 +212,36 @@ Template.ballot.helpers({
       contractBallot = Session.get('dbContractBallot');
     }
 
-    var ballot = new Array();
+    const ballot = [];
 
-    //NOTE: since this is a tricky algorithm, just make sure this stop here isn't making any unseen problems.
-    if (contractBallot == undefined) {
+    // NOTE: since this is a tricky algorithm, just make sure this stop here isn't making any unseen problems.
+    if (contractBallot === undefined) {
       return ballot;
     }
 
-    var keys = [],
-        k, i, len;
+    const keys = [];
+    let k;
+    let i;
 
-    //warn if ballot is empty
+    // warn if ballot is empty
     if (contractBallot.length === 0) {
       Template.instance().ballotReady.set(false);
     } else {
       Template.instance().ballotReady.set(true);
-    };
+    }
 
-    //sort by rank on db
-    for (var i = 0; i < contractBallot.length; i++) {
+    // sort by rank on db
+    for (i = 0; i < contractBallot.length; i += 1) {
       if (contractBallot[i].rank) {
-        keys.push(parseInt(contractBallot[i].rank));
+        keys.push(parseInt(contractBallot[i].rank, 10));
       }
-    };
-    keys.sort(function sortNumber(a,b) {
+    }
+    keys.sort(function (a, b) {
       return a - b;
     });
-    for (i = 0; i < keys.length; i++) {
-      for (k = 0; k < contractBallot.length; k++) {
-        if (contractBallot[k].rank == keys[i]) {
+    for (i = 0; i < keys.length; i += 1) {
+      for (k = 0; k < contractBallot.length; k += 1) {
+        if (contractBallot[k].rank === keys[i]) {
           ballot[i] = contractBallot[k];
         }
       }
@@ -242,10 +256,10 @@ Template.ballot.helpers({
 
     // if draft, route to editor
     for (i in ballot) {
-      var contract = Contracts.findOne({ _id: ballot[i]._id});
-      if (contract != undefined) {
-        if (contract.stage == 'DRAFT') {
-          ballot[i].url = '/vote/draft?id=' + ballot[i]._id;
+      const contract = Contracts.findOne({ _id: ballot[i]._id });
+      if (contract !== undefined) {
+        if (contract.stage === 'DRAFT') {
+          ballot[i].url = `/vote/draft?id=${ballot[i]._id}`;
           ballot[i].voteId = getVoterContractBond(this).voteId;
         }
       }
@@ -330,7 +344,6 @@ Template.ballot.helpers({
     return (Router.current().route.options.name !== 'post');
   },
   label(button) {
-    // Template.instance().contract.set(Template.currentData().contract);
     const contract = Contracts.findOne({ _id: this.contract._id });
     let label = '';
     switch (button) {
@@ -339,10 +352,12 @@ Template.ballot.helpers({
         break;
       case 'vote':
         label = TAPi18n.__('vote');
-        for (const i in contract.tally.voter) {
-          if (contract.tally.voter[i]._id === Meteor.userId()) {
-            label = TAPi18n.__('unvote');
-            break;
+        if (contract) {
+          for (const i in contract.tally.voter) {
+            if (contract.tally.voter[i]._id === Meteor.userId()) {
+              label = TAPi18n.__('unvote');
+              break;
+            }
           }
         }
         break;
@@ -353,28 +368,26 @@ Template.ballot.helpers({
   quantity(button) {
     const contract = Contracts.findOne({ _id: this.contract._id });
     let label = '';
-    switch (button) {
-      case 'debate':
-        if (contract && contract.totalReplies) {
-          label = `&#183; ${(contract.totalReplies)}`;
-        }
-        break;
-      case 'vote':
-        if (contract && contract.tally && contract.tally.choice.length > 1) {
-          label = `&#183; ${_.reduce(contract.tally.choice, function (memo, voter) {
-            let votes = 0;
-            let count;
-            if (!memo.votes && memo.votes !== 0) { count = memo; } else { count = memo.votes; }
-            votes = parseInt(count + voter.votes, 10);
-            return votes;
-          })}`;
-        } else if (contract.tally && contract.tally.voter.length === 1) {
-          label += `&#183; ${(contract.tally.voter[0].votes)}`;
-        } else {
-          label += '&#183; 0';
-        }
-        break;
-      default:
+    if (contract) {
+      switch (button) {
+        case 'debate':
+          if (contract && contract.totalReplies) {
+            label = `&#183; ${(contract.totalReplies)}`;
+          }
+          break;
+        case 'vote':
+          if (contract && contract.tally && contract.tally.choice.length > 1) {
+            label = `&#183; ${_count(contract.tally.choice)}`;
+          } else if (contract && contract.tally && contract.tally.voter.length > 1) {
+            label += `&#183; ${_count(contract.tally.voter)}`;
+          } else if (contract.tally && contract.tally.voter.length === 1) {
+            label += `&#183; ${(contract.tally.voter[0].votes)}`;
+          } else {
+            label += '&#183; 0';
+          }
+          break;
+        default:
+      }
     }
     return label;
   },

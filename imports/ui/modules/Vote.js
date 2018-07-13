@@ -114,6 +114,9 @@ export class Vote {
         this.currency = 'VOTES';
       } else {
         Object.assign(this, wallet);
+        console.log(`targetId: ${targetId}`);
+        console.log(`this.userId: ${this.userId}`);
+        console.log(getVotes(targetId, this.userId));
         this.inBallot = getVotes(targetId, this.userId);
       }
       this.delegated = 0;
@@ -163,6 +166,9 @@ export class Vote {
       } else if (this.voteType === 'BALANCE') {
         this.inBallot = this.available;
       } else {
+        console.log(`this.targetId: ${this.targetId}`);
+        console.log(`this.userId: ${this.userId}`);
+        console.log(getVotes(this.targetId, this.userId));
         this.inBallot = getVotes(this.targetId, this.userId);
       }
       this.originalTargetId = targetId;
@@ -199,6 +205,7 @@ export class Vote {
     if (this.enabled) {
       this.placedPercentage = ((this.placed * 100) / this.balance);
       this.allocatePercentage = ((quantity * 100) / this.balance);
+      console.log(this);
       this.allocateQuantity = parseInt(_scope(quantity, this.maxVotes), 10); // used to have instead of maxvotes : (this.available + this.inBallot)
     }
     if (!avoidSlider) {
@@ -351,12 +358,12 @@ export class Vote {
     const votesInBallot = this.inBallot;
     const newVotes = parseInt(this.allocateQuantity - votesInBallot, 10);
     const votes = parseInt(votesInBallot + newVotes, 10);
-    /**
-    * NOTE: uncomment for testing
     console.log(`this.allocateQuantity: ${this.allocateQuantity}`); // 0
     console.log(`votesInBallot: ${votesInBallot}`); // 1
     console.log(`votes: ${votes}`); // 0
     console.log(`newvotes: ${newVotes}`); // -1
+    /**
+    * NOTE: uncomment for testing
     **/
 
     const close = () => {
