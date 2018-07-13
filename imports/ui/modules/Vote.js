@@ -73,10 +73,7 @@ const _defaultDelegationSettings = () => {
 /**
 * @summary updates the state of all live vote gui
 */
-const _updateState = (voteId) => {
-  delete Session.keys[voteId];
-/*
-@NOTE this was used when caching an optimization thats no longer necessary
+const _updateState = () => {
   const voteList = Session.get('voteList');
   let voteController;
   let newWallet;
@@ -91,7 +88,6 @@ const _updateState = (voteId) => {
       Session.set(voteList[i], newWallet);
     }
   }
-*/
 };
 
 /**
@@ -192,7 +188,7 @@ export class Vote {
 
         // state manager
         this.requireConfirmation = true;
-        // _insertVoteList(this, this.voteId);
+        _insertVoteList(this, this.voteId);
       } else {
         this.requireConfirmation = false;
         this.voteId = `${this.targetId}`;
@@ -345,8 +341,9 @@ export class Vote {
   * @summary executes an already configured vote from a liquid bar
   * @param {function} callback callback if execution is cancelled or after vote if no sessionId
   * @param {boolean} removal if operation aims to remove all votes from ballot
+  * @param {boolean} single if its a single vote operation
   */
-  execute(callback, removal) {
+  execute(callback, removal, single) {
     let vote;
     let showBallot;
     let finalBallot;
@@ -434,6 +431,12 @@ export class Vote {
           displayNotice('empty-values-ballot', true);
           return;
         }
+
+          console.log(`voteId: ${voteId}`);
+          console.log(Session.get(voteId));
+          delete Session.keys[voteId];
+          console.log(Session.get(voteId));
+          console.log('EOF');
         */
         break;
     }
@@ -457,7 +460,10 @@ export class Vote {
           settings,
           close
         );
-        if (tx) { _updateState(this.voteId); }
+        if (tx) {
+          if (single) { delete Session.keys[this.voteId]; }
+          _updateState();
+        }
         return tx;
       };
     } else if ((votesInBallot === 0) || (newVotes === 0)) {
@@ -479,7 +485,10 @@ export class Vote {
           settings,
           close
         );
-        if (tx) { _updateState(this.voteId); }
+        if (tx) {
+          if (single) { delete Session.keys[this.voteId]; }
+          _updateState();
+        }
         return tx;
       };
     } else if (newVotes > 0) {
@@ -494,7 +503,10 @@ export class Vote {
           settings,
           close
         );
-        if (tx) { _updateState(this.voteId); }
+        if (tx) {
+          if (single) { delete Session.keys[this.voteId]; }
+          _updateState();
+        }
         return tx;
       };
     }
@@ -520,7 +532,8 @@ export class Vote {
     } else {
       const v = vote();
       if (v) {
-        _updateState(this.voteId);
+        if (single) { delete Session.keys[this.voteId]; }
+        _updateState();
         if (callback) { callback(); }
       }
       return v;

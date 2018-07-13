@@ -241,7 +241,7 @@ Template.liquid.helpers({
         clearPopups();
 
         // democracy wins
-        this.newVote.execute(cancel);
+        this.newVote.execute(cancel, this.singleRevoke, true);
       }
     }
   },
