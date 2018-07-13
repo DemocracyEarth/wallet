@@ -312,7 +312,7 @@ Template.ballot.helpers({
       wallet: this.contract.wallet,
       sourceId: this.contract._id,
       targetId: Meteor.userId(),
-      forks: _generateForks(this.contract),
+      // forks: _generateForks(this.contract),
     });
   },
   executionStatus() {
