@@ -756,6 +756,9 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
   const txId = Transactions.insert(newTransaction);
   const process = _processTransaction(txId);
 
+  console.log(txId);
+  console.log(process);
+
   if (_transactionMessage(process)) {
     // once transaction done, run callback
     if (callback !== undefined) { callback(); }

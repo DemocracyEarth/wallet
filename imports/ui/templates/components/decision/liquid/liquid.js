@@ -68,7 +68,7 @@ function voteFailure(vote, isSingleVote) {
   **/
   console.log((vote.allocateQuantity <= vote.minVotes && vote.minVotes !== 0 && vote.voteType === 'DELEGATION'));
   console.log((vote.allocateQuantity < vote.minVotes && vote.voteType === 'VOTE'));
-  console.log((vote.allocateQuantity === vote.inBallot));
+  console.log((vote.allocateQuantity === vote.inBallot) && isSingleVote !== true);
   console.log(((vote.voteType === 'VOTE' && purgeBallot(getBallot(vote.targetId)).length === 0) && isSingleVote !== true));
   console.log((isNaN(vote.allocateQuantity)));
   return (vote.allocateQuantity <= vote.minVotes && vote.minVotes !== 0 && vote.voteType === 'DELEGATION') ||
@@ -209,6 +209,7 @@ Template.liquid.helpers({
       this.newVote.place(1, true);
       if (this.singleRevoke) {
         this.newVote.place(0, true);
+        this.newVote.inBallot = 1;
       }
       Session.set(voteId, this.newVote);
 
@@ -218,6 +219,9 @@ Template.liquid.helpers({
 
       console.log('voteFailure');
       console.log(voteFailure(this.newVote, true));
+      console.log('contractready');
+      console.log((contractReady(this.newVote, Contracts.findOne({ _id: this.newVote.targetId })) || this.newVote.voteType === 'DELEGATION'));
+
       /**
       * NOTE: uncomment for testing
       **/
@@ -230,6 +234,7 @@ Template.liquid.helpers({
       } else if (contractReady(this.newVote, Contracts.findOne({ _id: this.newVote.targetId })) || this.newVote.voteType === 'DELEGATION') {
         clearPopups();
 
+        console.log('execute vote');
         // democracy wins
         this.newVote.execute(cancel);
       }
