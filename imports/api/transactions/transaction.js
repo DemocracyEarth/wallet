@@ -823,7 +823,20 @@ const _genesisTransaction = (userId) => {
 
     user.profile.wallet.currency = 'ETH';
     user.profile.wallet.balance = ethBalance;
-    user.profile.wallet.available = ethBalance;
+
+    if (user.profile.wallet.placed > 0) {
+      if (ethBalance < user.profile.wallet.placed) {
+        user.profile.reallocatePlaced = true;
+        user.profile.wallet.available = 0;
+      } else {
+        user.profile.wallet.available = ethBalance - user.profile.wallet.placed;
+        if (user.profile.reallocatePlaced) {
+          delete user.profile.reallocatePlaced;
+        }
+      }
+    } else {
+      user.profile.wallet.available = ethBalance;
+    }
 
     Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
 
