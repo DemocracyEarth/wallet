@@ -127,6 +127,7 @@
         }
       ]
     }
-  }
+  },
 
+  "ethNetwork": "https://ropsten.infura.io/"
 }

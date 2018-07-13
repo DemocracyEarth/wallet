@@ -817,7 +817,7 @@ const _genesisTransaction = (userId) => {
   if (user.services.metamask != null){
     user.profile.wallet = _generateWalletAddress(user.profile.wallet);
     let publicAddress = user.services.metamask.publicAddress
-    let ethBalance = getEthBalance(publicAddress);
+    let ethBalance = Math.round(getEthBalance(publicAddress));
     console.log('DEBUG - _genesisTransaction() - ethBalance ', ethBalance);
     
 
@@ -854,7 +854,7 @@ const getEthBalance = (publicAddress) => {
     web3 = new Web3(web3.currentProvider);
   } else {
     // set the provider you want from Web3.providers
-    web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+    web3 = new Web3(new Web3.providers.HttpProvider(Meteor.settings.ethNetwork));
   }
   
   let balance = web3.eth.getBalance(publicAddress);
