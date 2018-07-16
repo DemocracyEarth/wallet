@@ -957,6 +957,16 @@ blockquote {
   color: #fff;
 }
 
+.button.login-button.metamask {
+  border-color: #7F807E;
+  background-color: #7F807E;
+}
+
+.button.login-button.metamask:active {
+  background-color: transparent;
+  color: #fff;
+}
+
 .button.facebook {
   border-color: #3c5b96;
   background-color: #3c5b96;

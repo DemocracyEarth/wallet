@@ -95,10 +95,22 @@ function normalizeBlockstackUser(profile, user) {
   });
 }
 
+function normalizeMetamaskUser(profile, user) {
+  var publicAddress = user.services.metamask.id;
+  var anonymousUser = 'anonymous' + publicAddress.slice(0,7);
+  const username = generateAvailableUsername(deburr(toLower(camelCase(anonymousUser))));
+  
+  return _.extend(user, {
+    username,
+    profile,
+  });
+}
+
 const normalizers = {
   facebook: normalizeFacebookUser,
   twitter: normalizeTwitterUser,
-  blockstack: normalizeBlockstackUser
+  blockstack: normalizeBlockstackUser,
+  metamask: normalizeMetamaskUser
 };
 
 /**

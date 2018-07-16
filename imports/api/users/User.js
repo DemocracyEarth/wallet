@@ -8,7 +8,7 @@ const Schema = {};
 Schema.Credential = new SimpleSchema({
   source: {
     type: String,
-    allowedValues: ['facebook', 'twitter', 'linkedin', 'github', 'peer', 'blockstack'],
+    allowedValues: ['facebook', 'twitter', 'linkedin', 'github', 'peer', 'blockstack', 'metamask'],
     optional: true,
   },
   URL: {

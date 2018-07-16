@@ -34,6 +34,7 @@
     "bindings": "^1.2.1",
     "blockstack": "^0.14.2",
     "core-js": "^2.5.5",
+    "ethereumjs-util": "^5.2.0",
     "faker": "^3.0.1",
     "hoek": "^5.0.3",
     "json-schema-faker": "^0.3.7",
