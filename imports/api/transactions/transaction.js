@@ -294,9 +294,13 @@ const _pay = (wallet, mode, transaction, quantity) => {
       break;
     case 'OUTPUT':
     default:
-      _wallet.available += parseInt(quantity, 10);
-      _wallet.placed = parseInt(_wallet.placed - _restoredTokens(quantity, _debt(transaction.output.entityId, transaction.input.entityId, 'output')), 10);
-      _wallet.balance = parseInt(_wallet.placed + _wallet.available, 10);
+      if (_wallet.balance >= _wallet.placed) {
+        _wallet.available += parseInt(quantity, 10);
+        _wallet.placed = parseInt(_wallet.placed - _restoredTokens(quantity, _debt(transaction.output.entityId, transaction.input.entityId, 'output')), 10);
+        _wallet.balance = parseInt(_wallet.placed + _wallet.available, 10);
+      } else {
+        _wallet.placed = parseInt(_wallet.placed - _restoredTokens(quantity, _debt(transaction.output.entityId, transaction.input.entityId, 'output')), 10);
+      }
       break;
   }
   return Object.assign(wallet, _wallet);
