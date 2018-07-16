@@ -38,6 +38,7 @@
     "ethereumjs-util": "^5.2.0",
     "faker": "^3.0.1",
     "fibers": "^2.0.2",
+    "hapi": "^17.5.2",
     "hoek": "^5.0.3",
     "json-schema-faker": "^0.3.7",
     "jsontokens": "^0.7.8",
