@@ -33,6 +33,7 @@
     "bcryptjs": "^2.4.0",
     "bindings": "^1.2.1",
     "blockstack": "^0.14.2",
+    "brace-expansion": "^1.1.11",
     "core-js": "^2.5.7",
     "ethereumjs-util": "^5.2.0",
     "faker": "^3.0.1",
