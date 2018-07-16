@@ -320,6 +320,23 @@ const _publish = (contractId) => {
   } else {
     draft.geo = '';
   }
+  if (draft.ballotEnabled) {
+    const template = [
+      {
+        executive: true,
+        mode: 'AUTHORIZE',
+        _id: '1',
+        tick: false,
+      },
+      {
+        executive: true,
+        mode: 'REJECT',
+        _id: '0',
+        tick: false,
+      },
+    ];
+    draft.ballot = template;
+  }
   Contracts.update({ _id: contractId }, { $set: {
     stage: draft.stage,
     title: draft.title,
@@ -328,6 +345,7 @@ const _publish = (contractId) => {
     ballotEnabled: draft.ballotEnabled,
     replyId: draft.replyId,
     geo: draft.geo,
+    ballot: draft.ballot,
   },
   });
 

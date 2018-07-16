@@ -70,6 +70,7 @@ Meteor.methods({
     switch (story) {
       case 'REPLY':
       case 'REVOKE':
+      case 'SUBSIDY':
       case 'VOTE':
         html = html.replace('{{url}}', `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${fixDBUrl(contract.url)}`);
         break;
@@ -118,15 +119,18 @@ Meteor.methods({
     this.unblock();
 
     console.log(`{ server: 'sendNotification', from: '${sender.username}', to: '${receiver.username}', text: "${text}" }`);
+
     Email.send({ to, from, subject, text, html });
   },
 
   /**
   * @summary gives user subsidy with inital tokens
   */
-  subsidizeUser() {
+  subsidizeUser(userId) {
+    check(userId, String);
+
     log(`{ method: 'subsidizeUser', user: ${logUser()} }`);
-    genesisTransaction(Meteor.user()._id);
+    genesisTransaction(userId);
   },
 
   /**
@@ -178,10 +182,17 @@ Meteor.methods({
 
     log(`{ method: 'getUser', user: ${logUser()}, keyword: '${username}' }`);
     const user = Meteor.users.findOne({ username });
+    if (user) {
+      return {
+        _id: user._id,
+        username: user.username,
+        profile: user.profile,
+      };
+    }
     return {
-      _id: user._id,
-      username: user.username,
-      profile: user.profile,
+      _id: '',
+      username: '',
+      profile: {},
     };
   },
 

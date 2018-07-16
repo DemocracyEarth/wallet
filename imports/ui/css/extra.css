@@ -138,3 +138,9 @@ html {
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
 }
+
+@media (max-width: 991px) {
+  .content-feed {
+    overflow:hidden;
+  }
+}

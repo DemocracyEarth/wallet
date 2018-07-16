@@ -132,6 +132,11 @@ const _setupSplit = () => {
       }
       _drawPanels(newLeft, newRight);
     }
+    if (Meteor.Device.isPhone() || window.innerWidth <= 991) {
+      Session.set('scrollerDiv', '.right');
+    } else {
+      Session.set('scrollerDiv', '.split-left');
+    }
   });
 };
 

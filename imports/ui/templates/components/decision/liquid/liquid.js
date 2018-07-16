@@ -61,11 +61,20 @@ function getBarWidth(value, voteId, editable, interactive, getPercentageValue) {
 * @summary verifies vote settings are in onRendered
 * @param {Vote} vote
 */
-function voteFailure(vote) {
+function voteFailure(vote, isSingleVote) {
+  /**
+  * NOTE: uncomment for testing
+  console.log(vote);
+  console.log((vote.allocateQuantity <= vote.minVotes && vote.minVotes !== 0 && vote.voteType === 'DELEGATION'));
+  console.log((vote.allocateQuantity < vote.minVotes && vote.voteType === 'VOTE'));
+  console.log((vote.allocateQuantity === vote.inBallot) && isSingleVote !== true);
+  console.log(((vote.voteType === 'VOTE' && purgeBallot(getBallot(vote.targetId)).length === 0) && isSingleVote !== true));
+  console.log((isNaN(vote.allocateQuantity)));
+  **/
   return (vote.allocateQuantity <= vote.minVotes && vote.minVotes !== 0 && vote.voteType === 'DELEGATION') ||
     (vote.allocateQuantity < vote.minVotes && vote.voteType === 'VOTE') ||
-    (vote.allocateQuantity === vote.inBallot) ||
-    (vote.voteType === 'VOTE' && purgeBallot(getBallot(vote.targetId)).length === 0) ||
+    ((vote.allocateQuantity === vote.inBallot) && isSingleVote !== true) ||
+    ((vote.voteType === 'VOTE' && purgeBallot(getBallot(vote.targetId)).length === 0) && isSingleVote !== true) ||
     (isNaN(vote.allocateQuantity));
 }
 
@@ -132,8 +141,6 @@ const _setupDrag = () => {
           Session.set(voteId, this.newVote);
         };
 
-        // Meteor.clearTimeout(this.timer);
-
         if (voteFailure(this.newVote)) {
           cancel();
           if (this.newVote.voteType === 'VOTE' && (this.newVote.allocateQuantity !== this.newVote.inBallot || this.newVote.inBallot === 0)) {
@@ -188,6 +195,59 @@ Template.liquid.onRendered(function () {
 });
 
 Template.liquid.helpers({
+  castSingleVote() {
+    if (Session.get('castSingleVote')) {
+      const voteId = `vote-${this.sourceId}-${this.targetId}`;
+      if (this.singleRevoke) {
+        this.newVote = new Vote(Session.get(voteId), this.sourceId, voteId);
+        this.newVote.targetId = this.sourceId;
+        this.newVote.originalTargetId = this.sourceId;
+      } else {
+        this.newVote = new Vote(Session.get(voteId), this.targetId, voteId);
+      }
+      this.newVote.resetSlider();
+      this.newVote.place(1, true);
+      console.log(`this.singleRevoke: ${this.singleRevoke}`);
+      console.log(this.newVote);
+      if (this.singleRevoke) {
+        this.newVote.place(0, true);
+        this.newVote.inBallot = 1;
+      }
+      Session.set(voteId, this.newVote);
+
+      const cancel = () => {
+        // Session.set('castSingleVote', undefined);
+        console.log(`voteId: ${voteId}`);
+        console.log(Session.get(voteId));
+        Session.set('castSingleVote', undefined);
+        delete Session.keys[voteId];
+        console.log(Session.get(voteId));
+      };
+
+      /**
+      * NOTE: uncomment for testing
+      console.log('voteFailure');
+      console.log(voteFailure(this.newVote, true));
+      console.log('contractready');
+      console.log((contractReady(this.newVote, Contracts.findOne({ _id: this.newVote.targetId })) || this.newVote.voteType === 'DELEGATION'));
+      **/
+
+      if (voteFailure(this.newVote, true)) {
+        cancel();
+        if (this.newVote.voteType === 'VOTE' && (this.newVote.allocateQuantity !== this.newVote.inBallot || this.newVote.inBallot === 0)) {
+          Session.set('noSelectedOption', this.newVote.voteId);
+        }
+      } else if (contractReady(this.newVote, Contracts.findOne({ _id: this.newVote.targetId })) || this.newVote.voteType === 'DELEGATION') {
+        clearPopups();
+
+        // democracy wins
+        this.newVote.execute(cancel, this.singleRevoke, true);
+      }
+    }
+  },
+  signleVote() {
+    return this.singleVote;
+  },
   isDelegation() {
     return (Session.get(this._id).voteType === 'DELEGATION');
   },

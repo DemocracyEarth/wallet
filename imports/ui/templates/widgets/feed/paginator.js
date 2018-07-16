@@ -17,7 +17,7 @@ import '/imports/ui/templates/widgets/feed/feedLoad.js';
 const _aboveFold = (id) => {
   if ($(`#page-${id}`)[0]) {
     const rect = $(`#page-${id}`)[0].getBoundingClientRect();
-    return (rect.top > -1 && rect.bottom <= parseInt($(window).height() + 300, 10));
+    return (rect.top > 60 && rect.bottom <= parseInt($(window).height() + 300, 10));
   }
   return false;
 };
@@ -32,15 +32,25 @@ Template.paginator.onRendered(function () {
   const loaded = Template.instance().loaded;
   let isScrolling;
 
-  $('.split-left').scroll(() => {
-    Meteor.clearTimeout(isScrolling);
-    isScrolling = Meteor.setTimeout(function () {
-      if (!loaded.get()) {
-        if (_aboveFold(identifier)) {
-          loaded.set(true);
+  if (Meteor.Device.isPhone() || window.innerWidth <= 991) {
+    Session.set('scrollerDiv', '.right');
+  } else {
+    Session.set('scrollerDiv', '.split-left');
+  }
+
+  const instance = this;
+
+  instance.autorun(function () {
+    $(Session.get('scrollerDiv')).scroll(() => {
+      Meteor.clearTimeout(isScrolling);
+      isScrolling = Meteor.setTimeout(function () {
+        if (!loaded.get()) {
+          if (_aboveFold(identifier)) {
+            loaded.set(true);
+          }
         }
-      }
-    }, 100);
+      }, 100);
+    });
   });
 });
 

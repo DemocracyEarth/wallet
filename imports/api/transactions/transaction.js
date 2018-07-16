@@ -200,16 +200,19 @@ const _getVotes = (contractId, userId) => {
   // getting tally
   const contract = Contracts.findOne({ _id: contractId });
 
-  if (contract && contract.tally !== undefined && contract.tally.choice.length > 0) {
+  if (contract && contract.tally !== undefined && contract.tally.voter.length > 0) {
     for (const i in contract.tally.voter) {
       if (contract.tally.voter[i]._id === userId) {
+        console.log('sale de tally');
+        console.log(`contract.tally.voter[i].votes:${contract.tally.voter[i].votes}`);
         return contract.tally.voter[i].votes;
       }
     }
   } else {
     // counting from ledger
-    const transactions = _getTransactions(userId, contractId);
+  /*  const transactions = _getTransactions(userId, contractId);
     if (transactions.length > 1) {
+      console.log('sale de else');
       return _.reduce(transactions, (memo, num, index) => {
         if (index === 1) {
           return _voteCount(memo, userId) + _voteCount(num, userId);
@@ -217,8 +220,9 @@ const _getVotes = (contractId, userId) => {
         return memo + _voteCount(num, userId);
       });
     } else if (transactions.length === 1) {
+      console.log('sale de tx');
       return _voteCount(transactions[0], userId);
-    }
+    }*/
   }
   return 0;
 };
@@ -352,6 +356,9 @@ const _processTransaction = (ticket) => {
   const receiverProfile = _getProfile(transaction.output);
 
   // verify transaction
+  console.log('verification');
+  console.log(senderProfile);
+  console.log(transaction);
   if (senderProfile.wallet.available < transaction.input.quantity) {
     return 'INSUFFICIENT';
   } else if (transaction.input.entityId === transaction.output.entityId) {
@@ -574,8 +581,6 @@ const _tallyAddition = (transaction) => {
 
 const _getLastBallot = (voterId, contractId) => {
   const tx = Transactions.find({ $and: [{ $or: [{ 'output.entityId': voterId }, { 'input.entityId': voterId }] }, { contractId }] }, { sort: { timestamp: -1 } }).fetch();
-  console.log(tx);
-  console.log(_.pluck(tx[0].condition.ballot, '_id'));
   return _.pluck(tx[0].condition.ballot, '_id');
 };
 
@@ -615,26 +620,6 @@ const _tally = (transaction) => {
   const ballotList = _.pluck(transaction.condition.ballot, '_id');
   let found = false;
   let votes;
-  const template = [
-    {
-      ballot: [{
-        executive: true,
-        mode: 'AUTHORIZE',
-        _id: '1',
-        tick: false,
-      }],
-      votes: 0,
-    },
-    {
-      ballot: [{
-        executive: true,
-        mode: 'REJECT',
-        _id: '0',
-        tick: false,
-      }],
-      votes: 0,
-    },
-  ];
 
   let backwardCompatible = false;
 
@@ -649,12 +634,6 @@ const _tally = (transaction) => {
     // contract.tally.choice = _choiceList(dbContract, voterList);
     contract.tally.choice = [];
     backwardCompatible = true;
-  }
-
-  if (!contract.ballot.length) {
-    for (const i in template) {
-      contract.ballot.push(template[i].ballot[0]);
-    }
   }
 
   // last transaction
@@ -781,6 +760,13 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
   // executes the transaction
   const txId = Transactions.insert(newTransaction);
   const process = _processTransaction(txId);
+
+  /**
+  NOTE: uncomment for testing
+  **/
+  console.log(txId);
+  console.log(process);
+
 
   if (_transactionMessage(process)) {
     // once transaction done, run callback

@@ -111,7 +111,7 @@ Template.transaction.helpers({
     return style;
   },
   ballotOption() {
-    if (this.ballot) {
+    if (this.ballot.length > 0) {
       return TAPi18n.__(this.ballot[0].mode);
     }
     return '';
@@ -128,7 +128,10 @@ Template.transaction.helpers({
   noDate() {
     return this.noDate;
   },
-  loosing() {
+  stage() {
+    if (this.ballot.length === 0) {
+      return 'stage-single';
+    }
     if (!this.winningBallot) {
       return 'stage-loosing';
     }

@@ -85,7 +85,6 @@ Template.homeFeed.helpers({
   mainFeed() {
     const tally = this;
     Session.set('longFeedView', this.options.view);
-    console.log(tally.options.view);
     return tally;
   },
   mainLedger() {
@@ -151,7 +150,10 @@ Template.postFeed.helpers({
   },
   ballotEnabled() {
     const contract = Contracts.findOne({ keyword: Template.currentData().options.keyword });
-    return contract.ballotEnabled;
+    if (contract) {
+      return contract.ballotEnabled;
+    }
+    return undefined;
   },
   newContractId() {
     if (Session.get('draftContract')) {
