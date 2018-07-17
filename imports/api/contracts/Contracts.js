@@ -413,11 +413,15 @@ Schema.Contract = new SimpleSchema({
   },
   ballotEnabled: {
     type: Boolean,
-    defaultValue: true,
+    defaultValue: false,
   },
   'ballot.$.label': {
     type: String,
     optional: true,
+  },
+  stakingEnabled: {
+    type: Boolean,
+    defaultValue: false,
   },
   authorized: {
     // this contract has been authorized

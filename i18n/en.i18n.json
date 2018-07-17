@@ -529,5 +529,6 @@
   "spent": "Spent",
   "copy": "Copy",
   "unvote": "Unvote",
-  "stake": "Stake"
+  "stake": "Stake",
+  "staking": "Staking"
 }

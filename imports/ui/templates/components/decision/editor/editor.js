@@ -210,6 +210,23 @@ Template.editor.helpers({
           }
         },
       },
+      {
+        icon: 'editor-stake',
+        label: TAPi18n.__('staking'),
+        status: () => {
+          if (Session.get('draftContract')) {
+            if (Session.get('draftContract').stakingEnabled) {
+              return 'active';
+            }
+          }
+          return 'enabled';
+        },
+        action: () => {
+          if (Session.get('draftContract')) {
+            toggle('stakingEnabled', !Session.get('draftContract').stakingEnabled);
+          }
+        },
+      },
     ];
   },
 });
