@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { TAPi18n } from 'meteor/tap:i18n';
 
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { timers } from '/lib/const';
@@ -194,6 +195,7 @@ Template.editor.helpers({
     return [
       {
         icon: 'editor-ballot',
+        label: TAPi18n.__('ballot'),
         status: () => {
           if (Session.get('draftContract')) {
             if (Session.get('draftContract').ballotEnabled) {

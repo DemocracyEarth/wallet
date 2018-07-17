@@ -957,16 +957,6 @@ blockquote {
   color: #fff;
 }
 
-.button.login-button.metamask {
-  border-color: #7F807E;
-  background-color: #7F807E;
-}
-
-.button.login-button.metamask:active {
-  background-color: transparent;
-  color: #fff;
-}
-
 .button.facebook {
   border-color: #3c5b96;
   background-color: #3c5b96;
@@ -5422,16 +5412,21 @@ blockquote {
 }
 
 .toolbar-icon {
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
 }
 
 .editor-button {
-  margin: 5px;
-  padding: 10px;
+  height: 32px;
+  margin: 15px 5px;
+  padding: 0px 10px 0px 3px;
   float: left;
   border: 1px solid #00bf8f;
-  border-radius: 100px;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 10px;
+  line-height: 30px;
+  text-transform: uppercase;
   cursor: pointer;
 }
 
@@ -5441,6 +5436,10 @@ blockquote {
 
 .editor-button.editor-button-active {
   background-color: #00bf8f;
+}
+
+.editor-button.editor-button-enabled {
+  color: #1ebf92;
 }
 
 .section-editor-separator {
