@@ -55,6 +55,18 @@ Schema.Tally = new SimpleSchema({
   },
 });
 
+Schema.Constituency = new SimpleSchema({
+  kind: {
+    type: String,
+    allowedValues: ['TOKEN', 'NATION', 'DOMAIN'],
+    optional: true,
+  },
+  value: {
+    type: String,
+    optional: true,
+  },
+});
+
 Schema.Contract = new SimpleSchema({
   owner: {
     type: String,
@@ -426,6 +438,10 @@ Schema.Contract = new SimpleSchema({
   constituencyEnabled: {
     type: Boolean,
     defaultValue: false,
+  },
+  constituency: {
+    type: [Schema.Constituency],
+    optional: true,
   },
   authorized: {
     // this contract has been authorized

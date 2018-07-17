@@ -263,7 +263,7 @@ blockquote {
 
 .section.section-editor {
   margin: 0px -15px;
-  padding: 5px;
+  padding: 0px 0px 0px 5px;
   border-top: 1px dotted #e8e8e8;
   background-color: #f7f7f7;
 }
@@ -3577,6 +3577,7 @@ blockquote {
 
 .option-proposal {
   display: block;
+  min-height: 80px;
 }
 
 .option-proposal:hover {
@@ -5795,6 +5796,25 @@ blockquote {
 
 .inline-block {
   display: inline-block;
+}
+
+.constituency {
+  height: 32px;
+  margin: 7px;
+  padding-top: 2px;
+  padding-right: 10px;
+  padding-left: 10px;
+  float: right;
+  border-radius: 5px;
+  background-color: #e7f9f4;
+  color: #1ebf92;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.constituency.constituency-outcast {
+  background-color: #f5f5f5;
+  color: #ff2752;
 }
 
 @media (max-width: 991px) {

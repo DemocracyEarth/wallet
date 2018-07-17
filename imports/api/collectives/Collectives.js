@@ -81,9 +81,9 @@ Schema.CollectiveProfile = new SimpleSchema({
     optional: true,
   },
   goal: {
-      type: String,
-      allowedValues: ['Profit', 'Free'],
-      optional: true
+    type: String,
+    allowedValues: ['Profit', 'Free'],
+    optional: true,
   },
   owners : {
       type: String,
