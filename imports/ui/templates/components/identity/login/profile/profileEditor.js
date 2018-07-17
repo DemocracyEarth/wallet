@@ -66,7 +66,7 @@ Template.profileEditor.events({
   },
   'blur #editUserName'() {
     const validation = validateUsername(document.getElementById('editUserName').value);
-    if (validation.valid) {
+    if (!validation.valid) {
       Session.set('noUsernameFound', true);
       Session.set('queryUsernameStatus', '');
     } else {
@@ -84,7 +84,7 @@ Template.profileEditor.events({
     const validation = validateUsername(document.getElementById('editUserName').value);
     if (document.getElementById('editFirstName').value === '') {
       Session.set('noNameFound', true);
-    } else if (validation.valid || document.getElementById('editUserName').value === '') {
+    } else if (!validation.valid || document.getElementById('editUserName').value === '') {
       Session.set('noUsernameFound', true);
       Session.set('queryUsernameStatus', '');
     } else if (Session.get('queryUsernameStatus') === 'SINGULAR') {
