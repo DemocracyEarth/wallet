@@ -227,6 +227,23 @@ Template.editor.helpers({
           }
         },
       },
+      {
+        icon: 'editor-constituency',
+        label: TAPi18n.__('constituency'),
+        status: () => {
+          if (Session.get('draftContract')) {
+            if (Session.get('draftContract').constituencyEnabled) {
+              return 'active';
+            }
+          }
+          return 'enabled';
+        },
+        action: () => {
+          if (Session.get('draftContract')) {
+            toggle('constituencyEnabled', !Session.get('draftContract').constituencyEnabled);
+          }
+        },
+      },
     ];
   },
 });

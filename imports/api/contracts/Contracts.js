@@ -423,6 +423,10 @@ Schema.Contract = new SimpleSchema({
     type: Boolean,
     defaultValue: false,
   },
+  constituencyEnabled: {
+    type: Boolean,
+    defaultValue: false,
+  },
   authorized: {
     // this contract has been authorized
     type: Boolean,
