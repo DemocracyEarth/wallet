@@ -43,7 +43,7 @@ export default class Signup extends Component {
       switch (event.target.name) {
         case 'username-signup':
           const validUsername = validateUsername(event.target.value);
-          this.setState({ invalidUsername: validUsername.valid });
+          this.setState({ invalidUsername: !validUsername.valid });
           this.setState({ repeatedUsername: validUsername.repeated });
           break;
         case 'email-signup':

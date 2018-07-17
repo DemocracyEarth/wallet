@@ -22,14 +22,14 @@ const _validateUsername = (username) => {
   const regexp = /^[a-zA-Z0-9\-_]{0,40}$/;
 
   // Set whether username format is valid or not
-  usernameValidationObject.valid = !regexp.test(username);
+  usernameValidationObject.valid = regexp.test(username);
 
   // Only if username is valid, check whether it exists already
-  if (regexp.test(username)) {
+  if (usernameValidationObject.valid) {
     Meteor.call('getUser', username, function (error, result) {
       if (result) {
         if (Meteor.user()) {
-          if (result.username !== Meteor.user().username) {
+          if (result.username !== Meteor.user().username && result.username !== '' ) {
             Session.set('queryUsernameStatus', 'DUPLICATE');
           } else {
             Session.set('queryUsernameStatus', 'SINGULAR');
@@ -111,7 +111,7 @@ const _getAnonObject = (signatureMode) => {
 const _validateUser = (data) => {
   const validUsername = _validateUsername(data.username);
 
-  const val = !validUsername.valid + validateEmail(data.email) + _validatePassword(data.password) + _validatePasswordMatch(data.password, data.mismatchPassword);
+  const val = validUsername.valid + validateEmail(data.email) + _validatePassword(data.password) + _validatePasswordMatch(data.password, data.mismatchPassword);
 
   if (val >= 4) { return true; } return false;
 };
