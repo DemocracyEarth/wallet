@@ -65,6 +65,10 @@ Schema.Constituency = new SimpleSchema({
     type: String,
     optional: true,
   },
+  check: {
+    type: String,
+    optional: true,
+  },
 });
 
 Schema.Contract = new SimpleSchema({
@@ -441,7 +445,7 @@ Schema.Contract = new SimpleSchema({
   },
   constituency: {
     type: [Schema.Constituency],
-    optional: true,
+    defaultValue: [],
   },
   authorized: {
     // this contract has been authorized
