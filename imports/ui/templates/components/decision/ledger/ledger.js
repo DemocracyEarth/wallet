@@ -35,6 +35,7 @@ Template.ledger.helpers({
   },
   delegationVotes() {
     const tally = this;
+    delete tally.options.status;
     tally.options.view = 'delegationVotes';
     tally.options.kind = 'DELEGATION';
     tally.options.sort = { timestamp: -1 };
@@ -42,13 +43,23 @@ Template.ledger.helpers({
   },
   peerVotes() {
     const tally = this;
+    delete tally.options.status;
     tally.options.view = 'userVotes';
     tally.options.kind = 'VOTE';
     tally.options.sort = { timestamp: -1 };
     return tally;
   },
+  pendingAllocation() {
+    const tally = this;
+    delete tally.options.kind;
+    tally.options.view = 'userPendings';
+    tally.options.status = 'PENDING';
+    tally.options.sort = { timestamp: -1 };
+    return tally;
+  },
   postVotes() {
     const tally = this;
+    delete tally.options.status;
     tally.options.view = 'votes';
     tally.options.sort = { timestamp: -1 };
 

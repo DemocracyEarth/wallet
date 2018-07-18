@@ -119,7 +119,7 @@ Template.tally.onCreated(function () {
         console.log(error);
       }
     });
-  } else if (this.data.options.view === 'userVotes' || this.data.options.view === 'delegationVotes') {
+  } else if (this.data.options.view === 'userVotes' || this.data.options.view === 'delegationVotes' || this.data.options.view === 'userPendings') {
     if (this.data.options.username) {
       Meteor.call('getUser', this.data.options.username, function (error, result) {
         if (result) {
@@ -159,7 +159,7 @@ Template.tally.onCreated(function () {
     if (dbQuery) {
       if (instance.subscription.ready()) {
         Session.set('isLedgerReady', true);
-        if (instance.data.options.view === 'userVotes' || instance.data.options.view === 'delegationVotes') {
+        if (instance.data.options.view === 'userVotes' || instance.data.options.view === 'delegationVotes' || instance.data.options.view === 'userPendings') {
           computation.stop();
         }
       }
