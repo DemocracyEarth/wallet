@@ -14,8 +14,26 @@ As a developer
 I want to be able to run the feature suite
 ```
 
-## Roadmap
+## Glossary
+| Term  | Meaning   |
+|---|---|
+| guest  | a person who uses the app without login in |
+| user  | a person who uses the app, has been registered and is loggued in  |
+| delegate | a user who sent with whom I exchanged tokens (received or sent)  |
+| proposal | a text that raises a question, describes an idea or makes a statement, if activated users can vote and stake on the is votable, it can contain #hashtags and $tickers |
+| #hashtag | short identifier of kind of content in the proposal, could be more than one, starts with hashtag (# character)  |
+| $ticker  | short identifier of signaling in the proposal, could be more than one, starts with hashtag (# character)  |
+| Constituency  |   |
+| vote  |   |
+| unvote  |   |
+| stake  |   |
+| delegate  |   |
+| revoke  |   |
 
+## Product inventory
+Checked items have been described into a `.feature` file and are covered by tests.
+
+- [x] Registering and login
 - [x] Exposing issues
 - [ ] Authoring
     - [x] Simple Ideas (twister-like)
@@ -88,4 +106,3 @@ Chimp does not natively support them, and each of our implementation attempts ha
 Use the `castNum` and `getUser` functions in your steps to grab numbers and users from their string counterparts.
 
 When Chimp supports them or you figure out a bug-free way to have them, please open an issue or a PR!
-
