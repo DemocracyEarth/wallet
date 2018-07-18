@@ -5443,6 +5443,13 @@ blockquote {
   color: #1ebf92;
 }
 
+.editor-button.editor-button-readonly {
+  margin: 6px 10px -5px;
+  float: right;
+  border-style: none;
+  opacity: 0.5;
+}
+
 .section-editor-separator {
   margin: 10px;
   border-top: 1px dotted #00bf8f;

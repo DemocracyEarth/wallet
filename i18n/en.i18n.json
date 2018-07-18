@@ -533,7 +533,10 @@
   "staking": "Staking",
   "constituency": "Electorate",
   "token": "Token",
-  "token-balance": "Token Balance",
+  "token-balance": "Token Holders",
   "domain": "Domain",
-  "email-valid-domain": "Valid E-mail Domain"
+  "email-valid-domain": "Verified E-mail Domain",
+  "anyone-vote": "Anyone",
+  "cancel": "Cancel",
+  "electorate-requisites": "Voter Requisites"
 }

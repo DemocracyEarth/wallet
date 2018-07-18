@@ -5,7 +5,6 @@ import { $ } from 'meteor/jquery';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { TAPi18n } from 'meteor/tap:i18n';
 
-import { displayPopup } from '/imports/ui/modules/popup';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { timers } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
@@ -21,11 +20,11 @@ const _keepKeyboard = () => {
   $('#toolbar-hidden-keyboard').focus();
 };
 
-function toggle(key, value) {
+const _toggle = (key, value) => {
   const contract = Session.get('draftContract');
   contract[key] = value;
   Session.set('draftContract', contract);
-}
+};
 
 /**
 * @summary enables or disables feed and disables scrolling in mobile devices
@@ -215,7 +214,7 @@ Template.editor.helpers({
         },
         action: () => {
           if (Session.get('draftContract')) {
-            toggle('ballotEnabled', !Session.get('draftContract').ballotEnabled);
+            _toggle('ballotEnabled', !Session.get('draftContract').ballotEnabled);
           }
         },
       },
@@ -232,11 +231,11 @@ Template.editor.helpers({
         },
         action: () => {
           if (Session.get('draftContract')) {
-            toggle('stakingEnabled', !Session.get('draftContract').stakingEnabled);
+            _toggle('stakingEnabled', !Session.get('draftContract').stakingEnabled);
           }
         },
       },
-      {
+      /* {
         icon: 'editor-constituency',
         label: TAPi18n.__('constituency'),
         status: () => {
@@ -253,7 +252,7 @@ Template.editor.helpers({
             displayPopup($('.section-editor')[0], 'constituency', Meteor.userId(), 'click', 'constituency-popup');
           }
         },
-      },
+      },*/
     ];
   },
 });
@@ -275,6 +274,7 @@ Template.editor.events({
   },
 });
 
+export const toggle = _toggle;
 export const keepKeyboard = _keepKeyboard;
 export const editorFadeOut = _editorFadeOut;
 export const editorFadeIn = _editorFadeIn;

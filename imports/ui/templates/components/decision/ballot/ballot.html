@@ -91,6 +91,7 @@
             <img src="{{pathFor route='home'}}images/debate.png" class="micro-icon">
             <span class="micro-label">{{label 'debate'}} {{{quantity 'debate'}}}</span>
           </a>
+          {{> electorate contract=contract readOnly=true}}
         </div>
       </div>
     {{/unless}}

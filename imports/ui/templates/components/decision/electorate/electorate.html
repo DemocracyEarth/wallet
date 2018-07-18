@@ -1,5 +1,6 @@
 <template name="electorate">
-  <div class="constituency">
+  <div id="electorate-button" class="editor-button editor-button-{{icon}} {{readOnly}}">
+    <img class="toolbar-icon" src="{{pathFor route='home'}}images/electorate-check-{{icon}}.png">
     {{status}}
   </div>
 </template>

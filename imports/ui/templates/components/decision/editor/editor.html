@@ -32,9 +32,6 @@
               {{> ballot editorMode=true contract=draftContract feedMode=true}}
             </div>
           {{/if}}
-          <div class="extra">
-            {{> electorate contract=draftContract}}
-          </div>
         </div>
       </div>
     </div>
@@ -47,6 +44,7 @@
       {{#each menu}}
         {{> editorButton}}
       {{/each}}
+      {{> electorate contract=draftContract}}
       {{#unless isPhone}}
         <div class="post-button">
           {{> authentication desktop=true}}

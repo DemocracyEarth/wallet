@@ -1,44 +1,51 @@
 <template name="constituency">
   {{#if currentUser}}
-    <div class="login-field">
-      <label for="name" class="login-label login-label-form">
-        {{_ 'nationality'}}
-      </label>
-      <img src="{{pathFor route='home'}}images/flag.png" class="login-icon">
-      <input type="text" placeholder="{{_ 'earth'}}" autocomplete="false" value="{{country}}" class="w-input login-input country-search">
-      {{#if showNations}}
-        {{> suggest}}
-      {{/if}}
-    </div>
-    <div class="login-field">
-      <label for="name" class="login-label login-label-form">
-        {{_ 'token'}}
-      </label>
-      <img src="{{pathFor route='home'}}images/token.png" class="login-icon">
-      <input type="text" placeholder="{{_ 'bitcoin'}}" autocomplete="false" value="{{country}}" class="w-input login-input country-search">
-      {{#if showNations}}
-        {{> suggest}}
-      {{/if}}
-    </div>
-    <div class="login-field">
-      <label for="name" class="login-label login-label-form">
-        {{_ 'domain'}}
-      </label>
-      <img src="{{pathFor route='home'}}images/domain.png" class="login-icon">
-       <input type="text" id="editUserName" placeholder="domainname.com" autocomplete="false" class="w-input login-input">
-    </div>
-    <!--{{> demographic}}-->
-    <div class="modal-buttons">
-      <div class="modal-buttons-padder">
-        <div id="cancel" class="button login-button button-secondary button-half">
-          <div>{{cancel}}</div>
-        </div>
-      </div>
-      <div class="modal-buttons-padder">
-        <div id="execute" class="button login-button button-half">
-          <div>{{action}}</div>
-        </div>
+    <div class="w-clearfix paper-header card-header">
+      <div class="card-title">
+        <img src="{{pathFor route='home'}}images/gerrymander.png" class="section-icon">
+        {{_ 'electorate-requisites'}}
       </div>
     </div>
-  {{/if}}
+    <div class="login">
+      <div class="login-field">
+        <label for="name" class="login-label login-label-form">
+          {{_ 'nationality'}}
+        </label>
+        <img src="{{pathFor route='home'}}images/flag.png" class="login-icon">
+        <input type="text" placeholder="{{_ 'earth'}}" autocomplete="false" value="{{country}}" class="w-input login-input country-search">
+        {{#if showNations}}
+          {{> suggest}}
+        {{/if}}
+      </div>
+      <div class="login-field">
+        <label for="name" class="login-label login-label-form">
+          {{_ 'token-balance'}}
+        </label>
+        <img src="{{pathFor route='home'}}images/token.png" class="login-icon">
+        <input type="text" placeholder="{{_ 'bitcoin'}}" autocomplete="false" value="{{country}}" class="w-input login-input country-search">
+        {{#if showNations}}
+          {{> suggest}}
+        {{/if}}
+      </div>
+      <div class="login-field">
+        <label for="name" class="login-label login-label-form">
+          {{_ 'email-valid-domain'}}
+        </label>
+        <img src="{{pathFor route='home'}}images/domain.png" class="login-icon">
+         <input type="text" id="editUserName" placeholder="domainname.com" autocomplete="false" class="w-input login-input">
+      </div>
+      <div class="extra">
+         <div class="modal-buttons-padder">
+           <div id="cancel-constituency" class="button login-button button-secondary button-half">
+             <div>{{_ 'cancel'}}</div>
+           </div>
+         </div>
+         <div class="modal-buttons-padder">
+           <div id="execute-constituency" class="button login-button button-half">
+             <div>{{_ 'apply'}}</div>
+           </div>
+         </div>
+       </div>
+     </div>
+   {{/if}}
 </template>
