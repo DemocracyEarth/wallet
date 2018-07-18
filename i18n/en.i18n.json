@@ -531,5 +531,9 @@
   "unvote": "Unvote",
   "stake": "Stake",
   "staking": "Staking",
-  "constituency": "Constituency"
+  "constituency": "Electorate",
+  "token": "Token",
+  "token-balance": "Token Balance",
+  "domain": "Domain",
+  "email-valid-domain": "Valid E-mail Domain"
 }

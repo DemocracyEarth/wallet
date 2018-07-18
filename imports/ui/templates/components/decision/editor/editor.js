@@ -5,6 +5,7 @@ import { $ } from 'meteor/jquery';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { TAPi18n } from 'meteor/tap:i18n';
 
+import { displayPopup } from '/imports/ui/modules/popup';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { timers } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
@@ -13,6 +14,8 @@ import { timeCompressed } from '/imports/ui/modules/chronos';
 import '/imports/ui/templates/components/decision/editor/editor.html';
 import '/imports/ui/templates/components/decision/editor/editorButton.js';
 import '/imports/ui/templates/components/decision/editor/counter.js';
+import '/imports/ui/templates/components/decision/constituency/constituency.js';
+import '/imports/ui/templates/components/decision/electorate/electorate.js';
 
 const _keepKeyboard = () => {
   $('#toolbar-hidden-keyboard').focus();
@@ -247,6 +250,7 @@ Template.editor.helpers({
         action: () => {
           if (Session.get('draftContract')) {
             toggle('constituencyEnabled', !Session.get('draftContract').constituencyEnabled);
+            displayPopup($('.section-editor')[0], 'constituency', Meteor.userId(), 'click', 'constituency-popup');
           }
         },
       },
