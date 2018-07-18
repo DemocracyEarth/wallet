@@ -36,6 +36,11 @@
       </div>
     </div>
     <div class="section section-editor w-clearfix">
+      {{#if stakingEnabled}}
+        <div class="staking-editor">
+          {{> liquid placeholder=true}}
+        </div>
+      {{/if}}
       {{#each menu}}
         {{> editorButton}}
       {{/each}}

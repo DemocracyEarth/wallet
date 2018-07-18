@@ -1,37 +1,48 @@
 <template name="liquid">
-  {{#if singleVote}}
-    {{castSingleVote}}
+  {{#if placeholder}}
+    <div class="w-clearfix rosca rosca-setter">
+      <div id="voteBar-placeholder" class="w-clearfix result vote-bar">
+        <div id="voteSlider-placeholder" class="result-bar vote-bar " style=" width:  ">
+            <div id="voteHandle-placeholder" class="handle" style=""></div>
+        </div>
+        <div id="votePlaced-placeholder" class="result-bar vote-bar vote-bar-allocated"  style=" width: "></div>
+      </div>
+    </div>
   {{else}}
-    {{#if editable}}
-      {{#if rightToVote}}
+    {{#if singleVote}}
+      {{castSingleVote}}
+    {{else}}
+      {{#if editable}}
+        {{#if rightToVote}}
+          <div class="w-clearfix rosca rosca-setter">
+            {{> capital _id=_id user=user isDelegation=isDelegation hideBar=hideBar}}
+            {{#unless hideBar}}
+              {{> bar _id=_id editable=editable}}
+            {{/unless}}
+            {{#if isDelegation}}
+              {{#if minimumReached}}
+                <div class="float-left extra">
+                  {{> warning label="minimum-delegation-revoke"}}
+                </div>
+              {{/if}}
+            {{/if}}
+          </div>
+        {{else}}
+          <div class="w-clearfix rosca rosca-setter">
+            {{> capital _id=_id user=user isDelegation=isDelegation hideBar=hideBar}}
+            {{#unless hideBar}}
+              {{> bar _id=_id editable=false}}
+            {{/unless}}
+          </div>
+        {{/if}}
+      {{else}}
         <div class="w-clearfix rosca rosca-setter">
-          {{> capital _id=_id user=user isDelegation=isDelegation hideBar=hideBar}}
+          {{> capital _id=_id user=user isDelegation=isDelegation editable=editable hideBar=hideBar}}
           {{#unless hideBar}}
             {{> bar _id=_id editable=editable}}
           {{/unless}}
-          {{#if isDelegation}}
-            {{#if minimumReached}}
-              <div class="float-left extra">
-                {{> warning label="minimum-delegation-revoke"}}
-              </div>
-            {{/if}}
-          {{/if}}
-        </div>
-      {{else}}
-        <div class="w-clearfix rosca rosca-setter">
-          {{> capital _id=_id user=user isDelegation=isDelegation hideBar=hideBar}}
-          {{#unless hideBar}}
-            {{> bar _id=_id editable=false}}
-          {{/unless}}
         </div>
       {{/if}}
-    {{else}}
-      <div class="w-clearfix rosca rosca-setter">
-        {{> capital _id=_id user=user isDelegation=isDelegation editable=editable hideBar=hideBar}}
-        {{#unless hideBar}}
-          {{> bar _id=_id editable=editable}}
-        {{/unless}}
-      </div>
     {{/if}}
   {{/if}}
 </template>

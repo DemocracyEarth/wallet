@@ -158,40 +158,44 @@ const _setupDrag = () => {
 };
 
 Template.liquid.onCreated(function () {
-  let wallet = new Vote(Template.instance().data.wallet, Template.instance().data.targetId, Template.instance().data._id);
-  Session.set(Template.instance().data._id, wallet);
-  Template.instance().contract = new ReactiveVar(Template.currentData().contract);
-  Template.instance().rightToVote = new ReactiveVar(getRightToVote(Template.instance().contract.get()));
-  Template.instance().candidateBallot = new ReactiveVar(Template.currentData().candidateBallot);
-  Template.instance().ready = new ReactiveVar(false);
+  if (!this.data.placeholder) {
+    let wallet = new Vote(Template.instance().data.wallet, Template.instance().data.targetId, Template.instance().data._id);
+    Session.set(Template.instance().data._id, wallet);
+    Template.instance().contract = new ReactiveVar(Template.currentData().contract);
+    Template.instance().rightToVote = new ReactiveVar(getRightToVote(Template.instance().contract.get()));
+    Template.instance().candidateBallot = new ReactiveVar(Template.currentData().candidateBallot);
+    Template.instance().ready = new ReactiveVar(false);
 
-  const instance = this;
+    const instance = this;
 
-  instance.autorun(function () {
-    wallet = new Vote(instance.data.wallet, instance.data.targetId, instance.data._id);
-    if (wallet.voteType === 'DELEGATION') {
-      instance.rightToVote.set(getRightToVote(wallet.delegationContract));
-      instance.contract.set(wallet.delegationContract);
-    }
-    Session.set(instance.data._id, wallet);
-  });
+    instance.autorun(function () {
+      wallet = new Vote(instance.data.wallet, instance.data.targetId, instance.data._id);
+      if (wallet.voteType === 'DELEGATION') {
+        instance.rightToVote.set(getRightToVote(wallet.delegationContract));
+        instance.contract.set(wallet.delegationContract);
+      }
+      Session.set(instance.data._id, wallet);
+    });
+  }
 });
 
 
 Template.liquid.onRendered(function () {
-  if (!Meteor.user()) {
-    return;
-  }
+  if (!this.data.placeholder) {
+    if (!Meteor.user()) {
+      return;
+    }
 
-  if (!Meteor.Device.isPhone()) {
-    $(`#voteBar-${this.data._id}`).resize(function () {
-      const voteId = this.id.replace('voteBar-', '');
-      this.newVote = new Vote(Session.get(voteId), Session.get(voteId).targetId, voteId);
-      this.newVote.resetSlider();
-      Session.set(voteId, this.newVote);
-    });
+    if (!Meteor.Device.isPhone()) {
+      $(`#voteBar-${this.data._id}`).resize(function () {
+        const voteId = this.id.replace('voteBar-', '');
+        this.newVote = new Vote(Session.get(voteId), Session.get(voteId).targetId, voteId);
+        this.newVote.resetSlider();
+        Session.set(voteId, this.newVote);
+      });
+    }
+    _setupDrag();
   }
-  _setupDrag();
 });
 
 Template.liquid.helpers({
@@ -244,6 +248,10 @@ Template.liquid.helpers({
         this.newVote.execute(cancel, this.singleRevoke, true);
       }
     }
+  },
+  placeholder() {
+    console.log(this);
+    return this.placeholder;
   },
   signleVote() {
     return this.singleVote;

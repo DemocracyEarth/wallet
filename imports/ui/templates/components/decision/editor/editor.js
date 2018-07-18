@@ -179,6 +179,12 @@ Template.editor.helpers({
     }
     return false;
   },
+  stakingEnabled() {
+    if (Session.get('draftContract')) {
+      return Session.get('draftContract').stakingEnabled;
+    }
+    return false;
+  },
   signatures() {
     if (Session.get('draftContract')) {
       return Session.get('draftContract').signatures;
