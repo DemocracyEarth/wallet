@@ -21,14 +21,14 @@ I want to be able to run the feature suite
 | user  | a person who uses the app, has been registered and is loggued in  |
 | delegate | a user who sent with whom I exchanged tokens (received or sent)  |
 | proposal | a text that raises a question, describes an idea or makes a statement, if activated users can vote and stake on the is votable, it can contain #hashtags and $tickers |
-| #hashtag | short identifier of kind of content in the proposal, could be more than one, starts with hashtag (# character)  |
-| $ticker  | short identifier of signaling in the proposal, could be more than one, starts with hashtag (# character)  |
-| Constituency  |   |
-| vote  |   |
-| unvote  |   |
-| stake  |   |
-| delegate  |   |
-| revoke  |   |
+| #hashtag | short identifier of kind of content in the proposal, it starts with #, on click the user is exposed to all proposals linked to the hashtag |
+| $ticker  | short identifier signaling that the proposal is linked to a token (crypto currency), it starts with $, on click the user is exposed to all proposals linked to the hashtag|
+| constituency | defines who can vote on a proposal, there are 3 types : token (owns token), domain (registration email), nation (choosen nationality) |
+| vote  | user chooses to allocate a number of tokens to a choice on a proposal |
+| unvote  | user chooses to withdraw a number of tokens to a choice on a proposal  |
+| delegate  | user chooses to send tokens to a another user which becomes a delegate |
+| revoke  | user chooses to retrieve the tokens he previously sent to its delegate |
+| stake  | user votes on $token related proposal according to its stake in the currency |
 
 ## Product inventory
 Checked items have been described into a `.feature` file and are covered by tests.
