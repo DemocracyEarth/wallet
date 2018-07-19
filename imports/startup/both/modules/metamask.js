@@ -82,6 +82,11 @@ if (Meteor.isClient) {
             })
           }
         });
+        Meteor.call('subsidizeUser', (subsidyError) => {
+          if (subsidyError) {
+            console.log(subsidyError.reason, 'danger');
+          }
+        });
       } else {
         console.log('Login error with Metamask');
       }
