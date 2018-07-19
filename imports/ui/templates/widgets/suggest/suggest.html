@@ -1,10 +1,18 @@
 <template name="suggest">
   <ul class="w-list-unstyled suggest">
-    {{#each country}}
-      <li id="country" value="{{code}}" class="suggest-item">
-        <div>{{emoji}} {{name}}</div>
-      </li>
-    {{/each}}
+    {{#unless tokenList}}
+      {{#each country}}
+        <li id="country" value="{{code}}" class="suggest-item">
+          <div>{{emoji}} {{name}}</div>
+        </li>
+      {{/each}}
+    {{else}}
+      {{#each token}}
+        <li id="token" value="{{coin}}" class="suggest-item">
+          <div>{{emoji}} {{ticker}}</div>
+        </li>
+      {{/each}}
+    {{/unless}}
   </ul>
   {{#if noMatchFound}}
     <div class="extra">

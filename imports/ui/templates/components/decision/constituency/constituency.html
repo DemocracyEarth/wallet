@@ -22,9 +22,9 @@
           {{_ 'token-balance'}}
         </label>
         <img src="{{pathFor route='home'}}images/token.png" class="login-icon">
-        <input type="text" placeholder="{{_ 'bitcoin'}}" autocomplete="false" value="{{country}}" class="w-input login-input country-search">
-        {{#if showNations}}
-          {{> suggest}}
+        <input type="text" placeholder="{{_ 'bitcoin'}}" autocomplete="false" value="{{token}}" class="w-input login-input token-search">
+        {{#if showTokens}}
+          {{> suggest tokenList=true}}
         {{/if}}
       </div>
       <div class="login-field">
