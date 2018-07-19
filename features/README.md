@@ -31,22 +31,57 @@ I want to be able to run the feature suite
 | revoke  | user chooses to retrieve the tokens he previously sent to its delegate |
 | stake (wip)| user votes on $token related proposal according to its stake in the currency |
 
+To do
+- [ ] enforce glossary on product inventory
+- [ ] enforce glossary in existing `.feature` files.
+
 ## Product inventory
 Checked items have been described into a `.feature` file and are covered by tests.
 
-- [x] Registering and login
-- [x] Exposing issues
+- [ ] Registering and login
+  - [x] with email / password
+  - [ ] with Facebook
+  - [ ] with Blockstack
+  - [ ] with Metamask
+    - [ ] fetch ERC20 balance (wip)
+  - [ ] Receiving votes upon account creation
+  - [x] Edit account information
+  - [ ] Logout
+- [ ] Exposing proposals
+  - [ ] Expose all proposals
+  - [ ] Expose proposals linked to a nation (/geo)
+  - [ ] Expose proposals linked to #hashtag (/tag)
+  - [ ] Expose proposals linked to $ticker (/token)
+  - [ ] Expose proposals linked to a user (/peer)
+- [ ] Display users who a recent activity on the platform in the sidebar menu
+- [ ] Exposing voting and delegationg activity
+  - [ ] Initial token grant upon registration
+  - [ ] Vote allocation on proposal
+  - [ ] Vote removal from proposal
+  - [ ] Modify vote allocation on proposal
+  - [ ] Delegated votes from one user to a delegate
+  - [ ] Removed delegated votes from a delegate
+  - [ ] On general feed
+  - [ ] On peer feed
 - [ ] Authoring
-    - [x] Simple Ideas (twister-like)
-    - [ ] Ideas with ballots
-- [ ] Voting
-    - [ ] Receiving votes upon account creation
-    - [ ] Using votes on ideas
-- [ ] Debating
-    - [ ] Using a chronological tree
+    - [x] Proposal (single vote)
+      - [ ] Nested proposal (debate)
+    - [ ] Proposal with ballot
+    - [ ] Proposal with staking (wip)
+    - [ ] Proposal with ballot and staking (wip)
+    - [ ] Proposal with constituency (wip)
+    - [ ] Proposal with #hashtag
+    - [ ] Proposal with $ticker
+- [ ] Voting and revoking
+    - [ ] Allocate n votes on proposal
+    - [ ] Withdraw n votes on proposal
 - [ ] Delegating
-    - [ ] Giving votes to another citizen
+    - [ ] Send n votes to another user
+    - [ ] Remove n votes given to delegate
+    - [ ] Show delegates on sidebar menu
 
+To do
+- [ ] udate `login.feature` with token grant and logout
 
 ## How to Run
 
