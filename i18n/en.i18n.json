@@ -536,7 +536,10 @@
   "token-balance": "Token Holders",
   "domain": "Domain",
   "email-valid-domain": "Verified E-mail Domain",
-  "anyone-vote": "Anyone",
+  "electorate-sentence-anyone": "Anyone",
   "cancel": "Cancel",
-  "electorate-requisites": "Voter Requisites"
+  "electorate-requisites": "Voter Requisites",
+  "electorate-sentence-and": "{{setting0}} and {{setting1}}",
+  "electorate-sentence-only": "Only {{setting0}}",
+  "electorate-sentence-all": "{{setting0}}, {{setting1}}, {{setting2}}"
 }

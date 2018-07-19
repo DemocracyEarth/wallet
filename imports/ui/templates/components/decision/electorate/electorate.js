@@ -14,12 +14,36 @@ const _check = (contract) => {
 }
 
 const _writeRule = (contract) => {
-  if (contract.constituency && contract.constituency.length > 0) {
+  let sentence = TAPi18n.__('electorate-sentence-anyone');
+  if (contract.constituency) {
+    switch (contract.constituency.length) {
+      case 1:
+        sentence = TAPi18n.__('electorate-sentence-only');
+        break;
+      case 2:
+        sentence = TAPi18n.__('electorate-sentence-and');
+        break;
+      case 3:
+        sentence = TAPi18n.__('electorate-sentence-all');
+        break;
+      default:
+        sentence = TAPi18n.__('electorate-sentence-anyone');
+    }
+
     for (const i in contract.constituency) {
-      break;
+      switch (contract.constituency[i].kind) {
+        case 'TOKEN':
+          break;
+        case 'NATION':
+          break;
+        case 'DOMAIN':
+          break;
+        default:
+          sentence = sentence.replace(`{{setting${i}}}`, contract.constituency[i].value);
+      }
     }
   }
-  return TAPi18n.__('anyone-vote');
+  return sentence;
 };
 
 Template.electorate.helpers({
