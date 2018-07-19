@@ -8,7 +8,7 @@
   - [ ] Receiving $VOTEs upon account creation
   > The user registering with Metamask is still a normal user, so it should get its $VOTEs allocation either way.
 
-  - [x] Edit account information
+  - [ ] Edit account information
   > When the user logs in with Metamask we don't get its email. In the edit profile modal we should the email field. If we want to keep the confirm your email loop we can send a new email every time it's changed.
 
   - [ ] Logout
