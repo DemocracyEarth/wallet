@@ -30,6 +30,7 @@ import { Template } from 'meteor/templating';
 import { toggleSidebar } from '/imports/ui/modules/menu';
 import { globalObj } from '/lib/global';
 import { geo } from '/lib/geo';
+import { token } from '/lib/token';
 import { gui } from '/lib/const';
 
 
@@ -79,9 +80,13 @@ Meteor.startup(() => {
     localSearch: true,
   });
 
-  // geographical Info
+  // geographical sovereignty
   globalObj.geoJSON = geo;
   Session.set('filteredCountries', geo.country);
+
+  // cryptographical sovereignty
+  globalObj.tokenJSON = token;
+  Session.set('filteredCoins', token.coin);
 });
 
 Template.main.onRendered(() => {
