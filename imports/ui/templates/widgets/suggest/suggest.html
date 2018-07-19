@@ -7,9 +7,9 @@
         </li>
       {{/each}}
     {{else}}
-      {{#each token}}
-        <li id="token" value="{{coin}}" class="suggest-item">
-          <div>{{emoji}} {{ticker}}</div>
+      {{#each coin}}
+        <li id="token" value="{{code}}" class="suggest-item">
+          <div>{{code}} {{name}}</div>
         </li>
       {{/each}}
     {{/unless}}

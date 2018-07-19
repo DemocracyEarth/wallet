@@ -8,6 +8,7 @@ import '/imports/ui/templates/widgets/suggest/suggest.html';
 
 Template.suggest.onRendered(() => {
   Session.set('noMatchFound', false);
+  Session.set('noCoinFound', false);
 
   if (!Meteor.Device.isPhone()) {
     $('.suggest').css('height', '0');
@@ -30,18 +31,21 @@ Template.suggest.helpers({
   },
   coin() {
     if (Session.get('filteredCoins').length === 0) {
-      Session.set('noMatchFound', true);
+      Session.set('noCoinFound', true);
       return [{
-        code: 'EA',
-        emoji: '🌎',
-        name: 'Earth',
+        code: 'ETH',
+        emoji: '',
+        name: 'Ethereum',
       }];
     }
-    Session.set('noMatchFound', false);
+    Session.set('noCoinFound', false);
     return Session.get('filteredCoins');
   },
   noMatchFound() {
     return Session.get('noMatchFound');
+  },
+  noCoinFound() {
+    return Session.get('noCoinFound');
   },
 });
 
@@ -63,7 +67,7 @@ Template.suggest.events({
       emoji: event.target.firstChild.data,
     };
     Session.set('newCoin', coin);
-    Session.set('noMatchFound', false);
+    Session.set('noCoinFound', false);
     Session.set('showTokens', false);
   },
 });

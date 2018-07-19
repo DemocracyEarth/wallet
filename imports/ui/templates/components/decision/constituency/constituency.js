@@ -4,6 +4,10 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 
 import { animatePopup } from '/imports/ui/modules/popup';
+import { searchJSON } from '/imports/ui/modules/JSON';
+import { geo } from '/lib/geo';
+import { token } from '/lib/token';
+
 import '/imports/ui/templates/components/decision/constituency/constituency.html';
 
 Template.constituency.onCreated(() => {
@@ -38,6 +42,20 @@ Template.constituency.events({
   },
   'click #execute-constituency'() {
 
+  },
+  'input .country-search'(event) {
+    if (event.target.value !== '') {
+      Session.set('filteredCountries', searchJSON(geo.country, event.target.value));
+    } else {
+      Session.set('filteredCountries', geo.country);
+    }
+  },
+  'input .token-search'(event) {
+    if (event.target.value !== '') {
+      Session.set('filteredCoins', searchJSON(token.coin, event.target.value));
+    } else {
+      Session.set('filteredCoins', token.coin);
+    }
   },
   'focus .country-search'() {
     Session.set('showNations', true);

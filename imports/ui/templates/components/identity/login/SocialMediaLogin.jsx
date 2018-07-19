@@ -38,7 +38,7 @@ export default class SocialMediaLogin extends Component {
       }
     });
   }
-  
+
   handleMetamaskLogin() {
     Meteor.loginWithMetamask({}, function (err) {
       if (err.reason) {
@@ -66,14 +66,14 @@ export default class SocialMediaLogin extends Component {
     }
     return (
       <div>
-        <div id="blockstack-login" className="button login-button blockstack" onClick={this.handleBlockstackLogin}>
-          <img src="/images/blockstack.png" className="button-icon" alt="lock" />
-          {TAPi18n.__('blockstack-id')}
-        </div>
         <div id="metamask-login" className="button login-button metamask" onClick={this.handleMetamaskLogin}>
           <img src="/images/metamask.png" className="button-icon" alt="lock" />
           {TAPi18n.__('metamask')}
         </div>
+        {/*<div id="blockstack-login" className="button login-button blockstack" onClick={this.handleBlockstackLogin}>
+          <img src="/images/blockstack.png" className="button-icon" alt="lock" />
+          {TAPi18n.__('blockstack-id')}
+        </div>*/}
         <div id="facebook-login" className="button login-button facebook" onClick={this.handleFacebookLogin} >
           <img src="/images/facebook.png" className="button-icon" alt="lock" />
           {TAPi18n.__('facebook')}
