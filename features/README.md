@@ -39,12 +39,12 @@ To do
 Checked items have been described into a `.feature` file and are covered by tests.
 
 - [ ] Registering and login
-  - [x] with email / password
-  - [ ] with Facebook
-  - [ ] with Blockstack
-  - [ ] with Metamask
-    - [ ] fetch ERC20 balance (wip)
-  - [ ] Receiving votes upon account creation
+  - [x] With email / password
+  - [ ] With Facebook
+  - [ ] With Blockstack
+  - [ ] With Metamask
+    - [ ] Fetch ERC20 balance (wip)
+  - [ ] Receiving $VOTEs upon account creation
   - [x] Edit account information
   - [ ] Logout
 - [ ] Exposing proposals
@@ -58,9 +58,9 @@ Checked items have been described into a `.feature` file and are covered by test
   - [ ] Initial token grant upon registration
   - [ ] Vote allocation on proposal
   - [ ] Vote removal from proposal
-  - [ ] Modify vote allocation on proposal
-  - [ ] Delegated votes from one user to a delegate
-  - [ ] Removed delegated votes from a delegate
+  - [ ] Modify $VOTEs allocation on proposal
+  - [ ] Delegated $VOTEs from one user to a delegate
+  - [ ] Removed delegated $VOTEs from a delegate
   - [ ] On general feed
   - [ ] On peer feed
 - [ ] Authoring
@@ -73,11 +73,11 @@ Checked items have been described into a `.feature` file and are covered by test
     - [ ] Proposal with #hashtag
     - [ ] Proposal with $ticker
 - [ ] Voting and revoking
-    - [ ] Allocate n votes on proposal
-    - [ ] Withdraw n votes on proposal
+    - [ ] Allocate n $VOTEs on proposal
+    - [ ] Withdraw n $VOTEs on proposal
 - [ ] Delegating
-    - [ ] Send n votes to another user
-    - [ ] Remove n votes given to delegate
+    - [ ] Send n $VOTEs to another user
+    - [ ] Remove n $VOTEs given to delegate
     - [ ] Show delegates on sidebar menu
 
 To do
