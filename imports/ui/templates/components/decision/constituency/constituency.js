@@ -13,14 +13,15 @@ import '/imports/ui/templates/components/decision/constituency/constituency.html
 Template.constituency.onCreated(() => {
   Session.set('showNations', false);
   Session.set('showTokens', false);
+  Session.set('suggestDisplay', '');
 });
 
 Template.constituency.helpers({
   showNations() {
-    return Session.get('showNations');
+    return (Session.get('suggestDisplay') === 'NATION');
   },
   showTokens() {
-    return Session.get('showTokens');
+    return (Session.get('suggestDisplay') === 'TOKEN');
   },
   country() {
     if (Session.get('newCountry') !== undefined) {
@@ -29,8 +30,8 @@ Template.constituency.helpers({
     return undefined;
   },
   token() {
-    if (Session.get('newToken') !== undefined) {
-      return Session.get('newToken').name;
+    if (Session.get('newCoin') !== undefined) {
+      return Session.get('newCoin').name;
     }
     return undefined;
   },
@@ -58,13 +59,12 @@ Template.constituency.events({
     }
   },
   'focus .country-search'() {
-    Session.set('showNations', true);
+    Session.set('suggestDisplay', 'NATION');
   },
   'focus .login-input-split-right'() {
-    Session.set('showNations', false);
-    Session.set('showTokens', false);
+    Session.set('suggestDisplay', '');
   },
   'focus .token-search'() {
-    Session.set('showTokens', true);
+    Session.set('suggestDisplay', 'TOKEN');
   },
 });

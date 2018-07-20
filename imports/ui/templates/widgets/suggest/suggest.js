@@ -59,15 +59,17 @@ Template.suggest.events({
     Session.set('newCountry', country);
     Session.set('noMatchFound', false);
     Session.set('showNations', false);
+    Session.set('suggestDisplay', '');
   },
-  'click #coin'(event) {
+  'click #token'(event) {
     const coin = {
       code: event.target.parentNode.getAttribute('value'),
-      name: event.target.innerText.replace(/[^\x00-\x7F]/g, '').substring(1),
+      name: event.target.innerText.replace(/[^\x00-\x7F]/g, ''),
       emoji: event.target.firstChild.data,
     };
     Session.set('newCoin', coin);
     Session.set('noCoinFound', false);
     Session.set('showTokens', false);
+    Session.set('suggestDisplay', '');
   },
 });

@@ -9,7 +9,8 @@
     {{else}}
       {{#each coin}}
         <li id="token" value="{{code}}" class="suggest-item">
-          <div>{{code}} {{name}}</div>
+          {{> token this}}
+          <div>{{name}}</div>
         </li>
       {{/each}}
     {{/unless}}
@@ -19,4 +20,10 @@
       {{> warning label="valid-country"}}
     </div>
   {{/if}}
+</template>
+
+<template name="token">
+  <div class="suggest-item suggest-token" style="background-color: {{color}}">
+    {{code}}
+  </div>
 </template>

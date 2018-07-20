@@ -4004,6 +4004,18 @@ blockquote {
   background-color: #00c091;
 }
 
+.suggest-item.suggest-token {
+  margin: 7px 5px 5px -5px;
+  padding: 0px 5px 1px;
+  float: left;
+  border-radius: 5px;
+  background-color: #9793c5;
+  color: #fff;
+  font-size: 10px;
+  line-height: 20px;
+  font-weight: 400;
+}
+
 .plus {
   font-size: 18px;
   font-weight: 700;
