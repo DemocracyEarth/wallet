@@ -44,6 +44,7 @@ Template.constituency.events({
       draft.constituencyEnabled = false;
       Session.set('draftContract', draft);
     }
+    animatePopup(false, 'constituency-popup');
   },
   'click #execute-constituency'() {
 

@@ -16,9 +16,10 @@
     {{/unless}}
   </ul>
   {{#if noMatchFound}}
-    <div class="extra">
-      {{> warning label="valid-country"}}
-    </div>
+    {{> warning label="valid-country"}}
+  {{/if}}
+  {{#if noCoinFound}}
+    {{> warning label="valid-coin"}}
   {{/if}}
 </template>
 

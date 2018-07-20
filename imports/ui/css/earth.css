@@ -1929,7 +1929,7 @@ blockquote {
   display: inline-block;
   overflow: hidden;
   width: 100%;
-  margin: 0px 5px 5px;
+  margin: 0px 5px 5px 0px;
   padding: 3px 10px;
   border-radius: 5px;
   background-color: #fae6e6;
