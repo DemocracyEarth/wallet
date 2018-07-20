@@ -314,12 +314,12 @@ Meteor.methods({
               }
               break;
             case 'NATION':
+            default:
               if (Meteor.user().profile.country.code !== contract.constituency[i].code) {
                 legitimacy = false;
               }
               break;
             case 'DOMAIN':
-            default:
               if (Meteor.user().emails) {
                 if (!_emailDomainCheck(Meteor.user().emails, contract.constituency[i].code)) {
                   legitimacy = false;
@@ -334,11 +334,12 @@ Meteor.methods({
           }
         }
       } else {
-        return true;
+        legitimacy = true;
       }
     } else {
       legitimacy = false;
     }
+
     return legitimacy;
   },
 });
