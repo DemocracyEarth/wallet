@@ -39,7 +39,11 @@ Template.constituency.helpers({
 
 Template.constituency.events({
   'click #cancel-constituency'() {
-    animatePopup();
+    const draft = Session.get('draftContract');
+    if (!draft.constituency || draft.constituency.length === 0) {
+      draft.constituencyEnabled = false;
+      Session.set('draftContract', draft);
+    }
   },
   'click #execute-constituency'() {
 
@@ -61,7 +65,7 @@ Template.constituency.events({
   'focus .country-search'() {
     Session.set('suggestDisplay', 'NATION');
   },
-  'focus .login-input-split-right'() {
+  'focus .login-input-domain'() {
     Session.set('suggestDisplay', '');
   },
   'focus .token-search'() {
