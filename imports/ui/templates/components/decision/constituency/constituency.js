@@ -15,6 +15,8 @@ const _save = () => {
   const coin = Session.get('newCoin');
   const domain = $('.login-input-domain').value;
 
+  draft.constituency = [];
+
   if (country) {
     draft.constituency.push({
       kind: 'NATION',

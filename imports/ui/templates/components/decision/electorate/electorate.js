@@ -6,6 +6,8 @@ import { TAPi18n } from 'meteor/tap:i18n';
 
 import { displayPopup } from '/imports/ui/modules/popup';
 import { toggle } from '/imports/ui/templates/components/decision/editor/editor.js';
+import { geo } from '/lib/geo';
+import { token } from '/lib/token';
 
 import '/imports/ui/templates/components/decision/electorate/electorate.html';
 
@@ -15,6 +17,7 @@ const _check = (contract) => {
 
 const _writeRule = (contract) => {
   let sentence = TAPi18n.__('electorate-sentence-anyone');
+  let setting;
   if (contract.constituency) {
     switch (contract.constituency.length) {
       case 1:
@@ -33,14 +36,17 @@ const _writeRule = (contract) => {
     for (const i in contract.constituency) {
       switch (contract.constituency[i].kind) {
         case 'TOKEN':
+          setting = _.where(token.coin, { code: contract.constituency[i].code })[0].name;
           break;
         case 'NATION':
+          setting = _.where(geo.country, { code: contract.constituency[i].code })[0].name;
           break;
         case 'DOMAIN':
-          break;
         default:
-          sentence = sentence.replace(`{{setting${i}}}`, contract.constituency[i].value);
+          setting = contract.constituency[i].code;
+          break;
       }
+      sentence = sentence.replace(`{{setting${i}}}`, setting);
     }
   }
   return sentence;
@@ -48,6 +54,9 @@ const _writeRule = (contract) => {
 
 Template.electorate.helpers({
   status() {
+    if (!this.readOnly) {
+      return _writeRule(Session.get('draftContract'));
+    }
     return _writeRule(this.contract);
   },
   check() {
@@ -76,6 +85,8 @@ Template.electorate.events({
   'click #electorate-button'() {
     if (!this.readOnly) {
       toggle('constituencyEnabled', !Session.get('draftContract').constituencyEnabled);
+      const draft = Session.get('draftContract');
+      draft.constituency = this.contract
       displayPopup($('#electorate-button')[0], 'constituency', Meteor.userId(), 'click', 'constituency-popup');
     }
   },
