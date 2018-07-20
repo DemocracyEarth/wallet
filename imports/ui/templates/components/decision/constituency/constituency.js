@@ -1,6 +1,5 @@
-import { Meteor } from 'meteor/meteor';
-import { Router } from 'meteor/iron:router';
 import { Template } from 'meteor/templating';
+import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 
 import { animatePopup } from '/imports/ui/modules/popup';
@@ -9,6 +8,37 @@ import { geo } from '/lib/geo';
 import { token } from '/lib/token';
 
 import '/imports/ui/templates/components/decision/constituency/constituency.html';
+
+const _save = () => {
+  const draft = Session.get('draftContract');
+  const country = Session.get('newCountry');
+  const coin = Session.get('newCoin');
+  const domain = $('.login-input-domain').value;
+
+  if (country) {
+    draft.constituency.push({
+      kind: 'NATION',
+      code: country.code,
+      check: 'EQUAL',
+    });
+  }
+  if (coin) {
+    draft.constituency.push({
+      kind: 'TOKEN',
+      code: coin.code,
+      check: 'EQUAL',
+    });
+  }
+  if (domain) {
+    draft.constituency.push({
+      kind: 'DOMAIN',
+      code: domain.value,
+      check: 'EQUAL',
+    });
+  }
+
+  Session.set('draftContract', draft);
+};
 
 Template.constituency.onCreated(() => {
   Session.set('showNations', false);
@@ -47,7 +77,8 @@ Template.constituency.events({
     animatePopup(false, 'constituency-popup');
   },
   'click #execute-constituency'() {
-
+    _save();
+    animatePopup(false, 'constituency-popup');
   },
   'input .country-search'(event) {
     if (event.target.value !== '') {

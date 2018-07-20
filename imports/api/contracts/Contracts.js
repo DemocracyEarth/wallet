@@ -61,12 +61,13 @@ Schema.Constituency = new SimpleSchema({
     allowedValues: ['TOKEN', 'NATION', 'DOMAIN'],
     optional: true,
   },
-  value: {
+  code: {
     type: String,
     optional: true,
   },
   check: {
     type: String,
+    allowedValues: ['EQUAL', 'NOT EQUAL'],
     optional: true,
   },
 });
