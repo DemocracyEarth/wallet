@@ -539,9 +539,9 @@
   "electorate-sentence-anyone": "Anyone",
   "cancel": "Cancel",
   "electorate-requisites": "Voter Requisites",
-  "electorate-sentence-and": "{{setting0}} and {{setting1}}",
+  "electorate-sentence-and": "{{setting0}} & {{setting1}}",
   "electorate-sentence-only": "Only {{setting0}}",
-  "electorate-sentence-all": "{{setting0}}, {{setting1}}, {{setting2}}",
+  "electorate-sentence-all": "{{setting0}} {{setting1}} {{setting2}}",
   "email-domain-placeholder": "domain.com",
   "valid-coin": "The typed nationality does not exist."
 }

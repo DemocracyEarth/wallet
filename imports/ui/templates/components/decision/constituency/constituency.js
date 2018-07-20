@@ -13,25 +13,25 @@ const _save = () => {
   const draft = Session.get('draftContract');
   const country = Session.get('newCountry');
   const coin = Session.get('newCoin');
-  const domain = $('.login-input-domain').value;
+  const domain = $('.login-input-domain')[0];
 
   draft.constituency = [];
 
-  if (country) {
+  if (country && country !== '') {
     draft.constituency.push({
       kind: 'NATION',
       code: country.code,
       check: 'EQUAL',
     });
   }
-  if (coin) {
+  if (coin && coin !== '') {
     draft.constituency.push({
       kind: 'TOKEN',
       code: coin.code,
       check: 'EQUAL',
     });
   }
-  if (domain) {
+  if (domain && domain.value !== '') {
     draft.constituency.push({
       kind: 'DOMAIN',
       code: domain.value,
@@ -46,6 +46,15 @@ Template.constituency.onCreated(() => {
   Session.set('showNations', false);
   Session.set('showTokens', false);
   Session.set('suggestDisplay', '');
+});
+
+Template.constituency.onRendered(function () {
+  const draft = Session.get('draftContract');
+  for (const i in draft.constituency) {
+    if (draft.constituency[i].kind === 'DOMAIN') {
+      $('.login-input-domain')[0].value = draft.constituency[i].code;
+    }
+  }
 });
 
 Template.constituency.helpers({
@@ -87,6 +96,7 @@ Template.constituency.events({
       Session.set('filteredCountries', searchJSON(geo.country, event.target.value));
     } else {
       Session.set('filteredCountries', geo.country);
+      Session.set('newCountry', '');
     }
   },
   'input .token-search'(event) {
@@ -94,6 +104,7 @@ Template.constituency.events({
       Session.set('filteredCoins', searchJSON(token.coin, event.target.value));
     } else {
       Session.set('filteredCoins', token.coin);
+      Session.set('newCoin', '');
     }
   },
   'focus .country-search'() {

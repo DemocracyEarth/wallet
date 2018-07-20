@@ -33,12 +33,23 @@ const _writeRule = (contract) => {
         sentence = TAPi18n.__('electorate-sentence-anyone');
     }
 
+    let coin;
+
     for (const i in contract.constituency) {
       switch (contract.constituency[i].kind) {
         case 'TOKEN':
+          coin = _.where(token.coin, { code: contract.constituency[i].code })[0];
+          if (contract.constituency.length > 2) {
+            setting = `<div class="suggest-item suggest-token suggest-token-inline" style="background-color: ${coin.color} ">${coin.code}</div>`;
+            break;
+          }
           setting = _.where(token.coin, { code: contract.constituency[i].code })[0].name;
           break;
         case 'NATION':
+          if (contract.constituency.length > 2) {
+            setting = _.where(geo.country, { code: contract.constituency[i].code })[0].emoji;
+            break;
+          }
           setting = _.where(geo.country, { code: contract.constituency[i].code })[0].name;
           break;
         case 'DOMAIN':
@@ -64,7 +75,8 @@ Template.electorate.helpers({
   },
   icon() {
     if (!this.readOnly) {
-      if (Session.get('draftContract').constituencyEnabled) {
+      const draft = Session.get('draftContract');
+      if (draft.constituencyEnabled || draft.constituency.length > 0) {
         return 'active';
       }
     }
@@ -85,8 +97,6 @@ Template.electorate.events({
   'click #electorate-button'() {
     if (!this.readOnly) {
       toggle('constituencyEnabled', !Session.get('draftContract').constituencyEnabled);
-      const draft = Session.get('draftContract');
-      draft.constituency = this.contract
       displayPopup($('#electorate-button')[0], 'constituency', Meteor.userId(), 'click', 'constituency-popup');
     }
   },

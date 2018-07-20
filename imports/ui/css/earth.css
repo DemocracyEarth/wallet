@@ -4016,6 +4016,15 @@ blockquote {
   font-weight: 400;
 }
 
+.suggest-item.suggest-token.suggest-token-inline {
+  display: inline;
+  margin-right: 0px;
+  margin-left: 2px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  float: none;
+}
+
 .plus {
   font-size: 18px;
   font-weight: 700;
