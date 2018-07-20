@@ -39,14 +39,14 @@ const _writeRule = (contract) => {
       switch (contract.constituency[i].kind) {
         case 'TOKEN':
           coin = _.where(token.coin, { code: contract.constituency[i].code })[0];
-          if (contract.constituency.length > 2) {
+          if (contract.constituency.length > 1) {
             setting = `<div class="suggest-item suggest-token suggest-token-inline" style="background-color: ${coin.color} ">${coin.code}</div>`;
             break;
           }
           setting = _.where(token.coin, { code: contract.constituency[i].code })[0].name;
           break;
         case 'NATION':
-          if (contract.constituency.length > 2) {
+          if (contract.constituency.length > 1) {
             setting = _.where(geo.country, { code: contract.constituency[i].code })[0].emoji;
             break;
           }

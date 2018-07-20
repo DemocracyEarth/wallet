@@ -4018,7 +4018,7 @@ blockquote {
 
 .suggest-item.suggest-token.suggest-token-inline {
   display: inline;
-  margin-right: 0px;
+  margin-right: 2px;
   margin-left: 2px;
   padding-top: 3px;
   padding-bottom: 3px;

@@ -346,6 +346,8 @@ const _publish = (contractId) => {
     replyId: draft.replyId,
     geo: draft.geo,
     ballot: draft.ballot,
+    constituency: draft.constituency,
+    constituencyEnabled: draft.constituencyEnabled,
   },
   });
 
