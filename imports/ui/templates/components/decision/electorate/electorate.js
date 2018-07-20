@@ -11,10 +11,22 @@ import { token } from '/lib/token';
 
 import '/imports/ui/templates/components/decision/electorate/electorate.html';
 
+/**
+* @summary returns whether user meets or not constituency criteria
+* @param {object} contract contract to evaluate
+* @return {boolean} if user can vote or not
+*/
 const _check = (contract) => {
+  Meteor.call(
+    'verifyConstituency',
+    contract
+  );
+};
 
-}
-
+/**
+* @summary write in textual form the requirements to vote
+* @param {object} contract contract with constituency rules
+*/
 const _writeRule = (contract) => {
   let sentence = TAPi18n.__('electorate-sentence-anyone');
   let setting;
@@ -71,6 +83,9 @@ Template.electorate.helpers({
     return _writeRule(this.contract);
   },
   check() {
+    if (!this.readOnly) {
+      return _check(Session.get('draftContract'));
+    }
     return _check(this.contract);
   },
   icon() {

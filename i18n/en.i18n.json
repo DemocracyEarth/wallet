@@ -543,5 +543,5 @@
   "electorate-sentence-only": "Only {{setting0}}",
   "electorate-sentence-all": "{{setting0}} {{setting1}} {{setting2}}",
   "email-domain-placeholder": "domain.com",
-  "valid-coin": "The typed cryptocurrency does not exist."
+  "valid-coin": "This cryptocurrency does not exist."
 }

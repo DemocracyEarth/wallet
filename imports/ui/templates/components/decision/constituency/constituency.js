@@ -39,6 +39,10 @@ const _save = () => {
     });
   }
 
+  if (draft.constituency.length === 0) {
+    draft.constituencyEnabled = false;
+  }
+
   Session.set('draftContract', draft);
 };
 

@@ -24,6 +24,28 @@ const _includeQuantity = (quantity, message) => {
   return modified;
 };
 
+/**
+* @summary verifies if user has a verified email from a given domain
+* @param {object} emailList obtained from profile
+* @param {string} domain what domain to check for
+* @return {boolean} if user has valid mail or not
+*/
+const _emailDomainCheck = (emailList, domain) => {
+  let legit = false;
+  if (emailList.length > 0) {
+    for (const k in emailList) {
+      if (emailList[k].verified) {
+        const emailDomain = emailList[k].address.replace(/.*@/, '');
+        if (emailDomain === domain) {
+          legit = true;
+          break;
+        }
+      }
+    }
+  }
+  return legit;
+};
+
 Meteor.methods({
   /**
   * @summary sends email verififcation
@@ -268,5 +290,55 @@ Meteor.methods({
     const count = Meteor.users.find().count();
     log(`{ method: 'userCount', user: ${logUser()}, count: ${count} }`);
     return count;
+  },
+
+  /**
+  * @summary returns whether user meets or not constituency criteria
+  * @param {object} contract contract to evaluate
+  * @return {boolean} if user can vote or not
+  */
+  verifyConstituency(contract) {
+    check(contract, Object);
+
+    log(`{ method: 'verifyConstituency', user: ${logUser()}, constituency: ${JSON.stringify(contract.constituency)} }`);
+
+    let legitimacy = true;
+
+    if (Meteor.user()) {
+      if (contract.constituency.length > 0) {
+        for (const i in contract.constituency) {
+          switch (contract.constituency[i].kind) {
+            case 'TOKEN':
+              if (Meteor.user().profile.wallet.currency !== contract.constituency[i].code) {
+                legitimacy = false;
+              }
+              break;
+            case 'NATION':
+              if (Meteor.user().profile.country.code !== contract.constituency[i].code) {
+                legitimacy = false;
+              }
+              break;
+            case 'DOMAIN':
+            default:
+              if (Meteor.user().emails) {
+                if (!_emailDomainCheck(Meteor.user().emails, contract.constituency[i].code)) {
+                  legitimacy = false;
+                }
+              }
+              if (Meteor.user().services.facebook) {
+                if (!_emailDomainCheck([{ address: Meteor.user().services.facebook.email, verified: true }], contract.constituency[i].code)) {
+                  legitimacy = false;
+                }
+              }
+              break;
+          }
+        }
+      } else {
+        return true;
+      }
+    } else {
+      legitimacy = false;
+    }
+    return legitimacy;
   },
 });
