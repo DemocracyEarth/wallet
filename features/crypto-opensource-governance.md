@@ -2,16 +2,18 @@
 - [ ] Registering and login
   - [ ] With Metamask
     - [ ] Fetch ERC20 balances
-    - [ ] Display tokens I have a stake in on my profile
-    > At this stage I'm wondering if we should just use this balance to validate if the user has the right to vote on token related topics (constituency). **I'm using this hypotesis for now as its way easier to operate.**
+  - [ ] Receive 1000 $VOTEs upon account creation
 
-  - [ ] Receiving $VOTEs upon account creation
-  > The user registering with Metamask is still a normal user, so it should get its $VOTEs allocation either way.
+- [ ] Display tokens associated with my balance
+  - [ ] Show balance info (Total, % Cast, # Available)
+  > ETH at first, then other ERC20 later on.
 
-  - [ ] Edit account information
-  > When the user logs in with Metamask we don't get its email. In the edit profile modal we should the email field. If we want to keep the confirm your email loop we can send a new email every time it's changed. Also we should consider how a user that registered with it's email, facebook or other can go through the Metamask process and adds her address to her profile.
+- [ ] Edit account information
+  - [ ] Add first, last name
+  - [ ] Add username
+  - [ ] Upload avatar
 
-  - [ ] Logout
+- [ ] Logout
 
 - [ ] Exposing proposals
   - [ ] Expose proposals linked to $ticker (/token)
@@ -20,17 +22,18 @@
 - [ ] Authoring
     - [ ] Proposal with constituency (wip)
       - [ ] Fill Token holders field
-      > To avoid confusion we should only accept tickers. Would be nice to diplay a list of possible values that is reactive to what the user tipes in (like the nationality field, we could even have the token logos). Allow for comma seperated values
+      > Allow for multiple values
 
     - [ ] Proposal with $ticker
     > When drafting a proposal and including a $ticker, the constituency option gets activated and the field token holder get filled with the $ticker value.
 
 - [ ] Voting and revoking
-    - [ ] Allocate n votes on proposal
-    > When a user tries to allocate $VOTE on a $ticker related proposal Sovereign verifies that this token is listed in the user's profile and that it's most updated balance in that token is > 0. If conditions are not met show error message "You cannot vote on this proposal because you are not a token holder".
+    - [ ] Allocate % of stake on proposal
+    - [ ] Withdraw % of stake on proposal
 
-    - [ ] Withdraw n votes on proposal
 - [ ] Delegating
-    - [ ] Send n votes to another user
-    - [ ] Remove n votes given to delegate
+    - [ ] Send % of stake to another user
+    > Should the user already have a balance for this token ?
+
+    - [ ] Remove % of stake given to delegate
     - [ ] Show delegates on sidebar menu
