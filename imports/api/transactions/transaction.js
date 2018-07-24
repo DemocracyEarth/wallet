@@ -10,6 +10,7 @@ import { getTime } from '/imports/api/time';
 import { Transactions } from '/imports/api/transactions/Transactions';
 import { getTotalVoters } from '/imports/ui/modules/ballot';
 import { notify } from '/imports/api/notifier/notifier';
+import { getWeiBalance } from '/imports/api/blockchain/modules/web3Util';
 
 
 /**
@@ -814,6 +815,25 @@ const _genesisTransaction = (userId) => {
   _transact(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY);
 };
 
+/**
+* @summary reads balance from publicAddress and loads it into user wallet
+* @param {string} userId - id of user being generated within collective
+*/
+const _loadExternalCryptoBalance = (userId) => {
+  const user = Meteor.users.findOne({ _id: userId });
+  if (user.services.metamask != null){
+    user.profile.wallet = _generateWalletAddress(user.profile.wallet);
+    let publicAddress = user.services.metamask.publicAddress
+    let weiBalance = getWeiBalance(publicAddress);
+    
+    user.profile.wallet.currency = 'WEI';
+    user.profile.wallet.balance = weiBalance.toNumber();
+    user.profile.wallet.available = weiBalance.toNumber();
+
+    Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
+  }
+};
+
 export const processedTx = _processedTx;
 export const updateUserCache = _updateUserCache;
 export const updateWalletCache = _updateWalletCache;
@@ -824,3 +844,4 @@ export const transactionMessage = _transactionMessage;
 export const getVotes = _getVotes;
 export const transact = _transact;
 export const genesisTransaction = _genesisTransaction;
+export const loadExternalCryptoBalance = _loadExternalCryptoBalance;

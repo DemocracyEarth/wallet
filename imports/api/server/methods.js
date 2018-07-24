@@ -6,6 +6,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { ServiceConfiguration } from 'meteor/service-configuration';
 
 import { genesisTransaction } from '/imports/api/transactions/transaction';
+import { loadExternalCryptoBalance } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { getTime } from '/imports/api/time';
 import { logUser, log } from '/lib/const';
@@ -132,6 +133,16 @@ Meteor.methods({
     log(`{ method: 'subsidizeUser', user: ${logUser()} }`);
     genesisTransaction(userId);
   },
+
+  /**
+  * @summary loads token balance associated with user's public address
+  */
+ loadUserTokenBalance(userId) {
+  check(userId, String);
+
+  log(`{ method: 'loadUserTokenBalance', user: ${logUser()} }`);
+  loadExternalCryptoBalance(userId);
+},
 
   /**
   * @summary updates API keys to prevent failure of having multiple nodes with a same db
