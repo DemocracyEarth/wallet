@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
-import { Web3 } from 'meteor/ethereum:web3'
+import Web3 from 'web3';
 import ethUtil from 'ethereumjs-util';
 
 
@@ -116,5 +116,13 @@ if (Meteor.isServer) {
       serviceUserId = {userId: user[0]._id};
     }
     return serviceUserId;
+  });
+  
+  Accounts.onLogin(function(objectInput){
+    Meteor.call('loadUserTokenBalance', objectInput.user._id, (subsidyError) => {
+      if (subsidyError) {
+        console.log(subsidyError, 'danger');
+      }
+    });
   });
 }

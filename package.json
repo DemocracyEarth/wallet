@@ -50,7 +50,8 @@
     "react-addons-pure-render-mixin": "^15.6.2",
     "react-dom": "^15.6.2",
     "react-fastclick": "^3.0.2",
-    "slug": "^0.9.1"
+    "slug": "^0.9.1",
+    "web3": "^0.20.1"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.0",
