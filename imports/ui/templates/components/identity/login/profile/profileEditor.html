@@ -13,11 +13,6 @@
           <input type="text" id="editFirstName" placeholder="Satoshi" autocomplete="false" class="w-input login-input login-input-split login-input-split-right" value="{{firstName}}">
           <input type="text" id="editLastName" placeholder="Nakamoto" autocomplete="false" class="w-input login-input login-input-split login-input-split-right" value="{{lastName}}">
         </div>
-        {{#if noNameFound}}
-          <div class="extra extra-warning">
-            {{> warning label="missing-name"}}
-          </div>
-        {{/if}}
         <div class="login-field">
           <label for="name" class="login-label login-label-form">
             {{_ "digital-name"}}

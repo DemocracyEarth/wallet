@@ -13,7 +13,6 @@ import '../../../../widgets/suggest/suggest.js';
 
 Template.profileEditor.rendered = function rendered() {
   Session.set('showNations', false);
-  Session.set('noNameFound', false);
   Session.set('noUsernameFound', false);
 };
 
@@ -38,9 +37,6 @@ Template.profileEditor.helpers({
   },
   showNations() {
     return Session.get('showNations');
-  },
-  noNameFound() {
-    return Session.get('noNameFound');
   },
   noUsernameFound() {
     return Session.get('noUsernameFound');
@@ -82,13 +78,10 @@ Template.profileEditor.events({
   },
   'click #save-profile'() {
     const validation = validateUsername(document.getElementById('editUserName').value);
-    if (document.getElementById('editFirstName').value === '') {
-      Session.set('noNameFound', true);
-    } else if (!validation.valid || document.getElementById('editUserName').value === '') {
+    if (!validation.valid || document.getElementById('editUserName').value === '') {
       Session.set('noUsernameFound', true);
       Session.set('queryUsernameStatus', '');
     } else if (Session.get('queryUsernameStatus') === 'SINGULAR') {
-      Session.set('noNameFound', false);
       Session.set('noUsernameFound', false);
 
       // Save
