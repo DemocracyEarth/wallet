@@ -118,11 +118,13 @@ if (Meteor.isServer) {
     return serviceUserId;
   });
   
-  Accounts.onLogin(function(objectInput){
-    Meteor.call('loadUserTokenBalance', objectInput.user._id, (subsidyError) => {
-      if (subsidyError) {
-        console.log(subsidyError, 'danger');
-      }
-    });
+  Accounts.onLogin(function(loginObject){
+    if (loginObject.type != 'resume') {
+      Meteor.call('loadUserTokenBalance', loginObject.user._id, (subsidyError) => {
+        if (subsidyError) {
+          console.log(subsidyError, 'danger');
+        }
+      });
+    }
   });
 }
