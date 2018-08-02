@@ -822,15 +822,23 @@ const _genesisTransaction = (userId) => {
 const _loadExternalCryptoBalance = (userId) => {
   const user = Meteor.users.findOne({ _id: userId });
   if (user.services.metamask != null){
-    user.profile.wallet = _generateWalletAddress(user.profile.wallet);
     let publicAddress = user.services.metamask.publicAddress
     let weiBalance = getWeiBalance(publicAddress);
-    
-    user.profile.wallet.currency = 'WEI';
-    user.profile.wallet.balance = weiBalance.toNumber();
-    user.profile.wallet.available = weiBalance.toNumber();
 
-    Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
+    if (user.profile.wallet.balance == 0 && user.profile.wallet.currency == 'VOTES') {
+      // New metamask publicAddress, loading crypto balance for the first time
+      user.profile.wallet = _generateWalletAddress(user.profile.wallet);
+      user.profile.wallet.currency = 'WEI';
+      user.profile.wallet.balance = weiBalance.toNumber();
+      user.profile.wallet.available = weiBalance.toNumber();
+      Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
+    } else if (user.profile.wallet.balance != weiBalance.toNumber()) {
+      // Returning user with new crypto balance
+      // TODO - sync balances following daemon pattern
+      console.log('DEBUG - returning metamask user with new balance');
+    } 
+
+    
   }
 };
 
