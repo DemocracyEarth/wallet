@@ -12,15 +12,82 @@ import { token } from '/lib/token';
 import '/imports/ui/templates/components/decision/electorate/electorate.html';
 
 /**
+* @summary checks on local cache if contract constituency is there
+* @param {object} contract contract to evaluate
+* @return {boolean} if contract is same as in cache
+*/
+const _cacheNeedsUpdate = (contract) => {
+  const cache = Session.get('voterConstituencyCheckList');
+
+  if (!cache) { return true; }
+
+  if (cache) {
+    for (const i in cache) {
+      if (cache[i]._id === contract._id) {
+        if (cache[i].constituency.length === contract.constituency.length) {
+          for (const k in cache[i].constituency) {
+            if (cache[i].constituency[k] !== contract.constituency[k]) {
+              return true;
+            }
+          }
+          return false;
+        }
+      }
+    }
+  }
+  return true;
+};
+
+
+/**
 * @summary returns whether user meets or not constituency criteria
 * @param {object} contract contract to evaluate
 * @return {boolean} if user can vote or not
 */
 const _check = (contract) => {
-  Meteor.call(
-    'verifyConstituency',
-    contract
-  );
+  if (!contract.constituency) { return true; }
+
+  const cache = Session.get('voterConstituencyCheckList');
+
+  if (_cacheNeedsUpdate(contract)) {
+    return Meteor.call(
+      'verifyConstituency',
+      contract,
+      function (error, result) {
+        if (!error) {
+          const match = {
+            _id: contract._id,
+            constituency: contract.constituency,
+            match: result,
+          };
+          if (!cache) {
+            Session.set('voterConstituencyCheckList', [match]);
+          } else {
+            let found = false;
+            for (const i in cache) {
+              if (cache[i]._id === contract.id) {
+                cache[i] = match;
+                found = true;
+                break;
+              }
+            }
+            if (!found) {
+              cache.push(match);
+            }
+          }
+          return result;
+        }
+        console.log(error);
+        return result;
+      }
+    );
+  }
+  for (const i in cache) {
+    if (cache[i]._id === contract._id) {
+      return cache[i].match;
+    }
+  }
+  return true;
 };
 
 /**

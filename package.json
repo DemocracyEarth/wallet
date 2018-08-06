@@ -51,7 +51,7 @@
     "react-dom": "^15.6.2",
     "react-fastclick": "^3.0.2",
     "slug": "^0.9.1",
-    "web3": "^0.20.1"
+    "web3": "^0.20.7"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.0",

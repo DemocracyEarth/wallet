@@ -159,12 +159,12 @@ Meteor.methods({
   /**
   * @summary loads token balance associated with user's public address
   */
- loadUserTokenBalance(userId) {
-  check(userId, String);
+  loadUserTokenBalance(userId) {
+    check(userId, String);
 
-  log(`{ method: 'loadUserTokenBalance', user: ${logUser()} }`);
-  loadExternalCryptoBalance(userId);
-},
+    log(`{ method: 'loadUserTokenBalance', user: ${logUser()} }`);
+    loadExternalCryptoBalance(userId);
+  },
 
   /**
   * @summary updates API keys to prevent failure of having multiple nodes with a same db
@@ -312,6 +312,10 @@ Meteor.methods({
     check(contract, Object);
 
     log(`{ method: 'verifyConstituency', user: ${logUser()}, constituency: ${JSON.stringify(contract.constituency)} }`);
+
+    if (!contract.constituency) {
+      return true;
+    }
 
     let legitimacy = true;
 
