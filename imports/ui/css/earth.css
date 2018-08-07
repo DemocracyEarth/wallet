@@ -53,13 +53,14 @@ h5 {
   width: 100%;
   margin-top: 15px;
   margin-bottom: 10px;
+  padding-right: 15px;
   padding-bottom: 5px;
+  padding-left: 15px;
   border-bottom: 1px none #d1d1d1;
   color: #5c5c5c;
   font-size: 12px;
   line-height: 20px;
   font-weight: 300;
-  text-align: center;
   text-transform: uppercase;
 }
 
@@ -1593,7 +1594,7 @@ blockquote {
   display: -ms-flexbox;
   display: flex;
   padding: 0px;
-  border-top: 1px solid #e6f9f4;
+  border-top: 0px solid #e6f9f4;
   background-color: transparent;
 }
 
@@ -3370,8 +3371,6 @@ blockquote {
   padding-right: 15px;
   padding-left: 15px;
   clear: both;
-  border-bottom: 1px dotted #e8e8e8;
-  background-color: #f7f7f7;
   color: #9c9c9c;
 }
 
@@ -4070,9 +4069,7 @@ blockquote {
   width: 0px;
   margin-left: -10000px;
   float: left;
-  background-color: #d4cfd8;
-  background-image: -webkit-linear-gradient(94deg, hsla(0, 0%, 92%, 0), #ebebeb);
-  background-image: linear-gradient(356deg, hsla(0, 0%, 92%, 0), #ebebeb);
+  background-color: #ddd;
   text-align: left;
 }
 
@@ -4336,7 +4333,7 @@ blockquote {
   overflow: scroll;
   width: 100%;
   padding: 0px 10px 10px;
-  box-shadow: inset -6px 0 50px -20px rgba(0, 0, 0, .5);
+  box-shadow: none;
   text-align: center;
 }
 
@@ -4350,7 +4347,7 @@ blockquote {
 }
 
 .content.content-feed {
-  padding: 80px 15px 10px;
+  padding: 10px 15px;
   -webkit-transition: opacity 892ms ease;
   transition: opacity 892ms ease;
 }
@@ -4363,13 +4360,10 @@ blockquote {
   position: relative;
   width: 100%;
   min-width: 360px;
-  margin-top: 50px;
   margin-bottom: -15px;
-  padding-top: 20px;
+  padding-top: 0px;
   padding-right: 15px;
   padding-left: 15px;
-  background-color: #e6e6e6;
-  box-shadow: 0 -4px 16px -14px #000;
 }
 
 .action-label {
@@ -4394,7 +4388,6 @@ blockquote {
   margin-bottom: 5px;
   margin-left: -10px;
   padding: 5px 20px 5px 13px;
-  border-bottom: 1px solid rgba(109, 92, 125, .11);
   box-shadow: none;
   color: #6c5b7c;
   font-size: 10px;
@@ -4680,7 +4673,6 @@ blockquote {
   width: 100%;
   margin: 0px;
   padding-top: 0px;
-  background-color: #e6e6e6;
 }
 
 .mobile-editor {
@@ -5015,7 +5007,7 @@ blockquote {
   display: block;
   width: 5px;
   float: left;
-  border-left: 2px solid #e2e2e2;
+  border-left: 2px solid transparent;
   cursor: ew-resize;
 }
 
@@ -5819,7 +5811,6 @@ blockquote {
   margin-right: -15px;
   margin-bottom: 10px;
   margin-left: -15px;
-  border-bottom: 1px dotted #cfcccc;
 }
 
 .inline-block {

@@ -21,17 +21,19 @@ const _cacheNeedsUpdate = (contract) => {
 
   if (!cache) { return true; }
 
+  console.log('_cacheNeedsUpdate:');
+  console.log(cache);
+  console.log(contract.constituency);
   if (cache) {
     for (const i in cache) {
       if (cache[i]._id === contract._id) {
-        if (cache[i].constituency.length === contract.constituency.length) {
-          for (const k in cache[i].constituency) {
-            if (cache[i].constituency[k] !== contract.constituency[k]) {
-              return true;
-            }
-          }
+        console.log(_.difference(cache[i].constituency, contract.constituency));
+        if (_.difference(cache[i].constituency, contract.constituency).length === 0) {
+          console.log('NO DIFF');
           return false;
         }
+        console.log('!!');
+        return true;
       }
     }
   }
@@ -45,8 +47,10 @@ const _cacheNeedsUpdate = (contract) => {
 * @return {boolean} if user can vote or not
 */
 const _check = (contract) => {
-  if (!contract.constituency) { return true; }
+  console.log(`verifying contract id: ${contract._id}`);
+  console.log(contract.constituency);
 
+  if (!contract.constituency) { return true; }
   const cache = Session.get('voterConstituencyCheckList');
 
   if (_cacheNeedsUpdate(contract)) {
@@ -60,12 +64,12 @@ const _check = (contract) => {
             constituency: contract.constituency,
             match: result,
           };
-          if (!cache) {
+          if (!cache || cache.length === 0) {
             Session.set('voterConstituencyCheckList', [match]);
           } else {
             let found = false;
             for (const i in cache) {
-              if (cache[i]._id === contract.id) {
+              if (cache[i]._id === contract._id) {
                 cache[i] = match;
                 found = true;
                 break;
@@ -77,7 +81,6 @@ const _check = (contract) => {
           }
           return result;
         }
-        console.log(error);
         return result;
       }
     );
