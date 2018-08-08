@@ -1,5 +1,6 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { Ballot } from '../transactions/Ballot';
+import { Reserves } from './Reserves';
 
 const Schema = {};
 Schema.Wallet = new SimpleSchema({
@@ -25,6 +26,10 @@ Schema.Wallet = new SimpleSchema({
         }
       }
     },
+  },
+  reserves: {
+    type: [Reserves],
+    optional: true,
   },
   address: {
     type: Array,
