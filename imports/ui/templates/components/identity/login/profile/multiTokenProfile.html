@@ -1,0 +1,16 @@
+<template name="multiTokenProfile">
+  <div class='vote-available label-votes'>
+    <div>
+      Token Balance
+    </div>
+    {{#each tokens}}
+      {{> tokenRow}}
+    {{/each}}
+  </div>
+</template>
+
+<template name='tokenRow'>
+  <div class='row span12'>
+    <span> {{token}} {{balance}} </span>
+  </div>
+</template>
