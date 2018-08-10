@@ -5458,6 +5458,7 @@ blockquote {
 
 .editor-button.editor-button-readonly {
   margin: 6px 10px -5px;
+  padding-right: 0px;
   float: right;
   border-style: none;
   cursor: default;
