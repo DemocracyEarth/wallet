@@ -12,107 +12,101 @@ import { token } from '/lib/token';
 import '/imports/ui/templates/components/decision/electorate/electorate.html';
 
 /**
-* @summary checks on local cache if contract constituency is there
-* @param {object} contract contract to evaluate
-* @return {boolean} if contract is same as in cache
+* @summary verifies if user has a verified email from a given domain
+* @param {object} emailList obtained from profile
+* @param {string} domain what domain to check for
+* @return {boolean} if user has valid mail or not
 */
-const _cacheNeedsUpdate = (contract) => {
-  const cache = Session.get('voterConstituencyCheckList');
-
-  if (!cache) { return true; }
-
-  console.log('_cacheNeedsUpdate:');
-  console.log(cache);
-  console.log(contract.constituency);
-  if (cache) {
-    for (const i in cache) {
-      if (cache[i]._id === contract._id) {
-        console.log(_.difference(cache[i].constituency, contract.constituency));
-        if (_.difference(cache[i].constituency, contract.constituency).length === 0) {
-          console.log('NO DIFF');
-          return false;
+const _emailDomainCheck = (emailList, domain) => {
+  let legit = false;
+  if (emailList.length > 0) {
+    for (const k in emailList) {
+      if (emailList[k].verified) {
+        const emailDomain = emailList[k].address.replace(/.*@/, '');
+        if (emailDomain === domain) {
+          legit = true;
+          break;
         }
-        console.log('!!');
-        return true;
       }
     }
   }
-  return true;
+  return legit;
 };
-
 
 /**
 * @summary returns whether user meets or not constituency criteria
 * @param {object} contract contract to evaluate
 * @return {boolean} if user can vote or not
 */
-const _check = (contract) => {
-  console.log(`verifying contract id: ${contract._id}`);
-  console.log(contract.constituency);
+const _verifyConstituencyRights = (contract) => {
+  let legitimacy = true;
 
-  if (!contract.constituency) { return true; }
-  const cache = Session.get('voterConstituencyCheckList');
-
-  if (_cacheNeedsUpdate(contract)) {
-    return Meteor.call(
-      'verifyConstituency',
-      contract,
-      function (error, result) {
-        if (!error) {
-          const match = {
-            _id: contract._id,
-            constituency: contract.constituency,
-            match: result,
-          };
-          if (!cache || cache.length === 0) {
-            Session.set('voterConstituencyCheckList', [match]);
-          } else {
-            let found = false;
-            for (const i in cache) {
-              if (cache[i]._id === contract._id) {
-                cache[i] = match;
-                found = true;
-                break;
+  if (Meteor.user()) {
+    if (contract.constituency && contract.constituency.length > 0) {
+      for (const i in contract.constituency) {
+        switch (contract.constituency[i].kind) {
+          case 'TOKEN':
+            if (Meteor.user().profile.wallet.currency !== contract.constituency[i].code) {
+              legitimacy = false;
+            }
+            break;
+          case 'DOMAIN':
+            if (Meteor.user().emails) {
+              if (!_emailDomainCheck(Meteor.user().emails, contract.constituency[i].code)) {
+                legitimacy = false;
               }
             }
-            if (!found) {
-              cache.push(match);
+            if (Meteor.user().services.facebook) {
+              if (!_emailDomainCheck([{ address: Meteor.user().services.facebook.email, verified: true }], contract.constituency[i].code)) {
+                legitimacy = false;
+              }
             }
-          }
-          return result;
+            break;
+          case 'NATION':
+          default:
+            if (Meteor.user().profile.country.code !== contract.constituency[i].code) {
+              legitimacy = false;
+            }
+            break;
         }
-        return result;
+        if (legitimacy === false) {
+          break;
+        }
       }
-    );
-  }
-  for (const i in cache) {
-    if (cache[i]._id === contract._id) {
-      return cache[i].match;
+    } else {
+      legitimacy = true;
     }
+  } else {
+    legitimacy = false;
   }
-  return true;
+
+  return legitimacy;
 };
 
 /**
 * @summary write in textual form the requirements to vote
 * @param {object} contract contract with constituency rules
 */
-const _writeRule = (contract) => {
-  let sentence = TAPi18n.__('electorate-sentence-anyone');
+const _writeRule = (contract, textOnly) => {
+  let format = '';
+  if (textOnly) {
+    format = '-textonly';
+  }
+  let sentence = TAPi18n.__(`electorate-sentence-anyone${format}`);
   let setting;
   if (contract.constituency) {
     switch (contract.constituency.length) {
       case 1:
-        sentence = TAPi18n.__('electorate-sentence-only');
+        sentence = TAPi18n.__(`electorate-sentence-only${format}`);
         break;
       case 2:
-        sentence = TAPi18n.__('electorate-sentence-and');
+        sentence = TAPi18n.__(`electorate-sentence-and${format}`);
         break;
       case 3:
-        sentence = TAPi18n.__('electorate-sentence-all');
+        sentence = TAPi18n.__(`electorate-sentence-all${format}`);
         break;
       default:
-        sentence = TAPi18n.__('electorate-sentence-anyone');
+        sentence = TAPi18n.__(`electorate-sentence-anyone${format}`);
     }
 
     let coin;
@@ -121,22 +115,32 @@ const _writeRule = (contract) => {
       switch (contract.constituency[i].kind) {
         case 'TOKEN':
           coin = _.where(token.coin, { code: contract.constituency[i].code })[0];
-          if (contract.constituency.length > 1) {
+          if (!textOnly && contract.constituency.length > 0) {
             setting = `<div class="suggest-item suggest-token suggest-token-inline" style="background-color: ${coin.color} ">${coin.code}</div>`;
             break;
+          } else if (textOnly) {
+            setting = `${TAPi18n.__('holding')} ${_.where(token.coin, { code: contract.constituency[i].code })[0].name}`;
+          } else {
+            setting = _.where(token.coin, { code: contract.constituency[i].code })[0].name;
           }
-          setting = _.where(token.coin, { code: contract.constituency[i].code })[0].name;
           break;
         case 'NATION':
-          if (contract.constituency.length > 1) {
+          if (!textOnly && contract.constituency.length > 0) {
             setting = _.where(geo.country, { code: contract.constituency[i].code })[0].emoji;
             break;
+          } else if (textOnly) {
+            setting = `${TAPi18n.__('from')} ${_.where(geo.country, { code: contract.constituency[i].code })[0].name}`;
+          } else {
+            setting = _.where(geo.country, { code: contract.constituency[i].code })[0].name;
           }
-          setting = _.where(geo.country, { code: contract.constituency[i].code })[0].name;
           break;
         case 'DOMAIN':
         default:
-          setting = contract.constituency[i].code;
+          if (textOnly) {
+            setting = TAPi18n.__('valid-email-domain').replace('{{domain}}', contract.constituency[i].code);
+          } else {
+            setting = contract.constituency[i].code;
+          }
           break;
       }
       sentence = sentence.replace(`{{setting${i}}}`, setting);
@@ -145,18 +149,31 @@ const _writeRule = (contract) => {
   return sentence;
 };
 
+Template.electorate.onCreated(() => {
+  let contract;
+  if (!Template.currentData().readOnly) {
+    contract = Session.get('draftContract');
+  } else {
+    contract = Template.currentData().contract;
+  }
+  Template.instance().voteEnabled = _verifyConstituencyRights(contract);
+});
+
 Template.electorate.helpers({
   status() {
     if (!this.readOnly) {
       return _writeRule(Session.get('draftContract'));
     }
-    return _writeRule(this.contract);
+    return _writeRule(this.contract, false);
+  },
+  description() {
+    if (this.readOnly) {
+      return _writeRule(this.contract, true);
+    }
+    return '';
   },
   check() {
-    if (!this.readOnly) {
-      return _check(Session.get('draftContract'));
-    }
-    return _check(this.contract);
+    return Template.instance().voteEnabled;
   },
   icon() {
     if (!this.readOnly) {
@@ -165,8 +182,8 @@ Template.electorate.helpers({
         return 'active';
       }
     }
-    if (!_check(this.contract)) {
-      return 'enabled';
+    if (!Template.instance().voteEnabled) {
+      return 'reject-enabled';
     }
     return 'enabled';
   },

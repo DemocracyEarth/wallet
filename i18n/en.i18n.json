@@ -537,11 +537,18 @@
   "domain": "Domain",
   "email-valid-domain": "Verified E-mail Domain",
   "electorate-sentence-anyone": "Anyone",
+  "electorate-sentence-anyone-textonly": "Anyone can vote on this proposal.",
   "cancel": "Cancel",
   "electorate-requisites": "Voter Requisites",
+  "electorate-sentence-only": "{{setting0}}",
   "electorate-sentence-and": "{{setting0}} {{setting1}}",
-  "electorate-sentence-only": "Only {{setting0}}",
   "electorate-sentence-all": "{{setting0}} {{setting1}} {{setting2}}",
+  "electorate-sentence-only-textonly": "Only users {{setting0}} can vote.",
+  "electorate-sentence-and-textonly": "Only users {{setting0}} and {{setting1}} can vote.",
+  "electorate-sentence-all-textonly": "Only users {{setting0}}, {{setting1}} and {{setting2}} can vote.",
   "email-domain-placeholder": "domain.com",
-  "valid-coin": "This cryptocurrency does not exist."
+  "valid-coin": "This cryptocurrency does not exist.",
+  "from": "from",
+  "holding": "holding",
+  "valid-email-domain": "with a {{domain}} valid e-mail"
 }

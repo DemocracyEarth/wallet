@@ -5,8 +5,7 @@ import { Email } from 'meteor/email';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { ServiceConfiguration } from 'meteor/service-configuration';
 
-import { genesisTransaction } from '/imports/api/transactions/transaction';
-import { loadExternalCryptoBalance } from '/imports/api/transactions/transaction';
+import { genesisTransaction, loadExternalCryptoBalance } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { getTime } from '/imports/api/time';
 import { logUser, log } from '/lib/const';
@@ -23,28 +22,6 @@ const _includeQuantity = (quantity, message) => {
     modified = message.replace('{{quantity}}', `${quantity} ${TAPi18n.__('votes').toLowerCase()}`);
   }
   return modified;
-};
-
-/**
-* @summary verifies if user has a verified email from a given domain
-* @param {object} emailList obtained from profile
-* @param {string} domain what domain to check for
-* @return {boolean} if user has valid mail or not
-*/
-const _emailDomainCheck = (emailList, domain) => {
-  let legit = false;
-  if (emailList.length > 0) {
-    for (const k in emailList) {
-      if (emailList[k].verified) {
-        const emailDomain = emailList[k].address.replace(/.*@/, '');
-        if (emailDomain === domain) {
-          legit = true;
-          break;
-        }
-      }
-    }
-  }
-  return legit;
 };
 
 Meteor.methods({
@@ -303,58 +280,4 @@ Meteor.methods({
     return count;
   },
 
-  /**
-  * @summary returns whether user meets or not constituency criteria
-  * @param {object} contract contract to evaluate
-  * @return {boolean} if user can vote or not
-  */
-  verifyConstituency(contract) {
-    check(contract, Object);
-
-    log(`{ method: 'verifyConstituency', user: ${logUser()}, constituency: ${JSON.stringify(contract.constituency)} }`);
-
-    if (!contract.constituency) {
-      return true;
-    }
-
-    let legitimacy = true;
-
-    if (Meteor.user()) {
-      if (contract.constituency.length > 0) {
-        for (const i in contract.constituency) {
-          switch (contract.constituency[i].kind) {
-            case 'TOKEN':
-              if (Meteor.user().profile.wallet.currency !== contract.constituency[i].code) {
-                legitimacy = false;
-              }
-              break;
-            case 'NATION':
-            default:
-              if (Meteor.user().profile.country.code !== contract.constituency[i].code) {
-                legitimacy = false;
-              }
-              break;
-            case 'DOMAIN':
-              if (Meteor.user().emails) {
-                if (!_emailDomainCheck(Meteor.user().emails, contract.constituency[i].code)) {
-                  legitimacy = false;
-                }
-              }
-              if (Meteor.user().services.facebook) {
-                if (!_emailDomainCheck([{ address: Meteor.user().services.facebook.email, verified: true }], contract.constituency[i].code)) {
-                  legitimacy = false;
-                }
-              }
-              break;
-          }
-        }
-      } else {
-        legitimacy = true;
-      }
-    } else {
-      legitimacy = false;
-    }
-
-    return legitimacy;
-  },
 });

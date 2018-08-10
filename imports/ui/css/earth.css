@@ -5460,7 +5460,12 @@ blockquote {
   margin: 6px 10px -5px;
   float: right;
   border-style: none;
-  opacity: 0.5;
+  cursor: default;
+}
+
+.editor-button.editor-button-reject-enabled {
+  border-color: #ff2752;
+  color: #ff2752;
 }
 
 .section-editor-separator {
