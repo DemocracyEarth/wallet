@@ -81,18 +81,20 @@
       {{/if}}
     {{else}}
       <div class="block block-list">
-        <div class="micro-menu">
-          <a id="{{voteType}}" href="{{voteURL}}" class="micro-button micro-button-feed" ontouchstart="">
-            <img src="{{pathFor route='home'}}images/vote.png" class="micro-icon">
-            <span class="micro-label">{{label 'vote'}} {{{quantity 'vote'}}}</span>
-            <div class="verifier verifier-live verifier-feed"></div>
-          </a>
-          <a href="{{contract.url}}#debate" class="micro-button micro-button-feed" ontouchstart="">
-            <img src="{{pathFor route='home'}}images/debate.png" class="micro-icon">
-            <span class="micro-label">{{label 'debate'}} {{{quantity 'debate'}}}</span>
-          </a>
-          {{> electorate contract=contract readOnly=true}}
-        </div>
+          <div class="micro-menu">
+            <div class="extra">
+              <a id="{{voteType}}" href="{{voteURL}}" class="micro-button micro-button-feed {{enableStyle}}" ontouchstart="">
+                <img src="{{pathFor route='home'}}{{voteIcon}}" class="micro-icon">
+                <span class="micro-label">{{label 'vote'}} {{{quantity 'vote'}}}</span>
+                <div class="verifier verifier-live verifier-feed"></div>
+              </a>
+              <a href="{{contract.url}}#debate" class="micro-button micro-button-feed" ontouchstart="">
+                <img src="{{pathFor route='home'}}images/debate.png" class="micro-icon">
+                <span class="micro-label">{{label 'debate'}} {{{quantity 'debate'}}}</span>
+              </a>
+            </div>
+            {{> electorate contract=contract readOnly=true}}
+          </div>
       </div>
     {{/unless}}
   {{/unless}}

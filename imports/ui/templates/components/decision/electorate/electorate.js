@@ -203,3 +203,5 @@ Template.electorate.events({
     }
   },
 });
+
+export const verifyConstituencyRights = _verifyConstituencyRights;

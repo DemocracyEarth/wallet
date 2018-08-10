@@ -124,10 +124,6 @@ body {
   margin-left: 16%;
 }
 
-.suggest-item.suggest-token {
-  cursor: inherit;
-}
-
 html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }

@@ -4069,7 +4069,7 @@ blockquote {
   width: 0px;
   margin-left: -10000px;
   float: left;
-  background-color: #ddd;
+  background-color: #e6e6e6;
   text-align: left;
 }
 
@@ -4447,6 +4447,10 @@ blockquote {
   color: #ff2752;
 }
 
+.micro-button.micro-button-remove:active {
+  background-color: transparent;
+}
+
 .micro-button.disabled {
   opacity: 0.35;
   cursor: default;
@@ -4484,6 +4488,20 @@ blockquote {
   display: block;
   margin: 5px 25px 0px 10px;
   float: left;
+}
+
+.micro-button.micro-button-feed.micro-button-disabled {
+  color: #e2e2e2;
+  cursor: default;
+}
+
+.micro-button.micro-button-feed.micro-button-disabled:active {
+  background-color: transparent;
+}
+
+.micro-button.micro-button-disabled {
+  color: #e2e2e2;
+  cursor: default;
 }
 
 .micro-icon {
