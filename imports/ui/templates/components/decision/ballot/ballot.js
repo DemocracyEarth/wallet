@@ -190,6 +190,9 @@ Template.ballot.helpers({
     }
     return false;
   },
+  canVote() {
+    return Template.instance().voteEnabled;
+  },
   voteType() {
     if (!this.contract.ballotEnabled && Template.instance().voteEnabled) {
       return 'single-vote';

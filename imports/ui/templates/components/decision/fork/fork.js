@@ -8,6 +8,7 @@ import { Router } from 'meteor/iron:router';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { setVote, candidateBallot, setBallot, getTally, getTallyPercentage } from '/imports/ui/modules/ballot';
+import { verifyConstituencyRights } from '/imports/ui/templates/components/decision/electorate/electorate.js';
 import { Vote } from '/imports/ui/modules/Vote';
 
 import '/imports/ui/templates/components/decision/fork/fork.html';
@@ -193,6 +194,19 @@ Template.fork.helpers({
   },
 });
 
+const _warn = (voteId, label) => {
+  let warnings = [];
+  if (Session.get('feedWarning')) {
+    warnings = Session.get('feedWarning');
+  }
+  warnings.push({
+    voteId,
+    label,
+  });
+  Session.set('feedWarning', warnings);
+}
+
+
 Template.fork.events({
   'click #ballotCheckbox'() {
     if (!Session.get('showModal')) {
@@ -205,41 +219,45 @@ Template.fork.events({
           case 'LIVE':
           default:
             if (this.rightToVote) {
-              if (Template.instance().candidateBallot.get() === undefined || Template.instance().candidateBallot.get().length === 0) {
-                Template.instance().candidateBallot.set(candidateBallot(Meteor.userId(), this.contract._id));
-              }
-              const previous = Template.instance().candidateBallot.get();
-              const wallet = new Vote(Session.get(this.voteId), Session.get(this.voteId).targetId, this.voteId);
-              const template = Template.instance();
-              const election = Template.instance().election.get();
-              wallet.inBallot = Session.get(this.voteId).inBallot;
-              wallet.allocateQuantity = wallet.inBallot;
-              wallet.allocatePercentage = parseFloat((wallet.inBallot * 100) / wallet.balance, 10).toFixed(2);
-              let cancel = () => {
-                template.candidateBallot.set(setBallot(this.contract._id, previous));
-              };
-
-              election.tick = setVote(this.contract, this);
-              if (election.tick === true) {
-                Session.set('noSelectedOption', this.voteId);
-              }
-              Template.instance().election.set(election);
-
-              // vote
-              if (election.tick === false && Session.get(this.voteId).inBallot > 0) {
-                // remove all votes
-                wallet.allocatePercentage = 0;
-                wallet.allocateQuantity = 0;
-                cancel = () => {
-                  template.candidateBallot.set(setBallot(this.contract._id, []));
+              if (verifyConstituencyRights(this.contract)) {
+                if (Template.instance().candidateBallot.get() === undefined || Template.instance().candidateBallot.get().length === 0) {
+                  Template.instance().candidateBallot.set(candidateBallot(Meteor.userId(), this.contract._id));
+                }
+                const previous = Template.instance().candidateBallot.get();
+                const wallet = new Vote(Session.get(this.voteId), Session.get(this.voteId).targetId, this.voteId);
+                const template = Template.instance();
+                const election = Template.instance().election.get();
+                wallet.inBallot = Session.get(this.voteId).inBallot;
+                wallet.allocateQuantity = wallet.inBallot;
+                wallet.allocatePercentage = parseFloat((wallet.inBallot * 100) / wallet.balance, 10).toFixed(2);
+                let cancel = () => {
+                  template.candidateBallot.set(setBallot(this.contract._id, previous));
                 };
-                wallet.execute(cancel, true);
-                return;
-              } else if (Session.get(this.voteId).inBallot > 0) {
-                // send new ballot
-                wallet.execute(cancel);
+
+                election.tick = setVote(this.contract, this);
+                if (election.tick === true) {
+                  Session.set('noSelectedOption', this.voteId);
+                }
+                Template.instance().election.set(election);
+
+                // vote
+                if (election.tick === false && Session.get(this.voteId).inBallot > 0) {
+                  // remove all votes
+                  wallet.allocatePercentage = 0;
+                  wallet.allocateQuantity = 0;
+                  cancel = () => {
+                    template.candidateBallot.set(setBallot(this.contract._id, []));
+                  };
+                  wallet.execute(cancel, true);
+                  return;
+                } else if (Session.get(this.voteId).inBallot > 0) {
+                  // send new ballot
+                  wallet.execute(cancel);
+                }
+                break;
+              } else {
+                _warn(this.voteId, 'electorate-incompatible-warning');
               }
-              break;
             }
         }
       } else {
