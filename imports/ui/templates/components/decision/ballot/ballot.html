@@ -76,29 +76,25 @@
             {{#with voteSettings}}
               {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot}}
             {{/with}}
-            <div class="micro-menu">
-              {{> electorate contract=contract readOnly=true}}
-            </div>
           </div>
         </div>
       {{/if}}
-    {{else}}
-      <div class="block block-list">
-        <div class="micro-menu">
-          <div class="extra">
-            <a id="{{voteType}}" href="{{voteURL}}" class="micro-button micro-button-feed {{enableStyle}}" ontouchstart="">
-              <img src="{{pathFor route='home'}}{{voteIcon}}" class="micro-icon">
-              <span class="micro-label">{{label 'vote'}} {{{quantity 'vote'}}}</span>
-              <div class="verifier verifier-live verifier-feed"></div>
-            </a>
-            <a href="{{contract.url}}#debate" class="micro-button micro-button-feed" ontouchstart="">
-              <img src="{{pathFor route='home'}}images/debate.png" class="micro-icon">
-              <span class="micro-label">{{label 'debate'}} {{{quantity 'debate'}}}</span>
-            </a>
-          </div>
-          {{> electorate contract=contract readOnly=true}}
-        </div>
-      </div>
     {{/unless}}
+    <div class="block block-menu">
+      <div class="micro-menu">
+        <div class="extra">
+          <a id="{{voteType}}" href="{{voteURL}}" class="micro-button micro-button-feed {{enableStyle}}" ontouchstart="">
+            <img src="{{pathFor route='home'}}{{voteIcon}}" class="micro-icon">
+            <span class="micro-label">{{label 'vote'}} {{{quantity 'vote'}}}</span>
+            <div class="verifier verifier-live verifier-feed"></div>
+          </a>
+          <a href="{{contract.url}}#debate" class="micro-button micro-button-feed" ontouchstart="">
+            <img src="{{pathFor route='home'}}images/debate.png" class="micro-icon">
+            <span class="micro-label">{{label 'debate'}} {{{quantity 'debate'}}}</span>
+          </a>
+        </div>
+        {{> electorate contract=contract readOnly=true}}
+      </div>
+    </div>
   {{/unless}}
 </template>

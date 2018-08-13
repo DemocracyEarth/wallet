@@ -661,6 +661,7 @@ blockquote {
   font-size: 16px;
   line-height: 22px;
   cursor: -webkit-grab;
+  cursor: grab;
 }
 
 .tag.input {
@@ -1186,6 +1187,7 @@ blockquote {
   background-color: #fff;
   box-shadow: inset 0 0 1px 0 #d3d3d3;
   cursor: -webkit-grab;
+  cursor: grab;
 }
 
 .vote.vote-alternative:hover {
@@ -1573,17 +1575,12 @@ blockquote {
 
 .execution {
   display: block;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 10px 0px;
 }
 
 .block {
-  margin: 0px -15px -10px;
-  padding: 15px;
-  border-top: 1px solid #eee;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
-  background-color: #f8f8f8;
   box-shadow: none;
   text-align: left;
 }
@@ -1596,6 +1593,11 @@ blockquote {
   padding: 0px;
   border-top: 0px solid #e6f9f4;
   background-color: transparent;
+}
+
+.block.block-menu {
+  margin-right: -15px;
+  margin-left: -15px;
 }
 
 .field {
@@ -3023,6 +3025,7 @@ blockquote {
   background-color: #e6f9f4;
   box-shadow: 0 1px 3px -2px #000, inset 0 0 1px 0 #52d4b4;
   cursor: -webkit-grab;
+  cursor: grab;
 }
 
 .handle:hover {
@@ -3032,6 +3035,7 @@ blockquote {
 .handle:active {
   background-color: #00bf8f;
   cursor: -webkit-grabbing;
+  cursor: grabbing;
 }
 
 .close {
@@ -4525,14 +4529,19 @@ blockquote {
 }
 
 .micro-menu {
-  display: block;
+  width: 100%;
   margin-right: auto;
   margin-left: auto;
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
   text-align: center;
+}
+
+.micro-menu.micro-menu-thread {
+  display: inline-block;
+  margin: 0px 0px -10px;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
 }
 
 .modal-buttons {
@@ -5475,7 +5484,7 @@ blockquote {
 }
 
 .editor-button.editor-button-readonly {
-  margin: 6px 10px -5px;
+  margin: 4px 10px -5px;
   padding-right: 0px;
   float: right;
   border-style: none;

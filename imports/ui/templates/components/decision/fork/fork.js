@@ -256,7 +256,7 @@ Template.fork.events({
                 }
                 break;
               } else {
-                _warn(this.voteId, 'electorate-incompatible-warning');
+                // _warn(this.voteId, 'electorate-incompatible-warning');
               }
             }
         }
