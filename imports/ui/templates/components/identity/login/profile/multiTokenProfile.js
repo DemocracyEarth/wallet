@@ -8,7 +8,6 @@ import './profile.html';
 
 Template.multiTokenProfile.helpers({
   tokens() {
-    console.log('DEBUG - multiTokenProfile.js - tokens()');
     const wallet = Meteor.user().profile.wallet;
     let tokens = [];
 

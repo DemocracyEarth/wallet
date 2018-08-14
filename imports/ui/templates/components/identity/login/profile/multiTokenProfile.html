@@ -1,7 +1,12 @@
 <template name="multiTokenProfile">
-  <div class='vote-available label-votes'>
-    <div>
-      Token Balance
+  <div class='multi-token-profile'>
+    <div class="multi-token-profile-row">
+      <div>
+        <h5>Token</h5>
+      </div>
+      <div>
+        <h5>Balance</h5>
+      </div>
     </div>
     {{#each tokens}}
       {{> tokenRow}}
@@ -10,7 +15,14 @@
 </template>
 
 <template name='tokenRow'>
-  <div class='row span12'>
-    <span> {{token}} {{balance}} </span>
+  <div>
+    <div class="multi-token-profile-row">
+      <div class="multi-token-profile-row-item token">
+        {{token}}
+      </div>
+      <div class="multi-token-profile-row-item balance">
+        {{balance}}
+      </div>
+    </div>
   </div>
 </template>
