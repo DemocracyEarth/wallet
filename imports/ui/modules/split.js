@@ -96,7 +96,7 @@ const _resizeSplit = (diff) => {
 const _setupSplit = () => {
   if (Session.get('resizeSplit') === undefined) {
     Session.set('resizeSplit', false);
-    Session.set('resizeSplitCursor', { x: 0, y: 0, leftWidth: '60%', rightWidth: '40%' });
+    Session.set('resizeSplitCursor', { x: 0, y: 0, leftWidth: '80%', rightWidth: '20%' });
   }
   $(window).mousemove((event) => {
     if (Session.get('resizeSplit')) {
