@@ -206,7 +206,7 @@ blockquote {
 .label.label-corner {
   margin-top: 6px;
   float: left;
-  font-size: 11px;
+  font-size: 12px;
   line-height: 15px;
 }
 
@@ -3205,7 +3205,8 @@ blockquote {
   margin-bottom: 3px;
   padding: 0px 10px 5px;
   float: left;
-  border: 1px dashed #46dfb8;
+  border-style: solid;
+  border-width: 0px;
   border-radius: 25px;
   background-color: transparent;
   color: #00bf8f;
@@ -3215,9 +3216,8 @@ blockquote {
 
 .stage.stage-live {
   border-style: solid;
-  border-color: #ffe079;
-  background-color: #ffe079;
-  color: #af8d1e;
+  border-color: #f5d059;
+  color: #f5d059;
 }
 
 .stage.stage-live.stage-list {
@@ -3228,8 +3228,7 @@ blockquote {
 .stage.stage-finish-approved {
   border-style: solid;
   border-color: #00bf8f;
-  background-color: #00bf8f;
-  color: #fff;
+  color: #00bf8f;
 }
 
 .stage.stage-finish-approved.stage-card {
@@ -3267,8 +3266,7 @@ blockquote {
 .stage.stage-finish-rejected {
   display: inline-block;
   border-color: #ff2752;
-  background-color: #ff2752;
-  color: #fff;
+  color: #ff2752;
 }
 
 .stage.stage-card {
@@ -3309,15 +3307,14 @@ blockquote {
 .stage.stage-vote-totals {
   border-style: solid;
   border-color: #9e6fcc;
-  background-color: #9e6fcc;
-  color: #fff;
+  color: #9e6fcc;
 }
 
 .stage.stage-vote-totals-available {
   border-style: solid;
-  border-color: #9e6fcc;
+  border-color: #46dfb8 #9e6fcc #9e6fcc;
   background-color: transparent;
-  color: #9e6fcc;
+  color: #46dfb8;
 }
 
 .stage.stage-vote {
@@ -5462,7 +5459,6 @@ blockquote {
   margin: 16px 5px;
   padding: 0px 10px 0px 3px;
   float: left;
-  border: 1px solid #00bf8f;
   border-radius: 5px;
   color: #fff;
   font-size: 10px;
@@ -5642,6 +5638,7 @@ blockquote {
 }
 
 .actor.actor-score {
+  margin-right: -10px;
   padding-right: 0px;
   float: right;
 }

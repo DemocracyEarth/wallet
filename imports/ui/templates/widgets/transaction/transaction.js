@@ -6,12 +6,21 @@ import { Meteor } from 'meteor/meteor';
 
 import { getVotes } from '/imports/api/transactions/transaction';
 import { timeCompressed } from '/imports/ui/modules/chronos';
+import { token } from '/lib/token';
 
 import '/imports/ui/templates/widgets/transaction/transaction.html';
 import '/imports/ui/templates/widgets/preview/preview.js';
 
 const _verifySubsidy = (id) => {
   return (Meteor.settings.public.Collective._id === id);
+};
+
+const _showToken = (currency) => {
+  let code;
+  if (!currency) {
+    code = 'VOTE';
+  }
+  return `<div title="${_.where(token.coin, { code })[0].name}" class="suggest-item suggest-token suggest-token-inline" style="background-color: ${_.where(token.coin, { code })[0].color} ">${_.where(token.coin, { code })[0].code}</div>`;
 };
 
 Template.transaction.onCreated(function () {
@@ -79,10 +88,13 @@ Template.transaction.helpers({
       Template.instance().totalVotes.set(getVotes(this.contract._id, this.senderId));
       votes = Template.instance().totalVotes.get();
     }
-    if (votes === 1 || votes === -1) {
+    /* if (votes === 1 || votes === -1) {
       return `${plus}${votes} ${TAPi18n.__('vote')}`;
     } else if (votes > 0 || votes < 0) {
       return `${plus}${votes} ${TAPi18n.__('votes')}`;
+    } */
+    if (votes !== 0) {
+      return `${plus}${votes} ${_showToken(this.contract.wallet.currency)}`;
     }
     if (this.isVote) {
       return TAPi18n.__('choice-swap');
