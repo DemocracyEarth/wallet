@@ -79,11 +79,12 @@
           </div>
         </div>
       {{/if}}
-    {{else}}
-      <div class="block block-list">
-        <div class="micro-menu">
-          <a id="{{voteType}}" href="{{voteURL}}" class="micro-button micro-button-feed" ontouchstart="">
-            <img src="{{pathFor route='home'}}images/vote.png" class="micro-icon">
+    {{/unless}}
+    <div class="block block-menu">
+      <div class="micro-menu">
+        <div class="extra">
+          <a id="{{voteType}}" href="{{voteURL}}" class="micro-button micro-button-feed {{enableStyle}}" ontouchstart="">
+            <img src="{{pathFor route='home'}}{{voteIcon}}" class="micro-icon">
             <span class="micro-label">{{label 'vote'}} {{{quantity 'vote'}}}</span>
             <div class="verifier verifier-live verifier-feed"></div>
           </a>
@@ -91,9 +92,9 @@
             <img src="{{pathFor route='home'}}images/debate.png" class="micro-icon">
             <span class="micro-label">{{label 'debate'}} {{{quantity 'debate'}}}</span>
           </a>
-          {{> electorate contract=contract readOnly=true}}
         </div>
+        {{> electorate contract=contract readOnly=true}}
       </div>
-    {{/unless}}
+    </div>
   {{/unless}}
 </template>

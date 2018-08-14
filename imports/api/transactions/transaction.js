@@ -204,8 +204,6 @@ const _getVotes = (contractId, userId) => {
   if (contract && contract.tally !== undefined && contract.tally.voter.length > 0) {
     for (const i in contract.tally.voter) {
       if (contract.tally.voter[i]._id === userId) {
-        console.log('sale de tally');
-        console.log(`contract.tally.voter[i].votes:${contract.tally.voter[i].votes}`);
         return contract.tally.voter[i].votes;
       }
     }

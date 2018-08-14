@@ -53,13 +53,14 @@ h5 {
   width: 100%;
   margin-top: 15px;
   margin-bottom: 10px;
+  padding-right: 15px;
   padding-bottom: 5px;
+  padding-left: 15px;
   border-bottom: 1px none #d1d1d1;
   color: #5c5c5c;
   font-size: 12px;
   line-height: 20px;
   font-weight: 300;
-  text-align: center;
   text-transform: uppercase;
 }
 
@@ -660,6 +661,7 @@ blockquote {
   font-size: 16px;
   line-height: 22px;
   cursor: -webkit-grab;
+  cursor: grab;
 }
 
 .tag.input {
@@ -1185,6 +1187,7 @@ blockquote {
   background-color: #fff;
   box-shadow: inset 0 0 1px 0 #d3d3d3;
   cursor: -webkit-grab;
+  cursor: grab;
 }
 
 .vote.vote-alternative:hover {
@@ -1572,17 +1575,12 @@ blockquote {
 
 .execution {
   display: block;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 10px 0px;
 }
 
 .block {
-  margin: 0px -15px -10px;
-  padding: 15px;
-  border-top: 1px solid #eee;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
-  background-color: #f8f8f8;
   box-shadow: none;
   text-align: left;
 }
@@ -1593,8 +1591,13 @@ blockquote {
   display: -ms-flexbox;
   display: flex;
   padding: 0px;
-  border-top: 1px solid #e6f9f4;
+  border-top: 0px solid #e6f9f4;
   background-color: transparent;
+}
+
+.block.block-menu {
+  margin-right: -15px;
+  margin-left: -15px;
 }
 
 .field {
@@ -3052,6 +3055,7 @@ blockquote {
   background-color: #e6f9f4;
   box-shadow: 0 1px 3px -2px #000, inset 0 0 1px 0 #52d4b4;
   cursor: -webkit-grab;
+  cursor: grab;
 }
 
 .handle:hover {
@@ -3061,6 +3065,7 @@ blockquote {
 .handle:active {
   background-color: #00bf8f;
   cursor: -webkit-grabbing;
+  cursor: grabbing;
 }
 
 .close {
@@ -3400,8 +3405,6 @@ blockquote {
   padding-right: 15px;
   padding-left: 15px;
   clear: both;
-  border-bottom: 1px dotted #e8e8e8;
-  background-color: #f7f7f7;
   color: #9c9c9c;
 }
 
@@ -4100,9 +4103,7 @@ blockquote {
   width: 0px;
   margin-left: -10000px;
   float: left;
-  background-color: #d4cfd8;
-  background-image: -webkit-linear-gradient(94deg, hsla(0, 0%, 92%, 0), #ebebeb);
-  background-image: linear-gradient(356deg, hsla(0, 0%, 92%, 0), #ebebeb);
+  background-color: #e6e6e6;
   text-align: left;
 }
 
@@ -4366,7 +4367,7 @@ blockquote {
   overflow: scroll;
   width: 100%;
   padding: 0px 10px 10px;
-  box-shadow: inset -6px 0 50px -20px rgba(0, 0, 0, .5);
+  box-shadow: none;
   text-align: center;
 }
 
@@ -4380,7 +4381,7 @@ blockquote {
 }
 
 .content.content-feed {
-  padding: 80px 15px 10px;
+  padding: 10px 15px;
   -webkit-transition: opacity 892ms ease;
   transition: opacity 892ms ease;
 }
@@ -4393,13 +4394,10 @@ blockquote {
   position: relative;
   width: 100%;
   min-width: 360px;
-  margin-top: 50px;
   margin-bottom: -15px;
-  padding-top: 20px;
+  padding-top: 0px;
   padding-right: 15px;
   padding-left: 15px;
-  background-color: #e6e6e6;
-  box-shadow: 0 -4px 16px -14px #000;
 }
 
 .action-label {
@@ -4424,7 +4422,6 @@ blockquote {
   margin-bottom: 5px;
   margin-left: -10px;
   padding: 5px 20px 5px 13px;
-  border-bottom: 1px solid rgba(109, 92, 125, .11);
   box-shadow: none;
   color: #6c5b7c;
   font-size: 10px;
@@ -4484,6 +4481,10 @@ blockquote {
   color: #ff2752;
 }
 
+.micro-button.micro-button-remove:active {
+  background-color: transparent;
+}
+
 .micro-button.disabled {
   opacity: 0.35;
   cursor: default;
@@ -4523,6 +4524,20 @@ blockquote {
   float: left;
 }
 
+.micro-button.micro-button-feed.micro-button-disabled {
+  color: #e2e2e2;
+  cursor: default;
+}
+
+.micro-button.micro-button-feed.micro-button-disabled:active {
+  background-color: transparent;
+}
+
+.micro-button.micro-button-disabled {
+  color: #e2e2e2;
+  cursor: default;
+}
+
 .micro-icon {
   width: 24px;
   height: 24px;
@@ -4544,14 +4559,19 @@ blockquote {
 }
 
 .micro-menu {
-  display: block;
+  width: 100%;
   margin-right: auto;
   margin-left: auto;
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
   text-align: center;
+}
+
+.micro-menu.micro-menu-thread {
+  display: inline-block;
+  margin: 0px 0px -10px;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
 }
 
 .modal-buttons {
@@ -4710,7 +4730,6 @@ blockquote {
   width: 100%;
   margin: 0px;
   padding-top: 0px;
-  background-color: #e6e6e6;
 }
 
 .mobile-editor {
@@ -5045,7 +5064,7 @@ blockquote {
   display: block;
   width: 5px;
   float: left;
-  border-left: 2px solid #e2e2e2;
+  border-left: 2px solid transparent;
   cursor: ew-resize;
 }
 
@@ -5495,10 +5514,16 @@ blockquote {
 }
 
 .editor-button.editor-button-readonly {
-  margin: 6px 10px -5px;
+  margin: 4px 10px -5px;
+  padding-right: 0px;
   float: right;
   border-style: none;
-  opacity: 0.5;
+  cursor: default;
+}
+
+.editor-button.editor-button-reject-enabled {
+  border-color: #ff2752;
+  color: #ff2752;
 }
 
 .section-editor-separator {
@@ -5849,7 +5874,6 @@ blockquote {
   margin-right: -15px;
   margin-bottom: 10px;
   margin-left: -15px;
-  border-bottom: 1px dotted #cfcccc;
 }
 
 .inline-block {

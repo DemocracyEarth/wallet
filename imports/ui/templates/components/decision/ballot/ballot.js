@@ -10,6 +10,7 @@ import { removeFork, updateBallotRank, addChoiceToBallot, getTickValue, getTotal
 import { displayTimedWarning } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { timers } from '/lib/const';
+import { verifyConstituencyRights } from '/imports/ui/templates/components/decision/electorate/electorate.js';
 
 import '/imports/ui/templates/components/decision/ballot/ballot.html';
 import '/imports/ui/templates/components/decision/fork/fork.js';
@@ -87,6 +88,7 @@ Template.ballot.onCreated(() => {
   Template.instance().ballotReady = new ReactiveVar();
   Template.instance().removeProposal = new ReactiveVar();
   Template.instance().contract = new ReactiveVar(Template.currentData().contract);
+  Template.instance().voteEnabled = verifyConstituencyRights(Template.currentData().contract);
 });
 
 Template.ballot.onRendered(() => {
@@ -188,17 +190,32 @@ Template.ballot.helpers({
     }
     return false;
   },
+  canVote() {
+    return Template.instance().voteEnabled;
+  },
   voteType() {
-    if (!this.contract.ballotEnabled) {
+    if (!this.contract.ballotEnabled && Template.instance().voteEnabled) {
       return 'single-vote';
     }
     return '';
   },
   voteURL() {
-    if (!this.contract.ballotEnabled) {
+    if (!this.contract.ballotEnabled || !Template.instance().voteEnabled) {
       return '';
     }
     return this.contract.url;
+  },
+  voteIcon() {
+    if (!Template.instance().voteEnabled) {
+      return 'images/vote-disabled.png';
+    }
+    return 'images/vote.png';
+  },
+  enableStyle() {
+    if (!Template.instance().voteEnabled) {
+      return 'micro-button-disabled';
+    }
+    return '';
   },
   options() {
     let contractBallot;
