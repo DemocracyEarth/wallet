@@ -40,6 +40,7 @@ const _voteToContract = (post, contract, hidePost, winningBallot, openFeed) => {
       kind: post.kind,
       wallet: {
         balance: post.output.quantity,
+        currency: post.output.currency,
       },
       _id: post._id,
     };
@@ -49,6 +50,7 @@ const _voteToContract = (post, contract, hidePost, winningBallot, openFeed) => {
       timestamp: post.timestamp,
       wallet: {
         balance: post.input.quantity,
+        currency: post.input.currency,
       },
       title: contract.title,
       url: contract.url,

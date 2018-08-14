@@ -17,7 +17,7 @@ const _verifySubsidy = (id) => {
 
 const _showToken = (currency) => {
   let code;
-  if (!currency) {
+  if (!currency || currency === 'VOTES') {
     code = 'VOTE';
   }
   return `<div title="${_.where(token.coin, { code })[0].name}" class="suggest-item suggest-token suggest-token-inline" style="background-color: ${_.where(token.coin, { code })[0].color} ">${_.where(token.coin, { code })[0].code}</div>`;
