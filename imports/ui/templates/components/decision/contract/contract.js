@@ -16,7 +16,7 @@ import '../agora/agora.js';
 
 Template.contract.onRendered(() => {
   // set pixel width of left and right split panels
-  splitRender();
+  // splitRender();
 });
 
 Template.contract.helpers({

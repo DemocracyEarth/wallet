@@ -2230,36 +2230,6 @@ blockquote {
   float: left;
 }
 
-.multi-token-profile {
-  display: block;
-  text-align: left;
-  float: left;
-  width: 100%;
-}
-
-.multi-token-profile-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 5px;
-}
-
-.multi-token-profile-row-item {
-  border: solid;
-  border-width: thin;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-right: 4px;
-  padding-left: 4px;
-}
-
-.multi-token-profile-row-item.token {
-  border-color: white;
-}
-
-.multi-token-profile-row-item.balance {
-  border-color: mediumpurple;
-}
-
 .portrait-pic {
   width: 200px;
   height: 200px;
@@ -4385,7 +4355,7 @@ blockquote {
 .content.content-agora {
   position: relative;
   width: 100%;
-  min-width: 360px;
+  min-width: 200px;
   margin-bottom: -15px;
   padding-top: 0px;
   padding-right: 15px;
