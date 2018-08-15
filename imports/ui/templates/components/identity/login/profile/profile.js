@@ -7,6 +7,8 @@ import './profileEditor.js';
 import '../../avatar/avatar.js';
 import '../../authenticity/authenticity.js';
 import '../../../../widgets/warning/warning.js';
+import './multiTokenProfile.html';  
+import './multiTokenProfile.js';  
 
 Template.profile.helpers({
   configProfile() {
@@ -39,6 +41,12 @@ Template.profile.helpers({
   },
   totalVotes() {
     return `${TAPi18n.__('total-votes')} <strong style='color: white'>${Meteor.user().profile.wallet.balance.toLocaleString()}</strong> `;
+  },
+  isMultiTokenUser() {
+    if (Meteor.user().profile.wallet.reserves != null) {
+      return true;
+    }
+    return false;
   },
 });
 

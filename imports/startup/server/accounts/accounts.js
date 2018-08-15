@@ -117,8 +117,8 @@ const normalizers = {
 * at user creation the following specifications must be met
 ****/
 Accounts.onCreateUser((opts, user) => {
-  const profile = opts.profile || {};
-  
+  let profile = opts.profile || {};
+
   // Find the first normalizer for the first service the user has.
   // Not sure if we need to be so strict, but I'm keeping the contract of the previous impl.
   const normalizer = _.chain(normalizers)
@@ -128,6 +128,21 @@ Accounts.onCreateUser((opts, user) => {
     .value();
 
   user = !!normalizer ? normalizer(profile, user) : user;
+  
+  if (user.services.metamask != null) {
+    // Initialize reserves for Metamask users only
+    let wallet = {}
+    let reserves = [{
+      balance: 0,
+      placed: 0,
+      available: 0,
+      token: 'WEI'
+    }];
+
+    user.profile = profile;
+    user.profile.wallet = wallet;
+    user.profile.wallet.reserves = reserves;
+  }
   
   return user;
 });

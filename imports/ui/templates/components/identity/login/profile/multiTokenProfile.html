@@ -1,0 +1,28 @@
+<template name="multiTokenProfile">
+  <div class='multi-token-profile'>
+    <div class="multi-token-profile-row">
+      <div>
+        <h5>Token</h5>
+      </div>
+      <div>
+        <h5>Balance</h5>
+      </div>
+    </div>
+    {{#each tokens}}
+      {{> tokenRow}}
+    {{/each}}
+  </div>
+</template>
+
+<template name='tokenRow'>
+  <div>
+    <div class="multi-token-profile-row">
+      <div class="multi-token-profile-row-item token">
+        {{token}}
+      </div>
+      <div class="multi-token-profile-row-item balance">
+        {{balance}}
+      </div>
+    </div>
+  </div>
+</template>
