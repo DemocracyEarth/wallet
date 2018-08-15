@@ -49,7 +49,7 @@ const _resizeSplit = (diff, winResize) => {
 const _setupSplit = () => {
   if (Session.get('resizeSplit') === undefined) {
     Session.set('resizeSplit', false);
-    Session.set('resizeSplitCursor', { x: 0, y: 0, leftWidth: '60%', rightWidth: '40%', windowWidth: window.innerWidth });
+    Session.set('resizeSplitCursor', { x: 0, y: 0, leftWidth: '60%', rightWidth: '40%' });
   }
   $(window).mousemove((event) => {
     if (Session.get('resizeSplit')) {
@@ -64,14 +64,21 @@ const _setupSplit = () => {
   $(window).mouseup(() => {
     if (Session.get('resizeSplit')) {
       Session.set('resizeSplit', false);
-      Session.set('resizeSplitCursor', { leftWidth: $('.split-left').width(), rightWidth: $('.split-right').width(), windowWidth: window.innerWidth });
+      Session.set('resizeSplitCursor', { leftWidth: $('.split-left').width(), rightWidth: $('.split-right').width() });
       _saveSplitSettings($('.split-left').width(), $('.split-right').width());
     }
   });
   $(window).resize((event) => {
     if ($('.split-right')) {
       event.preventDefault();
-      _resizeSplit(0, true);
+      if ($(window).width() < gui.DESKTOP_MIN_WIDTH) {
+        $('.split-left').width('100%');
+        $('.split-right').width('100%');
+        $('.split-right').css('marginLeft', 0);
+        $('.split-left').css('marginLeft', 0);
+      } else {
+        _resizeSplit(0, true);
+      }
       if (Meteor.Device.isPhone() || window.innerWidth <= 991) {
         Session.set('scrollerDiv', '.right');
       } else {
