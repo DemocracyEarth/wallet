@@ -139,8 +139,13 @@ Template.sidebar.onCreated(function () {
   Template.instance().delegates = new ReactiveVar();
   Template.instance().members = new ReactiveVar(0);
   Template.instance().participants = new ReactiveVar();
+  Template.instance().memberCount = new ReactiveVar(0);
 
   const instance = this;
+
+  Meteor.call('userCount', function (error, result) {
+    instance.memberCount.set(result);
+  });
 
   instance.autorun(function () {
     const subscriptionContracts = instance.subscribe('feed', { view: 'delegationContracts' });
@@ -232,6 +237,13 @@ Template.sidebar.helpers({
   },
   member() {
     return Template.instance().members.get();
+  },
+  members() {
+    const count = Template.instance().memberCount.get();
+    if (count === 1) {
+      return `${count} ${TAPi18n.__('member')}`;
+    }
+    return `${count} ${TAPi18n.__('members')}`;
   },
   bitcoinAddress() {
     return Meteor.settings.public.Collective.profile.blockchain.Bitcoin.address;

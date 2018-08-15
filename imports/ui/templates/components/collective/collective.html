@@ -1,20 +1,13 @@
 <template name="collective">
   <div class="collective">
     {{#if hasLogo}}
-      <a href="/">
-        <img class="collective-icon" src="{{pathFor route='home'}}{{picture}}">
-      </a>
+      <img class="collective-icon" src="{{pathFor route='home'}}{{picture}}">
     {{/if}}
     <div class="collective-profile">
       <div id="collective-home" class="collective-title">
         {{title}}
       </div>
       {{description}}
-    </div>
-    <div class="collective-info">
-      <div class="sidebar-tag sidebar-stat">
-        {{members}}
-      </div>
     </div>
   </div>
 </template>

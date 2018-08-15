@@ -4066,10 +4066,11 @@ blockquote {
   bottom: 0px;
   z-index: 12500;
   display: inline-block;
+  overflow: hidden;
   width: 0px;
   margin-left: -10000px;
   float: left;
-  background-color: #e6e6e6;
+  background-color: #fff;
   text-align: left;
 }
 
@@ -4240,6 +4241,21 @@ blockquote {
 .menu.menu-empty.menu-crypto {
   margin-right: 0px;
   margin-left: 0px;
+}
+
+.menu.menu-empty.menu-footer {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  display: block;
+  margin-bottom: 0px;
+  padding-right: 15px;
+  padding-bottom: 20px;
+  padding-left: 15px;
+  background-color: #fff;
+  box-shadow: 0 0 20px 10px #fff;
+  text-align: left;
 }
 
 .menu-item {
@@ -4545,10 +4561,28 @@ blockquote {
 
 .collective {
   display: inline-block;
-  padding: 20px 5px 0px;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px 10px 0px;
+  border-radius: 5px;
   color: #333;
   font-size: 12px;
   line-height: 18px;
+  cursor: pointer;
+}
+
+.collective:hover {
+  background-color: rgba(180, 171, 189, .2);
+}
+
+.collective:active {
+  background-color: #dbd8de;
+}
+
+.collective.collective-selected {
+  background-color: #6d5c7d;
+  color: #fff;
 }
 
 .collective-icon {
@@ -4579,16 +4613,10 @@ blockquote {
 .collective-title {
   margin-top: 5px;
   margin-bottom: 5px;
-  color: #6c5b7c;
   font-size: 14px;
   line-height: 18px;
   font-weight: 400;
   text-shadow: none;
-  cursor: pointer;
-}
-
-.collective-title:hover {
-  text-decoration: underline;
 }
 
 .collective-stat {

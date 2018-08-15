@@ -24,6 +24,8 @@
         </div>
       {{/each}}
     </ul>
+    <div style="height: 50px"></div>
+    <!--
     {{#if bitcoinAddress}}
       <ul class="menu w-clearfix w-list-unstyled">
         {{> inbox label='fund-organization' separator=true}}
@@ -46,7 +48,9 @@
         </div>
       </ul>
     {{/if}}
-
+    -->
   </div>
-
+  <div class="menu menu-empty menu-footer">
+    {{{members}}}
+  </div>
 </template>
