@@ -217,11 +217,11 @@ Template.avatar.helpers({
     if (smallFont) {
       style = 'identity-small';
     }
-    if (this.flex && Meteor.Device.isPhone()) {
-      // style += ' identity-peer-flex';
-    }
     if (this.disabled) {
       style += ' profile-pic-disabled';
+    }
+    if (this.loginMode) {
+      style += ' profile-pic-login';
     }
     return style;
   },
@@ -250,7 +250,7 @@ Template.avatar.helpers({
     if (size !== undefined) {
       style = `width:${size}px; height:${size}px; `;
     }
-    if (includeName === false) {
+    if (includeName === false && !this.loginMode) {
       style += 'float: none; ';
     }
     if (this.imgStyle) {
@@ -302,6 +302,12 @@ Template.avatar.helpers({
   sidebarIcon() {
     if (this.sidebar) {
       return 'avatar-icon-box';
+    }
+    return '';
+  },
+  styleContext() {
+    if (this.loginMode) {
+      return 'float:left';
     }
     return '';
   },

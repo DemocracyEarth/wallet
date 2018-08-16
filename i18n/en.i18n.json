@@ -252,7 +252,7 @@
   "rejected-votes": "Discarded Proposals",
   "vote-drafts": "Drafts",
   "proposals": "Proposals",
-  "empty-feed-label-delegation": "No delegations found.",
+  "empty-feed-label-delegation": "No delegations.",
   "empty-feed-detail-delegation": "These contracts are establsihed between two identities that agree to represent each other on issues under specific tags.",
   "empty-feed-contribute-delegation": "Draft a Delegation",
   "empty-feed-label-membership": "No citizenships found.",
@@ -369,7 +369,7 @@
   "stage-live-kind-vote-peer": "Participations",
   "stage-finish-kind-vote-executionstatus-approved": "Approved Proposals",
   "stage-finish-kind-vote-executionstatus-rejected": "Discarded Proposals",
-  "no-delegations-found": "No delegations found.",
+  "no-delegations-found": "No delegations.",
   "no-decisions-found": "No public decisions in this collective.",
   "democracy-earth": "Democracy Earth",
   "democracy-of": "Democracy of",
@@ -480,7 +480,7 @@
   "no-delegated-votes": "No delegations",
   "minimum-delegation-revoke": "These delegated votes are in use.",
   "notify-new-posts": "New posts avaialable on refresh.",
-  "empty-feed": "No action found.",
+  "empty-feed": "No action.",
   "posted-ideas": "Posted ideas",
   "await-contract": "📄...",
   "cast-votes": "Cast Votes",
@@ -551,5 +551,6 @@
   "from": "from",
   "holding": "holding",
   "valid-email-domain": "with a {{domain}} valid e-mail",
-  "electorate-incompatible-warning": "To vote on this proposal you must meet the requirements."
+  "electorate-incompatible-warning": "To vote on this proposal you must meet the requirements.",
+  "log-in-network": "Login to network."
 }

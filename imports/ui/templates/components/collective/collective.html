@@ -7,7 +7,12 @@
       <div id="collective-home" class="collective-title">
         {{title}}
       </div>
-      {{description}}
+      {{#if currentUser}}
+        {{> avatar size=20 profile=currentUser._id loginMode=true includeName=false includeNation=false editable=false microFont=true disabled=true includeRole=false}}
+        {{currentUser.username}}
+      {{else}}
+        {{_ 'log-in-network'}}
+      {{/if}}
     </div>
   </div>
 </template>

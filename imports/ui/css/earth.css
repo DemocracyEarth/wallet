@@ -616,6 +616,12 @@ blockquote {
   border-color: #e6f9f4;
 }
 
+.symbol.profile-pic.profile-pic-disabled.profile-pic-login {
+  margin-top: -1px;
+  margin-right: -3px;
+  margin-bottom: -5px;
+}
+
 .symbol.profile-pic.pending {
   opacity: 0.25;
 }
@@ -1928,11 +1934,11 @@ blockquote {
 }
 
 .warning {
-  display: inline-block;
+  display: inline;
   overflow: hidden;
   width: 100%;
   margin: 0px 5px 5px 0px;
-  padding: 3px 10px;
+  padding: 10px;
   border-radius: 5px;
   background-color: #fae6e6;
   color: #ff2752;
