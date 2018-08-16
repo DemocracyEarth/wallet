@@ -3,7 +3,11 @@
       {{> avatar profile=this includeName=true includeNation=true editable=false disabled=true includeRole=false}}
 
       {{#with profile}}
-        {{> liquid _id=this.balanceId targetId=this.targetId wallet=this.wallet isDelegation=false editable=false hideBar=true balanceMode=true}}
+        {{#if testHelper}}
+          {{> liquid _id=this.balanceId targetId=this.targetId wallet=this.wallet isDelegation=false editable=false hideBar=true balanceMode=true}}
+        {{else}}
+          {{> multiTokenProfile}}
+        {{/if}}
       {{/with}}
 
       {{#if currentUser}}
@@ -17,7 +21,11 @@
               {{> transaction contract=this.contractSender senderId=this.senderId receiverId=this.receiverId onCard=true compressed=true editable=true voteId=this.voteId noDate=true}}
             {{/with}}
             {{#with voteSettings}}
-              {{> liquid _id=this.voteId sourceId=this.sourceId contract=contract targetId=this.targetId wallet=this.wallet editable=true}}
+              {{#if testHelper}}
+                {{> liquid _id=this.voteId sourceId=this.sourceId contract=contract targetId=this.targetId wallet=this.wallet editable=true}}
+              {{else}}
+                {{> multiTokenProfile}}
+              {{/if}}
             {{/with}}
           {{else}}
             {{> spinner id=spinnerId style=spinnerStyle color='#fff' length=8}}

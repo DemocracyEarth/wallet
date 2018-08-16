@@ -8,6 +8,8 @@ import { updateUserCache } from '/imports/api/transactions/transaction';
 import '/imports/ui/templates/components/identity/card/card.html';
 import '/imports/ui/templates/components/identity/avatar/avatar.js';
 import '/imports/ui/templates/widgets/spinner/spinner.js';
+import '/imports/ui/templates/components/identity/login/profile/multiTokenProfile.js';
+import '/imports/ui/templates/components/identity/login/profile/multiTokenProfile.html';
 
 Template.card.onCreated(function () {
   Template.instance().senderDelegationContract = new ReactiveVar();
@@ -86,5 +88,8 @@ Template.card.helpers({
             margin-top: 25px;
             margin-left: 0px;
             width: 100%;`;
+  },
+  testHelper() {
+    return false;
   },
 });
