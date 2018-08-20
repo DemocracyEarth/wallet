@@ -79,7 +79,7 @@ const _positionCard = (element, target, pop) => {
   // popup will be on left side of screen
   } else if (spaceLeft < (target.width - (target.width / 2))) {
     // not enough space on left
-    left = parseInt(source.left, 10);
+    left = parseInt(source.left + 10, 10);
     pointer = parseInt((source.width / 2) - 12, 10);
   } else {
     // enough space on left;

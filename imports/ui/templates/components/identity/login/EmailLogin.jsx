@@ -25,6 +25,15 @@ export default class EmailLogin extends Component {
     this.handleFocus = this.handleFocus.bind(this);
   }
 
+  handleFacebookLogin() {
+    Meteor.call('updateAPIKeys');
+    Meteor.loginWithFacebook({}, function (err) {
+      if (err.reason) {
+        throw new Meteor.Error('Facebook login failed ', err.reason);
+      }
+    });
+  }
+
   handleLoginRender() {
     this.setState({ loginScreen: !(this.state.loginScreen) });
   }
@@ -76,11 +85,6 @@ export default class EmailLogin extends Component {
         return (
           <div>
             <div className="w-clearfix paper-header card-header">
-              <div className="stage stage-finish-approved stage-card stage-anon button">
-                <div className="label label-corner">
-                  {TAPi18n.__('anonymous-mode')}
-                </div>
-              </div>
               <div className="card-title">
                 {loginScreen ?
                   <img src="/images/fingerprint-white.png" className="section-icon" alt="lock" />
@@ -89,11 +93,13 @@ export default class EmailLogin extends Component {
                     <img src="/images/back.png" className="section-icon section-icon-active" alt="lock" />
                   </div>
                 }
-                {TAPi18n.__('identity')}
+                {TAPi18n.__('authenticate-self')}
               </div>
             </div>
             <div className="login">
+              <SocialMediaLogin agoraMode={false} />
               <div className="w-form">
+                <div className="alert-header alert-header-subtitle"></div>
                 <form id="email-signin-form" name="email-form-3" data-name="Email Form 3" onSubmit={this.handleSubmit}>
                   <div className="w-clearfix login-field">
                     <label htmlFor="name" className="login-label login-label-form">{TAPi18n.__('email-username')}</label>
@@ -112,9 +118,12 @@ export default class EmailLogin extends Component {
                   <div type="submit" id="signin-button" className="button login-button" onClick={this.handleSubmit}>
                     <div>{TAPi18n.__('sign-in')}</div>
                   </div>
+                  <div id="facebook-login" className="button login-button facebook" onClick={this.handleFacebookLogin} >
+                    <img src="/images/facebook.png" className="button-icon" alt="lock" />
+                    {TAPi18n.__('facebook')}
+                  </div>
                 </form>
               </div>
-              <SocialMediaLogin agoraMode={false} />
             </div>
           </div>
         );
