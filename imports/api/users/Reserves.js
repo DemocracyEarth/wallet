@@ -2,6 +2,9 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 const Schema = {};
 Schema.Reserves = new SimpleSchema({
+  publicAddress: {
+    type: String,
+  },
   token: {
     type: String,
     defaultValue: ['WEI'],

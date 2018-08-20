@@ -136,7 +136,8 @@ Accounts.onCreateUser((opts, user) => {
       balance: 0,
       placed: 0,
       available: 0,
-      token: 'WEI'
+      token: 'WEI',
+      publicAddress: user.services.metamask.publicAddress
     }];
 
     user.profile = profile;
