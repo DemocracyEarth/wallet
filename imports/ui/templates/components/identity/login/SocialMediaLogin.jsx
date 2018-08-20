@@ -66,17 +66,16 @@ export default class SocialMediaLogin extends Component {
     }
     return (
       <div>
-        <div id="metamask-login" className="button login-button metamask" onClick={this.handleMetamaskLogin}>
+        <div id="metamask-login" className="button login-button" onClick={this.handleMetamaskLogin}>
           <img src="/images/metamask.png" className="button-icon" alt="lock" />
-          {TAPi18n.__('metamask')}
+          {TAPi18n.__('ethereum')}
         </div>
-        {/*<div id="blockstack-login" className="button login-button blockstack" onClick={this.handleBlockstackLogin}>
+        <div id="blockstack-login" className="button login-button" onClick={this.handleBlockstackLogin}>
           <img src="/images/blockstack.png" className="button-icon" alt="lock" />
-          {TAPi18n.__('blockstack-id')}
-        </div>*/}
-        <div id="facebook-login" className="button login-button facebook" onClick={this.handleFacebookLogin} >
-          <img src="/images/facebook.png" className="button-icon" alt="lock" />
-          {TAPi18n.__('facebook')}
+          {TAPi18n.__('blockstack')}
+        </div>
+        <div className="popup-text">
+          <a id="signup" href="https://medium.com/@mail.bahurudeen/setup-a-metamask-ethereum-wallet-and-use-it-to-send-and-receive-ether-4f3b99360e4f" target="_blank">{TAPi18n.__('get-blockchain-id')}</a>.
         </div>
         {/* <div id="twitter-login" className="button button-social twitter" onClick={this.handleTwitterLogin} >{{_ 'twitter'}}</div> */}
       </div>

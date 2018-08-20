@@ -277,8 +277,7 @@ blockquote {
   width: 100%;
   padding: 10px;
   border-radius: 3px;
-  background-color: rgba(49, 38, 59, .95);
-  background-image: none;
+  background-color: #3c3145;
   box-shadow: 0 3px 8px -4px #000;
   color: #fff;
 }
@@ -4114,7 +4113,7 @@ blockquote {
   margin-left: auto;
   padding: 15px 10px;
   border-radius: 5px;
-  background-color: #442f58;
+  background-color: #3c3145;
   box-shadow: 0 3px 8px -4px #000;
   color: #fff;
   font-size: 16px;
@@ -4125,6 +4124,14 @@ blockquote {
   font-size: 14px;
   font-weight: 400;
   text-transform: uppercase;
+}
+
+.alert-header.alert-header-subtitle {
+  margin: 20px -15px 10px;
+  padding-top: 10px;
+  border-top: 1px dotted #6c5b7c;
+  color: #d8d8d8;
+  font-size: 11px;
 }
 
 .alert-icon {
