@@ -558,5 +558,6 @@
   "ethereum": "Ethereum",
   "blockstack": "Blockstack",
   "ethereum-metamask": "Ethereum with Metamask",
-  "get-blockchain-id": "Set up a blockchain wallet"
+  "get-blockchain-id": "Set up a blockchain wallet",
+  "auth0": "Sign in with Auth0"
 }

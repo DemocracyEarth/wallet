@@ -1,0 +1,6 @@
+{
+  "optune:auth0-oauth": {
+    "git": "https://github.com/optune/meteor-auth0-oauth.git",
+    "branch": "master"
+  }
+}

@@ -12,6 +12,8 @@
 
   "private": {
 
+    "AUTH0_CLIENT_SECRET": "q5o1xnStdmjMyONMYROuI9eZXEmH1mOshsMF11ZJxHydzHdZ0Xqog3VkLNKtGaxK",
+
     "API": {
 
       "facebook": {
@@ -41,6 +43,9 @@
   "public": {
 
     "AWSHostingURL": "",
+
+    "AUTH0_CLIENT_ID": "oo1hY9lLS0XZF7LEVFHN15yrQncIOyPp",
+    "AUTH0_DOMAIN": "entrar.mivoz.uy",
 
     "sentryPublicDSN": "",
 
