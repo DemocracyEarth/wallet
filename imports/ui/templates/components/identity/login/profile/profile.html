@@ -5,7 +5,9 @@
     <div class="login">
       {{> avatar includeName=true includeNation=true editable=true includeAddress=true}}
       {{#if isMultiTokenUser}}
-        {{> multiTokenProfile}}
+        {{#with currentUser}}
+          {{> multiTokenProfile}}
+        {{/with}}
       {{else}}
         {{> liquid _id='vote-user-balance' targetId=currentUser._id wallet=currentUser.profile.wallet isDelegation=false editable=false hideBar=true}}
       {{/if}}

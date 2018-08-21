@@ -5936,7 +5936,7 @@ blockquote {
 }
 
 .token-ticker {
-  padding: 4px;
+  padding: 3px;
   float: left;
   border: 1px solid #9696c1;
   border-top-left-radius: 5px;
@@ -5949,7 +5949,7 @@ blockquote {
 
 .token-balance {
   display: inline;
-  padding: 4px;
+  padding: 3px;
   float: left;
   border: 1px solid #9696c1;
   border-top-right-radius: 5px;
@@ -5969,7 +5969,7 @@ blockquote {
 }
 
 .token-stake {
-  margin-top: 3px;
+  margin-top: 2px;
   float: right;
   color: #aaa;
   font-size: 10px;
