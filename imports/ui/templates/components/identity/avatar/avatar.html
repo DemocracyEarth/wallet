@@ -70,6 +70,9 @@
               {{/if}}
             {{/if}}
           {{/if}}
+          {{#if includeAddress}}
+            {{> chain ticker=ticker address=address}}
+          {{/if}}
         </div>
         {{#if includeRole}}
           <div class="signature-role {{roleStyle}}">

@@ -2169,8 +2169,8 @@ blockquote {
 .identity-label {
   display: inline-block;
   color: #00bf8f;
-  font-size: 18px;
-  line-height: 24px;
+  font-size: 16px;
+  line-height: 22px;
   text-decoration: none;
   cursor: pointer;
 }
@@ -2772,8 +2772,8 @@ blockquote {
   margin-top: 0px;
   padding-top: 0px;
   clear: both;
-  font-size: 14px;
-  line-height: 20px;
+  font-size: 12px;
+  line-height: 16px;
 }
 
 .identity-nation.identity-label-small {
@@ -3275,7 +3275,7 @@ blockquote {
 
 .stage.stage-card {
   margin-top: 4px;
-  margin-right: 5px;
+  margin-right: -5px;
   margin-bottom: 0px;
   float: right;
 }
@@ -5896,6 +5896,35 @@ blockquote {
 
 .staking-editor {
   margin: 0px 10px 5px;
+}
+
+.chain-address {
+  padding-right: 3px;
+  padding-left: 3px;
+  float: left;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  background-color: #fff;
+  color: #888;
+  font-size: 8px;
+  line-height: 13px;
+}
+
+.chain-ticker {
+  padding-right: 2px;
+  padding-left: 3px;
+  float: left;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  background-color: #9793c5;
+  color: #fff;
+  font-size: 8px;
+  line-height: 13px;
+}
+
+.chain {
+  margin-top: 5px;
+  cursor: copy;
 }
 
 @media (max-width: 991px) {

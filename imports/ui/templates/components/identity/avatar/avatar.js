@@ -17,6 +17,7 @@ import { displayModal } from '/imports/ui/modules/modal';
 import { displayPopup, cancelPopup } from '/imports/ui/modules/popup';
 
 import '/imports/ui/templates/components/identity/avatar/avatar.html';
+import '/imports/ui/templates/components/identity/chain/chain.js';
 
 /**
 * @summary subscribes to user data
@@ -35,6 +36,36 @@ const _getUser = (userId) => {
   } else if (userId) {
     Session.set('avatarList', [userId]);
   }
+};
+
+/**
+* @summary gets address info from user
+* @param {object} user user to parse
+*/
+const _getAddress = (user) => {
+  let reserve;
+  console.log('USER:');
+  console.log(user);
+  if (!user.profile) {
+    reserve = Meteor.user().profile.wallet.reserves;
+  } else if (typeof user.profile === 'string') {
+    console.log('is string');
+    const userProfile = Meteor.users.findOne({ _id: user.profile });
+    console.log(userProfile);
+    if (userProfile.profile.wallet.reserves) {
+      reserve = userProfile.profile.wallet.reserves;
+    }
+  } else if (user.wallet && user.wallet.reserves) {
+    reserve = user.wallet.reserves;
+  }
+  if (reserve && reserve.length && reserve.length > 0) {
+    for (const i in reserve) {
+      if (reserve[i].token === 'WEI' && reserve[i].publicAddress) {
+        return reserve[i];
+      }
+    }
+  }
+  return undefined;
 };
 
 /**
@@ -308,6 +339,21 @@ Template.avatar.helpers({
   styleContext() {
     if (this.loginMode) {
       return 'float:left';
+    }
+    return '';
+  },
+  ticker() {
+    const reserve = _getAddress(this);
+    if (reserve) {
+      return reserve.token;
+    }
+    return '';
+  },
+  address() {
+    console.log(this);
+    const reserve = _getAddress(this);
+    if (reserve) {
+      return reserve.publicAddress;
     }
     return '';
   },

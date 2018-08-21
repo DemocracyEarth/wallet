@@ -558,5 +558,7 @@
   "ethereum": "Ethereum",
   "blockstack": "Blockstack",
   "ethereum-metamask": "Ethereum with Metamask",
-  "get-blockchain-id": "Set up a blockchain wallet"
+  "get-blockchain-id": "Set up a blockchain wallet",
+  "copy-clipboard": "Click to copy blockchain address: {{address}}",
+  "id": "ID"
 }
