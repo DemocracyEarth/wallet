@@ -44,15 +44,11 @@ const _getUser = (userId) => {
 */
 const _getAddress = (user) => {
   let reserve;
-  console.log('USER:');
-  console.log(user);
   if (!user.profile) {
     reserve = Meteor.user().profile.wallet.reserves;
   } else if (typeof user.profile === 'string') {
-    console.log('is string');
     const userProfile = Meteor.users.findOne({ _id: user.profile });
-    console.log(userProfile);
-    if (userProfile.profile.wallet.reserves) {
+    if (userProfile && userProfile.profile.wallet.reserves) {
       reserve = userProfile.profile.wallet.reserves;
     }
   } else if (user.wallet && user.wallet.reserves) {
@@ -350,7 +346,6 @@ Template.avatar.helpers({
     return '';
   },
   address() {
-    console.log(this);
     const reserve = _getAddress(this);
     if (reserve) {
       return reserve.publicAddress;

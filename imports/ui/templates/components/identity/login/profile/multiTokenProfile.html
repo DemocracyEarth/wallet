@@ -1,27 +1,32 @@
 <template name="multiTokenProfile">
-  <div class='multi-token-profile'>
-    <div class="multi-token-profile-row">
-      <div>
-        <h5>Token</h5>
-      </div>
-      <div>
-        <h5>Balance</h5>
-      </div>
-    </div>
+  <div class="token-list">
     {{#each tokens}}
-      {{> tokenRow}}
+      {{> balance}}
     {{/each}}
   </div>
 </template>
 
-<template name='tokenRow'>
-  <div>
-    <div class="multi-token-profile-row">
-      <div class="multi-token-profile-row-item token">
-        {{token}}
-      </div>
-      <div class="multi-token-profile-row-item balance">
-        {{balance}}
+<template name="balance">
+  <div class="token">
+    <div class="token-ticker">
+      {{token}}
+    </div>
+    <div class="token-balance">
+      {{balance}}
+    </div>
+    <div class="token-stake">
+      <span class="token-stake-value">
+        {{percentage}}
+      </span>
+      {{_ 'staked'}}
+      &mdash;
+      <span class="token-stake-value">
+        {{available}}
+      </span>
+      {{_ 'available'}}
+    </div>
+    <div class="result vote-bar token-bar">
+      <div class="result-bar vote-bar" style="width: {{barWidth}}">
       </div>
     </div>
   </div>

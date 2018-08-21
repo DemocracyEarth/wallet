@@ -18,10 +18,10 @@ Template.chain.helpers({
     return this.address !== '';
   },
   ticker() {
-    return `${_getTicker(this.ticker)[0].name} ${TAPi18n.__('id')}`;
+    return `${_getTicker(this.ticker)[0].code} ${TAPi18n.__('id')}:`;
   },
   address() {
-    if (this.address.length > 30) {
+    if (this.address.length > 42) {
       return `${this.address.substring(0, 15)}...${this.address.substring(parseInt(this.address.length - 15, 10), this.address.length)}`;
     }
     return this.address;

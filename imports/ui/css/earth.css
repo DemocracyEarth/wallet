@@ -2575,6 +2575,13 @@ blockquote {
   box-shadow: inset 0 3px 7px -3px rgba(0, 0, 0, .5);
 }
 
+.result.vote-bar.token-bar {
+  display: inline-block;
+  height: 10px;
+  margin-top: 5px;
+  clear: both;
+}
+
 .result.result-unauthorized {
   border-color: #ff2752;
 }
@@ -2597,7 +2604,7 @@ blockquote {
 }
 
 .result-bar.vote-bar {
-  width: 0%;
+  width: 20%;
   height: 100%;
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
@@ -5904,27 +5911,81 @@ blockquote {
   float: left;
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
-  background-color: #fff;
   color: #888;
-  font-size: 8px;
+  font-size: 7px;
   line-height: 13px;
 }
 
 .chain-ticker {
-  padding-right: 2px;
-  padding-left: 3px;
   float: left;
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
-  background-color: #9793c5;
-  color: #fff;
-  font-size: 8px;
+  color: #8a8a8a;
+  font-size: 7px;
   line-height: 13px;
+  font-weight: 600;
 }
 
 .chain {
   margin-top: 5px;
   cursor: copy;
+}
+
+.token {
+  margin-top: 0px;
+}
+
+.token-ticker {
+  padding: 4px;
+  float: left;
+  border: 1px solid #9696c1;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  background-color: #9695c3;
+  font-size: 10px;
+  line-height: 10px;
+  font-weight: 400;
+}
+
+.token-balance {
+  display: inline;
+  padding: 4px;
+  float: left;
+  border: 1px solid #9696c1;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background-color: transparent;
+  color: #fff;
+  font-size: 10px;
+  line-height: 10px;
+  font-weight: 400;
+}
+
+.token-bar {
+  height: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  background-color: #6b6b6b;
+}
+
+.token-stake {
+  margin-top: 3px;
+  float: right;
+  color: #aaa;
+  font-size: 10px;
+  line-height: 15px;
+}
+
+.text-span {
+  color: #f3f3f3;
+}
+
+.token-stake-value {
+  color: #ddd;
+}
+
+.token-list {
+  margin-top: 15px;
 }
 
 @media (max-width: 991px) {
