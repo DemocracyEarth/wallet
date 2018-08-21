@@ -5,7 +5,7 @@ import { token } from '/lib/token';
 
 import '/imports/ui/templates/components/identity/chain/chain.html';
 
-const _getTicker = (code) => {
+const _getCoin = (code) => {
   const result = _.where(token.coin, { code });
   if (result.length === 0) {
     return _.where(token.coin, { decimal: code });
@@ -18,7 +18,7 @@ Template.chain.helpers({
     return this.address !== '';
   },
   ticker() {
-    return `${_getTicker(this.ticker)[0].code} ${TAPi18n.__('id')}:`;
+    return `${_getCoin(this.ticker)[0].code} ${TAPi18n.__('id')}:`;
   },
   address() {
     if (this.address.length > 42) {
@@ -27,7 +27,7 @@ Template.chain.helpers({
     return this.address;
   },
   color() {
-    return `background-color: ${_getTicker(this.ticker)[0].color};`;
+    return `background-color: ${_getCoin(this.ticker)[0].color};`;
   },
   fullAddress() {
     return TAPi18n.__('copy-clipboard').replace('{{address}}', this.address);
@@ -39,3 +39,5 @@ Template.chain.events({
 
   },
 });
+
+export const getCoin = _getCoin;

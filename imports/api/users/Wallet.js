@@ -18,11 +18,11 @@ Schema.Wallet = new SimpleSchema({
   },
   currency: {
     type: String,
-    allowedValues: ['BITCOIN', 'SATOSHI', 'VOTES', 'ETH', 'WEI'],
+    allowedValues: ['BITCOIN', 'SATOSHI', 'VOTES', 'VOTE', 'ETH', 'WEI'],
     autoValue() {
       if (this.isInsert) {
         if (this.field('currency').value === undefined) {
-          return 'VOTES';
+          return 'VOTE';
         }
       }
     },
@@ -82,7 +82,7 @@ Schema.Wallet = new SimpleSchema({
   'ledger.$.currency': {
     type: String,
     optional: true,
-    allowedValues: ['BITCOIN', 'SATOSHI', 'VOTES', 'ETH', 'WEI'],
+    allowedValues: ['BITCOIN', 'SATOSHI', 'VOTES', 'VOTE', 'ETH', 'WEI'],
   },
   'ledger.$.transactionType': {
     type: String,
