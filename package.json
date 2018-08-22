@@ -44,6 +44,7 @@
     "jsontokens": "^0.7.8",
     "lodash": "^4.17.10",
     "nan": "^2.3.5",
+    "numeral": "^2.0.6",
     "phantomjs-prebuilt": "^2.1.16",
     "randomfill": "^1.0.4",
     "react": "^15.6.2",

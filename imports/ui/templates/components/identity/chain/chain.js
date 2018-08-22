@@ -6,12 +6,16 @@ import { token } from '/lib/token';
 import '/imports/ui/templates/components/identity/chain/chain.html';
 
 const _getCoin = (code) => {
-  const result = _.where(token.coin, { code });
+  let result = _.where(token.coin, { code });
   if (result.length === 0) {
-    return _.where(token.coin, { decimal: code })[0];
+    result = _.where(token.coin, { decimal: code });
   }
   if (result.length === 0) {
-    return { code };
+    if (code === 'VOTES') {
+      result = _.where(token.coin, { code: 'VOTE' });
+    } else {
+      return { code };
+    }
   }
   return result[0];
 };
@@ -39,7 +43,7 @@ Template.chain.helpers({
 
 Template.chain.events({
   'click #chainAddress'() {
-
+    // TODO: copy to clipboard;
   },
 });
 

@@ -1,19 +1,17 @@
-import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { TAPi18n } from 'meteor/tap:i18n';
 
 import { getCoin } from '/imports/ui/templates/components/identity/chain/chain';
 
 import '/imports/ui/templates/components/identity/login/profile/multiTokenProfile.html';
-import '/imports/ui/templates/components/identity/login/profile/profile.js';
-import '/imports/ui/templates/components/identity/login/profile/profile.html';
+
+const numeral = require('numeral');
+
+const _getWidth = (total, available) => {
+  return `${parseInt((available * total) / 100, 10)}%`;
+};
 
 Template.balance.onCreated(function () {
   Template.instance().coin = getCoin(Template.currentData().token);
-  console.log('eh');
-  console.log(this);
-  console.log(Template.currentData());
-  console.log(getCoin(Template.currentData().token));
 });
 
 Template.balance.helpers({
@@ -31,8 +29,18 @@ Template.balance.helpers({
     }
     return '';
   },
+  barStyle() {
+    const coin = Template.instance().coin;
+    return `background-color: ${coin.color}; width: ${_getWidth(this.balance, this.available)}`;
+  },
   ticker() {
     return Template.instance().coin.code;
+  },
+  percentage() {
+    return _getWidth(this.balance, this.available);
+  },
+  balance() {
+    return numeral(this.balance).format(Template.instance().coin.format);
   },
 });
 
@@ -45,6 +53,8 @@ Template.multiTokenProfile.helpers({
     const voteToken = {
       token: wallet.currency,
       balance: wallet.balance,
+      available: wallet.available,
+      placed: wallet.placed,
     };
     tokens.push(voteToken);
 
@@ -53,8 +63,8 @@ Template.multiTokenProfile.helpers({
       const reservesToken = {
         token: wallet.reserves[i].token,
         balance: wallet.reserves[i].balance,
-        percentage: 0,
-        available: 0,
+        placed: wallet.reserves[i].placed,
+        available: wallet.reserves[i].available,
       };
       tokens.push(reservesToken);
     }
