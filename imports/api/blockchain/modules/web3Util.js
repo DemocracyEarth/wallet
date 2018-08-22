@@ -1,11 +1,13 @@
 import Web3 from 'web3';
 
 // Set web3 provider
+let web3;
+
 if (typeof web3 !== 'undefined') {
   web3 = new Web3(web3.currentProvider);
 } else {
   // TODO - set HttpProvider() argument as config setting variable
-  web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+  web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
 }
 
 /**
@@ -14,8 +16,8 @@ if (typeof web3 !== 'undefined') {
 * @return {object} bigNumber eth balance
 */
 const _getEthBalance = (publicAddress) => {
-  let balance = web3.eth.getBalance(publicAddress);
-  let ethBalance = web3.fromWei(balance, 'ether');
+  const balance = web3.eth.getBalance(publicAddress);
+  const ethBalance = web3.fromWei(balance, 'ether');
   return ethBalance;
 };
 
@@ -25,9 +27,14 @@ const _getEthBalance = (publicAddress) => {
 * @return {object} bigNumber wei balance
 */
 const _getWeiBalance = (publicAddress) => {
-  let balance = web3.eth.getBalance(publicAddress);
+  const balance = web3.eth.getBalance(publicAddress);
   return balance;
 };
 
+const _wei2eth = (value) => {
+  return web3.fromWei(value, 'ether');
+};
+
+export const wei2eth = _wei2eth;
 export const getEthBalance = _getEthBalance;
 export const getWeiBalance = _getWeiBalance;

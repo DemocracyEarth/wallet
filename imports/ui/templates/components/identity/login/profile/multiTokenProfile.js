@@ -1,17 +1,50 @@
 import { Template } from 'meteor/templating';
 
 import { getCoin } from '/imports/ui/templates/components/identity/chain/chain';
+import { wei2eth } from '/imports/api/blockchain/modules/web3Util';
 
 import '/imports/ui/templates/components/identity/login/profile/multiTokenProfile.html';
 
 const numeral = require('numeral');
 
-const _getWidth = (total, available) => {
-  return `${parseInt((available * total) / 100, 10)}%`;
+/**
+* @summary gets width in percentage according to placed tokens
+* @param {number} balance total balance
+* @param {number} placed staked tokens
+* @returns {number}
+*/
+const _getWidth = (balance, placed) => {
+  if (balance === 0) { return 0; }
+  return parseInt((placed * 100) / balance, 10);
+};
+
+/**
+* @summary shows balance in currency not decimals
+* @param {object} value value to be changed
+* @param {string} token currency being used
+* @returns {number}
+*/
+const _currencyValue = (value, token) => {
+  switch (token) {
+    case 'WEI':
+      return wei2eth(value);
+    default:
+  }
+  return value;
+};
+
+/**
+* @summary shows percentag of staked Tokens
+* @param {object} coin template data
+* @returns {number}
+*/
+const _getPercentage = (coin) => {
+  return _getWidth(coin.balance, coin.placed);
 };
 
 Template.balance.onCreated(function () {
   Template.instance().coin = getCoin(Template.currentData().token);
+  Template.instance().percentage = _getPercentage(Template.currentData());
 });
 
 Template.balance.helpers({
@@ -31,16 +64,26 @@ Template.balance.helpers({
   },
   barStyle() {
     const coin = Template.instance().coin;
-    return `background-color: ${coin.color}; width: ${_getWidth(this.balance, this.available)}`;
+    return `background-color: ${coin.color}; width: ${Template.instance().percentage}%`;
+  },
+  unanimous() {
+    if (Template.instance().percentage === 100) {
+      return 'unanimous';
+    }
+    return '';
   },
   ticker() {
     return Template.instance().coin.code;
   },
+  available() {
+    return numeral(_currencyValue(this.available, this.token)).format(Template.instance().coin.format);
+  },
   percentage() {
-    return _getWidth(this.balance, this.available);
+    return `${_getPercentage(this)}%`;
   },
   balance() {
-    return numeral(this.balance).format(Template.instance().coin.format);
+    const balance = _currencyValue(this.balance, this.token);
+    return numeral(balance).format(Template.instance().coin.format);
   },
 });
 

@@ -5959,6 +5959,7 @@ blockquote {
   font-size: 10px;
   line-height: 10px;
   font-weight: 400;
+  text-transform: uppercase;
 }
 
 .token-bar {
