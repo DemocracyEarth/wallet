@@ -8,7 +8,7 @@ import '/imports/ui/templates/components/identity/chain/chain.html';
 const _getCoin = (code) => {
   let result = _.where(token.coin, { code });
   if (result.length === 0) {
-    result = _.where(token.coin, { decimal: code });
+    result = _.where(token.coin, { subcode: code });
   }
   if (result.length === 0) {
     if (code === 'VOTES') {
