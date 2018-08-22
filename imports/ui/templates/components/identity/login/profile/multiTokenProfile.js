@@ -20,14 +20,14 @@ Template.balance.helpers({
   balanceStyle() {
     const coin = Template.instance().coin;
     if (coin.color) {
-      return `background-color: ${coin.color}`;
+      return `border-color: ${coin.color}`;
     }
     return '';
   },
   tickerStyle() {
     const coin = Template.instance().coin;
     if (coin.color) {
-      return `border-color: ${coin.color}`;
+      return `background-color: ${coin.color}; border-color: ${coin.color}`;
     }
     return '';
   },

@@ -8,9 +8,12 @@ import '/imports/ui/templates/components/identity/chain/chain.html';
 const _getCoin = (code) => {
   const result = _.where(token.coin, { code });
   if (result.length === 0) {
-    return _.where(token.coin, { decimal: code });
+    return _.where(token.coin, { decimal: code })[0];
   }
-  return result;
+  if (result.length === 0) {
+    return { code };
+  }
+  return result[0];
 };
 
 Template.chain.helpers({
@@ -18,7 +21,7 @@ Template.chain.helpers({
     return this.address !== '';
   },
   ticker() {
-    return `${_getCoin(this.ticker)[0].code} ${TAPi18n.__('id')}:`;
+    return `${_getCoin(this.ticker).code} ${TAPi18n.__('id')}:`;
   },
   address() {
     if (this.address.length > 42) {
@@ -27,7 +30,7 @@ Template.chain.helpers({
     return this.address;
   },
   color() {
-    return `background-color: ${_getCoin(this.ticker)[0].color};`;
+    return `background-color: ${_getCoin(this.ticker).color};`;
   },
   fullAddress() {
     return TAPi18n.__('copy-clipboard').replace('{{address}}', this.address);
