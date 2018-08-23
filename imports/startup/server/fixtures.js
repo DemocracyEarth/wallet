@@ -113,4 +113,13 @@ Meteor.startup(() => {
   } else {
     console.log('[config] Google Analytics tracking Id... OK');
   }
+
+  // Web3
+  if (Meteor.settings.public.web3.network.mainnet == "" ||
+      Meteor.settings.public.web3.network.mainnet == undefined) {
+    console.log('[config WARNING] Web3 mainnet network provider not configured.');
+    console.log('[config FIX] Configure `private.web3.network.mainnet` on settings.json.');
+  } else {
+    console.log('[config] Web3 mainnet network provider... OK');
+  }
 });

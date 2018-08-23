@@ -2,12 +2,12 @@ import Web3 from 'web3';
 
 // Set web3 provider
 let web3;
+const provider = Meteor.settings.public.web3.network.tesnet;
 
 if (typeof web3 !== 'undefined') {
   web3 = new Web3(web3.currentProvider);
 } else {
-  // TODO - set HttpProvider() argument as config setting variable
-  web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+  web3 = new Web3(new Web3.providers.HttpProvider(provider));
 }
 
 /**
@@ -31,6 +31,11 @@ const _getWeiBalance = (publicAddress) => {
   return balance;
 };
 
+/**
+* @summary converts wei to eth
+* @param {number} value in wei
+* @return {number} equivalent in eth
+*/
 const _wei2eth = (value) => {
   return web3.fromWei(value, 'ether');
 };

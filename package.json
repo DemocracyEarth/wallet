@@ -31,6 +31,7 @@
     "babel-runtime": "^6.26.0",
     "bcrypt": "^1.0.3",
     "bcryptjs": "^2.4.0",
+    "bignumber.js": "^7.2.1",
     "bindings": "^1.2.1",
     "blockstack": "^0.14.2",
     "brace-expansion": "^1.1.11",

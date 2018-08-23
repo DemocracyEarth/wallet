@@ -23,7 +23,7 @@
         "APIKey": "",
         "APISecret": ""
       },
-
+      
       "amazon": {
         "AWSBucket": "",
         "AWSRegion": "us-west-2",
@@ -33,9 +33,7 @@
     },
 
     "smtpServer": "",
-
     "sentryPrivateDSN": ""
-
   },
 
   "public": {
@@ -126,7 +124,14 @@
             "userId": "0"
         }
       ]
+    },
+
+    "web3" : {
+      "network": {
+        "local": "http://localhost:8545",
+        "testnet": "https://rinkeby.infura.io/v3/b1825422de3d471eba20968cf22b85f1",
+        "mainnet": ""
+      }
     }
   }
-
 }
