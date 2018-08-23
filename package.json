@@ -26,7 +26,7 @@
     "postinstall": "opencollective-postinstall || exit 0"
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.54",
+    "@babel/runtime": "^7.0.0-rc.2",
     "autoprefixer": "^6.4.1",
     "babel-runtime": "^6.26.0",
     "bcrypt": "^1.0.3",
@@ -39,8 +39,8 @@
     "ethereumjs-util": "^5.2.0",
     "faker": "^3.0.1",
     "fibers": "^2.0.2",
-    "hapi": "^17.5.2",
-    "hoek": "^5.0.3",
+    "hapi": "^17.5.3",
+    "hoek": "^5.0.4",
     "json-schema-faker": "^0.3.7",
     "jsontokens": "^0.7.8",
     "lodash": "^4.17.10",
