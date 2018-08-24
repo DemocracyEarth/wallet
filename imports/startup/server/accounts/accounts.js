@@ -118,7 +118,7 @@ function normalizeAuth0(profile, user) {
 
   const userProfile = _.extend(profile, {
     picture: user.services.auth0.picture,
-    firstName: user.services.auth0.name,
+    fullName: user.services.auth0.name,
     credentials: credential,
   });
 

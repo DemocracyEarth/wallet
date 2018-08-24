@@ -71,6 +71,10 @@ Schema.Profile = new SimpleSchema({
     type: String,
     optional: true,
   },
+  fullName: {
+    type: String,
+    optional: true,
+  },
   picture: {
     type: String,
     optional: true,
