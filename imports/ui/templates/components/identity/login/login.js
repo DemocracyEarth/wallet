@@ -5,6 +5,8 @@ import { Session } from 'meteor/session';
 
 import { animatePopup } from '/imports/ui/modules/popup';
 import './login.html';
+import './auth0Login.js';
+import './auth0Login.html';
 import './profile/profile.js';
 import './logger.js';
 

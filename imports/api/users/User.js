@@ -8,7 +8,7 @@ const Schema = {};
 Schema.Credential = new SimpleSchema({
   source: {
     type: String,
-    allowedValues: ['facebook', 'twitter', 'linkedin', 'github', 'peer', 'blockstack', 'metamask'],
+    allowedValues: ['facebook', 'twitter', 'linkedin', 'github', 'peer', 'blockstack', 'metamask', 'auth0'],
     optional: true,
   },
   URL: {
@@ -68,6 +68,10 @@ Schema.Profile = new SimpleSchema({
     optional: true,
   },
   lastName: {
+    type: String,
+    optional: true,
+  },
+  fullName: {
     type: String,
     optional: true,
   },

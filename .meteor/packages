@@ -95,3 +95,6 @@ kadira:dochead
 server-render@0.3.1
 okgrow:analytics
 underscore
+
+# custom oauth: needed for integration
+optune:auth0-oauth

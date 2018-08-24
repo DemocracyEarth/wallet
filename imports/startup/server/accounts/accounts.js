@@ -80,9 +80,9 @@ function normalizeBlockstackUser(profile, user) {
     firstName: name,
     credentials: credential,
   });
-  
-  if (user.services.blockstack.userData.profile.image && 
-      user.services.blockstack.userData.profile.image.length > 0 && 
+
+  if (user.services.blockstack.userData.profile.image &&
+      user.services.blockstack.userData.profile.image.length > 0 &&
       user.services.blockstack.userData.profile.image[0].contentUrl) {
     profile.picture = user.services.blockstack.userData.profile.image[0].contentUrl;
   }
@@ -99,10 +99,32 @@ function normalizeMetamaskUser(profile, user) {
   var publicAddress = user.services.metamask.id;
   var anonymousUser = 'anonymous' + publicAddress.slice(0,7);
   const username = generateAvailableUsername(deburr(toLower(camelCase(anonymousUser))));
-  
+
   return _.extend(user, {
     username,
     profile,
+  });
+}
+
+function normalizeAuth0(profile, user) {
+  const username = user.services.auth0.nickname;
+  const credential = profile.credentials || [];
+
+  credential.push({
+    source: 'auth0',
+    URL: `https://entrar.mivoz.uy`,
+    validated: user.services.auth0.email_verified,
+  });
+
+  const userProfile = _.extend(profile, {
+    picture: user.services.auth0.picture,
+    fullName: user.services.auth0.name,
+    credentials: credential,
+  });
+
+  return _.extend(user, {
+    username,
+    profile: userProfile,
   });
 }
 
@@ -110,7 +132,8 @@ const normalizers = {
   facebook: normalizeFacebookUser,
   twitter: normalizeTwitterUser,
   blockstack: normalizeBlockstackUser,
-  metamask: normalizeMetamaskUser
+  metamask: normalizeMetamaskUser,
+  auth0: normalizeAuth0
 };
 
 /**
@@ -128,7 +151,7 @@ Accounts.onCreateUser((opts, user) => {
     .value();
 
   user = !!normalizer ? normalizer(profile, user) : user;
-  
+
   if (user.services.metamask != null) {
     // Initialize reserves for Metamask users only
     let wallet = {}
@@ -144,6 +167,6 @@ Accounts.onCreateUser((opts, user) => {
     user.profile.wallet = wallet;
     user.profile.wallet.reserves = reserves;
   }
-  
+
   return user;
 });
