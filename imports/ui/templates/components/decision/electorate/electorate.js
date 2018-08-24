@@ -64,7 +64,7 @@ const _verifyConstituencyRights = (contract) => {
             break;
           case 'NATION':
           default:
-            if (Meteor.user().profile.country.code !== contract.constituency[i].code) {
+            if (Meteor.user().profile.country && Meteor.user().profile.country.code !== contract.constituency[i].code) {
               legitimacy = false;
             }
             break;
