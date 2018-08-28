@@ -3,32 +3,13 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
 import { Files } from '/imports/api/files/Files';
-import { emailDomainCheck, emailListCheck } from '/lib/permissioned';
 
 const _validateEmail = (email) => {
   const val = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  
-  let validDomain = true;
-  let validList = true;
-  let validEmail = true;
   let valid = false;
   
   // TODO verify if email already exists in db
-  
-  if (Meteor.settings.public.app.config.permissioned.active) {
-    // check if valid emailDomain
-    if (Meteor.settings.public.app.config.permissioned.checkDomain) {
-      validDomain = emailDomainCheck(email);
-    }
-    // check if email in emailList
-    if (Meteor.settings.public.app.config.permissioned.checkList) {
-      validList = emailListCheck(email);
-    }
-  }
-  // check email format
-  validEmail = val.test(email);
-
-  valid = validDomain && validList && validEmail ? true : false;
+  valid = val.test(email);
 
   Session.set("invalidEmail", !valid);
   return valid;
