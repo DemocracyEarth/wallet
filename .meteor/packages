@@ -86,7 +86,7 @@ reactive-var@1.0.11
 reactive-dict@1.2.0
 facebook-config-ui@1.0.1
 twitter-config-ui@1.0.0
-dynamic-import@0.4.0
+dynamic-import@0.4.2
 mdg:meteor-apm-agent
 tmeasday:publish-counts
 konecty:nrr
@@ -94,4 +94,4 @@ flowkey:raven
 kadira:dochead
 server-render@0.3.1
 okgrow:analytics
-underscore
+underscore@1.0.10
