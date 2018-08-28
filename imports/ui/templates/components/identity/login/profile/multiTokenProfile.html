@@ -5,29 +5,3 @@
     {{/each}}
   </div>
 </template>
-
-<template name="balance">
-  <div class="token">
-    <div class="token-ticker" style="{{tickerStyle}}">
-      {{ticker}}
-    </div>
-    <div class="token-balance" style="{{balanceStyle}}">
-      {{balance}}
-    </div>
-    <div class="token-stake">
-      <span class="token-stake-value">
-        {{percentage}}
-      </span>
-      {{_ 'staked'}}
-      &mdash;
-      <span class="token-stake-value">
-        {{available}}
-      </span>
-      {{_ 'available'}}
-    </div>
-    <div class="result vote-bar token-bar">
-      <div class="result-bar vote-bar {{unanimous}}" style="{{barStyle}}">
-      </div>
-    </div>
-  </div>
-</template>

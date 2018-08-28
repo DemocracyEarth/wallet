@@ -122,19 +122,27 @@
         <div class="verifier verifier-live verifier-feed">&#183; {{sinceDate}}</div>
       </div>
     {{/unless}}
-    <div class="actor actor-score">
-      <div class="transaction-value">
-        <div class="bar-labels">
-          <div class="vote-available label-votes">
-            <div class="{{voteStyle}}">
-              <div class="label label-corner">
-                {{{value}}}
+
+    {{#if isVote}}
+      {{#with token}}
+        {{> balance}}
+      {{/with}}
+    {{else}}
+      <div class="actor actor-score">
+        <div class="transaction-value">
+          <div class="bar-labels">
+            <div class="vote-available label-votes">
+              <div class="{{voteStyle}}">
+                <div class="label label-corner">
+                  {{{value}}}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    {{/if}}
+
   </div>
 </template>
 

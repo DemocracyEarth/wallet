@@ -5933,6 +5933,8 @@ blockquote {
 
 .token {
   margin-top: 0px;
+  clear: both;
+  color: #fff;
 }
 
 .token-ticker {

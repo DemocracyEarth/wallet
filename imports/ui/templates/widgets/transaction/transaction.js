@@ -88,11 +88,6 @@ Template.transaction.helpers({
       Template.instance().totalVotes.set(getVotes(this.contract._id, this.senderId));
       votes = Template.instance().totalVotes.get();
     }
-    /* if (votes === 1 || votes === -1) {
-      return `${plus}${votes} ${TAPi18n.__('vote')}`;
-    } else if (votes > 0 || votes < 0) {
-      return `${plus}${votes} ${TAPi18n.__('votes')}`;
-    } */
     if (votes !== 0) {
       return `${plus}${votes} ${_showToken(this.contract.wallet.currency)}`;
     }
@@ -100,6 +95,26 @@ Template.transaction.helpers({
       return TAPi18n.__('choice-swap');
     }
     return TAPi18n.__('no-delegated-votes');
+  },
+  token() {
+    let votes;
+    const coin = {
+      token: this.contract.wallet.currency,
+      balance: 0,
+      available: 0,
+      placed: 0,
+      isTransaction: true,
+      isRevoke: (this.isRevoke && !_verifySubsidy(this.senderId)),
+    };
+    if (this.isVote) {
+      votes = this.contract.wallet.balance;
+      if (coin.isRevoke) {
+        votes *= -1;
+      }
+      Template.instance().totalVotes.set(votes);
+    }
+    coin.balance = votes;
+    return coin;
   },
   source() {
     return TAPi18n.__('delegated-votes');
