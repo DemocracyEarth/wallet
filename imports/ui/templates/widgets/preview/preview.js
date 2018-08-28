@@ -1,12 +1,23 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Meteor } from 'meteor/meteor';
+import { $ } from 'meteor/jquery';
 
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
 import '/imports/ui/templates/widgets/preview/preview.html';
 
+const _getCharLength = (id) => {
+  const DEFAULT = 30;
+  const width = $(`#transactionItem-${id}`).width;
+  if (width) {
+    const chars = parseInt((width * DEFAULT) / 600, 10);
+    console.log(chars);
+    return chars;
+  }
+  return DEFAULT;
+};
 
 Template.preview.onCreated(function () {
   Template.instance().feed = new ReactiveVar();
@@ -37,12 +48,12 @@ Template.preview.helpers({
   displayTitle() {
     const contract = Template.instance().contract.get();
     const title = stripHTMLfromText(contract.title);
-    let chars = 30;
+    let chars = 21; // _getCharLength(contract._id);
     if (Meteor.Device.isPhone()) {
       chars = 15;
     }
     if (title.length > chars) {
-      return `${title.substring(0, chars)}...`;
+      return `${title.substring(0, chars)}&mldr;`;
     }
     return title;
   },

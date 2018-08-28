@@ -1,12 +1,12 @@
 <template name="transaction">
-  <div id="feedItem-{{contract._id}}" class="vote vote-delegation vote-feed vote-search {{onCard}} w-clearfix">
+  <div id="transactionItem-{{contract._id}}" class="vote vote-delegation vote-feed vote-search {{onCard}} w-clearfix">
     {{#if compressed}}
       <div class="identity identity-transaction w-clearfix" style="float:left">
         {{#with sender}}
           {{> avatar size=32 profile=this._id includeName=false includeNation=false editable=false microFont=true disabled=true includeRole=false imgStyle=this.imgStyle}}
         {{/with}}
       </div>
-      <div style="float:left">
+      <div class="float-left">
         <img src="{{pathFor route='home'}}images/arrow-right.png" class="transaction-direction" style="margin-top: 3px; ">
       </div>
       <div class="identity identity-transaction w-clearfix" style="float:left">

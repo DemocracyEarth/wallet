@@ -115,6 +115,15 @@ Template.transaction.helpers({
         votes *= -1;
       }
       Template.instance().totalVotes.set(votes);
+    } else if (this.contract.kind === 'DELEGATION') {
+      let finalCount;
+      if (this.isRevoke) {
+        finalCount = parseInt(this.contract.wallet.balance * -1, 10);
+      } else {
+        finalCount = this.contract.wallet.balance;
+      }
+      Template.instance().totalVotes.set(finalCount);
+      votes = Template.instance().totalVotes.get();
     }
     coin.balance = votes;
     return coin;
