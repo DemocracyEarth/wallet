@@ -105,6 +105,9 @@ Template.transaction.helpers({
       placed: 0,
       isTransaction: true,
       isRevoke: (this.isRevoke && !_verifySubsidy(this.senderId)),
+      date: this.contract.timestamp,
+      disableBar: true,
+      disableStake: true,
     };
     if (this.isVote) {
       votes = this.contract.wallet.balance;
@@ -172,6 +175,9 @@ Template.transaction.helpers({
   },
   isRevoke() {
     return this.isRevoke;
+  },
+  fromLedger() {
+    return ((this.isVote || (this.contract.kind === 'DELEGATION')) && !this.editable);
   },
   hidePost() {
     return this.hidePost;

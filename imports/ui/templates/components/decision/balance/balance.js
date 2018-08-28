@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating';
 
 import { getCoin } from '/imports/ui/templates/components/identity/chain/chain';
 import { wei2eth } from '/imports/api/blockchain/modules/web3Util';
+import { timeCompressed } from '/imports/ui/modules/chronos';
 
 import '/imports/ui/templates/components/decision/balance/balance.html';
 
@@ -63,12 +64,24 @@ Template.balance.helpers({
     }
     return style;
   },
+  tokenStyle() {
+    if (this.isTransaction) {
+      return 'token-ledger';
+    }
+    return '';
+  },
   tickerStyle() {
     const coin = Template.instance().coin;
     if (coin.color) {
       return `background-color: ${coin.color}; border-color: ${coin.color}`;
     }
     return '';
+  },
+  hasDate() {
+    return this.date;
+  },
+  sinceDate() {
+    return `${timeCompressed(this.date)}`;
   },
   barStyle() {
     const coin = Template.instance().coin;

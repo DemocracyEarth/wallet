@@ -3190,6 +3190,12 @@ blockquote {
   float: left;
 }
 
+.data.data-feed.data-ledger {
+  margin: -5px 0px -4px 7px;
+  float: left;
+  line-height: 20px;
+}
+
 .contract-collapse {
   position: absolute;
   top: 0px;
@@ -5933,8 +5939,13 @@ blockquote {
 
 .token {
   margin-top: 0px;
-  clear: both;
   color: #fff;
+}
+
+.token.token-ledger {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  float: right;
 }
 
 .token-ticker {
@@ -5989,6 +6000,10 @@ blockquote {
 
 .token-list {
   margin-top: 15px;
+}
+
+.float-right {
+  float: right;
 }
 
 @media (max-width: 991px) {
