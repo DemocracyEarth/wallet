@@ -3186,7 +3186,7 @@ blockquote {
 }
 
 .data.data-feed.data-transaction {
-  margin: 3px 4px 7px 7px;
+  margin: 3px 4px 7px 3px;
   float: left;
 }
 
@@ -5690,6 +5690,7 @@ blockquote {
 
 .transaction-data {
   max-width: auto;
+  margin-right: 7px;
   float: left;
   clear: none;
 }
@@ -5949,6 +5950,7 @@ blockquote {
 }
 
 .token-ticker {
+  min-width: 35px;
   padding: 3px;
   float: left;
   border: 1px solid #9696c1;
@@ -5962,6 +5964,7 @@ blockquote {
 
 .token-balance {
   display: inline;
+  min-width: 35px;
   padding: 3px;
   float: left;
   border: 1px solid #9696c1;
@@ -5972,6 +5975,7 @@ blockquote {
   font-size: 10px;
   line-height: 10px;
   font-weight: 400;
+  text-align: right;
   text-transform: uppercase;
 }
 
@@ -6004,6 +6008,11 @@ blockquote {
 
 .float-right {
   float: right;
+}
+
+.clock-icon {
+  width: 10px;
+  height: 10px;
 }
 
 @media (max-width: 991px) {

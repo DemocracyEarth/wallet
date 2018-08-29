@@ -59,6 +59,12 @@ Template.card.helpers({
       voteId: `vote-${Meteor.userId()}-${sender._id}`,
     };
   },
+  user() {
+    const userId = this.toString();
+    const userWallet = Meteor.users.findOne({ _id: userId });
+    if (userWallet) { return userWallet; }
+    return undefined;
+  },
   profile() {
     let id;
     const userId = this.toString();

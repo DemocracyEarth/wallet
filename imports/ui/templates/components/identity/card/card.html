@@ -2,8 +2,14 @@
   <div class="login">
       {{> avatar profile=this includeName=true includeNation=true includeAddress=true editable=false disabled=true includeRole=false}}
 
+<!--
       {{#with profile}}
         {{> liquid _id=this.balanceId targetId=this.targetId wallet=this.wallet isDelegation=false editable=false hideBar=true balanceMode=true}}
+      {{/with}}
+-->
+
+      {{#with user}}
+        {{> multiTokenProfile}}
       {{/with}}
 
       {{#if currentUser}}

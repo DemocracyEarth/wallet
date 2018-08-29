@@ -119,7 +119,8 @@
     {{/if}}
     {{#unless noDate}}
       <div class="data data-feed data-transaction">
-        <div class="verifier verifier-live verifier-feed">&#183; {{sinceDate}}</div>
+        <img src="{{pathFor route='home'}}images/clock.png" class="clock-icon">
+        <div class="verifier verifier-live verifier-feed">{{sinceDate}}</div>
       </div>
     {{/unless}}
 
