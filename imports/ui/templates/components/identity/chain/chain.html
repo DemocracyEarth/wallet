@@ -8,5 +8,14 @@
         {{address}}
       </div>
     </div>
+  {{else}}
+    <div id="chainAddress" class="chain">
+      <div class="chain-ticker">
+        {{_ 'web-id'}}
+      </div>
+      <div class="chain-address">
+        {{web}}
+      </div>
+    </div>
   {{/if}}
 </template>

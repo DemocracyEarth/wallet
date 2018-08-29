@@ -5875,8 +5875,15 @@ blockquote {
   width: 2px;
   height: 19px;
   margin-right: auto;
-  margin-left: auto;
-  border-right: 1px dotted #b1b1b1;
+  margin-left: 10px;
+  border-right: 1px solid #c9c9c9;
+}
+
+.thread.thread-inside {
+  display: block;
+  height: 50px;
+  margin-bottom: -50px;
+  margin-left: -20px;
 }
 
 .ledger-title {
@@ -6013,6 +6020,47 @@ blockquote {
 .clock-icon {
   width: 10px;
   height: 10px;
+}
+
+.vote-thread {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  margin-top: -12px;
+  margin-bottom: -10px;
+  margin-left: 2px;
+  padding: 12px 2px 0px 10px;
+  border-left: 1px solid #fff;
+}
+
+.thread-sub {
+  position: absolute;
+  display: block;
+  width: 12px;
+  height: 100%;
+  margin-top: -20px;
+  margin-right: auto;
+  margin-left: -11px;
+  float: left;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.thread-needle {
+  position: absolute;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  margin-top: 10px;
+  margin-left: 1px;
+  border-top: 1px solid #fff;
 }
 
 @media (max-width: 991px) {

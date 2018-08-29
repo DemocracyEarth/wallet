@@ -67,7 +67,7 @@ Template.feedItem.onCreated(function () {
   Template.instance().rightToVote = new ReactiveVar(false);
   Template.instance().candidateBallot = new ReactiveVar();
   Template.instance().displayResults = new ReactiveVar(false);
-  //Template.instance().aboveFold = new ReactiveVar();
+  // Template.instance().aboveFold = new ReactiveVar();
   Template.instance().replySource = new ReactiveVar(false);
 });
 
@@ -78,6 +78,11 @@ Template.feedItem.onRendered(function () {
 
   if (Meteor.userId()) {
     instance.voteId = `vote-${Meteor.userId()}-${instance.data._id}`;
+  }
+
+  if (instance.data.replyId) {
+    $(`#feedItem-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}' class='vote-thread' />`);
+    $(`#thread-${instance.data._id}`).prepend("<div class='thread-sub'><div class='thread-needle'></div></div>");
   }
 
 /*

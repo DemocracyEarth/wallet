@@ -560,5 +560,6 @@
   "ethereum-metamask": "Ethereum with Metamask",
   "get-blockchain-id": "Set up a blockchain wallet",
   "copy-clipboard": "Click to copy blockchain address.",
-  "id": "ID"
+  "id": "ID",
+  "web-id": "Web based Identity"
 }

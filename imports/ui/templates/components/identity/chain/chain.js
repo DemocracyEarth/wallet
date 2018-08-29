@@ -39,6 +39,9 @@ Template.chain.helpers({
   fullAddress() {
     return TAPi18n.__('copy-clipboard').replace('{{address}}', this.address);
   },
+  web() {
+    
+  },
 });
 
 Template.chain.events({
