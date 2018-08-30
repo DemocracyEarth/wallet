@@ -89,7 +89,7 @@ Template.feed.onDestroyed(function () {
 Template.feed.helpers({
   item() {
     const feed = Template.instance().feed.get();
-    if (this.options.view === 'lastVotes') {
+    if (this.options.view === 'lastVotes' || this.options.view === 'latest') {
       for (let i = 0; i <= (feed.length - 1); i += 1) {
         feed[i].mainFeed = true;
       }

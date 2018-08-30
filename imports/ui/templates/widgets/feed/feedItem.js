@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
+import { Router } from 'meteor/iron:router';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import { getProfileFromUsername, getAnonymous } from '/imports/startup/both/modules/User';
@@ -34,6 +35,16 @@ const _displayResults = (contract) => {
     }
   }
   return false;
+};
+
+const _getReplyContract = (replyId) => {
+  if (replyId) {
+    const dbReply = Contracts.findOne({ _id: replyId });
+    if (dbReply) {
+      return dbReply;
+    }
+  }
+  return '';
 };
 
 /*
@@ -79,11 +90,13 @@ Template.feedItem.onRendered(function () {
   if (Meteor.userId()) {
     instance.voteId = `vote-${Meteor.userId()}-${instance.data._id}`;
   }
-
   if (instance.data.replyId) {
     if (this.data.mainFeed) {
       $(`#feedItem-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}' class='vote-thread vote-thread-context' />`);
-      $(`#thread-${instance.data._id}`).prepend("<div class='thread-sub'><div class='thread-needle thread-reply'></div></div>");
+      $(`#thread-${instance.data._id}`).prepend(`<div class='thread-sub'><div class='thread-needle thread-reply'>
+      <a title='${instance.data.replyId ? `${TAPi18n.__('reply-to')}: ${stripHTMLfromText(_getReplyContract(instance.data.replyId).title).substring(0, 30)}...` : ''}'
+      href='${instance.data.replyId ? _getReplyContract(instance.data.replyId).url : ''}'><img src='${Router.path('home')}images/reply.png'></a>
+      </div></div>`);
     } else {
       $(`#feedItem-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}' class='vote-thread' />`);
       $(`#thread-${instance.data._id}`).prepend(`<div class='thread-sub'><div class='thread-needle ${instance.data.lastItem ? 'thread-last' : ''}'></div></div>`);
@@ -215,24 +228,6 @@ Template.feedItem.helpers({
   },
   replyMode() {
     return this.replyId;
-  },
-  replyURL() {
-    if (this.replyId) {
-      const dbReply = Contracts.findOne({ _id: this.replyId });
-      if (dbReply) {
-        return dbReply.url;
-      }
-    }
-    return '';
-  },
-  replyTitle() {
-    if (this.replyId) {
-      const dbReply = Contracts.findOne({ _id: this.replyId });
-      if (dbReply) {
-        return `"${stripHTMLfromText(dbReply.title).substring(0, 30)}..."`;
-      }
-    }
-    return '';
   },
   voters() {
     let total;
