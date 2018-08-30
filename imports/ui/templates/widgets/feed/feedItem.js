@@ -81,8 +81,13 @@ Template.feedItem.onRendered(function () {
   }
 
   if (instance.data.replyId) {
-    $(`#feedItem-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}' class='vote-thread' />`);
-    $(`#thread-${instance.data._id}`).prepend(`<div class='thread-sub'><div class='thread-needle ${instance.data.lastItem ? 'thread-last' : ''}'></div></div>`);
+    if (this.data.mainFeed) {
+      $(`#feedItem-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}' class='vote-thread vote-thread-context' />`);
+      $(`#thread-${instance.data._id}`).prepend("<div class='thread-sub'><div class='thread-needle thread-reply'></div></div>");
+    } else {
+      $(`#feedItem-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}' class='vote-thread' />`);
+      $(`#thread-${instance.data._id}`).prepend(`<div class='thread-sub'><div class='thread-needle ${instance.data.lastItem ? 'thread-last' : ''}'></div></div>`);
+    }
   }
 
 /*
