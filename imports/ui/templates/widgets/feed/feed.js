@@ -86,6 +86,17 @@ Template.feed.onDestroyed(function () {
 
 Template.feed.helpers({
   item() {
+    const feed = Template.instance().feed.get();
+    for (let i = 0; i <= (feed.length - 1); i += 1) {
+      if (i === (feed.length - 1)) {
+        feed[i].lastItem = true;
+      } else {
+        feed[i].lastItem = false;
+      }
+      if (i !== 0) {
+        feed[i].previousItem = feed[i - 1]._id;
+      }
+    }
     return Template.instance().feed.get();
   },
   empty() {

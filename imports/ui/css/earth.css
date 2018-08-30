@@ -6033,6 +6033,10 @@ blockquote {
   border-left: 1px solid #fff;
 }
 
+.vote-thread.vote-thread-context {
+  border-left-color: transparent;
+}
+
 .thread-sub {
   position: absolute;
   display: block;
@@ -6061,6 +6065,21 @@ blockquote {
   margin-top: 10px;
   margin-left: 1px;
   border-top: 1px solid #fff;
+}
+
+.thread-needle.thread-last {
+  height: 50%;
+  margin-right: 0px;
+  margin-left: 0px;
+  background-color: #dcdcdc;
+}
+
+.thread-needle.thread-reply {
+  width: 20px;
+  height: 20px;
+  margin-top: 0px;
+  margin-left: -10px;
+  border-top-style: none;
 }
 
 @media (max-width: 991px) {
