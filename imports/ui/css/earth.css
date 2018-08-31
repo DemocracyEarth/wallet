@@ -6026,11 +6026,11 @@ blockquote {
   position: relative;
   display: inline-block;
   width: 100%;
-  margin-top: -12px;
-  margin-bottom: -10px;
-  margin-left: 2px;
-  padding: 12px 2px 0px 10px;
-  border-left: 1px solid #fff;
+  margin-top: -10px;
+  margin-bottom: -8px;
+  margin-left: 3px;
+  padding: 12px 3px 0px 10px;
+  border-left: 1px solid #e6e6e6;
 }
 
 .vote-thread.vote-thread-context {
@@ -6064,7 +6064,6 @@ blockquote {
   height: 10px;
   margin-top: 10px;
   margin-left: 1px;
-  border-top: 1px solid #fff;
 }
 
 .thread-needle.thread-last {
@@ -6074,7 +6073,6 @@ blockquote {
   margin-right: 0px;
   margin-left: 0px;
   border-bottom-right-radius: 50px;
-  background-color: #dcdcdc;
 }
 
 .thread-needle.thread-reply {

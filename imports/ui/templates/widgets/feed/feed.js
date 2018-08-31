@@ -8,7 +8,6 @@ import { Counts } from 'meteor/tmeasday:publish-counts';
 import { query } from '/lib/views';
 import { here } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
-import { createContract } from '/imports/startup/both/modules/Contract';
 import { toggleSidebar } from '/imports/ui/modules/menu';
 
 import '/imports/ui/templates/widgets/feed/feed.html';
@@ -16,6 +15,11 @@ import '/imports/ui/templates/widgets/feed/feedItem.js';
 import '/imports/ui/templates/widgets/feed/feedEmpty.js';
 import '/imports/ui/templates/widgets/feed/feedLoad.js';
 
+/**
+* @summary query to detect each parent
+* @param {string} replyId replying to item id
+* @param {array} list the feed
+*/
 const _parentDepth = (replyId, list) => {
   const feed = list;
   for (let i = 0; i < feed.length; i += 1) {
@@ -29,6 +33,12 @@ const _parentDepth = (replyId, list) => {
   return undefined;
 };
 
+/**
+* @summary assigns depth degree
+* @param {string} replyId replying to item id
+* @param {array} list the feed
+* @param {number} index current item being evaluated
+*/
 const _setDepth = (replyId, list, index) => {
   const feed = list;
   if (!replyId) {
@@ -39,47 +49,20 @@ const _setDepth = (replyId, list, index) => {
   return _parentDepth(feed[index].replyId, feed) + 1;
 };
 
-const _indexOfReply = (list, replyId) => {
-  const feed = list;
-  for (let i = 0; i < feed.length; i += 1) {
-    if (feed[i]._id === replyId) {
-      return i;
-    }
-  }
-  return undefined;
-};
-
-function move(arr, old_index, new_index) {
-  while (old_index < 0) {
-    old_index += arr.length;
-  }
-  while (new_index < 0) {
-    new_index += arr.length;
-  }
-  if (new_index >= arr.length) {
-    var k = new_index - arr.length;
-    while ((k--) + 1) {
-      arr.push(undefined);
-    }
-  }
-  arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-  return arr;
-}
-
+/**
+* @summary rearranges feed array based on depth of comment in thread
+* @param {array} list the feed
+* @return {array} changed feed
+*/
 const _feedDepth = (list) => {
   let feed = list;
   for (let i = 0; i < feed.length; i += 1) {
     feed[i].depth = _setDepth(feed[i].replyId, feed, i);
   }
   feed = _.sortBy(feed, 'depth');
-  let childPos;
-  let cache;
-  let newFeed = feed;
+  const newFeed = feed;
   let children = [];
-  console.log('SORTER');
   for (let j = 0; j < feed.length; j += 1) {
-    console.log(`keyword: ${feed[j].title} depth: ${feed[j].depth}`);
-    console.log(`replies: ${feed[j].totalReplies}`);
     children = [];
     if ((feed[j].totalReplies > 0) && feed[j].depth > 0) {
       for (let k = 0; k < feed.length; k += 1) {
@@ -87,11 +70,8 @@ const _feedDepth = (list) => {
           children.push(feed[k]);
         }
       }
-      console.log(`children of the revolution:`);
-      console.log(children);
     }
     if (children.length > 0) {
-      console.log(`inserting at ${parseInt(j + 1, 10)}`);
       for (let m = 0; m < newFeed.length; m += 1) {
         for (let l = 0; l < children.length; l += 1) {
           if (newFeed[m]._id === children[l]._id) {
@@ -100,10 +80,6 @@ const _feedDepth = (list) => {
         }
       }
       newFeed.splice(parseInt(j + 1, 10), 0, ...children);
-    }
-    console.log('result:');
-    for (const n in newFeed) {
-      console.log(`newFeed '${newFeed[n].keyword}'`);
     }
   }
   return newFeed;
