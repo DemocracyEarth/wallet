@@ -106,7 +106,7 @@ Template.postFeed.onCreated(function () {
   Template.instance().postReady = new ReactiveVar(false);
 
   const instance = this;
-  const subscription = instance.subscribe('singleContract', { view: 'post', sort: { createdAt: -1 }, keyword: Template.currentData().options.keyword });
+  const subscription = instance.subscribe('singleContract', { view: 'thread', sort: { createdAt: -1 }, keyword: Template.currentData().options.keyword });
 
   instance.autorun(function (computation) {
     if (subscription.ready()) {

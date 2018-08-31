@@ -62,9 +62,9 @@
 <template name="postFeed">
   <div class="split split-left">
     <div class="content content-feed subsection max100">
-      <div id="non-editable-feed">
-        {{> feed options=this.options singlePost=true}}
-      </div>
+      <!--<div id="non-editable-feed">
+        {{> feed options=this.options singlePost=true mainPost=true}}
+      </div>-->
 
       {{#if editorMode}}
         {{> editor contractId=newContractId replyMode=true replyId=replyId}}

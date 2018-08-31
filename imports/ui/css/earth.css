@@ -6068,9 +6068,12 @@ blockquote {
 }
 
 .thread-needle.thread-last {
-  height: 50%;
+  bottom: -8px;
+  width: 11px;
+  height: auto;
   margin-right: 0px;
   margin-left: 0px;
+  border-bottom-right-radius: 50px;
   background-color: #dcdcdc;
 }
 
