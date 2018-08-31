@@ -141,9 +141,9 @@ Template.postFeed.helpers({
   postReady() {
     return Template.instance().postReady.get();
   },
-  replies() {
+  thread() {
     const replies = this;
-    replies.options.view = 'replies';
+    replies.options.view = 'thread';
     replies.singlePost = true;
     replies.displayActions = true;
     return replies;
