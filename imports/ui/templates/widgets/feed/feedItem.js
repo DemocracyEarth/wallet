@@ -90,6 +90,8 @@ Template.feedItem.onRendered(function () {
   if (Meteor.userId()) {
     instance.voteId = `vote-${Meteor.userId()}-${instance.data._id}`;
   }
+
+  // threading
   if (instance.data.replyId) {
     if (this.data.mainFeed) {
       $(`#feedItem-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}' class='vote-thread vote-thread-context' />`);
@@ -100,6 +102,11 @@ Template.feedItem.onRendered(function () {
     } else {
       $(`#feedItem-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}' class='vote-thread' />`);
       $(`#thread-${instance.data._id}`).prepend(`<div class='thread-sub'><div class='thread-needle ${instance.data.lastItem ? 'thread-last' : ''}'></div></div>`);
+      if (instance.data.depth > 1) {
+        for (let i = 1; i < instance.data.depth; i += 1) {
+          $(`#thread-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}-depth-${i}' class='vote-thread' />`);
+        }
+      }
     }
   }
 

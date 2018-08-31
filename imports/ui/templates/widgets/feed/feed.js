@@ -16,14 +16,105 @@ import '/imports/ui/templates/widgets/feed/feedItem.js';
 import '/imports/ui/templates/widgets/feed/feedEmpty.js';
 import '/imports/ui/templates/widgets/feed/feedLoad.js';
 
+const _parentDepth = (replyId, list) => {
+  const feed = list;
+  for (let i = 0; i < feed.length; i += 1) {
+    if (feed[i]._id === replyId) {
+      if (feed[i].depth) {
+        return feed[i].depth;
+      }
+      return _setDepth(feed[i].replyId, feed, i);
+    }
+  }
+  return undefined;
+};
+
+const _setDepth = (replyId, list, index) => {
+  const feed = list;
+  if (!replyId) {
+    return 0;
+  } else if (replyId === feed[0]._id) {
+    return 1;
+  }
+  return _parentDepth(feed[index].replyId, feed) + 1;
+};
+
+const _indexOfReply = (list, replyId) => {
+  const feed = list;
+  for (let i = 0; i < feed.length; i += 1) {
+    if (feed[i]._id === replyId) {
+      return i;
+    }
+  }
+  return undefined;
+};
+
+function move(arr, old_index, new_index) {
+  while (old_index < 0) {
+    old_index += arr.length;
+  }
+  while (new_index < 0) {
+    new_index += arr.length;
+  }
+  if (new_index >= arr.length) {
+    var k = new_index - arr.length;
+    while ((k--) + 1) {
+      arr.push(undefined);
+    }
+  }
+  arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+  return arr;
+}
+
+const _feedDepth = (list) => {
+  let feed = list;
+  for (let i = 0; i < feed.length; i += 1) {
+    feed[i].depth = _setDepth(feed[i].replyId, feed, i);
+  }
+  feed = _.sortBy(feed, 'depth');
+  let childPos;
+  let cache;
+  let newFeed = feed;
+  let children = [];
+  console.log('SORTER');
+  for (let j = 0; j < feed.length; j += 1) {
+    console.log(`keyword: ${feed[j].title} depth: ${feed[j].depth}`);
+    console.log(`replies: ${feed[j].totalReplies}`);
+    children = [];
+    if ((feed[j].totalReplies > 0) && feed[j].depth > 0) {
+      for (let k = 0; k < feed.length; k += 1) {
+        if (feed[j]._id === feed[k].replyId) {
+          children.push(feed[k]);
+        }
+      }
+      console.log(`children of the revolution:`);
+      console.log(children);
+    }
+    if (children.length > 0) {
+      console.log(`inserting at ${parseInt(j + 1, 10)}`);
+      for (let m = 0; m < newFeed.length; m += 1) {
+        for (let l = 0; l < children.length; l += 1) {
+          if (newFeed[m]._id === children[l]._id) {
+            newFeed.splice(m, 1);
+          }
+        }
+      }
+      newFeed.splice(parseInt(j + 1, 10), 0, ...children);
+    }
+    console.log('result:');
+    for (const n in newFeed) {
+      console.log(`newFeed '${newFeed[n].keyword}'`);
+    }
+  }
+  return newFeed;
+};
+
 Template.feed.onCreated(function () {
   Template.instance().count = new ReactiveVar(0);
   Template.instance().feed = new ReactiveVar();
   Template.currentData().refresh = false;
 
   const instance = this;
-  console.log("FEED DATA:");
-  console.log(this);
 
   if ((Meteor.Device.isPhone() && Session.get('sidebar')) || (Session.get('miniWindow') && Session.get('sidebar'))) {
     toggleSidebar(false);
@@ -88,12 +179,17 @@ Template.feed.onDestroyed(function () {
 
 Template.feed.helpers({
   item() {
-    const feed = Template.instance().feed.get();
+    let feed = Template.instance().feed.get();
+
     if (this.options.view === 'lastVotes' || this.options.view === 'latest' || this.mainPost === true) {
+      // general view
       for (let i = 0; i <= (feed.length - 1); i += 1) {
         feed[i].mainFeed = true;
       }
     } else {
+      // thread view
+      feed = _.sortBy(feed, 'createdAt');
+      feed = _feedDepth(feed);
       for (let i = 0; i <= (feed.length - 1); i += 1) {
         feed[i].mainFeed = false;
         if (i === (feed.length - 1)) {
@@ -106,7 +202,7 @@ Template.feed.helpers({
         }
       }
     }
-    return Template.instance().feed.get();
+    return feed; // Template.instance().feed.get();
   },
   empty() {
     if (Session.get('showPostEditor')) {

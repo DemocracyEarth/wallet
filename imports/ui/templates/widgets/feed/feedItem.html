@@ -42,7 +42,7 @@
               {{/each}}
               <div class="data data-feed data-identity">
                 <img src="{{pathFor route='home'}}images/clock.png" class="clock-icon">
-                <div class="verifier verifier-live verifier-feed">{{sinceDate timestamp}}</div>
+                <div class="verifier verifier-live verifier-feed">{{sinceDate createdAt}}</div>
               </div>
               <div class="data data-feed">
                 {{#if electionData}}
