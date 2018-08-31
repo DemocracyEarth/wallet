@@ -2604,7 +2604,7 @@ blockquote {
 }
 
 .result-bar.vote-bar {
-  width: 20%;
+  width: 0%;
   height: 100%;
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
@@ -3594,7 +3594,6 @@ blockquote {
 
 .option-proposal {
   display: block;
-  min-height: 80px;
 }
 
 .option-proposal:hover {
@@ -3646,7 +3645,7 @@ blockquote {
 }
 
 .title-input.title-feed {
-  margin-top: 15px;
+  margin-top: 5px;
   margin-bottom: 5px;
   border-style: none;
   color: #4b4b4b;
@@ -6029,7 +6028,7 @@ blockquote {
   margin-top: -10px;
   margin-bottom: -8px;
   margin-left: 3px;
-  padding: 12px 3px 0px 10px;
+  padding: 10px 3px 0px 10px;
   border-left: 1px solid #e6e6e6;
 }
 
@@ -6067,12 +6066,14 @@ blockquote {
 }
 
 .thread-needle.thread-last {
-  bottom: -8px;
-  width: 11px;
+  bottom: -10px;
+  width: 1px;
   height: auto;
   margin-right: 0px;
   margin-left: 0px;
-  border-bottom-right-radius: 50px;
+  background-color: #ddd;
+  background-image: -webkit-linear-gradient(270deg, #e6e6e6, #ddd 70%);
+  background-image: linear-gradient(180deg, #e6e6e6, #ddd 70%);
 }
 
 .thread-needle.thread-reply {
