@@ -117,10 +117,9 @@ Template.feedItem.onRendered(function () {
         }
       }
     }
-  }
-  console.log(instance.data);
-  if (instance.data.url && _here(instance.data) && instance.data.replyId) {
-    $('.split-left').scrollTop($('#focusedItem').offset().top);
+    if (instance.data.url && _here(instance.data)) {
+      $('.split-left').scrollTop($(`#thread-${instance.data._id}`).offset().top);
+    }
   }
 
 /*

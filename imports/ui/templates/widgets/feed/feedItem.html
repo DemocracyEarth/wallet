@@ -29,10 +29,10 @@
     {{#if delegationMode}}
       {{> transaction contract=this senderId=senderId receiverId=receiverId}}
     {{else}}
-      <div id="feedItem-{{_id}}" class="vote vote-search vote-feed nondraggable">
-        {{#if contextHere}}
-          <a href="#debate" id="focusedItem"></a>
-        {{/if}}
+      {{#if contextHere}}
+        <a href="#debate" id="focusedItem"></a>
+      {{/if}}
+      <a id="feedItem-{{_id}}" class="vote vote-search vote-feed nondraggable" href="{{this.url}}">
         <div class="checkbox checkbox-custom">
           <div class="meta meta-search">
             <div class="w-list-unstyled w-clearfix identity-list identity-feed-item extra">
@@ -90,7 +90,7 @@
             {{/if}}
           {{/if}}
         </div>
-      </div>
+      </a>
     {{/if}}
   {{/if}}
 </template>
