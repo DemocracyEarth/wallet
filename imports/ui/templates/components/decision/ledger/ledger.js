@@ -11,7 +11,21 @@ import '/imports/ui/templates/components/decision/ledger/ledger.html';
 
 Template.ledger.onCreated(function () {
   setupSplit();
+  Template.instance().postReady = new ReactiveVar(false);
   Session.set('isLedgerReady', false);
+
+  const instance = this;
+
+  if (instance.data.options.view === 'threadVotes') {
+    instance.autorun(function () {
+      if (instance.data._id) {
+        const subscription = instance.subscribe('transaction', { view: 'threadVotes', contractId: instance.data._id });
+        if (subscription.ready() && !instance.ready.get()) {
+          instance.postReady.set(true);
+        }
+      }
+    });
+  }
 });
 
 Template.ledger.helpers({
@@ -33,6 +47,9 @@ Template.ledger.helpers({
     }
     return undefined;
   },
+  postRead() {
+    return Template.instance().postReady.get();
+  },
   delegationVotes() {
     const tally = this;
     tally.options.view = 'delegationVotes';
@@ -49,7 +66,7 @@ Template.ledger.helpers({
   },
   postVotes() {
     const tally = this;
-    tally.options.view = 'votes';
+    tally.options.view = 'threadVotes';
     tally.options.sort = { timestamp: -1 };
 
     // winning options
