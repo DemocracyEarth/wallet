@@ -1142,7 +1142,7 @@ blockquote {
   margin: 1px 0px;
   padding: 5px 5px 5px 10px;
   float: left;
-  border: 1px solid #fff;
+  border: 1px solid #ececec;
   border-radius: 50px;
   color: #6c5b7c;
   text-align: left;
@@ -1150,7 +1150,7 @@ blockquote {
 
 .vote.vote-authorize {
   display: block;
-  background-color: #f7f7f7;
+  background-color: #fff;
 }
 
 .vote.vote-authorize.vote-mini {
@@ -1288,6 +1288,11 @@ blockquote {
   padding-bottom: 0px;
   border-style: none;
   border-radius: 5px;
+  cursor: pointer;
+}
+
+.vote.vote-search.vote-feed:hover {
+  background-color: #f9f5fa;
 }
 
 .vote.vote-search.vote-feed.vote-empty {

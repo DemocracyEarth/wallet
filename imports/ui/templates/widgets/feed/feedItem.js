@@ -47,6 +47,15 @@ const _getReplyContract = (replyId) => {
   return '';
 };
 
+/**
+* @summary if im on current item context in url determines
+* @param {object} item current item
+*/
+const _here = (item) => {
+  return (window.location.pathname.substring(0, item.url.length) === `${item.url}`);
+};
+
+
 /*
 const isScrolledIntoView = (elem) => {
   if (elem) {
@@ -109,6 +118,10 @@ Template.feedItem.onRendered(function () {
       }
     }
   }
+  console.log(instance.data);
+  if (instance.data.url && _here(instance.data) && instance.data.replyId) {
+    $('.split-left').scrollTop($('#focusedItem').offset().top);
+  }
 
 /*
   $('.right').scroll(function () {
@@ -158,14 +171,6 @@ Template.feedItem.onRendered(function () {
   }
 });
 
-/**
-* @summary if im on current item context in url determines
-* @param {object} item current item
-*/
-const _here = (item) => {
-  return (window.location.pathname.substring(0, item.url.length) === `${item.url}`);
-};
-
 Template.feedItem.helpers({
   description() {
     let text = String();
@@ -197,6 +202,9 @@ Template.feedItem.helpers({
       return 'title-thread';
     }
     return '';
+  },
+  contextHere() {
+    return _here(this);
   },
   sinceDate(timestamp) {
     return `${timeCompressed(timestamp)}`;

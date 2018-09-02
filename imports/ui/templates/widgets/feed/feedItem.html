@@ -30,6 +30,9 @@
       {{> transaction contract=this senderId=senderId receiverId=receiverId}}
     {{else}}
       <div id="feedItem-{{_id}}" class="vote vote-search vote-feed nondraggable">
+        {{#if contextHere}}
+          <a href="#debate" id="focusedItem"></a>
+        {{/if}}
         <div class="checkbox checkbox-custom">
           <div class="meta meta-search">
             <div class="w-list-unstyled w-clearfix identity-list identity-feed-item extra">
