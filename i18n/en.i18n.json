@@ -522,7 +522,7 @@
   "hashtag-tag-description": "All posts tagged #{{hashtag}} on {{collective}}.",
   "country-tag-title": "{{country}} posts on {{collective}}.",
   "country-tag-description": "All posts from citizens of {{country}} on {{collective}}.",
-  "recent-activity": "Recent Activity",
+  "recent-activity": "Recent votes",
   "bitcoin": "Bitcoin",
   "fund-organization": "Fund Organization",
   "btc": "BTC",
@@ -561,5 +561,6 @@
   "get-blockchain-id": "Set up a blockchain wallet",
   "copy-clipboard": "Click to copy blockchain address.",
   "id": "ID",
-  "web-id": "Web based Identity"
+  "web-id": "Web based Identity",
+  "thread-votes": "Votes on this thread"
 }

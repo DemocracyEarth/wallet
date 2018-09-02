@@ -3656,6 +3656,11 @@ blockquote {
   color: #000;
 }
 
+.title-input.title-feed.title-thread {
+  font-size: 22px;
+  line-height: 32px;
+}
+
 .paper-header {
   margin: 0px;
   padding: 6px 0px;

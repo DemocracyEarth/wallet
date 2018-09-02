@@ -158,6 +158,14 @@ Template.feedItem.onRendered(function () {
   }
 });
 
+/**
+* @summary if im on current item context in url determines
+* @param {object} item current item
+*/
+const _here = (item) => {
+  return (window.location.pathname.substring(0, item.url.length) === `${item.url}`);
+};
+
 Template.feedItem.helpers({
   description() {
     let text = String();
@@ -183,6 +191,12 @@ Template.feedItem.helpers({
   },
   tags() {
     return this.tags;
+  },
+  focused() {
+    if (_here(this)) {
+      return 'title-thread';
+    }
+    return '';
   },
   sinceDate(timestamp) {
     return `${timeCompressed(timestamp)}`;
