@@ -43,7 +43,9 @@
     {{> ledger mainLedger}}
   </div>
 
-  {{> compose}}
+  {{#if isPhone}}
+    {{> compose}}
+  {{/if}}
 </template>
 
 <template name="peerFeed">
