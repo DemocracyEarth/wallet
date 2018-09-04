@@ -26,7 +26,7 @@ Template.collective.onRendered(() => {
   }
 
   window.addEventListener('click', function (e) {
-    if (!document.getElementById('card-user-login').contains(e.target) &&
+    if (document.getElementById('card-user-login') && !document.getElementById('card-user-login').contains(e.target) &&
          e.target.id != 'signup' &&
          e.target.id != 'forgot-pw' &&
          e.target.nodeName != 'IMG') {

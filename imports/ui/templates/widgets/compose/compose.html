@@ -1,12 +1,18 @@
 <template name="compose">
   {{#if currentUser}}
     {{#if proposalDrafting}}
-      <div id="action" class="cast {{displayCancel}}" ontouchstart="">
-        <div class="action-label">
-          <div>{{_ 'propose'}}</div>
+      {{#if desktopMode}}
+        {{#if editorMode}}
+          {{> editor contractId=newContractId}}
+        {{/if}}
+      {{else}}
+        <div id="action" class="cast {{displayCancel}}" ontouchstart="">
+          <div class="action-label">
+            <div>{{_ 'propose'}}</div>
+          </div>
+          <img id="action-hotspace" class="action-icon" src="{{pathFor route='home'}}{{icon}}">
         </div>
-        <img id="action-hotspace" class="action-icon" src="{{pathFor route='home'}}{{icon}}">
-      </div>
+      {{/if}}
     {{/if}}
   {{/if}}
 </template>

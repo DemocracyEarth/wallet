@@ -26,9 +26,13 @@
 
   <div class="split split-left">
     <div class="content content-feed max100">
-      {{#if editorMode}}
-        {{> editor contractId=newContractId}}
-      {{/if}}
+      {{#unless isPhone}}
+        {{> compose desktopMode=true}}
+      {{else}}
+        {{#if editorMode}}
+          {{> editor contractId=newContractId}}
+        {{/if}}
+      {{/unless}}
       {{#if isPhone}}
         <input id="hiddenInput" style="visibility: hidden; position: absolute;">
       {{/if}}

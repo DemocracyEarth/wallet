@@ -1323,6 +1323,14 @@ blockquote {
   background-color: transparent;
 }
 
+.vote.vote-search.vote-feed.vote-editor {
+  cursor: default;
+}
+
+.vote.vote-search.vote-feed.vote-editor:hover {
+  background-color: #fff;
+}
+
 .vote.vote-placeholder {
   width: 50%;
   height: 70px;
@@ -4308,7 +4316,7 @@ blockquote {
 }
 
 .menu-item:hover {
-  background-color: rgba(180, 171, 189, .2);
+  background-color: #f0eef2;
 }
 
 .menu-item:active {

@@ -34,6 +34,14 @@ Template.compose.onRendered(() => {
   }
 });
 
+Template.compose.onCreated(() => {
+  const instance = Template.instance();
+
+  if (instance.data.desktopMode) {
+    _introEditor(instance.data);
+  }
+});
+
 Template.compose.helpers({
   mouseActive() {
     if (!Meteor.Device.isPhone()) {
@@ -46,6 +54,9 @@ Template.compose.helpers({
       return false;
     }
     return true;
+  },
+  editorMode() {
+    return Session.get('showPostEditor');
   },
   displayCancel() {
     if (Session.get('showPostEditor') && !Meteor.Device.isPhone()) {
