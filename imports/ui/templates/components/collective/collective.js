@@ -60,9 +60,6 @@ Template.collective.helpers({
 });
 
 Template.collective.events({
-  'click #collective-home'() {
-    Router.go('/');
-  },
   'click #collective-login'() {
     event.stopPropagation();
     promptLogin((!Session.get('user-login') || !Session.get('user-login').visible), event);

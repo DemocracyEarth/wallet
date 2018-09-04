@@ -5,6 +5,7 @@ import { Session } from 'meteor/session';
 import { gui } from '/lib/const';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { Router } from 'meteor/iron:router';
 
 import { sidebarWidth, sidebarPercentage, getDelegatesMenu, toggleSidebar } from '/imports/ui/modules/menu';
 import { showFullName } from '/imports/startup/both/modules/utils';
@@ -265,5 +266,42 @@ Template.sidebar.helpers({
       return Template.instance().delegates.get().length;
     }
     return 0;
+  },
+  menu() {
+    return [
+      {
+        id: 0,
+        label: TAPi18n.__('menu-proposals'),
+        icon: 'images/decision-proposals.png',
+        iconActivated: 'images/decision-proposals-active.png',
+        feed: 'user',
+        value: true,
+        separator: false,
+        url: '/',
+        selected: false,
+      },
+      {
+        id: 1,
+        label: TAPi18n.__('menu-approved'),
+        icon: 'images/decision-approved.png',
+        iconActivated: 'images/decision-approved-active.png',
+        feed: 'user',
+        value: true,
+        separator: false,
+        url: '/?approved',
+        selected: false,
+      },
+      {
+        id: 1,
+        label: TAPi18n.__('menu-constitution'),
+        icon: 'images/decision-constitution.png',
+        iconActivated: 'images/decision-constitution-active.png',
+        feed: 'user',
+        value: true,
+        separator: false,
+        url: '/?constitution',
+        selected: false,
+      },
+    ];
   },
 });

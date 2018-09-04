@@ -85,5 +85,7 @@
     {{> ledger options=this.options ballotEnabled=ballotEnabled postReady=postReady peerFeed=false postFeed=true}}
   </div>
 
-  {{> compose replyMode=true replyId=replyId}}
+  {{#if isPhone}}
+    {{> compose replyMode=true replyId=replyId}}
+  {{/if}}
 </template>

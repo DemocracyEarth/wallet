@@ -537,7 +537,7 @@
   "domain": "Domain",
   "email-valid-domain": "Verified E-mail Domain",
   "electorate-sentence-anyone": "Anyone",
-  "electorate-sentence-anyone-textonly": "Anyone can vote on this proposal.",
+  "electorate-sentence-anyone-textonly": "Anyone logged in can vote on this proposal.",
   "cancel": "Cancel",
   "electorate-requisites": "Voter Requisites",
   "electorate-sentence-only": "{{setting0}}",
@@ -562,5 +562,9 @@
   "copy-clipboard": "Click to copy blockchain address.",
   "id": "ID",
   "web-id": "Web based Identity",
-  "thread-votes": "Votes on this thread"
+  "thread-votes": "Votes on this thread",
+  "recent-users": "Recent Activity",
+  "menu-constitution": "Constitution",
+  "menu-approved": "Approvals",
+  "menu-proposals": "Home"
 }

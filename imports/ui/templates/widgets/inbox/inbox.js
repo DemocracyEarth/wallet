@@ -10,7 +10,10 @@ import './inbox.html';
 Template.inbox.helpers({
   selected() {
     if (this.url) {
-      if (Router.current().params.username === this.url.substring(6)) {
+      const current = Router.current().url.replace(window.location.origin, '');
+      if ((Router.current().params.username === this.url.substring(6))
+        || (current === this.url)
+      ) {
         return 'menu-item-selected';
       }
     }

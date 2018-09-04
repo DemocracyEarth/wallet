@@ -5,6 +5,12 @@
     {{> collective}}
 
     <ul class="menu w-clearfix w-list-unstyled">
+      {{#each menu}}
+        {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon isAvatar=false iconActivated=iconActivated feed=feed}}
+      {{/each}}
+    </ul>
+
+    <ul class="menu w-clearfix w-list-unstyled">
       {{> inbox label='delegates' separator=true count=totalDelegates}}
       {{#each delegate}}
         {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon isAvatar=true iconActivated=iconActivated feed=feed}}
@@ -15,7 +21,7 @@
       {{/each}}
     </ul>
     <ul class="menu w-clearfix w-list-unstyled">
-      {{> inbox label='recent-activity' separator=true}}
+      {{> inbox label='recent-users' separator=true}}
       {{#each participant}}
         {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon isAvatar=true iconActivated=iconActivated feed=feed}}
       {{else}}
