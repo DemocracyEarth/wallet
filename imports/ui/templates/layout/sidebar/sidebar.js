@@ -288,7 +288,7 @@ Template.sidebar.helpers({
         feed: 'user',
         value: true,
         separator: false,
-        url: '/?approved',
+        url: '/?status=approved',
         selected: false,
       },
       {
@@ -299,7 +299,7 @@ Template.sidebar.helpers({
         feed: 'user',
         value: true,
         separator: false,
-        url: '/?constitution',
+        url: '/?status=constitutional',
         selected: false,
       },
     ];
