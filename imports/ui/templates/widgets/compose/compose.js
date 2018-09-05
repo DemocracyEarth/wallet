@@ -19,6 +19,7 @@ const _introEditor = (settings) => {
     } else {
       draft.replyId = '';
     }
+    console.log(draft);
     Session.set('draftContract', draft);
     Session.set('showPostEditor', true);
   } else if (!Meteor.Device.isPhone()) {
@@ -37,7 +38,7 @@ Template.compose.onRendered(() => {
 Template.compose.onCreated(() => {
   const instance = Template.instance();
 
-  if (instance.data.desktopMode) {
+  if (Meteor.user() && instance.data.desktopMode) {
     _introEditor(instance.data);
   }
 });

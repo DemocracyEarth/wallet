@@ -148,7 +148,8 @@ Template.editor.onRendered(function () {
     draft.replyId = '';
   }
   Session.set('draftContract', draft);
-  _editorFadeIn(this.data.contractId);
+  // _editorFadeIn(this.data.contractId);
+  toggleFeed(false);
 });
 
 Template.editor.helpers({
