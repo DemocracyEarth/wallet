@@ -113,6 +113,8 @@ Template.tally.onCreated(function () {
 
   const instance = this;
 
+  if (instance.data.placeholder) { return; }
+
   if (this.data.options.view === 'votes') {
     Meteor.call('getContract', this.data.options.keyword, function (error, result) {
       if (result) {
@@ -181,6 +183,9 @@ Template.tally.helpers({
   ready() {
     if (Template.instance().openFeed) { return true; }
     return Template.instance().contract.get();
+  },
+  placeholderItem() {
+    return [1, 2, 3];
   },
 });
 

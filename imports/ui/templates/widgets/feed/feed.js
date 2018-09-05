@@ -178,7 +178,7 @@ Template.feed.helpers({
         }
       }
     }
-    return feed; // Template.instance().feed.get();
+    return feed;
   },
   empty() {
     if (Session.get('showPostEditor')) {
@@ -205,9 +205,6 @@ Template.feed.helpers({
     return Template.instance().count.get();
   },
   placeholderItem() {
-    if (Template.currentData().singlePost) {
-      return [1];
-    }
     return [1, 2, 3, 4, 5];
   },
 });

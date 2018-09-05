@@ -1,9 +1,15 @@
 <template name="tally">
-  {{#if ready}}
-    {{#each vote}}
-      {{> transaction this}}
-    {{else}}
-      {{> warning label="empty-feed"}}
+  {{#if placeholder}}
+    {{#each placeholderItem}}
+      {{> transaction placeholder=true}}
     {{/each}}
+  {{else}}
+    {{#if ready}}
+      {{#each vote}}
+        {{> transaction this}}
+      {{else}}
+        {{> warning label="empty-feed"}}
+      {{/each}}
+    {{/if}}
   {{/if}}
 </template>

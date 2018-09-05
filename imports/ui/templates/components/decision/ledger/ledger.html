@@ -30,6 +30,8 @@
         <div id="non-editable-feed" class="ledger">
           {{#if postReady}}
             {{> tally postVotes}}
+          {{else}}
+            {{> tally placeholder=true}}
           {{/if}}
         </div>
         {{> footnote noGrant=true}}
