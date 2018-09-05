@@ -3,18 +3,10 @@
     {{#if postButton}}
       {{#if context}}
         <div id='navbar-post-button' class='navbar-button navbar-button-active navbar-button-action {{postDisabled}}' ontouchstart=''>
+          <img src="{{pathFor route='home'}}images/{{iconDisabled}}" class="icon float-left">
           <div class='navbar-button-action-label'>
-            {{_ 'post-as'}}
+            {{_ 'post'}}
           </div>
-          {{#if currentUser}}
-            <div id='loggedUser' class="user-logger avatar-wrapper {{toggle}}">
-              {{> avatar includeName=false size=32 displayPopup=false}}
-            </div>
-          {{else}}
-            <div id='loggedUser' class="{{toggle}}">
-              <img src="{{pathFor route='home'}}images/anonymous-white.png" class="symbol profile-pic profile-pic-navbar">
-            </div>
-          {{/if}}
         </div>
       {{else}}
         {{> userInfo toggle=toggle}}

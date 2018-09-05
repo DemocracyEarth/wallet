@@ -3,17 +3,14 @@ import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 
+import { isDisabled } from '/imports/ui/templates/layout/authentication/authentication.js';
+
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { publishContract } from '/imports/startup/both/modules/Contract';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { keepKeyboard } from '/imports/ui/templates/components/decision/editor/editor';
 
-
 import './toolbar.html';
-
-function isDisabled() {
-  return (Session.get('missingTitle') || Session.get('mistypedTitle') || Session.get('duplicateURL') || (Session.get('availableChars') < 0));
-}
 
 function toggle(key, value) {
   const obj = {};

@@ -12,7 +12,7 @@ import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
 import './authentication.html';
 import '../../components/identity/avatar/avatar.js';
 
-function isDisabled() {
+function _isDisabled() {
   return (Session.get('missingTitle') || Session.get('mistypedTitle') || Session.get('duplicateURL') || (Session.get('availableChars') < 0));
 }
 
@@ -48,10 +48,16 @@ Template.authentication.helpers({
     return Session.get('showPostEditor');
   },
   postDisabled() {
-    if (isDisabled()) {
+    if (_isDisabled()) {
       return 'navbar-button-action-disabled';
     }
     return '';
+  },
+  iconDisabled() {
+    if (_isDisabled()) {
+      return 'decision-proposals-disabled.png';
+    }
+    return 'decision-proposals-active.png';
   },
   context() {
     return ((Meteor.Device.isPhone() && !this.desktop) || (!Meteor.Device.isPhone() && this.desktop));
@@ -64,7 +70,7 @@ Template.authentication.events({
     promptLogin((!Session.get('user-login') || !Session.get('user-login').visible), event);
   },
   'click #navbar-post-button'() {
-    if (!isDisabled()) {
+    if (!_isDisabled()) {
       publishContract(Session.get('draftContract')._id);
       editorFadeOut(Session.get('draftContract')._id);
       displayNotice(TAPi18n.__('posted-idea'), true);
@@ -73,3 +79,5 @@ Template.authentication.events({
     }
   },
 });
+
+export const isDisabled = _isDisabled;

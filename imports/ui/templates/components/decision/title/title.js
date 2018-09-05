@@ -119,7 +119,7 @@ Template.title.onRendered(() => {
       const text = stripHTMLfromText(e.clipboardData.getData('text/plain'));
       const newtitle = $('#titleContent')[0].innerText;
       const delta = parseInt(rules.TITLE_MAX_LENGTH - newtitle.length, 10);
-      if (delta > 0) {
+      if (rules.TITLE_MAX_LENGTH !== 0 && delta > 0) {
         document.execCommand('insertHTML', false, text);
       }
     });
@@ -180,7 +180,9 @@ Template.titleContent.events({
     const divHTML = $('#titleContent').html();
     const checkEmpty = divHTML.replace(' ', '').replace('<br>', '');
     if (checkEmpty.length === 0) { content = ''; }
-    Session.set('availableChars', parseInt(rules.TITLE_MAX_LENGTH - content.length, 10));
+    if (rules.TITLE_MAX_LENGTH !== 0) {
+      Session.set('availableChars', parseInt(rules.TITLE_MAX_LENGTH - content.length, 10));
+    }
 
     if (Session.get('firstEditorLoad') && !Meteor.Device.isPhone()) {
       const newTitle = content.replace(TAPi18n.__('no-title'), '');

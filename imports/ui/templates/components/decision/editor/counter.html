@@ -1,5 +1,7 @@
 <template name="counter">
-  <div class="counter {{excess}}">
-    {{characters}}
-  </div>
+  {{#if maxCharLimit}}
+    <div class="counter {{excess}}">
+      {{characters}}
+    </div>
+  {{/if}}
 </template>

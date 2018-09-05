@@ -1467,6 +1467,11 @@ blockquote {
   text-decoration: none;
 }
 
+.option-title.option-link.option-search.option-editor {
+  min-height: 80px;
+  cursor: text;
+}
+
 .option-title.option-link.option-result {
   border-bottom-style: none;
 }
