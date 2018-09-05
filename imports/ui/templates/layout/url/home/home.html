@@ -38,6 +38,7 @@
       {{/if}}
 
       <div id="non-editable-feed">
+        <h4>{{_ 'happening-now'}}</h4>
         {{> feed mainFeed}}
       </div>
     </div>
@@ -68,9 +69,6 @@
 <template name="postFeed">
   <div class="split split-left">
     <div class="content content-feed subsection max100">
-      {{#if editorMode}}
-        {{> editor contractId=newContractId replyMode=true replyId=replyId}}
-      {{/if}}
       {{#if isPhone}}
         <input id="hiddenInput" style="visibility: hidden; position: absolute;">
       {{/if}}

@@ -42,11 +42,13 @@ h3 {
 }
 
 h4 {
-  margin-top: 10px;
+  margin-top: 0px;
   margin-bottom: 10px;
-  font-size: 16px;
-  line-height: 22px;
-  font-weight: 700;
+  color: #5c5c5c;
+  font-size: 12px;
+  line-height: 30px;
+  font-weight: 300;
+  text-transform: uppercase;
 }
 
 h5 {
@@ -1324,6 +1326,7 @@ blockquote {
 }
 
 .vote.vote-search.vote-feed.vote-editor {
+  margin-bottom: 20px;
   cursor: default;
 }
 
