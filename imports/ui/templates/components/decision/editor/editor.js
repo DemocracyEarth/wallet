@@ -118,19 +118,10 @@ const _editorFadeIn = (contractId) => {
   }
 };
 
-const _editorFadeOut = (contractId) => {
-  console.log('Y EL FADE OUT?');
-  $(`#feedItem-${contractId}`).velocity({
-    opacity: 0,
-    height: 0,
-  }, {
-    complete: () => {
-      Session.set('showPostEditor', false);
-      delete Session.keys.draftContract;
-      toggleFeed(true);
-      Session.set('showPostEditor', true);
-    },
-  });
+const _editorFadeOut = () => {
+  Session.set('showPostEditor', false);
+  delete Session.keys.draftContract;
+  toggleFeed(true);
 };
 
 Template.editor.onCreated(function () {
