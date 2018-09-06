@@ -21,6 +21,7 @@ const _introEditor = (settings) => {
     }
     Session.set('draftContract', draft);
     Session.set('showPostEditor', true);
+    console.log('INTRO EDITOR');
   } else if (!Meteor.Device.isPhone()) {
     editorFadeOut(Session.get('draftContract')._id);
   }

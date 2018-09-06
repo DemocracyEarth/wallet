@@ -119,9 +119,11 @@ const _editorFadeIn = (contractId) => {
 };
 
 const _editorFadeOut = () => {
-  Session.set('showPostEditor', false);
-  delete Session.keys.draftContract;
-  toggleFeed(true);
+  if (Meteor.Device.isPhone()) {
+    Session.set('showPostEditor', false);
+    delete Session.keys.draftContract;
+    toggleFeed(true);
+  }
 };
 
 Template.editor.onCreated(function () {
