@@ -254,9 +254,6 @@ Template.feedItem.helpers({
   feedContract() {
     return Template.instance().contract.get();
   },
-  replyMode() {
-    return this.replyId;
-  },
   voters() {
     let total;
     const dbContract = Contracts.findOne({ _id: this._id });
@@ -277,6 +274,10 @@ Template.feedItem.helpers({
   },
   replySource() {
     return Template.instance().replySource.get();
+  },
+  replyEditor() {
+    console.log((Session.get('draftContract') && Session.get('draftContract').replyId === this._id));
+    return (Session.get('draftContract') && Session.get('draftContract').replyId === this._id);
   },
   spinnerStyle() {
     return `height: 0px;

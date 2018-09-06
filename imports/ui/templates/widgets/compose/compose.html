@@ -3,7 +3,7 @@
     {{#if proposalDrafting}}
       {{#if desktopMode}}
         {{#if editorMode}}
-          {{> editor contractId=newContractId}}
+          {{> editor replyMode=replyMode replyId=replyId contractId=newContractId}}
         {{/if}}
       {{else}}
         <div id="action" class="cast {{displayCancel}}" ontouchstart="">

@@ -27,7 +27,9 @@
   <div class="split split-left">
     <div class="content content-feed max100">
       {{#unless isPhone}}
-        {{> compose desktopMode=true}}
+        {{#unless replyMode}}
+          {{> compose desktopMode=true replyMode=false}}
+        {{/unless}}
       {{else}}
         {{#if editorMode}}
           {{> editor contractId=newContractId}}

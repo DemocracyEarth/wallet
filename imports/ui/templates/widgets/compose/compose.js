@@ -12,11 +12,19 @@ import '/imports/ui/templates/widgets/compose/compose.html';
 * @summary prepares the territory for editor display
 */
 const _introEditor = (settings) => {
+  let draft;
   if (!Session.get('showPostEditor')) {
-    const draft = createContract();
+    draft = createContract();
+  } else {
+    draft = Session.get('draftContract');
+  }
+  console.log(settings);
+  if (settings.replyMode || !Session.get('showPostEditor')) {
     if (settings.replyMode && settings.replyId) {
+      console.log('entering with replyMode Settings');
       draft.replyId = settings.replyId;
     } else {
+      console.log('BORRANDO LA JODA');
       draft.replyId = '';
     }
     Session.set('draftContract', draft);

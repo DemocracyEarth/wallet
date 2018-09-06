@@ -91,6 +91,11 @@
           {{/if}}
         </div>
       </a>
+      {{#unless isPhone}}
+        {{#if replyEditor}}
+          {{> compose desktopMode=true replyMode=true replyId=_id}}
+        {{/if}}
+      {{/unless}}
     {{/if}}
   {{/if}}
 </template>

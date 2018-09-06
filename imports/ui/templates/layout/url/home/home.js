@@ -89,6 +89,11 @@ Template.homeFeed.helpers({
   editorMode() {
     return Session.get('showPostEditor');
   },
+  replyMode() {
+    console.log('rrrrema');
+    // console.log(Session.get('draftContract').replyId);
+    return (Session.get('draftContract') && Session.get('draftContract').replyId);
+  },
   newContractId() {
     if (Session.get('draftContract')) {
       return Session.get('draftContract')._id;
