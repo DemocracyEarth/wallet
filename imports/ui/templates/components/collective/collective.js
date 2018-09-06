@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { Router } from 'meteor/iron:router';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 
@@ -27,9 +26,9 @@ Template.collective.onRendered(() => {
 
   window.addEventListener('click', function (e) {
     if (document.getElementById('card-user-login') && !document.getElementById('card-user-login').contains(e.target) &&
-         e.target.id != 'signup' &&
-         e.target.id != 'forgot-pw' &&
-         e.target.nodeName != 'IMG') {
+         e.target.id !== 'signup' &&
+         e.target.id !== 'forgot-pw' &&
+         e.target.nodeName !== 'IMG') {
       promptLogin((!Session.get('user-login') || !Session.get('user-login').visible), event);
     }
   });

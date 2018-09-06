@@ -4,7 +4,7 @@ import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 import { TAPi18n } from 'meteor/tap:i18n';
 
-import { displayPopup } from '/imports/ui/modules/popup';
+import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
 import { toggle } from '/imports/ui/templates/components/decision/editor/editor.js';
 import { geo } from '/lib/geo';
 import { token } from '/lib/token';
@@ -159,10 +159,31 @@ Template.electorate.onCreated(() => {
   Template.instance().voteEnabled = _verifyConstituencyRights(contract);
 });
 
+const killPopup = () => {
+  toggle('constituencyEnabled', !Session.get('draftContract').constituencyEnabled);
+  displayPopup($('#electorate-button')[0], 'constituency', Meteor.userId(), 'click', 'constituency-popup');
+};
+
+Template.electorate.onRendered(function () {
+  const instance = this;
+  window.addEventListener('click', function (e) {
+    if (document.getElementById('card-constituency-popup') && !document.getElementById('card-constituency-popup').contains(e.target)) {
+      if (!instance.data.readOnly) {
+        toggle('constituencyEnabled', false);
+        animatePopup(false, 'constituency-popup');
+      }
+    }
+  });
+});
+
 Template.electorate.helpers({
   status() {
     if (!this.readOnly) {
-      return _writeRule(Session.get('draftContract'));
+      let rule = _writeRule(Session.get('draftContract'));
+      if (rule === TAPi18n.__('electorate-sentence-anyone')) {
+        rule = TAPi18n.__('requisites');
+      }
+      return rule;
     }
     return _writeRule(this.contract, false);
   },
@@ -198,8 +219,7 @@ Template.electorate.helpers({
 Template.electorate.events({
   'click #electorate-button'() {
     if (!this.readOnly) {
-      toggle('constituencyEnabled', !Session.get('draftContract').constituencyEnabled);
-      displayPopup($('#electorate-button')[0], 'constituency', Meteor.userId(), 'click', 'constituency-popup');
+      killPopup();
     }
   },
 });

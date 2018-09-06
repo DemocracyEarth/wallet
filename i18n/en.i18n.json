@@ -530,7 +530,7 @@
   "copy": "Copy",
   "unvote": "Unvote",
   "stake": "Liquid Vote",
-  "staking": "Liquid Vote",
+  "staking": "Liquid",
   "constituency": "Electorate",
   "token": "Token",
   "token-balance": "Token Holders",
@@ -568,5 +568,6 @@
   "menu-approved": "Approved",
   "menu-proposals": "Now",
   "post-idea": "Post Idea",
-  "happening-now": "Happening Now"
+  "happening-now": "Happening Now",
+  "requisites": "Requisites"
 }
