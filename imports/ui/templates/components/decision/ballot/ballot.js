@@ -392,8 +392,14 @@ Template.ballot.helpers({
     if (contract) {
       switch (button) {
         case 'debate':
-          if (contract && contract.totalReplies) {
-            label = `&#183; ${(contract.totalReplies)}`;
+          if (contract) {
+            let totalReplies;
+            if (contract.totalReplies === undefined) {
+              totalReplies = 0;
+            } else {
+              totalReplies = contract.totalReplies;
+            }
+            label = `&#183; ${(totalReplies)}`;
           }
           break;
         case 'vote':
