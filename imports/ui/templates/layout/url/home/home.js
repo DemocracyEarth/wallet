@@ -157,8 +157,6 @@ Template.postFeed.helpers({
       tally.contractId = tally._id;
     }
 
-    console.log(`Template.postFeed:`);
-    console.log(tally.options.view);
     return tally;
   },
   postReady() {

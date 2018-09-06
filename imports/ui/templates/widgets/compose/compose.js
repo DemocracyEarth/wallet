@@ -19,7 +19,6 @@ const _introEditor = (settings) => {
     } else {
       draft.replyId = '';
     }
-    console.log(draft);
     Session.set('draftContract', draft);
     Session.set('showPostEditor', true);
   } else if (!Meteor.Device.isPhone()) {
@@ -84,3 +83,5 @@ Template.compose.events({
     _introEditor(this);
   },
 });
+
+export const introEditor = _introEditor;

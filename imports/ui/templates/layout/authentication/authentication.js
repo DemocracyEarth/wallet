@@ -5,7 +5,7 @@ import { Meteor } from 'meteor/meteor';
 import { TAPi18n } from 'meteor/tap:i18n';
 
 import { editorFadeOut } from '/imports/ui/templates/components/decision/editor/editor';
-import { publishContract } from '/imports/startup/both/modules/Contract';
+import { publishContract, createContract } from '/imports/startup/both/modules/Contract';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
 
@@ -74,8 +74,11 @@ Template.authentication.events({
       publishContract(Session.get('draftContract')._id);
       editorFadeOut(Session.get('draftContract')._id);
       displayNotice(TAPi18n.__('posted-idea'), true);
-
       Session.set('missingTitle', false);
+
+      const draft = createContract();
+      Session.set('draftContract', draft);
+      Session.set('showPostEditor', true);
     }
   },
 });

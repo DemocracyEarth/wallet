@@ -128,6 +128,7 @@ const _editorFadeOut = (contractId) => {
       Session.set('showPostEditor', false);
       delete Session.keys.draftContract;
       toggleFeed(true);
+      Session.set('showPostEditor', true);
     },
   });
 };

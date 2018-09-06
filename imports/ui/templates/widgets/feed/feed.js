@@ -111,9 +111,6 @@ Template.feed.onCreated(function () {
 
   const dbQuery = Contracts.find(parameters.find, parameters.options);
 
-  console.log(dbQuery.fetch());
-  console.log(this.subscription.ready());
-
   this.handle = dbQuery.observeChanges({
     changed: () => {
       // TODO: be reactive please
@@ -170,7 +167,7 @@ Template.feed.helpers({
 
       // sorting
       if (this.options.sort) {
-        feed = _.sortBy(feed, function (num) { return num.createdAt * -1; });
+        feed = _.sortBy(feed, function (item) { return item.lastUpdate * -1; });
       }
     } else {
       // thread view
