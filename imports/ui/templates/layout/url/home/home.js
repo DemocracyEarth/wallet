@@ -119,9 +119,13 @@ Template.postFeed.onCreated(function () {
 Template.postFeed.helpers({
   votes() {
     const tally = this;
-    tally.options.view = 'votes';
+    tally.options.view = 'threadVotes';
     tally.options.sort = { timestamp: -1 };
-
+    tally.ballotEnabled = this.ballotEnabled;
+    tally.postReady = this.postReady;
+    tally.peerFeed = false;
+    tally.postFeed = true;
+// options=this.options ballotEnabled=ballotEnabled postReady=postReady peerFeed=false postFeed=true
     // winning options
     const contract = Contracts.findOne({ keyword: Template.currentData().options.keyword });
     let maxVotes = 0;
@@ -134,8 +138,11 @@ Template.postFeed.helpers({
         }
       }
       tally.winningBallot = winningBallot;
+      tally.contractId = tally._id;
     }
 
+    console.log(`Template.postFeed:`);
+    console.log(tally.options.view);
     return tally;
   },
   postReady() {

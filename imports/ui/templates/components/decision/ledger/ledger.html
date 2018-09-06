@@ -16,6 +16,8 @@
         <div id="non-editable-feed" class="ledger">
           {{#if isLedgerReady}}
             {{> tally peerVotes}}
+          {{else}}
+            {{> tally placeholder=true}}
           {{/if}}
         </div>
         {{> footnote}}
@@ -44,7 +46,11 @@
           <h5>{{_ 'recent-activity'}}</h5>
         </div>
         <div id="non-editable-feed" class="ledger">
-          {{> tally homeVotes}}
+          {{#if postReady}}
+            {{> tally homeVotes}}
+          {{else}}
+            {{> tally placeholder=true}}
+          {{/if}}
         </div>
         {{> footnote}}
       </div>

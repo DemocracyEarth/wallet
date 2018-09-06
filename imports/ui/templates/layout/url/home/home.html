@@ -84,7 +84,11 @@
   </div>
 
   <div class="split split-right">
-    {{> ledger options=this.options ballotEnabled=ballotEnabled postReady=postReady peerFeed=false postFeed=true}}
+    {{#if postReady}}
+      {{#with votes}}
+        {{> ledger this}}
+      {{/with}}
+    {{/if}}
   </div>
 
   {{#if isPhone}}

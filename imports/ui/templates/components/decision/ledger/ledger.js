@@ -16,16 +16,13 @@ Template.ledger.onCreated(function () {
 
   const instance = this;
 
-  if (instance.data.options.view === 'threadVotes') {
-    instance.autorun(function () {
-      if (instance.data._id) {
-        const subscription = instance.subscribe('transaction', { view: 'threadVotes', contractId: instance.data._id });
-        if (subscription.ready() && !instance.ready.get()) {
-          instance.postReady.set(true);
-        }
-      }
-    });
-  }
+  instance.autorun(function (computation) {
+    const subscription = instance.subscribe('transaction', instance.data.options);
+    if (subscription.ready() && !instance.postReady.get()) {
+      instance.postReady.set(true);
+      computation.stop();
+    }
+  });
 });
 
 Template.ledger.helpers({
@@ -47,7 +44,7 @@ Template.ledger.helpers({
     }
     return undefined;
   },
-  postRead() {
+  postReady() {
     return Template.instance().postReady.get();
   },
   delegationVotes() {

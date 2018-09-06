@@ -181,8 +181,9 @@ Template.tally.helpers({
     return Template.instance().feed.get();
   },
   ready() {
-    if (Template.instance().openFeed) { return true; }
-    return Template.instance().contract.get();
+    return Session.get('isLedgerReady', true);
+    // if (Template.instance().openFeed) { return true; }
+    // return Template.instance().contract.get();
   },
   placeholderItem() {
     return [1, 2, 3];
