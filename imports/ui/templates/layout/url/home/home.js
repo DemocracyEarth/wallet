@@ -72,6 +72,19 @@ Template.screen.helpers({
   },
 });
 
+Template.homeFeed.onCreated(function () {
+  Template.instance().feedReady = new ReactiveVar(false);
+  const instance = this;
+  const subscription = instance.subscribe('feed', { view: 'latest', sort: { createdAt: -1 } });
+
+  instance.autorun(function (computation) {
+    if (subscription.ready()) {
+      instance.feedReady.set(true);
+      computation.stop();
+    }
+  });
+});
+
 Template.homeFeed.helpers({
   editorMode() {
     return Session.get('showPostEditor');
@@ -100,6 +113,9 @@ Template.homeFeed.helpers({
       homeFeed: true,
     };
   },
+  feedReady() {
+    return Template.instance().feedReady.get();
+  },
 });
 
 Template.postFeed.onCreated(function () {
@@ -125,7 +141,7 @@ Template.postFeed.helpers({
     tally.postReady = this.postReady;
     tally.peerFeed = false;
     tally.postFeed = true;
-// options=this.options ballotEnabled=ballotEnabled postReady=postReady peerFeed=false postFeed=true
+    // options=this.options ballotEnabled=ballotEnabled postReady=postReady peerFeed=false postFeed=true
     // winning options
     const contract = Contracts.findOne({ keyword: Template.currentData().options.keyword });
     let maxVotes = 0;

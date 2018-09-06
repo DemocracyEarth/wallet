@@ -39,7 +39,9 @@
 
       <div id="non-editable-feed">
         <h4>{{_ 'happening-now'}}</h4>
-        {{> feed mainFeed}}
+        {{#if feedReady}}
+          {{> feed mainFeed}}
+        {{/if}}
       </div>
     </div>
   </div>

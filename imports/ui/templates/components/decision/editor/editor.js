@@ -119,6 +119,7 @@ const _editorFadeIn = (contractId) => {
 };
 
 const _editorFadeOut = (contractId) => {
+  console.log('Y EL FADE OUT?');
   $(`#feedItem-${contractId}`).velocity({
     opacity: 0,
     height: 0,

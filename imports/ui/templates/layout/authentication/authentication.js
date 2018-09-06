@@ -9,8 +9,8 @@ import { publishContract } from '/imports/startup/both/modules/Contract';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
 
-import './authentication.html';
-import '../../components/identity/avatar/avatar.js';
+import '/imports/ui/templates/layout/authentication/authentication.html';
+import '/imports/ui/templates/components/identity/avatar/avatar.js';
 
 function _isDisabled() {
   return (Session.get('missingTitle') || Session.get('mistypedTitle') || Session.get('duplicateURL') || (Session.get('availableChars') < 0));

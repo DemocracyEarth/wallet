@@ -102,7 +102,7 @@ function displayTitle(title) {
     Session.set('missingTitle', true);
     return ' ';
   }
-  Session.set('missingTitle', false);
+  // Session.set('missingTitle', false);
   return title; // textToHTML(title);
 }
 
@@ -192,7 +192,7 @@ Template.titleContent.events({
     }
 
     // Checking content typed
-    if (content === '') {
+    if (content === '' || content === ' ') {
       Session.set('missingTitle', true);
       return;
     }
@@ -205,7 +205,7 @@ Template.titleContent.events({
   },
   'blur #titleContent'() {
     const content = document.getElementById('titleContent').innerText;
-    if (content === '' || content === ' ') {
+    if (content == '' || content == ' ') {
       Session.set('missingTitle', true);
     }
   },

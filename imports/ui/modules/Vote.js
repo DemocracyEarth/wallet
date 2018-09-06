@@ -114,9 +114,6 @@ export class Vote {
         this.currency = 'VOTES';
       } else {
         Object.assign(this, wallet);
-        console.log(`targetId: ${targetId}`);
-        console.log(`this.userId: ${this.userId}`);
-        console.log(getVotes(targetId, this.userId));
         this.inBallot = getVotes(targetId, this.userId);
       }
       this.delegated = 0;
@@ -166,9 +163,6 @@ export class Vote {
       } else if (this.voteType === 'BALANCE') {
         this.inBallot = this.available;
       } else {
-        console.log(`this.targetId: ${this.targetId}`);
-        console.log(`this.userId: ${this.userId}`);
-        console.log(getVotes(this.targetId, this.userId));
         this.inBallot = getVotes(this.targetId, this.userId);
       }
       this.originalTargetId = targetId;
