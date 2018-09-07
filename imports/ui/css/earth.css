@@ -3417,6 +3417,10 @@ blockquote {
   opacity: 1;
 }
 
+.meta.meta-search.meta-compressed {
+  padding-left: 5px;
+}
+
 .state {
   display: inline-block;
   margin-right: 2px;
@@ -3663,6 +3667,11 @@ blockquote {
 .title-input.title-input-void {
   position: absolute;
   color: #ccc;
+}
+
+.title-input.title-input-void.title-input-compressed {
+  margin-top: 10px;
+  margin-left: 50px;
 }
 
 .title-input.title-feed {
@@ -6108,6 +6117,10 @@ blockquote {
   margin-top: 0px;
   margin-left: -10px;
   border-top-style: none;
+}
+
+.meta-compressed {
+  padding-left: 5px;
 }
 
 @media (max-width: 991px) {

@@ -20,6 +20,14 @@ const _keepKeyboard = () => {
   $('#toolbar-hidden-keyboard').focus();
 };
 
+const _resetDraft = (contract) => {
+  const draft = contract;
+  draft.constituencyEnabled = false;
+  draft.ballotEnabled = false;
+  draft.stakingEnabled = false;
+  return draft;
+};
+
 const _toggle = (key, value) => {
   const contract = Session.get('draftContract');
   contract[key] = value;
@@ -126,6 +134,21 @@ const _editorFadeOut = () => {
   }
 };
 
+const _threadEditor = (instance) => {
+  if (instance.data.mainFeed) {
+    $('#feedItem-editor').wrapAll("<div id='thread-editor' class='vote-thread vote-thread-context' />");
+    $('#thread-editor').prepend("<div class='thread-sub'><div class='thread-needle thread-reply'></div>");
+  } else {
+    $(`#feedItem-editor`).wrapAll(`<div id='thread-editor' class='vote-thread' />`);
+    $(`#thread-${instance.data._id}`).prepend(`<div class='thread-sub'><div class='thread-needle ${instance.data.lastItem ? 'thread-last' : ''}'></div></div>`);
+    if (instance.data.depth > 1) {
+      for (let i = 1; i < instance.data.depth; i += 1) {
+        $(`#thread-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}-depth-${i}' class='vote-thread' />`);
+      }
+    }
+  }
+};
+
 Template.editor.onCreated(function () {
   const contract = Session.get('draftContract');
   Template.instance().ready = new ReactiveVar(true);
@@ -134,17 +157,18 @@ Template.editor.onCreated(function () {
 });
 
 Template.editor.onRendered(function () {
-  const draft = Session.get('draftContract');
-  if (Template.currentData().replyMode && Template.currentData().replyId) {
-    Template.instance().reply.set(Contracts.findOne({ _id: this.data.replyId }));
-    draft.ballotEnabled = false;
-    draft.replyId = Template.currentData().replyId;
-  } else {
-    draft.replyId = '';
+  if (!this.data.compressed) {
+    const draft = _resetDraft(Session.get('draftContract'));
+    if (Template.currentData().replyMode && Template.currentData().replyId) {
+      Template.instance().reply.set(Contracts.findOne({ _id: this.data.replyId }));
+      draft.replyId = Template.currentData().replyId;
+      _threadEditor(this);
+    } else {
+      draft.replyId = '';
+    }
+    Session.set('draftContract', draft);
+    toggleFeed(false);
   }
-  Session.set('draftContract', draft);
-  // _editorFadeIn(this.data.contractId);
-  toggleFeed(false);
 });
 
 Template.editor.helpers({
@@ -254,6 +278,11 @@ Template.editor.helpers({
 });
 
 Template.editor.events({
+  'click #feedItem-compressed'() {
+    const draft = _resetDraft(Session.get('draftContract'));
+    draft.replyId = '';
+    Session.set('draftContract', draft);
+  },
   'click #close-mobile-editor'() {
     $('#post-editor').css('display', '');
     $('#post-editor').velocity({ 'margin-top': `${$(window).height()}px` }, {

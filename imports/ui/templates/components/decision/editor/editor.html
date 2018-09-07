@@ -1,57 +1,74 @@
 <template name="editor">
-  <div id='postEditorItem'></div>
-  <div id="feedItem-{{contractId}}" class="vote vote-search vote-feed vote-editor nondraggable">
-    <div class="checkbox checkbox-custom">
-      <div class="meta meta-search">
+  {{#if compressed}}
+    <a id="feedItem-compressed" class="vote vote-search vote-feed nondraggable">
+      <div class="meta meta-search meta-compressed">
         <div class="w-list-unstyled w-clearfix identity-list identity-feed-item extra">
-          {{#each signatures}}
+          {{#with currentUser}}
             <div class="w-clearfix identity">
-                {{> avatar size=24 profile=this._id includeName=true includeNation=true editable=false microFont=true disabled=false includeRole=false}}
+                {{> avatar size=24 profile=this._id includeName=false includeNation=false editable=false microFont=true disabled=false includeRole=false}}
             </div>
-          {{/each}}
-          <div class="data data-feed data-identity">
-            {{#if replyMode}}
-              <a href="{{replyURL}}" title="{{sinceDate}}"><div class="verifier verifier-live verifier-feed">&#183; {{_ 'reply-to'}} {{replyTitle}}</div></a>
-            {{else}}
-              <img src="{{pathFor route='home'}}images/clock.png" class="clock-icon">
-              <div class="verifier verifier-live verifier-feed">{{sinceDate}}</div>
-            {{/if}}
-          </div>
+          {{/with}}
           <div class="data data-feed">
             <img class="url-icon" src="{{pathFor route='home'}}images/decision-draft.png">
             <div class="verifier verifier-live verifier-feed no-link">{{_ 'draft'}}</div>
           </div>
+          <div class="title-input title-input-void title-input-compressed">
+           {{_ 'post-new-idea'}}
+         </div>
         </div>
       </div>
-      <div class="w-inline-block w-clearfix option-proposal">
-        <div class="option-title option-link option-search option-editor title-input">
-           <div class="title-input title-feed">
-           {{> title contractId=contractId editorMode=true}}
-          </div>
-          {{#if ballotEnabled}}
-            <div id='post-editor-widgets' style='margin-top: {{widgetTop}}'>
-              {{> ballot editorMode=true contract=draftContract feedMode=true}}
+    </a>
+  {{else}}
+    <div id='postEditorItem'></div>
+    <div id="feedItem-editor" class="vote vote-search vote-feed vote-editor nondraggable">
+      <div class="checkbox checkbox-custom">
+        <div class="meta meta-search">
+          <div class="w-list-unstyled w-clearfix identity-list identity-feed-item extra">
+            {{#each signatures}}
+              <div class="w-clearfix identity">
+                  {{> avatar size=24 profile=this._id includeName=true includeNation=true editable=false microFont=true disabled=false includeRole=false}}
+              </div>
+            {{/each}}
+            <div class="data data-feed data-identity">
+              <img src="{{pathFor route='home'}}images/clock.png" class="clock-icon">
+              <div class="verifier verifier-live verifier-feed">{{sinceDate}}</div>
             </div>
-          {{/if}}
+            <div class="data data-feed">
+              <img class="url-icon" src="{{pathFor route='home'}}images/decision-draft.png">
+              <div class="verifier verifier-live verifier-feed no-link">{{_ 'draft'}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="w-inline-block w-clearfix option-proposal">
+          <div class="option-title option-link option-search option-editor title-input">
+             <div class="title-input title-feed">
+             {{> title contractId=contractId editorMode=true}}
+            </div>
+            {{#if ballotEnabled}}
+              <div id='post-editor-widgets' style='margin-top: {{widgetTop}}'>
+                {{> ballot editorMode=true contract=draftContract feedMode=true}}
+              </div>
+            {{/if}}
+          </div>
         </div>
       </div>
+      <div class="section section-editor w-clearfix">
+        {{#if stakingEnabled}}
+          <div class="staking-editor">
+            {{> liquid placeholder=true}}
+          </div>
+        {{/if}}
+        {{#each menu}}
+          {{> editorButton}}
+        {{/each}}
+        {{> electorate contract=draftContract}}
+        {{#unless isPhone}}
+          <div class="post-button">
+            {{> authentication desktop=true}}
+          </div>
+        {{/unless}}
+        {{> counter}}
+      </div>
     </div>
-    <div class="section section-editor w-clearfix">
-      {{#if stakingEnabled}}
-        <div class="staking-editor">
-          {{> liquid placeholder=true}}
-        </div>
-      {{/if}}
-      {{#each menu}}
-        {{> editorButton}}
-      {{/each}}
-      {{> electorate contract=draftContract}}
-      {{#unless isPhone}}
-        <div class="post-button">
-          {{> authentication desktop=true}}
-        </div>
-      {{/unless}}
-      {{> counter}}
-    </div>
-  </div>
+  {{/if}}
 </template>

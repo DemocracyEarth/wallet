@@ -91,6 +91,27 @@ Template.feedItem.onCreated(function () {
   Template.instance().replySource = new ReactiveVar(false);
 });
 
+const _threadItem = (instance) => {
+  if (instance.data.mainFeed) {
+    $(`#feedItem-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}' class='vote-thread vote-thread-context' />`);
+    $(`#thread-${instance.data._id}`).prepend(`<div class='thread-sub'><div class='thread-needle thread-reply'>
+    <a title='${instance.data.replyId ? `${TAPi18n.__('reply-to')}: ${stripHTMLfromText(_getReplyContract(instance.data.replyId).title).substring(0, 30)}...` : ''}'
+    href='${instance.data.replyId ? _getReplyContract(instance.data.replyId).url : ''}'><img src='${Router.path('home')}images/reply.png'></a>
+    </div></div>`);
+  } else {
+    $(`#feedItem-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}' class='vote-thread' />`);
+    $(`#thread-${instance.data._id}`).prepend(`<div class='thread-sub'><div class='thread-needle ${instance.data.lastItem ? 'thread-last' : ''}'></div></div>`);
+    if (instance.data.depth > 1) {
+      for (let i = 1; i < instance.data.depth; i += 1) {
+        $(`#thread-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}-depth-${i}' class='vote-thread' />`);
+      }
+    }
+  }
+  if (instance.data.url && _here(instance.data)) {
+    $('.split-left').scrollTop($(`#thread-${instance.data._id}`).offset().top);
+  }
+};
+
 Template.feedItem.onRendered(function () {
   // Template.instance().aboveFold.set(isScrolledIntoView(document.querySelector(`#feedItem-${Template.currentData()._id}`)));
   const instance = this;
@@ -102,24 +123,7 @@ Template.feedItem.onRendered(function () {
 
   // threading
   if (instance.data.replyId) {
-    if (this.data.mainFeed) {
-      $(`#feedItem-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}' class='vote-thread vote-thread-context' />`);
-      $(`#thread-${instance.data._id}`).prepend(`<div class='thread-sub'><div class='thread-needle thread-reply'>
-      <a title='${instance.data.replyId ? `${TAPi18n.__('reply-to')}: ${stripHTMLfromText(_getReplyContract(instance.data.replyId).title).substring(0, 30)}...` : ''}'
-      href='${instance.data.replyId ? _getReplyContract(instance.data.replyId).url : ''}'><img src='${Router.path('home')}images/reply.png'></a>
-      </div></div>`);
-    } else {
-      $(`#feedItem-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}' class='vote-thread' />`);
-      $(`#thread-${instance.data._id}`).prepend(`<div class='thread-sub'><div class='thread-needle ${instance.data.lastItem ? 'thread-last' : ''}'></div></div>`);
-      if (instance.data.depth > 1) {
-        for (let i = 1; i < instance.data.depth; i += 1) {
-          $(`#thread-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}-depth-${i}' class='vote-thread' />`);
-        }
-      }
-    }
-    if (instance.data.url && _here(instance.data)) {
-      $('.split-left').scrollTop($(`#thread-${instance.data._id}`).offset().top);
-    }
+    _threadItem(instance);
   }
 
 /*
@@ -269,6 +273,13 @@ Template.feedItem.helpers({
     }
     return `${total} ${TAPi18n.__('voters').toLowerCase()}`;
   },
+  replyMode() {
+    const draft = Session.get('draftContract');
+    if (draft.replyId !== '') {
+      return 'opacity: 0.5;';
+    }
+    return '';
+  },
   electionData() {
     return Template.instance().ready.get();
   },
@@ -276,7 +287,6 @@ Template.feedItem.helpers({
     return Template.instance().replySource.get();
   },
   replyEditor() {
-    console.log((Session.get('draftContract') && Session.get('draftContract').replyId === this._id));
     return (Session.get('draftContract') && Session.get('draftContract').replyId === this._id);
   },
   spinnerStyle() {
@@ -298,6 +308,15 @@ Template.feedItem.helpers({
       return true;
     }
     return Template.instance().displayResults.get();
+  },
+  replyData() {
+    return {
+      desktopMode: true,
+      replyMode: true,
+      replyId: this._id,
+      depth: this.depth,
+      mainFeed: this.mainFeed,
+    };
   },
   /* onScreen() {
     return Template.instance().aboveFold.get();
@@ -335,3 +354,5 @@ Template.feedItem.events({
     addChoiceToBallot(Session.get('contract')._id, event.target.parentNode.getAttribute('id'));
   },
 });
+
+export const threadItem = _threadItem;

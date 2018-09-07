@@ -18,18 +18,14 @@ const _introEditor = (settings) => {
   } else {
     draft = Session.get('draftContract');
   }
-  console.log(settings);
   if (settings.replyMode || !Session.get('showPostEditor')) {
     if (settings.replyMode && settings.replyId) {
-      console.log('entering with replyMode Settings');
       draft.replyId = settings.replyId;
     } else {
-      console.log('BORRANDO LA JODA');
       draft.replyId = '';
     }
     Session.set('draftContract', draft);
     Session.set('showPostEditor', true);
-    console.log('INTRO EDITOR');
   } else if (!Meteor.Device.isPhone()) {
     editorFadeOut(Session.get('draftContract')._id);
   }

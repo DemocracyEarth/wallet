@@ -29,6 +29,8 @@
       {{#unless isPhone}}
         {{#unless replyMode}}
           {{> compose desktopMode=true replyMode=false}}
+        {{else}}
+          {{> compose desktopMode=true replyMode=false compressed=true}}
         {{/unless}}
       {{else}}
         {{#if editorMode}}

@@ -178,14 +178,25 @@ Template.electorate.onRendered(function () {
 
 Template.electorate.helpers({
   status() {
+    let rule;
     if (!this.readOnly) {
-      let rule = _writeRule(Session.get('draftContract'));
+      rule = _writeRule(Session.get('draftContract'));
       if (rule === TAPi18n.__('electorate-sentence-anyone')) {
         rule = TAPi18n.__('requisites');
       }
       return rule;
     }
-    return _writeRule(this.contract, false);
+    rule = _writeRule(this.contract, false);
+    if (rule === TAPi18n.__('electorate-sentence-anyone')) {
+      rule = '';
+    }
+    return rule;
+  },
+  editorId() {
+    if (!this.readOnly) {
+      return 'electorate-button';
+    }
+    return '';
   },
   description() {
     if (this.readOnly) {
