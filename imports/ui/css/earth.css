@@ -6071,6 +6071,11 @@ blockquote {
   border-left-color: transparent;
 }
 
+.vote-thread.vote-thread-main {
+  margin-left: 17px;
+  padding-right: 17px;
+}
+
 .thread-sub {
   position: absolute;
   display: block;

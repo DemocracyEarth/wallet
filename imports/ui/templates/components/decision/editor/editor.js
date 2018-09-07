@@ -136,8 +136,9 @@ const _editorFadeOut = () => {
 
 const _threadEditor = (instance) => {
   if (instance.data.mainFeed) {
-    $('#feedItem-editor').wrapAll("<div id='thread-editor' class='vote-thread vote-thread-context' />");
-    $('#thread-editor').prepend("<div class='thread-sub'><div class='thread-needle thread-reply'></div>");
+    const previous = Contracts.findOne({ _id: instance.data.replyId });
+    $('#feedItem-editor').wrapAll(`<div id='thread-editor' class='vote-thread ${previous.replyId ? 'vote-thread-main' : ''} ' />`);
+    $('#thread-editor').prepend("<div class='thread-sub'><div class='thread-needle thread-last'></div>");
   } else {
     $(`#feedItem-editor`).wrapAll(`<div id='thread-editor' class='vote-thread' />`);
     $(`#thread-${instance.data._id}`).prepend(`<div class='thread-sub'><div class='thread-needle ${instance.data.lastItem ? 'thread-last' : ''}'></div></div>`);
@@ -156,6 +157,10 @@ Template.editor.onCreated(function () {
   Template.instance().reply = new ReactiveVar();
 });
 
+Template.editor.onDestroyed(() => {
+  $('#thread-editor').remove();
+});
+
 Template.editor.onRendered(function () {
   if (!this.data.compressed) {
     const draft = _resetDraft(Session.get('draftContract'));
@@ -168,6 +173,16 @@ Template.editor.onRendered(function () {
     }
     Session.set('draftContract', draft);
     toggleFeed(false);
+
+    window.addEventListener('click', function (e) {
+      if (document.getElementById('feedItem-editor') && !document.getElementById('feedItem-editor').contains(e.target)) {
+        console.log('eh');
+        const reset = _resetDraft(Session.get('draftContract'));
+        reset.replyId = '';
+        console.log(reset);
+        // Session.set('draftContract', reset);
+      }
+    });
   }
 });
 
