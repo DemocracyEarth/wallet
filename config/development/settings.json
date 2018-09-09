@@ -23,7 +23,7 @@
         "APIKey": "",
         "APISecret": ""
       },
-      
+
       "amazon": {
         "AWSBucket": "",
         "AWSRegion": "us-west-2",
@@ -71,7 +71,7 @@
     },
 
     "Collective": {
-      "name": "Democracy Earth Foundation",
+      "name": "Democracy Earth",
       "domain": "https://localhost:3000",
       "emails": [
         {
@@ -97,7 +97,7 @@
         "jurisdiction": {
           "legal": {
               "taxId": "37-1776296",
-              "name": "Democracy Earth Foundation",
+              "name": "Democracy Earth",
               "type": "Non-Profit 501(c)3"
           },
           "location": {
