@@ -178,9 +178,14 @@ Template.editor.onRendered(function () {
       if (document.getElementById('feedItem-editor') && !document.getElementById('feedItem-editor').contains(e.target)) {
         console.log('eh');
         const reset = _resetDraft(Session.get('draftContract'));
-        reset.replyId = '';
-        console.log(reset);
-        // Session.set('draftContract', reset);
+        if (!Session.get('minimizedEditor')) {
+          Session.set('minimizedEditor', true);
+        }
+        if (reset.replyId) {
+          reset.replyId = '';
+          Session.set('draftContract', reset);
+        }
+        Session.set('showPostEditor', false);
       }
     });
   }
@@ -297,6 +302,7 @@ Template.editor.events({
     const draft = _resetDraft(Session.get('draftContract'));
     draft.replyId = '';
     Session.set('draftContract', draft);
+    Session.set('minimizedEditor', false);
   },
   'click #close-mobile-editor'() {
     $('#post-editor').css('display', '');

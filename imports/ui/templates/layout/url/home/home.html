@@ -28,7 +28,11 @@
     <div class="content content-feed max100">
       {{#unless isPhone}}
         {{#unless replyMode}}
-          {{> compose desktopMode=true replyMode=false}}
+          {{#unless minimizedMode}}
+            {{> compose desktopMode=true replyMode=false}}
+          {{else}}
+            {{> compose desktopMode=true replyMode=false compressed=true}}
+          {{/unless}}
         {{else}}
           {{> compose desktopMode=true replyMode=false compressed=true}}
         {{/unless}}

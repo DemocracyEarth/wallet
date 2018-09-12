@@ -77,6 +77,8 @@ Template.homeFeed.onCreated(function () {
   const instance = this;
   const subscription = instance.subscribe('feed', { view: 'latest', sort: { createdAt: -1 } });
 
+  Session.set('minimizedEditor', true);
+
   instance.autorun(function (computation) {
     if (subscription.ready()) {
       instance.feedReady.set(true);
@@ -88,6 +90,9 @@ Template.homeFeed.onCreated(function () {
 Template.homeFeed.helpers({
   editorMode() {
     return Session.get('showPostEditor');
+  },
+  minimizedMode() {
+    return Session.get('minimizedEditor');
   },
   replyMode() {
     console.log('rrrrema');
