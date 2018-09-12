@@ -71,13 +71,19 @@ Template.authentication.events({
   },
   'click #navbar-post-button'() {
     if (!_isDisabled()) {
-      publishContract(Session.get('draftContract')._id);
+      const publish = Session.get('draftContract');
+      publishContract(publish._id);
       displayNotice(TAPi18n.__('posted-idea'), true);
       document.getElementById('titleContent').innerText = '';
       Session.set('missingTitle', false);
 
       const draft = createContract();
       Session.set('draftContract', draft);
+
+
+      if (!draft.replyId) {
+        Session.set('minimizedEditor', true);
+      }
       $('#titleContent').focus();
     }
   },

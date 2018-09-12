@@ -4,6 +4,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { Router } from 'meteor/iron:router';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
+import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
 
 import '/imports/ui/templates/layout/url/home/home.html';
 import '/imports/ui/templates/widgets/feed/feed.js';
@@ -78,6 +79,10 @@ Template.homeFeed.onCreated(function () {
   const subscription = instance.subscribe('feed', { view: 'latest', sort: { createdAt: -1 } });
 
   Session.set('minimizedEditor', true);
+
+  if (!Session.get('draftContract')) {
+    introEditor({ desktopMode: !Meteor.Device.isPhone(), replyMode: false, replyId: '', });
+  }
 
   instance.autorun(function (computation) {
     if (subscription.ready()) {

@@ -1334,6 +1334,10 @@ blockquote {
   background-color: #fff;
 }
 
+.vote.vote-search.vote-feed.vote-editor-compressed {
+  margin-bottom: 20px;
+}
+
 .vote.vote-placeholder {
   width: 50%;
   height: 70px;
