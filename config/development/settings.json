@@ -73,7 +73,7 @@
     },
 
     "Collective": {
-      "name": "Democracy Earth Foundation",
+      "name": "Blockstack",
       "domain": "https://localhost:3000",
       "emails": [
         {
@@ -85,7 +85,7 @@
 
       "profile": {
         "website": "https://democracy.earth",
-        "bio": "Borderless governance.",
+        "bio": "By Democracy Earth",
         "twitter": "@DemocracyEarth",
         "blockchain": {
           "Bitcoin": {
@@ -95,7 +95,7 @@
             "address": ""
           }
         },
-        "logo": "images/earth.png",
+        "logo": "images/blockstack-icon.jpg",
         "jurisdiction": {
           "legal": {
               "taxId": "37-1776296",
