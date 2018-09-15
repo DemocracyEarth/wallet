@@ -177,7 +177,7 @@
   "username-sample": "satoshin",
   "invalid-username": "No spaces or rare characters.",
   "repeated-username": "Username already exists.",
-  "invalid-email": "E-mail address is invalid.",
+  "invalid-email": "E-mail is not part of allowed list.",
   "user-exists": "This user is already registered.",
   "invalid-password": "Pass requires at least 6 letters.",
   "short-password": "Pass requires at least 6 characters.",
