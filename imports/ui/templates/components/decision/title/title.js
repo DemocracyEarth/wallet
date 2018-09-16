@@ -64,8 +64,11 @@ const parseURL = (text) => {
 
 /**
 * @summary Strips markdown format to render HTML link correctly
-* @param {string} text - Expected format is [test](<a href='www.test.com' target='_blank'>test</a>)
-* @param {string} humanStr - Refers to part within brackets, 'test' in the example above
+* @param {string} text - Expected format is:
+* "[Click me](<a href='http://www.test.com' target='_blank'>www.test.com</a>)"
+* @param {string} humanStr - Refers to part within brackets, 'Click me' in the example above
+* @returns {string} HTML format that actually contains the human readable part, as in:
+* "<a href='http://www.test.com' target='_blank'>Click me</a>"
 */
 const stripMarkdownLink = (text, humanStr) => {
   text = text.slice(text.search("<a href="))
