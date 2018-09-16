@@ -38,6 +38,7 @@ const getIndexArray = (search, text, caseSensitive) => {
 
 const parseURL = (text) => {
   const exp = /(\b(((https?|ftp|file|):\/\/)|www[.])[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+  const markdownLinkExp = /(?:__|[*#])|\[(.*?)\]\(.*?\)/ig;
   let temp = text.replace(exp, "<a href='$1' target='_blank'>$1</a>");
   let result = '';
 
@@ -55,8 +56,24 @@ const parseURL = (text) => {
     }
   }
 
+  // If markdown link (`[]()`) present, strip for correct rendering
+  result = result.replace(markdownLinkExp, stripMarkdownLink(result, '$1'));
+
   return result;
 };
+
+/**
+* @summary Strips markdown format to render HTML link correctly
+* @param {string} text - Expected format is [test](<a href='www.test.com' target='_blank'>test</a>)
+* @param {string} humanStr - Refers to part within brackets, 'test' in the example above
+*/
+const stripMarkdownLink = (text, humanStr) => {
+  text = text.slice(text.search("<a href="))
+  text = text.slice(0, text.search("target='_blank'>") + 16)
+  text = text + humanStr + '</a>';
+
+  return text;
+}
 
 const _replaceAll = (target, search, replacement) => {
   return target.split(search).join(replacement);
