@@ -39,6 +39,11 @@ const getIndexArray = (search, text, caseSensitive) => {
 const parseURL = (text) => {
   const exp = /(\b(((https?|ftp|file|):\/\/)|www[.])[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
   const markdownLinkExp = /(?:__|[*#])|\[(.*?)\]\(.*?\)/ig;
+  const markdownImgExp = /(?:!\[(.*?)\]\((.*?)\))/ig;
+
+  // If markdown image format present, ignore
+  if (text.search(markdownImgExp) != -1) return text;
+
   let temp = text.replace(exp, "<a href='$1' target='_blank'>$1</a>");
   let result = '';
 
@@ -56,7 +61,7 @@ const parseURL = (text) => {
     }
   }
 
-  // If markdown link (`[]()`) present, strip for correct rendering
+  // If markdown link format (`[]()`) present, strip for correct rendering
   result = result.replace(markdownLinkExp, stripMarkdownLink(result, '$1'));
 
   return result;
@@ -110,6 +115,9 @@ const parseMarkup = (text) => {
   html = html.replace(/__(.*?)__/g, '<u>$1</u>');
   html = html.replace(/--(.*?)--/g, '<i>$1</i>');
   html = html.replace(/~~(.*?)~~/g, '<del>$1</del>');
+
+  // images
+  html = html.replace(/(?:!\[(.*?)\]\((.*?)\))/g, '<img alt="$1" src="$2" />');
 
   // paragraphs
   html = html.replace(/\n/g, '<br>');
