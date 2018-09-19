@@ -47,6 +47,13 @@ Template.card.helpers({
       targetId: Template.instance().senderDelegationContract.get()._id, // this.toString(),
     };
   },
+  verifiedEmailOnly() {
+    if (Meteor.user().emails[0].verified) {
+      return true;
+    } else {
+      return false;
+    }
+  },
   displayDelegation() {
     return Template.instance().displayDelegation.get();
   },

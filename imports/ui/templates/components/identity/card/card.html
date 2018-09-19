@@ -17,7 +17,9 @@
               {{> transaction contract=this.contractSender senderId=this.senderId receiverId=this.receiverId onCard=true compressed=true editable=true voteId=this.voteId noDate=true}}
             {{/with}}
             {{#with voteSettings}}
-              {{> liquid _id=this.voteId sourceId=this.sourceId contract=contract targetId=this.targetId wallet=this.wallet editable=true}}
+              {{#if verifiedEmailOnly }}
+                {{> liquid _id=this.voteId sourceId=this.sourceId contract=contract targetId=this.targetId wallet=this.wallet editable=true}}
+              {{/if}}                
             {{/with}}
           {{else}}
             {{> spinner id=spinnerId style=spinnerStyle color='#fff' length=8}}
