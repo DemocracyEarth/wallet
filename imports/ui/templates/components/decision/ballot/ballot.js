@@ -15,6 +15,7 @@ import '/imports/ui/templates/components/decision/ballot/ballot.html';
 import '/imports/ui/templates/components/decision/fork/fork.js';
 import '/imports/ui/templates/components/decision/liquid/liquid.js';
 import '/imports/ui/templates/widgets/warning/warning.js';
+import { displayNotice } from '/imports/ui/modules/notice';
 
 const _userCanVote = (contract, forkId) => {
   const forks = Template.instance().forks;
@@ -366,6 +367,13 @@ Template.ballot.helpers({
     }
     return '';
   },
+  verifiedEmailOnly() {
+    if (Meteor.user().emails[0].verified) {
+      return this.contract.url;
+    } else {
+      return '#';
+    }
+  },
 });
 
 
@@ -375,4 +383,10 @@ Template.ballot.events({
     addChoiceToBallot(this.contract._id, document.getElementById('text-fork-proposal').value);
     Meteor.setTimeout(() => { document.getElementById('text-fork-proposal').value = ''; }, 100);
   },
+  'click #ballot-micro-menu'() {
+    console.log('DEBUG - ballot.js - click #ballot-micro-menu');
+    if(!Meteor.user().emails[0].verified) {
+      displayNotice('verified-email-only', true);
+    }
+  }
 });
