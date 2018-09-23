@@ -37,51 +37,12 @@ const getIndexArray = (search, text, caseSensitive) => {
 };
 
 const parseURL = (text) => {
-  const exp = /(\b(((https?|ftp|file|):\/\/)|www[.])[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-  const markdownLinkExp = /(?:__|[*#])|\[(.*?)\]\(.*?\)/ig;
-  const markdownImgExp = /(?:!\[(.*?)\]\((.*?)\))/ig;
-
-  // If markdown image format present, ignore
-  if (text.search(markdownImgExp) != -1) return text;
-
-  let temp = text.replace(exp, "<a href='$1' target='_blank'>$1</a>");
-  let result = '';
-
-  while (temp.length > 0) {
-    const pos = temp.indexOf("href='");
-    if (pos === -1) {
-      result += temp;
-      break;
-    }
-    result += temp.substring(0, pos + 6);
-
-    temp = temp.substring(pos + 6, temp.length);
-    if ((temp.indexOf('://') > 8) || (temp.indexOf('://') === -1)) {
-      result += 'http://';
-    }
-  }
-
-  // If markdown link format (`[]()`) present, strip for correct rendering
-  result = result.replace(markdownLinkExp, stripMarkdownLink(result, '$1'));
-
+  const exp = /^((http[s]?|ftp):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$/ig;
+  let result = text.replace(exp, "<a href='$&' target='_blank'>$&</a>");
   return result;
 };
 
-/**
-* @summary Strips markdown format to render HTML link correctly
-* @param {string} text - Expected format is:
-* "[Click me](<a href='http://www.test.com' target='_blank'>www.test.com</a>)"
-* @param {string} humanStr - Refers to part within brackets, 'Click me' in the example above
-* @returns {string} HTML format that actually contains the human readable part, as in:
-* "<a href='http://www.test.com' target='_blank'>Click me</a>"
-*/
-const stripMarkdownLink = (text, humanStr) => {
-  text = text.slice(text.search("<a href="))
-  text = text.slice(0, text.search("target='_blank'>") + 16)
-  text = text + humanStr + '</a>';
 
-  return text;
-}
 
 const _replaceAll = (target, search, replacement) => {
   return target.split(search).join(replacement);
@@ -116,8 +77,8 @@ const parseMarkup = (text) => {
   html = html.replace(/--(.*?)--/g, '<i>$1</i>');
   html = html.replace(/~~(.*?)~~/g, '<del>$1</del>');
 
-  // images
   html = html.replace(/(?:!\[(.*?)\]\((.*?)\))/g, '<img alt="$1" src="$2" />');
+  html = html.replace(/(?:\[(.*?)\]\((.*?)\))/g, "<a href='$2' target='_blank'>$1</a>");
 
   // paragraphs
   html = html.replace(/\n/g, '<br>');
