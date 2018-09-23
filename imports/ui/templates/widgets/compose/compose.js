@@ -59,6 +59,10 @@ Template.compose.helpers({
     }
     return 'images/compose.png';
   },
+  enabled() {
+    // check Meteor.user().emails[0].verified here
+    return true;
+  },
 });
 
 Template.compose.events({

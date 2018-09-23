@@ -368,7 +368,7 @@ Template.ballot.helpers({
     return '';
   },
   verifiedEmailOnly() {
-    if (Meteor.user().emails[0].verified) {
+    if (!Meteor.user().emails[0].verified) {
       return this.contract.url;
     } else {
       return '#';
