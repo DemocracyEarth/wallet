@@ -63,7 +63,7 @@
           "commentRanking": true,
           "proposalDrafting": true,
           "appCache": false,
-          "mailNotifications": false,
+          "mailNotifications": true,
           "permissioned": {
             "active": true,
             "checkDomain": false,
