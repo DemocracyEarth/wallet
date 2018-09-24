@@ -150,6 +150,18 @@ const _threadEditor = (instance) => {
   }
 };
 
+const _contextCheck = (elementId, event) => {
+  let popup = false;
+  if (document.getElementById('card-constituency-popup')) {
+    popup = document.getElementById('card-constituency-popup') && !document.getElementById('card-constituency-popup').contains(event.target);
+    if (!popup) {
+      return document.getElementById(elementId) && !document.getElementById(elementId).contains(event.target);
+    }
+    return false;
+  }
+  return document.getElementById(elementId) && !document.getElementById(elementId).contains(event.target);
+};
+
 Template.editor.onCreated(function () {
   const contract = Session.get('draftContract');
   Template.instance().ready = new ReactiveVar(true);
@@ -175,8 +187,7 @@ Template.editor.onRendered(function () {
     toggleFeed(false);
 
     window.addEventListener('click', function (e) {
-      if (document.getElementById('feedItem-editor') && !document.getElementById('feedItem-editor').contains(e.target)) {
-        console.log('eh');
+      if (_contextCheck('feedItem-editor', e)) {
         const reset = _resetDraft(Session.get('draftContract'));
         if (!Session.get('minimizedEditor')) {
           Session.set('minimizedEditor', true);
