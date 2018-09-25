@@ -11,6 +11,7 @@ import { displayTimedWarning } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { timers } from '/lib/const';
 import { verifyConstituencyRights } from '/imports/ui/templates/components/decision/electorate/electorate.js';
+import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
 
 import '/imports/ui/templates/components/decision/ballot/ballot.html';
 import '/imports/ui/templates/components/decision/fork/fork.js';
@@ -468,6 +469,8 @@ Template.ballot.events({
       const contract = Session.get('draftContract');
       contract.replyId = Template.currentData().contract._id;
       Session.set('draftContract', contract);
+    } else {
+      introEditor({ desktopMode: !Meteor.Device.isPhone(), replyMode: true, replyId: Template.currentData().contract._id });
     }
   },
   'submit #fork-form, click #add-fork-proposal'(event) {
