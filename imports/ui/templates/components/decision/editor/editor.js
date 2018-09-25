@@ -25,6 +25,18 @@ const _resetDraft = (contract) => {
   draft.constituencyEnabled = false;
   draft.ballotEnabled = false;
   draft.stakingEnabled = false;
+  if (draft.signatures.length === 0) {
+    if (Meteor.user()) {
+      draft.signatures = [
+        {
+          _id: Meteor.userId(),
+          role: 'AUTHOR',
+          username: Meteor.user().username,
+          status: 'CONFIRMED',
+        },
+      ];
+    }
+  }
   return draft;
 };
 
