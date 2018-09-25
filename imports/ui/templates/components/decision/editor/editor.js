@@ -151,13 +151,8 @@ const _threadEditor = (instance) => {
 };
 
 const _contextCheck = (elementId, event) => {
-  let popup = false;
   if (document.getElementById('card-constituency-popup')) {
-    popup = document.getElementById('card-constituency-popup') && !document.getElementById('card-constituency-popup').contains(event.target);
-    if (!popup) {
-      return document.getElementById(elementId) && !document.getElementById(elementId).contains(event.target);
-    }
-    return false;
+    return document.getElementById('card-constituency-popup') && !document.getElementById('card-constituency-popup').contains(event.target) && document.getElementById(elementId) && !document.getElementById(elementId).contains(event.target);
   }
   return document.getElementById(elementId) && !document.getElementById(elementId).contains(event.target);
 };
