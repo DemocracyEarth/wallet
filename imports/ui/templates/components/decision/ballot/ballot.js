@@ -466,13 +466,8 @@ Template.ballot.events({
     event.preventDefault();
     if (Session.get('draftContract')) {
       const contract = Session.get('draftContract');
-      console.log(Template.currentData().contract._id);
-      console.log(Template.instance().data.contract._id);
       contract.replyId = Template.currentData().contract._id;
-      console.log(contract.replyId);
-      console.log(contract);
       Session.set('draftContract', contract);
-      console.log('REPLY ME');
     }
   },
   'submit #fork-form, click #add-fork-proposal'(event) {

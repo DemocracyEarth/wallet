@@ -4511,12 +4511,8 @@ blockquote {
   cursor: pointer;
 }
 
-.micro-button:hover {
-  border-bottom-style: none;
-}
-
 .micro-button:active {
-  background-color: #f8f8f8;
+  background-color: #e9f0ee;
 }
 
 .micro-button.micro-button-remove {

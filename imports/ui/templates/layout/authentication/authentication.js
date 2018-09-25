@@ -80,6 +80,7 @@ Template.authentication.events({
       const draft = createContract();
       Session.set('draftContract', draft);
 
+      $('#thread-editor-depth').remove();
 
       if (!draft.replyId) {
         Session.set('minimizedEditor', true);

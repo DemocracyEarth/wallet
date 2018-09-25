@@ -136,15 +136,18 @@ const _editorFadeOut = () => {
 
 const _threadEditor = (instance) => {
   if (instance.data.mainFeed) {
+    console.log('mainFeed');
     const previous = Contracts.findOne({ _id: instance.data.replyId });
     $('#feedItem-editor').wrapAll(`<div id='thread-editor' class='vote-thread ${previous.replyId ? 'vote-thread-main' : ''} ' />`);
     $('#thread-editor').prepend("<div class='thread-sub'><div class='thread-needle thread-last'></div>");
   } else {
-    $(`#feedItem-editor`).wrapAll(`<div id='thread-editor' class='vote-thread' />`);
-    $(`#thread-${instance.data._id}`).prepend(`<div class='thread-sub'><div class='thread-needle ${instance.data.lastItem ? 'thread-last' : ''}'></div></div>`);
-    if (instance.data.depth > 1) {
-      for (let i = 1; i < instance.data.depth; i += 1) {
-        $(`#thread-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}-depth-${i}' class='vote-thread' />`);
+    console.log('haciendo thread editor pero no para el main feed');
+    $('#feedItem-editor').wrapAll("<div id='thread-editor' class='vote-thread' />");
+    $('#thread-editor').prepend(`<div class='thread-sub'><div class='thread-needle ${instance.data.lastItem ? 'thread-last' : ''}'></div></div>`);
+    $('#thread-editor-depth').remove();
+    if (instance.data.depth > 0) {
+      for (let i = 0; i < instance.data.depth; i += 1) {
+        $('#thread-editor').wrapAll("<div id='thread-editor-depth' class='vote-thread' />`");
       }
     }
   }
@@ -169,6 +172,8 @@ Template.editor.onDestroyed(() => {
 });
 
 Template.editor.onRendered(function () {
+  console.log('EDITOR DATA:');
+  console.log(this.data);
   if (!this.data.compressed) {
     const draft = _resetDraft(Session.get('draftContract'));
     if (Template.currentData().replyMode && Template.currentData().replyId) {
@@ -191,6 +196,7 @@ Template.editor.onRendered(function () {
           reset.replyId = '';
           Session.set('draftContract', reset);
         }
+        $('#thread-editor-depth').remove();
         Session.set('showPostEditor', false);
       }
     });
