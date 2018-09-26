@@ -279,40 +279,23 @@ const _remove = (contractId) => {
 * @summary dynamically generates a valid URL keyword regardless the case
 * @param {string} keyword tentative title being used for contract
 */
-const _generateURL = (keyword, contractId) => {
+const _contractURI = (keyword) => {
   return convertToSlug(`${keyword}-${shortUUID()}`);
-/*
-  let dynamicURL;
-  let contract = Contracts.findOne({ _id: contractId });
-
-  while (contract) {
-    if (keyword.length < 3) { // Meteor.Device.isPhone() &&
-      dynamicURL = convertToSlug(`${keyword}-${shortUUID()}`);
-    } else if (!dynamicURL) {
-      dynamicURL = convertToSlug(keyword);
-    }
-    contract = Contracts.findOne({ keyword: dynamicURL });
-    if (contract) {
-      if (contract._id !== contractId) {
-        dynamicURL = convertToSlug(`${keyword}-${shortUUID()}`);
-        contract = undefined;
-      } else if (contract._id === contractId) {
-        contract = undefined;
-      }
-    }
-  }
-  return dynamicURL;
-  */
 };
 
 /**
-* publishes a contract and goes to home
+* @summary publishes a contract and goes to home
 * @param {string} contractId - id of the contract to publish
+* @param {string} keyword - key word identifier
 */
-const _publish = (contractId) => {
+const _publish = (contractId, keyword) => {
   const draft = Session.get('draftContract');
   draft.stage = 'LIVE';
-  draft.keyword = _generateURL(document.getElementById('titleContent').innerText, draft._id);
+  if (!keyword) {
+    draft.keyword = _contractURI(document.getElementById('titleContent').innerText, draft._id);
+  } else {
+    draft.keyword = keyword;
+  }
   draft.url = `/vote/${draft.keyword}`;
   // profile & country is optional
   if (Meteor.user() && Meteor.user().profile &&
@@ -424,6 +407,7 @@ const _rightToVote = (contract) => {
   return true;
 };
 
+export const contractURI = _contractURI;
 export const rightToVote = _rightToVote;
 export const signatureStatus = _signatureStatus;
 export const setContractStage = contractStage;

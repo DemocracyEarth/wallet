@@ -3,9 +3,11 @@ import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 import { Meteor } from 'meteor/meteor';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { Router } from 'meteor/iron:router';
 
+import { Contracts } from '/imports/api/contracts/Contracts';
 import { editorFadeOut } from '/imports/ui/templates/components/decision/editor/editor';
-import { publishContract, createContract } from '/imports/startup/both/modules/Contract';
+import { publishContract, createContract, contractURI } from '/imports/startup/both/modules/Contract';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
 
@@ -15,6 +17,40 @@ import '/imports/ui/templates/components/identity/avatar/avatar.js';
 function _isDisabled() {
   return (Session.get('missingTitle') || Session.get('mistypedTitle') || Session.get('duplicateURL') || (Session.get('availableChars') < 0));
 }
+
+/**
+* @summary publish a new contract
+*/
+const _publish = () => {
+  if (!_isDisabled()) {
+    // publish
+    const draft = Session.get('draftContract');
+    const uri = contractURI(document.getElementById('titleContent').innerText, draft._id);
+    const url = `${draft.url}${uri}`;
+    publishContract(draft._id, uri);
+
+    // announce
+    displayNotice(TAPi18n.__('posted-idea'), true);
+    document.getElementById('titleContent').innerText = '';
+    Session.set('missingTitle', false);
+
+    // reset
+    const newDraft = createContract();
+    Session.set('draftContract', newDraft);
+
+    if (window.location.pathname.substring(0, 5) === '/vote') {
+      // new
+      Router.go(url);
+    } else {
+      // clean
+      $('#thread-editor-depth').remove();
+      if (!newDraft.replyId) {
+        Session.set('minimizedEditor', true);
+      }
+      $('#titleContent').focus();
+    }
+  }
+};
 
 function promptLogin(logged, event) {
   if (logged) {
@@ -70,23 +106,7 @@ Template.authentication.events({
     promptLogin((!Session.get('user-login') || !Session.get('user-login').visible), event);
   },
   'click #navbar-post-button'() {
-    if (!_isDisabled()) {
-      const publish = Session.get('draftContract');
-      publishContract(publish._id);
-      displayNotice(TAPi18n.__('posted-idea'), true);
-      document.getElementById('titleContent').innerText = '';
-      Session.set('missingTitle', false);
-
-      const draft = createContract();
-      Session.set('draftContract', draft);
-
-      $('#thread-editor-depth').remove();
-
-      if (!draft.replyId) {
-        Session.set('minimizedEditor', true);
-      }
-      $('#titleContent').focus();
-    }
+    _publish();
   },
 });
 
