@@ -211,8 +211,6 @@ Template.liquid.helpers({
       }
       this.newVote.resetSlider();
       this.newVote.place(1, true);
-      console.log(`this.singleRevoke: ${this.singleRevoke}`);
-      console.log(this.newVote);
       if (this.singleRevoke) {
         this.newVote.place(0, true);
         this.newVote.inBallot = 1;
@@ -221,11 +219,8 @@ Template.liquid.helpers({
 
       const cancel = () => {
         // Session.set('castSingleVote', undefined);
-        console.log(`voteId: ${voteId}`);
-        console.log(Session.get(voteId));
         Session.set('castSingleVote', undefined);
         delete Session.keys[voteId];
-        console.log(Session.get(voteId));
       };
 
       /**
@@ -250,7 +245,6 @@ Template.liquid.helpers({
     }
   },
   placeholder() {
-    console.log(this);
     return this.placeholder;
   },
   signleVote() {

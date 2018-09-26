@@ -5,10 +5,8 @@ import { $ } from 'meteor/jquery';
 
 import { getDelegationContract } from '/imports/startup/both/modules/Contract';
 import { Contracts } from '/imports/api/contracts/Contracts';
-import { convertToSlug } from '/lib/utils';
 import { defaultSettings } from '/lib/const';
 import { purgeBallot, getBallot } from '/imports/ui/modules/ballot';
-import { displayNotice } from '/imports/ui/modules/notice';
 import { displayModal } from '/imports/ui/modules/modal';
 import { transact, getVotes } from '/imports/api/transactions/transaction';
 
@@ -199,7 +197,6 @@ export class Vote {
     if (this.enabled) {
       this.placedPercentage = ((this.placed * 100) / this.balance);
       this.allocatePercentage = ((quantity * 100) / this.balance);
-      console.log(this);
       this.allocateQuantity = parseInt(_scope(quantity, this.maxVotes), 10); // used to have instead of maxvotes : (this.available + this.inBallot)
     }
     if (!avoidSlider) {
@@ -231,8 +228,8 @@ export class Vote {
     let sliderInRemainingSpace;
     let inputPixels = pixels;
     if (pixels === undefined) { inputPixels = 0; }
-    const MAX_VOTES_PRECISION = 0 * this.TOGGLE_DISPLAY_PLACED_BAR;   // 10;
-    const MAX_PERCENTAGE_PRECISION = 0 * this.TOGGLE_DISPLAY_PLACED_BAR; // 7;
+    const MAX_VOTES_PRECISION = 0 * this.TOGGLE_DISPLAY_PLACED_BAR;
+    const MAX_PERCENTAGE_PRECISION = 0 * this.TOGGLE_DISPLAY_PLACED_BAR;
     const barWidth = $(`#voteBar-${this.voteId}`).width();
     const placedWidth = parseInt($(`#votePlaced-${this.voteId}`).width() * this.TOGGLE_DISPLAY_PLACED_BAR, 10);
     const precisionRange = parseInt((MAX_PERCENTAGE_PRECISION * barWidth) / 100, 10);
@@ -353,10 +350,7 @@ export class Vote {
     const votesInBallot = this.inBallot;
     const newVotes = parseInt(this.allocateQuantity - votesInBallot, 10);
     const votes = parseInt(votesInBallot + newVotes, 10);
-    console.log(`this.allocateQuantity: ${this.allocateQuantity}`); // 0
-    console.log(`votesInBallot: ${votesInBallot}`); // 1
-    console.log(`votes: ${votes}`); // 0
-    console.log(`newvotes: ${newVotes}`); // -1
+
     /**
     * NOTE: uncomment for testing
     **/
@@ -439,27 +433,37 @@ export class Vote {
     if (newVotes < 0 || votes === 0 || removal === true) {
       // subtract votes
 
-      if (votes === 0) {
-        finalCaption = TAPi18n.__(`retrieve-all-${dictionary}`);
+      if (votes === 0 && !removal) {
+        // insuffient funds
+        finalCaption = TAPi18n.__('insufficient-votes');
         showBallot = false;
-        actionLabel = TAPi18n.__('remove');
+        actionLabel = TAPi18n.__('get-tokens');
+        vote = () => {
+          window.open(Meteor.settings.public.web.sites.tokens, '_blank');
+        };
       } else {
-        finalCaption = TAPi18n.__(`retrieve-${dictionary}-warning`).replace('<quantity>', votes.toString()).replace('<retrieve>', Math.abs(newVotes).toString());
-      }
-      vote = () => {
-        const tx = transact(
-          this.targetId,
-          this.userId,
-          parseInt(Math.abs(newVotes), 10),
-          settings,
-          close
-        );
-        if (tx) {
-          if (single) { delete Session.keys[this.voteId]; }
-          _updateState();
+        if (votes === 0) {
+          finalCaption = TAPi18n.__(`retrieve-all-${dictionary}`);
+          showBallot = false;
+          actionLabel = TAPi18n.__('remove');
+        } else {
+          finalCaption = TAPi18n.__(`retrieve-${dictionary}-warning`).replace('<quantity>', votes.toString()).replace('<retrieve>', Math.abs(newVotes).toString());
         }
-        return tx;
-      };
+        vote = () => {
+          const tx = transact(
+            this.targetId,
+            this.userId,
+            parseInt(Math.abs(newVotes), 10),
+            settings,
+            close
+          );
+          if (tx) {
+            if (single) { delete Session.keys[this.voteId]; }
+            _updateState();
+          }
+          return tx;
+        };
+      }
     } else if ((votesInBallot === 0) || (newVotes === 0)) {
       // insert votes
 

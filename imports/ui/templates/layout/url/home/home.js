@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Router } from 'meteor/iron:router';
+import { Meteor } from 'meteor/meteor';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
@@ -81,7 +82,7 @@ Template.homeFeed.onCreated(function () {
   Session.set('minimizedEditor', true);
 
   if (!Session.get('draftContract')) {
-    introEditor({ desktopMode: !Meteor.Device.isPhone(), replyMode: false, replyId: '', });
+    introEditor({ desktopMode: !Meteor.Device.isPhone(), replyMode: false, replyId: '' });
   }
 
   instance.autorun(function (computation) {
@@ -100,8 +101,6 @@ Template.homeFeed.helpers({
     return Session.get('minimizedEditor');
   },
   replyMode() {
-    console.log('rrrrema');
-    // console.log(Session.get('draftContract').replyId);
     return (Session.get('draftContract') && Session.get('draftContract').replyId);
   },
   newContractId() {

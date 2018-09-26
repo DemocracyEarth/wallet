@@ -56,7 +56,6 @@ const _createContract = (newkeyword, newtitle) => {
       Contracts.insert({ keyword: `draft-${Meteor.userId()}` });
     }
     const contract = Contracts.findOne({ keyword: `draft-${Meteor.userId()}` });
-    console.log(`user logging in: ${Meteor.user()}`);
     if (Meteor.user()) {
       _sign(contract._id, Meteor.user(), 'AUTHOR');
     }
@@ -363,8 +362,12 @@ const _publish = (contractId, keyword) => {
         toId,
         fromId,
         story,
-        transaction,
-      );
+        transaction, function (err, result) {
+          if (err) {
+            throw new Meteor.Error(err, '[sendNotification]: notification failed.');
+          }
+          return result;
+        });
     }
   }
 };

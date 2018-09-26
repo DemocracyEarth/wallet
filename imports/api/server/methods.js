@@ -120,7 +120,9 @@ Meteor.methods({
 
     console.log(`{ server: 'sendNotification', from: '${sender.username}', to: '${receiver.username}', text: "${text}" }`);
 
-    Email.send({ to, from, subject, text, html });
+    if (sender.username !== receiver.username) {
+      Email.send({ to, from, subject, text, html });
+    }
   },
 
   /**

@@ -126,6 +126,12 @@
       ]
     },
 
+    "web": {
+      "sites": {
+        "tokens": "https://ico.democracy.earth"
+      }
+    },
+
     "web3" : {
       "network": {
         "local": "http://localhost:8545",

@@ -159,9 +159,9 @@ Template.sidebar.onCreated(function () {
         });
         if (subscriptionTransactions.ready()) {
           const transactions = Transactions.find({ $or: [{ $and: [{ 'output.entityId': Meteor.userId() }, { kind: 'DELEGATION' }] },
-                                                         { $and: [{ 'input.entityId': Meteor.userId() }, { kind: 'DELEGATION' }] },
-                                                         { $and: [{ 'input.delegateId': Meteor.userId() }, { kind: 'DELEGATION' }] },
-                                                         { $and: [{ 'output.delegateId': Meteor.userId() }, { kind: 'DELEGATION' }] }] }).fetch();
+            { $and: [{ 'input.entityId': Meteor.userId() }, { kind: 'DELEGATION' }] },
+            { $and: [{ 'input.delegateId': Meteor.userId() }, { kind: 'DELEGATION' }] },
+            { $and: [{ 'output.delegateId': Meteor.userId() }, { kind: 'DELEGATION' }] }] }).fetch();
 
           const txList = _.pluck(transactions, '_id');
           let newTransaction;

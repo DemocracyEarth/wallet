@@ -64,7 +64,6 @@ function toggleFeed(enabled) {
             overflow: 'hidden',
             height: 0,
           });
-          console.log('path C');
           $('.cast').css('height', 0);
           $('#feed-bottom').css('width', 0);
           $('#non-editable-debate-header').css({ height: 0, overflow: 'hidden', marginBottom: '-10px', marginTop: '-10px', paddingTop: '0px' });
@@ -110,7 +109,6 @@ const _editorFadeIn = (contractId) => {
   const diff = parseInt((tag.offset().top + $('.right').scrollTop()) - 80, 10);
 
   if ($('.right').scrollTop() === 0 && !$('#non-editable-vote-feed').offset()) {
-    console.log('path A')
     $(`#feedItem-${contractId}`).css({
       overflow: 'hidden',
       height: 0,
@@ -129,7 +127,6 @@ const _editorFadeIn = (contractId) => {
       },
     });
   } else {
-    console.log('path B')
     $('.right').animate({ scrollTop: diff }, {
       complete: () => {
         toggleFeed(false);
@@ -148,12 +145,10 @@ const _editorFadeOut = () => {
 
 const _threadEditor = (instance) => {
   if (instance.data.mainFeed) {
-    console.log('mainFeed');
     const previous = Contracts.findOne({ _id: instance.data.replyId });
     $('#feedItem-editor').wrapAll(`<div id='thread-editor' class='vote-thread ${previous.replyId ? 'vote-thread-main' : ''} ' />`);
     $('#thread-editor').prepend("<div class='thread-sub'><div class='thread-needle thread-last'></div>");
   } else {
-    console.log('haciendo thread editor pero no para el main feed');
     $('#feedItem-editor').wrapAll("<div id='thread-editor' class='vote-thread' />");
     $('#thread-editor').prepend(`<div class='thread-sub'><div class='thread-needle ${instance.data.lastItem ? 'thread-last' : ''}'></div></div>`);
     $('#thread-editor-depth').remove();
@@ -184,8 +179,6 @@ Template.editor.onDestroyed(() => {
 });
 
 Template.editor.onRendered(function () {
-  console.log('EDITOR DATA:');
-  console.log(this.data);
   if (!this.data.compressed) {
     const draft = _resetDraft(Session.get('draftContract'));
     if (Template.currentData().replyMode && Template.currentData().replyId) {
