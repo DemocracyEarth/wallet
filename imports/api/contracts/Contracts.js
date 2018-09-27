@@ -7,6 +7,7 @@ import { Ballot } from '/imports/api/transactions/Ballot';
 import { convertToSlug } from '/lib/utils';
 import { Thread } from '/imports/api/contracts/Thread';
 import { Wallet } from '/imports/api/users/Wallet';
+import { Blockchain } from '/imports/api/blockchain/Blockchain';
 
 export const Contracts = new Mongo.Collection('contracts');
 
@@ -496,6 +497,10 @@ Schema.Contract = new SimpleSchema({
   },
   geo: {
     type: String,
+    optional: true,
+  },
+  blockchain: {
+    type: Blockchain,
     optional: true,
   },
 });

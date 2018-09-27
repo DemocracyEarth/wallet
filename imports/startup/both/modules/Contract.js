@@ -282,6 +282,24 @@ const _contractURI = (keyword) => {
   return convertToSlug(`${keyword}-${shortUUID()}`);
 };
 
+const _getPublicAddress = (token) => {
+  const reserves = Meteor.user().profile.wallet.reserves;
+  const chain = {
+    coin: { code: '' },
+    publicAddress: '',
+  };
+  if (reserves.length > 0) {
+    for (let k = 0; k < reserves.length; k += 1) {
+      if (reserves[k].token === token) {
+        chain.coin.code = token;
+        chain.publicAddress = reserves[k].publicAddress;
+        return chain;
+      }
+    }
+  }
+  return undefined;
+};
+
 /**
 * @summary publishes a contract and goes to home
 * @param {string} contractId - id of the contract to publish
@@ -289,20 +307,27 @@ const _contractURI = (keyword) => {
 */
 const _publish = (contractId, keyword) => {
   const draft = Session.get('draftContract');
+
+  // status
   draft.stage = 'LIVE';
+
+  // readable identifier
   if (!keyword) {
     draft.keyword = _contractURI(document.getElementById('titleContent').innerText, draft._id);
   } else {
     draft.keyword = keyword;
   }
   draft.url = `/vote/${draft.keyword}`;
-  // profile & country is optional
+
+  // jurisdiction
   if (Meteor.user() && Meteor.user().profile &&
       Meteor.user().profile.country && Meteor.user().profile.country.name) {
     draft.geo = convertToUsername(Meteor.user().profile.country.name);
   } else {
     draft.geo = '';
   }
+
+  // ballot
   if (draft.ballotEnabled) {
     const template = [
       {
@@ -320,6 +345,21 @@ const _publish = (contractId, keyword) => {
     ];
     draft.ballot = template;
   }
+
+  // blockchain
+  const constituency = draft.constituency;
+  let chain;
+  if (!constituency.length) {
+    chain = _getPublicAddress('WEI');
+  } else {
+    for (let i = 0; i < constituency.length; i += 1) {
+      chain = _getPublicAddress(constituency[i].code);
+      break;
+    }
+  }
+  draft.blockchain = chain;
+
+  // db
   Contracts.update({ _id: contractId }, { $set: {
     stage: draft.stage,
     title: draft.title,
@@ -331,6 +371,7 @@ const _publish = (contractId, keyword) => {
     ballot: draft.ballot,
     constituency: draft.constituency,
     constituencyEnabled: draft.constituencyEnabled,
+    blockchain: draft.blockchain,
   },
   });
 

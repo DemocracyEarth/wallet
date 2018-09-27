@@ -3,6 +3,7 @@ import { Ballot } from '../transactions/Ballot';
 import { Reserves } from './Reserves';
 
 const Schema = {};
+
 Schema.Wallet = new SimpleSchema({
   balance: {
     type: Number,
