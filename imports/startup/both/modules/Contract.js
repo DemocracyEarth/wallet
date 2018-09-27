@@ -282,6 +282,10 @@ const _contractURI = (keyword) => {
   return convertToSlug(`${keyword}-${shortUUID()}`);
 };
 
+/**
+* @summary gets public address of a given token from a user
+* @param {string} token ticker
+*/
 const _getPublicAddress = (token) => {
   const reserves = Meteor.user().profile.wallet.reserves;
   const chain = {
@@ -296,6 +300,21 @@ const _getPublicAddress = (token) => {
         return chain;
       }
     }
+  }
+  return undefined;
+};
+
+/**
+* @summary sets corresponding blockchain address to contract
+* @param {object} draft new contract
+*/
+const _entangle = (draft) => {
+  const constituency = draft.constituency;
+  if (!constituency.length) {
+    return _getPublicAddress('WEI');
+  }
+  for (let i = 0; i < constituency.length; i += 1) {
+    return _getPublicAddress(constituency[i].code);
   }
   return undefined;
 };
@@ -347,17 +366,7 @@ const _publish = (contractId, keyword) => {
   }
 
   // blockchain
-  const constituency = draft.constituency;
-  let chain;
-  if (!constituency.length) {
-    chain = _getPublicAddress('WEI');
-  } else {
-    for (let i = 0; i < constituency.length; i += 1) {
-      chain = _getPublicAddress(constituency[i].code);
-      break;
-    }
-  }
-  draft.blockchain = chain;
+  draft.blockchain = _entangle(draft);
 
   // db
   Contracts.update({ _id: contractId }, { $set: {
@@ -451,6 +460,7 @@ const _rightToVote = (contract) => {
   return true;
 };
 
+export const entangle = _entangle;
 export const contractURI = _contractURI;
 export const rightToVote = _rightToVote;
 export const signatureStatus = _signatureStatus;

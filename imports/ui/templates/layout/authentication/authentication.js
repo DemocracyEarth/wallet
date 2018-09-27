@@ -5,7 +5,7 @@ import { Meteor } from 'meteor/meteor';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Router } from 'meteor/iron:router';
 
-import { publishContract, createContract, contractURI } from '/imports/startup/both/modules/Contract';
+import { publishContract, createContract, contractURI, entangle } from '/imports/startup/both/modules/Contract';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
 
@@ -13,7 +13,7 @@ import '/imports/ui/templates/layout/authentication/authentication.html';
 import '/imports/ui/templates/components/identity/avatar/avatar.js';
 
 function _isDisabled() {
-  return (Session.get('missingTitle') || Session.get('mistypedTitle') || Session.get('duplicateURL') || (Session.get('availableChars') < 0));
+  return (entangle(Session.get('draftContract')) === undefined) || Session.get('missingTitle') || Session.get('mistypedTitle') || Session.get('duplicateURL') || (Session.get('availableChars') < 0);
 }
 
 /**
