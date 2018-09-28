@@ -819,10 +819,11 @@ const _genesisTransaction = (userId) => {
 */
 const _loadExternalCryptoBalance = (userId) => {
   const user = Meteor.users.findOne({ _id: userId });
-  if (user.services.metamask != null){
+  if (user.services.metamask != null) {
     let publicAddress = user.services.metamask.publicAddress
     let weiBalance = getWeiBalance(publicAddress);
-    
+    console.log(`weiBalance: ${weiBalance}`);
+
     if (user.profile.wallet.reserves[0].balance == 0 &&
         user.profile.wallet.reserves[0].available == 0 &&
         user.profile.wallet.reserves[0].placed == 0) {
@@ -836,7 +837,7 @@ const _loadExternalCryptoBalance = (userId) => {
       // Returning user with new crypto balance
       // TODO - sync balances following daemon pattern
       console.log('DEBUG - returning metamask user with new balance');
-    }     
+    }
   }
 };
 

@@ -6,6 +6,7 @@ import { convertToSlug, convertToUsername } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { shortUUID } from './crypto';
 import { transact } from '../../../api/transactions/transaction';
+import { token } from '/lib/token';
 
 /**
 * @summary signs a contract with a verified user
@@ -284,9 +285,9 @@ const _contractURI = (keyword) => {
 
 /**
 * @summary gets public address of a given token from a user
-* @param {string} token ticker
+* @param {string} contractToken ticker
 */
-const _getPublicAddress = (token) => {
+const _getPublicAddress = (contractToken) => {
   const reserves = Meteor.user().profile.wallet.reserves;
   const chain = {
     coin: { code: '' },
@@ -294,11 +295,16 @@ const _getPublicAddress = (token) => {
   };
   if (reserves.length > 0) {
     for (let k = 0; k < reserves.length; k += 1) {
-      if (reserves[k].token === token) {
-        chain.coin.code = token;
+      if (reserves[k].token === contractToken) {
+        chain.coin.code = contractToken;
         chain.publicAddress = reserves[k].publicAddress;
         return chain;
       }
+    }
+  }
+  for (let j = 0; j < token.coin.length; j += 1) {
+    if (token.coin[j].code === contractToken && token.coin[j].blockchain === 'ETHEREUM') {
+      return _getPublicAddress('WEI');
     }
   }
   return undefined;
