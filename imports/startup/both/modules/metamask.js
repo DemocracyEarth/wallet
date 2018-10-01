@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
+import { TAPi18n } from 'meteor/tap:i18n';
 import Web3 from 'web3';
 import ethUtil from 'ethereumjs-util';
 
@@ -8,7 +9,7 @@ if (Meteor.isClient) {
   const handleSignMessage = (publicAddress, nonce) => {
     return new Promise((resolve, reject) =>
       web3.personal.sign(
-        web3.fromUtf8(`I am signing my one-time Democracy Earth nonce: ${nonce}`),
+        web3.fromUtf8(`${TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.Collective.name)}`),
         publicAddress,
         function (err, signature) {
           if (err) return reject(err);
@@ -19,7 +20,7 @@ if (Meteor.isClient) {
   }
 
   const verifySignature = function(signature, publicAddress, nonce) {
-    const msg = `I am signing my one-time Democracy Earth nonce: ${nonce}`;
+    const msg = `${TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.Collective.name)}`;
 
     // Perform an elliptic curve signature verification with ecrecover
     const msgBuffer = ethUtil.toBuffer(msg);
@@ -63,10 +64,10 @@ if (Meteor.isClient) {
 
     var nonce = Math.floor(Math.random() * 10000);
     const publicAddress = web3.eth.coinbase.toLowerCase();
-    
+
     handleSignMessage(publicAddress, nonce).then(function (signature){
       var verification =  verifySignature(signature, publicAddress, nonce);
-      
+
       if (verification == 'success') {
         var methodName = 'login';
         var methodArguments = [{publicAddress: publicAddress}];
@@ -87,7 +88,7 @@ if (Meteor.isClient) {
       }
     })
   }
-  
+
   Accounts.registerClientLoginFunction('metamask', loginWithMetamask);
 
   Meteor.loginWithMetamask = function() {
@@ -101,7 +102,7 @@ if (Meteor.isServer) {
     var user = null;
     var userQuery = Meteor.users.find({username: publicAddress}).fetch();
     var serviceUserId = {}
-    
+
     // Check if user with current publicAddress already exists
     if(userQuery.length == 0) {
       // If not, create it
@@ -117,7 +118,7 @@ if (Meteor.isServer) {
     }
     return serviceUserId;
   });
-  
+
   Accounts.onLogin(function(loginObject){
     if (loginObject.type != 'resume') {
       Meteor.call('loadUserTokenBalance', loginObject.user._id, (subsidyError) => {

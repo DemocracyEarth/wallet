@@ -572,5 +572,6 @@
   "requisites": "Requisites",
   "post-new-idea": "A new idea...",
   "insufficient-votes": "Not enough tokens in your account to vote.",
-  "get-tokens": "Get tokens"
+  "get-tokens": "Get tokens",
+  "metamask-sign-nonce": "I am authenticating with the blockchain address of this account to access {{collectiveName}}."
 }

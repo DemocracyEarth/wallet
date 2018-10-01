@@ -96,7 +96,7 @@ export default class EmailLogin extends Component {
             </div>
             <div className="login">
               <SocialMediaLogin agoraMode={false} />
-              <div className="w-form">
+              {/* <div className="w-form">
                 <div className="alert-header alert-header-subtitle"></div>
                 <form id="email-signin-form" name="email-form-3" data-name="Email Form 3" onSubmit={this.handleSubmit}>
                   <div className="w-clearfix login-field">
@@ -121,7 +121,7 @@ export default class EmailLogin extends Component {
                     {TAPi18n.__('facebook')}
                   </div>
                 </form>
-              </div>
+              </div> */}
             </div>
           </div>
         );
