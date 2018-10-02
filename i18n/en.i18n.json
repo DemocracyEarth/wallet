@@ -573,5 +573,9 @@
   "post-new-idea": "A new idea...",
   "insufficient-votes": "Not enough tokens in your account to vote.",
   "get-tokens": "Get tokens",
-  "metamask-sign-nonce": "I am authenticating with the blockchain address of this account to access {{collectiveName}}."
+  "metamask-sign-nonce": "I am authenticating with the blockchain address of this account to access {{collectiveName}}.",
+  "metamask-install": "Please install MetaMask to connect your browser with the Ethereum blockchain first.",
+  "metamask-activate": "Please activate MetaMaks first.",
+  "metamask-login-error": "Login error with Metamask",
+  "metamask-sign-fail": "Signature verification failed."
 }

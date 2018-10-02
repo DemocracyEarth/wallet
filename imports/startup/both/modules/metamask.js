@@ -7,6 +7,25 @@ import ethUtil from 'ethereumjs-util';
 let web3;
 
 if (Meteor.isClient) {
+  /**
+  * @summary check web3 plugin and connects to code obejct
+  */
+  const _setWeb3 = () => {
+    if (!window.web3) {
+      window.alert(TAPi18n.__('metamask-install'));
+      return;
+    }
+    if (!web3) {
+      // We don't know window.web3 version, so we use our own instance of web3
+      // with provider given by window.web3
+      web3 = new Web3(window.web3.currentProvider);
+    }
+    if (!web3.eth.coinbase) {
+      window.alert(TAPi18n.__('metamask-activate'));
+      return;
+    }
+  };
+
   const handleSignMessage = (publicAddress) => {
     return new Promise((resolve, reject) => {
       web3.personal.sign(
@@ -45,34 +64,30 @@ if (Meteor.isClient) {
     }
     return res
       .status(401)
-      .send({ error: 'Signature verification failed' });
+      .send({ error: TAPi18n.__('metamask-sign-fail') });
+  };
+
+  /**
+  * @summary updates user profile with metamask balance
+  */
+  const _syncBalance = () => {
+    if (Meteor.user()) {
+      console.log(web3.eth.coinbase);
+      console.log(web3.eth.getBalance(web3.eth.coinbase, function (error, result) {
+        if (!error) {
+          console.log(JSON.stringify(result));
+        } else {
+          console.error(error);
+        }
+      }));
+    }
   };
 
   const loginWithMetamask = () => {
-    if (!window.web3) {
-      window.alert(TAPi18n.__('metamask-install'));
-      return;
-    }
-    if (!web3) {
-      // We don't know window.web3 version, so we use our own instance of web3
-      // with provider given by window.web3
-      web3 = new Web3(window.web3.currentProvider);
-    }
-    if (!web3.eth.coinbase) {
-      window.alert(TAPi18n.__('metamask-activate'));
-      return;
-    }
+    _setWeb3();
+    // _syncBalance();
 
     const nonce = Math.floor(Math.random() * 10000);
-    console.log('so here am i gettin anything?');
-    console.log(web3.eth.coinbase);
-    console.log(web3.eth.getBalance(web3.eth.coinbase, function (error, result) {
-      if (!error) {
-        console.log(JSON.stringify(result));
-      } else {
-        console.error(error);
-      }
-    }));
     const publicAddress = web3.eth.coinbase.toLowerCase();
 
     handleSignMessage(publicAddress, nonce).then(function (signature) {
@@ -94,7 +109,7 @@ if (Meteor.isClient) {
           },
         });
       } else {
-        console.log('Login error with Metamask');
+        console.log(TAPi18n.__('metamask-login-error'));
       }
     });
   };
