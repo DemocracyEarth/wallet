@@ -4,10 +4,11 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import Web3 from 'web3';
 import ethUtil from 'ethereumjs-util';
 
+let web3;
 
 if (Meteor.isClient) {
-  const handleSignMessage = (publicAddress, nonce) => {
-    return new Promise((resolve, reject) =>
+  const handleSignMessage = (publicAddress) => {
+    return new Promise((resolve, reject) => {
       web3.personal.sign(
         web3.fromUtf8(`${TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.Collective.name)}`),
         publicAddress,
@@ -15,12 +16,13 @@ if (Meteor.isClient) {
           if (err) return reject(err);
           return resolve({ signature });
         }
-      )
-    );
-  }
+      );
+    });
+  };
 
-  const verifySignature = function(signature, publicAddress, nonce) {
+  const verifySignature = (signature, publicAddress) => {
     const msg = `${TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.Collective.name)}`;
+    let res;
 
     // Perform an elliptic curve signature verification with ecrecover
     const msgBuffer = ethUtil.toBuffer(msg);
@@ -40,16 +42,15 @@ if (Meteor.isClient) {
     // ecrecover matches the initial publicAddress
     if (address.toLowerCase() === publicAddress.toLowerCase()) {
       return 'success';
-    } else {
-      return res
-        .status(401)
-        .send({ error: 'Signature verification failed' });
     }
-  }
+    return res
+      .status(401)
+      .send({ error: 'Signature verification failed' });
+  };
 
-  const loginWithMetamask = function() {
+  const loginWithMetamask = () => {
     if (!window.web3) {
-      window.alert('Please install MetaMask first.');
+      window.alert(TAPi18n.__('metamask-install'));
       return;
     }
     if (!web3) {
@@ -58,69 +59,78 @@ if (Meteor.isClient) {
       web3 = new Web3(window.web3.currentProvider);
     }
     if (!web3.eth.coinbase) {
-      window.alert('Please activate MetaMask first.');
+      window.alert(TAPi18n.__('metamask-activate'));
       return;
     }
 
-    var nonce = Math.floor(Math.random() * 10000);
+    const nonce = Math.floor(Math.random() * 10000);
+    console.log('so here am i gettin anything?');
+    console.log(web3.eth.coinbase);
+    console.log(web3.eth.getBalance(web3.eth.coinbase, function (error, result) {
+      if (!error) {
+        console.log(JSON.stringify(result));
+      } else {
+        console.error(error);
+      }
+    }));
     const publicAddress = web3.eth.coinbase.toLowerCase();
 
-    handleSignMessage(publicAddress, nonce).then(function (signature){
-      var verification =  verifySignature(signature, publicAddress, nonce);
+    handleSignMessage(publicAddress, nonce).then(function (signature) {
+      const verification = verifySignature(signature, publicAddress, nonce);
 
-      if (verification == 'success') {
-        var methodName = 'login';
-        var methodArguments = [{publicAddress: publicAddress}];
+      if (verification === 'success') {
+        const methodName = 'login';
+        const methodArguments = [{ publicAddress }];
         Accounts.callLoginMethod({
           methodArguments,
-          userCallback: function (err) {
+          userCallback: (err) => {
             Accounts._pageLoadLogin({
               type: 'metamask',
               allowed: !err,
               error: err,
-              methodName: methodName,
-              methodArguments: methodArguments
-            })
-          }
+              methodName,
+              methodArguments,
+            });
+          },
         });
       } else {
         console.log('Login error with Metamask');
       }
-    })
-  }
+    });
+  };
 
   Accounts.registerClientLoginFunction('metamask', loginWithMetamask);
 
-  Meteor.loginWithMetamask = function() {
+  Meteor.loginWithMetamask = function () {
     return Accounts.applyLoginFunction('metamask', arguments);
   };
 }
 
 if (Meteor.isServer) {
-  Accounts.registerLoginHandler('metamask', function(opts) {
+  Accounts.registerLoginHandler('metamask', function (opts) {
     const publicAddress = opts.publicAddress;
-    var user = null;
-    var userQuery = Meteor.users.find({username: publicAddress}).fetch();
-    var serviceUserId = {}
+    let user = null;
+    const userQuery = Meteor.users.find({ username: publicAddress }).fetch();
+    let serviceUserId = {};
 
     // Check if user with current publicAddress already exists
-    if(userQuery.length == 0) {
+    if (userQuery.length === 0) {
       // If not, create it
       user = Accounts.updateOrCreateUserFromExternalService('metamask', {
         id: publicAddress,
-        publicAddress: publicAddress
+        publicAddress,
       });
-      serviceUserId = {userId: user.userId};
+      serviceUserId = { userId: user.userId };
     } else {
       // Otherwise, retrieve it
       user = userQuery;
-      serviceUserId = {userId: user[0]._id};
+      serviceUserId = { userId: user[0]._id };
     }
     return serviceUserId;
   });
 
-  Accounts.onLogin(function(loginObject){
-    if (loginObject.type != 'resume') {
+  Accounts.onLogin(function (loginObject) {
+    if (loginObject.type !== 'resume') {
       Meteor.call('loadUserTokenBalance', loginObject.user._id, (subsidyError) => {
         if (subsidyError) {
           console.log(subsidyError, 'danger');

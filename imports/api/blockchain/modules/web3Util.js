@@ -1,14 +1,20 @@
+import { Meteor } from 'meteor/meteor';
 import Web3 from 'web3';
 
 // Set web3 provider
 let web3;
-const provider = Meteor.settings.public.web3.network.tesnet;
+const provider = Meteor.settings.public.web3.network.testnet;
 
+console.log(typeof web3);
 if (typeof web3 !== 'undefined') {
+  console.log('web3 not undefined')
   web3 = new Web3(web3.currentProvider);
 } else {
+  console.log('web3 defined')
   web3 = new Web3(new Web3.providers.HttpProvider(provider));
+  console.log(web3);
 }
+
 
 /**
 * @summary gets eth balance from given public address
