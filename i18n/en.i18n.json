@@ -577,5 +577,6 @@
   "metamask-install": "Please install MetaMask to connect your browser with the Ethereum blockchain first.",
   "metamask-activate": "Please activate MetaMaks first.",
   "metamask-login-error": "Login error with Metamask",
-  "metamask-sign-fail": "Signature verification failed."
+  "metamask-sign-fail": "Signature verification failed.",
+  "send": "Send"
 }

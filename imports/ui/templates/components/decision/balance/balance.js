@@ -65,10 +65,14 @@ Template.balance.helpers({
     return style;
   },
   tokenStyle() {
+    let style = '';
     if (this.isTransaction) {
-      return 'token-ledger';
+      style += 'token-ledger';
     }
-    return '';
+    if (this.isButton) {
+      style += ' token-button';
+    }
+    return style;
   },
   tickerStyle() {
     const coin = Template.instance().coin;

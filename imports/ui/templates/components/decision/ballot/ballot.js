@@ -371,7 +371,7 @@ Template.ballot.helpers({
         label = TAPi18n.__('debate');
         break;
       case 'vote':
-        label = TAPi18n.__('vote');
+        label = `${TAPi18n.__('send')} &#183; `;
         if (contract) {
           if (contract.ballotEnabled) {
             label = TAPi18n.__('stake');
@@ -424,6 +424,8 @@ Template.ballot.helpers({
   token() {
     const tx = {
       contract: Contracts.findOne({ _id: this.contract._id }),
+      isButton: true,
+      buttonEnabled: Template.instance().voteEnabled,
     };
     return getContractToken(tx);
   },

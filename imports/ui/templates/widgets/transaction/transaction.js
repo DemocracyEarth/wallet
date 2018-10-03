@@ -41,6 +41,9 @@ const _getContractToken = (transaction) => {
     disableBar: true,
     disableStake: true,
   };
+  if (transaction.isButton) {
+    coin.isButton = transaction.isButton;
+  }
   if (transaction.isVote) {
     votes = transaction.contract.wallet.balance;
     if (coin.isRevoke) {

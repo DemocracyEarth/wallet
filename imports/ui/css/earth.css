@@ -5990,6 +5990,12 @@ blockquote {
   float: right;
 }
 
+.token.token-ledger.token-button {
+  margin-top: 5px;
+  margin-bottom: 0px;
+  margin-left: 5px;
+}
+
 .token-ticker {
   min-width: 35px;
   padding: 3px;
@@ -6126,6 +6132,11 @@ blockquote {
 
 .meta-compressed {
   padding-left: 5px;
+}
+
+.token-wrapper {
+  margin-top: 5px;
+  margin-left: 5px;
 }
 
 @media (max-width: 991px) {
