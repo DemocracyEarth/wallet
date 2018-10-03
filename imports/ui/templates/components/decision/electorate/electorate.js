@@ -203,11 +203,14 @@ Template.electorate.helpers({
       }
       return rule;
     }
+    /*
     rule = _writeRule(this.contract, false);
     if (rule === TAPi18n.__('electorate-sentence-anyone')) {
       rule = '';
     }
     return rule;
+    */
+    return '';
   },
   editorId() {
     if (!this.readOnly) {

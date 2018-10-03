@@ -85,7 +85,11 @@
         <div class="extra">
           <a id="{{voteType}}" href="{{voteURL}}" class="micro-button micro-button-feed {{enableStyle}}" ontouchstart="">
             <img src="{{pathFor route='home'}}{{voteIcon}}" class="micro-icon">
-            <span class="micro-label">{{label 'vote'}} {{{quantity 'vote'}}}</span>
+            <span class="micro-label">
+              {{#with token}}
+                {{> balance}}
+              {{/with}}
+              <!--{{label 'vote'}} {{{quantity 'vote'}}}--></span>
             <div class="verifier verifier-live verifier-feed"></div>
           </a>
           <a id="edit-reply" href="{{contract.url}}#debate" class="micro-button micro-button-feed" ontouchstart="">

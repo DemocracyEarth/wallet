@@ -391,6 +391,12 @@ const _publish = (contractId, keyword) => {
   if (!_contractHasToken(draft)) {
     draft.constituency.push(defaultConstituency);
   }
+  console.log(draft.constituency);
+  for (let i = 0; i < draft.constituency.length; i += 1) {
+    if (draft.constituency[i].kind === 'TOKEN') {
+      draft.wallet.currency = draft.constituency[i].code;
+    }
+  }
 
   // blockchain
   draft.blockchain = _entangle(draft);
@@ -405,8 +411,9 @@ const _publish = (contractId, keyword) => {
     replyId: draft.replyId,
     geo: draft.geo,
     ballot: draft.ballot,
-    constituency: draft.constituency,
     constituencyEnabled: draft.constituencyEnabled,
+    constituency: draft.constituency,
+    wallet: draft.wallet,
     blockchain: draft.blockchain,
   },
   });

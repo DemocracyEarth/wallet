@@ -23,6 +23,44 @@ const _showToken = (currency) => {
   return `<div title="${_.where(token.coin, { code })[0].name}" class="suggest-item suggest-token suggest-token-inline" style="background-color: ${_.where(token.coin, { code })[0].color} ">${_.where(token.coin, { code })[0].code}</div>`;
 };
 
+/**
+* @summary get the configuration for a balance component
+* @param {object} transaction data from transaction component
+* @return {object} balance template settings
+*/
+const _getContractToken = (transaction) => {
+  let votes;
+  const coin = {
+    token: transaction.contract.wallet.currency,
+    balance: 0,
+    available: 0,
+    placed: 0,
+    isTransaction: true,
+    isRevoke: (transaction.isRevoke && !_verifySubsidy(transaction.senderId)),
+    date: transaction.contract.timestamp,
+    disableBar: true,
+    disableStake: true,
+  };
+  if (transaction.isVote) {
+    votes = transaction.contract.wallet.balance;
+    if (coin.isRevoke) {
+      votes *= -1;
+    }
+    Template.instance().totalVotes.set(votes);
+  } else if (transaction.contract.kind === 'DELEGATION') {
+    let finalCount;
+    if (transaction.isRevoke) {
+      finalCount = parseInt(transaction.contract.wallet.balance * -1, 10);
+    } else {
+      finalCount = transaction.contract.wallet.balance;
+    }
+    Template.instance().totalVotes.set(finalCount);
+    votes = Template.instance().totalVotes.get();
+  }
+  coin.balance = votes;
+  return coin;
+};
+
 Template.transaction.onCreated(function () {
   Template.instance().totalVotes = new ReactiveVar(0);
   Template.instance().loading = new ReactiveVar(false);
@@ -97,36 +135,7 @@ Template.transaction.helpers({
     return TAPi18n.__('no-delegated-votes');
   },
   token() {
-    let votes;
-    const coin = {
-      token: this.contract.wallet.currency,
-      balance: 0,
-      available: 0,
-      placed: 0,
-      isTransaction: true,
-      isRevoke: (this.isRevoke && !_verifySubsidy(this.senderId)),
-      date: this.contract.timestamp,
-      disableBar: true,
-      disableStake: true,
-    };
-    if (this.isVote) {
-      votes = this.contract.wallet.balance;
-      if (coin.isRevoke) {
-        votes *= -1;
-      }
-      Template.instance().totalVotes.set(votes);
-    } else if (this.contract.kind === 'DELEGATION') {
-      let finalCount;
-      if (this.isRevoke) {
-        finalCount = parseInt(this.contract.wallet.balance * -1, 10);
-      } else {
-        finalCount = this.contract.wallet.balance;
-      }
-      Template.instance().totalVotes.set(finalCount);
-      votes = Template.instance().totalVotes.get();
-    }
-    coin.balance = votes;
-    return coin;
+    return _getContractToken(this);
   },
   source() {
     return TAPi18n.__('delegated-votes');
@@ -214,3 +223,5 @@ Template.collectivePreview.helpers({
     return '/';
   },
 });
+
+export const getContractToken = _getContractToken;

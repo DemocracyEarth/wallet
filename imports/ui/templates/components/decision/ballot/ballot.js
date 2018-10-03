@@ -7,11 +7,13 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { Router } from 'meteor/iron:router';
 
 import { removeFork, updateBallotRank, addChoiceToBallot, getTickValue, getTotalVoters } from '/imports/ui/modules/ballot';
+import { getContractToken } from '/imports/ui/templates/widgets/transaction/transaction';
 import { displayTimedWarning } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { timers } from '/lib/const';
 import { verifyConstituencyRights } from '/imports/ui/templates/components/decision/electorate/electorate.js';
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
+
 
 import '/imports/ui/templates/components/decision/ballot/ballot.html';
 import '/imports/ui/templates/components/decision/fork/fork.js';
@@ -418,6 +420,12 @@ Template.ballot.helpers({
       }
     }
     return label;
+  },
+  token() {
+    const tx = {
+      contract: Contracts.findOne({ _id: this.contract._id }),
+    };
+    return getContractToken(tx);
   },
   castSingleVote() {
     return (Session.get('castSingleVote') === this.contract.keyword);
