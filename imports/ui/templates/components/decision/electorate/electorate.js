@@ -34,6 +34,25 @@ const _emailDomainCheck = (emailList, domain) => {
 };
 
 /**
+* @summary returns whether user has a crypto or not
+* @param {object} user user wallet
+* @param {object} token ticker
+* @return {boolean} if user can spend
+*/
+const _hasToken = (user, ticker) => {
+  if (user.profile.wallet.reserves.length > 0) {
+    for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
+      for (let k = 0; k < token.coin.length; k += 1) {
+        if (token.coin[k].code === ticker || (token.coin[k].subcode && token.coin[k].subcode === ticker)) {
+          return (token.coin[k].code === user.profile.wallet.reserves[i].token || token.coin[k].subcode === user.profile.wallet.reserves[i].token);
+        }
+      }
+    }
+  }
+  return false;
+};
+
+/**
 * @summary returns whether user meets or not constituency criteria
 * @param {object} contract contract to evaluate
 * @return {boolean} if user can vote or not
@@ -46,9 +65,7 @@ const _verifyConstituencyRights = (contract) => {
       for (const i in contract.constituency) {
         switch (contract.constituency[i].kind) {
           case 'TOKEN':
-            if (Meteor.user().profile.wallet.currency !== contract.constituency[i].code) {
-              legitimacy = false;
-            }
+            legitimacy = _hasToken(Meteor.user(), contract.constituency[i].code);
             break;
           case 'DOMAIN':
             if (Meteor.user().emails) {

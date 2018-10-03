@@ -6006,7 +6006,7 @@ blockquote {
 .token-balance {
   display: inline;
   min-width: 35px;
-  padding: 3px;
+  padding: 3px 5px;
   float: left;
   border: 1px solid #9696c1;
   border-top-right-radius: 5px;
