@@ -3,6 +3,7 @@ import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 
 import { convertToSlug, convertToUsername } from '/lib/utils';
+import { defaultConstituency } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { shortUUID } from './crypto';
 import { transact } from '../../../api/transactions/transaction';
@@ -326,6 +327,21 @@ const _entangle = (draft) => {
 };
 
 /**
+* @summary checks if contract has a basic token
+* @param {object} contract - contract to check
+*/
+const _contractHasToken = (contract) => {
+  if (contract.constituency.length > 0) {
+    for (let i = 0; i < contract.constituency.length; i += 1) {
+      if (contract.constituency[i].kind === 'TOKEN') {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+
+/**
 * @summary publishes a contract and goes to home
 * @param {string} contractId - id of the contract to publish
 * @param {string} keyword - key word identifier
@@ -369,6 +385,11 @@ const _publish = (contractId, keyword) => {
       },
     ];
     draft.ballot = template;
+  }
+
+  // token
+  if (!_contractHasToken(draft)) {
+    draft.constituency.push(defaultConstituency);
   }
 
   // blockchain
