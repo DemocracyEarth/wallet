@@ -1,8 +1,24 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+
+import { token } from '/lib/token';
+
 import { Ballot } from '../transactions/Ballot';
 import { Reserves } from './Reserves';
 
+
 const Schema = {};
+const coins = [];
+
+coins.push('VOTES'); // backwards compatibility;
+
+for (let i = 0; i < token.coin.length; i += 1) {
+  coins.push(token.coin[i].code);
+  if (token.coin[i].subcode) {
+    coins.push(token.coin[i].subcode);
+  }
+}
+
+console.log(coins);
 
 Schema.Wallet = new SimpleSchema({
   balance: {
@@ -19,11 +35,11 @@ Schema.Wallet = new SimpleSchema({
   },
   currency: {
     type: String,
-    allowedValues: ['BITCOIN', 'SATOSHI', 'VOTES', 'VOTE', 'ETH', 'WEI'],
+    allowedValues: coins,
     autoValue() {
       if (this.isInsert) {
         if (this.field('currency').value === undefined) {
-          return 'VOTES';
+          return 'ETH';
         }
       }
     },
