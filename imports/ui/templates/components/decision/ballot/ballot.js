@@ -13,12 +13,21 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 import { timers } from '/lib/const';
 import { verifyConstituencyRights } from '/imports/ui/templates/components/decision/electorate/electorate.js';
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
-
+import { transactWithMetamask } from '/imports/startup/both/modules/metamask';
 
 import '/imports/ui/templates/components/decision/ballot/ballot.html';
 import '/imports/ui/templates/components/decision/fork/fork.js';
 import '/imports/ui/templates/components/decision/liquid/liquid.js';
 import '/imports/ui/templates/widgets/warning/warning.js';
+
+
+const _cryptoVote = () => {
+  if (Meteor.user()) {
+    console.log(Template.instance().ticket.get());
+    transactWithMetamask();
+  }
+};
+
 
 const _userCanVote = (contract, forkId) => {
   const forks = Template.instance().forks;
@@ -91,6 +100,7 @@ Template.ballot.onCreated(() => {
   Template.instance().ballotReady = new ReactiveVar();
   Template.instance().removeProposal = new ReactiveVar();
   Template.instance().contract = new ReactiveVar(Template.currentData().contract);
+  Template.instance().ticket = new ReactiveVar(getContractToken({ contract: Template.currentData().contract, isButton: true }));
   Template.instance().voteEnabled = verifyConstituencyRights(Template.currentData().contract);
 });
 
@@ -422,12 +432,7 @@ Template.ballot.helpers({
     return label;
   },
   token() {
-    const tx = {
-      contract: Contracts.findOne({ _id: this.contract._id }),
-      isButton: true,
-      buttonEnabled: Template.instance().voteEnabled,
-    };
-    return getContractToken(tx);
+    return Template.instance().ticket.get();
   },
   castSingleVote() {
     return (Session.get('castSingleVote') === this.contract.keyword);
@@ -471,7 +476,9 @@ Template.ballot.helpers({
 Template.ballot.events({
   'click #single-vote'(event) {
     event.preventDefault();
-    Session.set('castSingleVote', this.contract.keyword);
+    _cryptoVote();
+    // NOTE: non crypto implementation:
+    // Session.set('castSingleVote', this.contract.keyword);
   },
   'click #edit-reply'(event) {
     event.preventDefault();

@@ -83,6 +83,26 @@ if (Meteor.isClient) {
     }
   };
 
+  /**
+  * @summary send crypto with mask;
+  */
+  export const transactWithMetamask = (from, to, quantity, token) => {
+    _setWeb3();
+
+    const tx = {
+      from,
+      to,
+      value: web3.utils.toHex(web3.utils.toWei(quantity, token)), // token = 'ether'
+      gas: 200000,
+      chainId: 3,
+    };
+    console.log(tx);
+    return tx;
+  };
+
+  /**
+  * @summary log in signing public blockchain address with private key
+  */
   const loginWithMetamask = () => {
     _setWeb3();
     // _syncBalance();

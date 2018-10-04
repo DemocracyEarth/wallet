@@ -10,15 +10,12 @@ const Schema = {};
 const coins = [];
 
 coins.push('VOTES'); // backwards compatibility;
-
 for (let i = 0; i < token.coin.length; i += 1) {
   coins.push(token.coin[i].code);
   if (token.coin[i].subcode) {
     coins.push(token.coin[i].subcode);
   }
 }
-
-console.log(coins);
 
 Schema.Wallet = new SimpleSchema({
   balance: {
