@@ -11,7 +11,7 @@ import { getContractToken } from '/imports/ui/templates/widgets/transaction/tran
 import { displayTimedWarning } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { timers } from '/lib/const';
-import { verifyConstituencyRights } from '/imports/ui/templates/components/decision/electorate/electorate.js';
+import { verifyConstituencyRights, getTokenAddress } from '/imports/ui/templates/components/decision/electorate/electorate.js';
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
 import { transactWithMetamask } from '/imports/startup/both/modules/metamask';
 
@@ -23,8 +23,12 @@ import '/imports/ui/templates/widgets/warning/warning.js';
 
 const _cryptoVote = () => {
   if (Meteor.user()) {
-    console.log(Template.instance().ticket.get());
-    transactWithMetamask();
+    transactWithMetamask(
+      getTokenAddress(Meteor.user(), Template.instance().ticket.get().token),
+      Template.currentData().contract.blockchain.publicAddress,
+      1,
+      'ether'
+    );
   }
 };
 

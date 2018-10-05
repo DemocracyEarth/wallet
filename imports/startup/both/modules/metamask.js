@@ -4,8 +4,8 @@ import { TAPi18n } from 'meteor/tap:i18n';
 
 import { displayModal } from '/imports/ui/modules/modal';
 
-import Web3 from 'web3';
-import ethUtil from 'ethereumjs-util';
+const Web3 = require('web3');
+const ethUtil = require('ethereumjs-util');
 
 let web3;
 
@@ -88,12 +88,24 @@ if (Meteor.isClient) {
       const tx = {
         from,
         to,
-        value: web3.utils.toHex(web3.utils.toWei(quantity, token)), // token = 'ether'
+        value: web3.toHex(web3.toWei(quantity, token)), // token = 'ether'
         gas: 200000,
         chainId: 3,
       };
       console.log(tx);
-      return tx;
+      web3.eth.sendTransaction(tx, (error, result) => {
+        if (error) {
+          console.log(error);
+        }
+        console.log(result);
+      });
+
+/*
+      decryptedAccount.signTransaction(rawTransaction)
+        .then(signedTx => web3.eth.sendSignedTransaction(signedTx.rawTransaction))
+        .then(receipt => console.log("Transaction receipt: ", receipt))
+        .catch(err => console.error(err));
+*/
     }
     return undefined;
   };

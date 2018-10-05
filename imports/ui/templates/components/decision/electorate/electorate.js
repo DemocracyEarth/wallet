@@ -39,12 +39,14 @@ const _emailDomainCheck = (emailList, domain) => {
 * @param {object} token ticker
 * @return {boolean} if user can spend
 */
-const _hasToken = (user, ticker) => {
+const _getTokenAddress = (user, ticker) => {
   if (user.profile.wallet.reserves.length > 0) {
     for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
       for (let k = 0; k < token.coin.length; k += 1) {
         if (token.coin[k].code === ticker || (token.coin[k].subcode && token.coin[k].subcode === ticker)) {
-          return (token.coin[k].code === user.profile.wallet.reserves[i].token || token.coin[k].subcode === user.profile.wallet.reserves[i].token);
+          if (token.coin[k].code === user.profile.wallet.reserves[i].token || token.coin[k].subcode === user.profile.wallet.reserves[i].token) {
+            return user.profile.wallet.reserves[i].publicAddress;
+          }
         }
       }
     }
@@ -65,7 +67,11 @@ const _verifyConstituencyRights = (contract) => {
       for (const i in contract.constituency) {
         switch (contract.constituency[i].kind) {
           case 'TOKEN':
-            legitimacy = _hasToken(Meteor.user(), contract.constituency[i].code);
+            if (_getTokenAddress(Meteor.user(), contract.constituency[i].code)) {
+              legitimacy = true;
+            } else {
+              legitimacy = false;
+            }
             break;
           case 'DOMAIN':
             if (Meteor.user().emails) {
@@ -256,3 +262,4 @@ Template.electorate.events({
 });
 
 export const verifyConstituencyRights = _verifyConstituencyRights;
+export const getTokenAddress = _getTokenAddress;
