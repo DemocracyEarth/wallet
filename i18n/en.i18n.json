@@ -575,8 +575,10 @@
   "get-tokens": "Get tokens",
   "metamask-sign-nonce": "I am authenticating with the blockchain address of this account to access {{collectiveName}}.",
   "metamask-install": "Please install MetaMask to connect your browser with the Ethereum blockchain first.",
-  "metamask-activate": "Please activate MetaMaks first.",
+  "metamask-activate": "Please activate MetaMask first.",
   "metamask-login-error": "Login error with Metamask",
   "metamask-sign-fail": "Signature verification failed.",
-  "send": "Send"
+  "send": "Send",
+  "metamask": "MetaMask",
+  "close": "Close"
 }

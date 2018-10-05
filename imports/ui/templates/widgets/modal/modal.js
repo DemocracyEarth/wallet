@@ -122,6 +122,12 @@ Template.modalWindow.helpers({
     }
     return false;
   },
+  alertMode() {
+    if (Session.get('displayModal') !== undefined) {
+      return Session.get('displayModal').alertMode;
+    }
+    return false;
+  },
   voteSettings() {
     if (Session.get('displayModal') !== undefined) {
       return Session.get('displayModal').voteSettings;

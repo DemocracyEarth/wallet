@@ -1,6 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { TAPi18n } from 'meteor/tap:i18n';
+
+import { displayModal } from '/imports/ui/modules/modal';
+
 import Web3 from 'web3';
 import ethUtil from 'ethereumjs-util';
 
@@ -10,10 +13,18 @@ if (Meteor.isClient) {
   /**
   * @summary check web3 plugin and connects to code obejct
   */
-  const _setWeb3 = () => {
+  const _web3 = () => {
+    const modal = {
+      icon: 'images/metamask.png',
+      title: TAPi18n.__('metamask'),
+      cancel: TAPi18n.__('close'),
+      alertMode: true,
+    };
+
     if (!window.web3) {
-      window.alert(TAPi18n.__('metamask-install'));
-      return;
+      modal.message = TAPi18n.__('metamask-install');
+      displayModal(true, modal);
+      return false;
     }
     if (!web3) {
       // We don't know window.web3 version, so we use our own instance of web3
@@ -21,9 +32,11 @@ if (Meteor.isClient) {
       web3 = new Web3(window.web3.currentProvider);
     }
     if (!web3.eth.coinbase) {
-      window.alert(TAPi18n.__('metamask-activate'));
-      return;
+      modal.message = TAPi18n.__('metamask-activate');
+      displayModal(true, modal);
+      return false;
     }
+    return web3;
   };
 
   const handleSignMessage = (publicAddress) => {
@@ -68,70 +81,54 @@ if (Meteor.isClient) {
   };
 
   /**
-  * @summary updates user profile with metamask balance
-  */
-  const _syncBalance = () => {
-    if (Meteor.user()) {
-      console.log(web3.eth.coinbase);
-      console.log(web3.eth.getBalance(web3.eth.coinbase, function (error, result) {
-        if (!error) {
-          console.log(JSON.stringify(result));
-        } else {
-          console.error(error);
-        }
-      }));
-    }
-  };
-
-  /**
   * @summary send crypto with mask;
   */
   export const transactWithMetamask = (from, to, quantity, token) => {
-    _setWeb3();
-
-    const tx = {
-      from,
-      to,
-      value: web3.utils.toHex(web3.utils.toWei(quantity, token)), // token = 'ether'
-      gas: 200000,
-      chainId: 3,
-    };
-    console.log(tx);
-    return tx;
+    if (_web3()) {
+      const tx = {
+        from,
+        to,
+        value: web3.utils.toHex(web3.utils.toWei(quantity, token)), // token = 'ether'
+        gas: 200000,
+        chainId: 3,
+      };
+      console.log(tx);
+      return tx;
+    }
+    return undefined;
   };
 
   /**
   * @summary log in signing public blockchain address with private key
   */
   const loginWithMetamask = () => {
-    _setWeb3();
-    // _syncBalance();
+    if (_web3()) {
+      const nonce = Math.floor(Math.random() * 10000);
+      const publicAddress = web3.eth.coinbase.toLowerCase();
 
-    const nonce = Math.floor(Math.random() * 10000);
-    const publicAddress = web3.eth.coinbase.toLowerCase();
+      handleSignMessage(publicAddress, nonce).then(function (signature) {
+        const verification = verifySignature(signature, publicAddress, nonce);
 
-    handleSignMessage(publicAddress, nonce).then(function (signature) {
-      const verification = verifySignature(signature, publicAddress, nonce);
-
-      if (verification === 'success') {
-        const methodName = 'login';
-        const methodArguments = [{ publicAddress }];
-        Accounts.callLoginMethod({
-          methodArguments,
-          userCallback: (err) => {
-            Accounts._pageLoadLogin({
-              type: 'metamask',
-              allowed: !err,
-              error: err,
-              methodName,
-              methodArguments,
-            });
-          },
-        });
-      } else {
-        console.log(TAPi18n.__('metamask-login-error'));
-      }
-    });
+        if (verification === 'success') {
+          const methodName = 'login';
+          const methodArguments = [{ publicAddress }];
+          Accounts.callLoginMethod({
+            methodArguments,
+            userCallback: (err) => {
+              Accounts._pageLoadLogin({
+                type: 'metamask',
+                allowed: !err,
+                error: err,
+                methodName,
+                methodArguments,
+              });
+            },
+          });
+        } else {
+          console.log(TAPi18n.__('metamask-login-error'));
+        }
+      });
+    }
   };
 
   Accounts.registerClientLoginFunction('metamask', loginWithMetamask);
