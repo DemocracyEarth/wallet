@@ -533,7 +533,7 @@
   "staking": "Liquid",
   "constituency": "Electorate",
   "token": "Token",
-  "token-balance": "Voting Token",
+  "token-balance": "Token Balance",
   "domain": "Domain",
   "email-valid-domain": "Verified E-mail Domain",
   "electorate-sentence-anyone": "Anyone",
@@ -582,5 +582,10 @@
   "send": "Send",
   "metamask": "MetaMask",
   "close": "Close",
-  "metamask-denied-signature": "Transaction signature was denied."
+  "metamask-denied-signature": "Transaction signature was denied.",
+  "blockchain-address": "Blockchain Address",
+  "blockchain-address-placeholder": "Your account if none specified.",
+  "ethereum": "Ethereum",
+  "cost-per-vote": "Tokens per Vote",
+  "cost-placeholder": "Default is 1.00 if none specified."
 }

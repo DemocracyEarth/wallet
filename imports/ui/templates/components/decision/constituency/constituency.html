@@ -1,11 +1,5 @@
 <template name="constituency">
   {{#if currentUser}}
-    <div class="w-clearfix paper-header card-header">
-      <div class="card-title">
-        <img src="{{pathFor route='home'}}images/gerrymander.png" class="section-icon">
-        {{_ 'electorate-requisites'}}
-      </div>
-    </div>
     <div class="login">
       <div class="login-field">
         <label for="name" class="login-label login-label-form">
@@ -17,7 +11,7 @@
           {{> suggest}}
         {{/if}}
       </div>
-      <div class="login-field">
+      <!--<div class="login-field">
         <label for="name" class="login-label login-label-form">
           {{_ 'token-balance'}}
         </label>
@@ -26,15 +20,15 @@
         {{#if showTokens}}
           {{> suggest tokenList=true}}
         {{/if}}
-      </div>
-      <div class="login-field">
+      </div>-->
+      <div class="login-field login-field-last">
         <label for="name" class="login-label login-label-form">
           {{_ 'email-valid-domain'}}
         </label>
         <img src="{{pathFor route='home'}}images/domain.png" class="login-icon">
         <input type="text" id="editDomain" placeholder="{{_ 'email-domain-placeholder'}}" autocomplete="false" class="w-input login-input login-input-domain">
       </div>
-      <div class="extra">
+      <!--<div class="extra">
          <div class="modal-buttons-padder">
            <div id="cancel-constituency" class="button login-button button-secondary button-half">
              <div>{{_ 'cancel'}}</div>
@@ -45,7 +39,7 @@
              <div>{{_ 'apply'}}</div>
            </div>
          </div>
-       </div>
+       </div>-->
      </div>
    {{/if}}
 </template>
