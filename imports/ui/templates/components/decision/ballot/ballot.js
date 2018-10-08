@@ -26,8 +26,8 @@ const _cryptoVote = () => {
     transactWithMetamask(
       getTokenAddress(Meteor.user(), Template.instance().ticket.get().token),
       Template.currentData().contract.blockchain.publicAddress,
-      1,
-      'ether'
+      0.1,
+      Template.instance().ticket.get().token,
     );
   }
 };

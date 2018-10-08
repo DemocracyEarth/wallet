@@ -9,18 +9,31 @@ const ethUtil = require('ethereumjs-util');
 
 let web3;
 
+const modal = {
+  icon: 'images/metamask.png',
+  title: TAPi18n.__('metamask'),
+  cancel: TAPi18n.__('close'),
+  alertMode: true,
+};
+
+/**
+* @summary given a token code, returns unit of conversion for web3 prompt
+* @param {string} ticker token ticker
+*/
+const _convertToEther = (ticker) => {
+  switch (ticker) {
+    case 'ETH':
+    case 'WEI':
+    default:
+      return 'ether';
+  }
+};
+
 if (Meteor.isClient) {
   /**
   * @summary check web3 plugin and connects to code obejct
   */
   const _web3 = () => {
-    const modal = {
-      icon: 'images/metamask.png',
-      title: TAPi18n.__('metamask'),
-      cancel: TAPi18n.__('close'),
-      alertMode: true,
-    };
-
     if (!window.web3) {
       modal.message = TAPi18n.__('metamask-install');
       displayModal(true, modal);
@@ -88,16 +101,21 @@ if (Meteor.isClient) {
       const tx = {
         from,
         to,
-        value: web3.toHex(web3.toWei(quantity, token)), // token = 'ether'
+        value: web3.toHex(web3.toWei(quantity, _convertToEther(token))),
         gas: 200000,
         chainId: 3,
       };
-      console.log(tx);
-      web3.eth.sendTransaction(tx, (error, result) => {
+      web3.eth.sendTransaction(tx, (error, receipt) => {
         if (error) {
-          console.log(error);
+          if (error.message.includes('User denied transaction signature') || error.code === -32603) {
+            modal.message = TAPi18n.__('metamask-denied-signature');
+            displayModal(true, modal);
+            return;
+          }
         }
-        console.log(result);
+        console.log(web3.eth.getTransaction(receipt, (error, res) => {
+          console.log(res);
+        }));
       });
 
 /*

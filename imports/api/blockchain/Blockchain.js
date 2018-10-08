@@ -9,6 +9,22 @@ Schema.Coin = new SimpleSchema({
   },
 });
 
+Schema.Ticket = new SimpleSchema({
+  hash: {
+    type: String,
+    optional: true,
+  },
+  status: {
+    type: String,
+    allowedValues: ['CONFIRMED', 'PENDING'],
+    defaultValue: 'PENDING',
+  },
+  value: {
+    type: String,
+    defaultValue: '0',
+  },
+});
+
 Schema.Blockchain = new SimpleSchema({
   publicAddress: {
     type: String,
@@ -17,6 +33,18 @@ Schema.Blockchain = new SimpleSchema({
   coin: {
     type: Schema.Coin,
     optional: true,
+  },
+  tickets: {
+    type: [Schema.Ticket],
+    defaultValue: [],
+  },
+  price: {
+    type: String,
+    defaultValue: '1',
+  },
+  balance: {
+    type: String,
+    defaultValue: '0',
   },
 });
 

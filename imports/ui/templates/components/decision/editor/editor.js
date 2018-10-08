@@ -14,7 +14,10 @@ import '/imports/ui/templates/components/decision/editor/editor.html';
 import '/imports/ui/templates/components/decision/editor/editorButton.js';
 import '/imports/ui/templates/components/decision/editor/counter.js';
 import '/imports/ui/templates/components/decision/constituency/constituency.js';
+import '/imports/ui/templates/components/decision/coin/coin.js';
 import '/imports/ui/templates/components/decision/electorate/electorate.js';
+import '/imports/ui/templates/components/decision/blockchain/blockchain.js';
+
 
 const _keepKeyboard = () => {
   $('#toolbar-hidden-keyboard').focus();
