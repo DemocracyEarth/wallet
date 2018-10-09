@@ -40,8 +40,8 @@ const _save = () => {
 };
 
 Template.constituency.onCreated(() => {
-  Session.set('showNations', true);
-  Session.set('suggestDisplay', 'NATION');
+  Session.set('showNations', false);
+  Session.set('suggestDisplay', '');
 });
 
 Template.constituency.onRendered(function () {

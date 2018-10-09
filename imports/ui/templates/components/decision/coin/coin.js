@@ -34,8 +34,8 @@ const _save = () => {
 };
 
 Template.coin.onCreated(() => {
-  Session.set('showTokens', true);
-  Session.set('suggestDisplay', 'TOKEN');
+  Session.set('showTokens', false);
+  Session.set('suggestDisplay', '');
 });
 
 Template.coin.onRendered(function () {
