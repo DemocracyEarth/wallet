@@ -587,5 +587,6 @@
   "blockchain-address-placeholder": "Your account if none specified.",
   "ethereum": "Ethereum",
   "cost-per-vote": "Tokens per Vote",
-  "cost-placeholder": "Default is 1.00 if none specified."
+  "cost-placeholder": "Default is 1.00 if none specified.",
+  "erc20-tokens": "ERC20 Tokens"
 }

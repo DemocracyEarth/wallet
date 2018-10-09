@@ -83,25 +83,15 @@ const _writeRule = (contract, textOnly) => {
   let sentence = TAPi18n.__(`electorate-sentence-anyone${format}`);
   let setting;
   if (contract.constituency) {
-    switch (contract.constituency.length) {
-      case 1:
-        sentence = TAPi18n.__(`electorate-sentence-only${format}`);
-        break;
-      case 2:
-        sentence = TAPi18n.__(`electorate-sentence-and${format}`);
-        break;
-      case 3:
-        sentence = TAPi18n.__(`electorate-sentence-all${format}`);
-        break;
-      default:
-        sentence = TAPi18n.__(`electorate-sentence-anyone${format}`);
-    }
-
+    sentence = TAPi18n.__(`electorate-sentence-only${format}`);
     let coin;
 
+    let found;
     for (const i in contract.constituency) {
+      found = false;
       switch (contract.constituency[i].kind) {
         case 'TOKEN':
+          found = true;
           coin = _.where(token.coin, { code: contract.constituency[i].code })[0];
           if (!textOnly && contract.constituency.length > 0) {
             setting = `<div class="suggest-item suggest-token suggest-token-inline" style="background-color: ${coin.color} ">${coin.code}</div>`;
@@ -115,7 +105,9 @@ const _writeRule = (contract, textOnly) => {
         default:
           break;
       }
-      sentence = sentence.replace(`{{setting${i}}}`, setting);
+      if (found) {
+        sentence = sentence.replace('{{setting0}}', setting);
+      }
     }
   }
   return sentence;
@@ -166,7 +158,7 @@ Template.blockchain.helpers({
       if (rule === TAPi18n.__('electorate-sentence-anyone')) {
         rule = TAPi18n.__('token');
       }
-      return `${TAPi18n.__('token')} ${rule}`;
+      return `${TAPi18n.__('token')}: ${rule}`;
     }
     return '';
   },

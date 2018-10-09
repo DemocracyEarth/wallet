@@ -34,6 +34,20 @@ Template.coin.onCreated(() => {
 });
 
 Template.coin.onRendered(function () {
+  // show current coin set in draft
+  const draft = Session.get('draftContract');
+  for (let i = 0; i < draft.constituency.length; i += 1) {
+    if (draft.constituency[i].kind === 'TOKEN') {
+      console.log('found token');
+      for (let j = 0; j < token.coin.length; j += 1) {
+        if (token.coin[j].code === draft.constituency[i].code) {
+          Session.set('newCoin', token.coin[j]);
+          break;
+        }
+      }
+      break;
+    }
+  }
 });
 
 Template.coin.helpers({
@@ -45,6 +59,16 @@ Template.coin.helpers({
       return Session.get('newCoin').name;
     }
     return undefined;
+  },
+  address() {
+    const draft = Session.get('draftContract');
+    if (draft.blockchain.publicAddress) {
+      return draft.blockchain.publicAddress;
+    }
+    return '';
+  },
+  price() {
+    return '';
   },
 });
 

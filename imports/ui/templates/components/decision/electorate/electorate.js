@@ -217,7 +217,7 @@ Template.electorate.helpers({
       if (rule === TAPi18n.__('electorate-sentence-anyone') || rule === 'undefined') {
         return TAPi18n.__('requisites');
       }
-      return `${TAPi18n.__('requisites')} ${rule}`;
+      return `${TAPi18n.__('requisites')}: ${rule}`;
     }
     return '';
   },
