@@ -117,12 +117,8 @@ const _contractHasToken = (contract) => {
 const _chain = (contract) => {
   const draft = contract;
   // token
-  console.log(!_contractHasToken(draft));
   if (!_contractHasToken(draft)) {
-    console.log(draft.constituency);
-    console.log(defaultConstituency);
     draft.constituency.push(defaultConstituency);
-    console.log(JSON.stringify(draft.constituency));
   }
   for (let i = 0; i < draft.constituency.length; i += 1) {
     if (draft.constituency[i].kind === 'TOKEN') {
@@ -132,7 +128,6 @@ const _chain = (contract) => {
 
   // blockchain
   draft.blockchain = _entangle(draft);
-  console.log(draft);
   return draft;
 };
 
@@ -156,7 +151,7 @@ const _createContract = (newkeyword, newtitle) => {
 
       // chain by author
       const chainedContract = _chain(contract);
-      console.log(chainedContract);
+
       Contracts.update({ _id: contract._id }, { $set: {
         blockchain: chainedContract.blockchain,
         wallet: chainedContract.wallet,
@@ -219,7 +214,7 @@ const _updateContractSignatures = (status) => {
       }
     }
   }
-  Contracts.update(Session.get('contract')._id, { $set: { signatures: signatures } });
+  Contracts.update(Session.get('contract')._id, { $set: { signatures } });
 };
 
 /**

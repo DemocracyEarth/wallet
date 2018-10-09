@@ -133,6 +133,7 @@ Template.blockchain.onCreated(() => {
   } else {
     contract = Template.currentData().contract;
   }
+  Session.set('showCoinSettings', false);
   Template.instance().voteEnabled = _verifyConstituencyRights(contract);
 });
 

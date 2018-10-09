@@ -10,6 +10,7 @@ import { geo } from '/lib/geo';
 import { token } from '/lib/token';
 
 import '/imports/ui/templates/components/decision/electorate/electorate.html';
+import '/imports/ui/templates/components/decision/blockchain/blockchain';
 
 /**
 * @summary verifies if user has a verified email from a given domain
@@ -137,7 +138,7 @@ const _writeRule = (contract, textOnly) => {
     for (const i in contract.constituency) {
       switch (contract.constituency[i].kind) {
         case 'TOKEN':
-          coin = _.where(token.coin, { code: contract.constituency[i].code })[0];
+          /* coin = _.where(token.coin, { code: contract.constituency[i].code })[0];
           if (!textOnly && contract.constituency.length > 0) {
             setting = `<div class="suggest-item suggest-token suggest-token-inline" style="background-color: ${coin.color} ">${coin.code}</div>`;
             break;
@@ -145,7 +146,7 @@ const _writeRule = (contract, textOnly) => {
             setting = `${TAPi18n.__('holding')} ${_.where(token.coin, { code: contract.constituency[i].code })[0].name}`;
           } else {
             setting = _.where(token.coin, { code: contract.constituency[i].code })[0].name;
-          }
+          }*/
           break;
         case 'NATION':
           if (!textOnly && contract.constituency.length > 0) {
@@ -179,11 +180,13 @@ Template.electorate.onCreated(() => {
   } else {
     contract = Template.currentData().contract;
   }
+  Session.set('showConstituencyEditor', false);
   Template.instance().voteEnabled = _verifyConstituencyRights(contract);
 });
 
 const killPopup = () => {
   toggle('constituencyEnabled', !Session.get('draftContract').constituencyEnabled);
+  Session.set('showConstituencyEditor', Session.get('draftContract').constituencyEnabled);
   displayPopup($('#electorate-button')[0], 'constituency', Meteor.userId(), 'click', 'constituency-popup');
 };
 
@@ -193,6 +196,7 @@ Template.electorate.onRendered(function () {
     if (document.getElementById('card-constituency-popup') && !document.getElementById('card-constituency-popup').contains(e.target)) {
       if (!instance.data.readOnly) {
         toggle('constituencyEnabled', false);
+        Session.set('showConstituencyEditor', false);
         animatePopup(false, 'constituency-popup');
       }
     }
@@ -204,7 +208,7 @@ Template.electorate.helpers({
     let rule;
     if (!this.readOnly) {
       rule = _writeRule(Session.get('draftContract'));
-      if (rule === TAPi18n.__('electorate-sentence-anyone')) {
+      if (rule === TAPi18n.__('electorate-sentence-anyone') || rule === 'undefined') {
         rule = TAPi18n.__('requisites');
       }
       return rule;
@@ -235,10 +239,10 @@ Template.electorate.helpers({
   },
   icon() {
     if (!this.readOnly) {
-      const draft = Session.get('draftContract');
-      if (draft.constituencyEnabled || draft.constituency.length > 0) {
+      if (Session.get('showConstituencyEditor')) {
         return 'active';
       }
+      return 'enabled';
     }
     if (!Template.instance().voteEnabled) {
       return 'reject-enabled';
