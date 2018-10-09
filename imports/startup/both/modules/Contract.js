@@ -45,6 +45,98 @@ const _sign = (contractId, userObject, userRole) => {
 };
 
 /**
+* @summary dynamically generates a valid URL keyword regardless the case
+* @param {string} keyword tentative title being used for contract
+*/
+const _contractURI = (keyword) => {
+  return convertToSlug(`${keyword}-${shortUUID()}`);
+};
+
+/**
+* @summary gets public address of a given token from a user
+* @param {string} contractToken ticker
+*/
+const _getPublicAddress = (contractToken) => {
+  const reserves = Meteor.user().profile.wallet.reserves;
+  const chain = {
+    coin: { code: '' },
+    publicAddress: '',
+  };
+  if (reserves.length > 0) {
+    for (let k = 0; k < reserves.length; k += 1) {
+      if (reserves[k].token === contractToken) {
+        chain.coin.code = contractToken;
+        chain.publicAddress = reserves[k].publicAddress;
+        return chain;
+      }
+    }
+  }
+  for (let j = 0; j < token.coin.length; j += 1) {
+    if (token.coin[j].code === contractToken && token.coin[j].blockchain === 'ETHEREUM') {
+      return _getPublicAddress('WEI');
+    }
+  }
+  return undefined;
+};
+
+
+/**
+* @summary sets corresponding blockchain address to contract
+* @param {object} draft new contract
+*/
+const _entangle = (draft) => {
+  const constituency = draft.constituency;
+  if (!constituency.length) {
+    return _getPublicAddress('WEI');
+  }
+  for (let i = 0; i < constituency.length; i += 1) {
+    return _getPublicAddress(constituency[i].code);
+  }
+  return undefined;
+};
+
+/**
+* @summary checks if contract has a basic token
+* @param {object} contract - contract to check
+*/
+const _contractHasToken = (contract) => {
+  if (contract.constituency.length > 0) {
+    for (let i = 0; i < contract.constituency.length; i += 1) {
+      if (contract.constituency[i].kind === 'TOKEN') {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+
+/**
+* @summary inserts default blockchain data to a contract
+* @param {object} contract contract to include chain data
+*/
+const _chain = (contract) => {
+  const draft = contract;
+  // token
+  console.log(!_contractHasToken(draft));
+  if (!_contractHasToken(draft)) {
+    console.log(draft.constituency);
+    console.log(defaultConstituency);
+    draft.constituency.push(defaultConstituency);
+    console.log(JSON.stringify(draft.constituency));
+  }
+  for (let i = 0; i < draft.constituency.length; i += 1) {
+    if (draft.constituency[i].kind === 'TOKEN') {
+      draft.wallet.currency = draft.constituency[i].code;
+    }
+  }
+
+  // blockchain
+  draft.blockchain = _entangle(draft);
+  console.log(draft);
+  return draft;
+};
+
+/**
 * @summary generate a new empty draft
 * @param {string} keyword - name of the contract to be specifically used for this delegation
 * @param {string} title - title of the contract without slug
@@ -59,7 +151,17 @@ const _createContract = (newkeyword, newtitle) => {
     }
     const contract = Contracts.findOne({ keyword: `draft-${Meteor.userId()}` });
     if (Meteor.user()) {
+      // sign by author
       _sign(contract._id, Meteor.user(), 'AUTHOR');
+
+      // chain by author
+      const chainedContract = _chain(contract);
+      console.log(chainedContract);
+      Contracts.update({ _id: contract._id }, { $set: {
+        blockchain: chainedContract.blockchain,
+        wallet: chainedContract.wallet,
+        constituency: chainedContract.constituency,
+      } });
     }
     return Contracts.findOne({ keyword: `draft-${Meteor.userId()}` });
   // has title & keyword, used for forks
@@ -275,79 +377,13 @@ const _remove = (contractId) => {
   }
 };
 
-
-/**
-* @summary dynamically generates a valid URL keyword regardless the case
-* @param {string} keyword tentative title being used for contract
-*/
-const _contractURI = (keyword) => {
-  return convertToSlug(`${keyword}-${shortUUID()}`);
-};
-
-/**
-* @summary gets public address of a given token from a user
-* @param {string} contractToken ticker
-*/
-const _getPublicAddress = (contractToken) => {
-  const reserves = Meteor.user().profile.wallet.reserves;
-  const chain = {
-    coin: { code: '' },
-    publicAddress: '',
-  };
-  if (reserves.length > 0) {
-    for (let k = 0; k < reserves.length; k += 1) {
-      if (reserves[k].token === contractToken) {
-        chain.coin.code = contractToken;
-        chain.publicAddress = reserves[k].publicAddress;
-        return chain;
-      }
-    }
-  }
-  for (let j = 0; j < token.coin.length; j += 1) {
-    if (token.coin[j].code === contractToken && token.coin[j].blockchain === 'ETHEREUM') {
-      return _getPublicAddress('WEI');
-    }
-  }
-  return undefined;
-};
-
-/**
-* @summary sets corresponding blockchain address to contract
-* @param {object} draft new contract
-*/
-const _entangle = (draft) => {
-  const constituency = draft.constituency;
-  if (!constituency.length) {
-    return _getPublicAddress('WEI');
-  }
-  for (let i = 0; i < constituency.length; i += 1) {
-    return _getPublicAddress(constituency[i].code);
-  }
-  return undefined;
-};
-
-/**
-* @summary checks if contract has a basic token
-* @param {object} contract - contract to check
-*/
-const _contractHasToken = (contract) => {
-  if (contract.constituency.length > 0) {
-    for (let i = 0; i < contract.constituency.length; i += 1) {
-      if (contract.constituency[i].kind === 'TOKEN') {
-        return true;
-      }
-    }
-  }
-  return false;
-};
-
 /**
 * @summary publishes a contract and goes to home
 * @param {string} contractId - id of the contract to publish
 * @param {string} keyword - key word identifier
 */
 const _publish = (contractId, keyword) => {
-  const draft = Session.get('draftContract');
+  let draft = Session.get('draftContract');
 
   // status
   draft.stage = 'LIVE';
@@ -387,18 +423,8 @@ const _publish = (contractId, keyword) => {
     draft.ballot = template;
   }
 
-  // token
-  if (!_contractHasToken(draft)) {
-    draft.constituency.push(defaultConstituency);
-  }
-  for (let i = 0; i < draft.constituency.length; i += 1) {
-    if (draft.constituency[i].kind === 'TOKEN') {
-      draft.wallet.currency = draft.constituency[i].code;
-    }
-  }
-
-  // blockchain
-  draft.blockchain = _entangle(draft);
+  // chain
+  draft = _chain(draft);
 
   // db
   Contracts.update({ _id: contractId }, { $set: {

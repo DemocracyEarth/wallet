@@ -58,7 +58,7 @@ const _positionCard = (element, target, pop) => {
     popup.pointerClass = popup.pointerUp;
   } else {
     // popup goes on top of target
-    popup.position.top = parseInt(source.bottom - target.height, 10);
+    popup.position.top = parseInt(source.bottom - target.height - 5, 10);
     $(popup.cardId).css('margin-top', parseInt(0 - source.height - 10, 10));
     $(popup.pointerUp).css('margin-top', '0px');
     popup.pointerClass = popup.pointerDown;

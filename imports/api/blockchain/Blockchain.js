@@ -37,14 +37,17 @@ Schema.Blockchain = new SimpleSchema({
   tickets: {
     type: [Schema.Ticket],
     defaultValue: [],
+    optional: true,
   },
   price: {
     type: String,
     defaultValue: '1',
+    optional: true,
   },
   balance: {
     type: String,
     defaultValue: '0',
+    optional: true,
   },
 });
 
