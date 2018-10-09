@@ -168,7 +168,7 @@ Template.blockchain.helpers({
     if (!this.readOnly) {
       rule = _writeRule(Session.get('draftContract'));
       if (rule === TAPi18n.__('electorate-sentence-anyone')) {
-        rule = TAPi18n.__('voting-token');
+        rule = TAPi18n.__('token');
       }
       return rule;
     }
