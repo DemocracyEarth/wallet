@@ -11,7 +11,7 @@ const _save = () => {
   const draft = Session.get('draftContract');
   const coin = Session.get('newCoin');
 
-  draft.constituency = [];
+  draft.constituency = _.reject(draft.constituency, (rule) => { return (rule.kind === 'TOKEN'); });
 
   if (coin && coin !== '') {
     draft.constituency.push({
@@ -50,16 +50,13 @@ Template.coin.helpers({
 
 Template.coin.events({
   'click #cancel-coin'() {
-    const draft = Session.get('draftContract');
-    if (!draft.constituency || draft.constituency.length === 0) {
-      draft.constituencyEnabled = false;
-      Session.set('draftContract', draft);
-    }
-    animatePopup(false, 'constituency-popup');
+    animatePopup(false, 'blockchain-popup');
+    Session.set('showCoinSettings', false);
   },
   'click #execute-coin'() {
     _save();
-    animatePopup(false, 'constituency-popup');
+    animatePopup(false, 'blockchain-popup');
+    Session.set('showCoinSettings', false);
   },
   'input .token-search'(event) {
     if (event.target.value !== '') {

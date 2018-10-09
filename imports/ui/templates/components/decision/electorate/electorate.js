@@ -118,8 +118,15 @@ const _writeRule = (contract, textOnly) => {
   }
   let sentence = TAPi18n.__(`electorate-sentence-anyone${format}`);
   let setting;
+  let total = 0;
   if (contract.constituency) {
-    switch (contract.constituency.length) {
+    for (let j = 0; j < contract.constituency.length; j += 1) {
+      if (contract.constituency[j].kind === 'NATION' || contract.constituency[j].kind === 'DOMAIN') {
+        total += 1;
+      }
+    }
+
+    switch (total) {
       case 1:
         sentence = TAPi18n.__(`electorate-sentence-only${format}`);
         break;
@@ -133,22 +140,12 @@ const _writeRule = (contract, textOnly) => {
         sentence = TAPi18n.__(`electorate-sentence-anyone${format}`);
     }
 
-    let coin;
-
+    let counter = 0;
     for (const i in contract.constituency) {
+      let found = false;
       switch (contract.constituency[i].kind) {
-        case 'TOKEN':
-          /* coin = _.where(token.coin, { code: contract.constituency[i].code })[0];
-          if (!textOnly && contract.constituency.length > 0) {
-            setting = `<div class="suggest-item suggest-token suggest-token-inline" style="background-color: ${coin.color} ">${coin.code}</div>`;
-            break;
-          } else if (textOnly) {
-            setting = `${TAPi18n.__('holding')} ${_.where(token.coin, { code: contract.constituency[i].code })[0].name}`;
-          } else {
-            setting = _.where(token.coin, { code: contract.constituency[i].code })[0].name;
-          }*/
-          break;
         case 'NATION':
+          found = true;
           if (!textOnly && contract.constituency.length > 0) {
             setting = _.where(geo.country, { code: contract.constituency[i].code })[0].emoji;
             break;
@@ -159,15 +156,20 @@ const _writeRule = (contract, textOnly) => {
           }
           break;
         case 'DOMAIN':
-        default:
+          found = true;
           if (textOnly) {
             setting = TAPi18n.__('valid-email-domain').replace('{{domain}}', contract.constituency[i].code);
           } else {
             setting = contract.constituency[i].code;
           }
           break;
+        default:
+          break;
       }
-      sentence = sentence.replace(`{{setting${i}}}`, setting);
+      if (found) {
+        sentence = sentence.replace(`{{setting${counter}}}`, setting);
+        counter += 1;
+      }
     }
   }
   return sentence;
@@ -186,7 +188,11 @@ Template.electorate.onCreated(() => {
 
 const killPopup = () => {
   toggle('constituencyEnabled', !Session.get('draftContract').constituencyEnabled);
-  Session.set('showConstituencyEditor', Session.get('draftContract').constituencyEnabled);
+  if (Session.set('showConstituencyEditor')) {
+    Session.set('showConstituencyEditor', false);
+  } else {
+    Session.set('showConstituencyEditor', true);
+  }
   displayPopup($('#electorate-button')[0], 'constituency', Meteor.userId(), 'click', 'constituency-popup');
 };
 
@@ -209,17 +215,10 @@ Template.electorate.helpers({
     if (!this.readOnly) {
       rule = _writeRule(Session.get('draftContract'));
       if (rule === TAPi18n.__('electorate-sentence-anyone') || rule === 'undefined') {
-        rule = TAPi18n.__('requisites');
+        return TAPi18n.__('requisites');
       }
-      return rule;
+      return `${TAPi18n.__('requisites')} ${rule}`;
     }
-    /*
-    rule = _writeRule(this.contract, false);
-    if (rule === TAPi18n.__('electorate-sentence-anyone')) {
-      rule = '';
-    }
-    return rule;
-    */
     return '';
   },
   editorId() {

@@ -25,6 +25,18 @@
         <img src="{{pathFor route='home'}}images/token-fee.png" class="login-icon">
         <input type="text" id="editDomain" placeholder="{{_ 'cost-placeholder'}}" autocomplete="false" class="w-input login-input login-input-domain">
       </div>
+      <div class="extra">
+         <div class="modal-buttons-padder">
+           <div id="cancel-coin" class="button login-button button-secondary button-half">
+             <div>{{_ 'cancel'}}</div>
+           </div>
+         </div>
+         <div class="modal-buttons-padder">
+           <div id="execute-coin" class="button login-button button-half">
+             <div>{{_ 'apply'}}</div>
+           </div>
+         </div>
+       </div>
      </div>
    {{/if}}
 </template>

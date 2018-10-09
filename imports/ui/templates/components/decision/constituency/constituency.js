@@ -12,22 +12,15 @@ import '/imports/ui/templates/components/decision/constituency/constituency.html
 const _save = () => {
   const draft = Session.get('draftContract');
   const country = Session.get('newCountry');
-  const coin = Session.get('newCoin');
   const domain = $('.login-input-domain')[0];
 
-  draft.constituency = [];
+
+  draft.constituency = _.reject(draft.constituency, (rule) => { return (rule.kind === 'NATION' || rule.kind === 'DOMAIN'); });
 
   if (country && country !== '') {
     draft.constituency.push({
       kind: 'NATION',
       code: country.code,
-      check: 'EQUAL',
-    });
-  }
-  if (coin && coin !== '') {
-    draft.constituency.push({
-      kind: 'TOKEN',
-      code: coin.code,
       check: 'EQUAL',
     });
   }
@@ -47,9 +40,8 @@ const _save = () => {
 };
 
 Template.constituency.onCreated(() => {
-  Session.set('showNations', false);
-  Session.set('showTokens', false);
-  Session.set('suggestDisplay', '');
+  Session.set('showNations', true);
+  Session.set('suggestDisplay', 'NATION');
 });
 
 Template.constituency.onRendered(function () {
@@ -65,18 +57,9 @@ Template.constituency.helpers({
   showNations() {
     return (Session.get('suggestDisplay') === 'NATION');
   },
-  showTokens() {
-    return (Session.get('suggestDisplay') === 'TOKEN');
-  },
   country() {
     if (Session.get('newCountry') !== undefined) {
       return Session.get('newCountry').name;
-    }
-    return undefined;
-  },
-  token() {
-    if (Session.get('newCoin') !== undefined) {
-      return Session.get('newCoin').name;
     }
     return undefined;
   },
@@ -89,10 +72,12 @@ Template.constituency.events({
       draft.constituencyEnabled = false;
       Session.set('draftContract', draft);
     }
+    Session.set('showConstituencyEditor', false);
     animatePopup(false, 'constituency-popup');
   },
   'click #execute-constituency'() {
     _save();
+    Session.set('showConstituencyEditor', false);
     animatePopup(false, 'constituency-popup');
   },
   'input .country-search'(event) {
@@ -103,21 +88,10 @@ Template.constituency.events({
       Session.set('newCountry', '');
     }
   },
-  'input .token-search'(event) {
-    if (event.target.value !== '') {
-      Session.set('filteredCoins', searchJSON(token.coin, event.target.value));
-    } else {
-      Session.set('filteredCoins', token.coin);
-      Session.set('newCoin', '');
-    }
-  },
   'focus .country-search'() {
     Session.set('suggestDisplay', 'NATION');
   },
   'focus .login-input-domain'() {
     Session.set('suggestDisplay', '');
-  },
-  'focus .token-search'() {
-    Session.set('suggestDisplay', 'TOKEN');
   },
 });

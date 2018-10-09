@@ -113,11 +113,6 @@ const _writeRule = (contract, textOnly) => {
           }
           break;
         default:
-          if (textOnly) {
-            setting = TAPi18n.__('valid-email-domain').replace('{{domain}}', contract.constituency[i].code);
-          } else {
-            setting = contract.constituency[i].code;
-          }
           break;
       }
       sentence = sentence.replace(`{{setting${i}}}`, setting);
@@ -171,7 +166,7 @@ Template.blockchain.helpers({
       if (rule === TAPi18n.__('electorate-sentence-anyone')) {
         rule = TAPi18n.__('token');
       }
-      return rule;
+      return `${TAPi18n.__('token')} ${rule}`;
     }
     return '';
   },
@@ -192,8 +187,7 @@ Template.blockchain.helpers({
   },
   icon() {
     if (!this.readOnly) {
-      const draft = Session.get('draftContract');
-      if (draft.blockchain.publicAddress !== '' || Session.get('showCoinSettings')) {
+      if (Session.get('showCoinSettings')) {
         return 'active';
       }
     }
