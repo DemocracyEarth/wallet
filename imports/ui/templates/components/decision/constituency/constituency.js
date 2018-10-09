@@ -91,7 +91,4 @@ Template.constituency.events({
   'focus .country-search'() {
     Session.set('suggestDisplay', 'NATION');
   },
-  'focus .login-input-domain'() {
-    Session.set('suggestDisplay', '');
-  },
 });

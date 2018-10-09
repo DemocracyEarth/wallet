@@ -39,7 +39,7 @@ Schema.Blockchain = new SimpleSchema({
     defaultValue: [],
     optional: true,
   },
-  price: {
+  votePrice: {
     type: String,
     defaultValue: '1',
     optional: true,

@@ -1,11 +1,16 @@
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
+import { $ } from 'meteor/jquery';
 
 import { animatePopup } from '/imports/ui/modules/popup';
 import { searchJSON } from '/imports/ui/modules/JSON';
 import { token } from '/lib/token';
 
 import '/imports/ui/templates/components/decision/coin/coin.html';
+
+const Web3 = require('web3');
+
+const web3 = new Web3();
 
 const _save = () => {
   const draft = Session.get('draftContract');
@@ -29,8 +34,8 @@ const _save = () => {
 };
 
 Template.coin.onCreated(() => {
-  Session.set('showTokens', false);
-  Session.set('suggestDisplay', '');
+  Session.set('showTokens', true);
+  Session.set('suggestDisplay', 'TOKEN');
 });
 
 Template.coin.onRendered(function () {
@@ -38,7 +43,6 @@ Template.coin.onRendered(function () {
   const draft = Session.get('draftContract');
   for (let i = 0; i < draft.constituency.length; i += 1) {
     if (draft.constituency[i].kind === 'TOKEN') {
-      console.log('found token');
       for (let j = 0; j < token.coin.length; j += 1) {
         if (token.coin[j].code === draft.constituency[i].code) {
           Session.set('newCoin', token.coin[j]);
@@ -63,12 +67,20 @@ Template.coin.helpers({
   address() {
     const draft = Session.get('draftContract');
     if (draft.blockchain.publicAddress) {
+      Session.set('checkBlockchainAddress', web3.isAddress(draft.blockchain.publicAddress));
       return draft.blockchain.publicAddress;
     }
     return '';
   },
   price() {
+    const draft = Session.get('draftContract');
+    if (draft.blockchain.votePrice) {
+      return draft.blockchain.votePrice;
+    }
     return '';
+  },
+  wrongAddress() {
+    return !Session.get('checkBlockchainAddress');
   },
 });
 
@@ -82,6 +94,12 @@ Template.coin.events({
     animatePopup(false, 'blockchain-popup');
     Session.set('showCoinSettings', false);
   },
+  'input #editBlockchainAddress'() {
+    if (document.getElementById('editBlockchainAddress')) {
+      const address = document.getElementById('editBlockchainAddress').value;
+      Session.set('checkBlockchainAddress', web3.isAddress(address));
+    }
+  },
   'input .token-search'(event) {
     if (event.target.value !== '') {
       Session.set('filteredCoins', searchJSON(token.coin, event.target.value));
@@ -89,9 +107,6 @@ Template.coin.events({
       Session.set('filteredCoins', token.coin);
       Session.set('newCoin', '');
     }
-  },
-  'focus .login-input-domain'() {
-    Session.set('suggestDisplay', '');
   },
   'focus .token-search'() {
     Session.set('suggestDisplay', 'TOKEN');

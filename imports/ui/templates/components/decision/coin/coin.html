@@ -16,14 +16,19 @@
           {{_ 'blockchain-address'}}
         </label>
         <img src="{{pathFor route='home'}}images/blockchain-address.png" class="login-icon">
-        <input type="text" id="editDomain" placeholder="{{_ 'blockchain-address-placeholder'}}" value="{{address}}" autocomplete="false" class="w-input login-input login-input-domain">
+        <input type="text" id="editBlockchainAddress" placeholder="{{_ 'blockchain-address-placeholder'}}" value="{{address}}" autocomplete="false" class="w-input login-input login-input-domain">
+        {{#if wrongAddress}}
+          <div class="margin-top">
+            {{> warning label='blockchain-wrong-address'}}
+          </div>
+        {{/if}}
       </div>
       <div class="login-field login-field-last">
         <label for="name" class="login-label login-label-form">
           {{_ 'cost-per-vote'}}
         </label>
         <img src="{{pathFor route='home'}}images/token-fee.png" class="login-icon">
-        <input type="number" id="editDomain" placeholder="{{_ 'cost-placeholder'}}" value="{{price}}" autocomplete="false" class="w-input login-input login-input-domain">
+        <input type="number" id="editVotePrice" placeholder="{{_ 'cost-placeholder'}}" value="{{price}}" autocomplete="false" class="w-input login-input login-input-domain">
       </div>
       <div class="extra">
          <div class="modal-buttons-padder">
