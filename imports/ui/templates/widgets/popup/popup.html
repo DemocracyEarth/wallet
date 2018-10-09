@@ -1,11 +1,9 @@
 <template name="popup">
     {{#unless mobile}}
       <div id="{{id}}" class="popup">
-        <div id="pointer-up-{{id}}" class="pointer-up" style="{{pointer}}"></div>
         <div id="card-{{id}}" class="w-clearfix card">
           {{> Template.dynamic template=content data=dataObject}}
         </div>
-        <div id="pointer-down-{{id}}" class="pointer-down" style="{{pointer}}"></div>
       </div>
     {{else}}
       <a id="{{id}}" class="w-clearfix modal">

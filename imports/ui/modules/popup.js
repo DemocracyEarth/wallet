@@ -52,7 +52,7 @@ const _positionCard = (element, target, pop) => {
   // y axis
   if (source.top < parseInt(target.height + 60, 10)) {
     // popup goes at bottom of target
-    popup.position.top = source.top;
+    popup.position.top = parseInt(source.top + source.height + 5, 10);
     $(popup.cardId).css('margin-top', '0px');
     $(popup.pointerUp).css('margin-top', parseInt(source.height, 10));
     popup.pointerClass = popup.pointerUp;
@@ -77,20 +77,21 @@ const _positionCard = (element, target, pop) => {
       pointer = parseInt((target.width - (target.width / 2)) - 10, 10);
     }
   // popup will be on left side of screen
-  } else if (spaceLeft < (target.width - (target.width / 2))) {
+  } else { // if (spaceLeft < (target.width - (target.width / 2))) {
     // not enough space on left
     left = parseInt(source.left + 10, 10);
     pointer = parseInt((source.width / 2) - 12, 10);
-  } else {
+  }
+  /* } else {
     // enough space on left;
     left = parseInt((source.left - (target.width / 2)) + (source.width / 2), 10);
     pointer = parseInt((target.width - (target.width / 2)) - 10, 10);
-  }
+  }*/
 
   popup.position.left = left;
   popup.pointerPosition = pointer;
 
-  _cursorPosition(popup);
+  // _cursorPosition(popup);
 
   return Object.assign(popup.position, target);
 };
