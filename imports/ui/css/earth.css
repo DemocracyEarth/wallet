@@ -937,6 +937,12 @@ blockquote {
   color: #bbb;
 }
 
+.button.login-button.button-half.button-disabled {
+  border-color: #aaa;
+  background-color: transparent;
+  color: #aaa;
+}
+
 .button.login-button.facebook {
   margin-bottom: 5px;
   background-color: #3c5b96;

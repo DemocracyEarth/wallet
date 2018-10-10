@@ -1,6 +1,5 @@
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
-import { $ } from 'meteor/jquery';
 
 import { animatePopup } from '/imports/ui/modules/popup';
 import { searchJSON } from '/imports/ui/modules/JSON';
@@ -12,6 +11,9 @@ const Web3 = require('web3');
 
 const web3 = new Web3();
 
+/**
+* @summary save data on contract
+*/
 const _save = () => {
   const draft = Session.get('draftContract');
   const coin = Session.get('newCoin');
@@ -31,6 +33,14 @@ const _save = () => {
   }
 
   Session.set('draftContract', draft);
+};
+
+/**
+* @summary check form inputs are ok
+* @return {boolean} true or false baby
+*/
+const _checkInputs = () => {
+  return !(Session.get('noCoinFound') || (Session.get('draftContract').blockchain.publicAddress && !Session.get('checkBlockchainAddress')));
 };
 
 Template.coin.onCreated(() => {
@@ -82,6 +92,12 @@ Template.coin.helpers({
   wrongAddress() {
     return !Session.get('checkBlockchainAddress');
   },
+  buttonDisable() {
+    if (!_checkInputs()) {
+      return 'button-disabled';
+    }
+    return '';
+  },
 });
 
 Template.coin.events({
@@ -90,9 +106,11 @@ Template.coin.events({
     Session.set('showCoinSettings', false);
   },
   'click #execute-coin'() {
-    _save();
-    animatePopup(false, 'blockchain-popup');
-    Session.set('showCoinSettings', false);
+    if (_checkInputs()) {
+      _save();
+      animatePopup(false, 'blockchain-popup');
+      Session.set('showCoinSettings', false);
+    }
   },
   'input #editBlockchainAddress'() {
     if (document.getElementById('editBlockchainAddress')) {

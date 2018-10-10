@@ -586,8 +586,8 @@
   "blockchain-address": "Blockchain Address",
   "blockchain-address-placeholder": "Your account if none specified.",
   "ethereum": "Ethereum",
-  "cost-per-vote": "Tokens required to vote",
+  "cost-per-vote": "Tokens required per vote",
   "cost-placeholder": "Default is 1.00 if none specified.",
-  "erc20-tokens": "ERC20 Tokens",
+  "erc20-tokens": "ERC-Compatible Tokens",
   "blockchain-wrong-address": "Incompatible blockchain address."
 }
