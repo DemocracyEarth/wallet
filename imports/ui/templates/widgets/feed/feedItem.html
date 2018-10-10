@@ -44,8 +44,16 @@
                 {{> avatar placeholder=true size=24}}
               {{/each}}
               <div class="data data-feed data-identity">
-                <img src="{{pathFor route='home'}}images/clock.png" class="clock-icon">
-                <div class="verifier verifier-live verifier-feed">{{sinceDate createdAt}}</div>
+                <div class="margin-both">
+                  <img src="{{pathFor route='home'}}images/clock.png" class="clock-icon">
+                  <div class="verifier verifier-live verifier-feed">{{sinceDate createdAt}}</div>
+                </div>
+                <div class="margin-both">
+                  <img src="{{pathFor route='home'}}images/block.png" class="clock-icon">
+                  <a id="blockchain-explorer" title="{{blockchainFullAddress}}" href="{{blockchainLink}}" target="_blank">
+                    <div class="verifier verifier-live verifier-feed">{{blockchainAddress}}</div>
+                  </a>
+                </div>
               </div>
               <div class="data data-feed">
                 {{#if electionData}}

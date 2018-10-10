@@ -212,6 +212,15 @@ Template.feedItem.helpers({
   sinceDate(timestamp) {
     return `${timeCompressed(timestamp)}`;
   },
+  blockchainAddress() {
+    return `${this.blockchain.publicAddress.substring(0, 6)}...${this.blockchain.publicAddress.slice(-4)}`;
+  },
+  blockchainFullAddress() {
+    return `${this.blockchain.publicAddress}`;
+  },
+  blockchainLink() {
+    return `${Meteor.settings.public.web.sites.blockExplorer}${this.blockchain.publicAddress}`;
+  },
   editorMode(stage) {
     if (stage === 'DRAFT') { return true; } return false;
   },
@@ -352,6 +361,10 @@ Template.feedItem.events({
   },
   'click .micro-button-addballot'(event) {
     addChoiceToBallot(Session.get('contract')._id, event.target.parentNode.getAttribute('id'));
+  },
+  'click #blockchain-explorer'(event) {
+    event.preventDefault();
+    window.open(event.currentTarget.href, '_blank');
   },
 });
 

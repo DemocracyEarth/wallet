@@ -91,7 +91,9 @@ const _entangle = (draft) => {
     return _getPublicAddress('WEI');
   }
   for (let i = 0; i < constituency.length; i += 1) {
-    return _getPublicAddress(constituency[i].code);
+    if (constituency[i].kind === 'TOKEN') {
+      return _getPublicAddress(constituency[i].code);
+    }
   }
   return undefined;
 };
@@ -128,7 +130,9 @@ const _chain = (contract) => {
   }
 
   // blockchain
-  draft.blockchain = _entangle(draft);
+  if (!draft.blockchain.publicAddress) {
+    draft.blockchain = _entangle(draft);
+  }
   return draft;
 };
 

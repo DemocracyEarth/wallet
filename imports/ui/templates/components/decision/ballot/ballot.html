@@ -83,10 +83,6 @@
     <div class="block block-menu">
       <div class="micro-menu">
         <div class="extra">
-          <a id="edit-reply" href="{{contract.url}}#debate" class="micro-button micro-button-feed" ontouchstart="">
-            <img src="{{pathFor route='home'}}images/debate.png" class="micro-icon">
-            <span class="micro-label">{{label 'debate'}} {{{quantity 'debate'}}}</span>
-          </a>
           <a id="{{voteType}}" href="{{voteURL}}" class="micro-button micro-button-feed {{enableStyle}}" ontouchstart="">
             <span class="micro-label">
               <img src="{{pathFor route='home'}}{{voteIcon}}" class="micro-icon">
@@ -96,6 +92,10 @@
               {{/with}}
             </span>
             <div class="verifier verifier-live verifier-feed"></div>
+          </a>
+          <a id="edit-reply" href="{{contract.url}}#debate" class="micro-button micro-button-feed" ontouchstart="">
+            <img src="{{pathFor route='home'}}images/debate.png" class="micro-icon">
+            <span class="micro-label">{{label 'debate'}} {{{quantity 'debate'}}}</span>
           </a>
         </div>
         {{> electorate contract=contract readOnly=true}}

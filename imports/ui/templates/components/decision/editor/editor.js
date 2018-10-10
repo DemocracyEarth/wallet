@@ -24,26 +24,9 @@ const _keepKeyboard = () => {
   $('#toolbar-hidden-keyboard').focus();
 };
 
-const _resetDraft = (contract) => {
+const _resetDraft = () => {
   const draft = createContract();
   Session.set('draftContract', draft);
-
-  /*const draft = contract;
-  draft.constituencyEnabled = false;
-  draft.ballotEnabled = false;
-  draft.stakingEnabled = false;
-  if (draft.signatures.length === 0) {
-    if (Meteor.user()) {
-      draft.signatures = [
-        {
-          _id: Meteor.userId(),
-          role: 'AUTHOR',
-          username: Meteor.user().username,
-          status: 'CONFIRMED',
-        },
-      ];
-    }
-  }*/
   return draft;
 };
 
@@ -190,7 +173,7 @@ Template.editor.onDestroyed(() => {
 
 Template.editor.onRendered(function () {
   if (!this.data.compressed) {
-    const draft = _resetDraft(Session.get('draftContract'));
+    const draft = _resetDraft();
     if (Template.currentData().replyMode && Template.currentData().replyId) {
       Template.instance().reply.set(Contracts.findOne({ _id: this.data.replyId }));
       draft.replyId = Template.currentData().replyId;
@@ -203,7 +186,7 @@ Template.editor.onRendered(function () {
 
     window.addEventListener('click', function (e) {
       if (_contextCheck('feedItem-editor', e)) {
-        const reset = _resetDraft(Session.get('draftContract'));
+        const reset = _resetDraft();
         if (!Session.get('minimizedEditor')) {
           Session.set('minimizedEditor', true);
         }
@@ -253,6 +236,27 @@ Template.editor.helpers({
       return Session.get('draftContract').stakingEnabled;
     }
     return false;
+  },
+  blockchainAddress() {
+    const draft = Session.get('draftContract');
+    if (draft) {
+      return `${draft.blockchain.publicAddress.substring(0, 6)}...${draft.blockchain.publicAddress.slice(-4)}`;
+    }
+    return '';
+  },
+  blockchainFullAddress() {
+    const draft = Session.get('draftContract');
+    if (draft) {
+      return `${draft.blockchain.publicAddress}`;
+    }
+    return '';
+  },
+  blockchainLink() {
+    const draft = Session.get('draftContract');
+    if (draft) {
+      return `${Meteor.settings.public.web.sites.blockExplorer}${draft.blockchain.publicAddress}`;
+    }
+    return '';
   },
   signatures() {
     if (Session.get('draftContract')) {
@@ -326,7 +330,7 @@ Template.editor.helpers({
 
 Template.editor.events({
   'click #feedItem-compressed'() {
-    const draft = _resetDraft(Session.get('draftContract'));
+    const draft = _resetDraft();
     draft.replyId = '';
     Session.set('draftContract', draft);
     Session.set('minimizedEditor', false);
@@ -344,6 +348,10 @@ Template.editor.events({
   },
   'click .mobile-section'() {
     $('#titleContent').focus();
+  },
+  'click #blockchain-explorer'(event) {
+    event.preventDefault();
+    window.open(event.currentTarget.href, '_blank');
   },
 });
 

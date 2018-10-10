@@ -13,7 +13,11 @@ import '/imports/ui/templates/layout/authentication/authentication.html';
 import '/imports/ui/templates/components/identity/avatar/avatar.js';
 
 function _isDisabled() {
-  return (entangle(Session.get('draftContract')) === undefined) || Session.get('missingTitle') || Session.get('mistypedTitle') || Session.get('duplicateURL') || (Session.get('availableChars') < 0);
+  return (entangle(Session.get('draftContract')) === undefined) ||
+    Session.get('missingTitle') ||
+    Session.get('mistypedTitle') ||
+    Session.get('duplicateURL') ||
+    Session.get('availableChars') < 0;
 }
 
 /**
