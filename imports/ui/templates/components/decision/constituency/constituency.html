@@ -3,7 +3,7 @@
     <div class="login">
       <div class="login-field">
         <label for="name" class="login-label login-label-form">
-          {{_ 'nationality'}}
+          {{_ 'voter-nationality'}}
         </label>
         <img src="{{pathFor route='home'}}images/flag.png" class="login-icon">
         <input type="text" placeholder="{{_ 'earth'}}" autocomplete="false" value="{{country}}" class="w-input login-input country-search">
@@ -25,7 +25,7 @@
            </div>
          </div>
          <div class="modal-buttons-padder">
-           <div id="execute-constituency" class="button login-button button-half">
+           <div id="execute-constituency" class="button login-button button-half {{buttonDisable}}">
              <div>{{_ 'apply'}}</div>
            </div>
          </div>

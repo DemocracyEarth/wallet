@@ -39,6 +39,29 @@ const _save = () => {
   Session.set('draftContract', draft);
 };
 
+
+/**
+* @summary checks a domain name is well written
+* @return {boolean} true or false baby
+*/
+const _verifyDomainName = (domain) => {
+  const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+  '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
+  '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+  '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+  '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+  return pattern.test(domain);
+};
+
+/**
+* @summary check form inputs are ok
+* @return {boolean} true or false baby
+*/
+const _checkInputs = () => {
+  return !(Session.get('noMatchFound'));
+};
+
 Template.constituency.onCreated(() => {
   Session.set('showNations', false);
   Session.set('suggestDisplay', '');
@@ -49,6 +72,18 @@ Template.constituency.onRendered(function () {
   for (const i in draft.constituency) {
     if (draft.constituency[i].kind === 'DOMAIN') {
       $('.login-input-domain')[0].value = draft.constituency[i].code;
+    }
+  }
+  // show current coin set in draft
+  for (let i = 0; i < draft.constituency.length; i += 1) {
+    if (draft.constituency[i].kind === 'NATION') {
+      for (let j = 0; j < geo.country.length; j += 1) {
+        if (geo.country[j].code === draft.constituency[i].code) {
+          Session.set('newCountry', geo.country[j]);
+          break;
+        }
+      }
+      break;
     }
   }
 });
@@ -63,6 +98,15 @@ Template.constituency.helpers({
     }
     return undefined;
   },
+  buttonDisable() {
+    if (!_checkInputs()) {
+      return 'button-disabled';
+    }
+    return '';
+  },
+  wrongAddress() {
+    return _verifyDomainName($('.login-input-domain')[0]);
+  },
 });
 
 Template.constituency.events({
@@ -76,9 +120,11 @@ Template.constituency.events({
     animatePopup(false, 'constituency-popup');
   },
   'click #execute-constituency'() {
-    _save();
-    Session.set('showConstituencyEditor', false);
-    animatePopup(false, 'constituency-popup');
+    if (_checkInputs()) {
+      _save();
+      Session.set('showConstituencyEditor', false);
+      animatePopup(false, 'constituency-popup');
+    }
   },
   'input .country-search'(event) {
     if (event.target.value !== '') {

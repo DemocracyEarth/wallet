@@ -589,5 +589,7 @@
   "cost-per-vote": "Tokens required per vote",
   "cost-placeholder": "Default is 1.00 if none specified.",
   "erc20-tokens": "ERC-Compatible Tokens",
-  "blockchain-wrong-address": "Incompatible blockchain address."
+  "blockchain-wrong-address": "Incompatible blockchain address.",
+  "voter-nationality": "Voter Nationality",
+  "domain-wrong-address": "Incompatible domain name."
 }

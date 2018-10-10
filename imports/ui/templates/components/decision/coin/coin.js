@@ -32,6 +32,9 @@ const _save = () => {
     draft.constituencyEnabled = false;
   }
 
+  draft.blockchain.publicAddress = document.getElementById('editBlockchainAddress').value;
+  draft.blockchain.votePrice = document.getElementById('editVotePrice').value;
+
   Session.set('draftContract', draft);
 };
 
@@ -40,7 +43,7 @@ const _save = () => {
 * @return {boolean} true or false baby
 */
 const _checkInputs = () => {
-  return !(Session.get('noCoinFound') || (Session.get('draftContract').blockchain.publicAddress && !Session.get('checkBlockchainAddress')));
+  return !(Session.get('noCoinFound') || Session.get('newCoin') === '' || (Session.get('draftContract').blockchain.publicAddress && !Session.get('checkBlockchainAddress')));
 };
 
 Template.coin.onCreated(() => {
@@ -116,6 +119,14 @@ Template.coin.events({
     if (document.getElementById('editBlockchainAddress')) {
       const address = document.getElementById('editBlockchainAddress').value;
       Session.set('checkBlockchainAddress', web3.isAddress(address));
+    }
+  },
+  'input #editVotePrice'() {
+    if (document.getElementById('editVotePrice')) {
+      const price = document.getElementById('editVotePrice').value;
+      if (price.toNumber() < 0) {
+        document.getElementById('editVotePrice').value = '';
+      }
     }
   },
   'input .token-search'(event) {
