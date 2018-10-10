@@ -8,6 +8,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { timers } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
+import { createContract } from '/imports/startup/both/modules/Contract';
 import { timeCompressed } from '/imports/ui/modules/chronos';
 
 import '/imports/ui/templates/components/decision/editor/editor.html';
@@ -24,7 +25,10 @@ const _keepKeyboard = () => {
 };
 
 const _resetDraft = (contract) => {
-  const draft = contract;
+  const draft = createContract();
+  Session.set('draftContract', draft);
+
+  /*const draft = contract;
   draft.constituencyEnabled = false;
   draft.ballotEnabled = false;
   draft.stakingEnabled = false;
@@ -39,7 +43,7 @@ const _resetDraft = (contract) => {
         },
       ];
     }
-  }
+  }*/
   return draft;
 };
 
