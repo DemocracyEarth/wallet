@@ -12,7 +12,7 @@ import '/imports/ui/templates/components/decision/constituency/constituency.html
 const _save = () => {
   const draft = Session.get('draftContract');
   const country = Session.get('newCountry');
-  const domain = $('.login-input-domain')[0];
+  const domain = document.getElementById('editDomain');
 
 
   draft.constituency = _.reject(draft.constituency, (rule) => { return (rule.kind === 'NATION' || rule.kind === 'DOMAIN'); });
@@ -44,14 +44,12 @@ const _save = () => {
 * @summary checks a domain name is well written
 * @return {boolean} true or false baby
 */
-const _verifyDomainName = (domain) => {
-  const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-  '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
-  '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-  '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-  '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
-  return pattern.test(domain);
+const _checkDomainName = (domain) => {
+  if (domain) {
+    const pattern = new RegExp(/^((?:(?:(?:\w[\.\-\+]?)*)\w)+)((?:(?:(?:\w[\.\-\+]?){0,62})\w)+)\.(\w{2,6})$/);
+    return pattern.test(domain);
+  }
+  return true;
 };
 
 /**
@@ -59,7 +57,7 @@ const _verifyDomainName = (domain) => {
 * @return {boolean} true or false baby
 */
 const _checkInputs = () => {
-  return !(Session.get('noMatchFound'));
+  return !(Session.get('noMatchFound') || !Session.get('domainSyntaxCheck'));
 };
 
 Template.constituency.onCreated(() => {
@@ -69,11 +67,13 @@ Template.constituency.onCreated(() => {
 
 Template.constituency.onRendered(function () {
   const draft = Session.get('draftContract');
+  document.getElementById('editDomain').value = '';
   for (const i in draft.constituency) {
     if (draft.constituency[i].kind === 'DOMAIN') {
-      $('.login-input-domain')[0].value = draft.constituency[i].code;
+      document.getElementById('editDomain').value = draft.constituency[i].code;
     }
   }
+  Session.set('domainSyntaxCheck', _checkDomainName(document.getElementById('editDomain').value));
   // show current coin set in draft
   for (let i = 0; i < draft.constituency.length; i += 1) {
     if (draft.constituency[i].kind === 'NATION') {
@@ -105,7 +105,7 @@ Template.constituency.helpers({
     return '';
   },
   wrongAddress() {
-    return _verifyDomainName($('.login-input-domain')[0]);
+    return !Session.get('domainSyntaxCheck');
   },
 });
 
@@ -120,11 +120,15 @@ Template.constituency.events({
     animatePopup(false, 'constituency-popup');
   },
   'click #execute-constituency'() {
+    Session.set('domainSyntaxCheck', _checkDomainName(document.getElementById('editDomain').value));
     if (_checkInputs()) {
       _save();
       Session.set('showConstituencyEditor', false);
       animatePopup(false, 'constituency-popup');
     }
+  },
+  'blur #editDomain'() {
+    Session.set('domainSyntaxCheck', _checkDomainName(document.getElementById('editDomain').value));
   },
   'input .country-search'(event) {
     if (event.target.value !== '') {

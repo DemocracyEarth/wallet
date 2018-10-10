@@ -33,7 +33,11 @@ const _save = () => {
   }
 
   draft.blockchain.publicAddress = document.getElementById('editBlockchainAddress').value;
-  draft.blockchain.votePrice = document.getElementById('editVotePrice').value;
+  if (!document.getElementById('editVotePrice').value) {
+    draft.blockchain.votePrice = 1;
+  } else {
+    draft.blockchain.votePrice = document.getElementById('editVotePrice').value;
+  }
 
   Session.set('draftContract', draft);
 };
