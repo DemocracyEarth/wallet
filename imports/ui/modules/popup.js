@@ -50,19 +50,20 @@ const _positionCard = (element, target, pop) => {
   const documentHalf = parseInt(document.body.offsetWidth / 2, 10);
 
   // y axis
-  if (source.top < parseInt(target.height + 60, 10)) {
-    // popup goes at bottom of target
-    popup.position.top = parseInt(source.top + source.height + 5, 10);
-    $(popup.cardId).css('margin-top', '0px');
-    $(popup.pointerUp).css('margin-top', parseInt(source.height, 10));
-    popup.pointerClass = popup.pointerUp;
-  } else {
+  // NOTE: leaving this commented for future revision, but for now popup will behave as dropdown
+  // if (source.top < parseInt(target.height + 60, 10)) {
+  // popup goes at bottom of target
+  popup.position.top = parseInt(source.top + source.height + 5, 10);
+  $(popup.cardId).css('margin-top', '0px');
+  $(popup.pointerUp).css('margin-top', parseInt(source.height, 10));
+  popup.pointerClass = popup.pointerUp;
+  /* } else {
     // popup goes on top of target
     popup.position.top = parseInt(source.bottom - target.height - 5, 10);
     $(popup.cardId).css('margin-top', parseInt(0 - source.height - 10, 10));
     $(popup.pointerUp).css('margin-top', '0px');
     popup.pointerClass = popup.pointerDown;
-  }
+  }*/
 
   // x axis
   if (source.left > documentHalf) {
