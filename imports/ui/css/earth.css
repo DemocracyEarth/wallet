@@ -2324,6 +2324,13 @@ blockquote {
   text-decoration: none;
 }
 
+.verifier.verifier-live.verifier-feed.verifier-mini {
+  display: block;
+  margin-left: 5px;
+  float: right;
+  font-size: 10px;
+}
+
 .available {
   margin-right: 2px;
   margin-left: 2px;
