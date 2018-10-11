@@ -14,6 +14,7 @@ import { timers } from '/lib/const';
 import { verifyConstituencyRights, getTokenAddress } from '/imports/ui/templates/components/decision/electorate/electorate.js';
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
 import { transactWithMetamask } from '/imports/startup/both/modules/metamask';
+import { formatCryptoValue } from '/imports/ui/templates/components/decision/balance/balance';
 
 import '/imports/ui/templates/components/decision/ballot/ballot.html';
 import '/imports/ui/templates/components/decision/fork/fork.js';
@@ -380,12 +381,18 @@ Template.ballot.helpers({
   label(button) {
     const contract = Contracts.findOne({ _id: this.contract._id });
     let label = '';
+    let token;
     switch (button) {
       case 'debate':
         label = TAPi18n.__('debate');
         break;
       case 'vote':
-        label = `${TAPi18n.__('send')} &#183; `;
+        for (const i in contract.constituency) {
+          if (contract.constituency[i].kind === 'TOKEN') {
+            token = contract.constituency[i].code;
+          }
+        }
+        label = `${TAPi18n.__('send')} ${contract.blockchain.votePrice ? formatCryptoValue(contract.blockchain.votePrice, token) : ''} &#183; `;
         if (contract) {
           if (contract.ballotEnabled) {
             label = TAPi18n.__('stake');

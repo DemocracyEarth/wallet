@@ -592,5 +592,6 @@
   "blockchain-wrong-address": "Incompatible blockchain address.",
   "voter-nationality": "Voter Nationality",
   "domain-wrong-address": "Incompatible domain name.",
-  "chain-address": "Chain Address"
+  "chain-address": "Chain Address",
+  "voting-rule": "Voting Rule"
 }

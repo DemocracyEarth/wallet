@@ -35,6 +35,18 @@ const _currencyValue = (value, token) => {
 };
 
 /**
+* @summary format currency display according to crypto rules
+* @param {string} value value to be changed
+* @param {string} token currency being used
+* @returns {string} formatted number
+*/
+const _formatCryptoValue = (value, token) => {
+  let tokenCode;
+  if (!token) { tokenCode = 'ETH'; } else { tokenCode = token; }
+  return numeral(_currencyValue(value, tokenCode)).format(getCoin(tokenCode).format);
+};
+
+/**
 * @summary shows percentag of staked Tokens
 * @param {object} coin template data
 * @returns {number}
@@ -101,7 +113,7 @@ Template.balance.helpers({
     return Template.instance().coin.code;
   },
   available() {
-    return numeral(_currencyValue(this.available, this.token)).format(Template.instance().coin.format);
+    return _formatCryptoValue(this.available, this.token);
   },
   percentage() {
     return `${_getPercentage(this)}%`;
@@ -111,3 +123,5 @@ Template.balance.helpers({
     return numeral(balance).format(Template.instance().coin.format);
   },
 });
+
+export const formatCryptoValue = _formatCryptoValue;

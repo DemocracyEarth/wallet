@@ -5,9 +5,8 @@ import { $ } from 'meteor/jquery';
 import { TAPi18n } from 'meteor/tap:i18n';
 
 import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
-import { toggle } from '/imports/ui/templates/components/decision/editor/editor.js';
-import { geo } from '/lib/geo';
 import { token } from '/lib/token';
+import { formatCryptoValue } from '/imports/ui/templates/components/decision/balance/balance';
 
 import '/imports/ui/templates/components/decision/blockchain/blockchain.html';
 
@@ -153,12 +152,20 @@ Template.blockchain.onRendered(function () {
 Template.blockchain.helpers({
   status() {
     let rule;
+    let tokenCode;
+    const contract = Session.get('draftContract');
     if (!this.readOnly) {
-      rule = _writeRule(Session.get('draftContract'));
+      rule = _writeRule(contract);
       if (rule === TAPi18n.__('electorate-sentence-anyone')) {
-        rule = TAPi18n.__('token');
+        rule = TAPi18n.__('transaction');
       }
-      return `${TAPi18n.__('token')}: ${rule}`;
+      for (const i in contract.constituency) {
+        if (contract.constituency[i].kind === 'TOKEN') {
+          tokenCode = contract.constituency[i].code;
+          break;
+        }
+      }
+      return `${TAPi18n.__('transaction')}: ${contract.blockchain.votePrice ? formatCryptoValue(contract.blockchain.votePrice, tokenCode) : ''} ${rule}`;
     }
     return '';
   },

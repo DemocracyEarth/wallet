@@ -30,9 +30,9 @@
           </div>
         {{/if}}
         {{#if profile}}
-          <img id="{{elementId}}" src="{{profilePicture profile}}" class="symbol profile-pic {{classStyle smallFont}} {{pending}}" style="{{pictureSize size includeName}}" title="{{username profile}}" ontouchstart="">
+          <img id="{{elementId}}" src="{{profilePicture profile}}" class="symbol profile-pic {{classStyle smallFont}} {{pending}}" style="{{pictureSize size includeName}}" ontouchstart="">
         {{else}}
-          <img id='avatar-pic-{{elementId}}' src="{{profilePicture}}" class="symbol profile-pic {{classStyle smallFont}}" style="{{pictureSize size includeName}}" title="{{username profile}}" ontouchstart="">
+          <img id='avatar-pic-{{elementId}}' src="{{profilePicture}}" class="symbol profile-pic {{classStyle smallFont}}" style="{{pictureSize size includeName}}" ontouchstart="">
         {{/if}}
         <div class="identity-peer {{classStyle smallFont}} {{pending}}">
           {{#if verifiedIdentity}}
