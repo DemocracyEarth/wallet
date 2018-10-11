@@ -509,7 +509,7 @@
   "email-subject-reply": "{{user}} is debating your proposal: {{title}}",
   "email-text-reply": "The citizen {{user}} posted the following argument to your post:",
   "email-html-reply": "The citizen <a href='{{userURL}}'>{{user}}</a> argued the following on your post '<em><a href='{{postURL}}'>{{titleBrief}}</a></em>': <br/><br/><div style='padding:0 3em'><i>{{reply}}</i></div>",
-  "email-action-reply": "Debate",
+  "email-action-reply": "Reply",
   "email-greeting-hello": "Hi",
   "email-farewell": "Be well and keep in touch,",
   "email-modified-vote": "a modified vote",
@@ -571,7 +571,7 @@
   "happening-now": "Happening Now",
   "requisites": "Requisites",
   "post-new-idea": "A new idea...",
-  "insufficient-votes": "Not enough tokens in your account to vote.",
+  "insufficient-votes": "Unable to find the required tokens in your wallet.",
   "get-tokens": "Get tokens",
   "voting-token": "Voting Token",
   "metamask-sign-nonce": "I am authenticating with the blockchain address of this account to access {{collectiveName}}.",
@@ -593,5 +593,7 @@
   "voter-nationality": "Voter Nationality",
   "domain-wrong-address": "Incompatible domain name.",
   "chain-address": "Chain Address",
-  "voting-rule": "Voting Rule"
+  "voting-rule": "Voting Rule",
+  "unlogged-cant-reply": "You need to be logged in to reply.",
+  "incompatible-requisites": "Your profile does not meet voter requisites."
 }

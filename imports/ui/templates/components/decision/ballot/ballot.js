@@ -15,6 +15,7 @@ import { verifyConstituencyRights, getTokenAddress } from '/imports/ui/templates
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
 import { transactWithMetamask } from '/imports/startup/both/modules/metamask';
 import { formatCryptoValue } from '/imports/ui/templates/components/decision/balance/balance';
+import { displayModal } from '/imports/ui/modules/modal';
 
 import '/imports/ui/templates/components/decision/ballot/ballot.html';
 import '/imports/ui/templates/components/decision/fork/fork.js';
@@ -22,13 +23,61 @@ import '/imports/ui/templates/components/decision/liquid/liquid.js';
 import '/imports/ui/templates/widgets/warning/warning.js';
 
 
+const _checkTokenAvailability = (user, token) => {
+  return true;
+};
+
+/**
+* @summary executes token vote
+*/
 const _cryptoVote = () => {
   if (Meteor.user()) {
-    transactWithMetamask(
-      getTokenAddress(Meteor.user(), Template.instance().ticket.get().token),
-      Template.currentData().contract.blockchain.publicAddress,
-      0.1,
-      Template.instance().ticket.get().token,
+    if (Template.instance().voteEnabled) {
+      transactWithMetamask(
+        getTokenAddress(Meteor.user(), Template.instance().ticket.get().token),
+        Template.currentData().contract.blockchain.publicAddress,
+        Template.currentData().contract.blockchain.votePrice,
+        Template.instance().ticket.get().token,
+      );
+    } else if (!_checkTokenAvailability(Meteor.user(), Template.instance().ticket.get().token)) {
+      // lack of token
+      displayModal(
+        true,
+        {
+          icon: 'images/olive.png',
+          title: TAPi18n.__('place-vote'),
+          message: TAPi18n.__('insufficient-votes'),
+          action: TAPi18n.__('get-tokens'),
+          cancel: TAPi18n.__('not-now'),
+        },
+        () => {
+          window.open(Meteor.settings.public.web.sites.tokens, '_blank');
+        }
+      );
+    } else {
+      // wrong requisites
+      displayModal(
+        true,
+        {
+          icon: 'images/olive.png',
+          title: TAPi18n.__('place-vote'),
+          message: TAPi18n.__('incompatible-requisites'),
+          cancel: TAPi18n.__('close'),
+          alertMode: true,
+        },
+      );
+    }
+  } else {
+    // not logged
+    displayModal(
+      true,
+      {
+        icon: 'images/olive.png',
+        title: TAPi18n.__('place-vote'),
+        message: TAPi18n.__('unlogged-cant-vote'),
+        cancel: TAPi18n.__('close'),
+        alertMode: true,
+      },
     );
   }
 };
@@ -224,9 +273,9 @@ Template.ballot.helpers({
     return this.contract.url;
   },
   voteIcon() {
-    if (!Template.instance().voteEnabled) {
-      return 'images/vote-disabled.png';
-    }
+    // if (!Template.instance().voteEnabled) {
+    //  return 'images/vote-disabled.png';
+    // }
     return 'images/vote.png';
   },
   enableStyle() {
@@ -493,12 +542,25 @@ Template.ballot.events({
   },
   'click #edit-reply'(event) {
     event.preventDefault();
-    if (Session.get('draftContract')) {
-      const contract = Session.get('draftContract');
-      contract.replyId = Template.currentData().contract._id;
-      Session.set('draftContract', contract);
+    if (Meteor.user()) {
+      if (Session.get('draftContract')) {
+        const contract = Session.get('draftContract');
+        contract.replyId = Template.currentData().contract._id;
+        Session.set('draftContract', contract);
+      } else {
+        introEditor({ desktopMode: !Meteor.Device.isPhone(), replyMode: true, replyId: Template.currentData().contract._id });
+      }
     } else {
-      introEditor({ desktopMode: !Meteor.Device.isPhone(), replyMode: true, replyId: Template.currentData().contract._id });
+      displayModal(
+        true,
+        {
+          icon: 'images/olive.png',
+          title: TAPi18n.__('reply'),
+          message: TAPi18n.__('unlogged-cant-reply'),
+          cancel: TAPi18n.__('close'),
+          alertMode: true,
+        },
+      );
     }
   },
   'submit #fork-form, click #add-fork-proposal'(event) {
