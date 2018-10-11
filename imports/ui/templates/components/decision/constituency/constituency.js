@@ -75,11 +75,13 @@ Template.constituency.onRendered(function () {
   }
   Session.set('domainSyntaxCheck', _checkDomainName(document.getElementById('editDomain').value));
   // show current coin set in draft
+  document.getElementById('editCountry').value = '';
   for (let i = 0; i < draft.constituency.length; i += 1) {
     if (draft.constituency[i].kind === 'NATION') {
       for (let j = 0; j < geo.country.length; j += 1) {
         if (geo.country[j].code === draft.constituency[i].code) {
           Session.set('newCountry', geo.country[j]);
+          document.getElementById('editCountry').value = geo.country[j].name;
           break;
         }
       }
