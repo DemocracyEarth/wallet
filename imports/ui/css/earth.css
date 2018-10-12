@@ -5554,7 +5554,7 @@ blockquote {
   background-color: #f0eef2;
   color: #6d5c7d;
   font-size: 12px;
-  line-height: 30px;
+  line-height: 29px;
   cursor: pointer;
 }
 
@@ -5577,6 +5577,7 @@ blockquote {
   padding-right: 0px;
   float: right;
   border-style: none;
+  background-color: transparent;
   cursor: default;
 }
 
@@ -6015,7 +6016,7 @@ blockquote {
 }
 
 .token.token-editor {
-  margin-top: 6px;
+  margin-top: 5px;
   margin-left: 5px;
   float: right;
 }
@@ -6183,6 +6184,14 @@ blockquote {
 .editor-menu {
   margin-top: 20px;
   float: left;
+}
+
+.electorate-rule {
+  margin-top: 1px;
+  margin-right: 2px;
+  float: left;
+  font-size: 9px;
+  text-transform: uppercase;
 }
 
 @media (max-width: 991px) {

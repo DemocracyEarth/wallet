@@ -219,7 +219,11 @@ Template.electorate.helpers({
       }
       return `${TAPi18n.__('requisites')} &#183; ${rule}`;
     }
-    return '';
+    rule = _writeRule(this.contract);
+    if (rule === TAPi18n.__('electorate-sentence-anyone') || rule === 'undefined') {
+      return '';
+    }
+    return `<div class="electorate-rule">${rule}</div>`;
   },
   editorId() {
     if (!this.readOnly) {

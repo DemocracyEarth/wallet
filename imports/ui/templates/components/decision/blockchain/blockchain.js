@@ -158,9 +158,9 @@ Template.blockchain.helpers({
     if (!this.readOnly) {
       rule = _writeRule(contract);
       if (rule === TAPi18n.__('electorate-sentence-anyone')) {
-        rule = TAPi18n.__('request');
+        rule = TAPi18n.__('voting');
       }
-      return `${TAPi18n.__('request')} &#183;`;
+      return `${TAPi18n.__('voting')} &#183;`;
     }
     return '';
   },

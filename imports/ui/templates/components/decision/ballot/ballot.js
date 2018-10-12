@@ -23,8 +23,21 @@ import '/imports/ui/templates/components/decision/liquid/liquid.js';
 import '/imports/ui/templates/widgets/warning/warning.js';
 
 
+
+/**
+* @summary checks if user has token required to voteEnabled
+* @param {object} user profile to check
+* @param {string} token ticker
+*/
 const _checkTokenAvailability = (user, token) => {
-  return true;
+  if (user.wallet.reserves) {
+    for (let i = 0; i < user.wallet.reserves; i += 1) {
+      if (user.wallet.reserves[i].code === token) {
+        return true;
+      }
+    }
+  }
+  return false;
 };
 
 /**
