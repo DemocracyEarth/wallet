@@ -26,6 +26,7 @@ const _save = () => {
       code: coin.code,
       check: 'EQUAL',
     });
+    draft.wallet.currency = coin.code;
   }
 
   if (draft.constituency.length === 0) {

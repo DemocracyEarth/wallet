@@ -5,6 +5,8 @@ import { $ } from 'meteor/jquery';
 import { TAPi18n } from 'meteor/tap:i18n';
 
 import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
+import { getContractToken } from '/imports/ui/templates/widgets/transaction/transaction';
+import { getCoin } from '/imports/ui/templates/components/identity/chain/chain';
 import { token } from '/lib/token';
 import { formatCryptoValue } from '/imports/ui/templates/components/decision/balance/balance';
 
@@ -152,22 +154,49 @@ Template.blockchain.onRendered(function () {
 Template.blockchain.helpers({
   status() {
     let rule;
-    let tokenCode;
     const contract = Session.get('draftContract');
     if (!this.readOnly) {
       rule = _writeRule(contract);
       if (rule === TAPi18n.__('electorate-sentence-anyone')) {
-        rule = TAPi18n.__('transaction');
+        rule = TAPi18n.__('request');
       }
-      for (const i in contract.constituency) {
-        if (contract.constituency[i].kind === 'TOKEN') {
-          tokenCode = contract.constituency[i].code;
-          break;
-        }
-      }
-      return `${TAPi18n.__('transaction')}: ${contract.blockchain.votePrice ? formatCryptoValue(contract.blockchain.votePrice, tokenCode) : ''} ${rule}`;
+      return `${TAPi18n.__('request')} &#183;`;
     }
     return '';
+  },
+  ticker() {
+    return Session.get('draftContract').wallet.currency;
+  },
+  tickerStyle() {
+    let color;
+    let style = '';
+    if (Session.get('showCoinSettings')) {
+      color = '#fff';
+      style += 'color: #6e5b7e; ';
+    } else {
+      color = getCoin(Session.get('draftContract').wallet.currency).color;
+    }
+    if (color) {
+      style += `background-color: ${color}; border-color: ${color}`;
+    }
+    return style;
+  },
+  balanceStyle() {
+    let style = '';
+    let color;
+    if (Session.get('showCoinSettings')) {
+      color = '#fff';
+    } else {
+      color = getCoin(Session.get('draftContract').wallet.currency).color;
+    }
+    if (color) {
+      style = `border-color: ${color}; `;
+      style += `color: ${color} `;
+    }
+    return style;
+  },
+  balance() {
+    return formatCryptoValue(Session.get('draftContract').blockchain.votePrice, Session.get('draftContract').wallet.currency);
   },
   editorId() {
     if (!this.readOnly) {

@@ -569,7 +569,7 @@
   "menu-proposals": "Now",
   "post-idea": "Post Idea",
   "happening-now": "Happening Now",
-  "requisites": "Requisites",
+  "requisites": "Voters",
   "post-new-idea": "A new idea...",
   "insufficient-votes": "Unable to find the required tokens in your wallet.",
   "get-tokens": "Get tokens",
@@ -595,5 +595,7 @@
   "chain-address": "Chain Address",
   "voting-rule": "Voting Rule",
   "unlogged-cant-reply": "You need to be logged in to reply.",
-  "incompatible-requisites": "Your profile does not meet voter requisites."
+  "incompatible-requisites": "Your profile does not meet voter requisites.",
+  "voting": "Voting",
+  "request": "Request"
 }

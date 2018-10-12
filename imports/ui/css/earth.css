@@ -267,8 +267,6 @@ blockquote {
 .section.section-editor {
   margin: 0px -15px;
   padding: 0px 0px 0px 5px;
-  border-top: 1px dotted #e8e8e8;
-  background-color: #f7f7f7;
 }
 
 .card {
@@ -5547,15 +5545,16 @@ blockquote {
 }
 
 .editor-button {
-  height: 32px;
-  margin: 16px 5px;
-  padding: 0px 10px 0px 3px;
+  height: 30px;
+  margin: 3px 5px;
+  padding: 0px 5px;
   float: left;
+  border: 1px solid #f0eef2;
   border-radius: 5px;
-  color: #fff;
-  font-size: 10px;
+  background-color: #f0eef2;
+  color: #6d5c7d;
+  font-size: 12px;
   line-height: 30px;
-  text-transform: uppercase;
   cursor: pointer;
 }
 
@@ -5564,11 +5563,13 @@ blockquote {
 }
 
 .editor-button.editor-button-active {
+  border-color: #6e5b7e;
   background-color: #6e5b7e;
+  color: #fff;
 }
 
 .editor-button.editor-button-enabled {
-  color: #1ebf92;
+  color: #6d5c7d;
 }
 
 .editor-button.editor-button-readonly {
@@ -6013,6 +6014,12 @@ blockquote {
   margin-left: 5px;
 }
 
+.token.token-editor {
+  margin-top: 6px;
+  margin-left: 5px;
+  float: right;
+}
+
 .token-ticker {
   min-width: 35px;
   padding: 3px;
@@ -6024,6 +6031,13 @@ blockquote {
   font-size: 10px;
   line-height: 10px;
   font-weight: 400;
+  text-align: center;
+}
+
+.token-ticker.token-editor {
+  margin-top: 7px;
+  margin-left: 5px;
+  float: right;
 }
 
 .token-balance {
@@ -6163,6 +6177,11 @@ blockquote {
 .margin-both {
   margin-right: 5px;
   margin-left: 5px;
+  float: left;
+}
+
+.editor-menu {
+  margin-top: 20px;
   float: left;
 }
 

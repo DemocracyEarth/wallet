@@ -217,7 +217,7 @@ Template.electorate.helpers({
       if (rule === TAPi18n.__('electorate-sentence-anyone') || rule === 'undefined') {
         return TAPi18n.__('requisites');
       }
-      return `${TAPi18n.__('requisites')}: ${rule}`;
+      return `${TAPi18n.__('requisites')} &#183; ${rule}`;
     }
     return '';
   },
@@ -241,7 +241,7 @@ Template.electorate.helpers({
       if (Session.get('showConstituencyEditor')) {
         return 'active';
       }
-      return 'enabled';
+      return 'editor';
     }
     if (!Template.instance().voteEnabled) {
       return 'reject-enabled';
