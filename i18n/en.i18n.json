@@ -213,6 +213,7 @@
   "email-verified": "Email successfully verified. Thanks!",
   "user-created": "User successfully created. You must verify your email to be able to vote, please check your inbox",
   "verified-email-only": "You must verify your email in order to vote or delegate, please check your inbox",
+  "voting-over": "Voting period has ended",
   "edit": "Edit",
   "sign-here": "Sign here",
   "proposal-author": "Proposal Author",

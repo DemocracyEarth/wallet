@@ -374,6 +374,9 @@ Template.ballot.helpers({
       return '#';
     }
   },
+  votingOver() {
+    return '#';
+  },
 });
 
 
@@ -385,8 +388,9 @@ Template.ballot.events({
   },
   'click #ballot-micro-menu'() {
     console.log('DEBUG - ballot.js - click #ballot-micro-menu');
-    if(!Meteor.user().emails[0].verified) {
-      displayNotice('verified-email-only', true);
-    }
+    // if(!Meteor.user().emails[0].verified) {
+    //   displayNotice('verified-email-only', true);
+    // }
+    displayNotice('voting-over', true);
   }
 });
