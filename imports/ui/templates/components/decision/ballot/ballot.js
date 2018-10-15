@@ -11,7 +11,7 @@ import { getContractToken } from '/imports/ui/templates/widgets/transaction/tran
 import { displayTimedWarning } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { timers } from '/lib/const';
-import { verifyConstituencyRights, getTokenAddress } from '/imports/ui/templates/components/decision/electorate/electorate.js';
+import { verifyConstituencyRights, getTokenAddress, checkTokenAvailability } from '/imports/ui/templates/components/decision/electorate/electorate.js';
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
 import { transactWithMetamask } from '/imports/startup/both/modules/metamask';
 import { formatCryptoValue } from '/imports/ui/templates/components/decision/balance/balance';
@@ -22,28 +22,11 @@ import '/imports/ui/templates/components/decision/fork/fork.js';
 import '/imports/ui/templates/components/decision/liquid/liquid.js';
 import '/imports/ui/templates/widgets/warning/warning.js';
 
-
-
-/**
-* @summary checks if user has token required to voteEnabled
-* @param {object} user profile to check
-* @param {string} token ticker
-*/
-const _checkTokenAvailability = (user, token) => {
-  if (user.wallet.reserves) {
-    for (let i = 0; i < user.wallet.reserves; i += 1) {
-      if (user.wallet.reserves[i].code === token) {
-        return true;
-      }
-    }
-  }
-  return false;
-};
-
 /**
 * @summary executes token vote
 */
 const _cryptoVote = () => {
+  console.log(`checktoken gives ${checkTokenAvailability(Meteor.user(), Template.instance().ticket.get().token)}`);
   if (Meteor.user()) {
     if (Template.instance().voteEnabled) {
       transactWithMetamask(
@@ -52,7 +35,7 @@ const _cryptoVote = () => {
         Template.currentData().contract.blockchain.votePrice,
         Template.instance().ticket.get().token,
       );
-    } else if (!_checkTokenAvailability(Meteor.user(), Template.instance().ticket.get().token)) {
+    } else if (!checkTokenAvailability(Meteor.user(), Template.instance().ticket.get().token)) {
       // lack of token
       displayModal(
         true,

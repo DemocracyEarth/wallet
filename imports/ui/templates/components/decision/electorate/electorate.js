@@ -35,10 +35,34 @@ const _emailDomainCheck = (emailList, domain) => {
 };
 
 /**
-* @summary returns whether user has a crypto or not
+* @summary checks if user has token required to voteEnabled
+* @param {object} user profile to check
+* @param {string} token ticker
+*/
+const _checkTokenAvailability = (user, ticker) => {
+  console.log(user);
+  console.log(ticker);
+  if (user.profile.wallet.reserves.length > 0) {
+    for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
+      console.log(`checking for ${user.profile.wallet.reserves[i].token}`);
+      for (let k = 0; k < token.coin.length; k += 1) {
+        if (token.coin[k].code === user.profile.wallet.reserves[i].token || (token.coin[k].subcode && token.coin[k].subcode === user.profile.wallet.reserves[i].token)) {
+          if (token.coin[k].code === ticker || (token.coin[k].subcode && token.coin[k].subcode === ticker)) {
+            return true;
+          }
+        }
+      }
+    }
+  }
+  console.log('NOT HAS TOKEN');
+  return false;
+};
+
+/**
+* @summary returns address to receive crypto
 * @param {object} user user wallet
 * @param {object} token ticker
-* @return {boolean} if user can spend
+* @return {string} address
 */
 const _getTokenAddress = (user, ticker) => {
   if (user.profile.wallet.reserves.length > 0) {
@@ -270,3 +294,4 @@ Template.electorate.events({
 
 export const verifyConstituencyRights = _verifyConstituencyRights;
 export const getTokenAddress = _getTokenAddress;
+export const checkTokenAvailability = _checkTokenAvailability;
