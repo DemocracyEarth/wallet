@@ -4594,6 +4594,7 @@ blockquote {
 .micro-icon {
   width: 24px;
   height: 24px;
+  margin-top: -2px;
 }
 
 .micro-label {

@@ -77,6 +77,27 @@ const _cryptoVote = () => {
   }
 };
 
+/**
+* @summary composes url to share stuff on twitter
+* @param {object} contract to get data from
+*/
+const _getTwitterURL = (contract) => {
+  return `https://twitter.com/share?url=${escape(Router.current().route.url().substring(0, Router.current().route.url().lastIndexOf('/')))}${contract.url}&text=${contract.title}`;
+};
+
+/**
+* @summary increases count of shares of a given post in db
+* @param {string} _id of the contract
+*/
+const _countShare = (_id) => {
+  const contract = Contracts.findOne({ _id });
+  if (contract.shareCounter) {
+    contract.shareCounter += 1;
+  } else {
+    contract.shareCounter = 1;
+  }
+  Contracts.update({ _id }, { $set: { shareCounter: contract.shareCounter } });
+};
 
 const _userCanVote = (contract, forkId) => {
   const forks = Template.instance().forks;
@@ -457,7 +478,7 @@ Template.ballot.helpers({
     if (contract) {
       switch (button) {
         case 'twitter':
-          label = `&#183; 0`;
+          label = `&#183; ${contract.shareCounter ? contract.shareCounter : '0'}`;
           break;
         case 'debate':
           if (contract) {
@@ -525,6 +546,9 @@ Template.ballot.helpers({
     }
     return '';
   },
+  twitterURL() {
+    return _getTwitterURL(this.contract);
+  },
 });
 
 
@@ -557,6 +581,11 @@ Template.ballot.events({
         },
       );
     }
+  },
+  'click #tweet-post'(event) {
+    event.preventDefault();
+    window.open(_getTwitterURL(this.contract));
+    _countShare(this.contract._id);
   },
   'submit #fork-form, click #add-fork-proposal'(event) {
     event.preventDefault();

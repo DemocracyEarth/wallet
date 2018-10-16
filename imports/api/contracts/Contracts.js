@@ -503,6 +503,10 @@ Schema.Contract = new SimpleSchema({
     type: Blockchain,
     optional: true,
   },
+  shareCounter: {
+    type: Number,
+    optional: true,
+  },
 });
 
 Contracts.attachSchema(Schema.Contract);

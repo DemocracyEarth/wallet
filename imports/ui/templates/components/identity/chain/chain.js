@@ -7,8 +7,7 @@ import '/imports/ui/templates/components/identity/chain/chain.html';
 
 const _getCoin = (code) => {
   let result = _.where(token.coin, { code });
-  console.log(_.where(token.coin, { code }));
-  console.log(code);
+
   if (result.length === 0) {
     result = _.where(token.coin, { subcode: code });
   }
