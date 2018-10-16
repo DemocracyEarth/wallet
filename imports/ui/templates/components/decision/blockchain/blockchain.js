@@ -196,7 +196,7 @@ Template.blockchain.helpers({
     return style;
   },
   balance() {
-    return formatCryptoValue(Session.get('draftContract').blockchain.votePrice, Session.get('draftContract').wallet.currency);
+    return formatCryptoValue(0, Session.get('draftContract').wallet.currency);
   },
   editorId() {
     if (!this.readOnly) {

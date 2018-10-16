@@ -26,7 +26,6 @@ import '/imports/ui/templates/widgets/warning/warning.js';
 * @summary executes token vote
 */
 const _cryptoVote = () => {
-  console.log(`checktoken gives ${checkTokenAvailability(Meteor.user(), Template.instance().ticket.get().token)}`);
   if (Meteor.user()) {
     if (Template.instance().voteEnabled) {
       transactWithMetamask(
@@ -426,18 +425,12 @@ Template.ballot.helpers({
   label(button) {
     const contract = Contracts.findOne({ _id: this.contract._id });
     let label = '';
-    let token;
     switch (button) {
       case 'debate':
         label = TAPi18n.__('debate');
         break;
       case 'vote':
-        for (const i in contract.constituency) {
-          if (contract.constituency[i].kind === 'TOKEN') {
-            token = contract.constituency[i].code;
-          }
-        }
-        label = `${TAPi18n.__('send')} ${contract.blockchain.votePrice ? formatCryptoValue(contract.blockchain.votePrice, token) : ''} &#183; `;
+        label = `${TAPi18n.__('send')} &#183; `;
         if (contract) {
           if (contract.ballotEnabled) {
             label = TAPi18n.__('stake');

@@ -41,7 +41,7 @@ Schema.Blockchain = new SimpleSchema({
   },
   votePrice: {
     type: String,
-    defaultValue: '1',
+    defaultValue: '0',
     optional: true,
   },
   balance: {

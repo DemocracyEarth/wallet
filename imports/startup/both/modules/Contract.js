@@ -67,7 +67,7 @@ const _getPublicAddress = (contractToken) => {
       if (reserves[k].token === contractToken) {
         chain.coin.code = contractToken;
         chain.publicAddress = reserves[k].publicAddress;
-        chain.votePrice = '1';
+        chain.votePrice = '0';
         return chain;
       }
     }

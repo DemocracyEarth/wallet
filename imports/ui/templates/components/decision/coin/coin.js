@@ -34,10 +34,12 @@ const _save = () => {
   }
 
   draft.blockchain.publicAddress = document.getElementById('editBlockchainAddress').value;
-  if (!document.getElementById('editVotePrice').value) {
-    draft.blockchain.votePrice = 1;
-  } else {
-    draft.blockchain.votePrice = document.getElementById('editVotePrice').value;
+  draft.blockchain.votePrice = '1';
+  for (let i = 0; i < token.coin.length; i += 1) {
+    if (token.coin[i].code === coin.code) {
+      draft.blockchain.votePrice = token.coin[i].defaultVote;
+      break;
+    }
   }
 
   Session.set('draftContract', draft);
