@@ -597,5 +597,6 @@
   "unlogged-cant-reply": "You need to be logged in to reply.",
   "incompatible-requisites": "Your profile does not meet voter requisites.",
   "voting": "Voting",
-  "request": "Request"
+  "request": "Request",
+  "tweet": "Tweet"
 }

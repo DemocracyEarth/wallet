@@ -426,6 +426,9 @@ Template.ballot.helpers({
     const contract = Contracts.findOne({ _id: this.contract._id });
     let label = '';
     switch (button) {
+      case 'twitter':
+        label = TAPi18n.__('tweet');
+        break;
       case 'debate':
         label = TAPi18n.__('debate');
         break;
@@ -453,6 +456,9 @@ Template.ballot.helpers({
     let label = '';
     if (contract) {
       switch (button) {
+        case 'twitter':
+          label = `&#183; 0`;
+          break;
         case 'debate':
           if (contract) {
             let totalReplies;
