@@ -91,6 +91,18 @@ const _getTwitterURL = (contract) => {
 */
 const _countShare = (_id) => {
   const contract = Contracts.findOne({ _id });
+  const shares = Session.get('sharedPosts');
+  if (!shares) {
+    Session.set('sharedPosts', [_id]);
+  } else {
+    for (const i in shares) {
+      if (shares[i] === _id) {
+        return;
+      }
+    }
+    shares.push(_id);
+    Session.set('sharedPosts', shares);
+  }
   if (contract.shareCounter) {
     contract.shareCounter += 1;
   } else {
