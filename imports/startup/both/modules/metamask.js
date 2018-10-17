@@ -3,6 +3,8 @@ import { Accounts } from 'meteor/accounts-base';
 import { TAPi18n } from 'meteor/tap:i18n';
 
 import { displayModal } from '/imports/ui/modules/modal';
+import { transact } from '/imports/api/transactions/transaction';
+import { displayNotice } from '/imports/ui/modules/notice';
 
 const Web3 = require('web3');
 const ethUtil = require('ethereumjs-util');
@@ -29,29 +31,89 @@ const _convertToEther = (ticker) => {
   }
 };
 
-if (Meteor.isClient) {
-  /**
-  * @summary check web3 plugin and connects to code obejct
-  */
-  const _web3 = () => {
-    if (!window.web3) {
-      modal.message = TAPi18n.__('metamask-install');
-      displayModal(true, modal);
-      return false;
-    }
-    if (!web3) {
-      // We don't know window.web3 version, so we use our own instance of web3
-      // with provider given by window.web3
-      web3 = new Web3(window.web3.currentProvider);
-    }
-    if (!web3.eth.coinbase) {
-      modal.message = TAPi18n.__('metamask-activate');
-      displayModal(true, modal);
-      return false;
-    }
-    return web3;
-  };
+/**
+* @summary check web3 plugin and connects to code obejct
+*/
+const _web3 = () => {
+  if (!window.web3) {
+    modal.message = TAPi18n.__('metamask-install');
+    displayModal(true, modal);
+    return false;
+  }
+  if (!web3) {
+    // We don't know window.web3 version, so we use our own instance of web3
+    // with provider given by window.web3
+    web3 = new Web3(window.web3.currentProvider);
+  }
+  if (!web3.eth.coinbase) {
+    modal.message = TAPi18n.__('metamask-activate');
+    displayModal(true, modal);
+    return false;
+  }
+  return web3;
+};
 
+/**
+* @summary send crypto with mask;
+* @param {string} from blockchain address
+* @param {string} to blockchain destination
+* @param {string} quantity amount transacted
+* @param {string} token currency
+* @param {object} sourceId sender in sovereign
+* @param {object} targetId receiver in sovereign
+*/
+const _transactWithMetamask = (from, to, quantity, token, sourceId, targetId) => {
+  if (_web3()) {
+    const tx = {
+      from,
+      to,
+      value: web3.toHex(web3.toWei(quantity, _convertToEther(token))),
+      gas: 200000,
+      chainId: 3,
+    };
+    web3.eth.sendTransaction(tx, (error, receipt) => {
+      if (error) {
+        if (error.message.includes('User denied transaction signature') || error.code === -32603) {
+          modal.message = TAPi18n.__('metamask-denied-signature');
+          displayModal(true, modal);
+          return;
+        }
+      }
+      web3.eth.getTransaction(receipt, (err, res) => {
+        if (!err) {
+          const ticket = transact(
+            sourceId,
+            targetId,
+            0,
+            {
+              currency: token,
+              status: 'PENDING',
+              kind: 'CRYPTO',
+              contractId: targetId,
+              blockchain: {
+                tickets: [{
+                  hash: res.hash,
+                  status: 'PENDING',
+                  value: quantity,
+                }],
+                coin: {
+                  code: token,
+                },
+              },
+            },
+            () => {
+              displayNotice(`${TAPi18n.__('transaction-broadcast').replace('{{token}}', token)}`, true);
+            }
+          );
+          console.log(ticket);
+        }
+      });
+    });
+  }
+  return undefined;
+};
+
+if (Meteor.isClient) {
   const handleSignMessage = (publicAddress) => {
     return new Promise((resolve, reject) => {
       web3.personal.sign(
@@ -93,40 +155,6 @@ if (Meteor.isClient) {
       .send({ error: TAPi18n.__('metamask-sign-fail') });
   };
 
-  /**
-  * @summary send crypto with mask;
-  */
-  export const transactWithMetamask = (from, to, quantity, token) => {
-    if (_web3()) {
-      const tx = {
-        from,
-        to,
-        value: web3.toHex(web3.toWei(quantity, _convertToEther(token))),
-        gas: 200000,
-        chainId: 3,
-      };
-      web3.eth.sendTransaction(tx, (error, receipt) => {
-        if (error) {
-          if (error.message.includes('User denied transaction signature') || error.code === -32603) {
-            modal.message = TAPi18n.__('metamask-denied-signature');
-            displayModal(true, modal);
-            return;
-          }
-        }
-        console.log(web3.eth.getTransaction(receipt, (error, res) => {
-          console.log(res);
-        }));
-      });
-
-/*
-      decryptedAccount.signTransaction(rawTransaction)
-        .then(signedTx => web3.eth.sendSignedTransaction(signedTx.rawTransaction))
-        .then(receipt => console.log("Transaction receipt: ", receipt))
-        .catch(err => console.error(err));
-*/
-    }
-    return undefined;
-  };
 
   /**
   * @summary log in signing public blockchain address with private key
@@ -201,3 +229,5 @@ if (Meteor.isServer) {
     }
   });
 }
+
+export const transactWithMetamask = _transactWithMetamask;

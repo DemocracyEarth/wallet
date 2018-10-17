@@ -731,6 +731,8 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     return null;
   }
 
+  console.log(settings);
+
   // build transaction
   const newTransaction = {
     input: {

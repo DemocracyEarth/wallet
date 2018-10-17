@@ -598,5 +598,6 @@
   "incompatible-requisites": "Your profile does not meet voter requisites.",
   "voting": "Voting",
   "request": "Request",
-  "tweet": "Tweet"
+  "tweet": "Tweet",
+  "transaction-broadcast": "{{token}} transaction sent to blockchain."
 }

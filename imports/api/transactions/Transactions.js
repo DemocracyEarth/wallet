@@ -1,6 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+
+import { coins } from '/imports/api/users/Wallet';
+import { Blockchain } from '/imports/api/blockchain/Blockchain';
+
 import { Ballot } from './Ballot';
 
 export const Transactions = new Mongo.Collection('transactions');
@@ -39,7 +43,7 @@ Schema.Ticket = new SimpleSchema({
   },
   currency: {
     type: String,
-    allowedValues: ['BITCOIN', 'SATOSHI', 'VOTES'],
+    allowedValues: coins(),
     autoValue() {
       if (this.isInsert) {
         if (this.field('currency') === undefined) {
@@ -53,6 +57,7 @@ Schema.Ticket = new SimpleSchema({
     optional: true,
   },
 });
+
 Schema.Transaction = new SimpleSchema({
   input: {
     type: Schema.Ticket,
@@ -62,7 +67,7 @@ Schema.Transaction = new SimpleSchema({
   },
   kind: {
     type: String,
-    allowedValues: ['VOTE', 'DELEGATION', 'MEMBERSHIP', 'DISCIPLINE', 'UNKNOWN'],
+    allowedValues: ['VOTE', 'DELEGATION', 'MEMBERSHIP', 'DISCIPLINE', 'UNKNOWN', 'CRYPTO'],
     optional: true,
     autoValue() {
       if (this.isInsert) {
@@ -143,6 +148,10 @@ Schema.Transaction = new SimpleSchema({
         }
       }
     },
+  },
+  blockchain: {
+    type: Blockchain,
+    optional: true,
   },
 });
 

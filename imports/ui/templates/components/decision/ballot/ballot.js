@@ -28,11 +28,14 @@ import '/imports/ui/templates/widgets/warning/warning.js';
 const _cryptoVote = () => {
   if (Meteor.user()) {
     if (Template.instance().voteEnabled) {
+      // prompt metamask
       transactWithMetamask(
         getTokenAddress(Meteor.user(), Template.instance().ticket.get().token),
         Template.currentData().contract.blockchain.publicAddress,
         Template.currentData().contract.blockchain.votePrice,
         Template.instance().ticket.get().token,
+        Meteor.userId(),
+        Template.currentData().contract._id,
       );
     } else if (!checkTokenAvailability(Meteor.user(), Template.instance().ticket.get().token)) {
       // lack of token

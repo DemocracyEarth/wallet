@@ -1,10 +1,13 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
+import { coins } from '/imports/api/users/Wallet';
+
 const Schema = {};
 
 Schema.Coin = new SimpleSchema({
   code: {
     type: String,
+    allowedValues: coins(),
     optional: true,
   },
 });
