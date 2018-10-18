@@ -601,5 +601,6 @@
   "tweet": "Tweet",
   "transaction-broadcast": "{{token}} transaction sent to blockchain.",
   "ethereum-metamask": "Ethereum with Metamask",
-  "no-chain-found": "No blockchain address found."
+  "no-chain-found": "No blockchain address found.",
+  "metamask-confirm-transaction": "Confirm token transaction on Metamask."
 }

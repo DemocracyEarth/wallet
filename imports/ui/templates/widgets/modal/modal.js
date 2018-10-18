@@ -7,6 +7,7 @@ import { animationSettings } from '/imports/ui/modules/animation';
 import { displayModal } from '/imports/ui/modules/modal';
 import { globalObj } from '/lib/global';
 
+import '/imports/ui/templates/widgets/spinner/spinner.js';
 import './modal.html';
 import '../../components/identity/avatar/avatar.js';
 
@@ -131,6 +132,12 @@ Template.modalWindow.helpers({
   voteSettings() {
     if (Session.get('displayModal') !== undefined) {
       return Session.get('displayModal').voteSettings;
+    }
+    return false;
+  },
+  awaitMode() {
+    if (Session.get('displayModal') !== undefined) {
+      return Session.get('displayModal').awaitMode;
     }
     return false;
   },

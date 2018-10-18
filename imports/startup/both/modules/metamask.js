@@ -231,3 +231,4 @@ if (Meteor.isServer) {
 }
 
 export const transactWithMetamask = _transactWithMetamask;
+export const setupWeb3 = _web3;
