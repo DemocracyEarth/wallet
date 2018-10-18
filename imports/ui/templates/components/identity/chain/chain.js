@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
 
@@ -29,19 +30,16 @@ Template.chain.helpers({
     return `${_getCoin(this.ticker).code} ${TAPi18n.__('id')}:`;
   },
   address() {
-    if (this.address.length > 42) {
-      return `${this.address.substring(0, 15)}...${this.address.substring(parseInt(this.address.length - 15, 10), this.address.length)}`;
-    }
-    return this.address;
+    return `${this.address.substring(0, 10)}...${this.address.substring(parseInt(this.address.length - 10, 10), this.address.length)}`;
   },
   color() {
     return `background-color: ${_getCoin(this.ticker).color};`;
   },
   fullAddress() {
-    return TAPi18n.__('copy-clipboard').replace('{{address}}', this.address);
+    return this.address;
   },
-  web() {
-
+  link() {
+    return `${Meteor.settings.public.web.sites.blockExplorer}${this.address}`;
   },
 });
 
