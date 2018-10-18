@@ -68,7 +68,7 @@ export default class SocialMediaLogin extends Component {
       <div>
         <div id="metamask-login" className="button login-button" onClick={this.handleMetamaskLogin}>
           <img src="/images/metamask.png" className="button-icon" alt="lock" />
-          {TAPi18n.__('ethereum')}
+          {TAPi18n.__('ethereum-metamask')}
         </div>
         {/* <div id="blockstack-login" className="button login-button" onClick={this.handleBlockstackLogin}>
           <img src="/images/blockstack.png" className="button-icon" alt="lock" />

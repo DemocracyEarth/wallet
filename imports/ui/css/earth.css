@@ -4177,7 +4177,7 @@ blockquote {
   margin-top: 20%;
   margin-right: auto;
   margin-left: auto;
-  padding: 15px 10px;
+  padding: 18px 12px;
   border-radius: 5px;
   background-color: #3c3145;
   box-shadow: 0 3px 8px -4px #000;
@@ -5429,9 +5429,16 @@ blockquote {
 
 .modal-buttons-padder {
   width: 50%;
-  padding-right: 5px;
-  padding-left: 5px;
+  margin-bottom: -9px;
   float: left;
+}
+
+.modal-buttons-padder.modal-buttons-padder-left {
+  padding-right: 5px;
+}
+
+.modal-buttons-padder.modal-buttons-padder-right {
+  padding-left: 5px;
 }
 
 .modal-title {
@@ -6193,6 +6200,16 @@ blockquote {
   float: left;
   font-size: 9px;
   text-transform: uppercase;
+}
+
+.dropdown-buttons {
+  display: inline-block;
+  width: 100%;
+  margin-top: -5px;
+}
+
+.margin-bottom-dead {
+  margin-bottom: -10px;
 }
 
 @media (max-width: 991px) {

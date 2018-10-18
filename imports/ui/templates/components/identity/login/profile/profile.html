@@ -2,7 +2,7 @@
   {{#if configProfile}}
     {{> profileEditor}}
   {{else}}
-    <div class="login">
+    <div class="login margin-bottom-dead">
       {{> avatar includeName=true includeNation=true editable=true includeAddress=true}}
       {{#if isMultiTokenUser}}
         {{#with currentUser}}

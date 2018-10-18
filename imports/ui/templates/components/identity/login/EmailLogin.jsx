@@ -94,7 +94,7 @@ export default class EmailLogin extends Component {
                 {TAPi18n.__('authenticate-self')}
               </div>
             </div>
-            <div className="login">
+            <div className="login margin-bottom-dead">
               <SocialMediaLogin agoraMode={false} />
               {/* <div className="w-form">
                 <div className="alert-header alert-header-subtitle"></div>

@@ -599,5 +599,6 @@
   "voting": "Voting",
   "request": "Request",
   "tweet": "Tweet",
-  "transaction-broadcast": "{{token}} transaction sent to blockchain."
+  "transaction-broadcast": "{{token}} transaction sent to blockchain.",
+  "ethereum-metamask": "Ethereum with Metamask"
 }

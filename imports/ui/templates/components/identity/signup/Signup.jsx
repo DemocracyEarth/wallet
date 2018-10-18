@@ -106,7 +106,7 @@ export default class Signup extends Component {
             {TAPi18n.__('identity')}
           </div>
         </div>
-        <div className="login">
+        <div className="login margin-bottom-dead">
           <form id="signup-new-user" name="signup-form">
             <div className="w-clearfix login-field">
               <label htmlFor="signup-username" className="login-label login-label-form">
