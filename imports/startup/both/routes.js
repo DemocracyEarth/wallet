@@ -169,6 +169,53 @@ Router.route('/peer/:username', {
 });
 
 /**
+* @summary loads a post using date in url
+**/
+Router.route('/:year/:month/:day/:keyword', {
+  name: 'date',
+  template: 'home',
+  onBeforeAction() {
+    _reset();
+    this.next();
+  },
+  data() {
+    return {
+      options: { view: 'post', sort: { createdAt: -1 }, keyword: this.params.keyword },
+    };
+  },
+  onAfterAction() {
+    const contract = Contracts.findOne({ keyword: this.params.keyword });
+    let title;
+    let description;
+    let image;
+    DocHead.removeDocHeadAddedTags();
+
+    if (contract) {
+      DocHead.setTitle(`${TAPi18n.__('vote-tag-ballot-title').replace('{{collective}}', Meteor.settings.public.Collective.name)} - ${stripHTMLfromText(contract.title)}`);
+      if (contract.ballotEnabled) {
+        title = `${TAPi18n.__('vote-tag-ballot-title').replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
+      } else {
+        title = `${TAPi18n.__('vote-tag-title').replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
+      }
+      description = stripHTMLfromText(contract.title);
+      image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`;
+    } else {
+      title = `${Meteor.settings.public.Collective.name} - ${Meteor.settings.public.Collective.profile.bio}`;
+      description = Meteor.settings.public.Collective.profile.bio;
+      image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`;
+      DocHead.setTitle(title);
+    }
+
+    _meta({
+      title,
+      description,
+      image,
+      twitter: Meteor.settings.public.Collective.profile.twitter,
+    });
+  },
+});
+
+/**
 * @summary loads a post
 **/
 Router.route('/vote/:keyword', {

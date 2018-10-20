@@ -394,7 +394,8 @@ const _publish = (contractId, keyword) => {
   } else {
     draft.keyword = keyword;
   }
-  draft.url = `/vote/${draft.keyword}`;
+  const time = Session.get('time');
+  draft.url = `/${time.getFullYear()}/${time.getMonth()}/${time.getDay()}/${draft.keyword}`;
 
   // jurisdiction
   if (Meteor.user() && Meteor.user().profile &&
