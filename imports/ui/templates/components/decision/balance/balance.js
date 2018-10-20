@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 
 import { getCoin } from '/imports/ui/templates/components/identity/chain/chain';
-import { wei2eth } from '/imports/api/blockchain/modules/web3Util';
+import { wei2eth, adjustDecimal } from '/imports/api/blockchain/modules/web3Util';
 import { timeCompressed } from '/imports/ui/modules/chronos';
 
 import '/imports/ui/templates/components/decision/balance/balance.html';
@@ -29,6 +29,8 @@ const _currencyValue = (value, token) => {
   switch (token) {
     case 'WEI':
       return wei2eth(value);
+    case 'VOTE':
+      return adjustDecimal(value);
     default:
   }
   return value;

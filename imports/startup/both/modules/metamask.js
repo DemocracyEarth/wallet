@@ -195,7 +195,7 @@ if (Meteor.isServer) {
     if (loginObject.type !== 'resume') {
       Meteor.call('loadUserTokenBalance', loginObject.user._id, (subsidyError) => {
         if (subsidyError) {
-          console.log(subsidyError, 'danger');
+          console.log(subsidyError, 'error on Accounts.onLogin');
         }
       });
     }

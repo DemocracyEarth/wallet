@@ -41,6 +41,7 @@
     "fibers": "^2.0.2",
     "hapi": "^17.5.3",
     "hoek": "^5.0.4",
+    "human-standard-token-abi": "^2.0.0",
     "json-schema-faker": "^0.3.7",
     "jsontokens": "^0.7.8",
     "lodash": "^4.17.10",

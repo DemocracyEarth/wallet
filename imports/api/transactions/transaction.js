@@ -10,7 +10,7 @@ import { getTime } from '/imports/api/time';
 import { Transactions } from '/imports/api/transactions/Transactions';
 import { getTotalVoters } from '/imports/ui/modules/ballot';
 import { notify } from '/imports/api/notifier/notifier';
-import { getWeiBalance } from '/imports/api/blockchain/modules/web3Util';
+import { getWeiBalance, getTokenSymbol, getTokenBalance } from '/imports/api/blockchain/modules/web3Util';
 
 
 /**
@@ -820,24 +820,42 @@ const _genesisTransaction = (userId) => {
 const _loadExternalCryptoBalance = (userId) => {
   const user = Meteor.users.findOne({ _id: userId });
   if (user.services.metamask != null) {
-    let publicAddress = user.services.metamask.publicAddress
-    let weiBalance = getWeiBalance(publicAddress);
-    console.log(`weiBalance: ${weiBalance}`);
+    const _publicAddress = user.services.metamask.publicAddress;
+    const weiBalance = getWeiBalance(_publicAddress);
 
-    if (user.profile.wallet.reserves[0].balance == 0 &&
-        user.profile.wallet.reserves[0].available == 0 &&
-        user.profile.wallet.reserves[0].placed == 0) {
-      // New metamask publicAddress, loading crypto balance for the first time
-      user.profile.wallet = _generateWalletAddress(user.profile.wallet);
-      user.profile.wallet.reserves[0].token = 'WEI';
-      user.profile.wallet.reserves[0].balance = weiBalance.toNumber();
-      user.profile.wallet.reserves[0].available = weiBalance.toNumber();
-      Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
-    } else if (user.profile.wallet.reserves[0].balance != weiBalance.toNumber()) {
-      // Returning user with new crypto balance
-      // TODO - sync balances following daemon pattern
-      console.log('DEBUG - returning metamask user with new balance');
-    }
+    let tokenSymbol;
+    let tokenBalance;
+
+    getTokenSymbol(_publicAddress).then(function (symbol) {
+      tokenSymbol = symbol;
+      return getTokenBalance(_publicAddress);
+    }).then(function (balance) {
+      tokenBalance = balance;
+      if (user.profile.wallet.reserves[0].balance === 0 &&
+        user.profile.wallet.reserves[0].available === 0 &&
+        user.profile.wallet.reserves[0].placed === 0) {
+        // New metamask publicAddress, loading crypto balances for the first time
+
+        user.profile.wallet = _generateWalletAddress(user.profile.wallet);
+        user.profile.wallet.reserves[0].token = 'WEI';
+        user.profile.wallet.reserves[0].balance = weiBalance.toNumber();
+        user.profile.wallet.reserves[0].available = weiBalance.toNumber();
+        const tokenObj = {
+          balance: tokenBalance,
+          placed: 0,
+          available: tokenBalance,
+          token: tokenSymbol,
+          publicAddress: _publicAddress,
+        };
+        user.profile.wallet.reserves.push(tokenObj);
+
+        Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
+      } else if (user.profile.wallet.reserves[0].balance !== weiBalance.toNumber()) {
+        // Returning user with new crypto balance
+        // TODO - sync balances following daemon pattern
+        console.log('DEBUG - returning metamask user with new balance');
+      }
+    });
   }
 };
 
