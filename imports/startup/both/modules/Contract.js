@@ -378,6 +378,18 @@ const _remove = (contractId) => {
 };
 
 /**
+* @summary generates a uri based on date
+* @param {object} draft contract
+*/
+const _getURLDate = (draft) => {
+  let time = Session.get('time');
+  if (!time) {
+    time = draft.createdAt;
+  }
+  return `/${time.getFullYear()}/${time.getMonth()}/${time.getDay()}/`;
+};
+
+/**
 * @summary publishes a contract and goes to home
 * @param {string} contractId - id of the contract to publish
 * @param {string} keyword - key word identifier
@@ -394,11 +406,7 @@ const _publish = (contractId, keyword) => {
   } else {
     draft.keyword = keyword;
   }
-  let time = Session.get('time');
-  if (!time) {
-    time = draft.createdAt;
-  }
-  draft.url = `/${time.getFullYear()}/${time.getMonth()}/${time.getDay()}/${draft.keyword}`;
+  draft.url = `${_getURLDate(draft)}${draft.keyword}`;
 
   // jurisdiction
   if (Meteor.user() && Meteor.user().profile &&
@@ -533,6 +541,7 @@ export const removeSignature = _removeSignature;
 export const publishContract = _publish;
 export const removeContract = _remove;
 export const createDelegation = _newDelegation;
+export const getURLDate = _getURLDate;
 export const sendDelegationVotes = _sendDelegation;
 export const createContract = _createContract;
 export const getDelegationContract = _getDelegationContract;
