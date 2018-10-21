@@ -32,8 +32,8 @@ const _currencyValue = (value, token) => {
     case 'VOTE':
       return adjustDecimal(value);
     default:
+      return adjustDecimal(value);
   }
-  return value;
 };
 
 /**

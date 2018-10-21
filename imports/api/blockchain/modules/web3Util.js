@@ -37,18 +37,17 @@ const _getWeiBalance = (publicAddress) => {
 
 /**
 * @summary gets token symbol/code from given public address
-* @param {string} publicAddress
+* @param {string} publicAddress, contractAddress
 * @return {string} symbol
 */
-const _getTokenSymbol = (publicAddress) => {
+const _getTokenSymbol = (publicAddress, contractAddress) => {
   return new Promise(
     (resolve, reject) => {
-      const contractAddress = token.coin[1].contractAddress;
       const contract = web3.eth.contract(abi).at(contractAddress);
 
       contract.symbol.call({ from: publicAddress }, (err, symbol) => {
         if (err) { reject(err); }
-        resolve(symbol);
+        if (symbol) { resolve(symbol); }
       });
     }
   );
@@ -56,21 +55,46 @@ const _getTokenSymbol = (publicAddress) => {
 
 /**
 * @summary gets token balance from given public address
-* @param {string} publicAddress
+* @param {string} publicAddress, contractAddress
 * @return {number} balance
 */
-const _getTokenBalance = (publicAddress) => {
+const _getTokenBalance = (publicAddress, contractAddress) => {
   return new Promise(
     (resolve, reject) => {
-      const contractAddress = token.coin[1].contractAddress;
       const contract = web3.eth.contract(abi).at(contractAddress);
 
       contract.balanceOf.call(publicAddress, (err, balance) => {
         if (err) { reject(err); }
-        resolve(balance.toNumber());
+        if (balance) { resolve(balance.toNumber()); }
       });
     }
   );
+};
+
+/**
+* @summary constructs tokenData object based on given _publicAddress
+* @param {string} _publicAddress
+* @return {object} tokenData should only contain tokens associated with _publicAddress
+*/
+const _getTokenData = async (_publicAddress) => {
+  const tokenData = [];
+  let _balance;
+
+  for (let i = 0; i < token.coin.length; i++) {
+    _balance = await _getTokenBalance(_publicAddress, token.coin[i].contractAddress);
+    if (_balance.toNumber() !== 0) {
+      const tokenObj = {
+        balance: _balance.toNumber(),
+        placed: 0,
+        available: _balance.toNumber(),
+        token: token.coin[i].code,
+        publicAddress: _publicAddress,
+      };
+
+      tokenData.push(tokenObj);
+    }
+  }
+  return tokenData;
 };
 
 /**
@@ -107,3 +131,4 @@ export const getWeiBalance = _getWeiBalance;
 export const getTokenSymbol = _getTokenSymbol;
 export const getTokenBalance = _getTokenBalance;
 export const adjustDecimal = _adjustDecimal;
+export const getTokenData = _getTokenData;
