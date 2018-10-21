@@ -179,8 +179,11 @@ Router.route('/:year/:month/:day/:keyword', {
     this.next();
   },
   data() {
+    console.log(this);
+    const url = `/${this.params.year}/${this.params.month}/${this.params.day}/${this.params.keyword}`;
+    console.log(url);
     return {
-      options: { view: 'post', sort: { createdAt: -1 }, keyword: this.params.keyword },
+      options: { view: 'post', sort: { createdAt: -1 }, url, keyword: this.params.keyword },
     };
   },
   onAfterAction() {

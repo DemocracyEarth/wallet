@@ -394,7 +394,10 @@ const _publish = (contractId, keyword) => {
   } else {
     draft.keyword = keyword;
   }
-  const time = Session.get('time');
+  let time = Session.get('time');
+  if (!time) {
+    time = draft.createdAt;
+  }
   draft.url = `/${time.getFullYear()}/${time.getMonth()}/${time.getDay()}/${draft.keyword}`;
 
   // jurisdiction
