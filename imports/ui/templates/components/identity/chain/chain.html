@@ -1,21 +1,12 @@
 <template name="chain">
-  {{#if hasAddress}}
-    <div id="chainAddress" title="{{fullAddress}}" class="chain">
-      <div class="chain-ticker">
-        {{ticker}}
-      </div>
-      <div class="chain-address">
-        {{address}}
-      </div>
-    </div>
-  {{else}}
-    <div id="chainAddress" class="chain">
-      <div class="chain-ticker">
-        {{_ 'web-id'}}
-      </div>
-      <div class="chain-address">
-        {{web}}
-      </div>
-    </div>
-  {{/if}}
+  <div id="chainAddress" class="margin-top-minus-three">
+    <img src="{{pathFor route='home'}}images/block.png" class="clock-icon">
+    {{#if hasAddress}}
+      <a id="blockchain-explorer" title="{{fullAddress}}" href="{{link}}" target="_blank">
+        <div class="verifier verifier-live verifier-feed verifier-mini">{{address}}</div>
+      </a>
+    {{else}}
+      <div class="verifier verifier-live verifier-feed verifier-mini">{{_ 'no-chain-found'}}</div>
+    {{/if}}
+  </div>
 </template>

@@ -64,7 +64,7 @@ Meteor.startup(() => {
     Meteor.call('getServerTime', function (error, result) {
       Session.set('time', result);
     });
-  }, 1000);
+  }, 60000);
 
   // search Engine for Tags
   Session.set('createTag', false);

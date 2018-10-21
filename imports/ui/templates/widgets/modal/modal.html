@@ -36,27 +36,33 @@
           {{/if}}
         </p>
       {{/if}}
-      {{#unless voteMode}}
-        {{#unless alertMode}}
-          <div class="modal-buttons">
-            <div class="modal-buttons-padder">
-              <div id="cancel" class="button login-button button-secondary button-half">
+      {{#unless awaitMode}}
+        {{#unless voteMode}}
+          {{#unless alertMode}}
+            <div class="modal-buttons">
+              <div class="modal-buttons-padder modal-buttons-padder-left">
+                <div id="cancel" class="button login-button button-secondary button-half">
+                  <div>{{cancel}}</div>
+                </div>
+              </div>
+              <div class="modal-buttons-padder modal-buttons-padder-right">
+                <div id="execute" class="button login-button button-half {{removal}}">
+                  <div>{{action}}</div>
+                </div>
+              </div>
+            </div>
+          {{else}}
+            <div class="modal-buttons">
+              <div id="cancel" class="button login-button">
                 <div>{{cancel}}</div>
               </div>
             </div>
-            <div class="modal-buttons-padder">
-              <div id="execute" class="button login-button button-half {{removal}}">
-                <div>{{action}}</div>
-              </div>
-            </div>
-          </div>
-        {{else}}
-          <div class="modal-buttons">
-            <div id="cancel" class="button login-button">
-              <div>{{cancel}}</div>
-            </div>
-          </div>
+          {{/unless}}
         {{/unless}}
+      {{else}}
+        <div class="modal-buttons">
+          {{> spinner id='modal' style='height:24px; margin-top:12px;' length=16 color='#fff'}}
+        </div>
       {{/unless}}
     </div>
   </div>

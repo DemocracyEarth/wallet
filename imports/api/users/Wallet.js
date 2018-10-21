@@ -7,15 +7,21 @@ import { Reserves } from './Reserves';
 
 
 const Schema = {};
-const coins = [];
 
-coins.push('VOTES'); // backwards compatibility;
-for (let i = 0; i < token.coin.length; i += 1) {
-  coins.push(token.coin[i].code);
-  if (token.coin[i].subcode) {
-    coins.push(token.coin[i].subcode);
+/**
+* @summary returns list of all valid coins for this instance
+*/
+const _coins = () => {
+  const coins = [];
+  coins.push('VOTES'); // backwards compatibility;
+  for (let i = 0; i < token.coin.length; i += 1) {
+    coins.push(token.coin[i].code);
+    if (token.coin[i].subcode) {
+      coins.push(token.coin[i].subcode);
+    }
   }
-}
+  return coins;
+};
 
 Schema.Wallet = new SimpleSchema({
   balance: {
@@ -32,7 +38,7 @@ Schema.Wallet = new SimpleSchema({
   },
   currency: {
     type: String,
-    allowedValues: coins,
+    allowedValues: _coins(),
     autoValue() {
       if (this.isInsert) {
         if (this.field('currency').value === undefined) {
@@ -113,3 +119,4 @@ Schema.Wallet = new SimpleSchema({
 });
 
 export const Wallet = Schema.Wallet;
+export const coins = _coins;

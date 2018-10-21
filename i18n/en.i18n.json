@@ -598,5 +598,9 @@
   "incompatible-requisites": "Your profile does not meet voter requisites.",
   "voting": "Voting",
   "request": "Request",
-  "tweet": "Tweet"
+  "tweet": "Tweet",
+  "transaction-broadcast": "{{token}} transaction sent to blockchain.",
+  "ethereum-metamask": "Ethereum with Metamask",
+  "no-chain-found": "No blockchain address found.",
+  "metamask-confirm-transaction": "Confirm token transaction on Metamask."
 }

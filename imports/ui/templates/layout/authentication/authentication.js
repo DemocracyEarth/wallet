@@ -5,7 +5,7 @@ import { Meteor } from 'meteor/meteor';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Router } from 'meteor/iron:router';
 
-import { publishContract, createContract, contractURI, entangle } from '/imports/startup/both/modules/Contract';
+import { publishContract, createContract, contractURI, entangle, getURLDate } from '/imports/startup/both/modules/Contract';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
 
@@ -28,7 +28,7 @@ const _publish = () => {
     // publish
     const draft = Session.get('draftContract');
     const uri = contractURI(document.getElementById('titleContent').innerText, draft._id);
-    const url = `${draft.url}${uri}`;
+    const url = `${getURLDate(draft)}${uri}`;
     publishContract(draft._id, uri);
 
     // announce
@@ -40,7 +40,7 @@ const _publish = () => {
     const newDraft = createContract();
     Session.set('draftContract', newDraft);
 
-    if (window.location.pathname.substring(0, 5) === '/vote') {
+    if (/\d/.test(window.location.pathname.substring(1, 4))) {
       // new
       Router.go(url);
     } else {

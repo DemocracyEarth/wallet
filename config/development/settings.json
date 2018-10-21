@@ -128,7 +128,7 @@
 
     "web": {
       "sites": {
-        "tokens": "https://ico.democracy.earth",
+        "tokens": "https://token.democracy.earth",
         "blockExplorer": "https://etherscan.io/address/"
       }
     },

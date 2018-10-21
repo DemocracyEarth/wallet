@@ -11,7 +11,7 @@
           {{> suggest}}
         {{/if}}
       </div>
-      <div class="login-field login-field-last">
+      <div class="login-field">
         <label for="name" class="login-label login-label-form">
           {{_ 'email-valid-domain'}}
         </label>
@@ -23,18 +23,18 @@
           </div>
         {{/if}}
       </div>
-      <div class="extra">
-         <div class="modal-buttons-padder">
+      <div class="dropdown-buttons">
+         <div class="modal-buttons-padder modal-buttons-padder-left">
            <div id="cancel-constituency" class="button login-button button-secondary button-half">
              <div>{{_ 'cancel'}}</div>
            </div>
          </div>
-         <div class="modal-buttons-padder">
+         <div class="modal-buttons-padder modal-buttons-padder-right">
            <div id="execute-constituency" class="button login-button button-half {{buttonDisable}}">
              <div>{{_ 'apply'}}</div>
            </div>
          </div>
-       </div>
+      </div>
      </div>
    {{/if}}
 </template>

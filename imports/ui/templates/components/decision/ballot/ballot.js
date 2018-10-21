@@ -13,7 +13,7 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 import { timers } from '/lib/const';
 import { verifyConstituencyRights, getTokenAddress, checkTokenAvailability } from '/imports/ui/templates/components/decision/electorate/electorate.js';
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
-import { transactWithMetamask } from '/imports/startup/both/modules/metamask';
+import { transactWithMetamask, setupWeb3 } from '/imports/startup/both/modules/metamask';
 import { formatCryptoValue } from '/imports/ui/templates/components/decision/balance/balance';
 import { displayModal } from '/imports/ui/modules/modal';
 
@@ -28,12 +28,29 @@ import '/imports/ui/templates/widgets/warning/warning.js';
 const _cryptoVote = () => {
   if (Meteor.user()) {
     if (Template.instance().voteEnabled) {
-      transactWithMetamask(
-        getTokenAddress(Meteor.user(), Template.instance().ticket.get().token),
-        Template.currentData().contract.blockchain.publicAddress,
-        Template.currentData().contract.blockchain.votePrice,
-        Template.instance().ticket.get().token,
-      );
+      if (setupWeb3()) {
+        // metamask alert
+        displayModal(
+          true,
+          {
+            icon: 'images/metamask.png',
+            title: TAPi18n.__('place-vote'),
+            message: TAPi18n.__('metamask-confirm-transaction'),
+            cancel: TAPi18n.__('close'),
+            awaitMode: true,
+          },
+        );
+
+        // prompt metamask
+        transactWithMetamask(
+          getTokenAddress(Meteor.user(), Template.instance().ticket.get().token),
+          Template.currentData().contract.blockchain.publicAddress,
+          Template.currentData().contract.blockchain.votePrice,
+          Template.instance().ticket.get().token,
+          Meteor.userId(),
+          Template.currentData().contract._id,
+        );
+      }
     } else if (!checkTokenAvailability(Meteor.user(), Template.instance().ticket.get().token)) {
       // lack of token
       displayModal(
