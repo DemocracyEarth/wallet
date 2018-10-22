@@ -168,14 +168,14 @@ Template.avatar.helpers({
   url() {
     if (this.profile === undefined) {
       if (Meteor.user()) {
-        return `/peer/${Meteor.user().username}`;
+        return `/@${Meteor.user().username}`;
       }
     }
     const user = Meteor.users.findOne(_getDynamicID(this));
     if (!user) {
       return '#';
     }
-    return `/peer/${user.username}`;
+    return `/@${user.username}`;
   },
   myself() {
     if (this.profile === undefined) {

@@ -78,8 +78,8 @@ const parseMarkup = (text) => {
   html = _replaceAll(html, "href='/tag/#", "href='/tag/");
 
   // mentions
-  html = html.replace(/(^|\s)(@[a-z\d][\w-]*)/ig, "$1<a href='/peer/$2'>$2</a>");
-  html = _replaceAll(html, "href='/peer/@", "href='/peer/");
+  html = html.replace(/(^|\s)(@[a-z\d][\w-]*)/ig, "$1<a href='/@$2'>$2</a>");
+  html = _replaceAll(html, "href='/@@", "href='/@");
 
   // tokens
   html = html.replace(/(^|\s)(\$[a-z\d][\w-]*)/ig, "$1<a href='/token/$2'>$2</a>");

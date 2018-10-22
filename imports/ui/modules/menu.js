@@ -195,7 +195,7 @@ const getUserList = (array) => {
         feed: 'user',
         value: true,
         separator: false,
-        url: `/peer/${user.username}`,
+        url: `/@${user.username}`,
         selected: false,
       });
     } else {

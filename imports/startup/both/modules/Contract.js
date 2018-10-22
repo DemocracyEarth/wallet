@@ -49,7 +49,8 @@ const _sign = (contractId, userObject, userRole) => {
 * @param {string} keyword tentative title being used for contract
 */
 const _contractURI = (keyword) => {
-  return convertToSlug(`${keyword}-${shortUUID()}`);
+  const alphanumeric = keyword.replace(/[^\w\s]/gi, '');
+  return convertToSlug(`${alphanumeric}-${shortUUID()}`);
 };
 
 /**
@@ -386,7 +387,7 @@ const _getURLDate = (draft) => {
   if (!time) {
     time = draft.createdAt;
   }
-  return `/${time.getFullYear()}/${time.getMonth()}/${time.getDay()}/`;
+  return `/${time.getFullYear()}/${parseInt(time.getMonth() + 1, 10)}/${time.getDate()}/`;
 };
 
 /**

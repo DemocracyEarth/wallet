@@ -458,11 +458,10 @@ const _setSessionVars = (params) => {
 const _getNavbarAction = (path) => {
   if (Meteor.Device.isPhone()) {
     switch (path) {
-      case '/vote':
-      case '/peer':
-        return 'BACK';
-      default:
+      case !'/':
         return 'SIDEBAR';
+      default:
+        return 'BACK';
     }
   }
   return 'SIDEBAR';

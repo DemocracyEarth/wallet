@@ -114,6 +114,61 @@ Router.route('/', {
   },
 });
 
+
+/**
+* @summary loads a peer feed from @
+**/
+Router.route('/@:username', {
+  name: 'at',
+  template: 'home',
+  onBeforeAction() {
+    _reset();
+    this.next();
+  },
+  data() {
+    let settings;
+    const user = Meteor.users.findOne({ username: this.params.username });
+    if (!user) {
+      settings = {
+        username: this.params.username,
+      };
+    } else {
+      settings = {
+        userId: user._id,
+      };
+    }
+    return {
+      options: { view: 'peer', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, userId: settings.userId, username: settings.username },
+    };
+  },
+  onAfterAction() {
+    const user = Meteor.users.findOne({ username: this.params.username });
+    let title;
+    let description;
+    let image;
+    DocHead.removeDocHeadAddedTags();
+
+    if (user) {
+      title = `${TAPi18n.__('profile-tag-title').replace('{{user}}', `@${user.username}`).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
+      description = `@${user.username}${TAPi18n.__('profile-tag-description')} ${Meteor.settings.public.Collective.name}`;
+      image = `${Router.path('home')}${user.profile.picture}`;
+    } else {
+      title = `${TAPi18n.__('profile-tag-title').replace('{{user}}', `@${this.params.username}`).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
+      description = `@${this.params.username} ${TAPi18n.__('profile-tag-description')} ${Meteor.settings.public.Collective.name}`;
+      image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`;
+    }
+
+    DocHead.setTitle(title);
+
+    _meta({
+      title,
+      description,
+      image,
+      twitter: Meteor.settings.public.Collective.profile.twitter,
+    });
+  },
+});
+
 /**
 * @summary loads a peer feed
 **/
