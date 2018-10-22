@@ -99,7 +99,7 @@ const _cryptoVote = () => {
 * @param {object} contract to get data from
 */
 const _getTwitterURL = (contract) => {
-  return `https://twitter.com/share?url=${escape(Router.current().route.url().substring(0, Router.current().route.url().lastIndexOf('/')))}${contract.url}&text=${contract.title}`;
+  return `https://twitter.com/share?url=${escape(window.location.origin)}${contract.url}&text=${contract.title}`;
 };
 
 /**
