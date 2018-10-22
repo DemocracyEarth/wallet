@@ -15,6 +15,21 @@ if (typeof web3 !== 'undefined') {
 }
 
 /**
+* @summary adjusts decimals of supported tokens
+* @param {value} raw value in lowest decimal
+* @param {number} decimals
+* @return {number} equivalent with decimals accounted for
+*/
+const _adjustDecimal = (value, decimals) => {
+  const decimalsBN = new BigNumber(decimals);
+  const valueBN = new BigNumber(value);
+  const divisor = new BigNumber(10).pow(decimalsBN);
+  const beforeDecimal = valueBN.div(divisor);
+
+  return beforeDecimal;
+};
+
+/**
 * @summary gets eth balance from given public address
 * @param {string} publicAddress
 * @return {object} bigNumber eth balance
@@ -65,7 +80,7 @@ const _getTokenBalance = (publicAddress, contractAddress) => {
 
       contract.balanceOf.call(publicAddress, (err, balance) => {
         if (err) { reject(err); }
-        if (balance) { resolve(balance.toNumber()); }
+        if (balance) { resolve(balance); }
       });
     }
   );
@@ -83,10 +98,11 @@ const _getTokenData = async (_publicAddress) => {
   for (let i = 0; i < token.coin.length; i++) {
     _balance = await _getTokenBalance(_publicAddress, token.coin[i].contractAddress);
     if (_balance.toNumber() !== 0) {
+      const adjustedBalance = _adjustDecimal(_balance.toNumber(), token.coin[i].decimals);
       const tokenObj = {
-        balance: _balance.toNumber(),
+        balance: adjustedBalance.toNumber(),
         placed: 0,
-        available: _balance.toNumber(),
+        available: adjustedBalance.toNumber(),
         token: token.coin[i].code,
         publicAddress: _publicAddress,
       };
@@ -104,25 +120,6 @@ const _getTokenData = async (_publicAddress) => {
 */
 const _wei2eth = (value) => {
   return web3.fromWei(value, 'ether');
-};
-
-/**
-* @summary adjusts decimals of supported tokens
-* @param {number} value in lowest decimal
-* @return {number} equivalent with 18 decimals
-*/
-const _adjustDecimal = (value) => {
-  /* NOTE - this method could also take in two
-  arguments (value, token) so value gets adjusted
-  according to what token.coin[i].decimals specifies
-  */
-
-  const decimalsBN = new BigNumber(18);
-  const valueBN = new BigNumber(value);
-  const divisor = new BigNumber(10).pow(decimalsBN);
-  const beforeDecimal = valueBN.div(divisor);
-
-  return beforeDecimal;
 };
 
 export const wei2eth = _wei2eth;

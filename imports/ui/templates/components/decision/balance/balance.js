@@ -29,10 +29,10 @@ const _currencyValue = (value, token) => {
   switch (token) {
     case 'WEI':
       return wei2eth(value);
-    case 'VOTE':
-      return adjustDecimal(value);
+    // case 'VOTE':
+    //   return adjustDecimal(value);
     default:
-      return adjustDecimal(value);
+      return value;
   }
 };
 
