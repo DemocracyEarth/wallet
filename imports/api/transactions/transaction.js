@@ -832,9 +832,14 @@ const _loadExternalCryptoBalance = (userId) => {
       user.profile.wallet.reserves[0].available = weiBalance.toNumber();
 
       for (let i = 0; i < tokenData.length; i++) {
-        user.profile.wallet.reserves.push(tokenData[i]);
+        const foundInWallet = user.profile.wallet.reserves.findIndex(t => t.token === tokenData[i].token);
+        if (foundInWallet !== -1) {
+          user.profile.wallet.reserves[foundInWallet].balance = tokenData[i].balance;
+          user.profile.wallet.reserves[foundInWallet].available = tokenData[i].available;
+        } else {
+          user.profile.wallet.reserves.push(tokenData[i]);
+        }
       }
-
       Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
     });
   }
