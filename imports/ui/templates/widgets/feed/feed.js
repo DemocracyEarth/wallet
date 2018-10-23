@@ -118,13 +118,10 @@ Template.feed.onCreated(function () {
   console.log(dbQuery.fetch());
 
   this.handle = dbQuery.observeChanges({
-    changed: () => {
-      // TODO: be reactive please
-      // displayNotice(TAPi18n.__('notify-new-posts'), true);
-    },
-    addedBefore: (id, fields) => {
+    addedBefore: (id, fields, before) => {
       // added stuff
       console.log('adding stuff');
+      console.log(before);
       const currentFeed = instance.feed.get();
       const post = fields;
       post._id = id;
