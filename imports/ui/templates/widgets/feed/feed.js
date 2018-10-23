@@ -89,11 +89,10 @@ Template.feed.onCreated(function () {
   Template.instance().count = new ReactiveVar(0);
   Template.instance().feed = new ReactiveVar();
   Template.currentData().refresh = false;
+  Template.instance().counted = new ReactiveVar(false);
+  Template.instance().rendered = false;
 
   const instance = this;
-
-  console.log(`created new feed with:`);
-  console.log(instance);
 
   if ((Meteor.Device.isPhone() && Session.get('sidebar')) || (Session.get('miniWindow') && Session.get('sidebar'))) {
     toggleSidebar(false);
@@ -114,28 +113,40 @@ Template.feed.onCreated(function () {
 
   const dbQuery = Contracts.find(parameters.find, parameters.options);
 
-  console.log('fetching')
-  console.log(dbQuery.fetch());
-
   this.handle = dbQuery.observeChanges({
     addedBefore: (id, fields, before) => {
       // added stuff
-      console.log('adding stuff');
-      console.log(before);
       const currentFeed = instance.feed.get();
       const post = fields;
-      post._id = id;
-      if (instance.data.displayActions) {
-        post.displayActions = true;
-      }
-      if (!(instance.data.noReplies && post.replyId)) {
-        if (!currentFeed) {
-          instance.feed.set([post]);
-          instance.data.refresh = false;
-        } else if (!here(post, currentFeed)) {
-          currentFeed.push(post);
-          instance.feed.set(_.uniq(currentFeed));
+
+      let newItem = false;
+      if (before) {
+        console.log('A BEFORE ARRIVED')
+        for (let i = 0; i < currentFeed.length; i += 1) {
+          if (currentFeed[i]._id === before) {
+            newItem = true;
+            break;
+          }
         }
+        let count = instance.count.get();
+        instance.count.set(count += 1);
+      }
+      if (!before || newItem) {
+        post._id = id;
+        if (instance.data.displayActions) {
+          post.displayActions = true;
+        }
+        if (!(instance.data.noReplies && post.replyId)) {
+          if (!currentFeed) {
+            instance.feed.set([post]);
+            instance.data.refresh = false;
+          } else if (!here(post, currentFeed)) {
+            currentFeed.push(post);
+            instance.feed.set(_.uniq(currentFeed));
+          }
+        }
+      } else if (before && !newItem) {
+        console.log('HAS BEFORE BUT NO NEW ITEM IN ME');
       }
     },
   });
@@ -144,13 +155,14 @@ Template.feed.onCreated(function () {
 Template.feed.onRendered(function () {
   const instance = this;
   instance.autorun(function () {
-    const count = instance.subscribe('feedCount', Template.currentData().options);
+    if (!instance.counted.get()) {
+      const count = instance.subscribe('feedCount', Template.currentData().options);
 
-    // total items on the feed
-    if (count.ready()) {
-      console.log('setting count')
-      console.log(Counts.get('feedItems'));
-      instance.count.set(Counts.get('feedItems'));
+      // total items on the feed
+      if (count.ready()) {
+        instance.count.set(Counts.get('feedItems'));
+        instance.counted.set(true);
+      }
     }
   });
 });
@@ -162,9 +174,8 @@ Template.feed.onDestroyed(function () {
 
 Template.feed.helpers({
   item() {
+    console.log(`REFRESHING ITEMS OF ${JSON.stringify(this)}`);
     let feed = Template.instance().feed.get();
-
-    console.log('Template.feed.helpers.item()');
     console.log(feed);
 
     // threading
@@ -193,6 +204,9 @@ Template.feed.helpers({
           feed[i].previousItem = feed[i - 1]._id;
         }
       }
+    }
+    if (feed.length > this.options.limit) {
+      feed.splice(-1, parseInt(feed.length - this.options.limit, 10));
     }
     return feed;
   },

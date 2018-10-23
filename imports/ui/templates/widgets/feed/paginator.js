@@ -3,6 +3,7 @@ import { $ } from 'meteor/jquery';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { Counts } from 'meteor/tmeasday:publish-counts';
 
 import { gui } from '/lib/const';
 
@@ -25,6 +26,7 @@ const _aboveFold = (id) => {
 Template.paginator.onCreated(function () {
   Template.instance().identifier = parseInt(((this.data.options.limit + this.data.options.skip) / gui.ITEMS_PER_PAGE) + 1, 10);
   Template.instance().loaded = new ReactiveVar(false);
+  Template.instance().count = new ReactiveVar(this.count);
 });
 
 Template.paginator.onRendered(function () {
@@ -46,7 +48,6 @@ Template.paginator.onRendered(function () {
       isScrolling = Meteor.setTimeout(function () {
         if (!loaded.get()) {
           if (_aboveFold(identifier)) {
-            console.log('paginator loaded.set(true)');
             loaded.set(true);
           }
         }
@@ -57,9 +58,6 @@ Template.paginator.onRendered(function () {
 
 Template.paginator.helpers({
   end() {
-    console.log('Template.paginator... end()');
-    console.log(this);
-    console.log(`return: ${!((this.options.skip + this.options.limit) < this.count)}`);
     return !((this.options.skip + this.options.limit) < this.count);
   },
   empty() {
@@ -79,11 +77,9 @@ Template.paginator.helpers({
     if (nextSkip > this.count) { nextSkip = this.count; }
     this.options.skip = nextSkip;
     this.options.view = Session.get('longFeedView');
-    console.log(`nextOptions: ${JSON.stringify(this.options)}`);
     return this.options;
   },
   count() {
-    console.log(`count; ${this.count}`);
     return this.count;
   },
 });

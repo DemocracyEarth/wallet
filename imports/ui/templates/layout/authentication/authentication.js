@@ -40,7 +40,7 @@ const _publish = () => {
     const newDraft = createContract();
     Session.set('draftContract', newDraft);
 
-    if (/\d/.test(window.location.pathname.substring(1, 4))) {
+    if (/\d/.test(window.location.pathname.substring(1, 4)) || window.location.pathname.substring(1, 4) === '@') {
       // new
       Router.go(url);
     } else {
