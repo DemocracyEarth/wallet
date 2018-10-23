@@ -34,10 +34,12 @@ const _convertToEther = (ticker) => {
 /**
 * @summary check web3 plugin and connects to code obejct
 */
-const _web3 = () => {
+const _web3 = (activateModal) => {
   if (!window.web3) {
-    modal.message = TAPi18n.__('metamask-install');
-    displayModal(true, modal);
+    if (activateModal) {
+      modal.message = TAPi18n.__('metamask-install');
+      displayModal(true, modal);
+    }
     return false;
   }
   if (!web3) {
@@ -46,8 +48,10 @@ const _web3 = () => {
     web3 = new Web3(window.web3.currentProvider);
   }
   if (!web3.eth.coinbase) {
-    modal.message = TAPi18n.__('metamask-activate');
-    displayModal(true, modal);
+    if (activateModal) {
+      modal.message = TAPi18n.__('metamask-activate');
+      displayModal(true, modal);
+    }
     return false;
   }
   return web3;
@@ -63,7 +67,7 @@ const _web3 = () => {
 * @param {object} targetId receiver in sovereign
 */
 const _transactWithMetamask = (from, to, quantity, token, sourceId, targetId) => {
-  if (_web3()) {
+  if (_web3(true)) {
     const tx = {
       from,
       to,
@@ -109,8 +113,10 @@ const _transactWithMetamask = (from, to, quantity, token, sourceId, targetId) =>
         }
       });
     });
+  } else {
+    Meteor.logout();
+    return undefined;
   }
-  return undefined;
 };
 
 if (Meteor.isClient) {
@@ -160,7 +166,7 @@ if (Meteor.isClient) {
   * @summary log in signing public blockchain address with private key
   */
   const loginWithMetamask = () => {
-    if (_web3()) {
+    if (_web3(true)) {
       const nonce = Math.floor(Math.random() * 10000);
       const publicAddress = web3.eth.coinbase.toLowerCase();
 

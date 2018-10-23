@@ -28,7 +28,7 @@ import '/imports/ui/templates/widgets/warning/warning.js';
 const _cryptoVote = () => {
   if (Meteor.user()) {
     if (Template.instance().voteEnabled) {
-      if (setupWeb3()) {
+      if (setupWeb3(true)) {
         // metamask alert
         displayModal(
           true,
