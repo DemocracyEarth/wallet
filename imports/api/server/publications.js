@@ -136,7 +136,15 @@ Meteor.publish('feed', function (terms) {
 */
 Meteor.publish('feedCount', function (terms) {
   check(terms, Object);
+  console.log('FEED COUNT');
+  console.log(terms);
+
   const parameters = query(terms);
+  console.log(`parameters.find: ${JSON.stringify(parameters.find)}`);
+  console.log(`parameters.options: ${JSON.stringify(parameters.options)}`);
+  console.log(Contracts.find(parameters.find, parameters.options).count());
+  console.log(Contracts.find(parameters.find).count());
+  console.log('END OF FEED COUNT');
   Counts.publish(this, 'feedItems', Contracts.find(parameters.find, parameters.options));
 });
 

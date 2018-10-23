@@ -6154,7 +6154,6 @@ blockquote {
 .thread-needle.thread-last {
   bottom: -10px;
   width: 1px;
-  height: auto;
   margin-right: 0px;
   margin-left: 0px;
   background-color: #ddd;

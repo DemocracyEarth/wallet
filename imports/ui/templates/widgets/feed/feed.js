@@ -92,6 +92,9 @@ Template.feed.onCreated(function () {
 
   const instance = this;
 
+  console.log(`created new feed with:`);
+  console.log(instance);
+
   if ((Meteor.Device.isPhone() && Session.get('sidebar')) || (Session.get('miniWindow') && Session.get('sidebar'))) {
     toggleSidebar(false);
   }
@@ -111,6 +114,9 @@ Template.feed.onCreated(function () {
 
   const dbQuery = Contracts.find(parameters.find, parameters.options);
 
+  console.log('fetching')
+  console.log(dbQuery.fetch());
+
   this.handle = dbQuery.observeChanges({
     changed: () => {
       // TODO: be reactive please
@@ -118,6 +124,7 @@ Template.feed.onCreated(function () {
     },
     addedBefore: (id, fields) => {
       // added stuff
+      console.log('adding stuff');
       const currentFeed = instance.feed.get();
       const post = fields;
       post._id = id;
@@ -144,6 +151,8 @@ Template.feed.onRendered(function () {
 
     // total items on the feed
     if (count.ready()) {
+      console.log('setting count')
+      console.log(Counts.get('feedItems'));
       instance.count.set(Counts.get('feedItems'));
     }
   });
@@ -157,6 +166,9 @@ Template.feed.onDestroyed(function () {
 Template.feed.helpers({
   item() {
     let feed = Template.instance().feed.get();
+
+    console.log('Template.feed.helpers.item()');
+    console.log(feed);
 
     // threading
     if (this.options.view === 'lastVotes' || this.options.view === 'latest' || this.mainPost === true) {
