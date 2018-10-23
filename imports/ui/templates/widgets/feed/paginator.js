@@ -46,6 +46,7 @@ Template.paginator.onRendered(function () {
       isScrolling = Meteor.setTimeout(function () {
         if (!loaded.get()) {
           if (_aboveFold(identifier)) {
+            console.log('paginator loaded.set(true)');
             loaded.set(true);
           }
         }
@@ -56,6 +57,9 @@ Template.paginator.onRendered(function () {
 
 Template.paginator.helpers({
   end() {
+    console.log('Template.paginator... end()');
+    console.log(this);
+    console.log(`return: ${!((this.options.skip + this.options.limit) < this.count)}`);
     return !((this.options.skip + this.options.limit) < this.count);
   },
   empty() {
@@ -77,6 +81,10 @@ Template.paginator.helpers({
     this.options.view = Session.get('longFeedView');
     console.log(`nextOptions: ${JSON.stringify(this.options)}`);
     return this.options;
+  },
+  count() {
+    console.log(`count; ${this.count}`);
+    return this.count;
   },
 });
 

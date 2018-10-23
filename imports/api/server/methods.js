@@ -267,6 +267,8 @@ Meteor.methods({
     check(query, Object);
     check(options, Object);
 
+    console.log('FEED COUNT:');
+    console.log(query);
     const count = Contracts.find(query, options).count();
     log(`{ method: 'feedCount', user: ${logUser()}, count: ${count} }`);
     return count;
