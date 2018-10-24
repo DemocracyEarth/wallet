@@ -8,6 +8,7 @@ import { gui } from '/lib/const';
 import { urlDoctor, toTitleCase } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
+import { setupWeb3 } from '/imports/startup/both/modules/metamask.js';
 
 if (Meteor.isClient) {
   import '/imports/ui/templates/layout/main.js';
@@ -111,6 +112,10 @@ Router.route('/', {
   },
   onAfterAction() {
     _boilerPlate();
+    if (!setupWeb3(false)) {
+      // If user is not logged in to Metamask then logout of Sovereign
+      Meteor.logout();
+    }
   },
 });
 
