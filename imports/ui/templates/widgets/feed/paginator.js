@@ -28,6 +28,7 @@ Template.paginator.onCreated(function () {
   Template.instance().identifier = parseInt(((this.data.options.limit + this.data.options.skip) / gui.ITEMS_PER_PAGE) + 1, 10);
   Template.instance().loaded = new ReactiveVar(false);
   Template.instance().count = new ReactiveVar(this.count);
+  Template.instance().configured = new ReactiveVar(false);
 });
 
 Template.paginator.onRendered(function () {
@@ -47,6 +48,8 @@ Template.paginator.onRendered(function () {
     $(Session.get('scrollerDiv')).scroll(() => {
       Meteor.clearTimeout(isScrolling);
       isScrolling = Meteor.setTimeout(function () {
+        console.log('scrolling...');
+        console.log(loaded.get());
         if (!loaded.get()) {
           if (_aboveFold(identifier)) {
             loaded.set(true);
@@ -72,13 +75,18 @@ Template.paginator.helpers({
     return Template.instance().identifier;
   },
   visible() {
+    console.log(`loaded: ${Template.instance().loaded.get()}`);
+    console.log(`configured: ${Template.instance().configured.get()}`);
     return Template.instance().loaded.get();
   },
   nextOptions() {
-    let nextSkip = (this.options.skip + gui.ITEMS_PER_PAGE);
-    if (nextSkip > this.count) { nextSkip = this.count; }
-    this.options.skip = nextSkip;
-    console.log(`IS BUILDING A NEEEEEEEEEEXT OPTION ${this.options.skip}`);
+    if (!Template.instance().configured.get()) {
+      let nextSkip = (this.options.skip + gui.ITEMS_PER_PAGE);
+      if (nextSkip > this.count) { nextSkip = this.count; }
+      this.options.skip = nextSkip;
+      console.log(`IS BUILDING A NEEEEEEEEEEXT OPTION ${this.options.skip}`);
+      Template.instance().configured.set(true);
+    }
     this.options.view = Session.get('longFeedView');
     return this.options;
   },

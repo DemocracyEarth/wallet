@@ -166,8 +166,6 @@ Template.feed.onRendered(function () {
     if (!instance.counted.get()) {
       const options = Template.currentData().options;
 
-      console.log(options.view);
-
       if (options.view === 'linkedFeed') {
         instance.counted.set(true);
       } else {
