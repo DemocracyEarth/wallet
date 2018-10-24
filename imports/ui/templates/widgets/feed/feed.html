@@ -16,7 +16,7 @@
         {{> warning label="empty-feed"}}
       {{/if}}
       {{#unless single}}
-        {{> paginator options=options count=count subfeed=subfeed}}
+        {{> paginator options=options count=count subfeed=subfeed lastItem=lastItem}}
       {{/unless}}
     {{/if}}
   {{else}}

@@ -130,6 +130,7 @@ Meteor.publish('feed', function (terms) {
   return this.ready();
 });
 
+
 /**
 * @summary total number of items on a given feed
 * @return {Object} querying terms

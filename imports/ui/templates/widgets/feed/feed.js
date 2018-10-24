@@ -7,6 +7,7 @@ import { Counts } from 'meteor/tmeasday:publish-counts';
 
 import { query } from '/lib/views';
 import { here } from '/lib/utils';
+import { gui } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { toggleSidebar } from '/imports/ui/modules/menu';
 
@@ -91,6 +92,7 @@ Template.feed.onCreated(function () {
   Template.currentData().refresh = false;
   Template.instance().counted = new ReactiveVar(false);
   Template.instance().rendered = false;
+  Template.instance().lastItemDate = new ReactiveVar();
 
   const instance = this;
 
@@ -103,11 +105,17 @@ Template.feed.onCreated(function () {
     Template.currentData().options.kind = Template.currentData().kind;
   }
 
-  this.subscription = instance.subscribe('feed', Template.currentData().options);
-  const parameters = query(Template.currentData().options);
+  const options = Template.currentData().options;
+
+  if (Template.currentData().linkedFeed) {
+    options.lastItem = Template.currentData().lastItem;
+    options.view = 'linkedFeed';
+  }
+  this.subscription = instance.subscribe('feed', options);
+  const parameters = query(options);
 
   // verify if beginning
-  const beginning = ((Template.currentData().options.skip === 0) && !instance.feed.get());
+  const beginning = ((options.skip === 0) && !instance.feed.get());
   if (beginning) { $('.right').scrollTop(0); }
   instance.data.refresh = beginning;
 
@@ -121,7 +129,9 @@ Template.feed.onCreated(function () {
 
       let newItem = false;
       if (before) {
-        console.log('A BEFORE ARRIVED')
+        if (instance.data.options.skip > 0) {
+          instance.data.options.skip -= gui.ITEMS_PER_PAGE;
+        }
         for (let i = 0; i < currentFeed.length; i += 1) {
           if (currentFeed[i]._id === before) {
             newItem = true;
@@ -131,7 +141,7 @@ Template.feed.onCreated(function () {
         let count = instance.count.get();
         instance.count.set(count += 1);
       }
-      if (!before || newItem) {
+      if (!before || (newItem && !instance.data.linkedFeed)) {
         post._id = id;
         if (instance.data.displayActions) {
           post.displayActions = true;
@@ -145,8 +155,6 @@ Template.feed.onCreated(function () {
             instance.feed.set(_.uniq(currentFeed));
           }
         }
-      } else if (before && !newItem) {
-        console.log('HAS BEFORE BUT NO NEW ITEM IN ME');
       }
     },
   });
@@ -174,11 +182,10 @@ Template.feed.onDestroyed(function () {
 
 Template.feed.helpers({
   item() {
-    console.log(`REFRESHING ITEMS OF ${JSON.stringify(this)}`);
     let feed = Template.instance().feed.get();
 
     // threading
-    if (this.options.view === 'lastVotes' || this.options.view === 'latest' || this.mainPost === true) {
+    if (this.options.view === 'lastVotes' || this.options.view === 'latest' || this.options.view === 'linkedFeed' || this.mainPost === true) {
       // general view
       for (let i = 0; i <= (feed.length - 1); i += 1) {
         feed[i].mainFeed = true;
@@ -186,7 +193,7 @@ Template.feed.helpers({
 
       // sorting
       if (this.options.sort) {
-        feed = _.sortBy(feed, function (item) { return item.lastUpdate * -1; });
+        feed = _.sortBy(feed, function (item) { return item.createdAt * -1; });
       }
     } else {
       // thread view
@@ -207,7 +214,11 @@ Template.feed.helpers({
     if (feed.length > this.options.limit) {
       feed.splice(-1, parseInt(feed.length - this.options.limit, 10));
     }
+    Template.instance().lastItemDate.set(feed[feed.length - 1].createdAt);
     return feed;
+  },
+  lastItem() {
+    return Template.instance().lastItemDate.get();
   },
   empty() {
     if (Session.get('showPostEditor')) {
@@ -234,6 +245,6 @@ Template.feed.helpers({
     return Template.instance().count.get();
   },
   placeholderItem() {
-    return [1, 2, 3, 4, 5];
+    return [1, 2, 3];
   },
 });

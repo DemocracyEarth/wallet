@@ -24,6 +24,7 @@ const _aboveFold = (id) => {
 };
 
 Template.paginator.onCreated(function () {
+  console.log('A paginator has been created');
   Template.instance().identifier = parseInt(((this.data.options.limit + this.data.options.skip) / gui.ITEMS_PER_PAGE) + 1, 10);
   Template.instance().loaded = new ReactiveVar(false);
   Template.instance().count = new ReactiveVar(this.count);
@@ -76,6 +77,7 @@ Template.paginator.helpers({
     let nextSkip = (this.options.skip + gui.ITEMS_PER_PAGE);
     if (nextSkip > this.count) { nextSkip = this.count; }
     this.options.skip = nextSkip;
+    console.log(`IS BUILDING A NEEEEEEEEEEXT OPTION ${this.options.skip}`);
     this.options.view = Session.get('longFeedView');
     return this.options;
   },
