@@ -176,7 +176,6 @@ Template.feed.helpers({
   item() {
     console.log(`REFRESHING ITEMS OF ${JSON.stringify(this)}`);
     let feed = Template.instance().feed.get();
-    console.log(feed);
 
     // threading
     if (this.options.view === 'lastVotes' || this.options.view === 'latest' || this.mainPost === true) {

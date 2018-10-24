@@ -398,6 +398,10 @@ const _getURLDate = (draft) => {
 const _publish = (contractId, keyword) => {
   let draft = Session.get('draftContract');
 
+  console.log('TITLE:');
+  console.log(draft.title);
+  console.log(draft);
+
   // status
   draft.stage = 'LIVE';
 
