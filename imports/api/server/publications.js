@@ -138,6 +138,7 @@ Meteor.publish('feed', function (terms) {
 Meteor.publish('feedCount', function (terms) {
   check(terms, Object);
   const parameters = query(terms);
+  console.log(terms);
   Counts.publish(this, 'feedItems', Contracts.find(parameters.find, parameters.options));
 });
 

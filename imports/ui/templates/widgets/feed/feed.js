@@ -87,7 +87,7 @@ const _feedDepth = (list) => {
 };
 
 Template.feed.onCreated(function () {
-  Template.instance().count = new ReactiveVar(0);
+  Template.instance().count = new ReactiveVar(Template.currentData().count);
   Template.instance().feed = new ReactiveVar();
   Template.currentData().refresh = false;
   Template.instance().counted = new ReactiveVar(false);
@@ -164,12 +164,20 @@ Template.feed.onRendered(function () {
   const instance = this;
   instance.autorun(function () {
     if (!instance.counted.get()) {
-      const count = instance.subscribe('feedCount', Template.currentData().options);
+      const options = Template.currentData().options;
 
-      // total items on the feed
-      if (count.ready()) {
-        instance.count.set(Counts.get('feedItems'));
+      console.log(options.view);
+
+      if (options.view === 'linkedFeed') {
         instance.counted.set(true);
+      } else {
+        const count = instance.subscribe('feedCount', options);
+
+        // total items on the feed
+        if (count.ready()) {
+          instance.count.set(Counts.get('feedItems'));
+          instance.counted.set(true);
+        }
       }
     }
   });
