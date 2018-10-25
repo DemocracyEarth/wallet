@@ -47,13 +47,17 @@ const _web3 = (activateModal) => {
     // with provider given by window.web3
     web3 = new Web3(window.web3.currentProvider);
   }
-  if (!web3.eth.coinbase) {
-    if (activateModal) {
-      modal.message = TAPi18n.__('metamask-activate');
-      displayModal(true, modal);
+  
+  web3.eth.getCoinbase().then(function (coinbase) {
+    if (!coinbase) {
+      if (activateModal) {
+        modal.message = TAPi18n.__('metamask-activate');
+        // displayModal(true, modal);
+      }
+      return false;
     }
-    return false;
-  }
+  });
+
   return web3;
 };
 
@@ -122,8 +126,8 @@ const _transactWithMetamask = (from, to, quantity, token, sourceId, targetId) =>
 if (Meteor.isClient) {
   const handleSignMessage = (publicAddress) => {
     return new Promise((resolve, reject) => {
-      web3.personal.sign(
-        web3.fromUtf8(`${TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.Collective.name)}`),
+      web3.eth.personal.sign(
+        web3.utils.utf8ToHex(`${TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.Collective.name)}`),
         publicAddress,
         function (err, signature) {
           if (err) return reject(err);
@@ -168,9 +172,13 @@ if (Meteor.isClient) {
   const loginWithMetamask = () => {
     if (_web3(true)) {
       const nonce = Math.floor(Math.random() * 10000);
-      const publicAddress = web3.eth.coinbase.toLowerCase();
+      // const publicAddress = web3.eth.getCoinbase.toLowerCase();
+      let publicAddress;
 
-      handleSignMessage(publicAddress, nonce).then(function (signature) {
+      web3.eth.getCoinbase().then(function (coinbaseAddress) {
+        publicAddress = coinbaseAddress.toLowerCase();
+        return handleSignMessage(publicAddress, nonce);
+      }).then(function (signature) {
         const verification = verifySignature(signature, publicAddress, nonce);
 
         if (verification === 'success') {

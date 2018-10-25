@@ -31,11 +31,11 @@ const _adjustDecimal = (value, decimals) => {
 
 /**
 * @summary converts wei to eth
-* @param {number} value in wei
+* @param {string} value in wei
 * @return {number} equivalent in eth
 */
 const _wei2eth = (value) => {
-  return web3.fromWei(value, 'ether');
+  return web3.utils.fromWei(value, 'ether');
 };
 
 /**
@@ -45,7 +45,7 @@ const _wei2eth = (value) => {
 */
 const _getEthBalance = (publicAddress) => {
   const balance = web3.eth.getBalance(publicAddress);
-  const ethBalance = web3.fromWei(balance, 'ether');
+  const ethBalance = web3.utils.fromWei(balance, 'ether');
   return ethBalance;
 };
 
@@ -67,9 +67,9 @@ const _getWeiBalance = (publicAddress) => {
 const _getTokenSymbol = (publicAddress, contractAddress) => {
   return new Promise(
     (resolve, reject) => {
-      const tokenInstance = web3.eth.contract(abi).at(contractAddress);
+      const tokenInstance = new web3.eth.Contract(abi, contractAddress);
 
-      tokenInstance.symbol.call({ from: publicAddress }, (err, symbol) => {
+      tokenInstance.methods.symbol.call({ from: publicAddress }, (err, symbol) => {
         if (err) { reject(err); }
         if (symbol) { resolve(symbol); }
       });
@@ -85,9 +85,9 @@ const _getTokenSymbol = (publicAddress, contractAddress) => {
 const _getTokenBalance = (publicAddress, contractAddress) => {
   return new Promise(
     (resolve, reject) => {
-      const tokenInstance = web3.eth.contract(abi).at(contractAddress);
+      const tokenInstance = new web3.eth.Contract(abi, contractAddress);
 
-      tokenInstance.balanceOf.call(publicAddress, (err, balance) => {
+      tokenInstance.methods.balanceOf.call(publicAddress, (err, balance) => {
         if (err) { reject(err); }
         if (balance) { resolve(balance); }
       });
@@ -129,35 +129,35 @@ const _getTokenData = async (_publicAddress) => {
 */
 const _sendToken = (contractAddress, _to, _from, value) => {
   console.log('DEBUG - web3Util.js - _sendToken() - contractAddress, _to, _from, value', contractAddress, _to, _from, value);
-  const contract = web3.eth.contract(abi).at(contractAddress);
+  const contract = new web3.eth.Contract(abi, contractAddress);
   // const count = web3.eth.getTransactionCount(_from);
   // const gasPrice = web3.eth.gasPrice;
   // const gasLimit = 90000;
 
-  const rawTransaction = {
-    from: _from,
-    to: contractAddress,
-    value: 0,
-    data: contract.transfer.getData(_to, value),
-    gas: 200000,
-    chainId: 4,
-  };
+  // const rawTransaction = {
+  //   from: _from,
+  //   to: contractAddress,
+  //   value: 0,
+  //   data: contract.transfer.getData(_to, value),
+  //   gas: 200000,
+  //   chainId: 4,
+  // };
 
-  web3.eth.sendTransaction(rawTransaction, (error, receipt) => {
-    if (error) {
-      console.log('DEBUG - error in _sendToken ', error);
-    }
-    console.log(receipt);
-  });
-
-  // contract.transfer(_to, value, { from: _from }, function (err, txHash) {
-  //   if (err) console.error(err);
-
-  //   if (txHash) {
-  //     console.log('Transaction sent!');
-  //     console.dir(txHash);
+  // web3.eth.sendTransaction(rawTransaction, (error, receipt) => {
+  //   if (error) {
+  //     console.log('DEBUG - error in _sendToken ', error);
   //   }
+  //   console.log(receipt);
   // });
+
+  contract.methods.transfer(_to, value).send({ from: _from }, function (err, txHash) {
+    if (err) console.error(err);
+
+    if (txHash) {
+      console.log('Transaction sent!');
+      console.dir(txHash);
+    }
+  });
 };
 
 export const wei2eth = _wei2eth;
