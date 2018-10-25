@@ -238,6 +238,37 @@ Template.feed.helpers({
   refresh() {
     return Template.currentData().refresh;
   },
+  identifier() {
+    console.log(`counted: ${Template.instance().counted.get()}`);
+    let id = 0;
+    if (Template.instance().counted.get()) {
+      console.log(`returning: ${parseInt(((this.options.limit + this.options.skip) / gui.ITEMS_PER_PAGE) + 1, 10)}`);
+      console.log(`calculated from limit: ${this.options.limit} + skip: ${this.options.skip} / itemsperpage ${gui.ITEMS_PER_PAGE}`);
+      const pages = $('.page');
+      id = parseInt(((this.options.limit + this.options.skip) / gui.ITEMS_PER_PAGE) + 1, 10);
+      if (pages.length > 0) {
+        const lastID = pages[pages.length - 1].id.replace('page-', '').toNumber();
+        id = parseInt(lastID + 1, 10);
+        console.log(`HACKED I TO BE ${id}`);
+      }
+      /*for (const i in pages) {
+        if (pages[i].id )
+      }
+
+
+      if ($(`#page-${id}`).length > 0) {
+        for (let i = id; i < 100; i += 1) {
+          if ($(`page-${i}`).length === 0) {
+            console.log(`HACKED I TO BE ${i}`);
+            id = i;
+            break;
+          }
+        }
+      }*/
+      return id;
+    }
+    return 0;
+  },
   beginning() {
     return (Template.currentData().options.skip === 0 || Template.currentData().singlePost);
   },

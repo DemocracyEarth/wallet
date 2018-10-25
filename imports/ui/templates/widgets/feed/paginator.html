@@ -13,7 +13,7 @@
       {{/unless}}
     {{else}}
       {{#if visible}}
-        {{> feed options=nextOptions count=count lastItem=lastItem linkedFeed=true}}
+        {{> feed options=nextOptions count=count lastItem=lastItem linkedFeed=true identifier=identifier}}
       {{else}}
         {{> feedLoad}}
       {{/if}}

@@ -24,15 +24,16 @@ const _aboveFold = (id) => {
 };
 
 Template.paginator.onCreated(function () {
-  console.log('A paginator has been created');
-  Template.instance().identifier = parseInt(((this.data.options.limit + this.data.options.skip) / gui.ITEMS_PER_PAGE) + 1, 10);
+  // Template.instance().identifier = parseInt(((this.data.options.limit + this.data.options.skip) / gui.ITEMS_PER_PAGE) + 1, 10);
+  console.log(`A paginator has been created with identifierd: ${Template.currentData().identifier}`);
+  Template.instance().identifier = new ReactiveVar(Template.currentData().identifier);
   Template.instance().loaded = new ReactiveVar(false);
   Template.instance().count = new ReactiveVar(this.count);
   Template.instance().configured = new ReactiveVar(false);
 });
 
 Template.paginator.onRendered(function () {
-  const identifier = Template.instance().identifier;
+  const identifier = Template.instance().identifier.get();
   const loaded = Template.instance().loaded;
   let isScrolling;
 
@@ -48,8 +49,9 @@ Template.paginator.onRendered(function () {
     $(Session.get('scrollerDiv')).scroll(() => {
       Meteor.clearTimeout(isScrolling);
       isScrolling = Meteor.setTimeout(function () {
-        console.log('scrolling...');
-        console.log(loaded.get());
+        console.log(`scrolling... loaded is: ${loaded.get()}`);
+        console.log(`identifier: ${identifier}`);
+        console.log(`skip: ${instance.data.options.skip} + limit: ${instance.data.options.limit} < count: ${instance.data.count}`);
         if (!loaded.get()) {
           if (_aboveFold(identifier)) {
             loaded.set(true);
@@ -62,7 +64,7 @@ Template.paginator.onRendered(function () {
 
 Template.paginator.helpers({
   end() {
-    console.log(`end why? skip: ${this.options.skip} + limit: ${this.options.limit} < count: ${this.count}`);
+    // console.log(`end why? skip: ${this.options.skip} + limit: ${this.options.limit} < count: ${this.count}`);
     return !((this.options.skip + this.options.limit) < this.count);
   },
   empty() {
@@ -72,9 +74,10 @@ Template.paginator.helpers({
     return this.subfeed;
   },
   identifier() {
-    return Template.instance().identifier;
+    return Template.instance().identifier.get();
   },
   visible() {
+    console.log(`IDENTIFIER: ${Template.currentData().identifier}`);
     console.log(`loaded: ${Template.instance().loaded.get()}`);
     console.log(`configured: ${Template.instance().configured.get()}`);
     return Template.instance().loaded.get();
