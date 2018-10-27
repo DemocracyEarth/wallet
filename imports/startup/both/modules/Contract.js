@@ -391,6 +391,27 @@ const _getURLDate = (draft) => {
 };
 
 /**
+* @summary sums replies to parent and whole tree
+* @param {object} contract being replied
+*/
+const _sumReplies = (contract) => {
+  const reply = contract;
+
+  if (reply.totalReplies) {
+    reply.totalReplies += 1;
+  } else {
+    reply.totalReplies = 1;
+  }
+
+  Contracts.update({ _id: reply._id }, { $set: { totalReplies: reply.totalReplies } });
+
+  const parent = Contracts.findOne({ _id: reply.replyId });
+  if (parent) {
+    _sumReplies(parent);
+  }
+};
+
+/**
 * @summary publishes a contract and goes to home
 * @param {string} contractId - id of the contract to publish
 * @param {string} keyword - key word identifier
@@ -460,14 +481,10 @@ const _publish = (contractId, keyword) => {
   if (draft.replyId) {
     // count
     const reply = Contracts.findOne({ _id: draft.replyId });
-    if (reply.totalReplies) {
-      reply.totalReplies += 1;
-    } else {
-      reply.totalReplies = 1;
-    }
+
+    _sumReplies(reply);
 
     // notify
-    Contracts.update({ _id: draft.replyId }, { $set: { totalReplies: reply.totalReplies } });
     let story;
     let toId;
     let fromId;
