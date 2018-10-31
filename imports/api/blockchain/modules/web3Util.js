@@ -122,44 +122,6 @@ const _getTokenData = async (_publicAddress) => {
   return tokenData;
 };
 
-/**
-* @summary WIP
-* @param
-* @return
-*/
-const _sendToken = (contractAddress, _to, _from, value) => {
-  console.log('DEBUG - web3Util.js - _sendToken() - contractAddress, _to, _from, value', contractAddress, _to, _from, value);
-  const contract = new web3.eth.Contract(abi, contractAddress);
-  // const count = web3.eth.getTransactionCount(_from);
-  // const gasPrice = web3.eth.gasPrice;
-  // const gasLimit = 90000;
-
-  // const rawTransaction = {
-  //   from: _from,
-  //   to: contractAddress,
-  //   value: 0,
-  //   data: contract.transfer.getData(_to, value),
-  //   gas: 200000,
-  //   chainId: 4,
-  // };
-
-  // web3.eth.sendTransaction(rawTransaction, (error, receipt) => {
-  //   if (error) {
-  //     console.log('DEBUG - error in _sendToken ', error);
-  //   }
-  //   console.log(receipt);
-  // });
-
-  contract.methods.transfer(_to, value).send({ from: _from }, function (err, txHash) {
-    if (err) console.error(err);
-
-    if (txHash) {
-      console.log('Transaction sent!');
-      console.dir(txHash);
-    }
-  });
-};
-
 export const wei2eth = _wei2eth;
 export const getEthBalance = _getEthBalance;
 export const getWeiBalance = _getWeiBalance;
@@ -167,4 +129,3 @@ export const getTokenSymbol = _getTokenSymbol;
 export const getTokenBalance = _getTokenBalance;
 export const adjustDecimal = _adjustDecimal;
 export const getTokenData = _getTokenData;
-export const sendToken = _sendToken;

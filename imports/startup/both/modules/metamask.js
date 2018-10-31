@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Router } from 'meteor/iron:router';
+import abi from 'human-standard-token-abi';
 import { displayModal } from '/imports/ui/modules/modal';
 import { transact } from '/imports/api/transactions/transaction';
 import { displayNotice } from '/imports/ui/modules/notice';
@@ -67,18 +68,34 @@ const _web3 = (activateModal) => {
 * @param {string} to blockchain destination
 * @param {string} quantity amount transacted
 * @param {string} token currency
+* @param {string} contractAddress
 * @param {object} sourceId sender in sovereign
 * @param {object} targetId receiver in sovereign
 */
-const _transactWithMetamask = (from, to, quantity, token, sourceId, targetId) => {
+const _transactWithMetamask = (from, to, quantity, token, contractAddress, sourceId, targetId) => {
   if (_web3(true)) {
-    const tx = {
-      from,
-      to,
-      value: web3.toHex(web3.toWei(quantity, _convertToEther(token))),
-      gas: 200000,
-      chainId: 3,
-    };
+    let tx;
+    const contract = new web3.eth.Contract(abi, contractAddress);
+
+    if (token === 'ETH') {
+      tx = {
+        from,
+        to,
+        value: web3.utils.toHex(web3.utils.toWei(quantity, _convertToEther(token))),
+        gas: 200000,
+        chainId: 3, // should this be 4 for rinkeby too?
+      };
+    } else {
+      tx = {
+        from,
+        to: contractAddress,
+        value: 0,
+        data: contract.methods.transfer(to, quantity).encodeABI(),
+        gas: 200000,
+        chainId: 4,
+      };
+    }
+
     web3.eth.sendTransaction(tx, (error, receipt) => {
       if (error) {
         if (error.message.includes('User denied transaction signature') || error.code === -32603) {
@@ -110,6 +127,7 @@ const _transactWithMetamask = (from, to, quantity, token, sourceId, targetId) =>
               },
             },
             () => {
+              // this is where displayNotice() should override waiting modal
               displayNotice(`${TAPi18n.__('transaction-broadcast').replace('{{token}}', token)}`, true);
             }
           );
