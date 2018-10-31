@@ -157,10 +157,9 @@ Schema.Contract = new SimpleSchema({
             if (this.field('title').value !== '') {
               const time = this.field('createdAt').value;
               if (time) {
-                const year = time.getYear();
-                const month = time.getMonth();
-                const day = time.getDay();
-                console.log(`/${year}/${month}/${day}/${slug}`);
+                const year = time.getFullYear();
+                const month = parseInt(time.getMonth() + 1, 10);
+                const day = time.getDate();
                 return `/${year}/${month}/${day}/${slug}`;
               }
               return `/vote/${slug}`;

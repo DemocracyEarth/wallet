@@ -3,7 +3,6 @@ import { $ } from 'meteor/jquery';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { Counts } from 'meteor/tmeasday:publish-counts';
 
 import { gui } from '/lib/const';
 
@@ -24,13 +23,14 @@ const _aboveFold = (id) => {
 };
 
 Template.paginator.onCreated(function () {
-  Template.instance().identifier = parseInt(((this.data.options.limit + this.data.options.skip) / gui.ITEMS_PER_PAGE) + 1, 10);
+  Template.instance().identifier = new ReactiveVar(Template.currentData().identifier);
   Template.instance().loaded = new ReactiveVar(false);
   Template.instance().count = new ReactiveVar(this.count);
+  Template.instance().configured = new ReactiveVar(false);
 });
 
 Template.paginator.onRendered(function () {
-  const identifier = Template.instance().identifier;
+  const identifier = Template.instance().identifier.get();
   const loaded = Template.instance().loaded;
   let isScrolling;
 
@@ -58,6 +58,7 @@ Template.paginator.onRendered(function () {
 
 Template.paginator.helpers({
   end() {
+    // console.log(`end why? skip: ${this.options.skip} + limit: ${this.options.limit} < count: ${this.count}`);
     return !((this.options.skip + this.options.limit) < this.count);
   },
   empty() {
@@ -67,15 +68,18 @@ Template.paginator.helpers({
     return this.subfeed;
   },
   identifier() {
-    return Template.instance().identifier;
+    return Template.instance().identifier.get();
   },
   visible() {
     return Template.instance().loaded.get();
   },
   nextOptions() {
-    let nextSkip = (this.options.skip + gui.ITEMS_PER_PAGE);
-    if (nextSkip > this.count) { nextSkip = this.count; }
-    this.options.skip = nextSkip;
+    if (!Template.instance().configured.get()) {
+      let nextSkip = (this.options.skip + gui.ITEMS_PER_PAGE);
+      if (nextSkip > this.count) { nextSkip = this.count; }
+      this.options.skip = nextSkip;
+      Template.instance().configured.set(true);
+    }
     this.options.view = Session.get('longFeedView');
     return this.options;
   },
@@ -86,6 +90,6 @@ Template.paginator.helpers({
 
 Template.paginator.events({
   'click #feed-bottom'() {
-    $('.right').animate({ scrollTop: 0 });
+    $(Session.get('scrollerDiv')).animate({ scrollTop: 0 });
   },
 });
