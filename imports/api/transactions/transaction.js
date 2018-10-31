@@ -829,7 +829,6 @@ const _loadExternalCryptoBalance = (userId) => {
       weiBalance = _weiBalance;
       return getTokenData(_publicAddress);
     }).then(function (tokenData) {
-      user.profile.wallet = _generateWalletAddress(user.profile.wallet);
       user.profile.wallet.reserves[0].token = 'WEI';
       user.profile.wallet.reserves[0].balance = weiBalance.toNumber();
       user.profile.wallet.reserves[0].available = weiBalance.toNumber();
