@@ -140,7 +140,8 @@ const _transactWithMetamask = (from, to, quantity, token, contractAddress, sourc
             },
             () => {
               // this is where displayNotice() should override waiting modal
-              displayNotice(`${TAPi18n.__('transaction-broadcast').replace('{{token}}', token)}`, true);
+              modal.message = `${TAPi18n.__('transaction-broadcast').replace('{{token}}', token)}`;
+              displayModal(true, modal);
             }
           );
           console.log(ticket);
