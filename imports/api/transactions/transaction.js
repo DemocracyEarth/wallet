@@ -823,9 +823,12 @@ const _loadExternalCryptoBalance = (userId) => {
   const user = Meteor.users.findOne({ _id: userId });
   if (user.services.metamask != null) {
     const _publicAddress = user.services.metamask.publicAddress;
-    const weiBalance = getWeiBalance(_publicAddress);
+    let weiBalance;
 
-    getTokenData(_publicAddress).then(function (tokenData) {
+    getWeiBalance(_publicAddress).then(function (_weiBalance) {
+      weiBalance = _weiBalance;
+      return getTokenData(_publicAddress);
+    }).then(function (tokenData) {
       user.profile.wallet = _generateWalletAddress(user.profile.wallet);
       user.profile.wallet.reserves[0].token = 'WEI';
       user.profile.wallet.reserves[0].balance = weiBalance.toNumber();
@@ -834,13 +837,17 @@ const _loadExternalCryptoBalance = (userId) => {
       for (let i = 0; i < tokenData.length; i++) {
         const foundInWallet = user.profile.wallet.reserves.findIndex(t => t.token === tokenData[i].token);
         if (foundInWallet !== -1) {
+          // update token already found in wallet
           user.profile.wallet.reserves[foundInWallet].balance = tokenData[i].balance;
           user.profile.wallet.reserves[foundInWallet].available = tokenData[i].available;
         } else {
+          // new token to wallet
           user.profile.wallet.reserves.push(tokenData[i]);
         }
       }
       Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
+    }).catch(function (error) {
+      console.log('DEBUG - transaction.js - caught error ', error);
     });
   }
 };

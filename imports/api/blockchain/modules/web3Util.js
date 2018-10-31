@@ -15,18 +15,33 @@ if (typeof web3 !== 'undefined') {
 }
 
 /**
-* @summary adjusts decimals of supported tokens
+* @summary adjusts decimals of supported tokens, inverse of _addDecimal()
 * @param {value} raw value in lowest decimal
 * @param {number} decimals
-* @return {number} equivalent with decimals accounted for
+* @return {object} bigNumber equivalent with decimals removed
 */
-const _adjustDecimal = (value, decimals) => {
+const _removeDecimal = (value, decimals) => {
   const decimalsBN = new BigNumber(decimals);
   const valueBN = new BigNumber(value);
   const divisor = new BigNumber(10).pow(decimalsBN);
   const beforeDecimal = valueBN.div(divisor);
 
   return beforeDecimal;
+};
+
+/**
+* @summary adds decimals of supported tokens, inverse of removeDecimal()
+* @param {value} value without decimals
+* @param {number} decimals
+* @return {object} bigNumber equivalent with decimals added
+*/
+const _addDecimal = (value, decimals) => {
+  const decimalsBN = new BigNumber(decimals);
+  const valueBN = new BigNumber(value);
+  const multiplier = new BigNumber(10).pow(decimalsBN);
+  const withDecimals = valueBN.multipliedBy(multiplier);
+
+  return withDecimals;
 };
 
 /**
@@ -52,11 +67,10 @@ const _getEthBalance = (publicAddress) => {
 /**
 * @summary gets wei balance from given public address
 * @param {string} publicAddress
-* @return {object} bigNumber wei balance
+* @return {promise} promise returns a string of wei balance
 */
 const _getWeiBalance = (publicAddress) => {
-  const balance = web3.eth.getBalance(publicAddress);
-  return balance;
+  return web3.eth.getBalance(publicAddress);
 };
 
 /**
@@ -87,8 +101,15 @@ const _getTokenBalance = (publicAddress, contractAddress) => {
     (resolve, reject) => {
       const tokenInstance = new web3.eth.Contract(abi, contractAddress);
 
-      tokenInstance.methods.balanceOf.call(publicAddress, (err, balance) => {
-        if (err) { reject(err); }
+      tokenInstance.methods.balanceOf(publicAddress).call((err, balance) => {
+        if (err) {
+          if (err.message === "Couldn't decode uint256 from ABI: 0x") {
+            // TODO - handle return of 0 more gracefully
+            resolve('0');
+          } else {
+            reject(err);
+          }
+        }
         if (balance) { resolve(balance); }
       });
     }
@@ -107,11 +128,11 @@ const _getTokenData = async (_publicAddress) => {
   for (let i = 0; i < token.coin.length; i++) {
     _balance = await _getTokenBalance(_publicAddress, token.coin[i].contractAddress);
     if (_balance.toNumber() !== 0) {
-      const adjustedBalance = _adjustDecimal(_balance.toNumber(), token.coin[i].decimals);
+      const withoutDecimal = _removeDecimal(_balance.toNumber(), token.coin[i].decimals);
       const tokenObj = {
-        balance: adjustedBalance.toNumber(),
+        balance: withoutDecimal.toNumber(),
         placed: 0,
-        available: adjustedBalance.toNumber(),
+        available: withoutDecimal.toNumber(),
         token: token.coin[i].code,
         publicAddress: _publicAddress,
       };
@@ -127,5 +148,6 @@ export const getEthBalance = _getEthBalance;
 export const getWeiBalance = _getWeiBalance;
 export const getTokenSymbol = _getTokenSymbol;
 export const getTokenBalance = _getTokenBalance;
-export const adjustDecimal = _adjustDecimal;
+export const removeDecimal = _removeDecimal;
+export const addDecimal = _addDecimal;
 export const getTokenData = _getTokenData;

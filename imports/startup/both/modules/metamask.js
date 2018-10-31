@@ -6,6 +6,7 @@ import abi from 'human-standard-token-abi';
 import { displayModal } from '/imports/ui/modules/modal';
 import { transact } from '/imports/api/transactions/transaction';
 import { displayNotice } from '/imports/ui/modules/notice';
+import { addDecimal } from '/imports/api/blockchain/modules/web3Util.js';
 
 const Web3 = require('web3');
 const ethUtil = require('ethereumjs-util');
@@ -86,11 +87,22 @@ const _transactWithMetamask = (from, to, quantity, token, contractAddress, sourc
         chainId: 3, // should this be 4 for rinkeby too?
       };
     } else {
+      /*
+      *TODO - quantity should be at least 1 coming from ballot
+      *because we need to construct tx object before invoking
+      *Metamask, it looks like the user can't change token quantity
+      *from Metamask (as she could if it were just an eth tx). Hardcoding
+      *1 for now but should be:
+      *
+      *const quatityWithDecimals = addDecimal(quantity, 18);
+      *
+      */
+      const quatityWithDecimals = addDecimal(1, 18);
       tx = {
         from,
         to: contractAddress,
         value: 0,
-        data: contract.methods.transfer(to, quantity).encodeABI(),
+        data: contract.methods.transfer(to, quatityWithDecimals).encodeABI(),
         gas: 200000,
         chainId: 4,
       };
