@@ -80,6 +80,16 @@ const _getTokenAddress = (user, ticker) => {
 };
 
 /**
+* @summary returns contract address of token in trasaction
+* @param {object} token ticker
+* @return {string} address
+*/
+const _getTokenContractAddress = (ticker) => {
+  const i = token.coin.findIndex(t => t.code === ticker);
+  return token.coin[i].contractAddress;
+};
+
+/**
 * @summary returns whether user meets or not constituency criteria
 * @param {object} contract contract to evaluate
 * @return {boolean} if user can vote or not
@@ -294,4 +304,5 @@ Template.electorate.events({
 
 export const verifyConstituencyRights = _verifyConstituencyRights;
 export const getTokenAddress = _getTokenAddress;
+export const getTokenContractAddress = _getTokenContractAddress;
 export const checkTokenAvailability = _checkTokenAvailability;

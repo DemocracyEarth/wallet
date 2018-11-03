@@ -28,7 +28,7 @@ const _getWidth = (balance, placed) => {
 const _currencyValue = (value, token) => {
   switch (token) {
     case 'WEI':
-      return wei2eth(value);
+      return wei2eth(value.toString());
     // case 'VOTE':
     //   return adjustDecimal(value);
     default:

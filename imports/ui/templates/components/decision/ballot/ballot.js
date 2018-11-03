@@ -11,7 +11,7 @@ import { getContractToken } from '/imports/ui/templates/widgets/transaction/tran
 import { displayTimedWarning } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { timers } from '/lib/const';
-import { verifyConstituencyRights, getTokenAddress, checkTokenAvailability } from '/imports/ui/templates/components/decision/electorate/electorate.js';
+import { verifyConstituencyRights, getTokenAddress, getTokenContractAddress, checkTokenAvailability } from '/imports/ui/templates/components/decision/electorate/electorate.js';
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
 import { transactWithMetamask, setupWeb3 } from '/imports/startup/both/modules/metamask';
 import { formatCryptoValue } from '/imports/ui/templates/components/decision/balance/balance';
@@ -47,6 +47,7 @@ const _cryptoVote = () => {
           Template.currentData().contract.blockchain.publicAddress,
           Template.currentData().contract.blockchain.votePrice,
           Template.instance().ticket.get().token,
+          getTokenContractAddress(Template.instance().ticket.get().token),
           Meteor.userId(),
           Template.currentData().contract._id,
         );
@@ -193,19 +194,6 @@ function getVoterContractBond(object) {
   });
 }
 
-Template.ballot.onCreated(() => {
-  Template.instance().forks = _generateForks(this.contract);
-  Template.instance().emptyBallot = new ReactiveVar();
-  Template.instance().ballotReady = new ReactiveVar();
-  Template.instance().removeProposal = new ReactiveVar();
-  Template.instance().contract = new ReactiveVar(Template.currentData().contract);
-  Template.instance().ticket = new ReactiveVar(getContractToken({ contract: Template.currentData().contract, isButton: true }));
-  Template.instance().voteEnabled = verifyConstituencyRights(Template.currentData().contract);
-});
-
-Template.ballot.onRendered(() => {
-});
-
 function activateDragging() {
   let sortableIn;
   this.$('#ballotOption, #proposalSuggestions').sortable({
@@ -264,6 +252,16 @@ function activateDragging() {
     placeholder: 'vote vote-placeholder',
   }).disableSelection();
 }
+
+Template.ballot.onCreated(() => {
+  Template.instance().forks = _generateForks(this.contract);
+  Template.instance().emptyBallot = new ReactiveVar();
+  Template.instance().ballotReady = new ReactiveVar();
+  Template.instance().removeProposal = new ReactiveVar();
+  Template.instance().contract = new ReactiveVar(Template.currentData().contract);
+  Template.instance().ticket = new ReactiveVar(getContractToken({ contract: Template.currentData().contract, isButton: true }));
+  Template.instance().voteEnabled = verifyConstituencyRights(Template.currentData().contract);
+});
 
 Template.ballot.helpers({
   allowForks() {
@@ -579,7 +577,6 @@ Template.ballot.helpers({
     return _getTwitterURL(this.contract);
   },
 });
-
 
 Template.ballot.events({
   'click #single-vote'(event) {

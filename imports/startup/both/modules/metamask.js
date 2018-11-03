@@ -2,9 +2,11 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Router } from 'meteor/iron:router';
+import abi from 'human-standard-token-abi';
 import { displayModal } from '/imports/ui/modules/modal';
 import { transact } from '/imports/api/transactions/transaction';
 import { displayNotice } from '/imports/ui/modules/notice';
+import { addDecimal } from '/imports/api/blockchain/modules/web3Util.js';
 
 const Web3 = require('web3');
 const ethUtil = require('ethereumjs-util');
@@ -47,13 +49,17 @@ const _web3 = (activateModal) => {
     // with provider given by window.web3
     web3 = new Web3(window.web3.currentProvider);
   }
-  if (!web3.eth.coinbase) {
-    if (activateModal) {
-      modal.message = TAPi18n.__('metamask-activate');
-      displayModal(true, modal);
+  
+  web3.eth.getCoinbase().then(function (coinbase) {
+    if (!coinbase) {
+      if (activateModal) {
+        modal.message = TAPi18n.__('metamask-activate');
+        // displayModal(true, modal);
+      }
+      return false;
     }
-    return false;
-  }
+  });
+
   return web3;
 };
 
@@ -63,18 +69,45 @@ const _web3 = (activateModal) => {
 * @param {string} to blockchain destination
 * @param {string} quantity amount transacted
 * @param {string} token currency
+* @param {string} contractAddress
 * @param {object} sourceId sender in sovereign
 * @param {object} targetId receiver in sovereign
 */
-const _transactWithMetamask = (from, to, quantity, token, sourceId, targetId) => {
+const _transactWithMetamask = (from, to, quantity, token, contractAddress, sourceId, targetId) => {
   if (_web3(true)) {
-    const tx = {
-      from,
-      to,
-      value: web3.toHex(web3.toWei(quantity, _convertToEther(token))),
-      gas: 200000,
-      chainId: 3,
-    };
+    let tx;
+    const contract = new web3.eth.Contract(abi, contractAddress);
+
+    if (token === 'ETH') {
+      tx = {
+        from,
+        to,
+        value: web3.utils.toHex(web3.utils.toWei(quantity, _convertToEther(token))),
+        gas: 200000,
+        chainId: 3, // should this be 4 for rinkeby too?
+      };
+    } else {
+      /*
+      *TODO - quantity should be at least 1 coming from ballot
+      *because we need to construct tx object before invoking
+      *Metamask, it looks like the user can't change token quantity
+      *from Metamask (as she could if it were just an eth tx). Hardcoding
+      *1 for now but should be:
+      *
+      *const quatityWithDecimals = addDecimal(quantity, 18);
+      *
+      */
+      const quatityWithDecimals = addDecimal(1, 18);
+      tx = {
+        from,
+        to: contractAddress,
+        value: 0,
+        data: contract.methods.transfer(to, quatityWithDecimals).encodeABI(),
+        gas: 200000,
+        chainId: 4,
+      };
+    }
+
     web3.eth.sendTransaction(tx, (error, receipt) => {
       if (error) {
         if (error.message.includes('User denied transaction signature') || error.code === -32603) {
@@ -106,7 +139,9 @@ const _transactWithMetamask = (from, to, quantity, token, sourceId, targetId) =>
               },
             },
             () => {
-              displayNotice(`${TAPi18n.__('transaction-broadcast').replace('{{token}}', token)}`, true);
+              // this is where displayNotice() should override waiting modal
+              modal.message = `${TAPi18n.__('transaction-broadcast').replace('{{token}}', token)}`;
+              displayModal(true, modal);
             }
           );
           console.log(ticket);
@@ -122,8 +157,8 @@ const _transactWithMetamask = (from, to, quantity, token, sourceId, targetId) =>
 if (Meteor.isClient) {
   const handleSignMessage = (publicAddress) => {
     return new Promise((resolve, reject) => {
-      web3.personal.sign(
-        web3.fromUtf8(`${TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.Collective.name)}`),
+      web3.eth.personal.sign(
+        web3.utils.utf8ToHex(`${TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.Collective.name)}`),
         publicAddress,
         function (err, signature) {
           if (err) return reject(err);
@@ -168,9 +203,13 @@ if (Meteor.isClient) {
   const loginWithMetamask = () => {
     if (_web3(true)) {
       const nonce = Math.floor(Math.random() * 10000);
-      const publicAddress = web3.eth.coinbase.toLowerCase();
+      // const publicAddress = web3.eth.getCoinbase.toLowerCase();
+      let publicAddress;
 
-      handleSignMessage(publicAddress, nonce).then(function (signature) {
+      web3.eth.getCoinbase().then(function (coinbaseAddress) {
+        publicAddress = coinbaseAddress.toLowerCase();
+        return handleSignMessage(publicAddress, nonce);
+      }).then(function (signature) {
         const verification = verifySignature(signature, publicAddress, nonce);
 
         if (verification === 'success') {
