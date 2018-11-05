@@ -26,7 +26,7 @@
     "postinstall": "opencollective-postinstall || exit 0"
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.54",
+    "@babel/runtime": "^7.1.2",
     "autoprefixer": "^6.4.1",
     "babel-runtime": "^6.26.0",
     "bcrypt": "^1.0.3",
