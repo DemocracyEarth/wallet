@@ -87,7 +87,7 @@ Template.coin.helpers({
   address() {
     const draft = Session.get('draftContract');
     if (draft.blockchain.publicAddress) {
-      Session.set('checkBlockchainAddress', web3.isAddress(draft.blockchain.publicAddress));
+      Session.set('checkBlockchainAddress', web3.utils.isAddress(draft.blockchain.publicAddress));
       return draft.blockchain.publicAddress;
     }
     return '';
@@ -125,7 +125,7 @@ Template.coin.events({
   'input #editBlockchainAddress'() {
     if (document.getElementById('editBlockchainAddress')) {
       const address = document.getElementById('editBlockchainAddress').value;
-      Session.set('checkBlockchainAddress', web3.isAddress(address));
+      Session.set('checkBlockchainAddress', web3.utils.isAddress(address));
     }
   },
   'input #editVotePrice'() {
