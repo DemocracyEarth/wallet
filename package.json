@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.1.2",
+    "atob": "^2.1.0",
     "autoprefixer": "^6.4.1",
     "babel-runtime": "^6.26.0",
     "bcrypt": "^1.0.3",
@@ -48,6 +49,7 @@
     "nan": "^2.3.5",
     "numeral": "^2.0.6",
     "phantomjs-prebuilt": "^2.1.16",
+    "randomatic": "^3.0.0",
     "randomfill": "^1.0.4",
     "react": "^15.6.2",
     "react-addons-pure-render-mixin": "^15.6.2",
