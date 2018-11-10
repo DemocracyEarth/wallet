@@ -172,8 +172,6 @@ Template.editor.onDestroyed(() => {
 });
 
 Template.editor.onRendered(function () {
-  console.log('editor:');
-  console.log(this.data);
   if (!this.data.compressed && !Meteor.Device.isPhone()) {
     const draft = _resetDraft();
     if (Template.currentData().replyMode && Template.currentData().replyId) {

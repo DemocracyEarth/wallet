@@ -2025,9 +2025,9 @@ blockquote {
   padding-right: 10px;
   padding-left: 0px;
   float: left;
-  background-color: rgba(49, 38, 59, .95);
-  box-shadow: 0 0 8px -2px #000;
-  color: #fff;
+  border-bottom: 1px solid #ddd;
+  background-color: #fff;
+  color: #442f58;
 }
 
 .navlink {
@@ -3972,6 +3972,7 @@ blockquote {
   padding-right: 5px;
   padding-left: 5px;
   border-radius: 5px;
+  color: #fff;
 }
 
 .navbar-button.navbar-button-active {
@@ -5552,6 +5553,7 @@ blockquote {
 }
 
 .editor-button {
+  overflow: hidden;
   height: 30px;
   margin: 3px 5px;
   padding: 0px 5px;
@@ -6189,6 +6191,7 @@ blockquote {
 
 .editor-menu {
   margin-top: 20px;
+  margin-bottom: 8px;
   float: left;
 }
 
@@ -6547,7 +6550,6 @@ blockquote {
   }
   .navbar {
     left: 0px;
-    background-color: #392e42;
     box-shadow: none;
   }
   .logo {

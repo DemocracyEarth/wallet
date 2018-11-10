@@ -100,6 +100,10 @@ Template.feed.onCreated(function () {
     toggleSidebar(false);
   }
 
+  if (Meteor.Device.isPhone()) {
+    document.getElementsByClassName('split-left')[0].style.paddingTop = '60px';
+  }
+
   // tailor feed to show a specific kind of post
   if (Template.currentData().kind) {
     Template.currentData().options.kind = Template.currentData().kind;
