@@ -81,8 +81,8 @@ Template.homeFeed.onCreated(function () {
 
   Session.set('minimizedEditor', true);
 
-  if (!Session.get('draftContract')) {
-    introEditor({ desktopMode: !Meteor.Device.isPhone(), replyMode: false, replyId: '' });
+  if (!Session.get('draftContract') && !Meteor.Device.isPhone()) {
+    introEditor({ desktopMode: true, replyMode: false, replyId: '' });
   }
 
   instance.autorun(function (computation) {
