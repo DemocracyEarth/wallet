@@ -49,17 +49,21 @@ const _web3 = (activateModal) => {
     // with provider given by window.web3
     web3 = new Web3(window.web3.currentProvider);
   }
-  
+
   web3.eth.getCoinbase().then(function (coinbase) {
+    console.log(`coinbase: ${coinbase}`)
     if (!coinbase) {
       if (activateModal) {
         modal.message = TAPi18n.__('metamask-activate');
-        // displayModal(true, modal);
+        displayModal(true, modal);
+        console.log('TIRAME FALSO');
+        return false;
       }
-      return false;
     }
   });
 
+  console.log(`que esta haciend: ${web3}`);
+  console.log(web3);
   return web3;
 };
 
@@ -200,8 +204,8 @@ if (Meteor.isClient) {
   /**
   * @summary log in signing public blockchain address with private key
   */
-  const loginWithMetamask = () => {
-    if (_web3(true)) {
+  const loginWithMetamask = async () => {
+    if (await _web3(true)) {
       const nonce = Math.floor(Math.random() * 10000);
       // const publicAddress = web3.eth.getCoinbase.toLowerCase();
       let publicAddress;
