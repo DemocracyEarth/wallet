@@ -13,6 +13,7 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 import { timers } from '/lib/const';
 import { verifyConstituencyRights, getTokenAddress, getTokenContractAddress, checkTokenAvailability } from '/imports/ui/templates/components/decision/electorate/electorate.js';
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
+import { createContract } from '/imports/startup/both/modules/Contract';
 import { transactWithMetamask, setupWeb3 } from '/imports/startup/both/modules/metamask';
 import { formatCryptoValue } from '/imports/ui/templates/components/decision/balance/balance';
 import { displayModal } from '/imports/ui/modules/modal';
@@ -588,8 +589,14 @@ Template.ballot.events({
   'click #edit-reply'(event) {
     event.preventDefault();
     if (Meteor.user()) {
-      if (Session.get('draftContract')) {
-        const contract = Session.get('draftContract');
+      let contract = Session.get('draftContract');
+      if (Meteor.Device.isPhone()) {
+        if (!contract) {
+          contract = createContract();
+        }
+        Session.set('draftContract', contract);
+        introEditor({ desktopMode: !Meteor.Device.isPhone(), replyMode: true, replyId: Template.currentData().contract._id });
+      } else if (Session.get('draftContract')) {
         contract.replyId = Template.currentData().contract._id;
         Session.set('draftContract', contract);
       } else {

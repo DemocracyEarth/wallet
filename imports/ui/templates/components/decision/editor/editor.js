@@ -174,14 +174,24 @@ Template.editor.onDestroyed(() => {
 });
 
 Template.editor.onRendered(function () {
+  console.log('EDITOR IS RENDERING');
+  console.log(this.data);
+  console.log(Session.get('draftContract'));
   if (!this.data.compressed) {
-    const draft = _resetDraft();
-    if (Template.currentData().replyMode && Template.currentData().replyId) {
-      Template.instance().reply.set(Contracts.findOne({ _id: this.data.replyId }));
-      draft.replyId = Template.currentData().replyId;
-      _threadEditor(this);
+    let draft;
+    if (Meteor.Device.isPhone() && Session.get('draftContract')) {
+      draft = Session.get('draftContract');
     } else {
-      draft.replyId = '';
+      draft = _resetDraft();
+    }
+    if (!Meteor.Device.isPhone()) {
+      if (Template.currentData().replyMode && Template.currentData().replyId) {
+        Template.instance().reply.set(Contracts.findOne({ _id: this.data.replyId }));
+        draft.replyId = Template.currentData().replyId;
+        _threadEditor(this);
+      } else {
+        draft.replyId = '';
+      }
     }
     Session.set('draftContract', draft);
     toggleFeed(false);
@@ -192,6 +202,8 @@ Template.editor.onRendered(function () {
         if (!Session.get('minimizedEditor')) {
           Session.set('minimizedEditor', true);
         }
+        console.log('CONTRACT WAS RESET');
+        console.log(reset.replyId);
         if (reset.replyId) {
           reset.replyId = '';
           Session.set('draftContract', reset);
@@ -332,6 +344,7 @@ Template.editor.helpers({
 
 Template.editor.events({
   'click #feedItem-compressed'() {
+    console.log('COMPRESSED');
     const draft = _resetDraft();
     draft.replyId = '';
     Session.set('draftContract', draft);

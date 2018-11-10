@@ -18,6 +18,9 @@ const _introEditor = (settings) => {
   } else {
     draft = Session.get('draftContract');
   }
+  console.log('introEditor');
+  console.log(settings);
+  console.log(Session.get('showPostEditor'));
   if (settings.replyMode || !Session.get('showPostEditor')) {
     if (settings.replyMode && settings.replyId) {
       draft.replyId = settings.replyId;

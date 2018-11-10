@@ -6685,7 +6685,6 @@ blockquote {
     max-width: 360px;
     padding-top: 5px;
     padding-bottom: 5px;
-    border-radius: 10px;
   }
   .type.content {
     padding-top: 40px;
@@ -6829,6 +6828,9 @@ blockquote {
   }
   .avatar-icon-box {
     max-height: 24px;
+  }
+  .margin-bottom-dead {
+    margin-bottom: 0px;
   }
 }
 
