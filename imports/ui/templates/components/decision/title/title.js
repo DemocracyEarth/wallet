@@ -36,65 +36,15 @@ const getIndexArray = (search, text, caseSensitive) => {
   return indices;
 };
 
-const parseURL = (text) => {
-  const exp = /(\b(((https?|ftp|file|):\/\/)|www[.])[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-  let temp = text.replace(exp, "<a href='$1' target='_blank'>$1</a>");
-  let result = '';
-
-  while (temp.length > 0) {
-    const pos = temp.indexOf("href='");
-    if (pos === -1) {
-      result += temp;
-      break;
-    }
-    result += temp.substring(0, pos + 6);
-
-    temp = temp.substring(pos + 6, temp.length);
-    if ((temp.indexOf('://') > 8) || (temp.indexOf('://') === -1)) {
-      result += 'http://';
-    }
-  }
-
-  return result;
-};
-
-const _replaceAll = (target, search, replacement) => {
-  return target.split(search).join(replacement);
-};
-
 /**
 * @summary converts string text using markdown signals to HTML
 * @param {string} text
 */
 const parseMarkup = (text) => {
   // remove html injections
-  let html = text.replace(/<(?:.|\n)*?>/gm, '');
+  const txt = text.replace(/<(?:.|\n)*?>/gm, '');
 
-  // urls
-  html = parseURL(html);
-
-  // hashtags
-  html = html.replace(/(^|\s)(#[a-z\d][\w-]*)/ig, "$1<a href='/tag/$2'>$2</a>");
-  html = _replaceAll(html, "href='/tag/#", "href='/tag/");
-
-  // mentions
-  html = html.replace(/(^|\s)(@[a-z\d][\w-]*)/ig, "$1<a href='/@$2'>$2</a>");
-  html = _replaceAll(html, "href='/@@", "href='/@");
-
-  // tokens
-  html = html.replace(/(^|\s)(\$[a-z\d][\w-]*)/ig, "$1<a href='/token/$2'>$2</a>");
-  html = _replaceAll(html, "href='/token/$", "href='/token/");
-
-  // markup
-  html = html.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
-  html = html.replace(/__(.*?)__/g, '<u>$1</u>');
-  html = html.replace(/--(.*?)--/g, '<i>$1</i>');
-  html = html.replace(/~~(.*?)~~/g, '<del>$1</del>');
-
-  // paragraphs
-  html = html.replace(/\n/g, '<br>');
-
-  return html;
+  return txt;
 };
 
 function displayTitle(title) {

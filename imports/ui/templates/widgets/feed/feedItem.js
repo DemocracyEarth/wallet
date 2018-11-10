@@ -37,6 +37,11 @@ const _displayResults = (contract) => {
   return false;
 };
 
+/**
+* @summary gets the reply contract
+* @param {string} replyId the id of the contract
+* @return {object} contract
+*/
 const _getReplyContract = (replyId) => {
   if (replyId) {
     const dbReply = Contracts.findOne({ _id: replyId });
@@ -55,7 +60,76 @@ const _here = (item) => {
   return (window.location.pathname.substring(0, item.url.length) === `${item.url}`);
 };
 
+/**
+* @summary parses a url in a plain text and returns link html
+* @param {string} text to be parsed
+* @return {string} html with linked url
+*/
+const parseURL = (text) => {
+  const exp = /(\b(((https?|ftp|file|):\/\/)|www[.])[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+  let temp = text.replace(exp, "<a href='$1' target='_blank'>$1</a>");
+  let result = '';
 
+  while (temp.length > 0) {
+    const pos = temp.indexOf("href='");
+    if (pos === -1) {
+      result += temp;
+      break;
+    }
+    result += temp.substring(0, pos + 6);
+
+    temp = temp.substring(pos + 6, temp.length);
+    if ((temp.indexOf('://') > 8) || (temp.indexOf('://') === -1)) {
+      result += 'http://';
+    }
+  }
+
+  return result;
+};
+
+/**
+* @summary replaces string with new content
+* @param {string} target to parse
+* @param {string} search what to search in string
+* @param {string} replacement new string
+* @return {string} text to be parsed
+*/
+const _replaceAll = (target, search, replacement) => {
+  return target.split(search).join(replacement);
+};
+
+/**
+* @summary renders text with html tags
+* @param {string} text from db
+* @return {string} html poem
+*/
+const renderMarkup = (text) => {
+  // urls
+  let html = parseURL(text.replace(/<(?:.|\n)*?>/gm, ''));
+
+  // hashtags
+  html = html.replace(/(^|\s)(#[a-z\d][\w-]*)/ig, "$1<a href='/tag/$2'>$2</a>");
+  html = _replaceAll(html, "href='/tag/#", "href='/tag/");
+
+  // mentions
+  html = html.replace(/(^|\s)(@[a-z\d][\w-]*)/ig, "$1<a href='/@$2'>$2</a>");
+  html = _replaceAll(html, "href='/@@", "href='/@");
+
+  // tokens
+  html = html.replace(/(^|\s)(\$[a-z\d][\w-]*)/ig, "$1<a href='/token/$2'>$2</a>");
+  html = _replaceAll(html, "href='/token/$", "href='/token/");
+
+  // markup
+  html = html.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+  html = html.replace(/__(.*?)__/g, '<u>$1</u>');
+  html = html.replace(/--(.*?)--/g, '<i>$1</i>');
+  html = html.replace(/~~(.*?)~~/g, '<del>$1</del>');
+
+  // paragraphs
+  html = html.replace(/\n/g, '<br>');
+
+  return html;
+};
 /*
 const isScrolledIntoView = (elem) => {
   if (elem) {
@@ -327,9 +401,9 @@ Template.feedItem.helpers({
       mainFeed: this.mainFeed,
     };
   },
-  /* onScreen() {
-    return Template.instance().aboveFold.get();
-  },*/
+  title() {
+    return renderMarkup(this.title);
+  },
 });
 
 Template.feedItem.events({
