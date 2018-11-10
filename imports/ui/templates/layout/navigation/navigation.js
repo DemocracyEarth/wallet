@@ -124,7 +124,7 @@ Template.navigation.helpers({
 });
 
 Template.navigation.events({
-  'click #menu'() {
+  'click #burger'() {
     if (displayCancelButton()) {
       editorFadeOut(Session.get('draftContract')._id);
       Session.set('showPostEditor', false);

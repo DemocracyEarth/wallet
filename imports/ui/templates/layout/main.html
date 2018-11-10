@@ -2,14 +2,13 @@
   <!-- App -->
 
   {{> modal}}
+
   {{#each popupList}}
     {{> popup id=this}}
   {{/each}}
 
   {{#if isPhone}}
     <div id='mobileKeyboard' contenteditable="true" style="opacity: 0; width: 0px; height:0px;"></div>
-
-    {{> navigation}}
   {{/if}}
 
   <div id='menu' class='left'>
@@ -19,6 +18,7 @@
   <div id='content' class='right'>
 
     {{#if isPhone}}
+      {{> navigation}}
       <div class='inhibitor' style='display: none;'></div>
     {{/if}}
 

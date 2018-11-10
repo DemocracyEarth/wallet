@@ -172,7 +172,7 @@ Template.editor.onDestroyed(() => {
 });
 
 Template.editor.onRendered(function () {
-  if (!this.data.compressed && !Meteor.Device.isPhone()) {
+  if (!this.data.compressed) {
     const draft = _resetDraft();
     if (Template.currentData().replyMode && Template.currentData().replyId) {
       Template.instance().reply.set(Contracts.findOne({ _id: this.data.replyId }));
