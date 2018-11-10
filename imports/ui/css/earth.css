@@ -1517,12 +1517,12 @@ blockquote {
   margin: -5px -5px -5px -10px;
   padding: 5px 5px 5px 10px;
   border-radius: 50px;
-  background-image: -webkit-linear-gradient(0deg, #b7f3e1 48%, transparent 0);
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(48%, #b7f3e1), color-stop(0, transparent));
   background-image: linear-gradient(90deg, #b7f3e1 48%, transparent 0);
 }
 
 .checkbox.checkbox-result.unauthorized {
-  background-image: -webkit-linear-gradient(0deg, #fdc5c5 48%, transparent 0);
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(48%, #fdc5c5), color-stop(0, transparent));
   background-image: linear-gradient(90deg, #fdc5c5 48%, transparent 0);
 }
 
@@ -2541,7 +2541,6 @@ blockquote {
   padding-right: 5px;
   padding-left: 5px;
   background-color: rgba(255, 224, 121, .6);
-  background-image: -webkit-linear-gradient(45deg, #ffe079, hsla(44, 82%, 94%, 0) 45%);
   background-image: linear-gradient(45deg, #ffe079, hsla(44, 82%, 94%, 0) 45%);
   -webkit-transform: skew(-3deg, 0deg);
   -ms-transform: skew(-3deg, 0deg);
@@ -5388,7 +5387,7 @@ blockquote {
   padding-bottom: 0px;
   border-bottom: 1px solid #cacaca;
   background-color: #d6d6d6;
-  background-image: -webkit-linear-gradient(90deg, #d6d6d6, #ddd 65%);
+  background-image: -webkit-gradient(linear, left bottom, left top, from(#d6d6d6), color-stop(65%, #ddd));
   background-image: linear-gradient(0deg, #d6d6d6, #ddd 65%);
 }
 
@@ -6157,7 +6156,7 @@ blockquote {
   margin-right: 0px;
   margin-left: 0px;
   background-color: #ddd;
-  background-image: -webkit-linear-gradient(270deg, #e6e6e6, #ddd 70%);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#e6e6e6), color-stop(70%, #ddd));
   background-image: linear-gradient(180deg, #e6e6e6, #ddd 70%);
 }
 
@@ -6362,6 +6361,9 @@ blockquote {
     overflow: visible;
     width: 100%;
     background-color: #f5f5f5;
+  }
+  .split.split-left {
+    width: 100%;
   }
   .smart {
     display: block;
