@@ -44,6 +44,7 @@ function toggleFeed(enabled) {
   if (Meteor.Device.isPhone()) {
     if (!enabled) {
       $('.cast').velocity({ opacity: 0 });
+      $('.agora').velocity({ opacity: 0 });
       $('#feed-bottom').velocity({ opacity: 0 });
       $('#non-editable-debate-header').velocity({ opacity: 0 });
       // $('#non-editable-reply-feed').velocity({ opacity: 0 });
@@ -71,6 +72,7 @@ function toggleFeed(enabled) {
       }, {
         complete: () => {
           $('.cast').css('height', '60px');
+          $('.agora').velocity({ opacity: 1 });
           $('#feed-bottom').css('width', '');
           $('.cast').velocity({ opacity: 1 });
           $('#feed-bottom').velocity({ opacity: 0.3 });

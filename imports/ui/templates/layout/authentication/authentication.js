@@ -6,6 +6,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { Router } from 'meteor/iron:router';
 
 import { publishContract, createContract, contractURI, entangle, getURLDate } from '/imports/startup/both/modules/Contract';
+import { editorFadeOut } from '/imports/ui/templates/components/decision/editor/editor';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
 
@@ -109,6 +110,10 @@ Template.authentication.events({
   },
   'click #navbar-post-button'() {
     _publish();
+    if (Meteor.Device.isPhone()) {
+      editorFadeOut(Session.get('draftContract')._id);
+      Session.set('showPostEditor', false);
+    }
   },
 });
 

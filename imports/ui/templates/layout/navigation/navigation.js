@@ -5,10 +5,8 @@ import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { Router } from 'meteor/iron:router';
 
-import { gui } from '/lib/const';
-import { editorFadeOut } from '/imports/ui/templates/components/decision/editor/editor';
 import { timers } from '/lib/const';
-import { stripHTMLfromText } from '/imports/ui/modules/utils';
+import { editorFadeOut } from '/imports/ui/templates/components/decision/editor/editor';
 import { toggleSidebar } from '/imports/ui/modules/menu';
 import { showFullName } from '/imports/startup/both/modules/utils';
 
