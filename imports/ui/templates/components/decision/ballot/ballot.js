@@ -43,6 +43,7 @@ const _cryptoVote = () => {
         );
 
         // prompt metamask
+        console.log(Template.currentData().contract.blockchain.votePrice);
         transactWithMetamask(
           getTokenAddress(Meteor.user(), Template.instance().ticket.get().token),
           Template.currentData().contract.blockchain.publicAddress,

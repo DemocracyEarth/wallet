@@ -82,6 +82,9 @@ const _transactWithMetamask = (from, to, quantity, token, contractAddress, sourc
     let tx;
     const contract = new web3.eth.Contract(abi, contractAddress);
 
+    console.log(`token`);
+    console.log(token);
+    console.log(`quantity: ${quantity}`);
     if (token === 'ETH') {
       tx = {
         from,
@@ -98,19 +101,22 @@ const _transactWithMetamask = (from, to, quantity, token, contractAddress, sourc
       *from Metamask (as she could if it were just an eth tx). Hardcoding
       *1 for now but should be:
       *
-      *const quatityWithDecimals = addDecimal(quantity, 18);
+      *const quantityWithDecimals = addDecimal(quantity, 18);
       *
       */
-      const quatityWithDecimals = addDecimal(1, 18);
+      const quantityWithDecimals = addDecimal(quantity, 18);
       tx = {
         from,
         to: contractAddress,
-        value: 0,
-        data: contract.methods.transfer(to, quatityWithDecimals).encodeABI(),
+        value: quantity,
+        data: contract.methods.transfer(to, quantityWithDecimals).encodeABI(),
         gas: 200000,
         chainId: 4,
       };
     }
+
+    console.log(`tx is:`);
+    console.log(tx);
 
     web3.eth.sendTransaction(tx, (error, receipt) => {
       if (error) {
@@ -120,8 +126,13 @@ const _transactWithMetamask = (from, to, quantity, token, contractAddress, sourc
           return;
         }
       }
+      console.log(`on send transaction i get this receipt`);
+      console.log(receipt);
       web3.eth.getTransaction(receipt, (err, res) => {
         if (!err) {
+          console.log(`handler for transaction:`);
+          console.log(res);
+          console.log(quantity);
           const ticket = transact(
             sourceId,
             targetId,
@@ -131,6 +142,12 @@ const _transactWithMetamask = (from, to, quantity, token, contractAddress, sourc
               status: 'PENDING',
               kind: 'CRYPTO',
               contractId: targetId,
+              input: {
+                address: res.from,
+              },
+              output: {
+                address: res.to,
+              },
               blockchain: {
                 tickets: [{
                   hash: res.hash,
@@ -143,9 +160,8 @@ const _transactWithMetamask = (from, to, quantity, token, contractAddress, sourc
               },
             },
             () => {
-              // this is where displayNotice() should override waiting modal
-              modal.message = `${TAPi18n.__('transaction-broadcast').replace('{{token}}', token)}`;
-              displayModal(true, modal);
+              displayModal(false, modal);
+              displayNotice(`${TAPi18n.__('transaction-broadcast').replace('{{token}}', `$${token}`)}`, true);
             }
           );
           console.log(ticket);

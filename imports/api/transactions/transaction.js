@@ -734,7 +734,7 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
   console.log(settings);
 
   // build transaction
-  const newTransaction = {
+  let newTransaction = {
     input: {
       entityId: senderId,
       address: _getWalletAddress(senderId),
@@ -757,6 +757,13 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     status: 'PENDING',
     condition: finalSettings.condition,
   };
+
+  // overrides with crypto settings
+  if (settings.kind === 'CRYPTO') {
+    newTransaction.input.address = settings.input.address;
+    newTransaction.output.address = settings.output.address;
+    newTransaction.blockchain = settings.blockchain;
+  }
 
   // executes the transaction
   const txId = Transactions.insert(newTransaction);

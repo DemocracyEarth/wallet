@@ -69,6 +69,12 @@ const _getPublicAddress = (contractToken) => {
         chain.coin.code = contractToken;
         chain.publicAddress = reserves[k].publicAddress;
         chain.votePrice = '0';
+        for (let j = 0; j < token.coin.length; j += 1) {
+          if (token.coin[j].code === contractToken && token.coin[j].blockchain === 'ETHEREUM') {
+            chain.votePrice = token.coin[j].defaultVote;
+            break;
+          }
+        }
         return chain;
       }
     }
