@@ -130,30 +130,6 @@ const renderMarkup = (text) => {
 
   return html;
 };
-/*
-const isScrolledIntoView = (elem) => {
-  if (elem) {
-    const docViewTop = $(window).scrollTop();
-    const docViewBottom = docViewTop + $(window).height();
-
-    const elemTop = $(elem).offset().top;
-    const elemBottom = elemTop + $(elem).height();
-
-    return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
-  }
-  return false;
-};
-
-/**
-@summary if its on a mobile waits a second to refresh feed item with reactive one
-
-const scrollRefresh = () => {
-  if (Meteor.Device.isPhone()) {
-    return 1000;
-  }
-  return 1;
-};
-*/
 
 Template.feedItem.onCreated(function () {
   Template.instance().ready = new ReactiveVar(false);
@@ -161,7 +137,6 @@ Template.feedItem.onCreated(function () {
   Template.instance().rightToVote = new ReactiveVar(false);
   Template.instance().candidateBallot = new ReactiveVar();
   Template.instance().displayResults = new ReactiveVar(false);
-  // Template.instance().aboveFold = new ReactiveVar();
   Template.instance().replySource = new ReactiveVar(false);
 });
 
@@ -187,9 +162,7 @@ const _threadItem = (instance) => {
 };
 
 Template.feedItem.onRendered(function () {
-  // Template.instance().aboveFold.set(isScrolledIntoView(document.querySelector(`#feedItem-${Template.currentData()._id}`)));
   const instance = this;
-  let isScrolling;
 
   if (Meteor.userId()) {
     instance.voteId = `vote-${Meteor.userId()}-${instance.data._id}`;
@@ -199,17 +172,6 @@ Template.feedItem.onRendered(function () {
   if (instance.data.replyId) {
     _threadItem(instance);
   }
-
-/*
-  $('.right').scroll(function () {
-    Meteor.clearTimeout(isScrolling);
-    isScrolling = Meteor.setTimeout(function () {
-      if (document.querySelector(`#ballot-${instance.data._id}`)) {
-        instance.aboveFold.set(isScrolledIntoView(document.querySelector(`#voteBar-vote-${Meteor.userId()}-${instance.data._id}`)));
-      }
-    }, scrollRefresh());
-  });
-*/
 
   if (instance.data.replyId) {
     const dbReply = Contracts.findOne({ _id: instance.data.replyId });

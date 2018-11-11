@@ -557,7 +557,6 @@
   "non-sovereign-signup": "Web based access",
   "ethereum": "Ethereum",
   "blockstack": "Blockstack",
-  "ethereum-metamask": "Ethereum with Metamask",
   "get-blockchain-id": "Set up a blockchain wallet",
   "copy-clipboard": "Click to copy blockchain address.",
   "id": "ID",
@@ -600,7 +599,7 @@
   "request": "Request",
   "tweet": "Tweet",
   "transaction-broadcast": "{{token}} transaction sent to blockchain.",
-  "ethereum-metamask": "Ethereum with Metamask",
+  "ethereum-metamask": "Ethereum",
   "no-chain-found": "No blockchain address found.",
-  "metamask-confirm-transaction": "Confirm token transaction on Metamask."
+  "metamask-confirm-transaction": "Confirm transaction in your blockchain wallet."
 }

@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { TAPi18n } from 'meteor/tap:i18n';
+
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { Router } from 'meteor/iron:router';
@@ -8,11 +8,10 @@ import { Router } from 'meteor/iron:router';
 import { timers } from '/lib/const';
 import { editorFadeOut } from '/imports/ui/templates/components/decision/editor/editor';
 import { toggleSidebar } from '/imports/ui/modules/menu';
-import { showFullName } from '/imports/startup/both/modules/utils';
 
-import './navigation.html';
-import '../authentication/authentication.js';
-import '../../widgets/notice/notice.js';
+import '/imports/ui/templates/layout/authentication/authentication.js';
+import '/imports/ui/templates/layout/navigation/navigation.html';
+import '/imports/ui/templates/widgets/notice/notice.js';
 
 // Scroll behaviour
 let lastScrollTop = 0;

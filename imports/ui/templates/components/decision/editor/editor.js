@@ -174,9 +174,6 @@ Template.editor.onDestroyed(() => {
 });
 
 Template.editor.onRendered(function () {
-  console.log('EDITOR IS RENDERING');
-  console.log(this.data);
-  console.log(Session.get('draftContract'));
   if (!this.data.compressed) {
     let draft;
     if (Meteor.Device.isPhone() && Session.get('draftContract')) {
@@ -202,8 +199,6 @@ Template.editor.onRendered(function () {
         if (!Session.get('minimizedEditor')) {
           Session.set('minimizedEditor', true);
         }
-        console.log('CONTRACT WAS RESET');
-        console.log(reset.replyId);
         if (reset.replyId) {
           reset.replyId = '';
           Session.set('draftContract', reset);
