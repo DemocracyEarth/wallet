@@ -27,7 +27,9 @@
           {{/with}}
         </div>
         <div class="float-left">
-          <img src="{{pathFor route='home'}}images/arrow-right.png" class="transaction-direction" style="margin-top: 3px; ">
+          <a href='{{blockchainHash}}' target="_blank">
+            <img src="{{pathFor route='home'}}images/arrow-right.png" class="transaction-direction" style="margin-top: 3px; ">
+          </a>
         </div>
         <div class="identity identity-transaction w-clearfix" style="float:left">
           {{#with receiver}}
@@ -75,7 +77,9 @@
                 </td>
               {{/if}}
               <td class="actor actor-arrow">
-                <img src="{{pathFor route='home'}}images/arrow-right.png" class="transaction-direction">
+                <a href='{{blockchainHash}}' target="_blank">
+                  <img src="{{pathFor route='home'}}images/arrow-right.png" class="transaction-direction">
+                </a>
               </td>
               {{#if isRevoke}}
                 <td class="actor">
@@ -86,30 +90,36 @@
                   </div>
                 </td>
               {{else}}
-                {{#unless isSubsidy}}
-                  <td class="actor">
-                    <div class="actor actor-score actor-score-ballot">
-                      <div class="transaction-value">
-                        <div class="bar-labels">
-                          <div class="vote-available label-votes">
-                            <div class="stage stage-vote {{stage}}">
-                              <div class="label label-corner">
-                                <div class="checkbox-mini">
-                                  <div class="checkmark_kick"></div>
-                                  <div class="checkmark_stem"></div>
+                {{#if isCrypto}}
+                  {{#unless hidePost}}
+                    {{> preview contractId=this.receiverId}}
+                  {{/unless}}
+                {{else}}
+                  {{#unless isSubsidy}}
+                    <td class="actor">
+                      <div class="actor actor-score actor-score-ballot">
+                        <div class="transaction-value">
+                          <div class="bar-labels">
+                            <div class="vote-available label-votes">
+                              <div class="stage stage-vote {{stage}}">
+                                <div class="label label-corner">
+                                  <div class="checkbox-mini">
+                                    <div class="checkmark_kick"></div>
+                                    <div class="checkmark_stem"></div>
+                                  </div>
+                                  {{ballotOption}}
                                 </div>
-                                {{ballotOption}}
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </td>
-                  {{#unless hidePost}}
-                    {{> preview contractId=this.receiverId}}
+                    </td>
+                    {{#unless hidePost}}
+                      {{> preview contractId=this.receiverId}}
+                    {{/unless}}
                   {{/unless}}
-                {{/unless}}
+                {{/if}}
               {{/if}}
             </tr>
           </table>
@@ -124,7 +134,9 @@
                 </div>
               </td>
               <td class="actor actor-arrow">
-                <img src="{{pathFor route='home'}}images/arrow-right.png" class="transaction-direction">
+                <a href='{{blockchainHash}}' target="_blank">
+                  <img src="{{pathFor route='home'}}images/arrow-right.png" class="transaction-direction">
+                </a>
               </td>
               <td class="actor">
                 <div class="identity identity-transaction w-clearfix">
@@ -139,8 +151,10 @@
       {{/if}}
       {{#unless noDate}}
         <div class="data data-feed data-transaction">
-          <img src="{{pathFor route='home'}}images/clock.png" class="clock-icon">
-          <div class="verifier verifier-live verifier-feed">{{sinceDate}}</div>
+          <div class="margin-both">
+            <img src="{{pathFor route='home'}}images/clock.png" class="clock-icon">
+            <div class="verifier verifier-live verifier-feed verifier-mini">{{sinceDate}}</div>
+          </div>
         </div>
       {{/unless}}
 

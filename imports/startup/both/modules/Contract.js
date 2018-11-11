@@ -5,8 +5,8 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { convertToSlug, convertToUsername } from '/lib/utils';
 import { defaultConstituency } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
-import { shortUUID } from './crypto';
-import { transact } from '../../../api/transactions/transaction';
+import { shortUUID } from '/imports/startup/both/modules/crypto';
+import { transact } from '/imports/api/transactions/transaction';
 import { token } from '/lib/token';
 
 /**
@@ -536,19 +536,6 @@ const _removeSignature = (contractId, userId) => {
   } });
 };
 
-/**
- * @summary Changes the stage of a contract
- * @param {String} contractId - that points to contract in db
- * @param {String} stage - ['DRAFT', 'LIVE', 'FINISH']
- * @returns {Boolean}
- */
-
-const contractStage = (contractId, stage) => {
-
-  // TODO changes the stage of a contract.
-
-};
-
 const _rightToVote = (contract) => {
   if (contract.kind === 'DELEGATION') {
     for (const i in contract.signatures) {
@@ -565,7 +552,6 @@ export const entangle = _entangle;
 export const contractURI = _contractURI;
 export const rightToVote = _rightToVote;
 export const signatureStatus = _signatureStatus;
-export const setContractStage = contractStage;
 export const signContract = _sign;
 export const removeSignature = _removeSignature;
 export const publishContract = _publish;

@@ -162,7 +162,7 @@ Template.transaction.helpers({
     return style;
   },
   ballotOption() {
-    if (this.ballot.length > 0) {
+    if (this.ballot && this.ballot.length > 0) {
       return TAPi18n.__(this.ballot[0].mode);
     }
     return '';
@@ -180,7 +180,7 @@ Template.transaction.helpers({
     return this.noDate;
   },
   stage() {
-    if (this.ballot.length === 0) {
+    if (this.ballot && this.ballot.length === 0) {
       return 'stage-single';
     }
     if (!this.winningBallot) {
@@ -194,6 +194,9 @@ Template.transaction.helpers({
     }
     return '';
   },
+  isCrypto() {
+    return (this.contract.kind === 'CRYPTO');
+  },
   isRevoke() {
     return this.isRevoke;
   },
@@ -205,6 +208,9 @@ Template.transaction.helpers({
   },
   revokeStyle() {
     if (!this.hidePost) { return 'stage-revoke'; } return '';
+  },
+  blockchainHash() {
+    console.log(this);
   },
 });
 

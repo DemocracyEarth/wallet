@@ -56,6 +56,9 @@ const _voteToContract = (post, contract, hidePost, winningBallot, openFeed) => {
       url: contract.url,
     };
   }
+  if (post.blockchain) {
+    transaction.contract.blockchain = post.blockchain;
+  }
   return transaction;
 };
 

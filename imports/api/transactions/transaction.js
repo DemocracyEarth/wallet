@@ -760,8 +760,8 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
 
   // overrides with crypto settings
   if (settings.kind === 'CRYPTO') {
-    newTransaction.input.address = settings.input.address;
-    newTransaction.output.address = settings.output.address;
+    newTransaction.input.address = settings.input.address.toLowerCase();
+    newTransaction.output.address = settings.output.address.toLowerCase();
     newTransaction.blockchain = settings.blockchain;
   }
 

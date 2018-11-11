@@ -104,7 +104,7 @@ const _transactWithMetamask = (from, to, quantity, token, contractAddress, sourc
       *const quantityWithDecimals = addDecimal(quantity, 18);
       *
       */
-      const quantityWithDecimals = addDecimal(quantity, 18);
+      const quantityWithDecimals = addDecimal(quantity.toNumber(), 18);
       tx = {
         from,
         to: contractAddress,
