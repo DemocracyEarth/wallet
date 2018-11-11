@@ -80,6 +80,12 @@
   <div class="split split-left">
     <div class="content content-feed subsection max100">
       {{#if isPhone}}
+        {{#if editorMode}}
+          {{> editor contractId=newContractId}}
+        {{/if}}
+      {{/if}}
+
+      {{#if isPhone}}
         <input id="hiddenInput" style="visibility: hidden; position: absolute;">
       {{/if}}
 
