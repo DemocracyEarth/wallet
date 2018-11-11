@@ -39,7 +39,7 @@ Template.chain.helpers({
     return this.address;
   },
   link() {
-    return `${Meteor.settings.public.web.sites.blockExplorer}${this.address}`;
+    return `${Meteor.settings.public.web.sites.blockExplorer}/address/${this.address}`;
   },
 });
 

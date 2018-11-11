@@ -255,7 +255,7 @@ Template.feedItem.helpers({
     return `${this.blockchain.publicAddress}`;
   },
   blockchainLink() {
-    return `${Meteor.settings.public.web.sites.blockExplorer}${this.blockchain.publicAddress}`;
+    return `${Meteor.settings.public.web.sites.blockExplorer}/address/${this.blockchain.publicAddress}`;
   },
   editorMode(stage) {
     if (stage === 'DRAFT') { return true; } return false;

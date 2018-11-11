@@ -263,7 +263,7 @@ Template.editor.helpers({
   blockchainLink() {
     const draft = Session.get('draftContract');
     if (draft) {
-      return `${Meteor.settings.public.web.sites.blockExplorer}${draft.blockchain.publicAddress}`;
+      return `${Meteor.settings.public.web.sites.blockExplorer}/address/${draft.blockchain.publicAddress}`;
     }
     return '';
   },

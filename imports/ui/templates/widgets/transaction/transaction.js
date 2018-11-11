@@ -210,7 +210,22 @@ Template.transaction.helpers({
     if (!this.hidePost) { return 'stage-revoke'; } return '';
   },
   blockchainHash() {
-    console.log(this);
+    if (this.contract.kind === 'CRYPTO' && this.contract.blockchain) {
+      return `${Meteor.settings.public.web.sites.blockExplorer}/tx/${this.contract.blockchain.tickets[0].hash}`;
+    }
+    return '';
+  },
+  blockchainInfo() {
+    if (this.contract.kind === 'CRYPTO' && this.contract.blockchain) {
+      return `${TAPi18n.__(`transaction-status-${this.contract.blockchain.tickets[0].status.toLowerCase()}-onchain`)} - ${this.contract.blockchain.tickets[0].hash}`;
+    }
+    return '';
+  },
+  transactionIcon() {
+    if (this.contract.kind === 'CRYPTO' && this.contract.blockchain) {
+      return `arrow-right-${this.contract.blockchain.tickets[0].status.toLowerCase()}.png`;
+    }
+    return 'arrow-right.png';
   },
 });
 

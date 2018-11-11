@@ -602,5 +602,9 @@
   "ethereum-metamask": "Ethereum",
   "no-chain-found": "No blockchain address found.",
   "metamask-confirm-transaction": "Confirm transaction in your blockchain wallet.",
-  "ticket": "ticket"
+  "ticket": "ticket",
+  "transaction-status-confirmed-onchain": "Confirmed on chain transaciton",
+  "transaction-status-signed-offchain": "Signed off chain stake",
+  "transaction-status-pending-onchain": "Pending on chain transaction",
+  "transaction-status-cancelled-onchain": "Cancelled on chain transaction"
 }

@@ -27,8 +27,8 @@
           {{/with}}
         </div>
         <div class="float-left">
-          <a href='{{blockchainHash}}' target="_blank">
-            <img src="{{pathFor route='home'}}images/arrow-right.png" class="transaction-direction" style="margin-top: 3px; ">
+          <a href='{{blockchainHash}}' title='{{blockchainInfo}}' target="_blank">
+            <img src="{{pathFor route='home'}}images/{{transactionIcon}}" class="transaction-direction" style="margin-top: 3px; ">
           </a>
         </div>
         <div class="identity identity-transaction w-clearfix" style="float:left">
@@ -77,8 +77,8 @@
                 </td>
               {{/if}}
               <td class="actor actor-arrow">
-                <a href='{{blockchainHash}}' target="_blank">
-                  <img src="{{pathFor route='home'}}images/arrow-right.png" class="transaction-direction">
+                <a href='{{blockchainHash}}' title='{{blockchainInfo}}' target="_blank">
+                  <img src="{{pathFor route='home'}}images/{{transactionIcon}}" class="transaction-direction">
                 </a>
               </td>
               {{#if isRevoke}}
@@ -134,8 +134,8 @@
                 </div>
               </td>
               <td class="actor actor-arrow">
-                <a href='{{blockchainHash}}' target="_blank">
-                  <img src="{{pathFor route='home'}}images/arrow-right.png" class="transaction-direction">
+                <a href='{{blockchainHash}}' title='{{blockchainInfo}}' target="_blank">
+                  <img src="{{pathFor route='home'}}images/{{transactionIcon}}" class="transaction-direction">
                 </a>
               </td>
               <td class="actor">
