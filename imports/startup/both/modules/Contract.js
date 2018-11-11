@@ -63,15 +63,16 @@ const _getPublicAddress = (contractToken) => {
     coin: { code: '' },
     publicAddress: '',
   };
+
   if (reserves.length > 0) {
     for (let k = 0; k < reserves.length; k += 1) {
       if (reserves[k].token === contractToken) {
         chain.coin.code = contractToken;
         chain.publicAddress = reserves[k].publicAddress;
-        chain.votePrice = '0';
         for (let j = 0; j < token.coin.length; j += 1) {
           if (token.coin[j].code === contractToken && token.coin[j].blockchain === 'ETHEREUM') {
             chain.votePrice = token.coin[j].defaultVote;
+            chain.coin.code = token.coin[j].code;
             break;
           }
         }
@@ -81,7 +82,9 @@ const _getPublicAddress = (contractToken) => {
   }
   for (let j = 0; j < token.coin.length; j += 1) {
     if (token.coin[j].code === contractToken && token.coin[j].blockchain === 'ETHEREUM') {
-      return _getPublicAddress('WEI');
+      const defaultBlockchain = _getPublicAddress('WEI');
+      defaultBlockchain.coin.code = contractToken;
+      return defaultBlockchain;
     }
   }
   return undefined;
@@ -465,6 +468,9 @@ const _publish = (contractId, keyword) => {
 
   // chain
   draft = _chain(draft);
+  if (draft.wallet.currency) {
+    draft.blockchain.coin.code = draft.wallet.currency;
+  }
 
   // db
   Contracts.update({ _id: contractId }, { $set: {
