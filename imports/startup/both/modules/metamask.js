@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { TAPi18n } from 'meteor/tap:i18n';
-import { Router } from 'meteor/iron:router';
 import { displayModal } from '/imports/ui/modules/modal';
 import { transact } from '/imports/api/transactions/transaction';
 import { displayNotice } from '/imports/ui/modules/notice';
@@ -263,7 +262,7 @@ if (Meteor.isClient) {
                 methodName,
                 methodArguments,
               });
-              Router.go('/');
+              location.reload();
             },
           });
         } else {
