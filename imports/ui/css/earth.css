@@ -1294,7 +1294,6 @@ blockquote {
   padding-bottom: 0px;
   border-style: none;
   border-radius: 5px;
-  cursor: pointer;
 }
 
 .vote.vote-search.vote-feed:hover {

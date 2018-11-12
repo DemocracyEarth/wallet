@@ -30,6 +30,7 @@ const _showToken = (currency) => {
 */
 const _getContractToken = (transaction) => {
   let votes;
+  console.log(transaction);
   const coin = {
     token: transaction.contract.wallet.currency,
     balance: 0,
@@ -41,26 +42,31 @@ const _getContractToken = (transaction) => {
     disableBar: true,
     disableStake: true,
   };
-  if (transaction.isButton) {
-    coin.isButton = transaction.isButton;
-  }
-  if (transaction.isVote) {
-    votes = transaction.contract.wallet.balance;
-    if (coin.isRevoke) {
-      votes *= -1;
+  if (transaction.contract.kind === 'CRYPTO' && transaction.contract.blockchain) {
+    coin.isCrypto = true;
+    coin.value = transaction.contract.blockchain.tickets[0].value;
+  } else {
+    if (transaction.isButton) {
+      coin.isButton = transaction.isButton;
     }
-    Template.instance().totalVotes.set(votes);
-  } else if (transaction.contract.kind === 'DELEGATION') {
-    let finalCount;
-    if (transaction.isRevoke) {
-      finalCount = parseInt(transaction.contract.wallet.balance * -1, 10);
-    } else {
-      finalCount = transaction.contract.wallet.balance;
+    if (transaction.isVote) {
+      votes = transaction.contract.wallet.balance;
+      if (coin.isRevoke) {
+        votes *= -1;
+      }
+      Template.instance().totalVotes.set(votes);
+    } else if (transaction.contract.kind === 'DELEGATION') {
+      let finalCount;
+      if (transaction.isRevoke) {
+        finalCount = parseInt(transaction.contract.wallet.balance * -1, 10);
+      } else {
+        finalCount = transaction.contract.wallet.balance;
+      }
+      Template.instance().totalVotes.set(finalCount);
+      votes = Template.instance().totalVotes.get();
     }
-    Template.instance().totalVotes.set(finalCount);
-    votes = Template.instance().totalVotes.get();
+    coin.balance = votes;
   }
-  coin.balance = votes;
   return coin;
 };
 

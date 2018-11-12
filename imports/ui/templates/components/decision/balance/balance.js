@@ -121,6 +121,9 @@ Template.balance.helpers({
     return `${_getPercentage(this)}%`;
   },
   balance() {
+    if (this.isCrypto && this.value) {
+      return this.value;
+    }
     const balance = _currencyValue(this.balance, this.token);
     return numeral(balance).format(Template.instance().coin.format);
   },

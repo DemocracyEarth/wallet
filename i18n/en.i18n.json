@@ -606,5 +606,5 @@
   "transaction-status-confirmed-onchain": "Confirmed on chain transaciton",
   "transaction-status-signed-offchain": "Signed off chain stake",
   "transaction-status-pending-onchain": "Pending on chain transaction",
-  "transaction-status-cancelled-onchain": "Cancelled on chain transaction"
+  "transaction-status-fail-onchain": "Failed on chain transaction"
 }
