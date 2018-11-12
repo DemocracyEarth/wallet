@@ -30,7 +30,6 @@ const _showToken = (currency) => {
 */
 const _getContractToken = (transaction) => {
   let votes;
-  console.log(transaction);
   const coin = {
     token: transaction.contract.wallet.currency,
     balance: 0,

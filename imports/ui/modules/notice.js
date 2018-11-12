@@ -4,8 +4,14 @@ import { $ } from 'meteor/jquery';
 
 import { timers } from '/lib/const';
 
-const showNotice = (label, temporary) => {
-  Session.set('noticeDisplay', label);
+/**
+* @summary shows notice alert
+* @param {string} label to be called on TAPi18n
+* @param {boolean} temporary if only displayed for a little while
+* @param {boolean} richText if it is rich text
+*/
+const showNotice = (label, temporary, htmlMode) => {
+  Session.set('noticeDisplay', { label, htmlMode });
   Session.set('showNotice', true);
 
   if (temporary) {
