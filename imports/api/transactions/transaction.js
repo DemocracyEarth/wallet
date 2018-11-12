@@ -355,9 +355,6 @@ const _processTransaction = (ticket) => {
   const receiverProfile = _getProfile(transaction.output);
 
   // verify transaction
-  console.log('verification');
-  console.log(senderProfile);
-  console.log(transaction);
   if (senderProfile.wallet.available < transaction.input.quantity) {
     return 'INSUFFICIENT';
   } else if (transaction.input.entityId === transaction.output.entityId) {
@@ -703,6 +700,30 @@ const _tally = (transaction) => {
 };
 
 /**
+* @summary inserts ticket data to a contract affected by a crypto transaction
+* @param {string} _id of contract to update
+* @param {array} tickets from transaction being processed
+* @return {boolean} success of insert
+*/
+const _insertBlockchainTicket = (_id, tickets) => {
+  const contract = Contracts.findOne({ _id });
+  const blockchain = contract.blockchain;
+
+  if (contract && blockchain) {
+    if (!blockchain.tickets || blockchain.tickets.length === 0) {
+      blockchain.tickets = tickets;
+    } else if (blockchain.tickets.length > 0) {
+      for (let i = 0; i < tickets.length; i += 1) {
+        blockchain.tickets.push(tickets[i]);
+      }
+    }
+    return Contracts.update({ _id }, { $set: { 'blockchain.tickets': blockchain.tickets } });
+  }
+
+  return false;
+};
+
+/**
 * @summary create a new transaction between two parties
 * @param {string} senderId - user or collective allocating the funds
 * @param {string} receiverId - user or collective receiving the funds
@@ -734,7 +755,7 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
   console.log(settings);
 
   // build transaction
-  let newTransaction = {
+  const newTransaction = {
     input: {
       entityId: senderId,
       address: _getWalletAddress(senderId),
@@ -758,11 +779,19 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     condition: finalSettings.condition,
   };
 
-  // overrides with crypto settings
+  // blockchain transaction
   if (settings.kind === 'CRYPTO') {
+    // input carries information of sender
     newTransaction.input.address = settings.input.address.toLowerCase();
+
+    // output carries information of receiver or smart contract address if token ticket
     newTransaction.output.address = settings.output.address.toLowerCase();
+
+    // blockchain info
     newTransaction.blockchain = settings.blockchain;
+
+    // update tally on contract
+    _insertBlockchainTicket(newTransaction.output.entityId, newTransaction.blockchain.tickets);
   }
 
   // executes the transaction
