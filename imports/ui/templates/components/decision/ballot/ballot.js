@@ -30,11 +30,17 @@ const _cryptoVote = () => {
   if (Meteor.user()) {
     if (Template.instance().voteEnabled) {
       if (setupWeb3(true)) {
-        // metamask alert
+        // wallet alert
+        let icon;
+        if (Meteor.settings.public.Collective.profile.logo) {
+          icon = Meteor.settings.public.Collective.profile.logo;
+        } else {
+          icon = 'images/olive.png';
+        }
         displayModal(
           true,
           {
-            icon: 'images/metamask.png',
+            icon,
             title: TAPi18n.__('place-vote'),
             message: TAPi18n.__('metamask-confirm-transaction'),
             cancel: TAPi18n.__('close'),

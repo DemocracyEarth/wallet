@@ -17,8 +17,8 @@ const abiDecoder = require('abi-decoder');
 let web3;
 
 const modal = {
-  icon: 'images/metamask.png',
-  title: TAPi18n.__('metamask'),
+  icon: 'images/olive.png',
+  title: TAPi18n.__('wallet'),
   cancel: TAPi18n.__('close'),
   alertMode: true,
 };
