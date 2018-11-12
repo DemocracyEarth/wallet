@@ -82,16 +82,21 @@ const _getContractToken = (transaction) => {
 * @summary syncs app with blockchain data
 * @param {object} contract to verify if still pending
 */
-const _syncBlockchain = (contract) => {
+const _syncBlockchain = (contract, instance) => {
   if (contract && contract.blockchain && contract.blockchain.tickets.length > 0) {
     const blockchain = contract.blockchain;
     const contractId = contract._id;
     if (contract.blockchain.tickets[0].status === 'PENDING') {
       getTransactionStatus(contract.blockchain.tickets[0].hash).then(
         function (receipt) {
-          if (receipt && receipt.status) {
-            blockchain.tickets[0].status = 'CONFIRMED';
+          if (receipt) {
+            if (receipt.status) {
+              blockchain.tickets[0].status = 'CONFIRMED';
+            } else {
+              blockchain.tickets[0].status = 'FAIL';
+            }
             Transactions.update({ _id: contractId }, { $set: { 'blockchain.tickets': blockchain.tickets } });
+            instance.status.set(blockchain.tickets[0].status.toLowerCase());
           }
         }
       );
@@ -102,11 +107,14 @@ const _syncBlockchain = (contract) => {
 Template.transaction.onCreated(function () {
   Template.instance().totalVotes = new ReactiveVar(0);
   Template.instance().loading = new ReactiveVar(false);
-  Template.instance().status = new ReactiveVar();
+
+  if (Template.currentData().contract && Template.currentData().contract.kind === 'CRYPTO') {
+    Template.instance().status = new ReactiveVar(Template.currentData().contract.blockchain.tickets[0].status.toLowerCase());
+  }
 });
 
 Template.transaction.onRendered(function () {
-  _syncBlockchain(this.data.contract);
+  _syncBlockchain(this.data.contract, Template.instance());
 });
 
 Template.transaction.helpers({
@@ -257,13 +265,13 @@ Template.transaction.helpers({
   },
   blockchainInfo() {
     if (this.contract.kind === 'CRYPTO' && this.contract.blockchain) {
-      return `${TAPi18n.__(`transaction-status-${this.contract.blockchain.tickets[0].status.toLowerCase()}-onchain`)} - ${this.contract.blockchain.tickets[0].hash}`;
+      return `${TAPi18n.__(`transaction-status-${Template.instance().status.get()}-onchain`)} - ${this.contract.blockchain.tickets[0].hash}`;
     }
     return '';
   },
   transactionIcon() {
     if (this.contract.kind === 'CRYPTO' && this.contract.blockchain) {
-      return `arrow-right-${this.contract.blockchain.tickets[0].status.toLowerCase()}.png`;
+      return `arrow-right-${Template.instance().status.get()}.png`;
     }
     return 'arrow-right.png';
   },
