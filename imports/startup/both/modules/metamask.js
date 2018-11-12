@@ -108,7 +108,7 @@ const _transactWithMetamask = (from, to, quantity, token, contractAddress, sourc
       tx = {
         from,
         to: contractAddress,
-        value: quantity,
+        value: 0,
         data: contract.methods.transfer(to, quantityWithDecimals).encodeABI(),
         gas: 200000,
         chainId: 4,
@@ -220,8 +220,8 @@ if (Meteor.isClient) {
   /**
   * @summary log in signing public blockchain address with private key
   */
-  const loginWithMetamask = async () => {
-    if (await _web3(true)) {
+  const loginWithMetamask = () => {
+    if (_web3(true)) {
       const nonce = Math.floor(Math.random() * 10000);
       // const publicAddress = web3.eth.getCoinbase.toLowerCase();
       let publicAddress;
