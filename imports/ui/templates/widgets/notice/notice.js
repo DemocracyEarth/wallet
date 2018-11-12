@@ -3,7 +3,7 @@ import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 
-import './notice.html';
+import '/imports/ui/templates/widgets/notice/notice.html';
 
 Template.notice.onRendered(() => {
   // behave(this.firstNode, 'fade');
@@ -13,6 +13,10 @@ Template.notice.onRendered(() => {
 
 Template.notice.helpers({
   label() {
-    return TAPi18n.__(Session.get('noticeDisplay'));
+    const notice = Session.get('noticeDisplay');
+    if (notice.htmlMode) {
+      return notice.label;
+    }
+    return TAPi18n.__(notice.label);
   },
 });

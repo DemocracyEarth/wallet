@@ -1,20 +1,23 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { TAPi18n } from 'meteor/tap:i18n';
-import abi from 'human-standard-token-abi';
 import { displayModal } from '/imports/ui/modules/modal';
 import { transact } from '/imports/api/transactions/transaction';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { addDecimal } from '/imports/api/blockchain/modules/web3Util.js';
+import { token } from '/lib/token';
+
+import abi from 'human-standard-token-abi';
 
 const Web3 = require('web3');
 const ethUtil = require('ethereumjs-util');
+const abiDecoder = require('abi-decoder');
 
 let web3;
 
 const modal = {
-  icon: 'images/metamask.png',
-  title: TAPi18n.__('metamask'),
+  icon: 'images/olive.png',
+  title: TAPi18n.__('wallet'),
   cancel: TAPi18n.__('close'),
   alertMode: true,
 };
@@ -44,24 +47,38 @@ const _web3 = (activateModal) => {
     return false;
   }
   if (!web3) {
-    web3 = new Web3(window.ethereum);
+    // We don't know window.web3 version, so we use our own instance of web3
+    // with provider given by window.web3
+    web3 = new Web3(window.web3.currentProvider);
   }
 
   web3.eth.getCoinbase().then(function (coinbase) {
-    console.log(`coinbase: ${coinbase}`)
     if (!coinbase) {
       if (activateModal) {
         modal.message = TAPi18n.__('metamask-activate');
         displayModal(true, modal);
-        console.log('TIRAME FALSO');
         return false;
       }
     }
   });
 
-  console.log(`que esta haciend: ${web3}`);
-  console.log(web3);
   return web3;
+};
+
+/**
+* @summary get the current status of an on chain transaction
+* @param {string} hash of the ticket
+*/
+const _getTransactionStatus = (hash) => {
+  if (_web3(true)) {
+    return web3.eth.getTransactionReceipt(hash, (err, res) => {
+      if (!err) {
+        return res;
+      }
+      return false;
+    });
+  }
+  return false;
 };
 
 /**
@@ -69,38 +86,24 @@ const _web3 = (activateModal) => {
 * @param {string} from blockchain address
 * @param {string} to blockchain destination
 * @param {string} quantity amount transacted
-* @param {string} token currency
+* @param {string} tokenCode currency
 * @param {string} contractAddress
 * @param {object} sourceId sender in sovereign
 * @param {object} targetId receiver in sovereign
 */
-const _transactWithMetamask = (from, to, quantity, token, contractAddress, sourceId, targetId) => {
+const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, sourceId, targetId) => {
   if (_web3(true)) {
     let tx;
     const contract = new web3.eth.Contract(abi, contractAddress);
-
-    console.log(`token`);
-    console.log(token);
-    console.log(`quantity: ${quantity}`);
-    if (token === 'ETH') {
+    if (tokenCode === 'ETH') {
       tx = {
         from,
         to,
-        value: web3.utils.toHex(web3.utils.toWei(quantity, _convertToEther(token))),
+        value: web3.utils.toHex(web3.utils.toWei(quantity, _convertToEther(tokenCode))),
         gas: 200000,
         chainId: 3, // should this be 4 for rinkeby too?
       };
     } else {
-      /*
-      *TODO - quantity should be at least 1 coming from ballot
-      *because we need to construct tx object before invoking
-      *Metamask, it looks like the user can't change token quantity
-      *from Metamask (as she could if it were just an eth tx). Hardcoding
-      *1 for now but should be:
-      *
-      *const quantityWithDecimals = addDecimal(quantity, 18);
-      *
-      */
       const quantityWithDecimals = addDecimal(quantity.toNumber(), 18);
       tx = {
         from,
@@ -111,10 +114,6 @@ const _transactWithMetamask = (from, to, quantity, token, contractAddress, sourc
         chainId: 4,
       };
     }
-
-    console.log(`tx is:`);
-    console.log(tx);
-
     web3.eth.sendTransaction(tx, (error, receipt) => {
       if (error) {
         if (error.message.includes('User denied transaction signature') || error.code === -32603) {
@@ -122,20 +121,45 @@ const _transactWithMetamask = (from, to, quantity, token, contractAddress, sourc
           displayModal(true, modal);
           return;
         }
+        console.log('SALE DE ACA MONO');
+        console.log(error);
       }
-      console.log(`on send transaction i get this receipt`);
-      console.log(receipt);
       web3.eth.getTransaction(receipt, (err, res) => {
-        if (!err) {
-          console.log(`handler for transaction:`);
+        if (err) {
+          console.log('VIEIEINEKNJEN');
           console.log(res);
-          console.log(quantity);
-          const ticket = transact(
+          console.log(err);
+        }
+        const coin = _.where(token.coin, { code: tokenCode })[0];
+        let value = '0';
+
+        if (res.input === '0x') {
+          // ethereum transaciton
+          value = res.value;
+        } else {
+          // token transaction
+          abiDecoder.addABI(abi);
+          const data = abiDecoder.decodeMethod(res.input);
+
+          // get data from smart contract input
+          if (data.name === 'transfer') {
+            for (let i = 0; i < data.params.length; i += 1) {
+              if (data.params[i].name === '_value') {
+                value = data.params[i].value;
+                break;
+              }
+            }
+          }
+        }
+
+        // persist transaction in sovereign
+        if (!err) {
+          transact(
             sourceId,
             targetId,
             0,
             {
-              currency: token,
+              currency: tokenCode,
               status: 'PENDING',
               kind: 'CRYPTO',
               contractId: targetId,
@@ -149,19 +173,19 @@ const _transactWithMetamask = (from, to, quantity, token, contractAddress, sourc
                 tickets: [{
                   hash: res.hash,
                   status: 'PENDING',
-                  value: quantity,
+                  value,
                 }],
                 coin: {
-                  code: token,
+                  code: tokenCode,
                 },
               },
             },
             () => {
               displayModal(false, modal);
-              displayNotice(`${TAPi18n.__('transaction-broadcast').replace('{{token}}', `$${token}`)}`, true);
+              const html = `<span class="suggest-item suggest-token suggest-token-inline" style="background-color: ${coin.color} ">${coin.code}</span>`;
+              displayNotice(`${TAPi18n.__('transaction-broadcast').replace('{{token}}', html)}`, true, true);
             }
           );
-          console.log(ticket);
         }
       });
     });
@@ -217,15 +241,13 @@ if (Meteor.isClient) {
   /**
   * @summary log in signing public blockchain address with private key
   */
-  const loginWithMetamask = () => {
-    if (_web3(true)) {
+  const loginWithMetamask = async () => {
+    if (await _web3(true)) {
       const nonce = Math.floor(Math.random() * 10000);
-
+      // const publicAddress = web3.eth.getCoinbase.toLowerCase();
       let publicAddress;
 
-      window.ethereum.enable().then(function () {
-        return web3.eth.getCoinbase();
-      }).then(function (coinbaseAddress) {
+      web3.eth.getCoinbase().then(function (coinbaseAddress) {
         publicAddress = coinbaseAddress.toLowerCase();
         return handleSignMessage(publicAddress, nonce);
       }).then(function (signature) {
@@ -296,4 +318,5 @@ if (Meteor.isServer) {
 }
 
 export const transactWithMetamask = _transactWithMetamask;
+export const getTransactionStatus = _getTransactionStatus;
 export const setupWeb3 = _web3;

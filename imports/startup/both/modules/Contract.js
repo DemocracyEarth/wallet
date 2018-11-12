@@ -8,6 +8,7 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 import { shortUUID } from '/imports/startup/both/modules/crypto';
 import { transact } from '/imports/api/transactions/transaction';
 import { token } from '/lib/token';
+import { geo } from '/lib/geo';
 
 /**
 * @summary signs a contract with a verified user
@@ -421,6 +422,32 @@ const _sumReplies = (contract) => {
 };
 
 /**
+* @summary connects the contract to a physical jurisdcition
+* @param {object} draft being legally bounded
+*/
+const _land = (draft) => {
+  let land = '';
+  if (draft.constituency.length > 0) {
+    for (let i = 0; i < draft.constituency.length; i += 1) {
+      if (draft.constituency[i].kind === 'NATION') {
+        land = draft.constituency[i].code;
+        break;
+      }
+    }
+  }
+  if (!land) {
+    if (Meteor.user() && Meteor.user().profile &&
+        Meteor.user().profile.country && Meteor.user().profile.country.code) {
+      const countryCode = _.where(geo.country, { code: Meteor.user().profile.country.code })[0].code;
+      if (countryCode) {
+        land = countryCode;
+      }
+    }
+  }
+  return land;
+};
+
+/**
 * @summary publishes a contract and goes to home
 * @param {string} contractId - id of the contract to publish
 * @param {string} keyword - key word identifier
@@ -440,12 +467,7 @@ const _publish = (contractId, keyword) => {
   draft.url = `${_getURLDate(draft)}${draft.keyword}`;
 
   // jurisdiction
-  if (Meteor.user() && Meteor.user().profile &&
-      Meteor.user().profile.country && Meteor.user().profile.country.name) {
-    draft.geo = convertToUsername(Meteor.user().profile.country.name);
-  } else {
-    draft.geo = '';
-  }
+  draft.geo = _land(draft);
 
   // ballot
   if (draft.ballotEnabled) {

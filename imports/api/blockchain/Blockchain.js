@@ -19,7 +19,7 @@ Schema.Ticket = new SimpleSchema({
   },
   status: {
     type: String,
-    allowedValues: ['CONFIRMED', 'PENDING'],
+    allowedValues: ['CONFIRMED', 'PENDING', 'FAIL'],
     defaultValue: 'PENDING',
   },
   value: {

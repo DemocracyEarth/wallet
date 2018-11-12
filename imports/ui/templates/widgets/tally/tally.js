@@ -181,7 +181,9 @@ Template.tally.onCreated(function () {
 
 Template.tally.helpers({
   vote() {
-    return Template.instance().feed.get();
+    let feed = Template.instance().feed.get();
+    feed = _.sortBy(feed, function (item) { return item.contract.timestamp * -1; });
+    return feed;
   },
   ready() {
     return Session.get('isLedgerReady', true);

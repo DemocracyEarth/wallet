@@ -16,7 +16,7 @@ if (typeof web3 !== 'undefined') {
 
 /**
 * @summary adjusts decimals of supported tokens, inverse of _addDecimal()
-* @param {value} raw value in lowest decimal
+* @param {string} value value in lowest decimal
 * @param {number} decimals
 * @return {object} bigNumber equivalent with decimals removed
 */
