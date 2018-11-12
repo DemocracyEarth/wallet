@@ -840,7 +840,7 @@ const _loadExternalCryptoBalance = (userId) => {
       user.profile.wallet.reserves[0].balance = weiBalance.toNumber();
       user.profile.wallet.reserves[0].available = weiBalance.toNumber();
 
-      for (let i = 0; i < tokenData.length; i++) {
+      for (let i = 0; i < tokenData.length; i += 1) {
         const foundInWallet = user.profile.wallet.reserves.findIndex(t => t.token === tokenData[i].token);
         if (foundInWallet !== -1) {
           // update token already found in wallet

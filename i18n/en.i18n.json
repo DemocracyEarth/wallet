@@ -189,8 +189,8 @@
   "delegations": "Delegations",
   "log-out": "Logout",
   "logged-in": "Logged",
-  "given-name": "First Name",
-  "family-name": "Surname",
+  "given-name": "Primary Name",
+  "family-name": "Secondary Name",
   "nationality": "Nationality",
   "save-profile": "Save Profile",
   "please-wait": "Please wait...",
@@ -598,7 +598,7 @@
   "voting": "Voting",
   "request": "Request",
   "tweet": "Tweet",
-  "transaction-broadcast": "{{token}} transaction sent to blockchain.",
+  "transaction-broadcast": "{{token}} Transaction sent to blockchain.",
   "ethereum-metamask": "Ethereum",
   "no-chain-found": "No blockchain address found.",
   "metamask-confirm-transaction": "Confirm transaction in your blockchain wallet.",
@@ -607,5 +607,6 @@
   "transaction-status-signed-offchain": "Signed off chain stake",
   "transaction-status-pending-onchain": "Pending on chain transaction",
   "transaction-status-fail-onchain": "Failed on chain transaction",
-  "wallet": "Wallet"
+  "wallet": "Wallet",
+  "transaction-broadcast-error": "{{token}} Transaction failed, review gas and parameters."
 }

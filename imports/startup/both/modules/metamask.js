@@ -94,6 +94,9 @@ const _getTransactionStatus = (hash) => {
 */
 const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, sourceId, targetId) => {
   if (_web3(true)) {
+    const coin = _.where(token.coin, { code: tokenCode })[0];
+    const html = `<span class="suggest-item suggest-token suggest-token-inline" style="background-color: ${coin.color} ">${coin.code}</span>`;
+
     let tx;
     const contract = new web3.eth.Contract(abi, contractAddress);
     if (tokenCode === 'ETH') {
@@ -122,16 +125,8 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
           displayModal(true, modal);
           return;
         }
-        console.log('SALE DE ACA MONO');
-        console.log(error);
       }
       web3.eth.getTransaction(receipt, (err, res) => {
-        if (err) {
-          console.log('VIEIEINEKNJEN');
-          console.log(res);
-          console.log(err);
-        }
-        const coin = _.where(token.coin, { code: tokenCode })[0];
         let value = '0';
 
         if (res.input === '0x') {
@@ -183,12 +178,13 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
             },
             () => {
               displayModal(false, modal);
-              const html = `<span class="suggest-item suggest-token suggest-token-inline" style="background-color: ${coin.color} ">${coin.code}</span>`;
               displayNotice(`${TAPi18n.__('transaction-broadcast').replace('{{token}}', html)}`, true, true);
             }
           );
         }
       });
+    }).catch(function () {
+      displayNotice(`${TAPi18n.__('transaction-broadcast-error').replace('{{token}}', html)}`, true, true);
     });
   } else {
     Meteor.logout();

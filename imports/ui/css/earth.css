@@ -3460,13 +3460,12 @@ blockquote {
 
 .context {
   position: fixed;
-  left: 10px;
-  bottom: 15px;
+  left: 265px;
+  top: 5px;
   z-index: 15000;
   display: block;
   overflow: hidden;
-  margin-right: auto;
-  padding: 3px 30px;
+  padding: 3px 10px;
   border-bottom: 2px solid #ffe079;
   border-radius: 5px;
   background-color: rgba(0, 0, 0, .7);
@@ -6625,6 +6624,11 @@ blockquote {
   }
   .stage.stage-card {
     margin-top: 6px;
+  }
+  .context {
+    left: 10px;
+    top: auto;
+    bottom: 10px;
   }
   .selector-modal {
     left: 20px;
