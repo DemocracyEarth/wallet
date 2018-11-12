@@ -109,18 +109,23 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
       }
       web3.eth.getTransaction(receipt, (err, res) => {
         const coin = _.where(token.coin, { code: tokenCode })[0];
-
-        // binary data from wallet transaction
-        abiDecoder.addABI(abi);
-        const data = abiDecoder.decodeMethod(res.input);
         let value = '0';
 
-        // get data from smart contract input
-        if (data.name === 'transfer') {
-          for (let i = 0; i < data.params.length; i += 1) {
-            if (data.params[i].name === '_value') {
-              value = data.params[i].value;
-              break;
+        if (res.input === '0x') {
+          // ethereum transaciton
+          value = res.value;
+        } else {
+          // token transaction
+          abiDecoder.addABI(abi);
+          const data = abiDecoder.decodeMethod(res.input);
+
+          // get data from smart contract input
+          if (data.name === 'transfer') {
+            for (let i = 0; i < data.params.length; i += 1) {
+              if (data.params[i].name === '_value') {
+                value = data.params[i].value;
+                break;
+              }
             }
           }
         }
