@@ -17,6 +17,12 @@ const _verifySubsidy = (id) => {
   return (Meteor.settings.public.Collective._id === id);
 };
 
+
+/**
+* @summary compose token html
+* @param {object} currency i need to properly figure out this naming issue
+* @return {string} html
+*/
 const _showToken = (currency) => {
   let code;
   if (!currency || currency === 'VOTES') {
@@ -72,18 +78,16 @@ const _getContractToken = (transaction) => {
   return coin;
 };
 
-Template.transaction.onCreated(function () {
-  Template.instance().totalVotes = new ReactiveVar(0);
-  Template.instance().loading = new ReactiveVar(false);
-  Template.instance().status = new ReactiveVar();
-});
-
-Template.transaction.onRendered(function () {
-  if (this.data.contract && this.data.contract.blockchain && this.data.contract.blockchain.tickets.length > 0) {
-    const blockchain = this.data.contract.blockchain;
-    const contractId = this.data._id;
-    if (this.data.contract.blockchain.tickets[0].status === 'PENDING') {
-      getTransactionStatus(this.data.contract.blockchain.tickets[0].hash).then(
+/**
+* @summary syncs app with blockchain data
+* @param {object} contract to verify if still pending
+*/
+const _syncBlockchain = (contract) => {
+  if (contract && contract.blockchain && contract.blockchain.tickets.length > 0) {
+    const blockchain = contract.blockchain;
+    const contractId = contract._id;
+    if (contract.blockchain.tickets[0].status === 'PENDING') {
+      getTransactionStatus(contract.blockchain.tickets[0].hash).then(
         function (receipt) {
           if (receipt && receipt.status) {
             blockchain.tickets[0].status = 'CONFIRMED';
@@ -93,6 +97,16 @@ Template.transaction.onRendered(function () {
       );
     }
   }
+};
+
+Template.transaction.onCreated(function () {
+  Template.instance().totalVotes = new ReactiveVar(0);
+  Template.instance().loading = new ReactiveVar(false);
+  Template.instance().status = new ReactiveVar();
+});
+
+Template.transaction.onRendered(function () {
+  _syncBlockchain(this.data.contract);
 });
 
 Template.transaction.helpers({
