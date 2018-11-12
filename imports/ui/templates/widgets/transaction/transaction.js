@@ -85,7 +85,7 @@ Template.transaction.onRendered(function () {
     if (this.data.contract.blockchain.tickets[0].status === 'PENDING') {
       getTransactionStatus(this.data.contract.blockchain.tickets[0].hash).then(
         function (receipt) {
-          if (receipt.status) {
+          if (receipt && receipt.status) {
             blockchain.tickets[0].status = 'CONFIRMED';
             Transactions.update({ _id: contractId }, { $set: { 'blockchain.tickets': blockchain.tickets } });
           }
