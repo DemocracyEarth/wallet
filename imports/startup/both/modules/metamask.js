@@ -67,6 +67,22 @@ const _web3 = (activateModal) => {
 };
 
 /**
+* @summary get the current status of an on chain transaction
+* @param {string} hash of the ticket
+*/
+const _getTransactionStatus = (hash) => {
+  if (_web3(true)) {
+    return web3.eth.getTransactionReceipt(hash, (err, res) => {
+      if (!err) {
+        return res;
+      }
+      return false;
+    });
+  }
+  return false;
+};
+
+/**
 * @summary send crypto with mask;
 * @param {string} from blockchain address
 * @param {string} to blockchain destination
@@ -296,4 +312,5 @@ if (Meteor.isServer) {
 }
 
 export const transactWithMetamask = _transactWithMetamask;
+export const getTransactionStatus = _getTransactionStatus;
 export const setupWeb3 = _web3;

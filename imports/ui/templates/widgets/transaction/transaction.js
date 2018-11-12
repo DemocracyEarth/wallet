@@ -7,7 +7,8 @@ import { Meteor } from 'meteor/meteor';
 import { getVotes } from '/imports/api/transactions/transaction';
 import { timeCompressed } from '/imports/ui/modules/chronos';
 import { token } from '/lib/token';
-import { removeDecimal } from '/imports/api/blockchain/modules/web3Util.js';
+import { getTransactionStatus } from '/imports/startup/both/modules/metamask';
+import { Transactions } from '/imports/api/transactions/Transactions';
 
 import '/imports/ui/templates/widgets/transaction/transaction.html';
 import '/imports/ui/templates/widgets/preview/preview.js';
@@ -74,6 +75,24 @@ const _getContractToken = (transaction) => {
 Template.transaction.onCreated(function () {
   Template.instance().totalVotes = new ReactiveVar(0);
   Template.instance().loading = new ReactiveVar(false);
+  Template.instance().status = new ReactiveVar();
+});
+
+Template.transaction.onRendered(function () {
+  if (this.data.contract && this.data.contract.blockchain && this.data.contract.blockchain.tickets.length > 0) {
+    const blockchain = this.data.contract.blockchain;
+    const contractId = this.data._id;
+    if (this.data.contract.blockchain.tickets[0].status === 'PENDING') {
+      getTransactionStatus(this.data.contract.blockchain.tickets[0].hash).then(
+        function (receipt) {
+          if (receipt.status) {
+            blockchain.tickets[0].status = 'CONFIRMED';
+            Transactions.update({ _id: contractId }, { $set: { 'blockchain.tickets': blockchain.tickets } });
+          }
+        }
+      );
+    }
+  }
 });
 
 Template.transaction.helpers({
