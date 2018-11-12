@@ -69,9 +69,10 @@ const _getAddress = (user) => {
 * @param {object} profile user to parse
 * @param {boolean} flagOnly just show emoji
 * @param {boolean} nameOnly just show name
+* @param {boolean} codeOnly just show code
 * @returns {string} country
 */
-const getNation = (profile, flagOnly, nameOnly) => {
+const getNation = (profile, flagOnly, nameOnly, codeOnly) => {
   if (profile === undefined) {
     if (Meteor.user() != null) {
       if (Meteor.user().profile.country !== undefined) {
@@ -83,10 +84,13 @@ const getNation = (profile, flagOnly, nameOnly) => {
           if (nameOnly) {
             return `${country[0].name}`;
           }
+          if (codeOnly) {
+            return `${country[0].code}`;
+          }
           return `${Meteor.user().profile.country.name} ${country[0].emoji}`;
         }
       }
-      if (flagOnly || nameOnly) { return ''; }
+      if (flagOnly || nameOnly || codeOnly) { return ''; }
       return TAPi18n.__('digital-citizen');
     }
   } else if (profile.country !== undefined) {
@@ -96,6 +100,9 @@ const getNation = (profile, flagOnly, nameOnly) => {
       }
       if (nameOnly) {
         return `${searchJSON(geo.country, profile.country.name)[0].name}`;
+      }
+      if (codeOnly) {
+        return `${searchJSON(geo.country, profile.country.name)[0].code}`;
       }
       return `${profile.country.name} ${searchJSON(geo.country, profile.country.name)[0].emoji}`;
     }
@@ -113,13 +120,16 @@ const getNation = (profile, flagOnly, nameOnly) => {
         if (nameOnly) {
           return user.profile.country.name;
         }
+        if (codeOnly) {
+          return user.profile.country.code;
+        }
         return `${user.profile.country.name} ${country[0].emoji}`;
       }
-      if (flagOnly || nameOnly) { return ''; }
+      if (flagOnly || nameOnly || codeOnly) { return ''; }
       return TAPi18n.__('unknown');
     }
   }
-  if (flagOnly || nameOnly) { return ''; }
+  if (flagOnly || nameOnly || codeOnly) { return ''; }
   return TAPi18n.__('digital-citizen');
 };
 
@@ -324,7 +334,7 @@ Template.avatar.helpers({
     return getNation(profile, true);
   },
   geoURL(profile) {
-    return `${Router.path('home')}geo/${convertToUsername(getNation(profile, false, true))}`;
+    return `${Router.path('home')}${getNation(profile, false, false, true).toLowerCase()}`;
   },
   sidebarIcon() {
     if (this.sidebar) {

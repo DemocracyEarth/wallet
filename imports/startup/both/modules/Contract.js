@@ -8,6 +8,7 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 import { shortUUID } from '/imports/startup/both/modules/crypto';
 import { transact } from '/imports/api/transactions/transaction';
 import { token } from '/lib/token';
+import { geo } from '/lib/geo';
 
 /**
 * @summary signs a contract with a verified user
@@ -441,8 +442,11 @@ const _publish = (contractId, keyword) => {
 
   // jurisdiction
   if (Meteor.user() && Meteor.user().profile &&
-      Meteor.user().profile.country && Meteor.user().profile.country.name) {
-    draft.geo = convertToUsername(Meteor.user().profile.country.name);
+      Meteor.user().profile.country && Meteor.user().profile.country.code) {
+    const countryCode = _.where(geo.country, { code: Meteor.user().profile.country.code })[0].code;
+    if (countryCode) {
+      draft.geo = countryCode;
+    }
   } else {
     draft.geo = '';
   }
