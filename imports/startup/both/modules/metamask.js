@@ -109,7 +109,7 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
       tx = {
         from,
         to: contractAddress,
-        value: quantity,
+        value: 0,
         data: contract.methods.transfer(to, quantityWithDecimals).encodeABI(),
         gas: 200000,
         chainId: 4,
@@ -122,8 +122,15 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
           displayModal(true, modal);
           return;
         }
+        console.log('SALE DE ACA MONO');
+        console.log(error);
       }
       web3.eth.getTransaction(receipt, (err, res) => {
+        if (err) {
+          console.log('VIEIEINEKNJEN');
+          console.log(res);
+          console.log(err);
+        }
         const coin = _.where(token.coin, { code: tokenCode })[0];
         let value = '0';
 
