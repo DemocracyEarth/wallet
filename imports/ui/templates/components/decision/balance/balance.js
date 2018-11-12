@@ -1,8 +1,9 @@
 import { Template } from 'meteor/templating';
 
 import { getCoin } from '/imports/ui/templates/components/identity/chain/chain';
-import { wei2eth, adjustDecimal } from '/imports/api/blockchain/modules/web3Util';
+import { wei2eth, removeDecimal } from '/imports/api/blockchain/modules/web3Util';
 import { timeCompressed } from '/imports/ui/modules/chronos';
+import { token } from '/lib/token';
 
 import '/imports/ui/templates/components/decision/balance/balance.html';
 
@@ -25,8 +26,8 @@ const _getWidth = (balance, placed) => {
 * @param {string} token currency being used
 * @returns {number}
 */
-const _currencyValue = (value, token) => {
-  switch (token) {
+const _currencyValue = (value, tokenCode) => {
+  switch (tokenCode) {
     case 'WEI':
       return wei2eth(value.toString());
     // case 'VOTE':
@@ -39,13 +40,13 @@ const _currencyValue = (value, token) => {
 /**
 * @summary format currency display according to crypto rules
 * @param {string} value value to be changed
-* @param {string} token currency being used
+* @param {string} tokenCode currency being used
 * @returns {string} formatted number
 */
-const _formatCryptoValue = (value, token) => {
-  let tokenCode;
-  if (!token) { tokenCode = 'ETH'; } else { tokenCode = token; }
-  return numeral(_currencyValue(value, tokenCode)).format(getCoin(tokenCode).format);
+const _formatCryptoValue = (value, tokenCode) => {
+  let tokenFinal;
+  if (!tokenCode) { tokenFinal = 'ETH'; } else { tokenFinal = tokenCode; }
+  return numeral(_currencyValue(value, tokenFinal)).format(getCoin(tokenFinal).format);
 };
 
 /**
@@ -121,8 +122,10 @@ Template.balance.helpers({
     return `${_getPercentage(this)}%`;
   },
   balance() {
+    const instance = Template.instance();
     if (this.isCrypto && this.value) {
-      return this.value;
+      const coinData = _.where(token.coin, { code: instance.coin.code })[0];
+      return _formatCryptoValue(removeDecimal(this.value, coinData.decimals).toNumber(), instance.coin.code);
     }
     const balance = _currencyValue(this.balance, this.token);
     return numeral(balance).format(Template.instance().coin.format);

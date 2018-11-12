@@ -7,6 +7,7 @@ import { Meteor } from 'meteor/meteor';
 import { getVotes } from '/imports/api/transactions/transaction';
 import { timeCompressed } from '/imports/ui/modules/chronos';
 import { token } from '/lib/token';
+import { removeDecimal } from '/imports/api/blockchain/modules/web3Util.js';
 
 import '/imports/ui/templates/widgets/transaction/transaction.html';
 import '/imports/ui/templates/widgets/preview/preview.js';
@@ -41,6 +42,7 @@ const _getContractToken = (transaction) => {
     disableBar: true,
     disableStake: true,
   };
+  // crypto transactions
   if (transaction.contract.kind === 'CRYPTO' && transaction.contract.blockchain) {
     coin.isCrypto = true;
     coin.value = transaction.contract.blockchain.tickets[0].value;

@@ -2,15 +2,17 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Router } from 'meteor/iron:router';
-import abi from 'human-standard-token-abi';
 import { displayModal } from '/imports/ui/modules/modal';
 import { transact } from '/imports/api/transactions/transaction';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { addDecimal } from '/imports/api/blockchain/modules/web3Util.js';
 import { token } from '/lib/token';
 
+import abi from 'human-standard-token-abi';
+
 const Web3 = require('web3');
 const ethUtil = require('ethereumjs-util');
+const abiDecoder = require('abi-decoder');
 
 let web3;
 
@@ -52,19 +54,15 @@ const _web3 = (activateModal) => {
   }
 
   web3.eth.getCoinbase().then(function (coinbase) {
-    console.log(`coinbase: ${coinbase}`)
     if (!coinbase) {
       if (activateModal) {
         modal.message = TAPi18n.__('metamask-activate');
         displayModal(true, modal);
-        console.log('TIRAME FALSO');
         return false;
       }
     }
   });
 
-  console.log(`que esta haciend: ${web3}`);
-  console.log(web3);
   return web3;
 };
 
@@ -82,10 +80,6 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
   if (_web3(true)) {
     let tx;
     const contract = new web3.eth.Contract(abi, contractAddress);
-
-    console.log(`token`);
-    console.log(tokenCode);
-    console.log(`quantity: ${quantity}`);
     if (tokenCode === 'ETH') {
       tx = {
         from,
@@ -114,8 +108,26 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
         }
       }
       web3.eth.getTransaction(receipt, (err, res) => {
+        const coin = _.where(token.coin, { code: tokenCode })[0];
+
+        // binary data from wallet transaction
+        abiDecoder.addABI(abi);
+        const data = abiDecoder.decodeMethod(res.input);
+        let value = '0';
+
+        // get data from smart contract input
+        if (data.name === 'transfer') {
+          for (let i = 0; i < data.params.length; i += 1) {
+            if (data.params[i].name === '_value') {
+              value = data.params[i].value;
+              break;
+            }
+          }
+        }
+
+        // persist transaction in sovereign
         if (!err) {
-          const ticket = transact(
+          transact(
             sourceId,
             targetId,
             0,
@@ -134,7 +146,7 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
                 tickets: [{
                   hash: res.hash,
                   status: 'PENDING',
-                  value: quantity,
+                  value,
                 }],
                 coin: {
                   code: tokenCode,
@@ -143,7 +155,6 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
             },
             () => {
               displayModal(false, modal);
-              const coin = _.where(token.coin, { code: tokenCode })[0];
               const html = `<span class="suggest-item suggest-token suggest-token-inline" style="background-color: ${coin.color} ">${coin.code}</span>`;
               displayNotice(`${TAPi18n.__('transaction-broadcast').replace('{{token}}', html)}`, true, true);
             }

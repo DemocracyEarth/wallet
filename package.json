@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.1.2",
+    "abi-decoder": "^1.2.0",
     "atob": "^2.1.0",
     "autoprefixer": "^6.4.1",
     "babel-runtime": "^6.26.0",
