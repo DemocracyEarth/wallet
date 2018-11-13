@@ -33,7 +33,6 @@ const _publish = () => {
     publishContract(draft._id, uri);
 
     // announce
-    displayNotice(TAPi18n.__('posted-idea'), true);
     document.getElementById('titleContent').innerText = '';
     Session.set('missingTitle', false);
 

@@ -28,6 +28,21 @@ Schema.Ticket = new SimpleSchema({
   },
 });
 
+Schema.Score = new SimpleSchema({
+  totalConfirmed: {
+    type: String,
+    defaultValue: '0',
+  },
+  totalPending: {
+    type: String,
+    defaultValue: '0',
+  },
+  totalFail: {
+    type: String,
+    defaultValue: '0',
+  },
+});
+
 Schema.Blockchain = new SimpleSchema({
   publicAddress: {
     type: String,
@@ -48,6 +63,10 @@ Schema.Blockchain = new SimpleSchema({
   },
   balance: {
     type: String,
+    optional: true,
+  },
+  score: {
+    type: Schema.Score,
     optional: true,
   },
 });

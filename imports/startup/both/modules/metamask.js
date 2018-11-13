@@ -180,8 +180,10 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
           );
         }
       });
-    }).catch(function () {
-      displayNotice(`${TAPi18n.__('transaction-broadcast-error').replace('{{token}}', html)}`, true, true);
+    }).catch(function (e) {
+      if (e.message.substring(0, 39) !== 'Returned error: Error: WalletMiddleware' || e.message !== 'Error: MetaMask Tx Signature: User denied transaction signature.') {
+        displayNotice(`${TAPi18n.__('transaction-broadcast-error').replace('{{token}}', html)}`, true, true);
+      }
     });
   } else {
     Meteor.logout();
@@ -238,7 +240,7 @@ if (Meteor.isClient) {
   const loginWithMetamask = async () => {
     if (await _web3(true)) {
       const nonce = Math.floor(Math.random() * 10000);
-      
+
       let publicAddress;
 
       window.ethereum.enable().then(function () {

@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { rules } from '/lib/const';
+import { BigNumber } from 'bignumber.js';
 
 import { displayNotice } from '/imports/ui/modules/notice';
 import { Contracts } from '/imports/api/contracts/Contracts';
@@ -717,11 +718,47 @@ const _insertBlockchainTicket = (_id, tickets) => {
         blockchain.tickets.push(tickets[i]);
       }
     }
-    return Contracts.update({ _id }, { $set: { 'blockchain.tickets': blockchain.tickets } });
+    Contracts.update({ _id }, { $set: { 'blockchain.tickets': blockchain.tickets } });
   }
-
-  return false;
 };
+
+/**
+* @summary counts the total blockchain based votes on a given contract
+* @param {object} contract where to count votes
+*/
+const _tallyBlockchainVotes = (_id) => {
+  const contract = Contracts.findOne({ _id });
+  const tickets = contract.blockchain.tickets;
+
+  if (tickets.length > 0) {
+    let totalPending = new BigNumber(0);
+    let totalConfirmed = new BigNumber(0);
+    let totalFail = new BigNumber(0);
+    let votes;
+
+    for (let i = 0; i < tickets.length; i += 1) {
+      votes = new BigNumber(tickets[i].value);
+
+      switch (tickets[i].status) {
+        case 'CONFIRMED':
+          totalConfirmed = totalConfirmed.plus(votes);
+          break;
+        case 'FAIL':
+          totalFail = totalFail.plus(votes);
+          break;
+        case 'PENDING':
+        default:
+          totalPending = totalPending.plus(votes);
+      }
+    }
+
+    const score = { totalPending: totalPending.toString(), totalConfirmed: totalConfirmed.toString(), totalFail: totalFail.toString() };
+    console.log('SCORE IS');
+    console.log(score);
+    Contracts.update({ _id }, { $set: { 'blockchain.score': score } });
+  }
+};
+
 
 /**
 * @summary create a new transaction between two parties
@@ -792,6 +829,7 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
 
     // update tally on contract
     _insertBlockchainTicket(newTransaction.output.entityId, newTransaction.blockchain.tickets);
+    _tallyBlockchainVotes(newTransaction.output.entityId);
   }
 
   // executes the transaction

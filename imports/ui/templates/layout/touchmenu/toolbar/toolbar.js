@@ -43,7 +43,6 @@ Template.toolbar.events({
   'click #mobile-post-button'() {
     if (!isDisabled()) {
       publishContract(Session.get('contract')._id);
-      displayNotice(TAPi18n.__('posted-idea'), true);
       Session.set('displayToolbar', false);
     }
   },
