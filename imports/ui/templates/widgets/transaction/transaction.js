@@ -108,7 +108,7 @@ Template.transaction.onCreated(function () {
   Template.instance().totalVotes = new ReactiveVar(0);
   Template.instance().loading = new ReactiveVar(false);
 
-  if (Template.currentData().contract && Template.currentData().contract.kind === 'CRYPTO') {
+  if (Template.currentData().contract && Template.currentData().contract.kind === 'CRYPTO' && Template.currentData().contract.blockchain.tickets.length > 0) {
     Template.instance().status = new ReactiveVar(Template.currentData().contract.blockchain.tickets[0].status.toLowerCase());
   }
 });
