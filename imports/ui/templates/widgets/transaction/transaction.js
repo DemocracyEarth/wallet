@@ -92,6 +92,12 @@ const _syncBlockchain = (contract, instance) => {
           if (receipt) {
             if (receipt.status) {
               blockchain.tickets[0].status = 'CONFIRMED';
+              // reload user balance on confirmed transaction
+              Meteor.call('loadUserTokenBalance', Meteor.userId(), (loadBalanceError) => {
+                if (loadBalanceError) {
+                  console.log(loadBalanceError, 'error reloading user balance after Metamask transaction');
+                }
+              });
             } else {
               blockchain.tickets[0].status = 'FAIL';
             }

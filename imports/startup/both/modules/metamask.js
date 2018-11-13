@@ -47,9 +47,7 @@ const _web3 = (activateModal) => {
     return false;
   }
   if (!web3) {
-    // We don't know window.web3 version, so we use our own instance of web3
-    // with provider given by window.web3
-    web3 = new Web3(window.web3.currentProvider);
+    web3 = new Web3(window.ethereum);
   }
 
   web3.eth.getCoinbase().then(function (coinbase) {
@@ -240,10 +238,12 @@ if (Meteor.isClient) {
   const loginWithMetamask = async () => {
     if (await _web3(true)) {
       const nonce = Math.floor(Math.random() * 10000);
-      // const publicAddress = web3.eth.getCoinbase.toLowerCase();
+      
       let publicAddress;
 
-      web3.eth.getCoinbase().then(function (coinbaseAddress) {
+      window.ethereum.enable().then(function () {
+        return web3.eth.getCoinbase();
+      }).then(function (coinbaseAddress) {
         publicAddress = coinbaseAddress.toLowerCase();
         return handleSignMessage(publicAddress, nonce);
       }).then(function (signature) {
