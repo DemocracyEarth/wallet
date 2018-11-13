@@ -4,7 +4,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { displayModal } from '/imports/ui/modules/modal';
 import { transact } from '/imports/api/transactions/transaction';
 import { displayNotice } from '/imports/ui/modules/notice';
-import { addDecimal } from '/imports/api/blockchain/modules/web3Util.js';
+import { addDecimal, getCoin } from '/imports/api/blockchain/modules/web3Util.js';
 import { token } from '/lib/token';
 
 import abi from 'human-standard-token-abi';
@@ -91,7 +91,7 @@ const _getTransactionStatus = (hash) => {
 */
 const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, sourceId, targetId) => {
   if (_web3(true)) {
-    const coin = _.where(token.coin, { code: tokenCode })[0];
+    const coin = getCoin(tokenCode);
     const html = `<span class="suggest-item suggest-token suggest-token-inline" style="background-color: ${coin.color} ">${coin.code}</span>`;
 
     let tx;

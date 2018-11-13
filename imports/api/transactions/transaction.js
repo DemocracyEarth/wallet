@@ -12,7 +12,7 @@ import { Transactions } from '/imports/api/transactions/Transactions';
 import { getTotalVoters } from '/imports/ui/modules/ballot';
 import { notify } from '/imports/api/notifier/notifier';
 import { getWeiBalance, getTokenData } from '/imports/api/blockchain/modules/web3Util';
-
+import { smallNumber } from '/imports/api/blockchain/modules/web3Util.js';
 
 /**
 * @summary looks at what type of entity (collective or individual) doing transaction
@@ -752,9 +752,15 @@ const _tallyBlockchainVotes = (_id) => {
       }
     }
 
-    const score = { totalPending: totalPending.toString(), totalConfirmed: totalConfirmed.toString(), totalFail: totalFail.toString() };
-    console.log('SCORE IS');
-    console.log(score);
+    const score = {
+      totalPending: totalPending.toString(),
+      totalConfirmed: totalConfirmed.toString(),
+      totalFail: totalFail.toString(),
+      value: parseFloat(smallNumber(totalConfirmed, contract.blockchain.coin.code) + smallNumber(totalPending, contract.blockchain.coin.code), 10),
+      finalConfirmed: parseFloat(smallNumber(totalConfirmed, contract.blockchain.coin.code), 10),
+      finalPending: parseFloat(smallNumber(totalPending, contract.blockchain.coin.code), 10),
+      finalFail: parseFloat(smallNumber(totalFail, contract.blockchain.coin.code), 10),
+    };
     Contracts.update({ _id }, { $set: { 'blockchain.score': score } });
   }
 };

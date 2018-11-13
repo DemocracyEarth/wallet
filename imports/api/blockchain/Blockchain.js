@@ -41,6 +41,26 @@ Schema.Score = new SimpleSchema({
     type: String,
     defaultValue: '0',
   },
+  finalConfirmed: {
+    type: Number,
+    defaultValue: 0,
+    decimal: true,
+  },
+  finalPending: {
+    type: Number,
+    defaultValue: 0,
+    decimal: true,
+  },
+  finalFail: {
+    type: Number,
+    defaultValue: 0,
+    decimal: true,
+  },
+  value: {
+    type: Number,
+    defaultValue: 0,
+    decimal: true,
+  },
 });
 
 Schema.Blockchain = new SimpleSchema({

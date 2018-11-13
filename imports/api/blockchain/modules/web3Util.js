@@ -15,6 +15,39 @@ if (typeof web3 !== 'undefined') {
 }
 
 /**
+* @summary get coin from corpus
+* @param {string} code of coin to fetch
+*/
+const _getCoin = (code) => {
+  return _.where(token.coin, { code })[0];
+};
+
+
+const _writeZeroes = (quantity) => {
+  let template = '';
+  for (let i = 0; i < quantity; i += 1) {
+    template += '0';
+  }
+  return template;
+}
+
+/**
+* @summary big number to number
+* @param {BigNumber} valueBN of a big number
+* @param {string} tokenCode token
+* @return {number} final value
+*/
+const _smallNumber = (valueBN, tokenCode) => {
+  const coin = _getCoin(tokenCode);
+  let text = valueBN.toString();
+  let template = _writeZeroes(coin.decimals + 1)
+  if (text.length < template.length) { text = `${_writeZeroes(template.length - text.length)}${text}`; }
+  const comma = text.insert('.', (text.length - coin.decimals));
+  const final = new BigNumber(comma);
+  return final.toNumber();
+};
+
+/**
 * @summary adjusts decimals of supported tokens, inverse of _addDecimal()
 * @param {string} value value in lowest decimal
 * @param {number} decimals
@@ -149,5 +182,7 @@ export const getWeiBalance = _getWeiBalance;
 export const getTokenSymbol = _getTokenSymbol;
 export const getTokenBalance = _getTokenBalance;
 export const removeDecimal = _removeDecimal;
+export const smallNumber = _smallNumber;
 export const addDecimal = _addDecimal;
+export const getCoin = _getCoin;
 export const getTokenData = _getTokenData;
