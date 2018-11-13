@@ -12,14 +12,17 @@ Schema.Reserves = new SimpleSchema({
   balance: {
     type: Number,
     defaultValue: 0,
+    decimal: true,
   },
   placed: {
     type: Number,
     defaultValue: 0,
+    decimal: true,
   },
   available: {
     type: Number,
     defaultValue: 0,
+    decimal: true,
   },
 });
 
