@@ -7,6 +7,8 @@ import { displayNotice } from '/imports/ui/modules/notice';
 import { addDecimal, getCoin } from '/imports/api/blockchain/modules/web3Util';
 import { token } from '/lib/token';
 
+import { defaultSettings } from '/lib/const';
+import { createDelegation } from '/imports/startup/both/modules/Contract';
 import { Transactions } from '/imports/api/transactions/Transactions';
 
 import abi from 'human-standard-token-abi';
@@ -129,7 +131,7 @@ const _syncBlockchain = (contract) => {
 * @param {object} sourceId sender in sovereign
 * @param {object} targetId receiver in sovereign
 */
-const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, sourceId, targetId) => {
+const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, sourceId, targetId, delegateId) => {
   if (_web3(true)) {
     const coin = getCoin(tokenCode);
     const html = `<span class="suggest-item suggest-token suggest-token-inline" style="background-color: ${coin.color} ">${coin.code}</span>`;
@@ -214,6 +216,9 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
               },
             },
             () => {
+              if (delegateId && delegateId !== Meteor.userId()) {
+                createDelegation(Meteor.userId(), delegateId, defaultSettings.delegations);
+              }
               displayModal(false, modal);
               displayNotice(`${TAPi18n.__('transaction-broadcast').replace('{{token}}', html)}`, true, true);
             }

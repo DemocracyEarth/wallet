@@ -6240,6 +6240,10 @@ blockquote {
   float: left;
 }
 
+.video-tutorial {
+  margin-top: 15px;
+}
+
 @media (max-width: 991px) {
   .contract {
     margin-right: 15px;

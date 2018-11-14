@@ -59,6 +59,7 @@ const _cryptoVote = () => {
           getTokenContractAddress(Template.instance().ticket.get().token),
           Meteor.userId(),
           Template.currentData().contract._id,
+          Template.currentData().contract.signatures[0]._id,
         );
       }
     } else if (!checkTokenAvailability(Meteor.user(), Template.instance().ticket.get().token)) {

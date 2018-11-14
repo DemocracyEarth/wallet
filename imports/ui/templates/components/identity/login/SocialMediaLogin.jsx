@@ -70,10 +70,10 @@ export default class SocialMediaLogin extends Component {
           <img src="/images/metamask.png" className="button-icon" alt="lock" />
           {TAPi18n.__('ethereum')}
         </div>
-        <div class="margin-top">
-          <br></br>
-          <iframe width="100%" height="auto" src="https://www.youtube.com/embed/f0kAqVwpCL8?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-          </iframe>
+        <div className="video-tutorial">
+          <video width="100%" height="auto" autoPlay controls controlsList="nodownload" webkitallowfullscreen mozallowfullscreen allowFullScreen poster="https://s3-us-west-2.amazonaws.com/democracyearth/landing/metamask-splash.png">
+              <source src="https://s3-us-west-2.amazonaws.com/democracyearth/landing/MetaMask.mp4" type="video/mp4" />
+          </video>
         </div>
         {/* <div id="blockstack-login" className="button login-button" onClick={this.handleBlockstackLogin}>
           <img src="/images/blockstack.png" className="button-icon" alt="lock" />
