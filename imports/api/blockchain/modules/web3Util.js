@@ -7,7 +7,7 @@ import { token } from '/lib/token';
 
 // Set web3 provider
 let web3;
-const provider = Meteor.settings.public.web3.network.testnet;
+const provider = Meteor.settings.public.web3.network;
 
 if (typeof web3 !== 'undefined') {
   web3 = new Web3(web3.currentProvider);
