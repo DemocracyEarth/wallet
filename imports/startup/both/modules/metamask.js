@@ -5,11 +5,14 @@ import { displayModal } from '/imports/ui/modules/modal';
 import { transact } from '/imports/api/transactions/transaction';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { addDecimal, getCoin } from '/imports/api/blockchain/modules/web3Util';
-import { token } from '/lib/token';
 
-import { defaultSettings } from '/lib/const';
 import { createDelegation } from '/imports/startup/both/modules/Contract';
 import { Transactions } from '/imports/api/transactions/Transactions';
+
+import { token } from '/lib/token';
+import { defaultSettings } from '/lib/const';
+import { convertToSlug } from '/lib/utils';
+
 
 import abi from 'human-standard-token-abi';
 
@@ -216,9 +219,15 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
               },
             },
             () => {
+              /*
+              TODO: Implement delegation here
               if (delegateId && delegateId !== Meteor.userId()) {
+                const delegateName = Meteor.users.findOne({ _id: delegateId }).username;
+                defaultSettings.delegations.title = `${convertToSlug(Meteor.user().username)}-${convertToSlug(delegateName)}`;
+                defaultSettings.delegations.signatures = [{ username: Meteor.user().username }, { username: delegateName }];
                 createDelegation(Meteor.userId(), delegateId, defaultSettings.delegations);
               }
+              */
               displayModal(false, modal);
               displayNotice(`${TAPi18n.__('transaction-broadcast').replace('{{token}}', html)}`, true, true);
             }

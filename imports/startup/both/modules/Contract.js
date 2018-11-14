@@ -272,6 +272,7 @@ const _sendDelegation = (sourceId, targetId, quantity, conditions, newStatus) =>
 */
 const _newDelegation = (delegatorId, delegateId, settings) => {
   let finalTitle;
+  console.log(_getDelegationContract(delegatorId, delegateId));
   if (_getDelegationContract(delegatorId, delegateId)) { return false; }
 
   // creates new delegation contract
