@@ -45,6 +45,8 @@ const _cryptoVote = () => {
             message: TAPi18n.__('metamask-confirm-transaction'),
             cancel: TAPi18n.__('close'),
             awaitMode: true,
+            displayProfile: true,
+            profileId: Template.currentData().contract.signatures[0]._id,
           },
         );
 

@@ -68,14 +68,19 @@ export default class SocialMediaLogin extends Component {
       <div>
         <div id="metamask-login" className="button login-button" onClick={this.handleMetamaskLogin}>
           <img src="/images/metamask.png" className="button-icon" alt="lock" />
-          {TAPi18n.__('ethereum-metamask')}
+          {TAPi18n.__('ethereum')}
+        </div>
+        <div class="margin-top">
+          <br></br>
+          <iframe width="100%" height="auto" src="https://www.youtube.com/embed/f0kAqVwpCL8?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+          </iframe>
         </div>
         {/* <div id="blockstack-login" className="button login-button" onClick={this.handleBlockstackLogin}>
           <img src="/images/blockstack.png" className="button-icon" alt="lock" />
           {TAPi18n.__('blockstack')}
         </div> */}
         <div className="extra identity-list">
-          <a id="signup" href="https://medium.com/@mail.bahurudeen/setup-a-metamask-ethereum-wallet-and-use-it-to-send-and-receive-ether-4f3b99360e4f" target="_blank">{TAPi18n.__('get-blockchain-id')}</a>.
+          <a id="signup" href="https://words.democracy.earth/tutorial-setting-up-your-metamask-186414589d3a" target="_blank">{TAPi18n.__('get-blockchain-id')}</a>.
         </div>
         {/* <div id="twitter-login" className="button button-social twitter" onClick={this.handleTwitterLogin} >{{_ 'twitter'}}</div> */}
       </div>
