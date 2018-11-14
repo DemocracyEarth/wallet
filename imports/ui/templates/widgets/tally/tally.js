@@ -88,7 +88,6 @@ const _isWinningVote = (winningBallot, voterBallot) => {
 
 const _buildFeed = (id, fields, instance, contract, noTitle) => {
   // added stuff
-  // if (fields.kind === instance.data.options.kind) {
   const currentFeed = instance.feed.get();
   const post = fields;
   post._id = id;
@@ -105,7 +104,6 @@ const _buildFeed = (id, fields, instance, contract, noTitle) => {
     currentFeed.push(voteContract);
     instance.feed.set(_.uniq(currentFeed));
   }
-  // }
 };
 
 Template.tally.onCreated(function () {

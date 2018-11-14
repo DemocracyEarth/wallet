@@ -115,10 +115,7 @@ Template.homeFeed.helpers({
     return tally;
   },
   mainLedger() {
-    // options=this.options kind='DELEGATION' singlePost=true hidePost=false peerFeed=false postFeed=false homeFeed=true
     const tally = this;
-    console.log(`mainLedger`);
-    console.log(tally);
     return {
       options: tally.options,
       kind: 'DELEGATION',

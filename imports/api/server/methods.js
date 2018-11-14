@@ -5,7 +5,7 @@ import { Email } from 'meteor/email';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { ServiceConfiguration } from 'meteor/service-configuration';
 
-import { genesisTransaction, loadExternalCryptoBalance } from '/imports/api/transactions/transaction';
+import { genesisTransaction, loadExternalCryptoBalance, tallyBlockchainVotes } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { getTime } from '/imports/api/time';
 import { logUser, log } from '/lib/const';
@@ -143,6 +143,33 @@ Meteor.methods({
 
     log(`{ method: 'loadUserTokenBalance', user: ${logUser()} }`);
     loadExternalCryptoBalance(userId);
+  },
+
+  /**
+  * @summary on every contract where theres a pending with the given hash, updates status
+  * @param {string} hash to be updated
+  * @param {string} status new condition
+  */
+  updateTransactionStatus(hash, status) {
+    check(hash, String);
+    check(status, String);
+
+    const allContracts = Contracts.find({ 'blockchain.tickets': { $elemMatch: { hash } } }).fetch();
+    let contract;
+
+    for (let i = 0; i < allContracts.length; i +=1 ) {
+      let contract = allContracts[i];
+      for (let j = 0; j < contract.blockchain.tickets.length; j += 1) {
+        if (contract.blockchain.tickets[j].hash === hash) {
+          contract.blockchain.tickets[j].status = status;
+          break;
+        }
+      }
+      Contracts.update({ _id: contract._id }, { $set: { 'blockchain.tickets': contract.blockchain.tickets }})
+      tallyBlockchainVotes(contract._id);
+    }
+
+    log(`{ method: 'updateTransactionStatus', user: ${logUser()}, hash: '${hash}' }`);
   },
 
   /**

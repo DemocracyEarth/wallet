@@ -7,6 +7,8 @@ import { displayNotice } from '/imports/ui/modules/notice';
 import { addDecimal, getCoin } from '/imports/api/blockchain/modules/web3Util';
 import { token } from '/lib/token';
 
+import { Transactions } from '/imports/api/transactions/Transactions';
+
 import abi from 'human-standard-token-abi';
 
 const Web3 = require('web3');
@@ -78,6 +80,44 @@ const _getTransactionStatus = (hash) => {
   }
   return false;
 };
+
+/**
+* @summary syncs app with blockchain data
+* @param {object} contract to verify if still pending
+*/
+const _syncBlockchain = (contract) => {
+  if (contract && contract.blockchain && contract.blockchain.tickets.length > 0) {
+    const blockchain = contract.blockchain;
+    const contractId = contract._id;
+    if (contract.blockchain.tickets[0].status === 'PENDING') {
+      _getTransactionStatus(contract.blockchain.tickets[0].hash).then(
+        function (receipt) {
+          if (receipt) {
+            if (receipt.status) {
+              blockchain.tickets[0].status = 'CONFIRMED';
+              // reload user balance on confirmed transaction
+              Meteor.call('loadUserTokenBalance', Meteor.userId(), (loadBalanceError) => {
+                if (loadBalanceError) {
+                  console.log(loadBalanceError, 'error reloading user balance after Metamask transaction');
+                }
+              });
+            } else {
+              blockchain.tickets[0].status = 'FAIL';
+            }
+            Transactions.update({ _id: contractId }, { $set: { 'blockchain.tickets': blockchain.tickets } });
+
+            Meteor.call('updateTransactionStatus', contract.blockchain.tickets[0].hash, blockchain.tickets[0].status, (error) => {
+              if (error) {
+                console.log(error, 'error updating transactions with this hash on server.');
+              }
+            });
+          }
+        }
+      );
+    }
+  }
+};
+
 
 /**
 * @summary send crypto with mask;
@@ -318,3 +358,4 @@ if (Meteor.isServer) {
 export const transactWithMetamask = _transactWithMetamask;
 export const getTransactionStatus = _getTransactionStatus;
 export const setupWeb3 = _web3;
+export const syncBlockchain = _syncBlockchain;

@@ -724,7 +724,7 @@ const _insertBlockchainTicket = (_id, tickets) => {
 
 /**
 * @summary counts the total blockchain based votes on a given contract
-* @param {object} contract where to count votes
+* @param {string} _id where to count votes
 */
 const _tallyBlockchainVotes = (_id) => {
   const contract = Contracts.findOne({ _id });
@@ -942,3 +942,4 @@ export const getVotes = _getVotes;
 export const transact = _transact;
 export const genesisTransaction = _genesisTransaction;
 export const loadExternalCryptoBalance = _loadExternalCryptoBalance;
+export const tallyBlockchainVotes = _tallyBlockchainVotes;

@@ -123,6 +123,10 @@ Template.balance.helpers({
   },
   balance() {
     const instance = Template.instance();
+    if (this.blockchain && this.blockchain.score && this.isButton) {
+      const confirmed = _currencyValue(this.blockchain.score.finalConfirmed, this.token);
+      return `${numeral(confirmed).format(instance.coin.format)}`;
+    }
     if (this.isCrypto && this.value) {
       const coinData = getCoin(instance.coin.code);
       return _formatCryptoValue(removeDecimal(this.value, coinData.decimals).toNumber(), instance.coin.code);
@@ -131,18 +135,18 @@ Template.balance.helpers({
     return numeral(balance).format(Template.instance().coin.format);
   },
   hasPending() {
-    console.log('PENDING CHECK');
-    console.log(this);
-    if (this.blockchain.score) {
+    if (this.blockchain && this.blockchain.score) {
       return (this.blockchain.score.finalPending);
     }
     return false;
   },
   pending() {
-    const instance = Template.instance();
-    const coinData = getCoin(instance.coin.code);
-    const pending = _currencyValue(this.blockchain.score.finalPending, this.token);
-    return `${numeral(pending).format(instance.coin.format)} ${TAPi18n.__('pending')}`;
+    if (this.blockchain && this.blockchain.score) {
+      const instance = Template.instance();
+      const pending = _currencyValue(this.blockchain.score.finalPending, this.token);
+      return `${numeral(pending).format(instance.coin.format)} ${TAPi18n.__('pending')}`;
+    }
+    return '';
   },
 });
 

@@ -35,7 +35,6 @@ const _notify = (transaction) => {
   }
 
   if (Meteor.isClient) {
-    console.log('SALE LLAMADA DE A')
     Meteor.call(
       'sendNotification',
       toId,
@@ -44,7 +43,6 @@ const _notify = (transaction) => {
       transaction,
     );
   } else if (Meteor.isServer) {
-    console.log('SALE LLAMADA DE B')
     Meteor.call(
       'sendNotification',
       toId,

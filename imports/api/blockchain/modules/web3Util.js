@@ -4,6 +4,7 @@ import abi from 'human-standard-token-abi';
 import { BigNumber } from 'bignumber.js';
 import { token } from '/lib/token';
 
+
 // Set web3 provider
 let web3;
 const provider = Meteor.settings.public.web3.network.testnet;
@@ -51,12 +52,13 @@ const _writeZeroes = (quantity) => {
 const _smallNumber = (valueBN, tokenCode) => {
   const coin = _getCoin(tokenCode);
   let text = valueBN.toString();
-  let template = _writeZeroes(coin.decimals + 1)
+  const template = _writeZeroes(coin.decimals + 1);
   if (text.length < template.length) { text = `${_writeZeroes(template.length - text.length)}${text}`; }
   const comma = text.insert('.', (text.length - coin.decimals));
   const final = new BigNumber(comma);
   return final.toNumber();
 };
+
 
 /**
 * @summary adjusts decimals of supported tokens, inverse of _addDecimal()

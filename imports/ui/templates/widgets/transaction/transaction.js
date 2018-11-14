@@ -7,8 +7,9 @@ import { Meteor } from 'meteor/meteor';
 import { getVotes } from '/imports/api/transactions/transaction';
 import { timeCompressed } from '/imports/ui/modules/chronos';
 import { token } from '/lib/token';
-import { getTransactionStatus } from '/imports/startup/both/modules/metamask';
 import { Transactions } from '/imports/api/transactions/Transactions';
+import { syncBlockchain } from '/imports/startup/both/modules/metamask';
+
 
 import '/imports/ui/templates/widgets/transaction/transaction.html';
 import '/imports/ui/templates/widgets/preview/preview.js';
@@ -81,49 +82,19 @@ const _getContractToken = (transaction) => {
   return coin;
 };
 
-/**
-* @summary syncs app with blockchain data
-* @param {object} contract to verify if still pending
-*/
-const _syncBlockchain = (contract, instance) => {
-  if (contract && contract.blockchain && contract.blockchain.tickets.length > 0) {
-    const blockchain = contract.blockchain;
-    const contractId = contract._id;
-    if (contract.blockchain.tickets[0].status === 'PENDING') {
-      getTransactionStatus(contract.blockchain.tickets[0].hash).then(
-        function (receipt) {
-          if (receipt) {
-            if (receipt.status) {
-              blockchain.tickets[0].status = 'CONFIRMED';
-              // reload user balance on confirmed transaction
-              Meteor.call('loadUserTokenBalance', Meteor.userId(), (loadBalanceError) => {
-                if (loadBalanceError) {
-                  console.log(loadBalanceError, 'error reloading user balance after Metamask transaction');
-                }
-              });
-            } else {
-              blockchain.tickets[0].status = 'FAIL';
-            }
-            Transactions.update({ _id: contractId }, { $set: { 'blockchain.tickets': blockchain.tickets } });
-            instance.status.set(blockchain.tickets[0].status.toLowerCase());
-          }
-        }
-      );
-    }
-  }
-};
-
 Template.transaction.onCreated(function () {
   Template.instance().totalVotes = new ReactiveVar(0);
   Template.instance().loading = new ReactiveVar(false);
-
-  if (Template.currentData().contract && Template.currentData().contract.kind === 'CRYPTO' && Template.currentData().contract.blockchain.tickets.length > 0) {
-    Template.instance().status = new ReactiveVar(Template.currentData().contract.blockchain.tickets[0].status.toLowerCase());
-  }
+  Template.instance().alreadyConfirmed = false;
+  Template.instance().txStatus = '';
+  // const data = Template.currentData();
+  // if (data.contract && data.contract.kind === 'CRYPTO' && data.contract.blockchain && data.contract.blockchain.tickets.length > 0) {
+  //  Template.instance().status = new ReactiveVar(data.blockchain.tickets[0].status.toLowerCase());
+  //}
 });
 
 Template.transaction.onRendered(function () {
-  _syncBlockchain(this.data.contract, Template.instance());
+  syncBlockchain(this.data.contract);
 });
 
 Template.transaction.helpers({
@@ -273,14 +244,39 @@ Template.transaction.helpers({
     return '';
   },
   blockchainInfo() {
+    const instance = Template.instance();
     if (this.contract.kind === 'CRYPTO' && this.contract.blockchain) {
-      return `${TAPi18n.__(`transaction-status-${Template.instance().status.get()}-onchain`)} - ${this.contract.blockchain.tickets[0].hash}`;
+      if (instance.txStatus === '') {
+        const tx = Transactions.findOne({ _id: this.contract._id });
+        if (tx) {
+          const status = tx.blockchain.tickets[0].status.toLowerCase();
+          if (status !== 'PENDING') {
+            instance.txStatus = status;
+          }
+          return `${TAPi18n.__(`transaction-status-${status}-onchain`)} - ${this.contract.blockchain.tickets[0].hash}`;
+        }
+      } else {
+        return `${TAPi18n.__(`transaction-status-${instance.txStatus}-onchain`)} - ${this.contract.blockchain.tickets[0].hash}`;
+      }
     }
     return '';
   },
   transactionIcon() {
+    const instance = Template.instance();
     if (this.contract.kind === 'CRYPTO' && this.contract.blockchain) {
-      return `arrow-right-${Template.instance().status.get()}.png`;
+      if (instance.txStatus === '') {
+        const tx = Transactions.findOne({ _id: this.contract._id });
+        if (tx) {
+          const status = tx.blockchain.tickets[0].status.toLowerCase();
+          if (status !== 'PENDING') {
+            instance.txStatus = status;
+          }
+          console.log('FIND');
+          return `arrow-right-${status}.png`;
+        }
+      } else {
+        return `arrow-right-${instance.txStatus}.png`;
+      }
     }
     return 'arrow-right.png';
   },
