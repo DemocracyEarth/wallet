@@ -161,6 +161,18 @@ Template.feed.onCreated(function () {
         }
       }
     },
+    changed: (id, fields) => {
+      let feed = instance.feed.get();
+
+      for (i = 0; i < feed.length; i += 1) {
+        if (feed[i]._id === id) {
+          feed[i] = Object.assign(feed[i], fields);
+          break;
+        }
+      }
+
+      instance.feed.set(feed);
+    },
   });
 });
 
@@ -192,6 +204,7 @@ Template.feed.onDestroyed(function () {
 
 Template.feed.helpers({
   item() {
+    console.log('NEW FEED');
     let feed = Template.instance().feed.get();
 
     // threading

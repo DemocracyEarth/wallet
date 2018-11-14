@@ -4,6 +4,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { wei2eth, removeDecimal, getCoin } from '/imports/api/blockchain/modules/web3Util';
 import { timeCompressed } from '/imports/ui/modules/chronos';
 import { token } from '/lib/token';
+import { Contracts } from '/imports/api/contracts/Contracts';
 
 import '/imports/ui/templates/components/decision/balance/balance.html';
 
@@ -124,6 +125,12 @@ Template.balance.helpers({
   balance() {
     const instance = Template.instance();
     if (this.blockchain && this.blockchain.score && this.isButton) {
+      if (this.contract._id) {
+        const contract = Contracts.findOne({ _id: this.contract._id });
+        if (contract && contract.blockchain) {
+          this.blockchain = contract.blockchain;
+        }
+      }
       const confirmed = _currencyValue(this.blockchain.score.finalConfirmed, this.token);
       return `${numeral(confirmed).format(instance.coin.format)}`;
     }
@@ -136,12 +143,24 @@ Template.balance.helpers({
   },
   hasPending() {
     if (this.blockchain && this.blockchain.score) {
+      if (this.contract._id) {
+        const contract = Contracts.findOne({ _id: this.contract._id });
+        if (contract && contract.blockchain) {
+          this.blockchain = contract.blockchain;
+        }
+      }
       return (this.blockchain.score.finalPending);
     }
     return false;
   },
   pending() {
     if (this.blockchain && this.blockchain.score) {
+      if (this.contract._id) {
+        const contract = Contracts.findOne({ _id: this.contract._id });
+        if (contract && contract.blockchain) {
+          this.blockchain = contract.blockchain;
+        }
+      }
       const instance = Template.instance();
       const pending = _currencyValue(this.blockchain.score.finalPending, this.token);
       return `${numeral(pending).format(instance.coin.format)} ${TAPi18n.__('pending')}`;

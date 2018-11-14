@@ -339,7 +339,6 @@ Template.editor.helpers({
 
 Template.editor.events({
   'click #feedItem-compressed'() {
-    console.log('COMPRESSED');
     const draft = _resetDraft();
     draft.replyId = '';
     Session.set('draftContract', draft);

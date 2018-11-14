@@ -53,6 +53,7 @@ const _getContractToken = (transaction) => {
   // crypto transactions
   if (transaction.contract.blockchain) {
     coin.blockchain = transaction.contract.blockchain;
+    coin.contract = transaction.contract;
   }
   if (transaction.contract.kind === 'CRYPTO' && transaction.contract.blockchain) {
     coin.isCrypto = true;
