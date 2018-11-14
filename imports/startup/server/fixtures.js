@@ -115,10 +115,10 @@ Meteor.startup(() => {
   }
 
   // Web3
-  if (Meteor.settings.public.web3.network.mainnet == "" ||
-      Meteor.settings.public.web3.network.mainnet == undefined) {
+  if (Meteor.settings.public.web3.network === "" ||
+      Meteor.settings.public.web3.network === undefined) {
     console.log('[config WARNING] Web3 mainnet network provider not configured.');
-    console.log('[config FIX] Configure `private.web3.network.mainnet` on settings.json.');
+    console.log('[config FIX] Configure `private.web3.network` on settings.json.');
   } else {
     console.log('[config] Web3 mainnet network provider... OK');
   }
