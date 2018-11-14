@@ -50,6 +50,9 @@ const _getContractToken = (transaction) => {
     disableStake: true,
   };
   // crypto transactions
+  if (transaction.contract.blockchain) {
+    coin.blockchain = transaction.contract.blockchain;
+  }
   if (transaction.contract.kind === 'CRYPTO' && transaction.contract.blockchain) {
     coin.isCrypto = true;
     coin.value = transaction.contract.blockchain.tickets[0].value;

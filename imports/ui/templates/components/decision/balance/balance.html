@@ -4,7 +4,14 @@
       {{ticker}}
     </div>
     <div class="token-balance" style="{{balanceStyle}}">
-      {{balance}}
+      {{#if hasPending}}
+        <div class="token-pending">
+          {{pending}}
+        </div>
+      {{/if}}
+      <div class="token-score">
+        {{balance}}
+      </div>
     </div>
     {{#unless disableStake}}
       <div class="token-stake">

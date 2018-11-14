@@ -4,7 +4,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { displayModal } from '/imports/ui/modules/modal';
 import { transact } from '/imports/api/transactions/transaction';
 import { displayNotice } from '/imports/ui/modules/notice';
-import { addDecimal, getCoin } from '/imports/api/blockchain/modules/web3Util.js';
+import { addDecimal, getCoin } from '/imports/api/blockchain/modules/web3Util';
 import { token } from '/lib/token';
 
 import abi from 'human-standard-token-abi';

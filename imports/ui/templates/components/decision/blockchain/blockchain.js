@@ -6,7 +6,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 
 import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
 import { getContractToken } from '/imports/ui/templates/widgets/transaction/transaction';
-import { getCoin } from '/imports/ui/templates/components/identity/chain/chain';
+import { getCoin } from '/imports/api/blockchain/modules/web3Util.js';
 import { token } from '/lib/token';
 import { formatCryptoValue } from '/imports/ui/templates/components/decision/balance/balance';
 

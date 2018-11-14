@@ -19,9 +19,20 @@ if (typeof web3 !== 'undefined') {
 * @param {string} code of coin to fetch
 */
 const _getCoin = (code) => {
-  return _.where(token.coin, { code })[0];
-};
+  let result = _.where(token.coin, { code });
 
+  if (result.length === 0) {
+    result = _.where(token.coin, { subcode: code });
+  }
+  if (result.length === 0) {
+    if (code === 'VOTES') {
+      result = _.where(token.coin, { code: 'VOTE' });
+    } else {
+      return { code };
+    }
+  }
+  return result[0];
+};
 
 const _writeZeroes = (quantity) => {
   let template = '';

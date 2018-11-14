@@ -1,7 +1,6 @@
 import { Template } from 'meteor/templating';
 
-import { getCoin } from '/imports/ui/templates/components/identity/chain/chain';
-import { wei2eth, removeDecimal } from '/imports/api/blockchain/modules/web3Util';
+import { wei2eth, removeDecimal, getCoin } from '/imports/api/blockchain/modules/web3Util';
 import { timeCompressed } from '/imports/ui/modules/chronos';
 import { token } from '/lib/token';
 
@@ -129,6 +128,19 @@ Template.balance.helpers({
     }
     const balance = _currencyValue(this.balance, this.token);
     return numeral(balance).format(Template.instance().coin.format);
+  },
+  hasPending() {
+    console.log('PENDING CHECK');
+    console.log(this);
+    if (this.blockchain.score) {
+      return (this.blockchain.score.finalPending);
+    }
+    return false;
+  },
+  pending() {
+    const instance = Template.instance();
+    const coinData = _.where(token.coin, { code: instance.coin.code })[0];
+    return _formatCryptoValue(removeDecimal(this.blockchain.score.finalPending, coinData.decimals).toNumber(), instance.coin.code);
   },
 });
 
