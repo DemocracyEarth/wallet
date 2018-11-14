@@ -1,4 +1,5 @@
 import { Template } from 'meteor/templating';
+import { TAPi18n } from 'meteor/tap:i18n';
 
 import { wei2eth, removeDecimal, getCoin } from '/imports/api/blockchain/modules/web3Util';
 import { timeCompressed } from '/imports/ui/modules/chronos';
@@ -123,7 +124,7 @@ Template.balance.helpers({
   balance() {
     const instance = Template.instance();
     if (this.isCrypto && this.value) {
-      const coinData = _.where(token.coin, { code: instance.coin.code })[0];
+      const coinData = getCoin(instance.coin.code);
       return _formatCryptoValue(removeDecimal(this.value, coinData.decimals).toNumber(), instance.coin.code);
     }
     const balance = _currencyValue(this.balance, this.token);
@@ -139,8 +140,9 @@ Template.balance.helpers({
   },
   pending() {
     const instance = Template.instance();
-    const coinData = _.where(token.coin, { code: instance.coin.code })[0];
-    return _formatCryptoValue(removeDecimal(this.blockchain.score.finalPending, coinData.decimals).toNumber(), instance.coin.code);
+    const coinData = getCoin(instance.coin.code);
+    const pending = _currencyValue(this.blockchain.score.finalPending, this.token);
+    return `${numeral(pending).format(instance.coin.format)} ${TAPi18n.__('pending')}`;
   },
 });
 

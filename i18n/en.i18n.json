@@ -608,5 +608,8 @@
   "transaction-status-pending-onchain": "Pending on chain transaction",
   "transaction-status-fail-onchain": "Failed on chain transaction",
   "wallet": "Wallet",
-  "transaction-broadcast-error": "{{token}} Transaction failed, review gas and parameters."
+  "transaction-broadcast-error": "{{token}} Transaction failed, review gas and parameters.",
+  "pending": "Pending",
+  "confirmed": "Confirmed",
+  "fail": "Fail"
 }
