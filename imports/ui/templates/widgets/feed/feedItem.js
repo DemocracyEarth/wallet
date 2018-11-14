@@ -108,8 +108,8 @@ const renderMarkup = (text) => {
   let html = parseURL(text.replace(/<(?:.|\n)*?>/gm, ''));
 
   // hashtags
-  html = html.replace(/(^|\s)(#[a-z\d][\w-]*)/ig, "$1<a href='/tag/$2'>$2</a>");
-  html = _replaceAll(html, "href='/tag/#", "href='/tag/");
+  html = html.replace(/(^|\s)(#[a-z\d][\w-]*)/ig, "$1<a href='/$2'>$2</a>");
+  html = _replaceAll(html, "href='/#", "href='/");
 
   // mentions
   html = html.replace(/(^|\s)(@[a-z\d][\w-]*)/ig, "$1<a href='/@$2'>$2</a>");

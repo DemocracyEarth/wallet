@@ -542,9 +542,6 @@ Template.ballot.helpers({
     return label;
   },
   token() {
-    console.log('----TOKEN----')
-    console.log(Template.instance().ticket.get());
-    console.log('--------------')
     return Template.instance().ticket.get();
   },
   castSingleVote() {

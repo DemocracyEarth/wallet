@@ -362,7 +362,7 @@ Router.route('/tag/:hashtag', {
 /**
 * @summary loads a tag feed
 **/
-Router.route('/geo/:country', {
+Router.route('/:land', {
   name: 'geoFeed',
   template: 'home',
   onBeforeAction() {
@@ -370,21 +370,40 @@ Router.route('/geo/:country', {
     this.next();
   },
   data() {
+    if (this.params.land.length === 2) {
+      // its a country
+      return {
+        options: { view: 'geo', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, country: this.params.land },
+      };
+    }
+    // its a tag
     return {
-      options: { view: 'geo', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, country: this.params.country },
+      options: { view: 'tag', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, tag: this.params.land },
     };
   },
   onAfterAction() {
-    DocHead.removeDocHeadAddedTags();
-    const country = toTitleCase(this.params.country);
+    if (this.params.land.length === 2) {
+      DocHead.removeDocHeadAddedTags();
+      const country = toTitleCase(this.params.land);
 
-    DocHead.setTitle(`${TAPi18n.__('country-tag-title').replace('{{country}}', country).replace('{{collective}}', Meteor.settings.public.Collective.name)}`);
-    _meta({
-      title: `${TAPi18n.__('country-tag-title').replace('{{country}}', country).replace('{{collective}}', Meteor.settings.public.Collective.name)}`,
-      description: `${country}${TAPi18n.__('country-tag-description')} ${Meteor.settings.public.Collective.name}.`,
-      image: `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`,
-      twitter: Meteor.settings.public.Collective.profile.twitter,
-    });
+      DocHead.setTitle(`${TAPi18n.__('country-tag-title').replace('{{country}}', country).replace('{{collective}}', Meteor.settings.public.Collective.name)}`);
+      _meta({
+        title: `${TAPi18n.__('country-tag-title').replace('{{country}}', country).replace('{{collective}}', Meteor.settings.public.Collective.name)}`,
+        description: `${country}${TAPi18n.__('country-tag-description')} ${Meteor.settings.public.Collective.name}.`,
+        image: `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`,
+        twitter: Meteor.settings.public.Collective.profile.twitter,
+      });
+    } else {
+      DocHead.removeDocHeadAddedTags();
+      DocHead.setTitle(`${TAPi18n.__('hashtag-tag-title').replace('{{hashtag}}', this.params.hashtag).replace('{{collective}}', Meteor.settings.public.Collective.name)}`);
+
+      _meta({
+        title: `${TAPi18n.__('hashtag-tag-title').replace('{{hashtag}}', this.params.hashtag).replace('{{collective}}', Meteor.settings.public.Collective.name)}`,
+        description: `#${this.params.hashtag}${TAPi18n.__('hashtag-tag-description')} ${Meteor.settings.public.Collective.name}.`,
+        image: `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`,
+        twitter: Meteor.settings.public.Collective.profile.twitter,
+      });
+    }
   },
 });
 
