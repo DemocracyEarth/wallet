@@ -124,14 +124,20 @@ Template.balance.helpers({
   },
   balance() {
     const instance = Template.instance();
-    if (this.blockchain && this.blockchain.score && this.isButton) {
+    if (this.blockchain && this.isButton) {
       if (this.contract._id) {
         const contract = Contracts.findOne({ _id: this.contract._id });
         if (contract && contract.blockchain) {
           this.blockchain = contract.blockchain;
         }
       }
-      const confirmed = _currencyValue(this.blockchain.score.finalConfirmed, this.token);
+      let score;
+      if (this.blockchain.score) {
+        score = this.blockchain.score.finalConfirmed;
+      } else {
+        score = 0;
+      }
+      const confirmed = _currencyValue(score, this.token);
       return `${numeral(confirmed).format(instance.coin.format)}`;
     }
     if (this.isCrypto && this.value) {

@@ -765,6 +765,37 @@ const _tallyBlockchainVotes = (_id) => {
   }
 };
 
+/**
+* @summary adds voter to the contract
+* @param {string} _id contract to add votes to
+* @param {string} voterId voter to add
+* @param {string} txId ticket of last transction
+*/
+const _addVoter = (_id, voterId, txId) => {
+  const contract = Contracts.findOne({ _id });
+
+  contract.tally.lastTransaction = txId;
+
+  if (!contract.tally.voter || contract.tally.voter.length === 0) {
+    contract.tally.voter = [{
+      _id: voterId,
+    }];
+  }
+  found = false;
+  if (contract.tally.voter) {
+    for (let i = 0; i < contract.tally.voter.length; i += 1) {
+      if (contract.tally.voter[i]._id === voterId) {
+        found = true;
+      }
+    }
+    if (!found) {
+      contract.tally.voter.push({
+        _id: voterId,
+      });
+    }
+  }
+  Contracts.update({ _id: contract._id }, { $set: { tally: contract.tally }});
+}
 
 /**
 * @summary create a new transaction between two parties
@@ -795,7 +826,9 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     return null;
   }
 
-  console.log(settings);
+  let txId;
+  let processing;
+  let newTx;
 
   // build transaction
   const newTransaction = {
@@ -836,37 +869,54 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     // update tally on contract
     _insertBlockchainTicket(newTransaction.output.entityId, newTransaction.blockchain.tickets);
     _tallyBlockchainVotes(newTransaction.output.entityId);
-  }
 
-  // executes the transaction
-  const txId = Transactions.insert(newTransaction);
-  const process = _processTransaction(txId);
+    // executes the transaction
+    newTransaction.status = 'CONFIRMED';
+    txId = Transactions.insert(newTransaction);
+    newTx = Transactions.findOne({ _id: txId });
 
-  /**
-  NOTE: uncomment for testing
-  **/
-  console.log(txId);
-  console.log(process);
+    // adds voter
+    _addVoter(newTransaction.output.entityId, senderId, newTx._id)
 
-
-  if (_transactionMessage(process)) {
-    // once transaction done, run callback
+    // go to interface
     if (callback !== undefined) { callback(); }
 
-    const newTx = Transactions.findOne({ _id: txId });
-    if (Meteor.isClient) {
-      _processedTx(newTx._id);
-      _updateWalletCache(newTx, false);
+    return txId
+
+  // web transaciton
+  } else {
+    // executes the transaction
+    txId = Transactions.insert(newTransaction);
+    processing = _processTransaction(txId);
+    newTx = Transactions.findOne({ _id: txId });
+
+    /**
+    NOTE: uncomment for testing
+    **/
+    console.log(txId);
+    console.log(processing);
+
+
+    if (_transactionMessage(processing)) {
+      console.log('Pdoing the dejielrkjelkrj')
+      // once transaction done, run callback
+      if (callback !== undefined) { callback(); }
+
+      newTx = Transactions.findOne({ _id: txId });
+      if (Meteor.isClient) {
+        _processedTx(newTx._id);
+        _updateWalletCache(newTx, false);
+      }
+
+      // update tally in contract excluding subsidy
+      if (newTx.kind === 'VOTE' && newTx.input.entityType !== 'COLLECTIVE' && newTx.output.entityType !== 'COLLECTIVE') {
+        _tally(newTx);
+      }
+
+      notify(newTx);
+
+      return txId;
     }
-
-    // update tally in contract excluding subsidy
-    if (newTx.kind === 'VOTE' && newTx.input.entityType !== 'COLLECTIVE' && newTx.output.entityType !== 'COLLECTIVE') {
-      _tally(newTx);
-    }
-
-    notify(newTx);
-
-    return txId;
   }
   return null;
 };

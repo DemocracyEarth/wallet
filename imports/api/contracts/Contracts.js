@@ -50,9 +50,15 @@ Schema.Tally = new SimpleSchema({
   },
   'voter.$.votes': {
     type: Number,
+    optional: true,
   },
   'voter.$.ballotList': {
     type: [String],
+    optional: true,
+  },
+  'voter.$.value': {
+    type: String,
+    optional: true,
   },
 });
 

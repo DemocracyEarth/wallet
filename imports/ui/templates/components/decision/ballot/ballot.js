@@ -49,7 +49,6 @@ const _cryptoVote = () => {
         );
 
         // prompt metamask
-        console.log(Template.currentData().contract.blockchain.votePrice);
         transactWithMetamask(
           getTokenAddress(Meteor.user(), Template.instance().ticket.get().token),
           Template.currentData().contract.blockchain.publicAddress,
@@ -490,7 +489,7 @@ Template.ballot.helpers({
         break;
       case 'vote':
         label = `${TAPi18n.__('send')} &#183; `;
-        if (contract) {
+        /*if (contract) {
           if (contract.ballotEnabled) {
             label = TAPi18n.__('stake');
           } else {
@@ -501,7 +500,7 @@ Template.ballot.helpers({
               }
             }
           }
-        }
+        }*/
         break;
       default:
     }
@@ -527,7 +526,7 @@ Template.ballot.helpers({
           }
           break;
         case 'vote':
-          if (contract && contract.tally && contract.tally.choice.length > 1) {
+          /*if (contract && contract.tally && contract.tally.choice.length > 1) {
             label = `&#183; ${_count(contract.tally.choice)}`;
           } else if (contract && contract.tally && contract.tally.voter.length > 1) {
             label += `&#183; ${_count(contract.tally.voter)}`;
@@ -535,7 +534,7 @@ Template.ballot.helpers({
             label += `&#183; ${(contract.tally.voter[0].votes)}`;
           } else {
             label += '&#183; 0';
-          }
+          }*/
           break;
         default:
       }
@@ -543,6 +542,9 @@ Template.ballot.helpers({
     return label;
   },
   token() {
+    console.log('----TOKEN----')
+    console.log(Template.instance().ticket.get());
+    console.log('--------------')
     return Template.instance().ticket.get();
   },
   castSingleVote() {
@@ -590,8 +592,6 @@ Template.ballot.events({
   'click #single-vote'(event) {
     event.preventDefault();
     _cryptoVote();
-    // NOTE: non crypto implementation:
-    // Session.set('castSingleVote', this.contract.keyword);
   },
   'click #edit-reply'(event) {
     event.preventDefault();

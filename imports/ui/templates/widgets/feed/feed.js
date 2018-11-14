@@ -204,7 +204,6 @@ Template.feed.onDestroyed(function () {
 
 Template.feed.helpers({
   item() {
-    console.log('NEW FEED');
     let feed = Template.instance().feed.get();
 
     // threading
