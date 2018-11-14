@@ -280,6 +280,7 @@ Template.sidebar.helpers({
         url: '/',
         selected: false,
       },
+      /*
       {
         id: 1,
         label: TAPi18n.__('menu-approved'),
@@ -302,6 +303,7 @@ Template.sidebar.helpers({
         url: '/?status=constitutional',
         selected: false,
       },
+      */
     ];
   },
 });
