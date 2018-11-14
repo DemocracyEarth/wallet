@@ -6088,7 +6088,10 @@ blockquote {
 }
 
 .token-list {
-  margin-top: 15px;
+  display: inline-block;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .float-right {
@@ -6229,6 +6232,12 @@ blockquote {
 
 .token-score {
   float: right;
+}
+
+.token-wrap {
+  display: inline-block;
+  margin-right: 10px;
+  float: left;
 }
 
 @media (max-width: 991px) {

@@ -1,7 +1,9 @@
 <template name="multiTokenProfile">
   <div class="token-list">
     {{#each tokens}}
-      {{> balance}}
+      <div class="token-wrap">
+        {{> balance}}
+      </div>
     {{/each}}
   </div>
 </template>

@@ -27,6 +27,8 @@ Template.multiTokenProfile.helpers({
         balance: wallet.reserves[i].balance,
         placed: wallet.reserves[i].placed,
         available: wallet.reserves[i].available,
+        disableStake: true,
+        disableBar: true,
       };
       tokens.push(reservesToken);
     }
