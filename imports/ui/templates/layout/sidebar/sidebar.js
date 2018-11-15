@@ -162,6 +162,7 @@ Template.sidebar.onCreated(function () {
   });
 
   instance.autorun(function() {
+    let delegateList;
     if (Meteor.user()) {
       if (Meteor.user().profile.delegations && Meteor.user().profile.delegations.length > 0) {
         const subscription = instance.subscribe('delegates', { view: 'delegateList', items: _.pluck(Meteor.user().profile.delegations, 'userId') });
@@ -171,60 +172,16 @@ Template.sidebar.onCreated(function () {
           for (let i = 0; i < Meteor.user().profile.delegations.length; i += 1) {
             delegates.push({ _id: Meteor.user().profile.delegations[i].userId })
           }
-          console.log(delegates);
-          const delegateList = _adapt(Meteor.users.find({ $or: delegates }).fetch());
+          delegateList = _adapt(Meteor.users.find({ $or: delegates }).fetch());
           Template.instance().delegates.set(delegateList);
           Template.instance().participants.set(_otherMembers(delegateList));
         }
       }
     }
-  })
-/*
-  instance.autorun(function () {
-    const subscriptionContracts = instance.subscribe('feed', { view: 'delegationContracts' });
-    if (subscriptionContracts.ready()) {
-      if (Meteor.user()) {
-        const contracts = Contracts.find({ $and: [{ signatures: { $elemMatch: { _id: Meteor.userId() } } }, { kind: 'DELEGATION' }] }).fetch();
-        const subscriptionTransactions = instance.subscribe('delegations', {
-          view: 'delegationTransactions',
-          items: _.pluck(contracts, '_id'),
-        });
-        if (subscriptionTransactions.ready()) {
-          const transactions = Transactions.find({ $or: [{ $and: [{ 'output.entityId': Meteor.userId() }, { kind: 'DELEGATION' }] },
-            { $and: [{ 'input.entityId': Meteor.userId() }, { kind: 'DELEGATION' }] },
-            { $and: [{ 'input.delegateId': Meteor.userId() }, { kind: 'DELEGATION' }] },
-            { $and: [{ 'output.delegateId': Meteor.userId() }, { kind: 'DELEGATION' }] }] }).fetch();
-
-          const txList = _.pluck(transactions, '_id');
-          let newTransaction;
-          if (Session.get('delegationTransactions')) {
-            const txNew = _.difference(txList, Session.get('delegationTransactions'));
-            if (txNew.length > 0) {
-              for (const i in txNew) {
-                newTransaction = Transactions.findOne({ _id: txNew[i] });
-                if (newTransaction.input.entityId !== Meteor.userId()
-                    && !processedTx(newTransaction._id)
-                    && !Session.get(`vote-${Meteor.userId()}-${newTransaction.output.entityId}`)) {
-                  updateWalletCache(newTransaction, true);
-                }
-              }
-            }
-          }
-          Session.set('delegationTransactions', txList);
-
-          if (Meteor.user()) {
-            const delegateList = getDelegates(contracts, transactions);
-            Template.instance().delegates.set(delegateList);
-            Template.instance().participants.set(_otherMembers(delegateList));
-          }
-        }
-      } else {
-        Template.instance().participants.set(_otherMembers());
-      }
+    if (!delegateList) {
+      Template.instance().participants.set(_otherMembers());
     }
-  });
-*/
-
+  })
 });
 
 Template.sidebar.onRendered(() => {
