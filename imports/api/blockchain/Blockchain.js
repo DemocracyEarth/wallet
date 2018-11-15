@@ -92,3 +92,4 @@ Schema.Blockchain = new SimpleSchema({
 });
 
 export const Blockchain = Schema.Blockchain;
+export const Ticket = Schema.Ticket;

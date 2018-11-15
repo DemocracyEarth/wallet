@@ -125,14 +125,98 @@ const _syncBlockchain = (contract) => {
 
 
 /**
+* @summary writes delegation on user array
+* @param {object} user the user getting written
+* @param {object} delegation the delegation
+* @return {object} user.profile.delegetaions
+*/
+const _writeDelegation = (user, delegation) => {
+  if (!user.profile.delegations || user.profile.delegations.length === 0) {
+    user.profile.delegations = [delegation];
+  } else {
+    let found = false;
+    for (let i = 0; i < user.profile.delegations.length; i += 1) {
+      if (user.profile.delegations[i].userId === delegation.userId) {
+        if (user.profile.delegations[i].policies.length === 0) {
+          user.profile.delegations[i].policies = delegation.policies;
+        } else {
+          user.profile.delegations[i].policies.push(delegation.policies[0]);
+        }
+        if (user.profile.delegations[i].tickets.length === 0) {
+          user.profile.delegations[i].tickets = delegation.tickets;
+        } else {
+          user.profile.delegations[i].tickets.push(delegation.tickets[0]);
+        }
+      }
+    }
+    if (!found) {
+      user.profile.delegations.push(delegation);
+    }
+  }
+  return user.profile.delegations;
+}
+
+
+/**
+* @summary new model for delegations version 1.0 beta
+* @param {string} sourceId who is delegating
+* @param {string} targetId to whom
+* @param {string} contractId why
+* @param {object} receipt blockchain ticket
+*/
+const _delegate = (sourceId, targetId, contractId, hash, value) => {
+  if (sourceId !== targetId) {
+    // update source
+    const source = Meteor.users.findOne({ _id: sourceId });
+    source.profile.delegations = _writeDelegation(source, {
+      userId: targetId,
+      policies: [{
+        contractId,
+        incoming: false,
+      }],
+      tickets: [{
+        hash,
+        status: 'PENDING',
+        value
+      }]
+    });
+
+    console.log(source);
+    Meteor.users.update({ _id: sourceId }, { $set: { profile: source.profile }});
+
+
+    // update target
+    const target = Meteor.users.findOne({ _id: targetId });
+    target.profile.delegations = _writeDelegation(target, {
+      userId: sourceId,
+      policies: [{
+        contractId,
+        incoming: true,
+      }],
+      tickets: [{
+        hash,
+        status: 'PENDING',
+        value
+      }]
+    });
+
+    console.log(target);
+    Meteor.users.update({ _id: targetId }, { $set: { profile: target.profile }});
+  }
+
+}
+
+
+/**
 * @summary send crypto with mask;
 * @param {string} from blockchain address
 * @param {string} to blockchain destination
 * @param {string} quantity amount transacted
 * @param {string} tokenCode currency
 * @param {string} contractAddress
-* @param {object} sourceId sender in sovereign
-* @param {object} targetId receiver in sovereign
+* @param {string} sourceId sender in sovereign
+* @param {string} targetId receiver in sovereign
+* @param {string} delegateId user to delegate into
 */
 const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, sourceId, targetId, delegateId) => {
   if (_web3(true)) {
@@ -219,15 +303,7 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
               },
             },
             () => {
-              /*
-              TODO: Implement delegation here
-              if (delegateId && delegateId !== Meteor.userId()) {
-                const delegateName = Meteor.users.findOne({ _id: delegateId }).username;
-                defaultSettings.delegations.title = `${convertToSlug(Meteor.user().username)}-${convertToSlug(delegateName)}`;
-                defaultSettings.delegations.signatures = [{ username: Meteor.user().username }, { username: delegateName }];
-                createDelegation(Meteor.userId(), delegateId, defaultSettings.delegations);
-              }
-              */
+              _delegate(Meteor.userId(), delegateId, targetId, res.hash, value);
               displayModal(false, modal);
               displayNotice(`${TAPi18n.__('transaction-broadcast').replace('{{token}}', html)}`, true, true);
             }

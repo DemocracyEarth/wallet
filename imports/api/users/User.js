@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { Wallet } from './Wallet';
 import { Country } from '../collectives/Collectives';
+import { Ticket } from '/imports/api/blockchain/Blockchain';
 
 const Schema = {};
 
@@ -20,6 +21,33 @@ Schema.Credential = new SimpleSchema({
     optional: true,
   },
 });
+
+Schema.Policy = new SimpleSchema({
+  contractId: {
+    type: String,
+    optional: true,
+  },
+  incoming: {
+    type: Boolean,
+    optional: true,
+  },
+});
+
+Schema.Delegation = new SimpleSchema({
+  userId: {
+    type: String,
+    optional: true,
+  },
+  policies: {
+    type: [Schema.Policy],
+    optional: true,
+  },
+  tickets: {
+    type: [Ticket],
+    optional: true,
+  },
+})
+
 
 Schema.Settings = new SimpleSchema({
   splitLeftWidth: {
@@ -139,6 +167,10 @@ Schema.Profile = new SimpleSchema({
   },
   settings: {
     type: Schema.Settings,
+    optional: true,
+  },
+  delegations: {
+    type: [Schema.Delegation],
     optional: true,
   },
 });
