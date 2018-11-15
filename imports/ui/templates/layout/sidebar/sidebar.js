@@ -39,7 +39,7 @@ function labelName(user) {
 * @summary translates db object to a menu ux object
 * @param {object} user database user object
 */
-function dataToMenu(user) {
+const _dataToMenu = (user) => {
   if (user) {
     return {
       id: user._id,
@@ -64,7 +64,7 @@ function dataToMenu(user) {
 function getList(db, sort) {
   const members = [];
   for (const i in db) {
-    members.push(dataToMenu(db[i]));
+    members.push(_dataToMenu(db[i]));
   }
   if (sort) {
     return _.sortBy(members, (user) => { return user.label; });
@@ -136,6 +136,19 @@ const _otherMembers = (currentDelegates) => {
   return finalList;
 };
 
+
+/**
+* @summary formats delegate list for sidebar menu
+* @param {object} list list of delegates
+*/
+const _adapt = (list) => {
+  const menu = [];
+  for (let i = 0; i < list.length; i += 1) {
+    menu.push(_dataToMenu(list[i]));
+  }
+  return menu;
+}
+
 Template.sidebar.onCreated(function () {
   Template.instance().delegates = new ReactiveVar();
   Template.instance().members = new ReactiveVar(0);
@@ -148,6 +161,25 @@ Template.sidebar.onCreated(function () {
     instance.memberCount.set(result);
   });
 
+  instance.autorun(function() {
+    if (Meteor.user()) {
+      if (Meteor.user().profile.delegations && Meteor.user().profile.delegations.length > 0) {
+        const subscription = instance.subscribe('delegates', { view: 'delegateList', items: _.pluck(Meteor.user().profile.delegations, 'userId') });
+
+        if (subscription.ready()) {
+          let delegates = []
+          for (let i = 0; i < Meteor.user().profile.delegations.length; i += 1) {
+            delegates.push({ _id: Meteor.user().profile.delegations[i].userId })
+          }
+          console.log(delegates);
+          const delegateList = _adapt(Meteor.users.find({ $or: delegates }).fetch());
+          Template.instance().delegates.set(delegateList);
+          Template.instance().participants.set(_otherMembers(delegateList));
+        }
+      }
+    }
+  })
+/*
   instance.autorun(function () {
     const subscriptionContracts = instance.subscribe('feed', { view: 'delegationContracts' });
     if (subscriptionContracts.ready()) {
@@ -191,6 +223,8 @@ Template.sidebar.onCreated(function () {
       }
     }
   });
+*/
+
 });
 
 Template.sidebar.onRendered(() => {
