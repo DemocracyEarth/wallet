@@ -114,7 +114,7 @@ const _verifyConstituencyRights = (contract) => {
                 legitimacy = false;
               }
             }
-            if (Meteor.user().services.facebook) {
+            if (Meteor.user().services && Meteor.user().services.facebook) {
               if (!_emailDomainCheck([{ address: Meteor.user().services.facebook.email, verified: true }], contract.constituency[i].code)) {
                 legitimacy = false;
               }
