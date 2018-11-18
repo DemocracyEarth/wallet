@@ -180,10 +180,7 @@ const _delegate = (sourceId, targetId, contractId, hash, value) => {
         value
       }]
     });
-
-    console.log(source);
     Meteor.users.update({ _id: sourceId }, { $set: { profile: source.profile }});
-
 
     // update target
     const target = Meteor.users.findOne({ _id: targetId });
@@ -203,7 +200,6 @@ const _delegate = (sourceId, targetId, contractId, hash, value) => {
     console.log(target);
     Meteor.users.update({ _id: targetId }, { $set: { profile: target.profile }});
   }
-
 }
 
 
