@@ -71,7 +71,7 @@ export default class SocialMediaLogin extends Component {
           {TAPi18n.__('ethereum')}
         </div>
         <div className="video-tutorial">
-          <video width="100%" height="auto" autoPlay controls controlsList="nodownload" webkitallowfullscreen mozallowfullscreen allowFullScreen poster="https://s3-us-west-2.amazonaws.com/democracyearth/landing/metamask-splash.png">
+          <video width="100%" height="auto" controls controlsList="nodownload" webkitallowfullscreen mozallowfullscreen allowFullScreen poster="https://s3-us-west-2.amazonaws.com/democracyearth/landing/metamask-splash.png">
               <source src="https://s3-us-west-2.amazonaws.com/democracyearth/landing/MetaMask.mp4" type="video/mp4" />
           </video>
         </div>

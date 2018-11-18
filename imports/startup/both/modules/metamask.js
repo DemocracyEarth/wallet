@@ -219,6 +219,10 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
     const coin = getCoin(tokenCode);
     const html = `<span class="suggest-item suggest-token suggest-token-inline" style="background-color: ${coin.color} ">${coin.code}</span>`;
 
+    if (quantity === undefined) {
+      quantity = 1;
+    }
+
     let tx;
     const contract = new web3.eth.Contract(abi, contractAddress);
     if (tokenCode === 'ETH') {
