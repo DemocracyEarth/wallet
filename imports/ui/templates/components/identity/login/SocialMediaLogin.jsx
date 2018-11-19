@@ -57,10 +57,10 @@ export default class SocialMediaLogin extends Component {
     }
     return (
       <div>
-        {/*<div id="blockstack-login" className="button login-button blockstack" onClick={this.handleBlockstackLogin}>
+        <div id="blockstack-login" className="button login-button blockstack" onClick={this.handleBlockstackLogin}>
           <img src="/images/blockstack.png" className="button-icon" alt="lock" />
           {TAPi18n.__('blockstack-id')}
-        </div>*/}
+        </div>
         {/*<div id="facebook-login" className="button login-button facebook" onClick={this.handleFacebookLogin} >
           <img src="/images/facebook.png" className="button-icon" alt="lock" />
           {TAPi18n.__('facebook')}

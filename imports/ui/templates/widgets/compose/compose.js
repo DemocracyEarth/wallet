@@ -60,7 +60,7 @@ Template.compose.helpers({
     return 'images/compose.png';
   },
   enabled() {
-    return false;
+    return true;
   },
 });
 
