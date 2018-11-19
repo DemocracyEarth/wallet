@@ -63,6 +63,28 @@ Router.route('/accounts/callbacks/blockstack', async function () {
 }, { where: 'client' });
 
 if (Meteor.isServer) {
+
+    /**
+    * @summary cleans `userData.profile.apps` keys to get rid of
+    * invalid dots ('.') that may be present
+    * @param {object} userData
+    * @return {object} userData where `apps` is substitued with an
+    * array of objects in specific key/pair format:
+    * { key: _key, value: apps[_key] }
+    */
+    function serializeAppsData (userData) {
+        const serializedArray = [];
+        const apps = userData.profile.apps;
+      
+        for (const _key in apps) {
+          const keyValuePair = { key: _key, value: apps[_key] };
+          serializedArray.push(keyValuePair);
+        }
+      
+        userData.profile.apps = serializedArray;
+        return userData;
+    }
+
     // Enable CORS for the manifest.json file.
     WebApp.rawConnectHandlers.use("/blockstack/manifest.json", function(req, res, next) {
         res.setHeader("Access-Control-Allow-Origin", "*");
@@ -70,7 +92,7 @@ if (Meteor.isServer) {
     });
     
     Accounts.registerLoginHandler('blockstack', function(opts) {
-        const { bsToken, userData } = opts;
+        let { bsToken, userData } = opts;
         if (!bsToken) return undefined;
 
         // Verifies that the signatures match the pubkey, the expiration date is valid, etc.
@@ -88,6 +110,11 @@ if (Meteor.isServer) {
         if (!decodedToken || !decodedToken.payload) {
             throw new Error("Blockstack token was invalid.");
         }
+
+        // userData may come with invalid keys
+        // https://github.com/DemocracyEarth/sovereign/issues/426
+        userData = serializeAppsData(userData);
+
         const user = Accounts.updateOrCreateUserFromExternalService('blockstack', {
             token: decodedToken, 
             userData,
