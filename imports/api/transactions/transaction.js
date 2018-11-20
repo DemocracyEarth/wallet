@@ -810,22 +810,19 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
 */
 const _genesisTransaction = (userId) => {
   const user = Meteor.users.findOne({ _id: userId });
+  const userTransactions = Transactions.find({ 'output.entityId': userId }).fetch();
 
   // veryfing genesis...
-  // TODO this is not right, should check against Transactions collection.
-  if (user.profile.wallet !== undefined) {
-    if (user.profile.wallet.ledger.length > 0) {
-      if (user.profile.wallet.ledger[0].entityType === 'COLLECTIVE') {
-        // this user already had a genesis
-        return;
-      }
-    }
-  }
+  const genesisCheck = userTransactions.find(function (tx) {
+    return tx.input.entityType === 'COLLECTIVE' && tx.input.quantity === 1000;
+  });
 
-  // generate first transaction from collective to new member
-  user.profile.wallet = _generateWalletAddress(user.profile.wallet);
-  Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
-  _transact(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY);
+  if (genesisCheck === undefined) {
+    // generate first transaction from collective to new member
+    user.profile.wallet = _generateWalletAddress(user.profile.wallet);
+    Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
+    _transact(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY);
+  }
 };
 
 export const processedTx = _processedTx;
