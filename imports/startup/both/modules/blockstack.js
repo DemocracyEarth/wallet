@@ -124,4 +124,14 @@ if (Meteor.isServer) {
         console.log(`Created user from Blockstack login: ${user}`);
         return user;
     });
+
+    Accounts.onLogin(function (loginObject) {
+        if (loginObject.type !== 'resume') {
+            Meteor.call('subsidizeUser', (subsidyError) => {
+            if (subsidyError) {
+                console.log(subsidyError, 'error on Accounts.onLogin');
+            }
+            });
+        }
+    });
 }
