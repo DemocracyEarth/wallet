@@ -54,7 +54,7 @@ const _web3 = (activateModal) => {
     return false;
   }
   if (!web3) {
-    web3 = new Web3(window.ethereum);
+    web3 = new Web3(window.web3.currentProvider);
   }
 
   web3.eth.getCoinbase().then(function (coinbase) {
@@ -373,6 +373,38 @@ if (Meteor.isClient) {
 
       let publicAddress;
 
+      if (Meteor.Device.isPhone()) {
+        // When mobile, not supporting privacy-mode for now
+        // https://github.com/DemocracyEarth/sovereign/issues/421
+        return web3.eth.getCoinbase().then(function (coinbaseAddress) {
+          publicAddress = coinbaseAddress.toLowerCase();
+          return handleSignMessage(publicAddress, nonce);
+        }).then(function (signature) {
+          const verification = verifySignature(signature, publicAddress, nonce);
+
+          if (verification === 'success') {
+            const methodName = 'login';
+            const methodArguments = [{ publicAddress }];
+            Accounts.callLoginMethod({
+              methodArguments,
+              userCallback: (err) => {
+                Accounts._pageLoadLogin({
+                  type: 'metamask',
+                  allowed: !err,
+                  error: err,
+                  methodName,
+                  methodArguments,
+                });
+                location.reload();
+              },
+            });
+          } else {
+            console.log(TAPi18n.__('metamask-login-error'));
+          }
+        });
+      }
+
+      // Support privacy-mode in desktop only for now
       window.ethereum.enable().then(function () {
         return web3.eth.getCoinbase();
       }).then(function (coinbaseAddress) {
