@@ -950,11 +950,13 @@ blockquote {
 .button.login-button.blockstack {
   border-color: #270e34;
   background-color: #270e34;
+  text-align: center;
 }
 
 .button.login-button.blockstack:active {
   background-color: transparent;
   color: #fff;
+  text-align: center;
 }
 
 .button.facebook {
