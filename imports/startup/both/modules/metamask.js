@@ -369,8 +369,8 @@ if (Meteor.isClient) {
   /**
   * @summary log in signing public blockchain address with private key
   */
-  const loginWithMetamask = async () => {
-    if (await _web3(true)) {
+  const loginWithMetamask = () => {
+    if (_web3(false)) {
       const nonce = Math.floor(Math.random() * 10000);
       let publicAddress;
       Session.set('newLogin', true);
@@ -435,6 +435,9 @@ if (Meteor.isClient) {
           console.log(TAPi18n.__('metamask-login-error'));
         }
       });
+    } else {
+      modal.message = TAPi18n.__('metamask-activate');
+      displayModal(true, modal);
     }
   };
 
