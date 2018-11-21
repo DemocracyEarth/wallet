@@ -68,6 +68,7 @@ const _meta = (tag, includeTitle) => {
 */
 const _reset = () => {
   Session.set('castSingleVote', undefined);
+  Session.set('newLogin', false);
 };
 
 /**

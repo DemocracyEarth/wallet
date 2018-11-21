@@ -54,6 +54,9 @@ Template.home.helpers({
       dataObject: this,
     };
   },
+  newLogin() {
+    return Session.get('newLogin');
+  },
 });
 
 Template.screen.helpers({

@@ -1,6 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { Router } from 'meteor/iron:router';
+import { Session } from 'meteor/session';
 import { displayModal } from '/imports/ui/modules/modal';
 import { transact } from '/imports/api/transactions/transaction';
 import { displayNotice } from '/imports/ui/modules/notice';
@@ -370,8 +372,8 @@ if (Meteor.isClient) {
   const loginWithMetamask = async () => {
     if (await _web3(true)) {
       const nonce = Math.floor(Math.random() * 10000);
-
       let publicAddress;
+      Session.set('newLogin', true);
 
       if (Meteor.Device.isPhone()) {
         // When mobile, not supporting privacy-mode for now
@@ -395,7 +397,7 @@ if (Meteor.isClient) {
                   methodName,
                   methodArguments,
                 });
-                location.reload();
+                Router.go('/');
               },
             });
           } else {
@@ -426,7 +428,7 @@ if (Meteor.isClient) {
                 methodName,
                 methodArguments,
               });
-              location.reload();
+              Router.go('/');
             },
           });
         } else {
