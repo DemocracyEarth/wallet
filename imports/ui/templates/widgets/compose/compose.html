@@ -15,8 +15,8 @@
 
 <template name="comment">
   <div class="micro-menu">
-        <a href="{{verifiedEmailOnly}}" id="add-comment" class="micro-button micro-button-feed micro-button-comment" ontouchstart="">
-          <span class="micro-label">{{label}}</span>
+        <a href="{{verifiedEmailOnly}}" id="add-comment" class="{{buttonState.style}}" ontouchstart="">
+          <span class="micro-label">{{buttonState.label}}</span>
         </a>
       </div>
 </template>

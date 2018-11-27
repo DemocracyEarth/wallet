@@ -4470,6 +4470,10 @@ blockquote {
   padding: 10px;
 }
 
+.micro-button.micro-button-feed.micro-button-comment.micro-button-comment-cancel {
+  background-color: red;
+}
+
 .micro-icon {
   width: 24px;
   height: 24px;

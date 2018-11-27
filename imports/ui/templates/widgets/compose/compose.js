@@ -78,11 +78,17 @@ Template.compose.events({
 });
 
 Template.comment.helpers({
-  label() {
+  buttonState() {
+    const state = {
+      label: TAPi18n.__('add-comment'),
+      style: 'micro-button micro-button-feed micro-button-comment',
+    };
+
     if (Session.get('showPostEditor') && !Meteor.Device.isPhone()) {
-      return TAPi18n.__('cancel-comment');
+      state.label = TAPi18n.__('cancel-comment');
+      state.style = 'micro-button micro-button-feed micro-button-comment micro-button-comment-cancel';
     }
-    return TAPi18n.__('add-comment');
+    return state;
   },
 });
 
