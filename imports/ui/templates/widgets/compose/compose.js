@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
+import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 
 import { editorFadeOut } from '/imports/ui/templates/components/decision/editor/editor';
@@ -66,6 +67,27 @@ Template.compose.helpers({
 
 Template.compose.events({
   'click #action-hotspace'() {
+    if (Meteor.Device.isPhone()) {
+      const inputElement = document.getElementById('hiddenInput');
+      inputElement.style.visibility = 'visible'; // unhide the input
+      inputElement.focus(); // focus on it so keyboard pops
+      inputElement.style.visibility = 'hidden'; // hide it again
+    }
+    _introEditor(this);
+  },
+});
+
+Template.comment.helpers({
+  label() {
+    if (Session.get('showPostEditor') && !Meteor.Device.isPhone()) {
+      return TAPi18n.__('cancel-comment');
+    }
+    return TAPi18n.__('add-comment');
+  },
+});
+
+Template.comment.events({
+  'click #add-comment'() {
     if (Meteor.Device.isPhone()) {
       const inputElement = document.getElementById('hiddenInput');
       inputElement.style.visibility = 'visible'; // unhide the input

@@ -4464,6 +4464,12 @@ blockquote {
   float: left;
 }
 
+.micro-button.micro-button-feed.micro-button-comment {
+  background-color: #00bf8f;
+  color: white;
+  padding: 10px;
+}
+
 .micro-icon {
   width: 24px;
   height: 24px;

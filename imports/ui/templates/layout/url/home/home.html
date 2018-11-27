@@ -65,10 +65,11 @@
       <div id="non-editable-feed">
         {{> feed options=this.options singlePost=true}}
       </div>
+      {{> comment replyMode=true replyId=replyId}}
       <div class="vote-reply"><div class="thread"></div></div>
 
       {{#if editorMode}}
-        {{> editor contractId=newContractId replyMode=true replyId=replyId}}
+        {{> editor contractId=newContractId replyMode=true replyId=replyId comment=true}}
       {{/if}}
       {{#if isPhone}}
         <input id="hiddenInput" style="visibility: hidden; position: absolute;">
@@ -87,6 +88,4 @@
   <div class="split split-right">
     {{> ledger options=this.options ballotEnabled=ballotEnabled postReady=postReady peerFeed=false postFeed=true}}
   </div>
-
-  {{> compose replyMode=true replyId=replyId}}
 </template>

@@ -36,9 +36,11 @@
       </div>
     </div>
     <div class="section section-editor w-clearfix">
-      {{#each menu}}
-        {{> editorButton}}
-      {{/each}}
+      {{#unless comment}}
+        {{#each menu}}
+          {{> editorButton}}
+        {{/each}}
+      {{/unless}}
       {{#unless isPhone}}
         <div class="post-button">
           {{> authentication desktop=true}}
