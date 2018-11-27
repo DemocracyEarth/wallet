@@ -368,7 +368,7 @@ Template.ballot.helpers({
     return '';
   },
   verifiedEmailOnly() {
-    if (Meteor.user().emails[0].verified) {
+    if (true) {
       return this.contract.url;
     } else {
       return '#';
@@ -388,9 +388,9 @@ Template.ballot.events({
   },
   'click #ballot-micro-menu'() {
     console.log('DEBUG - ballot.js - click #ballot-micro-menu');
-    // if(!Meteor.user().emails[0].verified) {
-    //   displayNotice('verified-email-only', true);
-    // }
-    displayNotice('voting-over', true);
+    if (!Meteor.user().emails[0].verified) {
+      displayNotice('verified-email-only', true);
+    }
+    // displayNotice('voting-over', true);
   }
 });
