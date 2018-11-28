@@ -13,6 +13,7 @@ if (Meteor.isClient) {
   import '/imports/ui/templates/layout/main.js';
   import '/imports/ui/templates/layout/url/home/home.js';
   import '/imports/ui/templates/layout/url/notFound/notFound.js';
+  import '/imports/ui/templates/layout/url/terms/terms.js';
   import '/imports/ui/templates/layout/load/load.js';
   import '/imports/ui/templates/components/identity/login/login.js';
   import '/imports/ui/templates/components/identity/card/card.js';
@@ -292,6 +293,12 @@ Router.route('/verify-email/:token', {
 // Login
 Router.route('/login', {
   name: 'login',
+});
+
+// Terms of service
+Router.route('/terms', {
+  name: 'terms',
+  template: 'terms',
 });
 
 export const meta = _meta;

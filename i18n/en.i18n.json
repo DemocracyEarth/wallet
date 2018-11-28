@@ -477,6 +477,8 @@
   "alliance": "Delegation of Votes",
   "draft": "Draft.",
   "blockstack-id": "Blockstack ID",
+  "blockstack-terms": "I agree to the <a href='/terms' target='_blank' rel='noopener noreferrer'>App Mining Voting Terms</a>",
+  "must-agree-terms": "You must agree to terms before logging in",
   "member": "Member",
   "get-election-votes": "Tallying votes...",
   "get-delegation-votes": "Getting delegation status...",

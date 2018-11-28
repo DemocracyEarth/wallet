@@ -3,14 +3,20 @@ import React, { Component, PropTypes } from 'react';
 import { TAPi18n } from 'meteor/tap:i18n';
 
 import { displayLogin } from '/imports/ui/modules/popup';
+import { displayNotice } from '/imports/ui/modules/notice';
 
 export default class SocialMediaLogin extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      termsCheck: false,
+    };
+
     this.handleFacebookLogin = this.handleFacebookLogin.bind(this);
     this.handleTwitterLogin = this.handleTwitterLogin.bind(this);
     this.handleAgoraLogin = this.handleAgoraLogin.bind(this);
     this.handleBlockstackLogin = this.handleBlockstackLogin.bind(this);
+    this.termsCheck = this.termsCheck.bind(this);
   }
 
   handleFacebookLogin() {
@@ -31,15 +37,23 @@ export default class SocialMediaLogin extends Component {
   }
 
   handleBlockstackLogin() {
-    Meteor.loginWithBlockstack({}, function (err) {
-      if (err.reason) {
-        throw new Meteor.Error('Blockstack login failed', err.reason);
-      }
-    })
+    if (this.state.termsCheck) {
+      Meteor.loginWithBlockstack({}, function (err) {
+        if (err.reason) {
+          throw new Meteor.Error('Blockstack login failed', err.reason);
+        }
+      });
+    } else {
+      displayNotice('must-agree-terms', true);
+    }
   }
 
   handleAgoraLogin() {
     displayLogin(event, document.getElementById('loggedUser'));
+  }
+
+  termsCheck() {
+    this.setState({ termsCheck: !(this.state.termsCheck) });
   }
 
   render() {
@@ -60,6 +74,12 @@ export default class SocialMediaLogin extends Component {
         <div id="blockstack-login" className="button login-button blockstack" onClick={this.handleBlockstackLogin}>
           <img src="/images/blockstack.png" className="button-icon" alt="lock" />
           {TAPi18n.__('blockstack-id')}
+        </div>
+        <div className="login-input blockstack-terms">
+          <label htmlFor="terms" className="login-label">
+            <input id="terms" type="checkbox" className="checkbox-terms" onClick={this.termsCheck} />
+            <span dangerouslySetInnerHTML={{ __html: TAPi18n.__('blockstack-terms') }} />
+          </label>
         </div>
         {/*<div id="facebook-login" className="button login-button facebook" onClick={this.handleFacebookLogin} >
           <img src="/images/facebook.png" className="button-icon" alt="lock" />

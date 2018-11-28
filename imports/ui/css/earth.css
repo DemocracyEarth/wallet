@@ -1471,6 +1471,10 @@ blockquote {
   margin-bottom: 1px;
 }
 
+.checkbox-terms {
+  margin-right: 4px;
+}
+
 .checkbox.checkbox-custom {
   display: inline-block;
   width: 100%;
@@ -3756,6 +3760,20 @@ blockquote {
 
 .login-input.login-input-split.login-input-split-right {
   padding-left: 0px;
+}
+
+.login-input.blockstack-terms {
+  padding: 5px 0px 0px 20px;
+  height: 37px;
+}
+
+.terms-body {
+  font-family: Lato, sans-serif;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 300;
+  padding-right: 10%;
+  padding-left: 5%;
 }
 
 .face {
