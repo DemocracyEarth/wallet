@@ -50,8 +50,9 @@ const _sign = (contractId, userObject, userRole) => {
 * @param {string} keyword tentative title being used for contract
 */
 const _contractURI = (keyword) => {
+  const MAXLENGTH = 30;
   const alphanumeric = keyword.replace(/[^\w\s]/gi, '');
-  return convertToSlug(`${alphanumeric}-${shortUUID()}`);
+  return convertToSlug(`${alphanumeric.substring(0, MAXLENGTH).slice(-1) === '-' ? alphanumeric.substring(0, MAXLENGTH - 1) : alphanumeric.substring(0, MAXLENGTH)}-${shortUUID()}`);
 };
 
 /**
