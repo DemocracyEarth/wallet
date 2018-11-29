@@ -126,9 +126,16 @@ if (Meteor.isServer) {
 
   Accounts.onLogin(function (loginObject) {
     if (loginObject.type !== 'resume') {
+      // TO-REVIEW: can these calls be made onCreateUser instead?
       Meteor.call('subsidizeUser', (subsidyError) => {
         if (subsidyError) {
-          console.log(subsidyError, 'error on Accounts.onLogin');
+          console.log(subsidyError, 'error on Accounts.onLogin with subsidizeError');
+        }
+      });
+
+      Meteor.call('addAndVerifyEmail', (error) => {
+        if (error) {
+          console.log(error, 'error on Accounts.onLogin with addAndVerifyEmail');
         }
       });
     }

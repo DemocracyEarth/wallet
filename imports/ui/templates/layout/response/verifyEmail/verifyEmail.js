@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Session } from 'meteor/session';
@@ -11,6 +12,8 @@ Template.verifyEmail.rendered = function rendered() {
       Session.set('verificationResult', error.reason);
     } else {
       Session.set('verificationResult', TAPi18n.__('email-verified'));
+      const userId = Meteor.userId();
+      Meteor.users.update({ _id: userId }, { $set: { 'emails.0.verified': true } });
     }
   });
 };

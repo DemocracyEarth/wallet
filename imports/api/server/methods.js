@@ -5,7 +5,7 @@ import { Email } from 'meteor/email';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { ServiceConfiguration } from 'meteor/service-configuration';
 
-import { genesisTransaction } from '/imports/api/transactions/transaction';
+import { genesisTransaction, emailInitialization } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { getTime } from '/imports/api/time';
 import { logUser, log } from '/lib/const';
@@ -127,6 +127,15 @@ Meteor.methods({
   subsidizeUser() {
     log(`{ method: 'subsidizeUser', user: ${logUser()} }`);
     genesisTransaction(Meteor.user()._id);
+  },
+
+  /**
+  * @summary manually add email and send verification email to users created
+  * with an external service (like Blockstack)
+  */
+  addAndVerifyEmail() {
+    log(`{ method: 'addAndVerifyEmail', user: ${logUser()} }`);
+    emailInitialization(Meteor.user()._id);
   },
 
   /**
