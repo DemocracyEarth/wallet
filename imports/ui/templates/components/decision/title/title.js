@@ -36,6 +36,9 @@ const getIndexArray = (search, text, caseSensitive) => {
   return indices;
 };
 
+/**
+* @summary gets to current position of the cursor in contenteditable
+*/
 function getCaretPosition() {
   if (window.getSelection && window.getSelection().getRangeAt) {
     const range = window.getSelection().getRangeAt(0);
@@ -56,6 +59,26 @@ function getCaretPosition() {
   }
   return -1;
 }
+
+/**
+* @summary saves new written or pasted content to contract draft
+* @param {string} content new text
+*/
+const _saveToDraft = (content) => {
+  const draft = Session.get('draftContract');
+
+  // Checking content typed
+  if (content === '' || content === ' ') {
+    Session.set('missingTitle', true);
+    return;
+  }
+  Session.set('missingTitle', false);
+
+  // call function when typing seems to be finished.
+  typingTimer = Meteor.setTimeout(() => {
+    Session.set('draftContract', Object.assign(draft, { title: parseMarkup(content) }));
+  }, timers.SERVER_INTERVAL);
+};
 
 /**
 * @summary converts string text using markdown signals to HTML
@@ -138,22 +161,6 @@ Template.title.events({
     $('#titleContent').focus();
   },
 });
-
-const _saveToDraft = (content) => {
-  const draft = Session.get('draftContract');
-
-  // Checking content typed
-  if (content === '' || content === ' ') {
-    Session.set('missingTitle', true);
-    return;
-  }
-  Session.set('missingTitle', false);
-
-  // call function when typing seems to be finished.
-  typingTimer = Meteor.setTimeout(() => {
-    Session.set('draftContract', Object.assign(draft, { title: parseMarkup(content) }));
-  }, timers.SERVER_INTERVAL);
-};
 
 Template.titleContent.events({
   'input #titleContent'() {
