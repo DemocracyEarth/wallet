@@ -72,6 +72,9 @@ export default class SocialMediaLogin extends Component {
               <source src="https://s3-us-west-2.amazonaws.com/democracyearth/landing/MetaMask.mp4" type="video/mp4" />
             </video>
           </div>
+          <div className="extra">
+            <a id="signup" href="https://www.toshi.org/" rel="noopener noreferrer" target="_blank">{TAPi18n.__('get-dapp-browser')}</a>.
+          </div>
           <div id="metamask-login" className="button login-button login-button-last" onClick={this.handleMetamaskLogin}>
             <img src="/images/ethereum.png" className="button-icon" alt="lock" />
             {TAPi18n.__('ethereum-dapp-browsers')}
@@ -86,8 +89,11 @@ export default class SocialMediaLogin extends Component {
             <source src="https://s3-us-west-2.amazonaws.com/democracyearth/landing/MetaMask.mp4" type="video/mp4" />
           </video>
         </div>
+        <div className="extra">
+            <a id="signup" href="https://metamask.io/" rel="noopener noreferrer" target="_blank">{TAPi18n.__('get-web3-wallet')}</a>.
+          </div>
         <div id="metamask-login" className="button login-button login-button-last" onClick={this.handleMetamaskLogin}>
-          <img src="/images/metamask.png" className="button-icon" alt="lock" />
+          <img src="/images/ethereum.png" className="button-icon" alt="lock" />
           {TAPi18n.__('ethereum-web3-wallet')}
         </div>
         {/* <div id="blockstack-login" className="button login-button" onClick={this.handleBlockstackLogin}>

@@ -6245,6 +6245,7 @@ blockquote {
 }
 
 .login-button-last {
+  margin-top: 20px;
   margin-bottom: 20px;
 }
 
@@ -6869,6 +6870,7 @@ blockquote {
     margin-bottom: 0px;
   }
   .login-button-last {
+    margin-top: 15px;
     margin-bottom: 15px;
   }
 }

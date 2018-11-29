@@ -613,7 +613,8 @@
   "confirmed": "Confirmed",
   "fail": "Fail",
   "blockchain-tutorial": "Blockchain Tutorial",
-  "get-dapp-browser": "Install a Web3 Browser",
-  "ethereum-dapp-browsers": "Sign In with Dapp Browser",
+  "get-dapp-browser": "Install recommended Dapp Browser",
+  "get-web3-wallet": "Install recommended Web3 Wallet",
+  "ethereum-dapp-browsers": "Sign In with Browser",
   "ethereum-web3-wallet": "Sign In with Wallet"
 }
