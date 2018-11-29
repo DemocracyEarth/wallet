@@ -36,6 +36,27 @@ const getIndexArray = (search, text, caseSensitive) => {
   return indices;
 };
 
+function getCaretPosition() {
+  if (window.getSelection && window.getSelection().getRangeAt) {
+    const range = window.getSelection().getRangeAt(0);
+    const selectedObj = window.getSelection();
+    let rangeCount = 0;
+    const childNodes = selectedObj.anchorNode.parentNode.childNodes;
+    for (let i = 0; i < childNodes.length; i += 1) {
+      if (childNodes[i] === selectedObj.anchorNode) {
+        break;
+      }
+      if (childNodes[i].outerHTML) {
+        rangeCount += childNodes[i].outerHTML.length;
+      } else if (childNodes[i].nodeType == 3) {
+        rangeCount += childNodes[i].textContent.length;
+      }
+    }
+    return range.startOffset + rangeCount;
+  }
+  return -1;
+}
+
 /**
 * @summary converts string text using markdown signals to HTML
 * @param {string} text
@@ -118,10 +139,25 @@ Template.title.events({
   },
 });
 
+const _saveToDraft = (content) => {
+  const draft = Session.get('draftContract');
+
+  // Checking content typed
+  if (content === '' || content === ' ') {
+    Session.set('missingTitle', true);
+    return;
+  }
+  Session.set('missingTitle', false);
+
+  // call function when typing seems to be finished.
+  typingTimer = Meteor.setTimeout(() => {
+    Session.set('draftContract', Object.assign(draft, { title: parseMarkup(content) }));
+  }, timers.SERVER_INTERVAL);
+};
+
 Template.titleContent.events({
   'input #titleContent'() {
     let content = document.getElementById('titleContent').innerText;
-    const draft = Session.get('draftContract');
 
     // Set timer to check upload to db
     Meteor.clearTimeout(typingTimer);
@@ -141,22 +177,19 @@ Template.titleContent.events({
       Session.set('firstEditorLoad', false);
     }
 
-    // Checking content typed
-    if (content === '' || content === ' ') {
-      Session.set('missingTitle', true);
-      return;
-    }
-    Session.set('missingTitle', false);
-
-    // call function when typing seems to be finished.
-    typingTimer = Meteor.setTimeout(() => {
-      Session.set('draftContract', Object.assign(draft, { title: parseMarkup(content) }));
-    }, timers.SERVER_INTERVAL);
+    _saveToDraft(content);
   },
   'blur #titleContent'() {
     const content = document.getElementById('titleContent').innerText;
-    if (content == '' || content == ' ') {
+    if (content === '' || content === ' ') {
       Session.set('missingTitle', true);
     }
+  },
+  'paste #titleContent'(event) {
+    const paste = (event.clipboardData || window.clipboardData || event.originalEvent.clipboardData).getData('text');
+    const caret = getCaretPosition();
+    document.getElementById('titleContent').innerText = document.getElementById('titleContent').innerText.substring(0, caret) + paste + document.getElementById('titleContent').innerText.substring(caret);
+    const newCaret = parseInt(caret + (paste.length + 1), 10);
+    _saveToDraft(document.getElementById('titleContent').innerText);
   },
 });
