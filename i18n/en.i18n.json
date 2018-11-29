@@ -612,5 +612,8 @@
   "pending": "Pending",
   "confirmed": "Confirmed",
   "fail": "Fail",
-  "blockchain-tutorial": "Blockchain Tutorial"
+  "blockchain-tutorial": "Blockchain Tutorial",
+  "get-dapp-browser": "Install a Web3 Browser",
+  "ethereum-dapp-browsers": "Sign In with Dapp Browser",
+  "ethereum-web3-wallet": "Sign In with Wallet"
 }
