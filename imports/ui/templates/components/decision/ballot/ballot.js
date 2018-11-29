@@ -486,31 +486,36 @@ Template.ballot.helpers({
     return (Router.current().route.options.name !== 'post');
   },
   label(button) {
-    const contract = Contracts.findOne({ _id: this.contract._id });
     let label = '';
-    switch (button) {
-      case 'twitter':
-        label = TAPi18n.__('tweet');
-        break;
-      case 'debate':
-        label = TAPi18n.__('debate');
-        break;
-      case 'vote':
-        label = `${TAPi18n.__('send')} &#183; `;
-        /*if (contract) {
-          if (contract.ballotEnabled) {
-            label = TAPi18n.__('stake');
-          } else {
-            for (const i in contract.tally.voter) {
-              if (contract.tally.voter[i]._id === Meteor.userId()) {
-                label = TAPi18n.__('unvote');
-                break;
+    if (!Meteor.Device.isPhone()) {
+      switch (button) {
+        case 'twitter':
+          label = TAPi18n.__('tweet');
+          break;
+        case 'debate':
+          label = TAPi18n.__('debate');
+          break;
+        case 'vote':
+          label = `${TAPi18n.__('send')} &#183; `;
+          /**
+          const contract = Contracts.findOne({ _id: this.contract._id });
+          if (contract) {
+            if (contract.ballotEnabled) {
+              label = TAPi18n.__('stake');
+            } else {
+              for (const i in contract.tally.voter) {
+                if (contract.tally.voter[i]._id === Meteor.userId()) {
+                  label = TAPi18n.__('unvote');
+                  break;
+                }
               }
             }
-          }
-        }*/
-        break;
-      default:
+          }*/
+          break;
+        default:
+      }
+    } else if (button === 'vote') {
+      label = ' &#183; ';
     }
     return label;
   },
@@ -534,7 +539,7 @@ Template.ballot.helpers({
           }
           break;
         case 'vote':
-          /*if (contract && contract.tally && contract.tally.choice.length > 1) {
+          /* if (contract && contract.tally && contract.tally.choice.length > 1) {
             label = `&#183; ${_count(contract.tally.choice)}`;
           } else if (contract && contract.tally && contract.tally.voter.length > 1) {
             label += `&#183; ${_count(contract.tally.voter)}`;
