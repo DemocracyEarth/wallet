@@ -110,7 +110,12 @@ const _cryptoVote = () => {
 * @param {object} contract to get data from
 */
 const _getTwitterURL = (contract) => {
-  return `https://twitter.com/share?url=${escape(window.location.origin)}${contract.url}&text=${contract.title}`;
+  const TWITTER_MAX_CHARS = 200;
+  let titleURL = contract.title;
+  if (titleURL.length > TWITTER_MAX_CHARS) {
+    titleURL = `${titleURL.substring(0, TWITTER_MAX_CHARS)}...`;
+  }
+  return `https://twitter.com/share?url=${escape(window.location.origin)}${contract.url}&text=${titleURL}`;
 };
 
 /**
