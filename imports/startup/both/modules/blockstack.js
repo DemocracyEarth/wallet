@@ -15,7 +15,8 @@ if (Meteor.isClient) {
 
     blockstack.redirectToSignIn(
       `${window.location.origin}/accounts/callbacks/blockstack`,
-      `${window.location.origin}/blockstack/manifest.json`
+      `${window.location.origin}/blockstack/manifest.json`,
+      ['store_write', 'email']
     );
   };
 
