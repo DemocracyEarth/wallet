@@ -5,14 +5,11 @@ import { Session } from 'meteor/session';
 import { gui } from '/lib/const';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { Router } from 'meteor/iron:router';
 
 import { sidebarWidth, sidebarPercentage, getDelegatesMenu, toggleSidebar } from '/imports/ui/modules/menu';
-import { showFullName } from '/imports/startup/both/modules/utils';
 import { getFlag, getUser } from '/imports/ui/templates/components/identity/avatar/avatar';
-import { Contracts } from '/imports/api/contracts/Contracts';
-import { Transactions } from '/imports/api/transactions/Transactions';
-import { processedTx, updateWalletCache } from '/imports/api/transactions/transaction';
+import { geo } from '/lib/geo';
+import { getCoin } from '/imports/api/blockchain/modules/web3Util';
 
 import '/imports/ui/templates/layout/sidebar/sidebar.html';
 import '/imports/ui/templates/components/collective/collective.js';
@@ -147,7 +144,7 @@ const _adapt = (list) => {
     menu.push(_dataToMenu(list[i]));
   }
   return menu;
-}
+};
 
 Template.sidebar.onCreated(function () {
   Template.instance().delegates = new ReactiveVar();
@@ -181,8 +178,72 @@ Template.sidebar.onCreated(function () {
     if (!delegateList) {
       Template.instance().participants.set(_otherMembers());
     }
-  })
+  });
 });
+
+/**
+* @summary draws main menu for logged user
+* @param {object} user to parse
+* @returns {object} menu
+*/
+const _userMenu = (user) => {
+  const MAX_LABEL_LENGTH = 20;
+
+  const menu = [
+    {
+      id: 0,
+      label: TAPi18n.__('menu-proposals'),
+      icon: 'images/decision-proposals.png',
+      iconActivated: 'images/decision-proposals-active.png',
+      feed: 'user',
+      value: true,
+      separator: false,
+      url: '/',
+      selected: false,
+    },
+  ];
+
+  // country feed
+  const nation = _.where(geo.country, { code: user.profile.country.code })[0];
+  if (user.profile.country) {
+    menu.push({
+      id: parseInt(menu.length, 10),
+      label: `${nation.emoji} ${(user.profile.country.name.length > MAX_LABEL_LENGTH) ? `${user.profile.country.name.substring(0, MAX_LABEL_LENGTH)}...` : user.profile.country.name}`,
+      icon: 'images/decision-globe.png',
+      iconActivated: 'images/decision-globe-active.png',
+      feed: 'user',
+      value: true,
+      separator: false,
+      url: `/${user.profile.country.code.toLowerCase()}`,
+      selected: false,    
+    });
+  }
+
+  // token feeds
+  let coin;
+  if (user.profile.wallet.reserves && user.profile.wallet.reserves.length > 0) {
+    for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
+      coin = getCoin(user.profile.wallet.reserves[i].token);
+      if (coin) {
+        menu.push({
+          id: parseInt(menu.length, 10),
+          label: `${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
+          icon: 'images/decision-coin.png',
+          iconActivated: 'images/decision-coin-active.png',
+          feed: 'user',
+          value: true,
+          separator: false,
+          url: `/${coin.code.toLowerCase()}`,
+          selected: false,    
+        });
+      }
+    }
+  }
+
+  // subjectivity
+  return menu;
+};
+
 
 Template.sidebar.onRendered(() => {
   $('.left').width(`${sidebarPercentage()}%`);
@@ -259,42 +320,9 @@ Template.sidebar.helpers({
     return 0;
   },
   menu() {
-    return [
-      {
-        id: 0,
-        label: TAPi18n.__('menu-proposals'),
-        icon: 'images/decision-proposals.png',
-        iconActivated: 'images/decision-proposals-active.png',
-        feed: 'user',
-        value: true,
-        separator: false,
-        url: '/',
-        selected: false,
-      },
-      /*
-      {
-        id: 1,
-        label: TAPi18n.__('menu-approved'),
-        icon: 'images/decision-approved.png',
-        iconActivated: 'images/decision-approved-active.png',
-        feed: 'user',
-        value: true,
-        separator: false,
-        url: '/?status=approved',
-        selected: false,
-      },
-      {
-        id: 1,
-        label: TAPi18n.__('menu-constitution'),
-        icon: 'images/decision-constitution.png',
-        iconActivated: 'images/decision-constitution-active.png',
-        feed: 'user',
-        value: true,
-        separator: false,
-        url: '/?status=constitutional',
-        selected: false,
-      },
-      */
-    ];
+    if (Meteor.user()) {
+      return _userMenu(Meteor.user());
+    }
+    return '';
   },
 });
