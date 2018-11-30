@@ -48,6 +48,18 @@ Template.profileEditor.helpers({
   usernameAlreadyExists() {
     return (Session.get('queryUsernameStatus') === 'DUPLICATE');
   },
+  verifiedMail() {
+    if (Meteor.settings.public.app.config.mailNotifications) {
+      return Meteor.user().emails[0].verified;
+    }
+    return true;
+  },
+  verifiedMailClass() {
+    if (!Meteor.user().emails[0].verified) {
+      return 'login login-editor';
+    }
+    return 'login';
+  },
 });
 
 Template.profileEditor.events({

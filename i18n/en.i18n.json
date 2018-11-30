@@ -207,6 +207,7 @@
   "missing-username": "Username is required without spaces.",
   "digital-citizen": "Digital",
   "pending-verification": "E-mail not verified. <a href='' class='resend-verification-link'>Resend link</a>?",
+  "verification-warning": "Make sure you validate your email first, check your inbox for more info.",
   "user-not-found": "User not found.",
   "no-delegations": "No delegation agreements found.",
   "verify-email-address": "Verify Your Email Address",

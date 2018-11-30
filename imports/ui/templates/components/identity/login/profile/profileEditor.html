@@ -1,5 +1,5 @@
 <template name="profileEditor">
-  <div class="login">
+  <div class="{{verifiedMailClass}}">
     {{> avatar includeName=true includeNation=true editor=true}}
     <div class="w-form">
       <form id="email-form-3" name="email-form-3" data-name="Email Form 3">
@@ -46,6 +46,11 @@
         <div id="save-profile" class="button login-button">
           <div>{{_ 'save-profile'}}</div>
         </div>
+        {{#unless verifiedMail}}
+          <div class="extra float-left">
+            {{> warning label="verification-warning"}}
+          </div>
+        {{/unless}}
       </form>
     </div>
   </div>
