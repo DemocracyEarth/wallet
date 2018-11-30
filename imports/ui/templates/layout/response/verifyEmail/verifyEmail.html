@@ -7,30 +7,13 @@
             <div class="w-clearfix identity">
               <div class="w-clearfix avatar-editor">
                 <div class="identity-peer">
-                  <span>Your email has now been verified, you can vote from <a href="/">home</a> now</span>
+                  {{#if verificationResult}}
+                    <span>Your email has now been verified, you can vote from <a href="/">home</a> now</span>
+                  {{else}}
+                    <span>Incorrect email token, please verify the URL is exactly the same as the one in your inbox</span>
+                  {{/if}}
                 </div>
               </div>
-              <div class="data data-feed">
-                <div class="verifier verifier-live verifier-feed">
-                  <div class="option-placeholder short"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="w-inline-block w-clearfix option-proposal">
-            <div class="option-title option-link option-search title-input">
-               <div class="title-input title-feed">
-                 {{verificationResult}}
-              </div>
-            </div>
-          </div>
-          <div class="block block-list">
-            <div class="micro-menu">
-              <a href="/" class="micro-button micro-button-feed" ontouchstart="">
-                <img src="{{pathFor route='home'}}images/vote.png" class="micro-icon">
-                <span class="micro-label">{{_ 'start-voting'}}</span>
-                <div class="verifier verifier-live verifier-feed"></div>
-              </a>
             </div>
           </div>
         </div>

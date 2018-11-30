@@ -9,9 +9,12 @@ import './verifyEmail.html';
 Template.verifyEmail.rendered = function rendered() {
   Accounts.verifyEmail(Session.get('emailToken'), (error) => {
     if (error) {
-      Session.set('verificationResult', error.reason);
+      Session.set('verificationResult', false);
     } else {
-      Session.set('verificationResult', TAPi18n.__('email-verified'));
+      Session.set('verificationResult', true);
+      // Meteor should update emails.verified automatically, but
+      // it's failing to do so when user is created via
+      // Accounts.updateOrCreateUserFromExternalService
       const userId = Meteor.userId();
       Meteor.users.update({ _id: userId }, { $set: { 'emails.0.verified': true } });
     }
