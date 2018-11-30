@@ -208,7 +208,8 @@ const _userMenu = (user) => {
   if (user.profile.country) {
     menu.push({
       id: parseInt(menu.length, 10),
-      label: `${nation.emoji} ${(user.profile.country.name.length > MAX_LABEL_LENGTH) ? `${user.profile.country.name.substring(0, MAX_LABEL_LENGTH)}...` : user.profile.country.name}`,
+      // label: `${nation.emoji} ${(user.profile.country.name.length > MAX_LABEL_LENGTH) ? `${user.profile.country.name.substring(0, MAX_LABEL_LENGTH)}...` : user.profile.country.name}`,
+      label: `${(user.profile.country.name.length > MAX_LABEL_LENGTH) ? `${user.profile.country.name.substring(0, MAX_LABEL_LENGTH)}...` : user.profile.country.name} ${nation.emoji}`,
       icon: 'images/decision-globe.png',
       iconActivated: 'images/decision-globe-active.png',
       feed: 'user',
@@ -227,6 +228,7 @@ const _userMenu = (user) => {
       if (coin) {
         menu.push({
           id: parseInt(menu.length, 10),
+          // label: `<span class="suggest-item suggest-token suggest-token-sidebar">${coin.code}</span> ${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
           label: `${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
           icon: 'images/decision-coin.png',
           iconActivated: 'images/decision-coin-active.png',
@@ -234,7 +236,9 @@ const _userMenu = (user) => {
           value: true,
           separator: false,
           url: `/${coin.code.toLowerCase()}`,
-          selected: false,    
+          selected: false,
+          displayToken: true,
+          tokenColor: coin.color,
         });
       }
     }

@@ -4093,6 +4093,11 @@ blockquote {
   float: none;
 }
 
+.suggest-item.suggest-token.suggest-token-sidebar {
+  margin-top: 5px;
+  padding-bottom: 0px;
+}
+
 .plus {
   font-size: 18px;
   font-weight: 700;
