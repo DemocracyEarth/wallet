@@ -117,7 +117,7 @@ const renderMarkup = (text) => {
 
   // tokens
   html = html.replace(/(^|\s)(\$[a-z\d][\w-]*)/ig, "$1<a href='/token/$2'>$2</a>");
-  html = _replaceAll(html, "href='/token/$", "href='/token/");
+  html = _replaceAll(html, "href='/token/$", "href='$");
 
   // markup
   html = html.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');

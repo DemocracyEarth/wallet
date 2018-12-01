@@ -411,7 +411,7 @@ Router.route('/:land', {
 /**
 * @summary loads a token feed
 **/
-Router.route('/token/:hashtag', {
+Router.route('/$:hashtag', {
   name: 'tokenFeed',
   template: 'home',
   onBeforeAction() {

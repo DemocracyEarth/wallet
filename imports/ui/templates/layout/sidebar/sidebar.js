@@ -235,7 +235,7 @@ const _userMenu = (user) => {
           feed: 'user',
           value: true,
           separator: false,
-          url: `/${coin.code.toLowerCase()}`,
+          url: `/$${coin.code.toLowerCase()}`,
           selected: false,
           displayToken: true,
           tokenColor: coin.color,
