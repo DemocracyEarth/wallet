@@ -34,14 +34,16 @@ Router.route('/accounts/callbacks/blockstack', async function () {
   const userData = await blockstack.handlePendingSignIn();
   window.userData = userData;
 
+  console.log('### DEBUG ### - blockstack.js - router - userData ', userData);
+
   // https://github.com/blockstack/blockstack.js/issues/307
   // We cannot differentiate HTTP 404 errors when the profile was not found vs. empty profiles, as the handlePendingSignIn
   // just returns a default empty profile. So we make the name compulsory, which is an indication that the profile has been
   // filled in.
-  if (!userData.profile.name) {
-    const msg = 'Blockstack login failed, likely because the profile was not found. Have you filled in your Blockstack profile?';
-    throw new Error(msg);
-  }
+  // if (!userData.profile.name) {
+  //   const msg = 'Blockstack login failed, likely because the profile was not found. Have you filled in your Blockstack profile?';
+  //   throw new Error(msg);
+  // }
 
   const methodName = 'login';
   const methodArguments = [{ bsToken: authResponse, userData }];

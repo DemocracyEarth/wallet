@@ -76,6 +76,8 @@ function normalizeBlockstackUser(profile, user) {
   });
 
   const { name } = user.services.blockstack.userData.profile;
+  let username;
+
   profile = _.extend(profile, {
     firstName: name,
     credentials: credential,
@@ -87,7 +89,13 @@ function normalizeBlockstackUser(profile, user) {
     profile.picture = user.services.blockstack.userData.profile.image[0].contentUrl;
   }
 
-  const username = user.services.blockstack.token.payload.username || generateAvailableUsername(deburr(toLower(camelCase(name))));
+  if (user.services.blockstack.token.payload.username === null) {
+    let bstackAddress = user.services.blockstack.userData.identityAddress;
+    bstackAddress = 'bstack' + bstackAddress.slice(0, 7);
+    username = generateAvailableUsername(deburr(toLower(camelCase(bstackAddress))));
+  } else {
+    username = user.services.blockstack.token.payload.username || generateAvailableUsername(deburr(toLower(camelCase(name))));
+  }
 
   return _.extend(user, {
     username,
