@@ -16,6 +16,7 @@ import '/imports/ui/templates/components/decision/fork/fork.js';
 import '/imports/ui/templates/components/decision/liquid/liquid.js';
 import '/imports/ui/templates/widgets/warning/warning.js';
 import { displayNotice } from '/imports/ui/modules/notice';
+import { emailListCheck } from '/lib/permissioned';
 
 const _userCanVote = (contract, forkId) => {
   const forks = Template.instance().forks;
@@ -367,12 +368,14 @@ Template.ballot.helpers({
     }
     return '';
   },
-  verifiedEmailOnly() {
-    if (Meteor.user().emails[0].verified) {
-      return this.contract.url;
-    } else {
-      return '#';
+  enabledUserOnly() {
+    // An enabled user is both in email list and has verified email
+    if (emailListCheck(Meteor.user().emails[0].address)) {
+      if (Meteor.user().emails[0].verified) {
+        return this.contract.url;
+      }
     }
+    return '#';
   },
   votingOver() {
     return '#';
@@ -387,10 +390,14 @@ Template.ballot.events({
     Meteor.setTimeout(() => { document.getElementById('text-fork-proposal').value = ''; }, 100);
   },
   'click #ballot-micro-menu'() {
-    console.log('DEBUG - ballot.js - click #ballot-micro-menu');
-    if (!Meteor.user().emails[0].verified) {
-      displayNotice('verified-email-only', true);
+    if (emailListCheck(Meteor.user().emails[0].address)) {
+      if (!Meteor.user().emails[0].verified) {
+        displayNotice('verified-email-only', true);
+      }
+    } else {
+      // not a whitelist user
+      displayNotice('whitelist-only', true);
     }
     // displayNotice('voting-over', true);
-  }
+  },
 });
