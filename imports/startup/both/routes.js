@@ -371,7 +371,14 @@ Router.route('/:land', {
     this.next();
   },
   data() {
-    if (this.params.land.length === 2) {
+    if (this.params.land.substring(0, 1) === '$') {
+      console.log('what is going on');
+      console.log(`${this.params.land}`);
+      // its a blockchain
+      return {
+        options: { view: 'token', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, token: this.params.land.substring(1) },
+      };
+    } else if (this.params.land.length === 2) {
       // its a country
       return {
         options: { view: 'geo', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, country: this.params.land },
@@ -408,10 +415,10 @@ Router.route('/:land', {
   },
 });
 
+
 /**
 * @summary loads a token feed
-**/
-Router.route('/$:hashtag', {
+Router.route('/$:token', {
   name: 'tokenFeed',
   template: 'home',
   onBeforeAction() {
@@ -420,10 +427,11 @@ Router.route('/$:hashtag', {
   },
   data() {
     return {
-      options: { view: 'tag', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, tag: this.params.hashtag },
+      options: { view: 'token', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, token: this.params.token },
     };
   },
 });
+**/
 
 // Email routes
 Router.route('/verify-email/:token', {

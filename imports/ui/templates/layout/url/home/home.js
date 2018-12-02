@@ -75,6 +75,9 @@ Template.screen.helpers({
   geo() {
     return (this.options.view === 'geo');
   },
+  token() {
+    return (this.options.view === 'token');
+  },
 });
 
 Template.homeFeed.onCreated(function () {
