@@ -20,10 +20,10 @@ if (typeof web3 !== 'undefined') {
 * @param {string} code of coin to fetch
 */
 const _getCoin = (code) => {
-  let result = _.where(token.coin, { code });
+  let result = _.where(token.coin, { code: code.toUpperCase() });
 
   if (result.length === 0) {
-    result = _.where(token.coin, { subcode: code });
+    result = _.where(token.coin, { subcode: code.toUpperCase() });
   }
   if (result.length === 0) {
     if (code === 'VOTES') {

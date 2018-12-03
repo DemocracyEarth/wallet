@@ -3,9 +3,12 @@ import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Router } from 'meteor/iron:router';
 import { Meteor } from 'meteor/meteor';
+import { TAPi18n } from 'meteor/tap:i18n';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
+import { getCoin } from '/imports/api/blockchain/modules/web3Util.js';
+import { geo } from '/lib/geo';
 
 import '/imports/ui/templates/layout/url/home/home.html';
 import '/imports/ui/templates/widgets/feed/feed.js';
@@ -85,10 +88,6 @@ Template.homeFeed.onCreated(function () {
   const instance = this;
   const subscription = instance.subscribe('feed', { view: instance.data.options.view, sort: { createdAt: -1 } });
 
-
-  console.log(`homefeed`);
-  console.log(JSON.stringify(this.data));
-
   Session.set('minimizedEditor', true);
 
   if (!Session.get('draftContract') && !Meteor.Device.isPhone()) {
@@ -121,8 +120,6 @@ Template.homeFeed.helpers({
   },
   mainFeed() {
     const tally = this;
-    console.log('mainFeed');
-    console.log(JSON.stringify(tally));
     Session.set('longFeedView', this.options.view);
     return tally;
   },
@@ -140,6 +137,19 @@ Template.homeFeed.helpers({
   },
   feedReady() {
     return Template.instance().feedReady.get();
+  },
+  feedTitle() {
+    let asset;
+    switch (this.options.view) {
+      case 'token':
+        asset = getCoin(this.options.token);
+        return TAPi18n.__('feed-token-posts').replace('{{asset}}', asset.name);
+      case 'geo':
+        asset = _.where(geo.country, { code: this.options.country.toUpperCase() })[0];
+        return TAPi18n.__('feed-geo-posts').replace('{{asset}}', asset.name);
+      default:
+        return TAPi18n.__('happening-now');
+    }
   },
 });
 

@@ -616,5 +616,7 @@
   "get-dapp-browser": "Install recommended Dapp Browser",
   "get-web3-wallet": "Install recommended Web3 Wallet",
   "ethereum-dapp-browsers": "Sign In with Browser",
-  "ethereum-web3-wallet": "Sign In with Wallet"
+  "ethereum-web3-wallet": "Sign In with Wallet",
+  "feed-token-posts": "With {{asset}} Token",
+  "feed-geo-posts": "From {{asset}}"
 }
