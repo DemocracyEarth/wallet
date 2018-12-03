@@ -8,7 +8,7 @@ Accounts.emailTemplates.from = `${name} <${address}>`;
 
 Accounts.emailTemplates.verifyEmail = {
   subject() {
-    return "[" + Meteor.settings.public.Collective.name + "] " + TAPi18n.__('verify-email-address') +  " Verify Your Email Address";
+    return "[" + Meteor.settings.public.Collective.name + "] " + TAPi18n.__('verify-email-address');
   },
   text( user, url ) {
     let emailAddress   = user.emails[0].address,
@@ -16,7 +16,7 @@ Accounts.emailTemplates.verifyEmail = {
         supportEmail   = Meteor.settings.public.Collective.emails[0].address,
         emailBody      = `To verify your email address (${emailAddress}) visit the following link:\n\n${urlWithoutHash}\n\n
                           If you did not request this verification, please ignore this email.
-                          If you feel something is wrong, please contact our support team: ${supportEmail}.`;
+                          If you feel something is wrong, please contact paula@democracy.earth`;
 
     return emailBody;
   }
