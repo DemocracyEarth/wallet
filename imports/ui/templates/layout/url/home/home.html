@@ -9,6 +9,9 @@
 </template>
 
 <template name="screen">
+  {{#if token}}
+    {{> homeFeed this}}
+  {{/if}}
   {{#if tag}}
     {{> homeFeed this}}
   {{/if}}
@@ -22,9 +25,6 @@
     {{> postFeed this}}
   {{/if}}
   {{#if home}}
-    {{> homeFeed this}}
-  {{/if}}
-  {{#if token}}
     {{> homeFeed this}}
   {{/if}}
 </template>

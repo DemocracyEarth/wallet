@@ -83,7 +83,11 @@ Template.screen.helpers({
 Template.homeFeed.onCreated(function () {
   Template.instance().feedReady = new ReactiveVar(false);
   const instance = this;
-  const subscription = instance.subscribe('feed', { view: 'latest', sort: { createdAt: -1 } });
+  const subscription = instance.subscribe('feed', { view: instance.data.options.view, sort: { createdAt: -1 } });
+
+
+  console.log(`homefeed`);
+  console.log(JSON.stringify(this.data));
 
   Session.set('minimizedEditor', true);
 
@@ -117,6 +121,8 @@ Template.homeFeed.helpers({
   },
   mainFeed() {
     const tally = this;
+    console.log('mainFeed');
+    console.log(JSON.stringify(tally));
     Session.set('longFeedView', this.options.view);
     return tally;
   },
