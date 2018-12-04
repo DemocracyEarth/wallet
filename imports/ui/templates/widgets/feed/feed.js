@@ -86,6 +86,20 @@ const _feedDepth = (list) => {
   return newFeed;
 };
 
+/**
+* @summary if its an ovewview feed (not post thread)
+* @return {boolean} feed is an overview not a thread
+*/
+const _isIndexFeed = (instance) => {
+  return (instance.options.view === 'lastVotes'
+    || instance.options.view === 'latest'
+    || instance.options.view === 'linkedFeed'
+    || instance.options.view === 'geo'
+    || instance.options.view === 'token'
+    || instance.mainPost === true);
+};
+
+
 Template.feed.onCreated(function () {
   Template.instance().count = new ReactiveVar(Template.currentData().count);
   Template.instance().feed = new ReactiveVar();
@@ -162,9 +176,9 @@ Template.feed.onCreated(function () {
       }
     },
     changed: (id, fields) => {
-      let feed = instance.feed.get();
+      const feed = instance.feed.get();
 
-      for (i = 0; i < feed.length; i += 1) {
+      for (let i = 0; i < feed.length; i += 1) {
         if (feed[i]._id === id) {
           feed[i] = Object.assign(feed[i], fields);
           break;
@@ -206,8 +220,8 @@ Template.feed.helpers({
   item() {
     let feed = Template.instance().feed.get();
 
-    // threading
-    if (this.options.view === 'lastVotes' || this.options.view === 'latest' || this.options.view === 'linkedFeed' || this.mainPost === true) {
+    // main view
+    if (_isIndexFeed(this)) {
       // general view
       for (let i = 0; i <= (feed.length - 1); i += 1) {
         feed[i].mainFeed = true;

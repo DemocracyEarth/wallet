@@ -84,8 +84,14 @@ Template.ledger.helpers({
   },
   homeVotes() {
     const tally = this;
-    tally.options.view = 'lastVotes';
-    tally.options.sort = { timestamp: -1 };
+    console.log(JSON.stringify(tally));
+    switch (tally.options.view) {
+      case 'latest':
+        tally.options.view = 'lastVotes';
+        tally.options.sort = { timestamp: -1 };
+        break;
+      default:
+    }
     return tally;
   },
   isLedgerReady() {

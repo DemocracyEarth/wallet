@@ -372,8 +372,6 @@ Router.route('/:land', {
   },
   data() {
     if (this.params.land.substring(0, 1) === '$') {
-      console.log('what is going on');
-      console.log(`${this.params.land}`);
       // its a blockchain
       return {
         options: { view: 'token', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, token: this.params.land.substring(1) },

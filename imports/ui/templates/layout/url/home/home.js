@@ -127,7 +127,7 @@ Template.homeFeed.helpers({
     const tally = this;
     return {
       options: tally.options,
-      kind: 'DELEGATION',
+      // kind: 'DELEGATION',
       singlePost: true,
       hidePost: false,
       peerFeed: false,
