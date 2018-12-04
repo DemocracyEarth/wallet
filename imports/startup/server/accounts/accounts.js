@@ -94,7 +94,13 @@ function normalizeBlockstackUser(profile, user) {
     bstackAddress = 'bstack' + bstackAddress.slice(0, 7);
     username = generateAvailableUsername(deburr(toLower(camelCase(bstackAddress))));
   } else {
-    username = user.services.blockstack.token.payload.username || generateAvailableUsername(deburr(toLower(camelCase(name))));
+    const unslicedUsername = user.services.blockstack.token.payload.username;
+    // Slice out '.id' or '.id.blockstack' if present
+    if (unslicedUsername.indexOf('.id') !== -1) {
+      username = unslicedUsername.slice(0, unslicedUsername.indexOf('.id'));
+    } else {
+      username = unslicedUsername;
+    }
   }
 
   return _.extend(user, {
