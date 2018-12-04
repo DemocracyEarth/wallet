@@ -4,12 +4,14 @@ import { TAPi18n } from 'meteor/tap:i18n';
 
 import { displayLogin } from '/imports/ui/modules/popup';
 import { displayNotice } from '/imports/ui/modules/notice';
+import Warning from '/imports/ui/templates/widgets/warning/Warning.jsx';
 
 export default class SocialMediaLogin extends Component {
   constructor(props) {
     super(props);
     this.state = {
       termsCheck: false,
+      termsWarning: false,
     };
 
     this.handleFacebookLogin = this.handleFacebookLogin.bind(this);
@@ -44,7 +46,7 @@ export default class SocialMediaLogin extends Component {
         }
       });
     } else {
-      displayNotice('must-agree-terms', true);
+      this.setState({ termsWarning: !(this.state.termsWarning) });
     }
   }
 
@@ -57,6 +59,8 @@ export default class SocialMediaLogin extends Component {
   }
 
   render() {
+    const uncheckedTerms = this.state.termsWarning;
+
     if (this.props.agoraMode) {
       return (
         <div>
@@ -81,6 +85,7 @@ export default class SocialMediaLogin extends Component {
             <span dangerouslySetInnerHTML={{ __html: TAPi18n.__('blockstack-terms') }} />
           </label>
         </div>
+        {uncheckedTerms ? <div className="extra section"> <Warning label="must-agree-terms" /> </div> : null}
         {/*<div id="facebook-login" className="button login-button facebook" onClick={this.handleFacebookLogin} >
           <img src="/images/facebook.png" className="button-icon" alt="lock" />
           {TAPi18n.__('facebook')}
