@@ -4,7 +4,7 @@
 
     {{> collective}}
 
-    <ul class="menu w-clearfix w-list-unstyled">
+    {{!-- <ul class="menu w-clearfix w-list-unstyled">
       {{> inbox label='delegates' separator=true count=totalDelegates}}
       {{#each delegate}}
         {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon isAvatar=true iconActivated=iconActivated feed=feed}}
@@ -13,7 +13,7 @@
           {{> warning label='no-delegations-found'}}
         </div>
       {{/each}}
-    </ul>
+    </ul> --}}
     <ul class="menu w-clearfix w-list-unstyled">
       {{> inbox label='recent-activity' separator=true}}
       {{#each participant}}
