@@ -6,6 +6,8 @@ import { $ } from 'meteor/jquery';
 
 import { editorFadeOut } from '/imports/ui/templates/components/decision/editor/editor';
 import { createContract } from '/imports/startup/both/modules/Contract';
+import { emailListCheck } from '/lib/permissioned';
+import { displayNotice } from '/imports/ui/modules/notice';
 
 import '/imports/ui/templates/widgets/compose/compose.html';
 
@@ -100,6 +102,10 @@ Template.comment.events({
       inputElement.focus(); // focus on it so keyboard pops
       inputElement.style.visibility = 'hidden'; // hide it again
     }
-    _introEditor(this);
+    if (emailListCheck(Meteor.user().emails[0].address)) {
+      _introEditor(this);
+    } else {
+      displayNotice('whitelist-only', true);
+    }
   },
 });
