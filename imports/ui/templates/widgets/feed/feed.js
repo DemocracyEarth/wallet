@@ -221,6 +221,8 @@ Template.feed.helpers({
     let feed = Template.instance().feed.get();
 
     // main view
+    console.log('Template.feed:');
+    console.log(JSON.stringify(this));
     if (_isIndexFeed(this)) {
       // general view
       for (let i = 0; i <= (feed.length - 1); i += 1) {
