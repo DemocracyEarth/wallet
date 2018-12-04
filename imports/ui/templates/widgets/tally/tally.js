@@ -106,6 +106,13 @@ const _buildFeed = (id, fields, instance, contract, noTitle) => {
   }
 };
 
+const _defaultTally = (view) => {
+  return (view === 'lastVotes' ||
+    view === 'threadVotes' ||
+    view === 'transactionsToken'
+  );
+};
+
 Template.tally.onCreated(function () {
   Template.instance().feed = new ReactiveVar();
   Template.instance().contract = new ReactiveVar();
@@ -136,7 +143,7 @@ Template.tally.onCreated(function () {
     } else if (this.data.options.userId) {
       instance.contract.set(Meteor.users.findOne({ _id: this.data.options.userId }));
     }
-  } else if (this.data.options.view === 'lastVotes' || this.data.options.view === 'threadVotes' || this.data.options.view === 'transactionsToken') {
+  } else if (_defaultTally(this.data.options.view)) {
     instance.openFeed = true;
   }
 

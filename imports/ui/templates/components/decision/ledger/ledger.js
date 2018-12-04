@@ -18,10 +18,10 @@ const _convertQuery = (instance) => {
     case 'latest':
       tally.options.view = 'lastVotes';
       break;
-    case 'geo':
     case 'token':
       tally.options.view = 'transactionsToken';
       break;
+    case 'geo':      
     default:
   }
   tally.options.sort = { timestamp: -1 };
