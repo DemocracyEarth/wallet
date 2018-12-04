@@ -136,7 +136,7 @@ Template.tally.onCreated(function () {
     } else if (this.data.options.userId) {
       instance.contract.set(Meteor.users.findOne({ _id: this.data.options.userId }));
     }
-  } else if (this.data.options.view === 'lastVotes' || this.data.options.view === 'threadVotes') {
+  } else if (this.data.options.view === 'lastVotes' || this.data.options.view === 'threadVotes' || this.data.options.view === 'transactionsToken') {
     instance.openFeed = true;
   }
 

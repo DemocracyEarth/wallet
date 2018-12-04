@@ -1,13 +1,32 @@
 import { $ } from 'meteor/jquery';
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { Tracker } from 'meteor/tracker';
 import { Session } from 'meteor/session';
 
 import { setupSplit } from '/imports/ui/modules/split';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
 import '/imports/ui/templates/components/decision/ledger/ledger.html';
+
+/**
+* @summary turns a query for contracts into one for transactions
+* @param {object} instance asking for query change
+*/
+const _convertQuery = (instance) => {
+  const tally = instance;
+  switch (tally.options.view) {
+    case 'latest':
+      tally.options.view = 'lastVotes';
+      break;
+    case 'geo':
+    case 'token':
+      tally.options.view = 'transactionsToken';
+      break;
+    default:
+  }
+  tally.options.sort = { timestamp: -1 };
+  return tally;
+};
 
 Template.ledger.onCreated(function () {
   setupSplit();
@@ -17,8 +36,13 @@ Template.ledger.onCreated(function () {
   const instance = this;
 
   instance.autorun(function (computation) {
-    const subscription = instance.subscribe('transaction', instance.data.options);
+    console.log('asking for subscription of');
+    console.log(JSON.stringify(instance.data.options));
+    console.log('after:');
+    console.log(JSON.stringify(_convertQuery(instance.data)));
+    const subscription = instance.subscribe('transaction', _convertQuery(instance.data).options);
     if (subscription.ready() && !instance.postReady.get()) {
+      console.log('POST READY');
       instance.postReady.set(true);
       computation.stop();
     }
@@ -83,16 +107,7 @@ Template.ledger.helpers({
     return tally;
   },
   homeVotes() {
-    const tally = this;
-    console.log(JSON.stringify(tally));
-    switch (tally.options.view) {
-      case 'latest':
-        tally.options.view = 'lastVotes';
-        tally.options.sort = { timestamp: -1 };
-        break;
-      default:
-    }
-    return tally;
+    return _convertQuery(this);
   },
   isLedgerReady() {
     return Session.get('isLedgerReady');
