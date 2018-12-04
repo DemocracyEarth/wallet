@@ -223,36 +223,39 @@ Template.feed.helpers({
     // main view
     console.log('Template.feed:');
     console.log(JSON.stringify(this));
-    if (_isIndexFeed(this)) {
-      // general view
-      for (let i = 0; i <= (feed.length - 1); i += 1) {
-        feed[i].mainFeed = true;
-      }
+    console.log(feed);
+    if (feed) {
+      if (_isIndexFeed(this)) {
+        // general view
+        for (let i = 0; i <= (feed.length - 1); i += 1) {
+          feed[i].mainFeed = true;
+        }
 
-      // sorting
-      if (this.options.sort) {
-        feed = _.sortBy(feed, function (item) { return item.createdAt * -1; });
-      }
-    } else {
-      // thread view
-      feed = _.sortBy(feed, 'createdAt');
-      feed = _feedDepth(feed);
-      for (let i = 0; i <= (feed.length - 1); i += 1) {
-        feed[i].mainFeed = false;
-        if (i === (feed.length - 1)) {
-          feed[i].lastItem = true;
-        } else {
-          feed[i].lastItem = false;
+        // sorting
+        if (this.options.sort) {
+          feed = _.sortBy(feed, function (item) { return item.createdAt * -1; });
         }
-        if (i !== 0) {
-          feed[i].previousItem = feed[i - 1]._id;
+      } else {
+        // thread view
+        feed = _.sortBy(feed, 'createdAt');
+        feed = _feedDepth(feed);
+        for (let i = 0; i <= (feed.length - 1); i += 1) {
+          feed[i].mainFeed = false;
+          if (i === (feed.length - 1)) {
+            feed[i].lastItem = true;
+          } else {
+            feed[i].lastItem = false;
+          }
+          if (i !== 0) {
+            feed[i].previousItem = feed[i - 1]._id;
+          }
         }
       }
+      if (feed.length > this.options.limit) {
+        feed.splice(-1, parseInt(feed.length - this.options.limit, 10));
+      }
+      Template.instance().lastItemDate.set(feed[feed.length - 1].createdAt);
     }
-    if (feed.length > this.options.limit) {
-      feed.splice(-1, parseInt(feed.length - this.options.limit, 10));
-    }
-    Template.instance().lastItemDate.set(feed[feed.length - 1].createdAt);
     return feed;
   },
   lastItem() {

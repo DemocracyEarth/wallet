@@ -36,10 +36,6 @@ Template.ledger.onCreated(function () {
   const instance = this;
 
   instance.autorun(function (computation) {
-    console.log('asking for subscription of');
-    console.log(JSON.stringify(instance.data.options));
-    console.log('after:');
-    console.log(JSON.stringify(_convertQuery(instance.data)));
     const subscription = instance.subscribe('transaction', _convertQuery(instance.data).options);
     if (subscription.ready() && !instance.postReady.get()) {
       console.log('POST READY');

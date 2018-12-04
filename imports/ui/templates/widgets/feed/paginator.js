@@ -58,7 +58,7 @@ Template.paginator.onRendered(function () {
 
 Template.paginator.helpers({
   end() {
-    // console.log(`end why? skip: ${this.options.skip} + limit: ${this.options.limit} < count: ${this.count}`);
+    console.log(`end why? skip: ${this.options.skip} + limit: ${this.options.limit} < count: ${this.count}`);
     return !((this.options.skip + this.options.limit) < this.count);
   },
   empty() {
