@@ -38,8 +38,8 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
 
 [`version 1.0 alpha`](https://github.com/DemocracyEarth/sovereign/releases)
 
-**User Agreement:**
-This (User Agreement)[https://github.com/DemocracyEarth/sovereign/blob/master/UserAgreement.md] governs access to and use of the Democracy Earth platform.
+**User Agreement:**  
+This [User Agreement](https://github.com/DemocracyEarth/sovereign/blob/master/UserAgreement.md) governs access to and use of the Democracy Earth platform.
 
 **Also:**
 
