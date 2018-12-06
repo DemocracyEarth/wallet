@@ -1,8 +1,8 @@
-USER AGREEMENT
+**USER AGREEMENT**
 
 At the Democracy Earth Foundation, we bring together the Internet, mobile apps, blockchain, and other data decentralizing technologies, to equally empower each user, democratically, regardless of race, color, religion, wealth, sex, orientation, disability, or location. This User Agreement governs your access to and use of the Democracy Earth platform. By accepting this User Agreement, you agree to the Privacy Policy and Terms of Service regarding the control and processing of your personal data, last revised on September 25, 2018. At any time, platform users can propose and vote on changes to policies or services.
 
-☑ I AGREE.
+*☑ I AGREE.*
 
  
 **I. TERMS OF SERVICE**  
