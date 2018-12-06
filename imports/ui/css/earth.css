@@ -4408,6 +4408,7 @@ blockquote {
   margin-top: 3px;
   margin-right: 10px;
   float: left;
+  border-radius: 10px;
 }
 
 .half {

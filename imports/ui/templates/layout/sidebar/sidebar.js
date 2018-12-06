@@ -110,7 +110,7 @@ function getDelegates(contractFeed, transactionFeed) {
 * @param {object} currentDelegates list of delegates
 */
 const _otherMembers = (currentDelegates) => {
-  const members = getList(Meteor.users.find({}, { limit: 10 }).fetch(), true);
+  const members = getList(Meteor.users.find({}, { limit: 60 }).fetch(), true);
   const delegates = currentDelegates;
   let finalList = [];
   let isDelegate;

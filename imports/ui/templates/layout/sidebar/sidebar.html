@@ -15,7 +15,7 @@
       {{/each}}
     </ul> --}}
     <ul class="menu w-clearfix w-list-unstyled">
-      {{> inbox label='recent-activity' separator=true}}
+      {{> inbox label='members' separator=true}}
       {{#each participant}}
         {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon isAvatar=true iconActivated=iconActivated feed=feed}}
       {{else}}
