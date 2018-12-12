@@ -91,8 +91,6 @@ const _feedDepth = (list) => {
 * @return {boolean} feed is an overview not a thread
 */
 const _isIndexFeed = (instance) => {
-  console.log('VIEW:');
-  console.log(instance.options.view);
   return (instance.options.view === 'lastVotes'
     || instance.options.view === 'latest'
     || instance.options.view === 'linkedFeed'

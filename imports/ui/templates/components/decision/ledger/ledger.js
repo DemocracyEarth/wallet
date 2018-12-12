@@ -21,11 +21,11 @@ const _convertQuery = (instance) => {
     case 'token':
       tally.options.view = 'transactionsToken';
       break;
-    case 'geo':      
+    case 'geo':
+      tally.options.view = 'transactionsGeo';
+      break;
     default:
   }
-  // tally.options.sort = { timestamp: -1 };
-  console.log(tally);
   return tally;
 };
 
@@ -39,7 +39,6 @@ Template.ledger.onCreated(function () {
   instance.autorun(function (computation) {
     const subscription = instance.subscribe('transaction', _convertQuery(instance.data).options);
     if (subscription.ready() && !instance.postReady.get()) {
-      console.log('POST READY');
       instance.postReady.set(true);
       computation.stop();
     }

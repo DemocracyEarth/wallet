@@ -491,13 +491,14 @@ Template.ballot.helpers({
     if (!Meteor.Device.isPhone()) {
       switch (button) {
         case 'twitter':
-          label = TAPi18n.__('tweet');
+          // label = TAPi18n.__('tweet');
           break;
         case 'debate':
-          label = TAPi18n.__('debate');
+          // label = TAPi18n.__('debate');
           break;
         case 'vote':
-          label = `${TAPi18n.__('send')} &#183; `;
+          // label = `${TAPi18n.__('send')} &#183; `;
+          label = ' &#183; ';
           /**
           const contract = Contracts.findOne({ _id: this.contract._id });
           if (contract) {

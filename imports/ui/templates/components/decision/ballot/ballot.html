@@ -83,6 +83,14 @@
     <div class="block block-menu">
       <div class="micro-menu">
         <div class="extra">
+          <a id="edit-reply" href="{{contract.url}}#debate" class="micro-button micro-button-feed" ontouchstart="">
+            <img src="{{pathFor route='home'}}images/debate.png" class="micro-icon">
+            <div class="micro-label">{{label 'debate'}} {{{quantity 'debate'}}}</div>
+          </a>
+          <a id="tweet-post" href="{{twitterURL}}" class="micro-button micro-button-feed" target="_blank" ontouchstart="">
+            <img src="{{pathFor route='home'}}images/tweet.png" class="micro-icon">
+            <div class="micro-label">{{label 'twitter'}} {{{quantity 'twitter'}}}</div>
+          </a>
           <a id="single-vote" href="{{voteURL}}" class="micro-button micro-button-feed" ontouchstart="">
             <div class="micro-label">
               <img src="{{pathFor route='home'}}{{voteIcon}}" class="micro-icon">
@@ -92,14 +100,6 @@
               {{/with}}
             </div>
             <div class="verifier verifier-live verifier-feed"></div>
-          </a>
-          <a id="edit-reply" href="{{contract.url}}#debate" class="micro-button micro-button-feed" ontouchstart="">
-            <img src="{{pathFor route='home'}}images/debate.png" class="micro-icon">
-            <div class="micro-label">{{label 'debate'}} {{{quantity 'debate'}}}</div>
-          </a>
-          <a id="tweet-post" href="{{twitterURL}}" class="micro-button micro-button-feed" target="_blank" ontouchstart="">
-            <img src="{{pathFor route='home'}}images/tweet.png" class="micro-icon">
-            <div class="micro-label">{{label 'twitter'}} {{{quantity 'twitter'}}}</div>
           </a>
         </div>
         {{> electorate contract=contract readOnly=true}}
