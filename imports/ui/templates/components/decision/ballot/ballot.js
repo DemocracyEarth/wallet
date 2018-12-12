@@ -27,6 +27,7 @@ import '/imports/ui/templates/widgets/warning/warning.js';
 * @summary executes token vote
 */
 const _cryptoVote = () => {
+  Template.instance().voteEnabled = verifyConstituencyRights(Template.currentData().contract);
   if (Meteor.user()) {
     if (Template.instance().voteEnabled) {
       if (setupWeb3(true)) {
