@@ -91,11 +91,13 @@ const _feedDepth = (list) => {
 * @return {boolean} feed is an overview not a thread
 */
 const _isIndexFeed = (instance) => {
+  console.log('VIEW:');
+  console.log(instance.options.view);
   return (instance.options.view === 'lastVotes'
     || instance.options.view === 'latest'
     || instance.options.view === 'linkedFeed'
     || instance.options.view === 'geo'
-    || instance.options.view === 'token'
+    || instance.options.view === 'transactionsToken'
     || instance.mainPost === true);
 };
 
@@ -221,11 +223,9 @@ Template.feed.helpers({
     let feed = Template.instance().feed.get();
 
     // main view
-    console.log('Template.feed:');
-    console.log(JSON.stringify(this));
-    console.log(feed);
     if (feed) {
       if (_isIndexFeed(this)) {
+        console.log('MAIN FEED');
         // general view
         for (let i = 0; i <= (feed.length - 1); i += 1) {
           feed[i].mainFeed = true;
@@ -237,6 +237,7 @@ Template.feed.helpers({
         }
       } else {
         // thread view
+        console.log('THREAD FEED');
         feed = _.sortBy(feed, 'createdAt');
         feed = _feedDepth(feed);
         for (let i = 0; i <= (feed.length - 1); i += 1) {

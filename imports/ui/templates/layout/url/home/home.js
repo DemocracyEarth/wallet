@@ -125,8 +125,6 @@ Template.homeFeed.helpers({
   },
   mainLedger() {
     const tally = this;
-    console.log("Main Ledger:");
-    console.log(tally);
     tally.options.sort = { timestamp: -1 };
 
     return {
