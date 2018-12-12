@@ -61,7 +61,11 @@
   </div>
 
   <div class="split split-right">
-    {{> ledger mainLedger}}
+    {{#if feedReady}}
+      {{#with mainLedger}}
+        {{> ledger this}}
+      {{/with}}
+    {{/if}}
   </div>
 
   {{#if isPhone}}

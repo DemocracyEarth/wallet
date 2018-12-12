@@ -24,7 +24,8 @@ const _convertQuery = (instance) => {
     case 'geo':      
     default:
   }
-  tally.options.sort = { timestamp: -1 };
+  // tally.options.sort = { timestamp: -1 };
+  console.log(tally);
   return tally;
 };
 
