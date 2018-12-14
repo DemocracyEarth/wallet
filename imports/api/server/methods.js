@@ -263,7 +263,8 @@ Meteor.methods({
   * @return {Number} total count.
   */
   userCount() {
-    const count = Meteor.users.find().count();
+    // const count = Meteor.users.find().count();
+    const count = Meteor.users.find({ 'profile.wallet.balance': { $ne: 0 } }).count();
     log(`{ method: 'userCount', user: ${logUser()}, count: ${count} }`);
     return count;
   },
