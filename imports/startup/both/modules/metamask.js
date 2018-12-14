@@ -247,13 +247,6 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
       };
     }
     web3.eth.sendTransaction(tx, (error, receipt) => {
-      if (error) {
-        if (error.message.includes('User denied transaction signature') || error.code === -32603) {
-          modal.message = TAPi18n.__('metamask-denied-signature');
-          displayModal(true, modal);
-          return;
-        }
-      }
       web3.eth.getTransaction(receipt, (err, res) => {
         let value = '0';
 
@@ -313,7 +306,13 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
         }
       });
     }).catch(function (e) {
-      if (e.message.substring(0, 39) !== 'Returned error: Error: WalletMiddleware' || e.message !== 'Error: MetaMask Tx Signature: User denied transaction signature.') {
+      if (e.message === 'Returned error: Error: MetaMask Tx Signature: User denied transaction signature.') {
+        modal.message = TAPi18n.__('metamask-denied-signature');
+        displayModal(true, modal);
+      } else if (e.message.substring(0, 65) === 'Returned error: Error: WalletMiddleware - Invalid "from" address.') {
+        modal.message = TAPi18n.__('metamask-invalid-address');
+        displayModal(true, modal);
+      } else {
         displayNotice(`${TAPi18n.__('transaction-broadcast-error').replace('{{token}}', html)}`, true, true);
       }
     });

@@ -582,6 +582,7 @@
   "metamask": "MetaMask",
   "close": "Close",
   "metamask-denied-signature": "Transaction signature was denied.",
+  "metamask-invalid-address": "Address mismatch: please verify your Metamask account is the same you used to log in to Sovereign.",
   "blockchain-address": "Blockchain Address",
   "blockchain-address-placeholder": "Your account if none specified.",
   "ethereum": "Ethereum",
