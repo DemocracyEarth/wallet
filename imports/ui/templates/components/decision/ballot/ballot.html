@@ -7,15 +7,19 @@
             {{#if editorMode}}
               {{#if ballotEnabled}}
                 {{#if executiveDecision}}
-                  {{> fork executive=true mode="AUTHORIZE" contract=contract placeholder=placeholder}}
-                  {{> fork executive=true mode="REJECT" contract=contract placeholder=placeholder}}
+                  {{#if allowVoting}}
+                    {{> fork executive=true mode="AUTHORIZE" contract=contract placeholder=placeholder}}
+                    {{> fork executive=true mode="REJECT" contract=contract placeholder=placeholder}}
+                  {{/if}}
                 {{/if}}
               {{/if}}
             {{else}}
               {{#if executiveDecision}}
                 {{#with voteSettings}}
-                  {{> fork executive=true mode="AUTHORIZE" _id=1 ballot=this.forks voteId=this.voteId contract=contract placeholder=placeholder rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
-                  {{> fork executive=true mode="REJECT" _id=0 ballot=this.forks voteId=this.voteId contract=contract placeholder=placeholder rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
+                  {{#if allowVoting}}
+                    {{> fork executive=true mode="AUTHORIZE" _id=1 ballot=this.forks voteId=this.voteId contract=contract placeholder=placeholder rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
+                    {{> fork executive=true mode="REJECT" _id=0 ballot=this.forks voteId=this.voteId contract=contract placeholder=placeholder rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
+                  {{/if}}
                 {{/with}}
               {{/if}}
             {{/if}}
@@ -72,7 +76,7 @@
       <div class="block block-list">
         <div class="micro-menu">
           {{#if ballotEnabled}}
-            <a href="{{enabledUserOnly}}" id="ballot-micro-menu" class="micro-button micro-button-feed" ontouchstart="">
+            <a href="{{votingOver}}" id="ballot-micro-menu" class="micro-button micro-button-feed" ontouchstart="">
               <img src="{{pathFor route='home'}}images/vote.png" class="micro-icon">
               <span class="micro-label">{{label 'vote'}} {{{quantity 'vote'}}}</span>
               <div class="verifier verifier-live verifier-feed"></div>

@@ -380,6 +380,9 @@ Template.ballot.helpers({
   votingOver() {
     return '#';
   },
+  allowVoting() {
+    return false;
+  },
 });
 
 
@@ -390,14 +393,14 @@ Template.ballot.events({
     Meteor.setTimeout(() => { document.getElementById('text-fork-proposal').value = ''; }, 100);
   },
   'click #ballot-micro-menu'() {
-    if (emailListCheck(Meteor.user().emails[0].address)) {
-      if (!Meteor.user().emails[0].verified) {
-        displayNotice('verified-email-only', true);
-      }
-    } else {
-      // not a whitelist user
-      displayNotice('whitelist-only', true);
-    }
-    // displayNotice('voting-over', true);
+    // if (emailListCheck(Meteor.user().emails[0].address)) {
+    //   if (!Meteor.user().emails[0].verified) {
+    //     displayNotice('verified-email-only', true);
+    //   }
+    // } else {
+    //   // not a whitelist user
+    //   displayNotice('whitelist-only', true);
+    // }
+    displayNotice('voting-over', true);
   },
 });
