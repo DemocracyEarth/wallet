@@ -96,6 +96,7 @@ const _isIndexFeed = (instance) => {
     || instance.options.view === 'linkedFeed'
     || instance.options.view === 'geo'
     || instance.options.view === 'transactionsToken'
+    || instance.options.view === 'transactionsGeo'
     || instance.mainPost === true);
 };
 
