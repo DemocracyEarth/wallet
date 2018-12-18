@@ -14,7 +14,6 @@ import '/imports/ui/templates/components/decision/ledger/ledger.html';
 */
 const _convertQuery = (instance) => {
   const tally = instance;
-  console.log(`tally.options.view: ${tally.options.view}`);
   switch (tally.options.view) {
     case 'latest':
       tally.options.view = 'lastVotes';
@@ -24,6 +23,9 @@ const _convertQuery = (instance) => {
       break;
     case 'geo':
       tally.options.view = 'transactionsGeo';
+      break;
+    case 'peer':
+      tally.options.view = 'transactionsPeer';
       break;
     default:
   }

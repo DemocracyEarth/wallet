@@ -110,6 +110,7 @@ const _defaultTally = (view) => {
   return (view === 'lastVotes' ||
     view === 'threadVotes' ||
     view === 'transactionsToken' ||
+    view === 'transactionsPeer' ||
     view === 'transactionsGeo'
   );
 };

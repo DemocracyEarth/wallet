@@ -86,7 +86,7 @@ Template.screen.helpers({
 Template.homeFeed.onCreated(function () {
   Template.instance().feedReady = new ReactiveVar(false);
   const instance = this;
-  const subscription = instance.subscribe('feed', { view: instance.data.options.view, sort: { createdAt: -1 } });
+  const subscription = instance.subscribe('feed', { view: instance.data.options.view, sort: { createdAt: -1 }, userId: instance.data.options.userId, username: instance.data.options.username });
 
   Session.set('minimizedEditor', true);
 
@@ -110,6 +110,7 @@ Template.homeFeed.onCreated(function () {
 */
 const _getTitle = (options, ledgerMode) => {
   let asset;
+  let username = options.username;
   switch (options.view) {
     case 'token':
       asset = getCoin(options.token);
@@ -123,6 +124,14 @@ const _getTitle = (options, ledgerMode) => {
         return TAPi18n.__('ledger-geo-posts').replace('{{asset}}', asset.name);
       }
       return TAPi18n.__('feed-geo-posts').replace('{{asset}}', asset.name);
+    case 'peer':
+      if (!options.username) {
+        username = Meteor.users.findOne(options.userId).username;
+      }
+      if (ledgerMode) {
+        return TAPi18n.__('ledger-peer-posts').replace('{{asset}}', username);
+      }
+      return TAPi18n.__('feed-peer-posts').replace('{{asset}}', username);
     default:
       if (ledgerMode) {
         return TAPi18n.__('recent-activity');
@@ -149,6 +158,8 @@ Template.homeFeed.helpers({
   },
   mainFeed() {
     const tally = this;
+    console.log(`mainFeed:`);
+    console.log(tally);
     Session.set('longFeedView', this.options.view);
     return tally;
   },

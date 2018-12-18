@@ -615,5 +615,7 @@
   "feed-token-posts": "Posts with {{asset}} Token",
   "feed-geo-posts": "Posts from {{asset}}",
   "ledger-token-posts": "{{asset}} Transactions",
-  "ledger-geo-posts": "Transactions from {{asset}}"
+  "ledger-geo-posts": "Transactions from {{asset}}",
+  "feed-peer-posts": "Posts by @{{asset}}",
+  "ledger-peer-posts": "Transactions by @{{asset}}"
 }
