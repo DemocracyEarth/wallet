@@ -102,6 +102,35 @@ Template.homeFeed.onCreated(function () {
   });
 });
 
+
+/**
+* @summary display title either for feed or ledger
+* @param {object} options the query for the feed
+* @param {boolean} ledgerMode write for ledger
+*/
+const _getTitle = (options, ledgerMode) => {
+  let asset;
+  switch (options.view) {
+    case 'token':
+      asset = getCoin(options.token);
+      if (ledgerMode) {
+        return TAPi18n.__('ledger-token-posts').replace('{{asset}}', asset.name);
+      }
+      return TAPi18n.__('feed-token-posts').replace('{{asset}}', asset.name);
+    case 'geo':
+      asset = _.where(geo.country, { code: options.country.toUpperCase() })[0];
+      if (ledgerMode) {
+        return TAPi18n.__('ledger-geo-posts').replace('{{asset}}', asset.name);
+      }
+      return TAPi18n.__('feed-geo-posts').replace('{{asset}}', asset.name);
+    default:
+      if (ledgerMode) {
+        return TAPi18n.__('recent-activity');
+      }
+      return TAPi18n.__('happening-now');
+  }
+};
+
 Template.homeFeed.helpers({
   editorMode() {
     return Session.get('showPostEditor');
@@ -128,6 +157,7 @@ Template.homeFeed.helpers({
     tally.options.sort = { timestamp: -1 };
 
     return {
+      ledgerTitle: _getTitle(this.options, true),
       options: tally.options,
       singlePost: true,
       hidePost: false,
@@ -140,17 +170,7 @@ Template.homeFeed.helpers({
     return Template.instance().feedReady.get();
   },
   feedTitle() {
-    let asset;
-    switch (this.options.view) {
-      case 'token':
-        asset = getCoin(this.options.token);
-        return TAPi18n.__('feed-token-posts').replace('{{asset}}', asset.name);
-      case 'geo':
-        asset = _.where(geo.country, { code: this.options.country.toUpperCase() })[0];
-        return TAPi18n.__('feed-geo-posts').replace('{{asset}}', asset.name);
-      default:
-        return TAPi18n.__('happening-now');
-    }
+    return _getTitle(this.options);
   },
 });
 

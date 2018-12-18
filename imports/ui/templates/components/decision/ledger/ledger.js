@@ -14,6 +14,7 @@ import '/imports/ui/templates/components/decision/ledger/ledger.html';
 */
 const _convertQuery = (instance) => {
   const tally = instance;
+  console.log(`tally.options.view: ${tally.options.view}`);
   switch (tally.options.view) {
     case 'latest':
       tally.options.view = 'lastVotes';
@@ -107,6 +108,9 @@ Template.ledger.helpers({
   },
   isLedgerReady() {
     return Session.get('isLedgerReady');
+  },
+  ledgerTitle() {
+    return this.ledgerTitle;
   },
 });
 
