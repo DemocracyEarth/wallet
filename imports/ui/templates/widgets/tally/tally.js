@@ -109,7 +109,8 @@ const _buildFeed = (id, fields, instance, contract, noTitle) => {
 const _defaultTally = (view) => {
   return (view === 'lastVotes' ||
     view === 'threadVotes' ||
-    view === 'transactionsToken'
+    view === 'transactionsToken' ||
+    view === 'transactionsGeo'
   );
 };
 

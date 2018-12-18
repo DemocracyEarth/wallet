@@ -853,6 +853,7 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     timestamp: getTimestamp(),
     status: 'PENDING',
     condition: finalSettings.condition,
+    geo: settings.geo,
   };
 
   // blockchain transaction
@@ -881,24 +882,24 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     // go to interface
     if (callback !== undefined) { callback(); }
 
-    return txId
+    return txId;
 
   // web transaciton
-  } else {
+  } /* 
+    else {
     // executes the transaction
     txId = Transactions.insert(newTransaction);
     processing = _processTransaction(txId);
     newTx = Transactions.findOne({ _id: txId });
 
-    /**
-    NOTE: uncomment for testing
-    **/
-    console.log(txId);
-    console.log(processing);
+
+    // NOTE: uncomment for testing
+
+    // console.log(txId);
+    // console.log(processing);
 
 
     if (_transactionMessage(processing)) {
-      console.log('Pdoing the dejielrkjelkrj')
       // once transaction done, run callback
       if (callback !== undefined) { callback(); }
 
@@ -917,7 +918,7 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
 
       return txId;
     }
-  }
+  } */
   return null;
 };
 

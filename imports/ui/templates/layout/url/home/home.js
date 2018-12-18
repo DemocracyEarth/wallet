@@ -166,6 +166,9 @@ Template.homeFeed.helpers({
       homeFeed: true,
     };
   },
+  contextView() {
+    return (this.options.view !== 'latest');
+  },
   feedReady() {
     return Template.instance().feedReady.get();
   },

@@ -153,6 +153,10 @@ Schema.Transaction = new SimpleSchema({
     type: Blockchain,
     optional: true,
   },
+  geo: {
+    type: String,
+    optional: true,
+  },
 });
 
 Transactions.attachSchema(Schema.Transaction);
