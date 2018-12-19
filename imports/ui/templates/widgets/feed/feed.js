@@ -95,6 +95,7 @@ const _isIndexFeed = (instance) => {
     || instance.options.view === 'latest'
     || instance.options.view === 'linkedFeed'
     || instance.options.view === 'geo'
+    || instance.options.view === 'token'
     || instance.options.view === 'transactionsToken'
     || instance.options.view === 'transactionsPeer'
     || instance.options.view === 'transactionsGeo'
@@ -130,6 +131,12 @@ Template.feed.onCreated(function () {
 
   if (Template.currentData().linkedFeed) {
     options.lastItem = Template.currentData().lastItem;
+    if (options.view !== 'linkedFeed') {
+      console.log('Template data:');
+      console.log(options);
+      console.log(Template.currentData());
+      options.subview = options.view;
+    }
     options.view = 'linkedFeed';
   }
   this.subscription = instance.subscribe('feed', options);
