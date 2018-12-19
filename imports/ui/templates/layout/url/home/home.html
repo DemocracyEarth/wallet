@@ -37,14 +37,10 @@
           {{#unless minimizedMode}}
             {{> compose desktopMode=true replyMode=false}}
           {{else}}
-            {{#unless contextView}}
-              {{> compose desktopMode=true replyMode=false compressed=true}}
-            {{/unless}}
-          {{/unless}}
-        {{else}}
-          {{#unless contextView}}
             {{> compose desktopMode=true replyMode=false compressed=true}}
           {{/unless}}
+        {{else}}
+          {{> compose desktopMode=true replyMode=false compressed=true}}
         {{/unless}}
       {{else}}
         {{#if editorMode}}
@@ -73,9 +69,7 @@
   </div>
 
   {{#if isPhone}}
-    {{#unless contextView}}
-      {{> compose desktopMode=false replyMode=false}}
-    {{/unless}}
+    {{> compose desktopMode=false replyMode=false}}
   {{/if}}
 </template>
 
