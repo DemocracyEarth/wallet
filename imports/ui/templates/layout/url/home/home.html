@@ -9,22 +9,9 @@
 </template>
 
 <template name="screen">
-  {{#if token}}
-    {{> homeFeed this}}
-  {{/if}}
-  {{#if tag}}
-    {{> homeFeed this}}
-  {{/if}}
-  {{#if geo}}
-    {{> homeFeed this}}
-  {{/if}}
-  {{#if peer}}
-    {{> homeFeed this}}
-  {{/if}}
   {{#if post}}
     {{> postFeed this}}
-  {{/if}}
-  {{#if home}}
+  {{else}}
     {{> homeFeed this}}
   {{/if}}
 </template>
@@ -71,19 +58,6 @@
   {{#if isPhone}}
     {{> compose desktopMode=false replyMode=false}}
   {{/if}}
-</template>
-
-<template name="peerFeed">
-  <div class="split split-left">
-    <div class="content content-feed content-feed-subsection max100" >
-      <div id="non-editable-feed">
-        {{> feed options=this.options kind='VOTE' subfeed=true singlePost=true noReplies=true}}
-      </div>
-    </div>
-  </div>
-  <div class="split split-right">
-    {{> ledger options=this.options singlePost=true hidePost=false peerFeed=true postFeed=false homeFeed=false}}
-  </div>
 </template>
 
 <template name="postFeed">

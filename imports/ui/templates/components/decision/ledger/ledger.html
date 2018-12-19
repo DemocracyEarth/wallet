@@ -1,27 +1,5 @@
 <template name="ledger">
   <div class="agora">
-    {{#if peerFeed}}
-      <div class="content content-agora">
-        <a href="#delegations"></a>
-        <div class="ledger-title">
-          <h5>{{_ 'delegations'}}</h5>
-        </div>
-        <div id="non-editable-feed" class="ledger">
-          {{> tally delegationVotes}}
-        </div>
-        <a href="#votes"></a>
-        <div class="ledger-title">
-          <h5>{{_ 'votes'}}</h5>
-        </div>
-        <div id="non-editable-feed" class="ledger">
-          {{#if isLedgerReady}}
-            {{> tally peerVotes}}
-          {{else}}
-            {{> tally placeholder=true}}
-          {{/if}}
-        </div>
-      </div>
-    {{/if}}
     {{#if postFeed}}
       <div class="content content-agora">
         <a href="#votes"></a>

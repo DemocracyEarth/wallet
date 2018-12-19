@@ -103,6 +103,21 @@ const _isIndexFeed = (instance) => {
     || instance.mainPost === true);
 };
 
+const _getFeedView = (view) => {
+  switch (view) {
+    case 'transactionsToken':
+      return 'token';
+    case 'transactionsPeer':
+      return 'peer';
+    case 'transactionsGeo':
+      return 'geo';
+    case 'lastVotes':
+      return 'latest';
+    default:
+      return view;
+  }
+};
+
 
 Template.feed.onCreated(function () {
   Template.instance().count = new ReactiveVar(Template.currentData().count);
@@ -209,6 +224,9 @@ Template.feed.onRendered(function () {
       if (options.view === 'linkedFeed') {
         instance.counted.set(true);
       } else {
+        console.log(`VICTORIA SAYS: ${options.view}`);
+        options.view = _getFeedView(options.view);
+        console.log(`JESSICA SAYS: ${options.view}`);
         const count = instance.subscribe('feedCount', options);
 
         // total items on the feed
