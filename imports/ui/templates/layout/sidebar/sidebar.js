@@ -203,43 +203,45 @@ const _userMenu = (user) => {
     },
   ];
 
-  // country feed
-  const nation = _.where(geo.country, { code: user.profile.country.code })[0];
-  if (user.profile.country) {
-    menu.push({
-      id: parseInt(menu.length, 10),
-      // label: `${nation.emoji} ${(user.profile.country.name.length > MAX_LABEL_LENGTH) ? `${user.profile.country.name.substring(0, MAX_LABEL_LENGTH)}...` : user.profile.country.name}`,
-      label: `${(user.profile.country.name.length > MAX_LABEL_LENGTH) ? `${user.profile.country.name.substring(0, MAX_LABEL_LENGTH)}...` : user.profile.country.name} ${nation.emoji}`,
-      icon: 'images/decision-globe.png',
-      iconActivated: 'images/decision-globe-active.png',
-      feed: 'user',
-      value: true,
-      separator: false,
-      url: `/${user.profile.country.code.toLowerCase()}`,
-      selected: false,    
-    });
-  }
+  if (user) {
+    // country feed
+    const nation = _.where(geo.country, { code: user.profile.country.code })[0];
+    if (user.profile.country) {
+      menu.push({
+        id: parseInt(menu.length, 10),
+        // label: `${nation.emoji} ${(user.profile.country.name.length > MAX_LABEL_LENGTH) ? `${user.profile.country.name.substring(0, MAX_LABEL_LENGTH)}...` : user.profile.country.name}`,
+        label: `${(user.profile.country.name.length > MAX_LABEL_LENGTH) ? `${user.profile.country.name.substring(0, MAX_LABEL_LENGTH)}...` : user.profile.country.name} ${nation.emoji}`,
+        icon: 'images/decision-globe.png',
+        iconActivated: 'images/decision-globe-active.png',
+        feed: 'user',
+        value: true,
+        separator: false,
+        url: `/${user.profile.country.code.toLowerCase()}`,
+        selected: false,    
+      });
+    }
 
-  // token feeds
-  let coin;
-  if (user.profile.wallet.reserves && user.profile.wallet.reserves.length > 0) {
-    for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
-      coin = getCoin(user.profile.wallet.reserves[i].token);
-      if (coin) {
-        menu.push({
-          id: parseInt(menu.length, 10),
-          // label: `<span class="suggest-item suggest-token suggest-token-sidebar">${coin.code}</span> ${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
-          label: `${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
-          icon: 'images/decision-coin.png',
-          iconActivated: 'images/decision-coin-active.png',
-          feed: 'user',
-          value: true,
-          separator: false,
-          url: `/$${coin.code.toLowerCase()}`,
-          selected: false,
-          displayToken: true,
-          tokenColor: coin.color,
-        });
+    // token feeds
+    let coin;
+    if (user.profile.wallet.reserves && user.profile.wallet.reserves.length > 0) {
+      for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
+        coin = getCoin(user.profile.wallet.reserves[i].token);
+        if (coin) {
+          menu.push({
+            id: parseInt(menu.length, 10),
+            // label: `<span class="suggest-item suggest-token suggest-token-sidebar">${coin.code}</span> ${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
+            label: `${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
+            icon: 'images/decision-coin.png',
+            iconActivated: 'images/decision-coin-active.png',
+            feed: 'user',
+            value: true,
+            separator: false,
+            url: `/$${coin.code.toLowerCase()}`,
+            selected: false,
+            displayToken: true,
+            tokenColor: coin.color,
+          });
+        }
       }
     }
   }
@@ -324,9 +326,6 @@ Template.sidebar.helpers({
     return 0;
   },
   menu() {
-    if (Meteor.user()) {
-      return _userMenu(Meteor.user());
-    }
-    return '';
+    return _userMenu(Meteor.user());
   },
 });
