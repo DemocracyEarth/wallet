@@ -148,8 +148,8 @@ Template.feed.onCreated(function () {
     options.lastItem = Template.currentData().lastItem;
     if (options.view !== 'linkedFeed') {
       console.log('Template data:');
-      console.log(options);
-      console.log(Template.currentData());
+      console.log(JSON.stringify(options));
+      // console.log(Template.currentData());
       options.subview = options.view;
     }
     options.view = 'linkedFeed';
@@ -224,9 +224,7 @@ Template.feed.onRendered(function () {
       if (options.view === 'linkedFeed') {
         instance.counted.set(true);
       } else {
-        console.log(`VICTORIA SAYS: ${options.view}`);
         options.view = _getFeedView(options.view);
-        console.log(`JESSICA SAYS: ${options.view}`);
         const count = instance.subscribe('feedCount', options);
 
         // total items on the feed
