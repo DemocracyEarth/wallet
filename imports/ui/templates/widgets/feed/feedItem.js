@@ -53,6 +53,17 @@ const _getReplyContract = (replyId) => {
 };
 
 /**
+* @summary opens post from clicking a feed item
+* @param {object} event object
+* @param {string} url to open
+*/
+const _openPost = (event, url) => {
+  event.preventDefault();
+  event.stopPropagation();
+  Router.go(url);
+};
+
+/**
 * @summary if im on current item context in url determines
 * @param {object} item current item
 */
@@ -142,13 +153,13 @@ Template.feedItem.onCreated(function () {
 
 const _threadItem = (instance) => {
   if (instance.data.mainFeed) {
-    $(`#feedItem-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}' class='vote-thread vote-thread-context' />`);
+    $(`#feedItem-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}' class='vote-thread vote-thread-context clickable-item' />`);
     $(`#thread-${instance.data._id}`).prepend(`<div class='thread-sub'><div class='thread-needle thread-reply'>
     <a title='${instance.data.replyId ? `${TAPi18n.__('reply-to')}: ${stripHTMLfromText(_getReplyContract(instance.data.replyId).title).substring(0, 30)}...` : ''}'
     href='${instance.data.replyId ? _getReplyContract(instance.data.replyId).url : ''}'><img src='${Router.path('home')}images/reply.png'></a>
     </div></div>`);
   } else {
-    $(`#feedItem-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}' class='vote-thread' />`);
+    $(`#feedItem-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}' class='vote-thread clickable-item' />`);
     $(`#thread-${instance.data._id}`).prepend(`<div class='thread-sub'><div class='thread-needle ${instance.data.lastItem ? 'thread-last' : ''}'></div></div>`);
     if (instance.data.depth > 1) {
       for (let i = 1; i < instance.data.depth; i += 1) {
@@ -159,6 +170,10 @@ const _threadItem = (instance) => {
   if (instance.data.url && _here(instance.data)) {
     $('.split-left').scrollTop($(`#thread-${instance.data._id}`).offset().top);
   }
+
+  document.getElementById(`feedItem-${instance.data._id}`).addEventListener('click', function (event) {
+    _openPost(event, instance.data.url);
+  });
 };
 
 Template.feedItem.onRendered(function () {
@@ -401,6 +416,9 @@ Template.feedItem.events({
   'click #blockchain-explorer'(event) {
     event.preventDefault();
     window.open(event.currentTarget.href, '_blank');
+  },
+  'click .vote'(event, instance) {
+    _openPost(event, instance.data.url);
   },
 });
 

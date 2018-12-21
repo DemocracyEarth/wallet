@@ -32,7 +32,7 @@
       {{#if contextHere}}
         <a href="#debate" id="focusedItem"></a>
       {{/if}}
-      <a id="feedItem-{{_id}}" class="vote vote-search vote-feed nondraggable" href="{{this.url}}">
+      <div id="feedItem-{{_id}}" class="vote vote-search vote-feed nondraggable" href="{{this.url}}">
         <div class="checkbox checkbox-custom">
           <div class="meta meta-search">
             <div class="w-list-unstyled w-clearfix identity-list identity-feed-item extra">
@@ -98,7 +98,7 @@
             {{/if}}
           {{/if}}
         </div>
-      </a>
+      </div>
       {{#unless isPhone}}
         {{#if replyEditor}}
           {{#with replyData}}

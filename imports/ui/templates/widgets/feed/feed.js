@@ -312,6 +312,7 @@ Template.feed.helpers({
     return 0;
   },
   beginning() {
+    console.log(`beginning: ${(Template.currentData().options.skip === 0 || Template.currentData().singlePost)}`);
     return (Template.currentData().options.skip === 0 || Template.currentData().singlePost);
   },
   single() {
