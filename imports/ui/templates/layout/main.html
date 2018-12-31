@@ -15,7 +15,13 @@
     {{> sidebar}}
   </div>
 
-  <div id='content' class='right'>
+  {{#unless currentUser}}
+    <div class="hero">
+      test
+    </div>
+  {{/unless}}
+
+  <div id='content' class='right {{landingStyle}}'>
 
     {{#if isPhone}}
       {{> navigation}}

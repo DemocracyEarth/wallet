@@ -112,6 +112,12 @@ Template.main.helpers({
   showNotice() {
     return Session.get('showNotice');
   },
+  landingStyle() {
+    if (!Meteor.user()) {
+      return 'right-hero';
+    }
+    return '';
+  }
 });
 
 Template.main.events({

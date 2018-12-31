@@ -4778,6 +4778,10 @@ blockquote {
   left: 0px;
 }
 
+.right.right-hero {
+  top: 400px;
+}
+
 .float-left {
   float: left;
 }
@@ -6252,6 +6256,11 @@ blockquote {
 .login-button-last {
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+.hero {
+  width: 100%;
+  min-height: 400px;
 }
 
 @media (max-width: 991px) {
