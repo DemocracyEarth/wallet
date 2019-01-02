@@ -37,7 +37,7 @@ Template.paginator.onRendered(function () {
   if (Meteor.Device.isPhone() || window.innerWidth <= 991) {
     Session.set('scrollerDiv', '.right');
   } else {
-    Session.set('scrollerDiv', '.split-left');
+    Session.set('scrollerDiv', '.right');
   }
 
   const instance = this;

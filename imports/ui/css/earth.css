@@ -484,7 +484,7 @@ blockquote {
   margin-top: 10px;
   margin-bottom: 10px;
   float: left;
-  border: 1px solid #dfdfdf;
+  border: 1px solid #adadad;
   border-radius: 100px;
   background-color: #e6f9f4;
   cursor: pointer;
@@ -4144,7 +4144,7 @@ blockquote {
   width: 0px;
   margin-left: -10000px;
   float: left;
-  background-color: #fff;
+  background-color: #d4d4d4;
   text-align: left;
 }
 
@@ -4335,8 +4335,8 @@ blockquote {
   padding-right: 15px;
   padding-bottom: 20px;
   padding-left: 15px;
-  background-color: #fff;
-  box-shadow: 0 0 20px 10px #fff;
+  background-color: #d4d4d4;
+  box-shadow: 0 0 20px 10px #d4d4d4;
   text-align: left;
 }
 
@@ -4355,11 +4355,11 @@ blockquote {
 }
 
 .menu-item:hover {
-  background-color: #f0eef2;
+  background-color: #e0e0e0;
 }
 
 .menu-item:active {
-  background-color: #dbd8de;
+  background-color: #e0e0e0;
 }
 
 .menu-item.cast-action {
@@ -4652,11 +4652,11 @@ blockquote {
 }
 
 .collective:hover {
-  background-color: rgba(180, 171, 189, .2);
+  background-color: #e0e0e0;
 }
 
 .collective:active {
-  background-color: #dbd8de;
+  background-color: #e0e0e0;
 }
 
 .collective.collective-selected {
@@ -4949,7 +4949,6 @@ blockquote {
   top: 0px;
   bottom: 0px;
   display: inline-block;
-  overflow: auto;
   width: 50%;
   padding-right: 15px;
   padding-left: 15px;
@@ -5137,7 +5136,7 @@ blockquote {
   display: block;
   width: 5px;
   float: left;
-  border-left: 1px dotted #ccc;
+  border-left-style: none;
   cursor: ew-resize;
 }
 
@@ -6731,6 +6730,9 @@ blockquote {
     margin-bottom: 0px;
     padding-bottom: 0px;
   }
+  .left {
+    background-color: #fff;
+  }
   .alert {
     width: 90%;
     max-width: 360px;
@@ -6763,6 +6765,10 @@ blockquote {
   }
   .menu.menu-empty {
     font-weight: 400;
+  }
+  .menu.menu-empty.menu-footer {
+    background-color: #fff;
+    box-shadow: 0 0 20px 10px #fff;
   }
   .menu-item {
     font-weight: 400;
