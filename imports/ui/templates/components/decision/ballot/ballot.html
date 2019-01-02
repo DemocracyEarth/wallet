@@ -83,15 +83,15 @@
     <div class="block block-menu">
       <div class="micro-menu">
         <div class="extra">
-          <a id="edit-reply" href="{{contract.url}}#debate" class="micro-button micro-button-feed" ontouchstart="">
+          <a id="edit-reply" href="{{contract.url}}#debate" class="micro-button micro-button-feed no-underline" ontouchstart="">
             <img src="{{pathFor route='home'}}images/debate.png" class="micro-icon">
             <div class="micro-label">{{label 'debate'}} {{{quantity 'debate'}}}</div>
           </a>
-          <a id="tweet-post" href="{{twitterURL}}" class="micro-button micro-button-feed" target="_blank" ontouchstart="">
+          <a id="tweet-post" href="{{twitterURL}}" class="micro-button micro-button-feed no-underline" target="_blank" ontouchstart="">
             <img src="{{pathFor route='home'}}images/tweet.png" class="micro-icon">
             <div class="micro-label">{{label 'twitter'}} {{{quantity 'twitter'}}}</div>
           </a>
-          <a id="single-vote" href="{{voteURL}}" class="micro-button micro-button-feed" ontouchstart="">
+          <a id="single-vote" href="{{voteURL}}" class="micro-button micro-button-feed no-underline" ontouchstart="">
             <div class="micro-label">
               <img src="{{pathFor route='home'}}{{voteIcon}}" class="micro-icon">
               {{{label 'vote'}}}

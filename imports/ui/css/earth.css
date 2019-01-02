@@ -80,6 +80,10 @@ a {
   cursor: pointer;
 }
 
+a:hover {
+  text-decoration: underline;
+}
+
 ul {
   margin-top: 0px;
   margin-bottom: 0px;
@@ -2204,7 +2208,6 @@ blockquote {
 }
 
 .identity-label:hover {
-  border-bottom: 1px solid #00bf8f;
   line-height: 24px;
 }
 
@@ -4144,7 +4147,7 @@ blockquote {
   width: 0px;
   margin-left: -10000px;
   float: left;
-  background-color: #d4d4d4;
+  background-color: #eaeaea;
   text-align: left;
 }
 
@@ -4335,8 +4338,8 @@ blockquote {
   padding-right: 15px;
   padding-bottom: 20px;
   padding-left: 15px;
-  background-color: #d4d4d4;
-  box-shadow: 0 0 20px 10px #d4d4d4;
+  background-color: #eaeaea;
+  box-shadow: 0 0 20px 10px #eaeaea;
   text-align: left;
 }
 
@@ -6260,6 +6263,10 @@ blockquote {
 .hero {
   width: 100%;
   min-height: 400px;
+}
+
+.no-underline:hover {
+  text-decoration: none;
 }
 
 @media (max-width: 991px) {

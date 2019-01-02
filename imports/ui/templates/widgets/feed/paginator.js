@@ -34,16 +34,18 @@ Template.paginator.onRendered(function () {
   const loaded = Template.instance().loaded;
   let isScrolling;
 
+  /*
   if (Meteor.Device.isPhone() || window.innerWidth <= 991) {
     Session.set('scrollerDiv', '.right');
   } else {
     Session.set('scrollerDiv', '.right');
   }
+  */
 
   const instance = this;
 
   instance.autorun(function () {
-    $(Session.get('scrollerDiv')).scroll(() => {
+    $('.right').scroll(() => {
       Meteor.clearTimeout(isScrolling);
       isScrolling = Meteor.setTimeout(function () {
         if (!loaded.get()) {
