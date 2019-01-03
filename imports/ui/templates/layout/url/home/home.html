@@ -17,7 +17,12 @@
 </template>
 
 <template name="homeFeed">
-  <div class="split split-left">
+  {{#unless currentUser}}
+    <div class="hero">
+    </div>
+  {{/unless}}
+
+  <div class="split split-left {{landingMode}}">
     <div class="content content-feed max100">
       {{#unless isPhone}}
         {{#unless replyMode}}
@@ -47,7 +52,7 @@
     </div>
   </div>
 
-  <div class="split split-right">
+  <div class="split split-right {{landingMode}}">
     {{#if feedReady}}
       {{#with mainLedger}}
         {{> ledger this}}
@@ -61,7 +66,7 @@
 </template>
 
 <template name="postFeed">
-  <div class="split split-left">
+  <div class="split split-left {{landingMode}}">
     <div class="content content-feed subsection max100">
       {{#if isPhone}}
         {{#if editorMode}}
@@ -83,7 +88,7 @@
     </div>
   </div>
 
-  <div class="split split-right">
+  <div class="split split-right {{landingMode}}">
     {{#if postReady}}
       {{#with votes}}
         {{> ledger this}}

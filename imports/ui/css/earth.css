@@ -4147,7 +4147,7 @@ blockquote {
   width: 0px;
   margin-left: -10000px;
   float: left;
-  background-color: #eaeaea;
+  background-color: #f7f7f7;
   text-align: left;
 }
 
@@ -4338,8 +4338,8 @@ blockquote {
   padding-right: 15px;
   padding-bottom: 20px;
   padding-left: 15px;
-  background-color: #eaeaea;
-  box-shadow: 0 0 20px 10px #eaeaea;
+  background-color: #f7f7f7;
+  box-shadow: 0 0 20px 10px #f7f7f7;
   text-align: left;
 }
 
@@ -6267,6 +6267,11 @@ blockquote {
 
 .no-underline:hover {
   text-decoration: none;
+}
+
+.split-landing {
+  position: absolute;
+  top: 400px;
 }
 
 @media (max-width: 991px) {

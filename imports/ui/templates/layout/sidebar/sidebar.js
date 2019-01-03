@@ -320,7 +320,7 @@ Template.sidebar.helpers({
     return 0;
   },
   replicator() {
-    return `&#183; <a href="${Meteor.settings.public.web.sites.tokens}" target="_blank">${TAPi18n.__('start-a-democracy')}</a>`;
+    return `&#183; <a href="${Meteor.settings.public.web.sites.tokens}" target="_blank" ontouchstart="">${TAPi18n.__('start-a-democracy')}</a>`;
   },
   totalDelegates() {
     if (Template.instance().delegates.get()) {

@@ -17,6 +17,17 @@ import '/imports/ui/templates/widgets/feed/paginator.js';
 import '/imports/ui/templates/widgets/compose/compose.js';
 import '/imports/ui/templates/components/decision/ledger/ledger.js';
 
+/**
+* @summary specific rendering for unlogged users
+* @return {string} landing css style
+*/
+const _landingMode = () => {
+  if (!Meteor.user()) {
+    return 'split-landing';
+  }
+  return '';
+};
+
 Template.home.onCreated(function () {
   this.modeVar = new ReactiveVar();
   const instance = this;
@@ -186,6 +197,9 @@ Template.homeFeed.helpers({
   feedTitle() {
     return _getTitle(this.options);
   },
+  landingMode() {
+    return _landingMode();
+  },
 });
 
 Template.postFeed.onCreated(function () {
@@ -261,5 +275,8 @@ Template.postFeed.helpers({
       return contract._id;
     }
     return undefined;
+  },
+  landingMode() {
+    return _landingMode();
   },
 });
