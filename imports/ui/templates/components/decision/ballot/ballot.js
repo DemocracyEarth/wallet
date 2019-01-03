@@ -368,20 +368,19 @@ Template.ballot.helpers({
     }
     return '';
   },
-  enabledUserOnly() {
-    // An enabled user is both in email list and has verified email
-    if (emailListCheck(Meteor.user().emails[0].address)) {
-      if (Meteor.user().emails[0].verified) {
-        return this.contract.url;
-      }
-    }
-    return '#';
+  contractUrl() {
+    return this.contract.url;
   },
   votingOver() {
     return '#';
   },
   allowVoting() {
-    return false;
+    if (Meteor.user().emails[0].verified) {
+      return true;
+    } else {
+      displayNotice('verified-email-only', true);
+      return false;
+    }
   },
 });
 
@@ -392,15 +391,15 @@ Template.ballot.events({
     addChoiceToBallot(this.contract._id, document.getElementById('text-fork-proposal').value);
     Meteor.setTimeout(() => { document.getElementById('text-fork-proposal').value = ''; }, 100);
   },
-  'click #ballot-micro-menu'() {
-    // if (emailListCheck(Meteor.user().emails[0].address)) {
-    //   if (!Meteor.user().emails[0].verified) {
-    //     displayNotice('verified-email-only', true);
-    //   }
-    // } else {
-    //   // not a whitelist user
-    //   displayNotice('whitelist-only', true);
-    // }
-    displayNotice('voting-over', true);
-  },
+  // 'click #ballot-micro-menu'() {
+  //   if (emailListCheck(Meteor.user().emails[0].address)) {
+  //     if (!Meteor.user().emails[0].verified) {
+  //       displayNotice('verified-email-only', true);
+  //     }
+  //   } else {
+  //     // not a whitelist user
+  //     displayNotice('whitelist-only', true);
+  //   }
+  //   // displayNotice('voting-over', true);
+  // },
 });
