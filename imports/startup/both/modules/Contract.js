@@ -327,6 +327,7 @@ const _publish = (contractId) => {
     url: draft.url,
     ballotEnabled: draft.ballotEnabled,
     replyId: draft.replyId,
+    blockstackAppId: draft.blockstackAppId,
     geo: draft.geo,
   },
   });

@@ -6,7 +6,7 @@ import { $ } from 'meteor/jquery';
 
 import { editorFadeOut } from '/imports/ui/templates/components/decision/editor/editor';
 import { createContract } from '/imports/startup/both/modules/Contract';
-import { emailListCheck } from '/lib/permissioned';
+import { canUserComment } from '/lib/permissioned';
 import { displayNotice } from '/imports/ui/modules/notice';
 
 import '/imports/ui/templates/widgets/compose/compose.html';
@@ -19,6 +19,7 @@ const _introEditor = (settings) => {
     const draft = createContract();
     if (settings.replyMode && settings.replyId) {
       draft.replyId = settings.replyId;
+      draft.blockstackAppId = settings.blockstackAppId;
     } else {
       draft.replyId = '';
     }
@@ -102,10 +103,14 @@ Template.comment.events({
       inputElement.focus(); // focus on it so keyboard pops
       inputElement.style.visibility = 'hidden'; // hide it again
     }
-    if (emailListCheck(Meteor.user().emails[0].address)) {
-      _introEditor(this);
+    if (Meteor.user().emails[0].verified) {
+      if (canUserComment(Meteor.user().emails[0].address, this.blockstackAppId)) {
+        _introEditor(this);
+      } else {
+        displayNotice('whitelist-only', true);
+      }
     } else {
-      displayNotice('whitelist-only', true);
+      displayNotice('verified-email-only', true);
     }
   },
 });

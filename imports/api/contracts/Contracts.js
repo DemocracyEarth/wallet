@@ -457,6 +457,10 @@ Schema.Contract = new SimpleSchema({
   tally: {
     type: Schema.Tally,
   },
+  blockstackAppId: {
+    type: Number,
+    optional: true,
+  },
   replyId: {
     type: String,
     optional: true,

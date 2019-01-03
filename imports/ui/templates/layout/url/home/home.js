@@ -169,4 +169,8 @@ Template.postFeed.helpers({
     }
     return undefined;
   },
+  blockstackAppId() {
+    const contract = Contracts.findOne({ keyword: this.options.keyword });
+    return contract.blockstackAppId;
+  },
 });
