@@ -1,7 +1,7 @@
 body {
   padding-right: 0px;
   padding-left: 0px;
-  background-color: #535353;
+  background-color: #ddd;
   font-family: 'Open Sans', sans-serif;
   color: #333;
   font-size: 18px;
@@ -4444,7 +4444,6 @@ blockquote {
   margin-right: auto;
   margin-left: auto;
   padding: 60px 15px 15px;
-  background-color: #ddd;
 }
 
 .content.content-feed {
@@ -4774,7 +4773,6 @@ blockquote {
   right: 0px;
   bottom: 0px;
   overflow: scroll;
-  background-color: #ddd;
 }
 
 .right.show {
@@ -4956,7 +4954,6 @@ blockquote {
   padding-right: 15px;
   padding-left: 15px;
   float: left;
-  background-color: #ddd;
 }
 
 .split.split-right {
@@ -6904,6 +6901,9 @@ blockquote {
   .login-button-last {
     margin-top: 15px;
     margin-bottom: 15px;
+  }
+  .hero {
+    height: 100%;
   }
 }
 

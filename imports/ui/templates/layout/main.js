@@ -97,7 +97,7 @@ Template.main.onRendered(() => {
   if (!Meteor.Device.isPhone() && $(window).width() < gui.MOBILE_MAX_WIDTH) {
     $('.navbar').css('left', 0);
     Session.set('miniWindow', true);
-    Session.set('sidebar', true);
+    if (Meteor.user()) { Session.set('sidebar', true); }
     toggleSidebar();
   } else if (!Meteor.Device.isPhone()) {
     Session.set('sidebar', false);

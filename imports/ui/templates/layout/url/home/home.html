@@ -9,19 +9,21 @@
 </template>
 
 <template name="screen">
-  {{#if post}}
-    {{> postFeed this}}
-  {{else}}
-    {{> homeFeed this}}
-  {{/if}}
-</template>
-
-<template name="homeFeed">
   {{#unless currentUser}}
     <div class="hero">
     </div>
   {{/unless}}
 
+  <div class="{{anonymousContext}}">
+    {{#if post}}
+      {{> postFeed this}}
+    {{else}}
+      {{> homeFeed this}}
+    {{/if}}
+  </div>
+</template>
+
+<template name="homeFeed">
   <div class="split split-left {{landingMode}}">
     <div class="content content-feed max100">
       {{#unless isPhone}}
@@ -66,7 +68,7 @@
 </template>
 
 <template name="postFeed">
-  <div class="split split-left {{landingMode}}">
+  <div class="split split-left">
     <div class="content content-feed subsection max100">
       {{#if isPhone}}
         {{#if editorMode}}
@@ -88,7 +90,7 @@
     </div>
   </div>
 
-  <div class="split split-right {{landingMode}}">
+  <div class="split split-right">
     {{#if postReady}}
       {{#with votes}}
         {{> ledger this}}

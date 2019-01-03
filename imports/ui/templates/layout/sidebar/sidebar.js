@@ -331,4 +331,7 @@ Template.sidebar.helpers({
   menu() {
     return _userMenu(Meteor.user());
   },
+  sidebarContext() {
+    return (Meteor.Device.isPhone() || (!Meteor.Device.isPhone() && Meteor.user()));
+  },
 });
