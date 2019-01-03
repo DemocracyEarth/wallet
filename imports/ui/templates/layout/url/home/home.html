@@ -11,6 +11,10 @@
 <template name="screen">
   {{#unless currentUser}}
     <div class="hero">
+      <div class="hero-title">
+        <h1>{{{_ 'landing-title'}}}</h1>
+        {{{_ 'landing-tagline'}}}
+      </div>
     </div>
   {{/unless}}
 
