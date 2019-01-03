@@ -35,17 +35,6 @@ Router.route('/accounts/callbacks/blockstack', async function () {
   const userData = await blockstack.handlePendingSignIn();
   window.userData = userData;
 
-  console.log('### DEBUG ### - blockstack.js - router - userData ', userData);
-
-  // https://github.com/blockstack/blockstack.js/issues/307
-  // We cannot differentiate HTTP 404 errors when the profile was not found vs. empty profiles, as the handlePendingSignIn
-  // just returns a default empty profile. So we make the name compulsory, which is an indication that the profile has been
-  // filled in.
-  // if (!userData.profile.name) {
-  //   const msg = 'Blockstack login failed, likely because the profile was not found. Have you filled in your Blockstack profile?';
-  //   throw new Error(msg);
-  // }
-
   const methodName = 'login';
   const methodArguments = [{ bsToken: authResponse, userData }];
   const router = this;
@@ -97,11 +86,6 @@ if (Meteor.isServer) {
     let { bsToken, userData } = opts;
     if (!bsToken) return undefined;
 
-    // Verifies that the signatures match the pubkey, the expiration date is valid, etc.
-    const valid = blockstack.verifyAuthResponse(bsToken);
-    if (!valid) {
-      throw new Error('Blockstack token was invalid.');
-    }
 
     // TODO: we shouldn't take the userData for granted, as it's coming from the client. Ideally we should fetch the profile
     // server-side, but the handlePendingSignIn can only run in the browser.
@@ -129,7 +113,6 @@ if (Meteor.isServer) {
 
   Accounts.onLogin(function (loginObject) {
     if (loginObject.type !== 'resume') {
-      // TO-REVIEW: can these calls be made onCreateUser instead?
       if (emailListCheck(loginObject.user.services.blockstack.token.payload.email)) {
         Meteor.call('subsidizeUser', (subsidyError) => {
           if (subsidyError) {
