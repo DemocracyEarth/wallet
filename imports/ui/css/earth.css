@@ -12,7 +12,7 @@ body {
 h1 {
   margin-top: 0px;
   margin-bottom: 20px;
-  padding-top: 120px;
+  padding-top: 100px;
   color: #f5f5f5;
   font-size: 46px;
   line-height: 54px;
@@ -1031,6 +1031,15 @@ blockquote {
 .button.button-upload:active {
   background-color: transparent;
   color: #00bf8f;
+}
+
+.button.button-cta {
+  height: 50px;
+  margin: 0px;
+  padding-top: 12px;
+  padding-bottom: 10px;
+  float: left;
+  border-radius: 0px 5px 5px 0px;
 }
 
 .button-label {
@@ -6260,8 +6269,10 @@ blockquote {
 .hero {
   width: 100%;
   min-height: 400px;
-  border-bottom: 4px solid #cecece;
+  border-bottom: 2px solid #fff;
   background-color: #9185aa;
+  background-image: linear-gradient(135deg, #8edcf3, #51518c);
+  box-shadow: 15px 0 34px -8px #000;
   color: #fff;
   font-size: 18px;
   line-height: 26px;
@@ -6285,7 +6296,8 @@ blockquote {
 
 .hero-title {
   width: 60%;
-  padding-left: 60px;
+  margin-bottom: 50px;
+  margin-left: 60px;
 }
 
 .hero-wrapper {
@@ -6293,6 +6305,32 @@ blockquote {
   max-width: 1000px;
   margin-right: auto;
   margin-left: auto;
+}
+
+.hero-link {
+  color: #00ffc1;
+}
+
+.hero-call-to-action {
+  margin-left: 60px;
+}
+
+.hero-cta-input {
+  width: 240px;
+  height: 50px;
+  float: left;
+  border: 1px solid #fff;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  background-color: #fff;
+  font-size: 18px;
+}
+
+.hero-cta-alternative {
+  margin-top: 12px;
+  margin-left: 5px;
+  float: left;
+  font-size: 14px;
 }
 
 @media (max-width: 991px) {
@@ -6482,10 +6520,6 @@ blockquote {
 @media (max-width: 767px) {
   body {
     padding-bottom: 0px;
-  }
-  h1 {
-    font-size: 32px;
-    line-height: 38px;
   }
   h2 {
     font-size: 14px;
@@ -6926,9 +6960,6 @@ blockquote {
     margin-top: 15px;
     margin-bottom: 15px;
   }
-  .hero {
-    height: 100%;
-  }
 }
 
 @media (max-width: 479px) {
@@ -6936,10 +6967,6 @@ blockquote {
     padding-right: 0px;
     padding-left: 0px;
     font-size: 16px;
-  }
-  h1 {
-    font-size: 24px;
-    line-height: 32px;
   }
   p {
     font-size: 16px;
