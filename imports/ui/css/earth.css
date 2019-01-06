@@ -14,10 +14,10 @@ h1 {
   margin-bottom: 20px;
   padding-top: 100px;
   color: #f5f5f5;
-  font-size: 46px;
-  line-height: 54px;
+  font-size: 36px;
+  line-height: 42px;
   font-weight: 400;
-  letter-spacing: -2px;
+  letter-spacing: -1px;
 }
 
 h2 {
@@ -1034,12 +1034,13 @@ blockquote {
 }
 
 .button.button-cta {
-  height: 50px;
+  height: 40px;
   margin: 0px;
-  padding-top: 12px;
+  padding-top: 8px;
   padding-bottom: 10px;
   float: left;
   border-radius: 0px 5px 5px 0px;
+  font-size: 16px;
 }
 
 .button-label {
@@ -6267,8 +6268,10 @@ blockquote {
 }
 
 .hero {
+  display: inline-block;
   width: 100%;
-  min-height: 400px;
+  margin-bottom: 20px;
+  padding-bottom: 50px;
   border-bottom: 2px solid #fff;
   background-color: #9185aa;
   background-image: linear-gradient(135deg, #8edcf3, #51518c);
@@ -6296,7 +6299,7 @@ blockquote {
 
 .hero-title {
   width: 60%;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
   margin-left: 60px;
 }
 
@@ -6312,22 +6315,27 @@ blockquote {
 }
 
 .hero-call-to-action {
+  overflow: hidden;
+  height: 40px;
+  min-width: 250px;
   margin-left: 60px;
 }
 
 .hero-cta-input {
-  width: 240px;
-  height: 50px;
+  width: 30%;
+  height: 40px;
+  max-width: 300px;
+  min-width: 160px;
   float: left;
   border: 1px solid #fff;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   background-color: #fff;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .hero-cta-alternative {
-  margin-top: 12px;
+  margin-top: 8px;
   margin-left: 5px;
   float: left;
   font-size: 14px;
@@ -6520,6 +6528,9 @@ blockquote {
 @media (max-width: 767px) {
   body {
     padding-bottom: 0px;
+  }
+  h1 {
+    padding-top: 80px;
   }
   h2 {
     font-size: 14px;
@@ -6959,6 +6970,12 @@ blockquote {
   .login-button-last {
     margin-top: 15px;
     margin-bottom: 15px;
+  }
+  .hero-title {
+    margin-left: 40px;
+  }
+  .hero-call-to-action {
+    margin-left: 40px;
   }
 }
 
