@@ -620,6 +620,7 @@
   "ledger-peer-posts": "Transactions by @{{asset}}",
   "start-a-democracy": "Start an Organization",
   "landing-title": "Borderless Governance.",
-  "landing-tagline": "Democracy Earth is social media for crypto networks. Open source and peer to peer, buit for sovereign communities.",
-  "join": "Join Now"
+  "landing-tagline": "Democracy Earth is social media for crypto networks. Open source and peer to peer, built for the governance of small and large communities.",
+  "join": "Join Now",
+  "email": "E-mail"
 }

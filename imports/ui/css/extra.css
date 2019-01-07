@@ -144,3 +144,6 @@ html {
     overflow:hidden;
   }
 }
+
+textarea, select, input, button { outline: none; }
+

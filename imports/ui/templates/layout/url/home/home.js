@@ -11,6 +11,7 @@ import { getCoin } from '/imports/api/blockchain/modules/web3Util.js';
 import { geo } from '/lib/geo';
 
 import '/imports/ui/templates/layout/url/home/home.html';
+import '/imports/ui/templates/layout/url/hero/hero.js';
 import '/imports/ui/templates/widgets/feed/feed.js';
 import '/imports/ui/templates/widgets/tally/tally.js';
 import '/imports/ui/templates/widgets/feed/paginator.js';

@@ -10,19 +10,7 @@
 
 <template name="screen">
   {{#unless currentUser}}
-    <div class="hero">
-      <div class="hero-title">
-        <h1>{{{_ 'landing-title'}}}</h1>
-        {{{_ 'landing-tagline'}}}
-      </div>
-      <div class="hero-call-to-action">
-          <div class="hero-cta-input">
-          </div>
-          <div class="button button-cta">
-            {{_ 'join'}}
-          </div>
-        </div>
-    </div>
+    {{> hero}}
   {{/unless}}
 
   <div class="{{anonymousContext}}">
