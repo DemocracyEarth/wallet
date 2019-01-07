@@ -1041,9 +1041,7 @@ blockquote {
   padding-bottom: 10px;
   float: left;
   clear: none;
-  border-color: #00dfa8;
   border-radius: 0px 5px 5px 0px;
-  background-color: #00dfa8;
   font-size: 16px;
   text-align: center;
 }
@@ -6292,7 +6290,7 @@ blockquote {
   padding-bottom: 50px;
   border-bottom: 2px solid #fff;
   background-color: #9185aa;
-  background-image: linear-gradient(135deg, #8edcf3, #51518c);
+  background-image: linear-gradient(135deg, #005169, #51518c);
   box-shadow: 15px 0 34px -8px #000;
   color: #fff;
   font-size: 18px;
@@ -6370,6 +6368,12 @@ blockquote {
   float: left;
   border-top-left-radius: 5px;
   box-shadow: 0 4px 23px -10px #000;
+}
+
+.hero-menu {
+  position: absolute;
+  padding-right: 10px;
+  padding-left: 10px;
 }
 
 .hero-logo {

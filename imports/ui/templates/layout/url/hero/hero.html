@@ -1,22 +1,25 @@
 <template name="hero">
-    <div class="hero">
-        <div class="hero-title">
-        <h1>{{{_ 'landing-title'}}}</h1>
-        {{{_ 'landing-tagline'}}}
-        </div>
-        <div class="hero-call-to-action">
-            <div class="hero-cta-box">
-            <input id="lead" type="text" placeholder="{{_ 'email'}}" class="hero-cta-input" />
-            <div class="button button-cta">
-                {{_ 'join'}}
-            </div>
-            </div>
-            <div class="hero-cta-alternative">
-            &#183;
-            <a class="hero-link" href="https://token.democracy.earth">
-                {{_ 'start-a-democracy'}}
-            </a>
-            </div>
-        </div>
+  <div class="hero">
+    <div class="hero-menu">
+      <!--<img class="hero-logo" src="{{logo}}" />-->
     </div>
+    <div class="hero-title">
+      <h1>{{title}}</h1>
+      {{about}}
+    </div>
+    <div class="hero-call-to-action">
+      <div class="hero-cta-box">
+        <input id="lead" type="text" placeholder="{{_ 'email'}}" class="hero-cta-input" />
+        <div class="button button-cta">
+          {{_ 'join'}}
+        </div>
+      </div>
+      <div class="hero-cta-alternative">
+        &#183;
+        <a class="hero-link" href="https://token.democracy.earth">
+          {{_ 'start-a-democracy'}}
+        </a>
+      </div>
+    </div>
+  </div>
 </template>
