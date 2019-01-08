@@ -1320,6 +1320,7 @@ blockquote {
   border-radius: 5px;
   background-image: -webkit-gradient(linear, left top, left bottom, color-stop(95%, #fff), to(#ececec));
   background-image: linear-gradient(180deg, #fff 95%, #ececec);
+  cursor: pointer;
 }
 
 .vote.vote-search.vote-feed:hover {
@@ -1339,13 +1340,21 @@ blockquote {
 .vote.vote-search.vote-feed.vote-delegation {
   overflow: hidden;
   margin-right: 10px;
-  margin-bottom: 0px;
+  margin-bottom: 2px;
   padding: 0px 10px;
   float: left;
   clear: both;
-  background-color: #f1f1f1;
+  border-bottom: 1px solid #cecece;
+  background-color: #e8e8e8;
   background-image: none;
   box-shadow: none;
+  cursor: pointer;
+}
+
+.vote.vote-search.vote-feed.vote-delegation:hover {
+  background-color: #f3f3f3;
+  background-image: -webkit-gradient(linear, left top, right top, from(#f3f3f3), to(#eee));
+  background-image: linear-gradient(90deg, #f3f3f3, #eee);
 }
 
 .vote.vote-search.vote-feed.vote-delegation-card {
@@ -6303,7 +6312,7 @@ blockquote {
 
 .split-landing {
   position: absolute;
-  top: 360px;
+  top: 400px;
 }
 
 .hero-background {

@@ -15,10 +15,13 @@ Template.hero.helpers({
   about() {
     return TAPi18n.__('landing-tagline');
   },
+});
+
+Template.navbar.helpers({
   picture() {
     if (Meteor.settings.public.Collective.profile.logo) {
       return Meteor.settings.public.Collective.profile.logo;
     }
     return 'images/earth.png';
   },
-});
+})

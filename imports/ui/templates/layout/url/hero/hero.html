@@ -1,26 +1,6 @@
 <template name="hero">
   <div class="hero">
-    <div class="hero-navbar">
-      <img class="hero-logo" src="{{pathFor route='home'}}{{picture}}" />
-      <div class="hero-button hero-signin">
-          <a class="hero-menu-link hero-menu-link-signin" href="http://foundation.democracy.earth"  target="_blank">{{_ 'sign-in'}}</a>
-      </div>
-      <div class="hero-menu">
-        <!--<img class="hero-logo" src="{{logo}}" />-->
-        <div class="hero-button">
-          <a class="hero-menu-link hero-menu-link-selected" href="https://democracy.earth">{{_ 'home'}}</a>
-        </div>
-        <div class="hero-button">
-          <a class="hero-menu-link" href="http://paper.democracy.earth" target="_blank">{{_ 'paper'}}</a>
-        </div>
-        <div class="hero-button">
-          <a class="hero-menu-link" href="http://code.democracy.earth" target="_blank">{{_ 'code'}}</a>
-        </div>
-        <div class="hero-button hero-button-mobile">
-          <a class="hero-menu-link" href="http://foundation.democracy.earth"  target="_blank">{{_ 'foundation'}}</a>
-        </div>
-      </div>
-    </div>
+    {{> navbar}}
     <div class="hero-title">
       <h1>{{{title}}}</h1>
       {{{about}}}
@@ -37,6 +17,29 @@
         <a class="hero-link" href="https://token.democracy.earth">
           {{_ 'start-a-democracy'}}
         </a>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="navbar">
+  <div class="hero-navbar">
+    <img class="hero-logo" src="{{pathFor route='home'}}{{picture}}" />
+    <div class="hero-button hero-signin">
+        <a class="hero-menu-link hero-menu-link-signin" href="http://foundation.democracy.earth"  target="_blank">{{_ 'sign-in'}}</a>
+    </div>
+    <div class="hero-menu">
+      <div class="hero-button">
+        <a class="hero-menu-link hero-menu-link-selected" href="https://democracy.earth">{{_ 'home'}}</a>
+      </div>
+      <div class="hero-button">
+        <a class="hero-menu-link" href="http://paper.democracy.earth" target="_blank">{{_ 'paper'}}</a>
+      </div>
+      <div class="hero-button">
+        <a class="hero-menu-link" href="http://code.democracy.earth" target="_blank">{{_ 'code'}}</a>
+      </div>
+      <div class="hero-button hero-button-mobile">
+        <a class="hero-menu-link" href="http://foundation.democracy.earth"  target="_blank">{{_ 'foundation'}}</a>
       </div>
     </div>
   </div>
