@@ -1,7 +1,22 @@
 <template name="hero">
   <div class="hero">
-    <div class="hero-menu">
-      <!--<img class="hero-logo" src="{{logo}}" />-->
+    <div class="hero-navbar">
+      <img class="hero-logo" src="{{pathFor route='home'}}{{picture}}" />
+      <div class="hero-menu">
+        <!--<img class="hero-logo" src="{{logo}}" />-->
+        <div class="hero-button">
+          <a class="hero-menu-link hero-menu-link-selected" href="https://democracy.earth">{{_ 'home'}}</a>
+        </div>
+        <div class="hero-button">
+          <a class="hero-menu-link" href="http://paper.democracy.earth">{{_ 'paper'}}</a>
+        </div>
+        <div class="hero-button">
+          <a class="hero-menu-link" href="http://code.democracy.earth">{{_ 'code'}}</a>
+        </div>
+        <div class="hero-button">
+          <a class="hero-menu-link" href="http://foundation.democracy.earth">{{_ 'foundation'}}</a>
+        </div>
+      </div>
     </div>
     <div class="hero-title">
       <h1>{{title}}</h1>

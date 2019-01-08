@@ -15,7 +15,10 @@ Template.hero.helpers({
   about() {
     return TAPi18n.__('landing-tagline');
   },
-  logo() {
-    return `${Router.path('home')}images/democracy-earth-white.png`;
+  picture() {
+    if (Meteor.settings.public.Collective.profile.logo) {
+      return Meteor.settings.public.Collective.profile.logo;
+    }
+    return 'images/earth.png';
   },
 });
