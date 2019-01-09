@@ -8,7 +8,7 @@ import { ServiceConfiguration } from 'meteor/service-configuration';
 import { genesisTransaction, emailInitialization } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { getTime } from '/imports/api/time';
-import { logUser, log } from '/lib/const';
+import { logUser, log, gui } from '/lib/const';
 import { stripHTML, urlDoctor, fixDBUrl } from '/lib/utils';
 import { notifierHTML } from '/imports/api/notifier/notifierTemplate.js';
 
@@ -136,6 +136,33 @@ Meteor.methods({
   addAndVerifyEmail() {
     log(`{ method: 'addAndVerifyEmail', user: ${logUser()} }`);
     emailInitialization(Meteor.user()._id);
+  },
+
+  /**
+  * @summary updates `randomSortOrder` for a set of contracts to be displayed
+  * in the home feed in a random order
+  */
+  addSortingRandomness() {
+    log(`{ method: 'addSortingRandomness', user: ${logUser()} }`);
+    const contracts = Contracts.find(
+      {
+        stage: { $ne: 'DRAFT' },
+        kind: { $ne: 'DELEGATION' },
+        replyId: { $exists: false },
+      },
+      { limit: gui.ITEMS_PER_PAGE }
+    ).fetch();
+
+    for (let i = 0; i < contracts.length; i++) {
+      const contractId = contracts[i]._id;
+      Contracts.update({ _id: contractId },
+        {
+          $set: {
+            randomSortOrder: Math.floor(Math.random() * 100),
+          },
+        }
+      );
+    }
   },
 
   /**

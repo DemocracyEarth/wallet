@@ -99,11 +99,16 @@ Router.route('/', {
   },
   data() {
     return {
-      options: { view: 'latest', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0 },
+      options: { view: 'latest', sort: { randomSortOrder: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0 },
     };
   },
   onAfterAction() {
     _boilerPlate();
+    Meteor.call('addSortingRandomness', (error) => {
+      if (error) {
+        console.log(error, 'error with addSortingRandomness');
+      }
+    });
   },
 });
 

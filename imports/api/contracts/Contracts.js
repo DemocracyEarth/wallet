@@ -461,6 +461,10 @@ Schema.Contract = new SimpleSchema({
     type: Number,
     optional: true,
   },
+  randomSortOrder: {
+    type: Number,
+    optional: true,
+  },
   replyId: {
     type: String,
     optional: true,
