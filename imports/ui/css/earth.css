@@ -1345,16 +1345,14 @@ blockquote {
   float: left;
   clear: both;
   border-bottom: 1px solid #cecece;
-  background-color: #e8e8e8;
+  background-color: #f1f1f1;
   background-image: none;
   box-shadow: none;
   cursor: pointer;
 }
 
 .vote.vote-search.vote-feed.vote-delegation:hover {
-  background-color: #f3f3f3;
-  background-image: -webkit-gradient(linear, left top, right top, from(#f3f3f3), to(#eee));
-  background-image: linear-gradient(90deg, #f3f3f3, #eee);
+  background-image: none;
 }
 
 .vote.vote-search.vote-feed.vote-delegation-card {
@@ -6295,6 +6293,7 @@ blockquote {
 .hero {
   display: inline-block;
   width: 100%;
+  margin-top: 0px;
   margin-bottom: 20px;
   padding-bottom: 50px;
   border-bottom: 2px solid #fff;
@@ -6324,8 +6323,10 @@ blockquote {
 
 .hero-title {
   width: 60%;
+  max-width: 560px;
   margin-bottom: 40px;
-  margin-left: 60px;
+  margin-left: 5%;
+  float: left;
 }
 
 .hero-wrapper {
@@ -6342,8 +6343,9 @@ blockquote {
 .hero-call-to-action {
   height: 40px;
   min-width: 250px;
-  margin-left: 60px;
+  margin-left: 5%;
   padding-right: 30px;
+  clear: both;
 }
 
 .hero-cta-input {
@@ -6435,6 +6437,7 @@ blockquote {
   border-width: 1px;
   border-color: hsla(0, 0%, 100%, .5);
   border-radius: 5px;
+  color: #fff;
 }
 
 .hero-menu-link.hero-menu-link-signin:hover {
@@ -6445,6 +6448,14 @@ blockquote {
   overflow: hidden;
   width: 100%;
   height: 60px;
+}
+
+.hero-demo {
+  position: absolute;
+  left: 60%;
+  width: 400px;
+  float: right;
+  text-align: center;
 }
 
 @media (max-width: 991px) {
@@ -6628,6 +6639,9 @@ blockquote {
   .mobile-editor-topbar {
     position: fixed;
     background-color: #fff;
+  }
+  .hero-demo {
+    display: none;
   }
 }
 
