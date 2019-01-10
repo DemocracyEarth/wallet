@@ -140,11 +140,10 @@ Template.ballot.helpers({
     return this.contract.allowForks;
   },
   ballotEnabled() {
-    if (this.contract.ballotEnabled) {
-      // TODO: use this when dragging becomes a feature
-      // activateDragging();
+    if (this.contract) {
+      return this.contract.ballotEnabled;
     }
-    return this.contract.ballotEnabled;
+    return undefined;
   },
   headerStyle() {
     if (this.editorMode && !this.contract.ballotEnabled) {
@@ -327,7 +326,7 @@ Template.ballot.helpers({
             votes = parseInt(count + voter.votes, 10);
             return votes;
           })}`;
-        } else if (this.contract.tally && this.contract.tally.voter.length === 1) {
+        } else if (this.contract && this.contract.tally && this.contract.tally.voter.length === 1) {
           label += `&#183; ${(this.contract.tally.voter[0].votes)}`;
         }
         break;
@@ -369,7 +368,10 @@ Template.ballot.helpers({
     return '';
   },
   contractUrl() {
-    return this.contract.url;
+    if (this.contract) {
+      return this.contract.url;
+    }
+    return undefined;
   },
   votingOver() {
     return '#';

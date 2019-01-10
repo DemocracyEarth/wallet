@@ -151,7 +151,10 @@ Template.postFeed.helpers({
   },
   ballotEnabled() {
     const contract = Contracts.findOne({ keyword: Template.currentData().options.keyword });
-    return contract.ballotEnabled;
+    if (contract) {
+      return contract.ballotEnabled;
+    }
+    return undefined;
   },
   newContractId() {
     if (Session.get('draftContract')) {
@@ -171,6 +174,9 @@ Template.postFeed.helpers({
   },
   blockstackAppId() {
     const contract = Contracts.findOne({ keyword: this.options.keyword });
-    return contract.blockstackAppId;
+    if (contract) {
+      return contract.blockstackAppId;
+    }
+    return undefined;
   },
 });

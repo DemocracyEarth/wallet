@@ -75,13 +75,11 @@
     {{else}}
       <div class="block block-list">
         <div class="micro-menu">
-          {{#if ballotEnabled}}
-            <a href="{{contractUrl}}" id="ballot-micro-menu" class="micro-button micro-button-feed" ontouchstart="">
-              <img src="{{pathFor route='home'}}images/vote.png" class="micro-icon">
-              <span class="micro-label">{{label 'vote'}} {{{quantity 'vote'}}}</span>
-              <div class="verifier verifier-live verifier-feed"></div>
-            </a>
-          {{/if}}
+          <a href="{{contractUrl}}" id="ballot-micro-menu" class="micro-button micro-button-feed" ontouchstart="">
+            <img src="{{pathFor route='home'}}images/vote.png" class="micro-icon">
+            <span class="micro-label">{{label 'vote'}} {{{quantity 'vote'}}}</span>
+            <div class="verifier verifier-live verifier-feed"></div>
+          </a>
           <a href="{{contractUrl}}" id="ballot-micro-menu" class="micro-button micro-button-feed" ontouchstart="">
             <img src="{{pathFor route='home'}}images/debate.png" class="micro-icon">
             <span class="micro-label">{{label 'debate'}} {{{quantity 'debate'}}}</span>
