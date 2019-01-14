@@ -12,7 +12,7 @@ body {
 h1 {
   margin-top: 0px;
   margin-bottom: 20px;
-  padding-top: 40px;
+  padding-top: 100px;
   color: #f5f5f5;
   font-size: 36px;
   line-height: 42px;
@@ -6294,7 +6294,6 @@ blockquote {
   display: inline-block;
   width: 100%;
   margin-top: 0px;
-  margin-bottom: 20px;
   padding-bottom: 50px;
   border-bottom: 2px solid #fff;
   background-color: #9185aa;
@@ -6405,7 +6404,7 @@ blockquote {
   padding-bottom: 15px;
 }
 
-.hero-button.hero-signin {
+.hero-button.hero-button-mobile.hero-signin {
   float: right;
 }
 
@@ -6445,6 +6444,7 @@ blockquote {
 }
 
 .hero-navbar {
+  position: absolute;
   overflow: hidden;
   width: 100%;
   height: 60px;
@@ -6453,9 +6453,14 @@ blockquote {
 .hero-demo {
   position: absolute;
   left: 60%;
+  top: 60px;
   width: 400px;
   float: right;
   text-align: center;
+}
+
+.hero-signin {
+  float: right;
 }
 
 @media (max-width: 991px) {
@@ -6639,6 +6644,9 @@ blockquote {
   .mobile-editor-topbar {
     position: fixed;
     background-color: #fff;
+  }
+  .hero-title {
+    width: 80%;
   }
   .hero-demo {
     display: none;
@@ -7106,6 +7114,9 @@ blockquote {
     margin-right: 0px;
     margin-left: 0px;
     float: left;
+  }
+  .hero-button.hero-button-mobile.hero-signin {
+    margin-right: 15px;
   }
 }
 

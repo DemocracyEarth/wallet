@@ -28,7 +28,7 @@
 <template name="navbar">
   <div class="hero-navbar">
     <img class="hero-logo" src="{{pathFor route='home'}}{{picture}}" />
-    <div class="hero-button hero-signin">
+    <div class="hero-button hero-button-mobile hero-signin">
         <a class="hero-menu-link hero-menu-link-signin" href="http://foundation.democracy.earth"  target="_blank">{{_ 'sign-in'}}</a>
     </div>
     <div class="hero-menu">
@@ -49,6 +49,6 @@
 </template>
 
 <template name="demo">
-  <!-- NOTE: Include a demo as an outside link with demonstration inside iframe-->
-  <iframe src="https://token-qt2lpu13c.now.sh" style="border: 0px; height: 300px;"></iframe>
+  <!-- NOTE: free style template, this includes a demo as an outside link with demonstration inside iframe-->
+  <iframe src="https://token-qt2lpu13c.now.sh" style="border: 0px; height: 300px; top: 60px;"></iframe>
 </template>
