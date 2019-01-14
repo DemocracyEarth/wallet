@@ -6286,7 +6286,6 @@ blockquote {
 }
 
 .login-button-last {
-  margin-top: 20px;
   margin-bottom: 20px;
 }
 
@@ -6456,6 +6455,13 @@ blockquote {
   height: 60px;
 }
 
+.hero-navbar.hero-navbar-scroller {
+  z-index: 1;
+  border-bottom: 2px solid #fff;
+  background-image: linear-gradient(135deg, #8f85a8, #51518c);
+  box-shadow: 0 -15px 34px -8px #000;
+}
+
 .hero-demo {
   position: absolute;
   left: 60%;
@@ -6467,6 +6473,10 @@ blockquote {
 
 .hero-signin {
   float: right;
+}
+
+.login-button-first {
+  margin-top: 20px;
 }
 
 @media (max-width: 991px) {

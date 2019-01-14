@@ -92,14 +92,14 @@ export default class SocialMediaLogin extends Component {
         <div className="extra">
             <a id="signup" href="https://metamask.io/" rel="noopener noreferrer" target="_blank">{TAPi18n.__('get-web3-wallet')}</a>.
           </div>
-        <div id="metamask-login" className="button login-button login-button-last" onClick={this.handleMetamaskLogin}>
+        <div id="metamask-login" className="button login-button login-button-first" onClick={this.handleMetamaskLogin}>
           <img src="/images/ethereum.png" className="button-icon" alt="lock" />
           {TAPi18n.__('ethereum-web3-wallet')}
         </div>
-        {/* <div id="blockstack-login" className="button login-button" onClick={this.handleBlockstackLogin}>
+        <div id="blockstack-login" className="button login-button login-button-last" onClick={this.handleBlockstackLogin}>
           <img src="/images/blockstack.png" className="button-icon" alt="lock" />
           {TAPi18n.__('blockstack')}
-        </div> */}
+        </div>
         {/* <div id="twitter-login" className="button button-social twitter" onClick={this.handleTwitterLogin} >{{_ 'twitter'}}</div> */}
       </div>
     );
