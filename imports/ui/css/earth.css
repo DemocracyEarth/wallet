@@ -6293,7 +6293,6 @@ blockquote {
 .hero {
   display: inline-block;
   width: 100%;
-  margin-top: 0px;
   padding-bottom: 50px;
   border-bottom: 2px solid #fff;
   background-color: #9185aa;
@@ -6405,7 +6404,9 @@ blockquote {
 }
 
 .hero-button.hero-button-mobile.hero-signin {
+  padding-bottom: 0px;
   float: right;
+  cursor: pointer;
 }
 
 .hero-button.hero-signin:hover {
@@ -6441,6 +6442,11 @@ blockquote {
 
 .hero-menu-link.hero-menu-link-signin:hover {
   border-color: #fff;
+}
+
+.hero-menu-link.hero-menu-link-signin.hero-menu-link-signin-active {
+  background-color: #fff;
+  color: #6a6697;
 }
 
 .hero-navbar {

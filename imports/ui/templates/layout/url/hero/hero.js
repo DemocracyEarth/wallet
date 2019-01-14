@@ -1,12 +1,12 @@
 import { Template } from 'meteor/templating';
-import { Session } from 'meteor/session';
-import { ReactiveVar } from 'meteor/reactive-var';
-import { Router } from 'meteor/iron:router';
 import { Meteor } from 'meteor/meteor';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { ReactiveVar } from 'meteor/reactive-var';
+
+import { promptLogin } from '/imports/ui/templates/components/collective/collective.js';
 
 import '/imports/ui/templates/layout/url/hero/hero.html';
-import '/imports/ui/templates/components/collective/collective.js';
+
 
 Template.hero.helpers({
   title() {
@@ -17,6 +17,10 @@ Template.hero.helpers({
   },
 });
 
+Template.navbar.onCreated(function () {
+  Template.instance().activeSignIn = new ReactiveVar(false);
+});
+
 Template.navbar.helpers({
   picture() {
     if (Meteor.settings.public.Collective.profile.logo) {
@@ -24,4 +28,19 @@ Template.navbar.helpers({
     }
     return 'images/earth.png';
   },
-})
+  mode() {
+    if (Template.instance().activeSignIn.get()) {
+      return 'hero-menu-link-signin-active';
+    }
+    return '';
+  },
+});
+
+Template.navbar.events({
+  'click #collective-login'() {
+    event.stopPropagation();
+    const buttonMode = !Template.instance().activeSignIn.get();
+    Template.instance().activeSignIn.set(buttonMode);
+    promptLogin(buttonMode, event);
+  },
+});
