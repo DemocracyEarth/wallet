@@ -18,6 +18,7 @@ h1 {
   line-height: 42px;
   font-weight: 300;
   letter-spacing: -1px;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, .2);
 }
 
 h2 {
@@ -6457,9 +6458,8 @@ blockquote {
 
 .hero-navbar.hero-navbar-scroller {
   z-index: 1;
-  border-bottom: 2px solid #fff;
   background-image: linear-gradient(135deg, #8f85a8, #51518c);
-  box-shadow: 0 -15px 34px -8px #000;
+  box-shadow: 0 2px 1px 0 rgba(0, 0, 0, .2);
 }
 
 .hero-demo {
