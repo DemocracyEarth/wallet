@@ -10,7 +10,7 @@
 
 <template name="screen">
   {{#unless currentUser}}
-    {{> hero}}
+    {{> hero postMode=post}}
   {{/unless}}
 
   <div class="{{anonymousContext}}">
@@ -67,7 +67,7 @@
 </template>
 
 <template name="postFeed">
-  <div class="split split-left">
+  <div class="split split-left {{landingMode}}">
     <div class="content content-feed subsection max100">
       {{#if isPhone}}
         {{#if editorMode}}
@@ -89,7 +89,7 @@
     </div>
   </div>
 
-  <div class="split split-right">
+  <div class="split split-right {{landingMode}}">
     {{#if postReady}}
       {{#with votes}}
         {{> ledger this}}

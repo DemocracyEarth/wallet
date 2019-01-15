@@ -81,7 +81,7 @@ export default class SocialMediaLogin extends Component {
           </div>
           <div id="blockstack-login" className="button login-button login-button-last" onClick={this.handleBlockstackLogin}>
             <img src="/images/blockstack.png" className="button-icon" alt="lock" />
-            {TAPi18n.__('blockstack')}
+            {TAPi18n.__('blockstack-id')}
           </div>
         </div>
       );
@@ -102,7 +102,7 @@ export default class SocialMediaLogin extends Component {
         </div>
         <div id="blockstack-login" className="button login-button login-button-last" onClick={this.handleBlockstackLogin}>
           <img src="/images/blockstack.png" className="button-icon" alt="lock" />
-          {TAPi18n.__('blockstack')}
+          {TAPi18n.__('blockstack-id')}
         </div>
         {/* <div id="twitter-login" className="button button-social twitter" onClick={this.handleTwitterLogin} >{{_ 'twitter'}}</div> */}
       </div>

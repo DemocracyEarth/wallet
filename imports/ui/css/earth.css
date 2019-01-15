@@ -282,7 +282,7 @@ blockquote {
   width: 100%;
   padding: 10px;
   border-radius: 3px;
-  background-color: #392256;
+  background-color: #291346;
   box-shadow: 0 3px 8px -4px #000;
   color: #fff;
 }
@@ -6293,6 +6293,7 @@ blockquote {
 .hero {
   display: inline-block;
   width: 100%;
+  min-height: 65px;
   padding-bottom: 50px;
   border-bottom: 2px solid #fff;
   background-color: #9185aa;
@@ -6458,8 +6459,9 @@ blockquote {
 
 .hero-navbar.hero-navbar-scroller {
   z-index: 1;
+  border-bottom: 2px solid #fff;
   background-image: linear-gradient(135deg, #20016d, #744d86);
-  box-shadow: 0 2px 1px 0 rgba(0, 0, 0, .2);
+  box-shadow: 8px 0 34px -8px #000;
 }
 
 .hero-demo {
@@ -6482,6 +6484,11 @@ blockquote {
 .body-2 {
   background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#cecece));
   background-image: linear-gradient(180deg, #fff, #cecece);
+}
+
+.split-post-landing {
+  position: absolute;
+  top: 70px;
 }
 
 @media (max-width: 991px) {
@@ -6606,7 +6613,6 @@ blockquote {
     margin-right: 0px;
     margin-left: 0px;
     padding-top: 0px;
-    background-color: #f5f5f5;
   }
   .mobile-editor.hide {
     display: none;

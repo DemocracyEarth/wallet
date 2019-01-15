@@ -22,9 +22,14 @@ import '/imports/ui/templates/components/decision/ledger/ledger.js';
 * @summary specific rendering for unlogged users
 * @return {string} landing css style
 */
-const _landingMode = () => {
+const _landingMode = (style) => {
   if (!Meteor.user()) {
-    return 'split-landing';
+    switch (style) {
+      case 'post':
+        return `split-${style}-landing`;
+      default:
+        return 'split-landing';
+    }
   }
   return '';
 };
@@ -278,6 +283,6 @@ Template.postFeed.helpers({
     return undefined;
   },
   landingMode() {
-    return _landingMode();
+    return _landingMode('post');
   },
 });
