@@ -82,6 +82,9 @@ function agreement(voteId, editable) {
 }
 
 function getPercentage(value, voteId) {
+  if (Session.get(voteId).balance === 0) {
+    return 0;
+  }
   return parseFloat((value * 100) / Session.get(voteId).balance, 10);
 }
 
