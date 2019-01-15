@@ -14,7 +14,6 @@ import '../../../../widgets/suggest/suggest.js';
 
 Template.profileEditor.rendered = function rendered() {
   Session.set('showNations', false);
-  Session.set('noNameFound', false);
   Session.set('noUsernameFound', false);
 };
 
@@ -45,9 +44,6 @@ Template.profileEditor.helpers({
   },
   showNations() {
     return Session.get('showNations');
-  },
-  noNameFound() {
-    return Session.get('noNameFound');
   },
   noUsernameFound() {
     return Session.get('noUsernameFound');
@@ -116,15 +112,12 @@ Template.profileEditor.events({
     const editEmail = document.getElementById('editEmail').value;
     const validation = validateUsername(editUsername);
 
-    if (document.getElementById('editFirstName').value === '') {
-      Session.set('noNameFound', true);
-    } else if (!validateEmail(editEmail)) {
+    if (!validateEmail(editEmail)) {
       Session.set('invalidEmail', true);
     } else if (validation.valid || editUsername === '') {
       Session.set('noUsernameFound', true);
       Session.set('queryUsernameStatus', '');
     } else if (Session.get('queryUsernameStatus') === 'SINGULAR') {
-      Session.set('noNameFound', false);
       Session.set('noUsernameFound', false);
 
       // Save
