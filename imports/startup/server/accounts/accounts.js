@@ -2,8 +2,10 @@ import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/underscore';
 import { Accounts } from 'meteor/accounts-base';
 
-import { convertToSlug } from '/lib/utils';
 import { deburr, toLower, camelCase } from 'lodash';
+
+import { convertToSlug } from '/lib/utils';
+import { emailListCheck } from '/lib/permissioned';
 
 function generateAvailableUsername(newUsername) {
   let i = 0;
@@ -77,12 +79,13 @@ function normalizeBlockstackUser(profile, user) {
 
   const { name } = user.services.blockstack.userData.profile;
   let username;
+  let emails;
 
   profile = _.extend(profile, {
     firstName: name,
     credentials: credential,
   });
-  
+
   if (user.services.blockstack.userData.profile.image && 
       user.services.blockstack.userData.profile.image.length > 0 && 
       user.services.blockstack.userData.profile.image[0].contentUrl) {
@@ -103,16 +106,27 @@ function normalizeBlockstackUser(profile, user) {
     }
   }
 
+  const userPayloadEmail = user.services.blockstack.token.payload.email;
+  if (!user.emails && userPayloadEmail !== null) {
+    emails = [
+      {
+        address: userPayloadEmail,
+        verified: false,
+      },
+    ];
+  }
+
   return _.extend(user, {
     username,
     profile,
+    emails,
   });
 }
 
 const normalizers = {
   facebook: normalizeFacebookUser,
   twitter: normalizeTwitterUser,
-  blockstack: normalizeBlockstackUser
+  blockstack: normalizeBlockstackUser,
 };
 
 /**
@@ -120,7 +134,7 @@ const normalizers = {
 ****/
 Accounts.onCreateUser((opts, user) => {
   const profile = opts.profile || {};
-  
+
   // Find the first normalizer for the first service the user has.
   // Not sure if we need to be so strict, but I'm keeping the contract of the previous impl.
   const normalizer = _.chain(normalizers)
@@ -130,6 +144,26 @@ Accounts.onCreateUser((opts, user) => {
     .value();
 
   user = !!normalizer ? normalizer(profile, user) : user;
-  
+
   return user;
+});
+
+Accounts.onLogin(function (loginObject) {
+  if (loginObject.type !== 'resume') {
+    if (loginObject.user.emails && emailListCheck(loginObject.user.emails[0].address)) {
+      Meteor.call('subsidizeUser', (subsidyError) => {
+        if (subsidyError) {
+          console.log(subsidyError, 'error on Accounts.onLogin with subsidizeError');
+        }
+      });
+    }
+
+    if (loginObject.user.emails && !loginObject.user.services.email) {
+      Meteor.call('sendVerificationLink', (verificationError) => {
+        if (verificationError) {
+          console.log(verificationError.reason, 'error on sendVerificationLink');
+        }
+      });
+    }
+  }
 });

@@ -6,6 +6,7 @@ import { validateUsername } from '/imports/startup/both/modules/User';
 import { searchJSON } from '/imports/ui/modules/JSON';
 import { geo } from '/lib/geo';
 
+import { validateEmail } from '/imports/startup/both/modules/validations.js';
 import './profileEditor.html';
 import '../../avatar/avatar.js';
 import '../../../../widgets/warning/warning.js';
@@ -26,6 +27,12 @@ Template.profileEditor.helpers({
   },
   userName() {
     return Meteor.user().username;
+  },
+  email() {
+    if (Meteor.user().emails[0].address) {
+      return Meteor.user().emails[0].address;
+    }
+    return undefined;
   },
   country() {
     if (Session.get('newCountry') !== undefined) {
@@ -48,8 +55,20 @@ Template.profileEditor.helpers({
   usernameAlreadyExists() {
     return (Session.get('queryUsernameStatus') === 'DUPLICATE');
   },
+  invalidEmail() {
+    return Session.get('invalidEmail');
+  },
+  profileEmailSet() {
+    if (Meteor.user().emails[0].address && Meteor.user().emails[0].address !== '') {
+      return true;
+    }
+    return false;
+  },
   verifiedMail() {
-    if (Meteor.settings.public.app.config.mailNotifications) {
+    if (Meteor.settings.public.app.config.mailNotifications &&
+        Meteor.user().emails[0].address &&
+        Meteor.user().emails[0].address !== ''
+       ) {
       return Meteor.user().emails[0].verified;
     }
     return true;
@@ -93,10 +112,15 @@ Template.profileEditor.events({
     Session.set('cardNavigation', false);
   },
   'click #save-profile'() {
-    const validation = validateUsername(document.getElementById('editUserName').value);
+    const editUsername = document.getElementById('editUserName').value;
+    const editEmail = document.getElementById('editEmail').value;
+    const validation = validateUsername(editUsername);
+
     if (document.getElementById('editFirstName').value === '') {
       Session.set('noNameFound', true);
-    } else if (validation.valid || document.getElementById('editUserName').value === '') {
+    } else if (!validateEmail(editEmail)) {
+      Session.set('invalidEmail', true);
+    } else if (validation.valid || editUsername === '') {
       Session.set('noUsernameFound', true);
       Session.set('queryUsernameStatus', '');
     } else if (Session.get('queryUsernameStatus') === 'SINGULAR') {
@@ -105,7 +129,6 @@ Template.profileEditor.events({
 
       // Save
       const data = Meteor.user().profile;
-      const editUsername = document.getElementById('editUserName').value;
       data.firstName = document.getElementById('editFirstName').value;
       data.lastName = document.getElementById('editLastName').value;
 
@@ -115,6 +138,26 @@ Template.profileEditor.events({
       data.configured = true;
       Meteor.users.update(Meteor.userId(), { $set: { profile: data } });
       Meteor.users.update(Meteor.userId(), { $set: { username: editUsername } });
+
+      if (editEmail !== Meteor.user().emails[0].address && editEmail !== '') {
+        const email = [
+          {
+            address: editEmail,
+            verified: false,
+          },
+        ];
+        Meteor.users.update(Meteor.userId(), { $set: { emails: email } });
+        Meteor.call('subsidizeUser', (subsidyError) => {
+          if (subsidyError) {
+            console.log(subsidyError, 'error with subsidizeUser');
+          }
+        });
+        Meteor.call('sendVerificationLink', (verificationError) => {
+          if (verificationError) {
+            console.log(verificationError.reason, 'error with sendVerificationLink');
+          }
+        });
+      }
     }
   },
 });

@@ -825,30 +825,6 @@ const _genesisTransaction = (userId) => {
   }
 };
 
-/**
-* @summary manually add email and send verification email to users created
-* with an external service (like Blockstack)
-* @param {string} userId
-*/
-const _emailInitialization = (userId) => {
-  const user = Meteor.users.findOne({ _id: userId });
-  if (!user.emails) {
-    user.emails = [
-      {
-        address: user.services.blockstack.token.payload.email,
-        verified: false,
-      },
-    ];
-
-    Meteor.users.update({ _id: userId }, { $set: { emails: user.emails } });
-    Meteor.call('sendVerificationLink', (verificationError) => {
-      if (verificationError) {
-        console.log(verificationError.reason, 'error on sendVerificationLink');
-      }
-    });
-  }
-};
-
 export const processedTx = _processedTx;
 export const updateUserCache = _updateUserCache;
 export const updateWalletCache = _updateWalletCache;
@@ -859,4 +835,3 @@ export const transactionMessage = _transactionMessage;
 export const getVotes = _getVotes;
 export const transact = _transact;
 export const genesisTransaction = _genesisTransaction;
-export const emailInitialization = _emailInitialization;

@@ -5,7 +5,6 @@ import { WebApp } from 'meteor/webapp';
 
 import blockstack from 'blockstack';
 import { decodeToken } from 'jsontokens';
-import { emailListCheck } from '/lib/permissioned';
 
 if (Meteor.isClient) {
   const loginWithBlockstack = function (options, callback) {
@@ -109,23 +108,5 @@ if (Meteor.isServer) {
 
     console.log(`Created user from Blockstack login: ${user}`);
     return user;
-  });
-
-  Accounts.onLogin(function (loginObject) {
-    if (loginObject.type !== 'resume') {
-      if (emailListCheck(loginObject.user.services.blockstack.token.payload.email)) {
-        Meteor.call('subsidizeUser', (subsidyError) => {
-          if (subsidyError) {
-            console.log(subsidyError, 'error on Accounts.onLogin with subsidizeError');
-          }
-        });
-      }
-
-      Meteor.call('addAndVerifyEmail', (error) => {
-        if (error) {
-          console.log(error, 'error on Accounts.onLogin with addAndVerifyEmail');
-        }
-      });
-    }
   });
 }
