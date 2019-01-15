@@ -20,47 +20,45 @@ Template.hero.helpers({
 });
 
 
-// Scroll behaviour
-let lastScrollTop = 0;
-let scrollDown = false;
+const _prompt = (instance) => {
+  const buttonMode = !instance.activeSignIn.get();
+  instance.activeSignIn.set(buttonMode);
+  promptLogin(buttonMode, event);
+};
 
 const scrollingMenu = (instance) => {
   $('.right').scroll(() => {
     const node = $('.hero-navbar');
     const st = $('.right').scrollTop();
-    if (st > lastScrollTop && st > 400) {
+    const navbar = instance.scrollingNavbar.get();
+    if (instance.activeSignIn.get()) {
+      _prompt(instance);
+    }
+    if (st > 400 && !node.is('.velocity-animating')) {
       instance.scrollingNavbar.set(true);
-      scrollDown = true;
-      node
-        .velocity('stop')
-        .velocity({ translateY: '0px' }, { duration: parseInt(timers.ANIMATION_DURATION, 10), easing: 'ease-out' })
-        .velocity({ translateY: '-100px' }, {
-          duration: parseInt(timers.ANIMATION_DURATION, 10),
-          easing: 'ease-out',
-          complete: () => {
-            node.css('position', 'absolute');
-            node.css('top', '0px');
-          },
-        })
-        .velocity('stop');
-    } else if (scrollDown === true) {
-      scrollDown = false;
-      node.css('position', 'fixed');
-      node
-        .velocity('stop')
-        .velocity({ translateY: '-100px' }, { duration: parseInt(timers.ANIMATION_DURATION, 10), easing: 'ease-out' })
-        .velocity({ translateY: '0px' }, {
-          duration: parseInt(timers.ANIMATION_DURATION, 10),
-          easing: 'ease-out',
-          complete: () => {
-          },
-        })
-        .velocity('stop');
+      if (node.css('position') !== 'fixed') {
+        node.css('position', 'fixed');
+        node.css('top', '-100px');
+        node.velocity('stop');
+        node.velocity({ top: '0px' }, { duration: parseInt(timers.ANIMATION_DURATION, 10), easing: 'ease-out' });
+      }
+    } else if (navbar && st < 400 && !node.is('.velocity-animating')) {
+      node.velocity('stop');
+      node.velocity({ top: '-100px' }, {
+        duration: parseInt(timers.ANIMATION_DURATION, 10),
+        easing: 'ease-out',
+        complete: () => {
+          instance.scrollingNavbar.set(false);
+          node.css('position', 'absolute');
+          node.css('opacity', 0);
+          node.css('top', '0px');
+          node.velocity({ opacity: 1 }, { duration: parseInt(timers.ANIMATION_DURATION * 2, 10), easing: 'ease-out' });
+        },
+      });
     }
     lastScrollTop = st;
   });
 };
-
 
 Template.navbar.onCreated(function () {
   Template.instance().activeSignIn = new ReactiveVar(false);
@@ -96,8 +94,6 @@ Template.navbar.helpers({
 Template.navbar.events({
   'click #collective-login'() {
     event.stopPropagation();
-    const buttonMode = !Template.instance().activeSignIn.get();
-    Template.instance().activeSignIn.set(buttonMode);
-    promptLogin(buttonMode, event);
+    _prompt(Template.instance());
   },
 });

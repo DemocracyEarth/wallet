@@ -282,7 +282,7 @@ blockquote {
   width: 100%;
   padding: 10px;
   border-radius: 3px;
-  background-color: #3c3145;
+  background-color: #392256;
   box-shadow: 0 3px 8px -4px #000;
   color: #fff;
 }
@@ -6296,7 +6296,7 @@ blockquote {
   padding-bottom: 50px;
   border-bottom: 2px solid #fff;
   background-color: #9185aa;
-  background-image: linear-gradient(135deg, #8f85a8, #51518c);
+  background-image: linear-gradient(135deg, #20016d, #744d86);
   box-shadow: 15px 0 34px -8px #000;
   color: #fff;
   font-size: 18px;
@@ -6458,7 +6458,7 @@ blockquote {
 
 .hero-navbar.hero-navbar-scroller {
   z-index: 1;
-  background-image: linear-gradient(135deg, #8f85a8, #51518c);
+  background-image: linear-gradient(135deg, #20016d, #744d86);
   box-shadow: 0 2px 1px 0 rgba(0, 0, 0, .2);
 }
 
@@ -6477,6 +6477,11 @@ blockquote {
 
 .login-button-first {
   margin-top: 20px;
+}
+
+.body-2 {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#cecece));
+  background-image: linear-gradient(180deg, #fff, #cecece);
 }
 
 @media (max-width: 991px) {
