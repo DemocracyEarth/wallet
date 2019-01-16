@@ -40,6 +40,9 @@ const heroMode = (instance) => {
     node.removeClass('hero-navbar-scroller');
     $('.hero').css('position', 'fixed');
     $('.hero').css('z-index', '1');
+    if (Meteor.Device.isPhone()) {
+      $('.split-left').css('paddingTop', '70px');
+    }
   } else {
     heroHeight = 400;
     if (st > heroHeight) {
@@ -48,6 +51,7 @@ const heroMode = (instance) => {
       if (node.css('position') !== 'fixed') {
         node.css('position', 'fixed');
         node.css('top', '-100px');
+        node.css('height', '65px');
         node.velocity('stop');
         node.velocity({ top: '0px' }, { duration: parseInt(timers.ANIMATION_DURATION, 10), easing: 'ease-out' });
       }
@@ -82,11 +86,25 @@ Template.navbar.onCreated(function () {
 
 Template.navbar.onRendered(function () {
   console.log(`navbar loading - Template.instance().data.postMode: ${Template.instance().data.postMode}`);
-  if (!Template.instance().data.postMode) {
-    scrollingMenu(Template.instance());
+
+  const instance = Template.instance();
+
+  if (!instance.data.postMode) {
+    scrollingMenu(instance);
   } else {
     $('.right').off('scroll');
-    heroMode(Template.instance());
+    heroMode(instance);
+  }
+
+  if (Meteor.Device.isPhone()) {
+    window.addEventListener('click', function (e) {
+      console.log('cucha');
+      console.log(e);
+      if (document.getElementById('user-login') && document.getElementById('user-login').contains(e.target)) {
+        instance.activeSignIn.set(false);
+        console.log('apagalo');
+      }
+    });
   }
 });
 

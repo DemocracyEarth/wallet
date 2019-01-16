@@ -4219,7 +4219,7 @@ blockquote {
   margin-left: auto;
   padding: 18px 12px;
   border-radius: 5px;
-  background-color: #3c3145;
+  background-color: #291346;
   box-shadow: 0 3px 8px -4px #000;
   color: #fff;
   font-size: 16px;
@@ -6391,7 +6391,7 @@ blockquote {
 }
 
 .hero-logo {
-  max-height: 32px;
+  max-height: 40px;
   margin: 10px;
   float: left;
 }
@@ -6885,6 +6885,9 @@ blockquote {
   }
   .election-label {
     float: none;
+  }
+  .modal {
+    background-color: hsla(0, 0%, 100%, .3);
   }
   .modal.hide {
     display: none;

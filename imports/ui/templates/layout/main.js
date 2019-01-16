@@ -117,7 +117,10 @@ Template.main.helpers({
       return 'right-hero';
     }
     return '';
-  }
+  },
+  loggedWithPhone() {
+    return (Meteor.Device.isPhone() && Meteor.user());
+  },
 });
 
 Template.main.events({
