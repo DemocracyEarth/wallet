@@ -4392,7 +4392,7 @@ blockquote {
 }
 
 .menu-item:hover {
-  background-color: #e0e0e0;
+  background-color: #dfdce8;
 }
 
 .menu-item:active {
@@ -4412,7 +4412,7 @@ blockquote {
 }
 
 .menu-item.menu-item-selected {
-  background-color: #6d5c7d;
+  background-color: #431179;
   color: #fff;
 }
 
@@ -4688,7 +4688,7 @@ blockquote {
 }
 
 .collective:hover {
-  background-color: #e0e0e0;
+  background-color: #dfdce8;
 }
 
 .collective:active {
@@ -4696,7 +4696,7 @@ blockquote {
 }
 
 .collective.collective-selected {
-  background-color: #6d5c7d;
+  background-color: #431179;
   color: #fff;
 }
 
@@ -6098,7 +6098,6 @@ blockquote {
   border: 1px solid #9696c1;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
-  background-color: transparent;
   font-size: 10px;
   line-height: 10px;
   font-weight: 400;

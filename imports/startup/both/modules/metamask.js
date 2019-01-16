@@ -3,17 +3,14 @@ import { Accounts } from 'meteor/accounts-base';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Router } from 'meteor/iron:router';
 import { Session } from 'meteor/session';
+import { $ } from 'meteor/jquery';
+
 import { displayModal } from '/imports/ui/modules/modal';
 import { transact } from '/imports/api/transactions/transaction';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { addDecimal, getCoin } from '/imports/api/blockchain/modules/web3Util';
-
-import { createDelegation } from '/imports/startup/both/modules/Contract';
+import { animatePopup } from '/imports/ui/modules/popup';
 import { Transactions } from '/imports/api/transactions/Transactions';
-
-import { token } from '/lib/token';
-import { defaultSettings } from '/lib/const';
-import { convertToSlug } from '/lib/utils';
 
 
 import abi from 'human-standard-token-abi';
@@ -86,6 +83,15 @@ const _getTransactionStatus = (hash) => {
     });
   }
   return false;
+};
+
+/**
+* @summary hide login forms
+*/
+const _hideLogin = () => {
+  $('.right').scrollTop(0);
+  Session.set('userLoginVisible', false);
+  animatePopup(false, 'user-login');
 };
 
 /**
@@ -429,6 +435,7 @@ if (Meteor.isClient) {
                 methodArguments,
               });
               Router.go('/');
+              _hideLogin();
             },
           });
         } else {
@@ -486,3 +493,4 @@ export const transactWithMetamask = _transactWithMetamask;
 export const getTransactionStatus = _getTransactionStatus;
 export const setupWeb3 = _web3;
 export const syncBlockchain = _syncBlockchain;
+export const hideLogin = _hideLogin;

@@ -29,7 +29,6 @@ const _prompt = (instance) => {
 const heroMode = (instance) => {
   const node = $('.hero-navbar');
   const st = $('.right').scrollTop();
-  // const navbar = instance.scrollingNavbar.get();
   if (instance.activeSignIn.get()) {
     _prompt(instance);
   }
@@ -46,7 +45,6 @@ const heroMode = (instance) => {
   } else {
     heroHeight = 400;
     if (st > heroHeight) {
-      // instance.scrollingNavbar.set(true);
       node.addClass('hero-navbar-scroller');
       if (node.css('position') !== 'fixed') {
         node.css('position', 'fixed');
@@ -75,7 +73,6 @@ const heroMode = (instance) => {
 
 const scrollingMenu = (instance) => {
   $('.right').scroll(() => {
-    console.log(`scrolling: ${JSON.stringify(instance.data)}`);
     heroMode(instance);
   });
 };

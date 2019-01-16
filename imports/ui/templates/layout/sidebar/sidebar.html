@@ -1,7 +1,7 @@
 <template name="sidebar">
 
   {{#if sidebarContext}}
-    <div id='menu' class='left'>
+    <div id='menu' class='left {{style}}'>
       <div class="sidebar">
 
         {{> collective}}
@@ -22,18 +22,6 @@
             </div>
           {{/each}}
         </ul>
-        <!--
-        <ul class="menu w-clearfix w-list-unstyled">
-          {{> inbox label='recent-users' separator=true}}
-          {{#each participant}}
-            {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon isAvatar=true iconActivated=iconActivated feed=feed}}
-          {{else}}
-            <div class="menu inline-block">
-              {{> warning label='empty-feed'}}
-            </div>
-          {{/each}}
-        </ul>
-        -->
         <div style="height: 50px"></div>
         <!--
         {{#if bitcoinAddress}}

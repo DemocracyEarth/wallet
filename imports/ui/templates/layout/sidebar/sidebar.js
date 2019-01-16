@@ -10,6 +10,7 @@ import { sidebarWidth, sidebarPercentage, getDelegatesMenu, toggleSidebar } from
 import { getFlag, getUser } from '/imports/ui/templates/components/identity/avatar/avatar';
 import { geo } from '/lib/geo';
 import { getCoin } from '/imports/api/blockchain/modules/web3Util';
+import { promptLogin } from '/imports/ui/templates/components/collective/collective.js';
 
 import '/imports/ui/templates/layout/sidebar/sidebar.html';
 import '/imports/ui/templates/components/collective/collective.js';
@@ -146,6 +147,37 @@ const _adapt = (list) => {
   return menu;
 };
 
+
+/**
+* @summary displays the sidebar if logged
+*/
+const _showSidebar = () => {
+  const percentage = sidebarPercentage();
+  $('.left').width(`${percentage}%`);
+  if (!Meteor.Device.isPhone()) {
+    if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
+      $('.navbar').css('left', 0);
+      Session.set('miniWindow', true);
+    } else {
+      $('.navbar').css('left', `${percentage}%`);
+      Session.set('miniWindow', false);
+    }
+    if (($(window).width() < gui.MOBILE_MAX_WIDTH && Session.get('sidebar')) || ($(window).width() >= gui.MOBILE_MAX_WIDTH && !Session.get('sidebar'))) {
+      toggleSidebar(true);
+    }
+  }
+  if (!Session.get('sidebar')) {
+    $('#menu').css('margin-left', `${parseInt(0 - sidebarWidth(), 10)}px`);
+  } else {
+    let newRight = 0;
+    if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
+      newRight = parseInt(0 - sidebarWidth(), 10);
+    }
+    $('#content').css('left', sidebarWidth());
+    $('#content').css('right', newRight);
+  }
+};
+
 Template.sidebar.onCreated(function () {
   Template.instance().delegates = new ReactiveVar();
   Template.instance().members = new ReactiveVar(0);
@@ -165,13 +197,14 @@ Template.sidebar.onCreated(function () {
         const subscription = instance.subscribe('delegates', { view: 'delegateList', items: _.pluck(Meteor.user().profile.delegations, 'userId') });
 
         if (subscription.ready()) {
-          let delegates = []
+          const delegates = [];
           for (let i = 0; i < Meteor.user().profile.delegations.length; i += 1) {
-            delegates.push({ _id: Meteor.user().profile.delegations[i].userId })
+            delegates.push({ _id: Meteor.user().profile.delegations[i].userId });
           }
           delegateList = _adapt(Meteor.users.find({ $or: delegates }).fetch());
           Template.instance().delegates.set(delegateList);
           Template.instance().participants.set(_otherMembers(delegateList));
+          _showSidebar();
         }
       }
     }
@@ -250,7 +283,6 @@ const _userMenu = (user) => {
   return menu;
 };
 
-
 Template.sidebar.onRendered(() => {
   $('.left').width(`${sidebarPercentage()}%`);
   if (!Meteor.Device.isPhone()) {
@@ -260,30 +292,7 @@ Template.sidebar.onRendered(() => {
   drawSidebar();
 
   $(window).resize(() => {
-    const percentage = sidebarPercentage();
-    $('.left').width(`${percentage}%`);
-    if (!Meteor.Device.isPhone()) {
-      if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
-        $('.navbar').css('left', 0);
-        Session.set('miniWindow', true);
-      } else {
-        $('.navbar').css('left', `${percentage}%`);
-        Session.set('miniWindow', false);
-      }
-      if (($(window).width() < gui.MOBILE_MAX_WIDTH && Session.get('sidebar')) || ($(window).width() >= gui.MOBILE_MAX_WIDTH && !Session.get('sidebar'))) {
-        toggleSidebar(true);
-      }
-    }
-    if (!Session.get('sidebar')) {
-      $('#menu').css('margin-left', `${parseInt(0 - sidebarWidth(), 10)}px`);
-    } else {
-      let newRight = 0;
-      if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
-        newRight = parseInt(0 - sidebarWidth(), 10);
-      }
-      $('#content').css('left', sidebarWidth());
-      $('#content').css('right', newRight);
-    }
+    _showSidebar();
   });
 });
 
@@ -331,7 +340,23 @@ Template.sidebar.helpers({
   menu() {
     return _userMenu(Meteor.user());
   },
+  style() {
+    if (!Meteor.Device.isPhone() && Meteor.user()) {
+      return 'left-edit';
+    }
+    return '';
+  },
   sidebarContext() {
-    return (Meteor.Device.isPhone() || (!Meteor.Device.isPhone() && Meteor.user()));
+    console.log('calling sidebar context');
+    console.log(`Meteor.user(): ${Meteor.user()}`);
+    console.log(`Meteor.Device.isPhone(): ${Meteor.Device.isPhone()}`);
+    const context = (Meteor.Device.isPhone() || (!Meteor.Device.isPhone() && Meteor.user()));
+    if ((!Meteor.Device.isPhone() && Meteor.user())) {
+      Session.set('sidebar', true);
+      _showSidebar();
+    } else if ((!Meteor.Device.isPhone() && !Meteor.user())) {
+      $('.right').css('left', '0px');
+    }
+    return context;
   },
 });
