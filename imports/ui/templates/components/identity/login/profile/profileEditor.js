@@ -15,6 +15,7 @@ import '../../../../widgets/suggest/suggest.js';
 Template.profileEditor.rendered = function rendered() {
   Session.set('showNations', false);
   Session.set('noUsernameFound', false);
+  Session.set('invalidEmail', false);
 };
 
 Template.profileEditor.helpers({
@@ -28,7 +29,7 @@ Template.profileEditor.helpers({
     return Meteor.user().username;
   },
   email() {
-    if (Meteor.user().emails[0].address) {
+    if (Meteor.user().emails && Meteor.user().emails[0].address) {
       return Meteor.user().emails[0].address;
     }
     return undefined;
@@ -55,22 +56,23 @@ Template.profileEditor.helpers({
     return Session.get('invalidEmail');
   },
   profileEmailSet() {
-    if (Meteor.user().emails[0].address && Meteor.user().emails[0].address !== '') {
-      return true;
+    if (Meteor.user().emails) {
+      if (Meteor.user().emails[0].address && Meteor.user().emails[0].address !== '') {
+        return true;
+      }
     }
     return false;
   },
   verifiedMail() {
-    if (Meteor.settings.public.app.config.mailNotifications &&
-        Meteor.user().emails[0].address &&
-        Meteor.user().emails[0].address !== ''
-       ) {
-      return Meteor.user().emails[0].verified;
+    if (Meteor.settings.public.app.config.mailNotifications) {
+      if (Meteor.user().emails) {
+        return Meteor.user().emails[0].verified;
+      }
     }
     return true;
   },
   verifiedMailClass() {
-    if (!Meteor.user().emails[0].verified) {
+    if (Meteor.user().emails && !Meteor.user().emails[0].verified) {
       return 'login login-editor';
     }
     return 'login';
@@ -111,6 +113,12 @@ Template.profileEditor.events({
     const editUsername = document.getElementById('editUserName').value;
     const editEmail = document.getElementById('editEmail').value;
     const validation = validateUsername(editUsername);
+    let currentEmail;
+    if (Meteor.user().emails) {
+      currentEmail = Meteor.user().emails[0].address;
+    } else {
+      currentEmail = undefined;
+    }
 
     if (!validateEmail(editEmail)) {
       Session.set('invalidEmail', true);
@@ -132,7 +140,7 @@ Template.profileEditor.events({
       Meteor.users.update(Meteor.userId(), { $set: { profile: data } });
       Meteor.users.update(Meteor.userId(), { $set: { username: editUsername } });
 
-      if (editEmail !== Meteor.user().emails[0].address && editEmail !== '') {
+      if ((currentEmail === undefined) || (editEmail !== currentEmail && editEmail !== '')) {
         const email = [
           {
             address: editEmail,
