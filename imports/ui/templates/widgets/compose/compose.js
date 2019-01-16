@@ -64,7 +64,7 @@ Template.compose.helpers({
     return 'images/compose.png';
   },
   enabled() {
-    if (Meteor.user().emails[0].address === 'hello@democracy.earth' && Meteor.user().emails[0].verified === true) {
+    if (Meteor.user().emails && Meteor.user().emails[0].address === 'hello@democracy.earth' && Meteor.user().emails[0].verified === true) {
       return true;
     }
     return false;

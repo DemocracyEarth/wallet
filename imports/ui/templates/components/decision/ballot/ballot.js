@@ -377,11 +377,13 @@ Template.ballot.helpers({
     return '#';
   },
   allowVoting() {
-    if (Meteor.user().emails[0].verified) {
-      return true;
-    } else {
+    if (!Meteor.user()) {
+      return false;
+    } else if (Meteor.user().emails && !Meteor.user().emails[0].verified) {
       displayNotice('verified-email-only', true);
       return false;
+    } else {
+      return true;
     }
   },
 });
