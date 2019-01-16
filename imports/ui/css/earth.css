@@ -6098,7 +6098,7 @@ blockquote {
   border: 1px solid #9696c1;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
-  background-color: #fff;
+  background-color: transparent;
   font-size: 10px;
   line-height: 10px;
   font-weight: 400;
@@ -6391,8 +6391,8 @@ blockquote {
 }
 
 .hero-logo {
-  max-height: 40px;
-  margin: 10px;
+  max-height: 32px;
+  margin: 12px 10px;
   float: left;
 }
 

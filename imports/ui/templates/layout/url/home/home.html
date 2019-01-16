@@ -4,6 +4,10 @@
       {{> screen this}}
     {{/each}}
   {{else}}
+    {{#unless currentUser}}
+      {{> hero postMode=post}}
+    {{/unless}}
+
     {{> homeFeed this}}
   {{/unless}}
 </template>

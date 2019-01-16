@@ -51,6 +51,7 @@ const heroMode = (instance) => {
       if (node.css('position') !== 'fixed') {
         node.css('position', 'fixed');
         node.css('top', '-100px');
+        node.css('opacity', '1');
         node.css('height', '65px');
         node.velocity('stop');
         node.velocity({ top: '0px' }, { duration: parseInt(timers.ANIMATION_DURATION, 10), easing: 'ease-out' });
