@@ -106,7 +106,7 @@ Template.comment.events({
       inputElement.focus(); // focus on it so keyboard pops
       inputElement.style.visibility = 'hidden'; // hide it again
     }
-    if (Meteor.user().emails[0].verified) {
+    if (Meteor.user().emails && Meteor.user().emails[0].verified) {
       if (canUserComment(Meteor.user().emails[0].address, this.blockstackAppId)) {
         _introEditor(this);
       } else {
