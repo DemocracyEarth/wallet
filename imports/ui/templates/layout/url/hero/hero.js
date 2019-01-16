@@ -85,8 +85,6 @@ Template.navbar.onCreated(function () {
 
 
 Template.navbar.onRendered(function () {
-  console.log(`navbar loading - Template.instance().data.postMode: ${Template.instance().data.postMode}`);
-
   const instance = Template.instance();
 
   if (!instance.data.postMode) {
@@ -98,11 +96,8 @@ Template.navbar.onRendered(function () {
 
   if (Meteor.Device.isPhone()) {
     window.addEventListener('click', function (e) {
-      console.log('cucha');
-      console.log(e);
       if (document.getElementById('user-login') && document.getElementById('user-login').contains(e.target)) {
         instance.activeSignIn.set(false);
-        console.log('apagalo');
       }
     });
   }

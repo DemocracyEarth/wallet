@@ -19,10 +19,10 @@ const _promptLogin = (logged, event) => {
 
 Template.collective.onRendered(() => {
   Session.set('userLoginVisible', false);
-  if (!Session.get('checkInitialSetup') && Meteor.userId() === null) {
-    _promptLogin(true, 'click');
-    Session.set('checkInitialSetup', true);
-  }
+  // if (!Session.get('checkInitialSetup') && Meteor.userId() === null) {
+  //  _promptLogin(true, 'click');
+  //  Session.set('checkInitialSetup', true);
+  // }
 
   window.addEventListener('click', function (e) {
     if (document.getElementById('card-user-login') && !document.getElementById('card-user-login').contains(e.target) &&
