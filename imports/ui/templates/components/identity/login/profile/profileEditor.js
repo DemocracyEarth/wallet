@@ -7,6 +7,7 @@ import { searchJSON } from '/imports/ui/modules/JSON';
 import { geo } from '/lib/geo';
 
 import { validateEmail } from '/imports/startup/both/modules/validations.js';
+import { emailListCheck } from '/lib/permissioned';
 import './profileEditor.html';
 import '../../avatar/avatar.js';
 import '../../../../widgets/warning/warning.js';
@@ -148,11 +149,13 @@ Template.profileEditor.events({
           },
         ];
         Meteor.users.update(Meteor.userId(), { $set: { emails: email } });
-        Meteor.call('subsidizeUser', (subsidyError) => {
-          if (subsidyError) {
-            console.log(subsidyError, 'error with subsidizeUser');
-          }
-        });
+        if (emailListCheck(editEmail)) {
+          Meteor.call('subsidizeUser', (subsidyError) => {
+            if (subsidyError) {
+              console.log(subsidyError, 'error with subsidizeUser');
+            }
+          });
+        }
         Meteor.call('sendVerificationLink', (verificationError) => {
           if (verificationError) {
             console.log(verificationError.reason, 'error with sendVerificationLink');
