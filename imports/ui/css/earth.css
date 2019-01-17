@@ -1330,6 +1330,12 @@ blockquote {
   background-image: linear-gradient(180deg, #f9f5fa 95%, #f9eefc);
 }
 
+.vote.vote-search.vote-feed:active {
+  margin-top: 2px;
+  margin-bottom: 8px;
+  box-shadow: inset 0 0 1px 0 #dfdfdf, 0 0 20px -10px #838383;
+}
+
 .vote.vote-search.vote-feed.vote-empty {
   border-style: none;
   border-width: 1px;
@@ -4395,10 +4401,6 @@ blockquote {
   background-color: #dfdce8;
 }
 
-.menu-item:active {
-  background-color: #e0e0e0;
-}
-
 .menu-item.cast-action {
   position: absolute;
   top: 50%;
@@ -6393,6 +6395,11 @@ blockquote {
   max-height: 32px;
   margin: 12px 10px;
   float: left;
+}
+
+.hero-logo:active {
+  margin-top: 14px;
+  margin-bottom: 10px;
 }
 
 .hero-button {
