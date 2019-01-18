@@ -95,6 +95,8 @@ Template.navbar.onRendered(function () {
 
   if (!Meteor.Device.isPhone() && !Meteor.user()) {
     resetSplit();
+  } else if (Meteor.Device.isPhone() && !Meteor.user()) {
+    $('.split-left').css('padding-top', '0px');
   }
 
   if (Meteor.Device.isPhone()) {
