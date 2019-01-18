@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { $ } from 'meteor/jquery';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { Session } from 'meteor/session';
 
 import { timers } from '/lib/const';
 import { resetSplit } from '/imports/ui/modules/split';
@@ -116,9 +117,10 @@ Template.navbar.helpers({
     return 'images/earth.png';
   },
   loginMode() {
-    if (Template.instance().activeSignIn.get()) {
+    if (Session.get('userLoginVisible')) {
       return 'hero-menu-link-signin-active';
     }
+    Template.instance().activeSignIn.set(false);
     return '';
   },
 });
