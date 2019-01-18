@@ -36,9 +36,32 @@ const _resizeSplit = (diff, winResize) => {
     const agoraWidth = parseInt((contentWidth * RIGHTHALF) - diff, 10);
     const contractWidth = parseInt((contentWidth * LEFTHALF) + diff, 10);
     if ((agoraWidth > gui.MIN_AGORA_WIDTH && contractWidth > gui.MIN_CONTRACT_WIDTH) || winResize) {
+      console.log('LLEGA A HACER ESTE CALCULO');
+      console.log(`contentWidth: ${contentWidth}`);
+      console.log(`contractWidth ${contractWidth}`);
+      console.log(`agoraWidth ${agoraWidth}`);
       $('.split-left').width(`${contractWidth}px`);
       $('.split-right').width(`${agoraWidth}px`);
       $('.split-right').css('marginLeft', diff);
+    }
+  }
+};
+
+const _resetSplit = () => {
+  if ($('.split-right')) {
+    event.preventDefault();
+    if ($(window).width() < gui.DESKTOP_MIN_WIDTH) {
+      $('.split-left').width('100%');
+      $('.split-right').width('100%');
+      $('.split-right').css('marginLeft', 0);
+      $('.split-left').css('marginLeft', 0);
+    } else {
+      _resizeSplit(0, true);
+    }
+    if (Meteor.Device.isPhone() || window.innerWidth <= 991) {
+      Session.set('scrollerDiv', '.right');
+    } else {
+      Session.set('scrollerDiv', '.split-left');
     }
   }
 };
@@ -69,24 +92,11 @@ const _setupSplit = () => {
     }
   });
   $(window).resize((event) => {
-    if ($('.split-right')) {
-      event.preventDefault();
-      if ($(window).width() < gui.DESKTOP_MIN_WIDTH) {
-        $('.split-left').width('100%');
-        $('.split-right').width('100%');
-        $('.split-right').css('marginLeft', 0);
-        $('.split-left').css('marginLeft', 0);
-      } else {
-        _resizeSplit(0, true);
-      }
-      if (Meteor.Device.isPhone() || window.innerWidth <= 991) {
-        Session.set('scrollerDiv', '.right');
-      } else {
-        Session.set('scrollerDiv', '.split-left');
-      }
-    }
+    console.log('setting up split');
+    _resetSplit();
   });
 };
 
+export const resetSplit = _resetSplit;
 export const setupSplit = _setupSplit;
 export const resizeSplit = _resizeSplit;

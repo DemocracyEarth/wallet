@@ -5,6 +5,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import { timers } from '/lib/const';
+import { resetSplit } from '/imports/ui/modules/split';
 
 import { promptLogin } from '/imports/ui/templates/components/collective/collective.js';
 
@@ -90,6 +91,10 @@ Template.navbar.onRendered(function () {
   } else {
     $('.right').off('scroll');
     heroMode(instance);
+  }
+
+  if (!Meteor.Device.isPhone() && !Meteor.user()) {
+    resetSplit();
   }
 
   if (Meteor.Device.isPhone()) {

@@ -22,7 +22,7 @@ Template.cardNavigation.helpers({
 Template.login.events({
   'click #logout'() {
     console.log('LOGOUT');
-    $('.right').css('left', '0px');
+    // $('.right').css('left', '0px');
     animatePopup(false, `login-${Meteor.userId()}`);
     hideLogin();
     Meteor.logout();

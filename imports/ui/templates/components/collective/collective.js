@@ -4,6 +4,8 @@ import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 
 import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
+import { resetSplit } from '/imports/ui/modules/split';
+import { showSidebar } from '/imports/ui/templates/layout/sidebar/sidebar';
 
 import '/imports/ui/templates/components/collective/collective.html';
 
@@ -19,10 +21,16 @@ const _promptLogin = (logged, event) => {
 
 Template.collective.onRendered(() => {
   Session.set('userLoginVisible', false);
-  // if (!Session.get('checkInitialSetup') && Meteor.userId() === null) {
-  //  _promptLogin(true, 'click');
-  //  Session.set('checkInitialSetup', true);
-  // }
+  if (!Session.get('checkInitialSetup') && Meteor.userId()) {
+    _promptLogin(true, 'click');
+    Session.set('checkInitialSetup', true);
+  }
+
+  if (!Meteor.Device.isPhone() && Meteor.user()) {
+    // brute force proper rendering
+    showSidebar();
+    resetSplit();
+  }
 
   window.addEventListener('click', function (e) {
     if (document.getElementById('card-user-login') && !document.getElementById('card-user-login').contains(e.target) &&

@@ -10,7 +10,6 @@ import { sidebarWidth, sidebarPercentage, getDelegatesMenu, toggleSidebar } from
 import { getFlag, getUser } from '/imports/ui/templates/components/identity/avatar/avatar';
 import { geo } from '/lib/geo';
 import { getCoin } from '/imports/api/blockchain/modules/web3Util';
-import { promptLogin } from '/imports/ui/templates/components/collective/collective.js';
 
 import '/imports/ui/templates/layout/sidebar/sidebar.html';
 import '/imports/ui/templates/components/collective/collective.js';
@@ -283,6 +282,21 @@ const _userMenu = (user) => {
   return menu;
 };
 
+/**
+* @summary draws side bar according to context
+* @returns {boolean} if sidebar is shown
+*/
+const _render = () => {
+  const context = (Meteor.Device.isPhone() || (!Meteor.Device.isPhone() && Meteor.user()));
+  if ((!Meteor.Device.isPhone() && Meteor.user())) {
+    Session.set('sidebar', true);
+    _showSidebar();
+  } else if ((!Meteor.Device.isPhone() && !Meteor.user())) {
+    $('.right').css('left', '0px');
+  }
+  return context;
+};
+
 Template.sidebar.onRendered(() => {
   $('.left').width(`${sidebarPercentage()}%`);
   if (!Meteor.Device.isPhone()) {
@@ -292,7 +306,7 @@ Template.sidebar.onRendered(() => {
   drawSidebar();
 
   $(window).resize(() => {
-    _showSidebar();
+    _render();
   });
 });
 
@@ -347,16 +361,8 @@ Template.sidebar.helpers({
     return '';
   },
   sidebarContext() {
-    console.log('calling sidebar context');
-    console.log(`Meteor.user(): ${Meteor.user()}`);
-    console.log(`Meteor.Device.isPhone(): ${Meteor.Device.isPhone()}`);
-    const context = (Meteor.Device.isPhone() || (!Meteor.Device.isPhone() && Meteor.user()));
-    if ((!Meteor.Device.isPhone() && Meteor.user())) {
-      Session.set('sidebar', true);
-      _showSidebar();
-    } else if ((!Meteor.Device.isPhone() && !Meteor.user())) {
-      $('.right').css('left', '0px');
-    }
-    return context;
+    return _render();
   },
 });
+
+export const showSidebar = _showSidebar;
