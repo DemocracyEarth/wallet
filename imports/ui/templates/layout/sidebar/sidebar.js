@@ -63,7 +63,9 @@ function dataToMenu(user) {
 function getList(db, sort) {
   const members = [];
   for (const i in db) {
-    members.push(dataToMenu(db[i]));
+    if (db[i].profile.wallet.balance !== 0) {
+      members.push(dataToMenu(db[i]));
+    }
   }
   if (sort) {
     return _.sortBy(members, (user) => { return user.label; });
