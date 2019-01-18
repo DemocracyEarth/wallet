@@ -4,10 +4,12 @@ import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 
 import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
+import { resetSplit } from '/imports/ui/modules/split';
+import { showSidebar } from '/imports/ui/templates/layout/sidebar/sidebar';
 
 import '/imports/ui/templates/components/collective/collective.html';
 
-function promptLogin(logged, event) {
+const _promptLogin = (logged, event) => {
   if (logged) {
     Session.set('userLoginVisible', true);
     displayPopup($('#collective-login')[0], 'login', Meteor.userId(), event.type, 'user-login');
@@ -15,13 +17,19 @@ function promptLogin(logged, event) {
     Session.set('userLoginVisible', false);
     animatePopup(false, 'user-login');
   }
-}
+};
 
 Template.collective.onRendered(() => {
   Session.set('userLoginVisible', false);
-  if (!Session.get('checkInitialSetup') && Meteor.userId() === null) {
-    promptLogin(true, 'click');
+  if (!Session.get('checkInitialSetup') && Meteor.userId()) {
+    _promptLogin(true, 'click');
     Session.set('checkInitialSetup', true);
+  }
+
+  if (!Meteor.Device.isPhone() && Meteor.user()) {
+    // brute force proper rendering
+    showSidebar();
+    resetSplit();
   }
 
   window.addEventListener('click', function (e) {
@@ -29,7 +37,7 @@ Template.collective.onRendered(() => {
          e.target.id !== 'signup' &&
          e.target.id !== 'forgot-pw' &&
          e.target.nodeName !== 'IMG') {
-      promptLogin((!Session.get('user-login') || !Session.get('user-login').visible), event);
+      _promptLogin((!Session.get('user-login') || !Session.get('user-login').visible), event);
     }
   });
 });
@@ -61,6 +69,8 @@ Template.collective.helpers({
 Template.collective.events({
   'click #collective-login'() {
     event.stopPropagation();
-    promptLogin((!Session.get('user-login') || !Session.get('user-login').visible), event);
+    _promptLogin((!Session.get('user-login') || !Session.get('user-login').visible), event);
   },
 });
+
+export const promptLogin = _promptLogin;

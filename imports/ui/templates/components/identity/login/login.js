@@ -2,7 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
+import { $ } from 'meteor/jquery';
 
+import { hideLogin } from '/imports/startup/both/modules/metamask.js';
 import { animatePopup } from '/imports/ui/modules/popup';
 import './login.html';
 import './profile/profile.js';
@@ -19,7 +21,10 @@ Template.cardNavigation.helpers({
 
 Template.login.events({
   'click #logout'() {
+    console.log('LOGOUT');
+    // $('.right').css('left', '0px');
     animatePopup(false, `login-${Meteor.userId()}`);
+    hideLogin();
     Meteor.logout();
     Router.go('/');
   },

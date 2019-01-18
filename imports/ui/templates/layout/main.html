@@ -11,13 +11,11 @@
     <div id='mobileKeyboard' contenteditable="true" style="opacity: 0; width: 0px; height:0px;"></div>
   {{/if}}
 
-  <div id='menu' class='left'>
-    {{> sidebar}}
-  </div>
+  {{> sidebar}}
 
-  <div id='content' class='right'>
+  <div id='content' class='right {{landingMode}}'>
 
-    {{#if isPhone}}
+    {{#if loggedWithPhone}}
       {{> navigation}}
       <div class='inhibitor' style='display: none;'></div>
     {{/if}}

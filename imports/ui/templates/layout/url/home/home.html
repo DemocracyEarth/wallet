@@ -4,20 +4,30 @@
       {{> screen this}}
     {{/each}}
   {{else}}
+    {{#unless currentUser}}
+      {{> hero postMode=post}}
+    {{/unless}}
+
     {{> homeFeed this}}
   {{/unless}}
 </template>
 
 <template name="screen">
-  {{#if post}}
-    {{> postFeed this}}
-  {{else}}
-    {{> homeFeed this}}
-  {{/if}}
+  {{#unless currentUser}}
+    {{> hero postMode=post}}
+  {{/unless}}
+
+  <div class="{{anonymousContext}}">
+    {{#if post}}
+      {{> postFeed this}}
+    {{else}}
+      {{> homeFeed this}}
+    {{/if}}
+  </div>
 </template>
 
 <template name="homeFeed">
-  <div class="split split-left">
+  <div class="split split-left {{landingMode}}">
     <div class="content content-feed max100">
       {{#unless isPhone}}
         {{#unless replyMode}}
@@ -47,7 +57,7 @@
     </div>
   </div>
 
-  <div class="split split-right">
+  <div class="split split-right {{landingMode}}">
     {{#if feedReady}}
       {{#with mainLedger}}
         {{> ledger this}}
@@ -61,7 +71,7 @@
 </template>
 
 <template name="postFeed">
-  <div class="split split-left">
+  <div class="split split-left {{landingMode}}">
     <div class="content content-feed subsection max100">
       {{#if isPhone}}
         {{#if editorMode}}
@@ -83,7 +93,7 @@
     </div>
   </div>
 
-  <div class="split split-right">
+  <div class="split split-right {{landingMode}}">
     {{#if postReady}}
       {{#with votes}}
         {{> ledger this}}

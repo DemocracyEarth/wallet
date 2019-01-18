@@ -146,6 +146,37 @@ const _adapt = (list) => {
   return menu;
 };
 
+
+/**
+* @summary displays the sidebar if logged
+*/
+const _showSidebar = () => {
+  const percentage = sidebarPercentage();
+  $('.left').width(`${percentage}%`);
+  if (!Meteor.Device.isPhone()) {
+    if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
+      $('.navbar').css('left', 0);
+      Session.set('miniWindow', true);
+    } else {
+      $('.navbar').css('left', `${percentage}%`);
+      Session.set('miniWindow', false);
+    }
+    if (($(window).width() < gui.MOBILE_MAX_WIDTH && Session.get('sidebar')) || ($(window).width() >= gui.MOBILE_MAX_WIDTH && !Session.get('sidebar'))) {
+      toggleSidebar(true);
+    }
+  }
+  if (!Session.get('sidebar')) {
+    $('#menu').css('margin-left', `${parseInt(0 - sidebarWidth(), 10)}px`);
+  } else {
+    let newRight = 0;
+    if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
+      newRight = parseInt(0 - sidebarWidth(), 10);
+    }
+    $('#content').css('left', sidebarWidth());
+    $('#content').css('right', newRight);
+  }
+};
+
 Template.sidebar.onCreated(function () {
   Template.instance().delegates = new ReactiveVar();
   Template.instance().members = new ReactiveVar(0);
@@ -165,13 +196,14 @@ Template.sidebar.onCreated(function () {
         const subscription = instance.subscribe('delegates', { view: 'delegateList', items: _.pluck(Meteor.user().profile.delegations, 'userId') });
 
         if (subscription.ready()) {
-          let delegates = []
+          const delegates = [];
           for (let i = 0; i < Meteor.user().profile.delegations.length; i += 1) {
-            delegates.push({ _id: Meteor.user().profile.delegations[i].userId })
+            delegates.push({ _id: Meteor.user().profile.delegations[i].userId });
           }
           delegateList = _adapt(Meteor.users.find({ $or: delegates }).fetch());
           Template.instance().delegates.set(delegateList);
           Template.instance().participants.set(_otherMembers(delegateList));
+          _showSidebar();
         }
       }
     }
@@ -250,6 +282,20 @@ const _userMenu = (user) => {
   return menu;
 };
 
+/**
+* @summary draws side bar according to context
+* @returns {boolean} if sidebar is shown
+*/
+const _render = () => {
+  const context = (Meteor.Device.isPhone() || (!Meteor.Device.isPhone() && Meteor.user()));
+  if ((!Meteor.Device.isPhone() && Meteor.user())) {
+    Session.set('sidebar', true);
+    _showSidebar();
+  } else if ((!Meteor.Device.isPhone() && !Meteor.user())) {
+    $('.right').css('left', '0px');
+  }
+  return context;
+};
 
 Template.sidebar.onRendered(() => {
   $('.left').width(`${sidebarPercentage()}%`);
@@ -260,30 +306,7 @@ Template.sidebar.onRendered(() => {
   drawSidebar();
 
   $(window).resize(() => {
-    const percentage = sidebarPercentage();
-    $('.left').width(`${percentage}%`);
-    if (!Meteor.Device.isPhone()) {
-      if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
-        $('.navbar').css('left', 0);
-        Session.set('miniWindow', true);
-      } else {
-        $('.navbar').css('left', `${percentage}%`);
-        Session.set('miniWindow', false);
-      }
-      if (($(window).width() < gui.MOBILE_MAX_WIDTH && Session.get('sidebar')) || ($(window).width() >= gui.MOBILE_MAX_WIDTH && !Session.get('sidebar'))) {
-        toggleSidebar(true);
-      }
-    }
-    if (!Session.get('sidebar')) {
-      $('#menu').css('margin-left', `${parseInt(0 - sidebarWidth(), 10)}px`);
-    } else {
-      let newRight = 0;
-      if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
-        newRight = parseInt(0 - sidebarWidth(), 10);
-      }
-      $('#content').css('left', sidebarWidth());
-      $('#content').css('right', newRight);
-    }
+    _render();
   });
 });
 
@@ -319,6 +342,9 @@ Template.sidebar.helpers({
     }
     return 0;
   },
+  replicator() {
+    return `&#183; <a href="${Meteor.settings.public.web.sites.tokens}" target="_blank" ontouchstart="">${TAPi18n.__('start-a-democracy')}</a>`;
+  },
   totalDelegates() {
     if (Template.instance().delegates.get()) {
       return Template.instance().delegates.get().length;
@@ -328,4 +354,15 @@ Template.sidebar.helpers({
   menu() {
     return _userMenu(Meteor.user());
   },
+  style() {
+    if (!Meteor.Device.isPhone() && Meteor.user()) {
+      return 'left-edit';
+    }
+    return '';
+  },
+  sidebarContext() {
+    return _render();
+  },
 });
+
+export const showSidebar = _showSidebar;

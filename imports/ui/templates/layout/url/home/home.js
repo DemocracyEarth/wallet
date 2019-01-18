@@ -11,11 +11,28 @@ import { getCoin } from '/imports/api/blockchain/modules/web3Util.js';
 import { geo } from '/lib/geo';
 
 import '/imports/ui/templates/layout/url/home/home.html';
+import '/imports/ui/templates/layout/url/hero/hero.js';
 import '/imports/ui/templates/widgets/feed/feed.js';
 import '/imports/ui/templates/widgets/tally/tally.js';
 import '/imports/ui/templates/widgets/feed/paginator.js';
 import '/imports/ui/templates/widgets/compose/compose.js';
 import '/imports/ui/templates/components/decision/ledger/ledger.js';
+
+/**
+* @summary specific rendering for unlogged users
+* @return {string} landing css style
+*/
+const _landingMode = (style) => {
+  if (!Meteor.user()) {
+    switch (style) {
+      case 'post':
+        return `split-${style}-landing`;
+      default:
+        return 'split-landing';
+    }
+  }
+  return '';
+};
 
 Template.home.onCreated(function () {
   this.modeVar = new ReactiveVar();
@@ -186,6 +203,9 @@ Template.homeFeed.helpers({
   feedTitle() {
     return _getTitle(this.options);
   },
+  landingMode() {
+    return _landingMode();
+  },
 });
 
 Template.postFeed.onCreated(function () {
@@ -261,5 +281,8 @@ Template.postFeed.helpers({
       return contract._id;
     }
     return undefined;
+  },
+  landingMode() {
+    return _landingMode('post');
   },
 });

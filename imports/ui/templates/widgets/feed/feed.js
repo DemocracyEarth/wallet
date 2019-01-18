@@ -133,7 +133,7 @@ Template.feed.onCreated(function () {
     toggleSidebar(false);
   }
 
-  if (Meteor.Device.isPhone()) {
+  if (Meteor.Device.isPhone() && Meteor.user()) {
     document.getElementsByClassName('split-left')[0].style.paddingTop = '60px';
   }
 

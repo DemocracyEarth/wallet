@@ -611,11 +611,20 @@
   "get-dapp-browser": "Install recommended Dapp Browser",
   "get-web3-wallet": "Install recommended Web3 Wallet",
   "ethereum-dapp-browsers": "Sign In with Browser",
-  "ethereum-web3-wallet": "Sign In with Wallet",
+  "ethereum-web3-wallet": "Ethereum Sign In",
   "feed-token-posts": "Posts with {{asset}} Token",
   "feed-geo-posts": "Posts from {{asset}}",
   "ledger-token-posts": "{{asset}} Transactions",
   "ledger-geo-posts": "Transactions from {{asset}}",
   "feed-peer-posts": "Posts by @{{asset}}",
-  "ledger-peer-posts": "Transactions by @{{asset}}"
+  "ledger-peer-posts": "Transactions by @{{asset}}",
+  "start-a-democracy": "Start an Organization",
+  "landing-title": "Governance for <br>decentralized networks.",
+  "landing-tagline": "Democracy Earth enables token-powered commmunity participation. Built with open source technology over peer to peer protocols.",
+  "join": "Join Now",
+  "email": "E-mail",
+  "home": "Home",
+  "paper": "Paper",
+  "code": "Code",
+  "foundation": "Foundation"
 }

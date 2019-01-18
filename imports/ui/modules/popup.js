@@ -70,7 +70,7 @@ const _positionCard = (element, target, pop) => {
     // popup will be on right side of screen
     if (spaceRight < (target.width - (target.width / 2))) {
       // not enough space on the right for Popup centering
-      left = parseInt((source.left - target.width) + source.width, 10);
+      left = parseInt((source.left - target.width) + source.width + 10, 10);
       pointer = parseInt((target.width - (source.width / 2)) - 12, 10);
     } else {
       // enough space on the right, popup is centered.

@@ -322,6 +322,8 @@ const animateMenu = () => {
   const sidebarPixelWidth = _sidebarWidth();
 
   Session.set('sidebar', !Session.get('sidebar'));
+  if (!Meteor.user() && !Meteor.Device.isPhone()) { Session.set('sidebar', false); }
+
   if (Session.get('sidebar')) {
     // show sidebar
     let newRight = 0;

@@ -2,12 +2,10 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 import { Meteor } from 'meteor/meteor';
-import { TAPi18n } from 'meteor/tap:i18n';
 import { Router } from 'meteor/iron:router';
 
 import { publishContract, createContract, contractURI, entangle, getURLDate } from '/imports/startup/both/modules/Contract';
 import { editorFadeOut } from '/imports/ui/templates/components/decision/editor/editor';
-import { displayNotice } from '/imports/ui/modules/notice';
 import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
 
 import '/imports/ui/templates/layout/authentication/authentication.html';
