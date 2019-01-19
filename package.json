@@ -10,7 +10,7 @@
     "url": "https://opencollective.com/DemocracyEarth"
   },
   "scripts": {
-    "start": "meteor --settings=config/production/settings.json",
+    "start": "meteor --settings=config/production/decentraland.json",
     "pretest": "npm run lint --silent",
     "test": "meteor test --settings=config/development/settings.json --once --driver-package dispatch:mocha-phantomjs",
     "test-app": "meteor test --full-app --once --driver-package dispatch:mocha-phantomjs",
