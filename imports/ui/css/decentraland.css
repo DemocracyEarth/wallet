@@ -44,11 +44,10 @@ h3 {
 h4 {
   margin-top: 0px;
   margin-bottom: 10px;
-  color: #5c5c5c;
-  font-size: 12px;
-  line-height: 30px;
-  font-weight: 300;
-  text-transform: uppercase;
+  color: #0d0d17;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 500;
 }
 
 h5 {
@@ -75,7 +74,7 @@ p {
 }
 
 a {
-  color: #00c091;
+  color: #f04;
   text-decoration: none;
   cursor: pointer;
 }
@@ -1313,20 +1312,14 @@ blockquote {
 }
 
 .vote.vote-search.vote-feed {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   padding-top: 0px;
   padding-bottom: 0px;
   border-style: none;
-  border-radius: 5px;
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(95%, #fff), to(#ececec));
-  background-image: linear-gradient(180deg, #fff 95%, #ececec);
+  border-radius: 8px;
+  background-image: none;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1);
   cursor: pointer;
-}
-
-.vote.vote-search.vote-feed:hover {
-  background-color: #f9f5fa;
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(95%, #f9f5fa), to(#f9eefc));
-  background-image: linear-gradient(180deg, #f9f5fa 95%, #f9eefc);
 }
 
 .vote.vote-search.vote-feed:active {
@@ -2239,7 +2232,7 @@ blockquote {
 
 .identity-label {
   display: inline-block;
-  color: #00bf8f;
+  color: #f04;
   font-size: 16px;
   line-height: 22px;
   text-decoration: none;
@@ -4559,7 +4552,7 @@ blockquote {
   margin: 10px auto;
   padding: 0px 10px 0px 5px;
   border-radius: 5px;
-  color: #00bf8f;
+  color: #f04;
   font-size: 12px;
   line-height: 28px;
   text-align: center;
@@ -6451,7 +6444,6 @@ blockquote {
 .hero-navbar.hero-navbar-scroller {
   z-index: 1;
   background-color: #f2f2f5;
-  box-shadow: 8px 0 34px -8px #000;
 }
 
 .hero-demo {
