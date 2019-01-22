@@ -6,7 +6,7 @@ body {
   color: rgba(0, 0, 0, .87);
   font-size: 18px;
   line-height: 28px;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 h1 {
@@ -42,8 +42,10 @@ h3 {
 }
 
 h4 {
-  margin-top: 0px;
-  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding-right: 15px;
+  padding-left: 15px;
   color: #0d0d17;
   font-size: 20px;
   line-height: 28px;
@@ -74,7 +76,7 @@ p {
 }
 
 a {
-  color: #f04;
+  color: #ff85a5;
   text-decoration: none;
   cursor: pointer;
 }
@@ -90,7 +92,7 @@ ul {
 }
 
 li {
-  font-weight: 300;
+  background-image: none;
 }
 
 strong {
@@ -280,7 +282,7 @@ blockquote {
   width: 100%;
   padding: 10px;
   border-radius: 3px;
-  background-color: #291346;
+  background-color: #5c5c6e;
   box-shadow: 0 3px 8px -4px #000;
   color: #fff;
 }
@@ -487,18 +489,14 @@ blockquote {
   margin-top: 10px;
   margin-bottom: 10px;
   float: left;
-  border: 1px solid #adadad;
+  border: 1px solid #7d849f;
   border-radius: 100px;
-  background-color: #e6f9f4;
+  background-color: #f2f2f5;
   cursor: pointer;
 }
 
 .symbol.profile-pic:hover {
-  border-color: #46dfb8;
-}
-
-.symbol.profile-pic:active {
-  border-color: #00bf8f;
+  border-color: #f04;
 }
 
 .symbol.profile-pic.profile-pic-navbar {
@@ -647,7 +645,7 @@ blockquote {
 
 .symbol.profile-pic.profile-pic-placeholder {
   border-style: none;
-  background-color: #c8ece1;
+  background-color: #f2f2f5;
 }
 
 .semantics {
@@ -819,13 +817,15 @@ blockquote {
 .button {
   margin: 5px;
   padding: 10px 15px;
-  border: 1px solid #00bf8f;
-  border-radius: 3px;
-  background-color: #00c091;
+  border-radius: 6px;
+  background-color: #f04;
   font-family: Lato, sans-serif;
   color: #fff;
-  font-size: 18px;
-  line-height: 22px;
+  font-size: 14px;
+  line-height: 1.71em;
+  font-weight: 500;
+  text-align: center;
+  text-transform: uppercase;
   cursor: pointer;
 }
 
@@ -841,9 +841,9 @@ blockquote {
 }
 
 .button.execute:active {
-  border: 1px solid #00bf8f;
-  background-color: #e6f9f4;
-  color: #00bf8f;
+  border: 1px solid #f04;
+  background-color: transparent;
+  color: #f04;
 }
 
 .button.execute.disabled {
@@ -899,12 +899,12 @@ blockquote {
   width: 100%;
   margin-right: 0px;
   margin-left: 0px;
-  font-size: 16px;
+  font-size: 14px;
 }
 
-.button.login-button:active {
-  background-color: transparent;
-  color: #00bf8f;
+.button.login-button:hover {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#f04), to(#ff9a74));
+  background-image: linear-gradient(180deg, #f04, #ff9a74);
 }
 
 .button.login-button.button-secondary {
@@ -1315,17 +1315,23 @@ blockquote {
   margin-bottom: 20px;
   padding-top: 0px;
   padding-bottom: 0px;
-  border-style: none;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(0, 0, 0, .02);
   border-radius: 8px;
   background-image: none;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1);
+  -webkit-transition: all 200ms ease;
+  transition: all 200ms ease;
+  color: #7d849f;
   cursor: pointer;
 }
 
-.vote.vote-search.vote-feed:active {
-  margin-top: 2px;
-  margin-bottom: 8px;
-  box-shadow: inset 0 0 1px 0 #dfdfdf, 0 0 20px -10px #838383;
+.vote.vote-search.vote-feed:hover {
+  margin-top: -4px;
+  margin-bottom: 25px;
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, .1);
+  color: #0d0d17;
 }
 
 .vote.vote-search.vote-feed.vote-empty {
@@ -1340,17 +1346,22 @@ blockquote {
   overflow: hidden;
   margin-right: 10px;
   margin-bottom: 2px;
-  padding: 0px 10px;
+  padding: 5px 10px;
   float: left;
   clear: both;
-  border-bottom: 1px solid #cecece;
-  background-color: #f1f1f1;
+  border-style: none none solid;
+  border-bottom-width: 1px;
+  border-bottom-color: rgba(0, 0, 0, .1);
+  border-radius: 0px;
   background-image: none;
   box-shadow: none;
+  -webkit-transition-property: none;
+  transition-property: none;
   cursor: pointer;
 }
 
 .vote.vote-search.vote-feed.vote-delegation:hover {
+  margin-top: 1px;
   background-image: none;
 }
 
@@ -1455,7 +1466,6 @@ blockquote {
 .option-title.option-link {
   display: inline-block;
   float: left;
-  color: #00bf8f;
   text-align: left;
 }
 
@@ -1500,9 +1510,7 @@ blockquote {
   display: inline-block;
   max-width: 100%;
   border-bottom-style: none;
-  color: #4b4b4b;
   line-height: 30px;
-  font-weight: 300;
 }
 
 .option-title.option-link.option-search.option-nolink {
@@ -2232,7 +2240,7 @@ blockquote {
 
 .identity-label {
   display: inline-block;
-  color: #f04;
+  color: #7d849f;
   font-size: 16px;
   line-height: 22px;
   text-decoration: none;
@@ -2329,7 +2337,7 @@ blockquote {
   margin-top: 5px;
   padding-left: 0px;
   clear: both;
-  color: #9c9c9c;
+  color: #7d849f;
   font-size: 12px;
   line-height: 20px;
 }
@@ -3670,7 +3678,6 @@ blockquote {
 
 .option-proposal:hover {
   border-bottom-style: none;
-  color: #00bf8f;
 }
 
 .title-input {
@@ -3682,7 +3689,6 @@ blockquote {
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
   line-height: 24px;
-  font-weight: 300;
 }
 
 .title-input.title-comment {
@@ -3725,12 +3731,10 @@ blockquote {
   margin-top: 5px;
   margin-bottom: 5px;
   border-style: none;
-  color: #4b4b4b;
 }
 
 .title-input.title-feed:hover {
   border-style: none;
-  color: #000;
 }
 
 .title-input.title-feed.title-thread {
@@ -3751,7 +3755,6 @@ blockquote {
 .paper-header.card-header {
   margin: -10px -10px 5px;
   padding: 10px 10px 10px 20px;
-  border-bottom: 1px dotted hsla(0, 0%, 100%, .3);
   background-color: transparent;
   box-shadow: none;
   color: #fff;
@@ -4009,11 +4012,11 @@ blockquote {
 }
 
 .navbar-button.navbar-button-active {
-  background-color: #00bf8f;
+  background-color: #f04;
 }
 
 .navbar-button.navbar-button-active.navbar-button-action {
-  border: 1px solid #00bf8f;
+  border: 1px solid #f04;
   font-size: 16px;
   line-height: 18px;
   cursor: pointer;
@@ -4552,15 +4555,19 @@ blockquote {
   margin: 10px auto;
   padding: 0px 10px 0px 5px;
   border-radius: 5px;
-  color: #f04;
+  color: #7d849f;
   font-size: 12px;
   line-height: 28px;
   text-align: center;
   cursor: pointer;
 }
 
+.micro-button:hover {
+  color: #f04;
+}
+
 .micro-button:active {
-  background-color: #e9f0ee;
+  background-color: #f2f2f5;
 }
 
 .micro-button.micro-button-remove {
@@ -4817,7 +4824,8 @@ blockquote {
 
 .card-title {
   margin-top: 3px;
-  text-transform: uppercase;
+  font-size: 20px;
+  font-weight: 500;
 }
 
 .non-draggable {
@@ -5809,7 +5817,7 @@ blockquote {
   min-width: 100px;
   margin-bottom: 15px;
   border-radius: 25px;
-  background-color: #ececec;
+  background-color: #f2f2f5;
 }
 
 .option-placeholder.fifty {
@@ -5819,7 +5827,7 @@ blockquote {
 .option-placeholder.identity-placeholder {
   height: 15px;
   margin-top: 8px;
-  background-color: #c8ece1;
+  background-color: #f2f2f5;
 }
 
 .option-placeholder.short {
@@ -6146,7 +6154,7 @@ blockquote {
   margin-bottom: -8px;
   margin-left: 3px;
   padding: 10px 3px 0px 10px;
-  border-left: 1px solid #e6e6e6;
+  border-left: 1px solid #f2f2f5;
 }
 
 .vote-thread.vote-thread-context {
@@ -6475,6 +6483,22 @@ blockquote {
 
 .heading-3 {
   font-weight: 500;
+}
+
+.walleticon {
+  display: block;
+  width: 180px;
+  height: 180px;
+  margin: 0px auto 20px;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  border-radius: 90px;
+  background-color: #f2f2f5;
+}
+
+.card-login-label {
+  font-size: 14px;
+  line-height: 22px;
 }
 
 @media (max-width: 991px) {

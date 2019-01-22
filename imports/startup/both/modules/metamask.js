@@ -22,7 +22,7 @@ const abiDecoder = require('abi-decoder');
 let web3;
 
 const modal = {
-  icon: 'images/olive.png',
+  icon: 'images/decentraland-logo.svg',
   title: TAPi18n.__('wallet'),
   cancel: TAPi18n.__('close'),
   alertMode: true,

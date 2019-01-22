@@ -154,3 +154,9 @@ video {
   border-radius: 5px;
 }
 
+/*
+ Decentraland
+*/
+body, h4, h1, h2 {
+  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}

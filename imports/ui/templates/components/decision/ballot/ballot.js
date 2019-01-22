@@ -335,7 +335,7 @@ Template.ballot.helpers({
     // if (!Template.instance().voteEnabled) {
     //  return 'images/vote-disabled.png';
     // }
-    return 'images/vote.png';
+    return 'images/decentraland-vote.png';
   },
   enableStyle() {
     if (!Template.instance().voteEnabled) {
