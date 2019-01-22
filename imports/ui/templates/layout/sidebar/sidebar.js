@@ -51,7 +51,7 @@ const _dataToMenu = (user) => {
     };
   }
   return undefined;
-}
+};
 
 /**
 * @summary for a given db result returns list with menu options
@@ -189,7 +189,7 @@ Template.sidebar.onCreated(function () {
     instance.memberCount.set(result);
   });
 
-  instance.autorun(function() {
+  instance.autorun(function () {
     let delegateList;
     if (Meteor.user()) {
       if (Meteor.user().profile.delegations && Meteor.user().profile.delegations.length > 0) {
@@ -237,8 +237,8 @@ const _userMenu = (user) => {
 
   if (user) {
     // country feed
-    const nation = _.where(geo.country, { code: user.profile.country.code })[0];
     if (user.profile.country) {
+      const nation = _.where(geo.country, { code: user.profile.country.code })[0];
       menu.push({
         id: parseInt(menu.length, 10),
         // label: `${nation.emoji} ${(user.profile.country.name.length > MAX_LABEL_LENGTH) ? `${user.profile.country.name.substring(0, MAX_LABEL_LENGTH)}...` : user.profile.country.name}`,
@@ -249,7 +249,7 @@ const _userMenu = (user) => {
         value: true,
         separator: false,
         url: `/${user.profile.country.code.toLowerCase()}`,
-        selected: false,    
+        selected: false,
       });
     }
 

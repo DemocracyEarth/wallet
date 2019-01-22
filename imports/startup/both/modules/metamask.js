@@ -302,7 +302,7 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
                   code: tokenCode,
                 },
               },
-              geo: Meteor.user().profile.country.code ? Meteor.user().profile.country.code : '',
+              geo: Meteor.user().profile.country ? Meteor.user().profile.country.code : '',
             },
             () => {
               _delegate(Meteor.userId(), delegateId, targetId, res.hash, value);
