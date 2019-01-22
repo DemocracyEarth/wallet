@@ -75,7 +75,7 @@ function displayMenuIcon() {
   if (displayCancelButton()) {
     return 'images/cross.png';
   } else if (displayBackButton()) {
-    return 'images/back.png';
+    return 'images/decentraland-back.png';
   }
   if (Session.get('sidebar')) {
     return 'images/burger-active.png';

@@ -2,7 +2,8 @@
   <div class="hero">
     {{#unless postMode}}
       {{> navbar}}
-      <div class="hero-title">
+      {{> pyramid}}
+      <div class="hero-title" data-depth="1">
         <h1>{{{title}}}</h1>
         {{{about}}}
       </div>
@@ -27,7 +28,7 @@
       <div class="hero-button">
         <a class="hero-menu-link" href="https://docs.decentraland.org">{{_ 'docs'}}</a>
       </div>
-      <div class="hero-button">
+      <div class="hero-button hero-button-mobile">
           {{#unless postMode}}
             <a class="hero-menu-link hero-menu-link-selected" href="https://agora.decentraland.org">{{_ 'agora'}}</a>
           {{else}}
@@ -44,4 +45,23 @@
 <template name="demo">
   <!-- NOTE: free style template, this includes a demo as an outside link with demonstration inside iframe-->
   <iframe src="https://token-nqe44fwr0.now.sh/" style="border: 0px; height: 300px; top: 60px;"></iframe>
+</template>
+
+<template name="pyramid">
+  <!--<div class="story">
+    <div class="pyramid small">
+    </div>
+  </div>-->
+  <div class="story">
+    <div class="dcl parallax">
+      <div class="layer" data-depth="2">
+        <div class="pyramid small">
+        </div>
+      </div>
+      <div class="layer" data-depth="4">
+        <div class="pyramid large">
+        </div>
+      </div>
+    </div>
+  </div>
 </template>

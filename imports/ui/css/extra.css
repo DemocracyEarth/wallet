@@ -160,3 +160,36 @@ video {
 body, h4, h1, h2 {
   font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
 }
+
+.story .pyramid.small {
+  width: 400px;
+  height: 400px;
+  margin-left: 80px;
+  margin-top: 240px;
+  float:left;
+}
+
+.story .pyramid.large {
+  width: 1000px;
+  height: 1000px;
+  margin-top: -135px;
+  margin-left: 450px;
+}
+
+.story .pyramid {
+  background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMTkzIiBoZWlnaHQ9IjE2ODEiIHZpZXdCb3g9IjAgMCAyMTkzIDE2ODEiPgogIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICA8cG9seWdvbiBmaWxsPSIjRThFOEVEIiBwb2ludHM9IjIxOTMuMDExIC4wMTQgMTkyMC43ODggMTY4MC45OTcgMTAyOC43ODMgMTI2Mi4yNjgiIHRyYW5zZm9ybT0ibWF0cml4KC0xIDAgMCAxIDMyMjEuNzgzIDApIi8+CiAgICA8cG9seWdvbiBmaWxsPSIjRkFGQUZDIiBwb2ludHM9IjEwMjguNzc3IDAgMTMwMSAxNjgxIDAgMTI2Mi41OTciLz4KICA8L2c+Cjwvc3ZnPgo=);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.story {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  height: 320px;
+  overflow:hidden;
+  z-index:-1;
+  background-color:#f2f2f5;
+}
+

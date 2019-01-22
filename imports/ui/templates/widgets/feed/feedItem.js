@@ -153,11 +153,11 @@ Template.feedItem.onCreated(function () {
 
 const _threadItem = (instance) => {
   if (instance.data.mainFeed) {
-    $(`#feedItem-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}' class='vote-thread vote-thread-context clickable-item' />`);
+   /* $(`#feedItem-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}' class='vote-thread vote-thread-context clickable-item' />`);
     $(`#thread-${instance.data._id}`).prepend(`<div class='thread-sub'><div class='thread-needle thread-reply'>
     <a title='${instance.data.replyId ? `${TAPi18n.__('reply-to')}: ${stripHTMLfromText(_getReplyContract(instance.data.replyId).title).substring(0, 30)}...` : ''}'
-    href='${instance.data.replyId ? _getReplyContract(instance.data.replyId).url : ''}'><img src='${Router.path('home')}images/reply.png'></a>
-    </div></div>`);
+    href='${instance.data.replyId ? _getReplyContract(instance.data.replyId).url : ''}'><img src='${Router.path('home')}images/decentraland-reply.png'></a>
+    </div></div>`); */
   } else {
     $(`#feedItem-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}' class='vote-thread clickable-item' />`);
     $(`#thread-${instance.data._id}`).prepend(`<div class='thread-sub'><div class='thread-needle ${instance.data.lastItem ? 'thread-last' : ''}'></div></div>`);
