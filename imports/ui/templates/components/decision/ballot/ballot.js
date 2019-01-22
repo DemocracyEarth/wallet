@@ -603,10 +603,12 @@ Template.ballot.helpers({
 Template.ballot.events({
   'click #single-vote'(event) {
     event.preventDefault();
+    event.stopPropagation();
     _cryptoVote();
   },
   'click #edit-reply'(event) {
     event.preventDefault();
+    event.stopPropagation();
     if (Meteor.user()) {
       let contract = Session.get('draftContract');
       if (Meteor.Device.isPhone()) {
@@ -636,6 +638,7 @@ Template.ballot.events({
   },
   'click #tweet-post'(event) {
     event.preventDefault();
+    event.stopPropagation();
     window.open(_getTwitterURL(this.contract));
     _countShare(this.contract._id);
   },
