@@ -73,7 +73,7 @@
     },
 
     "Collective": {
-      "name": "Blockstack",
+      "name": "The Good Country",
       "domain": "https://localhost:3000",
       "emails": [
         {
@@ -95,7 +95,7 @@
             "address": ""
           }
         },
-        "logo": "images/blockstack-icon.jpg",
+        "logo": "images/good-country.png",
         "jurisdiction": {
           "legal": {
               "taxId": "37-1776296",
