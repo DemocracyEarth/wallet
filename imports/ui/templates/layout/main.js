@@ -43,6 +43,25 @@ import '/imports/ui/templates/layout/response/verifyEmail/verifyEmail';
 import '/imports/ui/templates/layout/touchmenu/touchmenu';
 import '/imports/ui/templates/components/decision/editor/editor';
 
+/*
+* head content
+*/
+const _head = () => {
+  const icon = $('<link>', {
+    rel: 'shortcut icon',
+    type: 'image/x-icon',
+    href: `${Meteor.settings.public.Collective.profile.logo}`,
+  });
+  const mobile = $('<link>', {
+    rel: 'apple-touch-icon',
+    href: `${Meteor.settings.public.Collective.profile.logo}`,
+  });
+
+  $('head').append(icon);
+  $('head').append(mobile);
+};
+
+
 Meteor.startup(() => {
   // setup language
   Session.set('showLoadingIndicator', true);
@@ -58,6 +77,9 @@ Meteor.startup(() => {
 
   // scripts
   // $.getScript('js/datepicker.js', () => {});
+
+  // head
+  _head();
 
   // time
   Meteor.setInterval(function () {
