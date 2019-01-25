@@ -32,6 +32,7 @@ import { globalObj } from '/lib/global';
 import { geo } from '/lib/geo';
 import { token } from '/lib/token';
 import { gui } from '/lib/const';
+import { setTemplate } from '/imports/ui/templates/layout/templater';
 
 
 import '/imports/ui/templates/layout/main.html';
@@ -47,7 +48,6 @@ import '/imports/ui/templates/components/decision/editor/editor';
 * head content
 */
 const _head = () => {
-
   // icon
   const icon = $('<link>', {
     rel: 'shortcut icon',
@@ -71,26 +71,13 @@ const _head = () => {
     href: 'styles/webflow.css',
   });
 
-  // template
-  const template = $('<link>', {
-    rel: 'stylesheet',
-    type: 'text/css',
-    href: 'templates/sovereign/sovereign.css',
-  });
-  const extra = $('<link>', {
-    rel: 'stylesheet',
-    type: 'text/css',
-    href: 'templates/sovereign/extra.css',
-  });
-
   // write it
   $('head').append(icon);
   $('head').append(mobile);
   $('head').append(normalize);
   $('head').append(webflow);
-  $('head').append(template);
-  $('head').append(extra);
 
+  setTemplate(Meteor.settings.public.web.template.name);
 };
 
 
