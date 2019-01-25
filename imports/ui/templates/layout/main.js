@@ -48,7 +48,7 @@ import '/imports/ui/templates/components/decision/editor/editor';
 * head content
 */
 const _head = () => {
-  // icon
+  // icons
   const icon = $('<link>', {
     rel: 'shortcut icon',
     type: 'image/x-icon',
@@ -59,24 +59,10 @@ const _head = () => {
     href: `${Meteor.settings.public.Collective.profile.logo}`,
   });
 
-  // style
-  const normalize = $('<link>', {
-    rel: 'stylesheet',
-    type: 'text/css',
-    href: 'styles/normalize.css',
-  });
-  const webflow = $('<link>', {
-    rel: 'stylesheet',
-    type: 'text/css',
-    href: 'styles/webflow.css',
-  });
-
-  // write it
   $('head').append(icon);
   $('head').append(mobile);
-  $('head').append(normalize);
-  $('head').append(webflow);
 
+  // design
   setTemplate(Meteor.settings.public.web.template.name);
 };
 

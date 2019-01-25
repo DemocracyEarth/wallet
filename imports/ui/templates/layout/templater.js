@@ -11,7 +11,7 @@ const _getStyles = (templateName) => {
     case 'decentraland':
     case 'sovereign':
     default:
-      return ['templates/sovereign/sovereign.css', 'templates/sovereign/extra.css'];
+      return ['styles/normalize.css', 'styles/webflow.css', 'templates/sovereign/sovereign.css', 'templates/sovereign/extra.css'];
   }
 };
 
