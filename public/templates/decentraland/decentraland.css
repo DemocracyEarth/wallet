@@ -6318,9 +6318,9 @@ blockquote {
 .hero {
   display: inline-block;
   width: 100%;
+  height: 320px;
   min-height: 65px;
   padding-bottom: 50px;
-  background-color: #f2f2f8;
   font-size: 18px;
   line-height: 26px;
 }
@@ -6331,7 +6331,7 @@ blockquote {
 
 .split-landing {
   position: absolute;
-  top: 400px;
+  top: 320px;
 }
 
 .hero-background {
@@ -6342,17 +6342,21 @@ blockquote {
 }
 
 .hero-title {
-  width: 60%;
+  width: 100%;
   margin-bottom: 40px;
   margin-left: 5%;
   float: left;
-  text-align: left;
+  text-align: center;
 }
 
 .hero-wrapper {
   display: block;
   margin-right: auto;
   margin-left: auto;
+}
+
+.hero-link {
+  color: #00ffb2;
 }
 
 .hero-call-to-action {

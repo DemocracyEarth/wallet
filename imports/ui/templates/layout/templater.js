@@ -7,8 +7,11 @@ import { $ } from 'meteor/jquery';
 const _getStyles = (templateName) => {
   switch (templateName) {
     case 'earth':
+      return ['styles/normalize.css', 'styles/webflow.css', 'templates/earth/earth.css', 'templates/earth/extra.css'];
     case 'partidored':
+      return ['styles/normalize.css', 'styles/webflow.css', 'templates/partidored/partidored.css', 'templates/partidored/extra.css'];
     case 'decentraland':
+      return ['styles/normalize.css', 'styles/webflow.css', 'templates/decentraland/decentraland.css', 'templates/decentraland/extra.css'];
     case 'sovereign':
     default:
       return ['styles/normalize.css', 'styles/webflow.css', 'templates/sovereign/sovereign.css', 'templates/sovereign/extra.css'];
