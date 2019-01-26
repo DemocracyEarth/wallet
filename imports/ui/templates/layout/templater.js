@@ -1,4 +1,18 @@
 import { $ } from 'meteor/jquery';
+import { Router } from 'meteor/iron:router';
+
+/**
+* @summary any custom content that goes to the header when logged out
+* @param {string} templateName to use
+*/
+const _getHeader = (templateName) => {
+  switch (templateName) {
+    case 'sovereign':
+      return `<div class="hero-demo"><img src="${Router.path('home')}images/vote.gif"></div>`;
+    default:
+      return '';
+  }
+};
 
 /**
 * @summary gets the list of files to include in the html head
@@ -22,7 +36,7 @@ const _getStyles = (templateName) => {
 * @summary sets the css template to use on this instance of sovereign
 * @param {string} templateName to use
 */
-const _setTemplate = (templateName) => {
+const _setCSS = (templateName) => {
   const styles = _getStyles(templateName);
 
   for (let i = 0; i < styles.length; i += 1) {
@@ -34,4 +48,5 @@ const _setTemplate = (templateName) => {
   }
 };
 
-export const setTemplate = _setTemplate;
+export const setCSS = _setCSS;
+export const getHeader = _getHeader;

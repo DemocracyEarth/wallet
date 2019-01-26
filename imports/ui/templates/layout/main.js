@@ -32,7 +32,7 @@ import { globalObj } from '/lib/global';
 import { geo } from '/lib/geo';
 import { token } from '/lib/token';
 import { gui } from '/lib/const';
-import { setTemplate } from '/imports/ui/templates/layout/templater';
+import { setCSS } from '/imports/ui/templates/layout/templater';
 
 
 import '/imports/ui/templates/layout/main.html';
@@ -63,7 +63,7 @@ const _head = () => {
   $('head').append(mobile);
 
   // design
-  setTemplate(Meteor.settings.public.web.template.name);
+  setCSS(Meteor.settings.public.web.template.name);
 };
 
 

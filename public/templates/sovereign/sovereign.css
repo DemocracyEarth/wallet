@@ -12,7 +12,7 @@ body {
 h1 {
   margin-top: 0px;
   margin-bottom: 20px;
-  padding-top: 120px;
+  padding-top: 100px;
   color: rgba(0, 0, 0, .87);
   font-size: 40px;
   line-height: 48px;
@@ -76,7 +76,7 @@ p {
 }
 
 a {
-  color: #ff85a5;
+  color: #5a0075;
   text-decoration: none;
   cursor: pointer;
 }
@@ -815,9 +815,9 @@ blockquote {
 
 .button {
   margin: 5px;
-  padding: 10px 15px;
+  padding: 9px 14px;
   border-radius: 6px;
-  background-color: #f04;
+  background-color: #580074;
   font-family: Lato, sans-serif;
   color: #fff;
   font-size: 14px;
@@ -897,12 +897,19 @@ blockquote {
   width: 100%;
   margin-right: 0px;
   margin-left: 0px;
+  border: 1px solid #580074;
   font-size: 14px;
 }
 
 .button.login-button:hover {
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#f04), to(#ff9a74));
-  background-image: linear-gradient(180deg, #f04, #ff9a74);
+  border-color: #ff0085;
+  background-color: #ff0085;
+}
+
+.button.login-button:active {
+  border: 1px solid #ff0085;
+  background-color: transparent;
+  color: #ff0085;
 }
 
 .button.login-button.button-secondary {
@@ -1054,13 +1061,13 @@ blockquote {
   float: left;
   clear: none;
   border-radius: 0px 5px 5px 0px;
-  font-size: 16px;
+  font-size: 14px;
   text-align: center;
 }
 
 .button.button-cta:hover {
   border-color: #fe6580;
-  background-color: #fe6580;
+  background-color: #ff0085;
 }
 
 .button-label {
@@ -4033,7 +4040,7 @@ blockquote {
 }
 
 .navbar-button.navbar-button-active {
-  background-color: #f04;
+  background-color: #580074;
 }
 
 .navbar-button.navbar-button-active.navbar-button-action {
@@ -4437,8 +4444,8 @@ blockquote {
 }
 
 .menu-item.menu-item-selected {
-  background-color: #ff9a74;
-  color: #0d0d17;
+  background-color: #5a0075;
+  color: #fff;
 }
 
 .signal {
@@ -4721,8 +4728,8 @@ blockquote {
 }
 
 .collective.collective-selected {
-  background-color: #ff9a74;
-  color: #0d0d17;
+  background-color: #5a0075;
+  color: #fff;
 }
 
 .collective-icon {
@@ -6342,7 +6349,8 @@ blockquote {
 }
 
 .hero-title {
-  width: 60%;
+  width: 50%;
+  max-width: 550px;
   margin-bottom: 40px;
   margin-left: 5%;
   float: left;
@@ -6391,7 +6399,7 @@ blockquote {
 .hero-cta-box {
   display: inline-block;
   height: 40px;
-  min-width: 300px;
+  min-width: 340px;
   float: left;
   border-top-left-radius: 5px;
   box-shadow: 0 4px 23px -10px #000;
@@ -6477,7 +6485,6 @@ blockquote {
 .hero-demo {
   position: absolute;
   left: 60%;
-  top: 60px;
   width: 400px;
   float: right;
   text-align: center;

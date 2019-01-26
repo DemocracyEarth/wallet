@@ -145,7 +145,7 @@ html {
   }
 }
 
-textarea, select, input, button { outline: none; }
+textarea, select, input, button, #titleContent { outline: none; }
 
 video {
   display: inline-block;
@@ -154,3 +154,6 @@ video {
   border-radius: 5px;
 }
 
+body, h4, h1, h2 {
+  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}

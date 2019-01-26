@@ -6,9 +6,7 @@
         <h1>{{{title}}}</h1>
         {{{about}}}
       </div>
-      <div class="hero-demo">
-        {{> demo}}
-      </div>
+      {{> demo}}
       <div class="hero-call-to-action">
         <div class="hero-cta-box">
           <input id="lead" type="text" placeholder="{{_ 'email'}}" class="hero-cta-input" />
@@ -52,13 +50,12 @@
         <a class="hero-menu-link" href="http://code.democracy.earth">{{_ 'code'}}</a>
       </div>
       <div class="hero-button hero-button-mobile">
-        <a class="hero-menu-link" href="http://foundation.democracy.earth">{{_ 'foundation'}}</a>
+        <a class="hero-menu-link" href="http://token.democracy.earth">{{_ 'foundation'}}</a>
       </div>
     </div>
   </div>
 </template>
 
 <template name="demo">
-  <!-- NOTE: free style template, this includes a demo as an outside link with demonstration inside iframe-->
-  <iframe src="https://token-nqe44fwr0.now.sh/" style="border: 0px; height: 300px; top: 60px;"></iframe>
+  {{{renderTemplate}}}
 </template>

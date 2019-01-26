@@ -145,7 +145,8 @@ html {
   }
 }
 
-textarea, select, input, button { outline: none; }
+textarea, select, input, button, #titleContent { outline: none; }
+
 
 video {
   display: inline-block;
