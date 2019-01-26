@@ -26,11 +26,11 @@ const _getImageTemplate = async () => {
 
 /**
 * @summary gets the right image given by template
-* @param {object} instance where to save the data
+* @param {object} imageTemplate that is getting the images from
 * @param {string} pic image you are looking for
 */
-const _getImage = (instance, pic) => {
-  return (instance.imageTemplate.get() && instance.imageTemplate.get()[pic]) ? instance.imageTemplate.get()[pic] : Meteor.absoluteUrl(`/images/${pic}.png`);
+const _getImage = (imageTemplate, pic) => {
+  return (imageTemplate && imageTemplate[pic]) ? imageTemplate[pic] : Meteor.absoluteUrl(`/images/${pic}.png`);
 };
 
 /**

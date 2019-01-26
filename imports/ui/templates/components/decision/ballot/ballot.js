@@ -274,7 +274,7 @@ function activateDragging() {
 * @param {object} instance where to save the data
 */
 const _template = async (instance) => {
-  const html = await getImageTemplate().then((resolved) => { console.log(`resolved: ${JSON.stringify(instance.imageTemplate.get())}`); instance.imageTemplate.set(resolved); });
+  const html = await getImageTemplate().then((resolved) => { instance.imageTemplate.set(resolved); });
   return html;
 };
 
@@ -611,9 +611,7 @@ Template.ballot.helpers({
     return _getTwitterURL(this.contract);
   },
   getImage(pic) {
-    // console.log(Template.instance().imageTemplate.get());
-    // return (Template.instance().imageTemplate.get() && Template.instance().imageTemplate.get()[pic]) ? Template.instance().imageTemplate.get()[pic] : Meteor.absoluteUrl(`/images/${pic}.png`);
-    return getImage(Template.instance(), pic);
+    return getImage(Template.instance().imageTemplate.get(), pic);
   },
 });
 
