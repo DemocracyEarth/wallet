@@ -7,10 +7,17 @@ import { Session } from 'meteor/session';
 
 import { timers } from '/lib/const';
 import { resetSplit } from '/imports/ui/modules/split';
-
 import { promptLogin } from '/imports/ui/templates/components/collective/collective.js';
+import { validateEmail } from '/imports/startup/both/modules/validations.js';
 
 import '/imports/ui/templates/layout/url/hero/hero.html';
+import '/imports/ui/templates/widgets/warning/warning.js';
+
+Template.hero.onRendered(() => {
+  Session.set('invalidHeroEmail', false);
+  Session.set('userExists', false);
+  Session.set('heroEmailUserCreated', false);
+});
 
 Template.hero.helpers({
   title() {
@@ -18,6 +25,40 @@ Template.hero.helpers({
   },
   about() {
     return TAPi18n.__('landing-tagline');
+  },
+  invalidEmail() {
+    return Session.get('invalidHeroEmail');
+  },
+  userExists() {
+    return Session.get('userExists');
+  },
+  heroEmailUserCreated() {
+    return Session.get('heroEmailUserCreated');
+  },
+});
+
+Template.hero.events({
+  'click #join'() {
+    const email = document.getElementById('lead').value;
+    const validEmail = validateEmail(email);
+
+    if (validEmail) {
+      Meteor.call('createEmailUser', email, (userCreationError) => {
+        if (userCreationError) {
+          console.log(userCreationError, 'error with createEmailUser');
+          Session.set('userExists', true);
+        } else {
+          Session.set('heroEmailUserCreated', true);
+        }
+      });
+    } else {
+      Session.set('invalidHeroEmail', true);
+    }
+  },
+  'focus #lead'() {
+    Session.set('invalidHeroEmail', false);
+    Session.set('userExists', false);
+    Session.set('heroEmailUserCreated', false);
   },
 });
 

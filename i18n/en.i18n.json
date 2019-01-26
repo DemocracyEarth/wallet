@@ -208,6 +208,7 @@
   "verify-email-address": "Verify Your Email Address",
   "email-verified": "Email successfully verified. Thanks!",
   "user-created": "User successfully created.",
+  "user-created-email": "Got it! Check your inbox for more information",
   "edit": "Edit",
   "sign-here": "Sign here",
   "proposal-author": "Proposal Author",

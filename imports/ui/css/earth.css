@@ -5916,6 +5916,11 @@ blockquote {
   text-align: left;
 }
 
+.extra-warning-hero {
+  margin-top: 10px;
+  margin-left: 64px;
+}
+
 .collective-profile {
   margin-top: -6px;
   margin-bottom: 10px;

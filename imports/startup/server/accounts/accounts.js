@@ -110,7 +110,7 @@ const normalizers = {
   facebook: normalizeFacebookUser,
   twitter: normalizeTwitterUser,
   blockstack: normalizeBlockstackUser,
-  metamask: normalizeMetamaskUser
+  metamask: normalizeMetamaskUser,
 };
 
 /**

@@ -12,7 +12,7 @@
       <div class="hero-call-to-action">
         <div class="hero-cta-box">
           <input id="lead" type="text" placeholder="{{_ 'email'}}" class="hero-cta-input" />
-          <div class="button button-cta">
+          <div id="join" class="button button-cta">
             {{_ 'join'}}
           </div>
         </div>
@@ -23,6 +23,21 @@
           </a>
         </div>
       </div>
+      {{#if invalidEmail}}
+        <div class="extra extra-warning-hero">
+          {{> warning label="invalid-email"}}
+        </div>
+      {{/if}}
+      {{#if userExists}}
+        <div class="extra extra-warning-hero">
+          {{> warning label="user-exists"}}
+        </div>
+      {{/if}}
+      {{#if heroEmailUserCreated}}
+        <div class="extra extra-warning-hero">
+          {{> warning label="user-created-email"}}
+        </div>
+      {{/if}}
     {{else}}
       {{> navbar postMode=postMode}}
     {{/unless}}

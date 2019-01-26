@@ -146,6 +146,21 @@ Meteor.methods({
   },
 
   /**
+  * @summary creates an user with username and email with no password
+  */
+  createEmailUser(_email) {
+    check(_email, String);
+    log(`{ method: 'createEmailUser', user: ${logUser()} }`);
+
+    const _username = _email.slice(0, _email.indexOf('@'));
+    const userId = Accounts.createUser({
+      username: _username,
+      email: _email,
+    });
+    Accounts.sendEnrollmentEmail(userId);
+  },
+
+  /**
   * @summary on every contract where theres a pending with the given hash, updates status
   * @param {string} hash to be updated
   * @param {string} status new condition

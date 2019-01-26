@@ -100,7 +100,7 @@ export default class SocialMediaLogin extends Component {
           <img src="/images/ethereum.png" className="button-icon" alt="lock" />
           {TAPi18n.__('ethereum-web3-wallet')}
         </div>
-        <div id="blockstack-login" className="button login-button login-button-last" onClick={this.handleBlockstackLogin}>
+        <div id="blockstack-login" className="button login-button" onClick={this.handleBlockstackLogin}>
           <img src="/images/blockstack.png" className="button-icon" alt="lock" />
           {TAPi18n.__('blockstack-id')}
         </div>
