@@ -13,6 +13,26 @@ const promise = new Promise((resolve) => {
   });
 });
 
+
+/**
+* @summary any custom content that goes to the header when logged out
+* @param {string} templateName to use
+*/
+const _getImageTemplate = async () => {
+  const template = await promise;
+  return template.images;
+};
+
+
+/**
+* @summary gets the right image given by template
+* @param {object} instance where to save the data
+* @param {string} pic image you are looking for
+*/
+const _getImage = (instance, pic) => {
+  return (instance.imageTemplate.get() && instance.imageTemplate.get()[pic]) ? instance.imageTemplate.get()[pic] : Meteor.absoluteUrl(`/images/${pic}.png`);
+};
+
 /**
 * @summary any custom content that goes to the header when logged out
 * @param {string} templateName to use
@@ -27,7 +47,7 @@ const _getHeader = async () => {
 */
 const _getStyles = async () => {
   const result = await promise;
-  const styles = result.spreadsheets.list;
+  const styles = result.stylesheet.list;
 
   for (let i = 0; i < styles.length; i += 1) {
     $('head').append($('<link>', {
@@ -40,3 +60,5 @@ const _getStyles = async () => {
 
 export const getCSS = _getStyles;
 export const getHeader = _getHeader;
+export const getImageTemplate = _getImageTemplate;
+export const getImage = _getImage;

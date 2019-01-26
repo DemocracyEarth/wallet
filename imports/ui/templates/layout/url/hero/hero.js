@@ -135,7 +135,7 @@ Template.navbar.events({
 });
 
 const _template = async (instance) => {
-  const html = await getHeader().then((resolved) => { instance.headerTemplate.set(resolved); console.log(`resolved: ${resolved}`); });
+  const html = await getHeader().then((resolved) => { instance.headerTemplate.set(resolved); });
   return html;
 };
 

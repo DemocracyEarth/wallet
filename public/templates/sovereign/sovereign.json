@@ -1,5 +1,5 @@
 {
-  "spreadsheets": {
+  "stylesheet": {
     "list": ["styles/normalize.css", "styles/webflow.css", "templates/sovereign/sovereign.css", "templates/sovereign/extra.css"]
   },
 
@@ -8,14 +8,14 @@
   },
 
   "images": {
-    "back": "templates/sovereign/back.png",
-    "black": "templates/sovereign/black.png",
-    "block": "templates/sovereign/block.png",
-    "clock": "templates/sovereign/clock.png",
-    "debate": "templates/sovereign/debate.png",
-    "reply": "templates/sovereign/reply.png",
-    "tweet": "templates/sovereign/tweet.png",
-    "vote": "templates/sovereign/vote.png"
+    "back": "/templates/sovereign/images/back.png",
+    "black": "/templates/sovereign/images/black.png",
+    "block": "/templates/sovereign/images/block.png",
+    "clock": "/templates/sovereign/images/clock.png",
+    "debate": "/templates/sovereign/images/debate.png",
+    "reply": "/templates/sovereign/images/reply.png",
+    "tweet": "/templates/sovereign/images/tweet.png",
+    "vote": "/templates/sovereign/images/vote.png"
   }
 
 }

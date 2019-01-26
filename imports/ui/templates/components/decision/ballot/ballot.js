@@ -15,8 +15,8 @@ import { verifyConstituencyRights, getTokenAddress, getTokenContractAddress, che
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
 import { createContract } from '/imports/startup/both/modules/Contract';
 import { transactWithMetamask, setupWeb3 } from '/imports/startup/both/modules/metamask';
-import { formatCryptoValue } from '/imports/ui/templates/components/decision/balance/balance';
 import { displayModal } from '/imports/ui/modules/modal';
+import { getImageTemplate, getImage } from '/imports/ui/templates/layout/templater';
 
 import '/imports/ui/templates/components/decision/ballot/ballot.html';
 import '/imports/ui/templates/components/decision/fork/fork.js';
@@ -269,6 +269,15 @@ function activateDragging() {
   }).disableSelection();
 }
 
+/**
+* @summary gets data from template
+* @param {object} instance where to save the data
+*/
+const _template = async (instance) => {
+  const html = await getImageTemplate().then((resolved) => { console.log(`resolved: ${JSON.stringify(instance.imageTemplate.get())}`); instance.imageTemplate.set(resolved); });
+  return html;
+};
+
 Template.ballot.onCreated(() => {
   Template.instance().forks = _generateForks(this.contract);
   Template.instance().emptyBallot = new ReactiveVar();
@@ -277,6 +286,9 @@ Template.ballot.onCreated(() => {
   Template.instance().contract = new ReactiveVar(Template.currentData().contract);
   Template.instance().ticket = new ReactiveVar(getContractToken({ contract: Template.currentData().contract, isButton: true }));
   Template.instance().voteEnabled = verifyConstituencyRights(Template.currentData().contract);
+
+  Template.instance().imageTemplate = new ReactiveVar();
+  _template(Template.instance());
 });
 
 Template.ballot.helpers({
@@ -597,6 +609,11 @@ Template.ballot.helpers({
   },
   twitterURL() {
     return _getTwitterURL(this.contract);
+  },
+  getImage(pic) {
+    // console.log(Template.instance().imageTemplate.get());
+    // return (Template.instance().imageTemplate.get() && Template.instance().imageTemplate.get()[pic]) ? Template.instance().imageTemplate.get()[pic] : Meteor.absoluteUrl(`/images/${pic}.png`);
+    return getImage(Template.instance(), pic);
   },
 });
 
