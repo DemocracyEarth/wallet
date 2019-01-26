@@ -2268,7 +2268,7 @@ blockquote {
 
 .identity-label {
   display: inline-block;
-  color: #ff85a5;
+  color: #5a0075;
   font-size: 16px;
   line-height: 22px;
   text-decoration: none;
@@ -6478,7 +6478,7 @@ blockquote {
 }
 
 .hero-navbar.hero-navbar-scroller {
-  z-index: 1;
+  z-index: 10;
   background-color: #f2f2f5;
 }
 

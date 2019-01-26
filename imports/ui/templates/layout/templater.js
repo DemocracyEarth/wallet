@@ -36,7 +36,7 @@ const _getStyles = (templateName) => {
 * @summary sets the css template to use on this instance of sovereign
 * @param {string} templateName to use
 */
-const _setCSS = (templateName) => {
+const _getCSS = (templateName) => {
   const styles = _getStyles(templateName);
 
   for (let i = 0; i < styles.length; i += 1) {
@@ -48,5 +48,5 @@ const _setCSS = (templateName) => {
   }
 };
 
-export const setCSS = _setCSS;
+export const getCSS = _getCSS;
 export const getHeader = _getHeader;
