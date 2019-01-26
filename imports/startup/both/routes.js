@@ -3,7 +3,6 @@ import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 import { DocHead } from 'meteor/kadira:dochead';
 import { TAPi18n } from 'meteor/tap:i18n';
-import { $ } from 'meteor/jquery';
 
 import { gui } from '/lib/const';
 import { urlDoctor, toTitleCase } from '/lib/utils';

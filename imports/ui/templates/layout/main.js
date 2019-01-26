@@ -63,7 +63,7 @@ const _head = () => {
   $('head').append(mobile);
 
   // design
-  getCSS(Meteor.settings.public.web.template.name);
+  getCSS();
 };
 
 

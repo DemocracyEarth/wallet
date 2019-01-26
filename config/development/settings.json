@@ -133,7 +133,7 @@
       },
 
       "template": {
-        "name": "sovereign"
+        "settings": "/templates/sovereign/sovereign.json"
       }
 
     },

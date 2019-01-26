@@ -3,6 +3,10 @@
     "list": ["styles/normalize.css", "styles/webflow.css", "templates/sovereign/sovereign.css", "templates/sovereign/extra.css"]
   },
 
+  "header": {
+    "html": "<div class='hero-demo'><img src='/images/vote.gif'></div>"
+  },
+
   "images": {
     "back": "templates/sovereign/back.png",
     "black": "templates/sovereign/black.png",
@@ -12,9 +16,6 @@
     "reply": "templates/sovereign/reply.png",
     "tweet": "templates/sovereign/tweet.png",
     "vote": "templates/sovereign/vote.png"
-  },
-
-  "header": {
-    "animation": "<div class='hero-demo'><img src='/images/vote.gif'></div>"
   }
+
 }
