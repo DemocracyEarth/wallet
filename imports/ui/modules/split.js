@@ -36,10 +36,6 @@ const _resizeSplit = (diff, winResize) => {
     const agoraWidth = parseInt((contentWidth * RIGHTHALF) - diff, 10);
     const contractWidth = parseInt((contentWidth * LEFTHALF) + diff, 10);
     if ((agoraWidth > gui.MIN_AGORA_WIDTH && contractWidth > gui.MIN_CONTRACT_WIDTH) || winResize) {
-      console.log('LLEGA A HACER ESTE CALCULO');
-      console.log(`contentWidth: ${contentWidth}`);
-      console.log(`contractWidth ${contractWidth}`);
-      console.log(`agoraWidth ${agoraWidth}`);
       $('.split-left').width(`${contractWidth}px`);
       $('.split-right').width(`${agoraWidth}px`);
       $('.split-right').css('marginLeft', diff);

@@ -155,3 +155,5 @@ Template.main.events({
     toggleSidebar();
   },
 });
+
+export const head = _head;

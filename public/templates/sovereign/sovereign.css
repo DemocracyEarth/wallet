@@ -282,7 +282,7 @@ blockquote {
   width: 100%;
   padding: 10px;
   border-radius: 3px;
-  background-color: #5c5c6e;
+  background-color: #8787b7;
   box-shadow: 0 3px 8px -4px #000;
   color: #fff;
 }
@@ -4523,7 +4523,7 @@ blockquote {
   width: 100%;
   min-width: 200px;
   margin-bottom: -15px;
-  padding-top: 0px;
+  padding-top: 10px;
   padding-right: 15px;
   padding-left: 10px;
 }
