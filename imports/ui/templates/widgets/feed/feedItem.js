@@ -15,6 +15,7 @@ import { animationSettings } from '/imports/ui/modules/animation';
 import { addChoiceToBallot, getTotalVoters, getRightToVote, getBallot } from '/imports/ui/modules/ballot';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { Contracts } from '/imports/api/contracts/Contracts';
+import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 
 import '/imports/ui/templates/widgets/feed/feedItem.html';
 import '/imports/ui/templates/widgets/transaction/transaction.js';
@@ -149,6 +150,9 @@ Template.feedItem.onCreated(function () {
   Template.instance().candidateBallot = new ReactiveVar();
   Template.instance().displayResults = new ReactiveVar(false);
   Template.instance().replySource = new ReactiveVar(false);
+
+  Template.instance().imageTemplate = new ReactiveVar();
+  templetize(Template.instance());
 });
 
 const _threadItem = (instance) => {
@@ -380,6 +384,9 @@ Template.feedItem.helpers({
   },
   title() {
     return renderMarkup(this.title);
+  },
+  getImage(pic) {
+    return getImage(Template.instance().imageTemplate.get(), pic);
   },
 });
 

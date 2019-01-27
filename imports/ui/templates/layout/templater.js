@@ -13,7 +13,6 @@ const promise = new Promise((resolve) => {
   });
 });
 
-
 /**
 * @summary any custom content that goes to the header when logged out
 * @param {string} templateName to use
@@ -22,7 +21,6 @@ const _getImageTemplate = async () => {
   const template = await promise;
   return template.images;
 };
-
 
 /**
 * @summary gets the right image given by template
@@ -58,7 +56,18 @@ const _getStyles = async () => {
   }
 };
 
+/**
+* @summary gets data from template
+* @param {object} instance where to save the data
+*/
+const _templetize = async (instance) => {
+  const html = await _getImageTemplate().then((resolved) => { instance.imageTemplate.set(resolved); });
+  return html;
+};
+
+
 export const getCSS = _getStyles;
 export const getHeader = _getHeader;
 export const getImageTemplate = _getImageTemplate;
 export const getImage = _getImage;
+export const templetize = _templetize;

@@ -16,7 +16,7 @@ import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
 import { createContract } from '/imports/startup/both/modules/Contract';
 import { transactWithMetamask, setupWeb3 } from '/imports/startup/both/modules/metamask';
 import { displayModal } from '/imports/ui/modules/modal';
-import { getImageTemplate, getImage } from '/imports/ui/templates/layout/templater';
+import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 
 import '/imports/ui/templates/components/decision/ballot/ballot.html';
 import '/imports/ui/templates/components/decision/fork/fork.js';
@@ -269,15 +269,6 @@ function activateDragging() {
   }).disableSelection();
 }
 
-/**
-* @summary gets data from template
-* @param {object} instance where to save the data
-*/
-const _template = async (instance) => {
-  const html = await getImageTemplate().then((resolved) => { instance.imageTemplate.set(resolved); });
-  return html;
-};
-
 Template.ballot.onCreated(() => {
   Template.instance().forks = _generateForks(this.contract);
   Template.instance().emptyBallot = new ReactiveVar();
@@ -288,7 +279,7 @@ Template.ballot.onCreated(() => {
   Template.instance().voteEnabled = verifyConstituencyRights(Template.currentData().contract);
 
   Template.instance().imageTemplate = new ReactiveVar();
-  _template(Template.instance());
+  templetize(Template.instance());
 });
 
 Template.ballot.helpers({
@@ -345,9 +336,9 @@ Template.ballot.helpers({
   },
   voteIcon() {
     // if (!Template.instance().voteEnabled) {
-    //  return 'images/vote-disabled.png';
+    //  return getImage(Template.instance().imageTemplate.get(), 'vote-disabled');
     // }
-    return 'images/vote.png';
+    return getImage(Template.instance().imageTemplate.get(), 'vote');
   },
   enableStyle() {
     if (!Template.instance().voteEnabled) {
