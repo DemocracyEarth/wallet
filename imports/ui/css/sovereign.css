@@ -12,7 +12,7 @@ body {
 h1 {
   margin-top: 0px;
   margin-bottom: 20px;
-  padding-top: 120px;
+  padding-top: 100px;
   color: rgba(0, 0, 0, .87);
   font-size: 40px;
   line-height: 48px;
@@ -76,7 +76,7 @@ p {
 }
 
 a {
-  color: #ff85a5;
+  color: #5a0075;
   text-decoration: none;
   cursor: pointer;
 }
@@ -282,7 +282,7 @@ blockquote {
   width: 100%;
   padding: 10px;
   border-radius: 3px;
-  background-color: #5c5c6e;
+  background-color: #8787b7;
   box-shadow: 0 3px 8px -4px #000;
   color: #fff;
 }
@@ -815,9 +815,9 @@ blockquote {
 
 .button {
   margin: 5px;
-  padding: 10px 15px;
+  padding: 9px 14px;
   border-radius: 6px;
-  background-color: #f04;
+  background-color: #580074;
   font-family: Lato, sans-serif;
   color: #fff;
   font-size: 14px;
@@ -897,12 +897,19 @@ blockquote {
   width: 100%;
   margin-right: 0px;
   margin-left: 0px;
+  border: 1px solid #580074;
   font-size: 14px;
 }
 
 .button.login-button:hover {
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#f04), to(#ff9a74));
-  background-image: linear-gradient(180deg, #f04, #ff9a74);
+  border-color: #ff0085;
+  background-color: #ff0085;
+}
+
+.button.login-button:active {
+  border: 1px solid #ff0085;
+  background-color: transparent;
+  color: #ff0085;
 }
 
 .button.login-button.button-secondary {
@@ -1054,13 +1061,13 @@ blockquote {
   float: left;
   clear: none;
   border-radius: 0px 5px 5px 0px;
-  font-size: 16px;
+  font-size: 14px;
   text-align: center;
 }
 
 .button.button-cta:hover {
   border-color: #fe6580;
-  background-color: #fe6580;
+  background-color: #ff0085;
 }
 
 .button-label {
@@ -2261,7 +2268,7 @@ blockquote {
 
 .identity-label {
   display: inline-block;
-  color: #ff85a5;
+  color: #5a0075;
   font-size: 16px;
   line-height: 22px;
   text-decoration: none;
@@ -4033,7 +4040,7 @@ blockquote {
 }
 
 .navbar-button.navbar-button-active {
-  background-color: #f04;
+  background-color: #580074;
 }
 
 .navbar-button.navbar-button-active.navbar-button-action {
@@ -4437,8 +4444,8 @@ blockquote {
 }
 
 .menu-item.menu-item-selected {
-  background-color: #ff9a74;
-  color: #0d0d17;
+  background-color: #5a0075;
+  color: #fff;
 }
 
 .signal {
@@ -4516,7 +4523,7 @@ blockquote {
   width: 100%;
   min-width: 200px;
   margin-bottom: -15px;
-  padding-top: 0px;
+  padding-top: 10px;
   padding-right: 15px;
   padding-left: 10px;
 }
@@ -4721,8 +4728,8 @@ blockquote {
 }
 
 .collective.collective-selected {
-  background-color: #ff9a74;
-  color: #0d0d17;
+  background-color: #5a0075;
+  color: #fff;
 }
 
 .collective-icon {
@@ -6318,7 +6325,6 @@ blockquote {
 .hero {
   display: inline-block;
   width: 100%;
-  height: 400px;
   min-height: 65px;
   padding-bottom: 50px;
   background-color: #f2f2f8;
@@ -6343,21 +6349,18 @@ blockquote {
 }
 
 .hero-title {
-  width: 100%;
+  width: 50%;
+  max-width: 550px;
   margin-bottom: 40px;
   margin-left: 5%;
   float: left;
-  text-align: center;
+  text-align: left;
 }
 
 .hero-wrapper {
   display: block;
   margin-right: auto;
   margin-left: auto;
-}
-
-.hero-link {
-  color: #00ffb2;
 }
 
 .hero-call-to-action {
@@ -6396,7 +6399,7 @@ blockquote {
 .hero-cta-box {
   display: inline-block;
   height: 40px;
-  min-width: 300px;
+  min-width: 340px;
   float: left;
   border-top-left-radius: 5px;
   box-shadow: 0 4px 23px -10px #000;
@@ -6460,29 +6463,31 @@ blockquote {
 
 .hero-menu-link.hero-menu-link-signin {
   padding: 5px 10px;
+  border: 1px solid #7d8499;
+  border-radius: 5px;
 }
 
 .hero-menu-link.hero-menu-link-signin.hero-menu-link-signin-active {
-  color: #f04;
-  font-weight: 700;
+  border-color: #561072;
+  background-color: #561072;
+  color: #fff;
 }
 
 .hero-navbar {
   position: absolute;
+  z-index: 10;
   overflow: hidden;
   width: 100%;
   height: 60px;
 }
 
 .hero-navbar.hero-navbar-scroller {
-  z-index: 1;
   background-color: #f2f2f5;
 }
 
 .hero-demo {
   position: absolute;
   left: 60%;
-  top: 60px;
   width: 400px;
   float: right;
   text-align: center;

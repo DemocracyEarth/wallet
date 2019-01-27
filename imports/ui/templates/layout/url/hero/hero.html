@@ -40,7 +40,7 @@
         {{#unless postMode}}
           <a class="hero-menu-link hero-menu-link-selected" href="{{pathFor route='home'}}">{{_ 'home'}}</a>
         {{else}}
-          <a class="hero-menu-link" href="https://democracy.earth">{{_ 'home'}}</a>
+          <a class="hero-menu-link" href="{{pathFor route='home'}}">{{_ 'home'}}</a>
         {{/unless}}
       </div>
       <div class="hero-button">

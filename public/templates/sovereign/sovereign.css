@@ -6463,22 +6463,26 @@ blockquote {
 
 .hero-menu-link.hero-menu-link-signin {
   padding: 5px 10px;
+  border: 1px solid #7d8499;
+  border-radius: 5px;
 }
 
 .hero-menu-link.hero-menu-link-signin.hero-menu-link-signin-active {
-  color: #f04;
-  font-weight: 700;
+  border-color: #561072;
+  background-color: #561072;
+  color: #fff;
 }
 
 .hero-navbar {
   position: absolute;
+  z-index: 10;
   overflow: hidden;
   width: 100%;
   height: 60px;
 }
 
 .hero-navbar.hero-navbar-scroller {
-  z-index: 10;
+  border-bottom: 1px solid #e8e8e8;
   background-color: #f2f2f5;
 }
 

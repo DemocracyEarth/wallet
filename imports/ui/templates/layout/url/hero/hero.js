@@ -12,7 +12,6 @@ import { getHeader } from '/imports/ui/templates/layout/templater';
 import { promptLogin } from '/imports/ui/templates/components/collective/collective.js';
 
 import '/imports/ui/templates/layout/url/hero/hero.html';
-import { Resolver } from 'dns';
 
 Template.hero.helpers({
   title() {
