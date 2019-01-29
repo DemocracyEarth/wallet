@@ -80,7 +80,7 @@ function normalizeBlockstackUser(profile, user) {
     firstName: name,
     credentials: credential,
   });
-  
+
   if (user.services.blockstack.userData.profile.image && 
       user.services.blockstack.userData.profile.image.length > 0 && 
       user.services.blockstack.userData.profile.image[0].contentUrl) {
@@ -96,10 +96,10 @@ function normalizeBlockstackUser(profile, user) {
 }
 
 function normalizeMetamaskUser(profile, user) {
-  var publicAddress = user.services.metamask.id;
-  var anonymousUser = 'anonymous' + publicAddress.slice(0,7);
+  const publicAddress = user.services.metamask.id;
+  const anonymousUser = 'anonymous' + publicAddress.slice(0,7);
   const username = generateAvailableUsername(deburr(toLower(camelCase(anonymousUser))));
-  
+
   return _.extend(user, {
     username,
     profile,
@@ -128,22 +128,22 @@ Accounts.onCreateUser((opts, user) => {
     .value();
 
   user = !!normalizer ? normalizer(profile, user) : user;
-  
+
   if (user.services.metamask != null) {
     // Initialize reserves for Metamask users only
-    let wallet = {}
-    let reserves = [{
+    const wallet = {};
+    const reserves = [{
       balance: 0,
       placed: 0,
       available: 0,
       token: 'WEI',
-      publicAddress: user.services.metamask.publicAddress
+      publicAddress: user.services.metamask.publicAddress,
     }];
 
     user.profile = profile;
     user.profile.wallet = wallet;
     user.profile.wallet.reserves = reserves;
   }
-  
+
   return user;
 });
