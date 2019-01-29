@@ -6754,6 +6754,9 @@ blockquote {
   .hero-title {
     width: 80%;
   }
+  .hero-cta-box {
+    margin-bottom: 10px;
+  }
   .hero-demo {
     display: none;
   }
@@ -6863,8 +6866,10 @@ blockquote {
   .vote.vote-search {
     box-shadow: none;
   }
-  .vote.vote-search.vote-feed {
-    box-shadow: none;
+  .vote.vote-search.vote-feed:hover {
+    margin-top: 0px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1);
   }
   .vote.vote-search.vote-feed.vote-delegation {
     box-shadow: none;
@@ -6967,9 +6972,6 @@ blockquote {
   }
   .election-label {
     float: none;
-  }
-  .modal {
-    background-color: hsla(0, 0%, 100%, .3);
   }
   .modal.hide {
     display: none;
@@ -7213,6 +7215,9 @@ blockquote {
   }
   .hero-call-to-action {
     margin-left: 40px;
+  }
+  .hero-cta-box {
+    box-shadow: none;
   }
   .hero-menu {
     padding-right: 0px;
