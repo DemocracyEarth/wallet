@@ -1,6 +1,8 @@
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
+import { ReactiveVar } from 'meteor/reactive-var';
 
+import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { animatePopup } from '/imports/ui/modules/popup';
 import { searchJSON } from '/imports/ui/modules/JSON';
 import { token } from '/lib/token';
@@ -56,6 +58,9 @@ const _checkInputs = () => {
 Template.coin.onCreated(() => {
   Session.set('showTokens', false);
   Session.set('suggestDisplay', '');
+
+  Template.instance().imageTemplate = new ReactiveVar();
+  templetize(Template.instance());
 });
 
 Template.coin.onRendered(function () {
@@ -107,6 +112,9 @@ Template.coin.helpers({
       return 'button-disabled';
     }
     return '';
+  },
+  getImage(pic) {
+    return getImage(Template.instance().imageTemplate.get(), pic);
   },
 });
 

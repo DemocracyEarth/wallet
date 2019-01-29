@@ -495,7 +495,6 @@ blockquote {
   border: 1px solid #7d849f;
   border-radius: 100px;
   background-color: #f2f2f5;
-  cursor: pointer;
 }
 
 .symbol.profile-pic.profile-pic-navbar {
@@ -918,15 +917,16 @@ blockquote {
   padding-bottom: 9px;
   border: 1px solid #84849e;
   background-color: transparent;
+  color: #5a0075;
 }
 
 .button.login-button.button-secondary:hover {
   padding-top: 10px;
   padding-bottom: 10px;
   border-style: none;
-  border-color: rgba(132, 132, 158, 0);
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#f04), to(#ff9a74));
-  background-image: linear-gradient(180deg, #f04, #ff9a74);
+  border-color: #ff0085;
+  background-color: #ff0085;
+  color: #fff;
 }
 
 .button.login-button.button-half {
@@ -1056,7 +1056,7 @@ blockquote {
 }
 
 .button.button-upload:active {
-  background-color: rgba(88, 16, 115, .18);
+  background-color: rgba(255, 0, 133, .07);
 }
 
 .button.button-cta {
@@ -1075,6 +1075,20 @@ blockquote {
 .button.button-cta:hover {
   border-color: #fe6580;
   background-color: #ff0085;
+}
+
+.button.button-menu {
+  margin-right: -5px;
+  margin-left: -5px;
+  background-color: #dedcdc;
+  color: #4b4b4b;
+  text-align: left;
+  text-transform: none;
+}
+
+.button.button-menu:hover {
+  background-color: rgba(93, 0, 119, .07);
+  color: #561072;
 }
 
 .button-label {
@@ -1103,6 +1117,12 @@ blockquote {
   position: relative;
   display: inline-block;
   float: none;
+}
+
+.button-icon.execute-icon.execute-icon-menu {
+  margin-top: -2px;
+  margin-right: -10px;
+  margin-left: 0px;
 }
 
 .extra {
@@ -5656,8 +5676,8 @@ blockquote {
 }
 
 .editor-button.editor-button-active {
-  border-color: #5c5d6e;
-  background-color: #5c5d6e;
+  border-color: #5a0075;
+  background-color: #5a0075;
   color: #fff;
 }
 

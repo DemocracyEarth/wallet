@@ -18,6 +18,10 @@
     "vote": "/templates/sovereign/images/vote.png",
     "flag": "/templates/sovereign/images/flag.png",
     "camera": "/templates/sovereign/images/camera.png",
+    "forward": "/templates/sovereign/images/forward.png",
+    "token": "/templates/sovereign/images/token.png",
+    "domain": "/templates/sovereign/images/domain.png",
+    "blockchain-address": "/templates/sovereign/images/blockchain-address.png",
     "fingerprint": "/templates/sovereign/images/fingerprint.png",
     "logout": "/templates/sovereign/images/logout.png",
     "vote-icon-black": "/templates/sovereign/images/vote-icon-black.png"

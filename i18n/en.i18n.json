@@ -626,5 +626,7 @@
   "home": "Home",
   "paper": "Paper",
   "code": "Code",
-  "foundation": "Foundation"
+  "foundation": "Foundation",
+  "edit-profile": "Edit Profile",
+  "configure-keys": "Configure Keys"
 }
