@@ -1367,7 +1367,7 @@ blockquote {
   border-color: rgba(0, 0, 0, .02);
   border-radius: 8px;
   background-image: none;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1);
+  box-shadow: 0 2px 8px 0 hsla(0, 0%, 72%, .37);
   -webkit-transition: all 200ms ease;
   transition: all 200ms ease;
   color: #7d849f;
