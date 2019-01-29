@@ -110,7 +110,7 @@ Router.route('/', {
   data() {
     let limit = gui.ITEMS_PER_PAGE;
     if (!Meteor.user()) {
-      limit = 3; // if not logged, only display a few
+      limit = gui.ITEMS_IN_LANDING;
     }
     return {
       options: { view: 'latest', sort: { createdAt: -1 }, limit, skip: 0 },
