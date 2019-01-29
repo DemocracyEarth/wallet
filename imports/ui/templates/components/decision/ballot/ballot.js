@@ -598,6 +598,12 @@ Template.ballot.helpers({
   twitterURL() {
     return _getTwitterURL(this.contract);
   },
+  userWithTokenReserves() {
+    if (Meteor.user().profile.wallet.reserves) {
+      return true;
+    }
+    return false;
+  },
 });
 
 Template.ballot.events({

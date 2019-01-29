@@ -91,16 +91,18 @@
             <img src="{{pathFor route='home'}}images/tweet.png" class="micro-icon">
             <div class="micro-label">{{label 'twitter'}} {{{quantity 'twitter'}}}</div>
           </a>
-          <a id="single-vote" href="{{voteURL}}" class="micro-button micro-button-feed no-underline" ontouchstart="">
-            <div class="micro-label">
-              <img src="{{pathFor route='home'}}{{voteIcon}}" class="micro-icon">
-              {{{label 'vote'}}}
-              {{#with token}}
-                {{> balance}}
-              {{/with}}
-            </div>
-            <div class="verifier verifier-live verifier-feed"></div>
-          </a>
+          {{#if userWithTokenReserves}}
+            <a id="single-vote" href="{{voteURL}}" class="micro-button micro-button-feed no-underline" ontouchstart="">
+              <div class="micro-label">
+                <img src="{{pathFor route='home'}}{{voteIcon}}" class="micro-icon">
+                {{{label 'vote'}}}
+                {{#with token}}
+                  {{> balance}}
+                {{/with}}
+              </div>
+              <div class="verifier verifier-live verifier-feed"></div>
+            </a>
+          {{/if}}
         </div>
         {{> electorate contract=contract readOnly=true}}
       </div>

@@ -6091,6 +6091,11 @@ blockquote {
   text-align: center;
 }
 
+.token-ticker.no-tokens {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
 .token-ticker.token-editor {
   margin-top: 7px;
   margin-left: 5px;
