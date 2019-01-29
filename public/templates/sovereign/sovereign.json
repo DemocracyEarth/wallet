@@ -16,6 +16,10 @@
     "reply": "/templates/sovereign/images/reply.png",
     "tweet": "/templates/sovereign/images/tweet.png",
     "vote": "/templates/sovereign/images/vote.png",
+    "flag": "/templates/sovereign/images/flag.png",
+    "camera": "/templates/sovereign/images/camera.png",
+    "fingerprint": "/templates/sovereign/images/fingerprint.png",
+    "logout": "/templates/sovereign/images/logout.png",
     "vote-icon-black": "/templates/sovereign/images/vote-icon-black.png"
   }
 

@@ -65,7 +65,6 @@ const _templetize = async (instance) => {
   return html;
 };
 
-
 export const getCSS = _getStyles;
 export const getHeader = _getHeader;
 export const getImageTemplate = _getImageTemplate;
