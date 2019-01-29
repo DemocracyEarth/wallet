@@ -97,7 +97,7 @@ const _getTokenContractAddress = (ticker) => {
 const _verifyConstituencyRights = (contract) => {
   let legitimacy = true;
 
-  if (Meteor.user()) {
+  if (Meteor.user() && contract.wallet.currency !== 'NONE') {
     if (contract.constituency && contract.constituency.length > 0) {
       for (const i in contract.constituency) {
         switch (contract.constituency[i].kind) {

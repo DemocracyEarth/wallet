@@ -96,9 +96,17 @@
               <div class="micro-label">
                 <img src="{{pathFor route='home'}}{{voteIcon}}" class="micro-icon">
                 {{{label 'vote'}}}
-                {{#with token}}
-                  {{> balance}}
-                {{/with}}
+                {{#if canVote}}
+                  {{#with token}}
+                    {{> balance}}
+                  {{/with}}
+                {{else}}
+                  <div class="token token-editor">
+                    <div class="token-ticker no-tokens">
+                      {{noTokensTicker}}
+                    </div>
+                  </div>
+                {{/if}}
               </div>
               <div class="verifier verifier-live verifier-feed"></div>
             </a>

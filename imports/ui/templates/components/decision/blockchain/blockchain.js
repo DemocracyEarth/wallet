@@ -231,7 +231,7 @@ Template.blockchain.helpers({
     return '';
   },
   userWithTokenReserves() {
-    if (Meteor.user().profile.wallet.reserves) {
+    if (Meteor.user() && Meteor.user().profile.wallet.reserves) {
       return true;
     }
     return false;

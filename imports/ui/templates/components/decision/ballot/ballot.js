@@ -332,9 +332,9 @@ Template.ballot.helpers({
     return this.contract.url;
   },
   voteIcon() {
-    // if (!Template.instance().voteEnabled) {
-    //  return 'images/vote-disabled.png';
-    // }
+    if (!Template.instance().voteEnabled) {
+      return 'images/vote-disabled.png';
+    }
     return 'images/vote.png';
   },
   enableStyle() {
@@ -599,10 +599,13 @@ Template.ballot.helpers({
     return _getTwitterURL(this.contract);
   },
   userWithTokenReserves() {
-    if (Meteor.user().profile.wallet.reserves) {
+    if (Meteor.user() && Meteor.user().profile.wallet.reserves) {
       return true;
     }
     return false;
+  },
+  noTokensTicker() {
+    return `${TAPi18n.__('no-tokens')}`;
   },
 });
 
@@ -610,7 +613,9 @@ Template.ballot.events({
   'click #single-vote'(event) {
     event.preventDefault();
     event.stopPropagation();
-    _cryptoVote();
+    if (Template.currentData().contract.wallet.currency !== 'NONE') {
+      _cryptoVote();
+    }
   },
   'click #edit-reply'(event) {
     event.preventDefault();
