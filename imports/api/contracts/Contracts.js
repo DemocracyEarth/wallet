@@ -523,7 +523,7 @@ Schema.Contract = new SimpleSchema({
   randomSortOrder: {
     type: Number,
     autoValue() {
-      return Math.floor(Math.random() * 1000000000000);
+      return Math.floor(Math.random() * 10000000000000000);
     },
   },
 });
