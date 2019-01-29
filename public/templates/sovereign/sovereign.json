@@ -21,6 +21,7 @@
     "forward": "/templates/sovereign/images/forward.png",
     "token": "/templates/sovereign/images/token.png",
     "domain": "/templates/sovereign/images/domain.png",
+    "decision-draft": "/templates/sovereign/images/decision-draft.png",
     "blockchain-address": "/templates/sovereign/images/blockchain-address.png",
     "fingerprint": "/templates/sovereign/images/fingerprint.png",
     "logout": "/templates/sovereign/images/logout.png",

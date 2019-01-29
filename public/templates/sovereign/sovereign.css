@@ -1098,7 +1098,7 @@ blockquote {
 .button-icon {
   width: 24px;
   height: 24px;
-  margin: 0px -12px -10px -10px;
+  margin: 2px -17px -10px -7px;
   float: left;
 }
 
@@ -4076,8 +4076,7 @@ blockquote {
 }
 
 .navbar-button.navbar-button-active.navbar-button-action:hover {
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#f04), to(#ff9a74));
-  background-image: linear-gradient(180deg, #f04, #ff9a74);
+  background-color: #ff0085;
 }
 
 .navbar-button.navbar-button-active.navbar-button-action.navbar-button-action-disabled {
@@ -4286,10 +4285,14 @@ blockquote {
   margin-right: auto;
   margin-left: auto;
   padding: 18px 12px;
+  border-color: #f3f3f3 #e0e0e0 #e0e0e0 #f3f3f3;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-left-style: solid;
+  border-left-width: 1px;
   border-radius: 5px;
-  background-color: #5c5c6e;
-  box-shadow: 0 3px 8px -4px #000;
-  color: #fff;
+  background-color: #eaeaea;
+  box-shadow: 0 6px 20px 4px rgba(0, 0, 0, .13);
   font-size: 16px;
   text-align: center;
 }

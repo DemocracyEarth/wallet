@@ -533,7 +533,7 @@
   "domain": "Domain",
   "email-valid-domain": "Verified E-mail Domain",
   "electorate-sentence-anyone": "Anyone",
-  "electorate-sentence-anyone-textonly": "Anyone logged in can vote on this proposal.",
+  "electorate-sentence-anyone-textonly": "You are allowed to vote on this proposal.",
   "cancel": "Cancel",
   "electorate-requisites": "Election Requisites",
   "electorate-sentence-only": "{{setting0}}",

@@ -23,6 +23,15 @@ const _getImageTemplate = async () => {
 };
 
 /**
+* @summary gets image but for react calls
+* @param {string} pic to use
+*/
+const _getReactImage = async (pic) => {
+  const template = await promise;
+  return template.images[pic];
+};
+
+/**
 * @summary gets the right image given by template
 * @param {object} imageTemplate that is getting the images from
 * @param {string} pic image you are looking for
@@ -69,4 +78,5 @@ export const getCSS = _getStyles;
 export const getHeader = _getHeader;
 export const getImageTemplate = _getImageTemplate;
 export const getImage = _getImage;
+export const getReactImage = _getReactImage;
 export const templetize = _templetize;

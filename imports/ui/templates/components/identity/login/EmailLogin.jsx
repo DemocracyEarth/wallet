@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
 import { TAPi18n } from 'meteor/tap:i18n';
 
+import { getImageTemplate } from '/imports/ui/templates/layout/templater';
 import { clearPopups } from '/imports/ui/modules/popup';
 import Warning from '../../../widgets/warning/Warning.jsx';
 import Signup from '../signup/Signup.jsx';
@@ -15,6 +16,7 @@ export default class EmailLogin extends Component {
       loginScreen: true,
       passwordKnown: true,
       incorrectUser: false,
+      images: {},
     };
 
     this.handleLoginRender = this.handleLoginRender.bind(this);
@@ -24,13 +26,8 @@ export default class EmailLogin extends Component {
     this.handleFocus = this.handleFocus.bind(this);
   }
 
-  handleFacebookLogin() {
-    Meteor.call('updateAPIKeys');
-    Meteor.loginWithFacebook({}, function (err) {
-      if (err.reason) {
-        throw new Meteor.Error('Facebook login failed ', err.reason);
-      }
-    });
+  async componentWillMount() {
+    await getImageTemplate().then((resolved) => { this.setState({ images: resolved }); });
   }
 
   handleLoginRender() {
@@ -47,6 +44,15 @@ export default class EmailLogin extends Component {
 
   handleSigninError() {
     this.setState({ incorrectUser: true });
+  }
+
+  handleFacebookLogin() {
+    Meteor.call('updateAPIKeys');
+    Meteor.loginWithFacebook({}, function (err) {
+      if (err.reason) {
+        throw new Meteor.Error('Facebook login failed ', err.reason);
+      }
+    });
   }
 
   handleSubmit(event) {
@@ -66,6 +72,7 @@ export default class EmailLogin extends Component {
             // User not found or incorrect password
             this.handleSigninError();
             break;
+          default:
         }
       } else {
         // Successful login
@@ -85,10 +92,10 @@ export default class EmailLogin extends Component {
             <div className="w-clearfix paper-header card-header">
               <div className="card-title">
                 {loginScreen ?
-                  <img src="/images/fingerprint-white.png" className="section-icon" alt="lock" />
+                  <img src={this.state.images.fingerprint} className="section-icon" alt="lock" />
                   :
                   <div id="card-back">
-                    <img src="/images/back.png" className="section-icon section-icon-active" alt="lock" />
+                    <img src={this.state.images.back} className="section-icon section-icon-active" alt="lock" />
                   </div>
                 }
                 {TAPi18n.__('authenticate-self')}

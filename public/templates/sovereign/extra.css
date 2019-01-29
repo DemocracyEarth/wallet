@@ -149,9 +149,6 @@ html {
 textarea, select, input, button, #titleContent { outline: none; }
 
 video {
-  display: inline-block;
-  vertical-align: baseline;
-  border: 1px solid #4e3767;
   border-radius: 5px;
 }
 
