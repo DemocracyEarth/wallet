@@ -520,6 +520,12 @@ Schema.Contract = new SimpleSchema({
     type: Number,
     optional: true,
   },
+  randomSortOrder: {
+    type: Number,
+    autoValue() {
+      return Math.floor(Math.random() * 10000000000000000);
+    },
+  },
 });
 
 Contracts.attachSchema(Schema.Contract);

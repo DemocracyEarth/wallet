@@ -2,8 +2,8 @@
   {{#if configProfile}}
     {{> profileEditor}}
   {{else}}
-    <div class="login margin-bottom-dead">
-      {{> avatar includeName=true includeNation=true editable=true includeAddress=true}}
+    <div class="login">
+      {{> avatar includeName=true includeNation=true editable=false includeAddress=true}}
       {{#if isMultiTokenUser}}
         {{#with currentUser}}
           {{> multiTokenProfile}}
@@ -18,6 +18,12 @@
           </div>
         {{/unless}}
       {{/unless}}
+
+      <div id="edit-profile" class="button button-menu">
+        <img class="button-icon execute-icon execute-icon-menu" src="{{getImage 'forward'}}">
+        <div>{{_ 'edit-profile'}}</div>
+      </div>
+  
     </div>
   {{/if}}
 </template>

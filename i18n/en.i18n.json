@@ -534,7 +534,7 @@
   "domain": "Domain",
   "email-valid-domain": "Verified E-mail Domain",
   "electorate-sentence-anyone": "Anyone",
-  "electorate-sentence-anyone-textonly": "Anyone logged in can vote on this proposal.",
+  "electorate-sentence-anyone-textonly": "You are allowed to vote on this proposal.",
   "cancel": "Cancel",
   "electorate-requisites": "Election Requisites",
   "electorate-sentence-only": "{{setting0}}",
@@ -622,11 +622,13 @@
   "ledger-peer-posts": "Transactions by @{{asset}}",
   "start-a-democracy": "Start an Organization",
   "landing-title": "Governance for <br>decentralized networks.",
-  "landing-tagline": "Democracy Earth enables token-powered commmunity participation. Built with open source technology over peer to peer protocols.",
-  "join": "Join Now",
+  "landing-tagline": "Democracy Earth enables token-based commmunity participation. Built open source over peer to peer protocols.",
+  "join": "Get Started",
   "email": "E-mail",
   "home": "Home",
   "paper": "Paper",
   "code": "Code",
-  "foundation": "Foundation"
+  "foundation": "Foundation",
+  "edit-profile": "Edit Profile",
+  "configure-keys": "Configure Keys"
 }

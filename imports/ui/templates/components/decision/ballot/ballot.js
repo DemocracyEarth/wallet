@@ -15,8 +15,8 @@ import { verifyConstituencyRights, getTokenAddress, getTokenContractAddress, che
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
 import { createContract } from '/imports/startup/both/modules/Contract';
 import { transactWithMetamask, setupWeb3 } from '/imports/startup/both/modules/metamask';
-import { formatCryptoValue } from '/imports/ui/templates/components/decision/balance/balance';
 import { displayModal } from '/imports/ui/modules/modal';
+import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 
 import '/imports/ui/templates/components/decision/ballot/ballot.html';
 import '/imports/ui/templates/components/decision/fork/fork.js';
@@ -277,6 +277,9 @@ Template.ballot.onCreated(() => {
   Template.instance().contract = new ReactiveVar(Template.currentData().contract);
   Template.instance().ticket = new ReactiveVar(getContractToken({ contract: Template.currentData().contract, isButton: true }));
   Template.instance().voteEnabled = verifyConstituencyRights(Template.currentData().contract);
+
+  Template.instance().imageTemplate = new ReactiveVar();
+  templetize(Template.instance());
 });
 
 Template.ballot.helpers({
@@ -333,9 +336,9 @@ Template.ballot.helpers({
   },
   voteIcon() {
     if (!Template.instance().voteEnabled) {
-      return 'images/vote-disabled.png';
+      return getImage(Template.instance().imageTemplate.get(), 'vote-disabled');
     }
-    return 'images/vote.png';
+    return getImage(Template.instance().imageTemplate.get(), 'vote');
   },
   enableStyle() {
     if (!Template.instance().voteEnabled) {
@@ -606,6 +609,9 @@ Template.ballot.helpers({
   },
   noTokensTicker() {
     return `${TAPi18n.__('no-tokens')}`;
+  },
+  getImage(pic) {
+    return getImage(Template.instance().imageTemplate.get(), pic);
   },
 });
 

@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
 import { TAPi18n } from 'meteor/tap:i18n';
 
+import { getImageTemplate } from '/imports/ui/templates/layout/templater';
 import { clearPopups } from '/imports/ui/modules/popup';
 import Warning from '../../../widgets/warning/Warning.jsx';
 import Signup from '../signup/Signup.jsx';
@@ -16,6 +17,7 @@ export default class EmailLogin extends Component {
       passwordKnown: true,
       incorrectUser: false,
       emailSignup: false,
+      images: {},
     };
 
     this.handleLoginRender = this.handleLoginRender.bind(this);
@@ -26,13 +28,8 @@ export default class EmailLogin extends Component {
     this.handleEmailSignup = this.handleEmailSignup.bind(this);
   }
 
-  handleFacebookLogin() {
-    Meteor.call('updateAPIKeys');
-    Meteor.loginWithFacebook({}, function (err) {
-      if (err.reason) {
-        throw new Meteor.Error('Facebook login failed ', err.reason);
-      }
-    });
+  async componentWillMount() {
+    await getImageTemplate().then((resolved) => { this.setState({ images: resolved }); });
   }
 
   handleLoginRender() {
@@ -55,6 +52,15 @@ export default class EmailLogin extends Component {
     this.setState({ incorrectUser: true });
   }
 
+  handleFacebookLogin() {
+    Meteor.call('updateAPIKeys');
+    Meteor.loginWithFacebook({}, function (err) {
+      if (err.reason) {
+        throw new Meteor.Error('Facebook login failed ', err.reason);
+      }
+    });
+  }
+
   handleSubmit(event) {
     event.preventDefault();
 
@@ -72,6 +78,7 @@ export default class EmailLogin extends Component {
             // User not found or incorrect password
             this.handleSigninError();
             break;
+          default:
         }
       } else {
         // Successful login

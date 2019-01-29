@@ -28,7 +28,7 @@
         </div>
         <div class="float-left">
           <a href='{{blockchainHash}}' title='{{blockchainInfo}}' target="_blank">
-            <img src="{{pathFor route='home'}}images/{{transactionIcon}}" class="transaction-direction" style="margin-top: 3px; ">
+            <img src="{{transactionIcon}}" class="transaction-direction" style="margin-top: 3px; ">
           </a>
         </div>
         <div class="identity identity-transaction w-clearfix" style="float:left">
@@ -78,7 +78,7 @@
               {{/if}}
               <td class="actor actor-arrow">
                 <a href='{{blockchainHash}}' title='{{blockchainInfo}}' target="_blank">
-                  <img src="{{pathFor route='home'}}images/{{transactionIcon}}" class="transaction-direction">
+                  <img src="{{transactionIcon}}" class="transaction-direction">
                 </a>
               </td>
               {{#if isRevoke}}
@@ -135,7 +135,7 @@
               </td>
               <td class="actor actor-arrow">
                 <a href='{{blockchainHash}}' title='{{blockchainInfo}}' target="_blank">
-                  <img src="{{pathFor route='home'}}images/{{transactionIcon}}" class="transaction-direction">
+                  <img src="{{transactionIcon}}" class="transaction-direction">
                 </a>
               </td>
               <td class="actor">
@@ -152,7 +152,7 @@
       {{#unless noDate}}
         <div class="data data-feed data-transaction">
           <div class="margin-both">
-            <img src="{{pathFor route='home'}}images/clock.png" class="clock-icon">
+            <img src="{{getImage 'clock'}}" class="clock-icon">
             <div class="verifier verifier-live verifier-feed verifier-mini">{{sinceDate}}</div>
           </div>
         </div>

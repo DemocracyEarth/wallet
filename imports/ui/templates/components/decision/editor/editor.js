@@ -5,6 +5,7 @@ import { $ } from 'meteor/jquery';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { TAPi18n } from 'meteor/tap:i18n';
 
+import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { timers } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
@@ -167,6 +168,9 @@ Template.editor.onCreated(function () {
   Template.instance().ready = new ReactiveVar(true);
   Template.instance().contract = new ReactiveVar(contract);
   Template.instance().reply = new ReactiveVar();
+
+  Template.instance().imageTemplate = new ReactiveVar();
+  templetize(Template.instance());
 });
 
 Template.editor.onDestroyed(() => {
@@ -278,6 +282,9 @@ Template.editor.helpers({
       return Session.get('draftContract');
     }
     return undefined;
+  },
+  getImage(pic) {
+    return getImage(Template.instance().imageTemplate.get(), pic);
   },
   menu() {
     return [

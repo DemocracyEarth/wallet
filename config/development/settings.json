@@ -130,7 +130,12 @@
       "sites": {
         "tokens": "https://token.democracy.earth",
         "blockExplorer": "https://etherscan.io"
+      },
+
+      "template": {
+        "settings": "/templates/sovereign/sovereign.json"
       }
+
     },
 
     "web3" : {
