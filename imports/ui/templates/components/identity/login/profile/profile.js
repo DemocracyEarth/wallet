@@ -1,6 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { Session } from 'meteor/session';
+import { ReactiveVar } from 'meteor/reactive-var';
+
+import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 
 import './profile.html';
 import './profileEditor.js';
@@ -9,6 +13,11 @@ import '../../authenticity/authenticity.js';
 import '../../../../widgets/warning/warning.js';
 import './multiTokenProfile.html';
 import './multiTokenProfile.js';
+
+Template.profile.onCreated(function () {
+  Template.instance().imageTemplate = new ReactiveVar();
+  templetize(Template.instance());
+});
 
 Template.profile.helpers({
   configProfile() {
@@ -48,6 +57,9 @@ Template.profile.helpers({
     }
     return false;
   },
+  getImage(pic) {
+    return getImage(Template.instance().imageTemplate.get(), pic);
+  },
 });
 
 Template.profile.events({
@@ -60,5 +72,11 @@ Template.profile.events({
         console.log(`[Template.warning.events] verification sent to ${email}!`, 'success');
       }
     });
+  },
+  'click #edit-profile'() {
+    const data = Meteor.user().profile;
+    data.configured = false;
+    Meteor.users.update(Meteor.userId(), { $set: { profile: data } });
+    Session.set('cardNavigation', true);
   },
 });

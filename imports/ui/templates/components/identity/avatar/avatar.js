@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Router } from 'meteor/iron:router';
+import { ReactiveVar } from 'meteor/reactive-var';
 import { $ } from 'meteor/jquery';
 
 import { geo } from '/lib/geo';
@@ -13,6 +14,7 @@ import { showFullName } from '/imports/startup/both/modules/utils';
 import { searchJSON } from '/imports/ui/modules/JSON';
 import { uploadToAmazonS3 } from '/imports/ui/modules/Files';
 import { displayModal } from '/imports/ui/modules/modal';
+import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { displayPopup, cancelPopup } from '/imports/ui/modules/popup';
 
 import '/imports/ui/templates/components/identity/avatar/avatar.html';
@@ -166,6 +168,9 @@ Template.avatar.onCreated(function () {
   const instance = this;
 
   _getUser(_getDynamicID(instance.data)._id);
+
+  Template.instance().imageTemplate = new ReactiveVar();
+  templetize(Template.instance());
 });
 
 Template.avatar.onRendered = () => {
@@ -360,6 +365,9 @@ Template.avatar.helpers({
       return reserve.publicAddress;
     }
     return '';
+  },
+  getImage(pic) {
+    return getImage(Template.instance().imageTemplate.get(), pic);
   },
 });
 

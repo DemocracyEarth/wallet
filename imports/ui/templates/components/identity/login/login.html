@@ -5,7 +5,7 @@
         <div class="label label-corner">
           {{_ 'log-out'}}
         </div>
-        <img src="{{pathFor route='home'}}images/logout.png" class="logout">
+        <img src="{{getImage 'logout'}}" class="logout">
       </div>
       <div class="card-title">
         {{> cardNavigation main}}
@@ -20,10 +20,10 @@
 
 <template name="cardNavigation">
   {{#if main}}
-    <img src="{{pathFor route='home'}}images/fingerprint-white.png" class="section-icon">
+    <img src="{{getImage 'fingerprint'}}" class="section-icon">
   {{else}}
     <div id="card-back">
-      <img src="{{pathFor route='home'}}images/back.png" class="section-icon section-icon-active">
+      <img src="{{getImage 'back'}}" class="section-icon section-icon-active">
     </div>
   {{/if}}
 </template>

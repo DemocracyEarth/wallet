@@ -8,6 +8,7 @@ import { Session } from 'meteor/session';
 import { timers } from '/lib/const';
 import { resetSplit } from '/imports/ui/modules/split';
 
+import { getHeader } from '/imports/ui/templates/layout/templater';
 import { promptLogin } from '/imports/ui/templates/components/collective/collective.js';
 
 import '/imports/ui/templates/layout/url/hero/hero.html';
@@ -129,5 +130,21 @@ Template.navbar.events({
   'click #collective-login'() {
     event.stopPropagation();
     _prompt(Template.instance());
+  },
+});
+
+const _template = async (instance) => {
+  const html = await getHeader().then((resolved) => { instance.headerTemplate.set(resolved); });
+  return html;
+};
+
+Template.demo.onCreated(function () {
+  Template.instance().headerTemplate = new ReactiveVar();
+  _template(Template.instance());
+});
+
+Template.demo.helpers({
+  renderTemplate() {
+    return Template.instance().headerTemplate.get();
   },
 });

@@ -1,7 +1,9 @@
 import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
+import { ReactiveVar } from 'meteor/reactive-var';
 
+import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { animatePopup } from '/imports/ui/modules/popup';
 import { searchJSON } from '/imports/ui/modules/JSON';
 import { geo } from '/lib/geo';
@@ -90,6 +92,11 @@ Template.constituency.onRendered(function () {
   }
 });
 
+Template.constituency.onCreated(function () {
+  Template.instance().imageTemplate = new ReactiveVar();
+  templetize(Template.instance());
+});
+
 Template.constituency.helpers({
   showNations() {
     return (Session.get('suggestDisplay') === 'NATION');
@@ -108,6 +115,9 @@ Template.constituency.helpers({
   },
   wrongAddress() {
     return !Session.get('domainSyntaxCheck');
+  },
+  getImage(pic) {
+    return getImage(Template.instance().imageTemplate.get(), pic);
   },
 });
 

@@ -18,7 +18,7 @@
           <div class="">
             <label class="button button-upload upload-button-label">
               <input type="file">
-              <img src="{{pathFor route='home'}}images/camera.png" class="upload-icon">
+              <img src="{{getImage 'camera'}}" class="upload-icon">
               <span class='uploader-button'>{{_ 'upload-picture'}}</span>
             </label>
           </div>
@@ -37,7 +37,7 @@
         <div class="identity-peer {{classStyle smallFont}} {{pending}}">
           {{#if verifiedIdentity}}
             <div class="identity-verified">
-              <img src="{{pathFor route='home'}}images/white-tick.png" class="identity-verified-tick">
+              <img src="{{getImage 'white-tick'}}" class="identity-verified-tick">
             </div>
           {{/if}}
           {{#if includeName}}

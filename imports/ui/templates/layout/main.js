@@ -32,6 +32,7 @@ import { globalObj } from '/lib/global';
 import { geo } from '/lib/geo';
 import { token } from '/lib/token';
 import { gui } from '/lib/const';
+import { getCSS } from '/imports/ui/templates/layout/templater';
 
 
 import '/imports/ui/templates/layout/main.html';
@@ -42,6 +43,29 @@ import '/imports/ui/templates/layout/navigation/navigation';
 import '/imports/ui/templates/layout/response/verifyEmail/verifyEmail';
 import '/imports/ui/templates/layout/touchmenu/touchmenu';
 import '/imports/ui/templates/components/decision/editor/editor';
+
+/*
+* head content
+*/
+const _head = () => {
+  // icons
+  const icon = $('<link>', {
+    rel: 'shortcut icon',
+    type: 'image/x-icon',
+    href: `${Meteor.settings.public.Collective.profile.logo}`,
+  });
+  const mobile = $('<link>', {
+    rel: 'apple-touch-icon',
+    href: `${Meteor.settings.public.Collective.profile.logo}`,
+  });
+
+  $('head').append(icon);
+  $('head').append(mobile);
+
+  // design
+  getCSS();
+};
+
 
 Meteor.startup(() => {
   // setup language
@@ -58,6 +82,9 @@ Meteor.startup(() => {
 
   // scripts
   // $.getScript('js/datepicker.js', () => {});
+
+  // head
+  _head();
 
   // time
   Meteor.setInterval(function () {
@@ -128,3 +155,5 @@ Template.main.events({
     toggleSidebar();
   },
 });
+
+export const head = _head;

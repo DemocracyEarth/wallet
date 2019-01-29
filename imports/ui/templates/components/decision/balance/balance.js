@@ -70,12 +70,10 @@ Template.balance.helpers({
     const coin = Template.instance().coin;
     if (coin.color) {
       style = `border-color: ${coin.color}; `;
-      if (this.isTransaction) {
-        if (this.isRevoke) {
-          style += 'color: #ff2752 ';
-        } else {
-          style += `color: ${coin.color} `;
-        }
+      if (this.isRevoke) {
+        style += 'color: #ff2752 ';
+      } else {
+        style += `color: ${coin.color} `;
       }
     }
     return style;
@@ -93,7 +91,7 @@ Template.balance.helpers({
   tickerStyle() {
     const coin = Template.instance().coin;
     if (coin.color) {
-      return `background-color: ${coin.color}; border-color: ${coin.color}`;
+      return `background-color: ${coin.color}; border-color: ${coin.color};`;
     }
     return '';
   },

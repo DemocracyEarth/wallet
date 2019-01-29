@@ -95,6 +95,7 @@ Router.configure({
   notFoundTemplate: 'notFound',
 });
 
+
 /**
 * @summary home route
 */

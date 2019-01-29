@@ -45,11 +45,11 @@
               {{/each}}
               <div class="data data-feed data-identity">
                 <div class="margin-both">
-                  <img src="{{pathFor route='home'}}images/clock.png" class="clock-icon">
+                  <img src="{{getImage 'clock'}}" class="clock-icon">
                   <div class="verifier verifier-live verifier-feed verifier-mini">{{sinceDate createdAt}}</div>
                 </div>
                 <div class="margin-both">
-                  <img src="{{pathFor route='home'}}images/block.png" class="clock-icon">
+                  <img src="{{getImage 'block'}}" class="clock-icon">
                   <a id="blockchain-explorer" title="{{blockchainFullAddress}}" href="{{blockchainLink}}" target="_blank">
                     <div class="verifier verifier-live verifier-feed verifier-mini">{{blockchainAddress}}</div>
                   </a>
@@ -57,7 +57,7 @@
               </div>
               <div class="data data-feed">
                 {{#if electionData}}
-                  <img class="url-icon" src="{{pathFor route='home'}}images/vote-icon-black.png">
+                  <img class="url-icon" src="{{getImage 'vote-icon-black'}}">
                   <a href="{{url}}#votes" class="verifier verifier-live verifier-feed">
                     {{voters}}
                   </a>

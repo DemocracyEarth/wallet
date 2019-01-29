@@ -9,6 +9,7 @@ import { timeCompressed } from '/imports/ui/modules/chronos';
 import { token } from '/lib/token';
 import { Transactions } from '/imports/api/transactions/Transactions';
 import { syncBlockchain } from '/imports/startup/both/modules/metamask';
+import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 
 
 import '/imports/ui/templates/widgets/transaction/transaction.html';
@@ -92,6 +93,9 @@ Template.transaction.onCreated(function () {
   // if (data.contract && data.contract.kind === 'CRYPTO' && data.contract.blockchain && data.contract.blockchain.tickets.length > 0) {
   //  Template.instance().status = new ReactiveVar(data.blockchain.tickets[0].status.toLowerCase());
   //}
+
+  Template.instance().imageTemplate = new ReactiveVar();
+  templetize(Template.instance());
 });
 
 Template.transaction.onRendered(function () {
@@ -273,13 +277,16 @@ Template.transaction.helpers({
             instance.txStatus = status;
           }
           console.log('FIND');
-          return `arrow-right-${status}.png`;
+          return getImage(Template.instance().imageTemplate.get(), `arrow-right-${status}`);
         }
       } else {
-        return `arrow-right-${instance.txStatus}.png`;
+        return getImage(Template.instance().imageTemplate.get(), `arrow-right-${instance.txStatus}`);
       }
     }
-    return 'arrow-right.png';
+    return getImage(Template.instance().imageTemplate.get(), 'arrow-right');
+  },
+  getImage(pic) {
+    return getImage(Template.instance().imageTemplate.get(), pic);
   },
 });
 

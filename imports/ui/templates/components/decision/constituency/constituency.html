@@ -5,7 +5,7 @@
         <label for="name" class="login-label login-label-form">
           {{_ 'voter-nationality'}}
         </label>
-        <img src="{{pathFor route='home'}}images/flag.png" class="login-icon">
+        <img src="{{getImage 'flag'}}" class="login-icon">
         <input type="text" id="editCountry" placeholder="{{_ 'earth'}}" autocomplete="false" value="{{country}}" class="w-input login-input country-search">
         {{#if showNations}}
           {{> suggest}}
@@ -15,7 +15,7 @@
         <label for="name" class="login-label login-label-form">
           {{_ 'email-valid-domain'}}
         </label>
-        <img src="{{pathFor route='home'}}images/domain.png" class="login-icon">
+        <img src="{{getImage 'domain'}}" class="login-icon">
         <input type="text" id="editDomain" placeholder="{{_ 'email-domain-placeholder'}}" autocomplete="false" class="w-input login-input login-input-domain">
         {{#if wrongAddress}}
           <div class="margin-top">
