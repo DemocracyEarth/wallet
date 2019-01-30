@@ -216,19 +216,91 @@ body, h4, h1, h2 {
   text-align: center;
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 20px;
 }
 
 .paper-screenshot {
-  max-height: 400px;
+  max-width: 25%;
   box-shadow: 0 6px 20px 4px rgba(0, 0, 0, 0.21);
-  margin: 0px 25px;
+  margin: 15px 25px;
   border-radius: 10px;
+  transition: all 200ms ease;
+  cursor: pointer;
+}
+
+.paper-screenshot:hover {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  box-shadow: 1px 12px 40px 10px rgba(0, 0, 0, 0.22);
+  color: #0d0d17;
+}
+
+.landing-logo {
+  max-width: 200px;
+  margin: 20px;
+}
+
+.hero-tertiary {
+  background: linear-gradient(0deg, #009671 75%, #017759);
+  padding: 10px 20px;
 }
 
 @media (max-width: 991px) {
   .landing-item {
       float: none;
       clear:both;
+  }
+
+  .landing-sub-header {
+    width: 100%;
+    max-width: none;
+    padding: 0 20px;
+  }
+
+  .hero-secondary {
+    padding: 60px 10px;
+  }
+
+  .landing-sub {
+    font-size: 30px;
+  }
+
+  .paper-screenshot {
+    max-width: 250px;
+    margin: 40px 25px;
+  }
+
+  .paper-screenshot:hover {
+    margin: 40px 25px;
+    box-shadow: 1px 12px 40px 10px rgba(0, 0, 0, 0.22);
+    color: #0d0d17;
+  }
+
+  .not-mobile {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .paper-screenshot {
+    max-width: 200px;
+    margin: 35px 15px 0px 15px;
+  }
+
+  .paper-screenshot:hover {
+    margin-top: 0;
+    margin-bottom: 0px;
+  }
+
+  .landing-center {
+    padding:0 10px;
+  }
+}
+
+@media (max-width: 479px) {
+  .paper-screenshot {
+    max-width: 250px;
+    margin: 35px 0px 0px 0px;
   }
 }
 
