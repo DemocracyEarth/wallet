@@ -65,6 +65,10 @@
     {{/if}}
   </div>
 
+  {{#unless currentUser}}
+    {{> landing}}
+  {{/unless}}  
+
   {{#if isPhone}}
     {{> compose desktopMode=false replyMode=false}}
   {{/if}}
