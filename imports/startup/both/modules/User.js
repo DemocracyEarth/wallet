@@ -163,12 +163,6 @@ const _createUser = (data) => {
           console.log('does user exist?');
           console.log(Meteor.user());
 
-          Meteor.call('subsidizeUser', Meteor.userId(), (subsidyError) => {
-            if (subsidyError) {
-              console.log(subsidyError.reason, 'danger');
-            }
-          });
-          // genesisTransaction(Meteor.user()._id);
           return resolve(result);
         });
       });

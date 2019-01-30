@@ -268,7 +268,10 @@ Template.feedItem.helpers({
     return `${timeCompressed(timestamp)}`;
   },
   blockchainAddress() {
-    return `${this.blockchain.publicAddress.substring(0, 6)}...${this.blockchain.publicAddress.slice(-4)}`;
+    if (this.blockchain.publicAddress) {
+      return `${this.blockchain.publicAddress.substring(0, 6)}...${this.blockchain.publicAddress.slice(-4)}`;
+    }
+    return '';
   },
   blockchainFullAddress() {
     return `${this.blockchain.publicAddress}`;

@@ -2,13 +2,21 @@
   <div id="{{editorId}}" title="{{description}}" class="editor-button editor-button-{{icon}} {{readOnly}}">
     <img class="toolbar-icon" src="{{pathFor route='home'}}images/vote-{{icon}}.png">
     {{{status}}}
-    <div class="token token-editor">
-      <div class="token-ticker" style="{{tickerStyle}}">
-        {{ticker}}
+    {{#if userWithTokenReserves}}
+      <div class="token token-editor">
+        <div class="token-ticker" style="{{tickerStyle}}">
+          {{ticker}}
+        </div>
+        <div class="token-balance" style="{{balanceStyle}}">
+          {{balance}}
+        </div>
       </div>
-      <div class="token-balance" style="{{balanceStyle}}">
-        {{balance}}
+    {{else}}
+      <div class="token token-editor">
+        <div class="token-ticker no-tokens">
+          {{ticker}}
+        </div>
       </div>
-    </div>
+    {{/if}}
   </div>
 </template>

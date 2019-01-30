@@ -66,7 +66,7 @@ const _getPublicAddress = (contractToken) => {
     publicAddress: '',
   };
 
-  if (reserves.length > 0) {
+  if (reserves && reserves.length > 0) {
     for (let k = 0; k < reserves.length; k += 1) {
       if (reserves[k].token === contractToken) {
         chain.coin.code = contractToken;
@@ -166,14 +166,15 @@ const _createContract = (newkeyword, newtitle) => {
       // sign by author
       _sign(contract._id, Meteor.user(), 'AUTHOR');
 
-      // chain by author
-      const chainedContract = _chain(contract);
-
-      Contracts.update({ _id: contract._id }, { $set: {
-        blockchain: chainedContract.blockchain,
-        wallet: chainedContract.wallet,
-        constituency: chainedContract.constituency,
-      } });
+      if (Meteor.user().profile.wallet.reserves !== undefined) {
+        // chain by author
+        const chainedContract = _chain(contract);
+        Contracts.update({ _id: contract._id }, { $set: {
+          blockchain: chainedContract.blockchain,
+          wallet: chainedContract.wallet,
+          constituency: chainedContract.constituency,
+        } });
+      }
     }
     return Contracts.findOne({ keyword: `draft-${Meteor.userId()}` });
   // has title & keyword, used for forks
@@ -491,9 +492,11 @@ const _publish = (contractId, keyword) => {
   }
 
   // chain
-  draft = _chain(draft);
-  if (draft.wallet.currency) {
-    draft.blockchain.coin.code = draft.wallet.currency;
+  if (Meteor.user().profile.wallet.reserves) {
+    draft = _chain(draft);
+    if (draft.wallet.currency) {
+      draft.blockchain.coin.code = draft.wallet.currency;
+    }
   }
 
   // db
