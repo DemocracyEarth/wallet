@@ -236,13 +236,13 @@ body, h4, h1, h2 {
 }
 
 .landing-logo {
-  max-width: 200px;
-  margin: 20px;
+  max-width: 150px;
+  margin: 10px 30px;
 }
 
 .hero-tertiary {
   background: linear-gradient(0deg, #009671 75%, #017759);
-  padding: 10px 20px;
+  padding: 25px 20px 10px 20px;
 }
 
 @media (max-width: 991px) {
