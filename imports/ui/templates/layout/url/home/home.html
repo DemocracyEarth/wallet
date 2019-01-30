@@ -27,7 +27,7 @@
 </template>
 
 <template name="homeFeed">
-  <div class="split split-left {{landingMode}}">
+  <div class="split split-left {{landingMode 'left'}}">
     <div class="content content-feed max100">
       {{#unless isPhone}}
         {{#unless replyMode}}
@@ -57,7 +57,7 @@
     </div>
   </div>
 
-  <div class="split split-right {{landingMode}}">
+  <div class="split split-right {{landingMode 'right'}}">
     {{#if feedReady}}
       {{#with mainLedger}}
         {{> ledger this}}

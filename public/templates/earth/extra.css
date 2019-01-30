@@ -154,3 +154,7 @@ video {
   border-radius: 5px;
 }
 
+.split-anon {
+  position:unset;
+}
+

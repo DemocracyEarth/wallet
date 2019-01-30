@@ -28,6 +28,9 @@ const _landingMode = (style) => {
     switch (style) {
       case 'post':
         return `split-${style}-landing`;
+      case 'left':
+        return 'split-landing split-anon';
+      case 'right':
       default:
         return 'split-landing';
     }
@@ -204,8 +207,8 @@ Template.homeFeed.helpers({
   feedTitle() {
     return _getTitle(this.options);
   },
-  landingMode() {
-    return _landingMode();
+  landingMode(feed) {
+    return _landingMode(feed);
   },
 });
 

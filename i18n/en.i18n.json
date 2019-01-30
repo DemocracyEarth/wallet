@@ -620,7 +620,7 @@
   "ledger-peer-posts": "Transactions by @{{asset}}",
   "start-a-democracy": "Start an Organization",
   "landing-title": "Governance for <br>decentralized networks.",
-  "landing-tagline": "Democracy Earth enables token-based commmunity participation. Built open source over peer to peer protocols.",
+  "landing-tagline": "Democracy Earth enables token-based commmunity participation. Open source over peer to peer protocols.",
   "join": "Get Started",
   "email": "E-mail",
   "home": "Home",
@@ -628,5 +628,8 @@
   "code": "Code",
   "foundation": "Foundation",
   "edit-profile": "Edit Profile",
-  "configure-keys": "Configure Keys"
+  "configure-keys": "Configure Keys",
+  "white-paper": "A Social Smart Contract.",
+  "white-paper-detail": "Our goal is to build censorship-resistant democracies that can be deployed anywhere there's an Internet connection. Our white paper introduces a roadmap to end the dominance of social media corporations and enable a sovereign web.",
+  "download-pdf": "Download PDF"
 }

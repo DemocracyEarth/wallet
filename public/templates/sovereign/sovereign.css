@@ -1063,12 +1063,12 @@ blockquote {
   width: 40%;
   height: 40px;
   margin: 0px;
-  padding-top: 8px;
+  padding-top: 7px;
   padding-bottom: 10px;
   float: left;
   clear: none;
   border-radius: 0px 5px 5px 0px;
-  font-size: 14px;
+  font-size: 12px;
   text-align: center;
 }
 
@@ -6391,6 +6391,11 @@ blockquote {
   text-align: left;
 }
 
+.hero-title.hero-title-right {
+  float: right;
+  text-align: right;
+}
+
 .hero-wrapper {
   display: block;
   margin-right: auto;
@@ -6568,6 +6573,12 @@ blockquote {
 
 .padding-left-zero {
   padding-left: 0px;
+}
+
+.hero-title-right {
+  margin-right: 5%;
+  float: right;
+  text-align: right;
 }
 
 @media (max-width: 991px) {
