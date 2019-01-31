@@ -630,6 +630,9 @@
   "edit-profile": "Edit Profile",
   "configure-keys": "Configure Keys",
   "white-paper": "A Social Smart Contract.",
-  "white-paper-detail": "Our goal is to build censorship-resistant democracies that can be deployed anywhere there's an Internet connection.",
-  "download-pdf": "Download PDF"
+  "white-paper-detail": "Our goal is to build censorship-resistant democracies that can be deployed anywhere there's an Internet connection. Our consensus protocol is designed to create a one-human-one-node network.",
+  "download-pdf": "Download PDF",
+  "as-seen-on": "Pioneering Digital Politics.",
+  "team-info": "A Global Team.",
+  "our-clients": "Works with Every Token."
 }

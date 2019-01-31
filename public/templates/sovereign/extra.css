@@ -186,7 +186,10 @@ body, h4, h1, h2 {
 }
 
 .landing-sub {
-  padding-top: 0px;
+  font-size: 32px;
+  text-shadow: 0px 14px 20px #00000021;
+  padding-top: 10px;
+  line-height: 1.2em;
 }
 
 .button-landing {
@@ -223,7 +226,6 @@ body, h4, h1, h2 {
   max-width: 25%;
   box-shadow: 0 6px 20px 4px rgba(0, 0, 0, 0.21);
   margin: 15px 25px;
-  border-radius: 10px;
   transition: all 200ms ease;
   cursor: pointer;
 }
@@ -238,11 +240,53 @@ body, h4, h1, h2 {
 .landing-logo {
   max-width: 150px;
   margin: 10px 30px;
+  opacity: 0.8;
+  cursor:pointer;
+}
+
+.landing-logo:hover {
+  opacity: 1;
 }
 
 .hero-tertiary {
-  background: linear-gradient(0deg, #009671 75%, #017759);
-  padding: 25px 20px 10px 20px;
+  background: linear-gradient(0deg, #009770 75%, #017759);
+  padding: 38px 20px 40px 20px;
+  background-color: #009770;
+}
+
+.hero-quarter {
+  background: #009770 ;
+}
+
+.landing-section-title {
+  color: #ffffffd9;
+  font-size: 32px;
+  margin-bottom: 30px;
+  margin-top: 0px;
+  text-transform: none;
+  /* padding-bottom: 10px; */
+  border-bottom: 0px dotted;
+  width: auto;
+  text-shadow: 0px 14px 20px #00000021;
+  /* display: flex; */
+  font-weight: 400;
+  line-height: 1.2em;
+  text-align: center;
+  clear: both
+}
+
+.landing-map {
+  max-width: 100%;
+}
+
+.landing-map-menu {
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.hero-fifth {
+  padding: 38px 20px 40px 20px;
+  background: #390548;
 }
 
 @media (max-width: 991px) {
@@ -255,6 +299,12 @@ body, h4, h1, h2 {
     width: 100%;
     max-width: none;
     padding: 0 20px;
+    margin-bottom: 25px;
+    text-align: center;
+  }
+
+  .landing-logo {
+    margin:20px 20px;
   }
 
   .hero-secondary {
@@ -263,6 +313,7 @@ body, h4, h1, h2 {
 
   .landing-sub {
     font-size: 30px;
+    text-align: center;
   }
 
   .paper-screenshot {
@@ -281,15 +332,26 @@ body, h4, h1, h2 {
   }
 }
 
+
+
 @media (max-width: 767px) {
   .paper-screenshot {
     max-width: 200px;
-    margin: 35px 15px 0px 15px;
+    margin: 15px 25px;
+  }
+
+  .landing-section-title {
+    font-size: 26px;
+    margin-bottom: 40px;
+    margin-top: 10px;
+  }
+
+  .landing-sub-header {
+    margin-bottom: 25px;
   }
 
   .paper-screenshot:hover {
-    margin-top: 0;
-    margin-bottom: 0px;
+    margin: 15px 25px;
   }
 
   .landing-center {
@@ -299,8 +361,16 @@ body, h4, h1, h2 {
 
 @media (max-width: 479px) {
   .paper-screenshot {
-    max-width: 250px;
-    margin: 35px 0px 0px 0px;
+    max-width: 150px;
+    margin: 35px 10px 0px 10px;
+  }
+
+  .paper-screenshot:hover {
+    margin: 35px 10px 0px 10px;
+  }
+
+  .landing-logo {
+    max-width: 100px;
   }
 }
 
