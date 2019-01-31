@@ -35,7 +35,7 @@
     "bcryptjs": "^2.4.0",
     "bignumber.js": "^7.2.1",
     "bindings": "^1.2.1",
-    "blockstack": "^0.14.2",
+    "blockstack": "^18.2.1",
     "brace-expansion": "^1.1.11",
     "core-js": "^2.5.7",
     "cryptiles": "^4.1.2",
