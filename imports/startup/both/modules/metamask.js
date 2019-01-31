@@ -451,33 +451,36 @@ if (Meteor.isClient) {
   Accounts.registerClientLoginFunction('metamask', loginWithMetamask);
 
   Meteor.loginWithMetamask = function () {
-    return Accounts.applyLoginFunction('metamask', arguments);
+    return Accounts.callLoginFunction('metamask');
   };
 }
 
 if (Meteor.isServer) {
   Accounts.registerLoginHandler('metamask', function (opts) {
-    const publicAddress = opts.publicAddress;
-    let user = null;
-    const userQuery = Meteor.users.find({ username: publicAddress }).fetch();
-    let serviceUserId = {};
+    if (opts.publicAddress) {
+      const publicAddress = opts.publicAddress;
+      let user = null;
+      const userQuery = Meteor.users.find({ username: publicAddress }).fetch();
+      let serviceUserId = {};
 
-    // Check if user with current publicAddress already exists
-    if (userQuery.length === 0) {
-      // If not, create it
-      user = Accounts.updateOrCreateUserFromExternalService('metamask', {
-        id: publicAddress,
-        publicAddress,
-      });
-      serviceUserId = { userId: user.userId };
-    } else {
-      // Otherwise, retrieve it
-      user = userQuery;
-      serviceUserId = { userId: user[0]._id };
+      // Check if user with current publicAddress already exists
+      if (userQuery.length === 0) {
+        // If not, create it
+        user = Accounts.updateOrCreateUserFromExternalService('metamask', {
+          id: publicAddress,
+          publicAddress,
+        });
+        serviceUserId = { userId: user.userId };
+      } else {
+        // Otherwise, retrieve it
+        user = userQuery;
+        serviceUserId = { userId: user[0]._id };
+      }
+      return serviceUserId;
     }
-    return serviceUserId;
   });
 
+  // TODO— time to move this boy to accounts.js
   Accounts.onLogin(function (loginObject) {
     if (loginObject.type !== 'resume') {
       Meteor.call('loadUserTokenBalance', loginObject.user._id, (subsidyError) => {

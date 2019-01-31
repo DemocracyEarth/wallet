@@ -96,17 +96,9 @@
               <div class="micro-label">
                 <img src="{{voteIcon}}" class="micro-icon">
                 {{{label 'vote'}}}
-                {{#if canVote}}
-                  {{#with token}}
+                {{#with token}}
                     {{> balance}}
-                  {{/with}}
-                {{else}}
-                  <div class="token token-editor">
-                    <div class="token-ticker no-tokens">
-                      {{noTokensTicker}}
-                    </div>
-                  </div>
-                {{/if}}
+                {{/with}}
               </div>
               <div class="verifier verifier-live verifier-feed"></div>
             </a>

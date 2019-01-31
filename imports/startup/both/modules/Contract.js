@@ -131,19 +131,34 @@ const _contractHasToken = (contract) => {
 */
 const _chain = (contract) => {
   const draft = contract;
-  // token
-  if (!_contractHasToken(draft)) {
-    draft.constituency.push(defaultConstituency);
-  }
-  for (let i = 0; i < draft.constituency.length; i += 1) {
-    if (draft.constituency[i].kind === 'TOKEN') {
-      draft.wallet.currency = draft.constituency[i].code;
+  if (Meteor.user().profile.wallet.reserves[0].token === 'STX') {
+    // Blockstack tokens only
+    draft.blockchain = {
+      coin: { code: 'STX' },
+      publicAddress: Meteor.user().profile.wallet.reserves[0].publicAddress,
+      votePrice: '1',
+    };
+    draft.constituency = [{
+      kind: 'TOKEN',
+      code: 'STX',
+      check: 'EQUAL',
+    }];
+    draft.wallet.currency = 'STX';
+  } else {
+    // ERC20 tokens
+    if (!_contractHasToken(draft)) {
+      draft.constituency.push(defaultConstituency);
     }
-  }
+    for (let i = 0; i < draft.constituency.length; i += 1) {
+      if (draft.constituency[i].kind === 'TOKEN') {
+        draft.wallet.currency = draft.constituency[i].code;
+      }
+    }
 
-  // blockchain
-  if (!draft.blockchain.publicAddress) {
-    draft.blockchain = _entangle(draft);
+    // blockchain
+    if (!draft.blockchain.publicAddress) {
+      draft.blockchain = _entangle(draft);
+    }
   }
   return draft;
 };
@@ -166,6 +181,7 @@ const _createContract = (newkeyword, newtitle) => {
       // sign by author
       _sign(contract._id, Meteor.user(), 'AUTHOR');
 
+      // Omit for tokenless users
       if (Meteor.user().profile.wallet.reserves !== undefined) {
         // chain by author
         const chainedContract = _chain(contract);
