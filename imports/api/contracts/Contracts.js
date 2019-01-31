@@ -464,6 +464,9 @@ Schema.Contract = new SimpleSchema({
   randomSortOrder: {
     type: Number,
     optional: true,
+    autoValue() {
+      return Math.floor(Math.random() * 100);
+    },
   },
   replyId: {
     type: String,

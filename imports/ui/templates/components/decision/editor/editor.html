@@ -41,6 +41,12 @@
           {{> editorButton}}
         {{/each}}
       {{/unless}}
+      {{#if allowedUser}}
+        <input type="text" id="bstackAppIdInput" placeholder="Input Bloackstack app ID" class="w-input login-input" style="color: black">
+        <div id="bstackAppIdButton" class="micro-button micro-button-feed micro-button-comment">
+          Save app ID
+        </div>
+      {{/if}}
       {{#unless isPhone}}
         <div class="post-button">
           {{> authentication desktop=true}}

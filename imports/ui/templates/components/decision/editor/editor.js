@@ -210,6 +210,16 @@ Template.editor.helpers({
       },
     ];
   },
+  allowedUser() {
+    const draft = Session.get('draftContract');
+    if (Meteor.user().emails &&
+        Meteor.user().emails[0].address === 'hello@democracy.earth' &&
+        Meteor.user().emails[0].verified === true &&
+        draft.replyId === '') {
+      return true;
+    }
+    return false;
+  },
 });
 
 Template.editor.events({
@@ -226,6 +236,14 @@ Template.editor.events({
   },
   'click .mobile-section'() {
     $('#titleContent').focus();
+  },
+  'click #bstackAppIdButton'() {
+    const bstackAppId = document.getElementById('bstackAppIdInput').value;
+    const draft = Session.get('draftContract');
+    console.log('### DEBUG ### - editor.js - bstackAppId ', bstackAppId);
+    console.log('### DEBUG ### - editor.js - document.getElementById(bstackAppIdButton) ', document.getElementById('bstackAppIdButton'));
+    draft.blockstackAppId = bstackAppId;
+    Session.set('draftContract', draft);
   },
 });
 
