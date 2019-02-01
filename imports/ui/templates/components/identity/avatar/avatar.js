@@ -57,7 +57,7 @@ const _getAddress = (user) => {
   }
   if (reserve && reserve.length && reserve.length > 0) {
     for (const i in reserve) {
-      if (reserve[i].token === 'WEI' && reserve[i].publicAddress) {
+      if ((reserve[i].token === 'WEI' || reserve[i].token === 'STX') && reserve[i].publicAddress) {
         return reserve[i];
       }
     }

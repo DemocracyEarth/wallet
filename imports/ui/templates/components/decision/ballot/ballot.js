@@ -619,7 +619,31 @@ Template.ballot.events({
   'click #single-vote'(event) {
     event.preventDefault();
     event.stopPropagation();
-    if (Template.currentData().contract.wallet.currency !== 'NONE') {
+    const currency = Template.currentData().contract.wallet.currency;
+    if (currency === 'NONE') {
+      displayModal(
+        true,
+        {
+          icon: 'images/olive.png',
+          title: TAPi18n.__('place-vote'),
+          message: TAPi18n.__('tokenless-post'),
+          cancel: TAPi18n.__('close'),
+          alertMode: true,
+        },
+      );
+    } else if (currency === 'STX') {
+      displayModal(
+        true,
+        {
+          icon: 'images/olive.png',
+          title: TAPi18n.__('place-vote'),
+          message: TAPi18n.__('insufficient-votes'),
+          cancel: TAPi18n.__('close'),
+          alertMode: true,
+        },
+      );
+    } else {
+      // ERC20 token
       _cryptoVote();
     }
   },
