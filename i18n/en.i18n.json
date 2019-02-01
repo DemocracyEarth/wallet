@@ -630,9 +630,11 @@
   "edit-profile": "Edit Profile",
   "configure-keys": "Configure Keys",
   "white-paper": "A Social Smart Contract.",
-  "white-paper-detail": "Our goal is to build censorship-resistant democracies that can be deployed anywhere there's an Internet connection. Our consensus protocol is designed to create a one-human-one-node network.",
-  "download-pdf": "Download PDF",
-  "as-seen-on": "Pioneering Digital Politics.",
+  "white-paper-detail": "Our goal is to build censorship-resistant democracies that can be deployed anywhere there's an Internet connection. Our consensus protocol is designed to create a <a href='https://coindesk.com' target='_blank'>one-human-one-node</a> network using <em>Turing-Impossible proofs</em> that grant voter rights over blockchain protocols.",
+  "white-paper-pdf": "White Paper",
+  "token-economics-pdf": "Token Economics",
+  "as-seen-on": "A Global Community.",
+  "source-code": "Source Code",
   "team-info": "A Global Team.",
   "our-clients": "Works with Every Token."
 }
