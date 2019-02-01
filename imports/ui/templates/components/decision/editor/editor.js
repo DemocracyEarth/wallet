@@ -133,6 +133,7 @@ Template.editor.onCreated(function () {
   Template.instance().ready = new ReactiveVar(true);
   Template.instance().contract = new ReactiveVar(contract);
   Template.instance().reply = new ReactiveVar();
+  Template.instance().blockstackAppIdButtonText = new ReactiveVar('Save app ID before posting').get();
 });
 
 Template.editor.onRendered(function () {
@@ -220,6 +221,9 @@ Template.editor.helpers({
     }
     return false;
   },
+  buttonText() {
+    return Template.instance().blockstackAppIdButtonText;
+  },
 });
 
 Template.editor.events({
@@ -240,10 +244,11 @@ Template.editor.events({
   'click #bstackAppIdButton'() {
     const bstackAppId = document.getElementById('bstackAppIdInput').value;
     const draft = Session.get('draftContract');
-    console.log('### DEBUG ### - editor.js - bstackAppId ', bstackAppId);
-    console.log('### DEBUG ### - editor.js - document.getElementById(bstackAppIdButton) ', document.getElementById('bstackAppIdButton'));
-    draft.blockstackAppId = bstackAppId;
-    Session.set('draftContract', draft);
+    if (bstackAppId !== '') {
+      draft.blockstackAppId = bstackAppId;
+      Session.set('draftContract', draft);
+      Template.instance().blockstackAppIdButtonText = 'App ID saved!';
+    }
   },
 });
 

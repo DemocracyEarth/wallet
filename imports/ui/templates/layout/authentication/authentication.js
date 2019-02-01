@@ -65,11 +65,15 @@ Template.authentication.events({
   },
   'click #navbar-post-button'() {
     if (!isDisabled()) {
-      publishContract(Session.get('draftContract')._id);
-      editorFadeOut(Session.get('draftContract')._id);
-      displayNotice(TAPi18n.__('posted-idea'), true);
-
-      Session.set('missingTitle', false);
+      const contract = Session.get('draftContract');
+      if (!contract.blockstackAppId) {
+        displayNotice(TAPi18n.__('app-id-missing'), true);
+      } else {
+        publishContract(contract._id);
+        editorFadeOut(contract._id);
+        displayNotice(TAPi18n.__('posted-idea'), true);
+        Session.set('missingTitle', false);
+      }
     }
   },
 });
