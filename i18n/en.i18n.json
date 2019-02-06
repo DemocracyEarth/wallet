@@ -630,11 +630,14 @@
   "edit-profile": "Edit Profile",
   "configure-keys": "Configure Keys",
   "white-paper": "A Social Smart Contract.",
-  "white-paper-detail": "Our goal is to build censorship-resistant democracies that can be deployed anywhere there's an Internet connection. Our consensus protocol is designed to create a <a href='https://coindesk.com' target='_blank'>one-human-one-node</a> network using <em>Turing-Impossible proofs</em> that grant voter rights over blockchain protocols.",
+  "white-paper-detail": "We build censorship-resistant democracies that can be deployed anywhere there's an Internet connection. Our consensus protocol graphs a <a href='https://coindesk.com/humans-on-the-blockchain-why-crypto-is-the-best-defense-against-ai-overlords' target='_blank'>one-human-one-node</a> network using <em>Turing-Impossible proofs</em>. These consist of <a href='https://en.wikipedia.org/wiki/Turing_test' target='_blank'>Turing tests</a> that grant voting rights to human actors over blockchain protocols.",
   "white-paper-pdf": "White Paper",
   "token-economics-pdf": "Token Economics",
-  "as-seen-on": "A Global Community.",
+  "community-title": "A Borderless Community.",
+  "community-detail": " We are a global community of digital citizens over decentralized networks. Join us on-chain:<br><br><a href='https://democracy.earth/@agatha'>Agatha 🇺🇸</a> &bull; <a href='https://democracy.earth/@santi'>Santi 🇦🇷</a> &bull; <a href='https://democracy.earth/@piamancini'>Pia 🇮🇹</a> &bull; <a href='https://democracy.earth/@vir'>Virgile 🇫🇷</a> &bull; <a href='https://democracy.earth/@medied'>Eduardo 🇻🇪</a> &bull; <a href='https://democracy.earth/@paula'>Paula 🇧🇷</a> &bull; <a href='https://democracy.earth/@sandra'>Sandra 🇺🇸</a> &bull; <a href='https://democracy.earth/@herb'>Herb 🇺🇸</a> &bull; <a href='https://democracy.earth/@gonza'>Gonzalo 🇦🇷</a> &bull; <a href='https://democracy.earth/@andrey'>Andrey 🇺🇦</a> &bull; <a href='https://democracy.earth/@felipe'>Felipe 🇨🇴</a> &bull; <a href='https://democracy.earth/@alex'>Alex 🇬🇧</a> &bull; <a href='https://democracy.earth/@nicholas'>Nicholas 🇫🇷</a> &bull; <a href='https://democracy.earth/@lucas'>Lucas 🇦🇷</a> &bull; <a href='https://democracy.earth/@alex'>Maria Sofia 🇳🇱</a> &bull; <a href='https://democracy.earth/@alessandro'>Alessandro 🇻🇪</a> &bull; <a href='https://democracy.earth/@liliana'>Liliana 🇧🇪</a> and more.",
   "source-code": "Source Code",
   "team-info": "A Global Team.",
-  "our-clients": "Works with Every Token."
+  "our-clients": "Works with Every Token.",
+  "community-join": "Sign up for Tokens",
+  "community-embassy": "Start an Embassy"
 }
