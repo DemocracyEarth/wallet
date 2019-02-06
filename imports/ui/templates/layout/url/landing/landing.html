@@ -1,13 +1,13 @@
 <template name="landing">
-  {{> paper}}
-  {{> press}}
   {{> team}}
+  {{> press}}
+  {{> paper}}
   {{> clients}}
   {{> social}}
 </template>
 
 <template name="paper">
-  <div class="hero hero-secondary">
+  <div class="hero hero-quarter">
     <div class="landing-center">
       <div class="landing-sub-header">
         <h1 class="landing-sub">{{_ 'white-paper'}}</h1>
@@ -40,13 +40,13 @@
 </template>
 
 <template name="team">
-  <div class="hero hero-quarter">
+  <div class="hero hero-secondary">
     <div class="landing-center">
+      <h1 class='landing-sub'>{{_ 'community-title'}}</h1>
       <div class="landing-map-menu">
         <img class='paper-screenshot paper-video' src='/images/landing-community.png'>
       </div>
       <div class="landing-sub-header">
-        <h1 class="landing-sub">{{_ 'community-title'}}</h1>
         <div class="landing-sub-content">
           {{{_ 'community-detail'}}}
         </div>  
@@ -62,6 +62,29 @@
         {{_ 'community-embassy'}}
       </div>
     </div>  
+  </div>
+</template>
+
+
+<template name="clients">
+  <div class="hero hero-quarter">
+    <div class="landing-center">
+      <h1 class='landing-sub'>{{_ 'our-clients'}}</h1>
+      <div class="landing-sub-header">
+        <div class="landing-sub-content">
+          {{{_ 'white-paper-detail'}}}
+        </div>  
+        <div class="landing-sub-content">
+          {{{_ 'white-paper-detail'}}}
+        </div>  
+      </div>
+      <div class="landing-button-menu">
+          <div class="button login-button button-landing not-mobile">
+            <img class="button-landing-icon" src="/images/node.png">
+            {{_ 'setup-node'}}
+          </div>
+        </div>
+    </div>
   </div>
 </template>
 
@@ -102,14 +125,8 @@
   </div>
 </template>
 
-<template name="clients">
-  <div class="hero hero-fifth">
-    <div class="landing-center">
-      <h2 class='landing-section-title'>{{_ 'our-clients'}}</h2>
-    </div>
-  </div>  
-</template>
 
 <template name="social">
-
+  <div class="hero hero-fifth">
+  </div>
 </template>

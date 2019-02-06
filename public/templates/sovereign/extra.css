@@ -162,7 +162,7 @@ body, h4, h1, h2 {
 
 .hero-secondary {
   background: linear-gradient(0deg, #f2f2f8 95%, #ebe7ef);
-  padding: 80px 10px;
+  padding: 30px 10px 50px 10px;
   z-index: 1;
   box-shadow: 0px -20px 20px 20px white;
   background-color: #f2f2f8;
@@ -273,7 +273,7 @@ body, h4, h1, h2 {
 
 .hero-tertiary {
   background: linear-gradient(0deg, #009770 75%, #017759);
-  padding: 38px 20px 40px 20px;
+  padding: 40px 20px;
   background-color: #009770;
 }
 
@@ -316,6 +316,10 @@ body, h4, h1, h2 {
   .landing-item {
       float: none;
       clear:both;
+  }
+
+  .hero-tertiary {
+    padding: 40px 0px;
   }
 
   .landing-map-menu {
