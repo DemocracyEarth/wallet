@@ -232,6 +232,27 @@ body, h4, h1, h2 {
   float: right;
 }
 
+.landing-sub-half {
+  width:50%;
+  float:left;
+  margin-top:-15px;
+}
+
+.hero-last {
+  padding-top: 0px;
+}
+
+.landing-quote {
+  background: white;
+  border: 2px #e8e2ec solid;
+  padding: 15px;
+  color: #a982b5;
+  font-size: 17px;
+  border-radius: 10px;
+  margin: 30px 0px 0px 0px;
+  box-shadow: 12px 12px #e8e2ec;
+}
+
 .landing-center {
   text-align: center;
   max-width: 1100px;
@@ -277,8 +298,33 @@ body, h4, h1, h2 {
   background-color: #009770;
 }
 
+.profile-landing {
+  width: 60px;
+  height: 60px;
+  margin-left: 60px;
+  margin-top: 0px;
+}
+
+.landing-quote-source {
+  float: left;
+  margin: 12px;
+  text-align:left;
+}
+
+.landing-arrow-down {
+  width: 0;
+  height: 0;
+  margin-left: 30px;
+  margin-top: -2px;
+  border-left: 30px solid transparent;
+  border-right: 0px solid transparent;
+  border-top: 30px solid #fff;
+  box-shadow: 10px 0px #e8e2ec;
+}
+
+
 .hero-quarter {
-  padding-top: 80px;
+  padding-top: 50px;
 }
 
 .landing-section-title {
@@ -316,6 +362,24 @@ body, h4, h1, h2 {
   .landing-item {
       float: none;
       clear:both;
+  }
+
+  .landing-sub-half {
+    margin-top:20px;
+  }
+
+  .landing-quote {
+    margin:30px;
+  }
+
+
+  .landing-sub-header.landing-sub-half {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .landing-arrow-down {
+    margin: -2px 60px 0px;
   }
 
   .hero-tertiary {
@@ -399,6 +463,20 @@ body, h4, h1, h2 {
     max-width: 250px;
   }
 
+  .landing-arrow-down {
+    margin: -32px 60px 0px;
+  }
+
+
+  .landing-sub-header.landing-sub-half {
+    margin-top: -10px;
+    margin-bottom: 0px;
+  }
+
+  .landing-quote {
+    margin:30px;
+  }
+
   .landing-section-title {
     font-size: 26px;
     margin-bottom: 40px;
@@ -429,7 +507,27 @@ body, h4, h1, h2 {
     margin: 30px auto -20px auto;
     max-width: none;
     display:block;
-  } 
+  }
+
+
+  .landing-quote-source {
+    font-size: 14px;
+    line-height: 1.6em;
+    padding-top: 6px;
+  }
+
+  .landing-sub-header.landing-sub-half {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .landing-arrow-down {
+    margin: -12px 60px 0px;
+  }
+  
+  .landing-quote {
+    margin:10px;
+  }
 
   .paper-screenshot:hover {
     margin: 5px 10px 20px 10px;

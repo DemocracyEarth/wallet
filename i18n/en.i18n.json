@@ -640,5 +640,7 @@
   "our-clients": "Governance as a Service.",
   "community-join": "Proof of Human",
   "community-embassy": "Start an Embassy",
-  "setup-node": "Start a Node"
+  "setup-node": "Setup Organization",
+  "client-quote-first": "As partners of Democracy Earth Foundation in our ongoing App Mining governance efforts, Blockstack PBC affirms its support to the present proposal on research and development efforts towards an identity protocol.",
+  "client-quote-second": "As partners of Democracy Earth Foundation in our ongoing App Mining governance efforts, Blockstack PBC affirms its support to the present proposal on research and development efforts towards an identity protocol."  
 }

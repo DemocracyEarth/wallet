@@ -31,10 +31,6 @@
           <img class="button-landing-icon" src="/images/pdf.png">
           {{_ 'token-economics-pdf'}}
       </div>
-      <div class="button login-button button-landing not-mobile">
-          <img class="button-landing-icon" src="/images/source-code.png">
-          {{_ 'source-code'}}
-      </div>
     </div>
   </div>
 </template>
@@ -67,23 +63,43 @@
 
 
 <template name="clients">
-  <div class="hero hero-quarter">
+  <div class="hero hero-last">
     <div class="landing-center">
       <h1 class='landing-sub'>{{_ 'our-clients'}}</h1>
-      <div class="landing-sub-header">
-        <div class="landing-sub-content">
-          {{{_ 'white-paper-detail'}}}
-        </div>  
-        <div class="landing-sub-content">
-          {{{_ 'white-paper-detail'}}}
-        </div>  
+      <div class="landing-sub-header landing-sub-half">
+        <div class="landing-sub-content landing-quote">
+          {{{_ 'client-quote-first'}}}
+        </div> 
+        <div class="landing-arrow-down"></div>
+        <img src="/images/muneeb.jpg" class="symbol profile-pic profile-landing" ontouchstart="">
+        <div class="landing-quote-source">
+          Muneeb Ali
+          <br>
+          CEO of <a href="https://blockstack.org" target="_blank">Blockstack</a>.
+        </div>
+      </div>
+      <div class="landing-sub-header landing-sub-half">
+        <div class="landing-sub-content landing-quote">
+          {{{_ 'client-quote-second'}}}
+        </div>
+        <div class="landing-arrow-down"></div>
+        <img src="/images/tibi.jpg" class="symbol profile-pic profile-landing" ontouchstart="">  
+        <div class="landing-quote-source">
+          Esteban Ordano
+          <br>
+          CTO of <a href="https://decentraland.org">Decentraland</a>.
+        </div>
       </div>
       <div class="landing-button-menu">
-          <div class="button login-button button-landing not-mobile">
-            <img class="button-landing-icon" src="/images/node.png">
-            {{_ 'setup-node'}}
-          </div>
+        <div class="button login-button button-landing not-mobile">
+          <img class="button-landing-icon" src="/images/node.png">
+          {{_ 'setup-node'}}
         </div>
+        <div class="button login-button button-landing not-mobile">
+          <img class="button-landing-icon" src="/images/source-code.png">
+          {{_ 'source-code'}}
+        </div>
+      </div>
     </div>
   </div>
 </template>
