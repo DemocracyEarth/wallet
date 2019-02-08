@@ -28,8 +28,8 @@
           <img class="button-landing-icon" src="/images/pdf.png">
           {{_ 'white-paper-pdf'}}
       </div>
-      <div class="button login-button button-landing not-mobile">
-          <img class="button-landing-icon" src="/images/pdf.png">
+      <div class="button login-button button-landing button-landing-secondary not-mobile">
+          <img class="button-landing-icon" src="/images/pdf-secondary.png">
           {{_ 'token-economics-pdf'}}
       </div>
     </div>
@@ -39,7 +39,7 @@
 <template name="team">
   <div class="hero hero-secondary">
     <div class="landing-center">
-      <h1 class='landing-sub'>{{_ 'community-title'}}</h1>
+      <h1 class='landing-sub landing-sub-big'>{{_ 'community-title'}}</h1>
       <div class="landing-map-menu">
         <img class='paper-screenshot paper-video' src='/images/landing-community.png'>
       </div>
@@ -54,8 +54,8 @@
         <img class="button-landing-icon" src="/images/proof-of-human.png">
         {{_ 'community-join'}}
       </div>
-      <div class="button login-button button-landing not-mobile">
-        <img class="button-landing-icon" src="/images/embassy.png">
+      <div class="button login-button button-landing button-landing-secondary not-mobile">
+        <img class="button-landing-icon" src="/images/embassy-secondary.png">
         {{_ 'community-embassy'}}
       </div>
     </div>  
@@ -64,9 +64,9 @@
 
 
 <template name="clients">
-  <div class="hero hero-quarter">
+  <div class="hero hero-quarter hero-quarter-last">
     <div class="landing-center">
-      <h1 class='landing-sub'>{{_ 'our-clients'}}</h1>
+      <h1 class='landing-sub landing-sub-big'>{{_ 'our-clients'}}</h1>
       <div class="landing-sub-header landing-sub-half">
         <div class="landing-sub-content landing-quote">
           {{{_ 'client-quote-first'}}}
@@ -96,8 +96,8 @@
           <img class="button-landing-icon" src="/images/node.png">
           {{_ 'setup-node'}}
         </div>
-        <div class="button login-button button-landing not-mobile">
-          <img class="button-landing-icon" src="/images/source-code.png">
+        <div class="button login-button button-landing button-landing-secondary not-mobile">
+          <img class="button-landing-icon" src="/images/source-code-secondary.png">
           {{_ 'source-code'}}
         </div>
       </div>
@@ -151,5 +151,29 @@
 
 <template name="social">
   <div class="hero hero-fifth">
+      <div class="landing-center landing-footer">
+        <ul class="landing-list">
+          <li class="landing-list-item">
+            <a class="landing-list-item-link" href="#">{{_ 'blog'}}</a>
+          </li>
+          <li class="landing-list-item">
+            <a class="landing-list-item-link" href="#">{{_ 'white-paper'}}</a>
+          </li>
+          <li class="landing-list-item">
+            <a class="landing-list-item-link" href="#">{{_ 'token-economics'}}</a>
+          </li>
+          <li class="landing-list-item">
+            <a class="landing-list-item-link" href="#">{{_ 'investor-deck'}}</a>
+          </li>
+        </ul>
+        <ul class="landing-list">
+          <li class="landing-list-item">
+            <a class="landing-list-item-link" href="#">{{_ 'source-code'}}</a>
+          </li>
+          <li class="landing-list-item">
+            <a class="landing-list-item-link" href="#">{{_ 'testnet'}}</a>
+          </li>            
+        </ul>
+      </div>
   </div>
 </template>
