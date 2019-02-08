@@ -65,7 +65,7 @@ const _checkTokenAvailability = (user, ticker) => {
 * @return {string} address
 */
 const _getTokenAddress = (user, ticker) => {
-  if (user.profile.wallet.reserves.length > 0) {
+  if (user.profile.wallet.reserves && user.profile.wallet.reserves.length > 0) {
     for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
       for (let k = 0; k < token.coin.length; k += 1) {
         if (token.coin[k].code === ticker || (token.coin[k].subcode && token.coin[k].subcode === ticker)) {
@@ -97,7 +97,7 @@ const _getTokenContractAddress = (ticker) => {
 const _verifyConstituencyRights = (contract) => {
   let legitimacy = true;
 
-  if (Meteor.user()) {
+  if (Meteor.user() && contract.wallet.currency !== 'NONE') {
     if (contract.constituency && contract.constituency.length > 0) {
       for (const i in contract.constituency) {
         switch (contract.constituency[i].kind) {

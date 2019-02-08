@@ -105,7 +105,11 @@ Template.coin.helpers({
     return '';
   },
   wrongAddress() {
-    return !Session.get('checkBlockchainAddress');
+    const draft = Session.get('draftContract');
+    if (draft.blockchain.coin.code !== 'STX') {
+      return !Session.get('checkBlockchainAddress');
+    }
+    return false;
   },
   buttonDisable() {
     if (!_checkInputs()) {

@@ -67,6 +67,7 @@ Schema.Blockchain = new SimpleSchema({
   publicAddress: {
     type: String,
     defaultValue: '',
+    optional: true,
   },
   coin: {
     type: Schema.Coin,

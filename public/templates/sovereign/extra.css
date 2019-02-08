@@ -282,10 +282,10 @@ body, h4, h1, h2 {
 }
 
 .landing-logo {
-  max-width: 120px;
-  margin: 10px 30px;
+  max-width: 150px;
+  margin: 0px 10px;
   opacity: 0.8;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .landing-logo:hover {

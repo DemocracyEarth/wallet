@@ -16,6 +16,7 @@ export default class EmailLogin extends Component {
       loginScreen: true,
       passwordKnown: true,
       incorrectUser: false,
+      emailSignup: false,
       images: {},
     };
 
@@ -24,6 +25,7 @@ export default class EmailLogin extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSigninError = this.handleSigninError.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
+    this.handleEmailSignup = this.handleEmailSignup.bind(this);
   }
 
   async componentWillMount() {
@@ -36,6 +38,10 @@ export default class EmailLogin extends Component {
 
   handleForgotPasswordRender() {
     this.setState({ passwordKnown: !(this.state.passwordKnown) });
+  }
+
+  handleEmailSignup() {
+    this.setState({ emailSignup: !(this.state.emailSignup) });
   }
 
   handleFocus() {
@@ -83,60 +89,73 @@ export default class EmailLogin extends Component {
 
   render() {
     const incorrectUserState = this.state.incorrectUser;
-    const loginScreen = this.state.loginScreen;
-
+    
     if (this.state.loginScreen === true) {
-      if (this.state.passwordKnown === true) {
+      return (
+        <div>
+          <div className="w-clearfix paper-header card-header">
+            <div className="card-title">
+              <img src="/images/fingerprint-white.png" className="section-icon" alt="lock" />
+              {TAPi18n.__('authenticate-self')}
+            </div>
+          </div>
+          <div className="login margin-bottom-dead">
+            <SocialMediaLogin agoraMode={false} />
+            <div id="email-login" className="button login-button login-button-last" onClick={this.handleLoginRender}>
+              <img src="/images/mail-closed.png" className="button-icon" alt="lock" />
+              {TAPi18n.__('email-username')}
+            </div>
+          </div>
+        </div>
+      );
+    } else if (this.state.loginScreen === false) {
+      if (this.state.emailSignup === false && this.state.passwordKnown === true) {
         return (
           <div>
             <div className="w-clearfix paper-header card-header">
+              <div className="stage stage-finish-approved stage-card stage-anon button">
+                <div className="label label-corner">
+                  {TAPi18n.__('anonymous-mode')}
+                </div>
+              </div>
               <div className="card-title">
-                {loginScreen ?
-                  <img src={this.state.images.fingerprint} className="section-icon" alt="lock" />
-                  :
-                  <div id="card-back">
-                    <img src={this.state.images.back} className="section-icon section-icon-active" alt="lock" />
-                  </div>
-                }
-                {TAPi18n.__('authenticate-self')}
+                <div id="card-back" onClick={this.handleLoginRender}>
+                  <img src="/images/back.png" className="section-icon section-icon-active" alt="lock" />
+                </div>
+                {TAPi18n.__('identity')}
               </div>
             </div>
-            <div className="login margin-bottom-dead">
-              <SocialMediaLogin agoraMode={false} />
-              {/* <div className="w-form">
-                <div className="alert-header alert-header-subtitle"></div>
-                <form id="email-signin-form" name="email-form-3" data-name="Email Form 3" onSubmit={this.handleSubmit}>
-                  <div className="w-clearfix login-field">
-                    <label htmlFor="name" className="login-label login-label-form">{TAPi18n.__('email-username')}</label>
-                    <img src="/images/mail-closed.png" className="login-icon" alt="mail-closed" />
-                    <input id="signin-email" type="text" placeholder={TAPi18n.__('email-sample')} className="w-input login-input" onFocus={this.handleFocus} />
-                  </div>
-                  <div className="w-clearfix login-field">
-                    <label htmlFor="name" className="login-label login-label-form">{TAPi18n.__('password')}</label>
-                    <img src="/images/lock.png" className="login-icon" alt="lock" />
-                    <input id="signin-password" type="password" placeholder={TAPi18n.__('password-sample')} className="w-input login-input" onFocus={this.handleFocus} />
-                  </div>
-                  {incorrectUserState ? <div className="extra section"> <Warning label="user-not-found" /> </div> : null}
-                  <div className="popup-text">
-                    <a id="signup" onClick={this.handleLoginRender}>{TAPi18n.__('sign-up')}</a> {TAPi18n.__('or')} <a id="forgot-pw" onClick={this.handleForgotPasswordRender}>{TAPi18n.__('recover-password')}</a>.
-                  </div>
-                  <div type="submit" id="signin-button" className="button login-button" onClick={this.handleSubmit}>
-                    <div>{TAPi18n.__('sign-in')}</div>
-                  </div>
-                  <div id="facebook-login" className="button login-button facebook" onClick={this.handleFacebookLogin} >
-                    <img src="/images/facebook.png" className="button-icon" alt="lock" />
-                    {TAPi18n.__('facebook')}
-                  </div>
-                </form>
-              </div> */}
+            <div className="login">
+              {/* <div className="alert-header alert-header-subtitle" /> */}
+              <form id="email-signin-form" name="email-form-3" data-name="Email Form 3" onSubmit={this.handleSubmit}>
+                <div className="w-clearfix login-field">
+                  <label htmlFor="name" className="login-label login-label-form">{TAPi18n.__('email-username')}</label>
+                  <img src="/images/mail-closed.png" className="login-icon" alt="mail-closed" />
+                  <input id="signin-email" type="text" placeholder={TAPi18n.__('email-sample')} className="w-input login-input" onFocus={this.handleFocus} />
+                </div>
+                <div className="w-clearfix login-field">
+                  <label htmlFor="name" className="login-label login-label-form">{TAPi18n.__('password')}</label>
+                  <img src="/images/lock.png" className="login-icon" alt="lock" />
+                  <input id="signin-password" type="password" placeholder={TAPi18n.__('password-sample')} className="w-input login-input" onFocus={this.handleFocus} />
+                </div>
+                {incorrectUserState ? <div className="extra section"> <Warning label="user-not-found" /> </div> : null}
+                <div className="popup-text">
+                  <a id="signup" onClick={this.handleEmailSignup}>{TAPi18n.__('sign-up')}</a> {TAPi18n.__('or')} <a id="forgot-pw" onClick={this.handleForgotPasswordRender}>{TAPi18n.__('recover-password')}</a>.
+                </div>
+                <div type="submit" id="signin-button" className="button login-button" onClick={this.handleSubmit}>
+                  <div>{TAPi18n.__('sign-in')}</div>
+                </div>
+              </form>
             </div>
           </div>
         );
-      } else if (this.state.passwordKnown === false) {
+      }
+      if (this.state.emailSignup === false && this.state.passwordKnown === false) {
         return (<ForgotPassword onClick={this.handleForgotPasswordRender} />);
       }
-    } else if (this.state.loginScreen === false) {
-      return (<Signup onClick={this.handleLoginRender} />);
+      if (this.state.emailSignup === true && this.state.passwordKnown === true) {
+        return (<Signup onClick={this.handleEmailSignup} />);
+      }
     }
   }
 }

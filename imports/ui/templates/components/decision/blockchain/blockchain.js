@@ -19,7 +19,7 @@ import '/imports/ui/templates/components/decision/blockchain/blockchain.html';
 * @return {boolean} if user can spend
 */
 const _getTokenAddress = (user, ticker) => {
-  if (user.profile.wallet.reserves.length > 0) {
+  if (user.profile.wallet.reserves && user.profile.wallet.reserves.length > 0) {
     for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
       for (let k = 0; k < token.coin.length; k += 1) {
         if (token.coin[k].code === ticker || (token.coin[k].subcode && token.coin[k].subcode === ticker)) {
@@ -165,7 +165,10 @@ Template.blockchain.helpers({
     return '';
   },
   ticker() {
-    return Session.get('draftContract').wallet.currency;
+    if (Meteor.user().profile.wallet.reserves) {
+      return Session.get('draftContract').wallet.currency;
+    }
+    return `${TAPi18n.__('no-tokens')}`;
   },
   tickerStyle() {
     let color;
@@ -227,11 +230,17 @@ Template.blockchain.helpers({
     }
     return '';
   },
+  userWithTokenReserves() {
+    if (Meteor.user() && Meteor.user().profile.wallet.reserves) {
+      return true;
+    }
+    return false;
+  },
 });
 
 Template.blockchain.events({
   'click #blockchain-button'() {
-    if (!this.readOnly) {
+    if (!this.readOnly && Meteor.user().profile.wallet.reserves !== undefined) {
       killPopup();
     }
   },

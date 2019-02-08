@@ -335,9 +335,9 @@ Template.ballot.helpers({
     return this.contract.url;
   },
   voteIcon() {
-    // if (!Template.instance().voteEnabled) {
-    //  return getImage(Template.instance().imageTemplate.get(), 'vote-disabled');
-    // }
+    if (!Template.instance().voteEnabled) {
+      return getImage(Template.instance().imageTemplate.get(), 'vote-disabled');
+    }
     return getImage(Template.instance().imageTemplate.get(), 'vote');
   },
   enableStyle() {
@@ -601,6 +601,15 @@ Template.ballot.helpers({
   twitterURL() {
     return _getTwitterURL(this.contract);
   },
+  userWithTokenReserves() {
+    if (Meteor.user() && Meteor.user().profile.wallet.reserves) {
+      return true;
+    }
+    return false;
+  },
+  noTokensTicker() {
+    return `${TAPi18n.__('no-tokens')}`;
+  },
   getImage(pic) {
     return getImage(Template.instance().imageTemplate.get(), pic);
   },
@@ -610,7 +619,33 @@ Template.ballot.events({
   'click #single-vote'(event) {
     event.preventDefault();
     event.stopPropagation();
-    _cryptoVote();
+    const currency = Template.currentData().contract.wallet.currency;
+    if (currency === 'NONE') {
+      displayModal(
+        true,
+        {
+          icon: 'images/olive.png',
+          title: TAPi18n.__('place-vote'),
+          message: TAPi18n.__('tokenless-post'),
+          cancel: TAPi18n.__('close'),
+          alertMode: true,
+        },
+      );
+    } else if (currency === 'STX') {
+      displayModal(
+        true,
+        {
+          icon: 'images/olive.png',
+          title: TAPi18n.__('place-vote'),
+          message: TAPi18n.__('insufficient-votes'),
+          cancel: TAPi18n.__('close'),
+          alertMode: true,
+        },
+      );
+    } else {
+      // ERC20 token
+      _cryptoVote();
+    }
   },
   'click #edit-reply'(event) {
     event.preventDefault();
