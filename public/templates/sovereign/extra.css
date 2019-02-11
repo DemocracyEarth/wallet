@@ -221,16 +221,43 @@ body, h4, h1, h2 {
   color: black;
 }
 
+.landing-sub-half-sshot {
+  min-height:300px;
+}
+
+.landing-client-round {
+  max-width: 190px;
+  margin: 50px;
+  /* display: block; */
+  box-shadow: 19px 20px 64px 0px #cacaca;
+  border-radius: 120px;
+}
+
+.landing-client-square {
+  max-width: 190px;
+  margin: 50px;
+  /* display: block; */
+  box-shadow: -18px 20px 64px 0px #cacaca;
+  border-radius: 48px;
+}
+
 .landing-sub-header {
   margin: 0 auto;
   max-width: 500px;
-  padding: 0px 20px 0px 20px;
+  padding: 0px 30px;
   text-align: left;
   font-size: 18px;
   float: left;
   color: #02020282;
   width: 35%;
   line-height: 1.6em;
+}
+
+.landing-company-list {
+  clear: both;
+  /* margin-top: 40px; */
+  margin: 0px 0px 30px;
+  display: inline-block;
 }
 
 .landing-right {
@@ -242,6 +269,7 @@ body, h4, h1, h2 {
   width:50%;
   float:left;
   margin-top:-15px;
+  margin-bottom: 30px;
 }
 
 .hero-last {
