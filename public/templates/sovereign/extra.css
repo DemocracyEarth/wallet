@@ -281,8 +281,10 @@ body, h4, h1, h2 {
 }
 
 .landing-sub-big {
-  font-size:36px;
-  margin:0px 0px 30px 0px;
+  font-size: 36px;
+  border-bottom: 6px solid #5a0075;
+  margin: 0px auto 30px auto;
+  display: table;
 }
 
 .paper-screenshot:hover {
@@ -351,10 +353,12 @@ body, h4, h1, h2 {
 
 .landing-list {
   list-style: none;
-  text-transform: uppercase;
-  font-size: 14px;
-  min-width: 200px;
+  /* text-transform: uppercase; */
+  font-size: 15px;
+  line-height: 30px;
+  min-width: 300px;
   float: left;
+  margin-bottom:30px;
 }
 
 .landing-list-item {
@@ -363,11 +367,40 @@ body, h4, h1, h2 {
 
 .landing-list-item-link {
   color: #ffffff8a;
+  font-weight:200;
+}
+
+.landing-footer-logo {
+  max-width: 200px;
+  margin-top: 30px;
+}
+
+.landing-closing {
+  text-align: right;
+}
+
+.landing-footer-social-icon {
+  max-width:60px;
+  opacity:0.6;
+  cursor:pointer;
+}
+
+.landing-footer-social-icon:hover {
+  opacity: 1;
+}
+
+.landing-list-item-title {
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 12px;
+  padding-bottom: 10px;
 }
 
 .landing-list-item-link:hover {
-  color: white;
-  text-decoration:none;
+  color: #ffffffc4;
+  text-decoration: dashed;
+  border-bottom: 1px solid;
+  padding-bottom: 4px;
 }
 
 .landing-section-title {
@@ -392,7 +425,8 @@ body, h4, h1, h2 {
 
 .hero-fifth {
   padding: 60px 20px 40px 20px;
-  background: #390548;
+  background:linear-gradient(0deg, #4a1d58 85%, #390548);
+  margin-bottom:-20px;
 }
 
 .button-landing-icon {
@@ -415,6 +449,13 @@ body, h4, h1, h2 {
     margin:30px;
   }
 
+  .landing-list {
+    min-width:210px;
+  }
+
+  .landing-closing {
+    text-align:left;
+  }
 
   .landing-sub-header.landing-sub-half {
     margin-top: 10px;
@@ -499,6 +540,15 @@ body, h4, h1, h2 {
     margin: 15px 25px;
   }
 
+  .landing-footer-logo {
+    max-width: 130px;
+    display:none;
+  }
+
+  .landing-closing {
+    clear:both;
+  }
+
   .button.login-button.button-landing {
     margin: 30px 5px -20px 5px;
     width: 100%;
@@ -514,6 +564,10 @@ body, h4, h1, h2 {
   .landing-sub-header.landing-sub-half {
     margin-top: -10px;
     margin-bottom: 0px;
+  }
+
+  .landing-sub {
+    border-bottom: none;
   }
 
   .landing-quote {

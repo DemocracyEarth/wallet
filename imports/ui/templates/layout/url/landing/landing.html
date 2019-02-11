@@ -11,7 +11,7 @@
   <div class="hero hero-quarter">
     <div class="landing-center">
       <div class="landing-sub-header">
-        <h1 class="landing-sub">{{_ 'white-paper'}}</h1>
+        <h1 class="landing-sub">{{{_ 'white-paper'}}}</h1>
         <div class="landing-sub-content">
           {{{_ 'white-paper-detail'}}}
         </div>  
@@ -39,7 +39,7 @@
 <template name="team">
   <div class="hero hero-secondary">
     <div class="landing-center">
-      <h1 class='landing-sub landing-sub-big'>{{_ 'community-title'}}</h1>
+      <h1 class='landing-sub landing-sub-big'>{{{_ 'community-title'}}}</h1>
       <div class="landing-map-menu">
         <img class='paper-screenshot paper-video' src='/images/landing-community.png'>
       </div>
@@ -66,7 +66,7 @@
 <template name="clients">
   <div class="hero hero-quarter hero-quarter-last">
     <div class="landing-center">
-      <h1 class='landing-sub landing-sub-big'>{{_ 'our-clients'}}</h1>
+      <h1 class='landing-sub landing-sub-big'>{{{_ 'our-clients'}}}</h1>
       <div class="landing-sub-header landing-sub-half">
         <div class="landing-sub-content landing-quote">
           {{{_ 'client-quote-first'}}}
@@ -153,26 +153,50 @@
   <div class="hero hero-fifth">
       <div class="landing-center landing-footer">
         <ul class="landing-list">
-          <li class="landing-list-item">
-            <a class="landing-list-item-link" href="#">{{_ 'blog'}}</a>
+          <li class="landing-list-item landing-list-item-title">
+            {{_ 'landing-footer-resources'}}
           </li>
           <li class="landing-list-item">
-            <a class="landing-list-item-link" href="#">{{_ 'white-paper'}}</a>
+            <a class="landing-list-item-link" href="#">{{_ 'landing-footer-blog'}}</a>
           </li>
           <li class="landing-list-item">
-            <a class="landing-list-item-link" href="#">{{_ 'token-economics'}}</a>
+            <a class="landing-list-item-link" href="#">{{_ 'landing-footer-white-paper'}}</a>
           </li>
           <li class="landing-list-item">
-            <a class="landing-list-item-link" href="#">{{_ 'investor-deck'}}</a>
+            <a class="landing-list-item-link" href="#">{{_ 'landing-footer-token-economics'}}</a>
+          </li>
+          <li class="landing-list-item">
+            <a class="landing-list-item-link" href="#">{{_ 'landing-footer-investor-deck'}}</a>
+          </li>
+          <li class="landing-list-item">
+            <a class="landing-list-item-link" href="#">{{_ 'landing-footer-press-kit'}}</a>
           </li>
         </ul>
         <ul class="landing-list">
-          <li class="landing-list-item">
-            <a class="landing-list-item-link" href="#">{{_ 'source-code'}}</a>
+          <li class="landing-list-item landing-list-item-title">
+            {{_ 'landing-footer-development'}}
           </li>
           <li class="landing-list-item">
-            <a class="landing-list-item-link" href="#">{{_ 'testnet'}}</a>
+            <a class="landing-list-item-link" href="#">{{_ 'landing-footer-source-code'}}</a>
+          </li>
+          <li class="landing-list-item">
+              <a class="landing-list-item-link" href="#">{{_ 'landing-footer-documentation'}}</a>
+            </li>
+          <li class="landing-list-item">
+            <a class="landing-list-item-link" href="#">{{_ 'landing-footer-testnet'}}</a>
           </li>            
+        </ul>
+        <ul class="landing-list landing-closing">
+          <div class="landing-list-item landing-list-item-title">
+            {{_ 'landing-footer-social-media'}}
+          </div>
+          <div class="landing-list-social-button">
+            <img class="landing-footer-social-icon" src="/images/twitter.png">
+            <img class="landing-footer-social-icon" src="/images/facebook.png">
+            <img class="landing-footer-social-icon" src="/images/github.png">
+            <img class="landing-footer-social-icon" src="/images/medium.png">
+          </div>
+          <img class="landing-footer-logo" src="/images/democracy-earth-white.png">
         </ul>
       </div>
   </div>
