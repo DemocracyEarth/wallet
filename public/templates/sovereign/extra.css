@@ -225,20 +225,37 @@ body, h4, h1, h2 {
   min-height:300px;
 }
 
-.landing-client-round {
-  max-width: 190px;
-  margin: 50px;
+.landing-client-round, .landing-client-square {
+  max-width: 120px;
+  margin: 15px;
   /* display: block; */
-  box-shadow: 19px 20px 64px 0px #cacaca;
+  box-shadow: 0px 4px 12px 0px #cacaca;
   border-radius: 120px;
+  transition: all 200ms ease;
+  cursor:pointer;
+}
+
+.landing-sub-header.landing-sub-dapp {
+  width:30%;
+  text-align:right;
+}
+
+.landing-client-round:hover, .landing-client-square:hover {
+  margin-top:10px;
+  margin-bottom:20px;
+  box-shadow: 0px 20px 64px 0px #cacaca;
+}
+
+
+.landing-sub-half.landing-sub-quote {
+  width: 65%;
+  max-width: 600px;
+  margin-left: -20px;
+  padding: 0px 20px;
 }
 
 .landing-client-square {
-  max-width: 190px;
-  margin: 50px;
-  /* display: block; */
-  box-shadow: -18px 20px 64px 0px #cacaca;
-  border-radius: 48px;
+  border-radius: 35px;
 }
 
 .landing-sub-header {
@@ -255,9 +272,8 @@ body, h4, h1, h2 {
 
 .landing-company-list {
   clear: both;
-  /* margin-top: 40px; */
+  margin-top: 40px;
   margin: 0px 0px 30px;
-  display: inline-block;
 }
 
 .landing-right {
@@ -399,8 +415,8 @@ body, h4, h1, h2 {
 }
 
 .landing-footer-logo {
-  max-width: 200px;
-  margin-top: 30px;
+  max-width: 150px;
+  margin-top: 50px;
 }
 
 .landing-closing {
@@ -577,6 +593,15 @@ body, h4, h1, h2 {
     clear:both;
   }
 
+  .landing-client-round, .landing-client-square {
+    max-width: 100px;
+    margin: 25px 15px;
+  }
+
+  .landing-client-square {
+    border-radius: 25px;
+  }
+
   .button.login-button.button-landing {
     margin: 30px 5px -20px 5px;
     width: 100%;
@@ -592,6 +617,7 @@ body, h4, h1, h2 {
   .landing-sub-header.landing-sub-half {
     margin-top: -10px;
     margin-bottom: 0px;
+    padding: 0px;
   }
 
   .landing-sub {
@@ -634,16 +660,25 @@ body, h4, h1, h2 {
     display:block;
   }
 
+  .landing-client-round, .landing-client-square {
+    max-width: 70px;
+    margin: 25px 35px 25px 0px;
+  }
+
+  .landing-client-square {
+    border-radius: 15px;
+  }
 
   .landing-quote-source {
     font-size: 14px;
     line-height: 1.6em;
     padding-top: 6px;
+    margin-left: 40px;
   }
 
   .landing-sub-header.landing-sub-half {
     margin-top: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
   }
 
   .landing-arrow-down {

@@ -633,7 +633,7 @@
   "edit-profile": "Edit Profile",
   "configure-keys": "Configure Keys",
   "white-paper": "A <span class='landing-underline'>Social</span> Smart Contract.",
-  "white-paper-detail": "Our consensus protocol graphs a <a href='https://coindesk.com/humans-on-the-blockchain-why-crypto-is-the-best-defense-against-ai-overlords' target='_blank'>one-human-one-node</a> network using Turing-Impossible Proofs. These consist of <a href='https://en.wikipedia.org/wiki/Turing_test' target='_blank'>Turing tests</a> that grant voting rights to singular human actors over blockchain protocols. We provide governance as a service for crypto networks, enabling communities to rely on verified participants while preserving their privacy.",
+  "white-paper-detail": "Our consensus protocol graphs a <a href='https://coindesk.com/humans-on-the-blockchain-why-crypto-is-the-best-defense-against-ai-overlords' target='_blank'>one-human-one-node</a> network using Turing-Impossible Proofs. These consist of <a href='https://en.wikipedia.org/wiki/Turing_test' target='_blank'>Turing tests</a> that grant voting rights to individual humans over blockchain protocols. We provide governance as a service for crypto networks, enabling communities to rely on verified participants while preserving their privacy.",
   "white-paper-pdf": "White Paper",
   "token-economics-pdf": "Token Economics",
   "community-title": "A <span class='landing-underline'>Borderless</span> Community.",
@@ -643,7 +643,7 @@
   "our-clients": "<span class='landing-underline'>Democratic</span> Autonomous Organizations.",
   "community-join": "Are you human?",
   "community-embassy": "Start an Embassy",
-  "setup-node": "Setup Organization",
+  "setup-node": "Setup Your Node",
   "client-quote-first": "Democracy Earth plays a key role in our ongoing App Mining program by allowing Blockstack token holders decide with their vote which decentralized apps to reward every month.",
   "client-quote-second": "The challenges of Virtual Reality are many. Decentraland relies on the governance provided by Democracy Earth to allow MANA &amp; LAND owners decide over the future of our metaverse.",
   "landing-footer-blog": "Hacktivism Blog",
@@ -657,5 +657,5 @@
   "landing-footer-development": "Development",
   "landing-footer-resources": "Resources",
   "landing-footer-social-media": "On the Internet",
-  "landing-companies": "We provide <em>Governance as a Service</em> to the leading blockchain projects:"
+  "landing-companies": "Our <a href='http://sovereign.software' target='_blank'>Sovereign Software</a> meets the governance needs of the leading decentralized communities."
 }
