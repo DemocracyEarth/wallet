@@ -473,6 +473,10 @@ body, h4, h1, h2 {
   margin-bottom:-20px;
 }
 
+.landing-link-clean, .landing-link-clean:hover {
+  text-decoration: none;
+}
+
 .button-landing-icon {
   max-width: 24px;
   margin-right: 10px;
@@ -687,6 +691,7 @@ body, h4, h1, h2 {
   
   .landing-quote {
     margin:10px;
+    margin-right:-30px;
   }
 
   .paper-screenshot:hover {

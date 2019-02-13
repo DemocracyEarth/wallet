@@ -641,7 +641,7 @@
   "source-code": "Source Code",
   "team-info": "A Global Team.",
   "our-clients": "<span class='landing-underline'>Democratic</span> Autonomous Organizations.",
-  "community-join": "Are you human?",
+  "community-join": "Join Us",
   "community-embassy": "Start an Embassy",
   "setup-node": "Setup Your Node",
   "client-quote-first": "Democracy Earth plays a key role in our ongoing App Mining program by allowing Blockstack token holders decide with their vote which decentralized apps to reward every month.",
@@ -657,5 +657,5 @@
   "landing-footer-development": "Development",
   "landing-footer-resources": "Resources",
   "landing-footer-social-media": "On the Internet",
-  "landing-companies": "Our <a href='http://sovereign.software' target='_blank'>Sovereign Software</a> meets the governance needs of the leading decentralized communities."
+  "landing-companies": "Our <a href='https://sovereign.software' target='_blank'>Sovereign Software</a> meets the governance needs of the leading decentralized communities."
 }
