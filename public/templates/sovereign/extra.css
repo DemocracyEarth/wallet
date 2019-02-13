@@ -477,6 +477,27 @@ body, h4, h1, h2 {
   text-decoration: none;
 }
 
+.landing-play-button {
+  width: 0; 
+  height: 0; 
+  border-top: 60px solid transparent;
+  border-bottom: 60px solid transparent;
+  border-left: 60px solid white;
+  margin-left: 290px;
+  position: absolute;
+  margin-top: 150px;
+}
+
+.landing-video {
+  z-index: 99999;
+  position: fixed;
+  width: 90%;
+  margin: 0 auto;
+  top: 10%;
+  left: 0%;
+  right: 0%;
+}
+
 .button-landing-icon {
   max-width: 24px;
   margin-right: 10px;

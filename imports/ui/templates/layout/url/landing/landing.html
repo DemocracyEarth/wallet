@@ -45,11 +45,18 @@
 </template>
 
 <template name="team">
+  <div id="video-modal" class="w-clearfix modal" style="{{modalVideo}}">
+  </div>
+  <div class="landing-video" style="{{showVideo}}">
+    <video id="democracy-video" width="100%" height="auto" controls controlsList="nodownload" webkitallowfullscreen mozallowfullscreen allowFullScreen autoplay>
+      <source src="https://s3-us-west-2.amazonaws.com/democracyearth/landing/Liquid+Democracy+with+Santiago+Siri.mp4" type="video/mp4" />
+    </video>
+  </div>
   <div class="hero hero-secondary">
     <div class="landing-center">
       <h1 class='landing-sub landing-sub-big'>{{{_ 'community-title'}}}</h1>
       <div class="landing-map-menu">
-        <img class='paper-screenshot paper-video' src='/images/landing-community.png'>
+        <img id="hello-video" class='paper-screenshot paper-video' src='/images/landing-community.png'>
       </div>
       <div class="landing-sub-header">
         <div class="landing-sub-content">
@@ -58,7 +65,7 @@
       </div>
     </div>
     <div class="landing-button-menu">
-      <div class="button login-button button-landing not-mobile">
+      <div id="community-join" class="button login-button button-landing not-mobile">
         <img class="button-landing-icon" src="/images/proof-of-human.png">
         {{_ 'community-join'}}
       </div>
