@@ -1063,12 +1063,12 @@ blockquote {
   width: 40%;
   height: 40px;
   margin: 0px;
-  padding-top: 8px;
+  padding-top: 7px;
   padding-bottom: 10px;
   float: left;
   clear: none;
   border-radius: 0px 5px 5px 0px;
-  font-size: 14px;
+  font-size: 12px;
   text-align: center;
 }
 
@@ -1367,7 +1367,7 @@ blockquote {
   border-color: rgba(0, 0, 0, .02);
   border-radius: 8px;
   background-image: none;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1);
+  box-shadow: 0 2px 8px 0 hsla(0, 0%, 72%, .37);
   -webkit-transition: all 200ms ease;
   transition: all 200ms ease;
   color: #7d849f;
@@ -6391,6 +6391,11 @@ blockquote {
   text-align: left;
 }
 
+.hero-title.hero-title-right {
+  float: right;
+  text-align: right;
+}
+
 .hero-wrapper {
   display: block;
   margin-right: auto;
@@ -6568,6 +6573,12 @@ blockquote {
 
 .padding-left-zero {
   padding-left: 0px;
+}
+
+.hero-title-right {
+  margin-right: 5%;
+  float: right;
+  text-align: right;
 }
 
 @media (max-width: 991px) {

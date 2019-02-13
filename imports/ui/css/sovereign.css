@@ -495,11 +495,6 @@ blockquote {
   border: 1px solid #7d849f;
   border-radius: 100px;
   background-color: #f2f2f5;
-  cursor: pointer;
-}
-
-.symbol.profile-pic:hover {
-  border-color: #ff85a5;
 }
 
 .symbol.profile-pic.profile-pic-navbar {
@@ -922,15 +917,16 @@ blockquote {
   padding-bottom: 9px;
   border: 1px solid #84849e;
   background-color: transparent;
+  color: #5a0075;
 }
 
 .button.login-button.button-secondary:hover {
   padding-top: 10px;
   padding-bottom: 10px;
   border-style: none;
-  border-color: rgba(132, 132, 158, 0);
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#f04), to(#ff9a74));
-  background-image: linear-gradient(180deg, #f04, #ff9a74);
+  border-color: #ff0085;
+  background-color: #ff0085;
+  color: #fff;
 }
 
 .button.login-button.button-half {
@@ -1056,11 +1052,11 @@ blockquote {
 }
 
 .button.button-upload:hover {
-  background-color: rgba(88, 16, 115, .18);
+  border-color: #ff0085;
 }
 
 .button.button-upload:active {
-  background-color: transparent;
+  background-color: rgba(255, 0, 133, .07);
 }
 
 .button.button-cta {
@@ -1081,6 +1077,20 @@ blockquote {
   background-color: #ff0085;
 }
 
+.button.button-menu {
+  margin-right: -5px;
+  margin-left: -5px;
+  background-color: #dedcdc;
+  color: #4b4b4b;
+  text-align: left;
+  text-transform: none;
+}
+
+.button.button-menu:hover {
+  background-color: rgba(93, 0, 119, .07);
+  color: #561072;
+}
+
 .button-label {
   float: left;
 }
@@ -1088,7 +1098,7 @@ blockquote {
 .button-icon {
   width: 24px;
   height: 24px;
-  margin: 0px -12px -10px -10px;
+  margin: 2px -17px -10px -7px;
   float: left;
 }
 
@@ -1107,6 +1117,12 @@ blockquote {
   position: relative;
   display: inline-block;
   float: none;
+}
+
+.button-icon.execute-icon.execute-icon-menu {
+  margin-top: -2px;
+  margin-right: -10px;
+  margin-left: 0px;
 }
 
 .extra {
@@ -1351,7 +1367,7 @@ blockquote {
   border-color: rgba(0, 0, 0, .02);
   border-radius: 8px;
   background-image: none;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1);
+  box-shadow: 0 2px 8px 0 hsla(0, 0%, 72%, .37);
   -webkit-transition: all 200ms ease;
   transition: all 200ms ease;
   color: #7d849f;
@@ -4060,8 +4076,7 @@ blockquote {
 }
 
 .navbar-button.navbar-button-active.navbar-button-action:hover {
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#f04), to(#ff9a74));
-  background-image: linear-gradient(180deg, #f04, #ff9a74);
+  background-color: #ff0085;
 }
 
 .navbar-button.navbar-button-active.navbar-button-action.navbar-button-action-disabled {
@@ -4270,10 +4285,14 @@ blockquote {
   margin-right: auto;
   margin-left: auto;
   padding: 18px 12px;
+  border-color: #f3f3f3 #e0e0e0 #e0e0e0 #f3f3f3;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-left-style: solid;
+  border-left-width: 1px;
   border-radius: 5px;
-  background-color: #5c5c6e;
-  box-shadow: 0 3px 8px -4px #000;
-  color: #fff;
+  background-color: #eaeaea;
+  box-shadow: 0 6px 20px 4px rgba(0, 0, 0, .13);
   font-size: 16px;
   text-align: center;
 }
@@ -5660,8 +5679,8 @@ blockquote {
 }
 
 .editor-button.editor-button-active {
-  border-color: #5c5d6e;
-  background-color: #5c5d6e;
+  border-color: #5a0075;
+  background-color: #5a0075;
   color: #fff;
 }
 
@@ -6372,6 +6391,11 @@ blockquote {
   text-align: left;
 }
 
+.hero-title.hero-title-right {
+  float: right;
+  text-align: right;
+}
+
 .hero-wrapper {
   display: block;
   margin-right: auto;
@@ -6549,6 +6573,12 @@ blockquote {
 
 .padding-left-zero {
   padding-left: 0px;
+}
+
+.hero-title-right {
+  margin-right: 5%;
+  float: right;
+  text-align: right;
 }
 
 @media (max-width: 991px) {
@@ -6735,6 +6765,9 @@ blockquote {
   .hero-title {
     width: 80%;
   }
+  .hero-cta-box {
+    margin-bottom: 10px;
+  }
   .hero-demo {
     display: none;
   }
@@ -6844,8 +6877,10 @@ blockquote {
   .vote.vote-search {
     box-shadow: none;
   }
-  .vote.vote-search.vote-feed {
-    box-shadow: none;
+  .vote.vote-search.vote-feed:hover {
+    margin-top: 0px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1);
   }
   .vote.vote-search.vote-feed.vote-delegation {
     box-shadow: none;
@@ -6948,9 +6983,6 @@ blockquote {
   }
   .election-label {
     float: none;
-  }
-  .modal {
-    background-color: hsla(0, 0%, 100%, .3);
   }
   .modal.hide {
     display: none;
@@ -7194,6 +7226,9 @@ blockquote {
   }
   .hero-call-to-action {
     margin-left: 40px;
+  }
+  .hero-cta-box {
+    box-shadow: none;
   }
   .hero-menu {
     padding-right: 0px;

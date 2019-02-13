@@ -40,6 +40,11 @@ const _getImage = (imageTemplate, pic) => {
   return (imageTemplate && imageTemplate[pic]) ? imageTemplate[pic] : Meteor.absoluteUrl(`/images/${pic}.png`);
 };
 
+const _getSpinner = async () => {
+  const spinner = await promise.then((resolved) => { console.log(resolved.spinner); return resolved.spinner; });
+  return spinner;
+};
+
 /**
 * @summary any custom content that goes to the header when logged out
 * @param {string} templateName to use
@@ -79,4 +84,5 @@ export const getHeader = _getHeader;
 export const getImageTemplate = _getImageTemplate;
 export const getImage = _getImage;
 export const getReactImage = _getReactImage;
+export const getSpinner = _getSpinner;
 export const templetize = _templetize;

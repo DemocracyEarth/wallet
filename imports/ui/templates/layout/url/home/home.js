@@ -11,6 +11,7 @@ import { getCoin } from '/imports/api/blockchain/modules/web3Util.js';
 import { geo } from '/lib/geo';
 
 import '/imports/ui/templates/layout/url/home/home.html';
+import '/imports/ui/templates/layout/url/landing/landing.js';
 import '/imports/ui/templates/layout/url/hero/hero.js';
 import '/imports/ui/templates/widgets/feed/feed.js';
 import '/imports/ui/templates/widgets/tally/tally.js';
@@ -27,6 +28,9 @@ const _landingMode = (style) => {
     switch (style) {
       case 'post':
         return `split-${style}-landing`;
+      case 'left':
+        return 'split-landing split-anon';
+      case 'right':
       default:
         return 'split-landing';
     }
@@ -203,8 +207,8 @@ Template.homeFeed.helpers({
   feedTitle() {
     return _getTitle(this.options);
   },
-  landingMode() {
-    return _landingMode();
+  landingMode(feed) {
+    return _landingMode(feed);
   },
 });
 

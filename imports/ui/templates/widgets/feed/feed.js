@@ -147,9 +147,6 @@ Template.feed.onCreated(function () {
   if (Template.currentData().linkedFeed) {
     options.lastItem = Template.currentData().lastItem;
     if (options.view !== 'linkedFeed') {
-      console.log('Template data:');
-      console.log(JSON.stringify(options));
-      // console.log(Template.currentData());
       options.subview = options.view;
     }
     options.view = 'linkedFeed';
@@ -249,7 +246,6 @@ Template.feed.helpers({
     // main view
     if (feed) {
       if (_isIndexFeed(this)) {
-        console.log('MAIN FEED');
         // general view
         for (let i = 0; i <= (feed.length - 1); i += 1) {
           feed[i].mainFeed = true;
@@ -261,7 +257,6 @@ Template.feed.helpers({
         }
       } else {
         // thread view
-        console.log('THREAD FEED');
         feed = _.sortBy(feed, 'createdAt');
         feed = _feedDepth(feed);
         for (let i = 0; i <= (feed.length - 1); i += 1) {
@@ -312,11 +307,10 @@ Template.feed.helpers({
     return 0;
   },
   beginning() {
-    console.log(`beginning: ${(Template.currentData().options.skip === 0 || Template.currentData().singlePost)}`);
     return (Template.currentData().options.skip === 0 || Template.currentData().singlePost);
   },
   single() {
-    return Template.currentData().singlePost;
+    return (Template.currentData().singlePost || !Meteor.user());
   },
   emptyContent() {
     return Session.get('emptyContent');
