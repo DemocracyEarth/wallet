@@ -1,10 +1,23 @@
 <template name="landing">
   {{> team}}
   {{> press}}
+  {{> model}}
   {{> paper}}
   {{> partners}}
   {{> clients}}
   {{> social}}
+</template>
+
+
+<template name="model">
+  <div class="hero hero-quarter hero-quarter-last">
+    <div class="landing-center">
+      <h1 class='landing-sub landing-sub-big'>{{{_ 'token-title'}}}</h1>
+      <div class="landing-company-list">
+        {{{_ 'token-model'}}}
+      </div>
+    </div>
+  </div>
 </template>
 
 <template name="paper">
@@ -122,7 +135,7 @@
         </div>
       </div>
       <div class="landing-button-menu">
-        <a class="landing-link-clean" href="http://node.democracy.earth" target="_blank">
+        <a class="landing-link-clean" href="http://setup.democracy.earth" target="_blank">
           <div class="button login-button button-landing not-mobile">
             <img class="button-landing-icon" src="/images/node.png">
             {{_ 'setup-node'}}
@@ -234,7 +247,7 @@
             <a class="landing-list-item-link" href="http://code.democracy.earth" target="_blank">{{_ 'landing-footer-source-code'}}</a>
           </li>
           <li class="landing-list-item">
-              <a class="landing-list-item-link" href="http://docs.democracy.earth" target="_blank">{{_ 'landing-footer-documentation'}}</a>
+              <a class="landing-list-item-link" href="http://doc.democracy.earth" target="_blank">{{_ 'landing-footer-documentation'}}</a>
             </li>
           <li class="landing-list-item">
             <a class="landing-list-item-link" href="http://testnet.democracy.earth" target="_blank">{{_ 'landing-footer-testnet'}}</a>
