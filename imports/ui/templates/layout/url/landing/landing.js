@@ -9,7 +9,11 @@ import '/imports/ui/templates/layout/url/landing/landing.html';
 
 Template.team.onCreated(function () {
   Template.instance().showVideo = new ReactiveVar(false);
-})
+});
+
+Template.team.onRendered(function () {
+  document.getElementById('democracy-video').pause();
+});
 
 Template.team.events({
   'click #community-join'() {

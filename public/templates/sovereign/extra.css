@@ -461,6 +461,61 @@ body, h4, h1, h2 {
   clear: both
 }
 
+.landing-coin {
+  max-width: 230px;
+  float: left;
+  padding: 10px;
+}
+
+.landing-coin-connect {
+  max-width:200px;
+  float:left;
+}
+
+.landing-scheme {
+  margin: 0 auto;
+  display: table;
+}
+
+.landing-scheme-arrow {
+  width: 150px;
+  border-bottom: 1px solid #34283d;
+  margin-top: 110px;
+}
+
+.landing-coin-connect-value {
+  position: absolute;
+  color: #bfbfbf;
+  margin-top: 7px;
+  font-size: 8px;
+  line-height: 16px;
+}
+
+.landing-scheme-arrow-right {
+  border: solid #34283d;
+  float: right;
+  border-width: 0 1px 1px 0;
+  margin-top: -6px;
+  margin-right: 1px;
+  border-style: solid;
+  display: inline-block;
+  padding: 6px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.landing-coin-connect-label {
+  text-transform: uppercase;
+  font-size: 10px;
+  position: absolute;
+  width: 150px;
+  line-height: 33px;
+  margin-top: -30px;
+  font-weight: 500;
+  color: #34283d;
+  text-align: left;
+}
+
 .landing-map-menu {
   max-width: 65%;
   margin: 0 auto;
