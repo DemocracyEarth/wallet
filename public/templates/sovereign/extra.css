@@ -465,11 +465,44 @@ body, h4, h1, h2 {
   max-width: 230px;
   float: left;
   padding: 10px;
+  text-align: center;
+}
+
+.landing-coin-label {
+  font-size:12px;
+}
+
+.landing-loop {
+  height: 30px;
+  display: block;
+  margin-top: 260px;
+}
+
+.landing-loop-arrow {
+  border-bottom: 5px solid #c0bec7;
+  margin: 0 115px;
 }
 
 .landing-coin-connect {
   max-width:200px;
   float:left;
+}
+
+.landing-loop-arrow-end {
+  border-left: 5px solid #c0bec7;
+  height: 50px;
+  border-bottom-left-radius: 6px;
+  margin-left: -5px;
+  margin-bottom: -5px;
+}
+
+.landing-loop-arrow-start {
+  border-right: 5px solid #c0bec7;
+  height: 50px;
+  float: right;
+  border-bottom-right-radius: 6px;
+  margin-right: -5px;
+  margin-top: -45px;
 }
 
 .landing-scheme {
@@ -479,22 +512,24 @@ body, h4, h1, h2 {
 
 .landing-scheme-arrow {
   width: 150px;
-  border-bottom: 1px solid #34283d;
+  border-bottom: 5px solid #c0bec7;
   margin-top: 110px;
 }
 
 .landing-coin-connect-value {
   position: absolute;
-  color: #bfbfbf;
-  margin-top: 7px;
+  color: #000000;
+  margin-top: 14px;
   font-size: 8px;
-  line-height: 16px;
+  line-height: 14px;
+  max-width: 139px;
+  opacity: 0.5;
 }
 
 .landing-scheme-arrow-right {
-  border: solid #34283d;
+  border: 5px solid #c0bec7;
   float: right;
-  border-width: 0 1px 1px 0;
+  border-width: 0 5px 5px 0;
   margin-top: -6px;
   margin-right: 1px;
   border-style: solid;
@@ -506,7 +541,7 @@ body, h4, h1, h2 {
 
 .landing-coin-connect-label {
   text-transform: uppercase;
-  font-size: 10px;
+  font-size: 11px;
   position: absolute;
   width: 150px;
   line-height: 33px;

@@ -659,9 +659,11 @@
   "landing-footer-social-media": "On the Internet",
   "landing-companies": "Our <a href='https://sovereign.software' target='_blank'>Sovereign Software</a> meets the governance needs of the leading decentralized communities.",
   "token-title": "A Social Smart Contract.",
-  "token-model": "Democracy Earth's protocol implements <a href='https://economics.rice.edu/sites/g/files/bxs876/f/Weyl%20(paper)%20-%20Feb%202017.pdf'>Quadratic Voting</a> to build a consensus of human participants in blockchain networks.",
-  "token-step-a": "Burn Time",
-  "token-step-b": "Quadratic Peg",
-  "token-detail-b": "1 $HOUR = 1 $VOTE.<br>4 $HOUR = 2 $VOTE.",
-  "token-detail-a": "1 hour = 1 $HOUR."
+  "token-model": "Democracy Earth's protocol implements <a href='https://economics.rice.edu/sites/g/files/bxs876/f/Weyl%20(paper)%20-%20Feb%202017.pdf'>Quadratic Voting</a> to build a consensus of human participants open to all networks.",
+  "token-step-a": "1. Burn Elapsed Time",
+  "token-step-b": "2. Quadratic Peg",
+  "token-detail-a": "A blockchain address connected to a valid <a href='#'>Turing-Impossible proof</a> earns the right to mint <a href='#'>$HOUR</a> tokens at the rate of equivalent hours elapsed since verification.",
+  "token-detail-b": "<a href=''>$HOUR</a> tokens are pegged at a quadratic rate to <a href=''>$VOTE</a> tokens. Quadratic voting prevents abuse from majorities and allows groups to organize around causes.",
+  "token-erc-725": "ERC 725 Identity",
+  "token-erc-20": "ERC 20 Token"
 }
