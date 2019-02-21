@@ -466,20 +466,15 @@ body, h4, h1, h2 {
   float: left;
   padding: 10px;
   text-align: center;
+  margin-bottom:-20px;
 }
 
 .landing-coin-label {
   font-size:12px;
 }
 
-.landing-loop {
-  height: 30px;
-  display: block;
-  margin-top: 260px;
-}
-
 .landing-loop-arrow {
-  border-bottom: 5px solid #c0bec7;
+  border-bottom: 1px dotted #34283d;
   margin: 0 115px;
 }
 
@@ -489,20 +484,18 @@ body, h4, h1, h2 {
 }
 
 .landing-loop-arrow-end {
-  border-left: 5px solid #c0bec7;
-  height: 50px;
-  border-bottom-left-radius: 6px;
-  margin-left: -5px;
-  margin-bottom: -5px;
+  border-left: 1px dotted #34283d;
+  height: 35px;
+  margin-left: 0px;
+  margin-bottom: 1px;
 }
 
 .landing-loop-arrow-start {
-  border-right: 5px solid #c0bec7;
-  height: 50px;
+  border-right: 1px dotted #34283d;
+  height: 35px;
   float: right;
-  border-bottom-right-radius: 6px;
-  margin-right: -5px;
-  margin-top: -45px;
+  margin-right: -2px;
+  margin-top: -34px;
 }
 
 .landing-scheme {
@@ -512,43 +505,56 @@ body, h4, h1, h2 {
 
 .landing-scheme-arrow {
   width: 150px;
-  border-bottom: 5px solid #c0bec7;
+  border-bottom: 1px dotted #34283d;
   margin-top: 110px;
 }
 
 .landing-coin-connect-value {
   position: absolute;
   color: #000000;
-  margin-top: 14px;
-  font-size: 8px;
-  line-height: 14px;
-  max-width: 139px;
+  margin-top: 25px;
+  font-size: 10px;
+  line-height: 15px;
+  max-width: 146px;
   opacity: 0.5;
+  text-align: center;
+  margin-left: 0px;
 }
 
 .landing-scheme-arrow-right {
-  border: 5px solid #c0bec7;
+  border-color: #34283d;
   float: right;
-  border-width: 0 5px 5px 0;
+  border-width: 0 1px 1px 0;
   margin-top: -6px;
-  margin-right: 1px;
-  border-style: solid;
-  display: inline-block;
+  margin-right: -1px;
+  border-style: dotted;
   padding: 6px;
   transform: rotate(-45deg);
   -webkit-transform: rotate(-45deg);
+}
+
+.landing-scheme-arrow-up {
+  border-color: #34283d;
+  border-width: 0 1px 1px 0;
+  margin-bottom: -19px;
+  margin-left: -6px;
+  border-style: dotted;
+  display: inline-block;
+  padding: 6px;
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg)
 }
 
 .landing-coin-connect-label {
   text-transform: uppercase;
   font-size: 11px;
   position: absolute;
-  width: 150px;
+  width: 135px;
   line-height: 33px;
-  margin-top: -30px;
+  margin-top: -50px;
   font-weight: 500;
   color: #34283d;
-  text-align: left;
+  text-align: center;
 }
 
 .landing-map-menu {
