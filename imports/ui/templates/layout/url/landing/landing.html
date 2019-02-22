@@ -3,6 +3,8 @@
   {{> press}}
   {{> model}}
   {{> partners}}
+  {{> paper}}
+  {{> partners}}
   {{> clients}}
   {{> social}}
 </template>
@@ -71,44 +73,58 @@
         </div>
       </div>
     </div>
-
-    {{> paper}}
+    <div class="landing-button-menu">
+      <a class="landing-link-clean" href="https://etherscan.io/token/0x00319f722bd546182cb2c701ca254146d3f084fc" target="_blank"> 
+        <div class="button login-button button-landing not-mobile">
+          <img class="button-landing-icon" src="/images/token.png">
+          {{_ 'token-activity'}}
+        </div>
+      </a>
+      <a class="landing-link-clean" href="#" target="_blank"> 
+        <div class="button login-button button-landing button-landing-secondary not-mobile">
+          <img class="button-landing-icon" src="/images/token.png">
+          {{_ 'token-exchanges'}}
+        </div>
+      </a>
+    </div>
   </div>
 </template>
 
 <template name="paper">
-  <div class="landing-center">
-    <div class="landing-sub-header">
-      <div class="landing-sub-content">
-        <h1 class='landing-sub landing-sub-big landing-sub-small'>{{{_ 'white-paper'}}}</h1>
-        {{{_ 'white-paper-detail'}}}
-      </div>  
+  <div class="hero hero-quarter hero-quarter-last">
+    <div class="landing-center">
+      <h1 class='landing-sub landing-sub-big'>{{{_ 'white-paper'}}}</h1>
+      <div class="landing-sub-header">
+        <div class="landing-sub-content">
+          {{{_ 'white-paper-detail'}}}
+        </div>  
+      </div>
+      <div class="landing-item">
+        <a class="landing-link-clean" href="http://paper.democracy.earth" target="_blank">
+          <img class='paper-screenshot' src='/images/social-smart-contract.png'>
+        </a>
+      </div>
+      <div class="landing-item">
+        <a class="landing-link-clean" href="http://economics.democracy.earth" target="_blank"> 
+          <img class='paper-screenshot' src='/images/token-economics.png'>
+        </a>
+      </div>
     </div>
-    <div class="landing-item">
-      <a class="landing-link-clean" href="http://paper.democracy.earth" target="_blank">
-        <img class='paper-screenshot' src='/images/social-smart-contract.png'>
+    <div class="landing-button-menu">
+      <a class="landing-link-clean" href="http://paper.democracy.earth" target="_blank"> 
+        <div class="button login-button button-landing not-mobile">
+          <img class="button-landing-icon" src="/images/pdf.png">
+          {{_ 'white-paper-pdf'}}
+        </div>
       </a>
-    </div>
-    <div class="landing-item">
       <a class="landing-link-clean" href="http://economics.democracy.earth" target="_blank"> 
-        <img class='paper-screenshot' src='/images/token-economics.png'>
+        <div class="button login-button button-landing button-landing-secondary not-mobile">
+          <img class="button-landing-icon" src="/images/pdf-secondary.png">
+          {{_ 'token-economics-pdf'}}
+        </div>
       </a>
     </div>
-  </div>
-  <div class="landing-button-menu">
-    <a class="landing-link-clean" href="http://paper.democracy.earth" target="_blank"> 
-      <div class="button login-button button-landing not-mobile">
-        <img class="button-landing-icon" src="/images/pdf.png">
-        {{_ 'white-paper-pdf'}}
-      </div>
-    </a>
-    <a class="landing-link-clean" href="http://economics.democracy.earth" target="_blank"> 
-      <div class="button login-button button-landing button-landing-secondary not-mobile">
-        <img class="button-landing-icon" src="/images/pdf-secondary.png">
-        {{_ 'token-economics-pdf'}}
-      </div>
-    </a>
-  </div>
+  </div> 
 </template>
 
 <template name="team">

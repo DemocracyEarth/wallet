@@ -632,7 +632,7 @@
   "foundation": "Foundation",
   "edit-profile": "Edit Profile",
   "configure-keys": "Configure Keys",
-  "white-paper": "White Papers.",
+  "white-paper": "A Social Smart Contract.",
   "white-paper-detail": "Our consensus protocol graphs a <a href='https://coindesk.com/humans-on-the-blockchain-why-crypto-is-the-best-defense-against-ai-overlords' target='_blank'>one-human-one-node</a> network using Turing-Impossible Proofs. These consist of <a href='https://en.wikipedia.org/wiki/Turing_test' target='_blank'>Turing tests</a> that grant voting rights to individual humans over blockchain protocols. We provide governance as a service for crypto networks, enabling communities to rely on verified participants while preserving their privacy.",
   "white-paper-pdf": "White Paper",
   "token-economics-pdf": "Token Economics",
@@ -658,7 +658,7 @@
   "landing-footer-resources": "Resources",
   "landing-footer-social-media": "On the Internet",
   "landing-companies": "Our <a href='https://sovereign.software' target='_blank'>Sovereign Software</a> meets the governance needs of the leading decentralized communities.",
-  "token-title": "A Social Smart Contract.",
+  "token-title": "Digital Human Rights.",
   "token-model": "Democracy Earth's protocol implements <a href='https://economics.rice.edu/sites/g/files/bxs876/f/Weyl%20(paper)%20-%20Feb%202017.pdf'>Quadratic Voting</a> to build a consensus of human participants available to all networks.",
   "token-step-a": "Basic Income",
   "token-step-b": "Quadratic Voting",
@@ -667,5 +667,7 @@
   "token-detail-b": "Valid identities can burn <a href='https://etherscan.io/token/0x00319f722bd546182cb2c701ca254146d3f084fc' _target='_blank'>$HOUR</a> tokens to get <a href=''>$VOTEs</a> at quadratic rate. Quadratic voting prevents majority abuse, political speculation and extremist positions.",
   "token-detail-c": "The <a href=''>$VOTE</a> token allows network participants to validate or reject candidate identities by staking on <a href='https://www.youtube.com/watch?v=XlQgBYsXhds' target='_blank'>Token Curated Registries</a> designed to strictly prevent bots &amp; sybils in the network.",
   "token-erc-725": "ERC 725 Identity",
-  "token-erc-20": "ERC 20 Token"
+  "token-erc-20": "ERC 20 Token",
+  "token-activity": "Token Activity",
+  "token-exchanges": "On Exchanges"
 }
