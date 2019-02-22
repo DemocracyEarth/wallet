@@ -485,17 +485,17 @@ body, h4, h1, h2 {
 
 .landing-loop-arrow-end {
   border-left: 1px dotted #34283d;
-  height: 35px;
+  height: 70px;
   margin-left: 0px;
   margin-bottom: 1px;
 }
 
 .landing-loop-arrow-start {
   border-right: 1px dotted #34283d;
-  height: 35px;
+  height: 70px;
   float: right;
   margin-right: -2px;
-  margin-top: -34px;
+  margin-top: -69px;
 }
 
 .landing-scheme {
@@ -507,6 +507,35 @@ body, h4, h1, h2 {
   width: 150px;
   border-bottom: 1px dotted #34283d;
   margin-top: 110px;
+}
+
+.landing-coin-connect-label.landing-coin-connect-label-bottom, .landing-coin-connect-value.landing-coin-connect-label-bottom {
+  width: auto;
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.landing-coin-connect-value.landing-coin-connect-label-bottom {
+  margin: 40px auto 0;
+  max-width: 330px;
+}
+
+.landing-coin-label a, .landing-coin-label a:hover {
+  color: #33293c;
+  font-size: 10px;
+}
+
+.landing-loop {
+  margin-bottom: 70px;
+}
+
+.landing-sub.landing-sub-big.landing-sub-small {
+  text-align: left;
+  margin: 0px 0px 30px;
+  font-size: 28px;
+  margin-top: -30px;
+  padding-bottom: 6px;
+  border-bottom-width: 5px;
 }
 
 .landing-coin-connect-value {
