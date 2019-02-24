@@ -4,7 +4,7 @@
   {{> model}}
   {{> partners}}
   {{> paper}}
-  {{> partners}}
+  {{> donors}}
   {{> clients}}
   {{> social}}
 </template>
@@ -74,16 +74,16 @@
       </div>
     </div>
     <div class="landing-button-menu">
-      <a class="landing-link-clean" href="https://etherscan.io/token/0x00319f722bd546182cb2c701ca254146d3f084fc" target="_blank"> 
+      <a class="landing-link-clean" href="https://www.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=eae0415e-75d8-408f-a917-c74a7801a2f7" target="_blank"> 
         <div class="button login-button button-landing not-mobile">
-          <img class="button-landing-icon" src="/images/token.png">
-          {{_ 'token-activity'}}
+          <img class="button-landing-icon" src="/images/saft.png">
+          {{_ 'token-saft'}}
         </div>
       </a>
-      <a class="landing-link-clean" href="#" target="_blank"> 
+      <a class="landing-link-clean" href="https://etherscan.io/token/0x00319f722bd546182cb2c701ca254146d3f084fc" target="_blank"> 
         <div class="button login-button button-landing button-landing-secondary not-mobile">
-          <img class="button-landing-icon" src="/images/token.png">
-          {{_ 'token-exchanges'}}
+          <img class="button-landing-icon" src="/images/ethereum-landing.png">
+          {{_ 'token-blockchain'}}
         </div>
       </a>
     </div>
@@ -255,36 +255,69 @@
 </template>
 
 <template name="partners">  
-    <div class="hero hero-tertiary">    
-      <div class="landing-center">
-        <div class="landing-item">
-          <a class="landing-link-clean" href="https://www.fastcompany.com/3043388/why-y-combinator-funded-a-radical-political-party-in-argentina" target="_blank"> 
-            <img class='landing-logo' src='/images/landing-logo-yc.png'>
-          </a>
-        </div>
-        <div class="landing-item">
-          <a class="landing-link-clean" href="https://www.ted.com/talks/pia_mancini_how_to_upgrade_democracy_for_the_internet_era" target="_blank"> 
-            <img class='landing-logo' src='/images/landing-logo-ted.png'>
-          </a>
-        </div>        
-        <div class="landing-item">
-          <a class="landing-link-clean" href="https://www.youtube.com/watch?v=4g_UhyMwxAk" target="_blank"> 
-            <img class='landing-logo' src='/images/landing-logo-singularity.png'>
-          </a>
-        </div>
-        <div class="landing-item">
-          <a class="landing-link-clean" href="https://youtu.be/AlDRfT0G0LE?t=994" target="_blank"> 
-            <img class='landing-logo' src='/images/landing-logo-wef.png'>
-          </a>
-        </div>
-        <div class="landing-item">
-          <a class="landing-link-clean" href="https://www.oecd.org/gov/innovative-government/embracing-innovation-in-government-colombia.pdf" target="_blank"> 
-            <img class='landing-logo' src='/images/landing-logo-oecd.png'>
-          </a>
-        </div>
+  <div class="hero hero-tertiary">    
+    <div class="landing-center">
+      <div class="landing-item">
+        <a class="landing-link-clean" href="https://www.fastcompany.com/3043388/why-y-combinator-funded-a-radical-political-party-in-argentina" target="_blank"> 
+          <img class='landing-logo' src='/images/landing-logo-yc.png'>
+        </a>
+      </div>
+      <div class="landing-item">
+        <a class="landing-link-clean" href="https://www.ted.com/talks/pia_mancini_how_to_upgrade_democracy_for_the_internet_era" target="_blank"> 
+          <img class='landing-logo' src='/images/landing-logo-ted.png'>
+        </a>
+      </div>        
+      <div class="landing-item">
+        <a class="landing-link-clean" href="https://www.youtube.com/watch?v=4g_UhyMwxAk" target="_blank"> 
+          <img class='landing-logo' src='/images/landing-logo-singularity.png'>
+        </a>
+      </div>
+      <div class="landing-item">
+        <a class="landing-link-clean" href="https://youtu.be/AlDRfT0G0LE?t=994" target="_blank"> 
+          <img class='landing-logo' src='/images/landing-logo-wef.png'>
+        </a>
+      </div>
+      <div class="landing-item">
+        <a class="landing-link-clean" href="https://www.oecd.org/gov/innovative-government/embracing-innovation-in-government-colombia.pdf" target="_blank"> 
+          <img class='landing-logo' src='/images/landing-logo-oecd.png'>
+        </a>
       </div>
     </div>
-  </template>
+  </div>
+</template>
+
+<template name="donors">  
+  <div class="hero hero-tertiary">    
+    <div class="landing-center">
+      <div class="landing-item">
+        <a class="landing-link-clean" href="https://www.newscientist.com/article/mg23531424-500-bitcoin-tech-to-put-political-power-in-the-hands-of-voters/" target="_blank"> 
+          <img class='landing-logo' src='/images/landing-logo-newscientist.png'>
+        </a>
+      </div>     
+      <div class="landing-item">
+        <a class="landing-link-clean" href="https://breakermag.com/an-idealistic-builder-explains-how-blockchain-will-someday-replace-government/" target="_blank"> 
+          <img class='landing-logo' src='/images/landing-logo-breakermag.png'>
+        </a>
+      </div>
+      <div class="landing-item">
+        <a class="landing-link-clean" href="https://www.ffwd.org/blog/tech-nonprofits/democracy-earth/" target="_blank"> 
+          <img class='landing-logo' src='/images/landing-logo-fastforward.png'>
+        </a>
+      </div>   
+      <div class="landing-item">
+        <a class="landing-link-clean" href="https://www.fastcompany.com/3062386/democracy-is-getting-a-reboot-on-the-blockchain" target="_blank"> 
+          <img class='landing-logo' src='/images/landing-logo-fastcompany.png'>
+        </a>
+      </div>
+      <div class="landing-item">
+        <a class="landing-link-clean" href="https://www.scientificamerican.com/article/are-blockchains-the-answer-for-secure-elections-probably-not/" target="_blank"> 
+          <img class='landing-logo' src='/images/landing-logo-scientificamerican.png'>
+        </a>
+      </div>
+    </div>
+  </div>
+</template>
+
 
 <template name="social">
   <div class="hero hero-fifth">

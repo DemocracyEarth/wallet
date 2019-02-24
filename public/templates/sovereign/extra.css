@@ -545,7 +545,6 @@ body, h4, h1, h2 {
   font-size: 10px;
   line-height: 15px;
   max-width: 146px;
-  opacity: 0.5;
   text-align: center;
   margin-left: 0px;
 }
@@ -581,7 +580,7 @@ body, h4, h1, h2 {
   width: 135px;
   line-height: 33px;
   margin-top: -50px;
-  font-weight: 500;
+  font-weight: 700;
   color: #34283d;
   text-align: center;
 }
