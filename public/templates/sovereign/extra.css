@@ -542,8 +542,8 @@ body, h4, h1, h2 {
   position: absolute;
   color: #000000;
   margin-top: 25px;
-  font-size: 10px;
-  line-height: 15px;
+  font-size: 12px;
+  line-height: 18px;
   max-width: 146px;
   text-align: center;
   margin-left: 0px;
@@ -583,6 +583,32 @@ body, h4, h1, h2 {
   font-weight: 700;
   color: #34283d;
   text-align: center;
+}
+
+.landing-coin-connect-label-mobile {
+  text-transform: uppercase;
+  font-size: 12px;
+  line-height: 33px;
+  font-weight: 700;
+  color: #34283d;
+}
+
+.landing-token-pic-mobile {
+  max-height:100px;
+}
+
+.landing-coin-connect-value-mobile {
+  color: #000000;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.landing-coin-connect-mobile {
+  padding-right:60px;
+  margin-bottom:40px;
+  float: left;
+  clear: right;
+  width: 70%;
 }
 
 .landing-map-menu {
@@ -628,10 +654,33 @@ body, h4, h1, h2 {
   margin-top: -3px;
 }
 
+.landing-scheme-mobile {
+  display:none;
+}
+
+.landing-sub-header.landing-sub-dapp.landing-sub-scheme {
+  padding: 0px 25px;
+  text-align: right;
+  float: left;
+  clear: left;
+}
+
 @media (max-width: 991px) {
   .landing-item {
       float: none;
       clear:both;
+  }
+
+  .landing-coin {
+    max-width:145px;
+  }
+
+  .landing-scheme-arrow {
+    margin-top:70px;
+  }
+
+  .landing-loop-arrow {
+    margin:0 75px;
   }
 
   .landing-sub-half {
@@ -738,6 +787,15 @@ body, h4, h1, h2 {
     display:none;
   }
 
+  .landing-scheme {
+    display:none;
+  }
+
+  .landing-scheme-mobile {
+    display: block;
+    padding: 0 30px;
+  }
+
   .landing-closing {
     clear:both;
   }
@@ -801,6 +859,22 @@ body, h4, h1, h2 {
   .paper-screenshot {
     max-width: 200px;
     margin: 5px 10px 20px 10px;
+  }
+
+  .landing-sub-header.landing-sub-dapp.landing-sub-scheme {
+    padding: 0px;
+    padding-right: 20px;
+    text-align: right;
+    float: left;
+    clear: left;
+  }
+
+  .landing-coin-connect-mobile {
+    padding-right: 10px;
+    margin-bottom: 40px;
+    float: left;
+    clear: right;
+    width: 70%;
   }
 
   .button.login-button.button-landing {
