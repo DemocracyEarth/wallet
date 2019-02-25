@@ -867,6 +867,7 @@ body, h4, h1, h2 {
     text-align: right;
     float: left;
     clear: left;
+    margin-left:-10px;
   }
 
   .landing-coin-connect-mobile {
@@ -875,6 +876,11 @@ body, h4, h1, h2 {
     float: left;
     clear: right;
     width: 70%;
+  }
+
+  .landing-token-pic-mobile {
+    max-height: 100px;
+    padding-top: 10px;
   }
 
   .button.login-button.button-landing {
