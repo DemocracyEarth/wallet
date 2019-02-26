@@ -1,14 +1,132 @@
 <template name="landing">
   {{> team}}
   {{> press}}
-  {{> paper}}
+  {{> model}}
   {{> partners}}
+  {{> paper}}
+  {{> donors}}
   {{> clients}}
   {{> social}}
 </template>
 
+
+<template name="model">
+  <div class="hero hero-quarter hero-quarter-last">
+    <div class="landing-center">
+      <h1 class='landing-sub landing-sub-big'>{{{_ 'token-title'}}}</h1>
+      <div class="landing-company-list">
+        {{{_ 'token-model'}}}
+      </div>
+    </div>
+    <div class="landing-scheme-mobile">
+      <div class="landing-sub-header landing-sub-dapp landing-sub-scheme">
+        <img class="landing-token-pic-mobile" src="/images/token-identity.png">
+      </div>
+      <div class="landing-coin-connect-mobile">
+        <div class="landing-coin-connect-label-mobile">
+          {{{_ 'token-step-a'}}}
+        </div>
+        <div class="landing-coin-connect-value-mobile">
+          {{{_ 'token-detail-a'}}}
+        </div>
+      </div>
+      <div class="landing-sub-header landing-sub-dapp landing-sub-scheme">
+        <img class="landing-token-pic-mobile" src="/images/token-hour.png">
+      </div>
+      <div class="landing-coin-connect-mobile">
+        <div class="landing-coin-connect-label-mobile">
+          {{{_ 'token-step-b'}}}
+        </div>
+        <div class="landing-coin-connect-value-mobile">
+          {{{_ 'token-detail-b'}}}
+        </div>
+      </div>
+      <div class="landing-sub-header landing-sub-dapp landing-sub-scheme">
+        <img class="landing-token-pic-mobile" src="/images/token-vote.png">
+      </div>
+      <div class="landing-coin-connect-mobile">
+        <div class="landing-coin-connect-label-mobile">
+          {{{_ 'token-step-c'}}}
+        </div>
+        <div class="landing-coin-connect-value-mobile">
+          {{{_ 'token-detail-c'}}}
+        </div>
+      </div>
+    </div>
+    <div class="landing-scheme">
+      <div class="landing-coin">
+        <img src="/images/token-identity.png">
+        <div class="landing-coin-label">
+          <a href="https://github.com/ethereum/eips/issues/725">{{_ 'token-erc-725'}}</a>
+        </div>
+      </div>
+      <div class="landing-coin-connect">
+        <div class="landing-scheme-arrow">
+            <div class="landing-coin-connect-label">
+              {{{_ 'token-step-a'}}}
+            </div>
+            <div class="landing-coin-connect-value">
+                {{{_ 'token-detail-a'}}}
+            </div>
+            <div class="landing-scheme-arrow-right"></div>
+        </div>
+      </div>
+      <div class="landing-coin">
+        <img src="/images/token-hour.png">
+        <div class="landing-coin-label">
+          <a href="https://github.com/ethereum/eips/issues/20">{{_ 'token-erc-20'}}</a>
+        </div>
+      </div>
+      <div class="landing-coin-connect">
+          <div class="landing-scheme-arrow">
+              <div class="landing-coin-connect-label">
+                {{{_ 'token-step-b'}}}
+              </div>
+              <div class="landing-coin-connect-value">
+                {{{_ 'token-detail-b'}}}
+              </div>
+              <div class="landing-scheme-arrow-right"></div>
+          </div>
+      </div>
+      <div class="landing-coin">
+        <img src="/images/token-vote.png">
+        <div class="landing-coin-label">
+          <a href="https://github.com/ethereum/eips/issues/20">{{_ 'token-erc-20'}}</a>
+        </div>
+      </div>
+      <div class="landing-loop">
+        <div class="landing-loop-arrow">
+          <div class="landing-scheme-arrow-up"></div>
+          <div class="landing-loop-arrow-end"></div>
+          <div class="landing-loop-arrow-start"></div>
+        </div>
+        <div class="landing-coin-connect-label landing-coin-connect-label-bottom">
+          {{{_ 'token-step-c'}}}
+        </div>    
+        <div class="landing-coin-connect-value landing-coin-connect-label-bottom">
+          {{{_ 'token-detail-c'}}}
+        </div>
+      </div>
+    </div>
+    <div class="landing-button-menu">
+      <a class="landing-link-clean" href="https://www.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=eae0415e-75d8-408f-a917-c74a7801a2f7" target="_blank"> 
+        <div class="button login-button button-landing not-mobile">
+          <img class="button-landing-icon" src="/images/saft.png">
+          {{_ 'token-saft'}}
+        </div>
+      </a>
+      <a class="landing-link-clean" href="https://etherscan.io/token/0x00319f722bd546182cb2c701ca254146d3f084fc" target="_blank"> 
+        <div class="button login-button button-landing button-landing-secondary not-mobile">
+          <img class="button-landing-icon" src="/images/ethereum-landing.png">
+          {{_ 'token-blockchain'}}
+        </div>
+      </a>
+    </div>
+  </div>
+</template>
+
 <template name="paper">
-  <div class="hero hero-quarter">
+  <div class="hero hero-quarter hero-quarter-last">
     <div class="landing-center">
       <h1 class='landing-sub landing-sub-big'>{{{_ 'white-paper'}}}</h1>
       <div class="landing-sub-header">
@@ -41,14 +159,14 @@
         </div>
       </a>
     </div>
-  </div>
+  </div> 
 </template>
 
 <template name="team">
   <div id="video-modal" class="w-clearfix modal" style="{{modalVideo}}">
   </div>
   <div class="landing-video" style="{{showVideo}}">
-    <video id="democracy-video" width="100%" height="auto" controls controlsList="nodownload" webkitallowfullscreen mozallowfullscreen allowFullScreen autoplay>
+    <video id="democracy-video" width="100%" height="auto" controls controlsList="nodownload" webkitallowfullscreen mozallowfullscreen allowFullScreen autoplay poster="/images/landing-community.png">
       <source src="https://s3-us-west-2.amazonaws.com/democracyearth/landing/Liquid+Democracy+with+Santiago+Siri.mp4" type="video/mp4" />
     </video>
   </div>
@@ -101,7 +219,7 @@
         <div class="landing-quote-source">
           Muneeb Ali
           <br>
-          CEO of <a href="https://blockstack.org" target="_blank">Blockstack</a>.
+          Cofounder of <a href="https://blockstack.org" target="_blank">Blockstack</a>.
         </div>
       </div>
       <div class="landing-sub-header landing-sub-dapp">
@@ -118,11 +236,11 @@
         <div class="landing-quote-source">
           Esteban Ordano
           <br>
-          CTO of <a href="https://decentraland.org" target="_blank">Decentraland</a>.
+          Cofounder of <a href="https://decentraland.org" target="_blank">Decentraland</a>.
         </div>
       </div>
       <div class="landing-button-menu">
-        <a class="landing-link-clean" href="http://node.democracy.earth" target="_blank">
+        <a class="landing-link-clean" href="http://setup.democracy.earth" target="_blank">
           <div class="button login-button button-landing not-mobile">
             <img class="button-landing-icon" src="/images/node.png">
             {{_ 'setup-node'}}
@@ -172,36 +290,69 @@
 </template>
 
 <template name="partners">  
-    <div class="hero hero-tertiary">    
-      <div class="landing-center">
-        <div class="landing-item">
-          <a class="landing-link-clean" href="https://www.fastcompany.com/3043388/why-y-combinator-funded-a-radical-political-party-in-argentina" target="_blank"> 
-            <img class='landing-logo' src='/images/landing-logo-yc.png'>
-          </a>
-        </div>
-        <div class="landing-item">
-          <a class="landing-link-clean" href="https://www.ted.com/talks/pia_mancini_how_to_upgrade_democracy_for_the_internet_era" target="_blank"> 
-            <img class='landing-logo' src='/images/landing-logo-ted.png'>
-          </a>
-        </div>        
-        <div class="landing-item">
-          <a class="landing-link-clean" href="https://www.youtube.com/watch?v=4g_UhyMwxAk" target="_blank"> 
-            <img class='landing-logo' src='/images/landing-logo-singularity.png'>
-          </a>
-        </div>
-        <div class="landing-item">
-          <a class="landing-link-clean" href="https://youtu.be/AlDRfT0G0LE?t=994" target="_blank"> 
-            <img class='landing-logo' src='/images/landing-logo-wef.png'>
-          </a>
-        </div>
-        <div class="landing-item">
-          <a class="landing-link-clean" href="https://www.oecd.org/gov/innovative-government/embracing-innovation-in-government-colombia.pdf" target="_blank"> 
-            <img class='landing-logo' src='/images/landing-logo-oecd.png'>
-          </a>
-        </div>
+  <div class="hero hero-tertiary">    
+    <div class="landing-center">
+      <div class="landing-item">
+        <a class="landing-link-clean" href="https://www.fastcompany.com/3043388/why-y-combinator-funded-a-radical-political-party-in-argentina" target="_blank"> 
+          <img class='landing-logo' src='/images/landing-logo-yc.png'>
+        </a>
+      </div>
+      <div class="landing-item">
+        <a class="landing-link-clean" href="https://www.ffwd.org/blog/tech-nonprofits/democracy-earth/" target="_blank"> 
+          <img class='landing-logo' src='/images/landing-logo-fastforward.png'>
+        </a>
+      </div>              
+      <div class="landing-item">
+        <a class="landing-link-clean" href="https://www.youtube.com/watch?v=4g_UhyMwxAk" target="_blank"> 
+          <img class='landing-logo' src='/images/landing-logo-singularity.png'>
+        </a>
+      </div>
+      <div class="landing-item">
+        <a class="landing-link-clean" href="https://youtu.be/AlDRfT0G0LE?t=994" target="_blank"> 
+          <img class='landing-logo' src='/images/landing-logo-wef.png'>
+        </a>
+      </div>
+      <div class="landing-item">
+        <a class="landing-link-clean" href="https://www.oecd.org/gov/innovative-government/embracing-innovation-in-government-colombia.pdf" target="_blank"> 
+          <img class='landing-logo' src='/images/landing-logo-oecd.png'>
+        </a>
       </div>
     </div>
-  </template>
+  </div>
+</template>
+
+<template name="donors">  
+  <div class="hero hero-tertiary">    
+    <div class="landing-center">
+      <div class="landing-item">
+        <a class="landing-link-clean" href="https://www.ted.com/talks/pia_mancini_how_to_upgrade_democracy_for_the_internet_era" target="_blank"> 
+          <img class='landing-logo' src='/images/landing-logo-ted.png'>
+        </a>
+      </div>  
+      <div class="landing-item">
+        <a class="landing-link-clean" href="https://www.newscientist.com/article/mg23531424-500-bitcoin-tech-to-put-political-power-in-the-hands-of-voters/" target="_blank"> 
+          <img class='landing-logo' src='/images/landing-logo-newscientist.png'>
+        </a>
+      </div>     
+      <div class="landing-item">
+        <a class="landing-link-clean" href="https://breakermag.com/an-idealistic-builder-explains-how-blockchain-will-someday-replace-government/" target="_blank"> 
+          <img class='landing-logo' src='/images/landing-logo-breakermag.png'>
+        </a>
+      </div>
+      <div class="landing-item">
+        <a class="landing-link-clean" href="https://www.fastcompany.com/3062386/democracy-is-getting-a-reboot-on-the-blockchain" target="_blank"> 
+          <img class='landing-logo' src='/images/landing-logo-fastcompany.png'>
+        </a>
+      </div>
+      <div class="landing-item">
+        <a class="landing-link-clean" href="https://www.scientificamerican.com/article/are-blockchains-the-answer-for-secure-elections-probably-not/" target="_blank"> 
+          <img class='landing-logo' src='/images/landing-logo-scientificamerican.png'>
+        </a>
+      </div>
+    </div>
+  </div>
+</template>
+
 
 <template name="social">
   <div class="hero hero-fifth">
@@ -234,7 +385,7 @@
             <a class="landing-list-item-link" href="http://code.democracy.earth" target="_blank">{{_ 'landing-footer-source-code'}}</a>
           </li>
           <li class="landing-list-item">
-              <a class="landing-list-item-link" href="http://docs.democracy.earth" target="_blank">{{_ 'landing-footer-documentation'}}</a>
+              <a class="landing-list-item-link" href="http://doc.democracy.earth" target="_blank">{{_ 'landing-footer-documentation'}}</a>
             </li>
           <li class="landing-list-item">
             <a class="landing-list-item-link" href="http://testnet.democracy.earth" target="_blank">{{_ 'landing-footer-testnet'}}</a>

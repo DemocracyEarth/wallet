@@ -461,6 +461,156 @@ body, h4, h1, h2 {
   clear: both
 }
 
+.landing-coin {
+  max-width: 230px;
+  float: left;
+  padding: 10px;
+  text-align: center;
+  margin-bottom:-20px;
+}
+
+.landing-coin-label {
+  font-size:12px;
+}
+
+.landing-loop-arrow {
+  border-bottom: 1px dotted #34283d;
+  margin: 0 115px;
+}
+
+.landing-coin-connect {
+  max-width:200px;
+  float:left;
+}
+
+.landing-loop-arrow-end {
+  border-left: 1px dotted #34283d;
+  height: 70px;
+  margin-left: 0px;
+  margin-bottom: 1px;
+}
+
+.landing-loop-arrow-start {
+  border-right: 1px dotted #34283d;
+  height: 70px;
+  float: right;
+  margin-right: -2px;
+  margin-top: -69px;
+}
+
+.landing-scheme {
+  margin: 0 auto;
+  display: table;
+}
+
+.landing-scheme-arrow {
+  width: 150px;
+  border-bottom: 1px dotted #34283d;
+  margin-top: 110px;
+}
+
+.landing-coin-connect-label.landing-coin-connect-label-bottom, .landing-coin-connect-value.landing-coin-connect-label-bottom {
+  width: auto;
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.landing-coin-connect-value.landing-coin-connect-label-bottom {
+  margin: 40px auto 0;
+  max-width: 330px;
+}
+
+.landing-coin-label a, .landing-coin-label a:hover {
+  color: #33293c;
+  font-size: 10px;
+}
+
+.landing-loop {
+  margin-bottom: 30px;
+}
+
+.landing-sub.landing-sub-big.landing-sub-small {
+  text-align: left;
+  margin: 0px 0px 30px;
+  font-size: 28px;
+  margin-top: -30px;
+  padding-bottom: 6px;
+  border-bottom-width: 5px;
+}
+
+.landing-coin-connect-value {
+  position: absolute;
+  color: #000000;
+  margin-top: 25px;
+  font-size: 12px;
+  line-height: 18px;
+  max-width: 146px;
+  text-align: center;
+  margin-left: 0px;
+}
+
+.landing-scheme-arrow-right {
+  border-color: #34283d;
+  float: right;
+  border-width: 0 1px 1px 0;
+  margin-top: -6px;
+  margin-right: -1px;
+  border-style: dotted;
+  padding: 6px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.landing-scheme-arrow-up {
+  border-color: #34283d;
+  border-width: 0 1px 1px 0;
+  margin-bottom: -19px;
+  margin-left: -6px;
+  border-style: dotted;
+  display: inline-block;
+  padding: 6px;
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg)
+}
+
+.landing-coin-connect-label {
+  text-transform: uppercase;
+  font-size: 11px;
+  position: absolute;
+  width: 135px;
+  line-height: 33px;
+  margin-top: -50px;
+  font-weight: 700;
+  color: #34283d;
+  text-align: center;
+}
+
+.landing-coin-connect-label-mobile {
+  text-transform: uppercase;
+  font-size: 12px;
+  line-height: 33px;
+  font-weight: 700;
+  color: #34283d;
+}
+
+.landing-token-pic-mobile {
+  max-height:100px;
+}
+
+.landing-coin-connect-value-mobile {
+  color: #000000;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.landing-coin-connect-mobile {
+  padding-right:60px;
+  margin-bottom:40px;
+  float: left;
+  clear: right;
+  width: 70%;
+}
+
 .landing-map-menu {
   max-width: 65%;
   margin: 0 auto;
@@ -504,10 +654,33 @@ body, h4, h1, h2 {
   margin-top: -3px;
 }
 
+.landing-scheme-mobile {
+  display:none;
+}
+
+.landing-sub-header.landing-sub-dapp.landing-sub-scheme {
+  padding: 0px 25px;
+  text-align: right;
+  float: left;
+  clear: left;
+}
+
 @media (max-width: 991px) {
   .landing-item {
       float: none;
       clear:both;
+  }
+
+  .landing-coin {
+    max-width:145px;
+  }
+
+  .landing-scheme-arrow {
+    margin-top:70px;
+  }
+
+  .landing-loop-arrow {
+    margin:0 75px;
   }
 
   .landing-sub-half {
@@ -614,6 +787,15 @@ body, h4, h1, h2 {
     display:none;
   }
 
+  .landing-scheme {
+    display:none;
+  }
+
+  .landing-scheme-mobile {
+    display: block;
+    padding: 0 30px;
+  }
+
   .landing-closing {
     clear:both;
   }
@@ -677,6 +859,28 @@ body, h4, h1, h2 {
   .paper-screenshot {
     max-width: 200px;
     margin: 5px 10px 20px 10px;
+  }
+
+  .landing-sub-header.landing-sub-dapp.landing-sub-scheme {
+    padding: 0px;
+    padding-right: 20px;
+    text-align: right;
+    float: left;
+    clear: left;
+    margin-left:-10px;
+  }
+
+  .landing-coin-connect-mobile {
+    padding-right: 10px;
+    margin-bottom: 40px;
+    float: left;
+    clear: right;
+    width: 70%;
+  }
+
+  .landing-token-pic-mobile {
+    max-height: 100px;
+    padding-top: 10px;
   }
 
   .button.login-button.button-landing {
