@@ -6366,6 +6366,10 @@ blockquote {
   line-height: 26px;
 }
 
+.hero.hero-landing {
+  min-height: 400px;
+}
+
 .no-underline:hover {
   text-decoration: none;
 }
@@ -6385,7 +6389,7 @@ blockquote {
 .hero-title {
   width: 50%;
   max-width: 550px;
-  margin-bottom: 40px;
+  margin-bottom: 25px;
   margin-left: 5%;
   float: left;
   text-align: left;
@@ -6429,6 +6433,8 @@ blockquote {
 }
 
 .hero-cta-alternative {
+  position: static;
+  z-index: 0;
   margin-top: 8px;
   margin-left: 5px;
   float: left;
@@ -6441,7 +6447,7 @@ blockquote {
   min-width: 340px;
   float: left;
   border-top-left-radius: 5px;
-  box-shadow: 0 4px 23px -10px #000;
+  box-shadow: 0 4px 15px -10px #000;
 }
 
 .hero-menu {
@@ -6579,6 +6585,13 @@ blockquote {
   margin-right: 5%;
   float: right;
   text-align: right;
+}
+
+.hero-warn {
+  position: static;
+  z-index: 1;
+  padding-top: 50px;
+  padding-left: 5px;
 }
 
 @media (max-width: 991px) {
@@ -7226,9 +7239,6 @@ blockquote {
   }
   .hero-call-to-action {
     margin-left: 40px;
-  }
-  .hero-cta-box {
-    box-shadow: none;
   }
   .hero-menu {
     padding-right: 0px;

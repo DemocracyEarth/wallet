@@ -13,29 +13,31 @@
           <div id="join" class="button button-cta">
             {{_ 'join'}}
           </div>
+          <div class="hero-warn">
+            {{#if invalidEmail}}
+              <div class="extra extra-warning-hero">
+                {{> warning label="invalid-email"}}
+              </div>
+            {{/if}}
+            {{#if userExists}}
+              <div class="extra extra-warning-hero">
+                {{> warning label="user-exists"}}
+              </div>
+            {{/if}}
+            {{#if heroEmailUserCreated}}
+              <div class="extra extra-warning-hero">
+                {{> warning label="user-created-email"}}
+              </div>
+            {{/if}}
+          </div>
         </div>
         <div class="hero-cta-alternative">
           &#183;
-          <a class="hero-link" href="https://token.democracy.earth">
+          <a class="hero-link" href="https://setup.democracy.earth">
             {{_ 'start-a-democracy'}}
           </a>
         </div>
       </div>
-      {{#if invalidEmail}}
-        <div class="extra extra-warning-hero">
-          {{> warning label="invalid-email"}}
-        </div>
-      {{/if}}
-      {{#if userExists}}
-        <div class="extra extra-warning-hero">
-          {{> warning label="user-exists"}}
-        </div>
-      {{/if}}
-      {{#if heroEmailUserCreated}}
-        <div class="extra extra-warning-hero">
-          {{> warning label="user-created-email"}}
-        </div>
-      {{/if}}
     {{else}}
       {{> navbar postMode=postMode}}
     {{/unless}}
