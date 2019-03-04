@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { TAPi18n } from 'meteor/tap:i18n';
 
+import { getImageTemplate } from '/imports/ui/templates/layout/templater';
 import { validateEmail } from '/imports/startup/both/modules/validations.js';
 import { validatePassword, validatePasswordMatch, createUser, validateUsername } from '/imports/startup/both/modules/User.js';
 
@@ -17,6 +18,7 @@ export default class Signup extends Component {
       invalidPassword: false,
       mismatchPassword: false,
       alreadyRegistered: false,
+      images: {},
     };
 
     this.handleSignupRender = this.handleSignupRender.bind(this);
@@ -24,6 +26,11 @@ export default class Signup extends Component {
     this.handleBlur = this.handleBlur.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSignupError = this.handleSignupError.bind(this);
+  }
+
+
+  async componentWillMount() {
+    await getImageTemplate().then((resolved) => { this.setState({ images: resolved }); });
   }
 
   handleSignupRender() {
@@ -94,14 +101,9 @@ export default class Signup extends Component {
     return (
       <div>
         <div className="w-clearfix paper-header card-header">
-          <div className="stage stage-finish-approved stage-card stage-anon button">
-            <div className="label label-corner">
-              {TAPi18n.__('anonymous-mode')}
-            </div>
-          </div>
           <div className="card-title">
             <div id="card-back">
-              <img src="/images/back.png" className="section-icon section-icon-active" onClick={this.handleSignupRender} alt="lock" />
+              <img src={this.state.images.back} className="section-icon section-icon-active" onClick={this.handleSignupRender} alt="lock" />
             </div>
             {TAPi18n.__('identity')}
           </div>
@@ -112,7 +114,7 @@ export default class Signup extends Component {
               <label htmlFor="signup-username" className="login-label login-label-form">
                 {TAPi18n.__('username')}
               </label>
-              <img src="/images/id-card.png" className="login-icon" alt="id-card" />
+              <img src={this.state.images['id-card']} className="login-icon" alt="id-card" />
               <input name="username-signup" type="text" placeholder={TAPi18n.__('username-sample')} className="w-input login-input" onFocus={this.handleFocus} onBlur={this.handleBlur} />
               {invalidUsernameState ? <Warning label="invalid-username" /> : null}
               {repeatedUsernameState ? <Warning label="repeated-username" /> : null}
@@ -121,7 +123,7 @@ export default class Signup extends Component {
               <label htmlFor="signup-email" className="login-label login-label-form">
                 {TAPi18n.__('email')}
               </label>
-              <img src="/images/mail-closed.png" className="login-icon" alt="mail-closed" />
+              <img src={this.state.images['mail-closed']} className="login-icon" alt="mail-closed" />
               <input name="email-signup" type="text" placeholder={TAPi18n.__('email-sample')} className="w-input login-input" onFocus={this.handleFocus} onBlur={this.handleBlur} />
               {invalidEmailState ? <Warning label="invalid-email" /> : null}
             </div>
@@ -129,7 +131,7 @@ export default class Signup extends Component {
               <label htmlFor="signup-password" className="login-label login-label-form">
                 {TAPi18n.__('password')}
               </label>
-              <img src="/images/lock.png" className="login-icon" alt="lock" />
+              <img src={this.state.images.lock} className="login-icon" alt="lock" />
               <input name="password-signup" type="password" placeholder={TAPi18n.__('password-sample')} className="w-input login-input" onFocus={this.handleFocus} onBlur={this.handleBlur} />
               {invalidPasswordState ? <Warning label="invalid-password" /> : null}
             </div>
@@ -137,7 +139,7 @@ export default class Signup extends Component {
               <label htmlFor="signup-password-doublecheck" className="login-label login-label-form">
                 {TAPi18n.__('password-again')}
               </label>
-              <img src="/images/lock.png" className="login-icon" alt="lock" />
+              <img src={this.state.images.lock} className="login-icon" alt="lock" />
               <input name="mismatchPassword" type="password" placeholder={TAPi18n.__('password-sample-again')} className="w-input login-input" onFocus={this.handleFocus} onBlur={this.handleBlur} />
               {mismatchPasswordState ? <Warning label="mismatch-password" /> : null}
             </div>

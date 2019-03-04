@@ -95,14 +95,14 @@ export default class EmailLogin extends Component {
         <div>
           <div className="w-clearfix paper-header card-header">
             <div className="card-title">
-              <img src="/images/fingerprint-white.png" className="section-icon" alt="lock" />
+              <img src={this.state.images.fingerprint} className="section-icon" alt="lock" />
               {TAPi18n.__('authenticate-self')}
             </div>
           </div>
           <div className="login margin-bottom-dead">
             <SocialMediaLogin agoraMode={false} />
             <div id="email-login" className="button login-button login-button-last" onClick={this.handleLoginRender}>
-              <img src="/images/mail-closed.png" className="button-icon" alt="lock" />
+              <img src={this.state.images['mail-closed-login-button']} className="button-icon" alt="lock" />
               {TAPi18n.__('email-username')}
             </div>
           </div>
@@ -113,14 +113,9 @@ export default class EmailLogin extends Component {
         return (
           <div>
             <div className="w-clearfix paper-header card-header">
-              <div className="stage stage-finish-approved stage-card stage-anon button">
-                <div className="label label-corner">
-                  {TAPi18n.__('anonymous-mode')}
-                </div>
-              </div>
               <div className="card-title">
                 <div id="card-back" onClick={this.handleLoginRender}>
-                  <img src="/images/back.png" className="section-icon section-icon-active" alt="lock" />
+                  <img src={this.state.images.back} className="section-icon section-icon-active" alt="lock" />
                 </div>
                 {TAPi18n.__('identity')}
               </div>
@@ -130,12 +125,12 @@ export default class EmailLogin extends Component {
               <form id="email-signin-form" name="email-form-3" data-name="Email Form 3" onSubmit={this.handleSubmit}>
                 <div className="w-clearfix login-field">
                   <label htmlFor="name" className="login-label login-label-form">{TAPi18n.__('email-username')}</label>
-                  <img src="/images/mail-closed.png" className="login-icon" alt="mail-closed" />
+                  <img src={this.state.images['mail-closed']} className="login-icon" alt="mail-closed" />
                   <input id="signin-email" type="text" placeholder={TAPi18n.__('email-sample')} className="w-input login-input" onFocus={this.handleFocus} />
                 </div>
                 <div className="w-clearfix login-field">
                   <label htmlFor="name" className="login-label login-label-form">{TAPi18n.__('password')}</label>
-                  <img src="/images/lock.png" className="login-icon" alt="lock" />
+                  <img src={this.state.images.lock} className="login-icon" alt="lock" />
                   <input id="signin-password" type="password" placeholder={TAPi18n.__('password-sample')} className="w-input login-input" onFocus={this.handleFocus} />
                 </div>
                 {incorrectUserState ? <div className="extra section"> <Warning label="user-not-found" /> </div> : null}

@@ -128,7 +128,7 @@
 
     "web": {
       "sites": {
-        "tokens": "https://token.democracy.earth",
+        "tokens": "https://setup.democracy.earth",
         "blockExplorer": "https://etherscan.io"
       },
 

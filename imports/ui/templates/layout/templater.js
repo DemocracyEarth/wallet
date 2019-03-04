@@ -41,7 +41,7 @@ const _getImage = (imageTemplate, pic) => {
 };
 
 const _getSpinner = async () => {
-  const spinner = await promise.then((resolved) => { console.log(resolved.spinner); return resolved.spinner; });
+  const spinner = await promise.then((resolved) => { return resolved.spinner; });
   return spinner;
 };
 

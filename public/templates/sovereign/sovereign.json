@@ -1,6 +1,6 @@
 {
   "stylesheet": {
-    "list": ["/styles/normalize.css", "/styles/webflow.css", "/templates/sovereign/sovereign.css", "/templates/sovereign/extra.css"]
+    "list": ["/styles/normalize.css", "/styles/webflow.css", "/templates/sovereign/sovereign.css", "/templates/sovereign/extra.css", "/templates/sovereign/landing.css"]
   },
 
   "header": {
@@ -48,7 +48,11 @@
     "blockchain-address": "/templates/sovereign/images/blockchain-address.png",
     "fingerprint": "/templates/sovereign/images/fingerprint.png",
     "logout": "/templates/sovereign/images/logout.png",
-    "vote-icon-black": "/templates/sovereign/images/vote-icon-black.png"
+    "vote-icon-black": "/templates/sovereign/images/vote-icon-black.png",
+    "mail-closed": "/templates/sovereign/images/mail-closed.png",
+    "mail-closed-login-button": "/templates/sovereign/images/mail-closed-login-button.png",
+    "lock": "/templates/sovereign/images/lock.png",
+    "id-card": "/templates/sovereign/images/id-card.png"
   }
 
 }
