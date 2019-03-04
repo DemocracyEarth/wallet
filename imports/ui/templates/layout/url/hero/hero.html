@@ -11,7 +11,11 @@
         <div class="hero-cta-box">
           <input id="lead" type="text" placeholder="{{_ 'email'}}" class="hero-cta-input" />
           <div id="join" class="button button-cta">
-            {{_ 'join'}}
+            {{#if unclicked}}
+              {{_ 'join'}}
+            {{else}}
+              {{> spinner id='modal' style='height:24px; margin-top:12px;' color='#fff' length=12}}
+            {{/if}}
           </div>
           <div class="hero-warn">
             {{#if invalidEmail}}
@@ -33,7 +37,7 @@
         </div>
         <div class="hero-cta-alternative">
           &#183;
-          <a class="hero-link" href="https://setup.democracy.earth">
+          <a class="hero-link" href="http://setup.democracy.earth" target="_blank">
             {{_ 'start-a-democracy'}}
           </a>
         </div>

@@ -14,6 +14,11 @@ import { validateEmail } from '/imports/startup/both/modules/validations.js';
 
 import '/imports/ui/templates/layout/url/hero/hero.html';
 import '/imports/ui/templates/widgets/warning/warning.js';
+import '/imports/ui/templates/widgets/spinner/spinner.js';
+
+Template.hero.onCreated(function () {
+  Template.instance().unclicked = new ReactiveVar(true);
+});
 
 Template.hero.onRendered(() => {
   Session.set('invalidHeroEmail', false);
@@ -37,21 +42,26 @@ Template.hero.helpers({
   heroEmailUserCreated() {
     return Session.get('heroEmailUserCreated');
   },
+  unclicked() {
+    return Template.instance().unclicked.get();
+  },
 });
 
 Template.hero.events({
   'click #join'() {
     const email = document.getElementById('lead').value;
     const validEmail = validateEmail(email);
+    const instance = Template.instance();
 
     if (validEmail) {
+      instance.unclicked.set(false);
       Meteor.call('createEmailUser', email, (userCreationError) => {
         if (userCreationError) {
-          console.log(userCreationError, 'error with createEmailUser');
           Session.set('userExists', true);
         } else {
           Session.set('heroEmailUserCreated', true);
         }
+        instance.unclicked.set(true);
       });
     } else {
       Session.set('invalidHeroEmail', true);
