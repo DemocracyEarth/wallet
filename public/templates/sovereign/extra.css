@@ -350,9 +350,8 @@ body, h4, h1, h2 {
 }
 
 .hero-tertiary {
-  background: linear-gradient(0deg, #009770 75%, #017759);
+  background: linear-gradient(0deg, #00c190 75%, #00c190);
   padding: 40px 20px;
-  background-color: #009770;
 }
 
 .profile-landing {
