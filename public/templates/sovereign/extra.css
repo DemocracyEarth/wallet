@@ -174,3 +174,74 @@ body, h4, h1, h2 {
 .content.content-agora {
   z-index: -1;
 }
+
+.accounts-dialog .login-button {
+  margin: 15px 0px 0px;
+  padding: 12px 14px;
+  border-radius: 6px;
+  background-color: #580074;
+  font-family: Lato, sans-serif;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 1px solid #580074;
+  font-size: 14px;
+}
+
+#login-buttons .login-button:hover, .accounts-dialog .login-button:hover {
+  border-style: solid;
+  border-color: #ff617e;
+  background-color: #ff617e;
+  color: #fff;
+}
+
+.accounts-dialog input[type=text][type], .accounts-dialog input[type=email][type], .accounts-dialog input[type=password][type] {
+  width: 100%;
+  height: 44px;
+  margin-bottom: 0px;
+  border-style: none none solid;
+  border-width: 0px 0px 1px;
+  border-color: #000 #000 #c7b7cc;
+  background-color: transparent;
+  box-shadow: none;
+  color: #5a0075;
+  font-size: 16px;
+  font-weight: 300;
+  border-radius:0px;
+  text-align: left;
+  -webkit-text-fill-color: #5a0075 !important;
+}
+
+.accounts-dialog:focus {
+  border-color:#ff617e;
+}
+
+.accounts-dialog label {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 11px;
+  line-height: 22px;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+
+.accounts-centered-dialog {
+  display: block;
+  overflow: hidden;
+  max-width: 400px;
+  margin-top: -100px;
+  padding: 18px 12px;
+  border-color: #f3f3f3 #e0e0e0 #e0e0e0 #f3f3f3;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-radius: 5px;
+  background-color: #eaeaea;
+  box-shadow: 0 6px 20px 4px rgba(0, 0, 0, .13);
+  font-size: 16px;
+  text-align: center;
+}

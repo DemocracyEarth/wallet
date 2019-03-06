@@ -91,7 +91,7 @@
             <img src="{{getImage 'tweet'}}" class="micro-icon">
             <div class="micro-label">{{label 'twitter'}} {{{quantity 'twitter'}}}</div>
           </a>
-          {{#if userWithTokenReserves}}
+          {{#if tokenFriendly}}
             <a id="single-vote" href="{{voteURL}}" class="micro-button micro-button-feed no-underline" ontouchstart="">
               <div class="micro-label">
                 <img src="{{voteIcon}}" class="micro-icon">

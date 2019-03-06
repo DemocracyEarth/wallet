@@ -179,8 +179,6 @@ Template.homeFeed.helpers({
   },
   mainFeed() {
     const tally = this;
-    console.log(`mainFeed:`);
-    console.log(tally);
     Session.set('longFeedView', this.options.view);
     return tally;
   },
@@ -209,6 +207,9 @@ Template.homeFeed.helpers({
   },
   landingMode(feed) {
     return _landingMode(feed);
+  },
+  displayLanding() {
+    return (Meteor.settings.public.app.config.displayLanding && !Meteor.user());
   },
 });
 

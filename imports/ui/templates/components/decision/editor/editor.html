@@ -71,10 +71,12 @@
           {{> editorButton}}
         {{/each}}
         -->
-        <div class="editor-menu">
-          {{> blockchain contract=draftContract}}
-          {{> electorate contract=draftContract}}
-        </div>
+        {{#if userWithTokenReserves}}
+          <div class="editor-menu">
+            {{> blockchain contract=draftContract}}
+            {{> electorate contract=draftContract}}
+          </div>
+        {{/if}}
         {{#unless isPhone}}
           <div class="post-button">
             {{> authentication desktop=true}}

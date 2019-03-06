@@ -172,8 +172,8 @@ Meteor.methods({
     const allContracts = Contracts.find({ 'blockchain.tickets': { $elemMatch: { hash } } }).fetch();
     let contract;
 
-    for (let i = 0; i < allContracts.length; i +=1 ) {
-      let contract = allContracts[i];
+    for (let i = 0; i < allContracts.length; i += 1) {
+      contract = allContracts[i];
       for (let j = 0; j < contract.blockchain.tickets.length; j += 1) {
         if (contract.blockchain.tickets[j].hash === hash) {
           contract.blockchain.tickets[j].status = status;

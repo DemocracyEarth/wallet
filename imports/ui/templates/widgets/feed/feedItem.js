@@ -271,7 +271,7 @@ Template.feedItem.helpers({
     if (this.blockchain.publicAddress) {
       return `${this.blockchain.publicAddress.substring(0, 6)}...${this.blockchain.publicAddress.slice(-4)}`;
     }
-    return '';
+    return TAPi18n.__('off-chain');
   },
   blockchainFullAddress() {
     return `${this.blockchain.publicAddress}`;

@@ -40,11 +40,8 @@ const _emailDomainCheck = (emailList, domain) => {
 * @param {string} token ticker
 */
 const _checkTokenAvailability = (user, ticker) => {
-  console.log(user);
-  console.log(ticker);
-  if (user.profile.wallet.reserves.length > 0) {
+  if (user.profile.wallet.reserves && user.profile.wallet.reserves.length > 0) {
     for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
-      console.log(`checking for ${user.profile.wallet.reserves[i].token}`);
       for (let k = 0; k < token.coin.length; k += 1) {
         if (token.coin[k].code === user.profile.wallet.reserves[i].token || (token.coin[k].subcode && token.coin[k].subcode === user.profile.wallet.reserves[i].token)) {
           if (token.coin[k].code === ticker || (token.coin[k].subcode && token.coin[k].subcode === ticker)) {
@@ -54,7 +51,6 @@ const _checkTokenAvailability = (user, ticker) => {
       }
     }
   }
-  console.log('NOT HAS TOKEN');
   return false;
 };
 

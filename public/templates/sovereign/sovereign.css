@@ -287,7 +287,7 @@ blockquote {
   border-color: #f3f3f3 #e0e0e0 #e0e0e0 #f3f3f3;
   border-radius: 5px;
   background-color: #eaeaea;
-  box-shadow: 0 6px 20px 4px rgba(0, 0, 0, .13);
+  box-shadow: 0 6px 20px 4px rgba(0, 0, 0, .2);
   color: #000;
 }
 
@@ -925,8 +925,8 @@ blockquote {
   padding-top: 10px;
   padding-bottom: 10px;
   border-style: none;
-  border-color: #ff0085;
-  background-color: #ff0085;
+  border-color: #ff617e;
+  background-color: #ff617e;
   color: #fff;
 }
 

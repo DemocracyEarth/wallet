@@ -238,6 +238,12 @@ Template.editor.helpers({
     }
     return '#';
   },
+  userWithTokenReserves() {
+    if (Meteor.user() && Meteor.user().profile.wallet.reserves) {
+      return true;
+    }
+    return false;
+  },
   ballotEnabled() {
     if (Session.get('draftContract')) {
       return Session.get('draftContract').ballotEnabled;

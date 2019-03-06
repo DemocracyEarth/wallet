@@ -562,6 +562,9 @@ Template.ballot.helpers({
   token() {
     return Template.instance().ticket.get();
   },
+  tokenFriendly() {
+    return Template.instance().ticket.get().token !== 'NONE';
+  },
   castSingleVote() {
     return (Session.get('castSingleVote') === this.contract.keyword);
   },
