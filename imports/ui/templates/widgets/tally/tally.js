@@ -40,6 +40,7 @@ const _voteToContract = (post, contract, hidePost, winningBallot, openFeed) => {
       kind: post.kind,
       wallet: {
         balance: post.output.quantity,
+        currency: post.output.currency,
       },
       _id: post._id,
     };
@@ -49,10 +50,14 @@ const _voteToContract = (post, contract, hidePost, winningBallot, openFeed) => {
       timestamp: post.timestamp,
       wallet: {
         balance: post.input.quantity,
+        currency: post.input.currency,
       },
       title: contract.title,
       url: contract.url,
     };
+  }
+  if (post.blockchain) {
+    transaction.contract.blockchain = post.blockchain;
   }
   return transaction;
 };
@@ -83,7 +88,6 @@ const _isWinningVote = (winningBallot, voterBallot) => {
 
 const _buildFeed = (id, fields, instance, contract, noTitle) => {
   // added stuff
-  // if (fields.kind === instance.data.options.kind) {
   const currentFeed = instance.feed.get();
   const post = fields;
   post._id = id;
@@ -100,7 +104,15 @@ const _buildFeed = (id, fields, instance, contract, noTitle) => {
     currentFeed.push(voteContract);
     instance.feed.set(_.uniq(currentFeed));
   }
-  // }
+};
+
+const _defaultTally = (view) => {
+  return (view === 'lastVotes' ||
+    view === 'threadVotes' ||
+    view === 'transactionsToken' ||
+    view === 'transactionsPeer' ||
+    view === 'transactionsGeo'
+  );
 };
 
 Template.tally.onCreated(function () {
@@ -110,6 +122,8 @@ Template.tally.onCreated(function () {
   Template.instance().subscriptions = [];
 
   const instance = this;
+
+  if (instance.data.placeholder) { return; }
 
   if (this.data.options.view === 'votes') {
     Meteor.call('getContract', this.data.options.keyword, function (error, result) {
@@ -131,7 +145,7 @@ Template.tally.onCreated(function () {
     } else if (this.data.options.userId) {
       instance.contract.set(Meteor.users.findOne({ _id: this.data.options.userId }));
     }
-  } else if (this.data.options.view === 'lastVotes') {
+  } else if (_defaultTally(this.data.options.view)) {
     instance.openFeed = true;
   }
 
@@ -174,11 +188,17 @@ Template.tally.onCreated(function () {
 
 Template.tally.helpers({
   vote() {
-    return Template.instance().feed.get();
+    let feed = Template.instance().feed.get();
+    feed = _.sortBy(feed, function (item) { return item.contract.timestamp * -1; });
+    return feed;
   },
   ready() {
-    if (Template.instance().openFeed) { return true; }
-    return Template.instance().contract.get();
+    return Session.get('isLedgerReady', true);
+    // if (Template.instance().openFeed) { return true; }
+    // return Template.instance().contract.get();
+  },
+  placeholderItem() {
+    return [1, 2, 3];
   },
 });
 

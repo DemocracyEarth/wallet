@@ -458,11 +458,10 @@ const _setSessionVars = (params) => {
 const _getNavbarAction = (path) => {
   if (Meteor.Device.isPhone()) {
     switch (path) {
-      case '/vote':
-      case '/peer':
-        return 'BACK';
-      default:
+      case !'/':
         return 'SIDEBAR';
+      default:
+        return 'BACK';
     }
   }
   return 'SIDEBAR';
@@ -475,7 +474,7 @@ const _getNavbarAction = (path) => {
 const _configNavbar = (label, path) => {
   if (Meteor.Device.isPhone()) {
     if (Session.get('sidebar') === undefined) {
-      Session.set('sidebar', true);
+      if (Meteor.user()) { Session.set('sidebar', true); }
       toggleSidebar();
     }
   } else if (Session.get('sidebar') === undefined) {

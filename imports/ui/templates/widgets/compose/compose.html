@@ -1,7 +1,15 @@
 <template name="compose">
   {{#if currentUser}}
     {{#if proposalDrafting}}
-      {{#if enabled}}
+      {{#if desktopMode}}
+        {{#if editorMode}}
+          {{#unless compressed}}
+            {{> editor replyMode=replyMode replyId=replyId contractId=newContractId depth=depth mainFeed=mainFeed}}
+          {{else}}
+            {{> editor compressed=true}}
+          {{/unless}}
+        {{/if}}
+      {{else}}
         <div id="action" class="cast {{displayCancel}}" ontouchstart="">
           <div class="action-label">
             <div>{{_ 'propose'}}</div>

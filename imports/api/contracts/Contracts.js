@@ -7,6 +7,7 @@ import { Ballot } from '/imports/api/transactions/Ballot';
 import { convertToSlug } from '/lib/utils';
 import { Thread } from '/imports/api/contracts/Thread';
 import { Wallet } from '/imports/api/users/Wallet';
+import { Blockchain } from '/imports/api/blockchain/Blockchain';
 
 export const Contracts = new Mongo.Collection('contracts');
 
@@ -49,9 +50,32 @@ Schema.Tally = new SimpleSchema({
   },
   'voter.$.votes': {
     type: Number,
+    optional: true,
   },
   'voter.$.ballotList': {
     type: [String],
+    optional: true,
+  },
+  'voter.$.value': {
+    type: String,
+    optional: true,
+  },
+});
+
+Schema.Constituency = new SimpleSchema({
+  kind: {
+    type: String,
+    allowedValues: ['TOKEN', 'NATION', 'DOMAIN'],
+    optional: true,
+  },
+  code: {
+    type: String,
+    optional: true,
+  },
+  check: {
+    type: String,
+    allowedValues: ['EQUAL', 'NOT EQUAL'],
+    optional: true,
   },
 });
 
@@ -137,6 +161,13 @@ Schema.Contract = new SimpleSchema({
         if (this.field('title').value !== undefined) {
           if (Contracts.findOne({ keyword: slug }) === undefined) {
             if (this.field('title').value !== '') {
+              const time = this.field('createdAt').value;
+              if (time) {
+                const year = time.getFullYear();
+                const month = parseInt(time.getMonth() + 1, 10);
+                const day = time.getDate();
+                return `/${year}/${month}/${day}/${slug}`;
+              }
               return `/vote/${slug}`;
             }
             return '/vote/';
@@ -413,11 +444,23 @@ Schema.Contract = new SimpleSchema({
   },
   ballotEnabled: {
     type: Boolean,
-    defaultValue: true,
+    defaultValue: false,
   },
   'ballot.$.label': {
     type: String,
     optional: true,
+  },
+  stakingEnabled: {
+    type: Boolean,
+    defaultValue: false,
+  },
+  constituencyEnabled: {
+    type: Boolean,
+    defaultValue: false,
+  },
+  constituency: {
+    type: [Schema.Constituency],
+    defaultValue: [],
   },
   authorized: {
     // this contract has been authorized
@@ -479,6 +522,20 @@ Schema.Contract = new SimpleSchema({
   geo: {
     type: String,
     optional: true,
+  },
+  blockchain: {
+    type: Blockchain,
+    optional: true,
+  },
+  shareCounter: {
+    type: Number,
+    optional: true,
+  },
+  randomSortOrder: {
+    type: Number,
+    autoValue() {
+      return Math.floor(Math.random() * 10000000000000000);
+    },
   },
 });
 

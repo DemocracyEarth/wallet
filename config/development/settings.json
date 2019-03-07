@@ -33,9 +33,7 @@
     },
 
     "smtpServer": "",
-
     "sentryPrivateDSN": ""
-
   },
 
   "public": {
@@ -68,12 +66,13 @@
             "active": false,
             "checkDomain": false,
             "checkList": true
-          }
+          },
+          "displayLanding": false
         }
     },
 
     "Collective": {
-      "name": "Blockstack",
+      "name": "Democracy Earth",
       "domain": "https://localhost:3000",
       "emails": [
         {
@@ -95,11 +94,11 @@
             "address": ""
           }
         },
-        "logo": "images/blockstack-icon.jpg",
+        "logo": "images/olive.png",
         "jurisdiction": {
           "legal": {
               "taxId": "37-1776296",
-              "name": "Democracy Earth Foundation",
+              "name": "Democracy Earth",
               "type": "Non-Profit 501(c)3"
           },
           "location": {
@@ -126,7 +125,23 @@
             "userId": "0"
         }
       ]
+    },
+
+    "web": {
+      "sites": {
+        "tokens": "http://setup.democracy.earth",
+        "blockExplorer": "https://etherscan.io"
+      },
+
+      "template": {
+        "settings": "/templates/sovereign/sovereign.json"
+      }
+
+    },
+
+    "web3" : {
+      "config": "testnet",
+      "network": "https://rinkeby.infura.io/v3/b1825422de3d471eba20968cf22b85f1"
     }
   }
-
 }

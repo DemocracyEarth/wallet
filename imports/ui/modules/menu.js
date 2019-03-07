@@ -195,7 +195,7 @@ const getUserList = (array) => {
         feed: 'user',
         value: true,
         separator: false,
-        url: `/peer/${user.username}`,
+        url: `/@${user.username}`,
         selected: false,
       });
     } else {
@@ -322,6 +322,8 @@ const animateMenu = () => {
   const sidebarPixelWidth = _sidebarWidth();
 
   Session.set('sidebar', !Session.get('sidebar'));
+  if (!Meteor.user() && !Meteor.Device.isPhone()) { Session.set('sidebar', false); }
+
   if (Session.get('sidebar')) {
     // show sidebar
     let newRight = 0;

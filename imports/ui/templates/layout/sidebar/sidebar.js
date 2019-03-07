@@ -7,11 +7,9 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import { sidebarWidth, sidebarPercentage, getDelegatesMenu, toggleSidebar } from '/imports/ui/modules/menu';
-import { showFullName } from '/imports/startup/both/modules/utils';
 import { getFlag, getUser } from '/imports/ui/templates/components/identity/avatar/avatar';
-import { Contracts } from '/imports/api/contracts/Contracts';
-import { Transactions } from '/imports/api/transactions/Transactions';
-import { processedTx, updateWalletCache } from '/imports/api/transactions/transaction';
+import { geo } from '/lib/geo';
+import { getCoin } from '/imports/api/blockchain/modules/web3Util';
 
 import '/imports/ui/templates/layout/sidebar/sidebar.html';
 import '/imports/ui/templates/components/collective/collective.js';
@@ -27,7 +25,7 @@ function drawSidebar() {
 }
 
 function labelName(user) {
-  let name = `${getFlag(user.profile, true)} ${showFullName(user.profile.firstName, user.profile.lastName, user.username)}`;
+  let name = `${getFlag(user.profile, true)} ${user.username}`;
   if (user._id === Meteor.userId()) {
     name += ` <span class='sidebar-tag'>${TAPi18n.__('you')}</span>`;
   }
@@ -38,7 +36,7 @@ function labelName(user) {
 * @summary translates db object to a menu ux object
 * @param {object} user database user object
 */
-function dataToMenu(user) {
+const _dataToMenu = (user) => {
   if (user) {
     return {
       id: user._id,
@@ -48,12 +46,12 @@ function dataToMenu(user) {
       feed: 'user',
       value: true,
       separator: false,
-      url: `/peer/${user.username}`,
+      url: `/@${user.username}`,
       selected: false,
     };
   }
   return undefined;
-}
+};
 
 /**
 * @summary for a given db result returns list with menu options
@@ -63,9 +61,7 @@ function dataToMenu(user) {
 function getList(db, sort) {
   const members = [];
   for (const i in db) {
-    if (db[i].profile.wallet.balance !== 0) {
-      members.push(dataToMenu(db[i]));
-    }
+    members.push(_dataToMenu(db[i]));
   }
   if (sort) {
     return _.sortBy(members, (user) => { return user.label; });
@@ -137,57 +133,169 @@ const _otherMembers = (currentDelegates) => {
   return finalList;
 };
 
+
+/**
+* @summary formats delegate list for sidebar menu
+* @param {object} list list of delegates
+*/
+const _adapt = (list) => {
+  const menu = [];
+  for (let i = 0; i < list.length; i += 1) {
+    menu.push(_dataToMenu(list[i]));
+  }
+  return menu;
+};
+
+
+/**
+* @summary displays the sidebar if logged
+*/
+const _showSidebar = () => {
+  const percentage = sidebarPercentage();
+  $('.left').width(`${percentage}%`);
+  if (!Meteor.Device.isPhone()) {
+    if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
+      $('.navbar').css('left', 0);
+      Session.set('miniWindow', true);
+    } else {
+      $('.navbar').css('left', `${percentage}%`);
+      Session.set('miniWindow', false);
+    }
+    if (($(window).width() < gui.MOBILE_MAX_WIDTH && Session.get('sidebar')) || ($(window).width() >= gui.MOBILE_MAX_WIDTH && !Session.get('sidebar'))) {
+      toggleSidebar(true);
+    }
+  }
+  if (!Session.get('sidebar')) {
+    $('#menu').css('margin-left', `${parseInt(0 - sidebarWidth(), 10)}px`);
+  } else {
+    let newRight = 0;
+    if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
+      newRight = parseInt(0 - sidebarWidth(), 10);
+    }
+    $('#content').css('left', sidebarWidth());
+    $('#content').css('right', newRight);
+  }
+};
+
 Template.sidebar.onCreated(function () {
   Template.instance().delegates = new ReactiveVar();
   Template.instance().members = new ReactiveVar(0);
   Template.instance().participants = new ReactiveVar();
+  Template.instance().memberCount = new ReactiveVar(0);
 
   const instance = this;
 
+  Meteor.call('userCount', function (error, result) {
+    instance.memberCount.set(result);
+  });
+
   instance.autorun(function () {
-    const subscriptionContracts = instance.subscribe('feed', { view: 'delegationContracts' });
-    if (subscriptionContracts.ready()) {
-      if (Meteor.user()) {
-        const contracts = Contracts.find({ $and: [{ signatures: { $elemMatch: { _id: Meteor.userId() } } }, { kind: 'DELEGATION' }] }).fetch();
-        const subscriptionTransactions = instance.subscribe('delegations', {
-          view: 'delegationTransactions',
-          items: _.pluck(contracts, '_id'),
-        });
-        if (subscriptionTransactions.ready()) {
-          const transactions = Transactions.find({ $or: [{ $and: [{ 'output.entityId': Meteor.userId() }, { kind: 'DELEGATION' }] },
-                                                         { $and: [{ 'input.entityId': Meteor.userId() }, { kind: 'DELEGATION' }] },
-                                                         { $and: [{ 'input.delegateId': Meteor.userId() }, { kind: 'DELEGATION' }] },
-                                                         { $and: [{ 'output.delegateId': Meteor.userId() }, { kind: 'DELEGATION' }] }] }).fetch();
+    let delegateList;
+    if (Meteor.user()) {
+      if (Meteor.user().profile.delegations && Meteor.user().profile.delegations.length > 0) {
+        const subscription = instance.subscribe('delegates', { view: 'delegateList', items: _.pluck(Meteor.user().profile.delegations, 'userId') });
 
-          const txList = _.pluck(transactions, '_id');
-          let newTransaction;
-          if (Session.get('delegationTransactions')) {
-            const txNew = _.difference(txList, Session.get('delegationTransactions'));
-            if (txNew.length > 0) {
-              for (const i in txNew) {
-                newTransaction = Transactions.findOne({ _id: txNew[i] });
-                if (newTransaction.input.entityId !== Meteor.userId()
-                    && !processedTx(newTransaction._id)
-                    && !Session.get(`vote-${Meteor.userId()}-${newTransaction.output.entityId}`)) {
-                  updateWalletCache(newTransaction, true);
-                }
-              }
-            }
+        if (subscription.ready()) {
+          const delegates = [];
+          for (let i = 0; i < Meteor.user().profile.delegations.length; i += 1) {
+            delegates.push({ _id: Meteor.user().profile.delegations[i].userId });
           }
-          Session.set('delegationTransactions', txList);
-
-          if (Meteor.user()) {
-            const delegateList = getDelegates(contracts, transactions);
-            Template.instance().delegates.set(delegateList);
-            Template.instance().participants.set(_otherMembers(delegateList));
-          }
+          delegateList = _adapt(Meteor.users.find({ $or: delegates }).fetch());
+          Template.instance().delegates.set(delegateList);
+          Template.instance().participants.set(_otherMembers(delegateList));
+          _showSidebar();
         }
-      } else {
-        Template.instance().participants.set(_otherMembers());
       }
+    }
+    if (!delegateList) {
+      Template.instance().participants.set(_otherMembers());
     }
   });
 });
+
+/**
+* @summary draws main menu for logged user
+* @param {object} user to parse
+* @returns {object} menu
+*/
+const _userMenu = (user) => {
+  const MAX_LABEL_LENGTH = 20;
+
+  const menu = [
+    {
+      id: 0,
+      label: TAPi18n.__('menu-proposals'),
+      icon: 'images/decision-proposals.png',
+      iconActivated: 'images/decision-proposals-active.png',
+      feed: 'user',
+      value: true,
+      separator: false,
+      url: '/',
+      selected: false,
+    },
+  ];
+
+  if (user) {
+    // country feed
+    if (user.profile.country) {
+      const nation = _.where(geo.country, { code: user.profile.country.code })[0];
+      menu.push({
+        id: parseInt(menu.length, 10),
+        // label: `${nation.emoji} ${(user.profile.country.name.length > MAX_LABEL_LENGTH) ? `${user.profile.country.name.substring(0, MAX_LABEL_LENGTH)}...` : user.profile.country.name}`,
+        label: `${(user.profile.country.name.length > MAX_LABEL_LENGTH) ? `${user.profile.country.name.substring(0, MAX_LABEL_LENGTH)}...` : user.profile.country.name} ${nation.emoji}`,
+        icon: 'images/decision-globe.png',
+        iconActivated: 'images/decision-globe-active.png',
+        feed: 'user',
+        value: true,
+        separator: false,
+        url: `/${user.profile.country.code.toLowerCase()}`,
+        selected: false,
+      });
+    }
+
+    // token feeds
+    let coin;
+    if (user.profile.wallet.reserves && user.profile.wallet.reserves.length > 0) {
+      for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
+        coin = getCoin(user.profile.wallet.reserves[i].token);
+        if (coin) {
+          menu.push({
+            id: parseInt(menu.length, 10),
+            // label: `<span class="suggest-item suggest-token suggest-token-sidebar">${coin.code}</span> ${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
+            label: `${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
+            icon: 'images/decision-coin.png',
+            iconActivated: 'images/decision-coin-active.png',
+            feed: 'user',
+            value: true,
+            separator: false,
+            url: `/$${coin.code.toLowerCase()}`,
+            selected: false,
+            displayToken: true,
+            tokenColor: coin.color,
+          });
+        }
+      }
+    }
+  }
+
+  // subjectivity
+  return menu;
+};
+
+/**
+* @summary draws side bar according to context
+* @returns {boolean} if sidebar is shown
+*/
+const _render = () => {
+  const context = (Meteor.Device.isPhone() || (!Meteor.Device.isPhone() && Meteor.user()));
+  if ((!Meteor.Device.isPhone() && Meteor.user())) {
+    Session.set('sidebar', true);
+    _showSidebar();
+  } else if ((!Meteor.Device.isPhone() && !Meteor.user())) {
+    $('.right').css('left', '0px');
+  }
+  return context;
+};
 
 Template.sidebar.onRendered(() => {
   $('.left').width(`${sidebarPercentage()}%`);
@@ -198,30 +306,7 @@ Template.sidebar.onRendered(() => {
   drawSidebar();
 
   $(window).resize(() => {
-    const percentage = sidebarPercentage();
-    $('.left').width(`${percentage}%`);
-    if (!Meteor.Device.isPhone()) {
-      if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
-        $('.navbar').css('left', 0);
-        Session.set('miniWindow', true);
-      } else {
-        $('.navbar').css('left', `${percentage}%`);
-        Session.set('miniWindow', false);
-      }
-      if (($(window).width() < gui.MOBILE_MAX_WIDTH && Session.get('sidebar')) || ($(window).width() >= gui.MOBILE_MAX_WIDTH && !Session.get('sidebar'))) {
-        toggleSidebar(true);
-      }
-    }
-    if (!Session.get('sidebar')) {
-      $('#menu').css('margin-left', `${parseInt(0 - sidebarWidth(), 10)}px`);
-    } else {
-      let newRight = 0;
-      if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
-        newRight = parseInt(0 - sidebarWidth(), 10);
-      }
-      $('#content').css('left', sidebarWidth());
-      $('#content').css('right', newRight);
-    }
+    _render();
   });
 });
 
@@ -234,6 +319,13 @@ Template.sidebar.helpers({
   },
   member() {
     return Template.instance().members.get();
+  },
+  members() {
+    const count = Template.instance().memberCount.get();
+    if (count === 1) {
+      return `${count} ${TAPi18n.__('member')}`;
+    }
+    return `${count} ${TAPi18n.__('members')}`;
   },
   bitcoinAddress() {
     return Meteor.settings.public.Collective.profile.blockchain.Bitcoin.address;
@@ -250,10 +342,27 @@ Template.sidebar.helpers({
     }
     return 0;
   },
+  replicator() {
+    return `&#183; <a href="${Meteor.settings.public.web.sites.tokens}" target="_blank" ontouchstart="">${TAPi18n.__('start-a-democracy')}</a>`;
+  },
   totalDelegates() {
     if (Template.instance().delegates.get()) {
       return Template.instance().delegates.get().length;
     }
     return 0;
   },
+  menu() {
+    return _userMenu(Meteor.user());
+  },
+  style() {
+    if (!Meteor.Device.isPhone() && Meteor.user()) {
+      return 'left-edit';
+    }
+    return '';
+  },
+  sidebarContext() {
+    return _render();
+  },
 });
+
+export const showSidebar = _showSidebar;

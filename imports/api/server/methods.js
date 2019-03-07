@@ -5,7 +5,7 @@ import { Email } from 'meteor/email';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { ServiceConfiguration } from 'meteor/service-configuration';
 
-import { genesisTransaction, emailInitialization } from '/imports/api/transactions/transaction';
+import { genesisTransaction, loadExternalCryptoBalance, tallyBlockchainVotes, emailInitialization } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { getTime } from '/imports/api/time';
 import { logUser, log, gui } from '/lib/const';
@@ -70,6 +70,7 @@ Meteor.methods({
     switch (story) {
       case 'REPLY':
       case 'REVOKE':
+      case 'SUBSIDY':
       case 'VOTE':
         html = html.replace('{{url}}', `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${fixDBUrl(contract.url)}`);
         break;
@@ -118,15 +119,72 @@ Meteor.methods({
     this.unblock();
 
     console.log(`{ server: 'sendNotification', from: '${sender.username}', to: '${receiver.username}', text: "${text}" }`);
-    Email.send({ to, from, subject, text, html });
+
+    if (sender.username !== receiver.username) {
+      Email.send({ to, from, subject, text, html });
+    }
   },
 
   /**
   * @summary gives user subsidy with inital tokens
   */
-  subsidizeUser() {
+  subsidizeUser(userId) {
+    check(userId, String);
+
     log(`{ method: 'subsidizeUser', user: ${logUser()} }`);
-    genesisTransaction(Meteor.user()._id);
+    genesisTransaction(userId);
+  },
+
+  /**
+  * @summary loads token balance associated with user's public address
+  */
+  loadUserTokenBalance(userId) {
+    check(userId, String);
+
+    log(`{ method: 'loadUserTokenBalance', user: ${logUser()} }`);
+    loadExternalCryptoBalance(userId);
+  },
+
+  /**
+  * @summary creates an user with username and email with no password
+  */
+  createEmailUser(_email) {
+    check(_email, String);
+    log(`{ method: 'createEmailUser', user: ${logUser()} }`);
+
+    const _username = _email.slice(0, _email.indexOf('@'));
+    const userId = Accounts.createUser({
+      username: _username,
+      email: _email,
+    });
+    Accounts.sendEnrollmentEmail(userId);
+  },
+
+  /**
+  * @summary on every contract where theres a pending with the given hash, updates status
+  * @param {string} hash to be updated
+  * @param {string} status new condition
+  */
+  updateTransactionStatus(hash, status) {
+    check(hash, String);
+    check(status, String);
+
+    const allContracts = Contracts.find({ 'blockchain.tickets': { $elemMatch: { hash } } }).fetch();
+    let contract;
+
+    for (let i = 0; i < allContracts.length; i += 1) {
+      contract = allContracts[i];
+      for (let j = 0; j < contract.blockchain.tickets.length; j += 1) {
+        if (contract.blockchain.tickets[j].hash === hash) {
+          contract.blockchain.tickets[j].status = status;
+          break;
+        }
+      }
+      Contracts.update({ _id: contract._id }, { $set: { 'blockchain.tickets': contract.blockchain.tickets } });
+      tallyBlockchainVotes(contract._id);
+    }
+
+    log(`{ method: 'updateTransactionStatus', user: ${logUser()}, hash: '${hash}' }`);
   },
 
   /**
@@ -214,10 +272,17 @@ Meteor.methods({
 
     log(`{ method: 'getUser', user: ${logUser()}, keyword: '${username}' }`);
     const user = Meteor.users.findOne({ username });
+    if (user) {
+      return {
+        _id: user._id,
+        username: user.username,
+        profile: user.profile,
+      };
+    }
     return {
-      _id: user._id,
-      username: user.username,
-      profile: user.profile,
+      _id: '',
+      username: '',
+      profile: {},
     };
   },
 
@@ -279,7 +344,6 @@ Meteor.methods({
   feedCount(query, options) {
     check(query, Object);
     check(options, Object);
-
     const count = Contracts.find(query, options).count();
     log(`{ method: 'feedCount', user: ${logUser()}, count: ${count} }`);
     return count;
@@ -295,4 +359,5 @@ Meteor.methods({
     log(`{ method: 'userCount', user: ${logUser()}, count: ${count} }`);
     return count;
   },
+
 });

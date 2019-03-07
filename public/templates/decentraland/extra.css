@@ -1,0 +1,196 @@
+.off-screen {
+  opacity:0;
+}
+
+/* Change the white to any color ;) */
+input:-webkit-autofill {
+    -webkit-text-fill-color: white !important;
+    -webkit-box-shadow: 0 0 0px 1000px #3A3044 inset;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: #3A3044 5000s ease-in-out 0s;
+    -webkit-box-shadow: 0 0 0px 1000px #3A3044 inset;
+}
+
+@media (max-width: 767px) {
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    transition: #442f58 5000s ease-in-out 0s;
+    -webkit-text-fill-color: white !important;
+    -webkit-box-shadow: 0 0 0px 1000px #442f58 inset;
+  }
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.button.button-upload {
+  font-family: Lato, sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 300;
+}
+
+
+.login {
+    text-align: center;
+}
+
+.popup {
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  -webkit-transform: translateZ(0);
+}
+
+/* override sidebar style with default state while original css has designer-friendly state for development and design */
+.navbar {
+  left: 0px;
+}
+.right {
+  left: 0px;
+}
+
+#content, #modalToggle, .modal { /* .title-input {*/
+  overflow: scroll; /* has to be scroll, not auto */
+  -webkit-overflow-scrolling: touch;
+}
+
+.modal {
+  opacity: 0;
+}
+
+body {
+  overflow-x: hidden;
+  position: relative;
+}
+
+#titleContent {
+  caret-color: black;
+}
+
+.rosca {
+  display: table;
+}
+
+.vote {
+  will-change: transform;
+}
+
+.checkmark {
+  display: inline-block;
+
+  &:after {
+    /*Add another block-level blank space*/
+    content: "";
+    display: block;
+
+    /*Make it a small rectangle so the border will create an L-shape*/
+    width: 3px;
+    height: 6px;
+
+    /*Add a white border on the bottom and left, creating that 'L' */
+    border: solid #000;
+    border-width: 0 2px 2px 0;
+
+    /*Rotate the L 45 degrees to turn it into a checkmark*/
+    transform: rotate(45deg);
+  }
+}
+
+.checkmark_stem {
+  width: 10%;
+  height: 83%;
+  background-color: #6c5b7c;
+  transform: rotate(37deg);
+  margin: auto;
+  margin-top: -84%;
+  margin-left: 56%;
+}
+
+.checkmark_kick {
+  width: 12%;
+  height: 41%;
+  background-color: #6c5b7c;
+  transform: rotate(129deg);
+  margin-top: 47%;
+  margin-bottom: 0%;
+  margin-left: 16%;
+}
+
+html {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.sidebar {
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+#content {
+    overflow: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 991px) {
+  .content-feed {
+    overflow:hidden;
+  }
+}
+
+textarea, select, input, button, #titleContent { outline: none; }
+
+
+video {
+  display: inline-block;
+  vertical-align: baseline;
+  border: 1px solid #4e3767;
+  border-radius: 5px;
+}
+
+/*
+ Decentraland
+*/
+body, h4, h1, h2 {
+  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+
+.story .pyramid.small {
+  width: 400px;
+  height: 400px;
+  margin-left: 80px;
+  margin-top: 240px;
+  float:left;
+}
+
+.story .pyramid.large {
+  width: 1000px;
+  height: 1000px;
+  margin-top: -135px;
+  margin-left: 450px;
+}
+
+.story .pyramid {
+  background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMTkzIiBoZWlnaHQ9IjE2ODEiIHZpZXdCb3g9IjAgMCAyMTkzIDE2ODEiPgogIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICA8cG9seWdvbiBmaWxsPSIjRThFOEVEIiBwb2ludHM9IjIxOTMuMDExIC4wMTQgMTkyMC43ODggMTY4MC45OTcgMTAyOC43ODMgMTI2Mi4yNjgiIHRyYW5zZm9ybT0ibWF0cml4KC0xIDAgMCAxIDMyMjEuNzgzIDApIi8+CiAgICA8cG9seWdvbiBmaWxsPSIjRkFGQUZDIiBwb2ludHM9IjEwMjguNzc3IDAgMTMwMSAxNjgxIDAgMTI2Mi41OTciLz4KICA8L2c+Cjwvc3ZnPgo=);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.story {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  height: 320px;
+  overflow:hidden;
+  z-index:-1;
+  background-color:#f2f2f5;
+}
+

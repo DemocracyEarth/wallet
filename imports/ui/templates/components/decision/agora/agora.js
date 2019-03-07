@@ -38,6 +38,7 @@ Template.agora.events({
     Session.set('resizeSplitCursor', {
       x: parseInt(event.pageX - parseInt($('.split-right').css('marginLeft'), 10), 10),
       y: event.pageY,
+      windowWidth: window.innerWidth,
     });
   },
 });

@@ -61,6 +61,17 @@
       {{/if}}
     {{/if}}
   </div>
+  {{#if castSingleVote}}
+    {{#unless voted}}
+      {{#with voteSettings}}
+        {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot singleVote=true singleRevoke=false}}
+      {{/with}}
+    {{else}}
+      {{#with revokeSettings}}
+        {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot singleVote=true singleRevoke=true}}
+      {{/with}}
+    {{/unless}}
+  {{/if}}
   {{#unless editorMode}}
     {{#unless readOnly}}
       {{#if currentUser}}
@@ -72,20 +83,33 @@
           </div>
         </div>
       {{/if}}
-    {{else}}
-      <div class="block block-list">
-        <div class="micro-menu">
-          <a href="{{contractUrl}}" id="ballot-micro-menu" class="micro-button micro-button-feed" ontouchstart="">
-            <img src="{{pathFor route='home'}}images/vote.png" class="micro-icon">
-            <span class="micro-label">{{label 'vote'}} {{{quantity 'vote'}}}</span>
-            <div class="verifier verifier-live verifier-feed"></div>
-          </a>
-          <a href="{{contractUrl}}" id="ballot-micro-menu" class="micro-button micro-button-feed" ontouchstart="">
-            <img src="{{pathFor route='home'}}images/debate.png" class="micro-icon">
-            <span class="micro-label">{{label 'debate'}} {{{quantity 'debate'}}}</span>
-          </a>
-        </div>
-      </div>
     {{/unless}}
+    <div class="block block-menu">
+      <div class="micro-menu">
+        <div class="extra">
+          <a id="edit-reply" href="{{contract.url}}#debate" class="micro-button micro-button-feed no-underline" ontouchstart="">
+            <img src="{{getImage 'debate'}}" class="micro-icon">
+            <div class="micro-label">{{label 'debate'}} {{{quantity 'debate'}}}</div>
+          </a>
+          <a id="tweet-post" href="{{twitterURL}}" class="micro-button micro-button-feed no-underline" target="_blank" ontouchstart="">
+            <img src="{{getImage 'tweet'}}" class="micro-icon">
+            <div class="micro-label">{{label 'twitter'}} {{{quantity 'twitter'}}}</div>
+          </a>
+          {{#if tokenFriendly}}
+            <a id="single-vote" href="{{voteURL}}" class="micro-button micro-button-feed no-underline" ontouchstart="">
+              <div class="micro-label">
+                <img src="{{voteIcon}}" class="micro-icon">
+                {{{label 'vote'}}}
+                {{#with token}}
+                    {{> balance}}
+                {{/with}}
+              </div>
+              <div class="verifier verifier-live verifier-feed"></div>
+            </a>
+          {{/if}}
+        </div>
+        {{> electorate contract=contract readOnly=true}}
+      </div>
+    </div>
   {{/unless}}
 </template>

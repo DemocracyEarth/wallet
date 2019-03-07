@@ -4,15 +4,15 @@
 
 /* Change the white to any color ;) */
 input:-webkit-autofill {
-    -webkit-text-fill-color: white !important;
-    -webkit-box-shadow: 0 0 0px 1000px #3A3044 inset;
+    -webkit-text-fill-color: #5a0075 !important;
+    -webkit-box-shadow: 0 0 0px 1000px #eaeaea inset;
 }
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-    transition: #3A3044 5000s ease-in-out 0s;
-    -webkit-box-shadow: 0 0 0px 1000px #3A3044 inset;
+    transition: #eaeaea 5000s ease-in-out 0s;
+    -webkit-box-shadow: 0 0 0px 1000px #eaeaea inset;
 }
 
 @media (max-width: 767px) {
@@ -138,3 +138,19 @@ html {
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
 }
+
+@media (max-width: 991px) {
+  .content-feed {
+    overflow:hidden;
+  }
+}
+
+textarea, select, input, button { outline: none; }
+
+video {
+  display: inline-block;
+  vertical-align: baseline;
+  border: 1px solid #4e3767;
+  border-radius: 5px;
+}
+

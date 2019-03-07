@@ -76,15 +76,14 @@ if (Meteor.isServer) {
   }
 
   // Enable CORS for the manifest.json file.
-  WebApp.rawConnectHandlers.use("/blockstack/manifest.json", function (req, res, next) {
-      res.setHeader("Access-Control-Allow-Origin", "*");
-      return next();
+  WebApp.rawConnectHandlers.use('/blockstack/manifest.json', function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    return next();
   });
 
   Accounts.registerLoginHandler('blockstack', function (opts) {
     let { bsToken, userData } = opts;
     if (!bsToken) return undefined;
-
 
     // TODO: we shouldn't take the userData for granted, as it's coming from the client. Ideally we should fetch the profile
     // server-side, but the handlePendingSignIn can only run in the browser.

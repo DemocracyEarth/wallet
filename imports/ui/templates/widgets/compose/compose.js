@@ -15,8 +15,14 @@ import '/imports/ui/templates/widgets/compose/compose.html';
 * @summary prepares the territory for editor display
 */
 const _introEditor = (settings) => {
+  let draft;
   if (!Session.get('showPostEditor')) {
-    const draft = createContract();
+    draft = createContract();
+  } else {
+    draft = Session.get('draftContract');
+  }
+
+  if (settings.replyMode || !Session.get('showPostEditor')) {
     if (settings.replyMode && settings.replyId) {
       draft.replyId = settings.replyId;
       draft.blockstackAppId = settings.blockstackAppId;
@@ -38,6 +44,14 @@ Template.compose.onRendered(() => {
   }
 });
 
+Template.compose.onCreated(() => {
+  const instance = Template.instance();
+
+  if (Meteor.user() && instance.data.desktopMode) {
+    _introEditor(instance.data);
+  }
+});
+
 Template.compose.helpers({
   mouseActive() {
     if (!Meteor.Device.isPhone()) {
@@ -50,6 +64,9 @@ Template.compose.helpers({
       return false;
     }
     return true;
+  },
+  editorMode() {
+    return Session.get('showPostEditor');
   },
   displayCancel() {
     if (Session.get('showPostEditor') && !Meteor.Device.isPhone()) {
@@ -117,3 +134,4 @@ Template.comment.events({
     }
   },
 });
+export const introEditor = _introEditor;

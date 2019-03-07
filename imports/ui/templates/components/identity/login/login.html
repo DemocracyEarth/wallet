@@ -5,7 +5,7 @@
         <div class="label label-corner">
           {{_ 'log-out'}}
         </div>
-        <img src="{{pathFor route='home'}}images/logout.png" class="logout">
+        <img src="{{getImage 'logout'}}" class="logout">
       </div>
       <div class="card-title">
         {{> cardNavigation main}}
@@ -14,27 +14,16 @@
     </div>
     {{> profile}}
   {{else}}
-    <!--<div class="w-clearfix paper-header card-header">
-      <div class="stage stage-finish-approved stage-card stage-anon button">
-        <div class="label label-corner">
-          {{_ 'anonymous-mode'}}
-        </div>
-      </div>
-      <div class="card-title">
-        {{> cardNavigation}}
-        {{_ 'identity'}}
-      </div>
-    </div>-->
     {{> emailLogin}}
   {{/if}}
 </template>
 
 <template name="cardNavigation">
   {{#if main}}
-    <img src="{{pathFor route='home'}}images/fingerprint-white.png" class="section-icon">
+    <img src="{{getImage 'fingerprint'}}" class="section-icon">
   {{else}}
     <div id="card-back">
-      <img src="{{pathFor route='home'}}images/back.png" class="section-icon section-icon-active">
+      <img src="{{getImage 'back'}}" class="section-icon section-icon-active">
     </div>
   {{/if}}
 </template>

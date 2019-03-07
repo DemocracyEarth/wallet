@@ -3,10 +3,10 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Router } from 'meteor/iron:router';
+import { ReactiveVar } from 'meteor/reactive-var';
 import { $ } from 'meteor/jquery';
 
 import { geo } from '/lib/geo';
-import { convertToUsername } from '/lib/utils';
 import { signatureStatus, removeSignature } from '/imports/startup/both/modules/Contract';
 import { guidGenerator } from '/imports/startup/both/modules/crypto';
 import { getAnonymous } from '/imports/startup/both/modules/User';
@@ -14,9 +14,11 @@ import { showFullName } from '/imports/startup/both/modules/utils';
 import { searchJSON } from '/imports/ui/modules/JSON';
 import { uploadToAmazonS3 } from '/imports/ui/modules/Files';
 import { displayModal } from '/imports/ui/modules/modal';
+import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { displayPopup, cancelPopup } from '/imports/ui/modules/popup';
 
 import '/imports/ui/templates/components/identity/avatar/avatar.html';
+import '/imports/ui/templates/components/identity/chain/chain.js';
 
 /**
 * @summary subscribes to user data
@@ -38,13 +40,40 @@ const _getUser = (userId) => {
 };
 
 /**
+* @summary gets address info from user
+* @param {object} user user to parse
+*/
+const _getAddress = (user) => {
+  let reserve;
+  if (!user.profile) {
+    reserve = Meteor.user().profile.wallet.reserves;
+  } else if (typeof user.profile === 'string') {
+    const userProfile = Meteor.users.findOne({ _id: user.profile });
+    if (userProfile && userProfile.profile.wallet.reserves) {
+      reserve = userProfile.profile.wallet.reserves;
+    }
+  } else if (user.wallet && user.wallet.reserves) {
+    reserve = user.wallet.reserves;
+  }
+  if (reserve && reserve.length && reserve.length > 0) {
+    for (const i in reserve) {
+      if ((reserve[i].token === 'WEI' || reserve[i].token === 'STX') && reserve[i].publicAddress) {
+        return reserve[i];
+      }
+    }
+  }
+  return undefined;
+};
+
+/**
 * @summary describes nationality of user in ux
 * @param {object} profile user to parse
 * @param {boolean} flagOnly just show emoji
 * @param {boolean} nameOnly just show name
+* @param {boolean} codeOnly just show code
 * @returns {string} country
 */
-const getNation = (profile, flagOnly, nameOnly) => {
+const getNation = (profile, flagOnly, nameOnly, codeOnly) => {
   if (profile === undefined) {
     if (Meteor.user() != null) {
       if (Meteor.user().profile.country !== undefined) {
@@ -56,10 +85,13 @@ const getNation = (profile, flagOnly, nameOnly) => {
           if (nameOnly) {
             return `${country[0].name}`;
           }
+          if (codeOnly) {
+            return `${country[0].code}`;
+          }
           return `${Meteor.user().profile.country.name} ${country[0].emoji}`;
         }
       }
-      if (flagOnly || nameOnly) { return ''; }
+      if (flagOnly || nameOnly || codeOnly) { return ''; }
       return TAPi18n.__('digital-citizen');
     }
   } else if (profile.country !== undefined) {
@@ -69,6 +101,9 @@ const getNation = (profile, flagOnly, nameOnly) => {
       }
       if (nameOnly) {
         return `${searchJSON(geo.country, profile.country.name)[0].name}`;
+      }
+      if (codeOnly) {
+        return `${searchJSON(geo.country, profile.country.name)[0].code}`;
       }
       return `${profile.country.name} ${searchJSON(geo.country, profile.country.name)[0].emoji}`;
     }
@@ -86,13 +121,16 @@ const getNation = (profile, flagOnly, nameOnly) => {
         if (nameOnly) {
           return user.profile.country.name;
         }
+        if (codeOnly) {
+          return user.profile.country.code;
+        }
         return `${user.profile.country.name} ${country[0].emoji}`;
       }
-      if (flagOnly || nameOnly) { return ''; }
+      if (flagOnly || nameOnly || codeOnly) { return ''; }
       return TAPi18n.__('unknown');
     }
   }
-  if (flagOnly || nameOnly) { return ''; }
+  if (flagOnly || nameOnly || codeOnly) { return ''; }
   return TAPi18n.__('digital-citizen');
 };
 
@@ -130,6 +168,9 @@ Template.avatar.onCreated(function () {
   const instance = this;
 
   _getUser(_getDynamicID(instance.data)._id);
+
+  Template.instance().imageTemplate = new ReactiveVar();
+  templetize(Template.instance());
 });
 
 Template.avatar.onRendered = () => {
@@ -141,14 +182,14 @@ Template.avatar.helpers({
   url() {
     if (this.profile === undefined) {
       if (Meteor.user()) {
-        return `/peer/${Meteor.user().username}`;
+        return `/@${Meteor.user().username}`;
       }
     }
     const user = Meteor.users.findOne(_getDynamicID(this));
     if (!user) {
       return '#';
     }
-    return `/peer/${user.username}`;
+    return `/@${user.username}`;
   },
   myself() {
     if (this.profile === undefined) {
@@ -217,11 +258,11 @@ Template.avatar.helpers({
     if (smallFont) {
       style = 'identity-small';
     }
-    if (this.flex && Meteor.Device.isPhone()) {
-      // style += ' identity-peer-flex';
-    }
     if (this.disabled) {
       style += ' profile-pic-disabled';
+    }
+    if (this.loginMode) {
+      style += ' profile-pic-login';
     }
     return style;
   },
@@ -250,7 +291,7 @@ Template.avatar.helpers({
     if (size !== undefined) {
       style = `width:${size}px; height:${size}px; `;
     }
-    if (includeName === false) {
+    if (includeName === false && !this.loginMode) {
       style += 'float: none; ';
     }
     if (this.imgStyle) {
@@ -297,13 +338,36 @@ Template.avatar.helpers({
     return getNation(profile, true);
   },
   geoURL(profile) {
-    return `${Router.path('home')}geo/${convertToUsername(getNation(profile, false, true))}`;
+    return `${Router.path('home')}${getNation(profile, false, false, true).toLowerCase()}`;
   },
   sidebarIcon() {
     if (this.sidebar) {
       return 'avatar-icon-box';
     }
     return '';
+  },
+  styleContext() {
+    if (this.loginMode) {
+      return 'float:left';
+    }
+    return '';
+  },
+  ticker() {
+    const reserve = _getAddress(this);
+    if (reserve) {
+      return reserve.token;
+    }
+    return '';
+  },
+  address() {
+    const reserve = _getAddress(this);
+    if (reserve) {
+      return reserve.publicAddress;
+    }
+    return '';
+  },
+  getImage(pic) {
+    return getImage(Template.instance().imageTemplate.get(), pic);
   },
 });
 
@@ -339,12 +403,12 @@ Template.avatar.events({
   },
   'mouseenter .profile-pic'(event) {
     if (this.displayPopup !== false && this.disabled !== true && this.profile !== null && this.profile !== undefined) {
-      displayPopup(event.target, 'card', this.profile, 'mouseenter', `popup-avatar-${this.profile}`);
+    // displayPopup(event.target, 'card', this.profile, 'mouseenter', `popup-avatar-${this.profile}`);
     }
   },
   'mouseleave .profile-pic'() {
     if (this.displayPopup !== false && this.disabled !== true && this.profile !== null && this.profile !== undefined) {
-      cancelPopup(`popup-avatar-${this.profile}`);
+    // cancelPopup(`popup-avatar-${this.profile}`);
     }
   },
 });

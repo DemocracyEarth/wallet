@@ -3,9 +3,12 @@ import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 
 import { convertToSlug, convertToUsername } from '/lib/utils';
+import { defaultConstituency } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
-import { shortUUID } from './crypto';
-import { transact } from '../../../api/transactions/transaction';
+import { shortUUID } from '/imports/startup/both/modules/crypto';
+import { transact } from '/imports/api/transactions/transaction';
+import { token } from '/lib/token';
+import { geo } from '/lib/geo';
 
 /**
 * @summary signs a contract with a verified user
@@ -43,6 +46,124 @@ const _sign = (contractId, userObject, userRole) => {
 };
 
 /**
+* @summary dynamically generates a valid URL keyword regardless the case
+* @param {string} keyword tentative title being used for contract
+*/
+const _contractURI = (keyword) => {
+  const MAXLENGTH = 30;
+  const alphanumeric = keyword.replace(/[^\w\s]/gi, '');
+  return convertToSlug(`${alphanumeric.substring(0, MAXLENGTH).slice(-1) === '-' ? alphanumeric.substring(0, MAXLENGTH - 1) : alphanumeric.substring(0, MAXLENGTH)}-${shortUUID()}`);
+};
+
+/**
+* @summary gets public address of a given token from a user
+* @param {string} contractToken ticker
+*/
+const _getPublicAddress = (contractToken) => {
+  const reserves = Meteor.user().profile.wallet.reserves;
+  const chain = {
+    coin: { code: '' },
+    publicAddress: '',
+  };
+
+  if (reserves && reserves.length > 0) {
+    for (let k = 0; k < reserves.length; k += 1) {
+      if (reserves[k].token === contractToken) {
+        chain.coin.code = contractToken;
+        chain.publicAddress = reserves[k].publicAddress;
+        for (let j = 0; j < token.coin.length; j += 1) {
+          if (token.coin[j].code === contractToken && token.coin[j].blockchain === 'ETHEREUM') {
+            chain.votePrice = token.coin[j].defaultVote;
+            chain.coin.code = token.coin[j].code;
+            break;
+          }
+        }
+        return chain;
+      }
+    }
+  }
+  for (let j = 0; j < token.coin.length; j += 1) {
+    if (token.coin[j].code === contractToken && token.coin[j].blockchain === 'ETHEREUM') {
+      const defaultBlockchain = _getPublicAddress('WEI');
+      defaultBlockchain.coin.code = contractToken;
+      return defaultBlockchain;
+    }
+  }
+  return undefined;
+};
+
+
+/**
+* @summary sets corresponding blockchain address to contract
+* @param {object} draft new contract
+*/
+const _entangle = (draft) => {
+  const constituency = draft.constituency;
+  if (!constituency.length) {
+    return _getPublicAddress('WEI');
+  }
+  for (let i = 0; i < constituency.length; i += 1) {
+    if (constituency[i].kind === 'TOKEN') {
+      return _getPublicAddress(constituency[i].code);
+    }
+  }
+  return undefined;
+};
+
+/**
+* @summary checks if contract has a basic token
+* @param {object} contract - contract to check
+*/
+const _contractHasToken = (contract) => {
+  if (contract.constituency.length > 0) {
+    for (let i = 0; i < contract.constituency.length; i += 1) {
+      if (contract.constituency[i].kind === 'TOKEN') {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+
+/**
+* @summary inserts default blockchain data to a contract
+* @param {object} contract contract to include chain data
+*/
+const _chain = (contract) => {
+  const draft = contract;
+  if (Meteor.user().profile.wallet.reserves[0].token === 'STX') {
+    // Blockstack tokens only
+    draft.blockchain = {
+      coin: { code: 'STX' },
+      publicAddress: Meteor.user().profile.wallet.reserves[0].publicAddress,
+      votePrice: '1',
+    };
+    draft.constituency = [{
+      kind: 'TOKEN',
+      code: 'STX',
+      check: 'EQUAL',
+    }];
+    draft.wallet.currency = 'STX';
+  } else {
+    // ERC20 tokens
+    if (!_contractHasToken(draft)) {
+      draft.constituency.push(defaultConstituency);
+    }
+    for (let i = 0; i < draft.constituency.length; i += 1) {
+      if (draft.constituency[i].kind === 'TOKEN') {
+        draft.wallet.currency = draft.constituency[i].code;
+      }
+    }
+
+    // blockchain
+    if (!draft.blockchain.publicAddress) {
+      draft.blockchain = _entangle(draft);
+    }
+  }
+  return draft;
+};
+
+/**
 * @summary generate a new empty draft
 * @param {string} keyword - name of the contract to be specifically used for this delegation
 * @param {string} title - title of the contract without slug
@@ -57,7 +178,19 @@ const _createContract = (newkeyword, newtitle) => {
     }
     const contract = Contracts.findOne({ keyword: `draft-${Meteor.userId()}` });
     if (Meteor.user()) {
+      // sign by author
       _sign(contract._id, Meteor.user(), 'AUTHOR');
+
+      // Omit for tokenless users
+      if (Meteor.user().profile.wallet.reserves !== undefined) {
+        // chain by author
+        const chainedContract = _chain(contract);
+        Contracts.update({ _id: contract._id }, { $set: {
+          blockchain: chainedContract.blockchain,
+          wallet: chainedContract.wallet,
+          constituency: chainedContract.constituency,
+        } });
+      }
     }
     return Contracts.findOne({ keyword: `draft-${Meteor.userId()}` });
   // has title & keyword, used for forks
@@ -115,7 +248,7 @@ const _updateContractSignatures = (status) => {
       }
     }
   }
-  Contracts.update(Session.get('contract')._id, { $set: { signatures: signatures } });
+  Contracts.update(Session.get('contract')._id, { $set: { signatures } });
 };
 
 /**
@@ -157,6 +290,7 @@ const _sendDelegation = (sourceId, targetId, quantity, conditions, newStatus) =>
 */
 const _newDelegation = (delegatorId, delegateId, settings) => {
   let finalTitle;
+  console.log(_getDelegationContract(delegatorId, delegateId));
   if (_getDelegationContract(delegatorId, delegateId)) { return false; }
 
   // creates new delegation contract
@@ -273,53 +407,115 @@ const _remove = (contractId) => {
   }
 };
 
-
 /**
-* @summary dynamically generates a valid URL keyword regardless the case
-* @param {string} keyword tentative title being used for contract
+* @summary generates a uri based on date
+* @param {object} draft contract
 */
-const _generateURL = (keyword, contractId) => {
-  return convertToSlug(`${keyword}-${shortUUID()}`);
-/*
-  let dynamicURL;
-  let contract = Contracts.findOne({ _id: contractId });
-
-  while (contract) {
-    if (keyword.length < 3) { // Meteor.Device.isPhone() &&
-      dynamicURL = convertToSlug(`${keyword}-${shortUUID()}`);
-    } else if (!dynamicURL) {
-      dynamicURL = convertToSlug(keyword);
-    }
-    contract = Contracts.findOne({ keyword: dynamicURL });
-    if (contract) {
-      if (contract._id !== contractId) {
-        dynamicURL = convertToSlug(`${keyword}-${shortUUID()}`);
-        contract = undefined;
-      } else if (contract._id === contractId) {
-        contract = undefined;
-      }
-    }
+const _getURLDate = (draft) => {
+  let time = Session.get('time');
+  if (!time) {
+    time = draft.createdAt;
   }
-  return dynamicURL;
-  */
+  return `/${time.getFullYear()}/${parseInt(time.getMonth() + 1, 10)}/${time.getDate()}/`;
 };
 
 /**
-* publishes a contract and goes to home
-* @param {string} contractId - id of the contract to publish
+* @summary sums replies to parent and whole tree
+* @param {object} contract being replied
 */
-const _publish = (contractId) => {
-  const draft = Session.get('draftContract');
-  draft.stage = 'LIVE';
-  draft.keyword = _generateURL(document.getElementById('titleContent').innerText, draft._id);
-  draft.url = `/vote/${draft.keyword}`;
-  // profile & country is optional
-  if (Meteor.user() && Meteor.user().profile &&
-      Meteor.user().profile.country && Meteor.user().profile.country.name) {
-    draft.geo = convertToUsername(Meteor.user().profile.country.name);
+const _sumReplies = (contract) => {
+  const reply = contract;
+
+  if (reply.totalReplies) {
+    reply.totalReplies += 1;
   } else {
-    draft.geo = '';
+    reply.totalReplies = 1;
   }
+
+  Contracts.update({ _id: reply._id }, { $set: { totalReplies: reply.totalReplies } });
+
+  const parent = Contracts.findOne({ _id: reply.replyId });
+  if (parent) {
+    _sumReplies(parent);
+  }
+};
+
+/**
+* @summary connects the contract to a physical jurisdcition
+* @param {object} draft being legally bounded
+*/
+const _land = (draft) => {
+  let land = '';
+  if (draft.constituency.length > 0) {
+    for (let i = 0; i < draft.constituency.length; i += 1) {
+      if (draft.constituency[i].kind === 'NATION') {
+        land = draft.constituency[i].code;
+        break;
+      }
+    }
+  }
+  if (!land) {
+    if (Meteor.user() && Meteor.user().profile &&
+        Meteor.user().profile.country && Meteor.user().profile.country.code) {
+      const countryCode = _.where(geo.country, { code: Meteor.user().profile.country.code })[0].code;
+      if (countryCode) {
+        land = countryCode;
+      }
+    }
+  }
+  return land;
+};
+
+/**
+* @summary publishes a contract and goes to home
+* @param {string} contractId - id of the contract to publish
+* @param {string} keyword - key word identifier
+*/
+const _publish = (contractId, keyword) => {
+  let draft = Session.get('draftContract');
+
+  // status
+  draft.stage = 'LIVE';
+
+  // readable identifier
+  if (!keyword) {
+    draft.keyword = _contractURI(document.getElementById('titleContent').innerText, draft._id);
+  } else {
+    draft.keyword = keyword;
+  }
+  draft.url = `${_getURLDate(draft)}${draft.keyword}`;
+
+  // jurisdiction
+  draft.geo = _land(draft);
+
+  // ballot
+  if (draft.ballotEnabled) {
+    const template = [
+      {
+        executive: true,
+        mode: 'AUTHORIZE',
+        _id: '1',
+        tick: false,
+      },
+      {
+        executive: true,
+        mode: 'REJECT',
+        _id: '0',
+        tick: false,
+      },
+    ];
+    draft.ballot = template;
+  }
+
+  // chain
+  if (Meteor.user().profile.wallet.reserves) {
+    draft = _chain(draft);
+    if (draft.wallet.currency) {
+      draft.blockchain.coin.code = draft.wallet.currency;
+    }
+  }
+
+  // db
   Contracts.update({ _id: contractId }, { $set: {
     stage: draft.stage,
     title: draft.title,
@@ -329,6 +525,11 @@ const _publish = (contractId) => {
     replyId: draft.replyId,
     blockstackAppId: draft.blockstackAppId,
     geo: draft.geo,
+    ballot: draft.ballot,
+    constituencyEnabled: draft.constituencyEnabled,
+    constituency: draft.constituency,
+    wallet: draft.wallet,
+    blockchain: draft.blockchain,
   },
   });
 
@@ -336,14 +537,10 @@ const _publish = (contractId) => {
   if (draft.replyId) {
     // count
     const reply = Contracts.findOne({ _id: draft.replyId });
-    if (reply.totalReplies) {
-      reply.totalReplies += 1;
-    } else {
-      reply.totalReplies = 1;
-    }
+
+    _sumReplies(reply);
 
     // notify
-    Contracts.update({ _id: draft.replyId }, { $set: { totalReplies: reply.totalReplies } });
     let story;
     let toId;
     let fromId;
@@ -360,8 +557,12 @@ const _publish = (contractId) => {
         toId,
         fromId,
         story,
-        transaction,
-      );
+        transaction, function (err, result) {
+          if (err) {
+            throw new Meteor.Error(err, '[sendNotification]: notification failed.');
+          }
+          return result;
+        });
     }
   }
 };
@@ -379,19 +580,6 @@ const _removeSignature = (contractId, userId) => {
   } });
 };
 
-/**
- * @summary Changes the stage of a contract
- * @param {String} contractId - that points to contract in db
- * @param {String} stage - ['DRAFT', 'LIVE', 'FINISH']
- * @returns {Boolean}
- */
-
-const contractStage = (contractId, stage) => {
-
-  // TODO changes the stage of a contract.
-
-};
-
 const _rightToVote = (contract) => {
   if (contract.kind === 'DELEGATION') {
     for (const i in contract.signatures) {
@@ -404,14 +592,16 @@ const _rightToVote = (contract) => {
   return true;
 };
 
+export const entangle = _entangle;
+export const contractURI = _contractURI;
 export const rightToVote = _rightToVote;
 export const signatureStatus = _signatureStatus;
-export const setContractStage = contractStage;
 export const signContract = _sign;
 export const removeSignature = _removeSignature;
 export const publishContract = _publish;
 export const removeContract = _remove;
 export const createDelegation = _newDelegation;
+export const getURLDate = _getURLDate;
 export const sendDelegationVotes = _sendDelegation;
 export const createContract = _createContract;
 export const getDelegationContract = _getDelegationContract;

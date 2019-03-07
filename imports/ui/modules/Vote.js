@@ -5,10 +5,8 @@ import { $ } from 'meteor/jquery';
 
 import { getDelegationContract } from '/imports/startup/both/modules/Contract';
 import { Contracts } from '/imports/api/contracts/Contracts';
-import { convertToSlug } from '/lib/utils';
 import { defaultSettings } from '/lib/const';
 import { purgeBallot, getBallot } from '/imports/ui/modules/ballot';
-import { displayNotice } from '/imports/ui/modules/notice';
 import { displayModal } from '/imports/ui/modules/modal';
 import { transact, getVotes } from '/imports/api/transactions/transaction';
 
@@ -230,8 +228,8 @@ export class Vote {
     let sliderInRemainingSpace;
     let inputPixels = pixels;
     if (pixels === undefined) { inputPixels = 0; }
-    const MAX_VOTES_PRECISION = 0 * this.TOGGLE_DISPLAY_PLACED_BAR;   // 10;
-    const MAX_PERCENTAGE_PRECISION = 0 * this.TOGGLE_DISPLAY_PLACED_BAR; // 7;
+    const MAX_VOTES_PRECISION = 0 * this.TOGGLE_DISPLAY_PLACED_BAR;
+    const MAX_PERCENTAGE_PRECISION = 0 * this.TOGGLE_DISPLAY_PLACED_BAR;
     const barWidth = $(`#voteBar-${this.voteId}`).width();
     const placedWidth = parseInt($(`#votePlaced-${this.voteId}`).width() * this.TOGGLE_DISPLAY_PLACED_BAR, 10);
     const precisionRange = parseInt((MAX_PERCENTAGE_PRECISION * barWidth) / 100, 10);
@@ -334,8 +332,9 @@ export class Vote {
   * @summary executes an already configured vote from a liquid bar
   * @param {function} callback callback if execution is cancelled or after vote if no sessionId
   * @param {boolean} removal if operation aims to remove all votes from ballot
+  * @param {boolean} single if its a single vote operation
   */
-  execute(callback, removal) {
+  execute(callback, removal, single) {
     let vote;
     let showBallot;
     let finalBallot;
@@ -351,6 +350,10 @@ export class Vote {
     const votesInBallot = this.inBallot;
     const newVotes = parseInt(this.allocateQuantity - votesInBallot, 10);
     const votes = parseInt(votesInBallot + newVotes, 10);
+
+    /**
+    * NOTE: uncomment for testing
+    **/
 
     const close = () => {
       if (this.requireConfirmation) {
@@ -410,10 +413,19 @@ export class Vote {
           contractId: this.targetId,
         };
 
+        /**
+        NOTE: no longer valid as every feed item is now votable
         if (finalBallot.length === 0 && removal !== true) {
           displayNotice('empty-values-ballot', true);
           return;
         }
+
+          console.log(`voteId: ${voteId}`);
+          console.log(Session.get(voteId));
+          delete Session.keys[voteId];
+          console.log(Session.get(voteId));
+          console.log('EOF');
+        */
         break;
     }
 
@@ -421,24 +433,37 @@ export class Vote {
     if (newVotes < 0 || votes === 0 || removal === true) {
       // subtract votes
 
-      if (votes === 0) {
-        finalCaption = TAPi18n.__(`retrieve-all-${dictionary}`);
+      if (votes === 0 && !removal) {
+        // insuffient funds
+        finalCaption = TAPi18n.__('insufficient-votes');
         showBallot = false;
-        actionLabel = TAPi18n.__('remove');
+        actionLabel = TAPi18n.__('get-tokens');
+        vote = () => {
+          window.open(Meteor.settings.public.web.sites.tokens, '_blank');
+        };
       } else {
-        finalCaption = TAPi18n.__(`retrieve-${dictionary}-warning`).replace('<quantity>', votes.toString()).replace('<retrieve>', Math.abs(newVotes).toString());
+        if (votes === 0) {
+          finalCaption = TAPi18n.__(`retrieve-all-${dictionary}`);
+          showBallot = false;
+          actionLabel = TAPi18n.__('remove');
+        } else {
+          finalCaption = TAPi18n.__(`retrieve-${dictionary}-warning`).replace('<quantity>', votes.toString()).replace('<retrieve>', Math.abs(newVotes).toString());
+        }
+        vote = () => {
+          const tx = transact(
+            this.targetId,
+            this.userId,
+            parseInt(Math.abs(newVotes), 10),
+            settings,
+            close
+          );
+          if (tx) {
+            if (single) { delete Session.keys[this.voteId]; }
+            _updateState();
+          }
+          return tx;
+        };
       }
-      vote = () => {
-        const tx = transact(
-          this.targetId,
-          this.userId,
-          parseInt(Math.abs(newVotes), 10),
-          settings,
-          close
-        );
-        if (tx) { _updateState(); }
-        return tx;
-      };
     } else if ((votesInBallot === 0) || (newVotes === 0)) {
       // insert votes
 
@@ -458,7 +483,10 @@ export class Vote {
           settings,
           close
         );
-        if (tx) { _updateState(); }
+        if (tx) {
+          if (single) { delete Session.keys[this.voteId]; }
+          _updateState();
+        }
         return tx;
       };
     } else if (newVotes > 0) {
@@ -473,7 +501,10 @@ export class Vote {
           settings,
           close
         );
-        if (tx) { _updateState(); }
+        if (tx) {
+          if (single) { delete Session.keys[this.voteId]; }
+          _updateState();
+        }
         return tx;
       };
     }
@@ -499,6 +530,7 @@ export class Vote {
     } else {
       const v = vote();
       if (v) {
+        if (single) { delete Session.keys[this.voteId]; }
         _updateState();
         if (callback) { callback(); }
       }

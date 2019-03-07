@@ -1,9 +1,15 @@
 <template name="card">
-  <div class="login">
-      {{> avatar profile=this includeName=true includeNation=true editable=false disabled=true includeRole=false}}
+  <div class="login margin-bottom-dead">
+      {{> avatar profile=this includeName=true includeNation=true includeAddress=true editable=false disabled=true includeRole=false}}
 
+<!--
       {{#with profile}}
         {{> liquid _id=this.balanceId targetId=this.targetId wallet=this.wallet isDelegation=false editable=false hideBar=true balanceMode=true}}
+      {{/with}}
+-->
+
+      {{#with user}}
+        {{> multiTokenProfile}}
       {{/with}}
 
       {{#if currentUser}}
@@ -22,7 +28,7 @@
               {{/if}}                
             {{/with}}
           {{else}}
-            {{> spinner id=spinnerId style=spinnerStyle color='#fff' length=8}}
+            {{> spinner id=spinnerId style=spinnerStyle length=8}}
           {{/if}}
         {{/unless}}
       {{/if}}

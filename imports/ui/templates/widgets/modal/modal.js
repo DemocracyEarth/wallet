@@ -7,17 +7,16 @@ import { animationSettings } from '/imports/ui/modules/animation';
 import { displayModal } from '/imports/ui/modules/modal';
 import { globalObj } from '/lib/global';
 
+import '/imports/ui/templates/widgets/spinner/spinner.js';
 import './modal.html';
 import '../../components/identity/avatar/avatar.js';
 
 function killModal() {
-  const settings = Object.assign({
-    complete() {
-      Session.set('showModal', false);
-      displayModal(false);
-    },
-  }, animationSettings);
-  $('.modal').velocity({ opacity: '0' }, settings);
+  $('.modal').css('opacity', '0');
+  displayModal(false);
+  $('#modalToggle').remove();
+  Session.set('showModal', false);
+  Session.set('castSingleVote', undefined);
 }
 
 Template.modal.helpers({
@@ -124,9 +123,21 @@ Template.modalWindow.helpers({
     }
     return false;
   },
+  alertMode() {
+    if (Session.get('displayModal') !== undefined) {
+      return Session.get('displayModal').alertMode;
+    }
+    return false;
+  },
   voteSettings() {
     if (Session.get('displayModal') !== undefined) {
       return Session.get('displayModal').voteSettings;
+    }
+    return false;
+  },
+  awaitMode() {
+    if (Session.get('displayModal') !== undefined) {
+      return Session.get('displayModal').awaitMode;
     }
     return false;
   },
@@ -134,8 +145,10 @@ Template.modalWindow.helpers({
     return `${className} ${className}-mini`;
   },
   removal() {
-    if (Session.get('displayModal').action === TAPi18n.__('remove')) {
-      return 'button-remove';
+    if (Session.get('displayModal') !== undefined) {
+      if (Session.get('displayModal').action === TAPi18n.__('remove')) {
+        return 'button-remove';
+      }
     }
     return '';
   },
@@ -143,7 +156,7 @@ Template.modalWindow.helpers({
 
 Template.modalWindow.events({
   'click #modalToggle'() {
-    // Modules.client.displayModal(false);
+    //Modules.client.displayModal(false);
   },
   'click #cancel'() {
     if (globalObj.modalCancel !== undefined) { globalObj.modalCancel(); }

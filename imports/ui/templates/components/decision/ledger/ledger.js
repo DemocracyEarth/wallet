@@ -1,7 +1,6 @@
 import { $ } from 'meteor/jquery';
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { Tracker } from 'meteor/tracker';
 import { Session } from 'meteor/session';
 
 import { setupSplit } from '/imports/ui/modules/split';
@@ -9,9 +8,44 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 
 import '/imports/ui/templates/components/decision/ledger/ledger.html';
 
+/**
+* @summary turns a query for contracts into one for transactions
+* @param {object} instance asking for query change
+*/
+const _convertQuery = (instance) => {
+  const tally = instance;
+  switch (tally.options.view) {
+    case 'latest':
+      tally.options.view = 'lastVotes';
+      break;
+    case 'token':
+      tally.options.view = 'transactionsToken';
+      break;
+    case 'geo':
+      tally.options.view = 'transactionsGeo';
+      break;
+    case 'peer':
+      tally.options.view = 'transactionsPeer';
+      break;
+    default:
+  }
+  return tally;
+};
+
 Template.ledger.onCreated(function () {
   setupSplit();
+  Template.instance().postReady = new ReactiveVar(false);
   Session.set('isLedgerReady', false);
+
+  const instance = this;
+
+  instance.autorun(function (computation) {
+    const subscription = instance.subscribe('transaction', _convertQuery(instance.data).options);
+    if (subscription.ready() && !instance.postReady.get()) {
+      instance.postReady.set(true);
+      computation.stop();
+    }
+  });
 });
 
 Template.ledger.helpers({
@@ -33,6 +67,9 @@ Template.ledger.helpers({
     }
     return undefined;
   },
+  postReady() {
+    return Template.instance().postReady.get();
+  },
   delegationVotes() {
     const tally = this;
     tally.options.view = 'delegationVotes';
@@ -49,7 +86,7 @@ Template.ledger.helpers({
   },
   postVotes() {
     const tally = this;
-    tally.options.view = 'votes';
+    tally.options.view = 'threadVotes';
     tally.options.sort = { timestamp: -1 };
 
     // winning options
@@ -69,13 +106,13 @@ Template.ledger.helpers({
     return tally;
   },
   homeVotes() {
-    const tally = this;
-    tally.options.view = 'lastVotes';
-    tally.options.sort = { timestamp: -1 };
-    return tally;
+    return _convertQuery(this);
   },
   isLedgerReady() {
     return Session.get('isLedgerReady');
+  },
+  ledgerTitle() {
+    return this.ledgerTitle;
   },
 });
 
@@ -86,6 +123,7 @@ Template.ledger.events({
     Session.set('resizeSplitCursor', {
       x: parseInt(event.pageX - parseInt($('.split-right').css('marginLeft'), 10), 10),
       y: event.pageY,
+      windowWidth: window.innerWidth,
     });
   },
 });

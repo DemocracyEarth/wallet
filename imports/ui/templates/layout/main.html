@@ -2,6 +2,7 @@
   <!-- App -->
 
   {{> modal}}
+
   {{#each popupList}}
     {{> popup id=this}}
   {{/each}}
@@ -10,28 +11,18 @@
     <div id='mobileKeyboard' contenteditable="true" style="opacity: 0; width: 0px; height:0px;"></div>
   {{/if}}
 
+  {{> sidebar}}
 
-  <div id='menu' class='left'>
-    {{> sidebar}}
-  </div>
+  <div id='content' class='right {{landingMode}}'>
 
-  <div id='content' class='right'>
-
-    {{#if isPhone}}
+    {{#if loggedWithPhone}}
+      {{> navigation}}
       <div class='inhibitor' style='display: none;'></div>
     {{/if}}
 
-    {{> navigation}}
     {{> yield}}
 
-    <!--
-    NOTE: we will go for navigation without a touch menu and reconcile mobile with desktop ux
-    {{#if isPhone}}
-      {{> touchmenu}}
-    {{/if}}
-    -->
-
-  </div>
+  </div>  
 
   {{#if showNotice}}
     {{> notice}}

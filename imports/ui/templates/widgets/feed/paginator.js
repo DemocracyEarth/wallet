@@ -17,35 +17,50 @@ import '/imports/ui/templates/widgets/feed/feedLoad.js';
 const _aboveFold = (id) => {
   if ($(`#page-${id}`)[0]) {
     const rect = $(`#page-${id}`)[0].getBoundingClientRect();
-    return (rect.top > -1 && rect.bottom <= parseInt($(window).height() + 300, 10));
+    return (rect.top > 60 && rect.bottom <= parseInt($(window).height() + 300, 10));
   }
   return false;
 };
 
 Template.paginator.onCreated(function () {
-  Template.instance().identifier = parseInt(((this.data.options.limit + this.data.options.skip) / gui.ITEMS_PER_PAGE) + 1, 10);
+  Template.instance().identifier = new ReactiveVar(Template.currentData().identifier);
   Template.instance().loaded = new ReactiveVar(false);
+  Template.instance().count = new ReactiveVar(this.count);
+  Template.instance().configured = new ReactiveVar(false);
 });
 
 Template.paginator.onRendered(function () {
-  const identifier = Template.instance().identifier;
+  const identifier = Template.instance().identifier.get();
   const loaded = Template.instance().loaded;
   let isScrolling;
 
-  $('.split-left').scroll(() => {
-    Meteor.clearTimeout(isScrolling);
-    isScrolling = Meteor.setTimeout(function () {
-      if (!loaded.get()) {
-        if (_aboveFold(identifier)) {
-          loaded.set(true);
+  /*
+  if (Meteor.Device.isPhone() || window.innerWidth <= 991) {
+    Session.set('scrollerDiv', '.right');
+  } else {
+    Session.set('scrollerDiv', '.right');
+  }
+  */
+
+  const instance = this;
+
+  instance.autorun(function () {
+    $('.right').scroll(() => {
+      Meteor.clearTimeout(isScrolling);
+      isScrolling = Meteor.setTimeout(function () {
+        if (!loaded.get()) {
+          if (_aboveFold(identifier)) {
+            loaded.set(true);
+          }
         }
-      }
-    }, 100);
+      }, 100);
+    });
   });
 });
 
 Template.paginator.helpers({
   end() {
+    console.log(`end why? skip: ${this.options.skip} + limit: ${this.options.limit} < count: ${this.count}`);
     return !((this.options.skip + this.options.limit) < this.count);
   },
   empty() {
@@ -55,23 +70,28 @@ Template.paginator.helpers({
     return this.subfeed;
   },
   identifier() {
-    return Template.instance().identifier;
+    return Template.instance().identifier.get();
   },
   visible() {
     return Template.instance().loaded.get();
   },
   nextOptions() {
-    let nextSkip = (this.options.skip + gui.ITEMS_PER_PAGE);
-    if (nextSkip > this.count) { nextSkip = this.count; }
-    this.options.skip = nextSkip;
+    if (!Template.instance().configured.get()) {
+      let nextSkip = (this.options.skip + gui.ITEMS_PER_PAGE);
+      if (nextSkip > this.count) { nextSkip = this.count; }
+      this.options.skip = nextSkip;
+      Template.instance().configured.set(true);
+    }
     this.options.view = Session.get('longFeedView');
-    console.log(`nextOptions: ${JSON.stringify(this.options)}`);
     return this.options;
+  },
+  count() {
+    return this.count;
   },
 });
 
 Template.paginator.events({
   'click #feed-bottom'() {
-    $('.right').animate({ scrollTop: 0 });
+    $(Session.get('scrollerDiv')).animate({ scrollTop: 0 });
   },
 });

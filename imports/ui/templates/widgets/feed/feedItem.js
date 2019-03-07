@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
+import { Router } from 'meteor/iron:router';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import { getProfileFromUsername, getAnonymous } from '/imports/startup/both/modules/User';
@@ -14,6 +15,7 @@ import { animationSettings } from '/imports/ui/modules/animation';
 import { addChoiceToBallot, getTotalVoters, getRightToVote, getBallot } from '/imports/ui/modules/ballot';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { Contracts } from '/imports/api/contracts/Contracts';
+import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 
 import '/imports/ui/templates/widgets/feed/feedItem.html';
 import '/imports/ui/templates/widgets/transaction/transaction.js';
@@ -36,27 +38,109 @@ const _displayResults = (contract) => {
   return false;
 };
 
-const isScrolledIntoView = (elem) => {
-  if (elem) {
-    const docViewTop = $(window).scrollTop();
-    const docViewBottom = docViewTop + $(window).height();
-
-    const elemTop = $(elem).offset().top;
-    const elemBottom = elemTop + $(elem).height();
-
-    return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+/**
+* @summary gets the reply contract
+* @param {string} replyId the id of the contract
+* @return {object} contract
+*/
+const _getReplyContract = (replyId) => {
+  if (replyId) {
+    const dbReply = Contracts.findOne({ _id: replyId });
+    if (dbReply) {
+      return dbReply;
+    }
   }
-  return false;
+  return '';
 };
 
 /**
-@summary if its on a mobile waits a second to refresh feed item with reactive one
+* @summary opens post from clicking a feed item
+* @param {object} event object
+* @param {string} url to open
 */
-const scrollRefresh = () => {
-  if (Meteor.Device.isPhone()) {
-    return 1000;
+const _openPost = (event, url) => {
+  event.preventDefault();
+  event.stopPropagation();
+  Router.go(url);
+};
+
+/**
+* @summary if im on current item context in url determines
+* @param {object} item current item
+*/
+const _here = (item) => {
+  return (window.location.pathname.substring(0, item.url.length) === `${item.url}`);
+};
+
+/**
+* @summary parses a url in a plain text and returns link html
+* @param {string} text to be parsed
+* @return {string} html with linked url
+*/
+const parseURL = (text) => {
+  const exp = /(\b(((https?|ftp|file|):\/\/)|www[.])[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+  let temp = text.replace(exp, "<a href='$1' target='_blank'>$1</a>");
+  let result = '';
+
+  while (temp.length > 0) {
+    const pos = temp.indexOf("href='");
+    if (pos === -1) {
+      result += temp;
+      break;
+    }
+    result += temp.substring(0, pos + 6);
+
+    temp = temp.substring(pos + 6, temp.length);
+    if ((temp.indexOf('://') > 8) || (temp.indexOf('://') === -1)) {
+      result += 'http://';
+    }
   }
-  return 1;
+
+  return result;
+};
+
+/**
+* @summary replaces string with new content
+* @param {string} target to parse
+* @param {string} search what to search in string
+* @param {string} replacement new string
+* @return {string} text to be parsed
+*/
+const _replaceAll = (target, search, replacement) => {
+  return target.split(search).join(replacement);
+};
+
+/**
+* @summary renders text with html tags
+* @param {string} text from db
+* @return {string} html poem
+*/
+const renderMarkup = (text) => {
+  // urls
+  let html = parseURL(text.replace(/<(?:.|\n)*?>/gm, ''));
+
+  // hashtags
+  html = html.replace(/(^|\s)(#[a-z\d][\w-]*)/ig, "$1<a href='/$2'>$2</a>");
+  html = _replaceAll(html, "href='/#", "href='/");
+
+  // mentions
+  html = html.replace(/(^|\s)(@[a-z\d][\w-]*)/ig, "$1<a href='/@$2'>$2</a>");
+  html = _replaceAll(html, "href='/@@", "href='/@");
+
+  // tokens
+  html = html.replace(/(^|\s)(\$[a-z\d][\w-]*)/ig, "$1<a href='/token/$2'>$2</a>");
+  html = _replaceAll(html, "href='/token/$", "href='$");
+
+  // markup
+  html = html.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+  html = html.replace(/__(.*?)__/g, '<u>$1</u>');
+  html = html.replace(/--(.*?)--/g, '<i>$1</i>');
+  html = html.replace(/~~(.*?)~~/g, '<del>$1</del>');
+
+  // paragraphs
+  html = html.replace(/\n/g, '<br>');
+
+  return html;
 };
 
 Template.feedItem.onCreated(function () {
@@ -65,27 +149,48 @@ Template.feedItem.onCreated(function () {
   Template.instance().rightToVote = new ReactiveVar(false);
   Template.instance().candidateBallot = new ReactiveVar();
   Template.instance().displayResults = new ReactiveVar(false);
-  Template.instance().aboveFold = new ReactiveVar();
   Template.instance().replySource = new ReactiveVar(false);
+
+  Template.instance().imageTemplate = new ReactiveVar();
+  templetize(Template.instance());
 });
 
+const _threadItem = (instance) => {
+  if (instance.data.mainFeed) {
+    $(`#feedItem-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}' class='vote-thread vote-thread-context clickable-item' />`);
+    $(`#thread-${instance.data._id}`).prepend(`<div class='thread-sub'><div class='thread-needle thread-reply'>
+    <a title='${instance.data.replyId ? `${TAPi18n.__('reply-to')}: ${stripHTMLfromText(_getReplyContract(instance.data.replyId).title).substring(0, 30)}...` : ''}'
+    href='${instance.data.replyId ? _getReplyContract(instance.data.replyId).url : ''}'><img src='${Router.path('home')}images/reply.png'></a>
+    </div></div>`);
+  } else {
+    $(`#feedItem-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}' class='vote-thread clickable-item' />`);
+    $(`#thread-${instance.data._id}`).prepend(`<div class='thread-sub'><div class='thread-needle ${instance.data.lastItem ? 'thread-last' : ''}'></div></div>`);
+    if (instance.data.depth > 1) {
+      for (let i = 1; i < instance.data.depth; i += 1) {
+        $(`#thread-${instance.data._id}`).wrapAll(`<div id='thread-${instance.data._id}-depth-${i}' class='vote-thread' />`);
+      }
+    }
+  }
+  if (instance.data.url && _here(instance.data)) {
+    $('.split-left').scrollTop($(`#thread-${instance.data._id}`).offset().top);
+  }
+
+  document.getElementById(`feedItem-${instance.data._id}`).addEventListener('click', function (event) {
+    _openPost(event, instance.data.url);
+  });
+};
+
 Template.feedItem.onRendered(function () {
-  Template.instance().aboveFold.set(isScrolledIntoView(document.querySelector(`#feedItem-${Template.currentData()._id}`)));
   const instance = this;
-  let isScrolling;
 
   if (Meteor.userId()) {
     instance.voteId = `vote-${Meteor.userId()}-${instance.data._id}`;
   }
 
-  $('.right').scroll(function () {
-    Meteor.clearTimeout(isScrolling);
-    isScrolling = Meteor.setTimeout(function () {
-      if (document.querySelector(`#ballot-${instance.data._id}`)) {
-        instance.aboveFold.set(isScrolledIntoView(document.querySelector(`#voteBar-vote-${Meteor.userId()}-${instance.data._id}`)));
-      }
-    }, scrollRefresh());
-  });
+  // threading
+  if (instance.data.replyId) {
+    _threadItem(instance);
+  }
 
   if (instance.data.replyId) {
     const dbReply = Contracts.findOne({ _id: instance.data.replyId });
@@ -150,8 +255,29 @@ Template.feedItem.helpers({
   tags() {
     return this.tags;
   },
+  focused() {
+    if (_here(this)) {
+      return 'title-thread';
+    }
+    return '';
+  },
+  contextHere() {
+    return _here(this);
+  },
   sinceDate(timestamp) {
     return `${timeCompressed(timestamp)}`;
+  },
+  blockchainAddress() {
+    if (this.blockchain.publicAddress) {
+      return `${this.blockchain.publicAddress.substring(0, 6)}...${this.blockchain.publicAddress.slice(-4)}`;
+    }
+    return TAPi18n.__('off-chain');
+  },
+  blockchainFullAddress() {
+    return `${this.blockchain.publicAddress}`;
+  },
+  blockchainLink() {
+    return `${Meteor.settings.public.web.sites.blockExplorer}/address/${this.blockchain.publicAddress}`;
   },
   editorMode(stage) {
     if (stage === 'DRAFT') { return true; } return false;
@@ -199,27 +325,6 @@ Template.feedItem.helpers({
   feedContract() {
     return Template.instance().contract.get();
   },
-  replyMode() {
-    return this.replyId;
-  },
-  replyURL() {
-    if (this.replyId) {
-      const dbReply = Contracts.findOne({ _id: this.replyId });
-      if (dbReply) {
-        return dbReply.url;
-      }
-    }
-    return '';
-  },
-  replyTitle() {
-    if (this.replyId) {
-      const dbReply = Contracts.findOne({ _id: this.replyId });
-      if (dbReply) {
-        return `"${stripHTMLfromText(dbReply.title).substring(0, 30)}..."`;
-      }
-    }
-    return '';
-  },
   voters() {
     let total;
     const dbContract = Contracts.findOne({ _id: this._id });
@@ -235,11 +340,21 @@ Template.feedItem.helpers({
     }
     return `${total} ${TAPi18n.__('voters').toLowerCase()}`;
   },
+  replyMode() {
+    const draft = Session.get('draftContract');
+    if (draft.replyId !== '') {
+      return 'opacity: 0.5;';
+    }
+    return '';
+  },
   electionData() {
     return Template.instance().ready.get();
   },
   replySource() {
     return Template.instance().replySource.get();
+  },
+  replyEditor() {
+    return (Session.get('draftContract') && Session.get('draftContract').replyId === this._id);
   },
   spinnerStyle() {
     return `height: 0px;
@@ -261,8 +376,20 @@ Template.feedItem.helpers({
     }
     return Template.instance().displayResults.get();
   },
-  onScreen() {
-    return Template.instance().aboveFold.get();
+  replyData() {
+    return {
+      desktopMode: true,
+      replyMode: true,
+      replyId: this._id,
+      depth: this.depth,
+      mainFeed: this.mainFeed,
+    };
+  },
+  title() {
+    return renderMarkup(this.title);
+  },
+  getImage(pic) {
+    return getImage(Template.instance().imageTemplate.get(), pic);
   },
 });
 
@@ -296,4 +423,13 @@ Template.feedItem.events({
   'click .micro-button-addballot'(event) {
     addChoiceToBallot(Session.get('contract')._id, event.target.parentNode.getAttribute('id'));
   },
+  'click #blockchain-explorer'(event) {
+    event.preventDefault();
+    window.open(event.currentTarget.href, '_blank');
+  },
+  'click .vote'(event, instance) {
+    _openPost(event, instance.data.url);
+  },
 });
+
+export const threadItem = _threadItem;

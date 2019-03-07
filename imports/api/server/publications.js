@@ -66,6 +66,20 @@ Meteor.publish('delegations', function (terms) {
 });
 
 /**
+* @summary returns list of delegates
+* @return {Object} querying terms
+*/
+Meteor.publish('delegates', function (terms) {
+  check(terms, Object);
+  if (Meteor.user()) {
+    const parameters = query(terms);
+    log(`{ publish: 'delegates', user: ${logUser()}, list: '${JSON.stringify(terms.delegations)}' }`);
+    return Meteor.users.find(parameters.find, parameters.options);
+  }
+  return this.ready();
+});
+
+/**
 * @summary files related to a user account
 * @return {Object} file
 */
@@ -130,6 +144,7 @@ Meteor.publish('feed', function (terms) {
   return this.ready();
 });
 
+
 /**
 * @summary total number of items on a given feed
 * @return {Object} querying terms
@@ -137,6 +152,7 @@ Meteor.publish('feed', function (terms) {
 Meteor.publish('feedCount', function (terms) {
   check(terms, Object);
   const parameters = query(terms);
+  log(`{ publish: 'feedCount', user: ${logUser()}, terms: ${JSON.stringify(terms)}`);
   Counts.publish(this, 'feedItems', Contracts.find(parameters.find, parameters.options));
 });
 
@@ -164,6 +180,8 @@ Meteor.publish('delegationContracts', function (terms) {
   }
   return this.ready();
 });
+
+
 
 /**
 * @summary loads drafts by user

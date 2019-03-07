@@ -4,7 +4,7 @@
 
 # Sovereign
 
-A token based liquid democracy software.
+Proof of stake democracy. ERC compatible.
 
 [![Join the chat at https://gitter.im/DemocracyEarth/sovereign](https://badges.gitter.im/DemocracyEarth/sovereign.svg)](https://gitter.im/DemocracyEarth/sovereign?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Slack Status](http://chat.democracy.earth/badge.svg)](http://chat.democracy.earth)
@@ -18,13 +18,13 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
 
 **Features:**
 
-  - [X] Liquid democracy toolkit:
-    * Voting & delegation of votes.
+  - [X] Proof of stake:
+    * Staking & proxies for votes.
     * Ballots with multiple options.
     * Bottom-up system of proposals.
-  - [X] Transaction engine based on voting tokens (_currently blockchain agnostic_).
+  - [X] ERC compatible transaction engine (_blockchain agnostic_).
   - [X] Mobile & desktop responsive UX.
-  - [X] Decentralized identity key management 🔗 with [Blockstack](https://github.com/blockstack/blockstack).
+  - [X] Decentralized identity key management.
 
 **Roadmap:**
 
@@ -36,7 +36,10 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
 
 **Release:**
 
-[`version 1.0 alpha`](https://github.com/DemocracyEarth/sovereign/releases)
+[`version 1.0 beta`](https://github.com/DemocracyEarth/sovereign/releases)
+
+**User Agreement:**  
+This [User Agreement](https://github.com/DemocracyEarth/sovereign/blob/master/UserAgreement.md) governs access to and use of the Democracy Earth platform.
 
 **Also:**
 

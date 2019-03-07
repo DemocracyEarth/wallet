@@ -81,9 +81,21 @@ function normalizeBlockstackUser(profile, user) {
   let username;
   let emails;
 
+  const walletInit = {
+    currency: 'STX',
+    reserves: [{
+      balance: 0,
+      placed: 0,
+      available: 0,
+      token: 'STX',
+      publicAddress: user.services.blockstack.userData.identityAddress,
+    }],
+  };
+
   profile = _.extend(profile, {
     firstName: name,
     credentials: credential,
+    wallet: walletInit,
   });
 
   if (user.services.blockstack.userData.profile.image && 
@@ -123,17 +135,45 @@ function normalizeBlockstackUser(profile, user) {
   });
 }
 
+function normalizeMetamaskUser(profile, user) {
+  const publicAddress = user.services.metamask.id;
+  const anonymousUser = 'anonymous' + publicAddress.slice(0,7);
+  const username = generateAvailableUsername(deburr(toLower(camelCase(anonymousUser))));
+
+  const walletInit = {
+    currency: 'ETH',
+    reserves: [{
+      balance: 0,
+      placed: 0,
+      available: 0,
+      token: 'WEI',
+      publicAddress: user.services.metamask.publicAddress,
+    }],
+  };
+
+  profile = _.extend(profile, {
+    wallet: walletInit,
+  });
+
+  return _.extend(user, {
+    username,
+    profile,
+    emails,
+  });
+}
+
 const normalizers = {
   facebook: normalizeFacebookUser,
   twitter: normalizeTwitterUser,
   blockstack: normalizeBlockstackUser,
+  metamask: normalizeMetamaskUser,
 };
 
 /**
 * at user creation the following specifications must be met
 ****/
 Accounts.onCreateUser((opts, user) => {
-  const profile = opts.profile || {};
+  let profile = opts.profile || {};
 
   // Find the first normalizer for the first service the user has.
   // Not sure if we need to be so strict, but I'm keeping the contract of the previous impl.

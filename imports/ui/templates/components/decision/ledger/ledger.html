@@ -1,52 +1,33 @@
 <template name="ledger">
   <div class="agora">
-    {{#if peerFeed}}
-      <div class="content content-agora">
-        <a href="#delegations"></a>
-        <div class="ledger-title">
-          <h5>{{_ 'delegations'}}</h5>
-        </div>
-        <div id="non-editable-feed" class="ledger">
-          {{> tally delegationVotes}}
-        </div>
-        <a href="#votes"></a>
-        <div class="ledger-title">
-          <h5>{{_ 'votes'}}</h5>
-        </div>
-        <div id="non-editable-feed" class="ledger">
-          {{#if isLedgerReady}}
-            {{> tally peerVotes}}
-          {{/if}}
-        </div>
-        {{> footnote}}
-      </div>
-    {{/if}}
     {{#if postFeed}}
       <div class="content content-agora">
         <a href="#votes"></a>
         <div class="ledger-title">
-          <h5>{{_ 'votes'}}</h5>
+          <h4>{{_ 'thread-votes'}}</h4>
         </div>
         <div id="non-editable-feed" class="ledger">
           {{#if postReady}}
-            {{#if ballotEnabled}}
-              {{> tally postVotes}}
-            {{/if}}
+            {{> tally postVotes}}
+          {{else}}
+            {{> tally placeholder=true}}
           {{/if}}
         </div>
-        {{> footnote noGrant=true}}
       </div>
     {{/if}}
     {{#if homeFeed}}
       <div class="content content-agora">
         <a href="#votes"></a>
         <div class="ledger-title">
-          <h5>{{_ 'recent-activity'}}</h5>
+          <h4>{{ledgerTitle}}</h4>
         </div>
         <div id="non-editable-feed" class="ledger">
-          {{> tally homeVotes}}
+          {{#if postReady}}
+            {{> tally homeVotes}}
+          {{else}}
+            {{> tally placeholder=true}}
+          {{/if}}
         </div>
-        {{> footnote}}
       </div>
     {{/if}}
     <div id="resizable" class="resize"></div>
@@ -67,6 +48,7 @@
         {{_ 'revoked-votes'}}
       </div>
     </div>
+    <!--
     {{#unless noGrant}}
       <div class="foot-note">
         <div class="foot-note-dot grant"></div>
@@ -75,5 +57,6 @@
         </div>
       </div>
     {{/unless}}
+    -->
   </div>
 </template>

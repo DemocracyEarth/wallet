@@ -50,26 +50,27 @@ const _positionCard = (element, target, pop) => {
   const documentHalf = parseInt(document.body.offsetWidth / 2, 10);
 
   // y axis
-  if (source.top < parseInt(target.height + 60, 10)) {
-    // popup goes at bottom of target
-    popup.position.top = source.top;
-    $(popup.cardId).css('margin-top', '0px');
-    $(popup.pointerUp).css('margin-top', parseInt(source.height, 10));
-    popup.pointerClass = popup.pointerUp;
-  } else {
+  // NOTE: leaving this commented for future revision, but for now popup will behave as dropdown
+  // if (source.top < parseInt(target.height + 60, 10)) {
+  // popup goes at bottom of target
+  popup.position.top = parseInt(source.top + source.height + 5, 10);
+  $(popup.cardId).css('margin-top', '0px');
+  $(popup.pointerUp).css('margin-top', parseInt(source.height, 10));
+  popup.pointerClass = popup.pointerUp;
+  /* } else {
     // popup goes on top of target
-    popup.position.top = parseInt(source.bottom - target.height, 10);
+    popup.position.top = parseInt(source.bottom - target.height - 5, 10);
     $(popup.cardId).css('margin-top', parseInt(0 - source.height - 10, 10));
     $(popup.pointerUp).css('margin-top', '0px');
     popup.pointerClass = popup.pointerDown;
-  }
+  }*/
 
   // x axis
   if (source.left > documentHalf) {
     // popup will be on right side of screen
     if (spaceRight < (target.width - (target.width / 2))) {
       // not enough space on the right for Popup centering
-      left = parseInt((source.left - target.width) + source.width, 10);
+      left = parseInt((source.left - target.width) + source.width + 10, 10);
       pointer = parseInt((target.width - (source.width / 2)) - 12, 10);
     } else {
       // enough space on the right, popup is centered.
@@ -77,20 +78,21 @@ const _positionCard = (element, target, pop) => {
       pointer = parseInt((target.width - (target.width / 2)) - 10, 10);
     }
   // popup will be on left side of screen
-  } else if (spaceLeft < (target.width - (target.width / 2))) {
+  } else { // if (spaceLeft < (target.width - (target.width / 2))) {
     // not enough space on left
-    left = parseInt(source.left, 10);
+    left = parseInt(source.left + 10, 10);
     pointer = parseInt((source.width / 2) - 12, 10);
-  } else {
+  }
+  /* } else {
     // enough space on left;
     left = parseInt((source.left - (target.width / 2)) + (source.width / 2), 10);
     pointer = parseInt((target.width - (target.width / 2)) - 10, 10);
-  }
+  }*/
 
   popup.position.left = left;
   popup.pointerPosition = pointer;
 
-  _cursorPosition(popup);
+  // _cursorPosition(popup);
 
   return Object.assign(popup.position, target);
 };

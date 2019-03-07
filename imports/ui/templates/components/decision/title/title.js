@@ -36,16 +36,48 @@ const getIndexArray = (search, text, caseSensitive) => {
   return indices;
 };
 
-const parseURL = (text) => {
-  const exp = /^((http[s]?|ftp):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$/ig;
-  let result = text.replace(exp, "<a href='$&' target='_blank'>$&</a>");
-  return result;
-};
+/**
+* @summary gets to current position of the cursor in contenteditable
+*/
+function getCaretPosition() {
+  if (window.getSelection && window.getSelection().getRangeAt) {
+    const range = window.getSelection().getRangeAt(0);
+    const selectedObj = window.getSelection();
+    let rangeCount = 0;
+    const childNodes = selectedObj.anchorNode.parentNode.childNodes;
+    for (let i = 0; i < childNodes.length; i += 1) {
+      if (childNodes[i] === selectedObj.anchorNode) {
+        break;
+      }
+      if (childNodes[i].outerHTML) {
+        rangeCount += childNodes[i].outerHTML.length;
+      } else if (childNodes[i].nodeType == 3) {
+        rangeCount += childNodes[i].textContent.length;
+      }
+    }
+    return range.startOffset + rangeCount;
+  }
+  return -1;
+}
 
+/**
+* @summary saves new written or pasted content to contract draft
+* @param {string} content new text
+*/
+const _saveToDraft = (content) => {
+  const draft = Session.get('draftContract');
 
+  // Checking content typed
+  if (content === '' || content === ' ') {
+    Session.set('missingTitle', true);
+    return;
+  }
+  Session.set('missingTitle', false);
 
-const _replaceAll = (target, search, replacement) => {
-  return target.split(search).join(replacement);
+  // call function when typing seems to be finished.
+  typingTimer = Meteor.setTimeout(() => {
+    Session.set('draftContract', Object.assign(draft, { title: parseMarkup(content) }));
+  }, timers.SERVER_INTERVAL);
 };
 
 /**
@@ -54,36 +86,9 @@ const _replaceAll = (target, search, replacement) => {
 */
 const parseMarkup = (text) => {
   // remove html injections
-  let html = text.replace(/<(?:.|\n)*?>/gm, '');
+  const txt = text.replace(/<(?:.|\n)*?>/gm, '');
 
-  // urls
-  html = parseURL(html);
-
-  // hashtags
-  html = html.replace(/(^|\s)(#[a-z\d][\w-]*)/ig, "$1<a href='/tag/$2'>$2</a>");
-  html = _replaceAll(html, "href='/tag/#", "href='/tag/");
-
-  // mentions
-  html = html.replace(/(^|\s)(@[a-z\d][\w-]*)/ig, "$1<a href='/peer/$2'>$2</a>");
-  html = _replaceAll(html, "href='/peer/@", "href='/peer/");
-
-  // tokens
-  html = html.replace(/(^|\s)(\$[a-z\d][\w-]*)/ig, "$1<a href='/token/$2'>$2</a>");
-  html = _replaceAll(html, "href='/token/$", "href='/token/");
-
-  // markup
-  html = html.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
-  html = html.replace(/__(.*?)__/g, '<u>$1</u>');
-  html = html.replace(/--(.*?)--/g, '<i>$1</i>');
-  html = html.replace(/~~(.*?)~~/g, '<del>$1</del>');
-
-  html = html.replace(/(?:!\[(.*?)\]\((.*?)\))/g, '<img alt="$1" src="$2" />');
-  html = html.replace(/(?:\[(.*?)\]\((.*?)\))/g, "<a href='$2' target='_blank'>$1</a>");
-
-  // paragraphs
-  html = html.replace(/\n/g, '<br>');
-
-  return html;
+  return txt;
 };
 
 function displayTitle(title) {
@@ -91,7 +96,7 @@ function displayTitle(title) {
     Session.set('missingTitle', true);
     return ' ';
   }
-  Session.set('missingTitle', false);
+  // Session.set('missingTitle', false);
   return title; // textToHTML(title);
 }
 
@@ -108,7 +113,7 @@ Template.title.onRendered(() => {
       const text = stripHTMLfromText(e.clipboardData.getData('text/plain'));
       const newtitle = $('#titleContent')[0].innerText;
       const delta = parseInt(rules.TITLE_MAX_LENGTH - newtitle.length, 10);
-      if (delta > 0) {
+      if (rules.TITLE_MAX_LENGTH !== 0 && delta > 0) {
         document.execCommand('insertHTML', false, text);
       }
     });
@@ -160,7 +165,6 @@ Template.title.events({
 Template.titleContent.events({
   'input #titleContent'() {
     let content = document.getElementById('titleContent').innerText;
-    const draft = Session.get('draftContract');
 
     // Set timer to check upload to db
     Meteor.clearTimeout(typingTimer);
@@ -169,7 +173,9 @@ Template.titleContent.events({
     const divHTML = $('#titleContent').html();
     const checkEmpty = divHTML.replace(' ', '').replace('<br>', '');
     if (checkEmpty.length === 0) { content = ''; }
-    Session.set('availableChars', parseInt(rules.TITLE_MAX_LENGTH - content.length, 10));
+    if (rules.TITLE_MAX_LENGTH !== 0) {
+      Session.set('availableChars', parseInt(rules.TITLE_MAX_LENGTH - content.length, 10));
+    }
 
     if (Session.get('firstEditorLoad') && !Meteor.Device.isPhone()) {
       const newTitle = content.replace(TAPi18n.__('no-title'), '');
@@ -178,22 +184,19 @@ Template.titleContent.events({
       Session.set('firstEditorLoad', false);
     }
 
-    // Checking content typed
-    if (content === '') {
-      Session.set('missingTitle', true);
-      return;
-    }
-    Session.set('missingTitle', false);
-
-    // call function when typing seems to be finished.
-    typingTimer = Meteor.setTimeout(() => {
-      Session.set('draftContract', Object.assign(draft, { title: parseMarkup(content) }));
-    }, timers.SERVER_INTERVAL);
+    _saveToDraft(content);
   },
   'blur #titleContent'() {
     const content = document.getElementById('titleContent').innerText;
     if (content === '' || content === ' ') {
       Session.set('missingTitle', true);
     }
+  },
+  'paste #titleContent'(event) {
+    const paste = (event.clipboardData || window.clipboardData || event.originalEvent.clipboardData).getData('text');
+    const caret = getCaretPosition();
+    document.getElementById('titleContent').innerText = document.getElementById('titleContent').innerText.substring(0, caret) + paste + document.getElementById('titleContent').innerText.substring(caret);
+    const newCaret = parseInt(caret + (paste.length + 1), 10);
+    _saveToDraft(document.getElementById('titleContent').innerText);
   },
 });

@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Accounts } from 'meteor/accounts-base';
 import { Session } from 'meteor/session';
+
+import { getImageTemplate } from '/imports/ui/templates/layout/templater';
 import Warning from '../../../widgets/warning/Warning.jsx';
 
 export default class ForgotPassword extends Component {
@@ -9,10 +11,16 @@ export default class ForgotPassword extends Component {
     super(props);
     this.state = {
       warningState: '',
+      images: {},
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleForgotPasswordRender = this.handleForgotPasswordRender.bind(this);
+  }
+
+
+  async componentWillMount() {
+    await getImageTemplate().then((resolved) => { this.setState({ images: resolved }); });
   }
 
   handleSubmit(event) {
@@ -55,14 +63,9 @@ export default class ForgotPassword extends Component {
     return (
       <div>
         <div className="w-clearfix paper-header card-header">
-          <div className="stage stage-finish-approved stage-card stage-anon button">
-            <div className="label label-corner">
-              {TAPi18n.__('anonymous-mode')}
-            </div>
-          </div>
           <div className="card-title">
             <div id="card-back">
-              <img src="/images/back.png" className="section-icon section-icon-active" onClick={this.handleForgotPasswordRender} alt="lock" />
+              <img src={this.state.images.back} className="section-icon section-icon-active" onClick={this.handleForgotPasswordRender} alt="lock" />
             </div>
             {TAPi18n.__('identity')}
           </div>
@@ -71,7 +74,7 @@ export default class ForgotPassword extends Component {
           <form id="recover-password" name="forgot-password-form" onSubmit={this.handleSubmit}>
             <div className="w-clearfix login-field">
               <label htmlFor="name" className="login-label login-label-form">{TAPi18n.__('recovery-email')}</label>
-              <img src="/images/mail-closed.png" className="login-icon" alt="mail-closed" />
+              <img src={this.state.images['mail-closed']} className="login-icon" alt="mail-closed" />
               <input id="recovery-email" type="text" placeholder={TAPi18n.__('email-sample')} className="w-input login-input" />
               {warning}
             </div>

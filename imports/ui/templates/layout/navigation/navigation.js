@@ -1,20 +1,17 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { TAPi18n } from 'meteor/tap:i18n';
+
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { Router } from 'meteor/iron:router';
 
-import { gui } from '/lib/const';
-import { editorFadeOut } from '/imports/ui/templates/components/decision/editor/editor';
 import { timers } from '/lib/const';
-import { stripHTMLfromText } from '/imports/ui/modules/utils';
+import { editorFadeOut } from '/imports/ui/templates/components/decision/editor/editor';
 import { toggleSidebar } from '/imports/ui/modules/menu';
-import { showFullName } from '/imports/startup/both/modules/utils';
 
-import './navigation.html';
-import '../authentication/authentication.js';
-import '../../widgets/notice/notice.js';
+import '/imports/ui/templates/layout/authentication/authentication.js';
+import '/imports/ui/templates/layout/navigation/navigation.html';
+import '/imports/ui/templates/widgets/notice/notice.js';
 
 // Scroll behaviour
 let lastScrollTop = 0;
@@ -95,6 +92,10 @@ const _isRoot = () => {
 
 Template.navigation.onRendered(() => {
   hideBar();
+
+  if (Meteor.Device.isPhone() && Meteor.user()) {
+    $('.split-left').css('padding-top', '60px');
+  }
 });
 
 Template.navigation.helpers({
@@ -124,7 +125,7 @@ Template.navigation.helpers({
 });
 
 Template.navigation.events({
-  'click #menu'() {
+  'click #burger'() {
     if (displayCancelButton()) {
       editorFadeOut(Session.get('draftContract')._id);
       Session.set('showPostEditor', false);

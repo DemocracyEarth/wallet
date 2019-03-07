@@ -1,66 +1,81 @@
 <template name="home">
-  {{#each mode in modeArray}}
-    {{> screen this}}
-  {{/each}}
+  {{#unless newLogin}}
+    {{#each mode in modeArray}}
+      {{> screen this}}
+    {{/each}}
+  {{else}}
+    {{#unless currentUser}}
+      {{> hero postMode=post}}
+    {{/unless}}
+
+    {{> homeFeed this}}
+  {{/unless}}
 </template>
 
 <template name="screen">
-  {{#if tag}}
-    {{> homeFeed this}}
-  {{/if}}
-  {{#if geo}}
-    {{> homeFeed this}}
-  {{/if}}
-  {{#if peer}}
-    {{> peerFeed this}}
-  {{/if}}
-  {{#if post}}
-    {{> postFeed this}}
-  {{/if}}
-  {{#if home}}
-    {{> homeFeed this}}
-  {{/if}}
+  {{#unless currentUser}}
+    {{> hero postMode=post}}
+  {{/unless}}
+
+  <div class="{{anonymousContext}}">
+    {{#if post}}
+      {{> postFeed this}}
+    {{else}}
+      {{> homeFeed this}}
+    {{/if}}
+  </div>
 </template>
 
 <template name="homeFeed">
-
-  <div class="split split-left">
+  <div class="split split-left {{landingMode 'left'}}">
     <div class="content content-feed max100">
-      {{#if editorMode}}
-        {{> editor contractId=newContractId}}
-      {{/if}}
+      {{#unless isPhone}}
+        {{#unless replyMode}}
+          {{#unless minimizedMode}}
+            {{> compose desktopMode=true replyMode=false}}
+          {{else}}
+            {{> compose desktopMode=true replyMode=false compressed=true}}
+          {{/unless}}
+        {{else}}
+          {{> compose desktopMode=true replyMode=false compressed=true}}
+        {{/unless}}
+      {{else}}
+        {{#if editorMode}}
+          {{> editor contractId=newContractId}}
+        {{/if}}
+      {{/unless}}
       {{#if isPhone}}
         <input id="hiddenInput" style="visibility: hidden; position: absolute;">
       {{/if}}
 
       <div id="non-editable-feed">
-        {{> feed mainFeed}}
+        <h4 class="padding-left-zero">{{{feedTitle}}}</h4>
+        {{#if feedReady}}
+          {{> feed mainFeed}}
+        {{/if}}
       </div>
     </div>
   </div>
 
-  <div class="split split-right">
-    {{> ledger mainLedger}}
+  <div class="split split-right {{landingMode 'right'}}">
+    {{#if feedReady}}
+      {{#with mainLedger}}
+        {{> ledger this}}
+      {{/with}}
+    {{/if}}
   </div>
 
-  {{> compose}}
-</template>
+  {{#if displayLanding}}
+    {{> landing}}
+  {{/if}}  
 
-<template name="peerFeed">
-  <div class="split split-left">
-    <div class="content content-feed content-feed-subsection max100" >
-      <div id="non-editable-feed">
-        {{> feed options=this.options kind='VOTE' subfeed=true singlePost=true noReplies=true}}
-      </div>
-    </div>
-  </div>
-  <div class="split split-right">
-    {{> ledger options=this.options singlePost=true hidePost=false peerFeed=true postFeed=false homeFeed=false}}
-  </div>
+  {{#if isPhone}}
+    {{> compose desktopMode=false replyMode=false}}
+  {{/if}}
 </template>
 
 <template name="postFeed">
-  <div class="split split-left">
+  <div class="split split-left {{landingMode}}">
     <div class="content content-feed subsection max100">
       <div id="non-editable-feed">
         {{> feed options=this.options singlePost=true}}
@@ -71,13 +86,14 @@
       {{#if editorMode}}
         {{> editor contractId=newContractId replyMode=true replyId=replyId comment=true}}
       {{/if}}
+
       {{#if isPhone}}
         <input id="hiddenInput" style="visibility: hidden; position: absolute;">
       {{/if}}
 
       <div id="non-editable-reply-feed">
         {{#if postReady}}
-          {{#with replies}}
+          {{#with thread}}
             {{> feed this}}
           {{/with}}
         {{/if}}
@@ -85,7 +101,11 @@
     </div>
   </div>
 
-  <div class="split split-right">
-    {{> ledger options=this.options ballotEnabled=ballotEnabled postReady=postReady peerFeed=false postFeed=true}}
+  <div class="split split-right {{landingMode}}">
+    {{#if postReady}}
+      {{#with votes}}
+        {{> ledger this}}
+      {{/with}}
+    {{/if}}
   </div>
 </template>

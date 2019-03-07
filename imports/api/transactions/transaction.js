@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { rules } from '/lib/const';
+import { BigNumber } from 'bignumber.js';
 
 import { displayNotice } from '/imports/ui/modules/notice';
 import { Contracts } from '/imports/api/contracts/Contracts';
@@ -12,6 +13,8 @@ import { getTotalVoters } from '/imports/ui/modules/ballot';
 import { notify } from '/imports/api/notifier/notifier';
 import { emailListCheck } from '/lib/permissioned';
 
+import { getWeiBalance, getTokenData } from '/imports/api/blockchain/modules/web3Util';
+import { smallNumber } from '/imports/api/blockchain/modules/web3Util.js';
 
 /**
 * @summary looks at what type of entity (collective or individual) doing transaction
@@ -201,7 +204,7 @@ const _getVotes = (contractId, userId) => {
   // getting tally
   const contract = Contracts.findOne({ _id: contractId });
 
-  if (contract && contract.tally !== undefined && contract.tally.choice.length > 0) {
+  if (contract && contract.tally !== undefined && contract.tally.voter.length > 0) {
     for (const i in contract.tally.voter) {
       if (contract.tally.voter[i]._id === userId) {
         return contract.tally.voter[i].votes;
@@ -209,8 +212,9 @@ const _getVotes = (contractId, userId) => {
     }
   } else {
     // counting from ledger
-    const transactions = _getTransactions(userId, contractId);
+  /*  const transactions = _getTransactions(userId, contractId);
     if (transactions.length > 1) {
+      console.log('sale de else');
       return _.reduce(transactions, (memo, num, index) => {
         if (index === 1) {
           return _voteCount(memo, userId) + _voteCount(num, userId);
@@ -218,8 +222,9 @@ const _getVotes = (contractId, userId) => {
         return memo + _voteCount(num, userId);
       });
     } else if (transactions.length === 1) {
+      console.log('sale de tx');
       return _voteCount(transactions[0], userId);
-    }
+    }*/
   }
   return 0;
 };
@@ -575,8 +580,6 @@ const _tallyAddition = (transaction) => {
 
 const _getLastBallot = (voterId, contractId) => {
   const tx = Transactions.find({ $and: [{ $or: [{ 'output.entityId': voterId }, { 'input.entityId': voterId }] }, { contractId }] }, { sort: { timestamp: -1 } }).fetch();
-  console.log(tx);
-  console.log(_.pluck(tx[0].condition.ballot, '_id'));
   return _.pluck(tx[0].condition.ballot, '_id');
 };
 
@@ -616,26 +619,6 @@ const _tally = (transaction) => {
   const ballotList = _.pluck(transaction.condition.ballot, '_id');
   let found = false;
   let votes;
-  const template = [
-    {
-      ballot: [{
-        executive: true,
-        mode: 'AUTHORIZE',
-        _id: '1',
-        tick: false,
-      }],
-      votes: 0,
-    },
-    {
-      ballot: [{
-        executive: true,
-        mode: 'REJECT',
-        _id: '0',
-        tick: false,
-      }],
-      votes: 0,
-    },
-  ];
 
   let backwardCompatible = false;
 
@@ -650,12 +633,6 @@ const _tally = (transaction) => {
     // contract.tally.choice = _choiceList(dbContract, voterList);
     contract.tally.choice = [];
     backwardCompatible = true;
-  }
-
-  if (!contract.ballot.length) {
-    for (const i in template) {
-      contract.ballot.push(template[i].ballot[0]);
-    }
   }
 
   // last transaction
@@ -726,6 +703,103 @@ const _tally = (transaction) => {
 };
 
 /**
+* @summary inserts ticket data to a contract affected by a crypto transaction
+* @param {string} _id of contract to update
+* @param {array} tickets from transaction being processed
+* @return {boolean} success of insert
+*/
+const _insertBlockchainTicket = (_id, tickets) => {
+  const contract = Contracts.findOne({ _id });
+  const blockchain = contract.blockchain;
+
+  if (contract && blockchain) {
+    if (!blockchain.tickets || blockchain.tickets.length === 0) {
+      blockchain.tickets = tickets;
+    } else if (blockchain.tickets.length > 0) {
+      for (let i = 0; i < tickets.length; i += 1) {
+        blockchain.tickets.push(tickets[i]);
+      }
+    }
+    Contracts.update({ _id }, { $set: { 'blockchain.tickets': blockchain.tickets } });
+  }
+};
+
+/**
+* @summary counts the total blockchain based votes on a given contract
+* @param {string} _id where to count votes
+*/
+const _tallyBlockchainVotes = (_id) => {
+  const contract = Contracts.findOne({ _id });
+  const tickets = contract.blockchain.tickets;
+
+  if (tickets.length > 0) {
+    let totalPending = new BigNumber(0);
+    let totalConfirmed = new BigNumber(0);
+    let totalFail = new BigNumber(0);
+    let votes;
+
+    for (let i = 0; i < tickets.length; i += 1) {
+      votes = new BigNumber(tickets[i].value);
+
+      switch (tickets[i].status) {
+        case 'CONFIRMED':
+          totalConfirmed = totalConfirmed.plus(votes);
+          break;
+        case 'FAIL':
+          totalFail = totalFail.plus(votes);
+          break;
+        case 'PENDING':
+        default:
+          totalPending = totalPending.plus(votes);
+      }
+    }
+
+    const score = {
+      totalPending: totalPending.toString(),
+      totalConfirmed: totalConfirmed.toString(),
+      totalFail: totalFail.toString(),
+      value: parseFloat(smallNumber(totalConfirmed, contract.blockchain.coin.code) + smallNumber(totalPending, contract.blockchain.coin.code), 10),
+      finalConfirmed: parseFloat(smallNumber(totalConfirmed, contract.blockchain.coin.code), 10),
+      finalPending: parseFloat(smallNumber(totalPending, contract.blockchain.coin.code), 10),
+      finalFail: parseFloat(smallNumber(totalFail, contract.blockchain.coin.code), 10),
+    };
+    Contracts.update({ _id }, { $set: { 'blockchain.score': score } });
+  }
+};
+
+/**
+* @summary adds voter to the contract
+* @param {string} _id contract to add votes to
+* @param {string} voterId voter to add
+* @param {string} txId ticket of last transction
+*/
+const _addVoter = (_id, voterId, txId) => {
+  const contract = Contracts.findOne({ _id });
+
+  contract.tally.lastTransaction = txId;
+
+  if (!contract.tally.voter || contract.tally.voter.length === 0) {
+    contract.tally.voter = [{
+      _id: voterId,
+    }];
+  }
+  found = false;
+  if (contract.tally.voter) {
+    for (let i = 0; i < contract.tally.voter.length; i += 1) {
+      if (contract.tally.voter[i]._id === voterId) {
+        found = true;
+      }
+    }
+    if (!found) {
+      contract.tally.voter.push({
+        _id: voterId,
+      });
+    }
+  }
+  Contracts.update({ _id: contract._id }, { $set: { tally: contract.tally }});
+}
+
+/**
 * @summary create a new transaction between two parties
 * @param {string} senderId - user or collective allocating the funds
 * @param {string} receiverId - user or collective receiving the funds
@@ -754,6 +828,10 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     return null;
   }
 
+  let txId;
+  let processing;
+  let newTx;
+
   // build transaction
   const newTransaction = {
     input: {
@@ -777,31 +855,72 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     timestamp: getTimestamp(),
     status: 'PENDING',
     condition: finalSettings.condition,
+    geo: settings.geo,
   };
 
-  // executes the transaction
-  const txId = Transactions.insert(newTransaction);
-  const process = _processTransaction(txId);
+  // blockchain transaction
+  if (settings.kind === 'CRYPTO') {
+    // input carries information of sender
+    newTransaction.input.address = settings.input.address.toLowerCase();
 
-  if (_transactionMessage(process)) {
-    // once transaction done, run callback
+    // output carries information of receiver or smart contract address if token ticket
+    newTransaction.output.address = settings.output.address.toLowerCase();
+
+    // blockchain info
+    newTransaction.blockchain = settings.blockchain;
+
+    // update tally on contract
+    _insertBlockchainTicket(newTransaction.output.entityId, newTransaction.blockchain.tickets);
+    _tallyBlockchainVotes(newTransaction.output.entityId);
+
+    // executes the transaction
+    newTransaction.status = 'CONFIRMED';
+    txId = Transactions.insert(newTransaction);
+    newTx = Transactions.findOne({ _id: txId });
+
+    // adds voter
+    _addVoter(newTransaction.output.entityId, senderId, newTx._id)
+
+    // go to interface
     if (callback !== undefined) { callback(); }
 
-    const newTx = Transactions.findOne({ _id: txId });
-    if (Meteor.isClient) {
-      _processedTx(newTx._id);
-      _updateWalletCache(newTx, false);
-    }
-
-    // update tally in contract excluding subsidy
-    if (newTx.kind === 'VOTE' && newTx.input.entityType !== 'COLLECTIVE' && newTx.output.entityType !== 'COLLECTIVE') {
-      _tally(newTx);
-    }
-
-    notify(newTx);
-
     return txId;
-  }
+
+  // web transaciton
+  } /* 
+    else {
+    // executes the transaction
+    txId = Transactions.insert(newTransaction);
+    processing = _processTransaction(txId);
+    newTx = Transactions.findOne({ _id: txId });
+
+
+    // NOTE: uncomment for testing
+
+    // console.log(txId);
+    // console.log(processing);
+
+
+    if (_transactionMessage(processing)) {
+      // once transaction done, run callback
+      if (callback !== undefined) { callback(); }
+
+      newTx = Transactions.findOne({ _id: txId });
+      if (Meteor.isClient) {
+        _processedTx(newTx._id);
+        _updateWalletCache(newTx, false);
+      }
+
+      // update tally in contract excluding subsidy
+      if (newTx.kind === 'VOTE' && newTx.input.entityType !== 'COLLECTIVE' && newTx.output.entityType !== 'COLLECTIVE') {
+        _tally(newTx);
+      }
+
+      notify(newTx);
+
+      return txId;
+    }
+  } */
   return null;
 };
 
@@ -826,6 +945,42 @@ const _genesisTransaction = (userId) => {
   }
 };
 
+/**
+* @summary reads balance from publicAddress and loads it into user wallet
+* @param {string} userId - id of user being generated within collective
+*/
+const _loadExternalCryptoBalance = (userId) => {
+  const user = Meteor.users.findOne({ _id: userId });
+  if (user.services.metamask != null) {
+    const _publicAddress = user.services.metamask.publicAddress;
+    let weiBalance;
+
+    getWeiBalance(_publicAddress).then(function (_weiBalance) {
+      weiBalance = _weiBalance;
+      return getTokenData(_publicAddress);
+    }).then(function (tokenData) {
+      user.profile.wallet.reserves[0].token = 'WEI';
+      user.profile.wallet.reserves[0].balance = weiBalance.toNumber();
+      user.profile.wallet.reserves[0].available = weiBalance.toNumber();
+
+      for (let i = 0; i < tokenData.length; i += 1) {
+        const foundInWallet = user.profile.wallet.reserves.findIndex(t => t.token === tokenData[i].token);
+        if (foundInWallet !== -1) {
+          // update token already found in wallet
+          user.profile.wallet.reserves[foundInWallet].balance = tokenData[i].balance;
+          user.profile.wallet.reserves[foundInWallet].available = tokenData[i].available;
+        } else {
+          // new token to wallet
+          user.profile.wallet.reserves.push(tokenData[i]);
+        }
+      }
+      Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
+    }).catch(function (error) {
+      console.log('DEBUG - transaction.js - caught error ', error);
+    });
+  }
+};
+
 export const processedTx = _processedTx;
 export const updateUserCache = _updateUserCache;
 export const updateWalletCache = _updateWalletCache;
@@ -836,3 +991,5 @@ export const transactionMessage = _transactionMessage;
 export const getVotes = _getVotes;
 export const transact = _transact;
 export const genesisTransaction = _genesisTransaction;
+export const loadExternalCryptoBalance = _loadExternalCryptoBalance;
+export const tallyBlockchainVotes = _tallyBlockchainVotes;

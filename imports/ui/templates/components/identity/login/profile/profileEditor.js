@@ -1,17 +1,26 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import { validateUsername } from '/imports/startup/both/modules/User';
 import { searchJSON } from '/imports/ui/modules/JSON';
 import { geo } from '/lib/geo';
+import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 
 import { validateEmail } from '/imports/startup/both/modules/validations.js';
 import { emailListCheck } from '/lib/permissioned';
-import './profileEditor.html';
-import '../../avatar/avatar.js';
-import '../../../../widgets/warning/warning.js';
-import '../../../../widgets/suggest/suggest.js';
+
+import '/imports/ui/templates/components/identity/login/profile/profileEditor.html';
+import '/imports/ui/templates/components/identity/avatar/avatar.js';
+import '/imports/ui/templates/widgets/warning/warning.js';
+import '/imports/ui/templates/widgets/suggest/suggest.js';
+
+
+Template.profileEditor.onCreated(function () {
+  Template.instance().imageTemplate = new ReactiveVar();
+  templetize(Template.instance());
+});
 
 Template.profileEditor.rendered = function rendered() {
   Session.set('showNations', false);
@@ -78,6 +87,9 @@ Template.profileEditor.helpers({
     }
     return 'login';
   },
+  getImage(pic) {
+    return getImage(Template.instance().imageTemplate.get(), pic);
+  },
 });
 
 Template.profileEditor.events({
@@ -96,7 +108,7 @@ Template.profileEditor.events({
   },
   'blur #editUserName'() {
     const validation = validateUsername(document.getElementById('editUserName').value);
-    if (validation.valid) {
+    if (!validation.valid) {
       Session.set('noUsernameFound', true);
       Session.set('queryUsernameStatus', '');
     } else {
