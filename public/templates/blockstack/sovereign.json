@@ -1,0 +1,59 @@
+{
+  "stylesheet": {
+    "list": ["/styles/normalize.css", "/styles/webflow.css", "/templates/sovereign/sovereign.css", "/templates/sovereign/extra.css", "/templates/sovereign/landing.css"]
+  },
+
+  "header": {
+    "html": "<div class='hero-demo'><img src='/images/vote.gif'></div>"
+  },
+
+  "spinner": {
+    "lines": 17,
+    "length": 6,
+    "width": 1.5,
+    "radius": 16,
+    "scale": 0.4,
+    "corners": 1,
+    "color": "#5a0075",
+    "opacity": 0.3,
+    "rotate": 0,
+    "direction": 1,
+    "speed": 1,
+    "trail": 60,
+    "fps": 20,
+    "zIndex": 2e9,
+    "className": "spinner",
+    "top": "0px",
+    "left": "auto",
+    "shadow": false,
+    "hwaccel": false,
+    "position": "relative"
+  },
+
+  "images": {
+    "back": "/templates/blockstack/images/back.png",
+    "black": "/templates/blockstack/images/black.png",
+    "block": "/templates/blockstack/images/block.png",
+    "clock": "/templates/blockstack/images/clock.png",
+    "debate": "/templates/blockstack/images/debate.png",
+    "reply": "/templates/blockstack/images/reply.png",
+    "tweet": "/templates/blockstack/images/tweet.png",
+    "vote": "/templates/blockstack/images/vote.png",
+    "flag": "/templates/blockstack/images/flag.png",
+    "camera": "/templates/blockstack/images/camera.png",
+    "forward": "/templates/blockstack/images/forward.png",
+    "token": "/templates/blockstack/images/token.png",
+    "domain": "/templates/blockstack/images/domain.png",
+    "decision-draft": "/templates/blockstack/images/decision-draft.png",
+    "blockchain-address": "/templates/blockstack/images/blockchain-address.png",
+    "fingerprint": "/templates/blockstack/images/fingerprint.png",
+    "logout": "/templates/blockstack/images/logout.png",
+    "vote-icon-black": "/templates/blockstack/images/vote-icon-black.png",
+    "mail-closed": "/templates/blockstack/images/mail-closed.png",
+    "mail-closed-login-button": "/templates/blockstack/images/mail-closed-login-button.png",
+    "lock": "/templates/blockstack/images/lock.png",
+    "id-card": "/templates/blockstack/images/id-card.png",
+    "blockstack-icon": "/templates/blockstack/images/blockstack-icon.jpg"
+  }
+
+}
