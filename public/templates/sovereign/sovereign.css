@@ -4751,6 +4751,9 @@ blockquote {
   margin-top: 10px;
   margin-bottom: 10px;
   padding: 10px 10px 0px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(242, 242, 248, 0);
   border-radius: 5px;
   color: #333;
   font-size: 12px;
@@ -4759,12 +4762,13 @@ blockquote {
 }
 
 .collective:hover {
+  border-color: #e6e0ee;
   background-color: #e6e0ee;
 }
 
 .collective.collective-selected {
-  background-color: #5a0075;
-  color: #fff;
+  border-color: hsla(286.6666666666667, 100.00%, 22.94%, 1.00);
+  background-color: #e6e0ee;
 }
 
 .collective-icon {
@@ -6596,10 +6600,6 @@ blockquote {
   padding-left: 5px;
 }
 
-.hero-home-button {
-  display: inline-block;
-}
-
 .hero-home-button:active {
   margin-top: 2px;
 }
@@ -6753,6 +6753,7 @@ blockquote {
   }
   .split.split-left {
     width: 100%;
+    margin-top: 70px;
   }
   .smart {
     display: block;
@@ -7266,6 +7267,9 @@ blockquote {
   }
   .hero-button.hero-button-mobile.hero-signin {
     margin-right: 15px;
+  }
+  .hero-home-button {
+    display: inline-block;
   }
 }
 

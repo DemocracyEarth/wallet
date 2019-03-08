@@ -99,6 +99,34 @@ const parseURL = (text) => {
   return result;
 };
 
+
+/**
+* @summary checks if a string has any substring
+* @param {string} str to check
+* @param {array} items with substring
+* @return {boolean} true or false
+*/
+const _hasSubstring = (str, items) => {
+  let item;
+  for (let i = 0; i < items.length; i += 1) {
+    item = items[i];
+    if (str.indexOf(item) > -1) {
+      return true;
+    }
+  }
+  return false;
+};
+
+/**
+* @summary checks a click comes from white space
+* @param {string} text to be parsed
+* @return {string} html with linked url
+*/
+const _clickOnWhitespace = (className) => {
+  console.log(className);
+  return _hasSubstring(className, ['checkbox', 'title-input', 'option-title', 'identity-list']);
+};
+
 /**
 * @summary replaces string with new content
 * @param {string} target to parse
@@ -428,7 +456,9 @@ Template.feedItem.events({
     window.open(event.currentTarget.href, '_blank');
   },
   'click .vote'(event, instance) {
-    _openPost(event, instance.data.url);
+    if (_clickOnWhitespace($(event.target).attr('class'))) {
+      _openPost(event, instance.data.url);
+    }
   },
 });
 

@@ -38,6 +38,15 @@ input[type="file"] {
   font-weight: 300;
 }
 
+@media (max-width: 991px) {
+  .split.split-left.split-landing {
+      margin-top: 0px;
+  }
+
+  .split-post-landing {
+    top:auto;
+  }
+}
 
 .login {
     text-align: center;
