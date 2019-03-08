@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Meteor } from 'meteor/meteor';
 import { $ } from 'meteor/jquery';
+import { Router } from 'meteor/iron:router';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Session } from 'meteor/session';
@@ -176,12 +177,20 @@ Template.navbar.helpers({
     Template.instance().activeSignIn.set(false);
     return '';
   },
+  homeURL() {
+    return Meteor.settings.public.Collective.domain;
+  },
 });
 
 Template.navbar.events({
   'click #collective-login'() {
     event.stopPropagation();
     _prompt(Template.instance());
+  },
+  'click #nav-home'(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    Router.go('/');
   },
 });
 

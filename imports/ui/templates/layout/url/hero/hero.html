@@ -50,14 +50,14 @@
 
 <template name="navbar">
   <div class="hero-navbar">
-    <a class="hero-home-button" href="{{pathFor route='home'}}">
+    <div id="nav-home" class="hero-home-button" ontouchstart="">
       <img class="hero-logo" src="{{pathFor route='home'}}{{picture}}" />
       {{#if logoExtended}}
         {{#if isPhone}}
           <img class="hero-logo landing-brand" src="{{pathFor route='home'}}{{logoExtended}}" />
         {{/if}}
       {{/if}}
-    </a>
+    </div>
     <div id="collective-login" class="hero-button hero-button-mobile hero-signin">
         <div class="hero-menu-link hero-menu-link-signin {{loginMode}}" target="_blank">{{_ 'sign-in'}}</div>
     </div>

@@ -87,8 +87,7 @@ const _setupSplit = () => {
       _saveSplitSettings($('.split-left').width(), $('.split-right').width());
     }
   });
-  $(window).resize((event) => {
-    console.log('setting up split');
+  $(window).resize(() => {
     _resetSplit();
   });
 };
