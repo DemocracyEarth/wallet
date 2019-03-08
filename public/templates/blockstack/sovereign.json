@@ -54,7 +54,7 @@
     "mail-closed-login-button": "/templates/blockstack/images/mail-closed-login-button.png",
     "lock": "/templates/blockstack/images/lock.png",
     "id-card": "/templates/blockstack/images/id-card.png",
-    "blockstack-icon": "/templates/blockstack/images/blockstack-icon.jpg"
+    "logo": "/templates/blockstack/images/blockstack-icon.jpg"
   }
 
 }

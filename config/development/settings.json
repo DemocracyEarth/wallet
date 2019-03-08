@@ -134,7 +134,7 @@
       },
 
       "template": {
-        "settings": "/templates/blockstack/sovereign.json"
+        "settings": "/templates/sovereign/sovereign.json"
       }
 
     },
