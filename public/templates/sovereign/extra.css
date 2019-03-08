@@ -39,8 +39,8 @@ input[type="file"] {
 }
 
 @media (max-width: 991px) {
-  .split.split-left.split-landing {
-      margin-top: 0px;
+  .split.split-left.split-post-landing {
+      margin-top: 70px;
   }
 
   .split-post-landing {

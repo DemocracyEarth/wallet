@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Meteor } from 'meteor/meteor';
 import { $ } from 'meteor/jquery';
+import { Router } from 'meteor/iron:router';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Session } from 'meteor/session';
@@ -185,6 +186,11 @@ Template.navbar.events({
   'click #collective-login'() {
     event.stopPropagation();
     _prompt(Template.instance());
+  },
+  'click #nav-home'(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    Router.go('/');
   },
 });
 

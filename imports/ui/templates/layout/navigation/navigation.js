@@ -94,7 +94,7 @@ Template.navigation.onRendered(() => {
   hideBar();
 
   if (Meteor.Device.isPhone() && Meteor.user()) {
-    // $('.split-left').css('padding-top', '60px');
+    // $('.split-left').css('padding-top', '0px');
   }
 });
 

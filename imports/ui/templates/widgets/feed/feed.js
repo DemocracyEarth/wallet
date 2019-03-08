@@ -134,7 +134,7 @@ Template.feed.onCreated(function () {
   }
 
   if (Meteor.Device.isPhone() && Meteor.user()) {
-    // document.getElementsByClassName('split-left')[0].style.paddingTop = '60px';
+    // document.getElementsByClassName('split-left')[0].style.paddingTop = '0px';
   }
 
   // tailor feed to show a specific kind of post
