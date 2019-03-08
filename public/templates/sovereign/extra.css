@@ -43,9 +43,21 @@ input[type="file"] {
   font-weight: 300;
 }
 
+.split.split-left.split-post-landing {
+  padding-top: 0px;
+}
+
 @media (max-width: 991px) {
   .split.split-left.split-post-landing {
       margin-top: 70px;
+  }
+
+  .split.split-left {
+    margin-top:70px;
+  }
+
+  .split.split-left.split-desktop {
+    margin-top:0px;
   }
 
   .split-post-landing {
@@ -184,6 +196,11 @@ body, h4, h1, h2 {
       text-decoration-color: #eaeaea;
       margin-top: 5px;
   }
+}
+
+.split.split-left.split-landing.split-anon {
+  padding-top:0px;
+  margin-top: 0px;
 }
 
 .hero-secondary {

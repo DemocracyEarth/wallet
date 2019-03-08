@@ -2127,7 +2127,6 @@ blockquote {
   float: left;
   border-bottom: 1px solid #e8e8e8;
   background-color: #f2f2f8;
-  box-shadow: 0 10px 50px 10px rgba(0, 0, 0, .15);
   color: #442f58;
 }
 
@@ -3435,6 +3434,11 @@ blockquote {
 .stage.stage-placed {
   border-style: solid;
   border-color: #00bf8f;
+}
+
+.stage.stage-placed.stage-card.button:active {
+  border-radius: 5px;
+  background-color: #dad8d8;
 }
 
 .stage.stage-inballot {
@@ -6602,6 +6606,11 @@ blockquote {
   padding-left: 5px;
 }
 
+.hero-home-button {
+  display: inline-block;
+  float: left;
+}
+
 .hero-home-button:active {
   margin-top: 2px;
 }
@@ -7068,6 +7077,9 @@ blockquote {
   .authentication {
     padding-right: 0px;
   }
+  .login-input {
+    border-radius: 0px;
+  }
   .popup {
     left: 0px;
     top: 0px;
@@ -7243,11 +7255,14 @@ blockquote {
   .margin-bottom-dead {
     margin-bottom: 0px;
   }
+  .login-button-last {
+    margin-bottom: 10px;
+  }
   .hero-title {
-    margin-left: 25px;
+    margin-left: 35px;
   }
   .hero-call-to-action {
-    margin-left: 25px;
+    margin-left: 35px;
   }
   .hero-cta-box {
     min-width: 280px;
