@@ -27,6 +27,15 @@ input:-webkit-autofill:active {
   }
 }
 
+.hero {
+  position: -webkit-sticky;
+}
+
+.content-feed {
+  z-index: -1;
+  position: -webkit-sticky;
+}
+
 input[type="file"] {
     display: none;
 }
@@ -190,10 +199,6 @@ body, h4, h1, h2 {
   color: white;
   margin-top: 0px;
   text-align:center;
-}
-
-.content.content-agora {
-  z-index: -1;
 }
 
 .accounts-dialog .login-button {
