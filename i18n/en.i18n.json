@@ -665,7 +665,7 @@
   "token-step-c": "Stake &amp; Elect",
   "token-detail-a": "A blockchain address connected to a valid identity earns the right to mint <a href='https://etherscan.io/token/0x00319f722bd546182cb2c701ca254146d3f084fc' _target='_blank'>$HOUR</a> tokens at the rate of equivalent hours elapsed since verification.",
   "token-detail-b": "Valid identities can burn <a href='https://etherscan.io/token/0x00319f722bd546182cb2c701ca254146d3f084fc' _target='_blank'>$HOUR</a> tokens to get <a href=''>$VOTE</a> tokens at a quadratic rate. Quadratic voting prevents majority abuse, speculation and extremism.",
-  "token-detail-c": "The <a href=''>$VOTE</a> token allows network participants to validate or reject candidate identities by staking on <a href='https://www.youtube.com/watch?v=XlQgBYsXhds' target='_blank'>Token Curated Registries</a> designed to strictly prevent bots &amp; sybils in the network.",
+  "token-detail-c": "The <a href=''>$VOTE</a> token allows network participants to validate or reject candidate identities by staking on <a href='https://www.youtube.com/watch?v=XlQgBYsXhds' target='_blank'>liquid democracies</a> designed to strictly prevent bots &amp; sybils in the network.",
   "token-erc-725": "ERC 725 Identity",
   "token-erc-20": "ERC 20 Token",
   "token-blockchain": "Blockchain Activity",

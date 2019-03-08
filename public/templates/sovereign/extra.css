@@ -27,10 +27,6 @@ input:-webkit-autofill:active {
   }
 }
 
-.hero {
-  position: -webkit-sticky;
-}
-
 .content-feed {
   z-index: -1;
   position: -webkit-sticky;
@@ -194,11 +190,15 @@ body, h4, h1, h2 {
   background: linear-gradient(0deg, #f2f2f8 95%, #ebe7ef);
   padding: 60px 10px 80px 10px;
   z-index: 1;
-  box-shadow: 0px -20px 20px 20px white;
+  box-shadow: 0px -3px 10px 0px white;
   background-color: #f2f2f8;
   color: white;
   margin-top: 0px;
-  text-align:center;
+  text-align: center;
+}
+
+.hero-cover {
+  z-index: 1;
 }
 
 .accounts-dialog .login-button {
