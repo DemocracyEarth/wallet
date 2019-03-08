@@ -50,7 +50,7 @@
 
 <template name="navbar">
   <div class="hero-navbar">
-    <a class="hero-home-button" href="{{pathFor route='home'}}">
+    <a class="hero-home-button" href="{{homeURL}}">
       <img class="hero-logo" src="{{pathFor route='home'}}{{picture}}" />
       {{#if logoExtended}}
         {{#if isPhone}}

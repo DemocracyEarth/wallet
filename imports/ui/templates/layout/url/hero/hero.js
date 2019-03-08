@@ -176,6 +176,9 @@ Template.navbar.helpers({
     Template.instance().activeSignIn.set(false);
     return '';
   },
+  homeURL() {
+    return Meteor.settings.public.Collective.domain;
+  },
 });
 
 Template.navbar.events({

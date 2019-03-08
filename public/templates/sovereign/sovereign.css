@@ -2120,12 +2120,14 @@ blockquote {
   top: 0px;
   right: 0px;
   z-index: 14000;
-  height: 60px;
+  height: 65px;
+  padding-top: 2px;
   padding-right: 10px;
   padding-left: 0px;
   float: left;
-  border-bottom: 1px solid #ddd;
-  background-color: #fff;
+  border-bottom: 1px solid #e8e8e8;
+  background-color: #f2f2f8;
+  box-shadow: 0 10px 50px 10px rgba(0, 0, 0, .15);
   color: #442f58;
 }
 
@@ -6948,7 +6950,6 @@ blockquote {
   }
   .navbar {
     left: 0px;
-    box-shadow: none;
   }
   .logo {
     padding-left: 0px;
