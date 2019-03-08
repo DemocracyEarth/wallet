@@ -22,18 +22,9 @@ input:-webkit-autofill:active {
   input:-webkit-autofill:focus,
   input:-webkit-autofill:active {
     transition: #442f58 5000s ease-in-out 0s;
-    -webkit-text-fill-color: #5a0075 !important;
-    -webkit-box-shadow: 0 0 0px 1000px #eaeaea inset;
+    -webkit-text-fill-color: white !important;
+    -webkit-box-shadow: 0 0 0px 1000px #442f58 inset;
   }
-}
-
-.hero {
-  position: -webkit-sticky;
-}
-
-.content-feed {
-  z-index: -1;
-  position: -webkit-sticky;
 }
 
 input[type="file"] {
@@ -47,15 +38,6 @@ input[type="file"] {
   font-weight: 300;
 }
 
-@media (max-width: 991px) {
-  .split.split-left.split-post-landing {
-      margin-top: 70px;
-  }
-
-  .split-post-landing {
-    top:auto;
-  }
-}
 
 .login {
     text-align: center;
@@ -158,10 +140,6 @@ html {
     -webkit-overflow-scrolling: touch;
 }
 
-.hero-cta-input {
-  -webkit-appearance: none;
-}
-
 @media (max-width: 991px) {
   .content-feed {
     overflow:hidden;
@@ -182,14 +160,6 @@ body, h4, h1, h2 {
   position:unset;
 }
 
-@media (max-width: 767px) {
-    .card-title {
-      text-decoration: underline;
-      text-decoration-color: #eaeaea;
-      margin-top: 5px;
-  }
-}
-
 .hero-secondary {
   background: linear-gradient(0deg, #f2f2f8 95%, #ebe7ef);
   padding: 60px 10px 80px 10px;
@@ -197,8 +167,12 @@ body, h4, h1, h2 {
   box-shadow: 0px -20px 20px 20px white;
   background-color: #f2f2f8;
   color: white;
-  margin-top: 0px;
+  margin-top: 30px;
   text-align:center;
+}
+
+.content.content-agora {
+  z-index: -1;
 }
 
 .accounts-dialog .login-button {
