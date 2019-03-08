@@ -357,6 +357,12 @@
   margin-bottom: 30px;
 }
 
+.landing-brand {
+  max-height: 16px;
+  margin-top: 24px;
+  margin-left: 0px;
+}
+
 .landing-sub.landing-sub-big.landing-sub-small {
   text-align: left;
   margin: 0px 0px 30px;
@@ -491,7 +497,7 @@
 }
 
 .landing-sub-header.landing-sub-dapp.landing-sub-scheme {
-  padding: 0px 25px;
+  padding: 5px 25px;
   text-align: right;
   float: left;
   clear: left;
@@ -609,8 +615,8 @@
 
 @media (max-width: 767px) {
   .paper-screenshot {
-    max-width: 200px;
-    margin: 15px 25px;
+    max-width: 180px;
+    margin: 5px 10px 20px 10px;
   }
 
   .landing-footer-logo {

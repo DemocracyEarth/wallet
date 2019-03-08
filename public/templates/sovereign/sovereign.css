@@ -6466,13 +6466,8 @@ blockquote {
 
 .hero-logo {
   max-height: 32px;
-  margin: 12px 10px;
+  margin: 14px 10px;
   float: left;
-}
-
-.hero-logo:active {
-  margin-top: 14px;
-  margin-bottom: 10px;
 }
 
 .hero-button {
@@ -6599,6 +6594,14 @@ blockquote {
   z-index: 1;
   padding-top: 50px;
   padding-left: 5px;
+}
+
+.hero-home-button {
+  display: inline-block;
+}
+
+.hero-home-button:active {
+  margin-top: 2px;
 }
 
 @media (max-width: 991px) {
@@ -7162,6 +7165,7 @@ blockquote {
   }
   .card-title {
     margin-top: 5px;
+    padding-right: 30px;
   }
   .agora {
     margin-top: -15px;
@@ -7239,10 +7243,13 @@ blockquote {
     margin-bottom: 0px;
   }
   .hero-title {
-    margin-left: 40px;
+    margin-left: 25px;
   }
   .hero-call-to-action {
-    margin-left: 40px;
+    margin-left: 25px;
+  }
+  .hero-cta-box {
+    min-width: 280px;
   }
   .hero-menu {
     padding-right: 0px;

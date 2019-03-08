@@ -163,6 +163,9 @@ Template.navbar.onRendered(function () {
 });
 
 Template.navbar.helpers({
+  logoExtended() {
+    return Meteor.settings.public.Collective.profile.logoExtended;
+  },
   picture() {
     if (Meteor.settings.public.Collective.profile.logo) {
       return Meteor.settings.public.Collective.profile.logo;

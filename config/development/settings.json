@@ -98,6 +98,7 @@
           }
         },
         "logo": "images/olive.png",
+        "logoExtended": "images/democracy-earth-text-black.png",
         "jurisdiction": {
           "legal": {
               "taxId": "37-1776296",
