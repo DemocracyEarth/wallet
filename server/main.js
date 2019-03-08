@@ -103,6 +103,6 @@ onPageLoad(function (sink) {
     });
   }
   if (path) {
-    log(`{ server: 'onPageLoad', path: '${url}', httpHeader: '${JSON.stringify(hostname)}' }`);
+    // log(`{ server: 'onPageLoad', path: '${url}', httpHeader: '${JSON.stringify(hostname)}' }`);
   }
 });

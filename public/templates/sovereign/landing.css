@@ -23,11 +23,11 @@
 
 .button.login-button.button-landing {
   margin: 40px 5px 0px;
-  padding: 12px;
+  padding: 10px;
   max-width: 240px;
   display: inline-block;
-  font-size: 14px;
-  border-width: 3px;
+  font-size: 12px;
+  border-width: 1px;
 }
 
 .button.login-button.button-landing.button-landing-secondary {
@@ -149,7 +149,7 @@
 
 .landing-sub-big {
   font-size: 36px;
-  border-bottom: 6px solid #5a0075;
+  border-bottom: 3px solid #5a0075;
   margin: 0px auto 30px auto;
   display: table;
 }
@@ -691,7 +691,7 @@
 
 @media (max-width: 479px) {
   .paper-screenshot {
-    max-width: 200px;
+    max-width: 150px;
     margin: 5px 10px 20px 10px;
   }
 
@@ -719,7 +719,7 @@
 
   .button.login-button.button-landing {
     margin: 30px auto -20px auto;
-    max-width: none;
+    max-width: 350px;
     display:block;
   }
 

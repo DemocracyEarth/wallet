@@ -1053,11 +1053,11 @@ blockquote {
 }
 
 .button.button-upload:hover {
-  border-color: #ff0085;
+  border-color: #ff617e #ff617e hsla(348.9873417721519, 100.00%, 69.02%, 1.00);
 }
 
 .button.button-upload:active {
-  background-color: rgba(255, 0, 133, .07);
+  background-color: hsla(348.9873417721519, 100.00%, 69.02%, 0.07);
 }
 
 .button.button-cta {
@@ -3910,7 +3910,7 @@ blockquote {
 
 .login-input:focus {
   border-bottom-width: 1px;
-  border-bottom-color: #ff0085;
+  border-bottom-color: hsla(348.9873417721519, 100.00%, 69.02%, 1.00);
 }
 
 .login-input.login-input-split {
@@ -4169,11 +4169,11 @@ blockquote {
 }
 
 .suggest-item:hover {
-  background-color: rgba(255, 0, 133, .06);
+  background-color: hsla(348.9873417721519, 100.00%, 69.02%, 0.06);
 }
 
 .suggest-item:active {
-  background-color: #ff0085;
+  background-color: hsla(348.9873417721519, 100.00%, 69.02%, 1.00);
   color: #fff;
 }
 
@@ -4392,7 +4392,7 @@ blockquote {
   width: 70px;
   height: 70px;
   border-radius: 50px;
-  background-color: #00d9ff;
+  background-color: #ff617e;
   box-shadow: 0 2px 20px -5px #000;
   color: #fff;
   font-weight: 200;
@@ -7237,10 +7237,6 @@ blockquote {
   }
   .margin-bottom-dead {
     margin-bottom: 0px;
-  }
-  .login-button-last {
-    margin-top: 15px;
-    margin-bottom: 15px;
   }
   .hero-title {
     margin-left: 40px;

@@ -162,6 +162,9 @@ const _getTitle = (options, ledgerMode) => {
 };
 
 Template.homeFeed.helpers({
+  unloggedMobile() {
+    return (Meteor.Device.isPhone() && !Meteor.user());
+  },
   editorMode() {
     return Session.get('showPostEditor');
   },
