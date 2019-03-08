@@ -107,6 +107,28 @@ const _cryptoVote = () => {
 };
 
 /**
+* @summary executes web vote whether quadratic or linear
+*/
+const _webVote = (userId, voteAmount, quadraticVote) => {
+  const user = Meteor.users.findOne({ _id: userId });
+  const wallet = user.profile.wallet;
+
+  // update user wallet
+  wallet.available -= voteAmount;
+  wallet.placed += voteAmount;
+  Meteor.users.update({ _id: userId }, { $set: { 'profile.wallet': wallet } });
+
+  if (quadraticVote) {
+    // transact() with sqrt(voteAmount), take care of tally within transact
+    console.log('quadraticVote', Math.sqrt(voteAmount));
+  } else {
+    // linear
+    // transact() with voteAmount, take care of tally within transact
+    console.log('linear', voteAmount);
+  }
+};
+
+/**
 * @summary composes url to share stuff on twitter
 * @param {object} contract to get data from
 */
@@ -624,6 +646,7 @@ Template.ballot.events({
     event.stopPropagation();
     const currency = Template.currentData().contract.wallet.currency;
     if (currency === 'NONE') {
+      // invoke _webVote here, this becomes web users vote
       displayModal(
         true,
         {
