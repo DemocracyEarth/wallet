@@ -28,7 +28,6 @@ input:-webkit-autofill:active {
 }
 
 .content-feed {
-  z-index: -1;
   position: -webkit-sticky;
 }
 

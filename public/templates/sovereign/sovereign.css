@@ -1406,7 +1406,7 @@ blockquote {
   box-shadow: none;
   -webkit-transition-property: none;
   transition-property: none;
-  cursor: pointer;
+  cursor: default;
 }
 
 .vote.vote-search.vote-feed.vote-delegation:hover {
