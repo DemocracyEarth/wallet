@@ -57,13 +57,15 @@
     </div>
   </div>
 
-  <div class="split split-right {{landingMode 'right'}}">
-    {{#if feedReady}}
-      {{#with mainLedger}}
-        {{> ledger this}}
-      {{/with}}
-    {{/if}}
-  </div>
+  {{#unless unloggedMobile}}
+    <div class="split split-right {{landingMode 'right'}}">
+      {{#if feedReady}}
+        {{#with mainLedger}}
+          {{> ledger this}}
+        {{/with}}
+      {{/if}}
+    </div>
+  {{/unless}}
 
   {{#if displayLanding}}
     {{> landing}}

@@ -94,9 +94,6 @@ const heroMode = (instance) => {
     node.removeClass('hero-navbar-scroller');
     $('.hero').css('position', 'fixed');
     $('.hero').css('z-index', '1');
-    if (Meteor.Device.isPhone()) {
-      $('.split-left').css('paddingTop', '70px');
-    }
   } else {
     heroHeight = 400;
     if (st > heroHeight) {
@@ -163,6 +160,9 @@ Template.navbar.onRendered(function () {
 });
 
 Template.navbar.helpers({
+  logoExtended() {
+    return Meteor.settings.public.Collective.profile.logoExtended;
+  },
   picture() {
     if (Meteor.settings.public.Collective.profile.logo) {
       return Meteor.settings.public.Collective.profile.logo;

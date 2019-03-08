@@ -1053,11 +1053,11 @@ blockquote {
 }
 
 .button.button-upload:hover {
-  border-color: #ff0085;
+  border-color: #ff617e #ff617e hsla(348.9873417721519, 100.00%, 69.02%, 1.00);
 }
 
 .button.button-upload:active {
-  background-color: rgba(255, 0, 133, .07);
+  background-color: hsla(348.9873417721519, 100.00%, 69.02%, 0.07);
 }
 
 .button.button-cta {
@@ -3910,7 +3910,7 @@ blockquote {
 
 .login-input:focus {
   border-bottom-width: 1px;
-  border-bottom-color: #ff0085;
+  border-bottom-color: hsla(348.9873417721519, 100.00%, 69.02%, 1.00);
 }
 
 .login-input.login-input-split {
@@ -4169,11 +4169,11 @@ blockquote {
 }
 
 .suggest-item:hover {
-  background-color: rgba(255, 0, 133, .06);
+  background-color: hsla(348.9873417721519, 100.00%, 69.02%, 0.06);
 }
 
 .suggest-item:active {
-  background-color: #ff0085;
+  background-color: hsla(348.9873417721519, 100.00%, 69.02%, 1.00);
   color: #fff;
 }
 
@@ -4392,7 +4392,7 @@ blockquote {
   width: 70px;
   height: 70px;
   border-radius: 50px;
-  background-color: #00d9ff;
+  background-color: #ff617e;
   box-shadow: 0 2px 20px -5px #000;
   color: #fff;
   font-weight: 200;
@@ -4751,6 +4751,9 @@ blockquote {
   margin-top: 10px;
   margin-bottom: 10px;
   padding: 10px 10px 0px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(242, 242, 248, 0);
   border-radius: 5px;
   color: #333;
   font-size: 12px;
@@ -4759,12 +4762,13 @@ blockquote {
 }
 
 .collective:hover {
+  border-color: #e6e0ee;
   background-color: #e6e0ee;
 }
 
 .collective.collective-selected {
-  background-color: #5a0075;
-  color: #fff;
+  border-color: hsla(286.6666666666667, 100.00%, 22.94%, 1.00);
+  background-color: #e6e0ee;
 }
 
 .collective-icon {
@@ -6466,13 +6470,8 @@ blockquote {
 
 .hero-logo {
   max-height: 32px;
-  margin: 12px 10px;
+  margin: 14px 10px;
   float: left;
-}
-
-.hero-logo:active {
-  margin-top: 14px;
-  margin-bottom: 10px;
 }
 
 .hero-button {
@@ -6599,6 +6598,10 @@ blockquote {
   z-index: 1;
   padding-top: 50px;
   padding-left: 5px;
+}
+
+.hero-home-button:active {
+  margin-top: 2px;
 }
 
 @media (max-width: 991px) {
@@ -6750,6 +6753,7 @@ blockquote {
   }
   .split.split-left {
     width: 100%;
+    margin-top: 70px;
   }
   .smart {
     display: block;
@@ -7162,6 +7166,7 @@ blockquote {
   }
   .card-title {
     margin-top: 5px;
+    padding-right: 30px;
   }
   .agora {
     margin-top: -15px;
@@ -7238,15 +7243,14 @@ blockquote {
   .margin-bottom-dead {
     margin-bottom: 0px;
   }
-  .login-button-last {
-    margin-top: 15px;
-    margin-bottom: 15px;
-  }
   .hero-title {
-    margin-left: 40px;
+    margin-left: 25px;
   }
   .hero-call-to-action {
-    margin-left: 40px;
+    margin-left: 25px;
+  }
+  .hero-cta-box {
+    min-width: 280px;
   }
   .hero-menu {
     padding-right: 0px;
@@ -7263,6 +7267,9 @@ blockquote {
   }
   .hero-button.hero-button-mobile.hero-signin {
     margin-right: 15px;
+  }
+  .hero-home-button {
+    display: inline-block;
   }
 }
 

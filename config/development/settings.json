@@ -62,6 +62,9 @@
           "proposalDrafting": true,
           "appCache": false,
           "mailNotifications": false,
+          "token": {
+            "defaultCode": "HOUR"
+          },          
           "permissioned": {
             "active": false,
             "checkDomain": false,
@@ -95,6 +98,7 @@
           }
         },
         "logo": "images/olive.png",
+        "logoExtended": "images/democracy-earth-text-black.png",
         "jurisdiction": {
           "legal": {
               "taxId": "37-1776296",

@@ -32,7 +32,8 @@ export default class EmailLogin extends Component {
     await getImageTemplate().then((resolved) => { this.setState({ images: resolved }); });
   }
 
-  handleLoginRender() {
+  handleLoginRender(event) {
+    event.preventDefault();
     this.setState({ loginScreen: !(this.state.loginScreen) });
   }
 
@@ -52,6 +53,7 @@ export default class EmailLogin extends Component {
     this.setState({ incorrectUser: true });
   }
 
+  // eslint-disable-next-line class-methods-use-this
   handleFacebookLogin() {
     Meteor.call('updateAPIKeys');
     Meteor.loginWithFacebook({}, function (err) {
@@ -89,7 +91,7 @@ export default class EmailLogin extends Component {
 
   render() {
     const incorrectUserState = this.state.incorrectUser;
-    
+
     if (this.state.loginScreen === true) {
       return (
         <div>
