@@ -70,7 +70,8 @@
             "checkDomain": false,
             "checkList": true
           },
-          "displayLanding": false
+          "displayLanding": false,
+          "allowWebVotes": true
         }
     },
 
