@@ -51,7 +51,7 @@
 <template name="navbar">
   <div class="hero-navbar">
     <a href="{{pathFor route='home'}}">
-      <img class="hero-logo" src="{{pathFor route='home'}}{{picture}}" />
+      <img class="hero-logo" src="{{getImage 'blockstack-icon'}}" />
     </a>
     <div id="collective-login" class="hero-button hero-button-mobile hero-signin">
         <div class="hero-menu-link hero-menu-link-signin {{loginMode}}" target="_blank">{{_ 'sign-in'}}</div>
@@ -64,15 +64,11 @@
           <a class="hero-menu-link" href="{{pathFor route='home'}}">{{_ 'home'}}</a>
         {{/unless}}
       </div>
-      <div class="hero-button">
-        <a class="hero-menu-link" href="http://paper.democracy.earth" target="_blank">{{_ 'paper'}}</a>
-      </div>
-      <div class="hero-button">
-        <a class="hero-menu-link" href="http://code.democracy.earth" target="_blank">{{_ 'code'}}</a>
-      </div>
-      <div class="hero-button">
-        <a class="hero-menu-link" href="http://words.democracy.earth" target="_blank">{{_ 'menu-news'}}</a>
-      </div>
+      {{#each navbarMenu}}
+        <div class="hero-button">
+          <a class="hero-menu-link" href={{href}} target="_blank">{{_ text}}</a>
+        </div>
+      {{/each}}
     </div>
   </div>
 </template>

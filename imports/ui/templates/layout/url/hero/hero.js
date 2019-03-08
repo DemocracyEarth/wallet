@@ -8,7 +8,7 @@ import { Session } from 'meteor/session';
 import { timers } from '/lib/const';
 import { resetSplit } from '/imports/ui/modules/split';
 
-import { getHeader } from '/imports/ui/templates/layout/templater';
+import { getHeader, templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { promptLogin } from '/imports/ui/templates/components/collective/collective.js';
 import { validateEmail } from '/imports/startup/both/modules/validations.js';
 
@@ -132,8 +132,17 @@ const scrollingMenu = (instance) => {
   });
 };
 
+const _getNavbarMenu = async (instance) => {
+  const menu = await getHeader('navbarMenu').then((resolved) => { instance.headerNavbarMenuTemplate.set(resolved); });
+  return menu;
+};
+
 Template.navbar.onCreated(function () {
   Template.instance().activeSignIn = new ReactiveVar(false);
+  Template.instance().imageTemplate = new ReactiveVar();
+  Template.instance().headerNavbarMenuTemplate = new ReactiveVar();
+  _getNavbarMenu(Template.instance());
+  templetize(Template.instance());
 });
 
 
@@ -176,6 +185,12 @@ Template.navbar.helpers({
     Template.instance().activeSignIn.set(false);
     return '';
   },
+  getImage(pic) {
+    return getImage(Template.instance().imageTemplate.get(), pic);
+  },
+  navbarMenu() {
+    return Template.instance().headerNavbarMenuTemplate.get();
+  },
 });
 
 Template.navbar.events({
@@ -186,7 +201,7 @@ Template.navbar.events({
 });
 
 const _template = async (instance) => {
-  const html = await getHeader().then((resolved) => { instance.headerTemplate.set(resolved); });
+  const html = await getHeader('html').then((resolved) => { instance.headerTemplate.set(resolved); });
   return html;
 };
 
