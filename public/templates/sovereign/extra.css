@@ -22,8 +22,8 @@ input:-webkit-autofill:active {
   input:-webkit-autofill:focus,
   input:-webkit-autofill:active {
     transition: #442f58 5000s ease-in-out 0s;
-    -webkit-text-fill-color: #5a0075 !important;
-    -webkit-box-shadow: 0 0 0px 1000px #eaeaea inset;
+    -webkit-text-fill-color: white !important;
+    -webkit-box-shadow: 0 0 0px 1000px #442f58 inset;
   }
 }
 
@@ -41,6 +41,7 @@ input[type="file"] {
   line-height: 22px;
   font-weight: 300;
 }
+
 
 .split.split-left.split-post-landing {
   padding-top: 0px;
@@ -63,6 +64,7 @@ input[type="file"] {
     top:auto;
   }
 }
+
 
 .login {
     text-align: center;
@@ -163,10 +165,6 @@ html {
     overflow: hidden;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
-}
-
-.hero-cta-input {
-  -webkit-appearance: none;
 }
 
 @media (max-width: 991px) {
