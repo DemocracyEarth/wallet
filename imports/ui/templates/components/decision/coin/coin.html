@@ -23,6 +23,24 @@
           </div>
         {{/if}}
       </div>
+      <div class="toggles">
+        <div class="toggle-setting">
+          <div class="toggle-label">
+            {{_ 'voting-editor-offchain-toggle'}}
+          </div>
+          <div class="w-clearfix value">
+            {{> toggle setting="portable" value=portable}}
+          </div>
+        </div>
+        <div class="toggle-setting">
+          <div class="toggle-label">
+            {{_ 'voting-editor-quadratic-toggle'}}
+          </div>
+          <div class="w-clearfix value">
+            {{> toggle setting="portable" value=portable}}
+          </div>
+        </div>
+      </div>
       <div class="dropdown-buttons">
          <div class="modal-buttons-padder modal-buttons-padder-left">
            <div id="cancel-coin" class="button login-button button-secondary button-half">

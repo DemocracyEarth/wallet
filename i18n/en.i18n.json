@@ -670,5 +670,7 @@
   "token-erc-20": "ERC 20 Token",
   "token-blockchain": "Blockchain Activity",
   "token-saft": "SAFT Purchase",
-  "off-chain": "off chain"
+  "off-chain": "off chain",
+  "voting-editor-offchain-toggle": "Off-chain",
+  "voting-editor-quadratic-toggle": "Quadratic Tally"
 }

@@ -62,6 +62,21 @@ Schema.Tally = new SimpleSchema({
   },
 });
 
+Schema.Rules = new SimpleSchema({
+  quadraticTally: {
+    type: Boolean,
+    defaultValue: false,
+  },
+  webToken: {
+    type: Boolean,
+    defaultValue: false,
+  },
+  offchainSignature: {
+    type: Boolean,
+    defaultValue: false,
+  },
+});
+
 Schema.Constituency = new SimpleSchema({
   kind: {
     type: String,
@@ -526,10 +541,9 @@ Schema.Contract = new SimpleSchema({
       return Math.floor(Math.random() * 10000000000000000);
     },
   },
-  quadraticVoting: {
-    type: Boolean,
+  rules: {
+    type: Schema.Rules,
     optional: true,
-    defaultValue: false,
   },
 });
 

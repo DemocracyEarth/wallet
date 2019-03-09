@@ -285,3 +285,42 @@ body, h4, h1, h2 {
   font-size: 16px;
   text-align: center;
 }
+
+.toggle-label {
+  float: left;
+  /* margin-top: 5px; */
+  text-transform: none;
+  font-size: 16px;
+  padding: 5px 0px;
+}
+
+.toggle-setting {
+  clear: both;
+  display: inline-block;
+  width: 100%;
+  border-radius: 5px;
+  margin: -5px 0px 0px;
+  padding: 10px 10px;
+  background: #e4e4e4;
+}
+
+.toggle {
+  width: 60px;
+  height: 30px;
+  float: right;
+  border-radius: 100px;
+  background-color: #ccc;
+  cursor: pointer;
+}
+
+.toggles {
+  margin-bottom:10px;
+}
+
+.toggle-button {
+  width: 26px;
+  height: 26px;
+  margin: 2px;
+  border-radius: 100px;
+  background-color: #fff;
+}

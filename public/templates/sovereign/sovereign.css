@@ -922,12 +922,16 @@ blockquote {
 }
 
 .button.login-button.button-secondary:hover {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-style: none;
+  border-style: solid;
   border-color: #ff617e;
   background-color: #ff617e;
   color: #fff;
+}
+
+.button.login-button.button-secondary:active {
+  border-style: solid;
+  background-color: transparent;
+  color: #ff617e;
 }
 
 .button.login-button.button-half {
@@ -1076,6 +1080,14 @@ blockquote {
 .button.button-cta:hover {
   border-color: #fe6580;
   background-color: #ff617e;
+}
+
+.button.button-cta:active {
+  padding-top: 6px;
+  padding-bottom: 9px;
+  border: 1px solid #580074;
+  background-color: transparent;
+  color: #580074;
 }
 
 .button.button-menu {
@@ -4077,13 +4089,23 @@ blockquote {
 }
 
 .navbar-button.navbar-button-active.navbar-button-action {
+  margin-top: 6px;
+  margin-bottom: 6px;
+  border: 1px solid #580074;
   font-size: 16px;
   line-height: 18px;
   cursor: pointer;
 }
 
 .navbar-button.navbar-button-active.navbar-button-action:hover {
+  border-color: #ff617e;
   background-color: #ff617e;
+}
+
+.navbar-button.navbar-button-active.navbar-button-action:active {
+  border: 1px solid #580074;
+  background-color: hsla(283.6363636363637, 75.57%, 25.69%, 0.10);
+  color: #580074;
 }
 
 .navbar-button.navbar-button-active.navbar-button-action.navbar-button-action-disabled {
@@ -4773,7 +4795,7 @@ blockquote {
 }
 
 .collective.collective-selected {
-  border-color: hsla(286.6666666666667, 100.00%, 22.94%, 1.00);
+  border-color: #e4cefd;
   background-color: #e6e0ee;
 }
 

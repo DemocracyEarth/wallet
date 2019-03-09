@@ -7,6 +7,8 @@ import { animatePopup } from '/imports/ui/modules/popup';
 import { searchJSON } from '/imports/ui/modules/JSON';
 import { token } from '/lib/token';
 
+
+import '/imports/ui/templates/widgets/toggle/toggle.js';
 import '/imports/ui/templates/components/decision/coin/coin.html';
 
 const Web3 = require('web3');
