@@ -526,6 +526,11 @@ Schema.Contract = new SimpleSchema({
       return Math.floor(Math.random() * 10000000000000000);
     },
   },
+  quadraticVoting: {
+    type: Boolean,
+    optional: true,
+    defaultValue: false,
+  },
 });
 
 Contracts.attachSchema(Schema.Contract);

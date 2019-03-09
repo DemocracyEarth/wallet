@@ -81,7 +81,7 @@ export default class ForgotPassword extends Component {
             <div className="w-clearfix login-field">
               {TAPi18n.__('email-recovery-instructions')}
             </div>
-            <div type="submit" id="recovery-button" className="button login-button" onClick={this.handleSubmit}>
+            <div type="submit" id="recovery-button" className="button login-button login-button-last" onClick={this.handleSubmit}>
               <div>{TAPi18n.__('continue-password-recovery')}</div>
             </div>
           </form>

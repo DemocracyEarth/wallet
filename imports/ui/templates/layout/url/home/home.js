@@ -34,6 +34,8 @@ const _landingMode = (style) => {
       default:
         return 'split-landing';
     }
+  } else if (!Meteor.Device.isPhone()) {
+    return 'split-desktop';
   }
   return '';
 };
