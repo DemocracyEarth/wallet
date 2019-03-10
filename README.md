@@ -13,7 +13,7 @@ Proof of stake democracy. ERC compatible.
 Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check our recent conferences in [Paris 🇫🇷 2016](https://youtube.com/watch?v=UajbQTHnTfM) and [Berlin 🇩🇪 2018](https://youtu.be/xqafNk_VsMM).
 
 <p align="center">
-<img src="public/images/sovereign-screenshot-2017.png" width="800" title="Sovereign Screenshot 2017">
+<img src="public/images/sovereign-screenshot-2018.png" width="800" title="Sovereign Screenshot 2018">
 </p>
 
 **Features:**

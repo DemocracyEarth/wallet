@@ -22,17 +22,12 @@ input:-webkit-autofill:active {
   input:-webkit-autofill:focus,
   input:-webkit-autofill:active {
     transition: #442f58 5000s ease-in-out 0s;
-    -webkit-text-fill-color: #5a0075 !important;
-    -webkit-box-shadow: 0 0 0px 1000px #eaeaea inset;
+    -webkit-text-fill-color: white !important;
+    -webkit-box-shadow: 0 0 0px 1000px #442f58 inset;
   }
 }
 
-.hero {
-  position: -webkit-sticky;
-}
-
 .content-feed {
-  z-index: -1;
   position: -webkit-sticky;
 }
 
@@ -47,15 +42,29 @@ input[type="file"] {
   font-weight: 300;
 }
 
+
+.split.split-left.split-post-landing {
+  padding-top: 0px;
+}
+
 @media (max-width: 991px) {
   .split.split-left.split-post-landing {
       margin-top: 70px;
+  }
+
+  .split.split-left {
+    margin-top:70px;
+  }
+
+  .split.split-left.split-desktop {
+    margin-top:0px;
   }
 
   .split-post-landing {
     top:auto;
   }
 }
+
 
 .login {
     text-align: center;
@@ -158,10 +167,6 @@ html {
     -webkit-overflow-scrolling: touch;
 }
 
-.hero-cta-input {
-  -webkit-appearance: none;
-}
-
 @media (max-width: 991px) {
   .content-feed {
     overflow:hidden;
@@ -190,15 +195,24 @@ body, h4, h1, h2 {
   }
 }
 
+.split.split-left.split-landing.split-anon {
+  padding-top:0px;
+  margin-top: 0px;
+}
+
 .hero-secondary {
   background: linear-gradient(0deg, #f2f2f8 95%, #ebe7ef);
   padding: 60px 10px 80px 10px;
   z-index: 1;
-  box-shadow: 0px -20px 20px 20px white;
+  box-shadow: 0px -3px 10px 0px white;
   background-color: #f2f2f8;
   color: white;
   margin-top: 0px;
-  text-align:center;
+  text-align: center;
+}
+
+.hero-cover {
+  z-index: 1;
 }
 
 .accounts-dialog .login-button {
@@ -270,4 +284,43 @@ body, h4, h1, h2 {
   box-shadow: 0 6px 20px 4px rgba(0, 0, 0, .13);
   font-size: 16px;
   text-align: center;
+}
+
+.toggle-label {
+  float: left;
+  /* margin-top: 5px; */
+  text-transform: none;
+  font-size: 16px;
+  padding: 5px 0px;
+}
+
+.toggle-setting {
+  clear: both;
+  display: inline-block;
+  width: 100%;
+  border-radius: 5px;
+  margin: -5px 0px 0px;
+  padding: 10px 10px;
+  background: #e4e4e4;
+}
+
+.toggle {
+  width: 60px;
+  height: 30px;
+  float: right;
+  border-radius: 100px;
+  background-color: #ccc;
+  cursor: pointer;
+}
+
+.toggles {
+  margin-bottom:10px;
+}
+
+.toggle-button {
+  width: 26px;
+  height: 26px;
+  margin: 2px;
+  border-radius: 100px;
+  background-color: #fff;
 }

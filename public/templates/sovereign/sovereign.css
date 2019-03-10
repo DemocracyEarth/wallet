@@ -922,12 +922,16 @@ blockquote {
 }
 
 .button.login-button.button-secondary:hover {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-style: none;
+  border-style: solid;
   border-color: #ff617e;
   background-color: #ff617e;
   color: #fff;
+}
+
+.button.login-button.button-secondary:active {
+  border-style: solid;
+  background-color: transparent;
+  color: #ff617e;
 }
 
 .button.login-button.button-half {
@@ -1076,6 +1080,14 @@ blockquote {
 .button.button-cta:hover {
   border-color: #fe6580;
   background-color: #ff617e;
+}
+
+.button.button-cta:active {
+  padding-top: 6px;
+  padding-bottom: 9px;
+  border: 1px solid #580074;
+  background-color: transparent;
+  color: #580074;
 }
 
 .button.button-menu {
@@ -1406,7 +1418,7 @@ blockquote {
   box-shadow: none;
   -webkit-transition-property: none;
   transition-property: none;
-  cursor: pointer;
+  cursor: default;
 }
 
 .vote.vote-search.vote-feed.vote-delegation:hover {
@@ -2127,7 +2139,6 @@ blockquote {
   float: left;
   border-bottom: 1px solid #e8e8e8;
   background-color: #f2f2f8;
-  box-shadow: 0 10px 50px 10px rgba(0, 0, 0, .15);
   color: #442f58;
 }
 
@@ -3437,6 +3448,11 @@ blockquote {
   border-color: #00bf8f;
 }
 
+.stage.stage-placed.stage-card.button:active {
+  border-radius: 5px;
+  background-color: #dad8d8;
+}
+
 .stage.stage-inballot {
   border-style: solid;
   border-color: #00bf8f;
@@ -4073,13 +4089,23 @@ blockquote {
 }
 
 .navbar-button.navbar-button-active.navbar-button-action {
+  margin-top: 6px;
+  margin-bottom: 6px;
+  border: 1px solid #580074;
   font-size: 16px;
   line-height: 18px;
   cursor: pointer;
 }
 
 .navbar-button.navbar-button-active.navbar-button-action:hover {
+  border-color: #ff617e;
   background-color: #ff617e;
+}
+
+.navbar-button.navbar-button-active.navbar-button-action:active {
+  border: 1px solid #580074;
+  background-color: hsla(283.6363636363637, 75.57%, 25.69%, 0.10);
+  color: #580074;
 }
 
 .navbar-button.navbar-button-active.navbar-button-action.navbar-button-action-disabled {
@@ -4769,7 +4795,7 @@ blockquote {
 }
 
 .collective.collective-selected {
-  border-color: hsla(286.6666666666667, 100.00%, 22.94%, 1.00);
+  border-color: #e4cefd;
   background-color: #e6e0ee;
 }
 
@@ -6602,6 +6628,11 @@ blockquote {
   padding-left: 5px;
 }
 
+.hero-home-button {
+  display: inline-block;
+  float: left;
+}
+
 .hero-home-button:active {
   margin-top: 2px;
 }
@@ -7068,6 +7099,9 @@ blockquote {
   .authentication {
     padding-right: 0px;
   }
+  .login-input {
+    border-radius: 0px;
+  }
   .popup {
     left: 0px;
     top: 0px;
@@ -7243,11 +7277,14 @@ blockquote {
   .margin-bottom-dead {
     margin-bottom: 0px;
   }
+  .login-button-last {
+    margin-bottom: 10px;
+  }
   .hero-title {
-    margin-left: 25px;
+    margin-left: 35px;
   }
   .hero-call-to-action {
-    margin-left: 25px;
+    margin-left: 35px;
   }
   .hero-cta-box {
     min-width: 280px;

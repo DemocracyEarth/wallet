@@ -144,7 +144,7 @@ export default class Signup extends Component {
               {mismatchPasswordState ? <Warning label="mismatch-password" /> : null}
             </div>
             {alreadyRegisteredState ? <div className="extra extra-warning section"> <Warning label="user-exists" /> </div> : null}
-            <div id="signup-button" className="button login-button" onClick={this.handleSubmit} >
+            <div id="signup-button" className="button login-button login-button-last" onClick={this.handleSubmit} >
               <div>{TAPi18n.__('sign-up')}</div>
             </div>
           </form>

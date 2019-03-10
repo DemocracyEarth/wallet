@@ -139,7 +139,7 @@ export default class EmailLogin extends Component {
                 <div className="popup-text">
                   <a id="signup" onClick={this.handleEmailSignup}>{TAPi18n.__('sign-up')}</a> {TAPi18n.__('or')} <a id="forgot-pw" onClick={this.handleForgotPasswordRender}>{TAPi18n.__('recover-password')}</a>.
                 </div>
-                <div type="submit" id="signin-button" className="button login-button" onClick={this.handleSubmit}>
+                <div type="submit" id="signin-button" className="button login-button login-button-last" onClick={this.handleSubmit}>
                   <div>{TAPi18n.__('sign-in')}</div>
                 </div>
               </form>

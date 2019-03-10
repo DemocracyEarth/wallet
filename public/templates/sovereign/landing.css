@@ -451,6 +451,12 @@
   float: left;
 }
 
+.hero {
+  position: -webkit-sticky;
+  position:sticky;
+}
+
+
 .landing-client.landing-client-start {
   clear:left;
 }
@@ -530,7 +536,8 @@
   }
 
   .landing-list {
-    min-width:210px;
+    min-width:250px;
+    padding-left: 20px;
   }
 
   .landing-closing {
