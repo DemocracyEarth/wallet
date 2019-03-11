@@ -8,6 +8,7 @@ import { Router } from 'meteor/iron:router';
 
 import { removeFork, updateBallotRank, addChoiceToBallot, getTickValue, getTotalVoters } from '/imports/ui/modules/ballot';
 import { getContractToken } from '/imports/ui/templates/widgets/transaction/transaction';
+import { transact } from '/imports/api/transactions/transaction';
 import { displayTimedWarning } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { timers } from '/lib/const';
@@ -109,7 +110,7 @@ const _cryptoVote = () => {
 /**
 * @summary executes web vote whether quadratic or linear
 */
-const _webVote = (userId, voteAmount, quadraticVote) => {
+const _webVote = (userId, _contractId, voteAmount, quadraticVote) => {
   const user = Meteor.users.findOne({ _id: userId });
   const wallet = user.profile.wallet;
 
@@ -118,13 +119,20 @@ const _webVote = (userId, voteAmount, quadraticVote) => {
   wallet.placed += voteAmount;
   Meteor.users.update({ _id: userId }, { $set: { 'profile.wallet': wallet } });
 
+  const transactSettings = {
+    kind: 'VOTE',
+    contractId: _contractId,
+  };
+
   if (quadraticVote) {
     // transact() with sqrt(voteAmount), take care of tally within transact
     console.log('quadraticVote', Math.sqrt(voteAmount));
+    transact(userId, _contractId, Math.sqrt(voteAmount), transactSettings, undefined);
   } else {
     // linear
     // transact() with voteAmount, take care of tally within transact
     console.log('linear', voteAmount);
+    transact(userId, _contractId, voteAmount, transactSettings, undefined);
   }
 };
 
@@ -585,7 +593,8 @@ Template.ballot.helpers({
     return Template.instance().ticket.get();
   },
   tokenFriendly() {
-    return Template.instance().ticket.get().token !== 'NONE';
+    // return Template.instance().ticket.get().token !== 'NONE';
+    return true;
   },
   castSingleVote() {
     return (Session.get('castSingleVote') === this.contract.keyword);
@@ -647,16 +656,13 @@ Template.ballot.events({
     const currency = Template.currentData().contract.wallet.currency;
     if (currency === 'NONE') {
       // invoke _webVote here, this becomes web users vote
-      displayModal(
-        true,
-        {
-          icon: 'images/olive.png',
-          title: TAPi18n.__('place-vote'),
-          message: TAPi18n.__('tokenless-post'),
-          cancel: TAPi18n.__('close'),
-          alertMode: true,
-        },
-      );
+      console.log('### DEBUG ### - ballot.js - click #single-vote');
+      console.log('### DEBUG ### - ballot.js - Template.instance()', Template.instance());
+
+      const userId = Meteor.user()._id;
+      const contractId = Template.currentData().contract._id;
+      _webVote(userId, contractId, 9, true);
+      
     } else if (currency === 'STX') {
       displayModal(
         true,

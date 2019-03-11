@@ -883,10 +883,9 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     if (callback !== undefined) { callback(); }
 
     return txId;
+  } else if (settings.kind === 'VOTE') {
+    // web transaciton
 
-  // web transaciton
-  } /* 
-    else {
     // executes the transaction
     txId = Transactions.insert(newTransaction);
     processing = _processTransaction(txId);
@@ -918,7 +917,7 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
 
       return txId;
     }
-  } */
+  }
   return null;
 };
 
