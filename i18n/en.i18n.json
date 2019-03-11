@@ -672,5 +672,6 @@
   "token-saft": "SAFT Purchase",
   "off-chain": "off chain",
   "voting-editor-offchain-toggle": "Off-chain",
-  "voting-editor-quadratic-toggle": "Quadratic Tally"
+  "voting-editor-balance-toggle": "Vote with Balance",
+  "voting-editor-quadratic-toggle": "Quadratic Voting"
 }
