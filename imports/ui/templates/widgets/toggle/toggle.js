@@ -66,24 +66,9 @@ Template.toggle.onRendered(() => {
 });
 
 Template.toggle.onCreated(() => {
-  if (!Session.get('contract')) {
-    Template.instance().contract = new ReactiveVar(Template.currentData().contract);
-  } else {
-    Template.instance().contract = new ReactiveVar(Contracts.findOne({ _id: Session.get('contract')._id }));
-  }
-
-  Template.instance().rightToVote = new ReactiveVar(getRightToVote(Template.instance().contract.get()));
 });
 
 Template.toggle.helpers({
-  value() {
-    if (this.setting === Session.get('clickedToggle')) {
-      const node = $(`.${this.setting}`).children();
-      toggle(node, this.value, false);
-    } else if (toggleMap[this.setting] === undefined) {
-      toggleMap[this.setting] = this.value;
-    }
-  },
   setting() {
     toggleMap[this.setting] = this.value;
     displayToggle();

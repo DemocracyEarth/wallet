@@ -288,10 +288,8 @@ body, h4, h1, h2 {
 
 .toggle-label {
   float: left;
-  /* margin-top: 5px; */
   text-transform: none;
   font-size: 16px;
-  padding: 5px 0px;
 }
 
 .toggle-setting {

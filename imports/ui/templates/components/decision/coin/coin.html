@@ -26,18 +26,18 @@
       <div class="toggles">
         <div class="toggle-setting">
           <div class="toggle-label">
-            {{_ 'voting-editor-offchain-toggle'}}
+            {{_ 'voting-editor-balance-toggle'}}
           </div>
           <div class="w-clearfix value">
-            {{> toggle setting="portable" value=portable}}
+            {{> toggle sessionContract="draftContract" setting="rules.balanceVoting" value=balanceVoting}}
           </div>
         </div>
         <div class="toggle-setting">
           <div class="toggle-label">
-            {{_ 'voting-editor-balance-toggle'}}
+            {{_ 'voting-editor-quadratic-toggle'}}
           </div>
           <div class="w-clearfix value">
-            {{> toggle setting="portable" value=portable}}
+            {{> toggle sessionContract="draftContract" setting="rules.quadraticVoting" value=quadraticVoting}}
           </div>
         </div>
       </div>
