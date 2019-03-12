@@ -115,6 +115,9 @@ Template.coin.helpers({
   quadraticVoting() {
     return Session.get('draftContract').rules ? Session.get('draftContract').rules.quadraticVoting : false;
   },
+  binaryChoice() {
+    return Session.get('draftContract').rules ? Session.get('draftContract').rules.binaryChoice : false;
+  },
   wrongAddress() {
     const draft = Session.get('draftContract');
     if (draft.blockchain.coin.code !== 'STX') {

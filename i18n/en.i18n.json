@@ -673,5 +673,6 @@
   "off-chain": "off chain",
   "voting-editor-offchain-toggle": "Off-chain",
   "voting-editor-balance-toggle": "Vote with Balance",
-  "voting-editor-quadratic-toggle": "Quadratic Voting"
+  "voting-editor-quadratic-toggle": "Quadratic Voting",
+  "voting-editor-binary-choice": "Binary Choice"
 }

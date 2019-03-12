@@ -69,21 +69,17 @@ Template.toggle.onCreated(() => {
 });
 
 Template.toggle.helpers({
-  setting() {
-    toggleMap[this.setting] = this.value;
-    displayToggle();
-    return this.setting;
+  value() {
+    return this.value;
   },
 });
 
 Template.toggle.events({
   'click #toggleButton'() {
-    if (!Template.instance().rightToVote.get() || Template.instance().contract.get().stage === 'DRAFT') {
-      Session.set('clickedToggle', this.setting);
-      toggle($(`.${this.setting}`).children(), !this.value, true);
-      const obj = {};
-      obj[this.setting] = !this.value;
-      Contracts.update(Template.instance().contract.get()._id, { $set: obj });
-    }
+    const session = Template.currentData().sessionContract;
+    const contract = Session.get(session);
+    const currentValue = contract.rules[Template.currentData().rules];
+    contract.rules[Template.currentData().rules] = !currentValue;
+    Session.set(session, contract);
   },
 });

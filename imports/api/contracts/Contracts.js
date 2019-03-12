@@ -67,11 +67,11 @@ Schema.Rules = new SimpleSchema({
     type: Boolean,
     defaultValue: false,
   },
-  webToken: {
+  balanceVoting: {
     type: Boolean,
     defaultValue: false,
   },
-  balanceVoting: {
+  binaryChoice: {
     type: Boolean,
     defaultValue: false,
   },

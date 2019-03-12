@@ -292,6 +292,19 @@ body, h4, h1, h2 {
   font-size: 16px;
 }
 
+.toggle-button {
+  width: 26px;
+  height: 26px;
+  margin: 2px;
+  border-radius: 100px;
+  background-color: #fff;
+  transition: all 200ms ease;
+}
+
+.toggle-button.toggle-button-active {
+  margin-left: 32px;
+}
+
 .toggle-setting {
   clear: both;
   display: inline-block;
@@ -313,12 +326,4 @@ body, h4, h1, h2 {
 
 .toggles {
   margin-bottom:10px;
-}
-
-.toggle-button {
-  width: 26px;
-  height: 26px;
-  margin: 2px;
-  border-radius: 100px;
-  background-color: #fff;
 }
