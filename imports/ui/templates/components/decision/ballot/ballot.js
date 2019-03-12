@@ -107,34 +107,6 @@ const _cryptoVote = () => {
   }
 };
 
-/**
-* @summary executes web vote whether quadratic or linear
-*/
-const _webVote = (userId, _contractId, voteAmount, quadraticVote) => {
-  const user = Meteor.users.findOne({ _id: userId });
-  const wallet = user.profile.wallet;
-
-  // update user wallet
-  wallet.available -= voteAmount;
-  wallet.placed += voteAmount;
-  Meteor.users.update({ _id: userId }, { $set: { 'profile.wallet': wallet } });
-
-  const transactSettings = {
-    kind: 'VOTE',
-    contractId: _contractId,
-  };
-
-  if (quadraticVote) {
-    // transact() with sqrt(voteAmount), take care of tally within transact
-    console.log('quadraticVote', Math.sqrt(voteAmount));
-    transact(userId, _contractId, Math.sqrt(voteAmount), transactSettings, undefined);
-  } else {
-    // linear
-    // transact() with voteAmount, take care of tally within transact
-    console.log('linear', voteAmount);
-    transact(userId, _contractId, voteAmount, transactSettings, undefined);
-  }
-};
 
 /**
 * @summary composes url to share stuff on twitter
@@ -654,15 +626,18 @@ Template.ballot.events({
     event.preventDefault();
     event.stopPropagation();
     const currency = Template.currentData().contract.wallet.currency;
-    if (currency === 'NONE') {
-      // invoke _webVote here, this becomes web users vote
-      console.log('### DEBUG ### - ballot.js - click #single-vote');
-      console.log('### DEBUG ### - ballot.js - Template.instance()', Template.instance());
-
+    if (currency === 'WEB VOTE') {
       const userId = Meteor.user()._id;
-      const contractId = Template.currentData().contract._id;
-      _webVote(userId, contractId, 9, true);
-      
+      const _contractId = Template.currentData().contract._id;
+      const voteAmount = 9;
+
+      const transactSettings = {
+        kind: 'VOTE',
+        contractId: _contractId,
+        quadraticTally: true,
+      };
+
+      transact(userId, _contractId, voteAmount, transactSettings, undefined);
     } else if (currency === 'STX') {
       displayModal(
         true,

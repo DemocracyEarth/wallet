@@ -107,6 +107,9 @@ const _getWalletAddress = (entityId) => {
   // generating a new address for this collective...
   wallet = _generateWalletAddress(wallet);
 
+  console.log('### DEBUG ### - transaction.js - _getWalletAddress - wallet', wallet);
+  console.log('### DEBUG ### - transaction.js - _getWalletAddress - user', user);
+
   switch (entityType) {
     case 'INDIVIDUAL':
       user.profile.wallet = wallet;
@@ -830,8 +833,11 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
   let processing;
   let newTx;
 
+  let newTransactionDraft = {};
+  let newTransaction = {};
+
   // build transaction
-  const newTransaction = {
+  newTransactionDraft = {
     input: {
       entityId: senderId,
       address: _getWalletAddress(senderId),
@@ -856,6 +862,17 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     geo: settings.geo,
   };
 
+  if (finalSettings.quadraticTally) {
+    // Square root of vote amount is processed for user
+    newTransactionDraft.output.quantity = Math.sqrt(newTransactionDraft.output.quantity);
+    newTransaction = Object.assign(newTransactionDraft);
+  } else {
+    // Here other settings could be adjusted if needed
+    newTransaction = Object.assign(newTransactionDraft);
+  }
+
+  console.log('### DEBUG ### - transaction.js - _transact() - newTransaction ', newTransaction);
+
   // blockchain transaction
   if (settings.kind === 'CRYPTO') {
     // input carries information of sender
@@ -877,7 +894,7 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     newTx = Transactions.findOne({ _id: txId });
 
     // adds voter
-    _addVoter(newTransaction.output.entityId, senderId, newTx._id)
+    _addVoter(newTransaction.output.entityId, senderId, newTx._id);
 
     // go to interface
     if (callback !== undefined) { callback(); }
@@ -942,7 +959,10 @@ const _genesisTransaction = (userId) => {
   // generate first transaction from collective to new member
   user.profile.wallet = _generateWalletAddress(user.profile.wallet);
   Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
-  _transact(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY);
+  const transactSettings = {
+    kind: 'VOTE',
+  };
+  _transact(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY, transactSettings);
 };
 
 /**

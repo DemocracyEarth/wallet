@@ -172,18 +172,20 @@ const _getTokenData = async (_publicAddress) => {
   let _balance;
 
   for (let i = 0; i < token.coin.length; i++) {
-    _balance = await _getTokenBalance(_publicAddress, token.coin[i].contractAddress);
-    if (_balance.toNumber() !== 0) {
-      const withoutDecimal = _removeDecimal(_balance.toNumber(), token.coin[i].decimals);
-      const tokenObj = {
-        balance: withoutDecimal.toNumber(),
-        placed: 0,
-        available: withoutDecimal.toNumber(),
-        token: token.coin[i].code,
-        publicAddress: _publicAddress,
-      };
+    if (token.coin[i].type === 'ERC20') {
+      _balance = await _getTokenBalance(_publicAddress, token.coin[i].contractAddress);
+      if (_balance.toNumber() !== 0) {
+        const withoutDecimal = _removeDecimal(_balance.toNumber(), token.coin[i].decimals);
+        const tokenObj = {
+          balance: withoutDecimal.toNumber(),
+          placed: 0,
+          available: withoutDecimal.toNumber(),
+          token: token.coin[i].code,
+          publicAddress: _publicAddress,
+        };
 
-      tokenData.push(tokenObj);
+        tokenData.push(tokenObj);
+      }
     }
   }
   return tokenData;

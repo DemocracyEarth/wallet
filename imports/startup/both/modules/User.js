@@ -163,6 +163,9 @@ const _createUser = (data) => {
           console.log('does user exist?');
           console.log(Meteor.user());
 
+          // TODO - here we could add Meteor.settings check for webvotes bool
+          genesisTransaction(Meteor.user()._id);
+
           return resolve(result);
         });
       });
