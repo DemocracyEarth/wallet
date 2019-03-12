@@ -818,7 +818,9 @@ const _genesisTransaction = (userId) => {
     return tx.input.entityType === 'COLLECTIVE' && tx.input.quantity === 1000;
   });
 
-  if (genesisCheck === undefined && user.emails && emailListCheck(user.emails[0].address)) {
+  const userBalance = user.profile.wallet.balance;
+
+  if (genesisCheck === undefined && userBalance === 0 && user.emails && emailListCheck(user.emails[0].address)) {
     // generate first transaction from collective to new member
     user.profile.wallet = _generateWalletAddress(user.profile.wallet);
     Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
