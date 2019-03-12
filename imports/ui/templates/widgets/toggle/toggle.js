@@ -66,39 +66,20 @@ Template.toggle.onRendered(() => {
 });
 
 Template.toggle.onCreated(() => {
-  if (!Session.get('contract')) {
-    Template.instance().contract = new ReactiveVar(Template.currentData().contract);
-  } else {
-    Template.instance().contract = new ReactiveVar(Contracts.findOne({ _id: Session.get('contract')._id }));
-  }
-
-  Template.instance().rightToVote = new ReactiveVar(getRightToVote(Template.instance().contract.get()));
 });
 
 Template.toggle.helpers({
   value() {
-    if (this.setting === Session.get('clickedToggle')) {
-      const node = $(`.${this.setting}`).children();
-      toggle(node, this.value, false);
-    } else if (toggleMap[this.setting] === undefined) {
-      toggleMap[this.setting] = this.value;
-    }
-  },
-  setting() {
-    toggleMap[this.setting] = this.value;
-    displayToggle();
-    return this.setting;
+    return this.value;
   },
 });
 
 Template.toggle.events({
   'click #toggleButton'() {
-    if (!Template.instance().rightToVote.get() || Template.instance().contract.get().stage === 'DRAFT') {
-      Session.set('clickedToggle', this.setting);
-      toggle($(`.${this.setting}`).children(), !this.value, true);
-      const obj = {};
-      obj[this.setting] = !this.value;
-      Contracts.update(Template.instance().contract.get()._id, { $set: obj });
-    }
+    const session = Template.currentData().sessionContract;
+    const contract = Session.get(session);
+    const currentValue = contract.rules[Template.currentData().rules];
+    contract.rules[Template.currentData().rules] = !currentValue;
+    Session.set(session, contract);
   },
 });

@@ -26,18 +26,29 @@
       <div class="toggles">
         <div class="toggle-setting">
           <div class="toggle-label">
-            {{_ 'voting-editor-offchain-toggle'}}
+            {{_ 'voting-editor-balance-toggle'}}
+            {{> help}}
           </div>
           <div class="w-clearfix value">
-            {{> toggle setting="portable" value=portable}}
+            {{> toggle sessionContract="draftContract" rules="balanceVoting" value=balanceVoting}}
           </div>
         </div>
         <div class="toggle-setting">
           <div class="toggle-label">
             {{_ 'voting-editor-quadratic-toggle'}}
+            {{> help}}
           </div>
           <div class="w-clearfix value">
-            {{> toggle setting="portable" value=portable}}
+            {{> toggle sessionContract="draftContract" rules="quadraticVoting" value=quadraticVoting}}
+          </div>
+        </div>
+        <div class="toggle-setting">
+          <div class="toggle-label">
+            {{_ 'voting-editor-binary-choice'}}
+            {{> help}}
+          </div>
+          <div class="w-clearfix value">
+            {{> toggle sessionContract="draftContract" rules="binaryChoice" value=binaryChoice}}
           </div>
         </div>
       </div>
@@ -55,4 +66,10 @@
       </div>
      </div>
    {{/if}}
+</template>
+
+<template name="help">
+  <div class="help">
+    ?
+  </div>
 </template>

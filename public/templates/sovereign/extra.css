@@ -288,10 +288,21 @@ body, h4, h1, h2 {
 
 .toggle-label {
   float: left;
-  /* margin-top: 5px; */
   text-transform: none;
   font-size: 16px;
-  padding: 5px 0px;
+}
+
+.toggle-button {
+  width: 26px;
+  height: 26px;
+  margin: 2px;
+  border-radius: 100px;
+  background-color: #fff;
+  transition: all 200ms ease;
+}
+
+.toggle-button.toggle-button-active {
+  margin-left: 32px;
 }
 
 .toggle-setting {
@@ -315,12 +326,4 @@ body, h4, h1, h2 {
 
 .toggles {
   margin-bottom:10px;
-}
-
-.toggle-button {
-  width: 26px;
-  height: 26px;
-  margin: 2px;
-  border-radius: 100px;
-  background-color: #fff;
 }

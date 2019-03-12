@@ -63,15 +63,15 @@ Schema.Tally = new SimpleSchema({
 });
 
 Schema.Rules = new SimpleSchema({
-  quadraticTally: {
+  quadraticVoting: {
     type: Boolean,
     defaultValue: false,
   },
-  webToken: {
+  balanceVoting: {
     type: Boolean,
     defaultValue: false,
   },
-  offchainSignature: {
+  binaryChoice: {
     type: Boolean,
     defaultValue: false,
   },

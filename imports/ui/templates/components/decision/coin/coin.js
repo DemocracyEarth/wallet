@@ -106,6 +106,18 @@ Template.coin.helpers({
     }
     return '';
   },
+  contract() {
+    return Session.get('draftContract');
+  },
+  balanceVoting() {
+    return Session.get('draftContract').rules ? Session.get('draftContract').rules.balanceVoting : false;
+  },
+  quadraticVoting() {
+    return Session.get('draftContract').rules ? Session.get('draftContract').rules.quadraticVoting : false;
+  },
+  binaryChoice() {
+    return Session.get('draftContract').rules ? Session.get('draftContract').rules.binaryChoice : false;
+  },
   wrongAddress() {
     const draft = Session.get('draftContract');
     if (draft.blockchain.coin.code !== 'STX') {
