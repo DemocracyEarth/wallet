@@ -31,6 +31,18 @@
           </div>
         {{/if}}
         <div class="login-field">
+          <label for="name" class="login-label login-label-form">
+            {{_ "email-username"}}
+          </label>
+          <img src="{{pathFor route='home'}}images/mail-closed.png" class="login-icon">
+           <input type="text" id="editEmail" placeholder="{{_ 'email-sample'}}" autocomplete="false" class="w-input login-input" value="{{email}}">
+        </div>
+        {{#if invalidEmail}}
+          <div class="extra extra-warning">
+            {{> warning label="invalid-email"}}
+          </div>
+        {{/if}}
+        <div class="login-field">
           <label for="name" class="login-label login-label-form">{{_ "nationality"}}</label>
           <img src="{{getImage 'flag'}}" class="login-icon">
           <input type="text" placeholder="{{_ 'earth'}}" autocomplete="false" value="{{country}}" class="w-input login-input country-search">
