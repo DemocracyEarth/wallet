@@ -35,33 +35,9 @@
       </div>
       {{#if showAdvanced}}
         <div class="toggles">
-          <div class="toggle-setting">
-            <div class="toggle-label">
-              {{_ 'voting-editor-poll-voting'}}
-              {{> help tooltip='voting-editor-poll-tooltip'}}
-            </div>
-            <div class="w-clearfix value">
-              {{> toggle sessionContract="cachedDraft" rules="pollVoting" value=pollVoting}}
-            </div>
-          </div>
-          <div class="toggle-setting">
-            <div class="toggle-label">
-              {{_ 'voting-editor-balance-toggle'}}
-              {{> help tooltip='voting-editor-balance-tooltip'}}
-            </div>
-            <div class="w-clearfix value">
-              {{> toggle sessionContract="cachedDraft" rules="balanceVoting" value=balanceVoting}}
-            </div>
-          </div>
-          <div class="toggle-setting">
-            <div class="toggle-label">
-              {{_ 'voting-editor-quadratic-toggle'}}
-              {{> help tooltip='voting-editor-quadratic-tooltip'}}
-            </div>
-            <div class="w-clearfix value">
-              {{> toggle sessionContract="cachedDraft" rules="quadraticVoting" value=quadraticVoting}}
-            </div>
-          </div>
+          {{> setting label='voting-editor-poll-voting' tooltip='voting-editor-poll-tooltip' toggle=true sessionContract="cachedDraft" rules="pollVoting" value=pollVoting}}
+          {{> setting label='voting-editor-balance-toggle' tooltip='voting-editor-balance-tooltip' toggle=true sessionContract="cachedDraft" rules="balanceVoting" value=balanceVoting}}
+          {{> setting label='voting-editor-quadratic-toggle' tooltip='voting-editor-quadratic-tooltip' toggle=true sessionContract="cachedDraft" rules="quadraticVoting" value=quadraticVoting}}
         </div>
       {{/if}}
       <div class="dropdown-buttons">
@@ -78,5 +54,19 @@
       </div>
      </div>
    {{/if}}
+</template>
+
+<template name="setting">
+  {{#if toggle}}
+    <div class="toggle-setting">
+      <div class="toggle-label">
+        {{_ label}}
+        {{> help tooltip=tooltip}}
+      </div>
+      <div class="w-clearfix value">
+        {{> toggle sessionContract=sessionContract rules=rules value=value}}
+      </div>
+    </div>
+  {{/if}}
 </template>
 
