@@ -133,7 +133,7 @@ Template.profileEditor.events({
       currentEmail = undefined;
     }
 
-    if (!validateEmail(editEmail)) {
+    if (!validateEmail(editEmail) && editEmail !== '') {
       Session.set('invalidEmail', true);
     } else if (!validation.valid || editUsername === '') {
       Session.set('noUsernameFound', true);
@@ -153,7 +153,7 @@ Template.profileEditor.events({
       Meteor.users.update(Meteor.userId(), { $set: { profile: data } });
       Meteor.users.update(Meteor.userId(), { $set: { username: editUsername } });
 
-      if ((currentEmail === undefined) || (editEmail !== currentEmail && editEmail !== '')) {
+      if ((editEmail !== currentEmail && editEmail !== '')) {
         const email = [
           {
             address: editEmail,
