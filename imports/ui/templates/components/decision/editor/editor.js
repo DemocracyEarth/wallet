@@ -256,6 +256,9 @@ Template.editor.helpers({
     }
     return false;
   },
+  pollingEnabled() {
+    return Session.get('draftContract') ? Session.get('draftContract').rules.pollVoting : false;
+  },
   blockchainAddress() {
     const draft = Session.get('draftContract');
     if (draft) {

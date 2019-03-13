@@ -60,6 +60,13 @@
           </div>
         </div>
       </div>
+      {{#if pollingEnabled}}
+        <div class="section section-editor w-clearfix">
+          {{#each pollItem}}
+            {{> poll this}}
+          {{/each}}
+        </div>
+      {{/if}}
       <div class="section section-editor w-clearfix">
         {{#if stakingEnabled}}
           <div class="staking-editor">
@@ -86,4 +93,8 @@
       </div>
     </div>
   {{/if}}
+</template>
+
+<template name="poll">
+  <div class="button">hola</div>
 </template>

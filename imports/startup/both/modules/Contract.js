@@ -200,10 +200,65 @@ const _createContract = (newkeyword, newtitle) => {
     } else {
       Contracts.insert({ keyword: newkeyword, title: newtitle });
     }
-    return Contracts.find({ keyword: newkeyword }).fetch();
+    return Contracts.findOne({ keyword: newkeyword });
   }
   return false;
 };
+
+
+/**
+* @summary create a basic poll inside a contract
+* @param {object} draft being checked for poll creation.
+* @return {object} draft created with poll settings included
+*/
+const _createPoll = (draft) => {
+  // is a draft configured for polling without a poll
+  if (draft.rules && draft.rules.pollVoting === true && draft.poll.length === 0) {
+    const options = [];
+    let pollContract;
+    let pollContractURI;
+    for (let i = 0; i < 2; i += 1) {
+      // creaate uri reference
+      pollContractURI = _contractURI(`${TAPi18n.__('poll-choice').replace('{{number}}', i.toString())} ${document.getElementById('titleContent').innerText} ${TAPi18n.__(`poll-default-title-${i}`)}`);
+      console.log(pollContractURI);
+
+      // create contract to be used as poll option
+      pollContract = _createContract(pollContractURI, TAPi18n.__(`poll-default-title-${i}`));
+      console.log(pollContract);
+
+      // attach id of parent contract to poll option contract
+      pollContract.pollId = draft._id;
+      pollContract.kind = 'POLL';
+      pollContract.pollChoiceId = i;
+
+      console.log(pollContract.pollId);
+      console.log(`pollContract._id: ${pollContract._id}`);
+
+      // update db
+      Contracts.update({ _id: pollContract._id }, {
+        $set: {
+          kind: pollContract.kind,
+          pollId: pollContract.pollId,
+          pollChoiceId: pollContract.pollChoiceId,
+        },
+      });
+
+      // add to array to be stored in parent contract
+      options.push({
+        contractId: pollContract._id,
+        totalStaked: '0',
+      });
+    }
+
+    // store array in parent contract
+    const newDraft = draft;
+    newDraft.poll = options;
+
+    console.log(newDraft);
+    return newDraft;
+  }
+};
+
 
 /**
 * @summary verifies if there's already a precedent among delegator and delegate
@@ -466,6 +521,8 @@ const _land = (draft) => {
   return land;
 };
 
+
+
 /**
 * @summary publishes a contract and goes to home
 * @param {string} contractId - id of the contract to publish
@@ -602,5 +659,6 @@ export const removeContract = _remove;
 export const createDelegation = _newDelegation;
 export const getURLDate = _getURLDate;
 export const sendDelegationVotes = _sendDelegation;
+export const createPoll = _createPoll;
 export const createContract = _createContract;
 export const getDelegationContract = _getDelegationContract;

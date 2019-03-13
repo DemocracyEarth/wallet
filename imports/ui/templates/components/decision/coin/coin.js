@@ -6,6 +6,7 @@ import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { animatePopup } from '/imports/ui/modules/popup';
 import { searchJSON } from '/imports/ui/modules/JSON';
 import { token } from '/lib/token';
+import { createPoll } from '/imports/startup/both/modules/Contract';
 
 import '/imports/ui/templates/widgets/setting/setting.js';
 import '/imports/ui/templates/components/decision/coin/coin.html';
@@ -47,7 +48,10 @@ const _save = () => {
 
   draft.rules = Session.get('cachedDraft').rules;
 
-  Session.set('draftContract', draft);
+  // add poll if required
+  const finalDraft = createPoll(draft);
+
+  Session.set('draftContract', finalDraft);
 };
 
 /**
