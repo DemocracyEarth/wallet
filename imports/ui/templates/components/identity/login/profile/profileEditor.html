@@ -34,7 +34,7 @@
           <label for="name" class="login-label login-label-form">
             {{_ "email-username"}}
           </label>
-          <img src="{{pathFor route='home'}}images/mail-closed.png" class="login-icon">
+          <img src="{{getImage 'mail-closed'}}" class="login-icon">
            <input type="text" id="editEmail" placeholder="{{_ 'email-sample'}}" autocomplete="false" class="w-input login-input" value="{{email}}">
         </div>
         {{#if invalidEmail}}
