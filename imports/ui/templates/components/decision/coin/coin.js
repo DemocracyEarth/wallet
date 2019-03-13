@@ -47,6 +47,8 @@ const _save = () => {
     }
   }
 
+  draft.rules = Session.get('cachedDraft').rules;
+
   Session.set('draftContract', draft);
 };
 
@@ -81,6 +83,11 @@ Template.coin.onRendered(function () {
       break;
     }
   }
+
+  let advancedSettings = false;
+  _.find(Session.get('draftContract').rules, function (num) { if (num) { advancedSettings = true; } });
+  Template.instance().showAdvanced.set(advancedSettings);
+
 
   Session.set('cachedDraft', Session.get('draftContract'));
 });
