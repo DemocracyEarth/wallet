@@ -152,6 +152,9 @@ const _getProfile = (transactionSignal) => {
 * @param {object} profileSettings - profile settings
 */
 const _updateWallet = (entityId, entityType, profileSettings) => {
+  console.log('### DEBUG ### - transactions.js - _updateWallet() - entityId ', entityId);
+  console.log('### DEBUG ### - transactions.js - _updateWallet() - entityType ', entityType);
+  console.log('### DEBUG ### - transactions.js - _updateWallet() - profileSettings ', profileSettings);
   switch (entityType) {
     case 'INDIVIDUAL':
       Meteor.users.update({ _id: entityId }, { $set: { profile: profileSettings } });
@@ -348,7 +351,7 @@ const _processDelegation = (transaction) => {
 };
 
 /**
-* @summary processes de transaction after insert and updates wallet of involved parties
+* @summary processes the transaction after insert and updates wallet of involved parties
 * @param {string} txId - transaction identificator
 * @param {string} success - INSUFFICIENT,
 */
@@ -357,6 +360,10 @@ const _processTransaction = (ticket) => {
   const transaction = Transactions.findOne({ _id: txId });
   const senderProfile = _getProfile(transaction.input);
   const receiverProfile = _getProfile(transaction.output);
+  
+  console.log('### DEBUG ### - ballot.js - _processTransaction - transaction ', transaction);
+  console.log('### DEBUG ### - ballot.js - _processTransaction - senderProfile ', senderProfile);
+  console.log('### DEBUG ### - ballot.js - _processTransaction - receiverProfile ', receiverProfile);
 
   // verify transaction
   if (senderProfile.wallet.available < transaction.input.quantity) {
@@ -944,25 +951,25 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
 */
 const _genesisTransaction = (userId) => {
   const user = Meteor.users.findOne({ _id: userId });
+  const userTransactions = Transactions.find({ 'output.entityId': userId }).fetch();
 
   // veryfing genesis...
-  // TODO this is not right, should check against Transactions collection.
-  if (user.profile.wallet !== undefined) {
-    if (user.profile.wallet.ledger.length > 0) {
-      if (user.profile.wallet.ledger[0].entityType === 'COLLECTIVE') {
-        // this user already had a genesis
-        return;
-      }
-    }
-  }
+  const genesisCheck = userTransactions.find(function (tx) {
+    return tx.input.entityType === 'COLLECTIVE' && tx.input.quantity === 1000;
+  });
 
-  // generate first transaction from collective to new member
-  user.profile.wallet = _generateWalletAddress(user.profile.wallet);
-  Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
-  const transactSettings = {
-    kind: 'VOTE',
-  };
-  _transact(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY, transactSettings);
+  const userBalance = user.profile.wallet.balance;
+
+  // TODO - add emailListCheck condition if set true from Meteor.settings: user.emails && emailListCheck(user.emails[0].address)
+  if (genesisCheck === undefined && userBalance === 0) {
+    // generate first transaction from collective to new member
+    user.profile.wallet = _generateWalletAddress(user.profile.wallet);
+    Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
+    const transactSettings = {
+      kind: 'VOTE',
+    };
+    _transact(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY, transactSettings);
+  }
 };
 
 /**
