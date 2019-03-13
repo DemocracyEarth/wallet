@@ -62,6 +62,18 @@ Schema.Tally = new SimpleSchema({
   },
 });
 
+
+Schema.Poll = new SimpleSchema({
+  contractId: {
+    type: String,
+    optional: true,
+  },
+  totalStaked: {
+    type: String,
+    optional: true,
+  },
+});
+
 Schema.Rules = new SimpleSchema({
   quadraticVoting: {
     type: Boolean,
@@ -543,6 +555,14 @@ Schema.Contract = new SimpleSchema({
   },
   rules: {
     type: Schema.Rules,
+    optional: true,
+  },
+  poll: {
+    type: [Schema.Poll],
+    defaultValue: [],
+  },
+  pollId: {
+    type: String,
     optional: true,
   },
 });
