@@ -9,6 +9,7 @@ import { token } from '/lib/token';
 
 
 import '/imports/ui/templates/widgets/toggle/toggle.js';
+import '/imports/ui/templates/widgets/help/help.js';
 import '/imports/ui/templates/components/decision/coin/coin.html';
 
 const Web3 = require('web3');
@@ -61,6 +62,7 @@ Template.coin.onCreated(() => {
   Session.set('showTokens', false);
   Session.set('suggestDisplay', '');
 
+  Template.instance().showAdvanced = new ReactiveVar(false);
   Template.instance().imageTemplate = new ReactiveVar();
   templetize(Template.instance());
 });
@@ -79,6 +81,8 @@ Template.coin.onRendered(function () {
       break;
     }
   }
+
+  Session.set('cachedDraft', Session.get('draftContract'));
 });
 
 Template.coin.helpers({
@@ -110,13 +114,13 @@ Template.coin.helpers({
     return Session.get('draftContract');
   },
   balanceVoting() {
-    return Session.get('draftContract').rules ? Session.get('draftContract').rules.balanceVoting : false;
+    return Session.get('cachedDraft').rules ? Session.get('cachedDraft').rules.balanceVoting : false;
   },
   quadraticVoting() {
-    return Session.get('draftContract').rules ? Session.get('draftContract').rules.quadraticVoting : false;
+    return Session.get('cachedDraft').rules ? Session.get('cachedDraft').rules.quadraticVoting : false;
   },
-  binaryChoice() {
-    return Session.get('draftContract').rules ? Session.get('draftContract').rules.binaryChoice : false;
+  pollVoting() {
+    return Session.get('cachedDraft').rules ? Session.get('cachedDraft').rules.pollVoting : false;
   },
   wrongAddress() {
     const draft = Session.get('draftContract');
@@ -134,12 +138,20 @@ Template.coin.helpers({
   getImage(pic) {
     return getImage(Template.instance().imageTemplate.get(), pic);
   },
+  showAdvanced() {
+    return Template.instance().showAdvanced.get();
+  },
 });
 
 Template.coin.events({
   'click #cancel-coin'() {
     animatePopup(false, 'blockchain-popup');
     Session.set('showCoinSettings', false);
+  },
+  'click #advanced'(event) {
+    event.preventDefault();
+    const advanced = Template.instance().showAdvanced.get();
+    Template.instance().showAdvanced.set(!advanced);
   },
   'click #execute-coin'() {
     if (_checkInputs()) {

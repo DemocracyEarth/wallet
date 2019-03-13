@@ -23,35 +23,47 @@
           </div>
         {{/if}}
       </div>
-      <div class="toggles">
-        <div class="toggle-setting">
-          <div class="toggle-label">
-            {{_ 'voting-editor-balance-toggle'}}
-            {{> help}}
-          </div>
-          <div class="w-clearfix value">
-            {{> toggle sessionContract="draftContract" rules="balanceVoting" value=balanceVoting}}
-          </div>
-        </div>
-        <div class="toggle-setting">
-          <div class="toggle-label">
-            {{_ 'voting-editor-quadratic-toggle'}}
-            {{> help}}
-          </div>
-          <div class="w-clearfix value">
-            {{> toggle sessionContract="draftContract" rules="quadraticVoting" value=quadraticVoting}}
-          </div>
-        </div>
-        <div class="toggle-setting">
-          <div class="toggle-label">
-            {{_ 'voting-editor-binary-choice'}}
-            {{> help}}
-          </div>
-          <div class="w-clearfix value">
-            {{> toggle sessionContract="draftContract" rules="binaryChoice" value=binaryChoice}}
-          </div>
-        </div>
+      <div class="login-advanced login-label login-label-form">
+        <a id="advanced" href="#" rel="noopener noreferrer" target="_blank">
+          {{{_ 'advanced-rules'}}}
+          {{#if showAdvanced}}
+            <div class='login-advanced-link login-advanced-link-up'></div>
+          {{else}}
+            <div class='login-advanced-link login-advanced-link-down'></div>
+          {{/if}}
+        </a>
       </div>
+      {{#if showAdvanced}}
+        <div class="toggles">
+          <div class="toggle-setting">
+            <div class="toggle-label">
+              {{_ 'voting-editor-poll-voting'}}
+              {{> help tooltip='voting-editor-poll-tooltip'}}
+            </div>
+            <div class="w-clearfix value">
+              {{> toggle sessionContract="cachedDraft" rules="pollVoting" value=pollVoting}}
+            </div>
+          </div>
+          <div class="toggle-setting">
+            <div class="toggle-label">
+              {{_ 'voting-editor-balance-toggle'}}
+              {{> help tooltip='voting-editor-balance-tooltip'}}
+            </div>
+            <div class="w-clearfix value">
+              {{> toggle sessionContract="cachedDraft" rules="balanceVoting" value=balanceVoting}}
+            </div>
+          </div>
+          <div class="toggle-setting">
+            <div class="toggle-label">
+              {{_ 'voting-editor-quadratic-toggle'}}
+              {{> help tooltip='voting-editor-quadratic-tooltip'}}
+            </div>
+            <div class="w-clearfix value">
+              {{> toggle sessionContract="cachedDraft" rules="quadraticVoting" value=quadraticVoting}}
+            </div>
+          </div>
+        </div>
+      {{/if}}
       <div class="dropdown-buttons">
          <div class="modal-buttons-padder modal-buttons-padder-left">
            <div id="cancel-coin" class="button login-button button-secondary button-half">
@@ -68,8 +80,3 @@
    {{/if}}
 </template>
 
-<template name="help">
-  <div class="help">
-    ?
-  </div>
-</template>

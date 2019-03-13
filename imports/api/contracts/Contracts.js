@@ -71,7 +71,7 @@ Schema.Rules = new SimpleSchema({
     type: Boolean,
     defaultValue: false,
   },
-  binaryChoice: {
+  pollVoting: {
     type: Boolean,
     defaultValue: false,
   },
