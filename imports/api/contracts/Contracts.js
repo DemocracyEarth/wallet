@@ -65,15 +65,15 @@ Schema.Tally = new SimpleSchema({
 Schema.Rules = new SimpleSchema({
   quadraticVoting: {
     type: Boolean,
-    defaultValue: false,
+    defaultValue: Meteor.settings.public.app.config.defaultRules.quadraticVoting,
   },
   balanceVoting: {
     type: Boolean,
-    defaultValue: false,
+    defaultValue: Meteor.settings.public.app.config.defaultRules.balanceVoting,
   },
-  binaryChoice: {
+  pollVoting: {
     type: Boolean,
-    defaultValue: false,
+    defaultValue: Meteor.settings.public.app.config.defaultRules.pollVoting,
   },
 });
 

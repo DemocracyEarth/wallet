@@ -289,7 +289,7 @@ body, h4, h1, h2 {
 .toggle-label {
   float: left;
   text-transform: none;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .toggle-button {
@@ -327,3 +327,27 @@ body, h4, h1, h2 {
 .toggles {
   margin-bottom:10px;
 }
+
+ .login-advanced {
+   margin-bottom:20px;
+ }
+
+ .login-advanced-link {
+  border: solid #ff617e;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  margin-left: 8px;
+  margin-bottom: 2px;
+ }
+
+ .login-advanced-link.login-advanced-link-up {
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  margin-bottom: -2px;
+ }
+
+ .login-advanced-link.login-advanced-link-down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+ }

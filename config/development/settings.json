@@ -71,7 +71,12 @@
             "checkList": true
           },
           "displayLanding": false,
-          "allowWebVotes": true
+          "allowWebVotes": true,
+          "defaultRules": {
+            "quadraticVoting": false,
+            "balanceVoting": false,
+            "pollVoting": false
+          }
         }
     },
 
