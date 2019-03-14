@@ -239,10 +239,11 @@ Template.editor.helpers({
     return '#';
   },
   userWithTokenReserves() {
-    if (Meteor.user() && Meteor.user().profile.wallet.reserves) {
-      return true;
-    }
-    return false;
+    // TODO - this helper might not be needed under new model, consider removing
+    // if (Meteor.user() && Meteor.user().profile.wallet.reserves) {
+    //   return true;
+    // }
+    return true;
   },
   ballotEnabled() {
     if (Session.get('draftContract')) {

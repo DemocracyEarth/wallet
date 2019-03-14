@@ -739,6 +739,8 @@ const _insertBlockchainTicket = (_id, tickets) => {
 const _tallyBlockchainVotes = (_id) => {
   const contract = Contracts.findOne({ _id });
   const tickets = contract.blockchain.tickets;
+  console.log('### DEBUG ### - transaction.js - _tallyBlockchainVotes - contract', contract);
+  console.log('### DEBUG ### - transaction.js - _tallyBlockchainVotes - tickets ', tickets);
 
   if (tickets.length > 0) {
     let totalPending = new BigNumber(0);
@@ -967,6 +969,7 @@ const _genesisTransaction = (userId) => {
     Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
     const transactSettings = {
       kind: 'VOTE',
+      currency: 'WEB VOTE',
     };
     _transact(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY, transactSettings);
   }

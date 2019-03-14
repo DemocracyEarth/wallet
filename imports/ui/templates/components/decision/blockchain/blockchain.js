@@ -240,7 +240,7 @@ Template.blockchain.helpers({
 
 Template.blockchain.events({
   'click #blockchain-button'() {
-    if (!this.readOnly && Meteor.user().profile.wallet.reserves !== undefined) {
+    if (!this.readOnly) {
       killPopup();
     }
   },

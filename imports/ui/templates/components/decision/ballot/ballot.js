@@ -631,9 +631,12 @@ Template.ballot.events({
       const _contractId = Template.currentData().contract._id;
       const voteAmount = 9;
 
+      console.log('### DEBUG ### - ballot.js - click #single-vote - Template.currentData() ', Template.currentData());
       const transactSettings = {
         kind: 'VOTE',
+        currency: 'WEB VOTE',
         contractId: _contractId,
+        // quadraticTally: Template.currentData().contract.rules.quadraticTally,
         quadraticTally: true,
       };
 

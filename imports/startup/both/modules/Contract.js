@@ -98,6 +98,7 @@ const _getPublicAddress = (contractToken) => {
 * @param {object} draft new contract
 */
 const _entangle = (draft) => {
+  console.log('### DEBUG ### - Contract.js - _entangle - draft input ', draft);
   const constituency = draft.constituency;
   if (!constituency.length) {
     return _getPublicAddress('WEI');
@@ -107,7 +108,9 @@ const _entangle = (draft) => {
       return _getPublicAddress(constituency[i].code);
     }
   }
-  return undefined;
+
+  console.log('### DEBUG ### - Contract.js - _entangle - draft output ', draft);
+  return draft;
 };
 
 /**
@@ -126,40 +129,97 @@ const _contractHasToken = (contract) => {
 };
 
 /**
+
+const _webVoteChain = (contract) => {
+  const draft = contract;
+  console.log('### DEBUG ### - Contract.js - _webVoteChain - draft ', draft);
+
+  draft.blockchain = {
+    coin: { code: 'WEB VOTE' },
+    publicAddress: '',
+    votePrice: '1',
+  };
+  draft.constituency = [{
+    kind: 'TOKEN',
+    code: 'WEB VOTE',
+    check: 'EQUAL',
+  }];
+  draft.wallet.currency = 'WEB VOTE';
+
+  return draft;
+};
+
+
+const _blockstackChain = (contract) => {
+  const draft = contract;
+  console.log('### DEBUG ### - Contract.js - _blockstackChain - draft ', draft);
+
+  draft.blockchain = {
+    coin: { code: 'STX' },
+    publicAddress: Meteor.user().profile.wallet.reserves[0].publicAddress,
+    votePrice: '1',
+  };
+  draft.constituency = [{
+    kind: 'TOKEN',
+    code: 'STX',
+    check: 'EQUAL',
+  }];
+  draft.wallet.currency = 'STX';
+
+  return draft;
+};
+
+const _ethereumChain = (contract) => {
+  const draft = contract;
+  console.log('### DEBUG ### - Contract.js - _ethereumChain() - draft input ', draft);
+  // ERC20 tokens
+  if (!_contractHasToken(draft)) {
+    draft.constituency.push(defaultConstituency);
+  }
+  for (let i = 0; i < draft.constituency.length; i += 1) {
+    if (draft.constituency[i].kind === 'TOKEN') {
+      draft.wallet.currency = draft.constituency[i].code;
+    }
+  }
+
+  // blockchain
+  if (!draft.blockchain.publicAddress) {
+    draft.blockchain = _entangle(draft);
+  }
+  if (draft.blockchain.coin === undefined) {
+    draft.blockchain.coin = '';
+  }
+  if (draft.wallet.currency) {
+    draft.blockchain.coin.code = draft.wallet.currency;
+  }
+
+  console.log('### DEBUG ### - Contract.js - _chain() - draft output ', draft);
+  return draft;
+};
+
+*/
+
+/**
 * @summary inserts default blockchain data to a contract
 * @param {object} contract contract to include chain data
 */
 const _chain = (contract) => {
   const draft = contract;
-  if (Meteor.user().profile.wallet.reserves[0].token === 'STX') {
-    // Blockstack tokens only
-    draft.blockchain = {
-      coin: { code: 'STX' },
-      publicAddress: Meteor.user().profile.wallet.reserves[0].publicAddress,
-      votePrice: '1',
-    };
-    draft.constituency = [{
-      kind: 'TOKEN',
-      code: 'STX',
-      check: 'EQUAL',
-    }];
-    draft.wallet.currency = 'STX';
-  } else {
-    // ERC20 tokens
-    if (!_contractHasToken(draft)) {
-      draft.constituency.push(defaultConstituency);
-    }
-    for (let i = 0; i < draft.constituency.length; i += 1) {
-      if (draft.constituency[i].kind === 'TOKEN') {
-        draft.wallet.currency = draft.constituency[i].code;
-      }
-    }
+  console.log('### DEBUG ### - Contract.js - _chain() - draft ', draft);
 
-    // blockchain
-    if (!draft.blockchain.publicAddress) {
-      draft.blockchain = _entangle(draft);
-    }
+  if (draft.blockchain === undefined) {
+    // seems like draft.blockchain should always be defined, so possibly safe to remove later
+    console.log('### DEBUG ### - Contract.js - _chain() - draft ', draft);
+  } else if (draft.blockchain.coin === undefined) {
+    // set coin.code to whats in wallet.currency
+    draft.blockchain.coin = {};
+    draft.blockchain.coin.code = draft.wallet.currency;
+  } else {
+    draft.blockchain.coin.code = draft.wallet.currency;
   }
+
+  // can invoke different _chain methods here accordingly
+
   return draft;
 };
 
@@ -180,17 +240,15 @@ const _createContract = (newkeyword, newtitle) => {
     if (Meteor.user()) {
       // sign by author
       _sign(contract._id, Meteor.user(), 'AUTHOR');
+      console.log('### DEBUG ### - Contract.js - _createContract() - contract ', contract);
 
-      // Omit for tokenless users
-      if (Meteor.user().profile.wallet.reserves !== undefined) {
-        // chain by author
-        const chainedContract = _chain(contract);
-        Contracts.update({ _id: contract._id }, { $set: {
-          blockchain: chainedContract.blockchain,
-          wallet: chainedContract.wallet,
-          constituency: chainedContract.constituency,
-        } });
-      }
+      // chain by author
+      const chainedContract = _chain(contract);
+      Contracts.update({ _id: contract._id }, { $set: {
+        blockchain: chainedContract.blockchain,
+        wallet: chainedContract.wallet,
+        constituency: chainedContract.constituency,
+      } });
     }
     return Contracts.findOne({ keyword: `draft-${Meteor.userId()}` });
   // has title & keyword, used for forks
@@ -473,7 +531,7 @@ const _land = (draft) => {
 */
 const _publish = (contractId, keyword) => {
   let draft = Session.get('draftContract');
-
+  console.log('### DEBUG ### - Contract.js - _publish() - draft ', draft);
   // status
   draft.stage = 'LIVE';
 
@@ -508,12 +566,7 @@ const _publish = (contractId, keyword) => {
   }
 
   // chain
-  if (Meteor.user().profile.wallet.reserves) {
-    draft = _chain(draft);
-    if (draft.wallet.currency) {
-      draft.blockchain.coin.code = draft.wallet.currency;
-    }
-  }
+  draft = _chain(draft);
 
   // db
   Contracts.update({ _id: contractId }, { $set: {
