@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
+
 import '/imports/ui/templates/widgets/help/help.html';
 
 Template.help.onCreated(function () {

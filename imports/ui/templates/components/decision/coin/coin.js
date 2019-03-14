@@ -47,11 +47,11 @@ const _save = () => {
   }
 
   draft.rules = Session.get('cachedDraft').rules;
+  draft.poll = createPoll(draft).poll;
 
-  // add poll if required
-  const finalDraft = createPoll(draft);
+  console.log(draft);
 
-  Session.set('draftContract', finalDraft);
+  Session.set('draftContract', draft);
 };
 
 /**

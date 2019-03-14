@@ -220,19 +220,14 @@ const _createPoll = (draft) => {
     for (let i = 0; i < 2; i += 1) {
       // creaate uri reference
       pollContractURI = _contractURI(`${TAPi18n.__('poll-choice').replace('{{number}}', i.toString())} ${document.getElementById('titleContent').innerText} ${TAPi18n.__(`poll-default-title-${i}`)}`);
-      console.log(pollContractURI);
 
       // create contract to be used as poll option
       pollContract = _createContract(pollContractURI, TAPi18n.__(`poll-default-title-${i}`));
-      console.log(pollContract);
 
       // attach id of parent contract to poll option contract
       pollContract.pollId = draft._id;
       pollContract.kind = 'POLL';
       pollContract.pollChoiceId = i;
-
-      console.log(pollContract.pollId);
-      console.log(`pollContract._id: ${pollContract._id}`);
 
       // update db
       Contracts.update({ _id: pollContract._id }, {
@@ -254,9 +249,11 @@ const _createPoll = (draft) => {
     const newDraft = draft;
     newDraft.poll = options;
 
-    console.log(newDraft);
     return newDraft;
   }
+
+  // return same draft
+  return draft;
 };
 
 

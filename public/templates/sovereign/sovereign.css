@@ -6661,7 +6661,7 @@ blockquote {
   font-size: 10px;
   line-height: 15px;
   font-weight: 400;
-  cursor: help;
+  cursor: default;
 }
 
 @media (max-width: 991px) {

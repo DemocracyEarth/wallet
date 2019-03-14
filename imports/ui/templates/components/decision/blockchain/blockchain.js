@@ -83,6 +83,7 @@ const _writeRule = (contract, textOnly) => {
   }
   let sentence = TAPi18n.__(`electorate-sentence-anyone${format}`);
   let setting;
+  console.log(contract);
   if (contract.constituency) {
     sentence = TAPi18n.__(`electorate-sentence-only${format}`);
     let coin;
