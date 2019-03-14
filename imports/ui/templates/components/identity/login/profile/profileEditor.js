@@ -143,8 +143,8 @@ Template.profileEditor.events({
 
       // Save
       const data = Meteor.user().profile;
-      data.firstName = document.getElementById('editFirstName').value;
-      data.lastName = document.getElementById('editLastName').value;
+      // data.firstName = document.getElementById('editFirstName').value;
+      // data.lastName = document.getElementById('editLastName').value;
 
       if (Session.get('newCountry') !== undefined) {
         data.country = Session.get('newCountry');
