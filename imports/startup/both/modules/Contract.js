@@ -128,15 +128,12 @@ const _contractHasToken = (contract) => {
   return false;
 };
 
-/**
-
 const _webVoteChain = (contract) => {
   const draft = contract;
   console.log('### DEBUG ### - Contract.js - _webVoteChain - draft ', draft);
 
   draft.blockchain = {
     coin: { code: 'WEB VOTE' },
-    publicAddress: '',
     votePrice: '1',
   };
   draft.constituency = [{
@@ -144,11 +141,9 @@ const _webVoteChain = (contract) => {
     code: 'WEB VOTE',
     check: 'EQUAL',
   }];
-  draft.wallet.currency = 'WEB VOTE';
 
   return draft;
 };
-
 
 const _blockstackChain = (contract) => {
   const draft = contract;
@@ -182,35 +177,7 @@ const _ethereumChain = (contract) => {
     }
   }
 
-  // blockchain
-  if (!draft.blockchain.publicAddress) {
-    draft.blockchain = _entangle(draft);
-  }
   if (draft.blockchain.coin === undefined) {
-    draft.blockchain.coin = '';
-  }
-  if (draft.wallet.currency) {
-    draft.blockchain.coin.code = draft.wallet.currency;
-  }
-
-  console.log('### DEBUG ### - Contract.js - _chain() - draft output ', draft);
-  return draft;
-};
-
-*/
-
-/**
-* @summary inserts default blockchain data to a contract
-* @param {object} contract contract to include chain data
-*/
-const _chain = (contract) => {
-  const draft = contract;
-  console.log('### DEBUG ### - Contract.js - _chain() - draft ', draft);
-
-  if (draft.blockchain === undefined) {
-    // seems like draft.blockchain should always be defined, so possibly safe to remove later
-    console.log('### DEBUG ### - Contract.js - _chain() - draft ', draft);
-  } else if (draft.blockchain.coin === undefined) {
     // set coin.code to whats in wallet.currency
     draft.blockchain.coin = {};
     draft.blockchain.coin.code = draft.wallet.currency;
@@ -218,8 +185,24 @@ const _chain = (contract) => {
     draft.blockchain.coin.code = draft.wallet.currency;
   }
 
-  // can invoke different _chain methods here accordingly
+  return draft;
+};
 
+/**
+* @summary inserts default blockchain data to a contract
+* @param {object} contract contract to include chain data
+*/
+const _chain = (contract) => {
+  let draft = contract;
+  console.log('### DEBUG ### - Contract.js - _chain() - draft ', draft);
+
+  if (draft.wallet.currency === 'WEB VOTE') {
+    draft = _webVoteChain(draft);
+  } else if (draft.wallet.currency === 'STX') {
+    draft = _blockstackChain(draft);
+  } else {
+    draft = _ethereumChain(draft);
+  }
   return draft;
 };
 
