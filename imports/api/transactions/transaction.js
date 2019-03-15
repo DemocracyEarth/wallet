@@ -872,7 +872,7 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
   };
 
   if (finalSettings.quadraticTally) {
-    // Square root of vote amount is processed for user
+    // Square root of vote amount is counted in the ballot
     newTransactionDraft.output.quantity = Math.sqrt(newTransactionDraft.output.quantity);
     newTransaction = Object.assign(newTransactionDraft);
   } else {
