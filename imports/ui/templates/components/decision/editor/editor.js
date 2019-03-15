@@ -14,6 +14,7 @@ import { timeCompressed } from '/imports/ui/modules/chronos';
 
 import '/imports/ui/templates/components/decision/editor/editor.html';
 import '/imports/ui/templates/components/decision/editor/editorButton.js';
+import '/imports/ui/templates/components/decision/poll/poll.js';
 import '/imports/ui/templates/components/decision/editor/counter.js';
 import '/imports/ui/templates/components/decision/constituency/constituency.js';
 import '/imports/ui/templates/components/decision/coin/coin.js';
@@ -258,6 +259,9 @@ Template.editor.helpers({
   },
   pollingEnabled() {
     return Session.get('draftContract') ? Session.get('draftContract').rules.pollVoting : false;
+  },
+  pollList() {
+    return Session.get('draftContract').poll ? Session.get('draftContract').poll : false;
   },
   blockchainAddress() {
     const draft = Session.get('draftContract');

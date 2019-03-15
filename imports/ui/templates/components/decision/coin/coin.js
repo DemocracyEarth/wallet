@@ -47,7 +47,11 @@ const _save = () => {
   }
 
   draft.rules = Session.get('cachedDraft').rules;
-  draft.poll = createPoll(draft).poll;
+  if (draft.rules && draft.rules.pollVoting === true) {
+    draft.poll = createPoll(draft).poll;
+  } else {
+    draft.poll = [];
+  }
 
   console.log(draft);
 

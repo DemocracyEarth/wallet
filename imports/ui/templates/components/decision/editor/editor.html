@@ -61,11 +61,7 @@
         </div>
       </div>
       {{#if pollingEnabled}}
-        <div class="section section-editor w-clearfix">
-          {{#each pollItem}}
-            {{> poll this}}
-          {{/each}}
-        </div>
+        {{> poll list=pollList}}
       {{/if}}
       <div class="section section-editor w-clearfix">
         {{#if stakingEnabled}}
@@ -93,8 +89,4 @@
       </div>
     </div>
   {{/if}}
-</template>
-
-<template name="poll">
-  <div class="button">hola</div>
 </template>

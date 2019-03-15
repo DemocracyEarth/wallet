@@ -352,18 +352,64 @@ body, h4, h1, h2 {
   -webkit-transform: rotate(45deg);
  }
 
- .help-tooltip {
-   position:absolute;
-   font-size:11px;
-   background-color:#feda96;
-   line-height:16px;
-   max-width:200px;
-   text-align:left;
-   padding:7px;
-   border-radius:3px;
-   box-shadow:4px 4px 15px #0000003d;
- }
+.help-tooltip {
+  position:absolute;
+  font-size:11px;
+  background-color:#feda96;
+  line-height:16px;
+  max-width:200px;
+  text-align:left;
+  padding:7px;
+  border-radius:3px;
+  box-shadow:4px 4px 15px #0000003d;
+}
 
- .hero-cta-input {
-  -webkit-appearance: none;
- }
+.hero-cta-input {
+-webkit-appearance: none;
+}
+
+.poll {
+  display: inline-block;
+  width: 100%;
+}
+
+.poll-choice {
+  padding: 5px;
+  float: left;
+  /* display: inline-block; */
+  width: 50%;
+}
+
+.choice {
+    width: 100%;
+    float: left;
+    margin: 0px;
+    color: #5d0077;
+    background: #e6e0ee;
+    text-align: left;
+    text-transform: none;
+    border: 1px solid #e6e0ee;
+}
+
+.choice:hover {
+  color:#fff;
+  background: #5d0077;
+  border: 1px solid #5d0077;
+}
+
+.poll-score-bar {
+  background: #e2e2e27a;
+  margin: 5px 0px;
+  height: 5px;
+  float: left;
+  width: 100%;
+  border-radius: 10px;
+  overflow:hidden;
+}
+
+.poll-score-bar-fill {
+  width: 30%;
+  height: 5px;
+  background: #60dc0a;
+}
+

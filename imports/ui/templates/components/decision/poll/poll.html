@@ -1,0 +1,23 @@
+<template name="poll">
+  <div class="section w-clearfix">
+    <div class="poll">
+      {{#each item}}
+        <div class="poll-choice">
+          <div class="button half choice">
+            <div class="poll-choice-color"></div>
+            {{_ contractId}}
+          </div>
+          <div class="poll-score">
+            <div class="poll-score-bar">
+              <div class="poll-score-bar-fill">
+              </div>
+            </div>
+            <div class="poll-score-label">
+              {{_ totalStaked}}
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+</template>
