@@ -353,6 +353,16 @@ Template.feedItem.helpers({
   feedContract() {
     return Template.instance().contract.get();
   },
+  pollingEnabled() {
+    console.log(this);
+    return this.rules ? this.rules.pollVoting : false;
+  },
+  pollList() {
+    return this.poll;
+  },
+  pollId() {
+    return this._id;
+  },
   voters() {
     let total;
     const dbContract = Contracts.findOne({ _id: this._id });

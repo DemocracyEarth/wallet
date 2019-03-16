@@ -173,12 +173,11 @@ Template.blockchain.helpers({
     if (Meteor.user().profile.wallet.reserves) {
       const contract = Session.get('draftContract');
       let label = contract.wallet.currency;
-      if (contract.rules && contract.rules.quadraticVoting && !contract.rules.balanceVoting) {
+      if (contract.rules && contract.rules.quadraticVoting) {
         label = `${TAPi18n.__('ticker-rule-quadratic')} ${label}`;
-      } else if (contract.rules && contract.rules.balanceVoting && !contract.rules.quadraticVoting) {
+      }
+      if (contract.rules && contract.rules.balanceVoting) {
         label = `${label} ${TAPi18n.__('ticker-rule-balance')}`;
-      } else if (contract.rules && contract.rules.balanceVoting && contract.rules.quadraticVoting) {
-        label = `${TAPi18n.__('ticker-rule-quadratic')} ${label} ${TAPi18n.__('ticker-rule-balance')}`;
       }
       return label;
     }
