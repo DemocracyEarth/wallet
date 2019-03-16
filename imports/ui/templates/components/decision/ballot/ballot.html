@@ -1,111 +1,129 @@
 <template name="ballot">
-  <div id="ballot-{{contract._id}}" class="section section-mobile {{ballotStyle}}">
-    {{#if ballotEnabled}}
-      <div class="section">
-        <div class="w-clearfix elements">
-          <ul id="ballotOption" class="w-list-unstyled w-clearfix options connectedBallot">
-            {{#if editorMode}}
-              {{#if ballotEnabled}}
-                {{#if executiveDecision}}
-                  {{> fork executive=true mode="AUTHORIZE" contract=contract placeholder=placeholder}}
-                  {{> fork executive=true mode="REJECT" contract=contract placeholder=placeholder}}
-                {{/if}}
-              {{/if}}
-            {{else}}
-              {{#if executiveDecision}}
-                {{#with voteSettings}}
-                  {{> fork executive=true mode="AUTHORIZE" _id=1 ballot=this.forks voteId=this.voteId contract=contract placeholder=placeholder rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
-                  {{> fork executive=true mode="REJECT" _id=0 ballot=this.forks voteId=this.voteId contract=contract placeholder=placeholder rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
-                {{/with}}
-              {{/if}}
-            {{/if}}
-            {{#each options}}
-              {{#with voteSettings}}
-                {{> fork _id=this._id label=this.label mode=this.mode rank=this.rank url=this.url alternative=true editorMode=this.editorMode voteId=this.voteId contract=contract placeholder=placeholder}}
-              {{/with}}
-            {{/each}}
-          </ul>
-        </div>
+  {{#if poll}}
+    <div class="poll-choice">
+      <div class="button half choice">
+        <div class="poll-choice-color"></div>
+        {{_ contract._id}}
       </div>
-      {{#if editorMode}}
-        <div class="extra">
-          {{#if backdating}}
-            {{> warning label="backdating"}}
-          {{/if}}
-          {{#if disabledCheckboxes}}
-            {{> warning label="disabled-checkboxes"}}
-          {{/if}}
-          {{#if duplicateFork}}
-            {{> warning label="duplicate-fork"}}
-          {{/if}}
-          {{#if unauthorizedFork}}
-            {{> warning label="unauthorized-fork"}}
-          {{/if}}
-          {{#if emptyBallot}}
-            {{> warning label="empty-ballot" style='forbidden'}}
-          {{/if}}
-          {{#if draftOptions}}
-            {{> warning label="draft-options-ballot" style='forbidden'}}
-          {{/if}}
-        </div>
-      {{else}}
-        {{#with feedWarning}}
-          <div class="extra">
-            {{> warning label=this.label style=this.style}}
-          </div>
-        {{/with}}
-      {{/if}}
-    {{/if}}
-  </div>
-  {{#if castSingleVote}}
-    {{#unless voted}}
-      {{#with voteSettings}}
-        {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot singleVote=true singleRevoke=false}}
-      {{/with}}
-    {{else}}
-      {{#with revokeSettings}}
-        {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot singleVote=true singleRevoke=true}}
-      {{/with}}
-    {{/unless}}
-  {{/if}}
-  {{#unless editorMode}}
-    {{#unless readOnly}}
-      {{#if currentUser}}
-        <div class="execution" id="execution-{{this.voteId}}">
-          <div class="block" style={{displayBar}}>
-            {{#with voteSettings}}
-              {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot}}
-            {{/with}}
+      <div class="poll-score">
+        <div class="poll-score-bar">
+          <div class="poll-score-bar-fill">
           </div>
         </div>
-      {{/if}}
-    {{/unless}}
-    <div class="block block-menu">
-      <div class="micro-menu">
-        <div class="extra">
-          <a id="edit-reply" href="{{contract.url}}#debate" class="micro-button micro-button-feed no-underline" ontouchstart="">
-            <img src="{{getImage 'debate'}}" class="micro-icon">
-            <div class="micro-label">{{label 'debate'}} {{{quantity 'debate'}}}</div>
-          </a>
-          <a id="tweet-post" href="{{twitterURL}}" class="micro-button micro-button-feed no-underline" target="_blank" ontouchstart="">
-            <img src="{{getImage 'tweet'}}" class="micro-icon">
-            <div class="micro-label">{{label 'twitter'}} {{{quantity 'twitter'}}}</div>
-          </a>
-          {{#if tokenFriendly}}
-            <a id="single-vote" href="{{voteURL}}" class="micro-button micro-button-feed no-underline" ontouchstart="">
-              <div class="micro-label">
-                <img src="{{voteIcon}}" class="micro-icon">
-                {{{label 'vote'}}}
-                {{#with token}}
-                    {{> balance}}
-                {{/with}}
-              </div>
-              <div class="verifier verifier-live verifier-feed"></div>
-            </a>
-          {{/if}}
+        <div class="poll-score-label">
+          hello
         </div>
-        {{> electorate contract=contract readOnly=true}}
       </div>
     </div>
-  {{/unless}}
+  {{else}}
+    <div id="ballot-{{contract._id}}" class="section section-mobile {{ballotStyle}}">
+      {{#if ballotEnabled}}
+        <div class="section">
+          <div class="w-clearfix elements">
+            <ul id="ballotOption" class="w-list-unstyled w-clearfix options connectedBallot">
+              {{#if editorMode}}
+                {{#if ballotEnabled}}
+                  {{#if executiveDecision}}
+                    {{> fork executive=true mode="AUTHORIZE" contract=contract placeholder=placeholder}}
+                    {{> fork executive=true mode="REJECT" contract=contract placeholder=placeholder}}
+                  {{/if}}
+                {{/if}}
+              {{else}}
+                {{#if executiveDecision}}
+                  {{#with voteSettings}}
+                    {{> fork executive=true mode="AUTHORIZE" _id=1 ballot=this.forks voteId=this.voteId contract=contract placeholder=placeholder rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
+                    {{> fork executive=true mode="REJECT" _id=0 ballot=this.forks voteId=this.voteId contract=contract placeholder=placeholder rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
+                  {{/with}}
+                {{/if}}
+              {{/if}}
+              {{#each options}}
+                {{#with voteSettings}}
+                  {{> fork _id=this._id label=this.label mode=this.mode rank=this.rank url=this.url alternative=true editorMode=this.editorMode voteId=this.voteId contract=contract placeholder=placeholder}}
+                {{/with}}
+              {{/each}}
+            </ul>
+          </div>
+        </div>
+        {{#if editorMode}}
+          <div class="extra">
+            {{#if backdating}}
+              {{> warning label="backdating"}}
+            {{/if}}
+            {{#if disabledCheckboxes}}
+              {{> warning label="disabled-checkboxes"}}
+            {{/if}}
+            {{#if duplicateFork}}
+              {{> warning label="duplicate-fork"}}
+            {{/if}}
+            {{#if unauthorizedFork}}
+              {{> warning label="unauthorized-fork"}}
+            {{/if}}
+            {{#if emptyBallot}}
+              {{> warning label="empty-ballot" style='forbidden'}}
+            {{/if}}
+            {{#if draftOptions}}
+              {{> warning label="draft-options-ballot" style='forbidden'}}
+            {{/if}}
+          </div>
+        {{else}}
+          {{#with feedWarning}}
+            <div class="extra">
+              {{> warning label=this.label style=this.style}}
+            </div>
+          {{/with}}
+        {{/if}}
+      {{/if}}
+    </div>
+    {{#if castSingleVote}}
+      {{#unless voted}}
+        {{#with voteSettings}}
+          {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot singleVote=true singleRevoke=false}}
+        {{/with}}
+      {{else}}
+        {{#with revokeSettings}}
+          {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot singleVote=true singleRevoke=true}}
+        {{/with}}
+      {{/unless}}
+    {{/if}}
+    {{#unless editorMode}}
+      {{#unless readOnly}}
+        {{#if currentUser}}
+          <div class="execution" id="execution-{{this.voteId}}">
+            <div class="block" style={{displayBar}}>
+              {{#with voteSettings}}
+                {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot}}
+              {{/with}}
+            </div>
+          </div>
+        {{/if}}
+      {{/unless}}
+      <div class="block block-menu">
+        <div class="micro-menu">
+          <div class="extra">
+            <a id="edit-reply" href="{{contract.url}}#debate" class="micro-button micro-button-feed no-underline" ontouchstart="">
+              <img src="{{getImage 'debate'}}" class="micro-icon">
+              <div class="micro-label">{{label 'debate'}} {{{quantity 'debate'}}}</div>
+            </a>
+            <a id="tweet-post" href="{{twitterURL}}" class="micro-button micro-button-feed no-underline" target="_blank" ontouchstart="">
+              <img src="{{getImage 'tweet'}}" class="micro-icon">
+              <div class="micro-label">{{label 'twitter'}} {{{quantity 'twitter'}}}</div>
+            </a>
+            {{#if tokenFriendly}}
+              <a id="single-vote" href="{{voteURL}}" class="micro-button micro-button-feed no-underline" ontouchstart="">
+                <div class="micro-label">
+                  <img src="{{voteIcon}}" class="micro-icon">
+                  {{{label 'vote'}}}
+                  {{#with token}}
+                    {{> balance}}
+                  {{/with}}
+                </div>
+                <div class="verifier verifier-live verifier-feed"></div>
+              </a>
+            {{/if}}
+          </div>
+          {{> electorate contract=contract readOnly=true}}
+        </div>
+      </div>
+    {{/unless}}
+  {{/if}}
 </template>

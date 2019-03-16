@@ -283,6 +283,10 @@ Template.ballot.onCreated(() => {
 });
 
 Template.ballot.helpers({
+  poll() {
+    console.log(this);
+    return this.poll;
+  },
   allowForks() {
     return this.contract.allowForks;
   },

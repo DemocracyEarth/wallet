@@ -261,7 +261,10 @@ Template.editor.helpers({
     return Session.get('draftContract') ? Session.get('draftContract').rules.pollVoting : false;
   },
   pollList() {
-    return Session.get('draftContract').poll ? Session.get('draftContract').poll : false;
+    return Session.get('draftContract') ? Session.get('draftContract').poll : false;
+  },
+  pollId() {
+    return Session.get('draftContract') ? Session.get('draftContract')._id : false;
   },
   blockchainAddress() {
     const draft = Session.get('draftContract');
