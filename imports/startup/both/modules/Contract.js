@@ -232,6 +232,11 @@ const _createPoll = (draft) => {
       // update db
       Contracts.update({ _id: pollContract._id }, {
         $set: {
+          blockchain: draft.blockchain,
+          constituency: draft.constituency,
+          constituencyEnabled: draft.constituencyEnabled,
+          rules: draft.rules,
+          wallet: draft.wallet,
           kind: pollContract.kind,
           pollId: pollContract.pollId,
           pollChoiceId: pollContract.pollChoiceId,

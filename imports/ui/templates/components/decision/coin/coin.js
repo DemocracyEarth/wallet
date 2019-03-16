@@ -7,6 +7,7 @@ import { animatePopup } from '/imports/ui/modules/popup';
 import { searchJSON } from '/imports/ui/modules/JSON';
 import { token } from '/lib/token';
 import { createPoll } from '/imports/startup/both/modules/Contract';
+import { Contracts } from '/imports/api/contracts/Contracts';
 
 import '/imports/ui/templates/widgets/setting/setting.js';
 import '/imports/ui/templates/components/decision/coin/coin.html';
@@ -50,6 +51,11 @@ const _save = () => {
   if (draft.rules && draft.rules.pollVoting === true) {
     draft.poll = createPoll(draft).poll;
   } else {
+    if (draft.rules && !draft.rules.pollVoting && draft.poll.length > 0) {
+      for (let k = 0; k < draft.poll.length; k += 1) {
+        Contracts.remove({ _id: draft.poll[k].contractId });
+      }
+    }
     draft.poll = [];
   }
 

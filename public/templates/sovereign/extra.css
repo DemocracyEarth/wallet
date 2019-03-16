@@ -381,35 +381,48 @@ body, h4, h1, h2 {
 }
 
 .choice {
-    width: 100%;
-    float: left;
-    margin: 0px;
-    color: #5d0077;
-    background: #e6e0ee;
-    text-align: left;
-    text-transform: none;
-    border: 1px solid #e6e0ee;
+  width: 100%;
+  box-shadow: 0px 5px 6px 0px #e8e8e89c;
+  float: left;
+  margin: 0px;
+  color: #5d0077;
+  background: #f0eef2;
+  text-align: left;
+  text-transform: none;
+  border-radius: 5px;
+  border: 1px solid #e6e0ee;
+  padding: 5px 10px 9px;
 }
 
 .choice:hover {
-  color:#fff;
-  background: #5d0077;
+  background: #f0eef2;
   border: 1px solid #5d0077;
 }
 
 .poll-score-bar {
-  background: #e2e2e27a;
-  margin: 5px 0px;
+  background: #fff;
+  margin: 8px 0px 0px;
   height: 5px;
   float: left;
   width: 100%;
   border-radius: 10px;
-  overflow:hidden;
+  overflow: hidden;
 }
 
 .poll-score-bar-fill {
   width: 30%;
   height: 5px;
-  background: #60dc0a;
+  background: #fff;
+}
+
+.section-poll {
+  margin:0 -10px;
+}
+
+.micro-button.micro-button-feed.no-underline.micro-button-poll {
+  float: right;
+  margin: 1px -3px;
+  padding: 0px;
+  height: 25px;
 }
 

@@ -17,6 +17,7 @@ import { createContract } from '/imports/startup/both/modules/Contract';
 import { transactWithMetamask, setupWeb3 } from '/imports/startup/both/modules/metamask';
 import { displayModal } from '/imports/ui/modules/modal';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
+import { getCoin } from '/imports/api/blockchain/modules/web3Util';
 
 import '/imports/ui/templates/components/decision/ballot/ballot.html';
 import '/imports/ui/templates/components/decision/fork/fork.js';
@@ -565,6 +566,9 @@ Template.ballot.helpers({
   },
   token() {
     return Template.instance().ticket.get();
+  },
+  pollStyle() {
+    return `background-color: ${getCoin(Template.instance().ticket.get().token).color};`;
   },
   tokenFriendly() {
     return Template.instance().ticket.get().token !== 'NONE';

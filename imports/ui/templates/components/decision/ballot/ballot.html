@@ -3,15 +3,21 @@
     <div class="poll-choice">
       <div class="button half choice">
         <div class="poll-choice-color"></div>
-        {{_ contract._id}}
-      </div>
-      <div class="poll-score">
-        <div class="poll-score-bar">
-          <div class="poll-score-bar-fill">
+        {{{_ contract.title}}}
+        {{#if tokenFriendly}}
+          <div id="single-vote" class="micro-button micro-button-feed no-underline micro-button-poll" ontouchstart="">
+            <div class="micro-label">
+              {{#with token}}
+                {{> balance}}
+              {{/with}}
+            </div>
+            <div class="verifier verifier-live verifier-feed"></div>
           </div>
-        </div>
-        <div class="poll-score-label">
-          hello
+        {{/if}}
+        <div class="poll-score">
+          <div class="poll-score-bar">
+            <div class="poll-score-bar-fill" style="{{pollStyle}} "></div>
+          </div>
         </div>
       </div>
     </div>

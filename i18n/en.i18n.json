@@ -674,12 +674,15 @@
   "voting-editor-offchain-toggle": "Off-chain",
   "voting-editor-balance-toggle": "Vote with token balance",
   "voting-editor-quadratic-toggle": "Quadratic voting",
-  "voting-editor-poll-voting": "Poll with options",
+  "voting-editor-poll-voting": "Election Poll",
   "advanced-rules": "Advanced Rules",
   "voting-editor-balance-tooltip": "Tallies the token balance of an address by allowing voter to sign off-chain with private key.",
   "voting-editor-quadratic-tooltip": "Increases cost of staking tokens on a preferred choice at an exponential quadratic rate.",
   "voting-editor-poll-tooltip": "Include a poll with multiple options on this post.",
   "poll-choice": "Poll choice {{number}}",
   "poll-default-title-0": "Upvote",
-  "poll-default-title-1": "Downvote"
+  "poll-default-title-1": "Downvote",
+  "poll-inside": "Election Poll",
+  "ticker-rule-quadratic": "QV",
+  "ticker-rule-balance": "Balance"
 }

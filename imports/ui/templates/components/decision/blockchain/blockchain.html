@@ -3,14 +3,18 @@
     <img class="toolbar-icon" src="{{pathFor route='home'}}images/vote-{{icon}}.png">
     {{{status}}}
     {{#if userWithTokenReserves}}
-      <div class="token token-editor">
-        <div class="token-ticker" style="{{tickerStyle}}">
-          {{ticker}}
+      {{#if pollInside}}
+        {{_ 'poll-inside'}}
+      {{else}}
+        <div class="token token-editor">
+          <div class="token-ticker" style="{{tickerStyle}}">
+            {{ticker}}
+          </div>
+          <div class="token-balance" style="{{balanceStyle}}">
+            {{balance}}
+          </div>
         </div>
-        <div class="token-balance" style="{{balanceStyle}}">
-          {{balance}}
-        </div>
-      </div>
+      {{/if}}
     {{else}}
       <div class="token token-editor">
         <div class="token-ticker no-tokens">

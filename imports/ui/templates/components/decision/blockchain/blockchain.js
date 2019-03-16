@@ -83,7 +83,7 @@ const _writeRule = (contract, textOnly) => {
   }
   let sentence = TAPi18n.__(`electorate-sentence-anyone${format}`);
   let setting;
-  console.log(contract);
+
   if (contract.constituency) {
     sentence = TAPi18n.__(`electorate-sentence-only${format}`);
     let coin;
@@ -165,9 +165,22 @@ Template.blockchain.helpers({
     }
     return '';
   },
+  pollInside() {
+    const contract = Session.get('draftContract');
+    return (contract.rules && contract.rules.pollVoting);
+  },
   ticker() {
     if (Meteor.user().profile.wallet.reserves) {
-      return Session.get('draftContract').wallet.currency;
+      const contract = Session.get('draftContract');
+      let label = contract.wallet.currency;
+      if (contract.rules && contract.rules.quadraticVoting && !contract.rules.balanceVoting) {
+        label = `${TAPi18n.__('ticker-rule-quadratic')} ${label}`;
+      } else if (contract.rules && contract.rules.balanceVoting && !contract.rules.quadraticVoting) {
+        label = `${label} ${TAPi18n.__('ticker-rule-balance')}`;
+      } else if (contract.rules && contract.rules.balanceVoting && contract.rules.quadraticVoting) {
+        label = `${TAPi18n.__('ticker-rule-quadratic')} ${label} ${TAPi18n.__('ticker-rule-balance')}`;
+      }
+      return label;
     }
     return `${TAPi18n.__('no-tokens')}`;
   },
