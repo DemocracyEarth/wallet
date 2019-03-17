@@ -871,7 +871,7 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     geo: settings.geo,
   };
 
-  if (finalSettings.quadraticTally) {
+  if (finalSettings.quadraticVoting) {
     // Square root of vote amount is counted in the ballot
     newTransactionDraft.output.quantity = Math.sqrt(newTransactionDraft.output.quantity);
     newTransaction = Object.assign(newTransactionDraft);

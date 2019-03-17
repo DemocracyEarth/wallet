@@ -643,8 +643,7 @@ Template.ballot.events({
         kind: 'VOTE',
         currency: 'WEB VOTE',
         contractId: _contractId,
-        // quadraticTally: Template.currentData().contract.rules.quadraticTally,
-        quadraticTally: true,
+        quadraticVoting: Template.currentData().contract.rules.quadraticVoting,
       };
 
       transact(userId, _contractId, voteAmount, transactSettings, undefined);

@@ -98,7 +98,7 @@ const _getPublicAddress = (contractToken) => {
 * @param {object} draft new contract
 */
 const _entangle = (draft) => {
-  console.log('### DEBUG ### - Contract.js - _entangle - draft input ', draft);
+  // console.log('### DEBUG ### - Contract.js - _entangle - draft input ', draft);
   const constituency = draft.constituency;
   if (!constituency.length) {
     return _getPublicAddress('WEI');
@@ -109,7 +109,7 @@ const _entangle = (draft) => {
     }
   }
 
-  console.log('### DEBUG ### - Contract.js - _entangle - draft output ', draft);
+  // console.log('### DEBUG ### - Contract.js - _entangle - draft output ', draft);
   return draft;
 };
 
@@ -624,6 +624,7 @@ const _publish = (contractId, keyword) => {
     constituency: draft.constituency,
     wallet: draft.wallet,
     blockchain: draft.blockchain,
+    rules: draft.rules,
   },
   });
 

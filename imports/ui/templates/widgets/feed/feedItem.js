@@ -123,7 +123,6 @@ const _hasSubstring = (str, items) => {
 * @return {string} html with linked url
 */
 const _clickOnWhitespace = (className) => {
-  console.log(className);
   return _hasSubstring(className, ['checkbox', 'title-input', 'option-title', 'identity-list']);
 };
 
@@ -354,7 +353,6 @@ Template.feedItem.helpers({
     return Template.instance().contract.get();
   },
   pollingEnabled() {
-    console.log(this);
     return this.rules ? this.rules.pollVoting : false;
   },
   pollList() {
