@@ -6388,6 +6388,7 @@ blockquote {
 .token-wrap {
   display: inline-block;
   margin-right: 10px;
+  margin-top: 5px;
   float: left;
 }
 

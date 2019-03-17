@@ -8,17 +8,18 @@ Template.multiTokenProfile.helpers({
     const wallet = this.profile.wallet;
     const tokens = [];
 
-    // push VOTE balance as first element in tokens array
-    /*
-    @ NOTE: this type of token push is for off-chain tokens, not supported in first beta release.
-    const voteToken = {
-      token: wallet.currency,
-      balance: wallet.balance,
-      available: wallet.available,
-      placed: wallet.placed,
-    };
-    tokens.push(voteToken);
-    */
+    // push WEB VOTE balance as first element in tokens array, if present
+    if (wallet.balance > 0) {
+      const webVote = {
+        token: wallet.currency,
+        balance: wallet.balance,
+        available: wallet.available,
+        placed: wallet.placed,
+        disableStake: true,
+        disableBar: true,
+      };
+      tokens.push(webVote);
+    }
 
     // loop through reserves array and push each to tokens
     for (const i in wallet.reserves) {

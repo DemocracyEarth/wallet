@@ -142,6 +142,10 @@ Template.balance.helpers({
       const coinData = getCoin(instance.coin.code);
       return _formatCryptoValue(removeDecimal(this.value, coinData.decimals).toNumber(), instance.coin.code);
     }
+    if (this.token === 'WEB VOTE' && !this.blockchain) {
+      const balance = _currencyValue(this.available, this.token);
+      return numeral(balance).format(Template.instance().coin.format);
+    }
     const balance = _currencyValue(this.balance, this.token);
     return numeral(balance).format(Template.instance().coin.format);
   },
