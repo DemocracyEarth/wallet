@@ -1394,6 +1394,12 @@ blockquote {
   color: #0d0d17;
 }
 
+.vote.vote-search.vote-feed:active {
+  margin-top: 0px;
+  margin-bottom: 21px;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, .1);
+}
+
 .vote.vote-search.vote-feed.vote-empty {
   border-style: none;
   border-width: 1px;
@@ -1454,6 +1460,10 @@ blockquote {
 
 .vote.vote-search.vote-feed.vote-editor-compressed:hover {
   margin-bottom: 25px;
+}
+
+.vote.vote-search.vote-feed.vote-editor-compressed:active {
+  margin-bottom: 21px;
 }
 
 .vote.vote-placeholder {
@@ -6646,30 +6656,12 @@ blockquote {
   float: right;
   border: 1px solid #ff617e;
   border-radius: 100px;
-  background-color: transparent;
-  color: #ff617e;
+  background-color: #ff617e;
+  color: #fff;
   font-size: 10px;
   line-height: 15px;
   font-weight: 400;
   cursor: default;
-}
-
-.help:hover {
-  background-color: #ff617e;
-  color: #fff;
-}
-
-.help-tooltip {
-  position: fixed;
-  min-width: 200px;
-  padding: 5px 9px;
-  border-radius: 4px;
-  background-color: hsla(38.18181818181817, 96.12%, 79.80%, 1.00);
-  box-shadow: 2px 2px 10px 0 rgba(0, 0, 0, .3);
-  color: #000;
-  font-size: 11px;
-  line-height: 15px;
-  text-align: left;
 }
 
 @media (max-width: 991px) {

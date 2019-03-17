@@ -60,6 +60,9 @@
           </div>
         </div>
       </div>
+      {{#if pollingEnabled}}
+        {{> poll list=pollList pollId=pollId}}
+      {{/if}}
       <div class="section section-editor w-clearfix">
         {{#if stakingEnabled}}
           <div class="staking-editor">

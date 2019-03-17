@@ -62,6 +62,18 @@ Schema.Tally = new SimpleSchema({
   },
 });
 
+
+Schema.Poll = new SimpleSchema({
+  contractId: {
+    type: String,
+    optional: true,
+  },
+  totalStaked: {
+    type: String,
+    optional: true,
+  },
+});
+
 Schema.Rules = new SimpleSchema({
   quadraticVoting: {
     type: Boolean,
@@ -142,7 +154,7 @@ Schema.Contract = new SimpleSchema({
   kind: {
     // kind of contract
     type: String,
-    allowedValues: ['DRAFT', 'VOTE', 'DELEGATION', 'MEMBERSHIP', 'DISCIPLINE'],
+    allowedValues: ['DRAFT', 'VOTE', 'DELEGATION', 'MEMBERSHIP', 'DISCIPLINE', 'POLL'],
     autoValue() {
       if (this.isInsert) {
         if (this.field('kind').value === undefined) {
@@ -165,7 +177,7 @@ Schema.Contract = new SimpleSchema({
      // URL inside the instance of .Earth
     type: String,
     autoValue() {
-      const slug = convertToSlug(this.field('title').value);
+      let slug = convertToSlug(this.field('title').value);
       if (this.isInsert) {
         if (this.field('kind').value === 'DELEGATION') {
           if (this.field('keyword').value !== undefined) {
@@ -174,6 +186,9 @@ Schema.Contract = new SimpleSchema({
           return 'delegation';
         }
         if (this.field('title').value !== undefined) {
+          if (this.field('kind'.value === 'POLL') && this.field('keyword').value) {
+            slug = this.field('keyword').value;
+          }
           if (Contracts.findOne({ keyword: slug }) === undefined) {
             if (this.field('title').value !== '') {
               const time = this.field('createdAt').value;
@@ -543,6 +558,18 @@ Schema.Contract = new SimpleSchema({
   },
   rules: {
     type: Schema.Rules,
+    optional: true,
+  },
+  poll: {
+    type: [Schema.Poll],
+    defaultValue: [],
+  },
+  pollId: {
+    type: String,
+    optional: true,
+  },
+  pollChoiceId: {
+    type: String,
     optional: true,
   },
 });
