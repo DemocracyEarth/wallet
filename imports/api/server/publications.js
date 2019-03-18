@@ -85,11 +85,15 @@ Meteor.publish('delegates', function (terms) {
 */
 Meteor.publish('poll', function (terms) {
   check(terms, Object);
-  if (Meteor.user()) {
-    const parameters = query(terms);
-    log(`{ publish: 'poll', user: ${logUser()}, pollId: '${JSON.stringify(terms.pollId)}' }`);
-    return Contracts.find(parameters.find, parameters.options);
+
+  const parameters = query(terms);
+  log(`{ publish: 'poll', user: ${logUser()}, pollId: '${terms.pollId}' }`);
+
+  const pollFeed = Contracts.find(parameters.find, parameters.options);
+  if (pollFeed) {
+    return pollFeed;
   }
+
   return this.ready();
 });
 

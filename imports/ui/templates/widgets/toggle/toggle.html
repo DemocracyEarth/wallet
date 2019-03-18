@@ -1,11 +1,13 @@
 <template name="toggle">    
-  {{#if value}}
-    <div id="toggleButton" class="toggle toggle-activated">
-      <div class="toggle-button toggle-button-active"></div>
-    </div>
-  {{else}}
-    <div id="toggleButton" class="toggle">
-      <div class="toggle-button"></div>
-    </div>
-  {{/if}}
+  <div class="{{enabledStyle}}">
+    {{#if value}}
+      <div id="toggleButton" class="toggle toggle-activated">
+        <div class="toggle-button toggle-button-active"></div>
+      </div>
+    {{else}}
+      <div id="toggleButton" class="toggle">
+        <div class="toggle-button"></div>
+      </div>
+    {{/if}}
+  </div>
 </template>
