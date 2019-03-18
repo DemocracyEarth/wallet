@@ -5,6 +5,7 @@ import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Router } from 'meteor/iron:router';
+import { BigNumber } from 'bignumber.js';
 
 import { removeFork, updateBallotRank, addChoiceToBallot, getTickValue, getTotalVoters } from '/imports/ui/modules/ballot';
 import { getContractToken } from '/imports/ui/templates/widgets/transaction/transaction';
@@ -578,7 +579,25 @@ Template.ballot.helpers({
     return (this.contract.poll && this.contract.poll.length > 0);
   },
   pollStyle() {
-    return `background-color: ${getCoin(Template.instance().ticket.get().token).color};`;
+    // color
+    let style = `background-color: ${getCoin(Template.instance().ticket.get().token).color};`;
+
+    // width
+    let choiceVotes;
+    if (this.pollTotals) {
+      choiceVotes = this.contract.blockchain.score ? this.contract.blockchain.score.totalConfirmed : '0';
+    }
+    const bnVotes = new BigNumber(choiceVotes);
+    const bnTotal = new BigNumber(this.pollTotals);
+    let percentage;
+    if (bnTotal != 0) {
+      percentage = new BigNumber(bnVotes.multipliedBy(100)).dividedBy(bnTotal);
+    } else {
+      percentage = 0;
+    }
+    style = `${style} width: ${percentage.toString()}%;`;
+
+    return style;
   },
   tokenFriendly() {
     return Template.instance().ticket.get().token !== 'NONE';
@@ -663,7 +682,7 @@ Template.ballot.events({
           alertMode: true,
         },
       );
-    } else {
+    } else if (!this.editorMode) {
       // ERC20 token
       _cryptoVote();
     }

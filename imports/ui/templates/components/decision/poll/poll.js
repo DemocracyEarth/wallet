@@ -31,6 +31,15 @@ Template.poll.helpers({
     return Template.instance().ready.get();
   },
   item() {
-    return Template.instance().contracts.get();
+    const contracts = Template.instance().contracts.get();
+    const item = [];
+    for (let i = 0; i < contracts.length; i += 1) {
+      item.push({
+        contract: contracts[i],
+        totals: this.pollTotals,
+        editor: this.editorMode,
+      });
+    }
+    return item; // Template.instance().contracts.get();
   },
 });

@@ -1,7 +1,7 @@
 <template name="ballot">
   {{#if poll}}
     <div id="single-vote" class="poll-choice">
-      <div class="button half choice">
+      <div id="pollItem-{{_ contract._id}}" class="button half choice">
         <div class="poll-choice-color"></div>
         {{{_ contract.title}}}
         {{#if tokenFriendly}}
@@ -16,7 +16,7 @@
         {{/if}}
         <div class="poll-score">
           <div class="poll-score-bar">
-            <div class="poll-score-bar-fill" style="{{pollStyle}} "></div>
+            <div class="poll-score-bar-fill" style="{{pollStyle}}"></div>
           </div>
         </div>
       </div>
