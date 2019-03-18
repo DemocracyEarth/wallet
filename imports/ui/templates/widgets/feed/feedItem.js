@@ -353,7 +353,7 @@ Template.feedItem.helpers({
   feedContract() {
     return Template.instance().contract.get();
   },
-  pollingEnabled() {
+  pollingEnabled() {    
     return this.rules ? this.rules.pollVoting : false;
   },
   pollList() {

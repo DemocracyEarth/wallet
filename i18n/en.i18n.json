@@ -676,7 +676,7 @@
   "voting-editor-quadratic-toggle": "Quadratic voting",
   "voting-editor-poll-voting": "Include poll",
   "advanced-rules": "Advanced",
-  "voting-editor-balance-tooltip": "Off-chain method. The token balance of an address is counted after signing with its private key.",
+  "voting-editor-balance-tooltip": "Off-chain method. The token balance of an address gets tallied after signing with its private key.",
   "voting-editor-quadratic-tooltip": "Increases cost of staking tokens on a preferred choice at an exponential quadratic rate.",
   "voting-editor-poll-tooltip": "Include a poll with multiple options on this post.",
   "poll-choice": "Poll choice {{number}}",

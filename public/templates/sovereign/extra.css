@@ -385,6 +385,17 @@ body, h4, h1, h2 {
   width: 50%;
 }
 
+@media (max-width: 479px) {
+
+  .poll-choice {
+    padding: 5px;
+    clear:both;
+    /* display: inline-block; */
+    width: 100%;
+  }
+
+}
+
 .choice {
     width: 100%;
     box-shadow: 0px 3px 6px 0px #88888826;
