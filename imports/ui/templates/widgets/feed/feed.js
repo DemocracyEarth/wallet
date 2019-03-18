@@ -151,7 +151,9 @@ Template.feed.onCreated(function () {
     }
     options.view = 'linkedFeed';
   }
+
   this.subscription = instance.subscribe('feed', options);
+
   const parameters = query(options);
 
   // verify if beginning

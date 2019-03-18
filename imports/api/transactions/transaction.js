@@ -708,6 +708,8 @@ const _tally = (transaction) => {
 */
 const _insertBlockchainTicket = (_id, tickets) => {
   const contract = Contracts.findOne({ _id });
+  console.log(`_id: ${_id}`);
+  console.log(`contract: ${JSON.stringify(contract)}`);
   const blockchain = contract.blockchain;
 
   if (contract && blockchain) {

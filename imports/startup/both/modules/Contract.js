@@ -223,6 +223,7 @@ const _savePoll = (draft, pollContract) => {
       pollId: pollContract.pollId,
       pollChoiceId: pollContract.pollChoiceId,
       signatures: draft.signatures,
+      stage: 'LIVE',
     },
   });
 };

@@ -87,7 +87,7 @@ Meteor.publish('poll', function (terms) {
   check(terms, Object);
 
   const parameters = query(terms);
-  log(`{ publish: 'poll', user: ${logUser()}, pollId: '${JSON.stringify(terms.pollId)}' }`);
+  log(`{ publish: 'poll', user: ${logUser()}, pollId: '${terms.pollId}' }`);
 
   const pollFeed = Contracts.find(parameters.find, parameters.options);
   if (pollFeed) {
