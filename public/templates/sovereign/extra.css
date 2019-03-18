@@ -371,6 +371,7 @@ body, h4, h1, h2 {
 .poll {
   display: inline-block;
   width: 100%;
+  margin-top:20px;
 }
 
 .poll-choice {
@@ -381,32 +382,46 @@ body, h4, h1, h2 {
 }
 
 .choice {
-  width: 100%;
-  box-shadow: 0px 5px 6px 0px #e8e8e89c;
-  float: left;
-  margin: 0px;
-  color: #5d0077;
-  background: #f0eef2;
-  text-align: left;
-  text-transform: none;
-  border-radius: 5px;
-  border: 1px solid #e6e0ee;
-  padding: 5px 10px 9px;
+    width: 100%;
+    box-shadow: 0px 5px 6px 0px #e8e8e89c;
+    float: left;
+    line-height: 32px;
+    /* margin-bottom: -17px; */
+    margin: 0px;
+    text-transform: none;
+    color: #000;
+    background: #f0eef2;
+    text-align: left;
+    font-size: 12px;
+    /* padding: 7px; */
+    /* text-transform: none; */
+    border-radius: 5px;
+    border: 1px solid #ede9f3;
+    border-top: 1px solid #f1edf7;
+    border-left: 1px solid #f1edf7;
+    padding: 5px 10px 9px;
+    transition: all 200ms ease;
 }
 
 .choice:hover {
-  background: #f0eef2;
-  border: 1px solid #5d0077;
+    background: #fcf9ff;
+    /* border: 1px solid #5d0077; */
+    margin: -2px 0px 2px 0px;
+    box-shadow: 0px 6px 6px 0px #d8d6d645;
+    border: 1px solid #f8f3ff;
+    border-top: 1px solid #faf8fd;
+    border-left: 1px solid #faf8fd;
 }
 
 .poll-score-bar {
-  background: #fff;
-  margin: 8px 0px 0px;
-  height: 5px;
-  float: left;
-  width: 100%;
-  border-radius: 10px;
-  overflow: hidden;
+    background: #fff;
+    margin: 8px 0px 0px;
+    height: 7px;
+    border: 1px solid #e8e8e8d9;
+    float: left;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .poll-score-bar-fill {

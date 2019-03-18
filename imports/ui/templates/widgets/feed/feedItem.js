@@ -361,6 +361,9 @@ Template.feedItem.helpers({
   pollId() {
     return this._id;
   },
+  rules() {
+    return this.rules;
+  },
   voters() {
     let total;
     const dbContract = Contracts.findOne({ _id: this._id });
