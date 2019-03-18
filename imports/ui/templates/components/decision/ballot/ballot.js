@@ -564,7 +564,18 @@ Template.ballot.helpers({
     return label;
   },
   token() {
-    return Template.instance().ticket.get();
+    const instance = Template.instance();
+    const ticket = instance.ticket.get();
+    ticket.rules = this.contract.rules;
+
+    if (this.contract.pollId) {
+      // ticket.rules.pollVoting = false;
+    }
+
+    return ticket;
+  },
+  hasPoll() {
+    return (this.contract.poll.length > 0);
   },
   pollStyle() {
     return `background-color: ${getCoin(Template.instance().ticket.get().token).color};`;

@@ -1,6 +1,6 @@
 <template name="ballot">
   {{#if poll}}
-    <div class="poll-choice">
+    <div id="single-vote" class="poll-choice">
       <div class="button half choice">
         <div class="poll-choice-color"></div>
         {{{_ contract.title}}}
@@ -115,16 +115,18 @@
               <div class="micro-label">{{label 'twitter'}} {{{quantity 'twitter'}}}</div>
             </a>
             {{#if tokenFriendly}}
-              <a id="single-vote" href="{{voteURL}}" class="micro-button micro-button-feed no-underline" ontouchstart="">
-                <div class="micro-label">
-                  <img src="{{voteIcon}}" class="micro-icon">
-                  {{{label 'vote'}}}
-                  {{#with token}}
-                    {{> balance}}
-                  {{/with}}
-                </div>
-                <div class="verifier verifier-live verifier-feed"></div>
-              </a>
+              {{#unless hasPoll}}
+                <a id="single-vote" href="{{voteURL}}" class="micro-button micro-button-feed no-underline" ontouchstart="">
+                  <div class="micro-label">
+                    <img src="{{voteIcon}}" class="micro-icon">
+                    {{{label 'vote'}}}
+                    {{#with token}}
+                      {{> balance}}
+                    {{/with}}
+                  </div>
+                  <div class="verifier verifier-live verifier-feed"></div>
+                </a>
+              {{/unless}}
             {{/if}}
           </div>
           {{> electorate contract=contract readOnly=true}}

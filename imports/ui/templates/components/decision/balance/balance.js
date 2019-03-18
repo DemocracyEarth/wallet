@@ -112,7 +112,14 @@ Template.balance.helpers({
     return '';
   },
   ticker() {
-    return Template.instance().coin.code;
+    let label = Template.instance().coin.code;
+    if (this.rules && this.rules.quadraticVoting) {
+      label = `${TAPi18n.__('ticker-rule-quadratic')} ${label}`;
+    }
+    if (this.rules && this.rules.balanceVoting) {
+      label = `${label} ${TAPi18n.__('ticker-rule-balance')}`;
+    }
+    return label;
   },
   available() {
     return _formatCryptoValue(this.available, this.token);

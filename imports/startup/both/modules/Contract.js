@@ -205,6 +205,27 @@ const _createContract = (newkeyword, newtitle) => {
   return false;
 };
 
+/**
+* @summary saves poll on database
+* @param {object} draft being checked for poll creation.
+* @param {object} pollContract poll data
+*/
+const _savePoll = (draft, pollContract) => {
+  // update db
+  Contracts.update({ _id: pollContract._id }, {
+    $set: {
+      blockchain: draft.blockchain,
+      constituency: draft.constituency,
+      constituencyEnabled: draft.constituencyEnabled,
+      rules: draft.rules,
+      wallet: draft.wallet,
+      kind: pollContract.kind,
+      pollId: pollContract.pollId,
+      pollChoiceId: pollContract.pollChoiceId,
+      signatures: draft.signatures,
+    },
+  });
+};
 
 /**
 * @summary create a basic poll inside a contract
@@ -212,10 +233,11 @@ const _createContract = (newkeyword, newtitle) => {
 * @return {object} draft created with poll settings included
 */
 const _createPoll = (draft) => {
+  let pollContract;
+
   // is a draft configured for polling without a poll
   if (draft.rules && draft.rules.pollVoting === true && draft.poll.length === 0) {
     const options = [];
-    let pollContract;
     let pollContractURI;
     for (let i = 0; i < 2; i += 1) {
       // creaate uri reference
@@ -229,19 +251,7 @@ const _createPoll = (draft) => {
       pollContract.kind = 'POLL';
       pollContract.pollChoiceId = i;
 
-      // update db
-      Contracts.update({ _id: pollContract._id }, {
-        $set: {
-          blockchain: draft.blockchain,
-          constituency: draft.constituency,
-          constituencyEnabled: draft.constituencyEnabled,
-          rules: draft.rules,
-          wallet: draft.wallet,
-          kind: pollContract.kind,
-          pollId: pollContract.pollId,
-          pollChoiceId: pollContract.pollChoiceId,
-        },
-      });
+      _savePoll(draft, pollContract);
 
       // add to array to be stored in parent contract
       options.push({
@@ -588,6 +598,8 @@ const _publish = (contractId, keyword) => {
     constituency: draft.constituency,
     wallet: draft.wallet,
     blockchain: draft.blockchain,
+    rules: draft.rules,
+    poll: draft.poll,
   },
   });
 

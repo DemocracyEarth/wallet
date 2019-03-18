@@ -76,6 +76,7 @@ Template.coin.onCreated(() => {
   Session.set('showTokens', false);
   Session.set('suggestDisplay', '');
 
+  Template.instance().currentCoin = new ReactiveVar();
   Template.instance().showAdvanced = new ReactiveVar(false);
   Template.instance().imageTemplate = new ReactiveVar();
   templetize(Template.instance());

@@ -354,7 +354,6 @@ Template.feedItem.helpers({
     return Template.instance().contract.get();
   },
   pollingEnabled() {
-    console.log(this);
     return this.rules ? this.rules.pollVoting : false;
   },
   pollList() {
@@ -362,6 +361,9 @@ Template.feedItem.helpers({
   },
   pollId() {
     return this._id;
+  },
+  rules() {
+    return this.rules;
   },
   voters() {
     let total;

@@ -77,17 +77,17 @@
             </div>
           </div>
           {{#if pollingEnabled}}
-            {{> poll list=pollList pollId=pollId}}
+            {{> poll list=pollList pollId=pollId rules=rules}}
           {{/if}}
           {{#if tally}}
-            {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly displayActions=displayActions}}
+            {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly displayActions=displayActions rules=rules}}
           {{else}}
             <!-- NOTE: depreceated stuff -->
             {{#if electionData}}
               {{#if onScreen}}
-                {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly displayActions=displayActions}}
+                {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly displayActions=displayActions rules=rules}}
               {{else}}
-                {{#nrr nrrargs 'ballot' editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly displayActions=displayActions}}{{/nrr}}
+                {{#nrr nrrargs 'ballot' editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly displayActions=displayActions rules=rules}}{{/nrr}}
               {{/if}}
             {{else}}
               {{#if currentUser}}
