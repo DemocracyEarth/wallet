@@ -21,6 +21,7 @@ import '/imports/ui/templates/widgets/feed/feedItem.html';
 import '/imports/ui/templates/widgets/transaction/transaction.js';
 import '/imports/ui/templates/widgets/spinner/spinner.js';
 import '/imports/ui/templates/components/identity/avatar/avatar.js';
+import BigNumber from 'bignumber.js';
 
 /**
 * @summary determines whether this decision can display results or notice
@@ -360,6 +361,16 @@ Template.feedItem.helpers({
   },
   pollId() {
     return this._id;
+  },
+  pollTotals() {
+    const choices = Contracts.find({ pollId: this._id }).fetch();
+    let total = new BigNumber(0);
+    for (let i = 0; i < choices.length; i += 1) {
+      if (choices[i].blockchain.score && choices[i].blockchain.score.totalConfirmed) {
+        total = total.plus(choices[i].blockchain.score.totalConfirmed);
+      }
+    }
+    return total.toString();
   },
   rules() {
     return this.rules;

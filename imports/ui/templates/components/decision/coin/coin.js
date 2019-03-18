@@ -154,7 +154,7 @@ Template.coin.helpers({
     return Session.get('cachedDraft').rules ? (Session.get('cachedDraft').rules.quadraticVoting && coin.editor.allowQuadraticToggle) : false;
   },
   pollVoting() {
-    return Session.get('cachedDraft').rules ? Session.get('cachedDraft').rules.pollVoting : false;
+    return (Session.get('cachedDraft') && Session.get('cachedDraft').rules) ? Session.get('cachedDraft').rules.pollVoting : false;
   },
   allowBalance() {
     const coin = getCoin(Session.get('newCoin').code);
