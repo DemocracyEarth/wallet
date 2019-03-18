@@ -98,7 +98,6 @@ const _getPublicAddress = (contractToken) => {
 * @param {object} draft new contract
 */
 const _entangle = (draft) => {
-  // console.log('### DEBUG ### - Contract.js - _entangle - draft input ', draft);
   const constituency = draft.constituency;
   if (!constituency.length) {
     return _getPublicAddress('WEI');
@@ -109,7 +108,6 @@ const _entangle = (draft) => {
     }
   }
 
-  // console.log('### DEBUG ### - Contract.js - _entangle - draft output ', draft);
   return draft;
 };
 
@@ -130,7 +128,6 @@ const _contractHasToken = (contract) => {
 
 const _webVoteChain = (contract) => {
   const draft = contract;
-  console.log('### DEBUG ### - Contract.js - _webVoteChain - draft ', draft);
 
   draft.blockchain = {
     coin: { code: 'WEB VOTE' },
@@ -147,7 +144,6 @@ const _webVoteChain = (contract) => {
 
 const _blockstackChain = (contract) => {
   const draft = contract;
-  console.log('### DEBUG ### - Contract.js - _blockstackChain - draft ', draft);
 
   draft.blockchain = {
     coin: { code: 'STX' },
@@ -166,7 +162,6 @@ const _blockstackChain = (contract) => {
 
 const _ethereumChain = (contract) => {
   const draft = contract;
-  console.log('### DEBUG ### - Contract.js - _ethereumChain() - draft input ', draft);
   // ERC20 tokens
   if (!_contractHasToken(draft)) {
     draft.constituency.push(defaultConstituency);
@@ -194,7 +189,6 @@ const _ethereumChain = (contract) => {
 */
 const _chain = (contract) => {
   let draft = contract;
-  console.log('### DEBUG ### - Contract.js - _chain() - draft ', draft);
 
   if (draft.wallet.currency === 'WEB VOTE') {
     draft = _webVoteChain(draft);
@@ -223,7 +217,6 @@ const _createContract = (newkeyword, newtitle) => {
     if (Meteor.user()) {
       // sign by author
       _sign(contract._id, Meteor.user(), 'AUTHOR');
-      console.log('### DEBUG ### - Contract.js - _createContract() - contract ', contract);
 
       // chain by author
       const chainedContract = _chain(contract);
@@ -584,7 +577,6 @@ const _land = (draft) => {
 */
 const _publish = (contractId, keyword) => {
   let draft = Session.get('draftContract');
-  console.log('### DEBUG ### - Contract.js - _publish() - draft ', draft);
   // status
   draft.stage = 'LIVE';
 

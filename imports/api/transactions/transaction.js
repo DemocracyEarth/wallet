@@ -11,8 +11,7 @@ import { getTime } from '/imports/api/time';
 import { Transactions } from '/imports/api/transactions/Transactions';
 import { getTotalVoters } from '/imports/ui/modules/ballot';
 import { notify } from '/imports/api/notifier/notifier';
-import { getWeiBalance, getTokenData } from '/imports/api/blockchain/modules/web3Util';
-import { smallNumber } from '/imports/api/blockchain/modules/web3Util.js';
+import { getWeiBalance, getTokenData, smallNumber } from '/imports/api/blockchain/modules/web3Util';
 
 /**
 * @summary looks at what type of entity (collective or individual) doing transaction
@@ -107,9 +106,6 @@ const _getWalletAddress = (entityId) => {
   // generating a new address for this collective...
   wallet = _generateWalletAddress(wallet);
 
-  console.log('### DEBUG ### - transaction.js - _getWalletAddress - wallet', wallet);
-  console.log('### DEBUG ### - transaction.js - _getWalletAddress - user', user);
-
   switch (entityType) {
     case 'INDIVIDUAL':
       user.profile.wallet = wallet;
@@ -152,9 +148,6 @@ const _getProfile = (transactionSignal) => {
 * @param {object} profileSettings - profile settings
 */
 const _updateWallet = (entityId, entityType, profileSettings) => {
-  console.log('### DEBUG ### - transactions.js - _updateWallet() - entityId ', entityId);
-  console.log('### DEBUG ### - transactions.js - _updateWallet() - entityType ', entityType);
-  console.log('### DEBUG ### - transactions.js - _updateWallet() - profileSettings ', profileSettings);
   switch (entityType) {
     case 'INDIVIDUAL':
       Meteor.users.update({ _id: entityId }, { $set: { profile: profileSettings } });
@@ -174,14 +167,14 @@ const _updateWallet = (entityId, entityType, profileSettings) => {
 * @param {string} contractId - contractId to be checked
 */
 const _getTransactions = (userId, contractId) => {
- // const tx = Transactions.find({ $and: [{ $or: [{ 'output.entityId': userId }, { 'input.entityId': userId }] }, { contractId }] }, { sort: { timestamp: -1 } }).fetch();
- //  return tx;
+  // const tx = Transactions.find({ $and: [{ $or: [{ 'output.entityId': userId }, { 'input.entityId': userId }] }, { contractId }] }, { sort: { timestamp: -1 } }).fetch();
+  //  return tx;
 
   return _.sortBy(
     _.union(
       _.filter(Transactions.find({ 'input.entityId': userId }).fetch(), (item) => { return (item.output.entityId === contractId); }, 0),
       _.filter(Transactions.find({ 'output.entityId': userId }).fetch(), (item) => { return (item.input.entityId === contractId); }, 0)),
-      'timestamp');
+    'timestamp');
 };
 
 /**
@@ -360,10 +353,6 @@ const _processTransaction = (ticket) => {
   const transaction = Transactions.findOne({ _id: txId });
   const senderProfile = _getProfile(transaction.input);
   const receiverProfile = _getProfile(transaction.output);
-  
-  console.log('### DEBUG ### - ballot.js - _processTransaction - transaction ', transaction);
-  console.log('### DEBUG ### - ballot.js - _processTransaction - senderProfile ', senderProfile);
-  console.log('### DEBUG ### - ballot.js - _processTransaction - receiverProfile ', receiverProfile);
 
   // verify transaction
   if (senderProfile.wallet.available < transaction.input.quantity) {
@@ -741,8 +730,6 @@ const _insertBlockchainTicket = (_id, tickets) => {
 const _tallyBlockchainVotes = (_id) => {
   const contract = Contracts.findOne({ _id });
   const tickets = contract.blockchain.tickets;
-  console.log('### DEBUG ### - transaction.js - _tallyBlockchainVotes - contract', contract);
-  console.log('### DEBUG ### - transaction.js - _tallyBlockchainVotes - tickets ', tickets);
 
   if (tickets.length > 0) {
     let totalPending = new BigNumber(0);
@@ -881,8 +868,6 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     // Here other settings could be adjusted if needed
     newTransaction = Object.assign(newTransactionDraft);
   }
-
-  console.log('### DEBUG ### - transaction.js - _transact() - newTransaction ', newTransaction);
 
   // blockchain transaction
   if (settings.kind === 'CRYPTO') {
