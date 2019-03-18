@@ -566,7 +566,7 @@
   "post-idea": "Post Idea",
   "happening-now": "Happening Now",
   "requisites": "Requisites",
-  "post-new-idea": "A new idea...",
+  "post-new-idea": "A new decision...",
   "insufficient-votes": "Unable to find the required token balance in your wallet",
   "tokenless-post": "No tokens specified for voting here",
   "get-tokens": "Get tokens",
@@ -674,9 +674,9 @@
   "voting-editor-offchain-toggle": "Off-chain",
   "voting-editor-balance-toggle": "Vote with token balance",
   "voting-editor-quadratic-toggle": "Quadratic voting",
-  "voting-editor-poll-voting": "Election Poll",
-  "advanced-rules": "Advanced Rules",
-  "voting-editor-balance-tooltip": "Off-chain method. Vote with the token balance of an address by allowing voter to sign with its private key.",
+  "voting-editor-poll-voting": "Include poll",
+  "advanced-rules": "Advanced",
+  "voting-editor-balance-tooltip": "Off-chain method. The token balance of an address is counted after signing with its private key.",
   "voting-editor-quadratic-tooltip": "Increases cost of staking tokens on a preferred choice at an exponential quadratic rate.",
   "voting-editor-poll-tooltip": "Include a poll with multiple options on this post.",
   "poll-choice": "Poll choice {{number}}",
@@ -684,5 +684,6 @@
   "poll-default-title-1": "Upvote 👍",
   "poll-inside": "Election Poll",
   "ticker-rule-quadratic": "QV",
-  "ticker-rule-balance": "Balance"
+  "ticker-rule-balance": "Balance",
+  "decision-rules": "Decision Mechanism"
 }

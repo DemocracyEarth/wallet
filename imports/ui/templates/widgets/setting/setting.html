@@ -1,13 +1,13 @@
 <template name="setting">
   {{#if toggle}}
-  <div class="toggle-setting">
-    <div class="toggle-label">
-      {{_ label}}
-      {{> help tooltip=tooltip}}
+    <div class="toggle-setting">
+      <div class="toggle-label">
+        {{_ label}}
+        {{> help tooltip=tooltip}}
+      </div>
+      <div class="w-clearfix value">
+        {{> toggle sessionContract=sessionContract rules=rules value=value enabled=enabled}}
+      </div>
     </div>
-    <div class="w-clearfix value">
-      {{> toggle sessionContract=sessionContract rules=rules value=value}}
-    </div>
-  </div>
   {{/if}}
 </template>

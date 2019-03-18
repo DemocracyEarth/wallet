@@ -65,21 +65,26 @@ Template.toggle.onRendered(() => {
   Session.set('clickedToggle', this.setting);
 });
 
-Template.toggle.onCreated(() => {
-});
-
 Template.toggle.helpers({
   value() {
     return this.value;
+  },
+  enabledStyle() {
+    if (!this.enabled) {
+      return 'toggle-disabled';
+    }
+    return '';
   },
 });
 
 Template.toggle.events({
   'click #toggleButton'() {
-    const session = Template.currentData().sessionContract;
-    const contract = Session.get(session);
-    const currentValue = contract.rules[Template.currentData().rules];
-    contract.rules[Template.currentData().rules] = !currentValue;
-    Session.set(session, contract);
+    if (this.enabled) {
+      const session = Template.currentData().sessionContract;
+      const contract = Session.get(session);
+      const currentValue = contract.rules[Template.currentData().rules];
+      contract.rules[Template.currentData().rules] = !currentValue;
+      Session.set(session, contract);
+    }
   },
 });

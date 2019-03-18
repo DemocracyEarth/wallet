@@ -8,6 +8,7 @@ import { searchJSON } from '/imports/ui/modules/JSON';
 import { token } from '/lib/token';
 import { createPoll } from '/imports/startup/both/modules/Contract';
 import { Contracts } from '/imports/api/contracts/Contracts';
+import { getCoin } from '/imports/api/blockchain/modules/web3Util';
 
 import '/imports/ui/templates/widgets/setting/setting.js';
 import '/imports/ui/templates/components/decision/coin/coin.html';
@@ -97,9 +98,10 @@ Template.coin.onRendered(function () {
     }
   }
 
-  let advancedSettings = false;
-  _.find(Session.get('draftContract').rules, function (num) { if (num) { advancedSettings = true; } });
-  Template.instance().showAdvanced.set(advancedSettings);
+  // let advancedSettings = false;
+  // _.find(Session.get('draftContract').rules, function (num) { if (num) { advancedSettings = true; } });
+  // Template.instance().showAdvanced.set(advancedSettings);
+  Template.instance().showAdvanced.set((Session.get('draftContract').rules.quadraticVoting === true));
 
 
   Session.set('cachedDraft', Session.get('draftContract'));
@@ -134,13 +136,33 @@ Template.coin.helpers({
     return Session.get('draftContract');
   },
   balanceVoting() {
-    return Session.get('cachedDraft').rules ? Session.get('cachedDraft').rules.balanceVoting : false;
+    const coin = getCoin(Session.get('newCoin').code);
+    if (!coin.editor.allowBalanceToggle) {
+      const cache = Session.get('cachedDraft');
+      cache.rules.balanceVoting = false;
+      Session.set('cachedDraft', cache);
+    }
+    return Session.get('cachedDraft').rules ? (Session.get('cachedDraft').rules.balanceVoting && coin.editor.allowBalanceToggle) : false;
   },
   quadraticVoting() {
-    return Session.get('cachedDraft').rules ? Session.get('cachedDraft').rules.quadraticVoting : false;
+    const coin = getCoin(Session.get('newCoin').code);
+    if (!coin.editor.allowQuadraticToggle) {
+      const cache = Session.get('cachedDraft');
+      cache.rules.quadraticVoting = false;
+      Session.set('cachedDraft', cache);
+    }
+    return Session.get('cachedDraft').rules ? (Session.get('cachedDraft').rules.quadraticVoting && coin.editor.allowQuadraticToggle) : false;
   },
   pollVoting() {
     return Session.get('cachedDraft').rules ? Session.get('cachedDraft').rules.pollVoting : false;
+  },
+  allowBalance() {
+    const coin = getCoin(Session.get('newCoin').code);
+    return coin.editor.allowBalanceToggle;
+  },
+  allowQuadratic() {
+    const coin = getCoin(Session.get('newCoin').code);
+    return coin.editor.allowQuadraticToggle;
   },
   wrongAddress() {
     const draft = Session.get('draftContract');
