@@ -430,6 +430,9 @@ Template.feedItem.helpers({
   getImage(pic) {
     return getImage(Template.instance().imageTemplate.get(), pic);
   },
+  pollContent() {
+    return this.pollId;
+  },
 });
 
 Template.feedItem.events({

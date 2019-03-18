@@ -577,7 +577,7 @@ Template.ballot.helpers({
     return ticket;
   },
   hasPoll() {
-    return (this.contract.poll.length > 0);
+    return (this.contract.poll && this.contract.poll.length > 0);
   },
   pollStyle() {
     return `background-color: ${getCoin(Template.instance().ticket.get().token).color};`;
