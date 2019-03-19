@@ -138,8 +138,12 @@ function normalizeMetamaskUser(profile, user) {
   const anonymousUser = 'anonymous' + publicAddress.slice(0,7);
   const username = generateAvailableUsername(deburr(toLower(camelCase(anonymousUser))));
 
+  // other option is to web votes here
   const walletInit = {
-    currency: 'ETH',
+    currency: 'WEB VOTE',
+    balance: 1000,
+    placed: 0,
+    available: 1000,
     reserves: [{
       balance: 0,
       placed: 0,
