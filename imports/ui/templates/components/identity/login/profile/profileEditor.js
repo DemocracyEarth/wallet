@@ -109,10 +109,10 @@ Template.profileEditor.events({
   'blur #editUserName'() {
     const validation = validateUsername(document.getElementById('editUserName').value);
     if (validation.valid) {
-      Session.set('noUsernameFound', true);
+      Session.set('noUsernameFound', false);
       Session.set('queryUsernameStatus', '');
     } else {
-      Session.set('noUsernameFound', false);
+      Session.set('noUsernameFound', true);
     }
   },
   'click #skip-step'() {
