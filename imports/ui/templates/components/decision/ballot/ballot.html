@@ -2,7 +2,10 @@
   {{#if poll}}
     <div id="single-vote" class="poll-choice">
       <div id="pollItem-{{_ contract._id}}" class="button half choice">
-        <div class="poll-choice-color"></div>
+        <div class="checkbox-mini {{checkSelected 'box'}}">
+            <div class="checkmark_kick {{checkSelected 'mark'}}"></div>
+            <div class="checkmark_stem {{checkSelected 'mark'}}"></div>
+        </div>
         {{{_ contract.title}}}
         {{#if tokenFriendly}}
           <div id="single-vote" class="micro-button micro-button-feed no-underline micro-button-poll" ontouchstart="">
@@ -16,7 +19,11 @@
         {{/if}}
         <div class="poll-score">
           <div class="poll-score-bar">
-            <div class="poll-score-bar-fill" style="{{pollStyle}}"></div>
+            <div class="poll-score-bar-fill" style="width: {{pollScore}}">
+            </div>
+          </div>
+          <div class="poll-score-percentage">
+            {{pollScore}}
           </div>
         </div>
       </div>

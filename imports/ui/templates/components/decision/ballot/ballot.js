@@ -19,12 +19,13 @@ import { createContract } from '/imports/startup/both/modules/Contract';
 import { transactWithMetamask, setupWeb3 } from '/imports/startup/both/modules/metamask';
 import { displayModal } from '/imports/ui/modules/modal';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
-import { getCoin } from '/imports/api/blockchain/modules/web3Util';
 
 import '/imports/ui/templates/components/decision/ballot/ballot.html';
 import '/imports/ui/templates/components/decision/fork/fork.js';
 import '/imports/ui/templates/components/decision/liquid/liquid.js';
 import '/imports/ui/templates/widgets/warning/warning.js';
+
+const numeral = require('numeral');
 
 /**
 * @summary executes token vote
@@ -109,6 +110,20 @@ const _cryptoVote = () => {
   }
 };
 
+/**
+* @summary checks if a given user voted on this contract
+* @param {object} contract to get data from
+* @param {string} userId to check
+* @return ticker string
+*/
+const _checkUserVoted = (contract, userId) => {
+  switch (contract.blockchain.coin.code) {
+    case 'WEB VOTE':
+      return _.contains(_.pluck(contract.tally.voter, '_id'), userId);
+    default:
+      // TODO: do it,
+  }
+};
 
 /**
 * @summary composes url to share stuff on twitter
@@ -580,26 +595,36 @@ Template.ballot.helpers({
   hasPoll() {
     return (this.contract.poll && this.contract.poll.length > 0);
   },
-  pollStyle() {
+  pollScore() {
     // color
-    let style = `background-color: ${getCoin(Template.instance().ticket.get().token).color};`;
+    let score = '';
 
-    // width
+    // score
     let choiceVotes;
     if (this.pollTotals) {
-      choiceVotes = this.contract.blockchain.score ? this.contract.blockchain.score.totalConfirmed : '0';
+      switch (this.contract.blockchain.coin.code) {
+        case 'WEB VOTE':
+          choiceVotes = 0;
+          for (let k = 0; k < this.contract.tally.voter.length; k += 1) {
+            choiceVotes += this.contract.tally.voter[k].votes;
+          }
+          break;
+        default:
+          choiceVotes = this.contract.blockchain.score ? this.contract.blockchain.score.totalConfirmed : '0';
+      }
     }
     const bnVotes = new BigNumber(choiceVotes);
     const bnTotal = new BigNumber(this.pollTotals);
     let percentage;
+    // eslint-disable-next-line eqeqeq
     if (bnTotal != 0) {
       percentage = new BigNumber(bnVotes.multipliedBy(100)).dividedBy(bnTotal);
     } else {
       percentage = 0;
     }
-    style = `${style} width: ${percentage.toString()}%;`;
+    score = `${numeral(percentage).format('0.00')}%`;
 
-    return style;
+    return score;
   },
   tokenFriendly() {
     // return Template.instance().ticket.get().token !== 'NONE';
@@ -655,6 +680,13 @@ Template.ballot.helpers({
   },
   getImage(pic) {
     return getImage(Template.instance().imageTemplate.get(), pic);
+  },
+  checkSelected(element) {
+    const contract = Contracts.findOne({ _id: this.contract._id });
+    if (_checkUserVoted(contract, Meteor.userId())) {
+      return `check-mini-selected-${element}`;
+    }
+    return `check-mini-unselected-${element}`;
   },
 });
 

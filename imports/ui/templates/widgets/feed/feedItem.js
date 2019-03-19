@@ -366,8 +366,16 @@ Template.feedItem.helpers({
     const choices = Contracts.find({ pollId: this._id }).fetch();
     let total = new BigNumber(0);
     for (let i = 0; i < choices.length; i += 1) {
-      if (choices[i].blockchain.score && choices[i].blockchain.score.totalConfirmed) {
-        total = total.plus(choices[i].blockchain.score.totalConfirmed);
+      switch (this.blockchain.coin.code) {
+        case 'WEB VOTE':
+          for (let k = 0; k < choices[i].tally.voter.length; k += 1) {
+            total = total.plus(choices[i].tally.voter[k].votes);
+          }
+          break;
+        default:
+          if (choices[i].blockchain.score && choices[i].blockchain.score.totalConfirmed) {
+            total = total.plus(choices[i].blockchain.score.totalConfirmed);
+          }
       }
     }
     return total.toString();

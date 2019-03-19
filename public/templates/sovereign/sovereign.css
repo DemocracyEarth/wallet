@@ -1093,6 +1093,7 @@ blockquote {
 .button.button-menu {
   margin-right: -5px;
   margin-left: -5px;
+  border: 1px solid #dedcdc;
   background-color: #dedcdc;
   color: #4b4b4b;
   text-align: left;
@@ -1100,8 +1101,13 @@ blockquote {
 }
 
 .button.button-menu:hover {
-  background-color: rgba(93, 0, 119, .07);
+  border-color: #e0dbe2;
+  background-color: #e0dbe2;
   color: #561072;
+}
+
+.button.button-menu:active {
+  border: 1px solid #ff617e;
 }
 
 .button-label {
@@ -4805,7 +4811,7 @@ blockquote {
 }
 
 .collective.collective-selected {
-  border-color: #e4cefd;
+  border-color: hsla(283.6363636363637, 75.57%, 25.69%, 1.00);
   background-color: #e6e0ee;
 }
 
@@ -6388,7 +6394,6 @@ blockquote {
 .token-wrap {
   display: inline-block;
   margin-right: 10px;
-  margin-top: 5px;
   float: left;
 }
 
@@ -6397,7 +6402,7 @@ blockquote {
 }
 
 .login-button-last {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .hero {

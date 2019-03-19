@@ -2,28 +2,55 @@ import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
+import { query } from '/lib/views';
 
 import '/imports/ui/templates/components/decision/ballot/ballot.js';
 import '/imports/ui/templates/components/decision/poll/poll.html';
 
 Template.poll.onCreated(function () {
   Template.instance().ready = new ReactiveVar(false);
-  Template.instance().contracts = new ReactiveVar([]);
+  Template.instance().contracts = new ReactiveVar();
 
   const instance = this;
   const pollId = instance.data.pollId;
 
-  instance.autorun(function (computation) {
-    if (pollId) {
-      const subscription = instance.subscribe('poll', { view: 'poll', pollId });
+  // instance.autorun(function (computation) {
+  if (pollId) {
+    const options = { view: 'poll', pollId };  
+    const parameters = query(options);
 
-      if (subscription.ready()) {
+    const dbQuery = Contracts.find(parameters.find, parameters.options);
+
+    instance.handle = dbQuery.observeChanges({
+      addedBefore: (id, fields) => {
+        const currentFeed = instance.contracts.get();
+        const post = fields;
+
+        post._id = id;
+
+        if (!currentFeed) {
+          instance.contracts.set([post]);
+        } else {
+          currentFeed.push(post);
+          instance.contracts.set(_.uniq(currentFeed));
+        }
         instance.ready.set(true);
-        instance.contracts.set(Contracts.find({ pollId }).fetch());
-        computation.stop();
-      }
-    }
-  });
+      },
+      changed: (id, fields) => {
+        const feed = instance.contracts.get();
+
+        for (let i = 0; i < feed.length; i += 1) {
+          if (feed[i]._id === id) {
+            feed[i] = Object.assign(feed[i], fields);
+            break;
+          }
+        }
+
+        instance.contracts.set(feed);
+      },
+    });
+  }
+  // });
 });
 
 Template.poll.helpers({
@@ -40,6 +67,6 @@ Template.poll.helpers({
         editor: this.editorMode,
       });
     }
-    return item; // Template.instance().contracts.get();
+    return item;
   },
 });
