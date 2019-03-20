@@ -695,6 +695,14 @@ Template.ballot.helpers({
     }
     return false;
   },
+  firstPollChoice() {
+    const contract = Contracts.findOne({ _id: this.contract._id });
+    if (contract.poll && contract.poll.length > 0) {
+      const choice = Contracts.findOne({ _id: contract.poll[0].contractId });
+      return choice;
+    }
+    return contract;
+  },
 });
 
 Template.ballot.events({

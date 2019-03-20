@@ -147,7 +147,11 @@
               {{/unless}}
             {{/if}}
           </div>
-          {{> electorate contract=contract readOnly=true}}
+          {{#if hasPoll}}
+            {{> electorate contract=firstPollChoice readOnly=true}}
+          {{else}}
+            {{> electorate contract=contract readOnly=true}}
+          {{/if}}
         </div>
       </div>
     {{/unless}}
