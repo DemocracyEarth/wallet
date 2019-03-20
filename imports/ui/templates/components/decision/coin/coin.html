@@ -1,27 +1,29 @@
 <template name="coin">
   {{#if currentUser}}
     <div class="login">
-      <div class="login-field">
-        <label for="name" class="login-label login-label-form">
-          {{_ 'voting-token'}}
-        </label>
-        <img src="{{getImage 'token'}}" class="login-icon">
-        <input type="text" placeholder="{{_ 'erc20-tokens'}}" autocomplete="false" value="{{token}}" class="w-input login-input token-search">
-        {{#if showTokens}}
-          {{> suggest tokenList=true}}
-        {{/if}}
-      </div>
-      <div class="login-field">
-        <label for="name" class="login-label login-label-form">
-          {{_ 'blockchain-address'}}
-        </label>
-        <img src="{{getImage 'blockchain-address'}}" class="login-icon">
-        <input type="text" id="editBlockchainAddress" placeholder="{{_ 'blockchain-address-placeholder'}}" value="{{address}}" autocomplete="false" class="w-input login-input login-input-domain">
-        {{#if wrongAddress}}
-          <div class="margin-top">
-            {{> warning label='blockchain-wrong-address'}}
-          </div>
-        {{/if}}
+      <div style="">
+        <div class="login-field">
+          <label for="name" class="login-label login-label-form">
+            {{_ 'voting-token'}}
+          </label>
+          <img src="{{getImage 'token'}}" class="login-icon">
+          <input type="text" placeholder="{{_ 'erc20-tokens'}}" autocomplete="false" value="{{token}}" class="w-input login-input token-search">
+          {{#if showTokens}}
+            {{> suggest tokenList=true}}
+          {{/if}}
+        </div>
+        <div class="login-field">
+          <label for="name" class="login-label login-label-form">
+            {{_ 'blockchain-address'}}
+          </label>
+          <img src="{{getImage 'blockchain-address'}}" class="login-icon">
+          <input type="text" id="editBlockchainAddress" placeholder="{{_ 'blockchain-address-placeholder'}}" value="{{address}}" autocomplete="false" class="w-input login-input login-input-domain">
+          {{#if wrongAddress}}
+            <div class="margin-top">
+              {{> warning label='blockchain-wrong-address'}}
+            </div>
+          {{/if}}
+        </div>
       </div>
       <div class="login-advanced login-label login-label-form">
         <div class="login-label-subtitle">

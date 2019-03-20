@@ -269,7 +269,7 @@ Template.editor.helpers({
   },
   blockchainAddress() {
     const draft = Session.get('draftContract');
-    if (draft) {
+    if (draft && draft.blockchain.publicAddress) {
       return `${draft.blockchain.publicAddress.substring(0, 6)}...${draft.blockchain.publicAddress.slice(-4)}`;
     }
     return '';

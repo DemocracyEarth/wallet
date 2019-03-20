@@ -117,7 +117,7 @@ const _cryptoVote = () => {
 * @return ticker string
 */
 const _checkUserVoted = (contract, userId) => {
-  switch (contract.blockchain.coin.code) {
+  switch (contract && contract.blockchain.coin.code) {
     case 'WEB VOTE':
       return _.contains(_.pluck(contract.tally.voter, '_id'), userId);
     default:

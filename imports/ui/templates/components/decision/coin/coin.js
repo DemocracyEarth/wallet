@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { Meteor } from 'meteor/meteor';
 
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { animatePopup } from '/imports/ui/modules/popup';
@@ -119,7 +120,7 @@ Template.coin.helpers({
   },
   address() {
     const draft = Session.get('draftContract');
-    if (draft.blockchain.publicAddress) {
+    if (draft.blockchain && draft.blockchain.publicAddress) {
       Session.set('checkBlockchainAddress', web3.utils.isAddress(draft.blockchain.publicAddress));
       return draft.blockchain.publicAddress;
     }
@@ -136,33 +137,45 @@ Template.coin.helpers({
     return Session.get('draftContract');
   },
   balanceVoting() {
-    const coin = getCoin(Session.get('newCoin').code);
-    if (!coin.editor.allowBalanceToggle) {
-      const cache = Session.get('cachedDraft');
-      cache.rules.balanceVoting = false;
-      Session.set('cachedDraft', cache);
+    if (Session.get('newCoin')) {
+      const coin = getCoin(Session.get('newCoin').code);
+      if (!coin.editor.allowBalanceToggle) {
+        const cache = Session.get('cachedDraft');
+        cache.rules.balanceVoting = false;
+        Session.set('cachedDraft', cache);
+      }
+      return Session.get('cachedDraft').rules ? (Session.get('cachedDraft').rules.balanceVoting && coin.editor.allowBalanceToggle) : false;
     }
-    return Session.get('cachedDraft').rules ? (Session.get('cachedDraft').rules.balanceVoting && coin.editor.allowBalanceToggle) : false;
+    return false;
   },
   quadraticVoting() {
-    const coin = getCoin(Session.get('newCoin').code);
-    if (!coin.editor.allowQuadraticToggle) {
-      const cache = Session.get('cachedDraft');
-      cache.rules.quadraticVoting = false;
-      Session.set('cachedDraft', cache);
+    if (Session.get('newCoin')) {
+      const coin = getCoin(Session.get('newCoin').code);
+      if (!coin.editor.allowQuadraticToggle) {
+        const cache = Session.get('cachedDraft');
+        cache.rules.quadraticVoting = false;
+        Session.set('cachedDraft', cache);
+      }
+      return Session.get('cachedDraft').rules ? (Session.get('cachedDraft').rules.quadraticVoting && coin.editor.allowQuadraticToggle) : false;
     }
-    return Session.get('cachedDraft').rules ? (Session.get('cachedDraft').rules.quadraticVoting && coin.editor.allowQuadraticToggle) : false;
+    return false;
   },
   pollVoting() {
     return (Session.get('cachedDraft') && Session.get('cachedDraft').rules) ? Session.get('cachedDraft').rules.pollVoting : false;
   },
   allowBalance() {
-    const coin = getCoin(Session.get('newCoin').code);
-    return coin.editor.allowBalanceToggle;
+    if (Session.get('newCoin')) {
+      const coin = getCoin(Session.get('newCoin').code);
+      return coin.editor.allowBalanceToggle;
+    }
+    return false;
   },
   allowQuadratic() {
-    const coin = getCoin(Session.get('newCoin').code);
-    return coin.editor.allowQuadraticToggle;
+    if (Session.get('newCoin')) {
+      const coin = getCoin(Session.get('newCoin').code);
+      return coin.editor.allowQuadraticToggle;
+    }
+    return false;
   },
   wrongAddress() {
     const draft = Session.get('draftContract');
@@ -182,6 +195,12 @@ Template.coin.helpers({
   },
   showAdvanced() {
     return Template.instance().showAdvanced.get();
+  },
+  showReserves() {
+    if (Meteor.user() && Meteor.user().profile.wallet.reserves) {
+      return 'display:auto;';
+    }
+    return 'display:none;';
   },
 });
 

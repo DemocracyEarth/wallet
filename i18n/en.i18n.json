@@ -683,7 +683,7 @@
   "poll-default-title-0": "Downvote  👎",
   "poll-default-title-1": "Upvote 👍",
   "poll-inside": "Election Poll",
-  "ticker-rule-quadratic": "QV",
+  "ticker-rule-quadratic": "",
   "ticker-rule-balance": "Balance",
   "decision-rules": "Decision Mechanism"
 }
