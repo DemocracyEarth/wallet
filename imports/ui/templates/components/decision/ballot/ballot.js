@@ -741,6 +741,25 @@ Template.ballot.events({
       }
     }
   },
+  'click #single-remove'(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const currency = Template.currentData().contract.wallet.currency;
+    if (currency === 'WEB VOTE') {
+      const userId = Meteor.user()._id;
+      const _contractId = Template.currentData().contract._id;
+      const voteAmount = 1;
+
+      const transactSettings = {
+        kind: 'VOTE',
+        currency: 'WEB VOTE',
+        contractId: _contractId,
+        quadraticVoting: Template.currentData().contract.rules.quadraticVoting,
+      };
+
+      transact(_contractId, userId, voteAmount, transactSettings, undefined);
+    }
+  },
   'click #edit-reply'(event) {
     event.preventDefault();
     event.stopPropagation();

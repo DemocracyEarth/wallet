@@ -130,7 +130,7 @@ Template.balance.helpers({
   balance() {
     const instance = Template.instance();
     if (this.token === 'WEB VOTE' && this.isButton) {
-      const balance = _currencyValue(this.contract.wallet.balance, this.token);
+      const balance = _currencyValue(this.contract.wallet.available, this.token);
       return numeral(balance).format(Template.instance().coin.format);
     }
     if (this.blockchain && this.isButton) {
