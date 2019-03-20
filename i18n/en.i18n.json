@@ -547,7 +547,7 @@
   "valid-coin": "This cryptocurrency does not exist.",
   "from": "from",
   "holding": "holding",
-  "valid-email-domain": "with a {{domain}} valid e-mail",
+  "valid-email-domain": "with a verified {{domain}} e-mail address",
   "electorate-incompatible-warning": "To vote on this proposal you must meet the requirements.",
   "log-in-network": "Login to network.",
   "authenticate-self": "Authenticate",

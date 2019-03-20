@@ -28,6 +28,40 @@ import '/imports/ui/templates/widgets/warning/warning.js';
 const numeral = require('numeral');
 
 /**
+* @summary reject vote message;
+*/
+const _rejectVote = () => {
+  if (!checkTokenAvailability(Meteor.user(), Template.instance().ticket.get().token) && Template.instance().ticket.get().token !== 'WEB VOTE') {
+    // lack of token
+    displayModal(
+      true,
+      {
+        icon: 'images/olive.png',
+        title: TAPi18n.__('place-vote'),
+        message: TAPi18n.__('insufficient-votes'),
+        action: TAPi18n.__('get-tokens'),
+        cancel: TAPi18n.__('not-now'),
+      },
+      () => {
+        window.open(Meteor.settings.public.web.sites.tokens, '_blank');
+      }
+    );
+  } else {
+    // wrong requisites
+    displayModal(
+      true,
+      {
+        icon: 'images/olive.png',
+        title: TAPi18n.__('place-vote'),
+        message: TAPi18n.__('incompatible-requisites'),
+        cancel: TAPi18n.__('close'),
+        alertMode: true,
+      },
+    );
+  }
+};
+
+/**
 * @summary executes token vote
 */
 const _cryptoVote = () => {
@@ -67,33 +101,8 @@ const _cryptoVote = () => {
           Template.currentData().contract.signatures[0]._id,
         );
       }
-    } else if (!checkTokenAvailability(Meteor.user(), Template.instance().ticket.get().token)) {
-      // lack of token
-      displayModal(
-        true,
-        {
-          icon: 'images/olive.png',
-          title: TAPi18n.__('place-vote'),
-          message: TAPi18n.__('insufficient-votes'),
-          action: TAPi18n.__('get-tokens'),
-          cancel: TAPi18n.__('not-now'),
-        },
-        () => {
-          window.open(Meteor.settings.public.web.sites.tokens, '_blank');
-        }
-      );
     } else {
-      // wrong requisites
-      displayModal(
-        true,
-        {
-          icon: 'images/olive.png',
-          title: TAPi18n.__('place-vote'),
-          message: TAPi18n.__('incompatible-requisites'),
-          cancel: TAPi18n.__('close'),
-          alertMode: true,
-        },
-      );
+      _rejectVote();
     }
   } else {
     // not logged
@@ -711,33 +720,58 @@ Template.ballot.events({
     event.stopPropagation();
     const currency = Template.currentData().contract.wallet.currency;
     if (!this.editorMode) {
-      if (currency === 'WEB VOTE') {
-        const userId = Meteor.user()._id;
-        const _contractId = Template.currentData().contract._id;
-        const voteAmount = 1; // Template.currentData().voteAmount or something similar
+      // contract in which to evaluate if it can vote
+      let contract = Template.currentData().contract;
+      if (contract.poll.length > 0) {
+        contract = Contracts.findOne({ _id: contract.poll[0].contractId });
+      }
+      Template.instance().voteEnabled = verifyConstituencyRights(contract);
 
-        const transactSettings = {
-          kind: 'VOTE',
-          currency: 'WEB VOTE',
-          contractId: _contractId,
-          quadraticVoting: Template.currentData().contract.rules.quadraticVoting,
-        };
+      if (Meteor.user()) {
+        if (Template.instance().voteEnabled) {
+          if (currency === 'WEB VOTE') {
+            const userId = Meteor.user()._id;
+            const _contractId = Template.currentData().contract._id;
+            const voteAmount = 1; // Template.currentData().voteAmount or something similar
 
-        transact(userId, _contractId, voteAmount, transactSettings, undefined);
-      } else if (currency === 'STX') {
+            const transactSettings = {
+              kind: 'VOTE',
+              currency: 'WEB VOTE',
+              contractId: _contractId,
+              quadraticVoting: Template.currentData().contract.rules.quadraticVoting,
+            };
+
+            transact(userId, _contractId, voteAmount, transactSettings, undefined);
+          } else if (currency === 'STX') {
+            displayModal(
+              true,
+              {
+                icon: 'images/olive.png',
+                title: TAPi18n.__('place-vote'),
+                message: TAPi18n.__('insufficient-votes'),
+                cancel: TAPi18n.__('close'),
+                alertMode: true,
+              },
+            );
+          } else {
+            // ERC20 token
+            _cryptoVote();
+          }
+        } else {
+          _rejectVote();
+        }
+      } else {
+        // not logged
         displayModal(
           true,
           {
             icon: 'images/olive.png',
             title: TAPi18n.__('place-vote'),
-            message: TAPi18n.__('insufficient-votes'),
+            message: TAPi18n.__('unlogged-cant-vote'),
             cancel: TAPi18n.__('close'),
             alertMode: true,
           },
         );
-      } else {
-        // ERC20 token
-        _cryptoVote();
       }
     }
   },
