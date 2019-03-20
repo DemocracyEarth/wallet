@@ -584,3 +584,10 @@ width: 1px;
 .checkbox-mini.checkbox-mini-remove:hover {
   opacity:1;
 }
+
+.vote.vote-search.vote-feed.nondraggable.vote-poll:active {
+    margin-top: -4px;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, .1);
+    color: #0d0d17;
+}

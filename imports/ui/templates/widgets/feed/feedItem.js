@@ -468,6 +468,12 @@ Template.feedItem.helpers({
   pollContent() {
     return this.pollId;
   },
+  pollStyle() {
+    if (this.poll && this.poll.length > 0) {
+      return 'vote-poll';
+    }
+    return '';
+  },
 });
 
 Template.feedItem.events({
