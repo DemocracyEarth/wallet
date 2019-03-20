@@ -3,9 +3,20 @@
     <div id="single-vote" class="poll-choice">
       <div id="pollItem-{{_ contract._id}}" class="button half choice">
         <div class="checkbox-mini {{checkSelected 'box'}}">
-            <div class="checkmark_kick {{checkSelected 'mark'}}"></div>
-            <div class="checkmark_stem {{checkSelected 'mark'}}"></div>
+          <div class="checkmark_kick {{checkSelected 'mark'}}"></div>
+          <div class="checkmark_stem {{checkSelected 'mark'}}"></div>
         </div>
+        {{#if removableVotes}}
+          <div class="checkbox-mini checkbox-mini-remove">
+            <div class="checkmark_kick checkmark-kick-remove"></div>
+            <div class="checkmark_stem checkmark-stem-remove"></div>
+          </div>
+        {{/if}}
+        {{#if tickTooltip}}
+          <div class="help-tooltip">
+            {{{_ tooltip}}}
+          </div>
+        {{/if}}
         {{{_ contract.title}}}
         {{#if tokenFriendly}}
           <div id="single-vote" class="micro-button micro-button-feed no-underline micro-button-poll" ontouchstart="">

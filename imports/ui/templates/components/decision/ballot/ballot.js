@@ -688,6 +688,13 @@ Template.ballot.helpers({
     }
     return `check-mini-unselected-${element}`;
   },
+  removableVotes() {
+    const contract = Contracts.findOne({ _id: this.contract._id });
+    if (_checkUserVoted(contract, Meteor.userId())) {
+      return (contract.blockchain.coin.code === 'WEB VOTE');
+    }
+    return false;
+  },
 });
 
 Template.ballot.events({
