@@ -650,6 +650,7 @@ const _tally = (transaction) => {
       if ((contract.tally.voter[i]._id === transaction.input.entityId) || (contract.tally.voter[i]._id === transaction.output.entityId)) {
         found = true;
         contract.tally.voter[i].votes += _tallyAddition(transaction);
+        contract.tally.voter[i].qVotes = Math.sqrt(contract.tally.voter[i].votes);
         if (contract.tally.voter[i].votes === 0) {
           contract.tally.voter.splice(i, 1);
           break;
@@ -831,11 +832,8 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
   let processing;
   let newTx;
 
-  let newTransactionDraft = {};
-  let newTransaction = {};
-
   // build transaction
-  newTransactionDraft = {
+  const newTransaction = {
     input: {
       entityId: senderId,
       address: _getWalletAddress(senderId),
@@ -860,14 +858,6 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     geo: settings.geo,
   };
 
-  if (finalSettings.quadraticVoting) {
-    // Square root of vote amount is counted in the ballot
-    newTransactionDraft.output.quantity = Math.sqrt(newTransactionDraft.output.quantity);
-    newTransaction = Object.assign(newTransactionDraft);
-  } else {
-    // Here other settings could be adjusted if needed
-    newTransaction = Object.assign(newTransactionDraft);
-  }
 
   // blockchain transaction
   if (settings.kind === 'CRYPTO') {
