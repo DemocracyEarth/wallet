@@ -607,3 +607,7 @@ width: 1px;
     min-width: 0px;
     overflow: hidden;
 }
+
+.button.login-button.button-half.button-half-disabled {
+  opacity:0.2;
+}

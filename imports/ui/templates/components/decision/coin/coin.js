@@ -67,11 +67,27 @@ const _save = () => {
 };
 
 /**
+* @summary checks if there's an issue with lockchain address
+* @return {boolean} true or false baby
+*/
+const _verifyBlockchainAddress = () => {
+  const draft = Session.get('draftContract');
+  if (draft.blockchain.coin.code !== 'STX') {
+    return !Session.get('checkBlockchainAddress');
+  }
+  return false;
+};
+
+/**
 * @summary check form inputs are ok
 * @return {boolean} true or false baby
 */
 const _checkInputs = () => {
-  return !(Session.get('noCoinFound') || Session.get('newCoin') === '' || (Session.get('draftContract').blockchain.publicAddress && !Session.get('checkBlockchainAddress')));
+  return !(Session.get('noCoinFound')
+    || Session.get('newCoin') === ''
+    || (Session.get('draftContract').blockchain.publicAddress && !Session.get('checkBlockchainAddress'))
+    || (!Meteor.user().profile.wallet.reserves && Session.get('draftContract').blockchain.coin.code !== 'WEB VOTE')
+    || (_verifyBlockchainAddress() && Session.get('newCoin') && Session.get('newCoin').code !== 'WEB VOTE'));
 };
 
 Template.coin.onCreated(() => {
@@ -120,7 +136,7 @@ Template.coin.helpers({
   },
   address() {
     const draft = Session.get('draftContract');
-    if (draft.blockchain && draft.blockchain.publicAddress) {
+    if (draft.blockchain && draft.blockchain.publicAddress && Session.get('newCoin').code !== 'WEB VOTE') {
       Session.set('checkBlockchainAddress', web3.utils.isAddress(draft.blockchain.publicAddress));
       return draft.blockchain.publicAddress;
     }
@@ -178,11 +194,13 @@ Template.coin.helpers({
     return false;
   },
   wrongAddress() {
-    const draft = Session.get('draftContract');
-    if (draft.blockchain.coin.code !== 'STX') {
-      return !Session.get('checkBlockchainAddress');
+    return _verifyBlockchainAddress();
+  },
+  addressStyle() {
+    if (Session.get('newCoin') && Session.get('newCoin').code === 'WEB VOTE') {
+      return 'display: none;';
     }
-    return false;
+    return '';
   },
   buttonDisable() {
     if (!_checkInputs()) {
