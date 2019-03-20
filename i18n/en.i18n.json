@@ -685,5 +685,6 @@
   "poll-inside": "Election Poll",
   "ticker-rule-quadratic": "",
   "ticker-rule-balance": "Balance",
-  "decision-rules": "Decision Mechanism"
+  "decision-rules": "Decision Mechanism",
+  "remove-vote": "Remove vote from this choice."
 }

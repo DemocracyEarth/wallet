@@ -7,7 +7,7 @@
           <div class="checkmark_stem {{checkSelected 'mark'}}"></div>
         </div>
         {{#if removableVotes}}
-          <div id="single-remove" class="checkbox-mini checkbox-mini-remove">
+          <div id="single-remove" title="{{_ 'remove-vote'}}" class="checkbox-mini checkbox-mini-remove">
             <div class="checkmark_kick checkmark-kick-remove"></div>
             <div class="checkmark_stem checkmark-stem-remove"></div>
           </div>
@@ -33,7 +33,7 @@
             <div class="poll-score-bar-fill" style="width: {{pollScore}}">
             </div>
           </div>
-          <div class="poll-score-percentage">
+          <div class="poll-score-percentage {{smallPercentageStyle}}">
             {{pollScore}}
           </div>
         </div>

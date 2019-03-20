@@ -305,7 +305,7 @@ Template.ballot.onCreated(() => {
   Template.instance().contract = new ReactiveVar(Template.currentData().contract);
   Template.instance().ticket = new ReactiveVar(getContractToken({ contract: Template.currentData().contract, isButton: true }));
   Template.instance().voteEnabled = verifyConstituencyRights(Template.currentData().contract);
-
+  Template.instance().pollScore = new ReactiveVar(0);
   Template.instance().imageTemplate = new ReactiveVar();
   templetize(Template.instance());
 });
@@ -631,6 +631,7 @@ Template.ballot.helpers({
     } else {
       percentage = 0;
     }
+    Template.instance().pollScore.set(percentage);
     score = `${numeral(percentage).format('0.00')}%`;
 
     return score;
@@ -711,6 +712,12 @@ Template.ballot.helpers({
       return choice;
     }
     return contract;
+  },
+  smallPercentageStyle() {
+    if (Template.instance().pollScore.get() < 10) {
+      return 'poll-score-small';
+    }
+    return '';
   },
 });
 

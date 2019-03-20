@@ -513,7 +513,12 @@ width: 1px;
     float: right;
     position: absolute;
     font-size: 9px;
+    text-shadow:#00000059 1px 1px 0px;
     margin: 0px 7px;
+}
+
+.poll-score-percentage.poll-score-small {
+  color:#5a5a5a;
 }
 
 .checkbox-mini.check-mini-selected-box:hover {
@@ -590,4 +595,15 @@ width: 1px;
     margin-bottom: 25px;
     box-shadow: 0 10px 20px 0 rgba(0, 0, 0, .1);
     color: #0d0d17;
+}
+
+.stage.stage-vote.stage-loosing {
+    border-color: #e6e6e6;
+    padding: 0px;
+    background-color: transparent;
+    background-color: #e6e6e6;
+    width: 0px;
+    height: 0px;
+    min-width: 0px;
+    overflow: hidden;
 }
