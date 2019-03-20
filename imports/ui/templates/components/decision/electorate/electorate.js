@@ -61,6 +61,9 @@ const _checkTokenAvailability = (user, ticker) => {
 * @return {string} address
 */
 const _getTokenAddress = (user, ticker) => {
+  if (ticker === 'WEB VOTE') {
+    return (user.profile.wallet.currency === ticker);
+  }
   if (user.profile.wallet.reserves && user.profile.wallet.reserves.length > 0) {
     for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
       for (let k = 0; k < token.coin.length; k += 1) {
@@ -93,6 +96,10 @@ const _getTokenContractAddress = (ticker) => {
 const _verifyConstituencyRights = (contract) => {
   let legitimacy = true;
 
+  console.log(`contract._id: ${contract._id}`);
+  console.log(`contract.constituency: ${JSON.stringify(contract.constituency)}`);
+  console.log('----');
+
   if (Meteor.user() && contract && contract.wallet.currency !== 'NONE') {
     if (contract.constituency && contract.constituency.length > 0) {
       for (const i in contract.constituency) {
@@ -118,7 +125,7 @@ const _verifyConstituencyRights = (contract) => {
             break;
           case 'NATION':
           default:
-            if (Meteor.user().profile.country && Meteor.user().profile.country.code !== contract.constituency[i].code) {
+            if ((Meteor.user().profile.country && Meteor.user().profile.country.code !== contract.constituency[i].code) || !Meteor.user().profile.country) {
               legitimacy = false;
             }
             break;
@@ -263,7 +270,6 @@ Template.electorate.helpers({
   },
   description() {
     if (this.readOnly) {
-      console.log(`this.contract: ${this.contract}`);
       return _writeRule(this.contract, true);
     }
     return '';
