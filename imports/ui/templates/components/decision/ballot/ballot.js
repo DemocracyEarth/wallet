@@ -702,33 +702,35 @@ Template.ballot.events({
     event.preventDefault();
     event.stopPropagation();
     const currency = Template.currentData().contract.wallet.currency;
-    if (currency === 'WEB VOTE') {
-      const userId = Meteor.user()._id;
-      const _contractId = Template.currentData().contract._id;
-      const voteAmount = 9; // Template.currentData().voteAmount or something similar
+    if (!this.editorMode) {
+      if (currency === 'WEB VOTE') {
+        const userId = Meteor.user()._id;
+        const _contractId = Template.currentData().contract._id;
+        const voteAmount = 9; // Template.currentData().voteAmount or something similar
 
-      const transactSettings = {
-        kind: 'VOTE',
-        currency: 'WEB VOTE',
-        contractId: _contractId,
-        quadraticVoting: Template.currentData().contract.rules.quadraticVoting,
-      };
+        const transactSettings = {
+          kind: 'VOTE',
+          currency: 'WEB VOTE',
+          contractId: _contractId,
+          quadraticVoting: Template.currentData().contract.rules.quadraticVoting,
+        };
 
-      transact(userId, _contractId, voteAmount, transactSettings, undefined);
-    } else if (currency === 'STX') {
-      displayModal(
-        true,
-        {
-          icon: 'images/olive.png',
-          title: TAPi18n.__('place-vote'),
-          message: TAPi18n.__('insufficient-votes'),
-          cancel: TAPi18n.__('close'),
-          alertMode: true,
-        },
-      );
-    } else if (!this.editorMode) {
-      // ERC20 token
-      _cryptoVote();
+        transact(userId, _contractId, voteAmount, transactSettings, undefined);
+      } else if (currency === 'STX') {
+        displayModal(
+          true,
+          {
+            icon: 'images/olive.png',
+            title: TAPi18n.__('place-vote'),
+            message: TAPi18n.__('insufficient-votes'),
+            cancel: TAPi18n.__('close'),
+            alertMode: true,
+          },
+        );
+      } else {
+        // ERC20 token
+        _cryptoVote();
+      }
     }
   },
   'click #edit-reply'(event) {

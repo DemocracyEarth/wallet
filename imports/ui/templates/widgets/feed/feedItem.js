@@ -385,12 +385,28 @@ Template.feedItem.helpers({
   },
   voters() {
     let total;
-    const dbContract = Contracts.findOne({ _id: this._id });
-    if (dbContract && dbContract.tally) {
-      total = dbContract.tally.voter.length;
+    let list = [];
+    const contract = Contracts.findOne({ _id: this._id });
+    let choice;
+
+    if (contract.poll && contract.poll.length > 0) {
+      // poll contract
+      total = 0;
+      for (let i = 0; i < contract.poll.length; i += 1) {
+        choice = Contracts.findOne({ _id: contract.poll[i].contractId });
+
+        if (choice) {
+          list = list.concat(_.pluck(choice.tally.voter, '_id'));
+        }
+      }
+      total = _.uniq(list).length;
+    } else if (contract && contract.tally) {
+      // normal
+      total = contract.tally.voter.length;
     } else {
       total = getTotalVoters(this);
     }
+
     if (total === 1) {
       return `${total} ${TAPi18n.__('voter').toLowerCase()}`;
     } else if (total === 0) {
