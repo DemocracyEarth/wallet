@@ -705,7 +705,7 @@ Template.ballot.events({
     if (currency === 'WEB VOTE') {
       const userId = Meteor.user()._id;
       const _contractId = Template.currentData().contract._id;
-      const voteAmount = 9; // Template.currentData().voteAmount or something similar
+      const voteAmount = 1;
 
       const transactSettings = {
         kind: 'VOTE',
