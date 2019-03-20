@@ -356,6 +356,12 @@ Template.feedItem.helpers({
   pollingEnabled() {
     return this.rules ? this.rules.pollVoting : false;
   },
+  quadraticEnabled() {
+    return this.rules ? this.rules.quadraticVoting : false;
+  },
+  balanceEnabled() {
+    return this.rules ? this.rules.balanceVoting : false;
+  },
   pollList() {
     return this.poll;
   },

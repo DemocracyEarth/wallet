@@ -69,4 +69,7 @@ Template.poll.helpers({
     }
     return item;
   },
+  quadratic() {
+    return this.quadratic;
+  },
 });

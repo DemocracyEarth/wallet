@@ -338,6 +338,7 @@ body, h4, h1, h2 {
 .help-tooltip {
   position:absolute;
   font-size:11px;
+  color:#a57213;
   background-color:#feda96;
   line-height:16px;
   max-width:200px;
@@ -355,7 +356,7 @@ body, h4, h1, h2 {
 .poll {
   display: inline-block;
   width: 100%;
-  margin-top:20px;
+  margin-top:5px;
 }
 
 .poll-choice {
@@ -611,3 +612,15 @@ width: 1px;
 .button.login-button.button-half.button-half-disabled {
   opacity:0.2;
 }
+
+.election-rule {
+    background: #e8ddec;
+    color: #5a0074;
+    font-size: 13px;
+    display: inherit;
+    padding: 0px 5px;
+    border-radius: 5px;
+    line-height: 28px;
+    margin: 15px -5px 0px;
+    cursor: default;
+};
