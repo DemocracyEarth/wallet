@@ -10,13 +10,15 @@ import '/imports/ui/templates/components/decision/poll/poll.html';
 Template.poll.onCreated(function () {
   Template.instance().ready = new ReactiveVar(false);
   Template.instance().contracts = new ReactiveVar();
+});
 
+Template.poll.onRendered(function () {
   const instance = this;
   const pollId = instance.data.pollId;
 
   // instance.autorun(function (computation) {
   if (pollId) {
-    const options = { view: 'poll', pollId };  
+    const options = { view: 'poll', pollId };
     const parameters = query(options);
 
     const dbQuery = Contracts.find(parameters.find, parameters.options);
