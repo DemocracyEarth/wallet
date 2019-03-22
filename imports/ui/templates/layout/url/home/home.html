@@ -30,23 +30,27 @@
   <div class="split split-left {{landingMode 'left'}}">
     <div class="content content-feed max100">
       {{#unless isPhone}}
-        {{#unless replyMode}}
-          {{#unless minimizedMode}}
-            {{> compose desktopMode=true replyMode=false}}
+        {{#unless dictator}}
+          {{#unless replyMode}}
+            {{#unless minimizedMode}}
+              {{> compose desktopMode=true replyMode=false}}
+            {{else}}
+              {{> compose desktopMode=true replyMode=false compressed=true}}
+            {{/unless}}
           {{else}}
             {{> compose desktopMode=true replyMode=false compressed=true}}
           {{/unless}}
-        {{else}}
-          {{> compose desktopMode=true replyMode=false compressed=true}}
         {{/unless}}
       {{else}}
         {{#if editorMode}}
           {{> editor contractId=newContractId}}
         {{/if}}
       {{/unless}}
+
       {{#if isPhone}}
         <input id="hiddenInput" style="visibility: hidden; position: absolute;">
       {{/if}}
+
 
       <div id="non-editable-feed">
         <h4 class="padding-left-zero">{{{feedTitle}}}</h4>
@@ -57,23 +61,28 @@
     </div>
   </div>
 
-  {{#unless unloggedMobile}}
-    <div class="split split-right {{landingMode 'right'}}">
-      {{#if feedReady}}
-        {{#with mainLedger}}
-          {{> ledger this}}
-        {{/with}}
-      {{/if}}
-    </div>
-  {{/unless}}
+
+  {{#if showTransactions}}
+    {{#unless unloggedMobile}}
+      <div class="split split-right {{landingMode 'right'}}">
+        {{#if feedReady}}
+          {{#with mainLedger}}
+            {{> ledger this}}
+          {{/with}}
+        {{/if}}
+      </div>
+    {{/unless}}
+  {{/if}}
 
   {{#if displayLanding}}
     {{> landing}}
   {{/if}}  
 
-  {{#if isPhone}}
-    {{> compose desktopMode=false replyMode=false}}
-  {{/if}}
+  {{#unless dictator}}
+    {{#if isPhone}}
+      {{> compose desktopMode=false replyMode=false}}
+    {{/if}}
+  {{/unless}}
 </template>
 
 <template name="postFeed">
@@ -99,11 +108,13 @@
     </div>
   </div>
 
-  <div class="split split-right {{landingMode}}">
-    {{#if postReady}}
-      {{#with votes}}
-        {{> ledger this}}
-      {{/with}}
-    {{/if}}
-  </div>
+  {{#if showTransactions}}
+    <div class="split split-right {{landingMode}}">
+      {{#if postReady}}
+        {{#with votes}}
+          {{> ledger this}}
+        {{/with}}
+      {{/if}}
+    </div>
+  {{/if}}
 </template>

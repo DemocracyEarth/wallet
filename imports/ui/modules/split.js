@@ -31,7 +31,9 @@ const _saveSplitSettings = (left, right) => {
 * @param {boolean} winResize if call is coming from a window resize
 */
 const _resizeSplit = (diff, winResize) => {
-  if ($('.split-right') && $('.split-left')) {
+  if (!Meteor.settings.public.app.config.interface.showTransactions) {
+    $('.split-left').width('100%');
+  } else if ($('.split-right') && $('.split-left')) {
     const contentWidth = $('.right').width();
     const agoraWidth = parseInt((contentWidth * RIGHTHALF) - diff, 10);
     const contractWidth = parseInt((contentWidth * LEFTHALF) + diff, 10);
@@ -44,7 +46,9 @@ const _resizeSplit = (diff, winResize) => {
 };
 
 const _resetSplit = () => {
-  if ($('.split-right')) {
+  if (!Meteor.settings.public.app.config.interface.showTransactions) {
+    $('.split-left').width('100%');
+  } else if ($('.split-right')) {
     event.preventDefault();
     if ($(window).width() < gui.DESKTOP_MIN_WIDTH) {
       $('.split-left').width('100%');

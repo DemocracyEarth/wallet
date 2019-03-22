@@ -76,7 +76,17 @@
             "quadraticVoting": false,
             "balanceVoting": false,
             "pollVoting": false
-          }
+          },
+          "interface": {
+            "showTransactions": true
+          },
+          "governance": {
+            "dictatorship": false,
+            "dictator": {
+              "userId": "",
+              "publicAddress": ""
+            }
+          }          
         }
     },
 

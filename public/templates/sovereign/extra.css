@@ -366,7 +366,7 @@ body, h4, h1, h2 {
   width: 50%;
 }
 
-@media (max-width: 479px) {
+@media (max-width: 767px) {
 
   .poll-choice {
     padding: 5px;
