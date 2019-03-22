@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/underscore';
 import { Accounts } from 'meteor/accounts-base';
 
+import { rules } from '/lib/const';
 import { convertToSlug } from '/lib/utils';
 import { deburr, toLower, camelCase } from 'lodash';
 
@@ -141,9 +142,9 @@ function normalizeMetamaskUser(profile, user) {
   // other option is to web votes here
   const walletInit = {
     currency: 'WEB VOTE',
-    balance: 1000,
+    balance: rules.VOTES_INITIAL_QUANTITY,
     placed: 0,
-    available: 1000,
+    available: rules.VOTES_INITIAL_QUANTITY,
     reserves: [{
       balance: 0,
       placed: 0,
