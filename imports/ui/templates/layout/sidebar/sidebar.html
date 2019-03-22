@@ -13,6 +13,13 @@
         </ul>
 
         <ul class="menu w-clearfix w-list-unstyled">
+          {{> inbox label='token-budget' separator=true}}
+          {{#with currentUser}}
+            {{> multiTokenProfile}}
+          {{/with}}
+        </ul>
+
+        <ul class="menu w-clearfix w-list-unstyled">
           {{> inbox label='delegates' separator=true count=totalDelegates}}
           {{#each delegate}}
             {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon isAvatar=true iconActivated=iconActivated feed=feed}}
@@ -22,6 +29,7 @@
             </div>
           {{/each}}
         </ul>
+
         <div style="height: 50px"></div>
         <!--
         {{#if bitcoinAddress}}

@@ -1,7 +1,16 @@
 import { Template } from 'meteor/templating';
+import { ReactiveVar } from 'meteor/reactive-var';
+
+import { rules } from '/lib/const';
 
 import '/imports/ui/templates/components/identity/login/profile/multiTokenProfile.html';
 import '/imports/ui/templates/components/decision/balance/balance.js';
+
+const numeral = require('numeral');
+
+Template.multiTokenProfile.onCreated(function () {
+  Template.instance().pollScore = new ReactiveVar(0);
+});
 
 Template.multiTokenProfile.helpers({
   tokens() {
@@ -16,7 +25,7 @@ Template.multiTokenProfile.helpers({
         available: wallet.available,
         placed: wallet.placed,
         disableStake: true,
-        disableBar: true,
+        disableBar: false,
       };
       tokens.push(webVote);
     }
@@ -34,5 +43,49 @@ Template.multiTokenProfile.helpers({
       tokens.push(reservesToken);
     }
     return tokens;
+  },
+  pollScore(available, balance) {
+    console.log(`available: ${available}, balance: ${balance}`);
+    const percentage = ((available * 100) / rules.VOTES_INITIAL_QUANTITY);
+    Template.instance().pollScore.set(percentage);
+    return `${numeral(percentage).format('0.00')}%`;
+    /*
+    // color
+    let score = '';
+
+    // score
+    let choiceVotes;
+    if (this.pollTotals) {
+      switch (this.contract.blockchain.coin.code) {
+        case 'WEB VOTE':
+          choiceVotes = 0;
+          for (let k = 0; k < this.contract.tally.voter.length; k += 1) {
+            choiceVotes += this.contract.tally.voter[k].votes;
+          }
+          break;
+        default:
+          choiceVotes = this.contract.blockchain.score ? this.contract.blockchain.score.totalConfirmed : '0';
+      }
+    }
+    const bnVotes = new BigNumber(choiceVotes);
+    const bnTotal = new BigNumber(this.pollTotals);
+    let percentage;
+    // eslint-disable-next-line eqeqeq
+    if (bnTotal != 0) {
+      percentage = new BigNumber(bnVotes.multipliedBy(100)).dividedBy(bnTotal);
+    } else {
+      percentage = 0;
+    }
+    Template.instance().pollScore.set(percentage);
+    score = `${numeral(percentage).format('0.00')}%`;
+
+    return score;
+    */
+  },
+  smallPercentageStyle() {
+    if (Template.instance().pollScore.get() < 10) {
+      return 'poll-score-small';
+    }
+    return '';
   },
 });

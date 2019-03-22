@@ -624,3 +624,7 @@ width: 1px;
     margin: 15px -5px 0px;
     cursor: default;
 };
+
+.budget {
+  margin-top:15px;
+}

@@ -210,6 +210,10 @@ Template.balance.helpers({
     }
     return '';
   },
+  disableBar() {
+    console.log(`this.disableBar: ${this.disableBar}`);
+    return this.disableBar;
+  },
 });
 
 export const formatCryptoValue = _formatCryptoValue;

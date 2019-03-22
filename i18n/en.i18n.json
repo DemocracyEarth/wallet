@@ -687,5 +687,6 @@
   "ticker-rule-balance": "Balance",
   "decision-rules": "Decision Mechanism",
   "remove-vote": "Remove vote from this choice.",
-  "election-rule-quadratic": "This is a <strong>Quadratic Voting</strong> poll."
+  "election-rule-quadratic": "This is a <strong>Quadratic Voting</strong> poll.",
+  "token-budget": "Budget"
 }
