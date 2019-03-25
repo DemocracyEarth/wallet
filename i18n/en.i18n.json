@@ -688,5 +688,7 @@
   "decision-rules": "Decision Mechanism",
   "remove-vote": "Remove vote from this choice.",
   "election-rule-quadratic": "This is a <strong>Quadratic Voting</strong> poll.",
-  "token-budget": "Budget"
+  "token-budget": "Budget",
+  "app-mining": "App Mining",
+  "how-to-vote": "How To Vote"
 }

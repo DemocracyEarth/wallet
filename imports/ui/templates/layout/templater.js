@@ -49,9 +49,19 @@ const _getSpinner = async () => {
 * @summary any custom content that goes to the header when logged out
 * @param {string} templateName to use
 */
-const _getHeader = async () => {
+const _getHeader = async (target) => {
   const result = await promise;
-  return result.header.html;
+  switch (target) {
+    case 'html': {
+      return result.header.html;
+    }
+    case 'navbarMenu': {
+      return result.header.navbarMenu;
+    }
+    default: {
+      return false;
+    }
+  }
 };
 
 /**

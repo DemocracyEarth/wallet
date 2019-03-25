@@ -5,7 +5,7 @@
 
   "header": {
     "html": "<div class='hero-demo'><img src='/images/vote.gif'></div>",
-    "navbarMenu": [{"href": "http://paper.democracy.earth/", "text": "paper"}, {"href": "http://code.democracy.earth/", "text": "code"}, {"href": "http://words.democracy.earth/", "text": "menu-news"}]
+    "navbarMenu": [{"href": "https://docs.blockstack.org/develop/mining_intro.html", "text": "app-mining"}, {"href": "https://docs.blockstack.org/develop/vote-blockstack.html", "text": "how-to-vote"}]
   },
 
   "spinner": {
@@ -54,7 +54,7 @@
     "mail-closed-login-button": "/templates/sovereign/images/mail-closed-login-button.png",
     "lock": "/templates/sovereign/images/lock.png",
     "id-card": "/templates/sovereign/images/id-card.png",
-    "logo": "/templates/sovereign/images/olive.png"
+    "logo": "/templates/blockstack/images/blockstack-icon.jpg"
   }
 
 }
