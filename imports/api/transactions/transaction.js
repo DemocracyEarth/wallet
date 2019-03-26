@@ -344,38 +344,60 @@ const _processDelegation = (transaction) => {
 };
 
 /**
-* @summary processes the transaction after insert and updates wallet of involved parties
-* @param {string} txId - transaction identificator
-* @param {string} success - INSUFFICIENT,
+* @summary updates user wallet when transaction is quadratic, whether voting or revoking,
+* according to the number of votes associated with said user in the contract tally
+* @param {string} senderId
+* @param {object} senderProfile
+* @param {string} receiverId
+* @param {object} receiverProfile
+* @return {object} _userWallet - updated wallet assigned to userProfile.wallet
 */
-const _processTransaction = (ticket) => {
-  const txId = ticket;
-  const transaction = Transactions.findOne({ _id: txId });
-  const senderProfile = _getProfile(transaction.input);
-  const receiverProfile = _getProfile(transaction.output);
+const _processQuadraticTransaction = (senderId, senderProfile, receiverId, receiverProfile) => {
+  let _userWallet;
+  let userId;
+  let userProfile;
+  let contract;
+  let revoke = false;
+  let found = false;
 
-  // verify transaction
-  if (senderProfile.wallet.available < transaction.input.quantity) {
-    return 'INSUFFICIENT';
-  } else if (transaction.input.entityId === transaction.output.entityId) {
-    return 'INVALID';
+  // Set up
+  if (receiverProfile.tally) {
+    // user is voting
+    _userWallet = senderProfile.wallet;
+    userId = senderId;
+    userProfile = senderProfile;
+    contract = Contracts.findOne({ _id: receiverId });
+  } else if (senderProfile.tally) {
+    // user is revoking votes
+    _userWallet = receiverProfile.wallet;
+    userId = receiverId;
+    userProfile = receiverProfile;
+    contract = Contracts.findOne({ _id: senderId });
+    revoke = true;
   }
 
-  // transact
-  senderProfile.wallet = _pay(senderProfile.wallet, 'INPUT', transaction, transaction.input.quantity);
-  receiverProfile.wallet = _pay(receiverProfile.wallet, 'OUTPUT', transaction, transaction.output.quantity);
-
-  // update wallets
-  _updateWallet(transaction.input.entityId, transaction.input.entityType, senderProfile);
-  _updateWallet(transaction.output.entityId, transaction.output.entityType, receiverProfile);
-
-  // delegation
-  if (transaction.kind === 'DELEGATION') {
-    _processDelegation(transaction);
+  for (let i = 0; i < contract.tally.voter.length; i += 1) {
+    if (contract.tally.voter[i]._id === userId) {
+      const votesPerUserPerBallot = contract.tally.voter[i].votes;
+      if (revoke) {
+        _userWallet.available += Math.pow(votesPerUserPerBallot + 1, 2);
+        _userWallet.placed -= 1;
+        found = true;
+      } else {
+        _userWallet.available -= Math.pow(votesPerUserPerBallot, 2);
+        _userWallet.placed += 1;
+        found = true;
+      }
+    }
   }
 
-  // set this transaction as processed
-  return Transactions.update({ _id: txId }, { $set: { status: 'CONFIRMED' } });
+  if (!found && revoke) {
+    // Edge case of revoking when only one vote has been placed
+    _userWallet.available += 1;
+    _userWallet.placed -= 1;
+  }
+
+  return Object.assign(userProfile.wallet, _userWallet);
 };
 
 /**
@@ -701,6 +723,60 @@ const _tally = (transaction) => {
 };
 
 /**
+* @summary processes the transaction after insert and updates wallet of involved parties
+* @param {string} txId - transaction identificator
+* @param {string} success - INSUFFICIENT,
+*/
+const _processTransaction = (ticket) => {
+  const txId = ticket;
+  const transaction = Transactions.findOne({ _id: txId });
+  const senderProfile = _getProfile(transaction.input);
+  const receiverProfile = _getProfile(transaction.output);
+  const senderId = transaction.input.entityId;
+  const receiverId = transaction.output.entityId;
+
+  // verify transaction
+  if (senderProfile.wallet.available < transaction.input.quantity) {
+    return 'INSUFFICIENT';
+  } else if (transaction.input.entityId === transaction.output.entityId) {
+    return 'INVALID';
+  }
+
+  // Invoke tally first only if it is a transaction between
+  // an individual and a contract, tally needs to be updated
+  // before processing quadratic vote
+  if (transaction.input.entityType !== 'COLLECTIVE') {
+    _tally(transaction);
+  }
+
+  if (receiverProfile.rules && receiverProfile.rules.quadraticVoting) {
+    // Quadratic transaction, user is sender therefore voting
+    senderProfile.wallet = _processQuadraticTransaction(senderId, senderProfile, receiverId, receiverProfile);
+    receiverProfile.wallet = _pay(receiverProfile.wallet, 'OUTPUT', transaction, transaction.output.quantity);
+  } else if (senderProfile.rules && senderProfile.rules.quadraticVoting) {
+    // Quadratic transaction, user is receiver therefore revoking
+    senderProfile.wallet = _pay(senderProfile.wallet, 'INPUT', transaction, transaction.input.quantity);
+    receiverProfile.wallet = _processQuadraticTransaction(senderId, senderProfile, receiverId, receiverProfile);
+  } else {
+    // Non-quadratic
+    senderProfile.wallet = _pay(senderProfile.wallet, 'INPUT', transaction, transaction.input.quantity);
+    receiverProfile.wallet = _pay(receiverProfile.wallet, 'OUTPUT', transaction, transaction.output.quantity);
+  }
+
+  // update wallets
+  _updateWallet(transaction.input.entityId, transaction.input.entityType, senderProfile);
+  _updateWallet(transaction.output.entityId, transaction.output.entityType, receiverProfile);
+
+  // delegation
+  if (transaction.kind === 'DELEGATION') {
+    _processDelegation(transaction);
+  }
+
+  // set this transaction as processed
+  return Transactions.update({ _id: txId }, { $set: { status: 'CONFIRMED' } });
+};
+
+/**
 * @summary inserts ticket data to a contract affected by a crypto transaction
 * @param {string} _id of contract to update
 * @param {array} tickets from transaction being processed
@@ -909,11 +985,6 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
       if (Meteor.isClient) {
         _processedTx(newTx._id);
         _updateWalletCache(newTx, false);
-      }
-
-      // update tally in contract excluding subsidy
-      if (newTx.kind === 'VOTE' && newTx.input.entityType !== 'COLLECTIVE' && newTx.output.entityType !== 'COLLECTIVE') {
-        _tally(newTx);
       }
 
       notify(newTx);
