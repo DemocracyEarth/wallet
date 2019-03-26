@@ -156,14 +156,15 @@ const renderMarkup = (text) => {
   html = _replaceAll(html, "href='/@@", "href='/@");
 
   // tokens
-  html = html.replace(/(^|\s)(\$[a-z\d][\w-]*)/ig, "$1<a href='/token/$2'>$2</a>");
-  html = _replaceAll(html, "href='/token/$", "href='$");
+  // html = html.replace(/(^|\s)(\$[a-z\d][\w-]*)/ig, "$1<a hr`ef='/token/$2'>$2</a>");
+  // html = _replaceAll(html, "href='/token/$", "href='$");
 
   // markup
   html = html.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
   html = html.replace(/__(.*?)__/g, '<u>$1</u>');
   html = html.replace(/--(.*?)--/g, '<i>$1</i>');
   html = html.replace(/~~(.*?)~~/g, '<del>$1</del>');
+  html = html.replace(/##(.*?)##/g, '<small>$1</small>');
 
   // paragraphs
   html = html.replace(/\n/g, '<br>');
