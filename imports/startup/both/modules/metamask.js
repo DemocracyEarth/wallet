@@ -379,7 +379,6 @@ if (Meteor.isClient) {
     if (_web3(false)) {
       const nonce = Math.floor(Math.random() * 10000);
       let publicAddress;
-      Session.set('newLogin', true);
 
       if (Meteor.Device.isPhone()) {
         // When mobile, not supporting privacy-mode for now
@@ -403,6 +402,7 @@ if (Meteor.isClient) {
                   methodName,
                   methodArguments,
                 });
+                Session.set('newLogin', true);
                 Router.go('/');
               },
             });

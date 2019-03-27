@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { Session } from 'meteor/session';
 
 import { getImageTemplate } from '/imports/ui/templates/layout/templater';
 import { clearPopups } from '/imports/ui/modules/popup';
@@ -84,6 +85,7 @@ export default class EmailLogin extends Component {
         }
       } else {
         // Successful login
+        Session.set('newLogin', true);
         clearPopups();
       }
     });
