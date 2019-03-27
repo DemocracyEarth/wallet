@@ -1,6 +1,6 @@
 <template name="editor">
   {{#if compressed}}
-    {{#if adminBallotCreatorOnly}}
+    {{#unless adminBallotCreatorOnly}}
       <a id="feedItem-compressed" class="vote vote-search vote-feed vote-editor-compressed nondraggable">
         <div class="meta meta-search meta-compressed">
           <div class="w-list-unstyled w-clearfix identity-list identity-feed-item extra">
@@ -19,7 +19,7 @@
           </div>
         </div>
       </a>
-    {{/if}}
+    {{/unless}}
   {{else}}
     <div id='postEditorItem'></div>
     <div id="feedItem-editor" class="vote vote-search vote-feed vote-editor nondraggable">

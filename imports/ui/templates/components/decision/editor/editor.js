@@ -363,11 +363,11 @@ Template.editor.helpers({
     if (Meteor.settings.public.app.config.interface.adminBallotCreatorOnly.active) {
       // If adminBallotCreatorOnly is active then only the user with a verified email specified in settings can create new ballots
       if (Meteor.user().emails && Meteor.user().emails[0].verified && Meteor.user().emails[0].address === Meteor.settings.public.app.config.interface.adminBallotCreatorOnly.email) {
-        return true;
+        return false;
       }
-      return false;
+      return true;
     }
-    return true;
+    return false;
   },
 });
 
