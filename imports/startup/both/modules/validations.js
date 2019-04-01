@@ -15,16 +15,16 @@ const _validateEmail = (email) => {
   
   // TODO verify if email already exists in db
   
-  if (Meteor.settings.public.app.config.permissioned.active) {
-    // check if valid emailDomain
-    if (Meteor.settings.public.app.config.permissioned.checkDomain) {
-      validDomain = emailDomainCheck(email);
-    }
-    // check if email in emailList
-    if (Meteor.settings.public.app.config.permissioned.checkList) {
-      validList = emailListCheck(email);
-    }
-  }
+  // if (Meteor.settings.public.app.config.permissioned.active) {
+  //   // check if valid emailDomain
+  //   if (Meteor.settings.public.app.config.permissioned.checkDomain) {
+  //     validDomain = emailDomainCheck(email);
+  //   }
+  //   // check if email in emailList
+  //   if (Meteor.settings.public.app.config.permissioned.checkList) {
+  //     validList = emailListCheck(email);
+  //   }
+  // }
   // check email format
   validEmail = val.test(email);
 

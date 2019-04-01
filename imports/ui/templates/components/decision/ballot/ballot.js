@@ -19,6 +19,8 @@ import { createContract } from '/imports/startup/both/modules/Contract';
 import { transactWithMetamask, setupWeb3 } from '/imports/startup/both/modules/metamask';
 import { displayModal } from '/imports/ui/modules/modal';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
+import { emailListCheck } from '/lib/permissioned';
+import { displayNotice } from '/imports/ui/modules/notice';
 
 import '/imports/ui/templates/components/decision/ballot/ballot.html';
 import '/imports/ui/templates/components/decision/fork/fork.js';
@@ -726,6 +728,8 @@ Template.ballot.events({
     event.preventDefault();
     event.stopPropagation();
     const currency = Template.currentData().contract.wallet.currency;
+    const permissionedActive = Meteor.settings.public.app.config.permissioned.active;
+
     if (!this.editorMode) {
       // contract in which to evaluate if it can vote
       let contract = Template.currentData().contract;
@@ -737,10 +741,10 @@ Template.ballot.events({
       if (Meteor.user()) {
         if (Template.instance().voteEnabled) {
           if (currency === 'WEB VOTE') {
+            const user = Meteor.user();
             const userId = Meteor.user()._id;
             const _contractId = Template.currentData().contract._id;
-            const voteAmount = 1; // Template.currentData().voteAmount or something similar
-
+            const voteAmount = 1;
             const transactSettings = {
               kind: 'VOTE',
               currency: 'WEB VOTE',
@@ -748,7 +752,15 @@ Template.ballot.events({
               quadraticVoting: Template.currentData().contract.rules.quadraticVoting,
             };
 
-            transact(userId, _contractId, voteAmount, transactSettings, undefined);
+            if (permissionedActive) {
+              if (user.emails && user.emails[0].verified && emailListCheck(user.emails[0].address)) {
+                transact(userId, _contractId, voteAmount, transactSettings, undefined);
+              } else {
+                displayNotice('verify-email-address', true);
+              }
+            } else {
+              transact(userId, _contractId, voteAmount, transactSettings, undefined);
+            }
           } else if (currency === 'STX') {
             displayModal(
               true,

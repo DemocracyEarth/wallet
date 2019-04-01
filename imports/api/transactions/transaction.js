@@ -12,6 +12,7 @@ import { Transactions } from '/imports/api/transactions/Transactions';
 import { getTotalVoters } from '/imports/ui/modules/ballot';
 import { notify } from '/imports/api/notifier/notifier';
 import { getWeiBalance, getTokenData, smallNumber } from '/imports/api/blockchain/modules/web3Util';
+import { emailListCheck } from '/lib/permissioned';
 
 /**
 * @summary looks at what type of entity (collective or individual) doing transaction
@@ -1002,6 +1003,10 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
 const _genesisTransaction = (userId) => {
   const user = Meteor.users.findOne({ _id: userId });
   const userTransactions = Transactions.find({ 'output.entityId': userId }).fetch();
+  const transactSettings = {
+    kind: 'VOTE',
+    currency: 'WEB VOTE',
+  };
 
   // veryfing genesis...
   const genesisCheck = userTransactions.find(function (tx) {
@@ -1010,16 +1015,20 @@ const _genesisTransaction = (userId) => {
 
   const userBalance = user.profile.wallet.balance;
 
-  // TODO - add emailListCheck condition if set true from Meteor.settings: user.emails && emailListCheck(user.emails[0].address)
+  // generate first transaction from collective to new member if conditions are met
   if (genesisCheck === undefined && userBalance === 0) {
-    // generate first transaction from collective to new member
-    user.profile.wallet = _generateWalletAddress(user.profile.wallet);
-    Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
-    const transactSettings = {
-      kind: 'VOTE',
-      currency: 'WEB VOTE',
-    };
-    _transact(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY, transactSettings);
+    if (Meteor.settings.public.app.config.permissioned.active) {
+      // go through extra check
+      if (user.emails && emailListCheck(user.emails[0].address)) {
+        user.profile.wallet = _generateWalletAddress(user.profile.wallet);
+        Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
+        _transact(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY, transactSettings);
+      }
+    } else {
+      user.profile.wallet = _generateWalletAddress(user.profile.wallet);
+      Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
+      _transact(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY, transactSettings);
+    }
   }
 };
 

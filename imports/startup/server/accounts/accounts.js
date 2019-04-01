@@ -4,6 +4,7 @@ import { Accounts } from 'meteor/accounts-base';
 
 import { rules } from '/lib/const';
 import { convertToSlug } from '/lib/utils';
+import { emailListCheck } from '/lib/permissioned';
 import { deburr, toLower, camelCase } from 'lodash';
 
 function generateAvailableUsername(newUsername) {
@@ -77,19 +78,35 @@ function normalizeBlockstackUser(profile, user) {
   });
 
   const { name } = user.services.blockstack.userData.profile;
+  const userPayloadEmail = user.services.blockstack.token.payload.email;
   let username;
   let emails;
+  let walletInit;
 
-  const walletInit = {
-    currency: 'STX',
-    reserves: [{
-      balance: 0,
+  if (Meteor.settings.public.app.config.permissioned.active) {
+    if (userPayloadEmail !== undefined && emailListCheck(userPayloadEmail)) {
+      walletInit = {
+        currency: 'WEB VOTE',
+        balance: rules.VOTES_INITIAL_QUANTITY,
+        placed: 0,
+        available: rules.VOTES_INITIAL_QUANTITY,
+      };
+    } else {
+      walletInit = {
+        currency: 'WEB VOTE',
+        balance: 0,
+        placed: 0,
+        available: 0,
+      };
+    }
+  } else {
+    walletInit = {
+      currency: 'WEB VOTE',
+      balance: rules.VOTES_INITIAL_QUANTITY,
       placed: 0,
-      available: 0,
-      token: 'STX',
-      publicAddress: user.services.blockstack.userData.identityAddress,
-    }],
-  };
+      available: rules.VOTES_INITIAL_QUANTITY,
+    };
+  }
 
   profile = _.extend(profile, {
     firstName: name,
@@ -117,7 +134,6 @@ function normalizeBlockstackUser(profile, user) {
     }
   }
 
-  const userPayloadEmail = user.services.blockstack.token.payload.email;
   if (!user.emails && userPayloadEmail !== null) {
     emails = [
       {

@@ -8,7 +8,7 @@ import { searchJSON } from '/imports/ui/modules/JSON';
 import { geo } from '/lib/geo';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { validateEmail } from '/imports/startup/both/modules/validations.js';
-// import { emailListCheck } from '/lib/permissioned';
+import { emailListCheck } from '/lib/permissioned';
 
 
 import '/imports/ui/templates/components/identity/login/profile/profileEditor.html';
@@ -161,14 +161,26 @@ Template.profileEditor.events({
           },
         ];
         Meteor.users.update(Meteor.userId(), { $set: { emails: email } });
+
         if (Meteor.settings.public.app.config.allowWebVotes) {
-          // can add here extra condition: if (emailListCheck(editEmail))
-          Meteor.call('subsidizeUser', Meteor.user()._id, (subsidyError) => {
-            if (subsidyError) {
-              console.log(subsidyError, 'error with subsidizeUser');
+          if (Meteor.settings.public.app.config.permissioned.active) {
+            // go through extra check
+            if (emailListCheck(editEmail)) {
+              Meteor.call('subsidizeUser', Meteor.user()._id, (subsidyError) => {
+                if (subsidyError) {
+                  console.log(subsidyError, 'error with subsidizeUser');
+                }
+              });
             }
-          });
+          } else {
+            Meteor.call('subsidizeUser', Meteor.user()._id, (subsidyError) => {
+              if (subsidyError) {
+                console.log(subsidyError, 'error with subsidizeUser');
+              }
+            });
+          }
         }
+
         Meteor.call('sendVerificationLink', (verificationError) => {
           if (verificationError) {
             console.log(verificationError.reason, 'error with sendVerificationLink');

@@ -65,9 +65,9 @@
             "defaultCode": "HOUR"
           },          
           "permissioned": {
-            "active": false,
+            "active": true,
             "checkDomain": false,
-            "checkList": true
+            "checkList": false
           },
           "displayLanding": false,
           "allowWebVotes": true,
@@ -92,7 +92,7 @@
           },
           "loginOptions": {
             "blockstack": true,
-            "metamask": true,
+            "metamask": false,
             "email": true,
             "blockchainLogin": false
           }
