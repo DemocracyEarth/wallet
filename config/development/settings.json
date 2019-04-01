@@ -78,6 +78,7 @@
           },
           "interface": {
             "showTransactions": false,
+            "showMainFeedWithReplies": false,
             "adminBallotCreatorOnly": {
               "active": false,
               "email": "hello@democracy.earth"
