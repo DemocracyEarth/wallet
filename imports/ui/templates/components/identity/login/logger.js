@@ -13,7 +13,7 @@ Template.logger.rendered = function rendered() {
 
 Template.logger.helpers({
   multipleLoggers: function () {
-    if (Meteor.settings.public.app.config.blockchainLogin == true) {
+    if (Meteor.settings.public.app.config.loginOptions.blockchainLogin == true) {
       return true;
     } else {
       return false;

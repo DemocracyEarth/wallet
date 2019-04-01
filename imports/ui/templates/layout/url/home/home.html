@@ -80,7 +80,9 @@
 
   {{#unless dictator}}
     {{#if isPhone}}
-      {{> compose desktopMode=false replyMode=false}}
+      {{#unless adminBallotCreatorOnly}}
+        {{> compose desktopMode=false replyMode=false}}
+      {{/unless}}
     {{/if}}
   {{/unless}}
 </template>

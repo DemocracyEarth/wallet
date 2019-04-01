@@ -59,24 +59,6 @@ const _getPercentage = (coin) => {
   return _getWidth(coin.balance, coin.placed);
 };
 
-const _getQuadraticContractBalance = (contracId) => {
-  // find contract by id
-  const contract = Contracts.findOne({ _id: contracId });
-  const tally = contract.tally;
-  let qBalance = 0;
-
-  for (let i = 0; i < tally.voter.length; i += 1) {
-    qBalance += tally.voter[i].qVotes;
-  }
-
-  return qBalance;
-};
-
-const _isQuadratic = (contractId) => {
-  const contract = Contracts.findOne({ _id: contractId });
-  return contract.rules.quadraticVoting;
-};
-
 Template.balance.onCreated(function () {
   Template.instance().coin = getCoin(Template.currentData().token);
   Template.instance().percentage = _getPercentage(Template.currentData());
@@ -148,13 +130,9 @@ Template.balance.helpers({
   balance() {
     const instance = Template.instance();
 
-    if (this.token === 'WEB VOTE' && this.isButton && _isQuadratic(this.contract._id)) {
-      const qBalance = _getQuadraticContractBalance(this.contract._id);
-      return numeral(qBalance).format(Template.instance().coin.format);
-    }
-
     if (this.token === 'WEB VOTE' && this.isButton) {
-      const balance = _currencyValue(this.contract.wallet.available, this.token);
+      const contract = Contracts.findOne({ _id: this.contract._id });
+      const balance = _currencyValue(contract.wallet.available, this.token);
       return numeral(balance).format(Template.instance().coin.format);
     }
     if (this.blockchain && this.isButton) {

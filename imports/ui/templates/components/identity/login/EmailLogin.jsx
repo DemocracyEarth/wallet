@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { Session } from 'meteor/session';
 
 import { getImageTemplate } from '/imports/ui/templates/layout/templater';
 import { clearPopups } from '/imports/ui/modules/popup';
@@ -84,6 +85,7 @@ export default class EmailLogin extends Component {
         }
       } else {
         // Successful login
+        Session.set('newLogin', true);
         clearPopups();
       }
     });
@@ -91,6 +93,10 @@ export default class EmailLogin extends Component {
 
   render() {
     const incorrectUserState = this.state.incorrectUser;
+    const blockstackLoginActive = Meteor.settings.public.app.config.loginOptions.blockstack;
+    const metamaskLoginActive = Meteor.settings.public.app.config.loginOptions.metamask;
+    const emailLoginActive = Meteor.settings.public.app.config.loginOptions.email;
+
 
     if (this.state.loginScreen === true) {
       return (
@@ -102,11 +108,19 @@ export default class EmailLogin extends Component {
             </div>
           </div>
           <div className="login margin-bottom-dead">
-            <SocialMediaLogin agoraMode={false} />
-            <div id="email-login" className="button login-button login-button-last" onClick={this.handleLoginRender}>
-              <img src={this.state.images['mail-closed-login-button']} className="button-icon" alt="lock" />
-              {TAPi18n.__('email-username')}
-            </div>
+            {blockstackLoginActive || metamaskLoginActive ?
+              <SocialMediaLogin agoraMode={false} />
+              :
+              null
+            }
+            {emailLoginActive ?
+              <div id="email-login" className="button login-button login-button-last" onClick={this.handleLoginRender}>
+                <img src={this.state.images['mail-closed-login-button']} className="button-icon" alt="lock" />
+                {TAPi18n.__('email-username')}
+              </div>
+              :
+              null
+            }
           </div>
         </div>
       );
