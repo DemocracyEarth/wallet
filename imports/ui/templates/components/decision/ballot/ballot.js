@@ -19,7 +19,7 @@ import { createContract } from '/imports/startup/both/modules/Contract';
 import { transactWithMetamask, setupWeb3 } from '/imports/startup/both/modules/metamask';
 import { displayModal } from '/imports/ui/modules/modal';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
-import { emailListCheck } from '/lib/permissioned';
+import { emailListCheck, canUserReply } from '/lib/permissioned';
 import { displayNotice } from '/imports/ui/modules/notice';
 
 import '/imports/ui/templates/components/decision/ballot/ballot.html';
@@ -28,6 +28,43 @@ import '/imports/ui/templates/components/decision/liquid/liquid.js';
 import '/imports/ui/templates/widgets/warning/warning.js';
 
 const numeral = require('numeral');
+
+/**
+* @summary find the contract id of the root parent;
+* @param {string} initialId - an arbitrary contract id
+* @return {string} rootBallotId
+*/
+const _findRootBallotId = (initialId) => {
+  const contract = Contracts.findOne({ _id: initialId });
+  let rootBallotId;
+
+  if (contract.replyId) {
+    rootBallotId = _findRootBallotId(contract.replyId);
+  } else {
+    return contract._id;
+  }
+  return rootBallotId;
+};
+
+/**
+* @summary sets up editor to create a reply;
+*/
+const _craftReply = (replyContract) => {
+  let contract = replyContract;
+  if (Meteor.Device.isPhone()) {
+    if (!contract) {
+      contract = createContract();
+    }
+    Session.set('draftContract', contract);
+    introEditor({ desktopMode: !Meteor.Device.isPhone(), replyMode: true, replyId: Template.currentData().contract._id });
+  } else if (Session.get('draftContract')) {
+    contract.replyId = Template.currentData().contract._id;
+    Session.set('draftContract', contract);
+  } else {
+    introEditor({ desktopMode: !Meteor.Device.isPhone(), replyMode: true, replyId: Template.currentData().contract._id });
+  }
+};
+
 
 /**
 * @summary reject vote message;
@@ -817,18 +854,20 @@ Template.ballot.events({
     event.preventDefault();
     event.stopPropagation();
     if (Meteor.user()) {
-      let contract = Session.get('draftContract');
-      if (Meteor.Device.isPhone()) {
-        if (!contract) {
-          contract = createContract();
+      const contract = Session.get('draftContract');
+
+      if (Meteor.settings.public.app.config.permissioned.active) {
+        // go through extra check
+        const rootBallotId = _findRootBallotId(this.contract._id);
+        const userEmail = Meteor.user().emails ? Meteor.user().emails[0].address : '';
+
+        if (canUserReply(userEmail, rootBallotId)) {
+          _craftReply(contract);
+        } else {
+          displayNotice('whitelist-only', true);
         }
-        Session.set('draftContract', contract);
-        introEditor({ desktopMode: !Meteor.Device.isPhone(), replyMode: true, replyId: Template.currentData().contract._id });
-      } else if (Session.get('draftContract')) {
-        contract.replyId = Template.currentData().contract._id;
-        Session.set('draftContract', contract);
       } else {
-        introEditor({ desktopMode: !Meteor.Device.isPhone(), replyMode: true, replyId: Template.currentData().contract._id });
+        _craftReply(contract);
       }
     } else {
       displayModal(

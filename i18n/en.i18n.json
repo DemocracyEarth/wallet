@@ -206,6 +206,7 @@
   "user-not-found": "User not found.",
   "no-delegations": "No delegation agreements found.",
   "verify-email-address": "Verify Your Email Address",
+  "whitelist-only": "Voting and debating on this platform is currently open to a select group of users via email verification and will be expanded as time goes on",
   "email-verified": "Email successfully verified. Thanks!",
   "user-created": "User successfully created.",
   "user-created-email": "Got it! Check your inbox for more information",
