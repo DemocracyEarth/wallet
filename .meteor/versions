@@ -74,6 +74,7 @@ lai:collection-extensions@0.2.1_1
 launch-screen@1.1.1
 less@2.8.0
 lh84:medium-editor@5.4.0
+littledata:synced-cron@1.5.1
 livedata@1.0.18
 localstorage@1.2.0
 logging@1.1.20

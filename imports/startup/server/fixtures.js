@@ -17,6 +17,7 @@ A Roma, <3
 
 */
 import { Meteor } from 'meteor/meteor';
+import { SyncedCron } from 'meteor/littledata:synced-cron';
 import { Collectives } from '../../api/collectives/Collectives';
 
 
@@ -122,4 +123,15 @@ Meteor.startup(() => {
   } else {
     console.log('[config] Web3 mainnet network provider... OK');
   }
+
+  console.log('is the cron starting?...');
+
+  SyncedCron.config({
+    log: true,
+  });
+
+  SyncedCron.start();
+
+  // Stop jobs after 15 seconds
+  Meteor.setTimeout(function () { SyncedCron.stop(); }, 15 * 1000);
 });

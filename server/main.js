@@ -2,6 +2,7 @@ import { onPageLoad } from 'meteor/server-render';
 import { Meteor } from 'meteor/meteor';
 import { meta } from '/imports/startup/both/routes';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { SyncedCron } from 'meteor/littledata:synced-cron';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { log } from '/lib/const';
@@ -13,6 +14,10 @@ import '/imports/startup/both';
 Meteor.startup(() => {
   // Mail server settings
   process.env.MAIL_URL = Meteor.settings.private.smtpServer;
+  // Cron job
+  // SyncedCron.start();
+  // Stop jobs after 15 seconds
+  // Meteor.setTimeout(function () { SyncedCron.stop(); }, 15 * 1000);
 });
 
 /**
