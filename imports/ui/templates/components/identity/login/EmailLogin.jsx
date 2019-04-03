@@ -35,6 +35,7 @@ export default class EmailLogin extends Component {
 
   handleLoginRender(event) {
     event.preventDefault();
+    event.stopPropagation();
     this.setState({ loginScreen: !(this.state.loginScreen) });
   }
 
