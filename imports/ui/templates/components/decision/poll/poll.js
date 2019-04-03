@@ -74,4 +74,7 @@ Template.poll.helpers({
   quadratic() {
     return this.quadratic;
   },
+  balance() {
+    return this.balance;
+  },
 });

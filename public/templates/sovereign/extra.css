@@ -614,15 +614,15 @@ width: 1px;
 }
 
 .election-rule {
-    background: #e8ddec;
-    color: #5a0074;
-    font-size: 13px;
-    display: inherit;
-    padding: 0px 5px;
-    border-radius: 5px;
-    line-height: 28px;
-    margin: 15px -5px 0px;
-    cursor: default;
+  background: #e8ddec;
+  color: #5a0074;
+  font-size: 13px;
+  display: inline-block;
+  padding: 0px 5px;
+  border-radius: 5px;
+  line-height: 28px;
+  margin: 15px 5px 0px -5px;
+  cursor: default;
 };
 
 .budget {

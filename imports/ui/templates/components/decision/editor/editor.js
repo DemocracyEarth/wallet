@@ -369,6 +369,16 @@ Template.editor.helpers({
     }
     return false;
   },
+  quadraticEnabled() {
+    const draft = Session.get('draftContract');
+
+    return draft.rules ? draft.rules.quadraticVoting : false;
+  },
+  balanceEnabled() {
+    const draft = Session.get('draftContract');
+
+    return draft.rules ? draft.rules.balanceVoting : false;
+  },
 });
 
 Template.editor.events({
