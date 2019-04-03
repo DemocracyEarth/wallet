@@ -108,7 +108,7 @@ export default class EmailLogin extends Component {
               {TAPi18n.__('authenticate-self')}
             </div>
           </div>
-          <div className="login margin-bottom-dead">
+          <div className="login">
             {blockstackLoginActive || metamaskLoginActive ?
               <SocialMediaLogin agoraMode={false} />
               :
