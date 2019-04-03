@@ -45,7 +45,6 @@ Template.multiTokenProfile.helpers({
     return tokens;
   },
   pollScore(available, balance) {
-    console.log(`available: ${available}, balance: ${balance}`);
     const percentage = ((available * 100) / rules.VOTES_INITIAL_QUANTITY);
     Template.instance().pollScore.set(percentage);
     return `${numeral(percentage).format('0.00')}%`;

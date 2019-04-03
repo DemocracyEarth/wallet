@@ -426,6 +426,7 @@
   "remove-all-votes": "remove all votes",
   "empty-values-ballot": "No values found on ballot.",
   "not-enough-funds": "Not enough funds.",
+  "not-enough-funds-qv": "Not enough funds. The cost of voting for this option is {{qvCost}}",
   "invalid-transaction": "Self voting is not allowed.",
   "events": "Events",
   "actions": "Actions",

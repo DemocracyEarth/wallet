@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
+import { TAPi18n } from 'meteor/tap:i18n';
 import { rules } from '/lib/const';
 import { BigNumber } from 'bignumber.js';
 
@@ -257,10 +258,13 @@ const _restoredTokens = (quantity, totals) => {
   return quantity;
 };
 
-const _transactionMessage = (code) => {
-  switch (code) {
+const _transactionMessage = (processingStatus) => {
+  switch (processingStatus.code) {
     case 'INSUFFICIENT':
       displayNotice('not-enough-funds', true);
+      return false;
+    case 'INSUFFICIENT-QV':
+      displayNotice(`${TAPi18n.__('not-enough-funds-qv').replace('{{qvCost}}', processingStatus.qvCost)}`, true, true);
       return false;
     case 'INVALID':
       displayNotice('invalid-transaction', true);
@@ -379,6 +383,7 @@ const _processQuadraticTransaction = (senderId, senderProfile, receiverId, recei
   for (let i = 0; i < contract.tally.voter.length; i += 1) {
     if (contract.tally.voter[i]._id === userId) {
       const votesPerUserPerBallot = contract.tally.voter[i].votes;
+      // TODO - here .balance needs to be updated too to be compatible with legacy code
       if (revoke) {
         _userWallet.available += Math.pow(votesPerUserPerBallot + 1, 2);
         _userWallet.placed -= 1;
@@ -398,6 +403,35 @@ const _processQuadraticTransaction = (senderId, senderProfile, receiverId, recei
   }
 
   return Object.assign(userProfile.wallet, _userWallet);
+};
+
+
+/**
+* @summary get what would be the cost of this vote should it go through
+* @param {string} senderId
+* @param {string} receiverId
+* @return {number} quadraticVoteCost
+*/
+const _getQuadraticVoteCost = (senderId, receiverId) => {
+  const userId = senderId;
+  const contract = Contracts.findOne({ _id: receiverId });
+  let votesPerUserPerBallot;
+  let quadraticVoteCost;
+  let found = false;
+
+  for (let i = 0; i < contract.tally.voter.length; i += 1) {
+    if (contract.tally.voter[i]._id === userId) {
+      votesPerUserPerBallot = contract.tally.voter[i].votes;
+      quadraticVoteCost = Math.pow(votesPerUserPerBallot + 1, 2);
+      found = true;
+    }
+  }
+
+  if (!found) {
+    // User is voting for the first time
+    return 1;
+  }
+  return quadraticVoteCost;
 };
 
 /**
@@ -736,10 +770,16 @@ const _processTransaction = (ticket) => {
   const receiverId = transaction.output.entityId;
 
   // verify transaction
-  if (senderProfile.wallet.available < transaction.input.quantity) {
-    return 'INSUFFICIENT';
+  if (receiverProfile.rules && receiverProfile.rules.quadraticVoting) {
+    // This is a WEBVOTE quadratic vote, and user is voting (not revoking)
+    const quadraticCost = _getQuadraticVoteCost(senderId, receiverId);
+    if (senderProfile.wallet.available < quadraticCost) {
+      return { code: 'INSUFFICIENT-QV', qvCost: quadraticCost };
+    }
+  } else if (senderProfile.wallet.available < transaction.input.quantity) {
+    return { code: 'INSUFFICIENT', qvCost: null };
   } else if (transaction.input.entityId === transaction.output.entityId) {
-    return 'INVALID';
+    return { code: 'INVALID', qvCost: null };
   }
 
   // Invoke tally first only if it is a transaction between
@@ -900,7 +940,8 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
   }
 
   if (senderId === receiverId) {
-    _transactionMessage('INVALID');
+    const status = { code: 'INVALID', qvCost: null };
+    _transactionMessage(status);
     return null;
   }
 
@@ -973,8 +1014,8 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
 
     // NOTE: uncomment for testing
 
-    // console.log(txId);
-    // console.log(processing);
+    // console.log(`txId: ${txId}`);
+    // console.log(`processing: ${processing}`);
 
 
     if (_transactionMessage(processing)) {
