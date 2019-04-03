@@ -629,6 +629,15 @@ width: 1px;
   margin-top:15px;
 }
 
-.poll-score {
-  margin-bottom:60px;
+.token-wrap-next {
+  margin-top:20px;
 }
+
+.poll-score {
+  margin-bottom: 60px;
+}
+
+.poll-score-button {
+  margin-bottom: 0px;
+}
+
