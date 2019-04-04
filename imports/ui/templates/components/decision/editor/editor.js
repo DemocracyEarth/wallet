@@ -262,6 +262,7 @@ Template.editor.helpers({
     return Session.get('draftContract') ? Session.get('draftContract').rules.pollVoting : false;
   },
   pollList() {
+    console.log(`list: ${JSON.stringify(Session.get('draftContract').poll)}`);
     return Session.get('draftContract') ? Session.get('draftContract').poll : false;
   },
   pollId() {

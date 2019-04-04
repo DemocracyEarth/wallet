@@ -520,7 +520,7 @@
   "hashtag-tag-description": "All posts tagged #{{hashtag}} on {{collective}}.",
   "country-tag-title": "{{country}} posts on {{collective}}.",
   "country-tag-description": "All posts from citizens of {{country}} on {{collective}}.",
-  "recent-activity": "Recent Transactions",
+  "recent-activity": "Recent Activity",
   "bitcoin": "Bitcoin",
   "fund-organization": "Fund Organization",
   "btc": "BTC",
@@ -673,7 +673,7 @@
   "token-saft": "SAFT Purchase",
   "off-chain": "off chain",
   "voting-editor-offchain-toggle": "Off-chain",
-  "voting-editor-balance-toggle": "Vote with token balance",
+  "voting-editor-balance-toggle": "Vote with balance",
   "voting-editor-quadratic-toggle": "Quadratic voting",
   "voting-editor-poll-voting": "Include poll",
   "advanced-rules": "Advanced",
@@ -688,7 +688,7 @@
   "ticker-rule-balance": "Balance",
   "decision-rules": "Decision Mechanism",
   "remove-vote": "Remove vote from this choice.",
-  "election-rule-quadratic": "This is a <strong>Quadratic Voting</strong> poll.",
-  "election-rule-balance": "Your <strong>token balance</strong> will be tallied.",
+  "election-rule-quadratic": "Quadratic Vote",
+  "election-rule-balance": "Balance Vote",
   "token-budget": "Budget"
 }

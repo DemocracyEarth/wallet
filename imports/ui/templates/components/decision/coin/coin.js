@@ -7,7 +7,7 @@ import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { animatePopup } from '/imports/ui/modules/popup';
 import { searchJSON } from '/imports/ui/modules/JSON';
 import { token } from '/lib/token';
-import { createPoll } from '/imports/startup/both/modules/Contract';
+import { createPoll, removePoll } from '/imports/startup/both/modules/Contract';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { getCoin } from '/imports/api/blockchain/modules/web3Util';
 
@@ -54,14 +54,10 @@ const _save = () => {
     draft.poll = createPoll(draft).poll;
   } else {
     if (draft.rules && !draft.rules.pollVoting && draft.poll.length > 0) {
-      for (let k = 0; k < draft.poll.length; k += 1) {
-        Contracts.remove({ _id: draft.poll[k].contractId });
-      }
+      removePoll(draft);
     }
     draft.poll = [];
   }
-
-  console.log(draft);
 
   Session.set('draftContract', draft);
 };

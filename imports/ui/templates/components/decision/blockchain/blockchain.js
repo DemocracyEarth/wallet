@@ -171,13 +171,13 @@ Template.blockchain.helpers({
   },
   ticker() {
     const contract = Session.get('draftContract');
-    let label = contract.wallet.currency;
-    if (contract.rules && contract.rules.quadraticVoting) {
+    const label = contract.wallet.currency;
+    /* if (contract.rules && contract.rules.quadraticVoting) {
       label = `${TAPi18n.__('ticker-rule-quadratic')} ${label}`;
     }
     if (contract.rules && contract.rules.balanceVoting) {
       label = `${label} ${TAPi18n.__('ticker-rule-balance')}`;
-    }
+    }*/
     return label;
   },
   tickerStyle() {

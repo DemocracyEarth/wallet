@@ -263,43 +263,62 @@ const _savePoll = (draft, pollContract) => {
 };
 
 /**
+* @summary removes all poll contracts
+* @param {object} draft being checked for poll erasure
+*/
+const _removePoll = (draft) => { 
+  for (let k = 0; k < draft.poll.length; k += 1) {
+    Contracts.remove({ _id: draft.poll[k].contractId });
+  }
+};
+
+/**
 * @summary create a basic poll inside a contract
 * @param {object} draft being checked for poll creation.
 * @return {object} draft created with poll settings included
 */
 const _createPoll = (draft) => {
   let pollContract;
+  const newDraft = draft;
 
   // is a draft configured for polling without a poll
-  if (draft.rules && draft.rules.pollVoting === true && draft.poll.length === 0) {
-    const options = [];
-    let pollContractURI;
-    for (let i = 0; i < 2; i += 1) {
-      // creaate uri reference
-      pollContractURI = _contractURI(`${TAPi18n.__('poll-choice').replace('{{number}}', i.toString())} ${document.getElementById('titleContent').innerText} ${TAPi18n.__(`poll-default-title-${i}`)}`);
+  if (draft.rules && draft.rules.pollVoting === true) {
+    if (draft.poll.length === 0) {
+      const options = [];
+      let pollContractURI;
+      for (let i = 0; i < 2; i += 1) {
+        // creaate uri reference
+        pollContractURI = _contractURI(`${TAPi18n.__('poll-choice').replace('{{number}}', i.toString())} ${document.getElementById('titleContent').innerText} ${TAPi18n.__(`poll-default-title-${i}`)}`);
 
-      // create contract to be used as poll option
-      pollContract = _createContract(pollContractURI, TAPi18n.__(`poll-default-title-${i}`));
+        // create contract to be used as poll option
+        pollContract = _createContract(pollContractURI, TAPi18n.__(`poll-default-title-${i}`));
 
-      // attach id of parent contract to poll option contract
-      pollContract.pollId = draft._id;
-      pollContract.kind = 'POLL';
-      pollContract.pollChoiceId = i;
+        // attach id of parent contract to poll option contract
+        pollContract.pollId = draft._id;
+        pollContract.kind = 'POLL';
+        pollContract.pollChoiceId = i;
 
-      _savePoll(draft, pollContract);
+        _savePoll(draft, pollContract);
 
-      // add to array to be stored in parent contract
-      options.push({
-        contractId: pollContract._id,
-        totalStaked: '0',
-      });
+        // add to array to be stored in parent contract
+        options.push({
+          contractId: pollContract._id,
+          totalStaked: '0',
+        });
+      }
+
+      // store array in parent contract
+      newDraft.poll = options;
+
+      return newDraft;
+    } else if (draft.poll.length > 0) {
+      // change info of existing poll
+
+      _removePoll(draft);
+      newDraft.poll = [];
+      newDraft.poll = _createPoll(newDraft).poll;
+      return newDraft;
     }
-
-    // store array in parent contract
-    const newDraft = draft;
-    newDraft.poll = options;
-
-    return newDraft;
   }
 
   // return same draft
@@ -703,5 +722,6 @@ export const createDelegation = _newDelegation;
 export const getURLDate = _getURLDate;
 export const sendDelegationVotes = _sendDelegation;
 export const createPoll = _createPoll;
+export const removePoll = _removePoll;
 export const createContract = _createContract;
 export const getDelegationContract = _getDelegationContract;

@@ -32,7 +32,9 @@
         <div class="toggles">
           {{> setting label='voting-editor-poll-voting' tooltip='voting-editor-poll-tooltip' toggle=true sessionContract="cachedDraft" rules="pollVoting" value=pollVoting enabled=true}}
           {{> setting label='voting-editor-balance-toggle' tooltip='voting-editor-balance-tooltip' toggle=true sessionContract="cachedDraft" rules="balanceVoting" value=balanceVoting enabled=allowBalance}}
+          {{> setting label='voting-editor-quadratic-toggle' tooltip='voting-editor-quadratic-tooltip' toggle=true sessionContract="cachedDraft" rules="quadraticVoting" value=quadraticVoting enabled=allowQuadratic}}
         </div>
+        <!--
         <a id="advanced" href="#" rel="noopener noreferrer" target="_blank">
           {{{_ 'advanced-rules'}}}
           {{#if showAdvanced}}
@@ -41,12 +43,15 @@
             <div class='login-advanced-link login-advanced-link-down'></div>
           {{/if}}
         </a>
+        -->
       </div>
+      <!--
       {{#if showAdvanced}}
         <div class="toggles">
-          {{> setting label='voting-editor-quadratic-toggle' tooltip='voting-editor-quadratic-tooltip' toggle=true sessionContract="cachedDraft" rules="quadraticVoting" value=quadraticVoting enabled=allowQuadratic}}
+          
         </div>
       {{/if}}
+      -->
       <div class="dropdown-buttons">
          <div class="modal-buttons-padder modal-buttons-padder-left">
            <div id="cancel-coin" class="button login-button button-secondary button-half">
