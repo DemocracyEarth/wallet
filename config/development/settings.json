@@ -74,7 +74,8 @@
           "defaultRules": {
             "quadraticVoting": false,
             "balanceVoting": false,
-            "pollVoting": false
+            "pollVoting": false,
+            "voteDecay": false
           },
           "interface": {
             "showTransactions": false,

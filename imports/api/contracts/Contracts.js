@@ -92,6 +92,10 @@ Schema.Rules = new SimpleSchema({
     type: Boolean,
     defaultValue: Meteor.settings.public.app.config.defaultRules.pollVoting,
   },
+  voteDecay: {
+    type: Boolean,
+    defaultValue: Meteor.settings.public.app.config.defaultRules.voteDecay,
+  },
 });
 
 Schema.Constituency = new SimpleSchema({
