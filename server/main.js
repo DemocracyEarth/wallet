@@ -14,10 +14,6 @@ import '/imports/startup/both';
 Meteor.startup(() => {
   // Mail server settings
   process.env.MAIL_URL = Meteor.settings.private.smtpServer;
-  // Cron job
-  // SyncedCron.start();
-  // Stop jobs after 15 seconds
-  // Meteor.setTimeout(function () { SyncedCron.stop(); }, 15 * 1000);
 });
 
 /**
