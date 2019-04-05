@@ -719,6 +719,12 @@ Template.ballot.helpers({
     }
     return '';
   },
+  hiddenOrUnset() {
+    if (this.contract.pollChoiceId === '1') {
+      return 'unset';
+    }
+    return 'hidden';
+  },
 });
 
 Template.ballot.events({

@@ -1,6 +1,6 @@
 <template name="ballot">
   {{#if poll}}
-    <div id="single-vote" class="poll-choice">
+    <div id="single-vote" class="poll-choice" style="visibility: {{hiddenOrUnset}}">
       <div id="pollItem-{{_ contract._id}}" class="button half choice">
         <div class="checkbox-mini {{checkSelected 'box'}}">
           <div class="checkmark_kick {{checkSelected 'mark'}}"></div>
