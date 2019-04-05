@@ -2,18 +2,19 @@ import { Meteor } from 'meteor/meteor';
 import { SyncedCron } from 'meteor/littledata:synced-cron';
 
 SyncedCron.add({
-  name: 'Testing vote decay',
+  name: 'voteDecay',
   schedule: (parser) => {
-    // parser is a later.parse object
-    return parser.text('every 5 minutes');
+    return parser.text('every 30 seconds');
   },
   job: (intendedAt) => {
-    console.log('crunching numbers');
-    console.log('job should be running at:');
-    console.log(intendedAt);
+    console.log(`voteDecay - intendedAt: ${intendedAt}`);
+    Meteor.call('decayVotes', (error) => {
+      if (error) {
+        console.log(error, 'error running voteDecay cron job');
+      }
+    });
   },
 });
-
 
 Meteor.startup(() => {
   SyncedCron.start();

@@ -15,6 +15,16 @@ import { getWeiBalance, getTokenData, smallNumber } from '/imports/api/blockchai
 import { emailListCheck } from '/lib/permissioned';
 
 /**
+* @summary returns a random number between minimum and maximum.
+* The maximum is exclusive and the minimum is inclusive
+*/
+const _getRandomInt = (_min, _max) => {
+  const min = Math.ceil(_min);
+  const max = Math.floor(_max);
+  return Math.floor(Math.random() * (max - min)) + min;
+};
+
+/**
 * @summary looks at what type of entity (collective or individual) doing transaction
 * @return {string} entityType - a string with constant of entity type
 */
@@ -997,6 +1007,130 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
 };
 
 /**
+* @summary TODO
+*/
+const _transactVoteDecay = (senderId, receiverId, votes, settings, callback) => {
+  // TODO - clean up method
+  let defaultSettings = {};
+  let finalSettings = {};
+  defaultSettings = {
+    currency: 'VOTES',
+    kind: 'VOTE',
+    contractId: false,
+  };
+
+  if (settings === undefined) {
+    finalSettings = defaultSettings;
+  } else {
+    finalSettings = Object.assign(defaultSettings, settings);
+  }
+
+  if (senderId === receiverId) {
+    _transactionMessage('INVALID');
+    return null;
+  }
+
+  let txId;
+  let processing;
+  let newTx;
+
+  // build transaction
+  const newTransaction = {
+    input: {
+      entityId: senderId,
+      address: _getWalletAddress(senderId),
+      entityType: _getEntityType(senderId),
+      quantity: votes,
+      currency: finalSettings.currency,
+      delegateId: _getDelegateId(senderId, receiverId, true, finalSettings.kind),
+    },
+    output: {
+      entityId: receiverId,
+      address: _getWalletAddress(receiverId),
+      entityType: _getEntityType(receiverId),
+      quantity: votes,
+      currency: finalSettings.currency,
+      delegateId: _getDelegateId(senderId, receiverId, false, finalSettings.kind),
+    },
+    kind: finalSettings.kind,
+    contractId: finalSettings.contractId,
+    timestamp: getTimestamp(),
+    status: 'PENDING',
+    condition: finalSettings.condition,
+    geo: settings.geo,
+  };
+
+  if (settings.kind === 'VOTE') {
+    // web transaciton
+
+    // executes the transaction
+    txId = Transactions.insert(newTransaction);
+    processing = _processTransaction(txId);
+    newTx = Transactions.findOne({ _id: txId });
+
+    if (_transactionMessage(processing)) {
+      // once transaction done, run callback
+      if (callback !== undefined) { callback(); }
+
+      newTx = Transactions.findOne({ _id: txId });
+      if (Meteor.isClient) {
+        _processedTx(newTx._id);
+        _updateWalletCache(newTx, false);
+      }
+
+      const updatedContract = Contracts.findOne({ _id: senderId });
+
+      return updatedContract;
+    }
+  }
+  return null;
+};
+
+/**
+* @summary TODO
+*/
+const _processVoteDecay = (_contractId, targetVoteAmount) => {
+  console.log('### DEBUG - processVoteDecay - _contractId ', _contractId);
+
+  // get latest state of contract
+  const contract = Contracts.findOne({ _id: _contractId });
+  // console.log('### DEBUG - processVoteDecay - contract ', contract);
+
+  // select the voter randomly
+  const voterPoolLimit = contract.tally.voter.length;
+  console.log('### DEBUG - processVoteDecay - voterPoolLimit ', voterPoolLimit);
+  const randomCandidate = _getRandomInt(0, voterPoolLimit);
+  console.log('### DEBUG - processVoteDecay - randomCandidate ', randomCandidate);
+  const userId = contract.tally.voter[randomCandidate]._id;
+  console.log('### DEBUG - processVoteDecay - userId ', userId);
+  // const _contractId = contract._id;
+
+  const transactSettings = {
+    kind: 'VOTE',
+    currency: 'WEB VOTE',
+    contractId: _contractId,
+    quadraticVoting: contract.rules.quadraticVoting,
+  };
+
+  // reverse tx
+  // each reverse tx does the following:
+  // * decreases initialVoteAmount towards targetVoteAmount by 1
+  // * updates .wallet.available
+  // * updates tally:
+  //   - voter.votes decreases by one
+  //   - voter is removed from tally array if it runs out of votes
+  const updatedContract = _transactVoteDecay(_contractId, userId, 1, transactSettings, undefined);
+
+  if (updatedContract.wallet.available > targetVoteAmount) {
+    _processVoteDecay(updatedContract._id, targetVoteAmount);
+  } else {
+    return true;
+  }
+  return null;
+};
+
+
+/**
 * @summary generates the first transaction a member gets from the collective
 * @param {string} userId - id of user being generated within collective
 */
@@ -1072,11 +1206,13 @@ export const processedTx = _processedTx;
 export const updateUserCache = _updateUserCache;
 export const updateWalletCache = _updateWalletCache;
 export const processTransaction = _processTransaction;
+export const processVoteDecay = _processVoteDecay;
 export const generateWalletAddress = _generateWalletAddress;
 export const getTransactions = _getTransactions;
 export const transactionMessage = _transactionMessage;
 export const getVotes = _getVotes;
 export const transact = _transact;
+export const transactVoteDecay = _transactVoteDecay;
 export const genesisTransaction = _genesisTransaction;
 export const loadExternalCryptoBalance = _loadExternalCryptoBalance;
 export const tallyBlockchainVotes = _tallyBlockchainVotes;

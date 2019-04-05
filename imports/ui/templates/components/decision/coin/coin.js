@@ -202,7 +202,6 @@ Template.coin.helpers({
   allowQuadratic() {
     if (Session.get('newCoin')) {
       const coin = getCoin(Session.get('newCoin').code);
-      console.log('allowQuadratic - coin ', coin);
       return coin.editor.allowQuadraticToggle;
     }
     return false;
@@ -210,7 +209,6 @@ Template.coin.helpers({
   allowDecay() {
     if (Session.get('newCoin')) {
       const coin = getCoin(Session.get('newCoin').code);
-      console.log('allowDecay - coin ', coin);
       return coin.editor.allowDecayToggle;
     }
     return false;

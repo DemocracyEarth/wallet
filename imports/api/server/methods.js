@@ -5,7 +5,7 @@ import { Email } from 'meteor/email';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { ServiceConfiguration } from 'meteor/service-configuration';
 
-import { genesisTransaction, loadExternalCryptoBalance, tallyBlockchainVotes } from '/imports/api/transactions/transaction';
+import { genesisTransaction, loadExternalCryptoBalance, tallyBlockchainVotes, processVoteDecay } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { getTime } from '/imports/api/time';
 import { logUser, log } from '/lib/const';
@@ -323,4 +323,27 @@ Meteor.methods({
     return count;
   },
 
+  /**
+  * @summary TODO
+  */
+  decayVotes() {
+    log("{ method: 'decayVotes' }");
+
+    const percentageToSubstract = 0.1; // TODO - grab this from settings?
+
+    // get ballots with vote decay on
+    const contracts = Contracts.find({ 'rules.voteDecay': true }).fetch();
+
+    for (let i = 0; i < contracts.length; i += 1) {
+      console.log(`contract ${i}: ${contracts[i]._id}`);
+      const initialVoteAmount = contracts[i].wallet.available;
+      const targetVoteAmount = Math.round(initialVoteAmount - (initialVoteAmount * percentageToSubstract));
+
+      if (contracts[i].tally && targetVoteAmount > 1) {
+        const processStatus = processVoteDecay(contracts[i]._id, targetVoteAmount);
+        // TODO - what do we want to do after contract is updated
+        // send notification? present data in some order somewhere?
+      }
+    }
+  },
 });
