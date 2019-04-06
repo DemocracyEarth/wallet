@@ -69,7 +69,9 @@ Template.collective.helpers({
 Template.collective.events({
   'click #collective-login'() {
     event.stopPropagation();
-    _promptLogin((!Session.get('user-login') || !Session.get('user-login').visible), event);
+    if (!Meteor.Device.isPhone()) {
+      _promptLogin((!Session.get('user-login') || !Session.get('user-login').visible), event);
+    }
   },
 });
 
