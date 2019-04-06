@@ -157,6 +157,9 @@ Meteor.methods({
       username: _username,
       email: _email,
     });
+
+    genesisTransaction(userId);
+
     Accounts.sendEnrollmentEmail(userId);
   },
 
