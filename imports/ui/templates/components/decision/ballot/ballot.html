@@ -1,44 +1,48 @@
 <template name="ballot">
   {{#if poll}}
-    <div id="single-vote" class="poll-choice" style="visibility: {{hiddenOrUnset}}">
-      <div id="pollItem-{{_ contract._id}}" class="button half choice">
-        <div class="checkbox-mini {{checkSelected 'box'}}">
-          <div class="checkmark_kick {{checkSelected 'mark'}}"></div>
-          <div class="checkmark_stem {{checkSelected 'mark'}}"></div>
-        </div>
-        {{#if removableVotes}}
-          <div id="single-remove" title="{{_ 'remove-vote'}}" class="checkbox-mini checkbox-mini-remove">
-            <div class="checkmark_kick checkmark-kick-remove"></div>
-            <div class="checkmark_stem checkmark-stem-remove"></div>
+    {{#if isUpvote}}
+      <div id="single-vote" class="poll-choice">
+        <div id="pollItem-{{_ contract._id}}" class="button half choice">
+          <div class="checkbox-mini {{checkSelected 'box'}}">
+            <div class="checkmark_kick {{checkSelected 'mark'}}"></div>
+            <div class="checkmark_stem {{checkSelected 'mark'}}"></div>
           </div>
-        {{/if}}
-        {{#if tickTooltip}}
-          <div class="help-tooltip">
-            {{{_ tooltip}}}
-          </div>
-        {{/if}}
-        {{{_ contract.title}}}
-        {{#if tokenFriendly}}
-          <div id="single-vote" class="micro-button micro-button-feed no-underline micro-button-poll" ontouchstart="">
-            <div class="micro-label">
-              {{#with token}}
-                {{> balance}}
-              {{/with}}
+          {{#if removableVotes}}
+            <div id="single-remove" title="{{_ 'remove-vote'}}" class="checkbox-mini checkbox-mini-remove">
+              <div class="checkmark_kick checkmark-kick-remove"></div>
+              <div class="checkmark_stem checkmark-stem-remove"></div>
             </div>
-            <div class="verifier verifier-live verifier-feed"></div>
-          </div>
-        {{/if}}
-        <div class="poll-score poll-score-button">
-          <div class="poll-score-bar">
-            <div class="poll-score-bar-fill" style="width: {{pollScore}}">
+          {{/if}}
+          {{#if tickTooltip}}
+            <div class="help-tooltip">
+              {{{_ tooltip}}}
             </div>
-          </div>
-          <div class="poll-score-percentage {{smallPercentageStyle}}">
-            {{pollScore}}
+          {{/if}}
+          {{{_ contract.title}}}
+          {{#if tokenFriendly}}
+            <div id="single-vote" class="micro-button micro-button-feed no-underline micro-button-poll" ontouchstart="">
+              <div class="micro-label">
+                {{#with token}}
+                  {{> balance}}
+                {{/with}}
+              </div>
+              <div class="verifier verifier-live verifier-feed"></div>
+            </div>
+          {{/if}}
+          <div class="poll-score poll-score-button">
+            <div class="poll-score-bar">
+              <div class="poll-score-bar-fill" style="width: {{pollScore}}">
+              </div>
+            </div>
+            <div class="poll-score-percentage {{smallPercentageStyle}}">
+              {{pollScore}}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      {{else}}
+        <div><span>{{!-- small hack to remove downvote button--}}</span></div>
+      {{/if}}
   {{else}}
     <div id="ballot-{{contract._id}}" class="section section-mobile {{ballotStyle}}">
       {{#if ballotEnabled}}

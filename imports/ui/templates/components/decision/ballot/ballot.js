@@ -719,11 +719,11 @@ Template.ballot.helpers({
     }
     return '';
   },
-  hiddenOrUnset() {
+  isUpvote() {
     if (this.contract.pollChoiceId === '1') {
-      return 'unset';
+      return true;
     }
-    return 'hidden';
+    return false;
   },
 });
 
