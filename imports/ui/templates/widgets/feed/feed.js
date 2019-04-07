@@ -254,7 +254,7 @@ Template.feed.onDestroyed(function () {
 Template.feed.helpers({
   item() {
     let feed = Template.instance().feed.get();
-
+    console.log('### DEBUG - feed.js - item helper - feed ', feed);
     // main view
     if (feed) {
       if (_isIndexFeed(this)) {
@@ -265,7 +265,7 @@ Template.feed.helpers({
 
         // sorting
         if (this.options.sort) {
-          feed = _.sortBy(feed, function (item) { return item.createdAt * -1; });
+          feed = _.sortBy(feed, function (item) { return item.randomSortOrder * 1; });
         }
       } else {
         // thread view
