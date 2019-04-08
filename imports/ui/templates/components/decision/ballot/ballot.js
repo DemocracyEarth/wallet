@@ -593,6 +593,7 @@ Template.ballot.helpers({
   token() {
     const instance = Template.instance();
     const ticket = instance.ticket.get();
+    console.log(`instance.ticket.get(): ${JSON.stringify(instance.ticket.get())}`);
     ticket.rules = this.contract.rules;
 
     if (this.contract.pollId) {

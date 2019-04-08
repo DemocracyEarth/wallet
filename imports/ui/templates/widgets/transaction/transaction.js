@@ -52,6 +52,7 @@ const _getContractToken = (transaction) => {
     disableStake: true,
   };
   // crypto transactions
+  console.log(`transaction.contract.blockchain: ${JSON.stringify(transaction.contract.blockchain)}`);
   if (transaction.contract.blockchain) {
     coin.blockchain = transaction.contract.blockchain;
     coin.contract = transaction.contract;

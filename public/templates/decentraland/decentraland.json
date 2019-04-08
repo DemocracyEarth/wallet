@@ -1,0 +1,58 @@
+{
+  "stylesheet": {
+    "list": ["/styles/normalize.css", "/styles/webflow.css", "/templates/decentraland/sovereign.css", "/templates/decentraland/extra.css"]
+  },
+
+  "header": {
+    "html": "<div class='hero-demo'><img src='/images/vote.gif'></div>"
+  },
+
+  "spinner": {
+    "lines": 17,
+    "length": 6,
+    "width": 1.5,
+    "radius": 16,
+    "scale": 0.4,
+    "corners": 1,
+    "color": "#5a0075",
+    "opacity": 0.3,
+    "rotate": 0,
+    "direction": 1,
+    "speed": 1,
+    "trail": 60,
+    "fps": 20,
+    "zIndex": 2e9,
+    "className": "spinner",
+    "top": "0px",
+    "left": "auto",
+    "shadow": false,
+    "hwaccel": false,
+    "position": "relative"
+  },
+
+  "images": {
+    "back": "/templates/decentraland/images/back.png",
+    "black": "/templates/decentraland/images/black.png",
+    "block": "/templates/decentraland/images/block.png",
+    "clock": "/templates/decentraland/images/clock.png",
+    "debate": "/templates/decentraland/images/debate.png",
+    "reply": "/templates/decentraland/images/reply.png",
+    "tweet": "/templates/decentraland/images/tweet.png",
+    "vote": "/templates/decentraland/images/vote.png",
+    "flag": "/templates/decentraland/images/flag.png",
+    "camera": "/templates/decentraland/images/camera.png",
+    "forward": "/templates/decentraland/images/forward.png",
+    "token": "/templates/decentraland/images/token.png",
+    "domain": "/templates/decentraland/images/domain.png",
+    "decision-draft": "/templates/decentraland/images/decision-draft.png",
+    "blockchain-address": "/templates/decentraland/images/blockchain-address.png",
+    "fingerprint": "/templates/decentraland/images/fingerprint.png",
+    "logout": "/templates/decentraland/images/logout.png",
+    "vote-icon-black": "/templates/decentraland/images/vote-icon-black.png",
+    "mail-closed": "/templates/decentraland/images/mail-closed.png",
+    "mail-closed-login-button": "/templates/decentraland/images/mail-closed-login-button.png",
+    "lock": "/templates/decentraland/images/lock.png",
+    "id-card": "/templates/decentraland/images/id-card.png"
+  }
+
+}

@@ -50,6 +50,18 @@ Template.poll.onRendered(function () {
 
         instance.contracts.set(feed);
       },
+      removed: (id) => {
+        const feed = instance.contracts.get();
+
+        for (let i = 0; i < feed.length; i += 1) {
+          if (feed[i]._id === id) {
+            feed.splice(i, 1);
+            break;
+          }
+        }
+
+        instance.contracts.set(feed);
+      },
     });
   }
   // });

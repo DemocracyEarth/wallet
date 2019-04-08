@@ -34,6 +34,7 @@ const _save = () => {
       check: 'EQUAL',
     });
     draft.wallet.currency = coin.code;
+    draft.blockchain.coin.code = coin.code;
   }
 
   if (draft.constituency.length === 0) {
