@@ -1,6 +1,6 @@
 {
   "stylesheet": {
-    "list": ["/styles/normalize.css", "/styles/webflow.css", "/templates/decentraland/sovereign.css", "/templates/decentraland/extra.css"]
+    "list": ["/styles/normalize.css", "/styles/webflow.css", "/templates/decentraland/decentraland.css", "/templates/decentraland/extra.css"]
   },
 
   "header": {
