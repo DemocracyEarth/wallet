@@ -97,7 +97,7 @@ const getNation = (profile, flagOnly, nameOnly, codeOnly) => {
   } else if (profile.country !== undefined) {
     if (profile.country.name !== TAPi18n.__('unknown')) {
       if (flagOnly) {
-        return `${searchJSON(geo.country, profile.country.name)[0].emoji}`;
+        return `${searchJSON(geo.country, profile.country.name)[0] ? searchJSON(geo.country, profile.country.name)[0].emoji : ''}`;
       }
       if (nameOnly) {
         return `${searchJSON(geo.country, profile.country.name)[0].name}`;
@@ -105,7 +105,7 @@ const getNation = (profile, flagOnly, nameOnly, codeOnly) => {
       if (codeOnly) {
         return `${searchJSON(geo.country, profile.country.name)[0].code}`;
       }
-      return `${profile.country.name} ${searchJSON(geo.country, profile.country.name)[0].emoji}`;
+      return `${profile.country.name} ${searchJSON(geo.country, profile.country.name)[0] ? searchJSON(geo.country, profile.country.name)[0].emoji : ''}`;
     }
     if (flagOnly) { return ''; }
     return TAPi18n.__('unknown');
@@ -116,7 +116,7 @@ const getNation = (profile, flagOnly, nameOnly, codeOnly) => {
       const country = searchJSON(geo.country, user.profile.country.name);
       if (user.profile.country.name !== TAPi18n.__('unknown') && country !== undefined) {
         if (flagOnly) {
-          return `${country[0].emoji}`;
+          return `${country[0] ? country[0].emoji : ''}`;
         }
         if (nameOnly) {
           return user.profile.country.name;

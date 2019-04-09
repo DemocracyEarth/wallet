@@ -664,3 +664,9 @@ width: 1px;
 .button {
   margin: 10px 0px;
 }
+
+.collective.collective-selected {
+    background-color: #e6e6e6;
+    color: #0d0d17;
+    border: 1px solid #5c5c6d38;
+}
