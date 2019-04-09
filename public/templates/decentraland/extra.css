@@ -406,7 +406,7 @@ body, h4, h1, h2 {
 .choice:hover {
     background: #fcf9ff;
     /* border: 1px solid #5d0077; */
-    margin: -2px 0px 2px 0px;
+    /* margin: -2px 0px 2px 0px; */
     box-shadow: 0px 3px 6px 0px #88888847;
     border: 1px solid #f8f3ff;
     border-top: 1px solid #faf8fd;
@@ -416,12 +416,11 @@ body, h4, h1, h2 {
 .choice:active {
     background: #fcf9ff;
     /* border: 1px solid #5d0077; */
-    margin: 0px 0px 0px 0px;
+    /* margin: 0px 0px 0px 0px; */
     box-shadow: 0px 0px 0px 0px #88888847;
     border: 1px solid #ede9f3;
     border-top: 1px solid #f1edf7;
     border-left: 1px solid #f1edf7;
-
 }
 
 .poll-score-bar {
