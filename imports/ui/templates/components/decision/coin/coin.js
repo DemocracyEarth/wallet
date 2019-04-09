@@ -191,7 +191,16 @@ Template.coin.helpers({
     return false;
   },
   wrongAddress() {
-    return _verifyBlockchainAddress();
+    if (Session.get('newCoin')) {
+      const coin = getCoin(Session.get('newCoin').code);
+      if (coin.type === 'ERC20') {
+        if (document.getElementById('editBlockchainAddress') && document.getElementById('editBlockchainAddress').value === '') {
+          Session.set('checkBlockchainAddress', false);
+        }
+        return _verifyBlockchainAddress();
+      }
+    }
+    return false;
   },
   addressStyle() {
     if (Session.get('newCoin') && Session.get('newCoin').code === 'WEB VOTE') {
