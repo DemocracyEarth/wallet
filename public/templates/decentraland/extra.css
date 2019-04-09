@@ -296,7 +296,7 @@ body, h4, h1, h2 {
   border-radius: 5px;
   margin: -5px 0px 0px;
   padding: 10px 10px;
-  background: #e4e4e4;
+  background: #747484;
 }
 
 .toggle {
@@ -660,4 +660,8 @@ width: 1px;
   line-height: 15px;
   font-weight: 400;
   cursor: default;
+}
+
+.button {
+  margin: 10px 0px;
 }
