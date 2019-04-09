@@ -67,6 +67,7 @@ Template.balance.onCreated(function () {
 Template.balance.helpers({
   balanceStyle() {
     let style = '';
+    Template.instance().coin = getCoin(Template.currentData().token);
     const coin = Template.instance().coin;
     if (coin.color) {
       style = `border-color: ${coin.color}; `;

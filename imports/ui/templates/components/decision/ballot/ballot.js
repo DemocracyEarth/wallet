@@ -310,6 +310,9 @@ Template.ballot.onCreated(() => {
   templetize(Template.instance());
 });
 
+Template.ballot.onRendered(function () {
+});
+
 Template.ballot.helpers({
   poll() {
     return this.poll;
@@ -591,15 +594,10 @@ Template.ballot.helpers({
     return label;
   },
   token() {
+    Template.instance().ticket.set(getContractToken({ contract: Template.currentData().contract, isButton: true }));
     const instance = Template.instance();
     const ticket = instance.ticket.get();
-    console.log(`instance.ticket.get(): ${JSON.stringify(instance.ticket.get())}`);
     ticket.rules = this.contract.rules;
-
-    if (this.contract.pollId) {
-      // ticket.rules.pollVoting = false;
-    }
-
     return ticket;
   },
   hasPoll() {
