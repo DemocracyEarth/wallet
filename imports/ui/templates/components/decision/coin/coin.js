@@ -195,7 +195,11 @@ Template.coin.helpers({
       const coin = getCoin(Session.get('newCoin').code);
       if (coin.type === 'ERC20') {
         if (document.getElementById('editBlockchainAddress') && document.getElementById('editBlockchainAddress').value === '') {
-          Session.set('checkBlockchainAddress', false);
+          if (Meteor.user().profile.wallet.reserves.length > 0 && Meteor.user().profile.wallet.reserves[0].publicAddress) {
+            document.getElementById('editBlockchainAddress').value = Meteor.user().profile.wallet.reserves[0].publicAddress;
+          } else {
+            Session.set('checkBlockchainAddress', false);
+          }
         }
         return _verifyBlockchainAddress();
       }
