@@ -51,7 +51,7 @@ Meteor.methods({
     check([toId, fromId, story], [String]);
     check(transaction, Object);
 
-    log(`{ method: 'sendEmail', user: ${logUser()}, story: '${story}' }`);
+    log(`{ method: 'sendNotification', user: ${logUser()}, story: '${story}' }`);
 
     let receiver;
     let subject;
@@ -118,10 +118,76 @@ Meteor.methods({
     // waiting for the email sending to complete.
     this.unblock();
 
-    console.log(`{ server: 'sendNotification', from: '${sender.username}', to: '${receiver.username}', text: "${text}" }`);
 
     if (sender.username !== receiver.username) {
+      console.log(`{ server: 'Email.send', from: '${sender.username}', to: '${receiver.username}', text: "${text}" }`);
       Email.send({ to, from, subject, text, html });
+    }
+  },
+
+  /**
+  * @summary sends email under 'whitelist' logic, which is mainly indicated by
+  * mailNotificationsReplyWhitelist and adminBallotCreatorOnly in settings.json
+  * @param {string} toEmail email receiving message
+  * @param {string} fromId userId sending message
+  * @param {object} transaction votes transacted
+  * @return {Object} email content
+  */
+  sendNotificationReplyWhitelist(toEmail, fromId, transaction) {
+    // Make sure that all arguments are strings.
+    check([toEmail, fromId], [String]);
+    check(transaction, Object);
+
+    log(`{ method: 'sendNotificationReplyWhitelist', user: ${logUser()} }`);
+
+    const whitelistReceiverEmail = toEmail;
+    const story = 'REPLY';
+    let subject;
+    let text;
+    let html = notifierHTML;
+    const contract = Contracts.findOne({ _id: transaction.contractId });
+    const sender = Meteor.users.findOne({ _id: fromId });
+
+    // TODO - make story always reply? so not mait an argument and just define here?
+
+    subject = `${TAPi18n.__(`email-subject-${story.toLowerCase()}`)}`;
+    html = html.replace('{{action}}', `${TAPi18n.__(`email-action-${story.toLowerCase()}`)}`);
+    html = html.replace('{{message}}', `${TAPi18n.__(`email-html-${story.toLowerCase()}`)}`);
+    text = `${TAPi18n.__(`email-text-${story.toLowerCase()}`)}`;
+
+    // const to = whitelistReceiverEmail;
+    const from = `${Meteor.settings.public.Collective.name} <${Meteor.settings.public.Collective.emails[0].address}>`;
+    subject = subject.replace('{{user}}', `@${sender.username}`);
+    subject = subject.replace('{{title}}', `'${stripHTML(contract.title).substring(0, 30)}...'`);
+    html = html.replace('{{user}}', `@${sender.username}`);
+    html = html.replace('{{userURL}}', `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}peer/${sender.username}`);
+    html = html.replace('{{title}}', `${contract.title}`);
+    html = html.replace('{{titleBrief}}', `${contract.title.substring(0, 30)}...`);
+    html = html.replace('{{postURL}}', `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${fixDBUrl(contract.url)}`);
+    html = html.replace('{{reply}}', `${transaction.reply}`);
+    html = html.replace('{{greeting}}', `${TAPi18n.__('email-greeting-hello')} @${whitelistReceiverEmail},`);
+    html = html.replace('{{farewell}}', `${TAPi18n.__('email-farewell')}`);
+    html = html.replace('{{collective}}', `<a href='${Meteor.settings.public.Collective.profile.website}'>${Meteor.settings.public.Collective.name}</a>`);
+    text = text.replace('{{user}}', `@${sender.username}`);
+    text = text.replace('{{title}}', `${contract.title}`);
+
+    if (transaction.input) {
+      subject = _includeQuantity(transaction.input.quantity, subject);
+      html = _includeQuantity(transaction.input.quantity, html);
+      text = _includeQuantity(transaction.input.quantity, text);
+    }
+
+    // let other method calls from the same client start running, without
+    // waiting for the email sending to complete.
+    this.unblock();
+
+
+    if (sender.emails[0].address !== whitelistReceiverEmail) {
+      // TODO - can/should always assume that sender.emails exist?
+      // Note this is where an app developer (parent) commenting on its app
+      // would get picked up and not send an email to himself
+      console.log(`{ server: 'Email.send', from: '${sender.username}', to: '${whitelistReceiverEmail}', text: "${text}" }`);
+      Email.send({ whitelistReceiverEmail, from, subject, text, html });
     }
   },
 

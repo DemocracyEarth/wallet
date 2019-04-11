@@ -61,6 +61,7 @@
           "proposalDrafting": true,
           "appCache": false,
           "mailNotifications": false,
+          "mailNotificationsReplyWhitelist": true,
           "token": {
             "defaultCode": "HOUR"
           },          

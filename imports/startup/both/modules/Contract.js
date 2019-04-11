@@ -9,6 +9,7 @@ import { shortUUID } from '/imports/startup/both/modules/crypto';
 import { transact } from '/imports/api/transactions/transaction';
 import { token } from '/lib/token';
 import { geo } from '/lib/geo';
+import { getWhitelistReplyEmail } from '/lib/permissioned';
 
 /**
 * @summary signs a contract with a verified user
@@ -645,23 +646,50 @@ const _publish = (contractId, keyword) => {
     let fromId;
     let transaction;
 
-    for (const i in reply.signatures) {
-      story = 'REPLY';
-      toId = reply.signatures[i]._id;
+    console.log('--- DEBUG - Contract.js - _publish - reply ', reply);
+    if (Meteor.settings.public.app.config.mailNotificationsReplyWhitelist && !reply.replyId) {
+      // Replies to parent ballot goes to whitelist email
+      // all other replies can go to ballot creaotr as usual
+      console.log('Reply to parent ballot - Meteor.settings.public.app.config.mailNotificationsReplyWhitelist && !reply.replyId');
+
+      // Use separate function
+      // need to pass in whitelist email directly
+
+      const toEmail = getWhitelistReplyEmail('WjEXnNArAnQZ5KwxQ');
+      // TODO handle if toEmail comes back as undefined
       fromId = Meteor.userId();
       transaction = { contractId: draft.replyId, reply: draft.title };
 
       Meteor.call(
-        'sendNotification',
-        toId,
+        'sendNotificationReplyWhitelist',
+        toEmail,
         fromId,
-        story,
         transaction, function (err, result) {
           if (err) {
             throw new Meteor.Error(err, '[sendNotification]: notification failed.');
           }
           return result;
-        });
+        }
+      );
+    } else {
+      for (const i in reply.signatures) {
+        story = 'REPLY';
+        toId = reply.signatures[i]._id;
+        fromId = Meteor.userId();
+        transaction = { contractId: draft.replyId, reply: draft.title };
+
+        Meteor.call(
+          'sendNotification',
+          toId,
+          fromId,
+          story,
+          transaction, function (err, result) {
+            if (err) {
+              throw new Meteor.Error(err, '[sendNotification]: notification failed.');
+            }
+            return result;
+          });
+      }
     }
   }
 };
