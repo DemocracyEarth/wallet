@@ -648,29 +648,28 @@ const _publish = (contractId, keyword) => {
 
     console.log('--- DEBUG - Contract.js - _publish - reply ', reply);
     if (Meteor.settings.public.app.config.mailNotificationsReplyWhitelist && !reply.replyId) {
-      // Replies to parent ballot goes to whitelist email
-      // all other replies can go to ballot creaotr as usual
-      console.log('Reply to parent ballot - Meteor.settings.public.app.config.mailNotificationsReplyWhitelist && !reply.replyId');
+      // With mailNotificationsReplyWhitelist set true, replies to parent ballot goes to whitelist email
+      // and all other replies (to children) can go to receiving ballot creator as usual
 
-      // Use separate function
-      // need to pass in whitelist email directly
-
-      const toEmail = getWhitelistReplyEmail('WjEXnNArAnQZ5KwxQ');
-      // TODO handle if toEmail comes back as undefined
       fromId = Meteor.userId();
       transaction = { contractId: draft.replyId, reply: draft.title };
+      const toEmail = getWhitelistReplyEmail(reply._id);
 
-      Meteor.call(
-        'sendNotificationReplyWhitelist',
-        toEmail,
-        fromId,
-        transaction, function (err, result) {
-          if (err) {
-            throw new Meteor.Error(err, '[sendNotification]: notification failed.');
+      if (toEmail !== undefined) {
+        Meteor.call(
+          'sendNotificationReplyWhitelist',
+          toEmail,
+          fromId,
+          transaction, function (err, result) {
+            if (err) {
+              throw new Meteor.Error(err, '[sendNotification]: notification failed.');
+            }
+            return result;
           }
-          return result;
-        }
-      );
+        );
+      } else {
+        console.log(`{ server: 'toEmail' is ${toEmail}, omitting sendNotificationReplyWhitelist call }`);
+      }
     } else {
       for (const i in reply.signatures) {
         story = 'REPLY';

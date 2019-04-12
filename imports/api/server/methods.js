@@ -148,14 +148,11 @@ Meteor.methods({
     const contract = Contracts.findOne({ _id: transaction.contractId });
     const sender = Meteor.users.findOne({ _id: fromId });
 
-    // TODO - make story always reply? so not mait an argument and just define here?
-
     subject = `${TAPi18n.__(`email-subject-${story.toLowerCase()}`)}`;
     html = html.replace('{{action}}', `${TAPi18n.__(`email-action-${story.toLowerCase()}`)}`);
     html = html.replace('{{message}}', `${TAPi18n.__(`email-html-${story.toLowerCase()}`)}`);
     text = `${TAPi18n.__(`email-text-${story.toLowerCase()}`)}`;
 
-    // const to = whitelistReceiverEmail;
     const from = `${Meteor.settings.public.Collective.name} <${Meteor.settings.public.Collective.emails[0].address}>`;
     subject = subject.replace('{{user}}', `@${sender.username}`);
     subject = subject.replace('{{title}}', `'${stripHTML(contract.title).substring(0, 30)}...'`);
@@ -181,11 +178,12 @@ Meteor.methods({
     // waiting for the email sending to complete.
     this.unblock();
 
+    let senderEmail = '';
+    if (sender.emails) {
+      senderEmail = sender.emails[0].address;
+    }
 
-    if (sender.emails[0].address !== whitelistReceiverEmail) {
-      // TODO - can/should always assume that sender.emails exist?
-      // Note this is where an app developer (parent) commenting on its app
-      // would get picked up and not send an email to himself
+    if (senderEmail !== whitelistReceiverEmail) {
       console.log(`{ server: 'Email.send', from: '${sender.username}', to: '${whitelistReceiverEmail}', text: "${text}" }`);
       Email.send({ whitelistReceiverEmail, from, subject, text, html });
     }
