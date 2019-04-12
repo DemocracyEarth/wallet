@@ -1,6 +1,6 @@
 {
   "stylesheet": {
-    "list": ["/styles/normalize.css", "/styles/webflow.css", "/templates/sovereign/sovereign.css", "/templates/sovereign/extra.css", "/templates/sovereign/landing.css"]
+    "list": ["/styles/normalize.css", "/styles/webflow.css", "/templates/blockstack/sovereign.css", "/templates/blockstack/extra.css", "/templates/blockstack/landing.css"]
   },
 
   "header": {
@@ -32,28 +32,28 @@
   },
 
   "images": {
-    "back": "/templates/sovereign/images/back.png",
-    "black": "/templates/sovereign/images/black.png",
-    "block": "/templates/sovereign/images/block.png",
-    "clock": "/templates/sovereign/images/clock.png",
-    "debate": "/templates/sovereign/images/debate.png",
-    "reply": "/templates/sovereign/images/reply.png",
-    "tweet": "/templates/sovereign/images/tweet.png",
-    "vote": "/templates/sovereign/images/vote.png",
-    "flag": "/templates/sovereign/images/flag.png",
-    "camera": "/templates/sovereign/images/camera.png",
-    "forward": "/templates/sovereign/images/forward.png",
-    "token": "/templates/sovereign/images/token.png",
-    "domain": "/templates/sovereign/images/domain.png",
-    "decision-draft": "/templates/sovereign/images/decision-draft.png",
-    "blockchain-address": "/templates/sovereign/images/blockchain-address.png",
-    "fingerprint": "/templates/sovereign/images/fingerprint.png",
-    "logout": "/templates/sovereign/images/logout.png",
-    "vote-icon-black": "/templates/sovereign/images/vote-icon-black.png",
-    "mail-closed": "/templates/sovereign/images/mail-closed.png",
-    "mail-closed-login-button": "/templates/sovereign/images/mail-closed-login-button.png",
-    "lock": "/templates/sovereign/images/lock.png",
-    "id-card": "/templates/sovereign/images/id-card.png",
+    "back": "/templates/blockstack/images/back.png",
+    "black": "/templates/blockstack/images/black.png",
+    "block": "/templates/blockstack/images/block.png",
+    "clock": "/templates/blockstack/images/clock.png",
+    "debate": "/templates/blockstack/images/debate.png",
+    "reply": "/templates/blockstack/images/reply.png",
+    "tweet": "/templates/blockstack/images/tweet.png",
+    "vote": "/templates/blockstack/images/vote.png",
+    "flag": "/templates/blockstack/images/flag.png",
+    "camera": "/templates/blockstack/images/camera.png",
+    "forward": "/templates/blockstack/images/forward.png",
+    "token": "/templates/blockstack/images/token.png",
+    "domain": "/templates/blockstack/images/domain.png",
+    "decision-draft": "/templates/blockstack/images/decision-draft.png",
+    "blockchain-address": "/templates/blockstack/images/blockchain-address.png",
+    "fingerprint": "/templates/blockstack/images/fingerprint.png",
+    "logout": "/templates/blockstack/images/logout.png",
+    "vote-icon-black": "/templates/blockstack/images/vote-icon-black.png",
+    "mail-closed": "/templates/blockstack/images/mail-closed.png",
+    "mail-closed-login-button": "/templates/blockstack/images/mail-closed-login-button.png",
+    "lock": "/templates/blockstack/images/lock.png",
+    "id-card": "/templates/blockstack/images/id-card.png",
     "logo": "/templates/blockstack/images/blockstack-icon.jpg"
   }
 

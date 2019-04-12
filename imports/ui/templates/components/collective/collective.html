@@ -1,7 +1,7 @@
 <template name="collective">
   <div id='collective-login' class="collective {{toggle}}">
     {{#if hasLogo}}
-      <img class="collective-icon" src="{{pathFor route='home'}}{{picture}}">
+      <img class="collective-icon" src="{{getImage 'logo'}}" />
     {{/if}}
     <div class="collective-profile">
       <div id="collective-home" class="collective-title">

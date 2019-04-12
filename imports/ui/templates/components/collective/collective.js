@@ -2,10 +2,12 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
 import { resetSplit } from '/imports/ui/modules/split';
 import { showSidebar } from '/imports/ui/templates/layout/sidebar/sidebar';
+import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 
 import '/imports/ui/templates/components/collective/collective.html';
 
@@ -18,6 +20,12 @@ const _promptLogin = (logged, event) => {
     animatePopup(false, 'user-login');
   }
 };
+
+Template.collective.onCreated(function () {
+  Template.instance().activeSignIn = new ReactiveVar(false);
+  Template.instance().imageTemplate = new ReactiveVar();
+  templetize(Template.instance());
+});
 
 Template.collective.onRendered(() => {
   Session.set('userLoginVisible', false);
@@ -63,6 +71,9 @@ Template.collective.helpers({
       return 'collective-selected';
     }
     return '';
+  },
+  getImage(pic) {
+    return getImage(Template.instance().imageTemplate.get(), pic);
   },
 });
 

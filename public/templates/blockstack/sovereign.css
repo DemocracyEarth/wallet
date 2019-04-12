@@ -6513,9 +6513,11 @@ blockquote {
 }
 
 .hero-logo {
-  max-height: 32px;
-  margin: 14px 10px;
+  max-height: 40px;
+  max-width: 90%;
+  margin: 14px 5px;
   float: left;
+  border-radius: 5px
 }
 
 .hero-button {
@@ -6647,6 +6649,7 @@ blockquote {
 .hero-home-button {
   display: inline-block;
   float: left;
+  margin-left: 15px;
 }
 
 .hero-home-button:active {
