@@ -675,6 +675,7 @@
   "voting-editor-offchain-toggle": "Off-chain",
   "voting-editor-balance-toggle": "Vote with token balance",
   "voting-editor-quadratic-toggle": "Quadratic voting",
+  "voting-editor-vote-decay": "Vote Decay",
   "voting-editor-poll-voting": "Include poll",
   "advanced-rules": "Advanced",
   "voting-editor-balance-tooltip": "Off-chain method. The token balance of an address gets tallied after signing with its private key.",

@@ -46,6 +46,9 @@
         <div class="toggles">
           {{> setting label='voting-editor-quadratic-toggle' tooltip='voting-editor-quadratic-tooltip' toggle=true sessionContract="cachedDraft" rules="quadraticVoting" value=quadraticVoting enabled=allowQuadratic}}
         </div>
+        <div class="toggles">
+          {{> setting label='voting-editor-vote-decay' tooltip='voting-editor-quadratic-tooltip' toggle=true sessionContract="cachedDraft" rules="voteDecay" value=voteDecay enabled=allowDecay}}
+        </div>
       {{/if}}
       <div class="dropdown-buttons">
          <div class="modal-buttons-padder modal-buttons-padder-left">

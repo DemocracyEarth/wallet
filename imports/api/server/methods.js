@@ -5,7 +5,7 @@ import { Email } from 'meteor/email';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { ServiceConfiguration } from 'meteor/service-configuration';
 
-import { genesisTransaction, loadExternalCryptoBalance, tallyBlockchainVotes } from '/imports/api/transactions/transaction';
+import { genesisTransaction, loadExternalCryptoBalance, tallyBlockchainVotes, processVoteDecay } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { getTime } from '/imports/api/time';
 import { logUser, log } from '/lib/const';
@@ -387,4 +387,30 @@ Meteor.methods({
     return count;
   },
 
+  /**
+  * @summary initiates vote decay process for all ballots that have been
+  * created with vote decay setting (`'rules.voteDecay': true`)
+  */
+  decayVotes() {
+    const percentageToSubstract = Meteor.settings.public.app.config.defaultRules.voteDecay.percetageToSubstractPerIntervalFrequency;
+    const contracts = Contracts.find({ 'rules.voteDecay': true, stage: 'LIVE' }).fetch();
+
+    if (contracts.length !== 0) {
+      log(`{ method: 'decayVotes', ${contracts.length} contracts found with active vote decay setting }`);
+      for (let i = 0; i < contracts.length; i += 1) {
+        const initialVoteAmount = contracts[i].wallet.available;
+        const targetVoteAmount = Math.round(initialVoteAmount - (initialVoteAmount * percentageToSubstract));
+
+        if (contracts[i].tally && targetVoteAmount > 1) {
+          const processStatus = processVoteDecay(contracts[i]._id, targetVoteAmount);
+          // TODO - what do we want to do after contract is updated
+          // send notification? present data in some order somewhere?
+          // log() with results
+          // anything to updae in cronHistory collection
+        }
+      }
+    } else {
+      log("{ method: 'decayVotes', no contracts found with active vote decay setting }");
+    }
+  },
 });

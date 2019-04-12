@@ -119,6 +119,7 @@ Template.coin.onRendered(function () {
   // _.find(Session.get('draftContract').rules, function (num) { if (num) { advancedSettings = true; } });
   // Template.instance().showAdvanced.set(advancedSettings);
   Template.instance().showAdvanced.set((Session.get('draftContract').rules.quadraticVoting === true));
+  Template.instance().showAdvanced.set((Session.get('draftContract').rules.voteDecay === true));
 
 
   Session.set('cachedDraft', Session.get('draftContract'));
@@ -176,6 +177,18 @@ Template.coin.helpers({
     }
     return false;
   },
+  voteDecay() {
+    if (Session.get('newCoin')) {
+      const coin = getCoin(Session.get('newCoin').code);
+      if (!coin.editor.allowDecayToggle) {
+        const cache = Session.get('cachedDraft');
+        cache.rules.voteDecay = false;
+        Session.set('cachedDraft', cache);
+      }
+      return Session.get('cachedDraft').rules ? (Session.get('cachedDraft').rules.voteDecay && coin.editor.allowDecayToggle) : false;
+    }
+    return false;
+  },
   pollVoting() {
     return (Session.get('cachedDraft') && Session.get('cachedDraft').rules) ? Session.get('cachedDraft').rules.pollVoting : false;
   },
@@ -190,6 +203,13 @@ Template.coin.helpers({
     if (Session.get('newCoin')) {
       const coin = getCoin(Session.get('newCoin').code);
       return coin.editor.allowQuadraticToggle;
+    }
+    return false;
+  },
+  allowDecay() {
+    if (Session.get('newCoin')) {
+      const coin = getCoin(Session.get('newCoin').code);
+      return coin.editor.allowDecayToggle;
     }
     return false;
   },

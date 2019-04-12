@@ -11,6 +11,9 @@ import './register-api.js';
 // Raven logger configuration
 import './raven.js';
 
+// Cron jobs
+import './cron.js';
+
 // extras
 import './modules/search.js';
 import './accounts/accounts.js';
