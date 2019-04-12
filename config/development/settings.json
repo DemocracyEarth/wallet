@@ -75,7 +75,11 @@
             "quadraticVoting": false,
             "balanceVoting": false,
             "pollVoting": false,
-            "voteDecay": false
+            "voteDecay": {
+              "active": true,
+              "intervalFrequency": "every 30 seconds",
+              "percetageToSubstractPerIntervalFrequency": 0.1
+            }
           },
           "interface": {
             "showTransactions": false,

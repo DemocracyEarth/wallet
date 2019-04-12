@@ -324,26 +324,29 @@ Meteor.methods({
   },
 
   /**
-  * @summary TODO
+  * @summary initiates vote decay process for all ballots that have been
+  * created with vote decay setting (`'rules.voteDecay': true`)
   */
   decayVotes() {
-    log("{ method: 'decayVotes' }");
+    const percentageToSubstract = Meteor.settings.public.app.config.defaultRules.voteDecay.percetageToSubstractPerIntervalFrequency;
+    const contracts = Contracts.find({ 'rules.voteDecay': true, stage: 'LIVE' }).fetch();
 
-    const percentageToSubstract = 0.1; // TODO - grab this from settings?
+    if (contracts.length !== 0) {
+      log(`{ method: 'decayVotes', ${contracts.length} contracts found with active vote decay setting }`);
+      for (let i = 0; i < contracts.length; i += 1) {
+        const initialVoteAmount = contracts[i].wallet.available;
+        const targetVoteAmount = Math.round(initialVoteAmount - (initialVoteAmount * percentageToSubstract));
 
-    // get ballots with vote decay on
-    const contracts = Contracts.find({ 'rules.voteDecay': true }).fetch();
-
-    for (let i = 0; i < contracts.length; i += 1) {
-      console.log(`contract ${i}: ${contracts[i]._id}`);
-      const initialVoteAmount = contracts[i].wallet.available;
-      const targetVoteAmount = Math.round(initialVoteAmount - (initialVoteAmount * percentageToSubstract));
-
-      if (contracts[i].tally && targetVoteAmount > 1) {
-        const processStatus = processVoteDecay(contracts[i]._id, targetVoteAmount);
-        // TODO - what do we want to do after contract is updated
-        // send notification? present data in some order somewhere?
+        if (contracts[i].tally && targetVoteAmount > 1) {
+          const processStatus = processVoteDecay(contracts[i]._id, targetVoteAmount);
+          // TODO - what do we want to do after contract is updated
+          // send notification? present data in some order somewhere?
+          // log() with results
+          // anything to updae in cronHistory collection
+        }
       }
+    } else {
+      log("{ method: 'decayVotes', no contracts found with active vote decay setting }");
     }
   },
 });

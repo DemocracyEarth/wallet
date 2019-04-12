@@ -94,7 +94,7 @@ Schema.Rules = new SimpleSchema({
   },
   voteDecay: {
     type: Boolean,
-    defaultValue: Meteor.settings.public.app.config.defaultRules.voteDecay,
+    defaultValue: Meteor.settings.public.app.config.defaultRules.voteDecay.active,
   },
 });
 

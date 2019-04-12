@@ -2,7 +2,6 @@ import { onPageLoad } from 'meteor/server-render';
 import { Meteor } from 'meteor/meteor';
 import { meta } from '/imports/startup/both/routes';
 import { TAPi18n } from 'meteor/tap:i18n';
-import { SyncedCron } from 'meteor/littledata:synced-cron';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { log } from '/lib/const';
