@@ -20,6 +20,7 @@ import '/imports/ui/templates/components/decision/constituency/constituency.js';
 import '/imports/ui/templates/components/decision/coin/coin.js';
 import '/imports/ui/templates/components/decision/electorate/electorate.js';
 import '/imports/ui/templates/components/decision/blockchain/blockchain.js';
+import '/imports/ui/templates/components/decision/closing/closing.js';
 
 
 const _keepKeyboard = () => {

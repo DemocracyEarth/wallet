@@ -673,7 +673,7 @@
   "token-saft": "SAFT Purchase",
   "off-chain": "off chain",
   "voting-editor-offchain-toggle": "Off-chain",
-  "voting-editor-balance-toggle": "Vote with balance",
+  "voting-editor-balance-toggle": "Balance voting",
   "voting-editor-quadratic-toggle": "Quadratic voting",
   "voting-editor-poll-voting": "Include poll",
   "advanced-rules": "Advanced",
@@ -690,5 +690,6 @@
   "remove-vote": "Remove vote from this choice.",
   "election-rule-quadratic": "Quadratic Vote",
   "election-rule-balance": "Balance Vote",
-  "token-budget": "Budget"
+  "token-budget": "Budget",
+  "closing": "Closing"
 }
