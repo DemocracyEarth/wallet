@@ -641,3 +641,7 @@ width: 1px;
   margin-bottom: 0px;
 }
 
+.editor-button {
+  font-size: 11px;
+  line-height: 27px;
+}

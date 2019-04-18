@@ -52,7 +52,17 @@
     "mail-closed": "/templates/sovereign/images/mail-closed.png",
     "mail-closed-login-button": "/templates/sovereign/images/mail-closed-login-button.png",
     "lock": "/templates/sovereign/images/lock.png",
-    "id-card": "/templates/sovereign/images/id-card.png"
+    "id-card": "/templates/sovereign/images/id-card.png",
+    "calendar-enabled": "/templates/sovereign/images/calendar-enabled.png",
+    "calendar-active": "/templates/sovereign/images/calendar-active.png",
+    "calendar-disabled": "/templates/sovereign/images/calendar-disabled.png",
+    "vote-enabled": "/templates/sovereign/images/vote-enabled.png",
+    "vote-active": "/templates/sovereign/images/vote-active.png",
+    "vote-disabled": "/templates/sovereign/images/vote-disabled.png",
+    "electorate-check-active": "/templates/sovereign/images/electorate-check-active.png",
+    "electorate-check-editor": "/templates/sovereign/images/electorate-check-editor.png",
+    "electorate-check-enabled": "/templates/sovereign/images/electorate-check-enabled.png",
+    "electorate-check-reject-active": "/templates/sovereign/images/electorate-check-reject-active.png",
+    "electorate-check-reject-enabled": "/templates/sovereign/images/electorate-check-reject-enabled.png"
   }
-
 }

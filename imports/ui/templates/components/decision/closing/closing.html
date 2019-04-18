@@ -1,6 +1,6 @@
 <template name="closing">
   <div id="{{closingId}}" title="{{description}}" class="editor-button editor-button-{{icon}} {{readOnly}}">
-    <img class="toolbar-icon" src="{{pathFor route='home'}}images/electorate-check-{{icon}}.png">
+    <img class="toolbar-icon" src="{{getImage 'calendar-enabled'}}">
     {{{status}}}
   </div>
 </template>

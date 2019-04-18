@@ -79,6 +79,31 @@ Schema.Poll = new SimpleSchema({
   },
 });
 
+Schema.Closing = new SimpleSchema({
+  alwaysOn: {
+    type: Boolean,
+    defaultValue: true,
+  },
+  blockchain: {
+    type: String,
+    defaultValue: 'ETHEREUM',
+  },
+  height: {
+    type: String,
+    defaultValue: '',
+  },
+  calendar: {
+    type: Date,
+    autoValue() {
+      const creationDate = new Date();
+      if (this.isInsert) {
+        creationDate.setDate(creationDate.getDate() + 1);
+      }
+      return creationDate;
+    },
+  },
+});
+
 Schema.Rules = new SimpleSchema({
   quadraticVoting: {
     type: Boolean,
@@ -575,6 +600,10 @@ Schema.Contract = new SimpleSchema({
   },
   pollChoiceId: {
     type: String,
+    optional: true,
+  },
+  closing: {
+    type: Schema.Closing,
     optional: true,
   },
 });

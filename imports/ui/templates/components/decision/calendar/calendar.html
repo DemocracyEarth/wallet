@@ -1,0 +1,18 @@
+<template name="calendar">
+    {{#if currentUser}}
+    <div class="login">
+      <div class="dropdown-buttons">
+        <div class="modal-buttons-padder modal-buttons-padder-left">
+          <div id="cancel-constituency" class="button login-button button-secondary button-half">
+            <div>{{_ 'cancel'}}</div>
+          </div>
+        </div>
+        <div class="modal-buttons-padder modal-buttons-padder-right">
+          <div id="execute-constituency" class="button login-button button-half {{buttonDisable}}">
+            <div>{{_ 'apply'}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/if}}
+</template>
