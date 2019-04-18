@@ -691,5 +691,7 @@
   "election-rule-quadratic": "Quadratic Vote",
   "election-rule-balance": "Balance Vote",
   "token-budget": "Budget",
-  "closing-date": "Closing"
+  "closing-date": "Closing",
+  "always-on-tooltip": "An <em>Always On</em> decision does not have a closing date.",
+  "decision-deadline": "Decision Deadline"
 }

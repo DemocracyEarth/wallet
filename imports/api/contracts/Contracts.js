@@ -80,10 +80,6 @@ Schema.Poll = new SimpleSchema({
 });
 
 Schema.Closing = new SimpleSchema({
-  alwaysOn: {
-    type: Boolean,
-    defaultValue: true,
-  },
   blockchain: {
     type: String,
     defaultValue: 'ETHEREUM',
@@ -105,6 +101,10 @@ Schema.Closing = new SimpleSchema({
 });
 
 Schema.Rules = new SimpleSchema({
+  alwaysOn: {
+    type: Boolean,
+    defaultValue: true,
+  },
   quadraticVoting: {
     type: Boolean,
     defaultValue: Meteor.settings.public.app.config.defaultRules.quadraticVoting,
