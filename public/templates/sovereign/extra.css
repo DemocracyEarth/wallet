@@ -676,3 +676,13 @@ width: 1px;
 .toggles.toggles-untitled {
   margin: 5px 0px 5px;
 }
+
+.blockchain-time {
+  background: #e4e4e4;
+  text-transform: none;
+  padding: 5px 10px;
+  line-height: 20px;
+  font-size: 10px;
+  border-radius: 5px;
+  margin: -5px 0px;
+}

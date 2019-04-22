@@ -9,15 +9,7 @@ Template.switcher.onRendered(function () {
 
 Template.switcher.helpers({
   option() {
-    const processed = this.option;
-
-    // put selected as true
-    for (let i = 0; i < processed.length; i += 1) {
-      processed[i].value = false;
-    }
-    processed[this.selected].value = true;
-
-    return processed;
+    return this.option;
   },
 });
 

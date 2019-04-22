@@ -700,5 +700,7 @@
   "blockchain-time-monthly": "30 days",  
   "blockchain-time-quarterly": "1 quarter",
   "blockchain-time-annual": "1 year",
-  "duration": "Duration"
+  "duration": "Duration",
+  "blockchain-time-closing-criteria": "Poll ends when <strong>{{blockchain}}</strong> reaches a block height of <strong>{{height}}</strong> blocks estimated on <strong>{{date}}</strong>.",
+  "blockchain-time-always-on": "This poll never ends and tallies an ongoing result."
 }

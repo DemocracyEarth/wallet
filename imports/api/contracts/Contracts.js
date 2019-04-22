@@ -82,7 +82,7 @@ Schema.Poll = new SimpleSchema({
 Schema.Closing = new SimpleSchema({
   blockchain: {
     type: String,
-    defaultValue: 'ETHEREUM',
+    defaultValue: 'ETH',
   },
   height: {
     type: Number,

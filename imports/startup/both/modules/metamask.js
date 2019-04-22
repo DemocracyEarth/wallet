@@ -334,7 +334,16 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
 const _getBlockHeight = async () => {
   let height = 0;
   if (_web3()) {
-    height = await web3.eth.getBlockNumber().then((res) => { console.log(res); return res; });
+    height = await web3.eth.isSyncing().then(
+      async (res) => {
+        if (!res) {
+          return await web3.eth.getBlockNumber().then((blockNumber) => {
+            return blockNumber;
+          });
+        }
+        return false;
+      }
+    );
   }
   return height;
 };
