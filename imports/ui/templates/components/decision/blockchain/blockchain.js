@@ -150,6 +150,15 @@ Template.blockchain.onRendered(function () {
       }
     }
   });
+
+  instance.autorun(function () {
+    $('.right').scroll(() => {
+      if (Session.get('showCoinSettings')) {
+        Session.set('showCoinSettings', false);
+        animatePopup(false, 'blockchain-popup');
+      }
+    });
+  });
 });
 
 Template.blockchain.helpers({

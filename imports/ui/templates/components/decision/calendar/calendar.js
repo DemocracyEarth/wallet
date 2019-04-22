@@ -11,6 +11,16 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import '/imports/ui/templates/components/decision/calendar/calendar.html';
 import '/imports/ui/templates/widgets/switcher/switcher.js';
 
+const _save = () => {
+  const draft = Session.get('draftContract');
+  const cache = Session.get('cachedDraft');
+
+  draft.closingm = cache.closing;
+  draft.rules.alwaysOn = cache.rules.alwaysOn;
+
+  Session.set('draftContract', cache);
+};
+
 /**
 * @summary sets the block time configuration for closing in cached contract
 * @param {number} blocks length in blockchain
@@ -49,11 +59,22 @@ const _setBlockTime = async (blocks) => {
 };
 
 Template.calendar.onRendered(function () {
+  const instance = Template.instance();
   Session.set('cachedDraft', Session.get('draftContract'));
 
+  // default setting
   if (Session.get('cachedDraft') && Session.get('cachedDraft').closing.delta === 0) {
     _setBlockTime(blocktimes.ETHEREUM_WEEK);
   }
+
+  window.addEventListener('click', function (e) {
+    if (document.getElementById('card-calendar-popup') && !document.getElementById('card-calendar-popup').contains(e.target)) {
+      if (!instance.data.readOnly) {
+        Session.set('showClosingEditor', false);
+        animatePopup(false, 'calendar-popup');
+      }
+    }
+  });
 });
 
 Template.calendar.helpers({
@@ -117,6 +138,11 @@ Template.calendar.helpers({
 
 Template.calendar.events({
   'click #cancel-calendar'() {
+    animatePopup(false, 'calendar-popup');
+    Session.set('showClosingEditor', false);
+  },
+  'click #execute-calendar'() {
+    _save();
     animatePopup(false, 'calendar-popup');
     Session.set('showClosingEditor', false);
   },

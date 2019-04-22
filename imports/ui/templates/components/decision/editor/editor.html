@@ -14,8 +14,8 @@
               <div class="verifier verifier-live verifier-feed no-link">{{_ 'draft'}}</div>
             </div>
             <div class="title-input title-input-void title-input-compressed">
-            {{_ 'post-new-idea'}}
-          </div>
+             {{_ 'post-new-idea'}}
+            </div>
           </div>
         </div>
       </a>
@@ -49,6 +49,13 @@
             </div>
           </div>
         </div>
+        {{#if userWithTokenReserves}}
+          <div class="editor-menu">
+            {{> blockchain contract=draftContract}}
+            {{> electorate contract=draftContract}}
+            {{> closing contract=draftContract}}
+          </div>
+        {{/if}}
         <div class="w-inline-block w-clearfix option-proposal">
           <div class="option-title option-link option-search option-editor title-input">
              <div class="title-input title-feed">
@@ -76,13 +83,6 @@
           {{> editorButton}}
         {{/each}}
         -->
-        {{#if userWithTokenReserves}}
-          <div class="editor-menu">
-            {{> blockchain contract=draftContract}}
-            {{> electorate contract=draftContract}}
-            {{> closing contract=draftContract}}
-          </div>
-        {{/if}}
         {{#unless isPhone}}
           <div class="post-button">
             {{> authentication desktop=true}}

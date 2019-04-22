@@ -162,6 +162,9 @@ const _contextCheck = (elementId, event) => {
   if (document.getElementById('card-blockchain-popup')) {
     return document.getElementById('card-blockchain-popup') && !document.getElementById('card-blockchain-popup').contains(event.target) && document.getElementById(elementId) && !document.getElementById(elementId).contains(event.target);
   }
+  if (document.getElementById('card-calendar-popup')) {
+    return document.getElementById('card-calendar-popup') && !document.getElementById('card-calendar-popup').contains(event.target) && document.getElementById(elementId) && !document.getElementById(elementId).contains(event.target);
+  }
   return document.getElementById(elementId) && !document.getElementById(elementId).contains(event.target);
 };
 

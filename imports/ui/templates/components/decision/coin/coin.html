@@ -7,7 +7,7 @@
             {{_ 'voting-token'}}
           </label>
           <img src="{{getImage 'token'}}" class="login-icon">
-          <input type="text" placeholder="{{_ 'erc20-tokens'}}" autocomplete="false" value="{{token}}" class="w-input login-input token-search">
+          <input type="text" placeholder="{{_ 'erc20-tokens'}}" autocomplete="off" value="{{token}}" class="w-input login-input token-search">
           {{#if showTokens}}
             {{> suggest tokenList=true}}
           {{/if}}

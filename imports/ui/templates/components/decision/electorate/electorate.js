@@ -240,6 +240,15 @@ Template.electorate.onRendered(function () {
       }
     }
   });
+
+  instance.autorun(function () {
+    $('.right').scroll(() => {
+      if (Session.get('showConstituencyEditor')) {
+        Session.set('showConstituencyEditor', false);
+        animatePopup(false, 'constituency-popup');
+      }
+    });
+  });
 });
 
 Template.electorate.helpers({

@@ -665,3 +665,12 @@ width: 1px;
 .button {
   margin: 10px 0px;
 }
+
+.editor-menu {
+  margin: -2px -16px 10px;
+  background: #ffffff;
+  display: inline-block;
+  padding: 5px 5px;
+  box-shadow: 0px 11px 15px 0px #e6e6e666;
+  border-radius: 0px;
+}

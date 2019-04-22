@@ -6,7 +6,7 @@
           {{_ 'voter-nationality'}}
         </label>
         <img src="{{getImage 'flag'}}" class="login-icon">
-        <input type="text" id="editCountry" placeholder="{{_ 'earth'}}" autocomplete="false" value="{{country}}" class="w-input login-input country-search">
+        <input type="text" id="editCountry" placeholder="{{_ 'earth'}}" autocomplete="off" value="{{country}}" class="w-input login-input country-search">
         {{#if showNations}}
           {{> suggest}}
         {{/if}}
@@ -16,7 +16,7 @@
           {{_ 'email-valid-domain'}}
         </label>
         <img src="{{getImage 'domain'}}" class="login-icon">
-        <input type="text" id="editDomain" placeholder="{{_ 'email-domain-placeholder'}}" autocomplete="false" class="w-input login-input login-input-domain">
+        <input type="text" id="editDomain" placeholder="{{_ 'email-domain-placeholder'}}" autocomplete="off" class="w-input login-input login-input-domain">
         {{#if wrongAddress}}
           <div class="margin-top">
             {{> warning label='domain-wrong-address'}}

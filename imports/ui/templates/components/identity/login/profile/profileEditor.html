@@ -45,7 +45,7 @@
         <div class="login-field">
           <label for="name" class="login-label login-label-form">{{_ "nationality"}}</label>
           <img src="{{getImage 'flag'}}" class="login-icon">
-          <input type="text" placeholder="{{_ 'earth'}}" autocomplete="false" value="{{country}}" class="w-input login-input country-search">
+          <input type="text" placeholder="{{_ 'earth'}}" autocomplete="off" value="{{country}}" class="w-input login-input country-search">
           {{#if showNations}}
             {{> suggest}}
           {{/if}}

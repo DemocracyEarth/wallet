@@ -696,3 +696,12 @@ width: 1px;
   margin: -5px 0px;
 }
 
+.editor-menu {
+  margin: 0px -16px 10px;
+  background: #ffffff;
+  display: inline-block;
+  padding: 5px 5px;
+  box-shadow: 0px 11px 15px 0px #e6e6e666;
+  border-radius: 0px;
+  width: 110%;
+}
