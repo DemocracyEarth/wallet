@@ -1,5 +1,3 @@
-import { Meteor } from 'meteor/meteor';
-import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
 import { animatePopup } from '/imports/ui/modules/popup';
@@ -8,7 +6,6 @@ import { blocktimes } from '/lib/const';
 import { token } from '/lib/token';
 import { getBlockHeight } from '/imports/startup/both/modules/metamask.js';
 
-import { ReactiveVar } from 'meteor/reactive-var';
 import { TAPi18n } from 'meteor/tap:i18n';
 
 import '/imports/ui/templates/components/decision/calendar/calendar.html';
