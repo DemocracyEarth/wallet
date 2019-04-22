@@ -645,3 +645,34 @@ width: 1px;
   font-size: 11px;
   line-height: 27px;
 }
+
+.switch-button { 
+    color: #5a0075;
+    float: left;
+    font-size: 11px;
+    margin: 3px;
+    border: 1px solid #5a0075;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.switch-button.switch-button-selected,
+.switch-button.switch-button-selected:hover {
+  background-color: #5a0075;
+  color: white;
+}
+
+.switch-button:hover {
+  background-color:#5a00750f;
+}
+
+.switcher {
+    margin: -5px -3px 10px;
+    clear: both;
+    display: inline-block;
+}
+
+.toggles.toggles-untitled {
+  margin: 5px 0px 5px;
+}

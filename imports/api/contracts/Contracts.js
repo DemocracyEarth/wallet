@@ -85,8 +85,8 @@ Schema.Closing = new SimpleSchema({
     defaultValue: 'ETHEREUM',
   },
   height: {
-    type: String,
-    defaultValue: '',
+    type: Number,
+    defaultValue: 0,
   },
   calendar: {
     type: Date,
@@ -97,6 +97,10 @@ Schema.Closing = new SimpleSchema({
       }
       return creationDate;
     },
+  },
+  delta: {
+    type: Number,
+    defaultValue: 0,
   },
 });
 

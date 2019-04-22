@@ -693,5 +693,12 @@
   "token-budget": "Budget",
   "closing-date": "Closing",
   "always-on-tooltip": "An <em>Always On</em> decision does not have a closing date.",
-  "decision-deadline": "Decision Deadline"
+  "decision-deadline": "Decision Deadline",
+  "blockchain-time": "Blockchain Time",
+  "blockchain-time-daily": "24 hours",
+  "blockchain-time-weekly": "7 days",
+  "blockchain-time-monthly": "30 days",  
+  "blockchain-time-quarterly": "1 quarter",
+  "blockchain-time-annual": "1 year",
+  "duration": "Duration"
 }
