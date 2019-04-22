@@ -1,14 +1,9 @@
-import { Meteor } from 'meteor/meteor';
-import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { Template } from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
-import { TAPi18n } from 'meteor/tap:i18n';
 
 import '/imports/ui/templates/widgets/switcher/switcher.html';
 
 Template.switcher.onRendered(function () {
-  console.log(`switcher: ${JSON.stringify(Template.currentData())}`);
   Session.set('cachedDraft', Session.get('draftContract'));
 });
 
@@ -36,6 +31,7 @@ Template.switch.helpers({
 });
 
 Template.switcher.events({
-  'click #cancel-calendar'() {
+  'click #switch-button'() {
+    this.action();
   },
 });

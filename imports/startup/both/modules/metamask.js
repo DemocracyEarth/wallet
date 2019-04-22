@@ -208,8 +208,7 @@ const _delegate = (sourceId, targetId, contractId, hash, value) => {
     console.log(target);
     Meteor.users.update({ _id: targetId }, { $set: { profile: target.profile }});
   }
-}
-
+};
 
 /**
 * @summary send crypto with mask;
@@ -328,6 +327,18 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
     return undefined;
   }
 };
+
+/**
+* @summary get current height of the blockchain
+*/
+const _getBlockHeight = async () => {
+  let height = 0;
+  if (_web3()) {
+    height = await web3.eth.getBlockNumber().then((res) => { console.log(res); return res; });
+  }
+  return height;
+};
+
 
 if (Meteor.isClient) {
   const handleSignMessage = (publicAddress) => {
@@ -497,3 +508,4 @@ export const getTransactionStatus = _getTransactionStatus;
 export const setupWeb3 = _web3;
 export const syncBlockchain = _syncBlockchain;
 export const hideLogin = _hideLogin;
+export const getBlockHeight = _getBlockHeight;
