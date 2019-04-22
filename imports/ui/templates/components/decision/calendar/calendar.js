@@ -69,6 +69,7 @@ Template.calendar.helpers({
   },
   timers() {
     return {
+      enabled: !Session.get('cachedDraft').rules.alwaysOn,
       option: [
         {
           value: (Session.get('cachedDraft').closing.delta === blocktimes.ETHEREUM_DAY),

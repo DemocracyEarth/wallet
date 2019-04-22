@@ -663,6 +663,15 @@ width: 1px;
   color: white;
 }
 
+.switch-button.switch-button-disabled,
+.switch-button.switch-button-disabled:hover {
+  background-color:transparent;
+  color: grey;
+  border-color:grey;
+  cursor:default;
+}
+
+
 .switch-button:hover {
   background-color:#5a00750f;
 }
@@ -686,3 +695,4 @@ width: 1px;
   border-radius: 5px;
   margin: -5px 0px;
 }
+

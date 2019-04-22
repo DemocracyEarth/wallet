@@ -9,12 +9,25 @@ Template.switcher.onRendered(function () {
 
 Template.switcher.helpers({
   option() {
+    const option = this.option;
+    for (let i = 0; i < option.length; i += 1) {
+      option[i].enabled = this.enabled;
+    }
     return this.option;
+  },
+  style() {
+    if (!this.enabled) {
+      return 'switcher-disabled';
+    }
+    return '';
   },
 });
 
 Template.switch.helpers({
   selected() {
+    if (!this.enabled) {
+      return 'switch-button-disabled';
+    }
     if (this.value) {
       return 'switch-button-selected';
     }
@@ -24,6 +37,8 @@ Template.switch.helpers({
 
 Template.switcher.events({
   'click #switch-button'() {
-    this.action();
+    if (this.enabled) {
+      this.action();
+    }
   },
 });
