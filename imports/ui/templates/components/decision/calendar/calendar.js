@@ -50,6 +50,10 @@ const _setBlockTime = async (blocks) => {
 
 Template.calendar.onRendered(function () {
   Session.set('cachedDraft', Session.get('draftContract'));
+
+  if (Session.get('cachedDraft') && Session.get('cachedDraft').closing.delta === 0) {
+    _setBlockTime(blocktimes.ETHEREUM_WEEK);
+  }
 });
 
 Template.calendar.helpers({
@@ -69,7 +73,7 @@ Template.calendar.helpers({
   },
   timers() {
     return {
-      enabled: !Session.get('cachedDraft').rules.alwaysOn,
+      enabled: Session.get('cachedDraft') ? !Session.get('cachedDraft').rules.alwaysOn : false,
       option: [
         {
           value: (Session.get('cachedDraft').closing.delta === blocktimes.ETHEREUM_DAY),
