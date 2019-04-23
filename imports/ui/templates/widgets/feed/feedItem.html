@@ -80,6 +80,13 @@
             {{#if pollingEnabled}}
               {{> poll list=pollList pollId=pollId rules=rules pollTotals=pollTotals quadratic=quadraticEnabled balance=balanceEnabled}}
             {{/if}}
+
+            {{#if closingDate}}
+              {{#with this}}
+                {{> countdown}}
+              {{/with}}
+            {{/if}}
+
             {{#if tally}}
               {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly displayActions=displayActions rules=rules}}
             {{else}}

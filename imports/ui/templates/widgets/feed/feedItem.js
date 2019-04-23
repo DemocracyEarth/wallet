@@ -21,6 +21,8 @@ import '/imports/ui/templates/widgets/feed/feedItem.html';
 import '/imports/ui/templates/widgets/transaction/transaction.js';
 import '/imports/ui/templates/widgets/spinner/spinner.js';
 import '/imports/ui/templates/components/identity/avatar/avatar.js';
+import '/imports/ui/templates/components/decision/countdown/countdown.js';
+
 import BigNumber from 'bignumber.js';
 
 /**
