@@ -9,9 +9,12 @@ import { placeCaretAtEnd } from '/imports/startup/both/modules/utils';
 import { initEditor } from '/imports/ui/modules/editor';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 
-import './title.html';
-import '../stage/stage.js';
-import '../../../widgets/warning/warning.js';
+import '/imports/ui/templates/components/decision/title/title.html';
+import '/imports/ui/templates/components/decision/stage/stage.js';
+import '/imports/ui/templates/widgets/warning/warning.js';
+
+const SimpleMDE = require('simplemde');
+
 
 let typingTimer; // timer identifier
 
@@ -118,6 +121,11 @@ Template.title.onRendered(() => {
       }
     });
   }
+});
+
+Template.titleContent.onRendered(function () {
+  const simplemde = new SimpleMDE({ element: document.getElementById('titleContent') });
+  console.log(simplemde);
 });
 
 Template.titleContent.helpers({
