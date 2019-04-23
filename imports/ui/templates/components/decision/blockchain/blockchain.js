@@ -3,12 +3,13 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
-import { getContractToken } from '/imports/ui/templates/widgets/transaction/transaction';
 import { getCoin } from '/imports/api/blockchain/modules/web3Util.js';
 import { token } from '/lib/token';
 import { formatCryptoValue } from '/imports/ui/templates/components/decision/balance/balance';
+import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 
 import '/imports/ui/templates/components/decision/blockchain/blockchain.html';
 
@@ -124,6 +125,9 @@ Template.blockchain.onCreated(() => {
   }
   Session.set('showCoinSettings', false);
   Template.instance().voteEnabled = _verifyConstituencyRights(contract);
+
+  Template.instance().imageTemplate = new ReactiveVar();
+  templetize(Template.instance());
 });
 
 const _toggleCoinSettings = () => {
@@ -234,6 +238,14 @@ Template.blockchain.helpers({
   },
   check() {
     return Template.instance().voteEnabled;
+  },
+  getImage() {
+    if (!this.readOnly) {
+      if (Session.get('showCoinSettings')) {
+        return getImage(Template.instance().imageTemplate.get(), 'vote-active');
+      }
+    }
+    return getImage(Template.instance().imageTemplate.get(), 'vote-enabled');
   },
   icon() {
     if (!this.readOnly) {
