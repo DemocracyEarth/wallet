@@ -648,6 +648,7 @@ const _publish = (contractId, keyword) => {
     blockchain: draft.blockchain,
     rules: draft.rules,
     poll: draft.poll,
+    closing: draft.closing,
   },
   });
 

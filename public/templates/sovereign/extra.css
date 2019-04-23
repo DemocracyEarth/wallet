@@ -379,14 +379,14 @@ body, h4, h1, h2 {
 
 .choice {
     width: 100%;
-    box-shadow: 0px 3px 6px 0px #88888826;
+    /* box-shadow: 0px 3px 6px 0px #88888826; */
     float: left;
     line-height: 32px;
     /* margin-bottom: -17px; */
     margin: 0px;
     text-transform: none;
     color: #000;
-    background: #f0eef2;
+    background: #ffffff;
     text-align: left;
     font-size: 12px;
     /* padding: 7px; */
@@ -704,4 +704,19 @@ width: 1px;
   box-shadow: 0px 4px 5px 0px #d4d4d459;
   border-radius: 0px;
   width: 110%;
+}
+
+.countdown {
+    clear: both;
+    margin: 15px 0px 5px;
+}
+
+.countdown-label {
+  font-size:11px;
+}
+
+.countdown-timer {
+  height: 1px;
+  background: #01c190;
+  box-shadow: 0px 0px 5px #cccccc;
 }

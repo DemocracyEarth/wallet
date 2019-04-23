@@ -515,6 +515,9 @@ Template.feedItem.helpers({
     }
     return '';
   },
+  closingDate() {
+    return (this.rules.alwaysOn === false);
+  },
 });
 
 Template.feedItem.events({
