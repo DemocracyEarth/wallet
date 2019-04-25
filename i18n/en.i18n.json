@@ -709,5 +709,8 @@
   "duration": "Duration",
   "blockchain-time-closing-criteria": "Poll ends when <strong>{{blockchain}}</strong> reaches a block height of <strong>{{height}}</strong> blocks estimated on <strong>{{date}}</strong>.",
   "blockchain-time-always-on": "This poll never ends and tallies an ongoing result.",
-  "countdown-expiration": "Poll ends in {{days}} {{hours}} {{minutes}} {{seconds}}"
+  "countdown-expiration": "Poll ends in {{days}} {{hours}} {{minutes}} {{seconds}} (in {{blocks}})",
+  "blocks-compressed": "blocks",
+  "blocks-singular": "block",
+  "poll-closed-after-time": "Poll ended after {{days}} ({{blocks}})"
 }

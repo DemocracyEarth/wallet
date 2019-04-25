@@ -102,6 +102,10 @@ Schema.Closing = new SimpleSchema({
     type: Number,
     defaultValue: 0,
   },
+  urgency: {
+    type: Number,
+    optional: true,
+  },
 });
 
 Schema.Rules = new SimpleSchema({

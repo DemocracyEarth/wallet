@@ -3,9 +3,10 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import { getBlockHeight } from '/imports/startup/both/modules/metamask.js';
+import { blocktimes } from '/lib/const';
 
 import '/imports/ui/templates/components/decision/countdown/countdown.html';
-import { blocktimes } from '../../../../../../lib/const';
+
 
 /**
 * @summary percentage of time already transcurred for this decision
@@ -30,11 +31,17 @@ const _getPercentage = (currentBlock, delta, finalBlock) => {
 * @param {number} remainingBlocks until dedadline
 * @return {string} with countdown sentence
 */
-const _getDeadline = (remainingBlocks) => {
+const _getDeadline = (remainingBlocks, length) => {
   let countdown = TAPi18n.__('countdown-expiration');
+  let count = remainingBlocks;
+
+  if (remainingBlocks <= 0) {
+    countdown = TAPi18n.__('poll-closed-after-time');
+    count = length;
+  }
 
   // get total seconds between the times
-  let delta = parseInt(remainingBlocks * blocktimes.ETHEREUM_SECONDS_PER_BLOCK, 10);
+  let delta = parseInt(count * blocktimes.ETHEREUM_SECONDS_PER_BLOCK, 10);
 
   // calculate (and subtract) whole days
   const days = Math.floor(delta / 86400);
@@ -73,7 +80,9 @@ const _getDeadline = (remainingBlocks) => {
     countdown = countdown.replace('{{seconds}}', '');
   }
 
-  return `${countdown}.`;
+  countdown = countdown.replace('{{blocks}}', `${remainingBlocks.toLocaleString(undefined, [{ style: 'decimal' }])} ${remainingBlocks > 1 ? TAPi18n.__('blocks-compressed') : TAPi18n.__('blocks-singular')}`);
+
+  return `${countdown}`;
 };
 
 Template.countdown.onCreated(function () {
@@ -93,7 +102,7 @@ Template.countdown.onRendered(async function () {
 Template.countdown.helpers({
   label() {
     const confirmed = Template.instance().confirmedBlocks.get();
-    return _getDeadline(parseInt(this.delta - confirmed, 10));
+    return _getDeadline(parseInt(this.delta - confirmed, 10), this.delta);
   },
   timerStyle() {
     return `width: ${_getPercentage(Template.instance().currentBlock.get(), this.delta, this.height)}%`;
