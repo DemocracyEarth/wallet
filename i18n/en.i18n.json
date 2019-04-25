@@ -230,6 +230,12 @@
   "hours-compressed" : "hours",
   "minutes-compressed" : "min",
   "seconds-compressed" : "sec",
+  "years-singular": "year",
+  "months-singular": "month",
+  "days-singular": "day",
+  "hours-singular": "hour",
+  "minutes-singular": "min",
+  "seconds-singular": "sec",  
   "latest-proposals": "Latest Proposals",
   "all-proposals": "All Proposals",
   "drafts": "Drafts",
@@ -703,5 +709,5 @@
   "duration": "Duration",
   "blockchain-time-closing-criteria": "Poll ends when <strong>{{blockchain}}</strong> reaches a block height of <strong>{{height}}</strong> blocks estimated on <strong>{{date}}</strong>.",
   "blockchain-time-always-on": "This poll never ends and tallies an ongoing result.",
-  "countdown-expiration": "Poll ends in {{days}} {{hours}} {{minutes}} {{seconds}}."
+  "countdown-expiration": "Poll ends in {{days}} {{hours}} {{minutes}} {{seconds}}"
 }

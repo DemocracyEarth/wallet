@@ -93,39 +93,40 @@ Template.calendar.helpers({
     return TAPi18n.__('blockchain-time-always-on');
   },
   timers() {
+    const cache = Session.get('cachedDraft');
     return {
-      enabled: Session.get('cachedDraft') ? !Session.get('cachedDraft').rules.alwaysOn : false,
+      enabled: cache ? !cache.rules.alwaysOn : false,
       option: [
         {
-          value: (Session.get('cachedDraft').closing.delta === blocktimes.ETHEREUM_DAY),
+          value: cache ? (cache.closing.delta === blocktimes.ETHEREUM_DAY) : false,
           label: 'blockchain-time-daily',
           action: () => {
             _setBlockTime(blocktimes.ETHEREUM_DAY);
           },
         },
         {
-          value: (Session.get('cachedDraft').closing.delta === blocktimes.ETHEREUM_WEEK),
+          value: cache ? (cache.closing.delta === blocktimes.ETHEREUM_WEEK) : false,
           label: 'blockchain-time-weekly',
           action: () => {
             _setBlockTime(blocktimes.ETHEREUM_WEEK);
           },
         },
         {
-          value: (Session.get('cachedDraft').closing.delta === blocktimes.ETHEREUM_MONTH),
+          value: cache ? (cache.closing.delta === blocktimes.ETHEREUM_MONTH) : false,
           label: 'blockchain-time-monthly',
           action: () => {
             _setBlockTime(blocktimes.ETHEREUM_MONTH);
           },
         },
         {
-          value: (Session.get('cachedDraft').closing.delta === blocktimes.ETHEREUM_QUARTER),
+          value: cache ? (cache.closing.delta === blocktimes.ETHEREUM_QUARTER) : false,
           label: 'blockchain-time-quarterly',
           action: () => {
             _setBlockTime(blocktimes.ETHEREUM_QUARTER);
           },
         },
         {
-          value: (Session.get('cachedDraft').closing.delta === blocktimes.ETHEREUM_YEAR),
+          value: cache ? (cache.closing.delta === blocktimes.ETHEREUM_YEAR) : false,
           label: 'blockchain-time-annual',
           action: () => {
             _setBlockTime(blocktimes.ETHEREUM_YEAR);
