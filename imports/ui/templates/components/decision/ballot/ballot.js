@@ -19,6 +19,7 @@ import { createContract } from '/imports/startup/both/modules/Contract';
 import { transactWithMetamask, setupWeb3 } from '/imports/startup/both/modules/metamask';
 import { displayModal } from '/imports/ui/modules/modal';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
+import { isPollOpen } from '/imports/ui/templates/components/decision/countdown/countdown';
 
 import '/imports/ui/templates/components/decision/ballot/ballot.html';
 import '/imports/ui/templates/components/decision/fork/fork.js';
@@ -59,6 +60,23 @@ const _rejectVote = () => {
       },
     );
   }
+};
+
+/**
+* @summary poll no longer open;
+*/
+const _pollClosed = () => {
+  // poll already closed
+  displayModal(
+    true,
+    {
+      icon: 'images/olive.png',
+      title: TAPi18n.__('poll-is-closed'),
+      message: TAPi18n.__('poll-is-closed'),
+      cancel: TAPi18n.__('close'),
+      alertMode: true,
+    },
+  );
 };
 
 /**
@@ -305,12 +323,14 @@ Template.ballot.onCreated(() => {
   Template.instance().contract = new ReactiveVar(Template.currentData().contract);
   Template.instance().ticket = new ReactiveVar(getContractToken({ contract: Template.currentData().contract, isButton: true }));
   Template.instance().voteEnabled = verifyConstituencyRights(Template.currentData().contract);
+  Template.instance().pollOpen = new ReactiveVar(false);
   Template.instance().pollScore = new ReactiveVar(0);
   Template.instance().imageTemplate = new ReactiveVar();
   templetize(Template.instance());
 });
 
-Template.ballot.onRendered(function () {
+Template.ballot.onRendered(async function () {
+  Template.instance().pollOpen.set(await isPollOpen(Template.currentData().contract));
 });
 
 Template.ballot.helpers({
@@ -735,33 +755,37 @@ Template.ballot.events({
 
       if (Meteor.user()) {
         if (Template.instance().voteEnabled) {
-          if (currency === 'WEB VOTE') {
-            const userId = Meteor.user()._id;
-            const _contractId = Template.currentData().contract._id;
-            const voteAmount = 1; // Template.currentData().voteAmount or something similar
+          if (Template.instance().pollOpen) {
+            if (currency === 'WEB VOTE') {
+              const userId = Meteor.user()._id;
+              const _contractId = Template.currentData().contract._id;
+              const voteAmount = 1; // Template.currentData().voteAmount or something similar
 
-            const transactSettings = {
-              kind: 'VOTE',
-              currency: 'WEB VOTE',
-              contractId: _contractId,
-              quadraticVoting: Template.currentData().contract.rules.quadraticVoting,
-            };
+              const transactSettings = {
+                kind: 'VOTE',
+                currency: 'WEB VOTE',
+                contractId: _contractId,
+                quadraticVoting: Template.currentData().contract.rules.quadraticVoting,
+              };
 
-            transact(userId, _contractId, voteAmount, transactSettings, undefined);
-          } else if (currency === 'STX') {
-            displayModal(
-              true,
-              {
-                icon: 'images/olive.png',
-                title: TAPi18n.__('place-vote'),
-                message: TAPi18n.__('insufficient-votes'),
-                cancel: TAPi18n.__('close'),
-                alertMode: true,
-              },
-            );
+              transact(userId, _contractId, voteAmount, transactSettings, undefined);
+            } else if (currency === 'STX') {
+              displayModal(
+                true,
+                {
+                  icon: 'images/olive.png',
+                  title: TAPi18n.__('place-vote'),
+                  message: TAPi18n.__('insufficient-votes'),
+                  cancel: TAPi18n.__('close'),
+                  alertMode: true,
+                },
+              );
+            } else {
+              // ERC20 token
+              _cryptoVote();
+            }
           } else {
-            // ERC20 token
-            _cryptoVote();
+            _pollClosed();
           }
         } else {
           _rejectVote();

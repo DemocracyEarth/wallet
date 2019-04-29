@@ -9,6 +9,22 @@ import '/imports/ui/templates/components/decision/countdown/countdown.html';
 
 
 /**
+* @summary returns if effectively the poll is within a valid date
+* @param {object} contract being analysed
+* @return {boolean} true or fase
+*/
+const _isPollOpen = async (contract) => {
+  const now = await getBlockHeight();
+
+  console.log(`contract.rules.alwaysOn: ${contract.rules.alwaysOn} & contract.closing.height: ${contract.closing.height} & now: ${now}`);
+
+  if (contract.rules.alwaysOn) {
+    return true;
+  }
+  return (contract.closing.height <= now);
+};
+
+/**
 * @summary percentage of time already transcurred for this decision
 * @param {number} currentBlock now
 * @param {number} delta length
@@ -126,3 +142,5 @@ Template.countdown.helpers({
     return '';
   },
 });
+
+export const isPollOpen = _isPollOpen;

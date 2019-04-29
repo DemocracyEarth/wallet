@@ -715,5 +715,6 @@
   "poll-closed-after-time": "Poll ended after {{days}} (in block {{height}})",
   "poll-never-ends": "This poll never ends (always on).",
   "height-compressed": "blocks",
-  "height-singular": "block"
+  "height-singular": "block",
+  "poll-is-closed": "This poll is no longer open for voting."
 }
