@@ -518,6 +518,13 @@ Template.feedItem.helpers({
   requiresClosing() {
     return ((this.rules.alwaysOn === false) || this.rules.pollVoting);
   },
+  closingData() {
+    const closing = this.closing;
+    if (closing) {
+      closing.alwaysOn = this.rules.alwaysOn;
+    }
+    return closing;
+  },
 });
 
 Template.feedItem.events({

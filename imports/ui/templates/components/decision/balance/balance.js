@@ -133,8 +133,10 @@ Template.balance.helpers({
 
     if (this.token === 'WEB VOTE' && this.isButton) {
       const contract = Contracts.findOne({ _id: this.contract._id });
-      const balance = _currencyValue(contract.wallet.available, this.token);
-      return numeral(balance).format(Template.instance().coin.format);
+      if (contract) {
+        const balance = _currencyValue(contract.wallet.available, this.token);
+        return numeral(balance).format(Template.instance().coin.format);
+      }
     }
     if (this.blockchain && this.isButton) {
       if (this.contract._id) {

@@ -383,6 +383,17 @@ Template.editor.helpers({
 
     return draft.rules ? draft.rules.balanceVoting : false;
   },
+  requiresClosing() {
+    const draft = Session.get('draftContract');
+    return draft.rules ? ((draft.rules.alwaysOn === false) || draft.rules.pollVoting) : false;
+  },
+  closingData() {
+    const closing = Session.get('draftContract').closing;
+    if (closing) {
+      closing.alwaysOn = Session.get('draftContract').rules.alwaysOn;
+    }
+    return closing;
+  },
 });
 
 Template.editor.events({
