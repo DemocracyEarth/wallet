@@ -77,6 +77,18 @@
                 </div>
               </div>
             </div>
+            {{#if quadraticEnabled}}
+              <div class="election-rule">
+                {{{_ 'election-rule-quadratic'}}}
+                {{> help tooltip='voting-editor-quadratic-tooltip'}}
+              </div>
+            {{/if}}
+            {{#if balanceEnabled}}
+              <div class="election-rule">
+                {{{_ 'election-rule-balance'}}}
+                {{> help tooltip='voting-editor-balance-tooltip'}}
+              </div>
+            {{/if}}
             {{#if pollingEnabled}}
               {{> poll list=pollList pollId=pollId rules=rules pollTotals=pollTotals quadratic=quadraticEnabled balance=balanceEnabled}}
             {{/if}}

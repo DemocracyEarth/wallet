@@ -1,17 +1,5 @@
 <template name="poll">
   {{#if ready}}
-    {{#if quadratic}}
-      <div class="election-rule">
-        {{{_ 'election-rule-quadratic'}}}
-        {{> help tooltip='voting-editor-quadratic-tooltip'}}
-      </div>
-    {{/if}}
-    {{#if balance}}
-      <div class="election-rule">
-        {{{_ 'election-rule-balance'}}}
-        {{> help tooltip='voting-editor-balance-tooltip'}}
-      </div>
-    {{/if}}
     <div class="section section-poll w-clearfix">
       <div class="poll">
         {{#each item}}
