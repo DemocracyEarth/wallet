@@ -515,8 +515,8 @@ Template.feedItem.helpers({
     }
     return '';
   },
-  closingDate() {
-    return (this.rules.alwaysOn === false);
+  requiresClosing() {
+    return ((this.rules.alwaysOn === false) || this.rules.pollVoting);
   },
 });
 

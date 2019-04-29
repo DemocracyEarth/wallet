@@ -81,7 +81,7 @@
               {{> poll list=pollList pollId=pollId rules=rules pollTotals=pollTotals quadratic=quadraticEnabled balance=balanceEnabled}}
             {{/if}}
 
-            {{#if closingDate}}
+            {{#if requiresClosing}}
               {{#with this.closing}}
                 {{> countdown}}
               {{/with}}

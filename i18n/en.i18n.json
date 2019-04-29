@@ -712,5 +712,8 @@
   "countdown-expiration": "Poll ends in {{days}} {{hours}} {{minutes}} {{seconds}} (in {{blocks}})",
   "blocks-compressed": "blocks",
   "blocks-singular": "block",
-  "poll-closed-after-time": "Poll ended after {{days}} ({{blocks}})"
+  "poll-closed-after-time": "Poll ended after {{days}} (in block {{height}})",
+  "poll-never-ends": "This poll never ends (always on).",
+  "height-compressed": "blocks",
+  "height-singular": "block"
 }

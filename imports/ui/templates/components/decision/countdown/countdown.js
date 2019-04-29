@@ -29,14 +29,19 @@ const _getPercentage = (currentBlock, delta, finalBlock) => {
 /**
 * @summary percentage of time already transcurred for this decision
 * @param {number} remainingBlocks until dedadline
+* @param {number} height final block
 * @return {string} with countdown sentence
 */
-const _getDeadline = (remainingBlocks, length) => {
+const _getDeadline = (remainingBlocks, length, height) => {
   let countdown = TAPi18n.__('countdown-expiration');
   let count = remainingBlocks;
 
   if (remainingBlocks <= 0) {
-    countdown = TAPi18n.__('poll-closed-after-time');
+    if (length === 0) {
+      countdown = TAPi18n.__('poll-never-ends');
+    } else {
+      countdown = TAPi18n.__('poll-closed-after-time');
+    }
     count = length;
   }
 
@@ -80,6 +85,10 @@ const _getDeadline = (remainingBlocks, length) => {
     countdown = countdown.replace('{{seconds}}', '');
   }
 
+  if (height) {
+    countdown = countdown.replace('{{height}}', `${height.toLocaleString(undefined, [{ style: 'decimal' }])}`);
+  }
+
   countdown = countdown.replace('{{blocks}}', `${remainingBlocks.toLocaleString(undefined, [{ style: 'decimal' }])} ${remainingBlocks > 1 ? TAPi18n.__('blocks-compressed') : TAPi18n.__('blocks-singular')}`);
 
   return `${countdown}`;
@@ -102,7 +111,7 @@ Template.countdown.onRendered(async function () {
 Template.countdown.helpers({
   label() {
     const confirmed = Template.instance().confirmedBlocks.get();
-    return _getDeadline(parseInt(this.delta - confirmed, 10), this.delta);
+    return _getDeadline(parseInt(this.delta - confirmed, 10), this.delta, this.height);
   },
   timerStyle() {
     return `width: ${_getPercentage(Template.instance().currentBlock.get(), this.delta, this.height)}%`;
