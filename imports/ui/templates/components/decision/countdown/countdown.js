@@ -14,14 +14,15 @@ import '/imports/ui/templates/components/decision/countdown/countdown.html';
 * @return {boolean} true or fase
 */
 const _isPollOpen = async (contract) => {
-  const now = await getBlockHeight();
-
-  console.log(`contract.rules.alwaysOn: ${contract.rules.alwaysOn} & contract.closing.height: ${contract.closing.height} & now: ${now}`);
-
-  if (contract.rules.alwaysOn) {
-    return true;
+  if (contract && contract.closing && contract.rules) {
+    const now = await getBlockHeight();
+    console.log(`contract.rules.alwaysOn: ${contract.rules.alwaysOn} & contract.closing.height: ${contract.closing.height} & now: ${now}`);
+    if (contract.rules.alwaysOn) {
+      return true;
+    }
+    return (contract.closing.height <= now);
   }
-  return (contract.closing.height <= now);
+  return true;
 };
 
 /**
