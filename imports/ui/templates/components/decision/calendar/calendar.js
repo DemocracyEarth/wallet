@@ -82,12 +82,13 @@ Template.calendar.helpers({
     return (Session.get('cachedDraft') && Session.get('cachedDraft').rules) ? Session.get('cachedDraft').rules.alwaysOn : false;
   },
   criteria() {
-    if (!Session.get('cachedDraft').rules.alwaysOn) {
+    const cache = Session.get('cachedDraft');
+    if (cache && !cache.rules.alwaysOn) {
       let criteria = TAPi18n.__('blockchain-time-closing-criteria');
-      const result = _.where(token.coin, { code: Session.get('cachedDraft').closing.blockchain });
+      const result = _.where(token.coin, { code: cache.closing.blockchain });
       criteria = criteria.replace('{{blockchain}}', result[0].name);
-      criteria = criteria.replace('{{height}}', Session.get('cachedDraft').closing.height.toLocaleString(undefined, [{ style: 'decimal' }]));
-      criteria = criteria.replace('{{date}}', new Date(Session.get('cachedDraft').closing.calendar).format('{Month} {d}, {yyyy}'));
+      criteria = criteria.replace('{{height}}', cache.closing.height.toLocaleString(undefined, [{ style: 'decimal' }]));
+      criteria = criteria.replace('{{date}}', new Date(cache.closing.calendar).format('{Month} {d}, {yyyy}'));
       return criteria;
     }
     return TAPi18n.__('blockchain-time-always-on');
