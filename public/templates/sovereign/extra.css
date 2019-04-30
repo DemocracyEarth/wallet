@@ -702,7 +702,7 @@ width: 1px;
   background: #ffffff;
   display: inline-block;
   padding: 5px 5px;
-  box-shadow: 0px 4px 5px 0px #d4d4d459;
+  box-shadow: 0px 1px 0px 0px #d4d4d459;
   border-radius: 0px;
   width: 110%;
 }
@@ -747,4 +747,8 @@ width: 1px;
     line-height: 11px;
     font-weight: 400;
     cursor: default;
+}
+
+.card {
+  box-shadow: -1px 5px 10px 0px rgba(0, 0, 0, .2);
 }

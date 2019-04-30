@@ -30,6 +30,7 @@ const _isPollOpen = async (contract) => {
 * @param {number} currentBlock now
 * @param {number} delta length
 * @param {number} finalBlock end
+
 * @return {number} percentage in float
 */
 const _getPercentage = (currentBlock, delta, finalBlock) => {
@@ -48,9 +49,10 @@ const _getPercentage = (currentBlock, delta, finalBlock) => {
 * @param {number} remainingBlocks until dedadline
 * @param {number} height final block
 * @param {boolean} alwaysOn if on always
+* @param {boolean} editorMode if editor
 * @return {string} with countdown sentence
 */
-const _getDeadline = (remainingBlocks, length, height, alwaysOn) => {
+const _getDeadline = (remainingBlocks, length, height, alwaysOn, editorMode) => {
   let countdown = TAPi18n.__('countdown-expiration');
   let count = remainingBlocks;
 
@@ -59,6 +61,11 @@ const _getDeadline = (remainingBlocks, length, height, alwaysOn) => {
   } else if (remainingBlocks <= 0) {
     countdown = TAPi18n.__('poll-closed-after-time');
     count = length;
+  }
+  if (editorMode && !alwaysOn) {
+    countdown = TAPi18n.__('poll-hypothetical');
+  } else if (editorMode && alwaysOn) {
+    countdown = TAPi18n.__('poll-never-ends');
   }
 
   // get total seconds between the times
@@ -127,7 +134,7 @@ Template.countdown.onRendered(async function () {
 Template.countdown.helpers({
   label() {
     const confirmed = Template.instance().confirmedBlocks.get();
-    return _getDeadline(parseInt(this.delta - confirmed, 10), this.delta, this.height, this.alwaysOn);
+    return _getDeadline(parseInt(this.delta - confirmed, 10), this.delta, this.height, this.alwaysOn, this.editorMode);
   },
   timerStyle() {
     return `width: ${_getPercentage(Template.instance().currentBlock.get(), this.delta, this.height)}%`;

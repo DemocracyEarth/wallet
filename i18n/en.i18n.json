@@ -717,5 +717,6 @@
   "height-compressed": "blocks",
   "height-singular": "block",
   "poll-is-closed": "This poll is no longer open for voting.",
-  "feeds": "Feeds"
+  "feeds": "Feeds",
+  "poll-hypothetical": "Poll will end in {{days}} {{hours}} {{minutes}} {{seconds}} (in {{blocks}})"
 }

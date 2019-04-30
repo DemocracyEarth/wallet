@@ -391,6 +391,7 @@ Template.editor.helpers({
     const closing = Session.get('draftContract').closing;
     if (closing) {
       closing.alwaysOn = Session.get('draftContract').rules.alwaysOn;
+      closing.editorMode = true;
     }
     return closing;
   },
