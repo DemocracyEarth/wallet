@@ -60,8 +60,9 @@ const _getDeadline = (now, remainingBlocks, length, height, alwaysOn, editorMode
   if (editorMode) {
     if (!alwaysOn) {
       countdown = TAPi18n.__('poll-hypothetical');
+    } else {
+      countdown = TAPi18n.__('poll-never-ends');
     }
-    countdown = TAPi18n.__('poll-never-ends');
   } else if (alwaysOn) {
     countdown = TAPi18n.__('poll-never-ends');
   } else if (height <= now) {
