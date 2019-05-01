@@ -378,6 +378,52 @@ const verifySignature = (signature, publicAddress, nonce, message) => {
 };
 
 /**
+* @summary persist in db the coin vote
+* @param {string} from blockchain address
+* @param {string} to blockchain destination
+* @param {string} tokenCode currency
+* @param {string} value the value
+* @param {string} sourceId sender in sovereign
+* @param {string} targetId receiver in sovereign
+* @param {string} delegateId user to delegate into
+*/
+const _transactCoinVote = (sourceId, targetId, tokenCode, from, to, value, delegateId) => {
+  transact(
+    sourceId,
+    targetId,
+    0,
+    {
+      currency: tokenCode,
+      status: 'PENDING',
+      kind: 'CRYPTO',
+      contractId: targetId,
+      input: {
+        address: from,
+      },
+      output: {
+        address: to,
+      },
+      blockchain: {
+        tickets: [{
+          hash: 'SIGNATURE',
+          status: 'CONFIRMED',
+          value,
+        }],
+        coin: {
+          code: tokenCode,
+        },
+      },
+      geo: Meteor.user().profile.country ? Meteor.user().profile.country.code : '',
+    },
+    () => {
+      _delegate(Meteor.userId(), delegateId, targetId, 'SIGNATURE', value);
+      displayModal(false, modal);
+      displayNotice(`${TAPi18n.__('transaction-tally').replace('{{token}}', tokenCode)}`, true, true);
+    }
+  );
+};
+
+/**
 * @summary do a coinvote with account stake
 * @param {string} from blockchain address
 * @param {string} to blockchain destination
@@ -406,8 +452,6 @@ const _coinvote = (from, to, quantity, tokenCode, contractAddress, sourceId, tar
       const quantityWithDecimals = addDecimal(quantity.toNumber(), 18).toString();
       value = quantityWithDecimals;
     }
-    console.log(`value: ${value}`);
-    debugger;
 
     if (Meteor.Device.isPhone()) {
       return web3.eth.getCoinbase().then(function (coinbaseAddress) {
@@ -417,7 +461,7 @@ const _coinvote = (from, to, quantity, tokenCode, contractAddress, sourceId, tar
         const verification = verifySignature(signature, publicAddress, nonce, message);
 
         if (verification === 'success') {
-          console.log('success with signature');
+          _transactCoinVote(sourceId, targetId, tokenCode, from, to, value, delegateId);
         } else {
           console.log(TAPi18n.__('metamask-login-error'));
         }
@@ -434,43 +478,15 @@ const _coinvote = (from, to, quantity, tokenCode, contractAddress, sourceId, tar
       const verification = verifySignature(signature, publicAddress, nonce, message);
 
       if (verification === 'success') {
-        transact(
-          sourceId,
-          targetId,
-          0,
-          {
-            currency: tokenCode,
-            status: 'PENDING',
-            kind: 'CRYPTO',
-            contractId: targetId,
-            input: {
-              address: from,
-            },
-            output: {
-              address: to,
-            },
-            blockchain: {
-              tickets: [{
-                hash: 'SIGNATURE',
-                status: 'CONFIRMED',
-                value,
-              }],
-              coin: {
-                code: tokenCode,
-              },
-            },
-            geo: Meteor.user().profile.country ? Meteor.user().profile.country.code : '',
-          },
-          () => {
-            _delegate(Meteor.userId(), delegateId, targetId, 'SIGNATURE', value);
-            displayModal(false, modal);
-            displayNotice(`${TAPi18n.__('transaction-broadcast').replace('{{token}}', html)}`, true, true);
-          }
-        );
+        _transactCoinVote(sourceId, targetId, tokenCode, from, to, value, delegateId);
       } else {
         console.log(TAPi18n.__('metamask-login-error'));
       }
-    });
+    })
+      .catch((e) => {
+        displayModal(false, modal);
+        displayNotice(`${TAPi18n.__('transaction-tally-denied').replace('{{token}}', tokenCode)}`, true, true);
+      });
   } else {
     modal.message = TAPi18n.__('metamask-activate');
     displayModal(true, modal);
