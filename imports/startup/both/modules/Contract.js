@@ -653,6 +653,20 @@ const _publish = (contractId, keyword) => {
   },
   });
 
+  // polls must live under parent rules
+  if (draft.poll.length > 0) {
+    for (let k = 0; k < draft.poll.length; k += 1) {
+      Contracts.update({ _id: draft.poll[k].contractId }, {
+        $set: {
+          closing: draft.closing,
+          rules: draft.rules,
+          constituency: draft.constituency,
+          constituencyEnabled: draft.constituencyEnabled,
+        },
+      });
+    }
+  }
+
   // add reply to counter in contract
   if (draft.replyId) {
     // count
