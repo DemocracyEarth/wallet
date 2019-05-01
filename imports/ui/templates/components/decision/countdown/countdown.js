@@ -16,7 +16,8 @@ import '/imports/ui/templates/components/decision/countdown/countdown.html';
 const _isPollOpen = async (contract) => {
   if (contract && contract.closing && contract.rules) {
     const now = await getBlockHeight();
-    console.log(`contract.rules.alwaysOn: ${contract.rules.alwaysOn} & contract.closing.height: ${contract.closing.height} & now: ${now}`);
+    // console.log('----');
+    // console.log(`_id: ${contract._id} contract.rules.alwaysOn: ${contract.rules.alwaysOn} & contract.closing.height: ${contract.closing.height} & now: ${now}`);
     if (contract.rules.alwaysOn) {
       return true;
     }
@@ -52,20 +53,20 @@ const _getPercentage = (currentBlock, delta, finalBlock) => {
 * @param {boolean} editorMode if editor
 * @return {string} with countdown sentence
 */
-const _getDeadline = (remainingBlocks, length, height, alwaysOn, editorMode) => {
+const _getDeadline = (now, remainingBlocks, length, height, alwaysOn, editorMode) => {
   let countdown = TAPi18n.__('countdown-expiration');
   let count = remainingBlocks;
 
-  if (alwaysOn) {
+  if (editorMode) {
+    if (!alwaysOn) {
+      countdown = TAPi18n.__('poll-hypothetical');
+    }
     countdown = TAPi18n.__('poll-never-ends');
-  } else if (remainingBlocks <= 0) {
+  } else if (alwaysOn) {
+    countdown = TAPi18n.__('poll-never-ends');
+  } else if (height <= now) {
     countdown = TAPi18n.__('poll-closed-after-time');
     count = length;
-  }
-  if (editorMode && !alwaysOn) {
-    countdown = TAPi18n.__('poll-hypothetical');
-  } else if (editorMode && alwaysOn) {
-    countdown = TAPi18n.__('poll-never-ends');
   }
 
   // get total seconds between the times
@@ -117,30 +118,37 @@ const _getDeadline = (remainingBlocks, length, height, alwaysOn, editorMode) => 
   return `${countdown}`;
 };
 
+
+/**
+* @summary determines deadline status based on current blockheight
+* @param {object} instance where to write last block number
+*/
+const _currentBlock = async (instance) => {
+  const now = await getBlockHeight().then((resolved) => { instance.now.set(resolved); });
+  return now;
+};
+
 Template.countdown.onCreated(function () {
   Template.instance().currentBlock = new ReactiveVar();
   Template.instance().confirmedBlocks = new ReactiveVar();
-});
 
-Template.countdown.onRendered(async function () {
-  const instance = Template.instance();
-  const now = await getBlockHeight();
-  const init = parseInt(this.data.height - this.data.delta, 10);
-
-  instance.currentBlock.set(now);
-  instance.confirmedBlocks.set(parseInt(now - init, 10));
+  Template.instance().now = new ReactiveVar();
+  _currentBlock(Template.instance());
 });
 
 Template.countdown.helpers({
   label() {
-    const confirmed = Template.instance().confirmedBlocks.get();
-    return _getDeadline(parseInt(this.delta - confirmed, 10), this.delta, this.height, this.alwaysOn, this.editorMode);
+    const now = Template.instance().now.get();
+    console.log(now);
+    const confirmed = parseInt(this.delta - (this.height - now), 10);
+    const deadline = _getDeadline(now, parseInt(this.delta - confirmed, 10), this.delta, this.height, this.alwaysOn, this.editorMode);
+    return deadline;
   },
   timerStyle() {
-    return `width: ${_getPercentage(Template.instance().currentBlock.get(), this.delta, this.height)}%`;
+    return `width: ${_getPercentage(Template.instance().now.get(), this.delta, this.height)}%`;
   },
   alertMode() {
-    const percentage = _getPercentage(Template.instance().currentBlock.get(), this.delta, this.height);
+    const percentage = _getPercentage(Template.instance().now.get(), this.delta, this.height);
 
     if (percentage && percentage < 25) {
       return 'countdown-timer-final';

@@ -71,7 +71,7 @@ const _pollClosed = () => {
     true,
     {
       icon: 'images/olive.png',
-      title: TAPi18n.__('poll-is-closed'),
+      title: TAPi18n.__('poll-closed'),
       message: TAPi18n.__('poll-is-closed'),
       cancel: TAPi18n.__('close'),
       alertMode: true,
@@ -315,6 +315,12 @@ function activateDragging() {
   }).disableSelection();
 }
 
+const _getPollStatus = async (contract) => {
+  const pollOpen = await isPollOpen(contract);
+  console.log(`pollOpen: ${pollOpen}`);
+  return pollOpen;
+};
+
 Template.ballot.onCreated(() => {
   Template.instance().forks = _generateForks(this.contract);
   Template.instance().emptyBallot = new ReactiveVar();
@@ -323,14 +329,10 @@ Template.ballot.onCreated(() => {
   Template.instance().contract = new ReactiveVar(Template.currentData().contract);
   Template.instance().ticket = new ReactiveVar(getContractToken({ contract: Template.currentData().contract, isButton: true }));
   Template.instance().voteEnabled = verifyConstituencyRights(Template.currentData().contract);
-  Template.instance().pollOpen = new ReactiveVar(false);
+  // Template.instance().pollOpen = new ReactiveVar(_getPollStatus(Template.currentData().contract));
   Template.instance().pollScore = new ReactiveVar(0);
   Template.instance().imageTemplate = new ReactiveVar();
   templetize(Template.instance());
-});
-
-Template.ballot.onRendered(async function () {
-  Template.instance().pollOpen.set(await isPollOpen(Template.currentData().contract));
 });
 
 Template.ballot.helpers({
@@ -741,11 +743,12 @@ Template.ballot.helpers({
 });
 
 Template.ballot.events({
-  'click #single-vote'(event) {
+  async 'click #single-vote'(event) {
     event.preventDefault();
     event.stopPropagation();
     const currency = Template.currentData().contract.wallet.currency;
     if (!this.editorMode) {
+      const contractData = Template.currentData().contract;
       // contract in which to evaluate if it can vote
       let contract = Template.currentData().contract;
       if (contract.poll.length > 0) {
@@ -755,17 +758,18 @@ Template.ballot.events({
 
       if (Meteor.user()) {
         if (Template.instance().voteEnabled) {
-          if (Template.instance().pollOpen) {
+          // console.log(Template.instance().pollOpen.get());
+          if (await _getPollStatus(Template.instance().contract)) {
             if (currency === 'WEB VOTE') {
               const userId = Meteor.user()._id;
-              const _contractId = Template.currentData().contract._id;
+              const _contractId = contractData._id;
               const voteAmount = 1; // Template.currentData().voteAmount or something similar
 
               const transactSettings = {
                 kind: 'VOTE',
                 currency: 'WEB VOTE',
                 contractId: _contractId,
-                quadraticVoting: Template.currentData().contract.rules.quadraticVoting,
+                quadraticVoting: contractData.rules.quadraticVoting,
               };
 
               transact(userId, _contractId, voteAmount, transactSettings, undefined);
