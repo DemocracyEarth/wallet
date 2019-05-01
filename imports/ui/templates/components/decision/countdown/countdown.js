@@ -129,9 +129,6 @@ const _currentBlock = async (instance) => {
 };
 
 Template.countdown.onCreated(function () {
-  Template.instance().currentBlock = new ReactiveVar();
-  Template.instance().confirmedBlocks = new ReactiveVar();
-
   Template.instance().now = new ReactiveVar();
   _currentBlock(Template.instance());
 });
@@ -139,7 +136,6 @@ Template.countdown.onCreated(function () {
 Template.countdown.helpers({
   label() {
     const now = Template.instance().now.get();
-    console.log(now);
     const confirmed = parseInt(this.delta - (this.height - now), 10);
     const deadline = _getDeadline(now, parseInt(this.delta - confirmed, 10), this.delta, this.height, this.alwaysOn, this.editorMode);
     return deadline;
