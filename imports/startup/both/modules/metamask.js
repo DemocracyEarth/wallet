@@ -370,6 +370,9 @@ const verifySignature = (signature, publicAddress, nonce, message) => {
 
   // The signature verification is successful if the address found with
   // ecrecover matches the initial publicAddress
+  console.log(`address.toLowerCase(): ${address.toLowerCase()}`);
+  console.log(`publicAddress.toLowerCase(): ${publicAddress.toLowerCase()}`);
+
   if (address.toLowerCase() === publicAddress.toLowerCase()) {
     return 'success';
   }
@@ -389,6 +392,7 @@ const verifySignature = (signature, publicAddress, nonce, message) => {
 * @param {string} delegateId user to delegate into
 */
 const _transactCoinVote = (sourceId, targetId, tokenCode, from, to, value, delegateId, publicAddress) => {
+  console.log(value);
   transact(
     sourceId,
     targetId,
@@ -495,7 +499,6 @@ const _coinvote = (from, to, quantity, tokenCode, contractAddress, sourceId, tar
 };
 
 const _scanCoinVote = (contract) => {
-  console.log(contract.blockchain);
   if (contract.blockchain && contract.blockchain.tickets) {
     for (let i = 0; i < contract.blockchain.tickets.length; i += 1) {
       for (let k = 0; k < Meteor.user().profile.wallet.reserves.length; k += 1) {
@@ -516,7 +519,6 @@ const _scanCoinVote = (contract) => {
 const _verifyCoinVote = (contract) => {
   let poll;
   let check;
-  console.log(`contract: ${contract._id}`);
   if (contract.rules && contract.rules.balanceVoting) {
     if (contract.poll && contract.poll.length > 0) {
       for (let i = 0; i < contract.poll.length; i += 1) {
@@ -528,7 +530,6 @@ const _verifyCoinVote = (contract) => {
       }
       return check;
     }
-    console.log('scanCoinvote');
     return _scanCoinVote(contract);
   }
   return false;
