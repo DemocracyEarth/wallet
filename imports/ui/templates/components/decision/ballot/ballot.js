@@ -19,7 +19,7 @@ import { createContract } from '/imports/startup/both/modules/Contract';
 import { transactWithMetamask, setupWeb3 } from '/imports/startup/both/modules/metamask';
 import { displayModal } from '/imports/ui/modules/modal';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
-import { isPollOpen } from '/imports/ui/templates/components/decision/countdown/countdown';
+import { currentBlock, isPollOpen } from '/imports/ui/templates/components/decision/countdown/countdown';
 
 import '/imports/ui/templates/components/decision/ballot/ballot.html';
 import '/imports/ui/templates/components/decision/fork/fork.js';
@@ -315,11 +315,13 @@ function activateDragging() {
   }).disableSelection();
 }
 
-const _getPollStatus = async (contract) => {
+/*
+const _getPollSstatus = async (contract) => {
   const pollOpen = await isPollOpen(contract);
   console.log(`pollOpen: ${pollOpen}`);
   return pollOpen;
 };
+*/
 
 Template.ballot.onCreated(() => {
   Template.instance().forks = _generateForks(this.contract);
@@ -329,10 +331,13 @@ Template.ballot.onCreated(() => {
   Template.instance().contract = new ReactiveVar(Template.currentData().contract);
   Template.instance().ticket = new ReactiveVar(getContractToken({ contract: Template.currentData().contract, isButton: true }));
   Template.instance().voteEnabled = verifyConstituencyRights(Template.currentData().contract);
-  // Template.instance().pollOpen = new ReactiveVar(_getPollStatus(Template.currentData().contract));
   Template.instance().pollScore = new ReactiveVar(0);
+
   Template.instance().imageTemplate = new ReactiveVar();
   templetize(Template.instance());
+
+  Template.instance().now = new ReactiveVar();
+  currentBlock(Template.instance());
 });
 
 Template.ballot.helpers({
@@ -743,7 +748,7 @@ Template.ballot.helpers({
 });
 
 Template.ballot.events({
-  async 'click #single-vote'(event) {
+  'click #single-vote'(event) {
     event.preventDefault();
     event.stopPropagation();
     const currency = Template.currentData().contract.wallet.currency;
@@ -758,8 +763,7 @@ Template.ballot.events({
 
       if (Meteor.user()) {
         if (Template.instance().voteEnabled) {
-          // console.log(Template.instance().pollOpen.get());
-          if (await _getPollStatus(Template.instance().contract)) {
+          if (isPollOpen(Template.instance().now.get(), contractData)) {
             if (currency === 'WEB VOTE') {
               const userId = Meteor.user()._id;
               const _contractId = contractData._id;

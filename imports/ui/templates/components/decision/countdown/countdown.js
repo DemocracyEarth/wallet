@@ -10,18 +10,16 @@ import '/imports/ui/templates/components/decision/countdown/countdown.html';
 
 /**
 * @summary returns if effectively the poll is within a valid date
+* @param {number} now current block
 * @param {object} contract being analysed
 * @return {boolean} true or fase
 */
-const _isPollOpen = async (contract) => {
+const _isPollOpen = (now, contract) => {
+  if (contract && contract.rules.alwaysOn) {
+    return true;
+  }
   if (contract && contract.closing && contract.rules) {
-    const now = await getBlockHeight();
-    // console.log('----');
-    // console.log(`_id: ${contract._id} contract.rules.alwaysOn: ${contract.rules.alwaysOn} & contract.closing.height: ${contract.closing.height} & now: ${now}`);
-    if (contract.rules.alwaysOn) {
-      return true;
-    }
-    return (contract.closing.height <= now);
+    return (now < contract.closing.height);
   }
   return true;
 };
@@ -156,4 +154,5 @@ Template.countdown.helpers({
   },
 });
 
+export const currentBlock = _currentBlock;
 export const isPollOpen = _isPollOpen;
