@@ -752,3 +752,7 @@ width: 1px;
 .card {
   box-shadow: -1px 5px 10px 0px rgba(0, 0, 0, .2);
 }
+
+.token-wrap.token-wrap-multi {
+  margin-bottom:10px;
+}

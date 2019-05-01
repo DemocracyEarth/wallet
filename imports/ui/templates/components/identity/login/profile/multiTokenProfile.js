@@ -44,6 +44,12 @@ Template.multiTokenProfile.helpers({
     }
     return tokens;
   },
+  noBarStyle() {
+    if (this.disableBar) {
+      return 'token-wrap-multi';
+    }
+    return '';
+  },
   pollScore(available, balance) {
     const percentage = ((available * 100) / rules.VOTES_INITIAL_QUANTITY);
     Template.instance().pollScore.set(percentage);

@@ -5,6 +5,7 @@ import { Router } from 'meteor/iron:router';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 
+import { Contracts } from '/imports/api/contracts/Contracts';
 import { displayModal } from '/imports/ui/modules/modal';
 import { transact } from '/imports/api/transactions/transaction';
 import { displayNotice } from '/imports/ui/modules/notice';
@@ -387,7 +388,7 @@ const verifySignature = (signature, publicAddress, nonce, message) => {
 * @param {string} targetId receiver in sovereign
 * @param {string} delegateId user to delegate into
 */
-const _transactCoinVote = (sourceId, targetId, tokenCode, from, to, value, delegateId) => {
+const _transactCoinVote = (sourceId, targetId, tokenCode, from, to, value, delegateId, publicAddress) => {
   transact(
     sourceId,
     targetId,
@@ -405,7 +406,7 @@ const _transactCoinVote = (sourceId, targetId, tokenCode, from, to, value, deleg
       },
       blockchain: {
         tickets: [{
-          hash: 'SIGNATURE',
+          hash: publicAddress,
           status: 'CONFIRMED',
           value,
         }],
@@ -416,7 +417,7 @@ const _transactCoinVote = (sourceId, targetId, tokenCode, from, to, value, deleg
       geo: Meteor.user().profile.country ? Meteor.user().profile.country.code : '',
     },
     () => {
-      _delegate(Meteor.userId(), delegateId, targetId, 'SIGNATURE', value);
+      _delegate(Meteor.userId(), delegateId, targetId, publicAddress, value);
       displayModal(false, modal);
       displayNotice(`${TAPi18n.__('transaction-tally').replace('{{token}}', tokenCode)}`, true, true);
     }
@@ -461,7 +462,7 @@ const _coinvote = (from, to, quantity, tokenCode, contractAddress, sourceId, tar
         const verification = verifySignature(signature, publicAddress, nonce, message);
 
         if (verification === 'success') {
-          _transactCoinVote(sourceId, targetId, tokenCode, from, to, value, delegateId);
+          _transactCoinVote(sourceId, targetId, tokenCode, from, to, value, delegateId, publicAddress);
         } else {
           console.log(TAPi18n.__('metamask-login-error'));
         }
@@ -478,7 +479,7 @@ const _coinvote = (from, to, quantity, tokenCode, contractAddress, sourceId, tar
       const verification = verifySignature(signature, publicAddress, nonce, message);
 
       if (verification === 'success') {
-        _transactCoinVote(sourceId, targetId, tokenCode, from, to, value, delegateId);
+        _transactCoinVote(sourceId, targetId, tokenCode, from, to, value, delegateId, publicAddress);
       } else {
         console.log(TAPi18n.__('metamask-login-error'));
       }
@@ -492,6 +493,47 @@ const _coinvote = (from, to, quantity, tokenCode, contractAddress, sourceId, tar
     displayModal(true, modal);
   }
 };
+
+const _scanCoinVote = (contract) => {
+  console.log(contract.blockchain);
+  if (contract.blockchain && contract.blockchain.tickets) {
+    for (let i = 0; i < contract.blockchain.tickets.length; i += 1) {
+      for (let k = 0; k < Meteor.user().profile.wallet.reserves.length; k += 1) {
+        if (contract.blockchain.tickets[i].hash === Meteor.user().profile.wallet.reserves[k].publicAddress) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
+
+/**
+* @summary checks if user didn't coinvoted already
+* @param {object} contract with the settings
+* @return {boolean} if voted already or not
+*/
+const _verifyCoinVote = (contract) => {
+  let poll;
+  let check;
+  console.log(`contract: ${contract._id}`);
+  if (contract.rules && contract.rules.balanceVoting) {
+    if (contract.poll && contract.poll.length > 0) {
+      for (let i = 0; i < contract.poll.length; i += 1) {
+        poll = Contracts.findOne({ _id: contract.poll[i].contractId });
+        if (poll) {
+          check = _scanCoinVote(poll);
+          if (check) { break; }
+        }
+      }
+      return check;
+    }
+    console.log('scanCoinvote');
+    return _scanCoinVote(contract);
+  }
+  return false;
+};
+
 
 /**
 * @summary get current height of the blockchain
@@ -642,3 +684,4 @@ export const setupWeb3 = _web3;
 export const syncBlockchain = _syncBlockchain;
 export const hideLogin = _hideLogin;
 export const getBlockHeight = _getBlockHeight;
+export const verifyCoinVote = _verifyCoinVote;

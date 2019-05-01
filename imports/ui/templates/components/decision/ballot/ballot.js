@@ -16,7 +16,7 @@ import { timers } from '/lib/const';
 import { verifyConstituencyRights, getTokenAddress, getTokenContractAddress, checkTokenAvailability } from '/imports/ui/templates/components/decision/electorate/electorate.js';
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
 import { createContract } from '/imports/startup/both/modules/Contract';
-import { transactWithMetamask, setupWeb3, coinvote } from '/imports/startup/both/modules/metamask';
+import { transactWithMetamask, setupWeb3, coinvote, verifyCoinVote } from '/imports/startup/both/modules/metamask';
 import { displayModal } from '/imports/ui/modules/modal';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { currentBlock, isPollOpen } from '/imports/ui/templates/components/decision/countdown/countdown';
@@ -82,6 +82,23 @@ const _pollClosed = () => {
 };
 
 /**
+* @summary already voted here
+*/
+const _alreadyVoted = () => {
+  // poll already closed
+  displayModal(
+    true,
+    {
+      icon: 'images/olive.png',
+      title: TAPi18n.__('already-voted'),
+      message: TAPi18n.__('already-voted-detail'),
+      cancel: TAPi18n.__('close'),
+      alertMode: true,
+    },
+  );
+};
+
+/**
 * @summary executes token vote
 */
 const _cryptoVote = () => {
@@ -90,56 +107,60 @@ const _cryptoVote = () => {
   if (Meteor.user()) {
     if (Template.instance().voteEnabled) {
       if (isPollOpen(Template.instance().now.get(), contract)) {
-        if (setupWeb3(true)) {
-          // wallet alert
+        if (!verifyCoinVote(contract.pollId ? Contracts.findOne({ _id: contract.pollId }) : contract)) {
+          if (setupWeb3(true)) {
+            // wallet alert
 
-          let icon;
-          if (Meteor.settings.public.Collective.profile.logo) {
-            icon = Meteor.settings.public.Collective.profile.logo;
-          } else {
-            icon = 'images/olive.png';
-          }
-          displayModal(
-            true,
-            {
-              icon,
-              title: TAPi18n.__('place-vote'),
-              message: contract.rules.balanceVoting ? TAPi18n.__('metamask-confirm-tally') : TAPi18n.__('metamask-confirm-transaction'),
-              cancel: TAPi18n.__('close'),
-              awaitMode: true,
-              displayProfile: true,
-              profileId: Template.currentData().contract.signatures[0]._id,
-            },
-          );
+            let icon;
+            if (Meteor.settings.public.Collective.profile.logo) {
+              icon = Meteor.settings.public.Collective.profile.logo;
+            } else {
+              icon = 'images/olive.png';
+            }
+            displayModal(
+              true,
+              {
+                icon,
+                title: TAPi18n.__('place-vote'),
+                message: contract.rules.balanceVoting ? TAPi18n.__('metamask-confirm-tally') : TAPi18n.__('metamask-confirm-transaction'),
+                cancel: TAPi18n.__('close'),
+                awaitMode: true,
+                displayProfile: true,
+                profileId: Template.currentData().contract.signatures[0]._id,
+              },
+            );
 
-          if (contract.rules.balanceVoting) {
-            // off chain vote
-            coinvote(
-              getTokenAddress(Meteor.user(), Template.instance().ticket.get().token),
-              Template.currentData().contract.blockchain.publicAddress,
-              getBalance(Meteor.user(), Template.currentData().contract),
-              Template.instance().ticket.get().token,
-              getTokenContractAddress(Template.instance().ticket.get().token),
-              Meteor.userId(),
-              Template.currentData().contract._id,
-              Template.currentData().contract.signatures[0]._id,
-              contract.title,
-              `${(window.location.origin)}${contract.url}`,
-            );
-          } else {
-            // on chain vote
-            transactWithMetamask(
-              getTokenAddress(Meteor.user(), Template.instance().ticket.get().token),
-              Template.currentData().contract.blockchain.publicAddress,
-              Template.currentData().contract.blockchain.votePrice,
-              Template.instance().ticket.get().token,
-              getTokenContractAddress(Template.instance().ticket.get().token),
-              Meteor.userId(),
-              Template.currentData().contract._id,
-              Template.currentData().contract.signatures[0]._id,
-              
-            );
+            if (contract.rules.balanceVoting) {
+              // off chain vote
+              coinvote(
+                getTokenAddress(Meteor.user(), Template.instance().ticket.get().token),
+                Template.currentData().contract.blockchain.publicAddress,
+                getBalance(Meteor.user(), Template.currentData().contract),
+                Template.instance().ticket.get().token,
+                getTokenContractAddress(Template.instance().ticket.get().token),
+                Meteor.userId(),
+                Template.currentData().contract._id,
+                Template.currentData().contract.signatures[0]._id,
+                contract.title,
+                `${(window.location.origin)}${contract.url}`,
+              );
+            } else {
+              // on chain vote
+              transactWithMetamask(
+                getTokenAddress(Meteor.user(), Template.instance().ticket.get().token),
+                Template.currentData().contract.blockchain.publicAddress,
+                Template.currentData().contract.blockchain.votePrice,
+                Template.instance().ticket.get().token,
+                getTokenContractAddress(Template.instance().ticket.get().token),
+                Meteor.userId(),
+                Template.currentData().contract._id,
+                Template.currentData().contract.signatures[0]._id,
+                
+              );
+            }
           }
+        } else {
+          _alreadyVoted();
         }
       } else {
         _pollClosed();

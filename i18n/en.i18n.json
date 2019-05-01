@@ -721,6 +721,8 @@
   "poll-hypothetical": "Poll will end in {{days}} {{hours}} {{minutes}} {{seconds}} (in {{blocks}})",
   "coinvote-signature": "A total of {{quantity}} {{ticker}} will be tallied in support of {{choice}} in the proposal available on {{url}}. No tokens will be spent.",
   "metamask-confirm-tally": "Sign vote with your private key.<br>To be included on Delegate list:",
-  "transaction-tally": "{{token}} Signature tallied.",
-  "transaction-tally-denied": "{{token}} Signature denied, no votes tallied."
+  "transaction-tally": "{{token}} Signature verified, account balance tallied.",
+  "transaction-tally-denied": "{{token}} Signature denied, no votes tallied.",
+  "already-voted": "Already Voted",
+  "already-voted-detail": "Your account balance has already been tallied on this decision."
 }
