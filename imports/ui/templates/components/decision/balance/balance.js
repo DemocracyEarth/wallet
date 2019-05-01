@@ -67,6 +67,7 @@ Template.balance.onCreated(function () {
 Template.balance.helpers({
   balanceStyle() {
     let style = '';
+    Template.instance().coin = getCoin(Template.currentData().token);
     const coin = Template.instance().coin;
     if (coin.color) {
       style = `border-color: ${coin.color}; `;
@@ -112,7 +113,14 @@ Template.balance.helpers({
     return '';
   },
   ticker() {
-    return Template.instance().coin.code;
+    const label = Template.instance().coin.code;
+    /* if (this.rules && this.rules.quadraticVoting) {
+      label = `${TAPi18n.__('ticker-rule-quadratic')} ${label}`;
+    }
+    if (this.rules && this.rules.balanceVoting) {
+      label = `${label} ${TAPi18n.__('ticker-rule-balance')}`;
+    } */
+    return label;
   },
   available() {
     return _formatCryptoValue(this.available, this.token);
@@ -122,6 +130,14 @@ Template.balance.helpers({
   },
   balance() {
     const instance = Template.instance();
+
+    if (this.token === 'WEB VOTE' && this.isButton) {
+      const contract = Contracts.findOne({ _id: this.contract._id });
+      if (contract) {
+        const balance = _currencyValue(contract.wallet.available, this.token);
+        return numeral(balance).format(Template.instance().coin.format);
+      }
+    }
     if (this.blockchain && this.isButton) {
       if (this.contract._id) {
         const contract = Contracts.findOne({ _id: this.contract._id });
@@ -141,6 +157,10 @@ Template.balance.helpers({
     if (this.isCrypto && this.value) {
       const coinData = getCoin(instance.coin.code);
       return _formatCryptoValue(removeDecimal(this.value, coinData.decimals).toNumber(), instance.coin.code);
+    }
+    if (this.token === 'WEB VOTE' && !this.blockchain) {
+      const balance = _currencyValue(this.available, this.token);
+      return numeral(balance).format(Template.instance().coin.format);
     }
     const balance = _currencyValue(this.balance, this.token);
     return numeral(balance).format(Template.instance().coin.format);
@@ -170,6 +190,10 @@ Template.balance.helpers({
       return `${numeral(pending).format(instance.coin.format)} ${TAPi18n.__('pending')}`;
     }
     return '';
+  },
+  disableBar() {
+    console.log(`this.disableBar: ${this.disableBar}`);
+    return this.disableBar;
   },
 });
 

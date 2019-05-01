@@ -1,8 +1,11 @@
 <template name="blockchain">
   <div id="{{editorId}}" title="{{description}}" class="editor-button editor-button-{{icon}} {{readOnly}}">
-    <img class="toolbar-icon" src="{{pathFor route='home'}}images/vote-{{icon}}.png">
+    <img class="toolbar-icon" src="{{getImage}}">
     {{{status}}}
-    {{#if userWithTokenReserves}}
+
+    {{#if pollInside}}
+      {{_ 'poll-inside'}}
+    {{else}}
       <div class="token token-editor">
         <div class="token-ticker" style="{{tickerStyle}}">
           {{ticker}}
@@ -11,12 +14,7 @@
           {{balance}}
         </div>
       </div>
-    {{else}}
-      <div class="token token-editor">
-        <div class="token-ticker no-tokens">
-          {{ticker}}
-        </div>
-      </div>
     {{/if}}
+
   </div>
 </template>

@@ -29,82 +29,106 @@
     {{#if delegationMode}}
       {{> transaction contract=this senderId=senderId receiverId=receiverId}}
     {{else}}
-      {{#if contextHere}}
-        <a href="#debate" id="focusedItem"></a>
-      {{/if}}
-      <div id="feedItem-{{_id}}" class="vote vote-search vote-feed nondraggable" href="{{this.url}}">
-        <div class="checkbox checkbox-custom">
-          <div class="meta meta-search">
-            <div class="w-list-unstyled w-clearfix identity-list identity-feed-item extra">
-              {{#each signatures}}
-                <div class="w-clearfix identity">
-                  {{> avatar size=24 profile=this._id includeName=true includeNation=true editable=false microFont=true disabled=false includeRole=false}}
-                </div>
-              {{else}}
-                {{> avatar placeholder=true size=24}}
-              {{/each}}
-              <div class="data data-feed data-identity">
-                <div class="margin-both">
-                  <img src="{{getImage 'clock'}}" class="clock-icon">
-                  <div class="verifier verifier-live verifier-feed verifier-mini">{{sinceDate createdAt}}</div>
-                </div>
-                <div class="margin-both">
-                  <img src="{{getImage 'block'}}" class="clock-icon">
-                  <a id="blockchain-explorer" title="{{blockchainFullAddress}}" href="{{blockchainLink}}" target="_blank">
-                    <div class="verifier verifier-live verifier-feed verifier-mini">{{blockchainAddress}}</div>
-                  </a>
-                </div>
-              </div>
-              <div class="data data-feed">
-                {{#if electionData}}
-                  <img class="url-icon" src="{{getImage 'vote-icon-black'}}">
-                  <a href="{{url}}#votes" class="verifier verifier-live verifier-feed">
-                    {{voters}}
-                  </a>
-                {{else}}
-                  <div class="verifier verifier-live verifier-feed">
-                    <div class="option-placeholder short"></div>
-                  </div>
-                {{/if}}
-              </div>
-            </div>
-          </div>
-          <div class="w-inline-block w-clearfix option-proposal">
-            <div class="option-title option-link option-search title-input">
-               <div class="title-input title-feed {{focused}}">
-                {{{title}}}
-              </div>
-            </div>
-          </div>
-          {{#if tally}}
-            {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly displayActions=displayActions}}
-          {{else}}
-            <!-- NOTE: depreceated stuff -->
-            {{#if electionData}}
-              {{#if onScreen}}
-                {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly displayActions=displayActions}}
-              {{else}}
-                {{#nrr nrrargs 'ballot' editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly displayActions=displayActions}}{{/nrr}}
-              {{/if}}
-            {{else}}
-              {{#if currentUser}}
-                <div class="extra">
-                  <div class="warning download">
-                    {{_ 'get-election-votes'}}
-                    {{> spinner id=_id style=spinnerStyle}}
-                  </div>
-                </div>
-             {{/if}}
-            {{/if}}
-          {{/if}}
-        </div>
-      </div>
-      {{#unless isPhone}}
-        {{#if replyEditor}}
-          {{#with replyData}}
-            {{> compose}}
-          {{/with}}
+      {{#unless pollContent}}
+        {{#if contextHere}}
+          <a href="#debate" id="focusedItem"></a>
         {{/if}}
+        <div id="feedItem-{{_id}}" class="vote vote-search vote-feed nondraggable {{pollStyle}}" href="{{this.url}}">
+          <div class="checkbox checkbox-custom">
+            <div class="meta meta-search">
+              <div class="w-list-unstyled w-clearfix identity-list identity-feed-item extra">
+                {{#each signatures}}
+                  <div class="w-clearfix identity">
+                    {{> avatar size=24 profile=this._id includeName=true includeNation=true editable=false microFont=true disabled=false includeRole=false}}
+                  </div>
+                {{else}}
+                  {{> avatar placeholder=true size=24}}
+                {{/each}}
+                <div class="data data-feed data-identity">
+                  <div class="margin-both">
+                    <img src="{{getImage 'clock'}}" class="clock-icon">
+                    <div class="verifier verifier-live verifier-feed verifier-mini">{{sinceDate createdAt}}</div>
+                  </div>
+                  <div class="margin-both">
+                    <img src="{{getImage 'block'}}" class="clock-icon">
+                    <a id="blockchain-explorer" title="{{blockchainFullAddress}}" href="{{blockchainLink}}" target="_blank">
+                      <div class="verifier verifier-live verifier-feed verifier-mini">{{blockchainAddress}}</div>
+                    </a>
+                  </div>
+                </div>
+                <div class="data data-feed">
+                  {{#if electionData}}
+                    <img class="url-icon" src="{{getImage 'vote-icon-black'}}">
+                    <a href="{{url}}#votes" class="verifier verifier-live verifier-feed">
+                      {{voters}}
+                    </a>
+                  {{else}}
+                    <div class="verifier verifier-live verifier-feed">
+                      <div class="option-placeholder short"></div>
+                    </div>
+                  {{/if}}
+                </div>
+              </div>
+            </div>
+            <div class="w-inline-block w-clearfix option-proposal">
+              <div class="option-title option-link option-search title-input">
+                <div class="title-input title-feed {{focused}}">
+                  {{{title}}}
+                </div>
+              </div>
+            </div>
+            {{#if quadraticEnabled}}
+              <div class="election-rule">
+                {{{_ 'election-rule-quadratic'}}}
+                {{> help tooltip='voting-editor-quadratic-tooltip'}}
+              </div>
+            {{/if}}
+            {{#if balanceEnabled}}
+              <div class="election-rule">
+                {{{_ 'election-rule-balance'}}}
+                {{> help tooltip='voting-editor-balance-tooltip'}}
+              </div>
+            {{/if}}
+            {{#if pollingEnabled}}
+              {{> poll list=pollList pollId=pollId rules=rules pollTotals=pollTotals quadratic=quadraticEnabled balance=balanceEnabled}}
+            {{/if}}
+
+            {{#if requiresClosing}}
+              {{#with closingData}}
+                {{> countdown}}
+              {{/with}}
+            {{/if}}
+
+            {{#if tally}}
+              {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly displayActions=displayActions rules=rules}}
+            {{else}}
+              <!-- NOTE: depreceated stuff -->
+              {{#if electionData}}
+                {{#if onScreen}}
+                  {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly displayActions=displayActions rules=rules}}
+                {{else}}
+                  {{#nrr nrrargs 'ballot' editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly displayActions=displayActions rules=rules}}{{/nrr}}
+                {{/if}}
+              {{else}}
+                {{#if currentUser}}
+                  <div class="extra">
+                    <div class="warning download">
+                      {{_ 'get-election-votes'}}
+                      {{> spinner id=_id style=spinnerStyle}}
+                    </div>
+                  </div>
+              {{/if}}
+              {{/if}}
+            {{/if}}
+          </div>
+        </div>
+        {{#unless isPhone}}
+          {{#if replyEditor}}
+            {{#with replyData}}
+              {{> compose}}
+            {{/with}}
+          {{/if}}
+        {{/unless}}
       {{/unless}}
     {{/if}}
   {{/if}}

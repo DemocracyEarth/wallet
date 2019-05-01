@@ -95,14 +95,20 @@ const _buildFeed = (id, fields, instance, contract, noTitle) => {
   if (userSubscriptionId) {
     getUser(userSubscriptionId);
   }
+  let skipPending = false;
+  if (fields.kind === 'VOTE' && fields.status === 'PENDING') {
+    skipPending = true;
+  }
 
   const voteContract = _voteToContract(post, contract, noTitle, _isWinningVote(instance.data.winningBallot, post.condition.ballot), instance.openFeed);
 
-  if (!currentFeed) {
-    instance.feed.set([voteContract]);
-  } else if (!here(voteContract, currentFeed)) {
-    currentFeed.push(voteContract);
-    instance.feed.set(_.uniq(currentFeed));
+  if (!skipPending) {
+    if (!currentFeed) {
+      instance.feed.set([voteContract]);
+    } else if (!here(voteContract, currentFeed)) {
+      currentFeed.push(voteContract);
+      instance.feed.set(_.uniq(currentFeed));
+    }
   }
 };
 

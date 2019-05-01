@@ -119,10 +119,6 @@ Router.route('/', {
   },
   onAfterAction() {
     _boilerPlate();
-    if (!setupWeb3(false)) {
-      // If user is not logged in to Metamask then logout of Sovereign
-      Meteor.logout();
-    }
   },
 });
 

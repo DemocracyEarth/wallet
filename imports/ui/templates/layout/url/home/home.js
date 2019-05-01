@@ -24,20 +24,30 @@ import '/imports/ui/templates/components/decision/ledger/ledger.js';
 * @return {string} landing css style
 */
 const _landingMode = (style) => {
+  let css = '';
+
   if (!Meteor.user()) {
     switch (style) {
       case 'post':
-        return `split-${style}-landing`;
+        css = `split-${style}-landing`;
+        break;
       case 'left':
-        return 'split-landing split-anon';
+        css = 'split-landing split-anon';
+        break;
       case 'right':
       default:
-        return 'split-landing';
+        css = 'split-landing';
+        break;
     }
   } else if (!Meteor.Device.isPhone()) {
-    return 'split-desktop';
+    css = 'split-desktop';
   }
-  return '';
+
+  if (!Meteor.settings.public.app.config.interface.showTransactions) {
+    css += ' width-100';
+  }
+
+  return css;
 };
 
 Template.home.onCreated(function () {
@@ -216,6 +226,25 @@ Template.homeFeed.helpers({
   displayLanding() {
     return (Meteor.settings.public.app.config.displayLanding && !Meteor.user());
   },
+  showTransactions() {
+    return Meteor.settings.public.app.config.interface.showTransactions;
+  },
+  dictator() {
+    if (Meteor.settings.public.app.config.governance.dictatorship) {
+      return (Meteor.settings.public.app.config.governance.dictator.userId === Meteor.userId());
+    }
+    return false;
+  },
+  adminBallotCreatorOnly() {
+    if (Meteor.settings.public.app.config.interface.adminBallotCreatorOnly.active) {
+      // If adminBallotCreatorOnly is active then only the user with a verified email specified in settings can create new ballots
+      if (Meteor.user().emails && Meteor.user().emails[0].verified && Meteor.user().emails[0].address === Meteor.settings.public.app.config.interface.adminBallotCreatorOnly.email) {
+        return false;
+      }
+      return true;
+    }
+    return false;
+  },
 });
 
 Template.postFeed.onCreated(function () {
@@ -294,5 +323,8 @@ Template.postFeed.helpers({
   },
   landingMode() {
     return _landingMode('post');
+  },
+  showTransactions() {
+    return Meteor.settings.public.app.config.interface.showTransactions;
   },
 });

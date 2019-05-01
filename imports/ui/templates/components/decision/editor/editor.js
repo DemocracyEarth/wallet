@@ -14,11 +14,13 @@ import { timeCompressed } from '/imports/ui/modules/chronos';
 
 import '/imports/ui/templates/components/decision/editor/editor.html';
 import '/imports/ui/templates/components/decision/editor/editorButton.js';
+import '/imports/ui/templates/components/decision/poll/poll.js';
 import '/imports/ui/templates/components/decision/editor/counter.js';
 import '/imports/ui/templates/components/decision/constituency/constituency.js';
 import '/imports/ui/templates/components/decision/coin/coin.js';
 import '/imports/ui/templates/components/decision/electorate/electorate.js';
 import '/imports/ui/templates/components/decision/blockchain/blockchain.js';
+import '/imports/ui/templates/components/decision/closing/closing.js';
 
 
 const _keepKeyboard = () => {
@@ -160,6 +162,9 @@ const _contextCheck = (elementId, event) => {
   if (document.getElementById('card-blockchain-popup')) {
     return document.getElementById('card-blockchain-popup') && !document.getElementById('card-blockchain-popup').contains(event.target) && document.getElementById(elementId) && !document.getElementById(elementId).contains(event.target);
   }
+  if (document.getElementById('card-calendar-popup')) {
+    return document.getElementById('card-calendar-popup') && !document.getElementById('card-calendar-popup').contains(event.target) && document.getElementById(elementId) && !document.getElementById(elementId).contains(event.target);
+  }
   return document.getElementById(elementId) && !document.getElementById(elementId).contains(event.target);
 };
 
@@ -239,10 +244,11 @@ Template.editor.helpers({
     return '#';
   },
   userWithTokenReserves() {
-    if (Meteor.user() && Meteor.user().profile.wallet.reserves) {
-      return true;
-    }
-    return false;
+    // TODO - this helper might not be needed under new model, consider removing
+    // if (Meteor.user() && Meteor.user().profile.wallet.reserves) {
+    //   return true;
+    // }
+    return true;
   },
   ballotEnabled() {
     if (Session.get('draftContract')) {
@@ -256,9 +262,18 @@ Template.editor.helpers({
     }
     return false;
   },
+  pollingEnabled() {
+    return Session.get('draftContract') ? Session.get('draftContract').rules.pollVoting : false;
+  },
+  pollList() {
+    return Session.get('draftContract') ? Session.get('draftContract').poll : false;
+  },
+  pollId() {
+    return Session.get('draftContract') ? Session.get('draftContract')._id : false;
+  },
   blockchainAddress() {
     const draft = Session.get('draftContract');
-    if (draft) {
+    if (draft && draft.blockchain.publicAddress) {
       return `${draft.blockchain.publicAddress.substring(0, 6)}...${draft.blockchain.publicAddress.slice(-4)}`;
     }
     return '';
@@ -347,6 +362,38 @@ Template.editor.helpers({
         },
       },*/
     ];
+  },
+  adminBallotCreatorOnly() {
+    if (Meteor.settings.public.app.config.interface.adminBallotCreatorOnly.active) {
+      // If adminBallotCreatorOnly is active then only the user with a verified email specified in settings can create new ballots
+      if (Meteor.user().emails && Meteor.user().emails[0].verified && Meteor.user().emails[0].address === Meteor.settings.public.app.config.interface.adminBallotCreatorOnly.email) {
+        return false;
+      }
+      return true;
+    }
+    return false;
+  },
+  quadraticEnabled() {
+    const draft = Session.get('draftContract');
+
+    return draft.rules ? draft.rules.quadraticVoting : false;
+  },
+  balanceEnabled() {
+    const draft = Session.get('draftContract');
+
+    return draft.rules ? draft.rules.balanceVoting : false;
+  },
+  requiresClosing() {
+    const draft = Session.get('draftContract');
+    return draft.rules ? ((draft.rules.alwaysOn === false) || draft.rules.pollVoting) : false;
+  },
+  closingData() {
+    const closing = Session.get('draftContract').closing;
+    if (closing) {
+      closing.alwaysOn = Session.get('draftContract').rules.alwaysOn;
+      closing.editorMode = true;
+    }
+    return closing;
   },
 });
 

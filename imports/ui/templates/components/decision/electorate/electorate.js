@@ -2,12 +2,14 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
+import { ReactiveVar } from 'meteor/reactive-var';
 import { TAPi18n } from 'meteor/tap:i18n';
 
 import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
 import { toggle } from '/imports/ui/templates/components/decision/editor/editor.js';
 import { geo } from '/lib/geo';
 import { token } from '/lib/token';
+import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 
 import '/imports/ui/templates/components/decision/electorate/electorate.html';
 import '/imports/ui/templates/components/decision/blockchain/blockchain';
@@ -61,6 +63,9 @@ const _checkTokenAvailability = (user, ticker) => {
 * @return {string} address
 */
 const _getTokenAddress = (user, ticker) => {
+  if (ticker === 'WEB VOTE') {
+    return (user.profile.wallet.currency === ticker);
+  }
   if (user.profile.wallet.reserves && user.profile.wallet.reserves.length > 0) {
     for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
       for (let k = 0; k < token.coin.length; k += 1) {
@@ -93,7 +98,7 @@ const _getTokenContractAddress = (ticker) => {
 const _verifyConstituencyRights = (contract) => {
   let legitimacy = true;
 
-  if (Meteor.user() && contract.wallet.currency !== 'NONE') {
+  if (Meteor.user() && contract && contract.wallet.currency !== 'NONE') {
     if (contract.constituency && contract.constituency.length > 0) {
       for (const i in contract.constituency) {
         switch (contract.constituency[i].kind) {
@@ -118,7 +123,7 @@ const _verifyConstituencyRights = (contract) => {
             break;
           case 'NATION':
           default:
-            if (Meteor.user().profile.country && Meteor.user().profile.country.code !== contract.constituency[i].code) {
+            if ((Meteor.user().profile.country && Meteor.user().profile.country.code !== contract.constituency[i].code) || !Meteor.user().profile.country) {
               legitimacy = false;
             }
             break;
@@ -214,6 +219,9 @@ Template.electorate.onCreated(() => {
   }
   Session.set('showConstituencyEditor', false);
   Template.instance().voteEnabled = _verifyConstituencyRights(contract);
+
+  Template.instance().imageTemplate = new ReactiveVar();
+  templetize(Template.instance());
 });
 
 const killPopup = () => {
@@ -237,9 +245,30 @@ Template.electorate.onRendered(function () {
       }
     }
   });
+
+  instance.autorun(function () {
+    $('.right').scroll(() => {
+      if (Session.get('showConstituencyEditor')) {
+        Session.set('showConstituencyEditor', false);
+        animatePopup(false, 'constituency-popup');
+      }
+    });
+  });
 });
 
 Template.electorate.helpers({
+  getImage() {
+    if (!this.readOnly) {
+      if (Session.get('showConstituencyEditor')) {
+        return getImage(Template.instance().imageTemplate.get(), 'electorate-check-active');
+      }
+      return getImage(Template.instance().imageTemplate.get(), 'electorate-check-editor');
+    }
+    if (!Template.instance().voteEnabled) {
+      return getImage(Template.instance().imageTemplate.get(), 'electorate-check-reject-enabled');
+    }
+    return getImage(Template.instance().imageTemplate.get(), 'electorate-check-enabled');
+  },
   status() {
     let rule;
     if (!this.readOnly) {

@@ -14,7 +14,7 @@ const Schema = {};
 const _coins = () => {
   const coins = [];
   coins.push('VOTES'); // backwards compatibility;
-  coins.push('NONE'); // for tokenless users
+  // coins.push('WEB VOTE'); // for tokenless users
   for (let i = 0; i < token.coin.length; i += 1) {
     coins.push(token.coin[i].code);
     if (token.coin[i].subcode) {
@@ -43,7 +43,7 @@ Schema.Wallet = new SimpleSchema({
     autoValue() {
       if (this.isInsert) {
         if (this.field('currency').value === undefined) {
-          return 'NONE';
+          return 'WEB VOTE';
         }
       }
     },

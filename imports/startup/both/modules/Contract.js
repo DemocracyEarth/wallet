@@ -107,7 +107,8 @@ const _entangle = (draft) => {
       return _getPublicAddress(constituency[i].code);
     }
   }
-  return undefined;
+
+  return draft;
 };
 
 /**
@@ -125,40 +126,76 @@ const _contractHasToken = (contract) => {
   return false;
 };
 
+const _webVoteChain = (contract) => {
+  const draft = contract;
+
+  draft.blockchain = {
+    coin: { code: 'WEB VOTE' },
+    votePrice: '1',
+  };
+  draft.constituency = [{
+    kind: 'TOKEN',
+    code: 'WEB VOTE',
+    check: 'EQUAL',
+  }];
+
+  return draft;
+};
+
+const _blockstackChain = (contract) => {
+  const draft = contract;
+
+  draft.blockchain = {
+    coin: { code: 'STX' },
+    publicAddress: Meteor.user().profile.wallet.reserves[0].publicAddress,
+    votePrice: '1',
+  };
+  draft.constituency = [{
+    kind: 'TOKEN',
+    code: 'STX',
+    check: 'EQUAL',
+  }];
+  draft.wallet.currency = 'STX';
+
+  return draft;
+};
+
+const _ethereumChain = (contract) => {
+  const draft = contract;
+  // ERC20 tokens
+  if (!_contractHasToken(draft)) {
+    draft.constituency.push(defaultConstituency);
+  }
+  for (let i = 0; i < draft.constituency.length; i += 1) {
+    if (draft.constituency[i].kind === 'TOKEN') {
+      draft.wallet.currency = draft.constituency[i].code;
+    }
+  }
+
+  if (draft.blockchain.coin === undefined) {
+    // set coin.code to whats in wallet.currency
+    draft.blockchain.coin = {};
+    draft.blockchain.coin.code = draft.wallet.currency;
+  } else {
+    draft.blockchain.coin.code = draft.wallet.currency;
+  }
+
+  return draft;
+};
+
 /**
 * @summary inserts default blockchain data to a contract
 * @param {object} contract contract to include chain data
 */
 const _chain = (contract) => {
-  const draft = contract;
-  if (Meteor.user().profile.wallet.reserves[0].token === 'STX') {
-    // Blockstack tokens only
-    draft.blockchain = {
-      coin: { code: 'STX' },
-      publicAddress: Meteor.user().profile.wallet.reserves[0].publicAddress,
-      votePrice: '1',
-    };
-    draft.constituency = [{
-      kind: 'TOKEN',
-      code: 'STX',
-      check: 'EQUAL',
-    }];
-    draft.wallet.currency = 'STX';
-  } else {
-    // ERC20 tokens
-    if (!_contractHasToken(draft)) {
-      draft.constituency.push(defaultConstituency);
-    }
-    for (let i = 0; i < draft.constituency.length; i += 1) {
-      if (draft.constituency[i].kind === 'TOKEN') {
-        draft.wallet.currency = draft.constituency[i].code;
-      }
-    }
+  let draft = contract;
 
-    // blockchain
-    if (!draft.blockchain.publicAddress) {
-      draft.blockchain = _entangle(draft);
-    }
+  if (draft.wallet.currency === 'WEB VOTE') {
+    draft = _webVoteChain(draft);
+  } else if (draft.wallet.currency === 'STX') {
+    draft = _blockstackChain(draft);
+  } else {
+    draft = _ethereumChain(draft);
   }
   return draft;
 };
@@ -181,16 +218,13 @@ const _createContract = (newkeyword, newtitle) => {
       // sign by author
       _sign(contract._id, Meteor.user(), 'AUTHOR');
 
-      // Omit for tokenless users
-      if (Meteor.user().profile.wallet.reserves !== undefined) {
-        // chain by author
-        const chainedContract = _chain(contract);
-        Contracts.update({ _id: contract._id }, { $set: {
-          blockchain: chainedContract.blockchain,
-          wallet: chainedContract.wallet,
-          constituency: chainedContract.constituency,
-        } });
-      }
+      // chain by author
+      const chainedContract = _chain(contract);
+      Contracts.update({ _id: contract._id }, { $set: {
+        blockchain: chainedContract.blockchain,
+        wallet: chainedContract.wallet,
+        constituency: chainedContract.constituency,
+      } });
     }
     return Contracts.findOne({ keyword: `draft-${Meteor.userId()}` });
   // has title & keyword, used for forks
@@ -200,10 +234,98 @@ const _createContract = (newkeyword, newtitle) => {
     } else {
       Contracts.insert({ keyword: newkeyword, title: newtitle });
     }
-    return Contracts.find({ keyword: newkeyword }).fetch();
+    return Contracts.findOne({ keyword: newkeyword });
   }
   return false;
 };
+
+/**
+* @summary saves poll on database
+* @param {object} draft being checked for poll creation.
+* @param {object} pollContract poll data
+*/
+const _savePoll = (draft, pollContract) => {
+  // update db
+  Contracts.update({ _id: pollContract._id }, {
+    $set: {
+      blockchain: draft.blockchain,
+      constituency: draft.constituency,
+      constituencyEnabled: draft.constituencyEnabled,
+      rules: draft.rules,
+      wallet: draft.wallet,
+      kind: pollContract.kind,
+      pollId: pollContract.pollId,
+      pollChoiceId: pollContract.pollChoiceId,
+      signatures: draft.signatures,
+      closing: draft.closing,
+      stage: 'LIVE',
+    },
+  });
+};
+
+/**
+* @summary removes all poll contracts
+* @param {object} draft being checked for poll erasure
+*/
+const _removePoll = (draft) => { 
+  for (let k = 0; k < draft.poll.length; k += 1) {
+    Contracts.remove({ _id: draft.poll[k].contractId });
+  }
+};
+
+/**
+* @summary create a basic poll inside a contract
+* @param {object} draft being checked for poll creation.
+* @return {object} draft created with poll settings included
+*/
+const _createPoll = (draft) => {
+  let pollContract;
+  const newDraft = draft;
+
+  // is a draft configured for polling without a poll
+  if (draft.rules && draft.rules.pollVoting === true) {
+    if (draft.poll.length === 0) {
+      const options = [];
+      let pollContractURI;
+      for (let i = 0; i < 2; i += 1) {
+        // creaate uri reference
+        pollContractURI = _contractURI(`${TAPi18n.__('poll-choice').replace('{{number}}', i.toString())} ${document.getElementById('titleContent').innerText} ${TAPi18n.__(`poll-default-title-${i}`)}`);
+
+        // create contract to be used as poll option
+        pollContract = _createContract(pollContractURI, TAPi18n.__(`poll-default-title-${i}`));
+
+        // attach id of parent contract to poll option contract
+        pollContract.pollId = draft._id;
+        pollContract.kind = 'POLL';
+        pollContract.pollChoiceId = i;
+
+        _savePoll(draft, pollContract);
+
+        // add to array to be stored in parent contract
+        options.push({
+          contractId: pollContract._id,
+          totalStaked: '0',
+        });
+      }
+
+      // store array in parent contract
+      newDraft.poll = options;
+
+      return newDraft;
+    } else if (draft.poll.length > 0) {
+      // change info of existing poll
+
+      _removePoll(draft);
+      newDraft.poll = [];
+      newDraft.poll = _createPoll(newDraft).poll;
+      return newDraft;
+    }
+  }
+
+  // return same draft
+  return draft;
+};
+
 
 /**
 * @summary verifies if there's already a precedent among delegator and delegate
@@ -466,6 +588,8 @@ const _land = (draft) => {
   return land;
 };
 
+
+
 /**
 * @summary publishes a contract and goes to home
 * @param {string} contractId - id of the contract to publish
@@ -473,7 +597,6 @@ const _land = (draft) => {
 */
 const _publish = (contractId, keyword) => {
   let draft = Session.get('draftContract');
-
   // status
   draft.stage = 'LIVE';
 
@@ -508,12 +631,7 @@ const _publish = (contractId, keyword) => {
   }
 
   // chain
-  if (Meteor.user().profile.wallet.reserves) {
-    draft = _chain(draft);
-    if (draft.wallet.currency) {
-      draft.blockchain.coin.code = draft.wallet.currency;
-    }
-  }
+  draft = _chain(draft);
 
   // db
   Contracts.update({ _id: contractId }, { $set: {
@@ -529,8 +647,25 @@ const _publish = (contractId, keyword) => {
     constituency: draft.constituency,
     wallet: draft.wallet,
     blockchain: draft.blockchain,
+    rules: draft.rules,
+    poll: draft.poll,
+    closing: draft.closing,
   },
   });
+
+  // polls must live under parent rules
+  if (draft.poll.length > 0) {
+    for (let k = 0; k < draft.poll.length; k += 1) {
+      Contracts.update({ _id: draft.poll[k].contractId }, {
+        $set: {
+          closing: draft.closing,
+          rules: draft.rules,
+          constituency: draft.constituency,
+          constituencyEnabled: draft.constituencyEnabled,
+        },
+      });
+    }
+  }
 
   // add reply to counter in contract
   if (draft.replyId) {
@@ -602,5 +737,7 @@ export const removeContract = _remove;
 export const createDelegation = _newDelegation;
 export const getURLDate = _getURLDate;
 export const sendDelegationVotes = _sendDelegation;
+export const createPoll = _createPoll;
+export const removePoll = _removePoll;
 export const createContract = _createContract;
 export const getDelegationContract = _getDelegationContract;

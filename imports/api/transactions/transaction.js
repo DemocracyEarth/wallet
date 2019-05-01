@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
+import { TAPi18n } from 'meteor/tap:i18n';
 import { rules } from '/lib/const';
 import { BigNumber } from 'bignumber.js';
 
@@ -11,8 +12,7 @@ import { getTime } from '/imports/api/time';
 import { Transactions } from '/imports/api/transactions/Transactions';
 import { getTotalVoters } from '/imports/ui/modules/ballot';
 import { notify } from '/imports/api/notifier/notifier';
-import { getWeiBalance, getTokenData } from '/imports/api/blockchain/modules/web3Util';
-import { smallNumber } from '/imports/api/blockchain/modules/web3Util.js';
+import { getWeiBalance, getTokenData, smallNumber } from '/imports/api/blockchain/modules/web3Util';
 
 /**
 * @summary looks at what type of entity (collective or individual) doing transaction
@@ -168,14 +168,14 @@ const _updateWallet = (entityId, entityType, profileSettings) => {
 * @param {string} contractId - contractId to be checked
 */
 const _getTransactions = (userId, contractId) => {
- // const tx = Transactions.find({ $and: [{ $or: [{ 'output.entityId': userId }, { 'input.entityId': userId }] }, { contractId }] }, { sort: { timestamp: -1 } }).fetch();
- //  return tx;
+  // const tx = Transactions.find({ $and: [{ $or: [{ 'output.entityId': userId }, { 'input.entityId': userId }] }, { contractId }] }, { sort: { timestamp: -1 } }).fetch();
+  //  return tx;
 
   return _.sortBy(
     _.union(
       _.filter(Transactions.find({ 'input.entityId': userId }).fetch(), (item) => { return (item.output.entityId === contractId); }, 0),
       _.filter(Transactions.find({ 'output.entityId': userId }).fetch(), (item) => { return (item.input.entityId === contractId); }, 0)),
-      'timestamp');
+    'timestamp');
 };
 
 /**
@@ -258,10 +258,13 @@ const _restoredTokens = (quantity, totals) => {
   return quantity;
 };
 
-const _transactionMessage = (code) => {
-  switch (code) {
+const _transactionMessage = (processingStatus) => {
+  switch (processingStatus.code) {
     case 'INSUFFICIENT':
       displayNotice('not-enough-funds', true);
+      return false;
+    case 'INSUFFICIENT-QV':
+      displayNotice(`${TAPi18n.__('not-enough-funds-qv').replace('{{qvCost}}', processingStatus.qvCost)}`, true, true);
       return false;
     case 'INVALID':
       displayNotice('invalid-transaction', true);
@@ -345,38 +348,90 @@ const _processDelegation = (transaction) => {
 };
 
 /**
-* @summary processes de transaction after insert and updates wallet of involved parties
-* @param {string} txId - transaction identificator
-* @param {string} success - INSUFFICIENT,
+* @summary updates user wallet when transaction is quadratic, whether voting or revoking,
+* according to the number of votes associated with said user in the contract tally
+* @param {string} senderId
+* @param {object} senderProfile
+* @param {string} receiverId
+* @param {object} receiverProfile
+* @return {object} _userWallet - updated wallet assigned to userProfile.wallet
 */
-const _processTransaction = (ticket) => {
-  const txId = ticket;
-  const transaction = Transactions.findOne({ _id: txId });
-  const senderProfile = _getProfile(transaction.input);
-  const receiverProfile = _getProfile(transaction.output);
+const _processQuadraticTransaction = (senderId, senderProfile, receiverId, receiverProfile) => {
+  let _userWallet;
+  let userId;
+  let userProfile;
+  let contract;
+  let revoke = false;
+  let found = false;
 
-  // verify transaction
-  if (senderProfile.wallet.available < transaction.input.quantity) {
-    return 'INSUFFICIENT';
-  } else if (transaction.input.entityId === transaction.output.entityId) {
-    return 'INVALID';
+  // Set up
+  if (receiverProfile.tally) {
+    // user is voting
+    _userWallet = senderProfile.wallet;
+    userId = senderId;
+    userProfile = senderProfile;
+    contract = Contracts.findOne({ _id: receiverId });
+  } else if (senderProfile.tally) {
+    // user is revoking votes
+    _userWallet = receiverProfile.wallet;
+    userId = receiverId;
+    userProfile = receiverProfile;
+    contract = Contracts.findOne({ _id: senderId });
+    revoke = true;
   }
 
-  // transact
-  senderProfile.wallet = _pay(senderProfile.wallet, 'INPUT', transaction, transaction.input.quantity);
-  receiverProfile.wallet = _pay(receiverProfile.wallet, 'OUTPUT', transaction, transaction.output.quantity);
-
-  // update wallets
-  _updateWallet(transaction.input.entityId, transaction.input.entityType, senderProfile);
-  _updateWallet(transaction.output.entityId, transaction.output.entityType, receiverProfile);
-
-  // delegation
-  if (transaction.kind === 'DELEGATION') {
-    _processDelegation(transaction);
+  for (let i = 0; i < contract.tally.voter.length; i += 1) {
+    if (contract.tally.voter[i]._id === userId) {
+      const votesPerUserPerBallot = contract.tally.voter[i].votes;
+      // TODO - here .balance needs to be updated too to be compatible with legacy code
+      if (revoke) {
+        _userWallet.available += Math.pow(votesPerUserPerBallot + 1, 2);
+        _userWallet.placed -= 1;
+        found = true;
+      } else {
+        _userWallet.available -= Math.pow(votesPerUserPerBallot, 2);
+        _userWallet.placed += 1;
+        found = true;
+      }
+    }
   }
 
-  // set this transaction as processed
-  return Transactions.update({ _id: txId }, { $set: { status: 'CONFIRMED' } });
+  if (!found && revoke) {
+    // Edge case of revoking when only one vote has been placed
+    _userWallet.available += 1;
+    _userWallet.placed -= 1;
+  }
+
+  return Object.assign(userProfile.wallet, _userWallet);
+};
+
+
+/**
+* @summary get what would be the cost of this vote should it go through
+* @param {string} senderId
+* @param {string} receiverId
+* @return {number} quadraticVoteCost
+*/
+const _getQuadraticVoteCost = (senderId, receiverId) => {
+  const userId = senderId;
+  const contract = Contracts.findOne({ _id: receiverId });
+  let votesPerUserPerBallot;
+  let quadraticVoteCost;
+  let found = false;
+
+  for (let i = 0; i < contract.tally.voter.length; i += 1) {
+    if (contract.tally.voter[i]._id === userId) {
+      votesPerUserPerBallot = contract.tally.voter[i].votes;
+      quadraticVoteCost = Math.pow(votesPerUserPerBallot + 1, 2);
+      found = true;
+    }
+  }
+
+  if (!found) {
+    // User is voting for the first time
+    return 1;
+  }
+  return quadraticVoteCost;
 };
 
 /**
@@ -651,6 +706,7 @@ const _tally = (transaction) => {
       if ((contract.tally.voter[i]._id === transaction.input.entityId) || (contract.tally.voter[i]._id === transaction.output.entityId)) {
         found = true;
         contract.tally.voter[i].votes += _tallyAddition(transaction);
+        contract.tally.voter[i].qVotes = Math.sqrt(contract.tally.voter[i].votes);
         if (contract.tally.voter[i].votes === 0) {
           contract.tally.voter.splice(i, 1);
           break;
@@ -698,6 +754,66 @@ const _tally = (transaction) => {
 
   // update in db
   Contracts.update({ _id: transaction.contractId }, { $set: { tally: contract.tally, ballot: contract.ballot } });
+};
+
+/**
+* @summary processes the transaction after insert and updates wallet of involved parties
+* @param {string} txId - transaction identificator
+* @param {string} success - INSUFFICIENT,
+*/
+const _processTransaction = (ticket) => {
+  const txId = ticket;
+  const transaction = Transactions.findOne({ _id: txId });
+  const senderProfile = _getProfile(transaction.input);
+  const receiverProfile = _getProfile(transaction.output);
+  const senderId = transaction.input.entityId;
+  const receiverId = transaction.output.entityId;
+
+  // verify transaction
+  if (receiverProfile.rules && receiverProfile.rules.quadraticVoting) {
+    // This is a WEBVOTE quadratic vote, and user is voting (not revoking)
+    const quadraticCost = _getQuadraticVoteCost(senderId, receiverId);
+    if (senderProfile.wallet.available < quadraticCost) {
+      return { code: 'INSUFFICIENT-QV', qvCost: quadraticCost };
+    }
+  } else if (senderProfile.wallet.available < transaction.input.quantity) {
+    return { code: 'INSUFFICIENT', qvCost: null };
+  } else if (transaction.input.entityId === transaction.output.entityId) {
+    return { code: 'INVALID', qvCost: null };
+  }
+
+  // Invoke tally first only if it is a transaction between
+  // an individual and a contract, tally needs to be updated
+  // before processing quadratic vote
+  if (transaction.input.entityType !== 'COLLECTIVE') {
+    _tally(transaction);
+  }
+
+  if (receiverProfile.rules && receiverProfile.rules.quadraticVoting) {
+    // Quadratic transaction, user is sender therefore voting
+    senderProfile.wallet = _processQuadraticTransaction(senderId, senderProfile, receiverId, receiverProfile);
+    receiverProfile.wallet = _pay(receiverProfile.wallet, 'OUTPUT', transaction, transaction.output.quantity);
+  } else if (senderProfile.rules && senderProfile.rules.quadraticVoting) {
+    // Quadratic transaction, user is receiver therefore revoking
+    senderProfile.wallet = _pay(senderProfile.wallet, 'INPUT', transaction, transaction.input.quantity);
+    receiverProfile.wallet = _processQuadraticTransaction(senderId, senderProfile, receiverId, receiverProfile);
+  } else {
+    // Non-quadratic
+    senderProfile.wallet = _pay(senderProfile.wallet, 'INPUT', transaction, transaction.input.quantity);
+    receiverProfile.wallet = _pay(receiverProfile.wallet, 'OUTPUT', transaction, transaction.output.quantity);
+  }
+
+  // update wallets
+  _updateWallet(transaction.input.entityId, transaction.input.entityType, senderProfile);
+  _updateWallet(transaction.output.entityId, transaction.output.entityType, receiverProfile);
+
+  // delegation
+  if (transaction.kind === 'DELEGATION') {
+    _processDelegation(transaction);
+  }
+
+  // set this transaction as processed
+  return Transactions.update({ _id: txId }, { $set: { status: 'CONFIRMED' } });
 };
 
 /**
@@ -822,7 +938,8 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
   }
 
   if (senderId === receiverId) {
-    _transactionMessage('INVALID');
+    const status = { code: 'INVALID', qvCost: null };
+    _transactionMessage(status);
     return null;
   }
 
@@ -856,6 +973,7 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     geo: settings.geo,
   };
 
+
   // blockchain transaction
   if (settings.kind === 'CRYPTO') {
     // input carries information of sender
@@ -877,16 +995,15 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     newTx = Transactions.findOne({ _id: txId });
 
     // adds voter
-    _addVoter(newTransaction.output.entityId, senderId, newTx._id)
+    _addVoter(newTransaction.output.entityId, senderId, newTx._id);
 
     // go to interface
     if (callback !== undefined) { callback(); }
 
     return txId;
+  } else if (settings.kind === 'VOTE') {
+    // web transaciton
 
-  // web transaciton
-  } /* 
-    else {
     // executes the transaction
     txId = Transactions.insert(newTransaction);
     processing = _processTransaction(txId);
@@ -895,8 +1012,8 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
 
     // NOTE: uncomment for testing
 
-    // console.log(txId);
-    // console.log(processing);
+    // console.log(`txId: ${txId}`);
+    // console.log(`processing: ${processing}`);
 
 
     if (_transactionMessage(processing)) {
@@ -909,16 +1026,11 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
         _updateWalletCache(newTx, false);
       }
 
-      // update tally in contract excluding subsidy
-      if (newTx.kind === 'VOTE' && newTx.input.entityType !== 'COLLECTIVE' && newTx.output.entityType !== 'COLLECTIVE') {
-        _tally(newTx);
-      }
-
       notify(newTx);
 
       return txId;
     }
-  } */
+  }
   return null;
 };
 
@@ -928,22 +1040,26 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
 */
 const _genesisTransaction = (userId) => {
   const user = Meteor.users.findOne({ _id: userId });
+  const userTransactions = Transactions.find({ 'output.entityId': userId }).fetch();
 
   // veryfing genesis...
-  // TODO this is not right, should check against Transactions collection.
-  if (user.profile.wallet !== undefined) {
-    if (user.profile.wallet.ledger.length > 0) {
-      if (user.profile.wallet.ledger[0].entityType === 'COLLECTIVE') {
-        // this user already had a genesis
-        return;
-      }
-    }
-  }
+  const genesisCheck = userTransactions.find(function (tx) {
+    return tx.input.entityType === 'COLLECTIVE' && tx.input.quantity === 1000;
+  });
 
-  // generate first transaction from collective to new member
-  user.profile.wallet = _generateWalletAddress(user.profile.wallet);
-  Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
-  _transact(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY);
+  const userBalance = user.profile.wallet.balance;
+
+  // TODO - add emailListCheck condition if set true from Meteor.settings: user.emails && emailListCheck(user.emails[0].address)
+  if (genesisCheck === undefined && userBalance === 0) {
+    // generate first transaction from collective to new member
+    user.profile.wallet = _generateWalletAddress(user.profile.wallet);
+    Meteor.users.update({ _id: userId }, { $set: { profile: user.profile } });
+    const transactSettings = {
+      kind: 'VOTE',
+      currency: 'WEB VOTE',
+    };
+    _transact(Meteor.settings.public.Collective._id, userId, rules.VOTES_INITIAL_QUANTITY, transactSettings);
+  }
 };
 
 /**

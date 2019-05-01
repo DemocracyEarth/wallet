@@ -57,7 +57,6 @@
       "codename": "Quixote",
       "config":
         {
-          "blockchainLogin": false,
           "commentRanking": true,
           "proposalDrafting": true,
           "appCache": false,
@@ -71,7 +70,32 @@
             "checkList": true
           },
           "displayLanding": false,
-          "allowWebVotes": true
+          "allowWebVotes": true,
+          "defaultRules": {
+            "quadraticVoting": false,
+            "balanceVoting": false,
+            "pollVoting": false
+          },
+          "interface": {
+            "showTransactions": false,
+            "adminBallotCreatorOnly": {
+              "active": false,
+              "email": "hello@democracy.earth"
+            }
+          },
+          "governance": {
+            "dictatorship": true,
+            "dictator": {
+              "userId": "y2RPht3xHDLf7KN3u",
+              "publicAddress": ""
+            }
+          },
+          "loginOptions": {
+            "blockstack": true,
+            "metamask": true,
+            "email": true,
+            "blockchainLogin": false
+          }
         }
     },
 

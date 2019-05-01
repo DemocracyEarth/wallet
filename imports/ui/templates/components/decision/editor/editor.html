@@ -1,23 +1,25 @@
 <template name="editor">
   {{#if compressed}}
-    <a id="feedItem-compressed" class="vote vote-search vote-feed vote-editor-compressed nondraggable">
-      <div class="meta meta-search meta-compressed">
-        <div class="w-list-unstyled w-clearfix identity-list identity-feed-item extra">
-          {{#with currentUser}}
-            <div class="w-clearfix identity">
-                {{> avatar size=24 profile=this._id includeName=false includeNation=false editable=false microFont=true disabled=false includeRole=false}}
+    {{#unless adminBallotCreatorOnly}}
+      <a id="feedItem-compressed" class="vote vote-search vote-feed vote-editor-compressed nondraggable">
+        <div class="meta meta-search meta-compressed">
+          <div class="w-list-unstyled w-clearfix identity-list identity-feed-item extra">
+            {{#with currentUser}}
+              <div class="w-clearfix identity">
+                  {{> avatar size=24 profile=this._id includeName=false includeNation=false editable=false microFont=true disabled=false includeRole=false}}
+              </div>
+            {{/with}}
+            <div class="data data-feed">
+              <img class="url-icon" src="{{getImage 'decision-draft'}}">
+              <div class="verifier verifier-live verifier-feed no-link">{{_ 'draft'}}</div>
             </div>
-          {{/with}}
-          <div class="data data-feed">
-            <img class="url-icon" src="{{getImage 'decision-draft'}}">
-            <div class="verifier verifier-live verifier-feed no-link">{{_ 'draft'}}</div>
+            <div class="title-input title-input-void title-input-compressed">
+             {{_ 'post-new-idea'}}
+            </div>
           </div>
-          <div class="title-input title-input-void title-input-compressed">
-           {{_ 'post-new-idea'}}
-         </div>
         </div>
-      </div>
-    </a>
+      </a>
+    {{/unless}}
   {{else}}
     <div id='postEditorItem'></div>
     <div id="feedItem-editor" class="vote vote-search vote-feed vote-editor nondraggable">
@@ -47,6 +49,13 @@
             </div>
           </div>
         </div>
+        {{#if userWithTokenReserves}}
+          <div class="editor-menu">
+            {{> blockchain contract=draftContract}}
+            {{> electorate contract=draftContract}}
+            {{> closing contract=draftContract}}
+          </div>
+        {{/if}}
         <div class="w-inline-block w-clearfix option-proposal">
           <div class="option-title option-link option-search option-editor title-input">
              <div class="title-input title-feed">
@@ -60,6 +69,26 @@
           </div>
         </div>
       </div>
+      {{#if quadraticEnabled}}
+        <div class="election-rule">
+          {{{_ 'election-rule-quadratic'}}}
+          {{> help tooltip='voting-editor-quadratic-tooltip'}}
+        </div>
+      {{/if}}
+      {{#if balanceEnabled}}
+        <div class="election-rule">
+          {{{_ 'election-rule-balance'}}}
+          {{> help tooltip='voting-editor-balance-tooltip'}}
+        </div>
+      {{/if}}
+      {{#if pollingEnabled}}
+        {{> poll list=pollList pollId=pollId editorMode=true pollTotals=0 quadratic=quadraticEnabled balance=balanceEnabled}}
+      {{/if}}
+      {{#if requiresClosing}}
+        {{#with closingData}}
+          {{> countdown}}
+        {{/with}}
+      {{/if}}
       <div class="section section-editor w-clearfix">
         {{#if stakingEnabled}}
           <div class="staking-editor">
@@ -71,12 +100,6 @@
           {{> editorButton}}
         {{/each}}
         -->
-        {{#if userWithTokenReserves}}
-          <div class="editor-menu">
-            {{> blockchain contract=draftContract}}
-            {{> electorate contract=draftContract}}
-          </div>
-        {{/if}}
         {{#unless isPhone}}
           <div class="post-button">
             {{> authentication desktop=true}}

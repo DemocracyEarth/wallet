@@ -51,12 +51,6 @@ Template.profile.helpers({
   totalVotes() {
     return `${TAPi18n.__('total-votes')} <strong style='color: white'>${Meteor.user().profile.wallet.balance.toLocaleString()}</strong> `;
   },
-  isMultiTokenUser() {
-    if (Meteor.user().profile.wallet.reserves != null) {
-      return true;
-    }
-    return false;
-  },
   getImage(pic) {
     return getImage(Template.instance().imageTemplate.get(), pic);
   },

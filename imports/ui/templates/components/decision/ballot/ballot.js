@@ -5,91 +5,168 @@ import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Router } from 'meteor/iron:router';
+import { BigNumber } from 'bignumber.js';
 
 import { removeFork, updateBallotRank, addChoiceToBallot, getTickValue, getTotalVoters } from '/imports/ui/modules/ballot';
 import { getContractToken } from '/imports/ui/templates/widgets/transaction/transaction';
+import { transact } from '/imports/api/transactions/transaction';
 import { displayTimedWarning } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { timers } from '/lib/const';
 import { verifyConstituencyRights, getTokenAddress, getTokenContractAddress, checkTokenAvailability } from '/imports/ui/templates/components/decision/electorate/electorate.js';
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
 import { createContract } from '/imports/startup/both/modules/Contract';
-import { transactWithMetamask, setupWeb3 } from '/imports/startup/both/modules/metamask';
+import { transactWithMetamask, setupWeb3, coinvote, verifyCoinVote } from '/imports/startup/both/modules/metamask';
 import { displayModal } from '/imports/ui/modules/modal';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
+import { currentBlock, isPollOpen } from '/imports/ui/templates/components/decision/countdown/countdown';
+import { getBalance } from '/imports/api/blockchain/modules/web3Util';
 
 import '/imports/ui/templates/components/decision/ballot/ballot.html';
 import '/imports/ui/templates/components/decision/fork/fork.js';
 import '/imports/ui/templates/components/decision/liquid/liquid.js';
 import '/imports/ui/templates/widgets/warning/warning.js';
 
+
+const numeral = require('numeral');
+
+/**
+* @summary reject vote message;
+*/
+const _rejectVote = () => {
+  if (!checkTokenAvailability(Meteor.user(), Template.instance().ticket.get().token) && Template.instance().ticket.get().token !== 'WEB VOTE') {
+    // lack of token
+    displayModal(
+      true,
+      {
+        icon: 'images/olive.png',
+        title: TAPi18n.__('place-vote'),
+        message: TAPi18n.__('insufficient-votes'),
+        action: TAPi18n.__('get-tokens'),
+        cancel: TAPi18n.__('not-now'),
+      },
+      () => {
+        window.open(Meteor.settings.public.web.sites.tokens, '_blank');
+      }
+    );
+  } else {
+    // wrong requisites
+    displayModal(
+      true,
+      {
+        icon: 'images/olive.png',
+        title: TAPi18n.__('place-vote'),
+        message: TAPi18n.__('incompatible-requisites'),
+        cancel: TAPi18n.__('close'),
+        alertMode: true,
+      },
+    );
+  }
+};
+
+/**
+* @summary poll no longer open;
+*/
+const _pollClosed = () => {
+  // poll already closed
+  displayModal(
+    true,
+    {
+      icon: 'images/olive.png',
+      title: TAPi18n.__('poll-closed'),
+      message: TAPi18n.__('poll-is-closed'),
+      cancel: TAPi18n.__('close'),
+      alertMode: true,
+    },
+  );
+};
+
+/**
+* @summary already voted here
+*/
+const _alreadyVoted = () => {
+  // poll already closed
+  displayModal(
+    true,
+    {
+      icon: 'images/olive.png',
+      title: TAPi18n.__('already-voted'),
+      message: TAPi18n.__('already-voted-detail'),
+      cancel: TAPi18n.__('close'),
+      alertMode: true,
+    },
+  );
+};
+
 /**
 * @summary executes token vote
 */
 const _cryptoVote = () => {
-  Template.instance().voteEnabled = verifyConstituencyRights(Template.currentData().contract);
+  const contract = Template.currentData().contract;
+  Template.instance().voteEnabled = verifyConstituencyRights(contract);
   if (Meteor.user()) {
     if (Template.instance().voteEnabled) {
-      if (setupWeb3(true)) {
-        // wallet alert
-        let icon;
-        if (Meteor.settings.public.Collective.profile.logo) {
-          icon = Meteor.settings.public.Collective.profile.logo;
-        } else {
-          icon = 'images/olive.png';
-        }
-        displayModal(
-          true,
-          {
-            icon,
-            title: TAPi18n.__('place-vote'),
-            message: TAPi18n.__('metamask-confirm-transaction'),
-            cancel: TAPi18n.__('close'),
-            awaitMode: true,
-            displayProfile: true,
-            profileId: Template.currentData().contract.signatures[0]._id,
-          },
-        );
+      if (isPollOpen(Template.instance().now.get(), contract)) {
+        if (!verifyCoinVote(contract.pollId ? Contracts.findOne({ _id: contract.pollId }) : contract)) {
+          if (setupWeb3(true)) {
+            // wallet alert
 
-        // prompt metamask
-        transactWithMetamask(
-          getTokenAddress(Meteor.user(), Template.instance().ticket.get().token),
-          Template.currentData().contract.blockchain.publicAddress,
-          Template.currentData().contract.blockchain.votePrice,
-          Template.instance().ticket.get().token,
-          getTokenContractAddress(Template.instance().ticket.get().token),
-          Meteor.userId(),
-          Template.currentData().contract._id,
-          Template.currentData().contract.signatures[0]._id,
-        );
-      }
-    } else if (!checkTokenAvailability(Meteor.user(), Template.instance().ticket.get().token)) {
-      // lack of token
-      displayModal(
-        true,
-        {
-          icon: 'images/olive.png',
-          title: TAPi18n.__('place-vote'),
-          message: TAPi18n.__('insufficient-votes'),
-          action: TAPi18n.__('get-tokens'),
-          cancel: TAPi18n.__('not-now'),
-        },
-        () => {
-          window.open(Meteor.settings.public.web.sites.tokens, '_blank');
+            let icon;
+            if (Meteor.settings.public.Collective.profile.logo) {
+              icon = Meteor.settings.public.Collective.profile.logo;
+            } else {
+              icon = 'images/olive.png';
+            }
+            displayModal(
+              true,
+              {
+                icon,
+                title: TAPi18n.__('place-vote'),
+                message: contract.rules.balanceVoting ? TAPi18n.__('metamask-confirm-tally') : TAPi18n.__('metamask-confirm-transaction'),
+                cancel: TAPi18n.__('close'),
+                awaitMode: true,
+                displayProfile: true,
+                profileId: Template.currentData().contract.signatures[0]._id,
+              },
+            );
+
+            if (contract.rules.balanceVoting) {
+              // off chain vote
+              coinvote(
+                getTokenAddress(Meteor.user(), Template.instance().ticket.get().token),
+                Template.currentData().contract.blockchain.publicAddress,
+                getBalance(Meteor.user(), Template.currentData().contract),
+                Template.instance().ticket.get().token,
+                getTokenContractAddress(Template.instance().ticket.get().token),
+                Meteor.userId(),
+                Template.currentData().contract._id,
+                Template.currentData().contract.signatures[0]._id,
+                contract.title,
+                `${(window.location.origin)}${contract.url}`,
+              );
+            } else {
+              // on chain vote
+              transactWithMetamask(
+                getTokenAddress(Meteor.user(), Template.instance().ticket.get().token),
+                Template.currentData().contract.blockchain.publicAddress,
+                Template.currentData().contract.blockchain.votePrice,
+                Template.instance().ticket.get().token,
+                getTokenContractAddress(Template.instance().ticket.get().token),
+                Meteor.userId(),
+                Template.currentData().contract._id,
+                Template.currentData().contract.signatures[0]._id,
+                
+              );
+            }
+          }
+        } else {
+          _alreadyVoted();
         }
-      );
+      } else {
+        _pollClosed();
+      }
     } else {
-      // wrong requisites
-      displayModal(
-        true,
-        {
-          icon: 'images/olive.png',
-          title: TAPi18n.__('place-vote'),
-          message: TAPi18n.__('incompatible-requisites'),
-          cancel: TAPi18n.__('close'),
-          alertMode: true,
-        },
-      );
+      _rejectVote();
     }
   } else {
     // not logged
@@ -103,6 +180,23 @@ const _cryptoVote = () => {
         alertMode: true,
       },
     );
+  }
+};
+
+/**
+* @summary checks if a given user voted on this contract
+* @param {object} contract to get data from
+* @param {string} userId to check
+* @return ticker string
+*/
+const _checkUserVoted = (contract, userId) => {
+  switch (contract && contract.blockchain.coin.code) {
+    case 'WEB VOTE':
+      return _.contains(_.pluck(contract.tally.voter, '_id'), userId);
+    default:
+      if (contract.rules && contract.rules.balanceVoting) {
+        return verifyCoinVote(contract);
+      }
   }
 };
 
@@ -269,6 +363,14 @@ function activateDragging() {
   }).disableSelection();
 }
 
+/*
+const _getPollSstatus = async (contract) => {
+  const pollOpen = await isPollOpen(contract);
+  console.log(`pollOpen: ${pollOpen}`);
+  return pollOpen;
+};
+*/
+
 Template.ballot.onCreated(() => {
   Template.instance().forks = _generateForks(this.contract);
   Template.instance().emptyBallot = new ReactiveVar();
@@ -277,12 +379,19 @@ Template.ballot.onCreated(() => {
   Template.instance().contract = new ReactiveVar(Template.currentData().contract);
   Template.instance().ticket = new ReactiveVar(getContractToken({ contract: Template.currentData().contract, isButton: true }));
   Template.instance().voteEnabled = verifyConstituencyRights(Template.currentData().contract);
+  Template.instance().pollScore = new ReactiveVar(0);
 
   Template.instance().imageTemplate = new ReactiveVar();
   templetize(Template.instance());
+
+  Template.instance().now = new ReactiveVar();
+  currentBlock(Template.instance());
 });
 
 Template.ballot.helpers({
+  poll() {
+    return this.poll;
+  },
   allowForks() {
     return this.contract.allowForks;
   },
@@ -560,10 +669,50 @@ Template.ballot.helpers({
     return label;
   },
   token() {
-    return Template.instance().ticket.get();
+    Template.instance().ticket.set(getContractToken({ contract: Template.currentData().contract, isButton: true }));
+    const instance = Template.instance();
+    const ticket = instance.ticket.get();
+    ticket.rules = this.contract.rules;
+    return ticket;
+  },
+  hasPoll() {
+    return (this.contract.poll && this.contract.poll.length > 0);
+  },
+  pollScore() {
+    // color
+    let score = '';
+
+    // score
+    let choiceVotes;
+    if (this.pollTotals) {
+      switch (this.contract.blockchain.coin.code) {
+        case 'WEB VOTE':
+          choiceVotes = 0;
+          for (let k = 0; k < this.contract.tally.voter.length; k += 1) {
+            choiceVotes += this.contract.tally.voter[k].votes;
+          }
+          break;
+        default:
+          choiceVotes = this.contract.blockchain.score ? this.contract.blockchain.score.totalConfirmed : '0';
+      }
+    }
+    const bnVotes = new BigNumber(choiceVotes);
+    const bnTotal = new BigNumber(this.pollTotals);
+    let percentage;
+    // eslint-disable-next-line eqeqeq
+    if (bnTotal != 0) {
+      percentage = new BigNumber(bnVotes.multipliedBy(100)).dividedBy(bnTotal);
+    } else {
+      percentage = 0;
+    }
+    Template.instance().pollScore.set(percentage);
+    score = `${numeral(percentage).format('0.00')}%`;
+
+    return score;
   },
   tokenFriendly() {
-    return Template.instance().ticket.get().token !== 'NONE';
+    // return Template.instance().ticket.get().token !== 'NONE';
+    return true;
   },
   castSingleVote() {
     return (Session.get('castSingleVote') === this.contract.keyword);
@@ -616,6 +765,34 @@ Template.ballot.helpers({
   getImage(pic) {
     return getImage(Template.instance().imageTemplate.get(), pic);
   },
+  checkSelected(element) {
+    const contract = Contracts.findOne({ _id: this.contract._id });
+    if (_checkUserVoted(contract, Meteor.userId())) {
+      return `check-mini-selected-${element}`;
+    }
+    return `check-mini-unselected-${element}`;
+  },
+  removableVotes() {
+    const contract = Contracts.findOne({ _id: this.contract._id });
+    if (_checkUserVoted(contract, Meteor.userId())) {
+      return (contract.blockchain.coin.code === 'WEB VOTE');
+    }
+    return false;
+  },
+  firstPollChoice() {
+    const contract = Contracts.findOne({ _id: this.contract._id });
+    if (contract.poll && contract.poll.length > 0) {
+      const choice = Contracts.findOne({ _id: contract.poll[0].contractId });
+      return choice;
+    }
+    return contract;
+  },
+  smallPercentageStyle() {
+    if (Template.instance().pollScore.get() < 10) {
+      return 'poll-score-small';
+    }
+    return '';
+  },
 });
 
 Template.ballot.events({
@@ -623,31 +800,84 @@ Template.ballot.events({
     event.preventDefault();
     event.stopPropagation();
     const currency = Template.currentData().contract.wallet.currency;
-    if (currency === 'NONE') {
-      displayModal(
-        true,
-        {
-          icon: 'images/olive.png',
-          title: TAPi18n.__('place-vote'),
-          message: TAPi18n.__('tokenless-post'),
-          cancel: TAPi18n.__('close'),
-          alertMode: true,
-        },
-      );
-    } else if (currency === 'STX') {
-      displayModal(
-        true,
-        {
-          icon: 'images/olive.png',
-          title: TAPi18n.__('place-vote'),
-          message: TAPi18n.__('insufficient-votes'),
-          cancel: TAPi18n.__('close'),
-          alertMode: true,
-        },
-      );
-    } else {
-      // ERC20 token
-      _cryptoVote();
+    if (!this.editorMode) {
+      const contractData = Template.currentData().contract;
+      // contract in which to evaluate if it can vote
+      let contract = Template.currentData().contract;
+      if (contract.poll.length > 0) {
+        contract = Contracts.findOne({ _id: contract.poll[0].contractId });
+      }
+      Template.instance().voteEnabled = verifyConstituencyRights(contract);
+
+      if (Meteor.user()) {
+        if (Template.instance().voteEnabled) {
+          if (isPollOpen(Template.instance().now.get(), contractData)) {
+            if (currency === 'WEB VOTE') {
+              const userId = Meteor.user()._id;
+              const _contractId = contractData._id;
+              const voteAmount = 1; // Template.currentData().voteAmount or something similar
+
+              const transactSettings = {
+                kind: 'VOTE',
+                currency: 'WEB VOTE',
+                contractId: _contractId,
+                quadraticVoting: contractData.rules.quadraticVoting,
+              };
+
+              transact(userId, _contractId, voteAmount, transactSettings, undefined);
+            } else if (currency === 'STX') {
+              displayModal(
+                true,
+                {
+                  icon: 'images/olive.png',
+                  title: TAPi18n.__('place-vote'),
+                  message: TAPi18n.__('insufficient-votes'),
+                  cancel: TAPi18n.__('close'),
+                  alertMode: true,
+                },
+              );
+            } else {
+              // ERC20 token
+              _cryptoVote();
+            }
+          } else {
+            _pollClosed();
+          }
+        } else {
+          _rejectVote();
+        }
+      } else {
+        // not logged
+        displayModal(
+          true,
+          {
+            icon: 'images/olive.png',
+            title: TAPi18n.__('place-vote'),
+            message: TAPi18n.__('unlogged-cant-vote'),
+            cancel: TAPi18n.__('close'),
+            alertMode: true,
+          },
+        );
+      }
+    }
+  },
+  'click #single-remove'(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const currency = Template.currentData().contract.wallet.currency;
+    if (currency === 'WEB VOTE') {
+      const userId = Meteor.user()._id;
+      const _contractId = Template.currentData().contract._id;
+      const voteAmount = 1;
+
+      const transactSettings = {
+        kind: 'VOTE',
+        currency: 'WEB VOTE',
+        contractId: _contractId,
+        quadraticVoting: Template.currentData().contract.rules.quadraticVoting,
+      };
+
+      transact(_contractId, userId, voteAmount, transactSettings, undefined);
     }
   },
   'click #edit-reply'(event) {

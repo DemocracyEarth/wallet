@@ -52,6 +52,11 @@ Schema.Tally = new SimpleSchema({
     type: Number,
     optional: true,
   },
+  'voter.$.qVotes': {
+    type: Number,
+    optional: true,
+    decimal: true,
+  },
   'voter.$.ballotList': {
     type: [String],
     optional: true,
@@ -59,6 +64,66 @@ Schema.Tally = new SimpleSchema({
   'voter.$.value': {
     type: String,
     optional: true,
+  },
+});
+
+
+Schema.Poll = new SimpleSchema({
+  contractId: {
+    type: String,
+    optional: true,
+  },
+  totalStaked: {
+    type: String,
+    optional: true,
+  },
+});
+
+Schema.Closing = new SimpleSchema({
+  blockchain: {
+    type: String,
+    defaultValue: 'ETH',
+  },
+  height: {
+    type: Number,
+    defaultValue: 0,
+  },
+  calendar: {
+    type: Date,
+    autoValue() {
+      const creationDate = new Date();
+      if (this.isInsert) {
+        creationDate.setDate(creationDate.getDate() + 1);
+      }
+      return creationDate;
+    },
+  },
+  delta: {
+    type: Number,
+    defaultValue: 0,
+  },
+  urgency: {
+    type: Number,
+    optional: true,
+  },
+});
+
+Schema.Rules = new SimpleSchema({
+  alwaysOn: {
+    type: Boolean,
+    defaultValue: true,
+  },
+  quadraticVoting: {
+    type: Boolean,
+    defaultValue: Meteor.settings.public.app.config.defaultRules.quadraticVoting,
+  },
+  balanceVoting: {
+    type: Boolean,
+    defaultValue: Meteor.settings.public.app.config.defaultRules.balanceVoting,
+  },
+  pollVoting: {
+    type: Boolean,
+    defaultValue: Meteor.settings.public.app.config.defaultRules.pollVoting,
   },
 });
 
@@ -127,7 +192,7 @@ Schema.Contract = new SimpleSchema({
   kind: {
     // kind of contract
     type: String,
-    allowedValues: ['DRAFT', 'VOTE', 'DELEGATION', 'MEMBERSHIP', 'DISCIPLINE'],
+    allowedValues: ['DRAFT', 'VOTE', 'DELEGATION', 'MEMBERSHIP', 'DISCIPLINE', 'POLL'],
     autoValue() {
       if (this.isInsert) {
         if (this.field('kind').value === undefined) {
@@ -150,7 +215,7 @@ Schema.Contract = new SimpleSchema({
      // URL inside the instance of .Earth
     type: String,
     autoValue() {
-      const slug = convertToSlug(this.field('title').value);
+      let slug = convertToSlug(this.field('title').value);
       if (this.isInsert) {
         if (this.field('kind').value === 'DELEGATION') {
           if (this.field('keyword').value !== undefined) {
@@ -159,6 +224,9 @@ Schema.Contract = new SimpleSchema({
           return 'delegation';
         }
         if (this.field('title').value !== undefined) {
+          if (this.field('kind'.value === 'POLL') && this.field('keyword').value) {
+            slug = this.field('keyword').value;
+          }
           if (Contracts.findOne({ keyword: slug }) === undefined) {
             if (this.field('title').value !== '') {
               const time = this.field('createdAt').value;
@@ -526,10 +594,25 @@ Schema.Contract = new SimpleSchema({
       return Math.floor(Math.random() * 10000000000000000);
     },
   },
-  quadraticVoting: {
-    type: Boolean,
+  rules: {
+    type: Schema.Rules,
     optional: true,
-    defaultValue: false,
+  },
+  poll: {
+    type: [Schema.Poll],
+    defaultValue: [],
+  },
+  pollId: {
+    type: String,
+    optional: true,
+  },
+  pollChoiceId: {
+    type: String,
+    optional: true,
+  },
+  closing: {
+    type: Schema.Closing,
+    optional: true,
   },
 });
 

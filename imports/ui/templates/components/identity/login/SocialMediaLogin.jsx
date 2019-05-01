@@ -52,6 +52,9 @@ export default class SocialMediaLogin extends Component {
   }
 
   render() {
+    const blockstackLoginActive = Meteor.settings.public.app.config.loginOptions.blockstack;
+    const metamaskLoginActive = Meteor.settings.public.app.config.loginOptions.metamask;
+
     if (this.props.agoraMode) {
       return (
         <div>
@@ -67,43 +70,75 @@ export default class SocialMediaLogin extends Component {
     if (Meteor.Device.isPhone()) {
       return (
         <div>
-          <div className="">
-            <video width="100%" height="auto" controls controlsList="nodownload" webkitallowfullscreen mozallowfullscreen allowFullScreen poster="https://s3-us-west-2.amazonaws.com/democracyearth/landing/metamask-splash.png">
-              <source src="https://s3-us-west-2.amazonaws.com/democracyearth/landing/MetaMask.mp4" type="video/mp4" />
-            </video>
-          </div>
-          <div className="extra">
-            <a id="signup" href="https://www.toshi.org/" rel="noopener noreferrer" target="_blank">{TAPi18n.__('get-dapp-browser')}</a>.
-          </div>
-          <div id="metamask-login" className="button login-button login-button-first" onClick={this.handleMetamaskLogin}>
-            <img src="/images/ethereum.png" className="button-icon" alt="lock" />
-            {TAPi18n.__('ethereum-dapp-browsers')}
-          </div>
-          <div id="blockstack-login" className="button login-button" onClick={this.handleBlockstackLogin}>
-            <img src="/images/blockstack.png" className="button-icon" alt="lock" />
-            {TAPi18n.__('blockstack-id')}
-          </div>
+          {metamaskLoginActive ?
+            <div className="">
+              <video width="100%" height="auto" controls controlsList="nodownload" webkitallowfullscreen mozallowfullscreen allowFullScreen poster="https://s3-us-west-2.amazonaws.com/democracyearth/landing/metamask-splash.png">
+                <source src="https://s3-us-west-2.amazonaws.com/democracyearth/landing/MetaMask.mp4" type="video/mp4" />
+              </video>
+            </div>
+            :
+            null
+          }
+          {metamaskLoginActive ?
+            <div className="extra">
+              <a id="signup" href="https://www.toshi.org/" rel="noopener noreferrer" target="_blank">{TAPi18n.__('get-dapp-browser')}</a>.
+            </div>
+            :
+            null
+          }
+          {metamaskLoginActive ?
+            <div id="metamask-login" className="button login-button login-button-first" onClick={this.handleMetamaskLogin}>
+              <img src="/images/ethereum.png" className="button-icon" alt="lock" />
+              {TAPi18n.__('ethereum-dapp-browsers')}
+            </div>
+            :
+            null
+          }
+          {blockstackLoginActive ?
+            <div id="blockstack-login" className="button login-button" onClick={this.handleBlockstackLogin}>
+              <img src="/images/blockstack.png" className="button-icon" alt="lock" />
+              {TAPi18n.__('blockstack-id')}
+            </div>
+            :
+            null
+          }
         </div>
       );
     }
     return (
       <div>
-        <div className="">
-          <video width="100%" height="auto" controls controlsList="nodownload" webkitallowfullscreen mozallowfullscreen allowFullScreen poster="https://s3-us-west-2.amazonaws.com/democracyearth/landing/metamask-splash.png">
-            <source src="https://s3-us-west-2.amazonaws.com/democracyearth/landing/MetaMask.mp4" type="video/mp4" />
-          </video>
-        </div>
-        <div className="extra">
+        {metamaskLoginActive ?
+          <div className="">
+            <video width="100%" height="auto" controls controlsList="nodownload" webkitallowfullscreen mozallowfullscreen allowFullScreen poster="https://s3-us-west-2.amazonaws.com/democracyearth/landing/metamask-splash.png">
+              <source src="https://s3-us-west-2.amazonaws.com/democracyearth/landing/MetaMask.mp4" type="video/mp4" />
+            </video>
+          </div>
+          :
+          null
+        }
+        {metamaskLoginActive ?
+          <div className="extra">
             <a id="signup" href="https://metamask.io/" rel="noopener noreferrer" target="_blank">{TAPi18n.__('get-web3-wallet')}</a>.
           </div>
-        <div id="metamask-login" className="button login-button login-button-first" onClick={this.handleMetamaskLogin}>
-          <img src="/images/ethereum.png" className="button-icon" alt="lock" />
-          {TAPi18n.__('ethereum-web3-wallet')}
-        </div>
-        <div id="blockstack-login" className="button login-button" onClick={this.handleBlockstackLogin}>
-          <img src="/images/blockstack.png" className="button-icon" alt="lock" />
-          {TAPi18n.__('blockstack-id')}
-        </div>
+          :
+          null
+        }
+        {metamaskLoginActive ?
+          <div id="metamask-login" className="button login-button login-button-first" onClick={this.handleMetamaskLogin}>
+            <img src="/images/ethereum.png" className="button-icon" alt="lock" />
+            {TAPi18n.__('ethereum-web3-wallet')}
+          </div>
+          :
+          null
+        }
+        {blockstackLoginActive ?
+          <div id="blockstack-login" className="button login-button" onClick={this.handleBlockstackLogin}>
+            <img src="/images/blockstack.png" className="button-icon" alt="lock" />
+            {TAPi18n.__('blockstack-id')}
+          </div>
+          :
+          null
+        }
         {/* <div id="twitter-login" className="button button-social twitter" onClick={this.handleTwitterLogin} >{{_ 'twitter'}}</div> */}
       </div>
     );

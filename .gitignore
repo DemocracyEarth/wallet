@@ -1,7 +1,9 @@
 ## Custom
 config/production/settings.json
 config/production/decentraland.json
+config/production/colorado.json
 config/staging/settings.json
+
 .vscode
 _deprecations
 

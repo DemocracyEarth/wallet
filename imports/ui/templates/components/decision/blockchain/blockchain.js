@@ -3,12 +3,13 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
-import { getContractToken } from '/imports/ui/templates/widgets/transaction/transaction';
 import { getCoin } from '/imports/api/blockchain/modules/web3Util.js';
 import { token } from '/lib/token';
 import { formatCryptoValue } from '/imports/ui/templates/components/decision/balance/balance';
+import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 
 import '/imports/ui/templates/components/decision/blockchain/blockchain.html';
 
@@ -83,6 +84,7 @@ const _writeRule = (contract, textOnly) => {
   }
   let sentence = TAPi18n.__(`electorate-sentence-anyone${format}`);
   let setting;
+
   if (contract.constituency) {
     sentence = TAPi18n.__(`electorate-sentence-only${format}`);
     let coin;
@@ -123,6 +125,9 @@ Template.blockchain.onCreated(() => {
   }
   Session.set('showCoinSettings', false);
   Template.instance().voteEnabled = _verifyConstituencyRights(contract);
+
+  Template.instance().imageTemplate = new ReactiveVar();
+  templetize(Template.instance());
 });
 
 const _toggleCoinSettings = () => {
@@ -149,6 +154,15 @@ Template.blockchain.onRendered(function () {
       }
     }
   });
+
+  instance.autorun(function () {
+    $('.right').scroll(() => {
+      if (Session.get('showCoinSettings')) {
+        Session.set('showCoinSettings', false);
+        animatePopup(false, 'blockchain-popup');
+      }
+    });
+  });
 });
 
 Template.blockchain.helpers({
@@ -164,11 +178,20 @@ Template.blockchain.helpers({
     }
     return '';
   },
+  pollInside() {
+    const contract = Session.get('draftContract');
+    return (contract.rules && contract.rules.pollVoting);
+  },
   ticker() {
-    if (Meteor.user().profile.wallet.reserves) {
-      return Session.get('draftContract').wallet.currency;
+    const contract = Session.get('draftContract');
+    const label = contract.wallet.currency;
+    /* if (contract.rules && contract.rules.quadraticVoting) {
+      label = `${TAPi18n.__('ticker-rule-quadratic')} ${label}`;
     }
-    return `${TAPi18n.__('no-tokens')}`;
+    if (contract.rules && contract.rules.balanceVoting) {
+      label = `${label} ${TAPi18n.__('ticker-rule-balance')}`;
+    }*/
+    return label;
   },
   tickerStyle() {
     let color;
@@ -216,6 +239,14 @@ Template.blockchain.helpers({
   check() {
     return Template.instance().voteEnabled;
   },
+  getImage() {
+    if (!this.readOnly) {
+      if (Session.get('showCoinSettings')) {
+        return getImage(Template.instance().imageTemplate.get(), 'vote-active');
+      }
+    }
+    return getImage(Template.instance().imageTemplate.get(), 'vote-enabled');
+  },
   icon() {
     if (!this.readOnly) {
       if (Session.get('showCoinSettings')) {
@@ -240,7 +271,7 @@ Template.blockchain.helpers({
 
 Template.blockchain.events({
   'click #blockchain-button'() {
-    if (!this.readOnly && Meteor.user().profile.wallet.reserves !== undefined) {
+    if (!this.readOnly) {
       killPopup();
     }
   },

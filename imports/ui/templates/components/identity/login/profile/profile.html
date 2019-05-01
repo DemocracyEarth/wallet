@@ -4,13 +4,17 @@
   {{else}}
     <div class="login">
       {{> avatar includeName=true includeNation=true editable=false includeAddress=true}}
-      {{#if isMultiTokenUser}}
+
+      <!--<div class="budget">
+        <label for="name" class="login-label login-label-form">
+          {{_ 'token-budget'}}
+        </label>
         {{#with currentUser}}
           {{> multiTokenProfile}}
         {{/with}}
-      {{else}}
+      </div>-->
+
         <!--{{> liquid _id='vote-user-balance' targetId=currentUser._id wallet=currentUser.profile.wallet isDelegation=false editable=false hideBar=true}}-->
-      {{/if}}
       <div id="edit-profile" class="button button-menu">
         <img class="button-icon execute-icon execute-icon-menu" src="{{getImage 'forward'}}">
         <div>{{_ 'edit-profile'}}</div>

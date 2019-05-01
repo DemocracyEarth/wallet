@@ -7,6 +7,13 @@
         {{> collective}}
 
         <ul class="menu w-clearfix w-list-unstyled">
+          {{#with currentUser}}
+            {{> multiTokenProfile}}
+          {{/with}}
+        </ul>
+
+        <ul class="menu w-clearfix w-list-unstyled">
+          {{> inbox label='feeds' separator=true}}
           {{#each menu}}
             {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon isAvatar=false iconActivated=iconActivated feed=feed}}
           {{/each}}
@@ -22,6 +29,7 @@
             </div>
           {{/each}}
         </ul>
+
         <div style="height: 50px"></div>
         <!--
         {{#if bitcoinAddress}}

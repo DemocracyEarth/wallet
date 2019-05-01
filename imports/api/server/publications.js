@@ -80,6 +80,24 @@ Meteor.publish('delegates', function (terms) {
 });
 
 /**
+* @summary returns list of contracts from a poll
+* @return {Object} querying terms
+*/
+Meteor.publish('poll', function (terms) {
+  check(terms, Object);
+
+  const parameters = query(terms);
+  log(`{ publish: 'poll', user: ${logUser()}, pollId: '${terms.pollId}' }`);
+
+  const pollFeed = Contracts.find(parameters.find, parameters.options);
+  if (pollFeed) {
+    return pollFeed;
+  }
+
+  return this.ready();
+});
+
+/**
 * @summary files related to a user account
 * @return {Object} file
 */

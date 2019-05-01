@@ -21,6 +21,9 @@ import '/imports/ui/templates/widgets/feed/feedItem.html';
 import '/imports/ui/templates/widgets/transaction/transaction.js';
 import '/imports/ui/templates/widgets/spinner/spinner.js';
 import '/imports/ui/templates/components/identity/avatar/avatar.js';
+import '/imports/ui/templates/components/decision/countdown/countdown.js';
+
+import BigNumber from 'bignumber.js';
 
 /**
 * @summary determines whether this decision can display results or notice
@@ -73,12 +76,38 @@ const _here = (item) => {
 };
 
 /**
+* @summary Strips markdown format to render HTML link correctly
+* @param {string} text - Expected format is:
+*
+* "[Click me](<a href='http://www.test.com' target='_blank'>www.test.com</a>)"
+*
+* @param {string} humanStr - Refers to part within brackets, 'Click me' in the example above
+* @returns {string} HTML format that actually contains the human readable part, as in:
+*
+* "<a href='http://www.test.com' target='_blank'>Click me</a>"
+*
+*/
+const stripMarkdownLink = (text, humanStr) => {
+  text = text.slice(text.search('<a href='));
+  text = text.slice(0, text.search("target='_blank'>") + 16);
+  text = text + humanStr + '</a>';
+
+  return text;
+};
+
+/**
 * @summary parses a url in a plain text and returns link html
 * @param {string} text to be parsed
 * @return {string} html with linked url
 */
 const parseURL = (text) => {
   const exp = /(\b(((https?|ftp|file|):\/\/)|www[.])[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+  const markdownLinkExp = /\[(.*?)\]\((.+?)\)/g;
+  const markdownImgExp = /(?:!\[(.*?)\]\((.*?)\))/ig;
+
+  // If markdown image format present, ignore
+  if (text.search(markdownImgExp) !== -1) return text;
+
   let temp = text.replace(exp, "<a href='$1' target='_blank'>$1</a>");
   let result = '';
 
@@ -95,6 +124,9 @@ const parseURL = (text) => {
       result += 'http://';
     }
   }
+
+  // If markdown link format (`[]()`) present, strip for correct rendering
+  result = result.replace(markdownLinkExp, stripMarkdownLink(result, '$1'));
 
   return result;
 };
@@ -123,7 +155,6 @@ const _hasSubstring = (str, items) => {
 * @return {string} html with linked url
 */
 const _clickOnWhitespace = (className) => {
-  console.log(className);
   return _hasSubstring(className, ['checkbox', 'title-input', 'option-title', 'identity-list']);
 };
 
@@ -156,14 +187,18 @@ const renderMarkup = (text) => {
   html = _replaceAll(html, "href='/@@", "href='/@");
 
   // tokens
-  html = html.replace(/(^|\s)(\$[a-z\d][\w-]*)/ig, "$1<a href='/token/$2'>$2</a>");
-  html = _replaceAll(html, "href='/token/$", "href='$");
+  // html = html.replace(/(^|\s)(\$[a-z\d][\w-]*)/ig, "$1<a hr`ef='/token/$2'>$2</a>");
+  // html = _replaceAll(html, "href='/token/$", "href='$");
 
   // markup
   html = html.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
   html = html.replace(/__(.*?)__/g, '<u>$1</u>');
   html = html.replace(/--(.*?)--/g, '<i>$1</i>');
   html = html.replace(/~~(.*?)~~/g, '<del>$1</del>');
+  html = html.replace(/##(.*?)##/g, '<small>$1</small>');
+
+  // images
+  html = html.replace(/(?:!\[(.*?)\]\((.*?)\))/g, '<img alt="$1" src="$2" />');
 
   // paragraphs
   html = html.replace(/\n/g, '<br>');
@@ -353,14 +388,66 @@ Template.feedItem.helpers({
   feedContract() {
     return Template.instance().contract.get();
   },
+  pollingEnabled() {
+    return this.rules ? this.rules.pollVoting : false;
+  },
+  quadraticEnabled() {
+    return this.rules ? this.rules.quadraticVoting : false;
+  },
+  balanceEnabled() {
+    return this.rules ? this.rules.balanceVoting : false;
+  },
+  pollList() {
+    return this.poll;
+  },
+  pollId() {
+    return this._id;
+  },
+  pollTotals() {
+    const choices = Contracts.find({ pollId: this._id }).fetch();
+    let total = new BigNumber(0);
+    for (let i = 0; i < choices.length; i += 1) {
+      switch (this.blockchain.coin.code) {
+        case 'WEB VOTE':
+          for (let k = 0; k < choices[i].tally.voter.length; k += 1) {
+            total = total.plus(choices[i].tally.voter[k].votes);
+          }
+          break;
+        default:
+          if (choices[i].blockchain.score && choices[i].blockchain.score.totalConfirmed) {
+            total = total.plus(choices[i].blockchain.score.totalConfirmed);
+          }
+      }
+    }
+    return total.toString();
+  },
+  rules() {
+    return this.rules;
+  },
   voters() {
     let total;
-    const dbContract = Contracts.findOne({ _id: this._id });
-    if (dbContract && dbContract.tally) {
-      total = dbContract.tally.voter.length;
+    let list = [];
+    const contract = Contracts.findOne({ _id: this._id });
+    let choice;
+
+    if (contract.poll && contract.poll.length > 0) {
+      // poll contract
+      total = 0;
+      for (let i = 0; i < contract.poll.length; i += 1) {
+        choice = Contracts.findOne({ _id: contract.poll[i].contractId });
+
+        if (choice) {
+          list = list.concat(_.pluck(choice.tally.voter, '_id'));
+        }
+      }
+      total = _.uniq(list).length;
+    } else if (contract && contract.tally) {
+      // normal
+      total = contract.tally.voter.length;
     } else {
       total = getTotalVoters(this);
     }
+
     if (total === 1) {
       return `${total} ${TAPi18n.__('voter').toLowerCase()}`;
     } else if (total === 0) {
@@ -418,6 +505,25 @@ Template.feedItem.helpers({
   },
   getImage(pic) {
     return getImage(Template.instance().imageTemplate.get(), pic);
+  },
+  pollContent() {
+    return this.pollId;
+  },
+  pollStyle() {
+    if (this.poll && this.poll.length > 0) {
+      return 'vote-poll';
+    }
+    return '';
+  },
+  requiresClosing() {
+    return ((this.rules.alwaysOn === false) || this.rules.pollVoting);
+  },
+  closingData() {
+    const closing = this.closing;
+    if (closing) {
+      closing.alwaysOn = this.rules.alwaysOn;
+    }
+    return closing;
   },
 });
 

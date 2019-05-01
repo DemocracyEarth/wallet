@@ -1,0 +1,35 @@
+<template name="calendar">
+    {{#if currentUser}}
+      <div class="login">
+        <div class="login-advanced login-label login-label-form">
+          <div class="toggles toggles-untitled">
+            {{> setting label='always-on' tooltip='always-on-tooltip' toggle=true sessionContract="cachedDraft" rules="alwaysOn" value=alwaysOn enabled=true}}
+          </div>
+          <div class="login-label-subtitle">
+            {{_ 'decision-deadline'}}
+          </div>
+          {{#with timers}}
+            {{> switcher}}
+          {{/with}}
+          <div class="login-label-subtitle">
+            {{_ 'blockchain-time'}}
+          </div>
+          <div class="blockchain-time">
+            {{{criteria}}}
+          </div>
+        </div>
+        <div class="dropdown-buttons">
+          <div class="modal-buttons-padder modal-buttons-padder-left">
+            <div id="cancel-calendar" class="button login-button button-secondary button-half">
+              <div>{{_ 'cancel'}}</div>
+            </div>
+          </div>
+          <div class="modal-buttons-padder modal-buttons-padder-right">
+            <div id="execute-calendar" class="button login-button button-half {{buttonDisable}}">
+              <div>{{_ 'apply'}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {{/if}}
+</template>

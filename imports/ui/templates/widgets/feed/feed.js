@@ -5,6 +5,8 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { $ } from 'meteor/jquery';
 import { Counts } from 'meteor/tmeasday:publish-counts';
 
+import { resetSplit } from '/imports/ui/modules/split';
+import { showSidebar } from '/imports/ui/templates/layout/sidebar/sidebar';
 import { query } from '/lib/views';
 import { here } from '/lib/utils';
 import { gui } from '/lib/const';
@@ -151,7 +153,9 @@ Template.feed.onCreated(function () {
     }
     options.view = 'linkedFeed';
   }
+
   this.subscription = instance.subscribe('feed', options);
+
   const parameters = query(options);
 
   // verify if beginning
@@ -213,10 +217,18 @@ Template.feed.onCreated(function () {
 });
 
 Template.feed.onRendered(function () {
+  let options = Template.currentData().options;
+
+  if (!Meteor.Device.isPhone() && Meteor.user() && options.view !== 'linkedFeed') {
+    // brute force proper rendering
+    showSidebar();
+    resetSplit();
+  }
+
   const instance = this;
   instance.autorun(function () {
     if (!instance.counted.get()) {
-      const options = Template.currentData().options;
+      options = Template.currentData().options;
 
       if (options.view === 'linkedFeed') {
         instance.counted.set(true);
