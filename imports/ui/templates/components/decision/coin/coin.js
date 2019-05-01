@@ -70,7 +70,10 @@ const _save = () => {
 const _verifyBlockchainAddress = () => {
   const draft = Session.get('draftContract');
   if (draft.blockchain.coin.code !== 'STX') {
-    return !Session.get('checkBlockchainAddress');
+    // return Session.get('checkBlockchainAddress');
+    if (document.getElementById('editBlockchainAddress') && document.getElementById('editBlockchainAddress').value) {
+      return !web3.utils.isAddress(document.getElementById('editBlockchainAddress').value);
+    }
   }
   return false;
 };
@@ -191,20 +194,20 @@ Template.coin.helpers({
     return false;
   },
   wrongAddress() {
+    if (Session.get('isAddressWrong')) { return true; }
     if (Session.get('newCoin')) {
       const coin = getCoin(Session.get('newCoin').code);
-      if (coin.type === 'ERC20') {
+      if (coin.type === 'ERC20' || coin.type === 'NATIVE') {
         if (document.getElementById('editBlockchainAddress') && document.getElementById('editBlockchainAddress').value === '') {
           if (Meteor.user().profile.wallet.reserves.length > 0 && Meteor.user().profile.wallet.reserves[0].publicAddress) {
             document.getElementById('editBlockchainAddress').value = Meteor.user().profile.wallet.reserves[0].publicAddress;
-          } else {
-            Session.set('checkBlockchainAddress', false);
+            Session.set('isAddressWrong', false);
           }
         }
         return _verifyBlockchainAddress();
       }
     }
-    return false;
+    return Session.get('isAddressWrong');
   },
   addressStyle() {
     if (Session.get('newCoin') && Session.get('newCoin').code === 'WEB VOTE') {
@@ -213,8 +216,11 @@ Template.coin.helpers({
     return '';
   },
   buttonDisable() {
-    if (!_checkInputs()) {
-      return 'button-disabled';
+    if (Session.get('isAddressWrong')) { return 'button-disabled'; }
+    if (Session.get('newCoin')) {
+      if (!_checkInputs() || (document.getElementById('editBlockchainAddress') && document.getElementById('editBlockchainAddress').value === '')) {
+        return 'button-disabled';
+      }
     }
     return '';
   },
@@ -243,7 +249,7 @@ Template.coin.events({
     Template.instance().showAdvanced.set(!advanced);
   },
   'click #execute-coin'() {
-    if (_checkInputs()) {
+    if (_checkInputs() || !Session.get('isAddressWrong')) {
       _save();
       animatePopup(false, 'blockchain-popup');
       Session.set('showCoinSettings', false);
@@ -251,8 +257,7 @@ Template.coin.events({
   },
   'input #editBlockchainAddress'() {
     if (document.getElementById('editBlockchainAddress')) {
-      const address = document.getElementById('editBlockchainAddress').value;
-      Session.set('checkBlockchainAddress', web3.utils.isAddress(address));
+      Session.set('isAddressWrong', _verifyBlockchainAddress());
     }
   },
   'input #editVotePrice'() {

@@ -509,7 +509,7 @@ const _scanCoinVote = (contract) => {
     }
   }
   return false;
-}
+};
 
 /**
 * @summary checks if user didn't coinvoted already
