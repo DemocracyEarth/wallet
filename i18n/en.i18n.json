@@ -606,7 +606,7 @@
   "transaction-broadcast": "{{token}} Transaction sent to blockchain.",
   "ethereum-metamask": "Ethereum",
   "no-chain-found": "No blockchain address found.",
-  "metamask-confirm-transaction": "Confirm transaction in your blockchain wallet. <br>Will be added to your Delegate list:",
+  "metamask-confirm-transaction": "Confirm transaction in your blockchain wallet. <br>To be included Delegate list:",
   "ticket": "ticket",
   "transaction-status-confirmed-onchain": "Confirmed on chain transaction",
   "transaction-status-signed-offchain": "Signed off chain stake",
@@ -718,5 +718,7 @@
   "height-singular": "block",
   "poll-is-closed": "This poll is no longer open for voting.",
   "feeds": "Feeds",
-  "poll-hypothetical": "Poll will end in {{days}} {{hours}} {{minutes}} {{seconds}} (in {{blocks}})"
+  "poll-hypothetical": "Poll will end in {{days}} {{hours}} {{minutes}} {{seconds}} (in {{blocks}})",
+  "coinvote-signature": "A total of {{quantity}} {{ticker}} will be tallied in support of {{choice}} in the proposal available on {{url}}. No tokens will be spent.",
+  "metamask-confirm-tally": "Sign vote with your private key.<br>To be included on Delegate list:"
 }

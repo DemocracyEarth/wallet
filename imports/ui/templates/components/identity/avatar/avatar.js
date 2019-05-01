@@ -80,7 +80,7 @@ const getNation = (profile, flagOnly, nameOnly, codeOnly) => {
         const country = searchJSON(geo.country, Meteor.user().profile.country.name);
         if (country !== undefined) {
           if (flagOnly) {
-            return `${country[0].emoji}`;
+            return `${country[0] ? country[0].emoji : ''}`;
           }
           if (nameOnly) {
             return `${country[0].name}`;
@@ -88,7 +88,7 @@ const getNation = (profile, flagOnly, nameOnly, codeOnly) => {
           if (codeOnly) {
             return `${country[0].code}`;
           }
-          return `${Meteor.user().profile.country.name} ${country[0].emoji}`;
+          return `${Meteor.user().profile.country.name} ${country[0] ? country[0].emoji : ''}`;
         }
       }
       if (flagOnly || nameOnly || codeOnly) { return ''; }
@@ -124,7 +124,7 @@ const getNation = (profile, flagOnly, nameOnly, codeOnly) => {
         if (codeOnly) {
           return user.profile.country.code;
         }
-        return `${user.profile.country.name} ${country[0].emoji}`;
+        return `${user.profile.country.name} ${country[0] ? country[0].emoji : ''}`;
       }
       if (flagOnly || nameOnly || codeOnly) { return ''; }
       return TAPi18n.__('unknown');

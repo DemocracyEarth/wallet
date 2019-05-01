@@ -14,6 +14,7 @@ import { Transactions } from '/imports/api/transactions/Transactions';
 
 
 import abi from 'human-standard-token-abi';
+import { debug } from 'util';
 
 const Web3 = require('web3');
 const ethUtil = require('ethereumjs-util');
@@ -185,8 +186,8 @@ const _delegate = (sourceId, targetId, contractId, hash, value) => {
       tickets: [{
         hash,
         status: 'PENDING',
-        value
-      }]
+        value,
+      }],
     });
     Meteor.users.update({ _id: sourceId }, { $set: { profile: source.profile }});
 
@@ -201,8 +202,8 @@ const _delegate = (sourceId, targetId, contractId, hash, value) => {
       tickets: [{
         hash,
         status: 'PENDING',
-        value
-      }]
+        value,
+      }],
     });
 
     console.log(target);
@@ -328,6 +329,154 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
   }
 };
 
+
+const handleSignMessage = (publicAddress, nonce, message) => {
+  return new Promise((resolve, reject) => {
+    web3.eth.personal.sign(
+      web3.utils.utf8ToHex(`${message}`),
+      publicAddress,
+      function (err, signature) {
+        if (err) return reject(err);
+        return resolve({ signature });
+      }
+    );
+  });
+};
+
+const verifySignature = (signature, publicAddress, nonce, message) => {
+  let msg;
+  console.log(message);
+  if (!message) {
+    msg = `${TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.Collective.name)}`;
+  } else {
+    msg = message;
+  }
+  let res;
+
+  // Perform an elliptic curve signature verification with ecrecover
+  const msgBuffer = ethUtil.toBuffer(msg);
+  const msgHash = ethUtil.hashPersonalMessage(msgBuffer);
+  const signatureBuffer = ethUtil.toBuffer(signature.signature);
+  const signatureParams = ethUtil.fromRpcSig(signatureBuffer);
+  const publicKey = ethUtil.ecrecover(
+    msgHash,
+    signatureParams.v,
+    signatureParams.r,
+    signatureParams.s
+  );
+  const addressBuffer = ethUtil.publicToAddress(publicKey);
+  const address = ethUtil.bufferToHex(addressBuffer);
+
+  // The signature verification is successful if the address found with
+  // ecrecover matches the initial publicAddress
+  if (address.toLowerCase() === publicAddress.toLowerCase()) {
+    return 'success';
+  }
+  return res
+    .status(401)
+    .send({ error: TAPi18n.__('metamask-sign-fail') });
+};
+
+/**
+* @summary do a coinvote with account stake
+* @param {string} from blockchain address
+* @param {string} to blockchain destination
+* @param {string} quantity amount transacted
+* @param {string} tokenCode currency
+* @param {string} contractAddress
+* @param {string} sourceId sender in sovereign
+* @param {string} targetId receiver in sovereign
+* @param {string} delegateId user to delegate into
+*/
+const _coinvote = (from, to, quantity, tokenCode, contractAddress, sourceId, targetId, delegateId, choice, url) => {
+  if (_web3(true)) {
+    const nonce = Math.floor(Math.random() * 10000);
+    let publicAddress;
+
+    let message = TAPi18n.__('coinvote-signature');
+    message = message.replace('{{quantity}}', quantity);
+    message = message.replace('{{ticker}}', tokenCode);
+    message = message.replace('{{choice}}', choice);
+    message = message.replace('{{url}}', url);
+
+    let value;
+    if (tokenCode === 'ETH') {
+      value = web3.utils.toWei(quantity, _convertToEther(tokenCode)).toString();
+    } else {
+      const quantityWithDecimals = addDecimal(quantity.toNumber(), 18).toString();
+      value = quantityWithDecimals;
+    }
+    console.log(`value: ${value}`);
+    debugger;
+
+    if (Meteor.Device.isPhone()) {
+      return web3.eth.getCoinbase().then(function (coinbaseAddress) {
+        publicAddress = coinbaseAddress.toLowerCase();
+        return handleSignMessage(publicAddress, nonce, message);
+      }).then(function (signature) {
+        const verification = verifySignature(signature, publicAddress, nonce, message);
+
+        if (verification === 'success') {
+          console.log('success with signature');
+        } else {
+          console.log(TAPi18n.__('metamask-login-error'));
+        }
+      });
+    }
+
+    // Support privacy-mode in desktop only for now
+    window.ethereum.enable().then(function () {
+      return web3.eth.getCoinbase();
+    }).then(function (coinbaseAddress) {
+      publicAddress = coinbaseAddress.toLowerCase();
+      return handleSignMessage(publicAddress, nonce, message);
+    }).then(function (signature) {
+      const verification = verifySignature(signature, publicAddress, nonce, message);
+
+      if (verification === 'success') {
+        transact(
+          sourceId,
+          targetId,
+          0,
+          {
+            currency: tokenCode,
+            status: 'PENDING',
+            kind: 'CRYPTO',
+            contractId: targetId,
+            input: {
+              address: from,
+            },
+            output: {
+              address: to,
+            },
+            blockchain: {
+              tickets: [{
+                hash: 'SIGNATURE',
+                status: 'CONFIRMED',
+                value,
+              }],
+              coin: {
+                code: tokenCode,
+              },
+            },
+            geo: Meteor.user().profile.country ? Meteor.user().profile.country.code : '',
+          },
+          () => {
+            _delegate(Meteor.userId(), delegateId, targetId, 'SIGNATURE', value);
+            displayModal(false, modal);
+            displayNotice(`${TAPi18n.__('transaction-broadcast').replace('{{token}}', html)}`, true, true);
+          }
+        );
+      } else {
+        console.log(TAPi18n.__('metamask-login-error'));
+      }
+    });
+  } else {
+    modal.message = TAPi18n.__('metamask-activate');
+    displayModal(true, modal);
+  }
+};
+
 /**
 * @summary get current height of the blockchain
 */
@@ -350,48 +499,6 @@ const _getBlockHeight = async () => {
 
 
 if (Meteor.isClient) {
-  const handleSignMessage = (publicAddress) => {
-    return new Promise((resolve, reject) => {
-      web3.eth.personal.sign(
-        web3.utils.utf8ToHex(`${TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.Collective.name)}`),
-        publicAddress,
-        function (err, signature) {
-          if (err) return reject(err);
-          return resolve({ signature });
-        }
-      );
-    });
-  };
-
-  const verifySignature = (signature, publicAddress) => {
-    const msg = `${TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.Collective.name)}`;
-    let res;
-
-    // Perform an elliptic curve signature verification with ecrecover
-    const msgBuffer = ethUtil.toBuffer(msg);
-    const msgHash = ethUtil.hashPersonalMessage(msgBuffer);
-    const signatureBuffer = ethUtil.toBuffer(signature.signature);
-    const signatureParams = ethUtil.fromRpcSig(signatureBuffer);
-    const publicKey = ethUtil.ecrecover(
-      msgHash,
-      signatureParams.v,
-      signatureParams.r,
-      signatureParams.s
-    );
-    const addressBuffer = ethUtil.publicToAddress(publicKey);
-    const address = ethUtil.bufferToHex(addressBuffer);
-
-    // The signature verification is successful if the address found with
-    // ecrecover matches the initial publicAddress
-    if (address.toLowerCase() === publicAddress.toLowerCase()) {
-      return 'success';
-    }
-    return res
-      .status(401)
-      .send({ error: TAPi18n.__('metamask-sign-fail') });
-  };
-
-
   /**
   * @summary log in signing public blockchain address with private key
   */
@@ -405,7 +512,7 @@ if (Meteor.isClient) {
         // https://github.com/DemocracyEarth/sovereign/issues/421
         return web3.eth.getCoinbase().then(function (coinbaseAddress) {
           publicAddress = coinbaseAddress.toLowerCase();
-          return handleSignMessage(publicAddress, nonce);
+          return handleSignMessage(publicAddress, nonce, TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.Collective.name));
         }).then(function (signature) {
           const verification = verifySignature(signature, publicAddress, nonce);
 
@@ -437,7 +544,7 @@ if (Meteor.isClient) {
         return web3.eth.getCoinbase();
       }).then(function (coinbaseAddress) {
         publicAddress = coinbaseAddress.toLowerCase();
-        return handleSignMessage(publicAddress, nonce);
+        return handleSignMessage(publicAddress, nonce, TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.Collective.name));
       }).then(function (signature) {
         const verification = verifySignature(signature, publicAddress, nonce);
 
@@ -513,6 +620,7 @@ if (Meteor.isServer) {
 }
 
 export const transactWithMetamask = _transactWithMetamask;
+export const coinvote = _coinvote;
 export const getTransactionStatus = _getTransactionStatus;
 export const setupWeb3 = _web3;
 export const syncBlockchain = _syncBlockchain;

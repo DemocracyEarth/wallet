@@ -2,8 +2,10 @@ import { Meteor } from 'meteor/meteor';
 import Web3 from 'web3';
 import abi from 'human-standard-token-abi';
 import { BigNumber } from 'bignumber.js';
+
 import { token } from '/lib/token';
 
+const numeral = require('numeral');
 
 // Set web3 provider
 let web3;
@@ -191,6 +193,59 @@ const _getTokenData = async (_publicAddress) => {
   return tokenData;
 };
 
+/**
+* @summary shows balance in currency not decimals
+* @param {object} value value to be changed
+* @param {string} token currency being used
+* @returns {number}
+*/
+const _currencyValue = (value, tokenCode) => {
+  switch (tokenCode) {
+    case 'WEI':
+      return _wei2eth(value.toString());
+    // case 'VOTE':
+    //   return adjustDecimal(value);
+    default:
+      return value;
+  }
+};
+
+
+/**
+* @summary format currency display according to crypto rules
+* @param {string} value value to be changed
+* @param {string} tokenCode currency being used
+* @returns {string} formatted number
+*/
+const _formatCryptoValue = (value, tokenCode) => {
+  let tokenFinal;
+  if (!tokenCode) { tokenFinal = 'ETH'; } else { tokenFinal = tokenCode; }
+  return numeral(_currencyValue(value, tokenFinal)).format(_getCoin(tokenFinal).format);
+};
+
+
+/**
+* @summary get the token balance a user has for a given contract coin
+* @param {object} user with token
+* @param {object} contract to be checked
+* @return {string} the balance quantity
+*/
+const _getBalance = (user, contract) => {
+  let result;
+  for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
+    const coin = _getCoin(user.profile.wallet.reserves[i].token);
+    if (coin.code === contract.blockchain.coin.code) {
+      if (coin.code === 'ETH') {
+        result = _formatCryptoValue(_removeDecimal(Meteor.user().profile.wallet.reserves[i].balance, coin.decimals).toNumber(), coin.code);
+      } else {
+        result = _formatCryptoValue(Meteor.user().profile.wallet.reserves[i].balance, coin.code);
+      }
+      return result;
+    }
+  }
+  return undefined;
+}
+
 export const wei2eth = _wei2eth;
 export const getEthBalance = _getEthBalance;
 export const getWeiBalance = _getWeiBalance;
@@ -201,3 +256,4 @@ export const smallNumber = _smallNumber;
 export const addDecimal = _addDecimal;
 export const getCoin = _getCoin;
 export const getTokenData = _getTokenData;
+export const getBalance = _getBalance;
