@@ -8,7 +8,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
 import { getCoin } from '/imports/api/blockchain/modules/web3Util.js';
-import { geo } from '/lib/geo';
+// import { geo } from '/lib/geo';
 
 import '/imports/ui/templates/layout/url/home/home.html';
 import '/imports/ui/templates/layout/url/landing/landing.js';
@@ -144,6 +144,8 @@ Template.homeFeed.onCreated(function () {
 const _getTitle = (options, ledgerMode) => {
   let asset;
   let username = options.username;
+  const geo = Session.get('geo');
+
   switch (options.view) {
     case 'token':
       asset = getCoin(options.token);

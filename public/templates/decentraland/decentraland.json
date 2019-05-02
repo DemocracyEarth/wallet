@@ -8,6 +8,11 @@
     "callToAction": false
   },
 
+  "lib": {
+    "token" : "",
+    "geo": "/templates/decentraland/lib/geo.json"
+  },
+
   "spinner": {
     "lines": 17,
     "length": 6,

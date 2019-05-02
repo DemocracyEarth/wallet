@@ -8,7 +8,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 
 import { sidebarWidth, sidebarPercentage, getDelegatesMenu, toggleSidebar } from '/imports/ui/modules/menu';
 import { getFlag, getUser } from '/imports/ui/templates/components/identity/avatar/avatar';
-import { geo } from '/lib/geo';
+// import { geo } from '/lib/geo';
 import { getCoin } from '/imports/api/blockchain/modules/web3Util';
 
 import '/imports/ui/templates/layout/sidebar/sidebar.html';
@@ -236,6 +236,7 @@ const _userMenu = (user) => {
   ];
 
   if (user) {
+    const geo = Session.get('geo');
     // country feed
     if (user.profile.country) {
       const nation = _.where(geo.country, { code: user.profile.country.code })[0];

@@ -7,7 +7,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 
 import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
 import { toggle } from '/imports/ui/templates/components/decision/editor/editor.js';
-import { geo } from '/lib/geo';
+// import { geo } from '/lib/geo';
 import { token } from '/lib/token';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 
@@ -174,6 +174,8 @@ const _writeRule = (contract, textOnly) => {
       default:
         sentence = TAPi18n.__(`electorate-sentence-anyone${format}`);
     }
+
+    const geo = Session.get('geo');
 
     let counter = 0;
     for (const i in contract.constituency) {

@@ -8,6 +8,11 @@
     "callToAction": true
   },
 
+  "lib": {
+    "token" : "",
+    "geo": "/templates/sovereign/lib/geo.json"
+  },
+
   "spinner": {
     "lines": 17,
     "length": 6,

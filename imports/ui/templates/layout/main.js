@@ -109,7 +109,7 @@ Meteor.startup(() => {
 
   // geographical sovereignty
   globalObj.geoJSON = geo;
-  Session.set('filteredCountries', geo.country);
+  Session.set('filteredCountries', Session.get('geo').country);
 
   // cryptographical sovereignty
   globalObj.tokenJSON = token;

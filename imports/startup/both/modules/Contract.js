@@ -579,7 +579,7 @@ const _land = (draft) => {
   if (!land) {
     if (Meteor.user() && Meteor.user().profile &&
         Meteor.user().profile.country && Meteor.user().profile.country.code) {
-      const countryCode = _.where(geo.country, { code: Meteor.user().profile.country.code })[0].code;
+      const countryCode = _.where(Session.get('geo').country, { code: Meteor.user().profile.country.code })[0].code;
       if (countryCode) {
         land = countryCode;
       }

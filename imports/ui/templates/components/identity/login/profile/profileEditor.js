@@ -101,9 +101,9 @@ Template.profileEditor.events({
   },
   'input .country-search'(event) {
     if (event.target.value !== '') {
-      Session.set('filteredCountries', searchJSON(geo.country, event.target.value));
+      Session.set('filteredCountries', searchJSON(Session.get('geo').country, event.target.value));
     } else {
-      Session.set('filteredCountries', geo.country);
+      Session.set('filteredCountries', Session.get('geo').country);
     }
   },
   'blur #editUserName'() {

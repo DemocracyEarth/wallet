@@ -6,7 +6,7 @@ import { Router } from 'meteor/iron:router';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { $ } from 'meteor/jquery';
 
-import { geo } from '/lib/geo';
+// import { geo } from '/lib/geo';
 import { signatureStatus, removeSignature } from '/imports/startup/both/modules/Contract';
 import { guidGenerator } from '/imports/startup/both/modules/crypto';
 import { getAnonymous } from '/imports/startup/both/modules/User';
@@ -74,6 +74,8 @@ const _getAddress = (user) => {
 * @returns {string} country
 */
 const getNation = (profile, flagOnly, nameOnly, codeOnly) => {
+  const geo = Session.get('geo');
+
   if (profile === undefined) {
     if (Meteor.user() != null) {
       if (Meteor.user().profile.country !== undefined) {
