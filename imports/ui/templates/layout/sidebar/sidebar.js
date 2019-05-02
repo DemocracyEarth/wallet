@@ -8,7 +8,6 @@ import { ReactiveVar } from 'meteor/reactive-var';
 
 import { sidebarWidth, sidebarPercentage, getDelegatesMenu, toggleSidebar } from '/imports/ui/modules/menu';
 import { getFlag, getUser } from '/imports/ui/templates/components/identity/avatar/avatar';
-// import { geo } from '/lib/geo';
 import { getCoin } from '/imports/api/blockchain/modules/web3Util';
 
 import '/imports/ui/templates/layout/sidebar/sidebar.html';

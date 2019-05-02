@@ -7,7 +7,6 @@ import { TAPi18n } from 'meteor/tap:i18n';
 
 import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
 import { toggle } from '/imports/ui/templates/components/decision/editor/editor.js';
-// import { geo } from '/lib/geo';
 import { token } from '/lib/token';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 

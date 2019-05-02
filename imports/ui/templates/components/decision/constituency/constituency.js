@@ -6,7 +6,6 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { animatePopup } from '/imports/ui/modules/popup';
 import { searchJSON } from '/imports/ui/modules/JSON';
-// import { geo } from '/lib/geo';
 import { token } from '/lib/token';
 
 import '/imports/ui/templates/components/decision/constituency/constituency.html';

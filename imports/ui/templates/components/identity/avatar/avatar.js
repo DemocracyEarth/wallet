@@ -6,7 +6,6 @@ import { Router } from 'meteor/iron:router';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { $ } from 'meteor/jquery';
 
-// import { geo } from '/lib/geo';
 import { signatureStatus, removeSignature } from '/imports/startup/both/modules/Contract';
 import { guidGenerator } from '/imports/startup/both/modules/crypto';
 import { getAnonymous } from '/imports/startup/both/modules/User';

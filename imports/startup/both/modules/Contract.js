@@ -8,7 +8,6 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 import { shortUUID } from '/imports/startup/both/modules/crypto';
 import { transact } from '/imports/api/transactions/transaction';
 import { token } from '/lib/token';
-import { geo } from '/lib/geo';
 
 /**
 * @summary signs a contract with a verified user
