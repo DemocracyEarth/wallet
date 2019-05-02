@@ -516,7 +516,7 @@ Template.feedItem.helpers({
     return '';
   },
   requiresClosing() {
-    return ((this.rules.alwaysOn === false) || this.rules.pollVoting);
+    return (this.rules && ((this.rules.alwaysOn === false) || this.rules.pollVoting));
   },
   closingData() {
     const closing = this.closing;
