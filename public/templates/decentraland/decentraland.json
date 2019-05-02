@@ -4,7 +4,8 @@
   },
 
   "header": {
-    "html": "<div class='hero-demo'><img src='/images/vote.gif'></div>"
+    "html": "<div class='story'><div class='dcl parallax'><div class='layer' data-depth='2'><div class='pyramid small'></div></div><div class='layer' data-depth='4'><div class='pyramid large'></div></div></div></div>",
+    "callToAction": false
   },
 
   "spinner": {
@@ -52,7 +53,18 @@
     "mail-closed": "/templates/decentraland/images/mail-closed.png",
     "mail-closed-login-button": "/templates/decentraland/images/mail-closed-login-button.png",
     "lock": "/templates/decentraland/images/lock.png",
-    "id-card": "/templates/decentraland/images/id-card.png"
+    "id-card": "/templates/decentraland/images/id-card.png",
+    "calendar-enabled": "/templates/sovereign/images/calendar-enabled.png",
+    "calendar-active": "/templates/sovereign/images/calendar-active.png",
+    "calendar-disabled": "/templates/sovereign/images/calendar-disabled.png",
+    "vote-enabled": "/templates/sovereign/images/vote-enabled.png",
+    "vote-active": "/templates/sovereign/images/vote-active.png",
+    "vote-disabled": "/templates/sovereign/images/vote-disabled.png",
+    "electorate-check-active": "/templates/sovereign/images/electorate-check-active.png",
+    "electorate-check-editor": "/templates/sovereign/images/electorate-check-editor.png",
+    "electorate-check-enabled": "/templates/sovereign/images/electorate-check-enabled.png",
+    "electorate-check-reject-active": "/templates/sovereign/images/electorate-check-reject-active.png",
+    "electorate-check-reject-enabled": "/templates/sovereign/images/electorate-check-reject-enabled.png"  
   }
 
 }

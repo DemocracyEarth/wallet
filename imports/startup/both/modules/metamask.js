@@ -499,11 +499,13 @@ const _coinvote = (from, to, quantity, tokenCode, contractAddress, sourceId, tar
 };
 
 const _scanCoinVote = (contract) => {
-  if (contract.blockchain && contract.blockchain.tickets) {
-    for (let i = 0; i < contract.blockchain.tickets.length; i += 1) {
-      for (let k = 0; k < Meteor.user().profile.wallet.reserves.length; k += 1) {
-        if (contract.blockchain.tickets[i].hash === Meteor.user().profile.wallet.reserves[k].publicAddress) {
-          return true;
+  if (Meteor.user()) {
+    if (contract.blockchain && contract.blockchain.tickets) {
+      for (let i = 0; i < contract.blockchain.tickets.length; i += 1) {
+        for (let k = 0; k < Meteor.user().profile.wallet.reserves.length; k += 1) {
+          if (contract.blockchain.tickets[i].hash === Meteor.user().profile.wallet.reserves[k].publicAddress) {
+            return true;
+          }
         }
       }
     }

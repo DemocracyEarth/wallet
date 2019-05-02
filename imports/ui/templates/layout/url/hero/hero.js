@@ -9,7 +9,7 @@ import { Session } from 'meteor/session';
 import { timers } from '/lib/const';
 import { resetSplit } from '/imports/ui/modules/split';
 
-import { getHeader } from '/imports/ui/templates/layout/templater';
+import { getTemplate } from '/imports/ui/templates/layout/templater';
 import { promptLogin } from '/imports/ui/templates/components/collective/collective.js';
 import { validateEmail } from '/imports/startup/both/modules/validations.js';
 
@@ -45,6 +45,10 @@ Template.hero.helpers({
   },
   unclicked() {
     return Template.instance().unclicked.get();
+  },
+  callToAction() {
+    const skin = Session.get('skin');
+    return (skin && skin.header) ? skin.header.callToAction : false;
   },
 });
 
@@ -195,17 +199,18 @@ Template.navbar.events({
 });
 
 const _template = async (instance) => {
-  const html = await getHeader().then((resolved) => { instance.headerTemplate.set(resolved); });
+  const html = await getTemplate().then((resolved) => { instance.skin.set(resolved); Session.set('skin', resolved); });
   return html;
 };
 
 Template.demo.onCreated(function () {
-  Template.instance().headerTemplate = new ReactiveVar();
+  Template.instance().skin = new ReactiveVar();
   _template(Template.instance());
 });
 
 Template.demo.helpers({
   renderTemplate() {
-    return Template.instance().headerTemplate.get();
+    const skin = Template.instance().skin.get();
+    return (skin && skin.header.html) ? skin.header.html : '';
   },
 });

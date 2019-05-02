@@ -49,9 +49,9 @@ const _getSpinner = async () => {
 * @summary any custom content that goes to the header when logged out
 * @param {string} templateName to use
 */
-const _getHeader = async () => {
+const _getTemplate = async () => {
   const result = await promise;
-  return result.header.html;
+  return result;
 };
 
 /**
@@ -80,7 +80,7 @@ const _templetize = async (instance) => {
 };
 
 export const getCSS = _getStyles;
-export const getHeader = _getHeader;
+export const getTemplate = _getTemplate;
 export const getImageTemplate = _getImageTemplate;
 export const getImage = _getImage;
 export const getReactImage = _getReactImage;

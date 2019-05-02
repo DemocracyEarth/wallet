@@ -7,41 +7,43 @@
         {{{about}}}
       </div>
       {{> demo}}
-      <div class="hero-call-to-action">
-        <div class="hero-cta-box">
-          <input id="lead" type="text" placeholder="{{_ 'email'}}" class="hero-cta-input" />
-          <div id="join" class="button button-cta">
-            {{#if unclicked}}
-              {{_ 'join'}}
-            {{else}}
-              {{> spinner id='modal' style='height:24px; margin-top:12px;' color='#fff' length=12}}
-            {{/if}}
+      {{#if callToAction}}
+        <div class="hero-call-to-action">
+          <div class="hero-cta-box">
+            <input id="lead" type="text" placeholder="{{_ 'email'}}" class="hero-cta-input" />
+            <div id="join" class="button button-cta">
+              {{#if unclicked}}
+                {{_ 'join'}}
+              {{else}}
+                {{> spinner id='modal' style='height:24px; margin-top:12px;' color='#fff' length=12}}
+              {{/if}}
+            </div>
+            <div class="hero-warn">
+              {{#if invalidEmail}}
+                <div class="extra extra-warning-hero">
+                  {{> warning label="invalid-email"}}
+                </div>
+              {{/if}}
+              {{#if userExists}}
+                <div class="extra extra-warning-hero">
+                  {{> warning label="user-exists"}}
+                </div>
+              {{/if}}
+              {{#if heroEmailUserCreated}}
+                <div class="extra extra-warning-hero">
+                  {{> warning label="user-created-email"}}
+                </div>
+              {{/if}}
+            </div>
           </div>
-          <div class="hero-warn">
-            {{#if invalidEmail}}
-              <div class="extra extra-warning-hero">
-                {{> warning label="invalid-email"}}
-              </div>
-            {{/if}}
-            {{#if userExists}}
-              <div class="extra extra-warning-hero">
-                {{> warning label="user-exists"}}
-              </div>
-            {{/if}}
-            {{#if heroEmailUserCreated}}
-              <div class="extra extra-warning-hero">
-                {{> warning label="user-created-email"}}
-              </div>
-            {{/if}}
+          <div class="hero-cta-alternative">
+            &#183;
+            <a class="hero-link" href="http://setup.democracy.earth" target="_blank">
+              {{_ 'start-a-democracy'}}
+            </a>
           </div>
         </div>
-        <div class="hero-cta-alternative">
-          &#183;
-          <a class="hero-link" href="http://setup.democracy.earth" target="_blank">
-            {{_ 'start-a-democracy'}}
-          </a>
-        </div>
-      </div>
+      {{/if}}
     {{else}}
       {{> navbar postMode=postMode}}
     {{/unless}}
