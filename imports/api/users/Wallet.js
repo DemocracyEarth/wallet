@@ -39,7 +39,6 @@ Schema.Wallet = new SimpleSchema({
   },
   currency: {
     type: String,
-    allowedValues: _coins(),
     autoValue() {
       if (this.isInsert) {
         if (this.field('currency').value === undefined) {

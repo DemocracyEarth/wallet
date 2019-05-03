@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
-import { coins } from '/imports/api/users/Wallet';
 import { Blockchain } from '/imports/api/blockchain/Blockchain';
 
 import { Ballot } from './Ballot';
@@ -43,7 +42,6 @@ Schema.Ticket = new SimpleSchema({
   },
   currency: {
     type: String,
-    allowedValues: coins(),
     autoValue() {
       if (this.isInsert) {
         if (this.field('currency') === undefined) {

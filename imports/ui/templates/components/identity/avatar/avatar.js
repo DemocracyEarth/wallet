@@ -74,61 +74,62 @@ const _getAddress = (user) => {
 */
 const getNation = (profile, flagOnly, nameOnly, codeOnly) => {
   const geo = Session.get('geo');
-
-  if (profile === undefined) {
-    if (Meteor.user() != null) {
-      if (Meteor.user().profile.country !== undefined) {
-        const country = searchJSON(geo.country, Meteor.user().profile.country.name);
-        if (country !== undefined) {
+  if (geo) {
+    if (profile === undefined) {
+      if (Meteor.user() != null) {
+        if (Meteor.user().profile.country !== undefined) {
+          const country = searchJSON(geo.country, Meteor.user().profile.country.name);
+          if (country !== undefined) {
+            if (flagOnly) {
+              return `${country[0] ? country[0].emoji : ''}`;
+            }
+            if (nameOnly) {
+              return `${country[0].name}`;
+            }
+            if (codeOnly) {
+              return `${country[0].code}`;
+            }
+            return `${Meteor.user().profile.country.name} ${country[0] ? country[0].emoji : ''}`;
+          }
+        }
+        if (flagOnly || nameOnly || codeOnly) { return ''; }
+        return TAPi18n.__('digital-citizen');
+      }
+    } else if (profile.country !== undefined) {
+      if (profile.country.name !== TAPi18n.__('unknown')) {
+        if (flagOnly) {
+          return `${searchJSON(geo.country, profile.country.name)[0] ? searchJSON(geo.country, profile.country.name)[0].emoji : ''}`;
+        }
+        if (nameOnly) {
+          return `${searchJSON(geo.country, profile.country.name)[0].name}`;
+        }
+        if (codeOnly) {
+          return `${searchJSON(geo.country, profile.country.name)[0].code}`;
+        }
+        return `${profile.country.name} ${searchJSON(geo.country, profile.country.name)[0] ? searchJSON(geo.country, profile.country.name)[0].emoji : ''}`;
+      }
+      if (flagOnly) { return ''; }
+      return TAPi18n.__('unknown');
+    } else {
+      let user = Meteor.users.findOne({ _id: profile });
+      if (user === undefined) { user = getAnonymous(); }
+      if (user !== undefined && user.profile.country !== undefined) {
+        const country = searchJSON(geo.country, user.profile.country.name);
+        if (user.profile.country.name !== TAPi18n.__('unknown') && country !== undefined) {
           if (flagOnly) {
             return `${country[0] ? country[0].emoji : ''}`;
           }
           if (nameOnly) {
-            return `${country[0].name}`;
+            return user.profile.country.name;
           }
           if (codeOnly) {
-            return `${country[0].code}`;
+            return user.profile.country.code;
           }
-          return `${Meteor.user().profile.country.name} ${country[0] ? country[0].emoji : ''}`;
+          return `${user.profile.country.name} ${country[0] ? country[0].emoji : ''}`;
         }
+        if (flagOnly || nameOnly || codeOnly) { return ''; }
+        return TAPi18n.__('unknown');
       }
-      if (flagOnly || nameOnly || codeOnly) { return ''; }
-      return TAPi18n.__('digital-citizen');
-    }
-  } else if (profile.country !== undefined) {
-    if (profile.country.name !== TAPi18n.__('unknown')) {
-      if (flagOnly) {
-        return `${searchJSON(geo.country, profile.country.name)[0] ? searchJSON(geo.country, profile.country.name)[0].emoji : ''}`;
-      }
-      if (nameOnly) {
-        return `${searchJSON(geo.country, profile.country.name)[0].name}`;
-      }
-      if (codeOnly) {
-        return `${searchJSON(geo.country, profile.country.name)[0].code}`;
-      }
-      return `${profile.country.name} ${searchJSON(geo.country, profile.country.name)[0] ? searchJSON(geo.country, profile.country.name)[0].emoji : ''}`;
-    }
-    if (flagOnly) { return ''; }
-    return TAPi18n.__('unknown');
-  } else {
-    let user = Meteor.users.findOne({ _id: profile });
-    if (user === undefined) { user = getAnonymous(); }
-    if (user !== undefined && user.profile.country !== undefined) {
-      const country = searchJSON(geo.country, user.profile.country.name);
-      if (user.profile.country.name !== TAPi18n.__('unknown') && country !== undefined) {
-        if (flagOnly) {
-          return `${country[0] ? country[0].emoji : ''}`;
-        }
-        if (nameOnly) {
-          return user.profile.country.name;
-        }
-        if (codeOnly) {
-          return user.profile.country.code;
-        }
-        return `${user.profile.country.name} ${country[0] ? country[0].emoji : ''}`;
-      }
-      if (flagOnly || nameOnly || codeOnly) { return ''; }
-      return TAPi18n.__('unknown');
     }
   }
   if (flagOnly || nameOnly || codeOnly) { return ''; }

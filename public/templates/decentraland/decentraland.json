@@ -9,7 +9,7 @@
   },
 
   "lib": {
-    "token" : "",
+    "token" : "/templates/decentraland/lib/token.json",
     "geo": "/templates/decentraland/lib/geo.json"
   },
 

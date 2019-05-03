@@ -9,7 +9,7 @@
   },
 
   "lib": {
-    "token" : "",
+    "token" : "/templates/sovereign/lib/token.json",
     "geo": "/templates/sovereign/lib/geo.json"
   },
 
