@@ -972,11 +972,11 @@ width: 1px;
 }
 
 .switch-button { 
-    color: #5a0075;
+    color: #ff9a75;
     float: left;
     font-size: 11px;
     margin: 3px;
-    border: 1px solid #5a0075;
+    border: 1px solid #ff9a75;
     border-radius: 5px;
     padding: 5px 10px;
     cursor: pointer;
@@ -984,7 +984,7 @@ width: 1px;
 
 .switch-button.switch-button-selected,
 .switch-button.switch-button-selected:hover {
-  background-color: #5a0075;
+  background-color: #ff9a75;
   color: white;
 }
 
@@ -998,7 +998,7 @@ width: 1px;
 
 
 .switch-button:hover {
-  background-color:#5a00750f;
+  background-color:#ff9a750f;
 }
 
 .switcher {
@@ -1012,7 +1012,7 @@ width: 1px;
 }
 
 .blockchain-time {
-  background: #e4e4e4;
+  background: #747484;
   text-transform: none;
   padding: 5px 10px;
   line-height: 20px;
@@ -1083,4 +1083,13 @@ width: 1px;
 
 .menu.menu-wallet {
   margin-bottom:-10px;
+}
+
+.collective.collective-selected {
+  background-color: #e6e6e6;
+  color: #0d0d17;
+}
+
+.button.login-button.button-half.button-disabled:hover {
+  background:transparent;
 }

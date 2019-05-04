@@ -234,8 +234,9 @@ const _userMenu = (user) => {
     },
   ];
 
-  if (user) {
-    const geo = Session.get('geo');
+  const geo = Session.get('geo');
+
+  if (user && geo) {
     // country feed
     if (user.profile.country) {
       const nation = _.where(geo.country, { code: user.profile.country.code })[0];
@@ -258,7 +259,6 @@ const _userMenu = (user) => {
     if (user.profile.wallet.reserves && user.profile.wallet.reserves.length > 0) {
       for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
         coin = getCoin(user.profile.wallet.reserves[i].token);
-        console.log(coin);
         if (coin) {
           menu.push({
             id: parseInt(menu.length, 10),
