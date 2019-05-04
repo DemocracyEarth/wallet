@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 
@@ -18,16 +19,18 @@ Template.multiTokenProfile.helpers({
     const tokens = [];
 
     // push WEB VOTE balance as first element in tokens array, if present
-    if (wallet.balance > 0) {
-      const webVote = {
-        token: wallet.currency,
-        balance: wallet.balance,
-        available: wallet.available,
-        placed: wallet.placed,
-        disableStake: true,
-        disableBar: false,
-      };
-      tokens.push(webVote);
+    if (Meteor.settings.public.app.config.allowWebVotes) {
+      if (wallet.balance > 0) {
+        const webVote = {
+          token: wallet.currency,
+          balance: wallet.balance,
+          available: wallet.available,
+          placed: wallet.placed,
+          disableStake: true,
+          disableBar: false,
+        };
+        tokens.push(webVote);
+      }
     }
 
     // loop through reserves array and push each to tokens

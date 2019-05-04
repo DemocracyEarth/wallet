@@ -189,7 +189,7 @@ const _ethereumChain = (contract) => {
 const _chain = (contract) => {
   let draft = contract;
 
-  if (draft.wallet.currency === 'WEB VOTE') {
+  if (draft.wallet.currency === 'WEB VOTE' && Meteor.settings.public.app.config.allowWebVotes) {
     draft = _webVoteChain(draft);
   } else if (draft.wallet.currency === 'STX') {
     draft = _blockstackChain(draft);

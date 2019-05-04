@@ -1,6 +1,6 @@
 {
   "stylesheet": {
-    "list": ["/styles/normalize.css", "/styles/webflow.css", "/templates/sovereign/sovereign.css", "/templates/sovereign/extra.css", "/templates/sovereign/landing.css"]
+    "list": ["/styles/normalize.css", "/styles/webflow.css", "/templates/sovereign/css/sovereign.css", "/templates/sovereign/css/extra.css", "/templates/sovereign/css/landing.css"]
   },
 
   "header": {

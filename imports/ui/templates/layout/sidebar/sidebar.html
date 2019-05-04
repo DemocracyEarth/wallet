@@ -6,7 +6,8 @@
 
         {{> collective}}
 
-        <ul class="menu w-clearfix w-list-unstyled">
+        <ul class="menu menu-wallet w-clearfix w-list-unstyled">
+          {{> inbox label='wallet' separator=true}}
           {{#with currentUser}}
             {{> multiTokenProfile}}
           {{/with}}

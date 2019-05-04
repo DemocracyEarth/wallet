@@ -22,8 +22,6 @@ if (typeof web3 !== 'undefined') {
 * @param {string} code of coin to fetch
 */
 const _getCoin = (code) => {
-  console.log('getCoin:');
-  console.log(token);
   let result = _.where(token.coin, { code: code.toUpperCase() });
 
   if (result.length === 0) {
