@@ -258,6 +258,7 @@ const _userMenu = (user) => {
     if (user.profile.wallet.reserves && user.profile.wallet.reserves.length > 0) {
       for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
         coin = getCoin(user.profile.wallet.reserves[i].token);
+        console.log(coin);
         if (coin) {
           menu.push({
             id: parseInt(menu.length, 10),

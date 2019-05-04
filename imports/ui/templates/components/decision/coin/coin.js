@@ -155,7 +155,6 @@ Template.coin.helpers({
   balanceVoting() {
     if (Session.get('newCoin')) {
       const coin = getCoin(Session.get('newCoin').code);
-      console.log(coin);
       if (!coin.editor.allowBalanceToggle) {
         const cache = Session.get('cachedDraft');
         cache.rules.balanceVoting = false;
@@ -183,6 +182,7 @@ Template.coin.helpers({
   allowBalance() {
     if (Session.get('newCoin')) {
       const coin = getCoin(Session.get('newCoin').code);
+      console.log(coin);
       return coin.editor.allowBalanceToggle;
     }
     return false;
