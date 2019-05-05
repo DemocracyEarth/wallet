@@ -112,7 +112,6 @@ Meteor.startup(() => {
 
   // cryptographical sovereignty
   globalObj.tokenJSON = token;
-  Session.set('filteredCoins', token.coin);
 });
 
 Template.main.onRendered(() => {

@@ -259,7 +259,7 @@ const _userMenu = (user) => {
     if (user.profile.wallet.reserves && user.profile.wallet.reserves.length > 0) {
       for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
         coin = getCoin(user.profile.wallet.reserves[i].token);
-        if (coin) {
+        if (coin && coin.name) {
           menu.push({
             id: parseInt(menu.length, 10),
             // label: `<span class="suggest-item suggest-token suggest-token-sidebar">${coin.code}</span> ${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,

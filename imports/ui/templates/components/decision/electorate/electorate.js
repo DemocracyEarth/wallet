@@ -65,6 +65,9 @@ const _getTokenAddress = (user, ticker) => {
   if (ticker === 'WEB VOTE') {
     return (user.profile.wallet.currency === ticker);
   }
+
+  if (Session.get('token')) { token = Session.get('token'); }
+
   if (user.profile.wallet.reserves && user.profile.wallet.reserves.length > 0) {
     for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
       for (let k = 0; k < token.coin.length; k += 1) {
