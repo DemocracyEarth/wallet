@@ -64,6 +64,7 @@ const _getPublicAddress = (contractToken) => {
     coin: { code: '' },
     publicAddress: '',
   };
+  if (Session.get('token')) { token = Session.get('token'); }
 
   if (reserves && reserves.length > 0) {
     for (let k = 0; k < reserves.length; k += 1) {

@@ -83,6 +83,7 @@ Template.calendar.helpers({
   },
   criteria() {
     const cache = Session.get('cachedDraft');
+    if (Session.get('token')) { token = Session.get('token'); }
     if (cache && !cache.rules.alwaysOn) {
       let criteria = TAPi18n.__('blockchain-time-closing-criteria');
       const result = _.where(token.coin, { code: cache.closing.blockchain });

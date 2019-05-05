@@ -194,7 +194,7 @@ const _checkUserVoted = (contract, userId) => {
     case 'WEB VOTE':
       return _.contains(_.pluck(contract.tally.voter, '_id'), userId);
     default:
-      if (contract.rules && contract.rules.balanceVoting) {
+      if (contract && contract.rules && contract.rules.balanceVoting) {
         return verifyCoinVote(contract);
       }
   }

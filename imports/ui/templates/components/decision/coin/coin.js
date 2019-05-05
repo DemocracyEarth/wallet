@@ -101,6 +101,8 @@ Template.coin.onCreated(() => {
 });
 
 Template.coin.onRendered(function () {
+  if (Session.get('token')) { token = Session.get('token'); }
+
   // show current coin set in draft
   const draft = Session.get('draftContract');
   for (let i = 0; i < draft.constituency.length; i += 1) {
