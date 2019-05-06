@@ -136,7 +136,7 @@ function normalizeBlockstackUser(profile, user) {
 
 function normalizeMetamaskUser(profile, user) {
   const publicAddress = user.services.metamask.id;
-  const anonymousUser = publicAddress.toString();
+  const anonymousUser = `anon-${publicAddress.slice(0, 6)}-${publicAddress.slice(38, 42)}`;
   const username = generateAvailableUsername(deburr(toLower(camelCase(anonymousUser))));
 
   // other option is to web votes here

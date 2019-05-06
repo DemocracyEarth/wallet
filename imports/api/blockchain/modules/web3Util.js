@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import Web3 from 'web3';
 import abi from 'human-standard-token-abi';
 import { BigNumber } from 'bignumber.js';
+import { Session } from 'meteor/session';
 
 import { token } from '/lib/token';
 
@@ -22,6 +23,10 @@ if (typeof web3 !== 'undefined') {
 * @param {string} code of coin to fetch
 */
 const _getCoin = (code) => {
+  if (Meteor.isClient) {
+    if (Session.get('token')) { token = Session.get('token'); }
+  }
+
   let result = _.where(token.coin, { code: code.toUpperCase() });
 
   if (result.length === 0) {
