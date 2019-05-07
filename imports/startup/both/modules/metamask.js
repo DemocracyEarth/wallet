@@ -243,7 +243,8 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
         chainId: 3, // should this be 4 for rinkeby too?
       };
     } else {
-      const quantityWithDecimals = addDecimal(quantity.toNumber(), 18);
+      console.log(`quantity: ${quantity}`);
+      const quantityWithDecimals = addDecimal(quantity.toNumber(), coin.decimals);
       tx = {
         from,
         to: contractAddress,
@@ -370,8 +371,6 @@ const verifySignature = (signature, publicAddress, nonce, message) => {
 
   // The signature verification is successful if the address found with
   // ecrecover matches the initial publicAddress
-  console.log(`address.toLowerCase(): ${address.toLowerCase()}`);
-  console.log(`publicAddress.toLowerCase(): ${publicAddress.toLowerCase()}`);
 
   if (address.toLowerCase() === publicAddress.toLowerCase()) {
     return 'success';

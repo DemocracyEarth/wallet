@@ -28,12 +28,23 @@ const _getWidth = (balance, placed) => {
 * @returns {number}
 */
 const _currencyValue = (value, tokenCode) => {
+  let coinData;
   switch (tokenCode) {
     case 'WEI':
       return wei2eth(value.toString());
     // case 'VOTE':
     //   return adjustDecimal(value);
     default:
+      coinData = getCoin(tokenCode);
+      if (coinData.nonFungible) {
+        console.log(`currencyValue:`)
+        console.log(`tokenCode: ${tokenCode}`);
+        console.log(value);
+        console.log(coinData);
+        console.log(coinData.decimals);
+        console.log(`return: ${value / coinData.decimals}`);
+        return parseInt(parseInt(value, 10) / parseInt(coinData.decimals, 10), 10);
+      }
       return value;
   }
 };
@@ -130,7 +141,6 @@ Template.balance.helpers({
   },
   balance() {
     const instance = Template.instance();
-
     if (this.token === 'WEB VOTE' && this.isButton) {
       const contract = Contracts.findOne({ _id: this.contract._id });
       if (contract) {
@@ -156,7 +166,10 @@ Template.balance.helpers({
     }
     if (this.isCrypto && this.value) {
       const coinData = getCoin(instance.coin.code);
-      return _formatCryptoValue(removeDecimal(this.value, coinData.decimals).toNumber(), instance.coin.code);
+      if (coinData.nonFungible) {
+        return _formatCryptoValue(this.value / coinData.decimals, instance.coin.code);
+      }
+      return _formatCryptoValue(this.value, instance.coin.code);
     }
     if (this.token === 'WEB VOTE' && !this.blockchain) {
       const balance = _currencyValue(this.available, this.token);

@@ -242,7 +242,8 @@ const _getBalance = (user, contract) => {
     if (coin.code === contract.blockchain.coin.code) {
       if (coin.code === 'ETH') {
         result = _formatCryptoValue(_removeDecimal(Meteor.user().profile.wallet.reserves[i].balance, coin.decimals).toNumber(), coin.code);
-        console.log(result);
+      } else if (coin.nonFungible) {
+        result = _formatCryptoValue(parseInt(Meteor.user().profile.wallet.reserves[i].balance / coin.decimals, 10), coin.code);
       } else {
         result = _formatCryptoValue(Meteor.user().profile.wallet.reserves[i].balance, coin.code);
       }
