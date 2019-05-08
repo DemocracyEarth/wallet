@@ -397,6 +397,9 @@ Template.feedItem.helpers({
   balanceEnabled() {
     return this.rules ? this.rules.balanceVoting : false;
   },
+  onChainVote() {
+    return this.rules ? (!this.rules.balanceVoting && !this.rules.quadraticVoting) : true;
+  },
   pollList() {
     return this.poll;
   },
