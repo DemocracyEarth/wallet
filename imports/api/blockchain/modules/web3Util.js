@@ -59,11 +59,8 @@ const _writeZeroes = (quantity) => {
 const _numToCryptoBalance = (balance, code) => {
   const coin = _getCoin(code);
   let target = balance.toString();
-
-  console.log(`balance: ${balance} is typeof ${typeof balance}`);
   if (target.includes('.')) {
     let zeroes = target.substring(target.indexOf('.') + 1, target.length);
-    console.log(`zeroes: ${zeroes}`);
     const delta = parseInt(coin.decimals - zeroes.length, 10);
     if (delta > 0) {
       for (let i = 0; i < delta; i += 1) {
@@ -72,13 +69,8 @@ const _numToCryptoBalance = (balance, code) => {
     } else {
       zeroes = zeroes.substring(0, Math.abs(delta));
     }
-    console.log(`zeroes: ${zeroes}`);
-    console.log(`target.substring(0, target.indexOf('.'): ${target.substring(0, target.indexOf('.'))}`);
     target = `${target.substring(0, target.indexOf('.'))}${zeroes}`;
   }
-
-  // console.log(`target: ${target}`);
-  // console.log(BigNumber(target));
   return target;
 };
 
