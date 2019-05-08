@@ -135,7 +135,7 @@ const _cryptoVote = () => {
               coinvote(
                 getTokenAddress(Meteor.user(), Template.instance().ticket.get().token),
                 Template.currentData().contract.blockchain.publicAddress,
-                getBalance(Meteor.user(), Template.currentData().contract),
+                getBalance(Meteor.user(), Template.currentData().contract, true),
                 Template.instance().ticket.get().token,
                 getTokenContractAddress(Template.instance().ticket.get().token),
                 Meteor.userId(),

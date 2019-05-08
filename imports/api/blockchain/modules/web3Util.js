@@ -50,19 +50,57 @@ const _writeZeroes = (quantity) => {
   return template;
 }
 
+
+/**
+* @summary turns a number into an aotmic crypto balance quantity string
+* @param {number} balance to check
+* @param {string} code of the ticker with decimal rule
+*/
+const _numToCryptoBalance = (balance, code) => {
+  const coin = _getCoin(code);
+  let target = balance.toString();
+
+  console.log(`balance: ${balance} is typeof ${typeof balance}`);
+  if (target.includes('.')) {
+    let zeroes = target.substring(target.indexOf('.') + 1, target.length);
+    console.log(`zeroes: ${zeroes}`);
+    const delta = parseInt(coin.decimals - zeroes.length, 10);
+    if (delta > 0) {
+      for (let i = 0; i <= delta; i += 1) {
+        zeroes += '0';
+      }
+    } else {
+      zeroes = zeroes.substring(0, Math.abs(delta));
+    }
+    console.log(`zeroes: ${zeroes}`);
+    target = `${target.substring(0, target.indexOf('.') - 1)}${zeroes}`;
+  }
+
+  // console.log(`target: ${target}`);
+  // console.log(BigNumber(target));
+  return target;
+};
+
 /**
 * @summary big number to number
 * @param {BigNumber} valueBN of a big number
 * @param {string} tokenCode token
 * @return {number} final value
 */
-const _smallNumber = (valueBN, tokenCode) => {
+const _smallNumber = (value, tokenCode) => {
   const coin = _getCoin(tokenCode);
-  let text = valueBN.toString();
+  const valueBN = new BigNumber(value);
+  console.log('smallnumber:');
+  console.log(`text: ${valueBN.toFixed()}`);
+  console.log(valueBN);
+  console.log(coin);
+  let text = valueBN.toFixed(); // toString().replace('.', '');
   const template = _writeZeroes(coin.decimals + 1);
   if (text.length < template.length) { text = `${_writeZeroes(template.length - text.length)}${text}`; }
   const comma = text.insert('.', (text.length - coin.decimals));
+  console.log(`comma; ${comma}`);
   const final = new BigNumber(comma);
+  console.log(final.toNumber());
   return final.toNumber();
 };
 
@@ -89,7 +127,10 @@ const _removeDecimal = (value, decimals) => {
 * @return {object} bigNumber equivalent with decimals added
 */
 const _addDecimal = (value, decimals) => {
-  const decimalsBN = new BigNumber(decimals);
+  console.log('addDecimal');
+  console.log(`value: ${value}, decimals: ${decimals}`);
+  console.log(`typeoff: ${typeof decimals}`);
+  const decimalsBN = new BigNumber(decimals.toNumber());
   const valueBN = new BigNumber(value);
   const multiplier = new BigNumber(10).pow(decimalsBN);
   const withDecimals = valueBN.multipliedBy(multiplier);
@@ -233,9 +274,10 @@ const _formatCryptoValue = (value, tokenCode) => {
 * @summary get the token balance a user has for a given contract coin
 * @param {object} user with token
 * @param {object} contract to be checked
+* @param {boolean} getFullNumber get the complete number
 * @return {string} the balance quantity
 */
-const _getBalance = (user, contract) => {
+const _getBalance = (user, contract, getFullNumber) => {
   let result;
   for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
     const coin = _getCoin(user.profile.wallet.reserves[i].token);
@@ -245,8 +287,12 @@ const _getBalance = (user, contract) => {
       } else if (coin.nonFungible) {
         result = _formatCryptoValue(parseInt(Meteor.user().profile.wallet.reserves[i].balance / coin.decimals, 10), coin.code);
       } else {
-        result = _formatCryptoValue(Meteor.user().profile.wallet.reserves[i].balance, coin.code);
+        console.log(`Meteor.user().profile.wallet.reserves[i].balance:${Meteor.user().profile.wallet.reserves[i].balance}`);
+        console.log(`formatCryptoValue(Meteor.user().profile.wallet.reserves[i].balance, coin.code): ${_formatCryptoValue(Meteor.user().profile.wallet.reserves[i].balance, coin.code)}`);
+        // result = _formatCryptoValue(Meteor.user().profile.wallet.reserves[i].balance, coin.code);
+        result = Meteor.user().profile.wallet.reserves[i].balance;
       }
+      console.log(`result: ${result}`);
       return result;
     }
   }
@@ -264,3 +310,4 @@ export const addDecimal = _addDecimal;
 export const getCoin = _getCoin;
 export const getTokenData = _getTokenData;
 export const getBalance = _getBalance;
+export const numToCryptoBalance = _numToCryptoBalance;
