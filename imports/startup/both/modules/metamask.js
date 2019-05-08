@@ -221,7 +221,6 @@ const _delegate = (sourceId, targetId, contractId, hash, value) => {
       }],
     });
 
-    console.log(target);
     Meteor.users.update({ _id: targetId }, { $set: { profile: target.profile }});
   }
 };
@@ -257,8 +256,13 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
         chainId: 3, // should this be 4 for rinkeby too?
       };
     } else {
-      console.log(`quantity: ${quantity}`);
-      const quantityWithDecimals = addDecimal(quantity.toNumber(), coin.decimals);
+      let quantityWithDecimals;
+      if (coin.nonFungible) {
+        quantityWithDecimals = new BigNumber(quantity.toNumber());
+      } else {
+        quantityWithDecimals = addDecimal(quantity.toNumber(), coin.decimals);
+      }
+      
       tx = {
         from,
         to: contractAddress,

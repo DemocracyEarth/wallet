@@ -852,9 +852,6 @@ const _tallyBlockchainVotes = (_id) => {
     let totalFail = new BigNumber(0);
     let votes;
 
-    console.log(`tickets:`);
-    console.log(tickets);
-
     for (let i = 0; i < tickets.length; i += 1) {
       votes = new BigNumber(tickets[i].value);
 
@@ -871,11 +868,6 @@ const _tallyBlockchainVotes = (_id) => {
       }
     }
 
-    // console.log(`value = ${smallNumber(totalConfirmed, contract.blockchain.coin.code)} + ${smallNumber(totalPending, contract.blockchain.coin.code)}`);
-    console.log(`totalConfirmed.plus(totalPending): ${totalConfirmed.plus(totalPending)}`);
-    console.log(`totalPending: ${totalPending.toFixed()}`);
-    console.log(`totalConfirmed: ${totalConfirmed.toFixed()}`);
-
     const score = {
       totalPending: totalPending.toFixed(),
       totalConfirmed: totalConfirmed.toFixed(),
@@ -885,10 +877,6 @@ const _tallyBlockchainVotes = (_id) => {
       finalPending: parseFloat(smallNumber(totalPending.toFixed(), contract.blockchain.coin.code), 10),
       finalFail: parseFloat(smallNumber(totalFail.toFixed(), contract.blockchain.coin.code), 10),
     };
-
-
-    console.log(JSON.stringify(score));
-    console.log(score);
 
     Contracts.update({ _id }, { $set: { 'blockchain.score': score } });
   }

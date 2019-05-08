@@ -37,12 +37,6 @@ const _currencyValue = (value, tokenCode) => {
     default:
       coinData = getCoin(tokenCode);
       if (coinData.nonFungible) {
-        console.log(`currencyValue:`)
-        console.log(`tokenCode: ${tokenCode}`);
-        console.log(value);
-        console.log(coinData);
-        console.log(coinData.decimals);
-        console.log(`return: ${value / coinData.decimals}`);
         return parseInt(parseInt(value, 10) / parseInt(coinData.decimals, 10), 10);
       }
       return value;

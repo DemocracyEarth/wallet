@@ -66,14 +66,15 @@ const _numToCryptoBalance = (balance, code) => {
     console.log(`zeroes: ${zeroes}`);
     const delta = parseInt(coin.decimals - zeroes.length, 10);
     if (delta > 0) {
-      for (let i = 0; i <= delta; i += 1) {
+      for (let i = 0; i < delta; i += 1) {
         zeroes += '0';
       }
     } else {
       zeroes = zeroes.substring(0, Math.abs(delta));
     }
     console.log(`zeroes: ${zeroes}`);
-    target = `${target.substring(0, target.indexOf('.') - 1)}${zeroes}`;
+    console.log(`target.substring(0, target.indexOf('.'): ${target.substring(0, target.indexOf('.'))}`);
+    target = `${target.substring(0, target.indexOf('.'))}${zeroes}`;
   }
 
   // console.log(`target: ${target}`);
@@ -90,17 +91,11 @@ const _numToCryptoBalance = (balance, code) => {
 const _smallNumber = (value, tokenCode) => {
   const coin = _getCoin(tokenCode);
   const valueBN = new BigNumber(value);
-  console.log('smallnumber:');
-  console.log(`text: ${valueBN.toFixed()}`);
-  console.log(valueBN);
-  console.log(coin);
   let text = valueBN.toFixed(); // toString().replace('.', '');
   const template = _writeZeroes(coin.decimals + 1);
   if (text.length < template.length) { text = `${_writeZeroes(template.length - text.length)}${text}`; }
   const comma = text.insert('.', (text.length - coin.decimals));
-  console.log(`comma; ${comma}`);
   const final = new BigNumber(comma);
-  console.log(final.toNumber());
   return final.toNumber();
 };
 
@@ -127,9 +122,6 @@ const _removeDecimal = (value, decimals) => {
 * @return {object} bigNumber equivalent with decimals added
 */
 const _addDecimal = (value, decimals) => {
-  console.log('addDecimal');
-  console.log(`value: ${value}, decimals: ${decimals}`);
-  console.log(`typeoff: ${typeof decimals}`);
   const decimalsBN = new BigNumber(decimals.toNumber());
   const valueBN = new BigNumber(value);
   const multiplier = new BigNumber(10).pow(decimalsBN);
