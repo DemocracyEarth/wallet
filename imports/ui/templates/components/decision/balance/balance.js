@@ -1,9 +1,8 @@
 import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
 
-import { wei2eth, removeDecimal, getCoin } from '/imports/api/blockchain/modules/web3Util';
+import { wei2eth, getCoin } from '/imports/api/blockchain/modules/web3Util';
 import { timeCompressed } from '/imports/ui/modules/chronos';
-import { token } from '/lib/token';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
 import '/imports/ui/templates/components/decision/balance/balance.html';
@@ -159,10 +158,6 @@ Template.balance.helpers({
       return `${numeral(confirmed).format(instance.coin.format)}`;
     }
     if (this.isCrypto && this.value) {
-      const coinData = getCoin(instance.coin.code);
-      if (coinData.nonFungible) {
-        return _formatCryptoValue(this.value / coinData.decimals, instance.coin.code);
-      }
       return _formatCryptoValue(this.value, instance.coin.code);
     }
     if (this.token === 'WEB VOTE' && !this.blockchain) {

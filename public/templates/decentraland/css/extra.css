@@ -548,21 +548,6 @@ width: 1px;
     text-align: center;
 }
 
-.token-balance {
-      display: inline;
-    min-width: 35px;
-    padding: 3px 5px;
-    float: left;
-    border: 1px solid #9696c1;
-    /* border-top-right-radius: 5px; */
-    /* border-bottom-right-radius: 5px; */
-    border-radius: 5px;
-    font-size: 10px;
-    line-height: 10px;
-    font-weight: 400;
-    text-align: right;
-    text-transform: uppercase;
-}
 
 .checkbox-mini.checkbox-mini-remove {
     background-color: #ff617e;
@@ -872,6 +857,7 @@ width: 1px;
       display: inline;
     min-width: 35px;
     padding: 3px 5px;
+    color:#9696c1;
     float: left;
     border: 1px solid #9696c1;
     /* border-top-right-radius: 5px; */

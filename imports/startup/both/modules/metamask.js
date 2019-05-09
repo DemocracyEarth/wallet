@@ -471,17 +471,9 @@ const _coinvote = (from, to, quantity, tokenCode, contractAddress, sourceId, tar
     if (tokenCode === 'ETH') {
       value = web3.utils.toWei(quantity, _convertToEther(tokenCode)).toString();
     } else {
-      console.log(`quantity: ${quantity}`);
-     // console.log(`addDecimal(quantity.toNumber(), coin.decimals).toString(): ${addDecimal(quantity.toNumber(), coin.decimals).toString()}`);
-     //  console.log(`removeDecimal(quantity.toNumber(), coin.decimals).toString(): ${removeDecimal(quantity.toNumber(), coin.decimals).toString()}`);
-      // console.log(`smallNumber(quantity.toNumber(), coin.decimals).toString(): ${smallNumber(quantity.toNumber(), coin.code).toString()}`);
-      
-
       const quantityWithDecimals = numToCryptoBalance(quantity, coin.code); // addDecimal(quantity.toNumber(), coin.decimals).toString();
       value = quantityWithDecimals;
     }
-
-    console.log(`value: ${value}`);
 
     if (Meteor.Device.isPhone()) {
       return web3.eth.getCoinbase().then(function (coinbaseAddress) {

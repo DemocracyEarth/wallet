@@ -10,6 +10,7 @@ import { token } from '/lib/token';
 import { Transactions } from '/imports/api/transactions/Transactions';
 import { syncBlockchain } from '/imports/startup/both/modules/metamask';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
+import { smallNumber, getCoin } from '/imports/api/blockchain/modules/web3Util';
 
 
 import '/imports/ui/templates/widgets/transaction/transaction.html';
@@ -58,7 +59,12 @@ const _getContractToken = (transaction) => {
   }
   if (transaction.contract.kind === 'CRYPTO' && transaction.contract.blockchain) {
     coin.isCrypto = true;
-    coin.value = transaction.contract.blockchain.tickets[0].value;
+    const coinData = getCoin(transaction.contract.blockchain.coin.code);
+    if (coinData.nonFungible) {
+      coin.value = transaction.contract.blockchain.tickets[0].value.toNumber();
+    } else {
+      coin.value = smallNumber(transaction.contract.blockchain.tickets[0].value, transaction.contract.blockchain.coin.code);
+    }
   } else {
     if (transaction.isButton) {
       coin.isButton = transaction.isButton;
@@ -171,6 +177,7 @@ Template.transaction.helpers({
     return TAPi18n.__('no-delegated-votes');
   },
   token() {
+    console.log(this);
     return _getContractToken(this);
   },
   source() {

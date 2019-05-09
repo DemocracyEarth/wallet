@@ -258,10 +258,9 @@ const _formatCryptoValue = (value, tokenCode) => {
 * @summary get the token balance a user has for a given contract coin
 * @param {object} user with token
 * @param {object} contract to be checked
-* @param {boolean} getFullNumber get the complete number
 * @return {string} the balance quantity
 */
-const _getBalance = (user, contract, getFullNumber) => {
+const _getBalance = (user, contract) => {
   let result;
   for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
     const coin = _getCoin(user.profile.wallet.reserves[i].token);
@@ -271,12 +270,8 @@ const _getBalance = (user, contract, getFullNumber) => {
       } else if (coin.nonFungible) {
         result = _formatCryptoValue(parseInt(Meteor.user().profile.wallet.reserves[i].balance / coin.decimals, 10), coin.code);
       } else {
-        console.log(`Meteor.user().profile.wallet.reserves[i].balance:${Meteor.user().profile.wallet.reserves[i].balance}`);
-        console.log(`formatCryptoValue(Meteor.user().profile.wallet.reserves[i].balance, coin.code): ${_formatCryptoValue(Meteor.user().profile.wallet.reserves[i].balance, coin.code)}`);
-        // result = _formatCryptoValue(Meteor.user().profile.wallet.reserves[i].balance, coin.code);
         result = Meteor.user().profile.wallet.reserves[i].balance;
       }
-      console.log(`result: ${result}`);
       return result;
     }
   }
