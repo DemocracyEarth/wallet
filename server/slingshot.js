@@ -13,7 +13,7 @@ Slingshot.createDirective('uploadToAmazonS3', Slingshot.S3Storage, {
   region: Meteor.settings.private.API.amazon.AWSRegion,
   authorize() {
     const userFileCount = Files.find({ userId: this.userId }).count();
-    return userFileCount < 10 ? true : false;
+    return userFileCount < 10;
   },
   key(file) {
     const user = Meteor.users.findOne(this.userId);

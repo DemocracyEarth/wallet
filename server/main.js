@@ -4,7 +4,6 @@ import { meta } from '/imports/startup/both/routes';
 import { TAPi18n } from 'meteor/tap:i18n';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
-import { log } from '/lib/const';
 import { fixDBUrl, stripHTML, parseURL, urlDoctor, toTitleCase } from '/lib/utils';
 
 import '/imports/startup/server';
@@ -96,12 +95,6 @@ onPageLoad(function (sink) {
   const head = meta(tags, true);
   sink.appendToHead(head);
 
-  let hostname;
-  if (Meteor.isServer) {
-    Meteor.onConnection(function (result) {
-      hostname = result;
-    });
-  }
   if (path) {
     // log(`{ server: 'onPageLoad', path: '${url}', httpHeader: '${JSON.stringify(hostname)}' }`);
   }
