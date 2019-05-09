@@ -177,7 +177,6 @@ Template.transaction.helpers({
     return TAPi18n.__('no-delegated-votes');
   },
   token() {
-    console.log(this);
     return _getContractToken(this);
   },
   source() {
