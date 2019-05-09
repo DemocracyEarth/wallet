@@ -4,7 +4,7 @@
 
 # Sovereign
 
-Proof of stake democracy. ERC compatible.
+Governance for Distributed Autonomous Organizations.
 
 [![Join the chat at https://gitter.im/DemocracyEarth/sovereign](https://badges.gitter.im/DemocracyEarth/sovereign.svg)](https://gitter.im/DemocracyEarth/sovereign?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Slack Status](http://chat.democracy.earth/badge.svg)](http://chat.democracy.earth)
@@ -18,25 +18,17 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
 
 **Features:**
 
-  - [X] Proof of stake:
-    * Staking & proxies for votes.
-    * Ballots with multiple options.
-    * Bottom-up system of proposals.
-  - [X] ERC compatible transaction engine (_blockchain agnostic_).
+  - [X] On-chain and Off-chain voting.
+    * Tipping
+    * Coin voting
+    * Quadratic voting.
+  - [X] Comaptible with ERC20 and Non Fungible Tokens.
   - [X] Mobile & desktop responsive UX.
-  - [X] Decentralized identity key management.
-
-**Roadmap:**
-
-  - [ ] Satoshi-based governance 🔗 with [Lightning](https://github.com/lightningnetwork/lnd).
-  - [ ] Institutional incorporation via smart contracts 🔗 with [Open Zeppelin](https://github.com/OpenZeppelin/zeppelin-solidity).
-  - [ ] Bitcoin integration for budgeting 🔗 with [Bcoin](https://github.com/bcoin-org/bcoin).
-  - [ ] Distributed resource storage 🔗 with [IPFS](https://github.com/ipfs/js-ipfs).
-  - [ ] Native desktop client 🔗 with [Electron](https://github.com/electron/electron).
+  - [X] Web3 Compatible.
 
 **Release:**
 
-[`version 1.0 beta`](https://github.com/DemocracyEarth/sovereign/releases)
+[`version 0.5.1`](https://github.com/DemocracyEarth/sovereign/releases)
 
 **User Agreement:**  
 This [User Agreement](https://github.com/DemocracyEarth/sovereign/blob/master/UserAgreement.md) governs access to and use of the Democracy Earth platform.
@@ -99,27 +91,29 @@ Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mas
     > ``` $ meteor npm run start ```
     > check production/settings.json file to config your keys.
 
-0. **Start a Revolution**
+0. **Configure**
 
-    Persuade members of any organization you belong to try sovereign governance. [Tell us about it](mailto:hello@democracy.earth) so we can learn from the experience and improve our work.
+    Check `/config/development/settings.json` to configure Sovereign for your organization's governance needs.
 
-    > _Note:_ To begin a movement check our paper _[How to start a Net Party](https://www.slideshare.net/santisiri/how-to-make-a-net-party)_.
+    On `/public/templates/` you will different template settings that can modify look & feel of the application. 
 
     🕊
 
 ## Live
 
-* 🌎 Democracy Earth Foundation: [vote.democracy.earth](https://vote.democracy.earth).
+* Democracy Earth Foundation: [democracy.earth](https://democracy.earth).
+* Decentraland: [agora.decentraland.org](https://agora.decentraland.org).
+* Blockstack: [vote.blockstack.org](https://vote.blockstack.org).
 
 ### Reports
 
-* 🇨🇴 Report on [2016 Colombia Referendum](https://medium.com/@DemocracyEarth/a-digital-referendum-for-colombias-diaspora-aeef071ec014#.xbyqt3blq).
-* 🗺 OECD Report on [Blockchain Voting for Peace](https://www.oecd.org/gov/innovative-government/embracing-innovation-in-government-colombia.pdf).
+* Report on [2016 Colombia Referendum](https://medium.com/@DemocracyEarth/a-digital-referendum-for-colombias-diaspora-aeef071ec014#.xbyqt3blq).
+* OECD Report on [Blockchain Voting for Peace](https://www.oecd.org/gov/innovative-government/embracing-innovation-in-government-colombia.pdf).
+* Quadratic Voting for the [2019-2020 Legislative Season of the State of Colorado](https://www.bloomberg.com/news/articles/2019-05-01/a-new-way-of-voting-that-makes-zealotry-expensive).
 
 ## Specifications
 
-* Built on [Meteor](https://www.meteor.com/) version 1.6.1
-* Designed with [Webflow](https://www.webflow.com).
+* Built on [Meteor](https://www.meteor.com/) version 1.8.1
 
 Check our [documentation](https://github.com/DemocracyEarth/sovereign/tree/master/docs) for technical reference.
 
@@ -181,4 +175,4 @@ Also check our [donors list](DONORS.md).
 ## License
 
 This software is under an [MIT License](LICENSE.md).
-Some rights reserved, 2015 - 2018 [Democracy Earth Foundation](https://democracy.earth).
+Some rights reserved, 2015 - 2019 [Democracy Earth Foundation](https://democracy.earth).
