@@ -1,0 +1,264 @@
+{
+    "country": [
+        {
+            "code": "AE",
+            "emoji": "🎸",
+            "unicode": "",
+            "name": "AETHERIAN project",
+            "title": ""
+          },
+          {
+            "code": "VC",
+            "emoji": "🎭",
+            "unicode": "",
+            "name": "Vegas City",
+            "title": ""
+          },
+          {
+            "code": "DC",
+            "emoji": "🐉",
+            "unicode": "",
+            "name": "Dragon City",
+            "title": ""
+          },
+          {
+            "code": "FS",
+            "emoji": "💄",
+            "unicode": "",
+            "name": "Fashion Street",
+            "title": ""
+          },
+          {
+            "code": "X",
+            "emoji": "⒳",
+            "unicode": "",
+            "name": "District X",
+            "title": ""
+          },
+          {
+            "code": "DU",
+            "emoji": "🎓",
+            "unicode": "",
+            "name": "Decentraland University",
+            "title": ""
+          },
+          {
+            "code": "DK",
+            "emoji": "🐲",
+            "unicode": "",
+            "name": "Dragon Kingdom",
+            "title": ""
+          },
+          {
+            "code": "CC",
+            "emoji": "🌉",
+            "unicode": "",
+            "name": "Decentraland Conference Center",
+            "title": ""
+          },
+          {
+            "code": "TB",
+            "emoji": "⚔️",
+            "unicode": "",
+            "name": "The Battleground",
+            "title": ""
+          },
+          {
+            "code": "VS",
+            "emoji": "🛍",
+            "unicode": "U+1F1E6 U+1F1EB",
+            "name": "Virtual Reality Shopping District",
+            "title": ""
+          },
+          {
+            "code": "FL",
+            "emoji": "🎊",
+            "unicode": "",
+            "name": "Festival Land",
+            "title": ""
+          },
+          {
+            "code": "TF",
+            "emoji": "🦌",
+            "unicode": "",
+            "name": "The Forest",
+            "title": ""
+          },
+          {
+            "code": "CM",
+            "emoji": "💹",
+            "unicode": "",
+            "name": "Central Marketplace",
+            "title": ""
+          },
+          {
+            "code": "CV",
+            "emoji": "🔑",
+            "unicode": "",
+            "name": "The Crypto Valley",
+            "title": ""
+          },
+          {
+            "code": "CG",
+            "emoji": "🎡",
+            "unicode": "",
+            "name": "Carnival Games",
+            "title": ""
+          },
+          {
+            "code": "SP",
+            "emoji": "🏯",
+            "unicode": "",
+            "name": "Shwedagon Pagoda",
+            "title": ""
+          },
+          {
+            "code": "AA",
+            "emoji": "💣",
+            "unicode": "",
+            "name": "A-Squat",
+            "title": ""
+          },
+          {
+            "code": "YT",
+            "emoji": "🇰🇮",
+            "unicode": "",
+            "name": "DPR of Yetepey",
+            "title": ""
+          },
+          {
+            "code": "HC",
+            "emoji": "👾",
+            "unicode": "", 
+            "name": "Hacker City",
+            "title": ""
+          },
+          {
+            "code": "EE",
+            "emoji": "𝓔",
+            "unicode": "",
+            "name": "E for EVERYONE",
+            "title": ""
+          },
+          {
+            "code": "BT",
+            "emoji": "📈",
+            "unicode": "",
+            "name": "Bittrex Tomorrow",
+            "title": ""
+          },
+          {
+            "code": "YO",
+            "emoji": "🧘‍",
+            "unicode": "",
+            "name": "Yoga Center",
+            "title": ""
+          },
+          {
+            "code": "EP",
+            "emoji": "🤓",
+            "unicode": "", 
+            "name": "Engineering Park",
+            "title": ""
+          },
+          {
+            "code": "SC",
+            "emoji": "🌌",
+            "unicode": "", 
+            "name": "Star City",
+            "title": ""
+          },
+          {
+            "code": "VA",
+            "emoji": "⛩",
+            "unicode": "", 
+            "name": "VARC All things Architecture",
+            "title": ""
+          },
+          {
+            "code": "DQ",
+            "emoji": "✍️",
+            "unicode": "", 
+            "name": "Design Quarter",
+            "title": ""
+          },
+          {
+            "code": "CH",
+            "emoji": "🤚",
+            "unicode": "", 
+            "name": "Chobury City",
+            "title": ""
+          },
+          {
+            "code": "EG",
+            "emoji": "🌍",
+            "unicode": "", 
+            "name": "EcoGames",
+            "title": ""
+          },
+          {
+            "code": "AN",
+            "emoji": "🏴",
+            "unicode": "", 
+            "name": "Anarchy",
+            "title": ""
+          },
+          {
+            "code": "VO",
+            "emoji": "🦹",
+            "unicode": "", 
+            "name": "Voltaire",
+            "title": ""
+          },
+          {
+            "code": "HD",
+            "emoji": "🦌",
+            "unicode": "", 
+            "name": "Hunted District",
+            "title": ""
+          },
+          {
+            "code": "TS",
+            "emoji": "🍩",
+            "unicode": "", 
+            "name": "Toke Social Cannabis",
+            "title": ""
+          },
+          {
+            "code": "MH",
+            "emoji": "👨‍🎤",
+            "unicode": "", 
+            "name": "MusicHub",
+            "title": ""
+          },
+          {
+            "code": "CC",
+            "emoji": "🇨🇳",
+            "unicode": "", 
+            "name": "DCL China City",
+            "title": ""
+          },
+          {
+            "code": "DM",
+            "emoji": "🗿",
+            "unicode": "", 
+            "name": "Decentraland Museum",
+            "title": ""
+          },
+          {
+            "code": "AF",
+            "emoji": "🏟",
+            "unicode": "", 
+            "name": "Arena",
+            "title": ""
+          },
+          {
+            "code": "FD",
+            "emoji": "🧸",
+            "unicode": "",
+            "name": "Fluffy DC",
+            "title": ""
+          }
+    ]
+  }
+  

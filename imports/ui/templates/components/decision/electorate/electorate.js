@@ -7,7 +7,6 @@ import { TAPi18n } from 'meteor/tap:i18n';
 
 import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
 import { toggle } from '/imports/ui/templates/components/decision/editor/editor.js';
-import { geo } from '/lib/geo';
 import { token } from '/lib/token';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 
@@ -66,6 +65,9 @@ const _getTokenAddress = (user, ticker) => {
   if (ticker === 'WEB VOTE') {
     return (user.profile.wallet.currency === ticker);
   }
+
+  if (Session.get('token')) { token = Session.get('token'); }
+
   if (user.profile.wallet.reserves && user.profile.wallet.reserves.length > 0) {
     for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
       for (let k = 0; k < token.coin.length; k += 1) {
@@ -174,6 +176,8 @@ const _writeRule = (contract, textOnly) => {
       default:
         sentence = TAPi18n.__(`electorate-sentence-anyone${format}`);
     }
+
+    const geo = Session.get('geo');
 
     let counter = 0;
     for (const i in contract.constituency) {

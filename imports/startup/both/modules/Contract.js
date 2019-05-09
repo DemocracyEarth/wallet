@@ -2,13 +2,13 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 
-import { convertToSlug, convertToUsername } from '/lib/utils';
+import { convertToSlug } from '/lib/utils';
 import { defaultConstituency } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { shortUUID } from '/imports/startup/both/modules/crypto';
+// import { getTokenAddress } from '/imports/ui/templates/components/decision/electorate/electorate.js';
 import { transact } from '/imports/api/transactions/transaction';
 import { token } from '/lib/token';
-import { geo } from '/lib/geo';
 
 /**
 * @summary signs a contract with a verified user
@@ -65,6 +65,7 @@ const _getPublicAddress = (contractToken) => {
     coin: { code: '' },
     publicAddress: '',
   };
+  if (Session.get('token')) { token = Session.get('token'); }
 
   if (reserves && reserves.length > 0) {
     for (let k = 0; k < reserves.length; k += 1) {
@@ -175,9 +176,10 @@ const _ethereumChain = (contract) => {
   if (draft.blockchain.coin === undefined) {
     // set coin.code to whats in wallet.currency
     draft.blockchain.coin = {};
-    draft.blockchain.coin.code = draft.wallet.currency;
-  } else {
-    draft.blockchain.coin.code = draft.wallet.currency;
+  }
+  draft.blockchain.coin.code = draft.wallet.currency;
+  if (Meteor.user()) {
+    draft.blockchain.publicAddress = Meteor.user().profile.wallet.reserves ? Meteor.user().profile.wallet.reserves[0].publicAddress : '';
   }
 
   return draft;
@@ -190,7 +192,7 @@ const _ethereumChain = (contract) => {
 const _chain = (contract) => {
   let draft = contract;
 
-  if (draft.wallet.currency === 'WEB VOTE') {
+  if (draft.wallet.currency === 'WEB VOTE' && Meteor.settings.public.app.config.allowWebVotes) {
     draft = _webVoteChain(draft);
   } else if (draft.wallet.currency === 'STX') {
     draft = _blockstackChain(draft);
@@ -226,7 +228,11 @@ const _createContract = (newkeyword, newtitle) => {
         constituency: chainedContract.constituency,
       } });
     }
-    return Contracts.findOne({ keyword: `draft-${Meteor.userId()}` });
+    const newContract = Contracts.findOne({ keyword: `draft-${Meteor.userId()}` });
+    if (Meteor.settings.public.app.config.defaultRules.pollVoting) {
+      // newContract.poll = _createPoll(newContract).poll;
+    }
+    return newContract;
   // has title & keyword, used for forks
   } else if (!Contracts.findOne({ keyword: newkeyword })) {
     if (!newtitle) {
@@ -289,7 +295,7 @@ const _createPoll = (draft) => {
       let pollContractURI;
       for (let i = 0; i < 2; i += 1) {
         // creaate uri reference
-        pollContractURI = _contractURI(`${TAPi18n.__('poll-choice').replace('{{number}}', i.toString())} ${document.getElementById('titleContent').innerText} ${TAPi18n.__(`poll-default-title-${i}`)}`);
+        pollContractURI = _contractURI(`${TAPi18n.__('poll-choice').replace('{{number}}', i.toString())} ${(document.getElementById('titleContent') && document.getElementById('titleContent').innerText) ? document.getElementById('titleContent').innerText : ''} ${TAPi18n.__(`poll-default-title-${i}`)}`);
 
         // create contract to be used as poll option
         pollContract = _createContract(pollContractURI, TAPi18n.__(`poll-default-title-${i}`));
@@ -314,7 +320,7 @@ const _createPoll = (draft) => {
       return newDraft;
     } else if (draft.poll.length > 0) {
       // change info of existing poll
-
+      console.log(`removing the poll`);
       _removePoll(draft);
       newDraft.poll = [];
       newDraft.poll = _createPoll(newDraft).poll;
@@ -579,7 +585,7 @@ const _land = (draft) => {
   if (!land) {
     if (Meteor.user() && Meteor.user().profile &&
         Meteor.user().profile.country && Meteor.user().profile.country.code) {
-      const countryCode = _.where(geo.country, { code: Meteor.user().profile.country.code })[0].code;
+      const countryCode = _.where(Session.get('geo').country, { code: Meteor.user().profile.country.code })[0].code;
       if (countryCode) {
         land = countryCode;
       }

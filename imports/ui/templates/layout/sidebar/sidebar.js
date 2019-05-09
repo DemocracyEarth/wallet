@@ -8,7 +8,6 @@ import { ReactiveVar } from 'meteor/reactive-var';
 
 import { sidebarWidth, sidebarPercentage, getDelegatesMenu, toggleSidebar } from '/imports/ui/modules/menu';
 import { getFlag, getUser } from '/imports/ui/templates/components/identity/avatar/avatar';
-import { geo } from '/lib/geo';
 import { getCoin } from '/imports/api/blockchain/modules/web3Util';
 
 import '/imports/ui/templates/layout/sidebar/sidebar.html';
@@ -235,7 +234,9 @@ const _userMenu = (user) => {
     },
   ];
 
-  if (user) {
+  const geo = Session.get('geo');
+
+  if (user && geo) {
     // country feed
     if (user.profile.country) {
       const nation = _.where(geo.country, { code: user.profile.country.code })[0];
@@ -258,7 +259,7 @@ const _userMenu = (user) => {
     if (user.profile.wallet.reserves && user.profile.wallet.reserves.length > 0) {
       for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
         coin = getCoin(user.profile.wallet.reserves[i].token);
-        if (coin) {
+        if (coin && coin.name) {
           menu.push({
             id: parseInt(menu.length, 10),
             // label: `<span class="suggest-item suggest-token suggest-token-sidebar">${coin.code}</span> ${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,

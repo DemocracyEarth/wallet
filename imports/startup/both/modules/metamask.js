@@ -9,10 +9,11 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 import { displayModal } from '/imports/ui/modules/modal';
 import { transact } from '/imports/api/transactions/transaction';
 import { displayNotice } from '/imports/ui/modules/notice';
-import { addDecimal, getCoin } from '/imports/api/blockchain/modules/web3Util';
+import { addDecimal, smallNumber, removeDecimal, getCoin, numToCryptoBalance } from '/imports/api/blockchain/modules/web3Util';
 import { animatePopup } from '/imports/ui/modules/popup';
 import { Transactions } from '/imports/api/transactions/Transactions';
 
+import { BigNumber } from 'bignumber.js';
 
 import abi from 'human-standard-token-abi';
 import { debug } from 'util';
@@ -20,11 +21,12 @@ import { debug } from 'util';
 const Web3 = require('web3');
 const ethUtil = require('ethereumjs-util');
 const abiDecoder = require('abi-decoder');
+const numeral = require('numeral');
 
 let web3;
 
 const modal = {
-  icon: 'images/olive.png',
+  icon: Meteor.settings.public.Collective.profile.logo,
   title: TAPi18n.__('wallet'),
   cancel: TAPi18n.__('close'),
   alertMode: true,
@@ -41,6 +43,18 @@ const _convertToEther = (ticker) => {
     default:
       return 'ether';
   }
+};
+
+/**
+* @summary format currency display according to crypto rules
+* @param {string} value value to be changed
+* @param {string} tokenCode currency being used
+* @returns {string} formatted number
+*/
+const _formatCryptoValue = (value, tokenCode) => {
+  let tokenFinal;
+  if (!tokenCode) { tokenFinal = 'ETH'; } else { tokenFinal = tokenCode; }
+  return numeral(value, tokenFinal).format(getCoin(tokenFinal).format);
 };
 
 /**
@@ -207,7 +221,6 @@ const _delegate = (sourceId, targetId, contractId, hash, value) => {
       }],
     });
 
-    console.log(target);
     Meteor.users.update({ _id: targetId }, { $set: { profile: target.profile }});
   }
 };
@@ -243,7 +256,13 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
         chainId: 3, // should this be 4 for rinkeby too?
       };
     } else {
-      const quantityWithDecimals = addDecimal(quantity.toNumber(), 18);
+      let quantityWithDecimals;
+      if (coin.nonFungible) {
+        quantityWithDecimals = new BigNumber(quantity.toNumber());
+      } else {
+        quantityWithDecimals = addDecimal(quantity.toNumber(), coin.decimals);
+      }
+      
       tx = {
         from,
         to: contractAddress,
@@ -370,8 +389,6 @@ const verifySignature = (signature, publicAddress, nonce, message) => {
 
   // The signature verification is successful if the address found with
   // ecrecover matches the initial publicAddress
-  console.log(`address.toLowerCase(): ${address.toLowerCase()}`);
-  console.log(`publicAddress.toLowerCase(): ${publicAddress.toLowerCase()}`);
 
   if (address.toLowerCase() === publicAddress.toLowerCase()) {
     return 'success';
@@ -392,7 +409,6 @@ const verifySignature = (signature, publicAddress, nonce, message) => {
 * @param {string} delegateId user to delegate into
 */
 const _transactCoinVote = (sourceId, targetId, tokenCode, from, to, value, delegateId, publicAddress) => {
-  console.log(value);
   transact(
     sourceId,
     targetId,
@@ -442,10 +458,11 @@ const _transactCoinVote = (sourceId, targetId, tokenCode, from, to, value, deleg
 const _coinvote = (from, to, quantity, tokenCode, contractAddress, sourceId, targetId, delegateId, choice, url) => {
   if (_web3(true)) {
     const nonce = Math.floor(Math.random() * 10000);
+    const coin = getCoin(tokenCode);
     let publicAddress;
 
     let message = TAPi18n.__('coinvote-signature');
-    message = message.replace('{{quantity}}', quantity);
+    message = message.replace('{{quantity}}', coin.code === 'ETH' ? quantity : _formatCryptoValue(quantity, coin.code));
     message = message.replace('{{ticker}}', tokenCode);
     message = message.replace('{{choice}}', choice);
     message = message.replace('{{url}}', url);
@@ -454,7 +471,7 @@ const _coinvote = (from, to, quantity, tokenCode, contractAddress, sourceId, tar
     if (tokenCode === 'ETH') {
       value = web3.utils.toWei(quantity, _convertToEther(tokenCode)).toString();
     } else {
-      const quantityWithDecimals = addDecimal(quantity.toNumber(), 18).toString();
+      const quantityWithDecimals = numToCryptoBalance(quantity, coin.code); // addDecimal(quantity.toNumber(), coin.decimals).toString();
       value = quantityWithDecimals;
     }
 
@@ -499,11 +516,13 @@ const _coinvote = (from, to, quantity, tokenCode, contractAddress, sourceId, tar
 };
 
 const _scanCoinVote = (contract) => {
-  if (contract.blockchain && contract.blockchain.tickets) {
-    for (let i = 0; i < contract.blockchain.tickets.length; i += 1) {
-      for (let k = 0; k < Meteor.user().profile.wallet.reserves.length; k += 1) {
-        if (contract.blockchain.tickets[i].hash === Meteor.user().profile.wallet.reserves[k].publicAddress) {
-          return true;
+  if (Meteor.user()) {
+    if (contract.blockchain && contract.blockchain.tickets) {
+      for (let i = 0; i < contract.blockchain.tickets.length; i += 1) {
+        for (let k = 0; k < Meteor.user().profile.wallet.reserves.length; k += 1) {
+          if (contract.blockchain.tickets[i].hash === Meteor.user().profile.wallet.reserves[k].publicAddress) {
+            return true;
+          }
         }
       }
     }

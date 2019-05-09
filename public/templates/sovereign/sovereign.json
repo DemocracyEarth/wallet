@@ -1,10 +1,16 @@
 {
   "stylesheet": {
-    "list": ["/styles/normalize.css", "/styles/webflow.css", "/templates/sovereign/sovereign.css", "/templates/sovereign/extra.css", "/templates/sovereign/landing.css"]
+    "list": ["/styles/normalize.css", "/styles/webflow.css", "/templates/sovereign/css/sovereign.css", "/templates/sovereign/css/extra.css", "/templates/sovereign/css/landing.css"]
   },
 
   "header": {
-    "html": "<div class='hero-demo'><img src='/images/vote.gif'></div>"
+    "html": "<div class='hero-demo'><img src='/images/vote.gif'></div>",
+    "callToAction": true
+  },
+
+  "lib": {
+    "token" : "/templates/sovereign/lib/token.json",
+    "geo": "/templates/sovereign/lib/geo.json"
   },
 
   "spinner": {
@@ -63,6 +69,9 @@
     "electorate-check-editor": "/templates/sovereign/images/electorate-check-editor.png",
     "electorate-check-enabled": "/templates/sovereign/images/electorate-check-enabled.png",
     "electorate-check-reject-active": "/templates/sovereign/images/electorate-check-reject-active.png",
-    "electorate-check-reject-enabled": "/templates/sovereign/images/electorate-check-reject-enabled.png"
+    "electorate-check-reject-enabled": "/templates/sovereign/images/electorate-check-reject-enabled.png",
+    "navbar-icon": "/images/olive.png",
+    "navbar-burger": "/templates/sovereign/images/burger.png",
+    "navbar-burger-active": "/templates/sovereign/images/burger-active.png"    
   }
 }

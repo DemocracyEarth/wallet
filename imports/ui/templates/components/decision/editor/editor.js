@@ -271,6 +271,26 @@ Template.editor.helpers({
   pollId() {
     return Session.get('draftContract') ? Session.get('draftContract')._id : false;
   },
+  pollSettings() {
+    const draft = Session.get('draftContract');
+
+    const quadratic = draft.rules ? draft.rules.quadraticVoting : false;
+    const balance = draft.rules ? draft.rules.balanceVoting : false;
+    const pollId = draft ? draft._id : false;
+    const list = draft ? draft.poll : false;
+
+    console.log('this has new poll settings');
+    console.log(JSON.stringify(draft.poll));
+
+    return {
+      list,
+      pollId,
+      editorMode: true,
+      pollTotals: 0,
+      quadratic,
+      balance,
+    };
+  },
   blockchainAddress() {
     const draft = Session.get('draftContract');
     if (draft && draft.blockchain.publicAddress) {
@@ -394,6 +414,10 @@ Template.editor.helpers({
       closing.editorMode = true;
     }
     return closing;
+  },
+  onChainVote() {
+    const draft = Session.get('draftContract')
+    return draft.rules ? (!draft.rules.balanceVoting && !draft.rules.quadraticVoting) : true;
   },
 });
 

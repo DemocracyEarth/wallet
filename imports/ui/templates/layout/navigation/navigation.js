@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-
+import { ReactiveVar } from 'meteor/reactive-var';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { Router } from 'meteor/iron:router';
@@ -8,6 +8,7 @@ import { Router } from 'meteor/iron:router';
 import { timers } from '/lib/const';
 import { editorFadeOut } from '/imports/ui/templates/components/decision/editor/editor';
 import { toggleSidebar } from '/imports/ui/modules/menu';
+import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 
 import '/imports/ui/templates/layout/authentication/authentication.js';
 import '/imports/ui/templates/layout/navigation/navigation.html';
@@ -90,6 +91,11 @@ const _isRoot = () => {
   return (Router.current().params.username === undefined && Router.current().params.hashtag === undefined);
 };
 
+Template.navigation.onCreated(function () {
+  Template.instance().imageTemplate = new ReactiveVar();
+  templetize(Template.instance());
+});
+
 Template.navigation.onRendered(() => {
   hideBar();
 
@@ -110,11 +116,17 @@ Template.navigation.helpers({
     }
     return '';
   },
+  getImage(pic) {
+    return getImage(Template.instance().imageTemplate.get(), pic);
+  },
   logo() {
     if (_isRoot()) {
       return true;
     }
     return false;
+  },
+  navIcon() {
+    return Meteor.settings.public.Collective.profile.logo;
   },
   icon() {
     return displayMenuIcon();

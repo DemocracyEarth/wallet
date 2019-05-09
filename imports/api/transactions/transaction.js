@@ -869,14 +869,15 @@ const _tallyBlockchainVotes = (_id) => {
     }
 
     const score = {
-      totalPending: totalPending.toString(),
-      totalConfirmed: totalConfirmed.toString(),
-      totalFail: totalFail.toString(),
-      value: parseFloat(smallNumber(totalConfirmed, contract.blockchain.coin.code) + smallNumber(totalPending, contract.blockchain.coin.code), 10),
-      finalConfirmed: parseFloat(smallNumber(totalConfirmed, contract.blockchain.coin.code), 10),
-      finalPending: parseFloat(smallNumber(totalPending, contract.blockchain.coin.code), 10),
-      finalFail: parseFloat(smallNumber(totalFail, contract.blockchain.coin.code), 10),
+      totalPending: totalPending.toFixed(),
+      totalConfirmed: totalConfirmed.toFixed(),
+      totalFail: totalFail.toFixed(),
+      value: parseFloat(smallNumber(totalConfirmed.plus(totalPending).toFixed(), contract.blockchain.coin.code), 10),
+      finalConfirmed: parseFloat(smallNumber(totalConfirmed.toFixed(), contract.blockchain.coin.code), 10),
+      finalPending: parseFloat(smallNumber(totalPending.toFixed(), contract.blockchain.coin.code), 10),
+      finalFail: parseFloat(smallNumber(totalFail.toFixed(), contract.blockchain.coin.code), 10),
     };
+
     Contracts.update({ _id }, { $set: { 'blockchain.score': score } });
   }
 };
@@ -1015,7 +1016,6 @@ const _transact = (senderId, receiverId, votes, settings, callback) => {
     // console.log(`txId: ${txId}`);
     // console.log(`processing: ${processing}`);
 
-
     if (_transactionMessage(processing)) {
       // once transaction done, run callback
       if (callback !== undefined) { callback(); }
@@ -1068,6 +1068,7 @@ const _genesisTransaction = (userId) => {
 */
 const _loadExternalCryptoBalance = (userId) => {
   const user = Meteor.users.findOne({ _id: userId });
+  console.log(`_loadExternalCryptoBalance`);
   if (user.services.metamask != null) {
     const _publicAddress = user.services.metamask.publicAddress;
     let weiBalance;

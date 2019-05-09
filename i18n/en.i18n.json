@@ -687,8 +687,8 @@
   "voting-editor-quadratic-tooltip": "The cost of voting for a choice increases at a quadratic rate.",
   "voting-editor-poll-tooltip": "Include a poll with multiple options on this post.",
   "poll-choice": "Poll choice {{number}}",
-  "poll-default-title-0": "Downvote  👎",
-  "poll-default-title-1": "Upvote 👍",
+  "poll-default-title-0": "Reject",
+  "poll-default-title-1": "Accept",
   "poll-inside": "Election Poll",
   "ticker-rule-quadratic": "",
   "ticker-rule-balance": "Balance",
@@ -724,5 +724,7 @@
   "transaction-tally": "{{token}} Signature verified, account balance tallied.",
   "transaction-tally-denied": "{{token}} Signature denied, no votes tallied.",
   "already-voted": "Already Voted",
-  "already-voted-detail": "Your account balance has already been tallied on this decision."
+  "already-voted-detail": "Your account balance has already been tallied on this decision.",
+  "election-rule-onchain": "On chain Tip",
+  "voting-editor-onchain-tooltip": "A token fraction will be sent to post author and tallied as a vote."
 }

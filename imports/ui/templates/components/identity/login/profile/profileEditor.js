@@ -5,7 +5,6 @@ import { ReactiveVar } from 'meteor/reactive-var';
 
 import { validateUsername } from '/imports/startup/both/modules/User';
 import { searchJSON } from '/imports/ui/modules/JSON';
-import { geo } from '/lib/geo';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { validateEmail } from '/imports/startup/both/modules/validations.js';
 // import { emailListCheck } from '/lib/permissioned';
@@ -100,6 +99,7 @@ Template.profileEditor.events({
     Session.set('showNations', false);
   },
   'input .country-search'(event) {
+    const geo = Session.get('geo');
     if (event.target.value !== '') {
       Session.set('filteredCountries', searchJSON(geo.country, event.target.value));
     } else {

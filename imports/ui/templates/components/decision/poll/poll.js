@@ -72,8 +72,9 @@ Template.poll.helpers({
     return Template.instance().ready.get();
   },
   item() {
-    const contracts = Template.instance().contracts.get();
     const item = [];
+    const contracts = Template.instance().contracts.get();
+
     for (let i = 0; i < contracts.length; i += 1) {
       item.push({
         contract: contracts[i],

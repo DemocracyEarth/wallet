@@ -3,6 +3,7 @@ import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 import { DocHead } from 'meteor/kadira:dochead';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { HTTP } from 'meteor/http';
 
 import { gui } from '/lib/const';
 import { urlDoctor, toTitleCase } from '/lib/utils';
@@ -10,6 +11,7 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { setupWeb3 } from '/imports/startup/both/modules/metamask.js';
 import { displayNotice } from '/imports/ui/modules/notice';
+import { token } from '/lib/token';
 
 if (Meteor.isClient) {
   import '/imports/ui/templates/layout/main.js';
@@ -94,6 +96,24 @@ Router.configure({
   layoutTemplate: 'main',
   loadingTemplate: 'load',
   notFoundTemplate: 'notFound',
+  controller: 'PreloadController',
+  preload: {
+    verbose: true,
+    timeOut: 5000,
+    sync: Meteor.settings.public.web.template.settings,
+    onBeforeSync: () => {
+      HTTP.get(Meteor.absoluteUrl(Meteor.settings.public.web.template.settings), function (err, result) {
+        if (!err) {
+          HTTP.get(Meteor.absoluteUrl(result.data.lib.token), function (err, result) {
+            Session.set('token', result.data);
+          });
+        }
+      });
+    },
+    onSync: () => {
+      return true;
+    },
+  },
 });
 
 

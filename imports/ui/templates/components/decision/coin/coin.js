@@ -101,6 +101,8 @@ Template.coin.onCreated(() => {
 });
 
 Template.coin.onRendered(function () {
+  if (Session.get('token')) { token = Session.get('token'); }
+
   // show current coin set in draft
   const draft = Session.get('draftContract');
   for (let i = 0; i < draft.constituency.length; i += 1) {
@@ -136,7 +138,7 @@ Template.coin.helpers({
   },
   address() {
     const draft = Session.get('draftContract');
-    if (draft.blockchain && draft.blockchain.publicAddress && Session.get('newCoin').code !== 'WEB VOTE') {
+    if (draft.blockchain && draft.blockchain.publicAddress && Session.get('newCoin') && Session.get('newCoin').code !== 'WEB VOTE') {
       Session.set('checkBlockchainAddress', web3.utils.isAddress(draft.blockchain.publicAddress));
       return draft.blockchain.publicAddress;
     }
@@ -182,6 +184,7 @@ Template.coin.helpers({
   allowBalance() {
     if (Session.get('newCoin')) {
       const coin = getCoin(Session.get('newCoin').code);
+      console.log(coin);
       return coin.editor.allowBalanceToggle;
     }
     return false;

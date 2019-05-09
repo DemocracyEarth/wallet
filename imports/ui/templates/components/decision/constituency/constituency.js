@@ -6,7 +6,6 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { animatePopup } from '/imports/ui/modules/popup';
 import { searchJSON } from '/imports/ui/modules/JSON';
-import { geo } from '/lib/geo';
 import { token } from '/lib/token';
 
 import '/imports/ui/templates/components/decision/constituency/constituency.html';
@@ -78,6 +77,7 @@ Template.constituency.onRendered(function () {
   Session.set('domainSyntaxCheck', _checkDomainName(document.getElementById('editDomain').value));
   // show current coin set in draft
   document.getElementById('editCountry').value = '';
+  const geo = Session.get('geo');
   for (let i = 0; i < draft.constituency.length; i += 1) {
     if (draft.constituency[i].kind === 'NATION') {
       for (let j = 0; j < geo.country.length; j += 1) {
@@ -143,6 +143,7 @@ Template.constituency.events({
     Session.set('domainSyntaxCheck', _checkDomainName(document.getElementById('editDomain').value));
   },
   'input .country-search'(event) {
+    const geo = Session.get('geo');
     if (event.target.value !== '') {
       Session.set('filteredCountries', searchJSON(geo.country, event.target.value));
     } else {

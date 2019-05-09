@@ -549,6 +549,7 @@ width: 1px;
     min-width: 35px;
     padding: 3px 5px;
     float: left;
+    color: #9696c1;
     border: 1px solid #9696c1;
     /* border-top-right-radius: 5px; */
     /* border-bottom-right-radius: 5px; */
@@ -624,7 +625,15 @@ width: 1px;
     margin: 15px 5px 0px 0px;
     cursor: default;
     border-bottom: 1px dashed #5a0074;
-};
+}
+
+@media (max-width: 991px) {
+  .election-rule {
+    margin-bottom: 10px;
+  }
+}
+
+
 
 .budget {
   margin-top:15px;
@@ -731,6 +740,14 @@ width: 1px;
   background: #ff617e;
 }
 
+
+@media (max-width: 991px) {
+  .countdown { 
+    margin-bottom: 15px;
+  }
+}
+
+
 .help {
       display: block;
     margin-top: 8px;
@@ -755,4 +772,8 @@ width: 1px;
 
 .token-wrap.token-wrap-multi {
   margin-bottom:10px;
+}
+
+.menu.menu-wallet {
+  margin-bottom:-10px;
 }
