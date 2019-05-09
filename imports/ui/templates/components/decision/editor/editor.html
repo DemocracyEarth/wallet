@@ -89,7 +89,9 @@
         </div>
       {{/unless}}
       {{#if pollingEnabled}}
-        {{> poll list=pollList pollId=pollId editorMode=true pollTotals=0 quadratic=quadraticEnabled balance=balanceEnabled}}
+        {{#with pollSettings}}
+          {{> poll}}
+        {{/with}}
       {{/if}}
       {{#if requiresClosing}}
         {{#with closingData}}

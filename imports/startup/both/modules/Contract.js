@@ -2,10 +2,11 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 
-import { convertToSlug, convertToUsername } from '/lib/utils';
+import { convertToSlug } from '/lib/utils';
 import { defaultConstituency } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { shortUUID } from '/imports/startup/both/modules/crypto';
+// import { getTokenAddress } from '/imports/ui/templates/components/decision/electorate/electorate.js';
 import { transact } from '/imports/api/transactions/transaction';
 import { token } from '/lib/token';
 
@@ -175,9 +176,10 @@ const _ethereumChain = (contract) => {
   if (draft.blockchain.coin === undefined) {
     // set coin.code to whats in wallet.currency
     draft.blockchain.coin = {};
-    draft.blockchain.coin.code = draft.wallet.currency;
-  } else {
-    draft.blockchain.coin.code = draft.wallet.currency;
+  }
+  draft.blockchain.coin.code = draft.wallet.currency;
+  if (Meteor.user()) {
+    draft.blockchain.publicAddress = Meteor.user().profile.wallet.reserves ? Meteor.user().profile.wallet.reserves[0].publicAddress : '';
   }
 
   return draft;
@@ -226,7 +228,11 @@ const _createContract = (newkeyword, newtitle) => {
         constituency: chainedContract.constituency,
       } });
     }
-    return Contracts.findOne({ keyword: `draft-${Meteor.userId()}` });
+    const newContract = Contracts.findOne({ keyword: `draft-${Meteor.userId()}` });
+    if (Meteor.settings.public.app.config.defaultRules.pollVoting) {
+      // newContract.poll = _createPoll(newContract).poll;
+    }
+    return newContract;
   // has title & keyword, used for forks
   } else if (!Contracts.findOne({ keyword: newkeyword })) {
     if (!newtitle) {
@@ -289,7 +295,7 @@ const _createPoll = (draft) => {
       let pollContractURI;
       for (let i = 0; i < 2; i += 1) {
         // creaate uri reference
-        pollContractURI = _contractURI(`${TAPi18n.__('poll-choice').replace('{{number}}', i.toString())} ${document.getElementById('titleContent').innerText} ${TAPi18n.__(`poll-default-title-${i}`)}`);
+        pollContractURI = _contractURI(`${TAPi18n.__('poll-choice').replace('{{number}}', i.toString())} ${(document.getElementById('titleContent') && document.getElementById('titleContent').innerText) ? document.getElementById('titleContent').innerText : ''} ${TAPi18n.__(`poll-default-title-${i}`)}`);
 
         // create contract to be used as poll option
         pollContract = _createContract(pollContractURI, TAPi18n.__(`poll-default-title-${i}`));
@@ -314,7 +320,7 @@ const _createPoll = (draft) => {
       return newDraft;
     } else if (draft.poll.length > 0) {
       // change info of existing poll
-
+      console.log(`removing the poll`);
       _removePoll(draft);
       newDraft.poll = [];
       newDraft.poll = _createPoll(newDraft).poll;

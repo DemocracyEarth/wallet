@@ -138,7 +138,7 @@ Template.coin.helpers({
   },
   address() {
     const draft = Session.get('draftContract');
-    if (draft.blockchain && draft.blockchain.publicAddress && Session.get('newCoin').code !== 'WEB VOTE') {
+    if (draft.blockchain && draft.blockchain.publicAddress && Session.get('newCoin') && Session.get('newCoin').code !== 'WEB VOTE') {
       Session.set('checkBlockchainAddress', web3.utils.isAddress(draft.blockchain.publicAddress));
       return draft.blockchain.publicAddress;
     }
