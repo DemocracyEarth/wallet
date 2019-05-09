@@ -116,6 +116,9 @@ Template.navigation.helpers({
     }
     return false;
   },
+  navIcon() {
+    return Meteor.settings.public.Collective.profile.logo;
+  },
   icon() {
     return displayMenuIcon();
   },

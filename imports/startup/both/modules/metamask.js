@@ -26,7 +26,7 @@ const numeral = require('numeral');
 let web3;
 
 const modal = {
-  icon: 'images/olive.png',
+  icon: Meteor.settings.public.Collective.profile.logo,
   title: TAPi18n.__('wallet'),
   cancel: TAPi18n.__('close'),
   alertMode: true,

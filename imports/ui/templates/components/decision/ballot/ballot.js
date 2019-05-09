@@ -39,7 +39,7 @@ const _rejectVote = () => {
     displayModal(
       true,
       {
-        icon: 'images/olive.png',
+        icon: Meteor.settings.public.Collective.profile.logo,
         title: TAPi18n.__('place-vote'),
         message: TAPi18n.__('insufficient-votes'),
         action: TAPi18n.__('get-tokens'),
@@ -54,7 +54,7 @@ const _rejectVote = () => {
     displayModal(
       true,
       {
-        icon: 'images/olive.png',
+        icon: Meteor.settings.public.Collective.profile.logo,
         title: TAPi18n.__('place-vote'),
         message: TAPi18n.__('incompatible-requisites'),
         cancel: TAPi18n.__('close'),
@@ -72,7 +72,7 @@ const _pollClosed = () => {
   displayModal(
     true,
     {
-      icon: 'images/olive.png',
+      icon: Meteor.settings.public.Collective.profile.logo,
       title: TAPi18n.__('poll-closed'),
       message: TAPi18n.__('poll-is-closed'),
       cancel: TAPi18n.__('close'),
@@ -89,7 +89,7 @@ const _alreadyVoted = () => {
   displayModal(
     true,
     {
-      icon: 'images/olive.png',
+      icon: Meteor.settings.public.Collective.profile.logo,
       title: TAPi18n.__('already-voted'),
       message: TAPi18n.__('already-voted-detail'),
       cancel: TAPi18n.__('close'),
@@ -115,7 +115,7 @@ const _cryptoVote = () => {
             if (Meteor.settings.public.Collective.profile.logo) {
               icon = Meteor.settings.public.Collective.profile.logo;
             } else {
-              icon = 'images/olive.png';
+              icon = Meteor.settings.public.Collective.profile.logo;
             }
             displayModal(
               true,
@@ -173,7 +173,7 @@ const _cryptoVote = () => {
     displayModal(
       true,
       {
-        icon: 'images/olive.png',
+        icon: Meteor.settings.public.Collective.profile.logo,
         title: TAPi18n.__('place-vote'),
         message: TAPi18n.__('unlogged-cant-vote'),
         cancel: TAPi18n.__('close'),
@@ -829,7 +829,7 @@ Template.ballot.events({
               displayModal(
                 true,
                 {
-                  icon: 'images/olive.png',
+                  icon: Meteor.settings.public.Collective.profile.logo,
                   title: TAPi18n.__('place-vote'),
                   message: TAPi18n.__('insufficient-votes'),
                   cancel: TAPi18n.__('close'),
@@ -851,7 +851,7 @@ Template.ballot.events({
         displayModal(
           true,
           {
-            icon: 'images/olive.png',
+            icon: Meteor.settings.public.Collective.profile.logo,
             title: TAPi18n.__('place-vote'),
             message: TAPi18n.__('unlogged-cant-vote'),
             cancel: TAPi18n.__('close'),
@@ -901,7 +901,7 @@ Template.ballot.events({
       displayModal(
         true,
         {
-          icon: 'images/olive.png',
+          icon: Meteor.settings.public.Collective.profile.logo,
           title: TAPi18n.__('reply'),
           message: TAPi18n.__('unlogged-cant-reply'),
           cancel: TAPi18n.__('close'),
