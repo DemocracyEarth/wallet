@@ -69,18 +69,25 @@
           </div>
         </div>
       </div>
-      {{#if quadraticEnabled}}
+      {{#unless onChainVote}}
+        {{#if quadraticEnabled}}
+          <div class="election-rule">
+            {{{_ 'election-rule-quadratic'}}}
+            {{> help tooltip='voting-editor-quadratic-tooltip'}}
+          </div>
+        {{/if}}
+        {{#if balanceEnabled}}
+          <div class="election-rule">
+            {{{_ 'election-rule-balance'}}}
+            {{> help tooltip='voting-editor-balance-tooltip'}}
+          </div>
+        {{/if}}
+      {{else}}
         <div class="election-rule">
-          {{{_ 'election-rule-quadratic'}}}
-          {{> help tooltip='voting-editor-quadratic-tooltip'}}
+          {{{_ 'election-rule-onchain'}}}
+          {{> help tooltip='voting-editor-onchain-tooltip'}}
         </div>
-      {{/if}}
-      {{#if balanceEnabled}}
-        <div class="election-rule">
-          {{{_ 'election-rule-balance'}}}
-          {{> help tooltip='voting-editor-balance-tooltip'}}
-        </div>
-      {{/if}}
+      {{/unless}}
       {{#if pollingEnabled}}
         {{> poll list=pollList pollId=pollId editorMode=true pollTotals=0 quadratic=quadraticEnabled balance=balanceEnabled}}
       {{/if}}

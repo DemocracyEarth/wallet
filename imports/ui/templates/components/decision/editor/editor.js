@@ -395,6 +395,10 @@ Template.editor.helpers({
     }
     return closing;
   },
+  onChainVote() {
+    const draft = Session.get('draftContract')
+    return draft.rules ? (!draft.rules.balanceVoting && !draft.rules.quadraticVoting) : true;
+  },
 });
 
 Template.editor.events({
