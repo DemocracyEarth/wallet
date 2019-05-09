@@ -47,9 +47,9 @@
     "hoek": "^5.0.4",
     "https-proxy-agent": "^2.2.0",
     "human-standard-token-abi": "^2.0.0",
-    "json-schema-faker": "^0.3.7",
+    "json-schema-faker": "^0.4.7",
     "jsontokens": "^0.7.8",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.11",
     "nan": "^2.3.5",
     "numeral": "^2.0.6",
     "phantomjs-prebuilt": "^2.1.16",
@@ -61,7 +61,7 @@
     "react-fastclick": "^3.0.2",
     "slugify": "^1.3.1",
     "sshpk": "^1.13.2",
-    "web3": "^1.0.0-beta.34"
+    "web3": "^1.0.0-beta.55"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.0",
@@ -69,7 +69,7 @@
     "chai-string": "^1.3.0",
     "chimp": "^0.51.1",
     "escape-string-regexp": "^1.0.5",
-    "eslint": "^5.4.0",
+    "eslint": "^5.16.0",
     "eslint-config-airbnb": "^11.1.0",
     "eslint-import-resolver-meteor": "^0.3.3",
     "eslint-plugin-import": "^2.14.0",
