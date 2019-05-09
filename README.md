@@ -4,7 +4,7 @@
 
 # Sovereign
 
-Governance for Distributed Autonomous Organizations.
+Governance for Digital Organizations.
 
 [![Join the chat at https://gitter.im/DemocracyEarth/sovereign](https://badges.gitter.im/DemocracyEarth/sovereign.svg)](https://gitter.im/DemocracyEarth/sovereign?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Slack Status](http://chat.democracy.earth/badge.svg)](http://chat.democracy.earth)
@@ -22,25 +22,16 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
     * Tipping
     * Coin voting
     * Quadratic voting.
+  - [X] Social network tools.
   - [X] Comaptible with ERC20 and Non Fungible Tokens.
   - [X] Mobile & desktop responsive UX.
   - [X] Web3 Compatible.
 
 **Release:**
 
-[`version 0.5.1`](https://github.com/DemocracyEarth/sovereign/releases)
+* Currently [`version 0.5.1`](https://github.com/DemocracyEarth/sovereign/releases)
 
-**User Agreement:**  
-This [User Agreement](https://github.com/DemocracyEarth/sovereign/blob/master/UserAgreement.md) governs access to and use of the Democracy Earth platform.
-
-**Also:**
-
-Inspired by the 📃 [Universal Declaration of Human Rights](https://en.wikipedia.org/wiki/Universal_Declaration_of_Human_Rights).
-
->   _Everyone has the right to freedom of opinion and expression; this right includes freedom to hold opinions without interference and to seek, receive and impart information and ideas through any media and regardless of frontiers. Everyone has the right to freedom of peaceful assembly and association. Everyone has the right to take part in the government of his country, directly or through freely chosen representatives._
-
-
-Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mastering-Transition-Information/dp/0684832720) ✊.
+* This [User Agreement](https://github.com/DemocracyEarth/sovereign/blob/master/UserAgreement.md) governs access to and use of the Democracy Earth platform.
 
 ## Setup
 
@@ -85,7 +76,7 @@ Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mas
     $ meteor npm run start:dev
     ```
 
-    Load browser and go to [http://localhost:3000/](http://localhost:3000/) 🔥
+    Load browser and go to [http://localhost:3000/](http://localhost:3000/).
 
     > _Note:_ For production deploys you should use:
     > ``` $ meteor npm run start ```
@@ -96,8 +87,6 @@ Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mas
     Check `/config/development/settings.json` to configure Sovereign for your organization's governance needs.
 
     On `/public/templates/` you will different template settings that can modify look & feel of the application. 
-
-    🕊
 
 ## Live
 
@@ -115,7 +104,7 @@ Built for [personal sovereignty](https://www.amazon.com/Sovereign-Individual-Mas
 
 * Built on [Meteor](https://www.meteor.com/) version 1.8.1
 
-Check our [documentation](https://github.com/DemocracyEarth/sovereign/tree/master/docs) for technical reference.
+* Check our [documentation](http://docs.democracy.earth) for further technical reference (work in progress).
 
 **Supported Browsers:**
 
@@ -163,7 +152,7 @@ Support our work with [Bitcoin](https://github.com/bitcoin) & other cryptocurren
 
 ## About
 
-Democracy Earth Foundation is a _501 (c) 3 not for profit corporation_ in San Francisco, California 🌎 with no political affiliations of any kind. Our partners include:
+Democracy Earth Foundation is a _501 (c) 3 not for profit corporation_ in San Francisco, California with no political affiliations. Our partners include:
 
 <p align="left">
 <a href="https://ycombinator.com"><img src="public/images/yc.png" width="200" title="Y Combinator"></a>
