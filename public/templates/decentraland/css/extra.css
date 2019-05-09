@@ -602,18 +602,6 @@ width: 1px;
   opacity:0.2;
 }
 
-.election-rule {
-  background: #e8ddec;
-  color: #5a0074;
-  font-size: 13px;
-  display: inline-block;
-  padding: 0px 5px;
-  border-radius: 5px;
-  line-height: 28px;
-  margin: 15px 5px 0px -5px;
-  cursor: default;
-};
-
 .budget {
   margin-top:15px;
 }
@@ -934,7 +922,14 @@ width: 1px;
     margin: 15px 5px 0px 0px;
     cursor: default;
     border-bottom: 1px dashed #5a0074;
-};
+}
+
+@media (max-width: 991px) {
+  .election-rule {
+    margin-bottom: 10px;
+  }
+}
+
 
 .budget {
   margin-top:15px;
@@ -1040,6 +1035,13 @@ width: 1px;
 .countdown-timer.countdown-timer-final {
   background: #ff617e;
 }
+
+@media (max-width: 991px) {
+  .countdown { 
+    margin-bottom: 15px;
+  }
+}
+
 
 .help {
       display: block;

@@ -4045,6 +4045,7 @@ blockquote {
 .navbar-button.navbar-button-active.navbar-button-action:hover {
   background-image: -webkit-gradient(linear, left top, left bottom, from(#f04), to(#ff9a74));
   background-image: linear-gradient(180deg, #f04, #ff9a74);
+  color:white;
 }
 
 .navbar-button.navbar-button-active.navbar-button-action.navbar-button-action-disabled {
@@ -4350,7 +4351,7 @@ blockquote {
   width: 70px;
   height: 70px;
   border-radius: 50px;
-  background-color: #00d9ff;
+  background-color: #9695c3;
   box-shadow: 0 2px 20px -5px #000;
   color: #fff;
   font-weight: 200;
@@ -6823,7 +6824,6 @@ blockquote {
     box-shadow: none;
   }
   .vote.vote-search.vote-feed {
-    box-shadow: none;
   }
   .vote.vote-search.vote-feed.vote-delegation {
     box-shadow: none;

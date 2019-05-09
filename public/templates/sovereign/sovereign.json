@@ -69,6 +69,9 @@
     "electorate-check-editor": "/templates/sovereign/images/electorate-check-editor.png",
     "electorate-check-enabled": "/templates/sovereign/images/electorate-check-enabled.png",
     "electorate-check-reject-active": "/templates/sovereign/images/electorate-check-reject-active.png",
-    "electorate-check-reject-enabled": "/templates/sovereign/images/electorate-check-reject-enabled.png"
+    "electorate-check-reject-enabled": "/templates/sovereign/images/electorate-check-reject-enabled.png",
+    "navbar-icon": "/images/olive.png",
+    "navbar-burger": "/templates/sovereign/images/burger.png",
+    "navbar-burger-active": "/templates/sovereign/images/burger-active.png"    
   }
 }
