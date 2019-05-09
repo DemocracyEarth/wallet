@@ -22,7 +22,7 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
     * Tipping
     * Coin voting
     * Quadratic voting.
-  - [X] Social network tools.
+  - [X] Social networking tools for deliberation.
   - [X] Comaptible with ERC20 and Non Fungible Tokens.
   - [X] Mobile & desktop responsive UX.
   - [X] Web3 Compatible.
