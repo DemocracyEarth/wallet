@@ -86,7 +86,7 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
 0. **Configure**
 
     * Check `/config/development/settings.json` to configure Sovereign for your organization's governance needs.
-    * On `/public/templates/` different template style folders hava a `templateName.json` settings file and designs on `./css/`. 
+    * On `/public/templates/` different template style folders are available. The file `templateName.json` can be configured and a css design can be found on `/public/templates/name/css` folder.
 
 ## Live
 
