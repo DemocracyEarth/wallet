@@ -22,15 +22,14 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
     * Tipping
     * Coin voting
     * Quadratic voting.
+  - [X] Supports [ERC20](https://github.com/ethereum/eips/issues/20) and [ERC721](https://github.com/ethereum/eips/issues/721) tokens.    
   - [X] Social networking tools for deliberation.
-  - [X] Comaptible with ERC20 and Non Fungible Tokens.
   - [X] Mobile & desktop responsive UX.
-  - [X] Web3 Compatible.
+  - [X] Built for EVM-compatible blockchains with [Web3](https://github.com/ethereum/web3.js/).
 
 **Release:**
 
 * Currently [`version 0.5.1`](https://github.com/DemocracyEarth/sovereign/releases)
-
 * This [User Agreement](https://github.com/DemocracyEarth/sovereign/blob/master/UserAgreement.md) governs access to and use of the Democracy Earth platform.
 
 ## Setup
@@ -84,9 +83,8 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
 
 0. **Configure**
 
-    Check `/config/development/settings.json` to configure Sovereign for your organization's governance needs.
-
-    On `/public/templates/` you will different template settings that can modify look & feel of the application. 
+    * Check `/config/development/settings.json` to configure Sovereign for your organization's governance needs.
+    * On `/public/templates/` different template style folders hava a `templateName.json` settings file and designs on `./css/`. 
 
 ## Live
 
@@ -103,7 +101,6 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
 ## Specifications
 
 * Built on [Meteor](https://www.meteor.com/) version 1.8.1
-
 * Check our [documentation](http://docs.democracy.earth) for further technical reference (work in progress).
 
 **Supported Browsers:**
@@ -117,13 +114,10 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
 
 Sovereign is a **free & open source project**.
 
-Check our [contributors list](https://github.com/DemocracyEarth/sovereign/graphs/contributors).
-
-If you want to collaborate with pull requests (features, fixes, issues, projects), please follow our [contributing guidelines](CONTRIBUTING.md).
-
-Available tasks in the [to do list](TODO.md) to join.
-
-Also you can find our projects and tasks in the [project area](https://github.com/DemocracyEarth/sovereign/projects).
+* Check our [contributors list](https://github.com/DemocracyEarth/sovereign/graphs/contributors).
+* If you want to collaborate with pull requests (features, fixes, issues, projects), please follow our [contributing guidelines](CONTRIBUTING.md).
+* Available tasks in the [to do list](TODO.md) to join.
+* Also you can find our projects and tasks in the [project area](https://github.com/DemocracyEarth/sovereign/projects).
 
 ### Backers:
 
