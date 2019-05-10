@@ -16,7 +16,7 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
 <img src="public/images/sovereign-screenshot-2018.png" width="800" title="Sovereign Screenshot 2018">
 </p>
 
-**Features:**
+## Features
 
   - [X] On-chain and Off-chain voting.
     * Tipping
