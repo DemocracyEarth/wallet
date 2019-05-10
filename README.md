@@ -25,6 +25,8 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
   - [X] Supports [ERC20](https://github.com/ethereum/eips/issues/20) and [ERC721](https://github.com/ethereum/eips/issues/721) tokens.    
   - [X] Social networking tools for deliberation.
   - [X] Mobile & desktop responsive UX.
+  - [X] Server-based web tokens.
+  - [X] Templates and governance settings.
   - [X] Built for EVM-compatible blockchains with [Web3](https://github.com/ethereum/web3.js/).
 
 **Release:**
