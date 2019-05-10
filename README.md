@@ -90,7 +90,7 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
 
 ## Live
 
-* Democracy Earth Foundation: [democracy.earth](https://democracy.earth).
+* Democracy Earth: [democracy.earth](https://democracy.earth).
 * Decentraland: [agora.decentraland.org](https://agora.decentraland.org).
 * Blockstack: [vote.blockstack.org](https://vote.blockstack.org).
 
@@ -102,7 +102,7 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
 
 ## Specifications
 
-* Built on [Meteor](https://www.meteor.com/) version 1.8.1
+* Built with [Meteor](https://www.meteor.com/) version 1.8.1
 * Check our [documentation](http://docs.democracy.earth) for further technical reference (work in progress).
 
 **Supported Browsers:**
