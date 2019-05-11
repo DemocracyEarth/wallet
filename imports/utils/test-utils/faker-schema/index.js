@@ -33,6 +33,6 @@ export const fakerSchema = {
     Tag,
     DelegationContract,
     Delegation,
-    Vote
-  }
-}
+    Vote,
+  },
+};

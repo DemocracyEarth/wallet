@@ -5,22 +5,22 @@ export const Wallet = {
   properties: {
     balance: {
       type: 'number',
-      minimum: 0
+      minimum: 0,
     },
     placed: {
       type: 'number',
-      minimum: 0
+      minimum: 0,
     },
     available: {
       type: 'number',
-      minimum: 0
+      minimum: 0,
     },
     currency: {
       enum: [
         'BITCOIN',
         'SATOSHI',
-        'VOTES'
-      ]
+        'VOTES',
+      ],
     },
     address: {
       type: 'array',
@@ -28,13 +28,13 @@ export const Wallet = {
         type: 'object',
         properties: {
           hash: {
-            type: 'string'
+            type: 'string',
           },
           collectiveId: {
-            type: 'string'
-          }
-        }
-      }
+            type: 'string',
+          },
+        },
+      },
     },
     ledger: {
       type: 'array',
@@ -42,27 +42,27 @@ export const Wallet = {
         type: 'object',
         properties: {
           txId: {
-            type: 'string'
+            type: 'string',
           },
           quantity: {
-            type: 'number'
+            type: 'number',
           },
           entityId: {
             enum: [
               'BITCOIN',
               'SATOSHI',
-              'VOTES'
-            ]
+              'VOTES',
+            ],
           },
           ballot: {
             type: 'array',
             items: {
-              type: Ballot
-            }
-          }
-        }
-      }
-    }
+              type: Ballot,
+            },
+          },
+        },
+      },
+    },
   },
   required: [
     'balance',
@@ -70,6 +70,6 @@ export const Wallet = {
     'available',
     'currency',
     'address',
-    'ledger'
-  ]
+    'ledger',
+  ],
 };

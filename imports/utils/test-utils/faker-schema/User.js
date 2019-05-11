@@ -8,12 +8,12 @@ export const Credential = {
       enum: ['facebook', 'twitter', 'linkedin', 'github', 'peer'],
     },
     URL: {
-      faker: 'internet.url'
+      faker: 'internet.url',
     },
     validated: {
-      type: 'boolean'
-    }
-  }
+      type: 'boolean',
+    },
+  },
 };
 
 export const Menu = {
@@ -21,13 +21,13 @@ export const Menu = {
   properties: {
     feed: 'all',
     lastView: {
-      faker: 'date.past'
+      faker: 'date.past',
     },
     newItems: {
       type: 'number',
-      minimum: 0
-    }
-  }
+      minimum: 0,
+    },
+  },
 };
 
 export const Profile = {
@@ -37,26 +37,26 @@ export const Profile = {
       faker: 'name.firstName',
     },
     lastName: {
-      faker: 'name.lastName'
+      faker: 'name.lastName',
     },
     picture: {
-      faker: 'image.imageUrl'
+      faker: 'image.imageUrl',
     },
     country: Country,
     birthday: {
-      faker: 'date.past'
+      faker: 'date.past',
     },
     gender: {
-      enum: ['Male', 'Female']
+      enum: ['Male', 'Female'],
     },
-    organization : {
-      faker: 'company.companyName'
+    organization: {
+      faker: 'company.companyName',
     },
     website: {
-      faker: 'internet.url'
+      faker: 'internet.url',
     },
     bio: {
-      type: 'string'
+      type: 'string',
     },
     configured: {
       type: 'boolean',
@@ -64,27 +64,27 @@ export const Profile = {
     credentials: {
       type: 'array',
       items: {
-        type: Credential
-      }
+        type: Credential,
+      },
     },
     url: {
-      faker: 'internel.url'
+      faker: 'internel.url',
     },
     menu: {
       type: 'array',
       items: {
-        type: Menu
-      }
+        type: Menu,
+      },
     },
-    wallet: Wallet
-  }
+    wallet: Wallet,
+  },
 };
 
 export const User = {
   type: 'object',
   properties: {
     username: {
-      faker: 'internet.userName'
+      faker: 'internet.userName',
     },
     emails: {
       type: 'array',
@@ -92,45 +92,42 @@ export const User = {
         type: 'object',
         properties: {
           address: {
-            faker: 'internet.email'
+            faker: 'internet.email',
           },
           verified: {
-            type: 'boolean'
-          }
+            type: 'boolean',
+          },
         },
         required: [
           'address',
-          'verified'
-        ]
-      }
+          'verified',
+        ],
+      },
     },
     registered_emails: {
       type: 'array',
       items: {
-        type: 'object'
-      }
+        type: 'object',
+      },
     },
     createdAt: {
-      faker: 'date.past'
+      faker: 'date.past',
     },
     profile: {
-      type: Profile
+      type: Profile,
     },
     services: {
-      type: 'object'
-    },
-    roles: {
-      type: 'object'
+      type: 'object',
     },
     roles: {
       type: 'array',
       items: {
-        type: 'string'
-      }
+        type: 'string',
+      },
     },
     heartbeat: {
-      faker: 'date.past'
-    }
+      faker: 'date.past',
+    },
   },
-  required: ['createdAt']
+  required: ['createdAt'],
 };

@@ -4,39 +4,39 @@ export const Ticket = {
   type: 'object',
   properties: {
     entityId: {
-      type: 'string'
+      type: 'string',
     },
     address: {
-      type: 'string'
+      type: 'string',
     },
     entityType: {
       enum: [
         'INDIVIDUAL',
         'COLLECTIVE',
         'CONTRACT',
-        'UNKNOWN'
-      ]
+        'UNKNOWN',
+      ],
     },
     quantity: {
       type: 'number',
-      minimum: 0
+      minimum: 0,
     },
     currency: {
       enum: [
         'BITCOIN',
         'SATOSHI',
-        'VOTES'
-      ]
-    }
+        'VOTES',
+      ],
+    },
   },
   required: [
     'entityId',
     'address',
     'entityType',
     'quantity',
-    'currency'
-  ]
-}
+    'currency',
+  ],
+};
 
 export const Transaction = {
   type: 'object',
@@ -48,34 +48,34 @@ export const Transaction = {
         'VOTE',
         'DELEGATION',
         'MEMBERSHIP',
-        'UNKNOWN'
-      ]
+        'UNKNOWN',
+      ],
     },
     contractId: {
-      type: 'string'
+      type: 'string',
     },
     timestamp: {
       type: 'string',
-      faker: 'date.past'
+      faker: 'date.past',
     },
     condition: {
       type: 'object',
       properties: {
         expiration: {
           type: 'string',
-          faker: 'date.future'
+          faker: 'date.future',
         },
         transferable: {
-          type: 'boolean'
+          type: 'boolean',
         },
         portable: {
-          type: 'boolean'
+          type: 'boolean',
         },
         ballot: {
           type: 'array',
           items: {
-            type: Ballot
-          }
+            type: Ballot,
+          },
         },
         tags: {
           type: 'array',
@@ -86,25 +86,25 @@ export const Transaction = {
                 enum: [
                   'PENDING',
                   'REJECTED',
-                  'CONFIRMED'
-                ]
-              }
+                  'CONFIRMED',
+                ],
+              },
             },
             required: [
-              'status'
-            ]
-          }
-        }
+              'status',
+            ],
+          },
+        },
       },
       required: [
         'expiration',
         'transferable',
-        'portable'
-      ]
-    }
+        'portable',
+      ],
+    },
   },
   required: [
     'input',
-    'output'
-  ]
+    'output',
+  ],
 };
