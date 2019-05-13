@@ -2,24 +2,24 @@ export const Ballot = {
   type: 'object',
   properties: {
     _id: {
-      type: 'string'
+      type: 'string',
     },
     mode: {
-      type: 'string'
+      type: 'string',
     },
     rank: {
-      type: 'number'
+      type: 'number',
     },
     url: {
       type: 'string',
-      faker: 'internet.url'
+      faker: 'internet.url',
     },
     label: {
-      type: 'string'
-    }
+      type: 'string',
+    },
   },
   required: [
     '_id',
-    'mode'
-  ]
+    'mode',
+  ],
 };

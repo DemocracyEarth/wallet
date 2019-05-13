@@ -5,17 +5,17 @@ export const Country = {
   properties: {
     name: {
       type: 'string',
-      faker: 'address.country'
+      faker: 'address.country',
     },
     code: {
       type: 'string',
-      faker: 'address.countryCode'
-    }
+      faker: 'address.countryCode',
+    },
   },
   required: [
     'name',
-    'code'
-  ]
+    'code',
+  ],
 };
 
 export const Jurisdiction = {
@@ -25,85 +25,85 @@ export const Jurisdiction = {
       type: 'object',
       properties: {
         taxId: {
-          type: 'string'
+          type: 'string',
         },
         name: {
-          type: 'string'
+          type: 'string',
         },
         type: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       },
       required: [
-        'name'
-      ]
+        'name',
+      ],
     },
     location: {
       type: 'object',
       properties: {
         address: {
-          type: 'string'
+          type: 'string',
         },
         state: {
           type: 'string',
-          faker: 'address.state'
+          faker: 'address.state',
         },
         country: {
-          type: Country
-        }
-      }
-    }
-  }
-}
+          type: Country,
+        },
+      },
+    },
+  },
+};
 
 export const CollectiveProfile = {
   type: 'object',
   properties: {
     website: {
       type: 'string',
-      faker: 'internet.url'
+      faker: 'internet.url',
     },
     bio: {
-      type: 'string'
+      type: 'string',
     },
     blockchain: {
       type: 'object',
       properties: {
         address: {
-          type: 'string'
-        }
-      }
+          type: 'string',
+        },
+      },
     },
     logo: {
-      type: 'string'
+      type: 'string',
     },
     jurisdiction: {
-      type: Jurisdiction
+      type: Jurisdiction,
     },
     foundation: {
-      faker: 'date.past'
+      faker: 'date.past',
     },
     goal: {
-      enum: ['Profit', 'Free']
+      enum: ['Profit', 'Free'],
     },
     owners: {
-      type: 'string'
+      type: 'string',
     },
     configured: {
-      type: 'boolean'
+      type: 'boolean',
     },
-    wallet: Wallet
+    wallet: Wallet,
   },
-}
+};
 
 export const Collective = {
   type: 'object',
   properties: {
     name: {
-      type: 'string'
+      type: 'string',
     },
     domain: {
-      type: 'string'
+      type: 'string',
     },
     emails: {
       type: 'array',
@@ -112,23 +112,23 @@ export const Collective = {
         properties: {
           address: {
             type: 'string',
-            faker: 'internet.email'
+            faker: 'internet.email',
           },
           verified: {
-            type: 'boolean'
-          }
+            type: 'boolean',
+          },
         },
         required: [
           'address',
-          'verified'
-        ]
-      }
+          'verified',
+        ],
+      },
     },
     profile: {
-      type: CollectiveProfile
+      type: CollectiveProfile,
     },
     goal: {
-      enum: ['Business', 'Free', 'Commons']
+      enum: ['Business', 'Free', 'Commons'],
     },
     authorities: {
       type: 'array',
@@ -136,14 +136,14 @@ export const Collective = {
         type: 'object',
         properties: {
           userId: {
-            type: 'string'
-          }
-        }
-      }
-    }
+            type: 'string',
+          },
+        },
+      },
+    },
   },
   required: [
     'name',
-    'domain'
-  ]
-}
+    'domain',
+  ],
+};
