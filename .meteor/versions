@@ -86,6 +86,7 @@ meteorhacks:picker@1.0.3
 meteorhacks:search-source@1.4.2
 meteorhacks:ssr@2.2.0
 meteorspark:util@0.2.0
+meteorsteam:meteor-postgres@0.1.4
 minifier-css@1.4.2
 minimongo@1.4.5
 miro:preloader@1.2.4
