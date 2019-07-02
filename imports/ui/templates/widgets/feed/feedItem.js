@@ -369,7 +369,7 @@ Template.feedItem.helpers({
     return [getAnonymous()];
   },
   tally() {
-    return this.tally;
+    return (this.rules && this.rules.pollVoting) ? Template.instance().pollingEnabled.get() : this.tally;
   },
   userIsAuthor(signatures) {
     if (Meteor.user() != null) {

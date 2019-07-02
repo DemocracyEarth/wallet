@@ -11,7 +11,7 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { setupWeb3 } from '/imports/startup/both/modules/metamask.js';
 import { displayNotice } from '/imports/ui/modules/notice';
-import { token } from '/lib/token';
+import { tokenWeb } from '/lib/token';
 
 if (Meteor.isClient) {
   import '/imports/ui/templates/layout/main.js';
@@ -105,7 +105,11 @@ Router.configure({
       HTTP.get(Meteor.absoluteUrl(Meteor.settings.public.web.template.settings), function (err, result) {
         if (!err) {
           HTTP.get(Meteor.absoluteUrl(result.data.lib.token), function (err, result) {
-            Session.set('token', result.data);
+            const tokens = result.data;
+            if (Meteor.settings.public.app.config.allowWebVotes) {
+              tokens.coin = tokens.coin.concat(tokenWeb.coin);
+            }
+            Session.set('token', tokens);
           });
         }
       });
