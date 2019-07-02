@@ -288,6 +288,7 @@ Template.feed.helpers({
       }
       Template.instance().lastItemDate.set(feed[feed.length - 1].createdAt);
     }
+    console.log(feed);
     return feed;
   },
   lastItem() {
