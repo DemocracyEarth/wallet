@@ -401,7 +401,6 @@ Template.feedItem.helpers({
   },
   pollingEnabled() {
     return Template.instance().pollingEnabled.get();
-    // return this.rules ? this.rules.pollVoting : false;
   },
   quadraticEnabled() {
     return this.rules ? this.rules.quadraticVoting : false;

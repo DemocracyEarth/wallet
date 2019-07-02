@@ -84,6 +84,10 @@ Template.poll.helpers({
     }
     return item;
   },
+  listItem() {
+    console.log(`this.pollList: ${JSON.stringify(this.list)}`);
+    return this.list;
+  },
   quadratic() {
     return this.quadratic;
   },
