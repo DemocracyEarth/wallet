@@ -6,11 +6,9 @@ import { Meteor } from 'meteor/meteor';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { animatePopup } from '/imports/ui/modules/popup';
 import { searchJSON } from '/imports/ui/modules/JSON';
-import { token } from '/lib/token';
+import { token, tokenWeb } from '/lib/token';
 import { createPoll, removePoll } from '/imports/startup/both/modules/Contract';
-import { Contracts } from '/imports/api/contracts/Contracts';
 import { getCoin } from '/imports/api/blockchain/modules/web3Util';
-import { tokenWeb } from '/lib/token';
 
 import '/imports/ui/templates/widgets/setting/setting.js';
 import '/imports/ui/templates/components/decision/coin/coin.html';

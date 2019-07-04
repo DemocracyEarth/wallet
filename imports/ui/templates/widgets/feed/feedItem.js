@@ -16,6 +16,7 @@ import { addChoiceToBallot, getTotalVoters, getRightToVote, getBallot } from '/i
 import { displayNotice } from '/imports/ui/modules/notice';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
+import { tokenWeb } from '/lib/token';
 
 import '/imports/ui/templates/widgets/feed/feedItem.html';
 import '/imports/ui/templates/widgets/transaction/transaction.js';
@@ -370,6 +371,9 @@ Template.feedItem.helpers({
   },
   tally() {
     return (this.rules && this.rules.pollVoting) ? Template.instance().pollingEnabled.get() : this.tally;
+  },
+  webVote() {
+    return this.blockchain.coin.code === tokenWeb.coin[0].code;
   },
   userIsAuthor(signatures) {
     if (Meteor.user() != null) {

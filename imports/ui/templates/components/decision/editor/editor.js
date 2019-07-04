@@ -11,6 +11,7 @@ import { timers } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { createContract } from '/imports/startup/both/modules/Contract';
 import { timeCompressed } from '/imports/ui/modules/chronos';
+import { tokenWeb } from '/lib/token';
 
 import '/imports/ui/templates/components/decision/editor/editor.html';
 import '/imports/ui/templates/components/decision/editor/editorButton.js';
@@ -325,6 +326,9 @@ Template.editor.helpers({
   },
   getImage(pic) {
     return getImage(Template.instance().imageTemplate.get(), pic);
+  },
+  webVote() {
+    return Session.get('draftContract').blockchain.coin.code === tokenWeb.coin[0].code;
   },
   menu() {
     return [
