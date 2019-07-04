@@ -26,7 +26,6 @@ Template.poll.onRendered(function () {
 
     instance.handle = dbQuery.observeChanges({
       addedBefore: (id, fields) => {
-        console.log(`addedBeforing... ${id}`);
         const currentFeed = instance.contracts.get();
         const post = fields;
 
@@ -41,7 +40,6 @@ Template.poll.onRendered(function () {
         instance.ready.set(true);
       },
       changed: (id, fields) => {
-        console.log('changing...');
         const feed = instance.contracts.get();
 
         for (let i = 0; i < feed.length; i += 1) {
@@ -53,8 +51,7 @@ Template.poll.onRendered(function () {
 
         instance.contracts.set(feed);
       },
-      removed: (id) => {
-        console.log(`removing... ${id}`);
+      removed: () => {
         const feed = instance.contracts.get();
 
         if (instance.data.editorMode) {
@@ -68,7 +65,6 @@ Template.poll.onRendered(function () {
               }
             }
             if (!isDraftPoll) {
-              console.log(`DELETE: ${feed[i]._id}`);
               feed.splice(i, 1);
               break;
             }
@@ -89,7 +85,7 @@ Template.poll.helpers({
   item() {
     const item = [];
     const contracts = Template.instance().contracts.get();
-    console.log(contracts);
+
     for (let i = 0; i < contracts.length; i += 1) {
       item.push({
         contract: contracts[i],
