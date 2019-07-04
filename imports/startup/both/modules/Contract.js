@@ -320,7 +320,6 @@ const _createPoll = (draft) => {
       return newDraft;
     } else if (draft.poll.length > 0) {
       // change info of existing poll
-      console.log(`removing the poll`);
       _removePoll(draft);
       newDraft.poll = [];
       newDraft.poll = _createPoll(newDraft).poll;

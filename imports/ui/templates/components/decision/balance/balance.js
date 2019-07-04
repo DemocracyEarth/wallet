@@ -94,11 +94,13 @@ Template.balance.helpers({
     return style;
   },
   tickerStyle() {
+    let style = '';
+    Template.instance().coin = getCoin(Template.currentData().token);
     const coin = Template.instance().coin;
     if (coin.color) {
-      return `background-color: ${coin.color}; border-color: ${coin.color};`;
+      style = `background-color: ${coin.color}; border-color: ${coin.color};`;
     }
-    return '';
+    return style;
   },
   hasDate() {
     return this.date;

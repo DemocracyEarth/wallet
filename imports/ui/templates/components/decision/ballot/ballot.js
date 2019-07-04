@@ -673,6 +673,8 @@ Template.ballot.helpers({
     const instance = Template.instance();
     const ticket = instance.ticket.get();
     ticket.rules = this.contract.rules;
+    console.log(`ticket:`);
+    console.log(ticket);
     return ticket;
   },
   hasPoll() {

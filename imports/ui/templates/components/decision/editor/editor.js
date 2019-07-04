@@ -173,6 +173,7 @@ Template.editor.onCreated(function () {
   Template.instance().ready = new ReactiveVar(true);
   Template.instance().contract = new ReactiveVar(contract);
   Template.instance().reply = new ReactiveVar();
+  Template.instance().pollingEnabled = new ReactiveVar(false);
 
   Template.instance().imageTemplate = new ReactiveVar();
   templetize(Template.instance());
@@ -263,6 +264,7 @@ Template.editor.helpers({
     return false;
   },
   pollingEnabled() {
+    // return Template.instance().pollingEnabled.get();
     return Session.get('draftContract') ? Session.get('draftContract').rules.pollVoting : false;
   },
   pollList() {
@@ -278,9 +280,6 @@ Template.editor.helpers({
     const balance = draft.rules ? draft.rules.balanceVoting : false;
     const pollId = draft ? draft._id : false;
     const list = draft ? draft.poll : false;
-
-    console.log('this has new poll settings');
-    console.log(JSON.stringify(draft.poll));
 
     return {
       list,

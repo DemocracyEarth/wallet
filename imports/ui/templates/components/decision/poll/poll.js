@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { Session } from 'meteor/session';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { query } from '/lib/views';
@@ -25,6 +26,7 @@ Template.poll.onRendered(function () {
 
     instance.handle = dbQuery.observeChanges({
       addedBefore: (id, fields) => {
+        console.log(`addedBeforing... ${id}`);
         const currentFeed = instance.contracts.get();
         const post = fields;
 
@@ -39,6 +41,7 @@ Template.poll.onRendered(function () {
         instance.ready.set(true);
       },
       changed: (id, fields) => {
+        console.log('changing...');
         const feed = instance.contracts.get();
 
         for (let i = 0; i < feed.length; i += 1) {
@@ -51,12 +54,24 @@ Template.poll.onRendered(function () {
         instance.contracts.set(feed);
       },
       removed: (id) => {
+        console.log(`removing... ${id}`);
         const feed = instance.contracts.get();
 
-        for (let i = 0; i < feed.length; i += 1) {
-          if (feed[i]._id === id) {
-            feed.splice(i, 1);
-            break;
+        if (instance.data.editorMode) {
+          const draft = Session.get('draftContract');
+          for (let i = 0; i < feed.length; i += 1) {
+            let isDraftPoll = false;
+            for (let k = 0; k < draft.poll.length; k += 1) {
+              if (feed[i]._id === draft.poll[k].contractId) {
+                isDraftPoll = true;
+                break;
+              }
+            }
+            if (!isDraftPoll) {
+              console.log(`DELETE: ${feed[i]._id}`);
+              feed.splice(i, 1);
+              break;
+            }
           }
         }
 
@@ -74,7 +89,7 @@ Template.poll.helpers({
   item() {
     const item = [];
     const contracts = Template.instance().contracts.get();
-
+    console.log(contracts);
     for (let i = 0; i < contracts.length; i += 1) {
       item.push({
         contract: contracts[i],
@@ -85,7 +100,6 @@ Template.poll.helpers({
     return item;
   },
   listItem() {
-    console.log(`this.pollList: ${JSON.stringify(this.list)}`);
     return this.list;
   },
   quadratic() {
