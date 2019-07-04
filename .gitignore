@@ -2,6 +2,8 @@
 config/production/settings.json
 config/production/decentraland.json
 config/production/colorado.json
+config/production/rinkeby.json
+config/production/goerli.json
 config/staging/settings.json
 
 .vscode
