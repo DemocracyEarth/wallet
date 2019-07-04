@@ -11,6 +11,7 @@ import { timers } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { createContract } from '/imports/startup/both/modules/Contract';
 import { timeCompressed } from '/imports/ui/modules/chronos';
+import { tokenWeb } from '/lib/token';
 
 import '/imports/ui/templates/components/decision/editor/editor.html';
 import '/imports/ui/templates/components/decision/editor/editorButton.js';
@@ -173,6 +174,7 @@ Template.editor.onCreated(function () {
   Template.instance().ready = new ReactiveVar(true);
   Template.instance().contract = new ReactiveVar(contract);
   Template.instance().reply = new ReactiveVar();
+  Template.instance().pollingEnabled = new ReactiveVar(false);
 
   Template.instance().imageTemplate = new ReactiveVar();
   templetize(Template.instance());
@@ -263,6 +265,7 @@ Template.editor.helpers({
     return false;
   },
   pollingEnabled() {
+    // return Template.instance().pollingEnabled.get();
     return Session.get('draftContract') ? Session.get('draftContract').rules.pollVoting : false;
   },
   pollList() {
@@ -278,9 +281,6 @@ Template.editor.helpers({
     const balance = draft.rules ? draft.rules.balanceVoting : false;
     const pollId = draft ? draft._id : false;
     const list = draft ? draft.poll : false;
-
-    console.log('this has new poll settings');
-    console.log(JSON.stringify(draft.poll));
 
     return {
       list,
@@ -326,6 +326,9 @@ Template.editor.helpers({
   },
   getImage(pic) {
     return getImage(Template.instance().imageTemplate.get(), pic);
+  },
+  webVote() {
+    return Session.get('draftContract').blockchain.coin.code === tokenWeb.coin[0].code;
   },
   menu() {
     return [

@@ -186,6 +186,18 @@ Meteor.publish('singleContract', function (terms) {
 });
 
 /**
+* @summary gets the contracts that are used for a poll
+* @return {Object} querying terms
+*/
+Meteor.publish('pollContracts', function (terms) {
+  check(terms, Object);
+  const parameters = query(terms);
+  log(`{ publish: 'pollContracts', user: ${logUser()}, poll: ${JSON.stringify(terms.poll)}`);
+  return Contracts.find(parameters.find, parameters.options);
+});
+
+
+/**
 * @summary gets a specific delegation
 * @return {Object} querying terms
 */

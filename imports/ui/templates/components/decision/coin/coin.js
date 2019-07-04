@@ -6,9 +6,8 @@ import { Meteor } from 'meteor/meteor';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { animatePopup } from '/imports/ui/modules/popup';
 import { searchJSON } from '/imports/ui/modules/JSON';
-import { token } from '/lib/token';
+import { token, tokenWeb } from '/lib/token';
 import { createPoll, removePoll } from '/imports/startup/both/modules/Contract';
-import { Contracts } from '/imports/api/contracts/Contracts';
 import { getCoin } from '/imports/api/blockchain/modules/web3Util';
 
 import '/imports/ui/templates/widgets/setting/setting.js';
@@ -86,8 +85,20 @@ const _checkInputs = () => {
   return !(Session.get('noCoinFound')
     || Session.get('newCoin') === ''
     || (Session.get('draftContract').blockchain.publicAddress && !Session.get('checkBlockchainAddress'))
-    || (!Meteor.user().profile.wallet.reserves && Session.get('draftContract').blockchain.coin.code !== 'WEB VOTE')
-    || (_verifyBlockchainAddress() && Session.get('newCoin') && Session.get('newCoin').code !== 'WEB VOTE'));
+    || (!Meteor.user().profile.wallet.reserves && Session.get('draftContract').blockchain.coin.code !== tokenWeb.coin[0].code)
+    || (_verifyBlockchainAddress() && Session.get('newCoin') && Session.get('newCoin').code !== tokenWeb.coin[0].code));
+};
+
+/**
+* @summary checks if needs a valid address to continue
+* @return {boolean} true or false baby
+*/
+const _brokenAddress = () => {
+  const newCoin = Session.get('newCoin');
+  if ((newCoin && (newCoin.code === tokenWeb.coin[0].code)) || (!newCoin && (Session.get('draftContract').blockchain.coin.code === tokenWeb.coin[0].code))) {
+    return false;
+  }
+  return Session.get('isAddressWrong');
 };
 
 Template.coin.onCreated(() => {
@@ -138,7 +149,7 @@ Template.coin.helpers({
   },
   address() {
     const draft = Session.get('draftContract');
-    if (draft.blockchain && draft.blockchain.publicAddress && Session.get('newCoin') && Session.get('newCoin').code !== 'WEB VOTE') {
+    if (draft.blockchain && draft.blockchain.publicAddress && Session.get('newCoin') && Session.get('newCoin').code !== tokenWeb.coin[0].code) {
       Session.set('checkBlockchainAddress', web3.utils.isAddress(draft.blockchain.publicAddress));
       return draft.blockchain.publicAddress;
     }
@@ -184,7 +195,6 @@ Template.coin.helpers({
   allowBalance() {
     if (Session.get('newCoin')) {
       const coin = getCoin(Session.get('newCoin').code);
-      console.log(coin);
       return coin.editor.allowBalanceToggle;
     }
     return false;
@@ -197,7 +207,7 @@ Template.coin.helpers({
     return false;
   },
   wrongAddress() {
-    if (Session.get('isAddressWrong')) { return true; }
+    if (_brokenAddress()) { return true; }
     if (Session.get('newCoin')) {
       const coin = getCoin(Session.get('newCoin').code);
       if (coin.type === 'ERC20' || coin.type === 'NATIVE') {
@@ -210,18 +220,18 @@ Template.coin.helpers({
         return _verifyBlockchainAddress();
       }
     }
-    return Session.get('isAddressWrong');
+    return _brokenAddress();
   },
   addressStyle() {
-    if (Session.get('newCoin') && Session.get('newCoin').code === 'WEB VOTE') {
+    if (Session.get('newCoin') && Session.get('newCoin').code === tokenWeb.coin[0].code) {
       return 'display: none;';
     }
     return '';
   },
   buttonDisable() {
-    if (Session.get('isAddressWrong')) { return 'button-disabled'; }
+    if (_brokenAddress()) { return 'button-disabled'; }
     if (Session.get('newCoin')) {
-      if (!_checkInputs() || (document.getElementById('editBlockchainAddress') && document.getElementById('editBlockchainAddress').value === '')) {
+      if (!_checkInputs() || (document.getElementById('editBlockchainAddress') && document.getElementById('editBlockchainAddress').value === '' && Session.get('newCoin').code !== tokenWeb.coin[0].code)) {
         return 'button-disabled';
       }
     }
@@ -252,7 +262,7 @@ Template.coin.events({
     Template.instance().showAdvanced.set(!advanced);
   },
   'click #execute-coin'() {
-    if (_checkInputs() || !Session.get('isAddressWrong')) {
+    if (_checkInputs() || !_brokenAddress()) {
       _save();
       animatePopup(false, 'blockchain-popup');
       Session.set('showCoinSettings', false);

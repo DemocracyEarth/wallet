@@ -1,11 +1,35 @@
 <template name="poll">
-  {{#if ready}}
+  {{#if placeholder}}
     <div class="section section-poll w-clearfix">
       <div class="poll">
-        {{#each item}}
-          {{> ballot poll=true contract=this.contract pollTotals=this.totals editorMode=this.editor}}
+        {{#each listItem}}
+          <div id="single-vote" class="poll-choice">
+            <div id="pollPlaceholder" class="button half choice">
+              <div class="checkbox-mini">
+              </div>
+              <div class="poll-score poll-score-button">
+                <div class="poll-score-bar">
+                  <div class="poll-score-bar-fill" style="width: {{pollScore}}">
+                  </div>
+                </div>
+                <div class="poll-score-percentage {{smallPercentageStyle}}">
+                  {{pollScore}}
+                </div>
+              </div>
+            </div>
+          </div>
         {{/each}}
       </div>
     </div>
+  {{else}}
+    {{#if ready}}
+      <div class="section section-poll w-clearfix">
+        <div class="poll">
+          {{#each item}}
+            {{> ballot poll=true contract=this.contract pollTotals=this.totals editorMode=this.editor}}
+          {{/each}}
+        </div>
+      </div>
+    {{/if}}
   {{/if}}
 </template>

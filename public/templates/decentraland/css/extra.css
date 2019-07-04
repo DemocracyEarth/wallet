@@ -436,7 +436,7 @@ body, h4, h1, h2 {
 }
 
 .poll-score-bar-fill {
-  width: 1%;
+  width: 0%;
   height: 20px;
   background: #00c190;
   transition: all 200ms ease;
@@ -729,7 +729,7 @@ width: 1px;
 }
 
 .poll-score-bar-fill {
-  width: 1%;
+  width: 0%;
   height: 20px;
   background: #00c190;
   transition: all 200ms ease;

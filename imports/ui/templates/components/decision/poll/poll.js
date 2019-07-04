@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { Session } from 'meteor/session';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { query } from '/lib/views';
@@ -50,13 +51,23 @@ Template.poll.onRendered(function () {
 
         instance.contracts.set(feed);
       },
-      removed: (id) => {
+      removed: () => {
         const feed = instance.contracts.get();
 
-        for (let i = 0; i < feed.length; i += 1) {
-          if (feed[i]._id === id) {
-            feed.splice(i, 1);
-            break;
+        if (instance.data.editorMode) {
+          const draft = Session.get('draftContract');
+          for (let i = 0; i < feed.length; i += 1) {
+            let isDraftPoll = false;
+            for (let k = 0; k < draft.poll.length; k += 1) {
+              if (feed[i]._id === draft.poll[k].contractId) {
+                isDraftPoll = true;
+                break;
+              }
+            }
+            if (!isDraftPoll) {
+              feed.splice(i, 1);
+              break;
+            }
           }
         }
 
@@ -83,6 +94,9 @@ Template.poll.helpers({
       });
     }
     return item;
+  },
+  listItem() {
+    return this.list;
   },
   quadratic() {
     return this.quadratic;
