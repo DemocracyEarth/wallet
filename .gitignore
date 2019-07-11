@@ -5,6 +5,7 @@ config/production/colorado.json
 config/production/rinkeby.json
 config/production/goerli.json
 config/staging/settings.json
+public/templates/decentraland/legacy/
 
 .vscode
 _deprecations

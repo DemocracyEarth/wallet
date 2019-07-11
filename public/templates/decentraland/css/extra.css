@@ -367,7 +367,7 @@ body, h4, h1, h2 {
   padding: 5px;
   float: left;
   /* display: inline-block; */
-  width: 50%;
+  width: 100%;
 }
 
 @media (max-width: 767px) {
@@ -660,7 +660,7 @@ width: 1px;
   padding: 5px;
   float: left;
   /* display: inline-block; */
-  width: 50%;
+  width: 100%;
 }
 
 @media (max-width: 767px) {

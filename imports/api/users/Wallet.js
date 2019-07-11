@@ -41,7 +41,7 @@ Schema.Wallet = new SimpleSchema({
     type: String,
     autoValue() {
       if (this.isInsert) {
-        if (this.field('currency').value === undefined) {
+        if (this.field('wallet') && this.field('wallet').value && !this.field('wallet').value.currency) {
           return 'WEB VOTE';
         }
       }

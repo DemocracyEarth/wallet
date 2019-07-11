@@ -9,7 +9,6 @@ import { gui } from '/lib/const';
 import { urlDoctor, toTitleCase } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
-import { setupWeb3 } from '/imports/startup/both/modules/metamask.js';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { tokenWeb } from '/lib/token';
 
