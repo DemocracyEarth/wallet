@@ -728,5 +728,9 @@
   "election-rule-onchain": "On chain Tip",
   "voting-editor-onchain-tooltip": "A token fraction will be sent to post author and tallied as a vote.",
   "election-rule-webvote": "Web Vote",
-  "voting-editor-webvote-tooltip": "A vote using web based tokens."
+  "voting-editor-webvote-tooltip": "A vote using web based tokens.",
+  "marketplace": "Marketplace",
+  "builder": "Builder",
+  "docs": "Docs",
+  "blog": "Blog"
 }

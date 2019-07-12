@@ -184,6 +184,12 @@ Template.navbar.helpers({
   homeURL() {
     return Meteor.settings.public.Collective.domain;
   },
+  navbarItem() {
+    return Meteor.settings.public.app.config.navbar;
+  },
+  postMode() {
+    return Template.instance().postMode;
+  },
 });
 
 Template.navbar.events({

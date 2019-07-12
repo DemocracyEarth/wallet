@@ -96,7 +96,29 @@
             "metamask": true,
             "email": true,
             "blockchainLogin": false
-          }
+          },
+          "navbar": [
+            {
+              "selected": true,
+              "label": "home",
+              "url": "https://democracy.earth"
+            },
+            {
+              "selected": false,
+              "label": "paper",
+              "url": "http://paper.democracy.earth"
+            },
+            {
+              "selected": false,
+              "label": "code",
+              "url": "http://code.democracy.earth"
+            },
+            {
+              "selected": false,
+              "label": "menu-news",
+              "url": "http://words.democracy.earth"
+            }
+          ]
         }
     },
 
