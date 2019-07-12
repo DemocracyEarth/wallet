@@ -99,7 +99,7 @@ const _writeRule = (contract, textOnly) => {
           found = true;
           coin = _.where(token.coin, { code: contract.constituency[i].code })[0];
           if (!textOnly && contract.constituency.length > 0) {
-            setting = `<div class="suggest-item suggest-token suggest-token-inline" style="background-color: ${coin.color} ">${coin.code}</div>`;
+            setting = `<div class="suggest-item suggest-token suggest-token-inline" style="background-color: ${coin ? coin.color : ''}">${coin ? coin.code : ''}</div>`;
             break;
           } else if (textOnly) {
             setting = `${TAPi18n.__('holding')} ${_.where(token.coin, { code: contract.constituency[i].code })[0].name}`;

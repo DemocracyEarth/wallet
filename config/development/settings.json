@@ -85,6 +85,7 @@
           },
           "governance": {
             "dictatorship": true,
+            "censhorship": false,
             "dictator": {
               "userId": "y2RPht3xHDLf7KN3u",
               "publicAddress": ""

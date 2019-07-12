@@ -793,6 +793,9 @@ Template.ballot.helpers({
     }
     return '';
   },
+  censorship() {
+    return Meteor.settings.public.app.config.governance.censorship;
+  },
 });
 
 Template.ballot.events({
