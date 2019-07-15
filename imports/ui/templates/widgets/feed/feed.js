@@ -154,9 +154,6 @@ Template.feed.onCreated(function () {
     options.view = 'linkedFeed';
   }
 
-  console.log(`options:`);
-  console.log(options);
-
   this.subscription = instance.subscribe('feed', options);
 
   const parameters = query(options);
@@ -297,7 +294,6 @@ Template.feed.helpers({
     return Template.instance().lastItemDate.get();
   },
   empty(subscriptionReady) {
-    console.log(Template.instance().feed.get());
     if (subscriptionReady && !Template.instance().feed.get()) {
       return true;
     }
