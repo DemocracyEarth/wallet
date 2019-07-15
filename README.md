@@ -31,7 +31,7 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
 
 **Release:**
 
-* Currently [`version 0.5.2`](https://github.com/DemocracyEarth/sovereign/releases)
+* Currently [`version 0.5.3`](https://github.com/DemocracyEarth/sovereign/releases)
 * This [User Agreement](https://github.com/DemocracyEarth/sovereign/blob/master/UserAgreement.md) governs access to and use of the Democracy Earth platform.
 
 ## Setup
@@ -86,6 +86,7 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
 0. **Configure**
 
     * Check `/config/development/settings.json` to configure Sovereign for your organization's governance needs.
+    * Make sure `ROOT_URL` on `settings.json` is properly set to the domain that will be serving the application.
     * On `/public/templates/` different template style folders are available. The file `templateName.json` can be configured and a css design can be found on `/public/templates/name/css` folder.
 
 ## Live

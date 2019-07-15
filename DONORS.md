@@ -4,9 +4,9 @@ Democracy Earth Foundation is a 501 (c) 3 not for profit corporation based in Sa
 
 ## Institutional
 
+  * 🇬🇧 [Templeton World Charity Foundation](http://templeton.org)
   * 🇺🇸 [Y Combinator](http://ycombinator.org)
   * 🇺🇸 [Fast Forward](https://ffwd.org)
-  * 🇺🇸 [Teespring](https://teespring.com)
 
 ## Individuals
 
@@ -66,6 +66,8 @@ Democracy Earth Foundation is a 501 (c) 3 not for profit corporation based in Sa
 ## Team
 
   * 🇦🇷 Santiago Siri
+  * 🇧🇷 Paula Berman
+  * 🇻🇪 Eduardo Medina
   * 🇫🇷 Virgile Deville  
   * 🇦🇷 Mair Williams  
   * 🇺🇸 Herb Stephens
@@ -76,8 +78,6 @@ Democracy Earth Foundation is a 501 (c) 3 not for profit corporation based in Sa
   * 🇺🇸 Peter Schurman
   * 🇺🇸 Andew James Benson
   * 🇺🇸 Sandra Miller
-  * 🇧🇷 Paula Berman
-  * 🇻🇪 Eduardo Medina
   * 🇺🇸 Agatha Bacelar
   
   
