@@ -462,6 +462,7 @@ const _coinvote = (from, to, quantity, tokenCode, contractAddress, sourceId, tar
     let publicAddress;
 
     let message = TAPi18n.__('coinvote-signature');
+
     message = message.replace('{{quantity}}', coin.code === 'ETH' ? quantity : _formatCryptoValue(quantity, coin.code));
     message = message.replace('{{ticker}}', tokenCode);
     message = message.replace('{{choice}}', choice);

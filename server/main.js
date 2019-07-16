@@ -31,7 +31,16 @@ onPageLoad(function (sink) {
   let country;
   let username;
 
-  switch (path[0]) {
+  let mainPath = path[0];
+  if (mainPath.substring(0, 1) === '$') {
+    mainPath = 'token';
+  } else if (mainPath.substring(0, 1) === '@') {
+    mainPath = 'peer';
+  } else if (mainPath.length === 2) {
+    mainPath = 'geo';
+  }
+
+  switch (mainPath) {
     case 'vote':
       contract = Contracts.findOne({ keyword: path[1] });
       if (contract) {
@@ -49,16 +58,18 @@ onPageLoad(function (sink) {
       }
       break;
     case 'peer':
-      user = Meteor.users.findOne({ username: path[1] });
-      username = `@${path[1]}`;
-      if (user.profile.firstName) {
-        username = `${user.profile.firstName}`;
-        if (user.profile.lastName) {
-          username += ` ${user.profile.lastName}`;
+      user = Meteor.users.findOne({ username: path[0].substring(1) });
+      if (user) {
+        username = `${path[0]}`;
+        if (user.profile.firstName) {
+          username = `${user.profile.firstName}`;
+          if (user.profile.lastName) {
+            username += ` ${user.profile.lastName}`;
+          }
         }
       }
       tags.title = `${TAPi18n.__('profile-tag-title').replace('{{user}}', `${username}`).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
-      tags.description = `${TAPi18n.__('profile-tag-description').replace('{{user}}', `@${path[1]}`).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
+      tags.description = `${TAPi18n.__('profile-tag-description').replace('{{user}}', `${path[0]}`).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
       if (user) {
         tags.image = parseURL(user.profile.picture);
       } else {
@@ -67,12 +78,12 @@ onPageLoad(function (sink) {
       break;
     case 'tag':
     case 'token':
-      tags.title = `${TAPi18n.__('hashtag-tag-title').replace('{{hashtag}}', path[1]).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
-      tags.description = `${TAPi18n.__('hashtag-tag-description').replace('{{hashtag}}', path[1]).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
+      tags.title = `${TAPi18n.__('hashtag-tag-title').replace('{{hashtag}}', path[0]).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
+      tags.description = `${TAPi18n.__('hashtag-tag-description').replace('{{hashtag}}', path[0]).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
       tags.image = parseURL(Meteor.settings.public.Collective.profile.logo);
       break;
     case 'geo':
-      country = toTitleCase(path[1]);
+      country = toTitleCase(path[0]);
       tags.title = `${TAPi18n.__('country-tag-title').replace('{{country}}', country).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
       tags.description = `${TAPi18n.__('country-tag-description').replace('{{country}}', country).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
       tags.image = parseURL(Meteor.settings.public.Collective.profile.logo);
@@ -94,8 +105,4 @@ onPageLoad(function (sink) {
 
   const head = meta(tags, true);
   sink.appendToHead(head);
-
-  if (path) {
-    // log(`{ server: 'onPageLoad', path: '${url}', httpHeader: '${JSON.stringify(hostname)}' }`);
-  }
 });

@@ -203,11 +203,17 @@ const _getTokenData = async (_publicAddress) => {
   const tokenData = [];
   let _balance;
 
-  for (let i = 0; i < token.coin.length; i++) {
+  for (let i = 0; i < token.coin.length; i += 1) {
     if (token.coin[i].type === 'ERC20') {
       _balance = await _getTokenBalance(_publicAddress, token.coin[i].contractAddress);
       if (_balance.toNumber() !== 0) {
-        const withoutDecimal = _removeDecimal(_balance.toNumber(), token.coin[i].decimals);
+        let withoutDecimal;
+        if (token.coin[i].nonFungible) {
+          withoutDecimal = _removeDecimal(_balance.toNumber(), 0);
+        } else {
+          withoutDecimal = _removeDecimal(_balance.toNumber(), token.coin[i].decimals);
+        }
+
         const tokenObj = {
           balance: withoutDecimal.toNumber(),
           placed: 0,
@@ -268,7 +274,7 @@ const _getBalance = (user, contract) => {
       if (coin.code === 'ETH') {
         result = _formatCryptoValue(_removeDecimal(Meteor.user().profile.wallet.reserves[i].balance, coin.decimals).toNumber(), coin.code);
       } else if (coin.nonFungible) {
-        result = _formatCryptoValue(parseInt(Meteor.user().profile.wallet.reserves[i].balance / coin.decimals, 10), coin.code);
+        result = _formatCryptoValue(parseInt(Meteor.user().profile.wallet.reserves[i].balance, 10), coin.code);
       } else {
         result = Meteor.user().profile.wallet.reserves[i].balance;
       }

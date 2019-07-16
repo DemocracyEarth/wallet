@@ -64,22 +64,21 @@
         <div class="hero-menu-link hero-menu-link-signin {{loginMode}}" target="_blank">{{_ 'sign-in'}}</div>
     </div>
     <div class="hero-menu">
-      <div class="hero-button">
-        {{#unless postMode}}
-          <a class="hero-menu-link hero-menu-link-selected" href="{{pathFor route='home'}}">{{_ 'home'}}</a>
+      {{#each navbarItem}}
+        {{#if this.selected}}
+          <div class="hero-button">
+            {{#unless postMode}}
+              <a class="hero-menu-link hero-menu-link-selected" href="{{this.url}}">{{_ this.label}}</a>
+            {{else}}
+              <a class="hero-menu-link" href="{{this.url}}">{{_ this.label}}</a>
+            {{/unless}}
+          </div>
         {{else}}
-          <a class="hero-menu-link" href="{{pathFor route='home'}}">{{_ 'home'}}</a>
-        {{/unless}}
-      </div>
-      <div class="hero-button">
-        <a class="hero-menu-link" href="http://paper.democracy.earth" target="_blank">{{_ 'paper'}}</a>
-      </div>
-      <div class="hero-button">
-        <a class="hero-menu-link" href="http://code.democracy.earth" target="_blank">{{_ 'code'}}</a>
-      </div>
-      <div class="hero-button">
-        <a class="hero-menu-link" href="http://words.democracy.earth" target="_blank">{{_ 'menu-news'}}</a>
-      </div>
+          <div class="hero-button">
+            <a class="hero-menu-link" href="{{this.url}}" target="_blank">{{_ this.label}}</a>
+          </div>
+        {{/if}}
+      {{/each}}
     </div>
   </div>
 </template>

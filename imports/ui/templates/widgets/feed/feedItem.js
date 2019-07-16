@@ -16,6 +16,7 @@ import { addChoiceToBallot, getTotalVoters, getRightToVote, getBallot } from '/i
 import { displayNotice } from '/imports/ui/modules/notice';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
+import { tokenWeb } from '/lib/token';
 
 import '/imports/ui/templates/widgets/feed/feedItem.html';
 import '/imports/ui/templates/widgets/transaction/transaction.js';
@@ -213,6 +214,7 @@ Template.feedItem.onCreated(function () {
   Template.instance().candidateBallot = new ReactiveVar();
   Template.instance().displayResults = new ReactiveVar(false);
   Template.instance().replySource = new ReactiveVar(false);
+  Template.instance().pollingEnabled = new ReactiveVar(false);
 
   Template.instance().imageTemplate = new ReactiveVar();
   templetize(Template.instance());
@@ -268,6 +270,16 @@ Template.feedItem.onRendered(function () {
     } else {
       Template.instance().replySource.set(true);
     }
+  }
+
+  if (instance.data.rules && instance.data.rules.pollVoting && instance.data.poll.length > 0) {
+    const poll = instance.subscribe('pollContracts', { view: 'pollList', sort: { createdAt: -1 }, poll: instance.data.poll });
+    instance.autorun(function (computation) {
+      if (poll.ready()) {
+        Template.instance().pollingEnabled.set(true);
+        computation.stop();
+      }
+    });
   }
 
   if (!instance.data.tally && !instance.data.placeholder) {
@@ -358,7 +370,10 @@ Template.feedItem.helpers({
     return [getAnonymous()];
   },
   tally() {
-    return this.tally;
+    return (this.rules && this.rules.pollVoting) ? Template.instance().pollingEnabled.get() : this.tally;
+  },
+  webVote() {
+    return this.blockchain.coin.code === tokenWeb.coin[0].code;
   },
   userIsAuthor(signatures) {
     if (Meteor.user() != null) {
@@ -389,7 +404,7 @@ Template.feedItem.helpers({
     return Template.instance().contract.get();
   },
   pollingEnabled() {
-    return this.rules ? this.rules.pollVoting : false;
+    return Template.instance().pollingEnabled.get();
   },
   quadraticEnabled() {
     return this.rules ? this.rules.quadraticVoting : false;

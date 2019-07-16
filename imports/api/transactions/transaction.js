@@ -1068,7 +1068,6 @@ const _genesisTransaction = (userId) => {
 */
 const _loadExternalCryptoBalance = (userId) => {
   const user = Meteor.users.findOne({ _id: userId });
-  console.log(`_loadExternalCryptoBalance`);
   if (user.services.metamask != null) {
     const _publicAddress = user.services.metamask.publicAddress;
     let weiBalance;

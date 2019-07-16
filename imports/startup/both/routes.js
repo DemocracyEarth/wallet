@@ -9,9 +9,8 @@ import { gui } from '/lib/const';
 import { urlDoctor, toTitleCase } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
-import { setupWeb3 } from '/imports/startup/both/modules/metamask.js';
 import { displayNotice } from '/imports/ui/modules/notice';
-import { token } from '/lib/token';
+import { tokenWeb } from '/lib/token';
 
 if (Meteor.isClient) {
   import '/imports/ui/templates/layout/main.js';
@@ -98,14 +97,18 @@ Router.configure({
   notFoundTemplate: 'notFound',
   controller: 'PreloadController',
   preload: {
-    verbose: true,
+    verbose: false,
     timeOut: 5000,
     sync: Meteor.settings.public.web.template.settings,
     onBeforeSync: () => {
       HTTP.get(Meteor.absoluteUrl(Meteor.settings.public.web.template.settings), function (err, result) {
         if (!err) {
           HTTP.get(Meteor.absoluteUrl(result.data.lib.token), function (err, result) {
-            Session.set('token', result.data);
+            const tokens = result.data;
+            if (Meteor.settings.public.app.config.allowWebVotes) {
+              tokens.coin = tokens.coin.concat(tokenWeb.coin);
+            }
+            Session.set('token', tokens);
           });
         }
       });
@@ -177,12 +180,12 @@ Router.route('/@:username', {
     DocHead.removeDocHeadAddedTags();
 
     if (user) {
-      title = `${TAPi18n.__('profile-tag-title').replace('{{user}}', `@${user.username}`).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
-      description = `@${user.username}${TAPi18n.__('profile-tag-description')} ${Meteor.settings.public.Collective.name}`;
+      title = `${TAPi18n.__('profile-tag-title').replace('{{user}}', `${user.username}`).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
+      description = `${user.username}${TAPi18n.__('profile-tag-description')} ${Meteor.settings.public.Collective.name}`;
       image = `${Router.path('home')}${user.profile.picture}`;
     } else {
-      title = `${TAPi18n.__('profile-tag-title').replace('{{user}}', `@${this.params.username}`).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
-      description = `@${this.params.username} ${TAPi18n.__('profile-tag-description')} ${Meteor.settings.public.Collective.name}`;
+      title = `${TAPi18n.__('profile-tag-title').replace('{{user}}', `${this.params.username}`).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
+      description = `${this.params.username} ${TAPi18n.__('profile-tag-description')} ${Meteor.settings.public.Collective.name}`;
       image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`;
     }
 
@@ -239,11 +242,11 @@ Router.route('/:land', {
       });
     } else {
       DocHead.removeDocHeadAddedTags();
-      DocHead.setTitle(`${TAPi18n.__('hashtag-tag-title').replace('{{hashtag}}', this.params.hashtag).replace('{{collective}}', Meteor.settings.public.Collective.name)}`);
+      DocHead.setTitle(`${TAPi18n.__('hashtag-tag-title').replace('{{hashtag}}', this.params.land).replace('{{collective}}', Meteor.settings.public.Collective.name)}`);
 
       _meta({
-        title: `${TAPi18n.__('hashtag-tag-title').replace('{{hashtag}}', this.params.hashtag).replace('{{collective}}', Meteor.settings.public.Collective.name)}`,
-        description: `#${this.params.hashtag}${TAPi18n.__('hashtag-tag-description')} ${Meteor.settings.public.Collective.name}.`,
+        title: `${TAPi18n.__('hashtag-tag-title').replace('{{hashtag}}', this.params.land).replace('{{collective}}', Meteor.settings.public.Collective.name)}`,
+        description: `#${this.params.land}${TAPi18n.__('hashtag-tag-description')} ${Meteor.settings.public.Collective.name}.`,
         image: `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`,
         twitter: Meteor.settings.public.Collective.profile.twitter,
       });
@@ -254,7 +257,6 @@ Router.route('/:land', {
 
 /**
 * @summary loads a peer feed
-**/
 Router.route('/peer/:username', {
   name: 'peerFeed',
   template: 'home',
@@ -305,6 +307,7 @@ Router.route('/peer/:username', {
     });
   },
 });
+**/
 
 /**
 * @summary loads a post using date in url
@@ -356,7 +359,6 @@ Router.route('/:year/:month/:day/:keyword', {
 
 /**
 * @summary loads a post
-**/
 Router.route('/vote/:keyword', {
   name: 'post',
   template: 'home',
@@ -407,11 +409,10 @@ Router.route('/vote/:keyword', {
     }
   },
 });
-
+**/
 
 /**
 * @summary loads a tag feed
-**/
 Router.route('/tag/:hashtag', {
   name: 'tagFeed',
   template: 'home',
@@ -426,6 +427,8 @@ Router.route('/tag/:hashtag', {
   },
   onAfterAction() {
     DocHead.removeDocHeadAddedTags();
+    console.log('/tag/:hashtag');
+    console.log(this.params);
     DocHead.setTitle(`${TAPi18n.__('hashtag-tag-title').replace('{{hashtag}}', this.params.hashtag).replace('{{collective}}', Meteor.settings.public.Collective.name)}`);
 
     _meta({
@@ -436,6 +439,7 @@ Router.route('/tag/:hashtag', {
     });
   },
 });
+**/
 
 /**
 * @summary loads a token feed

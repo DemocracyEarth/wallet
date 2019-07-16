@@ -4517,7 +4517,7 @@ blockquote {
   width: 100%;
   min-width: 200px;
   margin-bottom: -15px;
-  padding-top: 0px;
+  padding-top: 10px;
   padding-right: 15px;
   padding-left: 10px;
 }

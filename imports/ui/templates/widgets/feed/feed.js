@@ -293,7 +293,10 @@ Template.feed.helpers({
   lastItem() {
     return Template.instance().lastItemDate.get();
   },
-  empty() {
+  empty(subscriptionReady) {
+    if (subscriptionReady && !Template.instance().feed.get()) {
+      return true;
+    }
     if (Session.get('showPostEditor')) {
       return false;
     }

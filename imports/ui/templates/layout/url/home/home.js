@@ -232,7 +232,9 @@ Template.homeFeed.helpers({
   },
   dictator() {
     if (Meteor.settings.public.app.config.governance.dictatorship) {
-      return (Meteor.settings.public.app.config.governance.dictator.userId === Meteor.userId());
+      return !(Meteor.user() && (
+        (Meteor.settings.public.app.config.governance.dictator.userId === Meteor.userId())
+        || Meteor.user().profile.wallet.reserves[0].publicAddress === Meteor.settings.public.app.config.governance.dictator.publicAddress));
     }
     return false;
   },

@@ -614,6 +614,10 @@ Schema.Contract = new SimpleSchema({
     type: Schema.Closing,
     optional: true,
   },
+  importId: {
+    type: String,
+    optional: true,
+  },
 });
 
 Contracts.attachSchema(Schema.Contract);
