@@ -97,7 +97,7 @@ Router.configure({
   notFoundTemplate: 'notFound',
   controller: 'PreloadController',
   preload: {
-    verbose: true,
+    verbose: false,
     timeOut: 5000,
     sync: Meteor.settings.public.web.template.settings,
     onBeforeSync: () => {
