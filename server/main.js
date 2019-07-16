@@ -105,8 +105,4 @@ onPageLoad(function (sink) {
 
   const head = meta(tags, true);
   sink.appendToHead(head);
-
-  if (path) {
-    // log(`{ server: 'onPageLoad', path: '${url}', httpHeader: '${JSON.stringify(hostname)}' }`);
-  }
 });

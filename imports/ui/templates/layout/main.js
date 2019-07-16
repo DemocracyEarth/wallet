@@ -25,6 +25,7 @@ import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { SearchSource } from 'meteor/meteorhacks:search-source';
 import { Template } from 'meteor/templating';
+import { Router } from 'meteor/iron:router';
 
 
 import { toggleSidebar } from '/imports/ui/modules/menu';
@@ -33,6 +34,7 @@ import { geo } from '/lib/geo';
 import { token } from '/lib/token';
 import { gui } from '/lib/const';
 import { getCSS } from '/imports/ui/templates/layout/templater';
+import { resetSplit } from '/imports/ui/modules/split';
 
 
 import '/imports/ui/templates/layout/main.html';
@@ -114,6 +116,16 @@ Meteor.startup(() => {
   globalObj.tokenJSON = token;
 });
 
+const _done = () => {
+  $('.preloader-image').velocity({ opacity: 0 }, {
+    duration: 350,
+    complete: () => {
+      resetSplit();
+      document.getElementById('preloader-splash').remove();
+    },
+  });
+};
+
 Template.main.onRendered(() => {
   if (document.getElementsByClassName('inhibitor').length > 0) {
     document.getElementsByClassName('inhibitor')[0].addEventListener('touchmove', (e) => { e.preventDefault(); });
@@ -128,6 +140,30 @@ Template.main.onRendered(() => {
     Session.set('sidebar', false);
     toggleSidebar();
   }
+});
+
+Template.preloader.onRendered(() => {
+  const interval = setInterval(function () {
+    if (document.readyState === 'complete') {
+      clearInterval(interval);
+      document.getElementsByClassName('preloader-image')[0].style.opacity = 1;
+      _done();
+    }
+    const opacity = document.getElementsByClassName('preloader-image')[0].style.opacity.toNumber();
+    const newShade = parseFloat(opacity + 0.01, 10);
+    if (newShade <= 1) {
+      document.getElementsByClassName('preloader-image')[0].style.opacity = newShade;
+    }
+  }, 100);
+});
+
+Template.preloader.helpers({
+  appIcon() {
+    if (Meteor.settings.public.Collective.profile.logo) {
+      return `${Router.path('home')}${Meteor.settings.public.Collective.profile.logo}`;
+    }
+    return `${Router.path('home')}images/olive.png`;
+  },
 });
 
 Template.main.helpers({
