@@ -33,6 +33,7 @@ import { geo } from '/lib/geo';
 import { token } from '/lib/token';
 import { gui } from '/lib/const';
 import { getCSS } from '/imports/ui/templates/layout/templater';
+import { resetSplit } from '/imports/ui/modules/split';
 
 
 import '/imports/ui/templates/layout/main.html';
@@ -118,6 +119,7 @@ const _done = () => {
   $('.preloader-image').velocity({ opacity: 0 }, {
     duration: 350,
     complete: () => {
+      resetSplit();
       document.getElementById('preloader-splash').remove();
     },
   });

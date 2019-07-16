@@ -114,7 +114,6 @@ Router.configure({
       });
     },
     onSync: () => {
-      console.log('synced');
       return true;
     },
   },

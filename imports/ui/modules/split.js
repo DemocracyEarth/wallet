@@ -49,7 +49,7 @@ const _resetSplit = () => {
   if (!Meteor.settings.public.app.config.interface.showTransactions) {
     $('.split-left').width('100%');
   } else if ($('.split-right')) {
-    event.preventDefault();
+    // event.preventDefault();
     if ($(window).width() < gui.DESKTOP_MIN_WIDTH) {
       $('.split-left').width('100%');
       $('.split-right').width('100%');
