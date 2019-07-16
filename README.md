@@ -31,7 +31,7 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
 
 **Release:**
 
-* Currently [`version 0.5.3`](https://github.com/DemocracyEarth/sovereign/releases)
+* Currently [`version 0.6.0`](https://github.com/DemocracyEarth/sovereign/releases)
 * This [User Agreement](https://github.com/DemocracyEarth/sovereign/blob/master/UserAgreement.md) governs access to and use of the Democracy Earth platform.
 
 ## Setup
