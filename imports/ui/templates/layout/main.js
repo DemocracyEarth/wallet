@@ -25,6 +25,7 @@ import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { SearchSource } from 'meteor/meteorhacks:search-source';
 import { Template } from 'meteor/templating';
+import { Router } from 'meteor/iron:router';
 
 
 import { toggleSidebar } from '/imports/ui/modules/menu';
@@ -159,9 +160,9 @@ Template.preloader.onRendered(() => {
 Template.preloader.helpers({
   appIcon() {
     if (Meteor.settings.public.Collective.profile.logo) {
-      return Meteor.settings.public.Collective.profile.logo;
+      return `${Router.path('home')}${Meteor.settings.public.Collective.profile.logo}`;
     }
-    return 'images/olive.png';
+    return `${Router.path('home')}images/olive.png`;
   },
 });
 
