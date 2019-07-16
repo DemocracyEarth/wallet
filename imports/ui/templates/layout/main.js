@@ -114,6 +114,15 @@ Meteor.startup(() => {
   globalObj.tokenJSON = token;
 });
 
+const _done = () => {
+  $('.preloader-image').velocity({ opacity: 0 }, {
+    duration: 350,
+    complete: () => {
+      document.getElementById('preloader-splash').remove();
+    },
+  });
+};
+
 Template.main.onRendered(() => {
   if (document.getElementsByClassName('inhibitor').length > 0) {
     document.getElementsByClassName('inhibitor')[0].addEventListener('touchmove', (e) => { e.preventDefault(); });
@@ -128,6 +137,30 @@ Template.main.onRendered(() => {
     Session.set('sidebar', false);
     toggleSidebar();
   }
+});
+
+Template.preloader.onRendered(() => {
+  const interval = setInterval(function () {
+    if (document.readyState === 'complete') {
+      clearInterval(interval);
+      document.getElementsByClassName('preloader-image')[0].style.opacity = 1;
+      _done();
+    }
+    const opacity = document.getElementsByClassName('preloader-image')[0].style.opacity.toNumber();
+    const newShade = parseFloat(opacity + 0.01, 10);
+    if (newShade <= 1) {
+      document.getElementsByClassName('preloader-image')[0].style.opacity = newShade;
+    }
+  }, 100);
+});
+
+Template.preloader.helpers({
+  appIcon() {
+    if (Meteor.settings.public.Collective.profile.logo) {
+      return Meteor.settings.public.Collective.profile.logo;
+    }
+    return 'images/olive.png';
+  },
 });
 
 Template.main.helpers({

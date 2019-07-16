@@ -13,7 +13,7 @@
 
   {{> sidebar}}
 
-  <div class="preloader"></div>
+  {{> preloader}}
 
   <div id='content' class='right {{landingMode}}'>
 
@@ -30,4 +30,14 @@
     {{> notice}}
   {{/if}}
 
+</template>
+
+<template name='preloader'>
+  <div id="preloader-splash" class="preloader">
+    <div class="preloader-icon"
+      style="font-family:-apple-system,system-ui,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif; text-align: center; color: #ccc; font-size: 15px;">
+      <img class="preloader-image" style="opacity: 0;" src="{{appIcon}}">
+      <div class="preloader-label">{{_ 'loading'}}</div>
+    </div>
+  </div>
 </template>
