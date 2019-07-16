@@ -1,0 +1,9 @@
+.preloader {
+  position: absolute;
+  background: red;
+  right: 0px;
+  bottom: 0px;
+  z-index: 99999;
+  top: 0px;
+  left: 0px;
+}

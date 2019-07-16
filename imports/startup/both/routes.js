@@ -97,7 +97,7 @@ Router.configure({
   notFoundTemplate: 'notFound',
   controller: 'PreloadController',
   preload: {
-    verbose: false,
+    verbose: true,
     timeOut: 5000,
     sync: Meteor.settings.public.web.template.settings,
     onBeforeSync: () => {
@@ -114,6 +114,7 @@ Router.configure({
       });
     },
     onSync: () => {
+      console.log('synced');
       return true;
     },
   },
