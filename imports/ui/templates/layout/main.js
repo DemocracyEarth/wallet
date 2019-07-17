@@ -150,7 +150,7 @@ Template.preloader.onRendered(() => {
       _done();
     }
     const opacity = document.getElementsByClassName('preloader-image')[0].style.opacity.toNumber();
-    const newShade = parseFloat(opacity + 0.01, 10);
+    const newShade = parseFloat(opacity + 0.02, 10);
     if (newShade <= 1) {
       document.getElementsByClassName('preloader-image')[0].style.opacity = newShade;
     }

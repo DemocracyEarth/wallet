@@ -22,7 +22,7 @@ const _promptLogin = (logged, event) => {
 Template.collective.onRendered(() => {
   Session.set('userLoginVisible', false);
   if (!Session.get('checkInitialSetup') && Meteor.userId()) {
-    _promptLogin(true, 'click');
+    // _promptLogin(true, 'click');
     Session.set('checkInitialSetup', true);
   }
 
