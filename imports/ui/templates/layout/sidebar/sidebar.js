@@ -288,8 +288,10 @@ const _userMenu = (user) => {
 * @returns {boolean} if sidebar is shown
 */
 const _render = () => {
+  console.log('resize');
   const context = (Meteor.Device.isPhone() || (!Meteor.Device.isPhone() && Meteor.user()));
   if ((!Meteor.Device.isPhone() && Meteor.user())) {
+    console.log('trueeee');
     Session.set('sidebar', true);
     _showSidebar();
   } else if ((!Meteor.Device.isPhone() && !Meteor.user())) {
