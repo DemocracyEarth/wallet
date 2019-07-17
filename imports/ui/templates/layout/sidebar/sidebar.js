@@ -165,7 +165,11 @@ const _showSidebar = () => {
     }
   }
   if (!Session.get('sidebar')) {
-    $('#menu').css('margin-left', `${parseInt(0 - sidebarWidth(), 10)}px`);
+    const newMargin = parseInt(0 - sidebarWidth(), 10);
+    $('#menu').css('margin-left', `${newMargin}px`);
+    if (newMargin < 0) {
+      Session.set('removedSidebar', true);
+    }
   } else {
     let newRight = 0;
     if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
@@ -173,6 +177,11 @@ const _showSidebar = () => {
     }
     $('#content').css('left', sidebarWidth());
     $('#content').css('right', newRight);
+
+    if (Session.get('removedSidebar') && !Meteor.Device.isPhone()) {
+      $('#menu').css('margin-left', `${0}px`);
+      Session.set('removedSidebar', false);
+    }
   }
 };
 
@@ -288,10 +297,8 @@ const _userMenu = (user) => {
 * @returns {boolean} if sidebar is shown
 */
 const _render = () => {
-  console.log('resize');
   const context = (Meteor.Device.isPhone() || (!Meteor.Device.isPhone() && Meteor.user()));
   if ((!Meteor.Device.isPhone() && Meteor.user())) {
-    console.log('trueeee');
     Session.set('sidebar', true);
     _showSidebar();
   } else if ((!Meteor.Device.isPhone() && !Meteor.user())) {
