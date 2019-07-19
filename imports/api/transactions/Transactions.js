@@ -3,6 +3,7 @@ import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 import { Blockchain } from '/imports/api/blockchain/Blockchain';
+import { Collectives } from '/imports/api/collectives/Collectives';
 
 import { Ballot } from './Ballot';
 
@@ -154,6 +155,19 @@ Schema.Transaction = new SimpleSchema({
   geo: {
     type: String,
     optional: true,
+  },
+  collectiveId: {
+    type: String,
+    optional: true,
+    autoValue() {
+      if (this.isInsert) {
+        if (Meteor.settings.public.Collective) {
+          const collective = Collectives.findOne({ domain: Meteor.settings.public.Collective.domain });
+          return collective ? collective._id : '';
+        }
+      }
+      return '';
+    },
   },
 });
 
