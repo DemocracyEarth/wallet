@@ -159,15 +159,6 @@ Schema.Transaction = new SimpleSchema({
   collectiveId: {
     type: String,
     optional: true,
-    autoValue() {
-      if (this.isInsert) {
-        if (Meteor.settings.public.Collective) {
-          const collective = Collectives.findOne({ domain: Meteor.settings.public.Collective.domain });
-          return collective ? collective._id : '';
-        }
-      }
-      return '';
-    },
   },
 });
 
