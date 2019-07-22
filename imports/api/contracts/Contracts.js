@@ -3,6 +3,7 @@ import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { TAPi18n } from 'meteor/tap:i18n';
 
+import { Collectives } from '/imports/api/collectives/Collectives';
 import { Ballot } from '/imports/api/transactions/Ballot';
 import { convertToSlug } from '/lib/utils';
 import { Thread } from '/imports/api/contracts/Thread';
@@ -156,9 +157,11 @@ Schema.Contract = new SimpleSchema({
     autoValue() {
       if (this.isInsert) {
         if (Meteor.settings.public.Collective) {
-          return Meteor.settings.public.Collective._id;
+          const collective = Collectives.findOne({ domain: Meteor.settings.public.Collective.domain });
+          return collective ? collective._id : '';
         }
       }
+      return '';
     },
   },
   title: {
