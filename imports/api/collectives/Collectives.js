@@ -1,6 +1,8 @@
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
-import { Wallet } from '../users/Wallet';
+
+import { Wallet } from '/imports/api/users/Wallet';
+import { Blockchain } from '/imports/api/blockchain/Blockchain';
 
 export const Collectives = new Mongo.Collection('collectives');
 
@@ -61,11 +63,7 @@ Schema.CollectiveProfile = new SimpleSchema({
     optional: true,
   },
   blockchain: {
-    type: Object,
-    optional: true,
-  },
-  'blockchain.address': {
-    type: String,
+    type: Blockchain,
     optional: true,
   },
   logo: {
@@ -115,28 +113,28 @@ Schema.Collective = new SimpleSchema({
     type: Object,
   },
   'emails.$.address': {
-      type: String,
-      regEx: SimpleSchema.RegEx.Email
+    type: String,
+    regEx: SimpleSchema.RegEx.Email,
   },
   'emails.$.verified': {
-      type: Boolean
+    type: Boolean,
   },
   profile: {
-      type: Schema.CollectiveProfile,
-      optional: true
+    type: Schema.CollectiveProfile,
+    optional: true,
   },
   goal: {
     type: String,
     allowedValues: ['Business', 'Free', 'Commons'],
-    optional: true
+    optional: true,
   },
   authorities: {
     type: Array,
-    optional: true
+    optional: true,
   },
   'authorities.$': {
     type: Object,
-    optional: true
+    optional: true,
   },
   'authorities.$.userId': {
     type: String,

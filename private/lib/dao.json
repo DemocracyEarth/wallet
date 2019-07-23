@@ -12,7 +12,7 @@
             {
               "label": "Humanity (ERC20)",
               "publicAddress": "0xbbd1706d16418bb136e1497a73d3af4164586da0",
-              "ERC": 20,
+              "EIP": 20,
               "description": "Token contract."
             },
             {
@@ -43,7 +43,9 @@
           ]
         },
         "proof": "https://github.com/marbleprotocol/humanity",
-        "chain": "ETHEREUM"
+        "coin": {
+          "code": "ETH"
+        }
       }
     }
   ]

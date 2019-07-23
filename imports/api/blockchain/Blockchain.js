@@ -87,6 +87,38 @@ Schema.Blockchain = new SimpleSchema({
     type: Schema.Score,
     optional: true,
   },
+  proof: {
+    type: String,
+    optional: true,
+  },
+  contracts: {
+    type: Array,
+    optional: true,
+    defaultValue: [],
+  },
+  'contracts.$': {
+    type: Object,
+  },
+  'contracts.$.label': {
+    type: String,
+    optional: true,
+  },
+  'contracts.$.publicAddress': {
+    type: String,
+    optional: true,
+  },
+  'contracts.$.EIP': {
+    type: String,
+    optional: true,
+  },
+  'contracts.$.description': {
+    type: String,
+    optional: true,
+  },
+  address: {
+    type: String,
+    optional: true,
+  },
 });
 
 export const Blockchain = Schema.Blockchain;
