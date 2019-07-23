@@ -46,6 +46,9 @@
         "coin": {
           "code": "ETH"
         }
+      },
+      "wallet": {
+        "currency": "ETH"
       }
     }
   ]
