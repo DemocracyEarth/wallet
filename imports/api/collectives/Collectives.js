@@ -85,18 +85,18 @@ Schema.CollectiveProfile = new SimpleSchema({
     allowedValues: ['Profit', 'Free'],
     optional: true,
   },
-  owners : {
-      type: String,
-      optional: true
+  owners: {
+    type: String,
+    optional: true,
   },
   configured: {
     type: Boolean,
-    optional: true
+    optional: true,
   },
   wallet: {
     type: Wallet,
-    optional: true
-  }
+    optional: true,
+  },
 });
 
 

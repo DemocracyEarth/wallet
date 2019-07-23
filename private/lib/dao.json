@@ -1,0 +1,50 @@
+{
+  "dao": [
+    {
+      "name": "Humanity",
+      "domain": "https://humanitydao.org",
+      "emails": [],
+      "profile": {
+        "website": "https://humanitydao.org/humans",
+        "bio": "Unique Identity on Ethereum",
+        "blockchain" : {
+          "contracts": [
+            {
+              "label": "Humanity (ERC20)",
+              "publicAddress": "0xbbd1706d16418bb136e1497a73d3af4164586da0",
+              "ERC": 20,
+              "description": "Token contract."
+            },
+            {
+              "label": "HumanityGovernance",
+              "publicAddress": "0xdd806c4fdad2949a97fda79036cfbb8750181b37",
+              "description": "Deals with governance."
+            },
+            {
+              "label": "HumanityRegistry",
+              "publicAddress": "0x4ee46dc4962c2c2f6bcd4c098a0e2b28f66a5e90",
+              "description": "Keeps track of all members."
+            },
+            {
+              "label": "Faucet",
+              "publicAddress": "0xdd806c4fdad2949a97fda79036cfbb8750181b37",
+              "description": "Gives away the free money."
+            },
+            {
+              "label": "TwitterHumanityApplicant",
+              "publicAddress": "0x9d661f7773be14439b4223f5b516bc7ef67b0369",
+              "description": "Applicant list."
+            },
+            {
+              "label": "UniversalBasicIncome",
+              "publicAddress": "0x762d141b8d9600bde64138762e6fb38efc56dcba",
+              "description": "UBI with DAI."
+            }
+          ]
+        },
+        "proof": "https://github.com/marbleprotocol/humanity",
+        "chain": "ETHEREUM"
+      }
+    }
+  ]
+}
