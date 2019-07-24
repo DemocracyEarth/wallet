@@ -115,6 +115,10 @@ Schema.Blockchain = new SimpleSchema({
     type: String,
     optional: true,
   },
+  'contracts.$.abi': {
+    type: String,
+    optional: true,
+  },
   address: {
     type: String,
     optional: true,
