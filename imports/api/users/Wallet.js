@@ -39,6 +39,7 @@ Schema.Wallet = new SimpleSchema({
   },
   currency: {
     type: String,
+    optional: true,
     autoValue() {
       if (this.isInsert) {
         if (this.field('wallet') && this.field('wallet').value && !this.field('wallet').value.currency) {

@@ -1,4 +1,5 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import { schemaContract } from '/imports/api/contracts/Contracts';
 
 const Schema = {};
 
@@ -60,6 +61,21 @@ Schema.Score = new SimpleSchema({
   },
 });
 
+Schema.Mapping = new SimpleSchema({
+  eventName: {
+    type: String,
+    optional: true,
+  },
+  collectionType: {
+    type: String,
+    optional: true,
+  },
+  contract: {
+    type: schemaContract,
+    optional: true,
+  },
+});
+
 Schema.Blockchain = new SimpleSchema({
   publicAddress: {
     type: String,
@@ -91,32 +107,36 @@ Schema.Blockchain = new SimpleSchema({
     type: String,
     optional: true,
   },
-  contracts: {
+  smartContracts: {
     type: Array,
     optional: true,
     defaultValue: [],
   },
-  'contracts.$': {
+  'smartContracts.$': {
     type: Object,
   },
-  'contracts.$.label': {
+  'smartContracts.$.label': {
     type: String,
     optional: true,
   },
-  'contracts.$.publicAddress': {
+  'smartContracts.$.publicAddress': {
     type: String,
     optional: true,
   },
-  'contracts.$.EIP': {
+  'smartContracts.$.EIP': {
+    type: Number,
+    optional: true,
+  },
+  'smartContracts.$.description': {
     type: String,
     optional: true,
   },
-  'contracts.$.description': {
+  'smartContracts.$.abi': {
     type: String,
     optional: true,
   },
-  'contracts.$.abi': {
-    type: String,
+  'smartContracts.$.mapping': {
+    type: Schema.Mapping,
     optional: true,
   },
   address: {
