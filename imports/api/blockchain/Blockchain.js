@@ -72,6 +72,7 @@ Schema.Mapping = new SimpleSchema({
   },
   contract: {
     type: schemaContract,
+    defaultValue: {},
     optional: true,
   },
 });
