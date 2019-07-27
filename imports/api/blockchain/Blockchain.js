@@ -61,7 +61,7 @@ Schema.Score = new SimpleSchema({
   },
 });
 
-Schema.Mapping = new SimpleSchema({
+Schema.Map = new SimpleSchema({
   eventName: {
     type: String,
     optional: true,
@@ -136,8 +136,8 @@ Schema.Blockchain = new SimpleSchema({
     type: String,
     optional: true,
   },
-  'smartContracts.$.mapping': {
-    type: Schema.Mapping,
+  'smartContracts.$.map': {
+    type: [Schema.Map],
     optional: true,
   },
   address: {

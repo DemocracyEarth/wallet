@@ -39,80 +39,82 @@
               "publicAddress": "0x9d661f7773be14439b4223f5b516bc7ef67b0369",
               "description": "Applicant list.",
               "abi": "[{\"constant\":false,\"inputs\":[{\"name\":\"who\",\"type\":\"address\"},{\"name\":\"username\",\"type\":\"string\"}],\"name\":\"applyWithTwitterFor\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"who\",\"type\":\"address\"}],\"name\":\"applyFor\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"who\",\"type\":\"address\"},{\"name\":\"username\",\"type\":\"string\"}],\"name\":\"applyWithTwitterUsingEtherFor\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"humanity\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"who\",\"type\":\"address\"}],\"name\":\"applyWithEtherFor\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"governance\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"registry\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"username\",\"type\":\"string\"}],\"name\":\"applyWithTwitterUsingEther\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"exchange\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"username\",\"type\":\"string\"}],\"name\":\"applyWithTwitter\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"_governance\",\"type\":\"address\"},{\"name\":\"_registry\",\"type\":\"address\"},{\"name\":\"_humanity\",\"type\":\"address\"},{\"name\":\"_exchange\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"fallback\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"proposalId\",\"type\":\"uint256\"},{\"indexed\":true,\"name\":\"applicant\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"username\",\"type\":\"string\"}],\"name\":\"Apply\",\"type\":\"event\"}]",
-              "mapping": {
-                "eventName": "Apply",
-                "collectionType": "Contract",
-                "contract": {
-                  "keyword" : "{{keyword}}",
-                  "collectiveId" : "{{collectiveId}}",
-                  "title" : "{{title}}",
-                  "kind" : "VOTE",
-                  "context" : "GLOBAL",
-                  "url" : "{{url}}",
-                  "description" : "",
-                  "tags" : [ ],
-                  "membersOnly" : false,
-                  "permanentElection" : true,
-                  "executionStatus" : "OPEN",
-                  "anonymous" : false,
-                  "signatures" : [],
-                  "alwaysOpen" : false,
-                  "allowForks" : false,
-                  "secretVotes" : false,
-                  "realtimeResults" : false,
-                  "multipleChoice" : false,
-                  "rankPreferences" : false,
-                  "executiveDecision" : true,
-                  "stage" : "LIVE",
-                  "ballot" : [ ],
-                  "ballotEnabled" : false,
-                  "stakingEnabled" : false,
-                  "constituencyEnabled" : false,
-                  "constituency" : [
-                          {
-                                  "kind" : "TOKEN",
-                                  "code" : "HUM",
-                                  "check" : "EQUAL"
-                          }
-                  ],
-                  "authorized" : false,
-                  "isDefined" : false,
-                  "isRoot" : true,
-                  "events" : [ ],
-                  "wallet" : {
-                          "balance" : 0,
-                          "placed" : 0,
-                          "available" : 0,
-                          "currency" : "HUM",
-                          "address" : [],
-                          "ledger" : [ ]
-                  },
-                  "tally" : {
-                          "lastTransaction" : "",
-                          "choice" : [ ],
-                          "voter" : []
-                  },
-                  "blockchain" : {
-                          "coin" : {
-                                  "code" : "HUM"
-                          },
-                          "publicAddress" : "{{publicAddress}}",
-                          "votePrice" : "0",
-                          "tickets" : [],
-                          "score" : {
-                                  "totalPending" : "0",
-                                  "totalConfirmed" : "0",
-                                  "totalFail" : "0",
-                                  "value" : 0,
-                                  "finalConfirmed" : 0,
-                                  "finalPending" : 0,
-                                  "finalFail" : 0
-                          }
-                  },
-                  "geo" : "",
-                  "totalReplies" : 0
+              "map": [
+                {
+                  "eventName": "Apply",
+                  "collectionType": "Contract",
+                  "contract": {
+                    "keyword" : "{{keyword}}",
+                    "collectiveId" : "{{collectiveId}}",
+                    "title" : "{{title}}",
+                    "kind" : "VOTE",
+                    "context" : "GLOBAL",
+                    "url" : "{{url}}",
+                    "description" : "",
+                    "tags" : [ ],
+                    "membersOnly" : false,
+                    "permanentElection" : true,
+                    "executionStatus" : "OPEN",
+                    "anonymous" : false,
+                    "signatures" : [],
+                    "alwaysOpen" : false,
+                    "allowForks" : false,
+                    "secretVotes" : false,
+                    "realtimeResults" : false,
+                    "multipleChoice" : false,
+                    "rankPreferences" : false,
+                    "executiveDecision" : true,
+                    "stage" : "LIVE",
+                    "ballot" : [ ],
+                    "ballotEnabled" : false,
+                    "stakingEnabled" : false,
+                    "constituencyEnabled" : false,
+                    "constituency" : [
+                            {
+                                    "kind" : "TOKEN",
+                                    "code" : "HUM",
+                                    "check" : "EQUAL"
+                            }
+                    ],
+                    "authorized" : false,
+                    "isDefined" : false,
+                    "isRoot" : true,
+                    "events" : [ ],
+                    "wallet" : {
+                            "balance" : 0,
+                            "placed" : 0,
+                            "available" : 0,
+                            "currency" : "HUM",
+                            "address" : [],
+                            "ledger" : [ ]
+                    },
+                    "tally" : {
+                            "lastTransaction" : "",
+                            "choice" : [ ],
+                            "voter" : []
+                    },
+                    "blockchain" : {
+                            "coin" : {
+                                    "code" : "HUM"
+                            },
+                            "publicAddress" : "{{publicAddress}}",
+                            "votePrice" : "0",
+                            "tickets" : [],
+                            "score" : {
+                                    "totalPending" : "0",
+                                    "totalConfirmed" : "0",
+                                    "totalFail" : "0",
+                                    "value" : 0,
+                                    "finalConfirmed" : 0,
+                                    "finalPending" : 0,
+                                    "finalFail" : 0
+                            }
+                    },
+                    "geo" : "",
+                    "totalReplies" : 0
+                  }
                 }
-              }
+              ]
             },
             {
               "label": "UniversalBasicIncome",
