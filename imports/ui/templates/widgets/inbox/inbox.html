@@ -20,6 +20,13 @@
         <div class="sidebar-label">
           {{{_ label}}}
         </div>
+        {{#if reserve}}
+          <div class="sidebar-tag">
+            {{#with tokens}}
+              {{> balance}}
+            {{/with}}
+          </div>
+        {{/if}}
       </li>
     </a>
   {{/if}}

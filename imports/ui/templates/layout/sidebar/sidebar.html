@@ -6,20 +6,22 @@
 
         {{> collective}}
 
+        <!--
         <ul class="menu menu-wallet w-clearfix w-list-unstyled">
           {{> inbox label='wallet' separator=true}}
           {{#with currentUser}}
-            {{> multiTokenProfile}}
+            {{> multiTokenProfile sidebar=true}}
           {{/with}}
         </ul>
-
+        -->
         <ul class="menu w-clearfix w-list-unstyled">
-          {{> inbox label='feeds' separator=true}}
+          <!--{{> inbox label='feeds' separator=true}}-->
           {{#each menu}}
-            {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon isAvatar=false iconActivated=iconActivated feed=feed}}
+            {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon isAvatar=false iconActivated=iconActivated feed=feed reserve=reserve}}
           {{/each}}
         </ul>
 
+        <!--
         <ul class="menu w-clearfix w-list-unstyled">
           {{> inbox label='delegates' separator=true count=totalDelegates}}
           {{#each delegate}}
@@ -30,6 +32,7 @@
             </div>
           {{/each}}
         </ul>
+        -->
 
         <div style="height: 50px"></div>
         <!--

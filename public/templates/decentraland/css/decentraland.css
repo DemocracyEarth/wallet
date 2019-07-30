@@ -5736,13 +5736,13 @@ blockquote {
 }
 
 .sidebar-tag {
-  margin-top: 8px;
+  margin-top: 6px;
   margin-right: 3px;
   margin-left: 5px;
   padding: 0px 4px;
   float: right;
   border-radius: 3px;
-  background-color: #ccbcda;
+  /* background-color: #ccbcda; */
   color: #6c5b7c;
   font-size: 7px;
   line-height: 14px;

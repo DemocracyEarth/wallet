@@ -282,6 +282,7 @@ const _userMenu = (user) => {
             selected: false,
             displayToken: true,
             tokenColor: coin.color,
+            reserve: user.profile.wallet.reserves[i],
           });
         }
       }

@@ -22,6 +22,17 @@ Template.inbox.helpers({
   isAvatar() {
     return this.isAvatar;
   },
+  tokens() {
+    const reserve = {
+      token: this.reserve.token,
+      balance: this.reserve.balance,
+      placed: this.reserve.placed,
+      available: this.reserve.available,
+      disableStake: true,
+      disableBar: true,
+    };
+    return reserve;
+  },
 });
 
 Template.inbox.events({
