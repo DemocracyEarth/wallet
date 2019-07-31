@@ -9,6 +9,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { sidebarWidth, sidebarPercentage, getDelegatesMenu, toggleSidebar } from '/imports/ui/modules/menu';
 import { getFlag, getUser } from '/imports/ui/templates/components/identity/avatar/avatar';
 import { getCoin } from '/imports/api/blockchain/modules/web3Util';
+import { Collectives } from '/imports/api/collectives/Collectives';
 
 import '/imports/ui/templates/layout/sidebar/sidebar.html';
 import '/imports/ui/templates/components/collective/collective.js';
@@ -190,15 +191,20 @@ Template.sidebar.onCreated(function () {
   Template.instance().members = new ReactiveVar(0);
   Template.instance().participants = new ReactiveVar();
   Template.instance().memberCount = new ReactiveVar(0);
+  Template.instance().daoList = new ReactiveVar();
 
   const instance = this;
 
   Meteor.call('userCount', function (error, result) {
     instance.memberCount.set(result);
   });
+  const collectives = instance.subscribe('collectives', { view: 'daoList' });
 
   instance.autorun(function () {
     let delegateList;
+    if (collectives.ready()) {
+      Template.instance().daoList.set(Collectives.find().fetch());
+    }
     if (Meteor.user()) {
       if (Meteor.user().profile.delegations && Meteor.user().profile.delegations.length > 0) {
         const subscription = instance.subscribe('delegates', { view: 'delegateList', items: _.pluck(Meteor.user().profile.delegations, 'userId') });
@@ -288,6 +294,28 @@ const _userMenu = (user) => {
       }
     }
   }
+
+  // dao feeds
+  const daoList = Template.instance().daoList.get();
+
+  if (daoList && daoList.length > 0) {
+    for (let k = 0; k < daoList.length; k += 1) {
+      menu.push({
+        id: parseInt(menu.length, 10),
+        label: `${(daoList[k].name.length > MAX_LABEL_LENGTH) ? `${daoList[k].name.substring(0, MAX_LABEL_LENGTH)}...` : daoList[k].name}`,
+        icon: 'images/decision-coin.png',
+        iconActivated: 'images/decision-coin-active.png',
+        feed: 'user',
+        value: true,
+        separator: false,
+        url: `/${daoList[k].domain.toLowerCase()}`,
+        selected: false,
+        displayToken: true,
+        tokenColor: '#fff',
+      });
+    }
+  }
+
 
   // subjectivity
   return menu;

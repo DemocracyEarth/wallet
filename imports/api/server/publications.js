@@ -212,7 +212,6 @@ Meteor.publish('delegationContracts', function (terms) {
 });
 
 
-
 /**
 * @summary loads drafts by user
 * @return {Object} querying terms
@@ -235,10 +234,14 @@ Meteor.publish('contractDrafts', function (terms) {
 
 /**
 * @summary gets information of registered collectives on this instance
+* @param {Object} terms of query
 */
-Meteor.publish('collectives', function () {
-  const collectives = Collectives.find();
-  if (collectives.count() > 0) {
+Meteor.publish('collectives', function (terms) {
+  check(terms, Object);
+  const parameters = query(terms);
+  const collectives = Collectives.find(parameters.find, parameters.options);
+  if (collectives) {
+    log(`{ publish: 'collectives', user: ${logUser()} }`);
     return collectives;
   }
   return this.ready();
