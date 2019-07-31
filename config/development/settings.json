@@ -124,7 +124,7 @@
 
     "Collective": {
       "name": "Democracy Earth",
-      "domain": "https://localhost:3000",
+      "domain": "localhost:3000",
       "emails": [
         {
           "address": "hello@democracy.earth",

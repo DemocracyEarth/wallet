@@ -303,8 +303,8 @@ const _userMenu = (user) => {
       menu.push({
         id: parseInt(menu.length, 10),
         label: `${(daoList[k].name.length > MAX_LABEL_LENGTH) ? `${daoList[k].name.substring(0, MAX_LABEL_LENGTH)}...` : daoList[k].name}`,
-        icon: 'images/decision-coin.png',
-        iconActivated: 'images/decision-coin-active.png',
+        icon: 'images/decision-dao.png',
+        iconActivated: 'images/decision-dao-active.png',
         feed: 'user',
         value: true,
         separator: false,
