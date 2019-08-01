@@ -49,7 +49,7 @@
     },
 
     "app": {
-      "url": "https://vote.democracy.earth",
+      "url": "https://democracy.earth",
       "name": "Sovereign",
       "language": "en",
       "development": true,
@@ -84,15 +84,15 @@
             }
           },
           "governance": {
-            "dictatorship": true,
+            "dictatorship": false,
             "censhorship": false,
             "dictator": {
-              "userId": "y2RPht3xHDLf7KN3u",
+              "userId": "",
               "publicAddress": ""
             }
           },
           "loginOptions": {
-            "blockstack": true,
+            "blockstack": false,
             "metamask": true,
             "email": true,
             "blockchainLogin": false
@@ -123,7 +123,7 @@
     },
 
     "Collective": {
-      "name": "Democracy Earth",
+      "name": "DAO",
       "domain": "localhost:3000",
       "emails": [
         {
@@ -134,9 +134,9 @@
       "createdAt": "January 12, 2015",
 
       "profile": {
-        "website": "https://democracy.earth",
-        "bio": "Borderless governance.",
-        "twitter": "@DemocracyEarth",
+        "website": "",
+        "bio": "Distributed Autonomous Organization",
+        "twitter": "",
         "blockchain": {
           "Bitcoin": {
             "address": ""
@@ -149,25 +149,25 @@
         "logoExtended": "images/democracy-earth-text-black.png",
         "jurisdiction": {
           "legal": {
-              "taxId": "37-1776296",
-              "name": "Democracy Earth",
-              "type": "Non-Profit 501(c)3"
+              "taxId": "",
+              "name": "",
+              "type": ""
           },
           "location": {
-            "address": "Anywhere you find an Earth Flag",
-            "state": "California",
+            "address": "",
+            "state": "",
             "country": {
-              "name": "United States of America",
-              "code": "US"
+              "name": "",
+              "code": ""
             }
           }
         },
-        "foundation": "January 12, 2015",
+        "foundation": "",
         "wallet": {
           "available": 21000000,
           "balance": 21000000,
           "placed": 0,
-          "currency": "VOTES",
+          "currency": "",
           "transactions": []
         }
       },

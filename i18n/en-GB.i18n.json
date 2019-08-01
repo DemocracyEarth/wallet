@@ -725,5 +725,6 @@
   "builder": "Builder",
   "loading": "Loading...",
   "organizations": "Organizations",
-  "geographies": "Geographies"
+  "geographies": "Geographies",
+  "profile": "Profile"
 }

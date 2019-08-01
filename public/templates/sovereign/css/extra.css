@@ -776,3 +776,9 @@ width: 1px;
 .menu.menu-wallet {
   margin-bottom:-10px;
 }
+
+.sidebar-avatar {
+  float: left;
+  margin-top: 5px;
+  margin-right: 5px;
+}

@@ -16,6 +16,12 @@
           {{else}}
             <img class="icon-inbox" src="{{pathFor route='home'}}{{icon}}">
           {{/if}}
+        {{else}}
+          {{#with currentUser}}
+            <div class="sidebar-avatar">
+              {{> avatar size=20 profile=currentUser._id loginMode=true includeName=false includeNation=false editable=false microFont=true disabled=true includeRole=false}}
+            </div>
+          {{/with}}
         {{/unless}}
         <div class="sidebar-label">
           {{{_ label}}}

@@ -3,8 +3,9 @@ import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
 
-import { toggleSelectedItem } from '../../../modules/menu';
+import '/imports/ui/templates/components/identity/avatar/avatar.js';
 
+import { toggleSelectedItem } from '../../../modules/menu';
 import './inbox.html';
 
 Template.inbox.helpers({
