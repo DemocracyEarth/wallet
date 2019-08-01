@@ -254,6 +254,12 @@ const _userMenu = (user) => {
   if (user && geo) {
     // country feed
     if (user.profile.country) {
+      menu.push({
+        id: parseInt(menu.length, 10),
+        separator: true,
+        label: 'geographies',
+      });
+
       const nation = _.where(geo.country, { code: user.profile.country.code })[0];
       menu.push({
         id: parseInt(menu.length, 10),
@@ -272,6 +278,13 @@ const _userMenu = (user) => {
     // token feeds
     let coin;
     if (user.profile.wallet.reserves && user.profile.wallet.reserves.length > 0) {
+
+      menu.push({
+        id: parseInt(menu.length, 10),
+        separator: true,
+        label: 'wallet',
+      });
+
       for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
         coin = getCoin(user.profile.wallet.reserves[i].token);
         if (coin && coin.name) {
@@ -299,6 +312,12 @@ const _userMenu = (user) => {
   const daoList = Template.instance().daoList.get();
 
   if (daoList && daoList.length > 0) {
+    menu.push({
+      id: parseInt(menu.length, 10),
+      separator: true,
+      label: 'organizations',
+    });
+
     for (let k = 0; k < daoList.length; k += 1) {
       menu.push({
         id: parseInt(menu.length, 10),

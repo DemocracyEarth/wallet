@@ -733,5 +733,7 @@
   "builder": "Builder",
   "docs": "Docs",
   "blog": "Blog",
-  "loading": "Loading democracy..."
+  "loading": "Loading democracy...",
+  "organizations": "Organizations",
+  "geographies": "Geographies"
 }
