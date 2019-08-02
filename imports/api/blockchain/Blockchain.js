@@ -108,6 +108,10 @@ Schema.Blockchain = new SimpleSchema({
     type: String,
     optional: true,
   },
+  isDAO: {
+    type: Boolean,
+    optional: true,
+  },
   smartContracts: {
     type: Array,
     optional: true,

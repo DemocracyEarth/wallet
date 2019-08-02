@@ -8,6 +8,7 @@
         "website": "https://humanitydao.org/humans",
         "bio": "Unique Identity on Ethereum",
         "blockchain" : {
+          "isDAO": true,
           "smartContracts": [
             {
               "label": "Humanity (ERC20)",
@@ -141,6 +142,7 @@
         "website": "https://molochdao.com",
         "bio": "A community DAO to fund Ethereum development in the name of Moloch the God of Coordination Failure.",
         "blockchain" : {
+          "isDAO": true,
           "smartContracts": [
             {
               "label": "Moloch",
@@ -173,6 +175,7 @@
         "website": "https://makerdao.com",
         "bio": "A decentralized stablecoin, collateral loans, and community governance.",
         "blockchain" : {
+          "isDAO": true,
           "smartContracts": [
             {
               "label": "MakerDAO",

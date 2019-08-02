@@ -4401,7 +4401,7 @@ blockquote {
   display: block;
   margin-bottom: 0px;
   padding-right: 15px;
-  padding-bottom: 20px;
+  padding-bottom: 5px;
   padding-left: 15px;
   background-color: #f2f2f8;
   box-shadow: 0 0 20px 10px #f2f2f8;
@@ -4715,6 +4715,7 @@ blockquote {
   font-size: 12px;
   line-height: 18px;
   cursor: pointer;
+  text-transform:none;
 }
 
 .collective:hover {
