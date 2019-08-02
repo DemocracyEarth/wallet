@@ -4486,7 +4486,7 @@ blockquote {
   display: block;
   margin-bottom: 0px;
   padding-right: 15px;
-  padding-bottom: 5px;
+  padding-bottom: 15px;
   padding-left: 15px;
   background-color: #f2f2f8;
   box-shadow: 0 0 20px 10px #f2f2f8;
@@ -4792,8 +4792,8 @@ blockquote {
 .collective {
   display: inline-block;
   width: 100%;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 0px;
+  margin-bottom: 0px;
   padding: 10px 10px 0px;
   border-style: solid;
   border-width: 1px;
