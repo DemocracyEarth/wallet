@@ -126,12 +126,13 @@
           ]
         },
         "proof": "https://github.com/marbleprotocol/humanity",
+        "publicAddress": "0xbbd1706d16418bb136e1497a73d3af4164586da0",
         "coin": {
-          "code": "ETH"
+          "code": "HUM"
         }
       },
       "wallet": {
-        "currency": "ETH"
+        "currency": "HUM"
       }
     },
     {
@@ -143,6 +144,7 @@
         "bio": "A community DAO to fund Ethereum development in the name of Moloch the God of Coordination Failure.",
         "blockchain" : {
           "isDAO": true,
+          "publicAddress": "0x211a94468ba1e379236b45ca42dc63ee93139c7e",
           "smartContracts": [
             {
               "label": "Moloch",
@@ -160,11 +162,11 @@
         },
         "proof": "https://twitter.com/MolochDAO/status/1121203264316268544",
         "coin": {
-          "code": "ETH"
+          "code": "WETH"
         }
       },
       "wallet": {
-        "currency": "ETH"
+        "currency": "WETH"
       }
     },
     {
@@ -176,6 +178,7 @@
         "bio": "A decentralized stablecoin, collateral loans, and community governance.",
         "blockchain" : {
           "isDAO": true,
+          "publicAddress": "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2",
           "smartContracts": [
             {
               "label": "MakerDAO",
@@ -188,11 +191,11 @@
         },
         "proof": "https://github.com/makerdao/awesome-makerdao",
         "coin": {
-          "code": "ETH"
+          "code": "MKR"
         }
       },
       "wallet": {
-        "currency": "ETH"
+        "currency": "MKR"
       }
     }
   ]
