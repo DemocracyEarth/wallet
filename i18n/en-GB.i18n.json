@@ -726,5 +726,6 @@
   "loading": "Loading...",
   "organizations": "Organizations",
   "geographies": "Geographies",
-  "profile": "Profile"
+  "profile": "Profile",
+  "offchain": "Offchain"
 }

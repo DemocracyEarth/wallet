@@ -736,5 +736,6 @@
   "loading": "Loading democracy...",
   "organizations": "Organizations",
   "geographies": "Geographies",
-  "profile": "Profile"
+  "profile": "Profile",
+  "offchain": "Offchain"
 }

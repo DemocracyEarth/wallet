@@ -233,6 +233,7 @@ Template.sidebar.onCreated(function () {
 * @returns {object} menu
 */
 const _userMenu = (user) => {
+  let coin;
   const MAX_LABEL_LENGTH = 20;
 
   const menu = [
@@ -283,10 +284,7 @@ const _userMenu = (user) => {
       });
     }
 
-    // token feeds
-    let coin;
     if (user.profile.wallet.reserves && user.profile.wallet.reserves.length > 0) {
-
       menu.push({
         id: parseInt(menu.length - 1, 10),
         separator: true,
@@ -313,6 +311,32 @@ const _userMenu = (user) => {
           });
         }
       }
+
+      if (user.profile.wallet.balance > 0) {
+        coin = getCoin(user.profile.wallet.currency);
+        console.log(coin.code.toLowerCase().replace(' ', '%20'));
+        menu.push({
+          id: parseInt(menu.length - 1, 10),
+          // label: `<span class="suggest-item suggest-token suggest-token-sidebar">${coin.code}</span> ${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
+          label: `${(TAPi18n.__('offchain') > MAX_LABEL_LENGTH) ? `${TAPi18n.__('offchain').substring(0, MAX_LABEL_LENGTH)}...` : TAPi18n.__('offchain')}`,
+          icon: 'images/decision-coin.png',
+          iconActivated: 'images/decision-coin-active.png',
+          feed: 'user',
+          value: true,
+          separator: false,
+          url: `/$${coin.code.toLowerCase().replace(' ', '%20')}`,
+          selected: false,
+          displayToken: true,
+          tokenColor: coin.color,
+          reserve: {
+            available: user.profile.wallet.available,
+            balance: user.profile.wallet.balance,
+            placed: user.profile.wallet.placed,
+            publicAddress: '',
+            token: user.profile.wallet.currency,
+          },
+        });
+      }
     }
   }
 
@@ -327,6 +351,9 @@ const _userMenu = (user) => {
     });
 
     for (let k = 0; k < daoList.length; k += 1) {
+      if (daoList[k].profile.blockchain.coin.code) {
+        coin = getCoin(daoList[k].profile.blockchain.coin.code);
+      }
       menu.push({
         id: parseInt(menu.length - 1, 10),
         label: `${(daoList[k].name.length > MAX_LABEL_LENGTH) ? `${daoList[k].name.substring(0, MAX_LABEL_LENGTH)}...` : daoList[k].name}`,
@@ -338,7 +365,14 @@ const _userMenu = (user) => {
         url: `/${daoList[k].domain.toLowerCase()}`,
         selected: false,
         displayToken: true,
-        tokenColor: '#fff',
+        tokenColor: coin.color,
+        reserve: {
+          available: 0,
+          balance: 0,
+          placed: 0,
+          publicAddress: daoList[k].profile.blockchain.publicAddress,
+          token: daoList[k].profile.blockchain.coin.code,
+        },
       });
     }
   }

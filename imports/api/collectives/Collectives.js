@@ -91,12 +91,10 @@ Schema.CollectiveProfile = new SimpleSchema({
     type: Boolean,
     optional: true,
   },
-  /* 
   wallet: {
     type: Wallet,
     optional: true,
   },
-  */
 });
 
 
