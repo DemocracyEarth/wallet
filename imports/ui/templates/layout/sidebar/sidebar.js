@@ -314,7 +314,6 @@ const _userMenu = (user) => {
 
       if (user.profile.wallet.balance > 0) {
         coin = getCoin(user.profile.wallet.currency);
-        console.log(coin.code.toLowerCase().replace(' ', '%20'));
         menu.push({
           id: parseInt(menu.length - 1, 10),
           // label: `<span class="suggest-item suggest-token suggest-token-sidebar">${coin.code}</span> ${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
