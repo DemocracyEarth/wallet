@@ -176,10 +176,11 @@ const _getTokenSymbol = (publicAddress, contractAddress) => {
 */
 const _getTokenBalance = (publicAddress, contractAddress) => {
   return new Promise(
-    (resolve, reject) => {
+    async (resolve, reject) => {
       const tokenInstance = new web3.eth.Contract(abi, contractAddress);
-
-      tokenInstance.methods.balanceOf(publicAddress).call((err, balance) => {
+      await tokenInstance.methods.balanceOf(publicAddress).call((err, balance) => {
+        console.log('BALANCE');
+        console.log(balance);
         if (err) {
           if (err.message === "Couldn't decode uint256 from ABI: 0x") {
             // TODO - handle return of 0 more gracefully
