@@ -98,7 +98,7 @@ Template.transaction.onCreated(function () {
   // const data = Template.currentData();
   // if (data.contract && data.contract.kind === 'CRYPTO' && data.contract.blockchain && data.contract.blockchain.tickets.length > 0) {
   //  Template.instance().status = new ReactiveVar(data.blockchain.tickets[0].status.toLowerCase());
-  //}
+  // }
 
   Template.instance().imageTemplate = new ReactiveVar();
   templetize(Template.instance());
@@ -282,7 +282,6 @@ Template.transaction.helpers({
           if (status !== 'PENDING') {
             instance.txStatus = status;
           }
-          console.log('FIND');
           return getImage(Template.instance().imageTemplate.get(), `arrow-right-${status}`);
         }
       } else {

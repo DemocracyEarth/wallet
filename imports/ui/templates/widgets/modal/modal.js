@@ -156,7 +156,7 @@ Template.modalWindow.helpers({
 
 Template.modalWindow.events({
   'click #modalToggle'() {
-    //Modules.client.displayModal(false);
+    // Modules.client.displayModal(false);
   },
   'click #cancel'() {
     if (globalObj.modalCancel !== undefined) { globalObj.modalCancel(); }

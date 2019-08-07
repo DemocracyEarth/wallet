@@ -89,6 +89,7 @@ const _here = (item) => {
 *
 */
 const stripMarkdownLink = (text, humanStr) => {
+  var strip_blank_regexp = /<a href='.*' target='_blank'>/
   text = text.slice(text.search('<a href='));
   text = text.slice(0, text.search("target='_blank'>") + 16);
   text = text + humanStr + '</a>';

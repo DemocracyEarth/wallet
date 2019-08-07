@@ -40,8 +40,8 @@ Template.spinner.onRendered(async function () {
 
   Object.assign(opts, this.data);
 
-  const target = document.getElementById(`spinner-feed-${this.data.id}`);
-  if (typeof Spinner !== 'undefined') {
-    let spinner = new Spinner(opts).spin(target);
-  }
+  // const target = document.getElementById(`spinner-feed-${this.data.id}`);
+  /* if (typeof Spinner !== 'undefined') {
+    const spinner = new Spinner(opts).spin(target);
+  } */
 });

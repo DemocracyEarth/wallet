@@ -3,7 +3,7 @@ import { Template } from 'meteor/templating';
 import './feedLoad.html';
 
 Template.feedLoad.onRendered(function () {
-  const opts = {
+  /* const opts = {
     lines: 17,
     length: 13,
     width: 3,
@@ -29,5 +29,5 @@ Template.feedLoad.onRendered(function () {
   const target = document.getElementById('spinner-feed');
   if (typeof Spinner !== 'undefined') {
     let spinner = new Spinner(opts).spin(target);
-  }
+  } */
 });

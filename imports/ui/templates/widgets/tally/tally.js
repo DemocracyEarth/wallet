@@ -136,7 +136,7 @@ Template.tally.onCreated(function () {
       if (result) {
         instance.contract.set(result);
       } else if (error) {
-        console.log(error);
+        console.log(error); // eslint-disable-line no-console
       }
     });
   } else if (this.data.options.view === 'userVotes' || this.data.options.view === 'delegationVotes') {
@@ -145,7 +145,7 @@ Template.tally.onCreated(function () {
         if (result) {
           instance.contract.set(result);
         } else if (error) {
-          console.log(error);
+          console.log(error); // eslint-disable-line no-console
         }
       });
     } else if (this.data.options.userId) {

@@ -53,7 +53,7 @@ Template.suggest.events({
   'click #country'(event) {
     const country = {
       code: event.target.parentNode.getAttribute('value'),
-      name: event.target.innerText.replace(/[^\x00-\x7F]/g, '').substring(1),
+      name: event.target.innerText.replace(/[^\x00-\x7F]/g, '').substring(1), // eslint-disable-line no-control-regex
       emoji: event.target.firstChild.data,
     };
     Session.set('newCountry', country);
@@ -64,7 +64,7 @@ Template.suggest.events({
   'click #token'(event) {
     const coin = {
       code: event.target.parentNode.getAttribute('value'),
-      name: event.target.innerText.replace(/[^\x00-\x7F]/g, ''),
+      name: event.target.innerText.replace(/[^\x00-\x7F]/g, ''), // eslint-disable-line no-control-regex
       emoji: event.target.firstChild.data,
     };
     Session.set('newCoin', coin);

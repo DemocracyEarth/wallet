@@ -1,11 +1,8 @@
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
-import { ReactiveVar } from 'meteor/reactive-var';
 
-import { Contracts } from '/imports/api/contracts/Contracts';
 import { animationSettings } from '/imports/ui/modules/animation';
-import { getRightToVote } from '/imports/ui/modules/ballot';
 
 import './toggle.html';
 

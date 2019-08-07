@@ -1,14 +1,14 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Meteor } from 'meteor/meteor';
-import { $ } from 'meteor/jquery';
+// import { $ } from 'meteor/jquery';
 
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
 import '/imports/ui/templates/widgets/preview/preview.html';
 
-const _getCharLength = (id) => {
+/* const _getCharLength = (id) => {
   const DEFAULT = 30;
   const width = $(`#transactionItem-${id}`).width;
   if (width) {
@@ -17,7 +17,7 @@ const _getCharLength = (id) => {
     return chars;
   }
   return DEFAULT;
-};
+};*/
 
 Template.preview.onCreated(function () {
   Template.instance().feed = new ReactiveVar();
@@ -32,7 +32,7 @@ Template.preview.onCreated(function () {
         if (result) {
           instance.contract.set(result);
         } else if (error) {
-          console.log(error);
+          console.log(error); // eslint-disable-line no-console
         }
       });
     } else {
