@@ -52,6 +52,43 @@ Schema.Jurisdiction = new SimpleSchema({
   },
 });
 
+Schema.Menu = new SimpleSchema({
+  separator: {
+    type: Boolean,
+    optional: true,
+  },
+  label: {
+    type: String,
+    optional: true,
+  },
+  icon: {
+    type: String,
+    optional: true,
+  },
+  iconActivated: {
+    type: String,
+    optional: true,
+  },
+  feed: {
+    type: String,
+    optional: true,
+  },
+  value: {
+    type: Boolean,
+    optional: true,
+  },
+  url: {
+    type: String,
+    optional: true,
+  },
+  displayToken: {
+    type: Boolean,
+    defaultValue: false,
+    optional: true,
+  },
+});
+
+
 Schema.CollectiveProfile = new SimpleSchema({
   website: {
     type: String,
@@ -93,6 +130,10 @@ Schema.CollectiveProfile = new SimpleSchema({
   },
   wallet: {
     type: Wallet,
+    optional: true,
+  },
+  menu: {
+    type: Schema.Menu,
     optional: true,
   },
 });
