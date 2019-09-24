@@ -737,5 +737,17 @@
   "organizations": "Organizations",
   "geographies": "Geographies",
   "profile": "Profile",
-  "offchain": "Offchain"
+  "offchain": "Offchain",
+  "moloch-dao": "Moloch DAO",
+  "moloch": "Moloch",
+  "moloch-voting-period": "Voting Now",
+  "moloch-grace-period": "Grace Period",
+  "moloch-ready-processing": "Processing",
+  "moloch-queue": "In Queue",
+  "moloch-completed": "Completed",
+  "moloch-passed": "Passed",
+  "moloch-failed": "Failed",
+  "moloch-abnorted": "Aborted",
+  "moloch-proposal": "Proposals",
+  "moloch-results": "Results"
 }
