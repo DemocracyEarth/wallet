@@ -253,62 +253,6 @@ const _userMenu = (user) => {
   const geo = Session.get('geo');
 
   if (user && geo) {
-    if (user.profile.wallet.reserves && user.profile.wallet.reserves.length > 0) {
-      menu.push({
-        id: parseInt(menu.length - 1, 10),
-        separator: true,
-        label: TAPi18n.__('wallet'),
-      });
-
-      for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
-        coin = getCoin(user.profile.wallet.reserves[i].token);
-        if (coin && coin.name) {
-          menu.push({
-            id: parseInt(menu.length - 1, 10),
-            // label: `<span class="suggest-item suggest-token suggest-token-sidebar">${coin.code}</span> ${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
-            label: `${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
-            icon: 'images/decision-coin.png',
-            iconActivated: 'images/decision-coin-active.png',
-            feed: 'user',
-            value: true,
-            separator: false,
-            url: `/$${coin.code.toLowerCase()}`,
-            selected: false,
-            displayToken: true,
-            tokenColor: coin.color,
-            reserve: user.profile.wallet.reserves[i],
-          });
-        }
-      }
-
-      /*
-      if (user.profile.wallet.balance > 0) {
-        coin = getCoin(user.profile.wallet.currency);
-        menu.push({
-          id: parseInt(menu.length - 1, 10),
-          // label: `<span class="suggest-item suggest-token suggest-token-sidebar">${coin.code}</span> ${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
-          label: `${(TAPi18n.__('offchain') > MAX_LABEL_LENGTH) ? `${TAPi18n.__('offchain').substring(0, MAX_LABEL_LENGTH)}...` : TAPi18n.__('offchain')}`,
-          icon: 'images/decision-coin.png',
-          iconActivated: 'images/decision-coin-active.png',
-          feed: 'user',
-          value: true,
-          separator: false,
-          url: `/$${coin.code.toLowerCase().replace(' ', '%20')}`,
-          selected: false,
-          displayToken: true,
-          tokenColor: coin.color,
-          reserve: {
-            available: user.profile.wallet.available,
-            balance: user.profile.wallet.balance,
-            placed: user.profile.wallet.placed,
-            publicAddress: '',
-            token: user.profile.wallet.currency,
-          },
-        });
-      }
-      */
-    }
-
     /*
     menu.push({
       id: 1,
@@ -391,6 +335,65 @@ const _userMenu = (user) => {
       });
     }
     */
+  }
+
+  if (user) {
+    if (user.profile.wallet.reserves && user.profile.wallet.reserves.length > 0) {
+      /*
+      menu.push({
+        id: parseInt(menu.length - 1, 10),
+        separator: true,
+        label: TAPi18n.__('wallet'),
+      });
+
+      for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
+        coin = getCoin(user.profile.wallet.reserves[i].token);
+        if (coin && coin.name) {
+          menu.push({
+            id: parseInt(menu.length - 1, 10),
+            // label: `<span class="suggest-item suggest-token suggest-token-sidebar">${coin.code}</span> ${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
+            label: `${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
+            icon: 'images/decision-coin.png',
+            iconActivated: 'images/decision-coin-active.png',
+            feed: 'user',
+            value: true,
+            separator: false,
+            url: `/$${coin.code.toLowerCase()}`,
+            selected: false,
+            displayToken: true,
+            tokenColor: coin.color,
+            reserve: user.profile.wallet.reserves[i],
+          });
+        }
+      }
+      */
+      /*
+      if (user.profile.wallet.balance > 0) {
+        coin = getCoin(user.profile.wallet.currency);
+        menu.push({
+          id: parseInt(menu.length - 1, 10),
+          // label: `<span class="suggest-item suggest-token suggest-token-sidebar">${coin.code}</span> ${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
+          label: `${(TAPi18n.__('offchain') > MAX_LABEL_LENGTH) ? `${TAPi18n.__('offchain').substring(0, MAX_LABEL_LENGTH)}...` : TAPi18n.__('offchain')}`,
+          icon: 'images/decision-coin.png',
+          iconActivated: 'images/decision-coin-active.png',
+          feed: 'user',
+          value: true,
+          separator: false,
+          url: `/$${coin.code.toLowerCase().replace(' ', '%20')}`,
+          selected: false,
+          displayToken: true,
+          tokenColor: coin.color,
+          reserve: {
+            available: user.profile.wallet.available,
+            balance: user.profile.wallet.balance,
+            placed: user.profile.wallet.placed,
+            publicAddress: '',
+            token: user.profile.wallet.currency,
+          },
+        });
+      }
+      */
+    }
   }
 
 

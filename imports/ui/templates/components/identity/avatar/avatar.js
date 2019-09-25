@@ -65,6 +65,18 @@ const _getAddress = (user) => {
 };
 
 /**
+* @summary shortens the username if its a crypto address
+* @param {object} publicAddress string of username to check
+* @returns {string} username string
+*/
+const _shortenCryptoName = (publicAddress) => {
+  if (publicAddress.length === 42 && publicAddress.slice(0, 2) === '0x') {
+    return `${publicAddress.slice(0, 6)}...${publicAddress.slice(36, 42)}`.toUpperCase();
+  }
+  return publicAddress;
+};
+
+/**
 * @summary describes nationality of user in ux
 * @param {object} profile user to parse
 * @param {boolean} flagOnly just show emoji
@@ -324,14 +336,14 @@ Template.avatar.helpers({
   username(profile) {
     if (profile === undefined) {
       if (Meteor.user()) {
-        return Meteor.user().username;
+        return _shortenCryptoName(Meteor.user().username);
       }
     }
     const user = Meteor.users.findOne(_getDynamicID(this));
     if (!user) {
       return '';
     }
-    return `${user.username}`;
+    return `${_shortenCryptoName(user.username)}`;
   },
   nationality(profile) {
     return getNation(profile);
@@ -417,3 +429,4 @@ Template.avatar.events({
 
 export const getFlag = getNation;
 export const getUser = _getUser;
+export const shortenCryptoName = _shortenCryptoName;

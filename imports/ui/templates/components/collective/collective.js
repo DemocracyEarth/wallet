@@ -3,9 +3,13 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 
+import { Collectives } from '/imports/api/collectives/Collectives';
 import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
 import { resetSplit } from '/imports/ui/modules/split';
 import { showSidebar } from '/imports/ui/templates/layout/sidebar/sidebar';
+import { ReactiveVar } from 'meteor/reactive-var';
+
+import { shortenCryptoName } from '/imports/ui/templates/components/identity/avatar/avatar';
 
 import '/imports/ui/templates/components/collective/collective.html';
 
@@ -18,6 +22,19 @@ const _promptLogin = (logged, event) => {
     animatePopup(false, 'user-login');
   }
 };
+
+Template.collective.onCreated(function () {
+  Template.instance().daoList = new ReactiveVar();
+
+  const instance = this;
+  const collectives = instance.subscribe('collectives', { view: 'daoList' });
+
+  instance.autorun(function () {
+    if (collectives.ready()) {
+      Template.instance().daoList.set(Collectives.find().fetch());
+    }
+  });
+});
 
 Template.collective.onRendered(() => {
   Session.set('userLoginVisible', false);
@@ -44,19 +61,22 @@ Template.collective.onRendered(() => {
 
 Template.collective.helpers({
   title() {
-    return Meteor.settings.public.Collective.name;
+    return Template.instance().daoList.get()[0].name; // Meteor.settings.public.Collective.name;
   },
   description() {
-    return Meteor.settings.public.Collective.profile.bio;
+    return Template.instance().daoList.get()[0].profile.bio;
   },
   picture() {
-    if (Meteor.settings.public.Collective.profile.logo) {
-      return Meteor.settings.public.Collective.profile.logo;
+    if (Template.instance().daoList.get()[0].profile.logo) {
+      return Template.instance().daoList.get()[0].profile.logo;
     }
     return 'images/earth.png';
   },
+  username() {
+    return shortenCryptoName(Meteor.user().username);
+  },
   hasLogo() {
-    return (Meteor.settings.public.Collective.profile.logo !== undefined);
+    return (Template.instance().daoList.get()[0].profile.logo !== undefined);
   },
   toggle() {
     if (Session.get('userLoginVisible')) {
