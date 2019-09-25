@@ -133,7 +133,7 @@ Schema.CollectiveProfile = new SimpleSchema({
     optional: true,
   },
   menu: {
-    type: Schema.Menu,
+    type: [Schema.Menu],
     optional: true,
   },
 });
