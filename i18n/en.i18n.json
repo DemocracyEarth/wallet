@@ -747,7 +747,7 @@
   "moloch-completed": "Completed",
   "moloch-passed": "Passed",
   "moloch-failed": "Failed",
-  "moloch-abnorted": "Aborted",
+  "moloch-aborted": "Aborted",
   "moloch-proposal": "Proposals",
   "moloch-results": "Results"
 }

@@ -39,6 +39,8 @@ Meteor.startup(() => {
     safari: Meteor.settings.public.app.config.appCache
   });
   */
+
+  /*
   console.log('[startup] Verifiying main Collective in server...');
   const dbCollective = Collectives.findOne({ domain: Meteor.settings.public.Collective.domain });
   if (dbCollective) {
@@ -59,6 +61,7 @@ Meteor.startup(() => {
       });
     }
   }
+  */
 
   console.log('[config] Verifying key configuration for this instance...');
 

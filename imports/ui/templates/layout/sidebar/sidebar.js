@@ -237,7 +237,7 @@ const _userMenu = (user) => {
   const MAX_LABEL_LENGTH = 20;
 
   const menu = [
-    {
+    /* {
       id: 0,
       label: TAPi18n.__('menu-proposals'),
       icon: 'images/decision-proposals.png',
@@ -247,12 +247,69 @@ const _userMenu = (user) => {
       separator: false,
       url: '/',
       selected: false,
-    },
+    },*/
   ];
 
   const geo = Session.get('geo');
 
   if (user && geo) {
+    if (user.profile.wallet.reserves && user.profile.wallet.reserves.length > 0) {
+      menu.push({
+        id: parseInt(menu.length - 1, 10),
+        separator: true,
+        label: TAPi18n.__('wallet'),
+      });
+
+      for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
+        coin = getCoin(user.profile.wallet.reserves[i].token);
+        if (coin && coin.name) {
+          menu.push({
+            id: parseInt(menu.length - 1, 10),
+            // label: `<span class="suggest-item suggest-token suggest-token-sidebar">${coin.code}</span> ${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
+            label: `${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
+            icon: 'images/decision-coin.png',
+            iconActivated: 'images/decision-coin-active.png',
+            feed: 'user',
+            value: true,
+            separator: false,
+            url: `/$${coin.code.toLowerCase()}`,
+            selected: false,
+            displayToken: true,
+            tokenColor: coin.color,
+            reserve: user.profile.wallet.reserves[i],
+          });
+        }
+      }
+
+      /*
+      if (user.profile.wallet.balance > 0) {
+        coin = getCoin(user.profile.wallet.currency);
+        menu.push({
+          id: parseInt(menu.length - 1, 10),
+          // label: `<span class="suggest-item suggest-token suggest-token-sidebar">${coin.code}</span> ${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
+          label: `${(TAPi18n.__('offchain') > MAX_LABEL_LENGTH) ? `${TAPi18n.__('offchain').substring(0, MAX_LABEL_LENGTH)}...` : TAPi18n.__('offchain')}`,
+          icon: 'images/decision-coin.png',
+          iconActivated: 'images/decision-coin-active.png',
+          feed: 'user',
+          value: true,
+          separator: false,
+          url: `/$${coin.code.toLowerCase().replace(' ', '%20')}`,
+          selected: false,
+          displayToken: true,
+          tokenColor: coin.color,
+          reserve: {
+            available: user.profile.wallet.available,
+            balance: user.profile.wallet.balance,
+            placed: user.profile.wallet.placed,
+            publicAddress: '',
+            token: user.profile.wallet.currency,
+          },
+        });
+      }
+      */
+    }
+
+    /*
     menu.push({
       id: 1,
       label: TAPi18n.__('profile'),
@@ -283,66 +340,25 @@ const _userMenu = (user) => {
         selected: false,
       });
     }
-
-    if (user.profile.wallet.reserves && user.profile.wallet.reserves.length > 0) {
-      menu.push({
-        id: parseInt(menu.length - 1, 10),
-        separator: true,
-        label: TAPi18n.__('wallet'),
-      });
-
-      for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
-        coin = getCoin(user.profile.wallet.reserves[i].token);
-        if (coin && coin.name) {
-          menu.push({
-            id: parseInt(menu.length - 1, 10),
-            // label: `<span class="suggest-item suggest-token suggest-token-sidebar">${coin.code}</span> ${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
-            label: `${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
-            icon: 'images/decision-coin.png',
-            iconActivated: 'images/decision-coin-active.png',
-            feed: 'user',
-            value: true,
-            separator: false,
-            url: `/$${coin.code.toLowerCase()}`,
-            selected: false,
-            displayToken: true,
-            tokenColor: coin.color,
-            reserve: user.profile.wallet.reserves[i],
-          });
-        }
-      }
-
-      if (user.profile.wallet.balance > 0) {
-        coin = getCoin(user.profile.wallet.currency);
-        menu.push({
-          id: parseInt(menu.length - 1, 10),
-          // label: `<span class="suggest-item suggest-token suggest-token-sidebar">${coin.code}</span> ${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
-          label: `${(TAPi18n.__('offchain') > MAX_LABEL_LENGTH) ? `${TAPi18n.__('offchain').substring(0, MAX_LABEL_LENGTH)}...` : TAPi18n.__('offchain')}`,
-          icon: 'images/decision-coin.png',
-          iconActivated: 'images/decision-coin-active.png',
-          feed: 'user',
-          value: true,
-          separator: false,
-          url: `/$${coin.code.toLowerCase().replace(' ', '%20')}`,
-          selected: false,
-          displayToken: true,
-          tokenColor: coin.color,
-          reserve: {
-            available: user.profile.wallet.available,
-            balance: user.profile.wallet.balance,
-            placed: user.profile.wallet.placed,
-            publicAddress: '',
-            token: user.profile.wallet.currency,
-          },
-        });
-      }
-    }
+    */
   }
 
   // dao feeds
   const daoList = Template.instance().daoList.get();
+  console.log(daoList);
 
+  let daoMenu;
   if (daoList && daoList.length > 0) {
+    for (let h = 0; h < daoList.length; h += 1) {
+      if (daoList[h].profile.menu && daoList[h].profile.menu.length > 0) {
+        for (let j = 0; j < daoList[h].profile.menu.length; j += 1) {
+          daoMenu = daoList[h].profile.menu[j];
+          daoMenu.id = parseInt(menu.length - 1, 10);
+          menu.push(daoMenu);
+        }
+      }
+    }
+    /*
     menu.push({
       id: parseInt(menu.length - 1, 10),
       separator: true,
@@ -374,6 +390,7 @@ const _userMenu = (user) => {
         },
       });
     }
+    */
   }
 
 
