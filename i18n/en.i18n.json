@@ -749,5 +749,6 @@
   "moloch-failed": "Failed",
   "moloch-aborted": "Aborted",
   "moloch-proposal": "Proposals",
-  "moloch-results": "Results"
+  "moloch-results": "Results",
+  "moloch-map-submit-proposal": "{{title}} {{description}}"
 }

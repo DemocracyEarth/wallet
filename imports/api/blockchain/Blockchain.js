@@ -75,6 +75,10 @@ Schema.Map = new SimpleSchema({
     defaultValue: {},
     optional: true,
   },
+  script: {
+    type: String,
+    optional: true,
+  },
 });
 
 Schema.Blockchain = new SimpleSchema({

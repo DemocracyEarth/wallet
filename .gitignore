@@ -80,3 +80,4 @@ jslint.xml
 
 # IDE
 .idea
+reset.sh
