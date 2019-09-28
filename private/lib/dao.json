@@ -25,8 +25,8 @@
           },
           {
             "label": "moloch-grace-period",
-            "icon": "images/decision-open.png",
-            "iconActivated": "images/decision-open-active.png",
+            "icon": "images/decision-proposals.png",
+            "iconActivated": "images/decision-proposals-active.png",
             "feed": "user",
             "value": true,
             "separator": false,
@@ -45,8 +45,8 @@
           },
           {
             "label": "moloch-queue",
-            "icon": "images/decision-coin.png",
-            "iconActivated": "images/decision-coin-active.png",
+            "icon": "images/decision-open.png",
+            "iconActivated": "images/decision-open-active.png",
             "feed": "user",
             "value": true,
             "separator": false,
