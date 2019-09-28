@@ -71,7 +71,7 @@ const _getAddress = (user) => {
 */
 const _shortenCryptoName = (publicAddress) => {
   if (publicAddress.length === 42 && publicAddress.slice(0, 2) === '0x') {
-    return `${publicAddress.slice(0, 6)}...${publicAddress.slice(36, 42)}`.toUpperCase();
+    return `${publicAddress.slice(0, 8)}...${publicAddress.slice(34, 42)}`.toLowerCase();
   }
   return publicAddress;
 };

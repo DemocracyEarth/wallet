@@ -15,8 +15,8 @@
           },
           {
             "label": "moloch-voting-period",
-            "icon": "images/decision-proposals.png",
-            "iconActivated": "images/decision-proposals-active.png",
+            "icon": "images/decision-vote.png",
+            "iconActivated": "images/decision-vote-active.png",
             "feed": "user",
             "value": true,
             "separator": false,
