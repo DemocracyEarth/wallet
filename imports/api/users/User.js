@@ -173,6 +173,20 @@ Schema.Profile = new SimpleSchema({
     type: [Schema.Delegation],
     optional: true,
   },
+  collectives: {
+    type: Array,
+    defaultValue: [],
+    optional: true,
+  },
+  'collectives.$': {
+    type: String,
+    optional: true,
+  },
+  membership: {
+    type: String,
+    allowedValues: ['APPLICANT', 'MEMBER', 'DELEGATE', 'KICKED', 'ADDRESS'],
+    optional: true,
+  },
 });
 
 Schema.User = new SimpleSchema({
