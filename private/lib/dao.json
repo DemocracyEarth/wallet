@@ -124,7 +124,7 @@
                   "collectionType": "Contract",
                   "script": "createUser($memberAddress); calculateStage();",
                   "contract": {
-                    "title": "{{_ moloch-map-submit-proposal}}",
+                    "title": "moloch-map-submit-proposal",
                     "kind": "VOTE",
                     "keyword": "{{$generateKeyword}}",
                     "url": "{{$generateURL}}",
