@@ -750,5 +750,5 @@
   "moloch-aborted": "Aborted",
   "moloch-proposal": "Proposals",
   "moloch-results": "Results",
-  "moloch-map-submit-proposal": "A total of {{sharesRequested}} shares is being requested by {{applicant}}.<br><br>A tribute of {{ether tokenTribute}} ETH has been offered."
+  "moloch-map-submit-proposal": "A total of {{sharesRequested}} shares is being requested by {{applicant}}.\n\nA tribute of {{ether tokenTribute}} ETH has been offered."
 }

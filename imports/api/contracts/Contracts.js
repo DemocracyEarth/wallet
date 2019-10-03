@@ -267,6 +267,7 @@ Schema.Contract = new SimpleSchema({
     // creation Date
     type: Date,
     autoValue() {
+      if (this.field('createdAt').value) { return this.field('createdAt').value; }
       if (this.isInsert) {
         return new Date();
       }
@@ -276,6 +277,8 @@ Schema.Contract = new SimpleSchema({
     // last update
     type: Date,
     autoValue() {
+      console.log(this.field('lastUpdate').value);
+      if (this.field('lastUpdate').value) { return this.field('lastUpdate').value; }
       return new Date();
     },
   },
@@ -283,6 +286,7 @@ Schema.Contract = new SimpleSchema({
     // timestamp (visible last update)
     type: Date,
     autoValue() {
+      if (this.field('timestamp').value) { return this.field('timestamp').value; }
       if (this.isUpdate || this.isInsert) {
         return new Date();
       }
