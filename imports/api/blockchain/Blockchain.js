@@ -122,6 +122,7 @@ Schema.Blockchain = new SimpleSchema({
   },
   'smartContracts.$': {
     type: Object,
+    optional: true,
   },
   'smartContracts.$.label': {
     type: String,

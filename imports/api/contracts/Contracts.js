@@ -9,6 +9,7 @@ import { convertToSlug } from '/lib/utils';
 import { Thread } from '/imports/api/contracts/Thread';
 import { Wallet } from '/imports/api/users/Wallet';
 import { Blockchain } from '/imports/api/blockchain/Blockchain';
+import { defaults } from '/lib/const';
 
 export const Contracts = new Mongo.Collection('contracts');
 
@@ -83,7 +84,7 @@ Schema.Poll = new SimpleSchema({
 Schema.Closing = new SimpleSchema({
   blockchain: {
     type: String,
-    defaultValue: 'ETH',
+    defaultValue: defaults.CHAIN,
   },
   height: {
     type: Number,
@@ -218,6 +219,8 @@ Schema.Contract = new SimpleSchema({
      // URL inside the instance of .Earth
     type: String,
     autoValue() {
+      if (this.field('url').value) { return this.field('url').value; }
+
       let slug = convertToSlug(this.field('title').value);
       if (this.isInsert) {
         if (this.field('kind').value === 'DELEGATION') {
