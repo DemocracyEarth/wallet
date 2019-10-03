@@ -280,7 +280,6 @@ Schema.Contract = new SimpleSchema({
     // last update
     type: Date,
     autoValue() {
-      console.log(this.field('lastUpdate').value);
       if (this.field('lastUpdate').value) { return this.field('lastUpdate').value; }
       return new Date();
     },

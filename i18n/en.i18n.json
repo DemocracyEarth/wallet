@@ -32,8 +32,6 @@
   "December": "December",
   "authorize": "Yes.",
   "reject": "No.",
-  "AUTHORIZE": "Yes.",
-  "REJECT": "No.",
   "new_fork": "Another Proposal",
   "tags_lack_authorization": "Tags in red have no citizens yet.",
   "max_tags_reached": "Maximum quantity of tags reached.",
@@ -750,5 +748,7 @@
   "moloch-aborted": "Aborted",
   "moloch-proposal": "Proposals",
   "moloch-results": "Results",
-  "moloch-map-submit-proposal": "A total of {{sharesRequested}} shares is being requested by {{applicant}}.\n\nA tribute of {{ether tokenTribute}} ETH has been offered."
+  "moloch-map-submit-proposal": "A total of {{sharesRequested}} shares is being requested by {{applicant}}.\n\nA tribute of {{ether tokenTribute}} ETH has been offered.",
+  "moloch-yes": "Yes",
+  "moloch-no": "No"
 }
