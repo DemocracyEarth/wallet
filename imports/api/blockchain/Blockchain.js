@@ -130,6 +130,9 @@ Schema.Blockchain = new SimpleSchema({
   },
   'smartContracts.$.publicAddress': {
     type: String,
+    autoValue() {
+      return this.field('smartContracts.$.publicAddress').toLowerCase();
+    },
     optional: true,
   },
   'smartContracts.$.EIP': {
