@@ -83,11 +83,6 @@ Schema.Transaction = new SimpleSchema({
   timestamp: {
     type: Date,
     optional: true,
-    autoValue() {
-      if (this.isInsert) {
-        return new Date();
-      }
-    },
   },
   condition: {
     type: Object,
