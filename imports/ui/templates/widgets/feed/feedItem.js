@@ -27,6 +27,8 @@ import '/imports/ui/templates/components/decision/countdown/countdown.js';
 import BigNumber from 'bignumber.js';
 import { gui } from '/lib/const';
 
+const parser = require('xml-js');
+
 /**
 * @summary determines whether this decision can display results or notice
 * @return {boolean} yes or no
@@ -546,6 +548,27 @@ Template.feedItem.helpers({
   },
   moloch() {
     return gui.MOLOCH_DAPP;
+  },
+  request() {
+    console.log(this.title);
+    console.log(this);
+
+    const xml = `<?xml version="1.0" encoding="utf-8"?><root>${this.title}</root>`;
+    console.log(parser.xml2js(xml, { compact: true, spaces: 4 }));
+
+    /*
+    const token = {
+      token: this.reserve.token,
+      balance: this.reserve.balance,
+      placed: this.reserve.placed,
+      available: this.reserve.available,
+      disableStake: true,
+      disableBar: true,
+    };*/
+    return token;
+  },
+  tribute() {
+
   },
 });
 
