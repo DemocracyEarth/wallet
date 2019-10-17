@@ -30,6 +30,28 @@ import { gui } from '/lib/const';
 const parser = require('xml-js');
 
 /**
+* @summary from an XML get the info structured to represent token data
+* @param {string} text of xml source
+* @param {string} attribute to look into xml
+*/
+const _getXMLToken = (text, attribute) => {
+  const xml = `<root>${text}</root>`;
+  const json = parser.xml2js(xml, { compact: true, spaces: 4 });
+
+  console.log(json);
+  console.log(json.root[attribute]);
+  
+  return {
+    token: json.root[attribute]._attributes.token,
+    balance: json.root[attribute]._attributes.quantity,
+    placed: json.root[attribute]._attributes.quantity,
+    available: json.root[attribute]._attributes.quantity,
+    disableStake: true,
+    disableBar: true,
+  };
+};
+
+/**
 * @summary determines whether this decision can display results or notice
 * @return {boolean} yes or no
 */
@@ -550,25 +572,12 @@ Template.feedItem.helpers({
     return gui.MOLOCH_DAPP;
   },
   request() {
-    console.log(this.title);
-    console.log(this);
-
-    const xml = `<?xml version="1.0" encoding="utf-8"?><root>${this.title}</root>`;
-    console.log(parser.xml2js(xml, { compact: true, spaces: 4 }));
-
-    /*
-    const token = {
-      token: this.reserve.token,
-      balance: this.reserve.balance,
-      placed: this.reserve.placed,
-      available: this.reserve.available,
-      disableStake: true,
-      disableBar: true,
-    };*/
-    return token;
+    console.log(_getXMLToken(this.title, 'request'));
+    return _getXMLToken(this.title, 'request');
   },
   tribute() {
-
+    console.log(_getXMLToken(this.title, 'tribute'));
+    return _getXMLToken(this.title, 'tribute');
   },
 });
 
