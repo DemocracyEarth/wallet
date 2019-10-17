@@ -25,6 +25,7 @@ import '/imports/ui/templates/components/identity/avatar/avatar.js';
 import '/imports/ui/templates/components/decision/countdown/countdown.js';
 
 import BigNumber from 'bignumber.js';
+import { gui } from '/lib/const';
 
 /**
 * @summary determines whether this decision can display results or notice
@@ -542,6 +543,9 @@ Template.feedItem.helpers({
       closing.alwaysOn = this.rules.alwaysOn;
     }
     return closing;
+  },
+  moloch() {
+    return gui.MOLOCH_DAPP;
   },
 });
 

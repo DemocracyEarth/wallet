@@ -73,7 +73,22 @@
             <div class="w-inline-block w-clearfix option-proposal">
               <div class="option-title option-link option-search title-input">
                 <div class="title-input title-feed {{focused}}">
-                  {{{title}}}
+                  {{#if moloch}}
+                    <div class="metric">
+                      {{_ 'tribute'}}
+                      {{#with tribute}}
+                        {{> balance}}
+                      {{/with}}
+                    </div>
+                    <div class="metric">
+                      {{_ 'request'}}
+                      {{#with request}}
+                        {{> balance}}
+                      {{/with}}
+                    </div>
+                  {{else}}
+                    {{{title}}}
+                  {{/if}}
                 </div>
               </div>
             </div>

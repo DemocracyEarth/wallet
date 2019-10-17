@@ -569,7 +569,7 @@
   "menu-approved": "Approved",
   "menu-proposals": "Now",
   "post-idea": "Post Idea",
-  "happening-now": "Happening Now",
+  "happening-now": "All Votes",
   "requisites": "Requisites",
   "post-new-idea": "A new decision...",
   "insufficient-votes": "Unable to find the required token balance in your wallet",
@@ -723,7 +723,7 @@
   "transaction-tally-denied": "{{token}} Signature denied, no votes tallied.",
   "already-voted": "Already Voted",
   "already-voted-detail": "Your account balance has already been tallied on this decision.",
-  "election-rule-onchain": "On chain",
+  "election-rule-onchain": "On-chain vote.",
   "voting-editor-onchain-tooltip": "Governance for this decision is tallied on the blockchain.",
   "election-rule-webvote": "Web Vote",
   "voting-editor-webvote-tooltip": "A vote using web based tokens.",
@@ -738,7 +738,7 @@
   "offchain": "Offchain",
   "moloch-dao": "Moloch DAO",
   "moloch": "Moloch",
-  "moloch-voting-period": "Voting Now",
+  "moloch-voting-period": "All Votes",
   "moloch-grace-period": "Grace Period",
   "moloch-ready-processing": "Processing",
   "moloch-queue": "In Queue",
@@ -748,7 +748,8 @@
   "moloch-aborted": "Aborted",
   "moloch-proposal": "Proposals",
   "moloch-results": "Results",
-  "moloch-map-submit-proposal": "A total of {{sharesRequested}} shares is being requested by {{applicant}}.\n\nA tribute of {{ether tokenTribute}} ETH has been offered.",
+  "moloch-map-submit-proposal": "<request>{{sharesRequested}}</request> <user>{{applicant}}</user> <tribute>{{ether tokenTribute}}</tribute>",
   "moloch-yes": "Yes",
-  "moloch-no": "No"
+  "moloch-no": "No",
+  "tribute": "Tribute"
 }
