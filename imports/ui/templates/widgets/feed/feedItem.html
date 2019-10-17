@@ -74,17 +74,31 @@
               <div class="option-title option-link option-search title-input">
                 <div class="title-input title-feed {{focused}}">
                   {{#if moloch}}
-                    <div class="metric">
-                      {{_ 'request'}}
-                      {{#with request}}
-                        {{> balance}}
-                      {{/with}}
-                    </div>
-                    <div class="metric">
-                      {{_ 'tribute'}}
-                      {{#with tribute}}
-                        {{> balance}}
-                      {{/with}}
+                  <div class="election-rule">
+                    {{{_ 'moloch-contract-parameters'}}}
+                    {{> help tooltip='moloch-contract-parameters-tooltip'}}
+                  </div>
+                    <div class="smart-contract">
+                      <div class="parameter">
+                        <div class="parameter-name">
+                          {{_ 'request'}}
+                        </div>
+                        <div class="parameter-value">
+                          {{#with request}}
+                            {{> balance}}
+                          {{/with}}
+                        </div>
+                      </div>
+                      <div class="parameter">
+                        <div class="parameter-name">
+                          {{_ 'tribute'}}
+                        </div>
+                        <div class="parameter-value">
+                          {{#with tribute}}
+                            {{> balance}}
+                          {{/with}}
+                        </div>
+                      </div>
                     </div>
                   {{else}}
                     {{{title}}}

@@ -751,5 +751,7 @@
   "moloch-map-submit-proposal": "<request quantity='{{sharesRequested}}' token='SHARES' /> <user id='{{applicant}}' /> <tribute quantity='{{ether tokenTribute}}' token='WETH' />",
   "moloch-yes": "Yes",
   "moloch-no": "No",
-  "tribute": "Tribute"
+  "tribute": "Tribute",
+  "moloch-contract-parameters": "Contract parameters.",
+  "moloch-contract-parameters-tooltip": "Changes that will be applied to this DAO."
 }

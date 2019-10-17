@@ -38,9 +38,6 @@ const _getXMLToken = (text, attribute) => {
   const xml = `<root>${text}</root>`;
   const json = parser.xml2js(xml, { compact: true, spaces: 4 });
 
-  console.log(json);
-  console.log(json.root[attribute]);
-  
   return {
     token: json.root[attribute]._attributes.token,
     balance: json.root[attribute]._attributes.quantity,
