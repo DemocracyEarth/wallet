@@ -89,26 +89,28 @@
                           {{/with}}
                         </div>
                       </div>
-                      <div class="parameter">
-                        <div class="parameter-name">
-                          {{_ 'moloch-request'}}
+                      <p class="parameter-line">
+                        <div class="parameter">
+                          <div class="parameter-name">
+                            {{_ 'moloch-request'}}
+                          </div>
+                          <div class="parameter-value parameter-token">
+                            {{#with request}}
+                              {{> balance}}
+                            {{/with}}
+                          </div>
                         </div>
-                        <div class="parameter-value parameter-token">
-                          {{#with request}}
-                            {{> balance}}
-                          {{/with}}
+                        <div class="parameter">
+                          <div class="parameter-name">
+                            {{_ 'moloch-tribute'}}
+                          </div>
+                          <div class="parameter-value parameter-token">
+                            {{#with tribute}}
+                              {{> balance}}
+                            {{/with}}
+                          </div>
                         </div>
-                      </div>
-                      <div class="parameter">
-                        <div class="parameter-name">
-                          {{_ 'moloch-tribute'}}
-                        </div>
-                        <div class="parameter-value parameter-token">
-                          {{#with tribute}}
-                            {{> balance}}
-                          {{/with}}
-                        </div>
-                      </div>
+                      </p>
                     </div>
                   {{else}}
                     {{{title}}}

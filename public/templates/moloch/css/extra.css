@@ -825,3 +825,6 @@ background: #f2f2f8;
   margin-top: 10px;
 }
 
+.parameter-line {
+  display: inline-block;
+}

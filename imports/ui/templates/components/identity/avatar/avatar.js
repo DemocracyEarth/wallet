@@ -15,6 +15,7 @@ import { uploadToAmazonS3 } from '/imports/ui/modules/Files';
 import { displayModal } from '/imports/ui/modules/modal';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { displayPopup, cancelPopup } from '/imports/ui/modules/popup';
+import { defaults } from '/lib/const';
 
 import '/imports/ui/templates/components/identity/avatar/avatar.html';
 import '/imports/ui/templates/components/identity/chain/chain.js';
@@ -58,7 +59,7 @@ const _getAddress = (user) => {
   }
   if (reserve && reserve.length && reserve.length > 0) {
     for (const i in reserve) {
-      if ((reserve[i].token === 'WEI' || reserve[i].token === 'STX' || reserve[i].token === 'WETH') && reserve[i].publicAddress) {
+      if ((reserve[i].token === 'WEI' || reserve[i].token === 'STX' || reserve[i].token === 'WETH' || reserve[i].token === defaults.TOKEN) && reserve[i].publicAddress) {
         return reserve[i];
       }
     }
