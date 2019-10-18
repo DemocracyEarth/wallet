@@ -748,10 +748,12 @@
   "moloch-aborted": "Aborted",
   "moloch-proposal": "Proposals",
   "moloch-results": "Results",
-  "moloch-map-submit-proposal": "<request quantity='{{sharesRequested}}' token='SHARES' /> <user id='{{applicant}}' /> <tribute quantity='{{ether tokenTribute}}' token='WETH' />",
+  "moloch-map-submit-proposal": "<request quantity='{{sharesRequested}}' token='SHARES' /> <user username='{{applicant}}' /> <tribute quantity='{{ether tokenTribute}}' token='WETH' />",
   "moloch-yes": "Yes",
   "moloch-no": "No",
-  "tribute": "Tribute",
-  "moloch-contract-parameters": "Contract parameters.",
-  "moloch-contract-parameters-tooltip": "Changes that will be applied to this DAO."
+  "moloch-tribute": "Tribute to DAO",
+  "moloch-request": "Request by Applicant",
+  "moloch-contract-parameters": "Decision variables.",
+  "moloch-applicant": "Applicant Address",
+  "moloch-contract-parameters-tooltip": "Changes that will apply to this DAO."
 }

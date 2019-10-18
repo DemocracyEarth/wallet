@@ -81,9 +81,19 @@
                     <div class="smart-contract">
                       <div class="parameter">
                         <div class="parameter-name">
-                          {{_ 'request'}}
+                          {{_ 'moloch-applicant'}}
                         </div>
-                        <div class="parameter-value">
+                        <div class="parameter-value parameter-avatar">
+                          {{#with applicant}}
+                            {{> avatar size=36 profile=this._id includeName=true includeAddress=true includeNation=false editable=false microFont=true disabled=false includeRole=false}}
+                          {{/with}}
+                        </div>
+                      </div>
+                      <div class="parameter">
+                        <div class="parameter-name">
+                          {{_ 'moloch-request'}}
+                        </div>
+                        <div class="parameter-value parameter-token">
                           {{#with request}}
                             {{> balance}}
                           {{/with}}
@@ -91,9 +101,9 @@
                       </div>
                       <div class="parameter">
                         <div class="parameter-name">
-                          {{_ 'tribute'}}
+                          {{_ 'moloch-tribute'}}
                         </div>
-                        <div class="parameter-value">
+                        <div class="parameter-value parameter-token">
                           {{#with tribute}}
                             {{> balance}}
                           {{/with}}

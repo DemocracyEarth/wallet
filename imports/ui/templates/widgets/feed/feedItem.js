@@ -34,18 +34,11 @@ const parser = require('xml-js');
 * @param {string} text of xml source
 * @param {string} attribute to look into xml
 */
-const _getXMLToken = (text, attribute) => {
+const _getXMLAttributes = (text, attribute) => {
   const xml = `<root>${text}</root>`;
   const json = parser.xml2js(xml, { compact: true, spaces: 4 });
 
-  return {
-    token: json.root[attribute]._attributes.token,
-    balance: json.root[attribute]._attributes.quantity,
-    placed: json.root[attribute]._attributes.quantity,
-    available: json.root[attribute]._attributes.quantity,
-    disableStake: true,
-    disableBar: true,
-  };
+  return json.root[attribute]._attributes;
 };
 
 /**
@@ -569,12 +562,32 @@ Template.feedItem.helpers({
     return gui.MOLOCH_DAPP;
   },
   request() {
-    console.log(_getXMLToken(this.title, 'request'));
-    return _getXMLToken(this.title, 'request');
+    const parameter = _getXMLAttributes(this.title, 'request');
+    return {
+      token: parameter.token,
+      balance: parameter.quantity,
+      placed: parameter.quantity,
+      available: parameter.quantity,
+      disableStake: true,
+      disableBar: true,
+    };
   },
   tribute() {
-    console.log(_getXMLToken(this.title, 'tribute'));
-    return _getXMLToken(this.title, 'tribute');
+    const parameter = _getXMLAttributes(this.title, 'tribute');
+    return {
+      token: parameter.token,
+      balance: parameter.quantity,
+      placed: parameter.quantity,
+      available: parameter.quantity,
+      disableStake: true,
+      disableBar: true,
+    };
+  },
+  applicant() {
+    const user = Meteor.users.findOne({ username: _getXMLAttributes(this.title, 'user').username.toLowerCase() });
+    console.log('APPLICANT-----------------------');
+    console.log(user);
+    return user;
   },
 });
 
