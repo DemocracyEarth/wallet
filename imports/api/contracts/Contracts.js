@@ -8,7 +8,7 @@ import { Ballot } from '/imports/api/transactions/Ballot';
 import { convertToSlug } from '/lib/utils';
 import { Thread } from '/imports/api/contracts/Thread';
 import { Wallet } from '/imports/api/users/Wallet';
-import { Blockchain } from '/imports/api/blockchain/Blockchain';
+import { Blockchain, Coin, Ticket, Score } from '/imports/api/blockchain/Blockchain';
 import { defaults } from '/lib/const';
 
 export const Contracts = new Mongo.Collection('contracts');
@@ -581,8 +581,95 @@ Schema.Contract = new SimpleSchema({
     optional: true,
   },
   blockchain: {
-    type: Blockchain,
+    type: Object,
     optional: true,
+  },
+  'blockchain.publicAddress': {
+    type: String,
+    optional: true,
+  },
+  'blockchain.coin': {
+    type: Object,
+    optional: true,
+  },
+  'blockchain.coin.code': {
+    type: String,
+    optional: true,
+  },
+  'blockchain.tickets': {
+    type: Array,
+    defaultValue: [],
+    optional: true,
+  },
+  'blockchain.tickets.$': {
+    type: Object,
+    optional: true,
+  },
+  'blockchain.tickets.$.hash': {
+    type: String,
+    optional: true,
+  },
+  'blockchain.tickets.$.status': {
+    type: String,
+    allowedValues: ['CONFIRMED', 'PENDING', 'FAIL'],
+    defaultValue: 'PENDING',
+    optional: true,
+  },
+  'blockchain.tickets.$.value': {
+    type: String,
+    defaultValue: '0',
+    optional: true,
+  },
+  'blockchain.votePrice': {
+    type: String,
+    optional: true,
+  },
+  'blockchain.balance': {
+    type: String,
+    optional: true,
+  },
+  'blockchain.score': {
+    type: Object,
+    optional: true,
+  },
+  'blockchain.score.totalConfirmed': {
+    type: String,
+    defaultValue: '0',
+    optional: true,
+  },
+  'blockchain.score.totalPending': {
+    type: String,
+    defaultValue: '0',
+    optional: true,
+  },
+  'blockchain.score.totalFail': {
+    type: String,
+    defaultValue: '0',
+    optional: true,
+  },
+  'blockchain.score.finalConfirmed': {
+    type: Number,
+    defaultValue: 0,
+    optional: true,
+    decimal: true,
+  },
+  'blockchain.score.finalPending': {
+    type: Number,
+    defaultValue: 0,
+    optional: true,
+    decimal: true,
+  },
+  'blockchain.score.finalFail': {
+    type: Number,
+    defaultValue: 0,
+    optional: true,
+    decimal: true,
+  },
+  'blockchain.score.value': {
+    type: Number,
+    defaultValue: 0,
+    optional: true,
+    decimal: true,
   },
   shareCounter: {
     type: Number,

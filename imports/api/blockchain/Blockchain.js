@@ -19,10 +19,12 @@ Schema.Ticket = new SimpleSchema({
     type: String,
     allowedValues: ['CONFIRMED', 'PENDING', 'FAIL'],
     defaultValue: 'PENDING',
+    optional: true,
   },
   value: {
     type: String,
     defaultValue: '0',
+    optional: true,
   },
 });
 
@@ -30,34 +32,41 @@ Schema.Score = new SimpleSchema({
   totalConfirmed: {
     type: String,
     defaultValue: '0',
+    optional: true,
   },
   totalPending: {
     type: String,
     defaultValue: '0',
+    optional: true,
   },
   totalFail: {
     type: String,
     defaultValue: '0',
+    optional: true,
   },
   finalConfirmed: {
     type: Number,
     defaultValue: 0,
     decimal: true,
+    optional: true,
   },
   finalPending: {
     type: Number,
     defaultValue: 0,
     decimal: true,
+    optional: true,
   },
   finalFail: {
     type: Number,
     defaultValue: 0,
     decimal: true,
+    optional: true,
   },
   value: {
     type: Number,
     defaultValue: 0,
     decimal: true,
+    optional: true,
   },
 });
 
@@ -156,3 +165,5 @@ Schema.Blockchain = new SimpleSchema({
 
 export const Blockchain = Schema.Blockchain;
 export const Ticket = Schema.Ticket;
+export const Score = Schema.Score;
+export const Coin = Schema.Coin;
