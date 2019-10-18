@@ -27,6 +27,8 @@ import '/imports/ui/templates/components/identity/chain/chain.js';
 * @returns {string} country
 */
 const _getUser = (userId) => {
+  console.log(`GETTING USER: ${userId}`);
+
   const avatarList = Session.get('avatarList');
   if (userId && avatarList) {
     if (!_.contains(avatarList, userId)) {
@@ -181,6 +183,7 @@ const _getDynamicID = (data) => {
 Template.avatar.onCreated(function () {
   const instance = this;
 
+  console.log(instance.data);
   _getUser(_getDynamicID(instance.data)._id);
 
   Template.instance().imageTemplate = new ReactiveVar();
