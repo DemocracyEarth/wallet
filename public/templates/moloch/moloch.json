@@ -37,6 +37,7 @@
   },
 
   "images": {
+    "key": "/templates/moloch/images/key.png",
     "back": "/templates/moloch/images/back.png",
     "black": "/templates/moloch/images/black.png",
     "block": "/templates/moloch/images/block.png",

@@ -364,7 +364,7 @@ Template.feedItem.helpers({
     return TAPi18n.__('off-chain');
   },
   blockchainFullAddress() {
-    return `${this.blockchain.publicAddress}`;
+    return `${TAPi18n.__('moloch-delegate-key')} ${this.blockchain.publicAddress}`;
   },
   blockchainLink() {
     return `${Meteor.settings.public.web.sites.blockExplorer}/address/${this.blockchain.publicAddress}`;
@@ -585,8 +585,6 @@ Template.feedItem.helpers({
   },
   applicant() {
     const user = Meteor.users.findOne({ username: _getXMLAttributes(this.title, 'user').username.toLowerCase() });
-    console.log('APPLICANT-----------------------');
-    console.log(user);
     return user;
   },
 });

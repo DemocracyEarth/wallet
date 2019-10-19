@@ -755,5 +755,6 @@
   "moloch-request": "Request by Applicant",
   "moloch-contract-parameters": "Decision variables.",
   "moloch-applicant": "Applicant Address",
-  "moloch-contract-parameters-tooltip": "Changes that will apply to this DAO."
+  "moloch-contract-parameters-tooltip": "Changes that will apply to this DAO.",
+  "moloch-delegate-key": "Delegate Key:"
 }
