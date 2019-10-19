@@ -182,7 +182,6 @@ const _getDynamicID = (data) => {
 Template.avatar.onCreated(function () {
   const instance = this;
 
-  console.log(instance.data);
   _getUser(_getDynamicID(instance.data)._id);
 
   Template.instance().imageTemplate = new ReactiveVar();
