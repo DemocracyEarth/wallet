@@ -282,7 +282,6 @@ Template.transaction.helpers({
           if (status !== 'PENDING') {
             instance.txStatus = status;
           }
-          console.log('FIND');
           return getImage(Template.instance().imageTemplate.get(), `arrow-right-${status}`);
         }
       } else {

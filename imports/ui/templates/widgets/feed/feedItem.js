@@ -584,8 +584,7 @@ Template.feedItem.helpers({
     };
   },
   applicant() {
-    const user = Meteor.users.findOne({ username: _getXMLAttributes(this.title, 'user').username.toLowerCase() });
-    return user;
+    return { _id: _getXMLAttributes(this.title, 'user')._id };
   },
 });
 

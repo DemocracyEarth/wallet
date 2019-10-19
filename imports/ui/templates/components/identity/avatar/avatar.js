@@ -28,8 +28,6 @@ import '/imports/ui/templates/components/identity/chain/chain.js';
 * @returns {string} country
 */
 const _getUser = (userId) => {
-  console.log(`GETTING USER: ${userId}`);
-
   const avatarList = Session.get('avatarList');
   if (userId && avatarList) {
     if (!_.contains(avatarList, userId)) {

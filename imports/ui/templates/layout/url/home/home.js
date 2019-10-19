@@ -61,7 +61,6 @@ Template.home.onCreated(function () {
       for (const i in avatarList) {
         query.push({ _id: avatarList[i] });
       }
-      console.log('SUBSCRIBING AVATARS');
       this.subscription = instance.subscribe('singleUser', { $or: query });
     }
   });

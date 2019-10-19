@@ -289,7 +289,6 @@ const _userMenu = (user) => {
 
   // dao feeds
   const daoList = Template.instance().daoList.get();
-  console.log(daoList);
 
   let daoMenu;
   if (daoList && daoList.length > 0) {
