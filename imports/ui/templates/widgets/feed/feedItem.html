@@ -52,7 +52,7 @@
                   <div class="margin-both">
                     <img src="{{getImage 'key'}}" class="clock-icon">
                     <a id="blockchain-explorer" title="{{blockchainFullAddress}}" href="{{blockchainLink}}" target="_blank">
-                      <div class="verifier verifier-live verifier-feed verifier-mini">{{blockchainAddress}}</div>
+                      <div class="verifier verifier-live verifier-feed verifier-mini verifier-key">{{blockchainAddress}}</div>
                     </a>
                   </div>
                 </div>
@@ -89,7 +89,7 @@
                           {{/with}}
                         </div>
                       </div>
-                      <p class="parameter-line">
+                      <div class="parameter-line">
                         <div class="parameter">
                           <div class="parameter-name">
                             {{_ 'moloch-request'}}
@@ -110,7 +110,7 @@
                             {{/with}}
                           </div>
                         </div>
-                      </p>
+                      </div>
                     </div>
                   {{else}}
                     {{{title}}}

@@ -61,14 +61,19 @@ Template.collective.onRendered(() => {
 
 Template.collective.helpers({
   title() {
-    return Template.instance().daoList.get()[0].name; // Meteor.settings.public.Collective.name;
+    const list = Template.instance().daoList.get();
+    return (list && list.length > 0) ? Template.instance().daoList.get()[0].name : ''; // Meteor.settings.public.Collective.name;
   },
   description() {
-    return Template.instance().daoList.get()[0].profile.bio;
+    const list = Template.instance().daoList.get();
+    return (list && list.length > 0) ? Template.instance().daoList.get()[0].profile.bio : '';
   },
   picture() {
-    if (Template.instance().daoList.get()[0].profile.logo) {
-      return Template.instance().daoList.get()[0].profile.logo;
+    const list = Template.instance().daoList.get();
+    if (list && list.length > 0) {
+      if (Template.instance().daoList.get()[0].profile.logo) {
+        return Template.instance().daoList.get()[0].profile.logo;
+      }
     }
     return 'images/earth.png';
   },
@@ -76,7 +81,8 @@ Template.collective.helpers({
     return shortenCryptoName(Meteor.user().username);
   },
   hasLogo() {
-    return (Template.instance().daoList.get()[0].profile.logo !== undefined);
+    const list = Template.instance().daoList.get();
+    return (list && list.length > 0) ? (Template.instance().daoList.get()[0].profile.logo !== undefined) : false;
   },
   toggle() {
     if (Session.get('userLoginVisible')) {

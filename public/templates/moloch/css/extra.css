@@ -826,5 +826,11 @@ background: #f2f2f8;
 }
 
 .parameter-line {
-  display: inline-block;
+  clear: left;
+}
+
+.verifier.verifier-live.verifier-feed.verifier-mini.verifier-key {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
