@@ -834,3 +834,15 @@ background: #f2f2f8;
     letter-spacing: 2px;
     text-transform: uppercase;
 }
+
+.symbol.profile-pic {
+    width: 60px;
+    height: 60px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    float: left;
+    border: 1px solid #e8e2ef;
+    border-radius: 3px;
+    background-color: #e8e2ef;
+}
+
