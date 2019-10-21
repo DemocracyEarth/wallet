@@ -1,5 +1,5 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
-import { schemaContract } from '/imports/api/contracts/Contracts';
+// import { schemaContract } from '/imports/api/contracts/Contracts';
 
 const Schema = {};
 
@@ -70,6 +70,43 @@ Schema.Score = new SimpleSchema({
   },
 });
 
+Schema.ContractMap = new SimpleSchema({
+  title: {
+    type: String,
+    optional: true,
+  },
+  rules: {
+    type: Object,
+    optional: true,
+  },
+  'rules.alwaysOn': {
+    type: Boolean,
+    optional: true,
+  },
+  'rules.quadraticVoting': {
+    type: Boolean,
+    optional: true,
+  },
+  'rules.balanceVoting': {
+    type: Boolean,
+    optional: true,
+  },
+  'rules.pollVoting': {
+    type: Boolean,
+    optional: true,
+  },
+});
+
+/*
+"title": "moloch-map-submit-proposal",
+                    "rules": {
+                      "alwaysOn": false,
+                      "quadraticVoting": false,
+                      "balanceVoting": false,
+                      "pollVoting": true
+                    }
+                    */
+
 Schema.Map = new SimpleSchema({
   eventName: {
     type: String,
@@ -80,11 +117,25 @@ Schema.Map = new SimpleSchema({
     optional: true,
   },
   contract: {
-    type: schemaContract,
-    defaultValue: {},
+    type: Schema.ContractMap,
     optional: true,
   },
   script: {
+    type: String,
+    optional: true,
+  },
+});
+
+Schema.Parameter = new SimpleSchema({
+  name: {
+    type: String,
+    optional: true,
+  },
+  type: {
+    type: String,
+    optional: true,
+  },
+  value: {
     type: String,
     optional: true,
   },
@@ -155,6 +206,10 @@ Schema.Blockchain = new SimpleSchema({
   },
   'smartContracts.$.map': {
     type: [Schema.Map],
+    optional: true,
+  },
+  'smartContracts.$.parameter': {
+    type: [Schema.Parameter],
     optional: true,
   },
   address: {
