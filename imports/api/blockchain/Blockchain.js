@@ -97,16 +97,6 @@ Schema.ContractMap = new SimpleSchema({
   },
 });
 
-/*
-"title": "moloch-map-submit-proposal",
-                    "rules": {
-                      "alwaysOn": false,
-                      "quadraticVoting": false,
-                      "balanceVoting": false,
-                      "pollVoting": true
-                    }
-                    */
-
 Schema.Map = new SimpleSchema({
   eventName: {
     type: String,
