@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import { Ticket } from '/imports/api/blockchain/Blockchain';
 import { Wallet } from './Wallet';
 import { Country } from '../collectives/Collectives';
-import { Ticket } from '/imports/api/blockchain/Blockchain';
 
 const Schema = {};
 

@@ -20,6 +20,8 @@ import { defaults } from '/lib/const';
 import '/imports/ui/templates/components/identity/avatar/avatar.html';
 import '/imports/ui/templates/components/identity/chain/chain.js';
 
+const makeBlockie = require('ethereum-blockies-base64');
+
 /**
 * @summary subscribes to user data
 * @param {object} user user to parse
@@ -181,6 +183,8 @@ const _getDynamicID = (data) => {
 
 Template.avatar.onCreated(function () {
   const instance = this;
+  const guid = guidGenerator();
+  Template.instance().guid = guid;
 
   _getUser(_getDynamicID(instance.data)._id);
 
@@ -188,9 +192,9 @@ Template.avatar.onCreated(function () {
   templetize(Template.instance());
 });
 
-Template.avatar.onRendered = () => {
+Template.avatar.onRendered(function () {
   Session.set('editor', false);
-};
+});
 
 // this turned out to be kinda polymorphic
 Template.avatar.helpers({
@@ -265,7 +269,7 @@ Template.avatar.helpers({
     return '';
   },
   elementId() {
-    return guidGenerator();
+    return Template.instance().guid;
   },
   classStyle(smallFont) {
     let style = '';
@@ -298,6 +302,26 @@ Template.avatar.helpers({
         user = getAnonymous();
       }
       return user.profile.picture;
+    }
+    return undefined;
+  },
+  blockiePicture(profile) {
+    if (profile === undefined) {
+      if (Meteor.user()) {
+        if (Meteor.user().profile.picture === undefined) {
+          return makeBlockie(Meteor.user().username);
+        }
+        return Meteor.user().profile.picture;
+      }
+    } else {
+      if (profile.picture !== undefined) {
+        return profile.picture;
+      }
+      let user = Meteor.users.findOne({ _id: profile });
+      if (user === undefined) {
+        user = getAnonymous();
+      }
+      return makeBlockie(user.username);
     }
     return undefined;
   },
@@ -426,6 +450,22 @@ Template.avatar.events({
     // cancelPopup(`popup-avatar-${this.profile}`);
     }
   },
+});
+
+Template.blockie.onRendered(function () {
+  const icon = blockies.create({ // All options are optional
+    seed: this.address, // seed used to generate icon data, default: random
+    color: '#dfe', // to manually specify the icon color, default: random
+    bgcolor: '#aaa', // choose a different background color, default: random
+    size: 15, // width/height of the icon in blocks, default: 8
+    scale: 3, // width/height of each block in pixels, default: 4
+    spotcolor: '#000' // each pixel has a 13% chance of being of a third color, 
+    // default: random. Set to -1 to disable it. These "spots" create structures
+    // that look like eyes, mouths and noses. 
+  });
+  console.log(this.data.address);
+  console.log(this.data.elementId);
+  console.log(icon);
 });
 
 export const getFlag = getNation;
