@@ -129,6 +129,10 @@ Schema.Parameter = new SimpleSchema({
     type: String,
     optional: true,
   },
+  length: {
+    type: String,
+    optional: true,
+  },
 });
 
 Schema.Blockchain = new SimpleSchema({
