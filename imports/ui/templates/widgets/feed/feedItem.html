@@ -74,10 +74,11 @@
               <div class="option-title option-link option-search title-input">
                 <div class="title-input title-feed {{focused}}">
                   {{#if moloch}}
-                  <div class="election-rule">
-                    {{{_ 'moloch-contract-parameters'}}}
-                    {{> help tooltip='moloch-contract-parameters-tooltip'}}
-                  </div>
+                    {{{description}}}
+                    <div class="election-rule">
+                      {{{_ 'moloch-contract-parameters'}}}
+                      {{> help tooltip='moloch-contract-parameters-tooltip'}}
+                    </div>
                     <div class="smart-contract">
                       <div class="parameter">
                         <div class="parameter-name">

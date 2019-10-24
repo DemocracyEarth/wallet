@@ -17,6 +17,7 @@ import { displayNotice } from '/imports/ui/modules/notice';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { tokenWeb } from '/lib/token';
+import { wrapURLs } from '/lib/utils';
 
 import '/imports/ui/templates/widgets/feed/feedItem.html';
 import '/imports/ui/templates/widgets/transaction/transaction.js';
@@ -320,6 +321,7 @@ Template.feedItem.onRendered(function () {
 });
 
 Template.feedItem.helpers({
+  /*
   description() {
     let text = String();
     const profile = [];
@@ -335,7 +337,7 @@ Template.feedItem.helpers({
       return stripHTMLfromText(text).replace(/(([^\s]+\s\s*){35})(.*)/, '$1…');
     }
     return stripHTMLfromText(this.description).replace(/(([^\s]+\s\s*){35})(.*)/, '$1…');
-  },
+  },*/
   url() {
     if (this.stage === 'DRAFT') {
       return `/vote/draft?id=${this._id}`;
@@ -585,6 +587,12 @@ Template.feedItem.helpers({
   },
   applicant() {
     return { _id: _getXMLAttributes(this.title, 'user')._id };
+  },
+  description() {
+    const json = JSON.parse(_getXMLAttributes(this.title, 'description').json);
+    const description = wrapURLs(json.description, true);
+    const html = `<div>${json.title}</div><div class='title-description'>${description}</div>`;
+    return html;
   },
 });
 
