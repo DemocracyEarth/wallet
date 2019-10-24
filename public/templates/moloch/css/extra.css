@@ -786,7 +786,7 @@ width: 1px;
   padding: 0px 25px 10px;
   border-radius: 5px;
   text-align: center;
-  float: left;
+  display: inline-block;
   margin: 10px 15px 10px 0px;
   font-size: 10px;
   font-weight: 400;
@@ -810,6 +810,7 @@ background: #f2f2f8;
 
 .smart-contract {
   margin: 0 auto;
+  text-align: center;
 }
 
 .margin-top-minus-three {
@@ -868,4 +869,3 @@ h4 {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-

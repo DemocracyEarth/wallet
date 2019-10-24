@@ -622,6 +622,14 @@ Schema.Contract = new SimpleSchema({
     type: Boolean,
     optional: true,
   },
+  processed: {
+    type: Boolean,
+    optional: true,
+  },
+  aborted: {
+    type: Boolean,
+    optional: true,
+  },
   period: {
     type: String,
     allowedValues: ['VOTING', 'GRACE', 'PROCESS', 'QUEUE', 'COMPLETE', 'ABORT'],
