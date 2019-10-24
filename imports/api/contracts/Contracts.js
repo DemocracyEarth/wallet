@@ -618,6 +618,15 @@ Schema.Contract = new SimpleSchema({
     type: String,
     optional: true,
   },
+  didPass: {
+    type: Boolean,
+    optional: true,
+  },
+  period: {
+    type: String,
+    allowedValues: ['VOTING', 'GRACE', 'PROCESS', 'QUEUE', 'COMPLETE', 'ABORT'],
+    optional: true,
+  },
 });
 
 Contracts.attachSchema(Schema.Contract);
