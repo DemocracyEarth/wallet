@@ -36,10 +36,25 @@ const parser = require('xml-js');
 * @param {string} attribute to look into xml
 */
 const _getXMLAttributes = (text, attribute) => {
-  const xml = `<root>${text}</root>`;
-  const json = parser.xml2js(xml, { compact: true, spaces: 4 });
+  // const xml = `<root>${text}</root>`;
+  console.log(text);
+  const json = parser.xml2js(text, { compact: true, spaces: 4 });
 
   return json.root[attribute]._attributes;
+};
+
+
+/**
+* @summary quick function to determine if a string is a JSON
+* @param {string} str ing
+*/
+const isJSON = (str) => {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
 };
 
 /**
@@ -589,10 +604,15 @@ Template.feedItem.helpers({
     return { _id: _getXMLAttributes(this.title, 'user')._id };
   },
   description() {
-    const json = JSON.parse(_getXMLAttributes(this.title, 'description').json);
-    const description = wrapURLs(json.description, true);
-    const html = `<div>${json.title}</div><div class='title-description'>${description}</div>`;
-    return html;
+    console.log(this.title);
+    const title = this.title.replace(`\"`, `"`);
+    if (isJSON(title)) {
+      const json = JSON.parse(_getXMLAttributes(title, 'description').json);
+      const description = wrapURLs(json.description, true);
+      const html = `<div>${json.title}</div><div class='title-description'>${description}</div>`;
+      return html;
+    }
+    return `<div>${this.title}</div>`;
   },
 });
 

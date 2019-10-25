@@ -748,7 +748,7 @@
   "moloch-aborted": "Aborted",
   "moloch-proposal": "Proposals",
   "moloch-results": "Results",
-  "moloch-map-submit-proposal": "<description json='{{details}}' /> <request quantity='{{sharesRequested}}' token='SHARES' /> <user _id='{{applicantId}}' username='{{applicant}}' /> <tribute quantity='{{ether tokenTribute}}' token='WETH' />",
+  "moloch-map-submit-proposal": "<root><description json='{{details}}'></description> <request quantity='{{sharesRequested}}' token='SHARES'></request> <user _id='{{applicantId}}' username='{{applicant}}'></user> <tribute quantity='{{ether tokenTribute}}' token='WETH'></tribute></root>",
   "moloch-yes": "Yes",
   "moloch-no": "No",
   "moloch-tribute": "Tribute to DAO",
