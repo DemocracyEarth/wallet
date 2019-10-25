@@ -36,10 +36,7 @@ const parser = require('xml-js');
 * @param {string} attribute to look into xml
 */
 const _getXMLAttributes = (text, attribute) => {
-  // const xml = `<root>${text}</root>`;
-  console.log(text);
   const json = parser.xml2js(text, { compact: true, spaces: 4 });
-
   return json.root[attribute]._attributes;
 };
 
@@ -604,15 +601,19 @@ Template.feedItem.helpers({
     return { _id: _getXMLAttributes(this.title, 'user')._id };
   },
   description() {
-    console.log(this.title);
-    const title = this.title.replace(`\"`, `"`);
-    if (isJSON(title)) {
-      const json = JSON.parse(_getXMLAttributes(title, 'description').json);
-      const description = wrapURLs(json.description, true);
-      const html = `<div>${json.title}</div><div class='title-description'>${description}</div>`;
-      return html;
+    console.log(this.importId);
+    const xmlDescription = _getXMLAttributes(this.title, 'description');
+    if (isJSON(xmlDescription.json)) {
+      const json = JSON.parse(xmlDescription.json);
+      console.log(json);
+      if (json && json.description !== undefined) {
+        const description = wrapURLs(json.description, true);
+        const html = `<div>${json.title}</div><div class='title-description'>${description}</div>`;
+        return html;
+      }
     }
-    return `<div>${this.title}</div>`;
+    console.log('Never printy');
+    return `<div>${xmlDescription.json}</div>`;
   },
 });
 
