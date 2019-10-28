@@ -513,7 +513,6 @@ width: 1px;
     float: right;
     position: absolute;
     font-size: 9px;
-    text-shadow:#00000059 1px 1px 0px;
     margin: 0px 7px;
 }
 
@@ -848,24 +847,43 @@ background: #f2f2f8;
 }
 
 h4 {
-    margin-top: 10px;
-    margin-bottom: 20px;
-    padding-right: 15px;
-    padding-left: 15px;
-    color: #9a63aa;
-    font-size: 15px;
-    line-height: 28px;
-    font-weight: 100;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding-right: 15px;
+  padding-left: 15px;
+  color: #9a63aa;
+  font-size: 15px;
+  line-height: 28px;
+  font-weight: 100;
 }
 
 .padding-left-zero {
-    padding-left: 5px;
+  padding-left: 5px;
 }
 
 .title-description {
-    font-size: 14px;
-    line-height: 20px;
-    margin: 10px 0px 0px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  font-size: 14px;
+  line-height: 20px;
+  margin: 10px 0px 0px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.poll-score-percentage {
+  color: #fff;
+  float: right;
+  position: absolute;
+  font-size: 12px;
+  line-height: 36px;
+  margin: 0px 7px;
+}
+
+.poll-score-bar {
+  background: #efefef;
+    margin: 8px 0px 0px;
+  height: 20px;
+  float: left;
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
 }

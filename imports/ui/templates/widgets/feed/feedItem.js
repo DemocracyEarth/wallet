@@ -601,18 +601,15 @@ Template.feedItem.helpers({
     return { _id: _getXMLAttributes(this.title, 'user')._id };
   },
   description() {
-    console.log(this.importId);
     const xmlDescription = _getXMLAttributes(this.title, 'description');
     if (isJSON(xmlDescription.json)) {
       const json = JSON.parse(xmlDescription.json);
-      console.log(json);
       if (json && json.description !== undefined) {
         const description = wrapURLs(json.description, true);
         const html = `<div>${json.title}</div><div class='title-description'>${description}</div>`;
         return html;
       }
     }
-    console.log('Never printy');
     return `<div>${xmlDescription.json}</div>`;
   },
 });
