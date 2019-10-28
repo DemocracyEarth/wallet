@@ -632,7 +632,7 @@ Schema.Contract = new SimpleSchema({
   },
   period: {
     type: String,
-    allowedValues: ['VOTING', 'GRACE', 'PROCESS', 'QUEUE', 'COMPLETE', 'ABORT'],
+    allowedValues: ['PROCESSED', 'QUEUE', 'VOTING', 'GRACE', 'ABORT', 'COMPLETE'],
     optional: true,
   },
 });
