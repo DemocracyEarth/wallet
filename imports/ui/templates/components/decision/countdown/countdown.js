@@ -3,7 +3,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import { getBlockHeight } from '/imports/startup/both/modules/metamask.js';
-import { blocktimes } from '/lib/const';
+import { blocktimes, defaults } from '/lib/const';
 
 import '/imports/ui/templates/components/decision/countdown/countdown.html';
 
@@ -123,7 +123,15 @@ const _getDeadline = (now, remainingBlocks, length, height, alwaysOn, editorMode
 * @param {object} instance where to write last block number
 */
 const _currentBlock = async (instance) => {
-  const now = await getBlockHeight().then((resolved) => { instance.now.set(resolved); });
+  let now;
+  if (defaults.CHAIN === 'ETH') {
+    now = await getBlockHeight().then((resolved) => { instance.now.set(resolved); });
+  } else if (instance.data.summoningTime && instance.data.periodDuration) {
+    now = parseFloat((new Date().getTime() - instance.data.summoningTime) / instance.data.periodDuration, 10);
+    instance.now.set(now);
+  }
+  console.log('get timestamp from last block');
+  console.log(now);
   return now;
 };
 

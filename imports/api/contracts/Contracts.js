@@ -106,6 +106,14 @@ Schema.Closing = new SimpleSchema({
     type: Date,
     optional: true,
   },
+  summoningTime: {
+    type: Date,
+    optional: true,
+  },
+  periodDuration: {
+    type: Number,
+    optional: true,
+  },
 });
 
 Schema.Rules = new SimpleSchema({
