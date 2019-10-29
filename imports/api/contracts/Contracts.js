@@ -92,7 +92,7 @@ Schema.Closing = new SimpleSchema({
   },
   calendar: {
     type: Date,
-    defaultValue: new Date(),
+    optional: true,
   },
   delta: {
     type: Number,
@@ -100,6 +100,10 @@ Schema.Closing = new SimpleSchema({
   },
   urgency: {
     type: Number,
+    optional: true,
+  },
+  graceCalendar: {
+    type: Date,
     optional: true,
   },
 });
