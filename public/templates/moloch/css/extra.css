@@ -720,12 +720,12 @@ width: 1px;
 .countdown-label {
   font-size: 10px;
   color: #7d849f;
+  text-align:right;
 }
 
 .countdown-timer {
   height: 1px;
   background: #01c190;
-  box-shadow: 0px 0px 5px #cccccc;
 }
 
 .countdown-timer.countdown-timer-alert {
@@ -885,4 +885,8 @@ h4 {
   width: 100%;
   border-radius: 10px;
   overflow: hidden;
+}
+
+.countdown-timer-bar {
+  background: #efefef;
 }
