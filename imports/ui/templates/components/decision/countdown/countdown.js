@@ -2,7 +2,7 @@ import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import { getBlockHeight } from '/imports/startup/both/modules/metamask.js';
+import { getBlockHeight, getLastTimestamp } from '/imports/startup/both/modules/metamask.js';
 import { blocktimes, defaults } from '/lib/const';
 
 import '/imports/ui/templates/components/decision/countdown/countdown.html';
@@ -127,11 +127,10 @@ const _currentBlock = async (instance) => {
   if (defaults.CHAIN === 'ETH') {
     now = await getBlockHeight().then((resolved) => { instance.now.set(resolved); });
   } else if (instance.data.summoningTime && instance.data.periodDuration) {
-    now = parseFloat((new Date().getTime() - instance.data.summoningTime) / instance.data.periodDuration, 10);
-    instance.now.set(now);
+    now = await getLastTimestamp().then((resolved) => {
+      instance.now.set(parseFloat((resolved - instance.data.summoningTime) / instance.data.periodDuration, 10));      
+    });
   }
-  console.log('get timestamp from last block');
-  console.log(now);
   return now;
 };
 

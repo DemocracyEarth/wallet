@@ -576,6 +576,20 @@ const _getBlockHeight = async () => {
   return height;
 };
 
+/**
+* @summary get the last timestamp from the last block
+*/
+const _getLastTimestamp = async () => {
+  if (_web3()) {
+    return await _getBlockHeight().then(async (resolved) => {
+      return await web3.eth.getBlock(resolved).then((res) => {
+        return parseInt(res.timestamp * 1000, 10);
+      });
+    });
+  }
+  return undefined;
+};
+
 
 if (Meteor.isClient) {
   /**
@@ -705,4 +719,5 @@ export const setupWeb3 = _web3;
 export const syncBlockchain = _syncBlockchain;
 export const hideLogin = _hideLogin;
 export const getBlockHeight = _getBlockHeight;
+export const getLastTimestamp = _getLastTimestamp;
 export const verifyCoinVote = _verifyCoinVote;
