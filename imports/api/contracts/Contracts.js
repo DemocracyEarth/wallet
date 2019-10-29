@@ -92,13 +92,7 @@ Schema.Closing = new SimpleSchema({
   },
   calendar: {
     type: Date,
-    autoValue() {
-      const creationDate = new Date();
-      if (this.isInsert) {
-        creationDate.setDate(creationDate.getDate() + 1);
-      }
-      return creationDate;
-    },
+    defaultValue: new Date(),
   },
   delta: {
     type: Number,
