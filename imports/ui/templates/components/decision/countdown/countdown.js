@@ -51,7 +51,7 @@ const _getPercentage = (currentBlock, delta, finalBlock) => {
 * @param {boolean} editorMode if editor
 * @return {string} with countdown sentence
 */
-const _getDeadline = (now, remainingBlocks, length, height, alwaysOn, editorMode) => {
+const _getDeadline = (now, remainingBlocks, length, height, alwaysOn, editorMode, periodDuration) => {
   let countdown = TAPi18n.__('countdown-expiration');
   let count = remainingBlocks;
 
@@ -69,7 +69,12 @@ const _getDeadline = (now, remainingBlocks, length, height, alwaysOn, editorMode
   }
 
   // get total seconds between the times
-  let delta = parseInt(count * blocktimes.ETHEREUM_SECONDS_PER_BLOCK, 10);
+  let delta;
+  if (!periodDuration) {
+    delta = parseInt(count * blocktimes.ETHEREUM_SECONDS_PER_BLOCK, 10);
+  } else {
+    delta = parseInt(count * (periodDuration / 1000), 10);
+  }
 
   // calculate (and subtract) whole days
   const days = Math.floor(delta / 86400);
@@ -143,7 +148,7 @@ Template.countdown.helpers({
   label() {
     const now = Template.instance().now.get();
     const confirmed = parseInt(this.delta - (this.height - now), 10);
-    const deadline = _getDeadline(now, parseInt(this.delta - confirmed, 10), this.delta, this.height, this.alwaysOn, this.editorMode);
+    const deadline = _getDeadline(now, parseInt(this.delta - confirmed, 10), this.delta, this.height, this.alwaysOn, this.editorMode, this.periodDuration);
     return deadline;
   },
   timerStyle() {
