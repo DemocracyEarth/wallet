@@ -117,7 +117,7 @@ const _getDeadline = (now, remainingBlocks, length, height, alwaysOn, editorMode
     countdown = countdown.replace('{{height}}', `${height.toLocaleString(undefined, [{ style: 'decimal' }])}`);
   }
 
-  countdown = countdown.replace('{{blocks}}', `${remainingBlocks.toLocaleString(undefined, [{ style: 'decimal' }])} ${remainingBlocks > 1 ? TAPi18n.__('blocks-compressed') : TAPi18n.__('blocks-singular')}`);
+  countdown = countdown.replace('{{blocks}}', `${remainingBlocks.toLocaleString(undefined, [{ style: 'decimal' }])} ${remainingBlocks > 1 ? TAPi18n.__('periods-compressed') : TAPi18n.__('periods-singular')}`);
 
   return `${countdown}`;
 };
