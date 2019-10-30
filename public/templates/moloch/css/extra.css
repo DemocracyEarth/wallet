@@ -890,3 +890,42 @@ h4 {
 .countdown-timer-bar {
   background: #efefef;
 }
+
+.pending {
+  float: left;
+  font-size: 11px;
+  background: #e4e4e4;
+  padding: 5px;
+  line-height: 12px;
+  border-radius: 4px;
+  margin-top: 2px;
+}
+
+.pending-queue {
+  background: #f8e3ff;
+}
+
+.pending-voting {
+  background: #ffd700;
+}
+
+.pending-grace {
+  background :#98e1ff;
+}
+
+.pending-complete {
+  background: #e0b6ff;
+}
+
+.pending-passed {
+  background: #00ffbe;
+}
+
+.pending-rejected {
+  background: #ff6e9b;
+}
+
+.pending-aborted {
+  background: #a2a2a2;
+  color: white;
+}
