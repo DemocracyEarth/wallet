@@ -891,7 +891,7 @@ h4 {
   background: #efefef;
 }
 
-.pending {
+.period {
   float: left;
   font-size: 11px;
   background: #e4e4e4;
@@ -901,31 +901,31 @@ h4 {
   margin-top: 2px;
 }
 
-.pending-queue {
+.period-queue {
   background: #f8e3ff;
 }
 
-.pending-voting {
+.period-voting {
   background: #ffd700;
 }
 
-.pending-grace {
+.period-grace {
   background :#98e1ff;
 }
 
-.pending-complete {
+.period-complete {
   background: #e0b6ff;
 }
 
-.pending-passed {
+.period-passed {
   background: #00ffbe;
 }
 
-.pending-rejected {
+.period-rejected {
   background: #ff6e9b;
 }
 
-.pending-aborted {
-  background: #a2a2a2;
+.period-aborted {
+  background: #d0d0d0;
   color: white;
 }

@@ -569,7 +569,7 @@ Template.feedItem.helpers({
     const closing = this.closing;
     if (closing) {
       closing.alwaysOn = this.rules.alwaysOn;
-      closing.pending = this.pending;
+      closing.period = this.period;
     }
     return closing;
   },

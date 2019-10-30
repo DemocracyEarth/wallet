@@ -151,6 +151,12 @@ Template.countdown.helpers({
     const deadline = _getDeadline(now, parseInt(this.delta - confirmed, 10), this.delta, this.height, this.alwaysOn, this.editorMode, this.periodDuration);
     return deadline;
   },
+  period() {
+    return this.period ? TAPi18n.__(`moloch-period-${this.period.toLowerCase()}`) : '';
+  },
+  periodStyle() {
+    return this.period ? `period-${this.period.toLowerCase()}` : '';
+  },
   timerStyle() {
     return `width: ${_getPercentage(Template.instance().now.get(), this.delta, this.height)}%`;
   },
