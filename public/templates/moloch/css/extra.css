@@ -720,7 +720,7 @@ width: 1px;
 .countdown-label {
   font-size: 10px;
   color: #7d849f;
-  text-align:right;
+  text-align:left;
 }
 
 .countdown-timer {
@@ -892,7 +892,7 @@ h4 {
 }
 
 .period {
-  float: left;
+  float: right;
   font-size: 11px;
   background: #e4e4e4;
   padding: 5px;
@@ -902,7 +902,8 @@ h4 {
 }
 
 .period-queue {
-  background: #f8e3ff;
+  background: #6577ff;
+  color: white;
 }
 
 .period-voting {
@@ -910,22 +911,30 @@ h4 {
 }
 
 .period-grace {
-  background :#98e1ff;
+  background: #b25dcc;
+  color: white;
 }
 
 .period-complete {
-  background: #e0b6ff;
+  background: #a0a0a0;
+  color: white;
 }
 
 .period-passed {
-  background: #00ffbe;
+  background: #01c190;
+  color: white;
 }
 
 .period-rejected {
-  background: #ff6e9b;
+  background: #ff3d67;
+  color: white;
 }
 
 .period-aborted {
-  background: #d0d0d0;
+  background: #000;
   color: white;
+}
+
+.poll-score-bar-fill-negative {
+  background: #ff3d67;
 }

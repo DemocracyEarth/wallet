@@ -26,7 +26,7 @@
       <div class="section section-poll w-clearfix">
         <div class="poll">
           {{#each item}}
-            {{> ballot poll=true contract=this.contract pollTotals=this.totals editorMode=this.editor}}
+            {{> ballot poll=true contract=this.contract pollTotals=this.totals editorMode=this.editor negativeSide=this.negativeSide}}
           {{/each}}
         </div>
       </div>

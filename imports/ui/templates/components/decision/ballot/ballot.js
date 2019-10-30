@@ -796,6 +796,12 @@ Template.ballot.helpers({
   censorship() {
     return Meteor.settings.public.app.config.governance.censorship;
   },
+  scoreBarStyle() {
+    if (this.negativeSide) {
+      return 'poll-score-bar-fill-negative';
+    }
+    return '';
+  },
 });
 
 Template.ballot.events({

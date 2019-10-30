@@ -91,6 +91,7 @@ Template.poll.helpers({
         contract: contracts[i],
         totals: this.pollTotals,
         editor: this.editorMode,
+        negativeSide: (contracts[i].title.toLowerCase() === 'no'),
       });
     }
     return item;
