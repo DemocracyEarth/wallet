@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import { getBlockHeight, getLastTimestamp } from '/imports/startup/both/modules/metamask.js';
@@ -132,9 +133,15 @@ const _currentBlock = async (instance) => {
   if (defaults.CHAIN === 'ETH') {
     now = await getBlockHeight().then((resolved) => { instance.now.set(resolved); });
   } else if (instance.data.summoningTime && instance.data.periodDuration) {
-    now = await getLastTimestamp().then((resolved) => {
-      instance.now.set(parseFloat((resolved - instance.data.summoningTime) / instance.data.periodDuration, 10));      
-    });
+    const timestamp = Session.get('lastTimestamp');
+    // console.log(`eval fo timestmap: ${timestamp}`);
+    if (timestamp) {
+      instance.now.set(parseFloat((timestamp - instance.data.summoningTime.getTime()) / instance.data.periodDuration, 10));
+    } else {
+      now = await getLastTimestamp().then((resolved) => {
+        instance.now.set(parseFloat((resolved - instance.data.summoningTime.getTime()) / instance.data.periodDuration, 10));
+      });
+    }
   }
   return now;
 };
@@ -144,11 +151,26 @@ Template.countdown.onCreated(function () {
   _currentBlock(Template.instance());
 });
 
+/**
+* @summary calculates remaining time based on chain rules
+* @param {number} now current time in blockchain clock
+* @param {object} data the information for this poll
+*/
+const _getRemaining = (now, data) => {
+  const confirmed = parseInt(data.delta - (data.height - now), 10);
+  return parseInt(data.delta - confirmed, 10);
+};
+
 Template.countdown.helpers({
   label() {
     const now = Template.instance().now.get();
-    const confirmed = parseInt(this.delta - (this.height - now), 10);
-    const deadline = _getDeadline(now, parseInt(this.delta - confirmed, 10), this.delta, this.height, this.alwaysOn, this.editorMode, this.periodDuration);
+    const remaining = _getRemaining(now, this);
+    console.log(`remaining: ${remaining}`);
+    console.log(this);
+    if (isNaN(remaining)) {
+      return TAPi18n.__('syncing');
+    }
+    const deadline = _getDeadline(now, remaining, this.delta, this.height, this.alwaysOn, this.editorMode, this.periodDuration);
     return deadline;
   },
   period() {
@@ -158,11 +180,16 @@ Template.countdown.helpers({
     return this.period ? `period-${this.period.toLowerCase()}` : '';
   },
   timerStyle() {
-    return `width: ${_getPercentage(Template.instance().now.get(), this.delta, this.height)}%`;
+    const now = Template.instance().now.get();
+    const remaining = _getRemaining(now, this);
+    if (!isNaN(remaining)) {
+      return `width: ${_getPercentage(now, this.delta, this.height)}%`;
+    }
+    return 'width: 0%;';
   },
   alertMode() {
-    const percentage = _getPercentage(Template.instance().now.get(), this.delta, this.height);
-
+    const now = Template.instance().now.get();
+    const percentage = _getPercentage(now, this.delta, this.height);
     if (percentage && percentage < 25) {
       return 'countdown-timer-final';
     } else if (percentage && percentage < 5) {

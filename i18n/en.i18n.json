@@ -767,5 +767,6 @@
   "moloch-period-complete": "Completed.",
   "moloch-period-passed": "Passed.",
   "moloch-period-rejected": "Rejected.",
-  "moloch-period-aborted": "Aborted."
+  "moloch-period-aborted": "Aborted.",
+  "syncing": "Syncing..."
 }

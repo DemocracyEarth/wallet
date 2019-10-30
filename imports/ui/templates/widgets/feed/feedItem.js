@@ -302,7 +302,7 @@ Template.feedItem.onRendered(function () {
 
   if (instance.data.rules && instance.data.rules.pollVoting && instance.data.poll.length > 0) {
     const poll = instance.subscribe('pollContracts', { view: 'pollList', sort: { createdAt: -1 }, poll: instance.data.poll });
-    instance.autorun(function (computation) {
+    instance.autorun(async function (computation) {
       if (poll.ready()) {
         Template.instance().pollingEnabled.set(true);
         computation.stop();

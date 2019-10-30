@@ -17,6 +17,7 @@ import { BigNumber } from 'bignumber.js';
 
 import abi from 'human-standard-token-abi';
 import { debug } from 'util';
+import { SSL_OP_NETSCAPE_REUSE_CIPHER_CHANGE_BUG } from 'constants';
 
 const Web3 = require('web3');
 const ethUtil = require('ethereumjs-util');
@@ -583,6 +584,7 @@ const _getLastTimestamp = async () => {
   if (_web3()) {
     return await _getBlockHeight().then(async (resolved) => {
       return await web3.eth.getBlock(resolved).then((res) => {
+        Session.set('lastTimestamp', res.timestamp * 1000);
         return parseInt(res.timestamp * 1000, 10);
       });
     });
