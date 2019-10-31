@@ -184,7 +184,7 @@ Schema.Profile = new SimpleSchema({
   },
   membership: {
     type: String,
-    allowedValues: ['APPLICANT', 'MEMBER', 'DELEGATE', 'KICKED', 'ADDRESS'],
+    allowedValues: ['APPLICANT', 'MEMBER', 'DELEGATE', 'KICKED', 'VIEWER'],
     optional: true,
   },
 });
