@@ -14,6 +14,16 @@
             "label": "moloch-proposal"
           },
           {
+            "label": "moloch-queue",
+            "icon": "images/decision-open.png",
+            "iconActivated": "images/decision-open-active.png",
+            "feed": "user",
+            "value": true,
+            "separator": false,
+            "url": "/?period=queue",
+            "displayToken": false
+          },
+          {
             "label": "moloch-voting-period",
             "icon": "images/decision-vote.png",
             "iconActivated": "images/decision-vote-active.png",
@@ -41,16 +51,6 @@
             "value": true,
             "separator": false,
             "url": "/?period=processing",
-            "displayToken": false
-          },
-          {
-            "label": "moloch-queue",
-            "icon": "images/decision-open.png",
-            "iconActivated": "images/decision-open-active.png",
-            "feed": "user",
-            "value": true,
-            "separator": false,
-            "url": "/?period=queue",
             "displayToken": false
           },
           {
@@ -163,7 +163,23 @@
                   "type": "Proposal",
                   "value": "struct",
                   "length": "getProposalQueueLength"
-                }
+                },
+                {
+                  "name": "members",
+                  "type": "mapping"
+                },
+                {
+                  "name": "memberAddressByDelegateKey",
+                  "type": "mapping"
+                },
+                {
+                  "name": "totalShares",
+                  "type": "uint256"
+                },
+                {
+                  "name": "totalSharesRequested",
+                  "type": "uint256"
+                }                          
               ],
               "map": [
                 {
