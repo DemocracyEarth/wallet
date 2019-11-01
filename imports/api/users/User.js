@@ -187,6 +187,10 @@ Schema.Profile = new SimpleSchema({
     allowedValues: ['APPLICANT', 'MEMBER', 'DELEGATE', 'KICKED', 'VIEWER'],
     optional: true,
   },
+  memberSince: {
+    type: Date,
+    optional: true,
+  },
 });
 
 Schema.User = new SimpleSchema({
