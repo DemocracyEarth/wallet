@@ -213,40 +213,8 @@ Schema.Contract = new SimpleSchema({
     },
   },
   url: {
-     // URL inside the instance of .Earth
     type: String,
-    autoValue() {
-      if (this.field('url').value) { return this.field('url').value; }
-
-      let slug = convertToSlug(this.field('title').value);
-      if (this.isInsert) {
-        if (this.field('kind').value === 'DELEGATION') {
-          if (this.field('keyword').value !== undefined) {
-            return `/delegation/${this.field('keyword').value}`;
-          }
-          return 'delegation';
-        }
-        if (this.field('title').value !== undefined) {
-          if (this.field('kind'.value === 'POLL') && this.field('keyword').value) {
-            slug = this.field('keyword').value;
-          }
-          if (Contracts.findOne({ keyword: slug }) === undefined) {
-            if (this.field('title').value !== '') {
-              const time = this.field('createdAt').value;
-              if (time) {
-                const year = time.getFullYear();
-                const month = parseInt(time.getMonth() + 1, 10);
-                const day = time.getDate();
-                return `/${year}/${month}/${day}/${slug}`;
-              }
-              return `/vote/${slug}`;
-            }
-            return '/vote/';
-          }
-        }
-        return '/vote/';
-      }
-    },
+    optional: true,
   },
   description: {
     // HTML Description of the contract (the contents of the contract itself)
@@ -266,30 +234,17 @@ Schema.Contract = new SimpleSchema({
   createdAt: {
     // creation Date
     type: Date,
-    autoValue() {
-      if (this.field('createdAt').value) { return this.field('createdAt').value; }
-      if (this.isInsert) {
-        return new Date();
-      }
-    },
+    optional: true,
   },
   lastUpdate: {
     // last update
     type: Date,
-    autoValue() {
-      if (this.field('lastUpdate').value) { return this.field('lastUpdate').value; }
-      return new Date();
-    },
+    optional: true,
   },
   timestamp: {
     // timestamp (visible last update)
     type: Date,
-    autoValue() {
-      if (this.field('timestamp').value) { return this.field('timestamp').value; }
-      if (this.isUpdate || this.isInsert) {
-        return new Date();
-      }
-    },
+    optional: true,
   },
   tags: {
     // collection of Tags semantically describing contract
