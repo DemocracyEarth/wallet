@@ -40,6 +40,10 @@ const _showToken = (currency) => {
 * @return {object} balance template settings
 */
 const _getContractToken = (transaction) => {
+  console.log(`--------`);
+  console.log(`_getContractToken() with:`);
+  console.log(transaction);
+
   let votes;
   const coin = {
     token: transaction.contract.wallet.currency,
@@ -60,11 +64,16 @@ const _getContractToken = (transaction) => {
   if (transaction.contract.kind === 'CRYPTO' && transaction.contract.blockchain) {
     coin.isCrypto = true;
     const coinData = getCoin(transaction.contract.blockchain.coin.code);
+    console.log(`const coinData:`);
+    console.log(coinData);
     if (coinData.nonFungible) {
       coin.value = transaction.contract.blockchain.tickets[0].value.toNumber();
     } else {
       coin.value = smallNumber(transaction.contract.blockchain.tickets[0].value, transaction.contract.blockchain.coin.code);
     }
+    console.log(`coin.value:`);
+    console.log(coin.value);
+    console.log('---------------');
   } else {
     if (transaction.isButton) {
       coin.isButton = transaction.isButton;
