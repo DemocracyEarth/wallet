@@ -19,6 +19,7 @@ Schema.Tally = new SimpleSchema({
   lastTransaction: {
     type: String,
     defaultValue: '',
+    optional: true,
   },
   choice: {
     type: Array,
@@ -215,6 +216,7 @@ Schema.Contract = new SimpleSchema({
   url: {
     type: String,
     optional: true,
+    defaultValue: '/',
   },
   description: {
     // HTML Description of the contract (the contents of the contract itself)
@@ -235,16 +237,19 @@ Schema.Contract = new SimpleSchema({
     // creation Date
     type: Date,
     optional: true,
+    defaultValue: new Date(),
   },
   lastUpdate: {
     // last update
     type: Date,
     optional: true,
+    defaultValue: new Date(),
   },
   timestamp: {
     // timestamp (visible last update)
     type: Date,
     optional: true,
+    defaultValue: new Date(),
   },
   tags: {
     // collection of Tags semantically describing contract
