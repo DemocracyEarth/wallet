@@ -136,6 +136,11 @@ Schema.CollectiveProfile = new SimpleSchema({
     type: [Schema.Menu],
     optional: true,
   },
+  lastEventIndex: {
+    type: Number,
+    defaultValue: 0,
+    optional: true,
+  },
 });
 
 
