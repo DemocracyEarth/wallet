@@ -455,17 +455,9 @@ Template.feedItem.helpers({
     let total = new BigNumber(0);
     console.log(this.blockchain);
     for (let i = 0; i < choices.length; i += 1) {
-      /* switch (this.blockchain.coin.code) {
-        case 'WEB VOTE':
-          for (let k = 0; k < choices[i].tally.voter.length; k += 1) {
-            total = total.plus(choices[i].tally.voter[k].votes);
-          }
-          break;
-        default: */
       if (choices[i].blockchain.score && choices[i].blockchain.score.totalConfirmed) {
         total = total.plus(choices[i].blockchain.score.totalConfirmed);
       }
-      // }
     }
     return total.toString();
   },

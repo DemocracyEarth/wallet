@@ -133,17 +133,10 @@
                 </div>
               {{/if}}
             {{else}}
-              <!--{{#if webVote}}
-                <div class="election-rule">
-                  {{{_ 'election-rule-webvote'}}}
-                  {{> help tooltip='voting-editor-webvote-tooltip'}}
-                </div>
-              {{else}}-->
-                <div class="election-rule">
-                  {{{_ 'election-rule-onchain'}}}
-                  {{> help tooltip='voting-editor-onchain-tooltip'}}
-                </div>
-              <!--{{/if}}-->
+              <div class="election-rule">
+                {{{_ 'election-rule-onchain'}}}
+                {{> help tooltip='voting-editor-onchain-tooltip'}}
+              </div>
             {{/unless}}
 
             {{#if pollingEnabled}}
