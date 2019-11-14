@@ -141,6 +141,10 @@ Schema.CollectiveProfile = new SimpleSchema({
     defaultValue: 0,
     optional: true,
   },
+  lastEventBlockTimestamp: {
+    type: Date,
+    optional: true,
+  },
 });
 
 
