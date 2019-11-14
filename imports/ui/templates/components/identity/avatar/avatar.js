@@ -201,14 +201,14 @@ Template.avatar.helpers({
   url() {
     if (this.profile === undefined) {
       if (Meteor.user()) {
-        return `/@${Meteor.user().username}`;
+        return `/address/${Meteor.user().username}`;
       }
     }
     const user = Meteor.users.findOne(_getDynamicID(this));
     if (!user) {
       return '#';
     }
-    return `/@${user.username}`;
+    return `/address/${user.username}`;
   },
   myself() {
     if (this.profile === undefined) {

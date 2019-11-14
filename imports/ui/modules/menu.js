@@ -195,7 +195,7 @@ const getUserList = (array) => {
         feed: 'user',
         value: true,
         separator: false,
-        url: `/@${user.username}`,
+        url: `/address/${user.username}`,
         selected: false,
       });
     } else {

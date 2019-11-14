@@ -46,7 +46,7 @@ const _dataToMenu = (user) => {
       feed: 'user',
       value: true,
       separator: false,
-      url: `/@${user.username}`,
+      url: `/address/${user.username}`,
       selected: false,
     };
   }
@@ -262,7 +262,7 @@ const _userMenu = (user) => {
       feed: 'user',
       value: true,
       separator: false,
-      url: `/@${(Meteor.user().username.length > MAX_LABEL_LENGTH) ? `${Meteor.user().username.substring(0, MAX_LABEL_LENGTH)}...` : Meteor.user().username}`,
+      url: `/address/${(Meteor.user().username.length > MAX_LABEL_LENGTH) ? `${Meteor.user().username.substring(0, MAX_LABEL_LENGTH)}...` : Meteor.user().username}`,
       selected: false,
       isAvatar: true,
       profile: user,
