@@ -17,17 +17,19 @@ A Roma, <3
 
 */
 import { Meteor } from 'meteor/meteor';
-import { Collectives } from '../../api/collectives/Collectives';
+// import { Collectives } from '../../api/collectives/Collectives';
 
 
 // This script runs the first time Democracy Earth gets implemented on a server.
-console.log(`[startup] ${Meteor.settings.public.app.name} version: ${Meteor.settings.public.app.version} codename: ${Meteor.settings.public.app.codename}`);
+console.log(`[startup] Initializing ${Meteor.settings.public.app.name}...`);
 
+/*
 function setupCollectiveInApp(collective) {
   Meteor.settings.public.Collective._id = collective._id;
   console.log(`[startup] This server is being run by collective ${collective.name}`);
   console.log(`[startup] The collective can be reached with id ${collective._id}`);
 }
+*/
 
 Meteor.startup(() => {
   // App Cache
@@ -64,6 +66,8 @@ Meteor.startup(() => {
   */
 
   console.log('[config] Verifying key configuration for this instance...');
+
+  /**
 
   // AWS
   if (Meteor.settings.AWSAccessKeyId === undefined || Meteor.settings.AWSAccessKeyId === '') {
@@ -116,9 +120,10 @@ Meteor.startup(() => {
   } else {
     console.log('[config] Google Analytics tracking Id... OK');
   }
+*/
 
   // Web3
-  if (Meteor.settings.public.web3.network === "" ||
+  if (Meteor.settings.public.web3.network === '' ||
       Meteor.settings.public.web3.network === undefined) {
     console.log('[config WARNING] Web3 mainnet network provider not configured.');
     console.log('[config FIX] Configure `private.web3.network` on settings.json.');
