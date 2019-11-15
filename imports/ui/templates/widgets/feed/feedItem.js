@@ -55,6 +55,25 @@ const isJSON = (str) => {
 };
 
 /**
+* @summary gets the description from a moloch proposal
+* @param {string} title with xml
+* @return {string} with html
+*/
+const _getProposalDescription = (title, onlyTitle) => {
+  const xmlDescription = _getXMLAttributes(title, 'description');
+  if (isJSON(xmlDescription.json)) {
+    const json = JSON.parse(xmlDescription.json);
+    if (json && json.description !== undefined) {
+      const description = wrapURLs(json.description, true);
+      const html = `<div>${json.title}</div><div class='title-description'>${description}</div>`;
+      if (onlyTitle) { return json.title; }
+      return html;
+    }
+  }
+  return xmlDescription.json;
+};
+
+/**
 * @summary determines whether this decision can display results or notice
 * @return {boolean} yes or no
 */
@@ -594,16 +613,7 @@ Template.feedItem.helpers({
     return { _id: _getXMLAttributes(this.title, 'user')._id };
   },
   description() {
-    const xmlDescription = _getXMLAttributes(this.title, 'description');
-    if (isJSON(xmlDescription.json)) {
-      const json = JSON.parse(xmlDescription.json);
-      if (json && json.description !== undefined) {
-        const description = wrapURLs(json.description, true);
-        const html = `<div>${json.title}</div><div class='title-description'>${description}</div>`;
-        return html;
-      }
-    }
-    return `<div>${xmlDescription.json}</div>`;
+    return `<div>${_getProposalDescription(this.title, false)}</div>`;
   },
 });
 
@@ -649,3 +659,4 @@ Template.feedItem.events({
 });
 
 export const threadItem = _threadItem;
+export const getProposalDescription = _getProposalDescription;

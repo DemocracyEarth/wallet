@@ -14,9 +14,9 @@
             "label": "moloch-proposal"
           },
           {
-            "label": "moloch-voting-period",
-            "icon": "images/decision-vote.png",
-            "iconActivated": "images/decision-vote-active.png",
+            "label": "moloch-all",
+            "icon": "images/decision-constitution.png",
+            "iconActivated": "images/decision-constitution-active.png",
             "feed": "user",
             "value": true,
             "separator": false,
@@ -31,6 +31,16 @@
             "value": true,
             "separator": false,
             "url": "/?period=queue",
+            "displayToken": false
+          },
+          {
+            "label": "moloch-voting-period",
+            "icon": "images/decision-vote.png",
+            "iconActivated": "images/decision-vote-active.png",
+            "feed": "user",
+            "value": true,
+            "separator": false,
+            "url": "/?period=voting",
             "displayToken": false
           },
           {
@@ -51,16 +61,6 @@
             "value": true,
             "separator": false,
             "url": "/?period=processing",
-            "displayToken": false
-          },
-          {
-            "label": "moloch-completed",
-            "icon": "images/decision-constitution.png",
-            "iconActivated": "images/decision-constitution-active.png",
-            "feed": "user",
-            "value": true,
-            "separator": false,
-            "url": "/?period=completed",
             "displayToken": false
           },
           {
@@ -85,16 +85,6 @@
             "value": true,
             "separator": false,
             "url": "/?period=rejected",
-            "displayToken": false
-          },
-          {
-            "label": "moloch-aborted",
-            "icon": "images/decision-closed.png",
-            "iconActivated": "images/decision-closed-active.png",
-            "feed": "user",
-            "value": true,
-            "separator": false,
-            "url": "/?period=aborted",
             "displayToken": false
           }        
         ],

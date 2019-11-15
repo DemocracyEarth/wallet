@@ -21,6 +21,7 @@ import { displayModal } from '/imports/ui/modules/modal';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { currentBlock, isPollOpen } from '/imports/ui/templates/components/decision/countdown/countdown';
 import { getBalance } from '/imports/api/blockchain/modules/web3Util';
+import { getProposalDescription } from '/imports/ui/templates/widgets/feed/feedItem';
 
 import '/imports/ui/templates/components/decision/ballot/ballot.html';
 import '/imports/ui/templates/components/decision/fork/fork.js';
@@ -206,7 +207,7 @@ const _checkUserVoted = (contract, userId) => {
 */
 const _getTwitterURL = (contract) => {
   const TWITTER_MAX_CHARS = 200;
-  let titleURL = contract.title;
+  let titleURL = getProposalDescription(contract.title, true);
   if (titleURL.length > TWITTER_MAX_CHARS) {
     titleURL = `${titleURL.substring(0, TWITTER_MAX_CHARS)}...`;
   }
