@@ -21,7 +21,8 @@
             "value": true,
             "separator": false,
             "url": "/",
-            "displayToken": false
+            "displayToken": false,
+            "displayCount": true
           },
           {
             "label": "moloch-queue",
@@ -31,7 +32,8 @@
             "value": true,
             "separator": false,
             "url": "/?period=queue",
-            "displayToken": false
+            "displayToken": false,
+            "displayCount": true
           },
           {
             "label": "moloch-voting-period",
@@ -41,7 +43,8 @@
             "value": true,
             "separator": false,
             "url": "/?period=voting",
-            "displayToken": false
+            "displayToken": false,
+            "displayCount": true
           },
           {
             "label": "moloch-grace-period",
@@ -51,7 +54,8 @@
             "value": true,
             "separator": false,
             "url": "/?period=grace",
-            "displayToken": false
+            "displayToken": false,
+            "displayCount": true
           },
           {
             "label": "moloch-ready-processing",
@@ -61,7 +65,8 @@
             "value": true,
             "separator": false,
             "url": "/?period=processing",
-            "displayToken": false
+            "displayToken": false,
+            "displayCount": true
           },
           {
             "separator": true,
@@ -75,7 +80,8 @@
             "value": true,
             "separator": false,
             "url": "/?period=passed",
-            "displayToken": false
+            "displayToken": false,
+            "displayCount": true
           },
           {
             "label": "moloch-failed",
@@ -85,7 +91,8 @@
             "value": true,
             "separator": false,
             "url": "/?period=rejected",
-            "displayToken": false
+            "displayToken": false,
+            "displayCount": true
           }        
         ],
         "blockchain" : {

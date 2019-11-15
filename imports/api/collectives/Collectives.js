@@ -86,6 +86,15 @@ Schema.Menu = new SimpleSchema({
     defaultValue: false,
     optional: true,
   },
+  count: {
+    type: Number,
+    defaultValue: 0,
+    optional: true,
+  },
+  displayCount: {
+    type: Boolean,
+    optional: true,
+  },
 });
 
 

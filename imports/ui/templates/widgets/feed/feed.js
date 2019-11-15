@@ -155,7 +155,6 @@ Template.feed.onCreated(function () {
     options.view = 'linkedFeed';
   }
 
-  console.log(options);
   this.subscription = instance.subscribe('feed', options);
 
   const parameters = query(options);
