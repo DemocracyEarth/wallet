@@ -232,62 +232,9 @@ Template.sidebar.onCreated(function () {
 * @param {object} user to parse
 * @returns {object} menu
 */
-const _userMenu = (user) => {
-  let coin;
-  const MAX_LABEL_LENGTH = 20;
-
-  const menu = [
-    /* {
-      id: 0,
-      label: TAPi18n.__('menu-proposals'),
-      icon: 'images/decision-proposals.png',
-      iconActivated: 'images/decision-proposals-active.png',
-      feed: 'user',
-      value: true,
-      separator: false,
-      url: '/',
-      selected: false,
-    },*/
-  ];
-
-  const geo = Session.get('geo');
-
-  if (user && geo) {
-    /*
-    menu.push({
-      id: 1,
-      label: TAPi18n.__('profile'),
-      icon: 'images/decision-proposals.png',
-      iconActivated: 'images/decision-proposals-active.png',
-      feed: 'user',
-      value: true,
-      separator: false,
-      url: `/address/${(Meteor.user().username.length > MAX_LABEL_LENGTH) ? `${Meteor.user().username.substring(0, MAX_LABEL_LENGTH)}...` : Meteor.user().username}`,
-      selected: false,
-      isAvatar: true,
-      profile: user,
-    });
-
-    // country feed
-    if (user.profile.country) {
-      const nation = _.where(geo.country, { code: user.profile.country.code })[0];
-      menu.push({
-        id: parseInt(menu.length - 1, 10),
-        // label: `${nation.emoji} ${(user.profile.country.name.length > MAX_LABEL_LENGTH) ? `${user.profile.country.name.substring(0, MAX_LABEL_LENGTH)}...` : user.profile.country.name}`,
-        label: `${(user.profile.country.name.length > MAX_LABEL_LENGTH) ? `${user.profile.country.name.substring(0, MAX_LABEL_LENGTH)}...` : user.profile.country.name} ${nation.emoji}`,
-        icon: 'images/decision-globe.png',
-        iconActivated: 'images/decision-globe-active.png',
-        feed: 'user',
-        value: true,
-        separator: false,
-        url: `/${user.profile.country.code.toLowerCase()}`,
-        selected: false,
-      });
-    }
-    */
-  }
-
+const _getMenu = () => {
   // dao feeds
+  const menu = [];
   const daoList = Template.instance().daoList.get();
 
   let daoMenu;
@@ -301,100 +248,7 @@ const _userMenu = (user) => {
         }
       }
     }
-    /*
-    menu.push({
-      id: parseInt(menu.length - 1, 10),
-      separator: true,
-      label: TAPi18n.__('organizations'),
-    });
-
-    for (let k = 0; k < daoList.length; k += 1) {
-      if (daoList[k].profile.blockchain.coin.code) {
-        coin = getCoin(daoList[k].profile.blockchain.coin.code);
-      }
-      menu.push({
-        id: parseInt(menu.length - 1, 10),
-        label: `${(daoList[k].name.length > MAX_LABEL_LENGTH) ? `${daoList[k].name.substring(0, MAX_LABEL_LENGTH)}...` : daoList[k].name}`,
-        icon: 'images/decision-dao.png',
-        iconActivated: 'images/decision-dao-active.png',
-        feed: 'user',
-        value: true,
-        separator: false,
-        url: `/${daoList[k].domain.toLowerCase()}`,
-        selected: false,
-        displayToken: true,
-        tokenColor: coin.color,
-        reserve: {
-          available: 0,
-          balance: 0,
-          placed: 0,
-          publicAddress: daoList[k].profile.blockchain.publicAddress,
-          token: daoList[k].profile.blockchain.coin.code,
-        },
-      });
-    }
-    */
   }
-
-  if (user) {
-    if (user.profile.wallet.reserves && user.profile.wallet.reserves.length > 0) {
-      /*
-      menu.push({
-        id: parseInt(menu.length - 1, 10),
-        separator: true,
-        label: TAPi18n.__('wallet'),
-      });
-
-      for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
-        coin = getCoin(user.profile.wallet.reserves[i].token);
-        if (coin && coin.name) {
-          menu.push({
-            id: parseInt(menu.length - 1, 10),
-            // label: `<span class="suggest-item suggest-token suggest-token-sidebar">${coin.code}</span> ${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
-            label: `${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
-            icon: 'images/decision-coin.png',
-            iconActivated: 'images/decision-coin-active.png',
-            feed: 'user',
-            value: true,
-            separator: false,
-            url: `/$${coin.code.toLowerCase()}`,
-            selected: false,
-            displayToken: true,
-            tokenColor: coin.color,
-            reserve: user.profile.wallet.reserves[i],
-          });
-        }
-      }
-      */
-      /*
-      if (user.profile.wallet.balance > 0) {
-        coin = getCoin(user.profile.wallet.currency);
-        menu.push({
-          id: parseInt(menu.length - 1, 10),
-          // label: `<span class="suggest-item suggest-token suggest-token-sidebar">${coin.code}</span> ${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
-          label: `${(TAPi18n.__('offchain') > MAX_LABEL_LENGTH) ? `${TAPi18n.__('offchain').substring(0, MAX_LABEL_LENGTH)}...` : TAPi18n.__('offchain')}`,
-          icon: 'images/decision-coin.png',
-          iconActivated: 'images/decision-coin-active.png',
-          feed: 'user',
-          value: true,
-          separator: false,
-          url: `/$${coin.code.toLowerCase().replace(' ', '%20')}`,
-          selected: false,
-          displayToken: true,
-          tokenColor: coin.color,
-          reserve: {
-            available: user.profile.wallet.available,
-            balance: user.profile.wallet.balance,
-            placed: user.profile.wallet.placed,
-            publicAddress: '',
-            token: user.profile.wallet.currency,
-          },
-        });
-      }
-      */
-    }
-  }
-
 
   // subjectivity
   return menu;
@@ -470,7 +324,7 @@ Template.sidebar.helpers({
     return 0;
   },
   menu() {
-    return _userMenu(Meteor.user());
+    return _getMenu();
   },
   style() {
     if (!Meteor.Device.isPhone() && Meteor.user()) {

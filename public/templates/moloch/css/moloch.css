@@ -5834,12 +5834,16 @@ blockquote {
   padding: 0px 4px;
   float: right;
   border-radius: 3px;
-  /* background-color: #ccbcda; */
-  color: #6c5b7c;
-  font-size: 7px;
-  line-height: 14px;
+  /* background-color: #f9f9ff; */
+  color: #5a0074;
+  font-size: 10px;
+  line-height: 18px;
   font-weight: 400;
   text-transform: uppercase;
+}
+
+.sidebar-tag.sidebar-tag-selected {
+  color:#fff;
 }
 
 .sidebar-tag.sidebar-stat {

@@ -26,6 +26,11 @@
         <div class="sidebar-label">
           {{{_ label}}}
         </div>
+        {{#if displayCount}}
+          <div class="sidebar-tag {{sidebarTagStyle}}">
+            {{count}}
+          </div>
+        {{/if}}
         {{#if reserve}}
           <div class="sidebar-tag">
             {{#with tokens}}

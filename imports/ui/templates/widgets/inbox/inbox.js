@@ -1,6 +1,5 @@
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
-import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
 
 import '/imports/ui/templates/components/identity/avatar/avatar.js';
@@ -22,6 +21,17 @@ Template.inbox.helpers({
   },
   isAvatar() {
     return this.isAvatar;
+  },
+  displayCount() {
+    return this.displayCount;
+  },
+  count() {
+    return this.count;
+  },
+  sidebarTagStyle() {
+    const context = window.location.href.replace(window.location.origin, '');
+    if (this.url === context) { return 'sidebar-tag-selected'; }
+    return '';
   },
   tokens() {
     const reserve = {
