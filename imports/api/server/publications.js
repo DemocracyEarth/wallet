@@ -141,6 +141,7 @@ Meteor.publish('tally', function (terms) {
 * @return {Object} querying terms
 */
 Meteor.publish('feed', function (terms) {
+  console.log(terms);
   check(terms, Object);
   const parameters = query(terms);
   let _log = String();

@@ -453,7 +453,6 @@ Template.feedItem.helpers({
   pollTotals() {
     const choices = Contracts.find({ pollId: this._id }).fetch();
     let total = new BigNumber(0);
-    console.log(this.blockchain);
     for (let i = 0; i < choices.length; i += 1) {
       if (choices[i].blockchain.score && choices[i].blockchain.score.totalConfirmed) {
         total = total.plus(choices[i].blockchain.score.totalConfirmed);

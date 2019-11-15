@@ -14,16 +14,6 @@
             "label": "moloch-proposal"
           },
           {
-            "label": "moloch-queue",
-            "icon": "images/decision-open.png",
-            "iconActivated": "images/decision-open-active.png",
-            "feed": "user",
-            "value": true,
-            "separator": false,
-            "url": "/?period=queue",
-            "displayToken": false
-          },
-          {
             "label": "moloch-voting-period",
             "icon": "images/decision-vote.png",
             "iconActivated": "images/decision-vote-active.png",
@@ -31,6 +21,16 @@
             "value": true,
             "separator": false,
             "url": "/",
+            "displayToken": false
+          },
+          {
+            "label": "moloch-queue",
+            "icon": "images/decision-open.png",
+            "iconActivated": "images/decision-open-active.png",
+            "feed": "user",
+            "value": true,
+            "separator": false,
+            "url": "/?period=queue",
             "displayToken": false
           },
           {
@@ -74,7 +74,7 @@
             "feed": "user",
             "value": true,
             "separator": false,
-            "url": "/?result=passed",
+            "url": "/?period=passed",
             "displayToken": false
           },
           {
@@ -84,7 +84,7 @@
             "feed": "user",
             "value": true,
             "separator": false,
-            "url": "/?result=failed",
+            "url": "/?period=rejected",
             "displayToken": false
           },
           {
@@ -94,7 +94,7 @@
             "feed": "user",
             "value": true,
             "separator": false,
-            "url": "/?result=aborted",
+            "url": "/?period=aborted",
             "displayToken": false
           }        
         ],

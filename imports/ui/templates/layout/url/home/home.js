@@ -118,7 +118,7 @@ Template.screen.helpers({
 Template.homeFeed.onCreated(function () {
   Template.instance().feedReady = new ReactiveVar(false);
   const instance = this;
-  const subscription = instance.subscribe('feed', { view: instance.data.options.view, sort: { createdAt: -1 }, userId: instance.data.options.userId, username: instance.data.options.username });
+  const subscription = instance.subscribe('feed', { view: instance.data.options.view, sort: { createdAt: -1 }, userId: instance.data.options.userId, username: instance.data.options.username, period: instance.data.options.period });
 
   Session.set('minimizedEditor', true);
 

@@ -165,8 +165,6 @@ Template.countdown.helpers({
   label() {
     const now = Template.instance().now.get();
     const remaining = _getRemaining(now, this);
-    console.log(`remaining: ${remaining}`);
-    console.log(this);
     if (isNaN(remaining)) {
       return TAPi18n.__('syncing');
     }

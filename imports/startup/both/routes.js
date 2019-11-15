@@ -11,6 +11,7 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { tokenWeb } from '/lib/token';
+import { request } from 'http';
 
 if (Meteor.isClient) {
   import '/imports/ui/templates/layout/main.js';
@@ -136,8 +137,16 @@ Router.route('/', {
     if (!Meteor.user()) {
       limit = gui.ITEMS_IN_LANDING;
     }
+
+    let view = 'latest';
+    let period = '';
+    if (this.params.query.period) {
+      view = 'period';
+      period = this.params.query.period;
+    }
+
     return {
-      options: { view: 'latest', sort: { createdAt: -1 }, limit, skip: 0 },
+      options: { view, period, sort: { createdAt: -1 }, limit, skip: 0 },
     };
   },
   onAfterAction() {
@@ -203,7 +212,7 @@ Router.route('/address/:username', {
 
 /**
 * @summary loads a tag feed
-**/
+
 Router.route('/:land', {
   name: 'geoFeed',
   template: 'home',
@@ -253,6 +262,7 @@ Router.route('/:land', {
     }
   },
 });
+**/
 
 /**
 * @summary loads a post using date in url
