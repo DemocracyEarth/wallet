@@ -139,16 +139,16 @@
               </div>
             {{/unless}}
 
-            {{#if pollingEnabled}}
-              {{> poll list=pollList pollId=pollId rules=rules pollTotals=pollTotals quadratic=quadraticEnabled balance=balanceEnabled}}
-            {{else}}
-              {{> poll list=pollList placeholder=true}}
-            {{/if}}
-
             {{#if requiresClosing}}
               {{#with closingData}}
                 {{> countdown}}
               {{/with}}
+            {{/if}}
+            
+            {{#if pollingEnabled}}
+              {{> poll list=pollList pollId=pollId rules=rules pollTotals=pollTotals quadratic=quadraticEnabled balance=balanceEnabled}}
+            {{else}}
+              {{> poll list=pollList placeholder=true}}
             {{/if}}
 
             {{#if tally}}
