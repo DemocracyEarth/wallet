@@ -29,8 +29,10 @@ Template.inbox.helpers({
     return this.count;
   },
   sidebarTagStyle() {
-    const context = window.location.href.replace(window.location.origin, '');
-    if (this.url === context) { return 'sidebar-tag-selected'; }
+    const selectedId = Session.get('sidebarMenuSelectedId');
+    if (selectedId === this.id) {
+      return 'sidebar-tag-selected';
+    }
     return '';
   },
   tokens() {
@@ -49,6 +51,7 @@ Template.inbox.helpers({
 Template.inbox.events({
   'click #menuButton'() {
     Session.set('sidebarMenuSelectedId', this.id);
+    console.log(this.id);
     if (typeof this.id === 'string') {
       toggleSelectedItem(Session.get('menuDelegates'));
     } else {
