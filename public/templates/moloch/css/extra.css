@@ -937,3 +937,9 @@ h4 {
 .poll-score-bar-fill-negative {
   background: #ff3d67;
 }
+
+.topbar {
+  z-index: 12800;
+  background: #48587d;
+  box-shadow: 0px -3px 15px 0px rgba(0, 0, 0, 0.65);
+}

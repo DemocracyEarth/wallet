@@ -11,7 +11,7 @@
         "menu": [
           {
             "separator": true,
-            "label": "moloch-proposal"
+            "label": "moloch-period"
           },
           {
             "label": "moloch-all",

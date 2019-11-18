@@ -40,6 +40,7 @@ import { resetSplit } from '/imports/ui/modules/split';
 import '/imports/ui/templates/layout/main.html';
 import '/imports/ui/templates/widgets/modal/modal';
 import '/imports/ui/templates/widgets/popup/popup';
+import '/imports/ui/templates/layout/url/topbar/topbar';
 import '/imports/ui/templates/layout/sidebar/sidebar';
 import '/imports/ui/templates/layout/navigation/navigation';
 import '/imports/ui/templates/layout/response/verifyEmail/verifyEmail';

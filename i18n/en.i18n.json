@@ -749,6 +749,7 @@
   "moloch-failed": "Rejected",
   "moloch-aborted": "Aborted",
   "moloch-proposal": "Proposals",
+  "moloch-period": "Period",
   "moloch-results": "Results",
   "moloch-map-submit-proposal": "<root><description json='{{details}}'></description> <request quantity='{{sharesRequested}}' token='SHARES'></request> <user _id='{{applicantId}}' username='{{applicant}}'></user> <tribute quantity='{{ether tokenTribute}}' token='WETH'></tribute></root>",
   "moloch-yes": "Yes",

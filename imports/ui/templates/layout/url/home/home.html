@@ -1,22 +1,16 @@
 <template name="home">
+  {{> hero postMode=post}}
+  
   {{#unless newLogin}}
     {{#each mode in modeArray}}
       {{> screen this}}
     {{/each}}
   {{else}}
-    {{#unless currentUser}}
-      {{> hero postMode=post}}
-    {{/unless}}
-
     {{> homeFeed this}}
   {{/unless}}
 </template>
 
 <template name="screen">
-  {{#unless currentUser}}
-    {{> hero postMode=post}}
-  {{/unless}}
-
   <div class="{{anonymousContext}}">
     {{#if post}}
       {{> postFeed this}}

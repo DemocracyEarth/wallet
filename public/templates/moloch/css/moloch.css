@@ -4456,7 +4456,7 @@ blockquote {
 }
 
 .menu {
-  margin-top: 0px;
+  margin-top: 70px;
   margin-bottom: 10px;
   border-bottom: 1px none #bbb;
   font-size: 15px;
@@ -6417,7 +6417,6 @@ blockquote {
   width: 100%;
   min-height: 65px;
   padding-bottom: 10px;
-  background-color: #f2f2f8;
   font-size: 18px;
   line-height: 26px;
 }
@@ -6544,7 +6543,7 @@ blockquote {
 }
 
 .hero-menu-link {
-  color: #7d8499;
+  color: #c3c9d5;
   font-size: 13px;
   line-height: 22px;
   font-weight: 400;
@@ -6552,13 +6551,12 @@ blockquote {
 }
 
 .hero-menu-link:hover {
-  color: #181f33;
+  color: white;
   text-decoration: none;
 }
 
 .hero-menu-link.hero-menu-link-selected {
-  color: #0d0d17;
-  font-weight: 700;
+  color: white;
   cursor: default;
 }
 
@@ -6580,12 +6578,6 @@ blockquote {
   overflow: hidden;
   width: 100%;
   height: 60px;
-}
-
-.hero-navbar.hero-navbar-scroller {
-  border-bottom: 1px solid #e8e8e8;
-  background-color: #f2f2f8;
-  box-shadow: 0 10px 50px 10px rgba(0, 0, 0, .15);
 }
 
 .hero-demo {
