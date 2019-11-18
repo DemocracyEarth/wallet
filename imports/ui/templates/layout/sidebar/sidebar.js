@@ -152,9 +152,11 @@ const _adapt = (list) => {
 */
 const _showSidebar = () => {
   const percentage = sidebarPercentage();
+  console.log(`percentage: ${percentage}`);
   $('.left').width(`${percentage}%`);
   if (!Meteor.Device.isPhone()) {
     if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
+      console.log('this thing');
       $('.navbar').css('left', 0);
       Session.set('miniWindow', true);
     } else {
@@ -275,10 +277,13 @@ Template.sidebar.onRendered(() => {
     $('.navbar').css('left', `${sidebarPercentage()}%`);
   }
 
+  Session.set('removedSidebar', true);
   drawSidebar();
 
   $(window).resize(() => {
-    _render();
+    // _render();
+    Session.set('sidebar', true);
+    _showSidebar();
   });
 });
 
@@ -333,7 +338,10 @@ Template.sidebar.helpers({
     return '';
   },
   sidebarContext() {
-    return _render();
+    Session.set('sidebar', true);
+    _showSidebar();
+    return true;
+    // return _render();
   },
 });
 
