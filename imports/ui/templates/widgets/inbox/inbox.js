@@ -51,7 +51,6 @@ Template.inbox.helpers({
 Template.inbox.events({
   'click #menuButton'() {
     Session.set('sidebarMenuSelectedId', this.id);
-    console.log(this.id);
     if (typeof this.id === 'string') {
       toggleSelectedItem(Session.get('menuDelegates'));
     } else {

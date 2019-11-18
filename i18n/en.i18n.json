@@ -769,5 +769,7 @@
   "moloch-period-rejected": "Rejected.",
   "moloch-period-aborted": "Aborted.",
   "syncing": "Syncing...",
-  "moloch-all": "All History"
+  "moloch-all": "All History",
+  "moloch-addresses": "Member addresses",
+  "moloch-address": "Member address"
 }
