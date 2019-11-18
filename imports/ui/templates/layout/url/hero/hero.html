@@ -1,6 +1,7 @@
 <template name="hero">
   <div class="hero hero-cover">
-    {{#unless postMode}}
+    {{> navbar postMode=postMode}}
+    <!--{{#unless postMode}}
       {{> navbar}}
       <div class="hero-title">
         <h1>{{{title}}}</h1>
@@ -46,7 +47,7 @@
       {{/if}}
     {{else}}
       {{> navbar postMode=postMode}}
-    {{/unless}}
+    {{/unless}}-->
   </div>
 </template>
 
