@@ -30,7 +30,7 @@ Template.inbox.helpers({
   },
   sidebarTagStyle() {
     const selectedId = Session.get('sidebarMenuSelectedId');
-    if (selectedId === this.id) {
+    if ((selectedId === this.id) || (!selectedId && this.id === 0)) {
       return 'sidebar-tag-selected';
     }
     return '';
