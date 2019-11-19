@@ -948,3 +948,26 @@ h4 {
   display: inline-block; 
   margin: -10px 3px -10px -15px;
 }
+
+.qr-code-address {
+  height: 148px;
+  width: 148px;
+  margin: 5px auto;
+  display: block;
+  cursor: pointer;
+}
+
+.qr-code-address-text {
+    color: #581073;
+    border-radius: 5px;
+    font-size: 10px;
+    text-align: center;
+    margin: 10px 0px -15px;
+    border: 1px solid #581073;
+}
+
+.qr-code-address-text:hover {
+  background-color: #581073;
+  color: #fff;
+  cursor: pointer;
+}

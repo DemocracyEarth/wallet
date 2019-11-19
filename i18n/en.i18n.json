@@ -237,7 +237,7 @@
   "latest-proposals": "Latest Proposals",
   "all-proposals": "All Proposals",
   "drafts": "Drafts",
-  "memberships": "Citizenships",
+  "memberships": "Memberships",
   "votes": "Votes",
   "propose": "Propose Idea",
   "decisions": "Decisions",
@@ -778,5 +778,8 @@
   "dao": "DAO",
   "tweets": "Tweets",
   "address": "Address",
-  "email-notifications": "Get e-mail notifications"
+  "email-notifications": "Get e-mail notifications",
+  "click-to-copy": "Click to copy address on clipboard.",
+  "dao-memberships": "DAO Memberships",
+  "copied-to-clipboard": "Address copied to clipboard."
 }

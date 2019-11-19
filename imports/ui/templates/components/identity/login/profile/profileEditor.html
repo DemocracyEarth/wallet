@@ -24,8 +24,14 @@
         {{else}}
           <div class="login-field">
             <label for="name" class="login-label login-label-form">
-              {{_ "address"}}
+              {{_ "blockchain-address"}}
             </label>
+            {{> qr code=currentUser.username}}
+            <!--
+            <label for="name" class="login-label login-label-form">
+              {{_ "dao-memberships"}}
+            </label>
+            -->
           </div>
         {{/if}}
         {{#if noUsernameFound}}
@@ -38,13 +44,15 @@
             {{> warning label="username-already-exists"}}
           </div>
         {{/if}}
-        <div class="login-field">
-          <label for="name" class="login-label login-label-form">
-            {{_ "email-notifications"}}
-          </label>
-          <img src="{{getImage 'mail-closed'}}" class="login-icon">
-           <input type="text" id="editEmail" placeholder="{{_ 'email-sample'}}" autocomplete="false" class="w-input login-input" value="{{email}}">
-        </div>
+        {{#if Meteor.settings.public.app.config.profile.notificationsEmail}}
+          <div class="login-field">
+            <label for="name" class="login-label login-label-form">
+              {{_ "email-notifications"}}
+            </label>
+            <img src="{{getImage 'mail-closed'}}" class="login-icon">
+            <input type="text" id="editEmail" placeholder="{{_ 'email-sample'}}" autocomplete="false" class="w-input login-input" value="{{email}}">
+          </div>
+        {{/if}}
         {{#if invalidEmail}}
           <div class="extra extra-warning">
             {{> warning label="invalid-email"}}
@@ -60,10 +68,21 @@
             {{/if}}
           </div>
         {{/if}}
-        <div id="save-profile" class="button login-button login-button-last">
-          <div>{{_ 'save-profile'}}</div>
-        </div>
+        {{#if Meteor.settings.public.app.config.profile.updatable}}
+          <div id="save-profile" class="button login-button login-button-last">
+            <div>{{_ 'save-profile'}}</div>
+          </div>
+        {{/if}}
       </form>
+    </div>
+  </div>
+</template>
+
+<template name="qr">
+  <div id="qr-code">
+    <canvas class="qr-code-address" id="canvas-qr"></canvas>
+    <div title="{{_ 'click-to-copy'}}" class="qr-code-address-text">
+      {{_ code}}
     </div>
   </div>
 </template>
