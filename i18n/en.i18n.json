@@ -772,5 +772,7 @@
   "syncing": "Syncing...",
   "moloch-all": "All History",
   "moloch-addresses": "Member addresses",
-  "moloch-address": "Member address"
+  "moloch-address": "Member address",
+  "sign-out": "Sign Out",
+  "self": "Self"
 }

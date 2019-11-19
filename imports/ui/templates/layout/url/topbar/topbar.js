@@ -8,6 +8,7 @@ import { Session } from 'meteor/session';
 
 import { timers } from '/lib/const';
 import { resetSplit } from '/imports/ui/modules/split';
+import { shortenCryptoName } from '/imports/ui/templates/components/identity/avatar/avatar';
 
 import { getTemplate } from '/imports/ui/templates/layout/templater';
 import { promptLogin } from '/imports/ui/templates/components/collective/collective.js';
@@ -31,7 +32,7 @@ const _showTopMenu = () => {
     node.css('position', 'fixed');
     node.css('top', '-100px');
     node.css('opacity', '1');
-    node.css('height', '65px');
+    node.css('height', '55px');
     node.velocity('stop');
     node.velocity({ top: '0px' }, { duration: parseInt(timers.ANIMATION_DURATION, 10), easing: 'ease-out' });
   }
@@ -87,6 +88,9 @@ Template.topbar.helpers({
   },
   postMode() {
     return Template.instance().postMode;
+  },
+  cryptoName(address) {
+    return shortenCryptoName(address);
   },
 });
 

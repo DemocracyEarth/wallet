@@ -40,7 +40,7 @@ const _landingMode = (style) => {
         break;
     }
   } else if (!Meteor.Device.isPhone()) {
-    css = 'split-desktop';
+    css = 'split-landing';
   }
 
   if (!Meteor.settings.public.app.config.interface.showTransactions) {

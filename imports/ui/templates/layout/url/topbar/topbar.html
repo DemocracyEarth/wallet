@@ -8,9 +8,22 @@
         {{/if}}
       {{/if}}
     </div>
-    <div id="collective-login" class="hero-button hero-button-mobile hero-signin">
+    {{#unless currentUser}}
+      <div id="collective-login" class="hero-button hero-button-mobile hero-signin">
         <div class="hero-menu-link hero-menu-link-signin {{loginMode}}" target="_blank">{{_ 'sign-in'}}</div>
-    </div>
+      </div>
+    {{else}}
+      <div id="collective-login" class="hero-button hero-button-mobile hero-signin">
+        <div class="hero-menu-link hero-menu-link-signin {{loginMode}}" target="_blank">
+          {{#with currentUser}}
+            <div class="hero-crypto-login">
+              {{> avatar size=24 profile=this._id includeName=false includeNation=false editable=false microFont=true disabled=true includeRole=false imgStyle=this.imgStyle}}
+            </div>
+            {{cryptoName this.username}}
+          {{/with}}
+        </div>
+      </div>
+    {{/unless}}
     <div class="hero-menu">
       {{#each navbarItem}}
         {{#if this.selected}}

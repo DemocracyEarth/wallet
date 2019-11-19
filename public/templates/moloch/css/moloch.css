@@ -4456,7 +4456,7 @@ blockquote {
 }
 
 .menu {
-  margin-top: 70px;
+  margin-top: 0px;
   margin-bottom: 10px;
   border-bottom: 1px none #bbb;
   font-size: 15px;
@@ -4525,7 +4525,7 @@ blockquote {
 }
 
 .menu-item.menu-item-selected {
-  background-color: #5a0075;
+  background-color: #00c091;
   color: #fff;
 }
 
@@ -4576,7 +4576,7 @@ blockquote {
 .sidebar {
   position: absolute;
   top: 0px;
-  bottom: 0px;
+  bottom: 60px;
   display: inline-block;
   overflow: scroll;
   width: 100%;
@@ -6432,7 +6432,7 @@ blockquote {
 
 .split-landing {
   position: absolute;
-  top: 73px;
+  top: 55px;
 }
 
 .hero-background {
@@ -6519,17 +6519,17 @@ blockquote {
 }
 
 .hero-logo {
-  max-height: 32px;
-  margin: 14px 10px;
+  max-height: 30px;
+  margin: 12px 10px;
   float: left;
 }
 
 .hero-button {
   display: inline-block;
-  margin-right: 15px;
-  margin-left: 15px;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  margin-right: 10px;
+  margin-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .hero-button.hero-button-mobile.hero-signin {
@@ -6544,7 +6544,7 @@ blockquote {
 
 .hero-menu-link {
   color: #c3c9d5;
-  font-size: 13px;
+  font-size: 12px;
   line-height: 22px;
   font-weight: 400;
   text-transform: uppercase;
@@ -6567,8 +6567,8 @@ blockquote {
 }
 
 .hero-menu-link.hero-menu-link-signin.hero-menu-link-signin-active {
-  border-color: #561072;
-  background-color: #561072;
+  border-color: #00c091;
+  background-color: #00c091;
   color: #fff;
 }
 
@@ -7196,7 +7196,7 @@ blockquote {
     background-color: transparent;
   }
   .menu-item.menu-item-selected:hover {
-    background-color: #6d5c7d;
+    background-color: #5a0075;
   }
   .content.content-feed {
     padding-right: 10px;
