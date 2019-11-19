@@ -10,19 +10,21 @@
   {{else}}
     <div class="w-clearfix avatar-editor {{sidebarIcon}}" style="{{styleContext}}">
       {{#if editor}}
-        <img src="{{profilePicture}}" class="symbol profile-pic profile-pic-edit" ontouchstart="">
-        <div class="avatar-description">
-          <div class="login-label">{{_ 'profile-picture'}}</div>
-        </div>
-        <form id="upload">
-          <div class="">
-            <label class="button button-upload upload-button-label">
-              <input type="file">
-              <img src="{{getImage 'camera'}}" class="upload-icon">
-              <span class='uploader-button'>{{_ 'upload-picture'}}</span>
-            </label>
+        {{#if Meteor.settings.public.app.config.profile.uploadAvatarToCloud}}
+          <img src="{{profilePicture}}" class="symbol profile-pic profile-pic-edit" ontouchstart="">
+          <div class="avatar-description">
+            <div class="login-label">{{_ 'profile-picture'}}</div>
           </div>
-        </form>
+          <form id="upload">
+            <div class="">
+              <label class="button button-upload upload-button-label">
+                <input type="file">
+                <img src="{{getImage 'camera'}}" class="upload-icon">
+                <span class='uploader-button'>{{_ 'upload-picture'}}</span>
+              </label>
+            </div>
+          </form>
+        {{/if}}
       {{else}}
         {{#if editable}}
           <div id="toggleEditor" class="symbol profile-pic profile-edit" ontouchstart="">

@@ -774,5 +774,9 @@
   "moloch-addresses": "Member addresses",
   "moloch-address": "Member address",
   "sign-out": "Sign Out",
-  "self": "Self"
+  "self": "Self",
+  "dao": "DAO",
+  "tweets": "Tweets",
+  "address": "Address",
+  "email-notifications": "Get e-mail notifications"
 }

@@ -4575,7 +4575,7 @@ blockquote {
 
 .sidebar {
   position: absolute;
-  top: 0px;
+  top: 60px;
   bottom: 60px;
   display: inline-block;
   overflow: scroll;
@@ -6544,7 +6544,7 @@ blockquote {
 
 .hero-menu-link {
   color: #c3c9d5;
-  font-size: 12px;
+  font-size: 11px;
   line-height: 22px;
   font-weight: 400;
   text-transform: uppercase;
@@ -6768,7 +6768,7 @@ blockquote {
     bottom: 15px;
   }
   .sidebar {
-    top: 0px;
+    top: 60px;
     z-index: 15000;
     display: block;
   }
