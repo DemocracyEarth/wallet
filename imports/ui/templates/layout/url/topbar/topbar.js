@@ -65,11 +65,11 @@ Template.topbar.onRendered(function () {
 
 Template.topbar.helpers({
   logoExtended() {
-    return Meteor.settings.public.Collective.profile.logoExtended;
+    return Meteor.settings.public.app.logo;
   },
   picture() {
-    if (Meteor.settings.public.Collective.profile.logo) {
-      return Meteor.settings.public.Collective.profile.logo;
+    if (Meteor.settings.public.app.logo) {
+      return Meteor.settings.public.app.logo;
     }
     return 'images/earth.png';
   },

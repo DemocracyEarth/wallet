@@ -155,10 +155,11 @@ const _showSidebar = () => {
   $('.left').width(`${percentage}%`);
   if (!Meteor.Device.isPhone()) {
     if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
-      console.log('this thing');
+      console.log('ahaha');
       $('.navbar').css('left', 0);
       Session.set('miniWindow', true);
     } else {
+      console.log('mmmh');
       $('.navbar').css('left', `${percentage}%`);
       Session.set('miniWindow', false);
     }
@@ -167,14 +168,12 @@ const _showSidebar = () => {
     }
   }
   if (!Session.get('sidebar')) {
-    console.log('NO HAY SIDEBAR');
     const newMargin = parseInt(0 - sidebarWidth(), 10);
     $('#menu').css('margin-left', `${newMargin}px`);
     if (newMargin < 0) {
       Session.set('removedSidebar', true);
     }
   } else {
-    console.log('HAY SIDEBAR');
     let newRight = 0;
     if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
       newRight = parseInt(0 - sidebarWidth(), 10);
@@ -268,7 +267,6 @@ const _getMenu = () => {
 const _render = () => {
   const context = (Meteor.Device.isPhone() || (!Meteor.Device.isPhone() && Meteor.user()));
   if (!Meteor.Device.isPhone() && Meteor.user()) {
-    Session.set('sidebar', true);
     _showSidebar();
   } else if ((!Meteor.Device.isPhone() && !Meteor.user())) {
     $('.right').css('left', '0px');
@@ -281,14 +279,12 @@ Template.sidebar.onRendered(() => {
   if (!Meteor.Device.isPhone()) {
     $('.navbar').css('left', `${sidebarPercentage()}%`);
   }
-
+  Session.set('sidebar', true);
   Session.set('removedSidebar', true);
   drawSidebar();
 
   $(window).resize(() => {
-    // _render();
     if (!Meteor.Device.isPhone()) {
-      Session.set('sidebar', true);
       _showSidebar();
     }
   });
@@ -310,15 +306,6 @@ Template.sidebar.helpers({
       return `${count} ${TAPi18n.__('moloch-address')}`;
     }
     return `${count} ${TAPi18n.__('moloch-addresses')}`;
-  },
-  bitcoinAddress() {
-    return Meteor.settings.public.Collective.profile.blockchain.Bitcoin.address;
-  },
-  bitcoinReceived() {
-    return `<strong>4.35422053</strong> ${TAPi18n.__('received')}`;
-  },
-  bitcoinSent() {
-    return `<strong>0.00000000</strong> ${TAPi18n.__('spent')}`;
   },
   totalMembers() {
     if (Template.instance().members.get()) {

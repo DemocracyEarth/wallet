@@ -126,7 +126,7 @@ Template.navigation.helpers({
     return false;
   },
   navIcon() {
-    return Meteor.settings.public.Collective.profile.logo;
+    return Meteor.settings.public.app.logo;
   },
   icon() {
     return displayMenuIcon();

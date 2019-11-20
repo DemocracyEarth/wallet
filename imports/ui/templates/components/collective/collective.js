@@ -62,7 +62,7 @@ Template.collective.onRendered(() => {
 Template.collective.helpers({
   title() {
     const list = Template.instance().daoList.get();
-    return (list && list.length > 0) ? Template.instance().daoList.get()[0].name : ''; // Meteor.settings.public.Collective.name;
+    return (list && list.length > 0) ? Template.instance().daoList.get()[0].name : '';
   },
   description() {
     const list = Template.instance().daoList.get();

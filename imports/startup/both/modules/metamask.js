@@ -27,7 +27,7 @@ const numeral = require('numeral');
 let web3;
 
 const modal = {
-  icon: Meteor.settings.public.Collective.profile.logo,
+  icon: Meteor.settings.public.app.logo,
   title: TAPi18n.__('wallet'),
   cancel: TAPi18n.__('close'),
   alertMode: true,
@@ -368,7 +368,7 @@ const verifySignature = (signature, publicAddress, nonce, message) => {
   let msg;
   console.log(message);
   if (!message) {
-    msg = `${TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.Collective.name)}`;
+    msg = `${TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.app.name)}`;
   } else {
     msg = message;
   }
@@ -607,7 +607,7 @@ if (Meteor.isClient) {
         // https://github.com/DemocracyEarth/sovereign/issues/421
         return web3.eth.getCoinbase().then(function (coinbaseAddress) {
           publicAddress = coinbaseAddress.toLowerCase();
-          return handleSignMessage(publicAddress, nonce, TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.Collective.name));
+          return handleSignMessage(publicAddress, nonce, TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.app.name));
         }).then(function (signature) {
           const verification = verifySignature(signature, publicAddress, nonce);
 
@@ -639,7 +639,7 @@ if (Meteor.isClient) {
         return web3.eth.getCoinbase();
       }).then(function (coinbaseAddress) {
         publicAddress = coinbaseAddress.toLowerCase();
-        return handleSignMessage(publicAddress, nonce, TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.Collective.name));
+        return handleSignMessage(publicAddress, nonce, TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.app.name));
       }).then(function (signature) {
         const verification = verifySignature(signature, publicAddress, nonce);
 
