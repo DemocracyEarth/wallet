@@ -6561,7 +6561,7 @@ blockquote {
 }
 
 .hero-menu-link.hero-menu-link-signin {
-  padding: 5px 10px;
+  padding: 5px 6px 5px 10px;
   border: 1px solid #7d8499;
   border-radius: 5px;
 }
@@ -7196,7 +7196,7 @@ blockquote {
     background-color: transparent;
   }
   .menu-item.menu-item-selected:hover {
-    background-color: #5a0075;
+    background-color: #00c091;
   }
   .content.content-feed {
     padding-right: 10px;

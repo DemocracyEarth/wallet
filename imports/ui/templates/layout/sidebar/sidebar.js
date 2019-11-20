@@ -167,18 +167,24 @@ const _showSidebar = () => {
     }
   }
   if (!Session.get('sidebar')) {
+    console.log('NO HAY SIDEBAR');
     const newMargin = parseInt(0 - sidebarWidth(), 10);
     $('#menu').css('margin-left', `${newMargin}px`);
     if (newMargin < 0) {
       Session.set('removedSidebar', true);
     }
   } else {
+    console.log('HAY SIDEBAR');
     let newRight = 0;
     if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
       newRight = parseInt(0 - sidebarWidth(), 10);
     }
     $('#content').css('left', sidebarWidth());
     $('#content').css('right', newRight);
+
+    if (Meteor.Device.isPhone()) {
+      $('#menu').css('margin-left', '0px');
+    }
 
     if (Session.get('removedSidebar') && !Meteor.Device.isPhone()) {
       $('#menu').css('margin-left', `${0}px`);
@@ -261,7 +267,7 @@ const _getMenu = () => {
 */
 const _render = () => {
   const context = (Meteor.Device.isPhone() || (!Meteor.Device.isPhone() && Meteor.user()));
-  if ((!Meteor.Device.isPhone() && Meteor.user())) {
+  if (!Meteor.Device.isPhone() && Meteor.user()) {
     Session.set('sidebar', true);
     _showSidebar();
   } else if ((!Meteor.Device.isPhone() && !Meteor.user())) {
@@ -281,8 +287,10 @@ Template.sidebar.onRendered(() => {
 
   $(window).resize(() => {
     // _render();
-    Session.set('sidebar', true);
-    _showSidebar();
+    if (!Meteor.Device.isPhone()) {
+      Session.set('sidebar', true);
+      _showSidebar();
+    }
   });
 });
 
@@ -337,10 +345,12 @@ Template.sidebar.helpers({
     return '';
   },
   sidebarContext() {
-    Session.set('sidebar', true);
-    _showSidebar();
-    return true;
-    // return _render();
+    if (!Meteor.Device.isPhone()) {
+      Session.set('sidebar', true);
+      _showSidebar();
+      return true;
+    }
+    return _render();
   },
 });
 

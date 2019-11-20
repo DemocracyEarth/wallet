@@ -48,12 +48,23 @@ input[type="file"] {
 }
 
 @media (max-width: 991px) {
+
+  .verifier.verifier-live.verifier-feed.verifier-mini.verifier-key {
+    font-size: 8px;
+    line-height: 22px;
+    letter-spacing: 0.1em;
+  }
+
+  h4 {
+    margin-bottom: 10px;
+  }
+
   .split.split-left.split-post-landing {
       margin-top: 70px;
   }
 
   .split.split-left {
-    margin-top:70px;
+    margin-top:-25px;
   }
 
   .split.split-left.split-desktop {
@@ -947,6 +958,7 @@ h4 {
 .hero-crypto-login {
   display: inline-block; 
   margin: -10px 3px -10px -15px;
+  width: 35px;
 }
 
 .qr-code-address {
