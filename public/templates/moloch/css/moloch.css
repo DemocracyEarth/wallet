@@ -6508,11 +6508,9 @@ blockquote {
 }
 
 .hero-menu {
-  display: block;
-  width: 80%;
+  display: inline;
   margin-right: auto;
   margin-left: auto;
-  float: left;
 }
 
 .hero-logo {
@@ -7321,9 +7319,6 @@ blockquote {
   .hero-menu {
     padding-right: 0px;
     padding-left: 0px;
-  }
-  .hero-button {
-    display: none;
   }
   .hero-button.hero-button-mobile {
     display: inline-block;
