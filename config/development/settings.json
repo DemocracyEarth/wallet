@@ -1,199 +1,140 @@
 {
   "galaxy.meteor.com": {
-     "env": {
-       "ROOT_URL": "",
-       "MONGO_URL": "",
-       "MONGO_OPLOG_URL": ""
-     }
-   },
-
+    "env": {
+      "ROOT_URL": "",
+      "MONGO_URL": "",
+      "MONGO_OPLOG_URL": "",
+      "SPIDERABLE_FLAGS": ""
+    }
+  },
   "AWSAccessKeyId": "",
   "AWSSecretAccessKey": "",
-
   "private": {
-
     "API": {
-
       "facebook": {
         "appId": "",
         "appSecret": ""
       },
-
       "twitter": {
         "APIKey": "",
         "APISecret": ""
       },
-
       "amazon": {
         "AWSBucket": "",
-        "AWSRegion": "us-west-2",
-        "AWSAcl": "public-read"
+        "AWSRegion": "",
+        "AWSAcl": ""
       }
-
     },
-
-    "smtpServer": "",
-    "sentryPrivateDSN": ""
+    "sentryPrivateDSN": "",
+    "smtpServer": ""
   },
-
   "public": {
-
     "AWSHostingURL": "",
-
     "sentryPublicDSN": "",
-
     "analyticsSettings": {
       "Google Analytics": {
         "trackingId": ""
       }
     },
-
     "app": {
-      "url": "https://democracy.earth",
-      "name": "Sovereign",
+      "name": "MolochDAO",
+      "url": "https://molochdao.com",
       "language": "en",
+      "logo": "images/moloch.png",
+      "twitter": "MolochDAO",
+      "bio": "Building Ethereum 2.0",
       "development": true,
-      "version": "0.6.0",
-      "codename": "Quixote",
-      "config":
-        {
-          "commentRanking": true,
-          "proposalDrafting": true,
-          "appCache": false,
-          "mailNotifications": false,
-          "token": {
-            "defaultCode": "HOUR"
-          },          
-          "permissioned": {
+      "config": {
+        "blockchainLogin": false,
+        "commentRanking": true,
+        "proposalDrafting": true,
+        "appCache": false,
+        "mailNotifications": true,
+        "token": {
+          "defaultCode": "ETH"
+        },
+        "permissioned": {
+          "active": false,
+          "checkDomain": false,
+          "checkList": true
+        },
+        "displayLanding": false,
+        "allowWebVotes": true,
+        "defaultRules": {
+          "quadraticVoting": false,
+          "balanceVoting": false,
+          "pollVoting": false
+        },
+        "interface": {
+          "showTransactions": true,
+          "mainFeed": {
+            "onlyParentPosts": true,
+            "landingMaxItems": 5
+          },
+          "adminBallotCreatorOnly": {
             "active": false,
-            "checkDomain": false,
-            "checkList": true
-          },
-          "displayLanding": false,
-          "allowWebVotes": true,
-          "defaultRules": {
-            "quadraticVoting": false,
-            "balanceVoting": false,
-            "pollVoting": false
-          },
-          "interface": {
-            "showTransactions": false,
-            "adminBallotCreatorOnly": {
-              "active": false,
-              "email": "hello@democracy.earth"
-            }
-          },
-          "governance": {
-            "dictatorship": false,
-            "censhorship": false,
-            "dictator": {
-              "userId": "",
-              "publicAddress": ""
-            }
-          },
-          "loginOptions": {
-            "blockstack": false,
-            "metamask": true,
-            "email": true,
-            "blockchainLogin": false
-          },
-          "navbar": [
-            {
-              "selected": true,
-              "label": "home",
-              "url": "https://democracy.earth"
-            },
-            {
-              "selected": false,
-              "label": "paper",
-              "url": "http://paper.democracy.earth"
-            },
-            {
-              "selected": false,
-              "label": "code",
-              "url": "http://code.democracy.earth"
-            },
-            {
-              "selected": false,
-              "label": "menu-news",
-              "url": "http://words.democracy.earth"
-            }
-          ]
-        }
-    },
-
-    "Collective": {
-      "name": "DAO",
-      "domain": "localhost:3000",
-      "emails": [
-        {
-          "address": "hello@democracy.earth",
-          "verified": true
-        }
-      ],
-      "createdAt": "January 12, 2015",
-
-      "profile": {
-        "website": "",
-        "bio": "Distributed Autonomous Organization",
-        "twitter": "",
-        "blockchain": {
-          "Bitcoin": {
-            "address": ""
-          },
-          "Ethereum": {
-            "address": ""
+            "email": ""
           }
         },
-        "logo": "images/olive.png",
-        "logoExtended": "images/democracy-earth-text-black.png",
-        "jurisdiction": {
-          "legal": {
-              "taxId": "",
-              "name": "",
-              "type": ""
-          },
-          "location": {
-            "address": "",
-            "state": "",
-            "country": {
-              "name": "",
-              "code": ""
-            }
+        "governance": {
+          "dictatorship": true,
+          "censorship": true,
+          "dictator": {
+            "userId": "",
+            "publicAddress": ""
           }
         },
-        "foundation": "",
-        "wallet": {
-          "available": 21000000,
-          "balance": 21000000,
-          "placed": 0,
-          "currency": "",
-          "transactions": []
-        }
-      },
-      "goal": "Free",
-      "authorities": [
-        {
-            "userId": "0"
-        }
-      ]
+        "profile": {
+          "uploadAvatarToCloud": false,
+          "nationalitySetting": false,
+          "editableUsername": false,
+          "notificationsEmail": false,
+          "updatable": false
+        },
+        "loginOptions": {
+          "blockstack": false,
+          "metamask": true,
+          "email": false,
+          "blockchainLogin": false
+        },
+        "navbar": [
+          {
+            "selected": true,
+            "label": "dao",
+            "url": "https://moloch.democracy.earth"
+          },
+          {
+            "selected": false,
+            "label": "paper",
+            "url": "https://github.com/MolochVentures/Whitepaper/blob/master/Whitepaper.pdf"
+          },
+          {
+            "selected": false,
+            "label": "code",
+            "url": "https://github.com/MolochVentures/moloch"
+          },
+          {
+            "selected": false,
+            "label": "tweets",
+            "url": "https://twitter.com/MolochDAO"
+          }
+        ]
+      }
     },
-
     "web": {
       "sites": {
-        "tokens": "http://setup.democracy.earth",
+        "tokens": "https://molochdao.discourse.group/t/how-to-launch-a-dao/82",
         "blockExplorer": "https://etherscan.io"
       },
-
       "template": {
-        "settings": "/templates/sovereign/sovereign.json"
+        "settings": "/templates/moloch/moloch.json"
       }
-
     },
-
-    "web3" : {
-      "config": "testnet",
-      "network": "https://rinkeby.infura.io/v3/b1825422de3d471eba20968cf22b85f1"
+    "web3": {
+      "config": "mainnet",
+      "network": "",
+      "secret": "",
+      "id": ""
     }
   }
 }

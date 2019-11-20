@@ -65,7 +65,7 @@ Meteor.startup(() => {
   }
   */
 
-  console.log('[config] Verifying key configuration for this instance...');
+  console.log('[config] Configuring this instance...');
 
   /**
 
@@ -121,13 +121,4 @@ Meteor.startup(() => {
     console.log('[config] Google Analytics tracking Id... OK');
   }
 */
-
-  // Web3
-  if (Meteor.settings.public.web3.network === '' ||
-      Meteor.settings.public.web3.network === undefined) {
-    console.log('[config WARNING] Web3 mainnet network provider not configured.');
-    console.log('[config FIX] Configure `private.web3.network` on settings.json.');
-  } else {
-    console.log('[config] Web3 mainnet network provider... OK');
-  }
 });
