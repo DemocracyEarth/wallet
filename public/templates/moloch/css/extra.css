@@ -49,22 +49,12 @@ input[type="file"] {
 
 @media (max-width: 991px) {
 
-  .verifier.verifier-live.verifier-feed.verifier-mini.verifier-key {
-    font-size: 8px;
-    line-height: 22px;
-    letter-spacing: 0.1em;
-  }
-
-  h4 {
-    margin-bottom: 10px;
-  }
-
   .split.split-left.split-post-landing {
       margin-top: 70px;
   }
 
   .split.split-left {
-    margin-top:-25px;
+    margin-top:-15px;
   }
 
   .split.split-left.split-desktop {
@@ -844,6 +834,16 @@ background: #f2f2f8;
     text-transform: uppercase;
 }
 
+@media (max-width: 991px) {
+
+  .verifier.verifier-live.verifier-feed.verifier-mini.verifier-key {
+    font-size: 8px;
+    line-height: 22px;
+    letter-spacing: 0.1em;
+  }
+
+}
+
 .symbol.profile-pic {
     width: 60px;
     height: 60px;
@@ -864,6 +864,25 @@ h4 {
   font-size: 15px;
   line-height: 28px;
   font-weight: 100;
+}
+
+@media (max-width: 991px) {
+ h4 {
+    margin-bottom: 10px;
+  }
+
+  .user-logger {
+    margin-top: 5px;
+  }
+
+  .paremeter {
+    padding: 0px 10px 10px;
+  }
+
+  .parameter-name {
+    margin: 0px -10px 14px;
+  }
+
 }
 
 .padding-left-zero {
@@ -949,10 +968,16 @@ h4 {
   background: #ff3d67;
 }
 
+
 .topbar {
   z-index: 12800;
+}
+
+.topbar,
+.navbar {
   background: #48587d;
   box-shadow: 0px -3px 15px 0px rgba(0, 0, 0, 0.65);
+  border:none;
 }
 
 .hero-crypto-login {

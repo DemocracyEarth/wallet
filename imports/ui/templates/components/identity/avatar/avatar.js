@@ -308,15 +308,9 @@ Template.avatar.helpers({
   blockiePicture(profile) {
     if (profile === undefined) {
       if (Meteor.user()) {
-        if (Meteor.user().profile.picture === undefined) {
-          return makeBlockie(Meteor.user().username);
-        }
-        return Meteor.user().profile.picture;
+        return makeBlockie(Meteor.user().username);
       }
     } else {
-      if (profile.picture !== undefined) {
-        return profile.picture;
-      }
       let user = Meteor.users.findOne({ _id: profile });
       if (user === undefined) {
         user = getAnonymous();

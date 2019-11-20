@@ -11,7 +11,9 @@
     <div id='mobileKeyboard' contenteditable="true" style="opacity: 0; width: 0px; height:0px;"></div>
   {{/if}}
 
-  {{> topbar}}
+  {{#unless loggedWithPhone}}
+    {{> topbar}}
+  {{/unless}}
 
   {{> sidebar}}
 
@@ -20,7 +22,7 @@
   <div id='content' class='right {{landingMode}}'>
 
     {{#if loggedWithPhone}}
-      <!--{{> navigation}}-->
+      {{> navigation}}
       <div class='inhibitor' style='display: none;'></div>
     {{/if}}
 

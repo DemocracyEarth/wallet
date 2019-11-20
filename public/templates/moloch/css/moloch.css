@@ -6768,7 +6768,7 @@ blockquote {
     bottom: 15px;
   }
   .sidebar {
-    top: 60px;
+    top: 0px;
     z-index: 15000;
     display: block;
   }
