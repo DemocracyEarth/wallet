@@ -2148,10 +2148,7 @@ blockquote {
   top: 0px;
   right: 0px;
   z-index: 14000;
-  height: 65px;
-  padding-top: 2px;
-  padding-right: 10px;
-  padding-left: 0px;
+  height: 55px;
   float: left;
   border-bottom: 1px solid #e8e8e8;
   background-color: #f2f2f8;
@@ -2183,8 +2180,8 @@ blockquote {
   display: inline-block;
   width: 50px;
   height: 60px;
-  padding-top: 7px;
-  padding-bottom: 7px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   border-bottom: 0px none #000;
   text-align: center;
   cursor: pointer;
@@ -6561,7 +6558,7 @@ blockquote {
 }
 
 .hero-menu-link.hero-menu-link-signin {
-  padding: 5px 6px 5px 10px;
+  padding: 5px 10px 5px 10px;
   border: 1px solid #7d8499;
   border-radius: 5px;
 }
@@ -7335,7 +7332,7 @@ blockquote {
     float: left;
   }
   .hero-button.hero-button-mobile.hero-signin {
-    margin-right: 15px;
+    margin-right: 10px;
   }
   .hero-home-button {
     display: inline-block;

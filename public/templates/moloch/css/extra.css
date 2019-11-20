@@ -53,10 +53,6 @@ input[type="file"] {
       margin-top: 70px;
   }
 
-  .split.split-left {
-    margin-top:-15px;
-  }
-
   .split.split-left.split-desktop {
     margin-top:0px;
   }
@@ -178,8 +174,15 @@ body, h4, h1, h2 {
 
 .split.split-left.split-landing.split-anon {
   padding-top:0px;
-  margin-top: 0px;
+  margin-top: -20px;
 }
+
+@media (max-width: 991px) {
+  .split.split-left.split-landing.split-anon {
+    margin-top: 0px;
+  }
+}
+
 
 .hero-secondary {
   background: linear-gradient(0deg, #f2f2f8 95%, #ebe7ef);
@@ -872,10 +875,11 @@ h4 {
   }
 
   .user-logger {
-    margin-top: 5px;
+    margin-top: 3px;
+    margin-right: 10px;
   }
 
-  .paremeter {
+  .parameter {
     padding: 0px 10px 10px;
   }
 
@@ -883,6 +887,15 @@ h4 {
     margin: 0px -10px 14px;
   }
 
+  .hero {
+    margin-bottom: -25px;
+  }
+}
+
+@media (max-width: 479px) {
+  .margin-top-minus-three {
+      display: none;
+  }
 }
 
 .padding-left-zero {
@@ -1007,4 +1020,10 @@ h4 {
   background-color: #581073;
   color: #fff;
   cursor: pointer;
+}
+
+@media (max-width: 991px) {
+  .sidebar-desktop {
+    margin-top: 55px;
+  }
 }

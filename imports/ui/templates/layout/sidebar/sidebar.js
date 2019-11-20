@@ -352,6 +352,12 @@ Template.sidebar.helpers({
     }
     return _render();
   },
+  sidebarStyle() {
+    if (!Meteor.Device.isPhone()) {
+      return 'sidebar-desktop';
+    }
+    return '';
+  },
 });
 
 export const showSidebar = _showSidebar;

@@ -188,6 +188,7 @@ Template.navbar.helpers({
     return Meteor.settings.public.app.config.navbar;
   },
   postMode() {
+    console.log(Template.instance().postMode);
     return Template.instance().postMode;
   },
 });

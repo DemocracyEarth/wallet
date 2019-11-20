@@ -71,7 +71,7 @@
     "electorate-check-enabled": "/templates/moloch/images/electorate-check-enabled.png",
     "electorate-check-reject-active": "/templates/moloch/images/electorate-check-reject-active.png",
     "electorate-check-reject-enabled": "/templates/moloch/images/electorate-check-reject-enabled.png",
-    "navbar-icon": "/images/olive.png",
+    "navbar-icon": "/images/moloch.png",
     "navbar-burger": "/templates/moloch/images/burger.png",
     "navbar-burger-active": "/templates/moloch/images/burger-active.png"    
   }
