@@ -4,34 +4,33 @@
 
 # Sovereign
 
-Governance for Digital Organizations.
+Create and govern Digital Autonomous Organizations (DAOs).
 
 [![Join the chat at https://gitter.im/DemocracyEarth/sovereign](https://badges.gitter.im/DemocracyEarth/sovereign.svg)](https://gitter.im/DemocracyEarth/sovereign?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Slack Status](http://chat.democracy.earth/badge.svg)](http://chat.democracy.earth)
 [![Build Status](http://ci.comunes.org/buildStatus/icon?job=sovereign)](http://ci.comunes.org/job/sovereign/)
 
-Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check our recent conferences in [Paris 🇫🇷 2016](https://youtube.com/watch?v=UajbQTHnTfM) and [Berlin 🇩🇪 2018](https://youtu.be/xqafNk_VsMM).
+Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and some of our presentations in [Paris 🇫🇷 2016](https://youtube.com/watch?v=UajbQTHnTfM), [New York 🇺🇸 2019](https://www.youtube.com/watch?v=o2u0g0-hjgk) and [Berlin 🇩🇪 2019](https://www.youtube.com/watch?v=JJBDcG2EqwE).
 
 <p align="center">
-<img src="public/images/sovereign-screenshot-2018.png" width="800" title="Sovereign Screenshot 2018">
+<img src="public/images/sovereign-screenshot-2019.png" width="800" title="Sovereign Screenshot 2019">
 </p>
 
 ## Features
 
-  - [X] On-chain and Off-chain voting.
-    * Tipping
-    * Coin voting
-    * Quadratic voting.
-  - [X] Supports [ERC20](https://github.com/ethereum/eips/issues/20) and [ERC721](https://github.com/ethereum/eips/issues/721) tokens.    
-  - [X] Social networking tools for deliberation.
+  - [X] Explore [MolochDAO](https://github.com/MolochVentures/moloch) compatible contracts.
+    * Vote proposals.
+    * Ragequit shares.
+    * Fork contract.
+  - [X] Support [ERC20](https://github.com/ethereum/eips/issues/20) and [ERC721](https://github.com/ethereum/eips/issues/721) tokens.    
+  - [X] Built for EVM-compatible blockchains using [Web3](https://github.com/ethereum/web3.js/).
   - [X] Mobile & desktop responsive UX.
-  - [X] Server-based web tokens.
-  - [X] Templates and governance settings.
-  - [X] Built for EVM-compatible blockchains with [Web3](https://github.com/ethereum/web3.js/).
+  - [X] Templates and customizable settings.
+  
 
 **Release:**
 
-* Currently [`version 0.6.0`](https://github.com/DemocracyEarth/sovereign/releases)
+* Currently [`version 0.7.0`](https://github.com/DemocracyEarth/sovereign/releases)
 * This [User Agreement](https://github.com/DemocracyEarth/sovereign/blob/master/UserAgreement.md) governs access to and use of the Democracy Earth platform.
 
 ## Setup
@@ -69,6 +68,19 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
     $ meteor npm install
     ```
 
+0. **Configure**
+
+    * On `/config/development/settings.json` you can configure Sovereign for your organization's governance needs.
+        * Make sure you configure the keys on `public.web3` to connect to an Ethereum node ([Infura](https://infura.io) API keys are supported).
+        * For production, you can use `/config/production/settings.json` file and run `$ meteor --settings=config/production/settings.json` in the console.
+    * Seed DAO settings can be found on `/private/dao.json` which consists of an array of DAOs to be read from the blockchain and persisted in the server DB. 
+        * [MolochDAO](https://molochdao.com) settings included as an example by default.
+    * Make sure `ROOT_URL` on `settings.json` is properly set to the domain that will be serving the application. 
+        * We recommend the use of `https` **always** when deployed on a server.
+    * On `/public/templates/` different template style folders are available. 
+        * The file `templateName.json` can be configured and a css design can be found on `/public/templates/name/css` folder.
+
+
 0. **Run App**
 
     While in repository directory type:
@@ -83,17 +95,11 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
     > ``` $ meteor npm run start ```
     > check production/settings.json file to config your keys.
 
-0. **Configure**
-
-    * Check `/config/development/settings.json` to configure Sovereign for your organization's governance needs.
-    * Make sure `ROOT_URL` on `settings.json` is properly set to the domain that will be serving the application.
-    * On `/public/templates/` different template style folders are available. The file `templateName.json` can be configured and a css design can be found on `/public/templates/name/css` folder.
 
 ## Live
 
 * Democracy Earth: [democracy.earth](https://democracy.earth).
-* Decentraland: [agora.decentraland.org](https://agora.decentraland.org).
-* Blockstack: [vote.blockstack.org](https://vote.blockstack.org).
+* Moloch: [moloch.democracy.earth](https://moloch.democracy.earth).
 
 ### Reports
 
@@ -152,6 +158,7 @@ Support our work with [Bitcoin](https://github.com/bitcoin) & other cryptocurren
 Democracy Earth Foundation is a _501 (c) 3 not for profit corporation_ in San Francisco, California with no political affiliations. Our partners include:
 
 <p align="left">
+<a href="https://www.templetonworldcharity.org/"><img src="public/images/templetonworldcharity.png" width="200" title="Templeton World Charity"></a>
 <a href="https://ycombinator.com"><img src="public/images/yc.png" width="200" title="Y Combinator"></a>
 <a href="https://ffwd.org"><img src="public/images/ffwd.png" width="200" title="Fast Forward"></a>
 </p>
@@ -161,4 +168,4 @@ Also check our [donors list](DONORS.md).
 ## License
 
 This software is under an [MIT License](LICENSE.md).
-Some rights reserved, 2015 - 2019 [Democracy Earth Foundation](https://democracy.earth).
+Some rights reserved, 2015 - 2020 [Democracy Earth Foundation](https://democracy.earth).

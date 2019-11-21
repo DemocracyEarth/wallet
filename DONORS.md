@@ -71,6 +71,7 @@ Democracy Earth Foundation is a 501 (c) 3 not for profit corporation based in Sa
   * 🇫🇷 Virgile Deville  
   * 🇦🇷 Mair Williams  
   * 🇺🇸 Herb Stephens
+  * 🇧🇷 Roberto Martins  
   * 🇺🇸 Dan Swislow  
   * 🇫🇷 Louis Margot-Duclot
   * 🇨🇴 Felipe Alvarez  
