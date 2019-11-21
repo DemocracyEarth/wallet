@@ -1,8 +1,4 @@
-<p align="center">
-<img src="public/images/democracy-earth.png" width="400" title="Democracy Earth Foundation">
-</p>
-
-# Sovereign
+# Sovereign Dapp
 
 Create and govern Digital Autonomous Organizations (DAOs).
 
@@ -35,7 +31,7 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and some of
 
 ## Setup
 
-0. **Install Framework**
+1. **Install Framework**
 
     On Linux & MacOS, load a terminal and type:
 
@@ -47,14 +43,14 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and some of
 
     > _Note:_ Windows users must [download installer](https://www.meteor.com/install).
 
-0. **Clone Repository**
+2. **Clone Repository**
 
     ```sh
     $ git clone https://github.com/DemocracyEarth/sovereign.git
     $ cd sovereign
     ```
 
-0. **Install Dependencies**
+3. **Install Dependencies**
 
     if you have npm installed, type:
 
@@ -68,7 +64,7 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and some of
     $ meteor npm install
     ```
 
-0. **Configure**
+4. **Configure**
 
     * On `/config/development/settings.json` you can configure Sovereign for your organization's governance needs.
         * Make sure you configure the keys on `public.web3` to connect to an Ethereum node ([Infura](https://infura.io) API keys are supported).
@@ -81,7 +77,7 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and some of
         * The file `templateName.json` can be configured and a css design can be found on `/public/templates/name/css` folder.
 
 
-0. **Run App**
+5. **Run Dapp**
 
     While in repository directory type:
 
@@ -166,6 +162,10 @@ Democracy Earth Foundation is a _501 (c) 3 not for profit corporation_ in San Fr
 Also check our [donors list](DONORS.md).
 
 ## License
+
+<p align="center">
+<img src="public/images/democracy-earth.png" width="400" title="Democracy Earth Foundation">
+</p>
 
 This software is under an [MIT License](LICENSE.md).
 Some rights reserved, 2015 - 2020 [Democracy Earth Foundation](https://democracy.earth).
