@@ -68,7 +68,7 @@ function promptLogin(logged, event) {
 Template.authentication.onRendered(() => {
   Session.set('userLoginVisible', false);
   if (!Session.get('checkInitialSetup') && Meteor.userId() === null) {
-    promptLogin(true, 'click');
+    // promptLogin(true, 'click');
     Session.set('checkInitialSetup', true);
   }
 });

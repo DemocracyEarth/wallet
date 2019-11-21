@@ -223,6 +223,7 @@ Template.sidebar.onCreated(function () {
           delegateList = _adapt(Meteor.users.find({ $or: delegates }).fetch());
           Template.instance().delegates.set(delegateList);
           Template.instance().participants.set(_otherMembers(delegateList));
+          console.log('A');
           _showSidebar();
         }
       }
@@ -268,11 +269,16 @@ const _render = () => {
   const context = (Meteor.Device.isPhone() || (!Meteor.Device.isPhone() && Meteor.user()));
   if (!Meteor.Device.isPhone() && Meteor.user()) {
     _showSidebar();
+    console.log('B');
   } else if ((!Meteor.Device.isPhone() && !Meteor.user())) {
     $('.right').css('left', '0px');
   }
   return context;
 };
+
+Template.sidebar.onCreated(function () {
+  Template.instance().resizing = false;
+});
 
 Template.sidebar.onRendered(() => {
   $('.left').width(`${sidebarPercentage()}%`);
@@ -283,9 +289,13 @@ Template.sidebar.onRendered(() => {
   Session.set('removedSidebar', true);
   drawSidebar();
 
+  const instance = Template.instance();
+
   $(window).resize(() => {
+    instance.resizing = true;
     if (!Meteor.Device.isPhone()) {
       _showSidebar();
+      console.log('C');
     }
   });
 });
@@ -332,8 +342,11 @@ Template.sidebar.helpers({
     return '';
   },
   sidebarContext() {
-    if (!Meteor.Device.isPhone()) {
+    const instance = Template.instance();
+    console.log(`instance.resizing: ${instance.resizing}`);
+    if (!Meteor.Device.isPhone() && !instance.resizing) {
       Session.set('sidebar', true);
+      console.log('D');
       _showSidebar();
       return true;
     }
