@@ -6,7 +6,7 @@ Create and govern Digital Autonomous Organizations (DAOs).
 [![Slack Status](http://chat.democracy.earth/badge.svg)](http://chat.democracy.earth)
 [![Build Status](http://ci.comunes.org/buildStatus/icon?job=sovereign)](http://ci.comunes.org/job/sovereign/)
 
-Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and some of our presentations in [Paris 🇫🇷 2016](https://youtube.com/watch?v=UajbQTHnTfM), [New York 🇺🇸 2019](https://www.youtube.com/watch?v=o2u0g0-hjgk) and [Berlin 🇩🇪 2019](https://www.youtube.com/watch?v=JJBDcG2EqwE).
+Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check our presentations in [Paris 🇫🇷 2016](https://youtube.com/watch?v=UajbQTHnTfM), [New York 🇺🇸 2019](https://www.youtube.com/watch?v=o2u0g0-hjgk) and [Berlin 🇩🇪 2019](https://www.youtube.com/watch?v=JJBDcG2EqwE).
 
 <p align="center">
 <img src="public/images/sovereign-screenshot-2019.png" width="800" title="Sovereign Screenshot 2019">
@@ -140,15 +140,6 @@ Join our [Open Collective](https://opencollective.com/democracyearth):
 <a href="https://opencollective.com/democracyearth/backer/9/website"><img src="https://opencollective.com/democracyearth/backer/9/avatar.svg"></a>
 <a href="https://opencollective.com/democracyearth/backer/10/website"><img src="https://opencollective.com/democracyearth/backer/10/avatar.svg"></a>
 
-Support our work with [Bitcoin](https://github.com/bitcoin) & other cryptocurrencies:
-
-<p align="left">
-<img src="public/images/qr.png" width="100" title="Democracy Earth Foundation BTC Address">
-</p>
-
-* BTC Address: `1BtQMS7snrisEFMB1fMecXPyeHwwcWnpGE`
-* ETH Address: `0xE3670E862850D58E0af745d06021c1c0555235dF`
-
 ## About
 
 Democracy Earth Foundation is a _501 (c) 3 not for profit corporation_ in San Francisco, California with no political affiliations. Our partners include:
@@ -163,9 +154,9 @@ Also check our [donors list](DONORS.md).
 
 ## License
 
+This software is under an [MIT License](LICENSE.md).
+Some rights reserved, 2015 - 2020 [Democracy Earth Foundation](https://democracy.earth).
+
 <p align="center">
 <img src="public/images/democracy-earth.png" width="400" title="Democracy Earth Foundation">
 </p>
-
-This software is under an [MIT License](LICENSE.md).
-Some rights reserved, 2015 - 2020 [Democracy Earth Foundation](https://democracy.earth).
