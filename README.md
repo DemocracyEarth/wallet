@@ -155,7 +155,7 @@ Also check our [donors list](DONORS.md).
 ## License
 
 This software is under an [MIT License](LICENSE.md).
-Some rights reserved, 2015 - 2020 [Democracy Earth Foundation](https://democracy.earth).
+This is a free software built by [Democracy Earth Foundation](https://democracy.earth) between 2015 and 2020.
 
 <p align="center">
 <img src="public/images/democracy-earth.png" width="400" title="Democracy Earth Foundation">
