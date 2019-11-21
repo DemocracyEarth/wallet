@@ -87,7 +87,7 @@ export default class SocialMediaLogin extends Component {
             null
           }
           {metamaskLoginActive ?
-            <div id="metamask-login" className="button login-button login-button-first" onClick={this.handleMetamaskLogin}>
+            <div id="metamask-login" className="button login-button login-button-only" onClick={this.handleMetamaskLogin}>
               <img src="/images/ethereum.png" className="button-icon" alt="lock" />
               {TAPi18n.__('ethereum-dapp-browsers')}
             </div>

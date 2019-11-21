@@ -837,14 +837,20 @@ background: #f2f2f8;
     text-transform: uppercase;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1200px) {
 
   .verifier.verifier-live.verifier-feed.verifier-mini.verifier-key {
-    font-size: 8px;
+    font-size: 9px;
     line-height: 22px;
     letter-spacing: 0.1em;
   }
 
+}
+
+@media (max-width: 991px) {
+  .verifier.verifier-live.verifier-feed.verifier-mini.verifier-key {
+    font-size:8px;
+  }
 }
 
 .symbol.profile-pic {
@@ -1026,4 +1032,12 @@ h4 {
   .sidebar-desktop {
     margin-top: 55px;
   }
+
+  .login {
+    padding: 5px 5px 10px;
+  }
+}
+
+.login-button-only {
+  margin: 20px 0px 15px;
 }

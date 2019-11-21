@@ -6,10 +6,10 @@
         </div>
       </div>
     {{else}}
-      <a id="{{id}}" class="w-clearfix modal">
+      <div id="{{id}}" class="w-clearfix modal">
         <div id="card-{{id}}" class="w-clearfix alert" style="{{modalPosition}}">
           {{> Template.dynamic template=content data=dataObject}}
         </div>
-      </a>
+      </div>
     {{/unless}}
 </template>

@@ -3919,7 +3919,7 @@ blockquote {
 
 .login {
   width: 100%;
-  padding: 5px 5px 0px;
+  padding: 5px 5px 5px;
   float: left;
   font-size: 14px;
   text-align: center;
