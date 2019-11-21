@@ -158,9 +158,9 @@ Support our work with [Bitcoin](https://github.com/bitcoin) & other cryptocurren
 Democracy Earth Foundation is a _501 (c) 3 not for profit corporation_ in San Francisco, California with no political affiliations. Our partners include:
 
 <p align="left">
-<a href="https://www.templetonworldcharity.org/"><img src="public/images/templeton.png" width="200" title="Templeton World Charity"></a>
-<a href="https://ycombinator.com"><img src="public/images/yc.png" width="200" title="Y Combinator"></a>
-<a href="https://ffwd.org"><img src="public/images/ffwd.png" width="200" title="Fast Forward"></a>
+<a href="https://www.templetonworldcharity.org/"><img src="public/images/templeton.png" width="200" style="margin-right:20px;" title="Templeton World Charity"></a>
+<a href="https://ycombinator.com"><img src="public/images/yc.png" width="200" style="margin-right:20px;" title="Y Combinator"></a>
+<a href="https://ffwd.org"><img src="public/images/ffwd.png" width="200" style="margin-right:20px;" title="Fast Forward"></a>
 </p>
 
 Also check our [donors list](DONORS.md).
