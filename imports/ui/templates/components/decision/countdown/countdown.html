@@ -1,8 +1,13 @@
 <template name="countdown">
   <div class="countdown">
+      <div class="period {{periodStyle}}">
+        {{period}}
+      </div>
     <div id="timer" class="countdown-label">
       {{label}}
     </div>
-    <div class="countdown-timer {{alertMode}}" style="{{timerStyle}}"></div>
+    <div class="countdown-timer-bar">
+      <div class="countdown-timer {{alertMode}}" style="{{timerStyle}}"></div>
+    </div>
   </div>
 </template>

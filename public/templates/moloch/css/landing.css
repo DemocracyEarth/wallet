@@ -304,6 +304,7 @@
 .landing-loop-arrow {
   border-bottom: 1px dotted #34283d;
   margin: 0 115px;
+  margin-top:240px;
 }
 
 .landing-coin-connect {
@@ -524,7 +525,7 @@
   }
 
   .landing-loop-arrow {
-    margin:0 75px;
+    margin:180px 75px 0px;
   }
 
   .landing-sub-half {

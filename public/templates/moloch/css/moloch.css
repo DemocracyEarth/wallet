@@ -262,7 +262,7 @@ blockquote {
 }
 
 .section.section-mobile {
-  padding: 5px 8px;
+  /* padding: 5px 8px; */
 }
 
 .section.section-mobile.section-mobile-feed {
@@ -2148,10 +2148,7 @@ blockquote {
   top: 0px;
   right: 0px;
   z-index: 14000;
-  height: 65px;
-  padding-top: 2px;
-  padding-right: 10px;
-  padding-left: 0px;
+  height: 55px;
   float: left;
   border-bottom: 1px solid #e8e8e8;
   background-color: #f2f2f8;
@@ -2183,8 +2180,8 @@ blockquote {
   display: inline-block;
   width: 50px;
   height: 60px;
-  padding-top: 7px;
-  padding-bottom: 7px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   border-bottom: 0px none #000;
   text-align: center;
   cursor: pointer;
@@ -2371,8 +2368,10 @@ blockquote {
 }
 
 .identity-label.identity-label-micro {
-  font-size: 12px;
-  line-height: 12px;
+  font-size: 11px;
+  line-height: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .identity-label.identity-label-micro.identity-label-post {
@@ -3920,7 +3919,7 @@ blockquote {
 
 .login {
   width: 100%;
-  padding: 5px 5px 0px;
+  padding: 5px 5px 5px;
   float: left;
   font-size: 14px;
   text-align: center;
@@ -4293,7 +4292,7 @@ blockquote {
   width: 0px;
   margin-left: -10000px;
   float: left;
-  background-color: #f2f2f8;
+  background-color: #f9f9ff;
   text-align: left;
 }
 
@@ -4486,7 +4485,7 @@ blockquote {
   display: block;
   margin-bottom: 0px;
   padding-right: 15px;
-  padding-bottom: 20px;
+  padding-bottom: 15px;
   padding-left: 15px;
   background-color: #f2f2f8;
   box-shadow: 0 0 20px 10px #f2f2f8;
@@ -4523,7 +4522,7 @@ blockquote {
 }
 
 .menu-item.menu-item-selected {
-  background-color: #5a0075;
+  background-color: #00c091;
   color: #fff;
 }
 
@@ -4573,12 +4572,12 @@ blockquote {
 
 .sidebar {
   position: absolute;
-  top: 0px;
-  bottom: 0px;
+  top: 60px;
+  bottom: 60px;
   display: inline-block;
   overflow: scroll;
   width: 100%;
-  padding: 0px 10px 10px;
+  padding: 10px;
   box-shadow: none;
   text-align: center;
 }
@@ -4792,8 +4791,8 @@ blockquote {
 .collective {
   display: inline-block;
   width: 100%;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 0px;
+  margin-bottom: 0px;
   padding: 10px 10px 0px;
   border-style: solid;
   border-width: 1px;
@@ -4803,6 +4802,7 @@ blockquote {
   font-size: 12px;
   line-height: 18px;
   cursor: pointer;
+  text-transform:none;
 }
 
 .collective:hover {
@@ -4843,7 +4843,7 @@ blockquote {
 .collective-title {
   margin-top: 5px;
   margin-bottom: 5px;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 18px;
   font-weight: 400;
   text-shadow: none;
@@ -5825,18 +5825,22 @@ blockquote {
 }
 
 .sidebar-tag {
-  margin-top: 8px;
+  margin-top: 6px;
   margin-right: 3px;
   margin-left: 5px;
   padding: 0px 4px;
   float: right;
   border-radius: 3px;
-  background-color: #ccbcda;
-  color: #6c5b7c;
-  font-size: 7px;
-  line-height: 14px;
+  /* background-color: #f9f9ff; */
+  color: #5a0074;
+  font-size: 10px;
+  line-height: 18px;
   font-weight: 400;
   text-transform: uppercase;
+}
+
+.sidebar-tag.sidebar-tag-selected {
+  color:#fff;
 }
 
 .sidebar-tag.sidebar-stat {
@@ -6410,7 +6414,6 @@ blockquote {
   width: 100%;
   min-height: 65px;
   padding-bottom: 10px;
-  background-color: #f2f2f8;
   font-size: 18px;
   line-height: 26px;
 }
@@ -6426,7 +6429,7 @@ blockquote {
 
 .split-landing {
   position: absolute;
-  top: 400px;
+  top: 55px;
 }
 
 .hero-background {
@@ -6505,25 +6508,23 @@ blockquote {
 }
 
 .hero-menu {
-  display: block;
-  width: 80%;
+  display: inline;
   margin-right: auto;
   margin-left: auto;
-  float: left;
 }
 
 .hero-logo {
-  max-height: 32px;
-  margin: 14px 10px;
+  max-height: 30px;
+  margin: 12px 10px;
   float: left;
 }
 
 .hero-button {
   display: inline-block;
-  margin-right: 15px;
-  margin-left: 15px;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  margin-right: 10px;
+  margin-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .hero-button.hero-button-mobile.hero-signin {
@@ -6537,33 +6538,32 @@ blockquote {
 }
 
 .hero-menu-link {
-  color: #7d8499;
-  font-size: 13px;
+  color: #c3c9d5;
+  font-size: 11px;
   line-height: 22px;
   font-weight: 400;
   text-transform: uppercase;
 }
 
 .hero-menu-link:hover {
-  color: #181f33;
+  color: white;
   text-decoration: none;
 }
 
 .hero-menu-link.hero-menu-link-selected {
-  color: #0d0d17;
-  font-weight: 700;
+  color: white;
   cursor: default;
 }
 
 .hero-menu-link.hero-menu-link-signin {
-  padding: 5px 10px;
+  padding: 5px 10px 5px 10px;
   border: 1px solid #7d8499;
   border-radius: 5px;
 }
 
 .hero-menu-link.hero-menu-link-signin.hero-menu-link-signin-active {
-  border-color: #561072;
-  background-color: #561072;
+  border-color: #00c091;
+  background-color: #00c091;
   color: #fff;
 }
 
@@ -6573,12 +6573,6 @@ blockquote {
   overflow: hidden;
   width: 100%;
   height: 60px;
-}
-
-.hero-navbar.hero-navbar-scroller {
-  border-bottom: 1px solid #e8e8e8;
-  background-color: #f2f2f8;
-  box-shadow: 0 10px 50px 10px rgba(0, 0, 0, .15);
 }
 
 .hero-demo {
@@ -7197,7 +7191,7 @@ blockquote {
     background-color: transparent;
   }
   .menu-item.menu-item-selected:hover {
-    background-color: #6d5c7d;
+    background-color: #00c091;
   }
   .content.content-feed {
     padding-right: 10px;
@@ -7326,9 +7320,6 @@ blockquote {
     padding-right: 0px;
     padding-left: 0px;
   }
-  .hero-button {
-    display: none;
-  }
   .hero-button.hero-button-mobile {
     display: inline-block;
     margin-right: 0px;
@@ -7336,7 +7327,7 @@ blockquote {
     float: left;
   }
   .hero-button.hero-button-mobile.hero-signin {
-    margin-right: 15px;
+    margin-right: 10px;
   }
   .hero-home-button {
     display: inline-block;

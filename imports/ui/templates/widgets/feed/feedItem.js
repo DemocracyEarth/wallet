@@ -17,6 +17,7 @@ import { displayNotice } from '/imports/ui/modules/notice';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { tokenWeb } from '/lib/token';
+import { wrapURLs } from '/lib/utils';
 
 import '/imports/ui/templates/widgets/feed/feedItem.html';
 import '/imports/ui/templates/widgets/transaction/transaction.js';
@@ -25,6 +26,52 @@ import '/imports/ui/templates/components/identity/avatar/avatar.js';
 import '/imports/ui/templates/components/decision/countdown/countdown.js';
 
 import BigNumber from 'bignumber.js';
+import { gui } from '/lib/const';
+
+const parser = require('xml-js');
+
+/**
+* @summary from an XML get the info structured to represent token data
+* @param {string} text of xml source
+* @param {string} attribute to look into xml
+*/
+const _getXMLAttributes = (text, attribute) => {
+  const json = parser.xml2js(text, { compact: true, spaces: 4 });
+  return json.root[attribute]._attributes;
+};
+
+
+/**
+* @summary quick function to determine if a string is a JSON
+* @param {string} str ing
+*/
+const isJSON = (str) => {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+};
+
+/**
+* @summary gets the description from a moloch proposal
+* @param {string} title with xml
+* @return {string} with html
+*/
+const _getProposalDescription = (title, onlyTitle) => {
+  const xmlDescription = _getXMLAttributes(title, 'description');
+  if (isJSON(xmlDescription.json)) {
+    const json = JSON.parse(xmlDescription.json);
+    if (json && json.description !== undefined) {
+      const description = wrapURLs(json.description, true);
+      const html = `<div>${json.title}</div><div class='title-description'>${description}</div>`;
+      if (onlyTitle) { return json.title; }
+      return html;
+    }
+  }
+  return xmlDescription.json;
+};
 
 /**
 * @summary determines whether this decision can display results or notice
@@ -274,7 +321,7 @@ Template.feedItem.onRendered(function () {
 
   if (instance.data.rules && instance.data.rules.pollVoting && instance.data.poll.length > 0) {
     const poll = instance.subscribe('pollContracts', { view: 'pollList', sort: { createdAt: -1 }, poll: instance.data.poll });
-    instance.autorun(function (computation) {
+    instance.autorun(async function (computation) {
       if (poll.ready()) {
         Template.instance().pollingEnabled.set(true);
         computation.stop();
@@ -305,6 +352,7 @@ Template.feedItem.onRendered(function () {
 });
 
 Template.feedItem.helpers({
+  /*
   description() {
     let text = String();
     const profile = [];
@@ -320,7 +368,7 @@ Template.feedItem.helpers({
       return stripHTMLfromText(text).replace(/(([^\s]+\s\s*){35})(.*)/, '$1…');
     }
     return stripHTMLfromText(this.description).replace(/(([^\s]+\s\s*){35})(.*)/, '$1…');
-  },
+  },*/
   url() {
     if (this.stage === 'DRAFT') {
       return `/vote/draft?id=${this._id}`;
@@ -349,7 +397,7 @@ Template.feedItem.helpers({
     return TAPi18n.__('off-chain');
   },
   blockchainFullAddress() {
-    return `${this.blockchain.publicAddress}`;
+    return `${TAPi18n.__('moloch-delegate-key')} ${this.blockchain.publicAddress}`;
   },
   blockchainLink() {
     return `${Meteor.settings.public.web.sites.blockExplorer}/address/${this.blockchain.publicAddress}`;
@@ -425,16 +473,8 @@ Template.feedItem.helpers({
     const choices = Contracts.find({ pollId: this._id }).fetch();
     let total = new BigNumber(0);
     for (let i = 0; i < choices.length; i += 1) {
-      switch (this.blockchain.coin.code) {
-        case 'WEB VOTE':
-          for (let k = 0; k < choices[i].tally.voter.length; k += 1) {
-            total = total.plus(choices[i].tally.voter[k].votes);
-          }
-          break;
-        default:
-          if (choices[i].blockchain.score && choices[i].blockchain.score.totalConfirmed) {
-            total = total.plus(choices[i].blockchain.score.totalConfirmed);
-          }
+      if (choices[i].blockchain.score && choices[i].blockchain.score.totalConfirmed) {
+        total = total.plus(choices[i].blockchain.score.totalConfirmed);
       }
     }
     return total.toString();
@@ -540,8 +580,40 @@ Template.feedItem.helpers({
     const closing = this.closing;
     if (closing) {
       closing.alwaysOn = this.rules.alwaysOn;
+      closing.period = this.period;
     }
     return closing;
+  },
+  moloch() {
+    return gui.MOLOCH_DAPP;
+  },
+  request() {
+    const parameter = _getXMLAttributes(this.title, 'request');
+    return {
+      token: parameter.token,
+      balance: parameter.quantity,
+      placed: parameter.quantity,
+      available: parameter.quantity,
+      disableStake: true,
+      disableBar: true,
+    };
+  },
+  tribute() {
+    const parameter = _getXMLAttributes(this.title, 'tribute');
+    return {
+      token: parameter.token,
+      balance: parameter.quantity,
+      placed: parameter.quantity,
+      available: parameter.quantity,
+      disableStake: true,
+      disableBar: true,
+    };
+  },
+  applicant() {
+    return { _id: _getXMLAttributes(this.title, 'user')._id };
+  },
+  description() {
+    return `<div>${_getProposalDescription(this.title, false)}</div>`;
   },
 });
 
@@ -587,3 +659,4 @@ Template.feedItem.events({
 });
 
 export const threadItem = _threadItem;
+export const getProposalDescription = _getProposalDescription;

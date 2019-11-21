@@ -20,11 +20,11 @@
 <template name="userInfo">
   {{#if currentUser}}
     <div id='loggedUser' class="user-logger {{toggle}}">
-      {{> avatar includeName=false size=40 displayPopup=false}}
+      {{> avatar includeName=false size=30 displayPopup=false}}
     </div>
   {{else}}
-    <div id='loggedUser' class="navbar-button {{toggle}}">
-      <img src="{{pathFor route='home'}}images/anonymous-white.png" class="symbol profile-pic profile-pic-navbar">
+    <div id="loggedUser" class="hero-button hero-button-mobile hero-signin">
+      <div class="hero-menu-link hero-menu-link-signin {{loginMode}}" target="_blank">{{_ 'sign-in'}}</div>
     </div>
   {{/if}}
 </template>

@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import { Ticket } from '/imports/api/blockchain/Blockchain';
 import { Wallet } from './Wallet';
 import { Country } from '../collectives/Collectives';
-import { Ticket } from '/imports/api/blockchain/Blockchain';
 
 const Schema = {};
 
@@ -171,6 +171,24 @@ Schema.Profile = new SimpleSchema({
   },
   delegations: {
     type: [Schema.Delegation],
+    optional: true,
+  },
+  collectives: {
+    type: Array,
+    defaultValue: [],
+    optional: true,
+  },
+  'collectives.$': {
+    type: String,
+    optional: true,
+  },
+  membership: {
+    type: String,
+    allowedValues: ['APPLICANT', 'MEMBER', 'DELEGATE', 'KICKED', 'VIEWER'],
+    optional: true,
+  },
+  memberSince: {
+    type: Date,
     optional: true,
   },
 });

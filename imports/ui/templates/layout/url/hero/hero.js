@@ -107,7 +107,7 @@ const heroMode = (instance) => {
         node.css('position', 'fixed');
         node.css('top', '-100px');
         node.css('opacity', '1');
-        node.css('height', '65px');
+        node.css('height', '55px');
         node.velocity('stop');
         node.velocity({ top: '0px' }, { duration: parseInt(timers.ANIMATION_DURATION, 10), easing: 'ease-out' });
       }
@@ -166,11 +166,11 @@ Template.navbar.onRendered(function () {
 
 Template.navbar.helpers({
   logoExtended() {
-    return Meteor.settings.public.Collective.profile.logoExtended;
+    return Meteor.settings.public.app.logo;
   },
   picture() {
-    if (Meteor.settings.public.Collective.profile.logo) {
-      return Meteor.settings.public.Collective.profile.logo;
+    if (Meteor.settings.public.app.logo) {
+      return Meteor.settings.public.app.logo;
     }
     return 'images/earth.png';
   },
@@ -188,6 +188,7 @@ Template.navbar.helpers({
     return Meteor.settings.public.app.config.navbar;
   },
   postMode() {
+    console.log(Template.instance().postMode);
     return Template.instance().postMode;
   },
 });

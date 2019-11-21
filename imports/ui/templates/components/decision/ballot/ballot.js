@@ -21,6 +21,7 @@ import { displayModal } from '/imports/ui/modules/modal';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { currentBlock, isPollOpen } from '/imports/ui/templates/components/decision/countdown/countdown';
 import { getBalance } from '/imports/api/blockchain/modules/web3Util';
+import { getProposalDescription } from '/imports/ui/templates/widgets/feed/feedItem';
 
 import '/imports/ui/templates/components/decision/ballot/ballot.html';
 import '/imports/ui/templates/components/decision/fork/fork.js';
@@ -39,7 +40,7 @@ const _rejectVote = () => {
     displayModal(
       true,
       {
-        icon: Meteor.settings.public.Collective.profile.logo,
+        icon: Meteor.settings.public.app.logo,
         title: TAPi18n.__('place-vote'),
         message: TAPi18n.__('insufficient-votes'),
         action: TAPi18n.__('get-tokens'),
@@ -54,7 +55,7 @@ const _rejectVote = () => {
     displayModal(
       true,
       {
-        icon: Meteor.settings.public.Collective.profile.logo,
+        icon: Meteor.settings.public.app.logo,
         title: TAPi18n.__('place-vote'),
         message: TAPi18n.__('incompatible-requisites'),
         cancel: TAPi18n.__('close'),
@@ -72,7 +73,7 @@ const _pollClosed = () => {
   displayModal(
     true,
     {
-      icon: Meteor.settings.public.Collective.profile.logo,
+      icon: Meteor.settings.public.app.logo,
       title: TAPi18n.__('poll-closed'),
       message: TAPi18n.__('poll-is-closed'),
       cancel: TAPi18n.__('close'),
@@ -89,7 +90,7 @@ const _alreadyVoted = () => {
   displayModal(
     true,
     {
-      icon: Meteor.settings.public.Collective.profile.logo,
+      icon: Meteor.settings.public.app.logo,
       title: TAPi18n.__('already-voted'),
       message: TAPi18n.__('already-voted-detail'),
       cancel: TAPi18n.__('close'),
@@ -112,10 +113,10 @@ const _cryptoVote = () => {
             // wallet alert
 
             let icon;
-            if (Meteor.settings.public.Collective.profile.logo) {
-              icon = Meteor.settings.public.Collective.profile.logo;
+            if (Meteor.settings.public.app.logo) {
+              icon = Meteor.settings.public.app.logo;
             } else {
-              icon = Meteor.settings.public.Collective.profile.logo;
+              icon = Meteor.settings.public.app.logo;
             }
             displayModal(
               true,
@@ -173,7 +174,7 @@ const _cryptoVote = () => {
     displayModal(
       true,
       {
-        icon: Meteor.settings.public.Collective.profile.logo,
+        icon: Meteor.settings.public.app.logo,
         title: TAPi18n.__('place-vote'),
         message: TAPi18n.__('unlogged-cant-vote'),
         cancel: TAPi18n.__('close'),
@@ -206,7 +207,7 @@ const _checkUserVoted = (contract, userId) => {
 */
 const _getTwitterURL = (contract) => {
   const TWITTER_MAX_CHARS = 200;
-  let titleURL = contract.title;
+  let titleURL = getProposalDescription(contract.title, true);
   if (titleURL.length > TWITTER_MAX_CHARS) {
     titleURL = `${titleURL.substring(0, TWITTER_MAX_CHARS)}...`;
   }
@@ -796,6 +797,12 @@ Template.ballot.helpers({
   censorship() {
     return Meteor.settings.public.app.config.governance.censorship;
   },
+  scoreBarStyle() {
+    if (this.negativeSide) {
+      return 'poll-score-bar-fill-negative';
+    }
+    return '';
+  },
 });
 
 Template.ballot.events({
@@ -832,7 +839,7 @@ Template.ballot.events({
               displayModal(
                 true,
                 {
-                  icon: Meteor.settings.public.Collective.profile.logo,
+                  icon: Meteor.settings.public.app.logo,
                   title: TAPi18n.__('place-vote'),
                   message: TAPi18n.__('insufficient-votes'),
                   cancel: TAPi18n.__('close'),
@@ -854,7 +861,7 @@ Template.ballot.events({
         displayModal(
           true,
           {
-            icon: Meteor.settings.public.Collective.profile.logo,
+            icon: Meteor.settings.public.app.logo,
             title: TAPi18n.__('place-vote'),
             message: TAPi18n.__('unlogged-cant-vote'),
             cancel: TAPi18n.__('close'),
@@ -904,7 +911,7 @@ Template.ballot.events({
       displayModal(
         true,
         {
-          icon: Meteor.settings.public.Collective.profile.logo,
+          icon: Meteor.settings.public.app.logo,
           title: TAPi18n.__('reply'),
           message: TAPi18n.__('unlogged-cant-reply'),
           cancel: TAPi18n.__('close'),

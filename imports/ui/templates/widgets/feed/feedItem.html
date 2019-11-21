@@ -46,14 +46,14 @@
                 {{/each}}
                 <div class="data data-feed data-identity">
                   <div class="margin-both">
-                    <img src="{{getImage 'clock'}}" class="clock-icon">
-                    <div class="verifier verifier-live verifier-feed verifier-mini">{{sinceDate createdAt}}</div>
+                    <img src="{{getImage 'key'}}" class="clock-icon">
+                    <a id="blockchain-explorer" title="{{blockchainFullAddress}}" href="{{blockchainLink}}" target="_blank">
+                      <div class="verifier verifier-live verifier-feed verifier-mini verifier-key">{{blockchainAddress}}</div>
+                    </a>
                   </div>
                   <div class="margin-both">
-                    <img src="{{getImage 'block'}}" class="clock-icon">
-                    <a id="blockchain-explorer" title="{{blockchainFullAddress}}" href="{{blockchainLink}}" target="_blank">
-                      <div class="verifier verifier-live verifier-feed verifier-mini">{{blockchainAddress}}</div>
-                    </a>
+                    <img src="{{getImage 'clock'}}" class="clock-icon">
+                    <div class="verifier verifier-live verifier-feed verifier-mini">{{sinceDate createdAt}}</div>
                   </div>
                 </div>
                 <div class="data data-feed">
@@ -73,7 +73,49 @@
             <div class="w-inline-block w-clearfix option-proposal">
               <div class="option-title option-link option-search title-input">
                 <div class="title-input title-feed {{focused}}">
-                  {{{title}}}
+                  {{#if moloch}}
+                    {{{description}}}
+                    <div class="election-rule">
+                      {{{_ 'moloch-contract-parameters'}}}
+                      {{> help tooltip='moloch-contract-parameters-tooltip'}}
+                    </div>
+                    <div class="smart-contract">
+                      <div class="parameter">
+                        <div class="parameter-name">
+                          {{_ 'moloch-applicant'}}
+                        </div>
+                        <div class="parameter-value parameter-avatar">
+                          {{#with applicant}}
+                            {{> avatar size=36 profile=this._id includeName=true includeAddress=true includeNation=false editable=false microFont=true disabled=false includeRole=false}}
+                          {{/with}}
+                        </div>
+                      </div>
+                      <div class="parameter-line">
+                        <div class="parameter">
+                          <div class="parameter-name">
+                            {{_ 'moloch-request'}}
+                          </div>
+                          <div class="parameter-value parameter-token">
+                            {{#with request}}
+                              {{> balance}}
+                            {{/with}}
+                          </div>
+                        </div>
+                        <div class="parameter">
+                          <div class="parameter-name">
+                            {{_ 'moloch-tribute'}}
+                          </div>
+                          <div class="parameter-value parameter-token">
+                            {{#with tribute}}
+                              {{> balance}}
+                            {{/with}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {{else}}
+                    {{{title}}}
+                  {{/if}}
                 </div>
               </div>
             </div>
@@ -91,29 +133,22 @@
                 </div>
               {{/if}}
             {{else}}
-              {{#if webVote}}
-                <div class="election-rule">
-                  {{{_ 'election-rule-webvote'}}}
-                  {{> help tooltip='voting-editor-webvote-tooltip'}}
-                </div>
-              {{else}}
-                <div class="election-rule">
-                  {{{_ 'election-rule-onchain'}}}
-                  {{> help tooltip='voting-editor-onchain-tooltip'}}
-                </div>
-              {{/if}}
+              <div class="election-rule">
+                {{{_ 'election-rule-onchain'}}}
+                {{> help tooltip='voting-editor-onchain-tooltip'}}
+              </div>
             {{/unless}}
-
-            {{#if pollingEnabled}}
-              {{> poll list=pollList pollId=pollId rules=rules pollTotals=pollTotals quadratic=quadraticEnabled balance=balanceEnabled}}
-            {{else}}
-              {{> poll list=pollList placeholder=true}}
-            {{/if}}
 
             {{#if requiresClosing}}
               {{#with closingData}}
                 {{> countdown}}
               {{/with}}
+            {{/if}}
+            
+            {{#if pollingEnabled}}
+              {{> poll list=pollList pollId=pollId rules=rules pollTotals=pollTotals quadratic=quadraticEnabled balance=balanceEnabled}}
+            {{else}}
+              {{> poll list=pollList placeholder=true}}
             {{/if}}
 
             {{#if tally}}

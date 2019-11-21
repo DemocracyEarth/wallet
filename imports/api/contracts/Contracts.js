@@ -3,11 +3,13 @@ import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { TAPi18n } from 'meteor/tap:i18n';
 
+import { Collectives } from '/imports/api/collectives/Collectives';
 import { Ballot } from '/imports/api/transactions/Ballot';
 import { convertToSlug } from '/lib/utils';
 import { Thread } from '/imports/api/contracts/Thread';
 import { Wallet } from '/imports/api/users/Wallet';
-import { Blockchain } from '/imports/api/blockchain/Blockchain';
+import { Blockchain, Coin, Ticket, Score } from '/imports/api/blockchain/Blockchain';
+import { defaults } from '/lib/const';
 
 export const Contracts = new Mongo.Collection('contracts');
 
@@ -17,6 +19,7 @@ Schema.Tally = new SimpleSchema({
   lastTransaction: {
     type: String,
     defaultValue: '',
+    optional: true,
   },
   choice: {
     type: Array,
@@ -82,7 +85,7 @@ Schema.Poll = new SimpleSchema({
 Schema.Closing = new SimpleSchema({
   blockchain: {
     type: String,
-    defaultValue: 'ETH',
+    defaultValue: defaults.CHAIN,
   },
   height: {
     type: Number,
@@ -90,19 +93,25 @@ Schema.Closing = new SimpleSchema({
   },
   calendar: {
     type: Date,
-    autoValue() {
-      const creationDate = new Date();
-      if (this.isInsert) {
-        creationDate.setDate(creationDate.getDate() + 1);
-      }
-      return creationDate;
-    },
+    optional: true,
   },
   delta: {
     type: Number,
     defaultValue: 0,
   },
   urgency: {
+    type: Number,
+    optional: true,
+  },
+  graceCalendar: {
+    type: Date,
+    optional: true,
+  },
+  summoningTime: {
+    type: Date,
+    optional: true,
+  },
+  periodDuration: {
     type: Number,
     optional: true,
   },
@@ -153,13 +162,6 @@ Schema.Contract = new SimpleSchema({
   collectiveId: {
     type: String,
     optional: true,
-    autoValue() {
-      if (this.isInsert) {
-        if (Meteor.settings.public.Collective) {
-          return Meteor.settings.public.Collective._id;
-        }
-      }
-    },
   },
   title: {
     // title of the contract
@@ -212,38 +214,9 @@ Schema.Contract = new SimpleSchema({
     },
   },
   url: {
-     // URL inside the instance of .Earth
     type: String,
-    autoValue() {
-      let slug = convertToSlug(this.field('title').value);
-      if (this.isInsert) {
-        if (this.field('kind').value === 'DELEGATION') {
-          if (this.field('keyword').value !== undefined) {
-            return `/delegation/${this.field('keyword').value}`;
-          }
-          return 'delegation';
-        }
-        if (this.field('title').value !== undefined) {
-          if (this.field('kind'.value === 'POLL') && this.field('keyword').value) {
-            slug = this.field('keyword').value;
-          }
-          if (Contracts.findOne({ keyword: slug }) === undefined) {
-            if (this.field('title').value !== '') {
-              const time = this.field('createdAt').value;
-              if (time) {
-                const year = time.getFullYear();
-                const month = parseInt(time.getMonth() + 1, 10);
-                const day = time.getDate();
-                return `/${year}/${month}/${day}/${slug}`;
-              }
-              return `/vote/${slug}`;
-            }
-            return '/vote/';
-          }
-        }
-        return '/vote/';
-      }
-    },
+    optional: true,
+    defaultValue: '/',
   },
   description: {
     // HTML Description of the contract (the contents of the contract itself)
@@ -263,27 +236,20 @@ Schema.Contract = new SimpleSchema({
   createdAt: {
     // creation Date
     type: Date,
-    autoValue() {
-      if (this.isInsert) {
-        return new Date();
-      }
-    },
+    optional: true,
+    defaultValue: new Date(),
   },
   lastUpdate: {
     // last update
     type: Date,
-    autoValue() {
-      return new Date();
-    },
+    optional: true,
+    defaultValue: new Date(),
   },
   timestamp: {
     // timestamp (visible last update)
     type: Date,
-    autoValue() {
-      if (this.isUpdate || this.isInsert) {
-        return new Date();
-      }
-    },
+    optional: true,
+    defaultValue: new Date(),
   },
   tags: {
     // collection of Tags semantically describing contract
@@ -616,6 +582,23 @@ Schema.Contract = new SimpleSchema({
   },
   importId: {
     type: String,
+    optional: true,
+  },
+  didPass: {
+    type: Boolean,
+    optional: true,
+  },
+  processed: {
+    type: Boolean,
+    optional: true,
+  },
+  aborted: {
+    type: Boolean,
+    optional: true,
+  },
+  period: {
+    type: String,
+    allowedValues: ['PROCESSED', 'QUEUE', 'VOTING', 'GRACE', 'ABORT', 'COMPLETE', 'PASSED', 'REJECTED', 'ABORTED'],
     optional: true,
   },
 });

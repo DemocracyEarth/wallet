@@ -40,6 +40,7 @@ import { resetSplit } from '/imports/ui/modules/split';
 import '/imports/ui/templates/layout/main.html';
 import '/imports/ui/templates/widgets/modal/modal';
 import '/imports/ui/templates/widgets/popup/popup';
+import '/imports/ui/templates/layout/url/topbar/topbar';
 import '/imports/ui/templates/layout/sidebar/sidebar';
 import '/imports/ui/templates/layout/navigation/navigation';
 import '/imports/ui/templates/layout/response/verifyEmail/verifyEmail';
@@ -54,11 +55,11 @@ const _head = () => {
   const icon = $('<link>', {
     rel: 'shortcut icon',
     type: 'image/x-icon',
-    href: `${Meteor.settings.public.Collective.profile.logo}`,
+    href: `${Meteor.settings.public.app.logo}`,
   });
   const mobile = $('<link>', {
     rel: 'apple-touch-icon',
-    href: `${Meteor.settings.public.Collective.profile.logo}`,
+    href: `${Meteor.settings.public.app.logo}`,
   });
 
   $('head').append(icon);
@@ -159,8 +160,8 @@ Template.preloader.onRendered(() => {
 
 Template.preloader.helpers({
   appIcon() {
-    if (Meteor.settings.public.Collective.profile.logo) {
-      return `${Router.path('home')}${Meteor.settings.public.Collective.profile.logo}`;
+    if (Meteor.settings.public.app.logo) {
+      return `${Router.path('home')}${Meteor.settings.public.app.logo}`;
     }
     return `${Router.path('home')}images/olive.png`;
   },

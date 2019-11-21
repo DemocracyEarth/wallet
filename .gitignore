@@ -4,6 +4,7 @@ config/production/decentraland.json
 config/production/colorado.json
 config/production/rinkeby.json
 config/production/goerli.json
+config/production/moloch.json
 config/staging/settings.json
 public/templates/decentraland/legacy/
 
@@ -79,3 +80,4 @@ jslint.xml
 
 # IDE
 .idea
+reset.sh

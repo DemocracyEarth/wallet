@@ -1,69 +1,18 @@
 <template name="sidebar">
-
   {{#if sidebarContext}}
     <div id='menu' class='left {{style}}'>
-      <div class="sidebar">
-
-        {{> collective}}
-
-        <ul class="menu menu-wallet w-clearfix w-list-unstyled">
-          {{> inbox label='wallet' separator=true}}
-          {{#with currentUser}}
-            {{> multiTokenProfile}}
-          {{/with}}
-        </ul>
-
+      <div class="sidebar {{sidebarStyle}}">
         <ul class="menu w-clearfix w-list-unstyled">
-          {{> inbox label='feeds' separator=true}}
           {{#each menu}}
-            {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon isAvatar=false iconActivated=iconActivated feed=feed}}
+            {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon isAvatar=isAvatar iconActivated=iconActivated feed=feed reserve=reserve displayCount=displayCount count=count}}
           {{/each}}
         </ul>
-
-        <ul class="menu w-clearfix w-list-unstyled">
-          {{> inbox label='delegates' separator=true count=totalDelegates}}
-          {{#each delegate}}
-            {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon isAvatar=true iconActivated=iconActivated feed=feed}}
-          {{else}}
-            <div class="menu">
-              {{> warning label='no-delegations-found'}}
-            </div>
-          {{/each}}
-        </ul>
-
         <div style="height: 50px"></div>
-        <!--
-        {{#if bitcoinAddress}}
-          <ul class="menu w-clearfix w-list-unstyled">
-            {{> inbox label='fund-organization' separator=true}}
-            <div class="crypto-menu">
-              <a href='https://blockchain.info/address/{{bitcoinAddress}}' target='_blank' class='crypto-link'>
-                <img src="{{pathFor route='home'}}images/qr.png" class="crypto-address">
-              </a>
-              <div class="sidebar-tag sidebar-stat sidebar-crypto sidebar-title">
-                {{_ 'bitcoin'}} &#8212; <strong>{{_ 'btc'}}</strong>
-              </div>
-              <div class="sidebar-tag sidebar-stat sidebar-crypto">
-                {{{bitcoinReceived}}}
-              </div>
-              <div class="sidebar-tag sidebar-stat sidebar-crypto">
-                {{{bitcoinSent}}}
-              </div>
-              <div class="menu menu-empty">
-                <div class="crypto-address-label">{{bitcoinAddress}}</div>
-              </div>
-            </div>
-          </ul>
-        {{/if}}
-        -->
       </div>
       <div class="menu menu-empty menu-footer">
         {{{members}}}
         {{{replicator}}}
       </div>
-
     </div>
-  {{else}}
-
   {{/if}}
 </template>

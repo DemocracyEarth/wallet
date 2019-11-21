@@ -12,6 +12,7 @@ import { here } from '/lib/utils';
 import { gui } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { toggleSidebar } from '/imports/ui/modules/menu';
+import { getLastTimestamp } from '/imports/startup/both/modules/metamask.js';
 
 import '/imports/ui/templates/widgets/feed/feed.html';
 import '/imports/ui/templates/widgets/feed/feedItem.js';
@@ -226,7 +227,7 @@ Template.feed.onRendered(function () {
   }
 
   const instance = this;
-  instance.autorun(function () {
+  instance.autorun(async function () {
     if (!instance.counted.get()) {
       options = Template.currentData().options;
 
@@ -243,6 +244,7 @@ Template.feed.onRendered(function () {
         }
       }
     }
+    await getLastTimestamp();
   });
 });
 

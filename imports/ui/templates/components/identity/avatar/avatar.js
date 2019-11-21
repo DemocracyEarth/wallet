@@ -15,9 +15,12 @@ import { uploadToAmazonS3 } from '/imports/ui/modules/Files';
 import { displayModal } from '/imports/ui/modules/modal';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { displayPopup, cancelPopup } from '/imports/ui/modules/popup';
+import { defaults } from '/lib/const';
 
 import '/imports/ui/templates/components/identity/avatar/avatar.html';
 import '/imports/ui/templates/components/identity/chain/chain.js';
+
+const makeBlockie = require('ethereum-blockies-base64');
 
 /**
 * @summary subscribes to user data
@@ -56,12 +59,24 @@ const _getAddress = (user) => {
   }
   if (reserve && reserve.length && reserve.length > 0) {
     for (const i in reserve) {
-      if ((reserve[i].token === 'WEI' || reserve[i].token === 'STX') && reserve[i].publicAddress) {
+      if ((reserve[i].token === 'WEI' || reserve[i].token === 'STX' || reserve[i].token === 'WETH' || reserve[i].token === defaults.TOKEN) && reserve[i].publicAddress) {
         return reserve[i];
       }
     }
   }
   return undefined;
+};
+
+/**
+* @summary shortens the username if its a crypto address
+* @param {object} publicAddress string of username to check
+* @returns {string} username string
+*/
+const _shortenCryptoName = (publicAddress) => {
+  if (publicAddress.length === 42 && publicAddress.slice(0, 2) === '0x') {
+    return `${publicAddress.slice(0, 6)}...${publicAddress.slice(38, 42)}`.toLowerCase();
+  }
+  return publicAddress;
 };
 
 /**
@@ -168,6 +183,8 @@ const _getDynamicID = (data) => {
 
 Template.avatar.onCreated(function () {
   const instance = this;
+  const guid = guidGenerator();
+  Template.instance().guid = guid;
 
   _getUser(_getDynamicID(instance.data)._id);
 
@@ -175,23 +192,23 @@ Template.avatar.onCreated(function () {
   templetize(Template.instance());
 });
 
-Template.avatar.onRendered = () => {
+Template.avatar.onRendered(function () {
   Session.set('editor', false);
-};
+});
 
 // this turned out to be kinda polymorphic
 Template.avatar.helpers({
   url() {
     if (this.profile === undefined) {
       if (Meteor.user()) {
-        return `/@${Meteor.user().username}`;
+        return `/address/${Meteor.user().username}`;
       }
     }
     const user = Meteor.users.findOne(_getDynamicID(this));
     if (!user) {
       return '#';
     }
-    return `/@${user.username}`;
+    return `/address/${user.username}`;
   },
   myself() {
     if (this.profile === undefined) {
@@ -252,7 +269,7 @@ Template.avatar.helpers({
     return '';
   },
   elementId() {
-    return guidGenerator();
+    return Template.instance().guid;
   },
   classStyle(smallFont) {
     let style = '';
@@ -285,6 +302,20 @@ Template.avatar.helpers({
         user = getAnonymous();
       }
       return user.profile.picture;
+    }
+    return undefined;
+  },
+  blockiePicture(profile) {
+    if (profile === undefined) {
+      if (Meteor.user()) {
+        return makeBlockie(Meteor.user().username);
+      }
+    } else {
+      let user = Meteor.users.findOne({ _id: profile });
+      if (user === undefined) {
+        user = getAnonymous();
+      }
+      return makeBlockie(user.username);
     }
     return undefined;
   },
@@ -324,14 +355,14 @@ Template.avatar.helpers({
   username(profile) {
     if (profile === undefined) {
       if (Meteor.user()) {
-        return Meteor.user().username;
+        return _shortenCryptoName(Meteor.user().username);
       }
     }
     const user = Meteor.users.findOne(_getDynamicID(this));
     if (!user) {
       return '';
     }
-    return `${user.username}`;
+    return `${_shortenCryptoName(user.username)}`;
   },
   nationality(profile) {
     return getNation(profile);
@@ -417,3 +448,4 @@ Template.avatar.events({
 
 export const getFlag = getNation;
 export const getUser = _getUser;
+export const shortenCryptoName = _shortenCryptoName;

@@ -1,10 +1,10 @@
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
-import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
 
-import { toggleSelectedItem } from '../../../modules/menu';
+import '/imports/ui/templates/components/identity/avatar/avatar.js';
 
+import { toggleSelectedItem } from '../../../modules/menu';
 import './inbox.html';
 
 Template.inbox.helpers({
@@ -21,6 +21,30 @@ Template.inbox.helpers({
   },
   isAvatar() {
     return this.isAvatar;
+  },
+  displayCount() {
+    return this.displayCount;
+  },
+  count() {
+    return this.count;
+  },
+  sidebarTagStyle() {
+    const selectedId = Session.get('sidebarMenuSelectedId');
+    if ((selectedId === this.id) || (!selectedId && this.id === 0)) {
+      return 'sidebar-tag-selected';
+    }
+    return '';
+  },
+  tokens() {
+    const reserve = {
+      token: this.reserve.token,
+      balance: this.reserve.balance,
+      placed: this.reserve.placed,
+      available: this.reserve.available,
+      disableStake: true,
+      disableBar: true,
+    };
+    return reserve;
   },
 });
 

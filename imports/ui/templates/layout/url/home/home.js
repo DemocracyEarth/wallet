@@ -7,6 +7,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
+import { shortenCryptoName } from '/imports/ui/templates/components/identity/avatar/avatar';
 import { getCoin } from '/imports/api/blockchain/modules/web3Util.js';
 
 import '/imports/ui/templates/layout/url/home/home.html';
@@ -39,7 +40,7 @@ const _landingMode = (style) => {
         break;
     }
   } else if (!Meteor.Device.isPhone()) {
-    css = 'split-desktop';
+    css = 'split-landing';
   }
 
   if (!Meteor.settings.public.app.config.interface.showTransactions) {
@@ -118,7 +119,7 @@ Template.screen.helpers({
 Template.homeFeed.onCreated(function () {
   Template.instance().feedReady = new ReactiveVar(false);
   const instance = this;
-  const subscription = instance.subscribe('feed', { view: instance.data.options.view, sort: { createdAt: -1 }, userId: instance.data.options.userId, username: instance.data.options.username });
+  const subscription = instance.subscribe('feed', { view: instance.data.options.view, sort: { createdAt: -1 }, userId: instance.data.options.userId, username: instance.data.options.username, period: instance.data.options.period });
 
   Session.set('minimizedEditor', true);
 
@@ -163,9 +164,9 @@ const _getTitle = (options, ledgerMode) => {
         username = Meteor.users.findOne(options.userId).username;
       }
       if (ledgerMode) {
-        return TAPi18n.__('ledger-peer-posts').replace('{{asset}}', username);
+        return TAPi18n.__('ledger-peer-posts').replace('{{asset}}', shortenCryptoName(username).toUpperCase());
       }
-      return TAPi18n.__('feed-peer-posts').replace('{{asset}}', username);
+      return TAPi18n.__('feed-peer-posts').replace('{{asset}}', shortenCryptoName(username).toUpperCase());
     default:
       if (ledgerMode) {
         return TAPi18n.__('recent-activity');

@@ -14,7 +14,8 @@ Template.chain.helpers({
     return `${getCoin(this.ticker).code} ${TAPi18n.__('id')}:`;
   },
   address() {
-    return `${this.address.substring(0, 10)}...${this.address.substring(parseInt(this.address.length - 10, 10), this.address.length)}`;
+    return this.address;
+    // return `${this.address.substring(0, 10)}...${this.address.substring(parseInt(this.address.length - 10, 10), this.address.length)}`;
   },
   color() {
     return `background-color: ${getCoin(this.ticker).color};`;

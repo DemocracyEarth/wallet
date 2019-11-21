@@ -1,9 +1,10 @@
 import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import { getBlockHeight } from '/imports/startup/both/modules/metamask.js';
-import { blocktimes } from '/lib/const';
+import { getBlockHeight, getLastTimestamp } from '/imports/startup/both/modules/metamask.js';
+import { blocktimes, defaults } from '/lib/const';
 
 import '/imports/ui/templates/components/decision/countdown/countdown.html';
 
@@ -51,7 +52,7 @@ const _getPercentage = (currentBlock, delta, finalBlock) => {
 * @param {boolean} editorMode if editor
 * @return {string} with countdown sentence
 */
-const _getDeadline = (now, remainingBlocks, length, height, alwaysOn, editorMode) => {
+const _getDeadline = (now, remainingBlocks, length, height, alwaysOn, editorMode, periodDuration) => {
   let countdown = TAPi18n.__('countdown-expiration');
   let count = remainingBlocks;
 
@@ -69,7 +70,12 @@ const _getDeadline = (now, remainingBlocks, length, height, alwaysOn, editorMode
   }
 
   // get total seconds between the times
-  let delta = parseInt(count * blocktimes.ETHEREUM_SECONDS_PER_BLOCK, 10);
+  let delta;
+  if (!periodDuration) {
+    delta = parseInt(count * blocktimes.ETHEREUM_SECONDS_PER_BLOCK, 10);
+  } else {
+    delta = parseInt(count * (periodDuration / 1000), 10);
+  }
 
   // calculate (and subtract) whole days
   const days = Math.floor(delta / 86400);
@@ -112,7 +118,7 @@ const _getDeadline = (now, remainingBlocks, length, height, alwaysOn, editorMode
     countdown = countdown.replace('{{height}}', `${height.toLocaleString(undefined, [{ style: 'decimal' }])}`);
   }
 
-  countdown = countdown.replace('{{blocks}}', `${remainingBlocks.toLocaleString(undefined, [{ style: 'decimal' }])} ${remainingBlocks > 1 ? TAPi18n.__('blocks-compressed') : TAPi18n.__('blocks-singular')}`);
+  countdown = countdown.replace('{{blocks}}', `${remainingBlocks.toLocaleString(undefined, [{ style: 'decimal' }])} ${remainingBlocks > 1 ? TAPi18n.__('periods-compressed') : TAPi18n.__('periods-singular')}`);
 
   return `${countdown}`;
 };
@@ -123,7 +129,20 @@ const _getDeadline = (now, remainingBlocks, length, height, alwaysOn, editorMode
 * @param {object} instance where to write last block number
 */
 const _currentBlock = async (instance) => {
-  const now = await getBlockHeight().then((resolved) => { instance.now.set(resolved); });
+  let now;
+  if (defaults.CHAIN === 'ETH') {
+    now = await getBlockHeight().then((resolved) => { instance.now.set(resolved); });
+  } else if (instance.data.summoningTime && instance.data.periodDuration) {
+    const timestamp = Session.get('lastTimestamp');
+    // console.log(`eval fo timestmap: ${timestamp}`);
+    if (timestamp) {
+      instance.now.set(parseFloat((timestamp - instance.data.summoningTime.getTime()) / instance.data.periodDuration, 10));
+    } else {
+      now = await getLastTimestamp().then((resolved) => {
+        instance.now.set(parseFloat((resolved - instance.data.summoningTime.getTime()) / instance.data.periodDuration, 10));
+      });
+    }
+  }
   return now;
 };
 
@@ -132,19 +151,43 @@ Template.countdown.onCreated(function () {
   _currentBlock(Template.instance());
 });
 
+/**
+* @summary calculates remaining time based on chain rules
+* @param {number} now current time in blockchain clock
+* @param {object} data the information for this poll
+*/
+const _getRemaining = (now, data) => {
+  const confirmed = parseInt(data.delta - (data.height - now), 10);
+  return parseInt(data.delta - confirmed, 10);
+};
+
 Template.countdown.helpers({
   label() {
     const now = Template.instance().now.get();
-    const confirmed = parseInt(this.delta - (this.height - now), 10);
-    const deadline = _getDeadline(now, parseInt(this.delta - confirmed, 10), this.delta, this.height, this.alwaysOn, this.editorMode);
+    const remaining = _getRemaining(now, this);
+    if (isNaN(remaining)) {
+      return TAPi18n.__('syncing');
+    }
+    const deadline = _getDeadline(now, remaining, this.delta, this.height, this.alwaysOn, this.editorMode, this.periodDuration);
     return deadline;
   },
+  period() {
+    return this.period ? TAPi18n.__(`moloch-period-${this.period.toLowerCase()}`) : '';
+  },
+  periodStyle() {
+    return this.period ? `period-${this.period.toLowerCase()}` : '';
+  },
   timerStyle() {
-    return `width: ${_getPercentage(Template.instance().now.get(), this.delta, this.height)}%`;
+    const now = Template.instance().now.get();
+    const remaining = _getRemaining(now, this);
+    if (!isNaN(remaining)) {
+      return `width: ${_getPercentage(now, this.delta, this.height)}%`;
+    }
+    return 'width: 0%;';
   },
   alertMode() {
-    const percentage = _getPercentage(Template.instance().now.get(), this.delta, this.height);
-
+    const now = Template.instance().now.get();
+    const percentage = _getPercentage(now, this.delta, this.height);
     if (percentage && percentage < 25) {
       return 'countdown-timer-final';
     } else if (percentage && percentage < 5) {

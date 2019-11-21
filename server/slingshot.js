@@ -7,16 +7,18 @@ Slingshot.fileRestrictions('uploadToAmazonS3', {
   maxSize: 10 * 1024 * 1024,
 });
 
-Slingshot.createDirective('uploadToAmazonS3', Slingshot.S3Storage, {
-  bucket: Meteor.settings.private.API.amazon.AWSBucket,
-  acl: Meteor.settings.private.API.amazon.AWSAcl,
-  region: Meteor.settings.private.API.amazon.AWSRegion,
-  authorize() {
-    const userFileCount = Files.find({ userId: this.userId }).count();
-    return userFileCount < 10;
-  },
-  key(file) {
-    const user = Meteor.users.findOne(this.userId);
-    return `${user.username}/${file.name}`;
-  },
-});
+if (Meteor.settings.private.API.amazon.AWSBucket && Meteor.settings.private.API.amazon.AWSAcl && Meteor.settings.private.API.amazon.AWSRegion) {
+  Slingshot.createDirective('uploadToAmazonS3', Slingshot.S3Storage, {
+    bucket: Meteor.settings.private.API.amazon.AWSBucket,
+    acl: Meteor.settings.private.API.amazon.AWSAcl,
+    region: Meteor.settings.private.API.amazon.AWSRegion,
+    authorize() {
+      const userFileCount = Files.find({ userId: this.userId }).count();
+      return userFileCount < 10;
+    },
+    key(file) {
+      const user = Meteor.users.findOne(this.userId);
+      return `${user.username}/${file.name}`;
+    },
+  });
+}

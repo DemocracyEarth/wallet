@@ -17,6 +17,7 @@ import { BigNumber } from 'bignumber.js';
 
 import abi from 'human-standard-token-abi';
 import { debug } from 'util';
+import { SSL_OP_NETSCAPE_REUSE_CIPHER_CHANGE_BUG } from 'constants';
 
 const Web3 = require('web3');
 const ethUtil = require('ethereumjs-util');
@@ -26,7 +27,7 @@ const numeral = require('numeral');
 let web3;
 
 const modal = {
-  icon: Meteor.settings.public.Collective.profile.logo,
+  icon: Meteor.settings.public.app.logo,
   title: TAPi18n.__('wallet'),
   cancel: TAPi18n.__('close'),
   alertMode: true,
@@ -367,7 +368,7 @@ const verifySignature = (signature, publicAddress, nonce, message) => {
   let msg;
   console.log(message);
   if (!message) {
-    msg = `${TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.Collective.name)}`;
+    msg = `${TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.app.name)}`;
   } else {
     msg = message;
   }
@@ -576,6 +577,21 @@ const _getBlockHeight = async () => {
   return height;
 };
 
+/**
+* @summary get the last timestamp from the last block
+*/
+const _getLastTimestamp = async () => {
+  if (_web3()) {
+    return await _getBlockHeight().then(async (resolved) => {
+      return await web3.eth.getBlock(resolved).then((res) => {
+        Session.set('lastTimestamp', res.timestamp * 1000);
+        return parseInt(res.timestamp * 1000, 10);
+      });
+    });
+  }
+  return undefined;
+};
+
 
 if (Meteor.isClient) {
   /**
@@ -591,7 +607,7 @@ if (Meteor.isClient) {
         // https://github.com/DemocracyEarth/sovereign/issues/421
         return web3.eth.getCoinbase().then(function (coinbaseAddress) {
           publicAddress = coinbaseAddress.toLowerCase();
-          return handleSignMessage(publicAddress, nonce, TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.Collective.name));
+          return handleSignMessage(publicAddress, nonce, TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.app.name));
         }).then(function (signature) {
           const verification = verifySignature(signature, publicAddress, nonce);
 
@@ -623,7 +639,7 @@ if (Meteor.isClient) {
         return web3.eth.getCoinbase();
       }).then(function (coinbaseAddress) {
         publicAddress = coinbaseAddress.toLowerCase();
-        return handleSignMessage(publicAddress, nonce, TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.Collective.name));
+        return handleSignMessage(publicAddress, nonce, TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.app.name));
       }).then(function (signature) {
         const verification = verifySignature(signature, publicAddress, nonce);
 
@@ -705,4 +721,5 @@ export const setupWeb3 = _web3;
 export const syncBlockchain = _syncBlockchain;
 export const hideLogin = _hideLogin;
 export const getBlockHeight = _getBlockHeight;
+export const getLastTimestamp = _getLastTimestamp;
 export const verifyCoinVote = _verifyCoinVote;

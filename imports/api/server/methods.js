@@ -93,7 +93,7 @@ Meteor.methods({
     }
 
     const to = emailAddress;
-    const from = `${Meteor.settings.public.Collective.name} <${Meteor.settings.public.Collective.emails[0].address}>`;
+    const from = `${Meteor.settings.public.app.name} <${Meteor.settings.public.Collective.emails[0].address}>`;
     subject = subject.replace('{{user}}', `@${sender.username}`);
     subject = subject.replace('{{title}}', `'${stripHTML(contract.title).substring(0, 30)}...'`);
     html = html.replace('{{user}}', `@${sender.username}`);
@@ -104,7 +104,7 @@ Meteor.methods({
     html = html.replace('{{reply}}', `${transaction.reply}`);
     html = html.replace('{{greeting}}', `${TAPi18n.__('email-greeting-hello')} @${receiver.username},`);
     html = html.replace('{{farewell}}', `${TAPi18n.__('email-farewell')}`);
-    html = html.replace('{{collective}}', `<a href='${Meteor.settings.public.Collective.profile.website}'>${Meteor.settings.public.Collective.name}</a>`);
+    html = html.replace('{{collective}}', `<a href='${Meteor.settings.public.app.url}'>${Meteor.settings.public.app.name}</a>`);
     text = text.replace('{{user}}', `@${sender.username}`);
     text = text.replace('{{title}}', `${contract.title}`);
 
@@ -318,7 +318,7 @@ Meteor.methods({
   * @return {Number} total count.
   */
   userCount() {
-    const count = Meteor.users.find().count();
+    const count = Meteor.users.find({ 'profile.membership': 'MEMBER' }).count();
     log(`{ method: 'userCount', user: ${logUser()}, count: ${count} }`);
     return count;
   },

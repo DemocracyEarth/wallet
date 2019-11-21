@@ -1,5 +1,5 @@
 <template name="collective">
-  <div id='collective-login' class="collective {{toggle}}">
+  <div id='collective-login' class="collective {{toggle}}" title="{{currentUser.username}}">
     {{#if hasLogo}}
       <img class="collective-icon" src="{{pathFor route='home'}}{{picture}}">
     {{/if}}
@@ -9,7 +9,7 @@
       </div>
       {{#if currentUser}}
         {{> avatar size=20 profile=currentUser._id loginMode=true includeName=false includeNation=false editable=false microFont=true disabled=true includeRole=false}}
-        {{currentUser.username}}
+        {{username}}
       {{else}}
         {{_ 'log-in-network'}}
       {{/if}}

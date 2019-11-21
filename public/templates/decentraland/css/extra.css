@@ -1081,3 +1081,9 @@ width: 1px;
 .button.login-button.button-half.button-disabled:hover {
   background:transparent;
 }
+
+.sidebar-avatar {
+  float: left;
+  margin-top: 5px;
+  margin-right: 5px;
+}

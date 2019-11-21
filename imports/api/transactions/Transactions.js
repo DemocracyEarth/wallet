@@ -3,6 +3,7 @@ import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 import { Blockchain } from '/imports/api/blockchain/Blockchain';
+import { Collectives } from '/imports/api/collectives/Collectives';
 
 import { Ballot } from './Ballot';
 
@@ -82,11 +83,6 @@ Schema.Transaction = new SimpleSchema({
   timestamp: {
     type: Date,
     optional: true,
-    autoValue() {
-      if (this.isInsert) {
-        return new Date();
-      }
-    },
   },
   condition: {
     type: Object,
@@ -152,6 +148,10 @@ Schema.Transaction = new SimpleSchema({
     optional: true,
   },
   geo: {
+    type: String,
+    optional: true,
+  },
+  collectiveId: {
     type: String,
     optional: true,
   },

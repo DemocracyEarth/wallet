@@ -9,6 +9,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { sidebarWidth, sidebarPercentage, getDelegatesMenu, toggleSidebar } from '/imports/ui/modules/menu';
 import { getFlag, getUser } from '/imports/ui/templates/components/identity/avatar/avatar';
 import { getCoin } from '/imports/api/blockchain/modules/web3Util';
+import { Collectives } from '/imports/api/collectives/Collectives';
 
 import '/imports/ui/templates/layout/sidebar/sidebar.html';
 import '/imports/ui/templates/components/collective/collective.js';
@@ -45,7 +46,7 @@ const _dataToMenu = (user) => {
       feed: 'user',
       value: true,
       separator: false,
-      url: `/@${user.username}`,
+      url: `/address/${user.username}`,
       selected: false,
     };
   }
@@ -178,6 +179,10 @@ const _showSidebar = () => {
     $('#content').css('left', sidebarWidth());
     $('#content').css('right', newRight);
 
+    if (Meteor.Device.isPhone()) {
+      $('#menu').css('margin-left', '0px');
+    }
+
     if (Session.get('removedSidebar') && !Meteor.Device.isPhone()) {
       $('#menu').css('margin-left', `${0}px`);
       Session.set('removedSidebar', false);
@@ -190,15 +195,20 @@ Template.sidebar.onCreated(function () {
   Template.instance().members = new ReactiveVar(0);
   Template.instance().participants = new ReactiveVar();
   Template.instance().memberCount = new ReactiveVar(0);
+  Template.instance().daoList = new ReactiveVar();
 
   const instance = this;
 
   Meteor.call('userCount', function (error, result) {
     instance.memberCount.set(result);
   });
+  const collectives = instance.subscribe('collectives', { view: 'daoList' });
 
   instance.autorun(function () {
     let delegateList;
+    if (collectives.ready()) {
+      Template.instance().daoList.set(Collectives.find().fetch());
+    }
     if (Meteor.user()) {
       if (Meteor.user().profile.delegations && Meteor.user().profile.delegations.length > 0) {
         const subscription = instance.subscribe('delegates', { view: 'delegateList', items: _.pluck(Meteor.user().profile.delegations, 'userId') });
@@ -226,63 +236,19 @@ Template.sidebar.onCreated(function () {
 * @param {object} user to parse
 * @returns {object} menu
 */
-const _userMenu = (user) => {
-  const MAX_LABEL_LENGTH = 20;
+const _getMenu = () => {
+  // dao feeds
+  const menu = [];
+  const daoList = Template.instance().daoList.get();
 
-  const menu = [
-    {
-      id: 0,
-      label: TAPi18n.__('menu-proposals'),
-      icon: 'images/decision-proposals.png',
-      iconActivated: 'images/decision-proposals-active.png',
-      feed: 'user',
-      value: true,
-      separator: false,
-      url: '/',
-      selected: false,
-    },
-  ];
-
-  const geo = Session.get('geo');
-
-  if (user && geo) {
-    // country feed
-    if (user.profile.country) {
-      const nation = _.where(geo.country, { code: user.profile.country.code })[0];
-      menu.push({
-        id: parseInt(menu.length, 10),
-        // label: `${nation.emoji} ${(user.profile.country.name.length > MAX_LABEL_LENGTH) ? `${user.profile.country.name.substring(0, MAX_LABEL_LENGTH)}...` : user.profile.country.name}`,
-        label: `${(user.profile.country.name.length > MAX_LABEL_LENGTH) ? `${user.profile.country.name.substring(0, MAX_LABEL_LENGTH)}...` : user.profile.country.name} ${nation.emoji}`,
-        icon: 'images/decision-globe.png',
-        iconActivated: 'images/decision-globe-active.png',
-        feed: 'user',
-        value: true,
-        separator: false,
-        url: `/${user.profile.country.code.toLowerCase()}`,
-        selected: false,
-      });
-    }
-
-    // token feeds
-    let coin;
-    if (user.profile.wallet.reserves && user.profile.wallet.reserves.length > 0) {
-      for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
-        coin = getCoin(user.profile.wallet.reserves[i].token);
-        if (coin && coin.name) {
-          menu.push({
-            id: parseInt(menu.length, 10),
-            // label: `<span class="suggest-item suggest-token suggest-token-sidebar">${coin.code}</span> ${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
-            label: `${(coin.name.length > MAX_LABEL_LENGTH) ? `${coin.name.substring(0, MAX_LABEL_LENGTH)}...` : coin.name}`,
-            icon: 'images/decision-coin.png',
-            iconActivated: 'images/decision-coin-active.png',
-            feed: 'user',
-            value: true,
-            separator: false,
-            url: `/$${coin.code.toLowerCase()}`,
-            selected: false,
-            displayToken: true,
-            tokenColor: coin.color,
-          });
+  let daoMenu;
+  if (daoList && daoList.length > 0) {
+    for (let h = 0; h < daoList.length; h += 1) {
+      if (daoList[h].profile.menu && daoList[h].profile.menu.length > 0) {
+        for (let j = 0; j < daoList[h].profile.menu.length; j += 1) {
+          daoMenu = daoList[h].profile.menu[j];
+          daoMenu.id = parseInt(menu.length - 1, 10);
+          menu.push(daoMenu);
         }
       }
     }
@@ -292,19 +258,14 @@ const _userMenu = (user) => {
   return menu;
 };
 
-/**
-* @summary draws side bar according to context
-* @returns {boolean} if sidebar is shown
-*/
-const _render = () => {
-  const context = (Meteor.Device.isPhone() || (!Meteor.Device.isPhone() && Meteor.user()));
-  if ((!Meteor.Device.isPhone() && Meteor.user())) {
-    Session.set('sidebar', true);
-    _showSidebar();
-  } else if ((!Meteor.Device.isPhone() && !Meteor.user())) {
-    $('.right').css('left', '0px');
-  }
-  return context;
+Template.sidebar.onCreated(function () {
+  Template.instance().resizing = false;
+});
+
+let resizeId; 
+const _doneResizing = (instance) => {
+  const template = instance;
+  // template.resizing = false;
 };
 
 Template.sidebar.onRendered(() => {
@@ -312,11 +273,20 @@ Template.sidebar.onRendered(() => {
   if (!Meteor.Device.isPhone()) {
     $('.navbar').css('left', `${sidebarPercentage()}%`);
   }
-
+  Session.set('sidebar', true);
+  Session.set('removedSidebar', true);
   drawSidebar();
 
+  const instance = Template.instance();
+
   $(window).resize(() => {
-    _render();
+    instance.resizing = true;
+    clearTimeout(resizeId);
+    resizeId = setTimeout(_doneResizing(instance), 5000);
+    if (!Meteor.Device.isPhone()) {
+      Session.set('sidebar', true);
+      _showSidebar();
+    }
   });
 });
 
@@ -333,18 +303,9 @@ Template.sidebar.helpers({
   members() {
     const count = Template.instance().memberCount.get();
     if (count === 1) {
-      return `${count} ${TAPi18n.__('member')}`;
+      return `${count} ${TAPi18n.__('moloch-address')}`;
     }
-    return `${count} ${TAPi18n.__('members')}`;
-  },
-  bitcoinAddress() {
-    return Meteor.settings.public.Collective.profile.blockchain.Bitcoin.address;
-  },
-  bitcoinReceived() {
-    return `<strong>4.35422053</strong> ${TAPi18n.__('received')}`;
-  },
-  bitcoinSent() {
-    return `<strong>0.00000000</strong> ${TAPi18n.__('spent')}`;
+    return `${count} ${TAPi18n.__('moloch-addresses')}`;
   },
   totalMembers() {
     if (Template.instance().members.get()) {
@@ -362,7 +323,7 @@ Template.sidebar.helpers({
     return 0;
   },
   menu() {
-    return _userMenu(Meteor.user());
+    return _getMenu();
   },
   style() {
     if (!Meteor.Device.isPhone() && Meteor.user()) {
@@ -371,7 +332,18 @@ Template.sidebar.helpers({
     return '';
   },
   sidebarContext() {
-    return _render();
+    const instance = Template.instance();
+    if (!Meteor.Device.isPhone() && !instance.resizing) {
+      Session.set('sidebar', true);
+      _showSidebar();
+    }
+    return true;
+  },
+  sidebarStyle() {
+    if (!Meteor.Device.isPhone()) {
+      return 'sidebar-desktop';
+    }
+    return '';
   },
 });
 

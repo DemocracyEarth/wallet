@@ -11,6 +11,7 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { tokenWeb } from '/lib/token';
+import { request } from 'http';
 
 if (Meteor.isClient) {
   import '/imports/ui/templates/layout/main.js';
@@ -78,13 +79,13 @@ const _reset = () => {
 */
 const _boilerPlate = () => {
   DocHead.removeDocHeadAddedTags();
-  DocHead.setTitle(`${Meteor.settings.public.Collective.name} - ${Meteor.settings.public.Collective.profile.bio}`);
+  DocHead.setTitle(`${Meteor.settings.public.app.name} - ${Meteor.settings.public.app.bio}`);
 
   _meta({
-    title: `${Meteor.settings.public.Collective.name} - ${Meteor.settings.public.Collective.profile.bio}`,
-    description: Meteor.settings.public.Collective.profile.bio,
-    image: `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`,
-    twitter: Meteor.settings.public.Collective.profile.twitter,
+    title: `${Meteor.settings.public.app.name} - ${Meteor.settings.public.app.bio}`,
+    description: Meteor.settings.public.app.bio,
+    image: `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.app.logo}`,
+    twitter: Meteor.settings.public.app.twitter,
   });
 };
 
@@ -136,8 +137,16 @@ Router.route('/', {
     if (!Meteor.user()) {
       limit = gui.ITEMS_IN_LANDING;
     }
+
+    let view = 'latest';
+    let period = '';
+    if (this.params.query.period) {
+      view = 'period';
+      period = this.params.query.period;
+    }
+
     return {
-      options: { view: 'latest', sort: { createdAt: -1 }, limit, skip: 0 },
+      options: { view, period, sort: { createdAt: -1 }, limit, skip: 0 },
     };
   },
   onAfterAction() {
@@ -149,7 +158,7 @@ Router.route('/', {
 /**
 * @summary loads a peer feed from @
 **/
-Router.route('/@:username', {
+Router.route('/address/:username', {
   name: 'at',
   template: 'home',
   onBeforeAction() {
@@ -180,13 +189,13 @@ Router.route('/@:username', {
     DocHead.removeDocHeadAddedTags();
 
     if (user) {
-      title = `${TAPi18n.__('profile-tag-title').replace('{{user}}', `${user.username}`).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
-      description = `${user.username}${TAPi18n.__('profile-tag-description')} ${Meteor.settings.public.Collective.name}`;
+      title = `${TAPi18n.__('profile-tag-title').replace('{{user}}', `${user.username}`).replace('{{collective}}', Meteor.settings.public.app.name)}`;
+      description = `${user.username}${TAPi18n.__('profile-tag-description')} ${Meteor.settings.public.app.name}`;
       image = `${Router.path('home')}${user.profile.picture}`;
     } else {
-      title = `${TAPi18n.__('profile-tag-title').replace('{{user}}', `${this.params.username}`).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
-      description = `${this.params.username} ${TAPi18n.__('profile-tag-description')} ${Meteor.settings.public.Collective.name}`;
-      image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`;
+      title = `${TAPi18n.__('profile-tag-title').replace('{{user}}', `${this.params.username}`).replace('{{collective}}', Meteor.settings.public.app.name)}`;
+      description = `${this.params.username} ${TAPi18n.__('profile-tag-description')} ${Meteor.settings.public.app.name}`;
+      image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.app.logo}`;
     }
 
     DocHead.setTitle(title);
@@ -195,7 +204,7 @@ Router.route('/@:username', {
       title,
       description,
       image,
-      twitter: Meteor.settings.public.Collective.profile.twitter,
+      twitter: Meteor.settings.public.app.twitter,
     });
   },
 });
@@ -203,7 +212,7 @@ Router.route('/@:username', {
 
 /**
 * @summary loads a tag feed
-**/
+
 Router.route('/:land', {
   name: 'geoFeed',
   template: 'home',
@@ -233,78 +242,24 @@ Router.route('/:land', {
       DocHead.removeDocHeadAddedTags();
       const country = toTitleCase(this.params.land);
 
-      DocHead.setTitle(`${TAPi18n.__('country-tag-title').replace('{{country}}', country).replace('{{collective}}', Meteor.settings.public.Collective.name)}`);
+      DocHead.setTitle(`${TAPi18n.__('country-tag-title').replace('{{country}}', country).replace('{{collective}}', Meteor.settings.public.app.name)}`);
       _meta({
-        title: `${TAPi18n.__('country-tag-title').replace('{{country}}', country).replace('{{collective}}', Meteor.settings.public.Collective.name)}`,
-        description: `${country}${TAPi18n.__('country-tag-description')} ${Meteor.settings.public.Collective.name}.`,
-        image: `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`,
-        twitter: Meteor.settings.public.Collective.profile.twitter,
+        title: `${TAPi18n.__('country-tag-title').replace('{{country}}', country).replace('{{collective}}', Meteor.settings.public.app.name)}`,
+        description: `${country}${TAPi18n.__('country-tag-description')} ${Meteor.settings.public.app.name}.`,
+        image: `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.app.logo}`,
+        twitter: Meteor.settings.public.app.twitter,
       });
     } else {
       DocHead.removeDocHeadAddedTags();
-      DocHead.setTitle(`${TAPi18n.__('hashtag-tag-title').replace('{{hashtag}}', this.params.land).replace('{{collective}}', Meteor.settings.public.Collective.name)}`);
+      DocHead.setTitle(`${TAPi18n.__('hashtag-tag-title').replace('{{hashtag}}', this.params.land).replace('{{collective}}', Meteor.settings.public.app.name)}`);
 
       _meta({
-        title: `${TAPi18n.__('hashtag-tag-title').replace('{{hashtag}}', this.params.land).replace('{{collective}}', Meteor.settings.public.Collective.name)}`,
-        description: `#${this.params.land}${TAPi18n.__('hashtag-tag-description')} ${Meteor.settings.public.Collective.name}.`,
-        image: `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`,
-        twitter: Meteor.settings.public.Collective.profile.twitter,
+        title: `${TAPi18n.__('hashtag-tag-title').replace('{{hashtag}}', this.params.land).replace('{{collective}}', Meteor.settings.public.app.name)}`,
+        description: `#${this.params.land}${TAPi18n.__('hashtag-tag-description')} ${Meteor.settings.public.app.name}.`,
+        image: `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.app.logo}`,
+        twitter: Meteor.settings.public.app.twitter,
       });
     }
-  },
-});
-
-
-/**
-* @summary loads a peer feed
-Router.route('/peer/:username', {
-  name: 'peerFeed',
-  template: 'home',
-  onBeforeAction() {
-    _reset();
-    this.next();
-  },
-  data() {
-    let settings;
-    const user = Meteor.users.findOne({ username: this.params.username });
-    if (!user) {
-      settings = {
-        username: this.params.username,
-      };
-    } else {
-      settings = {
-        userId: user._id,
-      };
-    }
-    return {
-      options: { view: 'peer', sort: { createdAt: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, userId: settings.userId, username: settings.username },
-    };
-  },
-  onAfterAction() {
-    const user = Meteor.users.findOne({ username: this.params.username });
-    let title;
-    let description;
-    let image;
-    DocHead.removeDocHeadAddedTags();
-
-    if (user) {
-      title = `${TAPi18n.__('profile-tag-title').replace('{{user}}', `@${user.username}`).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
-      description = `@${user.username}${TAPi18n.__('profile-tag-description')} ${Meteor.settings.public.Collective.name}`;
-      image = `${Router.path('home')}${user.profile.picture}`;
-    } else {
-      title = `${TAPi18n.__('profile-tag-title').replace('{{user}}', `@${this.params.username}`).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
-      description = `@${this.params.username} ${TAPi18n.__('profile-tag-description')} ${Meteor.settings.public.Collective.name}`;
-      image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`;
-    }
-
-    DocHead.setTitle(title);
-
-    _meta({
-      title,
-      description,
-      image,
-      twitter: Meteor.settings.public.Collective.profile.twitter,
-    });
   },
 });
 **/
@@ -312,7 +267,7 @@ Router.route('/peer/:username', {
 /**
 * @summary loads a post using date in url
 **/
-Router.route('/:year/:month/:day/:keyword', {
+Router.route('/tx/:keyword', {
   name: 'date',
   template: 'home',
   onBeforeAction() {
@@ -320,7 +275,7 @@ Router.route('/:year/:month/:day/:keyword', {
     this.next();
   },
   data() {
-    const url = `/${this.params.year}/${this.params.month}/${this.params.day}/${this.params.keyword}`;
+    const url = `/tx/${this.params.keyword}`;
     return {
       options: { view: 'post', sort: { createdAt: -1 }, url, keyword: this.params.keyword },
     };
@@ -333,18 +288,18 @@ Router.route('/:year/:month/:day/:keyword', {
     DocHead.removeDocHeadAddedTags();
 
     if (contract) {
-      DocHead.setTitle(`${TAPi18n.__('vote-tag-ballot-title').replace('{{collective}}', Meteor.settings.public.Collective.name)} - ${stripHTMLfromText(contract.title)}`);
+      DocHead.setTitle(`${TAPi18n.__('vote-tag-ballot-title').replace('{{collective}}', Meteor.settings.public.app.name)} - ${stripHTMLfromText(contract.title)}`);
       if (contract.ballotEnabled) {
-        title = `${TAPi18n.__('vote-tag-ballot-title').replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
+        title = `${TAPi18n.__('vote-tag-ballot-title').replace('{{collective}}', Meteor.settings.public.app.name)}`;
       } else {
-        title = `${TAPi18n.__('vote-tag-title').replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
+        title = `${TAPi18n.__('vote-tag-title').replace('{{collective}}', Meteor.settings.public.app.name)}`;
       }
       description = stripHTMLfromText(contract.title);
-      image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`;
+      image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.app.logo}`;
     } else {
-      title = `${Meteor.settings.public.Collective.name} - ${Meteor.settings.public.Collective.profile.bio}`;
-      description = Meteor.settings.public.Collective.profile.bio;
-      image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`;
+      title = `${Meteor.settings.public.app.name} - ${Meteor.settings.public.app.bio}`;
+      description = Meteor.settings.public.app.bio;
+      image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.app.logo}`;
       DocHead.setTitle(title);
     }
 
@@ -352,7 +307,7 @@ Router.route('/:year/:month/:day/:keyword', {
       title,
       description,
       image,
-      twitter: Meteor.settings.public.Collective.profile.twitter,
+      twitter: Meteor.settings.public.app.twitter,
     });
   },
 });
@@ -379,18 +334,18 @@ Router.route('/vote/:keyword', {
     DocHead.removeDocHeadAddedTags();
 
     if (contract) {
-      DocHead.setTitle(`${TAPi18n.__('vote-tag-ballot-title').replace('{{collective}}', Meteor.settings.public.Collective.name)} - ${stripHTMLfromText(contract.title)}`);
+      DocHead.setTitle(`${TAPi18n.__('vote-tag-ballot-title').replace('{{collective}}', Meteor.settings.public.app.name)} - ${stripHTMLfromText(contract.title)}`);
       if (contract.ballotEnabled) {
-        title = `${TAPi18n.__('vote-tag-ballot-title').replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
+        title = `${TAPi18n.__('vote-tag-ballot-title').replace('{{collective}}', Meteor.settings.public.app.name)}`;
       } else {
-        title = `${TAPi18n.__('vote-tag-title').replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
+        title = `${TAPi18n.__('vote-tag-title').replace('{{collective}}', Meteor.settings.public.app.name)}`;
       }
       description = stripHTMLfromText(contract.title);
-      image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`;
+      image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.app.logo}`;
     } else {
-      title = `${Meteor.settings.public.Collective.name} - ${Meteor.settings.public.Collective.profile.bio}`;
-      description = Meteor.settings.public.Collective.profile.bio;
-      image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`;
+      title = `${Meteor.settings.public.app.name} - ${Meteor.settings.public.app.bio}`;
+      description = Meteor.settings.public.app.bio;
+      image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.app.logo}`;
       DocHead.setTitle(title);
     }
 
@@ -398,7 +353,7 @@ Router.route('/vote/:keyword', {
       title,
       description,
       image,
-      twitter: Meteor.settings.public.Collective.profile.twitter,
+      twitter: Meteor.settings.public.app.twitter,
     });
 
     switch (this.params.query.ask) {
@@ -429,13 +384,13 @@ Router.route('/tag/:hashtag', {
     DocHead.removeDocHeadAddedTags();
     console.log('/tag/:hashtag');
     console.log(this.params);
-    DocHead.setTitle(`${TAPi18n.__('hashtag-tag-title').replace('{{hashtag}}', this.params.hashtag).replace('{{collective}}', Meteor.settings.public.Collective.name)}`);
+    DocHead.setTitle(`${TAPi18n.__('hashtag-tag-title').replace('{{hashtag}}', this.params.hashtag).replace('{{collective}}', Meteor.settings.public.app.name)}`);
 
     _meta({
-      title: `${TAPi18n.__('hashtag-tag-title').replace('{{hashtag}}', this.params.hashtag).replace('{{collective}}', Meteor.settings.public.Collective.name)}`,
-      description: `#${this.params.hashtag}${TAPi18n.__('hashtag-tag-description')} ${Meteor.settings.public.Collective.name}.`,
-      image: `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.Collective.profile.logo}`,
-      twitter: Meteor.settings.public.Collective.profile.twitter,
+      title: `${TAPi18n.__('hashtag-tag-title').replace('{{hashtag}}', this.params.hashtag).replace('{{collective}}', Meteor.settings.public.app.name)}`,
+      description: `#${this.params.hashtag}${TAPi18n.__('hashtag-tag-description')} ${Meteor.settings.public.app.name}.`,
+      image: `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.app.logo}`,
+      twitter: Meteor.settings.public.app.twitter,
     });
   },
 });
