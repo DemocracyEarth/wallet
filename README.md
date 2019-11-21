@@ -1,6 +1,6 @@
 # Sovereign Dapp
 
-Create and govern Digital Autonomous Organizations (DAOs).
+Create and participate in Digital Autonomous Organizations (DAOs).
 
 [![Join the chat at https://gitter.im/DemocracyEarth/sovereign](https://badges.gitter.im/DemocracyEarth/sovereign.svg)](https://gitter.im/DemocracyEarth/sovereign?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Slack Status](http://chat.democracy.earth/badge.svg)](http://chat.democracy.earth)
