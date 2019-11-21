@@ -155,11 +155,9 @@ const _showSidebar = () => {
   $('.left').width(`${percentage}%`);
   if (!Meteor.Device.isPhone()) {
     if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
-      console.log('ahaha');
       $('.navbar').css('left', 0);
       Session.set('miniWindow', true);
     } else {
-      console.log('mmmh');
       $('.navbar').css('left', `${percentage}%`);
       Session.set('miniWindow', false);
     }
@@ -223,7 +221,6 @@ Template.sidebar.onCreated(function () {
           delegateList = _adapt(Meteor.users.find({ $or: delegates }).fetch());
           Template.instance().delegates.set(delegateList);
           Template.instance().participants.set(_otherMembers(delegateList));
-          console.log('A');
           _showSidebar();
         }
       }
@@ -261,24 +258,15 @@ const _getMenu = () => {
   return menu;
 };
 
-/**
-* @summary draws side bar according to context
-* @returns {boolean} if sidebar is shown
-*/
-const _render = () => {
-  const context = (Meteor.Device.isPhone() || (!Meteor.Device.isPhone() && Meteor.user()));
-  if (!Meteor.Device.isPhone() && Meteor.user()) {
-    _showSidebar();
-    console.log('B');
-  } else if ((!Meteor.Device.isPhone() && !Meteor.user())) {
-    $('.right').css('left', '0px');
-  }
-  return context;
-};
-
 Template.sidebar.onCreated(function () {
   Template.instance().resizing = false;
 });
+
+let resizeId; 
+const _doneResizing = (instance) => {
+  const template = instance;
+  // template.resizing = false;
+};
 
 Template.sidebar.onRendered(() => {
   $('.left').width(`${sidebarPercentage()}%`);
@@ -293,9 +281,11 @@ Template.sidebar.onRendered(() => {
 
   $(window).resize(() => {
     instance.resizing = true;
+    clearTimeout(resizeId);
+    resizeId = setTimeout(_doneResizing(instance), 5000);
     if (!Meteor.Device.isPhone()) {
+      Session.set('sidebar', true);
       _showSidebar();
-      console.log('C');
     }
   });
 });
@@ -343,14 +333,11 @@ Template.sidebar.helpers({
   },
   sidebarContext() {
     const instance = Template.instance();
-    console.log(`instance.resizing: ${instance.resizing}`);
     if (!Meteor.Device.isPhone() && !instance.resizing) {
       Session.set('sidebar', true);
-      console.log('D');
       _showSidebar();
-      return true;
     }
-    return _render();
+    return true;
   },
   sidebarStyle() {
     if (!Meteor.Device.isPhone()) {
