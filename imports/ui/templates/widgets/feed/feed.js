@@ -327,7 +327,7 @@ Template.feed.helpers({
     return (Template.currentData().options.skip === 0 || Template.currentData().singlePost);
   },
   single() {
-    return (Template.currentData().singlePost || !Meteor.user());
+    return (Template.currentData().singlePost);
   },
   emptyContent() {
     return Session.get('emptyContent');
