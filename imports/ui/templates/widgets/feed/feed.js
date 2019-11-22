@@ -152,6 +152,7 @@ Template.feed.onCreated(function () {
     if (options.view !== 'linkedFeed') {
       options.subview = options.view;
     }
+    console.log(options);
     options.view = 'linkedFeed';
   }
 

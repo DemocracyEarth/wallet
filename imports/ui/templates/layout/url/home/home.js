@@ -105,6 +105,9 @@ Template.screen.helpers({
   home() {
     return (this.options.view === 'latest');
   },
+  period() {
+    return (this.options.view === 'period');
+  },
   post() {
     return (this.options.view === 'post');
   },
