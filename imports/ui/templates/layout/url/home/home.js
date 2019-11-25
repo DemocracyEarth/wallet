@@ -268,6 +268,23 @@ Template.postFeed.onCreated(function () {
   });
 });
 
+
+Template.periodFeed.onCreated(function () {
+  Template.instance().postReady = new ReactiveVar(false);
+
+  const instance = this;
+  const subscription = instance.subscribe('feed', { view: instance.data.options.view, sort: { createdAt: -1 }, userId: instance.data.options.userId, username: instance.data.options.username, period: instance.data.options.period });
+  // const subscription = instance.subscribe('singleContract', { view: 'thread', sort: { createdAt: -1 }, keyword: Template.currentData().options.keyword });
+
+  instance.autorun(function (computation) {
+    if (subscription.ready()) {
+      instance.postReady.set(true);
+      computation.stop();
+    }
+  });
+});
+
+
 Template.postFeed.helpers({
   votes() {
     const tally = this;
@@ -302,6 +319,76 @@ Template.postFeed.helpers({
     const replies = this;
     replies.options.view = 'thread';
     replies.singlePost = true;
+    replies.displayActions = true;
+    return replies;
+  },
+  ballotEnabled() {
+    const contract = Contracts.findOne({ keyword: Template.currentData().options.keyword });
+    if (contract) {
+      return contract.ballotEnabled;
+    }
+    return undefined;
+  },
+  newContractId() {
+    if (Session.get('draftContract')) {
+      return Session.get('draftContract')._id;
+    }
+    return undefined;
+  },
+  editorMode() {
+    return Session.get('showPostEditor');
+  },
+  replyId() {
+    const contract = Contracts.findOne({ keyword: this.options.keyword });
+    if (contract) {
+      return contract._id;
+    }
+    return undefined;
+  },
+  landingMode() {
+    return _landingMode('post');
+  },
+  showTransactions() {
+    return Meteor.settings.public.app.config.interface.showTransactions;
+  },
+});
+
+Template.periodFeed.helpers({
+  votes() {
+    const tally = this;
+    tally.options.view = 'periodVotes';
+    tally.options.sort = { timestamp: -1 };
+    tally.ballotEnabled = this.ballotEnabled;
+    tally.postReady = this.postReady;
+    tally.peerFeed = false;
+    tally.postFeed = false;
+    // options=this.options ballotEnabled=ballotEnabled postReady=postReady peerFeed=false postFeed=true
+    // winning options
+    console.log(`Template.currentData().options.keyword: ${Template.currentData().options.keyword}`);
+    const contract = Contracts.findOne({ keyword: Template.currentData().options.keyword });
+    let maxVotes = 0;
+    let winningBallot;
+    if (contract && contract.tally) {
+      for (const i in contract.tally.choice) {
+        if (contract.tally.choice[i].votes > maxVotes) {
+          maxVotes = contract.tally.choice[i].votes;
+          winningBallot = contract.tally.choice[i].ballot;
+        }
+      }
+      tally.winningBallot = winningBallot;
+      tally.contractId = tally._id;
+    }
+    console.log('tally:');
+    console.log(tally);
+    return tally;
+  },
+  postReady() {
+    return Template.instance().postReady.get();
+  },
+  thread() {
+    const replies = this;
+    replies.options.view = 'period';
+    replies.singlePost = false;
     replies.displayActions = true;
     return replies;
   },

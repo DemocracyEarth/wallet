@@ -122,16 +122,6 @@
 <template name="periodFeed">
   <div class="split split-left {{landingMode}}">
     <div class="content content-feed subsection max100">
-      {{#if isPhone}}
-        {{#if editorMode}}
-          {{> editor contractId=newContractId}}
-        {{/if}}
-      {{/if}}
-
-      {{#if isPhone}}
-        <input id="hiddenInput" style="visibility: hidden; position: absolute;">
-      {{/if}}
-
       <div id="non-editable-reply-feed">
         {{#if postReady}}
           {{#with thread}}
