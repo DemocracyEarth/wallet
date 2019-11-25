@@ -91,9 +91,10 @@ Template.ledger.helpers({
     return tally;
   },
   periodVotes() {
+    console.log(`this.period: ${this.options.period}`);
     const tally = this;
     tally.options.view = 'periodVotes';
-    tally.options.period = this.period;
+    tally.options.period = this.options.period;
     tally.options.sort = { timestamp: -1 };
     return tally;
   },

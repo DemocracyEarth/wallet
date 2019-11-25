@@ -34,11 +34,11 @@
       <div class="content content-agora">
         <a href="#votes"></a>
         <div class="ledger-title">
-          <h4>{{{periodTitle}}}</h4>
+          <h4>{{{_ 'recent-activity'}}}</h4>
         </div>
         <div id="non-editable-feed" class="ledger">
           {{#if postReady}}
-            {{> tally postVotes}}
+            {{> tally periodVotes}}
           {{else}}
             {{> tally placeholder=true}}
           {{/if}}
