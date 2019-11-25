@@ -355,7 +355,6 @@ Template.postFeed.helpers({
 
 Template.periodFeed.helpers({
   votes() {
-    console.log(`votes(): ${JSON.stringify(this)}`);
     const tally = this;
     tally.options.view = 'periodVotes';
     tally.options.sort = { timestamp: -1 };
@@ -364,25 +363,6 @@ Template.periodFeed.helpers({
     tally.periodFeed = true;
     tally.peerFeed = false;
     tally.postFeed = false;
-    // options=this.options ballotEnabled=ballotEnabled postReady=postReady peerFeed=false postFeed=true
-    // winning options
-    /* console.log(`Template.currentData().options.keyword: ${Template.currentData().options.keyword}`);
-    const contract = Contracts.findOne({ keyword: Template.currentData().options.keyword });
-    let maxVotes = 0;
-    let winningBallot;
-    if (contract && contract.tally) {
-      for (const i in contract.tally.choice) {
-        if (contract.tally.choice[i].votes > maxVotes) {
-          maxVotes = contract.tally.choice[i].votes;
-          winningBallot = contract.tally.choice[i].ballot;
-        }
-      }
-      tally.winningBallot = winningBallot;
-      tally.contractId = tally._id;
-    }*/
-    console.log('tally:');
-    console.log(tally);
-    console.log(tally.options);
     return tally;
   },
   periodReady() {

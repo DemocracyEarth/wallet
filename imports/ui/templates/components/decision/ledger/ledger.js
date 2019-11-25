@@ -15,7 +15,6 @@ import '/imports/ui/templates/components/decision/ledger/ledger.html';
 */
 const _convertQuery = (instance) => {
   const tally = instance;
-  console.log(`tally.options.view: ${tally.options.view}`);
   switch (tally.options.view) {
     case 'latest':
       tally.options.view = 'lastVotes';
@@ -41,13 +40,9 @@ Template.ledger.onCreated(function () {
 
   const instance = this;
 
-  console.log(`_convertQuery(instance.data).options:`);
-  console.log(_convertQuery(instance.data).options);
-
   instance.autorun(function (computation) {
     const subscription = instance.subscribe('transaction', _convertQuery(instance.data).options);
     if (subscription.ready() && !instance.postReady.get()) {
-      console.log('GOT SUBSCRIPTION');
       instance.postReady.set(true);
       computation.stop();
     }
@@ -91,7 +86,6 @@ Template.ledger.helpers({
     return tally;
   },
   periodVotes() {
-    console.log(`this.period: ${this.options.period}`);
     const tally = this;
     tally.options.view = 'periodVotes';
     tally.options.period = this.options.period;
@@ -129,7 +123,6 @@ Template.ledger.helpers({
     return this.ledgerTitle;
   },
   periodTitle() {
-    console.log(this);
     return TAPi18n.__('moloch-period-votes').replace('{{period}}', TAPi18n.__(`moloch-${this.options.period}`));
   },
 });

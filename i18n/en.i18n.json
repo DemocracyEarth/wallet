@@ -624,8 +624,8 @@
   "feed-geo-posts": "Posts from {{asset}}",
   "ledger-token-posts": "{{asset}} Transactions",
   "ledger-geo-posts": "Votes from {{asset}}",
-  "feed-peer-posts": "Posts by {{asset}}",
-  "ledger-peer-posts": "Votes from {{asset}}",
+  "feed-peer-posts": "Posts by {{asset}}.",
+  "ledger-peer-posts": "Votes from {{asset}}.",
   "start-a-democracy": "Start a DAO",
   "landing-title": "Start democratic and sovereign organizations.",
   "landing-tagline": "Democracy Earth enables token-based community participation. Open source, peer to peer and human centered.",
@@ -786,6 +786,6 @@
   "click-to-copy": "Click to copy address on clipboard.",
   "dao-memberships": "DAO Memberships",
   "copied-to-clipboard": "Address copied to clipboard.",
-  "moloch-period-votes": "Votes during this period.",
+  "moloch-period-votes": "Votes on selected proposals.",
   "moloch-period-feed": "<em>{{period}}</em> proposals."
 }
