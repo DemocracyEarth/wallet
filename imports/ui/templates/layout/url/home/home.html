@@ -15,7 +15,11 @@
     {{#if post}}
       {{> postFeed this}}
     {{else}}
-      {{> homeFeed this}}
+      {{#if period}}
+        {{> periodFeed this}}
+      {{else}}
+        {{> homeFeed this}}
+      {{/if}}
     {{/if}}
   </div>
 </template>
@@ -45,7 +49,6 @@
         <input id="hiddenInput" style="visibility: hidden; position: absolute;">
       {{/if}}
 
-
       <div id="non-editable-feed">
         <h4 class="padding-left-zero">{{{feedTitle}}}</h4>
         {{#if feedReady}}
@@ -54,7 +57,6 @@
       </div>
     </div>
   </div>
-
 
   {{#if showTransactions}}
     {{#unless unloggedMobile}}
@@ -113,4 +115,29 @@
       {{/if}}
     </div>
   {{/if}}
+</template>
+
+<template name="periodFeed">
+  <div class="split split-left {{landingMode 'left'}}">
+    <div class="content content-feed max100">
+      <div id="non-editable-feed">
+        <h4 class="padding-left-zero">
+          {{{feedTitle}}}
+        </h4>
+        {{#if periodReady}}
+          {{#with thread}}
+            {{> feed this}}
+          {{/with}}
+        {{/if}}
+      </div>
+    </div>
+  </div>
+
+  <div class="split split-right {{landingMode 'right'}}">
+    {{#if periodReady}}
+      {{#with votes}}
+        {{> ledger this}}
+      {{/with}}
+    {{/if}}
+  </div>
 </template>

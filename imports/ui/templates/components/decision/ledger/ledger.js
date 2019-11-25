@@ -2,6 +2,7 @@ import { $ } from 'meteor/jquery';
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Session } from 'meteor/session';
+import { TAPi18n } from 'meteor/tap:i18n';
 
 import { setupSplit } from '/imports/ui/modules/split';
 import { Contracts } from '/imports/api/contracts/Contracts';
@@ -84,6 +85,13 @@ Template.ledger.helpers({
     tally.options.sort = { timestamp: -1 };
     return tally;
   },
+  periodVotes() {
+    const tally = this;
+    tally.options.view = 'periodVotes';
+    tally.options.period = this.options.period;
+    tally.options.sort = { timestamp: -1 };
+    return tally;
+  },
   postVotes() {
     const tally = this;
     tally.options.view = 'threadVotes';
@@ -113,6 +121,9 @@ Template.ledger.helpers({
   },
   ledgerTitle() {
     return this.ledgerTitle;
+  },
+  periodTitle() {
+    return TAPi18n.__('moloch-period-votes').replace('{{period}}', TAPi18n.__(`moloch-${this.options.period}`));
   },
 });
 

@@ -105,6 +105,9 @@ Template.screen.helpers({
   home() {
     return (this.options.view === 'latest');
   },
+  period() {
+    return (this.options.view === 'period');
+  },
   post() {
     return (this.options.view === 'post');
   },
@@ -265,6 +268,23 @@ Template.postFeed.onCreated(function () {
   });
 });
 
+
+Template.periodFeed.onCreated(function () {
+  Template.instance().periodReady = new ReactiveVar(false);
+
+  const instance = this;
+  const subscription = instance.subscribe('feed', { view: instance.data.options.view, sort: { createdAt: -1 }, userId: instance.data.options.userId, username: instance.data.options.username, period: instance.data.options.period });
+  // const subscription = instance.subscribe('singleContract', { view: 'thread', sort: { createdAt: -1 }, keyword: Template.currentData().options.keyword });
+
+  instance.autorun(function (computation) {
+    if (subscription.ready()) {
+      instance.periodReady.set(true);
+      computation.stop();
+    }
+  });
+});
+
+
 Template.postFeed.helpers({
   votes() {
     const tally = this;
@@ -330,5 +350,61 @@ Template.postFeed.helpers({
   },
   showTransactions() {
     return Meteor.settings.public.app.config.interface.showTransactions;
+  },
+});
+
+Template.periodFeed.helpers({
+  votes() {
+    const tally = this;
+    tally.options.view = 'periodVotes';
+    tally.options.sort = { timestamp: -1 };
+    tally.ballotEnabled = this.ballotEnabled;
+    tally.postReady = this.periodReady;
+    tally.periodFeed = true;
+    tally.peerFeed = false;
+    tally.postFeed = false;
+    return tally;
+  },
+  periodReady() {
+    return Template.instance().periodReady.get();
+  },
+  thread() {
+    const replies = this;
+    replies.options.view = 'period';
+    replies.singlePost = false;
+    replies.displayActions = true;
+    return replies;
+  },
+  ballotEnabled() {
+    const contract = Contracts.findOne({ keyword: Template.currentData().options.keyword });
+    if (contract) {
+      return contract.ballotEnabled;
+    }
+    return undefined;
+  },
+  newContractId() {
+    if (Session.get('draftContract')) {
+      return Session.get('draftContract')._id;
+    }
+    return undefined;
+  },
+  editorMode() {
+    return Session.get('showPostEditor');
+  },
+  replyId() {
+    const contract = Contracts.findOne({ keyword: this.options.keyword });
+    if (contract) {
+      return contract._id;
+    }
+    return undefined;
+  },
+  landingMode(feed) {
+    return _landingMode(feed);
+  },
+  showTransactions() {
+    return Meteor.settings.public.app.config.interface.showTransactions;
+  },
+  feedTitle() {
+    return TAPi18n.__('moloch-period-feed').replace('{{period}}', TAPi18n.__(`moloch-${this.options.period}`));
   },
 });

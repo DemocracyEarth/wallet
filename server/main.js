@@ -36,6 +36,8 @@ onPageLoad(function (sink) {
     mainPath = 'token';
   } else if (mainPath.substring(0, 1) === '@') {
     mainPath = 'peer';
+  } else if (mainPath.substring(2, 8) === 'period') {
+    mainPath = 'period';
   } else if (mainPath.length === 2) {
     mainPath = 'geo';
   }
@@ -77,13 +79,18 @@ onPageLoad(function (sink) {
       }
       break;
     case 'tag':
+    case 'period':
+      tags.title = `${TAPi18n.__('hashtag-tag-title').replace('{{hashtag}}', path[0]).replace('{{collective}}', Meteor.settings.public.app.name)}`;
+      tags.description = `${TAPi18n.__('hashtag-tag-description').replace('{{hashtag}}', path[0]).replace('{{collective}}', Meteor.settings.public.app.name)}`;
+      tags.image = parseURL(Meteor.settings.public.app.logo);
+      break;
     case 'token':
       tags.title = `${TAPi18n.__('hashtag-tag-title').replace('{{hashtag}}', path[0]).replace('{{collective}}', Meteor.settings.public.app.name)}`;
       tags.description = `${TAPi18n.__('hashtag-tag-description').replace('{{hashtag}}', path[0]).replace('{{collective}}', Meteor.settings.public.app.name)}`;
       tags.image = parseURL(Meteor.settings.public.app.logo);
       break;
     case 'geo':
-      country = toTitleCase(path[0]);
+      country = ''; // toTitleCase(path[0]);
       tags.title = `${TAPi18n.__('country-tag-title').replace('{{country}}', country).replace('{{collective}}', Meteor.settings.public.app.name)}`;
       tags.description = `${TAPi18n.__('country-tag-description').replace('{{country}}', country).replace('{{collective}}', Meteor.settings.public.app.name)}`;
       tags.image = parseURL(Meteor.settings.public.app.logo);
