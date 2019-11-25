@@ -366,7 +366,7 @@ const handleSignMessage = (publicAddress, nonce, message) => {
 
 const verifySignature = (signature, publicAddress, nonce, message) => {
   let msg;
-  console.log(message);
+
   if (!message) {
     msg = `${TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.app.name)}`;
   } else {
