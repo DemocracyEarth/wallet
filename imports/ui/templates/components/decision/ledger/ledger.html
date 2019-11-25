@@ -30,6 +30,21 @@
         </div>
       </div>
     {{/if}}
+    {{#if periodFeed}}
+      <div class="content content-agora">
+        <a href="#votes"></a>
+        <div class="ledger-title">
+          <h4>{{{periodTitle}}}</h4>
+        </div>
+        <div id="non-editable-feed" class="ledger">
+          {{#if postReady}}
+            {{> tally postVotes}}
+          {{else}}
+            {{> tally placeholder=true}}
+          {{/if}}
+        </div>
+      </div>
+    {{/if}}
     <div id="resizable" class="resize"></div>
   </div>
 </template>

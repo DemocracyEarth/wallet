@@ -2,6 +2,7 @@ import { $ } from 'meteor/jquery';
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Session } from 'meteor/session';
+import { TAPi18n } from 'meteor/tap:i18n';
 
 import { setupSplit } from '/imports/ui/modules/split';
 import { Contracts } from '/imports/api/contracts/Contracts';
@@ -14,6 +15,7 @@ import '/imports/ui/templates/components/decision/ledger/ledger.html';
 */
 const _convertQuery = (instance) => {
   const tally = instance;
+  console.log(`tally.options.view: ${tally.options.view}`);
   switch (tally.options.view) {
     case 'latest':
       tally.options.view = 'lastVotes';
@@ -39,9 +41,13 @@ Template.ledger.onCreated(function () {
 
   const instance = this;
 
+  console.log(`_convertQuery(instance.data).options:`);
+  console.log(_convertQuery(instance.data).options);
+
   instance.autorun(function (computation) {
     const subscription = instance.subscribe('transaction', _convertQuery(instance.data).options);
     if (subscription.ready() && !instance.postReady.get()) {
+      console.log('GOT SUBSCRIPTION');
       instance.postReady.set(true);
       computation.stop();
     }
@@ -84,6 +90,13 @@ Template.ledger.helpers({
     tally.options.sort = { timestamp: -1 };
     return tally;
   },
+  periodVotes() {
+    const tally = this;
+    tally.options.view = 'periodVotes';
+    tally.options.period = this.period;
+    tally.options.sort = { timestamp: -1 };
+    return tally;
+  },
   postVotes() {
     const tally = this;
     tally.options.view = 'threadVotes';
@@ -113,6 +126,10 @@ Template.ledger.helpers({
   },
   ledgerTitle() {
     return this.ledgerTitle;
+  },
+  periodTitle() {
+    console.log(this);
+    return TAPi18n.__('moloch-period-votes').replace('{{period}}', TAPi18n.__(`moloch-${this.options.period}`));
   },
 });
 

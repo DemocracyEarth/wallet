@@ -115,6 +115,7 @@ const _buildFeed = (id, fields, instance, contract, noTitle) => {
 const _defaultTally = (view) => {
   return (view === 'lastVotes' ||
     view === 'threadVotes' ||
+    view === 'periodVotes' ||
     view === 'transactionsToken' ||
     view === 'transactionsPeer' ||
     view === 'transactionsGeo'
@@ -130,6 +131,8 @@ Template.tally.onCreated(function () {
   const instance = this;
 
   if (instance.data.placeholder) { return; }
+
+  console.log(`this.data.options.view: ${this.data.options.view}`);
 
   if (this.data.options.view === 'votes') {
     Meteor.call('getContract', this.data.options.keyword, function (error, result) {
@@ -152,6 +155,7 @@ Template.tally.onCreated(function () {
       instance.contract.set(Meteor.users.findOne({ _id: this.data.options.userId }));
     }
   } else if (_defaultTally(this.data.options.view)) {
+    console.log('open feed = true');
     instance.openFeed = true;
   }
 

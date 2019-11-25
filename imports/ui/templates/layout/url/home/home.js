@@ -270,7 +270,7 @@ Template.postFeed.onCreated(function () {
 
 
 Template.periodFeed.onCreated(function () {
-  Template.instance().postReady = new ReactiveVar(false);
+  Template.instance().periodReady = new ReactiveVar(false);
 
   const instance = this;
   const subscription = instance.subscribe('feed', { view: instance.data.options.view, sort: { createdAt: -1 }, userId: instance.data.options.userId, username: instance.data.options.username, period: instance.data.options.period });
@@ -278,7 +278,7 @@ Template.periodFeed.onCreated(function () {
 
   instance.autorun(function (computation) {
     if (subscription.ready()) {
-      instance.postReady.set(true);
+      instance.periodReady.set(true);
       computation.stop();
     }
   });
@@ -355,16 +355,18 @@ Template.postFeed.helpers({
 
 Template.periodFeed.helpers({
   votes() {
+    console.log(`votes(): ${JSON.stringify(this)}`);
     const tally = this;
     tally.options.view = 'periodVotes';
     tally.options.sort = { timestamp: -1 };
     tally.ballotEnabled = this.ballotEnabled;
-    tally.postReady = this.postReady;
+    tally.postReady = this.periodReady;
+    tally.periodFeed = true;
     tally.peerFeed = false;
     tally.postFeed = false;
     // options=this.options ballotEnabled=ballotEnabled postReady=postReady peerFeed=false postFeed=true
     // winning options
-    console.log(`Template.currentData().options.keyword: ${Template.currentData().options.keyword}`);
+    /* console.log(`Template.currentData().options.keyword: ${Template.currentData().options.keyword}`);
     const contract = Contracts.findOne({ keyword: Template.currentData().options.keyword });
     let maxVotes = 0;
     let winningBallot;
@@ -377,13 +379,14 @@ Template.periodFeed.helpers({
       }
       tally.winningBallot = winningBallot;
       tally.contractId = tally._id;
-    }
+    }*/
     console.log('tally:');
     console.log(tally);
+    console.log(tally.options);
     return tally;
   },
-  postReady() {
-    return Template.instance().postReady.get();
+  periodReady() {
+    return Template.instance().periodReady.get();
   },
   thread() {
     const replies = this;
@@ -415,10 +418,13 @@ Template.periodFeed.helpers({
     }
     return undefined;
   },
-  landingMode() {
-    return _landingMode('post');
+  landingMode(feed) {
+    return _landingMode(feed);
   },
   showTransactions() {
     return Meteor.settings.public.app.config.interface.showTransactions;
+  },
+  feedTitle() {
+    return TAPi18n.__('moloch-period-feed').replace('{{period}}', TAPi18n.__(`moloch-${this.options.period}`));
   },
 });
