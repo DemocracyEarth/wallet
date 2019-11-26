@@ -4598,13 +4598,22 @@ blockquote {
 }
 
 .content.content-agora {
-  position: relative;
+  position:-webkit-sticky;
+  position: sticky;
+  top: 55px;
   width: 100%;
   min-width: 200px;
   margin-bottom: -15px;
   padding-top: 10px;
   padding-right: 15px;
   padding-left: 10px;
+}
+
+@media (max-width: 991px) {
+  .content.content-agora {
+    position: relative;
+    top: none;
+  }
 }
 
 .action-label {

@@ -27,10 +27,6 @@ input:-webkit-autofill:active {
   }
 }
 
-.content-feed {
-  position: -webkit-sticky;
-}
-
 input[type="file"] {
     display: none;
 }
