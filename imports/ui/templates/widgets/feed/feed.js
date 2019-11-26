@@ -96,6 +96,7 @@ const _feedDepth = (list) => {
 const _isIndexFeed = (instance) => {
   return (instance.options.view === 'lastVotes'
     || instance.options.view === 'latest'
+    || instance.options.view === 'period'
     || instance.options.view === 'linkedFeed'
     || instance.options.view === 'geo'
     || instance.options.view === 'token'
@@ -116,6 +117,8 @@ const _getFeedView = (view) => {
       return 'geo';
     case 'lastVotes':
       return 'latest';
+    case 'periodVotes':
+      return 'period';
     default:
       return view;
   }

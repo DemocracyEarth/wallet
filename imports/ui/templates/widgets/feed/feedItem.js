@@ -307,7 +307,7 @@ Template.feedItem.onRendered(function () {
   if (instance.data.replyId) {
     const dbReply = Contracts.findOne({ _id: instance.data.replyId });
     if (!dbReply) {
-      const source = instance.subscribe('singleContract', { view: 'contract', sort: { createdAt: -1 }, contractId: instance.data.replyId });
+      const source = instance.subscribe('singleContract', { view: 'contract', sort: { timestamp: -1 }, contractId: instance.data.replyId });
       instance.autorun(function (computation) {
         if (source.ready()) {
           Template.instance().replySource.set(true);
@@ -320,7 +320,7 @@ Template.feedItem.onRendered(function () {
   }
 
   if (instance.data.rules && instance.data.rules.pollVoting && instance.data.poll.length > 0) {
-    const poll = instance.subscribe('pollContracts', { view: 'pollList', sort: { createdAt: -1 }, poll: instance.data.poll });
+    const poll = instance.subscribe('pollContracts', { view: 'pollList', sort: { timestamp: -1 }, poll: instance.data.poll });
     instance.autorun(async function (computation) {
       if (poll.ready()) {
         Template.instance().pollingEnabled.set(true);
