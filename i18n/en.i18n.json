@@ -786,6 +786,6 @@
   "click-to-copy": "Click to copy address on clipboard.",
   "dao-memberships": "DAO Memberships",
   "copied-to-clipboard": "Address copied to clipboard.",
-  "moloch-period-votes": "Votes on selected proposals.",
+  "moloch-period-votes": "Votes on listed proposals.",
   "moloch-period-feed": "<em>{{period}}</em> proposals."
 }
