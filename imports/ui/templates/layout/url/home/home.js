@@ -371,6 +371,7 @@ Template.periodFeed.helpers({
   thread() {
     const replies = this;
     replies.options.view = 'period';
+    Session.set('longFeedView', replies.options.view);
     replies.singlePost = false;
     replies.displayActions = true;
     return replies;

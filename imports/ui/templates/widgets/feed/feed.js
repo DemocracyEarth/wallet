@@ -155,6 +155,7 @@ Template.feed.onCreated(function () {
     if (options.view !== 'linkedFeed') {
       options.subview = options.view;
     }
+    console.log(`in linked feed:`);
     console.log(options);
     options.view = 'linkedFeed';
   }
@@ -271,11 +272,11 @@ Template.feed.helpers({
 
         // sorting
         if (this.options.sort) {
-          feed = _.sortBy(feed, function (item) { return item.createdAt * -1; });
+          feed = _.sortBy(feed, function (item) { return item.timestamp * -1; });
         }
       } else {
         // thread view
-        feed = _.sortBy(feed, 'createdAt');
+        feed = _.sortBy(feed, 'timestamp');
         feed = _feedDepth(feed);
         for (let i = 0; i <= (feed.length - 1); i += 1) {
           feed[i].mainFeed = false;
@@ -292,11 +293,12 @@ Template.feed.helpers({
       if (feed.length > this.options.limit) {
         feed.splice(-1, parseInt(feed.length - this.options.limit, 10));
       }
-      Template.instance().lastItemDate.set(feed[feed.length - 1].createdAt);
+      Template.instance().lastItemDate.set(feed[feed.length - 1].timestamp);
     }
     return feed;
   },
   lastItem() {
+    console.log(`Template.instance().lastItemDate.get(): ${Template.instance().lastItemDate.get()}`);
     return Template.instance().lastItemDate.get();
   },
   empty(subscriptionReady) {
