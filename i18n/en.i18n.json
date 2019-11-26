@@ -489,6 +489,7 @@
   "minimum-delegation-revoke": "These delegated votes are in use.",
   "notify-new-posts": "New posts avaialable on refresh.",
   "empty-feed": "No events were found.",
+  "empty-votes": "No votes were cast.",
   "posted-ideas": "Posted ideas",
   "await-contract": "📄...",
   "cast-votes": "Cast Votes",
