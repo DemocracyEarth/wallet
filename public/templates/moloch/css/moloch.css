@@ -3829,6 +3829,7 @@ blockquote {
 
 .title-input.title-feed.title-thread {
   font-size: 22px;
+  overflow-wrap: break-word;
   line-height: 32px;
 }
 
