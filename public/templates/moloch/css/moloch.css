@@ -4288,6 +4288,7 @@ blockquote {
   position: fixed;
   top: 0px;
   bottom: 0px;
+  box-shadow:inset -1px 0px #eaeaec;
   z-index: 12500;
   display: inline-block;
   overflow: hidden;
@@ -4489,8 +4490,8 @@ blockquote {
   padding-right: 15px;
   padding-bottom: 15px;
   padding-left: 15px;
-  background-color: #f2f2f8;
-  box-shadow: 0 0 20px 10px #f2f2f8;
+  background-color: #f9f9ff;
+  box-shadow: inset -1px 0px #eaeaec;
   text-align: left;
 }
 
@@ -7158,6 +7159,7 @@ blockquote {
   }
   .left {
     background-color: #fff;
+    box-shadow: none;
   }
   .alert {
     width: 90%;

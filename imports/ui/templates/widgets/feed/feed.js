@@ -155,8 +155,6 @@ Template.feed.onCreated(function () {
     if (options.view !== 'linkedFeed') {
       options.subview = options.view;
     }
-    console.log(`in linked feed:`);
-    console.log(options);
     options.view = 'linkedFeed';
   }
 
@@ -298,7 +296,6 @@ Template.feed.helpers({
     return feed;
   },
   lastItem() {
-    console.log(`Template.instance().lastItemDate.get(): ${Template.instance().lastItemDate.get()}`);
     return Template.instance().lastItemDate.get();
   },
   empty(subscriptionReady) {

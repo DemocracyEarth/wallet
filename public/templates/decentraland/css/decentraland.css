@@ -7007,6 +7007,7 @@ blockquote {
   }
   .left {
     background-color: #fff;
+    box-shadow: none;
   }
   .alert {
     width: 90%;

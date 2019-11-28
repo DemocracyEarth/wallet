@@ -66,8 +66,6 @@ Template.paginator.helpers({
     return (this.count === 0);
   },
   subfeed() {
-    console.log('subfeed');
-    console.log(this.subfeed);
     return this.subfeed;
   },
   identifier() {
