@@ -7,10 +7,12 @@ import { ServiceConfiguration } from 'meteor/service-configuration';
 
 import { genesisTransaction, loadExternalCryptoBalance, tallyBlockchainVotes } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
+import { Collectives } from '/imports/api/collectives/Collectives';
 import { getTime } from '/imports/api/time';
 import { logUser, log } from '/lib/const';
 import { stripHTML, urlDoctor, fixDBUrl } from '/lib/utils';
 import { notifierHTML } from '/imports/api/notifier/notifierTemplate.js';
+import { computeDAOStats } from '/lib/dao';
 
 const _includeQuantity = (quantity, message) => {
   let modified;
@@ -22,6 +24,30 @@ const _includeQuantity = (quantity, message) => {
     modified = message.replace('{{quantity}}', `${quantity} ${TAPi18n.__('votes').toLowerCase()}`);
   }
   return modified;
+};
+
+const _buildStruct = (parameter) => {
+  const finalStruct = Object();
+  console.log(`buildStruct`);
+  console.log(`parameter.length: ${parameter.length}`);
+
+  for (let i = 0; i < parameter.length; i += 1) {
+    console.log(`parameter[i].type: ${parameter[i].type}`);
+    switch (parameter[i].type) {
+      case 'address':
+        console.log(`parameter[i].name: ${parameter[i].name}`);
+        finalStruct[`${parameter[i].name}`] = parameter[i].value.toString();
+        break;
+      case 'uint256':
+        finalStruct[`${parameter[i].name}`] = parseFloat(parameter[i].value);
+        break;
+      default:
+        finalStruct[`${parameter[i].name}`] = parameter[i].value ? parameter[i].value : '';
+    }
+  }
+  console.log(`finalStruct:`);
+  console.log(finalStruct);
+  return finalStruct;
 };
 
 Meteor.methods({
@@ -327,24 +353,52 @@ Meteor.methods({
   * @summary updates the period of the posts
   * @return {Number} total count.
   */
-  updatePeriods(lastTimestamp) {
+  sync(lastTimestamp) {
     check(lastTimestamp, Date);
-    const liveQuery = Object.assign({ $or: [{ period: 'VOTING' }, { period: 'GRACE' }, { period: 'QUEUE' }, { period: 'PROCESS' }] });
-    const feed = Contracts.find(liveQuery).fetch();
+    const feed = Contracts.find({ $or: [{ period: 'VOTING' }, { period: 'GRACE' }, { period: 'QUEUE' }, { period: 'PROCESS' }] }).fetch();
 
-    log(`[web3] Found ${feed.length} items that need syncing...`);
+    log(`{ method: 'sync', feed.length: '${feed.length}' }`);
 
     let newPeriod;
+    let smartContracts;
+    let state;
+    let beginningCycle;
+    let beginningTime;
+    let abortDuration;
+    let abortWindowTime;
+
     for (let i = 0; i < feed.length; i += 1) {
+      const collective = Collectives.findOne({ _id: feed[i].collectiveId });
+      if (collective && collective.profile && collective.profile.blockchain && collective.profile.blockchain.smartContracts) {
+        smartContracts = collective.profile.blockchain.smartContracts;
+
+        for (let k = 0; k < smartContracts.length; k += 1) {
+          if (smartContracts[k].parameter && smartContracts[k].parameter.length > 0) {
+            state = _buildStruct(smartContracts[k].parameter);
+            if (state.abortWindow && state.periodDuration) {
+              abortDuration = parseInt(state.abortWindow * state.periodDuration * 1000, 10);
+              break;
+            }
+          }
+        }
+      }
+
       newPeriod = feed[i].period;
       switch (feed[i].period) {
         case 'PROCESS':
-          if (lastTimestamp > feed[i].closing.graceCalendar) {
-            newPeriod = 'COMPLETE';
+          if (lastTimestamp > feed[i].closing.graceCalendar && feed[i].processed) {
+            if (!feed[i].aborted) {
+              newPeriod = 'COMPLETE';
+            }
+            if (feed[i].didPass) {
+              newPeriod = 'PASSED';
+            } else if (feed[i].aborted) {
+              newPeriod = 'ABORTED';
+            }
           }
           break;
         case 'GRACE':
-          if (lastTimestamp > feed[i].closing.graceCalendar) {
+          if ((lastTimestamp > feed[i].closing.graceCalendar) && !feed[i].processed) {
             newPeriod = 'PROCESS';
           }
           break;
@@ -354,13 +408,22 @@ Meteor.methods({
           }
           break;
         case 'QUEUE':
-          if (lastTimestamp > feed[i].closing.calendar) {
-            newPeriod = 'VOTING';
+        default:
+          beginningCycle = parseInt(feed[i].closing.height - feed[i].closing.delta, 10);
+          beginningTime = new Date(parseInt(feed[i].closing.summoningTime.getTime() + (beginningCycle * state.periodDuration * 1000), 10));
+          if (abortDuration) {
+            abortWindowTime = new Date(parseInt(beginningTime.getTime() + abortDuration, 10));
+            if (lastTimestamp > abortWindowTime) {
+              newPeriod = 'VOTING';
+            }
           }
           break;
-        default:
+      }
+      if (newPeriod !== feed[i].period) {
+        Contracts.update({ _id: feed[i]._id }, { $set: { period: newPeriod } });
       }
     }
+    computeDAOStats();
   },
 
 });

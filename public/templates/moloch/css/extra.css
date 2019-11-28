@@ -950,6 +950,11 @@ h4 {
   background: #ffd700;
 }
 
+.period-process {
+  background: #6577ff;
+  color: white;
+}
+
 .period-grace {
   background: #b25dcc;
   color: white;
