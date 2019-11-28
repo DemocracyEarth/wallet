@@ -323,4 +323,44 @@ Meteor.methods({
     return count;
   },
 
+  /**
+  * @summary updates the period of the posts
+  * @return {Number} total count.
+  */
+  updatePeriods(lastTimestamp) {
+    check(lastTimestamp, Date);
+    const liveQuery = Object.assign({ $or: [{ period: 'VOTING' }, { period: 'GRACE' }, { period: 'QUEUE' }, { period: 'PROCESS' }] });
+    const feed = Contracts.find(liveQuery).fetch();
+
+    log(`[web3] Found ${feed.length} items that need syncing...`);
+
+    let newPeriod;
+    for (let i = 0; i < feed.length; i += 1) {
+      newPeriod = feed[i].period;
+      switch (feed[i].period) {
+        case 'PROCESS':
+          if (lastTimestamp > feed[i].closing.graceCalendar) {
+            newPeriod = 'COMPLETE';
+          }
+          break;
+        case 'GRACE':
+          if (lastTimestamp > feed[i].closing.graceCalendar) {
+            newPeriod = 'PROCESS';
+          }
+          break;
+        case 'VOTING':
+          if (lastTimestamp > feed[i].closing.calendar) {
+            newPeriod = 'GRACE';
+          }
+          break;
+        case 'QUEUE':
+          if (lastTimestamp > feed[i].closing.calendar) {
+            newPeriod = 'VOTING';
+          }
+          break;
+        default:
+      }
+    }
+  },
+
 });
