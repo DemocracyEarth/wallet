@@ -931,6 +931,22 @@ h4 {
   background: #efefef;
 }
 
+.countdown-timer-queue {
+  background: #6577ff;
+}
+
+.countdown-timer-process {
+  background: #6577ff;
+}
+
+.countdown-timer-grace {
+  background: #b25dcc;
+}
+
+.countdown-timer-voting {
+  background: #ffd700;
+}
+
 .period {
   float: right;
   font-size: 11px;
