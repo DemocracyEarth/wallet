@@ -162,6 +162,7 @@ Router.route('/address/:username', {
   name: 'at',
   template: 'home',
   onBeforeAction() {
+    Session.set('sidebarMenuSelectedId', 999);
     _reset();
     this.next();
   },
@@ -216,6 +217,7 @@ Router.route('/tx/:keyword', {
   name: 'date',
   template: 'home',
   onBeforeAction() {
+    Session.set('sidebarMenuSelectedId', 999);
     _reset();
     this.next();
   },

@@ -591,7 +591,6 @@ const _getLastTimestamp = async () => {
             console.log(error);
           }
         });
-        console.log(`synced with last timestamp`);
         return parseInt(res.timestamp * 1000, 10);
       });
     });
