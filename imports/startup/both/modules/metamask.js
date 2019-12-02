@@ -586,12 +586,12 @@ const _getLastTimestamp = async () => {
       return await web3.eth.getBlock(resolved).then((res) => {
         const timestamp = res.timestamp * 1000;
         Session.set('lastTimestamp', timestamp);
-        /*Meteor.call('sync', new Date(timestamp), (error, result) => {
+        Meteor.call('sync', new Date(timestamp), (error, result) => {
           if (error) {
             console.log(error);
           }
         });
-        console.log(`synced with last timestamp`);*/
+        console.log(`synced with last timestamp`);
         return parseInt(res.timestamp * 1000, 10);
       });
     });
