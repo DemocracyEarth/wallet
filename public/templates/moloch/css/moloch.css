@@ -3829,6 +3829,7 @@ blockquote {
 
 .title-input.title-feed.title-thread {
   font-size: 22px;
+  overflow-wrap: break-word;
   line-height: 32px;
 }
 
@@ -4287,6 +4288,7 @@ blockquote {
   position: fixed;
   top: 0px;
   bottom: 0px;
+  box-shadow:inset -1px 0px #eaeaec;
   z-index: 12500;
   display: inline-block;
   overflow: hidden;
@@ -4488,8 +4490,8 @@ blockquote {
   padding-right: 15px;
   padding-bottom: 15px;
   padding-left: 15px;
-  background-color: #f2f2f8;
-  box-shadow: 0 0 20px 10px #f2f2f8;
+  background-color: #f9f9ff;
+  box-shadow: inset -1px 0px #eaeaec;
   text-align: left;
 }
 
@@ -4598,13 +4600,23 @@ blockquote {
 }
 
 .content.content-agora {
-  position: relative;
+  position:-webkit-sticky;
+  position: sticky;
+  top: 55px;
+  height: 0px;
   width: 100%;
   min-width: 200px;
   margin-bottom: -15px;
   padding-top: 10px;
   padding-right: 15px;
   padding-left: 10px;
+}
+
+@media (max-width: 991px) {
+  .content.content-agora {
+    position: relative;
+    top: none;
+  }
 }
 
 .action-label {
@@ -7147,6 +7159,7 @@ blockquote {
   }
   .left {
     background-color: #fff;
+    box-shadow: none;
   }
   .alert {
     width: 90%;

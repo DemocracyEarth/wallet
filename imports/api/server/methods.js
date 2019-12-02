@@ -11,6 +11,7 @@ import { getTime } from '/imports/api/time';
 import { logUser, log } from '/lib/const';
 import { stripHTML, urlDoctor, fixDBUrl } from '/lib/utils';
 import { notifierHTML } from '/imports/api/notifier/notifierTemplate.js';
+import { computeDAOStats } from '/lib/dao';
 
 const _includeQuantity = (quantity, message) => {
   let modified;
@@ -321,6 +322,58 @@ Meteor.methods({
     const count = Meteor.users.find({ 'profile.membership': 'MEMBER' }).count();
     log(`{ method: 'userCount', user: ${logUser()}, count: ${count} }`);
     return count;
+  },
+
+  /**
+  * @summary updates the period of the posts
+  * @return {Number} total count.
+  */
+  sync(lastTimestamp) {
+    check(lastTimestamp, Date);
+    const feed = Contracts.find({ $or: [{ period: 'VOTING' }, { period: 'GRACE' }, { period: 'QUEUE' }, { period: 'PROCESS' }] }).fetch();
+
+    log(`{ method: 'sync', feed.length: '${feed.length}' }`);
+
+    let newPeriod;
+    let queueEnd;
+    for (let i = 0; i < feed.length; i += 1) {
+      newPeriod = feed[i].period;
+      switch (feed[i].period) {
+        case 'PROCESS':
+          if (lastTimestamp > feed[i].closing.graceCalendar && feed[i].processed) {
+            if (!feed[i].aborted) {
+              newPeriod = 'COMPLETE';
+            }
+            if (feed[i].didPass) {
+              newPeriod = 'PASSED';
+            } else if (feed[i].aborted) {
+              newPeriod = 'ABORTED';
+            }
+          }
+          break;
+        case 'GRACE':
+          if ((lastTimestamp > feed[i].closing.graceCalendar) && !feed[i].processed) {
+            newPeriod = 'PROCESS';
+          }
+          break;
+        case 'VOTING':
+          if (lastTimestamp > feed[i].closing.calendar) {
+            newPeriod = 'GRACE';
+          }
+          break;
+        case 'QUEUE':
+        default:
+          queueEnd = parseInt(feed[i].timestamp.getTime() + feed[i].closing.periodDuration, 10);
+          if (lastTimestamp > queueEnd) {
+            newPeriod = 'VOTING';
+          }
+          break;
+      }
+      if (newPeriod !== feed[i].period) {
+        Contracts.update({ _id: feed[i]._id }, { $set: { period: newPeriod } });
+      }
+    }
+    computeDAOStats();
   },
 
 });

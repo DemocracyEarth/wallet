@@ -27,10 +27,6 @@ input:-webkit-autofill:active {
   }
 }
 
-.content-feed {
-  position: -webkit-sticky;
-}
-
 input[type="file"] {
     display: none;
 }
@@ -952,6 +948,11 @@ h4 {
 
 .period-voting {
   background: #ffd700;
+}
+
+.period-process {
+  background: #6577ff;
+  color: white;
 }
 
 .period-grace {

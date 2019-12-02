@@ -213,7 +213,7 @@ Template.transaction.helpers({
     return '';
   },
   sinceDate() {
-    return `${timeCompressed(this.contract.timestamp)}`;
+    return `${timeCompressed(this.contract.timestamp, true)}`;
   },
   noDate() {
     return this.noDate;

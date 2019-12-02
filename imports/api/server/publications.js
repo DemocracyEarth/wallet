@@ -4,6 +4,7 @@ import { Counts } from 'meteor/tmeasday:publish-counts';
 
 import { query } from '/lib/views';
 import { log, logUser } from '/lib/const';
+import { getFinality } from '/lib/interpreter';
 
 import { Transactions } from '/imports/api/transactions/Transactions';
 import { Files } from '/imports/api/files/Files';

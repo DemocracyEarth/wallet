@@ -64,7 +64,7 @@
             "feed": "user",
             "value": true,
             "separator": false,
-            "url": "/?period=processing",
+            "url": "/?period=process",
             "displayToken": false,
             "displayCount": true
           },

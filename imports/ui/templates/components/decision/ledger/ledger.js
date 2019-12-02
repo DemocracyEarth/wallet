@@ -4,6 +4,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 
+import { gui } from '/lib/const';
 import { setupSplit } from '/imports/ui/modules/split';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
@@ -18,6 +19,7 @@ const _convertQuery = (instance) => {
   switch (tally.options.view) {
     case 'latest':
       tally.options.view = 'lastVotes';
+      tally.options.limit = gui.LIMIT_TRANSACTIONS_PER_LEDGER;
       break;
     case 'token':
       tally.options.view = 'transactionsToken';
@@ -82,12 +84,14 @@ Template.ledger.helpers({
     const tally = this;
     tally.options.view = 'userVotes';
     tally.options.kind = 'VOTE';
+    tally.options.limit = gui.LIMIT_TRANSACTIONS_PER_LEDGER;
     tally.options.sort = { timestamp: -1 };
     return tally;
   },
   periodVotes() {
     const tally = this;
     tally.options.view = 'periodVotes';
+    tally.options.limit = gui.LIMIT_TRANSACTIONS_PER_LEDGER;
     tally.options.period = this.options.period;
     tally.options.sort = { timestamp: -1 };
     return tally;
@@ -96,6 +100,7 @@ Template.ledger.helpers({
     const tally = this;
     tally.options.view = 'threadVotes';
     tally.options.sort = { timestamp: -1 };
+    tally.options.limit = gui.LIMIT_TRANSACTIONS_PER_LEDGER;
 
     // winning options
     const contract = Contracts.findOne({ keyword: Template.currentData().options.keyword });

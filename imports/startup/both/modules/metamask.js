@@ -584,7 +584,13 @@ const _getLastTimestamp = async () => {
   if (_web3()) {
     return await _getBlockHeight().then(async (resolved) => {
       return await web3.eth.getBlock(resolved).then((res) => {
-        Session.set('lastTimestamp', res.timestamp * 1000);
+        const timestamp = res.timestamp * 1000;
+        Session.set('lastTimestamp', timestamp);
+        Meteor.call('sync', new Date(timestamp), (error, result) => {
+          if (error) {
+            console.log(error);
+          }
+        });
         return parseInt(res.timestamp * 1000, 10);
       });
     });

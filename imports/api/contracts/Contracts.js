@@ -153,6 +153,29 @@ Schema.Constituency = new SimpleSchema({
   },
 });
 
+Schema.Decision = new SimpleSchema({
+  applicant: {
+    type: String,
+    optional: true,
+  },
+  request: {
+    type: String,
+    optional: true,
+  },
+  requestToken: {
+    type: String,
+    optional: true,
+  },
+  tribute: {
+    type: String,
+    optional: true,
+  },
+  tributeToken: {
+    type: String,
+    optional: true,
+  },
+});
+
 Schema.Contract = new SimpleSchema({
   owner: {
     type: String,
@@ -580,6 +603,10 @@ Schema.Contract = new SimpleSchema({
     type: Schema.Closing,
     optional: true,
   },
+  decision: {
+    type: Schema.Decision,
+    optional: true,
+  },
   importId: {
     type: String,
     optional: true,
@@ -598,7 +625,7 @@ Schema.Contract = new SimpleSchema({
   },
   period: {
     type: String,
-    allowedValues: ['PROCESSED', 'QUEUE', 'VOTING', 'GRACE', 'ABORT', 'COMPLETE', 'PASSED', 'REJECTED', 'ABORTED'],
+    allowedValues: ['PROCESS', 'QUEUE', 'VOTING', 'GRACE', 'ABORT', 'COMPLETE', 'PASSED', 'REJECTED', 'ABORTED'],
     optional: true,
   },
 });

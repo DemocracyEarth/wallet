@@ -122,7 +122,7 @@ Template.screen.helpers({
 Template.homeFeed.onCreated(function () {
   Template.instance().feedReady = new ReactiveVar(false);
   const instance = this;
-  const subscription = instance.subscribe('feed', { view: instance.data.options.view, sort: { createdAt: -1 }, userId: instance.data.options.userId, username: instance.data.options.username, period: instance.data.options.period });
+  const subscription = instance.subscribe('feed', { view: instance.data.options.view, sort: { timestamp: -1 }, userId: instance.data.options.userId, username: instance.data.options.username, period: instance.data.options.period });
 
   Session.set('minimizedEditor', true);
 
@@ -258,7 +258,7 @@ Template.postFeed.onCreated(function () {
   Template.instance().postReady = new ReactiveVar(false);
 
   const instance = this;
-  const subscription = instance.subscribe('singleContract', { view: 'thread', sort: { createdAt: -1 }, keyword: Template.currentData().options.keyword });
+  const subscription = instance.subscribe('singleContract', { view: 'thread', sort: { timestamp: -1 }, keyword: Template.currentData().options.keyword });
 
   instance.autorun(function (computation) {
     if (subscription.ready()) {
@@ -273,7 +273,7 @@ Template.periodFeed.onCreated(function () {
   Template.instance().periodReady = new ReactiveVar(false);
 
   const instance = this;
-  const subscription = instance.subscribe('feed', { view: instance.data.options.view, sort: { createdAt: -1 }, userId: instance.data.options.userId, username: instance.data.options.username, period: instance.data.options.period });
+  const subscription = instance.subscribe('feed', { view: instance.data.options.view, sort: { timestamp: -1 }, userId: instance.data.options.userId, username: instance.data.options.username, period: instance.data.options.period });
   // const subscription = instance.subscribe('singleContract', { view: 'thread', sort: { createdAt: -1 }, keyword: Template.currentData().options.keyword });
 
   instance.autorun(function (computation) {
@@ -371,6 +371,7 @@ Template.periodFeed.helpers({
   thread() {
     const replies = this;
     replies.options.view = 'period';
+    Session.set('longFeedView', replies.options.view);
     replies.singlePost = false;
     replies.displayActions = true;
     return replies;
