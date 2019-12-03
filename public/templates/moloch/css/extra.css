@@ -1054,3 +1054,11 @@ h4 {
 .login-button-only {
   margin: 20px 0px 15px;
 }
+
+.election-rule-can-vote {
+  color: #00c190;
+}
+
+.election-rule-not-member {
+  color: #ff3d67;
+}
