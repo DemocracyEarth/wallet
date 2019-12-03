@@ -581,6 +581,7 @@ Template.feedItem.helpers({
     if (closing) {
       closing.alwaysOn = this.rules.alwaysOn;
       closing.period = this.period;
+      closing.timestamp = this.timestamp;
     }
     return closing;
   },

@@ -167,12 +167,16 @@ Template.countdown.onCreated(function () {
 */
 const _getRemaining = (now, data) => {
   let confirmed;
+  let delta;
+  let closing;
   switch (data.period) {
     case 'QUEUE':
-      // confirmed = parseInt(1 - (data.height - now), 10);
       confirmed = parseInt(data.delta - 1, 10);
       break;
     case 'GRACE':
+      delta = parseInt(((data.graceCalendar.getTime() - data.timestamp.getTime()) / (data.periodDuration)) - data.delta, 10);
+      closing = parseInt(data.height + delta, 10);
+      confirmed = parseInt(delta - (closing - now), 10);
       break;
     default:
       confirmed = parseInt(data.delta - (data.height - now), 10);
@@ -205,6 +209,10 @@ Template.countdown.helpers({
       case 'QUEUE':
         closing = parseInt((this.height - this.delta) + 1, 10);
         delta = 1;
+        break;
+      case 'GRACE':
+        delta = parseInt(((this.graceCalendar.getTime() - this.timestamp.getTime()) / (this.periodDuration)) - this.delta, 10);
+        closing = parseInt(this.height + delta, 10);
         break;
       default:
         closing = this.height;
