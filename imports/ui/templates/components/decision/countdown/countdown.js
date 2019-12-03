@@ -240,7 +240,6 @@ Template.countdown.helpers({
     const percentage = _getPercentage(now, delta, closing);
 
     let style = '';
-    console.log(`this.period: ${this.period}`);
     switch (this.period) {
       case 'QUEUE':
       case 'GRACE':
