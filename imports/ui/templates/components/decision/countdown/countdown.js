@@ -58,10 +58,9 @@ const _getDeadline = (now, remainingBlocks, length, height, alwaysOn, editorMode
 
   switch (period) {
     case 'QUEUE':
-      countdown = TAPi18n.__('countdown-queue');
-      break;
     case 'GRACE':
-      countdown = TAPi18n.__('countdown-grace');
+    case 'PROCESS':
+      countdown = TAPi18n.__(`countdown-${period.toLowerCase()}`);
       break;
     default:
       if (editorMode) {
@@ -213,6 +212,10 @@ Template.countdown.helpers({
       case 'GRACE':
         delta = parseInt(((this.graceCalendar.getTime() - this.timestamp.getTime()) / (this.periodDuration)) - this.delta, 10);
         closing = parseInt(this.height + delta, 10);
+        break;
+      case 'PROCESS':
+        delta = 0;
+        closing = now;
         break;
       default:
         closing = this.height;

@@ -717,6 +717,7 @@
   "countdown-expiration": "Poll ends in {{days}} {{hours}} {{minutes}} {{seconds}} (in {{blocks}})",
   "countdown-queue": "Poll will begin in {{days}} {{hours}} {{minutes}} {{seconds}} (in {{blocks}})",
   "countdown-grace": "Grace period ends in {{days}} {{hours}} {{minutes}} {{seconds}} (in {{blocks}})",
+  "countdown-process": "Poll and grace period ended. Proposal is ready to be processed.",
   "periods-compressed": "cycles",
   "periods-singular": "cycle",
   "blocks-compressed": "blocks",
