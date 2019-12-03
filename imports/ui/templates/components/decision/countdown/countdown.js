@@ -52,21 +52,29 @@ const _getPercentage = (currentBlock, delta, finalBlock) => {
 * @param {boolean} editorMode if editor
 * @return {string} with countdown sentence
 */
-const _getDeadline = (now, remainingBlocks, length, height, alwaysOn, editorMode, periodDuration) => {
+const _getDeadline = (now, remainingBlocks, length, height, alwaysOn, editorMode, periodDuration, period) => {
   let countdown = TAPi18n.__('countdown-expiration');
   let count = remainingBlocks;
 
-  if (editorMode) {
-    if (!alwaysOn) {
-      countdown = TAPi18n.__('poll-hypothetical');
-    } else {
-      countdown = TAPi18n.__('poll-never-ends');
-    }
-  } else if (alwaysOn) {
-    countdown = TAPi18n.__('poll-never-ends');
-  } else if (height <= now) {
-    countdown = TAPi18n.__('poll-closed-after-time');
-    count = length;
+  switch (period) {
+    case 'QUEUE':
+    case 'GRACE':
+    case 'PROCESS':
+      countdown = TAPi18n.__(`countdown-${period.toLowerCase()}`);
+      break;
+    default:
+      if (editorMode) {
+        if (!alwaysOn) {
+          countdown = TAPi18n.__('poll-hypothetical');
+        } else {
+          countdown = TAPi18n.__('poll-never-ends');
+        }
+      } else if (alwaysOn) {
+        countdown = TAPi18n.__('poll-never-ends');
+      } else if (height <= now) {
+        countdown = TAPi18n.__('poll-closed-after-time');
+        count = length;
+      }
   }
 
   // get total seconds between the times
@@ -157,7 +165,21 @@ Template.countdown.onCreated(function () {
 * @param {object} data the information for this poll
 */
 const _getRemaining = (now, data) => {
-  const confirmed = parseInt(data.delta - (data.height - now), 10);
+  let confirmed;
+  let delta;
+  let closing;
+  switch (data.period) {
+    case 'QUEUE':
+      confirmed = parseInt(data.delta - 1, 10);
+      break;
+    case 'GRACE':
+      delta = parseInt(((data.graceCalendar.getTime() - data.timestamp.getTime()) / (data.periodDuration)) - data.delta, 10);
+      closing = parseInt(data.height + delta, 10);
+      confirmed = parseInt(delta - (closing - now), 10);
+      break;
+    default:
+      confirmed = parseInt(data.delta - (data.height - now), 10);
+  }
   return parseInt(data.delta - confirmed, 10);
 };
 
@@ -168,7 +190,7 @@ Template.countdown.helpers({
     if (isNaN(remaining)) {
       return TAPi18n.__('syncing');
     }
-    const deadline = _getDeadline(now, remaining, this.delta, this.height, this.alwaysOn, this.editorMode, this.periodDuration);
+    const deadline = _getDeadline(now, remaining, this.delta, this.height, this.alwaysOn, this.editorMode, this.periodDuration, this.period);
     return deadline;
   },
   period() {
@@ -180,20 +202,58 @@ Template.countdown.helpers({
   timerStyle() {
     const now = Template.instance().now.get();
     const remaining = _getRemaining(now, this);
+    let closing = this.height;
+    let delta = this.delta;
+    switch (this.period) {
+      case 'QUEUE':
+        closing = parseInt((this.height - this.delta) + 1, 10);
+        delta = 1;
+        break;
+      case 'GRACE':
+        delta = parseInt(((this.graceCalendar.getTime() - this.timestamp.getTime()) / (this.periodDuration)) - this.delta, 10);
+        closing = parseInt(this.height + delta, 10);
+        break;
+      case 'PROCESS':
+        delta = 0;
+        closing = now;
+        break;
+      default:
+        closing = this.height;
+    }
     if (!isNaN(remaining)) {
-      return `width: ${_getPercentage(now, this.delta, this.height)}%`;
+      return `width: ${_getPercentage(now, delta, closing)}%`;
     }
     return 'width: 0%;';
   },
   alertMode() {
     const now = Template.instance().now.get();
-    const percentage = _getPercentage(now, this.delta, this.height);
-    if (percentage && percentage < 25) {
-      return 'countdown-timer-final';
-    } else if (percentage && percentage < 5) {
-      return 'countdown-timer-final';
+    let closing = this.height;
+    let delta = this.delta;
+    switch (this.period) {
+      case 'QUEUE':
+        closing = parseInt((this.height - this.delta) + 1, 10);
+        delta = 1;
+        break;
+      default:
+        closing = this.height;
     }
-    return '';
+    const percentage = _getPercentage(now, delta, closing);
+
+    let style = '';
+    switch (this.period) {
+      case 'QUEUE':
+      case 'GRACE':
+      case 'PROCESS':
+        style = `countdown-timer-${this.period.toLowerCase()}`;
+        break;
+      default:
+        if (percentage && percentage < 25) {
+          style = 'countdown-timer-final';
+        } else if (this.period === 'VOTING') {
+          style = `countdown-timer-${this.period.toLowerCase()}`;
+        }
+    }
+    return style;
   },
 });
 
