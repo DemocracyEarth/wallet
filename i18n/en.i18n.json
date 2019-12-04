@@ -476,7 +476,7 @@
   "you": "You",
   "all-members": "Other Citizens",
   "your-delegations": "Your Delegations",
-  "unlogged-cant-vote": "You need to be logged in to vote.",
+  "unlogged-cant-vote": "Sign in with a member address to vote.",
   "email-recovery-instructions": "Password reset instructions will be sent to the Email used to register an account.",
   "alliance": "Delegation of Votes",
   "draft": "Draft.",
@@ -803,5 +803,7 @@
   "moloch-member-can-vote": "Your address can vote on this proposal.",
   "moloch-member-cannot-vote": "Only member addresses can vote.",
   "moloch-valid-voter": "You can vote",
-  "moloch-invalid-voter": "You are not a member"
+  "moloch-invalid-voter": "You are not a member",
+  "moloch-alert-not-member": "The address being used to vote is not a valid member of this DAO.",
+  "moloch-not-member": "Not a Member"
 }

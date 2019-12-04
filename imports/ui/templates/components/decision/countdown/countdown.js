@@ -142,7 +142,7 @@ const _currentBlock = async (instance) => {
     now = await getBlockHeight().then((resolved) => { instance.now.set(resolved); });
   } else if (instance.data.summoningTime && instance.data.periodDuration) {
     const timestamp = Session.get('lastTimestamp');
-    // console.log(`eval fo timestmap: ${timestamp}`);
+    console.log(`eval fo timestmap: ${timestamp}`);
     if (timestamp) {
       instance.now.set(parseFloat((timestamp - instance.data.summoningTime.getTime()) / instance.data.periodDuration, 10));
     } else {
