@@ -70,7 +70,7 @@ const _head = () => {
 };
 
 
-Meteor.startup(() => {
+Meteor.startup(async () => {
   // setup language
   Session.set('showLoadingIndicator', true);
 
@@ -95,6 +95,15 @@ Meteor.startup(() => {
       Session.set('time', result);
     });
   }, 60000);
+
+  await new Promise((resolve, reject) => {
+    Meteor.call('getBlock', 0, (error, result) => {
+      if (error) { reject(error); }
+      console.log(`result: ${result}`);
+      Session.set('block', result);
+      return resolve(result);
+    });
+  });
 
   // search Engine for Tags
   Session.set('createTag', false);

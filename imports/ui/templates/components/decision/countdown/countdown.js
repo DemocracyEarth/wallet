@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
 
@@ -137,7 +138,7 @@ const _getDeadline = (now, remainingBlocks, length, height, alwaysOn, editorMode
 * @param {object} instance where to write last block number
 */
 const _currentBlock = async (instance) => {
-  let now;
+  /*let now;
   if (defaults.CHAIN === 'ETH') {
     now = await getBlockHeight().then((resolved) => { instance.now.set(resolved); });
   } else if (instance.data.summoningTime && instance.data.periodDuration) {
@@ -151,7 +152,27 @@ const _currentBlock = async (instance) => {
       });
     }
   }
-  return now;
+  return now;*/
+
+/*  if (!Session.get('currentBlock')) {
+    Meteor.call('getBlock', instance, (error, result) => {
+      if (error) { console.log(error); }
+      console.log(`result: ${result}`);
+      Session.set('currentBlock', result);
+      return result;
+    });
+*/
+    /*return await new Promise((resolve, reject) => {
+      console.log('getting block...');
+      Meteor.call('getBlock', instance, (error, result) => {
+        if (error) return reject(error);
+        console.log(`result: ${result}`);
+        Session.set('currentBlock', result);
+        return result;
+      });
+    });*/
+  // }
+  //return Session.get('currentBlock');
 };
 
 Template.countdown.onCreated(function () {

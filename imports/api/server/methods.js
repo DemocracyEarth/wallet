@@ -8,10 +8,11 @@ import { ServiceConfiguration } from 'meteor/service-configuration';
 import { genesisTransaction, loadExternalCryptoBalance, tallyBlockchainVotes } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { getTime } from '/imports/api/time';
-import { logUser, log } from '/lib/const';
+import { logUser, log, defaults } from '/lib/const';
 import { stripHTML, urlDoctor, fixDBUrl } from '/lib/utils';
 import { notifierHTML } from '/imports/api/notifier/notifierTemplate.js';
 import { computeDAOStats } from '/lib/dao';
+import { getLastTimestamp, getBlockHeight } from '/lib/web3';
 
 const _includeQuantity = (quantity, message) => {
   let modified;
@@ -326,6 +327,7 @@ Meteor.methods({
 
   /**
   * @summary updates the period of the posts
+  * @param {Date} lastTimestamp with last sync signature
   * @return {Number} total count.
   */
   sync(lastTimestamp) {
@@ -374,6 +376,23 @@ Meteor.methods({
       }
     }
     computeDAOStats();
+  },
+
+  async getBlock(periodDuration) {
+    check(periodDuration, Number);
+
+    log(`{ method: 'getBlock', periodDuration: ${periodDuration} }`);
+
+    let now;
+    let summoningTime;
+    if (summoningTime && periodDuration) {
+      now = await getLastTimestamp().then((resolved) => {
+        return parseFloat((resolved - summoningTime.getTime()) / periodDuration, 10);
+      });
+    } else {
+      now = await getBlockHeight().then((resolved) => { return resolved; });
+    }
+    return now;
   },
 
 });
