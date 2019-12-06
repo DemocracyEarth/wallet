@@ -13,6 +13,7 @@ import { stripHTML, urlDoctor, fixDBUrl } from '/lib/utils';
 import { notifierHTML } from '/imports/api/notifier/notifierTemplate.js';
 import { computeDAOStats } from '/lib/dao';
 import { getLastTimestamp, getBlockHeight } from '/lib/web3';
+import { Collectives } from '/imports/api/collectives/Collectives';
 
 const _includeQuantity = (quantity, message) => {
   let modified;
@@ -378,19 +379,39 @@ Meteor.methods({
     computeDAOStats();
   },
 
-  async getBlock(periodDuration) {
-    check(periodDuration, Number);
+  async getBlock(mainChain, collectiveId) {
+    check(mainChain, Boolean);
+    check(collectiveId, String);
 
-    log(`{ method: 'getBlock', periodDuration: ${periodDuration} }`);
+    log(`{ method: 'getBlock', collectiveId: ${collectiveId} }`);
 
     let now;
-    let summoningTime;
-    if (summoningTime && periodDuration) {
-      now = await getLastTimestamp().then((resolved) => {
-        return parseFloat((resolved - summoningTime.getTime()) / periodDuration, 10);
-      });
-    } else {
+    if (mainChain) {
       now = await getBlockHeight().then((resolved) => { return resolved; });
+    } else {
+      const collective = Collectives.findOne({ _id: collectiveId });
+      if (collective) {
+        const smartContracts = collective.profile.blockchain.smartContracts;
+        const summoningTime = collective.profile.summoningTime;
+        let periodDuration;
+        let found = false;
+        for (let i = 0; i < smartContracts.length; i += 1) {
+          for (let k = 0; k < smartContracts[i].parameter.length; k += 1) {
+            if (smartContracts[i].parameter[k].name === 'periodDuration') {
+              periodDuration = smartContracts[i].parameter[k].value.toNumber();
+              found = true;
+              break;
+            }
+          }
+          if (found) { break; }
+        }
+
+        now = await getLastTimestamp().then((resolved) => {
+          return parseFloat((resolved - summoningTime) / periodDuration, 10);
+        });
+      } else {
+        now = undefined;
+      }
     }
     return now;
   },
