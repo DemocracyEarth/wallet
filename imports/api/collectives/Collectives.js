@@ -154,6 +154,10 @@ Schema.CollectiveProfile = new SimpleSchema({
     type: Date,
     optional: true,
   },
+  summoningTime: {
+    type: Date,
+    optional: true,
+  },
 });
 
 
