@@ -97,7 +97,7 @@ Meteor.startup(async () => {
   }, 60000);
 
   await new Promise((resolve, reject) => {
-    Meteor.call('getBlock', 0, (error, result) => {
+    Meteor.call('getBlock', [], (error, result) => {
       if (error) { reject(error); }
       console.log(`result: ${result}`);
       Session.set('block', result);

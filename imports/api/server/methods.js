@@ -8,7 +8,7 @@ import { ServiceConfiguration } from 'meteor/service-configuration';
 import { genesisTransaction, loadExternalCryptoBalance, tallyBlockchainVotes } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { getTime } from '/imports/api/time';
-import { logUser, log, defaults } from '/lib/const';
+import { logUser, log, defaults, gui } from '/lib/const';
 import { stripHTML, urlDoctor, fixDBUrl } from '/lib/utils';
 import { notifierHTML } from '/imports/api/notifier/notifierTemplate.js';
 import { computeDAOStats } from '/lib/dao';
@@ -379,20 +379,31 @@ Meteor.methods({
     computeDAOStats();
   },
 
-  async getBlock(mainChain, collectiveId) {
-    check(mainChain, Boolean);
-    check(collectiveId, String);
+  async getBlock(collectives) {
+    check(collectives, Array);
 
-    log(`{ method: 'getBlock', collectiveId: ${collectiveId} }`);
+    log(`{ method: 'getBlock', collectiveId: ${JSON.stringify(collectives)} }`);
+
+    const blockTimes = [];
+    blockTimes.push({
+      collectiveId: defaults.ROOT,
+      height: await getBlockHeight().then((resolved) => { return resolved; }),
+    });
+
+    let collectiveList;
+    if (collectives.length === 0) {
+      const recentCollectives = Collectives.find({}, { limit: gui.COLLECTIVE_MAX_FETCH }).fetch();
+      collectiveList = _.pluck(recentCollectives, '_id');
+    } else {
+      collectiveList = collectives;
+    }
 
     let now;
-    if (mainChain) {
-      now = await getBlockHeight().then((resolved) => { return resolved; });
-    } else {
-      const collective = Collectives.findOne({ _id: collectiveId });
+    for (let j = 0; j < collectiveList.length; j += 1) {
+      const collective = Collectives.findOne({ _id: collectiveList[j] });
       if (collective) {
         const smartContracts = collective.profile.blockchain.smartContracts;
-        const summoningTime = collective.profile.summoningTime;
+        const summoningTime = parseFloat(collective.profile.summoningTime.getTime(), 10);
         let periodDuration;
         let found = false;
         for (let i = 0; i < smartContracts.length; i += 1) {
@@ -407,13 +418,24 @@ Meteor.methods({
         }
 
         now = await getLastTimestamp().then((resolved) => {
-          return parseFloat((resolved - summoningTime) / periodDuration, 10);
+          return {
+            collectiveId: collectiveList[j],
+            height: parseFloat(((resolved - summoningTime) / periodDuration) / 1000, 10),
+          };
         });
       } else {
-        now = undefined;
+        now = {
+          collectiveId: collectiveList[j],
+          height: undefined,
+        };
+      }
+
+      if (now) {
+        blockTimes.push(now);
       }
     }
-    return now;
+
+    return blockTimes;
   },
 
 });
