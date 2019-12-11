@@ -138,41 +138,15 @@ const _getDeadline = (now, remainingBlocks, length, height, alwaysOn, editorMode
 * @param {object} instance where to write last block number
 */
 const _currentBlock = async (instance) => {
-  /*let now;
-  if (defaults.CHAIN === 'ETH') {
-    now = await getBlockHeight().then((resolved) => { instance.now.set(resolved); });
-  } else if (instance.data.summoningTime && instance.data.periodDuration) {
-    const timestamp = Session.get('lastTimestamp');
-    console.log(`eval fo timestmap: ${timestamp}`);
-    if (timestamp) {
-      instance.now.set(parseFloat((timestamp - instance.data.summoningTime.getTime()) / instance.data.periodDuration, 10));
-    } else {
-      now = await getLastTimestamp().then((resolved) => {
-        instance.now.set(parseFloat((resolved - instance.data.summoningTime.getTime()) / instance.data.periodDuration, 10));
-      });
-    }
-  }
-  return now;*/
+  let now;
+  const blockTimes = Session.get('blockTimes');
 
-/*  if (!Session.get('currentBlock')) {
-    Meteor.call('getBlock', instance, (error, result) => {
-      if (error) { console.log(error); }
-      console.log(`result: ${result}`);
-      Session.set('currentBlock', result);
-      return result;
-    });
-*/
-    /*return await new Promise((resolve, reject) => {
-      console.log('getting block...');
-      Meteor.call('getBlock', instance, (error, result) => {
-        if (error) return reject(error);
-        console.log(`result: ${result}`);
-        Session.set('currentBlock', result);
-        return result;
-      });
-    });*/
-  // }
-  //return Session.get('currentBlock');
+  if (blockTimes && blockTimes.length > 0) {
+    now = _.pluck(_.where(blockTimes, { collectiveId: instance.data.collectiveId }), 'height');
+    console.log(`now is: ${now}`);
+    instance.now.set(now);
+  }
+  return now;
 };
 
 Template.countdown.onCreated(function () {
