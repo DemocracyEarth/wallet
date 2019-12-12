@@ -27,7 +27,7 @@ import { SearchSource } from 'meteor/meteorhacks:search-source';
 import { Template } from 'meteor/templating';
 import { Router } from 'meteor/iron:router';
 
-
+import { sync } from '/imports/ui/templates/layout/sync';
 import { toggleSidebar } from '/imports/ui/modules/menu';
 import { globalObj } from '/lib/global';
 import { geo } from '/lib/geo';
@@ -69,7 +69,6 @@ const _head = () => {
   getCSS();
 };
 
-
 Meteor.startup(async () => {
   // setup language
   Session.set('showLoadingIndicator', true);
@@ -96,13 +95,7 @@ Meteor.startup(async () => {
     });
   }, 60000);
 
-  await new Promise((resolve, reject) => {
-    Meteor.call('getBlock', [], (error, result) => {
-      if (error) { reject(error); }
-      Session.set('blockTimes', result);
-      return resolve(result);
-    });
-  });
+  await sync();
 
   // search Engine for Tags
   Session.set('createTag', false);

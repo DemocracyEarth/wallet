@@ -12,6 +12,8 @@ import { displayNotice } from '/imports/ui/modules/notice';
 import { addDecimal, smallNumber, removeDecimal, getCoin, numToCryptoBalance } from '/imports/api/blockchain/modules/web3Util';
 import { animatePopup } from '/imports/ui/modules/popup';
 import { Transactions } from '/imports/api/transactions/Transactions';
+import { sync } from '/imports/ui/templates/layout/sync';
+import { defaults } from '/lib/const';
 
 import { BigNumber } from 'bignumber.js';
 
@@ -582,16 +584,23 @@ const _getBlockHeight = async () => {
 */
 const _getLastTimestamp = async () => {
   if (_web3()) {
+    if (!Session.get('blockTimes')) {
+      await sync();
+    }
     return await _getBlockHeight().then(async (resolved) => {
       return await web3.eth.getBlock(resolved).then((res) => {
         const timestamp = res.timestamp * 1000;
         Session.set('lastTimestamp', timestamp);
-        Meteor.call('sync', new Date(timestamp), (error, result) => {
+        Meteor.call('sync', new Date(timestamp), (error) => {
           if (error) {
             console.log(error);
           }
         });
-        return parseInt(res.timestamp * 1000, 10);
+        const blockTimes = Session.get('blockTimes');
+        if (blockTimes && blockTimes.length > 0) {
+          return _.pluck(_.where(blockTimes, { collectiveId: defaults.ROOT }), 'timestamp');
+        }
+        return undefined;
       });
     });
   }

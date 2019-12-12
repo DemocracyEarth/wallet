@@ -384,10 +384,12 @@ Meteor.methods({
 
     log(`{ method: 'getBlock', collectiveId: ${JSON.stringify(collectives)} }`);
 
+    const lastTimestamp = await getLastTimestamp().then((resolved) => { return resolved; });
     const blockTimes = [];
     blockTimes.push({
       collectiveId: defaults.ROOT,
       height: await getBlockHeight().then((resolved) => { return resolved; }),
+      timestamp: lastTimestamp,
     });
 
     let collectiveList;
@@ -416,17 +418,16 @@ Meteor.methods({
           }
           if (found) { break; }
         }
-
-        now = await getLastTimestamp().then((resolved) => {
-          return {
-            collectiveId: collectiveList[j],
-            height: parseFloat(((resolved - summoningTime) / periodDuration) / 1000, 10),
-          };
-        });
+        now = {
+          collectiveId: collectiveList[j],
+          height: parseFloat(((lastTimestamp - summoningTime) / periodDuration) / 1000, 10),
+          timestamp: lastTimestamp,
+        };
       } else {
         now = {
           collectiveId: collectiveList[j],
           height: undefined,
+          timestamp: lastTimestamp,
         };
       }
 
@@ -435,7 +436,9 @@ Meteor.methods({
       }
     }
 
-    return blockTimes;
+    const finalBlockTimes = _.uniq(blockTimes);
+
+    return finalBlockTimes;
   },
 
 });

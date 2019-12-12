@@ -1,11 +1,10 @@
 import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
-import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import { getBlockHeight, getLastTimestamp } from '/imports/startup/both/modules/metamask.js';
-import { blocktimes, defaults } from '/lib/const';
+import { blocktimes } from '/lib/const';
+import { sync } from '/imports/ui/templates/layout/sync';
 
 import '/imports/ui/templates/components/decision/countdown/countdown.html';
 
@@ -139,11 +138,12 @@ const _getDeadline = (now, remainingBlocks, length, height, alwaysOn, editorMode
 */
 const _currentBlock = async (instance) => {
   let now;
+  if (!Session.get('blockTimes')) {
+    await sync();
+  }
   const blockTimes = Session.get('blockTimes');
-
   if (blockTimes && blockTimes.length > 0) {
     now = _.pluck(_.where(blockTimes, { collectiveId: instance.data.collectiveId }), 'height');
-    console.log(`now is: ${now}`);
     instance.now.set(now);
   }
   return now;
