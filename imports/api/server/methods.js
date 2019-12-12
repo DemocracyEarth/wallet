@@ -8,10 +8,12 @@ import { ServiceConfiguration } from 'meteor/service-configuration';
 import { genesisTransaction, loadExternalCryptoBalance, tallyBlockchainVotes } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { getTime } from '/imports/api/time';
-import { logUser, log } from '/lib/const';
+import { logUser, log, defaults, gui } from '/lib/const';
 import { stripHTML, urlDoctor, fixDBUrl } from '/lib/utils';
 import { notifierHTML } from '/imports/api/notifier/notifierTemplate.js';
 import { computeDAOStats } from '/lib/dao';
+import { getLastTimestamp, getBlockHeight } from '/lib/web3';
+import { Collectives } from '/imports/api/collectives/Collectives';
 
 const _includeQuantity = (quantity, message) => {
   let modified;
@@ -326,6 +328,7 @@ Meteor.methods({
 
   /**
   * @summary updates the period of the posts
+  * @param {Date} lastTimestamp with last sync signature
   * @return {Number} total count.
   */
   sync(lastTimestamp) {
@@ -374,6 +377,68 @@ Meteor.methods({
       }
     }
     computeDAOStats();
+  },
+
+  async getBlock(collectives) {
+    check(collectives, Array);
+
+    log(`{ method: 'getBlock', collectiveId: ${JSON.stringify(collectives)} }`);
+
+    const lastTimestamp = await getLastTimestamp().then((resolved) => { return resolved; });
+    const blockTimes = [];
+    blockTimes.push({
+      collectiveId: defaults.ROOT,
+      height: await getBlockHeight().then((resolved) => { return resolved; }),
+      timestamp: lastTimestamp,
+    });
+
+    let collectiveList;
+    if (collectives.length === 0) {
+      const recentCollectives = Collectives.find({}, { limit: gui.COLLECTIVE_MAX_FETCH }).fetch();
+      collectiveList = _.pluck(recentCollectives, '_id');
+    } else {
+      collectiveList = collectives;
+    }
+
+    let now;
+    for (let j = 0; j < collectiveList.length; j += 1) {
+      const collective = Collectives.findOne({ _id: collectiveList[j] });
+      if (collective) {
+        const smartContracts = collective.profile.blockchain.smartContracts;
+        const summoningTime = parseFloat(collective.profile.summoningTime.getTime(), 10);
+        let periodDuration;
+        let found = false;
+        for (let i = 0; i < smartContracts.length; i += 1) {
+          for (let k = 0; k < smartContracts[i].parameter.length; k += 1) {
+            if (smartContracts[i].parameter[k].name === 'periodDuration') {
+              periodDuration = smartContracts[i].parameter[k].value.toNumber();
+              found = true;
+              break;
+            }
+          }
+          if (found) { break; }
+        }
+        now = {
+          collectiveId: collectiveList[j],
+          height: parseFloat(((lastTimestamp - summoningTime) / periodDuration) / 1000, 10),
+          timestamp: lastTimestamp,
+        };
+      } else {
+        now = {
+          collectiveId: collectiveList[j],
+          height: undefined,
+          timestamp: lastTimestamp,
+        };
+      }
+
+      if (now) {
+        blockTimes.push(now);
+      }
+    }
+
+    const finalBlockTimes = _.uniq(blockTimes);
+
+    return finalBlockTimes;
   },
 
 });

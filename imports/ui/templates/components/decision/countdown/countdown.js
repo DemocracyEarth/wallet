@@ -3,8 +3,8 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import { getBlockHeight, getLastTimestamp } from '/imports/startup/both/modules/metamask.js';
-import { blocktimes, defaults } from '/lib/const';
+import { blocktimes } from '/lib/const';
+import { sync } from '/imports/ui/templates/layout/sync';
 
 import '/imports/ui/templates/components/decision/countdown/countdown.html';
 
@@ -138,18 +138,13 @@ const _getDeadline = (now, remainingBlocks, length, height, alwaysOn, editorMode
 */
 const _currentBlock = async (instance) => {
   let now;
-  if (defaults.CHAIN === 'ETH') {
-    now = await getBlockHeight().then((resolved) => { instance.now.set(resolved); });
-  } else if (instance.data.summoningTime && instance.data.periodDuration) {
-    const timestamp = Session.get('lastTimestamp');
-    // console.log(`eval fo timestmap: ${timestamp}`);
-    if (timestamp) {
-      instance.now.set(parseFloat((timestamp - instance.data.summoningTime.getTime()) / instance.data.periodDuration, 10));
-    } else {
-      now = await getLastTimestamp().then((resolved) => {
-        instance.now.set(parseFloat((resolved - instance.data.summoningTime.getTime()) / instance.data.periodDuration, 10));
-      });
-    }
+  if (!Session.get('blockTimes')) {
+    await sync();
+  }
+  const blockTimes = Session.get('blockTimes');
+  if (blockTimes && blockTimes.length > 0) {
+    now = _.pluck(_.where(blockTimes, { collectiveId: instance.data.collectiveId }), 'height');
+    instance.now.set(now);
   }
   return now;
 };

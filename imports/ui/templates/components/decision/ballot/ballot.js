@@ -13,7 +13,7 @@ import { transact } from '/imports/api/transactions/transaction';
 import { displayTimedWarning } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { timers } from '/lib/const';
-import { verifyConstituencyRights, getTokenAddress, getTokenContractAddress, checkTokenAvailability } from '/imports/ui/templates/components/decision/electorate/electorate.js';
+import { verifyConstituencyRights, getTokenAddress, getTokenContractAddress, checkTokenAvailability, isMember } from '/imports/ui/templates/components/decision/electorate/electorate.js';
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
 import { createContract } from '/imports/startup/both/modules/Contract';
 import { transactWithMetamask, setupWeb3, coinvote, verifyCoinVote } from '/imports/startup/both/modules/metamask';
@@ -29,6 +29,7 @@ import '/imports/ui/templates/components/decision/liquid/liquid.js';
 import '/imports/ui/templates/widgets/warning/warning.js';
 
 
+
 const numeral = require('numeral');
 
 /**
@@ -41,10 +42,10 @@ const _rejectVote = () => {
       true,
       {
         icon: Meteor.settings.public.app.logo,
-        title: TAPi18n.__('place-vote'),
-        message: TAPi18n.__('insufficient-votes'),
-        action: TAPi18n.__('get-tokens'),
-        cancel: TAPi18n.__('not-now'),
+        title: TAPi18n.__('moloch-not-member'),
+        message: TAPi18n.__('moloch-alert-not-member'),
+        cancel: TAPi18n.__('close'),
+        alertMode: true,
       },
       () => {
         window.open(Meteor.settings.public.web.sites.tokens, '_blank');
@@ -104,9 +105,9 @@ const _alreadyVoted = () => {
 */
 const _cryptoVote = () => {
   const contract = Template.currentData().contract;
-  Template.instance().voteEnabled = verifyConstituencyRights(contract);
+  // Template.instance().voteEnabled = verifyConstituencyRights(contract);
   if (Meteor.user()) {
-    if (Template.instance().voteEnabled) {
+    if (isMember(Meteor.user(), contract)) {
       if (isPollOpen(Template.instance().now.get(), contract)) {
         if (!verifyCoinVote(contract.pollId ? Contracts.findOne({ _id: contract.pollId }) : contract)) {
           if (setupWeb3(true)) {
@@ -385,6 +386,8 @@ Template.ballot.onCreated(() => {
   Template.instance().imageTemplate = new ReactiveVar();
   templetize(Template.instance());
 
+  Template.instance().data.summoningTime = Template.currentData().contract.closing.summoningTime;
+  Template.instance().data.summoningTime = Template.currentData().contract.closing.periodDuration;
   Template.instance().now = new ReactiveVar();
   currentBlock(Template.instance());
 });
@@ -820,7 +823,8 @@ Template.ballot.events({
       Template.instance().voteEnabled = verifyConstituencyRights(contract);
 
       if (Meteor.user()) {
-        if (Template.instance().voteEnabled) {
+        if (isMember(Meteor.user(), contractData)) {
+          console.log(`Template.instance().now.get(): ${Template.instance().now.get()}`);
           if (isPollOpen(Template.instance().now.get(), contractData)) {
             if (currency === 'WEB VOTE') {
               const userId = Meteor.user()._id;
@@ -851,6 +855,7 @@ Template.ballot.events({
               _cryptoVote();
             }
           } else {
+            console.log('aca');
             _pollClosed();
           }
         } else {

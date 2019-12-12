@@ -14,6 +14,22 @@ import '/imports/ui/templates/components/decision/electorate/electorate.html';
 import '/imports/ui/templates/components/decision/blockchain/blockchain';
 
 /**
+* @summary verifies if a given user is a valid member of this contract dao
+* @param {object} user info
+* @param {object} contract data
+* @return {boolean} if user can vote or not
+*/
+const _isMember = (user, contract) => {
+  const collectives = (user && user.profile && user.profile.collectives) ? user.profile.collectives : [];
+  for (let i = 0; i < collectives.length; i += 1) {
+    if (collectives[i] === contract.collectiveId) {
+      return true;
+    }
+  }
+  return false;
+};
+
+/**
 * @summary verifies if user has a verified email from a given domain
 * @param {object} emailList obtained from profile
 * @param {string} domain what domain to check for
@@ -222,7 +238,7 @@ Template.electorate.onCreated(() => {
     contract = Template.currentData().contract;
   }
   Session.set('showConstituencyEditor', false);
-  Template.instance().voteEnabled = _verifyConstituencyRights(contract);
+  // Template.instance().voteEnabled = _verifyConstituencyRights(contract);
 
   Template.instance().imageTemplate = new ReactiveVar();
   templetize(Template.instance());
@@ -262,6 +278,11 @@ Template.electorate.onRendered(function () {
 
 Template.electorate.helpers({
   getImage() {
+    if (_isMember(Meteor.user(), this.contract)) {
+      return getImage(Template.instance().imageTemplate.get(), 'electorate-check-enabled');
+    }
+    return getImage(Template.instance().imageTemplate.get(), 'electorate-check-reject-enabled');
+    /**
     if (!this.readOnly) {
       if (Session.get('showConstituencyEditor')) {
         return getImage(Template.instance().imageTemplate.get(), 'electorate-check-active');
@@ -272,9 +293,10 @@ Template.electorate.helpers({
       return getImage(Template.instance().imageTemplate.get(), 'electorate-check-reject-enabled');
     }
     return getImage(Template.instance().imageTemplate.get(), 'electorate-check-enabled');
+     */
   },
   status() {
-    let rule;
+    /* let rule;
     if (!this.readOnly) {
       rule = _writeRule(Session.get('draftContract'));
       if (rule === TAPi18n.__('electorate-sentence-anyone') || rule === 'undefined') {
@@ -285,8 +307,17 @@ Template.electorate.helpers({
     rule = _writeRule(this.contract);
     if (rule === TAPi18n.__('electorate-sentence-anyone') || rule === 'undefined') {
       return '';
+    } */
+    let rule;
+    let style;
+    if (_isMember(Meteor.user(), this.contract)) {
+      rule = TAPi18n.__('moloch-valid-voter');
+      style = 'election-rule-can-vote';
+    } else {
+      rule = TAPi18n.__('moloch-invalid-voter');
+      style = 'election-rule-not-member';
     }
-    return `<div class="electorate-rule">${rule}</div>`;
+    return `<div class="electorate-rule ${style}">${rule}</div>`;
   },
   editorId() {
     if (!this.readOnly) {
@@ -295,15 +326,18 @@ Template.electorate.helpers({
     return '';
   },
   description() {
+    if (_isMember(Meteor.user(), this.contract)) {
+      return TAPi18n.__('moloch-member-can-vote');
+    }
+    return TAPi18n.__('moloch-member-cannot-vote');
+    /**
     if (this.readOnly) {
       return _writeRule(this.contract, true);
     }
     return '';
+    */
   },
-  check() {
-    return Template.instance().voteEnabled;
-  },
-  icon() {
+  /** icon() {
     if (!this.readOnly) {
       if (Session.get('showConstituencyEditor')) {
         return 'active';
@@ -314,7 +348,7 @@ Template.electorate.helpers({
       return 'reject-enabled';
     }
     return 'enabled';
-  },
+  },*/
   readOnly() {
     if (this.readOnly) {
       return 'editor-button-readonly';
@@ -335,3 +369,4 @@ export const verifyConstituencyRights = _verifyConstituencyRights;
 export const getTokenAddress = _getTokenAddress;
 export const getTokenContractAddress = _getTokenContractAddress;
 export const checkTokenAvailability = _checkTokenAvailability;
+export const isMember = _isMember;

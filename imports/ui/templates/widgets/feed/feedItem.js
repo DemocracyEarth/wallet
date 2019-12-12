@@ -582,6 +582,7 @@ Template.feedItem.helpers({
       closing.alwaysOn = this.rules.alwaysOn;
       closing.period = this.period;
       closing.timestamp = this.timestamp;
+      closing.collectiveId = this.collectiveId;
     }
     return closing;
   },

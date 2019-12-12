@@ -11,6 +11,7 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { tokenWeb } from '/lib/token';
+import { sync } from '/imports/ui/templates/layout/sync';
 import { request } from 'http';
 
 if (Meteor.isClient) {
@@ -69,7 +70,7 @@ const _meta = (tag, includeTitle) => {
 /**
 * @summary resets session variables
 */
-const _reset = () => {
+const _reset = async () => {
   Session.set('castSingleVote', undefined);
   Session.set('newLogin', false);
 };
@@ -130,6 +131,7 @@ Router.route('/', {
   loadingTemplate: 'load',
   onBeforeAction() {
     _reset();
+    sync();
     this.next();
   },
   data() {
@@ -164,6 +166,7 @@ Router.route('/address/:username', {
   onBeforeAction() {
     Session.set('sidebarMenuSelectedId', 999);
     _reset();
+    sync();
     this.next();
   },
   data() {
@@ -219,6 +222,7 @@ Router.route('/tx/:keyword', {
   onBeforeAction() {
     Session.set('sidebarMenuSelectedId', 999);
     _reset();
+    sync();
     this.next();
   },
   data() {
