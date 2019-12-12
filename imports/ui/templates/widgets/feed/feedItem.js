@@ -65,7 +65,7 @@ const _getProposalDescription = (title, onlyTitle) => {
     const json = JSON.parse(xmlDescription.json);
     if (json && json.description !== undefined) {
       const description = wrapURLs(json.description, true);
-      const html = `<div>${json.title}</div><div class='title-description'>${description}</div>`;
+      const html = `<div class='title-header'>${json.title}</div><div class='title-description'>${description}</div>`;
       if (onlyTitle) { return json.title; }
       return html;
     }
@@ -188,10 +188,12 @@ const parseURL = (text) => {
 */
 const _hasSubstring = (str, items) => {
   let item;
-  for (let i = 0; i < items.length; i += 1) {
-    item = items[i];
-    if (str.indexOf(item) > -1) {
-      return true;
+  if (str) {
+    for (let i = 0; i < items.length; i += 1) {
+      item = str.match(items[i]);
+      if (item && item.length > 0) {
+        return true;
+      }
     }
   }
   return false;
@@ -203,7 +205,7 @@ const _hasSubstring = (str, items) => {
 * @return {string} html with linked url
 */
 const _clickOnWhitespace = (className) => {
-  return _hasSubstring(className, ['checkbox', 'title-input', 'option-title', 'identity-list']);
+  return _hasSubstring(className, ['checkbox', 'title-input', 'title-header', 'title-description', 'smart-contract', 'identity-peer', 'parameter-name', 'parameter-line', 'option-title', 'identity-list']);
 };
 
 /**
