@@ -74,7 +74,6 @@ meteorhacks:ssr
 # miscellaneous
 check@1.3.1
 ejson@1.1.0
-houston:admin
 # meteortoys:allthings
 edgee:slingshot
 http@1.4.2

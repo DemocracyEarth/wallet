@@ -28,7 +28,6 @@ check@1.3.1
 coffeescript@1.0.17
 dburles:collection-helpers@1.1.0
 dburles:factory@1.1.0
-dburles:mongo-collection-instances@0.3.5
 ddp@1.4.0
 ddp-client@2.3.3
 ddp-common@1.4.0
@@ -54,7 +53,6 @@ flowkey:raven@1.1.0
 geojson-utils@1.0.10
 harrison:papa-parse@1.1.7
 hot-code-push@1.0.4
-houston:admin@2.0.7
 html-tools@1.0.11
 htmljs@1.0.11
 http@1.4.2
@@ -71,7 +69,6 @@ iron:url@1.1.0
 jquery@1.11.11
 kadira:dochead@1.5.0
 konecty:nrr@2.0.2
-lai:collection-extensions@0.2.1_1
 launch-screen@1.1.1
 less@2.8.0
 lh84:medium-editor@5.4.0
@@ -142,7 +139,6 @@ templating-compiler@1.3.3
 templating-runtime@1.3.2
 templating-tools@1.1.2
 tmeasday:check-npm-versions@0.3.2
-tmeasday:paginated-subscription@0.2.4
 tmeasday:publish-counts@0.8.0
 tmeasday:test-reporter-helpers@0.2.1
 tracker@1.2.0
