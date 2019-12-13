@@ -131,7 +131,6 @@ Router.route('/', {
   loadingTemplate: 'load',
   onBeforeAction() {
     _reset();
-    sync();
     this.next();
   },
   data() {
@@ -166,7 +165,6 @@ Router.route('/address/:username', {
   onBeforeAction() {
     Session.set('sidebarMenuSelectedId', 999);
     _reset();
-    sync();
     this.next();
   },
   data() {
@@ -222,7 +220,6 @@ Router.route('/tx/:keyword', {
   onBeforeAction() {
     Session.set('sidebarMenuSelectedId', 999);
     _reset();
-    sync();
     this.next();
   },
   data() {
