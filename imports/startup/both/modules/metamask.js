@@ -587,22 +587,16 @@ const _getLastTimestamp = async () => {
     if (!Session.get('blockTimes')) {
       await sync();
     }
-    return await _getBlockHeight().then(async (resolved) => {
-      return await web3.eth.getBlock(resolved).then((res) => {
-        const timestamp = res.timestamp * 1000;
-        Session.set('lastTimestamp', timestamp);
-        Meteor.call('sync', new Date(timestamp), (error) => {
-          if (error) {
-            console.log(error);
-          }
-        });
-        const blockTimes = Session.get('blockTimes');
-        if (blockTimes && blockTimes.length > 0) {
-          return _.pluck(_.where(blockTimes, { collectiveId: defaults.ROOT }), 'timestamp');
+    const blockTimes = Session.get('blockTimes');
+    if (blockTimes && blockTimes.length > 0) {
+      const timestamp = _.pluck(_.where(blockTimes, { collectiveId: defaults.ROOT }), 'timestamp');
+      Meteor.call('sync', new Date(timestamp[0]), (error) => {
+        if (error) {
+          console.log(error);
         }
-        return undefined;
       });
-    });
+      return timestamp;
+    }
   }
   return undefined;
 };

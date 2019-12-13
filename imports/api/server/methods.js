@@ -333,9 +333,9 @@ Meteor.methods({
   */
   sync(lastTimestamp) {
     check(lastTimestamp, Date);
-    const feed = Contracts.find({ $or: [{ period: 'VOTING' }, { period: 'GRACE' }, { period: 'QUEUE' }, { period: 'PROCESS' }] }).fetch();
+    const feed = Contracts.find({ $or: [{ period: 'COMPLETE' }, { period: 'VOTING' }, { period: 'GRACE' }, { period: 'QUEUE' }, { period: 'PROCESS' }] }).fetch();
 
-    log(`{ method: 'sync', feed.length: '${feed.length}' }`);
+    log(`{ method: 'sync', feed.length: '${feed.length}', lastTimestamp: '${lastTimestamp}' }`);
 
     let newPeriod;
     let queueEnd;
@@ -343,7 +343,8 @@ Meteor.methods({
       newPeriod = feed[i].period;
       switch (feed[i].period) {
         case 'PROCESS':
-          if (lastTimestamp > feed[i].closing.graceCalendar && feed[i].processed) {
+        case 'COMPLETE':
+          if (lastTimestamp >= feed[i].closing.graceCalendar && feed[i].processed) {
             if (!feed[i].aborted) {
               newPeriod = 'COMPLETE';
             }
@@ -360,14 +361,14 @@ Meteor.methods({
           }
           break;
         case 'VOTING':
-          if (lastTimestamp > feed[i].closing.calendar) {
+          if (lastTimestamp > feed[i].closing.calendar && !feed[i].processed) {
             newPeriod = 'GRACE';
           }
           break;
         case 'QUEUE':
         default:
           queueEnd = parseInt(feed[i].timestamp.getTime() + feed[i].closing.periodDuration, 10);
-          if (lastTimestamp > queueEnd) {
+          if (lastTimestamp > queueEnd && !feed[i].processed) {
             newPeriod = 'VOTING';
           }
           break;
