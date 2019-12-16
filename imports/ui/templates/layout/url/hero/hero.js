@@ -54,6 +54,8 @@ Template.hero.helpers({
 
 Template.hero.events({
   'click #join'() {
+    window.open('https://moloch.democracy.earth');
+/*
     const email = document.getElementById('lead').value;
     const validEmail = validateEmail(email);
     const instance = Template.instance();
@@ -70,7 +72,7 @@ Template.hero.events({
       });
     } else {
       Session.set('invalidHeroEmail', true);
-    }
+    }*/
   },
   'focus #lead'() {
     Session.set('invalidHeroEmail', false);

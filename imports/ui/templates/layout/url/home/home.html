@@ -27,53 +27,6 @@
 </template>
 
 <template name="homeFeed">
-  <div class="split split-left {{landingMode 'left'}}">
-    <div class="content content-feed max100">
-      {{#unless isPhone}}
-        {{#unless dictator}}
-          {{#unless replyMode}}
-            {{#unless minimizedMode}}
-              {{> compose desktopMode=true replyMode=false}}
-            {{else}}
-              {{> compose desktopMode=true replyMode=false compressed=true}}
-            {{/unless}}
-          {{else}}
-            {{> compose desktopMode=true replyMode=false compressed=true}}
-          {{/unless}}
-        {{/unless}}
-      {{else}}
-        {{#if editorMode}}
-          {{> editor contractId=newContractId}}
-        {{/if}}
-      {{/unless}}
-
-      {{#if isPhone}}
-        <input id="hiddenInput" style="visibility: hidden; position: absolute;">
-      {{/if}}
-
-
-      <div id="non-editable-feed">
-        <h4 class="padding-left-zero">{{{feedTitle}}}</h4>
-        {{#if feedReady}}
-          {{> feed mainFeed}}
-        {{/if}}
-      </div>
-    </div>
-  </div>
-
-
-  {{#if showTransactions}}
-    {{#unless unloggedMobile}}
-      <div class="split split-right {{landingMode 'right'}}">
-        {{#if feedReady}}
-          {{#with mainLedger}}
-            {{> ledger this}}
-          {{/with}}
-        {{/if}}
-      </div>
-    {{/unless}}
-  {{/if}}
-
   {{#if displayLanding}}
     {{> landing}}
   {{/if}}  

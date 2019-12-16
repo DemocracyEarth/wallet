@@ -1072,8 +1072,11 @@ blockquote {
   padding-bottom: 10px;
   float: left;
   clear: none;
-  border-radius: 0px 5px 5px 0px;
+  border-radius: 5px;
   font-size: 12px;
+  width: 200px;
+  margin-right: 5px;
+  min-width:200px;
   text-align: center;
 }
 
@@ -6413,6 +6416,7 @@ blockquote {
   background-color: #f2f2f8;
   font-size: 18px;
   line-height: 26px;
+  margin-bottom: -10px;
 }
 
 .hero.hero-landing {
@@ -6462,6 +6466,7 @@ blockquote {
   margin-left: 5%;
   padding-right: 30px;
   clear: both;
+  margin-bottom:30px;
 }
 
 .hero-cta-input {

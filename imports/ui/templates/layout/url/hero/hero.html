@@ -9,32 +9,13 @@
       {{> demo}}
       {{#if callToAction}}
         <div class="hero-call-to-action">
-          <div class="hero-cta-box">
-            <input id="lead" type="text" placeholder="{{_ 'email'}}" class="hero-cta-input" />
-            <div id="join" class="button button-cta">
-              {{#if unclicked}}
-                {{_ 'join'}}
-              {{else}}
-                {{> spinner id='modal' style='height:24px; margin-top:12px;' color='#fff' length=12}}
-              {{/if}}
-            </div>
-            <div class="hero-warn">
-              {{#if invalidEmail}}
-                <div class="extra extra-warning-hero">
-                  {{> warning label="invalid-email"}}
-                </div>
-              {{/if}}
-              {{#if userExists}}
-                <div class="extra extra-warning-hero">
-                  {{> warning label="user-exists"}}
-                </div>
-              {{/if}}
-              {{#if heroEmailUserCreated}}
-                <div class="extra extra-warning-hero">
-                  {{> warning label="user-created-email"}}
-                </div>
-              {{/if}}
-            </div>
+          
+          <div id="join" class="button button-cta">
+            {{#if unclicked}}
+              {{_ 'join'}}
+            {{else}}
+              {{> spinner id='modal' style='height:24px; margin-top:12px;' color='#fff' length=12}}
+            {{/if}}
           </div>
           <div class="hero-cta-alternative">
             &#183;
@@ -60,9 +41,9 @@
         {{/if}}
       {{/if}}
     </div>
-    <div id="collective-login" class="hero-button hero-button-mobile hero-signin">
+    <!--<div id="collective-login" class="hero-button hero-button-mobile hero-signin">
         <div class="hero-menu-link hero-menu-link-signin {{loginMode}}" target="_blank">{{_ 'sign-in'}}</div>
-    </div>
+    </div>-->
     <div class="hero-menu">
       {{#each navbarItem}}
         {{#if this.selected}}
