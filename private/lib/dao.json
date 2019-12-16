@@ -214,7 +214,16 @@
                 },
                 {
                   "eventName": "Ragequit",
-                  "collectionType": "Contract"
+                  "collectionType": "Contract",
+                  "contract": {
+                    "title": "moloch-map-rage-quit",
+                    "rules": {
+                      "alwaysOn": false,
+                      "quadraticVoting": false,
+                      "balanceVoting": false,
+                      "pollVoting": false
+                    }
+                  }
                 }
               ]
             },
