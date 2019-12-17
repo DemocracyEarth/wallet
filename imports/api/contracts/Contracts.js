@@ -174,6 +174,10 @@ Schema.Decision = new SimpleSchema({
     type: String,
     optional: true,
   },
+  sharesToBurn: {
+    type: Number,
+    optional: true,
+  },
 });
 
 Schema.Contract = new SimpleSchema({
@@ -625,7 +629,7 @@ Schema.Contract = new SimpleSchema({
   },
   period: {
     type: String,
-    allowedValues: ['PROCESS', 'QUEUE', 'VOTING', 'GRACE', 'ABORT', 'COMPLETE', 'PASSED', 'REJECTED', 'ABORTED'],
+    allowedValues: ['PROCESS', 'QUEUE', 'VOTING', 'GRACE', 'ABORT', 'COMPLETE', 'PASSED', 'REJECTED', 'ABORTED', 'RAGEQUIT'],
     optional: true,
   },
 });

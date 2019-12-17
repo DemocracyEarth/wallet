@@ -767,7 +767,7 @@
   "moloch-period": "Period",
   "moloch-results": "Results",
   "moloch-map-submit-proposal": "<root><description json='{{details}}'></description> <request quantity='{{sharesRequested}}' token='SHARES'></request> <user _id='{{applicantId}}' username='{{applicant}}'></user> <tribute quantity='{{ether tokenTribute}}' token='WETH'></tribute></root>",
-  "moloch-map-rage-quit": "<root><request quantity='{{sharesToBurn}}' token='SHARES'></request> <user _id='{{memberAddress}}' username='{{memberAddress}}'></user>",
+  "moloch-map-rage-quit": "<root><ragequit quantity='{{sharesToBurn}}' token='SHARES'></ragequit></root>",
   "moloch-yes": "Yes",
   "moloch-no": "No",
   "moloch-tribute": "Tribute to DAO",
