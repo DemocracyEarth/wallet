@@ -155,6 +155,10 @@ Schema.Transaction = new SimpleSchema({
     type: String,
     optional: true,
   },
+  isRagequit: {
+    type: Boolean,
+    optional: true,
+  },
 });
 
 Transactions.attachSchema(Schema.Transaction);

@@ -93,6 +93,17 @@
             "url": "/?period=rejected",
             "displayToken": false,
             "displayCount": true
+          },
+          {
+            "label": "moloch-ragequit",
+            "icon": "images/decision-ragequit.png",
+            "iconActivated": "images/decision-ragequit-active.png",
+            "feed": "user",
+            "value": true,
+            "separator": false,
+            "url": "/?period=ragequit",
+            "displayToken": false,
+            "displayCount": true
           }        
         ],
         "blockchain" : {
