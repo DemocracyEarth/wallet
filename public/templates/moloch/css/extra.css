@@ -1062,3 +1062,7 @@ h4 {
 .election-rule-not-member {
   color: #ff3d67;
 }
+
+.election-rule-top {
+  margin-top: 0px;
+}

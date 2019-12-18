@@ -591,6 +591,9 @@ Template.feedItem.helpers({
   moloch() {
     return gui.MOLOCH_DAPP;
   },
+  ragequit() {
+    return (this.period === 'RAGEQUIT');
+  },
   request() {
     const parameter = _getXMLAttributes(this.title, 'request');
     return {
@@ -603,6 +606,28 @@ Template.feedItem.helpers({
     };
   },
   tribute() {
+    const parameter = _getXMLAttributes(this.title, 'tribute');
+    return {
+      token: parameter.token,
+      balance: parameter.quantity,
+      placed: parameter.quantity,
+      available: parameter.quantity,
+      disableStake: true,
+      disableBar: true,
+    };
+  },
+  burn() {
+    const parameter = _getXMLAttributes(this.title, 'ragequit');
+    return {
+      token: parameter.token,
+      balance: parameter.quantity,
+      placed: parameter.quantity,
+      available: parameter.quantity,
+      disableStake: true,
+      disableBar: true,
+    };
+  },
+  withdraw() {
     const parameter = _getXMLAttributes(this.title, 'tribute');
     return {
       token: parameter.token,
