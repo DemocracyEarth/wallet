@@ -98,7 +98,7 @@ Template.balance.helpers({
     Template.instance().coin = getCoin(Template.currentData().token);
     const coin = Template.instance().coin;
     if (coin.color) {
-      style = `background-color: ${coin.color}; border-color: ${coin.color};`;
+      style = `background-color: transparent; color: ${coin.color}; border-color: ${coin.color};`;
     }
     return style;
   },

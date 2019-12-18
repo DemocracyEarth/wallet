@@ -533,6 +533,7 @@ width: 1px;
     background-color: #9695c3;
     font-size: 9px;
     line-height: 11px;
+    border-right:0px;
     font-weight: 400;
     text-align: center;
 }
@@ -545,6 +546,7 @@ width: 1px;
     color: #9696c1;
     border: 1px solid #9696c1;
     font-size: 11px;
+    border-left:0px;
     line-height: 11px;
     font-weight: 400;
     text-align: right;
