@@ -76,11 +76,15 @@
                   </div>
                 </td>
               {{/if}}
-              <td class="actor actor-arrow">
-                <a href='{{blockchainHash}}' title='{{blockchainInfo}}' target="_blank">
-                  <img src="{{transactionIcon}}" class="transaction-direction">
-                </a>
-              </td>
+              {{#if ragequit}}
+              
+              {{else}}
+                <td class="actor actor-arrow">
+                  <a href='{{blockchainHash}}' title='{{blockchainInfo}}' target="_blank">
+                    <img src="{{transactionIcon}}" class="transaction-direction">
+                  </a>
+                </td>
+              {{/if}}
               {{#if isRevoke}}
                 <td class="actor">
                   <div class="identity identity-transaction w-clearfix">

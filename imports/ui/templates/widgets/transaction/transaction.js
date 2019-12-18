@@ -215,6 +215,11 @@ Template.transaction.helpers({
   sinceDate() {
     return `${timeCompressed(this.contract.timestamp, true)}`;
   },
+  ragequit() {
+    console.log('hshshs');
+    console.log(this);
+    return this.ragequit;
+  },
   noDate() {
     return this.noDate;
   },

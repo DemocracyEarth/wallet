@@ -6183,6 +6183,7 @@ blockquote {
 .token {
   margin-top: 0px;
   color: #fff;
+  font-size:16px;
 }
 
 .token.token-ledger {
