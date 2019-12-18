@@ -216,9 +216,7 @@ Template.transaction.helpers({
     return `${timeCompressed(this.contract.timestamp, true)}`;
   },
   ragequit() {
-    console.log('hshshs');
-    console.log(this);
-    return this.ragequit;
+    return this.isRagequit;
   },
   noDate() {
     return this.noDate;
