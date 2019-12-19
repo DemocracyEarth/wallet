@@ -526,16 +526,16 @@ width: 1px;
 }
 
 .token-ticker {
-    min-width: 35px;  
-    padding: 4px 3px 2px 5px;
-    float: left;
-    border: 1px solid #9696c1;
-    background-color: #9695c3;
-    font-size: 0.5em;
-    line-height: 11px;
-    border-right:0px;
-    font-weight: 400;
-    text-align: center;
+  min-width: 35px;
+  padding: 3px 3px 3px 5px;
+  float: left;
+  border: 1px solid #9696c1;
+  background-color: #9695c3;
+  font-size: 0.55em;
+  line-height: 11px;
+  border-right: 0px;
+  font-weight: 400;
+  text-align: center;
 }
 
 .token-balance {
@@ -889,12 +889,6 @@ h4 {
   }
 }
 
-@media (max-width: 479px) {
-  .margin-top-minus-three {
-      display: none;
-  }
-}
-
 .title-description {
   font-size: 14px;
   line-height: 20px;
@@ -1043,6 +1037,18 @@ h4 {
 
   .login {
     padding: 5px 5px 10px;
+  }
+
+  .menu-item {
+    margin-bottom: 12px;
+  }
+
+  .left {
+    box-shadow: none;
+  }
+
+  body {
+    background-color: #f4f4f4;
   }
 }
 

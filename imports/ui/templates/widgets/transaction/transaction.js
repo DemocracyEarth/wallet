@@ -298,7 +298,6 @@ Template.transaction.helpers({
       contractId: this.contractId,
       ragequit: true,
     };
-    console.log(post);
     return post;
   },
   getImage(pic) {

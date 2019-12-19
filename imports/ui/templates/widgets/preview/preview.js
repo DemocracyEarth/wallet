@@ -47,7 +47,6 @@ Template.preview.onCreated(function () {
 
 Template.preview.helpers({
   ready() {
-    console.log(`ready: ${(Template.instance().contract.get() !== undefined)}`);
     return (Template.instance().contract.get() !== undefined);
   },
   ragequit() {
