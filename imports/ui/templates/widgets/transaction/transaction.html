@@ -76,49 +76,52 @@
                   </div>
                 </td>
               {{/if}}
-              <td class="actor actor-arrow">
-                <a href='{{blockchainHash}}' title='{{blockchainInfo}}' target="_blank">
-                  <img src="{{transactionIcon}}" class="transaction-direction">
-                </a>
-              </td>
-              {{#if isRevoke}}
-                <td class="actor">
-                  <div class="identity identity-transaction w-clearfix">
-                    {{#with receiver}}
-                      {{> avatar size=24 profile=this._id includeName=true includeNation=true editable=false microFont=true disabled=false includeRole=false flex=true}}
-                    {{/with}}
-                  </div>
-                </td>
+              {{#if ragequit}}
+                {{#unless hidePost}}
+                  {{#with ragequitPost}}
+                    {{> preview}}
+                  {{/with}}
+                {{/unless}}
               {{else}}
-                {{#if isCrypto}}
-                  {{#unless hidePost}}
-                    {{> preview contractId=this.receiverId}}
-                  {{/unless}}
+                {{#if isRevoke}}
+                  <td class="actor">
+                    <div class="identity identity-transaction w-clearfix">
+                      {{#with receiver}}
+                        {{> avatar size=24 profile=this._id includeName=true includeNation=true editable=false microFont=true disabled=false includeRole=false flex=true}}
+                      {{/with}}
+                    </div>
+                  </td>
                 {{else}}
-                  {{#unless isSubsidy}}
-                    <td class="actor">
-                      <div class="actor actor-score actor-score-ballot">
-                        <div class="transaction-value">
-                          <div class="bar-labels">
-                            <div class="vote-available label-votes">
-                              <div class="stage stage-vote {{stage}}">
-                                <div class="label label-corner">
-                                  <div class="checkbox-mini">
-                                    <div class="checkmark_kick"></div>
-                                    <div class="checkmark_stem"></div>
+                  {{#if isCrypto}}
+                    {{#unless hidePost}}
+                      {{> preview contractId=this.receiverId}}
+                    {{/unless}}
+                  {{else}}
+                    {{#unless isSubsidy}}
+                      <td class="actor">
+                        <div class="actor actor-score actor-score-ballot">
+                          <div class="transaction-value">
+                            <div class="bar-labels">
+                              <div class="vote-available label-votes">
+                                <div class="stage stage-vote {{stage}}">
+                                  <div class="label label-corner">
+                                    <div class="checkbox-mini">
+                                      <div class="checkmark_kick"></div>
+                                      <div class="checkmark_stem"></div>
+                                    </div>
+                                    {{ballotOption}}
                                   </div>
-                                  {{ballotOption}}
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </td>
-                    {{#unless hidePost}}
-                      {{> preview contractId=this.receiverId}}
+                      </td>
+                      {{#unless hidePost}}
+                        {{> preview contractId=this.receiverId}}
+                      {{/unless}}
                     {{/unless}}
-                  {{/unless}}
+                  {{/if}}
                 {{/if}}
               {{/if}}
             </tr>

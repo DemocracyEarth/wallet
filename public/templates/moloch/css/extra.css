@@ -527,33 +527,28 @@ width: 1px;
 
 .token-ticker {
     min-width: 35px;  
-    padding: 3px;
+    padding: 4px 3px 2px 5px;
     float: left;
     border: 1px solid #9696c1;
-    /* border-top-left-radius: 5px; */
-    /* border-bottom-left-radius: 5px; */
     background-color: #9695c3;
-    border-radius: 5px;
-    margin-right: 3px;
-    font-size: 10px;
-    line-height: 10px;
+    font-size: 0.5em;
+    line-height: 11px;
+    border-right:0px;
     font-weight: 400;
     text-align: center;
 }
 
 .token-balance {
-      display: inline;
+    display: inline;
     min-width: 35px;
     padding: 3px 5px;
     float: left;
     color: #9696c1;
     border: 1px solid #9696c1;
-    /* border-top-right-radius: 5px; */
-    /* border-bottom-right-radius: 5px; */
-    border-radius: 5px;
-    font-size: 10px;
-    line-height: 10px;
-    font-weight: 400;
+    font-size: 0.65em;
+    border-left:0px;
+    line-height: 11px;
+    font-weight: 600;
     text-align: right;
     text-transform: uppercase;
 }
@@ -614,7 +609,7 @@ width: 1px;
 .election-rule {
     background: transparent;
     color: #5a0074;
-    font-size: 11px;
+    font-size: 0.7em;
     display: inline-block;
     padding: 0px;
     border-radius: 0px;
@@ -745,21 +740,21 @@ width: 1px;
 
 
 .help {
-    display: block;
-    margin-top: 9px;
-    margin-left: 7px;
-    /* padding-right: 5px; */
-    /* padding-left: 5px; */
-    padding: 0px 3px;
-    float: right;
-    border: 0px;
-    border-radius: 100px;
-    background-color: #ff617e;
-    color: #fff;
-    font-size: 9px;
-    line-height: 11px;
-    font-weight: 400;
-    cursor: default;
+  display: inline-block;
+  margin-top: 8px;
+  margin-left: 2px;
+  /* padding-right: 5px; */
+  /* padding-left: 5px; */
+  padding: 0px 3px;
+  float: right;
+  border: 0px;
+  border-radius: 100px;
+  background-color: #ff617e;
+  color: #fff;
+  font-size: 0.79em;
+  line-height: 10px;
+  font-weight: 400;
+  cursor: default;
 }
 
 .card {
@@ -1062,3 +1057,48 @@ h4 {
 .election-rule-not-member {
   color: #ff3d67;
 }
+
+.election-rule-top {
+  margin-top: 0px;
+}
+
+.transaction-action {
+  float: right;
+  font-size: 0.5em;
+  font-weight: 400;
+  padding: 4px 4px;
+  color: #7d849f;
+  text-transform: uppercase;
+  line-height: 12px;
+  border-radius: 3px;
+  margin-top: -2px;
+  margin: 2px -4px 0px 6px;
+  cursor:pointer;
+}
+
+.transaction-action:hover {
+  text-decoration: underline;
+}
+
+.transaction-action-ragequit {
+  color: #ff9a00;
+}
+
+.transaction-action-passed {
+  color: #01c190;
+}
+
+.transaction-action-rejected {
+  color: #ff3d67;
+}
+
+.transaction-signal {
+  width: 16px;
+  height: 16px;
+  margin: 0px 2px 1px;
+}
+
+.title-ballot {
+  margin-top: 0px;
+}
+

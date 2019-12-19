@@ -21,9 +21,11 @@ const _voteToContract = (post, contract, hidePost, winningBallot, openFeed) => {
     senderId: post.input.entityId,
     receiverId: post.output.entityId,
     isVote: true,
-    hidePost,
+    hidePost: (post.isRagequit) ? false : hidePost,
     winningBallot,
     isRevoke: (post.input.entityType !== 'INDIVIDUAL'),
+    isRagequit: post.isRagequit,
+    contractId: post.contractId,
   };
   if (openFeed) {
     // for a feed in a general context (home page)

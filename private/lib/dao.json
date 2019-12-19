@@ -93,6 +93,17 @@
             "url": "/?period=rejected",
             "displayToken": false,
             "displayCount": true
+          },
+          {
+            "label": "moloch-ragequit",
+            "icon": "images/decision-ragequit.png",
+            "iconActivated": "images/decision-ragequit-active.png",
+            "feed": "user",
+            "value": true,
+            "separator": false,
+            "url": "/?period=ragequit",
+            "displayToken": false,
+            "displayCount": true
           }        
         ],
         "blockchain" : {
@@ -214,7 +225,16 @@
                 },
                 {
                   "eventName": "Ragequit",
-                  "collectionType": "Contract"
+                  "collectionType": "Contract",
+                  "contract": {
+                    "title": "moloch-map-rage-quit",
+                    "rules": {
+                      "alwaysOn": false,
+                      "quadraticVoting": false,
+                      "balanceVoting": false,
+                      "pollVoting": false
+                    }
+                  }
                 }
               ]
             },
@@ -226,12 +246,12 @@
             }
           ],
           "coin": {
-            "code": "SHARES"
+            "code": "MOLOCH"
           }
         },
         "proof": "https://twitter.com/MolochDAO/status/1121203264316268544",
         "wallet": {
-          "currency": "SHARES"
+          "currency": "MOLOCH"
         }
       }
     }

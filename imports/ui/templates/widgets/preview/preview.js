@@ -5,6 +5,7 @@ import { $ } from 'meteor/jquery';
 
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
+import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 
 import '/imports/ui/templates/widgets/preview/preview.html';
 
@@ -39,11 +40,22 @@ Template.preview.onCreated(function () {
       instance.contract.set(contract);
     }
   }
+
+  Template.instance().imageTemplate = new ReactiveVar();
+  templetize(Template.instance());
 });
 
 Template.preview.helpers({
   ready() {
+    console.log(`ready: ${(Template.instance().contract.get() !== undefined)}`);
     return (Template.instance().contract.get() !== undefined);
+  },
+  ragequit() {
+    return this.ragequit;
+  },
+  passed() {
+    const thumbUp = Template.instance().contract.get().importId.toUpperCase().match('YES');
+    return (thumbUp && thumbUp.length > 0);
   },
   displayTitle() {
     const contract = Template.instance().contract.get();
@@ -62,5 +74,8 @@ Template.preview.helpers({
   },
   url() {
     return Template.instance().contract.get().url;
+  },
+  getImage(pic) {
+    return getImage(Template.instance().imageTemplate.get(), pic);
   },
 });

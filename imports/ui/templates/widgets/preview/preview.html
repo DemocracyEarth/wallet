@@ -1,17 +1,36 @@
 <template name="preview">
-  <div class="identity identity-transaction w-clearfix" style="float:left">
-    <div class="w-clearfix avatar-editor">
-      <div class="identity-peer identity-post">
-        {{#if ready}}
-          <a href="{{url}}" title="{{fullTitle}}" class="identity-label identity-label-micro identity-label-post">
-            {{{displayTitle}}}
+  {{#if ready}}
+    <td class="actor actor-arrow">
+      {{#if ragequit}}
+        <td class="actor actor-arrow">
+          <a href="{{url}}" title="{{fullTitle}}" class="transaction-action transaction-action-ragequit">
+            <img src="{{getImage 'ragequit'}}" class="transaction-signal">
+            {{_ 'moloch-period-ragequit'}}
+          </a>
+        </td>
+      {{else}}
+        {{#if passed}}
+          <a href="{{url}}" title="{{fullTitle}}" class="transaction-action transaction-action-passed">
+            <img src="{{getImage 'passed'}}" class="transaction-signal">
+            {{_ 'yes'}}
           </a>
         {{else}}
+          <a href="{{url}}" title="{{fullTitle}}" class="transaction-action transaction-action-rejected">
+            <img src="{{getImage 'rejected'}}" class="transaction-signal">
+            {{_ 'no'}}
+          </a>
+        {{/if}}
+      {{/if}}
+    </td>
+  {{else}}
+    <div class="identity identity-transaction w-clearfix" style="float:left">
+      <div class="w-clearfix avatar-editor">
+        <div class="identity-peer identity-post">
           <div class="identity-label identity-label-micro identity-label-post">
             {{_ 'await-contract'}}
           </div>
-        {{/if}}
+        </div>
       </div>
     </div>
-  </div>
+  {{/if}}
 </template>
