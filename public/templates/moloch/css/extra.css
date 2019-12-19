@@ -1061,3 +1061,21 @@ h4 {
 .election-rule-top {
   margin-top: 0px;
 }
+
+.transaction-ragequit {
+float: right;
+    font-size: 0.45em;
+    /* background: black; */
+    padding: 0px 4px;
+    color: #7d849f;
+    text-transform: uppercase;
+    line-height: 12px;
+    border-radius: 3px;
+    margin-top: -2px;
+    margin: 1px -6px 0px 5px;
+}
+.transaction-signal {
+  width: 16px;
+  height: 16px;
+}
+

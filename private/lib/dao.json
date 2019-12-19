@@ -246,12 +246,12 @@
             }
           ],
           "coin": {
-            "code": "SHARES"
+            "code": "MOLOCH"
           }
         },
         "proof": "https://twitter.com/MolochDAO/status/1121203264316268544",
         "wallet": {
-          "currency": "SHARES"
+          "currency": "MOLOCH"
         }
       }
     }

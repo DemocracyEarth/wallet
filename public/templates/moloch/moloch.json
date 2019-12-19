@@ -74,6 +74,7 @@
     "navbar-icon": "/images/moloch.png",
     "navbar-burger": "/templates/moloch/images/burger.png",
     "navbar-burger-active": "/templates/moloch/images/burger-active.png",
-    "ragequit-icon": "/templates/moloch/images/ragequit-icon.png"    
+    "ragequit-icon": "/templates/moloch/images/ragequit-icon.png",
+    "ragequit": "/templates/moloch/images/ragequit.png"    
   }
 }

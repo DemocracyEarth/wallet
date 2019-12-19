@@ -77,7 +77,12 @@
                 </td>
               {{/if}}
               {{#if ragequit}}
-              
+                <td class="actor actor-arrow">
+                  <div class="transaction-ragequit">
+                    <img src="{{getImage 'ragequit'}}" class="transaction-signal">
+                    {{_ 'moloch-period-ragequit'}}
+                  </div>
+                </td>
               {{else}}
                 <td class="actor actor-arrow">
                   <a href='{{blockchainHash}}' title='{{blockchainInfo}}' target="_blank">
