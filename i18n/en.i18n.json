@@ -491,7 +491,7 @@
   "empty-feed": "No events were found.",
   "empty-votes": "No votes were cast.",
   "posted-ideas": "Posted ideas",
-  "await-contract": "📄...",
+  "await-contract": "...",
   "cast-votes": "Cast Votes",
   "revoked-votes": "Revoked Votes",
   "granted-votes": "Granted Votes",
@@ -531,7 +531,7 @@
   "hashtag-tag-description": "All posts tagged {{hashtag}} on {{collective}}.",
   "country-tag-title": "{{country}} posts on {{collective}}.",
   "country-tag-description": "All posts from citizens of {{country}} on {{collective}}.",
-  "recent-activity": "Recent votes.",
+  "recent-activity": "Recent events.",
   "bitcoin": "Bitcoin",
   "fund-organization": "Fund Organization",
   "btc": "BTC",
@@ -809,7 +809,9 @@
   "moloch-not-member": "Not a Member",
   "moloch-period-ragequit": "Ragequit",
   "moloch-ragequit": "Ragequits",
-  "moloch-ragequit-shares-burn": "Burnt shares by Member",
+  "moloch-ragequit-shares-burn": "Burnt shares",
   "moloch-ragequit-funds-withdraw": "Withdrawn Funds",
-  "quit": "Quit"
+  "quit": "Quit",
+  "moloch-contract-ragequit": "Retired shares from DAO.",
+  "moloch-contract-ragequit-tooltip": "A member has burned shares to withdraw funds from this DAO."
 }

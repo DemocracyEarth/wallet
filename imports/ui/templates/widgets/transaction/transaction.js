@@ -293,6 +293,14 @@ Template.transaction.helpers({
     }
     return getImage(Template.instance().imageTemplate.get(), 'arrow-right');
   },
+  ragequitPost() {
+    const post = {
+      contractId: this.contractId,
+      ragequit: true,
+    };
+    console.log(post);
+    return post;
+  },
   getImage(pic) {
     return getImage(Template.instance().imageTemplate.get(), pic);
   },
