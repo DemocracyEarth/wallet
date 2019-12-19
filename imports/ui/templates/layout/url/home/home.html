@@ -84,7 +84,7 @@
 </template>
 
 <template name="postFeed">
-  <div class="split split-left {{landingMode}}">
+  <div class="split split-left {{landingMode 'left'}}">
     <div class="content content-feed subsection max100">
       {{#if isPhone}}
         {{#if editorMode}}
@@ -107,7 +107,7 @@
   </div>
 
   {{#if showTransactions}}
-    <div class="split split-right {{landingMode}}">
+    <div class="split split-right {{landingMode 'right'}}">
       {{#if postReady}}
         {{#with votes}}
           {{> ledger this}}
