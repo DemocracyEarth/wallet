@@ -21,7 +21,7 @@ const _voteToContract = (post, contract, hidePost, winningBallot, openFeed) => {
     senderId: post.input.entityId,
     receiverId: post.output.entityId,
     isVote: true,
-    hidePost,
+    hidePost: (post.isRagequit) ? true : hidePost,
     winningBallot,
     isRevoke: (post.input.entityType !== 'INDIVIDUAL'),
     isRagequit: post.isRagequit,
