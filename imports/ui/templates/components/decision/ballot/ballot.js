@@ -16,7 +16,7 @@ import { timers } from '/lib/const';
 import { verifyConstituencyRights, getTokenAddress, getTokenContractAddress, checkTokenAvailability, isMember } from '/imports/ui/templates/components/decision/electorate/electorate.js';
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
 import { createContract } from '/imports/startup/both/modules/Contract';
-import { transactWithMetamask, setupWeb3, coinvote, verifyCoinVote } from '/imports/startup/both/modules/metamask';
+import { transactWithMetamask, setupWeb3, coinvote, verifyCoinVote, submitVote } from '/imports/startup/both/modules/metamask';
 import { displayModal } from '/imports/ui/modules/modal';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { currentBlock, isPollOpen } from '/imports/ui/templates/components/decision/countdown/countdown';
@@ -169,7 +169,11 @@ const _cryptoVote = () => {
                   },
                 );
 
-                if (contract.rules.balanceVoting) {
+                if (voteValue === 'YES') {
+                  submitVote(poll.importId.toNumber(), 1, poll.collectiveId);
+                } else if (voteValue === 'NO') {
+                  submitVote(poll.importId.toNumber(), 2, poll.collectiveId);
+                } else if (contract.rules.balanceVoting) {
                   // off chain vote
                   coinvote(
                     getTokenAddress(Meteor.user(), Template.instance().ticket.get().token),

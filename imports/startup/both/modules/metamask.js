@@ -228,6 +228,20 @@ const _delegate = (sourceId, targetId, contractId, hash, value) => {
   }
 };
 
+
+/**
+* @summary submit vote to moloch dao
+* @param {number} proposalIndex uint256
+* @param {number} uintVote uint8
+*/
+const _submitVote = (proposalIndex, uintVote) => {
+  if (_web3(true)) {
+    console.log('submitting vote....');
+    console.log(`proposalIndex: ${proposalIndex}`);
+    console.log(`uintVote: ${uintVote}`);
+  }
+};
+
 /**
 * @summary send crypto with mask;
 * @param {string} from blockchain address
@@ -732,3 +746,4 @@ export const hideLogin = _hideLogin;
 export const getBlockHeight = _getBlockHeight;
 export const getLastTimestamp = _getLastTimestamp;
 export const verifyCoinVote = _verifyCoinVote;
+export const submitVote = _submitVote;
