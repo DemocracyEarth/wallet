@@ -106,24 +106,13 @@ Template.navigation.onRendered(() => {
 
 Template.navigation.helpers({
   screen() {
-    if (Router.current().params.username) {
-      const user = Meteor.users.findOne({ username: Router.current().params.username });
-      if (user) {
-        return `@${user.username}`;
-      }
-    } else if (Router.current().params.hashtag) {
-      return `#${Router.current().params.hashtag}`;
-    }
     return '';
   },
   getImage(pic) {
     return getImage(Template.instance().imageTemplate.get(), pic);
   },
   logo() {
-    if (_isRoot()) {
-      return true;
-    }
-    return false;
+    return true;
   },
   navIcon() {
     return Meteor.settings.public.app.logo;

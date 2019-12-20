@@ -94,6 +94,7 @@ const _feedDepth = (list) => {
 * @return {boolean} feed is an overview not a thread
 */
 const _isIndexFeed = (instance) => {
+  console.log(instance.options.view);
   return (instance.options.view === 'lastVotes'
     || instance.options.view === 'latest'
     || instance.options.view === 'period'
@@ -104,6 +105,7 @@ const _isIndexFeed = (instance) => {
     || instance.options.view === 'transactionsPeer'
     || instance.options.view === 'transactionsGeo'
     || instance.options.view === 'peer'
+    || instance.options.view === 'threadVotes'
     || instance.mainPost === true);
 };
 
@@ -263,6 +265,7 @@ Template.feed.helpers({
     // main view
     if (feed) {
       if (_isIndexFeed(this)) {
+        console.log('isIndexFeed si');
         // general view
         for (let i = 0; i <= (feed.length - 1); i += 1) {
           feed[i].mainFeed = true;
@@ -293,6 +296,7 @@ Template.feed.helpers({
       }
       Template.instance().lastItemDate.set(feed[feed.length - 1].timestamp);
     }
+    console.log(feed);
     return feed;
   },
   lastItem() {
