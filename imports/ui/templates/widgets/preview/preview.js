@@ -53,7 +53,7 @@ Template.preview.helpers({
     return this.ragequit;
   },
   passed() {
-    const thumbUp = Template.instance().contract.get().importId.toUpperCase().match('YES');
+    const thumbUp = (Template.instance().contract.get().title.toUpperCase() === 'YES');
     return (thumbUp && thumbUp.length > 0);
   },
   displayTitle() {

@@ -406,6 +406,7 @@
   "results": "Results",
   "total-votes": "(<votes> votes)",
   "no": "No",
+  "yes": "Yes",
   "remove-signature-tooltip": "Remove signature from contract.",
   "remove-signature": "Remove Signature",
   "remove-signature-message": "Do you confirm removing signature from contract?",
@@ -813,5 +814,8 @@
   "moloch-ragequit-funds-withdraw": "Withdrawn Funds",
   "quit": "Quit",
   "moloch-contract-ragequit": "Retired shares from DAO.",
-  "moloch-contract-ragequit-tooltip": "A member has burned shares to withdraw funds from this DAO."
+  "moloch-contract-ragequit-tooltip": "A member has burned shares to withdraw funds from this DAO.",
+  "not-synced": "Not synced ",
+  "not-synced-message": "The application is not synced with the corresponding blockchain for this transaction.",
+  "dao-confirm-tally": "Confirm vote in your blockchain wallet.<br>This will be a vote for <strong>{{voteValue}}</strong>."
 }

@@ -19,7 +19,8 @@ const _isPollOpen = (now, contract) => {
   if (contract && contract.rules.alwaysOn) {
     return true;
   }
-  if (contract && contract.closing && contract.rules) {
+  console.log(contract.closing);
+  if (contract && contract.closing) {
     return (now < contract.closing.height);
   }
   return true;
