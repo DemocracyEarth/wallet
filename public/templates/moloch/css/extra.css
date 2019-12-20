@@ -869,6 +869,7 @@ h4 {
 @media (max-width: 991px) {
  h4 {
     margin-bottom: 10px;
+    font-weight:400;
   }
 
   .user-logger {

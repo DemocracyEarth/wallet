@@ -94,7 +94,6 @@ const _feedDepth = (list) => {
 * @return {boolean} feed is an overview not a thread
 */
 const _isIndexFeed = (instance) => {
-  console.log(instance.options.view);
   return (instance.options.view === 'lastVotes'
     || instance.options.view === 'latest'
     || instance.options.view === 'period'
@@ -265,7 +264,6 @@ Template.feed.helpers({
     // main view
     if (feed) {
       if (_isIndexFeed(this)) {
-        console.log('isIndexFeed si');
         // general view
         for (let i = 0; i <= (feed.length - 1); i += 1) {
           feed[i].mainFeed = true;
