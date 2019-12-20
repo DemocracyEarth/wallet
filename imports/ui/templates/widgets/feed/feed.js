@@ -104,6 +104,7 @@ const _isIndexFeed = (instance) => {
     || instance.options.view === 'transactionsPeer'
     || instance.options.view === 'transactionsGeo'
     || instance.options.view === 'peer'
+    || instance.options.view === 'threadVotes'
     || instance.mainPost === true);
 };
 
@@ -293,6 +294,7 @@ Template.feed.helpers({
       }
       Template.instance().lastItemDate.set(feed[feed.length - 1].timestamp);
     }
+    console.log(feed);
     return feed;
   },
   lastItem() {

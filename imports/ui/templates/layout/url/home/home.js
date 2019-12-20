@@ -318,7 +318,8 @@ Template.postFeed.helpers({
   thread() {
     const replies = this;
     replies.options.view = 'thread';
-    replies.singlePost = true;
+    Session.set('longFeedView', replies.options.view);
+    replies.singlePost = false;
     replies.displayActions = true;
     return replies;
   },
@@ -345,8 +346,8 @@ Template.postFeed.helpers({
     }
     return undefined;
   },
-  landingMode() {
-    return _landingMode('post');
+  landingMode(feed) {
+    return _landingMode(feed);
   },
   showTransactions() {
     return Meteor.settings.public.app.config.interface.showTransactions;

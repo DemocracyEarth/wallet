@@ -312,7 +312,7 @@ const _sidebarPercentage = () => {
 * @return integer for pixels
 */
 const _sidebarWidth = () => {
-  return parseInt(($(window).width() * _sidebarPercentage()) / 100, 10);
+  return parseInt((($(window).width() * _sidebarPercentage()) / 100) + 1, 10);
 };
 
 /**

@@ -6796,7 +6796,7 @@ blockquote {
     display: block;
   }
   .agora {
-    margin-top: -30px;
+    margin-top: -90px;
     margin-right: 0px;
     margin-left: 0px;
     padding-top: 0px;
@@ -7244,9 +7244,6 @@ blockquote {
     margin-top: 5px;
     padding-right: 30px;
   }
-  .agora {
-    margin-top: -15px;
-  }
   .mobile-editor {
     left: 0px;
     top: 0px;
@@ -7597,7 +7594,7 @@ blockquote {
     margin-left: 0px;
   }
   .agora {
-    margin-top: -45px;
+    margin-top: -100px;
   }
   .mobile-editor.hide {
     display: inline;

@@ -120,7 +120,8 @@ const _openPost = (event, url) => {
 * @param {object} item current item
 */
 const _here = (item) => {
-  return (window.location.pathname.substring(0, item.url.length) === `${item.url}`);
+  return false;
+  // return (window.location.pathname.substring(0, item.url.length) === `${item.url}`);
 };
 
 /**
