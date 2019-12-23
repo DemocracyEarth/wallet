@@ -271,7 +271,6 @@ const _submitVote = async (proposalIndex, uintVote, collectiveId) => {
 
     await dao.methods[`${'submitVote'}`](proposalIndex, uintVote).send({ from: Meteor.user().username }, (err, res) => {
       if (err) {
-        console.log(err);
         let message;
         switch (err.code) {
           case -32603:
