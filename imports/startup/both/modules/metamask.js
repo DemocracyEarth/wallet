@@ -254,7 +254,6 @@ const _getMap = (smartContracts, functionName) => {
   return undefined;
 };
 
-
 /**
 * @summary submit vote to moloch dao
 * @param {number} proposalIndex uint256
@@ -268,8 +267,33 @@ const _submitVote = async (proposalIndex, uintVote, collectiveId) => {
     const map = _getMap(smartContracts, 'SubmitVote');
     const contractABI = JSON.parse(map.abi);
 
-    console.log(map);
     const dao = await new web3.eth.Contract(contractABI, map.publicAddress);
+
+    await dao.methods[`${'submitVote'}`](proposalIndex, uintVote).send({ from: Meteor.user().username }, (err, res) => {
+      if (err) {
+        console.log(err);
+        let message;
+        switch (err.code) {
+          case -32603:
+            message = TAPi18n.__('metamask-invalid-address');
+            break;
+          case 4001:
+          default:
+            message = TAPi18n.__('metamask-denied-signature');
+        }
+        displayModal(
+          true,
+          {
+            icon: Meteor.settings.public.app.logo,
+            title: TAPi18n.__('wallet'),
+            message,
+            cancel: TAPi18n.__('close'),
+            alertMode: true,
+          },
+        );
+      }
+      return res;
+    });
 
     console.log(`dao: ${dao}`);
     // const dao = await new web3.eth.Contract(abi, smartContract.publicAddress);
@@ -387,10 +411,10 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
         }
       });
     }).catch(function (e) {
-      if (e.message === 'Returned error: Error: MetaMask Tx Signature: User denied transaction signature.') {
+      if (e.code === 4001) {
         modal.message = TAPi18n.__('metamask-denied-signature');
         displayModal(true, modal);
-      } else if (e.message.substring(0, 65) === 'Returned error: Error: WalletMiddleware - Invalid "from" address.') {
+      } else if (e.code === -32603) {
         modal.message = TAPi18n.__('metamask-invalid-address');
         displayModal(true, modal);
       } else {

@@ -593,7 +593,7 @@
   "send": "Send",
   "close": "Close",
   "metamask-denied-signature": "Transaction signature was denied.",
-  "metamask-invalid-address": "Address mismatch.<br>Verify wallet account is the same used to log in.",
+  "metamask-invalid-address": "Address mismatch.<br>Verify wallet account is the same used to sign in.",
   "blockchain-address": "Blockchain Address",
   "blockchain-address-placeholder": "Your account if none specified.",
   "cost-per-vote": "Tokens required per vote",
