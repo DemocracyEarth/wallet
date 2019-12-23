@@ -14,6 +14,7 @@ import { animatePopup } from '/imports/ui/modules/popup';
 import { Transactions } from '/imports/api/transactions/Transactions';
 import { sync } from '/imports/ui/templates/layout/sync';
 import { defaults } from '/lib/const';
+import { Collectives } from '/imports/api/collectives/Collectives';
 
 import { BigNumber } from 'bignumber.js';
 
@@ -228,14 +229,50 @@ const _delegate = (sourceId, targetId, contractId, hash, value) => {
   }
 };
 
+/**
+* @summary obtains the map of a given contract based on required function to execute
+* @param {object} smartContracts from collective map
+* @param {string} functionName to identify abi from contract context
+*/
+const _getMap = (smartContracts, functionName) => {
+  let myself;
+  let index;
+  let found = false;
+  if (smartContracts) {
+    for (let i = 0; i < smartContracts.length; i += 1) {
+      myself = _.findWhere(smartContracts[i].map, { eventName: functionName });
+      if (myself.eventName === functionName) {
+        found = true;
+        index = i;
+        break;
+      }
+    }
+    if (found) {
+      return smartContracts[index];
+    }
+  }
+  return undefined;
+};
+
 
 /**
 * @summary submit vote to moloch dao
 * @param {number} proposalIndex uint256
 * @param {number} uintVote uint8
 */
-const _submitVote = (proposalIndex, uintVote) => {
+const _submitVote = async (proposalIndex, uintVote, collectiveId) => {
   if (_web3(true)) {
+    const collective = Collectives.findOne({ _id: collectiveId });
+    const smartContracts = collective.profile.blockchain.smartContracts;
+
+    const map = _getMap(smartContracts, 'SubmitVote');
+    const contractABI = JSON.parse(map.abi);
+
+    console.log(map);
+    const dao = await new web3.eth.Contract(contractABI, map.publicAddress);
+
+    console.log(`dao: ${dao}`);
+    // const dao = await new web3.eth.Contract(abi, smartContract.publicAddress);
     console.log('submitting vote....');
     console.log(`proposalIndex: ${proposalIndex}`);
     console.log(`uintVote: ${uintVote}`);

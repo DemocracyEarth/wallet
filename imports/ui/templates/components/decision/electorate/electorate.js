@@ -59,10 +59,12 @@ const _emailDomainCheck = (emailList, domain) => {
 const _checkTokenAvailability = (user, ticker) => {
   if (user.profile.wallet.reserves && user.profile.wallet.reserves.length > 0) {
     for (let i = 0; i < user.profile.wallet.reserves.length; i += 1) {
-      for (let k = 0; k < token.coin.length; k += 1) {
-        if (token.coin[k].code === user.profile.wallet.reserves[i].token || (token.coin[k].subcode && token.coin[k].subcode === user.profile.wallet.reserves[i].token)) {
-          if (token.coin[k].code === ticker || (token.coin[k].subcode && token.coin[k].subcode === ticker)) {
-            return true;
+      if (token.coin) {
+        for (let k = 0; k < token.coin.length; k += 1) {
+          if (token.coin[k].code === user.profile.wallet.reserves[i].token || (token.coin[k].subcode && token.coin[k].subcode === user.profile.wallet.reserves[i].token)) {
+            if (token.coin[k].code === ticker || (token.coin[k].subcode && token.coin[k].subcode === ticker)) {
+              return true;
+            }
           }
         }
       }
