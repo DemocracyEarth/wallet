@@ -209,7 +209,18 @@
                 },
                 {
                   "eventName": "SubmitVote",
-                  "collectionType": "Contract"
+                  "collectionType": "Contract",
+                  "methodName": "submitVote",
+                  "parameter": [
+                    {
+                      "name": "proposalIndex",
+                      "type": "uint256"
+                    },
+                    {
+                      "name": "uintVote",
+                      "type": "uint8"
+                    }
+                  ]
                 },
                 {
                   "eventName": "ProcessProposal",
