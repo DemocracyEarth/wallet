@@ -213,6 +213,7 @@ Schema.Blockchain = new SimpleSchema({
 });
 
 export const Blockchain = Schema.Blockchain;
+export const Parameter = Schema.Parameter;
 export const Ticket = Schema.Ticket;
 export const Score = Schema.Score;
 export const Coin = Schema.Coin;

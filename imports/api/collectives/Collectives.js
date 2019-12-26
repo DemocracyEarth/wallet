@@ -2,7 +2,7 @@ import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 import { Wallet } from '/imports/api/users/Wallet';
-import { Blockchain } from '/imports/api/blockchain/Blockchain';
+import { Blockchain, Parameter } from '/imports/api/blockchain/Blockchain';
 
 export const Collectives = new Mongo.Collection('collectives');
 
@@ -97,7 +97,6 @@ Schema.Menu = new SimpleSchema({
   },
 });
 
-
 Schema.CollectiveProfile = new SimpleSchema({
   website: {
     type: String,
@@ -106,6 +105,10 @@ Schema.CollectiveProfile = new SimpleSchema({
   },
   bio: {
     type: String,
+    optional: true,
+  },
+  guild: {
+    type: [Parameter],
     optional: true,
   },
   blockchain: {
