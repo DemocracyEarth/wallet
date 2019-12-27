@@ -48,7 +48,7 @@ const _writeZeroes = (quantity) => {
     template += '0';
   }
   return template;
-}
+};
 
 
 /**
