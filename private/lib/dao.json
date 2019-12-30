@@ -14,7 +14,7 @@
             "type": "token.MOLOCH"
           },
           {
-            "name": "guild-total-weth",
+            "name": "guild-total-assets",
             "type": "token.WETH"
           },
           {
