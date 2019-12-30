@@ -78,6 +78,10 @@ Schema.Token = new SimpleSchema({
     type: Boolean,
     optional: true,
   },
+  'editor.allowQuadraticToggle': {
+    type: Boolean,
+    optional: true,
+  },
 });
 
 
