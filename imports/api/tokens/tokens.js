@@ -66,6 +66,18 @@ Schema.Token = new SimpleSchema({
     type: String,
     optional: true,
   },
+  oracle: {
+    type: Boolean,
+    optional: true,
+  },
+  method: {
+    type: String,
+    optional: true,
+  },
+  abi: {
+    type: String,
+    optional: true,
+  },
   editor: {
     type: Object,
     optional: true,
