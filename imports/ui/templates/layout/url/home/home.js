@@ -10,6 +10,7 @@ import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
 import { shortenCryptoName } from '/imports/ui/templates/components/identity/avatar/avatar';
 import { getCoin } from '/imports/api/blockchain/modules/web3Util.js';
 
+import '/imports/ui/templates/components/collective/guild/guild.html';
 import '/imports/ui/templates/layout/url/home/home.html';
 import '/imports/ui/templates/layout/url/landing/landing.js';
 import '/imports/ui/templates/layout/url/hero/hero.js';
