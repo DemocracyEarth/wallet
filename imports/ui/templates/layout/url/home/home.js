@@ -1,3 +1,4 @@
+import { $ } from 'meteor/jquery';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
@@ -409,5 +410,33 @@ Template.periodFeed.helpers({
   },
   feedTitle() {
     return TAPi18n.__('moloch-period-feed').replace('{{period}}', TAPi18n.__(`moloch-${this.options.period}`));
+  },
+});
+
+const _resize = (event) => {
+  event.preventDefault();
+  Session.set('resizeSplit', true);
+  Session.set('resizeSplitCursor', {
+    x: parseInt(event.pageX - parseInt($('.split-right').css('marginLeft'), 10), 10),
+    y: event.pageY,
+    windowWidth: window.innerWidth,
+  });
+};
+
+Template.homeFeed.events({
+  'mousedown #resizable'(event) {
+    _resize(event);
+  },
+});
+
+Template.postFeed.events({
+  'mousedown #resizable'(event) {
+    _resize(event);
+  },
+});
+
+Template.periodFeed.events({
+  'mousedown #resizable'(event) {
+    _resize(event);
   },
 });
