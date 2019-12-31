@@ -818,5 +818,9 @@
   "not-synced": "Not synced ",
   "not-synced-message": "The application is not synced with the corresponding blockchain for this transaction.",
   "dao-confirm-tally": "Confirm vote in your blockchain wallet.<br>This will be a vote for <strong>{{voteValue}}</strong>.",
-  "moloch-guild": "Guild."
+  "moloch-guild": "Guild.",
+  "guild-total-shares": "Total Shares",
+  "guild-total-assets": "Total Assets",
+  "guild-share-value": "Value per Share",
+  "guild-total-value": "Total Value"
 }

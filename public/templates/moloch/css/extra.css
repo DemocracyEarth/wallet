@@ -1113,3 +1113,12 @@ h4 {
   margin-top: 0px;
 }
 
+.guild-label {
+  font-size: 0.6em;
+  float:left;
+  clear:both;
+}
+
+.guild-value {
+  float:right;
+}

@@ -4,5 +4,39 @@
       <h4>{{_ 'moloch-guild'}}</h4>
     </div>
     <div id="non-editable-feed" class="ledger">
+      <div class="vote vote-delegation vote-feed vote-search w-clearfix">
+        <div class="guild-label">
+          {{_ 'guild-total-shares'}}
+        </div>
+        <div class="guild-value">
+          {{#with totalShares}}
+            {{> balance}}
+          {{/with}}
+        </div>
+        <div class="guild-label">
+          {{_ 'guild-total-assets'}}
+        </div>
+        <div class="guild-value">
+          {{#with totalAssets}}
+            {{> balance}}
+          {{/with}}
+        </div> 
+        <div class="guild-label">
+          {{_ 'guild-share-value'}}
+        </div>
+        <div class="guild-value">
+          {{#with shareValue}}
+            {{> balance}}
+          {{/with}} 
+        </div>
+        <div class="guild-label">
+          {{_ 'guild-total-value'}}
+        </div>
+        <div class="guild-value">
+          {{#with totalValue}}
+            {{> balance}}
+          {{/with}}
+        </div>
+      </div>
     </div>
 </template>
