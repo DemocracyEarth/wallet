@@ -15,6 +15,7 @@ const standardBalance = {
   balance: 0,
   available: 0,
   placed: 0,
+  whiteColor: false,
   isTransaction: true,
   isRevoke: false,
   date: new Date(),
