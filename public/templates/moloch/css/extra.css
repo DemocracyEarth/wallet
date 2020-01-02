@@ -1104,8 +1104,8 @@ h4 {
 }
 
 .transaction-signal {
-  width: 16px;
-  height: 16px;
+  width: 10px;
+  height: 10px;
   margin: 0px 2px 1px;
 }
 
@@ -1134,14 +1134,14 @@ h4 {
 }
 
 .guild-row-total {
+  color: white;
+  background-color: #48587d;
   border-bottom: none;
   margin-bottom: -8px;
-  font-weight: 500;
 }
 
 .guild {
-  padding:5px; 
-  margin:0px -10px -10px;
+  margin:0px -10px -7px;
 }
 
 .guild-icon {
@@ -1168,5 +1168,9 @@ h4 {
 
 .guild-name {
   float: left;
+}
+
+.guild-title-label {
+  font-size: 1.2em;
 }
 

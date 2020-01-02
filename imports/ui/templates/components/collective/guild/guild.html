@@ -8,11 +8,11 @@
               <img class="guild-icon" src="{{icon}}" />
               <div class="guild-name">
                 <div class="guild-title">
-                  <a href="{{url}}" target="_blank">{{name}}</a>
+                  <a href="{{url}}" class="guild-title-label" target="_blank">{{name}}</a>
                 </div>
                 <div class="guild-detail">
-                  <img src="{{getImage 'id-card'}}" class="url-icon guild-verifier">
-                  <div class="verifier verifier-live verifier-feed verifier-mini">{{{members}}}</div>
+                  <img src="{{getImage 'key'}}" class="clock-icon guild-verifier">
+                  <a href="{{blockchainLink}}" target="_blank" class="verifier verifier-live verifier-feed verifier-mini verifier-key">{{{publicAddress}}}</a>
                 </div>
               </div>
             </div>

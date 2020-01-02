@@ -73,6 +73,7 @@ Template.balance.helpers({
     let style = '';
     Template.instance().coin = getCoin(Template.currentData().token);
     const coin = Template.instance().coin;
+    if (this.whiteColor) { coin.color = '#fff'; }
     if (coin.color) {
       style = `border-color: ${coin.color}; `;
       if (this.isRevoke) {
@@ -97,6 +98,7 @@ Template.balance.helpers({
     let style = '';
     Template.instance().coin = getCoin(Template.currentData().token);
     const coin = Template.instance().coin;
+    if (this.whiteColor) { coin.color = '#fff'; }
     if (coin.color) {
       style = `background-color: transparent; color: ${coin.color}; border-color: ${coin.color};`;
     }

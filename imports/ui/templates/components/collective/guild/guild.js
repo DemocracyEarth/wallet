@@ -4,9 +4,11 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { TAPi18n } from 'meteor/tap:i18n';
 
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
+import { getCoin } from '/imports/api/blockchain/modules/web3Util';
 
 import '/imports/ui/templates/components/collective/guild/guild.html';
 import '/imports/ui/templates/components/decision/balance/balance.js';
+
 
 const standardBalance = {
   token: 'MOLOCH',
@@ -76,7 +78,7 @@ Template.guild.helpers({
   },
   totalValue() {
     const row = _getRow('guild-total-value', Template.instance());
-    row.color = '#fff';
+    row.whiteColor = true;
     return row;
   },
   getImage(pic) {
@@ -88,5 +90,20 @@ Template.guild.helpers({
       return `${count} ${TAPi18n.__('member')}`;
     }
     return `${count} ${TAPi18n.__('members')}`;
+  },
+  totalStyle() {
+    const coin = getCoin(Template.instance().collective.get().profile.blockchain.coin.code);
+    return `background-color: ${coin.color}`;
+  },
+  titleColor() {
+    const coin = getCoin(Template.instance().collective.get().profile.blockchain.coin.code);
+    return `color: ${coin.color}`;
+  },
+  publicAddress() {
+    const publicAddress = Template.instance().collective.get().profile.blockchain.publicAddress;
+    return `${publicAddress.substring(0, 6)}...${publicAddress.slice(-4)}`;
+  },
+  blockchainLink() {
+    return `${Meteor.settings.public.web.sites.blockExplorer}/address/${Template.instance().collective.get().profile.blockchain.publicAddress}`;
   },
 });
