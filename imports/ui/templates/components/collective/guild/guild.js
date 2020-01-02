@@ -1,7 +1,9 @@
 import { Template } from 'meteor/templating';
 import { Meteor } from 'meteor/meteor';
-import { Collectives } from '/imports/api/collectives/Collectives';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { TAPi18n } from 'meteor/tap:i18n';
+
+import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 
 import '/imports/ui/templates/components/collective/guild/guild.html';
 import '/imports/ui/templates/components/decision/balance/balance.js';
@@ -23,7 +25,11 @@ const standardBalance = {
 Template.guild.onCreated(function () {
   Template.instance().collective = new ReactiveVar();
   Template.instance().ready = new ReactiveVar(false);
+  Template.instance().imageTemplate = new ReactiveVar();
+  Template.instance().memberCount = new ReactiveVar();
+
   const instance = Template.instance();
+  templetize(instance);
 
   Meteor.call('getCollectiveById', this.data.collectiveId, (err, res) => {
     if (err) {
@@ -31,6 +37,10 @@ Template.guild.onCreated(function () {
     }
     instance.ready.set(true);
     instance.collective.set(res);
+  });
+
+  Meteor.call('userCount', function (error, result) {
+    instance.memberCount.set(result);
   });
 });
 
@@ -65,6 +75,18 @@ Template.guild.helpers({
     return _getRow('guild-share-value', Template.instance());
   },
   totalValue() {
-    return _getRow('guild-total-value', Template.instance());
+    const row = _getRow('guild-total-value', Template.instance());
+    row.color = '#fff';
+    return row;
+  },
+  getImage(pic) {
+    return getImage(Template.instance().imageTemplate.get(), pic);
+  },
+  members() {
+    const count = Template.instance().memberCount.get();
+    if (count === 1) {
+      return `${count} ${TAPi18n.__('moloch-address')}`;
+    }
+    return `${count} ${TAPi18n.__('moloch-addresses')}`;
   },
 });

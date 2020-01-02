@@ -71,10 +71,8 @@ Template.home.onCreated(function () {
     }
 
     if (tokenFeed.ready()) {
-      console.log('fetched tokens');
       const tokenList = {};
       tokenList.coin = Tokens.find().fetch();
-      console.log(tokenList);
       Session.set('token', tokenList);
     }
   });

@@ -6,7 +6,15 @@
           <div class="guild-row">
             <div class="guild-label">
               <img class="guild-icon" src="{{icon}}" />
-              <a href="{{url}}" target="_blank">{{name}}</a>
+              <div class="guild-title">
+                <a href="{{url}}" target="_blank">{{name}}</a>
+              </div>
+              <div class="guild-detail">
+                <img src="{{getImage 'id-card'}}" class="url-icon">
+                <a target="_blank">
+                  <div class="verifier verifier-live verifier-feed verifier-mini">{{{members}}}</div>
+                </a>
+              </div>
             </div>
           </div>
           <div class="guild-row">

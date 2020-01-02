@@ -1137,6 +1137,7 @@ h4 {
   background-color: #6f6f80;
   color:white;
   margin-bottom: -4px;
+  font-weight: 500;
 }
 
 .guild {
@@ -1144,7 +1145,16 @@ h4 {
 }
 
 .guild-icon {
-  width: 32px;
-  height: 32px;
-  margin: 10px 10px 10px 5px;
+  width: 42px;
+  height: 42px;
+  float: left;
+  margin: 10px 15px 10px 5px;
 }
+
+.guild-title {
+  float: left;
+  clear: right;
+  margin-bottom: -20px;
+  margin-top: 5px;
+}
+
