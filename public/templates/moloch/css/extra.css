@@ -1114,11 +1114,37 @@ h4 {
 }
 
 .guild-label {
-  font-size: 0.6em;
-  float:left;
-  clear:both;
+  font-size: 0.7em;
+  float: left;
+  line-height: 38px;
+  clear: both;
 }
 
 .guild-value {
   float:right;
+}
+
+.guild-row {
+  border-bottom: 1px solid #f1f1f1;
+  display: inline-block;
+  padding: 0px 7px;
+  width: 100%;
+  background-color: #f9fafb;
+  margin: -4px 0px;
+}
+
+.guild-row-total {
+  background-color: #f3f3f3;
+  font-weight: 500;
+  margin-bottom: -4px;
+}
+
+.guild {
+  margin:0px -10px -10px;
+}
+
+.guild-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
 }

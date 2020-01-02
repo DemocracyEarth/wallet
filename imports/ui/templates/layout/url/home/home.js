@@ -134,6 +134,16 @@ Template.homeFeed.onCreated(function () {
 
   instance.autorun(function (computation) {
     if (subscription.ready()) {
+      console.log(Contracts.findOne());
+      const collectiveId = Contracts.findOne().collectiveId;
+      Session.set('search', {
+        input: '',
+        query: [
+          {
+            collectiveId,
+          },
+        ],
+      });
       instance.feedReady.set(true);
       computation.stop();
     }
@@ -253,6 +263,13 @@ Template.homeFeed.helpers({
       return true;
     }
     return false;
+  },
+  collective() {
+    const search = Session.get('search');
+    const collectiveId = _.pluck(search.query, 'collectiveId')[0];
+    return {
+      collectiveId,
+    };
   },
 });
 

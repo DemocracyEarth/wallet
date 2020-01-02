@@ -64,7 +64,13 @@
         {{#if feedReady}}
           <div class="agora">
             <div class="content content-agora">
-              {{> guild}}
+              <a href="#votes"></a>
+              <div class="ledger-title">
+                <h4>{{_ 'moloch-guild'}}</h4>
+              </div>
+              {{#with collective}}
+                {{> guild this}}
+              {{/with}}
               {{#with mainLedger}}
                 {{> ledger this}}
               {{/with}}
