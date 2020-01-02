@@ -1134,8 +1134,8 @@ h4 {
 }
 
 .guild-row-total {
-  background-color: #f3f3f3;
-  font-weight: 500;
+  background-color: #6f6f80;
+  color:white;
   margin-bottom: -4px;
 }
 
@@ -1144,7 +1144,7 @@ h4 {
 }
 
 .guild-icon {
-  width: 24px;
-  height: 24px;
-  margin-right: 10px;
+  width: 32px;
+  height: 32px;
+  margin-right: 10px 10px 10px 5px;
 }

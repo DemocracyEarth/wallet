@@ -39,7 +39,6 @@ const _getRow = (rowLabel, instance) => {
   const row = _.findWhere(instance.collective.get().profile.guild, { name: rowLabel });
   balance.token = row.type.replace('token.', '');
   balance.balance = row.value.toNumber();
-  console.log(balance);
   return balance;
 };
 
