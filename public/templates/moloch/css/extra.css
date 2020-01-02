@@ -1134,13 +1134,13 @@ h4 {
 }
 
 .guild-row-total {
-  background-color: #6f6f80;
-  color:white;
-  margin-bottom: -4px;
+  border-bottom: none;
+  margin-bottom: -8px;
   font-weight: 500;
 }
 
 .guild {
+  padding:5px; 
   margin:0px -10px -10px;
 }
 
@@ -1154,7 +1154,19 @@ h4 {
 .guild-title {
   float: left;
   clear: right;
-  margin-bottom: -20px;
-  margin-top: 5px;
+  margin-bottom: -14px;
+  margin-top: 0px;
+}
+
+.guild-verifier {
+  margin-top: -10px;
+}
+
+.guild-detail {
+  clear: left;
+}
+
+.guild-name {
+  float: left;
 }
 

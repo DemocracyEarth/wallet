@@ -85,8 +85,8 @@ Template.guild.helpers({
   members() {
     const count = Template.instance().memberCount.get();
     if (count === 1) {
-      return `${count} ${TAPi18n.__('moloch-address')}`;
+      return `${count} ${TAPi18n.__('member')}`;
     }
-    return `${count} ${TAPi18n.__('moloch-addresses')}`;
+    return `${count} ${TAPi18n.__('members')}`;
   },
 });
