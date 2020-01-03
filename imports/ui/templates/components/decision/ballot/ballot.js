@@ -131,6 +131,8 @@ const _alreadyVoted = () => {
   );
 };
 
+
+
 /**
 * @summary executes token vote
 */
@@ -157,12 +159,24 @@ const _cryptoVote = () => {
               if (setupWeb3(true)) {
                 // wallet alert
                 const icon = Meteor.settings.public.app.logo;
+                let message;
+                switch (voteValue) {
+                  case 'YES':
+                    message = TAPi18n.__('dao-confirm-tally').replace('{{voteValue}}', TAPi18n.__('authorize'));
+                    break;
+                  case 'NO':
+                    message = TAPi18n.__('dao-confirm-tally').replace('{{voteValue}}', TAPi18n.__('reject'));
+                    break;
+                  default:
+                    message = TAPi18n.__('dao-default-tally').replace('{{voteValue}}', TAPi18n.__('reject'));
+                }
+
                 displayModal(
                   true,
                   {
                     icon,
                     title: TAPi18n.__('place-vote'),
-                    message: TAPi18n.__('dao-confirm-tally').replace('{{voteValue}}', TAPi18n.__(voteValue.toLowerCase())),
+                    message,
                     cancel: TAPi18n.__('close'),
                     awaitMode: true,
                     displayProfile: false,
