@@ -15,6 +15,7 @@ import { Transactions } from '/imports/api/transactions/Transactions';
 import { sync } from '/imports/ui/templates/layout/sync';
 import { defaults } from '/lib/const';
 import { Collectives } from '/imports/api/collectives/Collectives';
+import { getShares } from '/lib/web3';
 
 import { BigNumber } from 'bignumber.js';
 
@@ -254,6 +255,51 @@ const _getMap = (smartContracts, functionName) => {
   return undefined;
 };
 
+const _pendingTransaction = (voterAddress) => {
+  const voter = Meteor.users.findOne({ _id: Meteor.userId() });
+  log(`[web3] Tallying vote of user ${event.returnValues.memberAddress.toLowerCase()}...`);
+  if (voter) {
+    const shares = getShares(voter, defaults.TOKEN);
+    const ticket = {
+      shares,
+      timestamp: new Date(),
+      contract: {
+        _id: contract._id,
+      },
+      poll: {
+        _id: poll._id,
+      },
+      address: contract.keyword,
+      blockchain: {
+        tickets: [
+          {
+            hash: block.blockHash,
+            status: 'PENDING',
+            value: shares.toNumber(),
+          },
+        ],
+        coin: {
+          code: defaults.TOKEN,
+        },
+        publicAddress: event.returnValues.memberAddress.toLowerCase(),
+        score: {
+          totalConfirmed: shares.toString(),
+          totalPending: '0',
+          totalFail: '0',
+          finalConfirmed: shares.toNumber(),
+          finalPending: 0,
+          finalFail: 0,
+          value: 0,
+        },
+      },
+    };
+    const transactionObject = getTransactionObject(user, ticket);
+    const userId = user._id;
+    const pollId = poll._id;
+    const txId = _setTransaction(userId, pollId, transactionObject);
+  }
+};
+
 /**
 * @summary submit vote to moloch dao
 * @param {number} proposalIndex uint256
@@ -290,10 +336,13 @@ const _submitVote = async (proposalIndex, uintVote, collectiveId) => {
             alertMode: true,
           },
         );
+        return err;
       }
+
       return res;
     });
 
+    // TODO: pendingTransactions
     console.log(`dao: ${dao}`);
     // const dao = await new web3.eth.Contract(abi, smartContract.publicAddress);
     console.log('submitting vote....');
