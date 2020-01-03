@@ -15,7 +15,7 @@ const standardBalance = {
   balance: 0,
   available: 0,
   placed: 0,
-  whiteColor: false,
+  tokenTotal: false,
   isTransaction: true,
   isRevoke: false,
   date: new Date(),
@@ -69,17 +69,23 @@ Template.guild.helpers({
     return Template.instance().collective.get().profile.logo;
   },
   totalShares() {
-    return _getRow('guild-total-shares', Template.instance());
+    const row = _getRow('guild-total-shares', Template.instance());
+    row.tokenTotal = false;
+    return row;
   },
   totalAssets() {
+    const row = _getRow('guild-total-assets', Template.instance());
+    row.tokenTotal = false;
     return _getRow('guild-total-assets', Template.instance());
   },
   shareValue() {
+    const row = _getRow('guild-share-value', Template.instance());
+    row.tokenTotal = false;
     return _getRow('guild-share-value', Template.instance());
   },
   totalValue() {
     const row = _getRow('guild-total-value', Template.instance());
-    row.whiteColor = true;
+    row.tokenTotal = true;
     return row;
   },
   getImage(pic) {

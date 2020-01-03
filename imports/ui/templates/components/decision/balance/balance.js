@@ -71,14 +71,11 @@ Template.balance.onCreated(function () {
 Template.balance.helpers({
   balanceStyle() {
     let style = '';
-    Template.instance().coin = getCoin(Template.currentData().token);
-    const coin = Template.instance().coin;
-    if (this.whiteColor) { coin.color = '#fff'; }
-    if (coin.color) {
-      style = `border-color: ${coin.color}; `;
-      if (this.isRevoke) {
-        style += 'color: #ff2752 ';
-      } else {
+    if (!this.tokenTotal) {
+      Template.instance().coin = getCoin(Template.currentData().token);
+      const coin = Template.instance().coin;
+      if (coin.color) {
+        style = `border-color: ${coin.color}; `;
         style += `color: ${coin.color} `;
       }
     }
@@ -96,11 +93,12 @@ Template.balance.helpers({
   },
   tickerStyle() {
     let style = '';
-    Template.instance().coin = getCoin(Template.currentData().token);
-    const coin = Template.instance().coin;
-    if (this.whiteColor) { coin.color = '#fff'; }
-    if (coin.color) {
-      style = `background-color: transparent; color: ${coin.color}; border-color: ${coin.color};`;
+    if (!this.tokenTotal) {
+      Template.instance().coin = getCoin(Template.currentData().token);
+      const coin = Template.instance().coin;
+      if (coin.color) {
+        style = `background-color: transparent; color: ${coin.color}; border-color: ${coin.color};`;
+      }
     }
     return style;
   },
@@ -129,6 +127,9 @@ Template.balance.helpers({
       label = `${label} ${TAPi18n.__('ticker-rule-balance')}`;
     } */
     return label;
+  },
+  tokenTotal() {
+    return (this.tokenTotal) ? 'token-total' : '';
   },
   available() {
     return _formatCryptoValue(this.available, this.token);

@@ -1174,3 +1174,16 @@ h4 {
   font-size: 1.2em;
 }
 
+.token-total {
+  border: 1px solid white;
+  color: white;
+  background: transparent;
+}
+
+.token-ticker.token-total {
+  border-right: none;
+}
+
+.token-balance.token-total {
+  border-left: none;
+}
