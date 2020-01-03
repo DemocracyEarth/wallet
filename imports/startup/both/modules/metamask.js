@@ -14,6 +14,7 @@ import { animatePopup } from '/imports/ui/modules/popup';
 import { Transactions } from '/imports/api/transactions/Transactions';
 import { sync } from '/imports/ui/templates/layout/sync';
 import { defaults } from '/lib/const';
+import { Collectives } from '/imports/api/collectives/Collectives';
 
 import { BigNumber } from 'bignumber.js';
 
@@ -229,6 +230,79 @@ const _delegate = (sourceId, targetId, contractId, hash, value) => {
 };
 
 /**
+* @summary obtains the map of a given contract based on required function to execute
+* @param {object} smartContracts from collective map
+* @param {string} functionName to identify abi from contract context
+*/
+const _getMap = (smartContracts, functionName) => {
+  let myself;
+  let index;
+  let found = false;
+  if (smartContracts) {
+    for (let i = 0; i < smartContracts.length; i += 1) {
+      myself = _.findWhere(smartContracts[i].map, { eventName: functionName });
+      if (myself.eventName === functionName) {
+        found = true;
+        index = i;
+        break;
+      }
+    }
+    if (found) {
+      return smartContracts[index];
+    }
+  }
+  return undefined;
+};
+
+/**
+* @summary submit vote to moloch dao
+* @param {number} proposalIndex uint256
+* @param {number} uintVote uint8
+*/
+const _submitVote = async (proposalIndex, uintVote, collectiveId) => {
+  if (_web3(true)) {
+    const collective = Collectives.findOne({ _id: collectiveId });
+    const smartContracts = collective.profile.blockchain.smartContracts;
+
+    const map = _getMap(smartContracts, 'SubmitVote');
+    const contractABI = JSON.parse(map.abi);
+
+    const dao = await new web3.eth.Contract(contractABI, map.publicAddress);
+
+    await dao.methods[`${'submitVote'}`](proposalIndex, uintVote).send({ from: Meteor.user().username }, (err, res) => {
+      if (err) {
+        let message;
+        switch (err.code) {
+          case -32603:
+            message = TAPi18n.__('metamask-invalid-address');
+            break;
+          case 4001:
+          default:
+            message = TAPi18n.__('metamask-denied-signature');
+        }
+        displayModal(
+          true,
+          {
+            icon: Meteor.settings.public.app.logo,
+            title: TAPi18n.__('wallet'),
+            message,
+            cancel: TAPi18n.__('close'),
+            alertMode: true,
+          },
+        );
+      }
+      return res;
+    });
+
+    console.log(`dao: ${dao}`);
+    // const dao = await new web3.eth.Contract(abi, smartContract.publicAddress);
+    console.log('submitting vote....');
+    console.log(`proposalIndex: ${proposalIndex}`);
+    console.log(`uintVote: ${uintVote}`);
+  }
+};
+
+/**
 * @summary send crypto with mask;
 * @param {string} from blockchain address
 * @param {string} to blockchain destination
@@ -336,10 +410,10 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
         }
       });
     }).catch(function (e) {
-      if (e.message === 'Returned error: Error: MetaMask Tx Signature: User denied transaction signature.') {
+      if (e.code === 4001) {
         modal.message = TAPi18n.__('metamask-denied-signature');
         displayModal(true, modal);
-      } else if (e.message.substring(0, 65) === 'Returned error: Error: WalletMiddleware - Invalid "from" address.') {
+      } else if (e.code === -32603) {
         modal.message = TAPi18n.__('metamask-invalid-address');
         displayModal(true, modal);
       } else {
@@ -732,3 +806,4 @@ export const hideLogin = _hideLogin;
 export const getBlockHeight = _getBlockHeight;
 export const getLastTimestamp = _getLastTimestamp;
 export const verifyCoinVote = _verifyCoinVote;
+export const submitVote = _submitVote;

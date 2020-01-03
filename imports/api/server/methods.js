@@ -231,6 +231,17 @@ Meteor.methods({
   },
 
   /**
+  * @summary given a keyword returns contract id
+  * @param {keyword} keyword identify contract by given keyword
+  */
+  getCollectiveById(collectiveId) {
+    check(collectiveId, String);
+
+    log(`{ method: 'getCollectiveById', user: ${logUser()}, _id: '${collectiveId}' }`);
+    return Collectives.findOne({ _id: collectiveId });
+  },
+
+  /**
   * @summary given a username returns user Id
   * @param {string} keyword identify contract by given keyword
   */

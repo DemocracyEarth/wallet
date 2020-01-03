@@ -131,15 +131,3 @@ Template.ledger.helpers({
     return TAPi18n.__('moloch-period-votes').replace('{{period}}', TAPi18n.__(`moloch-${this.options.period}`));
   },
 });
-
-Template.ledger.events({
-  'mousedown #resizable'(event) {
-    event.preventDefault();
-    Session.set('resizeSplit', true);
-    Session.set('resizeSplitCursor', {
-      x: parseInt(event.pageX - parseInt($('.split-right').css('marginLeft'), 10), 10),
-      y: event.pageY,
-      windowWidth: window.innerWidth,
-    });
-  },
-});

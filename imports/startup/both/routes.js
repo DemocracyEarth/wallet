@@ -102,19 +102,6 @@ Router.configure({
     verbose: false,
     timeOut: 5000,
     sync: Meteor.settings.public.web.template.settings,
-    onBeforeSync: () => {
-      HTTP.get(Meteor.absoluteUrl(Meteor.settings.public.web.template.settings), function (err, result) {
-        if (!err) {
-          HTTP.get(Meteor.absoluteUrl(result.data.lib.token), function (err, result) {
-            const tokens = result.data;
-            if (Meteor.settings.public.app.config.allowWebVotes) {
-              tokens.coin = tokens.coin.concat(tokenWeb.coin);
-            }
-            Session.set('token', tokens);
-          });
-        }
-      });
-    },
     onSync: () => {
       return true;
     },

@@ -27,19 +27,19 @@ const _getCoin = (code) => {
     if (Session.get('token')) { token = Session.get('token'); }
   }
 
-  let result = _.where(token.coin, { code: code.toUpperCase() });
+  let result = _.findWhere(token.coin, { code: code.toUpperCase() });
 
   if (result.length === 0) {
-    result = _.where(token.coin, { subcode: code.toUpperCase() });
+    result = _.findWhere(token.coin, { subcode: code.toUpperCase() });
   }
   if (result.length === 0) {
     if (code === 'VOTES') {
-      result = _.where(token.coin, { code: 'VOTE' });
+      result = _.findWhere(token.coin, { code: 'VOTE' });
     } else {
       return { code };
     }
   }
-  return result[0];
+  return result;
 };
 
 const _writeZeroes = (quantity) => {
@@ -48,7 +48,7 @@ const _writeZeroes = (quantity) => {
     template += '0';
   }
   return template;
-}
+};
 
 
 /**

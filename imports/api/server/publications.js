@@ -4,12 +4,12 @@ import { Counts } from 'meteor/tmeasday:publish-counts';
 
 import { query } from '/lib/views';
 import { log, logUser } from '/lib/const';
-import { getFinality } from '/lib/interpreter';
 
 import { Transactions } from '/imports/api/transactions/Transactions';
 import { Files } from '/imports/api/files/Files';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { Collectives } from '/imports/api/collectives/Collectives';
+import { Tokens } from '/imports/api/tokens/tokens';
 
 log('[starting publications]');
 
@@ -247,3 +247,20 @@ Meteor.publish('collectives', function (terms) {
   }
   return this.ready();
 });
+
+
+/**
+* @summary gets information of registered collectives on this instance
+* @param {Object} terms of query
+*/
+Meteor.publish('tokens', function (terms) {
+  check(terms, Object);
+  const parameters = query(terms);
+  const tokens = Tokens.find(parameters.find, parameters.options);
+  if (tokens) {
+    log(`{ publish: 'tokens', user: ${logUser()} }`);
+    return tokens;
+  }
+  return this.ready();
+});
+

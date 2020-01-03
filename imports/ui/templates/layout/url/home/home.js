@@ -1,3 +1,4 @@
+import { $ } from 'meteor/jquery';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
@@ -9,8 +10,10 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
 import { shortenCryptoName } from '/imports/ui/templates/components/identity/avatar/avatar';
 import { getCoin } from '/imports/api/blockchain/modules/web3Util.js';
+import { Tokens } from '/imports/api/tokens/tokens';
 
 import '/imports/ui/templates/layout/url/home/home.html';
+import '/imports/ui/templates/components/collective/guild/guild.js';
 import '/imports/ui/templates/layout/url/landing/landing.js';
 import '/imports/ui/templates/layout/url/hero/hero.js';
 import '/imports/ui/templates/widgets/feed/feed.js';
@@ -54,7 +57,9 @@ Template.home.onCreated(function () {
   this.modeVar = new ReactiveVar();
   const instance = this;
 
-  this.autorun(() => {
+  const tokenFeed = instance.subscribe('tokens', { view: 'wholeList' });
+
+  instance.autorun(() => {
     Template.instance().modeVar.set(Router.current().url);
     const avatarList = Session.get('avatarList');
     if (avatarList) {
@@ -63,6 +68,12 @@ Template.home.onCreated(function () {
         query.push({ _id: avatarList[i] });
       }
       this.subscription = instance.subscribe('singleUser', { $or: query });
+    }
+
+    if (tokenFeed.ready()) {
+      const tokenList = {};
+      tokenList.coin = Tokens.find().fetch();
+      Session.set('token', tokenList);
     }
   });
 });
@@ -132,6 +143,16 @@ Template.homeFeed.onCreated(function () {
 
   instance.autorun(function (computation) {
     if (subscription.ready()) {
+      console.log(Contracts.findOne());
+      const collectiveId = Contracts.findOne().collectiveId;
+      Session.set('search', {
+        input: '',
+        query: [
+          {
+            collectiveId,
+          },
+        ],
+      });
       instance.feedReady.set(true);
       computation.stop();
     }
@@ -251,6 +272,13 @@ Template.homeFeed.helpers({
       return true;
     }
     return false;
+  },
+  collective() {
+    const search = Session.get('search');
+    const collectiveId = _.pluck(search.query, 'collectiveId')[0];
+    return {
+      collectiveId,
+    };
   },
 });
 
@@ -408,5 +436,33 @@ Template.periodFeed.helpers({
   },
   feedTitle() {
     return TAPi18n.__('moloch-period-feed').replace('{{period}}', TAPi18n.__(`moloch-${this.options.period}`));
+  },
+});
+
+const _resize = (event) => {
+  event.preventDefault();
+  Session.set('resizeSplit', true);
+  Session.set('resizeSplitCursor', {
+    x: parseInt(event.pageX - parseInt($('.split-right').css('marginLeft'), 10), 10),
+    y: event.pageY,
+    windowWidth: window.innerWidth,
+  });
+};
+
+Template.homeFeed.events({
+  'mousedown #resizable'(event) {
+    _resize(event);
+  },
+});
+
+Template.postFeed.events({
+  'mousedown #resizable'(event) {
+    _resize(event);
+  },
+});
+
+Template.periodFeed.events({
+  'mousedown #resizable'(event) {
+    _resize(event);
   },
 });

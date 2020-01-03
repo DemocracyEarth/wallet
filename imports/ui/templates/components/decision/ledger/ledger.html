@@ -1,52 +1,43 @@
 <template name="ledger">
-  <div class="agora">
     {{#if postFeed}}
-      <div class="content content-agora">
-        <a href="#votes"></a>
-        <div class="ledger-title">
-          <h4>{{_ 'thread-votes'}}</h4>
-        </div>
-        <div id="non-editable-feed" class="ledger">
-          {{#if postReady}}
-            {{> tally postVotes}}
-          {{else}}
-            {{> tally placeholder=true}}
-          {{/if}}
-        </div>
+      <a href="#votes"></a>
+      <div class="ledger-title">
+        <h4>{{_ 'thread-votes'}}</h4>
+      </div>
+      <div id="non-editable-feed" class="ledger">
+        {{#if postReady}}
+          {{> tally postVotes}}
+        {{else}}
+          {{> tally placeholder=true}}
+        {{/if}}
       </div>
     {{/if}}
     {{#if homeFeed}}
-      <div class="content content-agora">
-        <a href="#votes"></a>
-        <div class="ledger-title">
-          <h4>{{ledgerTitle}}</h4>
-        </div>
-        <div id="non-editable-feed" class="ledger">
-          {{#if postReady}}
-            {{> tally homeVotes}}
-          {{else}}
-            {{> tally placeholder=true}}
-          {{/if}}
-        </div>
+      <a href="#votes"></a>
+      <div class="ledger-title">
+        <h4>{{ledgerTitle}}</h4>
+      </div>
+      <div id="non-editable-feed" class="ledger">
+        {{#if postReady}}
+          {{> tally homeVotes}}
+        {{else}}
+          {{> tally placeholder=true}}
+        {{/if}}
       </div>
     {{/if}}
     {{#if periodFeed}}
-      <div class="content content-agora">
-        <a href="#votes"></a>
-        <div class="ledger-title">
-          <h4>{{{_ 'moloch-period-votes'}}}</h4>
-        </div>
-        <div id="non-editable-feed" class="ledger">
-          {{#if postReady}}
-            {{> tally periodVotes}}
-          {{else}}
-            {{> tally placeholder=true}}
-          {{/if}}
-        </div>
+      <a href="#votes"></a>
+      <div class="ledger-title">
+        <h4>{{{_ 'moloch-period-votes'}}}</h4>
+      </div>
+      <div id="non-editable-feed" class="ledger">
+        {{#if postReady}}
+          {{> tally periodVotes}}
+        {{else}}
+          {{> tally placeholder=true}}
+        {{/if}}
       </div>
     {{/if}}
-    <div id="resizable" class="resize"></div>
-  </div>
 </template>
 
 <template name="footnote">

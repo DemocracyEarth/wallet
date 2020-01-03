@@ -406,6 +406,7 @@
   "results": "Results",
   "total-votes": "(<votes> votes)",
   "no": "No",
+  "yes": "Yes",
   "remove-signature-tooltip": "Remove signature from contract.",
   "remove-signature": "Remove Signature",
   "remove-signature-message": "Do you confirm removing signature from contract?",
@@ -592,7 +593,7 @@
   "send": "Send",
   "close": "Close",
   "metamask-denied-signature": "Transaction signature was denied.",
-  "metamask-invalid-address": "Address mismatch.<br>Verify wallet account is the same used to log in.",
+  "metamask-invalid-address": "Address mismatch.<br>Verify wallet account is the same used to sign in.",
   "blockchain-address": "Blockchain Address",
   "blockchain-address-placeholder": "Your account if none specified.",
   "cost-per-vote": "Tokens required per vote",
@@ -813,5 +814,13 @@
   "moloch-ragequit-funds-withdraw": "Withdrawn Funds",
   "quit": "Quit",
   "moloch-contract-ragequit": "Retired shares from DAO.",
-  "moloch-contract-ragequit-tooltip": "A member has burned shares to withdraw funds from this DAO."
+  "moloch-contract-ragequit-tooltip": "A member has burned shares to withdraw funds from this DAO.",
+  "not-synced": "Not synced ",
+  "not-synced-message": "The application is not synced with the corresponding blockchain for this transaction.",
+  "dao-confirm-tally": "Confirm vote in your blockchain wallet.<br>This will be a vote for <strong>{{voteValue}}</strong>.",
+  "moloch-guild": "Guild.",
+  "guild-total-shares": "Total Shares",
+  "guild-total-assets": "Total Assets",
+  "guild-share-value": "Value per Share",
+  "guild-total-value": "Total Value"
 }

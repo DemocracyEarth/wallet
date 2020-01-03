@@ -1,9 +1,9 @@
 <template name="balance">
   <div class="token {{tokenStyle}}">
-    <div class="token-ticker" style="{{tickerStyle}}">
+    <div class="token-ticker {{tokenTotal}}" style="{{tickerStyle}}">
       {{ticker}}
     </div>
-    <div class="token-balance" style="{{balanceStyle}}">
+    <div class="token-balance {{tokenTotal}}" style="{{balanceStyle}}">
       {{#if hasPending}}
         <div class="token-pending">
           {{pending}}

@@ -8,6 +8,24 @@
         "logo": "images/moloch.png",
         "website": "https://molochdao.com",
         "bio": "A community DAO to fund Ethereum development in the name of Moloch the God of Coordination Failure.",
+        "guild": [
+          {
+            "name": "guild-total-shares",
+            "type": "token.MOLOCH"
+          },
+          {
+            "name": "guild-total-assets",
+            "type": "token.WETH"
+          },
+          {
+            "name": "guild-share-value",
+            "type": "token.USD"
+          },
+          {
+            "name": "guild-total-value",
+            "type": "token.USD"
+          }
+        ],
         "menu": [
           {
             "separator": true,
@@ -209,9 +227,20 @@
                 },
                 {
                   "eventName": "SubmitVote",
-                  "collectionType": "Contract"
+                  "collectionType": "Contract",
+                  "methodName": "submitVote",
+                  "parameter": [
+                    {
+                      "name": "proposalIndex",
+                      "type": "uint256"
+                    },
+                    {
+                      "name": "uintVote",
+                      "type": "uint8"
+                    }
+                  ]
                 },
-                {
+                { 
                   "eventName": "ProcessProposal",
                   "collectionType": "Contract"
                 },

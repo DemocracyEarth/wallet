@@ -1104,8 +1104,8 @@ h4 {
 }
 
 .transaction-signal {
-  width: 16px;
-  height: 16px;
+  width: 10px;
+  height: 10px;
   margin: 0px 2px 1px;
 }
 
@@ -1113,3 +1113,77 @@ h4 {
   margin-top: 0px;
 }
 
+.guild-label {
+  font-size: 0.7em;
+  float: left;
+  line-height: 38px;
+  clear: both;
+}
+
+.guild-value {
+  float:right;
+}
+
+.guild-row {
+  border-bottom: 1px solid #f1f1f1;
+  display: inline-block;
+  padding: 0px 7px;
+  width: 100%;
+  background-color: #f9fafb;
+  margin: -4px 0px;
+}
+
+.guild-row-total {
+  color: white;
+  background-color: #48587d;
+  border-bottom: none;
+  margin-bottom: -8px;
+}
+
+.guild {
+  margin:0px -10px -7px;
+}
+
+.guild-icon {
+  width: 42px;
+  height: 42px;
+  float: left;
+  margin: 10px 15px 10px 5px;
+}
+
+.guild-title {
+  float: left;
+  clear: right;
+  margin-bottom: -14px;
+  margin-top: 0px;
+}
+
+.guild-verifier {
+  margin-top: -10px;
+}
+
+.guild-detail {
+  clear: left;
+}
+
+.guild-name {
+  float: left;
+}
+
+.guild-title-label {
+  font-size: 1.2em;
+}
+
+.token-total {
+  border: 1px solid white;
+  color: white;
+  background: transparent;
+}
+
+.token-ticker.token-total {
+  border-right: none;
+}
+
+.token-balance.token-total {
+  border-left: none;
+}

@@ -62,9 +62,21 @@
     {{#unless unloggedMobile}}
       <div class="split split-right {{landingMode 'right'}}">
         {{#if feedReady}}
-          {{#with mainLedger}}
-            {{> ledger this}}
-          {{/with}}
+          <div class="agora">
+            <div class="content content-agora">
+              <a href="#votes"></a>
+              <div class="ledger-title">
+                <h4>{{_ 'moloch-guild'}}</h4>
+              </div>
+              {{#with collective}}
+                {{> guild this}}
+              {{/with}}
+              {{#with mainLedger}}
+                {{> ledger this}}
+              {{/with}}
+              <div id="resizable" class="resize"></div>
+            </div>
+          </div>
         {{/if}}
       </div>
     {{/unless}}
@@ -110,9 +122,14 @@
   {{#if showTransactions}}
     <div class="split split-right {{landingMode 'right'}}">
       {{#if postReady}}
-        {{#with votes}}
-          {{> ledger this}}
-        {{/with}}
+        <div class="agora">
+          <div class="content content-agora">
+            {{#with votes}}
+              {{> ledger this}}
+            {{/with}}
+            <div id="resizable" class="resize"></div>
+          </div>
+        </div>
       {{/if}}
     </div>
   {{/if}}
@@ -136,9 +153,14 @@
 
   <div class="split split-right {{landingMode 'right'}}">
     {{#if periodReady}}
-      {{#with votes}}
-        {{> ledger this}}
-      {{/with}}
+      <div class="agora">
+        <div class="content content-agora">
+          {{#with votes}}
+            {{> ledger this}}
+          {{/with}}
+          <div id="resizable" class="resize"></div>
+        </div>
+      </div>
     {{/if}}
   </div>
 </template>
