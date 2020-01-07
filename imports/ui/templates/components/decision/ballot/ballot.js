@@ -172,23 +172,22 @@ const _cryptoVote = () => {
       if (Meteor.user()) {
         if (isMember(Meteor.user(), poll)) {
           if (isPollOpen(Template.instance().now.get(), poll)) {
-            if (!verifyCoinVote(contract.pollId ? Contracts.findOne({ _id: contract.pollId }) : contract)) {
+            if (!verifyCoinVote(contract.pollId ? poll : contract)) {
               if (setupWeb3(true)) {
                 // wallet alert
                 const icon = Meteor.settings.public.app.logo;
                 let message;
-                const parent = Contracts.findOne({ _id: contract.pollId });
                 switch (voteValue) {
                   case defaults.YES:
-                    message = TAPi18n.__('dao-confirm-tally').replace('{{voteValue}}', TAPi18n.__('yes')).replace('{{proposalName}}', getProposalDescription(parent.title, true));
-                    submitVote(poll.importId.toNumber(), 1, poll.collectiveId);
+                    message = TAPi18n.__('dao-confirm-tally').replace('{{voteValue}}', TAPi18n.__('yes')).replace('{{proposalName}}', getProposalDescription(poll.title, true));
+                    submitVote(poll.importId.toNumber(), 1, poll, contract);
                     break;
                   case defaults.NO:
-                    message = TAPi18n.__('dao-confirm-tally').replace('{{voteValue}}', TAPi18n.__('no')).replace('{{proposalName}}', getProposalDescription(parent.title, true));
-                    submitVote(poll.importId.toNumber(), 2, poll.collectiveId);
+                    message = TAPi18n.__('dao-confirm-tally').replace('{{voteValue}}', TAPi18n.__('no')).replace('{{proposalName}}', getProposalDescription(poll.title, true));
+                    submitVote(poll.importId.toNumber(), 2, poll, contract);
                     break;
                   default:
-                    message = TAPi18n.__('dao-default-tally').replace('{{proposalName}}', getProposalDescription(parent.title, true));
+                    message = TAPi18n.__('dao-default-tally').replace('{{proposalName}}', getProposalDescription(poll.title, true));
                 }
                 displayModal(
                   true,

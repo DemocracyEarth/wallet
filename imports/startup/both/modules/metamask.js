@@ -15,7 +15,8 @@ import { Transactions } from '/imports/api/transactions/Transactions';
 import { sync } from '/imports/ui/templates/layout/sync';
 import { defaults } from '/lib/const';
 import { Collectives } from '/imports/api/collectives/Collectives';
-import { getShares } from '/lib/web3';
+import { getShares, setTransaction } from '/lib/web3';
+import { getTransactionObject } from '/lib/interpreter';
 
 import { BigNumber } from 'bignumber.js';
 
@@ -255,9 +256,15 @@ const _getMap = (smartContracts, functionName) => {
   return undefined;
 };
 
-const _pendingTransaction = (voterAddress) => {
-  const voter = Meteor.users.findOne({ _id: Meteor.userId() });
-  log(`[web3] Tallying vote of user ${event.returnValues.memberAddress.toLowerCase()}...`);
+/**
+* @summary adds a temporary pending transaction on server db
+* @param {string} voterAddress is coming from
+* @param {string} hash from transaction
+* @param {object} contract being voted on
+* @param {object} choice contract being voted for
+*/
+const _pendingTransaction = (voterAddress, hash, contract, choice) => {
+  const voter = Meteor.user();
   if (voter) {
     const shares = getShares(voter, defaults.TOKEN);
     const ticket = {
@@ -267,13 +274,13 @@ const _pendingTransaction = (voterAddress) => {
         _id: contract._id,
       },
       poll: {
-        _id: poll._id,
+        _id: choice._id,
       },
       address: contract.keyword,
       blockchain: {
         tickets: [
           {
-            hash: block.blockHash,
+            hash,
             status: 'PENDING',
             value: shares.toNumber(),
           },
@@ -281,22 +288,21 @@ const _pendingTransaction = (voterAddress) => {
         coin: {
           code: defaults.TOKEN,
         },
-        publicAddress: event.returnValues.memberAddress.toLowerCase(),
+        publicAddress: voterAddress.toLowerCase(),
         score: {
-          totalConfirmed: shares.toString(),
-          totalPending: '0',
+          totalConfirmed: '0',
+          totalPending: shares.toString(),
           totalFail: '0',
-          finalConfirmed: shares.toNumber(),
-          finalPending: 0,
+          finalConfirmed: 0,
+          finalPending: shares.toNumber(),
           finalFail: 0,
           value: 0,
         },
       },
     };
-    const transactionObject = getTransactionObject(user, ticket);
-    const userId = user._id;
-    const pollId = poll._id;
-    const txId = _setTransaction(userId, pollId, transactionObject);
+    const transactionObject = getTransactionObject(voter, ticket);
+    transactionObject.status = 'PENDING';
+    setTransaction(voter._id, choice._id, transactionObject);
   }
 };
 
@@ -305,9 +311,9 @@ const _pendingTransaction = (voterAddress) => {
 * @param {number} proposalIndex uint256
 * @param {number} uintVote uint8
 */
-const _submitVote = async (proposalIndex, uintVote, collectiveId) => {
+const _submitVote = async (proposalIndex, uintVote, contract, choice) => {
   if (_web3(true)) {
-    const collective = Collectives.findOne({ _id: collectiveId });
+    const collective = Collectives.findOne({ _id: choice.collectiveId });
     const smartContracts = collective.profile.blockchain.smartContracts;
 
     const map = _getMap(smartContracts, 'SubmitVote');
@@ -338,16 +344,10 @@ const _submitVote = async (proposalIndex, uintVote, collectiveId) => {
         );
         return err;
       }
-
+      _pendingTransaction(Meteor.user().username, res, contract, choice);
+      displayModal(false, modal);
       return res;
     });
-
-    // TODO: pendingTransactions
-    console.log(`dao: ${dao}`);
-    // const dao = await new web3.eth.Contract(abi, smartContract.publicAddress);
-    console.log('submitting vote....');
-    console.log(`proposalIndex: ${proposalIndex}`);
-    console.log(`uintVote: ${uintVote}`);
   }
 };
 

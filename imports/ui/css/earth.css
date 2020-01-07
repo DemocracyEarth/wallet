@@ -6274,12 +6274,12 @@ blockquote {
 .token-pending {
   display: inline-block;
   margin: -1px -3px -1px 5px;
-  padding: 3px 3px 1px;
+  padding: 2px 3px 3px;
   float: right;
   border-radius: 3px;
   background-color: #f9d55b;
   color: #8f6e00;
-  font-size: 8px;
+  font-size: 0.65em;
   line-height: 8px;
   text-transform: uppercase;
 }
