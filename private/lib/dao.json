@@ -288,6 +288,19 @@
                       "pollVoting": false
                     }
                   }
+                },
+                {
+                  "methodName": "getMemberProposalVote",
+                  "parameter": [
+                    {
+                      "name": "memberAddress",
+                      "type": "address"
+                    },
+                    {
+                      "name": "proposalIndex",
+                      "type": "uint8"
+                    }
+                  ]
                 }
               ]
             },
