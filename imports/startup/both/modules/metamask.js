@@ -236,13 +236,13 @@ const _delegate = (sourceId, targetId, contractId, hash, value) => {
 * @param {object} smartContracts from collective map
 * @param {string} functionName to identify abi from contract context
 */
-const _getMap = (smartContracts, functionName) => {
+const _getMethodMap = (smartContracts, functionName) => {
   let myself;
   let index;
   let found = false;
   if (smartContracts) {
     for (let i = 0; i < smartContracts.length; i += 1) {
-      myself = _.findWhere(smartContracts[i].map, { eventName: functionName });
+      myself = _.findWhere(smartContracts[i].map, { methodName: functionName });
       if (myself.eventName === functionName) {
         found = true;
         index = i;
@@ -306,6 +306,34 @@ const _pendingTransaction = (voterAddress, hash, contract, choice) => {
   }
 };
 
+
+const _callDAOMethod = async (methodName, parameterList, collectiveId) => {
+  if (_web3(true)) {
+    const collective = Collectives.findOne({ _id: collectiveId });
+    const smartContracts = collective.profile.blockchain.smartContracts;
+
+    const map = _getMethodMap(smartContracts, methodName);
+    const contractABI = JSON.parse(map.abi);
+
+    const dao = await new web3.eth.Contract(contractABI, map.publicAddress);
+
+    return await dao.methods[`${methodName}`](...parameterList).call({}, (err, res) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log(`callDAOMetho success:`);
+      console.log(res);
+      return res;
+    });
+  }
+};
+
+const _getMemberProposalVote = async (memberAddress, proposalInded, collectiveId) => {
+  if (_web3(true)) {
+
+  }
+}
+
 /**
 * @summary submit vote to moloch dao
 * @param {number} proposalIndex uint256
@@ -316,7 +344,7 @@ const _submitVote = async (proposalIndex, uintVote, contract, choice) => {
     const collective = Collectives.findOne({ _id: choice.collectiveId });
     const smartContracts = collective.profile.blockchain.smartContracts;
 
-    const map = _getMap(smartContracts, 'SubmitVote');
+    const map = _getMethodMap(smartContracts, 'submitVote');
     const contractABI = JSON.parse(map.abi);
 
     const dao = await new web3.eth.Contract(contractABI, map.publicAddress);
