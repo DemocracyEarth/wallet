@@ -205,7 +205,31 @@
                 {
                   "name": "totalSharesRequested",
                   "type": "uint256"
-                }                          
+                },
+                {
+                  "name": "getMemberProposalVote",
+                  "type": "function"
+                },
+                {
+                  "name": "hasVotingPeriodExpired",
+                  "type": "function"
+                },
+                {
+                  "name": "canRagequit",
+                  "type": "function"
+                },
+                {
+                  "name": "getProposalQueueLength",
+                  "type": "function"
+                },
+                {
+                  "name": "getCurrentPeriod",
+                  "type": "function"
+                },
+                {
+                  "name": "max",
+                  "type": "function"
+                }
               ],
               "map": [
                 {
@@ -264,6 +288,19 @@
                       "pollVoting": false
                     }
                   }
+                },
+                {
+                  "methodName": "getMemberProposalVote",
+                  "parameter": [
+                    {
+                      "name": "memberAddress",
+                      "type": "address"
+                    },
+                    {
+                      "name": "proposalIndex",
+                      "type": "uint8"
+                    }
+                  ]
                 }
               ]
             },

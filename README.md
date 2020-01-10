@@ -3,7 +3,6 @@
 Create and participate in Digital Autonomous Organizations (DAOs).
 
 [![Join the chat at https://gitter.im/DemocracyEarth/sovereign](https://badges.gitter.im/DemocracyEarth/sovereign.svg)](https://gitter.im/DemocracyEarth/sovereign?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Slack Status](http://chat.democracy.earth/badge.svg)](http://chat.democracy.earth)
 [![Build Status](http://ci.comunes.org/buildStatus/icon?job=sovereign)](http://ci.comunes.org/job/sovereign/)
 
 Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check our presentations in [Paris 🇫🇷 2016](https://youtube.com/watch?v=UajbQTHnTfM), [New York 🇺🇸 2019](https://www.youtube.com/watch?v=o2u0g0-hjgk) and [Berlin 🇩🇪 2019](https://www.youtube.com/watch?v=JJBDcG2EqwE).
@@ -26,7 +25,7 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
 
 **Release:**
 
-* Currently [`version 0.7.0`](https://github.com/DemocracyEarth/sovereign/releases)
+* Currently [`version 0.7`](https://github.com/DemocracyEarth/sovereign/releases)
 * This [User Agreement](https://github.com/DemocracyEarth/sovereign/blob/master/UserAgreement.md) governs access to and use of the Democracy Earth platform.
 
 ## Setup

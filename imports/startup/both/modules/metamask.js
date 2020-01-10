@@ -15,6 +15,8 @@ import { Transactions } from '/imports/api/transactions/Transactions';
 import { sync } from '/imports/ui/templates/layout/sync';
 import { defaults } from '/lib/const';
 import { Collectives } from '/imports/api/collectives/Collectives';
+import { getShares, setTransaction } from '/lib/web3';
+import { getTransactionObject } from '/lib/interpreter';
 
 import { BigNumber } from 'bignumber.js';
 
@@ -234,14 +236,14 @@ const _delegate = (sourceId, targetId, contractId, hash, value) => {
 * @param {object} smartContracts from collective map
 * @param {string} functionName to identify abi from contract context
 */
-const _getMap = (smartContracts, functionName) => {
+const _getMethodMap = (smartContracts, functionName) => {
   let myself;
   let index;
   let found = false;
   if (smartContracts) {
     for (let i = 0; i < smartContracts.length; i += 1) {
-      myself = _.findWhere(smartContracts[i].map, { eventName: functionName });
-      if (myself.eventName === functionName) {
+      myself = _.findWhere(smartContracts[i].map, { methodName: functionName });
+      if (myself.methodName === functionName) {
         found = true;
         index = i;
         break;
@@ -255,16 +257,141 @@ const _getMap = (smartContracts, functionName) => {
 };
 
 /**
+* @summary adds a temporary pending transaction on server db
+* @param {string} voterAddress is coming from
+* @param {string} hash from transaction
+* @param {object} contract being voted on
+* @param {object} choice contract being voted for
+*/
+const _pendingTransaction = (voterAddress, hash, contract, choice) => {
+  const voter = Meteor.user();
+  if (voter) {
+    const shares = getShares(voter, defaults.TOKEN);
+    const ticket = {
+      shares,
+      timestamp: new Date(),
+      contract: {
+        _id: contract._id,
+      },
+      poll: {
+        _id: choice._id,
+      },
+      address: contract.keyword,
+      blockchain: {
+        tickets: [
+          {
+            hash,
+            status: 'PENDING',
+            value: shares.toNumber(),
+          },
+        ],
+        coin: {
+          code: defaults.TOKEN,
+        },
+        publicAddress: voterAddress.toLowerCase(),
+        score: {
+          totalConfirmed: '0',
+          totalPending: shares.toString(),
+          totalFail: '0',
+          finalConfirmed: 0,
+          finalPending: shares.toNumber(),
+          finalFail: 0,
+          value: 0,
+        },
+      },
+    };
+    const transactionObject = getTransactionObject(voter, ticket);
+    transactionObject.status = 'PENDING';
+    setTransaction(voter._id, choice._id, transactionObject);
+  }
+};
+
+/**
+* @summary call a method from a dao using a collective map
+* @param {string} methodName to call from contract
+* @param {array} parameterList with parameter values to include in the call
+* @param {string} collectiveId to look for required contract
+* @param {string} walletMetho either 'call' or 'send' initially.
+* @param {object} walletParameters from the signing user
+*/
+const _callDAOMethod = async (methodName, parameterList, collectiveId, walletMethod, walletParameters) => {
+  let response;
+  if (_web3(true)) {
+    const collective = Collectives.findOne({ _id: collectiveId });
+    if (collective) {
+      const smartContracts = collective.profile.blockchain.smartContracts;
+      const map = _getMethodMap(smartContracts, methodName);
+      const contractABI = JSON.parse(map.abi);
+
+      const dao = await new web3.eth.Contract(contractABI, map.publicAddress);
+
+      await dao.methods[`${methodName}`](...parameterList)[walletMethod](walletParameters, (err, res) => {
+        if (err) {
+          let message;
+          switch (err.code) {
+            case -32602:
+              message = TAPi18n.__('metamask-invalid-argument');
+              break;
+            case -32603:
+              message = TAPi18n.__('metamask-invalid-address');
+              break;
+            case 4001:
+              message = TAPi18n.__('metamask-denied-signature');
+              break;
+            default:
+              message = err.message;
+          }
+          displayModal(
+            true,
+            {
+              icon: Meteor.settings.public.app.logo,
+              title: TAPi18n.__('wallet'),
+              message,
+              cancel: TAPi18n.__('close'),
+              alertMode: true,
+            }
+          );
+          return err;
+        }
+        response = res;
+        return res;
+      });
+    }
+  }
+  return response;
+};
+
+/**
 * @summary submit vote to moloch dao
 * @param {number} proposalIndex uint256
 * @param {number} uintVote uint8
+* @param {object} contract from parent of poll
+* @param {object} choice poll contract with choice voted
 */
-const _submitVote = async (proposalIndex, uintVote, collectiveId) => {
-  if (_web3(true)) {
-    const collective = Collectives.findOne({ _id: collectiveId });
+const _hasRightToVote = async (memberAddress, proposalIndex, collectiveId) => {
+  const memberVotes = await _callDAOMethod('getMemberProposalVote', [memberAddress, proposalIndex], collectiveId, 'call', {});
+  return (memberVotes === 0);
+};
+
+/**
+* @summary submit vote to moloch dao
+* @param {number} proposalIndex uint256
+* @param {number} uintVote uint8
+* @param {object} contract from parent of poll
+* @param {object} choice poll contract with choice voted
+*/
+const _submitVote = async (proposalIndex, uintVote, contract, choice) => {
+  const res = await _callDAOMethod('submitVote', [proposalIndex, uintVote], choice.collectiveId, 'send', { from: Meteor.user().username });
+  if (res) {
+    _pendingTransaction(Meteor.user().username, res, contract, choice);
+    displayModal(false, modal);
+  }
+
+  /**
+    const collective = Collectives.findOne({ _id: choice.collectiveId });
     const smartContracts = collective.profile.blockchain.smartContracts;
 
-    const map = _getMap(smartContracts, 'SubmitVote');
+    const map = _getMethodMap(smartContracts, 'submitVote');
     const contractABI = JSON.parse(map.abi);
 
     const dao = await new web3.eth.Contract(contractABI, map.publicAddress);
@@ -290,16 +417,12 @@ const _submitVote = async (proposalIndex, uintVote, collectiveId) => {
             alertMode: true,
           },
         );
+        return err;
       }
+      _pendingTransaction(Meteor.user().username, res, contract, choice);
+      displayModal(false, modal);
       return res;
-    });
-
-    console.log(`dao: ${dao}`);
-    // const dao = await new web3.eth.Contract(abi, smartContract.publicAddress);
-    console.log('submitting vote....');
-    console.log(`proposalIndex: ${proposalIndex}`);
-    console.log(`uintVote: ${uintVote}`);
-  }
+    });*/
 };
 
 /**
@@ -807,3 +930,4 @@ export const getBlockHeight = _getBlockHeight;
 export const getLastTimestamp = _getLastTimestamp;
 export const verifyCoinVote = _verifyCoinVote;
 export const submitVote = _submitVote;
+export const hasRightToVote = _hasRightToVote;

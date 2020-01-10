@@ -97,25 +97,6 @@ Schema.ContractMap = new SimpleSchema({
   },
 });
 
-Schema.Map = new SimpleSchema({
-  eventName: {
-    type: String,
-    optional: true,
-  },
-  collectionType: {
-    type: String,
-    optional: true,
-  },
-  contract: {
-    type: Schema.ContractMap,
-    optional: true,
-  },
-  script: {
-    type: String,
-    optional: true,
-  },
-});
-
 Schema.Parameter = new SimpleSchema({
   name: {
     type: String,
@@ -131,6 +112,33 @@ Schema.Parameter = new SimpleSchema({
   },
   length: {
     type: String,
+    optional: true,
+  },
+});
+
+Schema.Map = new SimpleSchema({
+  eventName: {
+    type: String,
+    optional: true,
+  },
+  methodName: {
+    type: String,
+    optional: true,
+  },
+  collectionType: {
+    type: String,
+    optional: true,
+  },
+  contract: {
+    type: Schema.ContractMap,
+    optional: true,
+  },
+  script: {
+    type: String,
+    optional: true,
+  },
+  parameter: {
+    type: [Schema.Parameter],
     optional: true,
   },
 });

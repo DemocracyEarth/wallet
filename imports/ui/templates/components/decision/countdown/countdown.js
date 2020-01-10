@@ -16,10 +16,15 @@ import '/imports/ui/templates/components/decision/countdown/countdown.html';
 * @return {boolean} true or fase
 */
 const _isPollOpen = (now, contract) => {
+  switch (contract.period) {
+    case 'VOTING':
+      break;
+    default:
+      return false;
+  }
   if (contract && contract.rules.alwaysOn) {
     return true;
   }
-  console.log(contract.closing);
   if (contract && contract.closing) {
     return (now < contract.closing.height);
   }

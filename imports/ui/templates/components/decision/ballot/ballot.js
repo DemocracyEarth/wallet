@@ -12,11 +12,11 @@ import { getContractToken } from '/imports/ui/templates/widgets/transaction/tran
 import { transact } from '/imports/api/transactions/transaction';
 import { displayTimedWarning } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
-import { timers } from '/lib/const';
+import { timers, defaults } from '/lib/const';
 import { verifyConstituencyRights, getTokenAddress, getTokenContractAddress, checkTokenAvailability, isMember } from '/imports/ui/templates/components/decision/electorate/electorate.js';
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
 import { createContract } from '/imports/startup/both/modules/Contract';
-import { transactWithMetamask, setupWeb3, coinvote, verifyCoinVote, submitVote } from '/imports/startup/both/modules/metamask';
+import { transactWithMetamask, setupWeb3, coinvote, verifyCoinVote, submitVote, hasRightToVote } from '/imports/startup/both/modules/metamask';
 import { displayModal } from '/imports/ui/modules/modal';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { currentBlock, isPollOpen } from '/imports/ui/templates/components/decision/countdown/countdown';
@@ -35,7 +35,7 @@ const numeral = require('numeral');
 /**
 * @summary reject vote message;
 */
-const _rejectVote = () => {
+const _notMember = () => {
   if (!checkTokenAvailability(Meteor.user(), Template.instance().ticket.get().token) && Template.instance().ticket.get().token !== 'WEB VOTE') {
     // lack of token
     displayModal(
@@ -64,6 +64,23 @@ const _rejectVote = () => {
       },
     );
   }
+};
+
+/**
+* @summary not connected to server;
+*/
+const _notConnected = () => {
+  // not synced
+  displayModal(
+    true,
+    {
+      icon: Meteor.settings.public.app.logo,
+      title: TAPi18n.__('not-connected'),
+      message: TAPi18n.__('not-connected-message'),
+      cancel: TAPi18n.__('close'),
+      alertMode: true,
+    },
+  );
 };
 
 /**
@@ -131,17 +148,19 @@ const _alreadyVoted = () => {
   );
 };
 
+
+
 /**
 * @summary executes token vote
 */
-const _cryptoVote = () => {
+const _cryptoVote = async () => {
   const contract = Template.currentData().contract;
 
   let voteValue;
-  if (contract.title.toUpperCase() === 'YES') {
-    voteValue = 'YES';
-  } else if (contract.title.toUpperCase() === 'NO') {
-    voteValue = 'NO';
+  if (contract.title.toUpperCase() === TAPi18n.__('yes').toUpperCase()) {
+    voteValue = defaults.YES;
+  } else if (contract.title.toUpperCase() === TAPi18n.__('no').toUpperCase()) {
+    voteValue = defaults.NO;
   }
 
   const poll = Contracts.findOne({ _id: contract.pollId });
@@ -153,53 +172,34 @@ const _cryptoVote = () => {
       if (Meteor.user()) {
         if (isMember(Meteor.user(), poll)) {
           if (isPollOpen(Template.instance().now.get(), poll)) {
-            if (!verifyCoinVote(contract.pollId ? Contracts.findOne({ _id: contract.pollId }) : contract)) {
+            if (await hasRightToVote(Meteor.user().username, poll.importId.toNumber(), contract.collectiveId)) {
               if (setupWeb3(true)) {
                 // wallet alert
                 const icon = Meteor.settings.public.app.logo;
+                let message;
+                switch (voteValue) {
+                  case defaults.YES:
+                    message = TAPi18n.__('dao-confirm-tally').replace('{{voteValue}}', TAPi18n.__('yes')).replace('{{proposalName}}', getProposalDescription(poll.title, true));
+                    submitVote(poll.importId.toNumber(), 1, poll, contract);
+                    break;
+                  case defaults.NO:
+                    message = TAPi18n.__('dao-confirm-tally').replace('{{voteValue}}', TAPi18n.__('no')).replace('{{proposalName}}', getProposalDescription(poll.title, true));
+                    submitVote(poll.importId.toNumber(), 2, poll, contract);
+                    break;
+                  default:
+                    message = TAPi18n.__('dao-default-tally').replace('{{proposalName}}', getProposalDescription(poll.title, true));
+                }
                 displayModal(
                   true,
                   {
                     icon,
                     title: TAPi18n.__('place-vote'),
-                    message: TAPi18n.__('dao-confirm-tally').replace('{{voteValue}}', TAPi18n.__(voteValue.toLowerCase())),
+                    message,
                     cancel: TAPi18n.__('close'),
                     awaitMode: true,
                     displayProfile: false,
                   },
                 );
-
-                if (voteValue === 'YES') {
-                  submitVote(poll.importId.toNumber(), 1, poll.collectiveId);
-                } else if (voteValue === 'NO') {
-                  submitVote(poll.importId.toNumber(), 2, poll.collectiveId);
-                } else if (contract.rules.balanceVoting) {
-                  // off chain vote
-                  coinvote(
-                    getTokenAddress(Meteor.user(), Template.instance().ticket.get().token),
-                    Template.currentData().contract.blockchain.publicAddress,
-                    getBalance(Meteor.user(), Template.currentData().contract, true),
-                    Template.instance().ticket.get().token,
-                    getTokenContractAddress(Template.instance().ticket.get().token),
-                    Meteor.userId(),
-                    Template.currentData().contract._id,
-                    Template.currentData().contract.signatures[0]._id,
-                    contract.title,
-                    `${(window.location.origin)}${contract.url}`,
-                  );
-                } else {
-                  // on chain vote
-                  transactWithMetamask(
-                    getTokenAddress(Meteor.user(), Template.instance().ticket.get().token),
-                    Template.currentData().contract.blockchain.publicAddress,
-                    Template.currentData().contract.blockchain.votePrice,
-                    Template.instance().ticket.get().token,
-                    getTokenContractAddress(Template.instance().ticket.get().token),
-                    Meteor.userId(),
-                    Template.currentData().contract._id,
-                    Template.currentData().contract.signatures[0]._id,
-                  );
-                }
               }
             } else {
               _alreadyVoted();
@@ -208,7 +208,7 @@ const _cryptoVote = () => {
             _pollClosed();
           }
         } else {
-          _rejectVote();
+          _notMember();
         }
       } else {
         _notLogged();
@@ -217,7 +217,7 @@ const _cryptoVote = () => {
       _notSynced();
     }
   } else {
-    _notSynced();
+    _notConnected();
   }
 };
 
@@ -845,11 +845,11 @@ Template.ballot.helpers({
 });
 
 Template.ballot.events({
-  'click #single-vote'(event) {
+  async 'click #single-vote'(event) {
     event.preventDefault();
     event.stopPropagation();
     if (!this.editorMode) {
-      _cryptoVote();
+      await _cryptoVote();
     }
   },
   'click #single-remove'(event) {
