@@ -16,6 +16,12 @@ import '/imports/ui/templates/components/decision/countdown/countdown.html';
 * @return {boolean} true or fase
 */
 const _isPollOpen = (now, contract) => {
+  switch (contract.period) {
+    case 'VOTING':
+      break;
+    default:
+      return false;
+  }
   if (contract && contract.rules.alwaysOn) {
     return true;
   }

@@ -16,7 +16,7 @@ import { timers, defaults } from '/lib/const';
 import { verifyConstituencyRights, getTokenAddress, getTokenContractAddress, checkTokenAvailability, isMember } from '/imports/ui/templates/components/decision/electorate/electorate.js';
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
 import { createContract } from '/imports/startup/both/modules/Contract';
-import { transactWithMetamask, setupWeb3, coinvote, verifyCoinVote, submitVote } from '/imports/startup/both/modules/metamask';
+import { transactWithMetamask, setupWeb3, coinvote, verifyCoinVote, submitVote, hasRightToVote } from '/imports/startup/both/modules/metamask';
 import { displayModal } from '/imports/ui/modules/modal';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { currentBlock, isPollOpen } from '/imports/ui/templates/components/decision/countdown/countdown';
@@ -153,7 +153,7 @@ const _alreadyVoted = () => {
 /**
 * @summary executes token vote
 */
-const _cryptoVote = () => {
+const _cryptoVote = async () => {
   const contract = Template.currentData().contract;
 
   let voteValue;
@@ -172,7 +172,7 @@ const _cryptoVote = () => {
       if (Meteor.user()) {
         if (isMember(Meteor.user(), poll)) {
           if (isPollOpen(Template.instance().now.get(), poll)) {
-            if (!verifyCoinVote(contract.pollId ? poll : contract)) {
+            if (await hasRightToVote(Meteor.user().username, poll.importId.toNumber(), contract.collectiveId)) {
               if (setupWeb3(true)) {
                 // wallet alert
                 const icon = Meteor.settings.public.app.logo;
@@ -845,11 +845,11 @@ Template.ballot.helpers({
 });
 
 Template.ballot.events({
-  'click #single-vote'(event) {
+  async 'click #single-vote'(event) {
     event.preventDefault();
     event.stopPropagation();
     if (!this.editorMode) {
-      _cryptoVote();
+      await _cryptoVote();
     }
   },
   'click #single-remove'(event) {
