@@ -386,43 +386,6 @@ const _submitVote = async (proposalIndex, uintVote, contract, choice) => {
     _pendingTransaction(Meteor.user().username, res, contract, choice);
     displayModal(false, modal);
   }
-
-  /**
-    const collective = Collectives.findOne({ _id: choice.collectiveId });
-    const smartContracts = collective.profile.blockchain.smartContracts;
-
-    const map = _getMethodMap(smartContracts, 'submitVote');
-    const contractABI = JSON.parse(map.abi);
-
-    const dao = await new web3.eth.Contract(contractABI, map.publicAddress);
-
-    await dao.methods[`${'submitVote'}`](proposalIndex, uintVote).send({ from: Meteor.user().username }, (err, res) => {
-      if (err) {
-        let message;
-        switch (err.code) {
-          case -32603:
-            message = TAPi18n.__('metamask-invalid-address');
-            break;
-          case 4001:
-          default:
-            message = TAPi18n.__('metamask-denied-signature');
-        }
-        displayModal(
-          true,
-          {
-            icon: Meteor.settings.public.app.logo,
-            title: TAPi18n.__('wallet'),
-            message,
-            cancel: TAPi18n.__('close'),
-            alertMode: true,
-          },
-        );
-        return err;
-      }
-      _pendingTransaction(Meteor.user().username, res, contract, choice);
-      displayModal(false, modal);
-      return res;
-    });*/
 };
 
 /**
