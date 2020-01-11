@@ -6,10 +6,9 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { getCoin } from '/imports/api/blockchain/modules/web3Util';
 
-const Chart = require('chart.js');
-
 import '/imports/ui/templates/components/collective/guild/guild.html';
 import '/imports/ui/templates/components/decision/balance/balance.js';
+import '/imports/ui/templates/widgets/chart/chart.js';
 
 
 const standardBalance = {
@@ -25,53 +24,6 @@ const standardBalance = {
   disableStake: true,
   value: 100,
 };
-
-const _setupChart = (collectiveId) => {
-  console.log('setupChart()');
-  const ctx = $(`#collectiveChart-${collectiveId}`); // document.getElementById(`collectiveChart-${collectiveId}`);
-  console.log(`collectiveChart-${collectiveId}`);
-  console.log(ctx);
-  const myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-      datasets: [{
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-        ],
-        borderWidth: 1,
-      }],
-    },
-    options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true,
-          },
-        }],
-      },
-    },
-  });
-};
-
-Template.chart.onRendered(function () {
-  _setupChart(Template.instance().data.collectiveId);
-});
 
 Template.guild.onCreated(function () {
   Template.instance().collective = new ReactiveVar();
