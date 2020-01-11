@@ -15,6 +15,9 @@
                   <a href="{{blockchainLink}}" target="_blank" class="verifier verifier-live verifier-feed verifier-mini verifier-key">{{{publicAddress}}}</a>
                 </div>
               </div>
+              {{#with guildChart}}
+                {{> chart}}
+              {{/with}}
             </div>
           </div>
           <div class="guild-row">
@@ -60,5 +63,11 @@
         </div>
       {{/if}}
     </div>
+  </div>
+</template>
+
+<template name="chart">
+  <div class="guild-chart">
+    <canvas id="collectiveChart-{{collectiveId}}" width="400" height="250"></canvas>
   </div>
 </template>
