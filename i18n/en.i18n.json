@@ -822,7 +822,7 @@
   "not-connected-message": "The application is not connected to a server.",
   "dao-confirm-tally": "You are voting for <strong>{{voteValue}}</strong> on:<br><em>{{proposalName}}</em><br><br>Confirm vote in your blockchain wallet.<br>",
   "dao-default-tally": "You are voting on<br><em>{{proposalName}}</em><br><br>Confirm vote in your blockchain wallet.<br>",
-  "moloch-guild": "Guild.",
+  "moloch-guild": "Budget.",
   "guild-total-shares": "Total Shares",
   "guild-total-assets": "Total Assets",
   "guild-share-value": "Value per Share",

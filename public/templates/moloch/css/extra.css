@@ -1135,7 +1135,7 @@ h4 {
 
 .guild-row-total {
   color: white;
-  background-color: #48587d;
+  background-color: #00c091;
   border-bottom: none;
   margin-bottom: -6px;
   border-bottom-left-radius: 4px;
@@ -1147,10 +1147,10 @@ h4 {
 }
 
 .guild-icon {
-  width: 42px;
-  height: 42px;
+  width: 24px;
+  height: 24px;
   float: left;
-  margin: 10px 15px 10px 5px;
+  margin: 7px 10px 0px 0px;
 }
 
 .guild-title {
@@ -1160,12 +1160,11 @@ h4 {
   margin-top: 0px;
 }
 
-.guild-verifier {
-  margin-top: -10px;
-}
-
 .guild-detail {
-  clear: left;
+  clear: both;
+  display: block;
+  line-height: 10px;
+  margin-bottom: 5px;
 }
 
 .guild-name {
@@ -1174,6 +1173,10 @@ h4 {
 
 .guild-title-label {
   font-size: 1.2em;
+}
+
+.guild-chart {
+  width: 100%;
 }
 
 .token-total {
@@ -1191,6 +1194,20 @@ h4 {
 }
 
 .vote.vote-search.vote-feed.vote-delegation.guild-block {
-  border: 3px solid #f9fafb;
+  border: 5px solid #f9fafb;
 }
 
+.chart {
+  width: 100% !important;
+  height: 120px !important;
+  background: white;
+  border: #eef0f3 1px solid;
+  padding: 10px 0px 0px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
+.verifier.verifier-live.verifier-feed.verifier-mini.verifier-key.verifier-guild {
+  float: none;
+  display: inline-block;
+}
