@@ -382,6 +382,7 @@ const _hasRightToVote = async (memberAddress, proposalIndex, collectiveId) => {
 */
 const _submitVote = async (proposalIndex, uintVote, contract, choice) => {
   const res = await _callDAOMethod('submitVote', [proposalIndex, uintVote], choice.collectiveId, 'send', { from: Meteor.user().username });
+  console.log(res);
   if (res) {
     _pendingTransaction(Meteor.user().username, res, contract, choice);
     displayModal(false, modal);

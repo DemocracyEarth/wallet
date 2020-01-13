@@ -180,11 +180,11 @@ const _cryptoVote = async () => {
                 switch (voteValue) {
                   case defaults.YES:
                     message = TAPi18n.__('dao-confirm-tally').replace('{{voteValue}}', TAPi18n.__('yes')).replace('{{proposalName}}', getProposalDescription(poll.title, true));
-                    submitVote(poll.importId.toNumber(), 1, poll, contract);
+                    await submitVote(poll.importId.toNumber(), 1, poll, contract);
                     break;
                   case defaults.NO:
                     message = TAPi18n.__('dao-confirm-tally').replace('{{voteValue}}', TAPi18n.__('no')).replace('{{proposalName}}', getProposalDescription(poll.title, true));
-                    submitVote(poll.importId.toNumber(), 2, poll, contract);
+                    await submitVote(poll.importId.toNumber(), 2, poll, contract);
                     break;
                   default:
                     message = TAPi18n.__('dao-default-tally').replace('{{proposalName}}', getProposalDescription(poll.title, true));
