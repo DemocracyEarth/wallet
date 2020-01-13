@@ -161,6 +161,10 @@ Schema.CollectiveProfile = new SimpleSchema({
     type: Date,
     optional: true,
   },
+  lastSyncedBlock: {
+    type: Number,
+    optional: true,
+  },
 });
 
 
