@@ -608,9 +608,9 @@ width: 1px;
 
 .election-rule {
     background: transparent;
-    color: #5a0074;
+    color: #48587d;
     font-size: 0.7em;
-    display: inline-block;
+    display: none; /* inline-block; */
     padding: 0px;
     border-radius: 0px;
     line-height: 27px;
@@ -789,11 +789,11 @@ width: 1px;
 }
 
 .parameter-name {
-background: #f2f2f8;
-    color: #ae8abd;
-    margin: 0px -25px 10px;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
+  background: #eceef2;
+  color: #8d95a9;
+  margin: 0px -25px 10px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
 }
 
 .parameter-value { 
@@ -801,8 +801,8 @@ background: #f2f2f8;
 }
 
 .smart-contract {
-  margin: 0 auto;
-  text-align: left;
+  margin: 15px auto 0;
+  text-align: center;
 }
 
 .margin-top-minus-three {
@@ -860,7 +860,7 @@ h4 {
   margin-bottom: 20px;
   padding-right: 15px;
   padding-left: 15px;
-  color: #9a63aa;
+  color: #48587d;
   font-size: 15px;
   line-height: 28px;
   font-weight: 100;

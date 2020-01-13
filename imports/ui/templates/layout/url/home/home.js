@@ -143,7 +143,6 @@ Template.homeFeed.onCreated(function () {
 
   instance.autorun(function (computation) {
     if (subscription.ready()) {
-      console.log(Contracts.findOne());
       const collectiveId = Contracts.findOne().collectiveId;
       Session.set('search', {
         input: '',
