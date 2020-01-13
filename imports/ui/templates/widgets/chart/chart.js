@@ -5,13 +5,13 @@ import '/imports/ui/templates/widgets/chart/chart.html';
 const Chart = require('chart.js');
 
 const _setupChart = (collectiveId) => {
-  const ctx = $(`#collectiveChart-${collectiveId}`); // document.getElementById(`collectiveChart-${collectiveId}`);
-  const myChart = new Chart(ctx, {
+  const ctx = document.getElementById(`collectiveChart-${collectiveId}`);
+  return new Chart(ctx, {
     type: 'line',
     data: {
       labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
       datasets: [{
-        label: 'Total Scorer',
+        label: 'Total Value',
         data: [5904, 5993, 6040, 6493, 6599, 7005, 3040, 5030, 4500, 6000, 5960, 7690],
         backgroundColor: [
           '#00c0912e',
@@ -23,7 +23,7 @@ const _setupChart = (collectiveId) => {
       }],
     },
     options: {
-      responsive: false,
+      responsive: true,
       maintainAspectRatio: true,
       legend: {
         display: false,
@@ -51,8 +51,6 @@ const _setupChart = (collectiveId) => {
           ticks: {
             beginAtZero: true,
             maxTicksLimit: 6,
-            suggestedMin: 5904,
-            suggestedMax: 7690,
           },
         }],
       },
