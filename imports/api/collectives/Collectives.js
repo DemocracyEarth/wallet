@@ -97,6 +97,44 @@ Schema.Menu = new SimpleSchema({
   },
 });
 
+Schema.Data = new SimpleSchema({
+  labels: {
+    type: Array,
+    defaultValue: [],
+  },
+  'labels.$': {
+    type: String,
+    optional: true,
+  },
+  'datasets.$': {
+    type: Object,
+    optional: true,
+  },
+  'datasets.$.label': {
+    type: String,
+    optional: true,
+  },
+  'datasets.$.data': {
+    type: [Number],
+    optional: true,
+  },
+});
+
+Schema.Chart = new SimpleSchema({
+  guildLabel: {
+    type: String,
+    optional: true,
+  },
+  type: {
+    type: String,
+    optional: true,
+  },
+  data: {
+    type: Schema.Data,
+    optional: true,
+  },
+});
+
 Schema.CollectiveProfile = new SimpleSchema({
   website: {
     type: String,
@@ -109,6 +147,10 @@ Schema.CollectiveProfile = new SimpleSchema({
   },
   guild: {
     type: [Parameter],
+    optional: true,
+  },
+  chart: {
+    type: [Schema.Chart],
     optional: true,
   },
   blockchain: {
