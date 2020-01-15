@@ -610,7 +610,7 @@ width: 1px;
     background: transparent;
     color: #48587d;
     font-size: 0.7em;
-    display: none; /* inline-block; */
+    display: inline-block;
     padding: 0px;
     border-radius: 0px;
     line-height: 27px;

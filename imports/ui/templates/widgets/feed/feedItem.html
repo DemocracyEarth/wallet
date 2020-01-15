@@ -114,12 +114,6 @@
                       </div>
                     {{else}}
                       {{{description}}}
-                      <div class="title-input title-feed">
-                        <div class="election-rule">
-                          {{{_ 'moloch-contract-parameters'}}}
-                          {{> help tooltip='moloch-contract-parameters-tooltip'}}
-                        </div>
-                      </div>
                       <div class="smart-contract">
                         <div class="parameter">
                           <div class="parameter-name">
@@ -162,27 +156,6 @@
               </div>
             </div>
             {{#unless ragequit}}
-              <div class="title-input title-feed title-ballot">
-                {{#unless onChainVote}}
-                  {{#if quadraticEnabled}}
-                    <div class="election-rule">
-                      {{{_ 'election-rule-quadratic'}}}
-                      {{> help tooltip='voting-editor-quadratic-tooltip'}}
-                    </div>
-                  {{/if}}
-                  {{#if balanceEnabled}}
-                    <div class="election-rule">
-                      {{{_ 'election-rule-balance'}}}
-                      {{> help tooltip='voting-editor-balance-tooltip'}}
-                    </div>
-                  {{/if}}
-                {{else}}
-                  <div class="election-rule">
-                    {{{_ 'election-rule-onchain'}}}
-                    {{> help tooltip='voting-editor-onchain-tooltip'}}
-                  </div>
-                {{/unless}}
-              </div>
               {{#if requiresClosing}}
                 {{#with closingData}}
                   {{> countdown}}
