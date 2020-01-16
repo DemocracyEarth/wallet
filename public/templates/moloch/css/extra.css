@@ -1157,10 +1157,15 @@ h4 {
 }
 
 .guild-detail {
-  clear: both;
-  display: block;
-  line-height: 10px;
-  margin-bottom: 5px;
+  clear: left;
+  /* height: 27px; */
+  width: 100%;
+  position: relative;
+  display: inline-block;
+  /* line-height: 9px; */
+  padding: 5px 0px;
+  border-bottom: 1px solid #48577d17;
+  margin-bottom: 0px;
 }
 
 .guild-name {
@@ -1173,6 +1178,18 @@ h4 {
 
 .guild-chart {
   width: 100%;
+}
+
+.guild-meta {
+  float: left;
+  margin-right: 10px;
+  line-height: 30px;
+}
+
+.guild-row-last {
+  border-bottom: 0px;
+  margin-bottom: -7px;
+  font-weight: 500;
 }
 
 .token-total {
@@ -1200,7 +1217,7 @@ h4 {
   /* border: #eef0f3 1px solid; */
   padding: 0px 0px 0px;
   border-radius: 6px;
-  margin: 15px 0px 10px;
+  margin: 0px 0px 10px;
 }
 
 .verifier.verifier-live.verifier-feed.verifier-mini.verifier-key.verifier-guild {

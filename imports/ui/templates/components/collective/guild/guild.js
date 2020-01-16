@@ -85,7 +85,7 @@ Template.guild.helpers({
   },
   totalValue() {
     const row = _getRow('guild-total-value', Template.instance());
-    row.tokenTotal = true;
+    row.tokenTotal = false;
     return row;
   },
   getImage(pic) {
