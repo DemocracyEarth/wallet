@@ -1195,12 +1195,12 @@ h4 {
 
 .chart {
   width: 100% !important;
-  height: 120px !important;
-  background: white;
-  border: #eef0f3 1px solid;
-  padding: 10px 0px 0px;
+  height: 150px !important;
+  /* background: #ffffff; */
+  /* border: #eef0f3 1px solid; */
+  padding: 0px 0px 0px;
   border-radius: 6px;
-  margin-bottom: 15px;
+  margin: 15px 0px 10px;
 }
 
 .verifier.verifier-live.verifier-feed.verifier-mini.verifier-key.verifier-guild {
