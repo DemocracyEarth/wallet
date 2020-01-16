@@ -97,26 +97,29 @@ Schema.Menu = new SimpleSchema({
   },
 });
 
-Schema.Data = new SimpleSchema({
-  labels: {
+Schema.Dataset = new SimpleSchema({
+  data: {
     type: Array,
+    optional: true,
     defaultValue: [],
   },
-  'labels.$': {
-    type: String,
-    optional: true,
-  },
-  'datasets.$': {
+  'data.$': {
     type: Object,
     optional: true,
   },
-  'datasets.$.label': {
-    type: String,
+  'data.$.t': {
+    type: Date,
     optional: true,
   },
-  'datasets.$.data': {
-    type: [Number],
+  'data.$.x': {
+    type: Number,
     optional: true,
+    decimal: true,
+  },
+  'data.$.y': {
+    type: Number,
+    optional: true,
+    decimal: true,
   },
 });
 
@@ -129,8 +132,8 @@ Schema.Chart = new SimpleSchema({
     type: String,
     optional: true,
   },
-  data: {
-    type: Schema.Data,
+  dataset: {
+    type: [Schema.Dataset],
     optional: true,
   },
 });

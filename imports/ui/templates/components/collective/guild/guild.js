@@ -114,6 +114,6 @@ Template.guild.helpers({
     return `${Meteor.settings.public.web.sites.blockExplorer}/address/${Template.instance().collective.get().profile.blockchain.publicAddress}`;
   },
   guildChart() {
-    return { collectiveId: this.collectiveId };
+    return { collectiveId: this.collectiveId, guildLabel: 'guild-total-assets' };
   },
 });
