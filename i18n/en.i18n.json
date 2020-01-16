@@ -826,5 +826,7 @@
   "guild-total-shares": "Total Shares",
   "guild-total-assets": "Total Assets",
   "guild-share-value": "Value per Share",
-  "guild-total-value": "Total Value"
+  "guild-total-value": "Total Value",
+  "guild-voting-address": "Voter",
+  "guild-voting-addresses": "Voters"
 }

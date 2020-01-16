@@ -136,6 +136,10 @@ Schema.Chart = new SimpleSchema({
     type: [Schema.Dataset],
     optional: true,
   },
+  lastSyncedBlock: {
+    type: Number,
+    optional: true,
+  },
 });
 
 Schema.CollectiveProfile = new SimpleSchema({

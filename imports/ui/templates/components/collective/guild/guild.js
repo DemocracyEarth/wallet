@@ -93,10 +93,13 @@ Template.guild.helpers({
   },
   members() {
     const count = Template.instance().memberCount.get();
-    if (count === 1) {
-      return `${count} ${TAPi18n.__('member')}`;
+    if (count) {
+      if (count === 1) {
+        return `${count} ${TAPi18n.__('guild-voting-address')}`;
+      }
+      return `${count} ${TAPi18n.__('guild-voting-addresses')}`;
     }
-    return `${count} ${TAPi18n.__('members')}`;
+    return '';
   },
   totalStyle() {
     const coin = getCoin(Template.instance().collective.get().profile.blockchain.coin.code);

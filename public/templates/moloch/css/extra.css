@@ -1158,13 +1158,10 @@ h4 {
 
 .guild-detail {
   clear: left;
-  /* height: 27px; */
   width: 100%;
   position: relative;
   display: inline-block;
-  /* line-height: 9px; */
-  padding: 5px 0px;
-  border-bottom: 1px solid #48577d17;
+  padding: 5px 0px 0px;
   margin-bottom: 0px;
 }
 
@@ -1182,8 +1179,8 @@ h4 {
 
 .guild-meta {
   float: left;
-  margin-right: 10px;
-  line-height: 30px;
+  margin-right: 15px;
+  line-height: 28px;
 }
 
 .guild-row-last {
