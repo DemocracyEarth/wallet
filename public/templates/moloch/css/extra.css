@@ -608,7 +608,7 @@ width: 1px;
 
 .election-rule {
     background: transparent;
-    color: #5a0074;
+    color: #48587d;
     font-size: 0.7em;
     display: inline-block;
     padding: 0px;
@@ -789,11 +789,11 @@ width: 1px;
 }
 
 .parameter-name {
-background: #f2f2f8;
-    color: #ae8abd;
-    margin: 0px -25px 10px;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
+  background: #eceef2;
+  color: #8d95a9;
+  margin: 0px -25px 10px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
 }
 
 .parameter-value { 
@@ -801,8 +801,8 @@ background: #f2f2f8;
 }
 
 .smart-contract {
-  margin: 0 auto;
-  text-align: left;
+  margin: 15px auto 0;
+  text-align: center;
 }
 
 .margin-top-minus-three {
@@ -860,7 +860,7 @@ h4 {
   margin-bottom: 20px;
   padding-right: 15px;
   padding-left: 15px;
-  color: #9a63aa;
+  color: #48587d;
   font-size: 15px;
   line-height: 28px;
   font-weight: 100;
@@ -1048,10 +1048,6 @@ h4 {
     box-shadow: none;
   }
 
-  body {
-    background-color: #f4f4f4;
-  }
-
   .vote.vote-search.vote-feed.vote-delegation {
     background-color: #fff;
   }
@@ -1135,7 +1131,7 @@ h4 {
 
 .guild-row-total {
   color: white;
-  background-color: #48587d;
+  background-color: #00c091;
   border-bottom: none;
   margin-bottom: -6px;
   border-bottom-left-radius: 4px;
@@ -1147,10 +1143,10 @@ h4 {
 }
 
 .guild-icon {
-  width: 42px;
-  height: 42px;
+  width: 24px;
+  height: 24px;
   float: left;
-  margin: 10px 15px 10px 5px;
+  margin: 7px 10px 0px 0px;
 }
 
 .guild-title {
@@ -1160,12 +1156,13 @@ h4 {
   margin-top: 0px;
 }
 
-.guild-verifier {
-  margin-top: -10px;
-}
-
 .guild-detail {
   clear: left;
+  width: 100%;
+  position: relative;
+  display: inline-block;
+  padding: 5px 0px 0px;
+  margin-bottom: 0px;
 }
 
 .guild-name {
@@ -1174,6 +1171,22 @@ h4 {
 
 .guild-title-label {
   font-size: 1.2em;
+}
+
+.guild-chart {
+  width: 100%;
+}
+
+.guild-meta {
+  float: left;
+  margin-right: 15px;
+  line-height: 28px;
+}
+
+.guild-row-last {
+  border-bottom: 0px;
+  margin-bottom: -7px;
+  font-weight: 500;
 }
 
 .token-total {
@@ -1191,6 +1204,20 @@ h4 {
 }
 
 .vote.vote-search.vote-feed.vote-delegation.guild-block {
-  border: 3px solid #f9fafb;
+  border: 5px solid #f9fafb;
 }
 
+.chart {
+  width: 100% !important;
+  height: 150px !important;
+  /* background: #ffffff; */
+  /* border: #eef0f3 1px solid; */
+  padding: 0px 0px 0px;
+  border-radius: 6px;
+  margin: 0px 0px 10px;
+}
+
+.verifier.verifier-live.verifier-feed.verifier-mini.verifier-key.verifier-guild {
+  float: none;
+  display: inline-block;
+}

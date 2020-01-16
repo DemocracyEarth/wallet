@@ -10,11 +10,20 @@
                 <div class="guild-title">
                   <a href="{{url}}" class="guild-title-label" target="_blank">{{name}}</a>
                 </div>
-                <div class="guild-detail">
+              </div>
+              <div class="guild-detail">
+                <div class="guild-meta">
+                  <img src="{{getImage 'vote-icon-black'}}" class="clock-icon guild-verifier">
+                  <div class="verifier verifier-live verifier-feed verifier-mini">{{{members}}}</div>
+                </div>
+                <div class="guild-meta">
                   <img src="{{getImage 'key'}}" class="clock-icon guild-verifier">
-                  <a href="{{blockchainLink}}" target="_blank" class="verifier verifier-live verifier-feed verifier-mini verifier-key">{{{publicAddress}}}</a>
+                  <a href="{{blockchainLink}}" target="_blank" class="verifier verifier-live verifier-feed verifier-mini verifier-key verifier-guild">{{{publicAddress}}}</a>
                 </div>
               </div>
+              {{#with guildChart}}
+                {{> chart}}
+              {{/with}}
             </div>
           </div>
           <div class="guild-row">
@@ -47,7 +56,7 @@
               {{/with}} 
             </div>
           </div>
-          <div class="guild-row guild-row-total">
+          <div class="guild-row guild-row-last">
             <div class="guild-label">
               {{_ 'guild-total-value'}}
             </div>

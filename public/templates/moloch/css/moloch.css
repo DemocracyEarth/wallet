@@ -2323,7 +2323,7 @@ blockquote {
 
 .identity-label {
   display: inline-block;
-  color: #5a0075;
+  color: #48587d;
   font-size: 16px;
   line-height: 22px;
   text-decoration: none;
@@ -5845,7 +5845,7 @@ blockquote {
   float: right;
   border-radius: 3px;
   /* background-color: #f9f9ff; */
-  color: #5a0074;
+  color: #48587d;
   font-size: 10px;
   line-height: 18px;
   font-weight: 400;
@@ -6668,9 +6668,9 @@ blockquote {
   padding-right: 5px;
   padding-left: 5px;
   float: right;
-  border: 1px solid #ff617e;
+  border: 1px solid #48587d;
   border-radius: 100px;
-  background-color: #ff617e;
+  background-color: #48587d;
   color: #fff;
   font-size: 10px;
   line-height: 15px;

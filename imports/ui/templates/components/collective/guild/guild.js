@@ -8,6 +8,7 @@ import { getCoin } from '/imports/api/blockchain/modules/web3Util';
 
 import '/imports/ui/templates/components/collective/guild/guild.html';
 import '/imports/ui/templates/components/decision/balance/balance.js';
+import '/imports/ui/templates/widgets/chart/chart.js';
 
 
 const standardBalance = {
@@ -23,7 +24,6 @@ const standardBalance = {
   disableStake: true,
   value: 100,
 };
-
 
 Template.guild.onCreated(function () {
   Template.instance().collective = new ReactiveVar();
@@ -85,7 +85,7 @@ Template.guild.helpers({
   },
   totalValue() {
     const row = _getRow('guild-total-value', Template.instance());
-    row.tokenTotal = true;
+    row.tokenTotal = false;
     return row;
   },
   getImage(pic) {
@@ -93,10 +93,13 @@ Template.guild.helpers({
   },
   members() {
     const count = Template.instance().memberCount.get();
-    if (count === 1) {
-      return `${count} ${TAPi18n.__('member')}`;
+    if (count) {
+      if (count === 1) {
+        return `${count} ${TAPi18n.__('guild-voting-address')}`;
+      }
+      return `${count} ${TAPi18n.__('guild-voting-addresses')}`;
     }
-    return `${count} ${TAPi18n.__('members')}`;
+    return '';
   },
   totalStyle() {
     const coin = getCoin(Template.instance().collective.get().profile.blockchain.coin.code);
@@ -112,5 +115,8 @@ Template.guild.helpers({
   },
   blockchainLink() {
     return `${Meteor.settings.public.web.sites.blockExplorer}/address/${Template.instance().collective.get().profile.blockchain.publicAddress}`;
+  },
+  guildChart() {
+    return { collectiveId: this.collectiveId, guildLabel: 'guild-total-assets' };
   },
 });

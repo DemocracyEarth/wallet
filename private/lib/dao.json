@@ -5,7 +5,7 @@
       "domain": "molochdao.com",
       "emails": [],
       "profile": {
-        "logo": "images/moloch.png",
+        "logo": "/images/moloch.png",
         "website": "https://molochdao.com",
         "bio": "A community DAO to fund Ethereum development in the name of Moloch the God of Coordination Failure.",
         "guild": [
