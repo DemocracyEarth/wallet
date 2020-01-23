@@ -12,6 +12,7 @@ import { shortenCryptoName } from '/imports/ui/templates/components/identity/ava
 import { getCoin } from '/imports/api/blockchain/modules/web3Util.js';
 import { Tokens } from '/imports/api/tokens/tokens';
 
+import '/imports/ui/templates/components/identity/replica/replica.js';
 import '/imports/ui/templates/layout/url/home/home.html';
 import '/imports/ui/templates/components/collective/guild/guild.js';
 import '/imports/ui/templates/layout/url/landing/landing.js';
@@ -137,6 +138,8 @@ Template.homeFeed.onCreated(function () {
 
   Session.set('minimizedEditor', true);
 
+  console.log(`instance.data.options.view: ${instance.data.options.view}`);
+
   if (!Session.get('draftContract') && !Meteor.Device.isPhone()) {
     introEditor({ desktopMode: true, replyMode: false, replyId: '' });
   }
@@ -199,6 +202,9 @@ const _getTitle = (options, ledgerMode) => {
 };
 
 Template.homeFeed.helpers({
+  isAddress() {
+    return (this.options.view === 'peer');
+  },
   unloggedMobile() {
     return (Meteor.Device.isPhone() && !Meteor.user());
   },
@@ -277,6 +283,11 @@ Template.homeFeed.helpers({
     const collectiveId = _.pluck(search.query, 'collectiveId')[0];
     return {
       collectiveId,
+    };
+  },
+  address() {
+    return {
+      publicAddress: this.options.username,
     };
   },
 });

@@ -1,0 +1,30 @@
+<template name="replica">  
+  <div id="non-editable-feed" class="ledger">
+    <div class="vote vote-delegation vote-feed vote-search guild-block">
+      {{#if ready}}
+        <div class="guild">
+          <div class="guild-row">
+            <div class="guild-label">
+              <img class="guild-icon" src="{{icon}}" />
+              <div class="guild-name">
+                <div class="guild-title">
+                  <a href="{{url}}" class="guild-title-label" target="_blank">{{name}}</a>
+                </div>
+              </div>
+              <div class="guild-detail">
+                <div class="guild-meta">
+                  <img src="{{getImage 'vote-icon-black'}}" class="clock-icon guild-verifier">
+                  <div class="verifier verifier-live verifier-feed verifier-mini">{{{members}}}</div>
+                </div>
+                <div class="guild-meta">
+                  <img src="{{getImage 'key'}}" class="clock-icon guild-verifier">
+                  <a href="{{blockchainLink}}" target="_blank" class="verifier verifier-live verifier-feed verifier-mini verifier-key verifier-guild">{{{publicAddress}}}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+</template>
