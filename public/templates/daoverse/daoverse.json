@@ -1,6 +1,6 @@
 {
   "stylesheet": {
-    "list": ["/styles/normalize.css", "/styles/webflow.css", "/templates/moloch/css/moloch.css", "/templates/moloch/css/extra.css", "/templates/moloch/css/landing.css"]
+    "list": ["/styles/normalize.css", "/styles/webflow.css", "/templates/daoverse/css/daoverse.css", "/templates/daoverse/css/extra.css", "/templates/daoverse/css/landing.css"]
   },
 
   "header": {
@@ -9,8 +9,8 @@
   },
 
   "lib": {
-    "token" : "/templates/moloch/lib/token.json",
-    "geo": "/templates/moloch/lib/geo.json"
+    "token" : "/templates/daoverse/lib/token.json",
+    "geo": "/templates/daoverse/lib/geo.json"
   },
 
   "spinner": {
@@ -37,46 +37,46 @@
   },
 
   "images": {
-    "key": "/templates/moloch/images/key.png",
-    "back": "/templates/moloch/images/back.png",
-    "black": "/templates/moloch/images/black.png",
-    "block": "/templates/moloch/images/block.png",
-    "clock": "/templates/moloch/images/clock.png",
-    "debate": "/templates/moloch/images/debate.png",
-    "reply": "/templates/moloch/images/reply.png",
-    "tweet": "/templates/moloch/images/tweet.png",
-    "vote": "/templates/moloch/images/vote.png",
-    "flag": "/templates/moloch/images/flag.png",
-    "camera": "/templates/moloch/images/camera.png",
-    "forward": "/templates/moloch/images/forward.png",
-    "token": "/templates/moloch/images/token.png",
-    "domain": "/templates/moloch/images/domain.png",
-    "decision-draft": "/templates/moloch/images/decision-draft.png",
-    "blockchain-address": "/templates/moloch/images/blockchain-address.png",
-    "fingerprint": "/templates/moloch/images/fingerprint.png",
-    "logout": "/templates/moloch/images/logout.png",
-    "vote-icon-black": "/templates/moloch/images/vote-icon-black.png",
-    "mail-closed": "/templates/moloch/images/mail-closed.png",
-    "mail-closed-login-button": "/templates/moloch/images/mail-closed-login-button.png",
-    "lock": "/templates/moloch/images/lock.png",
-    "id-card": "/templates/moloch/images/id-card.png",
-    "calendar-enabled": "/templates/moloch/images/calendar-enabled.png",
-    "calendar-active": "/templates/moloch/images/calendar-active.png",
-    "calendar-disabled": "/templates/moloch/images/calendar-disabled.png",
-    "vote-enabled": "/templates/moloch/images/vote-enabled.png",
-    "vote-active": "/templates/moloch/images/vote-active.png",
-    "vote-disabled": "/templates/moloch/images/vote-disabled.png",
-    "electorate-check-active": "/templates/moloch/images/electorate-check-active.png",
-    "electorate-check-editor": "/templates/moloch/images/electorate-check-editor.png",
-    "electorate-check-enabled": "/templates/moloch/images/electorate-check-enabled.png",
-    "electorate-check-reject-active": "/templates/moloch/images/electorate-check-reject-active.png",
-    "electorate-check-reject-enabled": "/templates/moloch/images/electorate-check-reject-enabled.png",
-    "navbar-icon": "/images/moloch.png",
-    "navbar-burger": "/templates/moloch/images/burger.png",
-    "navbar-burger-active": "/templates/moloch/images/burger-active.png",
-    "ragequit-icon": "/templates/moloch/images/ragequit-icon.png",
-    "ragequit": "/templates/moloch/images/ragequit.png",
-    "passed": "/templates/moloch/images/passed.png",
-    "rejected": "/templates/moloch/images/rejected.png"
+    "key": "/templates/daoverse/images/key.png",
+    "back": "/templates/daoverse/images/back.png",
+    "black": "/templates/daoverse/images/black.png",
+    "block": "/templates/daoverse/images/block.png",
+    "clock": "/templates/daoverse/images/clock.png",
+    "debate": "/templates/daoverse/images/debate.png",
+    "reply": "/templates/daoverse/images/reply.png",
+    "tweet": "/templates/daoverse/images/tweet.png",
+    "vote": "/templates/daoverse/images/vote.png",
+    "flag": "/templates/daoverse/images/flag.png",
+    "camera": "/templates/daoverse/images/camera.png",
+    "forward": "/templates/daoverse/images/forward.png",
+    "token": "/templates/daoverse/images/token.png",
+    "domain": "/templates/daoverse/images/domain.png",
+    "decision-draft": "/templates/daoverse/images/decision-draft.png",
+    "blockchain-address": "/templates/daoverse/images/blockchain-address.png",
+    "fingerprint": "/templates/daoverse/images/fingerprint.png",
+    "logout": "/templates/daoverse/images/logout.png",
+    "vote-icon-black": "/templates/daoverse/images/vote-icon-black.png",
+    "mail-closed": "/templates/daoverse/images/mail-closed.png",
+    "mail-closed-login-button": "/templates/daoverse/images/mail-closed-login-button.png",
+    "lock": "/templates/daoverse/images/lock.png",
+    "id-card": "/templates/daoverse/images/id-card.png",
+    "calendar-enabled": "/templates/daoverse/images/calendar-enabled.png",
+    "calendar-active": "/templates/daoverse/images/calendar-active.png",
+    "calendar-disabled": "/templates/daoverse/images/calendar-disabled.png",
+    "vote-enabled": "/templates/daoverse/images/vote-enabled.png",
+    "vote-active": "/templates/daoverse/images/vote-active.png",
+    "vote-disabled": "/templates/daoverse/images/vote-disabled.png",
+    "electorate-check-active": "/templates/daoverse/images/electorate-check-active.png",
+    "electorate-check-editor": "/templates/daoverse/images/electorate-check-editor.png",
+    "electorate-check-enabled": "/templates/daoverse/images/electorate-check-enabled.png",
+    "electorate-check-reject-active": "/templates/daoverse/images/electorate-check-reject-active.png",
+    "electorate-check-reject-enabled": "/templates/daoverse/images/electorate-check-reject-enabled.png",
+    "navbar-icon": "/images/democracyearth-logo-2020.png",
+    "navbar-burger": "/templates/daoverse/images/burger.png",
+    "navbar-burger-active": "/templates/daoverse/images/burger-active.png",
+    "ragequit-icon": "/templates/daoverse/images/ragequit-icon.png",
+    "ragequit": "/templates/daoverse/images/ragequit.png",
+    "passed": "/templates/daoverse/images/passed.png",
+    "rejected": "/templates/daoverse/images/rejected.png"
   }
 }
