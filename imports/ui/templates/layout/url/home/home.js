@@ -8,7 +8,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
-import { shortenCryptoName } from '/imports/ui/templates/components/identity/avatar/avatar';
+import { shortenCryptoName, getUser } from '/imports/ui/templates/components/identity/avatar/avatar';
 import { getCoin } from '/imports/api/blockchain/modules/web3Util.js';
 import { Tokens } from '/imports/api/tokens/tokens';
 
@@ -52,6 +52,31 @@ const _landingMode = (style) => {
   }
 
   return css;
+};
+
+/**
+* @summary creates a replica object based on available data or requests it
+* @param {object} instance with data to persist the replica
+*/
+const _generateReplica = (instance) => {
+  const replicaUser = Meteor.users.findOne({ username: instance.data.options.username });
+  if (replicaUser) {
+    instance.replica.set({
+      user: replicaUser,
+    });
+    instance.replicaReady.set(true);
+  } else {
+    Meteor.call('getReplica', instance.data.options.username, (err, res) => {
+      if (err) {
+        console.log(err);
+      }
+      if (res.user) {
+        getUser(res.user._id);
+      }
+      instance.replica.set(res);
+      instance.replicaReady.set(true);
+    });
+  }
 };
 
 Template.home.onCreated(function () {
@@ -133,6 +158,8 @@ Template.screen.helpers({
 
 Template.homeFeed.onCreated(function () {
   Template.instance().feedReady = new ReactiveVar(false);
+  Template.instance().replicaReady = new ReactiveVar(false);
+  Template.instance().replica = new ReactiveVar();
   const instance = this;
   const subscription = instance.subscribe('feed', { view: instance.data.options.view, sort: { timestamp: -1 }, userId: instance.data.options.userId, username: instance.data.options.username, period: instance.data.options.period });
 
@@ -146,6 +173,8 @@ Template.homeFeed.onCreated(function () {
 
   instance.autorun(function (computation) {
     if (subscription.ready()) {
+      _generateReplica(instance);
+
       const collectiveId = Contracts.findOne().collectiveId;
       Session.set('search', {
         input: '',
@@ -202,8 +231,8 @@ const _getTitle = (options, ledgerMode) => {
 };
 
 Template.homeFeed.helpers({
-  isAddress() {
-    return (this.options.view === 'peer');
+  isPerson() {
+    return (Template.instance().replica.get().user);
   },
   unloggedMobile() {
     return (Meteor.Device.isPhone() && !Meteor.user());
@@ -285,9 +314,14 @@ Template.homeFeed.helpers({
       collectiveId,
     };
   },
+  replicaReady() {
+    return Template.instance().replicaReady.get();
+  },
   address() {
+    console.log(`this.options.username: ${this.options.username}`);
+    console.log(Template.instance().replica.get());
     return {
-      publicAddress: this.options.username,
+      replica: Template.instance().replica.get(),
     };
   },
 });

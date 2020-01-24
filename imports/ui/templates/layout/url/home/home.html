@@ -64,20 +64,22 @@
         {{#if feedReady}}
           <div class="agora">
             <div class="content content-agora">
-              {{#if isAddress}}
-                <div class="ledger-title">
-                  <h4>{{_ 'replica-person'}}</h4>
-                </div>
-                {{#with address}}
-                  {{> replica this}}
-                {{/with}}
-              {{else}}
-                <div class="ledger-title">
-                  <h4>{{_ 'moloch-guild'}}</h4>
-                </div>
-                {{#with collective}}
-                  {{> guild this}}
-                {{/with}}
+              {{#if replicaReady}}
+                {{#if isPerson}}
+                  <div class="ledger-title">
+                    <h4>{{_ 'replica-person'}}</h4>
+                  </div>                
+                  {{#with address}}
+                    {{> replica this}}
+                  {{/with}}
+                {{else}}
+                  <div class="ledger-title">
+                    <h4>{{_ 'moloch-guild'}}</h4>
+                  </div>
+                  {{#with collective}}
+                    {{> guild this}}
+                  {{/with}}
+                {{/if}}
               {{/if}}
               {{#with mainLedger}}
                 <a href="#votes"></a>

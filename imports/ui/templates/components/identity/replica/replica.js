@@ -8,7 +8,7 @@ import { getCoin } from '/imports/api/blockchain/modules/web3Util';
 
 import '/imports/ui/templates/components/identity/replica/replica.html';
 import '/imports/ui/templates/components/decision/balance/balance.js';
-
+import '/imports/ui/templates/components/identity/avatar/avatar.js';
 
 const standardBalance = {
   token: 'MOLOCH',
@@ -25,25 +25,11 @@ const standardBalance = {
 };
 
 Template.replica.onCreated(function () {
-  Template.instance().collective = new ReactiveVar();
   Template.instance().ready = new ReactiveVar(false);
   Template.instance().imageTemplate = new ReactiveVar();
-  Template.instance().memberCount = new ReactiveVar();
 
   const instance = Template.instance();
   templetize(instance);
-
-  Meteor.call('getCollectiveById', this.data.collectiveId, (err, res) => {
-    if (err) {
-      console.log(err);
-    }
-    instance.ready.set(true);
-    instance.collective.set(res);
-  });
-
-  Meteor.call('userCount', function (error, result) {
-    instance.memberCount.set(result);
-  });
 });
 
 const _getRow = (rowLabel, instance) => {
@@ -55,17 +41,18 @@ const _getRow = (rowLabel, instance) => {
 };
 
 Template.replica.helpers({
-  ready() {
-    return Template.instance().ready.get();
-  },
   name() {
-    return Template.instance().collective.get().name;
+    return Template.instance().replica.get().name;
   },
   url() {
-    return Template.instance().collective.get().profile.website;
+    return Template.instance().replica.get().profile.website;
   },
   icon() {
-    return Template.instance().collective.get().profile.logo;
+    return Template.instance().replica.get().profile.logo;
+  },
+  replicaUser() {
+    console.log(`Template.instance().replica.get().user: ${Template.instance().replica.get().user}`);
+    return Template.instance().replica.get().user;
   },
   totalShares() {
     const row = _getRow('guild-total-shares', Template.instance());

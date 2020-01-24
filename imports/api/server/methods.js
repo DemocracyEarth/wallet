@@ -453,4 +453,12 @@ Meteor.methods({
     return finalBlockTimes;
   },
 
+  getReplica(publicAddress) {
+    check(publicAddress, String);
+    log(`{ method: 'getReplica', publicAddress: '${publicAddress}' }`);
+    const replica = {};
+    replica.user = Meteor.users.findOne({ username: publicAddress.toLowerCase() });
+    return replica;
+  },
+
 });
