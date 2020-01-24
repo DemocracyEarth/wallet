@@ -1,13 +1,11 @@
 import { Template } from 'meteor/templating';
-import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { TAPi18n } from 'meteor/tap:i18n';
 
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { shortenCryptoName } from '/imports/ui/templates/components/identity/avatar/avatar';
-import { getCoin } from '/imports/api/blockchain/modules/web3Util';
 
 import '/imports/ui/templates/components/identity/replica/replica.html';
+import '/imports/ui/templates/widgets/qr/qr.js';
 import '/imports/ui/templates/components/decision/balance/balance.js';
 
 Template.replica.onCreated(function () {

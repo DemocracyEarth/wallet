@@ -319,8 +319,6 @@ Template.homeFeed.helpers({
     return Template.instance().replicaReady.get();
   },
   address() {
-    console.log(`this.options.username: ${this.options.username}`);
-    console.log(Template.instance().replica.get());
     return {
       replica: Template.instance().replica.get(),
     };

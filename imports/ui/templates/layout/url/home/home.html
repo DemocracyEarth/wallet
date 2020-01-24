@@ -80,11 +80,11 @@
                     {{> guild this}}
                   {{/with}}
                 {{/if}}
+                {{#with mainLedger}}
+                  <a href="#votes"></a>
+                  {{> ledger this}}
+                {{/with}}
               {{/if}}
-              {{#with mainLedger}}
-                <a href="#votes"></a>
-                {{> ledger this}}
-              {{/with}}
               <div id="resizable" class="resize"></div>
             </div>
           </div>

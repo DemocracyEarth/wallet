@@ -11,7 +11,7 @@
             </div>
             <div class="guild-name">
               <div class="guild-title">
-                <a href="{{url}}" class="guild-title-label" target="_blank">{{name}}</a>
+                <a href="{{url}}" class="guild-title-label">{{name}}</a>
               </div>
             </div>
             <div class="guild-detail">
@@ -20,6 +20,9 @@
                 <a href="{{blockchainLink}}" target="_blank" class="verifier verifier-live verifier-feed verifier-mini verifier-key verifier-guild">{{{publicAddress}}}</a>
               </div>
             </div>
+          </div>
+          <div class="guild-label guild-large-items">
+            {{> qr code=replica.user.username}}
           </div>
         </div>
       </div>

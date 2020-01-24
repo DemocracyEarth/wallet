@@ -1009,12 +1009,18 @@ h4 {
 }
 
 .qr-code-address {
-  height: 148px;
-  width: 148px;
-  margin: 5px auto;
+  width: 33% !important;
+  height:33% !important;
   display: block;
   cursor: pointer;
+  border: 1px solid #eceef2;
+  border-radius: 5px;
 }
+
+.qr-code-address:hover {
+  border-color: #48587d;
+}
+
 
 .qr-code-address-text {
     color: #581073;
@@ -1116,6 +1122,11 @@ h4 {
   clear: both;
 }
 
+.guild-label.guild-large-items {
+  width:100%;
+  padding: 0px;
+}
+
 .guild-value {
   float:right;
 }
@@ -1210,16 +1221,16 @@ h4 {
 .chart {
   width: 100% !important;
   height: 150px !important;
-  /* background: #ffffff; */
-  /* border: #eef0f3 1px solid; */
   padding: 0px 0px 0px;
   border-radius: 6px;
   margin: 0px 0px 10px;
 }
 
 .verifier.verifier-live.verifier-feed.verifier-mini.verifier-key.verifier-guild {
-  float: none;
   display: inline-block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-align: left;
 }
 
 .guild-avatar {
@@ -1231,5 +1242,5 @@ h4 {
 .guild-replica {
   padding: 0px 7px;
   display: inline-block;
-  margin: -4px 0px -15px;
+  margin: -4px 0px 5px;
 }
