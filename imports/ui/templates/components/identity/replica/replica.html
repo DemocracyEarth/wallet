@@ -2,11 +2,13 @@
   <div id="non-editable-feed" class="ledger">
     <div class="vote vote-delegation vote-feed vote-search guild-block">
       <div class="guild">
-        <div class="guild-row">
+        <div class="guild-replica">
           <div class="guild-label">
-            {{#with replica.user}}
-              {{> avatar size=24 profile=this._id includeName=false includeNation=false editable=false microFont=false disabled=false includeRole=false}}
-            {{/with}}
+            <div class="guild-avatar">
+              {{#with replica.user}}
+                {{> avatar size=24 profile=this._id includeName=false includeNation=false editable=false microFont=false disabled=false includeRole=false}}
+              {{/with}}
+            </div>
             <div class="guild-name">
               <div class="guild-title">
                 <a href="{{url}}" class="guild-title-label" target="_blank">{{name}}</a>

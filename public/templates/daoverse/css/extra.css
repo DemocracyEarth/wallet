@@ -1221,3 +1221,15 @@ h4 {
   float: none;
   display: inline-block;
 }
+
+.guild-avatar {
+  display: inline-block;
+  float:left;
+  margin: -3px 10px -15px -10px;
+}
+
+.guild-replica {
+  padding: 0px 7px;
+  display: inline-block;
+  margin: -4px 0px -15px;
+}
