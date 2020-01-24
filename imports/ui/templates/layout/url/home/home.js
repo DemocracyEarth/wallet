@@ -70,7 +70,7 @@ const _generateReplica = (instance) => {
       if (err) {
         console.log(err);
       }
-      if (res.user) {
+      if (res && res.user) {
         getUser(res.user._id);
       }
       instance.replica.set(res);
@@ -232,7 +232,8 @@ const _getTitle = (options, ledgerMode) => {
 
 Template.homeFeed.helpers({
   isPerson() {
-    return (Template.instance().replica.get().user);
+    const replica = Template.instance().replica.get();
+    return (replica && replica.user);
   },
   unloggedMobile() {
     return (Meteor.Device.isPhone() && !Meteor.user());
