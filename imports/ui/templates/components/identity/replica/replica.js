@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 
@@ -28,5 +29,8 @@ Template.replica.helpers({
   },
   getImage(pic) {
     return getImage(Template.instance().imageTemplate.get(), pic);
+  },
+  blockchainLink() {
+    return `${Meteor.settings.public.web.sites.blockExplorer}/address/${this.replica.user.username}`;
   },
 });
