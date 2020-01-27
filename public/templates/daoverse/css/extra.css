@@ -791,6 +791,7 @@ width: 1px;
 .parameter-name {
   background: #eceef2;
   color: #8d95a9;
+  line-height:28px;
   margin: 0px -25px 10px;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
@@ -1009,14 +1010,14 @@ h4 {
 }
 
 .qr-code-address {
-  width: 50% !important;
-  height: 50% !important;
-  display: block;
-  padding: 10px;
-  background-color: #f4f5f7;
-  cursor: pointer;
-  border: 1px solid #eceef2;
-  border-radius: 5px;
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+    padding: 10px;
+    background-color: #eceef2;
+    cursor: pointer;
+    border: 1px solid #e0e2e6;
+    border-radius: 5px;
 }
 
 .qr-code-address:hover {
@@ -1125,8 +1126,9 @@ h4 {
 }
 
 .guild-label.guild-large-items {
-  width:100%;
+  width: 100%;
   padding: 0px;
+  position: relative;
 }
 
 .guild-value {
@@ -1247,6 +1249,64 @@ h4 {
   margin: -4px 0px 5px;
 }
 
-.replica {
-  padding: 10px;
+.qr-wrapper {
+    padding-right: 12px;
+    float: left;
+    width: 50%;
 }
+
+.replica {
+    float: right;
+    left: 50%;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+}
+
+.replica-detail {
+background-color: #ffffff;
+    margin: 10px;
+    position: absolute;
+    display: inline-block;
+    color: #580073;
+    padding: 0px 10px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-size: 0.8em;
+    line-height: 3em;
+    bottom: 0px;
+    left: 5px;
+    right: 0px;
+}
+
+.replica-label {
+    font-size: 4em;
+    /* line-height: 100px; */
+    color: #580073;
+    top: 0px;
+    position: absolute;
+    bottom: 20px;
+    left: 0px;
+    padding: 25% 0;
+    right: 0px;
+    text-align: center;
+}
+
+.replica-squad {
+    text-align: center;
+    display: block;
+    background: #efe7f2;
+    border-radius: 5px;
+    height: 100%;
+}
+
+.parameter-guild {
+  width: 50%;
+  float: right;
+  margin: 0px;
+  position: absolute;
+  bottom: 0px;
+  top: 0px;
+}
+

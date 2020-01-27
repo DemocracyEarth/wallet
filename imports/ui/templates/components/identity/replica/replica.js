@@ -27,6 +27,12 @@ Template.replica.helpers({
   publicAddress() {
     return this.replica.user.username;
   },
+  score() {
+    return '76%';
+  },
+  detail() {
+    return '🐵 unique human';
+  },
   getImage(pic) {
     return getImage(Template.instance().imageTemplate.get(), pic);
   },

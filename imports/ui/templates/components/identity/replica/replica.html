@@ -22,17 +22,14 @@
             </div>
           </div>
           <div class="guild-label guild-large-items">
-            <div class="replica">
+            <div class="qr-wrapper">
               {{> qr code=replica.user.username}}
             </div>
-            <div class="replica">
-              <div class="replica-squad">
-                <div class="replica-label">
-                  {{score}}
-                </div>
-                <div class="replica-detail">
-                  {{{detail}}}
-                </div>
+            <div class="parameter parameter-guild">
+              <div class="parameter-name">
+                {{_ 'replica-score'}}
+              </div>
+              <div class="parameter-value parameter-token">
               </div>
             </div>
           </div>
