@@ -1009,9 +1009,11 @@ h4 {
 }
 
 .qr-code-address {
-  width: 33% !important;
-  height:33% !important;
+  width: 50% !important;
+  height: 50% !important;
   display: block;
+  padding: 10px;
+  background-color: #f4f5f7;
   cursor: pointer;
   border: 1px solid #eceef2;
   border-radius: 5px;
@@ -1243,4 +1245,8 @@ h4 {
   padding: 0px 7px;
   display: inline-block;
   margin: -4px 0px 5px;
+}
+
+.replica {
+  padding: 10px;
 }
