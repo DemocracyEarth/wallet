@@ -1260,19 +1260,15 @@ h4 {
 }
 
 .replica-detail {
-  background-color: #ffffff;
-  margin: 10px;
   position: absolute;
-  display: inline-block;
-  color: #580073;
-  padding: 0px 10px;
+  color: #7d849f;
+  padding: 0px 0px;
   border-radius: 5px;
+  margin: 28px auto 0px;
   text-transform: uppercase;
-  font-size: 0.8em;
+  font-size: 0.9em;
   line-height: 3em;
-  bottom: 0px;
-  left: 5px;
-  right: 0px;
+  left: 68px;
 }
 
 .replica-label {
@@ -1306,3 +1302,42 @@ h4 {
   left: 110px;
 }
 
+
+.replica-bar {
+  height: 20px;
+  background: #eceef2;
+  border-radius: 100px;
+  left: 65px;
+  display: inline-block;
+  position: absolute;
+  right: 10px;
+  margin: 5px 0px;
+  overflow: hidden;
+  box-shadow: inset 1px 0px 2px 0px #d4d4d4;
+}
+
+.replica-bar-score {
+  width: 30%;
+  background: #580073;
+  height: 20px;
+  margin: 0px;
+}
+
+.replica-score {
+  float: left;
+  width: 50px;
+  margin: 0px;
+  position: absolute;
+  left: 10px;
+  color: #ffffff;
+  font-size: 1.5em;
+  height: 50px;
+  background: #8d96a9;
+  padding: 5px 0px;
+  border-radius: 100px;
+  font-weight: 300;
+}
+
+.replica-positive {
+  background-color: #00c190;
+}

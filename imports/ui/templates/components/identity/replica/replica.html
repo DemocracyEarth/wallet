@@ -29,7 +29,16 @@
               <div class="parameter-name">
                 {{_ 'replica-score'}}
               </div>
-              <div class="parameter-value parameter-token">
+              <div class="parameter-value">
+                <div class="replica-score {{semaphore}}">
+                  {{score}}
+                </div>
+                <div class="replica-bar">
+                  <div id="voteBar-0" class="replica-bar-score {{semaphore}}" style="width: 76%;"></div>
+                </div>
+                <div class="replica-detail">
+                  {{detail}}
+                </div>
               </div>
             </div>
           </div>

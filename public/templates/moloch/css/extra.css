@@ -1221,3 +1221,18 @@ h4 {
   float: none;
   display: inline-block;
 }
+
+.replica-bar {
+  height: 25px;
+  background: #eceef2;
+  border-radius: 100px;
+  left: 10px;
+  display: inline-block;
+  position: absolute;
+  right: 10px;
+  margin: 15px 0px;
+}
+
+.replica-bar-score {
+
+}

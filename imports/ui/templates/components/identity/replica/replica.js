@@ -31,7 +31,10 @@ Template.replica.helpers({
     return '76%';
   },
   detail() {
-    return '🐵 unique human';
+    return '🐵 very likely a human';
+  },
+  semaphore() {
+    return 'replica-positive';
   },
   getImage(pic) {
     return getImage(Template.instance().imageTemplate.get(), pic);
