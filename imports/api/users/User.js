@@ -90,6 +90,32 @@ Schema.Menu = new SimpleSchema({
   },
 });
 
+Schema.Coefficient = new SimpleSchema({
+  latestBlockHeight: {
+    type: Date,
+    optional: true,
+  },
+  value: {
+    type: Number,
+    optional: true,
+  },
+});
+
+Schema.Replica = new SimpleSchema({
+  gini: {
+    type: Schema.Coefficient,
+    optional: true,
+  },
+  ranking: {
+    type: Schema.Coefficient,
+    optional: true,
+  },
+  score: {
+    type: Schema.Coefficient,
+    optional: true,
+  },
+});
+
 Schema.Profile = new SimpleSchema({
   firstName: {
     type: String,
@@ -191,6 +217,10 @@ Schema.Profile = new SimpleSchema({
     type: Date,
     optional: true,
   },
+  replica: {
+    type: Schema.Replica,
+    optional: true,
+  },
 });
 
 Schema.User = new SimpleSchema({
@@ -252,6 +282,7 @@ export const UserContext = Schema.User.newContext();
 Meteor.users.attachSchema(Schema.User);
 
 export const User = Schema.User;
+export const Replica = Schema.Replica;
 
 /*
 *  FIX: temporary workaround

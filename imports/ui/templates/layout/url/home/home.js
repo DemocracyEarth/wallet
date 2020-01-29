@@ -20,7 +20,6 @@ import '/imports/ui/templates/layout/url/hero/hero.js';
 import '/imports/ui/templates/widgets/feed/feed.js';
 import '/imports/ui/templates/widgets/tally/tally.js';
 import '/imports/ui/templates/widgets/feed/paginator.js';
-import '/imports/ui/templates/widgets/compose/compose.js';
 import '/imports/ui/templates/components/decision/ledger/ledger.js';
 
 /**
