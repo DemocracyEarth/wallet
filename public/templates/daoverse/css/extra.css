@@ -824,8 +824,8 @@ width: 1px;
 }
 
 .verifier.verifier-live.verifier-feed.verifier-mini.verifier-key {
-    font-size: 10px;
-    letter-spacing: 2px;
+    font-size: 9px;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
 }
 
@@ -833,7 +833,6 @@ width: 1px;
 
   .verifier.verifier-live.verifier-feed.verifier-mini.verifier-key {
     font-size: 9px;
-    line-height: 22px;
     letter-spacing: 0.1em;
   }
 
@@ -1010,14 +1009,14 @@ h4 {
 }
 
 .qr-code-address {
-    width: 100% !important;
-    height: 100% !important;
-    display: block;
-    padding: 10px;
-    background-color: #eceef2;
-    cursor: pointer;
-    border: 1px solid #e0e2e6;
-    border-radius: 5px;
+  max-height: 100px;
+  max-width: 100px;
+  display: block;
+  padding: 10px;
+  background-color: #eceef2;
+  cursor: pointer;
+  border: 1px solid #e0e2e6;
+  border-radius: 5px;
 }
 
 .qr-code-address:hover {
@@ -1026,12 +1025,12 @@ h4 {
 
 
 .qr-code-address-text {
-    color: #581073;
-    border-radius: 5px;
-    font-size: 10px;
-    text-align: center;
-    margin: 10px 0px -15px;
-    border: 1px solid #581073;
+  color: #581073;
+  border-radius: 5px;
+  font-size: 10px;
+  text-align: center;
+  margin: 10px 0px -15px;
+  border: 1px solid #581073;
 }
 
 .qr-code-address-text:hover {
@@ -1194,7 +1193,6 @@ h4 {
 
 .guild-meta {
   float: left;
-  margin-right: 15px;
   line-height: 28px;
 }
 
@@ -1231,10 +1229,7 @@ h4 {
 }
 
 .verifier.verifier-live.verifier-feed.verifier-mini.verifier-key.verifier-guild {
-  display: inline-block;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  text-align: left;
+  font-size:8px;
 }
 
 .guild-avatar {
@@ -1250,63 +1245,64 @@ h4 {
 }
 
 .qr-wrapper {
-    padding-right: 12px;
-    float: left;
-    width: 50%;
+  padding-right: 12px;
+  float: left;
+  width: 50%;
 }
 
 .replica {
-    float: right;
-    left: 50%;
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
+  float: right;
+  left: 50%;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
 }
 
 .replica-detail {
-background-color: #ffffff;
-    margin: 10px;
-    position: absolute;
-    display: inline-block;
-    color: #580073;
-    padding: 0px 10px;
-    border-radius: 5px;
-    text-transform: uppercase;
-    font-size: 0.8em;
-    line-height: 3em;
-    bottom: 0px;
-    left: 5px;
-    right: 0px;
+  background-color: #ffffff;
+  margin: 10px;
+  position: absolute;
+  display: inline-block;
+  color: #580073;
+  padding: 0px 10px;
+  border-radius: 5px;
+  text-transform: uppercase;
+  font-size: 0.8em;
+  line-height: 3em;
+  bottom: 0px;
+  left: 5px;
+  right: 0px;
 }
 
 .replica-label {
-    font-size: 4em;
-    /* line-height: 100px; */
-    color: #580073;
-    top: 0px;
-    position: absolute;
-    bottom: 20px;
-    left: 0px;
-    padding: 25% 0;
-    right: 0px;
-    text-align: center;
+  font-size: 4em;
+  /* line-height: 100px; */
+  color: #580073;
+  top: 0px;
+  position: absolute;
+  bottom: 20px;
+  left: 0px;
+  padding: 25% 0;
+  right: 0px;
+  text-align: center;
 }
 
 .replica-squad {
-    text-align: center;
-    display: block;
-    background: #efe7f2;
-    border-radius: 5px;
-    height: 100%;
+  text-align: center;
+  display: block;
+  background: #efe7f2;
+  border-radius: 5px;
+  height: 100%;
 }
 
 .parameter-guild {
-  width: 50%;
   float: right;
+  right: 0px;
   margin: 0px;
   position: absolute;
   bottom: 0px;
   top: 0px;
+  left: 110px;
 }
 
