@@ -50,6 +50,7 @@
     "faker": "^3.0.1",
     "fibers": "^2.0.2",
     "fstream": "^1.0.12",
+    "gini": "^1.1.7",
     "hapi": "^17.5.3",
     "hoek": "^5.0.4",
     "https-proxy-agent": "^2.2.0",

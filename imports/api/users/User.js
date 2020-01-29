@@ -91,8 +91,8 @@ Schema.Menu = new SimpleSchema({
 });
 
 Schema.Coefficient = new SimpleSchema({
-  latestBlockHeight: {
-    type: Date,
+  lastSyncedBlock: {
+    type: Number,
     optional: true,
   },
   value: {

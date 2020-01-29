@@ -14,6 +14,7 @@ import { notifierHTML } from '/imports/api/notifier/notifierTemplate.js';
 import { refreshDAOs } from '/lib/dao';
 import { getLastTimestamp, getBlockHeight } from '/lib/web3';
 import { Collectives } from '/imports/api/collectives/Collectives';
+import { setReplicaScore } from '/imports/api/server/oracles';
 
 const _includeQuantity = (quantity, message) => {
   let modified;
@@ -457,7 +458,11 @@ Meteor.methods({
     check(publicAddress, String);
     log(`{ method: 'getReplica', publicAddress: '${publicAddress}' }`);
     const replica = {};
-    replica.user = Meteor.users.findOne({ username: publicAddress.toLowerCase() });
+    const user = Meteor.users.findOne({ username: publicAddress.toLowerCase() });
+    if (user) {
+      setReplicaScore(user);
+      replica.user = user;
+    }
     return replica;
   },
 
