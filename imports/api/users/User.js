@@ -90,29 +90,25 @@ Schema.Menu = new SimpleSchema({
   },
 });
 
-Schema.Coefficient = new SimpleSchema({
+Schema.Replica = new SimpleSchema({
   lastSyncedBlock: {
     type: Number,
     optional: true,
   },
-  value: {
+  gini: {
     type: Number,
     optional: true,
-  },
-});
-
-Schema.Replica = new SimpleSchema({
-  gini: {
-    type: Schema.Coefficient,
-    optional: true,
+    decimal: true,
   },
   ranking: {
-    type: Schema.Coefficient,
+    type: Number,
     optional: true,
+    decimal: true,
   },
   score: {
-    type: Schema.Coefficient,
+    type: Number,
     optional: true,
+    decimal: true,
   },
 });
 

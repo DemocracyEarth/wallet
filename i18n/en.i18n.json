@@ -830,5 +830,11 @@
   "guild-voting-address": "Voter",
   "guild-voting-addresses": "Voters",
   "replica-person": "Profile.",
-  "replica-score": "Unique Human Score"
+  "replica-score": "Unique Human Score",
+  "replica-detail-very-human": "🤠 Definitely a unique human.",
+  "replica-detail-likely-human": "🐵 Likely a unique human.",
+  "replica-detail-maybe-human": "👽 Maybe human or a robot.",
+  "replica-detail-unlikely-human": "🤖 Likely a robot.",
+  "replica-detail-not-human": "👾 Definitely a robot.",
+  "replica-detail-unknown-human": "😔 Unknown score."
 }

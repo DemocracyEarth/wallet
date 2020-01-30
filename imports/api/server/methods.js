@@ -392,6 +392,10 @@ Meteor.methods({
     refreshDAOs();
   },
 
+  /**
+  * @summary get block timme
+  * @param {object} collective where to persist blocktime
+  */
   async getBlock(collectives) {
     check(collectives, Array);
 
@@ -454,6 +458,10 @@ Meteor.methods({
     return finalBlockTimes;
   },
 
+  /**
+  * @summary get a user or collective based on a public address with its corresponding replica score
+  * @param {string} publicAddress to calculate replica on
+  */
   getReplica(publicAddress) {
     check(publicAddress, String);
     log(`{ method: 'getReplica', publicAddress: '${publicAddress}' }`);
@@ -461,7 +469,7 @@ Meteor.methods({
     const user = Meteor.users.findOne({ username: publicAddress.toLowerCase() });
     if (user) {
       setReplicaScore(user);
-      replica.user = user;
+      replica.user = Meteor.users.findOne({ username: publicAddress.toLowerCase() });
     }
     return replica;
   },

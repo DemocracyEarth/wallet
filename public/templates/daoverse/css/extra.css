@@ -1339,6 +1339,23 @@ h4 {
   font-weight: 300;
 }
 
-.replica-positive {
+.replica-semaphore-very {
   background-color: #00c190;
 }
+.replica-semaphore-likely {
+  background-color: #00c190;
+}
+.replica-semaphore-maybe {
+  background-color: #feda96;
+}
+.replica-semaphore-unlikely {
+  background-color: #ff3d67;
+}
+.replica-semaphore-not {
+  background-color: #ff3d67;
+}
+.replica-semaphore-unknown {
+  background-color: none;
+}
+
+
