@@ -21,6 +21,7 @@ import '/imports/ui/templates/widgets/feed/feed.js';
 import '/imports/ui/templates/widgets/tally/tally.js';
 import '/imports/ui/templates/widgets/feed/paginator.js';
 import '/imports/ui/templates/components/decision/ledger/ledger.js';
+import '/imports/ui/templates/widgets/alert/alert.js';
 
 /**
 * @summary specific rendering for unlogged users
@@ -64,7 +65,7 @@ const _generateReplica = (instance) => {
       user: replicaUser,
     });
     instance.replicaReady.set(true);
-  } else {
+  } else if (instance.data.options.username) {
     Meteor.call('getReplica', instance.data.options.username, (err, res) => {
       if (err) {
         console.log(err);
@@ -75,6 +76,8 @@ const _generateReplica = (instance) => {
       instance.replica.set(res);
       instance.replicaReady.set(true);
     });
+  } else {
+    instance.replicaReady.set(true);
   }
 };
 

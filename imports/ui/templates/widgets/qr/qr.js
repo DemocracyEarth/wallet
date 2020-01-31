@@ -1,6 +1,7 @@
 
 import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { alert } from '/imports/ui/modules/modal';
 
 import '/imports/ui/templates/widgets/qr/qr.html';
 
@@ -29,6 +30,6 @@ const copyToClipboard = (str) => {
 Template.qr.events({
   'click #qr-code'(event, instance) {
     copyToClipboard(instance.data.code);
-    alert(TAPi18n.__('copied-to-clipboard'));
+    alert(TAPi18n.__('copied-to-clipboard'), 5000);
   },
 });

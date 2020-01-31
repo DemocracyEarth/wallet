@@ -6,7 +6,7 @@ import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
-import { displayModal } from '/imports/ui/modules/modal';
+import { displayModal, alert } from '/imports/ui/modules/modal';
 import { transact } from '/imports/api/transactions/transaction';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { addDecimal, smallNumber, removeDecimal, getCoin, numToCryptoBalance } from '/imports/api/blockchain/modules/web3Util';
@@ -382,11 +382,14 @@ const _hasRightToVote = async (memberAddress, proposalIndex, collectiveId) => {
 */
 const _submitVote = async (proposalIndex, uintVote, contract, choice) => {
   const res = await _callDAOMethod('submitVote', [proposalIndex, uintVote], choice.collectiveId, 'send', { from: Meteor.user().username });
-  console.log(res);
   if (res) {
-    _pendingTransaction(Meteor.user().username, res, contract, choice);
-    displayModal(false, modal);
+    alert(TAPi18n.__('transaction-broadcast').replace('{{token}}', contract.wallet.currency), 10000);
+    console.log(res);
+    console.log();
   }
+  console.log('---');
+  console.log(res);
+  return res;
 };
 
 /**

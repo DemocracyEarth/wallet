@@ -1359,3 +1359,37 @@ h4 {
 }
 
 
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.alert-signal {
+  opacity: 1;
+	animation-name: fadeInOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+  animation-duration: 0.25s;
+  padding: 0px 15px;
+  line-height: 30px;
+  float:right;
+  margin: 0px 0px 5px;
+  background-color: #fde776;
+  color: #7b6909;
+  display: inline;
+  overflow: hidden;
+  font-size: 13px;
+  border: 1px solid #e4d37b;
+  border-radius: 5px;
+  clear: both;
+}
+
+.alert-wrapper {
+  position: fixed;
+  right: 15px;
+  z-index: 9999;
+}
