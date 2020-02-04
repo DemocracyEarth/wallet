@@ -389,7 +389,7 @@ Meteor.methods({
         Contracts.update({ _id: feed[i]._id }, { $set: { period: newPeriod } });
       }
     }
-    refreshDAOs();
+    // refreshDAOs();
   },
 
   /**
