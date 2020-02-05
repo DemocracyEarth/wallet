@@ -26,6 +26,9 @@
 
 <template name="homeFeed">
   {{> alert}}
+  {{#if isPhone}}
+    {{> tabs}}
+  {{/if}}  
   <div class="split split-left {{landingMode 'left'}}">
     <div class="content content-feed max100">
       {{#unless isPhone}}
@@ -51,7 +54,9 @@
       {{/if}}
 
       <div id="non-editable-feed">
-        <h4 class="padding-left-zero">{{{feedTitle}}}</h4>
+        {{#unless isPhone}}
+          <h4 class="padding-left-zero">{{{feedTitle}}}</h4>
+        {{/unless}}
         {{#if feedReady}}
           {{> feed mainFeed}}
         {{/if}}
@@ -121,7 +126,9 @@
       {{/if}}
 
       <div id="non-editable-reply-feed">
-        <h4 class="padding-left-zero">{{{feedTitle}}}</h4>
+        {{#unless isPhone}}
+          <h4 class="padding-left-zero">{{{feedTitle}}}</h4>
+        {{/unless}}
         {{#if postReady}}
           {{#with thread}}
             {{> feed this}}
@@ -151,9 +158,11 @@
   <div class="split split-left {{landingMode 'left'}}">
     <div class="content content-feed max100">
       <div id="non-editable-feed">
-        <h4 class="padding-left-zero">
-          {{{feedTitle}}}
-        </h4>
+        {{#unless isPhone}}
+          <h4 class="padding-left-zero">
+            {{{feedTitle}}}
+          </h4>
+        {{/unless}}
         {{#if periodReady}}
           {{#with thread}}
             {{> feed this}}
