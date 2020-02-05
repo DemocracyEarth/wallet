@@ -13,7 +13,6 @@ import { stripHTML, urlDoctor, fixDBUrl } from '/lib/utils';
 import { notifierHTML } from '/imports/api/notifier/notifierTemplate.js';
 import { getLastTimestamp, getBlockHeight } from '/lib/web3';
 import { Collectives } from '/imports/api/collectives/Collectives';
-import { setReplicaScore } from '/imports/api/server/oracles';
 
 const _includeQuantity = (quantity, message) => {
   let modified;
@@ -466,7 +465,6 @@ Meteor.methods({
     const replica = {};
     const user = Meteor.users.findOne({ username: publicAddress.toLowerCase() });
     if (user) {
-      setReplicaScore(user);
       replica.user = Meteor.users.findOne({ username: publicAddress.toLowerCase() });
     }
     return replica;

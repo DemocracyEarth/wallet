@@ -8,9 +8,16 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 import { fixDBUrl, stripHTML, parseURL, urlDoctor } from '/lib/utils';
 import { CronJob } from 'cron';
 import { refresh } from '/lib/dao';
+import { oracleReplicas } from '/imports/api/server/oracles';
 
 import '/imports/startup/server';
 import '/imports/startup/both';
+
+const _tangle = async () => {
+  log('[cron] Syncing with blockchain...');
+  await refresh();
+  oracleReplicas();
+};
 
 Meteor.startup(() => {
   // Mail server settings
@@ -19,8 +26,7 @@ Meteor.startup(() => {
   const cronjob = new CronJob({
     cronTime: defaults.CRON_JOB_TIMER,
     onTick: Meteor.bindEnvironment(async () => {
-      log('[cron] Syncing with blockchain...');
-      await refresh();
+      await _tangle();
     }),
     start: true,
   });

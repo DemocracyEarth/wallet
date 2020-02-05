@@ -11,7 +11,7 @@ const giniCalculator = require('gini');
 * @return {number} with gini value
 */
 const _calculateGini = (collective) => {
-  log(`{ oracle: 'calculateGini', collective: '${collective._id}' }`);
+  log(`[oracle] Calculating Gini coefficient for collective: '${collective._id}'`);
 
   const members = Meteor.users.find({ 'profile.collectives': [collective._id] }).fetch();
   const set = [];
@@ -30,7 +30,7 @@ const _calculateGini = (collective) => {
 * @summary caclulcates the ranking of a collective based on the votes of participants
 */
 const _calculateRanking = () => {
-  return 1;
+  return 0;
 };
 
 /**
@@ -39,7 +39,7 @@ const _calculateRanking = () => {
 * @return {object} with replica values
 */
 const _setCollectiveReplicaScore = (collectiveId) => {
-  log(`{ oracle: '_setCollectiveReplicaScore', collectiveId: '${collectiveId}' }`);
+  log(`[oracle] Setting replica score for collective: '${collectiveId}'`);
   const collective = Collectives.findOne({ _id: collectiveId });
   let replica;
   if (collective) {
@@ -56,7 +56,7 @@ const _setCollectiveReplicaScore = (collectiveId) => {
     };
 
     if (!collective.profile.replica || (collective.profile.replica && collective.profile.replica.lastSyncedBlock < lastSyncedBlock)) {
-      log(`[web3] Updating collective ${collectiveId} with replica: ${JSON.stringify(replica)}`);
+      log(`[oracle] Updating collective ${collectiveId} with replica: ${JSON.stringify(replica)}`);
       Collectives.update({ _id: collectiveId }, { $set: { 'profile.replica': replica } });
     }
   }
@@ -69,10 +69,10 @@ const _setCollectiveReplicaScore = (collectiveId) => {
 * @return {object} with replica values
 */
 const _setReplicaScore = (user) => {
-  log(`{ oracle: 'setReplicaScore', user: '${user._id}' }`);
-
   const collectiveReplicas = [];
   if (user.profile.collectives && user.profile.collectives.length > 0) {
+    log(`[oracle] Setting replica score for user: '${user._id}'`);
+
     for (const collectiveId of user.profile.collectives) {
       collectiveReplicas.push(_setCollectiveReplicaScore(collectiveId));
     }
@@ -86,12 +86,21 @@ const _setReplicaScore = (user) => {
         score,
       };
       if (!user.profile.replica || (user.profile.replica && user.profile.replica.lastSyncedBlock < lastSyncedBlock)) {
-        log(`[web3] Updating user ${user._id} with replica: ${JSON.stringify(replica)}`);
+        log(`[oracle] Updating user ${user._id} with replica: ${JSON.stringify(replica)}`);
         Meteor.users.update({ _id: user._id }, { $set: { 'profile.replica': replica } });
       }
     }
   }
 };
 
-export const setReplicaScore = _setReplicaScore;
+const _oracleReplicas = () => {
+  const pendingReplicas = Meteor.users.find({ 'profile.replica': { $exists: false } }).fetch();
+  log(`[oracle] Refreshing replica scores for ${pendingReplicas.length} users...`);
+
+  for (const user of pendingReplicas) {
+    _setReplicaScore(user);
+  }
+};
+
+export const oracleReplicas = _oracleReplicas;
 
