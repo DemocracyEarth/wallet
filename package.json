@@ -40,6 +40,7 @@
     "braces": "^3.0.2",
     "chart.js": "^2.9.3",
     "core-js": "^2.5.7",
+    "cron": "^1.8.2",
     "cryptiles": "^4.1.2",
     "deep-extend": "^0.5.1",
     "diff": "^4.0.1",

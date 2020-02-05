@@ -11,7 +11,6 @@ import { getTime } from '/imports/api/time';
 import { logUser, log, defaults, gui } from '/lib/const';
 import { stripHTML, urlDoctor, fixDBUrl } from '/lib/utils';
 import { notifierHTML } from '/imports/api/notifier/notifierTemplate.js';
-import { refreshDAOs } from '/lib/dao';
 import { getLastTimestamp, getBlockHeight } from '/lib/web3';
 import { Collectives } from '/imports/api/collectives/Collectives';
 import { setReplicaScore } from '/imports/api/server/oracles';
@@ -389,7 +388,6 @@ Meteor.methods({
         Contracts.update({ _id: feed[i]._id }, { $set: { period: newPeriod } });
       }
     }
-    // refreshDAOs();
   },
 
   /**

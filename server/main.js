@@ -3,8 +3,11 @@ import { Meteor } from 'meteor/meteor';
 import { meta } from '/imports/startup/both/routes';
 import { TAPi18n } from 'meteor/tap:i18n';
 
+import { log, defaults } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
-import { fixDBUrl, stripHTML, parseURL, urlDoctor, toTitleCase } from '/lib/utils';
+import { fixDBUrl, stripHTML, parseURL, urlDoctor } from '/lib/utils';
+import { CronJob } from 'cron';
+import { refresh } from '/lib/dao';
 
 import '/imports/startup/server';
 import '/imports/startup/both';
@@ -12,6 +15,16 @@ import '/imports/startup/both';
 Meteor.startup(() => {
   // Mail server settings
   process.env.MAIL_URL = Meteor.settings.private.smtpServer;
+
+  const cronjob = new CronJob({
+    cronTime: defaults.CRON_JOB_TIMER,
+    onTick: Meteor.bindEnvironment(async () => {
+      log('[cron] Syncing with blockchain...');
+      await refresh();
+    }),
+    start: true,
+  });
+  log(`[startup] Cron job started with schedule: '${cronjob.cronTime}'`);
 });
 
 /**
