@@ -1403,22 +1403,14 @@ h4 {
   z-index: 9999;
   margin: -55px 0px 5px 0px;
   box-shadow: 0px -6px 10px 0px black;
-  text-align: center;
 }
 
 .tab-button {
-  margin: 0px 10px 0px;
+  margin: 0px 10px 0px 0px;
   padding: 10px 10px 10px;
   display: inline-block;
 }
 
 .tab-button-selected {
   border-bottom: 2px solid #580073;
-}
-
-@media (max-width: 991px) {
-  .split.split-right {
-    position:none;
-    display:none;
-  }
 }

@@ -135,13 +135,30 @@ Template.home.helpers({
   },
 });
 
+const _tabSelect = (panel) => {
+  switch (panel) {
+    case 'alternative':
+      $('#main-feed').css('display', 'none');
+      $('#main-feed').css('position', 'none');
+      $('#alternative-feed').css('display', 'inline-block');
+      $('#alternative-feed').css('position', 'relative');
+      break;
+    case 'main':
+    default:
+      $('#main-feed').css('display', 'inline-block');
+      $('#main-feed').css('position', 'relative');
+      $('#alternative-feed').css('display', 'none');
+      $('#alternative-feed').css('position', 'none');
+  }
+};
+
 const _setTabMenu = (view) => {
   const menu = [];
   menu.push({
     label: TAPi18n.__('moloch-proposal'),
     selected: true,
     action: () => {
-      console.log(this);
+      _tabSelect('main');
     },
   });
   switch (view) {
@@ -152,7 +169,7 @@ const _setTabMenu = (view) => {
           label: TAPi18n.__('profile'),
           selected: false,
           action: () => {
-            console.log('profile');
+            _tabSelect('alternative');
           },
         },
       );
@@ -164,7 +181,7 @@ const _setTabMenu = (view) => {
           label: TAPi18n.__('budget'),
           selected: false,
           action: () => {
-            console.log('budget');
+            _tabSelect('alternative');
           },
         },
       );
@@ -173,7 +190,7 @@ const _setTabMenu = (view) => {
 };
 
 Template.screen.onRendered(() => {
-  _setTabMenu(Template.instance().data.options.view);
+  // Session.set('tabMenu', _setTabMenu(Template.instance().data.options.view));
 });
 
 Template.screen.helpers({
@@ -366,7 +383,8 @@ Template.homeFeed.helpers({
     };
   },
   menu() {
-    return { item: _setTabMenu(this.options.view) };
+    console.log(`Template.instance().data.options.view: ${Template.instance().data.options.view}`);
+    return { item: _setTabMenu(Template.instance().data.options.view) };
   },
 });
 

@@ -31,7 +31,7 @@
       {{> tabs}}
     {{/with}}
   {{/if}}  
-  <div class="split split-left {{landingMode 'left'}}">
+  <div id="main-feed" class="split split-left {{landingMode 'left'}}">
     <div class="content content-feed max100">
       {{#unless isPhone}}
         {{#unless dictator}}
@@ -117,7 +117,7 @@
 </template>
 
 <template name="postFeed">
-  <div class="split split-left {{landingMode 'left'}}">
+  <div id="main-feed" class="split split-left {{landingMode 'left'}}">
     <div class="content content-feed subsection max100">
       {{#if isPhone}}
         {{#if editorMode}}
@@ -161,7 +161,7 @@
 </template>
 
 <template name="periodFeed">
-  <div class="split split-left {{landingMode 'left'}}">
+  <div id="main-feed" class="split split-left {{landingMode 'left'}}">
     <div class="content content-feed max100">
       <div id="non-editable-feed">
         {{#unless isPhone}}
