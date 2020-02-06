@@ -1397,12 +1397,13 @@ h4 {
 .tab-menu {
   background: #e3e6ef;
   position: sticky;
-  top: 0;
-  padding: 0px 10px;
+  top: -60px;
+  padding: 60px 10px 0px;
   border-bottom: 1px solid #daddef;
   z-index: 9999;
-  margin: 5px 0px;
+  margin: -55px 0px 5px 0px;
   box-shadow: 0px -6px 10px 0px black;
+  text-align: center;
 }
 
 .tab-button {
@@ -1413,4 +1414,11 @@ h4 {
 
 .tab-button-selected {
   border-bottom: 2px solid #580073;
+}
+
+@media (max-width: 991px) {
+  .split.split-right {
+    position:none;
+    display:none;
+  }
 }

@@ -8,3 +8,10 @@ Template.tabs.helpers({
     return '';
   },
 });
+
+Template.tabs.events({
+  'click #tab-button'() {
+    console.log(this);
+    this.action();
+  },
+});

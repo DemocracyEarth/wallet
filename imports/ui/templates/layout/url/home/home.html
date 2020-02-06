@@ -68,7 +68,7 @@
 
   {{#if showTransactions}}
     {{#unless unloggedMobile}}
-      <div class="split split-right {{landingMode 'right'}}">
+      <div id="alternative-feed" class="split split-right {{landingMode 'right'}}">
         {{#if feedReady}}
           <div class="agora">
             <div class="content content-agora">
@@ -88,10 +88,12 @@
                     {{> guild this}}
                   {{/with}}
                 {{/if}}
+
                 {{#with mainLedger}}
                   <a href="#votes"></a>
                   {{> ledger this}}
                 {{/with}}
+
               {{/if}}
               <div id="resizable" class="resize"></div>
             </div>
@@ -131,17 +133,19 @@
         {{#unless isPhone}}
           <h4 class="padding-left-zero">{{{feedTitle}}}</h4>
         {{/unless}}
+
         {{#if postReady}}
           {{#with thread}}
             {{> feed this}}
           {{/with}}
         {{/if}}
+
       </div>
     </div>
   </div>
 
   {{#if showTransactions}}
-    <div class="split split-right {{landingMode 'right'}}">
+    <div id="alternative-feed" class="split split-right {{landingMode 'right'}}">
       {{#if postReady}}
         <div class="agora">
           <div class="content content-agora">
@@ -174,7 +178,7 @@
     </div>
   </div>
 
-  <div class="split split-right {{landingMode 'right'}}">
+  <div id="alternative-feed" class="split split-right {{landingMode 'right'}}">
     {{#if periodReady}}
       <div class="agora">
         <div class="content content-agora">

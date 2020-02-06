@@ -140,30 +140,33 @@ const _setTabMenu = (view) => {
   menu.push({
     label: TAPi18n.__('moloch-proposal'),
     selected: true,
+    action: () => {
+      console.log(this);
+    },
   });
   switch (view) {
     case 'peer':
       menu.push(
         {
+          id: 'profile',
           label: TAPi18n.__('profile'),
           selected: false,
+          action: () => {
+            console.log('profile');
+          },
         },
-        {
-          label: TAPi18n.__('votes'),
-          selected: false,
-        }
       );
       break;
     default:
       menu.push(
         {
+          id: 'budget',
           label: TAPi18n.__('budget'),
           selected: false,
+          action: () => {
+            console.log('budget');
+          },
         },
-        {
-          label: TAPi18n.__('events'),
-          selected: false,
-        }
       );
   }
   return menu;
