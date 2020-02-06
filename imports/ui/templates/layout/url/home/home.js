@@ -135,6 +135,44 @@ Template.home.helpers({
   },
 });
 
+const _setTabMenu = (view) => {
+  const menu = [];
+  menu.push({
+    label: TAPi18n.__('moloch-proposal'),
+    selected: true,
+  });
+  switch (view) {
+    case 'peer':
+      menu.push(
+        {
+          label: TAPi18n.__('profile'),
+          selected: false,
+        },
+        {
+          label: TAPi18n.__('votes'),
+          selected: false,
+        }
+      );
+      break;
+    default:
+      menu.push(
+        {
+          label: TAPi18n.__('budget'),
+          selected: false,
+        },
+        {
+          label: TAPi18n.__('events'),
+          selected: false,
+        }
+      );
+  }
+  return menu;
+};
+
+Template.screen.onRendered(() => {
+  _setTabMenu(Template.instance().data.options.view);
+});
+
 Template.screen.helpers({
   tag() {
     return (this.options.view === 'tag');
@@ -167,8 +205,6 @@ Template.homeFeed.onCreated(function () {
   const subscription = instance.subscribe('feed', { view: instance.data.options.view, sort: { timestamp: -1 }, userId: instance.data.options.userId, username: instance.data.options.username, period: instance.data.options.period });
 
   Session.set('minimizedEditor', true);
-
-  console.log(`instance.data.options.view: ${instance.data.options.view}`);
 
   if (!Session.get('draftContract') && !Meteor.Device.isPhone()) {
     introEditor({ desktopMode: true, replyMode: false, replyId: '' });
@@ -325,6 +361,9 @@ Template.homeFeed.helpers({
     return {
       replica: Template.instance().replica.get(),
     };
+  },
+  menu() {
+    return { item: _setTabMenu(this.options.view) };
   },
 });
 

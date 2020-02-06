@@ -27,7 +27,9 @@
 <template name="homeFeed">
   {{> alert}}
   {{#if isPhone}}
-    {{> tabs}}
+    {{#with menu}}
+      {{> tabs}}
+    {{/with}}
   {{/if}}  
   <div class="split split-left {{landingMode 'left'}}">
     <div class="content content-feed max100">

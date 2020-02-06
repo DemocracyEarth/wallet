@@ -1398,9 +1398,19 @@ h4 {
   background: #e3e6ef;
   position: sticky;
   top: 0;
-  padding: 1px 10px;
+  padding: 0px 10px;
   border-bottom: 1px solid #daddef;
   z-index: 9999;
   margin: 5px 0px;
-  box-shadow: 0px -12px 14px black;
+  box-shadow: 0px -6px 10px 0px black;
+}
+
+.tab-button {
+  margin: 0px 10px 0px;
+  padding: 10px 10px 10px;
+  display: inline-block;
+}
+
+.tab-button-selected {
+  border-bottom: 2px solid #580073;
 }
