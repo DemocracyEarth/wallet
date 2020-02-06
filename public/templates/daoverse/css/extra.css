@@ -1140,7 +1140,7 @@ h4 {
   padding: 0px 7px;
   width: 100%;
   background-color: #f9fafb;
-  margin: -4px 0px;
+  margin: -5px 0px;
 }
 
 .guild-row-total {
@@ -1413,4 +1413,8 @@ h4 {
 
 .tab-button-selected {
   border-bottom: 2px solid #580073;
+}
+
+.ledger-title.ledger-title-empty {
+  height: 5px;
 }

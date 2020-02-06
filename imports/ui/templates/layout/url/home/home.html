@@ -74,16 +74,24 @@
             <div class="content content-agora">
               {{#if replicaReady}}
                 {{#if isPerson}}
-                  <div class="ledger-title">
-                    <h4>{{_ 'replica-person'}}</h4>
-                  </div>                
+                  {{#unless isPhone}}
+                    <div class="ledger-title">
+                      <h4>{{_ 'replica-person'}}</h4>
+                    </div>
+                  {{else}}
+                    <div class="ledger-title ledger-title-empty"></div>
+                  {{/unless}}
                   {{#with address}}
                     {{> replica this}}
                   {{/with}}
                 {{else}}
-                  <div class="ledger-title">
-                    <h4>{{_ 'moloch-guild'}}</h4>
-                  </div>
+                  {{#unless isPhone}}
+                    <div class="ledger-title">
+                      <h4>{{_ 'moloch-guild'}}</h4>
+                    </div>
+                  {{else}}
+                    <div class="ledger-title ledger-title-empty"></div>
+                  {{/unless}}
                   {{#with collective}}
                     {{> guild this}}
                   {{/with}}
@@ -117,6 +125,12 @@
 </template>
 
 <template name="postFeed">
+  {{> alert}}
+  {{#if isPhone}}
+    {{#with menu}}
+      {{> tabs}}
+    {{/with}}
+  {{/if}}  
   <div id="main-feed" class="split split-left {{landingMode 'left'}}">
     <div class="content content-feed subsection max100">
       {{#if isPhone}}
@@ -161,6 +175,12 @@
 </template>
 
 <template name="periodFeed">
+  {{> alert}}
+  {{#if isPhone}}
+    {{#with menu}}
+      {{> tabs}}
+    {{/with}}
+  {{/if}}    
   <div id="main-feed" class="split split-left {{landingMode 'left'}}">
     <div class="content content-feed max100">
       <div id="non-editable-feed">
