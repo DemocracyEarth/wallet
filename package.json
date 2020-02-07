@@ -31,7 +31,7 @@
     "atob": "^2.1.2",
     "autoprefixer": "^6.4.1",
     "babel-runtime": "^6.26.0",
-    "bcrypt": "^1.0.3",
+    "bcrypt": "^3.0.8",
     "bcryptjs": "^2.4.0",
     "bignumber.js": "^7.2.1",
     "bindings": "^1.5.0",
