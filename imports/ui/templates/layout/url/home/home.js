@@ -153,6 +153,7 @@ const _tabSelect = (panel) => {
 };
 
 const _setTabMenu = (view) => {
+  console.log(`view: ${view}`);
   const menu = [];
   menu.push({
     label: TAPi18n.__('moloch-proposal'),
@@ -174,6 +175,18 @@ const _setTabMenu = (view) => {
         },
       );
       break;
+    case 'period':
+      menu.push(
+        {
+          id: 'votes',
+          label: TAPi18n.__('votes'),
+          selected: false,
+          action: () => {
+            _tabSelect('alternative');
+          },
+        },
+      );
+      break;
     default:
       menu.push(
         {
@@ -188,10 +201,6 @@ const _setTabMenu = (view) => {
   }
   return menu;
 };
-
-Template.screen.onRendered(() => {
-  // Session.set('tabMenu', _setTabMenu(Template.instance().data.options.view));
-});
 
 Template.screen.helpers({
   tag() {
@@ -383,7 +392,6 @@ Template.homeFeed.helpers({
     };
   },
   menu() {
-    console.log(`Template.instance().data.options.view: ${Template.instance().data.options.view}`);
     return { item: _setTabMenu(Template.instance().data.options.view) };
   },
 });
@@ -486,6 +494,9 @@ Template.postFeed.helpers({
   showTransactions() {
     return Meteor.settings.public.app.config.interface.showTransactions;
   },
+  menu() {
+    return { item: _setTabMenu(Template.instance().data.options.view) };
+  },
 });
 
 Template.periodFeed.helpers({
@@ -542,6 +553,9 @@ Template.periodFeed.helpers({
   },
   feedTitle() {
     return TAPi18n.__('moloch-period-feed').replace('{{period}}', TAPi18n.__(`moloch-${this.options.period}`));
+  },
+  menu() {
+    return { item: _setTabMenu(Template.instance().data.options.view) };
   },
 });
 

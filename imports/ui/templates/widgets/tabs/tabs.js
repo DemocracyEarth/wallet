@@ -6,7 +6,9 @@ import '/imports/ui/templates/widgets/tabs/tabs.html';
 const _select = (tabItem) => {
   const instance = Template.instance();
   const state = instance.menuItem.get();
-  const buffer = _.map(state, (item) => { const newItem = item; if (newItem.id === tabItem.id) { newItem.selected = true; } else { newItem.selected = false; } return newItem; });
+  const buffer = _.map(state, (item) => {
+    const newItem = item; if (newItem.id === tabItem.id) { newItem.selected = true; } else { newItem.selected = false; } return newItem;
+  });
   tabItem.action();
   instance.menuItem.set(buffer);
 };
