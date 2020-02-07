@@ -6575,6 +6575,7 @@ blockquote {
 
 .hero-menu-link.hero-menu-link-signin-simple {
   padding: 5px 10px 5px 10px;
+  float:right;
 }
 
 .hero-menu-link.hero-menu-link-signin.hero-menu-link-signin-active {

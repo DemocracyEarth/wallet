@@ -836,5 +836,6 @@
   "replica-detail-maybe-human": "👽 Uncertain if human or robot.",
   "replica-detail-unlikely-human": "🤖 Certainly robot.",
   "replica-detail-not-human": "👾 Definitely robot.",
-  "replica-detail-unknown-human": "😔 Unknown 0score."
+  "replica-detail-unknown-human": "😔 Unknown score.",
+  "sign-out-prompt": "Sign out from current account?"
 }
