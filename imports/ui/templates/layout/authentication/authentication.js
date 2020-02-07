@@ -106,7 +106,12 @@ Template.authentication.helpers({
 Template.authentication.events({
   'click #loggedUser'(event) {
     event.stopPropagation();
-    promptLogin((!Session.get('user-login') || !Session.get('user-login').visible), event);
+    if (Meteor.user()) {
+      Router.go(`/address/${Meteor.user().username}`);
+    } else {
+      Router.go('/');
+    }
+    // promptLogin((!Session.get('user-login') || !Session.get('user-login').visible), event);
   },
   'click #navbar-post-button'() {
     _publish();

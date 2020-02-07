@@ -97,7 +97,12 @@ Template.topbar.helpers({
 Template.topbar.events({
   'click #collective-login'() {
     event.stopPropagation();
-    _prompt(Template.instance());
+    if (Meteor.user()) {
+      Router.go(`/address/${Meteor.user().username}`);
+    } else {
+      Router.go('/');
+    }
+    // _prompt(Template.instance());
   },
   'click #nav-home'(event) {
     event.preventDefault();
