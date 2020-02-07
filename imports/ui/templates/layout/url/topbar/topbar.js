@@ -100,7 +100,13 @@ Template.topbar.events({
     if (Meteor.user()) {
       Router.go(`/address/${Meteor.user().username}`);
     } else {
-      Router.go('/');
+      Session.set('userLoginVisible', true);
+      Meteor.loginWithMetamask({}, function (err) {
+        if (err.reason) {
+          throw new Meteor.Error('Metamask login failed', err.reason);
+        }
+        Session.set('userLoginVisible', false);
+      });
     }
     // _prompt(Template.instance());
   },
