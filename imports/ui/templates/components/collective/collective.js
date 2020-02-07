@@ -1,6 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
+import { Router } from 'meteor/iron:router';
+
 import { $ } from 'meteor/jquery';
 
 import { Collectives } from '/imports/api/collectives/Collectives';

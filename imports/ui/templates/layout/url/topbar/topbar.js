@@ -13,6 +13,7 @@ import { shortenCryptoName } from '/imports/ui/templates/components/identity/ava
 import { getTemplate } from '/imports/ui/templates/layout/templater';
 import { promptLogin } from '/imports/ui/templates/components/collective/collective.js';
 import { validateEmail } from '/imports/startup/both/modules/validations.js';
+import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 
 import '/imports/ui/templates/layout/url/topbar/topbar.html';
 import '/imports/ui/templates/widgets/warning/warning.js';
@@ -40,6 +41,9 @@ const _showTopMenu = () => {
 
 Template.topbar.onCreated(function () {
   Template.instance().activeSignIn = new ReactiveVar(false);
+  Template.instance().imageTemplate = new ReactiveVar();
+  const instance = Template.instance();
+  templetize(instance);
 });
 
 
@@ -92,12 +96,29 @@ Template.topbar.helpers({
   cryptoName(address) {
     return shortenCryptoName(address);
   },
+  getImage(pic) {
+    return getImage(Template.instance().imageTemplate.get(), pic);
+  },
 });
 
 Template.topbar.events({
   'click #collective-login'() {
     event.stopPropagation();
-    _prompt(Template.instance());
+    if (Meteor.user()) {
+      Router.go(`/address/${Meteor.user().username}`);
+    } else {
+      Session.set('userLoginVisible', true);
+      Meteor.loginWithMetamask({}, function (err) {
+        if (err.reason) {
+          throw new Meteor.Error('Metamask login failed', err.reason);
+        }
+        Session.set('userLoginVisible', false);
+      });
+    }
+    // _prompt(Template.instance());
+  },
+  'click #sign-out-button'() {
+    Meteor.logout();
   },
   'click #nav-home'(event) {
     event.preventDefault();

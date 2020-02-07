@@ -6573,6 +6573,11 @@ blockquote {
   border-radius: 5px;
 }
 
+.hero-menu-link.hero-menu-link-signin-simple {
+  padding: 5px 10px 5px 10px;
+  float:right;
+}
+
 .hero-menu-link.hero-menu-link-signin.hero-menu-link-signin-active {
   border-color: #00c091;
   background-color: #00c091;

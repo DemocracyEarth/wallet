@@ -1415,3 +1415,16 @@ h4 {
 .ledger-title.ledger-title-empty {
   height: 5px;
 }
+
+.signout {
+  width: 20px;
+  height: 20px;
+}
+
+.hero-menu-link.hero-menu-link-signin-simple.hero-menu-link-signin-simple-icon {
+  opacity: 0.8;
+}
+
+.hero-menu-link.hero-menu-link-signin-simple.hero-menu-link-signin-simple-icon:hover {
+  opacity: 1;
+}

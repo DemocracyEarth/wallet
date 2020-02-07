@@ -243,6 +243,8 @@ Template.homeFeed.onCreated(function () {
     if (subscription.ready()) {
       _generateReplica(instance);
 
+      console.log(Contracts.findOne());
+      
       const collectiveId = Contracts.findOne().collectiveId;
       Session.set('search', {
         input: '',
