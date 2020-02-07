@@ -61,7 +61,7 @@
   "vote-url": "Decision URL",
   "identify-as-advocate": "Sign as author",
   "members-only": "Exclusive for citizens of listed organizations.",
-  "budget": "Budget.",
+  "budget": "Budget",
   "budget-detail":"Bitcoin reserves for authorized decisions using this tag.",
   "organization-title": "Tag, brand or trademark.",
   "tag-url": "Organization URL",
@@ -745,7 +745,7 @@
   "builder": "Builder",
   "docs": "Docs",
   "blog": "Blog",
-  "loading": "Loading DAO...",
+  "loading": "Loading democracies...",
   "organizations": "Organizations",
   "geographies": "Geographies",
   "profile": "Profile",
@@ -828,5 +828,13 @@
   "guild-share-value": "Value per Share",
   "guild-total-value": "Total Value",
   "guild-voting-address": "Voter",
-  "guild-voting-addresses": "Voters"
+  "guild-voting-addresses": "Voters",
+  "replica-person": "Profile.",
+  "replica-score": "Personhood",
+  "replica-detail-very-human": "🤠 Definitely a human.",
+  "replica-detail-likely-human": "🐵 Certainly a human.",
+  "replica-detail-maybe-human": "👽 Uncertain if human or robot.",
+  "replica-detail-unlikely-human": "🤖 Certainly a robot.",
+  "replica-detail-not-human": "👾 Definitely a robot.",
+  "replica-detail-unknown-human": "😔 Unknown score."
 }

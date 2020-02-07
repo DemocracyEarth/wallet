@@ -11,41 +11,11 @@ import { validateEmail } from '/imports/startup/both/modules/validations.js';
 
 // import { emailListCheck } from '/lib/permissioned';
 
-
 import '/imports/ui/templates/components/identity/login/profile/profileEditor.html';
+import '/imports/ui/templates/widgets/qr/qr.js';
 import '/imports/ui/templates/components/identity/avatar/avatar.js';
 import '/imports/ui/templates/widgets/warning/warning.js';
 import '/imports/ui/templates/widgets/suggest/suggest.js';
-
-const QRCode = require('qrcode');
-
-Template.qr.onRendered(function () {
-  const canvas = document.getElementById('canvas-qr');
-
-  QRCode.toCanvas(canvas, this.data.code, function (error) {
-    if (error) console.error(error);
-  });
-});
-
-
-const copyToClipboard = (str) => {
-  const el = document.createElement('textarea');
-  el.value = str;
-  el.setAttribute('readonly', '');
-  el.style.position = 'absolute';
-  el.style.left = '-9999px';
-  document.body.appendChild(el);
-  el.select();
-  document.execCommand('copy');
-  document.body.removeChild(el);
-};
-
-Template.qr.events({
-  'click #qr-code'(event, instance) {
-    copyToClipboard(instance.data.code);
-    alert(TAPi18n.__('copied-to-clipboard'));
-  },
-});
 
 Template.profileEditor.onCreated(function () {
   Template.instance().imageTemplate = new ReactiveVar();

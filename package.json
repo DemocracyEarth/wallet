@@ -26,7 +26,7 @@
     "postinstall": "opencollective-postinstall || exit 0"
   },
   "dependencies": {
-    "@babel/runtime": "^7.1.2",
+    "@babel/runtime": "^7.8.3",
     "abi-decoder": "^1.2.0",
     "atob": "^2.1.0",
     "autoprefixer": "^6.4.1",
@@ -40,6 +40,7 @@
     "braces": "^3.0.2",
     "chart.js": "^2.9.3",
     "core-js": "^2.5.7",
+    "cron": "^1.8.2",
     "cryptiles": "^4.1.2",
     "deep-extend": "^0.5.1",
     "diff": "^4.0.1",
@@ -50,6 +51,7 @@
     "faker": "^3.0.1",
     "fibers": "^2.0.2",
     "fstream": "^1.0.12",
+    "gini": "^1.1.7",
     "hapi": "^17.5.3",
     "hoek": "^5.0.4",
     "https-proxy-agent": "^2.2.0",

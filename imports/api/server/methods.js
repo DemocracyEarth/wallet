@@ -11,7 +11,6 @@ import { getTime } from '/imports/api/time';
 import { logUser, log, defaults, gui } from '/lib/const';
 import { stripHTML, urlDoctor, fixDBUrl } from '/lib/utils';
 import { notifierHTML } from '/imports/api/notifier/notifierTemplate.js';
-import { refreshDAOs } from '/lib/dao';
 import { getLastTimestamp, getBlockHeight } from '/lib/web3';
 import { Collectives } from '/imports/api/collectives/Collectives';
 
@@ -388,9 +387,12 @@ Meteor.methods({
         Contracts.update({ _id: feed[i]._id }, { $set: { period: newPeriod } });
       }
     }
-    refreshDAOs();
   },
 
+  /**
+  * @summary get block timme
+  * @param {object} collective where to persist blocktime
+  */
   async getBlock(collectives) {
     check(collectives, Array);
 
@@ -451,6 +453,21 @@ Meteor.methods({
     const finalBlockTimes = _.uniq(blockTimes);
 
     return finalBlockTimes;
+  },
+
+  /**
+  * @summary get a user or collective based on a public address with its corresponding replica score
+  * @param {string} publicAddress to calculate replica on
+  */
+  getReplica(publicAddress) {
+    check(publicAddress, String);
+    log(`{ method: 'getReplica', publicAddress: '${publicAddress}' }`);
+    const replica = {};
+    const user = Meteor.users.findOne({ username: publicAddress.toLowerCase() });
+    if (user) {
+      replica.user = Meteor.users.findOne({ username: publicAddress.toLowerCase() });
+    }
+    return replica;
   },
 
 });

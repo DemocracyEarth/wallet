@@ -3,6 +3,7 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 import { Wallet } from '/imports/api/users/Wallet';
 import { Blockchain, Parameter } from '/imports/api/blockchain/Blockchain';
+import { Replica } from '/imports/api/users/User';
 
 export const Collectives = new Mongo.Collection('collectives');
 
@@ -212,6 +213,10 @@ Schema.CollectiveProfile = new SimpleSchema({
   },
   lastSyncedBlock: {
     type: Number,
+    optional: true,
+  },
+  replica: {
+    type: Replica,
     optional: true,
   },
 });

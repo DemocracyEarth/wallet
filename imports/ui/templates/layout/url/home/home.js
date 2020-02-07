@@ -8,10 +8,11 @@ import { TAPi18n } from 'meteor/tap:i18n';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
-import { shortenCryptoName } from '/imports/ui/templates/components/identity/avatar/avatar';
+import { shortenCryptoName, getUser } from '/imports/ui/templates/components/identity/avatar/avatar';
 import { getCoin } from '/imports/api/blockchain/modules/web3Util.js';
 import { Tokens } from '/imports/api/tokens/tokens';
 
+import '/imports/ui/templates/components/identity/replica/replica.js';
 import '/imports/ui/templates/layout/url/home/home.html';
 import '/imports/ui/templates/components/collective/guild/guild.js';
 import '/imports/ui/templates/layout/url/landing/landing.js';
@@ -19,8 +20,9 @@ import '/imports/ui/templates/layout/url/hero/hero.js';
 import '/imports/ui/templates/widgets/feed/feed.js';
 import '/imports/ui/templates/widgets/tally/tally.js';
 import '/imports/ui/templates/widgets/feed/paginator.js';
-import '/imports/ui/templates/widgets/compose/compose.js';
 import '/imports/ui/templates/components/decision/ledger/ledger.js';
+import '/imports/ui/templates/widgets/alert/alert.js';
+import '/imports/ui/templates/widgets/tabs/tabs.js';
 
 /**
 * @summary specific rendering for unlogged users
@@ -51,6 +53,33 @@ const _landingMode = (style) => {
   }
 
   return css;
+};
+
+/**
+* @summary creates a replica object based on available data or requests it
+* @param {object} instance with data to persist the replica
+*/
+const _generateReplica = (instance) => {
+  const replicaUser = Meteor.users.findOne({ username: instance.data.options.username });
+  if (replicaUser) {
+    instance.replica.set({
+      user: replicaUser,
+    });
+    instance.replicaReady.set(true);
+  } else if (instance.data.options.username) {
+    Meteor.call('getReplica', instance.data.options.username, (err, res) => {
+      if (err) {
+        console.log(err);
+      }
+      if (res && res.user) {
+        getUser(res.user._id);
+      }
+      instance.replica.set(res);
+      instance.replicaReady.set(true);
+    });
+  } else {
+    instance.replicaReady.set(true);
+  }
 };
 
 Template.home.onCreated(function () {
@@ -106,6 +135,73 @@ Template.home.helpers({
   },
 });
 
+const _tabSelect = (panel) => {
+  switch (panel) {
+    case 'alternative':
+      $('#main-feed').css('display', 'none');
+      $('#main-feed').css('position', 'none');
+      $('#alternative-feed').css('display', 'inline-block');
+      $('#alternative-feed').css('position', 'relative');
+      break;
+    case 'main':
+    default:
+      $('#main-feed').css('display', 'inline-block');
+      $('#main-feed').css('position', 'relative');
+      $('#alternative-feed').css('display', 'none');
+      $('#alternative-feed').css('position', 'none');
+  }
+};
+
+const _setTabMenu = (view) => {
+  console.log(`view: ${view}`);
+  const menu = [];
+  menu.push({
+    label: TAPi18n.__('moloch-proposal'),
+    selected: true,
+    action: () => {
+      _tabSelect('main');
+    },
+  });
+  switch (view) {
+    case 'peer':
+      menu.push(
+        {
+          id: 'profile',
+          label: TAPi18n.__('profile'),
+          selected: false,
+          action: () => {
+            _tabSelect('alternative');
+          },
+        },
+      );
+      break;
+    case 'period':
+      menu.push(
+        {
+          id: 'votes',
+          label: TAPi18n.__('votes'),
+          selected: false,
+          action: () => {
+            _tabSelect('alternative');
+          },
+        },
+      );
+      break;
+    default:
+      menu.push(
+        {
+          id: 'budget',
+          label: TAPi18n.__('budget'),
+          selected: false,
+          action: () => {
+            _tabSelect('alternative');
+          },
+        },
+      );
+  }
+  return menu;
+};
+
 Template.screen.helpers({
   tag() {
     return (this.options.view === 'tag');
@@ -132,6 +228,8 @@ Template.screen.helpers({
 
 Template.homeFeed.onCreated(function () {
   Template.instance().feedReady = new ReactiveVar(false);
+  Template.instance().replicaReady = new ReactiveVar(false);
+  Template.instance().replica = new ReactiveVar();
   const instance = this;
   const subscription = instance.subscribe('feed', { view: instance.data.options.view, sort: { timestamp: -1 }, userId: instance.data.options.userId, username: instance.data.options.username, period: instance.data.options.period });
 
@@ -143,6 +241,8 @@ Template.homeFeed.onCreated(function () {
 
   instance.autorun(function (computation) {
     if (subscription.ready()) {
+      _generateReplica(instance);
+
       const collectiveId = Contracts.findOne().collectiveId;
       Session.set('search', {
         input: '',
@@ -199,6 +299,10 @@ const _getTitle = (options, ledgerMode) => {
 };
 
 Template.homeFeed.helpers({
+  isPerson() {
+    const replica = Template.instance().replica.get();
+    return (replica && replica.user);
+  },
   unloggedMobile() {
     return (Meteor.Device.isPhone() && !Meteor.user());
   },
@@ -278,6 +382,17 @@ Template.homeFeed.helpers({
     return {
       collectiveId,
     };
+  },
+  replicaReady() {
+    return Template.instance().replicaReady.get();
+  },
+  address() {
+    return {
+      replica: Template.instance().replica.get(),
+    };
+  },
+  menu() {
+    return { item: _setTabMenu(Template.instance().data.options.view) };
   },
 });
 
@@ -379,6 +494,9 @@ Template.postFeed.helpers({
   showTransactions() {
     return Meteor.settings.public.app.config.interface.showTransactions;
   },
+  menu() {
+    return { item: _setTabMenu(Template.instance().data.options.view) };
+  },
 });
 
 Template.periodFeed.helpers({
@@ -435,6 +553,9 @@ Template.periodFeed.helpers({
   },
   feedTitle() {
     return TAPi18n.__('moloch-period-feed').replace('{{period}}', TAPi18n.__(`moloch-${this.options.period}`));
+  },
+  menu() {
+    return { item: _setTabMenu(Template.instance().data.options.view) };
   },
 });
 

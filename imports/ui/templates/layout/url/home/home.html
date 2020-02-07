@@ -25,7 +25,13 @@
 </template>
 
 <template name="homeFeed">
-  <div class="split split-left {{landingMode 'left'}}">
+  {{> alert}}
+  {{#if isPhone}}
+    {{#with menu}}
+      {{> tabs}}
+    {{/with}}
+  {{/if}}  
+  <div id="main-feed" class="split split-left {{landingMode 'left'}}">
     <div class="content content-feed max100">
       {{#unless isPhone}}
         {{#unless dictator}}
@@ -50,7 +56,9 @@
       {{/if}}
 
       <div id="non-editable-feed">
-        <h4 class="padding-left-zero">{{{feedTitle}}}</h4>
+        {{#unless isPhone}}
+          <h4 class="padding-left-zero">{{{feedTitle}}}</h4>
+        {{/unless}}
         {{#if feedReady}}
           {{> feed mainFeed}}
         {{/if}}
@@ -60,20 +68,41 @@
 
   {{#if showTransactions}}
     {{#unless unloggedMobile}}
-      <div class="split split-right {{landingMode 'right'}}">
+      <div id="alternative-feed" class="split split-right {{landingMode 'right'}}">
         {{#if feedReady}}
           <div class="agora">
             <div class="content content-agora">
-              <a href="#votes"></a>
-              <div class="ledger-title">
-                <h4>{{_ 'moloch-guild'}}</h4>
-              </div>
-              {{#with collective}}
-                {{> guild this}}
-              {{/with}}
-              {{#with mainLedger}}
-                {{> ledger this}}
-              {{/with}}
+              {{#if replicaReady}}
+                {{#if isPerson}}
+                  {{#unless isPhone}}
+                    <div class="ledger-title">
+                      <h4>{{_ 'replica-person'}}</h4>
+                    </div>
+                  {{else}}
+                    <div class="ledger-title ledger-title-empty"></div>
+                  {{/unless}}
+                  {{#with address}}
+                    {{> replica this}}
+                  {{/with}}
+                {{else}}
+                  {{#unless isPhone}}
+                    <div class="ledger-title">
+                      <h4>{{_ 'moloch-guild'}}</h4>
+                    </div>
+                  {{else}}
+                    <div class="ledger-title ledger-title-empty"></div>
+                  {{/unless}}
+                  {{#with collective}}
+                    {{> guild this}}
+                  {{/with}}
+                {{/if}}
+
+                {{#with mainLedger}}
+                  <a href="#votes"></a>
+                  {{> ledger this}}
+                {{/with}}
+
+              {{/if}}
               <div id="resizable" class="resize"></div>
             </div>
           </div>
@@ -96,7 +125,13 @@
 </template>
 
 <template name="postFeed">
-  <div class="split split-left {{landingMode 'left'}}">
+  {{> alert}}
+  {{#if isPhone}}
+    {{#with menu}}
+      {{> tabs}}
+    {{/with}}
+  {{/if}}  
+  <div id="main-feed" class="split split-left {{landingMode 'left'}}">
     <div class="content content-feed subsection max100">
       {{#if isPhone}}
         {{#if editorMode}}
@@ -109,18 +144,22 @@
       {{/if}}
 
       <div id="non-editable-reply-feed">
-        <h4 class="padding-left-zero">{{{feedTitle}}}</h4>
+        {{#unless isPhone}}
+          <h4 class="padding-left-zero">{{{feedTitle}}}</h4>
+        {{/unless}}
+
         {{#if postReady}}
           {{#with thread}}
             {{> feed this}}
           {{/with}}
         {{/if}}
+
       </div>
     </div>
   </div>
 
   {{#if showTransactions}}
-    <div class="split split-right {{landingMode 'right'}}">
+    <div id="alternative-feed" class="split split-right {{landingMode 'right'}}">
       {{#if postReady}}
         <div class="agora">
           <div class="content content-agora">
@@ -136,12 +175,20 @@
 </template>
 
 <template name="periodFeed">
-  <div class="split split-left {{landingMode 'left'}}">
+  {{> alert}}
+  {{#if isPhone}}
+    {{#with menu}}
+      {{> tabs}}
+    {{/with}}
+  {{/if}}    
+  <div id="main-feed" class="split split-left {{landingMode 'left'}}">
     <div class="content content-feed max100">
       <div id="non-editable-feed">
-        <h4 class="padding-left-zero">
-          {{{feedTitle}}}
-        </h4>
+        {{#unless isPhone}}
+          <h4 class="padding-left-zero">
+            {{{feedTitle}}}
+          </h4>
+        {{/unless}}
         {{#if periodReady}}
           {{#with thread}}
             {{> feed this}}
@@ -151,7 +198,7 @@
     </div>
   </div>
 
-  <div class="split split-right {{landingMode 'right'}}">
+  <div id="alternative-feed" class="split split-right {{landingMode 'right'}}">
     {{#if periodReady}}
       <div class="agora">
         <div class="content content-agora">

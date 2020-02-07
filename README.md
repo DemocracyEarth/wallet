@@ -104,7 +104,7 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
 
 ## Specifications
 
-* Built with [Meteor](https://github.com/meteor/meteor) version 1.8.1
+* Built with [Meteor](https://github.com/meteor/meteor) version 1.9
 * Check our [documentation](http://docs.democracy.earth) for further technical reference (work in progress).
 
 **Supported Browsers:**

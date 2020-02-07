@@ -63,7 +63,7 @@ Template.guild.helpers({
     return Template.instance().collective.get().name;
   },
   url() {
-    return Template.instance().collective.get().profile.website;
+    return `/address/${Template.instance().collective.get().profile.blockchain.publicAddress}`;
   },
   icon() {
     return Template.instance().collective.get().profile.logo;
@@ -111,7 +111,7 @@ Template.guild.helpers({
   },
   publicAddress() {
     const publicAddress = Template.instance().collective.get().profile.blockchain.publicAddress;
-    return `${publicAddress.substring(0, 6)}...${publicAddress.slice(-4)}`;
+    return publicAddress; // `${publicAddress.substring(0, 6)}...${publicAddress.slice(-4)}`;
   },
   blockchainLink() {
     return `${Meteor.settings.public.web.sites.blockExplorer}/address/${Template.instance().collective.get().profile.blockchain.publicAddress}`;

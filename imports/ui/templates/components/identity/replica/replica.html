@@ -1,0 +1,49 @@
+<template name="replica">  
+  <div id="non-editable-feed" class="ledger">
+    <div class="vote vote-delegation vote-feed vote-search guild-block">
+      <div class="guild">
+        <div class="guild-replica">
+          <div class="guild-label">
+            <div class="guild-avatar">
+              {{#with replica.user}}
+                {{> avatar size=24 profile=this._id includeName=false includeNation=false editable=false microFont=false disabled=false includeRole=false}}
+              {{/with}}
+            </div>
+            <div class="guild-name">
+              <div class="guild-title">
+                <div class="guild-title-label">{{name}}</div>
+              </div>
+            </div>
+            <div class="guild-detail">
+              <div class="guild-meta">
+                <img src="{{getImage 'key'}}" class="clock-icon guild-verifier">
+                <a href="{{blockchainLink}}" target="_blank" class="verifier verifier-live verifier-feed verifier-mini verifier-key verifier-guild">{{{publicAddress}}}</a>
+              </div>
+            </div>
+          </div>
+          <div class="guild-label guild-large-items">
+            <div class="qr-wrapper">
+              {{> qr code=replica.user.username}}
+            </div>
+            <div class="parameter parameter-guild">
+              <div class="parameter-name">
+                {{_ 'replica-score'}}
+              </div>
+              <div class="parameter-value">
+                <div class="replica-score {{semaphore}}">
+                  {{{score}}}
+                </div>
+                <div class="replica-bar">
+                  <div class="replica-bar-score {{semaphore}}" style="{{width}}"></div>
+                </div>
+                <div class="replica-detail">
+                  {{detail}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
