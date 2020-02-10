@@ -17,7 +17,7 @@ Template.feedLoad.onRendered(function () {
     speed: 1,
     trail: 60,
     fps: 20,
-    zIndex: 2e9,
+    zIndex: 9996,
     className: 'spinner',
     top: '40px',
     left: 'auto',

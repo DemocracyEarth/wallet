@@ -4600,8 +4600,6 @@ blockquote {
 }
 
 .content.content-agora {
-  position:-webkit-sticky;
-  position: sticky;
   top: 55px;
   height: 0px;
   width: 100%;
