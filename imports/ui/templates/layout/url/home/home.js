@@ -139,16 +139,16 @@ const _tabSelect = (panel) => {
   switch (panel) {
     case 'alternative':
       $('#main-feed').css('display', 'none');
-      $('#main-feed').css('position', 'none');
-      $('#alternative-feed').css('display', 'inline-block');
-      $('#alternative-feed').css('position', 'relative');
+      // $('#main-feed').css('position', 'none');
+      // $('#alternative-feed').css('display', 'inline-block');
+      // $('#alternative-feed').css('position', 'relative');
       break;
     case 'main':
     default:
       $('#main-feed').css('display', 'inline-block');
-      $('#main-feed').css('position', 'relative');
-      $('#alternative-feed').css('display', 'none');
-      $('#alternative-feed').css('position', 'none');
+      // $('#main-feed').css('position', 'relative');
+      // $('#alternative-feed').css('display', 'none');
+      // $('#alternative-feed').css('position', 'none');
   }
 };
 

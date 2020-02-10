@@ -17,7 +17,7 @@ Template.load.onRendered(() => {
     speed: 1, // Rounds per second
     trail: 60, // Afterglow percentage
     fps: 20, // Frames per second when using setTimeout() as a fallback for CSS
-    zIndex: 2e9, // The z-index (defaults to 2000000000)
+    zIndex: 9996, // The z-index (defaults to 2000000000)
     className: 'spinner', // The CSS class to assign to the spinner
     top: '50%', // Top position relative to parent
     left: '50%', // Left position relative to parent
