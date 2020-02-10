@@ -93,6 +93,10 @@ const _setReplicaScore = (user) => {
   }
 };
 
+
+/**
+* @summary general function to call oracles
+*/
 const _oracleReplicas = () => {
   const pendingReplicas = Meteor.users.find({ 'profile.replica': { $exists: false } }).fetch();
   log(`[oracle] Refreshing replica scores for ${pendingReplicas.length} users...`);
