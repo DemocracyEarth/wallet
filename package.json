@@ -81,7 +81,6 @@
     "babel-eslint": "^7.1.0",
     "chai": "^4.2.0",
     "chai-string": "^1.5.0",
-    "chimp": "^0.51.1",
     "escape-string-regexp": "^1.0.5",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^11.1.0",
