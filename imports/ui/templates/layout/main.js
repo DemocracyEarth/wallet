@@ -15,8 +15,6 @@ Buckminster Fuller, Great San Francisco Architect.
 
 A Roma, <3
 
-*/
-
 /* global alert */
 
 import { Meteor } from 'meteor/meteor';
