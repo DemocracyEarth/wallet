@@ -17,6 +17,7 @@ function killModal() {
   $('#modalToggle').remove();
   Session.set('showModal', false);
   Session.set('castSingleVote', undefined);
+  Session.set('userLoginVisible', false);
 }
 
 Template.modal.helpers({

@@ -26,7 +26,14 @@
       }
     },
     "sentryPrivateDSN": "",
-    "smtpServer": ""
+    "smtpServer": "",
+    "web3": {
+      "config": "mainnet",
+      "network": "",
+      "secret": "",
+      "id": "",
+      "fortmatic": ""
+    }
   },
   "public": {
     "AWSHostingURL": "",
@@ -134,7 +141,8 @@
       "config": "mainnet",
       "network": "",
       "secret": "",
-      "id": ""
+      "id": "",
+      "fortmatic": ""
     }
   }
 }
