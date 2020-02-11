@@ -9,6 +9,7 @@ import { Session } from 'meteor/session';
 import { timers } from '/lib/const';
 import { resetSplit } from '/imports/ui/modules/split';
 import { shortenCryptoName } from '/imports/ui/templates/components/identity/avatar/avatar';
+import { displayModal } from '/imports/ui/modules/modal';
 
 import { getTemplate } from '/imports/ui/templates/layout/templater';
 import { promptLogin } from '/imports/ui/templates/components/collective/collective.js';
@@ -115,10 +116,22 @@ Template.topbar.events({
         Session.set('userLoginVisible', false);
       });
     }
-    // _prompt(Template.instance());
   },
   'click #sign-out-button'() {
-    Meteor.logout();
+    displayModal(
+      true,
+      {
+        icon: Meteor.settings.public.app.logo,
+        title: TAPi18n.__('sign-out'),
+        message: TAPi18n.__('sign-out-prompt'),
+        cancel: TAPi18n.__('not-now'),
+        action: TAPi18n.__('sign-out'),
+        displayProfile: false,
+      },
+      () => {
+        Meteor.logout();
+      }
+    );
   },
   'click #nav-home'(event) {
     event.preventDefault();
