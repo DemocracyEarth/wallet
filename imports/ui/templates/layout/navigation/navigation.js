@@ -24,6 +24,7 @@ function hideBar() {
       const node = $('.navbar');
       const st = $('.right').scrollTop();
       if (st > lastScrollTop && st > 60) {
+        $('.tab-menu').removeClass('tab-menu-scroll');
         scrollDown = true;
         node
           .velocity('stop')
@@ -38,6 +39,7 @@ function hideBar() {
           })
           .velocity('stop');
       } else if (scrollDown === true) {
+        $('.tab-menu').addClass('tab-menu-scroll');
         scrollDown = false;
         node.css('position', 'fixed');
         node
@@ -98,10 +100,6 @@ Template.navigation.onCreated(function () {
 
 Template.navigation.onRendered(() => {
   hideBar();
-
-  if (Meteor.Device.isPhone() && Meteor.user()) {
-    // $('.split-left').css('padding-top', '0px');
-  }
 });
 
 Template.navigation.helpers({

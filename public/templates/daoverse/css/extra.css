@@ -1394,18 +1394,24 @@ h4 {
 .tab-menu {
   background: #e3e6ef;
   position: sticky;
-  top: -6000px;
-  padding: 6000px 10px 0px;
+  top: -6010px;
+  padding: 6010px 10px 0px;
   border-bottom: 1px solid #daddef;
   z-index: 9999;
-  margin: -5995px 0px 5px 0px;
+  margin: -6000px 0px 10px 0px;
   box-shadow: 0px -6px 10px 0px black;
+  text-align:center;
+}
+
+.tab-menu.tab-menu-scroll {
+  top: -5952px;
 }
 
 .tab-button {
   margin: 0px 10px 0px 0px;
-  padding: 10px 10px 10px;
+  padding: 10px 20px 10px;
   display: inline-block;
+  width: 40%;
 }
 
 .tab-button-selected {
