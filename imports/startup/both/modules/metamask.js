@@ -64,9 +64,6 @@ const _formatCryptoValue = (value, tokenCode) => {
 * @summary check web3 plugin and connects to code obejct
 */
 const _web3 = (activateModal) => {
-  console.log('-00---');
-  console.log(window.web3);
-
   if (!window.web3) {
     web3 = setupWallet();
     if (!web3) {
@@ -81,7 +78,7 @@ const _web3 = (activateModal) => {
     web3 = new Web3(window.web3.currentProvider);
   }
 
-  web3.eth.getCoinbase().then(function (coinbase) {
+  web3.eth.getCoinbase().then((coinbase) => {
     if (!coinbase) {
       if (activateModal) {
         modal.message = TAPi18n.__('metamask-activate');
@@ -89,6 +86,7 @@ const _web3 = (activateModal) => {
         return false;
       }
     }
+    return undefined;
   });
 
   return web3;
@@ -780,6 +778,40 @@ const _getLastTimestamp = async () => {
   return undefined;
 };
 
+const _loginWeb3 = () => {
+  const nonce = Math.floor(Math.random() * 10000);
+  let publicAddress;
+
+  return web3.eth.getCoinbase().then(function (coinbaseAddress) {
+    publicAddress = coinbaseAddress.toLowerCase();
+    return handleSignMessage(publicAddress, nonce, TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.app.name));
+  }).then(function (signature) {
+    console.log(signature);
+    const verification = verifySignature(signature, publicAddress, nonce);
+
+    if (verification === 'success') {
+      const methodName = 'login';
+      const methodArguments = [{ publicAddress }];
+      Accounts.callLoginMethod({
+        methodArguments,
+        userCallback: (err) => {
+          Accounts._pageLoadLogin({
+            type: 'metamask',
+            allowed: !err,
+            error: err,
+            methodName,
+            methodArguments,
+          });
+          Session.set('newLogin', true);
+          Router.go('/');
+        },
+      });
+    } else {
+      _hideLogin();
+      console.log(TAPi18n.__('metamask-login-error'));
+    }
+  });
+};
 
 if (Meteor.isClient) {
   /**
@@ -793,11 +825,17 @@ if (Meteor.isClient) {
       if (Meteor.Device.isPhone()) {
         // When mobile, not supporting privacy-mode for now
         // https://github.com/DemocracyEarth/sovereign/issues/421
-        return web3.eth.getCoinbase().then(function (coinbaseAddress) {
+        return _loginWeb3();
+      }
+
+      if (window.ethereum) {
+        // Support privacy-mode in desktop only for now and if web3 installed
+        window.ethereum.enable().then(function () {
+          return web3.eth.getCoinbase();
+        }).then(function (coinbaseAddress) {
           publicAddress = coinbaseAddress.toLowerCase();
           return handleSignMessage(publicAddress, nonce, TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.app.name));
         }).then(function (signature) {
-          console.log(signature);
           const verification = verifySignature(signature, publicAddress, nonce);
 
           if (verification === 'success') {
@@ -813,8 +851,8 @@ if (Meteor.isClient) {
                   methodName,
                   methodArguments,
                 });
-                Session.set('newLogin', true);
                 Router.go('/');
+                _hideLogin();
               },
             });
           } else {
@@ -822,39 +860,9 @@ if (Meteor.isClient) {
             console.log(TAPi18n.__('metamask-login-error'));
           }
         });
+      } else {
+        return _loginWeb3();
       }
-
-      // Support privacy-mode in desktop only for now
-      window.ethereum.enable().then(function () {
-        return web3.eth.getCoinbase();
-      }).then(function (coinbaseAddress) {
-        publicAddress = coinbaseAddress.toLowerCase();
-        return handleSignMessage(publicAddress, nonce, TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.app.name));
-      }).then(function (signature) {
-        const verification = verifySignature(signature, publicAddress, nonce);
-
-        if (verification === 'success') {
-          const methodName = 'login';
-          const methodArguments = [{ publicAddress }];
-          Accounts.callLoginMethod({
-            methodArguments,
-            userCallback: (err) => {
-              Accounts._pageLoadLogin({
-                type: 'metamask',
-                allowed: !err,
-                error: err,
-                methodName,
-                methodArguments,
-              });
-              Router.go('/');
-              _hideLogin();
-            },
-          });
-        } else {
-          _hideLogin();
-          console.log(TAPi18n.__('metamask-login-error'));
-        }
-      });
     } else {
       modal.message = TAPi18n.__('metamask-activate');
       displayModal(true, modal);
