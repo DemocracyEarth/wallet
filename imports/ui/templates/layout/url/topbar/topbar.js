@@ -111,6 +111,7 @@ Template.topbar.events({
       Session.set('userLoginVisible', true);
       Meteor.loginWithMetamask({}, function (err) {
         if (err.reason) {
+          console.log('ERROR');
           throw new Meteor.Error('Metamask login failed', err.reason);
         }
         Session.set('userLoginVisible', false);

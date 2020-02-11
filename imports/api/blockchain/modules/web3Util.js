@@ -6,17 +6,29 @@ import { Session } from 'meteor/session';
 
 import { token } from '/lib/token';
 
+const Fortmatic = require('fortmatic');
 const numeral = require('numeral');
 
-// Set web3 provider
-let web3;
-const provider = Meteor.settings.public.web3.network;
+/**
+* @summary setups a wallet either via plugin or iframe
+*/
+const _setupWallet = () => {
+  if (Meteor.isClient) {
+    if (typeof window.web3 !== 'undefined') {
+      console.log('using current provider for wallet');
+      return new Web3(window.web3.currentProvider);
+    }
+    console.log('creating wallet via fortmatic');
+    const fm = new Fortmatic(Meteor.settings.public.web3.fortmatic);
+    return new Web3(fm.getProvider());
+  } else if (Meteor.isServer) {
+    const provider = Meteor.settings.private.web3.network;
+    return new Web3(new Web3.providers.HttpProvider(provider));
+  }
+  return undefined;
+};
 
-if (typeof web3 !== 'undefined') {
-  web3 = new Web3(web3.currentProvider);
-} else {
-  web3 = new Web3(new Web3.providers.HttpProvider(provider));
-}
+const web3 = _setupWallet();
 
 /**
 * @summary get coin from corpus
@@ -295,3 +307,5 @@ export const getCoin = _getCoin;
 export const getTokenData = _getTokenData;
 export const getBalance = _getBalance;
 export const numToCryptoBalance = _numToCryptoBalance;
+export const setupWallet = _setupWallet;
+
