@@ -135,25 +135,29 @@ Template.home.helpers({
   },
 });
 
+/**
+* @summary performs an action when selecting a tab
+* @param {string} panel instruction
+*/
 const _tabSelect = (panel) => {
   switch (panel) {
     case 'alternative':
       $('#main-feed').css('display', 'none');
-      // $('#main-feed').css('position', 'none');
-      // $('#alternative-feed').css('display', 'inline-block');
-      // $('#alternative-feed').css('position', 'relative');
+      $('#alternative-feed').css('display', 'inline-block');
       break;
     case 'main':
     default:
       $('#main-feed').css('display', 'inline-block');
-      // $('#main-feed').css('position', 'relative');
-      // $('#alternative-feed').css('display', 'none');
-      // $('#alternative-feed').css('position', 'none');
+      $('#alternative-feed').css('display', 'none');
   }
+  $('.right').scrollTop(0);
 };
 
+/**
+* @summary creates a tab menu based on the current view
+* @param {string} view name
+*/
 const _setTabMenu = (view) => {
-  console.log(`view: ${view}`);
   const menu = [];
   menu.push({
     label: TAPi18n.__('moloch-proposal'),

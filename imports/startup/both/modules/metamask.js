@@ -789,7 +789,6 @@ const _loginWeb3 = () => {
     publicAddress = coinbaseAddress.toLowerCase();
     return handleSignMessage(publicAddress, nonce, TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.app.name));
   }).then(function (signature) {
-    console.log(signature);
     const verification = verifySignature(signature, publicAddress, nonce);
 
     if (verification === 'success') {
@@ -811,7 +810,6 @@ const _loginWeb3 = () => {
       });
     } else {
       _hideLogin();
-      console.log(TAPi18n.__('metamask-login-error'));
     }
   });
 };

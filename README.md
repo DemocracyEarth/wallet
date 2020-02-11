@@ -66,7 +66,7 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
 4. **Configure**
 
     * On `/config/development/settings.json` you can configure Sovereign for your organization's governance needs.
-        * Make sure you configure the keys on `public.web3` to connect to an Ethereum node ([Infura](https://infura.io) API keys are supported).
+        * Make sure you configure the keys on `private.web3` to connect to an Ethereum node ([Infura](https://infura.io) API keys are supported).
         * For production, you can use `/config/production/settings.json` file and run `$ meteor --settings=config/production/settings.json` in the console.
     * Seed DAO settings can be found on `/private/dao.json` which consists of an array of DAOs to be read from the blockchain and persisted in the server DB. 
         * [MolochDAO](https://molochdao.com) settings included as an example by default.

@@ -1,4 +1,5 @@
 import { $ } from 'meteor/jquery';
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Session } from 'meteor/session';
@@ -49,6 +50,13 @@ Template.ledger.onCreated(function () {
       computation.stop();
     }
   });
+});
+
+Template.ledger.onRendered(function () {
+  if (Meteor.Device.isPhone()) {
+    $('#main-feed').css('display', 'inline-block');
+    $('#alternative-feed').css('display', 'none');
+  }
 });
 
 Template.ledger.helpers({
