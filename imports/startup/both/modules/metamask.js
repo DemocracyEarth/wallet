@@ -778,6 +778,9 @@ const _getLastTimestamp = async () => {
   return undefined;
 };
 
+/**
+* @summary does a web3 login without privacy mode;
+*/
 const _loginWeb3 = () => {
   const nonce = Math.floor(Math.random() * 10000);
   let publicAddress;
@@ -857,7 +860,6 @@ if (Meteor.isClient) {
             });
           } else {
             _hideLogin();
-            console.log(TAPi18n.__('metamask-login-error'));
           }
         });
       } else {
