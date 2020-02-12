@@ -33,7 +33,7 @@ import { token } from '/lib/token';
 import { gui } from '/lib/const';
 import { getCSS } from '/imports/ui/templates/layout/templater';
 import { resetSplit } from '/imports/ui/modules/split';
-
+import { getLandingMode } from '/imports/ui/templates/layout/url/home/home';
 
 import '/imports/ui/templates/layout/main.html';
 import '/imports/ui/templates/widgets/modal/modal';
@@ -181,6 +181,9 @@ Template.main.helpers({
   },
   loggedWithPhone() {
     return (Meteor.Device.isPhone() && Meteor.user());
+  },
+  landingMode() {
+    return getLandingMode();
   },
 });
 

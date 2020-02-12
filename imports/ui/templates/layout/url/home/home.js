@@ -107,6 +107,10 @@ Template.home.onCreated(function () {
   });
 });
 
+const _getLandingMode = () => {
+  return (!Meteor.user() && Meteor.settings.public.app.config.displayLanding && Session.get('displayFoundation'));
+};
+
 Template.home.onRendered(() => {
   Session.set('editorMode', false);
 });
@@ -114,6 +118,9 @@ Template.home.onRendered(() => {
 Template.home.helpers({
   editorMode() {
     return Session.get('showPostEditor');
+  },
+  landingMode() {
+    return _getLandingMode();
   },
   newContractId() {
     if (Session.get('draftContract')) {
@@ -590,3 +597,5 @@ Template.periodFeed.events({
     _resize(event);
   },
 });
+
+export const getLandingMode = _getLandingMode;

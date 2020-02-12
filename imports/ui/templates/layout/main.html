@@ -15,7 +15,9 @@
     {{> topbar}}
   {{/unless}}
 
-  {{> sidebar}}
+  {{#unless landingMode}}
+    {{> sidebar}}
+  {{/unless}}
 
   {{> preloader}}
 
