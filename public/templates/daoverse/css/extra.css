@@ -1434,3 +1434,13 @@ h4 {
 .hero-menu-link.hero-menu-link-signin-simple.hero-menu-link-signin-simple-icon:hover {
   opacity: 1;
 }
+
+.hero-menu-link.hero-menu-link-signin-simple.hero-menu-link-signin-simple-icon.mobile {
+  margin: 16px 5px 15px 0px;
+  padding: 0px;
+  opacity: 1;  
+}
+
+.hero-menu-link.hero-menu-link-signin-simple.hero-menu-link-signin-simple-icon.mobile:active {
+  padding: 1px 0px 0px 0px;
+};

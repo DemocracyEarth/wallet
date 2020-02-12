@@ -342,7 +342,6 @@ const animateMenu = () => {
       $('.inhibitor').css('display', 'block');
       $('.inhibitor').css('position', 'fixed');
       $('.inhibitor').css('left', `${sidebarPixelWidth}px`);
-      // $('.content').css('overflow', 'hidden');
     }
 
     $('#menu').css({ marginLeft: '0px' });

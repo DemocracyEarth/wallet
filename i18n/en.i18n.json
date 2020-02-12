@@ -832,9 +832,9 @@
   "replica-person": "Profile.",
   "replica-score": "Personhood",
   "replica-detail-very-human": "🤠 Definitely human.",
-  "replica-detail-likely-human": "🐵 Certainly human.",
-  "replica-detail-maybe-human": "👽 Uncertain if human or robot.",
-  "replica-detail-unlikely-human": "🤖 Certainly robot.",
+  "replica-detail-likely-human": "🐵 Maybe human.",
+  "replica-detail-maybe-human": "👽 Uncertain.",
+  "replica-detail-unlikely-human": "🤖 Maybe robot.",
   "replica-detail-not-human": "👾 Definitely robot.",
   "replica-detail-unknown-human": "😔 Unknown score.",
   "sign-out-prompt": "Sign out from current account?"
