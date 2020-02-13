@@ -74,20 +74,22 @@ const _web3 = (activateModal) => {
       return false;
     }
   }
-  if (!web3) {
+  if (!web3 && window.web3) {
     web3 = new Web3(window.web3.currentProvider);
   }
 
-  web3.eth.getCoinbase().then((coinbase) => {
-    if (!coinbase) {
-      if (activateModal) {
-        modal.message = TAPi18n.__('metamask-activate');
-        displayModal(true, modal);
-        return false;
+  if (!web3.currentProvider.isFortmatic) {
+    web3.eth.getCoinbase().then((coinbase) => {
+      if (!coinbase) {
+        if (activateModal) {
+          modal.message = TAPi18n.__('metamask-activate');
+          displayModal(true, modal);
+          return false;
+        }
       }
-    }
-    return undefined;
-  });
+      return undefined;
+    });
+  }
 
   return web3;
 };
@@ -786,6 +788,10 @@ const _loginWeb3 = () => {
   let publicAddress;
 
   return web3.eth.getCoinbase().then(function (coinbaseAddress) {
+    if (!coinbaseAddress) {
+      modal.message = TAPi18n.__('metamask-activate');
+      displayModal(true, modal);
+    }
     publicAddress = coinbaseAddress.toLowerCase();
     return handleSignMessage(publicAddress, nonce, TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.app.name));
   }).then(function (signature) {

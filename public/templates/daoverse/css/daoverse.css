@@ -4288,14 +4288,14 @@ blockquote {
   position: fixed;
   top: 0px;
   bottom: 0px;
-  box-shadow:inset -1px 0px #eaeaec;
+  /* box-shadow:inset -1px 0px #eaeaec; */
   z-index: 12500;
   display: inline-block;
   overflow: hidden;
-  width: 0px;
+  width: 250px;
   margin-left: -10000px;
   float: left;
-  background-color: #f9f9ff;
+  /* background-color: #f9f9ff; */
   text-align: left;
 }
 
@@ -4490,15 +4490,15 @@ blockquote {
   padding-right: 15px;
   padding-bottom: 15px;
   padding-left: 15px;
-  background-color: #f9f9ff;
-  box-shadow: inset -1px 0px #eaeaec;
+  /* background-color: #f9f9ff;
+  box-shadow: inset -1px 0px #eaeaec; */
   text-align: left;
 }
 
 .menu-item {
   min-width: 100%;
   margin-top: 3px;
-  margin-bottom: 3px;
+  margin-bottom: 12px;
   padding: 1px 0px 1px 5px;
   border-radius: 3px;
   color: #0d0d17;
@@ -4594,7 +4594,7 @@ blockquote {
 }
 
 .content.content-feed {
-  padding: 10px 10px 10px 15px;
+  padding: 10px 15px;
   -webkit-transition: opacity 892ms ease;
   transition: opacity 892ms ease;
 }
@@ -4927,12 +4927,21 @@ blockquote {
 }
 
 .right {
-  position: absolute;
+  position: relative;
+  width: 950px;
   left: 250px;
   top: 0px;
   right: 0px;
   bottom: 0px;
-  overflow: scroll;
+  /* overflow: scroll; */
+}
+
+@media (max-width: 1200px) {
+  .right {
+    position: absolute;
+    width: auto;
+    overflow: scroll;
+  }
 }
 
 .right.show {
@@ -7618,5 +7627,10 @@ blockquote {
     max-width: 100%;
     clear: left;
   }
+}
+
+.app {
+  width: 1200px;
+  margin: 0 auto;
 }
 

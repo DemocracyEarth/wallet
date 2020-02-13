@@ -15,24 +15,26 @@
     {{> topbar}}
   {{/unless}}
 
-  {{> sidebar}}
+  <div id="app" class="app">
+    {{#unless landingMode}}
+      {{> sidebar}}
+    {{/unless}}
 
-  {{> preloader}}
+    {{> preloader}}
 
-  <div id='content' class='right {{landingMode}}'>
+    <div id='content' class='right {{landingMode}}'>
+      {{#if isPhone}}
+        {{> navigation}}
+        <div class='inhibitor' style='display: none;'></div>
+      {{/if}}
 
-    {{#if isPhone}}
-      {{> navigation}}
-      <div class='inhibitor' style='display: none;'></div>
+      {{> yield}}
+    </div>  
+
+    {{#if showNotice}}
+      {{> notice}}
     {{/if}}
-
-    {{> yield}}
-
-  </div>  
-
-  {{#if showNotice}}
-    {{> notice}}
-  {{/if}}
+  </div>
 
 </template>
 

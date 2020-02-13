@@ -15,11 +15,12 @@ const numeral = require('numeral');
 const _setupWallet = () => {
   if (Meteor.isClient) {
     if (typeof window.web3 !== 'undefined') {
-      console.log('using current provider for wallet');
       return new Web3(window.web3.currentProvider);
     }
-    console.log('creating wallet via fortmatic');
     const fm = new Fortmatic(Meteor.settings.public.web3.fortmatic);
+    if (window.web3 && window.web3.currentProvider.isFortmatic) {
+      return undefined;
+    }
     return new Web3(fm.getProvider());
   } else if (Meteor.isServer) {
     const provider = Meteor.settings.private.web3.network;
@@ -28,7 +29,12 @@ const _setupWallet = () => {
   return undefined;
 };
 
-const web3 = _setupWallet();
+let web3;
+if (Meteor.isServer) {
+  web3 = _setupWallet();
+} else {
+  window.web3 = _setupWallet();
+}
 
 /**
 * @summary get coin from corpus

@@ -75,12 +75,14 @@ input[type="file"] {
   left: 0px;
 }
 .right {
-  left: 0px;
+  left: 250px;
 }
 
-#content, #modalToggle, .modal { /* .title-input {*/
-  overflow: scroll; /* has to be scroll, not auto */
-  -webkit-overflow-scrolling: touch;
+@media (max-width: 991px) {
+  #content, #modalToggle, .modal { /* .title-input {*/
+    overflow: scroll; /* has to be scroll, not auto */
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 .modal {
@@ -134,10 +136,12 @@ html {
   -webkit-overflow-scrolling: touch;
 }
 
-#content {
-    overflow: hidden;
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
+@media (max-width: 991px) {
+  #content {
+      overflow: hidden;
+      overflow-y: scroll;
+      -webkit-overflow-scrolling: touch;
+  }
 }
 
 @media (max-width: 991px) {
@@ -1048,10 +1052,6 @@ h4 {
     padding: 5px 5px 10px;
   }
 
-  .menu-item {
-    margin-bottom: 12px;
-  }
-
   .left {
     box-shadow: none;
   }
@@ -1434,3 +1434,13 @@ h4 {
 .hero-menu-link.hero-menu-link-signin-simple.hero-menu-link-signin-simple-icon:hover {
   opacity: 1;
 }
+
+.hero-menu-link.hero-menu-link-signin-simple.hero-menu-link-signin-simple-icon.mobile {
+  margin: 16px 5px 15px 0px;
+  padding: 0px;
+  opacity: 1;  
+}
+
+.hero-menu-link.hero-menu-link-signin-simple.hero-menu-link-signin-simple-icon.mobile:active {
+  padding: 1px 0px 0px 0px;
+};

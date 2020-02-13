@@ -15,6 +15,11 @@
       {{> userInfo toggle=toggle}}
     {{/if}}
   </div>
+  {{#if currentUser}}
+    <div id="mobile-logout" class="hero-menu-link hero-menu-link-signin-simple hero-menu-link-signin-simple-icon mobile" target="_blank">
+      <img src="{{getImage 'signout'}}" title="{{_ 'sign-out'}}" class="signout">
+    </div>
+  {{/if}}
 </template>
 
 <template name="userInfo">

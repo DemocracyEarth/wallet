@@ -152,7 +152,7 @@ const _adapt = (list) => {
 */
 const _showSidebar = () => {
   const percentage = sidebarPercentage();
-  $('.left').width(`${percentage}%`);
+  // $('.left').width(`${percentage}%`);
   if (!Meteor.Device.isPhone()) {
     if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
       $('.navbar').css('left', 0);
@@ -166,7 +166,7 @@ const _showSidebar = () => {
     }
   }
   if (!Session.get('sidebar')) {
-    const newMargin = parseInt(0 - sidebarWidth(), 10);
+    const newMargin = parseInt(-10 - sidebarWidth(), 10);
     $('#menu').css('margin-left', `${newMargin}px`);
     if (newMargin < 0) {
       Session.set('removedSidebar', true);
@@ -176,8 +176,8 @@ const _showSidebar = () => {
     if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
       newRight = parseInt(0 - sidebarWidth(), 10);
     }
-    $('#content').css('left', sidebarWidth());
-    $('#content').css('right', newRight);
+    $('#content').css('left', '250px');
+    // $('#content').css('right', newRight);
 
     if (Meteor.Device.isPhone()) {
       $('#menu').css('margin-left', '0px');
@@ -269,7 +269,7 @@ const _doneResizing = (instance) => {
 };
 
 Template.sidebar.onRendered(() => {
-  $('.left').width(`${sidebarPercentage()}%`);
+  // $('.left').width(`${sidebarPercentage()}%`);
   if (!Meteor.Device.isPhone()) {
     $('.navbar').css('left', `${sidebarPercentage()}%`);
   }
