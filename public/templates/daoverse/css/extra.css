@@ -75,12 +75,14 @@ input[type="file"] {
   left: 0px;
 }
 .right {
-  left: 0px;
+  left: 250px;
 }
 
-#content, #modalToggle, .modal { /* .title-input {*/
-  overflow: scroll; /* has to be scroll, not auto */
-  -webkit-overflow-scrolling: touch;
+@media (max-width: 991px) {
+  #content, #modalToggle, .modal { /* .title-input {*/
+    overflow: scroll; /* has to be scroll, not auto */
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 .modal {
@@ -134,10 +136,12 @@ html {
   -webkit-overflow-scrolling: touch;
 }
 
-#content {
-    overflow: hidden;
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
+@media (max-width: 991px) {
+  #content {
+      overflow: hidden;
+      overflow-y: scroll;
+      -webkit-overflow-scrolling: touch;
+  }
 }
 
 @media (max-width: 991px) {
@@ -1046,10 +1050,6 @@ h4 {
 
   .login {
     padding: 5px 5px 10px;
-  }
-
-  .menu-item {
-    margin-bottom: 12px;
   }
 
   .left {

@@ -45,7 +45,13 @@ Template.paginator.onRendered(function () {
   const instance = this;
 
   instance.autorun(function () {
-    $('.right').scroll(() => {
+    let scrollListener;
+    if (Meteor.Device.isPhone()) {
+      scrollListener = '.right';
+    } else {
+      scrollListener = window;
+    }
+    $(scrollListener).scroll(() => {
       Meteor.clearTimeout(isScrolling);
       isScrolling = Meteor.setTimeout(function () {
         if (!loaded.get()) {
