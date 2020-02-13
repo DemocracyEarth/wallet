@@ -76,3 +76,8 @@ jslint.xml
 # IDE
 .idea
 reset.sh
+
+
+.history
+config/.DS_Store
+.DS_Store
