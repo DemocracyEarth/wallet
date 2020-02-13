@@ -1,17 +1,22 @@
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { $ } from 'meteor/jquery';
 
-import { behave } from '/imports/ui/modules/animation';
+import '/imports/ui/templates/widgets/notice/notice.html';
 
-import './notice.html';
-
-Template.notice.rendered = function rendered() {
-  behave(this.firstNode, 'fade');
-};
+Template.notice.onRendered(() => {
+  // behave(this.firstNode, 'fade');
+  $('.context').css({ opacity: 0 });
+  $('.context').velocity({ opacity: 1 });
+});
 
 Template.notice.helpers({
   label() {
-    return TAPi18n.__(Session.get('noticeDisplay'));
+    const notice = Session.get('noticeDisplay');
+    if (notice.htmlMode) {
+      return notice.label;
+    }
+    return TAPi18n.__(notice.label);
   },
 });

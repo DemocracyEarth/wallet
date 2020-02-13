@@ -1,33 +1,17 @@
 <template name="sidebar">
-
-  <div class="sidebar">
-
-    {{> collective}}
-
-    <ul class="menu w-clearfix w-list-unstyled">
-
-      {{> inbox label='proposals' separator=true}}
-
-      {{#each decisions}}
-        {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon iconActivated=iconActivated feed=feed}}
-      {{else}}
-        <div class="menu menu-empty">
-          {{_ 'no-decisions-found'}}
-        </div>
-      {{/each}}
-
-      {{> inbox label='delegates' separator=true}}
-
-      {{#each delegates}}
-        {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon isAvatar=true iconActivated=iconActivated feed=feed}}
-      {{else}}
-        <div class="menu menu-empty">
-          {{_ 'no-delegations-found'}}
-        </div>
-      {{/each}}
-
-    </ul>
-
-  </div>
-
+  {{#if sidebarContext}}
+    <div id='menu' class='left {{style}}'>
+      <div class="sidebar {{sidebarStyle}}">
+        <ul class="menu w-clearfix w-list-unstyled">
+          {{#each menu}}
+            {{> inbox id=id label=label separator=separator value=value url=url selected=selected icon=icon isAvatar=isAvatar iconActivated=iconActivated feed=feed reserve=reserve displayCount=displayCount count=count}}
+          {{/each}}
+        </ul>
+        <div style="height: 50px"></div>
+      </div>
+      <div class="menu menu-empty menu-footer">
+        {{{replicator}}}
+      </div>
+    </div>
+  {{/if}}
 </template>

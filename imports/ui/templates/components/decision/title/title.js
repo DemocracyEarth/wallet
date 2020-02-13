@@ -4,14 +4,10 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 
-import { Contracts } from '/imports/api/contracts/Contracts';
 import { rules, timers } from '/lib/const';
-import { convertToSlug } from '/lib/utils';
 import { placeCaretAtEnd } from '/imports/startup/both/modules/utils';
 import { initEditor } from '/imports/ui/modules/editor';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
-import { URLCheck, URLVerifier } from '/imports/ui/modules/Files';
-import { displayNotice } from '/imports/ui/modules/notice';
 
 import './title.html';
 import '../stage/stage.js';
@@ -19,33 +15,110 @@ import '../../../widgets/warning/warning.js';
 
 let typingTimer; // timer identifier
 
-Template.title.rendered = function rendered() {
+const getIndexArray = (search, text, caseSensitive) => {
+  const searchStrLen = search.length;
+  if (searchStrLen === 0) {
+    return [];
+  }
+  const indices = [];
+  let str = text;
+  let searchStr = search;
+  let startIndex = 0;
+  let index;
+  if (!caseSensitive) {
+    str = text.toLowerCase();
+    searchStr = search.toLowerCase();
+  }
+  while ((index = str.indexOf(searchStr, startIndex)) > -1) {
+    indices.push(index);
+    startIndex = index + searchStrLen;
+  }
+  return indices;
+};
+
+/**
+* @summary gets to current position of the cursor in contenteditable
+*/
+function getCaretPosition() {
+  if (window.getSelection && window.getSelection().getRangeAt) {
+    const range = window.getSelection().getRangeAt(0);
+    const selectedObj = window.getSelection();
+    let rangeCount = 0;
+    const childNodes = selectedObj.anchorNode.parentNode.childNodes;
+    for (let i = 0; i < childNodes.length; i += 1) {
+      if (childNodes[i] === selectedObj.anchorNode) {
+        break;
+      }
+      if (childNodes[i].outerHTML) {
+        rangeCount += childNodes[i].outerHTML.length;
+      } else if (childNodes[i].nodeType == 3) {
+        rangeCount += childNodes[i].textContent.length;
+      }
+    }
+    return range.startOffset + rangeCount;
+  }
+  return -1;
+}
+
+/**
+* @summary saves new written or pasted content to contract draft
+* @param {string} content new text
+*/
+const _saveToDraft = (content) => {
+  const draft = Session.get('draftContract');
+
+  // Checking content typed
+  if (content === '' || content === ' ') {
+    Session.set('missingTitle', true);
+    return;
+  }
+  Session.set('missingTitle', false);
+
+  // call function when typing seems to be finished.
+  typingTimer = Meteor.setTimeout(() => {
+    Session.set('draftContract', Object.assign(draft, { title: parseMarkup(content) }));
+  }, timers.SERVER_INTERVAL);
+};
+
+/**
+* @summary converts string text using markdown signals to HTML
+* @param {string} text
+*/
+const parseMarkup = (text) => {
+  // remove html injections
+  const txt = text.replace(/<(?:.|\n)*?>/gm, '');
+
+  return txt;
+};
+
+function displayTitle(title) {
+  if (title === '' || title === undefined) {
+    Session.set('missingTitle', true);
+    return ' ';
+  }
+  // Session.set('missingTitle', false);
+  return title; // textToHTML(title);
+}
+
+Template.title.onRendered(() => {
   initEditor();
 
-  //TODO: figure out how to make tab work properly on first try.
-
-  //tab focus next object
-  $('#titleContent').on('focus', function(e){
-    $(window).keyup(function (e) {
-      const code = (e.keyCode ? e.keyCode : e.which);
-      if (code === 9) {
-        $('#editor').focus();
-      }
-    });
-  });
+  // text length
+  Session.set('availableChars', rules.TITLE_MAX_LENGTH);
 
   // paste
-  document.getElementById('titleContent').addEventListener('paste', function (e) {
-    e.preventDefault();
-    const text = stripHTMLfromText(e.clipboardData.getData('text/plain'));
-    const newtitle = $('#titleContent')[0].innerText;
-    const delta = parseInt(rules.TITLE_MAX_LENGTH - newtitle.length);
-    if (delta > 0) {
-      document.execCommand('insertHTML', false, text);
-    }
-  });
-
-};
+  if (document.getElementById('titleContent') !== null) {
+    document.getElementById('titleContent').addEventListener('paste', (e) => {
+      e.preventDefault();
+      const text = stripHTMLfromText(e.clipboardData.getData('text/plain'));
+      const newtitle = $('#titleContent')[0].innerText;
+      const delta = parseInt(rules.TITLE_MAX_LENGTH - newtitle.length, 10);
+      if (rules.TITLE_MAX_LENGTH !== 0 && delta > 0) {
+        document.execCommand('insertHTML', false, text);
+      }
+    });
+  }
+});
 
 Template.titleContent.helpers({
   sampleMode() {
@@ -55,168 +128,75 @@ Template.titleContent.helpers({
     return '';
   },
   declaration() {
-    return getTitle();
+    if (Session.get('draftContract')) {
+      return displayTitle(Session.get('draftContract').title);
+    }
+    return displayTitle('');
   },
   editable() {
-    const html = `<div id='titleContent' contenteditable='true' tabindex=0> ${this.toString()} </div>`;
+    const viewportHeight = 300;
+    const html = `<div id='titleContent' contenteditable='true' style='min-height: ${viewportHeight}px' tabindex=0> ${this.toString()} </div>`;
     return html;
+  },
+  viewport() {
+    return Session.get('editorViewportHeight');
+  },
+  text() {
+    return this.toString();
   },
 });
 
 // Title of Contract
 Template.title.helpers({
-  blockchainAddress() {
-    return '';
-  },
   declaration() {
-    return getTitle();
-  },
-  contractURL() {
-    var host =  window.location.host;
-    var keyword = '';
-
-    if (Session.get('contract')) {
-      if (Session.get('contractKeyword') == undefined) {
-        Session.set('contractKeyword', Session.get('contract').keyword);
-      } else if (Session.get('contractKeyword') != Session.get('contract').keyword) {
-        keyword = Session.get('contractKeyword');
-      } else {
-        keyword = Session.get('contract').keyword;
-      }
-      return `${host}/${Session.get('contract').kind.toLowerCase()}/<strong>${keyword}</strong>`;
-    }
+    return displayTitle(this.title);
   },
   missingTitle() {
-    if (Session.get('missingTitle')) {
-      Session.set('URLStatus', 'UNAVAILABLE');
-    }
-    if ($('#titleContent').is(":focus")) {
-      Session.set('URLStatus', 'NONE');
-    }
-    if (!Session.get('firstEditorLoad')) {
-      return Session.get('missingTitle');
-    }
+    return Session.get('missingTitle');
   },
-  mistypedTitle() {
-    return Session.get('mistypedTitle');
-  },
-  URLStatus() {
-    return URLCheck('URLStatus');
-  },
-  verifierMode() {
-    return URLVerifier('URLStatus');
-  },
-  duplicateURL() {
-    return Session.get('duplicateURL');
-  },
-  timestamp() {
-    if (Session.get('contract')) {
-      var d = new Date;
-      if (Session.get('contract').timestamp != undefined) {
-        d = Session.get('contract').timestamp;
-        return d.format('{Month} {d}, {yyyy}');
-      }
-    }
-  },
-  executionStatus() {
-    if (Session.get('contract') != undefined) {
-      return Session.get('contract').executionStatus;
-    }
-  },
-  stageLabel() {
-    if (Session.get('contract') != undefined) {
-      return Session.get('contract').stage;
-    }
-  },
-  closingDate() {
-    if (Session.get('contract') != undefined) {
-      return Session.get('contract').closingDate;
-    }
-  }
 });
 
+Template.title.events({
+  'click #emptyTitle'() {
+    $('#titleContent').focus();
+  },
+});
 
 Template.titleContent.events({
-  'input #titleContent'(event) {
-    const content = document.getElementById('titleContent').innerText;// jQuery($("#titleContent").html()).text();
-    const keyword = convertToSlug(content);
-    const contract = Contracts.findOne({ keyword: keyword });
+  'input #titleContent'() {
+    let content = document.getElementById('titleContent').innerText;
 
     // Set timer to check upload to db
     Meteor.clearTimeout(typingTimer);
-    Session.set('contractKeyword', keyword);
-    Session.set('URLStatus', 'VERIFY');
 
-    if (Session.get('firstEditorLoad')) {
-      const currentTitle = document.getElementById('titleContent').innerText;
-      const newTitle = currentTitle.replace(TAPi18n.__('no-title'), '');
+    // avoids invisible character when contenteditable gets empty in touch
+    const divHTML = $('#titleContent').html();
+    const checkEmpty = divHTML.replace(' ', '').replace('<br>', '');
+    if (checkEmpty.length === 0) { content = ''; }
+    if (rules.TITLE_MAX_LENGTH !== 0) {
+      Session.set('availableChars', parseInt(rules.TITLE_MAX_LENGTH - content.length, 10));
+    }
+
+    if (Session.get('firstEditorLoad') && !Meteor.Device.isPhone()) {
+      const newTitle = content.replace(TAPi18n.__('no-title'), '');
       document.getElementById('titleContent').innerText = newTitle;
       placeCaretAtEnd(document.getElementById('titleContent'));
       Session.set('firstEditorLoad', false);
     }
 
-    // Checking content typed
-    if (content === '') {
-      Session.set('contractKeyword', keyword);
-      Session.set('URLStatus', 'UNAVAILABLE');
-      Session.set('missingTitle', true);
-      return;
-    } else if (keyword.length < 3) {
-      Session.set('contractKeyword', keyword);
-      Session.set('URLStatus', 'UNAVAILABLE');
-      Session.set('mistypedTitle', true);
-      Session.set('missingTitle', false);
-      return;
-    } else {
-      Session.set('missingTitle', false);
-      Session.set('mistypedTitle', false);
-    }
-
-    //Call function when typing seems to be finished.
-    typingTimer = Meteor.setTimeout(function () {
-      if (contract !== undefined && contract._id !== Session.get('contract')._id) {
-          Session.set('URLStatus', 'UNAVAILABLE');
-      } else {
-        const url = "/" + Session.get('contract').kind.toLowerCase() + "/" + keyword
-        if (Contracts.update({ _id: Session.get('contract')._id }, { $set: { title: content, keyword, url } })) {
-          Session.set('URLStatus', 'AVAILABLE');
-        }
-        displayNotice(TAPi18n.__('saved-draft-description'), true);
-      }
-    }, timers.SERVER_INTERVAL);
+    _saveToDraft(content);
   },
-  'keypress #titleContent'(event) {
-    const content = document.getElementById('titleContent').innerText;
-    return (content.length <= rules.TITLE_MAX_LENGTH) && event.which !== 13 && event.which !== 9;
-  },
-  'focus #titleContent'(event) {
-    if (Session.get('missingTitle')) {
-      document.getElementById('titleContent').innerText = '';
-      Session.set('missingTitle', false);
-    }
-  },
-  'blur #titleContent'(event) {
+  'blur #titleContent'() {
     const content = document.getElementById('titleContent').innerText;
     if (content === '' || content === ' ') {
       Session.set('missingTitle', true);
-      document.getElementById('titleContent').innerText = TAPi18n.__('no-title');
     }
-  }
+  },
+  'paste #titleContent'(event) {
+    const paste = (event.clipboardData || window.clipboardData || event.originalEvent.clipboardData).getData('text');
+    const caret = getCaretPosition();
+    document.getElementById('titleContent').innerText = document.getElementById('titleContent').innerText.substring(0, caret) + paste + document.getElementById('titleContent').innerText.substring(caret);
+    const newCaret = parseInt(caret + (paste.length + 1), 10);
+    _saveToDraft(document.getElementById('titleContent').innerText);
+  },
 });
-
-//returns the title from the contract
-function getTitle() {
-  // FIX missed contractId
-  const contract = Contracts.findOne({ _id: contractId }, { reactive: false });
-  if (!contract) {
-    return;
-  }
-  const title = contract.title;
-  if (title === '' || title === undefined) {
-    Session.set('missingTitle', true);
-    return TAPi18n.__('no-title');
-  } else {
-    Session.set('missingTitle', false);
-    return title;
-  }
-}

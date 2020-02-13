@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
+import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 
@@ -10,23 +11,21 @@ import { displayModal } from '/imports/ui/modules/modal';
 import './signatures.html';
 import '../../identity/avatar/avatar.js';
 
-Template.signatures.rendered = function rendered() {
+Template.signatures.onRendered(() => {
   if (!Session.get('contract')) { return; }
-  const contractAuthors = Session.get('contract').signatures;
-  if (contractAuthors !== undefined) {
-    for (let i = 0; i < contractAuthors.length; i++) {
-      if (Meteor.user() != null) {
-        if (contractAuthors[i]._id === Meteor.user()._id) {
-          Session.set('userSigned', true);
-          break;
-        } else {
-          Session.set('userSigned', false);
-        }
+  const signers = Session.get('contract').signatures;
+  if (signers && Meteor.user()) {
+    for (const i in signers) {
+      if (signers[i]._id === Meteor.userId()) {
+        Session.set('userSigned', true);
+        break;
+      } else {
+        Session.set('userSigned', false);
       }
     }
   }
   Session.set('displaySignaturePopup', false);
-};
+});
 
 Template.signatures.helpers({
   userSigned() {
@@ -36,7 +35,7 @@ Template.signatures.helpers({
     if (Session.get('contract')) {
       const signerIds = [];
       if (Session.get('contract').signatures !== undefined) {
-        for (let i in Session.get('contract').signatures) {
+        for (const i in Session.get('contract').signatures) {
           signerIds.push(Session.get('contract').signatures[i]._id);
         }
         return signerIds;
@@ -48,10 +47,20 @@ Template.signatures.helpers({
     }
     return undefined;
   },
+  timestamp() {
+    if (Session.get('contract')) {
+      let d = Date();
+      if (Session.get('contract').timestamp !== undefined) {
+        d = Session.get('contract').timestamp;
+        return d.format('{Month} {d}, {yyyy}');
+      }
+    }
+    return '';
+  },
 });
 
 Template.signatures.events({
-  'click #sign-author'() {
+  'click #sign-author, click #sign-author-link'() {
     displayModal(
       true,
       {
@@ -59,13 +68,16 @@ Template.signatures.events({
         title: TAPi18n.__('proposal-author'),
         message: TAPi18n.__('proposal-signed-identity'),
         cancel: TAPi18n.__('not-now'),
-        action: TAPi18n.__('sign-proposal'),
+        action: TAPi18n.__('sign'),
         displayProfile: true,
         profileId: Meteor.user()._id,
       },
-      function () {
+      () => {
         Session.set('userSigned', true);
         signContract(Session.get('contract')._id, Meteor.user(), 'AUTHOR');
+        if ($('#titleContent').length > 0) {
+          $('#titleContent').focus();
+        }
       }
     );
   },

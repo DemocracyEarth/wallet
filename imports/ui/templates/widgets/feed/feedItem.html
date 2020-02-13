@@ -1,100 +1,185 @@
 <template name="feedItem">
-
-  <li id="feedItem-{{_id}}" class="vote vote-search vote-feed nondraggable">
-
-    <div class="checkbox checkbox-custom">
-
-      <a class="w-inline-block w-clearfix option-proposal" href="{{url}}">
-        <div class="option-title option-link option-search">
-          {{{title}}}
+  {{#if placeholder}}
+    <div id="feedItem-placeholder" class="vote vote-search vote-feed nondraggable">
+      <div class="checkbox checkbox-custom">
+        <div class="meta meta-search">
+          <div class="w-list-unstyled w-clearfix identity-list identity-feed-item extra">
+            <div class="w-clearfix identity">
+              {{> avatar placeholder=true size=24}}
+            </div>
+            <div class="data data-feed">
+              <div class="verifier verifier-live verifier-feed">
+                <div class="option-placeholder short"></div>
+              </div>
+            </div>
+          </div>
         </div>
-      </a>
-
-      <div class="meta meta-search">
-
-        {{> stage text=stage executionStatus=executionStatus closingDate=closingDate}}
-
-        <div class="data">
-          <img class="url-icon" src="{{pathFor route='home'}}images/time.png">
-          <div class="verifier verifier-live">{{sinceDate timestamp}}</div>
+        <div class="w-inline-block w-clearfix option-proposal">
+          <div class="option-title option-link option-search title-input">
+             <div class="title-input title-feed">
+               <div class="option-placeholder"></div>
+               <div class="option-placeholder"></div>
+               <div class="option-placeholder fifty"></div>
+            </div>
+          </div>
         </div>
-
       </div>
-
-      <div class="rich-text rich-text-preview">
-        {{description}}
-      </div>
-
-      <ul class="w-list-unstyled w-clearfix extra">
-        {{#each tags}}
-            {{> tag _id=_id nonDraggable=true}}
-        {{/each}}
-      </ul>
-
-      <ul class="w-list-unstyled w-clearfix identity-list extra">
-        {{#each signatures}}
-        <li class="w-clearfix identity">
-            {{> avatar size=32 profile=this._id includeName=true includeNation=false editable=false smallFont=true disabled=true includeRole=false}}
-        </li>
-        {{/each}}
-      </ul>
-
     </div>
-
-
-    <div class="block block-list">
-      {{#if embeddedMode}}
-        <div class="micro-menu">
-          <div class="micro">
-            <a id="{{_id}}" title="{{title}}" class="micro-button micro-button-addballot w-clearfix w-inline-block">
-              <img class="micro-icon" src="{{pathFor route='home'}}images/micro-add.png">
-              <div class="micro-label">{{_ 'add-to-ballot'}}</div>
-            </a>
-          </div>
-        </div>
-      {{else}}
-        {{#if delegationMode kind}}
-          <div class="micro-menu">
-            <div class="micro">
-              <a class="micro-button w-clearfix w-inline-block" href="{{url}}">
-                <img class="micro-icon" src="{{pathFor route='home'}}images/micro-view.png">
-                <div class="micro-label">{{_ 'view-this-delegation'}}</div>
-              </a>
-            </div>
-          </div>
-        {{else}}
-          {{#if editorMode stage}}
-            <div class="micro-menu">
-              <div class="micro">
-                <a class="micro-button w-clearfix w-inline-block" href="/vote/draft?id={{_id}}">
-                  <img class="micro-icon" src="{{pathFor route='home'}}images/micro-draft.png">
-                  <div class="micro-label">{{_ 'edit-this-draft'}}</div>
-                </a>
-              </div>
-              {{#if userIsAuthor signatures}}
-                <div class="micro">
-                  <a id="{{_id}}" title="{{title}}" class="micro-button micro-button-remove w-clearfix w-inline-block">
-                    <img class="micro-icon" src="{{pathFor route='home'}}images/micro-trash.png">
-                    <div class="micro-label">{{_ 'remove'}}</div>
-                  </a>
-                </div>
-              {{/if}}
-            </div>
-          {{else}}
-            {{#if voterMode stage}}
-              <div class="micro-menu">
-                <div class="micro">
-                  <a class="micro-button w-clearfix w-inline-block" href="{{url}}">
-                    <img class="micro-icon" src="{{pathFor route='home'}}images/vote.png">
-                    <div class="micro-label">{{_ 'vote-this-proposal'}}</div>
-                  </a>
-                </div>
-              </div>
-            {{/if}}
-          {{/if}}
+  {{else}}
+    {{#if delegationMode}}
+      {{> transaction contract=this senderId=senderId receiverId=receiverId}}
+    {{else}}
+      {{#unless pollContent}}
+        {{#if contextHere}}
+          <a href="#debate" id="focusedItem"></a>
         {{/if}}
-      {{/if}}
-    </div>
-
-  </li>
+        <div id="feedItem-{{_id}}" class="vote vote-search vote-feed nondraggable {{pollStyle}}" href="{{this.url}}">
+          <div class="checkbox checkbox-custom">
+            <div class="meta meta-search">
+              <div class="w-list-unstyled w-clearfix identity-list identity-feed-item extra">
+                {{#each signatures}}
+                  <div class="w-clearfix identity">
+                    {{> avatar size=24 profile=this._id includeName=true includeNation=true editable=false microFont=true disabled=false includeRole=false}}
+                  </div>
+                {{else}}
+                  {{> avatar placeholder=true size=24}}
+                {{/each}}
+                <div class="data data-feed data-identity">
+                  <div class="margin-both">
+                    <img src="{{getImage 'key'}}" class="clock-icon">
+                    <a id="blockchain-explorer" title="{{blockchainFullAddress}}" href="{{blockchainLink}}" target="_blank">
+                      <div class="verifier verifier-live verifier-feed verifier-mini verifier-key">{{blockchainAddress}}</div>
+                    </a>
+                  </div>
+                  <div class="margin-both">
+                    <img src="{{getImage 'clock'}}" class="clock-icon">
+                    <div class="verifier verifier-live verifier-feed verifier-mini">{{sinceDate createdAt}}</div>
+                  </div>
+                </div>
+                <div class="data data-feed">
+                  {{#if ragequit}}
+                      <img class="url-icon" src="{{getImage 'ragequit-icon'}}">
+                      <a href="/?period=ragequit" class="verifier verifier-live verifier-feed">
+                        {{_ 'moloch-period-ragequit'}}
+                      </a>
+                  {{else}}
+                    {{#if electionData}}
+                      <img class="url-icon" src="{{getImage 'vote-icon-black'}}">
+                      <a href="{{url}}#votes" class="verifier verifier-live verifier-feed">
+                        {{voters}}
+                      </a>
+                    {{else}}
+                      <div class="verifier verifier-live verifier-feed">
+                        <div class="option-placeholder short"></div>
+                      </div>
+                    {{/if}}
+                  {{/if}}
+                </div>
+              </div>
+            </div>
+            <div class="w-inline-block w-clearfix option-proposal">
+              <div class="option-title option-link option-search title-input">
+                <div class="title-input title-feed {{focused}}">
+                  {{#if moloch}}
+                    {{#if ragequit}}
+                      <div class="election-rule election-rule-top">
+                        {{{_ 'moloch-contract-ragequit'}}}
+                        {{> help tooltip='moloch-contract-ragequit-tooltip'}}
+                      </div>
+                      <div class="smart-contract">
+                        <div class="parameter-line">
+                          <div class="parameter">
+                            <div class="parameter-name">
+                              {{_ 'moloch-ragequit-shares-burn'}}
+                            </div>
+                            <div class="parameter-value parameter-token">
+                              {{#with burn}}
+                                {{> balance}}
+                              {{/with}}
+                            </div>
+                          </div>
+                          <!-- NOTE: to be done soon
+                          <div class="parameter">
+                            <div class="parameter-name">
+                              {{_ 'moloch-ragequit-funds-withdraw'}}
+                            </div>
+                            <div class="parameter-value parameter-token">
+                              {{#with withdraw}}
+                                {{> balance}}
+                              {{/with}}
+                            </div>
+                          </div>
+                          -->
+                        </div>
+                      </div>
+                    {{else}}
+                      {{{description}}}
+                      <div class="smart-contract">
+                        <div class="parameter">
+                          <div class="parameter-name">
+                            {{_ 'moloch-applicant'}}
+                          </div>
+                          <div class="parameter-value parameter-avatar">
+                            {{#with applicant}}
+                              {{> avatar size=36 profile=this._id includeName=true includeAddress=true includeNation=false editable=false microFont=true disabled=false includeRole=false}}
+                            {{/with}}
+                          </div>
+                        </div>
+                        <div class="parameter-line">
+                          <div class="parameter">
+                            <div class="parameter-name">
+                              {{_ 'moloch-request'}}
+                            </div>
+                            <div class="parameter-value parameter-token">
+                              {{#with request}}
+                                {{> balance}}
+                              {{/with}}
+                            </div>
+                          </div>
+                          <div class="parameter">
+                            <div class="parameter-name">
+                              {{_ 'moloch-tribute'}}
+                            </div>
+                            <div class="parameter-value parameter-token">
+                              {{#with tribute}}
+                                {{> balance}}
+                              {{/with}}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    {{/if}}
+                  {{else}}
+                    {{{title}}}
+                  {{/if}}
+                </div>
+              </div>
+            </div>
+            {{#unless ragequit}}
+              {{#if requiresClosing}}
+                {{#with closingData}}
+                  {{> countdown}}
+                {{/with}}
+              {{/if}}   
+              {{#if pollingEnabled}}
+                {{> poll list=pollList pollId=pollId rules=rules pollTotals=pollTotals quadratic=quadraticEnabled balance=balanceEnabled}}
+              {{else}}
+                {{> poll list=pollList placeholder=true}}
+              {{/if}}
+              {{#if tally}}
+                {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly displayActions=displayActions rules=rules}}
+              {{/if}}
+            {{/unless}}
+          </div>
+        </div>
+        {{#unless isPhone}}
+          {{#if replyEditor}}
+            {{#with replyData}}
+              {{> compose}}
+            {{/with}}
+          {{/if}}
+        {{/unless}}
+      {{/unless}}
+    {{/if}}
+  {{/if}}
 </template>

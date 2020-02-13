@@ -15,7 +15,6 @@ Buckminster Fuller, Great San Francisco Architect.
 
 A Roma, <3
 
-*/
 /* global alert */
 
 import { Meteor } from 'meteor/meteor';
@@ -24,70 +23,171 @@ import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { SearchSource } from 'meteor/meteorhacks:search-source';
 import { Template } from 'meteor/templating';
-import { displayLogin } from '/imports/ui/modules/popup';
+import { Router } from 'meteor/iron:router';
 
+import { sync } from '/imports/ui/templates/layout/sync';
+import { toggleSidebar } from '/imports/ui/modules/menu';
 import { globalObj } from '/lib/global';
-import './main.html';
-import '../widgets/modal/modal';
-import '../widgets/popup/popup';
-import './sidebar/sidebar';
-import './navigation/navigation';
+import { geo } from '/lib/geo';
+import { token } from '/lib/token';
+import { gui } from '/lib/const';
+import { getCSS } from '/imports/ui/templates/layout/templater';
+import { resetSplit } from '/imports/ui/modules/split';
 
-Meteor.startup(() => {
-  // Mail server settings
-  process.env.MAIL_URL = Meteor.settings.smtpServer;
 
+import '/imports/ui/templates/layout/main.html';
+import '/imports/ui/templates/widgets/modal/modal';
+import '/imports/ui/templates/widgets/popup/popup';
+import '/imports/ui/templates/layout/url/topbar/topbar';
+import '/imports/ui/templates/layout/sidebar/sidebar';
+import '/imports/ui/templates/layout/navigation/navigation';
+import '/imports/ui/templates/layout/response/verifyEmail/verifyEmail';
+import '/imports/ui/templates/layout/touchmenu/touchmenu';
+import '/imports/ui/templates/components/decision/editor/editor';
+
+/*
+* head content
+*/
+const _head = () => {
+  // icons
+  const icon = $('<link>', {
+    rel: 'shortcut icon',
+    type: 'image/x-icon',
+    href: `${Meteor.settings.public.app.logo}`,
+  });
+  const mobile = $('<link>', {
+    rel: 'apple-touch-icon',
+    href: `${Meteor.settings.public.app.logo}`,
+  });
+
+  $('head').append(icon);
+  $('head').append(mobile);
+
+  // design
+  getCSS();
+};
+
+Meteor.startup(async () => {
   // setup language
-  Session.set("showLoadingIndicator", true);
+  Session.set('showLoadingIndicator', true);
 
   // internationalization library
   TAPi18n.setLanguage(Meteor.settings.public.app.language)
     .done(function () {
-      Session.set("showLoadingIndicator", false);
+      Session.set('showLoadingIndicator', false);
     })
-    .fail(function (error_message) {
-      console.log(error_message);
+    .fail(function (errorMessage) {
+      console.log(errorMessage);
     });
 
-  //scripts
-  $.getScript('js/spinner.js', function(){});
+  // scripts
+  // $.getScript('js/datepicker.js', () => {});
 
-  //time
-  Meteor.call("getServerTime", function (error, result) {
-      Session.set("time", result);
-  });
+  // head
+  _head();
 
-  //Search Engine for Tags
+  // time
+  Meteor.setInterval(function () {
+    Meteor.call('getServerTime', function (error, result) {
+      Session.set('time', result);
+    });
+  }, 60000);
+
+  await sync();
+
+  // search Engine for Tags
   Session.set('createTag', false);
   globalObj.TagSearch = new SearchSource('tags', ['text', 'url'], {
     keepHistory: 1000 * 60 * 5,
-    localSearch: true
+    localSearch: true,
   });
 
-  //Search Engine for Proposals
+  // search Engine for Proposals
   Session.set('createProposal', false);
   globalObj.ProposalSearch = new SearchSource('contracts', ['title', 'description'], {
     keepHistory: 1000 * 60 * 5,
     localSearch: true,
   });
 
-  //Geographical Info
-  HTTP.get(Meteor.absoluteUrl("data/geo.json"), function(err,result) {
-    globalObj.geoJSON = result.data;
-    Session.set('filteredCountries', result.data.country);
+  // geographical sovereignty
+  globalObj.geoJSON = geo;
+
+  // cryptographical sovereignty
+  globalObj.tokenJSON = token;
+});
+
+const _done = () => {
+  $('.preloader-image').velocity({ opacity: 0 }, {
+    duration: 350,
+    complete: () => {
+      resetSplit();
+      document.getElementById('preloader-splash').remove();
+    },
   });
+};
+
+Template.main.onRendered(() => {
+  if (document.getElementsByClassName('inhibitor').length > 0) {
+    document.getElementsByClassName('inhibitor')[0].addEventListener('touchmove', (e) => { e.preventDefault(); });
+  }
+
+  if (!Meteor.Device.isPhone() && $(window).width() < gui.MOBILE_MAX_WIDTH) {
+    $('.navbar').css('left', 0);
+    Session.set('miniWindow', true);
+    if (Meteor.user()) { Session.set('sidebar', true); }
+    toggleSidebar();
+  } else if (!Meteor.Device.isPhone()) {
+    Session.set('sidebar', false);
+    toggleSidebar();
+  }
+});
+
+Template.preloader.onRendered(() => {
+  const interval = setInterval(function () {
+    if (document.readyState === 'complete') {
+      clearInterval(interval);
+      document.getElementsByClassName('preloader-image')[0].style.opacity = 1;
+      _done();
+    }
+    const opacity = document.getElementsByClassName('preloader-image')[0].style.opacity.toNumber();
+    const newShade = parseFloat(opacity + 0.02, 10);
+    if (newShade <= 1) {
+      document.getElementsByClassName('preloader-image')[0].style.opacity = newShade;
+    }
+  }, 100);
+});
+
+Template.preloader.helpers({
+  appIcon() {
+    if (Meteor.settings.public.app.logo) {
+      return `${Router.path('home')}${Meteor.settings.public.app.logo}`;
+    }
+    return `${Router.path('home')}images/olive.png`;
+  },
+});
+
+Template.main.helpers({
+  popupList() {
+    return Session.get('popupList');
+  },
+  showNotice() {
+    return Session.get('showNotice');
+  },
+  landingStyle() {
+    if (!Meteor.user()) {
+      return 'right-hero';
+    }
+    return '';
+  },
+  loggedWithPhone() {
+    return (Meteor.Device.isPhone() && Meteor.user());
+  },
 });
 
 Template.main.events({
-  'mouseup #content'(event) {
-    if (Session.get('displayPopup')) {
-      if (event.target.parentElement.id !== 'loggedUser') {
-        if (event.target.id !== 'loggedUser') {
-          if (event.target.id !== 'agora-login') {
-            displayLogin(event);
-          }
-        }
-      }
-    }
+  'click .inhibitor'() {
+    toggleSidebar();
   },
 });
+
+export const head = _head;

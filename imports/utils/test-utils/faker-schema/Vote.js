@@ -7,14 +7,14 @@ export const DelegationContract = {
       type: 'string',
     },
     delegatorId: {
-      type: 'string'
+      type: 'string',
     },
     contractId: {
-      type: 'string'
+      type: 'string',
     },
     votes: {
       type: 'number',
-      minimum: 0
+      minimum: 0,
     },
     tags: {
       type: Array,
@@ -22,30 +22,30 @@ export const DelegationContract = {
         type: 'object',
         properties: {
           _id: {
-            type: 'string'
+            type: 'string',
           },
           text: {
-            type: 'string'
-          }
-        }
-      }
-    }
-  }
+            type: 'string',
+          },
+        },
+      },
+    },
+  },
 };
 
 export const Delegation = {
   received: {
     type: 'array',
     items: {
-      type: DelegationContract
-    }
+      type: DelegationContract,
+    },
   },
   sent: {
     type: 'array',
     items: {
-      type: DelegationContract
-    }
-  }
+      type: DelegationContract,
+    },
+  },
 };
 
 export const Vote = {
@@ -53,14 +53,14 @@ export const Vote = {
   properties: {
     total: {
       type: 'number',
-      minimum: 0
+      minimum: 0,
     },
     delegations: {
-      type: Delegation
+      type: Delegation,
     },
-    wallet: Wallet
+    wallet: Wallet,
   },
   required: [
-    'total'
-  ]
+    'total',
+  ],
 };

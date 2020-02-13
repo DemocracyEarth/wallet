@@ -12,7 +12,7 @@ export const Tag = {
       },
     },
     url: {
-      faker: 'internet.url'
+      faker: 'internet.url',
     },
     authors: {
       type: 'array',
@@ -20,21 +20,21 @@ export const Tag = {
         type: 'object',
         properties: {
           _id: {
-            type: 'string'
-          }
+            type: 'string',
+          },
         },
-        required: ['_id']
-      }
+        required: ['_id'],
+      },
     },
     createdAt: {
-      faker: 'date.past'
+      faker: 'date.past',
     },
     lastUpdate: {
-      faker: 'date.past'
+      faker: 'date.past',
     },
     authorized: {
-      type: 'boolean'
-    }
+      type: 'boolean',
+    },
   },
   required: [
     'text',
@@ -42,6 +42,6 @@ export const Tag = {
     'url',
     'createdAt',
     'lastUpdate',
-    'authorized'
-  ]
+    'authorized',
+  ],
 };

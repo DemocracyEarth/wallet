@@ -16,7 +16,7 @@ describe('accounts', function () {
         id: 1,
         first_name: 'neymar',
         last_name: 'jr',
-        link: 'http://facebook.com/neymarjr',
+        link: 'https://facebook.com/neymarjr',
       };
 
       const userId = Accounts.updateOrCreateUserFromExternalService(
@@ -27,7 +27,7 @@ describe('accounts', function () {
 
       const user = Meteor.users.findOne(userId);
 
-      assert.equal(user.profile.picture, `http://graph.facebook.com/${fbUser.id}/picture/?type=large`);
+      assert.equal(user.profile.picture, `https://graph.facebook.com/${fbUser.id}/picture/?type=large`);
       assert.equal(user.profile.firstName, fbUser.first_name);
       assert.equal(user.profile.lastName, fbUser.last_name);
       assert.equal(user.profile.credentials[0].URL, fbUser.link);

@@ -1,16 +1,34 @@
 <template name="card">
   <div class="login">
-    <div class="w-form">
-      {{> avatar profile=this includeName=true includeNation=true editable=false disabled=true includeRole=false}}
+      {{> avatar profile=this includeName=true includeNation=true includeAddress=true editable=false disabled=true includeRole=false}}
+
+<!--
+      {{#with profile}}
+        {{> liquid _id=this.balanceId targetId=this.targetId wallet=this.wallet isDelegation=false editable=false hideBar=true balanceMode=true}}
+      {{/with}}
+-->
+
+      {{#with user}}
+        {{> multiTokenProfile}}
+      {{/with}}
+
       {{#if currentUser}}
         {{#unless myself}}
-          <div id="delegate" name="{{delegationKeyword}}" class="button login-button">
-            <div>{{_ 'delegate-votes'}}</div>
+          <div class="login-label title-label">
+            {{_ 'alliance'}}
           </div>
-        {{else}}
-          {{> power editable=false}}
+          {{#if displayDelegation}}
+            {{#with delegationContract}}
+              {{> transaction contract=this.contractReceiver senderId=this.receiverId receiverId=this.senderId onCard=true compressed=true notUser=true noDate=true}}
+              {{> transaction contract=this.contractSender senderId=this.senderId receiverId=this.receiverId onCard=true compressed=true editable=true voteId=this.voteId noDate=true}}
+            {{/with}}
+            {{#with voteSettings}}
+              {{> liquid _id=this.voteId sourceId=this.sourceId contract=contract targetId=this.targetId wallet=this.wallet editable=true}}
+            {{/with}}
+          {{else}}
+            {{> spinner id=spinnerId style=spinnerStyle length=8}}
+          {{/if}}
         {{/unless}}
       {{/if}}
-    </div>
   </div>
 </template>

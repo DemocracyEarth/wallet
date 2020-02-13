@@ -1,9 +1,11 @@
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
+import { ReactiveVar } from 'meteor/reactive-var';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { animationSettings } from '/imports/ui/modules/animation';
+import { getRightToVote } from '/imports/ui/modules/ballot';
 
 import './toggle.html';
 
@@ -58,35 +60,31 @@ function displayToggle() {
   }
 }
 
-Template.toggle.onRendered = () => {
+Template.toggle.onRendered(() => {
   displayToggle();
   Session.set('clickedToggle', this.setting);
-};
+});
 
 Template.toggle.helpers({
   value() {
-    if (this.setting === Session.get('clickedToggle')) {
-      const node = $(`.${this.setting}`).children();
-      toggle(node, this.value, false);
-    } else if (toggleMap[this.setting] === undefined) {
-      toggleMap[this.setting] = this.value;
-    }
+    return this.value;
   },
-  setting() {
-    toggleMap[this.setting] = this.value;
-    displayToggle();
-    return this.setting;
+  enabledStyle() {
+    if (!this.enabled) {
+      return 'toggle-disabled';
+    }
+    return '';
   },
 });
 
 Template.toggle.events({
   'click #toggleButton'() {
-    if (!Session.get('rightToVote') || Session.get('contract').stage === 'DRAFT') {
-      Session.set('clickedToggle', this.setting);
-      toggle($(`.${this.setting}`).children(), !this.value, true);
-      const obj = {};
-      obj[this.setting] = !this.value;
-      Contracts.update(Session.get('contract')._id, { $set: obj });
+    if (this.enabled) {
+      const session = Template.currentData().sessionContract;
+      const contract = Session.get(session);
+      const currentValue = contract.rules[Template.currentData().rules];
+      contract.rules[Template.currentData().rules] = !currentValue;
+      Session.set(session, contract);
     }
   },
 });

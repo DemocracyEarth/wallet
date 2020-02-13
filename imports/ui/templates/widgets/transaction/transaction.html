@@ -1,0 +1,203 @@
+<template name="transaction">
+  {{#if placeholder}}
+    <div class="vote vote-delegation vote-feed vote-search w-clearfix">
+      <div class="identity identity-transaction w-clearfix" style="float:left">
+        {{> avatar placeholder=true size=24}}
+      </div>
+      <table class="transaction-data w-clearfix">
+        <tr>
+          <td>
+            <div class="w-inline-block w-clearfix option-proposal">
+              <div class="option-title option-link option-search title-input">
+                 <div class="title-input title-feed">
+                   <div class="option-placeholder fifty float-right" style="margin:5px 0px 0px 10px; height:15px;"></div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  {{else}}
+    <div id="transactionItem-{{contract._id}}" class="vote vote-delegation vote-feed vote-search {{onCard}} w-clearfix">
+      {{#if compressed}}
+        <div class="identity identity-transaction w-clearfix" style="float:left">
+          {{#with sender}}
+            {{> avatar size=32 profile=this._id includeName=false includeNation=false editable=false microFont=true disabled=true includeRole=false imgStyle=this.imgStyle}}
+          {{/with}}
+        </div>
+        <div class="float-left">
+          <a href='{{blockchainHash}}' title='{{blockchainInfo}}' target="_blank">
+            <img src="{{transactionIcon}}" class="transaction-direction" style="margin-top: 3px; ">
+          </a>
+        </div>
+        <div class="identity identity-transaction w-clearfix" style="float:left">
+          {{#with receiver}}
+            {{> avatar size=32 profile=this._id includeName=false includeNation=false editable=false microFont=true disabled=true includeRole=false imgStyle=this.imgStyle}}}
+          {{/with}}
+        </div>
+      {{else}}
+        {{#if isVote}}
+          <table class="transaction-data w-clearfix">
+            <tr>
+              {{#if isRevoke}}
+                {{#if isSubsidy}}
+                  {{> collectivePreview collectiveId=this.senderId}}
+                {{else}}
+                  <td class="actor">
+                    <div class="actor actor-score actor-score-ballot">
+                      <div class="transaction-value">
+                        <div class="bar-labels">
+                          <div class="vote-available label-votes">
+                            <div class="stage stage-vote {{revokeStyle}} {{stage}}">
+                              <div class="label label-corner">
+                                <div class="checkbox-mini">
+                                  <div class="checkmark_kick"></div>
+                                  <div class="checkmark_stem"></div>
+                                </div>
+                                {{ballotOption}}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {{#unless hidePost}}
+                      {{> preview contractId=this.senderId}}
+                    {{/unless}}
+                  </td>
+                {{/if}}
+              {{else}}
+                <td class="actor">
+                  <div class="identity identity-transaction w-clearfix">
+                    {{#with sender}}
+                      {{> avatar size=24 profile=this._id includeName=true includeNation=true editable=false microFont=true disabled=false includeRole=false flex=true}}
+                    {{/with}}
+                  </div>
+                </td>
+              {{/if}}
+              {{#if ragequit}}
+                {{#unless hidePost}}
+                  {{#with ragequitPost}}
+                    {{> preview}}
+                  {{/with}}
+                {{/unless}}
+              {{else}}
+                {{#if isRevoke}}
+                  <td class="actor">
+                    <div class="identity identity-transaction w-clearfix">
+                      {{#with receiver}}
+                        {{> avatar size=24 profile=this._id includeName=true includeNation=true editable=false microFont=true disabled=false includeRole=false flex=true}}
+                      {{/with}}
+                    </div>
+                  </td>
+                {{else}}
+                  {{#if isCrypto}}
+                    {{#unless hidePost}}
+                      {{> preview contractId=this.receiverId}}
+                    {{/unless}}
+                  {{else}}
+                    {{#unless isSubsidy}}
+                      <td class="actor">
+                        <div class="actor actor-score actor-score-ballot">
+                          <div class="transaction-value">
+                            <div class="bar-labels">
+                              <div class="vote-available label-votes">
+                                <div class="stage stage-vote {{stage}}">
+                                  <div class="label label-corner">
+                                    <div class="checkbox-mini">
+                                      <div class="checkmark_kick"></div>
+                                      <div class="checkmark_stem"></div>
+                                    </div>
+                                    {{ballotOption}}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      {{#unless hidePost}}
+                        {{> preview contractId=this.receiverId}}
+                      {{/unless}}
+                    {{/unless}}
+                  {{/if}}
+                {{/if}}
+              {{/if}}
+            </tr>
+          </table>
+        {{else}}
+          <table class="transaction-data w-clearfix">
+            <tr>
+              <td class="actor">
+                <div class="identity identity-transaction w-clearfix">
+                  {{#with sender}}
+                    {{> avatar size=24 profile=this._id includeName=true includeNation=true editable=false microFont=true disabled=false includeRole=false flex=true}}
+                  {{/with}}
+                </div>
+              </td>
+              <td class="actor actor-arrow">
+                <a href='{{blockchainHash}}' title='{{blockchainInfo}}' target="_blank">
+                  <img src="{{transactionIcon}}" class="transaction-direction">
+                </a>
+              </td>
+              <td class="actor">
+                <div class="identity identity-transaction w-clearfix">
+                  {{#with receiver}}
+                    {{> avatar size=24 profile=this._id includeName=true includeNation=true editable=false microFont=true disabled=false includeRole=false flex=true}}
+                  {{/with}}
+                </div>
+              </td>
+            </tr>
+          </table>
+        {{/if}}
+      {{/if}}
+      {{#unless noDate}}
+        <div class="data data-feed data-transaction">
+          <div class="margin-both">
+            <img src="{{getImage 'clock'}}" class="clock-icon">
+            <div class="verifier verifier-live verifier-feed verifier-mini">{{sinceDate}}</div>
+          </div>
+        </div>
+      {{/unless}}
+
+      {{#if fromLedger}}
+        {{#with token}}
+          {{> balance}}
+        {{/with}}
+      {{else}}
+        <div class="actor actor-score">
+          <div class="transaction-value">
+            <div class="bar-labels">
+              <div class="vote-available label-votes">
+                <div class="{{voteStyle}}">
+                  <div class="label label-corner">
+                    {{{value}}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/if}}
+
+    </div>
+  {{/if}}
+</template>
+
+<template name="collectivePreview">
+  <td class="actor">
+    <div class="identity identity-transaction w-clearfix">
+      <img class="collective-icon collective-icon-small" src="{{pathFor route='home'}}{{flag}}">
+    </div>
+  </td>
+  <td class="actor">
+    <div class="identity identity-transaction w-clearfix">
+      <div class="identity-peer">
+        <a href="{{url}}" class="identity-label identity-label-micro">
+          {{name}}
+        </a>
+      </div>
+    </div>
+  </td>
+</template>

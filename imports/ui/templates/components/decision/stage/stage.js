@@ -5,19 +5,22 @@ import { countdown } from '/imports/ui/modules/chronos';
 import './stage.html';
 
 Template.stage.helpers({
-  text: function () {
-    switch(this.text) {
+  text() {
+    const ticker = countdown(this.closingDate);
+    switch (this.text) {
       case 'DRAFT':
         return TAPi18n.__('kind-draft-vote');
       case 'LIVE':
-        var ticker = countdown(this.closingDate);
-        if (ticker != false) {
-          return ticker;
-        } else {
-          return TAPi18n.__('poll-closed')
+      default:
+        if (this.permanentElection) {
+          return TAPi18n.__('always-on');
         }
+        if (ticker !== false) {
+          return ticker;
+        }
+        return TAPi18n.__('poll-closed');
       case 'FINISH':
-        switch(this.executionStatus) {
+        switch (this.executionStatus) {
           case 'APPROVED':
             return TAPi18n.__('kind-finish-vote-approved');
           case 'ALTERNATIVE':
@@ -25,18 +28,23 @@ Template.stage.helpers({
           case 'REJECTED':
             return TAPi18n.__('kind-finish-vote-rejected');
           case 'VOID':
+          default:
             return TAPi18n.__('kind-finish-vote-void');
         }
     }
   },
-  style: function (stage, executionStatus) {
+  style() {
     switch (this.text) {
       case 'DRAFT':
         return 'stage-draft';
       case 'LIVE':
+      default:
+        if (this.permanentElection) {
+          return 'stage-finish-alternative';
+        }
         return 'stage-live';
       case 'FINISH':
-        switch(this.executionStatus) {
+        switch (this.executionStatus) {
           case 'APPROVED':
             return 'stage-finish-approved';
           case 'ALTERNATIVE':
@@ -44,8 +52,9 @@ Template.stage.helpers({
           case 'REJECTED':
             return 'stage-finish-rejected';
           case 'VOID':
+          default:
             return 'stage-draft';
         }
     }
-  }
-})
+  },
+});

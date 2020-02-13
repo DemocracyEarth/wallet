@@ -1,23 +1,18 @@
 <template name="collective">
-  <div class="collective">
+  <div id='collective-login' class="collective {{toggle}}" title="{{currentUser.username}}">
     {{#if hasLogo}}
       <img class="collective-icon" src="{{pathFor route='home'}}{{picture}}">
-    {{else}}
-      <div class="collective-title">{{title}}</div>
     {{/if}}
-    <div>{{description}}</div>
-
-    <!-- TODO: stats of collective
-      <div class="collective-info">
-        <div class="collective-stat w-clearfix"><img class="collective-stat-icon" src="images/member-card.png">
-          <div>
-            <a wf-temp-elem="">
-              45&nbsp;members
-            </a>
-          </div>
-        </div>
+    <div class="collective-profile">
+      <div id="collective-home" class="collective-title">
+        {{title}}
       </div>
-    -->
-
+      {{#if currentUser}}
+        {{> avatar size=20 profile=currentUser._id loginMode=true includeName=false includeNation=false editable=false microFont=true disabled=true includeRole=false}}
+        {{username}}
+      {{else}}
+        {{_ 'log-in-network'}}
+      {{/if}}
+    </div>
   </div>
 </template>

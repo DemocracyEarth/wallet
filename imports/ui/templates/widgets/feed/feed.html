@@ -1,18 +1,31 @@
 <template name="feed">
-
-  <div class="feed">
-
-      <ul class="type w-clearfix w-list-unstyled">
-        {{#each item}}
-          {{> feedItem}}
+  {{#if Template.subscriptionsReady}}
+    {{#if refresh}}
+      {{#unless empty true}}
+        {{#each placeholderItem}}
+          {{> feedItem placeholder=true}}
         {{/each}}
-      </ul>
-
-      {{#if emptyFeed}}
-        {{> feedEmpty emptyContent}}
+      {{else}}
+        {{> warning label="empty-feed"}}
+      {{/unless}}
+    {{else}}
+      {{#each item}}
+        {{> feedItem}}
+      {{/each}}
+      {{#if empty}}
+        {{> warning label="empty-feed"}}
       {{/if}}
-
-    
-  </div>
-
+      {{#unless single}}
+        {{> paginator options=options count=count subfeed=subfeed lastItem=lastItem identifier=identifier}}
+      {{/unless}}
+    {{/if}}
+  {{else}}
+    {{#if beginning}}
+      {{#each placeholderItem}}
+        {{> feedItem placeholder=true}}
+      {{/each}}
+    {{else}}
+      {{> feedLoad}}
+    {{/if}}
+  {{/if}}
 </template>

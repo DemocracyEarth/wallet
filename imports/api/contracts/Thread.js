@@ -5,13 +5,13 @@ const Schema = {};
 Schema.Thread = new SimpleSchema({
   id: {
     type: String,
-    autoValue: function () {
+    autoValue() {
       return guidGenerator();
-    }
+    },
   },
   userId: {
     type: String,
-    optional: true
+    optional: true,
   },
   action: {
     type: String,
@@ -19,7 +19,7 @@ Schema.Thread = new SimpleSchema({
     autoValue: function () {
       if (this.isInsert) {
         return 'COMMENT';
-      };
+      }
     }
   },
   children: {
@@ -93,27 +93,25 @@ Schema.Thread = new SimpleSchema({
       }
     }
   },
-  sort: {
+  votes: {
     type: Array,
     optional: true
   },
-  "sort.$": {
+  'votes.$': {
     type: Object,
     optional: true
   },
-  "sort.$.upvotes": {
-    type: Number
+  'votes.$.quantity': {
+    type: Number,
+    optional: true,
   },
-  "sort.$.downvotes": {
-    type: Number
-  },
-  "sort.$.userId": {
-    type: String
+  'votes.$.userId': {
+    type: String,
   },
   sortTotal: {
     type: Number,
     optional: true,
-    autoValue: function () {
+    autoValue() {
       if (this.isInsert) {
         return 0;
       }

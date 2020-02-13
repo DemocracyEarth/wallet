@@ -1,9 +1,211 @@
 <template name="home">
+  {{> hero postMode=post}}
+  
+  {{#unless newLogin}}
+    {{#each mode in modeArray}}
+      {{> screen this}}
+    {{/each}}
+  {{else}}
+    {{> homeFeed this}}
+  {{/unless}}
+</template>
 
-    <div class="content content-feed">
-      {{> feed}}
+<template name="screen">
+  <div class="{{anonymousContext}}">
+    {{#if post}}
+      {{> postFeed this}}
+    {{else}}
+      {{#if period}}
+        {{> periodFeed this}}
+      {{else}}
+        {{> homeFeed this}}
+      {{/if}}
+    {{/if}}
+  </div>
+</template>
+
+<template name="homeFeed">
+  {{> alert}}
+  {{#if isPhone}}
+    {{#with menu}}
+      {{> tabs}}
+    {{/with}}
+  {{/if}}  
+  <div id="main-feed" class="split split-left {{landingMode 'left'}}">
+    <div class="content content-feed max100">
+      {{#unless isPhone}}
+        {{#unless dictator}}
+          {{#unless replyMode}}
+            {{#unless minimizedMode}}
+              {{> compose desktopMode=true replyMode=false}}
+            {{else}}
+              {{> compose desktopMode=true replyMode=false compressed=true}}
+            {{/unless}}
+          {{else}}
+            {{> compose desktopMode=true replyMode=false compressed=true}}
+          {{/unless}}
+        {{/unless}}
+      {{else}}
+        {{#if editorMode}}
+          {{> editor contractId=newContractId}}
+        {{/if}}
+      {{/unless}}
+
+      {{#if isPhone}}
+        <input id="hiddenInput" style="visibility: hidden; position: absolute;">
+      {{/if}}
+
+      <div id="non-editable-feed">
+        {{#unless isPhone}}
+          <h4 class="padding-left-zero">{{{feedTitle}}}</h4>
+        {{/unless}}
+        {{#if feedReady}}
+          {{> feed mainFeed}}
+        {{/if}}
+      </div>
     </div>
+  </div>
 
-    {{> compose}}
+  {{#if showTransactions}}
+    <div id="alternative-feed" class="split split-right {{landingMode 'right'}}">
+      {{#if feedReady}}
+        <div class="agora">
+          <div class="content content-agora">
+            {{#if replicaReady}}
+              {{#if isPerson}}
+                {{#unless isPhone}}
+                  <div class="ledger-title">
+                    <h4>{{_ 'replica-person'}}</h4>
+                  </div>
+                {{else}}
+                  <div class="ledger-title ledger-title-empty"></div>
+                {{/unless}}
+                {{#with address}}
+                  {{> replica this}}
+                {{/with}}
+              {{else}}
+                {{#unless isPhone}}
+                  <div class="ledger-title">
+                    <h4>{{_ 'moloch-guild'}}</h4>
+                  </div>
+                {{else}}
+                  <div class="ledger-title ledger-title-empty"></div>
+                {{/unless}}
+                {{#with collective}}
+                  {{> guild this}}
+                {{/with}}
+              {{/if}}
 
+              {{#with mainLedger}}
+                <a href="#votes"></a>
+                {{> ledger this}}
+              {{/with}}
+
+            {{/if}}
+            <div id="resizable" class="resize"></div>
+          </div>
+        </div>
+      {{/if}}
+    </div>
+  {{/if}}
+
+  {{#if displayLanding}}
+    {{> landing}}
+  {{/if}}  
+
+  {{#unless dictator}}
+    {{#if isPhone}}
+      {{#unless adminBallotCreatorOnly}}
+        {{> compose desktopMode=false replyMode=false}}
+      {{/unless}}
+    {{/if}}
+  {{/unless}}
+</template>
+
+<template name="postFeed">
+  {{> alert}}
+  {{#if isPhone}}
+    {{#with menu}}
+      {{> tabs}}
+    {{/with}}
+  {{/if}}  
+  <div id="main-feed" class="split split-left {{landingMode 'left'}}">
+    <div class="content content-feed subsection max100">
+      {{#if isPhone}}
+        {{#if editorMode}}
+          {{> editor contractId=newContractId}}
+        {{/if}}
+      {{/if}}
+
+      {{#if isPhone}}
+        <input id="hiddenInput" style="visibility: hidden; position: absolute;">
+      {{/if}}
+
+      <div id="non-editable-reply-feed">
+        {{#unless isPhone}}
+          <h4 class="padding-left-zero">{{{feedTitle}}}</h4>
+        {{/unless}}
+
+        {{#if postReady}}
+          {{#with thread}}
+            {{> feed this}}
+          {{/with}}
+        {{/if}}
+
+      </div>
+    </div>
+  </div>
+
+  {{#if showTransactions}}
+    <div id="alternative-feed" class="split split-right {{landingMode 'right'}}">
+      {{#if postReady}}
+        <div class="agora">
+          <div class="content content-agora">
+            {{#with votes}}
+              {{> ledger this}}
+            {{/with}}
+            <div id="resizable" class="resize"></div>
+          </div>
+        </div>
+      {{/if}}
+    </div>
+  {{/if}}
+</template>
+
+<template name="periodFeed">
+  {{> alert}}
+  {{#if isPhone}}
+    {{#with menu}}
+      {{> tabs}}
+    {{/with}}
+  {{/if}}    
+  <div id="main-feed" class="split split-left {{landingMode 'left'}}">
+    <div class="content content-feed max100">
+      <div id="non-editable-feed">
+        {{#unless isPhone}}
+          <h4 class="padding-left-zero">
+            {{{feedTitle}}}
+          </h4>
+        {{/unless}}
+        {{#if periodReady}}
+          {{#with thread}}
+            {{> feed this}}
+          {{/with}}
+        {{/if}}
+      </div>
+    </div>
+  </div>
+
+  <div id="alternative-feed" class="split split-right {{landingMode 'right'}}">
+    {{#if periodReady}}
+      <div class="agora">
+        <div class="content content-agora">
+          {{#with votes}}
+            {{> ledger this}}
+          {{/with}}
+          <div id="resizable" class="resize"></div>
+        </div>
+      </div>
+    {{/if}}
+  </div>
 </template>

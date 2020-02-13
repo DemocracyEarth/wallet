@@ -4,14 +4,14 @@
 
     {{#if settingRanking}}
       <div class="sort">
-        <div id="upvote" value="{{id}}" class="sort-button">
-          <img class="icon" src="{{pathFor route='home'}}images/upvote.png">
+        <div id="upvote" value="{{id}}" class="sort-button {{buttonStatus true}}" title="{{buttonRule true}}">
+          <img class="icon" src="{{upvote}}">
         </div>
         <div class="sort-score">
           <div>{{sortTotal}}</div>
         </div>
-        <div id="downvote" value="{{id}}" class="sort-button">
-          <img class="icon" src="{{pathFor route='home'}}images/downvote.png">
+        <div id="downvote" value="{{id}}" class="sort-button {{buttonStatus false}}" title="{{buttonRule false}}">
+          <img class="icon" src="{{downvote}}">
         </div>
       </div>
     {{/if}}
@@ -19,11 +19,14 @@
     <div class="argument {{noChildren}}">
       <ul class="extra w-clearfix w-list-unstyled">
         <li class="identity w-clearfix">
-          {{> avatar profile=userId includeName=true includeNation=true editable=false}}
-          <div class="cards">{{timestamp}}</div>
+          {{> avatar size=36 profile=userId includeName=true includeNation=true editable=false smallFont=true includeRole=false}}
         </li>
       </ul>
       <div class="paper paper-comment">
+        <div class="pointer-up pointer-agora">
+          <div class="pointer-up pointer-agora pointer-agora-inner">
+          </div>
+        </div>
         <div class="comment">
           <div>{{{content}}}</div>
         </div>
@@ -34,6 +37,9 @@
           {{> postComment id=id replyMode=true}}
         </div>
       {{else}}
+        <div class="agora-button micro-button agora-time">
+          <div class="cards">{{timestamp}}</div>
+        </div>
         {{#if currentUser}}
           <a id="replyToThread" value="{{id}}" class="agora-button micro-button w-clearfix w-inline-block">
             <img class="micro-icon" src="{{pathFor route='home'}}images/micro-draft.png">

@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
-import { convertToSlug } from '../../utils/functions';
+import { convertToSlug } from '../../../lib/utils';
 
 export const Tags = new Mongo.Collection('tags');
 
@@ -14,23 +14,23 @@ const TagSchema = new SimpleSchema({
   keyword: {
     // Unique identifier in DB as keyword-based-slug
     type: String,
-    autoValue: function() {
+    autoValue: function () {
       if (this.isInsert) {
         return convertToSlug(this.field('text').value);
-      };
+      }
     }
   },
   url: {
-     //URL that identifies this tag
+    // URL that identifies this tag
     type: String,
     autoValue: function () {
       if (this.isInsert) {
-        return '/tag/' + convertToSlug(this.field("text").value);
+        return '/tag/' + convertToSlug(this.field('text').value);
       }
     }
   },
   authors: {
-    //Collection of authors that signed this contract
+    // Collection of authors that signed this contract
     type: Array,
     optional: true
   },
@@ -42,7 +42,7 @@ const TagSchema = new SimpleSchema({
     autoValue: function () {
       if (this.isInsert) {
         return this.userId;
-      };
+      }
     }
   },
   createdAt: {
@@ -75,7 +75,7 @@ Tags.attachSchema(TagSchema);
 /*
 *  FIX: temporary workaround
 *  TBD: apply security best practices
-*  All to methods, validate paramenters
+*  All to methods, validate parameters
 */
 //permissions
 Tags.allow({

@@ -1,15 +1,13 @@
 // more like krypton than crypto still..
 
 const guidGen = () => {
-      var S4 = function() {
-       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-    };
-    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+  var S4 = function () {
+     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+  };
+  return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 };
 
-const _shortUUID = () => {
-  ('0000' + (Math.random() * Math.pow(36, 4) << 0).toString(36)).slice(-4)
-};
+const _nonce = () => ('0000' + (Math.random() * Math.pow(36, 4) << 0).toString(36)).slice(-4);
 
 let getBitcoinAddress = () => {
   var randArr = new Uint8Array(32) //create a typed array of 32 bytes (256 bits)
@@ -37,5 +35,5 @@ let getBitcoinAddress = () => {
   console.log(privateKeyWIFCompressed) //KwomKti1X3tYJUUMb1TGSM2mrZk1wb1aHisUNHCQXTZq5auC2qc3
 }
 
-export const shortUUID = _shortUUID;
+export const shortUUID = _nonce;
 export const guidGenerator = guidGen;

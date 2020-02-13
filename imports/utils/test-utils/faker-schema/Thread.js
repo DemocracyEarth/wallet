@@ -12,14 +12,13 @@ export const Thread = {
         'COMMENT',
         'VOTE',
         'SORT',
-        'REPLY'
-      ]
+        'REPLY',
+      ],
     },
     children: {
       type: 'array',
       items: {
-        type: Thread
-      }
+      },
     },
     ballot: {
       type: 'array',
@@ -27,41 +26,41 @@ export const Thread = {
         type: 'object',
         properties: {
           _id: {
-            type: 'string'
+            type: 'string',
           },
           mode: {
-            type: 'string'
+            type: 'string',
           },
           rank: {
-            type: 'number'
+            type: 'number',
           },
           url: {
             type: 'string',
-            faker: 'internet.url'
+            faker: 'internet.url',
           },
           label: {
-            type: 'string'
-          }
+            type: 'string',
+          },
         },
         required: [
           '_id',
           'mode',
-          'rank'
-        ]
-      }
+          'rank',
+        ],
+      },
     },
     placedVotes: {
       type: 'number',
-      minimum: 0
+      minimum: 0,
     },
     hasQuote: {
-      type: 'boolean'
+      type: 'boolean',
     },
     quote: {
-      type: 'string'
+      type: 'string',
     },
     content: {
-      type: 'string'
+      type: 'string',
     },
     sort: {
       type: 'array',
@@ -70,38 +69,38 @@ export const Thread = {
         properties: {
           upvotes: {
             type: 'number',
-            minimum: 0
+            minimum: 0,
           },
           downvotes: {
             type: 'number',
-            minimum: 0
+            minimum: 0,
           },
           userId: {
-            type:'string'
-          }
+            type: 'string',
+          },
         },
         required: [
           'upvotes',
           'downvotes',
-          'userId'
-        ]
-      }
+          'userId',
+        ],
+      },
     },
     sortTotal: {
       type: 'number',
-      minimum: 0
+      minimum: 0,
     },
     timestamp: {
       type: 'string',
-      faker: 'date.past'
+      faker: 'date.past',
     },
     status: {
       enum: [
         'NEW',
         'VERIFIED',
-        'PROCESSED'
-      ]
-    }
+        'PROCESSED',
+      ],
+    },
   },
   required: [
     'id',
@@ -109,6 +108,10 @@ export const Thread = {
     'children',
     'content',
     'timestamp',
-    'status'
-  ]
+    'status',
+  ],
 };
+
+// Avoid: https://eslint.org/docs/rules/no-use-before-define and
+// ReferenceError: Thread is not defined
+Thread.properties.children.items.type = Thread;

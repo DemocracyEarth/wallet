@@ -2,20 +2,23 @@
   <div data-collapse="medium" data-animation="default" data-duration="400" data-contain="1" class="w-nav navbar">
     <div class="w-container navcontainer">
 
-      <a id="menu" class="logo w-nav-brand">
-        <img src="{{pathFor route='home'}}{{icon}}" class="menu-button">
-      </a>
+      {{#if logo}}
+        <div class='logo-navbar'>
+          <img src="{{getImage 'navbar-icon'}}" class="logo logo-path">
+        </div>
+      {{/if}}
+
+      {{#if phoneScreen}}
+        <a id="burger" class="logo w-nav-brand">
+          <img src="{{getImage 'navbar-burger'}}" class="menu-button" ontouchstart="">
+        </a>
+      {{/if}}
 
       <div class="w-clearfix path">
         {{{screen}}}
       </div>
 
-      {{#if showNotice}}
-        {{> notice}}
-      {{/if}}
-
       {{> authentication}}
-      <!--{{> bureaucrat}}-->
     </div>
   </div>
 </template>

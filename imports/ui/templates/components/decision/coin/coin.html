@@ -1,0 +1,70 @@
+<template name="coin">
+  {{#if currentUser}}
+    <div class="login">
+      <div style="">
+        <div class="login-field">
+          <label for="name" class="login-label login-label-form">
+            {{_ 'voting-token'}}
+          </label>
+          <img src="{{getImage 'token'}}" class="login-icon">
+          <input type="text" placeholder="{{_ 'erc20-tokens'}}" autocomplete="off" value="{{token}}" class="w-input login-input token-search">
+          {{#if showTokens}}
+            {{> suggest tokenList=true}}
+          {{/if}}
+        </div>
+        <div class="login-field" style="{{addressStyle}}">
+          <label for="name" class="login-label login-label-form">
+            {{_ 'blockchain-address'}}
+          </label>
+          <img src="{{getImage 'blockchain-address'}}" class="login-icon">
+          <input type="text" id="editBlockchainAddress" placeholder="{{_ 'blockchain-address-placeholder'}}" value="{{address}}" autocomplete="false" class="w-input login-input login-input-domain">
+          {{#if wrongAddress}}
+            <div class="margin-top">
+              {{> warning label='blockchain-wrong-address'}}
+            </div>
+          {{/if}}
+        </div>
+      </div>
+      <div class="login-advanced login-label login-label-form">
+        <div class="login-label-subtitle">
+          {{_ 'decision-rules'}}
+        </div>
+        <div class="toggles">
+          {{> setting label='voting-editor-poll-voting' tooltip='voting-editor-poll-tooltip' toggle=true sessionContract="cachedDraft" rules="pollVoting" value=pollVoting enabled=true}}
+          {{> setting label='voting-editor-balance-toggle' tooltip='voting-editor-balance-tooltip' toggle=true sessionContract="cachedDraft" rules="balanceVoting" value=balanceVoting enabled=allowBalance}}
+          {{> setting label='voting-editor-quadratic-toggle' tooltip='voting-editor-quadratic-tooltip' toggle=true sessionContract="cachedDraft" rules="quadraticVoting" value=quadraticVoting enabled=allowQuadratic}}
+        </div>
+        <!--
+        <a id="advanced" href="#" rel="noopener noreferrer" target="_blank">
+          {{{_ 'advanced-rules'}}}
+          {{#if showAdvanced}}
+            <div class='login-advanced-link login-advanced-link-up'></div>
+          {{else}}
+            <div class='login-advanced-link login-advanced-link-down'></div>
+          {{/if}}
+        </a>
+        -->
+      </div>
+      <!--
+      {{#if showAdvanced}}
+        <div class="toggles">
+          
+        </div>
+      {{/if}}
+      -->
+      <div class="dropdown-buttons">
+         <div class="modal-buttons-padder modal-buttons-padder-left">
+           <div id="cancel-coin" class="button login-button button-secondary button-half">
+             <div>{{_ 'cancel'}}</div>
+           </div>
+         </div>
+         <div class="modal-buttons-padder modal-buttons-padder-right">
+           <div id="execute-coin" class="button login-button button-half {{buttonDisable}}">
+             <div>{{_ 'apply'}}</div>
+           </div>
+         </div>
+      </div>
+     </div>
+   {{/if}}
+</template>
+

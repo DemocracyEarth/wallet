@@ -1,0 +1,21 @@
+<template name="multiTokenProfile">
+  <div class="token-list">
+    {{#each tokens}}
+      <div class="token-wrap {{noBarStyle}}">
+        {{> balance}}
+      </div>
+      {{#unless this.disableBar}}
+        <!-- NOTE: this is all very hacky and done only for Web-Votes -->
+        <div class="poll-score">
+          <div class="poll-score-bar">
+            <div class="poll-score-bar-fill" style="width: {{pollScore this.available}}">
+            </div>
+          </div>
+          <div class="poll-score-percentage {{smallPercentageStyle}}" style=" margin-top:20px;">
+            {{pollScore this.available}}
+          </div>
+        </div>
+      {{/unless}}
+    {{/each}}
+  </div>
+</template>

@@ -1,0 +1,78 @@
+{
+  "stylesheet": {
+    "list": ["/styles/normalize.css", "/styles/webflow.css", "/templates/decentraland/css/decentraland.css", "/templates/decentraland/css/extra.css"]
+  },
+
+  "header": {
+    "html": "<div class='story'><div class='dcl parallax'><div class='layer' data-depth='2'><div class='pyramid small'></div></div><div class='layer' data-depth='4'><div class='pyramid large'></div></div></div></div>",
+    "callToAction": false
+  },
+
+  "lib": {
+    "token" : "/templates/decentraland/lib/token.json",
+    "geo": "/templates/decentraland/lib/geo.json"
+  },
+
+  "spinner": {
+    "lines": 17,
+    "length": 6,
+    "width": 1.5,
+    "radius": 16,
+    "scale": 0.4,
+    "corners": 1,
+    "color": "#5a0075",
+    "opacity": 0.3,
+    "rotate": 0,
+    "direction": 1,
+    "speed": 1,
+    "trail": 60,
+    "fps": 20,
+    "zIndex": 9996,
+    "className": "spinner",
+    "top": "0px",
+    "left": "auto",
+    "shadow": false,
+    "hwaccel": false,
+    "position": "relative"
+  },
+
+  "images": {
+    "back": "/templates/decentraland/images/back.png",
+    "black": "/templates/decentraland/images/black.png",
+    "block": "/templates/decentraland/images/block.png",
+    "clock": "/templates/decentraland/images/clock.png",
+    "debate": "/templates/decentraland/images/debate.png",
+    "reply": "/templates/decentraland/images/reply.png",
+    "tweet": "/templates/decentraland/images/tweet.png",
+    "vote": "/templates/decentraland/images/vote.png",
+    "flag": "/templates/decentraland/images/flag.png",
+    "camera": "/templates/decentraland/images/camera.png",
+    "forward": "/templates/decentraland/images/forward.png",
+    "token": "/templates/decentraland/images/token.png",
+    "domain": "/templates/decentraland/images/domain.png",
+    "decision-draft": "/templates/decentraland/images/decision-draft.png",
+    "blockchain-address": "/templates/decentraland/images/blockchain-address.png",
+    "fingerprint": "/templates/decentraland/images/fingerprint.png",
+    "logout": "/templates/decentraland/images/logout.png",
+    "vote-icon-black": "/templates/decentraland/images/vote-icon-black.png",
+    "mail-closed": "/templates/decentraland/images/mail-closed.png",
+    "mail-closed-login-button": "/templates/decentraland/images/mail-closed-login-button.png",
+    "lock": "/templates/decentraland/images/lock.png",
+    "id-card": "/templates/decentraland/images/id-card.png",
+    "calendar-enabled": "/templates/sovereign/images/calendar-enabled.png",
+    "calendar-active": "/templates/sovereign/images/calendar-active.png",
+    "calendar-disabled": "/templates/sovereign/images/calendar-disabled.png",
+    "vote-enabled": "/templates/sovereign/images/vote-enabled.png",
+    "vote-active": "/templates/sovereign/images/vote-active.png",
+    "vote-disabled": "/templates/sovereign/images/vote-disabled.png",
+    "electorate-check-active": "/templates/sovereign/images/electorate-check-active.png",
+    "electorate-check-editor": "/templates/sovereign/images/electorate-check-editor.png",
+    "electorate-check-enabled": "/templates/sovereign/images/electorate-check-enabled.png",
+    "electorate-check-reject-active": "/templates/sovereign/images/electorate-check-reject-active.png",
+    "electorate-check-reject-enabled": "/templates/sovereign/images/electorate-check-reject-enabled.png",
+    "navbar-icon": "/templates/decentraland/images/decentraland-logo.svg",
+    "navbar-burger": "/templates/decentraland/images/burger.png",
+    "navbar-burger-active": "/templates/decentraland/images/burger-active.png"
+  }
+
+}

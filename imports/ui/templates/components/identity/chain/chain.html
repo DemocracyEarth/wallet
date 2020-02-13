@@ -1,0 +1,12 @@
+<template name="chain">
+  <div id="chainAddress" class="margin-top-minus-three">
+    <img src="{{pathFor route='home'}}images/block.png" class="clock-icon">
+    {{#if hasAddress}}
+      <a id="blockchain-explorer" title="{{fullAddress}}" href="{{link}}" target="_blank">
+        <div class="verifier verifier-live verifier-feed verifier-mini verifier-key">{{address}}</div>
+      </a>
+    {{else}}
+      <div class="verifier verifier-live verifier-feed verifier-mini">{{_ 'syncing'}}</div>
+    {{/if}}
+  </div>
+</template>

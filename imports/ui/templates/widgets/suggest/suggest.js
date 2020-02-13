@@ -4,46 +4,72 @@ import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 
 import { animationSettings } from '/imports/ui/modules/animation';
-import './suggest.html';
+import '/imports/ui/templates/widgets/suggest/suggest.html';
 
-Template.suggest.rendered = function rendered() {
+Template.suggest.onRendered(() => {
   Session.set('noMatchFound', false);
+  Session.set('noCoinFound', false);
 
-  $('.suggest').css('height', '0');
-  $('.suggest').velocity({ height: '110px' }, animationSettings);
-};
+  if (!Meteor.Device.isPhone()) {
+    $('.suggest').css('height', '0');
+    $('.suggest').velocity({ height: '110px' }, animationSettings);
+  }
+});
 
 Template.suggest.helpers({
   country() {
     if (Session.get('filteredCountries').length === 0) {
       Session.set('noMatchFound', true);
       return [{
-          "code": "EA",
-          "emoji": "🌎",
-          "name": "Earth"
+        code: 'EA',
+        emoji: '🌎',
+        name: 'Earth',
       }];
     }
     Session.set('noMatchFound', false);
     return Session.get('filteredCountries');
   },
+  coin() {
+    if (Session.get('filteredCoins').length === 0) {
+      Session.set('noCoinFound', true);
+      return [{
+        code: 'ETH',
+        emoji: '',
+        name: 'Ethereum',
+      }];
+    }
+    Session.set('noCoinFound', false);
+    return Session.get('filteredCoins');
+  },
   noMatchFound() {
     return Session.get('noMatchFound');
   },
-})
+  noCoinFound() {
+    return Session.get('noCoinFound');
+  },
+});
 
 Template.suggest.events({
   'click #country'(event) {
-    const data = Meteor.user().profile;
-    let country = {
+    const country = {
       code: event.target.parentNode.getAttribute('value'),
-      name: event.target.innerText.slice(4),
+      name: event.target.innerText.replace(/[^\x00-\x7F]/g, '').substring(1),
       emoji: event.target.firstChild.data,
     };
-    if (country.name === 'arth') {
-      country.name = 'Earth';
-    }
     Session.set('newCountry', country);
     Session.set('noMatchFound', false);
     Session.set('showNations', false);
+    Session.set('suggestDisplay', '');
   },
-})
+  'click #token'(event) {
+    const coin = {
+      code: event.target.parentNode.getAttribute('value'),
+      name: event.target.innerText.replace(/[^\x00-\x7F]/g, ''),
+      emoji: event.target.firstChild.data,
+    };
+    Session.set('newCoin', coin);
+    Session.set('noCoinFound', false);
+    Session.set('showTokens', false);
+    Session.set('suggestDisplay', '');
+  },
+});

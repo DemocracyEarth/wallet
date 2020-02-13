@@ -5,9 +5,15 @@
     <div class="control">{{closingDate}}</div>
   </div>
   {{#if displaySelector}}
-      {{> dateSelector}}
+      {{> dateSelector contract=contract}}
   {{/if}}
 </template>
+
 <template name="dateSelector">
-  <div id='date-picker' class="calendar"></div>
+  <div class="calendar">
+    <div id='date-picker'></div>
+    <div id='date-always-on' class='calendar-button {{permanent}}'>
+      {{_ 'always-on'}}
+    </div>
+  </div>
 </template>

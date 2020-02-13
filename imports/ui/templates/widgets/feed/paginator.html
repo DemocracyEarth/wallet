@@ -1,0 +1,22 @@
+<template name="paginator">
+  <div id="page-{{identifier}}" class="page">
+    {{#if end}}
+      {{#unless empty}}
+        {{#unless subfeed}}
+          <div id="feed-bottom" class="feed-footer">
+            <img src="{{pathFor route='home'}}images/arrow-up.png" class="back-top">
+            <div>
+              {{_ 'back-to-top'}}
+            </div>
+          </div>
+        {{/unless}}
+      {{/unless}}
+    {{else}}
+      {{#if visible}}
+        {{> feed options=nextOptions count=count lastItem=lastItem linkedFeed=true identifier=identifier}}
+      {{else}}
+        {{> feedLoad}}
+      {{/if}}
+    {{/if}}
+  </div>
+</template>

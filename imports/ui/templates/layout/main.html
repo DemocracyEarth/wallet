@@ -1,16 +1,46 @@
-<template name="main">
-
+<template name='main'>
   <!-- App -->
+
   {{> modal}}
-  {{> popup}}
 
-  <div id='menu' class="left">
-    {{> sidebar}}
-  </div>
+  {{#each popupList}}
+    {{> popup id=this}}
+  {{/each}}
 
-  <div id='content' class="right">
-    {{> navigation}}
+  {{#if isPhone}}
+    <div id='mobileKeyboard' contenteditable="true" style="opacity: 0; width: 0px; height:0px;"></div>
+  {{/if}}
+
+  {{#unless isPhone}}
+    {{> topbar}}
+  {{/unless}}
+
+  {{> sidebar}}
+
+  {{> preloader}}
+
+  <div id='content' class='right {{landingMode}}'>
+
+    {{#if isPhone}}
+      {{> navigation}}
+      <div class='inhibitor' style='display: none;'></div>
+    {{/if}}
+
     {{> yield}}
-  </div>
 
+  </div>  
+
+  {{#if showNotice}}
+    {{> notice}}
+  {{/if}}
+
+</template>
+
+<template name='preloader'>
+  <div id="preloader-splash" class="preloader">
+    <div class="preloader-icon" style="font-family:-apple-system,system-ui,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif; text-align: center; color: #ccc; font-size: 15px; top: 50%; width: 200px; left: 50%; margin-top: -100px; margin-left: -100px; height: 200px; position: absolute;">
+      <img class="preloader-image" style="opacity: 0; width: 100px; height:100px; max-height: 100px; margin: 50px 50px 25px;" src="{{appIcon}}">
+      <div class="preloader-label">{{_ 'loading'}}</div>
+    </div>
+  </div>
 </template>

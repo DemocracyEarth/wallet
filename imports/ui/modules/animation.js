@@ -149,7 +149,7 @@ const fadeTag = {
 
 const aniInitial = {
   opacity: '0',
-  overflow: 'hidden',
+  // overflow: 'hidden',
   height: '0px',
 };
 const aniFinish = {
@@ -161,9 +161,9 @@ const aniExit = {
   height: '0px',
 };
 
-//**********
-//Animations
-//**********
+// **
+// Animations
+// **
 
 function fadeInRolldown(node, next) {
   $(node).addClass('off-screen');

@@ -1,13 +1,5 @@
 <template name="socialMediaLogin">
-  {{#unless agoraMode}}
-    <div id="facebook-login" class="button login-button facebook">{{_ 'facebook'}}</div>
-    <!--<div id="twitter-login" class="button button-social twitter">{{_ 'twitter'}}</div>-->
-  {{else}}
-    <div class="button-wrap-half">
-      <div id="agora-login" class="button login-button">{{_ 'log-in'}}</div>
-    </div>
-    <div class="button-wrap-half">
-      <div id="facebook-login" class="button login-button facebook">{{_ 'facebook'}}</div>
-    </div>
-  {{/unless}}
+  <div>
+    {{> React component=SocialMediaLogin}}
+  </div>
 </template>

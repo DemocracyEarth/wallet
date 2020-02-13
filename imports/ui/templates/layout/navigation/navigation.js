@@ -1,82 +1,137 @@
 import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
-import { TAPi18n } from 'meteor/tap:i18n';
+import { ReactiveVar } from 'meteor/reactive-var';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
+import { Router } from 'meteor/iron:router';
 
 import { timers } from '/lib/const';
-import { stripHTMLfromText } from '/imports/ui/modules/utils';
+import { editorFadeOut } from '/imports/ui/templates/components/decision/editor/editor';
 import { toggleSidebar } from '/imports/ui/modules/menu';
+import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 
-import { animate } from '/imports/ui/modules/animation';
-import './navigation.html';
-import '../authentication/authentication.js';
-import '../../widgets/notice/notice.js';
+import '/imports/ui/templates/layout/authentication/authentication.js';
+import '/imports/ui/templates/layout/navigation/navigation.html';
+import '/imports/ui/templates/widgets/notice/notice.js';
 
-//Scroll behaviour
-var lastScrollTop = 0;
-var scrollDown = false;
+// Scroll behaviour
+let lastScrollTop = 0;
+let scrollDown = false;
 
-if (Meteor.Device.isPhone()) {
-  $(window).scroll(function(event) {
-    const node = $('.navbar');
-    const st = $(this).scrollTop();
-    if (st > lastScrollTop) {
-      if (scrollDown === false && st > 150) {
+function hideBar() {
+  if (Meteor.Device.isPhone()) {
+    $('.right').scroll(() => {
+      const node = $('.navbar');
+      const st = $('.right').scrollTop();
+      if (st > lastScrollTop && st > 60) {
+        $('.tab-menu').removeClass('tab-menu-scroll');
         scrollDown = true;
-        animate(node, 'hide-up', { duration: parseInt(timers.ANIMATION_DURATION * 2.5), easing: 'ease-in' });
-      }
-    } else {
-      if (scrollDown === true) {
+        node
+          .velocity('stop')
+          .velocity({ translateY: '0px' }, { duration: parseInt(timers.ANIMATION_DURATION, 10), easing: 'ease-out' })
+          .velocity({ translateY: '-100px' }, {
+            duration: parseInt(timers.ANIMATION_DURATION, 10),
+            easing: 'ease-out',
+            complete: () => {
+              node.css('position', 'absolute');
+              node.css('top', '0px');
+            },
+          })
+          .velocity('stop');
+      } else if (scrollDown === true) {
+        $('.tab-menu').addClass('tab-menu-scroll');
         scrollDown = false;
-        animate(node, 'show-down', { duration: parseInt(timers.ANIMATION_DURATION * 2.5), easing: 'ease-out' });
+        node.css('position', 'fixed');
+        node
+          .velocity('stop')
+          .velocity({ translateY: '-100px' }, { duration: parseInt(timers.ANIMATION_DURATION, 10), easing: 'ease-out' })
+          .velocity({ translateY: '0px' }, {
+            duration: parseInt(timers.ANIMATION_DURATION, 10),
+            easing: 'ease-out',
+            complete: () => {
+            },
+          })
+          .velocity('stop');
       }
-    }
-    lastScrollTop = st;
-  });
+      lastScrollTop = st;
+    });
+  } else {
+    $('.navbar').css('position', 'fixed');
+  }
 }
 
-Template.navigation.rendered = function rendered() {
+/**
+* @summary verifies if current screen should have back button on navbar
+*/
+function displayBackButton() {
+  return false;
+}
+
+/**
+* @summary verifies if editor mode is on in mobile devices
+*/
+function displayCancelButton() {
+  return (Meteor.Device.isPhone() && Session.get('showPostEditor'));
+}
+
+function displayMenuIcon() {
+  if (displayCancelButton()) {
+    return 'images/cross.png';
+  } else if (displayBackButton()) {
+    return 'images/back.png';
+  }
+  if (Session.get('sidebar')) {
+    return 'images/burger-active.png';
+  }
+  return 'images/burger.png';
+}
+
+/**
+* @summary verifies if user is currently at remove-option
+*/
+const _isRoot = () => {
+  return (Router.current().params.username === undefined && Router.current().params.hashtag === undefined);
 };
 
+Template.navigation.onCreated(function () {
+  Template.instance().imageTemplate = new ReactiveVar();
+  templetize(Template.instance());
+});
+
+Template.navigation.onRendered(() => {
+  hideBar();
+});
+
 Template.navigation.helpers({
-  screen: function () {
-    if (Session.get('navbar')) {
-      document.title = stripHTMLfromText(TAPi18n.__('democracy-of') + ' ' + Meteor.settings.public.Collective.name + ' - ' + Session.get('navbar').title);
-      return Session.get('navbar').title;
-    } else {
-      document.title = stripHTMLfromText(TAPi18n.__('democracy-earth'));
-    }
+  screen() {
+    return '';
   },
-  icon: function () {
-    if (Session.get('navbar') != undefined) {
-      return displayMenuIcon();
-    } else {
-      return 'images/burger.png';
-    }
+  getImage(pic) {
+    return getImage(Template.instance().imageTemplate.get(), pic);
   },
-  link: function () {
-    if (Session.get('navbar')) {
-      return Session.get('navbar').href;
-    }
+  logo() {
+    return true;
   },
-  showNotice: function () {
-    return Session.get('showNotice');
-  }
+  navIcon() {
+    return Meteor.settings.public.app.logo;
+  },
+  icon() {
+    return displayMenuIcon();
+  },
+  phoneScreen() {
+    return (Meteor.Device.isPhone() || Session.get('miniWindow'));
+  },
 });
 
 Template.navigation.events({
-  "click #menu": function (event) {
-    if (Session.get('navbar').action == 'SIDEBAR') {
+  'click #burger'() {
+    if (displayCancelButton()) {
+      editorFadeOut(Session.get('draftContract')._id);
+      Session.set('showPostEditor', false);
+    } else if (displayBackButton()) {
+      window.history.back();
+    } else {
       toggleSidebar();
     }
-  }
-})
-
-function displayMenuIcon() {
-  if (Session.get('sidebar')) {
-    return 'images/burger-active.png';
-  } else {
-    return 'images/burger.png';
-  }
-}
+  },
+});

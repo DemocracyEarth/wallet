@@ -1,0 +1,20 @@
+<template name="blockchain">
+  <div id="{{editorId}}" title="{{description}}" class="editor-button editor-button-{{icon}} {{readOnly}}">
+    <img class="toolbar-icon" src="{{getImage}}">
+    {{{status}}}
+
+    {{#if pollInside}}
+      {{_ 'poll-inside'}}
+    {{else}}
+      <div class="token token-editor">
+        <div class="token-ticker" style="{{tickerStyle}}">
+          {{ticker}}
+        </div>
+        <div class="token-balance" style="{{balanceStyle}}">
+          {{balance}}
+        </div>
+      </div>
+    {{/if}}
+
+  </div>
+</template>

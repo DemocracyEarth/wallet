@@ -1,0 +1,99 @@
+<template name="liquid">
+  {{#if placeholder}}
+    <div class="w-clearfix rosca rosca-setter">
+      <div id="voteBar-placeholder" class="w-clearfix result vote-bar">
+        <div id="voteSlider-placeholder" class="result-bar vote-bar " style=" width:  ">
+            <div id="voteHandle-placeholder" class="handle" style=""></div>
+        </div>
+        <div id="votePlaced-placeholder" class="result-bar vote-bar vote-bar-allocated"  style=" width: "></div>
+      </div>
+    </div>
+  {{else}}
+    {{#if singleVote}}
+      {{castSingleVote}}
+    {{else}}
+      {{#if editable}}
+        {{#if rightToVote}}
+          <div class="w-clearfix rosca rosca-setter">
+            {{> capital _id=_id user=user isDelegation=isDelegation hideBar=hideBar}}
+            {{#unless hideBar}}
+              {{> bar _id=_id editable=editable}}
+            {{/unless}}
+            {{#if isDelegation}}
+              {{#if minimumReached}}
+                <div class="float-left extra">
+                  {{> warning label="minimum-delegation-revoke"}}
+                </div>
+              {{/if}}
+            {{/if}}
+          </div>
+        {{else}}
+          <div class="w-clearfix rosca rosca-setter">
+            {{> capital _id=_id user=user isDelegation=isDelegation hideBar=hideBar}}
+            {{#unless hideBar}}
+              {{> bar _id=_id editable=false}}
+            {{/unless}}
+          </div>
+        {{/if}}
+      {{else}}
+        <div class="w-clearfix rosca rosca-setter">
+          {{> capital _id=_id user=user isDelegation=isDelegation editable=editable hideBar=hideBar}}
+          {{#unless hideBar}}
+            {{> bar _id=_id editable=editable}}
+          {{/unless}}
+        </div>
+      {{/if}}
+    {{/if}}
+  {{/if}}
+</template>
+
+<template name="capital">
+  {{#unless isDelegation}}
+    <div class='{{walletRender}}'>
+      <div class='vote-available label-votes'>
+        <div class="stage {{style 'inBallot'}}">
+          <div class='label label-corner'>
+            {{{getVotes 'inBallot'}}}
+          </div>
+        </div>
+        <div class="stage {{style 'allocateQuantity'}}">
+          <div class='label label-corner'>
+            {{{getVotes 'allocateQuantity'}}}
+          </div>
+        </div>
+        <div class="stage {{style 'available'}}">
+          <div class='label label-corner'>
+            {{{getVotes 'available'}}}
+          </div>
+        </div>
+        {{#if hideBar}}
+          <div class="stage {{style 'placed'}}">
+            <div class='label label-corner'>
+              <a href="{{getURL 'placed'}}">{{{getVotes 'placed'}}}</a>
+            </div>
+          </div>
+        {{/if}}
+      </div>
+      {{#unless hideBar}}
+        <div class='vote-allocated label-votes'>
+          <div class="stage {{style 'placed'}}">
+            <div class='label label-corner'>
+              <a href="{{getURL 'placed'}}">{{{getVotes 'placed'}}}</a>
+            </div>
+          </div>
+        </div>
+     {{/unless}}
+    </div>
+  {{/unless}}
+</template>
+
+<template name="bar">
+  <div id="voteBar-{{_id}}" class="w-clearfix result vote-bar">
+    <div id="voteSlider-{{_id}}" class="result-bar vote-bar {{fixed 'available'}} {{unanimous 'inBallot'}}" style=" width: {{available}} ">
+      {{#if editable}}
+        <div id="voteHandle-{{_id}}" class="handle" style="{{positionHandle}}"></div>
+      {{/if}}
+    </div>
+    <div id="votePlaced-{{_id}}" class="result-bar vote-bar vote-bar-allocated {{unanimous 'placed'}} {{fixed 'placed'}}"  style=" width: {{placed}}; {{min}}"></div>
+  </div>
+</template>

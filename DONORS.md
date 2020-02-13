@@ -4,15 +4,16 @@ Democracy Earth Foundation is a 501 (c) 3 not for profit corporation based in Sa
 
 ## Institutional
 
-  * [Y Combinator](http://ycombinator.org)
-  * [Fast Forward](http://ffwd.org)
-  * [Teespring](http://teespring.com)
+  * 🇬🇧 [Templeton World Charity Foundation](http://templeton.org)
+  * 🇺🇸 [Y Combinator](http://ycombinator.org)
+  * 🇺🇸 [Fast Forward](https://ffwd.org)
 
 ## Individuals
 
   * 🇦🇷 Ricardo Gorodisch
   * 🇮🇳 Krishna Bahrat
   * 🇦🇷 Matias Mosse
+  * 🇺🇸 Dwight Wilson
   * 🇦🇷 Marcos Galperin
   * 🇦🇷 Alejandro Estrada
   * 🇦🇷 Wenceslao Casares
@@ -56,17 +57,29 @@ Democracy Earth Foundation is a 501 (c) 3 not for profit corporation based in Sa
 
 ## Research
 
-  * [University of Berkeley](https://www.haas.berkeley.edu)
-  * [Alphabet's Jigsaw](https://jigsaw.google.com)
-  * [World Economic Forum](https://weforum.org)  
+  * 🇺🇸 [University of Berkeley](https://www.haas.berkeley.edu)
+  * 🇺🇸 [Alphabet's Jigsaw](https://jigsaw.google.com)
+  * 🇨🇭 [World Economic Forum](https://weforum.org)  
+  * 🇺🇸 [One Global Democracy](https://oneglobaldemocracy.com/)
+  * 🇺🇸 [Coding Democracy](https://codingdemocracy.tv)
 
 ## Team
 
   * 🇦🇷 Santiago Siri
+  * 🇧🇷 Paula Berman
+  * 🇻🇪 Eduardo Medina
   * 🇫🇷 Virgile Deville  
   * 🇦🇷 Mair Williams  
   * 🇺🇸 Herb Stephens
+  * 🇧🇷 Roberto Martins  
   * 🇺🇸 Dan Swislow  
   * 🇫🇷 Louis Margot-Duclot
   * 🇨🇴 Felipe Alvarez  
   * 🇨🇦 Cyprien Grau
+  * 🇺🇸 Peter Schurman
+  * 🇺🇸 Andew James Benson
+  * 🇺🇸 Sandra Miller
+  * 🇺🇸 Agatha Bacelar
+  
+  
+  

@@ -1,0 +1,26 @@
+.preloader {
+  position: absolute;
+  background:#f2f2f8;
+  right: 0px;
+  bottom: 0px;
+  z-index: 99999;
+  top: 0px;
+  left: 0px;
+}
+
+.preloader-icon {
+  top: 50%;
+  width: 200px;
+  left: 50%;
+  margin-top: -100px;
+  margin-left: -100px;
+  height: 200px;
+  position: absolute;
+}
+
+.preloader-image {
+  width: 100px;
+  height: 100px;
+  max-height: 100px;
+  margin: 50px 50px 25px;
+}

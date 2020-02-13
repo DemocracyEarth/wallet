@@ -1,7 +1,8 @@
 import { Template } from 'meteor/templating';
+
 import './load.html';
 
-Template.load.rendered = function () {
+Template.load.onRendered(() => {
   const opts = {
     lines: 17, // The number of lines to draw
     length: 13, // The length of each line
@@ -16,7 +17,7 @@ Template.load.rendered = function () {
     speed: 1, // Rounds per second
     trail: 60, // Afterglow percentage
     fps: 20, // Frames per second when using setTimeout() as a fallback for CSS
-    zIndex: 2e9, // The z-index (defaults to 2000000000)
+    zIndex: 9996, // The z-index (defaults to 2000000000)
     className: 'spinner', // The CSS class to assign to the spinner
     top: '50%', // Top position relative to parent
     left: '50%', // Left position relative to parent
@@ -25,8 +26,8 @@ Template.load.rendered = function () {
     position: 'absolute', // Element positioning
   };
 
-  const target = document.getElementById('spinner')
-  if (typeof Spinner != 'undefined') {
+  const target = document.getElementById('spinner');
+  if (typeof Spinner !== 'undefined') {
     let spinner = new Spinner(opts).spin(target);
   }
-}
+});

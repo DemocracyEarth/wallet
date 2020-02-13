@@ -3,6 +3,8 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Router } from 'meteor/iron:router';
+import { ReactiveVar } from 'meteor/reactive-var';
+import { $ } from 'meteor/jquery';
 
 import { signatureStatus, removeSignature } from '/imports/startup/both/modules/Contract';
 import { guidGenerator } from '/imports/startup/both/modules/crypto';
@@ -11,44 +13,206 @@ import { showFullName } from '/imports/startup/both/modules/utils';
 import { searchJSON } from '/imports/ui/modules/JSON';
 import { uploadToAmazonS3 } from '/imports/ui/modules/Files';
 import { displayModal } from '/imports/ui/modules/modal';
+import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { displayPopup, cancelPopup } from '/imports/ui/modules/popup';
-import { globalObj } from '/lib/global';
+import { defaults } from '/lib/const';
 
-import './avatar.html';
+import '/imports/ui/templates/components/identity/avatar/avatar.html';
+import '/imports/ui/templates/components/identity/chain/chain.js';
 
-Template.avatar.onRendered = () => {
-  Session.set('editor', false);
+const makeBlockie = require('ethereum-blockies-base64');
+
+/**
+* @summary subscribes to user data
+* @param {object} user user to parse
+* @param {object} instance template running this
+* @param {function} callback when ready take this action
+* @returns {string} country
+*/
+const _getUser = (userId) => {
+  const avatarList = Session.get('avatarList');
+  if (userId && avatarList) {
+    if (!_.contains(avatarList, userId)) {
+      avatarList.push(userId);
+      Session.set('avatarList', avatarList);
+    }
+  } else if (userId) {
+    Session.set('avatarList', [userId]);
+  }
 };
+
+/**
+* @summary gets address info from user
+* @param {object} user user to parse
+*/
+const _getAddress = (user) => {
+  let reserve;
+  if (!user.profile) {
+    reserve = Meteor.user().profile.wallet.reserves;
+  } else if (typeof user.profile === 'string') {
+    const userProfile = Meteor.users.findOne({ _id: user.profile });
+    if (userProfile && userProfile.profile.wallet.reserves) {
+      reserve = userProfile.profile.wallet.reserves;
+    }
+  } else if (user.wallet && user.wallet.reserves) {
+    reserve = user.wallet.reserves;
+  }
+  if (reserve && reserve.length && reserve.length > 0) {
+    for (const i in reserve) {
+      if ((reserve[i].token === 'WEI' || reserve[i].token === 'STX' || reserve[i].token === 'WETH' || reserve[i].token === defaults.TOKEN) && reserve[i].publicAddress) {
+        return reserve[i];
+      }
+    }
+  }
+  return undefined;
+};
+
+/**
+* @summary shortens the username if its a crypto address
+* @param {object} publicAddress string of username to check
+* @returns {string} username string
+*/
+const _shortenCryptoName = (publicAddress) => {
+  if (publicAddress.length === 42 && publicAddress.slice(0, 2) === '0x') {
+    return `${publicAddress.slice(0, 6)}...${publicAddress.slice(38, 42)}`.toLowerCase();
+  }
+  return publicAddress;
+};
+
+/**
+* @summary describes nationality of user in ux
+* @param {object} profile user to parse
+* @param {boolean} flagOnly just show emoji
+* @param {boolean} nameOnly just show name
+* @param {boolean} codeOnly just show code
+* @returns {string} country
+*/
+const getNation = (profile, flagOnly, nameOnly, codeOnly) => {
+  const geo = Session.get('geo');
+  if (geo) {
+    if (profile === undefined) {
+      if (Meteor.user() != null) {
+        if (Meteor.user().profile.country !== undefined) {
+          const country = searchJSON(geo.country, Meteor.user().profile.country.name);
+          if (country !== undefined) {
+            if (flagOnly) {
+              return `${country[0] ? country[0].emoji : ''}`;
+            }
+            if (nameOnly) {
+              return `${country[0].name}`;
+            }
+            if (codeOnly) {
+              return `${country[0].code}`;
+            }
+            return `${Meteor.user().profile.country.name} ${country[0] ? country[0].emoji : ''}`;
+          }
+        }
+        if (flagOnly || nameOnly || codeOnly) { return ''; }
+        return TAPi18n.__('digital-citizen');
+      }
+    } else if (profile.country !== undefined) {
+      if (profile.country.name !== TAPi18n.__('unknown')) {
+        if (flagOnly) {
+          return `${searchJSON(geo.country, profile.country.name)[0] ? searchJSON(geo.country, profile.country.name)[0].emoji : ''}`;
+        }
+        if (nameOnly) {
+          return `${searchJSON(geo.country, profile.country.name)[0].name}`;
+        }
+        if (codeOnly) {
+          return `${searchJSON(geo.country, profile.country.name)[0].code}`;
+        }
+        return `${profile.country.name} ${searchJSON(geo.country, profile.country.name)[0] ? searchJSON(geo.country, profile.country.name)[0].emoji : ''}`;
+      }
+      if (flagOnly) { return ''; }
+      return TAPi18n.__('unknown');
+    } else {
+      let user = Meteor.users.findOne({ _id: profile });
+      if (user === undefined) { user = getAnonymous(); }
+      if (user !== undefined && user.profile.country !== undefined) {
+        const country = searchJSON(geo.country, user.profile.country.name);
+        if (user.profile.country.name !== TAPi18n.__('unknown') && country !== undefined) {
+          if (flagOnly) {
+            return `${country[0] ? country[0].emoji : ''}`;
+          }
+          if (nameOnly) {
+            return user.profile.country.name;
+          }
+          if (codeOnly) {
+            return user.profile.country.code;
+          }
+          return `${user.profile.country.name} ${country[0] ? country[0].emoji : ''}`;
+        }
+        if (flagOnly || nameOnly || codeOnly) { return ''; }
+        return TAPi18n.__('unknown');
+      }
+    }
+  }
+  if (flagOnly || nameOnly || codeOnly) { return ''; }
+  return TAPi18n.__('digital-citizen');
+};
+
+/**
+* @summary generates a query to get user data based on dynamic ways of calling avatar template
+* @returns {object} with key and value to be used for collection query.
+*/
+const _getDynamicID = (data) => {
+  if (data) {
+    if (!data.username) {
+      if (!data._id) {
+        if (data.profile) {
+          if (data.profile._id) {
+            return {
+              _id: data.profile._id,
+            };
+          }
+          return {
+            _id: data.profile,
+          };
+        }
+      }
+      return {
+        _id: data._id,
+      };
+    }
+    return {
+      username: data.username,
+    };
+  }
+  return undefined;
+};
+
+Template.avatar.onCreated(function () {
+  const instance = this;
+  const guid = guidGenerator();
+  Template.instance().guid = guid;
+
+  _getUser(_getDynamicID(instance.data)._id);
+
+  Template.instance().imageTemplate = new ReactiveVar();
+  templetize(Template.instance());
+});
+
+Template.avatar.onRendered(function () {
+  Session.set('editor', false);
+});
 
 // this turned out to be kinda polymorphic
 Template.avatar.helpers({
   url() {
-    let user;
     if (this.profile === undefined) {
-      if (Meteor.user() !== undefined) {
-        return `/peer/${Meteor.user().username}`;
+      if (Meteor.user()) {
+        return `/address/${Meteor.user().username}`;
       }
-    } else if (!this.username) {
-      if (!this._id) {
-        if (this.profile._id) {
-          user = Meteor.users.findOne({ _id: this.profile._id });
-        } else {
-          user = Meteor.users.findOne({ _id: this.profile });
-        }
-      } else {
-        user = Meteor.users.findOne({ _id: this._id });
-      }
-    } else {
-      user = Meteor.users.findOne({ username: this.username });
     }
-    if (user === undefined) {
+    const user = Meteor.users.findOne(_getDynamicID(this));
+    if (!user) {
       return '#';
     }
-    return `/peer/${user.username}`;
+    return `/address/${user.username}`;
   },
   myself() {
     if (this.profile === undefined) {
-      if (Meteor.user() !== undefined) {
+      if (Meteor.user()) {
         return true;
       }
     } else if (!this.username) {
@@ -66,14 +230,22 @@ Template.avatar.helpers({
     return signatureStatus(Session.get('contract').signatures, this.profile);
   },
   roleStyle() {
-    switch (signatureStatus(Session.get('contract').signatures, this.profile, true)) {
-      case 'CONFIRMED':
-        return 'signature-confirmed';
-      case 'REJECTED':
-        return 'signature-rejected';
-      default:
-        return '';
+    let label;
+    if (!Meteor.Device.isPhone()) {
+      switch (signatureStatus(Session.get('contract').signatures, this.profile, true)) {
+        case 'CONFIRMED':
+          label = 'signature-confirmed';
+          break;
+        case 'REJECTED':
+          label = 'signature-rejected';
+          break;
+        default:
+          label = '';
+      }
+    } else {
+      label = ' signature-role-mobile';
     }
+    return label;
   },
   includeRole() {
     if (Session.get('contract')) {
@@ -97,25 +269,25 @@ Template.avatar.helpers({
     return '';
   },
   elementId() {
-    return guidGenerator();
+    return Template.instance().guid;
   },
   classStyle(smallFont) {
-    let style = String();
+    let style = '';
+
     if (smallFont) {
       style = 'identity-small';
-    } else {
-      style = '';
     }
-
-    if (this.disabled === true) {
+    if (this.disabled) {
       style += ' profile-pic-disabled';
     }
-
+    if (this.loginMode) {
+      style += ' profile-pic-login';
+    }
     return style;
   },
   profilePicture(profile) {
     if (profile === undefined) {
-      if (Meteor.user() !== undefined) {
+      if (Meteor.user()) {
         if (Meteor.user().profile.picture === undefined) {
           return `${Router.path('home')}images/noprofile.png`;
         }
@@ -133,19 +305,36 @@ Template.avatar.helpers({
     }
     return undefined;
   },
+  blockiePicture(profile) {
+    if (profile === undefined) {
+      if (Meteor.user()) {
+        return makeBlockie(Meteor.user().username);
+      }
+    } else {
+      let user = Meteor.users.findOne({ _id: profile });
+      if (user === undefined) {
+        user = getAnonymous();
+      }
+      return makeBlockie(user.username);
+    }
+    return undefined;
+  },
   pictureSize(size, includeName) {
     let style = '';
     if (size !== undefined) {
       style = `width:${size}px; height:${size}px; `;
     }
-    if (includeName === false) {
-      style += 'float: none';
+    if (includeName === false && !this.loginMode) {
+      style += 'float: none; ';
+    }
+    if (this.imgStyle) {
+      style += ` ${this.imgStyle}`;
     }
     return style;
   },
   fullName(profile) {
     if (profile === undefined) {
-      if (Meteor.user() !== undefined) {
+      if (Meteor.user()) {
         if (Meteor.user().profile.firstName !== undefined) {
           const firstname = Meteor.user().profile.firstName;
           const lastName = Meteor.user().profile.lastName;
@@ -163,47 +352,72 @@ Template.avatar.helpers({
     }
     return undefined;
   },
-  nationality(profile) {
+  username(profile) {
     if (profile === undefined) {
-      if (Meteor.user() != null) {
-        if (Meteor.user().profile.country !== undefined) {
-          const country = searchJSON(globalObj.geoJSON.country, Meteor.user().profile.country.name);
-          if (country !== undefined) {
-            return `${Meteor.user().profile.country.name} ${country[0].emoji}`;
-          }
-        }
-        return TAPi18n.__('digital-citizen');
-      }
-    } else if (profile.country !== undefined) {
-      if (profile.country.name !== TAPi18n.__('unknown')) {
-        return `${profile.country.name} ${searchJSON(globalObj.geoJSON.country, profile.country.name)[0].emoji}`;
-      }
-      return TAPi18n.__('unknown');
-    } else {
-      let user = Meteor.users.findOne({ _id: profile });
-      if (user === undefined) { user = getAnonymous(); }
-      if (user !== undefined && user.profile.country !== undefined) {
-        const country = searchJSON(globalObj.geoJSON.country, user.profile.country.name);
-        if (user.profile.country.name !== TAPi18n.__('unknown') && country !== undefined) {
-          return `${user.profile.country.name} ${country[0].emoji}`;
-        }
-        return TAPi18n.__('unknown');
+      if (Meteor.user()) {
+        return _shortenCryptoName(Meteor.user().username);
       }
     }
-    return TAPi18n.__('digital-citizen');
+    const user = Meteor.users.findOne(_getDynamicID(this));
+    if (!user) {
+      return '';
+    }
+    return `${_shortenCryptoName(user.username)}`;
+  },
+  nationality(profile) {
+    return getNation(profile);
+  },
+  flag(profile) {
+    return getNation(profile, true);
+  },
+  geoURL(profile) {
+    return `${Router.path('home')}${getNation(profile, false, false, true).toLowerCase()}`;
+  },
+  sidebarIcon() {
+    if (this.sidebar) {
+      return 'avatar-icon-box';
+    }
+    return '';
+  },
+  styleContext() {
+    if (this.loginMode) {
+      return 'float:left';
+    }
+    return '';
+  },
+  ticker() {
+    const reserve = _getAddress(this);
+    if (reserve) {
+      return reserve.token;
+    }
+    return '';
+  },
+  address() {
+    const reserve = _getAddress(this);
+    if (reserve) {
+      return reserve.publicAddress;
+    }
+    return '';
+  },
+  getImage(pic) {
+    return getImage(Template.instance().imageTemplate.get(), pic);
   },
 });
 
 Template.avatar.events({
   'change input[type="file"]'(event, instance) {
-    uploadToAmazonS3({ event: event, template: instance });
+    uploadToAmazonS3({ event, template: instance });
   },
   'click #toggleEditor'() {
     const data = Meteor.user().profile;
     data.configured = false;
     Meteor.users.update(Meteor.userId(), { $set: { profile: data } });
+    Session.set('cardNavigation', true);
   },
   'click #removeSignature'() {
+    if (Meteor.Device.isPhone()) {
+      $('#post-editor').css('top', '0px');
+    }
     displayModal(
       true,
       {
@@ -221,15 +435,17 @@ Template.avatar.events({
     );
   },
   'mouseenter .profile-pic'(event) {
-    if (this.displayPopup !== false && this.disabled !== true) {
-      if (this.profile !== null && this.profile !== undefined) {
-        displayPopup(event.target, true, 'card', this.profile);
-      }
+    if (this.displayPopup !== false && this.disabled !== true && this.profile !== null && this.profile !== undefined) {
+    // displayPopup(event.target, 'card', this.profile, 'mouseenter', `popup-avatar-${this.profile}`);
     }
   },
   'mouseleave .profile-pic'() {
-    if (!Session.get('displayPopup')) {
-      cancelPopup();
+    if (this.displayPopup !== false && this.disabled !== true && this.profile !== null && this.profile !== undefined) {
+    // cancelPopup(`popup-avatar-${this.profile}`);
     }
   },
 });
+
+export const getFlag = getNation;
+export const getUser = _getUser;
+export const shortenCryptoName = _shortenCryptoName;

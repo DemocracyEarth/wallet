@@ -1,50 +1,48 @@
-import { faker } from 'faker';
+import { faker } from 'faker'; // eslint-disable-line no-unused-vars
 
 import { Thread } from './Thread';
 import { Wallet } from './Wallet';
-
-const genKeyword = () => `${faker.address.country()} ${faker.address.state()} ${faker.company.companyName()}`;
 
 export const Contract = {
   type: 'object',
   properties: {
     ID: {
-      type: 'string'
+      type: 'string',
     },
     collectiveId: {
-      type: 'string'
+      type: 'string',
     },
     title: {
-      type: 'string'
+      type: 'string',
     },
     keyword: {
-      type: 'string'
+      type: 'string',
     },
     kind: {
       enum: [
         'DRAFT',
         'VOTE',
         'DELEGATION',
-        'MEMBERSHIP'
-      ]
+        'MEMBERSHIP',
+      ],
     },
     context: {
       enum: [
         'GLOBAL',
-        'LOCAL'
-      ]
+        'LOCAL',
+      ],
     },
     url: {
-      type: 'string'
+      type: 'string',
     },
     description: {
-      type: 'string'
+      type: 'string',
     },
     createdAt: {
-      faker: 'date.past'
+      faker: 'date.past',
     },
     lastUpdate: {
-      faker: 'date.past'
+      faker: 'date.past',
     },
     timestamp: {
       faker: 'date.past',
