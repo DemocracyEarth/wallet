@@ -166,7 +166,7 @@ const _showSidebar = () => {
     }
   }
   if (!Session.get('sidebar')) {
-    const newMargin = parseInt(0 - sidebarWidth(), 10);
+    const newMargin = parseInt(-10 - sidebarWidth(), 10);
     $('#menu').css('margin-left', `${newMargin}px`);
     if (newMargin < 0) {
       Session.set('removedSidebar', true);
