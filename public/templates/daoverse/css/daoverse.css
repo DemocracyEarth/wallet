@@ -4305,6 +4305,13 @@ blockquote {
   }
 }
 
+
+.topbar-max {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+
 .left.left-edit {
   width: 260px;
   margin-left: 0px;

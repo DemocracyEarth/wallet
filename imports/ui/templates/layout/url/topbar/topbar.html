@@ -1,45 +1,47 @@
 <template name="topbar">
   <div class="hero-navbar topbar">
-    <div id="nav-home" class="hero-home-button" ontouchstart="">
-      <img class="hero-logo" src="{{pathFor route='home'}}{{picture}}" />
-    </div>
-    {{#unless currentUser}}
-      <div id="collective-login" class="hero-button hero-button-mobile hero-signin">
-        <div class="hero-menu-link hero-menu-link-signin {{loginMode}}" target="_blank">{{_ 'sign-in'}}</div>
+    <div class="topbar-max">
+      <div id="nav-home" class="hero-home-button" ontouchstart="">
+        <img class="hero-logo" src="{{pathFor route='home'}}{{picture}}" />
       </div>
-    {{else}}
-      <div class="hero-button hero-button-mobile hero-signin">
-
-        <div id="sign-out-button" class="hero-menu-link hero-menu-link-signin-simple hero-menu-link-signin-simple-icon" target="_blank">
-          <img src="{{getImage 'signout'}}" title="{{_ 'sign-out'}}" class="signout">
+      {{#unless currentUser}}
+        <div id="collective-login" class="hero-button hero-button-mobile hero-signin">
+          <div class="hero-menu-link hero-menu-link-signin {{loginMode}}" target="_blank">{{_ 'sign-in'}}</div>
         </div>
+      {{else}}
+        <div class="hero-button hero-button-mobile hero-signin">
 
-        <div  id="collective-login" class="hero-menu-link hero-menu-link-signin-simple" target="_blank">
-          {{#with currentUser}}
-            <div class="hero-crypto-login">
-              {{> avatar size=24 profile=this._id includeName=false includeNation=false editable=false microFont=true disabled=true includeRole=false imgStyle=this.imgStyle}}
+          <div id="sign-out-button" class="hero-menu-link hero-menu-link-signin-simple hero-menu-link-signin-simple-icon" target="_blank">
+            <img src="{{getImage 'signout'}}" title="{{_ 'sign-out'}}" class="signout">
+          </div>
+
+          <div  id="collective-login" class="hero-menu-link hero-menu-link-signin-simple" target="_blank">
+            {{#with currentUser}}
+              <div class="hero-crypto-login">
+                {{> avatar size=24 profile=this._id includeName=false includeNation=false editable=false microFont=true disabled=true includeRole=false imgStyle=this.imgStyle}}
+              </div>
+              {{cryptoName this.username}}
+            {{/with}}
+          </div>
+        </div>
+      {{/unless}}
+      <div class="hero-menu">
+        {{#each navbarItem}}
+          {{#if this.selected}}
+            <div class="hero-button">
+              {{#unless postMode}}
+                <a class="hero-menu-link hero-menu-link-selected" href="{{this.url}}">{{_ this.label}}</a>
+              {{else}}
+                <a class="hero-menu-link" href="{{this.url}}">{{_ this.label}}</a>
+              {{/unless}}
             </div>
-            {{cryptoName this.username}}
-          {{/with}}
-        </div>
+          {{else}}
+            <div class="hero-button">
+              <a class="hero-menu-link" href="{{this.url}}" target="_blank">{{_ this.label}}</a>
+            </div>
+          {{/if}}
+        {{/each}}
       </div>
-    {{/unless}}
-    <div class="hero-menu">
-      {{#each navbarItem}}
-        {{#if this.selected}}
-          <div class="hero-button">
-            {{#unless postMode}}
-              <a class="hero-menu-link hero-menu-link-selected" href="{{this.url}}">{{_ this.label}}</a>
-            {{else}}
-              <a class="hero-menu-link" href="{{this.url}}">{{_ this.label}}</a>
-            {{/unless}}
-          </div>
-        {{else}}
-          <div class="hero-button">
-            <a class="hero-menu-link" href="{{this.url}}" target="_blank">{{_ this.label}}</a>
-          </div>
-        {{/if}}
-      {{/each}}
     </div>
   </div>
 </template>
