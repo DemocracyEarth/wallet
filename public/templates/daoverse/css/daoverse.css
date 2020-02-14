@@ -4299,6 +4299,12 @@ blockquote {
   text-align: left;
 }
 
+@media (max-width: 991px) {
+  .left {
+    width: 0px;
+  }
+}
+
 .left.left-edit {
   width: 260px;
   margin-left: 0px;
@@ -4499,8 +4505,8 @@ blockquote {
   min-width: 100%;
   margin-top: 3px;
   margin-bottom: 12px;
-  padding: 1px 0px 1px 5px;
-  border-radius: 3px;
+  padding: 2px 5px 1px 10px;
+  border-radius: 20px;
   color: #0d0d17;
   font-size: 13px;
   line-height: 30px;

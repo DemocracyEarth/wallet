@@ -78,11 +78,17 @@ input[type="file"] {
   left: 250px;
 }
 
+
 @media (max-width: 991px) {
   #content, #modalToggle, .modal { /* .title-input {*/
     overflow: scroll; /* has to be scroll, not auto */
     -webkit-overflow-scrolling: touch;
   }
+
+  .right {
+    left: 0px;
+  }
+
 }
 
 .modal {
