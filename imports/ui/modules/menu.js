@@ -342,6 +342,10 @@ const animateMenu = () => {
       $('.inhibitor').css('display', 'block');
       $('.inhibitor').css('position', 'fixed');
       $('.inhibitor').css('left', `${sidebarPixelWidth}px`);
+      if (Meteor.Device.isPhone()) {
+        $('.content').css('overflow', 'hidden');
+        $('#menu').css({ width: `${sidebarPixelWidth}px` });
+      }
     }
 
     $('#menu').css({ marginLeft: '0px' });
