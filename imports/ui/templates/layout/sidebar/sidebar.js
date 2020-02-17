@@ -164,12 +164,10 @@ const _showSidebar = () => {
       toggleSidebar(true);
     }
   } else {
-    console.log(`percentage ${percentage}`);
     $('.left').width(`${percentage}%`);
   }
   if (!Session.get('sidebar')) {
     const newMargin = parseInt((Meteor.Device.isPhone() ? 0 : -10) - sidebarWidth(), 10);
-    console.log(`newMargin: ${newMargin}`);
     $('#menu').css('margin-left', `${newMargin}px`);
     if (newMargin < 0) {
       Session.set('removedSidebar', true);
@@ -181,7 +179,6 @@ const _showSidebar = () => {
     }
 
     if (Meteor.Device.isPhone()) {
-      console.log(`sidebarWidth(): ${sidebarWidth()}`);
       $('#content').css('left', sidebarWidth());
       $('#content').css('right', newRight);
       $('#menu').css('margin-left', '0px');
