@@ -11,11 +11,10 @@ import { resetSplit } from '/imports/ui/modules/split';
 import { shortenCryptoName } from '/imports/ui/templates/components/identity/avatar/avatar';
 import { displayModal } from '/imports/ui/modules/modal';
 
-import { getTemplate } from '/imports/ui/templates/layout/templater';
-import { promptLogin } from '/imports/ui/templates/components/collective/collective.js';
-import { validateEmail } from '/imports/startup/both/modules/validations.js';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
+import { promptLogin } from '/imports/ui/templates/components/collective/collective.js';
 
+import '/imports/ui/templates/widgets/search/search';
 import '/imports/ui/templates/layout/url/topbar/topbar.html';
 import '/imports/ui/templates/widgets/warning/warning.js';
 import '/imports/ui/templates/widgets/spinner/spinner.js';
