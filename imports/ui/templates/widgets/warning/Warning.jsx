@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import { PropTypes } from 'prop-types';
 import { behave } from '/imports/ui/modules/animation';
 import { TAPi18n } from 'meteor/tap:i18n';
 
