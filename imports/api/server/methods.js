@@ -337,59 +337,6 @@ Meteor.methods({
   },
 
   /**
-  * @summary updates the period of the posts
-  * @param {Date} lastTimestamp with last sync signature
-  * @return {Number} total count.
-  */
-  sync(lastTimestamp) {
-    check(lastTimestamp, Date);
-    const feed = Contracts.find({ $or: [{ period: 'COMPLETE' }, { period: 'VOTING' }, { period: 'GRACE' }, { period: 'QUEUE' }, { period: 'PROCESS' }] }).fetch();
-
-    log(`{ method: 'sync', feed.length: '${feed.length}', lastTimestamp: '${lastTimestamp}' }`);
-
-    let newPeriod;
-    let queueEnd;
-    for (let i = 0; i < feed.length; i += 1) {
-      newPeriod = feed[i].period;
-      switch (feed[i].period) {
-        case 'PROCESS':
-        case 'COMPLETE':
-          if (lastTimestamp >= feed[i].closing.graceCalendar && feed[i].processed) {
-            if (!feed[i].aborted) {
-              newPeriod = 'COMPLETE';
-            }
-            if (feed[i].didPass) {
-              newPeriod = 'PASSED';
-            } else if (feed[i].aborted) {
-              newPeriod = 'ABORTED';
-            }
-          }
-          break;
-        case 'GRACE':
-          if ((lastTimestamp > feed[i].closing.graceCalendar) && !feed[i].processed) {
-            newPeriod = 'PROCESS';
-          }
-          break;
-        case 'VOTING':
-          if (lastTimestamp > feed[i].closing.calendar && !feed[i].processed) {
-            newPeriod = 'GRACE';
-          }
-          break;
-        case 'QUEUE':
-        default:
-          queueEnd = parseInt(feed[i].timestamp.getTime() + feed[i].closing.periodDuration, 10);
-          if (lastTimestamp > queueEnd && !feed[i].processed) {
-            newPeriod = 'VOTING';
-          }
-          break;
-      }
-      if (newPeriod !== feed[i].period) {
-        Contracts.update({ _id: feed[i]._id }, { $set: { period: newPeriod } });
-      }
-    }
-  },
-
-  /**
   * @summary get block timme
   * @param {object} collective where to persist blocktime
   */

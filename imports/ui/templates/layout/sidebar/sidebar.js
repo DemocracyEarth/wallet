@@ -152,7 +152,6 @@ const _adapt = (list) => {
 */
 const _showSidebar = () => {
   const percentage = sidebarPercentage();
-  console.log(`showSidebar`);
   if (!Meteor.Device.isPhone()) {
     if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
       $('.navbar').css('left', 0);

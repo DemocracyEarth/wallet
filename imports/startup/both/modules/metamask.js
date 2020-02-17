@@ -759,28 +759,6 @@ const _getBlockHeight = async () => {
 };
 
 /**
-* @summary get the last timestamp from the last block
-*/
-const _getLastTimestamp = async () => {
-  if (_web3()) {
-    if (!Session.get('blockTimes')) {
-      await sync();
-    }
-    const blockTimes = Session.get('blockTimes');
-    if (blockTimes && blockTimes.length > 0) {
-      const timestamp = _.pluck(_.where(blockTimes, { collectiveId: defaults.ROOT }), 'timestamp');
-      Meteor.call('sync', new Date(timestamp[0]), (error) => {
-        if (error) {
-          console.log(error);
-        }
-      });
-      return timestamp;
-    }
-  }
-  return undefined;
-};
-
-/**
 * @summary does a web3 login without privacy mode;
 */
 const _loginWeb3 = () => {
@@ -926,7 +904,6 @@ export const setupWeb3 = _web3;
 export const syncBlockchain = _syncBlockchain;
 export const hideLogin = _hideLogin;
 export const getBlockHeight = _getBlockHeight;
-export const getLastTimestamp = _getLastTimestamp;
 export const verifyCoinVote = _verifyCoinVote;
 export const submitVote = _submitVote;
 export const hasRightToVote = _hasRightToVote;
