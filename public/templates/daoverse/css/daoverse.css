@@ -7647,3 +7647,59 @@ blockquote {
   margin: 0 auto;
 }
 
+
+.ReactTags__selected {
+  background: #ffffffc4;
+  max-width: 500px;
+  display: inline-block;
+  float: left;
+  margin: 12px 10px 10px 0px;
+  padding: 2px 15px;
+  border-radius: 25px;
+}
+
+.ReactTags__tagInput {
+  float: right;
+    margin: 0 10px;
+}
+
+.ReactTags__tagInputField {
+  background: transparent;
+  border: 0px;
+  color: black;
+  font-size: 0.8em;
+  margin-left: -15px;
+  margin-right: -20px;
+  min-width: 250px;
+}
+
+.ReactTags__tag {
+  opacity: 1;
+  font-size: 0.8em;
+  cursor: move;
+  background: #580074;
+  border-radius: 25px;
+  color: white;
+  padding: 6px 10px;
+  margin: 0 16px 0px -13px;
+}
+
+.ReactTags__remove {
+  margin-left: 5px;
+  color: #c38cd4;
+}
+
+.ReactTags__tagInputField {
+}
+
+::-webkit-input-placeholder { /* Edge */
+  color: #c38cd4;
+}
+
+:-ms-input-placeholder { /* Internet Explorer */
+  color: #c38cd4;
+}
+
+::placeholder {
+  color: #c38cd4;
+}
