@@ -1,5 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { Router } from 'meteor/iron:router';
+
 import { WithContext as ReactTags } from 'react-tag-input';
 
 const KeyCodes = {
@@ -9,23 +10,30 @@ const KeyCodes = {
 
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
+const _getTags = () => {
+  return [
+    { id: 'Username', text: 'Thailand' },
+  ];
+};
+
+const _getSuggestions = () => {
+  return [
+    { id: 'USA', text: 'USA' },
+    { id: 'Germany', text: 'Germany' },
+    { id: 'Austria', text: 'Austria' },
+    { id: 'Costa Rica', text: 'Costa Rica' },
+    { id: 'Sri Lanka', text: 'Sri Lanka' },
+    { id: 'Thailand', text: 'Thailand' },
+  ];
+};
+
 export default class Search extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      tags: [
-        { id: 'Thailand', text: 'Thailand' },
-        { id: 'India', text: 'India' },
-      ],
-      suggestions: [
-        { id: 'USA', text: 'USA' },
-        { id: 'Germany', text: 'Germany' },
-        { id: 'Austria', text: 'Austria' },
-        { id: 'Costa Rica', text: 'Costa Rica' },
-        { id: 'Sri Lanka', text: 'Sri Lanka' },
-        { id: 'Thailand', text: 'Thailand' },
-      ],
+      tags: _getTags(),
+      suggestions: _getSuggestions(),
     };
     this.handleDelete = this.handleDelete.bind(this);
     this.handleAddition = this.handleAddition.bind(this);
@@ -58,15 +66,15 @@ export default class Search extends React.Component {
     const { tags, suggestions } = this.state;
     return (
       <div>
-        <ReactTags tags={tags}
+        <ReactTags
+          tags={tags}
           suggestions={suggestions}
           handleDelete={this.handleDelete}
           handleAddition={this.handleAddition}
           handleDrag={this.handleDrag}
-          delimiters={delimiters} />
+          delimiters={delimiters}
+        />
       </div>
-    )
+    );
   }
-};
-
-// ReactDOM.render(<App />, document.getElementById('app'));
+}
