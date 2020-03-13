@@ -1,5 +1,7 @@
 import React from 'react';
 import { Router } from 'meteor/iron:router';
+import { Session } from 'meteor/session';
+import { TAPi18n } from 'meteor/tap:i18n';
 
 import { WithContext as ReactTags } from 'react-tag-input';
 
@@ -11,9 +13,9 @@ const KeyCodes = {
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
 const _getTags = () => {
-  return [
-    { id: 'Username', text: 'Thailand' },
-  ];
+  console.log(Router.current().route.options);
+  const search = Session.get('search');
+  return search.query;
 };
 
 const _getSuggestions = () => {
@@ -73,6 +75,7 @@ export default class Search extends React.Component {
           handleAddition={this.handleAddition}
           handleDrag={this.handleDrag}
           delimiters={delimiters}
+          placeholder={TAPi18n.__('search-daos')}
         />
       </div>
     );

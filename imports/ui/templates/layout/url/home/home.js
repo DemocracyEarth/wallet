@@ -254,12 +254,15 @@ Template.homeFeed.onCreated(function () {
     if (subscription.ready()) {
       _generateReplica(instance);
 
-      const collectiveId = Contracts.findOne().collectiveId;
+      const contract = Contracts.findOne();
+
+      const collectiveId = contract.collectiveId;
       Session.set('search', {
         input: '',
         query: [
           {
-            collectiveId,
+            id: collectiveId,
+            text: '',
           },
         ],
       });
@@ -389,7 +392,7 @@ Template.homeFeed.helpers({
   },
   collective() {
     const search = Session.get('search');
-    const collectiveId = _.pluck(search.query, 'collectiveId')[0];
+    const collectiveId = _.pluck(search.query, 'id')[0];
     return {
       collectiveId,
     };

@@ -155,19 +155,6 @@ Router.route('/address/:username', {
     this.next();
   },
   data() {
-    /* 
-    let settings;
-    const user = Meteor.users.findOne({ username: this.params.username });
-    if (!user) {
-      settings = {
-        username: this.params.username,
-      };
-    } else {
-      settings = {
-        username: this.params.username,
-        userId: user._id,
-      };
-    }*/
     return {
       options: { view: 'peer', sort: { timestamp: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, username: this.params.username },
     };

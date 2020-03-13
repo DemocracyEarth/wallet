@@ -837,5 +837,6 @@
   "replica-detail-unlikely-human": "🤖 Maybe robot.",
   "replica-detail-not-human": "👾 Definitely robot.",
   "replica-detail-unknown-human": "😔 Unknown score.",
-  "sign-out-prompt": "Sign out from current account?"
+  "sign-out-prompt": "Sign out from current account?",
+  "search-daos": "Search DAOs"
 }

@@ -7649,7 +7649,7 @@ blockquote {
 
 
 .ReactTags__selected {
-  background: #965da9;
+  background: #864b9a;
   min-width: 300px;
   max-width: 500px;
   display: inline-block;
@@ -7667,7 +7667,7 @@ blockquote {
 .ReactTags__tagInputField {
   background: transparent;
   border: 0px;
-  color: black;
+  color: white;
   font-size: 0.8em;
   margin-left: -15px;
   margin-right: -20px;
@@ -7710,14 +7710,14 @@ blockquote {
   padding: 0px;
 };
 
-::-webkit-input-placeholder { /* Edge */
-  color: #c38cd4;
+.ReactTags__tagInput ::-webkit-input-placeholder { /* Edge */
+  color: #ab83b9;
 }
 
-:-ms-input-placeholder { /* Internet Explorer */
-  color: #c38cd4;
+.ReactTags__tagInput :-ms-input-placeholder { /* Internet Explorer */
+  color: #ab83b9;
 }
 
-::placeholder {
-  color: #c38cd4;
+.ReactTags__tagInput ::placeholder {
+  color: #ab83b9;
 }
