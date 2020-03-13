@@ -897,6 +897,19 @@ if (Meteor.isServer) {
   });
 }
 
+/**
+* @summary shortens the username if its a crypto address
+* @param {object} publicAddress string of username to check
+* @returns {string} username string
+*/
+const _shortenCryptoName = (publicAddress) => {
+  if (publicAddress.length === 42 && publicAddress.slice(0, 2) === '0x') {
+    return `${publicAddress.slice(0, 6)}...${publicAddress.slice(38, 42)}`.toLowerCase();
+  }
+  return publicAddress;
+};
+
+export const shortenCryptoName = _shortenCryptoName;
 export const transactWithMetamask = _transactWithMetamask;
 export const coinvote = _coinvote;
 export const getTransactionStatus = _getTransactionStatus;

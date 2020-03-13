@@ -8,7 +8,8 @@ import { TAPi18n } from 'meteor/tap:i18n';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
-import { shortenCryptoName, getUser } from '/imports/ui/templates/components/identity/avatar/avatar';
+import { getUser } from '/imports/ui/templates/components/identity/avatar/avatar';
+import { shortenCryptoName } from '/imports/startup/both/modules/metamask';
 import { getCoin } from '/imports/api/blockchain/modules/web3Util.js';
 import { Tokens } from '/imports/api/tokens/tokens';
 
@@ -257,7 +258,8 @@ Template.homeFeed.onCreated(function () {
       const contract = Contracts.findOne();
 
       const collectiveId = contract.collectiveId;
-      Session.set('search', {
+      console.log('setting search on home feed');
+      /* Session.set('search', {
         input: '',
         query: [
           {
@@ -265,7 +267,7 @@ Template.homeFeed.onCreated(function () {
             text: '',
           },
         ],
-      });
+      }); */
       instance.feedReady.set(true);
       computation.stop();
     }

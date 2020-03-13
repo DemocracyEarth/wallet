@@ -8,7 +8,7 @@ import { Session } from 'meteor/session';
 
 import { timers } from '/lib/const';
 import { resetSplit } from '/imports/ui/modules/split';
-import { shortenCryptoName } from '/imports/ui/templates/components/identity/avatar/avatar';
+import { shortenCryptoName } from '/imports/startup/both/modules/metamask';
 import { displayModal } from '/imports/ui/modules/modal';
 
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';

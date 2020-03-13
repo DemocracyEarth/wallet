@@ -11,7 +11,7 @@ import { resetSplit } from '/imports/ui/modules/split';
 import { showSidebar } from '/imports/ui/templates/layout/sidebar/sidebar';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import { shortenCryptoName } from '/imports/ui/templates/components/identity/avatar/avatar';
+import { shortenCryptoName } from '/imports/startup/both/modules/metamask';
 
 import '/imports/ui/templates/components/collective/collective.html';
 

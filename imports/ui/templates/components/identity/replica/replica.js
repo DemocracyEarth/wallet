@@ -5,7 +5,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 
 import { replicaThreshold } from '/lib/const';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
-import { shortenCryptoName } from '/imports/ui/templates/components/identity/avatar/avatar';
+import { shortenCryptoName } from '/imports/startup/both/modules/metamask';
 
 import '/imports/ui/templates/components/identity/replica/replica.html';
 import '/imports/ui/templates/widgets/qr/qr.js';

@@ -15,6 +15,7 @@ import { uploadToAmazonS3 } from '/imports/ui/modules/Files';
 import { displayModal } from '/imports/ui/modules/modal';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { displayPopup, cancelPopup } from '/imports/ui/modules/popup';
+import { shortenCryptoName } from '/imports/startup/both/modules/metamask';
 import { defaults } from '/lib/const';
 
 import '/imports/ui/templates/components/identity/avatar/avatar.html';
@@ -65,18 +66,6 @@ const _getAddress = (user) => {
     }
   }
   return undefined;
-};
-
-/**
-* @summary shortens the username if its a crypto address
-* @param {object} publicAddress string of username to check
-* @returns {string} username string
-*/
-const _shortenCryptoName = (publicAddress) => {
-  if (publicAddress.length === 42 && publicAddress.slice(0, 2) === '0x') {
-    return `${publicAddress.slice(0, 6)}...${publicAddress.slice(38, 42)}`.toLowerCase();
-  }
-  return publicAddress;
 };
 
 /**
@@ -355,14 +344,14 @@ Template.avatar.helpers({
   username(profile) {
     if (profile === undefined) {
       if (Meteor.user()) {
-        return _shortenCryptoName(Meteor.user().username);
+        return shortenCryptoName(Meteor.user().username);
       }
     }
     const user = Meteor.users.findOne(_getDynamicID(this));
     if (!user) {
       return '';
     }
-    return `${_shortenCryptoName(user.username)}`;
+    return `${shortenCryptoName(user.username)}`;
   },
   nationality(profile) {
     return getNation(profile);
@@ -448,4 +437,3 @@ Template.avatar.events({
 
 export const getFlag = getNation;
 export const getUser = _getUser;
-export const shortenCryptoName = _shortenCryptoName;

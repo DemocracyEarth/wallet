@@ -13,8 +13,8 @@ const KeyCodes = {
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
 const _getTags = () => {
-  console.log(Router.current().route.options);
   const search = Session.get('search');
+  console.log(search);
   return search.query;
 };
 
