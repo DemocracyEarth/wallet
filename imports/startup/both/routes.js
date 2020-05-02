@@ -153,17 +153,6 @@ Router.route('/address/:username', {
   onBeforeAction() {
     Session.set('sidebarMenuSelectedId', 999);
     _reset();
-
-    Session.set('search', {
-      input: '',
-      query: [
-        {
-          id: this.params.username,
-          text: shortenCryptoName(this.params.username),
-        },
-      ],
-    });
-
     this.next();
   },
   data() {    

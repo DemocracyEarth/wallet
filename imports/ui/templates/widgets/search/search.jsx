@@ -2,7 +2,9 @@ import React from 'react';
 import { Router } from 'meteor/iron:router';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { Contracts } from '/imports/api/contracts/Contracts';
 
+import { shortenCryptoName } from '/imports/startup/both/modules/metamask';
 import { WithContext as ReactTags } from 'react-tag-input';
 
 const KeyCodes = {
@@ -12,9 +14,36 @@ const KeyCodes = {
 
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
+const _setTags = () => {
+  const params = Router.current().params;
+  let contract;
+  let query = [];
+
+  if (params.username) {
+    query = [
+      {
+        id: Router.current().params.username,
+        text: shortenCryptoName(Router.current().params.username),
+      },
+    ];
+  } else if (params.keyword) {
+    contract = Contracts.findOne({ keyword: params.keyword });
+    query = [
+      {
+        id: Router.current().params.keyword,
+        text: contract.titile,
+      },
+    ];
+  }
+
+  Session.set('search', {
+    input: '',
+    query,
+  });
+};
+
 const _getTags = () => {
   const search = Session.get('search');
-  console.log(search);
   return search.query;
 };
 
@@ -33,6 +62,8 @@ export default class Search extends React.Component {
   constructor(props) {
     super(props);
 
+    _setTags();
+
     this.state = {
       tags: _getTags(),
       suggestions: _getSuggestions(),
@@ -45,7 +76,7 @@ export default class Search extends React.Component {
   handleDelete(i) {
     const { tags } = this.state;
     this.setState({
-      tags: tags.filter((tag, index) => index !== i),
+      tags: tags.filter((tag, index) => { return (index !== i); }),
     });
   }
 
@@ -66,6 +97,14 @@ export default class Search extends React.Component {
 
   render() {
     const { tags, suggestions } = this.state;
+
+    _setTags();
+
+    this.state = {
+      tags: _getTags(),
+      suggestions: _getSuggestions(),
+    };
+
     return (
       <div>
         <ReactTags
