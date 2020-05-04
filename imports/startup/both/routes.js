@@ -188,6 +188,52 @@ Router.route('/address/:username', {
   },
 });
 
+
+/**
+* @summary loads a peer feed from @
+**/
+Router.route('/dao/:dao', {
+  name: 'at',
+  template: 'home',
+  onBeforeAction() {
+    Session.set('sidebarMenuSelectedId', 999);
+    _reset();
+    this.next();
+  },
+  data() {
+    return {
+      options: { view: 'dao', profile: { blockchain: { coin: { code: this.params.dao } } } },
+    };
+  },
+  onAfterAction() {
+    const user = Meteor.users.findOne({ username: this.params.username });
+    let title;
+    let description;
+    let image;
+    DocHead.removeDocHeadAddedTags();
+
+    if (user) {
+      title = `${TAPi18n.__('profile-tag-title').replace('{{user}}', `${user.username}`).replace('{{collective}}', Meteor.settings.public.app.name)}`;
+      description = `${user.username}${TAPi18n.__('profile-tag-description')} ${Meteor.settings.public.app.name}`;
+      image = `${Router.path('home')}${user.profile.picture}`;
+    } else {
+      title = `${TAPi18n.__('profile-tag-title').replace('{{user}}', `${this.params.username}`).replace('{{collective}}', Meteor.settings.public.app.name)}`;
+      description = `${this.params.username} ${TAPi18n.__('profile-tag-description')} ${Meteor.settings.public.app.name}`;
+      image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.app.logo}`;
+    }
+
+    DocHead.setTitle(title);
+
+    _meta({
+      title,
+      description,
+      image,
+      twitter: Meteor.settings.public.app.twitter,
+    });
+  },
+});
+
+
 /**
 * @summary loads a post using date in url
 **/
