@@ -247,6 +247,8 @@ Template.homeFeed.onCreated(function () {
 
   Session.set('minimizedEditor', true);
 
+  console.log(Template.instance().data);
+  
   if (!Session.get('draftContract') && !Meteor.Device.isPhone()) {
     introEditor({ desktopMode: true, replyMode: false, replyId: '' });
   }
