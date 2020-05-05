@@ -3,17 +3,13 @@ import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 import { DocHead } from 'meteor/kadira:dochead';
 import { TAPi18n } from 'meteor/tap:i18n';
-import { HTTP } from 'meteor/http';
 
 import { gui } from '/lib/const';
-import { urlDoctor, toTitleCase } from '/lib/utils';
+import { urlDoctor } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { displayNotice } from '/imports/ui/modules/notice';
-import { shortenCryptoName } from '/imports/startup/both/modules/metamask';
-import { tokenWeb } from '/lib/token';
-import { sync } from '/imports/ui/templates/layout/sync';
-import { request } from 'http';
+import { Collectives } from '/imports/api/collectives/Collectives';
 
 if (Meteor.isClient) {
   import '/imports/ui/templates/layout/main.js';
@@ -193,7 +189,7 @@ Router.route('/address/:username', {
 * @summary loads a peer feed from @
 **/
 Router.route('/dao/:dao', {
-  name: 'at',
+  name: 'dao',
   template: 'home',
   onBeforeAction() {
     Session.set('sidebarMenuSelectedId', 999);
@@ -202,23 +198,24 @@ Router.route('/dao/:dao', {
   },
   data() {
     return {
-      options: { view: 'dao', profile: { blockchain: { coin: { code: this.params.dao } } } },
+      options: { view: 'dao', 'profile.blockchain.coin.code': this.params.dao.toUpperCase() },
     };
   },
   onAfterAction() {
-    const user = Meteor.users.findOne({ username: this.params.username });
+    const collective = Collectives.findOne({ 'profile.blockchain.coin.code': this.params.dao.toUpperCase() });
+
     let title;
     let description;
     let image;
     DocHead.removeDocHeadAddedTags();
 
-    if (user) {
-      title = `${TAPi18n.__('profile-tag-title').replace('{{user}}', `${user.username}`).replace('{{collective}}', Meteor.settings.public.app.name)}`;
-      description = `${user.username}${TAPi18n.__('profile-tag-description')} ${Meteor.settings.public.app.name}`;
-      image = `${Router.path('home')}${user.profile.picture}`;
+    if (collective) {
+      title = `${TAPi18n.__('collective-dao-title').replace('{{dao}}', `${collective.name}`)}`;
+      description = `${TAPi18n.__('collective-dao-description').replace('{{dao}}', collective.name)}`;
+      image = `${Router.path('home')}${collective.profile.logo}`;
     } else {
-      title = `${TAPi18n.__('profile-tag-title').replace('{{user}}', `${this.params.username}`).replace('{{collective}}', Meteor.settings.public.app.name)}`;
-      description = `${this.params.username} ${TAPi18n.__('profile-tag-description')} ${Meteor.settings.public.app.name}`;
+      title = `${TAPi18n.__('collective-dao-title').replace('{{dao}}', `${this.params.dao}`)}`;
+      description = `${TAPi18n.__('collective-dao-description').replace('{{dao}}', this.params.dao)}`;
       image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.app.logo}`;
     }
 

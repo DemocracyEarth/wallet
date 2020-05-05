@@ -524,8 +524,8 @@
   "email-farewell": "Be well and keep in touch,",
   "email-modified-vote": "a modified vote",
   "username-already-exists": "Username already exists.",
-  "profile-tag-title": "{{user}}'s profile on {{collective}}.",
-  "profile-tag-description": "Proposed ideas, delegations and votes by {{user}} on {{collective}}.",
+  "profile-tag-title": "{{user}} activity.",
+  "profile-tag-description": "Proposals by {{user}}.",
   "vote-tag-title": "Posted on {{collective}}.",
   "vote-tag-ballot-title": "Vote on {{collective}}.",
   "hashtag-tag-title": "{{hashtag}} posts on {{collective}}.",
@@ -838,5 +838,7 @@
   "replica-detail-not-human": "👾 Definitely robot.",
   "replica-detail-unknown-human": "😔 Unknown score.",
   "sign-out-prompt": "Sign out from current account?",
-  "search-daos": "Search DAOs"
+  "search-daos": "Search DAOs",
+  "collective-dao-title": "{{dao}} — Distributed Autonomous Organization.",
+  "collective-dao-description": "Proposals and votes from {{dao}}." 
 }
