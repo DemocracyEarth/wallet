@@ -3,6 +3,7 @@ import { Router } from 'meteor/iron:router';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Contracts } from '/imports/api/contracts/Contracts';
+import { Collectives } from '/imports/api/collectives/Collectives';
 
 import { shortenCryptoName } from '/imports/startup/both/modules/metamask';
 import { WithContext as ReactTags } from 'react-tag-input';
@@ -17,6 +18,7 @@ const delimiters = [KeyCodes.comma, KeyCodes.enter];
 const _setTags = () => {
   const params = Router.current().params;
   let contract;
+  let collective;
   let query = [];
 
   if (params.username) {
@@ -26,6 +28,16 @@ const _setTags = () => {
         text: shortenCryptoName(Router.current().params.username),
       },
     ];
+  } else if (params.dao) {
+    collective = Collectives.findOne({ 'profile.blockchain.coin.code': params.dao.toUpperCase() });
+    if (collective) {
+      query = [
+        {
+          id: Router.current().params.dao,
+          text: collective.name,
+        },
+      ];
+    }
   } else if (params.keyword) {
     contract = Contracts.findOne({ keyword: params.keyword });
     query = [
