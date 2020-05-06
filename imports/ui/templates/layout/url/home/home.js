@@ -7,6 +7,7 @@ import { Meteor } from 'meteor/meteor';
 import { TAPi18n } from 'meteor/tap:i18n';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
+import { Collectives } from '/imports/api/collectives/Collectives';
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
 import { getUser } from '/imports/ui/templates/components/identity/avatar/avatar';
 import { shortenCryptoName } from '/imports/startup/both/modules/metamask';
@@ -248,7 +249,7 @@ Template.homeFeed.onCreated(function () {
   Session.set('minimizedEditor', true);
 
   console.log(Template.instance().data);
-  
+
   if (!Session.get('draftContract') && !Meteor.Device.isPhone()) {
     introEditor({ desktopMode: true, replyMode: false, replyId: '' });
   }
@@ -308,6 +309,11 @@ const _getTitle = (options, ledgerMode) => {
         return TAPi18n.__('ledger-peer-posts').replace('{{asset}}', shortenCryptoName(username).toUpperCase());
       }
       return TAPi18n.__('feed-peer-posts').replace('{{asset}}', shortenCryptoName(username).toUpperCase());
+    case 'dao':
+      if (ledgerMode) {
+        return TAPi18n.__('dao-events');
+      }
+      return TAPi18n.__('dao-proposals');
     default:
       if (ledgerMode) {
         return TAPi18n.__('recent-activity');
@@ -394,9 +400,12 @@ Template.homeFeed.helpers({
     }
     return false;
   },
+  isDAO() {
+    return (this.options.view === 'dao');
+  },
   collective() {
-    const search = Session.get('search');
-    const collectiveId = _.pluck(search.query, 'id')[0];
+    const collective = Collectives.findOne({ 'profile.blockchain.coin.code': this.options['profile.blockchain.coin.code'].toUpperCase() });
+    const collectiveId = collective._id;
     return {
       collectiveId,
     };

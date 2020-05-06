@@ -120,7 +120,8 @@ const _defaultTally = (view) => {
     view === 'periodVotes' ||
     view === 'transactionsToken' ||
     view === 'transactionsPeer' ||
-    view === 'transactionsGeo'
+    view === 'transactionsGeo' ||
+    view === 'transactionsDao'
   );
 };
 

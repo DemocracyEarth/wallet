@@ -104,6 +104,7 @@ const _isIndexFeed = (instance) => {
     || instance.options.view === 'transactionsGeo'
     || instance.options.view === 'peer'
     || instance.options.view === 'threadVotes'
+    || instance.options.view === 'dao'
     || instance.mainPost === true);
 };
 
@@ -115,6 +116,8 @@ const _getFeedView = (view) => {
       return 'peer';
     case 'transactionsGeo':
       return 'geo';
+    case 'transactionsDao':
+      return 'dao';
     case 'lastVotes':
       return 'latest';
     case 'periodVotes':

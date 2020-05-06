@@ -151,7 +151,7 @@ Router.route('/address/:username', {
     _reset();
     this.next();
   },
-  data() {    
+  data() {
     return {
       options: { view: 'peer', sort: { timestamp: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, username: this.params.username },
     };
@@ -198,7 +198,7 @@ Router.route('/dao/:dao', {
   },
   data() {
     return {
-      options: { view: 'dao', 'profile.blockchain.coin.code': this.params.dao.toUpperCase() },
+      options: { view: 'dao', sort: { timestamp: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, 'profile.blockchain.coin.code': this.params.dao.toUpperCase() },
     };
   },
   onAfterAction() {

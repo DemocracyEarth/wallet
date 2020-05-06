@@ -41,6 +41,7 @@ Meteor.publish('transaction', function (terms) {
   check(terms, Object);
   const parameters = query(terms);
   const transactions = Transactions.find(parameters.find, parameters.options);
+
   log(`{ publish: 'transaction', user: ${logUser()}, contractId: '${terms.contractId}', count: ${transactions.count()} }`);
   if (transactions.count() > 0) {
     return transactions;
