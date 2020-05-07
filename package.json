@@ -26,7 +26,7 @@
     "postinstall": "opencollective-postinstall || exit 0"
   },
   "dependencies": {
-    "@babel/runtime": "^7.8.4",
+    "@babel/runtime": "^7.9.6",
     "abi-decoder": "^1.2.0",
     "atob": "^2.1.2",
     "autoprefixer": "^6.4.1",
