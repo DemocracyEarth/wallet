@@ -3831,14 +3831,14 @@
 	    var thresholdX = Math.min(Math.round(window.innerWidth * 0.04), 40);
 	    var startX, startY, lastX;
 
-			el.addEventListener('touchstart', start, { passive: true });
-			el.addEventListener('touchmove', move, { passive: true });
-			el.addEventListener('touchend', end, { passive: true });
-			el.addEventListener('touchcancel', cancel, { passive: true });
-			el.addEventListener('mousedown', start, { passive: true });
-			el.addEventListener('mousemove', move, { passive: true });
-			el.addEventListener('mouseup', end, { passive: true });
-			el.addEventListener('mouseout', cancel, { passive: true });
+	    el.addEventListener('touchstart', start, false);
+	    el.addEventListener('touchmove', move, false);
+	    el.addEventListener('touchend', end, false);
+	    el.addEventListener('touchcancel', cancel, false);
+	    el.addEventListener('mousedown', start, false);
+	    el.addEventListener('mousemove', move, false);
+	    el.addEventListener('mouseup', end, false);
+	    el.addEventListener('mouseout', cancel, false);
 
 	    function start(evt) {
 	      // We don’t handle multi-touch events yet.

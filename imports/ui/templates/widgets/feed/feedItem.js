@@ -18,6 +18,7 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { tokenWeb } from '/lib/token';
 import { wrapURLs } from '/lib/utils';
+import { Collectives } from '/imports/api/collectives/Collectives';
 
 import '/imports/ui/templates/widgets/feed/feedItem.html';
 import '/imports/ui/templates/widgets/transaction/transaction.js';
@@ -265,6 +266,11 @@ Template.feedItem.onCreated(function () {
   Template.instance().displayResults = new ReactiveVar(false);
   Template.instance().replySource = new ReactiveVar(false);
   Template.instance().pollingEnabled = new ReactiveVar(false);
+
+
+  if (this.data.collectiveId) {
+    Template.instance().collective = Collectives.findOne({ _id: this.data.collectiveId });
+  }
 
   Template.instance().imageTemplate = new ReactiveVar();
   templetize(Template.instance());
@@ -644,6 +650,25 @@ Template.feedItem.helpers({
   },
   description() {
     return `<div>${_getProposalDescription(this.title, false)}</div>`;
+  },
+  daoIcon() {
+    console.log(Template.instance().collective);
+    if (Template.instance().collective) {
+      return Template.instance().collective.profile.logo;
+    }
+    return '';
+  },
+  daoUrl() {
+    if (Template.instance().collective) {
+      return `${Router.path('home')}dao/${Template.instance().collective.name.toLowerCase()}`;
+    }
+    return '';
+  },
+  daoName() {
+    if (Template.instance().collective) {
+      return Template.instance().collective.name;
+    }
+    return '';
   },
 });
 
