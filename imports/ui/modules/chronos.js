@@ -27,7 +27,7 @@ const buildSentence = (seconds, mode, micro) => {
   return `${Math.floor(seconds)} ${TAPi18n.__(`seconds-${mode}${micro ? '-micro' : ''}`)}`;
 };
 
-const timeAgo = (date) => {
+const _timeAgo = (date) => {
   const seconds = Math.floor((new Date() - date) / 1000);
   return buildSentence(seconds, 'ago');
 };
@@ -37,6 +37,10 @@ const _timeCompressed = (date, micro) => {
   return buildSentence(seconds, 'compressed', micro);
 };
 
+const _timeComplete = (date) => {
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return `${_timeAgo(date)} &#183; ${date.toLocaleDateString('en', options)} &#183; ${(date.getHours() < 10) ? `0${(date.getHours())}` : date.getHours()}:${(date.getMinutes() < 10) ? `0${(date.getMinutes())}` : date.getMinutes()}`;
+};
 
 const timeLeft = (date) => {
   const seconds = Math.floor((date - new Date()) / 1000);
@@ -47,5 +51,6 @@ const timeLeft = (date) => {
 };
 
 export const timeCompressed = _timeCompressed;
-export const timeSince = timeAgo;
+export const timeSince = _timeAgo;
+export const timeComplete = _timeComplete;
 export const countdown = timeLeft;

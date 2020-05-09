@@ -44,18 +44,14 @@
                 {{else}}
                   {{> avatar placeholder=true size=24}}
                 {{/each}}
-                <div class="data data-feed data-identity">
+                <!--<div class="data data-feed data-identity">
                   <div class="margin-both">
                     <img src="{{getImage 'key'}}" class="clock-icon">
                     <a id="blockchain-explorer" title="{{blockchainFullAddress}}" href="{{blockchainLink}}" target="_blank">
                       <div class="verifier verifier-live verifier-feed verifier-mini verifier-key">{{blockchainAddress}}</div>
                     </a>
                   </div>
-                  <div class="margin-both">
-                    <img src="{{getImage 'clock'}}" class="clock-icon">
-                    <div class="verifier verifier-live verifier-feed verifier-mini">{{sinceDate createdAt}}</div>
-                  </div>
-                </div>
+                </div>-->
                 <div class="data data-feed">
                   <img class="url-icon" src="{{daoIcon}}">
                   <a href="{{daoUrl}}" class="verifier verifier-live verifier-feed">
@@ -120,6 +116,9 @@
                       </div>
                     {{else}}
                       {{{description}}}
+                      <div class="date-info">
+                        <div class="verifier verifier-live verifier-feed">{{{sinceDate createdAt}}}</div>
+                      </div>
                       <div class="smart-contract">
                         <div class="parameter">
                           <div class="parameter-name">

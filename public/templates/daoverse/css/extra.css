@@ -1039,6 +1039,9 @@ h4 {
   border-color: #48587d;
 }
 
+.icon-up2 {
+  margin-top:-2px;
+}
 
 .qr-code-address-text {
   color: #581073;
@@ -1367,6 +1370,10 @@ h4 {
   background-color: none;
 }
 
+.date-info {
+  display: inline-block;
+  margin-top: 10px;
+}
 
 @keyframes fadeInOpacity {
 	0% {
@@ -1456,8 +1463,4 @@ h4 {
 .hero-menu-link.hero-menu-link-signin-simple.hero-menu-link-signin-simple-icon.mobile:active {
   padding: 1px 0px 0px 0px;
 };
-
-.icon-up2 {
-  margin-top:-2px;
-}
 

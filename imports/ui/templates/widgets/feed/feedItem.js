@@ -9,7 +9,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { getProfileFromUsername, getAnonymous } from '/imports/startup/both/modules/User';
 import { removeContract } from '/imports/startup/both/modules/Contract';
 import { getProfileName, stripHTMLfromText } from '/imports/ui/modules/utils';
-import { timeCompressed } from '/imports/ui/modules/chronos';
+import { timeComplete } from '/imports/ui/modules/chronos';
 import { displayModal } from '/imports/ui/modules/modal';
 import { animationSettings } from '/imports/ui/modules/animation';
 import { addChoiceToBallot, getTotalVoters, getRightToVote, getBallot } from '/imports/ui/modules/ballot';
@@ -433,7 +433,7 @@ Template.feedItem.helpers({
     return _here(this);
   },
   sinceDate(timestamp) {
-    return `${timeCompressed(timestamp)}`;
+    return `${timeComplete(timestamp)}`;
   },
   blockchainAddress() {
     if (this.blockchain.publicAddress) {
