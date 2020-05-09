@@ -222,6 +222,42 @@ const _replaceAll = (target, search, replacement) => {
 };
 
 /**
+* @summary displays total voters
+* @param {object} instance where voters get displayed
+*/
+const _getVoters = (instance) => {
+  let total;
+  let list = [];
+  const contract = Contracts.findOne({ _id: instance._id });
+  let choice;
+
+  if (contract.poll && contract.poll.length > 0) {
+    // poll contract
+    total = 0;
+    for (let i = 0; i < contract.poll.length; i += 1) {
+      choice = Contracts.findOne({ _id: contract.poll[i].contractId });
+
+      if (choice) {
+        list = list.concat(_.pluck(choice.tally.voter, '_id'));
+      }
+    }
+    total = _.uniq(list).length;
+  } else if (contract && contract.tally) {
+    // normal
+    total = contract.tally.voter.length;
+  } else {
+    total = getTotalVoters(instance);
+  }
+
+  if (total === 1) {
+    return `${total} ${TAPi18n.__('voter').toLowerCase()}`;
+  } else if (total === 0) {
+    return TAPi18n.__('no-voters');
+  }
+  return `${total} ${TAPi18n.__('voters').toLowerCase()}`;
+};
+
+/**
 * @summary renders text with html tags
 * @param {string} text from db
 * @return {string} html poem
@@ -492,35 +528,7 @@ Template.feedItem.helpers({
     return this.rules;
   },
   voters() {
-    let total;
-    let list = [];
-    const contract = Contracts.findOne({ _id: this._id });
-    let choice;
-
-    if (contract.poll && contract.poll.length > 0) {
-      // poll contract
-      total = 0;
-      for (let i = 0; i < contract.poll.length; i += 1) {
-        choice = Contracts.findOne({ _id: contract.poll[i].contractId });
-
-        if (choice) {
-          list = list.concat(_.pluck(choice.tally.voter, '_id'));
-        }
-      }
-      total = _.uniq(list).length;
-    } else if (contract && contract.tally) {
-      // normal
-      total = contract.tally.voter.length;
-    } else {
-      total = getTotalVoters(this);
-    }
-
-    if (total === 1) {
-      return `${total} ${TAPi18n.__('voter').toLowerCase()}`;
-    } else if (total === 0) {
-      return TAPi18n.__('no-voters');
-    }
-    return `${total} ${TAPi18n.__('voters').toLowerCase()}`;
+    return _getVoters(this);
   },
   replyMode() {
     const draft = Session.get('draftContract');
@@ -592,6 +600,8 @@ Template.feedItem.helpers({
       closing.period = this.period;
       closing.timestamp = this.timestamp;
       closing.collectiveId = this.collectiveId;
+      closing.electionData = Template.instance().ready.get();
+      closing.voters = _getVoters(this);
     }
     return closing;
   },
@@ -652,7 +662,6 @@ Template.feedItem.helpers({
     return `<div>${_getProposalDescription(this.title, false)}</div>`;
   },
   daoIcon() {
-    console.log(Template.instance().collective);
     if (Template.instance().collective) {
       return Template.instance().collective.profile.logo;
     }

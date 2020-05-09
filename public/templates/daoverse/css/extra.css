@@ -723,9 +723,15 @@ width: 1px;
 }
 
 .countdown-label {
-  font-size: 10px;
+  font-size: 11px;
   color: #7d849f;
   text-align:left;
+  display:inline-block;
+}
+
+.countdown-votes {
+  float: right;
+  margin-right: 10px;
 }
 
 .countdown-timer {
@@ -954,7 +960,7 @@ h4 {
   padding: 5px;
   line-height: 12px;
   border-radius: 4px;
-  margin-top: -2px;
+  margin-top: 4px;
 }
 
 .period-queue {
@@ -1450,3 +1456,8 @@ h4 {
 .hero-menu-link.hero-menu-link-signin-simple.hero-menu-link-signin-simple-icon.mobile:active {
   padding: 1px 0px 0px 0px;
 };
+
+.icon-up2 {
+  margin-top:-2px;
+}
+

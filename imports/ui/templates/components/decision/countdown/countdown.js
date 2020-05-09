@@ -5,6 +5,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 
 import { blocktimes } from '/lib/const';
 import { sync } from '/imports/ui/templates/layout/sync';
+import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 
 import '/imports/ui/templates/components/decision/countdown/countdown.html';
 
@@ -158,6 +159,9 @@ const _currentBlock = async (instance) => {
 Template.countdown.onCreated(function () {
   Template.instance().now = new ReactiveVar();
   _currentBlock(Template.instance());
+
+  Template.instance().imageTemplate = new ReactiveVar();
+  templetize(Template.instance());
 });
 
 /**
@@ -255,6 +259,9 @@ Template.countdown.helpers({
         }
     }
     return style;
+  },
+  getImage(pic) {
+    return getImage(Template.instance().imageTemplate.get(), pic);
   },
 });
 
