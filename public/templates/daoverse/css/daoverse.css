@@ -2958,7 +2958,7 @@ blockquote {
 
 .identity-peer {
   margin-top: 6px;
-  margin-left: 10px;
+  margin-left: 6px;
   float: left;
 }
 
@@ -3557,6 +3557,12 @@ blockquote {
   padding-left: 15px;
   clear: both;
   color: #9c9c9c;
+}
+
+.meta.meta-search.meta-bar {
+  background:#f8f6f9;
+  margin-bottom:10px;
+  border-bottom:1px solid #f1eef3;
 }
 
 .meta.meta-search.meta-search-new {

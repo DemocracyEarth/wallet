@@ -198,11 +198,11 @@ Router.route('/dao/:dao', {
   },
   data() {
     return {
-      options: { view: 'dao', sort: { timestamp: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, 'profile.blockchain.coin.code': this.params.dao.toUpperCase() },
+      options: { view: 'dao', sort: { timestamp: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, name: new RegExp(['^', this.params.dao, '$'].join(''), 'i') },
     };
   },
   onAfterAction() {
-    const collective = Collectives.findOne({ 'profile.blockchain.coin.code': this.params.dao.toUpperCase() });
+    const collective = Collectives.findOne({ name: new RegExp(['^', this.params.dao, '$'].join(''), 'i') });
 
     let title;
     let description;

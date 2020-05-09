@@ -29,7 +29,7 @@ const _setTags = () => {
       },
     ];
   } else if (params.dao) {
-    collective = Collectives.findOne({ 'profile.blockchain.coin.code': params.dao.toUpperCase() });
+    collective = Collectives.findOne({ name: new RegExp(['^', params.dao, '$'].join(''), 'i') });
     if (collective) {
       query = [
         {

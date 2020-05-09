@@ -404,7 +404,7 @@ Template.homeFeed.helpers({
     return (this.options.view === 'dao');
   },
   collective() {
-    const collective = Collectives.findOne({ 'profile.blockchain.coin.code': this.options['profile.blockchain.coin.code'].toUpperCase() });
+    const collective = Collectives.findOne({ name: this.options.name });
     const collectiveId = collective._id;
     return {
       collectiveId,
