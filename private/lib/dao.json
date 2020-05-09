@@ -11,7 +11,7 @@
         "guild": [
           {
             "name": "guild-total-shares",
-            "type": "token.MOLOCH"
+            "type": "token.SHARES"
           },
           {
             "name": "guild-total-assets",
@@ -312,12 +312,12 @@
             }
           ],
           "coin": {
-            "code": "MOLOCH"
+            "code": "SHARES"
           }
         },
         "proof": "https://twitter.com/MolochDAO/status/1121203264316268544",
         "wallet": {
-          "currency": "MOLOCH"
+          "currency": "SHARES"
         }
       }
     }
