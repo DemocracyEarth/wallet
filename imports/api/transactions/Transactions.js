@@ -80,6 +80,10 @@ Schema.Transaction = new SimpleSchema({
     type: String,
     optional: true,
   },
+  collectiveId: {
+    type: String,
+    optional: true,
+  },
   timestamp: {
     type: Date,
     optional: true,
