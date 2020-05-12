@@ -810,6 +810,7 @@
   "moloch-alert-not-member": "The address being used to vote is not a valid member of this DAO.",
   "moloch-not-member": "Not a Member",
   "moloch-period-ragequit": "Ragequit",
+  "moloch-ragequit-short": "Quit",
   "moloch-ragequit": "Ragequit",
   "moloch-ragequit-shares-burn": "Burnt shares",
   "moloch-ragequit-funds-withdraw": "Withdrawn Funds",
