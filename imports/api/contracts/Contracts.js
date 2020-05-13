@@ -615,6 +615,10 @@ Schema.Contract = new SimpleSchema({
     type: String,
     optional: true,
   },
+  proposalIndex: {
+    type: Number,
+    optional: true,
+  },
   didPass: {
     type: Boolean,
     optional: true,
