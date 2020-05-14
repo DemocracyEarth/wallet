@@ -200,6 +200,7 @@ Template.sidebar.onCreated(function () {
   Template.instance().participants = new ReactiveVar();
   Template.instance().memberCount = new ReactiveVar(0);
   Template.instance().daoList = new ReactiveVar();
+  Template.instance().menu = new ReactiveVar();
 
   const instance = this;
 
@@ -207,13 +208,10 @@ Template.sidebar.onCreated(function () {
     instance.memberCount.set(result);
   });
 
-
-  console.log('PARAMS:');
-  console.log(Router.current().params.dao);
   Meteor.call('getMenu', Router.current().params.dao ? Router.current().params.dao : '', function (error, result) {
-    console.log('MENU SHAPE');
-    console.log(result);
+    instance.menu.set(result);
   });
+
   const collectives = instance.subscribe('collectives', { view: 'daoList' });
 
   instance.autorun(function () {
@@ -335,7 +333,7 @@ Template.sidebar.helpers({
     return 0;
   },
   menu() {
-    return _getMenu();
+    return Template.instance().menu.get(); //_getMenu();
   },
   style() {
     if (!Meteor.Device.isPhone() && Meteor.user()) {
