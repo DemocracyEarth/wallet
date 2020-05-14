@@ -249,7 +249,6 @@ Meteor.publish('collectives', function (terms) {
   return this.ready();
 });
 
-
 /**
 * @summary gets information of registered collectives on this instance
 * @param {Object} terms of query

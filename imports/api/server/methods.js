@@ -417,4 +417,53 @@ Meteor.methods({
     return replica;
   },
 
+  /**
+  * @summary get a user or collective based on a public address with its corresponding replica score
+  * @param {string} publicAddress to calculate replica on
+  */
+  getMenu(daoName) {
+    check(daoName, String);
+
+    let collectives;
+    let daoSpecific = false;
+    if (!daoName) {
+      collectives = Collectives.find().fetch();
+    } else {
+      collectives = Collectives.find({ name: new RegExp(['^', daoName, '$'].join(''), 'i') }).fetch();
+      daoSpecific = true;
+    }
+
+    const finalMenu = [];
+    let found = false;
+    for (const dao of collectives) {
+      for (const item of dao.profile.menu) {
+        found = false;
+        if (finalMenu.length > 0) {
+          for (const finalItem of finalMenu) {
+            if (finalItem.label === item.label) {
+              item.count = parseInt(finalItem.count + item.count, 10);
+              found = true;
+              if (daoSpecific && item.url) {
+                item.url = `/dao/${daoName.toLowerCase()}${item.url}`;
+              }
+              break;
+            }
+          }
+        }
+        if (!found) {
+          finalMenu.push(item);
+        } else {
+          for (let i = 0; i < finalMenu.length; i += 1) {
+            if (finalMenu[i].label === item.label) {
+              finalMenu[i].count = item.count;
+              finalMenu[i].url = item.url;
+            }
+          }
+        }
+      }
+    }
+
+    return finalMenu;
+  },
+
 });

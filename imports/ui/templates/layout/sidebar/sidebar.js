@@ -5,6 +5,7 @@ import { Session } from 'meteor/session';
 import { gui } from '/lib/const';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { Router } from 'meteor/iron:router';
 
 import { sidebarWidth, sidebarPercentage, getDelegatesMenu, toggleSidebar } from '/imports/ui/modules/menu';
 import { getFlag, getUser } from '/imports/ui/templates/components/identity/avatar/avatar';
@@ -204,6 +205,14 @@ Template.sidebar.onCreated(function () {
 
   Meteor.call('userCount', function (error, result) {
     instance.memberCount.set(result);
+  });
+
+
+  console.log('PARAMS:');
+  console.log(Router.current().params.dao);
+  Meteor.call('getMenu', Router.current().params.dao ? Router.current().params.dao : '', function (error, result) {
+    console.log('MENU SHAPE');
+    console.log(result);
   });
   const collectives = instance.subscribe('collectives', { view: 'daoList' });
 
