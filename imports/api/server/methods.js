@@ -435,18 +435,17 @@ Meteor.methods({
             if (finalItem.label === item.label) {
               item.count = parseInt(finalItem.count + item.count, 10);
               found = true;
-              if (daoSpecific && item.url) {
-                console.log(`=-----------------------`)
-                console.log(daoSpecific);
-                console.log(item);
-                console.log(finalItem);
-                item.url = `/dao/${daoName.toLowerCase()}${item.url}`;
-              }
               break;
             }
           }
         }
         if (!found) {
+          if (daoSpecific && item.url) {
+            item.url = `/dao/${daoName.toLowerCase()}${item.url}`;
+          }
+          if (daoSpecific && item.separator) {
+            item.label = TAPi18n.__(`${item.label}-dao-specific`).replace('{{dao}}', daoName);
+          }
           finalMenu.push(item);
         } else {
           for (let i = 0; i < finalMenu.length; i += 1) {
@@ -457,6 +456,21 @@ Meteor.methods({
           }
         }
       }
+    }
+
+    // insert back to general view
+    if (daoSpecific) {
+      finalMenu.unshift({
+        label: 'all-daos',
+        icon: 'images/back-arrow.svg',
+        iconActivated: 'images/back-arrow-active.svg',
+        feed: 'user',
+        value: true,
+        separator: false,
+        url: '/',
+        displayToken: false,
+        displayCount: false,
+      });
     }
 
     return finalMenu;

@@ -72,8 +72,7 @@ const _meta = (tag, includeTitle) => {
 const _reset = async () => {
   Session.set('castSingleVote', undefined);
   Session.set('newLogin', false);
-  console.log('updating with:');
-  console.log(Router.current().params.dao ? Router.current().params.dao : '');
+  console.log(typeof Router.current().params);
   updateMenu(Router.current().params.dao ? Router.current().params.dao : '');
 };
 

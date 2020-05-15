@@ -768,6 +768,8 @@
   "moloch-process": "Ready for processing",
   "moloch-period": "Period",
   "moloch-results": "Results",
+  "moloch-period-dao-specific": "Period of {{dao}}",
+  "moloch-results-dao-specific": "Results of {{dao}}",
   "moloch-map-submit-proposal": "<root><description json='{{details}}'></description> <request quantity='{{sharesRequested}}' token='SHARES'></request> <user _id='{{applicantId}}' username='{{applicant}}'></user> <tribute quantity='{{ether tokenTribute}}' token='WETH'></tribute></root>",
   "moloch-map-rage-quit": "<root><ragequit quantity='{{sharesToBurn}}' token='SHARES'></ragequit></root>",
   "moloch-yes": "Yes",
@@ -789,7 +791,7 @@
   "moloch-period-rejected": "Rejected.",
   "moloch-period-aborted": "Aborted.",
   "syncing": "Syncing...",
-  "moloch-all": "All History",
+  "moloch-all": "Full History",
   "moloch-addresses": "Member addresses",
   "moloch-address": "Member address",
   "sign-out": "Sign Out",
@@ -843,5 +845,6 @@
   "collective-dao-title": "{{dao}} — Distributed Autonomous Organization.",
   "collective-dao-description": "Proposals and votes from {{dao}}.",
   "dao-proposals": "DAO Proposals.",
-  "dao-events": "DAO Events."
+  "dao-events": "DAO Events.",
+  "all-daos": "All DAOs"
 }

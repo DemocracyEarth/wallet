@@ -5,12 +5,9 @@ import { Session } from 'meteor/session';
 import { gui } from '/lib/const';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { Router } from 'meteor/iron:router';
 
-import { sidebarWidth, sidebarPercentage, getDelegatesMenu, toggleSidebar, updateMenu } from '/imports/ui/modules/menu';
-import { getFlag, getUser } from '/imports/ui/templates/components/identity/avatar/avatar';
-import { getCoin } from '/imports/api/blockchain/modules/web3Util';
-import { Collectives } from '/imports/api/collectives/Collectives';
+import { sidebarWidth, sidebarPercentage, toggleSidebar } from '/imports/ui/modules/menu';
+import { getFlag } from '/imports/ui/templates/components/identity/avatar/avatar';
 
 import '/imports/ui/templates/layout/sidebar/sidebar.html';
 import '/imports/ui/templates/components/collective/collective.js';
@@ -289,8 +286,6 @@ Template.sidebar.onRendered(() => {
   drawSidebar();
 
   const instance = Template.instance();
-
-  updateMenu(Router.current().params.dao ? Router.current().params.dao : '');
 
   $(window).resize(() => {
     instance.resizing = true;
