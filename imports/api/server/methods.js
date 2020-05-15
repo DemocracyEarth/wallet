@@ -14,6 +14,12 @@ import { notifierHTML } from '/imports/api/notifier/notifierTemplate.js';
 import { getLastTimestamp, getBlockHeight } from '/lib/web3';
 import { Collectives } from '/imports/api/collectives/Collectives';
 
+/**
+* @summary include a quantity in a message
+* @param {string} quantity to include
+* @param {string} message to parse
+* @return {number} with total proposals
+*/
 const _includeQuantity = (quantity, message) => {
   let modified;
   if (quantity === 0) {
@@ -24,6 +30,24 @@ const _includeQuantity = (quantity, message) => {
     modified = message.replace('{{quantity}}', `${quantity} ${TAPi18n.__('votes').toLowerCase()}`);
   }
   return modified;
+};
+
+/**
+* @summary quick count of all proposals in the system
+* @return {number} with total proposals
+*/
+const _getHistoryCount = () => {
+  const collectives = Collectives.find().fetch();
+  let finalCount = 0;
+  for (const dao of collectives) {
+    for (const item of dao.profile.menu) {
+      if ((item.label === 'moloch-all') && item.count) {
+        finalCount += item.count;
+        break;
+      }
+    }
+  }
+  return finalCount;
 };
 
 Meteor.methods({
@@ -468,7 +492,8 @@ Meteor.methods({
         separator: false,
         url: '/',
         displayToken: false,
-        displayCount: false,
+        displayCount: true,
+        count: _getHistoryCount(),
       });
     }
 
