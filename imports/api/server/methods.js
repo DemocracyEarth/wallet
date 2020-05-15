@@ -414,7 +414,6 @@ Meteor.methods({
   getMenu(daoName) {
     check(daoName, String);
     log(`{ method: 'getMenu', daoName: '${daoName}' }`);
-    console.log(daoName);
 
     let collectives;
     let daoSpecific = false;
