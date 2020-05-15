@@ -29,9 +29,13 @@ Template.inbox.helpers({
     return this.count;
   },
   sidebarTagStyle() {
-    const selectedId = Session.get('sidebarMenuSelectedId');
-    if ((selectedId === this.id) || (!selectedId && this.id === 0)) {
-      return 'sidebar-tag-selected';
+    if (this.url) {
+      const current = Router.current().url.replace(window.location.origin, '');
+      if ((Router.current().params.username === this.url.substring(6))
+        || (current === this.url)
+      ) {
+        return 'sidebar-tag-selected';
+      }
     }
     return '';
   },
