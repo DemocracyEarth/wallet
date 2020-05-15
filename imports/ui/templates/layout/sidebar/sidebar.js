@@ -59,6 +59,7 @@ const _dataToMenu = (user) => {
 * @param {object} db data to parse for menu options
 * @param {boolean} sort if do alphabetical sort or not
 */
+/*
 function getList(db, sort) {
   const members = [];
   for (const i in db) {
@@ -69,12 +70,14 @@ function getList(db, sort) {
   }
   return members;
 }
+*/
 
 /**
 * @summary gets list of delegats for current user
 * @param {object} contractFeed
 * @param {object} transactionFeed
 */
+/*
 function getDelegates(contractFeed, transactionFeed) {
   const delegates = _.sortBy(getDelegatesMenu(contractFeed, transactionFeed), (user) => { return parseInt(0 - (user.sent + user.received), 10); });
   let delegateList = [];
@@ -103,11 +106,13 @@ function getDelegates(contractFeed, transactionFeed) {
 
   return getList(delegateList, false);
 }
+*/
 
 /**
 * @summary all members of the collective without the delegates
 * @param {object} currentDelegates list of delegates
 */
+/*
 const _otherMembers = (currentDelegates) => {
   const members = getList(Meteor.users.find({}, { limit: 10 }).fetch(), true);
   const delegates = currentDelegates;
@@ -133,12 +138,14 @@ const _otherMembers = (currentDelegates) => {
   }
   return finalList;
 };
+*/
 
 
 /**
 * @summary formats delegate list for sidebar menu
 * @param {object} list list of delegates
 */
+/*
 const _adapt = (list) => {
   const menu = [];
   for (let i = 0; i < list.length; i += 1) {
@@ -146,7 +153,7 @@ const _adapt = (list) => {
   }
   return menu;
 };
-
+*/
 
 /**
 * @summary displays the sidebar if logged
@@ -195,24 +202,26 @@ const _showSidebar = () => {
 };
 
 Template.sidebar.onCreated(function () {
-  Template.instance().delegates = new ReactiveVar();
+  /* Template.instance().delegates = new ReactiveVar();
   Template.instance().members = new ReactiveVar(0);
   Template.instance().participants = new ReactiveVar();
   Template.instance().memberCount = new ReactiveVar(0);
-  Template.instance().daoList = new ReactiveVar();
+  Template.instance().daoList = new ReactiveVar(); */
   Template.instance().menu = new ReactiveVar();
+  Template.instance().resizing = false;
 
   const instance = this;
-
-  Meteor.call('userCount', function (error, result) {
-    instance.memberCount.set(result);
-  });
 
   Meteor.call('getMenu', Router.current().params.dao ? Router.current().params.dao : '', function (error, result) {
     instance.menu.set(result);
   });
 
-  const collectives = instance.subscribe('collectives', { view: 'daoList' });
+  /* const collectives = instance.subscribe('collectives', { view: 'daoList' });
+
+  Meteor.call('userCount', function (error, result) {
+    instance.memberCount.set(result);
+  });
+
 
   instance.autorun(function () {
     let delegateList;
@@ -238,7 +247,7 @@ Template.sidebar.onCreated(function () {
     if (!delegateList) {
       Template.instance().participants.set(_otherMembers());
     }
-  });
+  });*/
 });
 
 /**
@@ -246,6 +255,7 @@ Template.sidebar.onCreated(function () {
 * @param {object} user to parse
 * @returns {object} menu
 */
+/*
 const _getMenu = () => {
   // dao feeds
   const menu = [];
@@ -267,10 +277,7 @@ const _getMenu = () => {
   // subjectivity
   return menu;
 };
-
-Template.sidebar.onCreated(function () {
-  Template.instance().resizing = false;
-});
+*/
 
 let resizeId; 
 const _doneResizing = (instance) => {
@@ -298,6 +305,8 @@ Template.sidebar.onRendered(() => {
       _showSidebar();
     }
   });
+
+  console.log('RENDER-----------');
 });
 
 Template.sidebar.helpers({
@@ -333,7 +342,7 @@ Template.sidebar.helpers({
     return 0;
   },
   menu() {
-    return Template.instance().menu.get(); //_getMenu();
+    return Template.instance().menu.get();
   },
   style() {
     if (!Meteor.Device.isPhone() && Meteor.user()) {

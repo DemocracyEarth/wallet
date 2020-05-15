@@ -78,7 +78,6 @@ Template.paginator.helpers({
     return Template.instance().identifier.get();
   },
   visible() {
-    console.log(`visible: ${Template.instance().loaded.get()}`);
     return Template.instance().loaded.get();
   },
   nextOptions() {
@@ -89,7 +88,6 @@ Template.paginator.helpers({
       Template.instance().configured.set(true);
     }
     this.options.view = Session.get('longFeedView');
-    console.log(this.options);
     return this.options;
   },
   count() {

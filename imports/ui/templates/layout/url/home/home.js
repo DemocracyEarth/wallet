@@ -248,8 +248,6 @@ Template.homeFeed.onCreated(function () {
 
   Session.set('minimizedEditor', true);
 
-  console.log(Template.instance().data);
-
   if (!Session.get('draftContract') && !Meteor.Device.isPhone()) {
     introEditor({ desktopMode: true, replyMode: false, replyId: '' });
   }
@@ -257,20 +255,6 @@ Template.homeFeed.onCreated(function () {
   instance.autorun(function (computation) {
     if (subscription.ready()) {
       _generateReplica(instance);
-
-      const contract = Contracts.findOne();
-
-      const collectiveId = contract.collectiveId;
-      console.log('setting search on home feed');
-      /* Session.set('search', {
-        input: '',
-        query: [
-          {
-            id: collectiveId,
-            text: '',
-          },
-        ],
-      }); */
       instance.feedReady.set(true);
       computation.stop();
     }

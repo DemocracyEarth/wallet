@@ -17,7 +17,6 @@ import '/imports/ui/templates/components/decision/ledger/ledger.html';
 */
 const _convertQuery = (instance) => {
   const tally = instance;
-  console.log(instance);
   switch (tally.options.view) {
     case 'latest':
       tally.options.view = 'lastVotes';
