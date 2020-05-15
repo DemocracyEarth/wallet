@@ -43,7 +43,7 @@ const _setTags = () => {
     query = [
       {
         id: Router.current().params.keyword,
-        text: contract.titile,
+        text: contract.title,
       },
     ];
   }

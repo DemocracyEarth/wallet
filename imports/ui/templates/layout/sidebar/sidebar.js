@@ -7,7 +7,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Router } from 'meteor/iron:router';
 
-import { sidebarWidth, sidebarPercentage, getDelegatesMenu, toggleSidebar } from '/imports/ui/modules/menu';
+import { sidebarWidth, sidebarPercentage, getDelegatesMenu, toggleSidebar, updateMenu } from '/imports/ui/modules/menu';
 import { getFlag, getUser } from '/imports/ui/templates/components/identity/avatar/avatar';
 import { getCoin } from '/imports/api/blockchain/modules/web3Util';
 import { Collectives } from '/imports/api/collectives/Collectives';
@@ -210,12 +210,6 @@ Template.sidebar.onCreated(function () {
   Template.instance().menu = new ReactiveVar();
   Template.instance().resizing = false;
 
-  const instance = this;
-
-  Meteor.call('getMenu', Router.current().params.dao ? Router.current().params.dao : '', function (error, result) {
-    instance.menu.set(result);
-  });
-
   /* const collectives = instance.subscribe('collectives', { view: 'daoList' });
 
   Meteor.call('userCount', function (error, result) {
@@ -296,6 +290,8 @@ Template.sidebar.onRendered(() => {
 
   const instance = Template.instance();
 
+  updateMenu(Router.current().params.dao ? Router.current().params.dao : '');
+
   $(window).resize(() => {
     instance.resizing = true;
     clearTimeout(resizeId);
@@ -305,8 +301,6 @@ Template.sidebar.onRendered(() => {
       _showSidebar();
     }
   });
-
-  console.log('RENDER-----------');
 });
 
 Template.sidebar.helpers({
@@ -342,7 +336,7 @@ Template.sidebar.helpers({
     return 0;
   },
   menu() {
-    return Template.instance().menu.get();
+    return Session.get('sidebarMenu');
   },
   style() {
     if (!Meteor.Device.isPhone() && Meteor.user()) {

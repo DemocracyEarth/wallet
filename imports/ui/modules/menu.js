@@ -6,10 +6,19 @@ import { gui } from '/lib/const';
 
 import { showFullName } from '/imports/startup/both/modules/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
-import { Transactions } from '/imports/api/transactions/Transactions';
 import { getVotes } from '/imports/api/transactions/transaction';
 
-import { animationSettings } from './animation';
+/**
+* @summary updates the sidebar menu according to url context
+* @param {string} context with dao name or url data
+* @returns {object} menu
+*/
+const _updateMenu = (context) => {
+  Meteor.call('getMenu', context, function (error, result) {
+    Session.set('sidebarMenu', result);
+  });
+};
+
 
 /**
 /* @summary for a specific section returns how many new items to signal as new in sidebar
@@ -391,3 +400,4 @@ export const toggleSelectedItem = _toggleSelectedItem;
 export const toggleSidebar = animateMenu;
 export const sidebarWidth = _sidebarWidth;
 export const sidebarPercentage = _sidebarPercentage;
+export const updateMenu = _updateMenu;

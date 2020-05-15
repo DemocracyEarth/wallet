@@ -52,7 +52,6 @@ Meteor.methods({
     // Make sure that all arguments are strings.
     check([toId, fromId, story], [String]);
     check(transaction, Object);
-
     log(`{ method: 'sendEmail', user: ${logUser()}, story: '${story}' }`);
 
     let receiver;
@@ -132,7 +131,6 @@ Meteor.methods({
   */
   subsidizeUser(userId) {
     check(userId, String);
-
     log(`{ method: 'subsidizeUser', user: ${logUser()} }`);
     genesisTransaction(userId);
   },
@@ -142,7 +140,6 @@ Meteor.methods({
   */
   loadUserTokenBalance(userId) {
     check(userId, String);
-
     log(`{ method: 'loadUserTokenBalance', user: ${logUser()} }`);
     loadExternalCryptoBalance(userId);
   },
@@ -213,7 +210,6 @@ Meteor.methods({
   */
   getContract(keyword) {
     check(keyword, String);
-
     log(`{ method: 'getContract', user: ${logUser()}, keyword: '${keyword}' }`);
     return Contracts.findOne({ keyword });
   },
@@ -224,7 +220,6 @@ Meteor.methods({
   */
   getContractById(contractId) {
     check(contractId, String);
-
     log(`{ method: 'getContractById', user: ${logUser()}, _id: '${contractId}' }`);
     return Contracts.findOne({ _id: contractId });
   },
@@ -235,7 +230,6 @@ Meteor.methods({
   */
   getCollectiveById(collectiveId) {
     check(collectiveId, String);
-
     log(`{ method: 'getCollectiveById', user: ${logUser()}, _id: '${collectiveId}' }`);
     return Collectives.findOne({ _id: collectiveId });
   },
@@ -246,7 +240,6 @@ Meteor.methods({
   */
   getUser(username) {
     check(username, String);
-
     log(`{ method: 'getUser', user: ${logUser()}, keyword: '${username}' }`);
     const user = Meteor.users.findOne({ username });
     if (user) {
@@ -271,7 +264,6 @@ Meteor.methods({
   getOtherDelegate(contractId, currentDelegateId) {
     check(contractId, String);
     check(currentDelegateId, String);
-
     log(`{ method: 'getOtherDelegate', user: ${logUser()}, contractId: '${contractId}', currentDelegateId: '${currentDelegateId}' }`);
     const contract = Contracts.findOne({ _id: contractId });
     let user;
@@ -300,7 +292,6 @@ Meteor.methods({
   */
   countReplies(contractId) {
     check(contractId, String);
-
     log(`{ method: 'countReplies', user: ${logUser()}, contractId: '${contractId}' }`);
     return Contracts.find({ replyId: contractId }).count();
   },
@@ -342,7 +333,6 @@ Meteor.methods({
   */
   async getBlock(collectives) {
     check(collectives, Array);
-
     log(`{ method: 'getBlock', collectiveId: ${JSON.stringify(collectives)} }`);
 
     const lastTimestamp = await getLastTimestamp().then((resolved) => { return resolved; });
@@ -423,6 +413,8 @@ Meteor.methods({
   */
   getMenu(daoName) {
     check(daoName, String);
+    log(`{ method: 'getMenu', daoName: '${daoName}' }`);
+    console.log(daoName);
 
     let collectives;
     let daoSpecific = false;
@@ -444,6 +436,10 @@ Meteor.methods({
               item.count = parseInt(finalItem.count + item.count, 10);
               found = true;
               if (daoSpecific && item.url) {
+                console.log(`=-----------------------`)
+                console.log(daoSpecific);
+                console.log(item);
+                console.log(finalItem);
                 item.url = `/dao/${daoName.toLowerCase()}${item.url}`;
               }
               break;

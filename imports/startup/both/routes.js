@@ -10,6 +10,8 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { Collectives } from '/imports/api/collectives/Collectives';
+import { updateMenu } from '/imports/ui/modules/menu';
+
 
 if (Meteor.isClient) {
   import '/imports/ui/templates/layout/main.js';
@@ -70,6 +72,9 @@ const _meta = (tag, includeTitle) => {
 const _reset = async () => {
   Session.set('castSingleVote', undefined);
   Session.set('newLogin', false);
+  console.log('updating with:');
+  console.log(Router.current().params.dao ? Router.current().params.dao : '');
+  updateMenu(Router.current().params.dao ? Router.current().params.dao : '');
 };
 
 /**
