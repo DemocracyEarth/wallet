@@ -72,7 +72,6 @@ const _meta = (tag, includeTitle) => {
 const _reset = async () => {
   Session.set('castSingleVote', undefined);
   Session.set('newLogin', false);
-  console.log(typeof Router.current().params);
   updateMenu(Router.current().params.dao ? Router.current().params.dao : '');
 };
 
@@ -201,8 +200,16 @@ Router.route('/dao/:dao', {
     this.next();
   },
   data() {
+    let period = '';
+    if (this.params.query.period) {
+      period = this.params.query.period;
+    }
+
+    const daoName = new RegExp(['^', this.params.dao, '$'].join(''), 'i');
+    const collective = Collectives.findOne({ name: daoName });
+
     return {
-      options: { view: 'dao', sort: { timestamp: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, name: new RegExp(['^', this.params.dao, '$'].join(''), 'i') },
+      options: { view: 'dao', period, collectiveId: collective._id, sort: { timestamp: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, name: daoName },
     };
   },
   onAfterAction() {
