@@ -441,7 +441,7 @@ Meteor.methods({
         }
         if (!found) {
           if (daoSpecific && item.url) {
-            item.url = `/dao/${daoName.toLowerCase()}${item.url}`;
+            item.url = `/dao/${daoName.toLowerCase()}${(item.url === '/') ? '' : item.url}`;
           }
           if (daoSpecific && item.separator) {
             item.label = TAPi18n.__(`${item.label}-dao-specific`).replace('{{dao}}', daoName);
@@ -462,8 +462,8 @@ Meteor.methods({
     if (daoSpecific) {
       finalMenu.unshift({
         label: 'all-daos',
-        icon: 'images/back-arrow.svg',
-        iconActivated: 'images/back-arrow-active.svg',
+        icon: 'images/globe.svg',
+        iconActivated: 'images/globe-active.svg',
         feed: 'user',
         value: true,
         separator: false,
