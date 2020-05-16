@@ -200,8 +200,8 @@ Router.route('/dao/:dao', {
     this.next();
   },
   waitOn() {
-    console.log('waiton');
-    return Meteor.subscribe('collectives', { view: 'daoList' });
+    const daoName = new RegExp(['^', this.params.dao, '$'].join(''), 'i');
+    return Meteor.subscribe('collectives', { view: 'singleDao', name: daoName });
   },
   data() {
     let period = '';
@@ -210,8 +210,6 @@ Router.route('/dao/:dao', {
     }
 
     if (this.ready()) {
-      console.log('calling dao...');
-
       const daoName = new RegExp(['^', this.params.dao, '$'].join(''), 'i');
       const collective = Collectives.findOne({ name: daoName });
 
@@ -222,17 +220,19 @@ Router.route('/dao/:dao', {
     return {};
   },
   onAfterAction() {
-    const collective = Collectives.findOne({ name: new RegExp(['^', this.params.dao, '$'].join(''), 'i') });
-
+    let collective;
     let title;
     let description;
     let image;
     DocHead.removeDocHeadAddedTags();
 
-    if (collective) {
-      title = `${TAPi18n.__('collective-dao-title').replace('{{dao}}', `${collective.name}`)}`;
-      description = `${TAPi18n.__('collective-dao-description').replace('{{dao}}', collective.name)}`;
-      image = `${Router.path('home')}${collective.profile.logo}`;
+    if (this.ready()) {
+      collective = Collectives.findOne({ name: new RegExp(['^', this.params.dao, '$'].join(''), 'i') });
+      if (collective.name) {
+        title = `${TAPi18n.__('collective-dao-title').replace('{{dao}}', `${collective.name}`)}`;
+        description = `${TAPi18n.__('collective-dao-description').replace('{{dao}}', collective.name)}`;
+        image = `${Router.path('home')}${collective.profile.logo}`;
+      }
     } else {
       title = `${TAPi18n.__('collective-dao-title').replace('{{dao}}', `${this.params.dao}`)}`;
       description = `${TAPi18n.__('collective-dao-description').replace('{{dao}}', this.params.dao)}`;
