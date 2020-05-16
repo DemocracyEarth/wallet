@@ -12,6 +12,7 @@ import { here } from '/lib/utils';
 import { gui } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { toggleSidebar } from '/imports/ui/modules/menu';
+import { getDao } from '/imports/ui/templates/layout/url/home/home';
 
 import '/imports/ui/templates/widgets/feed/feed.html';
 import '/imports/ui/templates/widgets/feed/feedItem.js';
@@ -205,6 +206,9 @@ Template.feed.onCreated(function () {
             currentFeed.push(post);
             instance.feed.set(_.uniq(currentFeed));
           }
+        }
+        if (post.collectiveId) {
+          getDao(post.collectiveId);
         }
       }
     },

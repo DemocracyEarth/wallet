@@ -3,6 +3,7 @@ import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 import { DocHead } from 'meteor/kadira:dochead';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { Tracker } from 'meteor/tracker';
 
 import { gui } from '/lib/const';
 import { urlDoctor } from '/lib/utils';
@@ -187,7 +188,6 @@ Router.route('/address/:username', {
   },
 });
 
-
 /**
 * @summary loads a peer feed from @
 **/
@@ -199,18 +199,27 @@ Router.route('/dao/:dao', {
     _reset();
     this.next();
   },
+  waitOn() {
+    console.log('waiton');
+    return Meteor.subscribe('collectives', { view: 'daoList' });
+  },
   data() {
     let period = '';
     if (this.params.query.period) {
       period = this.params.query.period;
     }
 
-    const daoName = new RegExp(['^', this.params.dao, '$'].join(''), 'i');
-    const collective = Collectives.findOne({ name: daoName });
+    if (this.ready()) {
+      console.log('calling dao...');
 
-    return {
-      options: { view: 'dao', period, collectiveId: collective._id, sort: { timestamp: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, name: daoName },
-    };
+      const daoName = new RegExp(['^', this.params.dao, '$'].join(''), 'i');
+      const collective = Collectives.findOne({ name: daoName });
+
+      return {
+        options: { view: 'dao', period, collectiveId: collective._id, sort: { timestamp: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, name: daoName },
+      };
+    }
+    return {};
   },
   onAfterAction() {
     const collective = Collectives.findOne({ name: new RegExp(['^', this.params.dao, '$'].join(''), 'i') });

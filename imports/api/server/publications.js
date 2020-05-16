@@ -34,6 +34,20 @@ Meteor.publish('singleUser', function (userQuery) {
 });
 
 /**
+* @summary gets information of a single user
+* @return {Object} user data
+*/
+Meteor.publish('singleDao', function (daoQuery) {
+  check(daoQuery, Object);
+  const daos = Collectives.find(daoQuery);
+  log(`{ publish: 'singleDao', user: ${logUser()}, query: ${JSON.stringify(daoQuery)}, count: ${daos.count()} }`);
+  if (daos.count() > 0) {
+    return daos;
+  }
+  return this.ready();
+});
+
+/**
 * @summary transactions between a user and a contract
 * @return {Object} querying terms
 */

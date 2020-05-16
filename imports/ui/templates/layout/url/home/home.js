@@ -58,6 +58,26 @@ const _landingMode = (style) => {
 };
 
 /**
+* @summary subscribes to user data
+* @param {object} user user to parse
+* @param {object} instance template running this
+* @param {function} callback when ready take this action
+* @returns {string} country
+*/
+const _getDao = (daoId) => {
+  const daoList = Session.get('daoList');
+  if (daoId && daoList) {
+    if (!_.contains(daoList, daoId)) {
+      daoList.push(daoId);
+      Session.set('daoList', daoList);
+    }
+  } else if (daoId) {
+    Session.set('daoList', [daoList]);
+  }
+};
+
+
+/**
 * @summary creates a replica object based on available data or requests it
 * @param {object} instance with data to persist the replica
 */
@@ -99,6 +119,15 @@ Template.home.onCreated(function () {
         query.push({ _id: avatarList[i] });
       }
       this.subscription = instance.subscribe('singleUser', { $or: query });
+    }
+
+    const daoList = Session.get('daoList');
+    if (daoList) {
+      const daoQuery = [];
+      for (const i in daoList) {
+        daoQuery.push({ _id: daoList[i] });
+      }
+      this.subscription = instance.subscribe('singleDao', { $or: daoQuery });
     }
 
     if (tokenFeed.ready()) {
@@ -599,3 +628,4 @@ Template.periodFeed.events({
 });
 
 export const getLandingMode = _getLandingMode;
+export const getDao = _getDao;
