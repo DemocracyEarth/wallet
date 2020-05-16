@@ -25,7 +25,7 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
 
 **Release:**
 
-* Currently [`version 0.7`](https://github.com/DemocracyEarth/sovereign/releases)
+* Currently [`version 0.8`](https://github.com/DemocracyEarth/sovereign/releases)
 * This [User Agreement](https://github.com/DemocracyEarth/sovereign/blob/master/UserAgreement.md) governs access to and use of the Democracy Earth platform.
 
 ## Setup
@@ -104,7 +104,7 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
 
 ## Specifications
 
-* Built with [Meteor](https://github.com/meteor/meteor) version 1.9
+* Built with [Meteor](https://github.com/meteor/meteor) version 1.10
 * Check our [documentation](http://docs.democracy.earth) for further technical reference (work in progress).
 
 **Supported Browsers:**
