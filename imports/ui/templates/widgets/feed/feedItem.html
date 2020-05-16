@@ -35,7 +35,7 @@
         {{/if}}
         <div id="feedItem-{{_id}}" class="vote vote-search vote-feed nondraggable {{pollStyle}}" href="{{this.url}}">
           <div class="checkbox checkbox-custom">
-            <div class="meta meta-search">
+            <div class="meta meta-search meta-bar">
               <div class="w-list-unstyled w-clearfix identity-list identity-feed-item extra">
                 {{#each signatures}}
                   <div class="w-clearfix identity">
@@ -44,19 +44,20 @@
                 {{else}}
                   {{> avatar placeholder=true size=24}}
                 {{/each}}
-                <div class="data data-feed data-identity">
+                <!--<div class="data data-feed data-identity">
                   <div class="margin-both">
                     <img src="{{getImage 'key'}}" class="clock-icon">
                     <a id="blockchain-explorer" title="{{blockchainFullAddress}}" href="{{blockchainLink}}" target="_blank">
                       <div class="verifier verifier-live verifier-feed verifier-mini verifier-key">{{blockchainAddress}}</div>
                     </a>
                   </div>
-                  <div class="margin-both">
-                    <img src="{{getImage 'clock'}}" class="clock-icon">
-                    <div class="verifier verifier-live verifier-feed verifier-mini">{{sinceDate createdAt}}</div>
-                  </div>
-                </div>
+                </div>-->
                 <div class="data data-feed">
+                  <img class="url-icon" src="{{daoIcon}}">
+                  <a href="{{daoUrl}}" class="verifier verifier-live verifier-feed">
+                    {{daoName}}
+                  </a>
+                  <!--
                   {{#if ragequit}}
                       <img class="url-icon" src="{{getImage 'ragequit-icon'}}">
                       <a href="/?period=ragequit" class="verifier verifier-live verifier-feed">
@@ -74,6 +75,7 @@
                       </div>
                     {{/if}}
                   {{/if}}
+                  -->
                 </div>
               </div>
             </div>
@@ -114,6 +116,9 @@
                       </div>
                     {{else}}
                       {{{description}}}
+                      <div class="date-info">
+                        <div class="verifier verifier-live verifier-feed">{{{sinceDate createdAt}}}</div>
+                      </div>
                       <div class="smart-contract">
                         <div class="parameter">
                           <div class="parameter-name">

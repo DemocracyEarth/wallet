@@ -14,6 +14,12 @@ import { notifierHTML } from '/imports/api/notifier/notifierTemplate.js';
 import { getLastTimestamp, getBlockHeight } from '/lib/web3';
 import { Collectives } from '/imports/api/collectives/Collectives';
 
+/**
+* @summary include a quantity in a message
+* @param {string} quantity to include
+* @param {string} message to parse
+* @return {number} with total proposals
+*/
 const _includeQuantity = (quantity, message) => {
   let modified;
   if (quantity === 0) {
@@ -24,6 +30,24 @@ const _includeQuantity = (quantity, message) => {
     modified = message.replace('{{quantity}}', `${quantity} ${TAPi18n.__('votes').toLowerCase()}`);
   }
   return modified;
+};
+
+/**
+* @summary quick count of all proposals in the system
+* @return {number} with total proposals
+*/
+const _getHistoryCount = () => {
+  const collectives = Collectives.find().fetch();
+  let finalCount = 0;
+  for (const dao of collectives) {
+    for (const item of dao.profile.menu) {
+      if ((item.label === 'moloch-all') && item.count) {
+        finalCount += item.count;
+        break;
+      }
+    }
+  }
+  return finalCount;
 };
 
 Meteor.methods({
@@ -52,7 +76,6 @@ Meteor.methods({
     // Make sure that all arguments are strings.
     check([toId, fromId, story], [String]);
     check(transaction, Object);
-
     log(`{ method: 'sendEmail', user: ${logUser()}, story: '${story}' }`);
 
     let receiver;
@@ -132,7 +155,6 @@ Meteor.methods({
   */
   subsidizeUser(userId) {
     check(userId, String);
-
     log(`{ method: 'subsidizeUser', user: ${logUser()} }`);
     genesisTransaction(userId);
   },
@@ -142,7 +164,6 @@ Meteor.methods({
   */
   loadUserTokenBalance(userId) {
     check(userId, String);
-
     log(`{ method: 'loadUserTokenBalance', user: ${logUser()} }`);
     loadExternalCryptoBalance(userId);
   },
@@ -213,7 +234,6 @@ Meteor.methods({
   */
   getContract(keyword) {
     check(keyword, String);
-
     log(`{ method: 'getContract', user: ${logUser()}, keyword: '${keyword}' }`);
     return Contracts.findOne({ keyword });
   },
@@ -224,7 +244,6 @@ Meteor.methods({
   */
   getContractById(contractId) {
     check(contractId, String);
-
     log(`{ method: 'getContractById', user: ${logUser()}, _id: '${contractId}' }`);
     return Contracts.findOne({ _id: contractId });
   },
@@ -235,7 +254,6 @@ Meteor.methods({
   */
   getCollectiveById(collectiveId) {
     check(collectiveId, String);
-
     log(`{ method: 'getCollectiveById', user: ${logUser()}, _id: '${collectiveId}' }`);
     return Collectives.findOne({ _id: collectiveId });
   },
@@ -246,7 +264,6 @@ Meteor.methods({
   */
   getUser(username) {
     check(username, String);
-
     log(`{ method: 'getUser', user: ${logUser()}, keyword: '${username}' }`);
     const user = Meteor.users.findOne({ username });
     if (user) {
@@ -271,7 +288,6 @@ Meteor.methods({
   getOtherDelegate(contractId, currentDelegateId) {
     check(contractId, String);
     check(currentDelegateId, String);
-
     log(`{ method: 'getOtherDelegate', user: ${logUser()}, contractId: '${contractId}', currentDelegateId: '${currentDelegateId}' }`);
     const contract = Contracts.findOne({ _id: contractId });
     let user;
@@ -300,7 +316,6 @@ Meteor.methods({
   */
   countReplies(contractId) {
     check(contractId, String);
-
     log(`{ method: 'countReplies', user: ${logUser()}, contractId: '${contractId}' }`);
     return Contracts.find({ replyId: contractId }).count();
   },
@@ -342,7 +357,6 @@ Meteor.methods({
   */
   async getBlock(collectives) {
     check(collectives, Array);
-
     log(`{ method: 'getBlock', collectiveId: ${JSON.stringify(collectives)} }`);
 
     const lastTimestamp = await getLastTimestamp().then((resolved) => { return resolved; });
@@ -415,6 +429,75 @@ Meteor.methods({
       replica.user = Meteor.users.findOne({ username: publicAddress.toLowerCase() });
     }
     return replica;
+  },
+
+  /**
+  * @summary get a user or collective based on a public address with its corresponding replica score
+  * @param {string} publicAddress to calculate replica on
+  */
+  getMenu(daoName) {
+    check(daoName, String);
+    log(`{ method: 'getMenu', daoName: '${daoName}' }`);
+
+    let collectives;
+    let daoSpecific = false;
+    if (!daoName) {
+      collectives = Collectives.find().fetch();
+    } else {
+      collectives = Collectives.find({ name: new RegExp(['^', daoName, '$'].join(''), 'i') }).fetch();
+      daoSpecific = true;
+    }
+
+    const finalMenu = [];
+    let found = false;
+    for (const dao of collectives) {
+      for (const item of dao.profile.menu) {
+        found = false;
+        if (finalMenu.length > 0) {
+          for (const finalItem of finalMenu) {
+            if (finalItem.label === item.label) {
+              item.count = parseInt(finalItem.count + item.count, 10);
+              found = true;
+              break;
+            }
+          }
+        }
+        if (!found) {
+          if (daoSpecific && item.url) {
+            item.url = `/dao/${daoName.toLowerCase()}${(item.url === '/') ? '' : item.url}`;
+          }
+          if (daoSpecific && item.separator) {
+            item.label = TAPi18n.__(`${item.label}-dao-specific`).replace('{{dao}}', daoName);
+          }
+          finalMenu.push(item);
+        } else {
+          for (let i = 0; i < finalMenu.length; i += 1) {
+            if (finalMenu[i].label === item.label) {
+              finalMenu[i].count = item.count;
+              finalMenu[i].url = item.url;
+            }
+          }
+        }
+      }
+    }
+
+    // insert back to general view
+    if (daoSpecific) {
+      finalMenu.unshift({
+        label: 'all-daos',
+        icon: 'images/globe.svg',
+        iconActivated: 'images/globe-active.svg',
+        feed: 'user',
+        value: true,
+        separator: false,
+        url: '/',
+        displayToken: false,
+        displayCount: true,
+        count: _getHistoryCount(),
+      });
+    }
+
+    return finalMenu;
   },
 
 });

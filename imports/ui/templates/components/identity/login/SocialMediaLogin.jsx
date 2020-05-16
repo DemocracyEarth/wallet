@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import { PropTypes } from 'prop-types';
 import { TAPi18n } from 'meteor/tap:i18n';
 
 import { displayLogin } from '/imports/ui/modules/popup';

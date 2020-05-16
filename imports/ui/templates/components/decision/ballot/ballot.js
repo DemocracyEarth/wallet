@@ -172,7 +172,7 @@ const _cryptoVote = async () => {
       if (Meteor.user()) {
         if (isMember(Meteor.user(), poll)) {
           if (isPollOpen(Template.instance().now.get(), poll)) {
-            if (await hasRightToVote(Meteor.user().username, poll.importId.toNumber(), contract.collectiveId)) {
+            if (await hasRightToVote(Meteor.user().username, poll.proposalIndex, contract.collectiveId)) {
               if (setupWeb3(true)) {
                 // wallet alert
                 const icon = Meteor.settings.public.app.logo;
@@ -180,11 +180,11 @@ const _cryptoVote = async () => {
                 switch (voteValue) {
                   case defaults.YES:
                     message = TAPi18n.__('dao-confirm-tally').replace('{{voteValue}}', TAPi18n.__('yes')).replace('{{proposalName}}', getProposalDescription(poll.title, true));
-                    await submitVote(poll.importId.toNumber(), 1, poll, contract);
+                    await submitVote(poll.proposalIndex, 1, poll, contract);
                     break;
                   case defaults.NO:
                     message = TAPi18n.__('dao-confirm-tally').replace('{{voteValue}}', TAPi18n.__('no')).replace('{{proposalName}}', getProposalDescription(poll.title, true));
-                    await submitVote(poll.importId.toNumber(), 2, poll, contract);
+                    await submitVote(poll.proposalIndex, 2, poll, contract);
                     break;
                   default:
                     message = TAPi18n.__('dao-default-tally').replace('{{proposalName}}', getProposalDescription(poll.title, true));

@@ -6,10 +6,8 @@ import { gui } from '/lib/const';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import { sidebarWidth, sidebarPercentage, getDelegatesMenu, toggleSidebar } from '/imports/ui/modules/menu';
-import { getFlag, getUser } from '/imports/ui/templates/components/identity/avatar/avatar';
-import { getCoin } from '/imports/api/blockchain/modules/web3Util';
-import { Collectives } from '/imports/api/collectives/Collectives';
+import { sidebarWidth, sidebarPercentage, toggleSidebar } from '/imports/ui/modules/menu';
+import { getFlag } from '/imports/ui/templates/components/identity/avatar/avatar';
 
 import '/imports/ui/templates/layout/sidebar/sidebar.html';
 import '/imports/ui/templates/components/collective/collective.js';
@@ -58,6 +56,7 @@ const _dataToMenu = (user) => {
 * @param {object} db data to parse for menu options
 * @param {boolean} sort if do alphabetical sort or not
 */
+/*
 function getList(db, sort) {
   const members = [];
   for (const i in db) {
@@ -68,12 +67,14 @@ function getList(db, sort) {
   }
   return members;
 }
+*/
 
 /**
 * @summary gets list of delegats for current user
 * @param {object} contractFeed
 * @param {object} transactionFeed
 */
+/*
 function getDelegates(contractFeed, transactionFeed) {
   const delegates = _.sortBy(getDelegatesMenu(contractFeed, transactionFeed), (user) => { return parseInt(0 - (user.sent + user.received), 10); });
   let delegateList = [];
@@ -102,11 +103,13 @@ function getDelegates(contractFeed, transactionFeed) {
 
   return getList(delegateList, false);
 }
+*/
 
 /**
 * @summary all members of the collective without the delegates
 * @param {object} currentDelegates list of delegates
 */
+/*
 const _otherMembers = (currentDelegates) => {
   const members = getList(Meteor.users.find({}, { limit: 10 }).fetch(), true);
   const delegates = currentDelegates;
@@ -132,12 +135,14 @@ const _otherMembers = (currentDelegates) => {
   }
   return finalList;
 };
+*/
 
 
 /**
 * @summary formats delegate list for sidebar menu
 * @param {object} list list of delegates
 */
+/*
 const _adapt = (list) => {
   const menu = [];
   for (let i = 0; i < list.length; i += 1) {
@@ -145,7 +150,7 @@ const _adapt = (list) => {
   }
   return menu;
 };
-
+*/
 
 /**
 * @summary displays the sidebar if logged
@@ -164,12 +169,10 @@ const _showSidebar = () => {
       toggleSidebar(true);
     }
   } else {
-    console.log(`percentage ${percentage}`);
     $('.left').width(`${percentage}%`);
   }
   if (!Session.get('sidebar')) {
     const newMargin = parseInt((Meteor.Device.isPhone() ? 0 : -10) - sidebarWidth(), 10);
-    console.log(`newMargin: ${newMargin}`);
     $('#menu').css('margin-left', `${newMargin}px`);
     if (newMargin < 0) {
       Session.set('removedSidebar', true);
@@ -181,7 +184,6 @@ const _showSidebar = () => {
     }
 
     if (Meteor.Device.isPhone()) {
-      console.log(`sidebarWidth(): ${sidebarWidth()}`);
       $('#content').css('left', sidebarWidth());
       $('#content').css('right', newRight);
       $('#menu').css('margin-left', '0px');
@@ -197,18 +199,20 @@ const _showSidebar = () => {
 };
 
 Template.sidebar.onCreated(function () {
-  Template.instance().delegates = new ReactiveVar();
+  /* Template.instance().delegates = new ReactiveVar();
   Template.instance().members = new ReactiveVar(0);
   Template.instance().participants = new ReactiveVar();
   Template.instance().memberCount = new ReactiveVar(0);
-  Template.instance().daoList = new ReactiveVar();
+  Template.instance().daoList = new ReactiveVar(); */
+  Template.instance().menu = new ReactiveVar();
+  Template.instance().resizing = false;
 
-  const instance = this;
+  /* const collectives = instance.subscribe('collectives', { view: 'daoList' });
 
   Meteor.call('userCount', function (error, result) {
     instance.memberCount.set(result);
   });
-  const collectives = instance.subscribe('collectives', { view: 'daoList' });
+
 
   instance.autorun(function () {
     let delegateList;
@@ -234,7 +238,7 @@ Template.sidebar.onCreated(function () {
     if (!delegateList) {
       Template.instance().participants.set(_otherMembers());
     }
-  });
+  });*/
 });
 
 /**
@@ -242,6 +246,7 @@ Template.sidebar.onCreated(function () {
 * @param {object} user to parse
 * @returns {object} menu
 */
+/*
 const _getMenu = () => {
   // dao feeds
   const menu = [];
@@ -263,10 +268,7 @@ const _getMenu = () => {
   // subjectivity
   return menu;
 };
-
-Template.sidebar.onCreated(function () {
-  Template.instance().resizing = false;
-});
+*/
 
 let resizeId; 
 const _doneResizing = (instance) => {
@@ -329,7 +331,7 @@ Template.sidebar.helpers({
     return 0;
   },
   menu() {
-    return _getMenu();
+    return Session.get('sidebarMenu');
   },
   style() {
     if (!Meteor.Device.isPhone() && Meteor.user()) {

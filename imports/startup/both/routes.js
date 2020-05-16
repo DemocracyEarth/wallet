@@ -3,16 +3,16 @@ import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 import { DocHead } from 'meteor/kadira:dochead';
 import { TAPi18n } from 'meteor/tap:i18n';
-import { HTTP } from 'meteor/http';
+import { Tracker } from 'meteor/tracker';
 
 import { gui } from '/lib/const';
-import { urlDoctor, toTitleCase } from '/lib/utils';
+import { urlDoctor } from '/lib/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { displayNotice } from '/imports/ui/modules/notice';
-import { tokenWeb } from '/lib/token';
-import { sync } from '/imports/ui/templates/layout/sync';
-import { request } from 'http';
+import { Collectives } from '/imports/api/collectives/Collectives';
+import { updateMenu } from '/imports/ui/modules/menu';
+
 
 if (Meteor.isClient) {
   import '/imports/ui/templates/layout/main.js';
@@ -73,6 +73,7 @@ const _meta = (tag, includeTitle) => {
 const _reset = async () => {
   Session.set('castSingleVote', undefined);
   Session.set('newLogin', false);
+  updateMenu(Router.current().params.dao ? Router.current().params.dao : '');
 };
 
 /**
@@ -155,19 +156,6 @@ Router.route('/address/:username', {
     this.next();
   },
   data() {
-    /* 
-    let settings;
-    const user = Meteor.users.findOne({ username: this.params.username });
-    if (!user) {
-      settings = {
-        username: this.params.username,
-      };
-    } else {
-      settings = {
-        username: this.params.username,
-        userId: user._id,
-      };
-    }*/
     return {
       options: { view: 'peer', sort: { timestamp: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, username: this.params.username },
     };
@@ -199,6 +187,69 @@ Router.route('/address/:username', {
     });
   },
 });
+
+/**
+* @summary loads a peer feed from @
+**/
+Router.route('/dao/:dao', {
+  name: 'dao',
+  template: 'home',
+  onBeforeAction() {
+    Session.set('sidebarMenuSelectedId', 999);
+    _reset();
+    this.next();
+  },
+  waitOn() {
+    const daoName = new RegExp(['^', this.params.dao, '$'].join(''), 'i');
+    return Meteor.subscribe('collectives', { view: 'singleDao', name: daoName });
+  },
+  data() {
+    let period = '';
+    if (this.params.query.period) {
+      period = this.params.query.period;
+    }
+
+    if (this.ready()) {
+      const daoName = new RegExp(['^', this.params.dao, '$'].join(''), 'i');
+      const collective = Collectives.findOne({ name: daoName });
+
+      return {
+        options: { view: 'dao', period, collectiveId: collective._id, sort: { timestamp: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, name: daoName },
+      };
+    }
+    return {};
+  },
+  onAfterAction() {
+    let collective;
+    let title;
+    let description;
+    let image;
+    DocHead.removeDocHeadAddedTags();
+
+    if (this.ready()) {
+      collective = Collectives.findOne({ name: new RegExp(['^', this.params.dao, '$'].join(''), 'i') });
+      if (collective.name) {
+        title = `${TAPi18n.__('collective-dao-title').replace('{{dao}}', `${collective.name}`)}`;
+        description = `${TAPi18n.__('collective-dao-description').replace('{{dao}}', collective.name)}`;
+        image = `${Router.path('home')}${collective.profile.logo}`;
+      }
+    } else {
+      title = `${TAPi18n.__('collective-dao-title').replace('{{dao}}', `${this.params.dao}`)}`;
+      description = `${TAPi18n.__('collective-dao-description').replace('{{dao}}', this.params.dao)}`;
+      image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.app.logo}`;
+    }
+
+    DocHead.setTitle(title);
+
+    _meta({
+      title,
+      description,
+      image,
+      twitter: Meteor.settings.public.app.twitter,
+    });
+  },
+});
+
 
 /**
 * @summary loads a post using date in url

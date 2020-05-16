@@ -31,6 +31,9 @@ const _convertQuery = (instance) => {
     case 'peer':
       tally.options.view = 'transactionsPeer';
       break;
+    case 'dao':
+      tally.options.view = 'transactionsDao';
+      break;
     default:
   }
   return tally;

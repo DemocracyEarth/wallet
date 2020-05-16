@@ -1,9 +1,16 @@
 <template name="countdown">
   <div class="countdown">
-      <div class="period {{periodStyle}}">
-        {{period}}
+    <div class="period {{periodStyle}}">
+      {{period}}
+    </div>
+    {{#if electionData}}
+      <div id="votes" class="countdown-label countdown-votes">
+        <img class="url-icon icon-up2" src="{{getImage 'vote-icon-black'}}">
+        {{voters}}
       </div>
+    {{/if}}
     <div id="timer" class="countdown-label">
+      <img class="url-icon icon-up2" src="{{getImage 'calendar'}}">
       {{label}}
     </div>
     <div class="countdown-timer-bar">

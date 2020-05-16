@@ -127,8 +127,8 @@ const _setupChart = (collectiveId, guildLabel) => {
   finalChart.data.datasets = _.findWhere(collective.profile.chart, { guildLabel }).dataset;
   finalChart.data.datasets[0].backgroundColor = [`${token.color}33`];
   finalChart.data.datasets[0].borderColor = [token.color];
-  finalChart.data.datasets[0].borderWidth = 1.5;
-  finalChart.data.datasets[0].lineTension = 0.5;
+  finalChart.data.datasets[0].borderWidth = 1.2;
+  finalChart.data.datasets[0].lineTension = 0;
   finalChart.options.scales.yAxes[0].ticks.callback = (value) => {
     return token ? shortenLargeNumber(value, 0) : value;
   };

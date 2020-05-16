@@ -12,7 +12,7 @@ import '/imports/ui/templates/widgets/chart/chart.js';
 
 
 const standardBalance = {
-  token: 'MOLOCH',
+  token: 'SHARES',
   balance: 0,
   available: 0,
   placed: 0,

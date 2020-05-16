@@ -7,8 +7,10 @@ import { Meteor } from 'meteor/meteor';
 import { TAPi18n } from 'meteor/tap:i18n';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
+import { Collectives } from '/imports/api/collectives/Collectives';
 import { introEditor } from '/imports/ui/templates/widgets/compose/compose';
-import { shortenCryptoName, getUser } from '/imports/ui/templates/components/identity/avatar/avatar';
+import { getUser } from '/imports/ui/templates/components/identity/avatar/avatar';
+import { shortenCryptoName } from '/imports/startup/both/modules/metamask';
 import { getCoin } from '/imports/api/blockchain/modules/web3Util.js';
 import { Tokens } from '/imports/api/tokens/tokens';
 
@@ -56,6 +58,26 @@ const _landingMode = (style) => {
 };
 
 /**
+* @summary subscribes to user data
+* @param {object} user user to parse
+* @param {object} instance template running this
+* @param {function} callback when ready take this action
+* @returns {string} country
+*/
+const _getDao = (daoId) => {
+  const daoList = Session.get('daoList');
+  if (daoId && daoList) {
+    if (!_.contains(daoList, daoId)) {
+      daoList.push(daoId);
+      Session.set('daoList', daoList);
+    }
+  } else if (daoId) {
+    Session.set('daoList', [daoList]);
+  }
+};
+
+
+/**
 * @summary creates a replica object based on available data or requests it
 * @param {object} instance with data to persist the replica
 */
@@ -97,6 +119,15 @@ Template.home.onCreated(function () {
         query.push({ _id: avatarList[i] });
       }
       this.subscription = instance.subscribe('singleUser', { $or: query });
+    }
+
+    const daoList = Session.get('daoList');
+    if (daoList) {
+      const daoQuery = [];
+      for (const i in daoList) {
+        daoQuery.push({ _id: daoList[i] });
+      }
+      this.subscription = instance.subscribe('singleDao', { $or: daoQuery });
     }
 
     if (tokenFeed.ready()) {
@@ -253,16 +284,6 @@ Template.homeFeed.onCreated(function () {
   instance.autorun(function (computation) {
     if (subscription.ready()) {
       _generateReplica(instance);
-
-      const collectiveId = Contracts.findOne().collectiveId;
-      Session.set('search', {
-        input: '',
-        query: [
-          {
-            collectiveId,
-          },
-        ],
-      });
       instance.feedReady.set(true);
       computation.stop();
     }
@@ -301,6 +322,11 @@ const _getTitle = (options, ledgerMode) => {
         return TAPi18n.__('ledger-peer-posts').replace('{{asset}}', shortenCryptoName(username).toUpperCase());
       }
       return TAPi18n.__('feed-peer-posts').replace('{{asset}}', shortenCryptoName(username).toUpperCase());
+    case 'dao':
+      if (ledgerMode) {
+        return TAPi18n.__('dao-events');
+      }
+      return TAPi18n.__('dao-proposals');
     default:
       if (ledgerMode) {
         return TAPi18n.__('recent-activity');
@@ -387,9 +413,12 @@ Template.homeFeed.helpers({
     }
     return false;
   },
+  isDAO() {
+    return (this.options.view === 'dao');
+  },
   collective() {
-    const search = Session.get('search');
-    const collectiveId = _.pluck(search.query, 'collectiveId')[0];
+    const collective = Collectives.findOne({ name: this.options.name });
+    const collectiveId = collective._id;
     return {
       collectiveId,
     };
@@ -599,3 +628,4 @@ Template.periodFeed.events({
 });
 
 export const getLandingMode = _getLandingMode;
+export const getDao = _getDao;

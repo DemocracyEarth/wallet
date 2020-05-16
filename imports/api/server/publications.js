@@ -34,6 +34,20 @@ Meteor.publish('singleUser', function (userQuery) {
 });
 
 /**
+* @summary gets information of a single user
+* @return {Object} user data
+*/
+Meteor.publish('singleDao', function (daoQuery) {
+  check(daoQuery, Object);
+  const daos = Collectives.find(daoQuery);
+  log(`{ publish: 'singleDao', user: ${logUser()}, query: ${JSON.stringify(daoQuery)}, count: ${daos.count()} }`);
+  if (daos.count() > 0) {
+    return daos;
+  }
+  return this.ready();
+});
+
+/**
 * @summary transactions between a user and a contract
 * @return {Object} querying terms
 */
@@ -41,6 +55,7 @@ Meteor.publish('transaction', function (terms) {
   check(terms, Object);
   const parameters = query(terms);
   const transactions = Transactions.find(parameters.find, parameters.options);
+
   log(`{ publish: 'transaction', user: ${logUser()}, contractId: '${terms.contractId}', count: ${transactions.count()} }`);
   if (transactions.count() > 0) {
     return transactions;
@@ -247,7 +262,6 @@ Meteor.publish('collectives', function (terms) {
   }
   return this.ready();
 });
-
 
 /**
 * @summary gets information of registered collectives on this instance

@@ -78,6 +78,7 @@
     "ragequit": "/templates/daoverse/images/ragequit.png",
     "passed": "/templates/daoverse/images/passed.png",
     "rejected": "/templates/daoverse/images/rejected.png",
-    "signout": "/templates/daoverse/images/signout.png"
+    "signout": "/templates/daoverse/images/signout.png",
+    "calendar": "/templates/daoverse/images/calendar.svg"
   }
 }

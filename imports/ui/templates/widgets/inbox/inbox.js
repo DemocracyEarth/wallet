@@ -7,17 +7,21 @@ import '/imports/ui/templates/components/identity/avatar/avatar.js';
 import { toggleSelectedItem } from '../../../modules/menu';
 import './inbox.html';
 
+const _matchingContext = (url) => {
+  if (url) {
+    const current = Router.current().url.replace(window.location.origin, '');
+    if ((Router.current().params.username === url.substring(6))
+      || (current === url)
+    ) {
+      return true;
+    }
+  }
+  return false;
+};
+
 Template.inbox.helpers({
   selected() {
-    if (this.url) {
-      const current = Router.current().url.replace(window.location.origin, '');
-      if ((Router.current().params.username === this.url.substring(6))
-        || (current === this.url)
-      ) {
-        return 'menu-item-selected';
-      }
-    }
-    return '';
+    return (_matchingContext(this.url)) ? 'menu-item-selected' : '';
   },
   isAvatar() {
     return this.isAvatar;
@@ -29,11 +33,7 @@ Template.inbox.helpers({
     return this.count;
   },
   sidebarTagStyle() {
-    const selectedId = Session.get('sidebarMenuSelectedId');
-    if ((selectedId === this.id) || (!selectedId && this.id === 0)) {
-      return 'sidebar-tag-selected';
-    }
-    return '';
+    return (_matchingContext(this.url)) ? 'sidebar-tag-selected' : '';
   },
   tokens() {
     const reserve = {

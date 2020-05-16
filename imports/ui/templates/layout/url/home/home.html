@@ -88,16 +88,18 @@
                   {{> replica this}}
                 {{/with}}
               {{else}}
-                {{#unless isPhone}}
-                  <div class="ledger-title">
-                    <h4>{{_ 'moloch-guild'}}</h4>
-                  </div>
-                {{else}}
-                  <div class="ledger-title ledger-title-empty"></div>
-                {{/unless}}
-                {{#with collective}}
-                  {{> guild this}}
-                {{/with}}
+                {{#if isDAO}}
+                  {{#unless isPhone}}
+                    <div class="ledger-title">
+                      <h4>{{_ 'moloch-guild'}}</h4>
+                    </div>
+                  {{else}}
+                    <div class="ledger-title ledger-title-empty"></div>
+                  {{/unless}}
+                  {{#with collective}}
+                    {{> guild this}}
+                  {{/with}}
+                {{/if}}
               {{/if}}
 
               {{#with mainLedger}}

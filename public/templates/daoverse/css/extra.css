@@ -447,7 +447,7 @@ body, h4, h1, h2 {
 }
 
 .section-poll {
-  margin:0 -10px;
+  margin:0 -5px;
 }
 
 .micro-button.micro-button-feed.no-underline.micro-button-poll {
@@ -723,9 +723,15 @@ width: 1px;
 }
 
 .countdown-label {
-  font-size: 10px;
+  font-size: 11px;
   color: #7d849f;
   text-align:left;
+  display:inline-block;
+}
+
+.countdown-votes {
+  float: right;
+  margin-right: 10px;
 }
 
 .countdown-timer {
@@ -791,7 +797,7 @@ width: 1px;
   text-align: center;
   display: inline-block;
   margin: 10px 15px 10px 0px;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 400;
   color: #5a0075;
   border: 1px solid #ae8abd26;
@@ -954,7 +960,7 @@ h4 {
   padding: 5px;
   line-height: 12px;
   border-radius: 4px;
-  margin-top: -2px;
+  margin-top: 4px;
 }
 
 .period-queue {
@@ -1033,6 +1039,9 @@ h4 {
   border-color: #48587d;
 }
 
+.icon-up2 {
+  margin-top:-2px;
+}
 
 .qr-code-address-text {
   color: #581073;
@@ -1361,6 +1370,10 @@ h4 {
   background-color: none;
 }
 
+.date-info {
+  display: inline-block;
+  margin-top: 10px;
+}
 
 @keyframes fadeInOpacity {
 	0% {
@@ -1450,3 +1463,4 @@ h4 {
 .hero-menu-link.hero-menu-link-signin-simple.hero-menu-link-signin-simple-icon.mobile:active {
   padding: 1px 0px 0px 0px;
 };
+
