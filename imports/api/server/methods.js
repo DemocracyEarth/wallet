@@ -4,6 +4,7 @@ import { check } from 'meteor/check';
 import { Email } from 'meteor/email';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { ServiceConfiguration } from 'meteor/service-configuration';
+import web3 from 'web3';
 
 import { genesisTransaction, loadExternalCryptoBalance, tallyBlockchainVotes } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
@@ -444,7 +445,11 @@ Meteor.methods({
     if (!daoName) {
       collectives = Collectives.find().fetch();
     } else {
-      collectives = Collectives.find({ name: new RegExp(['^', daoName, '$'].join(''), 'i') }).fetch();
+      if (web3.utils.isAddress(daoName)) {
+        collectives = Collectives.find({ 'profile.blockchain.publicAddress': daoName.toLowerCase() }).fetch();
+      } else {
+        collectives = Collectives.find({ name: new RegExp(['^', daoName, '$'].join(''), 'i') }).fetch();
+      }
       daoSpecific = true;
     }
 
@@ -467,7 +472,7 @@ Meteor.methods({
             item.url = `/dao/${daoName.toLowerCase()}${(item.url === '/') ? '' : item.url}`;
           }
           if (daoSpecific && item.separator) {
-            item.label = TAPi18n.__(`${item.label}-dao-specific`).replace('{{dao}}', daoName);
+            item.label = TAPi18n.__(`${item.label}-dao-specific`).replace('{{dao}}', dao.name);
           }
           finalMenu.push(item);
         } else {

@@ -12,7 +12,6 @@ import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { Collectives } from '/imports/api/collectives/Collectives';
 import { updateMenu } from '/imports/ui/modules/menu';
-import { isAddress } from '/imports/api/blockchain/modules/web3Util';
 
 
 if (Meteor.isClient) {
