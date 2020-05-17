@@ -256,9 +256,13 @@ Meteor.publish('collectives', function (terms) {
   check(terms, Object);
   const parameters = query(terms);
   const collectives = Collectives.find(parameters.find, parameters.options);
+
   if (collectives) {
     log(`{ publish: 'collectives', user: ${logUser()} }`);
     return collectives;
+  } else if (terms.view === 'addressDao' && !collectives) {
+    console.log('DAO NOT FOUND');
+    console.log('-------------');
   }
   return this.ready();
 });

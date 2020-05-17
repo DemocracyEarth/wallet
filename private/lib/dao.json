@@ -126,7 +126,7 @@
         ],
         "blockchain" : {
           "isDAO": true,
-          "publicAddress": "0x211a94468ba1e379236b45ca42dc63ee93139c7e",
+          "publicAddress": "0x1fd169a4f5c59acf79d0fd5d91d1201ef1bce9f1",
           "smartContracts": [
             {
               "label": "DAO",

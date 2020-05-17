@@ -3,7 +3,7 @@ import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 import { DocHead } from 'meteor/kadira:dochead';
 import { TAPi18n } from 'meteor/tap:i18n';
-import { Tracker } from 'meteor/tracker';
+import web3 from 'web3';
 
 import { gui } from '/lib/const';
 import { urlDoctor } from '/lib/utils';
@@ -12,6 +12,7 @@ import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { displayNotice } from '/imports/ui/modules/notice';
 import { Collectives } from '/imports/api/collectives/Collectives';
 import { updateMenu } from '/imports/ui/modules/menu';
+import { isAddress } from '/imports/api/blockchain/modules/web3Util';
 
 
 if (Meteor.isClient) {
@@ -200,8 +201,10 @@ Router.route('/dao/:dao', {
     this.next();
   },
   waitOn() {
-    const daoName = new RegExp(['^', this.params.dao, '$'].join(''), 'i');
-    return Meteor.subscribe('collectives', { view: 'singleDao', name: daoName });
+    if (web3.utils.isAddress(this.params.dao)) {
+      return Meteor.subscribe('collectives', { view: 'addressDao', publicAddress: this.params.dao.toLowerCase() });
+    }
+    return Meteor.subscribe('collectives', { view: 'singleDao', name: new RegExp(['^', this.params.dao, '$'].join(''), 'i') });
   },
   data() {
     let period = '';
@@ -210,11 +213,15 @@ Router.route('/dao/:dao', {
     }
 
     if (this.ready()) {
-      const daoName = new RegExp(['^', this.params.dao, '$'].join(''), 'i');
-      const collective = Collectives.findOne({ name: daoName });
+      let collective;
+      if (web3.utils.isAddress(this.params.dao)) {
+        collective = Collectives.findOne({ 'profile.blockchain.publicAddress': this.params.dao.toLowerCase() });
+      } else {
+        collective = Collectives.findOne({ name: new RegExp(['^', this.params.dao, '$'].join(''), 'i') });
+      }
 
       return {
-        options: { view: 'dao', period, collectiveId: collective._id, sort: { timestamp: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, name: daoName },
+        options: { view: 'dao', period, collectiveId: collective._id, sort: { timestamp: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, name: collective.name },
       };
     }
     return {};
@@ -227,7 +234,11 @@ Router.route('/dao/:dao', {
     DocHead.removeDocHeadAddedTags();
 
     if (this.ready()) {
-      collective = Collectives.findOne({ name: new RegExp(['^', this.params.dao, '$'].join(''), 'i') });
+      if (web3.utils.isAddress(this.params.dao)) {
+        collective = Collectives.findOne({ 'profile.blockchain.publicAddress': this.params.dao.toLowerCase() });
+      } else {
+        collective = Collectives.findOne({ name: new RegExp(['^', this.params.dao, '$'].join(''), 'i') });
+      }
       if (collective.name) {
         title = `${TAPi18n.__('collective-dao-title').replace('{{dao}}', `${collective.name}`)}`;
         description = `${TAPi18n.__('collective-dao-description').replace('{{dao}}', collective.name)}`;
