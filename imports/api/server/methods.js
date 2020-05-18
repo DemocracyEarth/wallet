@@ -450,7 +450,11 @@ Meteor.methods({
       } else {
         collectives = Collectives.find({ name: new RegExp(['^', daoName, '$'].join(''), 'i') }).fetch();
       }
-      daoSpecific = true;
+      if (collectives.length > 0) {
+        daoSpecific = true;
+      } else {
+        collectives = Collectives.find().fetch();
+      }
     }
 
     const finalMenu = [];
@@ -486,20 +490,22 @@ Meteor.methods({
       }
     }
 
+    const allDAOs = {
+      label: 'all-daos',
+      icon: 'images/globe.svg',
+      iconActivated: 'images/globe-active.svg',
+      feed: 'user',
+      value: true,
+      separator: false,
+      url: '/',
+      displayToken: false,
+      displayCount: true,
+      count: _getHistoryCount(),
+    };
+
     // insert back to general view
     if (daoSpecific) {
-      finalMenu.unshift({
-        label: 'all-daos',
-        icon: 'images/globe.svg',
-        iconActivated: 'images/globe-active.svg',
-        feed: 'user',
-        value: true,
-        separator: false,
-        url: '/',
-        displayToken: false,
-        displayCount: true,
-        count: _getHistoryCount(),
-      });
+      finalMenu.unshift(allDAOs);
     }
 
     return finalMenu;

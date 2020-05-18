@@ -4,6 +4,7 @@ import { Counts } from 'meteor/tmeasday:publish-counts';
 
 import { query } from '/lib/views';
 import { log, logUser } from '/lib/const';
+import { scan } from '/lib/dao';
 
 import { Transactions } from '/imports/api/transactions/Transactions';
 import { Files } from '/imports/api/files/Files';
@@ -257,12 +258,14 @@ Meteor.publish('collectives', function (terms) {
   const parameters = query(terms);
   const collectives = Collectives.find(parameters.find, parameters.options);
 
-  if (collectives) {
+  console.log(`collectives.length: ${collectives.fetch().length}`);
+
+  if (collectives.fetch().length > 0) {
     log(`{ publish: 'collectives', user: ${logUser()} }`);
     return collectives;
-  } else if (terms.view === 'addressDao' && !collectives) {
-    console.log('DAO NOT FOUND');
-    console.log('-------------');
+  } else if (terms.view === 'addressDao') {
+    scan(terms.publicAddress);
+    return collectives;
   }
   return this.ready();
 });
