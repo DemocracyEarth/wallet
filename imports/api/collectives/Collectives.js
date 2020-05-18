@@ -244,6 +244,7 @@ Schema.Collective = new SimpleSchema({
   },
   domain: {
     type: String,
+    optional: true,
   },
   emails: {
     type: Array,
