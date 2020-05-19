@@ -451,7 +451,14 @@ Meteor.methods({
       const parameters = query({ view: 'addressDao', publicAddress: daoName });
       collectives = Collectives.find(parameters.find).fetch();
 
-      if (collectives.length > 0) {
+      let fullyLoaded;
+      for (const listed of collectives) {
+        if ((listed.status && listed.status.blockchainSync === 'UPDATED') || !listed.status) {
+          fullyLoaded = true;
+          break;
+        }
+      }
+      if ((collectives.length > 0) && fullyLoaded) {
         daoSpecific = true;
       } else {
         collectives = Collectives.find().fetch();

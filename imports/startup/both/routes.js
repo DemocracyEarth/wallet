@@ -216,7 +216,6 @@ Router.route('/dao/:dao', {
     if (this.ready()) {
       const parameters = query({ view: 'addressDao', publicAddress: this.params.dao });
       const collective = Collectives.findOne(parameters.find);
-      console.log(parameters.find);
 
       return {
         options: { view: 'dao', period, collectiveId: collective._id, sort: { timestamp: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, name: collective.name },
