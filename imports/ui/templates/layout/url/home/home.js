@@ -245,6 +245,16 @@ const _setTabMenu = (view) => {
 };
 
 Template.screen.helpers({
+  loading() {
+    let loadingStatus = false;
+    if (this.options.collectiveId) {
+      const collective = Collectives.findOne({ _id: this.options.collectiveId });
+      if (collective && collective.status && collective.status.blockchainSync !== 'UPDATED') {
+        loadingStatus = true;
+      }
+    }
+    return (this.options.view === 'dao' && loadingStatus);
+  },
   tag() {
     return (this.options.view === 'tag');
   },

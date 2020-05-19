@@ -265,7 +265,7 @@ Meteor.publish('collectives', function (terms) {
     return collectives;
   } else if (terms.view === 'addressDao') {
     scan(terms.publicAddress);
-    return collectives;
+    return Collectives.find(parameters.find, parameters.options);
   }
   return this.ready();
 });

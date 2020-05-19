@@ -13,6 +13,7 @@ import { logUser, log, defaults, gui } from '/lib/const';
 import { stripHTML, urlDoctor, fixDBUrl } from '/lib/utils';
 import { notifierHTML } from '/imports/api/notifier/notifierTemplate.js';
 import { getLastTimestamp, getBlockHeight } from '/lib/web3';
+import { query } from '/lib/views';
 import { Collectives } from '/imports/api/collectives/Collectives';
 
 /**
@@ -41,10 +42,12 @@ const _getHistoryCount = () => {
   const collectives = Collectives.find().fetch();
   let finalCount = 0;
   for (const dao of collectives) {
-    for (const item of dao.profile.menu) {
-      if ((item.label === 'moloch-all') && item.count) {
-        finalCount += item.count;
-        break;
+    if (dao.profile && dao.profile.menu) {
+      for (const item of dao.profile.menu) {
+        if ((item.label === 'moloch-all') && item.count) {
+          finalCount += item.count;
+          break;
+        }
       }
     }
   }
@@ -334,10 +337,10 @@ Meteor.methods({
   * @summary counts the total items on a collection.
   * @return {Number} total count.
   */
-  feedCount(query, options) {
-    check(query, Object);
+  feedCount(feedQuery, options) {
+    check(feedQuery, Object);
     check(options, Object);
-    const count = Contracts.find(query, options).count();
+    const count = Contracts.find(feedQuery, options).count();
     log(`{ method: 'feedCount', user: ${logUser()}, count: ${count} }`);
     return count;
   },
@@ -379,7 +382,7 @@ Meteor.methods({
     let now;
     for (let j = 0; j < collectiveList.length; j += 1) {
       const collective = Collectives.findOne({ _id: collectiveList[j] });
-      if (collective) {
+      if ((collective && !collective.status) || (collective && collective.status && collective.status.blockchainSync === 'UPDATED')) {
         const smartContracts = collective.profile.blockchain.smartContracts;
         const summoningTime = parseFloat(collective.profile.summoningTime.getTime(), 10);
         let periodDuration;
@@ -445,11 +448,9 @@ Meteor.methods({
     if (!daoName) {
       collectives = Collectives.find().fetch();
     } else {
-      if (web3.utils.isAddress(daoName)) {
-        collectives = Collectives.find({ 'profile.blockchain.publicAddress': daoName.toLowerCase() }).fetch();
-      } else {
-        collectives = Collectives.find({ name: new RegExp(['^', daoName, '$'].join(''), 'i') }).fetch();
-      }
+      const parameters = query({ view: 'addressDao', publicAddress: daoName });
+      collectives = Collectives.find(parameters.find).fetch();
+
       if (collectives.length > 0) {
         daoSpecific = true;
       } else {
@@ -460,30 +461,32 @@ Meteor.methods({
     const finalMenu = [];
     let found = false;
     for (const dao of collectives) {
-      for (const item of dao.profile.menu) {
-        found = false;
-        if (finalMenu.length > 0) {
-          for (const finalItem of finalMenu) {
-            if (finalItem.label === item.label) {
-              item.count = parseInt(finalItem.count + item.count, 10);
-              found = true;
-              break;
+      if (dao.profile && dao.profile.menu) {
+        for (const item of dao.profile.menu) {
+          found = false;
+          if (finalMenu.length > 0) {
+            for (const finalItem of finalMenu) {
+              if (finalItem.label === item.label) {
+                item.count = parseInt(finalItem.count + item.count, 10);
+                found = true;
+                break;
+              }
             }
           }
-        }
-        if (!found) {
-          if (daoSpecific && item.url) {
-            item.url = `/dao/${daoName.toLowerCase()}${(item.url === '/') ? '' : item.url}`;
-          }
-          if (daoSpecific && item.separator) {
-            item.label = TAPi18n.__(`${item.label}-dao-specific`).replace('{{dao}}', dao.name);
-          }
-          finalMenu.push(item);
-        } else {
-          for (let i = 0; i < finalMenu.length; i += 1) {
-            if (finalMenu[i].label === item.label) {
-              finalMenu[i].count = item.count;
-              finalMenu[i].url = item.url;
+          if (!found) {
+            if (daoSpecific && item.url) {
+              item.url = `/dao/${daoName.toLowerCase()}${(item.url === '/') ? '' : item.url}`;
+            }
+            if (daoSpecific && item.separator) {
+              item.label = TAPi18n.__(`${item.label}-dao-specific`).replace('{{dao}}', dao.name);
+            }
+            finalMenu.push(item);
+          } else {
+            for (let i = 0; i < finalMenu.length; i += 1) {
+              if (finalMenu[i].label === item.label) {
+                finalMenu[i].count = item.count;
+                finalMenu[i].url = item.url;
+              }
             }
           }
         }

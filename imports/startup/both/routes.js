@@ -7,6 +7,8 @@ import web3 from 'web3';
 
 import { gui } from '/lib/const';
 import { urlDoctor } from '/lib/utils';
+import { query } from '/lib/views';
+
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { displayNotice } from '/imports/ui/modules/notice';
@@ -201,9 +203,9 @@ Router.route('/dao/:dao', {
   },
   waitOn() {
     if (web3.utils.isAddress(this.params.dao)) {
-      return Meteor.subscribe('collectives', { view: 'addressDao', publicAddress: this.params.dao.toLowerCase() });
+      return Meteor.subscribe('collectives', { view: 'addressDao', publicAddress: this.params.dao });
     }
-    return Meteor.subscribe('collectives', { view: 'singleDao', name: new RegExp(['^', this.params.dao, '$'].join(''), 'i') });
+    return Meteor.subscribe('collectives', { view: 'singleDao', name: this.params.dao });
   },
   data() {
     let period = '';
@@ -212,12 +214,9 @@ Router.route('/dao/:dao', {
     }
 
     if (this.ready()) {
-      let collective;
-      if (web3.utils.isAddress(this.params.dao)) {
-        collective = Collectives.findOne({ 'profile.blockchain.publicAddress': this.params.dao.toLowerCase() });
-      } else {
-        collective = Collectives.findOne({ name: new RegExp(['^', this.params.dao, '$'].join(''), 'i') });
-      }
+      const parameters = query({ view: 'addressDao', publicAddress: this.params.dao });
+      const collective = Collectives.findOne(parameters.find);
+      console.log(parameters.find);
 
       return {
         options: { view: 'dao', period, collectiveId: collective._id, sort: { timestamp: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, name: collective.name },
@@ -226,19 +225,16 @@ Router.route('/dao/:dao', {
     return {};
   },
   onAfterAction() {
-    let collective;
     let title;
     let description;
     let image;
     DocHead.removeDocHeadAddedTags();
 
     if (this.ready()) {
-      if (web3.utils.isAddress(this.params.dao)) {
-        collective = Collectives.findOne({ 'profile.blockchain.publicAddress': this.params.dao.toLowerCase() });
-      } else {
-        collective = Collectives.findOne({ name: new RegExp(['^', this.params.dao, '$'].join(''), 'i') });
-      }
-      if (collective.name) {
+      const parameters = query({ view: 'addressDao', publicAddress: this.params.dao });
+      const collective = Collectives.findOne(parameters.find);
+
+      if (collective && collective.name) {
         title = `${TAPi18n.__('collective-dao-title').replace('{{dao}}', `${collective.name}`)}`;
         description = `${TAPi18n.__('collective-dao-description').replace('{{dao}}', collective.name)}`;
         image = `${Router.path('home')}${collective.profile.logo}`;

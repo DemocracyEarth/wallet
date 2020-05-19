@@ -15,17 +15,21 @@
 </template>
 
 <template name="screen">
-  <div class="{{anonymousContext}}">
-    {{#if post}}
-      {{> postFeed this}}
-    {{else}}
-      {{#if period}}
-        {{> periodFeed this}}
+  {{#if loading}}
+    LOADING
+  {{else}}
+    <div class="{{anonymousContext}}">
+      {{#if post}}
+        {{> postFeed this}}
       {{else}}
-        {{> homeFeed this}}
+        {{#if period}}
+          {{> periodFeed this}}
+        {{else}}
+          {{> homeFeed this}}
+        {{/if}}
       {{/if}}
-    {{/if}}
-  </div>
+    </div>
+  {{/if}}
 </template>
 
 <template name="homeFeed">
