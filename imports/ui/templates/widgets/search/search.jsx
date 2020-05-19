@@ -4,6 +4,7 @@ import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { Collectives } from '/imports/api/collectives/Collectives';
+import web3 from 'web3';
 
 import { shortenCryptoName } from '/imports/startup/both/modules/metamask';
 import { WithContext as ReactTags } from 'react-tag-input';
@@ -15,6 +16,16 @@ const KeyCodes = {
 
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
+const _dynamicTitle = (label) => {
+  if (web3.utils.isAddress(label)) {
+    return shortenCryptoName(label);
+  }
+  if (label.length > 18) {
+    return `${label.substring(0, 15)}...`;
+  }
+  return label;
+};
+
 const _setTags = () => {
   const params = Router.current().params;
   let contract;
@@ -25,7 +36,7 @@ const _setTags = () => {
     query = [
       {
         id: Router.current().params.username,
-        text: shortenCryptoName(Router.current().params.username),
+        text: _dynamicTitle(Router.current().params.username),
       },
     ];
   } else if (params.dao) {
@@ -34,7 +45,7 @@ const _setTags = () => {
       query = [
         {
           id: Router.current().params.dao,
-          text: collective.name,
+          text: _dynamicTitle(collective.name),
         },
       ];
     }
@@ -43,7 +54,7 @@ const _setTags = () => {
     query = [
       {
         id: Router.current().params.keyword,
-        text: contract.title,
+        text: _dynamicTitle(contract.title),
       },
     ];
   }

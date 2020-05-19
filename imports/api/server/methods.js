@@ -4,7 +4,6 @@ import { check } from 'meteor/check';
 import { Email } from 'meteor/email';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { ServiceConfiguration } from 'meteor/service-configuration';
-import web3 from 'web3';
 
 import { genesisTransaction, loadExternalCryptoBalance, tallyBlockchainVotes } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
