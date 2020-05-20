@@ -18,6 +18,7 @@ import '/imports/ui/templates/components/identity/replica/replica.js';
 import '/imports/ui/templates/layout/url/home/home.html';
 import '/imports/ui/templates/components/collective/guild/guild.js';
 import '/imports/ui/templates/layout/url/landing/landing.js';
+import '/imports/ui/templates/layout/url/synchronizer/synchronizer.js';
 import '/imports/ui/templates/layout/url/hero/hero.js';
 import '/imports/ui/templates/widgets/feed/feed.js';
 import '/imports/ui/templates/widgets/tally/tally.js';

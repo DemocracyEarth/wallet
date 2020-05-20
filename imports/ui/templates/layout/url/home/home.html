@@ -16,7 +16,7 @@
 
 <template name="screen">
   {{#if loading}}
-    LOADING
+    {{> synchronizer}}
   {{else}}
     <div class="{{anonymousContext}}">
       {{#if post}}

@@ -32,6 +32,8 @@ const _setTags = () => {
   let collective;
   let query = [];
 
+  console.log(params);
+
   if (params.username) {
     query = [
       {
@@ -41,6 +43,9 @@ const _setTags = () => {
     ];
   } else if (params.dao) {
     collective = Collectives.findOne({ name: new RegExp(['^', params.dao, '$'].join(''), 'i') });
+    if (!collective) {
+      collective = Collectives.findOne({ 'profile.blockchain.publicAddress': new RegExp(['^', params.dao, '$'].join(''), 'i') });
+    }
     if (collective) {
       query = [
         {
