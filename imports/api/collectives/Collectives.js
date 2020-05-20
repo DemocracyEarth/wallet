@@ -146,6 +146,7 @@ Schema.Chart = new SimpleSchema({
 Schema.Status = new SimpleSchema({
   loadPercentage: {
     type: Number,
+    defaultValue: 0,
     optional: true,
   },
   blockchainSync: {
@@ -154,6 +155,10 @@ Schema.Status = new SimpleSchema({
     optional: true,
   },
   publicAddress: {
+    type: String,
+    optional: true,
+  },
+  message: {
     type: String,
     optional: true,
   },

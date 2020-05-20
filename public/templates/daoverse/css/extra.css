@@ -1380,6 +1380,33 @@ h4 {
   max-width: 350px;
 }
 
+@media (max-width: 767px) {
+  .sync-animation {
+    max-width: 250px;
+  }
+}
+
+.sync-status-bar {
+  max-width: 500px;
+  width: 90%;
+  clear: both;
+  margin: 20px auto;
+  height: 30px;
+}
+
+.sync-status-message {
+  max-width: 500px;
+  width:90%;
+  margin: 0 auto;
+  font-size: 0.8em;
+  line-height: 1.6em;
+  color: #5d5d5d;
+}
+
+.poll-score-bar.poll-sync {
+  border: 1px solid #580173;
+}
+
 @keyframes fadeInOpacity {
 	0% {
 		opacity: 0;

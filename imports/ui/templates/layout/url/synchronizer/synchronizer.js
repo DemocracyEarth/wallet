@@ -1,4 +1,5 @@
 import { Template } from 'meteor/templating';
+import { TAPi18n } from 'meteor/tap:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 
@@ -13,5 +14,12 @@ Template.synchronizer.onCreated(function () {
 Template.synchronizer.helpers({
   getImage(pic) {
     return getImage(Template.instance().imageTemplate.get(), pic);
+  },
+  message() {
+    console.log(this);
+    return TAPi18n.__('synchronizer-detail');
+  },
+  percentage() {
+    return `${this.status.loadPercentage}%`;
   },
 });

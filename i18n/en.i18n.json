@@ -847,5 +847,6 @@
   "dao-proposals": "DAO Proposals.",
   "dao-events": "DAO Events.",
   "all-daos": "All DAOs",
-  "synchronizer-scanning": "Scanning the blockchain with address activity..."
+  "synchronizer-scanning": "Scanning address activity on the blockchain.",
+  "synchronizer-detail": "Getting address events..."
 }

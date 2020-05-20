@@ -246,6 +246,9 @@ const _setTabMenu = (view) => {
 };
 
 Template.screen.helpers({
+  collective() {
+    return Collectives.findOne({ _id: this.options.collectiveId });
+  },
   loading() {
     let loadingStatus = false;
     if (this.options.collectiveId) {
