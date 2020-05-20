@@ -22,12 +22,11 @@ h1 {
 }
 
 h2 {
-  border-bottom: 1px solid #000;
+  color: #580173;
   font-family: Lato, sans-serif;
-  font-size: 18px;
-  line-height: 28px;
+  font-size: 20px;
+  line-height: 30px;
   font-weight: 300;
-  text-transform: uppercase;
 }
 
 h3 {
