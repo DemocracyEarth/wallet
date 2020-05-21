@@ -151,7 +151,7 @@ Schema.Status = new SimpleSchema({
   },
   blockchainSync: {
     type: String,
-    allowedValues: ['SETUP', 'SYNCING', 'UPDATED'],
+    allowedValues: ['SETUP', 'SYNCING', 'UPDATED', 'EMPTY'],
     optional: true,
   },
   publicAddress: {
@@ -253,6 +253,10 @@ Schema.Collective = new SimpleSchema({
   },
   emails: {
     type: Array,
+    optional: true,
+  },
+  kind: {
+    type: String,
     optional: true,
   },
   'emails.$': {
