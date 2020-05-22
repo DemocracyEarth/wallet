@@ -16,7 +16,9 @@ Template.synchronizer.helpers({
     return getImage(Template.instance().imageTemplate.get(), pic);
   },
   message() {
-    console.log(this);
+    if (this.status && this.status.message) {
+      return this.status.message;
+    }
     return TAPi18n.__('synchronizer-detail');
   },
   percentage() {

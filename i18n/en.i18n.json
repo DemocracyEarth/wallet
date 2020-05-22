@@ -848,6 +848,6 @@
   "dao-events": "DAO Events.",
   "all-daos": "All DAOs",
   "synchronizer-scanning": "Scanning address activity on the blockchain.",
-  "synchronizer-detail": "Getting address events, this may take a few minutes...",
+  "synchronizer-detail": "This may take a few minutes...",
   "synchronizer-empty": "No DAO activity was found on this address."
 }
