@@ -849,5 +849,6 @@
   "all-daos": "All DAOs",
   "synchronizer-scanning": "Scanning address activity on the blockchain.",
   "synchronizer-detail": "This may take a few minutes...",
-  "synchronizer-empty": "No DAO activity was found on this address."
+  "synchronizer-empty": "No DAO found on this address.",
+  "synchronizer-found": "DAO found and syncing events..."
 }
