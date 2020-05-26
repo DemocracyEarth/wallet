@@ -851,5 +851,11 @@
   "synchronizer-detail": "This may take a few minutes...",
   "synchronizer-empty": "No DAO found on this address.",
   "synchronizer-found": "DAO found and syncing events...",
-  "scan-boilerplate-name": "{{init}} {{end}} DAO"
+  "scan-boilerplate-name": "{{init}} {{end}} DAO",
+  "scan-boilerplate-bio": "{{DAOType}} deployed on {{address}}",
+  "dao-type-moloch": "A Moloch DAO",
+  "dao-type-aragon": "An Aragon DAO",
+  "dao-type-daostack": "A DAOStack",
+  "dao-type-colony": "A Colony DAO",
+  "dao-type-democracy": "A Democracy DAO"
 }

@@ -234,13 +234,16 @@ Schema.User = new SimpleSchema({
   },
   'emails.$': {
     type: Object,
+    optional: true,
   },
   'emails.$.address': {
     type: String,
     regEx: SimpleSchema.RegEx.Email,
+    optional: true,
   },
   'emails.$.verified': {
     type: Boolean,
+    optional: true,
   },
   // use this registered_emails field if you are using splendido:meteor-accounts-emails-field
   registered_emails: {

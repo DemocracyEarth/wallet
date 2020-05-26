@@ -167,7 +167,6 @@ Schema.Status = new SimpleSchema({
 Schema.CollectiveProfile = new SimpleSchema({
   website: {
     type: String,
-    regEx: SimpleSchema.RegEx.Url,
     optional: true,
   },
   bio: {

@@ -59,6 +59,7 @@ Schema.Wallet = new SimpleSchema({
         return [];
       }
     },
+    optional: true,
   },
   'address.$': {
     type: Object,
@@ -79,6 +80,7 @@ Schema.Wallet = new SimpleSchema({
         return [];
       }
     },
+    optional: true,
   },
   'ledger.$': {
     type: Object,
