@@ -4,7 +4,7 @@ import { Counts } from 'meteor/tmeasday:publish-counts';
 
 import { query } from '/lib/views';
 import { log, logUser } from '/lib/const';
-// import { scan } from '/lib/dao';
+import { install } from '/lib/dao';
 import { TAPi18n } from 'meteor/tap:i18n';
 
 import { Transactions } from '/imports/api/transactions/Transactions';
@@ -259,34 +259,11 @@ Meteor.publish('collectives', function (terms) {
   const parameters = query(terms);
   const collectives = Collectives.find(parameters.find, parameters.options);
 
-  console.log(`collectives.length: ${collectives.fetch().length}`);
-
   if (collectives.fetch().length > 0) {
     log(`{ publish: 'collectives', user: ${logUser()} }`);
     return collectives;
   } else if (terms.view === 'addressDao') {
-    // inserts new DAO to be scanned by cronjob
-    const temporary = {
-      name: terms.publicAddress,
-      status: {
-        loadPercentage: 0,
-        blockchainSync: 'SETUP',
-        publicAddress: terms.publicAddress,
-        message: TAPi18n.__('synchronizer-detail'),
-      },
-    };
-
-    Collectives.insert(temporary, (error, result) => {
-      if (error) {
-        log('[dao WARNING] Insert Error.');
-        log(error);
-      }
-      if (result) {
-        log(`[dao] Temporary collective inserted with id: ${result}`);
-      }
-      return result;
-    });
-
+    install(terms.publicAddress);
     return Collectives.find(parameters.find, parameters.options);
   }
   return this.ready();
