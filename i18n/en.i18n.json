@@ -854,6 +854,7 @@
   "synchronizer-contract": "Reading DAO smart contract...",
   "synchronizer-proposals": "Listing DAO proposals...",
   "synchronizer-events": "Tallying DAO votes...",
+  "synchronizer-finished": "DAO Updated",
   "scan-boilerplate-name": "{{init}} {{end}} DAO",
   "scan-boilerplate-bio": "{{DAOType}} deployed on {{address}}",
   "dao-type-moloch": "A Moloch DAO",
