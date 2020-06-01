@@ -1,26 +1,20 @@
 {
   "dao": [
     {
-      "name": "MolochDAO",
-      "domain": "molochdao.com",
+      "name": "Orochi DAO V2",
       "profile": {
-        "logo": "/images/moloch.png",
-        "website": "https://molochdao.com",
-        "bio": "A community DAO to fund Ethereum development in the name of Moloch the God of Coordination Failure.",
-        "blockchain" : {
-          "publicAddress": "0x1fd169a4f5c59acf79d0fd5d91d1201ef1bce9f1"
+        "bio": "⛩️ Party like AD 720 🍶",
+        "blockchain": {
+          "publicAddress": "0xb42616e266cb0c6d34c1434f09b95ed50bb551ed"
         }
       }
     },
     {
-      "name": "MetaCartel",
-      "domain": "metacartel.org",
+      "name": "DeoraTest",
       "profile": {
-        "logo": "/images/metacartel.png",
-        "website": "https://metacartel.org",
-        "bio": "MetaCartel is a ecosystem of creators and operators building decentralized applications (DApps).",
+        "bio": "some description",
         "blockchain": {
-          "publicAddress": "0x0372f3696fa7dc99801f435fd6737e57818239f2"
+          "publicAddress": "0x48c2f0a379f8cc93b1be3775964e242adebfd8dc"
         }
       }
     }

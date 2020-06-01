@@ -22,8 +22,13 @@ const _calculateGini = (collective) => {
       }
     }
   }
-  const gini = giniCalculator.unordered(set);
-  return gini;
+
+  if (set.length > 0) {
+    const gini = giniCalculator.unordered(set);
+    log(`[oracle] Gini score of collective ${collective._id}: ${gini}`);
+    return gini;
+  }
+  return 1;
 };
 
 /**
@@ -45,7 +50,7 @@ const _setCollectiveReplicaScore = (collectiveId) => {
   if (collective) {
     const gini = _calculateGini(collective);
     const ranking = _calculateRanking(collective);
-    const score = parseFloat((gini + ranking) / 2, 10);
+    const score = parseFloat(((1 - gini) + ranking) / 2, 10);
     const lastSyncedBlock = collective.profile.lastSyncedBlock ? collective.profile.lastSyncedBlock : 0;
 
     replica = {
