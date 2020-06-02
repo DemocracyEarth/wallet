@@ -328,7 +328,7 @@ const _sidebarWidth = () => {
 /* @summary animation for main menu toggle activation burger button
 */
 const animateMenu = () => {
-  const sidebarPixelWidth = _sidebarWidth();
+  /* const sidebarPixelWidth = _sidebarWidth();
 
   Session.set('sidebar', !Session.get('sidebar'));
   if (!Meteor.user() && !Meteor.Device.isPhone()) { Session.set('sidebar', false); }
@@ -372,7 +372,7 @@ const animateMenu = () => {
       left: 0,
       right: 0,
     });
-  }
+  }  */
 };
 
 /**
