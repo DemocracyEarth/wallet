@@ -5,6 +5,29 @@ export const Tokens = new Mongo.Collection('tokens');
 
 const Schema = {};
 
+Schema.Oracle = new SimpleSchema({
+  available: {
+    type: Boolean,
+    optional: true,
+  },
+  abi: {
+    type: String,
+    optional: true,
+  },
+  address: {
+    type: String,
+    optional: true,
+  },
+  method: {
+    type: String,
+    optional: true,
+  },
+  decimals: {
+    type: Number,
+    optional: true,
+  },
+});
+
 Schema.Token = new SimpleSchema({
   code: {
     type: String,
@@ -67,19 +90,7 @@ Schema.Token = new SimpleSchema({
     optional: true,
   },
   oracle: {
-    type: Boolean,
-    optional: true,
-  },
-  oracleABI: {
-    type: String,
-    optional: true,
-  },
-  oracleAddress: {
-    type: String,
-    optional: true,
-  },
-  oracleMethod: {
-    type: String,
+    type: Schema.Oracle,
     optional: true,
   },
   method: {
