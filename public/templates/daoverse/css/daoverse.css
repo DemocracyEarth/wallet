@@ -4304,13 +4304,6 @@ blockquote {
   text-align: left;
 }
 
-@media (max-width: 991px) {
-  .left {
-    width: 0px;
-  }
-}
-
-
 .topbar-max {
   max-width: 1200px;
   margin: 0 auto;
@@ -7192,6 +7185,7 @@ blockquote {
   }
   .left {
     background-color: #fff;
+    width: 0px;
     box-shadow: none;
   }
   .alert {

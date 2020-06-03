@@ -1,7 +1,9 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { Router } from 'meteor/iron:router';
 
+import { toggle } from '/imports/ui/templates/layout/navigation/navigation';
 import '/imports/ui/templates/components/identity/avatar/avatar.js';
 
 import { toggleSelectedItem } from '../../../modules/menu';
@@ -55,6 +57,9 @@ Template.inbox.events({
       toggleSelectedItem(Session.get('menuDelegates'));
     } else {
       toggleSelectedItem(Session.get('menuDecisions'));
+    }
+    if (Meteor.Device.isPhone()) {
+      toggle();
     }
   },
 });

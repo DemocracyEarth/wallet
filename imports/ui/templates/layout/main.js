@@ -27,6 +27,7 @@ import { Router } from 'meteor/iron:router';
 
 import { sync } from '/imports/ui/templates/layout/sync';
 import { toggleSidebar } from '/imports/ui/modules/menu';
+import { toggle } from '/imports/ui/templates/layout/navigation/navigation';
 import { globalObj } from '/lib/global';
 import { geo } from '/lib/geo';
 import { token } from '/lib/token';
@@ -40,7 +41,6 @@ import '/imports/ui/templates/widgets/modal/modal';
 import '/imports/ui/templates/widgets/popup/popup';
 import '/imports/ui/templates/layout/url/topbar/topbar';
 import '/imports/ui/templates/layout/sidebar/sidebar';
-import '/imports/ui/templates/layout/navigation/navigation';
 import '/imports/ui/templates/layout/response/verifyEmail/verifyEmail';
 import '/imports/ui/templates/layout/touchmenu/touchmenu';
 import '/imports/ui/templates/components/decision/editor/editor';
@@ -189,7 +189,7 @@ Template.main.helpers({
 
 Template.main.events({
   'click .inhibitor'() {
-    toggleSidebar();
+    toggle();
   },
 });
 
