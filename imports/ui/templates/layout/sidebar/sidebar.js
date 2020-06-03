@@ -6,7 +6,7 @@ import { gui } from '/lib/const';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import { sidebarWidth, sidebarPercentage, toggleSidebar } from '/imports/ui/modules/menu';
+import { sidebarWidth, sidebarPercentage } from '/imports/ui/modules/menu';
 
 import '/imports/ui/templates/layout/sidebar/sidebar.html';
 import '/imports/ui/templates/components/collective/collective.js';
@@ -35,7 +35,7 @@ const _showSidebar = () => {
       Session.set('miniWindow', false);
     }
     if (($(window).width() < gui.MOBILE_MAX_WIDTH && Session.get('sidebar')) || ($(window).width() >= gui.MOBILE_MAX_WIDTH && !Session.get('sidebar'))) {
-      toggleSidebar(true);
+      // toggleSidebar(true);
     }
   } else {
     $('.left').width(`${percentage}%`);

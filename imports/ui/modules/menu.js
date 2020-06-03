@@ -325,57 +325,6 @@ const _sidebarWidth = () => {
 };
 
 /**
-/* @summary animation for main menu toggle activation burger button
-*/
-const animateMenu = () => {
-  /* const sidebarPixelWidth = _sidebarWidth();
-
-  Session.set('sidebar', !Session.get('sidebar'));
-  if (!Meteor.user() && !Meteor.Device.isPhone()) { Session.set('sidebar', false); }
-
-  if (Session.get('sidebar')) {
-    // show sidebar
-    let newRight = 0;
-
-    if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
-      newRight = parseInt(0 - sidebarPixelWidth, 10);
-    }
-
-    // loose mobile menu
-    if (Meteor.Device.isPhone() || Session.get('miniWindow')) {
-      $('.mobile-menu').css('margin-top', '-55px');
-      $('.mobile-menu').css('position', 'absolute');
-      $('.mobile-menu').css('top', `${$('#content').scrollTop() + $(window).height()}px`);
-      $('.navbar').css('position', 'absolute');
-      $('.navbar').css('top', `${$('#content').scrollTop()}px`);
-      $('.inhibitor').css('display', 'block');
-      $('.inhibitor').css('position', 'fixed');
-      $('.inhibitor').css('left', `${sidebarPixelWidth}px`);
-      if (Meteor.Device.isPhone()) {
-        $('.content').css('overflow', 'hidden');
-        $('#menu').css({ width: `${sidebarPixelWidth}px` });
-      }
-    }
-
-    $('#menu').css({ marginLeft: '0px' });
-    $('#content').css({
-      left: sidebarPixelWidth,
-      right: newRight,
-    });
-  } else if (Meteor.Device.isPhone() || Session.get('miniWindow')) {
-    // hide sidebar
-    $('.inhibitor').css('display', 'none');
-    $('.navbar').css('position', 'fixed');
-    $('.navbar').css('top', '0px');
-    $('#menu').css({ marginLeft: parseInt(0 - sidebarPixelWidth, 10) });
-    $('#content').css({
-      left: 0,
-      right: 0,
-    });
-  }  */
-};
-
-/**
 /* stores the current selected item in case of refresh
 /* @param {array} arrMenu - arry items from menu
 ******/
@@ -397,7 +346,6 @@ const _toggleSelectedItem = (arrMenu) => {
 
 export const getDelegatesMenu = _getDelegatesMenu;
 export const toggleSelectedItem = _toggleSelectedItem;
-export const toggleSidebar = animateMenu;
 export const sidebarWidth = _sidebarWidth;
 export const sidebarPercentage = _sidebarPercentage;
 export const updateMenu = _updateMenu;

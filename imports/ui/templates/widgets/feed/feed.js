@@ -11,7 +11,6 @@ import { query } from '/lib/views';
 import { here } from '/lib/utils';
 import { gui } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
-// import { toggleSidebar } from '/imports/ui/modules/menu';
 import { getDao } from '/imports/ui/templates/layout/url/home/home';
 
 import '/imports/ui/templates/widgets/feed/feed.html';
@@ -138,10 +137,6 @@ Template.feed.onCreated(function () {
   Template.instance().lastItemDate = new ReactiveVar();
 
   const instance = this;
-
-  /* if ((Meteor.Device.isPhone() && Session.get('sidebar')) || (Session.get('miniWindow') && Session.get('sidebar'))) {
-    toggleSidebar(false);
-  } */
 
   if (Meteor.Device.isPhone() && Meteor.user()) {
     // document.getElementsByClassName('split-left')[0].style.paddingTop = '0px';
