@@ -6540,9 +6540,11 @@ blockquote {
 }
 
 .hero-menu {
-  display: inline;
   margin-right: auto;
   margin-left: auto;
+  overflow: hidden;
+  max-height: 60px;
+  display: block;
 }
 
 .hero-logo {
@@ -7649,14 +7651,49 @@ blockquote {
 
 .ReactTags__selected {
   background: #864b9a;
-  min-width: 300px;
-  max-width: 500px;
-  display: inline-block;
+  min-width: 200px;
+  max-width: 300px;
   float: left;
   margin: 12px 10px 10px 0px;
   padding: 2px 15px;
   border-radius: 25px;
 }
+
+
+.ReactTags__tag {
+  opacity: 1;
+  font-size: 0.8em;
+  float: left;
+  cursor: move;
+  background: #580074;
+  border-radius: 25px;
+  color: white;
+  padding: 0px 10px;
+  margin: 0 15px 0px -13px;
+}
+
+
+@media (max-width: 767px) {
+  .ReactTags__selected {
+    min-width: 100px;
+    max-width: 300px;
+  }
+
+  .ReactTags__tagInput {
+
+  }
+
+  .ReactTags__tag {
+    margin: 0 -13px 0px -13px;
+  }
+}
+
+@media (max-width: 479px) {
+  .ReactTags__tag {
+    font-size: 0.9em;
+  }
+}
+
 
 .ReactTags__tagInput {
   float: left;
@@ -7670,18 +7707,6 @@ blockquote {
   font-size: 0.8em;
   margin-left: -15px;
   margin-right: -20px;
-}
-
-.ReactTags__tag {
-  opacity: 1;
-  font-size: 0.8em;
-  float: left;
-  cursor: move;
-  background: #580074;
-  border-radius: 25px;
-  color: white;
-  padding: 0px 10px;
-  margin: 0 15px 0px -13px;
 }
 
 .ReactTags__remove {

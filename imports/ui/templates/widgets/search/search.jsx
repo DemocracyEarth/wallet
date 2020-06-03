@@ -32,8 +32,6 @@ const _setTags = () => {
   let collective;
   let query = [];
 
-  console.log(params);
-
   if (params.username) {
     query = [
       {
