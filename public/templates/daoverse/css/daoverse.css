@@ -6545,10 +6545,7 @@ blockquote {
 
 .hero-button {
   display: inline-block;
-  margin-right: 10px;
-  margin-left: 10px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding:10px;
 }
 
 .hero-button.hero-button-mobile.hero-signin {
@@ -7717,18 +7714,22 @@ blockquote {
 
 .search-wrapper {
   display: block;
-  padding: 0px 90px 0px 50px;
+  padding: 0px 100px 0px 50px;
 }
 
-.search-wrapper {
+.search-wrapper-logged {
   display: block;
-  padding: 0px 185px 0px 50px;
+  padding: 0px 200px 0px 50px;
 }
 
 @media (max-width: 767px) {
   .ReactTags__selected {
     min-width: 100px;
     max-width: 300px;
+  }
+
+  .ReactTags__tagInput {
+    max-width:100px;
   }
 }
 
@@ -7760,7 +7761,7 @@ blockquote {
   }
 }
 
-@media (max-width: 275px) {
+@media (max-width: 300px) {
   .ReactTags__tags {
     display:none;
   }
