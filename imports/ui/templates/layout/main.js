@@ -26,7 +26,6 @@ import { Template } from 'meteor/templating';
 import { Router } from 'meteor/iron:router';
 
 import { sync } from '/imports/ui/templates/layout/sync';
-import { toggleSidebar } from '/imports/ui/modules/menu';
 import { toggle } from '/imports/ui/templates/layout/navigation/navigation';
 import { globalObj } from '/lib/global';
 import { geo } from '/lib/geo';

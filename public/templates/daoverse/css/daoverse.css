@@ -4293,26 +4293,16 @@ blockquote {
   position: fixed;
   top: 0px;
   bottom: 0px;
-  /* box-shadow:inset -1px 0px #eaeaec; */
   z-index: 12500;
-  display: inline-block;
   overflow: hidden;
-  width: 250px;
-  margin-left: -10000px;
+  width: 260px;
   float: left;
-  /* background-color: #f9f9ff; */
   text-align: left;
 }
 
 .topbar-max {
   max-width: 1200px;
   margin: 0 auto;
-}
-
-
-.left.left-edit {
-  width: 260px;
-  margin-left: 0px;
 }
 
 .vote-label {
@@ -7673,28 +7663,6 @@ blockquote {
 }
 
 
-@media (max-width: 767px) {
-  .ReactTags__selected {
-    min-width: 100px;
-    max-width: 300px;
-  }
-
-  .ReactTags__tagInput {
-
-  }
-
-  .ReactTags__tag {
-    margin: 0 -13px 0px -13px;
-  }
-}
-
-@media (max-width: 479px) {
-  .ReactTags__tag {
-    font-size: 0.9em;
-  }
-}
-
-
 .ReactTags__tagInput {
   float: left;
   margin: 0 10px;
@@ -7707,6 +7675,7 @@ blockquote {
   font-size: 0.8em;
   margin-left: -15px;
   margin-right: -20px;
+  max-width: 150px;
 }
 
 .ReactTags__remove {
@@ -7744,4 +7713,46 @@ blockquote {
 
 .ReactTags__tagInput ::placeholder {
   color: #ab83b9;
+}
+
+@media (max-width: 767px) {
+  .ReactTags__selected {
+    min-width: 100px;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 479px) {
+  .ReactTags__tag, .ReactTags__tagInputField {
+    font-size: 0.9em;
+  }
+
+  .ReactTags__tags {
+    width: 100%;
+    display: block;
+    height: 60px;
+    padding: 0px 90px 0px 50px;
+  }
+
+  .ReactTags__selected {
+    width:100%;
+    max-width: none;
+    min-width: none;
+    height: 32px;
+    overflow: hidden;
+  }
+
+  .hero-menu {
+    display:none;
+  }  
+
+  .ReactTags__tagInput {
+    max-width:100px;
+  }
+}
+
+@media (max-width: 275px) {
+  .ReactTags__tags {
+    display:none;
+  }
 }

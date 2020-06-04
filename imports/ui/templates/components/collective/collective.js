@@ -8,7 +8,6 @@ import { $ } from 'meteor/jquery';
 import { Collectives } from '/imports/api/collectives/Collectives';
 import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
 import { resetSplit } from '/imports/ui/modules/split';
-import { showSidebar } from '/imports/ui/templates/layout/sidebar/sidebar';
 import { ReactiveVar } from 'meteor/reactive-var';
 
 import { shortenCryptoName } from '/imports/startup/both/modules/metamask';
@@ -47,7 +46,6 @@ Template.collective.onRendered(() => {
 
   if (!Meteor.Device.isPhone() && Meteor.user()) {
     // brute force proper rendering
-    showSidebar();
     resetSplit();
   }
 

@@ -75,7 +75,7 @@ const _getTags = () => {
 
 const _getSuggestions = () => {
   return [
-    { id: 'USA', text: 'USA' },
+    { id: 'USA', text: '<strong>USA</strong>' },
     { id: 'Germany', text: 'Germany' },
     { id: 'Austria', text: 'Austria' },
     { id: 'Costa Rica', text: 'Costa Rica' },
