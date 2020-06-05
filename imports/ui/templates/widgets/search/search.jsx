@@ -104,6 +104,7 @@ export default class Search extends React.Component {
     this.setState({
       tags: tags.filter((tag, index) => { return (index !== i); }),
     });
+    document.getElementsByClassName('ReactTags__selected')[0].scrollLeft = 0;
   }
 
   handleAddition(tag) {

@@ -7346,6 +7346,7 @@ blockquote {
   .hero-menu {
     padding-right: 0px;
     padding-left: 0px;
+    display:none;
   }
   .hero-button.hero-button-mobile {
     display: inline-block;
@@ -7639,29 +7640,32 @@ blockquote {
 .ReactTags__selected {
   background: #864b9a;
   min-width: 200px;
-  max-width: 300px;
   float: left;
   margin: 12px 10px 10px 0px;
-  padding: 2px 15px;
+  padding: 0px 13px;
+  border: 2px solid #864b99;
   border-radius: 25px;
+  white-space: nowrap;
 }
 
 
 .ReactTags__tag {
   opacity: 1;
-  font-size: 0.8em;
+  font-size: 0.75em;
   float: left;
+  max-height:28px;
   cursor: move;
   background: #580074;
   border-radius: 25px;
   color: white;
   padding: 0px 10px;
   margin: 0 15px 0px -13px;
+  display: inline-block;
 }
 
 
 .ReactTags__tagInput {
-  float: left;
+  display: inline-block;
   margin: 0 10px;
 }
 
@@ -7669,10 +7673,11 @@ blockquote {
   background: transparent;
   border: 0px;
   color: white;
-  font-size: 0.8em;
+  font-size: 0.75em;
   margin-left: -15px;
   margin-right: -20px;
-  max-width: 150px;
+  width: 175px;
+  display: inline-block;
 }
 
 .ReactTags__remove {
@@ -7723,31 +7728,20 @@ blockquote {
 }
 
 @media (max-width: 767px) {
-  .ReactTags__selected {
-    min-width: 100px;
-    max-width: 300px;
-  }
-
-  .ReactTags__tagInput {
-    max-width:100px;
-  }
-}
-
-@media (max-width: 479px) {
-  .ReactTags__tag, .ReactTags__tagInputField {
-    font-size: 0.9em;
-  }
-
   .ReactTags__tags {
     width: 100%;
     display: block;
     height: 60px;
   }
 
+  .ReactTags__tagInputField {
+    width: 700px;
+  }
+
   .ReactTags__selected {
     width:100%;
     max-width: none;
-    min-width: none;
+    min-width: 0px;
     height: 32px;
     overflow: hidden;
   }
@@ -7758,6 +7752,32 @@ blockquote {
 
   .ReactTags__tagInput {
     max-width:100px;
+  }
+}
+
+.crypto-username {
+  float: right;
+}
+
+@media (max-width: 479px) {
+  .ReactTags__tagInput {
+    font-size:1.05em;
+  }
+
+  .ReactTags__tagInputField {
+    font-size:0.8em;
+  }
+
+  .ReactTags__tag {
+    font-size: 0.85em; 
+  }
+
+  .crypto-username { 
+    display:none;
+  }
+
+  .search-wrapper-logged {
+    padding: 0px 125px 0px 50px;
   }
 }
 
