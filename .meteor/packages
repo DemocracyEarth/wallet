@@ -68,7 +68,6 @@ xolvio:cleaner@0.3.3          # Clear the database and collections for testing p
 
 # monitoring
 lh84:medium-editor
-meteorhacks:search-source
 meteorhacks:ssr
 
 # miscellaneous

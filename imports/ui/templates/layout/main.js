@@ -21,7 +21,6 @@ import { Meteor } from 'meteor/meteor';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
-import { SearchSource } from 'meteor/meteorhacks:search-source';
 import { Template } from 'meteor/templating';
 import { Router } from 'meteor/iron:router';
 
@@ -94,20 +93,6 @@ Meteor.startup(async () => {
 
   await sync();
 
-  // search Engine for Tags
-  Session.set('createTag', false);
-  globalObj.TagSearch = new SearchSource('tags', ['text', 'url'], {
-    keepHistory: 1000 * 60 * 5,
-    localSearch: true,
-  });
-
-  // search Engine for Proposals
-  Session.set('createProposal', false);
-  globalObj.ProposalSearch = new SearchSource('contracts', ['title', 'description'], {
-    keepHistory: 1000 * 60 * 5,
-    localSearch: true,
-  });
-
   // geographical sovereignty
   globalObj.geoJSON = geo;
 
@@ -133,11 +118,6 @@ Template.main.onRendered(() => {
   if (!Meteor.Device.isPhone() && $(window).width() < gui.MOBILE_MAX_WIDTH) {
     $('.navbar').css('left', 0);
     Session.set('miniWindow', true);
-    // if (Meteor.user()) { Session.set('sidebar', true); }
-    // toggleSidebar();
-  } else if (!Meteor.Device.isPhone()) {
-    // Session.set('sidebar', false);
-    // toggleSidebar();
   }
 });
 

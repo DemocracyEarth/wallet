@@ -845,7 +845,7 @@
   "replica-detail-not-human": "👾 Definitely robot.",
   "replica-detail-unknown-human": "😔 Unknown score.",
   "sign-out-prompt": "Sign out from current account?",
-  "search-daos": "Search...",
+  "search-daos": "Search",
   "collective-dao-title": "{{dao}} — Distributed Autonomous Organization.",
   "collective-dao-description": "Proposals and votes from {{dao}}.",
   "dao-proposals": "DAO Proposals.",

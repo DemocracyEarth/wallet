@@ -79,8 +79,6 @@ mdg:validated-method@1.2.0
 mdg:validation-error@0.5.1
 meteor@1.9.3
 meteor-base@1.4.0
-meteorhacks:picker@1.0.3
-meteorhacks:search-source@1.4.2
 meteorhacks:ssr@2.2.0
 meteorspark:util@0.2.0
 minifier-css@1.5.0
