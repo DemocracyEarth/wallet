@@ -24,6 +24,15 @@ Schema.Reserves = new SimpleSchema({
     defaultValue: 0,
     decimal: true,
   },
+  membership: {
+    type: String,
+    allowedValues: ['APPLICANT', 'MEMBER', 'DELEGATE', 'KICKED', 'VIEWER'],
+    optional: true,
+  },
+  memberSince: {
+    type: Date,
+    optional: true,
+  },
 });
 
 export const Reserves = Schema.Reserves;

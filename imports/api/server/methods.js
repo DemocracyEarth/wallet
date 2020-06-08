@@ -349,7 +349,7 @@ Meteor.methods({
   * @return {Number} total count.
   */
   userCount() {
-    const count = Meteor.users.find({ 'profile.membership': 'MEMBER' }).count();
+    const count = Meteor.users.find().count();
     log(`{ method: 'userCount', user: ${logUser()}, count: ${count} }`);
     return count;
   },

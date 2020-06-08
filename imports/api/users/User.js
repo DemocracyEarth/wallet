@@ -204,15 +204,6 @@ Schema.Profile = new SimpleSchema({
     type: String,
     optional: true,
   },
-  membership: {
-    type: String,
-    allowedValues: ['APPLICANT', 'MEMBER', 'DELEGATE', 'KICKED', 'VIEWER'],
-    optional: true,
-  },
-  memberSince: {
-    type: Date,
-    optional: true,
-  },
   replica: {
     type: Schema.Replica,
     optional: true,

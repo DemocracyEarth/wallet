@@ -24,29 +24,45 @@ const _coins = () => {
   return coins;
 };
 
+Schema.Ledger = new SimpleSchema({
+  txId: {
+    type: String,
+    optional: true,
+  },
+  token: {
+    type: String,
+    optional: true,
+  },
+  value: {
+    type: Number,
+    optional: true,
+    decimal: true,
+  },
+  timestamp: {
+    type: Date,
+    optional: true,
+  },
+});
+
 Schema.Wallet = new SimpleSchema({
   balance: {
     type: Number,
     defaultValue: 0,
+    optional: true,
   },
   placed: {
     type: Number,
     defaultValue: 0,
+    optional: true,
   },
   available: {
     type: Number,
     defaultValue: 0,
+    optional: true,
   },
   currency: {
     type: String,
     optional: true,
-    autoValue() {
-      if (this.isInsert) {
-        if (this.field('wallet') && this.field('wallet').value && !this.field('wallet').value.currency) {
-          return 'WEB VOTE';
-        }
-      }
-    },
   },
   reserves: {
     type: [Reserves],
@@ -69,54 +85,16 @@ Schema.Wallet = new SimpleSchema({
     type: String,
     optional: true,
   },
+  'address.$.chain': {
+    type: String,
+    optional: true,
+  },
   'address.$.collectiveId': {
     type: String,
     optional: true,
   },
   ledger: {
-    type: Array,
-    autoValue() {
-      if (this.isInsert) {
-        return [];
-      }
-    },
-    optional: true,
-  },
-  'ledger.$': {
-    type: Object,
-    optional: true,
-  },
-  'ledger.$.txId': {
-    type: String,
-    optional: true,
-  },
-  'ledger.$.quantity': {
-    type: Number,
-    optional: true,
-  },
-  'ledger.$.entityId': {
-    type: String,
-    optional: true,
-  },
-  'ledger.$.entityType': {
-    type: String,
-    optional: true,
-  },
-  'ledger.$.currency': {
-    type: String,
-    optional: true,
-    allowedValues: ['BITCOIN', 'SATOSHI', 'VOTES', 'VOTE', 'ETH', 'WEI'],
-  },
-  'ledger.$.transactionType': {
-    type: String,
-    allowedValues: ['OUTPUT', 'INPUT'],
-  },
-  'ledger.$.ballot': {
-    type: Array,
-    optional: true,
-  },
-  'ledger.$.ballot.$': {
-    type: Ballot,
+    type: [Schema.Ledger],
     optional: true,
   },
 });
