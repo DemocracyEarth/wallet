@@ -265,7 +265,7 @@ const _getMethodMap = (smartContracts, functionName) => {
 * @param {string} hash from transaction
 * @param {object} contract being voted on
 * @param {object} choice contract being voted for
-*/
+
 const _pendingTransaction = (voterAddress, hash, contract, choice) => {
   const voter = Meteor.user();
   if (voter) {
@@ -308,6 +308,7 @@ const _pendingTransaction = (voterAddress, hash, contract, choice) => {
     setTransaction(voter._id, choice._id, transactionObject);
   }
 };
+*/
 
 /**
 * @summary prompt a message of an error with the wallet
