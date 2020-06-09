@@ -178,6 +178,50 @@ Schema.Decision = new SimpleSchema({
     type: Number,
     optional: true,
   },
+  shares: {
+    type: Number,
+    optional: true,
+  },
+  summoner: {
+    type: String,
+    optional: true,
+  },
+  approvedToken: {
+    type: String,
+    optional: true,
+  },
+  votingPeriodLength: {
+    type: Number,
+    optional: true,
+  },
+  gracePeriodLength: {
+    type: Number,
+    optional: true,
+  },
+  proposalDeposit: {
+    type: Number,
+    optional: true,
+  },
+  abortWindow: {
+    type: Number,
+    optional: true,
+  },
+  dilutionBound: {
+    type: Number,
+    optional: true,
+  },
+  summoner: {
+    type: String,
+    optional: true,
+  },
+  periodDuration: {
+    type: Number,
+    optional: true,
+  },
+  processingReward: {
+    type: Number,
+    optional: true,
+  },
 });
 
 Schema.Contract = new SimpleSchema({
@@ -633,7 +677,7 @@ Schema.Contract = new SimpleSchema({
   },
   period: {
     type: String,
-    allowedValues: ['PROCESS', 'QUEUE', 'VOTING', 'GRACE', 'ABORT', 'COMPLETE', 'PASSED', 'REJECTED', 'ABORTED', 'RAGEQUIT'],
+    allowedValues: ['SUMMON', 'PROCESS', 'QUEUE', 'VOTING', 'GRACE', 'ABORT', 'COMPLETE', 'PASSED', 'REJECTED', 'ABORTED', 'RAGEQUIT'],
     optional: true,
   },
 });

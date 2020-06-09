@@ -776,6 +776,7 @@
   "moloch-results-dao-specific": "Results of {{dao}}",
   "moloch-map-submit-proposal": "<root><description json='{{details}}'></description> <request quantity='{{sharesRequested}}' token='SHARES'></request> <user _id='{{applicantId}}' username='{{applicant}}'></user> <tribute quantity='{{ether tokenTribute}}' token='WETH'></tribute></root>",
   "moloch-map-rage-quit": "<root><ragequit quantity='{{sharesToBurn}}' token='SHARES'></ragequit></root>",
+  "moloch-map-summon": "<root><summon approvedToken='{{ticker}}' token='{{ticker}}'></summon></root>",
   "moloch-yes": "Yes",
   "moloch-no": "No",
   "moloch-tribute": "Tribute to DAO",
