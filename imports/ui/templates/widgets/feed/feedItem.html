@@ -83,46 +83,15 @@
               <div class="option-title option-link option-search title-input">
                 <div class="title-input title-feed {{focused}}">
                   {{#if moloch}}
-                    {{#if ragequit}}
-                      <div class="election-rule election-rule-top">
-                        {{{_ 'moloch-contract-ragequit'}}}
-                        {{> help tooltip='moloch-contract-ragequit-tooltip'}}
-                      </div>
-                      <div class="smart-contract">
-                        <div class="parameter-line">
-                          <div class="parameter">
-                            <div class="parameter-name">
-                              {{_ 'moloch-ragequit-shares-burn'}}
-                            </div>
-                            <div class="parameter-value parameter-token">
-                              {{#with burn}}
-                                {{> balance}}
-                              {{/with}}
-                            </div>
-                          </div>
-                          <!-- NOTE: to be done soon
-                          <div class="parameter">
-                            <div class="parameter-name">
-                              {{_ 'moloch-ragequit-funds-withdraw'}}
-                            </div>
-                            <div class="parameter-value parameter-token">
-                              {{#with withdraw}}
-                                {{> balance}}
-                              {{/with}}
-                            </div>
-                          </div>
-                          -->
-                        </div>
-                      </div>
-                    {{else}}
-                      {{{description}}}
+                    {{#if summon}}
+                      {{> warning label="moloch-summon-dao" style='summon'}}
                       <div class="date-info">
                         <div class="verifier verifier-live verifier-feed">{{{sinceDate createdAt}}}</div>
                       </div>
                       <div class="smart-contract">
                         <div class="parameter">
                           <div class="parameter-name">
-                            {{_ 'moloch-applicant'}}
+                            {{_ 'moloch-summoner'}}
                           </div>
                           <div class="parameter-value parameter-avatar">
                             {{#with applicant}}
@@ -133,7 +102,7 @@
                         <div class="parameter-line">
                           <div class="parameter">
                             <div class="parameter-name">
-                              {{_ 'moloch-request'}}
+                              {{_ 'moloch-summoner-share'}}
                             </div>
                             <div class="parameter-value parameter-token">
                               {{#with request}}
@@ -141,18 +110,80 @@
                               {{/with}}
                             </div>
                           </div>
+                        </div>
+                      </div>
+                    {{else}}
+                      {{#if ragequit}}
+                        <div class="election-rule election-rule-top">
+                          {{{_ 'moloch-contract-ragequit'}}}
+                          {{> help tooltip='moloch-contract-ragequit-tooltip'}}
+                        </div>
+                        <div class="smart-contract">
+                          <div class="parameter-line">
+                            <div class="parameter">
+                              <div class="parameter-name">
+                                {{_ 'moloch-ragequit-shares-burn'}}
+                              </div>
+                              <div class="parameter-value parameter-token">
+                                {{#with burn}}
+                                  {{> balance}}
+                                {{/with}}
+                              </div>
+                            </div>
+                            <!-- NOTE: to be done soon
+                            <div class="parameter">
+                              <div class="parameter-name">
+                                {{_ 'moloch-ragequit-funds-withdraw'}}
+                              </div>
+                              <div class="parameter-value parameter-token">
+                                {{#with withdraw}}
+                                  {{> balance}}
+                                {{/with}}
+                              </div>
+                            </div>
+                            -->
+                          </div>
+                        </div>
+                      {{else}}
+                        {{{description}}}
+                        <div class="date-info">
+                          <div class="verifier verifier-live verifier-feed">{{{sinceDate createdAt}}}</div>
+                        </div>
+                        <div class="smart-contract">
                           <div class="parameter">
                             <div class="parameter-name">
-                              {{_ 'moloch-tribute'}}
+                              {{_ 'moloch-applicant'}}
                             </div>
-                            <div class="parameter-value parameter-token">
-                              {{#with tribute}}
-                                {{> balance}}
+                            <div class="parameter-value parameter-avatar">
+                              {{#with applicant}}
+                                {{> avatar size=36 profile=this._id includeName=true includeAddress=true includeNation=false editable=false microFont=true disabled=false includeRole=false}}
                               {{/with}}
                             </div>
                           </div>
+                          <div class="parameter-line">
+                            <div class="parameter">
+                              <div class="parameter-name">
+                                {{_ 'moloch-request'}}
+                              </div>
+                              <div class="parameter-value parameter-token">
+                                {{#with request}}
+                                  {{> balance}}
+                                {{/with}}
+                              </div>
+                            </div>
+                            <div class="parameter">
+                              <div class="parameter-name">
+                                {{_ 'moloch-tribute'}}
+                              </div>
+                              <div class="parameter-value parameter-token">
+                                {{#with tribute}}
+                                  {{> balance}}
+                                {{/with}}
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
+                      {{/if}}
                     {{/if}}
                   {{else}}
                     {{{title}}}
@@ -160,7 +191,7 @@
                 </div>
               </div>
             </div>
-            {{#unless ragequit}}
+            {{#unless nonvoting}}
               {{#if requiresClosing}}
                 {{#with closingData}}
                   {{> countdown}}

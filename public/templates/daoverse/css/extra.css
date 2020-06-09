@@ -1214,6 +1214,17 @@ h4 {
   font-weight: 500;
 }
 
+.warning.summon {
+  background-color: #864b99;
+  color: #ffffff;
+  padding: 0px 10px;
+  font-size: 0.75em;
+  margin: 5px 0px;
+  text-align: center;
+  display: inline-block;
+}
+
+
 .token-total {
   border: 1px solid white;
   color: white;
@@ -1495,4 +1506,3 @@ h4 {
 .hero-menu-link.hero-menu-link-signin-simple.hero-menu-link-signin-simple-icon.mobile:active {
   padding: 1px 0px 0px 0px;
 };
-

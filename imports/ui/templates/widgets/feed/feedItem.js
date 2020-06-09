@@ -608,8 +608,14 @@ Template.feedItem.helpers({
   moloch() {
     return gui.MOLOCH_DAPP;
   },
+  summon() {
+    return (this.period === 'SUMMON');
+  },
   ragequit() {
     return (this.period === 'RAGEQUIT');
+  },
+  nonvoting() {
+    return (this.period === 'RAGEQUIT' || this.period === 'SUMMON');
   },
   request() {
     const parameter = _getXMLAttributes(this.title, 'request');

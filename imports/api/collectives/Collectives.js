@@ -246,6 +246,10 @@ Schema.Collective = new SimpleSchema({
   name: {
     type: String,
   },
+  uri: {
+    type: String,
+    optional: true,
+  },
   domain: {
     type: String,
     optional: true,
