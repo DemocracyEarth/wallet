@@ -324,6 +324,20 @@ Meteor.methods({
   },
 
   /**
+  * @summary adds one to the social shares counter
+  * @param {string} contractId contract to update
+  */
+  addShareCounter(contractId) {
+    check(contractId, String);
+    log(`{ method: 'plusSocialSharing', user: ${logUser()}, contractId: '${contractId}' }`);
+    const contract = Contracts.findOne({ _id: contractId });
+    const counter = (contract.shareCounter) ? contract.shareCounter : 0;
+    Contracts.update({ _id: contractId }, { $set: { shareCounter: parseInt(counter + 1, 10) } });
+    return counter;
+  },
+
+
+  /**
   * @summary reports server time from server to client
   * @return {Date} time
   */

@@ -244,7 +244,17 @@ const _checkUserVoted = (contract, userId) => {
 */
 const _getTwitterURL = (contract) => {
   const TWITTER_MAX_CHARS = 200;
-  let titleURL = getProposalDescription(contract.title, true);
+  let titleURL;
+  switch (contract.period) {
+    case 'SUMMON':
+      titleURL = TAPi18n.__('moloch-summon-dao');
+      break;
+    case 'RAGEQUIT':
+      titleURL = TAPi18n.__('moloch-ragequit-shares');
+      break;
+    default:
+      titleURL = getProposalDescription(contract.title, true);
+  }
   if (titleURL.length > TWITTER_MAX_CHARS) {
     titleURL = `${titleURL.substring(0, TWITTER_MAX_CHARS)}...`;
   }
@@ -274,7 +284,7 @@ const _countShare = (_id) => {
   } else {
     contract.shareCounter = 1;
   }
-  Contracts.update({ _id }, { $set: { shareCounter: contract.shareCounter } });
+  Meteor.call('addShareCounter', _id);
 };
 
 const _userCanVote = (contract, forkId) => {
