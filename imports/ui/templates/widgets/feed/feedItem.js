@@ -675,7 +675,7 @@ Template.feedItem.helpers({
   },
   daoUrl() {
     if (Template.instance().collective) {
-      return `${Router.path('home')}dao/${Template.instance().collective.name.toLowerCase()}`;
+      return `${Router.path('home')}dao/${Template.instance().collective.uri.toLowerCase()}`;
     }
     return '';
   },

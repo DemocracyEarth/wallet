@@ -1,11 +1,29 @@
 {
   "dao": [
     {
-      "name": "Creative Collabo DAO",
+      "name": "Rocket LP DAO",
       "profile": {
-        "bio": "Gain experience with DAOs for coordinating creative web3 projects.",
+        "bio": "Lending pools for (risk-taking) Rocket Bank LPs.",
         "blockchain": {
-          "publicAddress": "0x161e99f7467f20602c7ff9ff85f22be1ecc41b86"
+          "publicAddress": "0xa9ade79ab198a579772dd5e310ea28643e4a4421"
+        }
+      }
+    },
+    {
+      "name": "Meta Gamma Delta",
+      "profile": {
+        "bio": "The home of women in Web3",
+        "blockchain": {
+          "publicAddress": "0x1b3d7efb93ec432b0d1d56880c23303979b379e9"
+        }
+      }
+    },
+    {
+      "name": "Marketing DAO",
+      "profile": {
+        "bio": "Inspired by Moloch DAO, Marketing DAO comes to life to fund brand and marketing initiatives for Ethereum and its ecosystem.",
+        "blockchain": {
+          "publicAddress": "0x6c9b4f1bdddd7704a26a5caf5242e88501dc5f0b"
         }
       }
     }
