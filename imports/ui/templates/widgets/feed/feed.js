@@ -6,7 +6,6 @@ import { $ } from 'meteor/jquery';
 import { Counts } from 'meteor/tmeasday:publish-counts';
 
 import { resetSplit } from '/imports/ui/modules/split';
-import { showSidebar } from '/imports/ui/templates/layout/sidebar/sidebar';
 import { query } from '/lib/views';
 import { here } from '/lib/utils';
 import { gui } from '/lib/const';
@@ -227,7 +226,6 @@ Template.feed.onRendered(function () {
 
   if (!Meteor.Device.isPhone() && Meteor.user() && options.view !== 'linkedFeed') {
     // brute force proper rendering
-    showSidebar();
     resetSplit();
   }
 

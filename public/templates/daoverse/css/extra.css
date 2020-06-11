@@ -949,7 +949,7 @@ h4 {
 }
 
 .countdown-timer-voting {
-  background: #ffd700;
+  background: #ffbe00;
 }
 
 .period {
@@ -969,42 +969,51 @@ h4 {
 }
 
 .period-queue {
-  background: #6577ff;
-  color: white;
+  background: #eef1ff;
+  color: #6577ff;
+  border: 1px solid #6577ff;
 }
 
 .period-voting {
-  background: #ffd700;
+  color: #ffbe00;
+  border: 1px solid #ffbe00;
+  background: #fff8e9;
 }
 
 .period-process {
-  background: #6577ff;
-  color: white;
+  background: #eef1ff;
+  color: #6577ff;
+  border: 1px solid #6577ff;
 }
 
 .period-grace {
-  background: #b25dcc;
-  color: white;
+  background: #f6edf9;
+  color: #b25dcc;
+  border: 1px solid #b25dcc;
 }
 
 .period-complete {
-  background: #a0a0a0;
-  color: white;
+  background: #f3f3f3;
+  color: #a0a0a0;
+  border: 1px solid #a0a0a0;
 }
 
 .period-passed {
-  background: #01c190;
-  color: white;
+  background: #e0f6f0;
+  color: #01c190;
+  border: 1px solid #01c190;
 }
 
 .period-rejected {
-  background: #ff3d67;
-  color: white;
+  background: #ffecf0;
+  color: #ff3d67;
+  border: 1px solid #ff3d67;
 }
 
 .period-aborted {
-  background: #000;
-  color: white;
+  background: #e8e8e8;
+  color: #000;
+  border: 1px solid #000;
 }
 
 .poll-score-bar-fill-negative {
@@ -1220,17 +1229,20 @@ h4 {
 }
 
 .warning.summon {
-  background-color: #864b99;
-  color: #ffffff;
+  background-color: #eee6f0;
+  color: #864b99;
   padding: 0px 10px;
   font-size: 0.75em;
   margin: 5px 0px;
   text-align: center;
   display: inline-block;
+  border: 1px solid #864b99;
 }
 
 .warning.summon.ragequit {
-  background-color:#c5538d;
+  background-color: #f6e3ec;
+  color: #c5538d;
+  border: 1px solid #c5538d;
 }
 
 
