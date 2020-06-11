@@ -114,9 +114,9 @@
                       </div>
                     {{else}}
                       {{#if ragequit}}
-                        <div class="election-rule election-rule-top">
-                          {{{_ 'moloch-contract-ragequit'}}}
-                          {{> help tooltip='moloch-contract-ragequit-tooltip'}}
+                        {{> warning label="moloch-contract-ragequit" style='summon'}}
+                        <div class="date-info">
+                          <div class="verifier verifier-live verifier-feed">{{{sinceDate createdAt}}}</div>
                         </div>
                         <div class="smart-contract">
                           <div class="parameter-line">

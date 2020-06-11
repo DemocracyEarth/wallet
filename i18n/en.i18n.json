@@ -826,7 +826,7 @@
   "moloch-ragequit-shares-burn": "Burnt shares",
   "moloch-ragequit-funds-withdraw": "Withdrawn Funds",
   "quit": "Quit",
-  "moloch-contract-ragequit": "Withdrew shares from DAO.",
+  "moloch-contract-ragequit": "Ragequit of shares from DAO to withdraw funds 💸",
   "moloch-contract-ragequit-tooltip": "A member has burned shares to withdraw funds from this DAO.",
   "not-synced": "Not synced ",
   "not-synced-message": "The application is not synced with the corresponding blockchain for this transaction.",
