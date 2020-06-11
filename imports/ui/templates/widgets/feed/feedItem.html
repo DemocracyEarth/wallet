@@ -202,6 +202,9 @@
               {{else}}
                 {{> poll list=pollList placeholder=true}}
               {{/if}}
+              {{#with period}}
+                {{> warning}}
+              {{/with}}
               {{#if tally}}
                 {{> ballot editorMode=false feedMode=true contract=feedContract url=url rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults readOnly=readOnly displayActions=displayActions rules=rules}}
               {{/if}}

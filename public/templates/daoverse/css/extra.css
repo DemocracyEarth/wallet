@@ -731,7 +731,6 @@ width: 1px;
 
 .countdown-votes {
   float: right;
-  margin-right: 10px;
 }
 
 .countdown-timer {
@@ -954,13 +953,19 @@ h4 {
 }
 
 .period {
-  float: right;
-  font-size: 11px;
   background: #e4e4e4;
-  padding: 5px;
-  line-height: 12px;
-  border-radius: 4px;
-  margin-top: 4px;
+  color: #ffffff;
+  padding: 0px 10px;
+  font-size: 0.65em;
+  margin: 0px;
+  text-align: center;
+  display: inline-block;
+}
+
+@media (max-width: 479px) {
+  .period {
+    font-size: 0.7em;
+  }
 }
 
 .period-queue {

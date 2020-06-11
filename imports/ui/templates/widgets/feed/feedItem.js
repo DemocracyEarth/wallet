@@ -685,6 +685,12 @@ Template.feedItem.helpers({
     }
     return '';
   },
+  period() {
+    return {
+      label: this.period ? TAPi18n.__(`moloch-period-${this.period.toLowerCase()}`) : '',
+      style: this.period ? `period period-${this.period.toLowerCase()}` : '',
+    };
+  },
 });
 
 Template.feedItem.events({
