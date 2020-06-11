@@ -17,15 +17,6 @@
           "publicAddress": "0x1b3d7efb93ec432b0d1d56880c23303979b379e9"
         }
       }
-    },
-    {
-      "name": "Marketing DAO",
-      "profile": {
-        "bio": "Inspired by Moloch DAO, Marketing DAO comes to life to fund brand and marketing initiatives for Ethereum and its ecosystem.",
-        "blockchain": {
-          "publicAddress": "0x6c9b4f1bdddd7704a26a5caf5242e88501dc5f0b"
-        }
-      }
     }
   ]
 }

@@ -1224,6 +1224,10 @@ h4 {
   display: inline-block;
 }
 
+.warning.summon.ragequit {
+  background-color:#c5538d;
+}
+
 
 .token-total {
   border: 1px solid white;
