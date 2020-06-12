@@ -47,11 +47,31 @@ const _getUser = (userId) => {
 * @param {object} user user to parse
 */
 const _getAddress = (user) => {
-  let reserve;
+  let addressList;
+  console.log(user);
   if (!user.profile) {
+    addressList = Meteor.user().profile.wallet.address;
+  } else if (typeof user.profile === 'string') {
+    const userProfile = Meteor.users.findOne({ _id: user.profile });
+    if (userProfile && userProfile.profile.wallet.address) {
+      addressList = userProfile.profile.wallet.address;
+    }
+  } else if (user.wallet && user.wallet.address) {
+    addressList = user.wallet.address;
+  }
+  console.log(addressList);
+  if (addressList && addressList.length && addressList.length > 0) {
+    for (const item of addressList) {
+      if (item.chain === defaults.BLOCKCHAIN) {
+        return item;
+      }
+    }
+  }
+  /* if (!user.profile) {
     reserve = Meteor.user().profile.wallet.reserves;
   } else if (typeof user.profile === 'string') {
     const userProfile = Meteor.users.findOne({ _id: user.profile });
+    console.log(userProfile);
     if (userProfile && userProfile.profile.wallet.reserves) {
       reserve = userProfile.profile.wallet.reserves;
     }
@@ -64,7 +84,7 @@ const _getAddress = (user) => {
         return reserve[i];
       }
     }
-  }
+  } */
   return undefined;
 };
 
@@ -377,14 +397,14 @@ Template.avatar.helpers({
   ticker() {
     const reserve = _getAddress(this);
     if (reserve) {
-      return reserve.token;
+      return reserve.chain;
     }
     return '';
   },
   address() {
     const reserve = _getAddress(this);
     if (reserve) {
-      return reserve.publicAddress;
+      return reserve.hash;
     }
     return '';
   },

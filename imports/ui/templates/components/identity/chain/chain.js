@@ -8,6 +8,7 @@ import '/imports/ui/templates/components/identity/chain/chain.html';
 
 Template.chain.helpers({
   hasAddress() {
+    console.log(this);
     return this.address !== '';
   },
   ticker() {

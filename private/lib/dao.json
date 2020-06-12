@@ -1,6 +1,33 @@
 {
   "dao": [
     {
+      "name": "MetaCartel DAO",
+      "profile": {
+        "bio": "If you wanna go fast, go alone. If you wanna go far, go together.",
+        "blockchain": {
+          "publicAddress": "0x0372f3696fa7dc99801f435fd6737e57818239f2"
+        }
+      }
+    },
+    {
+      "name": "Moloch DAO",
+      "profile": {
+        "bio": "A community DAO focused on funding Ethereum development, in the name of Moloch the God of Coordination Failure",
+        "blockchain": {
+          "publicAddress": "0x1fd169a4f5c59acf79d0fd5d91d1201ef1bce9f1"
+        }
+      }
+    },
+    {
+      "name": "Raid Guild",
+      "profile": {
+        "bio": "⚔️A dao for builders to form Raid Parties and team up on epic boss fights (open source web3 projects). Pledge Tribute: 1 weth for 10 shares",
+        "blockchain": {
+          "publicAddress": "0xbd6fa666fbb6fdeb4fc5eb36cdd5c87b069b24c1"
+        }
+      }
+    },
+    {
       "name": "Rocket LP DAO",
       "profile": {
         "bio": "Lending pools for (risk-taking) Rocket Bank LPs.",
@@ -15,6 +42,105 @@
         "bio": "The home of women in Web3",
         "blockchain": {
           "publicAddress": "0x1b3d7efb93ec432b0d1d56880c23303979b379e9"
+        }
+      }
+    },
+    {
+      "name": "Marketing DAO",
+      "profile": {
+        "bio": "Inspired by Moloch DAO, Marketing DAO comes to life to fund brand and marketing initiatives for Ethereum and its ecosystem.",
+        "blockchain": {
+          "publicAddress": "0x6c9b4f1bdddd7704a26a5caf5242e88501dc5f0b"
+        }
+      }
+    },
+    {
+      "name": "Orochi DAO V2",
+      "profile": {
+        "bio": "⛩️ Party like AD 720 🍶",
+        "blockchain": {
+          "publicAddress": "0xb42616e266cb0c6d34c1434f09b95ed50bb551ed"
+        }
+      }
+    },
+    {
+      "name": "DeoraTest",
+      "profile": {
+        "bio": "some description",
+        "blockchain": {
+          "publicAddress": "0x48c2f0a379f8cc93b1be3775964e242adebfd8dc"
+        }
+      }
+    },
+    {
+      "name": "Creative Collabo DAO",
+      "profile": {
+        "bio": "Gain experience with DAOs for coordinating creative web3 projects.",
+        "blockchain": {
+          "publicAddress": "0x161e99f7467f20602c7ff9ff85f22be1ecc41b86"
+        }
+      }
+    },
+    {
+      "name": "DAOSquare",
+      "profile": {
+        "bio": "Promote the concept of DAO and enlighten people with it. Keep DAO shining every corner of our life while extending the influence of Ethereum ecosystem to society.",
+        "blockchain": {
+          "publicAddress": "0x486375801734a9c2a607687ec8f8df5886868f94"
+        }
+      }
+    },
+    {
+      "name": "Zero Collateral DAO",
+      "profile": {
+        "bio": "Community DAO focused on governing development and growth of the Zero Collateral Protocol. Borrow an undercollateralized DeFi loan today.",
+        "blockchain": {
+          "publicAddress": "0x56e0840c1b86886a743cc8fb696bc9d45f867bfc"
+        }
+      }
+    },
+    {
+      "name": "TaoDAO",
+      "profile": {
+        "bio": "TAO的个人DAO实验",
+        "blockchain": {
+          "publicAddress": "0x513838f426c3ace6c4930ae74617d2c5c584b648"
+        }
+      }
+    },
+    {
+      "name": "DAOjones",
+      "profile": {
+        "bio": "The Dow Jones of Ethereum",
+        "blockchain": {
+          "publicAddress": "0xfac8b74cfccbaf1c308d83f75832be860dd288c1"
+        }
+      }
+    },
+    {
+      "name": "HelloWorldDAO",
+      "profile": {
+        "bio": "The \"Hello World\" of DAOs",
+        "blockchain": {
+          "publicAddress": "0xd7cb71297625ce3b1351be36ee6144d0c987f06f"
+        }
+      }
+    },
+    {
+      "name": "ArbitrageDAO",
+      "profile": {
+        "bio": "A Union Arbitrage Fund. On-chain liquidity + Off-chain bots for Arbitrage Opportunities. Earn a share of all Arbitrage opportunities (DDEX, Compound, dYdX, MakerDAO etc). A DAO to support the DeFi ecosystem.",
+        "blockchain": {
+          "publicAddress": "0xa8fc468da0417f71393523393bd7d57450143a62"
+        }
+      }
+    },
+    {
+      "name": "🌱Charity DAO",
+      "profile": {
+        "bio": "Building tools and promoting crypto giving.",
+        "blockchain": {
+          "publicAddress": "0x014ded81ddb85f7d178a66bcdd6cd6ca89ba7cc5"
         }
       }
     }
