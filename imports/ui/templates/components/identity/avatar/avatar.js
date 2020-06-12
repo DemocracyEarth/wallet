@@ -48,7 +48,7 @@ const _getUser = (userId) => {
 */
 const _getAddress = (user) => {
   let addressList;
-  console.log(user);
+
   if (!user.profile) {
     addressList = Meteor.user().profile.wallet.address;
   } else if (typeof user.profile === 'string') {
@@ -59,7 +59,7 @@ const _getAddress = (user) => {
   } else if (user.wallet && user.wallet.address) {
     addressList = user.wallet.address;
   }
-  console.log(addressList);
+
   if (addressList && addressList.length && addressList.length > 0) {
     for (const item of addressList) {
       if (item.chain === defaults.BLOCKCHAIN) {
@@ -67,24 +67,7 @@ const _getAddress = (user) => {
       }
     }
   }
-  /* if (!user.profile) {
-    reserve = Meteor.user().profile.wallet.reserves;
-  } else if (typeof user.profile === 'string') {
-    const userProfile = Meteor.users.findOne({ _id: user.profile });
-    console.log(userProfile);
-    if (userProfile && userProfile.profile.wallet.reserves) {
-      reserve = userProfile.profile.wallet.reserves;
-    }
-  } else if (user.wallet && user.wallet.reserves) {
-    reserve = user.wallet.reserves;
-  }
-  if (reserve && reserve.length && reserve.length > 0) {
-    for (const i in reserve) {
-      if ((reserve[i].token === 'WEI' || reserve[i].token === 'STX' || reserve[i].token === 'WETH' || reserve[i].token === defaults.TOKEN) && reserve[i].publicAddress) {
-        return reserve[i];
-      }
-    }
-  } */
+
   return undefined;
 };
 
