@@ -14,7 +14,6 @@ import { searchJSON } from '/imports/ui/modules/JSON';
 import { uploadToAmazonS3 } from '/imports/ui/modules/Files';
 import { displayModal } from '/imports/ui/modules/modal';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
-import { displayPopup, cancelPopup } from '/imports/ui/modules/popup';
 import { shortenCryptoName } from '/imports/startup/both/modules/metamask';
 import { defaults } from '/lib/const';
 

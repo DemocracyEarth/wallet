@@ -4840,8 +4840,7 @@ blockquote {
 .collective-icon.collective-icon-small {
   width: 25px;
   height: 25px;
-  margin-top: 9px;
-  margin-bottom: 0px;
+  margin: 10px 10px 0px 0px;
 }
 
 .menu-button {
