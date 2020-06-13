@@ -312,21 +312,14 @@ Template.collectivePreview.onCreated(function () {
 });
 
 Template.collectivePreview.helpers({
-  flag() {
-    return Meteor.settings.public.app.logo;
+  logo() {
+    return Template.instance().collective.profile.logo;
   },
   name() {
-    let chars = 30;
-    if (Meteor.Device.isPhone()) {
-      chars = 15;
-    }
-    if (Meteor.settings.public.app.name.length > chars) {
-      return `${Meteor.settings.public.app.name.substring(0, chars)}...`;
-    }
-    return Meteor.settings.public.app.name;
+    return Template.instance().collective.name;
   },
   url() {
-    return '/';
+    return `/dao/${Template.instance().collective.uri}`;
   },
 });
 
