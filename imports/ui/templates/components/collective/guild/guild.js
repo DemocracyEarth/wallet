@@ -116,6 +116,11 @@ Template.guild.helpers({
   blockchainLink() {
     return `${Meteor.settings.public.web.sites.blockExplorer}/address/${Template.instance().collective.get().profile.blockchain.publicAddress}`;
   },
+  hasAssets() {
+    const totalAssets = _.findWhere(Template.instance().collective.get().profile.guild, { name: 'guild-total-assets' });
+    console.log(totalAssets);
+    return (totalAssets.value !== '0') && (totalAssets.value !== undefined);
+  },
   guildChart() {
     return { collectiveId: this.collectiveId, guildLabel: 'guild-total-assets' };
   },
