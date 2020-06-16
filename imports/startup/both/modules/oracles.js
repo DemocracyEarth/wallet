@@ -17,7 +17,7 @@ const _calculateGini = (collective) => {
   const set = [];
   for (const individual of members) {
     for (const value of individual.profile.wallet.reserves) {
-      if (value.token === collective.profile.wallet.currency && value.balance > 0) {
+      if (value.publicAddress === collective.profile.blockchain.publicAddress && value.balance > 0) {
         set.push(value.balance);
       }
     }

@@ -870,5 +870,6 @@
   "dao-type-aragon": "An Aragon DAO",
   "dao-type-daostack": "A DAOStack",
   "dao-type-colony": "A Colony DAO",
-  "dao-type-democracy": "A Democracy DAO"
+  "dao-type-democracy": "A Democracy DAO",
+  "token-default-title": "{{name}} ERC20 token."
 }

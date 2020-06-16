@@ -1,38 +1,11 @@
 {
   "dao": [
     {
-      "name": "DAOjones",
+      "name": "FriendshipDAO",
       "profile": {
-        "bio": "The Dow Jones of Ethereum",
+        "bio": "A place for friends to gather (+ free hugz).",
         "blockchain": {
-          "publicAddress": "0xfac8b74cfccbaf1c308d83f75832be860dd288c1"
-        }
-      }
-    },
-    {
-      "name": "HelloWorldDAO",
-      "profile": {
-        "bio": "The \"Hello World\" of DAOs",
-        "blockchain": {
-          "publicAddress": "0xd7cb71297625ce3b1351be36ee6144d0c987f06f"
-        }
-      }
-    },
-    {
-      "name": "ArbitrageDAO",
-      "profile": {
-        "bio": "A Union Arbitrage Fund. On-chain liquidity + Off-chain bots for Arbitrage Opportunities. Earn a share of all Arbitrage opportunities (DDEX, Compound, dYdX, MakerDAO etc). A DAO to support the DeFi ecosystem.",
-        "blockchain": {
-          "publicAddress": "0xa8fc468da0417f71393523393bd7d57450143a62"
-        }
-      }
-    },
-    {
-      "name": "🌱Charity DAO",
-      "profile": {
-        "bio": "Building tools and promoting crypto giving.",
-        "blockchain": {
-          "publicAddress": "0x014ded81ddb85f7d178a66bcdd6cd6ca89ba7cc5"
+          "publicAddress": "0xe0e3aaac46e9f1147a1f1c6e0a48979cc2c0df51"
         }
       }
     }
