@@ -118,7 +118,6 @@ Template.guild.helpers({
   },
   hasAssets() {
     const totalAssets = _.findWhere(Template.instance().collective.get().profile.guild, { name: 'guild-total-assets' });
-    console.log(totalAssets);
     return (totalAssets.value !== '0') && (totalAssets.value !== undefined);
   },
   guildChart() {
