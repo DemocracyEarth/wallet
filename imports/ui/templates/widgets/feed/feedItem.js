@@ -62,14 +62,18 @@ const isJSON = (str) => {
 */
 const _getProposalDescription = (title, onlyTitle) => {
   const xmlDescription = _getXMLAttributes(title, 'description');
+  let html = '';
   if (isJSON(xmlDescription.json)) {
     const json = JSON.parse(xmlDescription.json);
     if (json && json.description !== undefined) {
       const description = wrapURLs(json.description, true);
-      const html = `<div class='title-header'>${json.title}</div><div class='title-description'>${description}</div>`;
+      html += `<div class='title-header'>${json.title}</div><div class='title-description'>${description}</div>`;
       if (onlyTitle) { return json.title; }
-      return html;
     }
+    if (json && json.link !== undefined && json.link !== json.description) {
+      html += `<div class='title-description'><a href='${json.link}' target='_blank'>${json.link}</a></div>`;
+    }
+    return html;
   }
   return xmlDescription.json;
 };
