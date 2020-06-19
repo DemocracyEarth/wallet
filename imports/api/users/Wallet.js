@@ -2,7 +2,6 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 import { token } from '/lib/token';
 
-import { Ballot } from '../transactions/Ballot';
 import { Reserves } from './Reserves';
 
 
@@ -25,6 +24,10 @@ const _coins = () => {
 };
 
 Schema.Ledger = new SimpleSchema({
+  collectiveId: {
+    type: String,
+    optional: true,
+  },
   txId: {
     type: String,
     optional: true,
