@@ -18,6 +18,7 @@ import '/imports/ui/templates/widgets/search/search';
 import '/imports/ui/templates/layout/url/topbar/topbar.html';
 import '/imports/ui/templates/widgets/warning/warning.js';
 import '/imports/ui/templates/widgets/spinner/spinner.js';
+import '/imports/ui/templates/widgets/alert/alert.js';
 
 const _prompt = (instance) => {
   const buttonMode = !instance.activeSignIn.get();

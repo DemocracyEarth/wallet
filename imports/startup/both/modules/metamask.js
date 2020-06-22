@@ -327,7 +327,11 @@ const _walletError = (err) => {
       message = TAPi18n.__('metamask-denied-signature');
       break;
     default:
-      message = err.message;
+      if (err.message.slice(0, 66) === 'WalletMiddleware - Invalid "from" address.\n{\n  "originalError": {}') {
+        message = TAPi18n.__('metamask-invalid-address');
+      } else {
+        message = err.message;
+      }
   }
   displayModal(
     true,
@@ -382,7 +386,7 @@ const _callDAOMethod = async (methodName, parameterList, collectiveId, walletMet
 */
 const _hasRightToVote = async (memberAddress, proposalIndex, collectiveId) => {
   const memberVotes = await _callDAOMethod('getMemberProposalVote', [memberAddress, proposalIndex], collectiveId, 'call', {});
-  return (memberVotes === 0);
+  return (memberVotes === 0 || memberVotes === '0');
 };
 
 /**
@@ -393,7 +397,10 @@ const _hasRightToVote = async (memberAddress, proposalIndex, collectiveId) => {
 * @param {object} choice poll contract with choice voted
 */
 const _submitVote = async (proposalIndex, uintVote, contract, choice) => {
-  const res = await _callDAOMethod('submitVote', [proposalIndex, uintVote], choice.collectiveId, 'send', { from: Meteor.user().username });
+  const collective = Collectives.findOne({ _id: contract.collectiveId });
+  displayModal(false, modal);
+  alert(TAPi18n.__('voting-interaction').replace('{{collective}}', collective.name), 1000000);
+  /* const res = await _callDAOMethod('submitVote', [proposalIndex, uintVote], choice.collectiveId, 'send', { from: Meteor.user().username });
   if (res) {
     alert(TAPi18n.__('transaction-broadcast').replace('{{token}}', contract.wallet.currency), 10000);
     console.log(res);
@@ -402,6 +409,7 @@ const _submitVote = async (proposalIndex, uintVote, contract, choice) => {
   console.log('---');
   console.log(res);
   return res;
+  */
 };
 
 /**
