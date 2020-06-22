@@ -397,25 +397,20 @@ const _hasRightToVote = async (memberAddress, proposalIndex, collectiveId) => {
 * @param {object} choice poll contract with choice voted
 */
 const _submitVote = async (proposalIndex, uintVote, contract, choice) => {
-  const collective = Collectives.findOne({ _id: contract.collectiveId });
-  displayModal(false, modal);
-  alert(TAPi18n.__('voting-interaction').replace('{{collective}}', collective.name).replace('{{etherscan}}', `http://etherscan.io/tx/${choice}`), 10000);
-  Meteor.call('setPendingVote', contract, Meteor.userId(), choice.collectiveId, 'xxx', uintVote, (err, res) => {
-    if (err) {
-      console.log(err);
-    }
-    console.log(res);
-  });
-  /* const res = await _callDAOMethod('submitVote', [proposalIndex, uintVote], choice.collectiveId, 'send', { from: Meteor.user().username });
+  const res = await _callDAOMethod('submitVote', [proposalIndex, uintVote], choice.collectiveId, 'send', { from: Meteor.user().username });
   if (res) {
-    alert(TAPi18n.__('transaction-broadcast').replace('{{token}}', contract.wallet.currency), 10000);
     console.log(res);
-    console.log();
+    displayModal(false, modal);
+    const collective = Collectives.findOne({ _id: contract.collectiveId });
+    alert(TAPi18n.__('voting-interaction').replace('{{collective}}', collective.name).replace('{{etherscan}}', `http://etherscan.io/tx/${res}`), 10000);
+    Meteor.call('setPendingVote', contract, Meteor.userId(), choice.collectiveId, res, uintVote, (err, newTx) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log(newTx);
+    });
   }
-  console.log('---');
-  console.log(res);
   return res;
-  */
 };
 
 /**

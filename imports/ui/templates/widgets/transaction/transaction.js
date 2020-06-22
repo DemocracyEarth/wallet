@@ -311,7 +311,6 @@ Template.transaction.helpers({
 
 Template.collectivePreview.onCreated(function () {
   Template.instance().collective = Collectives.findOne({ _id: Template.instance().data.collectiveId });
-  console.log(Template.instance().data.collectiveId);
 });
 
 Template.collectivePreview.helpers({

@@ -1107,14 +1107,14 @@ h4 {
   float: right;
   font-size: 0.5em;
   font-weight: 400;
-  padding: 4px 4px;
+  padding: 4px 0px;
   color: #7d849f;
   text-transform: uppercase;
   line-height: 12px;
   border-radius: 3px;
   margin-top: -2px;
-  margin: 2px -4px 0px 6px;
-  cursor:pointer;
+  margin: 2px 3px 0px 0px;
+  cursor: pointer;
 }
 
 .transaction-action:hover {
