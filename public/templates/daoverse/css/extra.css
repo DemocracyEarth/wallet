@@ -1450,14 +1450,14 @@ h4 {
 
 .alert-signal {
   opacity: 1;
-	animation-name: fadeInOpacity;
-	animation-iteration-count: 1;
-	animation-timing-function: ease-in;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
   animation-duration: 0.25s;
-  padding: 0px 15px;
-  line-height: 30px;
-  float:right;
-  margin: 0px 0px 5px;
+  padding: 10px 15px;
+  line-height: 22px;
+  float: right;
+  margin: 10px 10px 0px;
   background-color: #fde776;
   color: #7b6909;
   overflow: hidden;
@@ -1470,6 +1470,27 @@ h4 {
 
 .alert-wrapper {
   z-index: 9998;
+}
+
+.alert-signal-mobile {
+  margin: 0 20px 10px;
+  float: none;
+}
+
+.alert-wrapper-mobile {
+  position: fixed;
+  z-index: 100000;
+  bottom: 10px;
+  width:100%;
+}
+
+.verifier.verifier-live.verifier-feed.verifier-mini.verifier-pending {
+  color: #ffbe00;
+  background: #fff8e9;
+  padding: 0px 5px;
+  margin: 5px 0px 0px;
+  border-radius: 5px;
+  border: 1px solid #ffbe00;
 }
 
 .tab-menu {

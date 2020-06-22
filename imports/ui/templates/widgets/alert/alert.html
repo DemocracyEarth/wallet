@@ -1,7 +1,7 @@
 <template name="alert">
-  <div class="alert-wrapper">
+  <div class="alert-wrapper {{mobileStyle}}">
     {{#each signal}}
-      <div id="alert-{{id}}" class="alert-signal">
+      <div id="alert-{{id}}" class="alert-signal {{mobileSignal}}">
         {{{message}}}
       </div>
     {{/each}}

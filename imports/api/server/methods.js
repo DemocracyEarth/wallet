@@ -11,7 +11,8 @@ import { getTime } from '/imports/api/time';
 import { logUser, log, defaults, gui } from '/lib/const';
 import { stripHTML, urlDoctor, fixDBUrl } from '/lib/utils';
 import { notifierHTML } from '/imports/api/notifier/notifierTemplate.js';
-import { getLastTimestamp, getBlockHeight } from '/lib/web3';
+import { getLastTimestamp, getBlockHeight, getShares, setTransaction } from '/lib/web3';
+import { getTransactionObject } from '/lib/interpreter';
 import { query } from '/lib/views';
 import { Collectives } from '/imports/api/collectives/Collectives';
 
@@ -532,6 +533,71 @@ Meteor.methods({
     }
 
     return finalMenu;
+  },
+
+  async setPendingVote(contract, userId, collectiveId, hash, uintVote) {
+    check(contract, Object);
+    check(userId, String);
+    check(collectiveId, String);
+    check(hash, String);
+    check(uintVote, Number);
+    log(`{ method: 'setPendingVote', userId: '${userId}', collectiveId: '${collectiveId}' }`);
+
+    const voter = Meteor.users.findOne({ _id: userId });
+    const shares = getShares(voter, collectiveId);
+
+    let poll;
+    switch (uintVote) {
+      case defaults.YES: // yes
+        poll = Contracts.findOne({ keyword: `${contract.keyword}/yes` });
+        break;
+      case defaults.NO: // no
+        poll = Contracts.findOne({ keyword: `${contract.keyword}/no` });
+        break;
+      default:
+    }
+
+    const userHash = _.findWhere(voter.profile.wallet.address, { chain: defaults.BLOCKCHAIN }).hash;
+
+    const ticket = {
+      shares,
+      timestamp: await getLastTimestamp(),
+      contract: {
+        _id: contract._id,
+      },
+      poll: {
+        _id: poll._id,
+      },
+      address: contract.keyword,
+      collectiveId: contract.collectiveId,
+      blockchain: {
+        tickets: [
+          {
+            hash,
+            status: 'PENDING',
+            value: shares.toNumber(),
+          },
+        ],
+        coin: {
+          code: defaults.TOKEN,
+        },
+        publicAddress: userHash.toLowerCase(),
+        score: {
+          totalConfirmed: shares.toString(),
+          totalPending: '0',
+          totalFail: '0',
+          finalConfirmed: shares.toNumber(),
+          finalPending: 0,
+          finalFail: 0,
+          value: 0,
+        },
+      },
+    };
+    const transactionObject = getTransactionObject(voter, ticket);
+    transactionObject.status = 'PENDING';
+    const pollId = poll._id;
+    const txId = setTransaction(userId, pollId, transactionObject);
+    return txId;
   },
 
 });

@@ -27,6 +27,7 @@ const _voteToContract = (post, contract, hidePost, winningBallot, openFeed) => {
     isRagequit: post.isRagequit,
     contractId: post.contractId,
     collectiveId: post.collectiveId,
+    status: post.status,
   };
   if (openFeed) {
     // for a feed in a general context (home page)

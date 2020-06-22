@@ -611,7 +611,7 @@
   "request": "Request",
   "tweet": "Tweet",
   "transaction-broadcast": "{{token}} Transaction sent to blockchain.",
-  "voting-interaction": "Voting contract interaction with {{collective}} sent.",
+  "voting-interaction": "Vote on {{collective}} proposal sent. <a href='{{etherscan}}' target='_blank'>See on Etherescan.</a>",
   "ethereum-metamask": "Ethereum",
   "no-chain-found": "No blockchain address found.",
   "metamask-confirm-transaction": "Confirm transaction in your blockchain wallet. <br>To be included Delegate list:",

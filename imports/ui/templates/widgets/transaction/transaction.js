@@ -304,6 +304,9 @@ Template.transaction.helpers({
   getImage(pic) {
     return getImage(Template.instance().imageTemplate.get(), pic);
   },
+  pending() {
+    return (this.status === 'PENDING');
+  },
 });
 
 Template.collectivePreview.onCreated(function () {
