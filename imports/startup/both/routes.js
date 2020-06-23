@@ -203,9 +203,9 @@ Router.route('/dao/:dao', {
   },
   waitOn() {
     if (web3.utils.isAddress(this.params.dao)) {
-      return Meteor.subscribe('collectives', { view: 'addressDao', publicAddress: this.params.dao });
+      return Meteor.subscribe('collectives', { view: 'addressDao', publicAddress: this.params.dao.toLowerCase() });
     }
-    return Meteor.subscribe('collectives', { view: 'singleDao', name: this.params.dao });
+    return Meteor.subscribe('collectives', { view: 'singleDao', uri: this.params.dao });
   },
   data() {
     let period = '';
@@ -267,34 +267,44 @@ Router.route('/tx/:keyword', {
     _reset();
     this.next();
   },
+  waitOn() {
+    return Meteor.subscribe('singleContract', { view: 'post', keyword: this.params.keyword.toLowerCase() });
+  },
   data() {
     const url = `/tx/${this.params.keyword}`;
-    return {
-      options: { view: 'post', sort: { timestamp: -1 }, url, keyword: this.params.keyword },
-    };
+    if (this.ready()) {
+      return {
+        options: { view: 'post', sort: { timestamp: -1 }, url, keyword: this.params.keyword.toLowerCase() },
+      };
+    }
+    return {};
   },
   onAfterAction() {
-    const contract = Contracts.findOne({ keyword: this.params.keyword });
     let title;
     let description;
     let image;
     DocHead.removeDocHeadAddedTags();
 
-    if (contract) {
-      DocHead.setTitle(`${TAPi18n.__('vote-tag-ballot-title').replace('{{collective}}', Meteor.settings.public.app.name)} - ${stripHTMLfromText(contract.title)}`);
-      if (contract.ballotEnabled) {
-        title = `${TAPi18n.__('vote-tag-ballot-title').replace('{{collective}}', Meteor.settings.public.app.name)}`;
-      } else {
-        title = `${TAPi18n.__('vote-tag-title').replace('{{collective}}', Meteor.settings.public.app.name)}`;
+    if (this.ready()) {
+      const contract = Contracts.findOne({ keyword: this.params.keyword.toLowerCase() });
+
+      if (contract) {
+        DocHead.setTitle(`${TAPi18n.__('vote-tag-ballot-title').replace('{{collective}}', Meteor.settings.public.app.name)} - ${stripHTMLfromText(contract.title)}`);
+        if (contract.ballotEnabled) {
+          title = `${TAPi18n.__('vote-tag-ballot-title').replace('{{collective}}', Meteor.settings.public.app.name)}`;
+        } else {
+          title = `${TAPi18n.__('vote-tag-title').replace('{{collective}}', Meteor.settings.public.app.name)}`;
+        }
+        description = stripHTMLfromText(contract.title);
+        image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.app.logo}`;
       }
-      description = stripHTMLfromText(contract.title);
-      image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.app.logo}`;
     } else {
       title = `${Meteor.settings.public.app.name} - ${Meteor.settings.public.app.bio}`;
       description = Meteor.settings.public.app.bio;
       image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.app.logo}`;
-      DocHead.setTitle(title);
     }
+
+    DocHead.setTitle(title);
 
     _meta({
       title,

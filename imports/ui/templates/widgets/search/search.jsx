@@ -32,6 +32,11 @@ const _setTags = () => {
   let collective;
   let query = [];
 
+
+  console.log(`Router:`);
+  console.log(Router.current());
+  console.log(Router.current().ready());
+
   if (params.username) {
     query = [
       {
@@ -40,7 +45,7 @@ const _setTags = () => {
       },
     ];
   } else if (params.dao) {
-    collective = Collectives.findOne({ name: new RegExp(['^', params.dao, '$'].join(''), 'i') });
+    collective = Collectives.findOne({ uri: new RegExp(['^', params.dao, '$'].join(''), 'i') });
     if (!collective) {
       collective = Collectives.findOne({ 'profile.blockchain.publicAddress': new RegExp(['^', params.dao, '$'].join(''), 'i') });
     }
@@ -53,7 +58,10 @@ const _setTags = () => {
       ];
     }
   } else if (params.keyword) {
-    contract = Contracts.findOne({ keyword: params.keyword });
+    contract = Contracts.findOne({ keyword: params.keyword.toLowerCase() });
+    console.log(params);
+    console.log(params.keyword);
+    console.log(contract);
     query = [
       {
         id: Router.current().params.keyword,

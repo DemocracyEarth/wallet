@@ -198,9 +198,19 @@ Meteor.publish('feedCount', function (terms) {
 */
 Meteor.publish('singleContract', function (terms) {
   check(terms, Object);
-  const parameters = query(terms);
   log(`{ publish: 'singleContract', user: ${logUser()}, { contractId: '${terms.contractId}' }`);
-  return Contracts.find(parameters.find, parameters.options);
+  const parameters = query(terms);
+
+  console.log(`parameters`);
+  console.log(parameters);
+
+  const contract = Contracts.find(parameters.find, parameters.options);
+
+  console.log(contract.fetch());
+  if (contract.fetch().length > 0) {
+    return contract;
+  }
+  return this.ready();
 });
 
 /**
