@@ -11,7 +11,7 @@ import { getTime } from '/imports/api/time';
 import { logUser, log, defaults, gui } from '/lib/const';
 import { stripHTML, urlDoctor, fixDBUrl } from '/lib/utils';
 import { notifierHTML } from '/imports/api/notifier/notifierTemplate.js';
-import { getLastTimestamp, getBlockHeight, getShares, setTransaction } from '/lib/web3';
+import { getLastTimestamp, getBlockHeight, getShares, setTransaction, getEvents } from '/lib/web3';
 import { getTransactionObject } from '/lib/interpreter';
 import { query } from '/lib/views';
 import { Collectives } from '/imports/api/collectives/Collectives';
@@ -597,6 +597,21 @@ Meteor.methods({
     transactionObject.status = 'PENDING';
     const pollId = poll._id;
     const txId = setTransaction(userId, pollId, transactionObject);
+
+    // update dao
+    const dao = Collectives.findOne({ _id: collectiveId });
+    log(`[dao] Checking status of ${dao.name}...`);
+    if ((dao.status.blockchainSync === 'UPDATED' && dao.profile.lastSyncedBlock)) {
+      log(`[dao] Processing DAO: ${dao.name}...`);
+      const syncFrom = (dao.profile.lastSyncedBlock) ? (dao.profile.lastSyncedBlock + 1) : defaults.START_BLOCK;
+      for (const smartContract of dao.profile.blockchain.smartContracts) {
+        log(`[dao] Processing smart contracts: ${smartContract.label}, syncing from ${syncFrom} to block: latest`);
+        await getEvents(smartContract, dao._id, syncFrom, 'latest');
+      }
+    } else {
+      log(`[dao] DAO ${dao.name} is not available for processing.`);
+    }
+
     return txId;
   },
 

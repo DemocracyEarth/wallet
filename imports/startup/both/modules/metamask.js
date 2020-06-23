@@ -399,15 +399,13 @@ const _hasRightToVote = async (memberAddress, proposalIndex, collectiveId) => {
 const _submitVote = async (proposalIndex, uintVote, contract, choice) => {
   const res = await _callDAOMethod('submitVote', [proposalIndex, uintVote], choice.collectiveId, 'send', { from: Meteor.user().username });
   if (res) {
-    console.log(res);
     displayModal(false, modal);
     const collective = Collectives.findOne({ _id: contract.collectiveId });
-    alert(TAPi18n.__('voting-interaction').replace('{{collective}}', collective.name).replace('{{etherscan}}', `http://etherscan.io/tx/${res}`), 10000);
+    alert(TAPi18n.__('voting-interaction').replace('{{collective}}', collective.name).replace('{{etherscan}}', `${Meteor.settings.public.web.sites.blockExplorer}/tx/${res}`), 10000);
     Meteor.call('setPendingVote', contract, Meteor.userId(), choice.collectiveId, res, uintVote, (err, newTx) => {
       if (err) {
         console.log(err);
       }
-      console.log(newTx);
     });
   }
   return res;
