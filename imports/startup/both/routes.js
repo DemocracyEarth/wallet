@@ -202,6 +202,7 @@ Router.route('/dao/:dao', {
     this.next();
   },
   waitOn() {
+    console.log('waiton dao....');
     if (web3.utils.isAddress(this.params.dao)) {
       return Meteor.subscribe('collectives', { view: 'addressDao', publicAddress: this.params.dao.toLowerCase() });
     }
@@ -260,8 +261,9 @@ Router.route('/dao/:dao', {
 * @summary loads a post using date in url
 **/
 Router.route('/tx/:keyword', {
-  name: 'date',
+  name: 'ticket',
   template: 'home',
+  loadingTemplate: 'load',
   onBeforeAction() {
     Session.set('sidebarMenuSelectedId', 999);
     _reset();
@@ -271,10 +273,9 @@ Router.route('/tx/:keyword', {
     return Meteor.subscribe('singleContract', { view: 'post', keyword: this.params.keyword.toLowerCase() });
   },
   data() {
-    const url = `/tx/${this.params.keyword}`;
     if (this.ready()) {
       return {
-        options: { view: 'post', sort: { timestamp: -1 }, url, keyword: this.params.keyword.toLowerCase() },
+        options: { view: 'post', sort: { timestamp: -1 }, keyword: this.params.keyword.toLowerCase() },
       };
     }
     return {};

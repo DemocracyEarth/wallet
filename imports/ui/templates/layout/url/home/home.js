@@ -112,6 +112,7 @@ Template.home.onCreated(function () {
 
   instance.autorun(() => {
     Template.instance().modeVar.set(Router.current().url);
+
     const avatarList = Session.get('avatarList');
     if (avatarList) {
       const query = [];

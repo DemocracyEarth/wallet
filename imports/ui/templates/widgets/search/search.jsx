@@ -1,4 +1,5 @@
 import React from 'react';
+import { Tracker } from 'meteor/tracker';
 import { Router } from 'meteor/iron:router';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
@@ -32,42 +33,36 @@ const _setTags = () => {
   let collective;
   let query = [];
 
-
-  console.log(`Router:`);
-  console.log(Router.current());
-  console.log(Router.current().ready());
-
-  if (params.username) {
-    query = [
-      {
-        id: Router.current().params.username,
-        text: _dynamicTitle(Router.current().params.username),
-      },
-    ];
-  } else if (params.dao) {
-    collective = Collectives.findOne({ uri: new RegExp(['^', params.dao, '$'].join(''), 'i') });
-    if (!collective) {
-      collective = Collectives.findOne({ 'profile.blockchain.publicAddress': new RegExp(['^', params.dao, '$'].join(''), 'i') });
-    }
-    if (collective) {
+  if (Router.current().ready()) {
+    if (params.username) {
       query = [
         {
-          id: Router.current().params.dao,
-          text: _dynamicTitle(collective.name),
+          id: Router.current().params.username,
+          text: _dynamicTitle(Router.current().params.username),
+        },
+      ];
+    } else if (params.dao) {
+      collective = Collectives.findOne({ uri: new RegExp(['^', params.dao, '$'].join(''), 'i') });
+      if (!collective) {
+        collective = Collectives.findOne({ 'profile.blockchain.publicAddress': new RegExp(['^', params.dao, '$'].join(''), 'i') });
+      }
+      if (collective) {
+        query = [
+          {
+            id: Router.current().params.dao,
+            text: _dynamicTitle(collective.name),
+          },
+        ];
+      }
+    } else if (params.keyword) {
+      contract = Contracts.findOne({ keyword: params.keyword.toLowerCase() });
+      query = [
+        {
+          id: Router.current().params.keyword,
+          text: _dynamicTitle(contract.title),
         },
       ];
     }
-  } else if (params.keyword) {
-    contract = Contracts.findOne({ keyword: params.keyword.toLowerCase() });
-    console.log(params);
-    console.log(params.keyword);
-    console.log(contract);
-    query = [
-      {
-        id: Router.current().params.keyword,
-        text: _dynamicTitle(contract.title),
-      },
-    ];
   }
 
   Session.set('search', {
@@ -99,6 +94,7 @@ export default class Search extends React.Component {
     _setTags();
 
     this.state = {
+      subscription: Router.current().ready(),
       tags: _getTags(),
       suggestions: _getSuggestions(),
     };
