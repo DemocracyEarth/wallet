@@ -40,7 +40,7 @@ const _setTags = () => {
       query = [
         {
           id: Router.current().params.username,
-          text: _dynamicTitle(Router.current().params.username),
+          text: TAPi18n.__('search-user').replace('{{searchTerm}}', _dynamicTitle(Router.current().params.username)),
         },
       ];
     } else if (params.dao) {
@@ -52,7 +52,7 @@ const _setTags = () => {
         query = [
           {
             id: Router.current().params.dao,
-            text: _dynamicTitle(collective.name),
+            text: TAPi18n.__('search-collective').replace('{{searchTerm}}', _dynamicTitle(collective.name)),
           },
         ];
       }
@@ -61,7 +61,7 @@ const _setTags = () => {
       query = [
         {
           id: Router.current().params.keyword,
-          text: _dynamicTitle(getProposalDescription(contract.title, true)),
+          text: TAPi18n.__('search-contract').replace('{{searchTerm}}', _dynamicTitle(getProposalDescription(contract.title, true))),
         },
       ];
     }
