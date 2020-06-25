@@ -1,7 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { Collectives } from '/imports/api/collectives/Collectives';
 
+import { getBlockHeight } from '/lib/web3';
 import { log } from '/lib/const';
+import { defaults } from '../../../../lib/const';
 
 const giniCalculator = require('gini');
 
@@ -13,7 +15,7 @@ const giniCalculator = require('gini');
 const _calculateGini = (collective) => {
   log(`[oracle] Calculating Gini coefficient for collective: '${collective._id}'`);
 
-  const members = Meteor.users.find({ 'profile.collectives': [collective._id] }).fetch();
+  const members = Meteor.users.find({ 'profile.collectives': collective._id }).fetch();
   const set = [];
   for (const individual of members) {
     for (const value of individual.profile.wallet.reserves) {
@@ -103,7 +105,8 @@ const _setReplicaScore = (user) => {
 * @summary general function to call oracles
 */
 const _oracles = () => {
-  const pendingReplicas = Meteor.users.find({ 'profile.replica': { $exists: false } }).fetch();
+  const blockHeight = getBlockHeight();
+  const pendingReplicas = Meteor.users.find({ $or: [{ 'profile.replica': { $exists: false } }, { 'profile.replica.lastSyncedBlock': { $lt: parseInt(blockHeight - defaults.ORACLE_BLOCKTIME, 10) } }] }).count();
   log(`[oracle] Refreshing replica scores for ${pendingReplicas.length} users...`);
 
   for (const user of pendingReplicas) {
