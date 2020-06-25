@@ -65,7 +65,7 @@ const _setCollectiveReplicaScore = async (collectiveId, height) => {
     const gini = _calculateGini(collective);
     const ranking = collective.profile.replica.ranking;
     const score = parseFloat(((1 - gini) + ranking) / 2, 10);
-    const lastSyncedBlock = height; // await getBlockHeight(); // 0 // collective.profile.lastSyncedBlock ? collective.profile.lastSyncedBlock : 0;
+    const lastSyncedBlock = height;
 
     replica = {
       lastSyncedBlock,

@@ -1,10 +1,12 @@
 import React from 'react';
-import { Tracker } from 'meteor/tracker';
+import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { Collectives } from '/imports/api/collectives/Collectives';
+import { getProposalDescription } from '/imports/ui/templates/widgets/feed/feedItem';
+
 import web3 from 'web3';
 
 import { shortenCryptoName } from '/imports/startup/both/modules/metamask';
@@ -59,7 +61,7 @@ const _setTags = () => {
       query = [
         {
           id: Router.current().params.keyword,
-          text: _dynamicTitle(contract.title),
+          text: _dynamicTitle(getProposalDescription(contract.title, true)),
         },
       ];
     }
@@ -77,14 +79,49 @@ const _getTags = () => {
 };
 
 const _getSuggestions = () => {
+  const contracts = Contracts.find({ stage: { $ne: 'DRAFT' }, kind: { $ne: 'DELEGATION' }, pollId: { $exists: false }, replyId: { $exists: false }, period: { $nin: ['RAGEQUIT', 'SUMMON'] } }).fetch();
+  const collectives = Collectives.find().fetch();
+  const users = Meteor.users.find().fetch();
+
+  const consolidated = [];
+
+  for (const address of users) {
+    consolidated.push({
+      id: `user-${address._id}`,
+      text: address.username,
+    });
+  }
+
+  for (const dao of collectives) {
+    consolidated.push({
+      id: `collective-${dao._id}`,
+      text: dao.name,
+    });
+  }
+
+  for (const proposal of contracts) {
+    consolidated.push({
+      id: `contract-${proposal._id}`,
+      text: getProposalDescription(proposal.title, true),
+    });
+  }
+
+  return consolidated;
+/*
   return [
-    { id: 'USA', text: '<strong>USA</strong>' },
+    { id: 'pupi', text: '<strong>USA</strong>' },
     { id: 'Germany', text: 'Germany' },
     { id: 'Austria', text: 'Austria' },
+    { id: 'Austria2', text: 'Austria' },
+    { id: 'Austria3', text: 'Austria' },
+    { id: 'Austria4', text: 'Austria' },
+    { id: 'Austria5', text: 'Austria' },
+    { id: 'Austria6', text: 'Austria' },
     { id: 'Costa Rica', text: 'Costa Rica' },
     { id: 'Sri Lanka', text: 'Sri Lanka' },
     { id: 'Thailand', text: 'Thailand' },
   ];
+  */
 };
 
 export default class Search extends React.Component {

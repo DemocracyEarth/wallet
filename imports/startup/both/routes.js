@@ -202,7 +202,6 @@ Router.route('/dao/:dao', {
     this.next();
   },
   waitOn() {
-    console.log('waiton dao....');
     if (web3.utils.isAddress(this.params.dao)) {
       return Meteor.subscribe('collectives', { view: 'addressDao', publicAddress: this.params.dao.toLowerCase() });
     }

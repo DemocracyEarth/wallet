@@ -38,6 +38,8 @@ const parser = require('xml-js');
 */
 const _getXMLAttributes = (text, attribute) => {
   const json = parser.xml2js(text, { compact: true, spaces: 4 });
+  console.log(`text: ${text}`);
+  console.log(`attribute: ${attribute}`);
   return json.root[attribute]._attributes;
 };
 
