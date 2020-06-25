@@ -82,46 +82,53 @@ const _getSuggestions = () => {
   const contracts = Contracts.find({ stage: { $ne: 'DRAFT' }, kind: { $ne: 'DELEGATION' }, pollId: { $exists: false }, replyId: { $exists: false }, period: { $nin: ['RAGEQUIT', 'SUMMON'] } }).fetch();
   const collectives = Collectives.find().fetch();
   const users = Meteor.users.find().fetch();
+  const ragequits = Contracts.find({ stage: { $ne: 'DRAFT' }, kind: { $ne: 'DELEGATION' }, pollId: { $exists: false }, replyId: { $exists: false }, period: 'RAGEQUIT' }).fetch();
+  const summons = Contracts.find({ stage: { $ne: 'DRAFT' }, kind: { $ne: 'DELEGATION' }, pollId: { $exists: false }, replyId: { $exists: false }, period: 'SUMMON' }).fetch();
 
   const consolidated = [];
 
   for (const address of users) {
     consolidated.push({
       id: `user-${address._id}`,
-      text: address.username,
+      text: TAPi18n.__('search-user').replace('{{searchTerm}}', address.username),
     });
   }
 
   for (const dao of collectives) {
     consolidated.push({
       id: `collective-${dao._id}`,
-      text: dao.name,
+      text: TAPi18n.__('search-collective').replace('{{searchTerm}}', dao.name),
     });
   }
 
   for (const proposal of contracts) {
     consolidated.push({
       id: `contract-${proposal._id}`,
-      text: getProposalDescription(proposal.title, true),
+      text: TAPi18n.__('search-contract').replace('{{searchTerm}}', getProposalDescription(proposal.title, true)),
     });
   }
 
+  for (const proposal of ragequits) {
+    const ragequitDao = Collectives.findOne({ _id: proposal.collectiveId });
+    if (ragequitDao) {
+      consolidated.push({
+        id: `contract-${proposal._id}`,
+        text: TAPi18n.__('search-ragequit').replace('{{shares}}', Math.abs(proposal.decision.sharesToBurn).toString()).replace('{{address}}', shortenCryptoName(proposal.blockchain.publicAdress)).replace('{{dao}}', ragequitDao.name),
+      });
+    }
+  }
+
+  for (const proposal of summons) {
+    const summonDao = Collectives.findOne({ _id: proposal.collectiveId });
+    if (summonDao) {
+      consolidated.push({
+        id: `contract-${proposal._id}`,
+        text: TAPi18n.__('search-summon').replace('{{dao}}', summonDao.name),
+      });
+    }
+  }
+
   return consolidated;
-/*
-  return [
-    { id: 'pupi', text: '<strong>USA</strong>' },
-    { id: 'Germany', text: 'Germany' },
-    { id: 'Austria', text: 'Austria' },
-    { id: 'Austria2', text: 'Austria' },
-    { id: 'Austria3', text: 'Austria' },
-    { id: 'Austria4', text: 'Austria' },
-    { id: 'Austria5', text: 'Austria' },
-    { id: 'Austria6', text: 'Austria' },
-    { id: 'Costa Rica', text: 'Costa Rica' },
-    { id: 'Sri Lanka', text: 'Sri Lanka' },
-    { id: 'Thailand', text: 'Thailand' },
-  ];
-  */
 };
 
 export default class Search extends React.Component {
