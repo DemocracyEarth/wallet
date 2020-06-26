@@ -21,7 +21,7 @@ const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
 const _dynamicTitle = (label) => {
   if (web3.utils.isAddress(label)) {
-    return shortenCryptoName(label);
+    return shortenCryptoName(label).toUpperCase();
   }
   if (label.length > 18) {
     return `${label.substring(0, 15)}...`;
@@ -131,6 +131,13 @@ const _getSuggestions = () => {
   return consolidated;
 };
 
+const _replacementText = (tag) => {
+  if (tag.id.slice(0, 9) === '/address/') {
+    return TAPi18n.__('search-user').replace('{{searchTerm}}', _dynamicTitle(tag.id.slice(9, 51)));
+  }
+  return _dynamicTitle(tag.text);
+};
+
 export default class Search extends React.Component {
   constructor(props) {
     super(props);
@@ -157,7 +164,7 @@ export default class Search extends React.Component {
 
   handleAddition(tag) {
     const newTag = tag;
-    newTag.text = _dynamicTitle(newTag.text);
+    newTag.text = _replacementText(tag); // _dynamicTitle(newTag.text);
     this.setState(state => ({ tags: [newTag] }));
     Router.go(tag.id);
   }
