@@ -89,21 +89,21 @@ const _getSuggestions = () => {
 
   for (const address of users) {
     consolidated.push({
-      id: `user-${address._id}`,
+      id: `/address/${address.username}`,
       text: TAPi18n.__('search-user').replace('{{searchTerm}}', address.username),
     });
   }
 
   for (const dao of collectives) {
     consolidated.push({
-      id: `collective-${dao._id}`,
+      id: `/dao/${dao.uri}`,
       text: TAPi18n.__('search-collective').replace('{{searchTerm}}', dao.name),
     });
   }
 
   for (const proposal of contracts) {
     consolidated.push({
-      id: `contract-${proposal._id}`,
+      id: `/tx/${proposal.keyword}`,
       text: TAPi18n.__('search-contract').replace('{{searchTerm}}', getProposalDescription(proposal.title, true)),
     });
   }
@@ -112,7 +112,7 @@ const _getSuggestions = () => {
     const ragequitDao = Collectives.findOne({ _id: quit.collectiveId });
     if (ragequitDao) {
       consolidated.push({
-        id: `contract-${quit._id}`,
+        id: `/tx/${quit.keyword}`,
         text: TAPi18n.__('search-ragequit').replace('{{shares}}', Math.abs(quit.decision.sharesToBurn).toString()).replace('{{address}}', shortenCryptoName(quit.blockchain.publicAddress)).replace('{{dao}}', ragequitDao.name),
       });
     }
@@ -122,7 +122,7 @@ const _getSuggestions = () => {
     const summonDao = Collectives.findOne({ _id: moloch.collectiveId });
     if (summonDao) {
       consolidated.push({
-        id: `contract-${moloch._id}`,
+        id: `/tx/${moloch.keyword}`,
         text: TAPi18n.__('search-summon').replace('{{dao}}', summonDao.name),
       });
     }
@@ -156,8 +156,10 @@ export default class Search extends React.Component {
   }
 
   handleAddition(tag) {
-    console.log('kwyjibo');
-    this.setState(state => ({ tags: [...state.tags, tag] }));
+    const newTag = tag;
+    newTag.text = _dynamicTitle(newTag.text);
+    this.setState(state => ({ tags: [...state.tags, newTag] }));
+    Router.go(tag.id);
   }
 
   handleDrag(tag, currPos, newPos) {

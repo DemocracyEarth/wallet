@@ -876,8 +876,8 @@
   "dao-type-democracy": "A Democracy DAO",
   "token-default-title": "{{name}} ERC20 token.",
   "search-user": "👤 {{searchTerm}}",
-  "search-collective": "🤝 {{searchTerm}}",
-  "search-contract": "📝 {{searchTerm}}",
+  "search-collective": "🗳 {{searchTerm}}",
+  "search-contract": "📄 {{searchTerm}}",
   "search-summon": "🔥 Summon of {{dao}}",
   "search-ragequit": "💸 Ragequit of {{shares}} shares from {{dao}} by {{address}}"
 }
