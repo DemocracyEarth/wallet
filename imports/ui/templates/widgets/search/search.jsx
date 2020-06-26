@@ -108,21 +108,21 @@ const _getSuggestions = () => {
     });
   }
 
-  for (const proposal of ragequits) {
-    const ragequitDao = Collectives.findOne({ _id: proposal.collectiveId });
+  for (const quit of ragequits) {
+    const ragequitDao = Collectives.findOne({ _id: quit.collectiveId });
     if (ragequitDao) {
       consolidated.push({
-        id: `contract-${proposal._id}`,
-        text: TAPi18n.__('search-ragequit').replace('{{shares}}', Math.abs(proposal.decision.sharesToBurn).toString()).replace('{{address}}', shortenCryptoName(proposal.blockchain.publicAdress)).replace('{{dao}}', ragequitDao.name),
+        id: `contract-${quit._id}`,
+        text: TAPi18n.__('search-ragequit').replace('{{shares}}', Math.abs(quit.decision.sharesToBurn).toString()).replace('{{address}}', shortenCryptoName(quit.blockchain.publicAddress)).replace('{{dao}}', ragequitDao.name),
       });
     }
   }
 
-  for (const proposal of summons) {
-    const summonDao = Collectives.findOne({ _id: proposal.collectiveId });
+  for (const moloch of summons) {
+    const summonDao = Collectives.findOne({ _id: moloch.collectiveId });
     if (summonDao) {
       consolidated.push({
-        id: `contract-${proposal._id}`,
+        id: `contract-${moloch._id}`,
         text: TAPi18n.__('search-summon').replace('{{dao}}', summonDao.name),
       });
     }
