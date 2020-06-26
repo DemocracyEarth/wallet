@@ -156,6 +156,7 @@ export default class Search extends React.Component {
   }
 
   handleAddition(tag) {
+    console.log('kwyjibo');
     this.setState(state => ({ tags: [...state.tags, tag] }));
   }
 

@@ -7716,6 +7716,40 @@ blockquote {
   color: #ab83b9;
 }
 
+.ReactTags__activeSuggestion {
+  background-color: #864b9a;
+  color: white;
+}
+
+.ReactTags__suggestions {
+  font-size: 0.75em;
+    position: absolute;
+    background: white;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding: 0px 0px;
+    max-height: 196px;
+    margin-top: 13px;
+    width: 500px;
+    margin-left: -25px;
+    overflow: hidden;
+    box-shadow: 0px 2px 7px #cecece;
+}
+
+.ReactTags__suggestions li {
+  padding: 5px 10px;
+  margin: 1px;
+  overflow: hidden;
+  max-width: 498px;
+  text-overflow: ellipsis;
+  border-radius: 5px;
+}
+
+mark {
+  background-color: transparent;
+  color:auto;
+}
+
 .search-wrapper {
   display: block;
   padding: 0px 100px 0px 50px;
@@ -7727,6 +7761,18 @@ blockquote {
 }
 
 @media (max-width: 767px) {
+
+  .ReactTags__suggestions {
+    left: 50px;
+    margin: 13px 0px;
+    right: 100px;
+    width: auto;
+  }
+
+  .ReactTags__suggestions li {
+    max-width: none;
+  }
+
   .ReactTags__tags {
     width: 100%;
     display: block;
