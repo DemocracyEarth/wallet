@@ -40,7 +40,7 @@ const _resizeSplit = (diff, winResize) => {
     if ((agoraWidth > gui.MIN_AGORA_WIDTH && contractWidth > gui.MIN_CONTRACT_WIDTH) || winResize) {
       $('.split-left').width(`${contractWidth}px`);
       $('.split-right').width(`${agoraWidth}px`);
-      $('.split-right').css('marginLeft', parseInt(diff - 20, 10));
+      $('.split-right').css('marginLeft', parseInt(diff, 10));
     }
   }
 };

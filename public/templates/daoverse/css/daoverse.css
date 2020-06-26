@@ -5128,16 +5128,16 @@ blockquote {
 
 .split.split-right {
   position: absolute;
-  left: 60%;
+  left: 58%;
   right: 0px;
-  width: 40%;
+  width: 42%;
   padding-right: 0px;
   padding-left: 0px;
   border-left: 1px none hsla(0, 0%, 41%, 0);
 }
 
 .split.split-left {
-  width: 60%;
+  width: 58%;
   padding-right: 0px;
   padding-left: 0px;
 }

@@ -158,7 +158,7 @@ export default class Search extends React.Component {
   handleAddition(tag) {
     const newTag = tag;
     newTag.text = _dynamicTitle(newTag.text);
-    this.setState(state => ({ tags: [...state.tags, newTag] }));
+    this.setState(state => ({ tags: [newTag] }));
     Router.go(tag.id);
   }
 
