@@ -34,6 +34,9 @@ const _convertQuery = (instance) => {
     case 'dao':
       tally.options.view = 'transactionsDao';
       break;
+    case 'search':
+      tally.options.view = 'transactionsSearch';
+      break;
     default:
   }
   return tally;
@@ -47,6 +50,7 @@ Template.ledger.onCreated(function () {
   const instance = this;
 
   instance.autorun(function (computation) {
+    console.log(_convertQuery(instance.data));
     const subscription = instance.subscribe('transaction', _convertQuery(instance.data).options);
     if (subscription.ready() && !instance.postReady.get()) {
       instance.postReady.set(true);

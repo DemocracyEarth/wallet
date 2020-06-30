@@ -123,7 +123,8 @@ const _defaultTally = (view) => {
     view === 'transactionsToken' ||
     view === 'transactionsPeer' ||
     view === 'transactionsGeo' ||
-    view === 'transactionsDao'
+    view === 'transactionsDao' ||
+    view === 'transactionsSearch'
   );
 };
 

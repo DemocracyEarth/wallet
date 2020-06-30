@@ -134,6 +134,8 @@ const _getSuggestions = () => {
 const _replacementText = (tag) => {
   if (tag.id.slice(0, 9) === '/address/') {
     return TAPi18n.__('search-user').replace('{{searchTerm}}', _dynamicTitle(tag.id.slice(9, 51)));
+  } else if (tag.id.slice(0, 1) !== '/') {
+    return TAPi18n.__('search-default').replace('{{searchTerm}}', _dynamicTitle(tag.text));
   }
   return _dynamicTitle(tag.text);
 };
