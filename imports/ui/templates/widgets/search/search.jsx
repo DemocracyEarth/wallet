@@ -164,9 +164,14 @@ export default class Search extends React.Component {
 
   handleAddition(tag) {
     const newTag = tag;
-    newTag.text = _replacementText(tag); // _dynamicTitle(newTag.text);
+    newTag.text = _replacementText(tag);
     this.setState(state => ({ tags: [newTag] }));
-    Router.go(tag.id);
+
+    if (tag.id.slice(0, 1) === '/') {
+      Router.go(tag.id);
+    } else {
+      Router.go(`/?search=${encodeURI(tag.id)}`);
+    }
   }
 
   handleDrag(tag, currPos, newPos) {

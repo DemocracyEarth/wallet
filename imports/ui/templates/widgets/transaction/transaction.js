@@ -321,7 +321,7 @@ Template.collectivePreview.helpers({
     return Template.instance().collective.name;
   },
   url() {
-    console.log(Template.instance().collective);
+    // console.log(Template.instance().collective);
     return `/dao/${Template.instance().collective.uri}`;
   },
 });

@@ -131,13 +131,17 @@ Router.route('/', {
 
     let view = 'latest';
     let period = '';
+    let search = '';
     if (this.params.query.period) {
       view = 'period';
       period = this.params.query.period;
+    } else if (this.params.query.search) {
+      view = 'search';
+      search = this.params.query.search;
     }
 
     return {
-      options: { view, period, sort: { timestamp: -1 }, limit, skip: 0 },
+      options: { view, period, search, sort: { timestamp: -1 }, limit, skip: 0 },
     };
   },
   onAfterAction() {
