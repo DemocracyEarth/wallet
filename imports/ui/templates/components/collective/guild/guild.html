@@ -21,9 +21,11 @@
                   <a href="{{blockchainLink}}" target="_blank" class="verifier verifier-live verifier-feed verifier-mini verifier-key verifier-guild">{{{publicAddress}}}</a>
                 </div>
               </div>
-              {{#with guildChart}}
-                {{> chart}}
-              {{/with}}
+              {{#if hasAssets}}
+                {{#with guildChart}}
+                  {{> chart}}
+                {{/with}}
+              {{/if}}
             </div>
           </div>
           <div class="guild-row">

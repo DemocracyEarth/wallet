@@ -14,7 +14,6 @@ import { searchJSON } from '/imports/ui/modules/JSON';
 import { uploadToAmazonS3 } from '/imports/ui/modules/Files';
 import { displayModal } from '/imports/ui/modules/modal';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
-import { displayPopup, cancelPopup } from '/imports/ui/modules/popup';
 import { shortenCryptoName } from '/imports/startup/both/modules/metamask';
 import { defaults } from '/lib/const';
 
@@ -47,24 +46,27 @@ const _getUser = (userId) => {
 * @param {object} user user to parse
 */
 const _getAddress = (user) => {
-  let reserve;
+  let addressList;
+
   if (!user.profile) {
-    reserve = Meteor.user().profile.wallet.reserves;
+    addressList = Meteor.user().profile.wallet.address;
   } else if (typeof user.profile === 'string') {
     const userProfile = Meteor.users.findOne({ _id: user.profile });
-    if (userProfile && userProfile.profile.wallet.reserves) {
-      reserve = userProfile.profile.wallet.reserves;
+    if (userProfile && userProfile.profile.wallet.address) {
+      addressList = userProfile.profile.wallet.address;
     }
-  } else if (user.wallet && user.wallet.reserves) {
-    reserve = user.wallet.reserves;
+  } else if (user.wallet && user.wallet.address) {
+    addressList = user.wallet.address;
   }
-  if (reserve && reserve.length && reserve.length > 0) {
-    for (const i in reserve) {
-      if ((reserve[i].token === 'WEI' || reserve[i].token === 'STX' || reserve[i].token === 'WETH' || reserve[i].token === defaults.TOKEN) && reserve[i].publicAddress) {
-        return reserve[i];
+
+  if (addressList && addressList.length && addressList.length > 0) {
+    for (const item of addressList) {
+      if (item.chain === defaults.BLOCKCHAIN) {
+        return item;
       }
     }
   }
+
   return undefined;
 };
 
@@ -377,14 +379,14 @@ Template.avatar.helpers({
   ticker() {
     const reserve = _getAddress(this);
     if (reserve) {
-      return reserve.token;
+      return reserve.chain;
     }
     return '';
   },
   address() {
     const reserve = _getAddress(this);
     if (reserve) {
-      return reserve.publicAddress;
+      return reserve.hash;
     }
     return '';
   },

@@ -141,6 +141,10 @@ Schema.Map = new SimpleSchema({
     type: [Schema.Parameter],
     optional: true,
   },
+  fingerprint: {
+    type: Boolean,
+    optional: true,
+  },
 });
 
 Schema.Blockchain = new SimpleSchema({

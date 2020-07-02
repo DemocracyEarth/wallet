@@ -4,6 +4,7 @@ import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { Transactions } from '/imports/api/transactions/Transactions';
 
 import { gui } from '/lib/const';
 import { setupSplit } from '/imports/ui/modules/split';
@@ -34,6 +35,9 @@ const _convertQuery = (instance) => {
     case 'dao':
       tally.options.view = 'transactionsDao';
       break;
+    case 'search':
+      tally.options.view = 'transactionsSearch';
+      break;
     default:
   }
   return tally;
@@ -49,8 +53,12 @@ Template.ledger.onCreated(function () {
   instance.autorun(function (computation) {
     const subscription = instance.subscribe('transaction', _convertQuery(instance.data).options);
     if (subscription.ready() && !instance.postReady.get()) {
-      instance.postReady.set(true);
-      computation.stop();
+      const transactionCollectives = _.map(_.uniq(_.pluck(Transactions.find().fetch(), 'collectiveId')), (num) => { return { _id: num }; });
+      const collectiveSubscription = instance.subscribe('singleDao', { $or: transactionCollectives });
+      if (collectiveSubscription.ready() && !instance.postReady.get()) {
+        instance.postReady.set(true);
+        computation.stop();
+      }
     }
   });
 });

@@ -1,9 +1,13 @@
 import React from 'react';
+import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
 import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { Collectives } from '/imports/api/collectives/Collectives';
+import { getProposalDescription } from '/imports/ui/templates/widgets/feed/feedItem';
+
+import web3 from 'web3';
 
 import { shortenCryptoName } from '/imports/startup/both/modules/metamask';
 import { WithContext as ReactTags } from 'react-tag-input';
@@ -15,37 +19,52 @@ const KeyCodes = {
 
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
+const _dynamicTitle = (label) => {
+  if (web3.utils.isAddress(label)) {
+    return shortenCryptoName(label).toUpperCase();
+  }
+  if (label.length > 18) {
+    return `${label.substring(0, 15)}...`;
+  }
+  return label;
+};
+
 const _setTags = () => {
   const params = Router.current().params;
   let contract;
   let collective;
   let query = [];
 
-  if (params.username) {
-    query = [
-      {
-        id: Router.current().params.username,
-        text: shortenCryptoName(Router.current().params.username),
-      },
-    ];
-  } else if (params.dao) {
-    collective = Collectives.findOne({ name: new RegExp(['^', params.dao, '$'].join(''), 'i') });
-    if (collective) {
+  if (Router.current().ready()) {
+    if (params.username) {
       query = [
         {
-          id: Router.current().params.dao,
-          text: collective.name,
+          id: Router.current().params.username,
+          text: TAPi18n.__('search-user').replace('{{searchTerm}}', _dynamicTitle(Router.current().params.username)),
+        },
+      ];
+    } else if (params.dao) {
+      collective = Collectives.findOne({ uri: new RegExp(['^', params.dao, '$'].join(''), 'i') });
+      if (!collective) {
+        collective = Collectives.findOne({ 'profile.blockchain.publicAddress': new RegExp(['^', params.dao, '$'].join(''), 'i') });
+      }
+      if (collective) {
+        query = [
+          {
+            id: Router.current().params.dao,
+            text: TAPi18n.__('search-collective').replace('{{searchTerm}}', _dynamicTitle(collective.name)),
+          },
+        ];
+      }
+    } else if (params.keyword) {
+      contract = Contracts.findOne({ keyword: params.keyword.toLowerCase() });
+      query = [
+        {
+          id: Router.current().params.keyword,
+          text: TAPi18n.__('search-contract').replace('{{searchTerm}}', _dynamicTitle(getProposalDescription(contract.title, true))),
         },
       ];
     }
-  } else if (params.keyword) {
-    contract = Contracts.findOne({ keyword: params.keyword });
-    query = [
-      {
-        id: Router.current().params.keyword,
-        text: contract.title,
-      },
-    ];
   }
 
   Session.set('search', {
@@ -60,14 +79,65 @@ const _getTags = () => {
 };
 
 const _getSuggestions = () => {
-  return [
-    { id: 'USA', text: 'USA' },
-    { id: 'Germany', text: 'Germany' },
-    { id: 'Austria', text: 'Austria' },
-    { id: 'Costa Rica', text: 'Costa Rica' },
-    { id: 'Sri Lanka', text: 'Sri Lanka' },
-    { id: 'Thailand', text: 'Thailand' },
-  ];
+  const contracts = Contracts.find({ stage: { $ne: 'DRAFT' }, kind: { $ne: 'DELEGATION' }, pollId: { $exists: false }, replyId: { $exists: false }, period: { $nin: ['RAGEQUIT', 'SUMMON'] } }).fetch();
+  const collectives = Collectives.find().fetch();
+  const users = Meteor.users.find().fetch();
+  const ragequits = Contracts.find({ stage: { $ne: 'DRAFT' }, kind: { $ne: 'DELEGATION' }, pollId: { $exists: false }, replyId: { $exists: false }, period: 'RAGEQUIT' }).fetch();
+  const summons = Contracts.find({ stage: { $ne: 'DRAFT' }, kind: { $ne: 'DELEGATION' }, pollId: { $exists: false }, replyId: { $exists: false }, period: 'SUMMON' }).fetch();
+
+  const consolidated = [];
+
+  for (const address of users) {
+    consolidated.push({
+      id: `/address/${address.username}`,
+      text: TAPi18n.__('search-user').replace('{{searchTerm}}', address.username),
+    });
+  }
+
+  for (const dao of collectives) {
+    consolidated.push({
+      id: `/dao/${dao.uri}`,
+      text: TAPi18n.__('search-collective').replace('{{searchTerm}}', dao.name),
+    });
+  }
+
+  for (const proposal of contracts) {
+    consolidated.push({
+      id: `/tx/${proposal.keyword}`,
+      text: TAPi18n.__('search-contract').replace('{{searchTerm}}', getProposalDescription(proposal.title, true)),
+    });
+  }
+
+  for (const quit of ragequits) {
+    const ragequitDao = Collectives.findOne({ _id: quit.collectiveId });
+    if (ragequitDao) {
+      consolidated.push({
+        id: `/tx/${quit.keyword}`,
+        text: TAPi18n.__('search-ragequit').replace('{{shares}}', Math.abs(quit.decision.sharesToBurn).toString()).replace('{{address}}', shortenCryptoName(quit.blockchain.publicAddress)).replace('{{dao}}', ragequitDao.name),
+      });
+    }
+  }
+
+  for (const moloch of summons) {
+    const summonDao = Collectives.findOne({ _id: moloch.collectiveId });
+    if (summonDao) {
+      consolidated.push({
+        id: `/tx/${moloch.keyword}`,
+        text: TAPi18n.__('search-summon').replace('{{dao}}', summonDao.name),
+      });
+    }
+  }
+
+  return consolidated;
+};
+
+const _replacementText = (tag) => {
+  if (tag.id.slice(0, 9) === '/address/') {
+    return TAPi18n.__('search-user').replace('{{searchTerm}}', _dynamicTitle(tag.id.slice(9, 51)));
+  } else if (tag.id.slice(0, 1) !== '/') {
+    return TAPi18n.__('search-default').replace('{{searchTerm}}', _dynamicTitle(tag.text));
+  }
+  return _dynamicTitle(tag.text);
 };
 
 export default class Search extends React.Component {
@@ -77,6 +147,7 @@ export default class Search extends React.Component {
     _setTags();
 
     this.state = {
+      subscription: Router.current().ready(),
       tags: _getTags(),
       suggestions: _getSuggestions(),
     };
@@ -90,10 +161,19 @@ export default class Search extends React.Component {
     this.setState({
       tags: tags.filter((tag, index) => { return (index !== i); }),
     });
+    document.getElementsByClassName('ReactTags__selected')[0].scrollLeft = 0;
   }
 
   handleAddition(tag) {
-    this.setState(state => ({ tags: [...state.tags, tag] }));
+    const newTag = tag;
+    newTag.text = _replacementText(tag);
+    this.setState(state => ({ tags: [newTag] }));
+
+    if (tag.id.slice(0, 1) === '/') {
+      Router.go(tag.id);
+    } else {
+      Router.go(`/?search=${encodeURI(tag.id)}`);
+    }
   }
 
   handleDrag(tag, currPos, newPos) {

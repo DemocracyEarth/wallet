@@ -33,6 +33,18 @@ Template.alert.helpers({
   signal() {
     return Session.get('alert');
   },
+  mobileStyle() {
+    if (Meteor.Device.isPhone()) {
+      return 'alert-wrapper-mobile';
+    }
+    return '';
+  },
+  mobileSignal() {
+    if (Meteor.Device.isPhone()) {
+      return 'alert-signal-mobile';
+    }
+    return '';
+  },
 });
 
 export const alert = _alert;

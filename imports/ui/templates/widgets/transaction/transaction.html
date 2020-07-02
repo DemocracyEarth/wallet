@@ -40,6 +40,7 @@
         {{#if isVote}}
           <table class="transaction-data w-clearfix">
             <tr>
+              {{> collectivePreview collectiveId=this.collectiveId}}
               {{#if isRevoke}}
                 {{#if isSubsidy}}
                   {{> collectivePreview collectiveId=this.senderId}}
@@ -155,8 +156,12 @@
       {{#unless noDate}}
         <div class="data data-feed data-transaction">
           <div class="margin-both">
-            <img src="{{getImage 'clock'}}" class="clock-icon">
-            <div class="verifier verifier-live verifier-feed verifier-mini">{{sinceDate}}</div>
+            {{#if pending}}
+              <div class="verifier verifier-live verifier-feed verifier-mini verifier-pending">{{_ 'pending'}}</div>
+            {{else}}
+              <img src="{{getImage 'clock'}}" class="clock-icon">
+              <div class="verifier verifier-live verifier-feed verifier-mini">{{sinceDate}}</div>
+            {{/if}}
           </div>
         </div>
       {{/unless}}
@@ -188,16 +193,9 @@
 <template name="collectivePreview">
   <td class="actor">
     <div class="identity identity-transaction w-clearfix">
-      <img class="collective-icon collective-icon-small" src="{{pathFor route='home'}}{{flag}}">
-    </div>
-  </td>
-  <td class="actor">
-    <div class="identity identity-transaction w-clearfix">
-      <div class="identity-peer">
-        <a href="{{url}}" class="identity-label identity-label-micro">
-          {{name}}
-        </a>
-      </div>
+      <a href="{{url}}" class="identity-label identity-label-micro">
+        <img class="collective-icon collective-icon-small" title="{{name}}" src="{{logo}}">
+      </a>
     </div>
   </td>
 </template>

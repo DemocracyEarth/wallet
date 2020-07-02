@@ -5,9 +5,9 @@ import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { Router } from 'meteor/iron:router';
 
-import { timers } from '/lib/const';
+import { timers, gui } from '/lib/const';
 import { editorFadeOut } from '/imports/ui/templates/components/decision/editor/editor';
-import { toggleSidebar } from '/imports/ui/modules/menu';
+import { sidebarWidth } from '/imports/ui/modules/menu';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 
 import '/imports/ui/templates/layout/authentication/authentication.js';
@@ -94,6 +94,7 @@ const _isRoot = () => {
 };
 
 Template.navigation.onCreated(function () {
+  Session.set('enableSidebar', false);
   Template.instance().imageTemplate = new ReactiveVar();
   templetize(Template.instance());
 });
@@ -123,6 +124,48 @@ Template.navigation.helpers({
   },
 });
 
+const _toggle = () => {
+  const sidebarPixelWidth = sidebarWidth();
+
+  // show sidebar
+  if (!Session.get('enableSidebar')) {
+    let newRight = 0;
+    if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
+      newRight = parseInt(0 - sidebarPixelWidth, 10);
+    }
+    $('.mobile-menu').css('margin-top', '-55px');
+    $('.mobile-menu').css('position', 'absolute');
+    $('.mobile-menu').css('top', `${$('#content').scrollTop() + $(window).height()}px`);
+    $('.navbar').css('position', 'absolute');
+    $('.navbar').css('top', `${$('#content').scrollTop()}px`);
+    $('.inhibitor').css('display', 'block');
+    $('.inhibitor').css('position', 'fixed');
+    $('.inhibitor').css('left', `${sidebarPixelWidth}px`);
+    $('.content').css('overflow', 'hidden');
+    $('#menu').css({ width: `${sidebarPixelWidth}px` });
+
+
+    $('#menu').css({ marginLeft: '0px' });
+    $('#content').css({
+      left: sidebarPixelWidth,
+      right: newRight,
+    });
+    Session.set('enableSidebar', true);
+
+  // hide sidebar
+  } else {
+    Session.set('enableSidebar', false);
+    $('.inhibitor').css('display', 'none');
+    $('.navbar').css('position', 'fixed');
+    $('.navbar').css('top', '0px');
+    $('#menu').css({ marginLeft: parseInt(0 - sidebarPixelWidth, 10) });
+    $('#content').css({
+      left: 0,
+      right: 0,
+    });
+  }
+};
+
 Template.navigation.events({
   'click #burger'() {
     if (displayCancelButton()) {
@@ -131,7 +174,9 @@ Template.navigation.events({
     } else if (displayBackButton()) {
       window.history.back();
     } else {
-      toggleSidebar();
+      _toggle();
     }
   },
 });
+
+export const toggle = _toggle;

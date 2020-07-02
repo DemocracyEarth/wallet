@@ -26,6 +26,8 @@ const _voteToContract = (post, contract, hidePost, winningBallot, openFeed) => {
     isRevoke: (post.input.entityType !== 'INDIVIDUAL'),
     isRagequit: post.isRagequit,
     contractId: post.contractId,
+    collectiveId: post.collectiveId,
+    status: post.status,
   };
   if (openFeed) {
     // for a feed in a general context (home page)
@@ -121,7 +123,8 @@ const _defaultTally = (view) => {
     view === 'transactionsToken' ||
     view === 'transactionsPeer' ||
     view === 'transactionsGeo' ||
-    view === 'transactionsDao'
+    view === 'transactionsDao' ||
+    view === 'transactionsSearch'
   );
 };
 

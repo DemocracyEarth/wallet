@@ -143,10 +143,30 @@ Schema.Chart = new SimpleSchema({
   },
 });
 
+Schema.Status = new SimpleSchema({
+  loadPercentage: {
+    type: Number,
+    defaultValue: 0,
+    optional: true,
+  },
+  blockchainSync: {
+    type: String,
+    allowedValues: ['SETUP', 'SYNCING', 'UPDATED', 'EMPTY'],
+    optional: true,
+  },
+  publicAddress: {
+    type: String,
+    optional: true,
+  },
+  message: {
+    type: String,
+    optional: true,
+  },
+});
+
 Schema.CollectiveProfile = new SimpleSchema({
   website: {
     type: String,
-    regEx: SimpleSchema.RegEx.Url,
     optional: true,
   },
   bio: {
@@ -226,11 +246,20 @@ Schema.Collective = new SimpleSchema({
   name: {
     type: String,
   },
+  uri: {
+    type: String,
+    optional: true,
+  },
   domain: {
     type: String,
+    optional: true,
   },
   emails: {
     type: Array,
+    optional: true,
+  },
+  kind: {
+    type: String,
     optional: true,
   },
   'emails.$': {
@@ -245,6 +274,10 @@ Schema.Collective = new SimpleSchema({
   },
   profile: {
     type: Schema.CollectiveProfile,
+    optional: true,
+  },
+  status: {
+    type: Schema.Status,
     optional: true,
   },
   goal: {

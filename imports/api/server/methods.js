@@ -11,7 +11,9 @@ import { getTime } from '/imports/api/time';
 import { logUser, log, defaults, gui } from '/lib/const';
 import { stripHTML, urlDoctor, fixDBUrl } from '/lib/utils';
 import { notifierHTML } from '/imports/api/notifier/notifierTemplate.js';
-import { getLastTimestamp, getBlockHeight } from '/lib/web3';
+import { getLastTimestamp, getBlockHeight, getShares, setTransaction, getEvents } from '/lib/web3';
+import { getTransactionObject } from '/lib/interpreter';
+import { query } from '/lib/views';
 import { Collectives } from '/imports/api/collectives/Collectives';
 
 /**
@@ -40,10 +42,12 @@ const _getHistoryCount = () => {
   const collectives = Collectives.find().fetch();
   let finalCount = 0;
   for (const dao of collectives) {
-    for (const item of dao.profile.menu) {
-      if ((item.label === 'moloch-all') && item.count) {
-        finalCount += item.count;
-        break;
+    if (dao.profile && dao.profile.menu) {
+      for (const item of dao.profile.menu) {
+        if ((item.label === 'moloch-all') && item.count) {
+          finalCount += item.count;
+          break;
+        }
       }
     }
   }
@@ -321,6 +325,20 @@ Meteor.methods({
   },
 
   /**
+  * @summary adds one to the social shares counter
+  * @param {string} contractId contract to update
+  */
+  addShareCounter(contractId) {
+    check(contractId, String);
+    log(`{ method: 'plusSocialSharing', user: ${logUser()}, contractId: '${contractId}' }`);
+    const contract = Contracts.findOne({ _id: contractId });
+    const counter = (contract.shareCounter) ? contract.shareCounter : 0;
+    Contracts.update({ _id: contractId }, { $set: { shareCounter: parseInt(counter + 1, 10) } });
+    return counter;
+  },
+
+
+  /**
   * @summary reports server time from server to client
   * @return {Date} time
   */
@@ -333,10 +351,10 @@ Meteor.methods({
   * @summary counts the total items on a collection.
   * @return {Number} total count.
   */
-  feedCount(query, options) {
-    check(query, Object);
+  feedCount(feedQuery, options) {
+    check(feedQuery, Object);
     check(options, Object);
-    const count = Contracts.find(query, options).count();
+    const count = Contracts.find(feedQuery, options).count();
     log(`{ method: 'feedCount', user: ${logUser()}, count: ${count} }`);
     return count;
   },
@@ -346,7 +364,7 @@ Meteor.methods({
   * @return {Number} total count.
   */
   userCount() {
-    const count = Meteor.users.find({ 'profile.membership': 'MEMBER' }).count();
+    const count = Meteor.users.find().count();
     log(`{ method: 'userCount', user: ${logUser()}, count: ${count} }`);
     return count;
   },
@@ -378,7 +396,7 @@ Meteor.methods({
     let now;
     for (let j = 0; j < collectiveList.length; j += 1) {
       const collective = Collectives.findOne({ _id: collectiveList[j] });
-      if (collective) {
+      if ((collective && !collective.status) || (collective && collective.status && collective.status.blockchainSync === 'UPDATED')) {
         const smartContracts = collective.profile.blockchain.smartContracts;
         const summoningTime = parseFloat(collective.profile.summoningTime.getTime(), 10);
         let periodDuration;
@@ -444,60 +462,157 @@ Meteor.methods({
     if (!daoName) {
       collectives = Collectives.find().fetch();
     } else {
-      collectives = Collectives.find({ name: new RegExp(['^', daoName, '$'].join(''), 'i') }).fetch();
-      daoSpecific = true;
+      const parameters = query({ view: 'addressDao', publicAddress: daoName });
+      collectives = Collectives.find(parameters.find).fetch();
+
+      let fullyLoaded;
+      for (const listed of collectives) {
+        if ((listed.status && listed.status.blockchainSync === 'UPDATED') || !listed.status) {
+          fullyLoaded = true;
+          break;
+        }
+      }
+      if ((collectives.length > 0) && fullyLoaded) {
+        daoSpecific = true;
+      } else {
+        collectives = Collectives.find().fetch();
+      }
     }
 
     const finalMenu = [];
     let found = false;
     for (const dao of collectives) {
-      for (const item of dao.profile.menu) {
-        found = false;
-        if (finalMenu.length > 0) {
-          for (const finalItem of finalMenu) {
-            if (finalItem.label === item.label) {
-              item.count = parseInt(finalItem.count + item.count, 10);
-              found = true;
-              break;
+      if (dao.profile && dao.profile.menu) {
+        for (const item of dao.profile.menu) {
+          found = false;
+          if (finalMenu.length > 0) {
+            for (const finalItem of finalMenu) {
+              if (finalItem.label === item.label) {
+                item.count = parseInt(finalItem.count + item.count, 10);
+                found = true;
+                break;
+              }
             }
           }
-        }
-        if (!found) {
-          if (daoSpecific && item.url) {
-            item.url = `/dao/${daoName.toLowerCase()}${(item.url === '/') ? '' : item.url}`;
-          }
-          if (daoSpecific && item.separator) {
-            item.label = TAPi18n.__(`${item.label}-dao-specific`).replace('{{dao}}', daoName);
-          }
-          finalMenu.push(item);
-        } else {
-          for (let i = 0; i < finalMenu.length; i += 1) {
-            if (finalMenu[i].label === item.label) {
-              finalMenu[i].count = item.count;
-              finalMenu[i].url = item.url;
+          if (!found) {
+            if (daoSpecific && item.url) {
+              item.url = `/dao/${daoName.toLowerCase()}${(item.url === '/') ? '' : item.url}`;
+            }
+            if (daoSpecific && item.separator) {
+              item.label = TAPi18n.__(`${item.label}-dao-specific`).replace('{{dao}}', dao.name);
+            }
+            finalMenu.push(item);
+          } else {
+            for (let i = 0; i < finalMenu.length; i += 1) {
+              if (finalMenu[i].label === item.label) {
+                finalMenu[i].count = item.count;
+                finalMenu[i].url = item.url;
+              }
             }
           }
         }
       }
     }
 
+    const allDAOs = {
+      label: 'all-daos',
+      icon: 'images/globe.svg',
+      iconActivated: 'images/globe-active.svg',
+      feed: 'user',
+      value: true,
+      separator: false,
+      url: '/',
+      displayToken: false,
+      displayCount: true,
+      count: _getHistoryCount(),
+    };
+
     // insert back to general view
     if (daoSpecific) {
-      finalMenu.unshift({
-        label: 'all-daos',
-        icon: 'images/globe.svg',
-        iconActivated: 'images/globe-active.svg',
-        feed: 'user',
-        value: true,
-        separator: false,
-        url: '/',
-        displayToken: false,
-        displayCount: true,
-        count: _getHistoryCount(),
-      });
+      finalMenu.unshift(allDAOs);
     }
 
     return finalMenu;
+  },
+
+  async setPendingVote(contract, userId, collectiveId, hash, uintVote) {
+    check(contract, Object);
+    check(userId, String);
+    check(collectiveId, String);
+    check(hash, String);
+    check(uintVote, Number);
+    log(`{ method: 'setPendingVote', userId: '${userId}', collectiveId: '${collectiveId}' }`);
+
+    const voter = Meteor.users.findOne({ _id: userId });
+    const shares = getShares(voter, collectiveId);
+
+    let poll;
+    switch (uintVote) {
+      case defaults.YES: // yes
+        poll = Contracts.findOne({ keyword: `${contract.keyword}/yes` });
+        break;
+      case defaults.NO: // no
+        poll = Contracts.findOne({ keyword: `${contract.keyword}/no` });
+        break;
+      default:
+    }
+
+    const userHash = _.findWhere(voter.profile.wallet.address, { chain: defaults.BLOCKCHAIN }).hash;
+
+    const ticket = {
+      shares,
+      timestamp: await getLastTimestamp(),
+      contract: {
+        _id: contract._id,
+      },
+      poll: {
+        _id: poll._id,
+      },
+      address: contract.keyword,
+      collectiveId: contract.collectiveId,
+      blockchain: {
+        tickets: [
+          {
+            hash,
+            status: 'PENDING',
+            value: shares.toNumber(),
+          },
+        ],
+        coin: {
+          code: defaults.TOKEN,
+        },
+        publicAddress: userHash.toLowerCase(),
+        score: {
+          totalConfirmed: shares.toString(),
+          totalPending: '0',
+          totalFail: '0',
+          finalConfirmed: shares.toNumber(),
+          finalPending: 0,
+          finalFail: 0,
+          value: 0,
+        },
+      },
+    };
+    const transactionObject = getTransactionObject(voter, ticket);
+    transactionObject.status = 'PENDING';
+    const pollId = poll._id;
+    const txId = setTransaction(userId, pollId, transactionObject);
+
+    // update dao
+    const dao = Collectives.findOne({ _id: collectiveId });
+    log(`[dao] Checking status of ${dao.name}...`);
+    if ((dao.status.blockchainSync === 'UPDATED' && dao.profile.lastSyncedBlock)) {
+      log(`[dao] Processing DAO: ${dao.name}...`);
+      const syncFrom = (dao.profile.lastSyncedBlock) ? (dao.profile.lastSyncedBlock + 1) : defaults.START_BLOCK;
+      for (const smartContract of dao.profile.blockchain.smartContracts) {
+        log(`[dao] Processing smart contracts: ${smartContract.label}, syncing from ${syncFrom} to block: latest`);
+        await getEvents(smartContract, dao._id, syncFrom, 'latest');
+      }
+    } else {
+      log(`[dao] DAO ${dao.name} is not available for processing.`);
+    }
+
+    return txId;
   },
 
 });

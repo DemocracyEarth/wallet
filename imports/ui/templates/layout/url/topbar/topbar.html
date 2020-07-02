@@ -20,12 +20,15 @@
               <div class="hero-crypto-login">
                 {{> avatar size=24 profile=this._id includeName=false includeNation=false editable=false microFont=true disabled=true includeRole=false imgStyle=this.imgStyle}}
               </div>
-              {{cryptoName this.username}}
+              <div class="crypto-username">
+                {{cryptoName this.username}}
+              </div>
             {{/with}}
           </div>
         </div>
       {{/unless}}
       {{> search}}
+      {{> alert}}
       <div class="hero-menu">
         {{#each navbarItem}}
           {{#if this.selected}}

@@ -299,8 +299,18 @@ const _getBalance = (user, contract) => {
     }
   }
   return undefined;
-}
+};
 
+/**
+* @summary checks if a string is an address
+* @param {string} address with string value
+* @return {boolean} if address is correct
+*/
+const _isAddress = (address) => {
+  return web3.utils.isAddress(address);
+};
+
+export const isAddress = _isAddress;
 export const wei2eth = _wei2eth;
 export const getEthBalance = _getEthBalance;
 export const getWeiBalance = _getWeiBalance;

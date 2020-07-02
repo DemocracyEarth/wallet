@@ -11,6 +11,7 @@ import { Transactions } from '/imports/api/transactions/Transactions';
 import { syncBlockchain } from '/imports/startup/both/modules/metamask';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { smallNumber, getCoin } from '/imports/api/blockchain/modules/web3Util';
+import { Collectives } from '/imports/api/collectives/Collectives';
 
 
 import '/imports/ui/templates/widgets/transaction/transaction.html';
@@ -98,7 +99,7 @@ Template.transaction.onCreated(function () {
   // const data = Template.currentData();
   // if (data.contract && data.contract.kind === 'CRYPTO' && data.contract.blockchain && data.contract.blockchain.tickets.length > 0) {
   //  Template.instance().status = new ReactiveVar(data.blockchain.tickets[0].status.toLowerCase());
-  //}
+  // }
 
   Template.instance().imageTemplate = new ReactiveVar();
   templetize(Template.instance());
@@ -303,24 +304,25 @@ Template.transaction.helpers({
   getImage(pic) {
     return getImage(Template.instance().imageTemplate.get(), pic);
   },
+  pending() {
+    return (this.status === 'PENDING');
+  },
+});
+
+Template.collectivePreview.onCreated(function () {
+  Template.instance().collective = Collectives.findOne({ _id: Template.instance().data.collectiveId });
 });
 
 Template.collectivePreview.helpers({
-  flag() {
-    return Meteor.settings.public.app.logo;
+  logo() {
+    return Template.instance().collective.profile.logo;
   },
   name() {
-    let chars = 30;
-    if (Meteor.Device.isPhone()) {
-      chars = 15;
-    }
-    if (Meteor.settings.public.app.name.length > chars) {
-      return `${Meteor.settings.public.app.name.substring(0, chars)}...`;
-    }
-    return Meteor.settings.public.app.name;
+    return Template.instance().collective.name;
   },
   url() {
-    return '/';
+    // console.log(Template.instance().collective);
+    return `/dao/${Template.instance().collective.uri}`;
   },
 });
 

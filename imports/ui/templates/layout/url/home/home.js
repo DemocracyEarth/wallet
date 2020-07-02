@@ -18,12 +18,12 @@ import '/imports/ui/templates/components/identity/replica/replica.js';
 import '/imports/ui/templates/layout/url/home/home.html';
 import '/imports/ui/templates/components/collective/guild/guild.js';
 import '/imports/ui/templates/layout/url/landing/landing.js';
+import '/imports/ui/templates/layout/url/synchronizer/synchronizer.js';
 import '/imports/ui/templates/layout/url/hero/hero.js';
 import '/imports/ui/templates/widgets/feed/feed.js';
 import '/imports/ui/templates/widgets/tally/tally.js';
 import '/imports/ui/templates/widgets/feed/paginator.js';
 import '/imports/ui/templates/components/decision/ledger/ledger.js';
-import '/imports/ui/templates/widgets/alert/alert.js';
 import '/imports/ui/templates/widgets/tabs/tabs.js';
 
 /**
@@ -112,6 +112,7 @@ Template.home.onCreated(function () {
 
   instance.autorun(() => {
     Template.instance().modeVar.set(Router.current().url);
+
     const avatarList = Session.get('avatarList');
     if (avatarList) {
       const query = [];
@@ -245,6 +246,19 @@ const _setTabMenu = (view) => {
 };
 
 Template.screen.helpers({
+  collective() {
+    return Collectives.findOne({ _id: this.options.collectiveId });
+  },
+  loading() {
+    let loadingStatus = false;
+    if (this.options.collectiveId) {
+      const collective = Collectives.findOne({ _id: this.options.collectiveId });
+      if (collective && collective.status && collective.status.blockchainSync !== 'UPDATED') {
+        loadingStatus = true;
+      }
+    }
+    return (this.options.view === 'dao' && loadingStatus);
+  },
   tag() {
     return (this.options.view === 'tag');
   },

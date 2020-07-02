@@ -1,163 +1,176 @@
 <template name="ballot">
-  {{#if poll}}
-    <div id="single-vote" class="poll-choice">
-      <div id="pollItem-{{_ contract._id}}" class="button half choice">
-        <div class="checkbox-mini {{checkSelected 'box'}}">
-          <div class="checkmark_kick {{checkSelected 'mark'}}"></div>
-          <div class="checkmark_stem {{checkSelected 'mark'}}"></div>
+  {{#if twitterOnly}}
+    <div class="block block-menu">
+      <div class="micro-menu">
+        <div class="extra">
+          <a id="tweet-post" href="{{twitterURL}}" class="micro-button micro-button-feed no-underline" target="_blank" ontouchstart="">
+            <img src="{{getImage 'tweet'}}" class="micro-icon">
+            <div class="micro-label">{{label 'twitter'}} {{{quantity 'twitter'}}}</div>
+          </a>
         </div>
-        {{#if removableVotes}}
-          <div id="single-remove" title="{{_ 'remove-vote'}}" class="checkbox-mini checkbox-mini-remove">
-            <div class="checkmark_kick checkmark-kick-remove"></div>
-            <div class="checkmark_stem checkmark-stem-remove"></div>
+      </div> 
+    </div> 
+  {{else}}
+    {{#if poll}}
+      <div id="single-vote" class="poll-choice">
+        <div id="pollItem-{{_ contract._id}}" class="button half choice">
+          <div class="checkbox-mini {{checkSelected 'box'}}">
+            <div class="checkmark_kick {{checkSelected 'mark'}}"></div>
+            <div class="checkmark_stem {{checkSelected 'mark'}}"></div>
           </div>
-        {{/if}}
-        {{#if tickTooltip}}
-          <div class="help-tooltip">
-            {{{_ tooltip}}}
-          </div>
-        {{/if}}
-        {{{_ contract.title}}}
-        {{#if tokenFriendly}}
-          <div id="single-vote" class="micro-button micro-button-feed no-underline micro-button-poll" ontouchstart="">
-            <div class="micro-label">
-              {{#with token}}
-                {{> balance}}
-              {{/with}}
+          {{#if removableVotes}}
+            <div id="single-remove" title="{{_ 'remove-vote'}}" class="checkbox-mini checkbox-mini-remove">
+              <div class="checkmark_kick checkmark-kick-remove"></div>
+              <div class="checkmark_stem checkmark-stem-remove"></div>
             </div>
-            <div class="verifier verifier-live verifier-feed"></div>
-          </div>
-        {{/if}}
-        <div class="poll-score poll-score-button">
-          <div class="poll-score-bar">
-            <div class="poll-score-bar-fill {{scoreBarStyle this.negativeSide}}" style="width: {{pollScore}}">
+          {{/if}}
+          {{#if tickTooltip}}
+            <div class="help-tooltip">
+              {{{_ tooltip}}}
             </div>
-          </div>
-          <div class="poll-score-percentage {{smallPercentageStyle}}">
-            {{pollScore}}
+          {{/if}}
+          {{{_ contract.title}}}
+          {{#if tokenFriendly}}
+            <div id="single-vote" class="micro-button micro-button-feed no-underline micro-button-poll" ontouchstart="">
+              <div class="micro-label">
+                {{#with token}}
+                  {{> balance}}
+                {{/with}}
+              </div>
+              <div class="verifier verifier-live verifier-feed"></div>
+            </div>
+          {{/if}}
+          <div class="poll-score poll-score-button">
+            <div class="poll-score-bar">
+              <div class="poll-score-bar-fill {{scoreBarStyle this.negativeSide}}" style="width: {{pollScore}}">
+              </div>
+            </div>
+            <div class="poll-score-percentage {{smallPercentageStyle}}">
+              {{pollScore}}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  {{else}}
-    <div id="ballot-{{contract._id}}" class="section section-mobile {{ballotStyle}}">
-      {{#if ballotEnabled}}
-        <div class="section">
-          <div class="w-clearfix elements">
-            <ul id="ballotOption" class="w-list-unstyled w-clearfix options connectedBallot">
-              {{#if editorMode}}
-                {{#if ballotEnabled}}
+    {{else}}
+      <div id="ballot-{{contract._id}}" class="section section-mobile {{ballotStyle}}">
+        {{#if ballotEnabled}}
+          <div class="section">
+            <div class="w-clearfix elements">
+              <ul id="ballotOption" class="w-list-unstyled w-clearfix options connectedBallot">
+                {{#if editorMode}}
+                  {{#if ballotEnabled}}
+                    {{#if executiveDecision}}
+                      {{> fork executive=true mode="AUTHORIZE" contract=contract placeholder=placeholder}}
+                      {{> fork executive=true mode="REJECT" contract=contract placeholder=placeholder}}
+                    {{/if}}
+                  {{/if}}
+                {{else}}
                   {{#if executiveDecision}}
-                    {{> fork executive=true mode="AUTHORIZE" contract=contract placeholder=placeholder}}
-                    {{> fork executive=true mode="REJECT" contract=contract placeholder=placeholder}}
+                    {{#with voteSettings}}
+                      {{> fork executive=true mode="AUTHORIZE" _id=1 ballot=this.forks voteId=this.voteId contract=contract placeholder=placeholder rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
+                      {{> fork executive=true mode="REJECT" _id=0 ballot=this.forks voteId=this.voteId contract=contract placeholder=placeholder rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
+                    {{/with}}
                   {{/if}}
                 {{/if}}
-              {{else}}
-                {{#if executiveDecision}}
+                {{#each options}}
                   {{#with voteSettings}}
-                    {{> fork executive=true mode="AUTHORIZE" _id=1 ballot=this.forks voteId=this.voteId contract=contract placeholder=placeholder rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
-                    {{> fork executive=true mode="REJECT" _id=0 ballot=this.forks voteId=this.voteId contract=contract placeholder=placeholder rightToVote=rightToVote candidateBallot=candidateBallot displayResults=displayResults}}
+                    {{> fork _id=this._id label=this.label mode=this.mode rank=this.rank url=this.url alternative=true editorMode=this.editorMode voteId=this.voteId contract=contract placeholder=placeholder}}
                   {{/with}}
-                {{/if}}
-              {{/if}}
-              {{#each options}}
-                {{#with voteSettings}}
-                  {{> fork _id=this._id label=this.label mode=this.mode rank=this.rank url=this.url alternative=true editorMode=this.editorMode voteId=this.voteId contract=contract placeholder=placeholder}}
-                {{/with}}
-              {{/each}}
-            </ul>
+                {{/each}}
+              </ul>
+            </div>
           </div>
-        </div>
-        {{#if editorMode}}
-          <div class="extra">
-            {{#if backdating}}
-              {{> warning label="backdating"}}
-            {{/if}}
-            {{#if disabledCheckboxes}}
-              {{> warning label="disabled-checkboxes"}}
-            {{/if}}
-            {{#if duplicateFork}}
-              {{> warning label="duplicate-fork"}}
-            {{/if}}
-            {{#if unauthorizedFork}}
-              {{> warning label="unauthorized-fork"}}
-            {{/if}}
-            {{#if emptyBallot}}
-              {{> warning label="empty-ballot" style='forbidden'}}
-            {{/if}}
-            {{#if draftOptions}}
-              {{> warning label="draft-options-ballot" style='forbidden'}}
-            {{/if}}
-          </div>
-        {{else}}
-          {{#with feedWarning}}
+          {{#if editorMode}}
             <div class="extra">
-              {{> warning label=this.label style=this.style}}
+              {{#if backdating}}
+                {{> warning label="backdating"}}
+              {{/if}}
+              {{#if disabledCheckboxes}}
+                {{> warning label="disabled-checkboxes"}}
+              {{/if}}
+              {{#if duplicateFork}}
+                {{> warning label="duplicate-fork"}}
+              {{/if}}
+              {{#if unauthorizedFork}}
+                {{> warning label="unauthorized-fork"}}
+              {{/if}}
+              {{#if emptyBallot}}
+                {{> warning label="empty-ballot" style='forbidden'}}
+              {{/if}}
+              {{#if draftOptions}}
+                {{> warning label="draft-options-ballot" style='forbidden'}}
+              {{/if}}
             </div>
+          {{else}}
+            {{#with feedWarning}}
+              <div class="extra">
+                {{> warning label=this.label style=this.style}}
+              </div>
+            {{/with}}
+          {{/if}}
+        {{/if}}
+      </div>
+      {{#if castSingleVote}}
+        {{#unless voted}}
+          {{#with voteSettings}}
+            {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot singleVote=true singleRevoke=false}}
           {{/with}}
-        {{/if}}
+        {{else}}
+          {{#with revokeSettings}}
+            {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot singleVote=true singleRevoke=true}}
+          {{/with}}
+        {{/unless}}
       {{/if}}
-    </div>
-    {{#if castSingleVote}}
-      {{#unless voted}}
-        {{#with voteSettings}}
-          {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot singleVote=true singleRevoke=false}}
-        {{/with}}
-      {{else}}
-        {{#with revokeSettings}}
-          {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot singleVote=true singleRevoke=true}}
-        {{/with}}
-      {{/unless}}
-    {{/if}}
-    {{#unless editorMode}}
-      {{#unless readOnly}}
-        {{#if currentUser}}
-          <div class="execution" id="execution-{{this.voteId}}">
-            <div class="block" style={{displayBar}}>
-              {{#with voteSettings}}
-                {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot}}
-              {{/with}}
+      {{#unless editorMode}}
+        {{#unless readOnly}}
+          {{#if currentUser}}
+            <div class="execution" id="execution-{{this.voteId}}">
+              <div class="block" style={{displayBar}}>
+                {{#with voteSettings}}
+                  {{> liquid _id=this.voteId sourceId=this.sourceId targetId=this.targetId wallet=this.wallet editable=true contract=contract candidateBallot=candidateBallot}}
+                {{/with}}
+              </div>
             </div>
-          </div>
-        {{/if}}
-      {{/unless}}
-      <div class="block block-menu">
-        <div class="micro-menu">
-          <div class="extra">
-            {{#unless censorship}}
-              <a id="edit-reply" href="{{contract.url}}#debate" class="micro-button micro-button-feed no-underline" ontouchstart="">
-                <img src="{{getImage 'debate'}}" class="micro-icon">
-                <div class="micro-label">{{label 'debate'}} {{{quantity 'debate'}}}</div>
-              </a>
-            {{/unless}}
-            <a id="tweet-post" href="{{twitterURL}}" class="micro-button micro-button-feed no-underline" target="_blank" ontouchstart="">
-              <img src="{{getImage 'tweet'}}" class="micro-icon">
-              <div class="micro-label">{{label 'twitter'}} {{{quantity 'twitter'}}}</div>
-            </a>
-            {{#if tokenFriendly}}
-              {{#unless hasPoll}}
-                <a id="single-vote" href="{{voteURL}}" class="micro-button micro-button-feed no-underline" ontouchstart="">
-                  <div class="micro-label">
-                    <img src="{{voteIcon}}" class="micro-icon">
-                    {{{label 'vote'}}}
-                    {{#with token}}
-                      {{> balance}}
-                    {{/with}}
-                  </div>
-                  <div class="verifier verifier-live verifier-feed"></div>
+          {{/if}}
+        {{/unless}}
+        <div class="block block-menu">
+          <div class="micro-menu">
+            <div class="extra">
+              {{#unless censorship}}
+                <a id="edit-reply" href="{{contract.url}}#debate" class="micro-button micro-button-feed no-underline" ontouchstart="">
+                  <img src="{{getImage 'debate'}}" class="micro-icon">
+                  <div class="micro-label">{{label 'debate'}} {{{quantity 'debate'}}}</div>
                 </a>
               {{/unless}}
+              <a id="tweet-post" href="{{twitterURL}}" class="micro-button micro-button-feed no-underline" target="_blank" ontouchstart="">
+                <img src="{{getImage 'tweet'}}" class="micro-icon">
+                <div class="micro-label">{{label 'twitter'}} {{{quantity 'twitter'}}}</div>
+              </a>
+              {{#if tokenFriendly}}
+                {{#unless hasPoll}}
+                  <a id="single-vote" href="{{voteURL}}" class="micro-button micro-button-feed no-underline" ontouchstart="">
+                    <div class="micro-label">
+                      <img src="{{voteIcon}}" class="micro-icon">
+                      {{{label 'vote'}}}
+                      {{#with token}}
+                        {{> balance}}
+                      {{/with}}
+                    </div>
+                    <div class="verifier verifier-live verifier-feed"></div>
+                  </a>
+                {{/unless}}
+              {{/if}}
+            </div>
+            {{#if hasPoll}}
+              {{#if currentUser}}
+                {{> electorate contract=firstPollChoice readOnly=true}}
+              {{/if}}
+            {{else}}
+              {{> electorate contract=contract readOnly=true}}
             {{/if}}
           </div>
-          {{#if hasPoll}}
-            {{#if currentUser}}
-              {{> electorate contract=firstPollChoice readOnly=true}}
-            {{/if}}
-          {{else}}
-            {{> electorate contract=contract readOnly=true}}
-          {{/if}}
         </div>
-      </div>
-    {{/unless}}
+      {{/unless}}
+    {{/if}}
   {{/if}}
 </template>

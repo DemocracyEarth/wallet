@@ -62,14 +62,18 @@ const isJSON = (str) => {
 */
 const _getProposalDescription = (title, onlyTitle) => {
   const xmlDescription = _getXMLAttributes(title, 'description');
+  let html = '';
   if (isJSON(xmlDescription.json)) {
     const json = JSON.parse(xmlDescription.json);
     if (json && json.description !== undefined) {
       const description = wrapURLs(json.description, true);
-      const html = `<div class='title-header'>${json.title}</div><div class='title-description'>${description}</div>`;
+      html += `<div class='title-header'>${json.title}</div><div class='title-description'>${description}</div>`;
       if (onlyTitle) { return json.title; }
-      return html;
     }
+    if (json && json.link !== undefined && json.link !== json.description) {
+      html += `<div class='title-description'><a href='${json.link}' target='_blank'>${json.link}</a></div>`;
+    }
+    return html;
   }
   return xmlDescription.json;
 };
@@ -608,8 +612,14 @@ Template.feedItem.helpers({
   moloch() {
     return gui.MOLOCH_DAPP;
   },
+  summon() {
+    return (this.period === 'SUMMON');
+  },
   ragequit() {
     return (this.period === 'RAGEQUIT');
+  },
+  nonvoting() {
+    return (this.period === 'RAGEQUIT' || this.period === 'SUMMON');
   },
   request() {
     const parameter = _getXMLAttributes(this.title, 'request');
@@ -669,7 +679,7 @@ Template.feedItem.helpers({
   },
   daoUrl() {
     if (Template.instance().collective) {
-      return `${Router.path('home')}dao/${Template.instance().collective.name.toLowerCase()}`;
+      return `${Router.path('home')}dao/${Template.instance().collective.uri.toLowerCase()}`;
     }
     return '';
   },
@@ -678,6 +688,12 @@ Template.feedItem.helpers({
       return Template.instance().collective.name;
     }
     return '';
+  },
+  period() {
+    return {
+      label: this.period ? TAPi18n.__(`moloch-period-${this.period.toLowerCase()}`) : '',
+      style: this.period ? `period period-${this.period.toLowerCase()}` : '',
+    };
   },
 });
 

@@ -117,11 +117,13 @@ h1 {
 }
 /**
  * Address styling not present in IE 8/9.
- */
+
 mark {
   background: #ff0;
   color: #000;
 }
+ */
+ 
 /**
  * Address inconsistent and variable font size in all browsers.
  */

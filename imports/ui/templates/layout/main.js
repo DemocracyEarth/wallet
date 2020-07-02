@@ -21,12 +21,11 @@ import { Meteor } from 'meteor/meteor';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
-import { SearchSource } from 'meteor/meteorhacks:search-source';
 import { Template } from 'meteor/templating';
 import { Router } from 'meteor/iron:router';
 
 import { sync } from '/imports/ui/templates/layout/sync';
-import { toggleSidebar } from '/imports/ui/modules/menu';
+import { toggle } from '/imports/ui/templates/layout/navigation/navigation';
 import { globalObj } from '/lib/global';
 import { geo } from '/lib/geo';
 import { token } from '/lib/token';
@@ -40,7 +39,6 @@ import '/imports/ui/templates/widgets/modal/modal';
 import '/imports/ui/templates/widgets/popup/popup';
 import '/imports/ui/templates/layout/url/topbar/topbar';
 import '/imports/ui/templates/layout/sidebar/sidebar';
-import '/imports/ui/templates/layout/navigation/navigation';
 import '/imports/ui/templates/layout/response/verifyEmail/verifyEmail';
 import '/imports/ui/templates/layout/touchmenu/touchmenu';
 import '/imports/ui/templates/components/decision/editor/editor';
@@ -95,20 +93,6 @@ Meteor.startup(async () => {
 
   await sync();
 
-  // search Engine for Tags
-  Session.set('createTag', false);
-  globalObj.TagSearch = new SearchSource('tags', ['text', 'url'], {
-    keepHistory: 1000 * 60 * 5,
-    localSearch: true,
-  });
-
-  // search Engine for Proposals
-  Session.set('createProposal', false);
-  globalObj.ProposalSearch = new SearchSource('contracts', ['title', 'description'], {
-    keepHistory: 1000 * 60 * 5,
-    localSearch: true,
-  });
-
   // geographical sovereignty
   globalObj.geoJSON = geo;
 
@@ -134,11 +118,6 @@ Template.main.onRendered(() => {
   if (!Meteor.Device.isPhone() && $(window).width() < gui.MOBILE_MAX_WIDTH) {
     $('.navbar').css('left', 0);
     Session.set('miniWindow', true);
-    if (Meteor.user()) { Session.set('sidebar', true); }
-    toggleSidebar();
-  } else if (!Meteor.Device.isPhone()) {
-    Session.set('sidebar', false);
-    toggleSidebar();
   }
 });
 
@@ -189,7 +168,7 @@ Template.main.helpers({
 
 Template.main.events({
   'click .inhibitor'() {
-    toggleSidebar();
+    toggle();
   },
 });
 

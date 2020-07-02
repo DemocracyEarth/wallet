@@ -1,5 +1,14 @@
 <template name="warning">
   <div>
-    {{> React component=Warning label=label style=style warning=this}}
+    <ul class="w-list-unstyled warning-list animate">
+      <li class="warning {{style}}">
+        {{_ label}}
+        {{#if tooltip}}
+          {{#with tooltip}}
+            {{> help}}
+          {{/with}}
+        {{/if}}
+      </li>
+    </ul>
   </div>
 </template>

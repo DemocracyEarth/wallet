@@ -20,7 +20,7 @@
     "radius": 16,
     "scale": 0.4,
     "corners": 1,
-    "color": "#5a0075",
+    "color": "#000",
     "opacity": 0.3,
     "rotate": 0,
     "direction": 1,
@@ -79,6 +79,7 @@
     "passed": "/templates/daoverse/images/passed.png",
     "rejected": "/templates/daoverse/images/rejected.png",
     "signout": "/templates/daoverse/images/signout.png",
-    "calendar": "/templates/daoverse/images/calendar.svg"
+    "calendar": "/templates/daoverse/images/calendar.svg",
+    "blocks": "/templates/daoverse/images/blocks.gif"
   }
 }

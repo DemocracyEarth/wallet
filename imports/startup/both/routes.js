@@ -3,10 +3,12 @@ import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 import { DocHead } from 'meteor/kadira:dochead';
 import { TAPi18n } from 'meteor/tap:i18n';
-import { Tracker } from 'meteor/tracker';
+import web3 from 'web3';
 
 import { gui } from '/lib/const';
 import { urlDoctor } from '/lib/utils';
+import { query } from '/lib/views';
+
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { displayNotice } from '/imports/ui/modules/notice';
@@ -129,13 +131,17 @@ Router.route('/', {
 
     let view = 'latest';
     let period = '';
+    let search = '';
     if (this.params.query.period) {
       view = 'period';
       period = this.params.query.period;
+    } else if (this.params.query.search) {
+      view = 'search';
+      search = this.params.query.search;
     }
 
     return {
-      options: { view, period, sort: { timestamp: -1 }, limit, skip: 0 },
+      options: { view, period, search, sort: { timestamp: -1 }, limit, skip: 0 },
     };
   },
   onAfterAction() {
@@ -200,8 +206,10 @@ Router.route('/dao/:dao', {
     this.next();
   },
   waitOn() {
-    const daoName = new RegExp(['^', this.params.dao, '$'].join(''), 'i');
-    return Meteor.subscribe('collectives', { view: 'singleDao', name: daoName });
+    if (web3.utils.isAddress(this.params.dao)) {
+      return Meteor.subscribe('collectives', { view: 'addressDao', publicAddress: this.params.dao.toLowerCase() });
+    }
+    return Meteor.subscribe('collectives', { view: 'singleDao', uri: this.params.dao });
   },
   data() {
     let period = '';
@@ -210,25 +218,26 @@ Router.route('/dao/:dao', {
     }
 
     if (this.ready()) {
-      const daoName = new RegExp(['^', this.params.dao, '$'].join(''), 'i');
-      const collective = Collectives.findOne({ name: daoName });
+      const parameters = query({ view: 'addressDao', publicAddress: this.params.dao });
+      const collective = Collectives.findOne(parameters.find);
 
       return {
-        options: { view: 'dao', period, collectiveId: collective._id, sort: { timestamp: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, name: daoName },
+        options: { view: 'dao', period, collectiveId: collective._id, sort: { timestamp: -1 }, limit: gui.ITEMS_PER_PAGE, skip: 0, name: collective.name },
       };
     }
     return {};
   },
   onAfterAction() {
-    let collective;
     let title;
     let description;
     let image;
     DocHead.removeDocHeadAddedTags();
 
     if (this.ready()) {
-      collective = Collectives.findOne({ name: new RegExp(['^', this.params.dao, '$'].join(''), 'i') });
-      if (collective.name) {
+      const parameters = query({ view: 'addressDao', publicAddress: this.params.dao });
+      const collective = Collectives.findOne(parameters.find);
+
+      if (collective && collective.name) {
         title = `${TAPi18n.__('collective-dao-title').replace('{{dao}}', `${collective.name}`)}`;
         description = `${TAPi18n.__('collective-dao-description').replace('{{dao}}', collective.name)}`;
         image = `${Router.path('home')}${collective.profile.logo}`;
@@ -255,41 +264,51 @@ Router.route('/dao/:dao', {
 * @summary loads a post using date in url
 **/
 Router.route('/tx/:keyword', {
-  name: 'date',
+  name: 'ticket',
   template: 'home',
+  loadingTemplate: 'load',
   onBeforeAction() {
     Session.set('sidebarMenuSelectedId', 999);
     _reset();
     this.next();
   },
+  waitOn() {
+    return Meteor.subscribe('singleContract', { view: 'post', keyword: this.params.keyword.toLowerCase() });
+  },
   data() {
-    const url = `/tx/${this.params.keyword}`;
-    return {
-      options: { view: 'post', sort: { timestamp: -1 }, url, keyword: this.params.keyword },
-    };
+    if (this.ready()) {
+      return {
+        options: { view: 'post', sort: { timestamp: -1 }, keyword: this.params.keyword.toLowerCase() },
+      };
+    }
+    return {};
   },
   onAfterAction() {
-    const contract = Contracts.findOne({ keyword: this.params.keyword });
     let title;
     let description;
     let image;
     DocHead.removeDocHeadAddedTags();
 
-    if (contract) {
-      DocHead.setTitle(`${TAPi18n.__('vote-tag-ballot-title').replace('{{collective}}', Meteor.settings.public.app.name)} - ${stripHTMLfromText(contract.title)}`);
-      if (contract.ballotEnabled) {
-        title = `${TAPi18n.__('vote-tag-ballot-title').replace('{{collective}}', Meteor.settings.public.app.name)}`;
-      } else {
-        title = `${TAPi18n.__('vote-tag-title').replace('{{collective}}', Meteor.settings.public.app.name)}`;
+    if (this.ready()) {
+      const contract = Contracts.findOne({ keyword: this.params.keyword.toLowerCase() });
+
+      if (contract) {
+        DocHead.setTitle(`${TAPi18n.__('vote-tag-ballot-title').replace('{{collective}}', Meteor.settings.public.app.name)} - ${stripHTMLfromText(contract.title)}`);
+        if (contract.ballotEnabled) {
+          title = `${TAPi18n.__('vote-tag-ballot-title').replace('{{collective}}', Meteor.settings.public.app.name)}`;
+        } else {
+          title = `${TAPi18n.__('vote-tag-title').replace('{{collective}}', Meteor.settings.public.app.name)}`;
+        }
+        description = stripHTMLfromText(contract.title);
+        image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.app.logo}`;
       }
-      description = stripHTMLfromText(contract.title);
-      image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.app.logo}`;
     } else {
       title = `${Meteor.settings.public.app.name} - ${Meteor.settings.public.app.bio}`;
       description = Meteor.settings.public.app.bio;
       image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${Meteor.settings.public.app.logo}`;
-      DocHead.setTitle(title);
     }
+
+    DocHead.setTitle(title);
 
     _meta({
       title,

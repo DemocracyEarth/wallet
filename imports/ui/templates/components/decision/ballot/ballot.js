@@ -148,7 +148,22 @@ const _alreadyVoted = () => {
   );
 };
 
-
+/**
+* @summary couldn't find web3 wallet
+*/
+const _noWallet = () => {
+  // no wallet
+  displayModal(
+    true,
+    {
+      icon: Meteor.settings.public.app.logo,
+      title: TAPi18n.__('no-wallet'),
+      message: TAPi18n.__('no-wallet-message'),
+      cancel: TAPi18n.__('close'),
+      alertMode: true,
+    },
+  );
+};
 
 /**
 * @summary executes token vote
@@ -158,67 +173,76 @@ const _cryptoVote = async () => {
 
   let voteValue;
   if (contract.title.toUpperCase() === TAPi18n.__('yes').toUpperCase()) {
-    voteValue = defaults.YES;
+    voteValue = 1; // defaults.YES;
   } else if (contract.title.toUpperCase() === TAPi18n.__('no').toUpperCase()) {
-    voteValue = defaults.NO;
+    voteValue = 2; // defaults.NO;
   }
 
+  // internet connection
   const poll = Contracts.findOne({ _id: contract.pollId });
-  if (poll) {
-    const blockTimes = Session.get('blockTimes');
-    if (blockTimes && blockTimes.length > 0) {
-      const now = _.pluck(_.where(blockTimes, { collectiveId: contract.collectiveId }), 'height');
-      Template.instance().now.set(now);
-      if (Meteor.user()) {
-        if (isMember(Meteor.user(), poll)) {
-          if (isPollOpen(Template.instance().now.get(), poll)) {
-            if (await hasRightToVote(Meteor.user().username, poll.proposalIndex, contract.collectiveId)) {
-              if (setupWeb3(true)) {
-                // wallet alert
-                const icon = Meteor.settings.public.app.logo;
-                let message;
-                switch (voteValue) {
-                  case defaults.YES:
-                    message = TAPi18n.__('dao-confirm-tally').replace('{{voteValue}}', TAPi18n.__('yes')).replace('{{proposalName}}', getProposalDescription(poll.title, true));
-                    await submitVote(poll.proposalIndex, 1, poll, contract);
-                    break;
-                  case defaults.NO:
-                    message = TAPi18n.__('dao-confirm-tally').replace('{{voteValue}}', TAPi18n.__('no')).replace('{{proposalName}}', getProposalDescription(poll.title, true));
-                    await submitVote(poll.proposalIndex, 2, poll, contract);
-                    break;
-                  default:
-                    message = TAPi18n.__('dao-default-tally').replace('{{proposalName}}', getProposalDescription(poll.title, true));
-                }
-                displayModal(
-                  true,
-                  {
-                    icon,
-                    title: TAPi18n.__('place-vote'),
-                    message,
-                    cancel: TAPi18n.__('close'),
-                    awaitMode: true,
-                    displayProfile: false,
-                  },
-                );
-              }
-            } else {
-              _alreadyVoted();
-            }
-          } else {
-            _pollClosed();
-          }
-        } else {
-          _notMember();
-        }
-      } else {
-        _notLogged();
-      }
-    } else {
-      _notSynced();
-    }
-  } else {
-    _notConnected();
+  if (!poll) {
+    return _notConnected();
   }
+
+  // blockchain sync
+  const blockTimes = Session.get('blockTimes');
+  if (!blockTimes || blockTimes.length === 0) {
+    return _notSynced();
+  }
+
+  // user log in
+  const now = _.pluck(_.where(blockTimes, { collectiveId: contract.collectiveId }), 'height');
+  Template.instance().now.set(now);
+  if (!Meteor.user()) {
+    return _notLogged();
+  }
+
+  // poll date
+  if (!isPollOpen(Template.instance().now.get(), poll)) {
+    return _pollClosed();
+  }
+
+  // dao membership
+  if (!isMember(Meteor.user(), poll)) {
+    return _notMember();
+  }
+
+  // already voted
+  if (!await hasRightToVote(Meteor.user().username, poll.proposalIndex, contract.collectiveId)) {
+    return _alreadyVoted();
+  }
+
+  // no web3 wallet
+  if (!setupWeb3(true)) {
+    return _noWallet();
+  }
+
+  // vote
+  const icon = Meteor.settings.public.app.logo;
+  let message;
+  switch (voteValue) {
+    case defaults.YES:
+      message = TAPi18n.__('dao-confirm-tally').replace('{{voteValue}}', TAPi18n.__('yes')).replace('{{proposalName}}', getProposalDescription(poll.title, true));
+      break;
+    case defaults.NO:
+      message = TAPi18n.__('dao-confirm-tally').replace('{{voteValue}}', TAPi18n.__('no')).replace('{{proposalName}}', getProposalDescription(poll.title, true));
+      break;
+    default:
+      message = TAPi18n.__('dao-default-tally').replace('{{proposalName}}', getProposalDescription(poll.title, true));
+  }
+  displayModal(
+    true,
+    {
+      icon,
+      title: TAPi18n.__('place-vote'),
+      message,
+      cancel: TAPi18n.__('close'),
+      awaitMode: true,
+      displayProfile: false,
+    },
+  );
+
+  return await submitVote(poll.proposalIndex, voteValue, poll, contract);
 };
 
 /**
@@ -244,7 +268,17 @@ const _checkUserVoted = (contract, userId) => {
 */
 const _getTwitterURL = (contract) => {
   const TWITTER_MAX_CHARS = 200;
-  let titleURL = getProposalDescription(contract.title, true);
+  let titleURL;
+  switch (contract.period) {
+    case 'SUMMON':
+      titleURL = TAPi18n.__('moloch-summon-dao');
+      break;
+    case 'RAGEQUIT':
+      titleURL = TAPi18n.__('moloch-ragequit-shares');
+      break;
+    default:
+      titleURL = getProposalDescription(contract.title, true);
+  }
   if (titleURL.length > TWITTER_MAX_CHARS) {
     titleURL = `${titleURL.substring(0, TWITTER_MAX_CHARS)}...`;
   }
@@ -274,7 +308,7 @@ const _countShare = (_id) => {
   } else {
     contract.shareCounter = 1;
   }
-  Contracts.update({ _id }, { $set: { shareCounter: contract.shareCounter } });
+  Meteor.call('addShareCounter', _id);
 };
 
 const _userCanVote = (contract, forkId) => {

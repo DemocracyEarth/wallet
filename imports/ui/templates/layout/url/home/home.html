@@ -15,21 +15,26 @@
 </template>
 
 <template name="screen">
-  <div class="{{anonymousContext}}">
-    {{#if post}}
-      {{> postFeed this}}
-    {{else}}
-      {{#if period}}
-        {{> periodFeed this}}
+  {{#if loading}}
+    {{#with collective}}
+      {{> synchronizer}}
+    {{/with}}
+  {{else}}
+    <div class="{{anonymousContext}}">
+      {{#if post}}
+        {{> postFeed this}}
       {{else}}
-        {{> homeFeed this}}
+        {{#if period}}
+          {{> periodFeed this}}
+        {{else}}
+          {{> homeFeed this}}
+        {{/if}}
       {{/if}}
-    {{/if}}
-  </div>
+    </div>
+  {{/if}}
 </template>
 
 <template name="homeFeed">
-  {{> alert}}
   {{#if isPhone}}
     {{#with menu}}
       {{> tabs}}
@@ -125,7 +130,6 @@
 </template>
 
 <template name="postFeed">
-  {{> alert}}
   {{#if isPhone}}
     {{#with menu}}
       {{> tabs}}
@@ -175,7 +179,6 @@
 </template>
 
 <template name="periodFeed">
-  {{> alert}}
   {{#if isPhone}}
     {{#with menu}}
       {{> tabs}}

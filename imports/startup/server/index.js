@@ -10,7 +10,6 @@ import './register-api.js';
 
 
 // extras
-import './modules/search.js';
 import './accounts/accounts.js';
 import './accounts/emails.js';
 import './accounts/socialMedia.js';

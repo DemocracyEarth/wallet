@@ -85,10 +85,6 @@ input[type="file"] {
     -webkit-overflow-scrolling: touch;
   }
 
-  .right {
-    left: 0px;
-  }
-
 }
 
 .modal {
@@ -175,6 +171,10 @@ body, h4, h1, h2 {
       text-decoration: underline;
       text-decoration-color: #eaeaea;
       margin-top: 5px;
+  }
+
+  .right {
+    left: 0px;
   }
 }
 
@@ -731,7 +731,6 @@ width: 1px;
 
 .countdown-votes {
   float: right;
-  margin-right: 10px;
 }
 
 .countdown-timer {
@@ -950,56 +949,71 @@ h4 {
 }
 
 .countdown-timer-voting {
-  background: #ffd700;
+  background: #ffbe00;
 }
 
 .period {
-  float: right;
-  font-size: 11px;
   background: #e4e4e4;
-  padding: 5px;
-  line-height: 12px;
-  border-radius: 4px;
-  margin-top: 4px;
+  color: #ffffff;
+  padding: 0px 10px;
+  font-size: 0.65em;
+  margin: 0px;
+  text-align: center;
+  display: inline-block;
+}
+
+@media (max-width: 479px) {
+  .period {
+    font-size: 0.7em;
+  }
 }
 
 .period-queue {
-  background: #6577ff;
-  color: white;
+  background: #eef1ff;
+  color: #6577ff;
+  border: 1px solid #6577ff;
 }
 
 .period-voting {
-  background: #ffd700;
+  color: #ffbe00;
+  border: 1px solid #ffbe00;
+  background: #fff8e9;
 }
 
 .period-process {
-  background: #6577ff;
-  color: white;
+  background: #eef1ff;
+  color: #6577ff;
+  border: 1px solid #6577ff;
 }
 
 .period-grace {
-  background: #b25dcc;
-  color: white;
+  background: #f6edf9;
+  color: #b25dcc;
+  border: 1px solid #b25dcc;
 }
 
 .period-complete {
-  background: #a0a0a0;
-  color: white;
+  background: #f3f3f3;
+  color: #a0a0a0;
+  border: 1px solid #a0a0a0;
 }
 
 .period-passed {
-  background: #01c190;
-  color: white;
+  background: #e0f6f0;
+  color: #01c190;
+  border: 1px solid #01c190;
 }
 
 .period-rejected {
-  background: #ff3d67;
-  color: white;
+  background: #ffecf0;
+  color: #ff3d67;
+  border: 1px solid #ff3d67;
 }
 
 .period-aborted {
-  background: #000;
-  color: white;
+  background: #e8e8e8;
+  color: #000;
+  border: 1px solid #000;
 }
 
 .poll-score-bar-fill-negative {
@@ -1020,7 +1034,7 @@ h4 {
 
 .hero-crypto-login {
   display: inline-block; 
-  margin: -10px 3px -10px -15px;
+  margin: -9px 3px -10px -15px;
   width: 35px;
 }
 
@@ -1093,14 +1107,14 @@ h4 {
   float: right;
   font-size: 0.5em;
   font-weight: 400;
-  padding: 4px 4px;
+  padding: 4px 0px;
   color: #7d849f;
   text-transform: uppercase;
   line-height: 12px;
   border-radius: 3px;
   margin-top: -2px;
-  margin: 2px -4px 0px 6px;
-  cursor:pointer;
+  margin: 2px 3px 0px 0px;
+  cursor: pointer;
 }
 
 .transaction-action:hover {
@@ -1213,6 +1227,24 @@ h4 {
   margin-bottom: -7px;
   font-weight: 500;
 }
+
+.warning.summon {
+  background-color: #eee6f0;
+  color: #864b99;
+  padding: 0px 10px;
+  font-size: 0.75em;
+  margin: 5px 0px;
+  text-align: center;
+  display: inline-block;
+  border: 1px solid #864b99;
+}
+
+.warning.summon.ragequit {
+  background-color: #f6e3ec;
+  color: #c5538d;
+  border: 1px solid #c5538d;
+}
+
 
 .token-total {
   border: 1px solid white;
@@ -1375,6 +1407,38 @@ h4 {
   margin-top: 10px;
 }
 
+.sync-animation {
+  margin: 20px 0px;
+  max-width: 350px;
+}
+
+@media (max-width: 767px) {
+  .sync-animation {
+    max-width: 250px;
+  }
+}
+
+.sync-status-bar {
+  max-width: 500px;
+  width: 90%;
+  clear: both;
+  margin: 20px auto;
+  height: 30px;
+}
+
+.sync-status-message {
+  max-width: 500px;
+  width:90%;
+  margin: 0 auto;
+  font-size: 0.8em;
+  line-height: 1.6em;
+  color: #5d5d5d;
+}
+
+.poll-score-bar.poll-sync {
+  border: 1px solid #580173;
+}
+
 @keyframes fadeInOpacity {
 	0% {
 		opacity: 0;
@@ -1386,28 +1450,47 @@ h4 {
 
 .alert-signal {
   opacity: 1;
-	animation-name: fadeInOpacity;
-	animation-iteration-count: 1;
-	animation-timing-function: ease-in;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
   animation-duration: 0.25s;
-  padding: 0px 15px;
-  line-height: 30px;
-  float:right;
-  margin: 0px 0px 5px;
+  padding: 10px 15px;
+  line-height: 22px;
+  float: right;
+  margin: 10px 10px 0px;
   background-color: #fde776;
   color: #7b6909;
-  display: inline;
   overflow: hidden;
   font-size: 13px;
+  box-shadow: 0px 3px 9px #00000030;
   border: 1px solid #e4d37b;
   border-radius: 5px;
   clear: both;
 }
 
 .alert-wrapper {
-  position: fixed;
-  right: 15px;
   z-index: 9998;
+}
+
+.alert-signal-mobile {
+  margin: 0 20px 10px;
+  float: none;
+}
+
+.alert-wrapper-mobile {
+  position: fixed;
+  z-index: 100000;
+  bottom: 10px;
+  width:100%;
+}
+
+.verifier.verifier-live.verifier-feed.verifier-mini.verifier-pending {
+  color: #ffbe00;
+  background: #fff8e9;
+  padding: 0px 5px;
+  margin: 5px 0px 0px;
+  border-radius: 5px;
+  border: 1px solid #ffbe00;
 }
 
 .tab-menu {
@@ -1463,4 +1546,3 @@ h4 {
 .hero-menu-link.hero-menu-link-signin-simple.hero-menu-link-signin-simple-icon.mobile:active {
   padding: 1px 0px 0px 0px;
 };
-
