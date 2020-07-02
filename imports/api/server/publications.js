@@ -5,7 +5,6 @@ import { Counts } from 'meteor/tmeasday:publish-counts';
 import { query } from '/lib/views';
 import { log, logUser } from '/lib/const';
 import { install } from '/lib/dao';
-import { TAPi18n } from 'meteor/tap:i18n';
 
 import { Transactions } from '/imports/api/transactions/Transactions';
 import { Files } from '/imports/api/files/Files';
@@ -41,10 +40,12 @@ Meteor.publish('singleUser', function (userQuery) {
 */
 Meteor.publish('singleDao', function (daoQuery) {
   check(daoQuery, Object);
-  const daos = Collectives.find(daoQuery);
-  log(`{ publish: 'singleDao', user: ${logUser()}, query: ${JSON.stringify(daoQuery)}, count: ${daos.count()} }`);
-  if (daos.count() > 0) {
-    return daos;
+  if (daoQuery.$or.length > 0) {
+    const daos = Collectives.find(daoQuery);
+    log(`{ publish: 'singleDao', user: ${logUser()}, query: ${JSON.stringify(daoQuery)}, count: ${daos.count()} }`);
+    if (daos.count() > 0) {
+      return daos;
+    }
   }
   return this.ready();
 });
