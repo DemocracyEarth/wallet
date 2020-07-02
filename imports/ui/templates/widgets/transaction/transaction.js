@@ -5,7 +5,7 @@ import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 
 import { getVotes } from '/imports/api/transactions/transaction';
-import { timeCompressed } from '/imports/ui/modules/chronos';
+import { timeCompressed, timeComplete } from '/imports/ui/modules/chronos';
 import { token } from '/lib/token';
 import { Transactions } from '/imports/api/transactions/Transactions';
 import { syncBlockchain } from '/imports/startup/both/modules/metamask';
@@ -215,6 +215,16 @@ Template.transaction.helpers({
   },
   sinceDate() {
     return `${timeCompressed(this.contract.timestamp, true)}`;
+  },
+  dateLink() {
+    const from = this.contract.timestamp;
+    const fromQuery = `${from.getFullYear()}-${(from.getMonth() < 10) ? `0${from.getMonth()}` : from.getMonth()}-${(from.getDate() < 10) ? `0${from.getDate()}` : from.getDate()}`;
+    const until = new Date(this.contract.timestamp.getTime() + (60 * 60 * 24 * 1000));
+    const untilQuery = `${until.getFullYear()}-${(until.getMonth() < 10) ? `0${until.getMonth()}` : until.getMonth()}-${(until.getDate() < 10) ? `0${until.getDate()}` : until.getDate()}`;
+    return `/date?from=${fromQuery}&until=${untilQuery}`;
+  },
+  dateDescription() {
+    return `${timeComplete(this.contract.timestamp)}`;
   },
   ragequit() {
     return this.isRagequit;

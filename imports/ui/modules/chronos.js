@@ -39,7 +39,7 @@ const _timeCompressed = (date, micro) => {
 
 const _timeComplete = (date) => {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
-  return `${_timeAgo(date)} &#183; ${date.toLocaleDateString('en', options)} &#183; ${(date.getHours() < 10) ? `0${(date.getHours())}` : date.getHours()}:${(date.getMinutes() < 10) ? `0${(date.getMinutes())}` : date.getMinutes()}`;
+  return `${_timeAgo(date)} · ${date.toLocaleDateString('en', options)} · ${(date.getHours() < 10) ? `0${(date.getHours())}` : date.getHours()}:${(date.getMinutes() < 10) ? `0${(date.getMinutes())}` : date.getMinutes()}`;
 };
 
 const timeLeft = (date) => {

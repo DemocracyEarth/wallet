@@ -246,9 +246,23 @@ Meteor.methods({
   * @summary given a keyword returns contract id
   * @param {keyword} keyword identify contract by given keyword
   */
+  getProposalContract(contractId) {
+    check(contractId, String);
+    log(`{ method: 'getProposalContract', user: ${logUser()}, _id: '${contractId}' }`);
+    const contract = Contracts.findOne({ _id: contractId });
+    if (contract.pollId) {
+      return Contracts.findOne({ _id: contract.pollId });
+    }
+    return contract;
+  },
+
+  /**
+ * @summary given a keyword returns contract id
+ * @param {keyword} keyword identify contract by given keyword
+ */
   getContractById(contractId) {
     check(contractId, String);
-    log(`{ method: 'getContractById', user: ${logUser()}, _id: '${contractId}' }`);
+    log(`{ method: 'getProposalContract', user: ${logUser()}, _id: '${contractId}' }`);
     return Contracts.findOne({ _id: contractId });
   },
 
