@@ -880,5 +880,6 @@
   "search-contract": "📄 {{searchTerm}}",
   "search-summon": "🔥 Summon of {{dao}}",
   "search-ragequit": "💸 Ragequit of {{shares}} shares from {{dao}} by {{address}}",
-  "search-default": "🔍 {{searchTerm}}"
+  "search-default": "🔍 {{searchTerm}}",
+  "search-dates": "📅 {{searchTerm}}"
 }

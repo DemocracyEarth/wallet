@@ -91,6 +91,15 @@ const _getContractToken = (transaction) => {
   return coin;
 };
 
+
+/**
+* @summary creates string of date for URL
+* @return {string} uri
+*/
+const _createDateQuery = (date) => {
+  return `${date.getFullYear()}-${(date.getMonth() < 9) ? `0${parseInt(date.getMonth() + 1, 10)}` : parseInt(date.getMonth() + 1, 10)}-${(date.getDate() < 10) ? `0${date.getDate()}` : date.getDate()}`;
+};
+
 Template.transaction.onCreated(function () {
   Template.instance().totalVotes = new ReactiveVar(0);
   Template.instance().loading = new ReactiveVar(false);
@@ -218,9 +227,9 @@ Template.transaction.helpers({
   },
   dateLink() {
     const from = this.contract.timestamp;
-    const fromQuery = `${from.getFullYear()}-${(from.getMonth() < 10) ? `0${from.getMonth()}` : from.getMonth()}-${(from.getDate() < 10) ? `0${from.getDate()}` : from.getDate()}`;
+    const fromQuery = _createDateQuery(from);
     const until = new Date(this.contract.timestamp.getTime() + (60 * 60 * 24 * 1000));
-    const untilQuery = `${until.getFullYear()}-${(until.getMonth() < 10) ? `0${until.getMonth()}` : until.getMonth()}-${(until.getDate() < 10) ? `0${until.getDate()}` : until.getDate()}`;
+    const untilQuery = _createDateQuery(until);
     return `/date?from=${fromQuery}&until=${untilQuery}`;
   },
   dateDescription() {

@@ -64,6 +64,13 @@ const _setTags = () => {
           text: TAPi18n.__('search-contract').replace('{{searchTerm}}', _dynamicTitle(getProposalDescription(contract.title, true))),
         },
       ];
+    } else if (params.date) {
+      query = [
+        {
+          id: Router.current().params.query.from,
+          text: TAPi18n.__('search-dates').replace('{{searchTerm}}', Router.current().params.query.from),
+        },
+      ];
     }
   }
 

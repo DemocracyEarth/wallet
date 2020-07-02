@@ -263,6 +263,35 @@ Router.route('/dao/:dao', {
 /**
 * @summary loads a post using date in url
 **/
+Router.route('/date', {
+  name: 'date',
+  template: 'home',
+  loadingTemplate: 'load',
+  onBeforeAction() {
+    Session.set('sidebarMenuSelectedId', 999);
+    _reset();
+    this.next();
+  },
+  waitOn() {
+    return Meteor.subscribe('dateContracts', { view: 'dateRange', from: this.params.query.from, until: this.params.query.until });
+  },
+  data() {
+    if (this.ready()) {
+      return {
+        options: { view: 'dateRange', from: this.params.query.from, until: this.params.query.until },
+      };
+    }
+    return {};
+  },
+  onAfterAction() {
+    _boilerPlate();
+  },
+});
+
+
+/**
+* @summary loads a post using date in url
+**/
 Router.route('/tx/:keyword', {
   name: 'ticket',
   template: 'home',

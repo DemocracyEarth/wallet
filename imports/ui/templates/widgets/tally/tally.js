@@ -122,6 +122,7 @@ const _defaultTally = (view) => {
     view === 'periodVotes' ||
     view === 'transactionsToken' ||
     view === 'transactionsPeer' ||
+    view === 'transactionsDate' ||
     view === 'transactionsGeo' ||
     view === 'transactionsDao' ||
     view === 'transactionsSearch'
