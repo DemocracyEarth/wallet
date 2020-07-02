@@ -5,7 +5,7 @@ import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 
 import { getVotes } from '/imports/api/transactions/transaction';
-import { timeCompressed, timeComplete } from '/imports/ui/modules/chronos';
+import { timeCompressed, timeDateOnly, hourOnly } from '/imports/ui/modules/chronos';
 import { token } from '/lib/token';
 import { Transactions } from '/imports/api/transactions/Transactions';
 import { syncBlockchain } from '/imports/startup/both/modules/metamask';
@@ -233,7 +233,7 @@ Template.transaction.helpers({
     return `/date?from=${fromQuery}&until=${untilQuery}`;
   },
   dateDescription() {
-    return `${timeComplete(this.contract.timestamp)}`;
+    return `${timeDateOnly(this.contract.timestamp)} · ${hourOnly(this.contract.timestamp)}`;
   },
   ragequit() {
     return this.isRagequit;

@@ -37,10 +37,19 @@ const _timeCompressed = (date, micro) => {
   return buildSentence(seconds, 'compressed', micro);
 };
 
-const _timeComplete = (date) => {
+const _timeDateOnly = (date) => {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
-  return `${_timeAgo(date)} · ${date.toLocaleDateString('en', options)} · ${(date.getHours() < 10) ? `0${(date.getHours())}` : date.getHours()}:${(date.getMinutes() < 10) ? `0${(date.getMinutes())}` : date.getMinutes()}`;
+  return `${date.toLocaleDateString('en', options)}`;
 };
+
+const _hourOnly = (date) => {
+  return `${(date.getHours() < 10) ? `0${(date.getHours())}` : date.getHours()}:${(date.getMinutes() < 10) ? `0${(date.getMinutes())}` : date.getMinutes()}`;
+};
+
+const _timeComplete = (date) => {
+  return `${_timeAgo(date)} · ${_timeDateOnly(date)} · ${_hourOnly(date)}`;
+};
+
 
 const timeLeft = (date) => {
   const seconds = Math.floor((date - new Date()) / 1000);
@@ -50,6 +59,8 @@ const timeLeft = (date) => {
   return false;
 };
 
+export const hourOnly = _hourOnly;
+export const timeDateOnly = _timeDateOnly;
 export const timeCompressed = _timeCompressed;
 export const timeSince = _timeAgo;
 export const timeComplete = _timeComplete;
