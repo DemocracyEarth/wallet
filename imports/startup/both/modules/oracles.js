@@ -34,7 +34,13 @@ const _calculateGini = (collective) => {
 * @summary caclulcates the ranking of a collective based on the votes of participants
 */
 const _calculateRanking = (collective, valueList) => {
-  const daoValue = _.findWhere(collective.profile.guild, { name: 'guild-total-value' }).value.toNumber();
+  const guild = _.findWhere(collective.profile.guild, { name: 'guild-total-value' });
+  let daoValue;
+  if (guild && guild.value) {
+    daoValue = guild.value.toNumber();
+  } else {
+    daoValue = 0;
+  }
   const position = _.indexOf(valueList, daoValue).toNumber();
   const ranking = parseFloat(position / (valueList.length - 1), 10);
 
@@ -113,12 +119,20 @@ const _setReplicaScore = (user, height, valueRank) => {
 const _oracles = async () => {
   const blockHeight = await getBlockHeight();
   const pendingReplicas = Meteor.users.find({ $or: [{ 'profile.replica': { $exists: false } }, { 'profile.replica.lastSyncedBlock': { $lt: parseInt(blockHeight - defaults.ORACLE_BLOCKTIME, 10) } }] }).fetch();
+  const pendingCollectives = Collectives.find({ 'status.blockchainSync': 'SYNCING' }).fetch();
 
-  log(`[oracle] Refreshing replica scores for ${pendingReplicas.length} users...`);
+  log(`[oracle] Refreshing replica scores for ${pendingReplicas.length} users and still awaiting ${pendingCollectives} daos...`);
 
-  if (pendingReplicas.length > 0) {
+  if (pendingReplicas.length > 0 || pendingCollectives.length > 0) {
     const values = [];
-    _.sortBy(Collectives.find().fetch(), (item) => { values.push(_.findWhere(item.profile.guild, { name: 'guild-total-value' }).value.toNumber()); return values.slice(-1); });
+    const collectives = Collectives.find().fetch();
+
+    for (const dao of collectives) {
+      const guild = _.findWhere(dao.profile.guild, { name: 'guild-total-value' });
+      if (guild && guild.value) {
+        values.push(guild.value.toNumber());
+      }
+    }
     const valueRank = _.sortBy(_.uniq(values), (num) => { return num; });
 
     for (const user of pendingReplicas) {
