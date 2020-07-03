@@ -3,6 +3,7 @@
     {
       "name": "MetaCartel DAO",
       "profile": {
+        "logo": "/images/metacartel.png",
         "bio": "If you wanna go fast, go alone. If you wanna go far, go together.",
         "blockchain": {
           "publicAddress": "0x0372f3696fa7dc99801f435fd6737e57818239f2"
@@ -12,6 +13,7 @@
     {
       "name": "Moloch DAO",
       "profile": {
+        "logo": "/images/moloch.png",
         "bio": "A community DAO focused on funding Ethereum development, in the name of Moloch the God of Coordination Failure",
         "blockchain": {
           "publicAddress": "0x1fd169a4f5c59acf79d0fd5d91d1201ef1bce9f1"
@@ -21,6 +23,7 @@
     {
       "name": "Raid Guild",
       "profile": {
+        "logo": "/images/raid.png",
         "bio": "⚔️A dao for builders to form Raid Parties and team up on epic boss fights (open source web3 projects). Pledge Tribute: 1 weth for 10 shares",
         "blockchain": {
           "publicAddress": "0xbd6fa666fbb6fdeb4fc5eb36cdd5c87b069b24c1"
@@ -30,6 +33,7 @@
     {
       "name": "Rocket LP DAO",
       "profile": {
+        "logo": "/images/rocket.png",
         "bio": "Lending pools for (risk-taking) Rocket Bank LPs.",
         "blockchain": {
           "publicAddress": "0xa9ade79ab198a579772dd5e310ea28643e4a4421"
@@ -39,6 +43,7 @@
     {
       "name": "Meta Gamma Delta",
       "profile": {
+        "logo": "/images/metagammadelta.jpg",
         "bio": "The home of women in Web3",
         "blockchain": {
           "publicAddress": "0x1b3d7efb93ec432b0d1d56880c23303979b379e9"
@@ -48,6 +53,7 @@
     {
       "name": "Marketing DAO",
       "profile": {
+        "logo": "/images/marketing.jpg",
         "bio": "Inspired by Moloch DAO, Marketing DAO comes to life to fund brand and marketing initiatives for Ethereum and its ecosystem.",
         "blockchain": {
           "publicAddress": "0x6c9b4f1bdddd7704a26a5caf5242e88501dc5f0b"
@@ -129,6 +135,7 @@
     {
       "name": "ArbitrageDAO",
       "profile": {
+        "logo": "/images/arbitrage.png",
         "bio": "A Union Arbitrage Fund. On-chain liquidity + Off-chain bots for Arbitrage Opportunities. Earn a share of all Arbitrage opportunities (DDEX, Compound, dYdX, MakerDAO etc). A DAO to support the DeFi ecosystem.",
         "blockchain": {
           "publicAddress": "0xa8fc468da0417f71393523393bd7d57450143a62"
