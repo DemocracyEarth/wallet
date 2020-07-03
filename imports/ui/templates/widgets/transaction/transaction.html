@@ -40,7 +40,6 @@
         {{#if isVote}}
           <table class="transaction-data w-clearfix">
             <tr>
-              {{> collectivePreview collectiveId=this.collectiveId}}
               {{#if isRevoke}}
                 {{#if isSubsidy}}
                   {{> collectivePreview collectiveId=this.senderId}}
@@ -167,6 +166,7 @@
       {{/unless}}
 
       {{#if fromLedger}}
+        {{> collectivePreview collectiveId=this.collectiveId}}
         {{#with token}}
           {{> balance}}
         {{/with}}
@@ -191,7 +191,7 @@
 </template>
 
 <template name="collectivePreview">
-  <td class="actor">
+  <td class="actor actor-right">
     <div class="identity identity-transaction w-clearfix">
       <a href="{{url}}" class="identity-label identity-label-micro">
         <img class="collective-icon collective-icon-small" title="{{name}}" src="{{logo}}">

@@ -4838,9 +4838,13 @@ blockquote {
 }
 
 .collective-icon.collective-icon-small {
-  width: 25px;
-  height: 25px;
-  margin: 10px 10px 0px 0px;
+  width: 16px;
+  height: 16px;
+  margin: 14px 5px 0px 10px;
+}
+
+.actor-right {
+  float: right;
 }
 
 .menu-button {
