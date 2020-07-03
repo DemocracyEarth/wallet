@@ -57,6 +57,8 @@ Template.preview.onCreated(function () {
           console.log(error);
         }
       });
+    } else if (contract) {
+      instance.contract.set(contract);
     }
   }
 
