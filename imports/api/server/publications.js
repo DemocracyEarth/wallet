@@ -51,6 +51,20 @@ Meteor.publish('singleDao', function (daoQuery) {
 });
 
 /**
+* @summary gets information of proposals from a given date
+* @return {Object} user data
+*/
+Meteor.publish('dateContracts', function (terms) {
+  check(terms, Object);
+  const parameters = query(terms);
+  const contracts = Contracts.find(parameters.find, parameters.options);
+  if (contracts.count() > 0) {
+    return contracts;
+  }
+  return this.ready();
+});
+
+/**
 * @summary transactions between a user and a contract
 * @return {Object} querying terms
 */

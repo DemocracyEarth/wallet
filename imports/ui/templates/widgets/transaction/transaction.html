@@ -160,7 +160,7 @@
               <div class="verifier verifier-live verifier-feed verifier-mini verifier-pending">{{_ 'pending'}}</div>
             {{else}}
               <img src="{{getImage 'clock'}}" class="clock-icon">
-              <div class="verifier verifier-live verifier-feed verifier-mini">{{sinceDate}}</div>
+              <a href="{{dateLink}}" title="{{dateDescription}}" class="verifier verifier-live verifier-feed verifier-mini">{{sinceDate}}</a>
             {{/if}}
           </div>
         </div>

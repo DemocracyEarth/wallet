@@ -38,6 +38,9 @@ const _convertQuery = (instance) => {
     case 'search':
       tally.options.view = 'transactionsSearch';
       break;
+    case 'dateRange':
+      tally.options.view = 'transactionsDate';
+      break;
     default:
   }
   return tally;

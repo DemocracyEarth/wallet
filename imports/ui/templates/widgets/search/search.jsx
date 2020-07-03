@@ -6,6 +6,7 @@ import { TAPi18n } from 'meteor/tap:i18n';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { Collectives } from '/imports/api/collectives/Collectives';
 import { getProposalDescription } from '/imports/ui/templates/widgets/feed/feedItem';
+import { timeDateOnly } from '/imports/ui/modules/chronos';
 
 import web3 from 'web3';
 
@@ -62,6 +63,13 @@ const _setTags = () => {
         {
           id: Router.current().params.keyword,
           text: TAPi18n.__('search-contract').replace('{{searchTerm}}', _dynamicTitle(getProposalDescription(contract.title, true))),
+        },
+      ];
+    } else if (params.query.from) {
+      query = [
+        {
+          id: Router.current().params.query.from,
+          text: TAPi18n.__('search-dates').replace('{{searchTerm}}', timeDateOnly(new Date(Router.current().params.query.from))),
         },
       ];
     }

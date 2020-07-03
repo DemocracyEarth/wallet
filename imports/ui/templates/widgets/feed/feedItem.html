@@ -86,7 +86,7 @@
                     {{#if summon}}
                       {{> warning label="moloch-summon-dao" style='summon'}}
                       <div class="date-info">
-                        <div class="verifier verifier-live verifier-feed">{{{sinceDate createdAt}}}</div>
+                        <a href="{{dateURL}}" class="verifier verifier-live verifier-feed">{{{sinceDate createdAt}}}</a>
                       </div>
                       <div class="smart-contract">
                         <div class="parameter">
@@ -116,7 +116,7 @@
                       {{#if ragequit}}
                         {{> warning label="moloch-contract-ragequit" style='summon ragequit'}}
                         <div class="date-info">
-                          <div class="verifier verifier-live verifier-feed">{{{sinceDate createdAt}}}</div>
+                          <a href="{{dateURL}}" class="verifier verifier-live verifier-feed">{{{sinceDate createdAt}}}</a>
                         </div>
                         <div class="smart-contract">
                           <div class="parameter-line">
@@ -135,7 +135,7 @@
                       {{else}}
                         {{{description}}}
                         <div class="date-info">
-                          <div class="verifier verifier-live verifier-feed">{{{sinceDate createdAt}}}</div>
+                          <a href="{{dateURL}}" class="verifier verifier-live verifier-feed">{{{sinceDate createdAt}}}</a>
                         </div>
                         <div class="smart-contract">
                           <div class="parameter">

@@ -5,7 +5,7 @@ import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 
 import { getVotes } from '/imports/api/transactions/transaction';
-import { timeCompressed } from '/imports/ui/modules/chronos';
+import { timeCompressed, timeDateOnly, hourOnly } from '/imports/ui/modules/chronos';
 import { token } from '/lib/token';
 import { Transactions } from '/imports/api/transactions/Transactions';
 import { syncBlockchain } from '/imports/startup/both/modules/metamask';
@@ -89,6 +89,15 @@ const _getContractToken = (transaction) => {
     coin.balance = votes;
   }
   return coin;
+};
+
+
+/**
+* @summary creates string of date for URL
+* @return {string} uri
+*/
+const _createDateQuery = (date) => {
+  return `${date.getFullYear()}-${(date.getMonth() < 9) ? `0${parseInt(date.getMonth() + 1, 10)}` : parseInt(date.getMonth() + 1, 10)}-${(date.getDate() < 10) ? `0${date.getDate()}` : date.getDate()}`;
 };
 
 Template.transaction.onCreated(function () {
@@ -216,6 +225,16 @@ Template.transaction.helpers({
   sinceDate() {
     return `${timeCompressed(this.contract.timestamp, true)}`;
   },
+  dateLink() {
+    const from = this.contract.timestamp;
+    const fromQuery = _createDateQuery(from);
+    const until = new Date(this.contract.timestamp.getTime() + (60 * 60 * 24 * 1000));
+    const untilQuery = _createDateQuery(until);
+    return `/date?from=${fromQuery}&until=${untilQuery}`;
+  },
+  dateDescription() {
+    return `${timeDateOnly(this.contract.timestamp)} · ${hourOnly(this.contract.timestamp)}`;
+  },
   ragequit() {
     return this.isRagequit;
   },
@@ -321,9 +340,9 @@ Template.collectivePreview.helpers({
     return Template.instance().collective.name;
   },
   url() {
-    // console.log(Template.instance().collective);
     return `/dao/${Template.instance().collective.uri}`;
   },
 });
 
 export const getContractToken = _getContractToken;
+export const createDateQuery = _createDateQuery;

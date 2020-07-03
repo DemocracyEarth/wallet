@@ -100,6 +100,7 @@ const _isIndexFeed = (instance) => {
     || instance.options.view === 'token'
     || instance.options.view === 'transactionsToken'
     || instance.options.view === 'transactionsPeer'
+    || instance.options.view === 'transactionsDate'
     || instance.options.view === 'transactionsGeo'
     || instance.options.view === 'peer'
     || instance.options.view === 'threadVotes'

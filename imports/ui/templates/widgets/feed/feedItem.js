@@ -6,9 +6,9 @@ import { $ } from 'meteor/jquery';
 import { Router } from 'meteor/iron:router';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import { getProfileFromUsername, getAnonymous } from '/imports/startup/both/modules/User';
+import { getAnonymous } from '/imports/startup/both/modules/User';
 import { removeContract } from '/imports/startup/both/modules/Contract';
-import { getProfileName, stripHTMLfromText } from '/imports/ui/modules/utils';
+import { stripHTMLfromText } from '/imports/ui/modules/utils';
 import { timeComplete } from '/imports/ui/modules/chronos';
 import { displayModal } from '/imports/ui/modules/modal';
 import { animationSettings } from '/imports/ui/modules/animation';
@@ -19,9 +19,9 @@ import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { tokenWeb } from '/lib/token';
 import { wrapURLs } from '/lib/utils';
 import { Collectives } from '/imports/api/collectives/Collectives';
+import { createDateQuery } from '/imports/ui/templates/widgets/transaction/transaction';
 
 import '/imports/ui/templates/widgets/feed/feedItem.html';
-import '/imports/ui/templates/widgets/transaction/transaction.js';
 import '/imports/ui/templates/widgets/spinner/spinner.js';
 import '/imports/ui/templates/components/identity/avatar/avatar.js';
 import '/imports/ui/templates/components/decision/countdown/countdown.js';
@@ -694,6 +694,13 @@ Template.feedItem.helpers({
       label: this.period ? TAPi18n.__(`moloch-period-${this.period.toLowerCase()}`) : '',
       style: this.period ? `period period-${this.period.toLowerCase()}` : '',
     };
+  },
+  dateURL() {
+    const from = this.timestamp;
+    const fromQuery = createDateQuery(from);
+    const until = new Date(this.timestamp.getTime() + (60 * 60 * 24 * 1000));
+    const untilQuery = createDateQuery(until);
+    return `/date?from=${fromQuery}&until=${untilQuery}`;
   },
 });
 
