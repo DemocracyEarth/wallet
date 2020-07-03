@@ -346,3 +346,4 @@ Template.collectivePreview.helpers({
 });
 
 export const getContractToken = _getContractToken;
+export const createDateQuery = _createDateQuery;

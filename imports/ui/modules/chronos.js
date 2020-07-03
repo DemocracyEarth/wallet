@@ -47,7 +47,7 @@ const _hourOnly = (date) => {
 };
 
 const _timeComplete = (date) => {
-  return `${_timeAgo(date)} · ${_timeDateOnly(date)} · ${_hourOnly(date)}`;
+  return `${_timeAgo(date)} &#183; ${_timeDateOnly(date)} &#183; ${_hourOnly(date)}`;
 };
 
 
