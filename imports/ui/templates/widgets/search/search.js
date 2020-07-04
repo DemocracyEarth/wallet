@@ -10,6 +10,12 @@ Template.search.helpers({
     return Search;
   },
   style() {
+    if (Meteor.Device.isPhone()) {
+      if (Meteor.user()) {
+        return 'search-wrapper-logged search-wrapper-mobile';
+      }
+      return 'search-wrapper search-wrapper-mobile';
+    }
     if (Meteor.user()) {
       return 'search-wrapper-logged';
     }

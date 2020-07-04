@@ -1264,6 +1264,12 @@ h4 {
   border: 5px solid #f9fafb;
 }
 
+.mobile-search {
+  position: absolute;
+  left: 50px;
+  right: 85px;
+}
+
 .chart {
   width: 100% !important;
   height: 150px !important;

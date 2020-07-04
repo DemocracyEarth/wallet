@@ -4526,7 +4526,7 @@ blockquote {
 }
 
 .menu-item.menu-item-selected {
-  background-color: #00c091;
+  background-color: #580173;
   color: #fff;
 }
 
@@ -4848,10 +4848,9 @@ blockquote {
 }
 
 .menu-button {
-  width: 40px;
-  height: 40px;
-  margin-top: 3px;
-  margin-bottom: 3px;
+  width: 32px;
+  height: 32px;
+  margin: 7px 0px 0px 2px;
   opacity: 0;
 }
 
@@ -6564,7 +6563,7 @@ blockquote {
 .hero-menu-link {
   color: #c3c9d5;
   font-size: 11px;
-  line-height: 22px;
+  line-height: 23px;
   font-weight: 400;
   text-transform: uppercase;
 }
@@ -7357,9 +7356,6 @@ blockquote {
     margin-left: 0px;
     float: left;
   }
-  .hero-button.hero-button-mobile.hero-signin {
-    margin-right: 10px;
-  }
   .hero-home-button {
     display: inline-block;
   }
@@ -7764,12 +7760,17 @@ mark {
   padding: 0px 200px 0px 50px;
 }
 
+.search-wrapper-mobile,
+.search-wrapper-logged.search-wrapper-mobile {
+  padding: 0px;
+}
+
 @media (max-width: 767px) {
 
   .ReactTags__suggestions {
-    left: 50px;
-    margin: 13px 0px;
-    right: 100px;
+    left: 0px;
+    /* margin: 13px 0px; */
+    right: 0px;
     width: auto;
   }
 
@@ -7784,7 +7785,7 @@ mark {
   }
 
   .ReactTags__tagInputField {
-    width: 700px;
+    width: 100%;
   }
 
   .ReactTags__selected {
@@ -7800,7 +7801,8 @@ mark {
   }  
 
   .ReactTags__tagInput {
-    max-width:100px;
+    width: 100%;
+    display: inline-block;
   }
 }
 
