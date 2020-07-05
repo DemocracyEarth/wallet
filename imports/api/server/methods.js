@@ -544,6 +544,10 @@ Meteor.methods({
     // insert back to general view
     if (daoSpecific) {
       finalMenu.unshift(allDAOs);
+    } else if (!daoName) {
+      finalMenu.shift();
+      finalMenu.shift();
+      finalMenu.unshift(allDAOs);
     }
 
     return finalMenu;
