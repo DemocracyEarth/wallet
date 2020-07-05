@@ -1418,6 +1418,10 @@ h4 {
   max-width: 350px;
 }
 
+.spinner-loader {
+  margin-top: 100px;
+}
+
 @media (max-width: 767px) {
   .sync-animation {
     max-width: 250px;

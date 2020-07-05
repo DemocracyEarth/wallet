@@ -25,6 +25,7 @@ import '/imports/ui/templates/widgets/tally/tally.js';
 import '/imports/ui/templates/widgets/feed/paginator.js';
 import '/imports/ui/templates/components/decision/ledger/ledger.js';
 import '/imports/ui/templates/widgets/tabs/tabs.js';
+import '/imports/ui/templates/layout/load/load.js';
 
 /**
 * @summary specific rendering for unlogged users

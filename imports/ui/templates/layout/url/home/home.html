@@ -70,6 +70,8 @@
         {{/unless}}
         {{#if feedReady}}
           {{> feed mainFeed}}
+        {{else}}
+          {{> load}}
         {{/if}}
       </div>
     </div>
@@ -156,6 +158,8 @@
           {{#with thread}}
             {{> feed this}}
           {{/with}}
+        {{else}}
+          {{> load}}
         {{/if}}
 
       </div>
@@ -196,6 +200,8 @@
           {{#with thread}}
             {{> feed this}}
           {{/with}}
+        {{else}}
+          {{> load}}
         {{/if}}
       </div>
     </div>
