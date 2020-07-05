@@ -6203,7 +6203,7 @@ blockquote {
 }
 
 .token.token-ledger.token-button {
-  margin-top: 5px;
+  margin-top: 8px;
   margin-bottom: 0px;
   margin-left: 5px;
 }
@@ -6214,39 +6214,10 @@ blockquote {
   float: right;
 }
 
-.token-ticker {
-  min-width: 35px;
-  padding: 3px;
-  float: left;
-  border: 1px solid #9696c1;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-  background-color: #9695c3;
-  font-size: 10px;
-  line-height: 10px;
-  font-weight: 400;
-  text-align: center;
-}
-
 .token-ticker.token-editor {
   margin-top: 7px;
   margin-left: 5px;
   float: right;
-}
-
-.token-balance {
-  display: inline;
-  min-width: 35px;
-  padding: 3px 5px;
-  float: left;
-  border: 1px solid #9696c1;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-  font-size: 10px;
-  line-height: 10px;
-  font-weight: 400;
-  text-align: right;
-  text-transform: uppercase;
 }
 
 .token-bar {

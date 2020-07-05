@@ -45,9 +45,15 @@ const _getUser = (userId) => {
 * @summary gets address info from user
 * @param {object} user user to parse
 */
-const _getAddress = (user) => {
+const _getAddress = (avatar) => {
+  const user = Meteor.users.findOne({ _id: avatar.profile });
+  if (user) {
+    return user.username;
+  }
+  return undefined;
+  /*
   let addressList;
-
+  
   if (!user.profile) {
     addressList = Meteor.user().profile.wallet.address;
   } else if (typeof user.profile === 'string') {
@@ -67,7 +73,8 @@ const _getAddress = (user) => {
     }
   }
 
-  return undefined;
+  return user.username;
+  */
 };
 
 /**
@@ -377,18 +384,19 @@ Template.avatar.helpers({
     return '';
   },
   ticker() {
-    const reserve = _getAddress(this);
+    return defaults.BLOCKCHAIN;
+    /* const reserve = _getAddress(this);
     if (reserve) {
       return reserve.chain;
     }
-    return '';
+    return ''; */
   },
   address() {
-    const reserve = _getAddress(this);
-    if (reserve) {
+    return _getAddress(this);
+    /* if (reserve) {
       return reserve.hash;
     }
-    return '';
+    return ''; */
   },
   getImage(pic) {
     return getImage(Template.instance().imageTemplate.get(), pic);

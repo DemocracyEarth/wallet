@@ -539,28 +539,24 @@ width: 1px;
   min-width: 35px;
   padding: 3px 3px 3px 5px;
   float: left;
-  border: 1px solid #9696c1;
   background-color: #9695c3;
   font-size: 0.55em;
   line-height: 11px;
-  border-right: 0px;
   font-weight: 400;
   text-align: center;
 }
 
 .token-balance {
-    display: inline;
-    min-width: 35px;
-    padding: 3px 5px;
-    float: left;
-    color: #9696c1;
-    border: 1px solid #9696c1;
-    font-size: 0.65em;
-    border-left:0px;
-    line-height: 11px;
-    font-weight: 600;
-    text-align: right;
-    text-transform: uppercase;
+  min-width: 20px;
+  padding: 3px 5px;
+  float: left;
+  color: #9696c1;
+  font-size: 1em;
+  border-left: 0px;
+  line-height: 11px;
+  font-weight: 300;
+  text-align: right;
+  text-transform: uppercase;
 }
 
 .checkbox-mini.checkbox-mini-remove {
