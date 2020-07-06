@@ -25,6 +25,8 @@ if (Meteor.isClient) {
   import '/imports/ui/templates/components/identity/card/card.js';
   import '/imports/ui/templates/components/decision/contract/contract.js';
   import '/imports/ui/templates/widgets/feed/feed.js';
+
+  Router.plugin('reywood:iron-router-ga');
 }
 
 /**
@@ -101,6 +103,7 @@ Router.configure({
   loadingTemplate: 'load',
   notFoundTemplate: 'notFound',
   controller: 'PreloadController',
+  trackPageView: true,
   preload: {
     verbose: false,
     timeOut: 5000,
