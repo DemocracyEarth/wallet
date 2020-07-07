@@ -1,7 +1,5 @@
 <template name="home">
   {{> hero postMode=post}}
-
-  {{> timeline}}
   
   {{#if landingMode}}
     {{> landing}}
@@ -71,6 +69,8 @@
           {{#unless isPhone}}
             <h4 class="padding-left-zero">{{{feedTitle}}}</h4>
           {{/unless}}
+
+          {{> timeline}}
           {{> feed mainFeed}}
         {{else}}
           {{> load}}

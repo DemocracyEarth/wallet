@@ -1,9 +1,12 @@
-import React, { Component } from 'react';
+import { Meteor } from 'meteor/meteor';
+import React from 'react';
 import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, Query } from 'react-apollo';
 
+import { Post } from '/imports/ui/templates/timeline/post/Post.jsx';
+
 const client = new ApolloClient({
-  uri: 'https://api.thegraph.com/subgraphs/name/molochventures/moloch',
+  uri: Meteor.settings.public.graph.timeline,
   cache: new InMemoryCache(),
 });
 
@@ -47,54 +50,21 @@ const ProposalQuery = () => {
         console.log(data);
 
         return data.proposals.map((proposal) => {
-          return <p>{proposal.details}</p>;
+          return (
+            <Post id={`molochdao-${proposal.id}`} daoName={'molochdao'} description={proposal.details} />
+          );
         });
       }}
     </Query>
   );
 };
 
-export default class Timeline extends Component {
-  componentDidMount() {
-    console.log(this);
-  }
+const Timeline = () => {
+  return (
+    <ApolloProvider client={client}>
+      <ProposalQuery />
+    </ApolloProvider>
+  );
+};
 
-  render() {
-    return (
-      <ApolloProvider client={client}>
-        <div className={`warning ${this.props}`}>
-          <ProposalQuery />
-        </div>
-      </ApolloProvider>
-    );
-  }
-}
-
-/*
-export default class Timeline extends React.Component {
-  constructor(props) {
-    super(props);
-
-    _setTags();
-
-    this.state = {
-      subscription: Router.current().ready(),
-      tags: _getTags(),
-      suggestions: _getSuggestions(),
-    };
-    this.handleDelete = this.handleDelete.bind(this);
-    this.handleAddition = this.handleAddition.bind(this);
-    this.handleDrag = this.handleDrag.bind(this);
-  }
-
-  render() {
-    return (
-      <ApolloProvider client={client}>
-        <div>
-          <ProposalQuery />
-        </div>
-      </ApolloProvider>
-    );
-  }
-}
-*/
+export default Timeline;

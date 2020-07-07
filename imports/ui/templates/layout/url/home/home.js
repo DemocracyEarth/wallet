@@ -14,7 +14,7 @@ import { shortenCryptoName } from '/imports/startup/both/modules/metamask';
 import { getCoin } from '/imports/api/blockchain/modules/web3Util.js';
 import { Tokens } from '/imports/api/tokens/tokens';
 
-import '/imports/ui/templates/widgets/timeline/timeline.js';
+import '/imports/ui/templates/timeline/timeline.js';
 import '/imports/ui/templates/components/identity/replica/replica.js';
 import '/imports/ui/templates/layout/url/home/home.html';
 import '/imports/ui/templates/components/collective/guild/guild.js';
