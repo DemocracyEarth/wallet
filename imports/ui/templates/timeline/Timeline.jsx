@@ -3,7 +3,7 @@ import React from 'react';
 import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, Query } from 'react-apollo';
 
-import { Post } from '/imports/ui/templates/timeline/post/Post.jsx';
+import Post from '/imports/ui/templates/timeline/post/Post.jsx';
 
 const client = new ApolloClient({
   uri: Meteor.settings.public.graph.timeline,
