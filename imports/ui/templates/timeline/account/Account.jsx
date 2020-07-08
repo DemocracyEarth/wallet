@@ -17,8 +17,8 @@ export default class Account extends Component {
       image: makeBlockie(props.publicAddress),
       url: `/address/${props.publicAddress}`,
       label: shortenCryptoName(props.publicAddress),
-      width: props.width ?? '24px',
-      height: props.height ?? '24px',
+      width: props.width ? props.width : '24px',
+      height: props.height ? props.height : '24px',
     };
   }
 
@@ -27,7 +27,7 @@ export default class Account extends Component {
       <div className="w-list-unstyled w-clearfix identity-list identity-feed-item extra">
         <div className="identity">
           <div className="avatar-editor">
-            <img id={this.state.id} src={this.state.image} className="symbol profile-pic" role="presentation" style={{width: this.state.width, height:this.state.height}} />
+            <img id={this.state.id} src={this.state.image} className="symbol profile-pic" role="presentation" style={{ width: this.state.width, height: this.state.height }} />
             <div className="identity-peer">
               <a href={this.state.url} title={this.props.publicAddress} className="identity-label identity-label-micro">
                 {this.state.label}

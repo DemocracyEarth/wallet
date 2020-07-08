@@ -58,6 +58,7 @@ const ProposalQuery = () => {
               description={proposal.details}
               memberAddress={proposal.memberAddress}
               applicant={proposal.applicant.applicantAddress}
+              timestamp={proposal.timestamp}
             />
           );
         });

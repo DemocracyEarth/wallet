@@ -5,6 +5,7 @@ import parser from 'html-react-parser';
 import { wrapURLs } from '/lib/utils';
 
 import Account from '/imports/ui/templates/timeline/account/Account.jsx';
+import Stamp from '/imports/ui/templates/timeline/stamp/Stamp.jsx';
 
 /**
 * @summary quick function to determine if a string is a JSON
@@ -26,6 +27,7 @@ export default class Post extends Component {
   constructor(props) {
     super(props);
 
+    // content formatting
     if (_isJSON(props.description)) {
       const json = JSON.parse(props.description);
 
@@ -75,6 +77,9 @@ export default class Post extends Component {
               </div>
             </div>
           </div>
+          <Stamp
+            timestamp={this.props.timestamp}
+          />
         </div>
       </div>
     );
@@ -88,4 +93,5 @@ Post.propTypes = {
   daoName: PropTypes.string,
   memberAddress: PropTypes.string,
   applicantAddress: PropTypes.string,
+  timestamp: PropTypes.string,
 };
