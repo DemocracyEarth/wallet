@@ -51,7 +51,14 @@ const ProposalQuery = () => {
 
         return data.proposals.map((proposal) => {
           return (
-            <Post id={`molochdao-${proposal.id}`} daoName={'molochdao'} description={proposal.details} />
+            <Post
+              key={proposal.id}
+              id={`molochdao-${proposal.proposalIndex}`}
+              daoName={'molochdao'}
+              description={proposal.details}
+              memberAddress={proposal.memberAddress}
+              applicant={proposal.applicant.applicantAddress}
+            />
           );
         });
       }}

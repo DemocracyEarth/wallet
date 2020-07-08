@@ -59,6 +59,7 @@
     "graphql": "^14.7.0",
     "hapi": "^17.8.5",
     "hoek": "^5.0.4",
+    "html-react-parser": "^0.13.0",
     "https-proxy-agent": "^2.2.4",
     "human-standard-token-abi": "^2.0.0",
     "json-schema-faker": "^0.4.7",
