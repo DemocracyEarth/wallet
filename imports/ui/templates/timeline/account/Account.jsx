@@ -24,15 +24,13 @@ export default class Account extends Component {
 
   render() {
     return (
-      <div className="w-list-unstyled w-clearfix identity-list identity-feed-item extra">
-        <div className="identity">
-          <div className="avatar-editor">
-            <img id={this.state.id} src={this.state.image} className="symbol profile-pic" role="presentation" style={{ width: this.state.width, height: this.state.height }} />
-            <div className="identity-peer">
-              <a href={this.state.url} title={this.props.publicAddress} className="identity-label identity-label-micro">
-                {this.state.label}
-              </a>
-            </div>
+      <div className="identity">
+        <div className="avatar-editor">
+          <img id={this.state.id} src={this.state.image} className="symbol profile-pic" role="presentation" style={{ width: this.state.width, height: this.state.height }} />
+          <div className="identity-peer">
+            <a href={this.state.url} title={this.props.publicAddress} className="identity-label identity-label-micro">
+              {this.state.label}
+            </a>
           </div>
         </div>
       </div>

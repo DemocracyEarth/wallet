@@ -15,7 +15,7 @@ const ProposalQuery = () => {
     <Query
       query={gql`
         {
-          proposals(first: 5) {
+          proposals(first: 25) {
             id
             timestamp
             proposalIndex
@@ -47,7 +47,7 @@ const ProposalQuery = () => {
         if (loading) return <p>Loading... </p>;
         if (error) return <p>Error!</p>;
 
-        console.log(data);
+        console.log(data.proposals);
 
         return data.proposals.map((proposal) => {
           return (
@@ -57,8 +57,10 @@ const ProposalQuery = () => {
               daoName={'molochdao'}
               description={proposal.details}
               memberAddress={proposal.memberAddress}
-              applicant={proposal.applicant.applicantAddress}
+              applicantAddress={proposal.applicant.applicantAddress}
               timestamp={proposal.timestamp}
+              sharesRequested={proposal.sharesRequested}
+              tokenTribute={proposal.tokenTribute}
             />
           );
         });

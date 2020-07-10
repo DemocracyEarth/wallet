@@ -2262,10 +2262,8 @@ blockquote {
 
 .identity {
   display: inline-block;
-  margin: 0px 20px 0px 5px;
+  margin: 0px;
   padding-left: 0px;
-  float: left;
-  border-radius: 5px;
   text-align: left;
 }
 
@@ -3560,6 +3558,7 @@ blockquote {
 
 .meta.meta-search.meta-bar {
   background:#f8f6f9;
+  padding:10px;
   margin-bottom:10px;
   border-bottom:1px solid #f1eef3;
 }
@@ -6191,9 +6190,10 @@ blockquote {
 }
 
 .token {
-  margin-top: 0px;
+  margin:10px 0px;
   color: #fff;
   font-size:16px;
+  display:inline-block;
 }
 
 .token.token-ledger {

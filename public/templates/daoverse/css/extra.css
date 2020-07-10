@@ -539,7 +539,6 @@ width: 1px;
   min-width: 35px;
   padding: 3px 3px 3px 5px;
   float: left;
-  background-color: #9695c3;
   font-size: 0.55em;
   line-height: 11px;
   font-weight: 400;
@@ -790,26 +789,24 @@ width: 1px;
   padding: 0px 25px 10px;
   border-radius: 5px;
   text-align: center;
-  display: inline-block;
   margin: 10px 15px 10px 0px;
   font-size: 11px;
   font-weight: 400;
   color: #5a0075;
   border: 1px solid #ae8abd26;
-  min-height: 92px;
+  min-width:120px;
+  float:left;
+  height:72px;
+  overflow:hidden;
 }
 
 .parameter-name {
   background: #eceef2;
   color: #8d95a9;
   line-height:28px;
-  margin: 0px -25px 10px;
+  margin: 0px -25px 0px;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
-}
-
-.parameter-value { 
-  float: left;
 }
 
 .smart-contract {
@@ -823,7 +820,7 @@ width: 1px;
 }
 
 .parameter-avatar {
-  margin-top: -10px;
+  text-align:center;
 }
 
 .parameter-token {
@@ -893,7 +890,7 @@ h4 {
   }
 
   .parameter-name {
-    margin: 0px -10px 14px;
+    margin: 0px -10px 0px;
   }
 
   .hero {

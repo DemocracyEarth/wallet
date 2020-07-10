@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import parser from 'html-react-parser';
+import { TAPi18n } from 'meteor/tap:i18n';
 
 import { wrapURLs } from '/lib/utils';
 
 import Account from '/imports/ui/templates/timeline/account/Account.jsx';
 import Stamp from '/imports/ui/templates/timeline/stamp/Stamp.jsx';
+import Parameter from '/imports/ui/templates/timeline/parameter/Parameter.jsx';
+import Token from '/imports/ui/templates/timeline/token/Token.jsx';
 
 /**
 * @summary quick function to determine if a string is a JSON
@@ -80,6 +83,28 @@ export default class Post extends Component {
           <Stamp
             timestamp={this.props.timestamp}
           />
+          <div className="smart-contract">
+            <Parameter label={TAPi18n.__('moloch-applicant')}>
+              <Account
+                id={`avatar-${this.props.applicantAddress}`}
+                publicAddress={this.props.applicantAddress}
+                width="24px"
+                height="24px"
+              />
+            </Parameter>
+            <Parameter label={TAPi18n.__('moloch-request')}>
+              <Token
+                quantity={this.props.sharesRequested.toString()}
+                symbol="SHARES"
+              />
+            </Parameter>
+            <Parameter label={TAPi18n.__('moloch-tribute')}>
+              <Token
+                quantity={this.props.tokenTribute.toString()}
+                publicAddress={'0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'}
+              />
+            </Parameter>
+          </div>
         </div>
       </div>
     );
@@ -94,4 +119,6 @@ Post.propTypes = {
   memberAddress: PropTypes.string,
   applicantAddress: PropTypes.string,
   timestamp: PropTypes.string,
+  sharesRequested: PropTypes.string,
+  tokenTribute: PropTypes.string,
 };
