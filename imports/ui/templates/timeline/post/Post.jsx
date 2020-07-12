@@ -9,6 +9,11 @@ import Account from '/imports/ui/templates/timeline/account/Account.jsx';
 import Stamp from '/imports/ui/templates/timeline/stamp/Stamp.jsx';
 import Parameter from '/imports/ui/templates/timeline/parameter/Parameter.jsx';
 import Token from '/imports/ui/templates/timeline/token/Token.jsx';
+import Countdown from '/imports/ui/templates/timeline/countdown/Countdown.jsx';
+import Poll from '/imports/ui/templates/timeline/poll/Poll.jsx';
+import Choice from '/imports/ui/templates/timeline/choice/Choice.jsx';
+import Period from '/imports/ui/templates/timeline/period/Period.jsx';
+
 
 /**
 * @summary quick function to determine if a string is a JSON
@@ -48,6 +53,23 @@ export default class Post extends Component {
     }
   }
 
+  getPercentage() {
+    return this.props.yesVotes;
+  }
+
+  getPeriodLabel() {
+    return this.props.yesVotes;
+  }
+
+  getPeriodStatus() {
+    return this.props.yesVotes;
+  }
+
+  totalVoters() {
+    console.log(this.props);
+    return parseInt(this.props.yesVotes.toNumber() + this.props.noVotes.toNumber(), 10).toString();
+  }
+
   render() {
     return (
       <div id={this.props.id} className="vote vote-search vote-feed nondraggable vote-poll" href={`/dao/${this.props.daoName}/proposal/${this.props.proposalIndex}`}>
@@ -80,31 +102,29 @@ export default class Post extends Component {
               </div>
             </div>
           </div>
-          <Stamp
-            timestamp={this.props.timestamp}
-          />
+          <Stamp timestamp={this.props.timestamp} />
           <div className="smart-contract">
             <Parameter label={TAPi18n.__('moloch-applicant')}>
-              <Account
-                id={`avatar-${this.props.applicantAddress}`}
-                publicAddress={this.props.applicantAddress}
-                width="24px"
-                height="24px"
-              />
+              <Account id={`avatar-${this.props.applicantAddress}`} publicAddress={this.props.applicantAddress} width="24px" height="24px" />
             </Parameter>
             <Parameter label={TAPi18n.__('moloch-request')}>
-              <Token
-                quantity={this.props.sharesRequested.toString()}
-                symbol="SHARES"
-              />
+              <Token quantity={this.props.sharesRequested.toString()} symbol="SHARES" />
             </Parameter>
             <Parameter label={TAPi18n.__('moloch-tribute')}>
-              <Token
-                quantity={this.props.tokenTribute.toString()}
-                publicAddress={'0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'}
-              />
+              <Token quantity={this.props.tokenTribute.toString()} publicAddress={'0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'} />
             </Parameter>
           </div>
+          <Countdown votingPeriodBegins={this.props.votingPeriodBegins} votingPeriodEnds={this.props.votingPeriodEnds} gracePeriodEnds={this.props.gracePeriodEnds} totalVoters={this.totalVoters()} />
+          {/* <Poll>
+            <Choice label={TAPi18n.__('yes')} percentage={this.getPercentage(this.props.yesVotes)}>
+              <Token quantity={this.props.yesVotes} symbol="SHARES" />
+            </Choice>
+            <Choice label={TAPi18n.__('no')} percentage={this.getPercentage(this.props.noVotes)} className="poll-score-bar-fill-negative">
+              <Token quantity={this.props.noVotes} symbol="SHARES" />
+            </Choice>
+          </Poll>
+          <Period label={this.getPeriodLabel()} status={this.getPeriodStatus()} />
+          */}
         </div>
       </div>
     );
@@ -121,4 +141,9 @@ Post.propTypes = {
   timestamp: PropTypes.string,
   sharesRequested: PropTypes.string,
   tokenTribute: PropTypes.string,
+  votingPeriodBegins: PropTypes.string,
+  votingPeriodEnds: PropTypes.string,
+  gracePeriodEnds: PropTypes.string,
+  yesVotes: PropTypes.string,
+  noVotes: PropTypes.string,
 };

@@ -15,7 +15,7 @@ const ProposalQuery = () => {
     <Query
       query={gql`
         {
-          proposals(first: 25) {
+          proposals(first: 5) {
             id
             timestamp
             proposalIndex
@@ -61,6 +61,8 @@ const ProposalQuery = () => {
               timestamp={proposal.timestamp}
               sharesRequested={proposal.sharesRequested}
               tokenTribute={proposal.tokenTribute}
+              yesVotes={proposal.yesVotes}
+              noVotes={proposal.noVotes}
             />
           );
         });
