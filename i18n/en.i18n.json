@@ -730,6 +730,7 @@
   "blocks-compressed": "blocks",
   "blocks-singular": "block",
   "poll-closed-after-time": "Poll ended after {{days}}.",
+  "poll-ended-days-ago": "Poll ended {{days}} ago.",
   "poll-never-ends": "This poll never ends (always on).",
   "height-compressed": "blocks",
   "height-singular": "block",

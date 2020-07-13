@@ -26,7 +26,7 @@ const _getImageTemplate = async () => {
 * @summary gets image but for react calls
 * @param {string} pic to use
 */
-const _getReactImage = async (pic) => {
+const _getTemplateImage = async (pic) => {
   const template = await promise;
   return template.images[pic];
 };
@@ -83,6 +83,6 @@ export const getCSS = _getStyles;
 export const getTemplate = _getTemplate;
 export const getImageTemplate = _getImageTemplate;
 export const getImage = _getImage;
-export const getReactImage = _getReactImage;
+export const getTemplateImage = _getTemplateImage;
 export const getSpinner = _getSpinner;
 export const templetize = _templetize;

@@ -63,6 +63,9 @@ const ProposalQuery = () => {
               tokenTribute={proposal.tokenTribute}
               yesVotes={proposal.yesVotes}
               noVotes={proposal.noVotes}
+              votingPeriodBegins={proposal.votingPeriodBegins}
+              votingPeriodEnds={proposal.votingPeriodEnds}
+              gracePeriodEnds={proposal.gracePeriodEnds}
             />
           );
         });
