@@ -15,7 +15,7 @@ const ProposalQuery = () => {
     <Query
       query={gql`
         {
-          proposals(first: 5) {
+          proposals(first: 25) {
             id
             timestamp
             proposalIndex
@@ -49,12 +49,19 @@ const ProposalQuery = () => {
 
         console.log(data.proposals);
 
+        let accountAddress;
+        if (Meteor.user()) {
+          accountAddress = Meteor.user().username;
+        }
+
         return data.proposals.map((proposal) => {
           return (
             <Post
               key={proposal.id}
               id={`molochdao-${proposal.proposalIndex}`}
-              daoName={'molochdao'}
+              daoName={'MolochDAO'}
+              accountAddress={accountAddress}
+              publicAddress={'0x1fd169a4f5c59acf79d0fd5d91d1201ef1bce9f1'}
               description={proposal.details}
               memberAddress={proposal.memberAddress}
               applicantAddress={proposal.applicant.applicantAddress}
@@ -66,6 +73,9 @@ const ProposalQuery = () => {
               votingPeriodBegins={proposal.votingPeriodBegins}
               votingPeriodEnds={proposal.votingPeriodEnds}
               gracePeriodEnds={proposal.gracePeriodEnds}
+              yesShares={proposal.yesShares}
+              noShares={proposal.noShares}
+              proposalIndex={proposal.proposalIndex}
             />
           );
         });

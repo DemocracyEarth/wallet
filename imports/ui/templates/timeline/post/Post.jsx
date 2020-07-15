@@ -28,6 +28,11 @@ const _isJSON = (str) => {
   return true;
 };
 
+
+const _getPercentage = (percentageAmount, remainder) => {
+  return parseFloat((percentageAmount * 100) / (percentageAmount + remainder), 10);
+};
+
 /**
 * @summary renders a post in the timeline
 */
@@ -35,26 +40,32 @@ export default class Post extends Component {
   constructor(props) {
     super(props);
 
-    // content formatting
-    if (_isJSON(props.description)) {
-      const json = JSON.parse(props.description);
+    this.state = {
+      yesPercentage: _getPercentage(this.props.yesShares.toNumber(), this.props.noShares.toNumber()).toString(),
+      noPercentage: _getPercentage(this.props.noShares.toNumber(), this.props.yesShares.toNumber()).toString(),
+    };
+    this.state = Object.assign(this.getDescription(), this.state);
+  }
 
-      this.state = {
+  getDescription() {
+    // content formatting
+    let content;
+    if (_isJSON(this.props.description)) {
+      const json = JSON.parse(this.props.description);
+
+      content = {
         title: json.title ? json.title : json,
         description: json.description ? wrapURLs(json.description) : '',
         link: (typeof json.link === 'function' || !json.link) ? '' : json.link,
       };
     } else {
-      this.state = {
-        title: wrapURLs(props.description),
-        description: undefined,
-        link: undefined,
+      content = {
+        title: wrapURLs(this.props.description),
+        description: null,
+        link: null,
       };
     }
-  }
-
-  getPercentage() {
-    return this.props.yesVotes;
+    return content;
   }
 
   getPeriodLabel() {
@@ -66,7 +77,6 @@ export default class Post extends Component {
   }
 
   totalVoters() {
-    console.log(this.props);
     return parseInt(this.props.yesVotes.toNumber() + this.props.noVotes.toNumber(), 10).toString();
   }
 
@@ -115,14 +125,15 @@ export default class Post extends Component {
             </Parameter>
           </div>
           <Countdown votingPeriodBegins={this.props.votingPeriodBegins} votingPeriodEnds={this.props.votingPeriodEnds} gracePeriodEnds={this.props.gracePeriodEnds} totalVoters={this.totalVoters()} />
-          {/* <Poll>
-            <Choice label={TAPi18n.__('yes')} percentage={this.getPercentage(this.props.yesVotes)}>
+          <Poll>
+            <Choice accountAddress={this.props.accountAddress} daoName={this.props.daoName} publicAddress={this.props.publicAddress} proposalIndex={this.props.proposalIndex} label={TAPi18n.__('yes')} percentage={this.state.yesPercentage} voteValue={1} votingPeriodEnds={this.props.votingPeriodEnds} votingPeriodBegins={this.props.votingPeriodBegins}>
               <Token quantity={this.props.yesVotes} symbol="SHARES" />
             </Choice>
-            <Choice label={TAPi18n.__('no')} percentage={this.getPercentage(this.props.noVotes)} className="poll-score-bar-fill-negative">
+            <Choice accountAddress={this.props.accountAddress} daoName={this.props.daoName} publicAddress={this.props.publicAddress} proposalIndex={this.props.proposalIndex} label={TAPi18n.__('no')} percentage={this.state.noPercentage} barStyle="poll-score-bar-fill-negative" voteValue={2} votingPeriodEnds={this.props.votingPeriodEnds} votingPeriodBegins={this.props.votingPeriodBegins}>
               <Token quantity={this.props.noVotes} symbol="SHARES" />
             </Choice>
           </Poll>
+          {/*
           <Period label={this.getPeriodLabel()} status={this.getPeriodStatus()} />
           */}
         </div>
@@ -133,6 +144,8 @@ export default class Post extends Component {
 
 Post.propTypes = {
   id: PropTypes.string,
+  publicAddress: PropTypes.string,
+  accountAddress: PropTypes.string,
   description: PropTypes.string,
   proposalIndex: PropTypes.string,
   daoName: PropTypes.string,
@@ -146,4 +159,6 @@ Post.propTypes = {
   gracePeriodEnds: PropTypes.string,
   yesVotes: PropTypes.string,
   noVotes: PropTypes.string,
+  yesShares: PropTypes.string,
+  noShares: PropTypes.string,
 };

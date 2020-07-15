@@ -94,6 +94,43 @@ const _web3 = (activateModal) => {
   return web3;
 };
 
+
+/**
+* @summary check web3 plugin and connects to code obejct
+*/
+const _getWeb3Wallet = (activateModal) => {
+  let wallet;
+  if (!window.web3) {
+    wallet = setupWallet();
+    if (!wallet) {
+      if (activateModal) {
+        modal.message = TAPi18n.__('metamask-install');
+        displayModal(true, modal);
+      }
+      return false;
+    }
+  }
+  if (!wallet && window.web3) {
+    wallet = new Web3(window.web3.currentProvider);
+  }
+
+  if (!wallet.currentProvider.isFortmatic) {
+    wallet.eth.getCoinbase().then((coinbase) => {
+      if (!coinbase) {
+        if (activateModal) {
+          modal.message = TAPi18n.__('metamask-activate');
+          displayModal(true, modal);
+          return false;
+        }
+      }
+      return undefined;
+    });
+  }
+
+  return wallet;
+};
+
+
 /**
 * @summary get the current status of an on chain transaction
 * @param {string} hash of the ticket
@@ -928,3 +965,4 @@ export const getBlockHeight = _getBlockHeight;
 export const verifyCoinVote = _verifyCoinVote;
 export const submitVote = _submitVote;
 export const hasRightToVote = _hasRightToVote;
+export const getWeb3Wallet = _getWeb3Wallet;
