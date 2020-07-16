@@ -121,7 +121,7 @@ export default class Post extends Component {
               <Token quantity={this.props.sharesRequested.toString()} symbol="SHARES" />
             </Parameter>
             <Parameter label={TAPi18n.__('moloch-tribute')}>
-              <Token quantity={this.props.tokenTribute.toString()} publicAddress={'0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'} />
+              <Token quantity={this.props.tokenTribute.toString()} symbol="WETH" />
             </Parameter>
           </div>
           <Countdown votingPeriodBegins={this.props.votingPeriodBegins} votingPeriodEnds={this.props.votingPeriodEnds} gracePeriodEnds={this.props.gracePeriodEnds} totalVoters={this.totalVoters()} />
@@ -133,9 +133,7 @@ export default class Post extends Component {
               <Token quantity={this.props.noVotes} symbol="SHARES" />
             </Choice>
           </Poll>
-          {/*
-          <Period label={this.getPeriodLabel()} status={this.getPeriodStatus()} />
-          */}
+          <Period votingPeriodBegins={this.props.votingPeriodBegins} votingPeriodEnds={this.props.votingPeriodEnds} gracePeriodEnds={this.props.gracePeriodEnds} />
         </div>
       </div>
     );
