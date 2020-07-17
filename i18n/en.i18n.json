@@ -797,6 +797,7 @@
   "moloch-period-complete": "Completed without outcome.",
   "moloch-period-passed": "Approved Proposal 👍",
   "moloch-period-rejected": "Rejected Proposal 👎",
+  "moloch-period-failed": "Rejected Proposal 👎",
   "moloch-period-aborted": "Aborted proposal 🤦‍♂️",
   "moloch-summoner-share": "Summoner Shares",
   "syncing": "Syncing...",

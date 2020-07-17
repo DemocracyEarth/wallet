@@ -1003,6 +1003,12 @@ h4 {
   border: 1px solid #ff3d67;
 }
 
+.period-failed {
+  background: #ffecf0;
+  color: #ff3d67;
+  border: 1px solid #ff3d67;
+}
+
 .period-aborted {
   background: #e8e8e8;
   color: #000;

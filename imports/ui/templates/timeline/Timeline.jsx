@@ -76,6 +76,7 @@ const ProposalQuery = () => {
               yesShares={proposal.yesShares}
               noShares={proposal.noShares}
               proposalIndex={proposal.proposalIndex}
+              status={proposal.status}
             />
           );
         });

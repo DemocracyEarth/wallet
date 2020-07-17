@@ -71,7 +71,7 @@ export default class Countdown extends Component {
       .replace('{{hours}}', `${hours} ${hours > 1 ? TAPi18n.__('hours-compressed') : TAPi18n.__('hours-singular')}`);
   }
 
-  getBarWidth() {
+  getWidth() {
     let electionLength;
     let electionNow;
 
@@ -90,7 +90,7 @@ export default class Countdown extends Component {
     return `${percentage}%`;
   }
 
-  getBarStyle() {
+  getStyle() {
     let colorClass;
     if ((this.state.now > this.state.end) && (this.state.now <= this.state.graceEnd)) {
       colorClass = 'countdown-timer-grace';
@@ -112,7 +112,7 @@ export default class Countdown extends Component {
           <img className="url-icon icon-up2" role="presentation" src={this.state.icon.calendar} /> {this.getPollLabel()}
         </div>
         <div className="countdown-timer-bar">
-          <div className={this.getBarStyle()} style={{ width: this.getBarWidth() }} />
+          <div className={this.getStyle()} style={{ width: this.getWidth() }} />
         </div>
       </div>
     );

@@ -133,7 +133,7 @@ export default class Post extends Component {
               <Token quantity={this.props.noVotes} symbol="SHARES" />
             </Choice>
           </Poll>
-          <Period votingPeriodBegins={this.props.votingPeriodBegins} votingPeriodEnds={this.props.votingPeriodEnds} gracePeriodEnds={this.props.gracePeriodEnds} />
+          <Period status={this.props.status} votingPeriodBegins={this.props.votingPeriodBegins} votingPeriodEnds={this.props.votingPeriodEnds} gracePeriodEnds={this.props.gracePeriodEnds} />
         </div>
       </div>
     );
@@ -159,4 +159,5 @@ Post.propTypes = {
   noVotes: PropTypes.string,
   yesShares: PropTypes.string,
   noShares: PropTypes.string,
+  status: PropTypes.string,
 };
