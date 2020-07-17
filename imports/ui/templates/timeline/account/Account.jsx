@@ -13,7 +13,6 @@ export default class Account extends Component {
     super(props);
 
     this.state = {
-      id: props.id,
       image: makeBlockie(props.publicAddress),
       url: `/address/${props.publicAddress}`,
       label: shortenCryptoName(props.publicAddress),
@@ -26,7 +25,7 @@ export default class Account extends Component {
     return (
       <div className="identity">
         <div className="avatar-editor">
-          <img id={this.state.id} src={this.state.image} className="symbol profile-pic" role="presentation" style={{ width: this.state.width, height: this.state.height }} />
+          <img src={this.state.image} className="symbol profile-pic" role="presentation" style={{ width: this.state.width, height: this.state.height }} />
           <div className="identity-peer">
             <a href={this.state.url} title={this.props.publicAddress} className="identity-label identity-label-micro">
               {this.state.label}
@@ -39,7 +38,6 @@ export default class Account extends Component {
 }
 
 Account.propTypes = {
-  id: PropTypes.string,
   publicAddress: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,

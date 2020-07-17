@@ -4762,7 +4762,7 @@ blockquote {
 }
 
 .micro-label {
-  display: inline-block;
+  margin-top:7px;
 }
 
 .micro {
@@ -6190,10 +6190,8 @@ blockquote {
 }
 
 .token {
-  margin:10px 0px;
   color: #fff;
   font-size:16px;
-  display:inline-block;
 }
 
 .token.token-ledger {

@@ -800,10 +800,6 @@ width: 1px;
   border-top-right-radius: 4px;
 }
 
-.parameter-value {
-  padding:5px 0px;
-}
-
 .smart-contract {
   margin: 5px auto 0;
   display: inline-block;
@@ -819,7 +815,7 @@ width: 1px;
 }
 
 .parameter-token {
-  margin-top: 10px;
+  padding-top: 14px;
 }
 
 .parameter-line {
