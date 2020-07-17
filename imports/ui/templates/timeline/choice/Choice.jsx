@@ -39,8 +39,8 @@ export default class Choice extends Component {
   }
 
   getBarStyle() {
-    if (this.props.barStyle) {
-      return `poll-score-bar-fill ${this.props.barStyle}`;
+    if (this.props.label === TAPi18n.__('no')) {
+      return 'poll-score-bar-fill poll-score-bar-fill-negative';
     }
     return 'poll-score-bar-fill';
   }
@@ -186,7 +186,6 @@ Choice.propTypes = {
   accountAddress: PropTypes.string,
   percentage: PropTypes.string,
   label: PropTypes.string,
-  barStyle: PropTypes.string,
   voteValue: PropTypes.number,
   votingPeriodBegins: PropTypes.string,
   votingPeriodEnds: PropTypes.string,

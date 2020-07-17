@@ -104,8 +104,7 @@ const ProposalQuery = () => {
                 <Choice
                   accountAddress={accountAddress} daoName={daoName} publicAddress={publicAddress}
                   proposalIndex={proposal.proposalIndex} label={TAPi18n.__('no')} percentage={noPercentage}
-                  barStyle="poll-score-bar-fill-negative" voteValue={2} votingPeriodEnds={proposal.votingPeriodEnds}
-                  votingPeriodBegins={proposal.votingPeriodBegins}
+                  voteValue={2} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodBegins}
                 >
                   <Token quantity={proposal.noVotes} symbol="SHARES" />
                 </Choice>
