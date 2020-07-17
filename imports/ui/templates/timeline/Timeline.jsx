@@ -15,6 +15,8 @@ import Choice from '/imports/ui/templates/timeline/choice/Choice.jsx';
 import Period from '/imports/ui/templates/timeline/period/Period.jsx';
 import Contract from '/imports/ui/templates/timeline/contract/Contract.jsx';
 
+import { defaults } from '/lib/const';
+
 const client = new ApolloClient({
   uri: Meteor.settings.public.graph.timeline,
   cache: new InMemoryCache(),
@@ -97,14 +99,14 @@ const ProposalQuery = () => {
                 <Choice
                   accountAddress={accountAddress} daoName={daoName} publicAddress={publicAddress}
                   proposalIndex={proposal.proposalIndex} label={TAPi18n.__('yes')} percentage={yesPercentage}
-                  voteValue={1} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodBegins}
+                  voteValue={defaults.YES} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodBegins}
                 >
                   <Token quantity={proposal.yesVotes} symbol="SHARES" />
                 </Choice>
                 <Choice
                   accountAddress={accountAddress} daoName={daoName} publicAddress={publicAddress}
                   proposalIndex={proposal.proposalIndex} label={TAPi18n.__('no')} percentage={noPercentage}
-                  voteValue={2} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodBegins}
+                  voteValue={defaults.NO} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodBegins}
                 >
                   <Token quantity={proposal.noVotes} symbol="SHARES" />
                 </Choice>
