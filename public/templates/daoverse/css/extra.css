@@ -741,14 +741,6 @@ width: 1px;
   background: #ff617e;
 }
 
-
-@media (max-width: 991px) {
-  .countdown { 
-    margin-bottom: 15px;
-  }
-}
-
-
 .help {
   display: inline-block;
   margin-top: 8px;
@@ -810,8 +802,8 @@ width: 1px;
 }
 
 .smart-contract {
-  margin: 15px auto 0;
-  text-align: center;
+  margin: 10px auto 0;
+  display: inline-block;
 }
 
 .margin-top-minus-three {
@@ -1409,7 +1401,7 @@ h4 {
 
 .date-info {
   display: inline-block;
-  margin-top: 10px;
+  margin: 0px 0px 15px;
 }
 
 .sync-animation {

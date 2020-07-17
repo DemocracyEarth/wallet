@@ -13,7 +13,7 @@ import Countdown from '/imports/ui/templates/timeline/countdown/Countdown.jsx';
 import Poll from '/imports/ui/templates/timeline/poll/Poll.jsx';
 import Choice from '/imports/ui/templates/timeline/choice/Choice.jsx';
 import Period from '/imports/ui/templates/timeline/period/Period.jsx';
-
+import Contract from '/imports/ui/templates/timeline/contract/Contract.jsx';
 
 /**
 * @summary quick function to determine if a string is a JSON
@@ -85,12 +85,7 @@ export default class Post extends Component {
       <div id={this.props.id} className="vote vote-search vote-feed nondraggable vote-poll" href={`/dao/${this.props.daoName}/proposal/${this.props.proposalIndex}`}>
         <div className="checkbox checkbox-custom">
           <div className="meta meta-search meta-bar">
-            <Account
-              id={`avatar-${this.props.memberAddress}`}
-              publicAddress={this.props.memberAddress}
-              width="24px"
-              height="24px"
-            />
+            <Account id={`avatar-${this.props.memberAddress}`} publicAddress={this.props.memberAddress} width="24px" height="24px" />
           </div>
           <div className="option-proposal">
             <div className="option-title option-link option-search title-input">
@@ -98,9 +93,14 @@ export default class Post extends Component {
                 <div className="title-header">
                   {typeof this.state.title === 'string' ? parser(this.state.title) : this.state.title}
                 </div>
-                <div className="title-description">
-                  {typeof this.state.description === 'string' ? parser(this.state.description) : this.state.description}
-                </div>
+                {
+                  (this.state.description) ?
+                    <div className="title-description">
+                      {typeof this.state.description === 'string' ? parser(this.state.description) : this.state.description}
+                    </div>
+                    :
+                    null
+                }
                 {
                   (this.state.link) ?
                     <div className="title-description">
@@ -112,8 +112,7 @@ export default class Post extends Component {
               </div>
             </div>
           </div>
-          <Stamp timestamp={this.props.timestamp} />
-          <div className="smart-contract">
+          <Contract>
             <Parameter label={TAPi18n.__('moloch-applicant')}>
               <Account id={`avatar-${this.props.applicantAddress}`} publicAddress={this.props.applicantAddress} width="24px" height="24px" />
             </Parameter>
@@ -123,7 +122,8 @@ export default class Post extends Component {
             <Parameter label={TAPi18n.__('moloch-tribute')}>
               <Token quantity={this.props.tokenTribute.toString()} symbol="WETH" />
             </Parameter>
-          </div>
+          </Contract>
+          <Stamp timestamp={this.props.timestamp} />
           <Countdown votingPeriodBegins={this.props.votingPeriodBegins} votingPeriodEnds={this.props.votingPeriodEnds} gracePeriodEnds={this.props.gracePeriodEnds} totalVoters={this.totalVoters()} />
           <Poll>
             <Choice accountAddress={this.props.accountAddress} daoName={this.props.daoName} publicAddress={this.props.publicAddress} proposalIndex={this.props.proposalIndex} label={TAPi18n.__('yes')} percentage={this.state.yesPercentage} voteValue={1} votingPeriodEnds={this.props.votingPeriodEnds} votingPeriodBegins={this.props.votingPeriodBegins}>
