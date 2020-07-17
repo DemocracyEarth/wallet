@@ -784,7 +784,7 @@ width: 1px;
   margin: 10px 15px 10px 0px;
   color: #5a0075;
   border: 1px solid #f2eff5;
-  min-width: 120px;
+  min-width: 140px;
   background: #f9fafb;
   float: left;
   height: 80px;
@@ -815,7 +815,9 @@ width: 1px;
 }
 
 .parameter-token {
-  padding-top: 14px;
+  padding-top: 13px;
+  margin: 0 auto;
+  display: inline-block;
 }
 
 .parameter-line {
