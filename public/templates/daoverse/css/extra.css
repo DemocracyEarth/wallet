@@ -785,7 +785,7 @@ width: 1px;
   font-size: 11px;
   font-weight: 400;
   color: #5a0075;
-  border: 1px solid #ae8abd26;
+  border: 1px solid #E6E6E3;
   min-width:120px;
   float:left;
   height:72px;
@@ -793,7 +793,6 @@ width: 1px;
 }
 
 .parameter-name {
-  background: #eceef2;
   color: #8d95a9;
   line-height:28px;
   margin: 0px -25px 0px;
@@ -802,7 +801,7 @@ width: 1px;
 }
 
 .smart-contract {
-  margin: 10px auto 0;
+  margin: 5px auto 0;
   display: inline-block;
 }
 
@@ -1400,8 +1399,7 @@ h4 {
 }
 
 .date-info {
-  display: inline-block;
-  margin: 0px 0px 15px;
+  margin: -5px 0px 15px;
 }
 
 .sync-animation {
