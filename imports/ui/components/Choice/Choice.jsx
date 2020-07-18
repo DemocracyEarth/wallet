@@ -7,8 +7,8 @@ import PropTypes from 'prop-types';
 import { displayModal, alert } from '/imports/ui/modules/modal';
 import { defaults } from '/lib/const';
 import { setupWeb3, getWeb3Wallet } from '/imports/startup/both/modules/metamask';
-import { noWallet, alreadyVoted, pollClosed, notLogged, notSynced, notMember, walletError } from '/imports/ui/templates/timeline/choice/messages';
-import { molochABI } from '/imports/ui/templates/timeline/abi';
+import { noWallet, alreadyVoted, pollClosed, notLogged, notSynced, notMember, walletError } from '/imports/ui/components/Choice/messages';
+import { molochABI } from '/imports/ui/modules/abi';
 
 const numeral = require('numeral');
 

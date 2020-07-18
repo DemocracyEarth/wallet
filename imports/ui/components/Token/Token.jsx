@@ -7,7 +7,7 @@ import { useQuery } from '@apollo/react-hooks';
 
 import { BigNumber } from 'bignumber.js';
 import PropTypes from 'prop-types';
-import coinPalette from '/imports/ui/templates/timeline/token/palette.js';
+import coinPalette from '/imports/ui/components/Token/palette.js';
 
 const numeral = require('numeral');
 

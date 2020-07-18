@@ -4,7 +4,7 @@ import parser from 'html-react-parser';
 
 import { wrapURLs } from '/lib/utils';
 
-import Account from '/imports/ui/templates/timeline/account/Account.jsx';
+import Account from '/imports/ui/components/Account/Account.jsx';
 
 /**
 * @summary quick function to determine if a string is a JSON

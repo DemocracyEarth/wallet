@@ -4,16 +4,16 @@ import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, Query } from 'react-apollo';
 import { TAPi18n } from 'meteor/tap:i18n';
 
-import Account from '/imports/ui/templates/timeline/account/Account.jsx';
-import Post from '/imports/ui/templates/timeline/post/Post.jsx';
-import Stamp from '/imports/ui/templates/timeline/stamp/Stamp.jsx';
-import Parameter from '/imports/ui/templates/timeline/parameter/Parameter.jsx';
-import Token from '/imports/ui/templates/timeline/token/Token.jsx';
-import Countdown from '/imports/ui/templates/timeline/countdown/Countdown.jsx';
-import Poll from '/imports/ui/templates/timeline/poll/Poll.jsx';
-import Choice from '/imports/ui/templates/timeline/choice/Choice.jsx';
-import Period from '/imports/ui/templates/timeline/period/Period.jsx';
-import Contract from '/imports/ui/templates/timeline/contract/Contract.jsx';
+import Account from '/imports/ui/components/Account/Account.jsx';
+import Post from '/imports/ui/components/Post/Post.jsx';
+import Stamp from '/imports/ui/components/Stamp/Stamp.jsx';
+import Parameter from '/imports/ui/components/Parameter/Parameter.jsx';
+import Token from '/imports/ui/components/Token/Token.jsx';
+import Countdown from '/imports/ui/components/Countdown/Countdown.jsx';
+import Poll from '/imports/ui/components/Poll/Poll.jsx';
+import Choice from '/imports/ui/components/Choice/Choice.jsx';
+import Period from '/imports/ui/components/Period/Period.jsx';
+import Contract from '/imports/ui/components/Contract/Contract.jsx';
 
 import { defaults } from '/lib/const';
 
