@@ -5,6 +5,7 @@ import parser from 'html-react-parser';
 import { wrapURLs } from '/lib/utils';
 
 import Account from '/imports/ui/components/Account/Account.jsx';
+import DAO from '/imports/ui/components/DAO/DAO.jsx';
 
 /**
 * @summary quick function to determine if a string is a JSON
@@ -54,7 +55,8 @@ export default class Post extends Component {
       <div className="vote vote-search vote-feed nondraggable vote-poll" href={`/dao/${this.props.daoName}/proposal/${this.props.proposalIndex}`}>
         <div className="checkbox checkbox-custom">
           <div className="meta meta-search meta-bar">
-            <Account id={`avatar-${this.props.memberAddress}`} publicAddress={this.props.memberAddress} width="24px" height="24px" />
+            <Account publicAddress={this.props.memberAddress} width="24px" height="24px" />
+            <DAO publicAddress={this.props.daoAddress} width="24px" height="24px" />
           </div>
           <div className="option-proposal">
             <div className="option-title option-link option-search title-input">
@@ -92,6 +94,7 @@ Post.propTypes = {
   description: PropTypes.string,
   proposalIndex: PropTypes.string,
   daoName: PropTypes.string,
+  daoAddress: PropTypes.string,
   memberAddress: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),

@@ -48,6 +48,7 @@ const Feed = (props) => {
           const totalVoters = parseInt(proposal.yesVotes.toNumber() + proposal.noVotes.toNumber(), 10).toString();
           const yesPercentage = _getPercentage(proposal.yesShares.toNumber(), proposal.noShares.toNumber()).toString();
           const noPercentage = _getPercentage(proposal.noShares.toNumber(), proposal.yesShares.toNumber()).toString();
+          const daoAddress = proposal.moloch.id;
 
           let status;
           if (proposal.didPass) {
@@ -55,11 +56,12 @@ const Feed = (props) => {
           } else {
             status = 'FAILED';
           }
-          
+
           return (
             <Post
               key={proposal.id} accountAddress={accountAddress}
               description={proposal.details} memberAddress={proposal.memberAddress}
+              daoAddress={daoAddress}
             >
               <Contract>
                 <Parameter label={TAPi18n.__('moloch-applicant')}>
