@@ -14,6 +14,7 @@ import Poll from '/imports/ui/components/Poll/Poll.jsx';
 import Choice from '/imports/ui/components/Choice/Choice.jsx';
 import Period from '/imports/ui/components/Period/Period.jsx';
 import Contract from '/imports/ui/components/Contract/Contract.jsx';
+import Placeholder from '/imports/ui/components/Timeline/Placeholder.jsx';
 
 import { defaults } from '/lib/const';
 
@@ -60,14 +61,15 @@ const ProposalQuery = () => {
       `}
     >
       {({ loading, error, data }) => {
-        if (loading) return <p>Loading... </p>;
+        if (loading) return <Placeholder />;
         if (error) return <p>Error!</p>;
 
         console.log(data.proposals);
 
-        const accountAddress = Meteor.user().username || null;
+        const accountAddress = Meteor.user() ? Meteor.user().username : null;
         const daoName = 'MolochDAO';
         const publicAddress = '0x1fd169a4f5c59acf79d0fd5d91d1201ef1bce9f1';
+        const timestamp = new Date().getTime();
 
         return data.proposals.map((proposal) => {
           const totalVoters = parseInt(proposal.yesVotes.toNumber() + proposal.noVotes.toNumber(), 10).toString();
@@ -92,11 +94,13 @@ const ProposalQuery = () => {
               </Contract>
               <Stamp timestamp={proposal.timestamp} />
               <Countdown
+                now={timestamp}
                 votingPeriodBegins={proposal.votingPeriodBegins} votingPeriodEnds={proposal.votingPeriodEnds} 
                 gracePeriodEnds={proposal.gracePeriodEnds} totalVoters={totalVoters}
               />
               <Poll>
                 <Choice
+                  now={timestamp}
                   accountAddress={accountAddress} daoName={daoName} publicAddress={publicAddress}
                   proposalIndex={proposal.proposalIndex} label={TAPi18n.__('yes')} percentage={yesPercentage}
                   voteValue={defaults.YES} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodBegins}
@@ -104,6 +108,7 @@ const ProposalQuery = () => {
                   <Token quantity={proposal.yesVotes} symbol="SHARES" />
                 </Choice>
                 <Choice
+                  now={timestamp}
                   accountAddress={accountAddress} daoName={daoName} publicAddress={publicAddress}
                   proposalIndex={proposal.proposalIndex} label={TAPi18n.__('no')} percentage={noPercentage}
                   voteValue={defaults.NO} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodBegins}
@@ -112,6 +117,7 @@ const ProposalQuery = () => {
                 </Choice>
               </Poll>
               <Period
+                now={timestamp}
                 status={proposal.status} votingPeriodBegins={proposal.votingPeriodBegins}
                 votingPeriodEnds={proposal.votingPeriodEnds} gracePeriodEnds={proposal.gracePeriodEnds}
               />

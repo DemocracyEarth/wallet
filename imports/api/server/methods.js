@@ -384,6 +384,13 @@ Meteor.methods({
   },
 
   /**
+  * @summary returns the last timestamp
+  */
+  async getLastTimestamp() {
+    return await getLastTimestamp().then((resolved) => { return resolved; });
+  },
+  
+  /**
   * @summary get block timme
   * @param {object} collective where to persist blocktime
   */

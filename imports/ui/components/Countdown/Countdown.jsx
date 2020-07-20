@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TAPi18n } from 'meteor/tap:i18n';
-import { Session } from 'meteor/session';
 
 import { getTemplateImage } from '/imports/ui/templates/layout/templater.js';
 
@@ -17,7 +16,6 @@ export default class Countdown extends Component {
         vote: '',
         calendar: '',
       },
-      now: _.findWhere(Session.get('blockTimes'), { collectiveId: 'ETH' }).timestamp,
       beginning: new Date(parseInt(this.props.votingPeriodBegins.toNumber() * 1000, 10)).getTime(),
       end: new Date(parseInt(this.props.votingPeriodEnds.toNumber() * 1000, 10)).getTime(),
       graceEnd: new Date(parseInt(this.props.gracePeriodEnds.toNumber() * 1000, 10)).getTime(),
@@ -50,17 +48,17 @@ export default class Countdown extends Component {
   getPollLabel() {
     let delta;
     let label;
-    if (this.state.now > this.state.graceEnd) {
-      delta = parseInt(this.state.now - this.state.end, 10);
+    if (this.props.now > this.state.graceEnd) {
+      delta = parseInt(this.props.now - this.state.end, 10);
       label = 'poll-ended-days-ago';
-    } else if (this.state.now > this.state.end) {
-      delta = parseInt(this.state.graceEnd - this.state.now, 10);
+    } else if (this.props.now > this.state.end) {
+      delta = parseInt(this.state.graceEnd - this.props.now, 10);
       label = 'countdown-grace';
-    } else if (this.state.now > this.state.beginning) {
-      delta = parseInt(this.state.end - this.state.now, 10);
+    } else if (this.props.now > this.state.beginning) {
+      delta = parseInt(this.state.end - this.props.now, 10);
       label = 'countdown-expiration';
     } else {
-      delta = parseInt(this.state.beginning - this.state.now, 10);
+      delta = parseInt(this.state.beginning - this.props.now, 10);
       label = 'countdown-queue';
     }
 
@@ -75,14 +73,14 @@ export default class Countdown extends Component {
     let electionLength;
     let electionNow;
 
-    if (this.state.now > this.state.graceEnd) {
+    if (this.props.now > this.state.graceEnd) {
       return '0%';
-    } else if (this.state.now > this.state.end) {
+    } else if (this.props.now > this.state.end) {
       electionLength = parseInt(this.state.graceEnd - this.state.end, 10);
-      electionNow = parseInt(this.state.now - this.state.end, 10);
-    } else if (this.state.now > this.state.beginning) {
+      electionNow = parseInt(this.props.now - this.state.end, 10);
+    } else if (this.props.now > this.state.beginning) {
       electionLength = parseInt(this.state.end - this.state.beginning, 10);
-      electionNow = parseInt(this.state.now - this.state.beginning, 10);
+      electionNow = parseInt(this.props.now - this.state.beginning, 10);
     } else {
       return '0%';
     }
@@ -92,11 +90,11 @@ export default class Countdown extends Component {
 
   getStyle() {
     let colorClass;
-    if ((this.state.now > this.state.end) && (this.state.now <= this.state.graceEnd)) {
+    if ((this.props.now > this.state.end) && (this.props.now <= this.state.graceEnd)) {
       colorClass = 'countdown-timer-grace';
-    } else if ((this.state.now > this.state.beginning) && (this.state.now <= this.state.end)) {
+    } else if ((this.props.now > this.state.beginning) && (this.props.now <= this.state.end)) {
       colorClass = 'countdown-timer-voting';
-    } else if (this.state.now < this.state.beginning) {
+    } else if (this.props.now < this.state.beginning) {
       colorClass = 'countdown-timer-queue';
     }
     return `countdown-timer ${colorClass}`;
@@ -120,6 +118,7 @@ export default class Countdown extends Component {
 }
 
 Countdown.propTypes = {
+  now: PropTypes.number,
   totalVoters: PropTypes.string,
   votingPeriodBegins: PropTypes.string,
   votingPeriodEnds: PropTypes.string,

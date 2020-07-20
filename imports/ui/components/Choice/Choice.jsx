@@ -1,5 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-import { Session } from 'meteor/session';
 import { TAPi18n } from 'meteor/tap:i18n';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -23,14 +22,6 @@ const modal = {
 * @summary displays the contents of a poll
 */
 export default class Choice extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      now: _.findWhere(Session.get('blockTimes'), { collectiveId: 'ETH' }).timestamp,
-    };
-  }
-
   getlabelClass() {
     if (this.props.percentage.toNumber() < 10) {
       return 'poll-score-percentage poll-score-small';
@@ -46,7 +37,7 @@ export default class Choice extends Component {
   }
 
   pollOpen() {
-    return (this.props.votingPeriodBegins > this.state.now && this.props.votingPeriodEnds < this.state.now);
+    return (this.props.votingPeriodBegins > this.props.now && this.props.votingPeriodEnds < this.props.now);
   }
 
   canVote = async (accountAddress) => {
@@ -93,8 +84,7 @@ export default class Choice extends Component {
 
   vote = async () => {
     // blockchain sync
-    const blockTimes = Session.get('blockTimes');
-    if (!blockTimes || blockTimes.length === 0) {
+    if (!this.props.now || this.props.now === 0) {
       return notSynced();
     }
 
@@ -193,5 +183,6 @@ Choice.propTypes = {
   proposalIndex: PropTypes.string,
   publicAddress: PropTypes.string,
   daoName: PropTypes.string,
+  now: PropTypes.number,
 };
 

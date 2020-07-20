@@ -75,7 +75,9 @@ const _setCollectiveReplicaScore = (collectiveId, height, valueRank) => {
 
     if (!collective.profile.replica || (collective.profile.replica && collective.profile.replica.lastSyncedBlock < lastSyncedBlock)) {
       log(`[oracle] Updating collective ${collective.uri} with replica: ${JSON.stringify(replica)}`);
-      Collectives.update({ _id: collectiveId }, { $set: { 'profile.replica': replica } });
+      if (typeof replica.ranking === 'number' && typeof replica.score === 'number') {
+        Collectives.update({ _id: collectiveId }, { $set: { 'profile.replica': replica } });
+      }
     }
   }
   return replica;
