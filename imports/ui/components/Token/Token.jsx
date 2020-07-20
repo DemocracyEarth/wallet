@@ -75,13 +75,6 @@ const TokenQuery = ({ publicAddress, quantity, symbol, decimals }) => {
   if (!token) {
     token = _.findWhere(coinPalette, { default: true });
   }
-  console.log('--------');
-  console.log(publicAddress);
-  console.log(quantity);
-  console.log(symbol);
-  console.log(token);
-  console.log('decimals:');
-  console.log(decimals);
 
   const color = _getColor(publicAddress || token.publicAddress);
   const finalValue = _getRenderNumber(quantity, token, decimals);

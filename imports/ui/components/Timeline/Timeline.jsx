@@ -55,7 +55,7 @@ const Feed = (props) => {
           } else {
             status = 'FAILED';
           }
-
+          
           return (
             <Post
               key={proposal.id} accountAddress={accountAddress}
@@ -69,7 +69,7 @@ const Feed = (props) => {
                   <Token quantity={proposal.sharesRequested.toString()} symbol="SHARES" />
                 </Parameter>
                 <Parameter label={TAPi18n.__('moloch-tribute')}>
-                  <Token quantity={proposal.tributeToken.toString()} symbol={proposal.tributeTokenSymbol} decimals={proposal.tributeTokenDecimals} />
+                  <Token quantity={proposal.tributeOffered} publicAddress={proposal.tributeToken} symbol={proposal.tributeTokenSymbol} decimals={proposal.tributeTokenDecimals} />
                 </Parameter>
               </Contract>
               <Stamp timestamp={proposal.createdAt} />

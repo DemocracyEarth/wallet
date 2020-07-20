@@ -32,7 +32,7 @@ export const MOLOCH_DAO = gql`
 
 export const MOLOCHS = gql`
 {
-  proposals(first: 20, orderBy:createdAt, orderDirection:desc) {
+  proposals(first: 50, orderBy:createdAt, orderDirection:desc) {
     id
     proposalId
     createdAt
@@ -43,6 +43,7 @@ export const MOLOCHS = gql`
     }
     memberAddress
     applicant
+    tributeOffered
     tributeToken
     tributeTokenSymbol
     tributeTokenDecimals
