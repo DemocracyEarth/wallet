@@ -1,8 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
-import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
+import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, Query } from 'react-apollo';
 import { TAPi18n } from 'meteor/tap:i18n';
+import PropTypes from 'prop-types';
 
 import Account from '/imports/ui/components/Account/Account.jsx';
 import Post from '/imports/ui/components/Post/Post.jsx';
@@ -17,9 +18,10 @@ import Contract from '/imports/ui/components/Contract/Contract.jsx';
 import Placeholder from '/imports/ui/components/Timeline/Placeholder.jsx';
 
 import { defaults } from '/lib/const';
+import { MOLOCHS } from '/imports/ui/components/Timeline/queries';
 
 const client = new ApolloClient({
-  uri: Meteor.settings.public.graph.timeline,
+  uri: Meteor.settings.public.graph.molochs,
   cache: new InMemoryCache(),
 });
 
@@ -27,38 +29,10 @@ const _getPercentage = (percentageAmount, remainder) => {
   return parseFloat((percentageAmount * 100) / (percentageAmount + remainder), 10);
 };
 
-const ProposalQuery = () => {
+const Feed = (props) => {
   return (
     <Query
-      query={gql`
-        {
-          proposals(first: 25) {
-            id
-            timestamp
-            proposalIndex
-            startingPeriod
-            member {
-              id
-            }
-            memberAddress
-            applicant {
-              applicantAddress
-            }
-            tokenTribute
-            sharesRequested
-            yesVotes
-            noVotes
-            yesShares
-            noShares
-            details
-            processed
-            status
-            votingPeriodBegins
-            votingPeriodEnds
-            gracePeriodEnds
-          }
-        }
-      `}
+      query={props.query}
     >
       {({ loading, error, data }) => {
         if (loading) return <Placeholder />;
@@ -68,13 +42,19 @@ const ProposalQuery = () => {
 
         const accountAddress = Meteor.user() ? Meteor.user().username : null;
         const daoName = 'MolochDAO';
-        const publicAddress = '0x1fd169a4f5c59acf79d0fd5d91d1201ef1bce9f1';
         const timestamp = new Date().getTime();
 
         return data.proposals.map((proposal) => {
           const totalVoters = parseInt(proposal.yesVotes.toNumber() + proposal.noVotes.toNumber(), 10).toString();
           const yesPercentage = _getPercentage(proposal.yesShares.toNumber(), proposal.noShares.toNumber()).toString();
           const noPercentage = _getPercentage(proposal.noShares.toNumber(), proposal.yesShares.toNumber()).toString();
+
+          let status;
+          if (proposal.didPass) {
+            status = 'PASSED';
+          } else {
+            status = 'FAILED';
+          }
 
           return (
             <Post
@@ -83,42 +63,42 @@ const ProposalQuery = () => {
             >
               <Contract>
                 <Parameter label={TAPi18n.__('moloch-applicant')}>
-                  <Account publicAddress={proposal.applicant.applicantAddress} width="24px" height="24px" />
+                  <Account publicAddress={proposal.applicant} width="24px" height="24px" />
                 </Parameter>
                 <Parameter label={TAPi18n.__('moloch-request')}>
                   <Token quantity={proposal.sharesRequested.toString()} symbol="SHARES" />
                 </Parameter>
                 <Parameter label={TAPi18n.__('moloch-tribute')}>
-                  <Token quantity={proposal.tokenTribute.toString()} symbol="WETH" />
+                  <Token quantity={proposal.tributeToken.toString()} symbol={proposal.tributeTokenSymbol} decimals={proposal.tributeTokenDecimals} />
                 </Parameter>
               </Contract>
-              <Stamp timestamp={proposal.timestamp} />
+              <Stamp timestamp={proposal.createdAt} />
               <Countdown
                 now={timestamp}
-                votingPeriodBegins={proposal.votingPeriodBegins} votingPeriodEnds={proposal.votingPeriodEnds} 
+                votingPeriodBegins={proposal.votingPeriodStarts} votingPeriodEnds={proposal.votingPeriodEnds} 
                 gracePeriodEnds={proposal.gracePeriodEnds} totalVoters={totalVoters}
               />
               <Poll>
                 <Choice
                   now={timestamp}
-                  accountAddress={accountAddress} daoName={daoName} publicAddress={publicAddress}
+                  accountAddress={accountAddress} daoName={daoName} publicAddress={proposal.moloch.id}
                   proposalIndex={proposal.proposalIndex} label={TAPi18n.__('yes')} percentage={yesPercentage}
-                  voteValue={defaults.YES} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodBegins}
+                  voteValue={defaults.YES} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
                 >
                   <Token quantity={proposal.yesVotes} symbol="SHARES" />
                 </Choice>
                 <Choice
                   now={timestamp}
-                  accountAddress={accountAddress} daoName={daoName} publicAddress={publicAddress}
+                  accountAddress={accountAddress} daoName={daoName} publicAddress={proposal.moloch.id}
                   proposalIndex={proposal.proposalIndex} label={TAPi18n.__('no')} percentage={noPercentage}
-                  voteValue={defaults.NO} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodBegins}
+                  voteValue={defaults.NO} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
                 >
                   <Token quantity={proposal.noVotes} symbol="SHARES" />
                 </Choice>
               </Poll>
               <Period
                 now={timestamp}
-                status={proposal.status} votingPeriodBegins={proposal.votingPeriodBegins}
+                status={status} votingPeriodBegins={proposal.votingPeriodStarts}
                 votingPeriodEnds={proposal.votingPeriodEnds} gracePeriodEnds={proposal.gracePeriodEnds}
               />
             </Post>
@@ -129,10 +109,14 @@ const ProposalQuery = () => {
   );
 };
 
+Feed.propTypes = {
+  query: PropTypes.instanceOf(Object),
+};
+
 const Timeline = () => {
   return (
     <ApolloProvider client={client}>
-      <ProposalQuery />
+      <Feed query={MOLOCHS} />
     </ApolloProvider>
   );
 };

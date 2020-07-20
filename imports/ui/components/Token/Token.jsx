@@ -44,10 +44,15 @@ const _getColor = (publicAddress) => {
 * @summary generates a readable number
 * @param {string} value with quantity to format
 * @param {object} token with settings from graph
+* @param {number} decimals with after comma numerals
 * @return {string} formatted number
 */
-const _getRenderNumber = (value, token) => {
-  return numeral(new BigNumber(value).dividedBy(Math.pow(10, token.decimals)).toNumber()).format(token.format);
+const _getRenderNumber = (value, token, decimals) => {
+  let zeroes = decimals;
+  if (!decimals) {
+    zeroes = 0;
+  }
+  return numeral(new BigNumber(value).dividedBy(Math.pow(10, zeroes.toNumber())).toNumber()).format(token.format);
 };
 
 /**
@@ -55,21 +60,31 @@ const _getRenderNumber = (value, token) => {
 * @param {string} publicAddress of the token contract
 * @param {string} quantity with a big number
 * @param {string} symbol with a ticker
+* @param {string} decimal numbers this token takes
 */
-const TokenQuery = ({ publicAddress, quantity, symbol }) => {
+const TokenQuery = ({ publicAddress, quantity, symbol, decimals }) => {
   const { loading, error, data } = useQuery(GET_TOKEN);
 
   if (loading) return null;
   if (error) return `Error! ${error}`;
 
-  let token = _.findWhere(data.tokens, { address: publicAddress });
-
+  let token = _.findWhere(data.tokens, { symbol });
   if (!token) {
     token = _.findWhere(coinPalette, { symbol });
   }
+  if (!token) {
+    token = _.findWhere(coinPalette, { default: true });
+  }
+  console.log('--------');
+  console.log(publicAddress);
+  console.log(quantity);
+  console.log(symbol);
+  console.log(token);
+  console.log('decimals:');
+  console.log(decimals);
 
   const color = _getColor(publicAddress || token.publicAddress);
-  const finalValue = _getRenderNumber(quantity, token);
+  const finalValue = _getRenderNumber(quantity, token, decimals);
   const borderColor = color;
 
 
@@ -91,6 +106,7 @@ TokenQuery.propTypes = {
   quantity: PropTypes.string,
   publicAddress: PropTypes.string,
   symbol: PropTypes.string,
+  decimals: PropTypes.string,
 };
 
 /**
@@ -99,7 +115,7 @@ TokenQuery.propTypes = {
 const Token = (props) => {
   return (
     <ApolloProvider client={client}>
-      <TokenQuery publicAddress={props.publicAddress} quantity={props.quantity} symbol={props.symbol} />
+      <TokenQuery publicAddress={props.publicAddress} quantity={props.quantity} symbol={props.symbol} decimals={props.decimals} />
     </ApolloProvider>
   );
 };

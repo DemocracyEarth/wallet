@@ -22,6 +22,7 @@ const coinPalette = [
     format: '0,0.0000a',
     color: '#ff5373',
     publicAddress: '0x0',
+    default: true,
   },
   {
     symbol: 'MANA',
