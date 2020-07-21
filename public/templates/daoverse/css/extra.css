@@ -846,14 +846,25 @@ width: 1px;
 }
 
 .symbol.profile-pic {
-    width: 60px;
-    height: 60px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    float: left;
-    border: 1px solid #e8e2ef;
-    border-radius: 3px;
-    background-color: #e8e2ef;
+  width: 60px;
+  height: 60px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  float: left;
+  border: 1px solid #e8e2ef;
+  border-radius: 3px;
+  background-color: #e8e2ef;
+}
+
+.symbol.dao-pic {
+  width: 60px;
+  height: 60px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  float: left;
+  border: 1px solid #e8e2ef;
+  border-radius: 50px;
+  background-color: #e8e2ef;
 }
 
 h4 {
@@ -1398,6 +1409,10 @@ h4 {
 }
 .replica-semaphore-unknown {
   background-color: none;
+}
+
+.dao {
+  float:right;
 }
 
 .date-info {

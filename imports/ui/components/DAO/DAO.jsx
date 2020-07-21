@@ -1,44 +1,85 @@
-import React, { Component } from 'react';
+import { Meteor } from 'meteor/meteor';
+import React from 'react';
 import PropTypes from 'prop-types';
 
+import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
+import { ApolloProvider } from 'react-apollo';
+import { useQuery } from '@apollo/react-hooks';
+
 import { shortenCryptoName } from '/imports/startup/both/modules/metamask';
+
+
+const client = new ApolloClient({
+  uri: Meteor.settings.public.graph.molochs,
+  cache: new InMemoryCache(),
+});
+
+export const GET_DAO = `
+{
+  moloches(first: 1000) {
+    id
+    title
+    version
+  }
+}
+`;
 
 const makeBlockie = require('ethereum-blockies-base64');
 
 /**
 * @summary renders a post in the timeline
 */
-export default class DAO extends Component {
-  constructor(props) {
-    super(props);
+const DAOQuery = ({ publicAddress, width, height }) => {
+  const { loading, error, data } = useQuery(gql(GET_DAO.replace('{{molochAddress}}', publicAddress)));
 
-    this.state = {
-      image: makeBlockie(props.publicAddress),
-      url: `/address/${props.publicAddress}`,
-      label: shortenCryptoName(props.publicAddress),
-      width: props.width ? props.width : '24px',
-      height: props.height ? props.height : '24px',
-    };
+  if (loading) return null;
+  if (error) return `Error! ${error}`;
+
+  const image = makeBlockie(publicAddress);
+  const url = `/dao/${publicAddress}`;
+
+  const daoTitle = _.findWhere(data.moloches, { id: publicAddress }).title;
+  let label;
+  if (!daoTitle) {
+    label = shortenCryptoName(publicAddress);
+  } else {
+    label = daoTitle;
   }
+  const finalWidth = width || '24px';
+  const finalHeight = height || '24px';
 
-  render() {
-    return (
-      <div className="identity">
-        <div className="avatar-editor">
-          <img src={this.state.image} className="symbol profile-pic" role="presentation" style={{ width: this.state.width, height: this.state.height }} />
-          <div className="identity-peer">
-            <a href={this.state.url} title={this.props.publicAddress} className="identity-label identity-label-micro">
-              {this.state.label}
-            </a>
-          </div>
+  return (
+    <div className="dao">
+      <div className="avatar-editor">
+        <img src={image} className="symbol dao-pic" role="presentation" style={{ width: finalWidth, height: finalHeight }} />
+        <div className="identity-peer">
+          <a href={url} title={publicAddress} className="identity-label identity-label-micro">
+            {label}
+          </a>
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
-DAO.propTypes = {
+DAOQuery.propTypes = {
   publicAddress: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,
 };
+
+
+/**
+* @summary renders a post in the timeline
+*/
+const DAO = (props) => {
+  return (
+    <ApolloProvider client={client}>
+      <DAOQuery publicAddress={props.publicAddress} width={props.width} height={props.height} />
+    </ApolloProvider>
+  );
+};
+
+DAO.propTypes = DAOQuery.propTypes;
+
+export default DAO;

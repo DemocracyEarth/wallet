@@ -2366,10 +2366,9 @@ blockquote {
 }
 
 .identity-label.identity-label-micro {
-  font-size: 11px;
-  line-height: 11px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  font-size: 0.7em;
+  line-height: 1em;
+  letter-spacing: 0em;
 }
 
 .identity-label.identity-label-micro.identity-label-post {

@@ -949,7 +949,7 @@ if (Meteor.isServer) {
 */
 const _shortenCryptoName = (publicAddress) => {
   if (publicAddress.length === 42 && publicAddress.slice(0, 2) === '0x') {
-    return `${publicAddress.slice(2, 6)}...${publicAddress.slice(38, 42)}`.toLowerCase();
+    return `${publicAddress.slice(2, 6)}...${publicAddress.slice(38, 42)}`.toUpperCase();
   }
   return publicAddress;
 };
