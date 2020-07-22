@@ -16,6 +16,7 @@ import Choice from '/imports/ui/components/Choice/Choice.jsx';
 import Period from '/imports/ui/components/Period/Period.jsx';
 import Contract from '/imports/ui/components/Contract/Contract.jsx';
 import Placeholder from '/imports/ui/components/Timeline/Placeholder.jsx';
+import Survey from '/imports/ui/components/Poll/Survey';
 
 import { defaults } from '/lib/const';
 import { MOLOCHS } from '/imports/ui/components/Timeline/queries';
@@ -49,13 +50,8 @@ const Feed = (props) => {
           const yesPercentage = _getPercentage(proposal.yesShares.toNumber(), proposal.noShares.toNumber()).toString();
           const noPercentage = _getPercentage(proposal.noShares.toNumber(), proposal.yesShares.toNumber()).toString();
           const daoAddress = proposal.moloch.id;
-
-          let status;
-          if (proposal.didPass) {
-            status = 'PASSED';
-          } else {
-            status = 'FAILED';
-          }
+          const status = (proposal.didPass) ? 'PASSED' : 'FAILED';
+          const isPoll = (proposal.startingPeriod !== '0') ? true : false;
 
           return (
             <Post
@@ -75,34 +71,40 @@ const Feed = (props) => {
                 </Parameter>
               </Contract>
               <Stamp timestamp={proposal.createdAt} />
-              <Countdown
-                now={timestamp}
-                votingPeriodBegins={proposal.votingPeriodStarts} votingPeriodEnds={proposal.votingPeriodEnds} 
-                gracePeriodEnds={proposal.gracePeriodEnds} totalVoters={totalVoters}
-              />
-              <Poll>
-                <Choice
-                  now={timestamp}
-                  accountAddress={accountAddress} daoName={daoName} publicAddress={proposal.moloch.id}
-                  proposalIndex={proposal.proposalIndex} label={TAPi18n.__('yes')} percentage={yesPercentage}
-                  voteValue={defaults.YES} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
-                >
-                  <Token quantity={proposal.yesVotes} symbol="SHARES" />
-                </Choice>
-                <Choice
-                  now={timestamp}
-                  accountAddress={accountAddress} daoName={daoName} publicAddress={proposal.moloch.id}
-                  proposalIndex={proposal.proposalIndex} label={TAPi18n.__('no')} percentage={noPercentage}
-                  voteValue={defaults.NO} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
-                >
-                  <Token quantity={proposal.noVotes} symbol="SHARES" />
-                </Choice>
-              </Poll>
-              <Period
-                now={timestamp}
-                status={status} votingPeriodBegins={proposal.votingPeriodStarts}
-                votingPeriodEnds={proposal.votingPeriodEnds} gracePeriodEnds={proposal.gracePeriodEnds}
-              />
+              {(isPoll) ?
+                <Poll>
+                  <Countdown
+                    now={timestamp}
+                    votingPeriodBegins={proposal.votingPeriodStarts} votingPeriodEnds={proposal.votingPeriodEnds} 
+                    gracePeriodEnds={proposal.gracePeriodEnds} totalVoters={totalVoters}
+                  />
+                  <Survey>
+                    <Choice
+                      now={timestamp}
+                      accountAddress={accountAddress} daoName={daoName} publicAddress={proposal.moloch.id}
+                      proposalIndex={proposal.proposalIndex} label={TAPi18n.__('yes')} percentage={yesPercentage}
+                      voteValue={defaults.YES} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
+                    >
+                      <Token quantity={proposal.yesVotes} symbol="SHARES" />
+                    </Choice>
+                    <Choice
+                      now={timestamp}
+                      accountAddress={accountAddress} daoName={daoName} publicAddress={proposal.moloch.id}
+                      proposalIndex={proposal.proposalIndex} label={TAPi18n.__('no')} percentage={noPercentage}
+                      voteValue={defaults.NO} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
+                    >
+                      <Token quantity={proposal.noVotes} symbol="SHARES" />
+                    </Choice>
+                  </Survey>
+                  <Period
+                    now={timestamp}
+                    status={status} votingPeriodBegins={proposal.votingPeriodStarts}
+                    votingPeriodEnds={proposal.votingPeriodEnds} gracePeriodEnds={proposal.gracePeriodEnds}
+                  />
+                </Poll>
+              :
+                null
+            }
             </Post>
           );
         });

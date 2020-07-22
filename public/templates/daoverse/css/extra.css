@@ -374,8 +374,7 @@ body, h4, h1, h2 {
 
 .poll-choice {
   padding: 5px;
-  float: left;
-  /* display: inline-block; */
+  display: inline-block;
   width: 50%;
 }
 
@@ -562,6 +561,11 @@ width: 1px;
   text-align: right;
   text-transform: uppercase;
 }
+
+.token-ticker:hover {
+  text-decoration:underline;
+}
+
 
 .checkbox-mini.checkbox-mini-remove {
     background-color: #ff617e;
@@ -1454,6 +1458,12 @@ h4 {
   font-size: 0.8em;
   line-height: 1.6em;
   color: #5d5d5d;
+}
+
+.poll-survey {
+  display: block;
+  margin: 5px -5px -5px;
+  padding: 0px;
 }
 
 .poll-score-bar.poll-sync {

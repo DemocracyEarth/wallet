@@ -38,7 +38,6 @@ const ENS_ACCOUNT = `
 * @param {string} publicAddress to parse
 */
 const getENSName = (data, publicAddress) => {
-  console.log(data.domains);
   if (data.domains.length > 0) {
     return data.domains[0].name;
   }
