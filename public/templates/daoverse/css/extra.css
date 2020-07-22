@@ -1,3 +1,7 @@
+:root {
+  --main-link-color: #7d6186;
+}
+
 .off-screen {
   opacity:0;
 }
@@ -543,13 +547,14 @@ width: 1px;
   line-height: 11px;
   font-weight: 400;
   text-align: center;
+  color: var(--main-link-color);
 }
 
 .token-balance {
   min-width: 20px;
   padding: 3px 5px;
   float: left;
-  color: #9696c1;
+  color: var(--main-link-color);
   font-size: 1em;
   border-left: 0px;
   line-height: 11px;
@@ -613,7 +618,7 @@ width: 1px;
 
 .election-rule {
     background: transparent;
-    color: #48587d;
+    color: var(--main-link-color);
     font-size: 0.7em;
     display: inline-block;
     padding: 0px;
@@ -872,7 +877,7 @@ h4 {
   margin-bottom: 20px;
   padding-right: 15px;
   padding-left: 15px;
-  color: #48587d;
+  color: var(--main-link-color);
   font-size: 15px;
   line-height: 28px;
   font-weight: 100;
@@ -1053,7 +1058,7 @@ h4 {
 }
 
 .qr-code-address:hover {
-  border-color: #48587d;
+  border-color: var(--main-link-color);
 }
 
 .icon-up2 {

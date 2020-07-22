@@ -1,3 +1,7 @@
+:root {
+  --main-link-color: #7d6186;
+}
+
 body {
   padding-right: 0px;
   padding-left: 0px;
@@ -2320,7 +2324,7 @@ blockquote {
 
 .identity-label {
   display: inline-block;
-  color: #48587d;
+  color: var(--main-link-color);
   font-size: 16px;
   line-height: 22px;
   text-decoration: none;
@@ -2366,9 +2370,16 @@ blockquote {
 }
 
 .identity-label.identity-label-micro {
-  font-size: 0.7em;
+  font-size: 0.75em;
   line-height: 1em;
   letter-spacing: 0em;
+  font-weight: 300;
+}
+
+@media (max-width: 479px) {
+  .identity-label.identity-label-micro {
+    font-size: 0.85em;
+  }
 }
 
 .identity-label.identity-label-micro.identity-label-post {
@@ -5853,7 +5864,7 @@ blockquote {
   float: right;
   border-radius: 3px;
   /* background-color: #f9f9ff; */
-  color: #48587d;
+  color: var(--main-link-color);
   font-size: 10px;
   line-height: 18px;
   font-weight: 400;
@@ -6650,9 +6661,9 @@ blockquote {
   padding-right: 5px;
   padding-left: 5px;
   float: right;
-  border: 1px solid #48587d;
+  border: 1px solid var(--main-link-color);
   border-radius: 100px;
-  background-color: #48587d;
+  background-color: var(--main-link-color);
   color: #fff;
   font-size: 10px;
   line-height: 15px;

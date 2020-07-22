@@ -58,7 +58,7 @@ const AccountQuery = ({ publicAddress, width, height }) => {
 
     label = getENSName(data, publicAddress);
   } else {
-    label = TAPi18n.__('moloch-unsponsored');
+    label = '0x0';
   }
 
   const image = makeBlockie(publicAddress);

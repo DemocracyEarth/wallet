@@ -76,17 +76,14 @@ const TokenQuery = ({ publicAddress, quantity, symbol, decimals }) => {
     token = _.findWhere(coinPalette, { default: true });
   }
 
-  const color = _getColor(publicAddress || token.publicAddress);
   const finalValue = _getRenderNumber(quantity, token, decimals);
-  const borderColor = color;
-
 
   return (
     <div className="token">
-      <div className="token-ticker" style={{ color, borderColor }}>
+      <div className="token-ticker">
         {token.symbol}
       </div>
-      <div className="token-balance" style={{ color, borderColor }}>
+      <div className="token-balance">
         <div className="token-score">
           {finalValue}
         </div>
