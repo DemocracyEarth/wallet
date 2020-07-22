@@ -21,33 +21,38 @@ const _isJSON = (str) => {
 };
 
 /**
+* @summary given the json content of a proposal return the description text
+* @param {string} description with probable json information
+* @return {string} content
+*/
+const _getDescription = (description) => {
+  // content formatting
+  let content;
+  if (_isJSON(description)) {
+    const json = JSON.parse(description);
+
+    content = {
+      title: json.title ? json.title : json,
+      description: json.description ? wrapURLs(json.description) : '',
+      link: (typeof json.link === 'function' || !json.link) ? '' : json.link,
+    };
+  } else {
+    content = {
+      title: wrapURLs(description),
+      description: null,
+      link: null,
+    };
+  }
+  return content;
+};
+
+/**
 * @summary renders a post in the timeline
 */
 export default class Post extends Component {
   constructor(props) {
     super(props);
-    this.state = this.getDescription();
-  }
-
-  getDescription() {
-    // content formatting
-    let content;
-    if (_isJSON(this.props.description)) {
-      const json = JSON.parse(this.props.description);
-
-      content = {
-        title: json.title ? json.title : json,
-        description: json.description ? wrapURLs(json.description) : '',
-        link: (typeof json.link === 'function' || !json.link) ? '' : json.link,
-      };
-    } else {
-      content = {
-        title: wrapURLs(this.props.description),
-        description: null,
-        link: null,
-      };
-    }
-    return content;
+    this.state = _getDescription(this.props.description);
   }
 
   render() {
@@ -101,3 +106,5 @@ Post.propTypes = {
     PropTypes.node,
   ]),
 };
+
+export const getDescription = _getDescription;

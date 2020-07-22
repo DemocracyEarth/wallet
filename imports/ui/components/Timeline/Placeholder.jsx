@@ -8,24 +8,23 @@ const Placeholder = () => {
   return (
     <div id="feedItem-placeholder" className="vote vote-search vote-feed nondraggable">
       <div className="checkbox checkbox-custom">
-        <div className="meta meta-search">
-          <div className="w-list-unstyled w-clearfix identity-list identity-feed-item extra">
-            <div className="w-clearfix identity">
-              <div className="w-clearfix avatar-editor">
-                <div className="symbol profile-pic profile-pic-placeholder" />
-                <div className="identity-peer">
-                  <div className="option-placeholder identity-placeholder" />
-                </div>
+        <div className="meta meta-search meta-bar">
+          <div className="identity">
+            <div className="avatar-editor">
+              <div className="identity-peer">
+                <div className="option-placeholder identity-placeholder" />
               </div>
             </div>
-            <div className="data data-feed">
-              <div className="verifier verifier-live verifier-feed">
-                <div className="option-placeholder short" />
+          </div>
+          <div className="dao">
+            <div className="avatar-editor">
+              <div className="identity-peer">
+                <div className="option-placeholder identity-placeholder" />
               </div>
             </div>
           </div>
         </div>
-        <div className="w-inline-block w-clearfix option-proposal">
+        <div className="option-proposal">
           <div className="option-title option-link option-search title-input">
             <div className="title-input title-feed">
               <div className="option-placeholder" />

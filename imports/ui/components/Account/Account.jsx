@@ -49,21 +49,33 @@ const getENSName = (data, publicAddress) => {
 */
 const AccountQuery = ({ publicAddress, width, height }) => {
   let label;
+
+  const image = makeBlockie(publicAddress);
+  const url = `/address/${publicAddress}`;
+  const finalWidth = width || '24px';
+  const finalHeight = height || '24px';
+
   if (publicAddress !== '0x0000000000000000000000000000000000000000') {
     const { loading, error, data } = useQuery(gql(ENS_ACCOUNT.replace('{{ensAddress}}', publicAddress)));
-
-    if (loading) return null;
+    
+    if (loading) {
+      return (
+        <div className="identity">
+          <div className="avatar-editor">
+            <img src={image} className="symbol profile-pic" role="presentation" style={{ width: finalWidth, height: finalHeight }} />
+            <div className="identity-peer">
+              <div className="option-placeholder identity-placeholder" />
+            </div>
+          </div>
+        </div>
+      );
+    }
     if (error) return `Error! ${error}`;
 
     label = getENSName(data, publicAddress);
   } else {
     label = '0x0';
   }
-
-  const image = makeBlockie(publicAddress);
-  const url = `/address/${publicAddress}`;
-  const finalWidth = width || '24px';
-  const finalHeight = height || '24px';
 
   return (
     <div className="identity">

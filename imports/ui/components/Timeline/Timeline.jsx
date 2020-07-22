@@ -17,6 +17,7 @@ import Period from '/imports/ui/components/Period/Period.jsx';
 import Contract from '/imports/ui/components/Contract/Contract.jsx';
 import Placeholder from '/imports/ui/components/Timeline/Placeholder.jsx';
 import Survey from '/imports/ui/components/Poll/Survey';
+import Social from '/imports/ui/components/Social/Social';
 
 import { defaults } from '/lib/const';
 import { MOLOCHS } from '/imports/ui/components/Timeline/queries';
@@ -51,7 +52,8 @@ const Feed = (props) => {
           const noPercentage = _getPercentage(proposal.noShares.toNumber(), proposal.yesShares.toNumber()).toString();
           const daoAddress = proposal.moloch.id;
           const status = (proposal.didPass) ? 'PASSED' : 'FAILED';
-          const isPoll = (proposal.startingPeriod !== '0') ? true : false;
+          const isPoll = (proposal.startingPeriod !== '0');
+          const url = `/proposal/${proposal.id}`;
 
           return (
             <Post
@@ -70,7 +72,6 @@ const Feed = (props) => {
                   <Token quantity={proposal.tributeOffered} publicAddress={proposal.tributeToken} symbol={proposal.tributeTokenSymbol} decimals={proposal.tributeTokenDecimals} />
                 </Parameter>
               </Contract>
-              <Stamp timestamp={proposal.createdAt} />
               {(isPoll) ?
                 <Poll>
                   <Countdown
@@ -104,7 +105,10 @@ const Feed = (props) => {
                 </Poll>
               :
                 null
-            }
+              }
+              <Social url={url} description={proposal.details}>
+                <Stamp timestamp={proposal.createdAt} />
+              </Social>
             </Post>
           );
         });

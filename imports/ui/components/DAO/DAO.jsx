@@ -32,11 +32,24 @@ const makeBlockie = require('ethereum-blockies-base64');
 const DAOQuery = ({ publicAddress, width, height }) => {
   const { loading, error, data } = useQuery(gql(GET_DAO.replace('{{molochAddress}}', publicAddress)));
 
-  if (loading) return null;
-  if (error) return `Error! ${error}`;
-
   const image = makeBlockie(publicAddress);
   const url = `/dao/${publicAddress}`;
+  const finalWidth = width || '24px';
+  const finalHeight = height || '24px';
+
+  if (loading) {
+    return (
+      <div className="dao">
+        <div className="avatar-editor">
+          <img src={image} className="symbol dao-pic" role="presentation" style={{ width: finalWidth, height: finalHeight }} />
+          <div className="identity-peer">
+            <div className="option-placeholder identity-placeholder" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+  if (error) return `Error! ${error}`;
 
   const daoTitle = _.findWhere(data.moloches, { id: publicAddress }).title;
   let label;
@@ -45,8 +58,6 @@ const DAOQuery = ({ publicAddress, width, height }) => {
   } else {
     label = daoTitle;
   }
-  const finalWidth = width || '24px';
-  const finalHeight = height || '24px';
 
   return (
     <div className="dao">

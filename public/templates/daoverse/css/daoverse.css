@@ -1,5 +1,6 @@
 :root {
   --main-link-color: #7d6186;
+  --main-menu-color: #580074;
 }
 
 body {
@@ -2426,7 +2427,7 @@ blockquote {
 }
 
 .verifier {
-  margin-top: 5px;
+  margin: 5px 0px;
   padding-left: 0px;
   clear: both;
   color: #7d849f;
@@ -2964,8 +2965,7 @@ blockquote {
 }
 
 .identity-peer {
-  margin-top: 6px;
-  margin-left: 6px;
+  margin: 7px 0px 0px 7px;
   float: left;
 }
 
@@ -3833,7 +3833,7 @@ blockquote {
 
 .title-input.title-feed {
   border-style: none;
-  margin: 0px;
+  margin: 10px 0px;
 }
 
 .title-input.title-feed:hover {
@@ -4686,7 +4686,7 @@ blockquote {
   display: inline-block;
   overflow: hidden;
   margin: 10px auto;
-  padding: 0px 10px 0px 5px;
+  padding: 0px 10px 0px 0px;
   border-radius: 5px;
   color: #7d849f;
   font-size: 12px;
@@ -4696,7 +4696,7 @@ blockquote {
 }
 
 .micro-button:hover {
-  color: #ff617e;
+  color: var(--main-menu-color);
 }
 
 .micro-button:active {
@@ -4746,7 +4746,7 @@ blockquote {
 
 .micro-button.micro-button-feed {
   display: block;
-  margin: 5px 0px 0px 10px;
+  margin: 0px;
   float: left;
 }
 
@@ -4772,6 +4772,10 @@ blockquote {
 
 .micro-label {
   margin-top:7px;
+}
+
+.micro-label-button {
+  display:inline-block;
 }
 
 .micro {
@@ -5976,7 +5980,8 @@ blockquote {
 .option-placeholder.identity-placeholder {
   height: 15px;
   margin-top: 8px;
-  background-color: #f2f2f5;
+  opacity:0.5;
+  background-color: var(--main-link-color);
 }
 
 .option-placeholder.short {

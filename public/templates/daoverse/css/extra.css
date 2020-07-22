@@ -1,7 +1,3 @@
-:root {
-  --main-link-color: #7d6186;
-}
-
 .off-screen {
   opacity:0;
 }
@@ -369,7 +365,6 @@ body, h4, h1, h2 {
 .poll {
   display: inline-block;
   width: 100%;
-  margin-top:5px;
 }
 
 .poll-choice {
@@ -458,6 +453,10 @@ body, h4, h1, h2 {
   margin: 1px -3px;
   padding: 0px;
   height: 25px;
+}
+
+.post-footer {
+  margin: 0px -5px;
 }
 
 .login-label-subtitle {
@@ -810,7 +809,6 @@ width: 1px;
 }
 
 .smart-contract {
-  margin: 5px 0px;
   display: inline-block;
 }
 
@@ -1425,8 +1423,8 @@ h4 {
 }
 
 .date-info {
-  margin: -15px 2px 5px;
   display: block;
+  float: right;
 }
 
 .sync-animation {
