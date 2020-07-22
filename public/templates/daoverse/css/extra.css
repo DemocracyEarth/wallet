@@ -450,7 +450,7 @@ body, h4, h1, h2 {
 }
 
 .section-poll {
-  margin:0 -5px;
+  margin:0px;
 }
 
 .micro-button.micro-button-feed.no-underline.micro-button-poll {
@@ -810,7 +810,7 @@ width: 1px;
 }
 
 .smart-contract {
-  margin: 5px auto 0;
+  margin: 5px 0px;
   display: inline-block;
 }
 
@@ -1425,7 +1425,8 @@ h4 {
 }
 
 .date-info {
-  margin: -5px 0px 15px;
+  margin: -15px 0px 10px;
+  display: block;
 }
 
 .sync-animation {
