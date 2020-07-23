@@ -19,7 +19,7 @@ const client = new ApolloClient({
 
 const GET_VOTES = gql`
   {
-    votes(first: 10, orderBy:createdAt, orderDirection:desc) {
+    votes(first: 7, orderBy:createdAt, orderDirection:desc) {
       id
       createdAt
       uintVote
@@ -64,13 +64,12 @@ const EventQuery = (props) => {
   if (error) return `Error! ${error}`;
 
   return data.votes.map((vote) => {
-
     return (
-      <div className="ledger">
+      <div id="non-editable-feed" className="ledger">
         <Vote value={vote.uintVote}>
           <Account publicAddress={vote.memberAddress} width="24px" height="24px" />
           <DAO publicAddress={vote.molochAddress} width="24px" height="24px" />
-          <Stamp timestamp={vote.createdAt} />
+          <Stamp timestamp={vote.createdAt} format="COMPRESSED" />
           <Token quantity={vote.member.shares} symbol="SHARES" />
           {/* <Preview></Preview> */}
         </Vote>

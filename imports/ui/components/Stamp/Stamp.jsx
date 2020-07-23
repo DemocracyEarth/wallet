@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import parser from 'html-react-parser';
 
 import { createDateQuery } from '/imports/ui/templates/widgets/transaction/transaction';
-import { timeComplete } from '/imports/ui/modules/chronos';
+import { timeComplete, timeCompressed } from '/imports/ui/modules/chronos';
 
 const _dateURL = (timestamp) => {
   const from = new Date(parseInt(timestamp.toNumber() * 1000, 10));
@@ -20,12 +20,21 @@ export default class Stamp extends Component {
   constructor(props) {
     super(props);
 
-    const date = new Date(parseInt(this.props.timestamp.toNumber() * 1000, 10));
-
     this.state = {
       url: _dateURL(this.props.timestamp),
-      label: timeComplete(date),
+      label: this.getFormattedLabel(this.props.format),
     };
+  }
+
+  getFormattedLabel(format) {
+    const date = new Date(parseInt(this.props.timestamp.toNumber() * 1000, 10));
+    console.log(format);
+    switch (format) {
+      case 'COMPRESSED':
+        return timeCompressed(date);
+      default:
+    }
+    return timeComplete(date);
   }
 
   render() {
@@ -41,4 +50,5 @@ export default class Stamp extends Component {
 
 Stamp.propTypes = {
   timestamp: PropTypes.string,
+  format: PropTypes.string,
 };

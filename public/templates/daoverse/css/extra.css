@@ -542,7 +542,6 @@ width: 1px;
   padding: 3px 3px 3px 5px;
   float: left;
   font-size: 0.65em;
-  line-height: 11px;
   font-weight: 400;
   text-align: center;
   color: var(--main-link-color);
@@ -555,7 +554,6 @@ width: 1px;
   color: var(--main-link-color);
   font-size: 1em;
   border-left: 0px;
-  line-height: 11px;
   font-weight: 300;
   text-align: right;
   text-transform: uppercase;
@@ -823,7 +821,7 @@ width: 1px;
 }
 
 .parameter-token {
-  padding-top: 13px;
+  padding-top:5px;
   margin: 0 auto;
   display: inline-block;
 }

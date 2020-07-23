@@ -13,11 +13,12 @@ import DAO from '/imports/ui/components/DAO/DAO.jsx';
 export default class Vote extends Component {
   constructor(props) {
     super(props);
+    console.log(this.props.children);
   }
 
   render() {
     return (
-      <div className="vote vote-search vote-feed vote-delegation">
+      <div className="event-vote">
         {this.props.children}
       </div>
     );

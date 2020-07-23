@@ -3,6 +3,8 @@
   --main-menu-color: #580074;
   --main-placeholder-color:  #f2f2f5;
   --animation-preloader: preloader-content 1s ease infinite;
+  --background-color: #58007405;
+  --proposal-bar-color: #f7f3f9;
 }
 
 @-webkit-keyframes preloader-content {
@@ -24,7 +26,7 @@
 body {
   padding-right: 0px;
   padding-left: 0px;
-  background-color: #ecedf1;
+  background-color: var(--background-color);
   background-image: none;
   font-family: 'Open Sans', sans-serif;
   color: rgba(0, 0, 0, .87);
@@ -1437,23 +1439,34 @@ blockquote {
   box-shadow: none;
 }
 
-.vote.vote-search.vote-feed.vote-delegation {
+.event-vote {
   overflow: hidden;
-  margin-right: 10px;
-  margin-bottom: 2px;
   padding: 5px 10px;
-  float: left;
+  margin-bottom: 5px;
   clear: both;
-  border-style: none none solid;
-  border-bottom-width: 1px;
-  border-bottom-color: rgb(238, 240, 243);
-  box-shadow: black;
+  border: 1px solid #7d849f33;
   border-radius: 5px;
   background-color: #f9fafb;
-  background-image: none;
-  box-shadow: none;
+  /* box-shadow: 0px 1px 1px 0px #7d849f26; */
+  width: 100%;
+  cursor: default;
+}
+
+.event-vote:hover {
+  cursor: pointer;
+  background-color: #fdfeff;
+}
+
+.vote.vote-search.vote-feed.vote-delegation {
+  overflow: hidden;
+  padding: 5px;
+  clear: both;
+  border-style: none;
+  box-shadow: black;
+  border-radius: 0px;
+  background-color: transparent;
+  box-shadow: 0px 4px 2px 0px #4444441c;
   -webkit-transition-property: none;
-  transition-property: none;
   cursor: default;
 }
 
@@ -3586,7 +3599,7 @@ blockquote {
 }
 
 .meta.meta-search.meta-bar {
-  background:#f8f6f9;
+  background:var(--proposal-bar-color);
   padding:10px;
   margin-bottom:10px;
   border-bottom:1px solid #f1eef3;
@@ -4632,10 +4645,8 @@ blockquote {
   height: 0px;
   width: 100%;
   min-width: 200px;
-  margin-bottom: -15px;
   padding-top: 10px;
-  padding-right: 15px;
-  padding-left: 10px;
+  padding-left: 0px;
 }
 
 @media (max-width: 991px) {
@@ -6829,7 +6840,7 @@ blockquote {
     margin-left: 0px;
     padding-top: 20px;
     position: relative;
-    background: #ecedf1;
+    background: var(--background-color);
   }
   .mobile-editor.hide {
     display: none;
