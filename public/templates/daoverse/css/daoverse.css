@@ -1441,13 +1441,13 @@ blockquote {
 
 .event-vote {
   overflow: hidden;
-  padding: 0px 10px;
-  margin-bottom: 5px;
+  padding: 5px 10px;
+  margin-bottom: -1px;
   clear: both;
   border: 1px solid #7d849f33;
-  border-radius: 5px;
+  border-top: 1px dotted #7d849f33;
+  border-radius: 0px;
   background-color: #f9fafb;
-  /* box-shadow: 0px 1px 1px 0px #7d849f26; */
   width: 100%;
   cursor: default;
 }

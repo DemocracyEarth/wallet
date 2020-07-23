@@ -65,14 +65,12 @@ const VoteQuery = () => {
 
   return data.votes.map((vote) => {
     return (
-      <div id="non-editable-feed" className="ledger">
-        <div className="event-vote">
-          <Account publicAddress={vote.memberAddress} width="16px" height="16px" />
-          <DAO publicAddress={vote.molochAddress} width="16px" height="16px" />
-          <Token quantity={vote.member.shares} symbol="SHARES" />
-          <Stamp timestamp={vote.createdAt} format="COMPRESSED" />
-          <Preview uintVote={vote.uintVote} description={vote.proposal.details} />
-        </div>
+      <div className="event-vote">
+        <Account publicAddress={vote.memberAddress} width="16px" height="16px" />
+        <DAO publicAddress={vote.molochAddress} width="16px" height="16px" />
+        <Token quantity={vote.member.shares} symbol="SHARES" />
+        <Stamp timestamp={vote.createdAt} format="COMPRESSED" />
+        <Preview uintVote={vote.uintVote} description={vote.proposal.details} />
       </div>
     );
   });
