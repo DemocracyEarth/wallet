@@ -4,7 +4,7 @@
   --main-placeholder-color:  #f2f2f5;
   --animation-preloader: preloader-content 1s ease infinite;
   --background-color: #f6f6f7;
-  --proposal-bar-color: #f7f3f9;
+  --proposal-bar-color: #eee3f3;
 }
 
 @-webkit-keyframes preloader-content {
@@ -2997,7 +2997,7 @@ blockquote {
 }
 
 .identity-peer {
-  margin: 7px 0px 0px 7px;
+  margin: 3px 0px 0px 5px;
   float: left;
 }
 
@@ -3590,7 +3590,7 @@ blockquote {
 .meta.meta-search {
   display: block;
   overflow: hidden;
-  height: 55px;
+  height: 45px;
   margin: -10px -15px 0px;
   padding-right: 15px;
   padding-left: 15px;
