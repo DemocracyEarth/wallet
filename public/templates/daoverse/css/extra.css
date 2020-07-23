@@ -539,7 +539,7 @@ width: 1px;
 
 .token-ticker {
   min-width: 35px;
-  padding: 3px 3px 3px 5px;
+  padding: 3px 0px;
   float: left;
   font-size: 0.65em;
   font-weight: 400;

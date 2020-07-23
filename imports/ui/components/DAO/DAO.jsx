@@ -56,7 +56,7 @@ const DAOQuery = ({ publicAddress, width, height }) => {
   if (!daoTitle) {
     label = shortenCryptoName(publicAddress);
   } else {
-    label = daoTitle;
+    label = (daoTitle.length > 20) ? `${daoTitle.slice(0, 19)}...` : daoTitle;
   }
 
   return (

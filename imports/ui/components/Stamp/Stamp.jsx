@@ -28,7 +28,6 @@ export default class Stamp extends Component {
 
   getFormattedLabel(format) {
     const date = new Date(parseInt(this.props.timestamp.toNumber() * 1000, 10));
-    console.log(format);
     switch (format) {
       case 'COMPRESSED':
         return timeCompressed(date);

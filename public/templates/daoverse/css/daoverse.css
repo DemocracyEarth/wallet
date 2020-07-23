@@ -3,7 +3,7 @@
   --main-menu-color: #580074;
   --main-placeholder-color:  #f2f2f5;
   --animation-preloader: preloader-content 1s ease infinite;
-  --background-color: #58007405;
+  --background-color: #f6f6f7;
   --proposal-bar-color: #f7f3f9;
 }
 
@@ -1441,7 +1441,7 @@ blockquote {
 
 .event-vote {
   overflow: hidden;
-  padding: 5px 10px;
+  padding: 0px 10px;
   margin-bottom: 5px;
   clear: both;
   border: 1px solid #7d849f33;
@@ -4798,10 +4798,6 @@ blockquote {
   width: 24px;
   height: 24px;
   margin-top: -2px;
-}
-
-.micro-label {
-  margin-top:7px;
 }
 
 .micro-label-button {

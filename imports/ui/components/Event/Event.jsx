@@ -11,6 +11,7 @@ import DAO from '/imports/ui/components/DAO/DAO.jsx';
 import Stamp from '/imports/ui/components/Stamp/Stamp.jsx';
 import Token from '/imports/ui/components/Token/Token.jsx';
 import Vote from '/imports/ui/components/Vote/Vote.jsx';
+import Preview from '/imports/ui/components/Preview/Preview.jsx';
 
 const client = new ApolloClient({
   uri: Meteor.settings.public.graph.molochs,
@@ -66,12 +67,12 @@ const EventQuery = (props) => {
   return data.votes.map((vote) => {
     return (
       <div id="non-editable-feed" className="ledger">
-        <Vote value={vote.uintVote}>
-          <Account publicAddress={vote.memberAddress} width="24px" height="24px" />
-          <DAO publicAddress={vote.molochAddress} width="24px" height="24px" />
-          <Stamp timestamp={vote.createdAt} format="COMPRESSED" />
+        <Vote>
+          <Account publicAddress={vote.memberAddress} width="16px" height="16px" />
+          <DAO publicAddress={vote.molochAddress} width="16px" height="16px" />
           <Token quantity={vote.member.shares} symbol="SHARES" />
-          {/* <Preview></Preview> */}
+          <Stamp timestamp={vote.createdAt} format="COMPRESSED" />
+          <Preview uintVote={vote.uintVote} description={vote.proposal.details} />
         </Vote>
       </div>
     );
