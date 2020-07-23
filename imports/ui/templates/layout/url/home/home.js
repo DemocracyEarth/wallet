@@ -15,6 +15,7 @@ import { getCoin } from '/imports/api/blockchain/modules/web3Util.js';
 import { Tokens } from '/imports/api/tokens/tokens';
 
 import '/imports/ui/components/Timeline/timeline.js';
+import '/imports/ui/components/Event/event.js';
 import '/imports/ui/templates/components/identity/replica/replica.js';
 import '/imports/ui/templates/layout/url/home/home.html';
 import '/imports/ui/templates/components/collective/guild/guild.js';

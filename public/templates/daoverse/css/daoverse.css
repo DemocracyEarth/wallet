@@ -2,6 +2,23 @@
   --main-link-color: #7d6186;
   --main-menu-color: #580074;
   --main-placeholder-color:  #f2f2f5;
+  --animation-preloader: preloader-content 1s ease infinite;
+}
+
+@-webkit-keyframes preloader-content {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@-moz-keyframes preloader-content {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@keyframes preloader-content {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
 }
 
 body {
@@ -5973,6 +5990,11 @@ blockquote {
   margin-bottom: 15px;
   border-radius: 25px;
   background-color: var(--main-placeholder-color);
+  background-size: 400% 400%;
+
+  -webkit-animation: var(--animation-preloader);
+  -moz-animation: var(--animation-preloader);
+  animation: var(--animation-preloader);
 }
 
 .option-placeholder.fifty {
@@ -5983,13 +6005,14 @@ blockquote {
   height: 15px;
   margin-top: 8px;
   opacity:0.5;
-  background-color: var(--main-link-color);
+  background: linear-gradient(90deg, var(--main-placeholder-color), var(--main-link-color));
 }
 
 .option-placeholder.token-placeholder {
   height: 15px;
   opacity:0.5;
-  background-color: var(--main-link-color);
+  margin-top:-2px;
+  background: linear-gradient(90deg, var(--main-placeholder-color), var(--main-link-color));
 }
 
 .option-placeholder.short {
