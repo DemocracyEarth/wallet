@@ -98,8 +98,6 @@ export default class Post extends Component {
 Post.propTypes = {
   href: PropTypes.string,
   description: PropTypes.string,
-  proposalIndex: PropTypes.string,
-  daoName: PropTypes.string,
   daoAddress: PropTypes.string,
   memberAddress: PropTypes.string,
   children: PropTypes.oneOfType([

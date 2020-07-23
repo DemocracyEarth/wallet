@@ -6,6 +6,12 @@ import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import { useQuery } from '@apollo/react-hooks';
 
+import Account from '/imports/ui/components/Account/Account.jsx';
+import DAO from '/imports/ui/components/DAO/DAO.jsx';
+import Stamp from '/imports/ui/components/Stamp/Stamp.jsx';
+import Token from '/imports/ui/components/Token/Token.jsx';
+import Vote from '/imports/ui/components/Vote/Vote.jsx';
+
 const client = new ApolloClient({
   uri: Meteor.settings.public.graph.molochs,
   cache: new InMemoryCache(),
@@ -13,16 +19,18 @@ const client = new ApolloClient({
 
 const GET_VOTES = gql`
   {
-    votes(first: 25, orderBy:createdAt, orderDirection:desc) {
+    votes(first: 10, orderBy:createdAt, orderDirection:desc) {
       id
+      createdAt
       uintVote
       molochAddress
-      member {
-        id
-      }
+      memberAddress
       proposal {
         details
         id
+      }
+      member {
+        shares
       }
     }
   }
@@ -55,11 +63,20 @@ const EventQuery = (props) => {
   }
   if (error) return `Error! ${error}`;
 
-  return (
-    <div className="poll-survey">
-      {props.children}
-    </div>
-  );
+  return data.votes.map((vote) => {
+
+    return (
+      <div className="ledger">
+        <Vote value={vote.uintVote}>
+          <Account publicAddress={vote.memberAddress} width="24px" height="24px" />
+          <DAO publicAddress={vote.molochAddress} width="24px" height="24px" />
+          <Stamp timestamp={vote.createdAt} />
+          <Token quantity={vote.member.shares} symbol="SHARES" />
+          {/* <Preview></Preview> */}
+        </Vote>
+      </div>
+    );
+  });
 };
 
 EventQuery.propTypes = {

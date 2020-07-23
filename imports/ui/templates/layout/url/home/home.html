@@ -70,56 +70,14 @@
     </div>
   </div>
 
-
   <div id="alternative-feed" class="split split-right {{landingMode 'right'}}">
-      <div class="agora">
-          <div class="content content-agora">
-            {{> event}}
-          </div>
-      </div>
-  
-    {{#if feedReady}}
-      <div class="agora">
+    <div class="agora">
         <div class="content content-agora">
-          {{#if replicaReady}}
-            {{#if isPerson}}
-              {{#unless isPhone}}
-                <div class="ledger-title">
-                  <h4>{{_ 'replica-person'}}</h4>
-                </div>
-              {{else}}
-                <div class="ledger-title ledger-title-empty"></div>
-              {{/unless}}
-              {{#with address}}
-                {{> replica this}}
-              {{/with}}
-            {{else}}
-              {{#if isDAO}}
-                {{#unless isPhone}}
-                  <div class="ledger-title">
-                    <h4>{{_ 'moloch-guild'}}</h4>
-                  </div>
-                {{else}}
-                  <div class="ledger-title ledger-title-empty"></div>
-                {{/unless}}
-                {{#with collective}}
-                  {{> guild this}}
-                {{/with}}
-              {{/if}}
-            {{/if}}
-
-            {{#with mainLedger}}
-              <a href="#votes"></a>
-              {{> ledger this}}
-            {{/with}}
-
-          {{/if}}
-          <div id="resizable" class="resize"></div>
+          {{> event}}
         </div>
-      </div>
-    {{/if}}
+        <div id="resizable" class="resize"></div>
+    </div>
   </div>
-
 
   {{#unless dictator}}
     {{#if isPhone}}
