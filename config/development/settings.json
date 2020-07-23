@@ -43,6 +43,12 @@
         "trackingId": ""
       }
     },
+    "graph": {
+      "timeline": "https://api.thegraph.com/subgraphs/name/molochventures/moloch",
+      "tokens": "https://api.thegraph.com/subgraphs/name/protofire/token-registry",
+      "molochs": "https://api.thegraph.com/subgraphs/name/odyssy-automaton/daohaus",
+      "ens": "https://api.thegraph.com/subgraphs/name/ensdomains/ens"
+    },
     "app": {
       "name": "MolochDAO",
       "url": "https://molochdao.com",
