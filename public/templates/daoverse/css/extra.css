@@ -563,6 +563,7 @@ width: 1px;
 
 .token-ticker:hover {
   text-decoration:underline;
+  color: var(--main-menu-color);
 }
 
 

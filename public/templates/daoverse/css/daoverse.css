@@ -1,6 +1,7 @@
 :root {
   --main-link-color: #7d6186;
   --main-menu-color: #580074;
+  --main-placeholder-color:  #f2f2f5;
 }
 
 body {
@@ -500,7 +501,7 @@ blockquote {
   float: left;
   border: 1px solid #7d849f;
   border-radius: 100px;
-  background-color: #f2f2f5;
+  background-color: var(--main-placeholder-color);
 }
 
 .symbol.profile-pic.profile-pic-navbar {
@@ -648,7 +649,7 @@ blockquote {
 
 .symbol.profile-pic.profile-pic-placeholder {
   border-style: none;
-  background-color: #f2f2f5;
+  background-color: var(--main-placeholder-color);
 }
 
 .semantics {
@@ -4701,7 +4702,7 @@ blockquote {
 }
 
 .micro-button:active {
-  background-color: #f2f2f5;
+  background-color: var(--main-placeholder-color);
 }
 
 .micro-button.micro-button-remove {
@@ -5971,7 +5972,7 @@ blockquote {
   min-width: 100px;
   margin-bottom: 15px;
   border-radius: 25px;
-  background-color: #f2f2f5;
+  background-color: var(--main-placeholder-color);
 }
 
 .option-placeholder.fifty {
@@ -5981,6 +5982,12 @@ blockquote {
 .option-placeholder.identity-placeholder {
   height: 15px;
   margin-top: 8px;
+  opacity:0.5;
+  background-color: var(--main-link-color);
+}
+
+.option-placeholder.token-placeholder {
+  height: 15px;
   opacity:0.5;
   background-color: var(--main-link-color);
 }
@@ -6280,7 +6287,7 @@ blockquote {
   margin-bottom: -8px;
   margin-left: 3px;
   padding: 10px 3px 0px 10px;
-  border-left: 1px solid #f2f2f5;
+  border-left: 1px solid var(--main-placeholder-color);
 }
 
 .vote-thread.vote-thread-context {
@@ -6625,7 +6632,7 @@ blockquote {
   padding-top: 60px;
   padding-bottom: 60px;
   border-radius: 90px;
-  background-color: #f2f2f5;
+  background-color: var(--main-placeholder-color);
 }
 
 .card-login-label {
