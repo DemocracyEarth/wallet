@@ -21,9 +21,13 @@ const _voteToContract = (post, contract, hidePost, winningBallot, openFeed) => {
     senderId: post.input.entityId,
     receiverId: post.output.entityId,
     isVote: true,
-    hidePost,
+    hidePost: (post.isRagequit) ? false : hidePost,
     winningBallot,
     isRevoke: (post.input.entityType !== 'INDIVIDUAL'),
+    isRagequit: post.isRagequit,
+    contractId: post.contractId,
+    collectiveId: post.collectiveId,
+    status: post.status,
   };
   if (openFeed) {
     // for a feed in a general context (home page)
@@ -115,9 +119,13 @@ const _buildFeed = (id, fields, instance, contract, noTitle) => {
 const _defaultTally = (view) => {
   return (view === 'lastVotes' ||
     view === 'threadVotes' ||
+    view === 'periodVotes' ||
     view === 'transactionsToken' ||
     view === 'transactionsPeer' ||
-    view === 'transactionsGeo'
+    view === 'transactionsDate' ||
+    view === 'transactionsGeo' ||
+    view === 'transactionsDao' ||
+    view === 'transactionsSearch'
   );
 };
 

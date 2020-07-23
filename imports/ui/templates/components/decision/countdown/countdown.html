@@ -1,8 +1,17 @@
 <template name="countdown">
   <div class="countdown">
+    {{#if electionData}}
+      <div id="votes" class="countdown-label countdown-votes">
+        <img class="url-icon icon-up2" src="{{getImage 'vote-icon-black'}}">
+        {{voters}}
+      </div>
+    {{/if}}
     <div id="timer" class="countdown-label">
+      <img class="url-icon icon-up2" src="{{getImage 'calendar'}}">
       {{label}}
     </div>
-    <div class="countdown-timer {{alertMode}}" style="{{timerStyle}}"></div>
+    <div class="countdown-timer-bar">
+      <div class="countdown-timer {{alertMode}}" style="{{timerStyle}}"></div>
+    </div>
   </div>
 </template>

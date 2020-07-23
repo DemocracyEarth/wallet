@@ -3,13 +3,25 @@ import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
+import { ReactiveVar } from 'meteor/reactive-var';
+import { TAPi18n } from 'meteor/tap:i18n';
+import { displayModal } from '/imports/ui/modules/modal';
 
 import { publishContract, createContract, contractURI, entangle, getURLDate } from '/imports/startup/both/modules/Contract';
 import { editorFadeOut } from '/imports/ui/templates/components/decision/editor/editor';
 import { displayPopup, animatePopup } from '/imports/ui/modules/popup';
+import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 
 import '/imports/ui/templates/layout/authentication/authentication.html';
 import '/imports/ui/templates/components/identity/avatar/avatar.js';
+
+
+const modal = {
+  icon: Meteor.settings.public.app.logo,
+  title: TAPi18n.__('wallet'),
+  cancel: TAPi18n.__('close'),
+  alertMode: true,
+};
 
 function _isDisabled() {
   if (Meteor.user().profile.wallet.reserves) {
@@ -65,10 +77,16 @@ function promptLogin(logged, event) {
   }
 }
 
+Template.authentication.onCreated(function () {
+  Template.instance().imageTemplate = new ReactiveVar();
+  const instance = Template.instance();
+  templetize(instance);
+});
+
 Template.authentication.onRendered(() => {
   Session.set('userLoginVisible', false);
   if (!Session.get('checkInitialSetup') && Meteor.userId() === null) {
-    promptLogin(true, 'click');
+    // promptLogin(true, 'click');
     Session.set('checkInitialSetup', true);
   }
 });
@@ -101,12 +119,41 @@ Template.authentication.helpers({
   context() {
     return ((Meteor.Device.isPhone() && !this.desktop) || (!Meteor.Device.isPhone() && this.desktop));
   },
+  getImage(pic) {
+    return getImage(Template.instance().imageTemplate.get(), pic);
+  },
 });
 
 Template.authentication.events({
   'click #loggedUser'(event) {
     event.stopPropagation();
-    promptLogin((!Session.get('user-login') || !Session.get('user-login').visible), event);
+    if (Meteor.user()) {
+      Router.go(`/address/${Meteor.user().username}`);      
+    } else {
+      Session.set('userLoginVisible', true);
+      Meteor.loginWithMetamask({}, function (err) {
+        if (err.reason) {
+          throw new Meteor.Error('Metamask login failed', err.reason);
+        }
+        Session.set('userLoginVisible', false);
+      });
+    }
+  },
+  'click #mobile-logout'() {
+    displayModal(
+      true,
+      {
+        icon: Meteor.settings.public.app.logo,
+        title: TAPi18n.__('sign-out'),
+        message: TAPi18n.__('sign-out-prompt'),
+        cancel: TAPi18n.__('close'),
+        action: TAPi18n.__('sign-out'),
+        alertMode: false,
+      },
+      () => {
+        Meteor.logout();
+      }
+    );
   },
   'click #navbar-post-button'() {
     _publish();

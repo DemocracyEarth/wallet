@@ -723,5 +723,9 @@
   "election-rule-webvote": "Web Vote",
   "voting-editor-webvote-tooltip": "A vote using web based tokens.",
   "builder": "Builder",
-  "loading": "Loading..."
+  "loading": "Loading...",
+  "organizations": "Organizations",
+  "geographies": "Geographies",
+  "profile": "Profile",
+  "offchain": "Offchain"
 }

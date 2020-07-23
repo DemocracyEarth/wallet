@@ -5,12 +5,13 @@ import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
 
 import { getVotes } from '/imports/api/transactions/transaction';
-import { timeCompressed } from '/imports/ui/modules/chronos';
+import { timeCompressed, timeDateOnly, hourOnly } from '/imports/ui/modules/chronos';
 import { token } from '/lib/token';
 import { Transactions } from '/imports/api/transactions/Transactions';
 import { syncBlockchain } from '/imports/startup/both/modules/metamask';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { smallNumber, getCoin } from '/imports/api/blockchain/modules/web3Util';
+import { Collectives } from '/imports/api/collectives/Collectives';
 
 
 import '/imports/ui/templates/widgets/transaction/transaction.html';
@@ -90,6 +91,15 @@ const _getContractToken = (transaction) => {
   return coin;
 };
 
+
+/**
+* @summary creates string of date for URL
+* @return {string} uri
+*/
+const _createDateQuery = (date) => {
+  return `${date.getFullYear()}-${(date.getMonth() < 9) ? `0${parseInt(date.getMonth() + 1, 10)}` : parseInt(date.getMonth() + 1, 10)}-${(date.getDate() < 10) ? `0${date.getDate()}` : date.getDate()}`;
+};
+
 Template.transaction.onCreated(function () {
   Template.instance().totalVotes = new ReactiveVar(0);
   Template.instance().loading = new ReactiveVar(false);
@@ -98,7 +108,7 @@ Template.transaction.onCreated(function () {
   // const data = Template.currentData();
   // if (data.contract && data.contract.kind === 'CRYPTO' && data.contract.blockchain && data.contract.blockchain.tickets.length > 0) {
   //  Template.instance().status = new ReactiveVar(data.blockchain.tickets[0].status.toLowerCase());
-  //}
+  // }
 
   Template.instance().imageTemplate = new ReactiveVar();
   templetize(Template.instance());
@@ -213,7 +223,20 @@ Template.transaction.helpers({
     return '';
   },
   sinceDate() {
-    return `${timeCompressed(this.contract.timestamp)}`;
+    return `${timeCompressed(this.contract.timestamp, true)}`;
+  },
+  dateLink() {
+    const from = this.contract.timestamp;
+    const fromQuery = _createDateQuery(from);
+    const until = new Date(this.contract.timestamp.getTime() + (60 * 60 * 24 * 1000));
+    const untilQuery = _createDateQuery(until);
+    return `/date?from=${fromQuery}&until=${untilQuery}`;
+  },
+  dateDescription() {
+    return `${timeDateOnly(this.contract.timestamp)} · ${hourOnly(this.contract.timestamp)}`;
+  },
+  ragequit() {
+    return this.isRagequit;
   },
   noDate() {
     return this.noDate;
@@ -282,7 +305,6 @@ Template.transaction.helpers({
           if (status !== 'PENDING') {
             instance.txStatus = status;
           }
-          console.log('FIND');
           return getImage(Template.instance().imageTemplate.get(), `arrow-right-${status}`);
         }
       } else {
@@ -291,28 +313,36 @@ Template.transaction.helpers({
     }
     return getImage(Template.instance().imageTemplate.get(), 'arrow-right');
   },
+  ragequitPost() {
+    const post = {
+      contractId: this.contractId,
+      ragequit: true,
+    };
+    return post;
+  },
   getImage(pic) {
     return getImage(Template.instance().imageTemplate.get(), pic);
   },
+  pending() {
+    return (this.status === 'PENDING');
+  },
+});
+
+Template.collectivePreview.onCreated(function () {
+  Template.instance().collective = Collectives.findOne({ _id: Template.instance().data.collectiveId });
 });
 
 Template.collectivePreview.helpers({
-  flag() {
-    return Meteor.settings.public.Collective.profile.logo;
+  logo() {
+    return Template.instance().collective.profile.logo;
   },
   name() {
-    let chars = 30;
-    if (Meteor.Device.isPhone()) {
-      chars = 15;
-    }
-    if (Meteor.settings.public.Collective.name.length > chars) {
-      return `${Meteor.settings.public.Collective.name.substring(0, chars)}...`;
-    }
-    return Meteor.settings.public.Collective.name;
+    return Template.instance().collective.name;
   },
   url() {
-    return '/';
+    return `/dao/${Template.instance().collective.uri}`;
   },
 });
 
 export const getContractToken = _getContractToken;
+export const createDateQuery = _createDateQuery;

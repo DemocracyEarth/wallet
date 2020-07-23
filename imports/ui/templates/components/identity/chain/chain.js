@@ -14,7 +14,13 @@ Template.chain.helpers({
     return `${getCoin(this.ticker).code} ${TAPi18n.__('id')}:`;
   },
   address() {
-    return `${this.address.substring(0, 10)}...${this.address.substring(parseInt(this.address.length - 10, 10), this.address.length)}`;
+    let length = 15;
+    if (window.innerWidth <= 479) {
+      length = 6;
+    } else if (window.innerWidth <= 767) {
+      length = 10;
+    }
+    return (window.innerWidth <= 991) ? `${this.address.substring(0, length)}...${this.address.substring(parseInt(this.address.length - length, 10), this.address.length)}` : this.address;
   },
   color() {
     return `background-color: ${getCoin(this.ticker).color};`;

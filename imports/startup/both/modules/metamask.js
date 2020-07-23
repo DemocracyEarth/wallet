@@ -6,17 +6,20 @@ import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 
 import { Contracts } from '/imports/api/contracts/Contracts';
-import { displayModal } from '/imports/ui/modules/modal';
+import { displayModal, alert } from '/imports/ui/modules/modal';
 import { transact } from '/imports/api/transactions/transaction';
 import { displayNotice } from '/imports/ui/modules/notice';
-import { addDecimal, smallNumber, removeDecimal, getCoin, numToCryptoBalance } from '/imports/api/blockchain/modules/web3Util';
+import { addDecimal, setupWallet, getCoin, numToCryptoBalance } from '/imports/api/blockchain/modules/web3Util';
 import { animatePopup } from '/imports/ui/modules/popup';
 import { Transactions } from '/imports/api/transactions/Transactions';
+import { sync } from '/imports/ui/templates/layout/sync';
+import { defaults } from '/lib/const';
+import { Collectives } from '/imports/api/collectives/Collectives';
+import { getShares, setTransaction } from '/lib/web3';
+import { getTransactionObject } from '/lib/interpreter';
 
 import { BigNumber } from 'bignumber.js';
-
 import abi from 'human-standard-token-abi';
-import { debug } from 'util';
 
 const Web3 = require('web3');
 const ethUtil = require('ethereumjs-util');
@@ -26,7 +29,7 @@ const numeral = require('numeral');
 let web3;
 
 const modal = {
-  icon: Meteor.settings.public.Collective.profile.logo,
+  icon: Meteor.settings.public.app.logo,
   title: TAPi18n.__('wallet'),
   cancel: TAPi18n.__('close'),
   alertMode: true,
@@ -62,28 +65,71 @@ const _formatCryptoValue = (value, tokenCode) => {
 */
 const _web3 = (activateModal) => {
   if (!window.web3) {
-    if (activateModal) {
-      modal.message = TAPi18n.__('metamask-install');
-      displayModal(true, modal);
+    web3 = setupWallet();
+    if (!web3) {
+      if (activateModal) {
+        modal.message = TAPi18n.__('metamask-install');
+        displayModal(true, modal);
+      }
+      return false;
     }
-    return false;
   }
-  if (!web3) {
+  if (!web3 && window.web3) {
     web3 = new Web3(window.web3.currentProvider);
   }
 
-  web3.eth.getCoinbase().then(function (coinbase) {
-    if (!coinbase) {
-      if (activateModal) {
-        modal.message = TAPi18n.__('metamask-activate');
-        displayModal(true, modal);
-        return false;
+  if (!web3.currentProvider.isFortmatic) {
+    web3.eth.getCoinbase().then((coinbase) => {
+      if (!coinbase) {
+        if (activateModal) {
+          modal.message = TAPi18n.__('metamask-activate');
+          displayModal(true, modal);
+          return false;
+        }
       }
-    }
-  });
+      return undefined;
+    });
+  }
 
   return web3;
 };
+
+
+/**
+* @summary check web3 plugin and connects to code obejct
+*/
+const _getWeb3Wallet = (activateModal) => {
+  let wallet;
+  if (!window.web3) {
+    wallet = setupWallet();
+    if (!wallet) {
+      if (activateModal) {
+        modal.message = TAPi18n.__('metamask-install');
+        displayModal(true, modal);
+      }
+      return false;
+    }
+  }
+  if (!wallet && window.web3) {
+    wallet = new Web3(window.web3.currentProvider);
+  }
+
+  if (!wallet.currentProvider.isFortmatic) {
+    wallet.eth.getCoinbase().then((coinbase) => {
+      if (!coinbase) {
+        if (activateModal) {
+          modal.message = TAPi18n.__('metamask-activate');
+          displayModal(true, modal);
+          return false;
+        }
+      }
+      return undefined;
+    });
+  }
+
+  return wallet;
+};
+
 
 /**
 * @summary get the current status of an on chain transaction
@@ -226,6 +272,183 @@ const _delegate = (sourceId, targetId, contractId, hash, value) => {
 };
 
 /**
+* @summary obtains the map of a given contract based on required function to execute
+* @param {object} smartContracts from collective map
+* @param {string} functionName to identify abi from contract context
+*/
+const _getMethodMap = (smartContracts, functionName) => {
+  let myself;
+  let index;
+  let found = false;
+  if (smartContracts) {
+    for (let i = 0; i < smartContracts.length; i += 1) {
+      myself = _.findWhere(smartContracts[i].map, { methodName: functionName });
+      if (myself.methodName === functionName) {
+        found = true;
+        index = i;
+        break;
+      }
+    }
+    if (found) {
+      return smartContracts[index];
+    }
+  }
+  return undefined;
+};
+
+/**
+* @summary adds a temporary pending transaction on server db
+* @param {string} voterAddress is coming from
+* @param {string} hash from transaction
+* @param {object} contract being voted on
+* @param {object} choice contract being voted for
+
+const _pendingTransaction = (voterAddress, hash, contract, choice) => {
+  const voter = Meteor.user();
+  if (voter) {
+    const shares = getShares(voter, defaults.TOKEN);
+    const ticket = {
+      shares,
+      timestamp: new Date(),
+      contract: {
+        _id: contract._id,
+      },
+      poll: {
+        _id: choice._id,
+      },
+      address: contract.keyword,
+      blockchain: {
+        tickets: [
+          {
+            hash,
+            status: 'PENDING',
+            value: shares.toNumber(),
+          },
+        ],
+        coin: {
+          code: defaults.TOKEN,
+        },
+        publicAddress: voterAddress.toLowerCase(),
+        score: {
+          totalConfirmed: '0',
+          totalPending: shares.toString(),
+          totalFail: '0',
+          finalConfirmed: 0,
+          finalPending: shares.toNumber(),
+          finalFail: 0,
+          value: 0,
+        },
+      },
+    };
+    const transactionObject = getTransactionObject(voter, ticket);
+    transactionObject.status = 'PENDING';
+    setTransaction(voter._id, choice._id, transactionObject);
+  }
+};
+*/
+
+/**
+* @summary prompt a message of an error with the wallet
+* @param {object} error with code and message
+*/
+const _walletError = (err) => {
+  let message;
+  switch (err.code) {
+    case -32602:
+      message = TAPi18n.__('metamask-invalid-argument');
+      break;
+    case -32603:
+      message = TAPi18n.__('metamask-invalid-address');
+      break;
+    case 4001:
+      message = TAPi18n.__('metamask-denied-signature');
+      break;
+    default:
+      if (err.message.slice(0, 66) === 'WalletMiddleware - Invalid "from" address.\n{\n  "originalError": {}') {
+        message = TAPi18n.__('metamask-invalid-address');
+      } else {
+        message = err.message;
+      }
+  }
+  displayModal(
+    true,
+    {
+      icon: Meteor.settings.public.app.logo,
+      title: TAPi18n.__('wallet'),
+      message,
+      cancel: TAPi18n.__('close'),
+      alertMode: true,
+    }
+  );
+};
+
+/**
+* @summary call a method from a dao using a collective map
+* @param {string} methodName to call from contract
+* @param {array} parameterList with parameter values to include in the call
+* @param {string} collectiveId to look for required contract
+* @param {string} walletMetho either 'call' or 'send' initially.
+* @param {object} walletParameters from the signing user
+*/
+const _callDAOMethod = async (methodName, parameterList, collectiveId, walletMethod, walletParameters) => {
+  let response;
+  if (_web3(true)) {
+    const collective = Collectives.findOne({ _id: collectiveId });
+    if (collective) {
+      const smartContracts = collective.profile.blockchain.smartContracts;
+      const map = _getMethodMap(smartContracts, methodName);
+      const contractABI = JSON.parse(map.abi);
+
+      const dao = await new web3.eth.Contract(contractABI, map.publicAddress);
+
+      await dao.methods[`${methodName}`](...parameterList)[walletMethod](walletParameters, (err, res) => {
+        if (err) {
+          _walletError(err);
+          return err;
+        }
+        response = res;
+        return res;
+      });
+    }
+  }
+  return response;
+};
+
+/**
+* @summary submit vote to moloch dao
+* @param {number} proposalIndex uint256
+* @param {number} uintVote uint8
+* @param {object} contract from parent of poll
+* @param {object} choice poll contract with choice voted
+*/
+const _hasRightToVote = async (memberAddress, proposalIndex, collectiveId) => {
+  const memberVotes = await _callDAOMethod('getMemberProposalVote', [memberAddress, proposalIndex], collectiveId, 'call', {});
+  return (memberVotes === 0 || memberVotes === '0');
+};
+
+/**
+* @summary submit vote to moloch dao
+* @param {number} proposalIndex uint256
+* @param {number} uintVote uint8
+* @param {object} contract from parent of poll
+* @param {object} choice poll contract with choice voted
+*/
+const _submitVote = async (proposalIndex, uintVote, contract, choice) => {
+  const res = await _callDAOMethod('submitVote', [proposalIndex, uintVote], choice.collectiveId, 'send', { from: Meteor.user().username });
+  if (res) {
+    displayModal(false, modal);
+    const collective = Collectives.findOne({ _id: contract.collectiveId });
+    alert(TAPi18n.__('voting-interaction').replace('{{collective}}', collective.name).replace('{{etherscan}}', `${Meteor.settings.public.web.sites.blockExplorer}/tx/${res}`), 10000);
+    Meteor.call('setPendingVote', contract, Meteor.userId(), choice.collectiveId, res, uintVote, (err, newTx) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+  }
+  return res;
+};
+
+/**
 * @summary send crypto with mask;
 * @param {string} from blockchain address
 * @param {string} to blockchain destination
@@ -333,10 +556,10 @@ const _transactWithMetamask = (from, to, quantity, tokenCode, contractAddress, s
         }
       });
     }).catch(function (e) {
-      if (e.message === 'Returned error: Error: MetaMask Tx Signature: User denied transaction signature.') {
+      if (e.code === 4001) {
         modal.message = TAPi18n.__('metamask-denied-signature');
         displayModal(true, modal);
-      } else if (e.message.substring(0, 65) === 'Returned error: Error: WalletMiddleware - Invalid "from" address.') {
+      } else if (e.code === -32603) {
         modal.message = TAPi18n.__('metamask-invalid-address');
         displayModal(true, modal);
       } else {
@@ -356,7 +579,11 @@ const handleSignMessage = (publicAddress, nonce, message) => {
       web3.utils.utf8ToHex(`${message}`),
       publicAddress,
       function (err, signature) {
-        if (err) return reject(err);
+        if (err) {
+          _hideLogin();
+          _walletError(err);
+          return reject(err);
+        }
         return resolve({ signature });
       }
     );
@@ -365,9 +592,9 @@ const handleSignMessage = (publicAddress, nonce, message) => {
 
 const verifySignature = (signature, publicAddress, nonce, message) => {
   let msg;
-  console.log(message);
+
   if (!message) {
-    msg = `${TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.Collective.name)}`;
+    msg = `${TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.app.name)}`;
   } else {
     msg = message;
   }
@@ -576,6 +803,45 @@ const _getBlockHeight = async () => {
   return height;
 };
 
+/**
+* @summary does a web3 login without privacy mode;
+*/
+const _loginWeb3 = () => {
+  const nonce = Math.floor(Math.random() * 10000);
+  let publicAddress;
+
+  return web3.eth.getCoinbase().then(function (coinbaseAddress) {
+    if (!coinbaseAddress) {
+      modal.message = TAPi18n.__('metamask-activate');
+      displayModal(true, modal);
+    }
+    publicAddress = coinbaseAddress.toLowerCase();
+    return handleSignMessage(publicAddress, nonce, TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.app.name));
+  }).then(function (signature) {
+    const verification = verifySignature(signature, publicAddress, nonce);
+
+    if (verification === 'success') {
+      const methodName = 'login';
+      const methodArguments = [{ publicAddress }];
+      Accounts.callLoginMethod({
+        methodArguments,
+        userCallback: (err) => {
+          Accounts._pageLoadLogin({
+            type: 'metamask',
+            allowed: !err,
+            error: err,
+            methodName,
+            methodArguments,
+          });
+          Session.set('newLogin', true);
+          Router.go('/');
+        },
+      });
+    } else {
+      _hideLogin();
+    }
+  });
+};
 
 if (Meteor.isClient) {
   /**
@@ -589,9 +855,16 @@ if (Meteor.isClient) {
       if (Meteor.Device.isPhone()) {
         // When mobile, not supporting privacy-mode for now
         // https://github.com/DemocracyEarth/sovereign/issues/421
-        return web3.eth.getCoinbase().then(function (coinbaseAddress) {
+        return _loginWeb3();
+      }
+
+      if (window.ethereum) {
+        // Support privacy-mode in desktop only for now and if web3 installed
+        window.ethereum.enable().then(function () {
+          return web3.eth.getCoinbase();
+        }).then(function (coinbaseAddress) {
           publicAddress = coinbaseAddress.toLowerCase();
-          return handleSignMessage(publicAddress, nonce, TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.Collective.name));
+          return handleSignMessage(publicAddress, nonce, TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.app.name));
         }).then(function (signature) {
           const verification = verifySignature(signature, publicAddress, nonce);
 
@@ -608,46 +881,17 @@ if (Meteor.isClient) {
                   methodName,
                   methodArguments,
                 });
-                Session.set('newLogin', true);
                 Router.go('/');
+                _hideLogin();
               },
             });
           } else {
-            console.log(TAPi18n.__('metamask-login-error'));
+            _hideLogin();
           }
         });
+      } else {
+        return _loginWeb3();
       }
-
-      // Support privacy-mode in desktop only for now
-      window.ethereum.enable().then(function () {
-        return web3.eth.getCoinbase();
-      }).then(function (coinbaseAddress) {
-        publicAddress = coinbaseAddress.toLowerCase();
-        return handleSignMessage(publicAddress, nonce, TAPi18n.__('metamask-sign-nonce').replace('{{collectiveName}}', Meteor.settings.public.Collective.name));
-      }).then(function (signature) {
-        const verification = verifySignature(signature, publicAddress, nonce);
-
-        if (verification === 'success') {
-          const methodName = 'login';
-          const methodArguments = [{ publicAddress }];
-          Accounts.callLoginMethod({
-            methodArguments,
-            userCallback: (err) => {
-              Accounts._pageLoadLogin({
-                type: 'metamask',
-                allowed: !err,
-                error: err,
-                methodName,
-                methodArguments,
-              });
-              Router.go('/');
-              _hideLogin();
-            },
-          });
-        } else {
-          console.log(TAPi18n.__('metamask-login-error'));
-        }
-      });
     } else {
       modal.message = TAPi18n.__('metamask-activate');
       displayModal(true, modal);
@@ -698,6 +942,19 @@ if (Meteor.isServer) {
   });
 }
 
+/**
+* @summary shortens the username if its a crypto address
+* @param {object} publicAddress string of username to check
+* @returns {string} username string
+*/
+const _shortenCryptoName = (publicAddress) => {
+  if (publicAddress.length === 42 && publicAddress.slice(0, 2) === '0x') {
+    return `${publicAddress.slice(2, 6)}...${publicAddress.slice(38, 42)}`.toUpperCase();
+  }
+  return publicAddress;
+};
+
+export const shortenCryptoName = _shortenCryptoName;
 export const transactWithMetamask = _transactWithMetamask;
 export const coinvote = _coinvote;
 export const getTransactionStatus = _getTransactionStatus;
@@ -706,3 +963,6 @@ export const syncBlockchain = _syncBlockchain;
 export const hideLogin = _hideLogin;
 export const getBlockHeight = _getBlockHeight;
 export const verifyCoinVote = _verifyCoinVote;
+export const submitVote = _submitVote;
+export const hasRightToVote = _hasRightToVote;
+export const getWeb3Wallet = _getWeb3Wallet;

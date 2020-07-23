@@ -5,9 +5,9 @@ import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
 import { Router } from 'meteor/iron:router';
 
-import { timers } from '/lib/const';
+import { timers, gui } from '/lib/const';
 import { editorFadeOut } from '/imports/ui/templates/components/decision/editor/editor';
-import { toggleSidebar } from '/imports/ui/modules/menu';
+import { sidebarWidth } from '/imports/ui/modules/menu';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 
 import '/imports/ui/templates/layout/authentication/authentication.js';
@@ -24,6 +24,7 @@ function hideBar() {
       const node = $('.navbar');
       const st = $('.right').scrollTop();
       if (st > lastScrollTop && st > 60) {
+        $('.tab-menu').removeClass('tab-menu-scroll');
         scrollDown = true;
         node
           .velocity('stop')
@@ -38,6 +39,7 @@ function hideBar() {
           })
           .velocity('stop');
       } else if (scrollDown === true) {
+        $('.tab-menu').addClass('tab-menu-scroll');
         scrollDown = false;
         node.css('position', 'fixed');
         node
@@ -92,41 +94,27 @@ const _isRoot = () => {
 };
 
 Template.navigation.onCreated(function () {
+  Session.set('enableSidebar', false);
   Template.instance().imageTemplate = new ReactiveVar();
   templetize(Template.instance());
 });
 
 Template.navigation.onRendered(() => {
   hideBar();
-
-  if (Meteor.Device.isPhone() && Meteor.user()) {
-    // $('.split-left').css('padding-top', '0px');
-  }
 });
 
 Template.navigation.helpers({
   screen() {
-    if (Router.current().params.username) {
-      const user = Meteor.users.findOne({ username: Router.current().params.username });
-      if (user) {
-        return `@${user.username}`;
-      }
-    } else if (Router.current().params.hashtag) {
-      return `#${Router.current().params.hashtag}`;
-    }
     return '';
   },
   getImage(pic) {
     return getImage(Template.instance().imageTemplate.get(), pic);
   },
   logo() {
-    if (_isRoot()) {
-      return true;
-    }
-    return false;
+    return true;
   },
   navIcon() {
-    return Meteor.settings.public.Collective.profile.logo;
+    return Meteor.settings.public.app.logo;
   },
   icon() {
     return displayMenuIcon();
@@ -136,6 +124,48 @@ Template.navigation.helpers({
   },
 });
 
+const _toggle = () => {
+  const sidebarPixelWidth = sidebarWidth();
+
+  // show sidebar
+  if (!Session.get('enableSidebar')) {
+    let newRight = 0;
+    if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
+      newRight = parseInt(0 - sidebarPixelWidth, 10);
+    }
+    $('.mobile-menu').css('margin-top', '-55px');
+    $('.mobile-menu').css('position', 'absolute');
+    $('.mobile-menu').css('top', `${$('#content').scrollTop() + $(window).height()}px`);
+    $('.navbar').css('position', 'absolute');
+    $('.navbar').css('top', `${$('#content').scrollTop()}px`);
+    $('.inhibitor').css('display', 'block');
+    $('.inhibitor').css('position', 'fixed');
+    $('.inhibitor').css('left', `${sidebarPixelWidth}px`);
+    $('.content').css('overflow', 'hidden');
+    $('#menu').css({ width: `${sidebarPixelWidth}px` });
+
+
+    $('#menu').css({ marginLeft: '0px' });
+    $('#content').css({
+      left: sidebarPixelWidth,
+      right: newRight,
+    });
+    Session.set('enableSidebar', true);
+
+  // hide sidebar
+  } else {
+    Session.set('enableSidebar', false);
+    $('.inhibitor').css('display', 'none');
+    $('.navbar').css('position', 'fixed');
+    $('.navbar').css('top', '0px');
+    $('#menu').css({ marginLeft: parseInt(0 - sidebarPixelWidth, 10) });
+    $('#content').css({
+      left: 0,
+      right: 0,
+    });
+  }
+};
+
 Template.navigation.events({
   'click #burger'() {
     if (displayCancelButton()) {
@@ -144,7 +174,9 @@ Template.navigation.events({
     } else if (displayBackButton()) {
       window.history.back();
     } else {
-      toggleSidebar();
+      _toggle();
     }
   },
 });
+
+export const toggle = _toggle;

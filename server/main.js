@@ -3,8 +3,9 @@ import { Meteor } from 'meteor/meteor';
 import { meta } from '/imports/startup/both/routes';
 import { TAPi18n } from 'meteor/tap:i18n';
 
+import { log, defaults } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
-import { fixDBUrl, stripHTML, parseURL, urlDoctor, toTitleCase } from '/lib/utils';
+import { fixDBUrl, stripHTML, parseURL, urlDoctor } from '/lib/utils';
 
 import '/imports/startup/server';
 import '/imports/startup/both';
@@ -36,6 +37,8 @@ onPageLoad(function (sink) {
     mainPath = 'token';
   } else if (mainPath.substring(0, 1) === '@') {
     mainPath = 'peer';
+  } else if (mainPath.substring(2, 8) === 'period') {
+    mainPath = 'period';
   } else if (mainPath.length === 2) {
     mainPath = 'geo';
   }
@@ -45,16 +48,16 @@ onPageLoad(function (sink) {
       contract = Contracts.findOne({ keyword: path[1] });
       if (contract) {
         if (contract.ballotEnabled) {
-          tags.description = `${TAPi18n.__('vote-tag-ballot-title').replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
+          tags.description = `${TAPi18n.__('vote-tag-ballot-title').replace('{{collective}}', Meteor.settings.public.app.name)}`;
         } else {
-          tags.description = `${TAPi18n.__('vote-tag-title').replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
+          tags.description = `${TAPi18n.__('vote-tag-title').replace('{{collective}}', Meteor.settings.public.app.name)}`;
         }
         tags.title = stripHTML(contract.title);
-        tags.image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${fixDBUrl(Meteor.settings.public.Collective.profile.logo)}`;
+        tags.image = `${urlDoctor(Meteor.absoluteUrl.defaultOptions.rootUrl)}${fixDBUrl(Meteor.settings.public.app.logo)}`;
       } else {
-        tags.title = `${Meteor.settings.public.Collective.name} - ${Meteor.settings.public.Collective.profile.bio}`;
-        tags.description = Meteor.settings.public.Collective.profile.bio;
-        tags.image = parseURL(Meteor.settings.public.Collective.profile.logo);
+        tags.title = `${Meteor.settings.public.app.name} - ${Meteor.settings.public.app.bio}`;
+        tags.description = Meteor.settings.public.app.bio;
+        tags.image = parseURL(Meteor.settings.public.app.logo);
       }
       break;
     case 'peer':
@@ -68,39 +71,44 @@ onPageLoad(function (sink) {
           }
         }
       }
-      tags.title = `${TAPi18n.__('profile-tag-title').replace('{{user}}', `${username}`).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
-      tags.description = `${TAPi18n.__('profile-tag-description').replace('{{user}}', `${path[0]}`).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
+      tags.title = `${TAPi18n.__('profile-tag-title').replace('{{user}}', `${username}`).replace('{{collective}}', Meteor.settings.public.app.name)}`;
+      tags.description = `${TAPi18n.__('profile-tag-description').replace('{{user}}', `${path[0]}`).replace('{{collective}}', Meteor.settings.public.app.name)}`;
       if (user) {
         tags.image = parseURL(user.profile.picture);
       } else {
-        tags.image = parseURL(Meteor.settings.public.Collective.profile.logo);
+        tags.image = parseURL(Meteor.settings.public.app.logo);
       }
       break;
     case 'tag':
+    case 'period':
+      tags.title = `${TAPi18n.__('hashtag-tag-title').replace('{{hashtag}}', path[0]).replace('{{collective}}', Meteor.settings.public.app.name)}`;
+      tags.description = `${TAPi18n.__('hashtag-tag-description').replace('{{hashtag}}', path[0]).replace('{{collective}}', Meteor.settings.public.app.name)}`;
+      tags.image = parseURL(Meteor.settings.public.app.logo);
+      break;
     case 'token':
-      tags.title = `${TAPi18n.__('hashtag-tag-title').replace('{{hashtag}}', path[0]).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
-      tags.description = `${TAPi18n.__('hashtag-tag-description').replace('{{hashtag}}', path[0]).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
-      tags.image = parseURL(Meteor.settings.public.Collective.profile.logo);
+      tags.title = `${TAPi18n.__('hashtag-tag-title').replace('{{hashtag}}', path[0]).replace('{{collective}}', Meteor.settings.public.app.name)}`;
+      tags.description = `${TAPi18n.__('hashtag-tag-description').replace('{{hashtag}}', path[0]).replace('{{collective}}', Meteor.settings.public.app.name)}`;
+      tags.image = parseURL(Meteor.settings.public.app.logo);
       break;
     case 'geo':
-      country = toTitleCase(path[0]);
-      tags.title = `${TAPi18n.__('country-tag-title').replace('{{country}}', country).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
-      tags.description = `${TAPi18n.__('country-tag-description').replace('{{country}}', country).replace('{{collective}}', Meteor.settings.public.Collective.name)}`;
-      tags.image = parseURL(Meteor.settings.public.Collective.profile.logo);
+      country = ''; // toTitleCase(path[0]);
+      tags.title = `${TAPi18n.__('country-tag-title').replace('{{country}}', country).replace('{{collective}}', Meteor.settings.public.app.name)}`;
+      tags.description = `${TAPi18n.__('country-tag-description').replace('{{country}}', country).replace('{{collective}}', Meteor.settings.public.app.name)}`;
+      tags.image = parseURL(Meteor.settings.public.app.logo);
       break;
     default:
       tags = {
-        title: `${Meteor.settings.public.Collective.name} - ${Meteor.settings.public.Collective.profile.bio}`,
-        description: Meteor.settings.public.Collective.profile.bio,
-        image: parseURL(Meteor.settings.public.Collective.profile.logo),
+        title: `${Meteor.settings.public.app.name} - ${Meteor.settings.public.app.bio}`,
+        description: Meteor.settings.public.app.bio,
+        image: parseURL(Meteor.settings.public.app.logo),
       };
       break;
   }
   if (Meteor.settings.private.API.facebook.appId) {
     tags.facebookId = Meteor.settings.private.API.facebook.appId;
   }
-  if (Meteor.settings.public.Collective.profile.twitter) {
-    tags.twitter = Meteor.settings.public.Collective.profile.twitter;
+  if (Meteor.settings.public.app.twitter) {
+    tags.twitter = Meteor.settings.public.app.twitter;
   }
 
   const head = meta(tags, true);

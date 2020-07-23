@@ -15,33 +15,30 @@ Buckminster Fuller, Great San Francisco Architect.
 
 A Roma, <3
 
-*/
-
 /* global alert */
 
 import { Meteor } from 'meteor/meteor';
 import { TAPi18n } from 'meteor/tap:i18n';
 import { $ } from 'meteor/jquery';
 import { Session } from 'meteor/session';
-import { SearchSource } from 'meteor/meteorhacks:search-source';
 import { Template } from 'meteor/templating';
 import { Router } from 'meteor/iron:router';
 
-
-import { toggleSidebar } from '/imports/ui/modules/menu';
+import { sync } from '/imports/ui/templates/layout/sync';
+import { toggle } from '/imports/ui/templates/layout/navigation/navigation';
 import { globalObj } from '/lib/global';
 import { geo } from '/lib/geo';
 import { token } from '/lib/token';
 import { gui } from '/lib/const';
 import { getCSS } from '/imports/ui/templates/layout/templater';
 import { resetSplit } from '/imports/ui/modules/split';
-
+import { getLandingMode } from '/imports/ui/templates/layout/url/home/home';
 
 import '/imports/ui/templates/layout/main.html';
 import '/imports/ui/templates/widgets/modal/modal';
 import '/imports/ui/templates/widgets/popup/popup';
+import '/imports/ui/templates/layout/url/topbar/topbar';
 import '/imports/ui/templates/layout/sidebar/sidebar';
-import '/imports/ui/templates/layout/navigation/navigation';
 import '/imports/ui/templates/layout/response/verifyEmail/verifyEmail';
 import '/imports/ui/templates/layout/touchmenu/touchmenu';
 import '/imports/ui/templates/components/decision/editor/editor';
@@ -54,11 +51,11 @@ const _head = () => {
   const icon = $('<link>', {
     rel: 'shortcut icon',
     type: 'image/x-icon',
-    href: `${Meteor.settings.public.Collective.profile.logo}`,
+    href: `${Meteor.settings.public.app.logo}`,
   });
   const mobile = $('<link>', {
     rel: 'apple-touch-icon',
-    href: `${Meteor.settings.public.Collective.profile.logo}`,
+    href: `${Meteor.settings.public.app.logo}`,
   });
 
   $('head').append(icon);
@@ -68,8 +65,7 @@ const _head = () => {
   getCSS();
 };
 
-
-Meteor.startup(() => {
+Meteor.startup(async () => {
   // setup language
   Session.set('showLoadingIndicator', true);
 
@@ -95,19 +91,7 @@ Meteor.startup(() => {
     });
   }, 60000);
 
-  // search Engine for Tags
-  Session.set('createTag', false);
-  globalObj.TagSearch = new SearchSource('tags', ['text', 'url'], {
-    keepHistory: 1000 * 60 * 5,
-    localSearch: true,
-  });
-
-  // search Engine for Proposals
-  Session.set('createProposal', false);
-  globalObj.ProposalSearch = new SearchSource('contracts', ['title', 'description'], {
-    keepHistory: 1000 * 60 * 5,
-    localSearch: true,
-  });
+  await sync();
 
   // geographical sovereignty
   globalObj.geoJSON = geo;
@@ -134,11 +118,6 @@ Template.main.onRendered(() => {
   if (!Meteor.Device.isPhone() && $(window).width() < gui.MOBILE_MAX_WIDTH) {
     $('.navbar').css('left', 0);
     Session.set('miniWindow', true);
-    if (Meteor.user()) { Session.set('sidebar', true); }
-    toggleSidebar();
-  } else if (!Meteor.Device.isPhone()) {
-    Session.set('sidebar', false);
-    toggleSidebar();
   }
 });
 
@@ -159,8 +138,8 @@ Template.preloader.onRendered(() => {
 
 Template.preloader.helpers({
   appIcon() {
-    if (Meteor.settings.public.Collective.profile.logo) {
-      return `${Router.path('home')}${Meteor.settings.public.Collective.profile.logo}`;
+    if (Meteor.settings.public.app.logo) {
+      return `${Router.path('home')}${Meteor.settings.public.app.logo}`;
     }
     return `${Router.path('home')}images/olive.png`;
   },
@@ -182,11 +161,14 @@ Template.main.helpers({
   loggedWithPhone() {
     return (Meteor.Device.isPhone() && Meteor.user());
   },
+  landingMode() {
+    return getLandingMode();
+  },
 });
 
 Template.main.events({
   'click .inhibitor'() {
-    toggleSidebar();
+    toggle();
   },
 });
 

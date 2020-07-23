@@ -2,19 +2,20 @@ import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { TAPi18n } from 'meteor/tap:i18n';
 
 import { validateUsername } from '/imports/startup/both/modules/User';
 import { searchJSON } from '/imports/ui/modules/JSON';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 import { validateEmail } from '/imports/startup/both/modules/validations.js';
+
 // import { emailListCheck } from '/lib/permissioned';
 
-
 import '/imports/ui/templates/components/identity/login/profile/profileEditor.html';
+import '/imports/ui/templates/widgets/qr/qr.js';
 import '/imports/ui/templates/components/identity/avatar/avatar.js';
 import '/imports/ui/templates/widgets/warning/warning.js';
 import '/imports/ui/templates/widgets/suggest/suggest.js';
-
 
 Template.profileEditor.onCreated(function () {
   Template.instance().imageTemplate = new ReactiveVar();

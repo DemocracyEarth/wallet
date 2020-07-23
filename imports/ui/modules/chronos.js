@@ -1,40 +1,53 @@
 import { TAPi18n } from 'meteor/tap:i18n';
 
-const buildSentence = (seconds, mode) => {
+const buildSentence = (seconds, mode, micro) => {
   let interval = Math.floor(seconds / 31536000);
   if (interval > 1) {
-    return `${interval} ${TAPi18n.__(`years-${mode}`)}`;
+    return `${interval} ${TAPi18n.__(`years-${mode}${micro ? '-micro' : ''}`)}`;
   }
   interval = Math.floor(seconds / 2592000);
   if (interval > 1) {
-    return `${interval} ${TAPi18n.__(`months-${mode}`)}`;
+    return `${interval} ${TAPi18n.__(`months-${mode}${micro ? '-micro' : ''}`)}`;
   }
   interval = Math.floor(seconds / 86400);
   if (interval > 1) {
-    return `${interval} ${TAPi18n.__(`days-${mode}`)}`;
+    return `${interval} ${TAPi18n.__(`days-${mode}${micro ? '-micro' : ''}`)}`;
   }
   interval = Math.floor(seconds / 3600);
   if (interval > 1) {
-    return `${interval} ${TAPi18n.__(`hours-${mode}`)}`;
+    return `${interval} ${TAPi18n.__(`hours-${mode}${micro ? '-micro' : ''}`)}`;
   }
   interval = Math.floor(seconds / 60);
   if (interval > 1) {
-    return `${interval} ${TAPi18n.__(`minutes-${mode}`)}`;
+    return `${interval} ${TAPi18n.__(`minutes-${mode}${micro ? '-micro' : ''}`)}`;
   }
   if (seconds === 0) {
     return TAPi18n.__('now');
   }
-  return `${Math.floor(seconds)} ${TAPi18n.__(`seconds-${mode}`)}`;
+  return `${Math.floor(seconds)} ${TAPi18n.__(`seconds-${mode}${micro ? '-micro' : ''}`)}`;
 };
 
-const timeAgo = (date) => {
+const _timeAgo = (date) => {
   const seconds = Math.floor((new Date() - date) / 1000);
   return buildSentence(seconds, 'ago');
 };
 
-const _timeCompressed = (date) => {
+const _timeCompressed = (date, micro) => {
   const seconds = Math.floor((new Date() - date) / 1000);
-  return buildSentence(seconds, 'compressed');
+  return buildSentence(seconds, 'compressed', micro);
+};
+
+const _timeDateOnly = (date) => {
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return `${date.toLocaleDateString('en', options)}`;
+};
+
+const _hourOnly = (date) => {
+  return `${(date.getHours() < 10) ? `0${(date.getHours())}` : date.getHours()}:${(date.getMinutes() < 10) ? `0${(date.getMinutes())}` : date.getMinutes()}`;
+};
+
+const _timeComplete = (date) => {
+  return `${_timeAgo(date)} &#183; ${_timeDateOnly(date)} &#183; ${_hourOnly(date)}`;
 };
 
 
@@ -46,6 +59,9 @@ const timeLeft = (date) => {
   return false;
 };
 
+export const hourOnly = _hourOnly;
+export const timeDateOnly = _timeDateOnly;
 export const timeCompressed = _timeCompressed;
-export const timeSince = timeAgo;
+export const timeSince = _timeAgo;
+export const timeComplete = _timeComplete;
 export const countdown = timeLeft;

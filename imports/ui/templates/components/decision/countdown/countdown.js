@@ -1,9 +1,11 @@
 import { Template } from 'meteor/templating';
 import { TAPi18n } from 'meteor/tap:i18n';
+import { Session } from 'meteor/session';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-import { getBlockHeight } from '/imports/startup/both/modules/metamask.js';
 import { blocktimes } from '/lib/const';
+import { sync } from '/imports/ui/templates/layout/sync';
+import { templetize, getImage } from '/imports/ui/templates/layout/templater';
 
 import '/imports/ui/templates/components/decision/countdown/countdown.html';
 
@@ -15,10 +17,16 @@ import '/imports/ui/templates/components/decision/countdown/countdown.html';
 * @return {boolean} true or fase
 */
 const _isPollOpen = (now, contract) => {
+  switch (contract.period) {
+    case 'VOTING':
+      break;
+    default:
+      return false;
+  }
   if (contract && contract.rules.alwaysOn) {
     return true;
   }
-  if (contract && contract.closing && contract.rules) {
+  if (contract && contract.closing) {
     return (now < contract.closing.height);
   }
   return true;
@@ -51,25 +59,38 @@ const _getPercentage = (currentBlock, delta, finalBlock) => {
 * @param {boolean} editorMode if editor
 * @return {string} with countdown sentence
 */
-const _getDeadline = (now, remainingBlocks, length, height, alwaysOn, editorMode) => {
+const _getDeadline = (now, remainingBlocks, length, height, alwaysOn, editorMode, periodDuration, period) => {
   let countdown = TAPi18n.__('countdown-expiration');
   let count = remainingBlocks;
 
-  if (editorMode) {
-    if (!alwaysOn) {
-      countdown = TAPi18n.__('poll-hypothetical');
-    } else {
-      countdown = TAPi18n.__('poll-never-ends');
-    }
-  } else if (alwaysOn) {
-    countdown = TAPi18n.__('poll-never-ends');
-  } else if (height <= now) {
-    countdown = TAPi18n.__('poll-closed-after-time');
-    count = length;
+  switch (period) {
+    case 'QUEUE':
+    case 'GRACE':
+    case 'PROCESS':
+      countdown = TAPi18n.__(`countdown-${period.toLowerCase()}`);
+      break;
+    default:
+      if (editorMode) {
+        if (!alwaysOn) {
+          countdown = TAPi18n.__('poll-hypothetical');
+        } else {
+          countdown = TAPi18n.__('poll-never-ends');
+        }
+      } else if (alwaysOn) {
+        countdown = TAPi18n.__('poll-never-ends');
+      } else if (height <= now) {
+        countdown = TAPi18n.__('poll-closed-after-time');
+        count = length;
+      }
   }
 
   // get total seconds between the times
-  let delta = parseInt(count * blocktimes.ETHEREUM_SECONDS_PER_BLOCK, 10);
+  let delta;
+  if (!periodDuration) {
+    delta = parseInt(count * blocktimes.ETHEREUM_SECONDS_PER_BLOCK, 10);
+  } else {
+    delta = parseInt(count * (periodDuration / 1000), 10);
+  }
 
   // calculate (and subtract) whole days
   const days = Math.floor(delta / 86400);
@@ -112,7 +133,7 @@ const _getDeadline = (now, remainingBlocks, length, height, alwaysOn, editorMode
     countdown = countdown.replace('{{height}}', `${height.toLocaleString(undefined, [{ style: 'decimal' }])}`);
   }
 
-  countdown = countdown.replace('{{blocks}}', `${remainingBlocks.toLocaleString(undefined, [{ style: 'decimal' }])} ${remainingBlocks > 1 ? TAPi18n.__('blocks-compressed') : TAPi18n.__('blocks-singular')}`);
+  countdown = countdown.replace('{{blocks}}', `${remainingBlocks.toLocaleString(undefined, [{ style: 'decimal' }])} ${remainingBlocks > 1 ? TAPi18n.__('periods-compressed') : TAPi18n.__('periods-singular')}`);
 
   return `${countdown}`;
 };
@@ -123,34 +144,124 @@ const _getDeadline = (now, remainingBlocks, length, height, alwaysOn, editorMode
 * @param {object} instance where to write last block number
 */
 const _currentBlock = async (instance) => {
-  const now = await getBlockHeight().then((resolved) => { instance.now.set(resolved); });
+  let now;
+  if (!Session.get('blockTimes')) {
+    await sync();
+  }
+  const blockTimes = Session.get('blockTimes');
+  if (blockTimes && blockTimes.length > 0) {
+    now = _.pluck(_.where(blockTimes, { collectiveId: instance.data.collectiveId }), 'height');
+    instance.now.set(now);
+  }
   return now;
 };
 
 Template.countdown.onCreated(function () {
   Template.instance().now = new ReactiveVar();
   _currentBlock(Template.instance());
+
+  Template.instance().imageTemplate = new ReactiveVar();
+  templetize(Template.instance());
 });
+
+/**
+* @summary calculates remaining time based on chain rules
+* @param {number} now current time in blockchain clock
+* @param {object} data the information for this poll
+*/
+const _getRemaining = (now, data) => {
+  let confirmed;
+  let delta;
+  let closing;
+  switch (data.period) {
+    case 'QUEUE':
+      confirmed = parseInt(data.delta - 1, 10);
+      break;
+    case 'GRACE':
+      delta = parseInt(((data.graceCalendar.getTime() - data.timestamp.getTime()) / (data.periodDuration)) - data.delta, 10);
+      closing = parseInt(data.height + delta, 10);
+      confirmed = parseInt(delta - (closing - now), 10);
+      break;
+    default:
+      confirmed = parseInt(data.delta - (data.height - now), 10);
+  }
+  return parseInt(data.delta - confirmed, 10);
+};
 
 Template.countdown.helpers({
   label() {
     const now = Template.instance().now.get();
-    const confirmed = parseInt(this.delta - (this.height - now), 10);
-    const deadline = _getDeadline(now, parseInt(this.delta - confirmed, 10), this.delta, this.height, this.alwaysOn, this.editorMode);
+    const remaining = _getRemaining(now, this);
+    if (isNaN(remaining)) {
+      return TAPi18n.__('syncing');
+    }
+    const deadline = _getDeadline(now, remaining, this.delta, this.height, this.alwaysOn, this.editorMode, this.periodDuration, this.period);
     return deadline;
   },
+  period() {
+    return this.period ? TAPi18n.__(`moloch-period-${this.period.toLowerCase()}`) : '';
+  },
+  periodStyle() {
+    return this.period ? `period-${this.period.toLowerCase()}` : '';
+  },
   timerStyle() {
-    return `width: ${_getPercentage(Template.instance().now.get(), this.delta, this.height)}%`;
+    const now = Template.instance().now.get();
+    const remaining = _getRemaining(now, this);
+    let closing = this.height;
+    let delta = this.delta;
+    switch (this.period) {
+      case 'QUEUE':
+        closing = parseInt((this.height - this.delta) + 1, 10);
+        delta = 1;
+        break;
+      case 'GRACE':
+        delta = parseInt(((this.graceCalendar.getTime() - this.timestamp.getTime()) / (this.periodDuration)) - this.delta, 10);
+        closing = parseInt(this.height + delta, 10);
+        break;
+      case 'PROCESS':
+        delta = 0;
+        closing = now;
+        break;
+      default:
+        closing = this.height;
+    }
+    if (!isNaN(remaining)) {
+      return `width: ${_getPercentage(now, delta, closing)}%`;
+    }
+    return 'width: 0%;';
   },
   alertMode() {
-    const percentage = _getPercentage(Template.instance().now.get(), this.delta, this.height);
-
-    if (percentage && percentage < 25) {
-      return 'countdown-timer-final';
-    } else if (percentage && percentage < 5) {
-      return 'countdown-timer-final';
+    const now = Template.instance().now.get();
+    let closing = this.height;
+    let delta = this.delta;
+    switch (this.period) {
+      case 'QUEUE':
+        closing = parseInt((this.height - this.delta) + 1, 10);
+        delta = 1;
+        break;
+      default:
+        closing = this.height;
     }
-    return '';
+    const percentage = _getPercentage(now, delta, closing);
+
+    let style = '';
+    switch (this.period) {
+      case 'QUEUE':
+      case 'GRACE':
+      case 'PROCESS':
+        style = `countdown-timer-${this.period.toLowerCase()}`;
+        break;
+      default:
+        if (percentage && percentage < 25) {
+          style = 'countdown-timer-final';
+        } else if (this.period === 'VOTING') {
+          style = `countdown-timer-${this.period.toLowerCase()}`;
+        }
+    }
+    return style;
+  },
+  getImage(pic) {
+    return getImage(Template.instance().imageTemplate.get(), pic);
   },
 });
 

@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import { PropTypes } from 'prop-types';
 import { TAPi18n } from 'meteor/tap:i18n';
 
 import { displayLogin } from '/imports/ui/modules/popup';
@@ -87,7 +88,7 @@ export default class SocialMediaLogin extends Component {
             null
           }
           {metamaskLoginActive ?
-            <div id="metamask-login" className="button login-button login-button-first" onClick={this.handleMetamaskLogin}>
+            <div id="metamask-login" className="button login-button login-button-only" onClick={this.handleMetamaskLogin}>
               <img src="/images/ethereum.png" className="button-icon" alt="lock" />
               {TAPi18n.__('ethereum-dapp-browsers')}
             </div>

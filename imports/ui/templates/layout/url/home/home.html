@@ -1,33 +1,46 @@
 <template name="home">
-  {{#unless newLogin}}
-    {{#each mode in modeArray}}
-      {{> screen this}}
-    {{/each}}
+  {{> hero postMode=post}}
+  
+  {{#if landingMode}}
+    {{> landing}}
   {{else}}
-    {{#unless currentUser}}
-      {{> hero postMode=post}}
+    {{#unless newLogin}}
+      {{#each mode in modeArray}}
+        {{> screen this}}
+      {{/each}}
+    {{else}}
+      {{> homeFeed this}}
     {{/unless}}
-
-    {{> homeFeed this}}
-  {{/unless}}
+  {{/if}}
 </template>
 
 <template name="screen">
-  {{#unless currentUser}}
-    {{> hero postMode=post}}
-  {{/unless}}
-
-  <div class="{{anonymousContext}}">
-    {{#if post}}
-      {{> postFeed this}}
-    {{else}}
-      {{> homeFeed this}}
-    {{/if}}
-  </div>
+  {{#if loading}}
+    {{#with collective}}
+      {{> synchronizer}}
+    {{/with}}
+  {{else}}
+    <div class="{{anonymousContext}}">
+      {{#if post}}
+        {{> postFeed this}}
+      {{else}}
+        {{#if period}}
+          {{> periodFeed this}}
+        {{else}}
+          {{> homeFeed this}}
+        {{/if}}
+      {{/if}}
+    </div>
+  {{/if}}
 </template>
 
 <template name="homeFeed">
-  <div class="split split-left {{landingMode 'left'}}">
+  {{#if isPhone}}
+    {{#with menu}}
+      {{> tabs}}
+    {{/with}}
+  {{/if}}  
+  <div id="main-feed" class="split split-left {{landingMode 'left'}}">
     <div class="content content-feed max100">
       {{#unless isPhone}}
         {{#unless dictator}}
@@ -51,32 +64,64 @@
         <input id="hiddenInput" style="visibility: hidden; position: absolute;">
       {{/if}}
 
-
       <div id="non-editable-feed">
-        <h4 class="padding-left-zero">{{{feedTitle}}}</h4>
         {{#if feedReady}}
-          {{> feed mainFeed}}
+          {{#unless isPhone}}
+            <h4 class="padding-left-zero">{{{feedTitle}}}</h4>
+          {{/unless}}
+
+          {{> timeline}}
+        {{else}}
+          {{> load}}
         {{/if}}
       </div>
     </div>
   </div>
 
-
   {{#if showTransactions}}
-    {{#unless unloggedMobile}}
-      <div class="split split-right {{landingMode 'right'}}">
-        {{#if feedReady}}
-          {{#with mainLedger}}
-            {{> ledger this}}
-          {{/with}}
-        {{/if}}
-      </div>
-    {{/unless}}
-  {{/if}}
+    <div id="alternative-feed" class="split split-right {{landingMode 'right'}}">
+      {{#if feedReady}}
+        <div class="agora">
+          <div class="content content-agora">
+            {{#if replicaReady}}
+              {{#if isPerson}}
+                {{#unless isPhone}}
+                  <div class="ledger-title">
+                    <h4>{{_ 'replica-person'}}</h4>
+                  </div>
+                {{else}}
+                  <div class="ledger-title ledger-title-empty"></div>
+                {{/unless}}
+                {{#with address}}
+                  {{> replica this}}
+                {{/with}}
+              {{else}}
+                {{#if isDAO}}
+                  {{#unless isPhone}}
+                    <div class="ledger-title">
+                      <h4>{{_ 'moloch-guild'}}</h4>
+                    </div>
+                  {{else}}
+                    <div class="ledger-title ledger-title-empty"></div>
+                  {{/unless}}
+                  {{#with collective}}
+                    {{> guild this}}
+                  {{/with}}
+                {{/if}}
+              {{/if}}
 
-  {{#if displayLanding}}
-    {{> landing}}
-  {{/if}}  
+              {{#with mainLedger}}
+                <a href="#votes"></a>
+                {{> ledger this}}
+              {{/with}}
+
+            {{/if}}
+            <div id="resizable" class="resize"></div>
+          </div>
+        </div>
+      {{/if}}
+    </div>
+  {{/if}}
 
   {{#unless dictator}}
     {{#if isPhone}}
@@ -88,7 +133,12 @@
 </template>
 
 <template name="postFeed">
-  <div class="split split-left {{landingMode}}">
+  {{#if isPhone}}
+    {{#with menu}}
+      {{> tabs}}
+    {{/with}}
+  {{/if}}  
+  <div id="main-feed" class="split split-left {{landingMode 'left'}}">
     <div class="content content-feed subsection max100">
       {{#if isPhone}}
         {{#if editorMode}}
@@ -102,21 +152,71 @@
 
       <div id="non-editable-reply-feed">
         {{#if postReady}}
+          {{#unless isPhone}}
+            <h4 class="padding-left-zero">{{{feedTitle}}}</h4>
+          {{/unless}}
           {{#with thread}}
             {{> feed this}}
           {{/with}}
+        {{else}}
+          {{> load}}
         {{/if}}
+
       </div>
     </div>
   </div>
 
   {{#if showTransactions}}
-    <div class="split split-right {{landingMode}}">
+    <div id="alternative-feed" class="split split-right {{landingMode 'right'}}">
       {{#if postReady}}
-        {{#with votes}}
-          {{> ledger this}}
-        {{/with}}
+        <div class="agora">
+          <div class="content content-agora">
+            {{#with votes}}
+              {{> ledger this}}
+            {{/with}}
+            <div id="resizable" class="resize"></div>
+          </div>
+        </div>
       {{/if}}
     </div>
   {{/if}}
+</template>
+
+<template name="periodFeed">
+  {{#if isPhone}}
+    {{#with menu}}
+      {{> tabs}}
+    {{/with}}
+  {{/if}}    
+  <div id="main-feed" class="split split-left {{landingMode 'left'}}">
+    <div class="content content-feed max100">
+      <div id="non-editable-feed">
+        {{#if periodReady}}
+          {{#unless isPhone}}
+            <h4 class="padding-left-zero">
+              {{{feedTitle}}}
+            </h4>
+          {{/unless}}
+          {{#with thread}}
+            {{> feed this}}
+          {{/with}}
+        {{else}}
+          {{> load}}
+        {{/if}}
+      </div>
+    </div>
+  </div>
+
+  <div id="alternative-feed" class="split split-right {{landingMode 'right'}}">
+    {{#if periodReady}}
+      <div class="agora">
+        <div class="content content-agora">
+          {{#with votes}}
+            {{> ledger this}}
+          {{/with}}
+          <div id="resizable" class="resize"></div>
+        </div>
+      </div>
+    {{/if}}
+  </div>
 </template>

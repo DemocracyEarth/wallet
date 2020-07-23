@@ -1,26 +1,52 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
-import { Meteor } from 'meteor/meteor';
 import { Router } from 'meteor/iron:router';
 
-import { toggleSelectedItem } from '../../../modules/menu';
+import { toggle } from '/imports/ui/templates/layout/navigation/navigation';
+import '/imports/ui/templates/components/identity/avatar/avatar.js';
 
+import { toggleSelectedItem } from '../../../modules/menu';
 import './inbox.html';
+
+const _matchingContext = (url) => {
+  if (url) {
+    const current = Router.current().url.replace(window.location.origin, '');
+    if ((Router.current().params.username === url.substring(6))
+      || (current === url)
+    ) {
+      return true;
+    }
+  }
+  return false;
+};
 
 Template.inbox.helpers({
   selected() {
-    if (this.url) {
-      const current = Router.current().url.replace(window.location.origin, '');
-      if ((Router.current().params.username === this.url.substring(6))
-        || (current === this.url)
-      ) {
-        return 'menu-item-selected';
-      }
-    }
-    return '';
+    return (_matchingContext(this.url)) ? 'menu-item-selected' : '';
   },
   isAvatar() {
     return this.isAvatar;
+  },
+  displayCount() {
+    return this.displayCount;
+  },
+  count() {
+    return this.count;
+  },
+  sidebarTagStyle() {
+    return (_matchingContext(this.url)) ? 'sidebar-tag-selected' : '';
+  },
+  tokens() {
+    const reserve = {
+      token: this.reserve.token,
+      balance: this.reserve.balance,
+      placed: this.reserve.placed,
+      available: this.reserve.available,
+      disableStake: true,
+      disableBar: true,
+    };
+    return reserve;
   },
 });
 
@@ -31,6 +57,9 @@ Template.inbox.events({
       toggleSelectedItem(Session.get('menuDelegates'));
     } else {
       toggleSelectedItem(Session.get('menuDecisions'));
+    }
+    if (Meteor.Device.isPhone()) {
+      toggle();
     }
   },
 });

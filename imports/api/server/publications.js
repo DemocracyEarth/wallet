@@ -4,11 +4,13 @@ import { Counts } from 'meteor/tmeasday:publish-counts';
 
 import { query } from '/lib/views';
 import { log, logUser } from '/lib/const';
+import { install } from '/lib/dao';
 
 import { Transactions } from '/imports/api/transactions/Transactions';
 import { Files } from '/imports/api/files/Files';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { Collectives } from '/imports/api/collectives/Collectives';
+import { Tokens } from '/imports/api/tokens/tokens';
 
 log('[starting publications]');
 
@@ -33,6 +35,36 @@ Meteor.publish('singleUser', function (userQuery) {
 });
 
 /**
+* @summary gets information of a single user
+* @return {Object} user data
+*/
+Meteor.publish('singleDao', function (daoQuery) {
+  check(daoQuery, Object);
+  if (daoQuery.$or.length > 0) {
+    const daos = Collectives.find(daoQuery);
+    log(`{ publish: 'singleDao', user: ${logUser()}, query: ${JSON.stringify(daoQuery)}, count: ${daos.count()} }`);
+    if (daos.count() > 0) {
+      return daos;
+    }
+  }
+  return this.ready();
+});
+
+/**
+* @summary gets information of proposals from a given date
+* @return {Object} user data
+*/
+Meteor.publish('dateContracts', function (terms) {
+  check(terms, Object);
+  const parameters = query(terms);
+  const contracts = Contracts.find(parameters.find, parameters.options);
+  if (contracts.count() > 0) {
+    return contracts;
+  }
+  return this.ready();
+});
+
+/**
 * @summary transactions between a user and a contract
 * @return {Object} querying terms
 */
@@ -40,6 +72,7 @@ Meteor.publish('transaction', function (terms) {
   check(terms, Object);
   const parameters = query(terms);
   const transactions = Transactions.find(parameters.find, parameters.options);
+
   log(`{ publish: 'transaction', user: ${logUser()}, contractId: '${terms.contractId}', count: ${transactions.count()} }`);
   if (transactions.count() > 0) {
     return transactions;
@@ -180,9 +213,13 @@ Meteor.publish('feedCount', function (terms) {
 */
 Meteor.publish('singleContract', function (terms) {
   check(terms, Object);
-  const parameters = query(terms);
   log(`{ publish: 'singleContract', user: ${logUser()}, { contractId: '${terms.contractId}' }`);
-  return Contracts.find(parameters.find, parameters.options);
+  const parameters = query(terms);
+  const contract = Contracts.find(parameters.find, parameters.options);
+  if (contract.fetch().length > 0) {
+    return contract;
+  }
+  return this.ready();
 });
 
 /**
@@ -212,7 +249,6 @@ Meteor.publish('delegationContracts', function (terms) {
 });
 
 
-
 /**
 * @summary loads drafts by user
 * @return {Object} querying terms
@@ -235,11 +271,34 @@ Meteor.publish('contractDrafts', function (terms) {
 
 /**
 * @summary gets information of registered collectives on this instance
+* @param {Object} terms of query
 */
-Meteor.publish('collectives', function () {
-  const collectives = Collectives.find();
-  if (collectives.count() > 0) {
+Meteor.publish('collectives', function (terms) {
+  check(terms, Object);
+  const parameters = query(terms);
+  const collectives = Collectives.find(parameters.find, parameters.options);
+  if (collectives.fetch().length > 0) {
+    log(`{ publish: 'collectives', user: ${logUser()} }`);
     return collectives;
+  } else if (terms.view === 'addressDao') {
+    install(terms.publicAddress);
+    return Collectives.find(parameters.find, parameters.options);
   }
   return this.ready();
 });
+
+/**
+* @summary gets information of registered collectives on this instance
+* @param {Object} terms of query
+*/
+Meteor.publish('tokens', function (terms) {
+  check(terms, Object);
+  const parameters = query(terms);
+  const tokens = Tokens.find(parameters.find, parameters.options);
+  if (tokens) {
+    log(`{ publish: 'tokens', user: ${logUser()} }`);
+    return tokens;
+  }
+  return this.ready();
+});
+

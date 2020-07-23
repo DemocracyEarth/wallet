@@ -2,6 +2,10 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 const Schema = {};
 Schema.Reserves = new SimpleSchema({
+  collectiveId: {
+    type: String,
+    optional: true,
+  },
   publicAddress: {
     type: String,
   },
@@ -23,6 +27,15 @@ Schema.Reserves = new SimpleSchema({
     type: Number,
     defaultValue: 0,
     decimal: true,
+  },
+  membership: {
+    type: String,
+    allowedValues: ['APPLICANT', 'MEMBER', 'DELEGATE', 'KICKED', 'VIEWER'],
+    optional: true,
+  },
+  memberSince: {
+    type: Date,
+    optional: true,
   },
 });
 

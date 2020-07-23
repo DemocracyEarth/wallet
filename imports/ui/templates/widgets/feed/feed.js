@@ -6,12 +6,11 @@ import { $ } from 'meteor/jquery';
 import { Counts } from 'meteor/tmeasday:publish-counts';
 
 import { resetSplit } from '/imports/ui/modules/split';
-import { showSidebar } from '/imports/ui/templates/layout/sidebar/sidebar';
 import { query } from '/lib/views';
 import { here } from '/lib/utils';
 import { gui } from '/lib/const';
 import { Contracts } from '/imports/api/contracts/Contracts';
-import { toggleSidebar } from '/imports/ui/modules/menu';
+import { getDao } from '/imports/ui/templates/layout/url/home/home';
 
 import '/imports/ui/templates/widgets/feed/feed.html';
 import '/imports/ui/templates/widgets/feed/feedItem.js';
@@ -95,13 +94,17 @@ const _feedDepth = (list) => {
 const _isIndexFeed = (instance) => {
   return (instance.options.view === 'lastVotes'
     || instance.options.view === 'latest'
+    || instance.options.view === 'period'
     || instance.options.view === 'linkedFeed'
     || instance.options.view === 'geo'
     || instance.options.view === 'token'
     || instance.options.view === 'transactionsToken'
     || instance.options.view === 'transactionsPeer'
+    || instance.options.view === 'transactionsDate'
     || instance.options.view === 'transactionsGeo'
     || instance.options.view === 'peer'
+    || instance.options.view === 'threadVotes'
+    || instance.options.view === 'dao'
     || instance.mainPost === true);
 };
 
@@ -113,8 +116,12 @@ const _getFeedView = (view) => {
       return 'peer';
     case 'transactionsGeo':
       return 'geo';
+    case 'transactionsDao':
+      return 'dao';
     case 'lastVotes':
       return 'latest';
+    case 'periodVotes':
+      return 'period';
     default:
       return view;
   }
@@ -130,10 +137,6 @@ Template.feed.onCreated(function () {
   Template.instance().lastItemDate = new ReactiveVar();
 
   const instance = this;
-
-  if ((Meteor.Device.isPhone() && Session.get('sidebar')) || (Session.get('miniWindow') && Session.get('sidebar'))) {
-    toggleSidebar(false);
-  }
 
   if (Meteor.Device.isPhone() && Meteor.user()) {
     // document.getElementsByClassName('split-left')[0].style.paddingTop = '0px';
@@ -199,6 +202,9 @@ Template.feed.onCreated(function () {
             instance.feed.set(_.uniq(currentFeed));
           }
         }
+        if (post.collectiveId) {
+          getDao(post.collectiveId);
+        }
       }
     },
     changed: (id, fields) => {
@@ -221,12 +227,11 @@ Template.feed.onRendered(function () {
 
   if (!Meteor.Device.isPhone() && Meteor.user() && options.view !== 'linkedFeed') {
     // brute force proper rendering
-    showSidebar();
     resetSplit();
   }
 
   const instance = this;
-  instance.autorun(function () {
+  instance.autorun(async function () {
     if (!instance.counted.get()) {
       options = Template.currentData().options;
 
@@ -265,11 +270,11 @@ Template.feed.helpers({
 
         // sorting
         if (this.options.sort) {
-          feed = _.sortBy(feed, function (item) { return item.createdAt * -1; });
+          feed = _.sortBy(feed, function (item) { return item.timestamp * -1; });
         }
       } else {
         // thread view
-        feed = _.sortBy(feed, 'createdAt');
+        feed = _.sortBy(feed, 'timestamp');
         feed = _feedDepth(feed);
         for (let i = 0; i <= (feed.length - 1); i += 1) {
           feed[i].mainFeed = false;
@@ -286,7 +291,7 @@ Template.feed.helpers({
       if (feed.length > this.options.limit) {
         feed.splice(-1, parseInt(feed.length - this.options.limit, 10));
       }
-      Template.instance().lastItemDate.set(feed[feed.length - 1].createdAt);
+      Template.instance().lastItemDate.set(feed[feed.length - 1].timestamp);
     }
     return feed;
   },
@@ -325,7 +330,7 @@ Template.feed.helpers({
     return (Template.currentData().options.skip === 0 || Template.currentData().singlePost);
   },
   single() {
-    return (Template.currentData().singlePost || !Meteor.user());
+    return (Template.currentData().singlePost);
   },
   emptyContent() {
     return Session.get('emptyContent');

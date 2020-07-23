@@ -6,10 +6,19 @@ import { gui } from '/lib/const';
 
 import { showFullName } from '/imports/startup/both/modules/utils';
 import { Contracts } from '/imports/api/contracts/Contracts';
-import { Transactions } from '/imports/api/transactions/Transactions';
 import { getVotes } from '/imports/api/transactions/transaction';
 
-import { animationSettings } from './animation';
+/**
+* @summary updates the sidebar menu according to url context
+* @param {string} context with dao name or url data
+* @returns {object} menu
+*/
+const _updateMenu = (context) => {
+  Meteor.call('getMenu', context, function (error, result) {
+    Session.set('sidebarMenu', result);
+  });
+};
+
 
 /**
 /* @summary for a specific section returns how many new items to signal as new in sidebar
@@ -195,7 +204,7 @@ const getUserList = (array) => {
         feed: 'user',
         value: true,
         separator: false,
-        url: `/@${user.username}`,
+        url: `/address/${user.username}`,
         selected: false,
       });
     } else {
@@ -312,55 +321,7 @@ const _sidebarPercentage = () => {
 * @return integer for pixels
 */
 const _sidebarWidth = () => {
-  return parseInt(($(window).width() * _sidebarPercentage()) / 100, 10);
-};
-
-/**
-/* @summary animation for main menu toggle activation burger button
-*/
-const animateMenu = () => {
-  const sidebarPixelWidth = _sidebarWidth();
-
-  Session.set('sidebar', !Session.get('sidebar'));
-  if (!Meteor.user() && !Meteor.Device.isPhone()) { Session.set('sidebar', false); }
-
-  if (Session.get('sidebar')) {
-    // show sidebar
-    let newRight = 0;
-
-    if ($(window).width() < gui.MOBILE_MAX_WIDTH) {
-      newRight = parseInt(0 - sidebarPixelWidth, 10);
-    }
-
-    // loose mobile menu
-    if (Meteor.Device.isPhone() || Session.get('miniWindow')) {
-      $('.mobile-menu').css('margin-top', '-55px');
-      $('.mobile-menu').css('position', 'absolute');
-      $('.mobile-menu').css('top', `${$('#content').scrollTop() + $(window).height()}px`);
-      $('.navbar').css('position', 'absolute');
-      $('.navbar').css('top', `${$('#content').scrollTop()}px`);
-      $('.inhibitor').css('display', 'block');
-      $('.inhibitor').css('position', 'fixed');
-      $('.inhibitor').css('left', `${sidebarPixelWidth}px`);
-      $('.content').css('overflow', 'hidden');
-    }
-
-    $('#menu').css({ marginLeft: '0px' });
-    $('#content').css({
-      left: sidebarPixelWidth,
-      right: newRight,
-    });
-  } else if (Meteor.Device.isPhone() || Session.get('miniWindow')) {
-    // hide sidebar
-    $('.inhibitor').css('display', 'none');
-    $('.navbar').css('position', 'fixed');
-    $('.navbar').css('top', '0px');
-    $('#menu').css({ marginLeft: parseInt(0 - sidebarPixelWidth, 10) });
-    $('#content').css({
-      left: 0,
-      right: 0,
-    });
-  }
+  return parseInt((($(window).width() * _sidebarPercentage()) / 100) + 1, 10);
 };
 
 /**
@@ -385,6 +346,6 @@ const _toggleSelectedItem = (arrMenu) => {
 
 export const getDelegatesMenu = _getDelegatesMenu;
 export const toggleSelectedItem = _toggleSelectedItem;
-export const toggleSidebar = animateMenu;
 export const sidebarWidth = _sidebarWidth;
 export const sidebarPercentage = _sidebarPercentage;
+export const updateMenu = _updateMenu;

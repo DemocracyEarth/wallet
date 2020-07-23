@@ -11,24 +11,30 @@
     <div id='mobileKeyboard' contenteditable="true" style="opacity: 0; width: 0px; height:0px;"></div>
   {{/if}}
 
-  {{> sidebar}}
+  {{#unless isPhone}}
+    {{> topbar}}
+  {{/unless}}
 
-  {{> preloader}}
+  <div id="app" class="app">
+    {{#unless landingMode}}
+      {{> sidebar}}
+    {{/unless}}
 
-  <div id='content' class='right {{landingMode}}'>
+    {{> preloader}}
 
-    {{#if loggedWithPhone}}
-      {{> navigation}}
-      <div class='inhibitor' style='display: none;'></div>
+    <div id='content' class='right {{landingMode}}'>
+      {{#if isPhone}}
+        {{> navigation}}
+        <div class='inhibitor' style='display: none;'></div>
+      {{/if}}
+
+      {{> yield}}
+    </div>  
+
+    {{#if showNotice}}
+      {{> notice}}
     {{/if}}
-
-    {{> yield}}
-
-  </div>  
-
-  {{#if showNotice}}
-    {{> notice}}
-  {{/if}}
+  </div>
 
 </template>
 

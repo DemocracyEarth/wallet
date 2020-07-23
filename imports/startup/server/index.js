@@ -8,11 +8,8 @@ import './fixtures.js';
 // as an API to the client.
 import './register-api.js';
 
-// Raven logger configuration
-import './raven.js';
 
 // extras
-import './modules/search.js';
 import './accounts/accounts.js';
 import './accounts/emails.js';
 import './accounts/socialMedia.js';

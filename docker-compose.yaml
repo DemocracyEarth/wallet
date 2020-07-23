@@ -1,25 +1,12 @@
 version: '3'
 
 services:
-    app:
-      build:
-        context: ./docker
-        args:
-          USER_ID: ${USER_ID}
-          GROUP_ID: ${GROUP_ID}
-      image: democracy-earth:latest
-      ports:
-        - 3000:3000
-      volumes:
-        - ./:/app
-        - /home/meteor
-      environment:
-        MONGO_URL: "mongodb://mongo:27017"
-      depends_on:
-        - mongo
-
-
-    mongo:
-      image: mongo
-      expose:
-        - 27017
+  sovereign:
+    container_name: sovereign
+    restart: always
+    build: ./
+    volumes:
+      - ./:/app
+      - ./.meteor/:/app/.meteor/
+    ports:
+      - 3000:3000

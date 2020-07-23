@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import { Ticket } from '/imports/api/blockchain/Blockchain';
 import { Wallet } from './Wallet';
 import { Country } from '../collectives/Collectives';
-import { Ticket } from '/imports/api/blockchain/Blockchain';
 
 const Schema = {};
 
@@ -90,6 +90,28 @@ Schema.Menu = new SimpleSchema({
   },
 });
 
+Schema.Replica = new SimpleSchema({
+  lastSyncedBlock: {
+    type: Number,
+    optional: true,
+  },
+  gini: {
+    type: Number,
+    optional: true,
+    decimal: true,
+  },
+  ranking: {
+    type: Number,
+    optional: true,
+    decimal: true,
+  },
+  score: {
+    type: Number,
+    optional: true,
+    decimal: true,
+  },
+});
+
 Schema.Profile = new SimpleSchema({
   firstName: {
     type: String,
@@ -173,6 +195,19 @@ Schema.Profile = new SimpleSchema({
     type: [Schema.Delegation],
     optional: true,
   },
+  collectives: {
+    type: Array,
+    defaultValue: [],
+    optional: true,
+  },
+  'collectives.$': {
+    type: String,
+    optional: true,
+  },
+  replica: {
+    type: Schema.Replica,
+    optional: true,
+  },
 });
 
 Schema.User = new SimpleSchema({
@@ -190,13 +225,16 @@ Schema.User = new SimpleSchema({
   },
   'emails.$': {
     type: Object,
+    optional: true,
   },
   'emails.$.address': {
     type: String,
     regEx: SimpleSchema.RegEx.Email,
+    optional: true,
   },
   'emails.$.verified': {
     type: Boolean,
+    optional: true,
   },
   // use this registered_emails field if you are using splendido:meteor-accounts-emails-field
   registered_emails: {
@@ -234,6 +272,7 @@ export const UserContext = Schema.User.newContext();
 Meteor.users.attachSchema(Schema.User);
 
 export const User = Schema.User;
+export const Replica = Schema.Replica;
 
 /*
 *  FIX: temporary workaround

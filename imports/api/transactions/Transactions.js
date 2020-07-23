@@ -80,14 +80,13 @@ Schema.Transaction = new SimpleSchema({
     type: String,
     optional: true,
   },
+  collectiveId: {
+    type: String,
+    optional: true,
+  },
   timestamp: {
     type: Date,
     optional: true,
-    autoValue() {
-      if (this.isInsert) {
-        return new Date();
-      }
-    },
   },
   condition: {
     type: Object,
@@ -158,6 +157,10 @@ Schema.Transaction = new SimpleSchema({
   },
   collectiveId: {
     type: String,
+    optional: true,
+  },
+  isRagequit: {
+    type: Boolean,
     optional: true,
   },
 });

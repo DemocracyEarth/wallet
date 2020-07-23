@@ -1,8 +1,12 @@
 import { $ } from 'meteor/jquery';
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Session } from 'meteor/session';
+import { TAPi18n } from 'meteor/tap:i18n';
+import { Transactions } from '/imports/api/transactions/Transactions';
 
+import { gui } from '/lib/const';
 import { setupSplit } from '/imports/ui/modules/split';
 import { Contracts } from '/imports/api/contracts/Contracts';
 
@@ -17,6 +21,7 @@ const _convertQuery = (instance) => {
   switch (tally.options.view) {
     case 'latest':
       tally.options.view = 'lastVotes';
+      tally.options.limit = gui.LIMIT_TRANSACTIONS_PER_LEDGER;
       break;
     case 'token':
       tally.options.view = 'transactionsToken';
@@ -26,6 +31,15 @@ const _convertQuery = (instance) => {
       break;
     case 'peer':
       tally.options.view = 'transactionsPeer';
+      break;
+    case 'dao':
+      tally.options.view = 'transactionsDao';
+      break;
+    case 'search':
+      tally.options.view = 'transactionsSearch';
+      break;
+    case 'dateRange':
+      tally.options.view = 'transactionsDate';
       break;
     default:
   }
@@ -42,10 +56,21 @@ Template.ledger.onCreated(function () {
   instance.autorun(function (computation) {
     const subscription = instance.subscribe('transaction', _convertQuery(instance.data).options);
     if (subscription.ready() && !instance.postReady.get()) {
-      instance.postReady.set(true);
-      computation.stop();
+      const transactionCollectives = _.map(_.uniq(_.pluck(Transactions.find().fetch(), 'collectiveId')), (num) => { return { _id: num }; });
+      const collectiveSubscription = instance.subscribe('singleDao', { $or: transactionCollectives });
+      if (collectiveSubscription.ready() && !instance.postReady.get()) {
+        instance.postReady.set(true);
+        computation.stop();
+      }
     }
   });
+});
+
+Template.ledger.onRendered(function () {
+  if (Meteor.Device.isPhone()) {
+    $('#main-feed').css('display', 'inline-block');
+    $('#alternative-feed').css('display', 'none');
+  }
 });
 
 Template.ledger.helpers({
@@ -81,6 +106,15 @@ Template.ledger.helpers({
     const tally = this;
     tally.options.view = 'userVotes';
     tally.options.kind = 'VOTE';
+    tally.options.limit = gui.LIMIT_TRANSACTIONS_PER_LEDGER;
+    tally.options.sort = { timestamp: -1 };
+    return tally;
+  },
+  periodVotes() {
+    const tally = this;
+    tally.options.view = 'periodVotes';
+    tally.options.limit = gui.LIMIT_TRANSACTIONS_PER_LEDGER;
+    tally.options.period = this.options.period;
     tally.options.sort = { timestamp: -1 };
     return tally;
   },
@@ -88,6 +122,7 @@ Template.ledger.helpers({
     const tally = this;
     tally.options.view = 'threadVotes';
     tally.options.sort = { timestamp: -1 };
+    tally.options.limit = gui.LIMIT_TRANSACTIONS_PER_LEDGER;
 
     // winning options
     const contract = Contracts.findOne({ keyword: Template.currentData().options.keyword });
@@ -114,16 +149,7 @@ Template.ledger.helpers({
   ledgerTitle() {
     return this.ledgerTitle;
   },
-});
-
-Template.ledger.events({
-  'mousedown #resizable'(event) {
-    event.preventDefault();
-    Session.set('resizeSplit', true);
-    Session.set('resizeSplitCursor', {
-      x: parseInt(event.pageX - parseInt($('.split-right').css('marginLeft'), 10), 10),
-      y: event.pageY,
-      windowWidth: window.innerWidth,
-    });
+  periodTitle() {
+    return TAPi18n.__('moloch-period-votes').replace('{{period}}', TAPi18n.__(`moloch-${this.options.period}`));
   },
 });

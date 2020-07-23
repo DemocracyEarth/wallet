@@ -8,10 +8,20 @@ import { ServiceConfiguration } from 'meteor/service-configuration';
 import { genesisTransaction, loadExternalCryptoBalance, tallyBlockchainVotes } from '/imports/api/transactions/transaction';
 import { Contracts } from '/imports/api/contracts/Contracts';
 import { getTime } from '/imports/api/time';
-import { logUser, log } from '/lib/const';
+import { logUser, log, defaults, gui } from '/lib/const';
 import { stripHTML, urlDoctor, fixDBUrl } from '/lib/utils';
 import { notifierHTML } from '/imports/api/notifier/notifierTemplate.js';
+import { getLastTimestamp, getBlockHeight, getShares, setTransaction, getEvents } from '/lib/web3';
+import { getTransactionObject } from '/lib/interpreter';
+import { query } from '/lib/views';
+import { Collectives } from '/imports/api/collectives/Collectives';
 
+/**
+* @summary include a quantity in a message
+* @param {string} quantity to include
+* @param {string} message to parse
+* @return {number} with total proposals
+*/
 const _includeQuantity = (quantity, message) => {
   let modified;
   if (quantity === 0) {
@@ -22,6 +32,26 @@ const _includeQuantity = (quantity, message) => {
     modified = message.replace('{{quantity}}', `${quantity} ${TAPi18n.__('votes').toLowerCase()}`);
   }
   return modified;
+};
+
+/**
+* @summary quick count of all proposals in the system
+* @return {number} with total proposals
+*/
+const _getHistoryCount = () => {
+  const collectives = Collectives.find().fetch();
+  let finalCount = 0;
+  for (const dao of collectives) {
+    if (dao.profile && dao.profile.menu) {
+      for (const item of dao.profile.menu) {
+        if ((item.label === 'moloch-all') && item.count) {
+          finalCount += item.count;
+          break;
+        }
+      }
+    }
+  }
+  return finalCount;
 };
 
 Meteor.methods({
@@ -50,7 +80,6 @@ Meteor.methods({
     // Make sure that all arguments are strings.
     check([toId, fromId, story], [String]);
     check(transaction, Object);
-
     log(`{ method: 'sendEmail', user: ${logUser()}, story: '${story}' }`);
 
     let receiver;
@@ -93,7 +122,7 @@ Meteor.methods({
     }
 
     const to = emailAddress;
-    const from = `${Meteor.settings.public.Collective.name} <${Meteor.settings.public.Collective.emails[0].address}>`;
+    const from = `${Meteor.settings.public.app.name} <${Meteor.settings.public.Collective.emails[0].address}>`;
     subject = subject.replace('{{user}}', `@${sender.username}`);
     subject = subject.replace('{{title}}', `'${stripHTML(contract.title).substring(0, 30)}...'`);
     html = html.replace('{{user}}', `@${sender.username}`);
@@ -104,7 +133,7 @@ Meteor.methods({
     html = html.replace('{{reply}}', `${transaction.reply}`);
     html = html.replace('{{greeting}}', `${TAPi18n.__('email-greeting-hello')} @${receiver.username},`);
     html = html.replace('{{farewell}}', `${TAPi18n.__('email-farewell')}`);
-    html = html.replace('{{collective}}', `<a href='${Meteor.settings.public.Collective.profile.website}'>${Meteor.settings.public.Collective.name}</a>`);
+    html = html.replace('{{collective}}', `<a href='${Meteor.settings.public.app.url}'>${Meteor.settings.public.app.name}</a>`);
     text = text.replace('{{user}}', `@${sender.username}`);
     text = text.replace('{{title}}', `${contract.title}`);
 
@@ -130,7 +159,6 @@ Meteor.methods({
   */
   subsidizeUser(userId) {
     check(userId, String);
-
     log(`{ method: 'subsidizeUser', user: ${logUser()} }`);
     genesisTransaction(userId);
   },
@@ -140,7 +168,6 @@ Meteor.methods({
   */
   loadUserTokenBalance(userId) {
     check(userId, String);
-
     log(`{ method: 'loadUserTokenBalance', user: ${logUser()} }`);
     loadExternalCryptoBalance(userId);
   },
@@ -211,7 +238,6 @@ Meteor.methods({
   */
   getContract(keyword) {
     check(keyword, String);
-
     log(`{ method: 'getContract', user: ${logUser()}, keyword: '${keyword}' }`);
     return Contracts.findOne({ keyword });
   },
@@ -220,11 +246,34 @@ Meteor.methods({
   * @summary given a keyword returns contract id
   * @param {keyword} keyword identify contract by given keyword
   */
+  getProposalContract(contractId) {
+    check(contractId, String);
+    log(`{ method: 'getProposalContract', user: ${logUser()}, _id: '${contractId}' }`);
+    const contract = Contracts.findOne({ _id: contractId });
+    if (contract.pollId) {
+      return Contracts.findOne({ _id: contract.pollId });
+    }
+    return contract;
+  },
+
+  /**
+ * @summary given a keyword returns contract id
+ * @param {keyword} keyword identify contract by given keyword
+ */
   getContractById(contractId) {
     check(contractId, String);
-
-    log(`{ method: 'getContractById', user: ${logUser()}, _id: '${contractId}' }`);
+    log(`{ method: 'getProposalContract', user: ${logUser()}, _id: '${contractId}' }`);
     return Contracts.findOne({ _id: contractId });
+  },
+
+  /**
+  * @summary given a keyword returns contract id
+  * @param {keyword} keyword identify contract by given keyword
+  */
+  getCollectiveById(collectiveId) {
+    check(collectiveId, String);
+    log(`{ method: 'getCollectiveById', user: ${logUser()}, _id: '${collectiveId}' }`);
+    return Collectives.findOne({ _id: collectiveId });
   },
 
   /**
@@ -233,7 +282,6 @@ Meteor.methods({
   */
   getUser(username) {
     check(username, String);
-
     log(`{ method: 'getUser', user: ${logUser()}, keyword: '${username}' }`);
     const user = Meteor.users.findOne({ username });
     if (user) {
@@ -258,7 +306,6 @@ Meteor.methods({
   getOtherDelegate(contractId, currentDelegateId) {
     check(contractId, String);
     check(currentDelegateId, String);
-
     log(`{ method: 'getOtherDelegate', user: ${logUser()}, contractId: '${contractId}', currentDelegateId: '${currentDelegateId}' }`);
     const contract = Contracts.findOne({ _id: contractId });
     let user;
@@ -287,10 +334,23 @@ Meteor.methods({
   */
   countReplies(contractId) {
     check(contractId, String);
-
     log(`{ method: 'countReplies', user: ${logUser()}, contractId: '${contractId}' }`);
     return Contracts.find({ replyId: contractId }).count();
   },
+
+  /**
+  * @summary adds one to the social shares counter
+  * @param {string} contractId contract to update
+  */
+  addShareCounter(contractId) {
+    check(contractId, String);
+    log(`{ method: 'plusSocialSharing', user: ${logUser()}, contractId: '${contractId}' }`);
+    const contract = Contracts.findOne({ _id: contractId });
+    const counter = (contract.shareCounter) ? contract.shareCounter : 0;
+    Contracts.update({ _id: contractId }, { $set: { shareCounter: parseInt(counter + 1, 10) } });
+    return counter;
+  },
+
 
   /**
   * @summary reports server time from server to client
@@ -305,10 +365,10 @@ Meteor.methods({
   * @summary counts the total items on a collection.
   * @return {Number} total count.
   */
-  feedCount(query, options) {
-    check(query, Object);
+  feedCount(feedQuery, options) {
+    check(feedQuery, Object);
     check(options, Object);
-    const count = Contracts.find(query, options).count();
+    const count = Contracts.find(feedQuery, options).count();
     log(`{ method: 'feedCount', user: ${logUser()}, count: ${count} }`);
     return count;
   },
@@ -321,6 +381,263 @@ Meteor.methods({
     const count = Meteor.users.find().count();
     log(`{ method: 'userCount', user: ${logUser()}, count: ${count} }`);
     return count;
+  },
+
+  /**
+  * @summary returns the last timestamp
+  */
+  async getLastTimestamp() {
+    return await getLastTimestamp().then((resolved) => { return resolved; });
+  },
+  
+  /**
+  * @summary get block timme
+  * @param {object} collective where to persist blocktime
+  */
+  async getBlock(collectives) {
+    check(collectives, Array);
+    log(`{ method: 'getBlock', collectiveId: ${JSON.stringify(collectives)} }`);
+
+    const lastTimestamp = await getLastTimestamp().then((resolved) => { return resolved; });
+    const blockTimes = [];
+    blockTimes.push({
+      collectiveId: defaults.ROOT,
+      height: await getBlockHeight().then((resolved) => { return resolved; }),
+      timestamp: lastTimestamp,
+    });
+
+    let collectiveList;
+    if (collectives.length === 0) {
+      const recentCollectives = Collectives.find({}, { limit: gui.COLLECTIVE_MAX_FETCH }).fetch();
+      collectiveList = _.pluck(recentCollectives, '_id');
+    } else {
+      collectiveList = collectives;
+    }
+
+    let now;
+    for (let j = 0; j < collectiveList.length; j += 1) {
+      const collective = Collectives.findOne({ _id: collectiveList[j] });
+      if ((collective && !collective.status) || (collective && collective.status && collective.status.blockchainSync === 'UPDATED')) {
+        const smartContracts = collective.profile.blockchain.smartContracts;
+        const summoningTime = parseFloat(collective.profile.summoningTime.getTime(), 10);
+        let periodDuration;
+        let found = false;
+        for (let i = 0; i < smartContracts.length; i += 1) {
+          for (let k = 0; k < smartContracts[i].parameter.length; k += 1) {
+            if (smartContracts[i].parameter[k].name === 'periodDuration') {
+              periodDuration = smartContracts[i].parameter[k].value.toNumber();
+              found = true;
+              break;
+            }
+          }
+          if (found) { break; }
+        }
+        now = {
+          collectiveId: collectiveList[j],
+          height: parseFloat(((lastTimestamp - summoningTime) / periodDuration) / 1000, 10),
+          timestamp: lastTimestamp,
+        };
+      } else {
+        now = {
+          collectiveId: collectiveList[j],
+          height: undefined,
+          timestamp: lastTimestamp,
+        };
+      }
+
+      if (now) {
+        blockTimes.push(now);
+      }
+    }
+
+    const finalBlockTimes = _.uniq(blockTimes);
+
+    return finalBlockTimes;
+  },
+
+  /**
+  * @summary get a user or collective based on a public address with its corresponding replica score
+  * @param {string} publicAddress to calculate replica on
+  */
+  getReplica(publicAddress) {
+    check(publicAddress, String);
+    log(`{ method: 'getReplica', publicAddress: '${publicAddress}' }`);
+    const replica = {};
+    const user = Meteor.users.findOne({ username: publicAddress.toLowerCase() });
+    if (user) {
+      replica.user = Meteor.users.findOne({ username: publicAddress.toLowerCase() });
+    }
+    return replica;
+  },
+
+  /**
+  * @summary get a user or collective based on a public address with its corresponding replica score
+  * @param {string} publicAddress to calculate replica on
+  */
+  getMenu(daoName) {
+    check(daoName, String);
+    log(`{ method: 'getMenu', daoName: '${daoName}' }`);
+
+    let collectives;
+    let daoSpecific = false;
+    if (!daoName) {
+      collectives = Collectives.find().fetch();
+    } else {
+      const parameters = query({ view: 'addressDao', publicAddress: daoName });
+      collectives = Collectives.find(parameters.find).fetch();
+
+      let fullyLoaded;
+      for (const listed of collectives) {
+        if ((listed.status && listed.status.blockchainSync === 'UPDATED') || !listed.status) {
+          fullyLoaded = true;
+          break;
+        }
+      }
+      if ((collectives.length > 0) && fullyLoaded) {
+        daoSpecific = true;
+      } else {
+        collectives = Collectives.find().fetch();
+      }
+    }
+
+    const finalMenu = [];
+    let found = false;
+    for (const dao of collectives) {
+      if (dao.profile && dao.profile.menu) {
+        for (const item of dao.profile.menu) {
+          found = false;
+          if (finalMenu.length > 0) {
+            for (const finalItem of finalMenu) {
+              if (finalItem.label === item.label) {
+                item.count = parseInt(finalItem.count + item.count, 10);
+                found = true;
+                break;
+              }
+            }
+          }
+          if (!found) {
+            if (daoSpecific && item.url) {
+              item.url = `/dao/${daoName.toLowerCase()}${(item.url === '/') ? '' : item.url}`;
+            }
+            if (daoSpecific && item.separator) {
+              item.label = TAPi18n.__(`${item.label}-dao-specific`).replace('{{dao}}', dao.name);
+            }
+            finalMenu.push(item);
+          } else {
+            for (let i = 0; i < finalMenu.length; i += 1) {
+              if (finalMenu[i].label === item.label) {
+                finalMenu[i].count = item.count;
+                finalMenu[i].url = item.url;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    const allDAOs = {
+      label: 'all-daos',
+      icon: 'images/globe.svg',
+      iconActivated: 'images/globe-active.svg',
+      feed: 'user',
+      value: true,
+      separator: false,
+      url: '/',
+      displayToken: false,
+      displayCount: true,
+      count: _getHistoryCount(),
+    };
+
+    // insert back to general view
+    if (daoSpecific) {
+      finalMenu.unshift(allDAOs);
+    } else if (!daoName) {
+      finalMenu.shift();
+      finalMenu.shift();
+      finalMenu.unshift(allDAOs);
+    }
+
+    return finalMenu;
+  },
+
+  async setPendingVote(contract, userId, collectiveId, hash, uintVote) {
+    check(contract, Object);
+    check(userId, String);
+    check(collectiveId, String);
+    check(hash, String);
+    check(uintVote, Number);
+    log(`{ method: 'setPendingVote', userId: '${userId}', collectiveId: '${collectiveId}' }`);
+
+    const voter = Meteor.users.findOne({ _id: userId });
+    const shares = getShares(voter, collectiveId);
+
+    let poll;
+    switch (uintVote) {
+      case defaults.YES: // yes
+        poll = Contracts.findOne({ keyword: `${contract.keyword}/yes` });
+        break;
+      case defaults.NO: // no
+        poll = Contracts.findOne({ keyword: `${contract.keyword}/no` });
+        break;
+      default:
+    }
+
+    const userHash = _.findWhere(voter.profile.wallet.address, { chain: defaults.BLOCKCHAIN }).hash;
+
+    const ticket = {
+      shares,
+      timestamp: await getLastTimestamp(),
+      contract: {
+        _id: contract._id,
+      },
+      poll: {
+        _id: poll._id,
+      },
+      address: contract.keyword,
+      collectiveId: contract.collectiveId,
+      blockchain: {
+        tickets: [
+          {
+            hash,
+            status: 'PENDING',
+            value: shares.toNumber(),
+          },
+        ],
+        coin: {
+          code: defaults.TOKEN,
+        },
+        publicAddress: userHash.toLowerCase(),
+        score: {
+          totalConfirmed: shares.toString(),
+          totalPending: '0',
+          totalFail: '0',
+          finalConfirmed: shares.toNumber(),
+          finalPending: 0,
+          finalFail: 0,
+          value: 0,
+        },
+      },
+    };
+    const transactionObject = getTransactionObject(voter, ticket);
+    transactionObject.status = 'PENDING';
+    const pollId = poll._id;
+    const txId = setTransaction(userId, pollId, transactionObject);
+
+    // update dao
+    const dao = Collectives.findOne({ _id: collectiveId });
+    log(`[dao] Checking status of ${dao.name}...`);
+    if ((dao.status.blockchainSync === 'UPDATED' && dao.profile.lastSyncedBlock)) {
+      log(`[dao] Processing DAO: ${dao.name}...`);
+      const syncFrom = (dao.profile.lastSyncedBlock) ? (dao.profile.lastSyncedBlock + 1) : defaults.START_BLOCK;
+      for (const smartContract of dao.profile.blockchain.smartContracts) {
+        log(`[dao] Processing smart contracts: ${smartContract.label}, syncing from ${syncFrom} to block: latest`);
+        await getEvents(smartContract, dao._id, syncFrom, 'latest');
+      }
+    } else {
+      log(`[dao] DAO ${dao.name} is not available for processing.`);
+    }
+
+    return txId;
   },
 
 });

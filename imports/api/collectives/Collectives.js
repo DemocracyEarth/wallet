@@ -1,6 +1,9 @@
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
-import { Wallet } from '../users/Wallet';
+
+import { Wallet } from '/imports/api/users/Wallet';
+import { Blockchain, Parameter } from '/imports/api/blockchain/Blockchain';
+import { Replica } from '/imports/api/users/User';
 
 export const Collectives = new Mongo.Collection('collectives');
 
@@ -50,22 +53,136 @@ Schema.Jurisdiction = new SimpleSchema({
   },
 });
 
+Schema.Menu = new SimpleSchema({
+  separator: {
+    type: Boolean,
+    optional: true,
+  },
+  label: {
+    type: String,
+    optional: true,
+  },
+  icon: {
+    type: String,
+    optional: true,
+  },
+  iconActivated: {
+    type: String,
+    optional: true,
+  },
+  feed: {
+    type: String,
+    optional: true,
+  },
+  value: {
+    type: Boolean,
+    optional: true,
+  },
+  url: {
+    type: String,
+    optional: true,
+  },
+  displayToken: {
+    type: Boolean,
+    defaultValue: false,
+    optional: true,
+  },
+  count: {
+    type: Number,
+    defaultValue: 0,
+    optional: true,
+  },
+  displayCount: {
+    type: Boolean,
+    optional: true,
+  },
+});
+
+Schema.Dataset = new SimpleSchema({
+  data: {
+    type: Array,
+    optional: true,
+    defaultValue: [],
+  },
+  'data.$': {
+    type: Object,
+    optional: true,
+  },
+  'data.$.t': {
+    type: Date,
+    optional: true,
+  },
+  'data.$.x': {
+    type: Number,
+    optional: true,
+    decimal: true,
+  },
+  'data.$.y': {
+    type: Number,
+    optional: true,
+    decimal: true,
+  },
+});
+
+Schema.Chart = new SimpleSchema({
+  guildLabel: {
+    type: String,
+    optional: true,
+  },
+  type: {
+    type: String,
+    optional: true,
+  },
+  dataset: {
+    type: [Schema.Dataset],
+    optional: true,
+  },
+  lastSyncedBlock: {
+    type: Number,
+    optional: true,
+  },
+});
+
+Schema.Status = new SimpleSchema({
+  loadPercentage: {
+    type: Number,
+    defaultValue: 0,
+    optional: true,
+  },
+  blockchainSync: {
+    type: String,
+    allowedValues: ['SETUP', 'SYNCING', 'UPDATED', 'EMPTY'],
+    optional: true,
+  },
+  publicAddress: {
+    type: String,
+    optional: true,
+  },
+  message: {
+    type: String,
+    optional: true,
+  },
+});
+
 Schema.CollectiveProfile = new SimpleSchema({
   website: {
     type: String,
-    regEx: SimpleSchema.RegEx.Url,
     optional: true,
   },
   bio: {
     type: String,
     optional: true,
   },
-  blockchain: {
-    type: Object,
+  guild: {
+    type: [Parameter],
     optional: true,
   },
-  'blockchain.address': {
-    type: String,
+  chart: {
+    type: [Schema.Chart],
+    optional: true,
+  },
+  blockchain: {
+    type: Blockchain,
     optional: true,
   },
   logo: {
@@ -85,18 +202,43 @@ Schema.CollectiveProfile = new SimpleSchema({
     allowedValues: ['Profit', 'Free'],
     optional: true,
   },
-  owners : {
-      type: String,
-      optional: true
+  owners: {
+    type: String,
+    optional: true,
   },
   configured: {
     type: Boolean,
-    optional: true
+    optional: true,
   },
   wallet: {
     type: Wallet,
-    optional: true
-  }
+    optional: true,
+  },
+  menu: {
+    type: [Schema.Menu],
+    optional: true,
+  },
+  lastEventIndex: {
+    type: Number,
+    defaultValue: 0,
+    optional: true,
+  },
+  lastEventBlockTimestamp: {
+    type: Date,
+    optional: true,
+  },
+  summoningTime: {
+    type: Date,
+    optional: true,
+  },
+  lastSyncedBlock: {
+    type: Number,
+    optional: true,
+  },
+  replica: {
+    type: Replica,
+    optional: true,
+  },
 });
 
 
@@ -104,39 +246,52 @@ Schema.Collective = new SimpleSchema({
   name: {
     type: String,
   },
+  uri: {
+    type: String,
+    optional: true,
+  },
   domain: {
     type: String,
+    optional: true,
   },
   emails: {
     type: Array,
+    optional: true,
+  },
+  kind: {
+    type: String,
     optional: true,
   },
   'emails.$': {
     type: Object,
   },
   'emails.$.address': {
-      type: String,
-      regEx: SimpleSchema.RegEx.Email
+    type: String,
+    regEx: SimpleSchema.RegEx.Email,
   },
   'emails.$.verified': {
-      type: Boolean
+    type: Boolean,
   },
   profile: {
-      type: Schema.CollectiveProfile,
-      optional: true
+    type: Schema.CollectiveProfile,
+    optional: true,
+  },
+  status: {
+    type: Schema.Status,
+    optional: true,
   },
   goal: {
     type: String,
     allowedValues: ['Business', 'Free', 'Commons'],
-    optional: true
+    optional: true,
   },
   authorities: {
     type: Array,
-    optional: true
+    optional: true,
   },
   'authorities.$': {
     type: Object,
-    optional: true
+    optional: true,
   },
   'authorities.$.userId': {
     type: String,

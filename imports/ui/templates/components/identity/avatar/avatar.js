@@ -14,10 +14,13 @@ import { searchJSON } from '/imports/ui/modules/JSON';
 import { uploadToAmazonS3 } from '/imports/ui/modules/Files';
 import { displayModal } from '/imports/ui/modules/modal';
 import { templetize, getImage } from '/imports/ui/templates/layout/templater';
-import { displayPopup, cancelPopup } from '/imports/ui/modules/popup';
+import { shortenCryptoName } from '/imports/startup/both/modules/metamask';
+import { defaults } from '/lib/const';
 
 import '/imports/ui/templates/components/identity/avatar/avatar.html';
 import '/imports/ui/templates/components/identity/chain/chain.js';
+
+const makeBlockie = require('ethereum-blockies-base64');
 
 /**
 * @summary subscribes to user data
@@ -42,26 +45,36 @@ const _getUser = (userId) => {
 * @summary gets address info from user
 * @param {object} user user to parse
 */
-const _getAddress = (user) => {
-  let reserve;
+const _getAddress = (avatar) => {
+  const user = Meteor.users.findOne({ _id: avatar.profile });
+  if (user) {
+    return user.username;
+  }
+  return undefined;
+  /*
+  let addressList;
+  
   if (!user.profile) {
-    reserve = Meteor.user().profile.wallet.reserves;
+    addressList = Meteor.user().profile.wallet.address;
   } else if (typeof user.profile === 'string') {
     const userProfile = Meteor.users.findOne({ _id: user.profile });
-    if (userProfile && userProfile.profile.wallet.reserves) {
-      reserve = userProfile.profile.wallet.reserves;
+    if (userProfile && userProfile.profile.wallet.address) {
+      addressList = userProfile.profile.wallet.address;
     }
-  } else if (user.wallet && user.wallet.reserves) {
-    reserve = user.wallet.reserves;
+  } else if (user.wallet && user.wallet.address) {
+    addressList = user.wallet.address;
   }
-  if (reserve && reserve.length && reserve.length > 0) {
-    for (const i in reserve) {
-      if ((reserve[i].token === 'WEI' || reserve[i].token === 'STX') && reserve[i].publicAddress) {
-        return reserve[i];
+
+  if (addressList && addressList.length && addressList.length > 0) {
+    for (const item of addressList) {
+      if (item.chain === defaults.BLOCKCHAIN) {
+        return item;
       }
     }
   }
-  return undefined;
+
+  return user.username;
+  */
 };
 
 /**
@@ -168,6 +181,8 @@ const _getDynamicID = (data) => {
 
 Template.avatar.onCreated(function () {
   const instance = this;
+  const guid = guidGenerator();
+  Template.instance().guid = guid;
 
   _getUser(_getDynamicID(instance.data)._id);
 
@@ -175,23 +190,23 @@ Template.avatar.onCreated(function () {
   templetize(Template.instance());
 });
 
-Template.avatar.onRendered = () => {
+Template.avatar.onRendered(function () {
   Session.set('editor', false);
-};
+});
 
 // this turned out to be kinda polymorphic
 Template.avatar.helpers({
   url() {
     if (this.profile === undefined) {
       if (Meteor.user()) {
-        return `/@${Meteor.user().username}`;
+        return `/address/${Meteor.user().username}`;
       }
     }
     const user = Meteor.users.findOne(_getDynamicID(this));
     if (!user) {
       return '#';
     }
-    return `/@${user.username}`;
+    return `/address/${user.username}`;
   },
   myself() {
     if (this.profile === undefined) {
@@ -252,7 +267,7 @@ Template.avatar.helpers({
     return '';
   },
   elementId() {
-    return guidGenerator();
+    return Template.instance().guid;
   },
   classStyle(smallFont) {
     let style = '';
@@ -285,6 +300,20 @@ Template.avatar.helpers({
         user = getAnonymous();
       }
       return user.profile.picture;
+    }
+    return undefined;
+  },
+  blockiePicture(profile) {
+    if (profile === undefined) {
+      if (Meteor.user()) {
+        return makeBlockie(Meteor.user().username);
+      }
+    } else {
+      let user = Meteor.users.findOne({ _id: profile });
+      if (user === undefined) {
+        user = getAnonymous();
+      }
+      return makeBlockie(user.username);
     }
     return undefined;
   },
@@ -324,14 +353,14 @@ Template.avatar.helpers({
   username(profile) {
     if (profile === undefined) {
       if (Meteor.user()) {
-        return Meteor.user().username;
+        return shortenCryptoName(Meteor.user().username);
       }
     }
     const user = Meteor.users.findOne(_getDynamicID(this));
     if (!user) {
       return '';
     }
-    return `${user.username}`;
+    return `${shortenCryptoName(user.username)}`;
   },
   nationality(profile) {
     return getNation(profile);
@@ -355,18 +384,19 @@ Template.avatar.helpers({
     return '';
   },
   ticker() {
-    const reserve = _getAddress(this);
+    return defaults.BLOCKCHAIN;
+    /* const reserve = _getAddress(this);
     if (reserve) {
-      return reserve.token;
+      return reserve.chain;
     }
-    return '';
+    return ''; */
   },
   address() {
-    const reserve = _getAddress(this);
-    if (reserve) {
-      return reserve.publicAddress;
+    return _getAddress(this);
+    /* if (reserve) {
+      return reserve.hash;
     }
-    return '';
+    return ''; */
   },
   getImage(pic) {
     return getImage(Template.instance().imageTemplate.get(), pic);

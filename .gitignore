@@ -1,9 +1,5 @@
 ## Custom
-config/production/settings.json
-config/production/decentraland.json
-config/production/colorado.json
-config/production/rinkeby.json
-config/production/goerli.json
+config/production/*
 config/staging/settings.json
 public/templates/decentraland/legacy/
 
@@ -79,3 +75,9 @@ jslint.xml
 
 # IDE
 .idea
+reset.sh
+
+
+.history
+config/.DS_Store
+.DS_Store
