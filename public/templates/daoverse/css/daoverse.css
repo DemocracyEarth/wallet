@@ -1,3 +1,8 @@
+:root {
+  --main-link-color: #7d6186;
+  --main-menu-color: #580074;
+}
+
 body {
   padding-right: 0px;
   padding-left: 0px;
@@ -82,6 +87,7 @@ a {
 }
 
 a:hover {
+  color: var(--main-menu-color);
   text-decoration: underline;
 }
 
@@ -815,7 +821,7 @@ blockquote {
   margin: 5px;
   padding: 9px 14px;
   border-radius: 6px;
-  background-color: #580074;
+  background-color: var(--main-menu-color);;
   font-family: Lato, sans-serif;
   color: #fff;
   font-size: 14px;
@@ -895,7 +901,7 @@ blockquote {
   width: 100%;
   margin-right: 0px;
   margin-left: 0px;
-  border: 1px solid #580074;
+  border: 1px solid var(--main-menu-color);
   font-size: 12px;
 }
 
@@ -907,9 +913,9 @@ blockquote {
 }
 
 .button.login-button:active {
-  border: 1px solid #580074;
+  border: 1px solid var(--main-menu-color);
   background-color: transparent;
-  color: #580074;
+  color: var(--main-menu-color);
 }
 
 .button.login-button.button-secondary {
@@ -1084,9 +1090,9 @@ blockquote {
 .button.button-cta:active {
   padding-top: 6px;
   padding-bottom: 9px;
-  border: 1px solid #580074;
+  border: 1px solid var(--main-menu-color);
   background-color: transparent;
-  color: #580074;
+  color: var(--main-menu-color);
 }
 
 .button.button-menu {
@@ -2262,10 +2268,8 @@ blockquote {
 
 .identity {
   display: inline-block;
-  margin: 0px 20px 0px 5px;
+  margin: 0px;
   padding-left: 0px;
-  float: left;
-  border-radius: 5px;
   text-align: left;
 }
 
@@ -2322,7 +2326,7 @@ blockquote {
 
 .identity-label {
   display: inline-block;
-  color: #48587d;
+  color: var(--main-link-color);
   font-size: 16px;
   line-height: 22px;
   text-decoration: none;
@@ -2368,10 +2372,16 @@ blockquote {
 }
 
 .identity-label.identity-label-micro {
-  font-size: 11px;
-  line-height: 11px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  font-size: 0.75em;
+  line-height: 1em;
+  letter-spacing: 0em;
+  font-weight: 300;
+}
+
+@media (max-width: 479px) {
+  .identity-label.identity-label-micro {
+    font-size: 0.85em;
+  }
 }
 
 .identity-label.identity-label-micro.identity-label-post {
@@ -2418,7 +2428,7 @@ blockquote {
 }
 
 .verifier {
-  margin-top: 5px;
+  margin: 5px 0px;
   padding-left: 0px;
   clear: both;
   color: #7d849f;
@@ -2956,8 +2966,7 @@ blockquote {
 }
 
 .identity-peer {
-  margin-top: 6px;
-  margin-left: 6px;
+  margin: 7px 0px 0px 7px;
   float: left;
 }
 
@@ -3560,6 +3569,7 @@ blockquote {
 
 .meta.meta-search.meta-bar {
   background:#f8f6f9;
+  padding:10px;
   margin-bottom:10px;
   border-bottom:1px solid #f1eef3;
 }
@@ -3823,9 +3833,8 @@ blockquote {
 }
 
 .title-input.title-feed {
-  margin-top: 5px;
-  margin-bottom: 5px;
   border-style: none;
+  margin: 10px 0px;
 }
 
 .title-input.title-feed:hover {
@@ -4107,13 +4116,13 @@ blockquote {
 }
 
 .navbar-button.navbar-button-active {
-  background-color: #580074;
+  background-color: var(--main-menu-color);
 }
 
 .navbar-button.navbar-button-active.navbar-button-action {
   margin-top: 6px;
   margin-bottom: 6px;
-  border: 1px solid #580074;
+  border: 1px solid var(--main-menu-color);
   font-size: 16px;
   line-height: 18px;
   cursor: pointer;
@@ -4125,9 +4134,9 @@ blockquote {
 }
 
 .navbar-button.navbar-button-active.navbar-button-action:active {
-  border: 1px solid #580074;
+  border: 1px solid var(--main-menu-color);
   background-color: hsla(283.6363636363637, 75.57%, 25.69%, 0.10);
-  color: #580074;
+  color: var(--main-menu-color);
 }
 
 .navbar-button.navbar-button-active.navbar-button-action.navbar-button-action-disabled {
@@ -4678,7 +4687,7 @@ blockquote {
   display: inline-block;
   overflow: hidden;
   margin: 10px auto;
-  padding: 0px 10px 0px 5px;
+  padding: 0px 10px 0px 0px;
   border-radius: 5px;
   color: #7d849f;
   font-size: 12px;
@@ -4688,7 +4697,7 @@ blockquote {
 }
 
 .micro-button:hover {
-  color: #ff617e;
+  color: var(--main-menu-color);
 }
 
 .micro-button:active {
@@ -4738,7 +4747,7 @@ blockquote {
 
 .micro-button.micro-button-feed {
   display: block;
-  margin: 5px 0px 0px 10px;
+  margin: 0px;
   float: left;
 }
 
@@ -4763,7 +4772,11 @@ blockquote {
 }
 
 .micro-label {
-  display: inline-block;
+  margin-top:7px;
+}
+
+.micro-label-button {
+  display:inline-block;
 }
 
 .micro {
@@ -5855,7 +5868,7 @@ blockquote {
   float: right;
   border-radius: 3px;
   /* background-color: #f9f9ff; */
-  color: #48587d;
+  color: var(--main-link-color);
   font-size: 10px;
   line-height: 18px;
   font-weight: 400;
@@ -5968,7 +5981,8 @@ blockquote {
 .option-placeholder.identity-placeholder {
   height: 15px;
   margin-top: 8px;
-  background-color: #f2f2f5;
+  opacity:0.5;
+  background-color: var(--main-link-color);
 }
 
 .option-placeholder.short {
@@ -6191,7 +6205,6 @@ blockquote {
 }
 
 .token {
-  margin-top: 0px;
   color: #fff;
   font-size:16px;
 }
@@ -6653,9 +6666,9 @@ blockquote {
   padding-right: 5px;
   padding-left: 5px;
   float: right;
-  border: 1px solid #48587d;
+  border: 1px solid var(--main-link-color);
   border-radius: 100px;
-  background-color: #48587d;
+  background-color: var(--main-link-color);
   color: #fff;
   font-size: 10px;
   line-height: 15px;
@@ -7625,7 +7638,7 @@ blockquote {
   float: left;
   max-height:28px;
   cursor: move;
-  background: #580074;
+  background: var(--main-menu-color);
   border-radius: 25px;
   color: white;
   padding: 0px 10px;

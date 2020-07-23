@@ -208,7 +208,7 @@ body, h4, h1, h2 {
   margin: 15px 0px 0px;
   padding: 12px 14px;
   border-radius: 6px;
-  background-color: #580074;
+  background-color: var(--main-menu-color);
   font-family: Lato, sans-serif;
   color: #fff;
   font-size: 14px;
@@ -216,7 +216,7 @@ body, h4, h1, h2 {
   text-align: center;
   text-transform: uppercase;
   cursor: pointer;
-  border: 1px solid #580074;
+  border: 1px solid var(--main-menu-color);
   font-size: 14px;
 }
 
@@ -365,13 +365,11 @@ body, h4, h1, h2 {
 .poll {
   display: inline-block;
   width: 100%;
-  margin-top:5px;
 }
 
 .poll-choice {
   padding: 5px;
-  float: left;
-  /* display: inline-block; */
+  display: inline-block;
   width: 50%;
 }
 
@@ -447,7 +445,7 @@ body, h4, h1, h2 {
 }
 
 .section-poll {
-  margin:0 -5px;
+  margin:0px;
 }
 
 .micro-button.micro-button-feed.no-underline.micro-button-poll {
@@ -455,6 +453,10 @@ body, h4, h1, h2 {
   margin: 1px -3px;
   padding: 0px;
   height: 25px;
+}
+
+.post-footer {
+  margin: 0px -5px;
 }
 
 .login-label-subtitle {
@@ -539,18 +541,18 @@ width: 1px;
   min-width: 35px;
   padding: 3px 3px 3px 5px;
   float: left;
-  background-color: #9695c3;
-  font-size: 0.55em;
+  font-size: 0.65em;
   line-height: 11px;
   font-weight: 400;
   text-align: center;
+  color: var(--main-link-color);
 }
 
 .token-balance {
   min-width: 20px;
   padding: 3px 5px;
   float: left;
-  color: #9696c1;
+  color: var(--main-link-color);
   font-size: 1em;
   border-left: 0px;
   line-height: 11px;
@@ -558,6 +560,11 @@ width: 1px;
   text-align: right;
   text-transform: uppercase;
 }
+
+.token-ticker:hover {
+  text-decoration:underline;
+}
+
 
 .checkbox-mini.checkbox-mini-remove {
     background-color: #ff617e;
@@ -614,7 +621,7 @@ width: 1px;
 
 .election-rule {
     background: transparent;
-    color: #48587d;
+    color: var(--main-link-color);
     font-size: 0.7em;
     display: inline-block;
     padding: 0px;
@@ -742,14 +749,6 @@ width: 1px;
   background: #ff617e;
 }
 
-
-@media (max-width: 991px) {
-  .countdown { 
-    margin-bottom: 15px;
-  }
-}
-
-
 .help {
   display: inline-block;
   margin-top: 8px;
@@ -787,34 +786,30 @@ width: 1px;
 }
 
 .parameter {
-  padding: 0px 25px 10px;
+  padding: 0px 15px 10px;
   border-radius: 5px;
   text-align: center;
-  display: inline-block;
   margin: 10px 15px 10px 0px;
-  font-size: 11px;
-  font-weight: 400;
   color: #5a0075;
-  border: 1px solid #ae8abd26;
-  min-height: 92px;
+  border: 1px solid #f2eff5;
+  min-width: 140px;
+  background: #f9fafb;
+  float: left;
+  height: 80px;
+  overflow: hidden;
 }
 
 .parameter-name {
-  background: #eceef2;
-  color: #8d95a9;
-  line-height:28px;
-  margin: 0px -25px 10px;
+  color: #7d849f;
+  line-height: 28px;
+  font-size: 11px;
+  font-weight: 400;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
 
-.parameter-value { 
-  float: left;
-}
-
 .smart-contract {
-  margin: 15px auto 0;
-  text-align: center;
+  display: inline-block;
 }
 
 .margin-top-minus-three {
@@ -823,11 +818,13 @@ width: 1px;
 }
 
 .parameter-avatar {
-  margin-top: -10px;
+  text-align:center;
 }
 
 .parameter-token {
-  margin-top: 10px;
+  padding-top: 13px;
+  margin: 0 auto;
+  display: inline-block;
 }
 
 .parameter-line {
@@ -856,14 +853,25 @@ width: 1px;
 }
 
 .symbol.profile-pic {
-    width: 60px;
-    height: 60px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    float: left;
-    border: 1px solid #e8e2ef;
-    border-radius: 3px;
-    background-color: #e8e2ef;
+  width: 60px;
+  height: 60px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  float: left;
+  border: 1px solid #e8e2ef;
+  border-radius: 3px;
+  background-color: #e8e2ef;
+}
+
+.symbol.dao-pic {
+  width: 60px;
+  height: 60px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  float: left;
+  border: 1px solid #e8e2ef;
+  border-radius: 50px;
+  background-color: #e8e2ef;
 }
 
 h4 {
@@ -871,7 +879,7 @@ h4 {
   margin-bottom: 20px;
   padding-right: 15px;
   padding-left: 15px;
-  color: #48587d;
+  color: var(--main-link-color);
   font-size: 15px;
   line-height: 28px;
   font-weight: 100;
@@ -893,7 +901,7 @@ h4 {
   }
 
   .parameter-name {
-    margin: 0px -10px 14px;
+    margin: 0px -10px 0px;
   }
 
   .hero {
@@ -1006,6 +1014,12 @@ h4 {
   border: 1px solid #ff3d67;
 }
 
+.period-failed {
+  background: #ffecf0;
+  color: #ff3d67;
+  border: 1px solid #ff3d67;
+}
+
 .period-aborted {
   background: #e8e8e8;
   color: #000;
@@ -1023,7 +1037,7 @@ h4 {
 
 .topbar,
 .navbar {
-  background: #580074;
+  background: var(--main-menu-color);
   box-shadow: 0px -3px 15px 0px rgba(0, 0, 0, 0.65);
   border:none;
 }
@@ -1046,7 +1060,7 @@ h4 {
 }
 
 .qr-code-address:hover {
-  border-color: #48587d;
+  border-color: var(--main-link-color);
 }
 
 .icon-up2 {
@@ -1404,9 +1418,13 @@ h4 {
   background-color: none;
 }
 
+.dao {
+  float:right;
+}
+
 .date-info {
-  display: inline-block;
-  margin-top: 10px;
+  display: block;
+  float: right;
 }
 
 .sync-animation {
@@ -1439,6 +1457,12 @@ h4 {
   font-size: 0.8em;
   line-height: 1.6em;
   color: #5d5d5d;
+}
+
+.poll-survey {
+  display: block;
+  margin: 5px -5px -5px;
+  padding: 0px;
 }
 
 .poll-score-bar.poll-sync {

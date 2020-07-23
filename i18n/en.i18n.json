@@ -730,6 +730,7 @@
   "blocks-compressed": "blocks",
   "blocks-singular": "block",
   "poll-closed-after-time": "Poll ended after {{days}}.",
+  "poll-ended-days-ago": "Poll ended {{days}} ago.",
   "poll-never-ends": "This poll never ends (always on).",
   "height-compressed": "blocks",
   "height-singular": "block",
@@ -796,6 +797,7 @@
   "moloch-period-complete": "Completed without outcome.",
   "moloch-period-passed": "Approved Proposal 👍",
   "moloch-period-rejected": "Rejected Proposal 👎",
+  "moloch-period-failed": "Rejected Proposal 👎",
   "moloch-period-aborted": "Aborted proposal 🤦‍♂️",
   "moloch-summoner-share": "Summoner Shares",
   "syncing": "Syncing...",
@@ -881,5 +883,6 @@
   "search-summon": "🔥 Summon of {{dao}}",
   "search-ragequit": "💸 Ragequit of {{shares}} shares from {{dao}} by {{address}}",
   "search-default": "🔍 {{searchTerm}}",
-  "search-dates": "📅 {{searchTerm}}"
+  "search-dates": "📅 {{searchTerm}}",
+  "moloch-unsponsored": "Unsponsored Proposal"
 }
