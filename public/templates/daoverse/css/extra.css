@@ -208,7 +208,7 @@ body, h4, h1, h2 {
   margin: 15px 0px 0px;
   padding: 12px 14px;
   border-radius: 6px;
-  background-color: #580074;
+  background-color: var(--main-menu-color);
   font-family: Lato, sans-serif;
   color: #fff;
   font-size: 14px;
@@ -216,7 +216,7 @@ body, h4, h1, h2 {
   text-align: center;
   text-transform: uppercase;
   cursor: pointer;
-  border: 1px solid #580074;
+  border: 1px solid var(--main-menu-color);
   font-size: 14px;
 }
 
@@ -1037,7 +1037,7 @@ h4 {
 
 .topbar,
 .navbar {
-  background: #580074;
+  background: var(--main-menu-color);
   box-shadow: 0px -3px 15px 0px rgba(0, 0, 0, 0.65);
   border:none;
 }
