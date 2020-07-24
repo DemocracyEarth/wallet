@@ -65,7 +65,15 @@ const _getRenderNumber = (value, token, decimals) => {
 const TokenQuery = ({ publicAddress, quantity, symbol, decimals }) => {
   const { loading, error, data } = useQuery(GET_TOKEN);
 
-  if (loading) return null;
+  if (loading) {
+    return (
+      <div className="token">
+        <div className="token-ticker">
+          <div className="option-placeholder token-placeholder" />
+        </div>
+      </div>
+    );
+  }
   if (error) return `Error! ${error}`;
 
   let token = _.findWhere(data.tokens, { symbol });

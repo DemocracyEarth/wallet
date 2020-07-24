@@ -1,12 +1,37 @@
 :root {
   --main-link-color: #7d6186;
   --main-menu-color: #580074;
+  --main-placeholder-color:  #f2f2f5;
+  --animation-preloader: preloader-content 1s ease infinite;
+  --background-color: #f6f6f7;
+  --proposal-bar-color: #f9fafb;
+  --positive-signal-color: #01c190;
+  --positive-signal-background-color: #e0f6f0;
+  --negative-signal-color: #ff3d67;
+  --negative-signal-background-color: #ffecf0;
+  --main-headline-color: #675f69;
+}
+
+@-webkit-keyframes preloader-content {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@-moz-keyframes preloader-content {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@keyframes preloader-content {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
 }
 
 body {
   padding-right: 0px;
   padding-left: 0px;
-  background-color: #ecedf1;
+  background-color: var(--background-color);
   background-image: none;
   font-family: 'Open Sans', sans-serif;
   color: rgba(0, 0, 0, .87);
@@ -500,7 +525,7 @@ blockquote {
   float: left;
   border: 1px solid #7d849f;
   border-radius: 100px;
-  background-color: #f2f2f5;
+  background-color: var(--main-placeholder-color);
 }
 
 .symbol.profile-pic.profile-pic-navbar {
@@ -648,7 +673,7 @@ blockquote {
 
 .symbol.profile-pic.profile-pic-placeholder {
   border-style: none;
-  background-color: #f2f2f5;
+  background-color: var(--main-placeholder-color);
 }
 
 .semantics {
@@ -1399,7 +1424,7 @@ blockquote {
 }
 
 .vote.vote-search.vote-feed:hover {
-  margin-top: -4px;
+  margin-top: 0px;
   margin-bottom: 25px;
   box-shadow: 0 10px 20px 0 rgba(0, 0, 0, .1);
   color: #0d0d17;
@@ -1419,23 +1444,34 @@ blockquote {
   box-shadow: none;
 }
 
+.event-vote {
+  overflow: hidden;
+  padding: 5px 15px;
+  margin-bottom: -1px;
+  clear: both;
+  border: 1px solid #7d849f33;
+  border-top: 1px dotted #7d849f33;
+  border-radius: 0px;
+  background-color: #f9fafb;
+  width: 100%;
+  cursor: default;
+}
+
+.event-vote:hover {
+  cursor: pointer;
+  background-color: #fdfeff;
+}
+
 .vote.vote-search.vote-feed.vote-delegation {
   overflow: hidden;
-  margin-right: 10px;
-  margin-bottom: 2px;
-  padding: 5px 10px;
-  float: left;
+  padding: 5px;
   clear: both;
-  border-style: none none solid;
-  border-bottom-width: 1px;
-  border-bottom-color: rgb(238, 240, 243);
+  border-style: none;
   box-shadow: black;
-  border-radius: 5px;
-  background-color: #f9fafb;
-  background-image: none;
-  box-shadow: none;
+  border-radius: 0px;
+  background-color: transparent;
+  box-shadow: 0px 4px 2px 0px #4444441c;
   -webkit-transition-property: none;
-  transition-property: none;
   cursor: default;
 }
 
@@ -2432,7 +2468,7 @@ blockquote {
   padding-left: 0px;
   clear: both;
   color: #7d849f;
-  font-size: 12px;
+  font-size: 0.65em;
   line-height: 20px;
 }
 
@@ -2966,7 +3002,7 @@ blockquote {
 }
 
 .identity-peer {
-  margin: 7px 0px 0px 7px;
+  margin: 3px 0px 0px 5px;
   float: left;
 }
 
@@ -3559,7 +3595,7 @@ blockquote {
 .meta.meta-search {
   display: block;
   overflow: hidden;
-  height: 55px;
+  height: 45px;
   margin: -10px -15px 0px;
   padding-right: 15px;
   padding-left: 15px;
@@ -3568,7 +3604,7 @@ blockquote {
 }
 
 .meta.meta-search.meta-bar {
-  background:#f8f6f9;
+  background:var(--proposal-bar-color);
   padding:10px;
   margin-bottom:10px;
   border-bottom:1px solid #f1eef3;
@@ -4614,10 +4650,8 @@ blockquote {
   height: 0px;
   width: 100%;
   min-width: 200px;
-  margin-bottom: -15px;
   padding-top: 10px;
-  padding-right: 15px;
-  padding-left: 10px;
+  padding-left: 0px;
 }
 
 @media (max-width: 991px) {
@@ -4701,7 +4735,7 @@ blockquote {
 }
 
 .micro-button:active {
-  background-color: #f2f2f5;
+  background-color: var(--main-placeholder-color);
 }
 
 .micro-button.micro-button-remove {
@@ -4769,10 +4803,6 @@ blockquote {
   width: 24px;
   height: 24px;
   margin-top: -2px;
-}
-
-.micro-label {
-  margin-top:7px;
 }
 
 .micro-label-button {
@@ -5971,7 +6001,12 @@ blockquote {
   min-width: 100px;
   margin-bottom: 15px;
   border-radius: 25px;
-  background-color: #f2f2f5;
+  background-color: var(--main-placeholder-color);
+  background-size: 400% 400%;
+
+  -webkit-animation: var(--animation-preloader);
+  -moz-animation: var(--animation-preloader);
+  animation: var(--animation-preloader);
 }
 
 .option-placeholder.fifty {
@@ -5982,7 +6017,14 @@ blockquote {
   height: 15px;
   margin-top: 8px;
   opacity:0.5;
-  background-color: var(--main-link-color);
+  background: linear-gradient(90deg, var(--main-placeholder-color), var(--main-link-color));
+}
+
+.option-placeholder.token-placeholder {
+  height: 15px;
+  opacity:0.5;
+  margin-top:-2px;
+  background: linear-gradient(90deg, var(--main-placeholder-color), var(--main-link-color));
 }
 
 .option-placeholder.short {
@@ -6146,9 +6188,28 @@ blockquote {
 }
 
 .ledger-title {
-  margin-right: -15px;
-  margin-bottom: 10px;
-  margin-left: -15px;
+  margin-right: 0px;
+  padding: 5px 0px 0px;
+  margin-bottom: -1px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  margin-left: 0px;
+  margin-bottom: -10px;
+  background: #f4f4f5;
+  border: 1px solid #7d849f33;
+}
+
+.ledger-footer {
+  margin-right: 0px;
+  padding: 5px 0px 0px;
+  min-height: 30px;
+  margin-bottom: -1px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  margin-left: 0px;
+  margin-bottom: -10px;
+  background: #f4f4f5;
+  border: 1px solid #7d849f33;
 }
 
 .inline-block {
@@ -6280,7 +6341,7 @@ blockquote {
   margin-bottom: -8px;
   margin-left: 3px;
   padding: 10px 3px 0px 10px;
-  border-left: 1px solid #f2f2f5;
+  border-left: 1px solid var(--main-placeholder-color);
 }
 
 .vote-thread.vote-thread-context {
@@ -6625,7 +6686,7 @@ blockquote {
   padding-top: 60px;
   padding-bottom: 60px;
   border-radius: 90px;
-  background-color: #f2f2f5;
+  background-color: var(--main-placeholder-color);
 }
 
 .card-login-label {
@@ -6799,7 +6860,7 @@ blockquote {
     margin-left: 0px;
     padding-top: 20px;
     position: relative;
-    background: #ecedf1;
+    background: var(--background-color);
   }
   .mobile-editor.hide {
     display: none;

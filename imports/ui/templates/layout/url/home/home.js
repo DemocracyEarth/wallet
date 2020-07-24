@@ -15,6 +15,7 @@ import { getCoin } from '/imports/api/blockchain/modules/web3Util.js';
 import { Tokens } from '/imports/api/tokens/tokens';
 
 import '/imports/ui/components/Timeline/timeline.js';
+import '/imports/ui/components/Ledger/ledger.js';
 import '/imports/ui/templates/components/identity/replica/replica.js';
 import '/imports/ui/templates/layout/url/home/home.html';
 import '/imports/ui/templates/components/collective/guild/guild.js';
@@ -24,7 +25,6 @@ import '/imports/ui/templates/layout/url/hero/hero.js';
 import '/imports/ui/templates/widgets/feed/feed.js';
 import '/imports/ui/templates/widgets/tally/tally.js';
 import '/imports/ui/templates/widgets/feed/paginator.js';
-import '/imports/ui/templates/components/decision/ledger/ledger.js';
 import '/imports/ui/templates/widgets/tabs/tabs.js';
 import '/imports/ui/templates/layout/load/load.js';
 

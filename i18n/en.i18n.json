@@ -884,5 +884,10 @@
   "search-ragequit": "💸 Ragequit of {{shares}} shares from {{dao}} by {{address}}",
   "search-default": "🔍 {{searchTerm}}",
   "search-dates": "📅 {{searchTerm}}",
-  "moloch-unsponsored": "Unsponsored Proposal"
+  "moloch-unsponsored": "Unsponsored Proposal",
+  "voted-yes": "{{shares}} {{label}} for <strong>Yes</strong> to {{proposal}}",
+  "voted-no": "{{shares}} {{label}} for <strong>No</strong> to {{proposal}}",
+  "shares": "shares",
+  "share": "share",
+  "arrow-verb": " → "
 }

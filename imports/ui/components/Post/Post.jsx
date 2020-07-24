@@ -57,11 +57,11 @@ export default class Post extends Component {
 
   render() {
     return (
-      <div className="vote vote-search vote-feed nondraggable vote-poll" href={`/dao/${this.props.daoName}/proposal/${this.props.proposalIndex}`}>
+      <div className="vote vote-search vote-feed nondraggable vote-poll" href={this.props.href}>
         <div className="checkbox checkbox-custom">
           <div className="meta meta-search meta-bar">
-            <Account publicAddress={this.props.memberAddress} width="24px" height="24px" />
-            <DAO publicAddress={this.props.daoAddress} width="24px" height="24px" />
+            <Account publicAddress={this.props.memberAddress} width="16px" height="16px" />
+            <DAO publicAddress={this.props.daoAddress} width="16px" height="16px" />
           </div>
           <div className="option-proposal">
             <div className="option-title option-link option-search title-input">
@@ -96,9 +96,8 @@ export default class Post extends Component {
 }
 
 Post.propTypes = {
+  href: PropTypes.string,
   description: PropTypes.string,
-  proposalIndex: PropTypes.string,
-  daoName: PropTypes.string,
   daoAddress: PropTypes.string,
   memberAddress: PropTypes.string,
   children: PropTypes.oneOfType([

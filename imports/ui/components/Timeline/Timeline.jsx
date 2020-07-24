@@ -57,7 +57,7 @@ const Feed = (props) => {
 
           return (
             <Post
-              key={proposal.id} accountAddress={accountAddress}
+              key={proposal.id} accountAddress={accountAddress} href={url}
               description={proposal.details} memberAddress={proposal.memberAddress}
               daoAddress={daoAddress}
             >

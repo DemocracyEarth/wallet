@@ -1,12 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-/**
-* @summary displays the contents of a poll
-*/
-const Placeholder = () => {
+const _preloader = () => {
   return (
-    <div id="feedItem-placeholder" className="vote vote-search vote-feed nondraggable">
+    <div className="vote vote-search vote-feed nondraggable">
       <div className="checkbox checkbox-custom">
         <div className="meta meta-search meta-bar">
           <div className="identity">
@@ -36,6 +33,13 @@ const Placeholder = () => {
       </div>
     </div>
   );
+};
+
+/**
+* @summary displays the contents of a poll
+*/
+const Placeholder = () => {
+  return _preloader();
 };
 
 Placeholder.propTypes = {

@@ -23,7 +23,6 @@ if (Meteor.isClient) {
   import '/imports/ui/templates/layout/load/load.js';
   import '/imports/ui/templates/components/identity/login/login.js';
   import '/imports/ui/templates/components/identity/card/card.js';
-  import '/imports/ui/templates/components/decision/contract/contract.js';
   import '/imports/ui/templates/widgets/feed/feed.js';
 
   Router.plugin('reywood:iron-router-ga');
