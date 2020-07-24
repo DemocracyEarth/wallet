@@ -737,7 +737,7 @@ width: 1px;
 
 .countdown-timer {
   height: 1px;
-  background: #01c190;
+  background: var(--positive-signal-color);
 }
 
 .countdown-timer.countdown-timer-alert {
@@ -878,10 +878,10 @@ h4 {
   margin-bottom: 20px;
   padding-right: 15px;
   padding-left: 15px;
-  color: var(--main-link-color);
+  color: var(--main-headline-color);
   font-size: 15px;
   line-height: 28px;
-  font-weight: 100;
+  font-weight: 400;
 }
 
 @media (max-width: 991px) {
@@ -1003,20 +1003,20 @@ h4 {
 
 .period-passed {
   background: #e0f6f0;
-  color: #01c190;
-  border: 1px solid #01c190;
+  color: var(--positive-signal-color);
+  border: 1px solid var(--positive-signal-color);
 }
 
 .period-rejected {
   background: #ffecf0;
-  color: #ff3d67;
-  border: 1px solid #ff3d67;
+  color: var(--negative-signal-color);
+  border: 1px solid var(--negative-signal-color);
 }
 
 .period-failed {
   background: #ffecf0;
-  color: #ff3d67;
-  border: 1px solid #ff3d67;
+  color: var(--negative-signal-color);
+  border: 1px solid var(--negative-signal-color);
 }
 
 .period-aborted {
@@ -1026,13 +1026,13 @@ h4 {
 }
 
 .poll-score-bar-fill-negative {
-  background: #ff3d67;
+  background: var(--negative-signal-color);
 }
 
 .preview-arrow {
   float: left;
-  margin-right: 5px;
-  margin-left: -5px;
+  font-size: 0.75em;
+  margin:0px 5px;
 }
 
 .topbar {
@@ -1110,7 +1110,7 @@ h4 {
 }
 
 .election-rule-not-member {
-  color: #ff3d67;
+  color: var(--negative-signal-color);
 }
 
 .election-rule-top {
@@ -1118,12 +1118,11 @@ h4 {
 }
 
 .transaction-action {
-  float: left;
   font-size: 0.7em;
   padding: 0px 0px;
   color: #7d849f;
-  margin: 0px 10px 0px 0px;
-  cursor: pointer;
+  margin: 0px;
+  text-align:center;
 }
 
 .transaction-action-ragequit {
@@ -1131,11 +1130,21 @@ h4 {
 }
 
 .transaction-action-passed {
-  color: #01c190;
+  background-color: var(--positive-signal-background-color);
+  color: var(--positive-signal-color);
+  border: 1px solid var(--positive-signal-color);
+  border-radius: 5px;
+  line-height: 25px;
+  padding: 0px 10px;
 }
 
 .transaction-action-rejected {
-  color: #ff3d67;
+  background-color: var(--negative-signal-background-color);
+  color: var(--negative-signal-color);
+  border: 1px solid var(--negative-signal-color);
+  border-radius: 5px;
+  line-height: 25px;
+  padding: 0px 10px;
 }
 
 .transaction-signal {
@@ -1404,10 +1413,10 @@ h4 {
   background-color: #feda96;
 }
 .replica-semaphore-unlikely {
-  background-color: #ff3d67;
+  background-color: var(--negative-signal-color);
 }
 .replica-semaphore-not {
-  background-color: #ff3d67;
+  background-color: var(--negative-signal-color);
 }
 .replica-semaphore-unknown {
   background-color: none;
@@ -1425,7 +1434,7 @@ h4 {
 .preview-info {
   width: 100%;
   display: block;
-  margin: -5px 0px 5px;
+  margin: 0px;
 }
 
 .preview-label {

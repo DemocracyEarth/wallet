@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
@@ -9,8 +8,7 @@ import { useQuery } from '@apollo/react-hooks';
 import Account from '/imports/ui/components/Account/Account.jsx';
 import DAO from '/imports/ui/components/DAO/DAO.jsx';
 import Stamp from '/imports/ui/components/Stamp/Stamp.jsx';
-import Token from '/imports/ui/components/Token/Token.jsx';
-import Preview from '/imports/ui/components/Preview/Preview.jsx';
+import Transaction from '/imports/ui/components/Transaction/Transaction.jsx';
 
 const client = new ApolloClient({
   uri: Meteor.settings.public.graph.molochs,
@@ -68,8 +66,8 @@ const VoteQuery = () => {
       <div className="event-vote">
         <Account publicAddress={vote.memberAddress} width="16px" height="16px" />
         <DAO publicAddress={vote.molochAddress} width="16px" height="16px" />
-        <Preview uintVote={vote.uintVote} description={vote.proposal.details} quantity={vote.member.shares} />
-        <Stamp timestamp={vote.createdAt} />
+        <Transaction uintVote={vote.uintVote} description={vote.proposal.details} quantity={vote.member.shares} />
+        <Stamp timestamp={vote.createdAt} format="timeSince" />
       </div>
     );
   });

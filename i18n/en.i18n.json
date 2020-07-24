@@ -885,8 +885,9 @@
   "search-default": "🔍 {{searchTerm}}",
   "search-dates": "📅 {{searchTerm}}",
   "moloch-unsponsored": "Unsponsored Proposal",
-  "voted-yes": "👍 Yes with {{shares}} {{label}}",
-  "voted-no": "👎 No with {{shares}} {{label}}",
+  "voted-yes": "{{shares}} {{label}} for <strong>Yes</strong> to {{proposal}}",
+  "voted-no": "{{shares}} {{label}} for <strong>No</strong> to {{proposal}}",
   "shares": "shares",
-  "share": "share"
+  "share": "share",
+  "arrow-verb": " → "
 }

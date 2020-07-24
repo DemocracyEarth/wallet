@@ -4,7 +4,12 @@
   --main-placeholder-color:  #f2f2f5;
   --animation-preloader: preloader-content 1s ease infinite;
   --background-color: #f6f6f7;
-  --proposal-bar-color: #eee3f3;
+  --proposal-bar-color: #f9fafb;
+  --positive-signal-color: #01c190;
+  --positive-signal-background-color: #e0f6f0;
+  --negative-signal-color: #ff3d67;
+  --negative-signal-background-color: #ffecf0;
+  --main-headline-color: #675f69;
 }
 
 @-webkit-keyframes preloader-content {
@@ -2463,7 +2468,7 @@ blockquote {
   padding-left: 0px;
   clear: both;
   color: #7d849f;
-  font-size: 12px;
+  font-size: 0.65em;
   line-height: 20px;
 }
 
@@ -6183,9 +6188,15 @@ blockquote {
 }
 
 .ledger-title {
-  margin-right: -15px;
-  margin-bottom: 10px;
-  margin-left: -15px;
+  margin-right: 0px;
+  padding: 5px 0px 0px;
+  margin-bottom: -1px;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  margin-left: 0px;
+  margin-bottom: -10px;
+  background: #f4f4f5;
+  border: 1px solid #7d849f33;
 }
 
 .inline-block {
