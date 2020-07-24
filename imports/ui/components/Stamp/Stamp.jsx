@@ -47,7 +47,7 @@ export default class Stamp extends Component {
   render() {
     return (
       <div className="date-info">
-        <a href={this.state.url} title={this.state.fullDate} className="verifier verifier-live verifier-feed">
+        <a href={this.state.url} title={this.state.fullDate.replace(/&#183;/g, '·')} className="verifier verifier-live verifier-feed">
           {parser(this.state.label)}
         </a>
       </div>

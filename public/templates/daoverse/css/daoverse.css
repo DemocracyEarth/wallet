@@ -1424,7 +1424,7 @@ blockquote {
 }
 
 .vote.vote-search.vote-feed:hover {
-  margin-top: -4px;
+  margin-top: 0px;
   margin-bottom: 25px;
   box-shadow: 0 10px 20px 0 rgba(0, 0, 0, .1);
   color: #0d0d17;
@@ -6191,8 +6191,21 @@ blockquote {
   margin-right: 0px;
   padding: 5px 0px 0px;
   margin-bottom: -1px;
-  border-top-left-radius: 25px;
-  border-top-right-radius: 25px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  margin-left: 0px;
+  margin-bottom: -10px;
+  background: #f4f4f5;
+  border: 1px solid #7d849f33;
+}
+
+.ledger-footer {
+  margin-right: 0px;
+  padding: 5px 0px 0px;
+  min-height: 30px;
+  margin-bottom: -1px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
   margin-left: 0px;
   margin-bottom: -10px;
   background: #f4f4f5;

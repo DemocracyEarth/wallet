@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TAPi18n } from 'meteor/tap:i18n';
 
 import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
@@ -57,7 +56,7 @@ const AccountQuery = ({ publicAddress, width, height }) => {
 
   if (publicAddress !== '0x0000000000000000000000000000000000000000') {
     const { loading, error, data } = useQuery(gql(ENS_ACCOUNT.replace('{{ensAddress}}', publicAddress)));
-    
+
     if (loading) {
       return (
         <div className="identity">

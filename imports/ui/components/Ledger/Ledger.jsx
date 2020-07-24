@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { TAPi18n } from 'meteor/tap:i18n';
 
 import Vote from '/imports/ui/components/Vote/Vote.jsx';
 
@@ -10,9 +11,10 @@ const Ledger = () => {
   return (
     <div>
       <div className="ledger-title">
-        <h4>Recent events.</h4>
+        <h4>{TAPi18n.__('recent-activity')}</h4>
       </div>
       <Vote />
+      <div className="ledger-footer" />
     </div>
   );
 };
