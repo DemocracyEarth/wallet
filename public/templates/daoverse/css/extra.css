@@ -1029,6 +1029,11 @@ h4 {
   background: #ff3d67;
 }
 
+.preview-arrow {
+  float: left;
+  margin-right: 5px;
+  margin-left: -5px;
+}
 
 .topbar {
   z-index: 12800;
@@ -1113,21 +1118,12 @@ h4 {
 }
 
 .transaction-action {
-  float: right;
-  font-size: 0.5em;
-  font-weight: 400;
-  padding: 4px 0px;
+  float: left;
+  font-size: 0.7em;
+  padding: 0px 0px;
   color: #7d849f;
-  text-transform: uppercase;
-  line-height: 12px;
-  border-radius: 3px;
-  margin-top: -2px;
-  margin: 2px 3px 0px 0px;
+  margin: 0px 10px 0px 0px;
   cursor: pointer;
-}
-
-.transaction-action:hover {
-  text-decoration: underline;
 }
 
 .transaction-action-ragequit {
@@ -1143,9 +1139,9 @@ h4 {
 }
 
 .transaction-signal {
-  width: 10px;
-  height: 10px;
-  margin: 0px 2px 1px;
+  width: 16px;
+  height: 16px;
+  margin: -2px 4px 0px 0px;
 }
 
 .title-ballot {
@@ -1425,6 +1421,16 @@ h4 {
   display: block;
   float: right;
 }
+
+.preview-info {
+  width: 100%;
+  display: block;
+  margin: -5px 0px 5px;
+}
+
+.preview-label {
+  font-size: 0.75em;
+};
 
 .sync-animation {
   margin: 20px 0px;

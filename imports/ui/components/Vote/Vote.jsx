@@ -68,19 +68,11 @@ const VoteQuery = () => {
       <div className="event-vote">
         <Account publicAddress={vote.memberAddress} width="16px" height="16px" />
         <DAO publicAddress={vote.molochAddress} width="16px" height="16px" />
-        <Token quantity={vote.member.shares} symbol="SHARES" />
-        <Stamp timestamp={vote.createdAt} format="COMPRESSED" />
-        <Preview uintVote={vote.uintVote} description={vote.proposal.details} />
+        <Preview uintVote={vote.uintVote} description={vote.proposal.details} quantity={vote.member.shares} />
+        <Stamp timestamp={vote.createdAt} />
       </div>
     );
   });
-};
-
-VoteQuery.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
 };
 
 /**
@@ -93,7 +85,5 @@ const Vote = () => {
     </ApolloProvider>
   );
 };
-
-Vote.propTypes = VoteQuery.propTypes;
 
 export default Vote;
