@@ -37,7 +37,11 @@ export default class Choice extends Component {
   }
 
   pollOpen() {
-    return (this.props.votingPeriodBegins > this.props.now && this.props.votingPeriodEnds < this.props.now);
+    const now = parseInt(this.props.now / 1000, 10);
+    console.log(now);
+    console.log(`(this.props.votingPeriodBegins > now): ${(this.props.votingPeriodBegins > now)}`);
+    console.log(`(this.props.votingPeriodEnds < now): ${(this.props.votingPeriodEnds < now)}`);
+    return ((this.props.votingPeriodBegins < now) && (this.props.votingPeriodEnds > now));
   }
 
   canVote = async (accountAddress) => {
@@ -108,6 +112,8 @@ export default class Choice extends Component {
       return alreadyVoted();
     }
 
+    console.log(`this.pollOpen():`);
+    console.log(this.pollOpen());
     // poll date
     if (!this.pollOpen()) {
       return pollClosed();
