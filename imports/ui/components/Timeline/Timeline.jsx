@@ -63,7 +63,7 @@ const Feed = (props) => {
             >
               <Contract>
                 <Parameter label={TAPi18n.__('moloch-applicant')}>
-                  <Account publicAddress={proposal.applicant} width="24px" height="24px" />
+                  <Account publicAddress={proposal.applicant} width="16px" height="16px" />
                 </Parameter>
                 <Parameter label={TAPi18n.__('moloch-request')}>
                   <Token quantity={proposal.sharesRequested.toString()} symbol="SHARES" />

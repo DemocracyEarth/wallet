@@ -1452,7 +1452,7 @@ blockquote {
   border: 1px solid #7d849f33;
   border-top: 1px dotted #7d849f33;
   border-radius: 0px;
-  background-color: #f9fafb;
+  background-color: var(--proposal-bar-color);
   width: 100%;
   cursor: default;
 }

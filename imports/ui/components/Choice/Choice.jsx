@@ -38,9 +38,6 @@ export default class Choice extends Component {
 
   pollOpen() {
     const now = parseInt(this.props.now / 1000, 10);
-    console.log(now);
-    console.log(`(this.props.votingPeriodBegins > now): ${(this.props.votingPeriodBegins > now)}`);
-    console.log(`(this.props.votingPeriodEnds < now): ${(this.props.votingPeriodEnds < now)}`);
     return ((this.props.votingPeriodBegins < now) && (this.props.votingPeriodEnds > now));
   }
 
