@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import { useQuery } from '@apollo/react-hooks';
+import { gui } from '/lib/const';
 
 import { shortenCryptoName } from '/imports/startup/both/modules/metamask';
 
@@ -38,7 +39,7 @@ const ENS_ACCOUNT = `
 */
 const getENSName = (data, publicAddress) => {
   if (data.domains.length > 0) {
-    return data.domains[0].name;
+    return (data.domains[0].name.length > gui.MAX_LENGTH_ACCOUNT_NAMES) ? `${data.domains[0].name.slice(0, gui.MAX_LENGTH_ACCOUNT_NAMES)}...` : data.domains[0].name;
   }
   return shortenCryptoName(publicAddress);
 };

@@ -57,7 +57,6 @@ const _getMenuStyle = () => {
 * @summary displays the contents of a poll
 */
 const MenuQuery = ({ account }) => {
-  console.log(account);
   const { loading, error, data } = useQuery(gql(GET_MENU.replace('{{memberAddress}}', account)));
 
   if (loading) {
@@ -74,7 +73,7 @@ const MenuQuery = ({ account }) => {
       <div className={_getMenuStyle()}>
         <div className="menu">
           <div className="separator">
-            {TAPi18n.__('overview')}
+            {TAPi18n.__('recent')}
           </div>
           <div className="separator">
             {TAPi18n.__('memberships')}

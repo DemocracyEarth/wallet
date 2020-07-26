@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import { useQuery } from '@apollo/react-hooks';
+import { gui } from '/lib/const';
 
 import { shortenCryptoName } from '/imports/startup/both/modules/metamask';
 
@@ -56,7 +57,7 @@ const DAOQuery = ({ publicAddress, width, height }) => {
   if (!daoTitle) {
     label = shortenCryptoName(publicAddress);
   } else {
-    label = (daoTitle.length > 20) ? `${daoTitle.slice(0, 19)}...` : daoTitle;
+    label = (daoTitle.length > gui.MAX_LENGTH_ACCOUNT_NAMES) ? `${daoTitle.slice(0, gui.MAX_LENGTH_ACCOUNT_NAMES)}...` : daoTitle;
   }
 
   return (
