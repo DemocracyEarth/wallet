@@ -4552,6 +4552,7 @@ blockquote {
   line-height: 30px;
   text-align: left;
   cursor: pointer;
+  display:inline-block;
 }
 
 .menu-item:hover {
@@ -4689,6 +4690,7 @@ blockquote {
   line-height: 22px;
   font-weight: 500;
   text-align: left;
+  clear:both;
   text-transform: uppercase;
 }
 

@@ -889,5 +889,6 @@
   "voted-no": "{{shares}} {{label}} for <strong>No</strong> to {{proposal}}",
   "shares": "shares",
   "share": "share",
-  "arrow-verb": " → "
+  "arrow-verb": " → ",
+  "overview": "Overview"
 }
