@@ -1,11 +1,12 @@
 import { Meteor } from 'meteor/meteor';
-import React from 'react';
+import React, { Component } from 'react';
 
 import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import { useQuery } from '@apollo/react-hooks';
 import { TAPi18n } from 'meteor/tap:i18n';
 import PropTypes from 'prop-types';
+import { setupWeb3, getWeb3Wallet } from '/imports/startup/both/modules/metamask';
 
 import Item from '/imports/ui/components/Item/Item.jsx';
 
@@ -55,9 +56,9 @@ const _getMenuStyle = () => {
 /**
 * @summary displays the contents of a poll
 */
-const MenuQuery = () => {
-  const user = Meteor.user().username || '0x0';
-  const { loading, error, data } = useQuery(gql(GET_MENU.replace('{{memberAddress}}', user)));
+const MenuQuery = ({ account }) => {
+  console.log(account);
+  const { loading, error, data } = useQuery(gql(GET_MENU.replace('{{memberAddress}}', account)));
 
   if (loading) {
     return (
@@ -99,19 +100,42 @@ MenuQuery.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
+  account: PropTypes.string,
 };
 
 /**
 * @summary renders a post in the timeline
 */
-const Menu = () => {
-  return (
-    <ApolloProvider client={client}>
-      <MenuQuery />
-    </ApolloProvider>
-  );
-};
+export default class Menu extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      accounts: ['0x0'],
+    };
+  }
+
+  async componentDidMount() {
+    await this.getAccounts();
+  }
+
+  async getAccounts() {
+    const web3 = getWeb3Wallet();
+    const accounts = await web3.eth.getAccounts();
+
+    if (accounts.length > 0) {
+      this.setState({ accounts });
+    }
+  }
+
+  render() {
+    return (
+      <ApolloProvider client={client}>
+        <MenuQuery account={this.state.accounts[0]} />
+      </ApolloProvider>
+    );
+  }
+}
 
 Menu.propTypes = MenuQuery.propTypes;
 
-export default Menu;
