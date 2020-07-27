@@ -30,7 +30,7 @@ const makeBlockie = require('ethereum-blockies-base64');
 /**
 * @summary renders a post in the timeline
 */
-const DAOQuery = ({ publicAddress, width, height }) => {
+const DAOQuery = ({ publicAddress, width, height, format }) => {
   const { loading, error, data } = useQuery(gql(GET_DAO.replace('{{molochAddress}}', publicAddress)));
 
   const image = makeBlockie(publicAddress);
@@ -60,16 +60,27 @@ const DAOQuery = ({ publicAddress, width, height }) => {
     label = (daoTitle.length > gui.MAX_LENGTH_ACCOUNT_NAMES) ? `${daoTitle.slice(0, gui.MAX_LENGTH_ACCOUNT_NAMES)}...` : daoTitle;
   }
 
+  console.log(`format: ${format}`);
+
   return (
     <div className="dao">
-      <div className="avatar-editor">
-        <img src={image} className="symbol dao-pic" role="presentation" style={{ width: finalWidth, height: finalHeight }} />
-        <div className="identity-peer">
-          <a href={url} title={publicAddress} className="identity-label identity-label-micro">
+      {(format === 'plainText') ?
+        <div>
+          <img src={image} className="symbol dao-pic" role="presentation" style={{ width: finalWidth, height: finalHeight }} />
+          <div className="identity-peer">
             {label}
-          </a>
+          </div>
         </div>
-      </div>
+        :
+        <div className="avatar-editor">
+          <img src={image} className="symbol dao-pic" role="presentation" style={{ width: finalWidth, height: finalHeight }} />
+          <div className="identity-peer">
+            <a href={url} title={publicAddress} className="identity-label identity-label-micro">
+              {label}
+            </a>
+          </div>
+        </div>
+      }
     </div>
   );
 };
@@ -78,6 +89,7 @@ DAOQuery.propTypes = {
   publicAddress: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,
+  format: PropTypes.string,
 };
 
 
@@ -87,7 +99,7 @@ DAOQuery.propTypes = {
 const DAO = (props) => {
   return (
     <ApolloProvider client={client}>
-      <DAOQuery publicAddress={props.publicAddress} width={props.width} height={props.height} />
+      <DAOQuery publicAddress={props.publicAddress} width={props.width} height={props.height} format={props.format} />
     </ApolloProvider>
   );
 };

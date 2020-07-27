@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { setupWeb3, getWeb3Wallet } from '/imports/startup/both/modules/metamask';
 
 import Item from '/imports/ui/components/Item/Item.jsx';
+import DAO from '/imports/ui/components/DAO/DAO.jsx';
 
 const numeral = require('numeral');
 
@@ -57,7 +58,7 @@ const _getMenuStyle = () => {
 * @summary displays the contents of a poll
 */
 const MenuQuery = ({ account }) => {
-  const { loading, error, data } = useQuery(gql(GET_MENU.replace('{{memberAddress}}', account)));
+  const { loading, error, data } = useQuery(gql(GET_MENU.replace('{{memberAddress}}', '0x865c2f85c9fea1c6ac7f53de07554d68cb92ed88')));
 
   if (loading) {
     return (
@@ -67,6 +68,15 @@ const MenuQuery = ({ account }) => {
   if (error) return `Error! ${error}`;
 
   console.log(data);
+
+  const daoList = data.members.map((item, key) => {
+    console.log(item);
+    return (
+      <Item key={key}>
+        <DAO publicAddress={item.moloch.id} width="16px" height="16px" format="plainText" />
+      </Item>
+    );
+  });
 
   return (
     <div className="left">
@@ -78,7 +88,7 @@ const MenuQuery = ({ account }) => {
           <div className="separator">
             {TAPi18n.__('memberships')}
           </div>
-          <Item label="Moloch DAO" score={20} />
+          {daoList}
           <div className="separator">
             {TAPi18n.__('periods')}
           </div>
