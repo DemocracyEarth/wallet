@@ -128,14 +128,14 @@ const MenuQuery = ({ account }) => {
 
   const menuList = (
     <div>
-      <Item label={`${TAPi18n.__('all')}`} score={_getProposalCount(data.members, 'all')} key={0} href="/" />
-      <Item label={`${TAPi18n.__('in-queue')}`} score={_getProposalCount(data.members, 'in-queue')} key={1} href="/?status=queue" />
-      <Item label={`${TAPi18n.__('voting-now')}`} score={_getProposalCount(data.members, 'voting-now')} key={2} href="/?status=voting" />
-      <Item label={`${TAPi18n.__('grace-period')}`} score={_getProposalCount(data.members, 'grace-period')} key={3} href="/?status=grace" />
-      <Item label={`${TAPi18n.__('ready-to-process')}`} score={_getProposalCount(data.members, 'ready-to-process')} key={4} href="/?status=ready" />
-      <Item label={`${TAPi18n.__('guild-kicks')}`} score={_getProposalCount(data.members, 'guild-kicks')} key={9} href="/?status=kicked" />
-      <Item label={`${TAPi18n.__('rejected')}`} score={_getProposalCount(data.members, 'rejected')} key={5} href="/?status=rejected" />
-      <Item label={`${TAPi18n.__('approved')}`} score={_getProposalCount(data.members, 'approved')} key={6} href="/?status=approved" />
+      <Item sharp hideEmpty label={`${TAPi18n.__('all')}`} score={_getProposalCount(data.members, 'all')} key={0} href="/" />
+      <Item sharp hideEmpty label={`${TAPi18n.__('in-queue')}`} score={_getProposalCount(data.members, 'in-queue')} key={1} href="/?status=queue" />
+      <Item sharp hideEmpty label={`${TAPi18n.__('voting-now')}`} score={_getProposalCount(data.members, 'voting-now')} key={2} href="/?status=voting" />
+      <Item sharp hideEmpty label={`${TAPi18n.__('grace-period')}`} score={_getProposalCount(data.members, 'grace-period')} key={3} href="/?status=grace" />
+      <Item sharp hideEmpty label={`${TAPi18n.__('ready-to-process')}`} score={_getProposalCount(data.members, 'ready-to-process')} key={4} href="/?status=ready" />
+      <Item sharp hideEmpty label={`${TAPi18n.__('guild-kicks')}`} score={_getProposalCount(data.members, 'guild-kicks')} key={9} href="/?status=kicked" />
+      <Item sharp hideEmpty label={`${TAPi18n.__('rejected')}`} score={_getProposalCount(data.members, 'rejected')} key={5} href="/?status=rejected" />
+      <Item sharp hideEmpty label={`${TAPi18n.__('approved')}`} score={_getProposalCount(data.members, 'approved')} key={6} href="/?status=approved" />
     </div>
   );
 

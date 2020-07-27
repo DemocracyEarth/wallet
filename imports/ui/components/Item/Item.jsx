@@ -13,11 +13,12 @@ export default class Item extends Component {
   }
 
   render() {
+    if (this.props.hideEmpty && this.props.score === 0) return null;
     return (
       <a className="menu-item" href={this.props.href}>
         {(this.props.sharp) ?
           <div className="sidebar-sharp">
-            &bull;
+            📄
           </div>
         :
           null
@@ -37,6 +38,7 @@ Item.propTypes = {
   sharp: PropTypes.bool,
   label: PropTypes.string,
   score: PropTypes.number,
+  hideEmpty: PropTypes.bool,
   href: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
