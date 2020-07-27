@@ -900,5 +900,7 @@
   "approved": "Approved",
   "quits": "Quits",
   "jailed": "Jailed",
-  "kicked": "Kicked"
+  "kicked": "Kicked",
+  "sponsored": "Sponsored",
+  "guild-kicks": "Guild Kicks"
 }

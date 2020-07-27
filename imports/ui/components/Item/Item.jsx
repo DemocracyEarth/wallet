@@ -17,7 +17,7 @@ export default class Item extends Component {
       <a className="menu-item" href={this.props.href}>
         {(this.props.sharp) ?
           <div className="sidebar-sharp">
-            &#35;
+            &bull;
           </div>
         :
           null

@@ -33,6 +33,13 @@ const GET_MENU = `
     didRagequit
     submissions {
       id
+      didPass
+      guildkick
+      gracePeriodEnds
+      votingPeriodStarts
+      votingPeriodEnds
+      sponsor
+      processed
     }
     kicked
     jailed {
@@ -41,17 +48,67 @@ const GET_MENU = `
     proposedToKick
   }
 }
+
 `;
 
 /**
  * @summary style based on type of device
- * @return string with css classes
+ * @return {string} with css classes
  */
 const _getMenuStyle = () => {
   if (Meteor.Device.isPhone()) {
     return 'sidebar sidebar-desktop';
   }
   return 'sidebar';
+};
+
+/**
+ * @summary based on a members data, count the types of proposals
+ * @return {number} with final count
+ */
+const _getProposalCount = (list, label) => {
+  const now = parseInt(new Date().getTime() / 1000, 10);
+  const counts = [];
+
+  _.reduce(list, (memo, num) => {
+    if (label === 'all') {
+      console.log(`parseInt(num.submissions.length + memo, 10);: ${parseInt(num.submissions.length + memo, 10)}`);
+      counts.push(num.submissions.length);
+    }
+    counts.push(
+      _.reduce(num.submissions, (iterator, proposal) => {
+        switch (label) {
+          case 'in-queue':
+            if (proposal.votingPeriodStarts.toNumber() > now) return parseInt(iterator + 1, 10);
+            break;
+          case 'voting-now':
+            if ((proposal.votingPeriodStarts.toNumber() > now) && (proposal.votingPeriodEnds.toNumber() < now)) return parseInt(iterator + 1, 10);
+            break;
+          case 'grace-period':
+            if (proposal.votingPeriodEnds.toNumber() > now && (proposal.gracePeriodEnds.toNumber() < now)) return parseInt(iterator + 1, 10);
+            break;
+          case 'ready-to-process':
+            if ((proposal.gracePeriodEnds.toNumber() < now) && !proposal.processed) return parseInt(iterator + 1, 10);
+            break;
+          case 'rejected':
+            if (proposal.gracePeriodEnds.toNumber() < now && !proposal.didPass) return parseInt(iterator + 1, 10);
+            break;
+          case 'approved':
+            if (proposal.didPass) return parseInt(iterator + 1, 10);
+            break;
+          case 'sponsored':
+            if (proposal.sponsor) return parseInt(iterator + 1, 10);
+            break;
+          case 'kicked':
+            if (proposal.guildKick) return parseInt(iterator + 1, 10);
+            break;
+          default:
+        }
+        return iterator;
+      }, 0)
+    );
+  }, 0);
+  return _.reduce(counts, (memory, numerator) => { return parseInt(memory + numerator, 10); }, 0);
 };
 
 /**
@@ -71,22 +128,22 @@ const MenuQuery = ({ account }) => {
 
   const menuList = (
     <div>
-      <Item sharp label={`${TAPi18n.__('all-daos')}`} key={0} href="/" />
-      <Item sharp label={`${TAPi18n.__('in-queue')}`} key={1} href="/?status=queue" />
-      <Item sharp label={`${TAPi18n.__('voting-now')}`} key={2} href="/?status=voting" />
-      <Item sharp label={`${TAPi18n.__('grace-period')}`} key={3} href="/?status=grace" />
-      <Item sharp label={`${TAPi18n.__('ready-to-process')}`} key={4} href="/?status=ready" />
-      <Item sharp label={`${TAPi18n.__('rejected')}`} key={5} href="/?status=rejected" />
-      <Item sharp label={`${TAPi18n.__('approved')}`} key={6} href="/?status=approved" />
-      <Item sharp label={`${TAPi18n.__('quits')}`} key={7} href="/?status=quits" />
-      <Item sharp label={`${TAPi18n.__('jailed')}`} key={8} href="/?status=jailed" />
-      <Item sharp label={`${TAPi18n.__('kicked')}`} key={9} href="/?status=kicked" />
+      <Item label={`${TAPi18n.__('all')}`} score={_getProposalCount(data.members, 'all')} key={0} href="/" />
+      <Item label={`${TAPi18n.__('in-queue')}`} score={_getProposalCount(data.members, 'in-queue')} key={1} href="/?status=queue" />
+      <Item label={`${TAPi18n.__('voting-now')}`} score={_getProposalCount(data.members, 'voting-now')} key={2} href="/?status=voting" />
+      <Item label={`${TAPi18n.__('grace-period')}`} score={_getProposalCount(data.members, 'grace-period')} key={3} href="/?status=grace" />
+      <Item label={`${TAPi18n.__('ready-to-process')}`} score={_getProposalCount(data.members, 'ready-to-process')} key={4} href="/?status=ready" />
+      <Item label={`${TAPi18n.__('guild-kicks')}`} score={_getProposalCount(data.members, 'guild-kicks')} key={9} href="/?status=kicked" />
+      <Item label={`${TAPi18n.__('rejected')}`} score={_getProposalCount(data.members, 'rejected')} key={5} href="/?status=rejected" />
+      <Item label={`${TAPi18n.__('approved')}`} score={_getProposalCount(data.members, 'approved')} key={6} href="/?status=approved" />
     </div>
   );
 
-  const daoList = data.members.map((item, key) => {
+  const sorted = _.sortBy(data.members, (item) => { return (item.submissions.length * -1); });
+
+  const daoList = sorted.map((item, key) => {
     return (
-      <Item key={key} href={`/dao/${item.moloch.id}`}>
+      <Item key={key} href={`/dao/${item.moloch.id}`} score={item.submissions.length}>
         <DAO publicAddress={item.moloch.id} width="16px" height="16px" format="plainText" />
       </Item>
     );

@@ -5941,7 +5941,12 @@ blockquote {
 }
 
 .sidebar-sharp {
-  margin: 0px 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0px 5px 0px 0px;
+  float: left;
+  font-weight: 100;
+  color: var(--main-link-color);
+  font-size: 1.2em;
 }
 
 .post-button {

@@ -60,8 +60,6 @@ const DAOQuery = ({ publicAddress, width, height, format }) => {
     label = (daoTitle.length > gui.MAX_LENGTH_ACCOUNT_NAMES) ? `${daoTitle.slice(0, gui.MAX_LENGTH_ACCOUNT_NAMES)}...` : daoTitle;
   }
 
-  console.log(`format: ${format}`);
-
   return (
     <div className="dao">
       {(format === 'plainText') ?
