@@ -6,10 +6,10 @@ import PropTypes from 'prop-types';
 */
 export default class Item extends Component {
   getLabel() {
-    if (this.props.children.type.name) {
+    if (this.props.children) {
       return this.props.children;
     }
-    return (this.props.label)
+    return (this.props.label);
   }
 
   render() {

@@ -69,10 +69,24 @@ const MenuQuery = ({ account }) => {
 
   console.log(data);
 
+  const menuList = (
+    <div>
+      <Item label={`${TAPi18n.__('all-daos')}`} key={0} href="/" />
+      <Item label={`${TAPi18n.__('in-queue')}`} key={1} href="/" />
+      <Item label={`${TAPi18n.__('voting-now')}`} key={2} href="/" />
+      <Item label={`${TAPi18n.__('grace-period')}`} key={3} href="/" />
+      <Item label={`${TAPi18n.__('ready-to-process')}`} key={4} href="/" />
+      <Item label={`${TAPi18n.__('rejected')}`} key={5} href="/" />
+      <Item label={`${TAPi18n.__('approved')}`} key={6} href="/" />
+      <Item label={`${TAPi18n.__('quits')}`} key={7} href="/" />
+      <Item label={`${TAPi18n.__('jailed')}`} key={8} href="/" />
+      <Item label={`${TAPi18n.__('kicked')}`} key={9} href="/" />
+    </div>
+  );
+
   const daoList = data.members.map((item, key) => {
-    console.log(item);
     return (
-      <Item key={key}>
+      <Item key={key} href={`/dao/${item.moloch.id}`}>
         <DAO publicAddress={item.moloch.id} width="16px" height="16px" format="plainText" />
       </Item>
     );
@@ -83,22 +97,14 @@ const MenuQuery = ({ account }) => {
       <div className={_getMenuStyle()}>
         <div className="menu">
           <div className="separator">
-            {TAPi18n.__('recent')}
+            {TAPi18n.__('proposals')}
           </div>
+          {menuList}
           <div className="separator">
             {TAPi18n.__('memberships')}
           </div>
           {daoList}
-          <div className="separator">
-            {TAPi18n.__('periods')}
-          </div>
-          <div className="separator">
-            {TAPi18n.__('proposals')}
-          </div>
         </div>
-      </div>
-      <div className="menu menu-empty menu-footer">
-        {/* replicator */}
       </div>
     </div>
   );

@@ -891,5 +891,14 @@
   "share": "share",
   "arrow-verb": " → ",
   "overview": "Overview",
-  "recent": "Recent"
+  "recent": "Recent",
+  "in-queue": "In Queue",
+  "voting-now": "Voting Now",
+  "grace-period": "Grace Period",
+  "ready-to-process": "Ready to process",
+  "rejected": "Rejected",
+  "approved": "Approved",
+  "quits": "Quits",
+  "jailed": "Jailed",
+  "kicked": "Kicked"
 }

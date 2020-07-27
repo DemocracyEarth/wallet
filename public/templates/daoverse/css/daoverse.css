@@ -4543,7 +4543,7 @@ blockquote {
 
 .menu-item {
   min-width: 100%;
-  padding: 2px 5px 1px 10px;
+  padding: 0px 5px;
   border-radius: 5px;
   color: #0d0d17;
   font-size: 13px;
@@ -4621,7 +4621,7 @@ blockquote {
 .sidebar {
   position: absolute;
   top: 60px;
-  bottom: 60px;
+  bottom: 0px;
   display: inline-block;
   overflow: scroll;
   width: 100%;
