@@ -14,21 +14,30 @@ export default class Item extends Component {
 
   render() {
     return (
-      <div className="menu-item">
+      <a className="menu-item" href={this.props.href}>
+        {(this.props.sharp) ?
+          <div className="sidebar-sharp">
+            &#35;
+          </div>
+        :
+          null
+        }
         <div className="sidebar-label">
           {this.getLabel()}
         </div>
         <div className="sidebar-tag">
           {this.props.score}
         </div>
-      </div>
+      </a>
     );
   }
 }
 
 Item.propTypes = {
+  sharp: PropTypes.bool,
   label: PropTypes.string,
   score: PropTypes.number,
+  href: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,

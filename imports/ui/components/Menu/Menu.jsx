@@ -71,16 +71,16 @@ const MenuQuery = ({ account }) => {
 
   const menuList = (
     <div>
-      <Item label={`${TAPi18n.__('all-daos')}`} key={0} href="/" />
-      <Item label={`${TAPi18n.__('in-queue')}`} key={1} href="/" />
-      <Item label={`${TAPi18n.__('voting-now')}`} key={2} href="/" />
-      <Item label={`${TAPi18n.__('grace-period')}`} key={3} href="/" />
-      <Item label={`${TAPi18n.__('ready-to-process')}`} key={4} href="/" />
-      <Item label={`${TAPi18n.__('rejected')}`} key={5} href="/" />
-      <Item label={`${TAPi18n.__('approved')}`} key={6} href="/" />
-      <Item label={`${TAPi18n.__('quits')}`} key={7} href="/" />
-      <Item label={`${TAPi18n.__('jailed')}`} key={8} href="/" />
-      <Item label={`${TAPi18n.__('kicked')}`} key={9} href="/" />
+      <Item sharp label={`${TAPi18n.__('all-daos')}`} key={0} href="/" />
+      <Item sharp label={`${TAPi18n.__('in-queue')}`} key={1} href="/?status=queue" />
+      <Item sharp label={`${TAPi18n.__('voting-now')}`} key={2} href="/?status=voting" />
+      <Item sharp label={`${TAPi18n.__('grace-period')}`} key={3} href="/?status=grace" />
+      <Item sharp label={`${TAPi18n.__('ready-to-process')}`} key={4} href="/?status=ready" />
+      <Item sharp label={`${TAPi18n.__('rejected')}`} key={5} href="/?status=rejected" />
+      <Item sharp label={`${TAPi18n.__('approved')}`} key={6} href="/?status=approved" />
+      <Item sharp label={`${TAPi18n.__('quits')}`} key={7} href="/?status=quits" />
+      <Item sharp label={`${TAPi18n.__('jailed')}`} key={8} href="/?status=jailed" />
+      <Item sharp label={`${TAPi18n.__('kicked')}`} key={9} href="/?status=kicked" />
     </div>
   );
 

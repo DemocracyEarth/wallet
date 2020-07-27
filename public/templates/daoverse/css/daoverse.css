@@ -5940,6 +5940,10 @@ blockquote {
   float: left;
 }
 
+.sidebar-sharp {
+  margin: 0px 10px;
+}
+
 .post-button {
   margin: 2px 10px -5px;
   float: right;
