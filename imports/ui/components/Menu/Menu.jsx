@@ -6,7 +6,8 @@ import { ApolloProvider } from 'react-apollo';
 import { useQuery } from '@apollo/react-hooks';
 import { TAPi18n } from 'meteor/tap:i18n';
 import PropTypes from 'prop-types';
-import { setupWeb3, getWeb3Wallet } from '/imports/startup/both/modules/metamask';
+import { shortenCryptoName, getWeb3Wallet } from '/imports/startup/both/modules/metamask';
+import { defaults } from '/lib/const.js';
 
 import Item from '/imports/ui/components/Item/Item.jsx';
 import DAO from '/imports/ui/components/DAO/DAO.jsx';
@@ -110,11 +111,18 @@ const _getProposalCount = (list, label) => {
   return _.reduce(counts, (memory, numerator) => { return parseInt(memory + numerator, 10); }, 0);
 };
 
+const _getHeadline = (headline, account) => {
+  if (account === defaults.EMPTY) {
+    return TAPi18n.__(headline);
+  }
+  return TAPi18n.__(`${headline}-account`).replace('{{account}}', shortenCryptoName(account));
+};
+
 /**
 * @summary displays the contents of a poll
 */
 const MenuQuery = ({ account }) => {
-  const { loading, error, data } = useQuery(gql(GET_MENU.replace('{{memberAddress}}', '0x865c2f85c9fea1c6ac7f53de07554d68cb92ed88')));
+  const { loading, error, data } = useQuery(gql(GET_MENU.replace('{{memberAddress}}', account)));
 
   if (loading) {
     return (
@@ -153,11 +161,11 @@ const MenuQuery = ({ account }) => {
       <div className={_getMenuStyle()}>
         <div className="menu">
           <div className="separator">
-            {TAPi18n.__('proposals')}
+            {_getHeadline('proposals', account)}
           </div>
           {menuList}
           <div className="separator">
-            {TAPi18n.__('memberships')}
+            {_getHeadline('memberships', account)}
           </div>
           {daoList}
         </div>
@@ -167,10 +175,6 @@ const MenuQuery = ({ account }) => {
 };
 
 MenuQuery.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
   account: PropTypes.string,
 };
 
@@ -182,7 +186,7 @@ export default class Menu extends Component {
     super(props);
 
     this.state = {
-      accounts: ['0x0'],
+      accounts: [defaults.EMPTY],
     };
   }
 

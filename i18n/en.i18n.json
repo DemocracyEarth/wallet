@@ -902,5 +902,7 @@
   "jailed": "Jailed",
   "kicked": "Kicked",
   "sponsored": "Sponsored",
-  "guild-kicks": "Guild Kicks"
+  "guild-kicks": "Guild Kicks",
+  "proposals-account": "Proposals by {{account}}",
+  "memberships-account": "Memberships of {{account}}"
 }
