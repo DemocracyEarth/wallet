@@ -72,7 +72,6 @@ const _getProposalCount = (list, label) => {
 
   _.reduce(list, (memo, num) => {
     if (label === 'all') {
-      console.log(`parseInt(num.submissions.length + memo, 10);: ${parseInt(num.submissions.length + memo, 10)}`);
       counts.push(num.submissions.length);
     }
     counts.push(

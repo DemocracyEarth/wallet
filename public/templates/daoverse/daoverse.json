@@ -80,6 +80,8 @@
     "rejected": "/templates/daoverse/images/rejected.png",
     "signout": "/templates/daoverse/images/signout.png",
     "calendar": "/templates/daoverse/images/calendar.svg",
-    "blocks": "/templates/daoverse/images/blocks.gif"
+    "blocks": "/templates/daoverse/images/blocks.gif",
+    "paper": "/templates/daoverse/images/paper.svg",
+    "paper-active": "/templates/daoverse/images/paper-active.svg"
   }
 }

@@ -4557,6 +4557,12 @@ blockquote {
   background-color: #e6e0ee;
 }
 
+.menu-item-icon {
+  width: 16px;
+  height: 16px;
+  padding: 2px;
+}
+
 .menu-item.cast-action {
   position: absolute;
   top: 50%;
