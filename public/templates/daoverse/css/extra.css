@@ -770,6 +770,15 @@ width: 1px;
   box-shadow: -1px 5px 10px 0px rgba(0, 0, 0, .2);
 }
 
+.empty {
+  border: 1px dashed #bfb8c6;
+  font-size: 0.8em;
+  padding: 10px;
+  text-align: left;
+  border-radius: 5px;
+  color: #bfb8c6;
+}
+
 .token-wrap.token-wrap-multi {
   margin-bottom:10px;
 }

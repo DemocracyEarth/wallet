@@ -904,5 +904,8 @@
   "sponsored": "Sponsored",
   "guild-kicks": "Guild Kicks",
   "proposals-account": "Proposals by {{account}}",
-  "memberships-account": "Memberships of {{account}}"
+  "memberships-account": "Memberships of {{account}}",
+  "proposals-sidebar": "Recent Proposals",
+  "memberships-sidebar": "Your Memberships",
+  "no-memberships-found": "None found"
 }
