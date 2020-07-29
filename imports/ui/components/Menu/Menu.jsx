@@ -130,17 +130,18 @@ const _getHeadline = (headline, account) => {
 const MenuQuery = ({ account }) => {
   const atHome = (Router.current().url.replace(window.location.origin, '') === '/');
   const hideEmpty = !atHome;
+  const defaultLabels = ['all', 'in-queue', 'voting-now', 'grace-period', 'ready-to-process', 'guild-kicks', 'rejected', 'approved'];
 
   const defaultMenu = (
     <div>
-      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__('all')}`} score={false} key={0} href="/" />
-      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__('in-queue')}`} score={false} key={1} href="/?status=queue" />
-      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__('voting-now')}`} score={false} key={2} href="/?status=voting" />
-      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__('grace-period')}`} score={false} key={3} href="/?status=grace" />
-      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__('ready-to-process')}`} score={false} key={4} href="/?status=ready" />
-      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__('guild-kicks')}`} score={false} key={9} href="/?status=kicked" />
-      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__('rejected')}`} score={false} key={5} href="/?status=rejected" />
-      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__('approved')}`} score={false} key={6} href="/?status=approved" />
+      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[0])}`} score={false} key={0} href="/" />
+      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[1])}`} score={false} key={1} href="/?status=queue" />
+      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[2])}`} score={false} key={2} href="/?status=voting" />
+      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[3])}`} score={false} key={3} href="/?status=grace" />
+      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[4])}`} score={false} key={4} href="/?status=ready" />
+      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[5])}`} score={false} key={9} href="/?status=kicked" />
+      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[6])}`} score={false} key={5} href="/?status=rejected" />
+      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[7])}`} score={false} key={6} href="/?status=approved" />
     </div>
   );
 
@@ -149,7 +150,17 @@ const MenuQuery = ({ account }) => {
 
     if (loading) {
       return (
-        <div />
+        <div className="left">
+          <div className={_getMenuStyle()}>
+            <div className="menu">
+              <div className="separator">
+                {_getHeadline('proposals', account)}
+              </div>
+              {<div className="option-placeholder identity-placeholder" />}
+            </div>
+          </div>
+        </div>
+
       );
     }
     if (error) return `Error! ${error}`;
@@ -165,18 +176,12 @@ const MenuQuery = ({ account }) => {
       );
     });
 
-    const menuList = (
-      <div>
-        <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__('all')}`} score={(atHome) ? null : _getProposalCount(data.members, 'all')} key={0} href="/" />
-        <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__('in-queue')}`} score={(atHome) ? null : _getProposalCount(data.members, 'in-queue')} key={1} href="/?status=queue" />
-        <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__('voting-now')}`} score={(atHome) ? null : _getProposalCount(data.members, 'voting-now')} key={2} href="/?status=voting" />
-        <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__('grace-period')}`} score={(atHome) ? null : _getProposalCount(data.members, 'grace-period')} key={3} href="/?status=grace" />
-        <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__('ready-to-process')}`} score={(atHome) ? null : _getProposalCount(data.members, 'ready-to-process')} key={4} href="/?status=ready" />
-        <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__('guild-kicks')}`} score={(atHome) ? null : _getProposalCount(data.members, 'guild-kicks')} key={9} href="/?status=kicked" />
-        <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__('rejected')}`} score={(atHome) ? null : _getProposalCount(data.members, 'rejected')} key={5} href="/?status=rejected" />
-        <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__('approved')}`} score={(atHome) ? null : _getProposalCount(data.members, 'approved')} key={6} href="/?status=approved" />
-      </div>
-    );
+    let i = 0;
+    for (const defaultItem of defaultMenu.props.children) {
+      defaultItem.props.score = (atHome) ? null : _getProposalCount(data.members, defaultLabels[i]);
+      i += 1;
+    }
+    const menuList = defaultMenu;
 
     return (
       <div className="left">
