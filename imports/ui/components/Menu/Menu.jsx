@@ -134,14 +134,14 @@ const MenuQuery = ({ account }) => {
 
   const defaultMenu = (
     <div>
-      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[0])}`} score={false} key={0} href="/" />
-      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[1])}`} score={false} key={1} href="/?status=queue" />
-      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[2])}`} score={false} key={2} href="/?status=voting" />
-      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[3])}`} score={false} key={3} href="/?status=grace" />
-      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[4])}`} score={false} key={4} href="/?status=ready" />
-      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[5])}`} score={false} key={9} href="/?status=kicked" />
-      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[6])}`} score={false} key={5} href="/?status=rejected" />
-      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[7])}`} score={false} key={6} href="/?status=approved" />
+      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[0])}`} score={null} key={0} href="/" />
+      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[1])}`} score={null} key={1} href="/?status=queue" />
+      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[2])}`} score={null} key={2} href="/?status=voting" />
+      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[3])}`} score={null} key={3} href="/?status=grace" />
+      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[4])}`} score={null} key={4} href="/?status=ready" />
+      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[5])}`} score={null} key={9} href="/?status=kicked" />
+      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[6])}`} score={null} key={5} href="/?status=rejected" />
+      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[7])}`} score={null} key={6} href="/?status=approved" />
     </div>
   );
 

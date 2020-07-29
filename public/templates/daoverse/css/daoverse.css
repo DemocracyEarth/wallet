@@ -1416,8 +1416,6 @@ blockquote {
   border-radius: 8px;
   background-image: none;
   /* box-shadow: 0 2px 8px 0 hsla(0, 0%, 72%, .37); */
-  -webkit-transition: all 200ms ease;
-  transition: all 200ms ease;
   color: #000;
   cursor: pointer;
 }
@@ -4640,7 +4638,7 @@ blockquote {
 }
 
 .content.content-feed {
-  padding: 10px 15px;
+  padding: 20px 15px;
   -webkit-transition: opacity 892ms ease;
   transition: opacity 892ms ease;
 }
@@ -5175,16 +5173,17 @@ blockquote {
 
 .split.split-right {
   position: absolute;
-  left: 58%;
+  left: 60%;
   right: 0px;
-  width: 42%;
+  width: 40%;
+  top:65px;
   padding-right: 0px;
   padding-left: 0px;
   border-left: 1px none hsla(0, 0%, 41%, 0);
 }
 
 .split.split-left {
-  width: 58%;
+  width: 60%;
   padding-right: 0px;
   padding-left: 0px;
 }
@@ -6846,7 +6845,6 @@ blockquote {
     bottom: 15px;
   }
   .sidebar {
-    top: 0px;
     z-index: 15000;
     display: block;
   }
@@ -6884,7 +6882,7 @@ blockquote {
   .split {
     position: static;
     width: 100%;
-    padding-top: 0px;
+    padding-top: 55px;
     padding-right: 0px;
     padding-left: 0px;
     float: none;
