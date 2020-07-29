@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import { useQuery } from '@apollo/react-hooks';
+import { gui } from '/lib/const';
 
 import { shortenCryptoName } from '/imports/startup/both/modules/metamask';
 
@@ -29,7 +30,7 @@ const makeBlockie = require('ethereum-blockies-base64');
 /**
 * @summary renders a post in the timeline
 */
-const DAOQuery = ({ publicAddress, width, height }) => {
+const DAOQuery = ({ publicAddress, width, height, format }) => {
   const { loading, error, data } = useQuery(gql(GET_DAO.replace('{{molochAddress}}', publicAddress)));
 
   const image = makeBlockie(publicAddress);
@@ -56,19 +57,28 @@ const DAOQuery = ({ publicAddress, width, height }) => {
   if (!daoTitle) {
     label = shortenCryptoName(publicAddress);
   } else {
-    label = (daoTitle.length > 20) ? `${daoTitle.slice(0, 19)}...` : daoTitle;
+    label = (daoTitle.length > gui.MAX_LENGTH_ACCOUNT_NAMES) ? `${daoTitle.slice(0, gui.MAX_LENGTH_ACCOUNT_NAMES)}...` : daoTitle;
   }
 
   return (
     <div className="dao">
-      <div className="avatar-editor">
-        <img src={image} className="symbol dao-pic" role="presentation" style={{ width: finalWidth, height: finalHeight }} />
-        <div className="identity-peer">
-          <a href={url} title={publicAddress} className="identity-label identity-label-micro">
+      {(format === 'plainText') ?
+        <div>
+          <img src={image} className="symbol dao-pic" role="presentation" style={{ width: finalWidth, height: finalHeight }} />
+          <div className="identity-peer">
             {label}
-          </a>
+          </div>
         </div>
-      </div>
+        :
+        <div className="avatar-editor">
+          <img src={image} className="symbol dao-pic" role="presentation" style={{ width: finalWidth, height: finalHeight }} />
+          <div className="identity-peer">
+            <a href={url} title={publicAddress} className="identity-label identity-label-micro">
+              {label}
+            </a>
+          </div>
+        </div>
+      }
     </div>
   );
 };
@@ -77,6 +87,7 @@ DAOQuery.propTypes = {
   publicAddress: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,
+  format: PropTypes.string,
 };
 
 
@@ -86,7 +97,7 @@ DAOQuery.propTypes = {
 const DAO = (props) => {
   return (
     <ApolloProvider client={client}>
-      <DAOQuery publicAddress={props.publicAddress} width={props.width} height={props.height} />
+      <DAOQuery publicAddress={props.publicAddress} width={props.width} height={props.height} format={props.format} />
     </ApolloProvider>
   );
 };

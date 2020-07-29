@@ -1404,7 +1404,6 @@ blockquote {
   background-color: #fff;
   background-image: -webkit-gradient(linear, left top, left bottom, color-stop(64%, #fff), to(#ececec));
   background-image: linear-gradient(180deg, #fff 64%, #ececec);
-  box-shadow: inset 0 0 1px 0 #dfdfdf, 0 5px 20px -10px #838383;
 }
 
 .vote.vote-search.vote-feed {
@@ -1413,10 +1412,10 @@ blockquote {
   padding-bottom: 0px;
   border-style: solid;
   border-width: 1px;
-  border-color: rgba(0, 0, 0, .02);
+  border-color: rgb(224 218 226);
   border-radius: 8px;
   background-image: none;
-  box-shadow: 0 2px 8px 0 hsla(0, 0%, 72%, .37);
+  /* box-shadow: 0 2px 8px 0 hsla(0, 0%, 72%, .37); */
   -webkit-transition: all 200ms ease;
   transition: all 200ms ease;
   color: #000;
@@ -1424,16 +1423,13 @@ blockquote {
 }
 
 .vote.vote-search.vote-feed:hover {
-  margin-top: 0px;
-  margin-bottom: 25px;
-  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, .1);
   color: #0d0d17;
+  border-color: rgb(88 1 115 / 40%);
 }
 
 .vote.vote-search.vote-feed:active {
   margin-top: 0px;
   margin-bottom: 21px;
-  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, .1);
 }
 
 .vote.vote-search.vote-feed.vote-empty {
@@ -1441,7 +1437,6 @@ blockquote {
   border-width: 1px;
   border-color: hsla(0, 0%, 90%, .72);
   background-color: transparent;
-  box-shadow: none;
 }
 
 .event-vote {
@@ -1452,7 +1447,7 @@ blockquote {
   border: 1px solid #7d849f33;
   border-top: 1px dotted #7d849f33;
   border-radius: 0px;
-  background-color: #f9fafb;
+  background-color: var(--proposal-bar-color);
   width: 100%;
   cursor: default;
 }
@@ -4543,19 +4538,24 @@ blockquote {
 
 .menu-item {
   min-width: 100%;
-  margin-top: 3px;
-  margin-bottom: 12px;
-  padding: 2px 5px 1px 10px;
-  border-radius: 20px;
+  padding: 0px 5px;
+  border-radius: 5px;
   color: #0d0d17;
   font-size: 13px;
   line-height: 30px;
   text-align: left;
   cursor: pointer;
+  display:inline-block;
 }
 
 .menu-item:hover {
   background-color: #e6e0ee;
+}
+
+.menu-item-icon {
+  width: 16px;
+  height: 16px;
+  padding: 2px;
 }
 
 .menu-item.cast-action {
@@ -4622,7 +4622,7 @@ blockquote {
 .sidebar {
   position: absolute;
   top: 60px;
-  bottom: 60px;
+  bottom: 0px;
   display: inline-block;
   overflow: scroll;
   width: 100%;
@@ -4689,6 +4689,7 @@ blockquote {
   line-height: 22px;
   font-weight: 500;
   text-align: left;
+  clear:both;
   text-transform: uppercase;
 }
 
@@ -5938,6 +5939,15 @@ blockquote {
 
 .sidebar-label {
   float: left;
+}
+
+.sidebar-sharp {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0px 5px 0px 0px;
+  float: left;
+  font-weight: 100;
+  color: var(--main-link-color);
+  font-size: 1.2em;
 }
 
 .post-button {

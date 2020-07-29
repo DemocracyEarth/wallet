@@ -63,7 +63,7 @@ const VoteQuery = () => {
 
   return data.votes.map((vote) => {
     return (
-      <div className="event-vote">
+      <div key={vote.id} className="event-vote">
         <Account publicAddress={vote.memberAddress} width="16px" height="16px" />
         <DAO publicAddress={vote.molochAddress} width="16px" height="16px" />
         <Transaction uintVote={vote.uintVote} description={vote.proposal.details} quantity={vote.member.shares} />

@@ -1,9 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
-import ApolloClient, { InMemoryCache } from 'apollo-boost';
-import { ApolloProvider, Query } from 'react-apollo';
+import ApolloClient, { InMemoryCache, gql } from 'apollo-boost';
+import { ApolloProvider } from 'react-apollo';
 import { TAPi18n } from 'meteor/tap:i18n';
-import PropTypes from 'prop-types';
+import { useQuery } from '@apollo/react-hooks';
 
 import Account from '/imports/ui/components/Account/Account.jsx';
 import Post from '/imports/ui/components/Post/Post.jsx';
@@ -20,7 +20,37 @@ import Survey from '/imports/ui/components/Poll/Survey';
 import Social from '/imports/ui/components/Social/Social';
 
 import { defaults } from '/lib/const';
-import { MOLOCHS } from '/imports/ui/components/Timeline/queries';
+
+export const GET_PROPOSALS = `
+{
+  proposals(first: 50, orderBy:createdAt, orderDirection:desc) {
+    id
+    proposalId
+    createdAt
+    proposalIndex
+    startingPeriod
+    moloch {
+      id
+    }
+    memberAddress
+    applicant
+    tributeOffered
+    tributeToken
+    tributeTokenSymbol
+    tributeTokenDecimals
+    sharesRequested
+    yesVotes
+    noVotes
+    yesShares
+    noShares
+    details
+    processed
+    votingPeriodStarts
+    votingPeriodEnds
+    gracePeriodEnds
+  }
+}
+`;
 
 const client = new ApolloClient({
   uri: Meteor.settings.public.graph.molochs,
@@ -31,100 +61,90 @@ const _getPercentage = (percentageAmount, remainder) => {
   return parseFloat((percentageAmount * 100) / (percentageAmount + remainder), 10);
 };
 
-const Feed = (props) => {
-  return (
-    <Query
-      query={props.query}
-    >
-      {({ loading, error, data }) => {
-        if (loading) return <Placeholder />;
-        if (error) return <p>Error!</p>;
+const Feed = () => {
+  const { loading, error, data } = useQuery(gql(GET_PROPOSALS));
 
-        console.log(data.proposals);
+  if (loading) return <Placeholder />;
+  if (error) return <p>Error!</p>;
 
-        const accountAddress = Meteor.user() ? Meteor.user().username : null;
-        const daoName = 'MolochDAO';
-        const timestamp = new Date().getTime();
+  console.log(data.proposals);
 
-        return data.proposals.map((proposal) => {
-          const totalVoters = parseInt(proposal.yesVotes.toNumber() + proposal.noVotes.toNumber(), 10).toString();
-          const yesPercentage = _getPercentage(proposal.yesShares.toNumber(), proposal.noShares.toNumber()).toString();
-          const noPercentage = _getPercentage(proposal.noShares.toNumber(), proposal.yesShares.toNumber()).toString();
-          const daoAddress = proposal.moloch.id;
-          const status = (proposal.didPass) ? 'PASSED' : 'FAILED';
-          const isPoll = (proposal.startingPeriod !== '0');
-          const url = `/proposal/${proposal.id}`;
+  const accountAddress = Meteor.user() ? Meteor.user().username : null;
+  const daoName = 'MolochDAO';
+  const timestamp = new Date().getTime();
 
-          return (
-            <Post
-              key={proposal.id} accountAddress={accountAddress} href={url}
-              description={proposal.details} memberAddress={proposal.memberAddress}
-              daoAddress={daoAddress}
-            >
-              <Contract>
-                <Parameter label={TAPi18n.__('moloch-applicant')}>
-                  <Account publicAddress={proposal.applicant} width="24px" height="24px" />
-                </Parameter>
-                <Parameter label={TAPi18n.__('moloch-request')}>
-                  <Token quantity={proposal.sharesRequested.toString()} symbol="SHARES" />
-                </Parameter>
-                <Parameter label={TAPi18n.__('moloch-tribute')}>
-                  <Token quantity={proposal.tributeOffered} publicAddress={proposal.tributeToken} symbol={proposal.tributeTokenSymbol} decimals={proposal.tributeTokenDecimals} />
-                </Parameter>
-              </Contract>
-              {(isPoll) ?
-                <Poll>
-                  <Countdown
-                    now={timestamp}
-                    votingPeriodBegins={proposal.votingPeriodStarts} votingPeriodEnds={proposal.votingPeriodEnds} 
-                    gracePeriodEnds={proposal.gracePeriodEnds} totalVoters={totalVoters}
-                  />
-                  <Survey>
-                    <Choice
-                      now={timestamp}
-                      accountAddress={accountAddress} daoName={daoName} publicAddress={proposal.moloch.id}
-                      proposalIndex={proposal.proposalIndex} label={TAPi18n.__('yes')} percentage={yesPercentage}
-                      voteValue={defaults.YES} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
-                    >
-                      <Token quantity={proposal.yesVotes} symbol="SHARES" />
-                    </Choice>
-                    <Choice
-                      now={timestamp}
-                      accountAddress={accountAddress} daoName={daoName} publicAddress={proposal.moloch.id}
-                      proposalIndex={proposal.proposalIndex} label={TAPi18n.__('no')} percentage={noPercentage}
-                      voteValue={defaults.NO} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
-                    >
-                      <Token quantity={proposal.noVotes} symbol="SHARES" />
-                    </Choice>
-                  </Survey>
-                  <Period
-                    now={timestamp}
-                    status={status} votingPeriodBegins={proposal.votingPeriodStarts}
-                    votingPeriodEnds={proposal.votingPeriodEnds} gracePeriodEnds={proposal.gracePeriodEnds}
-                  />
-                </Poll>
-              :
-                null
-              }
-              <Social url={url} description={proposal.details}>
-                <Stamp timestamp={proposal.createdAt} />
-              </Social>
-            </Post>
-          );
-        });
-      }}
-    </Query>
-  );
-};
+  return data.proposals.map((proposal) => {
+    const totalVoters = parseInt(proposal.yesVotes.toNumber() + proposal.noVotes.toNumber(), 10).toString();
+    const yesPercentage = _getPercentage(proposal.yesShares.toNumber(), proposal.noShares.toNumber()).toString();
+    const noPercentage = _getPercentage(proposal.noShares.toNumber(), proposal.yesShares.toNumber()).toString();
+    const daoAddress = proposal.moloch.id;
+    const status = (proposal.didPass) ? 'PASSED' : 'FAILED';
+    const isPoll = (proposal.startingPeriod !== '0');
+    const url = `/dao/${proposal.moloch.id}/proposal/${proposal.proposalIndex}`;
 
-Feed.propTypes = {
-  query: PropTypes.instanceOf(Object),
+    return (
+      <Post
+        key={proposal.id} accountAddress={accountAddress} href={url}
+        description={proposal.details} memberAddress={proposal.memberAddress}
+        daoAddress={daoAddress}
+      >
+        <Contract>
+          <Parameter label={TAPi18n.__('moloch-applicant')}>
+            <Account publicAddress={proposal.applicant} width="16px" height="16px" />
+          </Parameter>
+          <Parameter label={TAPi18n.__('moloch-request')}>
+            <Token quantity={proposal.sharesRequested.toString()} symbol="SHARES" />
+          </Parameter>
+          <Parameter label={TAPi18n.__('moloch-tribute')}>
+            <Token quantity={proposal.tributeOffered} publicAddress={proposal.tributeToken} symbol={proposal.tributeTokenSymbol} decimals={proposal.tributeTokenDecimals} />
+          </Parameter>
+        </Contract>
+        {(isPoll) ?
+          <Poll>
+            <Countdown
+              now={timestamp}
+              votingPeriodBegins={proposal.votingPeriodStarts} votingPeriodEnds={proposal.votingPeriodEnds} 
+              gracePeriodEnds={proposal.gracePeriodEnds} totalVoters={totalVoters}
+            />
+            <Survey>
+              <Choice
+                now={timestamp}
+                accountAddress={accountAddress} daoName={daoName} publicAddress={proposal.moloch.id}
+                proposalIndex={proposal.proposalIndex} label={TAPi18n.__('yes')} percentage={yesPercentage}
+                voteValue={defaults.YES} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
+              >
+                <Token quantity={proposal.yesVotes} symbol="SHARES" />
+              </Choice>
+              <Choice
+                now={timestamp}
+                accountAddress={accountAddress} daoName={daoName} publicAddress={proposal.moloch.id}
+                proposalIndex={proposal.proposalIndex} label={TAPi18n.__('no')} percentage={noPercentage}
+                voteValue={defaults.NO} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
+              >
+                <Token quantity={proposal.noVotes} symbol="SHARES" />
+              </Choice>
+            </Survey>
+            <Period
+              now={timestamp}
+              status={status} votingPeriodBegins={proposal.votingPeriodStarts}
+              votingPeriodEnds={proposal.votingPeriodEnds} gracePeriodEnds={proposal.gracePeriodEnds}
+            />
+          </Poll>
+          :
+          null
+        }
+        <Social url={url} description={proposal.details}>
+          <Stamp timestamp={proposal.createdAt} />
+        </Social>
+      </Post>
+    );
+  });
 };
 
 const Timeline = () => {
   return (
     <ApolloProvider client={client}>
-      <Feed query={MOLOCHS} />
+      <Feed />
     </ApolloProvider>
   );
 };

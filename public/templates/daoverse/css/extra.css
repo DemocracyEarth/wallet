@@ -770,6 +770,20 @@ width: 1px;
   box-shadow: -1px 5px 10px 0px rgba(0, 0, 0, .2);
 }
 
+.empty {
+  border: 1px dashed #bfb8c6;
+  font-size: 0.8em;
+  padding: 10px;
+  text-align: left;
+  border-radius: 5px;
+  color: #bfb8c6;
+}
+
+.sidebar-label.sidebar-label-dao {
+  max-height: 33px;
+  margin-top: -3px;
+}
+
 .token-wrap.token-wrap-multi {
   margin-bottom:10px;
 }
@@ -792,7 +806,7 @@ width: 1px;
   color: #5a0075;
   border: 1px solid #f2eff5;
   min-width: 140px;
-  background: #f9fafb;
+  background: var(--proposal-bar-color);
   float: left;
   height: 80px;
   overflow: hidden;
@@ -858,7 +872,7 @@ width: 1px;
   margin-bottom: 10px;
   float: left;
   border: 1px solid #e8e2ef;
-  border-radius: 3px;
+  border-radius: 50px;
   background-color: #e8e2ef;
 }
 
@@ -1179,7 +1193,7 @@ h4 {
   display: inline-block;
   padding: 0px 7px;
   width: 100%;
-  background-color: #f9fafb;
+  background-color: var(--proposal-bar-color);
   margin: -5px 0px;
 }
 
@@ -1275,7 +1289,7 @@ h4 {
 }
 
 .vote.vote-search.vote-feed.vote-delegation.guild-block {
-  border: 5px solid #f9fafb;
+  border: 5px solid var(--proposal-bar-color);
 }
 
 .mobile-search {

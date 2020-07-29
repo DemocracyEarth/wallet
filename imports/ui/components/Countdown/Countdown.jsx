@@ -48,6 +48,8 @@ export default class Countdown extends Component {
   getPollLabel() {
     let delta;
     let label;
+    const now = parseInt(this.props.now / 1000, 10);
+
     if (this.props.now > this.state.graceEnd) {
       delta = parseInt(this.props.now - this.state.end, 10);
       label = 'poll-ended-days-ago';
