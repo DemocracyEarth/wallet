@@ -779,6 +779,11 @@ width: 1px;
   color: #bfb8c6;
 }
 
+.sidebar-label.sidebar-label-dao {
+  max-height: 33px;
+  margin-top: -3px;
+}
+
 .token-wrap.token-wrap-multi {
   margin-bottom:10px;
 }

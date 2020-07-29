@@ -70,6 +70,13 @@ export default class Item extends Component {
     return (this.state.inContext) ? this.state.icon.paperActive : this.state.icon.paper;
   }
 
+  getLabelStyle() {
+    if (this.props.children) {
+      return `sidebar-label sidebar-label-${this.props.children.type.name.toLowerCase()}`;
+    }
+    return 'sidebar-label';
+  }
+
   render() {
     if (this.props.hideEmpty && this.props.score === 0) return null;
     return (
@@ -81,7 +88,7 @@ export default class Item extends Component {
           :
           null
         }
-        <div className="sidebar-label">
+        <div className={this.getLabelStyle()}>
           {this.getLabel()}
         </div>
         <div className={this.getTagStyle()}>

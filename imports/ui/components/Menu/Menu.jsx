@@ -144,12 +144,6 @@ const MenuQuery = ({ account }) => {
     </div>
   );
 
-  console.log(`-0---Defualt maenu`);
-  console.log(defaultMenu);
-  console.log(_.where(defaultMenu.props.children));
-
-  console.log(`account: ${account}`);
-
   if (account !== defaults.EMPTY) {
     const { loading, error, data } = useQuery(gql(GET_MEMBERSHIPS.replace('{{memberAddress}}', account)));
 
