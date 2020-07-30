@@ -39,7 +39,7 @@
     {{/with}}
   {{/if}}  
   <div id="main-feed" class="split split-left {{landingMode 'left'}}">
-    <div class="content content-feed max100">
+    <div id="proposals" class="content content-feed max100">
       {{#unless isPhone}}
         {{#unless dictator}}
           {{#unless replyMode}}
@@ -69,12 +69,7 @@
   </div>
 
   <div id="alternative-feed" class="split split-right {{landingMode 'right'}}">
-    <div class="agora">
-        <div class="content content-agora">
-          {{> ledger}}
-        </div>
-        <div id="resizable" class="resize"></div>
-    </div>
+    {{> ledger}}
   </div>
 
   {{#unless dictator}}

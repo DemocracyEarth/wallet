@@ -17,7 +17,7 @@ const client = new ApolloClient({
 
 const GET_VOTES = gql`
   {
-    votes(first: 7, orderBy:createdAt, orderDirection:desc) {
+    votes(first: 10, orderBy:createdAt, orderDirection:desc) {
       id
       createdAt
       uintVote
@@ -47,8 +47,6 @@ const GET_VOTES = gql`
 */
 const VoteQuery = () => {
   const { loading, error, data } = useQuery(GET_VOTES);
-
-  console.log(data);
 
   if (loading) {
     return (

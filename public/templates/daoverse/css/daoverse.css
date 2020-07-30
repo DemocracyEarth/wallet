@@ -4644,7 +4644,8 @@ blockquote {
 }
 
 .content.content-agora {
-  top: 55px;
+  position:sticky;
+  top: -100px;
   height: 0px;
   width: 100%;
   min-width: 200px;
@@ -4985,7 +4986,6 @@ blockquote {
   .right {
     position: absolute;
     width: auto;
-    overflow: scroll;
   }
 }
 
@@ -5172,7 +5172,10 @@ blockquote {
 }
 
 .split.split-right {
-  position: absolute;
+  display: flex;
+  height: 100%;
+  min-height: 5000px;
+  position: relative;
   left: 60%;
   right: 0px;
   width: 40%;
@@ -6168,11 +6171,6 @@ blockquote {
 
 .heading {
   color: #888;
-}
-
-.ledger {
-  display: inline-block;
-  width: 100%;
 }
 
 .vote-reply {
