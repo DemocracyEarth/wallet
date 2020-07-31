@@ -519,6 +519,12 @@ blockquote {
   margin-bottom: 10px;
 }
 
+.symbol.profile-pic.plain {
+  width: 20px;
+  height: 20px;
+  margin: 7px;
+}
+
 .symbol.profile-pic {
   width: 60px;
   height: 60px;
@@ -6618,7 +6624,7 @@ blockquote {
 .hero-menu-link {
   color: #c3c9d5;
   font-size: 0.6em;
-  line-height: 24px;
+  line-height: 23px;
   font-weight: 400;
   text-transform: uppercase;
 }
@@ -6634,15 +6640,21 @@ blockquote {
 }
 
 .hero-menu-link.hero-menu-link-signin {
-  padding: 5px 10px 5px 10px;
+  padding: 6px 10px 4px 10px;
   border: 1px solid #7d8499;
   border-radius: 5px;
   margin-right:10px;
 }
 
 .hero-menu-link.hero-menu-link-signin-simple {
-  padding: 5px 10px 5px 10px;
+  padding: 7px 10px;
   float:right;
+  font-size: 0.6em;
+  line-height: 3em;
+}
+
+.hero-menu-link.hero-menu-link-signin-simple a {
+  color: white;
 }
 
 .hero-menu-link.hero-menu-link-signin.hero-menu-link-signin-active {

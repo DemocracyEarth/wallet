@@ -1584,6 +1584,7 @@ h4 {
 .signout {
   width: 20px;
   height: 20px;
+  margin: -5px 5px 0px;
 }
 
 .hero-menu-link.hero-menu-link-signin-simple.hero-menu-link-signin-simple-icon {

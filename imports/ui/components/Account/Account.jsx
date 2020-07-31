@@ -80,7 +80,7 @@ const AccountQuery = ({ publicAddress, width, height, format }) => {
   return (
     <div className="identity">
       <div className="avatar-editor">
-        <img src={image} className="symbol profile-pic" role="presentation" style={{ width: finalWidth, height: finalHeight }} />
+        <img src={image} className={`symbol profile-pic ${(format === 'plainText') ? 'plain' : null}`} role="presentation" style={{ width: finalWidth, height: finalHeight }} />
         {(format === 'plainText') ?
           <a href={url} title={publicAddress}>
             {label}

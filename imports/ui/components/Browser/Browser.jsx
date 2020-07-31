@@ -114,7 +114,7 @@ export default class Browser extends Component {
           {(this.connectedWallet()) ?
             <div className="hero-button hero-button-mobile hero-signin">
               <div id="sign-out-button" className="hero-menu-link hero-menu-link-signin-simple hero-menu-link-signin-simple-icon" target="_blank">
-                <img src={this.state.icon.signout} role="presentation" title="Sign Out" className="signout" />
+                <img src={this.state.icon.signout} role="presentation" title={TAPi18n.__('sign-out')} className="signout" />
               </div>
               <div id="collective-login" className="hero-menu-link hero-menu-link-signin-simple" target="_blank">
                 <Account publicAddress={this.getSignedAccount()} width="20px" height="20px" format="plainText" />
