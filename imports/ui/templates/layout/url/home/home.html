@@ -1,35 +1,5 @@
 <template name="home">
-  {{#if landingMode}}
-    {{> landing}}
-  {{else}}
-    {{#unless newLogin}}
-      {{#each mode in modeArray}}
-        {{> screen this}}
-      {{/each}}
-    {{else}}
-      {{> homeFeed this}}
-    {{/unless}}
-  {{/if}}
-</template>
-
-<template name="screen">
-  {{#if loading}}
-    {{#with collective}}
-      {{> synchronizer}}
-    {{/with}}
-  {{else}}
-    <div class="{{anonymousContext}}">
-      {{#if post}}
-        {{> postFeed this}}
-      {{else}}
-        {{#if period}}
-          {{> periodFeed this}}
-        {{else}}
-          {{> homeFeed this}}
-        {{/if}}
-      {{/if}}
-    </div>
-  {{/if}}
+  {{> homeFeed this}}
 </template>
 
 <template name="homeFeed">
@@ -38,7 +8,7 @@
       {{> tabs}}
     {{/with}}
   {{/if}}  
-  <div id="main-feed" class="split split-left {{landingMode 'left'}}">
+  <div id="main-feed" class="split split-left split-landing">
     <div id="proposals" class="content content-feed max100">
       {{#unless isPhone}}
         {{#unless dictator}}
@@ -68,7 +38,7 @@
     </div>
   </div>
 
-  <div id="alternative-feed" class="split split-right {{landingMode 'right'}}">
+  <div id="alternative-feed" class="split split-right split-landing">
     {{> ledger}}
   </div>
 
@@ -79,93 +49,4 @@
       {{/unless}}
     {{/if}}
   {{/unless}}
-</template>
-
-<template name="postFeed">
-  {{#if isPhone}}
-    {{#with menu}}
-      {{> tabs}}
-    {{/with}}
-  {{/if}}  
-  <div id="main-feed" class="split split-left {{landingMode 'left'}}">
-    <div class="content content-feed subsection max100">
-      {{#if isPhone}}
-        {{#if editorMode}}
-          {{> editor contractId=newContractId}}
-        {{/if}}
-      {{/if}}
-
-      {{#if isPhone}}
-        <input id="hiddenInput" style="visibility: hidden; position: absolute;">
-      {{/if}}
-
-      <div id="non-editable-reply-feed">
-        {{#if postReady}}
-          {{#unless isPhone}}
-            <h4 class="padding-left-zero">{{{feedTitle}}}</h4>
-          {{/unless}}
-          {{#with thread}}
-            {{> feed this}}
-          {{/with}}
-        {{else}}
-          {{> load}}
-        {{/if}}
-
-      </div>
-    </div>
-  </div>
-
-  {{#if showTransactions}}
-    <div id="alternative-feed" class="split split-right {{landingMode 'right'}}">
-      {{#if postReady}}
-        <div class="agora">
-          <div class="content content-agora">
-            {{#with votes}}
-              {{> ledger this}}
-            {{/with}}
-            <div id="resizable" class="resize"></div>
-          </div>
-        </div>
-      {{/if}}
-    </div>
-  {{/if}}
-</template>
-
-<template name="periodFeed">
-  {{#if isPhone}}
-    {{#with menu}}
-      {{> tabs}}
-    {{/with}}
-  {{/if}}    
-  <div id="main-feed" class="split split-left {{landingMode 'left'}}">
-    <div class="content content-feed max100">
-      <div id="non-editable-feed">
-        {{#if periodReady}}
-          {{#unless isPhone}}
-            <h4 class="padding-left-zero">
-              {{{feedTitle}}}
-            </h4>
-          {{/unless}}
-          {{#with thread}}
-            {{> feed this}}
-          {{/with}}
-        {{else}}
-          {{> load}}
-        {{/if}}
-      </div>
-    </div>
-  </div>
-
-  <div id="alternative-feed" class="split split-right {{landingMode 'right'}}">
-    {{#if periodReady}}
-      <div class="agora">
-        <div class="content content-agora">
-          {{#with votes}}
-            {{> ledger this}}
-          {{/with}}
-          <div id="resizable" class="resize"></div>
-        </div>
-      </div>
-    {{/if}}
-  </div>
 </template>

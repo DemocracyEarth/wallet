@@ -184,38 +184,34 @@ const MenuQuery = ({ account }) => {
     const menuList = defaultMenu;
 
     return (
-      <div className="left">
-        <div className={_getMenuStyle()}>
-          <div className="menu">
-            <div className="separator">
-              {_getHeadline('proposals', account)}
-            </div>
-            {menuList}
-            <div className="separator">
-              {_getHeadline('memberships', account)}
-            </div>
-            {(daoList.length > 0) ?
-              daoList
-              :
-              <div className="empty">
-                {TAPi18n.__('no-memberships-found')}
-              </div>
-            }
+      <div className={_getMenuStyle()}>
+        <div className="menu">
+          <div className="separator">
+            {_getHeadline('proposals', account)}
           </div>
+          {menuList}
+          <div className="separator">
+            {_getHeadline('memberships', account)}
+          </div>
+          {(daoList.length > 0) ?
+            daoList
+            :
+            <div className="empty">
+              {TAPi18n.__('no-memberships-found')}
+            </div>
+          }
         </div>
       </div>
     );
   }
 
   return (
-    <div className="left">
-      <div className={_getMenuStyle()}>
-        <div className="menu">
-          <div className="separator">
-            {_getHeadline('proposals', account)}
-          </div>
-          {defaultMenu}
+    <div className={_getMenuStyle()}>
+      <div className="menu">
+        <div className="separator">
+          {_getHeadline('proposals', account)}
         </div>
+        {defaultMenu}
       </div>
     </div>
   );

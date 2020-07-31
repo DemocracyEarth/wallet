@@ -9,7 +9,10 @@
   {{> browser}}
 
   <div id="app" class="app">
-    {{> menu}}
+
+    <div id="menu" class="left">
+      {{> menu}}
+    </div>
     
     <div id='content' class='right {{landingMode}}'>
       {{> yield}}

@@ -4341,7 +4341,7 @@ blockquote {
   bottom: 0px;
   z-index: 12500;
   overflow: hidden;
-  width: 260px;
+  width: 250px;
   float: left;
   text-align: left;
 }
@@ -4983,11 +4983,12 @@ blockquote {
 
 .right {
   position: relative;
-  width: 950px;
-  left: 250px;
+  max-width: 960px;
+  left: 240px;
   top: 0px;
   right: 0px;
   bottom: 0px;
+  /* overflow: scroll;
   /* overflow: scroll; */
 }
 
@@ -4997,7 +4998,6 @@ blockquote {
     width: auto;
   }
 }
-
 .right.show {
   left: 0px;
 }
@@ -7698,8 +7698,9 @@ blockquote {
 }
 
 .app {
-  width: 1200px;
+  max-width: 1200px;
   margin: 0 auto;
+  width: auto;
 }
 
 
