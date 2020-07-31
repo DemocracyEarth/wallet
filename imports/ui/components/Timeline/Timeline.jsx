@@ -23,7 +23,7 @@ import { defaults } from '/lib/const';
 
 export const GET_PROPOSALS = `
 {
-  proposals(first: 50, orderBy:createdAt, orderDirection:desc) {
+  proposals(first: 15, orderBy:createdAt, orderDirection:desc) {
     id
     proposalId
     createdAt

@@ -9,7 +9,6 @@ import { getBlockHeight } from '/imports/startup/both/modules/metamask.js';
 import { TAPi18n } from 'meteor/tap:i18n';
 
 import '/imports/ui/templates/components/decision/calendar/calendar.html';
-import '/imports/ui/templates/widgets/switcher/switcher.js';
 
 const _save = () => {
   const draft = Session.get('draftContract');

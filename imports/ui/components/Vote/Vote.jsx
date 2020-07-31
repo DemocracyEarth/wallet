@@ -17,7 +17,7 @@ const client = new ApolloClient({
 
 const GET_VOTES = gql`
   {
-    votes(first: 10, orderBy:createdAt, orderDirection:desc) {
+    votes(first: 15, orderBy:createdAt, orderDirection:desc) {
       id
       createdAt
       uintVote

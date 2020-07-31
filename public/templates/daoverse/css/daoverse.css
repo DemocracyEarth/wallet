@@ -10,6 +10,8 @@
   --negative-signal-color: #ff3d67;
   --negative-signal-background-color: #ffecf0;
   --main-headline-color: #675f69;
+  --search-bar-color: #864b9a;
+  --bar-background: #48015f;
 }
 
 @-webkit-keyframes preloader-content {
@@ -4341,6 +4343,7 @@ blockquote {
 .topbar-max {
   max-width: 1200px;
   margin: 0 auto;
+  padding:0 5px;
 }
 
 .vote-label {
@@ -6599,7 +6602,7 @@ blockquote {
 
 .hero-button {
   display: inline-block;
-  padding:10px;
+  padding: 5px 0px;
 }
 
 .hero-button.hero-button-mobile.hero-signin {
@@ -6614,8 +6617,8 @@ blockquote {
 
 .hero-menu-link {
   color: #c3c9d5;
-  font-size: 11px;
-  line-height: 23px;
+  font-size: 0.6em;
+  line-height: 24px;
   font-weight: 400;
   text-transform: uppercase;
 }
@@ -6634,6 +6637,7 @@ blockquote {
   padding: 5px 10px 5px 10px;
   border: 1px solid #7d8499;
   border-radius: 5px;
+  margin-right:10px;
 }
 
 .hero-menu-link.hero-menu-link-signin-simple {
@@ -7688,13 +7692,13 @@ blockquote {
 
 
 .ReactTags__selected {
-  background: #864b9a;
-  min-width: 200px;
+  background: transparent;
+  min-width: 350px;
   float: left;
   margin: 12px 10px 10px 0px;
   padding: 0px 13px;
-  border: 2px solid #864b99;
-  border-radius: 25px;
+  border: 1px solid transparent;
+  border-radius: 15px;
   white-space: nowrap;
 }
 
@@ -7768,7 +7772,7 @@ blockquote {
 }
 
 .ReactTags__activeSuggestion {
-  background-color: #864b9a;
+  background-color: var(--search-bar-color);
   color: white;
 }
 
