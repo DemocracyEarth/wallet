@@ -1048,6 +1048,11 @@ h4 {
 
 .topbar {
   z-index: 12800;
+  position: fixed;
+  top: 0px;
+  opacity: 1;
+  height: 55px;
+  overflow-y: hidden;
 }
 
 .topbar,

@@ -106,7 +106,7 @@ export default class Browser extends Component {
 
   render() {
     return (
-      <div className="hero-navbar topbar hero-navbar-scroller" style={{ position: 'fixed', top: '0px', opacity: '1', height: '55px' }}>
+      <div className="hero-navbar topbar hero-navbar-scroller">
         <div className="topbar-max">
           <div id="nav-home" className="hero-home-button">
             <img className="hero-logo" role="presentation" src={this.state.icon.logo} />

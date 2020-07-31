@@ -4988,6 +4988,7 @@ blockquote {
   top: 0px;
   right: 0px;
   bottom: 0px;
+  margin-top:0px;
   /* overflow: scroll;
   /* overflow: scroll; */
 }
@@ -4995,6 +4996,7 @@ blockquote {
 @media (max-width: 1200px) {
   .right {
     position: absolute;
+    margin-top: 0px;
     width: auto;
   }
 }
