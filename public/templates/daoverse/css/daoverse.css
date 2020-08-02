@@ -6673,6 +6673,17 @@ blockquote {
   height: 60px;
 }
 
+.hero-navbar.topbar.hero-navbar-scroller.hero-navbar-up {
+  transition: top 0.15s ease 0.15s;
+  top: -60px;
+}
+
+.hero-navbar.topbar.hero-navbar-scroller.hero-navbar-down {
+  transition: top 0.15s ease 0.15s;
+  top: 0px;
+}
+
+
 .hero-demo {
   position: absolute;
   left: 60%;
