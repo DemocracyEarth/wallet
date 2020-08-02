@@ -70,12 +70,20 @@ export default class Browser extends Component {
         signout: '',
       },
       accounts: [defaults.EMPTY],
+      node: document.getElementById('browser'),
     };
+
+    this.handleScroll = this.handleScroll.bind(this);
   }
 
   async componentDidMount() {
     await this.setIcons();
     await this.getAccounts();
+    window.addEventListener('scroll', this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
   }
 
   async setIcons() {
@@ -100,13 +108,32 @@ export default class Browser extends Component {
     return this.state.accounts[0];
   }
 
+  handleScroll(event) {
+    const st = window.pageYOffset || document.documentElement.scrollTop;
+
+    if (st > lastScrollTop) {
+      document.getElementById('browser').animate([
+        // keyframes
+        { transform: 'translateY(0px)' }, 
+        { transform: 'translateY(-300px)' }
+      ], {
+        // timing options
+        duration: 1000,
+        iterations: 0,
+      });
+    } else {
+      console.log('scroll up');
+    }
+    lastScrollTop = st <= 0 ? 0 : st;
+  }
+
   connectedWallet() {
     return (this.state.accounts.length > 0 && this.state.accounts[0] !== defaults.EMPTY);
   }
 
   render() {
     return (
-      <div className="hero-navbar topbar hero-navbar-scroller">
+      <div id="browser" className="hero-navbar topbar hero-navbar-scroller">
         <div className="topbar-max">
           <div id="nav-home" className="hero-home-button">
             <img className="hero-logo" role="presentation" src={this.state.icon.logo} />
