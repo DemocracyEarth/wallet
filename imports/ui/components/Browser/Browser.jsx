@@ -119,9 +119,11 @@ export default class Browser extends Component {
   handleScroll() {
     const st = window.pageYOffset || document.documentElement.scrollTop;
 
-    if (st > lastScrollTop) {
+    if ((st > lastScrollTop) && !this.state.scrollUp) {
+      console.log('CHANGE UP');
       this.setState({ scrollUp: true });
-    } else {
+    } else if ((st <= lastScrollTop) && this.state.scrollUp) {
+      console.log('CHANGE DOWN');
       this.setState({ scrollUp: false });
     }
     lastScrollTop = st <= 0 ? 0 : st;
