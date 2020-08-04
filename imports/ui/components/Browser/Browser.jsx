@@ -13,49 +13,6 @@ import Account from '/imports/ui/components/Account/Account.jsx';
 
 // scroll settings
 let lastScrollTop = 0;
-let scrollDown = false;
-
-const _hideBar = () => {
-  if (Meteor.Device.isPhone()) {
-    $('.right').scroll(() => {
-      const node = $('.navbar');
-      const st = $('.right').scrollTop();
-      if (st > lastScrollTop && st > 60) {
-        $('.tab-menu').removeClass('tab-menu-scroll');
-        scrollDown = true;
-        node
-          .velocity('stop')
-          .velocity({ translateY: '0px' }, { duration: parseInt(timers.ANIMATION_DURATION, 10), easing: 'ease-out' })
-          .velocity({ translateY: '-100px' }, {
-            duration: parseInt(timers.ANIMATION_DURATION, 10),
-            easing: 'ease-out',
-            complete: () => {
-              node.css('position', 'absolute');
-              node.css('top', '0px');
-            },
-          })
-          .velocity('stop');
-      } else if (scrollDown === true) {
-        $('.tab-menu').addClass('tab-menu-scroll');
-        scrollDown = false;
-        node.css('position', 'fixed');
-        node
-          .velocity('stop')
-          .velocity({ translateY: '-100px' }, { duration: parseInt(timers.ANIMATION_DURATION, 10), easing: 'ease-out' })
-          .velocity({ translateY: '0px' }, {
-            duration: parseInt(timers.ANIMATION_DURATION, 10),
-            easing: 'ease-out',
-            complete: () => {
-            },
-          })
-          .velocity('stop');
-      }
-      lastScrollTop = st;
-    });
-  } else {
-    $('.navbar').css('position', 'fixed');
-  }
-};
 
 /**
 * @summary displays the contents of a poll
