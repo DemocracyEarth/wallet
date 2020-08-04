@@ -48,6 +48,38 @@ export const GET_MEMBERSHIPS = `
 `;
 
 /**
+ * @summary gets the default menu for the dapp
+ * @param {boolean} atHome if its on the home location in the url
+ */
+const _getMenu = (atHome) => {
+  const defaultLabels = ['all', 'in-queue', 'voting-now', 'grace-period', 'ready-to-process', 'guild-kicks', 'rejected', 'approved'];
+  const hideEmpty = !atHome;
+  return (
+    <div>
+      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[0])}`} score={null} key={0} href="/" />
+      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[1])}`} score={null} key={1} href="/?status=queue" />
+      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[2])}`} score={null} key={2} href="/?status=voting" />
+      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[3])}`} score={null} key={3} href="/?status=grace" />
+      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[4])}`} score={null} key={4} href="/?status=ready" />
+      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[5])}`} score={null} key={9} href="/?status=kicked" />
+      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[6])}`} score={null} key={5} href="/?status=rejected" />
+      <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[7])}`} score={null} key={6} href="/?status=approved" />
+    </div>
+  );
+};
+
+/**
+ * @summary the right style according to scroll move
+ * @param {boolean} isUp if the scroll went up
+ */
+const _getScrollClass = (isUp) => {
+  if (isUp) {
+    return `sidebar ${!Meteor.Device.isPhone() ? 'sidebar-desktop' : null} sidebar-up`;
+  }
+  return `sidebar ${!Meteor.Device.isPhone() ? 'sidebar-desktop' : null} sidebar-down`;
+};
+
+/**
  * @summary based on a members data, count the types of proposals
  * @return {number} with final count
  */
@@ -109,9 +141,80 @@ const _getHeadline = (headline, account) => {
 };
 
 /**
+* @summary renders the menu based on a graph ql query ad hoc for the user
+*/
+const MenuQuery = ({ account, scrollUp }) => {
+  const { loading, error, data } = useQuery(gql(GET_MEMBERSHIPS.replace('{{memberAddress}}', account)));
+
+  if (loading) {
+    return (
+      <div className="left">
+        <div id="sidebar" className={_getScrollClass(scrollUp)}>
+          <div className="menu">
+            <div className="separator">
+              {_getHeadline('proposals', account)}
+            </div>
+            {<div className="option-placeholder identity-placeholder" />}
+          </div>
+        </div>
+      </div>
+
+    );
+  }
+  if (error) return `Error! ${error}`;
+
+  console.log(data);
+
+  const atHome = (Router.current().url.replace(window.location.origin, '') === '/');
+  const defaultMenu = _getMenu(atHome);
+
+  const sorted = _.sortBy(data.members, (item) => { return (item.submissions.length * -1); });
+  const daoList = sorted.map((item, key) => {
+    return (
+      <Item key={key} href={`/dao/${item.moloch.id}`} score={item.submissions.length}>
+        <DAO publicAddress={item.moloch.id} width="16px" height="16px" format="plainText" />
+      </Item>
+    );
+  });
+
+  let i = 0;
+  for (const defaultItem of defaultMenu.props.children) {
+    defaultItem.props.score = (atHome) ? null : _getProposalCount(data.members, defaultLabels[i]);
+    i += 1;
+  }
+  const menuList = defaultMenu;
+
+  return (
+    <div id="sidebar" className={_getScrollClass(scrollUp)}>
+      <div className="menu">
+        <div className="separator">
+          {_getHeadline('proposals', account)}
+        </div>
+        {menuList}
+        <div className="separator">
+          {_getHeadline('memberships', account)}
+        </div>
+        {(daoList.length > 0) ?
+          daoList
+          :
+          <div className="empty">
+            {TAPi18n.__('no-memberships-found')}
+          </div>
+        }
+      </div>
+    </div>
+  );
+};
+
+MenuQuery.propTypes = {
+  account: PropTypes.string,
+  scrollUp: PropTypes.bool,
+};
+
+/**
 * @summary displays the contents of a poll
 */
-export default class MenuQuery extends Component {
+export default class Sidebar extends Component {
   constructor(props) {
     super(props);
 
@@ -132,14 +235,6 @@ export default class MenuQuery extends Component {
     window.removeEventListener('scroll', this.handleScroll);
   }
 
-
-  getScrollClass() {
-    if (this.state.scrollUp) {
-      return `sidebar ${!Meteor.Device.isPhone() ? 'sidebar-desktop' : null} sidebar-up`;
-    }
-    return `sidebar ${!Meteor.Device.isPhone() ? 'sidebar-desktop' : null} sidebar-down`;
-  }
-
   handleScroll() {
     const st = window.pageYOffset || document.documentElement.scrollTop;
 
@@ -151,87 +246,16 @@ export default class MenuQuery extends Component {
     lastScrollTop = st <= 0 ? 0 : st;
   }
 
-
   render() {
-    const atHome = (Router.current().url.replace(window.location.origin, '') === '/');
-    const hideEmpty = !atHome;
-    const defaultLabels = ['all', 'in-queue', 'voting-now', 'grace-period', 'ready-to-process', 'guild-kicks', 'rejected', 'approved'];
-
-    const defaultMenu = (
-      <div>
-        <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[0])}`} score={null} key={0} href="/" />
-        <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[1])}`} score={null} key={1} href="/?status=queue" />
-        <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[2])}`} score={null} key={2} href="/?status=voting" />
-        <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[3])}`} score={null} key={3} href="/?status=grace" />
-        <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[4])}`} score={null} key={4} href="/?status=ready" />
-        <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[5])}`} score={null} key={9} href="/?status=kicked" />
-        <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[6])}`} score={null} key={5} href="/?status=rejected" />
-        <Item sharp hideEmpty={hideEmpty} label={`${TAPi18n.__(defaultLabels[7])}`} score={null} key={6} href="/?status=approved" />
-      </div>
-    );
-
     if (this.props.account !== defaults.EMPTY) {
-      const { loading, error, data } = useQuery(gql(GET_MEMBERSHIPS.replace('{{memberAddress}}', this.props.account)));
-
-      if (loading) {
-        return (
-          <div className="left">
-            <div id="sidebar" className={this.getScrollClass()}>
-              <div className="menu">
-                <div className="separator">
-                  {_getHeadline('proposals', this.props.account)}
-                </div>
-                {<div className="option-placeholder identity-placeholder" />}
-              </div>
-            </div>
-          </div>
-
-        );
-      }
-      if (error) return `Error! ${error}`;
-
-      console.log(data);
-
-      const sorted = _.sortBy(data.members, (item) => { return (item.submissions.length * -1); });
-      const daoList = sorted.map((item, key) => {
-        return (
-          <Item key={key} href={`/dao/${item.moloch.id}`} score={item.submissions.length}>
-            <DAO publicAddress={item.moloch.id} width="16px" height="16px" format="plainText" />
-          </Item>
-        );
-      });
-
-      let i = 0;
-      for (const defaultItem of defaultMenu.props.children) {
-        defaultItem.props.score = (atHome) ? null : _getProposalCount(data.members, defaultLabels[i]);
-        i += 1;
-      }
-      const menuList = defaultMenu;
-
-      return (
-        <div id="sidebar" className={this.getScrollClass()}>
-          <div className="menu">
-            <div className="separator">
-              {_getHeadline('proposals', this.props.account)}
-            </div>
-            {menuList}
-            <div className="separator">
-              {_getHeadline('memberships', this.props.account)}
-            </div>
-            {(daoList.length > 0) ?
-              daoList
-              :
-              <div className="empty">
-                {TAPi18n.__('no-memberships-found')}
-              </div>
-            }
-          </div>
-        </div>
-      );
+      return <MenuQuery account={this.props.account} scrollUp={this.state.scrollUp} />;
     }
 
+    const atHome = (Router.current().url.replace(window.location.origin, '') === '/');
+    const defaultMenu = _getMenu(atHome);
+
     return (
-      <div id="sidebar" className={this.getScrollClass()}>
+      <div id="sidebar" className={_getScrollClass(this.state.scrollUp)}>
         <div className="menu">
           <div className="separator">
             {_getHeadline('proposals', this.props.account)}
@@ -243,6 +267,6 @@ export default class MenuQuery extends Component {
   }
 }
 
-MenuQuery.propTypes = {
+Sidebar.propTypes = {
   account: PropTypes.string,
 };

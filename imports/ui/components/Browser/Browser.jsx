@@ -67,6 +67,7 @@ export default class Browser extends Component {
   }
 
   getScrollClass() {
+    console.log(lastScrollTop);
     if (this.state.scrollUp) {
       return 'hero-navbar topbar hero-navbar-scroller hero-navbar-up';
     }
@@ -84,9 +85,17 @@ export default class Browser extends Component {
     lastScrollTop = st <= 0 ? 0 : st;
   }
 
-
   connectedWallet() {
     return (this.state.accounts.length > 0 && this.state.accounts[0] !== defaults.EMPTY);
+  }
+
+  handleSignIn() {
+    Meteor.loginWithMetamask({}, (err) => {
+      if (err.reason) {
+        throw new Meteor.Error('Metamask login failed', err.reason);
+      }
+    });
+    this.render();
   }
 
   render() {
@@ -107,11 +116,11 @@ export default class Browser extends Component {
             </div>
             :
             <div className="hero-button hero-button-mobile hero-signin">
-              <div id="collective-login" className="hero-button hero-button-mobile">
+              <button id="collective-login" className="hero-button hero-button-mobile" onClick={this.handleSignIn} >
                 <div className="hero-menu-link hero-menu-link-signin" target="_blank">
                   {TAPi18n.__('sign-in')}
                 </div>
-              </div>
+              </button>
             </div>
           }
           <Search />
