@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
 import { Router } from 'meteor/iron:router';
 
-import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
+import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
 import { TAPi18n } from 'meteor/tap:i18n';
 import PropTypes from 'prop-types';
@@ -46,17 +46,6 @@ export const GET_MEMBERSHIPS = `
   }
 }
 `;
-
-/**
- * @summary style based on type of device
- * @return {string} with css classes
- */
-const _getMenuStyle = () => {
-  if (Meteor.Device.isPhone()) {
-    return 'sidebar sidebar-desktop';
-  }
-  return 'sidebar';
-};
 
 /**
  * @summary based on a members data, count the types of proposals
@@ -155,10 +144,8 @@ export default class MenuQuery extends Component {
     const st = window.pageYOffset || document.documentElement.scrollTop;
 
     if ((st > lastScrollTop) && !this.state.scrollUp) {
-      console.log('CHANGE UP 2');
       this.setState({ scrollUp: true });
     } else if ((st <= lastScrollTop) && this.state.scrollUp) {
-      console.log('CHANGE DOWN 2');
       this.setState({ scrollUp: false });
     }
     lastScrollTop = st <= 0 ? 0 : st;

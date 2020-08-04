@@ -6683,6 +6683,15 @@ blockquote {
   top: 0px;
 }
 
+.sidebar.sidebar-desktop.sidebar-up {
+  transition: top 0.15s ease 0.15s;
+  top: 0px;
+}
+
+.sidebar.sidebar-desktop.sidebar-down {
+  transition: top 0.15s ease 0.15s;
+  top: 60px;
+}
 
 .hero-demo {
   position: absolute;
