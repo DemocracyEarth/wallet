@@ -74,9 +74,6 @@ input[type="file"] {
 .navbar {
   left: 0px;
 }
-.right {
-  left: 250px;
-}
 
 
 @media (max-width: 991px) {
@@ -1051,12 +1048,16 @@ h4 {
 
 .topbar {
   z-index: 12800;
+  position: fixed;
+  top: 0px;
+  opacity: 1;
+  height: 55px;
+  overflow-y: hidden;
 }
 
 .topbar,
 .navbar {
-  background: var(--main-menu-color);
-  box-shadow: 0px -3px 15px 0px rgba(0, 0, 0, 0.65);
+  background: var(--bar-background);
   border:none;
 }
 
@@ -1585,6 +1586,7 @@ h4 {
 .signout {
   width: 20px;
   height: 20px;
+  margin: -5px 5px 0px;
 }
 
 .hero-menu-link.hero-menu-link-signin-simple.hero-menu-link-signin-simple-icon {

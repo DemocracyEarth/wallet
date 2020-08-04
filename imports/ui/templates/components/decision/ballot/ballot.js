@@ -24,8 +24,6 @@ import { getBalance } from '/imports/api/blockchain/modules/web3Util';
 import { getProposalDescription } from '/imports/ui/templates/widgets/feed/feedItem';
 
 import '/imports/ui/templates/components/decision/ballot/ballot.html';
-import '/imports/ui/templates/components/decision/fork/fork.js';
-import '/imports/ui/templates/components/decision/liquid/liquid.js';
 import '/imports/ui/templates/widgets/warning/warning.js';
 
 

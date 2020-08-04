@@ -109,8 +109,6 @@ export default class Choice extends Component {
       return alreadyVoted();
     }
 
-    console.log(`this.pollOpen():`);
-    console.log(this.pollOpen());
     // poll date
     if (!this.pollOpen()) {
       return pollClosed();

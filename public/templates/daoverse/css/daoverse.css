@@ -10,6 +10,8 @@
   --negative-signal-color: #ff3d67;
   --negative-signal-background-color: #ffecf0;
   --main-headline-color: #675f69;
+  --search-bar-color: #864b9a;
+  --bar-background: #48015f;
 }
 
 @-webkit-keyframes preloader-content {
@@ -515,6 +517,12 @@ blockquote {
   height: 120px;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.symbol.profile-pic.plain {
+  width: 20px;
+  height: 20px;
+  margin: 7px;
 }
 
 .symbol.profile-pic {
@@ -1416,8 +1424,6 @@ blockquote {
   border-radius: 8px;
   background-image: none;
   /* box-shadow: 0 2px 8px 0 hsla(0, 0%, 72%, .37); */
-  -webkit-transition: all 200ms ease;
-  transition: all 200ms ease;
   color: #000;
   cursor: pointer;
 }
@@ -4335,7 +4341,7 @@ blockquote {
   bottom: 0px;
   z-index: 12500;
   overflow: hidden;
-  width: 260px;
+  width: 250px;
   float: left;
   text-align: left;
 }
@@ -4343,6 +4349,7 @@ blockquote {
 .topbar-max {
   max-width: 1200px;
   margin: 0 auto;
+  padding:0 5px;
 }
 
 .vote-label {
@@ -4640,13 +4647,14 @@ blockquote {
 }
 
 .content.content-feed {
-  padding: 10px 15px;
+  padding: 20px 15px;
   -webkit-transition: opacity 892ms ease;
   transition: opacity 892ms ease;
 }
 
 .content.content-agora {
-  top: 55px;
+  position:sticky;
+  top: -100px;
   height: 0px;
   width: 100%;
   min-width: 200px;
@@ -4975,22 +4983,23 @@ blockquote {
 
 .right {
   position: relative;
-  width: 950px;
-  left: 250px;
+  max-width: 960px;
+  left: 240px;
   top: 0px;
   right: 0px;
   bottom: 0px;
+  margin-top:0px;
+  /* overflow: scroll;
   /* overflow: scroll; */
 }
 
 @media (max-width: 1200px) {
   .right {
     position: absolute;
+    margin-top: 0px;
     width: auto;
-    overflow: scroll;
   }
 }
-
 .right.show {
   left: 0px;
 }
@@ -5174,17 +5183,21 @@ blockquote {
 }
 
 .split.split-right {
-  position: absolute;
-  left: 58%;
+  display: flex;
+  height: 100%;
+  min-height: 5000px;
+  position: relative;
+  left: 60%;
   right: 0px;
-  width: 42%;
+  width: 40%;
+  top:65px;
   padding-right: 0px;
   padding-left: 0px;
   border-left: 1px none hsla(0, 0%, 41%, 0);
 }
 
 .split.split-left {
-  width: 58%;
+  width: 60%;
   padding-right: 0px;
   padding-left: 0px;
 }
@@ -6171,11 +6184,6 @@ blockquote {
   color: #888;
 }
 
-.ledger {
-  display: inline-block;
-  width: 100%;
-}
-
 .vote-reply {
   display: inline-block;
   width: 100%;
@@ -6602,7 +6610,7 @@ blockquote {
 
 .hero-button {
   display: inline-block;
-  padding:10px;
+  padding: 5px 0px;
 }
 
 .hero-button.hero-button-mobile.hero-signin {
@@ -6617,7 +6625,7 @@ blockquote {
 
 .hero-menu-link {
   color: #c3c9d5;
-  font-size: 11px;
+  font-size: 0.6em;
   line-height: 23px;
   font-weight: 400;
   text-transform: uppercase;
@@ -6634,14 +6642,21 @@ blockquote {
 }
 
 .hero-menu-link.hero-menu-link-signin {
-  padding: 5px 10px 5px 10px;
+  padding: 6px 10px 4px 10px;
   border: 1px solid #7d8499;
   border-radius: 5px;
+  margin-right:10px;
 }
 
 .hero-menu-link.hero-menu-link-signin-simple {
-  padding: 5px 10px 5px 10px;
+  padding: 7px 10px;
   float:right;
+  font-size: 0.6em;
+  line-height: 3em;
+}
+
+.hero-menu-link.hero-menu-link-signin-simple a {
+  color: white;
 }
 
 .hero-menu-link.hero-menu-link-signin.hero-menu-link-signin-active {
@@ -6656,6 +6671,26 @@ blockquote {
   /* overflow: hidden; */
   width: 100%;
   height: 60px;
+}
+
+.hero-navbar.topbar.hero-navbar-scroller.hero-navbar-up {
+  transition: top 0.15s ease 0.15s;
+  top: -60px;
+}
+
+.hero-navbar.topbar.hero-navbar-scroller.hero-navbar-down {
+  transition: top 0.15s ease 0.15s;
+  top: 0px;
+}
+
+.sidebar.sidebar-desktop.sidebar-up {
+  transition: top 0.15s ease 0.15s;
+  top: 0px;
+}
+
+.sidebar.sidebar-desktop.sidebar-down {
+  transition: top 0.15s ease 0.15s;
+  top: 60px;
 }
 
 .hero-demo {
@@ -6846,7 +6881,6 @@ blockquote {
     bottom: 15px;
   }
   .sidebar {
-    top: 0px;
     z-index: 15000;
     display: block;
   }
@@ -6884,7 +6918,7 @@ blockquote {
   .split {
     position: static;
     width: 100%;
-    padding-top: 0px;
+    padding-top: 55px;
     padding-right: 0px;
     padding-left: 0px;
     float: none;
@@ -7686,19 +7720,20 @@ blockquote {
 }
 
 .app {
-  width: 1200px;
+  max-width: 1200px;
   margin: 0 auto;
+  width: auto;
 }
 
 
 .ReactTags__selected {
-  background: #864b9a;
-  min-width: 200px;
+  background: transparent;
+  min-width: 350px;
   float: left;
   margin: 12px 10px 10px 0px;
   padding: 0px 13px;
-  border: 2px solid #864b99;
-  border-radius: 25px;
+  border: 1px solid transparent;
+  border-radius: 15px;
   white-space: nowrap;
 }
 
@@ -7772,7 +7807,7 @@ blockquote {
 }
 
 .ReactTags__activeSuggestion {
-  background-color: #864b9a;
+  background-color: var(--search-bar-color);
   color: white;
 }
 

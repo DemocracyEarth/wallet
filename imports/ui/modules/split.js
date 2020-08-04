@@ -3,8 +3,8 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { gui } from '/lib/const';
 
-const LEFTHALF = 0.58;
-const RIGHTHALF = 0.42;
+const LEFTHALF = 0.6;
+const RIGHTHALF = 0.4;
 
 /**
 * @summary saves split preference of user
@@ -46,6 +46,9 @@ const _resizeSplit = (diff, winResize) => {
 };
 
 const _resetSplit = () => {
+  return null;
+
+  /*
   if (!Meteor.settings.public.app.config.interface.showTransactions) {
     $('.split-left').width('100%');
   } else if ($('.split-right')) {
@@ -64,6 +67,7 @@ const _resetSplit = () => {
       Session.set('scrollerDiv', '.split-left');
     }
   }
+  */
 };
 
 /**
@@ -72,7 +76,7 @@ const _resetSplit = () => {
 const _setupSplit = () => {
   if (Session.get('resizeSplit') === undefined) {
     Session.set('resizeSplit', false);
-    Session.set('resizeSplitCursor', { x: 0, y: 0, leftWidth: '58%', rightWidth: '42%' });
+    Session.set('resizeSplitCursor', { x: 0, y: 0, leftWidth: '60%', rightWidth: '40%' });
   }
   $(window).mousemove((event) => {
     if (Session.get('resizeSplit')) {

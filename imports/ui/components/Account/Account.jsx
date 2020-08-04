@@ -47,7 +47,7 @@ const getENSName = (data, publicAddress) => {
 /**
 * @summary renders a post in the timeline
 */
-const AccountQuery = ({ publicAddress, width, height }) => {
+const AccountQuery = ({ publicAddress, width, height, format }) => {
   let label;
 
   const image = makeBlockie(publicAddress);
@@ -80,12 +80,18 @@ const AccountQuery = ({ publicAddress, width, height }) => {
   return (
     <div className="identity">
       <div className="avatar-editor">
-        <img src={image} className="symbol profile-pic" role="presentation" style={{ width: finalWidth, height: finalHeight }} />
-        <div className="identity-peer">
-          <a href={url} title={publicAddress} className="identity-label identity-label-micro">
+        <img src={image} className={`symbol profile-pic ${(format === 'plainText') ? 'plain' : null}`} role="presentation" style={{ width: finalWidth, height: finalHeight }} />
+        {(format === 'plainText') ?
+          <a href={url} title={publicAddress}>
             {label}
           </a>
-        </div>
+          :
+          <div className="identity-peer">
+            <a href={url} title={publicAddress} className="identity-label identity-label-micro">
+              {label}
+            </a>
+          </div>
+        }
       </div>
     </div>
   );
@@ -95,6 +101,7 @@ AccountQuery.propTypes = {
   publicAddress: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,
+  format: PropTypes.string,
 };
 
 /**
@@ -103,7 +110,7 @@ AccountQuery.propTypes = {
 const Account = (props) => {
   return (
     <ApolloProvider client={client}>
-      <AccountQuery publicAddress={props.publicAddress} width={props.width} height={props.height} />
+      <AccountQuery publicAddress={props.publicAddress} width={props.width} height={props.height} format={props.format} />
     </ApolloProvider>
   );
 };
