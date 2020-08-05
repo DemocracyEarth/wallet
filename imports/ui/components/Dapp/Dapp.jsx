@@ -12,7 +12,7 @@ import Ledger from '/imports/ui/components/Ledger/Ledger.jsx';
 /**
 * @summary renders a post in the timeline
 */
-export default class App extends Component {
+export default class Dapp extends Component {
   constructor(props) {
     super(props);
 

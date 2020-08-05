@@ -34,9 +34,7 @@ import { getCSS } from '/imports/ui/templates/layout/templater';
 import { resetSplit } from '/imports/ui/modules/split';
 import { getLandingMode } from '/imports/ui/templates/layout/url/home/home';
 
-import '/imports/ui/components/App/app';
-import '/imports/ui/components/Browser/browser';
-import '/imports/ui/components/Menu/menu.js';
+import '/imports/ui/components/Dapp/dapp';
 import '/imports/ui/templates/layout/main.html';
 import '/imports/ui/templates/widgets/modal/modal';
 import '/imports/ui/templates/widgets/popup/popup';
