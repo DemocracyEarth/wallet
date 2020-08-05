@@ -1,12 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import { TAPi18n } from 'meteor/tap:i18n';
-import { $ } from 'meteor/jquery';
-
-import { timers, defaults } from '/lib/const';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
+import { defaults } from '/lib/const';
 import { getTemplateImage } from '/imports/ui/templates/layout/templater.js';
-import { getWeb3Wallet } from '/imports/startup/both/modules/metamask';
 
 import Search from '/imports/ui/templates/widgets/search/search.jsx';
 import Account from '/imports/ui/components/Account/Account.jsx';
@@ -26,7 +24,6 @@ export default class Browser extends Component {
         logo: '',
         signout: '',
       },
-      accounts: [defaults.EMPTY],
       node: document.getElementById('browser'),
       scrollUp: false,
     };
@@ -36,7 +33,6 @@ export default class Browser extends Component {
 
   async componentDidMount() {
     await this.setIcons();
-    await this.getAccounts();
     window.addEventListener('scroll', this.handleScroll);
   }
 
@@ -53,21 +49,11 @@ export default class Browser extends Component {
     });
   }
 
-  async getAccounts() {
-    const web3 = getWeb3Wallet();
-    const accounts = await web3.eth.getAccounts();
-
-    if (accounts.length > 0) {
-      this.setState({ accounts });
-    }
-  }
-
   getSignedAccount() {
-    return this.state.accounts[0];
+    return this.props.accounts[0];
   }
 
   getScrollClass() {
-    console.log(lastScrollTop);
     if (this.state.scrollUp) {
       return 'hero-navbar topbar hero-navbar-scroller hero-navbar-up';
     }
@@ -86,7 +72,7 @@ export default class Browser extends Component {
   }
 
   connectedWallet() {
-    return (this.state.accounts.length > 0 && this.state.accounts[0] !== defaults.EMPTY);
+    return (this.props.accounts.length > 0 && this.props.accounts[0] !== defaults.EMPTY);
   }
 
   handleSignIn() {
@@ -131,20 +117,7 @@ export default class Browser extends Component {
 }
 
 Browser.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
+  accounts: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
   ]),
-  accountAddress: PropTypes.string,
-  percentage: PropTypes.string,
-  label: PropTypes.string,
-  voteValue: PropTypes.number,
-  votingPeriodBegins: PropTypes.string,
-  votingPeriodEnds: PropTypes.string,
-  title: PropTypes.string,
-  proposalIndex: PropTypes.string,
-  publicAddress: PropTypes.string,
-  daoName: PropTypes.string,
-  now: PropTypes.number,
 };
-

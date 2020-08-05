@@ -4,8 +4,7 @@ import { Router } from 'meteor/iron:router';
 
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
-import { getWeb3Wallet } from '/imports/startup/both/modules/metamask';
-import { defaults } from '/lib/const.js';
+import PropTypes from 'prop-types';
 
 import MenuQuery from '/imports/ui/components/Menu/MenuQuery.jsx';
 
@@ -18,31 +17,10 @@ const client = new ApolloClient({
 * @summary renders a post in the timeline
 */
 export default class Menu extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      accounts: [defaults.EMPTY],
-    };
-  }
-
-  async componentDidMount() {
-    await this.getAccounts();
-  }
-
-  async getAccounts() {
-    const web3 = getWeb3Wallet();
-    const accounts = await web3.eth.getAccounts();
-
-    if (accounts.length > 0) {
-      this.setState({ accounts });
-    }
-  }
-
   getContext() {
     const current = Router.current().url.replace(window.location.origin, '');
     if (current === '/') {
-      return this.state.accounts[0];
+      return this.props.accounts[0];
     }
     return Router.current().params.account;
   }
@@ -56,5 +34,8 @@ export default class Menu extends Component {
   }
 }
 
-Menu.propTypes = MenuQuery.propTypes;
-
+Menu.propTypes = {
+  accounts: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+  ]),
+};

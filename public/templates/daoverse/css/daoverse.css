@@ -6611,6 +6611,7 @@ blockquote {
 .hero-button {
   display: inline-block;
   padding: 5px 0px;
+  background: transparent;
 }
 
 .hero-button.hero-button-mobile.hero-signin {

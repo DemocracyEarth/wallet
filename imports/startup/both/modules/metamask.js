@@ -107,7 +107,7 @@ const _getWeb3Wallet = (activateModal) => {
         modal.message = TAPi18n.__('metamask-install');
         displayModal(true, modal);
       }
-      return false;
+      return null;
     }
   }
   if (!wallet && window.web3) {
@@ -120,10 +120,10 @@ const _getWeb3Wallet = (activateModal) => {
         if (activateModal) {
           modal.message = TAPi18n.__('metamask-activate');
           displayModal(true, modal);
-          return false;
+          return null;
         }
       }
-      return undefined;
+      return null;
     });
   }
 

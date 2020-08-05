@@ -1,28 +1,6 @@
 <template name='main'>
-  <!-- App -->
   {{> modal}}
-
-  {{#if isPhone}}
-    <div id='mobileKeyboard' contenteditable="true" style="opacity: 0; width: 0px; height:0px;"></div>
-  {{/if}}
-
-  {{> browser}}
-
-  <div id="app" class="app">
-
-    <div id="menu" class="left">
-      {{> menu}}
-    </div>
-    
-    <div id='content' class='right {{landingMode}}'>
-      {{> yield}}
-    </div>  
-
-    {{#if showNotice}}
-      {{> notice}}
-    {{/if}}
-  </div>
-
+  {{> app}}
 </template>
 
 <template name='preloader'>
