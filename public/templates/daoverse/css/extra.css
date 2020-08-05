@@ -1102,10 +1102,6 @@ h4 {
 }
 
 @media (max-width: 991px) {
-  .sidebar-desktop {
-    margin-top: 55px;
-  }
-
   .login {
     padding: 5px 5px 10px;
   }
