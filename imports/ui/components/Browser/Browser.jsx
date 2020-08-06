@@ -102,11 +102,11 @@ export default class Browser extends Component {
             </div>
             :
             <div className="hero-button hero-button-mobile hero-signin">
-              <button id="collective-login" className="hero-button hero-button-mobile" onClick={this.handleSignIn} >
-                <div className="hero-menu-link hero-menu-link-signin" target="_blank">
+              <div id="collective-login" className="hero-button hero-button-mobile">
+                <button className="hero-menu-link hero-menu-link-signin" target="_blank" onClick={this.handleSignIn}>
                   {TAPi18n.__('sign-in')}
-                </div>
-              </button>
+                </button>
+              </div>
             </div>
           }
           <Search />

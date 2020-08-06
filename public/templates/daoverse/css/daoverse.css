@@ -12,6 +12,7 @@
   --main-headline-color: #675f69;
   --search-bar-color: #864b9a;
   --bar-background: #48015f;
+  --browser-button-color: #7d8499;
 }
 
 @-webkit-keyframes preloader-content {
@@ -6611,7 +6612,6 @@ blockquote {
 .hero-button {
   display: inline-block;
   padding: 5px 0px;
-  background: transparent;
 }
 
 .hero-button.hero-button-mobile.hero-signin {
@@ -6630,6 +6630,7 @@ blockquote {
   line-height: 23px;
   font-weight: 400;
   text-transform: uppercase;
+  background:transparent;
 }
 
 .hero-menu-link:hover {
@@ -6644,9 +6645,13 @@ blockquote {
 
 .hero-menu-link.hero-menu-link-signin {
   padding: 6px 10px 4px 10px;
-  border: 1px solid #7d8499;
+  border: 1px solid var(--browser-button-color);
   border-radius: 5px;
   margin-right:10px;
+}
+
+.hero-menu-link.hero-menu-link-signin:hover {
+  border-color:white;
 }
 
 .hero-menu-link.hero-menu-link-signin-simple {
