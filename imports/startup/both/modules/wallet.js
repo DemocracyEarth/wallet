@@ -71,7 +71,6 @@ const _connectWallet = async () => {
     wallet = new Web3(provider);
     _subscribeProvider(provider);
   } catch (err) {
-    console.log('There was an error...');
     console.log(err);
   }
 

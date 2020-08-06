@@ -37,9 +37,9 @@ export default class Browser extends Component {
   }
 
   async componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll);
     await this.setIcons();
     await this.getAccounts();
-    window.addEventListener('scroll', this.handleScroll);
   }
 
   componentWillUnmount() {
@@ -93,7 +93,6 @@ export default class Browser extends Component {
 
   async connect() {
     const web3 = await connectWallet();
-    console.log('async connect');
     try {
       if (web3) {
         this.setState({

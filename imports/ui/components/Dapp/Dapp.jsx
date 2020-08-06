@@ -27,12 +27,8 @@ export default class Dapp extends Component {
 
   async getAccounts() {
     const web3 = await getWallet();
-    console.log('web3... ');
-    console.log(web3);
     if (web3) {
-      console.log('accounts...');
       const accounts = await web3.eth.getAccounts();
-      console.log(accounts);
       if (accounts.length > 0) {
         this.setState({ accounts });
       }
