@@ -9,6 +9,8 @@ import { getTemplateImage } from '/imports/ui/templates/layout/templater.js';
 import Search from '/imports/ui/templates/widgets/search/search.jsx';
 import Account from '/imports/ui/components/Account/Account.jsx';
 
+import { getWallet, connectWallet, disconnectWallet } from '/imports/startup/both/modules/wallet.js';
+
 // scroll settings
 let lastScrollTop = 0;
 
@@ -26,18 +28,32 @@ export default class Browser extends Component {
       },
       node: document.getElementById('browser'),
       scrollUp: false,
+      accounts: this.props.accounts,
     };
 
     this.handleScroll = this.handleScroll.bind(this);
+    this.connect = this.connect.bind(this);
+    this.disconnect = this.disconnect.bind(this);
   }
 
   async componentDidMount() {
     await this.setIcons();
+    await this.getAccounts();
     window.addEventListener('scroll', this.handleScroll);
   }
 
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  async getAccounts() {
+    const web3 = await getWallet();
+    if (web3) {
+      const accounts = await web3.eth.getAccounts();
+      if (accounts.length > 0) {
+        this.setState({ accounts });
+      }
+    }
   }
 
   async setIcons() {
@@ -50,7 +66,7 @@ export default class Browser extends Component {
   }
 
   getSignedAccount() {
-    return this.props.accounts[0];
+    return this.state.accounts[0];
   }
 
   getScrollClass() {
@@ -72,16 +88,28 @@ export default class Browser extends Component {
   }
 
   connectedWallet() {
-    return (this.props.accounts.length > 0 && this.props.accounts[0] !== defaults.EMPTY);
+    return (this.state.accounts.length > 0 && this.state.accounts[0] !== defaults.EMPTY);
   }
 
-  handleSignIn() {
-    Meteor.loginWithMetamask({}, (err) => {
-      if (err.reason) {
-        throw new Meteor.Error('Metamask login failed', err.reason);
+  async connect() {
+    const web3 = await connectWallet();
+    console.log('async connect');
+    try {
+      if (web3) {
+        this.setState({
+          accounts: await web3.eth.getAccounts(),
+        });
       }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async disconnect() {
+    await disconnectWallet();
+    this.setState({
+      accounts: [defaults.EMPTY],
     });
-    this.render();
   }
 
   render() {
@@ -93,9 +121,9 @@ export default class Browser extends Component {
           </div>
           {(this.connectedWallet()) ?
             <div className="hero-button hero-button-mobile hero-signin">
-              <div id="sign-out-button" className="hero-menu-link hero-menu-link-signin-simple hero-menu-link-signin-simple-icon" target="_blank">
+              <button id="sign-out-button" className="hero-menu-link hero-menu-link-signin-simple hero-menu-link-signin-simple-icon" onClick={this.disconnect} target="_blank">
                 <img src={this.state.icon.signout} role="presentation" title={TAPi18n.__('sign-out')} className="signout" />
-              </div>
+              </button>
               <div id="collective-login" className="hero-menu-link hero-menu-link-signin-simple" target="_blank">
                 <Account publicAddress={this.getSignedAccount()} width="20px" height="20px" format="plainText" />
               </div>
@@ -103,7 +131,7 @@ export default class Browser extends Component {
             :
             <div className="hero-button hero-button-mobile hero-signin">
               <div id="collective-login" className="hero-button hero-button-mobile">
-                <button className="hero-menu-link hero-menu-link-signin" target="_blank" onClick={this.handleSignIn}>
+                <button className="hero-menu-link hero-menu-link-signin" target="_blank" onClick={this.connect}>
                   {TAPi18n.__('sign-in')}
                 </button>
               </div>

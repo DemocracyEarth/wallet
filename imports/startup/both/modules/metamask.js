@@ -9,7 +9,6 @@ import { Contracts } from '/imports/api/contracts/Contracts';
 import { displayModal, alert } from '/imports/ui/modules/modal';
 import { transact } from '/imports/api/transactions/transaction';
 import { displayNotice } from '/imports/ui/modules/notice';
-import { addDecimal, setupWallet, getCoin, numToCryptoBalance } from '/imports/api/blockchain/modules/web3Util';
 import { animatePopup } from '/imports/ui/modules/popup';
 import { Transactions } from '/imports/api/transactions/Transactions';
 import { sync } from '/imports/ui/templates/layout/sync';

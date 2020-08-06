@@ -29,12 +29,6 @@ const _setupWallet = () => {
   return undefined;
 };
 
-let web3;
-if (Meteor.isServer) {
-  web3 = _setupWallet();
-} else {
-  window.web3 = _setupWallet();
-}
 
 /**
 * @summary get coin from corpus

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import { displayModal, alert } from '/imports/ui/modules/modal';
 import { defaults } from '/lib/const';
-import { setupWeb3, getWeb3Wallet } from '/imports/startup/both/modules/metamask';
+import { getWallet } from '/imports/startup/both/modules/wallet.js';
 import { noWallet, alreadyVoted, pollClosed, notLogged, notSynced, notMember, walletError } from '/imports/ui/components/Choice/messages';
 import { molochABI } from '/imports/ui/modules/abi';
 
@@ -42,7 +42,7 @@ export default class Choice extends Component {
   }
 
   canVote = async (accountAddress) => {
-    const web3 = getWeb3Wallet();
+    const web3 = getWallet();
     const dao = await new web3.eth.Contract(molochABI, this.props.publicAddress);
     const response = await dao.methods.members(accountAddress).call({}, (err, res) => {
       if (err) {
@@ -90,7 +90,7 @@ export default class Choice extends Component {
     }
 
     // no web3 wallet
-    if (!setupWeb3(true)) {
+    if (!getWallet()) {
       return noWallet();
     }
 

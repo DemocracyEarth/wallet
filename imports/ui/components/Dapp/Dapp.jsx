@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Router } from 'meteor/iron:router';
 
-import { getWeb3Wallet } from '/imports/startup/both/modules/metamask';
+import { getWallet } from '/imports/startup/both/modules/wallet.js';
 import { defaults } from '/lib/const.js';
 
 import Browser from '/imports/ui/components/Browser/Browser.jsx';
@@ -26,11 +26,16 @@ export default class Dapp extends Component {
   }
 
   async getAccounts() {
-    const web3 = getWeb3Wallet();
-    const accounts = await web3.eth.getAccounts();
-
-    if (accounts.length > 0) {
-      this.setState({ accounts });
+    const web3 = await getWallet();
+    console.log('web3... ');
+    console.log(web3);
+    if (web3) {
+      console.log('accounts...');
+      const accounts = await web3.eth.getAccounts();
+      console.log(accounts);
+      if (accounts.length > 0) {
+        this.setState({ accounts });
+      }
     }
   }
 

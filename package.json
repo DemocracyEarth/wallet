@@ -29,9 +29,13 @@
     "@apollo/react-hooks": "^3.1.5",
     "@babel/runtime": "^7.9.6",
     "@graphprotocol/graph-cli": "^0.18.0",
+    "@toruslabs/torus-embed": "^1.8.2",
+    "@unilogin/provider": "^0.6.1",
+    "@walletconnect/web3-provider": "^1.1.0",
     "abi-decoder": "^1.2.0",
     "apollo-boost": "^0.4.9",
     "atob": "^2.1.2",
+    "authereum": "0.0.4-beta.164",
     "autoprefixer": "^6.4.1",
     "babel-runtime": "^6.26.0",
     "bcrypt": "^3.0.8",
@@ -84,6 +88,7 @@
     "tar": "^5.0.5",
     "underscore.string": "^3.3.5",
     "web3": "^1.2.6",
+    "web3modal": "^1.9.0",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {

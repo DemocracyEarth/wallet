@@ -6651,7 +6651,13 @@ blockquote {
 }
 
 .hero-menu-link.hero-menu-link-signin:hover {
-  border-color:white;
+  border-color: white;
+}
+
+.hero-menu-link.hero-menu-link-signin:active {
+  margin-top: 1px;
+  background-color: white;
+  color: var(--bar-background);
 }
 
 .hero-menu-link.hero-menu-link-signin-simple {
