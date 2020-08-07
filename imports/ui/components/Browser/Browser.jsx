@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor';
 import { TAPi18n } from 'meteor/tap:i18n';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -9,7 +8,6 @@ import { getTemplateImage } from '/imports/ui/templates/layout/templater.js';
 import Search from '/imports/ui/templates/widgets/search/search.jsx';
 import Account from '/imports/ui/components/Account/Account.jsx';
 
-import { getWallet, connectWallet, disconnectWallet } from '/imports/startup/both/modules/wallet.js';
 
 // scroll settings
 let lastScrollTop = 0;
@@ -28,32 +26,18 @@ export default class Browser extends Component {
       },
       node: document.getElementById('browser'),
       scrollUp: false,
-      accounts: this.props.accounts,
     };
 
     this.handleScroll = this.handleScroll.bind(this);
-    this.connect = this.connect.bind(this);
-    this.disconnect = this.disconnect.bind(this);
   }
 
   async componentDidMount() {
     window.addEventListener('scroll', this.handleScroll);
     await this.setIcons();
-    await this.getAccounts();
   }
 
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
-  }
-
-  async getAccounts() {
-    const web3 = await getWallet();
-    if (web3) {
-      const accounts = await web3.eth.getAccounts();
-      if (accounts.length > 0) {
-        this.setState({ accounts });
-      }
-    }
   }
 
   async setIcons() {
@@ -63,10 +47,6 @@ export default class Browser extends Component {
         signout: await getTemplateImage('signout'),
       },
     });
-  }
-
-  getSignedAccount() {
-    return this.state.accounts[0];
   }
 
   getScrollClass() {
@@ -88,27 +68,7 @@ export default class Browser extends Component {
   }
 
   connectedWallet() {
-    return (this.state.accounts.length > 0 && this.state.accounts[0] !== defaults.EMPTY);
-  }
-
-  async connect() {
-    const web3 = await connectWallet();
-    try {
-      if (web3) {
-        this.setState({
-          accounts: await web3.eth.getAccounts(),
-        });
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  async disconnect() {
-    await disconnectWallet();
-    this.setState({
-      accounts: [defaults.EMPTY],
-    });
+    return (this.props.address !== defaults.EMPTY);
   }
 
   render() {
@@ -120,17 +80,17 @@ export default class Browser extends Component {
           </div>
           {(this.connectedWallet()) ?
             <div className="hero-button hero-button-mobile hero-signin">
-              <button id="sign-out-button" className="hero-menu-link hero-menu-link-signin-simple hero-menu-link-signin-simple-icon" onClick={this.disconnect} target="_blank">
+              <button id="sign-out-button" className="hero-menu-link hero-menu-link-signin-simple hero-menu-link-signin-simple-icon" onClick={this.props.walletReset} target="_blank">
                 <img src={this.state.icon.signout} role="presentation" title={TAPi18n.__('sign-out')} className="signout" />
               </button>
               <div id="collective-login" className="hero-menu-link hero-menu-link-signin-simple" target="_blank">
-                <Account publicAddress={this.getSignedAccount()} width="20px" height="20px" format="plainText" />
+                <Account publicAddress={this.props.address} width="20px" height="20px" format="plainText" />
               </div>
             </div>
             :
             <div className="hero-button hero-button-mobile hero-signin">
               <div id="collective-login" className="hero-button hero-button-mobile">
-                <button className="hero-menu-link hero-menu-link-signin" target="_blank" onClick={this.connect}>
+                <button className="hero-menu-link hero-menu-link-signin" target="_blank" onClick={this.props.walletConnect}>
                   {TAPi18n.__('sign-in')}
                 </button>
               </div>
@@ -144,7 +104,7 @@ export default class Browser extends Component {
 }
 
 Browser.propTypes = {
-  accounts: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.string),
-  ]),
+  address: PropTypes.string,
+  walletConnect: PropTypes.func,
+  walletReset: PropTypes.func,
 };

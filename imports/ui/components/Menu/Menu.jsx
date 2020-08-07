@@ -20,7 +20,7 @@ export default class Menu extends Component {
   getContext() {
     const current = Router.current().url.replace(window.location.origin, '');
     if (current === '/') {
-      return this.props.accounts[0];
+      return this.props.address;
     }
     return Router.current().params.account;
   }
@@ -35,7 +35,5 @@ export default class Menu extends Component {
 }
 
 Menu.propTypes = {
-  accounts: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.string),
-  ]),
+  address: PropTypes.string,
 };
