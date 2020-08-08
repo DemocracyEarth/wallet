@@ -7740,13 +7740,17 @@ blockquote {
 
 .ReactTags__selected {
   background: transparent;
-  min-width: 350px;
   float: left;
   margin: 12px 10px 10px 0px;
   padding: 0px 13px;
   border: 1px solid transparent;
   border-radius: 15px;
   white-space: nowrap;
+  width:100%;
+  max-width: none;
+  min-width: 0px;
+  height: 32px;
+  overflow: hidden;
 }
 
 
@@ -7768,6 +7772,7 @@ blockquote {
 .ReactTags__tagInput {
   display: inline-block;
   margin: 0 10px;
+  width:100%;
 }
 
 .ReactTags__tagInputField {
@@ -7777,7 +7782,7 @@ blockquote {
   font-size: 0.75em;
   margin-left: -15px;
   margin-right: -20px;
-  width: 175px;
+  width: 100%;
   display: inline-block;
 }
 
@@ -7867,11 +7872,18 @@ mark {
   padding: 0px;
 }
 
+
+.ReactTags__tags {
+  width: 100%;
+  display: block;
+  height: 60px;
+}
+
+
 @media (max-width: 767px) {
 
   .ReactTags__suggestions {
     left: 0px;
-    /* margin: 13px 0px; */
     right: 0px;
     width: auto;
   }
@@ -7880,32 +7892,9 @@ mark {
     max-width: none;
   }
 
-  .ReactTags__tags {
-    width: 100%;
-    display: block;
-    height: 60px;
-  }
-
-  .ReactTags__tagInputField {
-    width: 100%;
-  }
-
-  .ReactTags__selected {
-    width:100%;
-    max-width: none;
-    min-width: 0px;
-    height: 32px;
-    overflow: hidden;
-  }
-
   .hero-menu {
     display:none;
   }  
-
-  .ReactTags__tagInput {
-    width: 100%;
-    display: inline-block;
-  }
 }
 
 .crypto-username {
@@ -7931,11 +7920,5 @@ mark {
 
   .search-wrapper-logged {
     padding: 0px 125px 0px 50px;
-  }
-}
-
-@media (max-width: 300px) {
-  .ReactTags__tags {
-    display:none;
   }
 }

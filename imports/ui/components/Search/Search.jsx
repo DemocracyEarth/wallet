@@ -206,7 +206,7 @@ export default class Search extends React.Component {
     };
 
     return (
-      <div>
+      <div className="search-wrapper-logged">
         <ReactTags
           tags={tags}
           suggestions={suggestions}

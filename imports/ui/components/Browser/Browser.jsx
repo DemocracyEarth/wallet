@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { defaults } from '/lib/const';
 import { getTemplateImage } from '/imports/ui/templates/layout/templater.js';
 
-import Search from '/imports/ui/templates/widgets/search/search.jsx';
+import Search from '/imports/ui/components/Search/Search.jsx';
 import Account from '/imports/ui/components/Account/Account.jsx';
 
 
