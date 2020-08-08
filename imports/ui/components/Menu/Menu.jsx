@@ -28,7 +28,7 @@ export default class Menu extends Component {
   render() {
     return (
       <ApolloProvider client={client}>
-        <MenuQuery account={this.getContext()} />
+        <MenuQuery address={this.getContext()} />
       </ApolloProvider>
     );
   }

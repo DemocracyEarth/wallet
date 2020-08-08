@@ -15,36 +15,36 @@ import DAO from '/imports/ui/components/DAO/DAO.jsx';
 // scroll settings
 let lastScrollTop = 0;
 
-export const GET_MEMBERSHIPS = `
-{
-  members(where: { memberAddress: "{{memberAddress}}" }) {
-    id
-    memberAddress
-     moloch {
+export const GET_MEMBERSHIPS = gql`
+  query membershipDetails($address: String) {
+    members(where: { memberAddress: $address }) {
       id
-      title
+      memberAddress
+      moloch {
+        id
+        title
+      }
+      tokenTribute
+      exists
+      shares
+      didRagequit
+      submissions {
+        id
+        didPass
+        guildkick
+        gracePeriodEnds
+        votingPeriodStarts
+        votingPeriodEnds
+        sponsor
+        processed
+      }
+      kicked
+      jailed {
+        id
+      }
+      proposedToKick
     }
-    tokenTribute
-    exists
-    shares
-    didRagequit
-    submissions {
-      id
-      didPass
-      guildkick
-      gracePeriodEnds
-      votingPeriodStarts
-      votingPeriodEnds
-      sponsor
-      processed
-    }
-    kicked
-    jailed {
-      id
-    }
-    proposedToKick
   }
-}
 `;
 
 /**
@@ -130,21 +130,21 @@ const _getProposalCount = (list, label) => {
 /**
 * @summary displays corresponding separator headline
 * @param {string} headline from TAPi18n dictionary
-* @param {string} account to parse in title
+* @param {string} address to parse in title
 * @return {string} with headline for separator
 */
-const _getHeadline = (headline, account) => {
+const _getHeadline = (headline, address) => {
   if (Router.current().url.replace(window.location.origin, '') === '/') {
     return TAPi18n.__(`${headline}-sidebar`);
   }
-  return TAPi18n.__(`${headline}-account`).replace('{{account}}', shortenCryptoName(account));
+  return TAPi18n.__(`${headline}-account`).replace('{{account}}', shortenCryptoName(address));
 };
 
 /**
 * @summary renders the menu based on a graph ql query ad hoc for the user
 */
-const MenuQuery = ({ account, scrollUp }) => {
-  const { loading, error, data } = useQuery(gql(GET_MEMBERSHIPS.replace('{{memberAddress}}', account)));
+const MenuQuery = ({ address, scrollUp }) => {
+  const { loading, error, data } = useQuery(GET_MEMBERSHIPS, { variables: { address } });
 
   if (loading) {
     return (
@@ -152,7 +152,7 @@ const MenuQuery = ({ account, scrollUp }) => {
         <div id="sidebar" className={_getScrollClass(scrollUp)}>
           <div className="menu">
             <div className="separator">
-              {_getHeadline('proposals', account)}
+              {_getHeadline('proposals', address)}
             </div>
             {<div className="option-placeholder identity-placeholder" />}
           </div>
@@ -188,11 +188,11 @@ const MenuQuery = ({ account, scrollUp }) => {
     <div id="sidebar" className={_getScrollClass(scrollUp)}>
       <div className="menu">
         <div className="separator">
-          {_getHeadline('proposals', account)}
+          {_getHeadline('proposals', address)}
         </div>
         {menuList}
         <div className="separator">
-          {_getHeadline('memberships', account)}
+          {_getHeadline('memberships', address)}
         </div>
         {(daoList.length > 0) ?
           daoList
@@ -207,7 +207,7 @@ const MenuQuery = ({ account, scrollUp }) => {
 };
 
 MenuQuery.propTypes = {
-  account: PropTypes.string,
+  address: PropTypes.string,
   scrollUp: PropTypes.bool,
 };
 
@@ -247,8 +247,8 @@ export default class Sidebar extends Component {
   }
 
   render() {
-    if (this.props.account !== defaults.EMPTY) {
-      return <MenuQuery account={this.props.account} scrollUp={this.state.scrollUp} />;
+    if (this.props.address !== defaults.EMPTY) {
+      return <MenuQuery address={this.props.address} scrollUp={this.state.scrollUp} />;
     }
 
     const atHome = (Router.current().url.replace(window.location.origin, '') === '/');
@@ -258,7 +258,7 @@ export default class Sidebar extends Component {
       <div id="sidebar" className={_getScrollClass(this.state.scrollUp)}>
         <div className="menu">
           <div className="separator">
-            {_getHeadline('proposals', this.props.account)}
+            {_getHeadline('proposals', this.props.address)}
           </div>
           {defaultMenu}
         </div>
@@ -268,5 +268,5 @@ export default class Sidebar extends Component {
 }
 
 Sidebar.propTypes = {
-  account: PropTypes.string,
+  address: PropTypes.string,
 };

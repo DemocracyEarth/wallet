@@ -18,18 +18,18 @@ const client = new ApolloClient({
 });
 
 
-const ENS_ACCOUNT = `
-{
-  domains(where: { resolvedAddress: "{{ensAddress}}" }) {
-    id
-    name
-    labelName
-    labelhash
-    resolvedAddress {
+const ENS_ACCOUNT = gql`
+  query addressDetails($publicAddress: String) {
+    domains(where: { resolvedAddress: $publicAddress }) {
       id
+      name
+      labelName
+      labelhash
+      resolvedAddress {
+        id
+      }
     }
   }
-}
 `;
 
 /**
@@ -56,7 +56,7 @@ const AccountQuery = ({ publicAddress, width, height, format }) => {
   const finalHeight = height || '24px';
 
   if (publicAddress !== '0x0000000000000000000000000000000000000000') {
-    const { loading, error, data } = useQuery(gql(ENS_ACCOUNT.replace('{{ensAddress}}', publicAddress)));
+    const { loading, error, data } = useQuery(ENS_ACCOUNT, { variables: { publicAddress } });
 
     if (loading) {
       return (

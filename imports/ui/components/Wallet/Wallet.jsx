@@ -106,6 +106,7 @@ export default class Wallet extends Component {
 
     provider.on('accountsChanged', async (accounts) => {
       await this.setState({ address: accounts[0] });
+      this.render();
     });
 
     provider.on('chainChanged', async (chainId) => {
