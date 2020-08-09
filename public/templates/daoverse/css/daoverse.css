@@ -13,7 +13,7 @@
   --search-bar-color: #864b9a;
   --bar-background: #48015f;
   --browser-button-color: #7d8499;
-  --menu-sidebar0selected: #580173;
+  --menu-sidebar-selected: #580173;
 }
 
 @-webkit-keyframes preloader-content {
