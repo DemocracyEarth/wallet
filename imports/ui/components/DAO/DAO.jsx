@@ -60,7 +60,7 @@ const DAOQuery = ({ publicAddress, width, height, format }) => {
     label = (daoTitle.length > gui.MAX_LENGTH_ACCOUNT_NAMES) ? `${daoTitle.slice(0, gui.MAX_LENGTH_ACCOUNT_NAMES)}...` : daoTitle;
   }
 
-  includeInSearch(url, label, 'search-collective');
+  includeInSearch(url, daoTitle, 'search-collective');
 
   return (
     <div className="dao">

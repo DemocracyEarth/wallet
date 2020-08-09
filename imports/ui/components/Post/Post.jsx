@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import parser from 'html-react-parser';
+import { TAPi18n } from 'meteor/tap:i18n';
 
 import { wrapURLs } from '/lib/utils';
 import { includeInSearch } from '/imports/ui/components/Search/Search.jsx';
@@ -57,7 +58,11 @@ export default class Post extends Component {
   }
 
   render() {
-    includeInSearch(this.props.href, typeof this.state.description === 'string' ? parser(this.state.description) : this.state.description, 'search-contract');
+    const searchCache = TAPi18n.__('search-post-preview')
+      .replace('{{title}}', typeof this.state.title === 'string' ? parser(this.state.title) : this.state.title)
+      .replace('{{description}}', typeof this.state.description === 'string' ? parser(this.state.description) : this.state.description);
+    includeInSearch(this.props.href, searchCache, 'search-contract');
+
     return (
       <div className="vote vote-search vote-feed nondraggable vote-poll" href={this.props.href}>
         <div className="checkbox checkbox-custom">

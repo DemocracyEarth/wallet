@@ -13,6 +13,7 @@
   --search-bar-color: #864b9a;
   --bar-background: #48015f;
   --browser-button-color: #7d8499;
+  --menu-sidebar0selected: #580173;
 }
 
 @-webkit-keyframes preloader-content {
@@ -55,7 +56,7 @@ h1 {
 }
 
 h2 {
-  color: #580173;
+  color: var(--menu-sidebar0selected);
   font-family: Lato, sans-serif;
   font-size: 20px;
   line-height: 24px;
@@ -4573,7 +4574,7 @@ blockquote {
 }
 
 .menu-item.menu-item-selected {
-  background-color: #580173;
+  background-color: var(--menu-sidebar0selected);
   color: #fff;
 }
 
@@ -7788,17 +7789,6 @@ blockquote {
   text-decoration: none;
 }
 
-.ReactTags__suggestions {
-  font-size: 0.85em;
-  position:absolute;
-  background: white;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  padding: 10px;
-  margin-top: 2px;
-  margin-left: -10px;
-}
-
 .ReactTags__suggestions ul {
   list-style: none;
   padding: 0px;
@@ -7817,23 +7807,23 @@ blockquote {
 }
 
 .ReactTags__activeSuggestion {
-  background-color: var(--search-bar-color);
+  background-color: var(--menu-sidebar-selected);
   color: white;
 }
 
 .ReactTags__suggestions {
   font-size: 0.75em;
-    position: absolute;
-    background: white;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    padding: 0px 0px;
-    max-height: 196px;
-    margin-top: 13px;
-    width: 500px;
-    margin-left: -25px;
-    overflow: hidden;
-    box-shadow: 0px 2px 7px #cecece;
+  position: fixed;
+  background: white;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 0px 0px;
+  max-height: 196px;
+  margin-top: 14px;
+  width: 500px;
+  margin-left: -25px;
+  overflow: hidden;
+  box-shadow: 0px 6px 7px #cecece;
 }
 
 .ReactTags__suggestions li {
@@ -7869,7 +7859,7 @@ mark {
 .ReactTags__tags {
   width: 100%;
   display: block;
-  height: 60px;
+  height: 55px;
 }
 
 

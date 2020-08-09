@@ -73,11 +73,10 @@ const AccountQuery = ({ publicAddress, width, height, format }) => {
     if (error) return `Error! ${error}`;
 
     label = getENSName(data, publicAddress);
+    includeInSearch(url, (data.domains.length > 0) ? data.domains[0].name : publicAddress, 'search-user');
   } else {
     label = '0x0';
   }
-
-  includeInSearch(url, label, 'search-user');
 
   return (
     <div className="identity">

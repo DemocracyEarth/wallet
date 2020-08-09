@@ -19,7 +19,7 @@ const KeyCodes = {
 };
 
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
-const suggest = [];
+const suggestList = [];
 
 /**
  * @summary inserts in the search cache an item
@@ -27,12 +27,12 @@ const suggest = [];
  * @param {sring} text that represents the item
  */
 const _includeInSearch = (url, text, kind) => {
-  if (!_.findWhere(suggest, { id: url })) {
-    suggest.push({
+  if (!_.findWhere(suggestList, { id: url })) {
+    suggestList.push({
       id: url,
       text: TAPi18n.__(kind).replace('{{searchTerm}}', text),
     });
-    console.log(suggest);
+    console.log(suggestList);
   }
 };
 
@@ -173,7 +173,7 @@ export default class Search extends React.Component {
     this.state = {
       subscription: Router.current().ready(),
       tags: _getTags(),
-      suggestions: _getSuggestions(),
+      suggestions: suggestList,
     };
     this.handleDelete = this.handleDelete.bind(this);
     this.handleAddition = this.handleAddition.bind(this);
@@ -181,6 +181,7 @@ export default class Search extends React.Component {
   }
 
   handleDelete(i) {
+    console.log('delete');
     const { tags } = this.state;
     this.setState({
       tags: tags.filter((tag, index) => { return (index !== i); }),
@@ -189,6 +190,7 @@ export default class Search extends React.Component {
   }
 
   handleAddition(tag) {
+    console.log('addition');
     const newTag = tag;
     newTag.text = _replacementText(tag);
     this.setState(state => ({ tags: [newTag] }));
@@ -218,7 +220,7 @@ export default class Search extends React.Component {
 
     this.state = {
       tags: _getTags(),
-      suggestions: _getSuggestions(),
+      suggestions: suggestList,
     };
 
     return (

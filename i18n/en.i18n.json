@@ -907,5 +907,6 @@
   "memberships-account": "Memberships of {{account}}",
   "proposals-sidebar": "Recent Proposals",
   "memberships-sidebar": "Your Memberships",
-  "no-memberships-found": "No DAO memberships found."
+  "no-memberships-found": "No DAO memberships found.",
+  "search-post-preview": "{{title}} — {{description}}"
 }
