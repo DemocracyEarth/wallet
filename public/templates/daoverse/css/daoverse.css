@@ -56,7 +56,7 @@ h1 {
 }
 
 h2 {
-  color: var(--menu-sidebar0selected);
+  color: var(--menu-sidebar-selected);
   font-family: Lato, sans-serif;
   font-size: 20px;
   line-height: 24px;
@@ -4574,7 +4574,7 @@ blockquote {
 }
 
 .menu-item.menu-item-selected {
-  background-color: var(--menu-sidebar0selected);
+  background-color: var(--menu-sidebar-selected);
   color: #fff;
 }
 

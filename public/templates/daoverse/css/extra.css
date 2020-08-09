@@ -1497,7 +1497,7 @@ h4 {
 }
 
 .poll-score-bar.poll-sync {
-  border: 1px solid #580173;
+  border: 1px solid var(--menu-sidebar-selected);
 }
 
 @keyframes fadeInOpacity {
