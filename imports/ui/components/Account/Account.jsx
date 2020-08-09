@@ -8,7 +8,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { gui } from '/lib/const';
 
 import { shortenCryptoName } from '/imports/startup/both/modules/metamask';
-
+import { includeInSearch } from '/imports/ui/components/Search/Search.jsx';
 
 const makeBlockie = require('ethereum-blockies-base64');
 
@@ -76,6 +76,8 @@ const AccountQuery = ({ publicAddress, width, height, format }) => {
   } else {
     label = '0x0';
   }
+
+  includeInSearch(url, label, 'search-user');
 
   return (
     <div className="identity">

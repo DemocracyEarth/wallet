@@ -19,6 +19,22 @@ const KeyCodes = {
 };
 
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
+const suggest = [];
+
+/**
+ * @summary inserts in the search cache an item
+ * @param {sting} url that has the address of the item searched
+ * @param {sring} text that represents the item
+ */
+const _includeInSearch = (url, text, kind) => {
+  if (!_.findWhere(suggest, { id: url })) {
+    suggest.push({
+      id: url,
+      text: TAPi18n.__(kind).replace('{{searchTerm}}', text),
+    });
+    console.log(suggest);
+  }
+};
 
 const _dynamicTitle = (label) => {
   if (web3.utils.isAddress(label)) {
@@ -220,3 +236,5 @@ export default class Search extends React.Component {
     );
   }
 }
+
+export const includeInSearch = _includeInSearch;

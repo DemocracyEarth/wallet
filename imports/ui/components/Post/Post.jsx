@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import parser from 'html-react-parser';
 
 import { wrapURLs } from '/lib/utils';
+import { includeInSearch } from '/imports/ui/components/Search/Search.jsx';
 
 import Account from '/imports/ui/components/Account/Account.jsx';
 import DAO from '/imports/ui/components/DAO/DAO.jsx';
@@ -56,6 +57,7 @@ export default class Post extends Component {
   }
 
   render() {
+    includeInSearch(this.props.href, typeof this.state.description === 'string' ? parser(this.state.description) : this.state.description, 'search-contract');
     return (
       <div className="vote vote-search vote-feed nondraggable vote-poll" href={this.props.href}>
         <div className="checkbox checkbox-custom">

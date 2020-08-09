@@ -8,7 +8,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { gui } from '/lib/const';
 
 import { shortenCryptoName } from '/imports/startup/both/modules/metamask';
-
+import { includeInSearch } from '/imports/ui/components/Search/Search.jsx';
 
 const client = new ApolloClient({
   uri: Meteor.settings.public.graph.molochs,
@@ -59,6 +59,8 @@ const DAOQuery = ({ publicAddress, width, height, format }) => {
   } else {
     label = (daoTitle.length > gui.MAX_LENGTH_ACCOUNT_NAMES) ? `${daoTitle.slice(0, gui.MAX_LENGTH_ACCOUNT_NAMES)}...` : daoTitle;
   }
+
+  includeInSearch(url, label, 'search-collective');
 
   return (
     <div className="dao">

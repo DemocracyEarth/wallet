@@ -2416,12 +2416,6 @@ blockquote {
   font-weight: 300;
 }
 
-@media (max-width: 479px) {
-  .identity-label.identity-label-micro {
-    font-size: 0.85em;
-  }
-}
-
 .identity-label.identity-label-micro.identity-label-post {
   display: inline;
   overflow: hidden;
@@ -7466,7 +7460,6 @@ blockquote {
   body {
     padding-right: 0px;
     padding-left: 0px;
-    font-size: 16px;
   }
   p {
     font-size: 16px;
