@@ -1,8 +1,0 @@
-.history
-.meteor
-node_modules
-.env
-.git
-.gitignore
-.dockerignore
-*.md

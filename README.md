@@ -1,4 +1,4 @@
-# Sovereign Dapp
+# Democracy Dapp
 
 Create and participate in Digital Autonomous Organizations (DAOs).
 
