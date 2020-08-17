@@ -1,22 +1,19 @@
-# Democracy Dapp
+# Democracy Earth Dapp
 
-Create and participate in Digital Autonomous Organizations (DAOs).
+Explore and participate in Digital Autonomous Organizations (DAOs).
 
-[![Join the chat at https://gitter.im/DemocracyEarth/sovereign](https://badges.gitter.im/DemocracyEarth/sovereign.svg)](https://gitter.im/DemocracyEarth/sovereign?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/DemocracyEarth/dapp](https://badges.gitter.im/DemocracyEarth/dapp.svg)](https://gitter.im/DemocracyEarth/dapp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](http://ci.comunes.org/buildStatus/icon?job=sovereign)](http://ci.comunes.org/job/sovereign/)
 
 Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check our presentations in [Paris 🇫🇷 2016](https://youtube.com/watch?v=UajbQTHnTfM), [New York 🇺🇸 2019](https://www.youtube.com/watch?v=o2u0g0-hjgk) and [Berlin 🇩🇪 2019](https://www.youtube.com/watch?v=JJBDcG2EqwE).
 
 <p align="center">
-<img src="public/images/sovereign-screenshot-2019.png" width="800" title="Sovereign Screenshot 2019">
+<img src="public/images/sovereign-screenshot-2019.png" width="800" title="Democracy Earth Dapp Screenshot 2019">
 </p>
 
 ## Features
 
   - [X] Explore [MolochDAO](https://github.com/MolochVentures/moloch) compatible contracts.
-    * Vote proposals.
-    * Ragequit shares.
-    * Fork contract.
   - [X] Support [ERC20](https://github.com/ethereum/eips/issues/20) and [ERC721](https://github.com/ethereum/eips/issues/721) tokens.    
   - [X] Built for EVM-compatible blockchains using [Web3](https://github.com/ethereum/web3.js/).
   - [X] Mobile & desktop responsive UX.
@@ -25,31 +22,19 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
 
 **Release:**
 
-* Currently [`version 0.8`](https://github.com/DemocracyEarth/sovereign/releases)
-* This [User Agreement](https://github.com/DemocracyEarth/sovereign/blob/master/UserAgreement.md) governs access to and use of the Democracy Earth platform.
+* Currently [`version 0.8`](https://github.com/DemocracyEarth/dapp/releases)
+* This [User Agreement](https://github.com/DemocracyEarth/dapp/blob/master/UserAgreement.md) governs access to and use of the Democracy Earth platform.
 
 ## Setup
 
-1. **Install Framework**
-
-    On Linux & MacOS, load a terminal and type:
+1. **Clone Repository**
 
     ```sh
-    $ curl https://install.meteor.com/ | sh
+    $ git clone https://github.com/DemocracyEarth/dapp.git
+    $ cd dapp
     ```
 
-    This will setup [Meteor](https://github.com/meteor/meteor) (including [Node](https://github.com/nodejs/node) and [Mongo](https://github.com/mongodb/mongo) if necessary).
-
-    > _Note:_ Windows users must [download installer](https://www.meteor.com/install).
-
-2. **Clone Repository**
-
-    ```sh
-    $ git clone https://github.com/DemocracyEarth/sovereign.git
-    $ cd sovereign
-    ```
-
-3. **Install Dependencies**
+2. **Install Dependencies**
 
     if you have npm installed, type:
 
@@ -57,44 +42,20 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
     $ npm install
     ```
 
-    if you only have meteor, type:
-
-    ```sh
-    $ meteor npm install
-    ```
-
-4. **Configure**
-
-    * On `/config/development/settings.json` you can configure Sovereign for your organization's governance needs.
-        * Make sure you configure the keys on `private.web3` to connect to an Ethereum node ([Infura](https://infura.io) API keys are supported).
-        * For production, you can use `/config/production/settings.json` file and run `$ meteor --settings=config/production/settings.json` in the console.
-    * Seed DAO settings can be found on `/private/dao.json` which consists of an array of DAOs to be read from the blockchain and persisted in the server DB. 
-        * [MolochDAO](https://molochdao.com) and others are included by default.
-    * Make sure `ROOT_URL` on `settings.json` is properly set to the domain that will be serving the application. 
-        * We recommend the use of `https` **always** when deployed on a server.
-    * On `/public/templates/` different template style folders are available. 
-        * The file `templateName.json` can be configured and a css design can be found on `/public/templates/name/css` folder.
-
-
-5. **Run Dapp**
+3. **Run Dapp**
 
     While in repository directory type:
 
     ```sh
-    $ meteor npm run start:dev
+    $ npm start
     ```
 
     Load browser and go to [http://localhost:3000/](http://localhost:3000/).
-
-    > _Note:_ For production deploys you should use:
-    > ``` $ meteor npm run start ```
-    > check production/settings.json file to config your keys.
 
 
 ## Live
 
 * Democracy Earth: [democracy.earth](https://democracy.earth).
-* Moloch: [moloch.democracy.earth](https://moloch.democracy.earth).
 
 ### Reports
 
@@ -116,12 +77,12 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
 
 ## Contribute
 
-Sovereign is a **free & open source project**.
+This dapp is a **free & open source project**.
 
-* Check our [contributors list](https://github.com/DemocracyEarth/sovereign/graphs/contributors).
+* Check our [contributors list](https://github.com/DemocracyEarth/dapp/graphs/contributors).
 * If you want to collaborate with pull requests (features, fixes, issues, projects), please follow our [contributing guidelines](CONTRIBUTING.md).
 * Available tasks in the [to do list](TODO.md) to join.
-* Also you can find our projects and tasks in the [project area](https://github.com/DemocracyEarth/sovereign/projects).
+* Also you can find our projects and tasks in the [project area](https://github.com/DemocracyEarth/dapp/projects).
 
 ### Backers:
 
