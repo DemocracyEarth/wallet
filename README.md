@@ -8,7 +8,7 @@ Explore and participate in Digital Autonomous Organizations (DAOs).
 Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check our presentations in [Paris 🇫🇷 2016](https://youtube.com/watch?v=UajbQTHnTfM), [New York 🇺🇸 2019](https://www.youtube.com/watch?v=o2u0g0-hjgk) and [Berlin 🇩🇪 2019](https://www.youtube.com/watch?v=JJBDcG2EqwE).
 
 <p align="center">
-<img src="public/images/sovereign-screenshot-2019.png" width="800" title="Democracy Earth Dapp Screenshot 2019">
+<img src="docs/sovereign-screenshot-2019.png" width="800" title="Democracy Earth Dapp Screenshot 2019">
 </p>
 
 ## Features
@@ -105,9 +105,9 @@ Join our [Open Collective](https://opencollective.com/democracyearth):
 Democracy Earth Foundation is a _501 (c) 3 not for profit corporation_ in San Francisco, California with no political affiliations. Our partners include:
 
 <p align="left">
-<a href="https://ycombinator.com"><img src="public/images/yc.png" width="200" style="margin-right:20px;" title="Y Combinator"></a>
-<a href="https://ffwd.org"><img src="public/images/ffwd.png" width="200" style="margin-right:20px;" title="Fast Forward"></a>
-<a href="https://www.templetonworldcharity.org/"><img src="public/images/templeton.png" width="200" style="margin-right:20px;" title="Templeton World Charity"></a>
+<a href="https://ycombinator.com"><img src="docs/yc.png" width="200" style="margin-right:20px;" title="Y Combinator"></a>
+<a href="https://ffwd.org"><img src="docs/ffwd.png" width="200" style="margin-right:20px;" title="Fast Forward"></a>
+<a href="https://www.templetonworldcharity.org/"><img src="docs/templeton.png" width="200" style="margin-right:20px;" title="Templeton World Charity"></a>
 </p>
 
 Also check our [donors list](DONORS.md).
@@ -118,5 +118,5 @@ This software is under an [MIT License](LICENSE.md).
 This is a free software built by [Democracy Earth Foundation](https://democracy.earth) between 2015 and 2020.
 
 <p align="center">
-<img src="public/images/democracy-earth.png" width="400" title="Democracy Earth Foundation">
+<img src="docs/democracy-earth.png" width="400" title="Democracy Earth Foundation">
 </p>
