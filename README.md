@@ -97,9 +97,9 @@ Join our [Open Collective](https://opencollective.com/democracyearth):
 
 ## About
 
-Democracy Earth Foundation is a _501 (c) 3 not for profit corporation_ in San Francisco, California with no political affiliations. Our partners include:
+Democracy Earth Foundation is a _501 (c) 3 not for profit corporation_ in San Francisco, California with no political affiliations. Our institutional backers include:
 
-<p align="left">
+<p align="center">
 <a href="https://ycombinator.com"><img src="docs/yc.png" width="200" style="margin-right:20px;" title="Y Combinator"></a>
 <a href="https://ffwd.org"><img src="docs/ffwd.png" width="200" style="margin-right:20px;" title="Fast Forward"></a>
 <a href="https://www.templetonworldcharity.org/"><img src="docs/templeton.png" width="200" style="margin-right:20px;" title="Templeton World Charity"></a>
