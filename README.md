@@ -1,11 +1,12 @@
+<p align="center">
+<img src="docs/democracy-earth.png" width="400" title="Democracy Earth Foundation">
+</p>
+
 # Democracy Earth Dapp
 
 Explore and participate in Digital Autonomous Organizations (DAOs).
 
 [![Join the chat at https://gitter.im/DemocracyEarth/dapp](https://badges.gitter.im/DemocracyEarth/dapp.svg)](https://gitter.im/DemocracyEarth/dapp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Build Status](http://ci.comunes.org/buildStatus/icon?job=sovereign)](http://ci.comunes.org/job/sovereign/)
-
-Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check our presentations in [Paris 🇫🇷 2016](https://youtube.com/watch?v=UajbQTHnTfM), [New York 🇺🇸 2019](https://www.youtube.com/watch?v=o2u0g0-hjgk) and [Berlin 🇩🇪 2019](https://www.youtube.com/watch?v=JJBDcG2EqwE).
 
 <p align="center">
 <img src="docs/sovereign-screenshot-2019.png" width="800" title="Democracy Earth Dapp Screenshot 2019">
@@ -13,13 +14,11 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
 
 ## Features
 
+  - [X] Built for Ethereum using [Web3](https://github.com/ethereum/web3.js/) and [Graph Protocol](https://github.com/graphprotocol).
   - [X] Explore [MolochDAO](https://github.com/MolochVentures/moloch) compatible contracts.
   - [X] Support [ERC20](https://github.com/ethereum/eips/issues/20) and [ERC721](https://github.com/ethereum/eips/issues/721) tokens.    
-  - [X] Built for EVM-compatible blockchains using [Web3](https://github.com/ethereum/web3.js/).
   - [X] Mobile & desktop responsive UX.
-  - [X] Templates and customizable settings.
   
-
 **Release:**
 
 * Currently [`version 0.8`](https://github.com/DemocracyEarth/dapp/releases)
@@ -50,23 +49,20 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
     $ npm start
     ```
 
-    Load browser and go to [http://localhost:3000/](http://localhost:3000/).
+    Browser will launch on [http://localhost:3000/](http://localhost:3000/).
 
 
 ## Live
 
 * Democracy Earth: [democracy.earth](https://democracy.earth).
 
-### Reports
+### Use Cases
 
 * Report on [2016 Colombia Referendum](https://medium.com/@DemocracyEarth/a-digital-referendum-for-colombias-diaspora-aeef071ec014#.xbyqt3blq).
 * OECD Report on [Blockchain Voting for Peace](https://www.oecd.org/gov/innovative-government/embracing-innovation-in-government-colombia.pdf).
 * Quadratic Voting for the [2019-2020 Legislative Season of the State of Colorado](https://www.bloomberg.com/news/articles/2019-05-01/a-new-way-of-voting-that-makes-zealotry-expensive).
 
-## Specifications
-
-* Built with [Meteor](https://github.com/meteor/meteor) version 1.10
-* Check our [documentation](http://docs.democracy.earth) for further technical reference (work in progress).
+Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check our presentations in [Paris 🇫🇷 2016](https://youtube.com/watch?v=UajbQTHnTfM), [New York 🇺🇸 2019](https://www.youtube.com/watch?v=o2u0g0-hjgk) and [Berlin 🇩🇪 2019](https://www.youtube.com/watch?v=JJBDcG2EqwE).
 
 **Supported Browsers:**
 
@@ -78,11 +74,6 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
 ## Contribute
 
 This dapp is a **free & open source project**.
-
-* Check our [contributors list](https://github.com/DemocracyEarth/dapp/graphs/contributors).
-* If you want to collaborate with pull requests (features, fixes, issues, projects), please follow our [contributing guidelines](CONTRIBUTING.md).
-* Available tasks in the [to do list](TODO.md) to join.
-* Also you can find our projects and tasks in the [project area](https://github.com/DemocracyEarth/dapp/projects).
 
 ### Backers:
 
@@ -116,7 +107,3 @@ Also check our [donors list](DONORS.md).
 
 This software is under an [MIT License](LICENSE.md).
 This is a free software built by [Democracy Earth Foundation](https://democracy.earth) between 2015 and 2020.
-
-<p align="center">
-<img src="docs/democracy-earth.png" width="400" title="Democracy Earth Foundation">
-</p>
