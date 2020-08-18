@@ -7,9 +7,7 @@ import {
 
 // dapp
 import Browser from 'components/Browser/Browser';
-import Menu from 'components/Menu/Menu';
-import Timeline from 'components/Timeline/Timeline';
-import Ledger from 'components/Ledger/Ledger';
+import Layout from 'components/Layout/Layout';
 
 // wallets
 import Web3Modal from 'web3modal';
@@ -143,28 +141,10 @@ export default class Dapp extends Component {
   render() {
     return (
       <Router>
+        <Browser address={this.state.address} walletConnect={this.onConnect} walletReset={this.reset} />
         <Switch>
-          <Route path="/">
-            <div>
-              <Browser address={this.state.address} walletConnect={this.onConnect} walletReset={this.reset} />
-              <div id="app" className="app">
-                <div id="menu" className="left">
-                  <Menu address={this.state.address} />
-                </div>
-                <div id="content" className="right">
-                  <div id="main-feed" className="split split-left split-landing">
-                    <div id="proposals" className="content content-feed max100">
-                      <div id="non-editable-feed">
-                        <Timeline address={this.state.address} />
-                      </div>
-                    </div>
-                  </div>
-                  <div id="alternative-feed" className="split split-right split-landing">
-                    <Ledger />
-                  </div>
-                </div>
-              </div>
-            </div>
+          <Route path="/" exact>
+            <Layout address={this.state.address} />
           </Route>
         </Switch>
       </Router>

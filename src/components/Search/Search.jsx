@@ -72,7 +72,6 @@ export default class Search extends React.Component {
   }
 
   handleDelete(i) {
-    console.log('delete');
     const { tags } = this.state;
     this.setState({
       tags: tags.filter((tag, index) => { return (index !== i); }),
@@ -81,7 +80,6 @@ export default class Search extends React.Component {
   }
 
   handleAddition(tag) {
-    console.log('addition');
     const newTag = tag;
     newTag.text = _replacementText(tag);
     this.setState(state => ({ tags: [newTag] }));
