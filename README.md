@@ -51,18 +51,23 @@ Explore and participate in Digital Autonomous Organizations (DAOs).
 
 * Democracy Earth: [democracy.earth](https://democracy.earth).
 
+### Conferences
+
+* Democracy in the Age of Cryptography [RadicalxChange 🇧🇷 2020](https://www.youtube.com/watch?v=9d8zmkmfb68).
+* DAO panel on Web3 Summit [Berlin 🇩🇪 2019](https://www.youtube.com/watch?v=JJBDcG2EqwE).
+* How blockchains can help create democracies everywhere [New York 🇺🇸 2019](https://www.youtube.com/watch?v=o2u0g0-hjgk).
+* Democracy Earth at [Consensus 🇺🇸 2018](https://www.youtube.com/watch?v=CpT0oDWLKec).
+* La Era Post Estado-Nacion [Costa Rica 🇨🇷 2017](https://www.youtube.com/watch?v=BlYZpNVtNvU).
+* The future of democracy in [Guernsey 🇬🇬 2016](https://www.youtube.com/watch?v=yGmGWZCE4h0).
+* On digital democracy in [Paris 🇫🇷 2016](https://youtube.com/watch?v=UajbQTHnTfM).
+
 ### Use Cases
 
 * Read our [white paper](https://github.com/DemocracyEarth/paper).
-* Report on [2016 Colombia Referendum](https://medium.com/@DemocracyEarth/a-digital-referendum-for-colombias-diaspora-aeef071ec014#.xbyqt3blq).
-* OECD Report on [Blockchain Voting for Peace](https://www.oecd.org/gov/innovative-government/embracing-innovation-in-government-colombia.pdf).
-* Quadratic Voting for the [2019-2020 Legislative Season of the State of Colorado](https://www.bloomberg.com/news/articles/2019-05-01/a-new-way-of-voting-that-makes-zealotry-expensive).
-
-### Presentations
-
-* On digital democracy in [Paris 🇫🇷 2016](https://youtube.com/watch?v=UajbQTHnTfM)
-* How blockchains can help create democracies everywhere, [New York 🇺🇸 2019](https://www.youtube.com/watch?v=o2u0g0-hjgk)
-* DAO panel on Web3 Summit [Berlin 🇩🇪 2019](https://www.youtube.com/watch?v=JJBDcG2EqwE).
+* Report on [2016 Colombia 🇨🇴 Referendum](https://medium.com/@DemocracyEarth/a-digital-referendum-for-colombias-diaspora-aeef071ec014#.xbyqt3blq).
+* Blockchain Voting for Peace [OECD 🇺🇳 Report 2017](https://www.oecd.org/gov/innovative-government/embracing-innovation-in-government-colombia.pdf).
+* Umbrella Movement Shadow Referendum [2017 Hong Kong 🇭🇰](https://www.slideshare.net/mysociety/the-impacts-of-popvote-in-hong-kong-virgile-deville-democracy-earth).
+* Quadratic Voting for the [2019-2020 Legislative Season of the State of Colorado 🇺🇸](https://www.bloomberg.com/news/articles/2019-05-01/a-new-way-of-voting-that-makes-zealotry-expensive).
 
 ## Contribute
 
