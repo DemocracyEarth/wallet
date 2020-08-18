@@ -6,6 +6,8 @@
 
 Explore and participate in Digital Autonomous Organizations (DAOs).
 
+[![Join the chat at https://discord.com/invite/HGsyGXw](https://img.shields.io/discord/490948346773635102?color=%237289DA&label=DemocracyEarth&logo=discord&logoColor=white)](https://discord.com/invite/HGsyGXw)
+
 <p align="center">
 <img src="docs/sovereign-screenshot-2019.png" width="800" title="Democracy Earth Dapp Screenshot 2019">
 </p>
