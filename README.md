@@ -57,7 +57,6 @@ Explore and participate in Digital Autonomous Organizations (DAOs).
 * 🇯🇵 Machine Learning resistance for Human Rights [DevconV Osaka 2019](https://www.youtube.com/watch?v=tZ_76AZtOf8).
 * 🇩🇪 DAO panel on Web3 Summit [Berlin 2019](https://www.youtube.com/watch?v=JJBDcG2EqwE).
 * 🇺🇸 How blockchains can help create democracies everywhere [New York 2019](https://www.youtube.com/watch?v=o2u0g0-hjgk).
-* 🇺🇸 Democracy Earth at [Consensus 2018](https://www.youtube.com/watch?v=CpT0oDWLKec).
 * 🇨🇷 La Era Post Estado-Nacion [Costa Rica 2017](https://www.youtube.com/watch?v=BlYZpNVtNvU).
 * 🇬🇬 The future of democracy in [Guernsey 2016](https://www.youtube.com/watch?v=yGmGWZCE4h0).
 * 🇫🇷 On digital democracy in [Paris 2016](https://youtube.com/watch?v=UajbQTHnTfM).
