@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import paperActive from 'images/paper-active.svg';
 import paper from 'images/paper.svg';
@@ -65,7 +66,7 @@ export default class Item extends Component {
   render() {
     if (this.props.hideEmpty && this.props.score === 0) return null;
     return (
-      <a className={this.getStyle()} href={this.props.href}>
+      <Link to={this.props.href} className="menu-item" activeClassName="menu-item-selected">
         {(this.props.sharp) ?
           <div className="sidebar-sharp">
             <img src={this.getIcon()} alt="" className="menu-item-icon" />
@@ -79,7 +80,7 @@ export default class Item extends Component {
         <div className={this.getTagStyle()}>
           {this.props.score}
         </div>
-      </a>
+      </Link>
     );
   }
 }

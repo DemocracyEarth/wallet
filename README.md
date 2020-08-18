@@ -73,7 +73,7 @@ Explore and participate in Digital Autonomous Organizations (DAOs).
 
 ## Contribute
 
-This dapp is a **free & open source project**.
+This dapp is a free, open source and censorship resistant.
 
 ### Backers
 
