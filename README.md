@@ -13,7 +13,7 @@ Explore and participate in Digital Autonomous Organizations (DAOs).
 ## Features
 
   - [X] Built for Ethereum using [Web3](https://github.com/ethereum/web3.js/) 
-  - [X] Implements [Graph Protocol](https://github.com/graphprotocol) to react blockchain activity.
+  - [X] Implements [Graph Protocol](https://github.com/graphprotocol) to read blockchain activity.
   - [X] Explore [MolochDAO](https://github.com/MolochVentures/moloch) compatible contracts.
   - [X] Support [ERC20](https://github.com/ethereum/eips/issues/20) and [ERC721](https://github.com/ethereum/eips/issues/721) tokens.    
   - [X] Mobile & desktop responsive UX.
@@ -21,7 +21,7 @@ Explore and participate in Digital Autonomous Organizations (DAOs).
 **Release:**
 
 * Currently [`version 0.8`](https://github.com/DemocracyEarth/dapp/releases)
-* This [User Agreement](https://github.com/DemocracyEarth/dapp/blob/master/UserAgreement.md) governs access to and use of the Democracy Earth platform.
+* This [User Agreement](https://github.com/DemocracyEarth/dapp/blob/master/AGREEMENT.md) governs access to and use of the Democracy Earth platform.
 
 ## Setup
 
@@ -34,15 +34,11 @@ Explore and participate in Digital Autonomous Organizations (DAOs).
 
 2. Install Dependencies
 
-    if you have npm installed, type:
-
     ```sh
     $ npm install
     ```
 
 3. Run Dapp
-
-    While in repository directory type:
 
     ```sh
     $ npm start
