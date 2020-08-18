@@ -6,15 +6,14 @@
 
 Explore and participate in Digital Autonomous Organizations (DAOs).
 
-[![Join the chat at https://gitter.im/DemocracyEarth/dapp](https://badges.gitter.im/DemocracyEarth/dapp.svg)](https://gitter.im/DemocracyEarth/dapp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 <p align="center">
 <img src="docs/sovereign-screenshot-2019.png" width="800" title="Democracy Earth Dapp Screenshot 2019">
 </p>
 
 ## Features
 
-  - [X] Built for Ethereum using [Web3](https://github.com/ethereum/web3.js/) and [Graph Protocol](https://github.com/graphprotocol).
+  - [X] Built for Ethereum using [Web3](https://github.com/ethereum/web3.js/) 
+  - [X] Implements [Graph Protocol](https://github.com/graphprotocol) to react blockchain activity.
   - [X] Explore [MolochDAO](https://github.com/MolochVentures/moloch) compatible contracts.
   - [X] Support [ERC20](https://github.com/ethereum/eips/issues/20) and [ERC721](https://github.com/ethereum/eips/issues/721) tokens.    
   - [X] Mobile & desktop responsive UX.
@@ -26,14 +25,14 @@ Explore and participate in Digital Autonomous Organizations (DAOs).
 
 ## Setup
 
-1. **Clone Repository**
+1. Clone Repository
 
     ```sh
     $ git clone https://github.com/DemocracyEarth/dapp.git
     $ cd dapp
     ```
 
-2. **Install Dependencies**
+2. Install Dependencies
 
     if you have npm installed, type:
 
@@ -41,7 +40,7 @@ Explore and participate in Digital Autonomous Organizations (DAOs).
     $ npm install
     ```
 
-3. **Run Dapp**
+3. Run Dapp
 
     While in repository directory type:
 
@@ -58,11 +57,16 @@ Explore and participate in Digital Autonomous Organizations (DAOs).
 
 ### Use Cases
 
+* Read our [white paper](https://github.com/DemocracyEarth/paper).
 * Report on [2016 Colombia Referendum](https://medium.com/@DemocracyEarth/a-digital-referendum-for-colombias-diaspora-aeef071ec014#.xbyqt3blq).
 * OECD Report on [Blockchain Voting for Peace](https://www.oecd.org/gov/innovative-government/embracing-innovation-in-government-colombia.pdf).
 * Quadratic Voting for the [2019-2020 Legislative Season of the State of Colorado](https://www.bloomberg.com/news/articles/2019-05-01/a-new-way-of-voting-that-makes-zealotry-expensive).
 
-Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check our presentations in [Paris 🇫🇷 2016](https://youtube.com/watch?v=UajbQTHnTfM), [New York 🇺🇸 2019](https://www.youtube.com/watch?v=o2u0g0-hjgk) and [Berlin 🇩🇪 2019](https://www.youtube.com/watch?v=JJBDcG2EqwE).
+### Presentations
+
+* On digital democracy in [Paris 🇫🇷 2016](https://youtube.com/watch?v=UajbQTHnTfM)
+* How blockchains can help create democracies everywhere, [New York 🇺🇸 2019](https://www.youtube.com/watch?v=o2u0g0-hjgk)
+* DAO panel on Web3 Summit [Berlin 🇩🇪 2019](https://www.youtube.com/watch?v=JJBDcG2EqwE).
 
 **Supported Browsers:**
 
@@ -75,7 +79,7 @@ Read our 📃 [white paper](https://github.com/DemocracyEarth/paper) and check o
 
 This dapp is a **free & open source project**.
 
-### Backers:
+### Backers
 
 Join our [Open Collective](https://opencollective.com/democracyearth):
 
