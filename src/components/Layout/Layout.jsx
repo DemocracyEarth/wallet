@@ -7,15 +7,14 @@ import Timeline from 'components/Timeline/Timeline';
 import Ledger from 'components/Ledger/Ledger';
 
 import 'styles/Dapp.css';
-import { render } from '@testing-library/react';
 
 /**
 * @summary displays the contents of a poll
 */
 const Layout = (props) => {
   const { dao, address } = useParams();
-  let renderAddress = props.address;
 
+  let renderAddress = props.address;
   if (dao) { renderAddress = dao; }
   if (address) { renderAddress = address; }
 

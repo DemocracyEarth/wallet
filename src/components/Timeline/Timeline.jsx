@@ -23,36 +23,62 @@ import { defaults } from 'lib/const';
 import i18n from 'i18n';
 import 'styles/Dapp.css';
 
-export const GET_PROPOSALS = `
+const PROPOSAL_DATA = `
+      id
+      proposalId
+      createdAt
+      proposalIndex
+      startingPeriod
+      moloch {
+        id
+      }
+      memberAddress
+      applicant
+      tributeOffered
+      tributeToken
+      tributeTokenSymbol
+      tributeTokenDecimals
+      sharesRequested
+      yesVotes
+      noVotes
+      yesShares
+      noShares
+      details
+      processed
+      votingPeriodStarts
+      votingPeriodEnds
+      gracePeriodEnds
+`
+
+const GET_PROPOSALS = gql`
 {
   proposals(first: 15, orderBy:createdAt, orderDirection:desc) {
-    id
-    proposalId
-    createdAt
-    proposalIndex
-    startingPeriod
-    moloch {
-      id
-    }
-    memberAddress
-    applicant
-    tributeOffered
-    tributeToken
-    tributeTokenSymbol
-    tributeTokenDecimals
-    sharesRequested
-    yesVotes
-    noVotes
-    yesShares
-    noShares
-    details
-    processed
-    votingPeriodStarts
-    votingPeriodEnds
-    gracePeriodEnds
+    ${PROPOSAL_DATA}
   }
 }
 `;
+
+const GET_PROPOSALS_WITH_MEMBER = gql`
+query memberProposals($publicAddress: Bytes) {
+ asProposer: proposals(where: { memberAddress: $publicAddress }) {
+	...proposalFields
+	}
+ asApplicant: proposals(where: { applicant: $publicAddress }) {
+	...proposalFields
+	}  
+}
+  
+fragment proposalFields on Proposal {
+	${PROPOSAL_DATA}
+}
+`;
+
+const composeQuery = (address) => {
+  if (address === defaults.EMPTY) {
+    return GET_PROPOSALS;
+  }
+  return GET_PROPOSALS_WITH_MEMBER;
+}
 
 const client = new ApolloClient({
   uri: config.graph.moloch,
@@ -64,7 +90,7 @@ const _getPercentage = (percentageAmount, remainder) => {
 };
 
 const Feed = (props) => {
-  const { loading, error, data } = useQuery(gql(GET_PROPOSALS));
+  const { loading, error, data } = useQuery(composeQuery(props.address), { variables: { publicAddress: props.address } });
 
   if (loading) return <Placeholder />;
   if (error) return <p>Error!</p>;
@@ -72,6 +98,8 @@ const Feed = (props) => {
   const accountAddress = props.address;
   const daoName = 'MolochDAO';
   const timestamp = new Date().getTime();
+
+  console.log(data);
 
   return data.proposals.map((proposal) => {
     const totalVoters = String(parseInt(Number(proposal.yesVotes) + Number(proposal.noVotes), 10));
