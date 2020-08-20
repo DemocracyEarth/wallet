@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import 'styles/Dapp.css';
+import { useParams } from 'react-router-dom';
 
 import Menu from 'components/Menu/Menu';
 import Timeline from 'components/Timeline/Timeline';
@@ -10,6 +11,7 @@ import Ledger from 'components/Ledger/Ledger';
 * @summary displays the contents of a poll
 */
 const Layout = (props) => {
+  console.log(useParams());
   return (
     <div>
       <div id="app" className="app">

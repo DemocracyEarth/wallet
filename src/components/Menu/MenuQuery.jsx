@@ -58,13 +58,13 @@ const _getMenu = (atHome, data) => {
   return (
     <div>
       <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[0])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[0])} key={0} href="/" />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[1])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[1])} key={1} href="/filter/queue" />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[2])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[2])} key={2} href="/filter/voting" />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[3])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[3])} key={3} href="/filter/grace" />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[4])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[4])} key={4} href="/filter/ready" />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[5])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[5])} key={9} href="/filter/kicked" />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[6])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[6])} key={5} href="/filter/rejected" />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[7])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[7])} key={6} href="/filter/approved" />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[1])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[1])} key={1} href="/period/queue" />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[2])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[2])} key={2} href="/period/voting" />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[3])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[3])} key={3} href="/period/grace" />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[4])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[4])} key={4} href="/period/ready" />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[5])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[5])} key={9} href="/period/kicked" />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[6])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[6])} key={5} href="/period/rejected" />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[7])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[7])} key={6} href="/period/approved" />
     </div>
   );
 };

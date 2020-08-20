@@ -11240,6 +11240,14 @@ h4 {
   padding: 5px 10px;
 }
 
+.transaction-action.transaction-action-passed a {
+  color: var(--positive-signal-color);
+}
+
+.transaction-action.transaction-action-rejected a {
+  color: var(--negative-signal-color);
+}
+
 .transaction-signal {
   width: 16px;
   height: 16px;

@@ -62,8 +62,24 @@ const INITIAL_STATE = {
   result: null,
 };
 
+const routes = [
+  {
+    path: '/',
+    exact: true,
+  },
+  {
+    path: '/period/:period',
+  },
+  {
+    path: '/dao/:dao',
+  },
+  {
+    path: '/address/:address',
+  },
+];
+
 /**
-* @summary renders a post in the timeline
+* @summary Dapp layout with routing and wallet configuration.
 */
 export default class Dapp extends Component {
   constructor(props) {
@@ -143,9 +159,14 @@ export default class Dapp extends Component {
       <Router>
         <Browser address={this.state.address} walletConnect={this.onConnect} walletReset={this.reset} />
         <Switch>
-          <Route path="/" exact>
-            <Layout address={this.state.address} />
-          </Route>
+          {routes.map((route, index) => (
+            <Route
+              key={index}
+              path={route.path}
+              exact={route.exact}
+              children={<Layout address={this.state.address} />}
+            />
+          ))}
         </Switch>
       </Router>
     );
