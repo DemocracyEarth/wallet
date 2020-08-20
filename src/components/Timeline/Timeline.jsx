@@ -19,35 +19,36 @@ import Social from 'components/Social/Social';
 
 import { config } from 'config'
 import { defaults } from 'lib/const';
+import { uniqBy, orderBy } from 'lodash';
 
 import i18n from 'i18n';
 import 'styles/Dapp.css';
 
 const PROPOSAL_DATA = `
-      id
-      proposalId
-      createdAt
-      proposalIndex
-      startingPeriod
-      moloch {
-        id
-      }
-      memberAddress
-      applicant
-      tributeOffered
-      tributeToken
-      tributeTokenSymbol
-      tributeTokenDecimals
-      sharesRequested
-      yesVotes
-      noVotes
-      yesShares
-      noShares
-      details
-      processed
-      votingPeriodStarts
-      votingPeriodEnds
-      gracePeriodEnds
+  id
+  proposalId
+  createdAt
+  proposalIndex
+  startingPeriod
+  moloch {
+    id
+  }
+  memberAddress
+  applicant
+  tributeOffered
+  tributeToken
+  tributeTokenSymbol
+  tributeTokenDecimals
+  sharesRequested
+  yesVotes
+  noVotes
+  yesShares
+  noShares
+  details
+  processed
+  votingPeriodStarts
+  votingPeriodEnds
+  gracePeriodEnds
 `
 
 const GET_PROPOSALS = gql`
@@ -100,6 +101,10 @@ const Feed = (props) => {
   const timestamp = new Date().getTime();
 
   console.log(data);
+
+  if (data.asProposer || data.asApplicant) {
+    data.proposals = orderBy(uniqBy(data.asProposer.concat(data.asApplicant), 'id'), 'createdAt', 'desc');
+  }
 
   return data.proposals.map((proposal) => {
     const totalVoters = String(parseInt(Number(proposal.yesVotes) + Number(proposal.noVotes), 10));

@@ -9,6 +9,7 @@ import DAO from 'components/DAO/DAO';
 import Stamp from 'components/Stamp/Stamp';
 import Transaction from 'components/Transaction/Transaction';
 
+import { defaults } from 'lib/const';
 import { config } from 'config'
 import 'styles/Dapp.css';
 
@@ -17,25 +18,43 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+const VOTE_DATA = `
+  id
+  createdAt
+  uintVote
+  molochAddress
+  memberAddress
+  proposal {
+    details
+    id
+  }
+  member {
+    shares
+  }
+`
+
 const GET_VOTES = gql`
   {
     votes(first: 15, orderBy:createdAt, orderDirection:desc) {
-      id
-      createdAt
-      uintVote
-      molochAddress
-      memberAddress
-      proposal {
-        details
-        id
-      }
-      member {
-        shares
-      }
+      ${VOTE_DATA}
     }
   }
 `;
 
+const GET_VOTES_FROM_ADDRESS = gql`
+  query memberProposals($publicAddress: Bytes) {
+    votes(where: { memberAddress: $publicAddress } orderBy:createdAt, orderDirection:desc) {
+      ${VOTE_DATA}
+    }
+  }
+`;
+
+const composeQuery = (address) => {
+  if (address === defaults.EMPTY) {
+    return GET_VOTES;
+  }
+  return GET_VOTES_FROM_ADDRESS;
+}
 
 /**
 * @summary displays the contents of a poll
@@ -47,8 +66,8 @@ const GET_VOTES = gql`
 * @param {string} symbol with a ticker
 * @param {string} decimal numbers this token takes
 */
-const VoteQuery = () => {
-  const { loading, error, data } = useQuery(GET_VOTES);
+const VoteQuery = (props) => {
+  const { loading, error, data } = useQuery(composeQuery(props.address), { variables: { publicAddress: props.address } });
 
   if (loading) {
     return (
