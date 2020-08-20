@@ -15,6 +15,14 @@ const _getScrollTop = () => {
 * @summary displays the contents of a poll
 */
 export default class Ledger extends Component {
+  static propTypes = {
+    address: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
+  };
+
   constructor() {
     super();
     this.state = {
@@ -43,7 +51,7 @@ export default class Ledger extends Component {
           <div className="ledger-title">
             <h4>{i18n.t('recent-activity')}</h4>
           </div>
-          <Vote />
+          <Vote address={this.props.address} />
           <div className="ledger-footer" />
         </div>
       </div>
@@ -51,9 +59,4 @@ export default class Ledger extends Component {
   }
 }
 
-Ledger.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
-};
+

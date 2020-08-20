@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, useQuery } from '@apollo/react-hooks';
@@ -72,15 +73,23 @@ const VoteQuery = () => {
   });
 };
 
+VoteQuery.propTypes = {
+  addresss: PropTypes.string,
+};
+
+
 /**
 * @summary renders a post in the timeline
 */
-const Vote = () => {
+const Vote = (props) => {
   return (
     <ApolloProvider client={client}>
-      <VoteQuery />
+      <VoteQuery address={props.address} />
     </ApolloProvider>
   );
 };
+
+Vote.propTypes = VoteQuery.propTypes;
+
 
 export default Vote;

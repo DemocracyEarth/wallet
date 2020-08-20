@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, useQuery } from '@apollo/react-hooks';
+import { Link } from 'react-router-dom';
 import { findLast } from 'lodash';
 
 import { gui } from 'lib/const';
@@ -76,9 +77,9 @@ const DAOQuery = ({ publicAddress, width, height, format }) => {
         <div className="avatar-editor">
           <img src={image} className="symbol dao-pic" alt="" style={{ width: finalWidth, height: finalHeight }} />
           <div className="identity-peer">
-            <a href={url} title={publicAddress} className="identity-label identity-label-micro">
+            <Link to={url} title={publicAddress} className="identity-label identity-label-micro">
               {label}
-            </a>
+            </Link>
           </div>
         </div>
       }

@@ -50,12 +50,7 @@ class ItemLink extends Component {
   render() {
     if (this.props.hideEmpty && this.props.score === 0) return null;
     return (
-      <NavLink to={this.props.href} isActive={(match, location) => {
-        if (!match) {
-          return false;
-        }
-        return (location.pathname === this.props.href);
-      }} className="menu-item" activeClassName="menu-item-selected">
+      <NavLink to={this.props.href} isActive={(match, location) => { if (!match) { return false }; return (location.pathname === this.props.href); }} className="menu-item" activeClassName="menu-item-selected">
         {(this.props.sharp) ?
           <div className="sidebar-sharp">
             <img src={this.getIcon()} alt="" className="menu-item-icon" />
