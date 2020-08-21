@@ -16,7 +16,7 @@ const client = new ApolloClient({
 /**
 * @summary renders a post in the timeline
 */
-export default Menu = () => {
+const Menu = () => {
   const { address } = useContext(WalletContext);
   const getContext = () => {
     const current = '/' // TODO: User router Router.current().url.replace(window.location.origin, '');
@@ -26,14 +26,14 @@ export default Menu = () => {
     return null // TODO: Router.current().params.account;
   }
 
-  render() {
-    return (
-      <ApolloProvider client={client}>
-        <MenuQuery address={this.getContext()} />
-      </ApolloProvider>
-    );
-  }
+  return (
+    <ApolloProvider client={client}>
+      <MenuQuery address={getContext()} />
+    </ApolloProvider>
+  );
+
 }
 
-
 Menu.propTypes = {};
+
+export default Menu;

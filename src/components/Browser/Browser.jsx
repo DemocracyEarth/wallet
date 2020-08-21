@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState, useMemo } from 'react';
 
 import { defaults } from 'lib/const';
 
@@ -18,7 +18,7 @@ let lastScrollTop = 0;
 /**
 * @summary displays the contents of a poll
 */
-export default Browser = () => {
+const Browser = () => {
 
   const { address, onConnect, onReset } = useContext(WalletContext);
 
@@ -33,7 +33,7 @@ export default Browser = () => {
       setScrollUp(false);
     }
     lastScrollTop = st <= 0 ? 0 : st;
-  }, [])
+  }, [scrollUp])
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -74,3 +74,5 @@ export default Browser = () => {
 }
 
 Browser.propTypes = {};
+
+export default Browser;

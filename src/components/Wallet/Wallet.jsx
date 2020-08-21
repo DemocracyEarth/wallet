@@ -11,32 +11,31 @@ import { WalletContextProvider } from 'contexts/Wallet/WalletContext';
 /**
 * @summary renders a post in the timeline
 */
-export default class Wallet extends Component {
-
-  render() {
-    return (
-      <WalletContextProvider>
-        <div>
-          <Browser />
-          <div id="app" className="app">
-            <div id="menu" className="left">
-              <Menu />
-            </div>
-            <div id="content" className="right">
-              <div id="main-feed" className="split split-left split-landing">
-                <div id="proposals" className="content content-feed max100">
-                  <div id="non-editable-feed">
-                    <Timeline />
-                  </div>
+const Wallet = () => {
+  return (
+    <WalletContextProvider>
+      <div>
+        <Browser />
+        <div id="app" className="app">
+          <div id="menu" className="left">
+            <Menu />
+          </div>
+          <div id="content" className="right">
+            <div id="main-feed" className="split split-left split-landing">
+              <div id="proposals" className="content content-feed max100">
+                <div id="non-editable-feed">
+                  <Timeline />
                 </div>
               </div>
-              <div id="alternative-feed" className="split split-right split-landing">
-                <Ledger />
-              </div>
+            </div>
+            <div id="alternative-feed" className="split split-right split-landing">
+              <Ledger />
             </div>
           </div>
         </div>
-      </WalletContextProvider>
-    );
-  }
+      </div>
+    </WalletContextProvider>
+  );
 }
+
+export default Wallet;
