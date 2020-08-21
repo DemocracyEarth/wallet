@@ -17,16 +17,16 @@ export default class Wallet extends Component {
     return (
       <WalletContextProvider>
         <div>
-          <Browser address={this.state.address} walletConnect={this.onConnect} walletReset={this.reset} />
+          <Browser />
           <div id="app" className="app">
             <div id="menu" className="left">
-              <Menu address={this.state.address} />
+              <Menu />
             </div>
             <div id="content" className="right">
               <div id="main-feed" className="split split-left split-landing">
                 <div id="proposals" className="content content-feed max100">
                   <div id="non-editable-feed">
-                    <Timeline address={this.state.address} />
+                    <Timeline />
                   </div>
                 </div>
               </div>

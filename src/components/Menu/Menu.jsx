@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
 
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 import MenuQuery from 'components/Menu/MenuQuery.jsx';
 import { config } from 'config'
+import { WalletContext } from 'contexts/Wallet/WalletContext';
 
 const client = new ApolloClient({
   uri: config.graph.moloch,
@@ -15,11 +16,12 @@ const client = new ApolloClient({
 /**
 * @summary renders a post in the timeline
 */
-export default class Menu extends Component {
-  getContext() {
+export default Menu = () => {
+  const { address } = useContext(WalletContext);
+  const getContext = () => {
     const current = '/' // TODO: User router Router.current().url.replace(window.location.origin, '');
     if (current === '/') {
-      return this.props.address;
+      return address;
     }
     return null // TODO: Router.current().params.account;
   }
@@ -32,7 +34,3 @@ export default class Menu extends Component {
     );
   }
 }
-
-Menu.propTypes = {
-  address: PropTypes.string,
-};
