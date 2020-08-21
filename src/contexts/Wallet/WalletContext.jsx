@@ -4,12 +4,16 @@ import { defaults } from 'lib/const';
 
 import Web3 from 'web3';
 import Fortmatic from 'fortmatic';
+
+// wallets
 import Web3Modal from 'web3modal';
 import UniLogin from '@unilogin/provider';
 import { Authereum } from 'authereum';
 import Torus from '@toruslabs/torus-embed';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 
+
+// config
 import { config } from 'config'
 
 const INITIAL_STATE = {
