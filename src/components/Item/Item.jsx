@@ -1,40 +1,29 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter, NavLink } from 'react-router-dom';
 
 import paperActive from 'images/paper-active.svg';
 import paper from 'images/paper.svg';
 import 'styles/Dapp.css';
 
 /**
-* @summary checks if href matches to current url
-* @param {string} url with href to match
-* @return {boolean}
-*/
-const _matchingContext = (url) => {
-  if (url) {
-    const current = '/'; // Router.current().url.replace(window.location.origin, '');
-    /* if ((Router.current().params.username === url.substring(6))
-      || (current === url)
-    )*/ 
-    if (current === url.substring(6)) {
-      return true;
-    }
-  }
-  return false;
-};
-
-
-/**
 * @summary displays the contents of a poll
 */
-export default class Item extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      inContext: _matchingContext(this.props.href),
-    };
-  }
+class ItemLink extends Component {
+  static propTypes = {
+    match: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    sharp: PropTypes.bool,
+    label: PropTypes.string,
+    score: PropTypes.number,
+    hideEmpty: PropTypes.bool,
+    href: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
+  };
 
   getLabel() {
     if (this.props.children) {
@@ -43,16 +32,8 @@ export default class Item extends Component {
     return (this.props.label);
   }
 
-  getStyle() {
-    return `menu-item ${this.state.inContext ? 'menu-item-selected' : null}`;
-  }
-
   getTagStyle() {
-    return `sidebar-tag ${this.state.inContext ? 'sidebar-tag-selected' : null}`;
-  }
-
-  getIcon() {
-    return (this.state.inContext) ? paperActive : paper;
+    return `sidebar-tag ${(this.props.location.pathname === this.props.href) ? 'sidebar-tag-selected' : null}`;
   }
 
   getLabelStyle() {
@@ -62,10 +43,14 @@ export default class Item extends Component {
     return 'sidebar-label';
   }
 
+  getIcon() {
+    return (this.props.location.pathname === this.props.href) ? paperActive : paper;
+  }
+
   render() {
     if (this.props.hideEmpty && this.props.score === 0) return null;
     return (
-      <a className={this.getStyle()} href={this.props.href}>
+      <NavLink to={this.props.href} className="menu-item" activeClassName="menu-item-selected">
         {(this.props.sharp) ?
           <div className="sidebar-sharp">
             <img src={this.getIcon()} alt="" className="menu-item-icon" />
@@ -79,20 +64,10 @@ export default class Item extends Component {
         <div className={this.getTagStyle()}>
           {this.props.score}
         </div>
-      </a>
+      </NavLink>
     );
   }
 }
 
-Item.propTypes = {
-  sharp: PropTypes.bool,
-  label: PropTypes.string,
-  score: PropTypes.number,
-  hideEmpty: PropTypes.bool,
-  href: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
-};
-
+const Item = withRouter(ItemLink);
+export { Item as default }

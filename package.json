@@ -27,6 +27,7 @@
     "react-dnd-html5-backend": "^3.0.2",
     "react-dom": "^16.13.1",
     "react-i18next": "^11.7.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.2",
     "react-tag-input": "^6.4.3",
     "web3": "^1.2.11",
