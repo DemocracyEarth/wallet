@@ -66,7 +66,7 @@ export const WalletContextProvider = ({ children }) => {
     providerOptions,
   }), []);
 
-  const reset = useMemo(() => async () => {
+  const onReset = useMemo(() => async () => {
     const { web3 } = state;
     if (web3 && web3.currentProvider && web3.currentProvider.close) {
       await web3.currentProvider.close();
@@ -79,7 +79,7 @@ export const WalletContextProvider = ({ children }) => {
     if (!provider.on) {
       return;
     }
-    provider.on('close', reset);
+    provider.on('close', onReset);
 
     provider.on('accountsChanged', async (accounts) => {
       setState(state => ({ ...state, address: accounts[0] }));
@@ -96,7 +96,7 @@ export const WalletContextProvider = ({ children }) => {
       const chainId = await web3.eth.chainId();
       setState(state => ({ ...state, chainId, networkId }));
     });
-  }, [state.web3, reset])
+  }, [state.web3, onReset])
 
   const onConnect = useMemo(() => async () => {
     const provider = await web3Modal.connect();
@@ -122,7 +122,7 @@ export const WalletContextProvider = ({ children }) => {
   return <WalletContext.Provider value={{
     address: state.address,
     onConnect,
-    reset
+    onReset
   }} >
     {children}
   </WalletContext.Provider >
