@@ -1,8 +1,7 @@
-import React, { Component, useContext } from 'react';
+import React, { useContext } from 'react';
 
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
-import PropTypes from 'prop-types';
 
 import MenuQuery from 'components/Menu/MenuQuery.jsx';
 import { config } from 'config'

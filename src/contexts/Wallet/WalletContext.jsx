@@ -71,13 +71,13 @@ export const WalletContextProvider = ({ children }) => {
   }), []);
 
   const onReset = useMemo(() => async () => {
-    const { web3 } = state;
+    const web3 = state.web3;
     if (web3 && web3.currentProvider && web3.currentProvider.close) {
       await web3.currentProvider.close();
     }
     web3Modal.clearCachedProvider();
     setState(INITIAL_STATE);
-  }, [state.web3])
+  }, [state.web3, web3Modal])
 
   const subscribeProvider = useMemo(() => async (provider) => {
     if (!provider.on) {
@@ -90,13 +90,13 @@ export const WalletContextProvider = ({ children }) => {
     });
 
     provider.on('chainChanged', async (chainId) => {
-      const { web3 } = state;
+      const web3 = state.web3;
       const networkId = await web3.eth.net.getId();
       setState(state => ({ ...state, chainId, networkId }));
     });
 
     provider.on('networkChanged', async (networkId) => {
-      const { web3 } = state;
+      const web3 = state.web3;
       const chainId = await web3.eth.chainId();
       setState(state => ({ ...state, chainId, networkId }));
     });
@@ -119,9 +119,9 @@ export const WalletContextProvider = ({ children }) => {
       address,
       networkId,
     }));
-  }, [])
+  }, [subscribeProvider, web3Modal])
 
-  useEffect(() => onConnect(), [])
+  useEffect(() => { onConnect() }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return <WalletContext.Provider value={{
     address: state.address,

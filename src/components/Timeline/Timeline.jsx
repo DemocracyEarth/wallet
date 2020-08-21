@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import ApolloClient, { InMemoryCache, gql } from 'apollo-boost';
 import { ApolloProvider, useQuery } from '@apollo/react-hooks';
-import PropTypes from 'prop-types';
 
 import Account from 'components/Account/Account';
 import Post from 'components/Post/Post';
