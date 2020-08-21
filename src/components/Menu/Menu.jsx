@@ -34,3 +34,6 @@ export default Menu = () => {
     );
   }
 }
+
+
+Menu.propTypes = {};

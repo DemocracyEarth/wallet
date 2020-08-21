@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import ApolloClient, { InMemoryCache, gql } from 'apollo-boost';
 import { ApolloProvider, useQuery } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
@@ -22,6 +22,7 @@ import { defaults } from 'lib/const';
 
 import i18n from 'i18n';
 import 'styles/Dapp.css';
+import { WalletContext } from 'contexts/Wallet/WalletContext';
 
 export const GET_PROPOSALS = `
 {
@@ -64,12 +65,15 @@ const _getPercentage = (percentageAmount, remainder) => {
 };
 
 const Feed = (props) => {
+
+  const { address } = useContext(WalletContext);
+
   const { loading, error, data } = useQuery(gql(GET_PROPOSALS));
 
   if (loading) return <Placeholder />;
   if (error) return <p>Error!</p>;
 
-  const accountAddress = props.address;
+  const accountAddress = address;
   const daoName = 'MolochDAO';
   const timestamp = new Date().getTime();
 
@@ -103,7 +107,7 @@ const Feed = (props) => {
           <Poll>
             <Countdown
               now={timestamp}
-              votingPeriodBegins={proposal.votingPeriodStarts} votingPeriodEnds={proposal.votingPeriodEnds} 
+              votingPeriodBegins={proposal.votingPeriodStarts} votingPeriodEnds={proposal.votingPeriodEnds}
               gracePeriodEnds={proposal.gracePeriodEnds} totalVoters={totalVoters}
             />
             <Survey>
@@ -141,19 +145,17 @@ const Feed = (props) => {
   });
 };
 
-const Timeline = (props) => {
+const Timeline = () => {
   return (
     <ApolloProvider client={client}>
-      <Feed address={props.address} />
+      <Feed />
     </ApolloProvider>
   );
 };
 
 
-Timeline.propTypes = {
-  address: PropTypes.string,
-};
+Timeline.propTypes = {};
 
-Feed.propTypes = Timeline.propTypes;
+Feed.propTypes = {};
 
 export default Timeline;

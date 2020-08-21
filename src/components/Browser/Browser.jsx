@@ -72,3 +72,5 @@ export default Browser = () => {
     </div>
   );
 }
+
+Browser.propTypes = {};
