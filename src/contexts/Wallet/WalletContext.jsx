@@ -117,7 +117,7 @@ export const WalletContextProvider = ({ children }) => {
     }));
   }, [])
 
-  useEffect(() => onConnect, [])
+  useEffect(() => onConnect(), [])
 
   return <WalletContext.Provider value={{
     address: state.address,
