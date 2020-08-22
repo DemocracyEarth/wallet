@@ -7,8 +7,11 @@ import 'styles/Dapp.css';
 const _getScrollTop = () => {
   const ledgerHeight = document.getElementById('ledger').offsetHeight;
   const windowHeight = window.innerHeight;
-  document.getElementById('alternative-feed').style.minHeight = `${document.getElementById('proposals').getBoundingClientRect().height}px`;
-  return parseInt(windowHeight - ledgerHeight - 40, 10);
+  if (ledgerHeight > windowHeight) {
+    document.getElementById('alternative-feed').style.minHeight = `${document.getElementById('proposals').getBoundingClientRect().height}px`;
+    return parseInt(windowHeight - ledgerHeight - 40, 10);
+  }
+  return 0;
 };
 
 /**

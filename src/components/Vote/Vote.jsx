@@ -42,8 +42,8 @@ const GET_VOTES = gql`
 `;
 
 const GET_VOTES_FROM_ADDRESS = gql`
-  query memberProposals($publicAddress: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-    votes(first: $first, skip: $skip, where: { memberAddress: $publicAddress } orderBy:$orderBy, orderDirection:$orderDirection) {
+  query memberProposals($address: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    votes(first: $first, skip: $skip, where: { memberAddress: $address } orderBy:$orderBy, orderDirection:$orderDirection) {
       ${VOTE_DATA}
     }
   }
@@ -67,10 +67,10 @@ const composeQuery = (address) => {
 * @param {string} decimal numbers this token takes
 */
 const VoteQuery = (props) => {
-  const { first, skip, orderBy, orderDirection } = props;
+  const { address, first, skip, orderBy, orderDirection } = props;
   console.log(`orderDirection: ${orderDirection}`);
   
-  const { loading, error, data } = useQuery(composeQuery(props.address), { variables: { publicAddress: props.address, first, skip, orderBy, orderDirection } });
+  const { loading, error, data } = useQuery(composeQuery(props.address), { variables: { address, first, skip, orderBy, orderDirection } });
 
   if (loading) {
     return (
