@@ -19,7 +19,7 @@ import Social from 'components/Social/Social';
 
 import { config } from 'config'
 import { defaults } from 'lib/const';
-import { uniqBy, orderBy } from 'lodash';
+import { uniqBy, orderBy as _orderBy } from 'lodash';
 
 import i18n from 'i18n';
 import 'styles/Dapp.css';
@@ -52,26 +52,26 @@ const PROPOSAL_DATA = `
 `
 
 const GET_PROPOSALS = gql`
-{
-  proposals(first: 15, orderBy:createdAt, orderDirection:desc) {
-    ${PROPOSAL_DATA}
+  query addressProposals($first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(first: $first, skip: $skip, orderBy:$orderBy, orderDirection:$orderDirection) {
+      ${PROPOSAL_DATA}
+    }
   }
-}
 `;
 
 const GET_PROPOSALS_WITH_MEMBER = gql`
-query memberProposals($publicAddress: Bytes) {
- asProposer: proposals(where: { memberAddress: $publicAddress }) {
-	...proposalFields
-	}
- asApplicant: proposals(where: { applicant: $publicAddress }) {
-	...proposalFields
-	}  
-}
-  
-fragment proposalFields on Proposal {
-	${PROPOSAL_DATA}
-}
+  query memberProposals($address: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    asProposer: proposals(first: $first, skip: $skip, where: { memberAddress: $address }, orderBy:$orderBy, orderDirection:$orderDirection) {
+      ...proposalFields
+      }
+    asApplicant: proposals(first: $first, skip: $skip, where: { applicant: $address }, orderBy:$orderBy, orderDirection:$orderDirection) {
+      ...proposalFields
+    }  
+  }
+    
+  fragment proposalFields on Proposal {
+    ${PROPOSAL_DATA}
+  }
 `;
 
 const composeQuery = (address) => {
@@ -91,7 +91,11 @@ const _getPercentage = (percentageAmount, remainder) => {
 };
 
 const Feed = (props) => {
-  const { loading, error, data } = useQuery(composeQuery(props.address), { variables: { publicAddress: props.address } });
+  const { address, first, skip, orderBy, orderDirection } = props;
+  const { loading, error, data } = useQuery(composeQuery(props.address), { variables: { address, first, skip, orderBy, orderDirection } });
+
+  console.log(`props.first: ${props.first}`);
+  console.log(`props.skip: ${props.skip}`);
 
   if (loading) return <Placeholder />;
   if (error) return <p>Error!</p>;
@@ -103,7 +107,7 @@ const Feed = (props) => {
   console.log(data);
 
   if (data.asProposer || data.asApplicant) {
-    data.proposals = orderBy(uniqBy(data.asProposer.concat(data.asApplicant), 'id'), 'createdAt', 'desc');
+    data.proposals = _orderBy(uniqBy(data.asProposer.concat(data.asApplicant), 'id'), 'createdAt', 'desc');
   }
 
   return data.proposals.map((proposal) => {
@@ -177,7 +181,7 @@ const Feed = (props) => {
 const Timeline = (props) => {
   return (
     <ApolloProvider client={client}>
-      <Feed address={props.address} />
+      <Feed address={props.address} first={props.first} skip={props.skip} />
     </ApolloProvider>
   );
 };
@@ -185,6 +189,10 @@ const Timeline = (props) => {
 
 Timeline.propTypes = {
   address: PropTypes.string,
+  first: PropTypes.number,
+  skip: PropTypes.number,
+  orderBy: PropTypes.string,
+  orderDirection: PropTypes.string,
 };
 
 Feed.propTypes = Timeline.propTypes;

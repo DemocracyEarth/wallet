@@ -51,7 +51,7 @@ export default class Ledger extends Component {
           <div className="ledger-title">
             <h4>{i18n.t('recent-activity')}</h4>
           </div>
-          <Vote address={this.props.address} />
+          <Vote address={this.props.address} first={5} skip={0} orderBy={'createdAt'} orderDirection={'desc'} />
           <div className="ledger-footer" />
         </div>
       </div>

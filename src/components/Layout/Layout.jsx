@@ -14,6 +14,8 @@ import 'styles/Dapp.css';
 const Layout = (props) => {
   const { dao, address } = useParams();
 
+  console.log(useParams());
+
   let renderAddress = props.address;
   if (dao) { renderAddress = dao; }
   if (address) { renderAddress = address; }
@@ -28,7 +30,7 @@ const Layout = (props) => {
           <div id="main-feed" className="split split-left split-landing">
             <div id="proposals" className="content content-feed max100">
               <div id="non-editable-feed">
-                <Timeline address={renderAddress} />
+                <Timeline address={renderAddress} first={3} skip={0} orderBy={'createdAt'} orderDirection={'desc'}  />
               </div>
             </div>
           </div>

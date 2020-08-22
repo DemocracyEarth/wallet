@@ -34,16 +34,16 @@ const VOTE_DATA = `
 `
 
 const GET_VOTES = gql`
-  {
-    votes(first: 15, orderBy:createdAt, orderDirection:desc) {
+  query addressVotes($first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    votes(first: $first, skip: $skip, orderBy:$orderBy, orderDirection:$orderDirection) {
       ${VOTE_DATA}
     }
   }
 `;
 
 const GET_VOTES_FROM_ADDRESS = gql`
-  query memberProposals($publicAddress: Bytes) {
-    votes(where: { memberAddress: $publicAddress } orderBy:createdAt, orderDirection:desc) {
+  query memberProposals($publicAddress: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    votes(first: $first, skip: $skip, where: { memberAddress: $publicAddress } orderBy:$orderBy, orderDirection:$orderDirection) {
       ${VOTE_DATA}
     }
   }
@@ -67,7 +67,10 @@ const composeQuery = (address) => {
 * @param {string} decimal numbers this token takes
 */
 const VoteQuery = (props) => {
-  const { loading, error, data } = useQuery(composeQuery(props.address), { variables: { publicAddress: props.address } });
+  const { first, skip, orderBy, orderDirection } = props;
+  console.log(`orderDirection: ${orderDirection}`);
+  
+  const { loading, error, data } = useQuery(composeQuery(props.address), { variables: { publicAddress: props.address, first, skip, orderBy, orderDirection } });
 
   if (loading) {
     return (
@@ -93,7 +96,11 @@ const VoteQuery = (props) => {
 };
 
 VoteQuery.propTypes = {
-  addresss: PropTypes.string,
+  address: PropTypes.string,
+  first: PropTypes.number,
+  skip: PropTypes.number,
+  orderBy: PropTypes.string,
+  orderDirection: PropTypes.string,
 };
 
 
@@ -103,7 +110,7 @@ VoteQuery.propTypes = {
 const Vote = (props) => {
   return (
     <ApolloProvider client={client}>
-      <VoteQuery address={props.address} />
+      <VoteQuery address={props.address} first={props.first} skip={props.skip} orderBy={props.orderBy} orderDirection={props.orderDirection} />
     </ApolloProvider>
   );
 };
