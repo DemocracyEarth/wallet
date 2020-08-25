@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { defaults } from 'lib/const';
+import { withRouter } from 'react-router-dom';
 
 import Search from 'components/Search/Search';
 import Account from 'components/Account/Account';
@@ -18,7 +19,7 @@ let lastScrollTop = 0;
 /**
 * @summary displays the contents of a poll
 */
-export default class Browser extends Component {
+class Browser extends Component {
   constructor(props) {
     super(props);
 
@@ -28,6 +29,10 @@ export default class Browser extends Component {
     };
 
     this.handleScroll = this.handleScroll.bind(this);
+
+    console.log(`Params on Browser:`);
+    console.log(this.props.match);
+    // console.log(useParams());
   }
 
   async componentDidMount() {
@@ -97,3 +102,5 @@ Browser.propTypes = {
   walletConnect: PropTypes.func,
   walletReset: PropTypes.func,
 };
+
+export default withRouter(Browser);

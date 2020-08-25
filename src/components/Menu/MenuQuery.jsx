@@ -173,9 +173,6 @@ const MenuQuery = ({ address, scrollUp, view }) => {
   const defaultMenu = _getMenu(view, data, address);
   const sorted = sortBy(data.members, (item) => { return (item.submissions.length * -1); });
 
-  console.log(`MenuQuery:`);
-  console.log(data);
-
   const daoList = sorted.map((item, key) => {
     return (
       <Item key={key} href={`/dao/${item.moloch.id}`} score={item.submissions.length}>

@@ -76,6 +76,9 @@ const routes = [
   {
     path: '/address/:address',
   },
+  {
+    path: '/address/:address/period/:period'
+  }
 ];
 
 /**
@@ -157,14 +160,18 @@ export default class Dapp extends Component {
   render() {
     return (
       <Router>
-        <Browser address={this.state.address} walletConnect={this.onConnect} walletReset={this.reset} />
         <Switch>
           {routes.map((route, index) => (
             <Route
               key={index}
               path={route.path}
               exact={route.exact}
-              children={<Layout address={this.state.address} walletConnect={this.onConnect} walletReset={this.reset} />}
+              children={
+                <div>
+                  <Browser address={this.state.address} walletConnect={this.onConnect} walletReset={this.reset} />
+                  <Layout address={this.state.address} />
+                </div>
+              }
             />
           ))}
         </Switch>
