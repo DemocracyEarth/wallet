@@ -2,6 +2,7 @@ import React from 'react';
 
 import { shortenCryptoName } from 'utils/strings';
 import { WithContext as ReactTags } from 'react-tag-input';
+import PropTypes from 'prop-types';
 
 import { findLast } from 'lodash';
 
@@ -58,6 +59,10 @@ const _replacementText = (tag) => {
 };
 
 export default class Search extends React.Component {
+  static propTypes = {
+    contextTag: PropTypes.object,
+  }
+
   constructor(props) {
     super(props);
 
@@ -69,6 +74,9 @@ export default class Search extends React.Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handleAddition = this.handleAddition.bind(this);
     this.handleDrag = this.handleDrag.bind(this);
+
+    console.log(`contextTag`);
+    console.log(props.contextTag);
   }
 
   handleDelete(i) {
@@ -110,7 +118,7 @@ export default class Search extends React.Component {
     return (
       <div className="search-wrapper-logged">
         <ReactTags
-          tags={tags}
+          tags={[this.props.contextTag]}
           suggestions={suggestions}
           handleDelete={this.handleDelete}
           handleAddition={this.handleAddition}

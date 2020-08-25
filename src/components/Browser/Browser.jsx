@@ -29,10 +29,6 @@ class Browser extends Component {
     };
 
     this.handleScroll = this.handleScroll.bind(this);
-
-    console.log(`Params on Browser:`);
-    console.log(this.props.match);
-    // console.log(useParams());
   }
 
   async componentDidMount() {
@@ -65,6 +61,31 @@ class Browser extends Component {
     return (this.props.address !== defaults.EMPTY);
   }
 
+  getTag() {
+
+    console.log(`Params on Browser:`);
+    console.log(this.props.match.params);
+
+    if (this.props.match.params.address) {
+      return {
+        id: this.props.match.url,
+        text: i18n.t('search-user', { searchTerm: this.props.match.params.address })
+      }
+    } else if (this.props.match.params.dao) {
+      return {
+        id: this.props.match.url,
+        text: i18n.t('search-dao', { searchTerm: this.props.match.params.dao })
+      }
+    } else if (this.props.match.params.proposal) {
+      return {
+        id: this.props.match.url,
+        text: i18n.t('search-dao', { searchTerm: this.props.match.params.proposal })
+      }
+    }
+
+    return null;
+  }
+
   render() {
     return (
       <div id="browser" className={this.getScrollClass()}>
@@ -90,7 +111,7 @@ class Browser extends Component {
               </div>
             </div>
           }
-          <Search />
+          <Search contextTag={this.getTag()} />
         </div>
       </div>
     );
