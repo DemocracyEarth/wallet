@@ -67,9 +67,7 @@ const composeQuery = (address) => {
 * @param {string} decimal numbers this token takes
 */
 const VoteQuery = (props) => {
-  const { address, first, skip, orderBy, orderDirection } = props;
-  console.log(`orderDirection: ${orderDirection}`);
-  
+  const { address, first, skip, orderBy, orderDirection } = props;  
   const { loading, error, data } = useQuery(composeQuery(props.address), { variables: { address, first, skip, orderBy, orderDirection } });
 
   if (loading) {

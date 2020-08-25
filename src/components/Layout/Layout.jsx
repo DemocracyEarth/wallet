@@ -30,7 +30,7 @@ const Layout = (props) => {
           <div id="main-feed" className="split split-left split-landing">
             <div id="proposals" className="content content-feed max100">
               <div id="non-editable-feed">
-                <Timeline address={renderAddress} first={3} skip={0} orderBy={'createdAt'} orderDirection={'desc'}  />
+                <Timeline address={renderAddress} field={'memberAddress'} first={10} skip={0} orderBy={'createdAt'} orderDirection={'desc'}  />
               </div>
             </div>
           </div>

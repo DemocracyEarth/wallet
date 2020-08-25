@@ -15,24 +15,16 @@ const client = new ApolloClient({
 /**
 * @summary renders a post in the timeline
 */
-export default class Menu extends Component {
-  getContext() {
-    const current = '/' // TODO: User router Router.current().url.replace(window.location.origin, '');
-    if (current === '/') {
-      return this.props.address;
-    }
-    return null // TODO: Router.current().params.account;
-  }
-
-  render() {
-    return (
-      <ApolloProvider client={client}>
-        <MenuQuery address={this.getContext()} />
-      </ApolloProvider>
-    );
-  }
-}
+const Menu = (props) => {
+  return (
+    <ApolloProvider client={client}>
+      <MenuQuery address={props.address} />
+    </ApolloProvider>
+  );
+};
 
 Menu.propTypes = {
   address: PropTypes.string,
 };
+
+export default Menu;

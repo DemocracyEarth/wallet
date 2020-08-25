@@ -59,6 +59,23 @@ const GET_PROPOSALS = gql`
   }
 `;
 
+const GET_PROPOSALS_MEMBER = gql`
+  query addressProposals($address: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { memberAddress: $address }, first: $first, skip: $skip, orderBy:$orderBy, orderDirection:$orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`;
+
+const GET_PROPOSALS_APPLICANT = gql`
+  query addressProposals($address: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { applicant: $address }, first: $first, skip: $skip, orderBy:$orderBy, orderDirection:$orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`;
+
+/*
 const GET_PROPOSALS_WITH_MEMBER = gql`
   query memberProposals($address: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
     asProposer: proposals(first: $first, skip: $skip, where: { memberAddress: $address }, orderBy:$orderBy, orderDirection:$orderDirection) {
@@ -73,12 +90,19 @@ const GET_PROPOSALS_WITH_MEMBER = gql`
     ${PROPOSAL_DATA}
   }
 `;
+*/
 
-const composeQuery = (address) => {
-  if (address === defaults.EMPTY) {
-    return GET_PROPOSALS;
+const composeQuery = (field) => {
+  console.log(`field: ${field}`);
+
+  switch(field) {
+    case 'applicant':
+      return GET_PROPOSALS_APPLICANT;
+    case 'memberAddress':
+      return GET_PROPOSALS_MEMBER;
+    default:
+      return GET_PROPOSALS;
   }
-  return GET_PROPOSALS_WITH_MEMBER;
 }
 
 const client = new ApolloClient({
@@ -92,7 +116,7 @@ const _getPercentage = (percentageAmount, remainder) => {
 
 const Feed = (props) => {
   const { address, first, skip, orderBy, orderDirection } = props;
-  const { loading, error, data } = useQuery(composeQuery(props.address), { variables: { address, first, skip, orderBy, orderDirection } });
+  const { loading, error, data } = useQuery(composeQuery(props.field), { variables: { address, first, skip, orderBy, orderDirection } });
 
   console.log(`props.first: ${props.first}`);
   console.log(`props.skip: ${props.skip}`);
@@ -181,13 +205,14 @@ const Feed = (props) => {
 const Timeline = (props) => {
   return (
     <ApolloProvider client={client}>
-      <Feed address={props.address} first={props.first} skip={props.skip} />
+      <Feed address={props.address} field={props.field} first={props.first} skip={props.skip} orderBy={props.orderBy} orderDirection={props.orderDirection} />
     </ApolloProvider>
   );
 };
 
 
 Timeline.propTypes = {
+  field: PropTypes.string,
   address: PropTypes.string,
   first: PropTypes.number,
   skip: PropTypes.number,
