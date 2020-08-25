@@ -75,23 +75,6 @@ const GET_PROPOSALS_APPLICANT = gql`
   }
 `;
 
-/*
-const GET_PROPOSALS_WITH_MEMBER = gql`
-  query memberProposals($address: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-    asProposer: proposals(first: $first, skip: $skip, where: { memberAddress: $address }, orderBy:$orderBy, orderDirection:$orderDirection) {
-      ...proposalFields
-      }
-    asApplicant: proposals(first: $first, skip: $skip, where: { applicant: $address }, orderBy:$orderBy, orderDirection:$orderDirection) {
-      ...proposalFields
-    }  
-  }
-    
-  fragment proposalFields on Proposal {
-    ${PROPOSAL_DATA}
-  }
-`;
-*/
-
 const composeQuery = (field) => {
   console.log(`field: ${field}`);
 

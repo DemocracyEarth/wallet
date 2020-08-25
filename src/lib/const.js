@@ -80,6 +80,13 @@ const _defaults = {
   EMPTY: '0x0',
 };
 
+const _view = {
+  HOME: 'home',
+  DAO: 'dao',
+  ADDRESS: 'address',
+  PERIOD: 'period'
+}
+
 const _replicaThreshold = {
   VERY: 0.66,
   LIKELY: 0.33,
@@ -89,6 +96,7 @@ const _replicaThreshold = {
 };
 
 export const $LANGUAGE = 'en';
+export const view = _view;
 export const rules = _rules;
 export const defaultSettings = _defaultSettings;
 export const defaults = _defaults;

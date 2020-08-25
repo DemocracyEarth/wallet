@@ -18,13 +18,14 @@ const client = new ApolloClient({
 const Menu = (props) => {
   return (
     <ApolloProvider client={client}>
-      <MenuQuery address={props.address} />
+      <MenuQuery address={props.address} view={props.view} />
     </ApolloProvider>
   );
 };
 
 Menu.propTypes = {
   address: PropTypes.string,
+  view: PropTypes.string,
 };
 
 export default Menu;
