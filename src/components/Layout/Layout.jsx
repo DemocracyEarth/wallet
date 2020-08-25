@@ -49,6 +49,8 @@ const Layout = (props) => {
 
 Layout.propTypes = {
   addresss: PropTypes.string,
+  walletConnect: PropTypes.func,
+  walletReset: PropTypes.func,
 };
 
 export default Layout;

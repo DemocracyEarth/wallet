@@ -6515,7 +6515,7 @@ blockquote {
   position: fixed;
   top: 0px;
   bottom: 0px;
-  z-index: 12500;
+  z-index: 1;
   overflow: hidden;
   width: 250px;
   float: left;

@@ -164,7 +164,7 @@ export default class Dapp extends Component {
               key={index}
               path={route.path}
               exact={route.exact}
-              children={<Layout address={this.state.address} />}
+              children={<Layout address={this.state.address} walletConnect={this.onConnect} walletReset={this.reset} />}
             />
           ))}
         </Switch>
