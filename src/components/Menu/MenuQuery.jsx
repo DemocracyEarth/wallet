@@ -140,12 +140,13 @@ const _getProposalCount = (list, label) => {
 
 /**
 * @summary displays corresponding separator headline
-* @param {string} headline from TAPi18n dictionary
+* @param {string} headline from i18n dictionary
 * @param {string} address to parse in title
 * @param {string} view context of router
 * @return {string} with headline for separator
 */
 const _getHeadline = (headline, address, view) => {
+  console.log(`_getHeadline view: ${view}`);
   if (view === routerView.HOME) {
     return i18n.t(`${headline}-sidebar`);
   }
@@ -156,6 +157,7 @@ const _getHeadline = (headline, address, view) => {
 * @summary renders the menu based on a graph ql query ad hoc for the user
 */
 const MenuQuery = ({ address, scrollUp, view }) => {
+  console.log(`menuquery view: ${view}`);
   const { loading, error, data } = useQuery(GET_MEMBERSHIPS, { variables: { address } });
 
   if (loading) {
@@ -164,7 +166,7 @@ const MenuQuery = ({ address, scrollUp, view }) => {
         <div id="sidebar" className={_getScrollClass(scrollUp)}>
           <div className="menu">
             <div className="separator">
-              {_getHeadline('proposals', address)}
+              {_getHeadline('proposals', address, view)}
             </div>
             {<div className="option-placeholder identity-placeholder" />}
           </div>
@@ -251,6 +253,7 @@ export default class Sidebar extends Component {
   }
 
   render() {
+    console.log(`this.props.view: ${this.props.view}`)
     if (this.props.address !== defaults.EMPTY) {
       return <MenuQuery address={this.props.address} scrollUp={this.state.scrollUp} />;
     }
@@ -260,7 +263,7 @@ export default class Sidebar extends Component {
       <div id="sidebar" className={_getScrollClass(this.state.scrollUp)}>
         <div className="menu">
           <div className="separator">
-            {_getHeadline('proposals', this.props.address)}
+            {_getHeadline('proposals', this.props.address, this.props.view)}
           </div>
           {defaultMenu}
         </div>
@@ -271,4 +274,5 @@ export default class Sidebar extends Component {
 
 Sidebar.propTypes = {
   address: PropTypes.string,
+  view: PropTypes.string,
 };

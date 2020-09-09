@@ -106,10 +106,7 @@ const _getPercentage = (percentageAmount, remainder) => {
 
 const Feed = (props) => {
   const { address, first, skip, orderBy, orderDirection } = props;
-  const { loading, error, data } = useQuery(composeQuery(props.field), { variables: { address, first, skip, orderBy, orderDirection } });
-
-  console.log(`props.first: ${props.first}`);
-  console.log(`props.skip: ${props.skip}`);
+  const { loading, error, data } = useQuery(composeQuery(props.view, props.field), { variables: { address, first, skip, orderBy, orderDirection } });
 
   if (loading) return <Placeholder />;
   if (error) return <p>Error!</p>;
@@ -193,9 +190,10 @@ const Feed = (props) => {
 };
 
 const Timeline = (props) => {
+  console.log(`props.view: ${props.view}`);
   return (
     <ApolloProvider client={client}>
-      <Feed address={props.address} field={props.field} first={props.first} skip={props.skip} orderBy={props.orderBy} orderDirection={props.orderDirection} />
+      <Feed address={props.address} view={props.view} field={props.field} first={props.first} skip={props.skip} orderBy={props.orderBy} orderDirection={props.orderDirection} />
     </ApolloProvider>
   );
 };

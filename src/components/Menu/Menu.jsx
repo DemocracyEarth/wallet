@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
 
-import MenuQuery from 'components/Menu/MenuQuery.jsx';
+import Sidebar from 'components/Menu/MenuQuery';
 import { config } from 'config'
 
 const client = new ApolloClient({
@@ -18,7 +18,7 @@ const client = new ApolloClient({
 const Menu = (props) => {
   return (
     <ApolloProvider client={client}>
-      <MenuQuery address={props.address} view={props.view} />
+      <Sidebar address={props.address} view={props.view} />
     </ApolloProvider>
   );
 };

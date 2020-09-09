@@ -18,15 +18,25 @@ const Layout = (props) => {
 
   console.log(useParams());
 
+  // defaults
   let view = routerView.HOME;
   let renderAddress = props.address;
 
   console.log(`renderAddress: ${renderAddress}`);
 
-  if (dao) { renderAddress = dao; view = routerView.DAO; }
-  if (address) { renderAddress = address; view = routerView.ADDRESS; }
-  if (period) { view = routerView.PERIOD; }
+  // context specific
+  if (dao) {
+    renderAddress = dao; 
+    view = routerView.DAO; 
+  } else if (address) { 
+    renderAddress = address; 
+    view = routerView.ADDRESS; 
+  } else if (period) { 
+    view = routerView.PERIOD; 
+  }
 
+  console.log(`view: ${view}`);
+  
   return (
     <div>
       <div id="app" className="app">
@@ -37,7 +47,7 @@ const Layout = (props) => {
           <div id="main-feed" className="split split-left split-landing">
             <div id="proposals" className="content content-feed max100">
               <div id="non-editable-feed">
-                <Timeline address={renderAddress} field={'memberAddress'} first={10} skip={0} orderBy={'createdAt'} orderDirection={'desc'}  />
+                <Timeline address={renderAddress} view={view} field={'memberAddress'} first={10} skip={0} orderBy={'createdAt'} orderDirection={'desc'}  />
               </div>
             </div>
           </div>
