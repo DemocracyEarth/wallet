@@ -36,7 +36,7 @@ const Layout = (props) => {
   }
 
   console.log(`view: ${view}`);
-  
+
   return (
     <div>
       <div id="app" className="app">
@@ -52,7 +52,7 @@ const Layout = (props) => {
             </div>
           </div>
           <div id="alternative-feed" className="split split-right split-landing">
-            <Ledger address={renderAddress} />
+            <Ledger address={renderAddress} view={view} />
           </div>
         </div>
       </div>

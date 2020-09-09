@@ -9,7 +9,8 @@ import DAO from 'components/DAO/DAO';
 import Stamp from 'components/Stamp/Stamp';
 import Transaction from 'components/Transaction/Transaction';
 
-import { defaults } from 'lib/const';
+import { view as routerView } from 'lib/const';
+
 import { config } from 'config'
 import 'styles/Dapp.css';
 
@@ -49,9 +50,13 @@ const GET_VOTES_FROM_ADDRESS = gql`
   }
 `;
 
-const composeQuery = (address) => {
-  if (address === defaults.EMPTY) {
-    return GET_VOTES;
+/**
+ * @summary retrieves the corresponding query for the timeline.
+ * @param {string} view based on router context
+ */
+const composeQuery = (view) => {
+  if (view === routerView.HOME) {
+    return GET_VOTES
   }
   return GET_VOTES_FROM_ADDRESS;
 }
@@ -68,7 +73,7 @@ const composeQuery = (address) => {
 */
 const VoteQuery = (props) => {
   const { address, first, skip, orderBy, orderDirection } = props;  
-  const { loading, error, data } = useQuery(composeQuery(props.address), { variables: { address, first, skip, orderBy, orderDirection } });
+  const { loading, error, data } = useQuery(composeQuery(props.view), { variables: { address, first, skip, orderBy, orderDirection } });
 
   if (loading) {
     return (
@@ -99,6 +104,7 @@ VoteQuery.propTypes = {
   skip: PropTypes.number,
   orderBy: PropTypes.string,
   orderDirection: PropTypes.string,
+  view: PropTypes.string,
 };
 
 
@@ -108,7 +114,7 @@ VoteQuery.propTypes = {
 const Vote = (props) => {
   return (
     <ApolloProvider client={client}>
-      <VoteQuery address={props.address} first={props.first} skip={props.skip} orderBy={props.orderBy} orderDirection={props.orderDirection} />
+      <VoteQuery address={props.address} view={props.view} first={props.first} skip={props.skip} orderBy={props.orderBy} orderDirection={props.orderDirection} />
     </ApolloProvider>
   );
 };

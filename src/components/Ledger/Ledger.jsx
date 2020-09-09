@@ -20,6 +20,7 @@ const _getScrollTop = () => {
 export default class Ledger extends Component {
   static propTypes = {
     address: PropTypes.string,
+    view: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
@@ -54,7 +55,7 @@ export default class Ledger extends Component {
           <div className="ledger-title">
             <h4>{i18n.t('recent-activity')}</h4>
           </div>
-          <Vote address={this.props.address} first={5} skip={0} orderBy={'createdAt'} orderDirection={'desc'} />
+          <Vote address={this.props.address} view={this.props.view} first={5} skip={0} orderBy={'createdAt'} orderDirection={'desc'} />
           <div className="ledger-footer" />
         </div>
       </div>

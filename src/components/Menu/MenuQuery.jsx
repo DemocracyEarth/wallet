@@ -146,7 +146,6 @@ const _getProposalCount = (list, label) => {
 * @return {string} with headline for separator
 */
 const _getHeadline = (headline, address, view) => {
-  console.log(`_getHeadline view: ${view}`);
   if (view === routerView.HOME) {
     return i18n.t(`${headline}-sidebar`);
   }
@@ -253,8 +252,7 @@ export default class Sidebar extends Component {
   }
 
   render() {
-    console.log(`this.props.view: ${this.props.view}`)
-    if (this.props.address !== defaults.EMPTY) {
+    if (this.props.view !== routerView.HOME) {
       return <MenuQuery address={this.props.address} scrollUp={this.state.scrollUp} />;
     }
 
