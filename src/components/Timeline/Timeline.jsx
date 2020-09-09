@@ -18,7 +18,7 @@ import Survey from 'components/Poll/Survey';
 import Social from 'components/Social/Social';
 
 import { config } from 'config'
-import { defaults } from 'lib/const';
+import { defaults, view as routerView } from 'lib/const';
 import { uniqBy, orderBy as _orderBy } from 'lodash';
 
 import i18n from 'i18n';
@@ -75,8 +75,15 @@ const GET_PROPOSALS_APPLICANT = gql`
   }
 `;
 
-const composeQuery = (field) => {
-  console.log(`field: ${field}`);
+/**
+ * @summary retrieves the corresponding query for the timeline.
+ * @param {string} view based on router context
+ * @param {string} field if required for a specific query
+ */
+const composeQuery = (view, field) => {
+  if (view === routerView.HOME) {
+    return GET_PROPOSALS
+  }
 
   switch(field) {
     case 'applicant':
@@ -201,6 +208,7 @@ Timeline.propTypes = {
   skip: PropTypes.number,
   orderBy: PropTypes.string,
   orderDirection: PropTypes.string,
+  view: PropTypes.string,
 };
 
 Feed.propTypes = Timeline.propTypes;

@@ -116,7 +116,7 @@ export default class Search extends React.Component {
     return (
       <div className="search-wrapper-logged">
         <ReactTags
-          tags={[this.props.contextTag]}
+          tags={tags}
           suggestions={suggestions}
           handleDelete={this.handleDelete}
           handleAddition={this.handleAddition}

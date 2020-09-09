@@ -20,6 +20,9 @@ const Layout = (props) => {
 
   let view = routerView.HOME;
   let renderAddress = props.address;
+
+  console.log(`renderAddress: ${renderAddress}`);
+
   if (dao) { renderAddress = dao; view = routerView.DAO; }
   if (address) { renderAddress = address; view = routerView.ADDRESS; }
   if (period) { view = routerView.PERIOD; }

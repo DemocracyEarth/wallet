@@ -42,7 +42,6 @@ const ENS_ACCOUNT = gql`
 */
 const getENSName = (data, publicAddress) => {
   if (data.domains.length > 0) {
-    // return (data.domains[0].name.length > gui.MAX_LENGTH_ACCOUNT_NAMES) ? `${data.domains[0].name.slice(0, gui.MAX_LENGTH_ACCOUNT_NAMES)}...` : data.domains[0].name;
     return data.domains[0].name;
   }
   return shortenCryptoName(publicAddress);
@@ -62,6 +61,7 @@ const AccountQuery = ({ publicAddress, width, height, format, hidden }) => {
 
   if (publicAddress !== '0x0000000000000000000000000000000000000000') {
     if (loading) {
+      if (format === 'searchBar') return null;
       return (
         <div className="identity">
           <div className="avatar-editor">

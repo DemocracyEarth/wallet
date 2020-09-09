@@ -61,6 +61,10 @@ const defaultLabels = ['all', 'in-queue', 'voting-now', 'grace-period', 'ready-t
 const _getMenu = (view, data, address) => {
   const atHome = (view === routerView.HOME);
   const hideEmpty = !atHome
+
+  console.log(`view: ${view}`);
+  console.log(`atHome: ${atHome}`);
+
   return (
     <div>
       <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[0])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[0])} key={0} href={(atHome) ? `/` : `/address/${address}`} />
@@ -251,9 +255,7 @@ export default class Sidebar extends Component {
       return <MenuQuery address={this.props.address} scrollUp={this.state.scrollUp} />;
     }
 
-    const atHome = true; // TODO:  (Router.current().url.replace(window.location.origin, '') === '/');
-    const defaultMenu = _getMenu(atHome);
-
+    const defaultMenu = _getMenu(routerView.HOME);
     return (
       <div id="sidebar" className={_getScrollClass(this.state.scrollUp)}>
         <div className="menu">

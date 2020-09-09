@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 
 import Search from 'components/Search/Search';
 import Account from 'components/Account/Account';
+import DAO from 'components/DAO/DAO';
 
 import close from 'images/close.svg';
 import logo from 'images/logo.png';
@@ -62,29 +63,15 @@ class Browser extends Component {
   }
 
   renderTitle() {
-
-    console.log(`Params on Browser:`);
-    console.log(this.props.match.params);
-
     if (this.props.match.params.address) {
       return <Account publicAddress={this.props.match.params.address} format="searchBar" />
-      /* return {
-        id: this.props.match.url,
-        text: i18n.t('search-user', { searchTerm: this.props.match.params.address }),
-        value: this.props.match.params.address,
-        type: 'ACCOUNT'
-      } */
     }
     
     if (this.props.match.params.dao) {
-      return {
-        id: this.props.match.url,
-        text: i18n.t('search-dao', { searchTerm: this.props.match.params.dao }),
-        value: this.props.match.params.dao,
-        type: 'DAO'
-      }
+      return <DAO publicAddress={this.props.match.params.dao} format="searchBar" />
     }
     
+    /*
     if (this.props.match.params.proposal) {
       return {
         id: this.props.match.url,
@@ -93,6 +80,7 @@ class Browser extends Component {
         type: 'SEARCH'
       }
     }
+    */
 
     return <Search />;
   }

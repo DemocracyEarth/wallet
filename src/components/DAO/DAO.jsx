@@ -7,8 +7,9 @@ import { findLast } from 'lodash';
 
 import { gui } from 'lib/const';
 import { shortenCryptoName } from 'utils/strings';
-import { includeInSearch } from 'components/Search/Search';
+import Search, { includeInSearch } from 'components/Search/Search';
 
+import i18n from 'i18n';
 import { config } from 'config'
 import 'styles/Dapp.css';
 
@@ -64,6 +65,9 @@ const DAOQuery = ({ publicAddress, width, height, format }) => {
 
   includeInSearch(url, daoTitle, 'search-collective');
 
+  if ((format === 'searchBar')) {
+    return <Search contextTag={{ id: publicAddress, text: i18n.t('search-dao', { searchTerm: daoTitle }) }} />
+  }
   return (
     <div className="dao">
       {(format === 'plainText') ?
