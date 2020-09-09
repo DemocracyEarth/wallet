@@ -61,29 +61,40 @@ class Browser extends Component {
     return (this.props.address !== defaults.EMPTY);
   }
 
-  getTag() {
+  renderTitle() {
 
     console.log(`Params on Browser:`);
     console.log(this.props.match.params);
 
     if (this.props.match.params.address) {
+      return <Account publicAddress={this.props.match.params.address} format="searchBar" />
+      /* return {
+        id: this.props.match.url,
+        text: i18n.t('search-user', { searchTerm: this.props.match.params.address }),
+        value: this.props.match.params.address,
+        type: 'ACCOUNT'
+      } */
+    }
+    
+    if (this.props.match.params.dao) {
       return {
         id: this.props.match.url,
-        text: i18n.t('search-user', { searchTerm: this.props.match.params.address })
+        text: i18n.t('search-dao', { searchTerm: this.props.match.params.dao }),
+        value: this.props.match.params.dao,
+        type: 'DAO'
       }
-    } else if (this.props.match.params.dao) {
+    }
+    
+    if (this.props.match.params.proposal) {
       return {
         id: this.props.match.url,
-        text: i18n.t('search-dao', { searchTerm: this.props.match.params.dao })
-      }
-    } else if (this.props.match.params.proposal) {
-      return {
-        id: this.props.match.url,
-        text: i18n.t('search-dao', { searchTerm: this.props.match.params.proposal })
+        text: i18n.t('search-dao', { searchTerm: this.props.match.params.proposal }),
+        value: this.props.match.params.proposal,
+        type: 'SEARCH'
       }
     }
 
-    return null;
+    return <Search />;
   }
 
   render() {
@@ -111,7 +122,7 @@ class Browser extends Component {
               </div>
             </div>
           }
-          <Search contextTag={this.getTag()} />
+          {this.renderTitle()}
         </div>
       </div>
     );

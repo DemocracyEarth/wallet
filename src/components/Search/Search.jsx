@@ -113,8 +113,6 @@ export default class Search extends React.Component {
   render() {
     const { tags, suggestions } = this.state;
 
-    // this.setState({ suggestions: suggestList });
-
     return (
       <div className="search-wrapper-logged">
         <ReactTags

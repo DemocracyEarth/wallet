@@ -14,6 +14,7 @@
   --bar-background: #48015f;
   --browser-button-color: #7d8499;
   --menu-sidebar-selected: #580173;
+  --bar-tag: #f3e7f7;
 }
 
 @-webkit-keyframes preloader-content {
@@ -9931,14 +9932,13 @@ blockquote {
 .ReactTags__tag {
   opacity: 1;
   font-size: 0.75em;
-  float: left;
-  max-height:28px;
+  max-height: 28px;
   cursor: move;
-  background: var(--main-menu-color);
-  border-radius: 25px;
-  color: white;
+  background: var(--bar-tag);
+  border-radius: 15px;
+  color: var(--bar-background);
   padding: 0px 10px;
-  margin: 0 15px 0px -13px;
+  margin: 0 15px 0px 0px;
   display: inline-block;
 }
 
@@ -9962,7 +9962,7 @@ blockquote {
 
 .ReactTags__remove {
   margin-left: 5px;
-  color: #c38cd4;
+  color: var(--bar-background);
 }
 
 .ReactTags__remove:hover {
