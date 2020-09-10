@@ -4,9 +4,8 @@ import { useQuery } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
 
 import { shortenCryptoName } from 'utils/strings';
-import { defaults } from 'lib/const';
-import Item from 'components/Item/Item.jsx';
-import DAO from 'components/DAO/DAO.jsx';
+import Item from 'components/Item/Item';
+import DAO from 'components/DAO/DAO';
 
 import { reduce, sortBy } from 'lodash';
 import { view as routerView } from 'lib/const'
@@ -61,9 +60,6 @@ const defaultLabels = ['all', 'in-queue', 'voting-now', 'grace-period', 'ready-t
 const _getMenu = (view, data, address) => {
   const atHome = (view === routerView.HOME);
   const hideEmpty = !atHome
-
-  console.log(`view: ${view}`);
-  console.log(`atHome: ${atHome}`);
 
   return (
     <div>
@@ -156,7 +152,6 @@ const _getHeadline = (headline, address, view) => {
 * @summary renders the menu based on a graph ql query ad hoc for the user
 */
 const MenuQuery = ({ address, scrollUp, view }) => {
-  console.log(`menuquery view: ${view}`);
   const { loading, error, data } = useQuery(GET_MEMBERSHIPS, { variables: { address } });
 
   if (loading) {

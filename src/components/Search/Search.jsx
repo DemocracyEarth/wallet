@@ -44,9 +44,11 @@ const _dynamicTitle = (label) => {
   return label;
 };
 
-const _getTags = () => {
-  const search = ''; // Session.get('search');
-  return search.query;
+const _getTags = (contextTag) => {
+  if (!contextTag) {
+    return [];
+  }
+  return [contextTag];
 };
 
 const _replacementText = (tag) => {
@@ -68,7 +70,7 @@ export default class Search extends React.Component {
 
     this.state = {
       subscription: true, // Router.current().ready(),
-      tags: _getTags(),
+      tags: _getTags(props.contextTag),
       suggestions: suggestList,
     };
     this.handleDelete = this.handleDelete.bind(this);

@@ -16,13 +16,9 @@ import 'styles/Dapp.css';
 const Layout = (props) => {
   const { dao, address, period } = useParams();
 
-  console.log(useParams());
-
   // defaults
   let view = routerView.HOME;
   let renderAddress = props.address;
-
-  console.log(`renderAddress: ${renderAddress}`);
 
   // context specific
   if (dao) {
@@ -47,7 +43,7 @@ const Layout = (props) => {
           <div id="main-feed" className="split split-left split-landing">
             <div id="proposals" className="content content-feed max100">
               <div id="non-editable-feed">
-                <Timeline address={renderAddress} view={view} field={'memberAddress'} first={10} skip={0} orderBy={'createdAt'} orderDirection={'desc'}  />
+                <Timeline address={renderAddress} view={view} field={'memberAddress'} first={25} skip={0} orderBy={'createdAt'} orderDirection={'desc'}  />
               </div>
             </div>
           </div>

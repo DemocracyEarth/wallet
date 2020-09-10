@@ -112,10 +112,7 @@ const Feed = (props) => {
   if (error) return <p>Error!</p>;
 
   const accountAddress = props.address;
-  const daoName = 'MolochDAO';
   const timestamp = new Date().getTime();
-
-  console.log(data);
 
   if (data.asProposer || data.asApplicant) {
     data.proposals = _orderBy(uniqBy(data.asProposer.concat(data.asApplicant), 'id'), 'createdAt', 'desc');
@@ -157,7 +154,7 @@ const Feed = (props) => {
             <Survey>
               <Choice
                 now={timestamp}
-                accountAddress={accountAddress} daoName={daoName} publicAddress={proposal.moloch.id}
+                accountAddress={accountAddress} publicAddress={proposal.moloch.id}
                 proposalIndex={proposal.proposalIndex} label={i18n.t('yes')} percentage={yesPercentage}
                 voteValue={defaults.YES} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
               >
@@ -165,7 +162,7 @@ const Feed = (props) => {
               </Choice>
               <Choice
                 now={timestamp}
-                accountAddress={accountAddress} daoName={daoName} publicAddress={proposal.moloch.id}
+                accountAddress={accountAddress} publicAddress={proposal.moloch.id}
                 proposalIndex={proposal.proposalIndex} label={i18n.t('no')} percentage={noPercentage}
                 voteValue={defaults.NO} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
               >
@@ -190,7 +187,6 @@ const Feed = (props) => {
 };
 
 const Timeline = (props) => {
-  console.log(`props.view: ${props.view}`);
   return (
     <ApolloProvider client={client}>
       <Feed address={props.address} view={props.view} field={props.field} first={props.first} skip={props.skip} orderBy={props.orderBy} orderDirection={props.orderDirection} />
