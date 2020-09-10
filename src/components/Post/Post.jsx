@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import parser from 'html-react-parser';
 import i18n from 'i18n';
 
+import { Link } from 'react-router-dom';
+
 import { wrapURLs } from 'utils/strings';
 import { includeInSearch } from 'components/Search/Search';
 import Account from 'components/Account/Account';
@@ -56,6 +58,11 @@ export default class Post extends Component {
   constructor(props) {
     super(props);
     this.state = _getDescription(this.props.description);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(href) {
+    console.log(href);
   }
 
   render() {
@@ -66,7 +73,7 @@ export default class Post extends Component {
     includeInSearch(this.props.href, searchCache, 'search-contract');
 
     return (
-      <div className="vote vote-search vote-feed nondraggable vote-poll" href={this.props.href}>
+      <div className="vote vote-search vote-feed nondraggable vote-poll" onClick={this.handleClick(this.props.href)}>
         <div className="checkbox checkbox-custom">
           <div className="meta meta-search meta-bar">
             <Account publicAddress={this.props.memberAddress} width="16px" height="16px" />

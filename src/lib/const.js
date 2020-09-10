@@ -87,6 +87,16 @@ const _view = {
   PERIOD: 'period'
 }
 
+const _period = {
+  QUEUE: 'queue',
+  VOTING: 'voting',
+  GRACE: 'grace',
+  READY: 'ready',
+  KICKED: 'kicked',
+  REJECTED: 'rejected',
+  APPROVED: 'approved'
+}
+
 const _replicaThreshold = {
   VERY: 0.66,
   LIKELY: 0.33,
@@ -97,6 +107,7 @@ const _replicaThreshold = {
 
 export const $LANGUAGE = 'en';
 export const view = _view;
+export const period = _period;
 export const rules = _rules;
 export const defaultSettings = _defaultSettings;
 export const defaults = _defaults;

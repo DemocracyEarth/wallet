@@ -18,7 +18,7 @@ import Survey from 'components/Poll/Survey';
 import Social from 'components/Social/Social';
 
 import { config } from 'config'
-import { defaults, view as routerView } from 'lib/const';
+import { defaults, view as routerView, period as routerPeriod } from 'lib/const';
 import { uniqBy, orderBy as _orderBy } from 'lodash';
 
 import i18n from 'i18n';
@@ -83,18 +83,63 @@ const GET_PROPOSALS_DAO = gql`
   }
 `;
 
+const GET_PROPOSALS_PERIOD_QUEUE = gql`
+  query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { votingPeriodStarts_gte: $now }, first: $first, skip: $skip, orderBy:$orderBy, orderDirection:$orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`
+
+const GET_PROPOSALS_PERIOD_VOTING = gql`
+  query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { votingPeriodStarts_lte: $now }, first: $first, skip: $skip, orderBy:$orderBy, orderDirection:$orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`
+
+const GET_PROPOSALS_PERIOD_APPROVED = gql`
+  query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { votingPeriodStarts_lte: $now }, first: $first, skip: $skip, orderBy:$orderBy, orderDirection:$orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`
+
 /**
  * @summary retrieves the corresponding query for the timeline.
  * @param {string} view based on router context
  * @param {string} field if required for a specific query
  */
-const composeQuery = (view, field) => {
+const composeQuery = (view, field, period) => {
   if (view === routerView.HOME) {
     return GET_PROPOSALS;
   }
 
   if (view === routerView.DAO) {
     return GET_PROPOSALS_DAO;
+  }
+
+  if (view === routerView.PERIOD) {
+    switch (period) {
+      case routerPeriod.QUEUE:
+        return GET_PROPOSALS_PERIOD_QUEUE;
+      case routerPeriod.VOTING:
+        return GET_PROPOSALS_PERIOD_VOTING;
+      case routerPeriod.GRACE:
+        break;
+      case routerPeriod.READY:
+        break;
+      case routerPeriod.KICKED:
+        break;
+      case routerPeriod.REJECTED:
+        break;
+      case routerPeriod.APPROVED:
+        break;
+      default:
+    }
+
   }
 
   switch(field) {
@@ -118,7 +163,8 @@ const _getPercentage = (percentageAmount, remainder) => {
 
 const Feed = (props) => {
   const { address, first, skip, orderBy, orderDirection } = props;
-  const { loading, error, data } = useQuery(composeQuery(props.view, props.field), { variables: { address, first, skip, orderBy, orderDirection } });
+  const now = Math.floor(new Date().getTime() / 1000);
+  const { loading, error, data } = useQuery(composeQuery(props.view, props.field, props.period), { variables: { address, first, skip, orderBy, orderDirection, now } });
 
   if (loading) return <Placeholder />;
   if (error) return <p>Error!</p>;
@@ -137,7 +183,7 @@ const Feed = (props) => {
     const daoAddress = proposal.moloch.id;
     const status = (proposal.didPass) ? 'PASSED' : 'FAILED';
     const isPoll = (proposal.startingPeriod !== '0');
-    const url = `/dao/${proposal.moloch.id}/proposal/${proposal.proposalIndex}`;
+    const url = `/proposal/${proposal.id}`;
 
     return (
       <Post
@@ -201,7 +247,7 @@ const Feed = (props) => {
 const Timeline = (props) => {
   return (
     <ApolloProvider client={client}>
-      <Feed address={props.address} view={props.view} field={props.field} first={props.first} skip={props.skip} orderBy={props.orderBy} orderDirection={props.orderDirection} />
+      <Feed address={props.address} period={props.period} view={props.view} field={props.field} first={props.first} skip={props.skip} orderBy={props.orderBy} orderDirection={props.orderDirection} />
     </ApolloProvider>
   );
 };
@@ -215,6 +261,7 @@ Timeline.propTypes = {
   orderBy: PropTypes.string,
   orderDirection: PropTypes.string,
   view: PropTypes.string,
+  period: PropTypes.string,
 };
 
 Feed.propTypes = Timeline.propTypes;

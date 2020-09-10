@@ -289,7 +289,7 @@ export default class Sidebar extends Component {
   }
 
   render() {
-    if (this.props.view !== routerView.HOME) {
+    if ((this.props.view !== routerView.HOME) && (this.props.view !== routerView.PERIOD)) {
       return <MenuQuery address={this.props.address} scrollUp={this.state.scrollUp} view={this.props.view} />;
     }
 

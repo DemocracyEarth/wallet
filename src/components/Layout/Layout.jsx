@@ -19,6 +19,7 @@ const Layout = (props) => {
   // defaults
   let view = routerView.HOME;
   let renderAddress = props.address;
+  let periodEpoch = '';
 
   // context specific
   if (dao) {
@@ -28,7 +29,8 @@ const Layout = (props) => {
     renderAddress = address; 
     view = routerView.ADDRESS; 
   } else if (period) { 
-    view = routerView.PERIOD; 
+    view = routerView.PERIOD;
+    periodEpoch = period;
   }
 
   console.log(`view: ${view}`);
@@ -43,7 +45,7 @@ const Layout = (props) => {
           <div id="main-feed" className="split split-left split-landing">
             <div id="proposals" className="content content-feed max100">
               <div id="non-editable-feed">
-                <Timeline address={renderAddress} view={view} field={'memberAddress'} first={25} skip={0} orderBy={'createdAt'} orderDirection={'desc'}  />
+                <Timeline address={renderAddress} period={periodEpoch} view={view} field={'memberAddress'} first={25} skip={0} orderBy={'createdAt'} orderDirection={'desc'}  />
               </div>
             </div>
           </div>
