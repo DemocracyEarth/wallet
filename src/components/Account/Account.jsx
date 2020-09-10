@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 
 import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, useQuery } from '@apollo/react-hooks';
+import { Link } from 'react-router-dom';
 
 import { gui } from 'lib/const';
 import { shortenCryptoName } from 'utils/strings';
-import { includeInSearch } from 'components/Search/Search';
+import Search, { includeInSearch } from 'components/Search/Search';
 
+import i18n from 'i18n';
 import { config } from 'config'
 import 'styles/Dapp.css';
 
@@ -40,7 +42,7 @@ const ENS_ACCOUNT = gql`
 */
 const getENSName = (data, publicAddress) => {
   if (data.domains.length > 0) {
-    return (data.domains[0].name.length > gui.MAX_LENGTH_ACCOUNT_NAMES) ? `${data.domains[0].name.slice(0, gui.MAX_LENGTH_ACCOUNT_NAMES)}...` : data.domains[0].name;
+    return data.domains[0].name;
   }
   return shortenCryptoName(publicAddress);
 };
@@ -48,7 +50,7 @@ const getENSName = (data, publicAddress) => {
 /**
 * @summary renders a post in the timeline
 */
-const AccountQuery = ({ publicAddress, width, height, format }) => {
+const AccountQuery = ({ publicAddress, width, height, format, hidden }) => {
   const { loading, error, data } = useQuery(ENS_ACCOUNT, { variables: { publicAddress } });
   let label;
 
@@ -59,6 +61,7 @@ const AccountQuery = ({ publicAddress, width, height, format }) => {
 
   if (publicAddress !== '0x0000000000000000000000000000000000000000') {
     if (loading) {
+      if (format === 'searchBar') return null;
       return (
         <div className="identity">
           <div className="avatar-editor">
@@ -78,19 +81,25 @@ const AccountQuery = ({ publicAddress, width, height, format }) => {
     label = '0x0';
   }
 
+  if (hidden) {
+    return label;
+  }
+  if (format === 'searchBar') {
+    return <Search contextTag={{ id: publicAddress, text: i18n.t('search-user', { searchTerm: label }) }} />
+  }
   return (
     <div className="identity">
       <div className="avatar-editor">
         <img src={image} className={`symbol profile-pic ${(format === 'plainText') ? 'plain' : null}`} alt="" style={{ width: finalWidth, height: finalHeight }} />
         {(format === 'plainText') ?
-          <a href={url} title={publicAddress}>
-            {label}
-          </a>
+          <Link to={url} title={publicAddress}>
+            {(label.length > gui.MAX_LENGTH_ACCOUNT_NAMES) ? `${label.slice(0, gui.MAX_LENGTH_ACCOUNT_NAMES)}...` : label}
+          </Link>
           :
           <div className="identity-peer">
-            <a href={url} title={publicAddress} className="identity-label identity-label-micro">
-              {label}
-            </a>
+            <Link to={url} title={publicAddress} className="identity-label identity-label-micro">
+              {(label.length > gui.MAX_LENGTH_ACCOUNT_NAMES) ? `${label.slice(0, gui.MAX_LENGTH_ACCOUNT_NAMES)}...` : label}
+            </Link>
           </div>
         }
       </div>
@@ -103,6 +112,7 @@ AccountQuery.propTypes = {
   width: PropTypes.string,
   height: PropTypes.string,
   format: PropTypes.string,
+  hidden: PropTypes.bool,
 };
 
 /**
@@ -111,7 +121,7 @@ AccountQuery.propTypes = {
 const Account = (props) => {
   return (
     <ApolloProvider client={client}>
-      <AccountQuery publicAddress={props.publicAddress} width={props.width} height={props.height} format={props.format} />
+      <AccountQuery publicAddress={props.publicAddress} width={props.width} height={props.height} format={props.format} hidden={props.hidden} />
     </ApolloProvider>
   );
 };

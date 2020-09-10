@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { defaults } from 'lib/const';
+import { withRouter } from 'react-router-dom';
 
 import Search from 'components/Search/Search';
 import Account from 'components/Account/Account';
+import DAO from 'components/DAO/DAO';
 
 import close from 'images/close.svg';
 import logo from 'images/logo.png';
@@ -18,7 +20,7 @@ let lastScrollTop = 0;
 /**
 * @summary displays the contents of a poll
 */
-export default class Browser extends Component {
+class Browser extends Component {
   constructor(props) {
     super(props);
 
@@ -60,6 +62,29 @@ export default class Browser extends Component {
     return (this.props.address !== defaults.EMPTY);
   }
 
+  renderTitle() {
+    if (this.props.match.params.address) {
+      return <Account publicAddress={this.props.match.params.address} format="searchBar" />
+    }
+    
+    if (this.props.match.params.dao) {
+      return <DAO publicAddress={this.props.match.params.dao} format="searchBar" />
+    }
+    
+    /*
+    if (this.props.match.params.proposal) {
+      return {
+        id: this.props.match.url,
+        text: i18n.t('search-dao', { searchTerm: this.props.match.params.proposal }),
+        value: this.props.match.params.proposal,
+        type: 'SEARCH'
+      }
+    }
+    */
+
+    return <Search />;
+  }
+
   render() {
     return (
       <div id="browser" className={this.getScrollClass()}>
@@ -85,7 +110,7 @@ export default class Browser extends Component {
               </div>
             </div>
           }
-          <Search />
+          {this.renderTitle()}
         </div>
       </div>
     );
@@ -97,3 +122,5 @@ Browser.propTypes = {
   walletConnect: PropTypes.func,
   walletReset: PropTypes.func,
 };
+
+export default withRouter(Browser);

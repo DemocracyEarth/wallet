@@ -7,14 +7,26 @@ import 'styles/Dapp.css';
 const _getScrollTop = () => {
   const ledgerHeight = document.getElementById('ledger').offsetHeight;
   const windowHeight = window.innerHeight;
-  document.getElementById('alternative-feed').style.minHeight = `${document.getElementById('proposals').getBoundingClientRect().height}px`;
-  return parseInt(windowHeight - ledgerHeight - 40, 10);
+  if (ledgerHeight > windowHeight) {
+    document.getElementById('alternative-feed').style.minHeight = `${document.getElementById('proposals').getBoundingClientRect().height}px`;
+    return parseInt(windowHeight - ledgerHeight - 40, 10);
+  }
+  return 0;
 };
 
 /**
 * @summary displays the contents of a poll
 */
 export default class Ledger extends Component {
+  static propTypes = {
+    address: PropTypes.string,
+    view: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
+  };
+
   constructor() {
     super();
     this.state = {
@@ -43,7 +55,7 @@ export default class Ledger extends Component {
           <div className="ledger-title">
             <h4>{i18n.t('recent-activity')}</h4>
           </div>
-          <Vote />
+          <Vote address={this.props.address} view={this.props.view} first={5} skip={0} orderBy={'createdAt'} orderDirection={'desc'} />
           <div className="ledger-footer" />
         </div>
       </div>
@@ -51,9 +63,4 @@ export default class Ledger extends Component {
   }
 }
 
-Ledger.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
-};
+

@@ -2,12 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, useQuery } from '@apollo/react-hooks';
+import { Link } from 'react-router-dom';
 import { findLast } from 'lodash';
 
 import { gui } from 'lib/const';
 import { shortenCryptoName } from 'utils/strings';
-import { includeInSearch } from 'components/Search/Search';
+import Search, { includeInSearch } from 'components/Search/Search';
 
+import i18n from 'i18n';
 import { config } from 'config'
 import 'styles/Dapp.css';
 
@@ -63,6 +65,9 @@ const DAOQuery = ({ publicAddress, width, height, format }) => {
 
   includeInSearch(url, daoTitle, 'search-collective');
 
+  if ((format === 'searchBar')) {
+    return <Search contextTag={{ id: publicAddress, text: i18n.t('search-dao', { searchTerm: daoTitle }) }} />
+  }
   return (
     <div className="dao">
       {(format === 'plainText') ?
@@ -76,9 +81,9 @@ const DAOQuery = ({ publicAddress, width, height, format }) => {
         <div className="avatar-editor">
           <img src={image} className="symbol dao-pic" alt="" style={{ width: finalWidth, height: finalHeight }} />
           <div className="identity-peer">
-            <a href={url} title={publicAddress} className="identity-label identity-label-micro">
+            <Link to={url} title={publicAddress} className="identity-label identity-label-micro">
               {label}
-            </a>
+            </Link>
           </div>
         </div>
       }

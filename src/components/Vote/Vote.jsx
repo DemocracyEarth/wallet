@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, useQuery } from '@apollo/react-hooks';
@@ -8,6 +9,8 @@ import DAO from 'components/DAO/DAO';
 import Stamp from 'components/Stamp/Stamp';
 import Transaction from 'components/Transaction/Transaction';
 
+import { view as routerView } from 'lib/const';
+
 import { config } from 'config'
 import 'styles/Dapp.css';
 
@@ -16,25 +19,47 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+const VOTE_DATA = `
+  id
+  createdAt
+  uintVote
+  molochAddress
+  memberAddress
+  proposal {
+    details
+    id
+  }
+  member {
+    shares
+  }
+`
+
 const GET_VOTES = gql`
-  {
-    votes(first: 15, orderBy:createdAt, orderDirection:desc) {
-      id
-      createdAt
-      uintVote
-      molochAddress
-      memberAddress
-      proposal {
-        details
-        id
-      }
-      member {
-        shares
-      }
+  query addressVotes($first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    votes(first: $first, skip: $skip, orderBy:$orderBy, orderDirection:$orderDirection) {
+      ${VOTE_DATA}
     }
   }
 `;
 
+const GET_VOTES_FROM_ADDRESS = gql`
+  query memberProposals($address: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    votes(first: $first, skip: $skip, where: { memberAddress: $address } orderBy:$orderBy, orderDirection:$orderDirection) {
+      ${VOTE_DATA}
+    }
+  }
+`;
+
+/**
+ * @summary retrieves the corresponding query for the timeline.
+ * @param {string} view based on router context
+ */
+const composeQuery = (view) => {
+  if (view === routerView.HOME) {
+    return GET_VOTES
+  }
+  return GET_VOTES_FROM_ADDRESS;
+}
 
 /**
 * @summary displays the contents of a poll
@@ -46,8 +71,9 @@ const GET_VOTES = gql`
 * @param {string} symbol with a ticker
 * @param {string} decimal numbers this token takes
 */
-const VoteQuery = () => {
-  const { loading, error, data } = useQuery(GET_VOTES);
+const VoteQuery = (props) => {
+  const { address, first, skip, orderBy, orderDirection } = props;  
+  const { loading, error, data } = useQuery(composeQuery(props.view), { variables: { address, first, skip, orderBy, orderDirection } });
 
   if (loading) {
     return (
@@ -72,15 +98,28 @@ const VoteQuery = () => {
   });
 };
 
+VoteQuery.propTypes = {
+  address: PropTypes.string,
+  first: PropTypes.number,
+  skip: PropTypes.number,
+  orderBy: PropTypes.string,
+  orderDirection: PropTypes.string,
+  view: PropTypes.string,
+};
+
+
 /**
 * @summary renders a post in the timeline
 */
-const Vote = () => {
+const Vote = (props) => {
   return (
     <ApolloProvider client={client}>
-      <VoteQuery />
+      <VoteQuery address={props.address} view={props.view} first={props.first} skip={props.skip} orderBy={props.orderBy} orderDirection={props.orderDirection} />
     </ApolloProvider>
   );
 };
+
+Vote.propTypes = VoteQuery.propTypes;
+
 
 export default Vote;

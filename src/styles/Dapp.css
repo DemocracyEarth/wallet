@@ -14,6 +14,7 @@
   --bar-background: #48015f;
   --browser-button-color: #7d8499;
   --menu-sidebar-selected: #580173;
+  --bar-tag: #f3e7f7;
 }
 
 @-webkit-keyframes preloader-content {
@@ -6515,7 +6516,7 @@ blockquote {
   position: fixed;
   top: 0px;
   bottom: 0px;
-  z-index: 12500;
+  z-index: 1;
   overflow: hidden;
   width: 250px;
   float: left;
@@ -9931,14 +9932,13 @@ blockquote {
 .ReactTags__tag {
   opacity: 1;
   font-size: 0.75em;
-  float: left;
-  max-height:28px;
+  max-height: 28px;
   cursor: move;
-  background: var(--main-menu-color);
-  border-radius: 25px;
-  color: white;
+  background: var(--bar-tag);
+  border-radius: 15px;
+  color: var(--bar-background);
   padding: 0px 10px;
-  margin: 0 15px 0px -13px;
+  margin: 0 15px 0px 0px;
   display: inline-block;
 }
 
@@ -9956,13 +9956,13 @@ blockquote {
   font-size: 0.75em;
   margin-left: -15px;
   margin-right: -20px;
-  width: 100%;
+  width: 70%;
   display: inline-block;
 }
 
 .ReactTags__remove {
   margin-left: 5px;
-  color: #c38cd4;
+  color: var(--bar-background);
 }
 
 .ReactTags__remove:hover {
@@ -11238,6 +11238,14 @@ h4 {
   border-radius: 5px;
   line-height: 20px;
   padding: 5px 10px;
+}
+
+.transaction-action.transaction-action-passed a {
+  color: var(--positive-signal-color);
+}
+
+.transaction-action.transaction-action-rejected a {
+  color: var(--negative-signal-color);
 }
 
 .transaction-signal {

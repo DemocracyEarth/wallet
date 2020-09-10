@@ -18,41 +18,82 @@ import Survey from 'components/Poll/Survey';
 import Social from 'components/Social/Social';
 
 import { config } from 'config'
-import { defaults } from 'lib/const';
+import { defaults, view as routerView } from 'lib/const';
+import { uniqBy, orderBy as _orderBy } from 'lodash';
 
 import i18n from 'i18n';
 import 'styles/Dapp.css';
 
-export const GET_PROPOSALS = `
-{
-  proposals(first: 15, orderBy:createdAt, orderDirection:desc) {
+const PROPOSAL_DATA = `
+  id
+  proposalId
+  createdAt
+  proposalIndex
+  startingPeriod
+  moloch {
     id
-    proposalId
-    createdAt
-    proposalIndex
-    startingPeriod
-    moloch {
-      id
+  }
+  memberAddress
+  applicant
+  tributeOffered
+  tributeToken
+  tributeTokenSymbol
+  tributeTokenDecimals
+  sharesRequested
+  yesVotes
+  noVotes
+  yesShares
+  noShares
+  details
+  processed
+  votingPeriodStarts
+  votingPeriodEnds
+  gracePeriodEnds
+`
+
+const GET_PROPOSALS = gql`
+  query addressProposals($first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(first: $first, skip: $skip, orderBy:$orderBy, orderDirection:$orderDirection) {
+      ${PROPOSAL_DATA}
     }
-    memberAddress
-    applicant
-    tributeOffered
-    tributeToken
-    tributeTokenSymbol
-    tributeTokenDecimals
-    sharesRequested
-    yesVotes
-    noVotes
-    yesShares
-    noShares
-    details
-    processed
-    votingPeriodStarts
-    votingPeriodEnds
-    gracePeriodEnds
+  }
+`;
+
+const GET_PROPOSALS_MEMBER = gql`
+  query addressProposals($address: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { memberAddress: $address }, first: $first, skip: $skip, orderBy:$orderBy, orderDirection:$orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`;
+
+const GET_PROPOSALS_APPLICANT = gql`
+  query addressProposals($address: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { applicant: $address }, first: $first, skip: $skip, orderBy:$orderBy, orderDirection:$orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`;
+
+/**
+ * @summary retrieves the corresponding query for the timeline.
+ * @param {string} view based on router context
+ * @param {string} field if required for a specific query
+ */
+const composeQuery = (view, field) => {
+  if (view === routerView.HOME) {
+    return GET_PROPOSALS
+  }
+
+  switch(field) {
+    case 'applicant':
+      return GET_PROPOSALS_APPLICANT;
+    case 'memberAddress':
+      return GET_PROPOSALS_MEMBER;
+    default:
+      return GET_PROPOSALS;
   }
 }
-`;
 
 const client = new ApolloClient({
   uri: config.graph.moloch,
@@ -64,14 +105,18 @@ const _getPercentage = (percentageAmount, remainder) => {
 };
 
 const Feed = (props) => {
-  const { loading, error, data } = useQuery(gql(GET_PROPOSALS));
+  const { address, first, skip, orderBy, orderDirection } = props;
+  const { loading, error, data } = useQuery(composeQuery(props.view, props.field), { variables: { address, first, skip, orderBy, orderDirection } });
 
   if (loading) return <Placeholder />;
   if (error) return <p>Error!</p>;
 
   const accountAddress = props.address;
-  const daoName = 'MolochDAO';
   const timestamp = new Date().getTime();
+
+  if (data.asProposer || data.asApplicant) {
+    data.proposals = _orderBy(uniqBy(data.asProposer.concat(data.asApplicant), 'id'), 'createdAt', 'desc');
+  }
 
   return data.proposals.map((proposal) => {
     const totalVoters = String(parseInt(Number(proposal.yesVotes) + Number(proposal.noVotes), 10));
@@ -109,7 +154,7 @@ const Feed = (props) => {
             <Survey>
               <Choice
                 now={timestamp}
-                accountAddress={accountAddress} daoName={daoName} publicAddress={proposal.moloch.id}
+                accountAddress={accountAddress} publicAddress={proposal.moloch.id}
                 proposalIndex={proposal.proposalIndex} label={i18n.t('yes')} percentage={yesPercentage}
                 voteValue={defaults.YES} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
               >
@@ -117,7 +162,7 @@ const Feed = (props) => {
               </Choice>
               <Choice
                 now={timestamp}
-                accountAddress={accountAddress} daoName={daoName} publicAddress={proposal.moloch.id}
+                accountAddress={accountAddress} publicAddress={proposal.moloch.id}
                 proposalIndex={proposal.proposalIndex} label={i18n.t('no')} percentage={noPercentage}
                 voteValue={defaults.NO} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
               >
@@ -144,14 +189,20 @@ const Feed = (props) => {
 const Timeline = (props) => {
   return (
     <ApolloProvider client={client}>
-      <Feed address={props.address} />
+      <Feed address={props.address} view={props.view} field={props.field} first={props.first} skip={props.skip} orderBy={props.orderBy} orderDirection={props.orderDirection} />
     </ApolloProvider>
   );
 };
 
 
 Timeline.propTypes = {
+  field: PropTypes.string,
   address: PropTypes.string,
+  first: PropTypes.number,
+  skip: PropTypes.number,
+  orderBy: PropTypes.string,
+  orderDirection: PropTypes.string,
+  view: PropTypes.string,
 };
 
 Feed.propTypes = Timeline.propTypes;
