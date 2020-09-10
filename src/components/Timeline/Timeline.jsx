@@ -75,6 +75,14 @@ const GET_PROPOSALS_APPLICANT = gql`
   }
 `;
 
+const GET_PROPOSALS_DAO = gql`
+  query addressProposals($address: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { molochAddress: $address }, first: $first, skip: $skip, orderBy:$orderBy, orderDirection:$orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`;
+
 /**
  * @summary retrieves the corresponding query for the timeline.
  * @param {string} view based on router context
@@ -82,7 +90,11 @@ const GET_PROPOSALS_APPLICANT = gql`
  */
 const composeQuery = (view, field) => {
   if (view === routerView.HOME) {
-    return GET_PROPOSALS
+    return GET_PROPOSALS;
+  }
+
+  if (view === routerView.DAO) {
+    return GET_PROPOSALS_DAO;
   }
 
   switch(field) {
