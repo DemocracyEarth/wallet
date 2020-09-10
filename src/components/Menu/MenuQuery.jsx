@@ -16,35 +16,47 @@ import 'styles/Dapp.css';
 // scroll settings
 let lastScrollTop = 0;
 
-export const GET_MEMBERSHIPS = gql`
+const MENU_DATA = `
+  id
+  memberAddress
+  moloch {
+    id
+    title
+  }
+  tokenTribute
+  exists
+  shares
+  didRagequit
+  submissions {
+    id
+    didPass
+    guildkick
+    gracePeriodEnds
+    votingPeriodStarts
+    votingPeriodEnds
+    sponsor
+    processed
+    applicant
+  }
+  kicked
+  jailed {
+    id
+  }
+  proposedToKick
+`
+
+const GET_MEMBERSHIPS = gql`
   query membershipDetails($address: String) {
     members(where: { memberAddress: $address }) {
-      id
-      memberAddress
-      moloch {
-        id
-        title
-      }
-      tokenTribute
-      exists
-      shares
-      didRagequit
-      submissions {
-        id
-        didPass
-        guildkick
-        gracePeriodEnds
-        votingPeriodStarts
-        votingPeriodEnds
-        sponsor
-        processed
-        applicant
-      }
-      kicked
-      jailed {
-        id
-      }
-      proposedToKick
+      ${MENU_DATA}
+    }
+  }
+`;
+
+const GET_DAOS = gql`
+  query membershipDetails($address: String) {
+    members(where: { molochAddress: $address }) {
+      ${MENU_DATA}
     }
   }
 `;
@@ -148,11 +160,24 @@ const _getHeadline = (headline, address, view) => {
   return i18n.t(`${headline}-account`, { account: shortenCryptoName(address) });
 };
 
+
+/**
+ * @summary retrieves the corresponding query for the timeline.
+ * @param {string} view based on router context
+ */
+const composeQuery = (view) => {
+  if (view === routerView.DAO) {
+    return GET_DAOS;
+  }
+  return GET_MEMBERSHIPS;
+}
+
+
 /**
 * @summary renders the menu based on a graph ql query ad hoc for the user
 */
 const MenuQuery = ({ address, scrollUp, view }) => {
-  const { loading, error, data } = useQuery(GET_MEMBERSHIPS, { variables: { address } });
+  const { loading, error, data } = useQuery(composeQuery(view), { variables: { address } });
 
   if (loading) {
     return (
@@ -183,6 +208,22 @@ const MenuQuery = ({ address, scrollUp, view }) => {
 
   const menuList = defaultMenu;
 
+  const daoMemberships = (
+    <div>
+      <div className="separator">
+        {_getHeadline('memberships', address, view)}
+      </div>
+      {
+      (daoList.length > 0) ?
+      daoList
+      :
+      <div className="empty">
+        {i18n.t('no-memberships-found')}
+      </div>
+      }
+    </div>
+  );
+
   return (
     <div id="sidebar" className={_getScrollClass(scrollUp)}>
       <div className="menu">
@@ -190,16 +231,7 @@ const MenuQuery = ({ address, scrollUp, view }) => {
           {_getHeadline('proposals', address, view)}
         </div>
         {menuList}
-        <div className="separator">
-          {_getHeadline('memberships', address, view)}
-        </div>
-        {(daoList.length > 0) ?
-          daoList
-          :
-          <div className="empty">
-            {i18n.t('no-memberships-found')}
-          </div>
-        }
+        {(view === routerView.ADDRESS) ? daoMemberships : null }
       </div>
     </div>
   );
@@ -248,10 +280,11 @@ export default class Sidebar extends Component {
 
   render() {
     if (this.props.view !== routerView.HOME) {
-      return <MenuQuery address={this.props.address} scrollUp={this.state.scrollUp} />;
+      return <MenuQuery address={this.props.address} scrollUp={this.state.scrollUp} view={this.props.view} />;
     }
 
     const defaultMenu = _getMenu(routerView.HOME);
+
     return (
       <div id="sidebar" className={_getScrollClass(this.state.scrollUp)}>
         <div className="menu">

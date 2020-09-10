@@ -23,7 +23,7 @@ const Layout = (props) => {
   // context specific
   if (dao) {
     renderAddress = dao; 
-    view = routerView.DAO; 
+    view = routerView.DAO;
   } else if (address) { 
     renderAddress = address; 
     view = routerView.ADDRESS; 
