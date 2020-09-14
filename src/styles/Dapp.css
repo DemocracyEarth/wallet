@@ -4558,7 +4558,7 @@ blockquote {
   max-width: 140px;
   height: 14px;
   overflow: hidden;
-  margin-bottom: -2px;
+  margin-bottom: -3px;
 }
 
 .identity-label:hover {
@@ -10623,9 +10623,17 @@ width: 1px;
   padding: 3px 0px;
   float: left;
   font-size: 0.65em;
+  line-height:30px;
   font-weight: 400;
   text-align: center;
   color: var(--main-link-color);
+}
+
+.token-icon {
+  max-width: 20px;
+  max-height: 20px;
+  margin-right: 5px;
+  margin-top: -2px;
 }
 
 .token-balance {
