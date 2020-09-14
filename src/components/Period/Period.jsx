@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import i18n from 'i18n';
+
+import Flag from 'components/Flag/Flag';
+
 import 'styles/Dapp.css';
 
 /**
@@ -39,13 +42,7 @@ export default class Period extends Component {
 
   render() {
     return (
-      <div>
-        <div className="warning-list animate">
-          <div className={this.getStyle()}>
-            {this.getLabel()}
-          </div>
-        </div>
-      </div>
+      <Flag styleClass={this.getStyle()} label={this.getLabel()} />
     );
   }
 }

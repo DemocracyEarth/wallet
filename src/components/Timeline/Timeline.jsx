@@ -16,6 +16,7 @@ import Contract from 'components/Contract/Contract';
 import Placeholder from 'components/Timeline/Placeholder';
 import Survey from 'components/Poll/Survey';
 import Social from 'components/Social/Social';
+import Flag from 'components/Flag/Flag';
 
 import { config } from 'config'
 import { defaults, view as routerView, period as routerPeriod } from 'lib/const';
@@ -221,6 +222,7 @@ const Feed = (props) => {
     const daoAddress = proposal.moloch.id;
     const status = (proposal.didPass) ? 'PASSED' : 'FAILED';
     const isPoll = (proposal.startingPeriod !== '0');
+    const isUnsponsored = (!isPoll && proposal.molochVersion !== '1' && !proposal.sponsored);
     const url = `/proposal/${proposal.id}`;
 
     return (
@@ -287,6 +289,11 @@ const Feed = (props) => {
             />
           </Poll>
           :
+          null
+        }
+        {(isUnsponsored) ?
+          <Flag styleClass={'warning period period-grace'} label={i18n.t('moloch-flag-unsponsored')} />
+        :
           null
         }
         <Social url={url} description={proposal.details}>
