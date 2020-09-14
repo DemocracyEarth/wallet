@@ -233,12 +233,27 @@ const Feed = (props) => {
           <Parameter label={i18n.t('moloch-applicant')}>
             <Account publicAddress={proposal.applicant} width="16px" height="16px" />
           </Parameter>
-          <Parameter label={i18n.t('moloch-request')}>
-            <Token quantity={String(proposal.sharesRequested)} symbol="SHARES" />
-          </Parameter>
-          <Parameter label={i18n.t('moloch-tribute')}>
-            <Token quantity={proposal.tributeOffered} publicAddress={proposal.tributeToken} symbol={proposal.tributeTokenSymbol} decimals={proposal.tributeTokenDecimals} />
-          </Parameter>
+          {(proposal.sharesRequested !== '0') ?
+            <Parameter label={i18n.t('moloch-request')}>
+              <Token quantity={String(proposal.sharesRequested)} symbol="SHARES" />
+            </Parameter>
+            :
+            null
+          }
+          {(proposal.tributeOffered !== '0') ?
+            <Parameter label={i18n.t('moloch-tribute')}>
+              <Token quantity={proposal.tributeOffered} publicAddress={proposal.tributeToken} symbol={proposal.tributeTokenSymbol} decimals={proposal.tributeTokenDecimals} />
+            </Parameter>
+            :
+            null
+          }
+          {(proposal.paymentRequested !== '0') ?
+            <Parameter label={i18n.t('moloch-payment')}>
+              <Token quantity={proposal.paymentRequested} publicAddress={proposal.paymentToken} symbol={proposal.paymentTokenSymbol} decimals={proposal.paymentTokenDecimals} />
+            </Parameter>
+            :
+            null
+          }
         </Contract>
         {(isPoll) ?
           <Poll>
