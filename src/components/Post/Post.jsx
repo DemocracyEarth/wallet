@@ -62,7 +62,7 @@ export default class Post extends Component {
   }
 
   handleClick(href) {
-    console.log(href);
+    // console.log(href);
   }
 
   render() {

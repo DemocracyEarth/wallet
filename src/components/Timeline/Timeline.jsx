@@ -26,29 +26,57 @@ import 'styles/Dapp.css';
 
 const PROPOSAL_DATA = `
   id
-  proposalId
   createdAt
   proposalIndex
-  startingPeriod
+  proposalId
   moloch {
     id
   }
+  molochAddress
   memberAddress
+  delegateKey
   applicant
+  proposer
+  sponsor
+  sharesRequested
+  lootRequested
   tributeOffered
   tributeToken
   tributeTokenSymbol
   tributeTokenDecimals
-  sharesRequested
+  paymentRequested
+  paymentToken
+  paymentTokenSymbol
+  paymentTokenDecimals
+  startingPeriod
   yesVotes
   noVotes
+  sponsored
+  sponsoredAt
+  processed
+  didPass
+  cancelled
+  aborted
+  whitelist
+  guildkick
+  newMember
+  trade
+  details
+  maxTotalSharesAndLootAtYesVote
+  votes {
+    uintVote
+    id
+    member {
+      id
+      memberAddress
+    }
+  }
   yesShares
   noShares
-  details
-  processed
   votingPeriodStarts
   votingPeriodEnds
   gracePeriodEnds
+  molochVersion
 `
 
 const GET_PROPOSALS = gql`
@@ -175,6 +203,8 @@ const Feed = (props) => {
   if (data.asProposer || data.asApplicant) {
     data.proposals = _orderBy(uniqBy(data.asProposer.concat(data.asApplicant), 'id'), 'createdAt', 'desc');
   }
+
+  console.log(data);
 
   return data.proposals.map((proposal) => {
     const totalVoters = String(parseInt(Number(proposal.yesVotes) + Number(proposal.noVotes), 10));

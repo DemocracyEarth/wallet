@@ -5,6 +5,7 @@ import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, useQuery } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
 
+import { gui } from 'lib/const';
 import { shortenCryptoName } from 'utils/strings';
 import Search, { includeInSearch } from 'components/Search/Search';
 
@@ -92,12 +93,12 @@ const AccountQuery = ({ publicAddress, width, height, format, hidden }) => {
         <img src={image} className={`symbol profile-pic ${(format === 'plainText') ? 'plain' : null}`} alt="" style={{ width: finalWidth, height: finalHeight }} />
         {(format === 'plainText') ?
           <Link to={url} title={publicAddress}>
-            {label}
+            {(label.length > gui.MAX_LENGTH_ACCOUNT_NAMES) ? `${label.slice(0, gui.MAX_LENGTH_ACCOUNT_NAMES)}...` : label}
           </Link>
           :
           <div className="identity-peer">
             <Link to={url} title={publicAddress} className="identity-label identity-label-micro">
-              {label}
+              {(label.length > gui.MAX_LENGTH_ACCOUNT_NAMES) ? `${label.slice(0, gui.MAX_LENGTH_ACCOUNT_NAMES)}...` : label}
             </Link>
           </div>
         }
