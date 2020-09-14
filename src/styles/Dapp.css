@@ -4556,8 +4556,9 @@ blockquote {
   cursor: pointer;
   text-overflow: ellipsis;
   max-width: 140px;
-  height: 11px;
+  height: 14px;
   overflow: hidden;
+  margin-bottom: -2px;
 }
 
 .identity-label:hover {

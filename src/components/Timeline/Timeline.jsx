@@ -232,9 +232,13 @@ const Feed = (props) => {
         daoAddress={daoAddress}
       >
         <Contract>
-          <Parameter label={i18n.t('moloch-applicant')}>
-            <Account publicAddress={proposal.applicant} width="16px" height="16px" />
-          </Parameter>
+          {(proposal.applicant !== '0x0000000000000000000000000000000000000000' ) ?
+            <Parameter label={i18n.t('moloch-applicant')}>
+              <Account publicAddress={proposal.applicant} width="16px" height="16px" />
+            </Parameter>
+            :
+            null
+          }
           {(proposal.sharesRequested !== '0') ?
             <Parameter label={i18n.t('moloch-request')}>
               <Token quantity={String(proposal.sharesRequested)} symbol="SHARES" />
