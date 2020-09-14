@@ -4554,6 +4554,10 @@ blockquote {
   line-height: 22px;
   text-decoration: none;
   cursor: pointer;
+  text-overflow: ellipsis;
+  max-width: 140px;
+  height: 11px;
+  overflow: hidden;
 }
 
 .identity-label:hover {
@@ -10445,6 +10449,7 @@ body, h4, h1, h2 {
 .poll {
   display: inline-block;
   width: 100%;
+  margin: 0px 0px 10px;
 }
 
 .poll-choice {
@@ -10892,6 +10897,8 @@ width: 1px;
 .parameter-name {
   color: #7d849f;
   line-height: 28px;
+  margin: 0px -15px 6px;
+  background-color: #F0EEF4;
   font-size: 11px;
   font-weight: 400;
   border-top-left-radius: 4px;
@@ -10900,6 +10907,7 @@ width: 1px;
 
 .smart-contract {
   display: inline-block;
+  margin: 15px 0px;
 }
 
 .margin-top-minus-three {
@@ -10912,7 +10920,6 @@ width: 1px;
 }
 
 .parameter-token {
-  padding-top:5px;
   margin: 0 auto;
   display: inline-block;
 }
@@ -11084,6 +11091,12 @@ h4 {
   background: #f6edf9;
   color: #b25dcc;
   border: 1px solid #b25dcc;
+}
+
+.period-unsponsored {
+  background: #0073d82e;
+  color: #0073d8;
+  border: 1px solid #0073d8;
 }
 
 .period-complete {

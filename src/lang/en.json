@@ -773,12 +773,12 @@
   "moloch-map-summon": "<root><request quantity='{{shares}}' token='SHARES'></request><user _id='{{summonerId}}' username='{{summoner}}'></user> </root>",
   "moloch-yes": "Yes",
   "moloch-no": "No",
-  "moloch-tribute": "💰 Tribute to DAO",
-  "moloch-request": "📈 Shares Requested",
-  "moloch-payment": "💵 Payment Requested",
+  "moloch-tribute": "Tribute to DAO",
+  "moloch-request": "Shares Requested",
+  "moloch-payment": "Payment Requested",
   "moloch-contract-parameters": "Decision variables.",
-  "moloch-applicant": "👤 Applicant Address",
-  "moloch-summoner": "👤 Summoner Address",
+  "moloch-applicant": "Applicant Address",
+  "moloch-summoner": "Summoner Address",
   "moloch-contract-parameters-tooltip": "Changes that will apply to this DAO.",
   "moloch-delegate-key": "Delegate Key:",
   "moloch-period-processed": "Ready for processing.",
@@ -902,5 +902,5 @@
   "memberships-sidebar": "Your Memberships",
   "no-memberships-found": "No DAO memberships found.",
   "search-post-preview": "{{title}} — {{description}}",
-  "moloch-flag-unsponsored": "⚠ Unsponsored Proposal"
+  "moloch-flag-unsponsored": "Unsponsored Proposal ⚠️"
 }

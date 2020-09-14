@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Emoji from "react-emoji-render";
+
 import 'styles/Dapp.css';
 
 /**
@@ -16,7 +18,7 @@ export default class Flag extends Component {
       <div>
         <div className="warning-list animate">
           <div className={this.props.styleClass}>
-            {this.props.label}
+            <Emoji text={this.props.label} />
           </div>
         </div>
       </div>

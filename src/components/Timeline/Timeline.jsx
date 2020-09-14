@@ -292,7 +292,7 @@ const Feed = (props) => {
           null
         }
         {(isUnsponsored) ?
-          <Flag styleClass={'warning period period-grace'} label={i18n.t('moloch-flag-unsponsored')} />
+          <Flag styleClass={'warning period period-unsponsored'} label={i18n.t('moloch-flag-unsponsored')} />
         :
           null
         }
