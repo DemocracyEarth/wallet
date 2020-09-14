@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import parser from 'html-react-parser';
 import i18n from 'i18n';
 
-import { Link } from 'react-router-dom';
-
 import { wrapURLs } from 'utils/strings';
 import { includeInSearch } from 'components/Search/Search';
 import Account from 'components/Account/Account';

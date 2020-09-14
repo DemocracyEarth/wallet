@@ -81,7 +81,7 @@ const PROPOSAL_DATA = `
 
 const GET_PROPOSALS = gql`
   query addressProposals($first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-    proposals(first: $first, skip: $skip, orderBy:$orderBy, orderDirection:$orderDirection) {
+    proposals(first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
       ${PROPOSAL_DATA}
     }
   }
@@ -89,7 +89,7 @@ const GET_PROPOSALS = gql`
 
 const GET_PROPOSALS_MEMBER = gql`
   query addressProposals($address: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-    proposals(where: { memberAddress: $address }, first: $first, skip: $skip, orderBy:$orderBy, orderDirection:$orderDirection) {
+    proposals(where: { memberAddress: $address }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
       ${PROPOSAL_DATA}
     }
   }
@@ -97,7 +97,7 @@ const GET_PROPOSALS_MEMBER = gql`
 
 const GET_PROPOSALS_APPLICANT = gql`
   query addressProposals($address: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-    proposals(where: { applicant: $address }, first: $first, skip: $skip, orderBy:$orderBy, orderDirection:$orderDirection) {
+    proposals(where: { applicant: $address }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
       ${PROPOSAL_DATA}
     }
   }
@@ -105,7 +105,7 @@ const GET_PROPOSALS_APPLICANT = gql`
 
 const GET_PROPOSALS_DAO = gql`
   query addressProposals($address: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-    proposals(where: { molochAddress: $address }, first: $first, skip: $skip, orderBy:$orderBy, orderDirection:$orderDirection) {
+    proposals(where: { molochAddress: $address }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
       ${PROPOSAL_DATA}
     }
   }
@@ -113,7 +113,7 @@ const GET_PROPOSALS_DAO = gql`
 
 const GET_PROPOSALS_PERIOD_QUEUE = gql`
   query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-    proposals(where: { votingPeriodStarts_gte: $now }, first: $first, skip: $skip, orderBy:$orderBy, orderDirection:$orderDirection) {
+    proposals(where: { votingPeriodStarts_gte: $now }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
       ${PROPOSAL_DATA}
     }
   }
@@ -121,19 +121,27 @@ const GET_PROPOSALS_PERIOD_QUEUE = gql`
 
 const GET_PROPOSALS_PERIOD_VOTING = gql`
   query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-    proposals(where: { votingPeriodStarts_lte: $now }, first: $first, skip: $skip, orderBy:$orderBy, orderDirection:$orderDirection) {
+    proposals(where: { votingPeriodStarts_lte: $now }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
       ${PROPOSAL_DATA}
     }
   }
-`
+`;
 
 const GET_PROPOSALS_PERIOD_APPROVED = gql`
   query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-    proposals(where: { votingPeriodStarts_lte: $now }, first: $first, skip: $skip, orderBy:$orderBy, orderDirection:$orderDirection) {
+    proposals(where: { processed: true, didPass: true }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
       ${PROPOSAL_DATA}
     }
   }
-`
+`;
+
+const GET_PROPOSALS_PERIOD_REJECTED = gql`
+  query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { processed: true, didPass: false }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`;
 
 /**
  * @summary retrieves the corresponding query for the timeline.
@@ -162,9 +170,9 @@ const composeQuery = (view, field, period) => {
       case routerPeriod.KICKED:
         break;
       case routerPeriod.REJECTED:
-        break;
+        return GET_PROPOSALS_PERIOD_REJECTED;
       case routerPeriod.APPROVED:
-        break;
+        return GET_PROPOSALS_PERIOD_APPROVED;
       default:
     }
 
@@ -198,7 +206,7 @@ const Feed = (props) => {
   if (error) return <p>Error!</p>;
 
   const accountAddress = props.address;
-  const timestamp = new Date().getTime();
+  const timestamp = Math.floor(new Date().getTime() / 1000);
 
   if (data.asProposer || data.asApplicant) {
     data.proposals = _orderBy(uniqBy(data.asProposer.concat(data.asApplicant), 'id'), 'createdAt', 'desc');
