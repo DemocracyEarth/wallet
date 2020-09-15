@@ -3824,6 +3824,7 @@ blockquote {
   max-width: 100%;
   border-bottom-style: none;
   line-height: 30px;
+  margin-bottom: 10px;
 }
 
 .option-title.option-link.option-search.option-nolink {
@@ -10917,7 +10918,6 @@ width: 1px;
 
 .smart-contract {
   display: inline-block;
-  margin: 15px 0px;
 }
 
 .margin-top-minus-three {

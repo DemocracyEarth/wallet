@@ -224,6 +224,7 @@ const Feed = (props) => {
     const isPoll = (proposal.startingPeriod !== '0');
     const isUnsponsored = (!isPoll && proposal.molochVersion !== '1' && !proposal.sponsored);
     const url = `/proposal/${proposal.id}`;
+    const noConditions = ((proposal.applicant === '0x0000000000000000000000000000000000000000') && (proposal.sharesRequested === '0') && (proposal.tributeOffered === '0') && (proposal.paymentRequested === '0'));
 
     return (
       <Post
@@ -231,7 +232,7 @@ const Feed = (props) => {
         description={proposal.details} memberAddress={proposal.memberAddress}
         daoAddress={daoAddress}
       >
-        <Contract>
+        <Contract hidden={noConditions}>
           {(proposal.applicant !== '0x0000000000000000000000000000000000000000' ) ?
             <Parameter label={i18n.t('moloch-applicant')}>
               <Account publicAddress={proposal.applicant} width="16px" height="16px" />
