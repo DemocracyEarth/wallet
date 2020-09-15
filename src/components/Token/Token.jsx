@@ -16,8 +16,6 @@ const Token = (props) => {
   const zeroes = (!props.decimals) ? 0 : Number(props.decimals);
   const balance = numeral(new BigNumber(props.quantity).dividedBy(Math.pow(10, zeroes)).toNumber()).format('0,0.[00]');
 
-  console.log(`props.publicAddress: ${props.publicAddress}`);
-
   return (
     <div className="token">
       <div className="token-ticker">

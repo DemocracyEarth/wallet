@@ -224,37 +224,51 @@ const Feed = (props) => {
     const isPoll = (proposal.startingPeriod !== '0');
     const isUnsponsored = (!isPoll && proposal.molochVersion !== '1' && !proposal.sponsored);
     const url = `/proposal/${proposal.id}`;
-    const noConditions = ((proposal.applicant === '0x0000000000000000000000000000000000000000') && (proposal.sharesRequested === '0') && (proposal.tributeOffered === '0') && (proposal.paymentRequested === '0'));
+
+
+    const noShares = (proposal.sharesRequested === '0');
+    const noTribute = (proposal.tributeOffered === '0');
+    const noPayment = (proposal.paymentRequested === '0');
+    const noApplicant = (proposal.applicant === '0x0000000000000000000000000000000000000000');
+    const noSponsor = (!proposal.sponsored);
+    const noConditions = (noShares && noTribute && noPayment && noApplicant && noSponsor);
 
     return (
       <Post
         key={proposal.id} accountAddress={accountAddress} href={url}
-        description={proposal.details} memberAddress={proposal.memberAddress}
+        description={proposal.details} memberAddress={proposal.proposer}
         daoAddress={daoAddress}
       >
         <Contract hidden={noConditions}>
-          {(proposal.applicant !== '0x0000000000000000000000000000000000000000' ) ?
+          {(!noSponsor) ?
+            <Parameter label={i18n.t('moloch-sponsored-by')}>
+              <Account publicAddress={proposal.sponsor} width="16px" height="16px" />
+            </Parameter>
+            :
+            null
+          }
+          {(!noApplicant) ?
             <Parameter label={i18n.t('moloch-applicant')}>
               <Account publicAddress={proposal.applicant} width="16px" height="16px" />
             </Parameter>
             :
             null
           }
-          {(proposal.sharesRequested !== '0') ?
+          {(!noShares) ?
             <Parameter label={i18n.t('moloch-request')}>
               <Token quantity={String(proposal.sharesRequested)} symbol="SHARES" />
             </Parameter>
             :
             null
           }
-          {(proposal.tributeOffered !== '0') ?
+          {(!noTribute) ?
             <Parameter label={i18n.t('moloch-tribute')}>
               <Token quantity={proposal.tributeOffered} publicAddress={proposal.tributeToken} symbol={proposal.tributeTokenSymbol} decimals={proposal.tributeTokenDecimals} />
             </Parameter>
             :
             null
           }
-          {(proposal.paymentRequested !== '0') ?
+          {(!noPayment) ?
             <Parameter label={i18n.t('moloch-payment')}>
               <Token quantity={proposal.paymentRequested} publicAddress={proposal.paymentToken} symbol={proposal.paymentTokenSymbol} decimals={proposal.paymentTokenDecimals} />
             </Parameter>
