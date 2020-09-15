@@ -902,5 +902,6 @@
   "memberships-sidebar": "Your Memberships",
   "no-memberships-found": "No DAO memberships found.",
   "search-post-preview": "{{title}} — {{description}}",
-  "moloch-flag-unsponsored": "Unsponsored Proposal ⚠️"
+  "moloch-flag-unsponsored": "Unsponsored Proposal ⚠️",
+  "moloch-proposal-conditions": "Proposal conditions."
 }

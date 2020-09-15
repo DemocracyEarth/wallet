@@ -4,7 +4,7 @@ import i18n from 'i18n';
 import 'styles/Dapp.css';
 
 import { getDescription  } from 'components/Post/Post';
-import tweet from 'images/tweet.png';
+import tweet from 'images/tweet.svg';
 
 /**
 * @summary displays the contents of a poll

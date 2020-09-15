@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import i18n from 'i18n';
 
 import calendar from 'images/calendar.svg';
-import vote from 'images/vote.png';
+import vote from 'images/vote.svg';
 import 'styles/Dapp.css';
 
 const _getDayExpression = (days) => {
