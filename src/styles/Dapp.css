@@ -3586,6 +3586,7 @@ blockquote {
 }
 
 .vote.vote-search {
+  transition:all 200ms ease;
   display: inline-block;
   overflow: hidden;
   width: 100%;
@@ -3613,7 +3614,9 @@ blockquote {
 
 .vote.vote-search.vote-feed:hover {
   color: #0d0d17;
-  border-color: rgb(88 1 115 / 40%);
+  margin-top: -2px;
+  margin-bottom: 23px;
+  box-shadow: 0px 4px 8px 0 hsl(0deg 0% 72% / 21%);
 }
 
 .vote.vote-search.vote-feed:active {
@@ -3821,6 +3824,7 @@ blockquote {
   max-width: 100%;
   border-bottom-style: none;
   line-height: 30px;
+  margin-bottom: 10px;
 }
 
 .option-title.option-link.option-search.option-nolink {
@@ -4551,6 +4555,11 @@ blockquote {
   line-height: 22px;
   text-decoration: none;
   cursor: pointer;
+  text-overflow: ellipsis;
+  max-width: 140px;
+  height: 14px;
+  overflow: hidden;
+  margin-bottom: -3px;
 }
 
 .identity-label:hover {
@@ -6986,9 +6995,10 @@ blockquote {
 }
 
 .micro-icon {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   margin-top: -2px;
+  margin-right: 5px;
 }
 
 .micro-label-button {
@@ -10442,6 +10452,7 @@ body, h4, h1, h2 {
 .poll {
   display: inline-block;
   width: 100%;
+  margin: 0px 0px 10px;
 }
 
 .poll-choice {
@@ -10484,13 +10495,8 @@ body, h4, h1, h2 {
 }
 
 .choice:hover {
-    background: #fcf9ff;
-    /* border: 1px solid #5d0077; */
-    margin: -2px 0px 2px 0px;
-    box-shadow: 0px 3px 6px 0px #88888847;
-    border: 1px solid #f8f3ff;
-    border-top: 1px solid #faf8fd;
-    border-left: 1px solid #faf8fd;
+  margin: -2px 0px 2px 0px;
+  box-shadow: 0px 3px 6px 0px #8888881a;
 }
 
 .choice:active {
@@ -10619,9 +10625,17 @@ width: 1px;
   padding: 3px 0px;
   float: left;
   font-size: 0.65em;
+  line-height:30px;
   font-weight: 400;
   text-align: center;
   color: var(--main-link-color);
+}
+
+.token-icon {
+  max-width: 20px;
+  max-height: 20px;
+  margin-right: 5px;
+  margin-top: -2px;
 }
 
 .token-balance {
@@ -10894,6 +10908,8 @@ width: 1px;
 .parameter-name {
   color: #7d849f;
   line-height: 28px;
+  margin: 0px -15px 6px;
+  background-color: #F0EEF4;
   font-size: 11px;
   font-weight: 400;
   border-top-left-radius: 4px;
@@ -10914,7 +10930,6 @@ width: 1px;
 }
 
 .parameter-token {
-  padding-top:5px;
   margin: 0 auto;
   display: inline-block;
 }
@@ -11086,6 +11101,24 @@ h4 {
   background: #f6edf9;
   color: #b25dcc;
   border: 1px solid #b25dcc;
+}
+
+.period-pending {
+  background: #eef1ff;
+  color: #6577ff;
+  border: 1px solid #6577ff;
+}
+
+.period-cancelled {
+  background: #e8e8e8;
+  color: #000;
+  border: 1px solid #000;
+}
+
+.period-unsponsored {
+  background: #0073d82e;
+  color: #0073d8;
+  border: 1px solid #0073d8;
 }
 
 .period-complete {

@@ -774,7 +774,8 @@
   "moloch-yes": "Yes",
   "moloch-no": "No",
   "moloch-tribute": "Tribute to DAO",
-  "moloch-request": "Shares requested",
+  "moloch-request": "Shares Requested",
+  "moloch-payment": "Payment Requested",
   "moloch-contract-parameters": "Decision variables.",
   "moloch-applicant": "Applicant Address",
   "moloch-summoner": "Summoner Address",
@@ -784,8 +785,10 @@
   "moloch-period-process": "Ready for processing.",
   "moloch-period-queue": "In queue ⌛️",
   "moloch-period-voting": "Voting now 🗳",
-  "moloch-period-grace": "Grace period.",
+  "moloch-period-grace": "Grace period 🤞",
   "moloch-period-abort": "Aborted 🤦‍♂️",
+  "moloch-period-pending": "Unprocessed proposal 📨",
+  "moloch-flag-cancelled": "Cancelled proposal 🗑",
   "moloch-period-complete": "Completed without outcome.",
   "moloch-period-passed": "Approved Proposal 👍",
   "moloch-period-rejected": "Rejected Proposal 👎",
@@ -900,5 +903,8 @@
   "proposals-sidebar": "Recent Proposals",
   "memberships-sidebar": "Your Memberships",
   "no-memberships-found": "No DAO memberships found.",
-  "search-post-preview": "{{title}} — {{description}}"
+  "search-post-preview": "{{title}} — {{description}}",
+  "moloch-flag-unsponsored": "Unsponsored Proposal ⚠️",
+  "moloch-proposal-conditions": "Proposal conditions.",
+  "moloch-sponsored-by": "Sponsored By"
 }

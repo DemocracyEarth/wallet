@@ -1,6 +1,7 @@
 export const config = {
   web: {
     explorer: 'https://etherscan.io',
+    icons: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/{{publicAddress}}/logo.png'
   },
   graph: {
     tokens: 'https://api.thegraph.com/subgraphs/name/protofire/token-registry',

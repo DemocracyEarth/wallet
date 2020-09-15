@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { defaults } from 'lib/const';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import Search from 'components/Search/Search';
 import Account from 'components/Account/Account';
@@ -89,9 +89,9 @@ class Browser extends Component {
     return (
       <div id="browser" className={this.getScrollClass()}>
         <div className="topbar-max">
-          <div id="nav-home" className="hero-home-button">
+          <Link to="/" id="nav-home" className="hero-home-button">
             <img className="hero-logo" alt="" src={logo} />
-          </div>
+          </Link>
           {(this.connectedWallet()) ?
             <div className="hero-button hero-button-mobile hero-signin">
               <button id="sign-out-button" className="hero-menu-link hero-menu-link-signin-simple hero-menu-link-signin-simple-icon" onClick={this.props.walletReset} target="_blank">

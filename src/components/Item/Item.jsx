@@ -23,7 +23,7 @@ class ItemLink extends Component {
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
     ]),
-  };
+  }
 
   getLabel() {
     if (this.props.children) {

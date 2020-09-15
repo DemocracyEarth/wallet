@@ -50,6 +50,15 @@ const GET_VOTES_FROM_ADDRESS = gql`
   }
 `;
 
+const GET_VOTES_FROM_DAO = gql`
+  query memberProposals($address: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    votes(first: $first, skip: $skip, where: { molochAddress: $address } orderBy:$orderBy, orderDirection:$orderDirection) {
+      ${VOTE_DATA}
+    }
+  }
+`;
+
+
 /**
  * @summary retrieves the corresponding query for the timeline.
  * @param {string} view based on router context
@@ -58,6 +67,11 @@ const composeQuery = (view) => {
   if (view === routerView.HOME) {
     return GET_VOTES
   }
+
+  if (view === routerView.DAO) {
+    return GET_VOTES_FROM_DAO;
+  }
+
   return GET_VOTES_FROM_ADDRESS;
 }
 

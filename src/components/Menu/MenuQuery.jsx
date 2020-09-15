@@ -16,35 +16,47 @@ import 'styles/Dapp.css';
 // scroll settings
 let lastScrollTop = 0;
 
-export const GET_MEMBERSHIPS = gql`
+const MENU_DATA = `
+  id
+  memberAddress
+  moloch {
+    id
+    title
+  }
+  tokenTribute
+  exists
+  shares
+  didRagequit
+  submissions {
+    id
+    didPass
+    guildkick
+    gracePeriodEnds
+    votingPeriodStarts
+    votingPeriodEnds
+    sponsor
+    processed
+    applicant
+  }
+  kicked
+  jailed {
+    id
+  }
+  proposedToKick
+`
+
+const GET_MEMBERSHIPS = gql`
   query membershipDetails($address: String) {
     members(where: { memberAddress: $address }) {
-      id
-      memberAddress
-      moloch {
-        id
-        title
-      }
-      tokenTribute
-      exists
-      shares
-      didRagequit
-      submissions {
-        id
-        didPass
-        guildkick
-        gracePeriodEnds
-        votingPeriodStarts
-        votingPeriodEnds
-        sponsor
-        processed
-        applicant
-      }
-      kicked
-      jailed {
-        id
-      }
-      proposedToKick
+      ${MENU_DATA}
+    }
+  }
+`;
+
+const GET_DAOS = gql`
+  query membershipDetails($address: String) {
+    members(where: { molochAddress: $address }) {
+      ${MENU_DATA}
     }
   }
 `;
@@ -61,16 +73,26 @@ const _getMenu = (view, data, address) => {
   const atHome = (view === routerView.HOME);
   const hideEmpty = !atHome
 
+  let baseRoute;
+
+  switch (view) {
+    case routerView.DAO:
+      baseRoute = `/dao/${address}`;
+      break;
+    default:
+      baseRoute = `/address/${address}`;
+  }
+
   return (
     <div>
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[0])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[0])} key={0} href={(atHome) ? `/` : `/address/${address}`} />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[1])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[1])} key={1} href={(atHome) ? '/period/queue' : `/address/${address}/period/queue`} />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[2])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[2])} key={2} href={(atHome) ? '/period/voting' : `/address/${address}/period/voting`} />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[3])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[3])} key={3} href={(atHome) ? '/period/grace' : `/address/${address}/period/grace`} />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[4])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[4])} key={4} href={(atHome) ? '/period/ready' : `/address/${address}/period/ready`} />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[5])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[5])} key={9} href={(atHome) ? '/period/kicked' : `/address/${address}/period/kicked`} />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[6])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[6])} key={5} href={(atHome) ? '/period/rejected' : `/address/${address}/period/rejected`} />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[7])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[7])} key={6} href={(atHome) ? '/period/approved' : `/address/${address}/period/approved`} />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[0])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[0])} key={0} href={(atHome) ? `/` : baseRoute } />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[1])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[1])} key={1} href={(atHome) ? '/period/queue' : `${baseRoute}/period/queue`} />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[2])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[2])} key={2} href={(atHome) ? '/period/voting' : `${baseRoute}/period/voting`} />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[3])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[3])} key={3} href={(atHome) ? '/period/grace' : `${baseRoute}/period/grace`} />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[4])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[4])} key={4} href={(atHome) ? '/period/ready' : `${baseRoute}/period/ready`} />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[5])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[5])} key={9} href={(atHome) ? '/period/kicked' : `${baseRoute}/period/kicked`} />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[6])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[6])} key={5} href={(atHome) ? '/period/rejected' : `${baseRoute}/period/rejected`} />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[7])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[7])} key={6} href={(atHome) ? '/period/approved' : `${baseRoute}/period/approved`} />
     </div>
   );
 };
@@ -148,11 +170,24 @@ const _getHeadline = (headline, address, view) => {
   return i18n.t(`${headline}-account`, { account: shortenCryptoName(address) });
 };
 
+
+/**
+ * @summary retrieves the corresponding query for the timeline.
+ * @param {string} view based on router context
+ */
+const composeQuery = (view) => {
+  if (view === routerView.DAO) {
+    return GET_DAOS;
+  }
+  return GET_MEMBERSHIPS;
+}
+
+
 /**
 * @summary renders the menu based on a graph ql query ad hoc for the user
 */
 const MenuQuery = ({ address, scrollUp, view }) => {
-  const { loading, error, data } = useQuery(GET_MEMBERSHIPS, { variables: { address } });
+  const { loading, error, data } = useQuery(composeQuery(view), { variables: { address } });
 
   if (loading) {
     return (
@@ -183,6 +218,22 @@ const MenuQuery = ({ address, scrollUp, view }) => {
 
   const menuList = defaultMenu;
 
+  const daoMemberships = (
+    <div>
+      <div className="separator">
+        {_getHeadline('memberships', address, view)}
+      </div>
+      {
+      (daoList.length > 0) ?
+      daoList
+      :
+      <div className="empty">
+        {i18n.t('no-memberships-found')}
+      </div>
+      }
+    </div>
+  );
+
   return (
     <div id="sidebar" className={_getScrollClass(scrollUp)}>
       <div className="menu">
@@ -190,16 +241,7 @@ const MenuQuery = ({ address, scrollUp, view }) => {
           {_getHeadline('proposals', address, view)}
         </div>
         {menuList}
-        <div className="separator">
-          {_getHeadline('memberships', address, view)}
-        </div>
-        {(daoList.length > 0) ?
-          daoList
-          :
-          <div className="empty">
-            {i18n.t('no-memberships-found')}
-          </div>
-        }
+        {(view === routerView.ADDRESS) ? daoMemberships : null }
       </div>
     </div>
   );
@@ -247,11 +289,12 @@ export default class Sidebar extends Component {
   }
 
   render() {
-    if (this.props.view !== routerView.HOME) {
-      return <MenuQuery address={this.props.address} scrollUp={this.state.scrollUp} />;
+    if ((this.props.view !== routerView.HOME) && (this.props.view !== routerView.PERIOD)) {
+      return <MenuQuery address={this.props.address} scrollUp={this.state.scrollUp} view={this.props.view} />;
     }
 
     const defaultMenu = _getMenu(routerView.HOME);
+
     return (
       <div id="sidebar" className={_getScrollClass(this.state.scrollUp)}>
         <div className="menu">

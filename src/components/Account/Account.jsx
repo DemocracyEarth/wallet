@@ -93,12 +93,12 @@ const AccountQuery = ({ publicAddress, width, height, format, hidden }) => {
         <img src={image} className={`symbol profile-pic ${(format === 'plainText') ? 'plain' : null}`} alt="" style={{ width: finalWidth, height: finalHeight }} />
         {(format === 'plainText') ?
           <Link to={url} title={publicAddress}>
-            {(label.length > gui.MAX_LENGTH_ACCOUNT_NAMES) ? `${label.slice(0, gui.MAX_LENGTH_ACCOUNT_NAMES)}...` : label}
+            {label}
           </Link>
           :
           <div className="identity-peer">
             <Link to={url} title={publicAddress} className="identity-label identity-label-micro">
-              {(label.length > gui.MAX_LENGTH_ACCOUNT_NAMES) ? `${label.slice(0, gui.MAX_LENGTH_ACCOUNT_NAMES)}...` : label}
+              {label}
             </Link>
           </div>
         }
