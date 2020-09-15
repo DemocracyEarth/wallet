@@ -220,7 +220,7 @@ const Feed = (props) => {
     const yesPercentage = String(_getPercentage(Number(proposal.yesShares), Number(proposal.noShares)));
     const noPercentage = String(_getPercentage(Number(proposal.noShares), Number(proposal.yesShares)));
     const daoAddress = proposal.moloch.id;
-    const status = (proposal.didPass) ? 'PASSED' : 'FAILED';
+    const status = (proposal.didPass && proposal.processed) ? 'PASSED' : 'FAILED';
     const isPoll = (proposal.startingPeriod !== '0');
     const isUnsponsored = (!isPoll && proposal.molochVersion !== '1' && !proposal.sponsored);
     const url = `/proposal/${proposal.id}`;

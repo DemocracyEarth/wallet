@@ -785,7 +785,7 @@
   "moloch-period-process": "Ready for processing.",
   "moloch-period-queue": "In queue ⌛️",
   "moloch-period-voting": "Voting now 🗳",
-  "moloch-period-grace": "Grace period.",
+  "moloch-period-grace": "Grace period 🤞",
   "moloch-period-abort": "Aborted 🤦‍♂️",
   "moloch-period-complete": "Completed without outcome.",
   "moloch-period-passed": "Approved Proposal 👍",
