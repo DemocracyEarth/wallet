@@ -11103,6 +11103,18 @@ h4 {
   border: 1px solid #b25dcc;
 }
 
+.period-pending {
+  background: #eef1ff;
+  color: #6577ff;
+  border: 1px solid #6577ff;
+}
+
+.period-cancelled {
+  background: #e8e8e8;
+  color: #000;
+  border: 1px solid #000;
+}
+
 .period-unsponsored {
   background: #0073d82e;
   color: #0073d8;

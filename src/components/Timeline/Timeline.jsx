@@ -220,11 +220,23 @@ const Feed = (props) => {
     const yesPercentage = String(_getPercentage(Number(proposal.yesShares), Number(proposal.noShares)));
     const noPercentage = String(_getPercentage(Number(proposal.noShares), Number(proposal.yesShares)));
     const daoAddress = proposal.moloch.id;
-    const status = (proposal.didPass && proposal.processed) ? 'PASSED' : 'FAILED';
     const isPoll = (proposal.startingPeriod !== '0');
-    const isUnsponsored = (!isPoll && proposal.molochVersion !== '1' && !proposal.sponsored);
+    const isUnsponsored = (!isPoll && proposal.molochVersion !== '1' && !proposal.sponsored && !proposal.cancelled);
     const url = `/proposal/${proposal.id}`;
 
+    let status;
+    if (proposal.didPass && proposal.processed) {
+      status = 'PASSED';
+    }
+    if (!proposal.didPass && proposal.processed) {
+      status = 'FAILED';
+    }
+    if (!proposal.processed) {
+      status = 'PENDING';
+    }
+    if (proposal.cancelled) {
+      status = 'CANCELLED';
+    }
 
     const noShares = (proposal.sharesRequested === '0');
     const noTribute = (proposal.tributeOffered === '0');
@@ -313,6 +325,11 @@ const Feed = (props) => {
         {(isUnsponsored) ?
           <Flag styleClass={'warning period period-unsponsored'} label={i18n.t('moloch-flag-unsponsored')} />
         :
+          null
+        }
+        {(proposal.cancelled) ?
+          <Flag styleClass={'warning period period-cancelled'} label={i18n.t('moloch-flag-cancelled')} />
+          :
           null
         }
         <Social url={url} description={proposal.details}>
