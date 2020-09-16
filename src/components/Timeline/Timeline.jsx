@@ -297,7 +297,7 @@ const Feed = (props) => {
             null
           }
           {(proposal.whitelist) ?
-            <Toggle label={i18n.t('moloch-token-whitelist')} checked={true} />
+            <Toggle label={i18n.t('moloch-token-whitelist')} checked={true} disabled={true} />
             :
             null
           }

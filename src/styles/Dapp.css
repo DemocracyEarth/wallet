@@ -9179,7 +9179,7 @@ width: 1px;
 }
 
 .toggle {
-  padding: 10px;
+  padding: 10px 10px 5px;
   border-radius: 5px;
   text-align: left;
   font-size: 0.75em;
@@ -9191,6 +9191,14 @@ width: 1px;
   width: 100%;
   background: var(--proposal-bar-color);
   clear: both;
+}
+
+.toggle-label {
+  float: left;
+}
+
+.toggle-switch {
+  float: right;
 }
 
 .margin-top-minus-three {
