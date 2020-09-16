@@ -17,6 +17,7 @@ import Placeholder from 'components/Timeline/Placeholder';
 import Survey from 'components/Poll/Survey';
 import Social from 'components/Social/Social';
 import Flag from 'components/Flag/Flag';
+import Toggle from 'components/Toggle/Toggle';
 
 import { config } from 'config'
 import { defaults, view as routerView, period as routerPeriod } from 'lib/const';
@@ -82,7 +83,7 @@ const PROPOSAL_DATA = `
 
 const GET_PROPOSALS = gql`
   query addressProposals($first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-    proposals(first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+    proposals(where: { whitelist: true }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
       ${PROPOSAL_DATA}
     }
   }
@@ -241,9 +242,10 @@ const Feed = (props) => {
     const noShares = (proposal.sharesRequested === '0');
     const noTribute = (proposal.tributeOffered === '0');
     const noPayment = (proposal.paymentRequested === '0');
+    const noLoot = (proposal.lootRequested === '0');
     const noApplicant = (proposal.applicant === '0x0000000000000000000000000000000000000000');
     const noSponsor = (!proposal.sponsored);
-    const noConditions = (noShares && noTribute && noPayment && noApplicant && noSponsor);
+    const noConditions = (noShares && noTribute && noPayment && noApplicant && noSponsor && noLoot && !proposal.whitelist);
 
     return (
       <Post
@@ -273,6 +275,13 @@ const Feed = (props) => {
             :
             null
           }
+          {(!noLoot) ?
+            <Parameter label={i18n.t('moloch-loot')}>
+              <Token quantity={String(proposal.lootRequested)} symbol="SHARES" />
+            </Parameter>
+            :
+            null
+          }
           {(!noTribute) ?
             <Parameter label={i18n.t('moloch-tribute')}>
               <Token quantity={proposal.tributeOffered} publicAddress={proposal.tributeToken} symbol={proposal.tributeTokenSymbol} decimals={proposal.tributeTokenDecimals} />
@@ -284,6 +293,11 @@ const Feed = (props) => {
             <Parameter label={i18n.t('moloch-payment')}>
               <Token quantity={proposal.paymentRequested} publicAddress={proposal.paymentToken} symbol={proposal.paymentTokenSymbol} decimals={proposal.paymentTokenDecimals} />
             </Parameter>
+            :
+            null
+          }
+          {(proposal.whitelist) ?
+            <Toggle label={i18n.t('moloch-token-whitelist')} checked={true} />
             :
             null
           }

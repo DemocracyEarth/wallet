@@ -775,6 +775,7 @@
   "moloch-no": "No",
   "moloch-tribute": "Tribute to DAO",
   "moloch-request": "Shares Requested",
+  "moloch-loot": "Loot Requested",
   "moloch-payment": "Payment Requested",
   "moloch-contract-parameters": "Decision variables.",
   "moloch-applicant": "Applicant Address",
@@ -906,5 +907,6 @@
   "search-post-preview": "{{title}} — {{description}}",
   "moloch-flag-unsponsored": "Unsponsored Proposal ⚠️",
   "moloch-proposal-conditions": "Proposal conditions.",
-  "moloch-sponsored-by": "Sponsored By"
+  "moloch-sponsored-by": "Sponsored By",
+  "moloch-token-whitelist": "Token Whitelist"
 }

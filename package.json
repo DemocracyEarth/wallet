@@ -30,6 +30,7 @@
     "react-i18next": "^11.7.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.2",
+    "react-switch": "^5.0.1",
     "react-tag-input": "^6.4.3",
     "web3": "^1.2.11",
     "web3modal": "^1.9.0",
