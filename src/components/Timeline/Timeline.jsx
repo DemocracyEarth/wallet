@@ -83,7 +83,7 @@ const PROPOSAL_DATA = `
 
 const GET_PROPOSALS = gql`
   query addressProposals($first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-    proposals(where: { whitelist: true }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+    proposals(first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
       ${PROPOSAL_DATA}
     }
   }
@@ -245,7 +245,7 @@ const Feed = (props) => {
     const noLoot = (proposal.lootRequested === '0');
     const noApplicant = (proposal.applicant === '0x0000000000000000000000000000000000000000');
     const noSponsor = (!proposal.sponsored);
-    const noConditions = (noShares && noTribute && noPayment && noApplicant && noSponsor && noLoot && !proposal.whitelist);
+    const noConditions = (noShares && noTribute && noPayment && noApplicant && noSponsor && noLoot && !proposal.whitelist && !proposal.guildkick);
 
     return (
       <Post
@@ -298,6 +298,11 @@ const Feed = (props) => {
           }
           {(proposal.whitelist) ?
             <Toggle label={i18n.t('moloch-token-whitelist')} checked={true} disabled={true} />
+            :
+            null
+          }
+          {(proposal.guildkick) ?
+            <Toggle label={i18n.t('moloch-token-guildkick')} checked={true} disabled={true} />
             :
             null
           }

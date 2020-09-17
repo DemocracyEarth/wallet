@@ -908,5 +908,6 @@
   "moloch-flag-unsponsored": "Unsponsored Proposal ⚠️",
   "moloch-proposal-conditions": "Proposal conditions.",
   "moloch-sponsored-by": "Sponsored By",
-  "moloch-token-whitelist": "Token Whitelist"
+  "moloch-token-whitelist": "Token Whitelist",
+  "moloch-guildkick": "Guild Kick"
 }

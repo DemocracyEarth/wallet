@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Switch from "react-switch";
 
+import { config } from 'config';
+
 import 'styles/Dapp.css';
 
 /**
@@ -31,7 +33,10 @@ export default class Toggle extends Component {
           {this.props.label}
         </div>
         <div className="toggle-switch">
-          <Switch onChange={this.handleChange} checked={this.state.checked} disabled={this.props.disabled} checkedIcon={false} uncheckedIcon={false} height={20} width={42} onColor={'#01c190'} />
+          <Switch onChange={this.handleChange} checked={this.state.checked} 
+            disabled={this.props.disabled} checkedIcon={config.component.toggle.checkedIcon} uncheckedIcon={config.component.toggle.uncheckedIcon} 
+            height={config.component.toggle.height} width={config.component.toggle.width} onColor={config.component.toggle.onColor} activeBoxShadow={config.component.toggle.activeBoxShadow}
+          />
         </div>
       </div>
     );
