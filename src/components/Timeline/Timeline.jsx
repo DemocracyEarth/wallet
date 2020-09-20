@@ -123,11 +123,28 @@ const GET_PROPOSALS_PERIOD_QUEUE = gql`
 
 const GET_PROPOSALS_PERIOD_VOTING = gql`
   query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-    proposals(where: { votingPeriodStarts_lte: $now }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+    proposals(where: { votingPeriodStarts_lte: $now, votingPeriodEnds_gte: $now }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
       ${PROPOSAL_DATA}
     }
   }
 `;
+
+const GET_PROPOSALS_PERIOD_GRACE = gql`
+  query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { gracePeriodEnds_gt: $now, votingPeriodEnds_lt: $now }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`;
+
+const GET_PROPOSALS_PERIOD_READY = gql`
+  query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { gracePeriodEnds_lt: $now, processed: false, sponsored: true }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`;
+
 
 const GET_PROPOSALS_PERIOD_APPROVED = gql`
   query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
@@ -137,6 +154,7 @@ const GET_PROPOSALS_PERIOD_APPROVED = gql`
   }
 `;
 
+
 const GET_PROPOSALS_PERIOD_REJECTED = gql`
   query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
     proposals(where: { processed: true, didPass: false }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
@@ -144,6 +162,7 @@ const GET_PROPOSALS_PERIOD_REJECTED = gql`
     }
   }
 `;
+
 
 /**
  * @summary retrieves the corresponding query for the timeline.
@@ -166,11 +185,9 @@ const composeQuery = (view, field, period) => {
       case routerPeriod.VOTING:
         return GET_PROPOSALS_PERIOD_VOTING;
       case routerPeriod.GRACE:
-        break;
+        return GET_PROPOSALS_PERIOD_GRACE;
       case routerPeriod.READY:
-        break;
-      case routerPeriod.KICKED:
-        break;
+        return GET_PROPOSALS_PERIOD_READY;
       case routerPeriod.REJECTED:
         return GET_PROPOSALS_PERIOD_REJECTED;
       case routerPeriod.APPROVED:
