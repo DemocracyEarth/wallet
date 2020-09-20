@@ -17,6 +17,7 @@ import Placeholder from 'components/Timeline/Placeholder';
 import Survey from 'components/Poll/Survey';
 import Social from 'components/Social/Social';
 import Flag from 'components/Flag/Flag';
+import Toggle from 'components/Toggle/Toggle';
 
 import { config } from 'config'
 import { defaults, view as routerView, period as routerPeriod } from 'lib/const';
@@ -122,11 +123,28 @@ const GET_PROPOSALS_PERIOD_QUEUE = gql`
 
 const GET_PROPOSALS_PERIOD_VOTING = gql`
   query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-    proposals(where: { votingPeriodStarts_lte: $now }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+    proposals(where: { votingPeriodStarts_lte: $now, votingPeriodEnds_gte: $now }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
       ${PROPOSAL_DATA}
     }
   }
 `;
+
+const GET_PROPOSALS_PERIOD_GRACE = gql`
+  query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { gracePeriodEnds_gt: $now, votingPeriodEnds_lt: $now }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`;
+
+const GET_PROPOSALS_PERIOD_READY = gql`
+  query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { gracePeriodEnds_lt: $now, processed: false, sponsored: true }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`;
+
 
 const GET_PROPOSALS_PERIOD_APPROVED = gql`
   query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
@@ -136,6 +154,7 @@ const GET_PROPOSALS_PERIOD_APPROVED = gql`
   }
 `;
 
+
 const GET_PROPOSALS_PERIOD_REJECTED = gql`
   query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
     proposals(where: { processed: true, didPass: false }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
@@ -143,6 +162,7 @@ const GET_PROPOSALS_PERIOD_REJECTED = gql`
     }
   }
 `;
+
 
 /**
  * @summary retrieves the corresponding query for the timeline.
@@ -165,11 +185,9 @@ const composeQuery = (view, field, period) => {
       case routerPeriod.VOTING:
         return GET_PROPOSALS_PERIOD_VOTING;
       case routerPeriod.GRACE:
-        break;
+        return GET_PROPOSALS_PERIOD_GRACE;
       case routerPeriod.READY:
-        break;
-      case routerPeriod.KICKED:
-        break;
+        return GET_PROPOSALS_PERIOD_READY;
       case routerPeriod.REJECTED:
         return GET_PROPOSALS_PERIOD_REJECTED;
       case routerPeriod.APPROVED:
@@ -241,9 +259,10 @@ const Feed = (props) => {
     const noShares = (proposal.sharesRequested === '0');
     const noTribute = (proposal.tributeOffered === '0');
     const noPayment = (proposal.paymentRequested === '0');
+    const noLoot = (proposal.lootRequested === '0');
     const noApplicant = (proposal.applicant === '0x0000000000000000000000000000000000000000');
     const noSponsor = (!proposal.sponsored);
-    const noConditions = (noShares && noTribute && noPayment && noApplicant && noSponsor);
+    const noConditions = (noShares && noTribute && noPayment && noApplicant && noSponsor && noLoot && !proposal.whitelist && !proposal.guildkick);
 
     return (
       <Post
@@ -273,6 +292,13 @@ const Feed = (props) => {
             :
             null
           }
+          {(!noLoot) ?
+            <Parameter label={i18n.t('moloch-loot')}>
+              <Token quantity={String(proposal.lootRequested)} symbol="SHARES" />
+            </Parameter>
+            :
+            null
+          }
           {(!noTribute) ?
             <Parameter label={i18n.t('moloch-tribute')}>
               <Token quantity={proposal.tributeOffered} publicAddress={proposal.tributeToken} symbol={proposal.tributeTokenSymbol} decimals={proposal.tributeTokenDecimals} />
@@ -284,6 +310,16 @@ const Feed = (props) => {
             <Parameter label={i18n.t('moloch-payment')}>
               <Token quantity={proposal.paymentRequested} publicAddress={proposal.paymentToken} symbol={proposal.paymentTokenSymbol} decimals={proposal.paymentTokenDecimals} />
             </Parameter>
+            :
+            null
+          }
+          {(proposal.whitelist) ?
+            <Toggle label={i18n.t('moloch-token-whitelist')} checked={true} disabled={true} />
+            :
+            null
+          }
+          {(proposal.guildkick) ?
+            <Toggle label={i18n.t('moloch-token-guildkick')} checked={true} disabled={true} />
             :
             null
           }

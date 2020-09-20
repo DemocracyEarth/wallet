@@ -10,6 +10,15 @@ export const config = {
   },
   keys: {
     fortmatic: 'pk_live_0826872BC201129A',
-    infura: 'xxx',
   },
+  component: {
+    toggle: {
+      checkedIcon: false,
+      uncheckedIcon: false,
+      height: 20,
+      width: 42,
+      onColor: '#01c190',
+      activeBoxShadow: ''
+    }
+  }
 }

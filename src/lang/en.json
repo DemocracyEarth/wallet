@@ -775,6 +775,7 @@
   "moloch-no": "No",
   "moloch-tribute": "Tribute to DAO",
   "moloch-request": "Shares Requested",
+  "moloch-loot": "Loot Requested",
   "moloch-payment": "Payment Requested",
   "moloch-contract-parameters": "Decision variables.",
   "moloch-applicant": "Applicant Address",
@@ -900,11 +901,13 @@
   "guild-kicks": "Guild Kicks",
   "proposals-account": "Proposals by {{account}}",
   "memberships-account": "Memberships of {{account}}",
-  "proposals-sidebar": "Recent Proposals",
+  "proposals-sidebar": "Proposal Period",
   "memberships-sidebar": "Your Memberships",
   "no-memberships-found": "No DAO memberships found.",
   "search-post-preview": "{{title}} — {{description}}",
   "moloch-flag-unsponsored": "Unsponsored Proposal ⚠️",
   "moloch-proposal-conditions": "Proposal conditions.",
-  "moloch-sponsored-by": "Sponsored By"
+  "moloch-sponsored-by": "Sponsored By",
+  "moloch-token-whitelist": "Token Whitelist",
+  "moloch-guildkick": "Guild Kick"
 }
