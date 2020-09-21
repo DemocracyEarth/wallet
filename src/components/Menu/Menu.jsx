@@ -4,7 +4,7 @@ import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
 
-import Sidebar from 'components/Menu/MenuQuery';
+import Sidebar from 'components/Menu/Sidebar';
 import { config } from 'config'
 
 const client = new ApolloClient({

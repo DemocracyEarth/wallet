@@ -72,7 +72,7 @@ const _getMenu = (view, data, address) => {
   const atHome = (view === routerView.HOME);
   const hideEmpty = !atHome
   const defaultLabels = ['all', 'in-queue', 'voting-now', 'grace-period', 'ready-to-process', 'rejected', 'approved'];
-  
+
   let baseRoute;
 
   switch (view) {
@@ -163,7 +163,7 @@ const _getProposalCount = (list, label) => {
 * @return {string} with headline for separator
 */
 const _getHeadline = (headline, address, view) => {
-  if (view === routerView.HOME) {
+  if (view === routerView.HOME || view === routerView.PERIOD) {
     return i18n.t(`${headline}-sidebar`);
   }
   return i18n.t(`${headline}-account`, { account: shortenCryptoName(address) });

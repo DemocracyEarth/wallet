@@ -76,9 +76,6 @@ export default class Search extends React.Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handleAddition = this.handleAddition.bind(this);
     this.handleDrag = this.handleDrag.bind(this);
-
-    console.log(`contextTag`);
-    console.log(props.contextTag);
   }
 
   handleDelete(i) {

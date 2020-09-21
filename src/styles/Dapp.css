@@ -5157,6 +5157,21 @@ blockquote {
   padding-left: 0px;
 }
 
+.content.content-agora.content-up {
+  transition: top 0.15s ease 0.15s;
+  top: 0px;
+}
+
+.content.content-agora.content-down {
+  transition: top 0.15s ease 0.15s;
+  top: 0px;
+}
+
+.content.content-agora.content-down {
+  transition: top 0.15s ease 0.15s;
+  top: 60px;
+}
+
 @media (max-width: 991px) {
   .content.content-agora {
     position: relative;
