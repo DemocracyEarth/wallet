@@ -20,7 +20,6 @@ import Flag from 'components/Flag/Flag';
 import Toggle from 'components/Toggle/Toggle';
 
 import { query } from 'components/Timeline/queries';
-
 import { config } from 'config'
 import { defaults, view as routerView, period as routerPeriod } from 'lib/const';
 import { uniqBy, orderBy as _orderBy } from 'lodash';
