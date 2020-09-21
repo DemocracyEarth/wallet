@@ -83,6 +83,8 @@ const Feed = (props) => {
   const now = Math.floor(new Date().getTime() / 1000);
   const { loading, error, data } = useQuery(composeQuery(props.view, props.field, props.period), { variables: { address, first, skip, orderBy, orderDirection, now } });
 
+  window.scroll({ top: 0 });
+
   if (loading) return <Placeholder />;
   if (error) return <p>Error!</p>;
 
