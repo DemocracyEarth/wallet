@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, useQuery } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
@@ -83,7 +83,11 @@ const Feed = (props) => {
   const now = Math.floor(new Date().getTime() / 1000);
   const { loading, error, data } = useQuery(composeQuery(props.view, props.field, props.period), { variables: { address, first, skip, orderBy, orderDirection, now } });
 
+  // fx
   window.scroll({ top: 0 });
+  useEffect(() => {
+    document.getElementById('alternative-feed').style.minHeight = `${document.getElementById('proposals').scrollHeight}px`;
+  });
 
   if (loading) return <Placeholder />;
   if (error) return <p>Error!</p>;
