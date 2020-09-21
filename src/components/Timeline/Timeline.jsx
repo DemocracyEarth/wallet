@@ -85,6 +85,7 @@ const Feed = (props) => {
 
   // fx
   window.scroll({ top: 0 });
+
   useEffect(() => {
     document.getElementById('alternative-feed').style.minHeight = `${document.getElementById('proposals').scrollHeight}px`;
   });

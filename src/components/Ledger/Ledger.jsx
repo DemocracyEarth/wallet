@@ -4,14 +4,14 @@ import i18n from 'i18n';
 import Vote from 'components/Vote/Vote';
 import 'styles/Dapp.css';
 
-const _getScrollTop = () => {
-  const ledgerHeight = document.getElementById('ledger').offsetHeight;
-  const windowHeight = window.innerHeight;
-  if (ledgerHeight > windowHeight) {
-    document.getElementById('alternative-feed').style.minHeight = `${document.getElementById('proposals').getBoundingClientRect().height}px`;
-    return parseInt(windowHeight - ledgerHeight - 40, 10);
+// scroll settings
+let lastScrollTop = 0;
+
+const _getScrollClass = (isUp) => {
+  if (isUp) {
+    return `content content-agora content-up`;
   }
-  return 0;
+  return `content content-agora content-down`;
 };
 
 /**
@@ -31,6 +31,7 @@ export default class Ledger extends Component {
     super();
     this.state = {
       top: '0px',
+      scrollUp: false,
     };
 
     this.handleScroll = this.handleScroll.bind(this);
@@ -45,12 +46,21 @@ export default class Ledger extends Component {
   }
 
   handleScroll() {
-    this.setState({ top: `${_getScrollTop()}px` });
+    const st = window.pageYOffset || document.documentElement.scrollTop;
+
+    if ((st > lastScrollTop) && !this.state.scrollUp) {
+      this.setState({ scrollUp: true });
+    } else if ((st <= lastScrollTop) && this.state.scrollUp) {
+      this.setState({ scrollUp: false });
+    }
+    lastScrollTop = st <= 0 ? 0 : st;
+
+    // this.setState({ top: `${_getScrollTop()}px` });
   }
 
   render() {
     return (
-      <div id="agora" className="content content-agora" style={{ top: this.state.top }}>
+      <div id="agora" className={_getScrollClass(this.state.scrollUp)}> {/* style={{ top: this.state.top }}>*/}
         <div id="ledger" className="ledger">
           <div className="ledger-title">
             <h4>{i18n.t('recent-activity')}</h4>
