@@ -1943,10 +1943,10 @@ blockquote {
   padding-bottom: 0px;
   border-style: solid;
   border-width: 1px;
-  border-color: rgb(224 218 226);
+  border-color: rgb(255 255 255);
   border-radius: 8px;
   background-image: none;
-  /* box-shadow: 0 2px 8px 0 hsla(0, 0%, 72%, .37); */
+  box-shadow: 0 2px 8px 0 hsla(0, 0%, 72%, 21%);
   color: #000;
   cursor: pointer;
 }
@@ -1955,7 +1955,7 @@ blockquote {
   color: #0d0d17;
   margin-top: -2px;
   margin-bottom: 23px;
-  box-shadow: 0px 4px 8px 0 hsl(0deg 0% 72% / 21%);
+  box-shadow: 0px 4px 8px 0 hsl(0deg 0% 72% / 37%);
 }
 
 .vote.vote-search.vote-feed:active {
@@ -8964,9 +8964,9 @@ width: 1px;
 }
 
 .vote.vote-search.vote-feed.nondraggable.vote-poll:active {
-    margin-top: -4px;
-    margin-bottom: 25px;
-    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, .1);
+    margin-top: 0px;
+    margin-bottom: 21px;
+    box-shadow: none;
     color: #0d0d17;
 }
 

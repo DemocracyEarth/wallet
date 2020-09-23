@@ -257,6 +257,7 @@ const Timeline = (props) => {
 Timeline.propTypes = {
   field: PropTypes.string,
   address: PropTypes.string,
+  proposalId: PropTypes.string,
   first: PropTypes.number,
   skip: PropTypes.number,
   orderBy: PropTypes.string,

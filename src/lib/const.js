@@ -84,7 +84,8 @@ const _view = {
   HOME: 'home',
   DAO: 'dao',
   ADDRESS: 'address',
-  PERIOD: 'period'
+  PERIOD: 'period',
+  PROPOSAL: 'proposal'
 }
 
 const _period = {

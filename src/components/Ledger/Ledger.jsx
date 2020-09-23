@@ -21,6 +21,7 @@ export default class Ledger extends Component {
   static propTypes = {
     address: PropTypes.string,
     view: PropTypes.string,
+    proposalId: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,

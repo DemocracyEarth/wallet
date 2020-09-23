@@ -283,7 +283,6 @@ export default class Sidebar extends Component {
       this.setState({ scrollUp: true });
     } else if ((st <= lastScrollTop) && this.state.scrollUp) {
       this.setState({ scrollUp: false });
-      console.log('down');
     }
     lastScrollTop = st <= 0 ? 0 : st;
   }
