@@ -41,6 +41,10 @@ const composeQuery = (view, field, period) => {
     return query.GET_PROPOSALS_DAO;
   }
 
+  if (view === routerView.PROPOSAL) {
+    return query.GET_PROPOSAL_ID;
+  }
+
   if (view === routerView.PERIOD) {
     switch (period) {
       case routerPeriod.QUEUE:
@@ -79,9 +83,10 @@ const _getPercentage = (percentageAmount, remainder) => {
 };
 
 const Feed = (props) => {
-  const { address, first, skip, orderBy, orderDirection } = props;
+  const { address, first, skip, orderBy, orderDirection, proposalId } = props;
   const now = Math.floor(new Date().getTime() / 1000);
-  const { loading, error, data } = useQuery(composeQuery(props.view, props.field, props.period), { variables: { address, first, skip, orderBy, orderDirection, now } });
+  console.log(`proposalId: ${proposalId} && ${typeof proposalId}`);
+  const { loading, error, data } = useQuery(composeQuery(props.view, props.field, props.period), { variables: { address, first, skip, orderBy, orderDirection, now, proposalId } });
 
   // fx
   window.scroll({ top: 0 });
@@ -248,7 +253,8 @@ const Feed = (props) => {
 const Timeline = (props) => {
   return (
     <ApolloProvider client={client}>
-      <Feed address={props.address} period={props.period} view={props.view} field={props.field} first={props.first} skip={props.skip} orderBy={props.orderBy} orderDirection={props.orderDirection} />
+      <Feed address={props.address} period={props.period} view={props.view} field={props.field} proposalId={props.proposalId} 
+        first={props.first} skip={props.skip} orderBy={props.orderBy} orderDirection={props.orderDirection} />
     </ApolloProvider>
   );
 };

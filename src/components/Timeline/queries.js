@@ -126,5 +126,12 @@ export const query = {
         ${PROPOSAL_DATA}
       }
     }
+  `,
+  GET_PROPOSAL_ID: gql`
+    query addressProposals($proposalId: String, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+      proposals(where: { id: $proposalId }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+        ${PROPOSAL_DATA}
+      }
+    }
   `
 };

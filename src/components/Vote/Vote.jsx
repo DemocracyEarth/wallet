@@ -25,15 +25,16 @@ const client = new ApolloClient({
  * @param {string} view based on router context
  */
 const composeQuery = (view) => {
-  if (view === routerView.ADDRESS) {
-    return query.GET_VOTES_FROM_ADDRESS;
+  switch (view) {
+    case routerView.PROPOSAL:
+      return query.GET_VOTES_FROM_PROPOSAL;
+    case routerView.DAO: 
+      return query.GET_VOTES_FROM_DAO;
+    case routerView.ADDRESS:
+      return query.GET_VOTES_FROM_ADDRESS;
+    default:
+      return query.GET_VOTES
   }
-
-  if (view === routerView.DAO) {
-    return query.GET_VOTES_FROM_DAO;
-  }
-
-  return query.GET_VOTES
 }
 
 /**
@@ -47,8 +48,8 @@ const composeQuery = (view) => {
 * @param {string} decimal numbers this token takes
 */
 const VoteQuery = (props) => {
-  const { address, first, skip, orderBy, orderDirection } = props;  
-  const { loading, error, data } = useQuery(composeQuery(props.view), { variables: { address, first, skip, orderBy, orderDirection } });
+  const { address, first, skip, orderBy, orderDirection, proposalId } = props;  
+  const { loading, error, data } = useQuery(composeQuery(props.view), { variables: { address, first, skip, orderBy, orderDirection, proposalId } });
 
   if (loading) {
     return (
@@ -74,6 +75,7 @@ const VoteQuery = (props) => {
 };
 
 VoteQuery.propTypes = {
+  proposalId: PropTypes.string,
   address: PropTypes.string,
   first: PropTypes.number,
   skip: PropTypes.number,
@@ -89,7 +91,7 @@ VoteQuery.propTypes = {
 const Vote = (props) => {
   return (
     <ApolloProvider client={client}>
-      <VoteQuery address={props.address} view={props.view} first={props.first} skip={props.skip} orderBy={props.orderBy} orderDirection={props.orderDirection} />
+      <VoteQuery address={props.address} view={props.view} proposalId={props.proposalId} first={props.first} skip={props.skip} orderBy={props.orderBy} orderDirection={props.orderDirection} />
     </ApolloProvider>
   );
 };

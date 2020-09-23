@@ -38,4 +38,11 @@ export const query = {
       }
     }
   `,
+  GET_VOTES_FROM_PROPOSAL: gql`
+    query memberProposals($proposalId: String) {
+      votes(where: { proposal_contains: $proposalId }) {
+        ${VOTE_DATA}
+      }
+    }
+  `,
 };
