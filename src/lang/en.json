@@ -909,5 +909,7 @@
   "moloch-proposal-conditions": "Proposal conditions.",
   "moloch-sponsored-by": "Sponsored By",
   "moloch-token-whitelist": "Token Whitelist",
-  "moloch-guildkick": "Guild Kick"
+  "moloch-guildkick": "Guild Kick",
+  "moloch-empty-feed": "No proposals found.",
+  "moloch-empty-feed-detail": "None of the proposals on the Ethereum blockchain currently meet this criteria."
 }

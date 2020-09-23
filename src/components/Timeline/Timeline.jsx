@@ -25,6 +25,7 @@ import { defaults, view as routerView, period as routerPeriod } from 'lib/const'
 import { uniqBy, orderBy as _orderBy } from 'lodash';
 
 import i18n from 'i18n';
+import notFound from 'images/not-found.svg';
 import 'styles/Dapp.css';
 
 /**
@@ -106,6 +107,16 @@ const Feed = (props) => {
   }
 
   console.log(data);
+
+  if (data.proposals.length === 0) {
+    return (
+      <div className="empty-feed">
+        <img className="empty-icon" src={notFound} alt="" />
+        <h1>{i18n.t('moloch-empty-feed')}</h1>
+        {i18n.t('moloch-empty-feed-detail')}
+      </div>
+    );
+  }
 
   return data.proposals.map((proposal) => {
     const totalVoters = String(parseInt(Number(proposal.yesVotes) + Number(proposal.noVotes), 10));

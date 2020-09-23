@@ -411,19 +411,7 @@ th {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.w-icon-slider-right:before {
-  content: "\e600";
-}
-.w-icon-slider-left:before {
-  content: "\e601";
-}
-.w-icon-nav-menu:before {
-  content: "\e602";
-}
-.w-icon-arrow-down:before,
-.w-icon-dropdown-toggle:before {
-  content: "\e603";
-}
+
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -449,35 +437,7 @@ img {
 html.w-mod-touch * {
   background-attachment: scroll !important;
 }
-.w-block {
-  display: block;
-}
-.w-inline-block {
-  max-width: 100%;
-  display: inline-block;
-}
-.w-clearfix:before,
-.w-clearfix:after {
-  content: " ";
-  display: table;
-}
-.w-clearfix:after {
-  clear: both;
-}
-.w-hidden {
-  display: none;
-}
-.w-button {
-  display: inline-block;
-  padding: 9px 15px;
-  background-color: #3898ec;
-  color: white;
-  border: 0;
-  line-height: inherit;
-  text-decoration: none;
-  cursor: pointer;
-  border-radius: 0;
-}
+
 input.w-button {
   -webkit-appearance: button;
 }
@@ -566,13 +526,12 @@ body {
 
 h1 {
   margin-top: 0px;
-  margin-bottom: 20px;
-  padding-top: 100px;
+  margin-bottom: 10px;
+  padding-top: 30px;
   color: rgba(0, 0, 0, .87);
-  font-size: 40px;
-  line-height: 48px;
+  font-size: 20px;
+  line-height: 24px;
   font-weight: 500;
-  letter-spacing: 0.4px;
 }
 
 h2 {
@@ -2865,7 +2824,6 @@ blockquote {
   text-decoration: none;
   cursor: pointer;
   text-overflow: ellipsis;
-  max-width: 140px;
   height: 14px;
   overflow: hidden;
   margin-bottom: -3px;
@@ -5603,6 +5561,17 @@ blockquote {
   text-align: left;
 }
 
+.empty-feed {
+  text-align: center;
+  padding: 10px 20%;
+  font-size: 0.8em;
+  line-height: 1.6em;
+}
+
+.empty-icon {
+  max-width: 64px;
+}
+
 .sort {
   position: absolute;
   z-index: 7500;
@@ -7501,9 +7470,6 @@ blockquote {
 @media (max-width: 767px) {
   body {
     padding-bottom: 0px;
-  }
-  h1 {
-    padding-top: 90px;
   }
   h2 {
     font-size: 18px;
