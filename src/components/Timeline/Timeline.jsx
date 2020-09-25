@@ -235,7 +235,7 @@ const Feed = (props) => {
               </Choice>
             </Survey>
             <Period
-              now={timestamp}
+              now={timestamp} url={url}
               status={status} votingPeriodBegins={proposal.votingPeriodStarts}
               votingPeriodEnds={proposal.votingPeriodEnds} gracePeriodEnds={proposal.gracePeriodEnds}
             />
@@ -244,17 +244,17 @@ const Feed = (props) => {
           null
         }
         {(isUnsponsored) ?
-          <Flag styleClass={'warning period period-unsponsored'} label={i18n.t('moloch-flag-unsponsored')} />
+          <Flag styleClass={'warning period period-unsponsored'} url={url} label={i18n.t('moloch-flag-unsponsored')} tooltip={i18n.t('moloch-open-proposal')} />
         :
           null
         }
         {(proposal.cancelled) ?
-          <Flag styleClass={'warning period period-cancelled'} label={i18n.t('moloch-flag-cancelled')} />
+          <Flag styleClass={'warning period period-cancelled'} url={url} label={i18n.t('moloch-flag-cancelled')} tooltip={i18n.t('moloch-open-proposal')} />
           :
           null
         }
         <Social url={url} description={proposal.details}>
-          <Stamp timestamp={proposal.createdAt} />
+          <Stamp url={url} timestamp={proposal.createdAt}  />
         </Social>
       </Post>
     );

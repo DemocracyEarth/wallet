@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
+import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, useQuery } from '@apollo/react-hooks';
+import { useHistory } from "react-router-dom";
 
 import Account from 'components/Account/Account';
 import DAO from 'components/DAO/DAO';
@@ -14,6 +15,7 @@ import { view as routerView } from 'lib/const';
 import { query } from 'components/Vote/queries'
 import { config } from 'config'
 import 'styles/Dapp.css';
+import i18n from 'i18n';
 
 const client = new ApolloClient({
   uri: config.graph.moloch,
@@ -50,21 +52,31 @@ const composeQuery = (view) => {
 const VoteQuery = (props) => {
   const { address, first, skip, orderBy, orderDirection, proposalId } = props;  
   const { loading, error, data } = useQuery(composeQuery(props.view), { variables: { address, first, skip, orderBy, orderDirection, proposalId } });
+  const history = useHistory();
 
   if (loading) {
     return (
-      <div className="token">
-        <div className="token-ticker">
-          <div className="option-placeholder token-placeholder" />
-        </div>
+      <div className="event-vote">
       </div>
     );
   }
   if (error) return `Error! ${error}`;
 
+  if (data.votes.length === 0) {
+    return (
+      <div className="event-vote event-vote-empty">
+        <div className="preview-info">
+          <div className="transaction-action transaction-action-empty">
+            {i18n.t('moloch-ledger-empty')}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return data.votes.map((vote) => {
     return (
-      <div key={vote.id} className="event-vote">
+      <div key={vote.id} className="event-vote" onClick={() => { history.push(`/proposal/${vote.proposal.id}`); }}>
         <Account publicAddress={vote.memberAddress} width="16px" height="16px" />
         <DAO publicAddress={vote.molochAddress} width="16px" height="16px" />
         <Transaction uintVote={vote.uintVote} description={vote.proposal.details} quantity={vote.member.shares} />

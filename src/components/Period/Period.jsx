@@ -15,6 +15,7 @@ export default class Period extends Component {
     votingPeriodBegins: PropTypes.string,
     votingPeriodEnds: PropTypes.string,
     gracePeriodEnds: PropTypes.string,
+    url: PropTypes.string,
     status: PropTypes.string
   }
 
@@ -42,7 +43,7 @@ export default class Period extends Component {
 
   render() {
     return (
-      <Flag styleClass={this.getStyle()} label={this.getLabel()} />
+      <Flag styleClass={this.getStyle()} url={this.props.url} label={this.getLabel()} tooltip={i18n.t('moloch-open-proposal')} />
     );
   }
 }

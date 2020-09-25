@@ -95,7 +95,7 @@ class Post extends Component {
                 {
                   (this.state.link) ?
                     <div className="title-description">
-                      <a href={this.state.link} target="_blank" rel="noopener noreferrer">{this.state.link}</a>
+                      <a href={this.state.link} target="_blank" rel="noopener noreferrer" onClick={(e) => { e.stopPropagation(); }}>{this.state.link}</a>
                     </div>
                     :
                     null

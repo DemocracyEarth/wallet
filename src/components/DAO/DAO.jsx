@@ -74,15 +74,15 @@ const DAOQuery = ({ publicAddress, width, height, format }) => {
         <div>
           <img src={image} className="symbol dao-pic" alt="" style={{ width: finalWidth, height: finalHeight }} />
           <div className="identity-peer">
-            {label}
+            {(label.length > gui.MAX_LENGTH_ACCOUNT_NAMES) ? `${label.substring(0, gui.MAX_LENGTH_ACCOUNT_NAMES)}...` : label}
           </div>
         </div>
         :
         <div className="avatar-editor">
           <img src={image} className="symbol dao-pic" alt="" style={{ width: finalWidth, height: finalHeight }} />
           <div className="identity-peer">
-            <Link to={url} title={publicAddress} className="identity-label identity-label-micro">
-              {label}
+            <Link to={url} title={publicAddress} className="identity-label identity-label-micro" onClick={(e) => { e.stopPropagation(); }}>
+              {(label.length > gui.MAX_LENGTH_ACCOUNT_NAMES) ? `${label.substring(0, gui.MAX_LENGTH_ACCOUNT_NAMES)}...` : label}
             </Link>
           </div>
         </div>

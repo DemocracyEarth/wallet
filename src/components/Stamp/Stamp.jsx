@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import parser from 'html-react-parser';
 
@@ -47,9 +48,9 @@ export default class Stamp extends Component {
   render() {
     return (
       <div className="date-info">
-        <a href={this.state.url} title={this.state.fullDate.replace(/&#183;/g, '·')} className="verifier verifier-live verifier-feed">
+        <Link to={this.state.url} title={this.state.fullDate.replace(/&#183;/g, '·')} className="verifier verifier-live verifier-feed" onClick={(e) => { e.stopPropagation(); }}>
           {parser(this.state.label)}
-        </a>
+        </Link>
       </div>
     );
   }

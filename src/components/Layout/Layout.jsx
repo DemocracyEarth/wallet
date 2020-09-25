@@ -53,7 +53,7 @@ const Layout = (props) => {
             </div>
           </div>
           <div id="alternative-feed" className="split split-right split-landing">
-            <Ledger address={renderAddress} view={view} proposalId={proposalId} />
+            <Ledger address={renderAddress} view={view} proposalId={proposalId} first={25} skip={0}  />
           </div>
         </div>
       </div>

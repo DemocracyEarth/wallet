@@ -911,5 +911,10 @@
   "moloch-token-whitelist": "Token Whitelist",
   "moloch-guildkick": "Guild Kick",
   "moloch-empty-feed": "No proposals found.",
-  "moloch-empty-feed-detail": "None of the proposals on the Ethereum blockchain currently meet this criteria."
+  "moloch-empty-feed-detail": "None of the proposals on the Ethereum blockchain currently meet this criteria.",
+  "moloch-ledger-proposal-votes": "Votes on this proposal.",
+  "moloch-ledger-dao-votes": "Votes on this DAO.",
+  "moloch-ledger-address-votes": "Votes from this address.",
+  "moloch-ledger-empty": "No votes were cast.",
+  "moloch-open-proposal": "See proposal activity."
 }
