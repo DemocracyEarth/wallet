@@ -7218,7 +7218,6 @@ blockquote {
 }
 
 .sidebar.sidebar-desktop.sidebar-down {
-  transition: top 0.15s ease 0.15s;
   top: 60px;
 }
 
@@ -9131,14 +9130,15 @@ width: 1px;
 }
 
 .empty {
-  border: 1px solid #ffbe00;
+  border: 1px solid #7c839d;
   font-size: 0.8em;
   padding: 0px 5px;
   text-align: center;
   border-radius: 5px;
-  color: #ffbe00;
+  color: #7c839d;
   line-height: 28px;
-  background-color: #fff8e9;
+  background-color: #f0eef4;
+  margin-bottom: 20px;
 }
 
 .sidebar-label.sidebar-label-dao {

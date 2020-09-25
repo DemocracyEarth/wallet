@@ -904,6 +904,7 @@
   "proposals-sidebar": "Proposal Period",
   "memberships-sidebar": "Your Memberships",
   "no-memberships-found": "No DAO memberships found.",
+  "no-proposals-found": "No proposals were found.",
   "search-post-preview": "{{title}} — {{description}}",
   "moloch-flag-unsponsored": "Unsponsored Proposal ⚠️",
   "moloch-proposal-conditions": "Proposal conditions.",
@@ -916,5 +917,6 @@
   "moloch-ledger-dao-votes": "Votes on this DAO.",
   "moloch-ledger-address-votes": "Votes from this address.",
   "moloch-ledger-empty": "No votes were cast.",
-  "moloch-open-proposal": "See proposal activity."
+  "moloch-open-proposal": "See proposal activity.",
+  "recent-votes": "Recent votes."
 }

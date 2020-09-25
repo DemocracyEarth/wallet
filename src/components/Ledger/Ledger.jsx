@@ -59,7 +59,7 @@ export default class Ledger extends Component {
         return i18n.t('moloch-ledger-address-votes');
       default:
     }
-    return i18n.t('recent-activity')
+    return i18n.t('recent-votes')
   }
 
   handleScroll() {

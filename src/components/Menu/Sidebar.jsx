@@ -7,7 +7,7 @@ import { shortenCryptoName } from 'utils/strings';
 import Item from 'components/Item/Item';
 import DAO from 'components/DAO/DAO';
 
-import { reduce, sortBy } from 'lodash';
+import { reduce, sortBy, where } from 'lodash';
 import { view as routerView } from 'lib/const'
 
 import i18n from 'i18n';
@@ -217,6 +217,21 @@ const MenuQuery = ({ address, scrollUp, view }) => {
 
   const menuList = defaultMenu;
 
+  console.log(`view: ${view}`);
+  let hasContent = false;
+  if (view === routerView.ADDRESS || view === routerView.DAO || view === routerView.PROPOSAL) {
+    for (let menuItem of menuList.props.children) {
+      if (menuItem.props.score > 0) {
+        hasContent = true;
+        break;
+      }
+    }
+  } else {
+    hasContent = true;
+  }
+
+  console.log(`hasContent: ${hasContent}`);
+
   const daoMemberships = (
     <div>
       <div className="separator">
@@ -239,7 +254,13 @@ const MenuQuery = ({ address, scrollUp, view }) => {
         <div className="separator">
           {_getHeadline('proposals', address, view)}
         </div>
-        {menuList}
+        {(hasContent) ? 
+          menuList
+          :
+          <div className="empty">
+            {i18n.t('no-proposals-found')}
+          </div>
+        }
         {(view === routerView.ADDRESS) ? daoMemberships : null }
       </div>
     </div>
