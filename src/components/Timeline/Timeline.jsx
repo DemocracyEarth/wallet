@@ -60,6 +60,8 @@ const composeQuery = (view, field, period) => {
         default:
       }
       break;
+    case routerView.ADDRESS:
+        return query.GET_PROPOSALS_ADDRESS;
     default:
       switch (field) {
         case 'applicant':

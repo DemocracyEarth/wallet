@@ -5671,7 +5671,7 @@ blockquote {
 
 .split.split-right {
   display: flex;
-  height: 100%;
+  height: 95%;
   min-height: 5000px;
   position: relative;
   left: 60%;
@@ -8275,7 +8275,7 @@ blockquote {
   background: var(--bar-tag);
   border-radius: 15px;
   color: var(--bar-background);
-  padding: 0px 10px;
+  padding: 0px 15px 0px 10px;
   margin: 0 15px 0px 0px;
   display: inline-block;
 }

@@ -23,31 +23,20 @@ const MENU_DATA = `
     id
     title
   }
-  tokenTribute
-  exists
-  shares
-  didRagequit
-  submissions {
-    id
-    didPass
-    guildkick
-    gracePeriodEnds
-    votingPeriodStarts
-    votingPeriodEnds
-    sponsor
-    processed
-    applicant
-  }
-  kicked
-  jailed {
-    id
-  }
-  proposedToKick
+  id
+  didPass
+  guildkick
+  gracePeriodEnds
+  votingPeriodStarts
+  votingPeriodEnds
+  sponsor
+  processed
+  applicant
 `
 
 const GET_MEMBERSHIPS = gql`
   query membershipDetails($address: String) {
-    members(where: { memberAddress: $address }) {
+    proposals(where: { proposer: $address }) {
       ${MENU_DATA}
     }
   }
@@ -85,13 +74,13 @@ const _getMenu = (view, data, address) => {
 
   return (
     <div>
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[0])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[0])} key={0} href={(atHome) ? `/` : baseRoute } />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[1])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[1])} key={1} href={(atHome) ? '/period/queue' : `${baseRoute}/period/queue`} />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[2])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[2])} key={2} href={(atHome) ? '/period/voting' : `${baseRoute}/period/voting`} />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[3])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[3])} key={3} href={(atHome) ? '/period/grace' : `${baseRoute}/period/grace`} />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[4])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[4])} key={4} href={(atHome) ? '/period/ready' : `${baseRoute}/period/ready`} />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[5])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[6])} key={5} href={(atHome) ? '/period/rejected' : `${baseRoute}/period/rejected`} />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[6])}`} score={(atHome) ? null : _getProposalCount(data.members, defaultLabels[7])} key={6} href={(atHome) ? '/period/approved' : `${baseRoute}/period/approved`} />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[0])}`} score={(atHome) ? null : _getProposalCount(data.proposals, defaultLabels[0])} key={0} href={(atHome) ? `/` : baseRoute } />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[1])}`} score={(atHome) ? null : _getProposalCount(data.proposals, defaultLabels[1])} key={1} href={(atHome) ? '/period/queue' : `${baseRoute}/period/queue`} />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[2])}`} score={(atHome) ? null : _getProposalCount(data.proposals, defaultLabels[2])} key={2} href={(atHome) ? '/period/voting' : `${baseRoute}/period/voting`} />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[3])}`} score={(atHome) ? null : _getProposalCount(data.proposals, defaultLabels[3])} key={3} href={(atHome) ? '/period/grace' : `${baseRoute}/period/grace`} />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[4])}`} score={(atHome) ? null : _getProposalCount(data.proposals, defaultLabels[4])} key={4} href={(atHome) ? '/period/ready' : `${baseRoute}/period/ready`} />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[5])}`} score={(atHome) ? null : _getProposalCount(data.proposals, defaultLabels[5])} key={5} href={(atHome) ? '/period/rejected' : `${baseRoute}/period/rejected`} />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[6])}`} score={(atHome) ? null : _getProposalCount(data.proposals, defaultLabels[6])} key={6} href={(atHome) ? '/period/approved' : `${baseRoute}/period/approved`} />
     </div>
   );
 };
@@ -115,43 +104,32 @@ const _getProposalCount = (list, label) => {
   const now = parseInt(new Date().getTime() / 1000, 10);
   const counter = [];
 
-  reduce(list, (memo, num) => {
-    if (label === 'all') {
-      counter.push(num.submissions.length);
+  counter.push(reduce(list, (iterator, proposal) => {
+    switch (label) {
+      case 'all':
+        return list.length;
+      case 'in-queue':
+        if (Number(proposal.votingPeriodStarts) >= now) return parseInt(iterator + 1, 10);
+        break;
+      case 'voting-now':
+        if ((Number(proposal.votingPeriodStarts) <= now) && (Number(proposal.votingPeriodEnds) >= now)) return parseInt(iterator + 1, 10);
+        break;
+      case 'grace-period':
+        if (Number(proposal.votingPeriodEnds) < now && (Number(proposal.gracePeriodEnds) > now)) return parseInt(iterator + 1, 10);
+        break;
+      case 'ready-to-process':
+        if ((Number(proposal.gracePeriodEnds) < now) && !proposal.processed && proposal.sponsored) return parseInt(iterator + 1, 10);
+        break;
+      case 'rejected':
+        if (proposal.processed && !proposal.didPass) return parseInt(iterator + 1, 10);
+        break;
+      case 'approved':
+        if (proposal.processed && proposal.didPass) return parseInt(iterator + 1, 10);
+        break;
+      default:
     }
-    counter.push(
-      reduce(num.submissions, (iterator, proposal) => {
-        switch (label) {
-          case 'in-queue':
-            if (Number(proposal.votingPeriodStarts) > now) return parseInt(iterator + 1, 10);
-            break;
-          case 'voting-now':
-            if ((Number(proposal.votingPeriodStarts) > now) && (Number(proposal.votingPeriodEnds) < now)) return parseInt(iterator + 1, 10);
-            break;
-          case 'grace-period':
-            if (Number(proposal.votingPeriodEnds) > now && (Number(proposal.gracePeriodEnds) < now)) return parseInt(iterator + 1, 10);
-            break;
-          case 'ready-to-process':
-            if ((Number(proposal.gracePeriodEnds) < now) && !proposal.processed) return parseInt(iterator + 1, 10);
-            break;
-          case 'rejected':
-            if (Number(proposal.gracePeriodEnds) < now && !proposal.didPass) return parseInt(iterator + 1, 10);
-            break;
-          case 'approved':
-            if (proposal.didPass) return parseInt(iterator + 1, 10);
-            break;
-          case 'sponsored':
-            if (proposal.sponsor) return parseInt(iterator + 1, 10);
-            break;
-          case 'kicked':
-            if (proposal.guildKick) return parseInt(iterator + 1, 10);
-            break;
-          default:
-        }
-        return iterator;
-      }, 0)
-    );
-  }, 0);
+    return iterator;
+  }, 0));
   return reduce(counter, (memory, numerator) => { return parseInt(memory + numerator, 10); }, 0);
 };
 
@@ -163,11 +141,63 @@ const _getProposalCount = (list, label) => {
 * @return {string} with headline for separator
 */
 const _getHeadline = (headline, address, view) => {
-  if (view === routerView.HOME || view === routerView.PERIOD) {
-    return i18n.t(`${headline}-sidebar`);
+  switch (view) {
+    case routerView.HOME:
+    case routerView.PERIOD:
+      return i18n.t(`${headline}-sidebar`);
+    case routerView.DAO:
+      return i18n.t(`${headline}-account-dao`);
+    default:
+      return i18n.t(`${headline}-account`);
   }
-  return i18n.t(`${headline}-account`, { account: shortenCryptoName(address) });
 };
+
+
+/**
+* @summary checks if for a given ad hoc sidebar menu there are proposals
+* @param {string} view currently based on router
+* @param {array} menuList with configured menu for this view
+* @return {boolean} if at least one menu item has content
+*/
+const _checkContent = (view, menuList) => {
+  if (view === routerView.ADDRESS || view === routerView.DAO || view === routerView.PROPOSAL) {
+    for (let menuItem of menuList.props.children) {
+      if (menuItem.props.score > 0) {
+        return true;
+      }
+    }
+  } else {
+    return true;
+  }
+  return false;
+}
+
+/**
+* @summary gets the uniq daos obtained from the query of a given address
+* @param {object} data with graphql
+* @return {array} with sorted results
+*/
+const _getDAOs = (data) => {
+  const listedDAOs = [];
+  let found = false;
+  for (let item of data.proposals) {
+    found = false;
+    for (let dao of listedDAOs) {
+      if (item.moloch.id === dao.id) {
+        dao.counter += 1;
+        found = true;
+      }
+    }
+    if (!found) {
+      listedDAOs.push({
+        id: item.moloch.id,
+        title: item.moloch.title,
+        counter: 1
+      })
+    }
+  }
+  return sortBy(listedDAOs, (item) => { return (item.counter * -1) });
+}
 
 
 /**
@@ -204,30 +234,23 @@ const MenuQuery = ({ address, scrollUp, view }) => {
     );
   }
   if (error) return `Error! ${error}`;
-  const defaultMenu = _getMenu(view, data, address);
-  const sorted = sortBy(data.members, (item) => { return (item.submissions.length * -1); });
 
+  console.log(data);
+
+  const defaultMenu = _getMenu(view, data, address);
+
+  const sorted = _getDAOs(data);
   const daoList = sorted.map((item, key) => {
     return (
-      <Item key={key} href={`/dao/${item.moloch.id}`} score={item.submissions.length}>
-        <DAO publicAddress={item.moloch.id} width="16px" height="16px" format="plainText" />
+      <Item key={key} href={`/dao/${item.id}`} score={item.counter}>
+        <DAO publicAddress={item.id} width="16px" height="16px" format="plainText" />
       </Item>
     );
   });
 
   const menuList = defaultMenu;
-
-  let hasContent = false;
-  if (view === routerView.ADDRESS || view === routerView.DAO || view === routerView.PROPOSAL) {
-    for (let menuItem of menuList.props.children) {
-      if (menuItem.props.score > 0) {
-        hasContent = true;
-        break;
-      }
-    }
-  } else {
-    hasContent = true;
-  }
+  const hasContent = _checkContent(view, menuList);
+  
 
   const daoMemberships = (
     <div>
