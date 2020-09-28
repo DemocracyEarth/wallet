@@ -18,11 +18,13 @@ import Survey from 'components/Poll/Survey';
 import Social from 'components/Social/Social';
 import Flag from 'components/Flag/Flag';
 import Toggle from 'components/Toggle/Toggle';
+import Search from 'components/Search/Search';
 
 import { query } from 'components/Timeline/queries';
 import { config } from 'config'
 import { defaults, view as routerView, period as routerPeriod } from 'lib/const';
 import { uniqBy, orderBy as _orderBy } from 'lodash';
+import { getDescription } from 'components/Post/Post';
 
 import i18n from 'i18n';
 import notFound from 'images/not-found.svg';
@@ -34,43 +36,39 @@ import 'styles/Dapp.css';
  * @param {string} field if required for a specific query
  */
 const composeQuery = (view, field, period) => {
-  if (view === routerView.HOME) {
-    return query.GET_PROPOSALS;
-  }
-
-  if (view === routerView.DAO) {
-    return query.GET_PROPOSALS_DAO;
-  }
-
-  if (view === routerView.PROPOSAL) {
-    return query.GET_PROPOSAL_ID;
-  }
-
-  if (view === routerView.PERIOD) {
-    switch (period) {
-      case routerPeriod.QUEUE:
-        return query.GET_PROPOSALS_PERIOD_QUEUE;
-      case routerPeriod.VOTING:
-        return query.GET_PROPOSALS_PERIOD_VOTING;
-      case routerPeriod.GRACE:
-        return query.GET_PROPOSALS_PERIOD_GRACE;
-      case routerPeriod.READY:
-        return query.GET_PROPOSALS_PERIOD_READY;
-      case routerPeriod.REJECTED:
-        return query.GET_PROPOSALS_PERIOD_REJECTED;
-      case routerPeriod.APPROVED:
-        return query.GET_PROPOSALS_PERIOD_APPROVED;
-      default:
-    }
-  }
-
-  switch(field) {
-    case 'applicant':
-      return query.GET_PROPOSALS_APPLICANT;
-    case 'memberAddress':
-      return query.GET_PROPOSALS_MEMBER;
-    default:
+  switch (view) {
+    case routerView.HOME:
       return query.GET_PROPOSALS;
+    case routerView.DAO:
+      return query.GET_PROPOSALS_DAO;
+    case routerView.PROPOSAL:
+      return query.GET_PROPOSAL_ID;
+    case routerView.PERIOD:
+      switch (period) {
+        case routerPeriod.QUEUE:
+          return query.GET_PROPOSALS_PERIOD_QUEUE;
+        case routerPeriod.VOTING:
+          return query.GET_PROPOSALS_PERIOD_VOTING;
+        case routerPeriod.GRACE:
+          return query.GET_PROPOSALS_PERIOD_GRACE;
+        case routerPeriod.READY:
+          return query.GET_PROPOSALS_PERIOD_READY;
+        case routerPeriod.REJECTED:
+          return query.GET_PROPOSALS_PERIOD_REJECTED;
+        case routerPeriod.APPROVED:
+          return query.GET_PROPOSALS_PERIOD_APPROVED;
+        default:
+      }
+      break;
+    default:
+      switch (field) {
+        case 'applicant':
+          return query.GET_PROPOSALS_APPLICANT;
+        case 'memberAddress':
+          return query.GET_PROPOSALS_MEMBER;
+        default:
+          return query.GET_PROPOSALS;
+      }
   }
 }
 
@@ -86,15 +84,18 @@ const _getPercentage = (percentageAmount, remainder) => {
 const Feed = (props) => {
   const { address, first, skip, orderBy, orderDirection, proposalId } = props;
   const now = Math.floor(new Date().getTime() / 1000);
-  console.log(`proposalId: ${proposalId} && ${typeof proposalId}`);
   const { loading, error, data } = useQuery(composeQuery(props.view, props.field, props.period), { variables: { address, first, skip, orderBy, orderDirection, now, proposalId } });
 
-  // fx
-  window.scroll({ top: 0 });
-
   useEffect(() => {
-    document.getElementById('alternative-feed').style.minHeight = `${document.getElementById('proposals').scrollHeight}px`;
+    if (props.format !== 'searchBar') {
+      document.getElementById('alternative-feed').style.minHeight = `${document.getElementById('proposals').scrollHeight}px`;
+    }
   });
+
+  // fx
+  if (props.format !== 'searchBar') {
+    window.scroll({ top: 0 });
+  }
 
   if (loading) return <Placeholder />;
   if (error) return <p>Error!</p>;
@@ -117,6 +118,11 @@ const Feed = (props) => {
       </div>
     );
   }
+
+  if (props.format === 'searchBar') {
+    return <Search contextTag={{ id: proposalId, text: i18n.t('search-contract', { searchTerm: getDescription(data.proposals[0].details).title }) }} />
+  }
+
 
   return data.proposals.map((proposal) => {
     const totalVoters = String(parseInt(Number(proposal.yesVotes) + Number(proposal.noVotes), 10));
@@ -265,7 +271,7 @@ const Timeline = (props) => {
   return (
     <ApolloProvider client={client}>
       <Feed address={props.address} period={props.period} view={props.view} field={props.field} proposalId={props.proposalId} 
-        first={props.first} skip={props.skip} orderBy={props.orderBy} orderDirection={props.orderDirection} />
+        first={props.first} skip={props.skip} orderBy={props.orderBy} orderDirection={props.orderDirection} format={props.format} />
     </ApolloProvider>
   );
 };
@@ -281,6 +287,7 @@ Timeline.propTypes = {
   orderDirection: PropTypes.string,
   view: PropTypes.string,
   period: PropTypes.string,
+  format: PropTypes.string,
 };
 
 Feed.propTypes = Timeline.propTypes;

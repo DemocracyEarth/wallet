@@ -81,6 +81,12 @@ const routes = [
   },
   {
     path: '/proposal/:proposal',
+  },
+  {
+    path: '/token/:token',
+  },
+  {
+    path: '/date/:date',
   }
 ];
 

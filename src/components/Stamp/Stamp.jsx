@@ -9,9 +9,7 @@ import 'styles/Dapp.css';
 const _dateURL = (timestamp) => {
   const from = new Date(parseInt(Number(timestamp) * 1000, 10));
   const fromQuery = createDateQuery(from);
-  const until = new Date(parseInt((Number(timestamp) * 1000) + (60 * 60 * 24 * 1000), 10));
-  const untilQuery = createDateQuery(until);
-  return `/date?from=${fromQuery}&until=${untilQuery}`;
+  return `/date/${fromQuery}`;
 };
 
 /**

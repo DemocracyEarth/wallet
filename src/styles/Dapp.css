@@ -7210,6 +7210,7 @@ blockquote {
 .hero-navbar.topbar.hero-navbar-scroller.hero-navbar-down {
   transition: top 0.15s ease 0.15s;
   top: 0px;
+  box-shadow: 0px 2px 10px #0000005c;
 }
 
 .sidebar.sidebar-desktop.sidebar-up {
@@ -8300,6 +8301,7 @@ blockquote {
 .ReactTags__remove {
   margin-left: 5px;
   color: var(--bar-background);
+  display: none;
 }
 
 .ReactTags__remove:hover {
