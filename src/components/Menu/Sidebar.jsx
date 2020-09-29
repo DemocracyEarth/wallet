@@ -49,6 +49,14 @@ const GET_DAOS = gql`
   }
 `;
 
+const GET_PROPOSAL_DAO = gql`
+  query membershipDetails($proposalId: String) {
+    proposals(where: { id: $proposalId }) {
+      ${MENU_DATA}
+    }
+  }
+`;
+
 
 /**
  * @summary gets the default menu for the dapp
@@ -146,6 +154,8 @@ const _getHeadline = (headline, address, view) => {
       return i18n.t(`${headline}-sidebar`);
     case routerView.DAO:
       return i18n.t(`${headline}-account-dao`);
+    case routerView.PROPOSAL:
+      return i18n.t(`${headline}-account-proposal`);
     default:
       return i18n.t(`${headline}-account`);
   }
@@ -159,7 +169,7 @@ const _getHeadline = (headline, address, view) => {
 * @return {boolean} if at least one menu item has content
 */
 const _checkContent = (view, menuList) => {
-  if (view === routerView.ADDRESS || view === routerView.DAO || view === routerView.PROPOSAL) {
+  if (view === routerView.ADDRESS || view === routerView.DAO) {
     for (let menuItem of menuList.props.children) {
       if (menuItem.props.score > 0) {
         return true;
@@ -204,18 +214,21 @@ const _getDAOs = (data) => {
  * @param {string} view based on router context
  */
 const composeQuery = (view) => {
-  if (view === routerView.DAO) {
-    return GET_DAOS;
+  switch (view) {
+    case routerView.DAO:
+      return GET_DAOS;
+    case routerView.PROPOSAL:
+      return GET_PROPOSAL_DAO;
+    default:
+      return GET_MEMBERSHIPS;
   }
-  return GET_MEMBERSHIPS;
 }
-
 
 /**
 * @summary renders the menu based on a graph ql query ad hoc for the user
 */
-const MenuQuery = ({ address, scrollUp, view }) => {
-  const { loading, error, data } = useQuery(composeQuery(view), { variables: { address } });
+const MenuQuery = ({ address, scrollUp, view, proposalId }) => {
+  const { loading, error, data } = useQuery(composeQuery(view), { variables: { address, proposalId } });
 
   if (loading) {
     return (
@@ -245,10 +258,11 @@ const MenuQuery = ({ address, scrollUp, view }) => {
     );
   });
 
+  console.log(daoList);
+
   const menuList = defaultMenu;
   const hasContent = _checkContent(view, menuList);
   
-
   const daoMemberships = (
     <div>
       <div className="separator">
@@ -265,20 +279,34 @@ const MenuQuery = ({ address, scrollUp, view }) => {
     </div>
   );
 
+  const proposalMenu = (
+    <div>
+      <div className="separator">
+        {_getHeadline('proposals', address, view)}
+      </div>
+      {(hasContent) ?
+        menuList
+        :
+        <div className="empty">
+          {i18n.t('no-proposals-found')}
+        </div>
+      }
+    </div>
+  );
+
   return (
     <div id="sidebar" className={_getScrollClass(scrollUp)}>
       <div className="menu">
-        <div className="separator">
-          {_getHeadline('proposals', address, view)}
-        </div>
-        {(hasContent) ? 
-          menuList
+        {(view !== routerView.PROPOSAL) ?
+          proposalMenu
           :
-          <div className="empty">
-            {i18n.t('no-proposals-found')}
-          </div>
+          null
         }
-        {(view === routerView.ADDRESS) ? daoMemberships : null }
+        {(view === routerView.ADDRESS || view === routerView.PROPOSAL) ?
+          daoMemberships 
+          :
+          null 
+        }
       </div>
     </div>
   );
@@ -288,6 +316,7 @@ MenuQuery.propTypes = {
   address: PropTypes.string,
   scrollUp: PropTypes.bool,
   view: PropTypes.string,
+  proposalId: PropTypes.string,
 };
 
 /**
@@ -327,7 +356,7 @@ export default class Sidebar extends Component {
 
   render() {
     if ((this.props.view !== routerView.HOME) && (this.props.view !== routerView.PERIOD)) {
-      return <MenuQuery address={this.props.address} scrollUp={this.state.scrollUp} view={this.props.view} />;
+      return <MenuQuery address={this.props.address} scrollUp={this.state.scrollUp} view={this.props.view} proposalId={this.props.proposalId} />;
     }
 
     const defaultMenu = _getMenu(routerView.HOME);
@@ -348,4 +377,5 @@ export default class Sidebar extends Component {
 Sidebar.propTypes = {
   address: PropTypes.string,
   view: PropTypes.string,
+  proposalId: PropTypes.string,
 };

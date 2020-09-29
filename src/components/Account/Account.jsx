@@ -5,7 +5,6 @@ import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, useQuery } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
 
-import { gui } from 'lib/const';
 import { shortenCryptoName } from 'utils/strings';
 import Search, { includeInSearch } from 'components/Search/Search';
 
