@@ -42,6 +42,7 @@ const DAOQuery = ({ publicAddress, width, height, format }) => {
   const finalHeight = height || '24px';
 
   if (loading) {
+    if (format === 'searchBar') return null;
     return (
       <div className="dao">
         <div className="avatar-editor">

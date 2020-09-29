@@ -23,6 +23,7 @@ export default class Paginator extends Component {
 
   static propTypes = {
     page: PropTypes.number,
+    placeholder: PropTypes.bool,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
@@ -53,7 +54,7 @@ export default class Paginator extends Component {
   render() {
     return (
       <div>
-        {(!this.state.visible) ? 
+        {(!this.state.visible || this.props.placeholder) ? 
           <div id={`paginator-${this.props.page}`} className="spinner-loading">
             <BeatLoader
               css={override}

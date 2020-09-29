@@ -100,7 +100,13 @@ const Feed = (props) => {
     window.scroll({ top: 0 });
   }
 
-  if (loading) return <Placeholder />;
+  if (loading) {
+    if (props.format === 'searchBar') return null;
+    if (props.page > 1) {
+      return <Paginator placeholder={true} />
+    }
+    return <Placeholder />;
+  } 
   if (error) return <p>Error!</p>;
 
   const accountAddress = props.address;
@@ -271,11 +277,15 @@ const Feed = (props) => {
   return (
     <>
       {feed}
-      <Paginator page={props.page}>
-        <Timeline address={props.address} period={props.period} view={props.view} proposalId={props.proposalId}
-          field={'memberAddress'} first={props.first} skip={parseInt(props.first * props.page, 10)} page={parseInt(props.page + 1)} 
-          orderBy={'createdAt'} orderDirection={'desc'} />
-      </Paginator>
+      {(data.proposals.length >= props.first) ?
+        <Paginator page={props.page}>
+          <Timeline address={props.address} period={props.period} view={props.view} proposalId={props.proposalId}
+            field={'memberAddress'} first={props.first} skip={parseInt(props.first * props.page, 10)} page={parseInt(props.page + 1)}
+            orderBy={'createdAt'} orderDirection={'desc'} />
+        </Paginator>
+        :
+        null
+      }      
     </>
   );
 };

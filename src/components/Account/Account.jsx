@@ -19,7 +19,6 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-
 const ENS_ACCOUNT = gql`
   query addressDetails($publicAddress: String) {
     domains(where: { resolvedAddress: $publicAddress }) {
