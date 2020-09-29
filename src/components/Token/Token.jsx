@@ -35,16 +35,24 @@ const Token = (props) => {
     imageExists = _check404(image);
   }
 
+  const tokenLink = (
+    <Link to={`/token/${props.symbol}`} className="token-ticker" onClick={(e) => { e.stopPropagation(); }}>
+      {(props.publicAddress && imageExists) ?
+        <img className="token-icon" src={image} alt="" />
+        :
+        null
+      }
+      {props.symbol}
+    </Link>
+  );
+
   return (
     <div className="token">
-      <Link to={`/token/${props.symbol}`} className="token-ticker" onClick={(e) => { e.stopPropagation(); }}>
-        {(props.publicAddress && imageExists) ?
-          <img className="token-icon" src={image} alt="" />
-          :
-          null
-        }
-        {props.symbol}
-      </Link>
+      {(props.symbol !== 'SHARES') ?
+        tokenLink
+        :
+        null
+      }
       <div className="token-balance">
         <div className="token-score">
           {balance}
