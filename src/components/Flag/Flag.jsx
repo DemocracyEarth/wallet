@@ -11,15 +11,15 @@ export default class Flag extends Component {
   static propTypes = {
     styleClass: PropTypes.string,
     label: PropTypes.string,
+    url: PropTypes.string,
+    tooltip: PropTypes.string,
   }
 
   render() {
     return (
-      <div>
-        <div className="warning-list animate">
-          <div className={this.props.styleClass}>
-            <Emoji text={this.props.label} />
-          </div>
+      <div className="warning-list animate" title={this.props.tooltip}>
+        <div className={this.props.styleClass}>
+          <Emoji text={this.props.label} />
         </div>
       </div>
     );

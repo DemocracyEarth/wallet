@@ -7,7 +7,9 @@ import { Link, withRouter } from 'react-router-dom';
 import Search from 'components/Search/Search';
 import Account from 'components/Account/Account';
 import DAO from 'components/DAO/DAO';
+import Timeline from 'components/Timeline/Timeline';
 
+import { view as routerView } from 'lib/const'
 import close from 'images/close.svg';
 import logo from 'images/logo.png';
 
@@ -50,7 +52,7 @@ class Browser extends Component {
   handleScroll() {
     const st = window.pageYOffset || document.documentElement.scrollTop;
 
-    if ((st > lastScrollTop) && !this.state.scrollUp) {
+    if ((st > lastScrollTop) && (st > 60) && !this.state.scrollUp) {
       this.setState({ scrollUp: true });
     } else if ((st <= lastScrollTop) && this.state.scrollUp) {
       this.setState({ scrollUp: false });
@@ -70,17 +72,11 @@ class Browser extends Component {
     if (this.props.match.params.dao) {
       return <DAO publicAddress={this.props.match.params.dao} format="searchBar" />
     }
-    
-    /*
+
     if (this.props.match.params.proposal) {
-      return {
-        id: this.props.match.url,
-        text: i18n.t('search-dao', { searchTerm: this.props.match.params.proposal }),
-        value: this.props.match.params.proposal,
-        type: 'SEARCH'
-      }
+      return <Timeline proposalId={this.props.match.params.proposal} view={routerView.PROPOSAL} format="searchBar" />
     }
-    */
+    
 
     return <Search />;
   }

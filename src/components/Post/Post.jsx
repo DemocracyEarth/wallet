@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import parser from 'html-react-parser';
-import i18n from 'i18n';
+import { withRouter } from "react-router-dom";
 
+import i18n from 'i18n';
 import { wrapURLs } from 'utils/strings';
 import { includeInSearch } from 'components/Search/Search';
 import Account from 'components/Account/Account';
@@ -52,15 +53,15 @@ const _getDescription = (description) => {
 /**
 * @summary renders a post in the timeline
 */
-export default class Post extends Component {
+class Post extends Component {
   constructor(props) {
     super(props);
     this.state = _getDescription(this.props.description);
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(href) {
-    // console.log(href);
+  handleClick() {
+    this.props.history.push(this.props.href);
   }
 
   render() {
@@ -71,7 +72,7 @@ export default class Post extends Component {
     includeInSearch(this.props.href, searchCache, 'search-contract');
 
     return (
-      <div className="vote vote-search vote-feed nondraggable vote-poll" onClick={this.handleClick(this.props.href)}>
+      <div className="vote vote-search vote-feed nondraggable vote-poll" onClick={this.handleClick}>
         <div className="checkbox checkbox-custom">
           <div className="meta meta-search meta-bar">
             <Account publicAddress={this.props.memberAddress} width="16px" height="16px" />
@@ -94,7 +95,7 @@ export default class Post extends Component {
                 {
                   (this.state.link) ?
                     <div className="title-description">
-                      <a href={this.state.link} target="_blank" rel="noopener noreferrer">{this.state.link}</a>
+                      <a href={this.state.link} target="_blank" rel="noopener noreferrer" onClick={(e) => { e.stopPropagation(); }}>{this.state.link}</a>
                     </div>
                     :
                     null
@@ -120,4 +121,5 @@ Post.propTypes = {
   ]),
 };
 
+export default withRouter(Post);
 export const getDescription = _getDescription;

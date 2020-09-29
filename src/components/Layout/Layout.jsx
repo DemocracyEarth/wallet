@@ -14,11 +14,12 @@ import 'styles/Dapp.css';
 * @summary displays the contents of a poll
 */
 const Layout = (props) => {
-  const { dao, address, period } = useParams();
+  const { dao, address, period, proposal } = useParams();
 
   // defaults
   let view = routerView.HOME;
   let renderAddress = props.address;
+  let proposalId = '';
   let periodEpoch = '';
 
   // context specific
@@ -29,28 +30,30 @@ const Layout = (props) => {
     renderAddress = address; 
     view = routerView.ADDRESS; 
   } else if (period) { 
-    view = routerView.PERIOD;
     periodEpoch = period;
+    view = routerView.PERIOD;
+  } else if (proposal) {
+    proposalId = proposal;
+    view = routerView.PROPOSAL;
   }
-
-  console.log(`view: ${view}`);
 
   return (
     <div>
       <div id="app" className="app">
         <div id="menu" className="left">
-          <Menu address={renderAddress} view={view} />
+          <Menu address={renderAddress} view={view} proposalId={proposalId} />
         </div>
         <div id="content" className="right">
           <div id="main-feed" className="split split-left split-landing">
             <div id="proposals" className="content content-feed max100">
               <div id="non-editable-feed">
-                <Timeline address={renderAddress} period={periodEpoch} view={view} field={'memberAddress'} first={25} skip={0} orderBy={'createdAt'} orderDirection={'desc'}  />
+                <Timeline address={renderAddress} period={periodEpoch} view={view} proposalId={proposalId} 
+                  field={'memberAddress'} first={25} skip={0} page={1} orderBy={'createdAt'} orderDirection={'desc'}  />
               </div>
             </div>
           </div>
           <div id="alternative-feed" className="split split-right split-landing">
-            <Ledger address={renderAddress} view={view} />
+            <Ledger address={renderAddress} view={view} proposalId={proposalId} first={25} skip={0}  />
           </div>
         </div>
       </div>

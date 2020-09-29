@@ -22,7 +22,7 @@ export default class Social extends Component {
     return (
       <div className="post-footer">
         <div className="micro-menu">
-          <a href={this.state.tweetLink} className="micro-button micro-button-feed no-underline" target="_blank" rel="noopener noreferrer">
+          <a href={this.state.tweetLink} className="micro-button micro-button-feed no-underline" target="_blank" rel="noopener noreferrer" onClick={(e) => { e.stopPropagation(); }}>
             <img src={tweet} className="micro-icon" alt="" />
             <div className="micro-label-button">{i18n.t('tweet')}</div>
           </a>

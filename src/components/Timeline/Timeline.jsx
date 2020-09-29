@@ -18,13 +18,17 @@ import Survey from 'components/Poll/Survey';
 import Social from 'components/Social/Social';
 import Flag from 'components/Flag/Flag';
 import Toggle from 'components/Toggle/Toggle';
+import Search from 'components/Search/Search';
+import Paginator from 'components/Paginator/Paginator';
 
 import { query } from 'components/Timeline/queries';
 import { config } from 'config'
 import { defaults, view as routerView, period as routerPeriod } from 'lib/const';
 import { uniqBy, orderBy as _orderBy } from 'lodash';
+import { getDescription } from 'components/Post/Post';
 
 import i18n from 'i18n';
+import notFound from 'images/not-found.svg';
 import 'styles/Dapp.css';
 
 /**
@@ -33,39 +37,41 @@ import 'styles/Dapp.css';
  * @param {string} field if required for a specific query
  */
 const composeQuery = (view, field, period) => {
-  if (view === routerView.HOME) {
-    return query.GET_PROPOSALS;
-  }
-
-  if (view === routerView.DAO) {
-    return query.GET_PROPOSALS_DAO;
-  }
-
-  if (view === routerView.PERIOD) {
-    switch (period) {
-      case routerPeriod.QUEUE:
-        return query.GET_PROPOSALS_PERIOD_QUEUE;
-      case routerPeriod.VOTING:
-        return query.GET_PROPOSALS_PERIOD_VOTING;
-      case routerPeriod.GRACE:
-        return query.GET_PROPOSALS_PERIOD_GRACE;
-      case routerPeriod.READY:
-        return query.GET_PROPOSALS_PERIOD_READY;
-      case routerPeriod.REJECTED:
-        return query.GET_PROPOSALS_PERIOD_REJECTED;
-      case routerPeriod.APPROVED:
-        return query.GET_PROPOSALS_PERIOD_APPROVED;
-      default:
-    }
-  }
-
-  switch(field) {
-    case 'applicant':
-      return query.GET_PROPOSALS_APPLICANT;
-    case 'memberAddress':
-      return query.GET_PROPOSALS_MEMBER;
-    default:
+  switch (view) {
+    case routerView.HOME:
       return query.GET_PROPOSALS;
+    case routerView.DAO:
+      return query.GET_PROPOSALS_DAO;
+    case routerView.PROPOSAL:
+      return query.GET_PROPOSAL_ID;
+    case routerView.PERIOD:
+      switch (period) {
+        case routerPeriod.QUEUE:
+          return query.GET_PROPOSALS_PERIOD_QUEUE;
+        case routerPeriod.VOTING:
+          return query.GET_PROPOSALS_PERIOD_VOTING;
+        case routerPeriod.GRACE:
+          return query.GET_PROPOSALS_PERIOD_GRACE;
+        case routerPeriod.READY:
+          return query.GET_PROPOSALS_PERIOD_READY;
+        case routerPeriod.REJECTED:
+          return query.GET_PROPOSALS_PERIOD_REJECTED;
+        case routerPeriod.APPROVED:
+          return query.GET_PROPOSALS_PERIOD_APPROVED;
+        default:
+      }
+      break;
+    case routerView.ADDRESS:
+        return query.GET_PROPOSALS_ADDRESS;
+    default:
+      switch (field) {
+        case 'applicant':
+          return query.GET_PROPOSALS_APPLICANT;
+        case 'memberAddress':
+          return query.GET_PROPOSALS_MEMBER;
+        default:
+          return query.GET_PROPOSALS;
+      }
   }
 }
 
@@ -79,18 +85,28 @@ const _getPercentage = (percentageAmount, remainder) => {
 };
 
 const Feed = (props) => {
-  const { address, first, skip, orderBy, orderDirection } = props;
+  const { address, first, skip, orderBy, orderDirection, proposalId } = props;
   const now = Math.floor(new Date().getTime() / 1000);
-  const { loading, error, data } = useQuery(composeQuery(props.view, props.field, props.period), { variables: { address, first, skip, orderBy, orderDirection, now } });
-
-  // fx
-  window.scroll({ top: 0 });
+  const { loading, error, data } = useQuery(composeQuery(props.view, props.field, props.period), { variables: { address, first, skip, orderBy, orderDirection, now, proposalId } });
 
   useEffect(() => {
-    document.getElementById('alternative-feed').style.minHeight = `${document.getElementById('proposals').scrollHeight}px`;
+    if (props.format !== 'searchBar') {
+      document.getElementById('alternative-feed').style.minHeight = `${document.getElementById('proposals').scrollHeight}px`;
+    }
   });
 
-  if (loading) return <Placeholder />;
+  // fx
+  if (props.format !== 'searchBar' && props.page === 1) {
+    window.scroll({ top: 0 });
+  }
+
+  if (loading) {
+    if (props.format === 'searchBar') return null;
+    if (props.page > 1) {
+      return <Paginator placeholder={true} />
+    }
+    return <Placeholder />;
+  } 
   if (error) return <p>Error!</p>;
 
   const accountAddress = props.address;
@@ -102,7 +118,21 @@ const Feed = (props) => {
 
   console.log(data);
 
-  return data.proposals.map((proposal) => {
+  if (data.proposals.length === 0) {
+    return (
+      <div className="empty-feed">
+        <img className="empty-icon" src={notFound} alt="" />
+        <h1>{i18n.t('moloch-empty-feed')}</h1>
+        {i18n.t('moloch-empty-feed-detail')}
+      </div>
+    );
+  }
+
+  if (props.format === 'searchBar') {
+    return <Search contextTag={{ id: proposalId, text: i18n.t('search-contract', { searchTerm: getDescription(data.proposals[0].details).title }) }} />
+  }
+
+  const feed = data.proposals.map((proposal) => {
     const totalVoters = String(parseInt(Number(proposal.yesVotes) + Number(proposal.noVotes), 10));
     const yesPercentage = String(_getPercentage(Number(proposal.yesShares), Number(proposal.noShares)));
     const noPercentage = String(_getPercentage(Number(proposal.noShares), Number(proposal.yesShares)));
@@ -207,7 +237,7 @@ const Feed = (props) => {
                 proposalIndex={proposal.proposalIndex} label={i18n.t('yes')} percentage={yesPercentage}
                 voteValue={defaults.YES} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
               >
-                <Token quantity={proposal.yesVotes} symbol="SHARES" />
+                <Token quantity={proposal.yesShares} symbol="SHARES" />
               </Choice>
               <Choice
                 now={timestamp}
@@ -215,11 +245,11 @@ const Feed = (props) => {
                 proposalIndex={proposal.proposalIndex} label={i18n.t('no')} percentage={noPercentage}
                 voteValue={defaults.NO} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
               >
-                <Token quantity={proposal.noVotes} symbol="SHARES" />
+                <Token quantity={proposal.noShares} symbol="SHARES" />
               </Choice>
             </Survey>
             <Period
-              now={timestamp}
+              now={timestamp} url={url}
               status={status} votingPeriodBegins={proposal.votingPeriodStarts}
               votingPeriodEnds={proposal.votingPeriodEnds} gracePeriodEnds={proposal.gracePeriodEnds}
             />
@@ -228,27 +258,43 @@ const Feed = (props) => {
           null
         }
         {(isUnsponsored) ?
-          <Flag styleClass={'warning period period-unsponsored'} label={i18n.t('moloch-flag-unsponsored')} />
+          <Flag styleClass={'warning period period-unsponsored'} url={url} label={i18n.t('moloch-flag-unsponsored')} tooltip={i18n.t('moloch-open-proposal')} />
         :
           null
         }
         {(proposal.cancelled) ?
-          <Flag styleClass={'warning period period-cancelled'} label={i18n.t('moloch-flag-cancelled')} />
+          <Flag styleClass={'warning period period-cancelled'} url={url} label={i18n.t('moloch-flag-cancelled')} tooltip={i18n.t('moloch-open-proposal')} />
           :
           null
         }
         <Social url={url} description={proposal.details}>
-          <Stamp timestamp={proposal.createdAt} />
+          <Stamp url={url} timestamp={proposal.createdAt}  />
         </Social>
       </Post>
     );
   });
+
+  return (
+    <>
+      {feed}
+      {(data.proposals.length >= props.first) ?
+        <Paginator page={props.page}>
+          <Timeline address={props.address} period={props.period} view={props.view} proposalId={props.proposalId}
+            field={'memberAddress'} first={props.first} skip={parseInt(props.first * props.page, 10)} page={parseInt(props.page + 1)}
+            orderBy={'createdAt'} orderDirection={'desc'} />
+        </Paginator>
+        :
+        null
+      }      
+    </>
+  );
 };
 
 const Timeline = (props) => {
   return (
     <ApolloProvider client={client}>
-      <Feed address={props.address} period={props.period} view={props.view} field={props.field} first={props.first} skip={props.skip} orderBy={props.orderBy} orderDirection={props.orderDirection} />
+      <Feed address={props.address} period={props.period} view={props.view} field={props.field} page={props.page} proposalId={props.proposalId} 
+        first={props.first} skip={props.skip} orderBy={props.orderBy} orderDirection={props.orderDirection} format={props.format} />
     </ApolloProvider>
   );
 };
@@ -257,12 +303,15 @@ const Timeline = (props) => {
 Timeline.propTypes = {
   field: PropTypes.string,
   address: PropTypes.string,
+  proposalId: PropTypes.string,
   first: PropTypes.number,
   skip: PropTypes.number,
+  page: PropTypes.number,
   orderBy: PropTypes.string,
   orderDirection: PropTypes.string,
   view: PropTypes.string,
   period: PropTypes.string,
+  format: PropTypes.string,
 };
 
 Feed.propTypes = Timeline.propTypes;

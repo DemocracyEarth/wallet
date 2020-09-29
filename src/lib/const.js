@@ -49,7 +49,7 @@ const _gui = {
   MOLOCH_DAPP: true,
   LIMIT_TRANSACTIONS_PER_LEDGER: 10,
   COLLECTIVE_MAX_FETCH: 25,
-  MAX_LENGTH_ACCOUNT_NAMES: 29,
+  MAX_LENGTH_ACCOUNT_NAMES: 19,
 };
 
 /**
@@ -84,7 +84,8 @@ const _view = {
   HOME: 'home',
   DAO: 'dao',
   ADDRESS: 'address',
-  PERIOD: 'period'
+  PERIOD: 'period',
+  PROPOSAL: 'proposal'
 }
 
 const _period = {

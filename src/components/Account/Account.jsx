@@ -5,7 +5,6 @@ import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, useQuery } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
 
-import { gui } from 'lib/const';
 import { shortenCryptoName } from 'utils/strings';
 import Search, { includeInSearch } from 'components/Search/Search';
 
@@ -19,7 +18,6 @@ const client = new ApolloClient({
   uri: config.graph.ens,
   cache: new InMemoryCache(),
 });
-
 
 const ENS_ACCOUNT = gql`
   query addressDetails($publicAddress: String) {
@@ -92,12 +90,12 @@ const AccountQuery = ({ publicAddress, width, height, format, hidden }) => {
       <div className="avatar-editor">
         <img src={image} className={`symbol profile-pic ${(format === 'plainText') ? 'plain' : null}`} alt="" style={{ width: finalWidth, height: finalHeight }} />
         {(format === 'plainText') ?
-          <Link to={url} title={publicAddress}>
+          <Link to={url} title={publicAddress} onClick={(e) => { e.stopPropagation(); }}>
             {label}
           </Link>
           :
           <div className="identity-peer">
-            <Link to={url} title={publicAddress} className="identity-label identity-label-micro">
+            <Link to={url} title={publicAddress} className="identity-label identity-label-micro" onClick={(e) => { e.stopPropagation(); }}>
               {label}
             </Link>
           </div>

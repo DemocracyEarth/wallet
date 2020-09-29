@@ -22,7 +22,7 @@ Explore and participate in Digital Autonomous Organizations (DAOs).
   
 **Release:**
 
-* Currently [`version 0.8`](https://github.com/DemocracyEarth/dapp/releases)
+* Currently [`version 0.9`](https://github.com/DemocracyEarth/dapp/releases)
 * This [User Agreement](https://github.com/DemocracyEarth/dapp/blob/master/AGREEMENT.md) governs access to and use of the Democracy Earth platform.
 
 ## Setup

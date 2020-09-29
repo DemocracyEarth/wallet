@@ -15,7 +15,7 @@ const numeral = require('numeral');
 export default class Transaction extends Component {
   getVote() {
     const label = (Number(this.props.quantity) === 1) ? 'share' : 'shares';
-    const title = `<em>${getDescription(this.props.description).title}</em>`;
+    const title = `${getDescription(this.props.description).title}`;
   
     switch (this.props.uintVote) {
       case defaults.YES:

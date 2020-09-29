@@ -77,7 +77,16 @@ const routes = [
     path: '/address/:address',
   },
   {
-    path: '/address/:address/period/:period'
+    path: '/address/:address/period/:period',
+  },
+  {
+    path: '/proposal/:proposal',
+  },
+  {
+    path: '/token/:token',
+  },
+  {
+    path: '/date/:date',
   }
 ];
 

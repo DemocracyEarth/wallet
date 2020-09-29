@@ -78,6 +78,13 @@ export const query = {
       }
     }
   `,
+  GET_PROPOSALS_ADDRESS: gql`
+    query addressProposals($address: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+      proposals(where: { proposer: $address }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+        ${PROPOSAL_DATA}
+      }
+    }
+  `,
   GET_PROPOSALS_DAO: gql`
     query addressProposals($address: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
       proposals(where: { molochAddress: $address }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
@@ -123,6 +130,13 @@ export const query = {
   GET_PROPOSALS_PERIOD_REJECTED: gql`
     query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
       proposals(where: { processed: true, didPass: false }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+        ${PROPOSAL_DATA}
+      }
+    }
+  `,
+  GET_PROPOSAL_ID: gql`
+    query addressProposals($proposalId: String, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+      proposals(where: { id: $proposalId }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
         ${PROPOSAL_DATA}
       }
     }

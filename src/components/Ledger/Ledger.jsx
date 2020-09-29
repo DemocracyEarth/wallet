@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import i18n from 'i18n';
+import { view } from 'lib/const';
 import Vote from 'components/Vote/Vote';
 import 'styles/Dapp.css';
 
@@ -21,6 +22,9 @@ export default class Ledger extends Component {
   static propTypes = {
     address: PropTypes.string,
     view: PropTypes.string,
+    proposalId: PropTypes.string,
+    first: PropTypes.number,
+    skip: PropTypes.number,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
@@ -45,17 +49,28 @@ export default class Ledger extends Component {
     window.removeEventListener('scroll', this.handleScroll);
   }
 
+  titleLabel() {
+    switch (this.props.view) {
+      case view.DAO:
+        return i18n.t('moloch-ledger-dao-votes');
+      case view.PROPOSAL:
+        return i18n.t('moloch-ledger-proposal-votes');
+      case view.ADDRESS:
+        return i18n.t('moloch-ledger-address-votes');
+      default:
+    }
+    return i18n.t('recent-votes')
+  }
+
   handleScroll() {
     const st = window.pageYOffset || document.documentElement.scrollTop;
 
-    if ((st > lastScrollTop) && !this.state.scrollUp) {
+    if ((st > lastScrollTop) && (st > 60) && !this.state.scrollUp) {
       this.setState({ scrollUp: true });
     } else if ((st <= lastScrollTop) && this.state.scrollUp) {
       this.setState({ scrollUp: false });
     }
     lastScrollTop = st <= 0 ? 0 : st;
-
-    // this.setState({ top: `${_getScrollTop()}px` });
   }
 
   render() {
@@ -63,9 +78,13 @@ export default class Ledger extends Component {
       <div id="agora" className={_getScrollClass(this.state.scrollUp)}> {/* style={{ top: this.state.top }}>*/}
         <div id="ledger" className="ledger">
           <div className="ledger-title">
-            <h4>{i18n.t('recent-activity')}</h4>
+            <h4>{this.titleLabel()}</h4>
           </div>
-          <Vote address={this.props.address} view={this.props.view} first={5} skip={0} orderBy={'createdAt'} orderDirection={'desc'} />
+          <div className="shadow-top" />
+          <div className="ledger-wrapper">
+            <Vote address={this.props.address} view={this.props.view} proposalId={this.props.proposalId} first={this.props.first} skip={this.props.skip} orderBy={'createdAt'} orderDirection={'desc'} />
+          </div>
+          <div className="shadow-bottom" />
           <div className="ledger-footer" />
         </div>
       </div>

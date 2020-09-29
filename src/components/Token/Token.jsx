@@ -1,6 +1,7 @@
 import React from 'react';
 import BigNumber from 'bignumber.js/bignumber';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import { config } from 'config'
 import web3 from 'web3';
@@ -34,16 +35,24 @@ const Token = (props) => {
     imageExists = _check404(image);
   }
 
+  const tokenLink = (
+    <Link to={`/token/${props.symbol.toLowerCase()}`} className="token-ticker" onClick={(e) => { e.stopPropagation(); }}>
+      {(props.publicAddress && imageExists) ?
+        <img className="token-icon" src={image} alt="" />
+        :
+        null
+      }
+      {props.symbol}
+    </Link>
+  );
+
   return (
     <div className="token">
-      <div className="token-ticker">
-        {(props.publicAddress && imageExists) ?
-          <img className="token-icon" src={image} alt="" />
-          :
-          null
-        }
-        {props.symbol}
-      </div>
+      {(props.symbol !== 'SHARES') ?
+        tokenLink
+        :
+        null
+      }
       <div className="token-balance">
         <div className="token-score">
           {balance}

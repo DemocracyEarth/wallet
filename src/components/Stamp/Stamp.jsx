@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import parser from 'html-react-parser';
 
@@ -8,9 +9,7 @@ import 'styles/Dapp.css';
 const _dateURL = (timestamp) => {
   const from = new Date(parseInt(Number(timestamp) * 1000, 10));
   const fromQuery = createDateQuery(from);
-  const until = new Date(parseInt((Number(timestamp) * 1000) + (60 * 60 * 24 * 1000), 10));
-  const untilQuery = createDateQuery(until);
-  return `/date?from=${fromQuery}&until=${untilQuery}`;
+  return `/date/${fromQuery}`;
 };
 
 /**
@@ -47,9 +46,9 @@ export default class Stamp extends Component {
   render() {
     return (
       <div className="date-info">
-        <a href={this.state.url} title={this.state.fullDate.replace(/&#183;/g, '·')} className="verifier verifier-live verifier-feed">
+        <Link to={this.state.url} title={this.state.fullDate.replace(/&#183;/g, '·')} className="verifier verifier-live verifier-feed" onClick={(e) => { e.stopPropagation(); }}>
           {parser(this.state.label)}
-        </a>
+        </Link>
       </div>
     );
   }

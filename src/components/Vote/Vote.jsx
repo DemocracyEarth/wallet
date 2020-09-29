@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
+import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, useQuery } from '@apollo/react-hooks';
+import { useHistory } from "react-router-dom";
 
 import Account from 'components/Account/Account';
 import DAO from 'components/DAO/DAO';
@@ -14,6 +15,7 @@ import { view as routerView } from 'lib/const';
 import { query } from 'components/Vote/queries'
 import { config } from 'config'
 import 'styles/Dapp.css';
+import i18n from 'i18n';
 
 const client = new ApolloClient({
   uri: config.graph.moloch,
@@ -25,15 +27,16 @@ const client = new ApolloClient({
  * @param {string} view based on router context
  */
 const composeQuery = (view) => {
-  if (view === routerView.ADDRESS) {
-    return query.GET_VOTES_FROM_ADDRESS;
+  switch (view) {
+    case routerView.PROPOSAL:
+      return query.GET_VOTES_FROM_PROPOSAL;
+    case routerView.DAO: 
+      return query.GET_VOTES_FROM_DAO;
+    case routerView.ADDRESS:
+      return query.GET_VOTES_FROM_ADDRESS;
+    default:
+      return query.GET_VOTES
   }
-
-  if (view === routerView.DAO) {
-    return query.GET_VOTES_FROM_DAO;
-  }
-
-  return query.GET_VOTES
 }
 
 /**
@@ -47,23 +50,33 @@ const composeQuery = (view) => {
 * @param {string} decimal numbers this token takes
 */
 const VoteQuery = (props) => {
-  const { address, first, skip, orderBy, orderDirection } = props;  
-  const { loading, error, data } = useQuery(composeQuery(props.view), { variables: { address, first, skip, orderBy, orderDirection } });
+  const { address, first, skip, orderBy, orderDirection, proposalId } = props;  
+  const { loading, error, data } = useQuery(composeQuery(props.view), { variables: { address, first, skip, orderBy, orderDirection, proposalId } });
+  const history = useHistory();
 
   if (loading) {
     return (
-      <div className="token">
-        <div className="token-ticker">
-          <div className="option-placeholder token-placeholder" />
-        </div>
+      <div className="event-vote">
       </div>
     );
   }
   if (error) return `Error! ${error}`;
 
+  if (data.votes.length === 0) {
+    return (
+      <div className="event-vote event-vote-empty">
+        <div className="preview-info">
+          <div className="transaction-action transaction-action-empty">
+            {i18n.t('moloch-ledger-empty')}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return data.votes.map((vote) => {
     return (
-      <div key={vote.id} className="event-vote">
+      <div key={vote.id} className="event-vote" onClick={() => { history.push(`/proposal/${vote.proposal.id}`); }}>
         <Account publicAddress={vote.memberAddress} width="16px" height="16px" />
         <DAO publicAddress={vote.molochAddress} width="16px" height="16px" />
         <Transaction uintVote={vote.uintVote} description={vote.proposal.details} quantity={vote.member.shares} />
@@ -74,6 +87,7 @@ const VoteQuery = (props) => {
 };
 
 VoteQuery.propTypes = {
+  proposalId: PropTypes.string,
   address: PropTypes.string,
   first: PropTypes.number,
   skip: PropTypes.number,
@@ -89,7 +103,7 @@ VoteQuery.propTypes = {
 const Vote = (props) => {
   return (
     <ApolloProvider client={client}>
-      <VoteQuery address={props.address} view={props.view} first={props.first} skip={props.skip} orderBy={props.orderBy} orderDirection={props.orderDirection} />
+      <VoteQuery address={props.address} view={props.view} proposalId={props.proposalId} first={props.first} skip={props.skip} orderBy={props.orderBy} orderDirection={props.orderDirection} />
     </ApolloProvider>
   );
 };
