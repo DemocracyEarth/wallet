@@ -231,7 +231,7 @@ const Feed = (props) => {
                 proposalIndex={proposal.proposalIndex} label={i18n.t('yes')} percentage={yesPercentage}
                 voteValue={defaults.YES} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
               >
-                <Token quantity={proposal.yesVotes} symbol="SHARES" />
+                <Token quantity={proposal.yesShares} symbol="SHARES" />
               </Choice>
               <Choice
                 now={timestamp}
@@ -239,7 +239,7 @@ const Feed = (props) => {
                 proposalIndex={proposal.proposalIndex} label={i18n.t('no')} percentage={noPercentage}
                 voteValue={defaults.NO} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
               >
-                <Token quantity={proposal.noVotes} symbol="SHARES" />
+                <Token quantity={proposal.noShares} symbol="SHARES" />
               </Choice>
             </Survey>
             <Period

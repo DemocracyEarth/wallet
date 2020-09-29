@@ -3,7 +3,6 @@ import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
 
-import { shortenCryptoName } from 'utils/strings';
 import Item from 'components/Item/Item';
 import DAO from 'components/DAO/DAO';
 
@@ -44,7 +43,7 @@ const GET_MEMBERSHIPS = gql`
 
 const GET_DAOS = gql`
   query membershipDetails($address: String) {
-    members(where: { molochAddress: $address }) {
+    proposals(where: { molochAddress: $address }) {
       ${MENU_DATA}
     }
   }
@@ -234,8 +233,6 @@ const MenuQuery = ({ address, scrollUp, view }) => {
     );
   }
   if (error) return `Error! ${error}`;
-
-  console.log(data);
 
   const defaultMenu = _getMenu(view, data, address);
 
