@@ -48,7 +48,7 @@ const Layout = (props) => {
             <div id="proposals" className="content content-feed max100">
               <div id="non-editable-feed">
                 <Timeline address={renderAddress} period={periodEpoch} view={view} proposalId={proposalId} 
-                  field={'memberAddress'} first={25} skip={0} orderBy={'createdAt'} orderDirection={'desc'}  />
+                  field={'memberAddress'} first={25} skip={0} page={1} orderBy={'createdAt'} orderDirection={'desc'}  />
               </div>
             </div>
           </div>

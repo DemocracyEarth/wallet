@@ -96,7 +96,7 @@ const Feed = (props) => {
   });
 
   // fx
-  if (props.format !== 'searchBar') {
+  if (props.format !== 'searchBar' && props.page === 1) {
     window.scroll({ top: 0 });
   }
 
@@ -269,17 +269,21 @@ const Feed = (props) => {
   });
 
   return (
-    <div>
+    <>
       {feed}
-      <Paginator />
-    </div>
+      <Paginator page={props.page}>
+        <Timeline address={props.address} period={props.period} view={props.view} proposalId={props.proposalId}
+          field={'memberAddress'} first={props.first} skip={parseInt(props.first * props.page, 10)} page={parseInt(props.page + 1)} 
+          orderBy={'createdAt'} orderDirection={'desc'} />
+      </Paginator>
+    </>
   );
 };
 
 const Timeline = (props) => {
   return (
     <ApolloProvider client={client}>
-      <Feed address={props.address} period={props.period} view={props.view} field={props.field} proposalId={props.proposalId} 
+      <Feed address={props.address} period={props.period} view={props.view} field={props.field} page={props.page} proposalId={props.proposalId} 
         first={props.first} skip={props.skip} orderBy={props.orderBy} orderDirection={props.orderDirection} format={props.format} />
     </ApolloProvider>
   );
@@ -292,6 +296,7 @@ Timeline.propTypes = {
   proposalId: PropTypes.string,
   first: PropTypes.number,
   skip: PropTypes.number,
+  page: PropTypes.number,
   orderBy: PropTypes.string,
   orderDirection: PropTypes.string,
   view: PropTypes.string,
