@@ -19,6 +19,7 @@ import Social from 'components/Social/Social';
 import Flag from 'components/Flag/Flag';
 import Toggle from 'components/Toggle/Toggle';
 import Search from 'components/Search/Search';
+import Paginator from 'components/Paginator/Paginator';
 
 import { query } from 'components/Timeline/queries';
 import { config } from 'config'
@@ -125,8 +126,7 @@ const Feed = (props) => {
     return <Search contextTag={{ id: proposalId, text: i18n.t('search-contract', { searchTerm: getDescription(data.proposals[0].details).title }) }} />
   }
 
-
-  return data.proposals.map((proposal) => {
+  const feed = data.proposals.map((proposal) => {
     const totalVoters = String(parseInt(Number(proposal.yesVotes) + Number(proposal.noVotes), 10));
     const yesPercentage = String(_getPercentage(Number(proposal.yesShares), Number(proposal.noShares)));
     const noPercentage = String(_getPercentage(Number(proposal.noShares), Number(proposal.yesShares)));
@@ -267,6 +267,13 @@ const Feed = (props) => {
       </Post>
     );
   });
+
+  return (
+    <div>
+      {feed}
+      <Paginator />
+    </div>
+  );
 };
 
 const Timeline = (props) => {

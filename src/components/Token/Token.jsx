@@ -36,7 +36,7 @@ const Token = (props) => {
   }
 
   const tokenLink = (
-    <Link to={`/token/${props.symbol}`} className="token-ticker" onClick={(e) => { e.stopPropagation(); }}>
+    <Link to={`/token/${props.symbol.toLowerCase()}`} className="token-ticker" onClick={(e) => { e.stopPropagation(); }}>
       {(props.publicAddress && imageExists) ?
         <img className="token-icon" src={image} alt="" />
         :

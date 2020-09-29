@@ -242,7 +242,6 @@ const MenuQuery = ({ address, scrollUp, view, proposalId }) => {
           </div>
         </div>
       </div>
-
     );
   }
   if (error) return `Error! ${error}`;
@@ -257,8 +256,6 @@ const MenuQuery = ({ address, scrollUp, view, proposalId }) => {
       </Item>
     );
   });
-
-  console.log(daoList);
 
   const menuList = defaultMenu;
   const hasContent = _checkContent(view, menuList);

@@ -5658,6 +5658,13 @@ blockquote {
   padding-left: 25px;
 }
 
+.spinner-loading {
+  display: inline-block;
+  text-align: center;
+  margin: 20px auto;
+  width: 100%;
+}
+
 .split {
   position: absolute;
   top: 0px;
