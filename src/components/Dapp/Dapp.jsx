@@ -19,6 +19,9 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 // settings
 import { defaults } from 'lib/const';
 import { config } from 'config'
+
+import GA from 'utils/Analytics'
+
 import 'styles/Dapp.css';
 
 const Web3 = require('web3');
@@ -169,6 +172,7 @@ export default class Dapp extends Component {
   render() {
     return (
       <Router>
+        {GA.init() && <GA.RouteTracker />}
         <Switch>
           {routes.map((route, index) => (
             <Route
