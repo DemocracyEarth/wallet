@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
-import { ApolloProvider, useQuery } from '@apollo/react-hooks';
+import { ApolloProvider, useLazyQuery } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
 
 import { shortenCryptoName } from 'utils/strings';
@@ -49,8 +49,19 @@ const getENSName = (data, publicAddress) => {
 * @summary renders a post in the timeline
 */
 const AccountQuery = ({ publicAddress, width, height, format, hidden }) => {
-  const { loading, error, data } = useQuery(ENS_ACCOUNT, { variables: { publicAddress } });
+  const [getAccount, { data, loading, error }] = useLazyQuery(ENS_ACCOUNT, { variables: { publicAddress } });
   let label;
+
+  let isMounted = true;
+  useEffect(() => {
+    if (isMounted) {
+      getAccount();
+    }
+    return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      isMounted = false;
+    };
+  }, []);
 
   const image = makeBlockie(publicAddress);
   const url = `/address/${publicAddress}`;
@@ -73,17 +84,20 @@ const AccountQuery = ({ publicAddress, width, height, format, hidden }) => {
     }
     if (error) return `Error! ${error}`;
 
-    label = getENSName(data, publicAddress);
-    includeInSearch(url, (data.domains.length > 0) ? data.domains[0].name : publicAddress, 'search-user');
+    if (data) {
+      label = getENSName(data, publicAddress);
+      includeInSearch(url, (data.domains.length > 0) ? data.domains[0].name : publicAddress, 'search-user');
+
+      if (format === 'searchBar') {
+        return <Search contextTag={{ id: publicAddress, text: i18n.t('search-user', { searchTerm: label }) }} />
+      }
+    }
   } else {
     label = '0x0';
   }
 
   if (hidden) {
     return label;
-  }
-  if (format === 'searchBar') {
-    return <Search contextTag={{ id: publicAddress, text: i18n.t('search-user', { searchTerm: label }) }} />
   }
   return (
     <div className="identity">
@@ -112,6 +126,7 @@ AccountQuery.propTypes = {
   format: PropTypes.string,
   hidden: PropTypes.bool,
 };
+
 
 /**
 * @summary renders a post in the timeline

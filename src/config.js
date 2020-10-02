@@ -10,6 +10,7 @@ export const config = {
   },
   keys: {
     fortmatic: 'pk_live_0826872BC201129A',
+    analytics: 'UA-69508804-1'
   },
   component: {
     toggle: {

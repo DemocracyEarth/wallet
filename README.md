@@ -14,10 +14,11 @@ Explore and participate in Digital Autonomous Organizations (DAOs).
 
 ## Features
 
-  - [X] Built for Ethereum using [Web3](https://github.com/ethereum/web3.js/) 
-  - [X] Implements [Graph Protocol](https://github.com/graphprotocol) to read blockchain activity.
+  - [X] Built for Ethereum using [Web3](https://github.com/ethereum/web3.js/).
+  - [X] Implements [Graph Protocol](https://github.com/graphprotocol) to read blockchain.
   - [X] Explore [MolochDAO](https://github.com/MolochVentures/moloch) compatible contracts.
-  - [X] Support [ERC20](https://github.com/ethereum/eips/issues/20) and [ERC721](https://github.com/ethereum/eips/issues/721) tokens.    
+  - [X] Deployable on [IPFS](http://github.com/ipfs).
+  - [X] Supports [ERC20](https://github.com/ethereum/eips/issues/20) and [ERC721](https://github.com/ethereum/eips/issues/721) tokens.    
   - [X] Mobile & desktop responsive UX.
   
 **Release:**
