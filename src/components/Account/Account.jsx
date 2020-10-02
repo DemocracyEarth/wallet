@@ -58,6 +58,7 @@ const AccountQuery = ({ publicAddress, width, height, format, hidden }) => {
       getAccount();
     }
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       isMounted = false;
     };
   }, []);
