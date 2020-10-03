@@ -85,7 +85,9 @@ const _view = {
   DAO: 'dao',
   ADDRESS: 'address',
   PERIOD: 'period',
-  PROPOSAL: 'proposal'
+  PROPOSAL: 'proposal',
+  TOKEN: 'token',
+  DATE: 'date',
 }
 
 const _period = {

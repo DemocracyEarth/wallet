@@ -61,8 +61,12 @@ const composeQuery = (view, field, period) => {
         default:
       }
       break;
+    case routerView.TOKEN:
+      return query.GET_PROPOSALS_TOKEN;
+    case routerView.DATE:
+      return query.GET_PROPOSALS_DATE;
     case routerView.ADDRESS:
-        return query.GET_PROPOSALS_ADDRESS;
+      return query.GET_PROPOSALS_ADDRESS;
     default:
       switch (field) {
         case 'applicant':
@@ -85,9 +89,15 @@ const _getPercentage = (percentageAmount, remainder) => {
 };
 
 const Feed = (props) => {
-  const { address, first, skip, orderBy, orderDirection, proposalId } = props;
+  const { address, first, skip, orderBy, orderDirection, proposalId, param } = props;
   const now = Math.floor(new Date().getTime() / 1000);
-  const [getFeed, { data, loading, error }] = useLazyQuery(composeQuery(props.view, props.field, props.period), { variables: { address, first, skip, orderBy, orderDirection, now, proposalId } });
+  let { dateBegin, dateEnd } = now.toString();
+  if (props.view === routerView.DATE) {
+    dateBegin = Math.floor(new Date(param).getTime() / 1000).toString();
+    dateEnd = Math.floor((new Date(param).getTime() / 1000) + 86400).toString();
+  }
+
+  const [getFeed, { data, loading, error }] = useLazyQuery(composeQuery(props.view, props.field, props.period), { variables: { address, first, skip, orderBy, orderDirection, now, proposalId, param, dateBegin, dateEnd } });
 
   let isMounted = true;
   useEffect(() => {
@@ -305,7 +315,7 @@ const Timeline = (props) => {
   return (
     <ApolloProvider client={client}>
       <Feed address={props.address} period={props.period} view={props.view} field={props.field} page={props.page} proposalId={props.proposalId} 
-        first={props.first} skip={props.skip} orderBy={props.orderBy} orderDirection={props.orderDirection} format={props.format} />
+        first={props.first} skip={props.skip} orderBy={props.orderBy} orderDirection={props.orderDirection} format={props.format} param={props.param} />
     </ApolloProvider>
   );
 };
@@ -323,6 +333,7 @@ Timeline.propTypes = {
   view: PropTypes.string,
   period: PropTypes.string,
   format: PropTypes.string,
+  param: PropTypes.string,
 };
 
 Feed.propTypes = Timeline.propTypes;

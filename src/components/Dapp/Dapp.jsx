@@ -21,7 +21,6 @@ import { defaults } from 'lib/const';
 import { config } from 'config'
 
 import GA from 'utils/Analytics'
-
 import 'styles/Dapp.css';
 
 const Web3 = require('web3');

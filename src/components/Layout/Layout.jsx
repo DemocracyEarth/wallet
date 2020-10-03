@@ -14,22 +14,23 @@ import 'styles/Dapp.css';
 * @summary displays the contents of a poll
 */
 const Layout = (props) => {
-  const { dao, address, period, proposal } = useParams();
+  const { dao, address, period, proposal, token, date } = useParams();
 
-  console.log(useParams());
+  console.log(useParams())
 
   // defaults
   let view = routerView.HOME;
   let renderAddress = props.address;
   let proposalId = '';
   let periodEpoch = '';
+  let param = '';
 
   // context specific
   if (dao) {
     renderAddress = dao; 
     view = routerView.DAO;
   } else if (address) { 
-    renderAddress = address; 
+  renderAddress = address;
     view = routerView.ADDRESS; 
   } else if (period) { 
     periodEpoch = period;
@@ -37,6 +38,12 @@ const Layout = (props) => {
   } else if (proposal) {
     proposalId = proposal;
     view = routerView.PROPOSAL;
+  } else if (token) {
+    param = token.toUpperCase();
+    view = routerView.TOKEN;
+  } else if (date) {
+    param = date;
+    view = routerView.DATE;
   }
 
   return (
@@ -49,7 +56,7 @@ const Layout = (props) => {
           <div id="main-feed" className="split split-left split-landing">
             <div id="proposals" className="content content-feed max100">
               <div id="non-editable-feed">
-                <Timeline address={renderAddress} period={periodEpoch} view={view} proposalId={proposalId} 
+                <Timeline address={renderAddress} period={periodEpoch} view={view} proposalId={proposalId} param={param}
                   field={'memberAddress'} first={25} skip={0} page={1} orderBy={'createdAt'} orderDirection={'desc'}  />
               </div>
             </div>
