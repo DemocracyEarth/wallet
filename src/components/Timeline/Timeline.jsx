@@ -101,9 +101,6 @@ const Feed = (props) => {
 
   let isMounted = true;
   useEffect(() => {
-    if (props.format !== 'searchBar') {
-      document.getElementById('alternative-feed').style.minHeight = `${document.getElementById('proposals').scrollHeight}px`;
-    }
     if (isMounted) {
       getFeed();
     }

@@ -72,7 +72,7 @@ const GET_PROPOSAL_DAO = gql`
  * @param {object} data from graph
  * @param {string} address in view
  */
-const _getMenu = (view, data, address) => {
+const _getMenu = (view, data, address, param) => {
   const atHome = (view === routerView.HOME);
   const hideEmpty = !atHome
   const defaultLabels = ['all', 'in-queue', 'voting-now', 'grace-period', 'ready-to-process', 'rejected', 'approved'];
@@ -82,6 +82,9 @@ const _getMenu = (view, data, address) => {
   switch (view) {
     case routerView.DAO:
       baseRoute = `/dao/${address}`;
+      break;
+    case routerView.TOKEN:
+      baseRoute = `/token/${param.toLowerCase()}`;
       break;
     default:
       baseRoute = `/address/${address}`;
@@ -258,7 +261,7 @@ const MenuQuery = ({ address, scrollUp, view, proposalId, param }) => {
   }
   if (error) return `Error! ${error}`;
 
-  const defaultMenu = _getMenu(view, data, address);
+  const defaultMenu = _getMenu(view, data, address, param);
   const sorted = _getDAOs(data);
   const daoList = sorted.map((item, key) => {
     return (
