@@ -179,7 +179,7 @@ const Feed = (props) => {
       const noPayment = (proposal.paymentRequested === '0');
       const noLoot = (proposal.lootRequested === '0');
       const noApplicant = (proposal.applicant === '0x0000000000000000000000000000000000000000');
-      const noSponsor = (!proposal.sponsored);
+      const noSponsor = (!proposal.sponsored || proposal.molochVersion === "1");
       const noConditions = (noShares && noTribute && noPayment && noApplicant && noSponsor && noLoot && !proposal.whitelist && !proposal.guildkick);
 
       return (
@@ -300,7 +300,7 @@ const Feed = (props) => {
           <Paginator page={props.page}>
             <Timeline address={props.address} period={props.period} view={props.view} proposalId={props.proposalId}
               field={'memberAddress'} first={props.first} skip={parseInt(props.first * props.page, 10)} page={parseInt(props.page + 1)}
-              orderBy={'createdAt'} orderDirection={'desc'} />
+              orderBy={'createdAt'} orderDirection={'desc'} param={props.param} />
           </Paginator>
           :
           null

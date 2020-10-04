@@ -41,6 +41,14 @@ const GET_MEMBERSHIPS = gql`
   }
 `;
 
+const GET_TOKEN = gql`
+  query membershipDetails($param: String) {
+    proposals(where: { tributeTokenSymbol: $param }) {
+      ${MENU_DATA}
+    }
+  }
+`;
+
 const GET_DAOS = gql`
   query membershipDetails($address: String) {
     proposals(where: { molochAddress: $address }) {
@@ -156,6 +164,8 @@ const _getHeadline = (headline, address, view) => {
       return i18n.t(`${headline}-account-dao`);
     case routerView.PROPOSAL:
       return i18n.t(`${headline}-account-proposal`);
+    case routerView.TOKEN:
+      return i18n.t(`${headline}-token`);
     default:
       return i18n.t(`${headline}-account`);
   }
@@ -215,6 +225,8 @@ const _getDAOs = (data) => {
  */
 const composeQuery = (view) => {
   switch (view) {
+    case routerView.TOKEN:
+      return GET_TOKEN;
     case routerView.DAO:
       return GET_DAOS;
     case routerView.PROPOSAL:
@@ -227,8 +239,8 @@ const composeQuery = (view) => {
 /**
 * @summary renders the menu based on a graph ql query ad hoc for the user
 */
-const MenuQuery = ({ address, scrollUp, view, proposalId }) => {
-  const { loading, error, data } = useQuery(composeQuery(view), { variables: { address, proposalId } });
+const MenuQuery = ({ address, scrollUp, view, proposalId, param }) => {
+  const { loading, error, data } = useQuery(composeQuery(view), { variables: { address, proposalId, param } });
 
   if (loading) {
     return (
@@ -247,7 +259,6 @@ const MenuQuery = ({ address, scrollUp, view, proposalId }) => {
   if (error) return `Error! ${error}`;
 
   const defaultMenu = _getMenu(view, data, address);
-
   const sorted = _getDAOs(data);
   const daoList = sorted.map((item, key) => {
     return (
@@ -259,6 +270,8 @@ const MenuQuery = ({ address, scrollUp, view, proposalId }) => {
 
   const menuList = defaultMenu;
   const hasContent = _checkContent(view, menuList);
+
+  console.log(`hasContent = ${hasContent}`);
   
   const daoMemberships = (
     <div>
@@ -314,6 +327,7 @@ MenuQuery.propTypes = {
   scrollUp: PropTypes.bool,
   view: PropTypes.string,
   proposalId: PropTypes.string,
+  param: PropTypes.string
 };
 
 /**
@@ -353,7 +367,7 @@ export default class Sidebar extends Component {
 
   render() {
     if ((this.props.view !== routerView.HOME) && (this.props.view !== routerView.PERIOD)) {
-      return <MenuQuery address={this.props.address} scrollUp={this.state.scrollUp} view={this.props.view} proposalId={this.props.proposalId} />;
+      return <MenuQuery address={this.props.address} scrollUp={this.state.scrollUp} view={this.props.view} proposalId={this.props.proposalId} param={this.props.param} />;
     }
 
     const defaultMenu = _getMenu(routerView.HOME);
@@ -375,4 +389,5 @@ Sidebar.propTypes = {
   address: PropTypes.string,
   view: PropTypes.string,
   proposalId: PropTypes.string,
+  param: PropTypes.string
 };

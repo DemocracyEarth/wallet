@@ -18,7 +18,7 @@ const client = new ApolloClient({
 const Menu = (props) => {
   return (
     <ApolloProvider client={client}>
-      <Sidebar address={props.address} view={props.view} proposalId={props.proposalId} />
+      <Sidebar address={props.address} view={props.view} proposalId={props.proposalId} param={props.param} />
     </ApolloProvider>
   );
 };
@@ -27,6 +27,7 @@ Menu.propTypes = {
   address: PropTypes.string,
   view: PropTypes.string,
   proposalId: PropTypes.string,
+  param: PropTypes.string
 };
 
 export default Menu;

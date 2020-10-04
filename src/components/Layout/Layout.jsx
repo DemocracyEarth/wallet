@@ -50,7 +50,7 @@ const Layout = (props) => {
     <div>
       <div id="app" className="app">
         <div id="menu" className="left">
-          <Menu address={renderAddress} view={view} proposalId={proposalId} />
+          <Menu address={renderAddress} view={view} proposalId={proposalId} param={param} />
         </div>
         <div id="content" className="right">
           <div id="main-feed" className="split split-left split-landing">
