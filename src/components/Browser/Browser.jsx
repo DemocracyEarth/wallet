@@ -51,7 +51,9 @@ class Browser extends Component {
 
   handleScroll() {
     const st = window.pageYOffset || document.documentElement.scrollTop;
-
+    if (document.getElementById('alternative-feed').style.minHeight !== `${document.getElementById('proposals').scrollHeight}px`) {
+      document.getElementById('alternative-feed').style.minHeight = `${document.getElementById('proposals').scrollHeight}px`;
+    }
     if ((st > lastScrollTop) && (st > 60) && !this.state.scrollUp) {
       this.setState({ scrollUp: true });
     } else if ((st <= lastScrollTop) && this.state.scrollUp) {

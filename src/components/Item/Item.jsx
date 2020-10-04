@@ -62,7 +62,7 @@ class ItemLink extends Component {
           {this.getLabel()}
         </div>
         <div className={this.getTagStyle()}>
-          {this.props.score}
+          {(this.props.score >= 100) ? '100+' : this.props.score}
         </div>
       </NavLink>
     );

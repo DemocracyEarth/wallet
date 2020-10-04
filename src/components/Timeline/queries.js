@@ -85,6 +85,27 @@ export const query = {
       }
     }
   `,
+  GET_PROPOSALS_TOKEN: gql`
+    query addressProposals($param: String, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+      proposals(where: { tributeTokenSymbol: $param }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+        ${PROPOSAL_DATA}
+      }
+    }
+  `,
+  GET_PROPOSALS_TOKEN_PAYMENT: gql`
+    query addressProposals($param: String, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+      proposals(where: { paymentTokenSymbol: $param }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+        ${PROPOSAL_DATA}
+      }
+    }
+  `,
+  GET_PROPOSALS_DATE: gql`
+    query addressProposals($dateBegin: String, $dateEnd: String, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+      proposals(where: { createdAt_gte: $dateBegin, createdAt_lte: $dateEnd }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+        ${PROPOSAL_DATA}
+      }
+    }
+  `,
   GET_PROPOSALS_DAO: gql`
     query addressProposals($address: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
       proposals(where: { molochAddress: $address }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
 
 import Item from 'components/Item/Item';
 import DAO from 'components/DAO/DAO';
 
+import { query } from 'components/Menu/queries';
 import { reduce, sortBy } from 'lodash';
 import { view as routerView } from 'lib/const'
 
@@ -15,56 +15,13 @@ import 'styles/Dapp.css';
 // scroll settings
 let lastScrollTop = 0;
 
-const MENU_DATA = `
-  id
-  memberAddress
-  moloch {
-    id
-    title
-  }
-  id
-  didPass
-  guildkick
-  gracePeriodEnds
-  votingPeriodStarts
-  votingPeriodEnds
-  sponsor
-  processed
-  applicant
-`
-
-const GET_MEMBERSHIPS = gql`
-  query membershipDetails($address: String) {
-    proposals(where: { proposer: $address }) {
-      ${MENU_DATA}
-    }
-  }
-`;
-
-const GET_DAOS = gql`
-  query membershipDetails($address: String) {
-    proposals(where: { molochAddress: $address }) {
-      ${MENU_DATA}
-    }
-  }
-`;
-
-const GET_PROPOSAL_DAO = gql`
-  query membershipDetails($proposalId: String) {
-    proposals(where: { id: $proposalId }) {
-      ${MENU_DATA}
-    }
-  }
-`;
-
-
 /**
  * @summary gets the default menu for the dapp
  * @param {string} view from router
  * @param {object} data from graph
  * @param {string} address in view
  */
-const _getMenu = (view, data, address) => {
+const _getMenu = (view, data, address, param) => {
   const atHome = (view === routerView.HOME);
   const hideEmpty = !atHome
   const defaultLabels = ['all', 'in-queue', 'voting-now', 'grace-period', 'ready-to-process', 'rejected', 'approved'];
@@ -74,6 +31,12 @@ const _getMenu = (view, data, address) => {
   switch (view) {
     case routerView.DAO:
       baseRoute = `/dao/${address}`;
+      break;
+    case routerView.TOKEN:
+      baseRoute = `/token/${param.toLowerCase()}`;
+      break;
+    case routerView.DATE:
+      baseRoute = `/date/${param.toLowerCase()}`;
       break;
     default:
       baseRoute = `/address/${address}`;
@@ -156,6 +119,10 @@ const _getHeadline = (headline, address, view) => {
       return i18n.t(`${headline}-account-dao`);
     case routerView.PROPOSAL:
       return i18n.t(`${headline}-account-proposal`);
+    case routerView.TOKEN:
+      return i18n.t(`${headline}-token`);
+    case routerView.DATE:
+      return i18n.t(`${headline}-date`);
     default:
       return i18n.t(`${headline}-account`);
   }
@@ -215,20 +182,29 @@ const _getDAOs = (data) => {
  */
 const composeQuery = (view) => {
   switch (view) {
+    case routerView.TOKEN:
+      return query.GET_TOKEN;
     case routerView.DAO:
-      return GET_DAOS;
+      return query.GET_DAOS;
     case routerView.PROPOSAL:
-      return GET_PROPOSAL_DAO;
+      return query.GET_PROPOSAL_DAO;
+    case routerView.DATE:
+      return query.GET_DATE;
     default:
-      return GET_MEMBERSHIPS;
+      return query.GET_MEMBERSHIPS;
   }
 }
 
 /**
 * @summary renders the menu based on a graph ql query ad hoc for the user
 */
-const MenuQuery = ({ address, scrollUp, view, proposalId }) => {
-  const { loading, error, data } = useQuery(composeQuery(view), { variables: { address, proposalId } });
+const MenuQuery = ({ address, scrollUp, view, proposalId, param }) => {
+  let { dateBegin, dateEnd } = '';
+  if (view === routerView.DATE) {
+    dateBegin = Math.floor(new Date(param).getTime() / 1000).toString();
+    dateEnd = Math.floor((new Date(param).getTime() / 1000) + 86400).toString();
+  }
+  const { loading, error, data } = useQuery(composeQuery(view), { variables: { address, proposalId, param, dateBegin, dateEnd } });
 
   if (loading) {
     return (
@@ -246,8 +222,7 @@ const MenuQuery = ({ address, scrollUp, view, proposalId }) => {
   }
   if (error) return `Error! ${error}`;
 
-  const defaultMenu = _getMenu(view, data, address);
-
+  const defaultMenu = _getMenu(view, data, address, param);
   const sorted = _getDAOs(data);
   const daoList = sorted.map((item, key) => {
     return (
@@ -259,6 +234,8 @@ const MenuQuery = ({ address, scrollUp, view, proposalId }) => {
 
   const menuList = defaultMenu;
   const hasContent = _checkContent(view, menuList);
+
+  console.log(`hasContent = ${hasContent}`);
   
   const daoMemberships = (
     <div>
@@ -314,6 +291,7 @@ MenuQuery.propTypes = {
   scrollUp: PropTypes.bool,
   view: PropTypes.string,
   proposalId: PropTypes.string,
+  param: PropTypes.string
 };
 
 /**
@@ -353,7 +331,7 @@ export default class Sidebar extends Component {
 
   render() {
     if ((this.props.view !== routerView.HOME) && (this.props.view !== routerView.PERIOD)) {
-      return <MenuQuery address={this.props.address} scrollUp={this.state.scrollUp} view={this.props.view} proposalId={this.props.proposalId} />;
+      return <MenuQuery address={this.props.address} scrollUp={this.state.scrollUp} view={this.props.view} proposalId={this.props.proposalId} param={this.props.param} />;
     }
 
     const defaultMenu = _getMenu(routerView.HOME);
@@ -375,4 +353,5 @@ Sidebar.propTypes = {
   address: PropTypes.string,
   view: PropTypes.string,
   proposalId: PropTypes.string,
+  param: PropTypes.string
 };
