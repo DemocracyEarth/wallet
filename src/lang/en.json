@@ -902,6 +902,7 @@
   "proposals-account": "Proposals by this address",
   "proposals-account-dao": "Proposals on this DAO",
   "proposals-token": "Proposals with this token",
+  "proposals-date": "Proposals from this date",
   "memberships-account": "Proposals by this address to DAOs",
   "proposals-account-proposal": "DAO of this proposal",
   "memberships-account-proposal": "DAO of this proposal",

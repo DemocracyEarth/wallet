@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
 
 import Item from 'components/Item/Item';
 import DAO from 'components/DAO/DAO';
 
+import { query } from 'components/Menu/queries';
 import { reduce, sortBy } from 'lodash';
 import { view as routerView } from 'lib/const'
 
@@ -14,57 +14,6 @@ import 'styles/Dapp.css';
 
 // scroll settings
 let lastScrollTop = 0;
-
-const MENU_DATA = `
-  id
-  memberAddress
-  moloch {
-    id
-    title
-  }
-  id
-  didPass
-  guildkick
-  gracePeriodEnds
-  votingPeriodStarts
-  votingPeriodEnds
-  sponsor
-  processed
-  applicant
-`
-
-const GET_MEMBERSHIPS = gql`
-  query membershipDetails($address: String) {
-    proposals(where: { proposer: $address }) {
-      ${MENU_DATA}
-    }
-  }
-`;
-
-const GET_TOKEN = gql`
-  query membershipDetails($param: String) {
-    proposals(where: { tributeTokenSymbol: $param }) {
-      ${MENU_DATA}
-    }
-  }
-`;
-
-const GET_DAOS = gql`
-  query membershipDetails($address: String) {
-    proposals(where: { molochAddress: $address }) {
-      ${MENU_DATA}
-    }
-  }
-`;
-
-const GET_PROPOSAL_DAO = gql`
-  query membershipDetails($proposalId: String) {
-    proposals(where: { id: $proposalId }) {
-      ${MENU_DATA}
-    }
-  }
-`;
-
 
 /**
  * @summary gets the default menu for the dapp
@@ -85,6 +34,9 @@ const _getMenu = (view, data, address, param) => {
       break;
     case routerView.TOKEN:
       baseRoute = `/token/${param.toLowerCase()}`;
+      break;
+    case routerView.DATE:
+      baseRoute = `/date/${param.toLowerCase()}`;
       break;
     default:
       baseRoute = `/address/${address}`;
@@ -169,6 +121,8 @@ const _getHeadline = (headline, address, view) => {
       return i18n.t(`${headline}-account-proposal`);
     case routerView.TOKEN:
       return i18n.t(`${headline}-token`);
+    case routerView.DATE:
+      return i18n.t(`${headline}-date`);
     default:
       return i18n.t(`${headline}-account`);
   }
@@ -229,13 +183,15 @@ const _getDAOs = (data) => {
 const composeQuery = (view) => {
   switch (view) {
     case routerView.TOKEN:
-      return GET_TOKEN;
+      return query.GET_TOKEN;
     case routerView.DAO:
-      return GET_DAOS;
+      return query.GET_DAOS;
     case routerView.PROPOSAL:
-      return GET_PROPOSAL_DAO;
+      return query.GET_PROPOSAL_DAO;
+    case routerView.DATE:
+      return query.GET_DATE;
     default:
-      return GET_MEMBERSHIPS;
+      return query.GET_MEMBERSHIPS;
   }
 }
 
@@ -243,7 +199,12 @@ const composeQuery = (view) => {
 * @summary renders the menu based on a graph ql query ad hoc for the user
 */
 const MenuQuery = ({ address, scrollUp, view, proposalId, param }) => {
-  const { loading, error, data } = useQuery(composeQuery(view), { variables: { address, proposalId, param } });
+  let { dateBegin, dateEnd } = '';
+  if (view === routerView.DATE) {
+    dateBegin = Math.floor(new Date(param).getTime() / 1000).toString();
+    dateEnd = Math.floor((new Date(param).getTime() / 1000) + 86400).toString();
+  }
+  const { loading, error, data } = useQuery(composeQuery(view), { variables: { address, proposalId, param, dateBegin, dateEnd } });
 
   if (loading) {
     return (
