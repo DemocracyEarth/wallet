@@ -234,8 +234,6 @@ const MenuQuery = ({ address, scrollUp, view, proposalId, param }) => {
 
   const menuList = defaultMenu;
   const hasContent = _checkContent(view, menuList);
-
-  console.log(`hasContent = ${hasContent}`);
   
   const daoMemberships = (
     <div>
