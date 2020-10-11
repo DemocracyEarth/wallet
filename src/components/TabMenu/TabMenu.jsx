@@ -11,11 +11,11 @@ import 'styles/Dapp.css';
 const TabMenu = (props) => {
   return (
     <>
-      <div class="tab-menu">
+      <div className="tab-menu">
         {
           props.tabs.map((item, key) => {
             return (
-              <Tab label={item.label} action={item.action} selected={item.selected} />
+              <Tab key={key} label={item.label} action={item.action} selected={item.selected} />
             );
           })
         }

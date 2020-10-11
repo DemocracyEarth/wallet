@@ -8,7 +8,7 @@ import 'styles/Dapp.css';
 */
 const Tab = (props) => {
   return (
-    <h4 id='tab-button' class={`tab-button ${props.selected ? 'tab-button-selected' : null}`}>
+    <h4 id='tab-button' className={`tab-button ${props.selected ? 'tab-button-selected' : null}`} onClick={props.action}>
       {props.label}
     </h4>
   );
