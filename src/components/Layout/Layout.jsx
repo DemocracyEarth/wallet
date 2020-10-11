@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import Menu from 'components/Menu/Menu';
 import Timeline from 'components/Timeline/Timeline';
 import Ledger from 'components/Ledger/Ledger';
+import TabMenu from 'components/TabMenu/TabMenu';
 
 import { view as routerView } from 'lib/const'
 
@@ -45,13 +46,19 @@ const Layout = (props) => {
   }
 
   return (
-    <div>
+    <>
       <div id="app" className="app">
         <div id="menu" className="left">
           <Menu address={renderAddress} view={view} proposalId={proposalId} param={param} />
         </div>
         <div id="content" className="right">
           <div id="main-feed" className="split split-left split-landing">
+            <TabMenu tabs={
+              [
+                { label: 'hola', action: () => console.log('hola'), selected: true },  
+                { label: 'chau', action: () => console.log('chau') }
+              ]}
+            />
             <div id="proposals" className="content content-feed max100">
               <div id="non-editable-feed">
                 <Timeline address={renderAddress} period={periodEpoch} view={view} proposalId={proposalId} param={param}
@@ -64,7 +71,7 @@ const Layout = (props) => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
