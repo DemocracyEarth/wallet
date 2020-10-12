@@ -6278,7 +6278,7 @@ blockquote {
   .split {
     position: static;
     width: 100%;
-    padding-top: 55px;
+    padding-top: 115px;
     padding-right: 0px;
     padding-left: 0px;
     float: none;
@@ -8344,6 +8344,7 @@ h4 {
 
   .left {
     box-shadow: none;
+    margin-top: 60px;
   }
 
 }
@@ -8831,15 +8832,23 @@ h4 {
 
 .tab-menu {
   background: #e3e6ef;
-  position: sticky;
-  top: -6010px;
+  position: fixed;
+  width: 100%;
   padding: 6010px 10px 0px;
   border-bottom: 1px solid #daddef;
   z-index: 9999;
-  margin: -6000px 0px 10px 0px;
+  margin: -5950px 0px 10px 0px;
   box-shadow: 0px -6px 10px 0px black;
-  text-align:center;
+  text-align: center;
+  display: none;
 }
+
+@media (max-width: 991px) {
+  .tab-menu {
+    display: block;
+  }
+}
+
 
 .tab-menu.tab-menu-scroll {
   top: -5952px;
