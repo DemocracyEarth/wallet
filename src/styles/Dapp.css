@@ -6278,7 +6278,7 @@ blockquote {
   .split {
     position: static;
     width: 100%;
-    padding-top: 115px;
+    padding-top: 110px;
     padding-right: 0px;
     padding-left: 0px;
     float: none;
@@ -8344,7 +8344,7 @@ h4 {
 
   .left {
     box-shadow: none;
-    margin-top: 60px;
+    margin-top: 55px;
   }
 
 }
@@ -8837,7 +8837,7 @@ h4 {
   padding: 6010px 10px 0px;
   border-bottom: 1px solid #daddef;
   z-index: 9999;
-  margin: -5950px 0px 10px 0px;
+  margin: -5955px 0px 10px 0px;
   box-shadow: 0px -6px 10px 0px black;
   text-align: center;
   display: none;
@@ -8859,6 +8859,7 @@ h4 {
   padding: 12px 20px 12px;
   display: inline-block;
   width: 40%;
+  cursor: pointer;
 }
 
 .tab-button-selected {

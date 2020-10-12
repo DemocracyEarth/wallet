@@ -7,6 +7,7 @@ import Timeline from 'components/Timeline/Timeline';
 import Ledger from 'components/Ledger/Ledger';
 import TabMenu from 'components/TabMenu/TabMenu';
 
+import i18n from 'i18n';
 import { view as routerView } from 'lib/const'
 
 import 'styles/Dapp.css';
@@ -53,8 +54,8 @@ const Layout = (props) => {
         </div>
         <TabMenu tabs={
           [
-            { label: 'hola', action: () => console.log('hola'), selected: true },
-            { label: 'chau', action: () => console.log('chau') }
+            { label: i18n.t('proposals'), action: () => console.log('hola'), selected: true },
+            { label: i18n.t('events'), action: () => console.log('chau') }
           ]}
         />
         <div id="content" className="right">
