@@ -8847,6 +8847,16 @@ h4 {
   .tab-menu {
     display: block;
   }
+
+  .tab-menu.tab-menu-down {
+    transition: top 0.15s ease 0.15s;
+    top: 0px;
+  }
+
+  .tab-menu.tab-menu-up {
+    transition: top 0.15s ease 0.15s;
+    top: -50px;
+  }
 }
 
 

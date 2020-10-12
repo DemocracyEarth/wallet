@@ -35,12 +35,10 @@ class Browser extends Component {
   }
 
   async componentDidMount() {
-    console.log('mounting component');
     window.addEventListener('scroll', this.handleScroll);
   }
 
   componentWillUnmount() {
-    console.log('unmounting component');
     window.removeEventListener('scroll', this.handleScroll);
   }
 
@@ -52,9 +50,8 @@ class Browser extends Component {
   }
 
   handleScroll() {
-    console.log('handling scroll');
-    const st = window.pageYOffset || document.documentElement.scrollTop;
-    console.log(st);
+    const st = window.pageYOffset;
+
     if (document.getElementById('alternative-feed').style.minHeight !== `${document.getElementById('proposals').scrollHeight}px`) {
       document.getElementById('alternative-feed').style.minHeight = `${document.getElementById('proposals').scrollHeight}px`;
     }
