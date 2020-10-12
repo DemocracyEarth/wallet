@@ -41,14 +41,23 @@ export default class TabMenu extends Component {
   }
 
   getScrollClass() {
+    // up
     if (this.state.scrollUp) {
       if (document.getElementById('browser')) {
         document.getElementById('browser').className = 'hero-navbar topbar hero-navbar-scroller hero-navbar-up';
       }
+      if (document.getElementById('sidebar')) {
+        document.getElementById('sidebar').className = 'sidebar sidebar-desktop sidebar-up';
+      }
       return 'tab-menu tab-menu-up';
     }
+
+    // down
     if (document.getElementById('browser')) {
       document.getElementById('browser').className = 'hero-navbar topbar hero-navbar-scroller hero-navbar-down';
+    }
+    if (document.getElementById('sidebar')) {
+      document.getElementById('sidebar').className = 'sidebar sidebar-desktop sidebar-down';
     }
     return 'tab-menu tab-menu-down';
   }

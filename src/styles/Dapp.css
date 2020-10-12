@@ -6050,6 +6050,7 @@ blockquote {
 }
 
 .sidebar.sidebar-desktop.sidebar-down {
+  transition: top 0.15s ease 0.15s;
   top: 60px;
 }
 
@@ -8855,7 +8856,7 @@ h4 {
 
   .tab-menu.tab-menu-up {
     transition: top 0.15s ease 0.15s;
-    top: -50px;
+    top: -55px;
   }
 }
 
