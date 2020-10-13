@@ -6290,6 +6290,7 @@ blockquote {
     overflow: visible;
     width: 100%;
     background-color: #f5f5f5;
+    display: none;
   }
   .split.split-left {
     width: 100%;
