@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import 'styles/Dapp.css';
@@ -6,19 +6,34 @@ import 'styles/Dapp.css';
 /**
 * @summary displays the contents of a poll
 */
-const Tab = (props) => {
-  return (
-    <h4 id='tab-button' className={`tab-button ${props.selected ? 'tab-button-selected' : null}`} onClick={props.action}>
-      {props.label}
-    </h4>
-  );
+
+export default class Tab extends Component {
+  static propTypes = {
+    label: PropTypes.string,
+    selected: PropTypes.bool,
+    action: PropTypes.func,
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      selected: props.selected,
+    };
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    this.setState({ selected: true });
+    this.props.action();
+  }
+
+  render() {
+    return (
+      <h4 id='tab-button' className={`tab-button ${this.state.selected ? 'tab-button-selected' : null}`} onClick={this.handleClick}>
+        {this.props.label}
+      </h4>
+    );
+  }
 };
-
-Tab.propTypes = {
-  label: PropTypes.string,
-  selected: PropTypes.bool,
-  action: PropTypes.func,
-};
-
-export default Tab;
-

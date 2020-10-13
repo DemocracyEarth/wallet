@@ -12,6 +12,23 @@ import { view as routerView } from 'lib/const'
 
 import 'styles/Dapp.css';
 
+const _showMain = () => {
+  console.log(`_showMain`);
+  if (document.getElementById('main-feed') && document.getElementById('alternative-feed')) {
+    document.getElementById('main-feed').style.display = 'inline-block';
+    document.getElementById('alternative-feed').style.display = 'none';
+  }
+}
+
+const _showAlternative = () => {
+  console.log(`_showAlternative`);
+  if (document.getElementById('main-feed') && document.getElementById('alternative-feed')) {  
+    document.getElementById('main-feed').style.display = 'none';
+    document.getElementById('alternative-feed').style.display = 'flex';
+    document.getElementById('alternative-feed').style.minHeight = '0px';
+  }
+}
+
 /**
 * @summary displays the contents of a poll
 */
@@ -54,8 +71,8 @@ const Layout = (props) => {
         </div>
         <TabMenu tabs={
           [
-            { label: i18n.t('proposals'), action: () => console.log('hola'), selected: true },
-            { label: i18n.t('events'), action: () => console.log('chau') }
+            { label: i18n.t('proposals'), action: _showMain, selected: true },
+            { label: i18n.t('events'), action: _showAlternative }
           ]}
         />
         <div id="content" className="right">

@@ -6291,7 +6291,18 @@ blockquote {
     width: 100%;
     background-color: #f5f5f5;
     display: none;
+    padding: 0px 15px;
+    min-height: 0px;
   }
+
+  .ledger-wrapper {
+    max-height: none;
+  }
+
+  .ledger-footer {
+    margin-bottom: 30px;
+  }
+
   .split.split-left {
     width: 100%;
   }
@@ -6721,7 +6732,7 @@ blockquote {
     display: none;
   }
   .split.split-right {
-    top: 35px;
+    padding: 50px 0px;
   }
   .proposal-feed {
     padding-right: 10px;
