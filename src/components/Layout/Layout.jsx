@@ -5,29 +5,12 @@ import { useParams } from 'react-router-dom';
 import Menu from 'components/Menu/Menu';
 import Timeline from 'components/Timeline/Timeline';
 import Ledger from 'components/Ledger/Ledger';
-import TabMenu from 'components/TabMenu/TabMenu';
+import TabMenu, { showMain, showAlternative } from 'components/TabMenu/TabMenu';
 
 import i18n from 'i18n';
 import { view as routerView } from 'lib/const'
 
 import 'styles/Dapp.css';
-
-const _showMain = () => {
-  console.log(`_showMain`);
-  if (document.getElementById('main-feed') && document.getElementById('alternative-feed')) {
-    document.getElementById('main-feed').style.display = 'inline-block';
-    document.getElementById('alternative-feed').style.display = 'none';
-  }
-}
-
-const _showAlternative = () => {
-  console.log(`_showAlternative`);
-  if (document.getElementById('main-feed') && document.getElementById('alternative-feed')) {  
-    document.getElementById('main-feed').style.display = 'none';
-    document.getElementById('alternative-feed').style.display = 'flex';
-    document.getElementById('alternative-feed').style.minHeight = '0px';
-  }
-}
 
 /**
 * @summary displays the contents of a poll
@@ -71,8 +54,8 @@ const Layout = (props) => {
         </div>
         <TabMenu tabs={
           [
-            { key: 0, label: i18n.t('proposals'), action: _showMain, selected: true },
-            { key: 1, label: i18n.t('events'), action: _showAlternative }
+            { key: 0, label: i18n.t('proposals'), action: showMain, selected: true },
+            { key: 1, label: i18n.t('events'), action: showAlternative }
           ]}
         />
         <div id="content" className="right">

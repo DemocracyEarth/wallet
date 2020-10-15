@@ -8,6 +8,21 @@ import 'styles/Dapp.css';
 // scroll settings
 let lastScrollTop = 0;
 
+const _showMain = () => {
+  if (document.getElementById('main-feed') && document.getElementById('alternative-feed')) {
+    document.getElementById('main-feed').style.display = 'inline-block';
+    document.getElementById('alternative-feed').style.display = 'none';
+  }
+}
+
+const _showAlternative = () => {
+  if (document.getElementById('main-feed') && document.getElementById('alternative-feed')) {
+    document.getElementById('main-feed').style.display = 'none';
+    document.getElementById('alternative-feed').style.display = 'flex';
+    document.getElementById('alternative-feed').style.minHeight = '0px';
+  }
+}
+
 /**
 * @summary displays the contents of a poll
 */
@@ -31,16 +46,35 @@ export default class TabMenu extends Component {
 
     this.handleScroll = this.handleScroll.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.resize = this.resize.bind(this);
   }
 
   async componentDidMount() {
     const viewport = document.getElementById('content');
     viewport.addEventListener('scroll', this.handleScroll, false);
+    window.addEventListener('resize', this.resize)
   }
 
   componentWillUnmount() {
     const viewport = document.getElementById('content');
     viewport.removeEventListener('scroll', this.handleScroll, false);
+    window.removeEventListener('resize', this.resize)
+  }
+
+  resize() {
+    console.log(`resize: ${window.innerWidth}`);
+    if (window.innerWidth > 991 && (document.getElementById('main-feed').style.display === 'none' || document.getElementById('alternative-feed').style.display === 'none')) {
+      document.getElementById('main-feed').style.display = 'inline-block';
+      document.getElementById('alternative-feed').style.display = 'flex';      
+    } else if (window.innerWidth <= 991) {
+      if (document.getElementById('main-feed').style.display === 'none') {
+        this.setState({ selectedTab: 1 });
+        _showAlternative();
+      } else {
+        this.setState({ selectedTab: 0 });
+        _showMain();
+      }
+    }
   }
 
   getScrollClass() {
@@ -100,3 +134,5 @@ export default class TabMenu extends Component {
   }
 };
 
+export const showMain = _showMain;
+export const showAlternative = _showAlternative;
