@@ -623,7 +623,6 @@ blockquote {
   letter-spacing: 0px;
 }
 
-
 .section {
   clear: both;
 }
@@ -7481,7 +7480,7 @@ body, h4, h1, h2 {
 }
 
 .web3modal-modal-lightbox {
-  z-index:99999;
+  z-index:99999 !important;
 }
 
 .accounts-dialog input[type=text][type], .accounts-dialog input[type=email][type], .accounts-dialog input[type=password][type] {
