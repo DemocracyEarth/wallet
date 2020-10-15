@@ -14,6 +14,7 @@ let lastScrollTop = 0;
 export default class TabMenu extends Component {
   static propTypes = {
     tabs: PropTypes.arrayOf(PropTypes.shape({
+      key: PropTypes.number.isRequired,
       label: PropTypes.string.isRequired,
       action: PropTypes.func.isRequired,
       selected: PropTypes.bool,
@@ -25,9 +26,11 @@ export default class TabMenu extends Component {
 
     this.state = {
       scrollUp: false,
+      selectedTab: 0
     };
 
     this.handleScroll = this.handleScroll.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   async componentDidMount() {
@@ -62,6 +65,10 @@ export default class TabMenu extends Component {
     return 'tab-menu tab-menu-down';
   }
 
+  handleClick(e) {
+    this.setState({ selectedTab: Number(e.target.id.replace('tab-button-', '')) });
+  }
+
   handleScroll() {
     const viewport = document.getElementById('content');
     const st = viewport.scrollTop;
@@ -74,18 +81,19 @@ export default class TabMenu extends Component {
     lastScrollTop = st <= 0 ? 0 : st;
   }
 
+  getTabs(selected) {
+    return this.props.tabs.map((item) => {
+      return (
+        <Tab key={item.key} id={item.key} label={item.label} action={item.action} selected={(selected === item.key)} />
+      );
+    })
+  }
 
   render() {
     return (
       <>
-        <div className={this.getScrollClass()}>
-          {
-            this.props.tabs.map((item, key) => {
-              return (
-                <Tab key={key} label={item.label} action={item.action} selected={item.selected} />
-              );
-            })
-          }
+        <div className={this.getScrollClass()} onClick={this.handleClick}>
+          {this.getTabs(this.state.selectedTab)}
         </div>
       </>
     );

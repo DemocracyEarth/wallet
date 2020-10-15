@@ -8883,6 +8883,11 @@ h4 {
   display: inline-block;
   width: 40%;
   cursor: pointer;
+  color: var(--main-headline-color);
+  font-size: 15px;
+  line-height: 28px;
+  font-weight: 400;
+  background: transparent;
 }
 
 .tab-button-selected {

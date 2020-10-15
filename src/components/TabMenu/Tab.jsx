@@ -12,6 +12,7 @@ export default class Tab extends Component {
     label: PropTypes.string,
     selected: PropTypes.bool,
     action: PropTypes.func,
+    id: PropTypes.number,
   };
 
   constructor(props) {
@@ -25,15 +26,14 @@ export default class Tab extends Component {
   }
 
   handleClick() {
-    this.setState({ selected: true });
     this.props.action();
   }
 
   render() {
     return (
-      <h4 id='tab-button' className={`tab-button ${this.state.selected ? 'tab-button-selected' : null}`} onClick={this.handleClick}>
+      <button id={`tab-button-${this.props.id}`} className={`tab-button ${this.props.selected ? 'tab-button-selected' : ''}`} onClick={this.handleClick}>
         {this.props.label}
-      </h4>
+      </button>
     );
   }
 };

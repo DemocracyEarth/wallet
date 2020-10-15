@@ -71,8 +71,8 @@ const Layout = (props) => {
         </div>
         <TabMenu tabs={
           [
-            { label: i18n.t('proposals'), action: _showMain, selected: true },
-            { label: i18n.t('events'), action: _showAlternative }
+            { key: 0, label: i18n.t('proposals'), action: _showMain, selected: true },
+            { key: 1, label: i18n.t('events'), action: _showAlternative }
           ]}
         />
         <div id="content" className="right">
