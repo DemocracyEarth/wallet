@@ -50,7 +50,8 @@ class Browser extends Component {
   }
 
   handleScroll() {
-    const st = window.pageYOffset || document.documentElement.scrollTop;
+    const st = window.pageYOffset;
+
     if (document.getElementById('alternative-feed').style.minHeight !== `${document.getElementById('proposals').scrollHeight}px`) {
       document.getElementById('alternative-feed').style.minHeight = `${document.getElementById('proposals').scrollHeight}px`;
     }

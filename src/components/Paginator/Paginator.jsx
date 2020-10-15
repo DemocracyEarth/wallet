@@ -10,6 +10,13 @@ const override = css`
   display: inline-block;
 `;
 
+const _getViewport = () => {
+  if (window.innerWidth <= 991) {
+    return document.getElementById('content');
+  }
+  return window;
+}
+
 export default class Paginator extends Component {
   constructor(props) {
     super(props);
@@ -31,11 +38,13 @@ export default class Paginator extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll);
+    const viewport = _getViewport();
+    viewport.addEventListener('scroll', this.handleScroll);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
+    const viewport = _getViewport();
+    viewport.removeEventListener('scroll', this.handleScroll);
   }
 
   handleScroll() {
