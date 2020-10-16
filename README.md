@@ -42,7 +42,7 @@ Explore and participate in Digital Autonomous Organizations (DAOs).
 3. Run Dapp
 
     ```sh
-    $ npm start
+    $ npm run start
     ```
 
     Browser will launch on [http://localhost:3000/](http://localhost:3000/).

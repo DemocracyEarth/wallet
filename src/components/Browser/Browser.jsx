@@ -12,6 +12,7 @@ import Timeline from 'components/Timeline/Timeline';
 import { view as routerView } from 'lib/const'
 import close from 'images/close.svg';
 import logo from 'images/logo.png';
+import logoActive from 'images/logo-white.png';
 
 import i18n from 'i18n';
 import 'styles/Dapp.css';
@@ -89,7 +90,11 @@ class Browser extends Component {
       <div id="browser" className={this.getScrollClass()}>
         <div className="topbar-max">
           <Link to="/" id="nav-home" className="hero-home-button">
-            <img className="hero-logo" alt="" src={logo} />
+            <img className="hero-logo" alt=""
+              src={logo} 
+              onMouseOver={e => (e.currentTarget.src = logoActive)}
+              onMouseOut={e => (e.currentTarget.src = logo)}
+            />
           </Link>
           {(this.connectedWallet()) ?
             <div className="hero-button hero-button-mobile hero-signin">
