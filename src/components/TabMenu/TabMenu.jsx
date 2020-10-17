@@ -125,7 +125,7 @@ export default class TabMenu extends Component {
   render() {
     return (
       <>
-        <div className={this.getScrollClass()} onClick={this.handleClick}>
+        <div id="tabs" className={this.getScrollClass()} onClick={this.handleClick}>
           {this.getTabs(this.state.selectedTab)}
         </div>
       </>

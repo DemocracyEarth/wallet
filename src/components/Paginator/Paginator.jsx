@@ -14,7 +14,7 @@ const _getViewport = () => {
   if (window.innerWidth <= 991) {
     return document.getElementById('content');
   }
-  return window;
+  return document.getElementById('dapp');
 }
 
 export default class Paginator extends Component {
@@ -38,13 +38,17 @@ export default class Paginator extends Component {
   }
 
   componentDidMount() {
-    const viewport = _getViewport();
-    viewport.addEventListener('scroll', this.handleScroll);
+    if (document.getElementById('content') && document.getElementById('dapp')) {
+      const viewport = _getViewport();
+      viewport.addEventListener('scroll', this.handleScroll);
+    }
   }
 
   componentWillUnmount() {
-    const viewport = _getViewport();
-    viewport.removeEventListener('scroll', this.handleScroll);
+    if (document.getElementById('content') && document.getElementById('dapp')) {
+      const viewport = _getViewport();
+      viewport.removeEventListener('scroll', this.handleScroll);
+    }
   }
 
   handleScroll() {

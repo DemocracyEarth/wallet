@@ -309,15 +309,15 @@ export default class Sidebar extends Component {
 
 
   async componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll);
+    document.getElementById('dapp').addEventListener('scroll', this.handleScroll);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
+    document.getElementById('dapp').removeEventListener('scroll', this.handleScroll);
   }
 
   handleScroll() {
-    const st = window.pageYOffset || document.documentElement.scrollTop;
+    const st = document.getElementById('dapp').scrollTop;
 
     if ((st > lastScrollTop) && (st > 60) && !this.state.scrollUp) {
       this.setState({ scrollUp: true });

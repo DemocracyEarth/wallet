@@ -4525,6 +4525,7 @@ blockquote {
   bottom: 0px;
   right: 0px;
   left: 0px;
+  overflow: scroll;
 }
 
 .tooltip {
@@ -5911,6 +5912,7 @@ blockquote {
   max-height: 30px;
   margin: 12px 10px;
   float: left;
+  cursor: pointer;
 }
 
 .hero-button {
@@ -6036,28 +6038,14 @@ blockquote {
   top: 70px;
 }
 
-.heading-3 {
-  font-weight: 500;
+.dapp.dapp-sidebar {
+  transition: left 0.15s ease 0.15s;
+  left:66%;
 }
 
-.walleticon {
-  display: block;
-  width: 180px;
-  height: 180px;
-  margin: 0px auto 20px;
-  padding-top: 60px;
-  padding-bottom: 60px;
-  border-radius: 90px;
-  background-color: var(--main-placeholder-color);
-}
-
-.card-login-label {
-  font-size: 14px;
-  line-height: 22px;
-}
-
-.padding-left-zero {
-  padding-left: 0px;
+.dapp.dapp-closed {
+  transition: left 0.15s ease 0.15s;
+  left:0px;
 }
 
 .hero-title-right {
@@ -7066,14 +7054,15 @@ blockquote {
 
 .ReactTags__tag {
   opacity: 1;
-  font-size: 0.75em;
+  font-size: .75em;
   max-height: 28px;
   cursor: move;
-  background: var(--bar-tag);
+  border: var(--bar-tag) 1px solid;
   border-radius: 15px;
-  color: var(--bar-background);
-  padding: 0px 15px 0px 10px;
-  margin: 0 15px 0px 0px;
+  color: #48015f;
+  color: #f3e7f7;
+  padding: 0 15px 0 10px;
+  margin: 0 15px 0 0;
   display: inline-block;
 }
 

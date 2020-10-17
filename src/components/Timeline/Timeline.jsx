@@ -111,8 +111,8 @@ const Feed = (props) => {
   }, []);
 
   // fx
-  if (props.format !== 'searchBar' && props.page === 1) {
-    window.scroll({ top: 0 });
+  if (props.format !== 'searchBar' && props.page === 1 && document.getElementById('dapp')) {
+    document.getElementById('dapp').scroll({ top: 0 });
   }
 
   if (loading) {

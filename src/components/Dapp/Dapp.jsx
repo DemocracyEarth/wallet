@@ -179,7 +179,7 @@ export default class Dapp extends Component {
               path={route.path}
               exact={route.exact}
               children={
-                <div class="dapp">
+                <div id="dapp" className="dapp">
                   <Browser address={this.state.address} walletConnect={this.onConnect} walletReset={this.reset} />
                   <Layout address={this.state.address} />
                 </div>

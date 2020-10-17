@@ -29,18 +29,20 @@ class Browser extends Component {
 
     this.state = {
       node: document.getElementById('browser'),
+      mobileSidebar: false,
       scrollUp: false,
     };
 
     this.handleScroll = this.handleScroll.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   async componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll);
+    document.getElementById('dapp').addEventListener('scroll', this.handleScroll);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
+    document.getElementById('dapp').removeEventListener('scroll', this.handleScroll);
   }
 
   getScrollClass() {
@@ -51,7 +53,7 @@ class Browser extends Component {
   }
 
   handleScroll() {
-    const st = window.pageYOffset;
+    const st = document.getElementById('dapp').scrollTop;
 
     if (document.getElementById('alternative-feed').style.minHeight !== `${document.getElementById('proposals').scrollHeight}px`) {
       document.getElementById('alternative-feed').style.minHeight = `${document.getElementById('proposals').scrollHeight}px`;
@@ -62,6 +64,21 @@ class Browser extends Component {
       this.setState({ scrollUp: false });
     }
     lastScrollTop = st <= 0 ? 0 : st;
+  }
+
+  handleClick() {
+    if (window.innerWidth < 768) {
+      if (!this.state.mobileSidebar) {
+        document.getElementById("dapp").classList.remove('dapp-closed');
+        document.getElementById("dapp").classList.add('dapp-sidebar');
+      } else {
+        document.getElementById("dapp").classList.remove('dapp-sidebar');
+        document.getElementById("dapp").classList.add('dapp-closed');
+      }
+      this.setState({ mobileSidebar: !this.state.mobileSidebar });
+    } else {
+      this.props.history.push('/');
+    }
   }
 
   connectedWallet() {
@@ -80,7 +97,6 @@ class Browser extends Component {
     if (this.props.match.params.proposal) {
       return <Timeline proposalId={this.props.match.params.proposal} view={routerView.PROPOSAL} format="searchBar" />
     }
-    
 
     return <Search />;
   }
@@ -89,13 +105,14 @@ class Browser extends Component {
     return (
       <div id="browser" className={this.getScrollClass()}>
         <div className="topbar-max">
-          <Link to="/" id="nav-home" className="hero-home-button">
+          <div id="nav-home" className="hero-home-button">
             <img className="hero-logo" alt=""
               src={logo} 
               onMouseOver={e => (e.currentTarget.src = logoActive)}
               onMouseOut={e => (e.currentTarget.src = logo)}
+              onClick={this.handleClick}
             />
-          </Link>
+          </div>
           {(this.connectedWallet()) ?
             <div className="hero-button hero-button-mobile hero-signin">
               <button id="sign-out-button" className="hero-menu-link hero-menu-link-signin-simple hero-menu-link-signin-simple-icon" onClick={this.props.walletReset} target="_blank">
