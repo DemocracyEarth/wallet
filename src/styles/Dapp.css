@@ -5915,6 +5915,28 @@ blockquote {
   cursor: pointer;
 }
 
+.burger-menu {
+  position: fixed;
+  width: 0px;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  background: white;
+  border-right:1px solid #e1d7e5;
+  overflow: hidden;
+}
+
+.burger-menu.burger-menu-open {
+  transition: width 0.15s ease 0.15s;
+  width:66%;
+}
+
+.burger-menu.burger-menu-close {
+  transition: width 0.15s ease 0.15s;
+  width:0px;
+}
+
 .hero-button {
   display: inline-block;
   padding: 5px 0px;
@@ -6010,6 +6032,22 @@ blockquote {
 .sidebar.sidebar-desktop.sidebar-down {
   transition: top 0.15s ease 0.15s;
   top: 60px;
+}
+
+@media (max-width: 767px) {
+  .sidebar.sidebar-desktop.sidebar-down {
+    transition: none;
+    top: 0px;
+  }
+
+  .sidebar.sidebar-desktop.sidebar-up {
+    transition: none;
+    top: 0px;
+  }
+
+  .sidebar {
+    min-width: 250px;
+  }
 }
 
 .hero-demo {

@@ -309,11 +309,15 @@ export default class Sidebar extends Component {
 
 
   async componentDidMount() {
-    document.getElementById('dapp').addEventListener('scroll', this.handleScroll);
+    if (document.getElementById('dapp')) {
+      document.getElementById('dapp').addEventListener('scroll', this.handleScroll);
+    }
   }
 
   componentWillUnmount() {
-    document.getElementById('dapp').removeEventListener('scroll', this.handleScroll);
+    if (document.getElementById('dapp')) {
+      document.getElementById('dapp').removeEventListener('scroll', this.handleScroll);
+    }
   }
 
   handleScroll() {

@@ -71,9 +71,17 @@ class Browser extends Component {
       if (!this.state.mobileSidebar) {
         document.getElementById("dapp").classList.remove('dapp-closed');
         document.getElementById("dapp").classList.add('dapp-sidebar');
+        if (document.getElementById("burger")) {
+          document.getElementById("burger").classList.add('burger-menu-open');
+          document.getElementById("burger").classList.remove('burger-menu-close');
+        }
       } else {
         document.getElementById("dapp").classList.remove('dapp-sidebar');
         document.getElementById("dapp").classList.add('dapp-closed');
+        if (document.getElementById("burger")) {
+          document.getElementById("burger").classList.add('burger-menu-close');
+          document.getElementById("burger").classList.remove('burger-menu-open');
+        }
       }
       this.setState({ mobileSidebar: !this.state.mobileSidebar });
     } else {
