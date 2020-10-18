@@ -7191,7 +7191,8 @@ blockquote {
 
 mark {
   background-color: transparent;
-  color:auto;
+  font-weight: 600;
+  color: var(--main-menu-color);
 }
 
 .search-wrapper {
