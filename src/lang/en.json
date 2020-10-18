@@ -851,7 +851,7 @@
   "replica-detail-not-human": "👾 Definitely robot.",
   "replica-detail-unknown-human": "😔 Unknown score.",
   "sign-out-prompt": "Sign out from current account?",
-  "search-daos": "Search organizations, proposals & votes",
+  "search-daos": "Search DAOs by address or proposal...",
   "collective-dao-title": "{{dao}} — Distributed Autonomous Organization.",
   "collective-dao-description": "Proposals and votes from {{dao}}.",
   "dao-proposals": "DAO Proposals.",
@@ -924,5 +924,6 @@
   "moloch-ledger-empty": "No votes were cast.",
   "moloch-open-proposal": "See proposal activity.",
   "recent-votes": "Recent votes.",
-  "go-back": "Go Back"
+  "go-back": "Go Back",
+  "search-short": "Search DAOs..."
 }

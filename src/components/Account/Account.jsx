@@ -74,7 +74,6 @@ const AccountQuery = ({ publicAddress, width, height, format, hidden }) => {
       return (
         <div className="identity">
           <div className="avatar-editor">
-            <img src={image} className="symbol profile-pic" alt="" style={{ width: finalWidth, height: finalHeight }} />
             <div className="identity-peer">
               <div className="option-placeholder identity-placeholder" />
             </div>

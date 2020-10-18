@@ -268,7 +268,13 @@ const MenuQuery = ({ address, scrollUp, view, proposalId, param }) => {
   );
 
   const goBack = (
-    <Item sharp hideEmpty={false} icon={back} label={`${i18n.t('all-daos')}`} href={'/'} />
+    <>
+      {(window.innerWidth < 768) ?
+        <Item sharp hideEmpty={false} icon={back} label={`${i18n.t('all-daos')}`} href={'/'} />
+        :
+        null
+      }      
+    </>
   )
 
   return (

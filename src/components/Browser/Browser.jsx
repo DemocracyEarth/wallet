@@ -10,7 +10,7 @@ import DAO from 'components/DAO/DAO';
 import Timeline from 'components/Timeline/Timeline';
 
 import { view as routerView } from 'lib/const'
-import close from 'images/close.svg';
+import signout from 'images/signout.svg';
 import logo from 'images/logo.png';
 import logoActive from 'images/logo-white.png';
 
@@ -151,7 +151,7 @@ class Browser extends Component {
             {(this.connectedWallet()) ?
               <div className="hero-button hero-button-mobile hero-signin">
                 <button id="sign-out-button" className="hero-menu-link hero-menu-link-signin-simple hero-menu-link-signin-simple-icon" onClick={this.props.walletReset} target="_blank">
-                  <img src={close} alt="" title={i18n.t('sign-out')} className="signout" />
+                  <img src={signout} alt="" title={i18n.t('sign-out')} className="signout" />
                 </button>
                 <div id="collective-login" className="hero-menu-link hero-menu-link-signin-simple" target="_blank">
                   <Account publicAddress={this.props.address} width="20px" height="20px" format="plainText" />

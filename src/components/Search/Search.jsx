@@ -5,6 +5,7 @@ import { WithContext as ReactTags } from 'react-tag-input';
 import PropTypes from 'prop-types';
 
 import { findLast } from 'lodash';
+import { gui } from 'lib/const';
 
 import i18n from 'i18n';
 import 'styles/Dapp.css';
@@ -48,7 +49,9 @@ const _getTags = (contextTag) => {
   if (!contextTag) {
     return [];
   }
-  return [contextTag];
+  const finalTag = contextTag;
+  finalTag.text = (contextTag.text.length > gui.MAX_LENGTH_TAG_LABELS) ? `${contextTag.text.substring(0, gui.MAX_LENGTH_TAG_LABELS)}...` : contextTag.text;
+  return [finalTag];
 };
 
 const _replacementText = (tag) => {
@@ -121,7 +124,7 @@ export default class Search extends React.Component {
           handleAddition={this.handleAddition}
           handleDrag={this.handleDrag}
           delimiters={delimiters}
-          placeholder={i18n.t('search-daos')}
+          placeholder={(window.innerWidth < 768) ? i18n.t('search-short') : i18n.t('search-daos')}
         />
       </div>
     );

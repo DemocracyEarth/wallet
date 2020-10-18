@@ -46,7 +46,6 @@ const DAOQuery = ({ publicAddress, width, height, format }) => {
     return (
       <div className="dao">
         <div className="avatar-editor">
-          <img src={image} className="symbol dao-pic" alt="" style={{ width: finalWidth, height: finalHeight }} />
           <div className="identity-peer">
             <div className="option-placeholder identity-placeholder" />
           </div>
