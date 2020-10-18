@@ -923,5 +923,6 @@
   "moloch-ledger-address-votes": "Votes from this address.",
   "moloch-ledger-empty": "No votes were cast.",
   "moloch-open-proposal": "See proposal activity.",
-  "recent-votes": "Recent votes."
+  "recent-votes": "Recent votes.",
+  "go-back": "Go Back"
 }
