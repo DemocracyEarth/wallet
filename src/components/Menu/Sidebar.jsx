@@ -9,6 +9,7 @@ import { query } from 'components/Menu/queries';
 import { reduce, sortBy } from 'lodash';
 import { view as routerView } from 'lib/const'
 
+import back from 'images/back.svg';
 import i18n from 'i18n';
 import 'styles/Dapp.css';
 
@@ -236,7 +237,7 @@ const MenuQuery = ({ address, scrollUp, view, proposalId, param }) => {
   const hasContent = _checkContent(view, menuList);
   
   const daoMemberships = (
-    <div>
+    <>
       <div className="separator">
         {_getHeadline('memberships', address, view)}
       </div>
@@ -248,11 +249,11 @@ const MenuQuery = ({ address, scrollUp, view, proposalId, param }) => {
         {i18n.t('no-memberships-found')}
       </div>
       }
-    </div>
+    </>
   );
 
   const proposalMenu = (
-    <div>
+    <>
       <div className="separator">
         {_getHeadline('proposals', address, view)}
       </div>
@@ -263,12 +264,27 @@ const MenuQuery = ({ address, scrollUp, view, proposalId, param }) => {
           {i18n.t('no-proposals-found')}
         </div>
       }
-    </div>
+    </>
   );
+
+  const goBack = (
+    <>
+      {(window.innerWidth < 768) ?
+        <Item sharp hideEmpty={false} icon={back} label={`${i18n.t('all-daos')}`} href={'/'} />
+        :
+        null
+      }      
+    </>
+  )
 
   return (
     <div id="sidebar" className={_getScrollClass(scrollUp)}>
       <div className="menu">
+        {(view !== routerView.HOME) ?
+          goBack
+          :
+          null
+        }
         {(view !== routerView.PROPOSAL) ?
           proposalMenu
           :
@@ -309,15 +325,19 @@ export default class Sidebar extends Component {
 
 
   async componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll);
+    if (document.getElementById('dapp')) {
+      document.getElementById('dapp').addEventListener('scroll', this.handleScroll);
+    }
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
+    if (document.getElementById('dapp')) {
+      document.getElementById('dapp').removeEventListener('scroll', this.handleScroll);
+    }
   }
 
   handleScroll() {
-    const st = window.pageYOffset || document.documentElement.scrollTop;
+    const st = document.getElementById('dapp').scrollTop;
 
     if ((st > lastScrollTop) && (st > 60) && !this.state.scrollUp) {
       this.setState({ scrollUp: true });

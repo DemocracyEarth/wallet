@@ -4519,56 +4519,13 @@ blockquote {
   left: 0px;
 }
 
-.comment {
-  display: block;
-  padding: 10px;
-  border: 1px solid #e7e7e7;
-  border-radius: 3px;
-  background-color: #f0f0f0;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 14px;
-  line-height: 26px;
-}
-
-.comment.quote {
-  display: inline-block;
-  margin-bottom: 10px;
-  padding: 3px 5px;
-  border-color: #fae9b1;
-  border-radius: 0px;
-  background-color: #fae9b1;
-}
-
-.comment.comment-post {
-  display: block;
-  min-height: 60px;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  padding: 5px 10px;
-  float: none;
-  border-style: none;
-  border-radius: 3px;
-  background-color: #fff;
-  box-shadow: inset 0 0 1px 0 rgba(0, 0, 0, .5);
-}
-
-.comment.comment-post.comment-disabled {
-  color: #ccc;
-}
-
-.comment-post {
-  float: left;
-}
-
-.comment-post-left {
-  width: 70px;
-  float: left;
-}
-
-.comment-post-right {
-  position: relative;
-  display: block;
-  margin-left: 70px;
+.dapp {
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  overflow: scroll;
 }
 
 .tooltip {
@@ -5955,6 +5912,29 @@ blockquote {
   max-height: 30px;
   margin: 12px 10px;
   float: left;
+  cursor: pointer;
+}
+
+.burger-menu {
+  position: fixed;
+  width: 0px;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  background: white;
+  border-right:1px solid #e1d7e5;
+  overflow: hidden;
+}
+
+.burger-menu.burger-menu-open {
+  transition: width 0.15s ease 0.15s;
+  width:66%;
+}
+
+.burger-menu.burger-menu-close {
+  transition: width 0.15s ease 0.15s;
+  width:0px;
 }
 
 .hero-button {
@@ -6054,6 +6034,22 @@ blockquote {
   top: 60px;
 }
 
+@media (max-width: 767px) {
+  .sidebar.sidebar-desktop.sidebar-down {
+    transition: none;
+    top: 0px;
+  }
+
+  .sidebar.sidebar-desktop.sidebar-up {
+    transition: none;
+    top: 0px;
+  }
+
+  .sidebar {
+    min-width: 250px;
+  }
+}
+
 .hero-demo {
   position: absolute;
   left: 60%;
@@ -6080,28 +6076,41 @@ blockquote {
   top: 70px;
 }
 
-.heading-3 {
-  font-weight: 500;
+.dapp.dapp-sidebar {
+  transition: left 0.15s ease 0.15s, right 0.15s ease 0.15s;
+  left: 66%;
+  right: -66%;
 }
 
-.walleticon {
-  display: block;
-  width: 180px;
-  height: 180px;
-  margin: 0px auto 20px;
-  padding-top: 60px;
-  padding-bottom: 60px;
-  border-radius: 90px;
-  background-color: var(--main-placeholder-color);
+.dapp.dapp-closed {
+  transition: left 0.15s ease 0.15s, right 0.15s ease 0.15s;
+  left: 0px;
+  right: 0px;
 }
 
-.card-login-label {
-  font-size: 14px;
-  line-height: 22px;
+.cover {
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  width:0px;
+  background-color: #00000040;
+  opacity: 0;
+  z-index: 9999999;
 }
 
-.padding-left-zero {
-  padding-left: 0px;
+.cover.cover-open {
+  transition: opacity 0.15s, left 0.15s ease 0.15s;
+  left: 66%;
+  width:100%;
+  opacity: 1;
+}
+
+.cover.cover-close {
+  transition: opacity 0.15s;
+  left: 0px;
+  opacity: 0;
 }
 
 .hero-title-right {
@@ -6677,12 +6686,7 @@ blockquote {
   }
   .menu-item {
     font-weight: 400;
-  }
-  .menu-item:hover {
-    background-color: transparent;
-  }
-  .menu-item.menu-item-selected:hover {
-    background-color: #00c091;
+    margin-bottom: 5px;
   }
   .content.content-feed {
     padding-right: 10px;
@@ -7110,14 +7114,15 @@ blockquote {
 
 .ReactTags__tag {
   opacity: 1;
-  font-size: 0.75em;
+  font-size: .7em;
   max-height: 28px;
   cursor: move;
-  background: var(--bar-tag);
-  border-radius: 15px;
-  color: var(--bar-background);
-  padding: 0px 15px 0px 10px;
-  margin: 0 15px 0px 0px;
+  border: var(--bar-tag) 1px solid;
+  border-radius: 12px;
+  color: #48015f;
+  color: #f3e7f7;
+  padding: 0 15px 0 10px;
+  margin: 0 15px 0 0;
   display: inline-block;
 }
 
@@ -7152,11 +7157,12 @@ blockquote {
 .ReactTags__suggestions ul {
   list-style: none;
   padding: 0px;
-};
+}
 
 .ReactTags__activeSuggestion {
-  background-color: var(--menu-sidebar-selected);
-  color: white;
+  background-color: #e6e0ee;
+  color: var(--main-menu-color);
+  cursor: pointer;
 }
 
 .ReactTags__suggestions {
@@ -7185,7 +7191,8 @@ blockquote {
 
 mark {
   background-color: transparent;
-  color:auto;
+  font-weight: 600;
+  color: var(--main-menu-color);
 }
 
 .search-wrapper {
@@ -7214,8 +7221,8 @@ mark {
 @media (max-width: 767px) {
 
   .ReactTags__suggestions {
-    left: 0px;
-    right: 0px;
+    left: 35px;
+    right: 10px;
     width: auto;
   }
 
@@ -7225,7 +7232,24 @@ mark {
 
   .hero-menu {
     display:none;
-  }  
+  }
+  
+  .search-wrapper-logged {
+    position: absolute;
+    left: 0px;
+    right: 170px;
+    padding: 0px 0px 0px 0px;
+    margin-left: 50px;
+  }
+
+  .ReactTags__tagInputField {
+    width: 100%;
+  }
+
+  .hero-menu-link.hero-menu-link-signin-simple {
+    padding: 7px 5px;
+  }
+  
 }
 
 .crypto-username {
@@ -7233,16 +7257,8 @@ mark {
 }
 
 @media (max-width: 479px) {
-  .ReactTags__tagInput {
-    font-size:1.05em;
-  }
-
   .ReactTags__tagInputField {
-    font-size:0.8em;
-  }
-
-  .ReactTags__tag {
-    font-size: 0.85em; 
+    width:100%;
   }
 
   .crypto-username { 
@@ -7250,7 +7266,12 @@ mark {
   }
 
   .search-wrapper-logged {
-    padding: 0px 125px 0px 50px;
+    padding: 0px 0px 0px 0px;
+    margin-left: 50px;
+  }
+
+  .ReactTags__selected {
+    padding: 0px 0px 0px 13px;
   }
 }
 
@@ -8880,7 +8901,7 @@ h4 {
   display: inline-block;
   width: 40%;
   cursor: pointer;
-  color: var(--main-headline-color);
+  color: #580073;
   font-size: 15px;
   line-height: 28px;
   font-weight: 400;

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { defaults } from 'lib/const';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import Search from 'components/Search/Search';
 import Account from 'components/Account/Account';
@@ -10,14 +10,51 @@ import DAO from 'components/DAO/DAO';
 import Timeline from 'components/Timeline/Timeline';
 
 import { view as routerView } from 'lib/const'
-import close from 'images/close.svg';
+import signout from 'images/signout.svg';
 import logo from 'images/logo.png';
+import logoActive from 'images/logo-white.png';
 
 import i18n from 'i18n';
 import 'styles/Dapp.css';
 
 // scroll settings
 let lastScrollTop = 0;
+
+const _openBurger = () => {
+  const dapp = document.getElementById("dapp");
+  const burger = document.getElementById("burger");
+  const cover = document.getElementById("cover");
+  if (dapp) {
+    dapp.classList.remove('dapp-closed');
+    dapp.classList.add('dapp-sidebar');
+    if (burger) {
+      burger.classList.add('burger-menu-open');
+      burger.classList.remove('burger-menu-close');
+      if (cover) {
+        cover.classList.add('cover-open');
+        cover.classList.remove('cover-close');
+      }
+    }
+  }
+}
+
+const _closeBurger = () => {
+  const dapp = document.getElementById("dapp");
+  const burger = document.getElementById("burger");
+  const cover = document.getElementById("cover");
+  if (dapp) {
+    dapp.classList.remove('dapp-sidebar');
+    dapp.classList.add('dapp-closed');
+    if (burger) {
+      burger.classList.add('burger-menu-close');
+      burger.classList.remove('burger-menu-open');
+      if (cover) {
+        cover.classList.add('cover-close');
+        cover.classList.remove('cover-open');
+      }
+    }
+  }
+}
 
 /**
 * @summary displays the contents of a poll
@@ -28,18 +65,20 @@ class Browser extends Component {
 
     this.state = {
       node: document.getElementById('browser'),
+      mobileSidebar: false,
       scrollUp: false,
     };
 
     this.handleScroll = this.handleScroll.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   async componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll);
+    document.getElementById('dapp').addEventListener('scroll', this.handleScroll);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
+    document.getElementById('dapp').removeEventListener('scroll', this.handleScroll);
   }
 
   getScrollClass() {
@@ -50,7 +89,7 @@ class Browser extends Component {
   }
 
   handleScroll() {
-    const st = window.pageYOffset;
+    const st = document.getElementById('dapp').scrollTop;
 
     if (document.getElementById('alternative-feed').style.minHeight !== `${document.getElementById('proposals').scrollHeight}px`) {
       document.getElementById('alternative-feed').style.minHeight = `${document.getElementById('proposals').scrollHeight}px`;
@@ -61,6 +100,19 @@ class Browser extends Component {
       this.setState({ scrollUp: false });
     }
     lastScrollTop = st <= 0 ? 0 : st;
+  }
+
+  handleClick() {
+    if (window.innerWidth < 768) {
+      if (!this.state.mobileSidebar) {
+        _openBurger();
+      } else {
+        _closeBurger();
+      }
+      this.setState({ mobileSidebar: !this.state.mobileSidebar });
+    } else {
+      this.props.history.push('/');
+    }
   }
 
   connectedWallet() {
@@ -79,39 +131,46 @@ class Browser extends Component {
     if (this.props.match.params.proposal) {
       return <Timeline proposalId={this.props.match.params.proposal} view={routerView.PROPOSAL} format="searchBar" />
     }
-    
 
     return <Search />;
   }
 
   render() {
     return (
-      <div id="browser" className={this.getScrollClass()}>
-        <div className="topbar-max">
-          <Link to="/" id="nav-home" className="hero-home-button">
-            <img className="hero-logo" alt="" src={logo} />
-          </Link>
-          {(this.connectedWallet()) ?
-            <div className="hero-button hero-button-mobile hero-signin">
-              <button id="sign-out-button" className="hero-menu-link hero-menu-link-signin-simple hero-menu-link-signin-simple-icon" onClick={this.props.walletReset} target="_blank">
-                <img src={close} alt="" title={i18n.t('sign-out')} className="signout" />
-              </button>
-              <div id="collective-login" className="hero-menu-link hero-menu-link-signin-simple" target="_blank">
-                <Account publicAddress={this.props.address} width="20px" height="20px" format="plainText" />
-              </div>
+      <>
+        <div id="browser" className={this.getScrollClass()}>
+          <div className="topbar-max">
+            <div id="nav-home" className="hero-home-button">
+              <img className="hero-logo" alt=""
+                src={logo} 
+                onMouseOver={e => (e.currentTarget.src = logoActive)}
+                onMouseOut={e => (e.currentTarget.src = logo)}
+                onClick={this.handleClick}
+              />
             </div>
-            :
-            <div className="hero-button hero-button-mobile hero-signin">
-              <div id="collective-login" className="hero-button hero-button-mobile">
-                <button className="hero-menu-link hero-menu-link-signin" target="_blank" onClick={this.props.walletConnect}>
-                  {i18n.t('sign-in')}
+            {(this.connectedWallet()) ?
+              <div className="hero-button hero-button-mobile hero-signin">
+                <button id="sign-out-button" className="hero-menu-link hero-menu-link-signin-simple hero-menu-link-signin-simple-icon" onClick={this.props.walletReset} target="_blank">
+                  <img src={signout} alt="" title={i18n.t('sign-out')} className="signout" />
                 </button>
+                <div id="collective-login" className="hero-menu-link hero-menu-link-signin-simple" target="_blank">
+                  <Account publicAddress={this.props.address} width="20px" height="20px" format="plainText" />
+                </div>
               </div>
-            </div>
-          }
-          {this.renderTitle()}
+              :
+              <div className="hero-button hero-button-mobile hero-signin">
+                <div id="collective-login" className="hero-button hero-button-mobile">
+                  <button className="hero-menu-link hero-menu-link-signin" target="_blank" onClick={this.props.walletConnect}>
+                    {i18n.t('sign-in')}
+                  </button>
+                </div>
+              </div>
+            }
+            {this.renderTitle()}
+          </div>
         </div>
-      </div>
+        <div id="cover" className="cover" onClick={this.handleClick} />
+      </>
     );
   }
 }

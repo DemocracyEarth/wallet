@@ -62,7 +62,6 @@ export default class TabMenu extends Component {
   }
 
   resize() {
-    console.log(`resize: ${window.innerWidth}`);
     if (window.innerWidth > 991 && (document.getElementById('main-feed').style.display === 'none' || document.getElementById('alternative-feed').style.display === 'none')) {
       document.getElementById('main-feed').style.display = 'inline-block';
       document.getElementById('alternative-feed').style.display = 'flex';      
@@ -126,7 +125,7 @@ export default class TabMenu extends Component {
   render() {
     return (
       <>
-        <div className={this.getScrollClass()} onClick={this.handleClick}>
+        <div id="tabs" className={this.getScrollClass()} onClick={this.handleClick}>
           {this.getTabs(this.state.selectedTab)}
         </div>
       </>

@@ -16,6 +16,7 @@ class ItemLink extends Component {
     history: PropTypes.object.isRequired,
     sharp: PropTypes.bool,
     label: PropTypes.string,
+    icon: PropTypes.string,
     score: PropTypes.number,
     hideEmpty: PropTypes.bool,
     href: PropTypes.string,
@@ -44,13 +45,19 @@ class ItemLink extends Component {
   }
 
   getIcon() {
+    if (this.props.icon) {
+      return this.props.icon;
+    }
     return (this.props.location.pathname === this.props.href) ? paperActive : paper;
   }
 
   render() {
     if (this.props.hideEmpty && this.props.score === 0) return null;
     return (
-      <NavLink to={this.props.href} isActive={(match, location) => { if (!match) { return false }; return (location.pathname === this.props.href); }} className="menu-item" activeClassName="menu-item-selected">
+      <NavLink to={this.props.href} 
+        isActive={(match, location) => { if (!match) { return false }; return (location.pathname === this.props.href); }} 
+        className="menu-item" activeClassName="menu-item-selected"
+      >
         {(this.props.sharp) ?
           <div className="sidebar-sharp">
             <img src={this.getIcon()} alt="" className="menu-item-icon" />

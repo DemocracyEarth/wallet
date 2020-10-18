@@ -2,9 +2,12 @@ import React from 'react';
 
 import { shortenCryptoName } from 'utils/strings';
 import { WithContext as ReactTags } from 'react-tag-input';
+import { withRouter } from 'react-router-dom';
+
 import PropTypes from 'prop-types';
 
 import { findLast } from 'lodash';
+import { gui } from 'lib/const';
 
 import i18n from 'i18n';
 import 'styles/Dapp.css';
@@ -48,7 +51,9 @@ const _getTags = (contextTag) => {
   if (!contextTag) {
     return [];
   }
-  return [contextTag];
+  const finalTag = contextTag;
+  finalTag.text = (contextTag.text.length > gui.MAX_LENGTH_TAG_LABELS) ? `${contextTag.text.substring(0, gui.MAX_LENGTH_TAG_LABELS)}...` : contextTag.text;
+  return [finalTag];
 };
 
 const _replacementText = (tag) => {
@@ -60,7 +65,7 @@ const _replacementText = (tag) => {
   return _dynamicTitle(tag.text);
 };
 
-export default class Search extends React.Component {
+class Search extends React.Component {
   static propTypes = {
     contextTag: PropTypes.object,
   }
@@ -73,17 +78,7 @@ export default class Search extends React.Component {
       tags: _getTags(props.contextTag),
       suggestions: suggestList,
     };
-    this.handleDelete = this.handleDelete.bind(this);
     this.handleAddition = this.handleAddition.bind(this);
-    this.handleDrag = this.handleDrag.bind(this);
-  }
-
-  handleDelete(i) {
-    const { tags } = this.state;
-    this.setState({
-      tags: tags.filter((tag, index) => { return (index !== i); }),
-    });
-    document.getElementsByClassName('ReactTags__selected')[0].scrollLeft = 0;
   }
 
   handleAddition(tag) {
@@ -92,21 +87,10 @@ export default class Search extends React.Component {
     this.setState(state => ({ tags: [newTag] }));
 
     if (tag.id.slice(0, 1) === '/') {
-     // Router.go(tag.id);
+      this.props.history.push(tag.id);
     } else {
-     // Router.go(`/?search=${encodeURI(tag.id)}`);
+      this.props.history.push(`/?search=${encodeURI(tag.id)}`);
     }
-  }
-
-  handleDrag(tag, currPos, newPos) {
-    const tags = [...this.state.tags];
-    const newTags = tags.slice();
-
-    newTags.splice(currPos, 1);
-    newTags.splice(newPos, 0, tag);
-
-    // re-render
-    this.setState({ tags: newTags });
   }
 
   render() {
@@ -117,15 +101,14 @@ export default class Search extends React.Component {
         <ReactTags
           tags={tags}
           suggestions={suggestions}
-          handleDelete={this.handleDelete}
           handleAddition={this.handleAddition}
-          handleDrag={this.handleDrag}
           delimiters={delimiters}
-          placeholder={i18n.t('search-daos')}
+          placeholder={(window.innerWidth < 768) ? i18n.t('search-short') : i18n.t('search-daos')}
         />
       </div>
     );
   }
 }
 
+export default withRouter(Search);
 export const includeInSearch = _includeInSearch;

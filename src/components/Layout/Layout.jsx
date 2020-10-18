@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import Menu from 'components/Menu/Menu';
 import Timeline from 'components/Timeline/Timeline';
 import Ledger from 'components/Ledger/Ledger';
+import Burger from 'components/Menu/Burger';
 import TabMenu, { showMain, showAlternative } from 'components/TabMenu/TabMenu';
 
 import i18n from 'i18n';
@@ -46,6 +47,12 @@ const Layout = (props) => {
     view = routerView.DATE;
   }
 
+  if (props.mobileMenu) {
+    return (
+      <Burger address={renderAddress} view={view} proposalId={proposalId} param={param} />
+    )
+  }
+
   return (
     <>
       <div id="app" className="app">
@@ -78,6 +85,7 @@ const Layout = (props) => {
 
 Layout.propTypes = {
   addresss: PropTypes.string,
+  mobileMenu: PropTypes.bool,
 };
 
 export default Layout;
