@@ -30,8 +30,10 @@ const _openBurger = () => {
     if (burger) {
       burger.classList.add('burger-menu-open');
       burger.classList.remove('burger-menu-close');
-      cover.classList.add('cover-open');
-      cover.classList.remove('cover-close');
+      if (cover) {
+        cover.classList.add('cover-open');
+        cover.classList.remove('cover-close');
+      }
     }
   }
 }
@@ -46,8 +48,10 @@ const _closeBurger = () => {
     if (burger) {
       burger.classList.add('burger-menu-close');
       burger.classList.remove('burger-menu-open');
-      cover.classList.add('cover-close');
-      cover.classList.remove('cover-open');
+      if (cover) {
+        cover.classList.add('cover-close');
+        cover.classList.remove('cover-open');
+      }
     }
   }
 }
@@ -133,37 +137,40 @@ class Browser extends Component {
 
   render() {
     return (
-      <div id="browser" className={this.getScrollClass()}>
-        <div className="topbar-max">
-          <div id="nav-home" className="hero-home-button">
-            <img className="hero-logo" alt=""
-              src={logo} 
-              onMouseOver={e => (e.currentTarget.src = logoActive)}
-              onMouseOut={e => (e.currentTarget.src = logo)}
-              onClick={this.handleClick}
-            />
-          </div>
-          {(this.connectedWallet()) ?
-            <div className="hero-button hero-button-mobile hero-signin">
-              <button id="sign-out-button" className="hero-menu-link hero-menu-link-signin-simple hero-menu-link-signin-simple-icon" onClick={this.props.walletReset} target="_blank">
-                <img src={close} alt="" title={i18n.t('sign-out')} className="signout" />
-              </button>
-              <div id="collective-login" className="hero-menu-link hero-menu-link-signin-simple" target="_blank">
-                <Account publicAddress={this.props.address} width="20px" height="20px" format="plainText" />
-              </div>
+      <>
+        <div id="browser" className={this.getScrollClass()}>
+          <div className="topbar-max">
+            <div id="nav-home" className="hero-home-button">
+              <img className="hero-logo" alt=""
+                src={logo} 
+                onMouseOver={e => (e.currentTarget.src = logoActive)}
+                onMouseOut={e => (e.currentTarget.src = logo)}
+                onClick={this.handleClick}
+              />
             </div>
-            :
-            <div className="hero-button hero-button-mobile hero-signin">
-              <div id="collective-login" className="hero-button hero-button-mobile">
-                <button className="hero-menu-link hero-menu-link-signin" target="_blank" onClick={this.props.walletConnect}>
-                  {i18n.t('sign-in')}
+            {(this.connectedWallet()) ?
+              <div className="hero-button hero-button-mobile hero-signin">
+                <button id="sign-out-button" className="hero-menu-link hero-menu-link-signin-simple hero-menu-link-signin-simple-icon" onClick={this.props.walletReset} target="_blank">
+                  <img src={close} alt="" title={i18n.t('sign-out')} className="signout" />
                 </button>
+                <div id="collective-login" className="hero-menu-link hero-menu-link-signin-simple" target="_blank">
+                  <Account publicAddress={this.props.address} width="20px" height="20px" format="plainText" />
+                </div>
               </div>
-            </div>
-          }
-          {this.renderTitle()}
+              :
+              <div className="hero-button hero-button-mobile hero-signin">
+                <div id="collective-login" className="hero-button hero-button-mobile">
+                  <button className="hero-menu-link hero-menu-link-signin" target="_blank" onClick={this.props.walletConnect}>
+                    {i18n.t('sign-in')}
+                  </button>
+                </div>
+              </div>
+            }
+            {this.renderTitle()}
+          </div>
         </div>
-      </div>
+        <div id="cover" className="cover" onClick={this.handleClick} />
+      </>
     );
   }
 }
@@ -175,4 +182,3 @@ Browser.propTypes = {
 };
 
 export default withRouter(Browser);
-export const closeBurger = _closeBurger;
