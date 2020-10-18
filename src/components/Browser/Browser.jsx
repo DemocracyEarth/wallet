@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { defaults } from 'lib/const';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import Search from 'components/Search/Search';
 import Account from 'components/Account/Account';
@@ -19,6 +19,38 @@ import 'styles/Dapp.css';
 
 // scroll settings
 let lastScrollTop = 0;
+
+const _openBurger = () => {
+  const dapp = document.getElementById("dapp");
+  const burger = document.getElementById("burger");
+  const cover = document.getElementById("cover");
+  if (dapp) {
+    dapp.classList.remove('dapp-closed');
+    dapp.classList.add('dapp-sidebar');
+    if (burger) {
+      burger.classList.add('burger-menu-open');
+      burger.classList.remove('burger-menu-close');
+      cover.classList.add('cover-open');
+      cover.classList.remove('cover-close');
+    }
+  }
+}
+
+const _closeBurger = () => {
+  const dapp = document.getElementById("dapp");
+  const burger = document.getElementById("burger");
+  const cover = document.getElementById("cover");
+  if (dapp) {
+    dapp.classList.remove('dapp-sidebar');
+    dapp.classList.add('dapp-closed');
+    if (burger) {
+      burger.classList.add('burger-menu-close');
+      burger.classList.remove('burger-menu-open');
+      cover.classList.add('cover-close');
+      cover.classList.remove('cover-open');
+    }
+  }
+}
 
 /**
 * @summary displays the contents of a poll
@@ -69,19 +101,9 @@ class Browser extends Component {
   handleClick() {
     if (window.innerWidth < 768) {
       if (!this.state.mobileSidebar) {
-        document.getElementById("dapp").classList.remove('dapp-closed');
-        document.getElementById("dapp").classList.add('dapp-sidebar');
-        if (document.getElementById("burger")) {
-          document.getElementById("burger").classList.add('burger-menu-open');
-          document.getElementById("burger").classList.remove('burger-menu-close');
-        }
+        _openBurger();
       } else {
-        document.getElementById("dapp").classList.remove('dapp-sidebar');
-        document.getElementById("dapp").classList.add('dapp-closed');
-        if (document.getElementById("burger")) {
-          document.getElementById("burger").classList.add('burger-menu-close');
-          document.getElementById("burger").classList.remove('burger-menu-open');
-        }
+        _closeBurger();
       }
       this.setState({ mobileSidebar: !this.state.mobileSidebar });
     } else {
@@ -153,3 +175,4 @@ Browser.propTypes = {
 };
 
 export default withRouter(Browser);
+export const closeBurger = _closeBurger;

@@ -6077,13 +6077,41 @@ blockquote {
 }
 
 .dapp.dapp-sidebar {
-  transition: left 0.15s ease 0.15s;
-  left:66%;
+  transition: left 0.15s ease 0.15s, right 0.15s ease 0.15s;
+  left: 66%;
+  right: -66%;
 }
 
 .dapp.dapp-closed {
+  transition: left 0.15s ease 0.15s, right 0.15s ease 0.15s;
+  left: 0px;
+  right: 0px;
+}
+
+.cover {
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  background-color: #00000040;
+  opacity: 0;
+  display: none;
+}
+
+.cover.cover-open {
   transition: left 0.15s ease 0.15s;
-  left:0px;
+  left: 66%;
+  opacity: 1;
+  display: block;
+}
+
+.cover.cover-close {
+  transition: left 0.15s ease 0.15s;
+  left: 0px;
+  opacity: 0;
+  background-color: transparent;
+  display: none;
 }
 
 .hero-title-right {
@@ -6659,12 +6687,6 @@ blockquote {
   }
   .menu-item {
     font-weight: 400;
-  }
-  .menu-item:hover {
-    background-color: transparent;
-  }
-  .menu-item.menu-item-selected:hover {
-    background-color: #00c091;
   }
   .content.content-feed {
     padding-right: 10px;
@@ -8863,7 +8885,7 @@ h4 {
   display: inline-block;
   width: 40%;
   cursor: pointer;
-  color: var(--main-headline-color);
+  color: #580073;
   font-size: 15px;
   line-height: 28px;
   font-weight: 400;
