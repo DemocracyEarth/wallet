@@ -93,7 +93,7 @@ class Search extends React.Component {
     } else if (web3.utils.isAddress(tag.id)) {
       this.props.history.push(`/address/${tag.id}`);
     } else {
-      this.props.history.push(`/?search=${encodeURI(tag.id)}`);
+      this.props.history.push(`/search/${encodeURI(tag.id)}`);
     }
   }
 

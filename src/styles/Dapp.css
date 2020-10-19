@@ -8899,6 +8899,12 @@ h4 {
   }
 }
 
+@media (max-width: 767px) {
+  .tab-menu {
+    position: absolute;
+  }
+}
+
 
 .tab-menu.tab-menu-scroll {
   top: -5952px;
