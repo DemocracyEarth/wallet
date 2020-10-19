@@ -77,6 +77,7 @@ export default class TabMenu extends Component {
   }
 
   getScrollClass() {
+    console.log(`TabMenu.jsx`);
     // up
     if (this.state.scrollUp) {
       if (document.getElementById('browser')) {
@@ -92,8 +93,12 @@ export default class TabMenu extends Component {
     if (document.getElementById('browser')) {
       document.getElementById('browser').className = 'hero-navbar topbar hero-navbar-scroller hero-navbar-down';
     }
-    if (document.getElementById('sidebar')) {
-      document.getElementById('sidebar').className = 'sidebar sidebar-desktop sidebar-down';
+    if (document.getElementById('content') && document.getElementById('sidebar')) {
+      const viewport = document.getElementById('content');
+      const st = viewport.scrollTop;
+      if (st > 0) {
+        document.getElementById('sidebar').className = 'sidebar sidebar-desktop sidebar-down';
+      }
     }
     return 'tab-menu tab-menu-down';
   }

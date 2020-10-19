@@ -61,10 +61,18 @@ const _getMenu = (view, data, address, param) => {
  * @param {boolean} isUp if the scroll went up
  */
 const _getScrollClass = (isUp) => {
+  console.log(`Sidebar.jsx`);
   if (isUp) {
     return `sidebar sidebar-desktop sidebar-up`;
   }
-  return `sidebar sidebar-desktop sidebar-down`;
+  if (document.getElementById('dapp')) {
+    const viewport = document.getElementById('dapp');
+    const st = viewport.scrollTop;
+    if (st > 0) {
+      return `sidebar sidebar-desktop sidebar-down`;
+    }
+    return `sidebar sidebar-desktop`;
+  }
 };
 
 /**
@@ -337,6 +345,7 @@ export default class Sidebar extends Component {
   }
 
   handleScroll() {
+    console.log(`handleScroll()`);
     const st = document.getElementById('dapp').scrollTop;
 
     if ((st > lastScrollTop) && (st > 60) && !this.state.scrollUp) {
