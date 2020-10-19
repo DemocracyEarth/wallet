@@ -79,22 +79,49 @@ class Search extends React.Component {
       suggestions: suggestList,
     };
     this.handleAddition = this.handleAddition.bind(this);
+    this.removeTag = this.removeTag.bind(this);
   }
 
   handleAddition(tag) {
     const newTag = tag;
     newTag.text = _replacementText(tag);
     this.setState(state => ({ tags: [newTag] }));
+    const web3 = new Web3();
 
     if (tag.id.slice(0, 1) === '/') {
       this.props.history.push(tag.id);
+    } else if (web3.utils.isAddress(tag.id)) {
+      this.props.history.push(`/address/${tag.id}`);
     } else {
       this.props.history.push(`/?search=${encodeURI(tag.id)}`);
     }
   }
 
+  mobileContext() {
+    return ((window.innerWidth < 768) && (this.state.tags.length > 0));
+  }
+
+  removeTag() {
+    this.setState({ tags: [] });
+  }
+
   render() {
     const { tags, suggestions } = this.state;
+
+    if (this.mobileContext()) {
+      return (
+        <div className="search-wrapper-logged">
+          <div className="ReactTags__tags react-tags-wrapper">
+            <div className="ReactTags__selected">
+              <span className="tag-wrapper ReactTags__tag">
+                {this.state.tags[0].text}
+                <div className="ReactTags__remove" onClick={this.removeTag}>×</div>
+              </span>
+            </div>
+          </div>
+        </div>
+      )
+    }
 
     return (
       <div className="search-wrapper-logged">

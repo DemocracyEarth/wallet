@@ -7144,14 +7144,14 @@ blockquote {
   display: inline-block;
 }
 
-.ReactTags__remove {
-  margin-left: 5px;
-  color: var(--bar-background);
-  display: none;
+.ReactTags__tagInputField:focus {
+  pointer-events:none;
 }
 
-.ReactTags__remove:hover {
-  text-decoration: none;
+.ReactTags__remove {
+  margin-left: 11px;
+  color: var(--bar-tag);
+  display: none;
 }
 
 .ReactTags__suggestions ul {
@@ -7225,6 +7225,15 @@ mark {
     right: 10px;
     width: auto;
   }
+
+
+  .ReactTags__remove {
+    display: inline-block;
+    cursor: pointer;
+    top: -1px;
+    position: relative;
+  }
+
 
   .ReactTags__suggestions li {
     max-width: none;
