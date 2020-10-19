@@ -14,13 +14,8 @@ import 'styles/Dapp.css';
 
 const Web3 = require('web3');
 
-const KeyCodes = {
-  comma: 188,
-  enter: 13,
-};
-
-const delimiters = [KeyCodes.comma, KeyCodes.enter];
 const suggestList = [];
+const editorMode = (document.getElementsByClassName('ReactTags__tagInputField') && document.getElementsByClassName('ReactTags__tagInputField').length > 0);
 
 /**
  * @summary inserts in the search cache an item
@@ -58,9 +53,10 @@ const _getTags = (contextTag) => {
 
 const _replacementText = (tag) => {
   if (tag.id.slice(0, 9) === '/address/') {
-    return i18n.t('search-user').replace('{{searchTerm}}', _dynamicTitle(tag.id.slice(9, 51)));
+    return i18n.t('search-user', { searchTerm: _dynamicTitle(tag.id.slice(9, 51)) });
   } else if (tag.id.slice(0, 1) !== '/') {
-    return i18n.t('search-default').replace('{{searchTerm}}', _dynamicTitle(tag.text));
+    console.log(`tag.text: ${tag.text}`);
+    return i18n.t('search-default', { searchTerm: _dynamicTitle(tag.text) });
   }
   return _dynamicTitle(tag.text);
 };
@@ -93,7 +89,22 @@ class Search extends React.Component {
     } else if (web3.utils.isAddress(tag.id)) {
       this.props.history.push(`/address/${tag.id}`);
     } else {
-      this.props.history.push(`/search/${encodeURI(tag.id)}`);
+      // this.props.history.push(`/search/${encodeURI(tag.id)}`);
+      if (document.getElementsByClassName('ReactTags__tagInputField')) {
+        console.log(`tag.text: ${newTag.text}`);
+        document.getElementsByClassName('ReactTags__tagInputField')[0].value = newTag.text;
+      }
+    }
+  }
+
+  componentDidMount() {
+    if ((document.getElementsByClassName('ReactTags__tagInputField') && document.getElementsByClassName('ReactTags__tagInputField').length > 0)) {
+      document.getElementsByClassName('ReactTags__tagInputField')[0].addEventListener('paste', (clipboard) => {
+        console.log('listening paste..');
+        document.getElementsByClassName('ReactTags__tagInputField')[0].value = clipboard.clipboardData.getData('text');
+        clipboard.preventDefault();
+        console.log(clipboard.clipboardData.getData('text'));
+      })
     }
   }
 
@@ -105,10 +116,10 @@ class Search extends React.Component {
     this.setState({ tags: [] });
   }
 
-  render() {
+  render(clipboard) {
     const { tags, suggestions } = this.state;
 
-    if (this.mobileContext()) {
+    if (this.mobileContext() && !(document.getElementsByClassName('ReactTags__tagInputField') && document.getElementsByClassName('ReactTags__tagInputField').length === 0)) {
       return (
         <div className="search-wrapper-logged">
           <div className="ReactTags__tags react-tags-wrapper">
@@ -122,6 +133,8 @@ class Search extends React.Component {
         </div>
       )
     }
+    console.log('hace segunda...');
+    console.log(clipboard);
 
     return (
       <div className="search-wrapper-logged">
@@ -129,7 +142,6 @@ class Search extends React.Component {
           tags={tags}
           suggestions={suggestions}
           handleAddition={this.handleAddition}
-          delimiters={delimiters}
           placeholder={(window.innerWidth < 768) ? i18n.t('search-short') : i18n.t('search-daos')}
         />
       </div>

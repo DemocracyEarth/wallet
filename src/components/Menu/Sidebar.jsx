@@ -71,8 +71,8 @@ const _getScrollClass = (isUp) => {
     if (st > 0) {
       return `sidebar sidebar-desktop sidebar-down`;
     }
-    return `sidebar sidebar-desktop`;
   }
+  return `sidebar sidebar-desktop`;
 };
 
 /**
