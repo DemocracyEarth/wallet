@@ -77,7 +77,6 @@ export default class TabMenu extends Component {
   }
 
   getScrollClass() {
-    console.log(`TabMenu.jsx`);
     // up
     if (this.state.scrollUp) {
       if (document.getElementById('browser')) {

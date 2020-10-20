@@ -93,7 +93,6 @@ class Search extends React.Component {
   }
 
   handleAddition(tag) {
-    console.log(`Addition`);
     if (!this.pasting && tag) {
       this.parseQuery(tag.id);
     }
@@ -117,7 +116,6 @@ class Search extends React.Component {
   }
 
   handleInputChange(e) {
-    console.log(`handleInputChange`);
     const text = document.getElementsByClassName('ReactTags__tagInputField')[0].value;
     const suggestionSelected = (document.getElementsByClassName('ReactTags__activeSuggestion').length > 0);
     if (e.keyCode === 13 && e.isTrusted && text.length > 0 && !suggestionSelected) {

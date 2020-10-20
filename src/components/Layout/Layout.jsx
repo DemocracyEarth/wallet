@@ -19,8 +19,6 @@ import 'styles/Dapp.css';
 const Layout = (props) => {
   const { dao, address, period, proposal, token, date, search } = useParams();
 
-  console.log(useParams());
-
   // defaults
   let view = routerView.HOME;
   let renderAddress = props.address;
