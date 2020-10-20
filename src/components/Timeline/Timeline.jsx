@@ -93,12 +93,13 @@ const _getPercentage = (percentageAmount, remainder) => {
 const Feed = (props) => {
   const { address, first, skip, orderBy, orderDirection, proposalId, param } = props;
   const now = Math.floor(new Date().getTime() / 1000);
+
   let { dateBegin, dateEnd } = now.toString();
   if (props.view === routerView.DATE) {
     dateBegin = Math.floor(new Date(param).getTime() / 1000).toString();
     dateEnd = Math.floor((new Date(param).getTime() / 1000) + 86400).toString();
   }
- 
+
   const [getFeed, { data, loading, error }] = useLazyQuery(composeQuery(props.view, props.field, props.period), { variables: { address, first, skip, orderBy, orderDirection, now, proposalId, param, dateBegin, dateEnd } });
 
   let isMounted = true;
