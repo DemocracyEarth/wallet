@@ -60,7 +60,6 @@ const _replacementText = (tag) => {
   if (tag.id.slice(0, 9) === '/address/') {
     return i18n.t('search-user', { searchTerm: _dynamicTitle(tag.id.slice(9, 51)) });
   } else if (tag.id.slice(0, 1) !== '/') {
-    console.log(`tag.text: ${tag.text}`);
     return i18n.t('search-default', { searchTerm: _dynamicTitle(tag.text) });
   }
   return _dynamicTitle(tag.text);
@@ -78,37 +77,27 @@ class Search extends React.Component {
       subscription: true, // Router.current().ready(),
       tags: _getTags(props.contextTag),
       suggestions: suggestList,
-      pasting: false,
     };
+    this.pasting = false;
     this.handleAddition = this.handleAddition.bind(this);
     this.handlePaste = this.handlePaste.bind(this);
     this.removeTag = this.removeTag.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   componentDidMount() {
     if (document.getElementsByClassName('ReactTags__tagInputField')[0]) {
       document.getElementsByClassName('ReactTags__tagInputField')[0].addEventListener('paste', this.handlePaste);
+      document.getElementsByClassName('ReactTags__tagInputField')[0].addEventListener('keydown', this.handleInputChange);
     }
   }
 
   handleAddition(tag) {
-    const web3 = new Web3();
-
-    console.log(tag);
-    console.log(this.props);
-    console.log(`this.state.pasting: ${this.state.pasting}`);
-
-    if (!this.state.pasting) {
-      if (tag.id.slice(0, 1) === '/') {
-        console.log(tag.id);
-        this.props.history.push(tag.id);
-      } else if (web3.utils.isAddress(tag.id)) {
-        this.props.history.push(`/address/${tag.id}`);
-      } else {
-        this.props.history.push(`/search/${escape(tag.id)}`);;
-      }
+    console.log(`Addition`);
+    if (!this.pasting && tag) {
+      this.parseQuery(tag.id);
     }
-    this.setState({ pasting: false })
+    this.pasting = false;
   }
 
   handlePaste(e) {
@@ -116,7 +105,8 @@ class Search extends React.Component {
     e.preventDefault();
     const clipboardData = e.clipboardData || window.clipboardData;
     const paste = clipboardData.getData('Text');
-    this.setState({ pasting: true })
+    this.pasting = true;
+    this.handleAddition();
     setTimeout(function () {
       document.getElementsByClassName('ReactTags__tagInputField')[0].value = paste;
     }, 50);
@@ -124,6 +114,26 @@ class Search extends React.Component {
 
   mobileContext() {
     return ((window.innerWidth < 768) && (this.state.tags.length > 0));
+  }
+
+  handleInputChange(e) {
+    console.log(`handleInputChange`);
+    const text = document.getElementsByClassName('ReactTags__tagInputField')[0].value;
+    const suggestionSelected = (document.getElementsByClassName('ReactTags__activeSuggestion').length > 0);
+    if (e.keyCode === 13 && e.isTrusted && text.length > 0 && !suggestionSelected) {
+      this.parseQuery(text);
+    }
+  }
+
+  parseQuery(text) {
+    const web3 = new Web3();
+    if (text.slice(0, 1) === '/') {
+      this.props.history.push(text);
+    } else if (web3.utils.isAddress(text)) {
+      this.props.history.push(`/address/${text}`);
+    } else {
+      this.props.history.push(`/search/${escape(text)}`);;
+    }
   }
 
   removeTag() {
@@ -153,9 +163,8 @@ class Search extends React.Component {
         <ReactTags
           tags={tags}
           suggestions={suggestions}
-          handleAddition={this.handleAddition}
-          handlePaste={this.handlePaste}
           delimiters={delimiters}
+          handleAddition={this.handleAddition}
           placeholder={(window.innerWidth < 768) ? i18n.t('search-short') : i18n.t('search-daos')}
         />
       </div>
