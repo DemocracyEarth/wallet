@@ -7129,7 +7129,7 @@ blockquote {
   border-radius: 12px;
   color: #48015f;
   color: #f3e7f7;
-  padding: 0 15px 0 10px;
+  padding: 0 10px 0 10px;
   margin: 0 15px 0 0;
   display: inline-block;
 }
@@ -7138,7 +7138,7 @@ blockquote {
 .ReactTags__tagInput {
   display: inline-block;
   margin: 0 10px;
-  width:100%;
+  width:70%;
 }
 
 .ReactTags__tagInputField {
@@ -7259,6 +7259,10 @@ mark {
     margin-left: 50px;
   }
 
+  .ReactTags__tagInput { 
+    width: 100%;
+  }
+  
   .ReactTags__tagInputField {
     width: 100%;
   }

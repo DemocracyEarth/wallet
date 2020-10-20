@@ -365,6 +365,11 @@ export default class Sidebar extends Component {
     return (
       <div id="sidebar" className={_getScrollClass(this.state.scrollUp)}>
         <div className="menu">
+          {(this.props.view === routerView.SEARCH) ?
+            <Item sharp hideEmpty={false} icon={back} label={`${i18n.t('all-daos')}`} href={'/'} />  
+            :
+            null
+          }
           <div className="separator">
             {_getHeadline('proposals', this.props.address, this.props.view)}
           </div>

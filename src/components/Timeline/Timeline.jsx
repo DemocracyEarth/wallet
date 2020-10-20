@@ -138,6 +138,9 @@ const Feed = (props) => {
     console.log(data);
 
     if (data.proposals.length === 0) {
+      if (props.format === 'searchBar') {
+        return <Search contextTag={{ id: param, text: i18n.t('search-default', { searchTerm: param }) }} />
+      }
       return (
         <div className="empty-feed">
           <img className="empty-icon" src={notFound} alt="" />
@@ -148,7 +151,13 @@ const Feed = (props) => {
     }
 
     if (props.format === 'searchBar') {
-      return <Search contextTag={{ id: proposalId, text: i18n.t('search-contract', { searchTerm: getDescription(data.proposals[0].details).title }) }} />
+      switch (props.view) {
+        case routerView.PROPOSAL:
+          return <Search contextTag={{ id: proposalId, text: i18n.t('search-contract', { searchTerm: getDescription(data.proposals[0].details).title }) }} />
+        case routerView.SEARCH:
+        default:
+          return <Search contextTag={{ id: param, text: i18n.t('search-default', { searchTerm: param }) }} />
+      }
     }
 
     const feed = data.proposals.map((proposal) => {
