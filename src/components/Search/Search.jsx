@@ -15,7 +15,12 @@ import 'styles/Dapp.css';
 const Web3 = require('web3');
 
 const suggestList = [];
-const editorMode = (document.getElementsByClassName('ReactTags__tagInputField') && document.getElementsByClassName('ReactTags__tagInputField').length > 0);
+
+const KeyCodes = {
+  enter: 13,
+};
+
+const delimiters = [KeyCodes.enter];
 
 /**
  * @summary inserts in the search cache an item
@@ -73,39 +78,48 @@ class Search extends React.Component {
       subscription: true, // Router.current().ready(),
       tags: _getTags(props.contextTag),
       suggestions: suggestList,
+      pasting: false,
     };
     this.handleAddition = this.handleAddition.bind(this);
+    this.handlePaste = this.handlePaste.bind(this);
     this.removeTag = this.removeTag.bind(this);
   }
 
-  handleAddition(tag) {
-    const newTag = tag;
-    newTag.text = _replacementText(tag);
-    this.setState(state => ({ tags: [newTag] }));
-    const web3 = new Web3();
-
-    if (tag.id.slice(0, 1) === '/') {
-      this.props.history.push(tag.id);
-    } else if (web3.utils.isAddress(tag.id)) {
-      this.props.history.push(`/address/${tag.id}`);
-    } else {
-      // this.props.history.push(`/search/${encodeURI(tag.id)}`);
-      if (document.getElementsByClassName('ReactTags__tagInputField')) {
-        console.log(`tag.text: ${newTag.text}`);
-        document.getElementsByClassName('ReactTags__tagInputField')[0].value = newTag.text;
-      }
+  componentDidMount() {
+    if (document.getElementsByClassName('ReactTags__tagInputField')[0]) {
+      document.getElementsByClassName('ReactTags__tagInputField')[0].addEventListener('paste', this.handlePaste);
     }
   }
 
-  componentDidMount() {
-    if ((document.getElementsByClassName('ReactTags__tagInputField') && document.getElementsByClassName('ReactTags__tagInputField').length > 0)) {
-      document.getElementsByClassName('ReactTags__tagInputField')[0].addEventListener('paste', (clipboard) => {
-        console.log('listening paste..');
-        document.getElementsByClassName('ReactTags__tagInputField')[0].value = clipboard.clipboardData.getData('text');
-        clipboard.preventDefault();
-        console.log(clipboard.clipboardData.getData('text'));
-      })
+  handleAddition(tag) {
+    const web3 = new Web3();
+
+    console.log(tag);
+    console.log(this.props);
+    console.log(`this.state.pasting: ${this.state.pasting}`);
+
+    if (!this.state.pasting) {
+      if (tag.id.slice(0, 1) === '/') {
+        console.log(tag.id);
+        this.props.history.push(tag.id);
+      } else if (web3.utils.isAddress(tag.id)) {
+        this.props.history.push(`/address/${tag.id}`);
+      } else {
+        this.props.history.push(`/search/${escape(tag.id)}`);;
+      }
     }
+    this.setState({ pasting: false })
+  }
+
+  handlePaste(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    const clipboardData = e.clipboardData || window.clipboardData;
+    const paste = clipboardData.getData('Text');
+    this.setState({ pasting: true })
+    setTimeout(function () {
+      document.getElementsByClassName('ReactTags__tagInputField')[0].value = paste;
+    }, 50);
   }
 
   mobileContext() {
@@ -116,10 +130,10 @@ class Search extends React.Component {
     this.setState({ tags: [] });
   }
 
-  render(clipboard) {
+  render() {
     const { tags, suggestions } = this.state;
 
-    if (this.mobileContext() && !(document.getElementsByClassName('ReactTags__tagInputField') && document.getElementsByClassName('ReactTags__tagInputField').length === 0)) {
+    if (this.mobileContext()) {
       return (
         <div className="search-wrapper-logged">
           <div className="ReactTags__tags react-tags-wrapper">
@@ -133,8 +147,6 @@ class Search extends React.Component {
         </div>
       )
     }
-    console.log('hace segunda...');
-    console.log(clipboard);
 
     return (
       <div className="search-wrapper-logged">
@@ -142,6 +154,8 @@ class Search extends React.Component {
           tags={tags}
           suggestions={suggestions}
           handleAddition={this.handleAddition}
+          handlePaste={this.handlePaste}
+          delimiters={delimiters}
           placeholder={(window.innerWidth < 768) ? i18n.t('search-short') : i18n.t('search-daos')}
         />
       </div>
