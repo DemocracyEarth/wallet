@@ -89,7 +89,10 @@ const routes = [
   },
   {
     path: '/date/:date',
-  }
+  },
+  {
+    path: '/search/:search',
+  },
 ];
 
 /**
