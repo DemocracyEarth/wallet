@@ -23,7 +23,7 @@ let lastScrollTop = 0;
  * @param {string} address in view
  */
 const _getMenu = (view, data, address, param) => {
-  const atHome = (view === routerView.HOME);
+  const atHome = (view === routerView.HOME || view === routerView.SEARCH);
   const hideEmpty = !atHome
   const defaultLabels = ['all', 'in-queue', 'voting-now', 'grace-period', 'ready-to-process', 'rejected', 'approved'];
 
@@ -64,7 +64,14 @@ const _getScrollClass = (isUp) => {
   if (isUp) {
     return `sidebar sidebar-desktop sidebar-up`;
   }
-  return `sidebar sidebar-desktop sidebar-down`;
+  if (document.getElementById('dapp')) {
+    const viewport = document.getElementById('dapp');
+    const st = viewport.scrollTop;
+    if (st > 0) {
+      return `sidebar sidebar-desktop sidebar-down`;
+    }
+  }
+  return `sidebar sidebar-desktop`;
 };
 
 /**
@@ -114,6 +121,7 @@ const _getProposalCount = (list, label) => {
 const _getHeadline = (headline, address, view) => {
   switch (view) {
     case routerView.HOME:
+    case routerView.SEARCH:
     case routerView.PERIOD:
       return i18n.t(`${headline}-sidebar`);
     case routerView.DAO:
@@ -280,7 +288,7 @@ const MenuQuery = ({ address, scrollUp, view, proposalId, param }) => {
   return (
     <div id="sidebar" className={_getScrollClass(scrollUp)}>
       <div className="menu">
-        {(view !== routerView.HOME) ?
+        {(view !== routerView.HOME && view !== routerView.SEARCH) ?
           goBack
           :
           null
@@ -348,7 +356,7 @@ export default class Sidebar extends Component {
   }
 
   render() {
-    if ((this.props.view !== routerView.HOME) && (this.props.view !== routerView.PERIOD)) {
+    if ((this.props.view !== routerView.HOME) && (this.props.view !== routerView.PERIOD) && (this.props.view !== routerView.SEARCH)) {
       return <MenuQuery address={this.props.address} scrollUp={this.state.scrollUp} view={this.props.view} proposalId={this.props.proposalId} param={this.props.param} />;
     }
 
@@ -357,6 +365,11 @@ export default class Sidebar extends Component {
     return (
       <div id="sidebar" className={_getScrollClass(this.state.scrollUp)}>
         <div className="menu">
+          {(this.props.view === routerView.SEARCH) ?
+            <Item sharp hideEmpty={false} icon={back} label={`${i18n.t('all-daos')}`} href={'/'} />  
+            :
+            null
+          }
           <div className="separator">
             {_getHeadline('proposals', this.props.address, this.props.view)}
           </div>

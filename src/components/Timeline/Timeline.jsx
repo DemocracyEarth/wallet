@@ -67,6 +67,8 @@ const composeQuery = (view, field, period) => {
       return query.GET_PROPOSALS_DATE;
     case routerView.ADDRESS:
       return query.GET_PROPOSALS_ADDRESS;
+    case routerView.SEARCH:
+      return query.GET_PROPOSALS_SEARCH;
     default:
       switch (field) {
         case 'applicant':
@@ -91,6 +93,7 @@ const _getPercentage = (percentageAmount, remainder) => {
 const Feed = (props) => {
   const { address, first, skip, orderBy, orderDirection, proposalId, param } = props;
   const now = Math.floor(new Date().getTime() / 1000);
+
   let { dateBegin, dateEnd } = now.toString();
   if (props.view === routerView.DATE) {
     dateBegin = Math.floor(new Date(param).getTime() / 1000).toString();
@@ -135,6 +138,9 @@ const Feed = (props) => {
     console.log(data);
 
     if (data.proposals.length === 0) {
+      if (props.format === 'searchBar') {
+        return <Search contextTag={{ id: param, text: i18n.t('search-default', { searchTerm: param }) }} />
+      }
       return (
         <div className="empty-feed">
           <img className="empty-icon" src={notFound} alt="" />
@@ -145,7 +151,13 @@ const Feed = (props) => {
     }
 
     if (props.format === 'searchBar') {
-      return <Search contextTag={{ id: proposalId, text: i18n.t('search-contract', { searchTerm: getDescription(data.proposals[0].details).title }) }} />
+      switch (props.view) {
+        case routerView.PROPOSAL:
+          return <Search contextTag={{ id: proposalId, text: i18n.t('search-contract', { searchTerm: getDescription(data.proposals[0].details).title }) }} />
+        case routerView.SEARCH:
+        default:
+          return <Search contextTag={{ id: param, text: i18n.t('search-default', { searchTerm: param }) }} />
+      }
     }
 
     const feed = data.proposals.map((proposal) => {

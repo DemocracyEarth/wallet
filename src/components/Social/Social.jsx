@@ -14,7 +14,7 @@ export default class Social extends Component {
     super(props);
 
     this.state = {
-      tweetLink: `https://twitter.com/share?url=${escape(window.location.origin)}${escape(props.url)}&text=${escape(getDescription(props.description).title)}`,
+      tweetLink: `https://twitter.com/share?url=${escape(window.location.origin)}${escape('/#')}${escape(props.url)}&text=${escape(getDescription(props.description).title)}`,
     };
   }
 

@@ -132,6 +132,10 @@ class Browser extends Component {
       return <Timeline proposalId={this.props.match.params.proposal} view={routerView.PROPOSAL} format="searchBar" />
     }
 
+    if (this.props.match.params.search) {
+      return <Timeline param={this.props.match.params.search} view={routerView.SEARCH} format="searchBar" />
+    }
+
     return <Search />;
   }
 

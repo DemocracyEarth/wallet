@@ -17,7 +17,7 @@ import 'styles/Dapp.css';
 * @summary displays the contents of a poll
 */
 const Layout = (props) => {
-  const { dao, address, period, proposal, token, date } = useParams();
+  const { dao, address, period, proposal, token, date, search } = useParams();
 
   // defaults
   let view = routerView.HOME;
@@ -45,7 +45,13 @@ const Layout = (props) => {
   } else if (date) {
     param = date;
     view = routerView.DATE;
+  } else if (search) {
+    param = search;
+    view = routerView.SEARCH;
   }
+
+  console.log(param);
+  console.log(view);
 
   if (props.mobileMenu) {
     return (

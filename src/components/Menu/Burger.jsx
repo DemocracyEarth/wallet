@@ -17,6 +17,10 @@ export default class Burger extends Component {
   }
 
   render() {
+    if (window.innerWidth > 767) {
+      return null;
+    }
+
     return (
       <>
         <div id="burger" className="burger-menu">

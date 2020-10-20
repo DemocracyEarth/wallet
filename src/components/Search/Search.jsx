@@ -14,13 +14,13 @@ import 'styles/Dapp.css';
 
 const Web3 = require('web3');
 
+const suggestList = [];
+
 const KeyCodes = {
-  comma: 188,
   enter: 13,
 };
 
-const delimiters = [KeyCodes.comma, KeyCodes.enter];
-const suggestList = [];
+const delimiters = [KeyCodes.enter];
 
 /**
  * @summary inserts in the search cache an item
@@ -58,9 +58,9 @@ const _getTags = (contextTag) => {
 
 const _replacementText = (tag) => {
   if (tag.id.slice(0, 9) === '/address/') {
-    return i18n.t('search-user').replace('{{searchTerm}}', _dynamicTitle(tag.id.slice(9, 51)));
+    return i18n.t('search-user', { searchTerm: _dynamicTitle(tag.id.slice(9, 51)) });
   } else if (tag.id.slice(0, 1) !== '/') {
-    return i18n.t('search-default').replace('{{searchTerm}}', _dynamicTitle(tag.text));
+    return i18n.t('search-default', { searchTerm: _dynamicTitle(tag.text) });
   }
   return _dynamicTitle(tag.text);
 };
@@ -78,31 +78,91 @@ class Search extends React.Component {
       tags: _getTags(props.contextTag),
       suggestions: suggestList,
     };
+    this.pasting = false;
     this.handleAddition = this.handleAddition.bind(this);
+    this.handlePaste = this.handlePaste.bind(this);
+    this.removeTag = this.removeTag.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  componentDidMount() {
+    if (document.getElementsByClassName('ReactTags__tagInputField')[0]) {
+      document.getElementsByClassName('ReactTags__tagInputField')[0].addEventListener('paste', this.handlePaste);
+      document.getElementsByClassName('ReactTags__tagInputField')[0].addEventListener('keydown', this.handleInputChange);
+    }
   }
 
   handleAddition(tag) {
-    const newTag = tag;
-    newTag.text = _replacementText(tag);
-    this.setState(state => ({ tags: [newTag] }));
-
-    if (tag.id.slice(0, 1) === '/') {
-      this.props.history.push(tag.id);
-    } else {
-      this.props.history.push(`/?search=${encodeURI(tag.id)}`);
+    if (!this.pasting && tag) {
+      this.parseQuery(tag.id);
     }
+    this.pasting = false;
+  }
+
+  handlePaste(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    const clipboardData = e.clipboardData || window.clipboardData;
+    const paste = clipboardData.getData('Text');
+    this.pasting = true;
+    this.handleAddition();
+    setTimeout(function () {
+      document.getElementsByClassName('ReactTags__tagInputField')[0].value = paste;
+    }, 50);
+  }
+
+  mobileContext() {
+    return ((window.innerWidth < 768) && (this.state.tags.length > 0));
+  }
+
+  handleInputChange(e) {
+    const text = document.getElementsByClassName('ReactTags__tagInputField')[0].value;
+    const suggestionSelected = (document.getElementsByClassName('ReactTags__activeSuggestion').length > 0);
+    if (e.keyCode === 13 && e.isTrusted && text.length > 0 && !suggestionSelected) {
+      this.parseQuery(text);
+    }
+  }
+
+  parseQuery(text) {
+    const web3 = new Web3();
+    if (text.slice(0, 1) === '/') {
+      this.props.history.push(text);
+    } else if (web3.utils.isAddress(text)) {
+      this.props.history.push(`/address/${text}`);
+    } else {
+      this.props.history.push(`/search/${escape(text)}`);;
+    }
+  }
+
+  removeTag() {
+    this.setState({ tags: [] });
   }
 
   render() {
     const { tags, suggestions } = this.state;
+
+    if (this.mobileContext()) {
+      return (
+        <div className="search-wrapper-logged">
+          <div className="ReactTags__tags react-tags-wrapper">
+            <div className="ReactTags__selected">
+              <span className="tag-wrapper ReactTags__tag">
+                {this.state.tags[0].text}
+                <div className="ReactTags__remove" onClick={this.removeTag}>×</div>
+              </span>
+            </div>
+          </div>
+        </div>
+      )
+    }
 
     return (
       <div className="search-wrapper-logged">
         <ReactTags
           tags={tags}
           suggestions={suggestions}
-          handleAddition={this.handleAddition}
           delimiters={delimiters}
+          handleAddition={this.handleAddition}
           placeholder={(window.innerWidth < 768) ? i18n.t('search-short') : i18n.t('search-daos')}
         />
       </div>

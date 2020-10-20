@@ -6029,6 +6029,10 @@ blockquote {
   top: 0px;
 }
 
+.sidebar.sidebar-desktop {
+  top: 60px;
+}
+
 .sidebar.sidebar-desktop.sidebar-down {
   transition: top 0.15s ease 0.15s;
   top: 60px;
@@ -6042,6 +6046,10 @@ blockquote {
 
   .sidebar.sidebar-desktop.sidebar-up {
     transition: none;
+    top: 0px;
+  }
+
+  .sidebar.sidebar-desktop {
     top: 0px;
   }
 
@@ -7121,7 +7129,7 @@ blockquote {
   border-radius: 12px;
   color: #48015f;
   color: #f3e7f7;
-  padding: 0 15px 0 10px;
+  padding: 0 10px 0 10px;
   margin: 0 15px 0 0;
   display: inline-block;
 }
@@ -7130,7 +7138,7 @@ blockquote {
 .ReactTags__tagInput {
   display: inline-block;
   margin: 0 10px;
-  width:100%;
+  width:70%;
 }
 
 .ReactTags__tagInputField {
@@ -7144,14 +7152,14 @@ blockquote {
   display: inline-block;
 }
 
-.ReactTags__remove {
-  margin-left: 5px;
-  color: var(--bar-background);
-  display: none;
+.ReactTags__tagInputField:focus {
+  pointer-events:none;
 }
 
-.ReactTags__remove:hover {
-  text-decoration: none;
+.ReactTags__remove {
+  margin-left: 11px;
+  color: var(--bar-tag);
+  display: none;
 }
 
 .ReactTags__suggestions ul {
@@ -7226,6 +7234,15 @@ mark {
     width: auto;
   }
 
+
+  .ReactTags__remove {
+    display: inline-block;
+    cursor: pointer;
+    top: -1px;
+    position: relative;
+  }
+
+
   .ReactTags__suggestions li {
     max-width: none;
   }
@@ -7242,6 +7259,10 @@ mark {
     margin-left: 50px;
   }
 
+  .ReactTags__tagInput { 
+    width: 100%;
+  }
+  
   .ReactTags__tagInputField {
     width: 100%;
   }
@@ -8887,6 +8908,12 @@ h4 {
   .tab-menu.tab-menu-up {
     transition: top 0.15s ease 0.15s;
     top: -55px;
+  }
+}
+
+@media (max-width: 767px) {
+  .tab-menu {
+    position: absolute;
   }
 }
 
