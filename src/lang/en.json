@@ -433,7 +433,6 @@
   "invalid-transaction": "Self voting is not allowed.",
   "events": "Events",
   "actions": "Actions",
-  "voters": "Voters.",
   "delegated-votes": "Delegated Votes",
   "trust": "Trust",
   "representation": "Representation",
@@ -462,7 +461,8 @@
   "post-as": "Post as",
   "always-on": "Always On",
   "now": "Now.",
-  "voter": "Voter.",
+  "voter": "voter.",
+  "voters": "voters.",
   "no-voters": "No voters.",
   "back-to-top": "Back to top.",
   "no-members-found": "No citizens found.",
@@ -926,5 +926,7 @@
   "recent-votes": "Recent votes.",
   "go-back": "Go Back",
   "search-short": "Search DAOs...",
-  "see-proposal-details": "See proposal details."
+  "see-proposal-details": "Proposal details.",
+  "see-proposal-vote": "Result.",
+  "see-proposal-vote-count": "<strong>{{totalVoters}}</strong> {{voterLabel}}"
 }

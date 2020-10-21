@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import i18n from 'i18n';
+import parser from 'html-react-parser';
 
 import { Link } from 'react-router-dom';
 
@@ -20,6 +20,7 @@ export default class Expand extends Component {
     url: PropTypes.string,
     iconActive: PropTypes.string,
     icon: PropTypes.string,
+    label: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
@@ -76,7 +77,7 @@ export default class Expand extends Component {
       <>
         <Link to={this.props.url} className={this.getStyle()} onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave} onClick={this.handleClick}>
           <img className="details-icon details-icon-logo" alt="" src={this.state.logo} />
-          {i18n.t('see-proposal-details')}
+          {parser(this.props.label)}
           <img className="details-icon" alt="" src={this.state.img} />
         </Link>
         {(this.state.open) ?

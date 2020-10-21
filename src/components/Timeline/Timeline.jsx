@@ -33,6 +33,8 @@ import i18n from 'i18n';
 import notFound from 'images/not-found.svg';
 import detail from 'images/detail.svg';
 import detailActive from 'images/detail-active.svg';
+import hand from 'images/hand.svg';
+import handActive from 'images/hand-active.svg';
 
 import 'styles/Dapp.css';
 
@@ -196,13 +198,16 @@ const Feed = (props) => {
       const noSponsor = (!proposal.sponsored || proposal.molochVersion === "1");
       const noConditions = (noShares && noTribute && noPayment && noApplicant && noSponsor && noLoot && !proposal.whitelist && !proposal.guildkick);
 
+      const voterLabel = (Number(totalVoters) === 1) ? i18n.t('voter') : i18n.t('voters');
+      const voterCount = (Number(totalVoters) > 0) ? i18n.t('see-proposal-vote-count', { totalVoters, voterLabel }) : i18n.t('no-voters')
+
       return (
         <Post
           key={proposal.id} accountAddress={accountAddress} href={url}
           description={proposal.details} memberAddress={proposal.proposer}
           daoAddress={daoAddress}
         >
-          <Expand url={url} open={!(props.view === routerView.HOME || props.view === routerView.SEARCH)}
+          <Expand url={url} label={i18n.t('see-proposal-details')} open={!(props.view === routerView.HOME || props.view === routerView.SEARCH)}
             icon={detail} iconActive={detailActive}
           >
             <Contract hidden={noConditions} view={props.view} href={url}>
@@ -259,6 +264,10 @@ const Feed = (props) => {
                 null
               }
             </Contract>
+          </Expand>
+          <Expand url={url} label={voterCount} open={!(props.view === routerView.HOME || props.view === routerView.SEARCH)}
+            icon={hand} iconActive={handActive}
+          >
             {(isPoll) ?
               <Poll>
                 <Countdown

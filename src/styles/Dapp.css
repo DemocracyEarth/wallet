@@ -7228,7 +7228,7 @@ mark {
 .details {
   background-color: #e6e0ee;
   font-size: 0.7em;
-  margin: 0px 0px 20px;
+  margin: 0px 10px 20px 0px;
   display: inline-block;
   border: 1px solid #e6e0ee;
   color: var(--menu-sidebar-selected);
