@@ -18,6 +18,8 @@ export default class Expand extends Component {
   static propTypes = {
     open: PropTypes.bool,
     url: PropTypes.string,
+    iconActive: PropTypes.string,
+    icon: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
@@ -29,6 +31,7 @@ export default class Expand extends Component {
     this.state = {
       open: props.open,
       img: arrowDown,
+      logo: this.props.icon,
     };
 
     this.mouseEnter = this.mouseEnter.bind(this);
@@ -37,11 +40,21 @@ export default class Expand extends Component {
   }
 
   mouseEnter() {
-    return (this.state.open) ? this.setState({ img: arrowUpActive }) : this.setState({ img: arrowDownActive });
+    this.setState({ logo: this.props.iconActive })
+    if (this.state.open) {
+      return this.setState({ img: arrowUpActive })
+    } else {
+      return this.setState({ img: arrowDownActive })
+    }
   }
 
   mouseLeave() {
-    return (this.state.open) ? this.setState({ img: arrowUp }) : this.setState({ img: arrowDown });
+    this.setState({ logo: this.props.icon })
+    if (this.state.open) {
+      return this.setState({ img: arrowUp });
+    } else {
+      return this.setState({ img: arrowDown });
+    }
   }
 
   handleClick(e) {
@@ -60,10 +73,20 @@ export default class Expand extends Component {
   }
   render() {
     return (
-      <Link to={this.props.url} className={this.getStyle()} onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave} onClick={this.handleClick}>
-        {i18n.t('see-proposal-details')}
-        <img className="url-icon" alt="" src={this.state.img} />
-      </Link>
+      <>
+        <Link to={this.props.url} className={this.getStyle()} onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave} onClick={this.handleClick}>
+          <img className="details-icon details-icon-logo" alt="" src={this.state.logo} />
+          {i18n.t('see-proposal-details')}
+          <img className="details-icon" alt="" src={this.state.img} />
+        </Link>
+        {(this.state.open) ?
+          <div className="details-wrapper">
+            {this.props.children}
+          </div>
+          :
+          null
+        }
+      </>
     );
   }
 }

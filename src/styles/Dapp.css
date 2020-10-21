@@ -7253,6 +7253,23 @@ mark {
   border: 1px solid #e6e0ee;
 }
 
+.details-icon {
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+  margin-bottom: 2px;
+}
+
+.details-wrapper {
+  padding: 5px;
+  margin-top: -20px;
+}
+
+.details-icon.details-icon-logo {
+  margin-left: -11px;
+  margin-right: 7px
+}
+
 
 @media (max-width: 767px) {
 
