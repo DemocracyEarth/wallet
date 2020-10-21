@@ -201,7 +201,7 @@ const Feed = (props) => {
           daoAddress={daoAddress}
         >
           {(props.view === routerView.HOME || props.view === routerView.SEARCH) ?
-            <Expand url={url} />
+            <Expand url={url} open={!(props.view === routerView.HOME || props.view === routerView.SEARCH)} />
             :
             <div>
               <Contract hidden={noConditions} view={props.view} href={url}>
