@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 
 import arrowDown from 'images/arrow-down.svg';
 import arrowDownActive from 'images/arrow-down-active.svg';
+import arrowUp from 'images/arrow-up.svg';
+import arrowUpActive from 'images/arrow-up-active.svg';
 
 import 'styles/Dapp.css';
 
@@ -35,23 +37,27 @@ export default class Expand extends Component {
   }
 
   mouseEnter() {
-    this.setState({ img: arrowDownActive });
+    return (this.state.open) ? this.setState({ img: arrowUpActive }) : this.setState({ img: arrowDownActive });
   }
 
   mouseLeave() {
-    this.setState({ img: arrowDown });
+    return (this.state.open) ? this.setState({ img: arrowUp }) : this.setState({ img: arrowDown });
   }
 
   handleClick(e) {
     e.preventDefault();
     e.stopPropagation();
     this.setState({ open: !this.state.open });
+    if (this.state.open) { this.setState({ img: arrowDownActive }) } else { this.setState({ img: arrowUpActive }) };
   }
 
   getStyle() {
     return (this.state.open) ? "details details-open" : "details";
   }
 
+  getImage() {
+    return (this.state.open) ? this.setState({ img: arrowUp }) : this.setState({ img: arrowDown });;
+  }
   render() {
     return (
       <Link to={this.props.url} className={this.getStyle()} onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave} onClick={this.handleClick}>

@@ -7247,6 +7247,13 @@ mark {
   background-color: var(--menu-sidebar-selected);
 }
 
+.details:active {
+  color: white;
+  text-decoration: none;
+  border: 1px solid #e6e0ee;
+}
+
+
 @media (max-width: 767px) {
 
   .ReactTags__suggestions {
