@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, useLazyQuery } from '@apollo/react-hooks';
+
 import PropTypes from 'prop-types';
 
 import Account from 'components/Account/Account';
@@ -20,6 +21,7 @@ import Flag from 'components/Flag/Flag';
 import Toggle from 'components/Toggle/Toggle';
 import Search from 'components/Search/Search';
 import Paginator from 'components/Paginator/Paginator';
+import Expand from 'components/Expand/Expand';
 
 import { query } from 'components/Timeline/queries';
 import { config } from 'config'
@@ -29,6 +31,7 @@ import { getDescription } from 'components/Post/Post';
 
 import i18n from 'i18n';
 import notFound from 'images/not-found.svg';
+
 import 'styles/Dapp.css';
 
 /**
@@ -197,103 +200,109 @@ const Feed = (props) => {
           description={proposal.details} memberAddress={proposal.proposer}
           daoAddress={daoAddress}
         >
-          <Contract hidden={noConditions}>
-            {(!noSponsor) ?
-              <Parameter label={i18n.t('moloch-sponsored-by')}>
-                <Account publicAddress={proposal.sponsor} width="16px" height="16px" />
-              </Parameter>
-              :
-              null
-            }
-            {(!noApplicant) ?
-              <Parameter label={i18n.t('moloch-applicant')}>
-                <Account publicAddress={proposal.applicant} width="16px" height="16px" />
-              </Parameter>
-              :
-              null
-            }
-            {(!noShares) ?
-              <Parameter label={i18n.t('moloch-request')}>
-                <Token quantity={String(proposal.sharesRequested)} symbol="SHARES" />
-              </Parameter>
-              :
-              null
-            }
-            {(!noLoot) ?
-              <Parameter label={i18n.t('moloch-loot')}>
-                <Token quantity={String(proposal.lootRequested)} symbol="SHARES" />
-              </Parameter>
-              :
-              null
-            }
-            {(!noTribute) ?
-              <Parameter label={i18n.t('moloch-tribute')}>
-                <Token quantity={proposal.tributeOffered} publicAddress={proposal.tributeToken} symbol={proposal.tributeTokenSymbol} decimals={proposal.tributeTokenDecimals} />
-              </Parameter>
-              :
-              null
-            }
-            {(!noPayment) ?
-              <Parameter label={i18n.t('moloch-payment')}>
-                <Token quantity={proposal.paymentRequested} publicAddress={proposal.paymentToken} symbol={proposal.paymentTokenSymbol} decimals={proposal.paymentTokenDecimals} />
-              </Parameter>
-              :
-              null
-            }
-            {(proposal.whitelist) ?
-              <Toggle label={i18n.t('moloch-token-whitelist')} checked={true} disabled={true} />
-              :
-              null
-            }
-            {(proposal.guildkick) ?
-              <Toggle label={i18n.t('moloch-token-guildkick')} checked={true} disabled={true} />
-              :
-              null
-            }
-          </Contract>
-          {(isPoll) ?
-            <Poll>
-              <Countdown
-                now={timestamp}
-                votingPeriodBegins={proposal.votingPeriodStarts} votingPeriodEnds={proposal.votingPeriodEnds} 
-                gracePeriodEnds={proposal.gracePeriodEnds} totalVoters={totalVoters}
-              />
-              <Survey>
-                <Choice
-                  now={timestamp}
-                  accountAddress={accountAddress} publicAddress={proposal.moloch.id}
-                  proposalIndex={proposal.proposalIndex} label={i18n.t('yes')} percentage={yesPercentage}
-                  voteValue={defaults.YES} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
-                >
-                  <Token quantity={proposal.yesShares} symbol="SHARES" />
-                </Choice>
-                <Choice
-                  now={timestamp}
-                  accountAddress={accountAddress} publicAddress={proposal.moloch.id}
-                  proposalIndex={proposal.proposalIndex} label={i18n.t('no')} percentage={noPercentage}
-                  voteValue={defaults.NO} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
-                >
-                  <Token quantity={proposal.noShares} symbol="SHARES" />
-                </Choice>
-              </Survey>
-              <Period
-                now={timestamp} url={url}
-                status={status} votingPeriodBegins={proposal.votingPeriodStarts}
-                votingPeriodEnds={proposal.votingPeriodEnds} gracePeriodEnds={proposal.gracePeriodEnds}
-              />
-            </Poll>
+          {(props.view === routerView.HOME || props.view === routerView.SEARCH) ?
+            <Expand url={url} />
             :
-            null
-          }
-          {(isUnsponsored) ?
-            <Flag styleClass={'warning period period-unsponsored'} url={url} label={i18n.t('moloch-flag-unsponsored')} tooltip={i18n.t('moloch-open-proposal')} />
-          :
-            null
-          }
-          {(proposal.cancelled) ?
-            <Flag styleClass={'warning period period-cancelled'} url={url} label={i18n.t('moloch-flag-cancelled')} tooltip={i18n.t('moloch-open-proposal')} />
-            :
-            null
+            <div>
+              <Contract hidden={noConditions} view={props.view} href={url}>
+                {(!noSponsor) ?
+                  <Parameter label={i18n.t('moloch-sponsored-by')}>
+                    <Account publicAddress={proposal.sponsor} width="16px" height="16px" />
+                  </Parameter>
+                  :
+                  null
+                }
+                {(!noApplicant) ?
+                  <Parameter label={i18n.t('moloch-applicant')}>
+                    <Account publicAddress={proposal.applicant} width="16px" height="16px" />
+                  </Parameter>
+                  :
+                  null
+                }
+                {(!noShares) ?
+                  <Parameter label={i18n.t('moloch-request')}>
+                    <Token quantity={String(proposal.sharesRequested)} symbol="SHARES" />
+                  </Parameter>
+                  :
+                  null
+                }
+                {(!noLoot) ?
+                  <Parameter label={i18n.t('moloch-loot')}>
+                    <Token quantity={String(proposal.lootRequested)} symbol="SHARES" />
+                  </Parameter>
+                  :
+                  null
+                }
+                {(!noTribute) ?
+                  <Parameter label={i18n.t('moloch-tribute')}>
+                    <Token quantity={proposal.tributeOffered} publicAddress={proposal.tributeToken} symbol={proposal.tributeTokenSymbol} decimals={proposal.tributeTokenDecimals} />
+                  </Parameter>
+                  :
+                  null
+                }
+                {(!noPayment) ?
+                  <Parameter label={i18n.t('moloch-payment')}>
+                    <Token quantity={proposal.paymentRequested} publicAddress={proposal.paymentToken} symbol={proposal.paymentTokenSymbol} decimals={proposal.paymentTokenDecimals} />
+                  </Parameter>
+                  :
+                  null
+                }
+                {(proposal.whitelist) ?
+                  <Toggle label={i18n.t('moloch-token-whitelist')} checked={true} disabled={true} />
+                  :
+                  null
+                }
+                {(proposal.guildkick) ?
+                  <Toggle label={i18n.t('moloch-token-guildkick')} checked={true} disabled={true} />
+                  :
+                  null
+                }
+              </Contract>
+              {(isPoll) ?
+                <Poll>
+                  <Countdown
+                    now={timestamp}
+                    votingPeriodBegins={proposal.votingPeriodStarts} votingPeriodEnds={proposal.votingPeriodEnds} 
+                    gracePeriodEnds={proposal.gracePeriodEnds} totalVoters={totalVoters}
+                  />
+                  <Survey>
+                    <Choice
+                      now={timestamp}
+                      accountAddress={accountAddress} publicAddress={proposal.moloch.id}
+                      proposalIndex={proposal.proposalIndex} label={i18n.t('yes')} percentage={yesPercentage}
+                      voteValue={defaults.YES} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
+                    >
+                      <Token quantity={proposal.yesShares} symbol="SHARES" />
+                    </Choice>
+                    <Choice
+                      now={timestamp}
+                      accountAddress={accountAddress} publicAddress={proposal.moloch.id}
+                      proposalIndex={proposal.proposalIndex} label={i18n.t('no')} percentage={noPercentage}
+                      voteValue={defaults.NO} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
+                    >
+                      <Token quantity={proposal.noShares} symbol="SHARES" />
+                    </Choice>
+                  </Survey>
+                  <Period
+                    now={timestamp} url={url}
+                    status={status} votingPeriodBegins={proposal.votingPeriodStarts}
+                    votingPeriodEnds={proposal.votingPeriodEnds} gracePeriodEnds={proposal.gracePeriodEnds}
+                  />
+                </Poll>
+                :
+                null
+              }
+              {(isUnsponsored) ?
+                <Flag styleClass={'warning period period-unsponsored'} url={url} label={i18n.t('moloch-flag-unsponsored')} tooltip={i18n.t('moloch-open-proposal')} />
+              :
+                null
+              }
+              {(proposal.cancelled) ?
+                <Flag styleClass={'warning period period-cancelled'} url={url} label={i18n.t('moloch-flag-cancelled')} tooltip={i18n.t('moloch-open-proposal')} />
+                :
+                null
+              }
+            </div>
           }
           <Social url={url} description={proposal.details}>
             <Stamp url={url} timestamp={proposal.createdAt}  />

@@ -925,5 +925,6 @@
   "moloch-open-proposal": "See proposal activity.",
   "recent-votes": "Recent votes.",
   "go-back": "Go Back",
-  "search-short": "Search DAOs..."
+  "search-short": "Search DAOs...",
+  "see-proposal-details": "See proposal details."
 }

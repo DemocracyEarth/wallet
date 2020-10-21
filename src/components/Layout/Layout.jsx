@@ -50,9 +50,6 @@ const Layout = (props) => {
     view = routerView.SEARCH;
   }
 
-  console.log(param);
-  console.log(view);
-
   if (props.mobileMenu) {
     return (
       <Burger address={renderAddress} view={view} proposalId={proposalId} param={param} />

@@ -7225,6 +7225,21 @@ mark {
   height: 55px;
 }
 
+.details {
+  background-color: #e6e0ee;
+  font-size: 0.7em;
+  margin: 0px 0px 20px;
+  display: inline-block;
+  color: #580173;
+  border-radius: 15px;
+  padding: 0px 10px 0px 15px;
+}
+
+.details:hover {
+  color: white;
+  text-decoration: none;
+  background-color: #580173;
+}
 
 @media (max-width: 767px) {
 
@@ -7262,7 +7277,7 @@ mark {
   .ReactTags__tagInput { 
     width: 100%;
   }
-  
+
   .ReactTags__tagInputField {
     width: 100%;
   }
