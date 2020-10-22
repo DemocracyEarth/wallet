@@ -26,15 +26,20 @@ import Expand from 'components/Expand/Expand';
 import { query } from 'components/Timeline/queries';
 import { config } from 'config'
 import { defaults, view as routerView, period as routerPeriod } from 'lib/const';
-import { uniqBy, orderBy as _orderBy, sortBy, findLastIndex } from 'lodash';
+import { uniqBy, orderBy as _orderBy } from 'lodash';
 import { getDescription } from 'components/Post/Post';
 
 import i18n from 'i18n';
+
 import notFound from 'images/not-found.svg';
 import ethereum from 'images/ethereum.svg';
 import ethereumActive from 'images/ethereum-active.svg';
 import hand from 'images/hand.svg';
 import handActive from 'images/hand-active.svg';
+import thumbUp from 'images/thumb-up.svg';
+import thumbUpActive from 'images/thumb-up-active.svg';
+import thumbDown from 'images/thumb-down.svg';
+import thumbDownActive from 'images/thumb-down-active.svg';
 
 import 'styles/Dapp.css';
 
@@ -205,11 +210,17 @@ const Feed = (props) => {
       const url = `/proposal/${proposal.id}`;
 
       let status;
+      let handIcon = hand;
+      let handIconActive = handActive;
       if (proposal.didPass && proposal.processed) {
         status = 'PASSED';
+        handIcon = thumbUp;
+        handIconActive = thumbUpActive;
       }
       if (!proposal.didPass && proposal.processed) {
         status = 'FAILED';
+        handIcon = thumbDown;
+        handIconActive = thumbDownActive;
       }
       if (!proposal.processed) {
         status = 'PENDING';
@@ -300,7 +311,7 @@ const Feed = (props) => {
             </Contract>
           </Expand>
           <Expand url={url} label={voterCount} open={(props.view === routerView.PROPOSAL)}
-            icon={hand} iconActive={handActive}
+            icon={handIcon} iconActive={handIconActive}
           >
             {(isPoll) ?
               <Poll>

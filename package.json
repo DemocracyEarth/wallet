@@ -36,6 +36,7 @@
     "react-spinners": "^0.9.0",
     "react-switch": "^5.0.1",
     "react-tag-input": "^6.4.3",
+    "react-tiny-link": "^3.6.0",
     "web3": "^1.2.11",
     "web3modal": "^1.9.0",
     "xml-js": "^1.6.11"

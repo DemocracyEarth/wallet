@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import parser from 'html-react-parser';
 import { withRouter } from "react-router-dom";
+import { ReactTinyLink } from 'react-tiny-link'
 
 import i18n from 'i18n';
 import { wrapURLs } from 'utils/strings';
@@ -96,6 +97,13 @@ class Post extends Component {
                   (this.state.link) ?
                     <div className="title-description">
                       <a href={this.state.link} target="_blank" rel="noopener noreferrer" onClick={(e) => { e.stopPropagation(); }}>{this.state.link}</a>
+                      {/*<ReactTinyLink
+                        cardSize="small"
+                        showGraphic={true}
+                        maxLine={2}
+                        minLine={1}
+                        url={this.state.link}
+                      />*/}
                     </div>
                     :
                     null

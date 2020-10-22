@@ -1154,6 +1154,24 @@ blockquote {
   margin-left: 0px;
 }
 
+.react_tinylink_card {
+  border-radius: 15px;
+  margin: 15px 0px;
+  box-shadow:none;
+}
+
+.react_tinylink_card_footer_description,
+.react_tinylink_card_content_description,
+.react_tinylink_card_content_header_description {
+  font-size: 0.9em;
+  line-height: 1.4em;
+}
+
+.link-card {
+  margin: 10px 0px;
+  display: inline-block;
+}
+
 .vote {
   display: block;
   width: 100%;
