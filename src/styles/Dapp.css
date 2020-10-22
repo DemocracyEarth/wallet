@@ -1764,6 +1764,7 @@ blockquote {
   font-weight: 300;
 }
 
+
 .identity-label.identity-label-micro.identity-label-post {
   display: inline;
   overflow: hidden;
@@ -8230,9 +8231,6 @@ width: 1px;
   margin-top: 10px;
   margin-bottom: 10px;
   float: left;
-  border: 1px solid #e8e2ef;
-  border-radius: 50px;
-  background-color: #e8e2ef;
 }
 
 h4 {
@@ -8824,7 +8822,7 @@ h4 {
 }
 
 .dao {
-  float:right;
+  float: right;
 }
 
 .date-info {

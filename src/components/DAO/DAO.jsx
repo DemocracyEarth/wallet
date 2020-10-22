@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import ApolloClient, { gql, InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, useQuery } from '@apollo/react-hooks';
@@ -11,6 +11,7 @@ import Search, { includeInSearch } from 'components/Search/Search';
 
 import i18n from 'i18n';
 import { config } from 'config'
+import flag from 'images/flag.svg';
 import 'styles/Dapp.css';
 
 const client = new ApolloClient({
@@ -28,30 +29,19 @@ export const GET_DAO = `
 }
 `;
 
-const makeBlockie = require('ethereum-blockies-base64');
-
 /**
 * @summary renders a post in the timeline
 */
 const DAOQuery = ({ publicAddress, width, height, format }) => {
   const { loading, error, data } = useQuery(gql(GET_DAO.replace('{{molochAddress}}', publicAddress)));
 
-  const image = makeBlockie(publicAddress);
+  const image = flag;
   const url = `/dao/${publicAddress}`;
   const finalWidth = width || '24px';
   const finalHeight = height || '24px';
 
   if (loading) {
-    if (format === 'searchBar') return null;
-    return (
-      <div className="dao">
-        <div className="avatar-editor">
-          <div className="identity-peer">
-            <div className="option-placeholder identity-placeholder" />
-          </div>
-        </div>
-      </div>
-    );
+    return null;
   }
   if (error) return `Error! ${error}`;
 
@@ -72,7 +62,7 @@ const DAOQuery = ({ publicAddress, width, height, format }) => {
     <div className="dao">
       {(format === 'plainText') ?
         <div>
-          <img src={image} className="symbol dao-pic" alt="" style={{ width: finalWidth, height: finalHeight }} />
+          <img src={image} className="symbol dao-pic dao-pic-sidebar" alt="" style={{ width: finalWidth, height: finalHeight }} />
           <div className="identity-peer">
             {(label.length > gui.MAX_LENGTH_ACCOUNT_NAMES) ? `${label.substring(0, gui.MAX_LENGTH_ACCOUNT_NAMES)}...` : label}
           </div>
@@ -81,7 +71,7 @@ const DAOQuery = ({ publicAddress, width, height, format }) => {
         <div className="avatar-editor">
           <img src={image} className="symbol dao-pic" alt="" style={{ width: finalWidth, height: finalHeight }} />
           <div className="identity-peer">
-            <Link to={url} title={publicAddress} className="identity-label identity-label-micro" onClick={(e) => { e.stopPropagation(); }}>
+            <Link to={url} title={publicAddress} className="identity-label identity-label-micro identity-label-dao" onClick={(e) => { e.stopPropagation(); }}>
               {(label.length > gui.MAX_LENGTH_ACCOUNT_NAMES) ? `${label.substring(0, gui.MAX_LENGTH_ACCOUNT_NAMES)}...` : label}
             </Link>
           </div>

@@ -89,6 +89,7 @@ class Search extends React.Component {
     if (document.getElementsByClassName('ReactTags__tagInputField')[0]) {
       document.getElementsByClassName('ReactTags__tagInputField')[0].addEventListener('paste', this.handlePaste);
       document.getElementsByClassName('ReactTags__tagInputField')[0].addEventListener('keydown', this.handleInputChange);
+      document.getElementsByClassName('ReactTags__tagInputField')[0].blur();
     }
   }
 
