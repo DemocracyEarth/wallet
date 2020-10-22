@@ -207,7 +207,7 @@ const Feed = (props) => {
           description={proposal.details} memberAddress={proposal.proposer}
           daoAddress={daoAddress}
         >
-          <Expand url={url} label={i18n.t('see-proposal-details')} open={!(props.view === routerView.HOME || props.view === routerView.SEARCH)}
+          <Expand url={url} label={i18n.t('see-proposal-details')} open={(props.view === routerView.PROPOSAL)}
             icon={ethereum} iconActive={ethereumActive}
           >
             <Contract hidden={noConditions} view={props.view} href={url}>
@@ -269,7 +269,7 @@ const Feed = (props) => {
               }
             </Contract>
           </Expand>
-          <Expand url={url} label={voterCount} open={!(props.view === routerView.HOME || props.view === routerView.SEARCH)}
+          <Expand url={url} label={voterCount} open={(props.view === routerView.PROPOSAL)}
             icon={hand} iconActive={handActive}
           >
             {(isPoll) ?

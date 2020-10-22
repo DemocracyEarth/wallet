@@ -7255,8 +7255,7 @@ mark {
 }
 
 .details:active {
-  background-color: var(--menu-sidebar-selected);
-  border: 1px solid var(--menu-sidebar-selected);
+  border: 1px solid #e6e0ee;
 }
 
 .toggle-box {
@@ -7271,7 +7270,7 @@ mark {
 }
 
 .details-wrapper {
-  padding: 0px 10px 0px;
+  padding: 1px 10px 0px;
   margin-top: 0px;
   border-radius: 10px;
   margin-bottom: 20px;
