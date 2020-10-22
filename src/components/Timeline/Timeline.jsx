@@ -36,10 +36,10 @@ import ethereum from 'images/ethereum.svg';
 import ethereumActive from 'images/ethereum-active.svg';
 import hand from 'images/hand.svg';
 import handActive from 'images/hand-active.svg';
-import thumbUp from 'images/thumb-up.svg';
-import thumbUpActive from 'images/thumb-up-active.svg';
-import thumbDown from 'images/thumb-down.svg';
-import thumbDownActive from 'images/thumb-down-active.svg';
+import thumbUp from 'images/approved.svg';
+import thumbUpActive from 'images/approved-active.svg';
+import thumbDown from 'images/rejected.svg';
+import thumbDownActive from 'images/rejected-active.svg';
 
 import 'styles/Dapp.css';
 
