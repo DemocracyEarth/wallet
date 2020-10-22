@@ -461,9 +461,9 @@
   "post-as": "Post as",
   "always-on": "Always On",
   "now": "Now.",
-  "voter": "voter.",
-  "voters": "voters.",
-  "no-voters": "No voters.",
+  "voter": "voter",
+  "voters": "voters",
+  "no-voters": "No voters",
   "back-to-top": "Back to top.",
   "no-members-found": "No citizens found.",
   "you": "You",
@@ -926,7 +926,8 @@
   "recent-votes": "Recent votes.",
   "go-back": "Go Back",
   "search-short": "Search DAOs...",
-  "see-proposal-details": "Proposal details.",
-  "see-proposal-vote": "Result.",
-  "see-proposal-vote-count": "<strong>{{totalVoters}}</strong> {{voterLabel}}"
+  "see-proposal-details": "Proposal details",
+  "see-proposal-vote": "Result",
+  "see-proposal-vote-count": "<strong>{{totalVoters}}</strong> {{voterLabel}}",
+  "proposal-value": "Proposal for <strong>{{value}} {{symbol}}</strong>"
 }

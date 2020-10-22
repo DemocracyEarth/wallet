@@ -8,7 +8,7 @@ import Account from 'components/Account/Account';
 import Post from 'components/Post/Post';
 import Stamp from 'components/Stamp/Stamp';
 import Parameter from 'components/Parameter/Parameter';
-import Token from 'components/Token/Token';
+import Token, { getBalanceLabel } from 'components/Token/Token';
 import Countdown from 'components/Countdown/Countdown';
 import Poll from 'components/Poll/Poll';
 import Choice from 'components/Choice/Choice';
@@ -26,7 +26,7 @@ import Expand from 'components/Expand/Expand';
 import { query } from 'components/Timeline/queries';
 import { config } from 'config'
 import { defaults, view as routerView, period as routerPeriod } from 'lib/const';
-import { uniqBy, orderBy as _orderBy } from 'lodash';
+import { uniqBy, orderBy as _orderBy, sortBy, findLastIndex } from 'lodash';
 import { getDescription } from 'components/Post/Post';
 
 import i18n from 'i18n';
@@ -96,6 +96,29 @@ const client = new ApolloClient({
 const _getPercentage = (percentageAmount, remainder) => {
   return parseFloat((percentageAmount * 100) / (percentageAmount + remainder), 10);
 };
+
+const _getProposalValue = (proposal) => {
+  let value;
+  let symbol;
+  let hasValue = false;
+  if (proposal.paymentRequested && proposal.paymentRequested !== '0') {
+    value = getBalanceLabel(proposal.paymentRequested, proposal.paymentTokenDecimals);
+    symbol = proposal.paymentTokenSymbol;
+    hasValue = true;
+  } else if (proposal.tributeOffered && proposal.tributeOffered !== '0') {
+    value = getBalanceLabel(proposal.tributeOffered, proposal.tributeTokenDecimals);
+    symbol = proposal.tributeTokenSymbol;
+    hasValue = true;
+  } else if (proposal.sharesRequested && proposal.sharesRequested !== '0') {
+    value = getBalanceLabel(proposal.sharesRequested, 0);
+    symbol = i18n.t('shares');
+    hasValue = true;
+  }
+  if (hasValue) {
+    return i18n.t('proposal-value', { value, symbol })
+  }
+  return i18n.t('see-proposal-details');
+}
 
 const Feed = (props) => {
   const { address, first, skip, orderBy, orderDirection, proposalId, param } = props;
@@ -201,13 +224,15 @@ const Feed = (props) => {
       const voterLabel = (Number(totalVoters) === 1) ? i18n.t('voter') : i18n.t('voters');
       const voterCount = (Number(totalVoters) > 0) ? i18n.t('see-proposal-vote-count', { totalVoters, voterLabel }) : i18n.t('no-voters')
 
+      const proposalValue = _getProposalValue(proposal);
+
       return (
         <Post
           key={proposal.id} accountAddress={accountAddress} href={url}
           description={proposal.details} memberAddress={proposal.proposer}
           daoAddress={daoAddress}
         >
-          <Expand url={url} label={i18n.t('see-proposal-details')} open={(props.view === routerView.PROPOSAL)}
+          <Expand url={url} label={proposalValue} open={(props.view === routerView.PROPOSAL)}
             icon={ethereum} iconActive={ethereumActive}
           >
             <Contract hidden={noConditions} view={props.view} href={url}>
