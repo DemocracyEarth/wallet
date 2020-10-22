@@ -14,12 +14,6 @@ const Contract = (props) => {
   }
   return (
     <div className="countdown">
-      <div className="countdown-label countdown-label">
-        <img className="url-icon icon-up2" alt="" src={conditions} /> {i18n.t('moloch-proposal-conditions')}
-      </div>
-      <div className="countdown-timer-bar">
-        <div className="countdown-timer" style={{ width: '0%' }} />
-      </div>
       <div className="smart-contract">
         {props.children}
       </div>

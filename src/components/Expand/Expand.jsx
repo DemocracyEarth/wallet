@@ -35,26 +35,17 @@ export default class Expand extends Component {
       logo: this.props.icon,
     };
 
-    this.mouseEnter = this.mouseEnter.bind(this);
-    this.mouseLeave = this.mouseLeave.bind(this);
+    this.mouseToggle = this.mouseToggle.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
 
-  mouseEnter() {
-    this.setState({ logo: this.props.iconActive })
+  mouseToggle() {
     if (this.state.open) {
+      this.setState({ logo: this.props.iconActive })
       return this.setState({ img: arrowUpActive })
     } else {
-      return this.setState({ img: arrowDownActive })
-    }
-  }
-
-  mouseLeave() {
-    this.setState({ logo: this.props.icon })
-    if (this.state.open) {
-      return this.setState({ img: arrowUp });
-    } else {
-      return this.setState({ img: arrowDown });
+      this.setState({ logo: this.props.icon })
+      return this.setState({ img: arrowDown })
     }
   }
 
@@ -62,7 +53,7 @@ export default class Expand extends Component {
     e.preventDefault();
     e.stopPropagation();
     this.setState({ open: !this.state.open });
-    if (this.state.open) { this.setState({ img: arrowDownActive }) } else { this.setState({ img: arrowUpActive }) };
+    if (this.state.open) { this.setState({ img: arrowDown }); this.setState({ logo: this.props.icon }) } else { this.setState({ img: arrowUpActive }); this.setState({ logo: this.props.iconActive }) };
   }
 
   getStyle() {
@@ -70,12 +61,12 @@ export default class Expand extends Component {
   }
 
   getImage() {
-    return (this.state.open) ? this.setState({ img: arrowUp }) : this.setState({ img: arrowDown });;
+    return (this.state.open) ? this.setState({ img: arrowUpActive }) : this.setState({ img: arrowDownActive });;
   }
   render() {
     return (
       <>
-        <Link to={this.props.url} className={this.getStyle()} onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave} onClick={this.handleClick}>
+        <Link to={this.props.url} className={this.getStyle()} onMouseEnter={this.mouseToggle} onMouseLeave={this.mouseToggle} onClick={this.handleClick}>
           <img className="details-icon details-icon-logo" alt="" src={this.state.logo} />
           {parser(this.props.label)}
           <img className="details-icon" alt="" src={this.state.img} />

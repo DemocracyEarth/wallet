@@ -1311,11 +1311,12 @@ blockquote {
   border-color: rgb(255 255 255);
   border-radius: 8px;
   background-image: none;
-  cursor: pointer;
+  /* cursor: pointer; */
   box-shadow: 0 2px 8px 0 hsla(0, 0%, 72%, 21%);
   color: #000;
 }
 
+/*
 .vote.vote-search.vote-feed:hover {
   color: #0d0d17;
   margin-top: -2px;
@@ -1328,6 +1329,8 @@ blockquote {
   margin-bottom: 21px;
   box-shadow: 0 2px 6px 0 hsla(0, 0%, 72%, 21%);
 }
+*/
+
 
 .vote.vote-search.vote-feed.vote-empty {
   border-style: none;
@@ -3225,8 +3228,8 @@ blockquote {
 
 .warning-list {
   min-height: 15px;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-top: 10px;
+  margin-bottom: 0px;
 }
 
 .path {
@@ -7228,29 +7231,36 @@ mark {
 .details {
   background-color: #e6e0ee;
   font-size: 0.7em;
-  margin: 0px 10px 20px 0px;
-  display: inline-block;
+  margin: 0px 10px 10px 0px;
+  display: block;
+  clear: both;
   border: 1px solid #e6e0ee;
   color: var(--menu-sidebar-selected);
   border-radius: 15px;
   padding: 0px 10px 0px 15px;
+  /* float: left; */
+  width: max-content;
+  position: relative;
 }
 
 .details.details-open {
   border: 1px solid var(--menu-sidebar-selected);
+  background-color: var(--menu-sidebar-selected);
+  color: white;
 }
 
 .details:hover {
-  color: white;
   text-decoration: none;
   border: 1px solid var(--menu-sidebar-selected);
-  background-color: var(--menu-sidebar-selected);
 }
 
 .details:active {
-  color: white;
-  text-decoration: none;
-  border: 1px solid #e6e0ee;
+  background-color: var(--menu-sidebar-selected);
+  border: 1px solid var(--menu-sidebar-selected);
+}
+
+.toggle-box {
+  margin:15px 0;
 }
 
 .details-icon {
@@ -7261,8 +7271,13 @@ mark {
 }
 
 .details-wrapper {
-  padding: 5px;
-  margin-top: -20px;
+  padding: 0px 10px 0px;
+  margin-top: 0px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  background-color: #fcfcfc;
+  border: 1px solid #d9c8de;
+  box-shadow: inset 0px 0px 4px 0px #0000000d;
 }
 
 .details-icon.details-icon-logo {
@@ -8002,7 +8017,7 @@ width: 1px;
 
 .countdown {
     clear: both;
-    margin: 5px 0px 5px;
+    margin: 1px 0px -1px;
 }
 
 .countdown-label {
@@ -8086,9 +8101,9 @@ width: 1px;
   padding: 0px 15px 10px;
   border-radius: 5px;
   text-align: center;
-  margin: 10px 15px 10px 0px;
+  margin: 10px 15px 5px 0px;
   color: #5a0075;
-  border: 1px solid #f2eff5;
+  border: 1px solid #e6e0ee;
   min-width: 140px;
   background: var(--proposal-bar-color);
   float: left;
@@ -8100,7 +8115,7 @@ width: 1px;
   color: #7d849f;
   line-height: 28px;
   margin: 0px -15px 6px;
-  background-color: #F0EEF4;
+  background-color: #e6e0ee;
   font-size: 11px;
   font-weight: 400;
   border-top-left-radius: 4px;
@@ -8838,7 +8853,7 @@ h4 {
 
 .poll-survey {
   display: block;
-  margin: 10px -5px 15px;
+  margin: 10px -5px -5px;
   padding: 0px;
 }
 

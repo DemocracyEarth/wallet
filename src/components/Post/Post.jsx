@@ -61,7 +61,7 @@ class Post extends Component {
   }
 
   handleClick() {
-    this.props.history.push(this.props.href);
+    // this.props.history.push(this.props.href);
   }
 
   render() {

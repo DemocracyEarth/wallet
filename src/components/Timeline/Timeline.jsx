@@ -31,8 +31,8 @@ import { getDescription } from 'components/Post/Post';
 
 import i18n from 'i18n';
 import notFound from 'images/not-found.svg';
-import detail from 'images/detail.svg';
-import detailActive from 'images/detail-active.svg';
+import ethereum from 'images/ethereum.svg';
+import ethereumActive from 'images/ethereum-active.svg';
 import hand from 'images/hand.svg';
 import handActive from 'images/hand-active.svg';
 
@@ -208,7 +208,7 @@ const Feed = (props) => {
           daoAddress={daoAddress}
         >
           <Expand url={url} label={i18n.t('see-proposal-details')} open={!(props.view === routerView.HOME || props.view === routerView.SEARCH)}
-            icon={detail} iconActive={detailActive}
+            icon={ethereum} iconActive={ethereumActive}
           >
             <Contract hidden={noConditions} view={props.view} href={url}>
               {(!noSponsor) ?
@@ -254,12 +254,16 @@ const Feed = (props) => {
                 null
               }
               {(proposal.whitelist) ?
-                <Toggle label={i18n.t('moloch-token-whitelist')} checked={true} disabled={true} />
+                <Parameter label={i18n.t('moloch-token-whitelist')}>
+                  <Toggle checked={true} disabled={true} />
+                </Parameter>
                 :
                 null
               }
               {(proposal.guildkick) ?
-                <Toggle label={i18n.t('moloch-token-guildkick')} checked={true} disabled={true} />
+                <Parameter label={i18n.t('moloch-token-guildkick')}>
+                  <Toggle checked={true} disabled={true} />
+                </Parameter>
                 :
                 null
               }
@@ -273,7 +277,7 @@ const Feed = (props) => {
                 <Countdown
                   now={timestamp}
                   votingPeriodBegins={proposal.votingPeriodStarts} votingPeriodEnds={proposal.votingPeriodEnds}
-                  gracePeriodEnds={proposal.gracePeriodEnds} totalVoters={totalVoters}
+                  gracePeriodEnds={proposal.gracePeriodEnds}
                 />
                 <Survey>
                   <Choice

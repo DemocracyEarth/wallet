@@ -28,16 +28,11 @@ export default class Toggle extends Component {
   
   render() {
     return (
-      <div className="toggle">
-        <div className="toggle-label">
-          {this.props.label}
-        </div>
-        <div className="toggle-switch">
-          <Switch onChange={this.handleChange} checked={this.state.checked} 
-            disabled={this.props.disabled} checkedIcon={config.component.toggle.checkedIcon} uncheckedIcon={config.component.toggle.uncheckedIcon} 
-            height={config.component.toggle.height} width={config.component.toggle.width} onColor={config.component.toggle.onColor} activeBoxShadow={config.component.toggle.activeBoxShadow}
-          />
-        </div>
+      <div className="toggle-box">
+        <Switch onChange={this.handleChange} checked={this.state.checked}
+          disabled={this.props.disabled} checkedIcon={config.component.toggle.checkedIcon} uncheckedIcon={config.component.toggle.uncheckedIcon}
+          height={config.component.toggle.height} width={config.component.toggle.width} onColor={config.component.toggle.onColor} activeBoxShadow={config.component.toggle.activeBoxShadow}
+        />
       </div>
     );
   }
