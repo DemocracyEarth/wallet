@@ -97,6 +97,11 @@ const _getPercentage = (percentageAmount, remainder) => {
   return parseFloat((percentageAmount * 100) / (percentageAmount + remainder), 10);
 };
 
+/**
+ * @summary display the value of this proposal in label of expander button
+ * @param {object} proposal obtained from query
+ * @return {string} with label
+ */
 const _getProposalValue = (proposal) => {
   let value;
   let symbol;
