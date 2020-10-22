@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 
 import arrowDown from 'images/arrow-down.svg';
 import arrowDownActive from 'images/arrow-down-active.svg';
-import arrowUp from 'images/arrow-up.svg';
 import arrowUpActive from 'images/arrow-up-active.svg';
 
 import 'styles/Dapp.css';
