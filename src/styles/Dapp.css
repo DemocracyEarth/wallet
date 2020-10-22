@@ -1160,6 +1160,12 @@ blockquote {
   box-shadow:none;
 }
 
+.expanders {
+  display: inline-block;
+  margin: 0px 0px 10px;
+  width: 100%;
+}
+
 .react_tinylink_card_footer_description,
 .react_tinylink_card_content_description,
 .react_tinylink_card_content_header_description {
@@ -4048,7 +4054,7 @@ blockquote {
   display: inline-block;
   overflow: hidden;
   margin: 10px auto;
-  padding: 0px 10px 0px 0px;
+  padding: 0px 20px 0px 0px;
   border-radius: 5px;
   color: #7d849f;
   font-size: 12px;
@@ -4108,7 +4114,7 @@ blockquote {
 
 .micro-button.micro-button-feed {
   display: block;
-  margin: 0px;
+  margin: 2px 0px 0px;
   float: left;
 }
 
@@ -7249,7 +7255,7 @@ mark {
 .details {
   background-color: #e6e0ee;
   font-size: 0.7em;
-  margin: 0px 10px 10px 0px;
+  margin: 0px 10px 15px 0px;
   display: block;
   clear: both;
   border: 1px solid #e6e0ee;
@@ -7289,7 +7295,7 @@ mark {
 
 .details-wrapper {
   padding: 1px 10px 0px;
-  margin-top: 0px;
+  margin-top: -5px;
   border-radius: 10px;
   margin-bottom: 20px;
   background-color: #fcfcfc;
@@ -7785,7 +7791,7 @@ body, h4, h1, h2 {
 }
 
 .post-footer {
-  margin: 0px -5px;
+  margin: -10px -5px;
 }
 
 .login-label-subtitle {

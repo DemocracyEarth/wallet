@@ -929,5 +929,6 @@
   "see-proposal-details": "Proposal details",
   "see-proposal-vote": "Result",
   "see-proposal-vote-count": "<strong>{{totalVoters}}</strong> {{voterLabel}}",
-  "proposal-value": "Proposal for <strong>{{value}} {{symbol}}</strong>"
+  "proposal-value": "Proposal for <strong>{{value}} {{symbol}}</strong>",
+  "open-proposal": "Open proposal"
 }
