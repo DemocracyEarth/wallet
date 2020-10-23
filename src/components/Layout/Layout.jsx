@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import Menu from 'components/Menu/Menu';
 import Timeline from 'components/Timeline/Timeline';
@@ -20,9 +20,6 @@ import 'styles/Dapp.css';
 */
 const Layout = (props) => {
   const { dao, address, period, proposal, token, date, search } = useParams();
-  const location = useLocation();
-
-  console.log(location);
 
   // defaults
   let view = routerView.HOME;
