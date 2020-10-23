@@ -108,12 +108,18 @@ export default class Dapp extends Component {
 
     this.onConnect = this.onConnect.bind(this);
     this.reset = this.reset.bind(this);
+    this.resize = this.resize.bind(this);
   }
 
   async componentDidMount() {
     if (this.web3Modal.cachedProvider) {
       this.onConnect();
     }
+    window.addEventListener('resize', this.resize)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.resize)
   }
 
   async onConnect() {
@@ -131,6 +137,7 @@ export default class Dapp extends Component {
       connected: true,
       address,
       networkId,
+      mobile: (window.innerWidth < 768)
     });
   }
 
@@ -158,6 +165,14 @@ export default class Dapp extends Component {
     });
   }
 
+  resize() {
+    if (window.innerWidth < 768 && !this.state.mobile) {
+      this.setState({ mobile: true });
+    } else if (window.innerWidth >= 768 && this.state.mobile) {
+      this.setState({ mobile: false });
+    }
+  }
+
   async reset() {
     const { web3 } = this.state;
     if (web3 && web3.currentProvider && web3.currentProvider.close) {
@@ -183,7 +198,11 @@ export default class Dapp extends Component {
                     <Browser address={this.state.address} walletConnect={this.onConnect} walletReset={this.reset} />
                     <Layout address={this.state.address} />
                   </div>
-                  <Layout address={this.state.address} mobileMenu={true} />
+                  {(this.state.mobile) ?
+                    <Layout address={this.state.address} mobileMenu={true} />
+                    :
+                    null
+                  }                  
                 </>
               }
             />
