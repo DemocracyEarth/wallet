@@ -7,9 +7,11 @@ import Timeline from 'components/Timeline/Timeline';
 import Ledger from 'components/Ledger/Ledger';
 import Burger from 'components/Menu/Burger';
 import TabMenu, { showMain, showAlternative } from 'components/TabMenu/TabMenu';
+import DocumentMeta from 'react-document-meta';
 
 import i18n from 'i18n';
-import { view as routerView } from 'lib/const'
+import { view as routerView } from 'lib/const';
+import twitterCard from 'images/twitter-card.png';
 
 import 'styles/Dapp.css';
 
@@ -27,31 +29,56 @@ const Layout = (props) => {
   let param = '';
 
   // context specific
+  let description = i18n.t('meta-description');
   if (dao) {
     renderAddress = dao; 
     view = routerView.DAO;
+    description = i18n.t('meta-dao', { address: dao });
   } else if (address) { 
-  renderAddress = address;
-    view = routerView.ADDRESS; 
+    renderAddress = address;
+    view = routerView.ADDRESS;
+    description = i18n.t('meta-address', { address });
   } else if (period) { 
     periodEpoch = period;
     view = routerView.PERIOD;
+    description = i18n.t('meta-period', { period }).charAt(0).toUpperCase() + i18n.t('meta-period', { period }).slice(1); ;
   } else if (proposal) {
     proposalId = proposal;
     view = routerView.PROPOSAL;
+    description = i18n.t('meta-proposal', { proposal });
   } else if (token) {
     param = token.toUpperCase();
     view = routerView.TOKEN;
+    description = i18n.t('meta-token', { token: token.toUpperCase() });
   } else if (date) {
     param = date;
     view = routerView.DATE;
+    description = i18n.t('meta-date', { date });
   } else if (search) {
     param = search;
     view = routerView.SEARCH;
+    description = i18n.t('meta-search', { search });
   }
 
-  console.log(param);
-  console.log(view);
+  const meta = {
+    title: i18n.t('meta-title'),
+    description,
+    canonical: window.location.href,
+    meta: {
+      charset: 'utf-8',
+      name: {
+        keywords: i18n.t('meta-keywords')
+      },
+      property: {
+        'og:title': i18n.t('meta-title'),
+        'og:type': 'article',
+        'og:image': twitterCard,
+        'og:site_name': i18n.t('meta-title'),
+        'twitter:site': i18n.t('meta-title'),
+        'twitter:title': i18n.t('meta-description')
+      }
+    }
+  };
 
   if (props.mobileMenu) {
     return (
@@ -60,7 +87,7 @@ const Layout = (props) => {
   }
 
   return (
-    <>
+    <DocumentMeta {...meta}>
       <div id="app" className="app">
         <div id="menu" className="left">
           <Menu address={renderAddress} view={view} proposalId={proposalId} param={param} />
@@ -85,7 +112,7 @@ const Layout = (props) => {
           </div>
         </div>
       </div>
-    </>
+    </DocumentMeta>
   );
 };
 

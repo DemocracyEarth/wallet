@@ -21,12 +21,16 @@ const _check404 = (image_url) => {
   }
 }
 
+const _getBalanceLabel = (quantity, decimals) => {
+  const zeroes = (!decimals) ? 0 : Number(decimals);
+  return numeral(new BigNumber(quantity).dividedBy(Math.pow(10, zeroes)).toNumber()).format('0,0.[00]');
+}
+
 /**
 * @summary renders a post in the timeline
 */
 const Token = (props) => {
-  const zeroes = (!props.decimals) ? 0 : Number(props.decimals);
-  const balance = numeral(new BigNumber(props.quantity).dividedBy(Math.pow(10, zeroes)).toNumber()).format('0,0.[00]');
+  const balance = _getBalanceLabel(props.quantity, props.decimals);
 
   let imageExists = false;
   let image;
@@ -70,3 +74,4 @@ Token.propTypes = {
 };
 
 export default Token;
+export const getBalanceLabel = _getBalanceLabel;

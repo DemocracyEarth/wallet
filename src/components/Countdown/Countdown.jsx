@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import i18n from 'i18n';
 
 import calendar from 'images/calendar.svg';
-import vote from 'images/vote.svg';
 import 'styles/Dapp.css';
 
 const _getDayExpression = (days) => {
@@ -101,9 +100,6 @@ export default class Countdown extends Component {
   render() {
     return (
       <div className="countdown">
-        <div className="countdown-label countdown-votes">
-          <img className="url-icon icon-up2" alt="" src={vote} /> {this.getVotersLabel()}
-        </div>
         <div id="timer" className="countdown-label">
           <img className="url-icon icon-up2" alt="" src={calendar} /> {this.getPollLabel()}
         </div>

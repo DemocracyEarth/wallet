@@ -1,6 +1,4 @@
 import React from 'react';
-
-import { shortenCryptoName } from 'utils/strings';
 import { WithContext as ReactTags } from 'react-tag-input';
 import { withRouter } from 'react-router-dom';
 
@@ -36,6 +34,7 @@ const _includeInSearch = (url, text, kind) => {
   }
 };
 
+/*
 const _dynamicTitle = (label) => {
   const web3 = new Web3();
   if (web3.utils.isAddress(label)) {
@@ -46,6 +45,7 @@ const _dynamicTitle = (label) => {
   }
   return label;
 };
+*/
 
 const _getTags = (contextTag) => {
   if (!contextTag) {
@@ -56,6 +56,7 @@ const _getTags = (contextTag) => {
   return [finalTag];
 };
 
+/*
 const _replacementText = (tag) => {
   if (tag.id.slice(0, 9) === '/address/') {
     return i18n.t('search-user', { searchTerm: _dynamicTitle(tag.id.slice(9, 51)) });
@@ -64,6 +65,7 @@ const _replacementText = (tag) => {
   }
   return _dynamicTitle(tag.text);
 };
+*/
 
 class Search extends React.Component {
   static propTypes = {
@@ -89,6 +91,7 @@ class Search extends React.Component {
     if (document.getElementsByClassName('ReactTags__tagInputField')[0]) {
       document.getElementsByClassName('ReactTags__tagInputField')[0].addEventListener('paste', this.handlePaste);
       document.getElementsByClassName('ReactTags__tagInputField')[0].addEventListener('keydown', this.handleInputChange);
+      document.getElementsByClassName('ReactTags__tagInputField')[0].blur();
     }
   }
 

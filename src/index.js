@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactGA from 'react-ga';
 import Dapp from 'components/Dapp/Dapp';
-import * as serviceWorker from './serviceWorker';
 import { config } from 'config';
 
 ReactGA.initialize(config.keys.analytics, { debug: true });

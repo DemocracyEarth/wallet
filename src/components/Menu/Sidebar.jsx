@@ -235,7 +235,7 @@ const MenuQuery = ({ address, scrollUp, view, proposalId, param }) => {
   const sorted = _getDAOs(data);
   const daoList = sorted.map((item, key) => {
     return (
-      <Item key={key} href={`/dao/${item.id}`} score={item.counter}>
+      <Item key={key} href={`/dao/${item.id}`} score={null}>
         <DAO publicAddress={item.id} width="16px" height="16px" format="plainText" />
       </Item>
     );

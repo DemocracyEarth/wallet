@@ -150,7 +150,7 @@ export default class Choice extends Component {
   render() {
     return (
       <div className="poll-choice">
-        <button className="button half choice" onClick={this.vote}>
+        <button className="button half choice"> {/* onClick={this.vote} */}
           <div className="checkbox-mini check-mini-unselected-box">
             <div className="checkmark_kick check-mini-unselected-mark" />
             <div className="checkmark_stem check-mini-unselected-mark" />

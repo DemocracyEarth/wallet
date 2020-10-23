@@ -1,5 +1,4 @@
 import Web3Modal from 'web3modal';
-import UniLogin from '@unilogin/provider';
 import { Authereum } from 'authereum';
 import Torus from '@toruslabs/torus-embed';
 import WalletConnectProvider from '@walletconnect/web3-provider';
@@ -14,9 +13,6 @@ const providerOptions = {
     options: {
       key: config.keys.fortmatic,
     },
-  },
-  unilogin: {
-    package: UniLogin,
   },
   authereum: {
     package: Authereum,
