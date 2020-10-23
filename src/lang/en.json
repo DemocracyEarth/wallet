@@ -150,6 +150,7 @@
   "email-sample": "satoshi@nakamoto.org",
   "password-sample": "make it long.",
   "sign-in": "Connect Wallet",
+  "connect": "Connect",
   "password": "Password",
   "use-social-media": "or use:",
   "facebook": "Facebook",
@@ -876,10 +877,11 @@
   "search-user": "👤 {{searchTerm}}",
   "search-collective": "🏳️ {{searchTerm}}",
   "search-contract": "💡 {{searchTerm}}",
+  "search-token": "💰 {{searchTerm}}",
   "search-summon": "🔥 Summon of {{dao}}",
   "search-ragequit": "💸 Ragequit of {{shares}} shares from {{dao}} by {{address}}",
   "search-default": "🔍 {{searchTerm}}",
-  "search-dates": "📅 {{searchTerm}}",
+  "search-date": "📅 {{searchTerm}}",
   "moloch-unsponsored": "Unsponsored Proposal",
   "voted-yes": "<strong>Yes</strong> to <em>{{proposal}}</em>",
   "voted-no": "<strong>No</strong> to <em>{{proposal}}</em>",
@@ -941,5 +943,7 @@
   "meta-token": "Proposals with {{token}} token.",
   "meta-proposal": "Votes on a DAO proposal.",
   "meta-date": "Proposals from {{date}}.",
-  "meta-search": "Proposals mentioning {{search}}."
+  "meta-search": "Proposals mentioning {{search}}.",
+  "failure": "😱 Blockchain unreachable<br>{{errorMessage}}<br><a href='https://status.thegraph.com/' target='_blank'>Check network status.</a>",
+  "failure-short": "😱"
 }

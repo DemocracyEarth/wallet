@@ -136,6 +136,16 @@ class Browser extends Component {
       return <Timeline param={this.props.match.params.search} view={routerView.SEARCH} format="searchBar" />
     }
 
+    if (this.props.match.params.token) {
+      return <Search contextTag={{ id: this.props.match.params.token, text: i18n.t('search-token', { searchTerm: this.props.match.params.token }) }} />
+    }
+
+    if (this.props.match.params.date) {
+      let options = { year: 'numeric', month: 'short', day: 'numeric' };
+      var today = new Date(this.props.match.params.date);
+      return <Search contextTag={{ id: this.props.match.params.date, text: i18n.t('search-date', { searchTerm: today.toLocaleDateString('en-US', options) }) }} />
+    }
+
     return <Search />;
   }
 

@@ -9,6 +9,8 @@ import { query } from 'components/Menu/queries';
 import { reduce, sortBy } from 'lodash';
 import { view as routerView } from 'lib/const'
 
+import parser from 'html-react-parser';
+
 import back from 'images/back.svg';
 import i18n from 'i18n';
 import 'styles/Dapp.css';
@@ -231,7 +233,15 @@ const MenuQuery = ({ address, scrollUp, view, proposalId, param }) => {
       </div>
     );
   }
-  if (error) return `Error! ${error}`;
+  if (error) return (
+    <div id="sidebar" className={_getScrollClass(scrollUp)}>
+      <div className="menu">
+        <div className="empty failure">
+          {parser(i18n.t('failure', { errorMessage: error }))}
+        </div>
+      </div>
+    </div>
+  );
 
   const defaultMenu = _getMenu(view, data, address, param);
   const sorted = _getDAOs(data);
