@@ -8239,6 +8239,13 @@ h4 {
   font-weight: 400;
 }
 
+.submenu {
+  padding: 10px 10px 2px;
+  background-color: #f0f0f5;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
 @media (max-width: 991px) {
  h4 {
     margin-bottom: 10px;

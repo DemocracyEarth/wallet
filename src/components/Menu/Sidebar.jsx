@@ -44,7 +44,7 @@ const _getMenu = (view, data, address, param) => {
   }
 
   return (
-    <div>
+    <div className="submenu">
       <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[0])}`} score={(atHome) ? null : _getProposalCount(data.proposals, defaultLabels[0])} key={0} href={(atHome) ? `/` : baseRoute } />
       <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[1])}`} score={(atHome) ? null : _getProposalCount(data.proposals, defaultLabels[1])} key={1} href={(atHome) ? '/period/queue' : `${baseRoute}/period/queue`} />
       <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[2])}`} score={(atHome) ? null : _getProposalCount(data.proposals, defaultLabels[2])} key={2} href={(atHome) ? '/period/voting' : `${baseRoute}/period/voting`} />
@@ -223,7 +223,9 @@ const MenuQuery = ({ address, scrollUp, view, proposalId, param }) => {
             <div className="separator">
               {_getHeadline('proposals', address, view)}
             </div>
-            {<div className="option-placeholder identity-placeholder" />}
+            <div className="submenu">
+              <div className="option-placeholder identity-placeholder" />
+            </div>
           </div>
         </div>
       </div>
@@ -251,10 +253,14 @@ const MenuQuery = ({ address, scrollUp, view, proposalId, param }) => {
       </div>
       {
       (daoList.length > 0) ?
-      daoList
+        <div className="submenu">
+          {daoList}
+        </div>
       :
-      <div className="empty">
-        {i18n.t('no-memberships-found')}
+      <div className="submenu">
+        <div className="empty">
+          {i18n.t('no-memberships-found')}
+        </div>
       </div>
       }
     </>
@@ -269,7 +275,9 @@ const MenuQuery = ({ address, scrollUp, view, proposalId, param }) => {
         menuList
         :
         <div className="empty">
-          {i18n.t('no-proposals-found')}
+          <div className="submenu">
+            {i18n.t('no-proposals-found')}
+          </div>
         </div>
       }
     </>
@@ -278,10 +286,12 @@ const MenuQuery = ({ address, scrollUp, view, proposalId, param }) => {
   const goBack = (
     <>
       {(window.innerWidth < 768) ?
-        <Item sharp hideEmpty={false} icon={back} label={`${i18n.t('all-daos')}`} href={'/'} />
+        <div className="submenu">
+          <Item sharp hideEmpty={false} icon={back} label={`${i18n.t('all-daos')}`} href={'/'} />
+        </div>
         :
         null
-      }      
+      }          
     </>
   )
 
@@ -366,7 +376,9 @@ export default class Sidebar extends Component {
       <div id="sidebar" className={_getScrollClass(this.state.scrollUp)}>
         <div className="menu">
           {(this.props.view === routerView.SEARCH) ?
-            <Item sharp hideEmpty={false} icon={back} label={`${i18n.t('all-daos')}`} href={'/'} />  
+            <div className="submenu">
+              <Item sharp hideEmpty={false} icon={back} label={`${i18n.t('all-daos')}`} href={'/'} />  
+            </div>
             :
             null
           }
