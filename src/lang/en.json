@@ -930,5 +930,16 @@
   "see-proposal-vote": "Result",
   "see-proposal-vote-count": "<strong>{{totalVoters}}</strong> {{voterLabel}}",
   "proposal-value": "Proposal for <strong>{{value}} {{symbol}}</strong>",
-  "open-proposal": "Open proposal"
+  "open-proposal": "Open proposal",
+  "meta-title": "Democracy Earth",
+  "meta-description": "Explore and participate in Distributed Autonomous Organizations.",
+  "meta-keywords": "digital, democracy, dao, distributed, autonomous, organizations, ethereum, moloch, aragon, governance, smart contracts, token",
+  "meta-canonical": "https://democracy.earth/#",
+  "meta-dao": "Exploring activity in DAO at {{address}}.",
+  "meta-address": "Votes and proposals by {{address}}.",
+  "meta-period": "{{period}} proposals.",
+  "meta-token": "Proposals with {{token}} token.",
+  "meta-proposal": "Votes on a DAO proposal.",
+  "meta-date": "Proposals from {{date}}.",
+  "meta-search": "Proposals mentioning {{search}}."
 }
