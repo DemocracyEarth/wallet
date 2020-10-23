@@ -40,6 +40,9 @@ export default class Stamp extends Component {
         return countdown(date);
       default:
     }
+    if (window.innerWidth < 768) {
+      return timeSince(date);
+    }
     return timeComplete(date);
   }
 

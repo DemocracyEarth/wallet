@@ -165,7 +165,7 @@ class Browser extends Component {
               <div className="hero-button hero-button-mobile hero-signin">
                 <div id="collective-login" className="hero-button hero-button-mobile">
                   <button className="hero-menu-link hero-menu-link-signin" target="_blank" onClick={this.props.walletConnect}>
-                    {i18n.t('sign-in')}
+                    {(window.innerWidth < 768) ? i18n.t('connect') : i18n.t('sign-in')}
                   </button>
                 </div>
               </div>
