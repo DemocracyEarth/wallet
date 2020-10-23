@@ -44,7 +44,7 @@ const DAOQuery = ({ publicAddress, width, height, format }) => {
   if (loading) {
     return null;
   }
-  if (error) return <div className="empty failure">{parser(i18n.t('failure-short', { errorMessage: error }))}</div>;
+  if (error) return null /* <div className="empty failure">{parser(i18n.t('failure-short', { errorMessage: error }))}</div>; */
 
   const daoTitle = findLast(data.moloches, { id: publicAddress }).title;
   let label;

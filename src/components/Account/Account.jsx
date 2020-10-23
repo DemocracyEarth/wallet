@@ -87,7 +87,7 @@ const AccountQuery = ({ publicAddress, width, height, format, hidden }) => {
         {(format === 'searchBar') ?
           <Search />
           :
-          <div className="empty failure">{parser(i18n.t('failure-short', { errorMessage: error }))}</div>
+          null
         }
       </>
     );
