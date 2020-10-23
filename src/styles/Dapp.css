@@ -8086,14 +8086,18 @@ width: 1px;
 
 .empty {
   border: 1px solid #7c839d;
-  font-size: 0.8em;
-  padding: 0px 5px;
+  padding: 5px;
   text-align: center;
   border-radius: 5px;
   color: #7c839d;
-  line-height: 28px;
+  line-height: 24px;
   background-color: #f0eef4;
   margin-bottom: 20px;
+  font-size:14px;
+}
+
+.empty.failure {
+  margin: 10px;
 }
 
 .sidebar-label.sidebar-label-dao {
@@ -9014,6 +9018,13 @@ h4 {
 
   .details.details-open {
     border: 1px solid var(--menu-sidebar-selected);
+  }
+
+  .submenu {
+    padding: 0px;
+    background-color: transparent;
+    border-radius: 0px;
+    margin-bottom: 0px;
   }
 }
 

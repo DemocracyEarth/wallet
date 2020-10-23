@@ -943,5 +943,7 @@
   "meta-token": "Proposals with {{token}} token.",
   "meta-proposal": "Votes on a DAO proposal.",
   "meta-date": "Proposals from {{date}}.",
-  "meta-search": "Proposals mentioning {{search}}."
+  "meta-search": "Proposals mentioning {{search}}.",
+  "failure": "😱 Blockchain unreachable<br>{{errorMessage}}<br><a href='https://status.thegraph.com/' target='_blank'>Check network status.</a>",
+  "failure-short": "😱"
 }

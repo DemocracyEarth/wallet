@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 
 import { shortenCryptoName } from 'utils/strings';
 import Search, { includeInSearch } from 'components/Search/Search';
+import parser from 'html-react-parser';
 
 import i18n from 'i18n';
 import { config } from 'config'
@@ -81,7 +82,15 @@ const AccountQuery = ({ publicAddress, width, height, format, hidden }) => {
         </div>
       );
     }
-    if (error) return `Error! ${error}`;
+    if (error) return (
+      <>
+        {(format === 'searchBar') ?
+          <Search />
+          :
+          <div className="empty failure">{parser(i18n.t('failure-short', { errorMessage: error }))}</div>
+        }
+      </>
+    );
 
     if (data) {
       label = getENSName(data, publicAddress);

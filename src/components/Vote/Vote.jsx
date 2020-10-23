@@ -12,6 +12,7 @@ import Transaction from 'components/Transaction/Transaction';
 
 import { view as routerView } from 'lib/const';
 
+import parser from 'html-react-parser';
 import { query } from 'components/Vote/queries'
 import { config } from 'config'
 import 'styles/Dapp.css';
@@ -60,7 +61,7 @@ const VoteQuery = (props) => {
       </div>
     );
   }
-  if (error) return `Error! ${error}`;
+  if (error) return <div className="empty failure">{parser(i18n.t('failure', { errorMessage: error }))}</div>;
 
   if (data.votes.length === 0) {
     return (

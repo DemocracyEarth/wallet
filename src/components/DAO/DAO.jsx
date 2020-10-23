@@ -8,6 +8,7 @@ import { findLast } from 'lodash';
 import { gui } from 'lib/const';
 import { shortenCryptoName } from 'utils/strings';
 import Search, { includeInSearch } from 'components/Search/Search';
+import parser from 'html-react-parser';
 
 import i18n from 'i18n';
 import { config } from 'config'
@@ -43,7 +44,7 @@ const DAOQuery = ({ publicAddress, width, height, format }) => {
   if (loading) {
     return null;
   }
-  if (error) return `Error! ${error}`;
+  if (error) return <div className="empty failure">{parser(i18n.t('failure-short', { errorMessage: error }))}</div>;
 
   const daoTitle = findLast(data.moloches, { id: publicAddress }).title;
   let label;

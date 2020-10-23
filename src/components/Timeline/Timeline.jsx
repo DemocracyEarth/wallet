@@ -30,6 +30,7 @@ import { uniqBy, orderBy as _orderBy } from 'lodash';
 import { getDescription } from 'components/Post/Post';
 
 import i18n from 'i18n';
+import parser from 'html-react-parser';
 
 import notFound from 'images/not-found.svg';
 import ethereum from 'images/ethereum.svg';
@@ -165,7 +166,15 @@ const Feed = (props) => {
     }
     return <Placeholder />;
   } 
-  if (error) return <p>Error!</p>;
+  if (error) return (
+    <>
+      {(props.format === 'searchBar') ?
+        <Search />
+        :
+        <div className="empty failure">{parser(i18n.t('failure', { errorMessage: error }))}</div>
+      }
+    </>
+  );
 
   const accountAddress = props.address;
   const timestamp = Math.floor(new Date().getTime() / 1000);
