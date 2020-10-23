@@ -8252,7 +8252,7 @@ h4 {
 
   .parameter {
     padding: 0px 10px 10px;
-    margin: 10px 10px 0px 0px;
+    margin: 10px 5px 0px 0px;
   }
 
   .details-wrapper {
@@ -8991,10 +8991,6 @@ h4 {
     top: -55px;
   }
 
-  .period { 
-    margin-bottom: -3px;
-  }
-
   .parameter-value {
     margin-top: 7px;
   }
@@ -9003,6 +8999,15 @@ h4 {
 @media (max-width: 767px) {
   .tab-menu {
     position: absolute;
+  }
+
+  .details:hover {
+    text-decoration: none;
+    border: 1px solid #e6e0ee;
+  }
+
+  .details.details-open {
+    border: 1px solid var(--menu-sidebar-selected);
   }
 }
 
