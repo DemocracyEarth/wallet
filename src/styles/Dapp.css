@@ -6495,11 +6495,6 @@ blockquote {
   .vote.vote-search {
     box-shadow: none;
   }
-  .vote.vote-search.vote-feed:hover {
-    margin-top: 0px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1);
-  }
   .vote.vote-search.vote-feed.vote-delegation {
     box-shadow: none;
   }
@@ -6650,9 +6645,6 @@ blockquote {
   .shadow-fake {
     left: 25px;
     right: 25px;
-  }
-  .warning-list {
-    margin-bottom: 10px;
   }
   .path {
     left: 50px;
@@ -7292,10 +7284,12 @@ mark {
   height: 20px;
   margin-left: 5px;
   margin-bottom: 2px;
+  margin-top: 4px;
+  float: right;
 }
 
 .details-wrapper {
-  padding: 1px 10px 0px;
+  padding: 1px 12px 0px;
   margin-top: -5px;
   border-radius: 10px;
   margin-bottom: 20px;
@@ -7306,7 +7300,8 @@ mark {
 
 .details-icon.details-icon-logo {
   margin-left: -11px;
-  margin-right: 7px
+  margin-right: 7px;
+  float: left;
 }
 
 
@@ -7338,7 +7333,7 @@ mark {
   .search-wrapper-logged {
     position: absolute;
     left: 0px;
-    right: 170px;
+    right: 100px;
     padding: 0px 0px 0px 0px;
     margin-left: 50px;
   }
@@ -8257,6 +8252,11 @@ h4 {
 
   .parameter {
     padding: 0px 10px 10px;
+    margin: 10px 10px 0px 0px;
+  }
+
+  .details-wrapper {
+    padding: 1px 12px 5px;
   }
 
   .parameter-name {
@@ -8417,7 +8417,7 @@ h4 {
 
 .topbar {
   z-index: 12800;
-  position: fixed;
+  position: absolute;
   top: 0px;
   opacity: 1;
   height: 55px;
@@ -8989,6 +8989,14 @@ h4 {
   .tab-menu.tab-menu-up {
     transition: top 0.15s ease 0.15s;
     top: -55px;
+  }
+
+  .period { 
+    margin-bottom: -3px;
+  }
+
+  .parameter-value {
+    margin-top: 7px;
   }
 }
 
