@@ -6714,7 +6714,6 @@ blockquote {
   }
   .menu-item {
     font-weight: 400;
-    margin-bottom: 5px;
   }
   .content.content-feed {
     padding-right: 10px;
@@ -8239,6 +8238,13 @@ h4 {
   font-weight: 400;
 }
 
+.submenu {
+  padding: 10px 10px 2px;
+  background-color: #f0f0f5;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
 @media (max-width: 991px) {
  h4 {
     margin-bottom: 10px;
@@ -8252,7 +8258,7 @@ h4 {
 
   .parameter {
     padding: 0px 10px 10px;
-    margin: 10px 10px 0px 0px;
+    margin: 10px 5px 0px 0px;
   }
 
   .details-wrapper {
@@ -8991,10 +8997,6 @@ h4 {
     top: -55px;
   }
 
-  .period { 
-    margin-bottom: -3px;
-  }
-
   .parameter-value {
     margin-top: 7px;
   }
@@ -9003,6 +9005,15 @@ h4 {
 @media (max-width: 767px) {
   .tab-menu {
     position: absolute;
+  }
+
+  .details:hover {
+    text-decoration: none;
+    border: 1px solid #e6e0ee;
+  }
+
+  .details.details-open {
+    border: 1px solid var(--menu-sidebar-selected);
   }
 }
 

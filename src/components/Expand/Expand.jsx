@@ -30,8 +30,8 @@ export default class Expand extends Component {
     super(props);
     this.state = {
       open: props.open,
-      img: arrowDown,
-      logo: this.props.icon,
+      img: (props.open) ? arrowDownActive : arrowDown,
+      logo: (props.open) ? this.props.iconActive : this.props.icon,
     };
 
     this.mouseToggle = this.mouseToggle.bind(this);
