@@ -8,7 +8,6 @@ import { findLast } from 'lodash';
 import { gui } from 'lib/const';
 import { shortenCryptoName } from 'utils/strings';
 import Search, { includeInSearch } from 'components/Search/Search';
-import parser from 'html-react-parser';
 
 import i18n from 'i18n';
 import { config } from 'config'

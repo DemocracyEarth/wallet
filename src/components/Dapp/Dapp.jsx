@@ -58,6 +58,7 @@ const INITIAL_STATE = {
   showModal: false,
   pendingRequest: false,
   result: null,
+  mobile: (window.innerWidth < 768)
 };
 
 const routes = [
@@ -137,7 +138,6 @@ export default class Dapp extends Component {
       connected: true,
       address,
       networkId,
-      mobile: (window.innerWidth < 768)
     });
   }
 
@@ -198,7 +198,7 @@ export default class Dapp extends Component {
                     <Browser address={this.state.address} walletConnect={this.onConnect} walletReset={this.reset} />
                     <Layout address={this.state.address} />
                   </div>
-                  {(this.state.mobile) ?
+                  {(this.state.mobile || (window.innerWidth < 768)) ?
                     <Layout address={this.state.address} mobileMenu={true} />
                     :
                     null
