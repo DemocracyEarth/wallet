@@ -34,7 +34,7 @@ class ItemLink extends Component {
   }
 
   getTagStyle() {
-    return `sidebar-tag ${(this.props.location.pathname === this.props.href) ? 'sidebar-tag-selected' : null}`;
+    return `sidebar-tag ${(`${this.props.location.pathname}${this.props.location.search}` === this.props.href) ? 'sidebar-tag-selected' : null}`;
   }
 
   getLabelStyle() {
@@ -48,14 +48,15 @@ class ItemLink extends Component {
     if (this.props.icon) {
       return this.props.icon;
     }
-    return (this.props.location.pathname === this.props.href) ? paperActive : paper;
+    console.log(this.props.location);
+    return (`${this.props.location.pathname}${this.props.location.search}` === this.props.href) ? paperActive : paper;
   }
 
   render() {
     if (this.props.hideEmpty && this.props.score === 0) return null;
     return (
-      <NavLink to={this.props.href} 
-        isActive={(match, location) => { if (!match) { return false }; return (location.pathname === this.props.href); }} 
+      <NavLink to={this.props.href} exact={true}
+        isActive={(match, location) => { if (!match) { return false }; console.log(`${location.pathname}${location.search}`); console.log(this.props.href); return (`${location.pathname}${location.search}` === this.props.href); }} 
         className="menu-item" activeClassName="menu-item-selected"
       >
         {(this.props.sharp) ?

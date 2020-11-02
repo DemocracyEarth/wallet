@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation, useRouteMatch } from 'react-router-dom';
 
 import Menu from 'components/Menu/Menu';
 import Timeline from 'components/Timeline/Timeline';
@@ -28,6 +28,11 @@ const Layout = (props) => {
   let periodEpoch = '';
   let param = '';
 
+  console.log(props);
+  console.log(useParams());
+  console.log(useLocation());
+  console.log(useRouteMatch());
+  
   // context specific
   let description = i18n.t('meta-description');
   if (dao) {
