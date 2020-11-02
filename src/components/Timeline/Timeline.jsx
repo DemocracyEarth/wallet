@@ -236,6 +236,7 @@ const Feed = (props) => {
       }
       if (proposal.cancelled) {
         status = 'CANCELLED';
+        return null;
       }
 
       const noShares = (proposal.sharesRequested === '0');
