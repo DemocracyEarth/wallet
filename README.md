@@ -1,11 +1,17 @@
 <p align="center">
 <img src="docs/democracy-earth.png" width="400" title="Democracy Earth Foundation">
+</p>
 
+<p align="center">
 Explore and participate in Digital Autonomous Organizations (DAOs).
+</p>
 
+<p align="center">
 [![Join the chat at https://discord.com/invite/HGsyGXw](https://img.shields.io/discord/490948346773635102?color=%237289DA&label=DemocracyEarth&logo=discord&logoColor=white)](https://discord.com/invite/HGsyGXw)
+</p>
 
-<img src="docs/sovereign-screenshot-2020.png" width="800" title="Democracy Earth Dapp Screenshot 2019">
+<p align="center">
+<img src="docs/sovereign-screenshot-2020.png" width="800" title="Democracy Earth Dapp Screenshot 2020">
 </p>
 
 ## Features
