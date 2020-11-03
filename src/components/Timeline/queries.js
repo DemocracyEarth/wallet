@@ -57,7 +57,8 @@ const PROPOSAL_DATA = `
 `
 
 const VARIABLE_ADDRESS = `$address: Bytes,`;
-const QUERY_ADDRESS = `, molochAddress: $address`;
+const QUERY_MOLOCH_ADDRESS = `, molochAddress: $address`;
+const QUERY_PROPOSER_ADDRESS = `, proposer: $address`;
 
 const QUERY_VOTING = `
   query addressProposals($now: Int, {{molochAddressDeclaration}} $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
@@ -78,6 +79,22 @@ const QUERY_APPROVED = `
 const QUERY_REJECTED = `
   query addressProposals($now: Int, {{molochAddressDeclaration}} $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
     proposals(where: { processed: true, didPass: false {{molochAddressQuery}} }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`
+
+const QUERY_GRACE = `
+  query addressProposals($now: Int, {{molochAddressDeclaration}} $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { gracePeriodEnds_gt: $now, votingPeriodEnds_lt: $now {{molochAddressQuery}} }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`
+
+const QUERY_QUEUE = `
+  query addressProposals($now: Int, {{molochAddressDeclaration}} $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { votingPeriodStarts_gte: $now {{molochAddressQuery}} }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
       ${PROPOSAL_DATA}
     }
   }
@@ -140,21 +157,9 @@ export const query = {
       }
     }
   `,
-  GET_PROPOSALS_PERIOD_QUEUE: gql`
-    query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-      proposals(where: { votingPeriodStarts_gte: $now }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
-        ${PROPOSAL_DATA}
-      }
-    }
-  `,
+  GET_PROPOSALS_PERIOD_QUEUE: gql(QUERY_QUEUE.replace('{{molochAddressDeclaration}}', '').replace('{{molochAddressQuery}}', '')),
   GET_PROPOSALS_PERIOD_VOTING: gql(QUERY_VOTING.replace('{{molochAddressDeclaration}}', '').replace('{{molochAddressQuery}}', '')),
-  GET_PROPOSALS_PERIOD_GRACE: gql`
-    query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-      proposals(where: { gracePeriodEnds_gt: $now, votingPeriodEnds_lt: $now }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
-        ${PROPOSAL_DATA}
-      }
-    }
-  `,
+  GET_PROPOSALS_PERIOD_GRACE: gql(QUERY_GRACE.replace('{{molochAddressDeclaration}}', '').replace('{{molochAddressQuery}}', '')),
   GET_PROPOSALS_PERIOD_READY: gql`
     query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
       proposals(where: { gracePeriodEnds_lt: $now, processed: false, sponsored: true }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
@@ -180,25 +185,37 @@ export const query = {
   `,
 };
 
-const _compose = (baseQuery, specific) => {
-
-}
-
 export const getQuery = (name, period) => {
   console.log(`period: ${period}`)
+  console.log(period);
+  console.log(name);
   let finalQuery;
   let onVariableLine;
   let onQueryLine
 
-  if (name === 'GET_PROPOSALS_DAO' && period !== null) {
-    onVariableLine = VARIABLE_ADDRESS;
-    onQueryLine = QUERY_ADDRESS;
+  if (period) {
+    if (name === 'GET_PROPOSALS_DAO') {
+      onVariableLine = VARIABLE_ADDRESS;
+      onQueryLine = QUERY_MOLOCH_ADDRESS;
+    } else if (name === 'GET_PROPOSALS_ADDRESS') {
+      onVariableLine = VARIABLE_ADDRESS;
+      onQueryLine = QUERY_PROPOSER_ADDRESS;
+    }
     switch (period) {
       case 'approved':
         finalQuery = QUERY_APPROVED.replace('{{molochAddressDeclaration}}', onVariableLine).replace('{{molochAddressQuery}}', onQueryLine);
         break;
       case 'rejected':
         finalQuery = QUERY_REJECTED.replace('{{molochAddressDeclaration}}', onVariableLine).replace('{{molochAddressQuery}}', onQueryLine);
+        break;
+      case 'grace':
+        finalQuery = QUERY_GRACE.replace('{{molochAddressDeclaration}}', onVariableLine).replace('{{molochAddressQuery}}', onQueryLine);
+        break;
+      case 'queue':
+        finalQuery = QUERY_QUEUE.replace('{{molochAddressDeclaration}}', onVariableLine).replace('{{molochAddressQuery}}', onQueryLine);
+        break;
+      case 'voting':
+        finalQuery = QUERY_VOTING.replace('{{molochAddressDeclaration}}', onVariableLine).replace('{{molochAddressQuery}}', onQueryLine);
         break;
       default:
     }

@@ -43,6 +43,7 @@ const Layout = (props) => {
     view = routerView.DAO;
     description = i18n.t('meta-dao', { address: dao });
   } else if (address) { 
+    periodEpoch = searchParams.get('period');
     renderAddress = address;
     view = routerView.ADDRESS;
     description = i18n.t('meta-address', { address });

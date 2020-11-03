@@ -81,7 +81,9 @@ const composeQuery = (view, field, period) => {
     case routerView.DATE:
       return query.GET_PROPOSALS_DATE;
     case routerView.ADDRESS:
-      return query.GET_PROPOSALS_ADDRESS;
+      console.log(`return getQuery('GET_PROPOSALS_ADDRESS', period);`);
+      console.log(`period: ${period}`);
+      return getQuery('GET_PROPOSALS_ADDRESS', period);
     case routerView.SEARCH:
       return query.GET_PROPOSALS_SEARCH;
     default:
