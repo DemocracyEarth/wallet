@@ -137,7 +137,7 @@ class Browser extends Component {
     }
 
     if (this.props.match.params.token) {
-      return <Search contextTag={{ id: this.props.match.params.token, text: i18n.t('search-token', { searchTerm: this.props.match.params.token }) }} />
+      return <Search contextTag={{ id: this.props.match.params.token, text: i18n.t('search-token', { searchTerm: this.props.match.params.token.toUpperCase() }) }} />
     }
 
     if (this.props.match.params.date) {
