@@ -190,7 +190,7 @@ export const getQuery = (name, period) => {
   let onVariableLine;
   let onQueryLine
 
-  if (name === 'GET_PROPOSALS_DAO') {
+  if (name === 'GET_PROPOSALS_DAO' && period !== null) {
     onVariableLine = VARIABLE_ADDRESS;
     onQueryLine = QUERY_ADDRESS;
     switch (period) {
@@ -205,7 +205,6 @@ export const getQuery = (name, period) => {
     return gql(finalQuery);
   }
 
-  if (!period) {
-    return query[name];
-  }
+  console.log(`name: ${name}`);
+  return query[name];
 }
