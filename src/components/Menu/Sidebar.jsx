@@ -48,12 +48,12 @@ const _getMenu = (view, data, address, param) => {
   return (
     <div className="submenu">
       <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[0])}`} score={(atHome) ? null : _getProposalCount(data.proposals, defaultLabels[0])} key={0} href={(atHome) ? `/` : baseRoute } />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[1])}`} score={(atHome) ? null : _getProposalCount(data.proposals, defaultLabels[1])} key={1} href={(atHome) ? '/period/queue' : `${baseRoute}/period/queue`} />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[2])}`} score={(atHome) ? null : _getProposalCount(data.proposals, defaultLabels[2])} key={2} href={(atHome) ? '/period/voting' : `${baseRoute}/period/voting`} />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[3])}`} score={(atHome) ? null : _getProposalCount(data.proposals, defaultLabels[3])} key={3} href={(atHome) ? '/period/grace' : `${baseRoute}/period/grace`} />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[4])}`} score={(atHome) ? null : _getProposalCount(data.proposals, defaultLabels[4])} key={4} href={(atHome) ? '/period/ready' : `${baseRoute}/period/ready`} />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[5])}`} score={(atHome) ? null : _getProposalCount(data.proposals, defaultLabels[5])} key={5} href={(atHome) ? '/period/rejected' : `${baseRoute}/period/rejected`} />
-      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[6])}`} score={(atHome) ? null : _getProposalCount(data.proposals, defaultLabels[6])} key={6} href={(atHome) ? '/period/approved' : `${baseRoute}/period/approved`} />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[1])}`} score={(atHome) ? null : _getProposalCount(data.proposals, defaultLabels[1])} key={1} href={(atHome) ? '/period/queue' : `${baseRoute}?period=queue`} />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[2])}`} score={(atHome) ? null : _getProposalCount(data.proposals, defaultLabels[2])} key={2} href={(atHome) ? '/period/voting' : `${baseRoute}?period=voting`} />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[3])}`} score={(atHome) ? null : _getProposalCount(data.proposals, defaultLabels[3])} key={3} href={(atHome) ? '/period/grace' : `${baseRoute}?period=grace`} />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[4])}`} score={(atHome) ? null : _getProposalCount(data.proposals, defaultLabels[4])} key={4} href={(atHome) ? '/period/ready' : `${baseRoute}?period=ready`} />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[5])}`} score={(atHome) ? null : _getProposalCount(data.proposals, defaultLabels[5])} key={5} href={(atHome) ? '/period/rejected' : `${baseRoute}?period=rejected`} />
+      <Item sharp hideEmpty={hideEmpty} label={`${i18n.t(defaultLabels[6])}`} score={(atHome) ? null : _getProposalCount(data.proposals, defaultLabels[6])} key={6} href={(atHome) ? '/period/approved' : `${baseRoute}?period=approved`} />
     </div>
   );
 };

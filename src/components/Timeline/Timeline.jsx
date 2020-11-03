@@ -23,7 +23,7 @@ import Search from 'components/Search/Search';
 import Paginator from 'components/Paginator/Paginator';
 import Expand from 'components/Expand/Expand';
 
-import { query } from 'components/Timeline/queries';
+import { getQuery } from 'components/Timeline/queries';
 import { config } from 'config'
 import { defaults, view as routerView, period as routerPeriod } from 'lib/const';
 import { uniqBy, orderBy as _orderBy } from 'lodash';
@@ -46,51 +46,42 @@ import 'styles/Dapp.css';
 
 /**
  * @summary retrieves the corresponding query for the timeline.
- * @param {string} view based on router context
  * @param {string} field if required for a specific query
  */
-const composeQuery = (view, field, period) => {
+const composeQuery = (view, period) => {
   switch (view) {
     case routerView.HOME:
-      return query.GET_PROPOSALS;
+      return getQuery('GET_PROPOSALS');
     case routerView.DAO:
-      return query.GET_PROPOSALS_DAO;
+      return getQuery('GET_PROPOSALS_DAO', period);
     case routerView.PROPOSAL:
-      return query.GET_PROPOSAL_ID;
+      return getQuery('GET_PROPOSAL_ID');
     case routerView.PERIOD:
       switch (period) {
         case routerPeriod.QUEUE:
-          return query.GET_PROPOSALS_PERIOD_QUEUE;
+          return getQuery('GET_PROPOSALS_PERIOD_QUEUE');
         case routerPeriod.VOTING:
-          return query.GET_PROPOSALS_PERIOD_VOTING;
+          return getQuery('GET_PROPOSALS_PERIOD_VOTING');
         case routerPeriod.GRACE:
-          return query.GET_PROPOSALS_PERIOD_GRACE;
+          return getQuery('GET_PROPOSALS_PERIOD_GRACE');
         case routerPeriod.READY:
-          return query.GET_PROPOSALS_PERIOD_READY;
+          return getQuery('GET_PROPOSALS_PERIOD_READY');
         case routerPeriod.REJECTED:
-          return query.GET_PROPOSALS_PERIOD_REJECTED;
+          return getQuery('GET_PROPOSALS_PERIOD_REJECTED');
         case routerPeriod.APPROVED:
-          return query.GET_PROPOSALS_PERIOD_APPROVED;
+          return getQuery('GET_PROPOSALS_PERIOD_APPROVED');
         default:
       }
       break;
     case routerView.TOKEN:
-      return query.GET_PROPOSALS_TOKEN;
+      return getQuery('GET_PROPOSALS_TOKEN', period);
     case routerView.DATE:
-      return query.GET_PROPOSALS_DATE;
+      return getQuery('GET_PROPOSALS_DATE', period);
     case routerView.ADDRESS:
-      return query.GET_PROPOSALS_ADDRESS;
+      return getQuery('GET_PROPOSALS_ADDRESS', period);
     case routerView.SEARCH:
-      return query.GET_PROPOSALS_SEARCH;
+      return getQuery('GET_PROPOSALS_SEARCH');
     default:
-      switch (field) {
-        case 'applicant':
-          return query.GET_PROPOSALS_APPLICANT;
-        case 'memberAddress':
-          return query.GET_PROPOSALS_MEMBER;
-        default:
-          return query.GET_PROPOSALS;
-      }
   }
 }
 
@@ -141,7 +132,7 @@ const Feed = (props) => {
     dateEnd = Math.floor((new Date(param).getTime() / 1000) + 86400).toString();
   }
 
-  const [getFeed, { data, loading, error }] = useLazyQuery(composeQuery(props.view, props.field, props.period), { variables: { address, first, skip, orderBy, orderDirection, now, proposalId, param, dateBegin, dateEnd } });
+  const [getFeed, { data, loading, error }] = useLazyQuery(composeQuery(props.view, props.period), { variables: { address, first, skip, orderBy, orderDirection, now, proposalId, param, dateBegin, dateEnd } });
 
   let isMounted = true;
   useEffect(() => {
@@ -236,6 +227,7 @@ const Feed = (props) => {
       }
       if (proposal.cancelled) {
         status = 'CANCELLED';
+        return null;
       }
 
       const noShares = (proposal.sharesRequested === '0');

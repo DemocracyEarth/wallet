@@ -36,7 +36,7 @@ const _getDescription = (description) => {
     const json = JSON.parse(description);
 
     content = {
-      title: json.title ? json.title : json,
+      title: json.title ? json.title : '',
       description: json.description ? wrapURLs(json.description) : '',
       link: (typeof json.link === 'function' || !json.link) ? '' : json.link,
     };
@@ -57,11 +57,6 @@ class Post extends Component {
   constructor(props) {
     super(props);
     this.state = _getDescription(this.props.description);
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick() {
-    // this.props.history.push(this.props.href);
   }
 
   render() {
@@ -72,7 +67,7 @@ class Post extends Component {
     includeInSearch(this.props.href, searchCache, 'search-contract');
 
     return (
-      <div className="vote vote-search vote-feed nondraggable vote-poll" onClick={this.handleClick}>
+      <div className="vote vote-search vote-feed nondraggable vote-poll">
         <div className="checkbox checkbox-custom">
           <div className="meta meta-search meta-bar">
             <Account publicAddress={this.props.memberAddress} width="16px" height="16px" />

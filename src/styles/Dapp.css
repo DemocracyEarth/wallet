@@ -7306,7 +7306,7 @@ h4 {
 
 .topbar {
   z-index: 12800;
-  position: absolute;
+  position: fixed;
   top: 0px;
   opacity: 1;
   height: 55px;
@@ -7367,6 +7367,10 @@ h4 {
   .left {
     box-shadow: none;
     margin-top: 55px;
+  }
+
+  .topbar {
+    position: absolute;
   }
 
 }
