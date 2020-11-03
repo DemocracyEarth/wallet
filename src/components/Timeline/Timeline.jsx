@@ -23,7 +23,7 @@ import Search from 'components/Search/Search';
 import Paginator from 'components/Paginator/Paginator';
 import Expand from 'components/Expand/Expand';
 
-import { query } from 'components/Timeline/queries';
+import { query, getQuery } from 'components/Timeline/queries';
 import { config } from 'config'
 import { defaults, view as routerView, period as routerPeriod } from 'lib/const';
 import { uniqBy, orderBy as _orderBy } from 'lodash';
@@ -54,7 +54,7 @@ const composeQuery = (view, field, period) => {
     case routerView.HOME:
       return query.GET_PROPOSALS;
     case routerView.DAO:
-      return query.GET_PROPOSALS_DAO;
+      return getQuery('GET_PROPOSALS_DAO', period);
     case routerView.PROPOSAL:
       return query.GET_PROPOSAL_ID;
     case routerView.PERIOD:
@@ -62,15 +62,17 @@ const composeQuery = (view, field, period) => {
         case routerPeriod.QUEUE:
           return query.GET_PROPOSALS_PERIOD_QUEUE;
         case routerPeriod.VOTING:
-          return query.GET_PROPOSALS_PERIOD_VOTING;
+          console.log(`return getQuery('GET_PROPOSALS_PERIOD_VOTING');`)
+          return getQuery('GET_PROPOSALS_PERIOD_VOTING');
+          // return query.GET_PROPOSALS_PERIOD_VOTING;
         case routerPeriod.GRACE:
           return query.GET_PROPOSALS_PERIOD_GRACE;
         case routerPeriod.READY:
           return query.GET_PROPOSALS_PERIOD_READY;
         case routerPeriod.REJECTED:
-          return query.GET_PROPOSALS_PERIOD_REJECTED;
+          return getQuery('GET_PROPOSALS_PERIOD_REJECTED');
         case routerPeriod.APPROVED:
-          return query.GET_PROPOSALS_PERIOD_APPROVED;
+          return getQuery('GET_PROPOSALS_PERIOD_APPROVED');
         default:
       }
       break;

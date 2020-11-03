@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useParams, useLocation, useRouteMatch } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 
 import Menu from 'components/Menu/Menu';
 import Timeline from 'components/Timeline/Timeline';
@@ -20,6 +20,7 @@ import 'styles/Dapp.css';
 */
 const Layout = (props) => {
   const { dao, address, period, proposal, token, date, search } = useParams();
+  const searchParams = new URLSearchParams(useLocation().search);
 
   // defaults
   let view = routerView.HOME;
@@ -28,14 +29,16 @@ const Layout = (props) => {
   let periodEpoch = '';
   let param = '';
 
-  console.log(props);
-  console.log(useParams());
+  console.log(searchParams);
+  console.log(searchParams.get('period'));
+
   console.log(useLocation());
-  console.log(useRouteMatch());
-  
+
   // context specific
   let description = i18n.t('meta-description');
   if (dao) {
+    periodEpoch = searchParams.get('period');
+    console.log(`periodEpoch: ${periodEpoch}`);
     renderAddress = dao; 
     view = routerView.DAO;
     description = i18n.t('meta-dao', { address: dao });
@@ -108,7 +111,7 @@ const Layout = (props) => {
             <div id="proposals" className="content content-feed max100">
               <div id="non-editable-feed">
                 <Timeline address={renderAddress} period={periodEpoch} view={view} proposalId={proposalId} param={param}
-                  field={'memberAddress'} first={25} skip={0} page={1} orderBy={'createdAt'} orderDirection={'desc'}  />
+                  field={'memberAddress'} first={25} skip={0} page={1} orderBy={'createdAt'} orderDirection={'desc'} />
               </div>
             </div>
           </div>

@@ -56,6 +56,33 @@ const PROPOSAL_DATA = `
   molochVersion
 `
 
+const VARIABLE_ADDRESS = `$address: Bytes,`;
+const QUERY_ADDRESS = `, molochAddress: $address`;
+
+const QUERY_VOTING = `
+  query addressProposals($now: Int, {{molochAddressDeclaration}} $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { votingPeriodStarts_lte: $now, votingPeriodEnds_gte: $now {{molochAddressQuery}} }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`;
+
+const QUERY_APPROVED = `
+  query addressProposals($now: Int, {{molochAddressDeclaration}} $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { processed: true, didPass: true {{molochAddressQuery}} }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`;
+
+const QUERY_REJECTED = `
+  query addressProposals($now: Int, {{molochAddressDeclaration}} $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { processed: true, didPass: false {{molochAddressQuery}} }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`
+
 export const query = {
   GET_PROPOSALS: gql`
     query addressProposals($first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
@@ -120,13 +147,7 @@ export const query = {
       }
     }
   `,
-  GET_PROPOSALS_PERIOD_VOTING: gql`
-    query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-      proposals(where: { votingPeriodStarts_lte: $now, votingPeriodEnds_gte: $now }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
-        ${PROPOSAL_DATA}
-      }
-    }
-  `,
+  GET_PROPOSALS_PERIOD_VOTING: gql(QUERY_VOTING.replace('{{molochAddressDeclaration}}', '').replace('{{molochAddressQuery}}', '')),
   GET_PROPOSALS_PERIOD_GRACE: gql`
     query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
       proposals(where: { gracePeriodEnds_gt: $now, votingPeriodEnds_lt: $now }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
@@ -141,20 +162,8 @@ export const query = {
       }
     }
   `,
-  GET_PROPOSALS_PERIOD_APPROVED: gql`
-    query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-      proposals(where: { processed: true, didPass: true }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
-        ${PROPOSAL_DATA}
-      }
-    }
-  `,
-  GET_PROPOSALS_PERIOD_REJECTED: gql`
-    query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-      proposals(where: { processed: true, didPass: false }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
-        ${PROPOSAL_DATA}
-      }
-    }
-  `,
+  GET_PROPOSALS_PERIOD_APPROVED: gql(QUERY_APPROVED.replace('{{molochAddressDeclaration}}', '').replace('{{molochAddressQuery}}', '')),
+  GET_PROPOSALS_PERIOD_REJECTED: gql(QUERY_REJECTED.replace('{{molochAddressDeclaration}}', '').replace('{{molochAddressQuery}}', '')),
   GET_PROPOSAL_ID: gql`
     query addressProposals($proposalId: String, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
       proposals(where: { id: $proposalId }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
@@ -170,3 +179,33 @@ export const query = {
     }
   `,
 };
+
+const _compose = (baseQuery, specific) => {
+
+}
+
+export const getQuery = (name, period) => {
+  console.log(`period: ${period}`)
+  let finalQuery;
+  let onVariableLine;
+  let onQueryLine
+
+  if (name === 'GET_PROPOSALS_DAO') {
+    onVariableLine = VARIABLE_ADDRESS;
+    onQueryLine = QUERY_ADDRESS;
+    switch (period) {
+      case 'approved':
+        finalQuery = QUERY_APPROVED.replace('{{molochAddressDeclaration}}', onVariableLine).replace('{{molochAddressQuery}}', onQueryLine);
+        break;
+      case 'rejected':
+        finalQuery = QUERY_REJECTED.replace('{{molochAddressDeclaration}}', onVariableLine).replace('{{molochAddressQuery}}', onQueryLine);
+        break;
+      default:
+    }
+    return gql(finalQuery);
+  }
+
+  if (!period) {
+    return query[name];
+  }
+}
