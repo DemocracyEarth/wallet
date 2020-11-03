@@ -55,11 +55,27 @@ const PROPOSAL_DATA = `
   gracePeriodEnds
   molochVersion
 `
-
 const VARIABLE_ADDRESS = `$address: Bytes,`;
 const QUERY_MOLOCH_ADDRESS = `, molochAddress: $address`;
 const QUERY_PROPOSER_ADDRESS = `, proposer: $address`;
-
+const VARIABLE_TOKEN_SYMBOL = `$param: String`;
+const QUERY_TOKEN_SYMBOL = `, tributeTokenSymbol: $param`;
+const VARIABLE_DATE = `$dateBegin: String, $dateEnd: String`;
+const QUERY_DATE_PARAM = `, createdAt_gte: $dateBegin, createdAt_lte: $dateEnd`;
+const QUERY_TOKEN = `
+  query addressProposals($param: String, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { tributeTokenSymbol: $param }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`;
+const QUERY_DATE = `
+  query addressProposals($dateBegin: String, $dateEnd: String, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { createdAt_gte: $dateBegin, createdAt_lte: $dateEnd }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`;
 const QUERY_VOTING = `
   query addressProposals($now: Int, {{molochAddressDeclaration}} $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
     proposals(where: { votingPeriodStarts_lte: $now, votingPeriodEnds_gte: $now {{molochAddressQuery}} }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
@@ -67,7 +83,6 @@ const QUERY_VOTING = `
     }
   }
 `;
-
 const QUERY_APPROVED = `
   query addressProposals($now: Int, {{molochAddressDeclaration}} $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
     proposals(where: { processed: true, didPass: true {{molochAddressQuery}} }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
@@ -75,7 +90,6 @@ const QUERY_APPROVED = `
     }
   }
 `;
-
 const QUERY_REJECTED = `
   query addressProposals($now: Int, {{molochAddressDeclaration}} $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
     proposals(where: { processed: true, didPass: false {{molochAddressQuery}} }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
@@ -83,7 +97,6 @@ const QUERY_REJECTED = `
     }
   }
 `
-
 const QUERY_GRACE = `
   query addressProposals($now: Int, {{molochAddressDeclaration}} $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
     proposals(where: { gracePeriodEnds_gt: $now, votingPeriodEnds_lt: $now {{molochAddressQuery}} }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
@@ -91,10 +104,16 @@ const QUERY_GRACE = `
     }
   }
 `
-
 const QUERY_QUEUE = `
   query addressProposals($now: Int, {{molochAddressDeclaration}} $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
     proposals(where: { votingPeriodStarts_gte: $now {{molochAddressQuery}} }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`
+const QUERY_READY = `
+  query addressProposals($now: Int, {{molochAddressDeclaration}} $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { gracePeriodEnds_lt: $now, processed: false, sponsored: true {{molochAddressQuery}} }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
       ${PROPOSAL_DATA}
     }
   }
@@ -129,13 +148,7 @@ export const query = {
       }
     }
   `,
-  GET_PROPOSALS_TOKEN: gql`
-    query addressProposals($param: String, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-      proposals(where: { tributeTokenSymbol: $param }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
-        ${PROPOSAL_DATA}
-      }
-    }
-  `,
+  GET_PROPOSALS_TOKEN: gql(QUERY_TOKEN),
   GET_PROPOSALS_TOKEN_PAYMENT: gql`
     query addressProposals($param: String, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
       proposals(where: { paymentTokenSymbol: $param }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
@@ -143,13 +156,7 @@ export const query = {
       }
     }
   `,
-  GET_PROPOSALS_DATE: gql`
-    query addressProposals($dateBegin: String, $dateEnd: String, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-      proposals(where: { createdAt_gte: $dateBegin, createdAt_lte: $dateEnd }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
-        ${PROPOSAL_DATA}
-      }
-    }
-  `,
+  GET_PROPOSALS_DATE: gql(QUERY_DATE),
   GET_PROPOSALS_DAO: gql`
     query addressProposals($address: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
       proposals(where: { molochAddress: $address }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
@@ -160,13 +167,7 @@ export const query = {
   GET_PROPOSALS_PERIOD_QUEUE: gql(QUERY_QUEUE.replace('{{molochAddressDeclaration}}', '').replace('{{molochAddressQuery}}', '')),
   GET_PROPOSALS_PERIOD_VOTING: gql(QUERY_VOTING.replace('{{molochAddressDeclaration}}', '').replace('{{molochAddressQuery}}', '')),
   GET_PROPOSALS_PERIOD_GRACE: gql(QUERY_GRACE.replace('{{molochAddressDeclaration}}', '').replace('{{molochAddressQuery}}', '')),
-  GET_PROPOSALS_PERIOD_READY: gql`
-    query addressProposals($now: Int, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-      proposals(where: { gracePeriodEnds_lt: $now, processed: false, sponsored: true }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
-        ${PROPOSAL_DATA}
-      }
-    }
-  `,
+  GET_PROPOSALS_PERIOD_READY: gql(QUERY_READY.replace('{{molochAddressDeclaration}}', '').replace('{{molochAddressQuery}}', '')),
   GET_PROPOSALS_PERIOD_APPROVED: gql(QUERY_APPROVED.replace('{{molochAddressDeclaration}}', '').replace('{{molochAddressQuery}}', '')),
   GET_PROPOSALS_PERIOD_REJECTED: gql(QUERY_REJECTED.replace('{{molochAddressDeclaration}}', '').replace('{{molochAddressQuery}}', '')),
   GET_PROPOSAL_ID: gql`
@@ -186,9 +187,6 @@ export const query = {
 };
 
 export const getQuery = (name, period) => {
-  console.log(`period: ${period}`)
-  console.log(period);
-  console.log(name);
   let finalQuery;
   let onVariableLine;
   let onQueryLine
@@ -200,6 +198,12 @@ export const getQuery = (name, period) => {
     } else if (name === 'GET_PROPOSALS_ADDRESS') {
       onVariableLine = VARIABLE_ADDRESS;
       onQueryLine = QUERY_PROPOSER_ADDRESS;
+    } else if (name === 'GET_PROPOSALS_TOKEN') {
+      onVariableLine = VARIABLE_TOKEN_SYMBOL;
+      onQueryLine = QUERY_TOKEN_SYMBOL;
+    } else if (name === 'GET_PROPOSALS_DATE') {
+      onVariableLine = VARIABLE_DATE;
+      onQueryLine = QUERY_DATE_PARAM;
     }
     switch (period) {
       case 'approved':
@@ -216,6 +220,9 @@ export const getQuery = (name, period) => {
         break;
       case 'voting':
         finalQuery = QUERY_VOTING.replace('{{molochAddressDeclaration}}', onVariableLine).replace('{{molochAddressQuery}}', onQueryLine);
+        break;
+      case 'ready':
+        finalQuery = QUERY_READY.replace('{{molochAddressDeclaration}}', onVariableLine).replace('{{molochAddressQuery}}', onQueryLine);
         break;
       default:
     }

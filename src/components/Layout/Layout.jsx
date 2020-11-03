@@ -38,7 +38,6 @@ const Layout = (props) => {
   let description = i18n.t('meta-description');
   if (dao) {
     periodEpoch = searchParams.get('period');
-    console.log(`periodEpoch: ${periodEpoch}`);
     renderAddress = dao; 
     view = routerView.DAO;
     description = i18n.t('meta-dao', { address: dao });
@@ -56,10 +55,12 @@ const Layout = (props) => {
     view = routerView.PROPOSAL;
     description = i18n.t('meta-proposal', { proposal });
   } else if (token) {
+    periodEpoch = searchParams.get('period');
     param = token.toUpperCase();
     view = routerView.TOKEN;
     description = i18n.t('meta-token', { token: token.toUpperCase() });
   } else if (date) {
+    periodEpoch = searchParams.get('period');
     param = date;
     view = routerView.DATE;
     description = i18n.t('meta-date', { date });

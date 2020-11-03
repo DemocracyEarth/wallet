@@ -52,23 +52,21 @@ import 'styles/Dapp.css';
 const composeQuery = (view, field, period) => {
   switch (view) {
     case routerView.HOME:
-      return query.GET_PROPOSALS;
+      return getQuery('GET_PROPOSALS');
     case routerView.DAO:
       return getQuery('GET_PROPOSALS_DAO', period);
     case routerView.PROPOSAL:
-      return query.GET_PROPOSAL_ID;
+      return getQuery('GET_PROPOSAL_ID');
     case routerView.PERIOD:
       switch (period) {
         case routerPeriod.QUEUE:
-          return query.GET_PROPOSALS_PERIOD_QUEUE;
+          return getQuery('GET_PROPOSALS_PERIOD_QUEUE');
         case routerPeriod.VOTING:
-          console.log(`return getQuery('GET_PROPOSALS_PERIOD_VOTING');`)
           return getQuery('GET_PROPOSALS_PERIOD_VOTING');
-          // return query.GET_PROPOSALS_PERIOD_VOTING;
         case routerPeriod.GRACE:
-          return query.GET_PROPOSALS_PERIOD_GRACE;
+          return getQuery('GET_PROPOSALS_PERIOD_GRACE');
         case routerPeriod.READY:
-          return query.GET_PROPOSALS_PERIOD_READY;
+          return getQuery('GET_PROPOSALS_PERIOD_READY');
         case routerPeriod.REJECTED:
           return getQuery('GET_PROPOSALS_PERIOD_REJECTED');
         case routerPeriod.APPROVED:
@@ -77,24 +75,14 @@ const composeQuery = (view, field, period) => {
       }
       break;
     case routerView.TOKEN:
-      return query.GET_PROPOSALS_TOKEN;
+      return getQuery('GET_PROPOSALS_TOKEN', period);
     case routerView.DATE:
-      return query.GET_PROPOSALS_DATE;
+      return getQuery('GET_PROPOSALS_DATE', period);
     case routerView.ADDRESS:
-      console.log(`return getQuery('GET_PROPOSALS_ADDRESS', period);`);
-      console.log(`period: ${period}`);
       return getQuery('GET_PROPOSALS_ADDRESS', period);
     case routerView.SEARCH:
-      return query.GET_PROPOSALS_SEARCH;
+      return getQuery('GET_PROPOSALS_SEARCH');
     default:
-      switch (field) {
-        case 'applicant':
-          return query.GET_PROPOSALS_APPLICANT;
-        case 'memberAddress':
-          return query.GET_PROPOSALS_MEMBER;
-        default:
-          return query.GET_PROPOSALS;
-      }
   }
 }
 
