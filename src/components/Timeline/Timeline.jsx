@@ -23,7 +23,7 @@ import Search from 'components/Search/Search';
 import Paginator from 'components/Paginator/Paginator';
 import Expand from 'components/Expand/Expand';
 
-import { query, getQuery } from 'components/Timeline/queries';
+import { getQuery } from 'components/Timeline/queries';
 import { config } from 'config'
 import { defaults, view as routerView, period as routerPeriod } from 'lib/const';
 import { uniqBy, orderBy as _orderBy } from 'lodash';
