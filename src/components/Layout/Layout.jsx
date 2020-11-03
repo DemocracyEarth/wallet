@@ -29,11 +29,6 @@ const Layout = (props) => {
   let periodEpoch = '';
   let param = '';
 
-  console.log(searchParams);
-  console.log(searchParams.get('period'));
-
-  console.log(useLocation());
-
   // context specific
   let description = i18n.t('meta-description');
   if (dao) {
