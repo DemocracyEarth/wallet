@@ -46,10 +46,9 @@ import 'styles/Dapp.css';
 
 /**
  * @summary retrieves the corresponding query for the timeline.
- * @param {string} view based on router context
  * @param {string} field if required for a specific query
  */
-const composeQuery = (view, field, period) => {
+const composeQuery = (view, period) => {
   switch (view) {
     case routerView.HOME:
       return getQuery('GET_PROPOSALS');
@@ -133,7 +132,7 @@ const Feed = (props) => {
     dateEnd = Math.floor((new Date(param).getTime() / 1000) + 86400).toString();
   }
 
-  const [getFeed, { data, loading, error }] = useLazyQuery(composeQuery(props.view, props.field, props.period), { variables: { address, first, skip, orderBy, orderDirection, now, proposalId, param, dateBegin, dateEnd } });
+  const [getFeed, { data, loading, error }] = useLazyQuery(composeQuery(props.view, props.period), { variables: { address, first, skip, orderBy, orderDirection, now, proposalId, param, dateBegin, dateEnd } });
 
   let isMounted = true;
   useEffect(() => {

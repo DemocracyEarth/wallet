@@ -117,73 +117,65 @@ const QUERY_READY = `
       ${PROPOSAL_DATA}
     }
   }
-`
+`;
+const QUERY_PROPOSAL_ID = `
+  query addressProposals($proposalId: String, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { id: $proposalId }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`;
+const QUERY_PROPOSALS_SEARCH = `
+  query addressProposals($param: String, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { details_contains: $param }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`;
+const QUERY_DAO = `
+  query addressProposals($address: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { molochAddress: $address }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`;
+const QUERY_TOKEN_PAYMENT = `
+  query addressProposals($param: String, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { paymentTokenSymbol: $param }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`;
+const QUERY_PROPOSALS_ADDRESS = `
+  query addressProposals($address: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(where: { proposer: $address }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`;
+const QUERY_PROPOSALS = `
+  query addressProposals($first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
+    proposals(first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
+      ${PROPOSAL_DATA}
+    }
+  }
+`;
 
 export const query = {
-  GET_PROPOSALS: gql`
-    query addressProposals($first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-      proposals(first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
-        ${PROPOSAL_DATA}
-      }
-    }
-  `,
-  GET_PROPOSALS_MEMBER: gql`
-    query addressProposals($address: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-      proposals(where: { memberAddress: $address }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
-        ${PROPOSAL_DATA}
-      }
-    }
-  `,
-  GET_PROPOSALS_APPLICANT: gql`
-    query addressProposals($address: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-      proposals(where: { applicant: $address }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
-        ${PROPOSAL_DATA}
-      }
-    }
-  `,
-  GET_PROPOSALS_ADDRESS: gql`
-    query addressProposals($address: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-      proposals(where: { proposer: $address }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
-        ${PROPOSAL_DATA}
-      }
-    }
-  `,
+  GET_PROPOSALS: gql(QUERY_PROPOSALS),
+  GET_PROPOSALS_ADDRESS: gql(QUERY_PROPOSALS_ADDRESS),
   GET_PROPOSALS_TOKEN: gql(QUERY_TOKEN),
-  GET_PROPOSALS_TOKEN_PAYMENT: gql`
-    query addressProposals($param: String, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-      proposals(where: { paymentTokenSymbol: $param }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
-        ${PROPOSAL_DATA}
-      }
-    }
-  `,
+  GET_PROPOSALS_TOKEN_PAYMENT: gql(QUERY_TOKEN_PAYMENT),
   GET_PROPOSALS_DATE: gql(QUERY_DATE),
-  GET_PROPOSALS_DAO: gql`
-    query addressProposals($address: Bytes, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-      proposals(where: { molochAddress: $address }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
-        ${PROPOSAL_DATA}
-      }
-    }
-  `,
+  GET_PROPOSALS_DAO: gql(QUERY_DAO),
+  GET_PROPOSAL_ID: gql(QUERY_PROPOSAL_ID),
+  GET_PROPOSALS_SEARCH: gql(QUERY_PROPOSALS_SEARCH),
   GET_PROPOSALS_PERIOD_QUEUE: gql(QUERY_QUEUE.replace('{{molochAddressDeclaration}}', '').replace('{{molochAddressQuery}}', '')),
   GET_PROPOSALS_PERIOD_VOTING: gql(QUERY_VOTING.replace('{{molochAddressDeclaration}}', '').replace('{{molochAddressQuery}}', '')),
   GET_PROPOSALS_PERIOD_GRACE: gql(QUERY_GRACE.replace('{{molochAddressDeclaration}}', '').replace('{{molochAddressQuery}}', '')),
   GET_PROPOSALS_PERIOD_READY: gql(QUERY_READY.replace('{{molochAddressDeclaration}}', '').replace('{{molochAddressQuery}}', '')),
   GET_PROPOSALS_PERIOD_APPROVED: gql(QUERY_APPROVED.replace('{{molochAddressDeclaration}}', '').replace('{{molochAddressQuery}}', '')),
   GET_PROPOSALS_PERIOD_REJECTED: gql(QUERY_REJECTED.replace('{{molochAddressDeclaration}}', '').replace('{{molochAddressQuery}}', '')),
-  GET_PROPOSAL_ID: gql`
-    query addressProposals($proposalId: String, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-      proposals(where: { id: $proposalId }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
-        ${PROPOSAL_DATA}
-      }
-    }
-  `,
-  GET_PROPOSALS_SEARCH: gql`
-    query addressProposals($param: String, $first: Int, $skip: Int, $orderBy: String, $orderDirection: String) {
-      proposals(where: { details_contains: $param }, first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection) {
-        ${PROPOSAL_DATA}
-      }
-    }
-  `,
 };
 
 export const getQuery = (name, period) => {
