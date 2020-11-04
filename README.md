@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-Explore and participate in Digital Autonomous Organizations (DAOs).
+Governance for Digital Autonomous Organizations.
 </p>
 
 <p align="center">
