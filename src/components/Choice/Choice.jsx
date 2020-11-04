@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { defaults } from 'lib/const';
-import { getWallet } from 'lib/wallet';
 import { noWallet, alreadyVoted, pollClosed, notSynced, notMember, walletError } from 'components/Choice/messages';
 import { molochABI } from 'lib/abi';
 
@@ -13,6 +12,7 @@ import { config } from 'config'
 import i18n from 'i18n';
 import 'styles/Dapp.css';
 
+const Web3 = require('web3');
 const numeral = require('numeral');
 
 const modal = {
@@ -46,7 +46,7 @@ export default class Choice extends Component {
   }
 
   canVote = async (accountAddress) => {
-    const web3 = getWallet();
+    const web3 = new Web3(window.web3.currentProvider);
     const dao = await new web3.eth.Contract(molochABI, this.props.publicAddress);
     const response = await dao.methods.members(accountAddress).call({}, (err, res) => {
       if (err) {
@@ -59,7 +59,7 @@ export default class Choice extends Component {
   };
 
   hasVoted = async (accountAddress) => {
-    const web3 = getWallet();
+    const web3 = new Web3(window.web3.currentProvider);
     const dao = await new web3.eth.Contract(molochABI, this.props.publicAddress);
     const response = await dao.methods.getMemberProposalVote(accountAddress, this.props.proposalIndex).call({}, (err, res) => {
       if (err) {
@@ -72,7 +72,7 @@ export default class Choice extends Component {
   };
 
   execute = async () => {
-    const web3 = getWallet();
+    const web3 = new Web3(window.web3.currentProvider);
     const dao = await new web3.eth.Contract(molochABI, this.props.publicAddress);
     await dao.methods.submitVote(this.props.proposalIndex, this.props.voteValue).send({ from: this.props.accountAddress }, (err, res) => {
       if (err) {
@@ -92,9 +92,10 @@ export default class Choice extends Component {
     if (!this.props.now || this.props.now === 0) {
       return notSynced();
     }
-
+    
     // no web3 wallet
-    if (!getWallet()) {
+    const wallet = new Web3(window.web3.currentProvider);
+    if (!wallet.eth || wallet.eth.accounts.length === 0) {
       return noWallet();
     }
 
@@ -150,7 +151,7 @@ export default class Choice extends Component {
   render() {
     return (
       <div className="poll-choice">
-        <button className="button half choice"> {/* onClick={this.vote} */}
+        <button className="button half choice" onClick={this.vote}>
           <div className="checkbox-mini check-mini-unselected-box">
             <div className="checkmark_kick check-mini-unselected-mark" />
             <div className="checkmark_stem check-mini-unselected-mark" />
