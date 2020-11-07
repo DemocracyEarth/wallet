@@ -29,6 +29,17 @@ export default class Modal extends Component {
     modal: PropTypes.object
   }
 
+  constructor (props) {
+    super(props);
+
+    this.cancel = this.cancel.bind(this);
+  }
+
+  cancel() {
+    console.log(`cancel`);
+    window.showModal.value = false;
+  }
+
   render() {
     return (
       ((this.props.visible) ?
@@ -72,7 +83,7 @@ export default class Modal extends Component {
             }
             {(this.props.modal.mode === 'ALERT') ?
               <div className="modal-buttons">
-                <div id="cancel" className="button login-button">
+                <div id="cancel" className="button login-button" onClick={this.cancel}>
                   <div>
                     {i18n.t('cancel')}
                   </div>
