@@ -36,7 +36,6 @@ export default class Modal extends Component {
   }
 
   cancel() {
-    console.log(`cancel`);
     window.showModal.value = false;
   }
 
@@ -116,9 +115,3 @@ export default class Modal extends Component {
     );
   }
 }
-
-const _displayModal = (prop) => {
-  console.log(prop);
-}
-
-export const displayModal = _displayModal;

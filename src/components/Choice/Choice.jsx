@@ -108,10 +108,8 @@ export default class Choice extends Component {
 
   vote = async () => {
     // blockchain sync
-    if (this.props.now || this.props.now === 0) {
-      console.log('vote on blockchain sync');
+    if (!this.props.now || this.props.now === 0) {
       return notSynced();
-      console.log(`window.showModal`)
     }
     
     // no web3 wallet

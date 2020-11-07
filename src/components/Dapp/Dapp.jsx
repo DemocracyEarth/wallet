@@ -139,14 +139,10 @@ export default class Dapp extends Component {
       }
     }
 
-    console.log(`this.state.showModal: ${this.state.showModal}`);
     const instance = this;
     window.showModal.registerListener(function (val) {
       instance.showModal(val);
     });
-
-    console.log(`componentDidMount: ${window.showModal}`);
-    console.log(window.showModal);
   }
 
   componentWillUnmount() {
@@ -182,7 +178,7 @@ export default class Dapp extends Component {
     if (!provider.on) {
       return;
     }
-    provider.on('close', () => { this.resetApp(); });
+    provider.on('close', () => { this.reset(); });
 
     provider.on('accountsChanged', async (accounts) => {
       this.setState({ address: accounts[0] });
@@ -214,6 +210,7 @@ export default class Dapp extends Component {
     const { web3 } = this.state;
     if (web3 && web3.currentProvider && web3.currentProvider.close) {
       await web3.currentProvider.close();
+      console.log(`web3.isConnected(): ${web3.isConnected()}`);
     }
     this.web3Modal.clearCachedProvider();
     this.setState({ ...INITIAL_STATE });
