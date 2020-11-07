@@ -8,6 +8,7 @@ import {
 // dapp
 import Browser from 'components/Browser/Browser';
 import Layout from 'components/Layout/Layout';
+import Modal from 'components/Modal/Modal';
 
 // wallets
 import Web3Modal from 'web3modal';
@@ -58,7 +59,8 @@ const INITIAL_STATE = {
   showModal: false,
   pendingRequest: false,
   result: null,
-  mobile: (window.innerWidth < 768)
+  mobile: (window.innerWidth < 768),
+  modal: null,
 };
 
 const routes = [
@@ -113,17 +115,49 @@ export default class Dapp extends Component {
     this.onConnect = this.onConnect.bind(this);
     this.reset = this.reset.bind(this);
     this.resize = this.resize.bind(this);
+    this.showModal = this.showModal.bind(this);
   }
 
   async componentDidMount() {
     if (this.web3Modal.cachedProvider) {
       this.onConnect();
     }
-    window.addEventListener('resize', this.resize)
+    window.addEventListener('resize', this.resize);
+
+    window.showModal = {
+      valueInternal: false,
+      valueListener: function (val) { },
+      set value(val) {
+        this.valueInternal = val;
+        this.valueListener(val);
+      },
+      get value() {
+        return this.valueInternal;
+      },
+      registerListener: function (listener) {
+        this.valueListener = listener;
+      }
+    }
+
+    console.log(`this.state.showModal: ${this.state.showModal}`);
+    const instance = this;
+    window.showModal.registerListener(function (val) {
+      instance.showModal(val);
+    });
+
+    console.log(`componentDidMount: ${window.showModal}`);
+    console.log(window.showModal);
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.resize)
+  }
+
+  showModal(val) {
+    console.log(`showing modal on instance + ${val}`);
+    this.setState({ showModal: val });
+    this.setState({ modal: window.modal });
+    console.log(window.modal);
   }
 
   async onConnect() {
@@ -187,31 +221,39 @@ export default class Dapp extends Component {
 
   render() {
     return (
-      <Router>
-        {GA.init() && <GA.RouteTracker />}
-        <Switch>
-          {routes.map((route, index) => (
-            <Route
-              key={index}
-              path={route.path}
-              exact={route.exact}
-              children={  
-                <>
-                  <div id="dapp" className="dapp">
-                    <Browser address={this.state.address} walletConnect={this.onConnect} walletReset={this.reset} />
-                    <Layout address={this.state.address} />
-                  </div>
-                  {(this.state.mobile || (window.innerWidth < 768)) ?
-                    <Layout address={this.state.address} mobileMenu={true} />
-                    :
-                    null
-                  }                  
-                </>
-              }
-            />
-          ))}
-        </Switch>
+      <>
+        <Router>
+          {GA.init() && <GA.RouteTracker />}
+          <Switch>
+            {routes.map((route, index) => (
+              <Route
+                key={index}
+                path={route.path}
+                exact={route.exact}
+                children={  
+                  <>
+                    {(this.state.showModal) ?
+                      <Modal visible={this.state.showModal} modal={this.state.modal} icon={this.state.modal.icon} title={this.state.modal.title} message={this.state.modal.message}
+                        cancel={this.state.modal.cancel} mode={this.state.modal.mode} />
+                      :
+                      null
+                    }
+                    <div id="dapp" className="dapp">
+                      <Browser address={this.state.address} walletConnect={this.onConnect} walletReset={this.reset} />
+                      <Layout address={this.state.address} />
+                    </div>
+                    {(this.state.mobile || (window.innerWidth < 768)) ?
+                      <Layout address={this.state.address} mobileMenu={true} />
+                      :
+                      null
+                    }                  
+                  </>
+                }
+              />
+            ))}
+          </Switch>
       </Router>
+      </>
     );
   }
 }

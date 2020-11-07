@@ -6,6 +6,7 @@ import Choice from 'components/Choice/Choice';
 import i18n from 'i18n';
 import BeatLoader from "react-spinners/BeatLoader";
 import { css } from '@emotion/core';
+
 import 'styles/Dapp.css';
 
 const override = css`
@@ -14,86 +15,93 @@ const override = css`
   display: inline-block;
 `;
 
-
 /**
 * @summary displays the timestamp of a given post or event
 */
 export default class Modal extends Component {
   static propTypes = {
+    icon: PropTypes.string,
     title: PropTypes.string,
     message: PropTypes.string,
+    cancelLabel: PropTypes.string,
     mode: PropTypes.string,
+    visible: PropTypes.bool,
+    modal: PropTypes.object
   }
 
   render() {
     return (
-      <div id="modalToggle" class="modal">
-        <div class="alert">
-          <div class="alert-header">
-            <img class="alert-icon" src="{{pathFor route='home'}}{{icon}}" alt="" />
-            <div class="modal-title">
-              {this.props.title}
+      ((this.props.visible) ?
+        <div id="modalToggle" className="modal">
+          <div className="alert">
+            <div className="alert-header">
+              <img className="alert-icon" src={this.props.icon} alt="" />
+              <div className="modal-title">
+                {this.props.modal.title}
+              </div>
             </div>
+            <div>
+              {this.props.modal.message}
+            </div>
+            {(this.props.modal.displayBallot) ?
+              <p>
+                <ul className="options options-mini">
+                  <li className="title-input title-input-mini">
+                    {this.props.modal.proposalTitle}
+                  </li>
+                  {this.props.modal.ballot.map((item, key) => {
+                    return <Choice />
+                  })}
+                </ul>
+              </p>
+              :
+              null
+            }
+            {(this.props.modal.mode === 'AWAIT') ?
+              <div className="modal-buttons">
+                <BeatLoader
+                  css={override}
+                  size={15}
+                  margin={2}
+                  color={'var(--menu-sidebar-selected)'}
+                  loading={true}
+                />
+              </div>
+              :
+              null
+            }
+            {(this.props.modal.mode === 'ALERT') ?
+              <div className="modal-buttons">
+                <div id="cancel" className="button login-button">
+                  <div>
+                    {i18n.t('cancel')}
+                  </div>
+                </div>
+              </div>
+              :
+              null
+            }
+            {(this.props.modal.mode === 'ACTION') ?
+              <div className="modal-buttons">
+                <div className="modal-buttons-padder modal-buttons-padder-left">
+                  <div id="cancel" className="button login-button button-secondary button-half">
+                    <div>{i18n.t('cancel')}</div>
+                  </div>
+                </div>
+                <div className="modal-buttons-padder modal-buttons-padder-right">
+                  <div id="execute" className="button login-button button-half {{removal}}">
+                    <div>{i18n.t('action')}</div>
+                  </div>
+                </div>
+              </div>
+              :
+              null
+            }
           </div>
-          <div>
-            {this.props.message}
-          </div>
-          {(this.props.displayBallot) ?
-            <p>
-              <ul class="options options-mini">
-                <li class="title-input title-input-mini">
-                  {this.props.proposalTitle}
-                </li>
-                {this.props.ballot.map((item, key) => {
-                  return <Choice />
-                })}
-              </ul>  
-            </p>
-            :
-            null
-          }
-          {(this.props.awaitMode) ?
-            <div class="modal-buttons">
-              <BeatLoader
-                css={override}
-                size={15}
-                margin={2}
-                color={'var(--menu-sidebar-selected)'}
-                loading={true}
-              />
-            </div>
-            :
-            null
-          }
-          {(this.props.alertMode) ?
-            <div class="modal-buttons">
-              <div id="cancel" class="button login-button">
-                <div>
-                  {i18n.t('cancel')}
-                </div>
-              </div>
-            </div>
-            :
-            null
-          }
-          {(this.props.actionMode) ?
-            <div class="modal-buttons">
-              <div class="modal-buttons-padder modal-buttons-padder-left">
-                <div id="cancel" class="button login-button button-secondary button-half">
-                  <div>{i18n.t('cancel')}</div>
-                </div>
-              </div>
-              <div class="modal-buttons-padder modal-buttons-padder-right">
-                <div id="execute" class="button login-button button-half {{removal}}">
-                  <div>{i18n.t('action')}</div>
-                </div>
-              </div>
-            </div>
-            :
-            null
-          }
         </div>
-      </div>
+        :
+        null
+      )
     );
   }
 }

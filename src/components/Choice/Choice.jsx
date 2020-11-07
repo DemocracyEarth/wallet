@@ -5,7 +5,6 @@ import { defaults } from 'lib/const';
 import { noWallet, alreadyVoted, pollClosed, notSynced, notMember, walletError } from 'components/Choice/messages';
 import { molochABI } from 'lib/abi';
 
-import { displayModal } from 'components/Modal/Modal';
 import logo from 'images/logo.png';
 
 import { config } from 'config'
@@ -15,17 +14,36 @@ import 'styles/Dapp.css';
 const Web3 = require('web3');
 const numeral = require('numeral');
 
-const modal = {
-  icon: logo,
-  title: i18n.t('wallet'),
-  cancel: i18n.t('close'),
-  alertMode: true,
-};
-
 /**
 * @summary displays the contents of a poll
 */
 export default class Choice extends Component {
+  static propTypes = {
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
+    accountAddress: PropTypes.string,
+    percentage: PropTypes.string,
+    label: PropTypes.string,
+    voteValue: PropTypes.number,
+    votingPeriodBegins: PropTypes.string,
+    votingPeriodEnds: PropTypes.string,
+    title: PropTypes.string,
+    proposalIndex: PropTypes.string,
+    publicAddress: PropTypes.string,
+    daoName: PropTypes.string,
+    now: PropTypes.number,
+  }
+
+  constructor (props) {
+    super(props);
+
+    this.state = {
+      showModal: false,
+    }
+  }
+
   getlabelClass() {
     if (Number(this.props.percentage) < 10) {
       return 'poll-score-percentage poll-score-small';
@@ -80,7 +98,8 @@ export default class Choice extends Component {
         return err;
       }
       if (res) {
-        displayModal(false, modal);
+        // displayModal(false, modal);
+        this.setState({ showModal: false })
         alert(i18n.t('voting-interaction', { collective: this.props.daoName, etherscan: `${config.web.explorer}/tx/${res}` }), 10000);
       }
       return res;
@@ -89,8 +108,10 @@ export default class Choice extends Component {
 
   vote = async () => {
     // blockchain sync
-    if (!this.props.now || this.props.now === 0) {
+    if (this.props.now || this.props.now === 0) {
+      console.log('vote on blockchain sync');
       return notSynced();
+      console.log(`window.showModal`)
     }
     
     // no web3 wallet
@@ -98,13 +119,6 @@ export default class Choice extends Component {
     if (!wallet.eth || wallet.eth.accounts.length === 0) {
       return noWallet();
     }
-
-    // user log in
-    /**
-      TODO: verify user properly
-    if (!Meteor.user()) {
-      return notLogged();
-    }*/
 
     // dao membership
     if (!await this.canVote(this.props.accountAddress)) {
@@ -134,7 +148,7 @@ export default class Choice extends Component {
       default:
         message = i18n.t('dao-default-tally', { proposalName: this.props.title });
     }
-    displayModal(
+    /*displayModal(
       true,
       {
         icon,
@@ -144,7 +158,7 @@ export default class Choice extends Component {
         awaitMode: true,
         displayProfile: false,
       },
-    );
+    );*/
     return await this.execute();
   }
 
@@ -175,22 +189,4 @@ export default class Choice extends Component {
     );
   }
 }
-
-Choice.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
-  accountAddress: PropTypes.string,
-  percentage: PropTypes.string,
-  label: PropTypes.string,
-  voteValue: PropTypes.number,
-  votingPeriodBegins: PropTypes.string,
-  votingPeriodEnds: PropTypes.string,
-  title: PropTypes.string,
-  proposalIndex: PropTypes.string,
-  publicAddress: PropTypes.string,
-  daoName: PropTypes.string,
-  now: PropTypes.number,
-};
 

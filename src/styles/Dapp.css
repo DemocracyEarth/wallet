@@ -6497,10 +6497,6 @@ input[type="file"] {
 
 }
 
-.modal {
-  opacity: 0;
-}
-
 body {
   overflow-x: hidden;
   position: relative;
