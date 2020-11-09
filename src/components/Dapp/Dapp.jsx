@@ -97,6 +97,8 @@ const routes = [
   },
 ];
 
+export const ConnectedAccount = React.createContext('');
+
 /**
 * @summary Dapp layout with routing and wallet configuration.
 */
@@ -150,7 +152,8 @@ export default class Dapp extends Component {
   }
 
   showModal(val) {
-    console.log(`showing modal on instance + ${val}`);
+    console.log(`showModal`);
+    console.log(window.modal);
     this.setState({ showModal: val });
     this.setState({ modal: window.modal });
     console.log(window.modal);
@@ -230,14 +233,15 @@ export default class Dapp extends Component {
                 children={  
                   <>
                     {(this.state.showModal) ?
-                      <Modal visible={this.state.showModal} modal={this.state.modal} icon={this.state.modal.icon} title={this.state.modal.title} message={this.state.modal.message}
-                        cancel={this.state.modal.cancel} mode={this.state.modal.mode} />
+                      <Modal visible={this.state.showModal} modal={window.modal} mode={window.modal.mode} />
                       :
                       null
                     }
                     <div id="dapp" className="dapp">
                       <Browser address={this.state.address} walletConnect={this.onConnect} walletReset={this.reset} />
-                      <Layout address={this.state.address} />
+                      <ConnectedAccount.Provider value={this.state.address}>
+                        <Layout address={this.state.address} />
+                      </ConnectedAccount.Provider>
                     </div>
                     {(this.state.mobile || (window.innerWidth < 768)) ?
                       <Layout address={this.state.address} mobileMenu={true} />

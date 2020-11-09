@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, useLazyQuery } from '@apollo/react-hooks';
 
@@ -23,6 +23,7 @@ import Search from 'components/Search/Search';
 import Paginator from 'components/Paginator/Paginator';
 import Expand from 'components/Expand/Expand';
 
+import { ConnectedAccount } from 'components/Dapp/Dapp';
 import { getQuery } from 'components/Timeline/queries';
 import { config } from 'config'
 import { defaults, view as routerView, period as routerPeriod } from 'lib/const';
@@ -144,6 +145,9 @@ const Feed = (props) => {
       isMounted = false;
     };
   }, []);
+
+  const connectedAccount = useContext(ConnectedAccount)
+  console.log(`account: ${connectedAccount}`)
 
   // fx
   if (props.format !== 'searchBar' && props.page === 1 && document.getElementById('dapp')) {
@@ -325,17 +329,19 @@ const Feed = (props) => {
                   <Survey>
                     <Choice
                       now={timestamp}
-                      accountAddress={accountAddress} publicAddress={proposal.moloch.id}
+                      accountAddress={connectedAccount} publicAddress={proposal.moloch.id}
                       proposalIndex={proposal.proposalIndex} label={i18n.t('yes')} percentage={yesPercentage}
                       voteValue={defaults.YES} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
+                      abi={'moloch'}
                     >
                       <Token quantity={proposal.yesShares} symbol="SHARES" />
                     </Choice>
                     <Choice
                       now={timestamp}
-                      accountAddress={accountAddress} publicAddress={proposal.moloch.id}
+                      accountAddress={connectedAccount} publicAddress={proposal.moloch.id}
                       proposalIndex={proposal.proposalIndex} label={i18n.t('no')} percentage={noPercentage}
                       voteValue={defaults.NO} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
+                      abi={'moloch'}
                     >
                       <Token quantity={proposal.noShares} symbol="SHARES" />
                     </Choice>

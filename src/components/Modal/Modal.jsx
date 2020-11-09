@@ -6,6 +6,7 @@ import Choice from 'components/Choice/Choice';
 import i18n from 'i18n';
 import BeatLoader from "react-spinners/BeatLoader";
 import { css } from '@emotion/core';
+import parser from 'html-react-parser';
 
 import 'styles/Dapp.css';
 
@@ -20,13 +21,9 @@ const override = css`
 */
 export default class Modal extends Component {
   static propTypes = {
-    icon: PropTypes.string,
-    title: PropTypes.string,
-    message: PropTypes.string,
-    cancelLabel: PropTypes.string,
     mode: PropTypes.string,
     visible: PropTypes.bool,
-    modal: PropTypes.object
+    modal: PropTypes.object,
   }
 
   constructor (props) {
@@ -45,13 +42,13 @@ export default class Modal extends Component {
         <div id="modalToggle" className="modal">
           <div className="alert">
             <div className="alert-header">
-              <img className="alert-icon" src={this.props.icon} alt="" />
+              <img className="alert-icon" src={this.props.modal.icon} alt="" />
               <div className="modal-title">
-                {this.props.modal.title}
+                {parser(this.props.modal.title)}
               </div>
             </div>
             <div>
-              {this.props.modal.message}
+              {parser(this.props.modal.message)}
             </div>
             {(this.props.modal.displayBallot) ?
               <p>
@@ -84,7 +81,7 @@ export default class Modal extends Component {
               <div className="modal-buttons">
                 <div id="cancel" className="button login-button" onClick={this.cancel}>
                   <div>
-                    {i18n.t('cancel')}
+                    {this.props.modal.cancelLabel}
                   </div>
                 </div>
               </div>
