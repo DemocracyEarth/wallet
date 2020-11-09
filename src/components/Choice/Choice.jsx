@@ -2,30 +2,50 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { defaults } from 'lib/const';
-import { getWallet } from 'lib/wallet';
 import { noWallet, alreadyVoted, pollClosed, notSynced, notMember, walletError } from 'components/Choice/messages';
-import { molochABI } from 'lib/abi';
+import { abiLibrary } from 'lib/abi';
 
-import { displayModal } from 'components/Modal/Modal';
+import { config } from 'config';
 import logo from 'images/logo.png';
 
-import { config } from 'config'
+import { getDescription } from 'components/Post/Post';
 import i18n from 'i18n';
 import 'styles/Dapp.css';
 
+const Web3 = require('web3');
 const numeral = require('numeral');
-
-const modal = {
-  icon: logo,
-  title: i18n.t('wallet'),
-  cancel: i18n.t('close'),
-  alertMode: true,
-};
 
 /**
 * @summary displays the contents of a poll
 */
 export default class Choice extends Component {
+  static propTypes = {
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
+    accountAddress: PropTypes.string,
+    percentage: PropTypes.string,
+    label: PropTypes.string,
+    voteValue: PropTypes.number,
+    votingPeriodBegins: PropTypes.string,
+    votingPeriodEnds: PropTypes.string,
+    description: PropTypes.string,
+    proposalIndex: PropTypes.string,
+    publicAddress: PropTypes.string,
+    daoName: PropTypes.string,
+    now: PropTypes.number,
+    abi: PropTypes.string,
+  }
+
+  constructor (props) {
+    super(props);
+
+    this.state = {
+      showModal: false,
+    }
+  }
+
   getlabelClass() {
     if (Number(this.props.percentage) < 10) {
       return 'poll-score-percentage poll-score-small';
@@ -46,9 +66,9 @@ export default class Choice extends Component {
   }
 
   canVote = async (accountAddress) => {
-    const web3 = getWallet();
-    const dao = await new web3.eth.Contract(molochABI, this.props.publicAddress);
-    const response = await dao.methods.members(accountAddress).call({}, (err, res) => {
+    const web3 = new Web3(window.web3.currentProvider);
+    const dao = await new web3.eth.Contract(abiLibrary[this.props.abi], this.props.publicAddress);
+    const response = await dao.methods.members(web3.utils.toChecksumAddress(accountAddress)).call({}, (err, res) => {
       if (err) {
         walletError(err);
         return err;
@@ -59,9 +79,9 @@ export default class Choice extends Component {
   };
 
   hasVoted = async (accountAddress) => {
-    const web3 = getWallet();
-    const dao = await new web3.eth.Contract(molochABI, this.props.publicAddress);
-    const response = await dao.methods.getMemberProposalVote(accountAddress, this.props.proposalIndex).call({}, (err, res) => {
+    const web3 = new Web3(window.web3.currentProvider);
+    const dao = await new web3.eth.Contract(abiLibrary[this.props.abi], this.props.publicAddress);
+    const response = await dao.methods.getMemberProposalVote(web3.utils.toChecksumAddress(accountAddress), this.props.proposalIndex).call({}, (err, res) => {
       if (err) {
         walletError(err);
         return err;
@@ -72,16 +92,23 @@ export default class Choice extends Component {
   };
 
   execute = async () => {
-    const web3 = getWallet();
-    const dao = await new web3.eth.Contract(molochABI, this.props.publicAddress);
+    const web3 = new Web3(window.web3.currentProvider);
+    const dao = await new web3.eth.Contract(abiLibrary[this.props.abi], this.props.publicAddress);
     await dao.methods.submitVote(this.props.proposalIndex, this.props.voteValue).send({ from: this.props.accountAddress }, (err, res) => {
       if (err) {
         walletError(err);
         return err;
       }
       if (res) {
-        displayModal(false, modal);
-        alert(i18n.t('voting-interaction', { collective: this.props.daoName, etherscan: `${config.web.explorer}/tx/${res}` }), 10000);
+        window.showModal.value = false;
+        window.modal = {
+          icon: logo,
+          title: i18n.t('vote-cast'),
+          message: i18n.t('voting-interaction', { etherscan: `${config.web.explorer}/tx/${res}` }),
+          cancelLabel: i18n.t('close'),
+          mode: 'ALERT'
+        }
+        window.showModal.value = true;
       }
       return res;
     });
@@ -92,18 +119,11 @@ export default class Choice extends Component {
     if (!this.props.now || this.props.now === 0) {
       return notSynced();
     }
-
+    
     // no web3 wallet
-    if (!getWallet()) {
+    if (!window.web3 || !window.web3.currentProvider) {
       return noWallet();
     }
-
-    // user log in
-    /**
-      TODO: verify user properly
-    if (!Meteor.user()) {
-      return notLogged();
-    }*/
 
     // dao membership
     if (!await this.canVote(this.props.accountAddress)) {
@@ -121,36 +141,34 @@ export default class Choice extends Component {
     }
 
     // vote
-    const icon = logo;
     let message;
     switch (this.props.voteValue) {
       case defaults.YES:
-        message = i18n.t('dao-confirm-tally', { voteValue: i18n.t('yes'), proposalName: this.props.title });
+        message = i18n.t('dao-confirm-tally', { voteValue: i18n.t('yes'), proposalName: getDescription(this.props.description).title });
         break;
       case defaults.NO:
-        message = i18n.t('dao-confirm-tally', { voteValue: i18n.t('no'), proposalName: this.props.title });
+        message = i18n.t('dao-confirm-tally', { voteValue: i18n.t('no'), proposalName: getDescription(this.props.description).title });
         break;
       default:
-        message = i18n.t('dao-default-tally', { proposalName: this.props.title });
+        message = i18n.t('dao-default-tally', { proposalName: getDescription(this.props.description).title });
     }
-    displayModal(
-      true,
-      {
-        icon,
-        title: i18n.t('place-vote'),
-        message,
-        cancel: i18n.t('close'),
-        awaitMode: true,
-        displayProfile: false,
-      },
-    );
+
+    window.modal = {
+      icon: logo,
+      title: i18n.t('place-vote'),
+      message,
+      cancel: i18n.t('close'),
+      displayBallot: true,
+      mode: 'AWAIT'
+    }
+    window.showModal.value = true;
     return await this.execute();
   }
 
   render() {
     return (
       <div className="poll-choice">
-        <button className="button half choice"> {/* onClick={this.vote} */}
+        <button className="button half choice" onClick={this.vote}>
           <div className="checkbox-mini check-mini-unselected-box">
             <div className="checkmark_kick check-mini-unselected-mark" />
             <div className="checkmark_stem check-mini-unselected-mark" />
@@ -174,22 +192,4 @@ export default class Choice extends Component {
     );
   }
 }
-
-Choice.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
-  accountAddress: PropTypes.string,
-  percentage: PropTypes.string,
-  label: PropTypes.string,
-  voteValue: PropTypes.number,
-  votingPeriodBegins: PropTypes.string,
-  votingPeriodEnds: PropTypes.string,
-  title: PropTypes.string,
-  proposalIndex: PropTypes.string,
-  publicAddress: PropTypes.string,
-  daoName: PropTypes.string,
-  now: PropTypes.number,
-};
 

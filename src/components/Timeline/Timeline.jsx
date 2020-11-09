@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { ApolloProvider, useLazyQuery } from '@apollo/react-hooks';
 
@@ -23,6 +23,7 @@ import Search from 'components/Search/Search';
 import Paginator from 'components/Paginator/Paginator';
 import Expand from 'components/Expand/Expand';
 
+import { ConnectedAccount } from 'components/Dapp/Dapp';
 import { getQuery } from 'components/Timeline/queries';
 import { config } from 'config'
 import { defaults, view as routerView, period as routerPeriod } from 'lib/const';
@@ -43,6 +44,7 @@ import thumbDown from 'images/rejected.svg';
 import thumbDownActive from 'images/rejected-active.svg';
 
 import 'styles/Dapp.css';
+import { abiLibrary } from 'lib/abi';
 
 /**
  * @summary retrieves the corresponding query for the timeline.
@@ -145,6 +147,9 @@ const Feed = (props) => {
     };
   }, []);
 
+  // user account
+  const connectedAccount = useContext(ConnectedAccount)
+
   // fx
   if (props.format !== 'searchBar' && props.page === 1 && document.getElementById('dapp')) {
     document.getElementById('dapp').scroll({ top: 0 });
@@ -242,6 +247,7 @@ const Feed = (props) => {
       const voterCount = (Number(totalVoters) > 0) ? i18n.t('see-proposal-vote-count', { totalVoters, voterLabel }) : i18n.t('no-voters')
 
       const proposalValue = _getProposalValue(proposal);
+      const abiLibrary = (proposal.molochVersion === '1') ? 'moloch' : 'moloch2';
 
       return (
         <Post
@@ -325,17 +331,19 @@ const Feed = (props) => {
                   <Survey>
                     <Choice
                       now={timestamp}
-                      accountAddress={accountAddress} publicAddress={proposal.moloch.id}
+                      accountAddress={connectedAccount} publicAddress={proposal.moloch.id} description={proposal.details}
                       proposalIndex={proposal.proposalIndex} label={i18n.t('yes')} percentage={yesPercentage}
                       voteValue={defaults.YES} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
+                      abi={abiLibrary}
                     >
                       <Token quantity={proposal.yesShares} symbol="SHARES" />
                     </Choice>
                     <Choice
                       now={timestamp}
-                      accountAddress={accountAddress} publicAddress={proposal.moloch.id}
+                      accountAddress={connectedAccount} publicAddress={proposal.moloch.id} description={proposal.details}
                       proposalIndex={proposal.proposalIndex} label={i18n.t('no')} percentage={noPercentage}
                       voteValue={defaults.NO} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
+                      abi={abiLibrary}
                     >
                       <Token quantity={proposal.noShares} symbol="SHARES" />
                     </Choice>

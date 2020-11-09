@@ -2081,6 +2081,12 @@ blockquote {
   text-align: center;
 }
 
+.modal-spinner {
+  display: inline-block;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+
 .param {
   display: inline-block;
   padding-right: 10px;
@@ -3325,6 +3331,8 @@ blockquote {
   text-align: left;
   clear:both;
   text-transform: uppercase;
+  max-height: 32px;
+  overflow: hidden;
 }
 
 .separator.agora-separator {
@@ -5003,7 +5011,6 @@ blockquote {
   left: 0px;
   right: 0px;
   background: white;
-  border-right:1px solid #e1d7e5;
   overflow: hidden;
 }
 
@@ -5015,7 +5022,6 @@ blockquote {
 .burger-menu.burger-menu-close {
   transition: width 0.15s ease 0.15s;
   width:0px;
-  border: 0px;
 }
 
 .hero-button {
@@ -6497,10 +6503,6 @@ input[type="file"] {
 
 }
 
-.modal {
-  opacity: 0;
-}
-
 body {
   overflow-x: hidden;
   position: relative;
@@ -7908,6 +7910,8 @@ h4 {
     background-color: transparent;
     border-radius: 0px;
     margin-bottom: 0px;
+    min-width: 200px;
+    overflow: hidden;
   }
 }
 

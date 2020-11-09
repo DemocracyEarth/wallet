@@ -1,23 +1,71 @@
-import { displayModal } from 'components/Modal/Modal';
 import i18n from 'i18n';
-
 import logo from 'images/logo.png';
+
+
+const modalContent = {
+  default: {
+    icon: logo,
+    title: i18n.t('wallet'),
+    cancelLabel: i18n.t('close'),
+    mode: 'ALERT'
+  },
+  notMember: {
+    icon: logo,
+    title: i18n.t('moloch-not-member'),
+    message: i18n.t('moloch-alert-not-member'),
+    cancelLabel: i18n.t('close'),
+    mode: 'ALERT'
+  },
+  notSynced: {
+    icon: logo,
+    title: i18n.t('not-synced'),
+    message: i18n.t('not-synced-message'),
+    cancelLabel: i18n.t('close'),
+    mode: 'ALERT',
+  },
+  notLogged: {
+    icon: logo,
+    title: i18n.t('place-vote'),
+    message: i18n.t('unlogged-cant-vote'),
+    cancelLabel: i18n.t('close'),
+    mode: 'ALERT'
+  },
+  pollClosed: {
+    icon: logo,
+    title: i18n.t('poll-closed'),
+    message: i18n.t('poll-is-closed'),
+    cancelLabel: i18n.t('close'),
+    mode: 'ALERT'
+  },
+  alreadyVoted: {
+    icon: logo,
+    title: i18n.t('already-voted'),
+    message: i18n.t('already-voted-detail'),
+    cancelLabel: i18n.t('close'),
+    mode: 'ALERT'
+  },
+  noWallet: {
+    icon: logo,
+    title: i18n.t('no-wallet'),
+    message: i18n.t('no-wallet-message'),
+    cancelLabel: i18n.t('close'),
+    mode: 'ALERT'
+  },
+  walletError: {
+    icon: logo,
+    title: i18n.t('wallet'),
+    cancelLabel: i18n.t('close'),
+    mode: 'ALERT',
+  }
+};
 
 /**
 * @summary reject vote message;
 */
 const _notMember = () => {
   // not member of dao
-  displayModal(
-    true,
-    {
-      icon: logo,
-      title: i18n.t('moloch-not-member'),
-      message: i18n.t('moloch-alert-not-member'),
-      cancel: i18n.t('close'),
-      alertMode: true,
-    },
-  );
+  window.modal = modalContent.notMember;
+  window.showModal.value = true;
 };
 
 /**
@@ -25,30 +73,15 @@ const _notMember = () => {
 */
 const _notSynced = () => {
   // not synced
-  displayModal(
-    true,
-    {
-      icon: logo,
-      title: i18n.t('not-synced'),
-      message: i18n.t('not-synced-message'),
-      cancel: i18n.t('close'),
-      alertMode: true,
-    },
-  );
+  window.modal = modalContent.notSynced;
+  window.showModal.value = true;
+
 };
 
 const _notLogged = () => {
   // not logged
-  displayModal(
-    true,
-    {
-      icon: logo,
-      title: i18n.t('place-vote'),
-      message: i18n.t('unlogged-cant-vote'),
-      cancel: i18n.t('close'),
-      alertMode: true,
-    },
-  );
+  window.modal = modalContent.notLogged;
+  window.showModal.value = true;
 };
 
 /**
@@ -56,16 +89,8 @@ const _notLogged = () => {
 */
 const _pollClosed = () => {
   // poll already closed
-  displayModal(
-    true,
-    {
-      icon: logo,
-      title: i18n.t('poll-closed'),
-      message: i18n.t('poll-is-closed'),
-      cancel: i18n.t('close'),
-      alertMode: true,
-    },
-  );
+  window.modal = modalContent.pollClosed;
+  window.showModal.value = true;
 };
 
 /**
@@ -73,16 +98,8 @@ const _pollClosed = () => {
 */
 const _alreadyVoted = () => {
   // poll already closed
-  displayModal(
-    true,
-    {
-      icon: logo,
-      title: i18n.t('already-voted'),
-      message: i18n.t('already-voted-detail'),
-      cancel: i18n.t('close'),
-      alertMode: true,
-    },
-  );
+  window.modal = modalContent.alreadyVoted;
+  window.showModal.value = true;
 };
 
 /**
@@ -90,16 +107,8 @@ const _alreadyVoted = () => {
 */
 const _noWallet = () => {
   // no wallet
-  displayModal(
-    true,
-    {
-      icon: logo,
-      title: i18n.t('no-wallet'),
-      message: i18n.t('no-wallet-message'),
-      cancel: i18n.t('close'),
-      alertMode: true,
-    },
-  );
+  window.modal = modalContent.noWallet;
+  window.showModal.value = true;
 };
 
 /**
@@ -125,16 +134,12 @@ const _walletError = (err) => {
         message = err.message;
       }
   }
-  displayModal(
-    true,
-    {
-      icon: logo,
-      title: i18n.t('wallet'),
-      message,
-      cancel: i18n.t('close'),
-      alertMode: true,
-    }
-  );
+
+
+  let error = modalContent.walletError;
+  error.message = message;
+  window.modal = error;
+  window.showModal.value = true;
 };
 
 export const walletError = _walletError;
