@@ -1,20 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Choice from 'components/Choice/Choice';
-
 import i18n from 'i18n';
-import BeatLoader from "react-spinners/BeatLoader";
-import { css } from '@emotion/core';
+import SyncLoader from "react-spinners/SyncLoader";
 import parser from 'html-react-parser';
 
 import 'styles/Dapp.css';
-
-const override = css`
-  margin: 0 auto;
-  border-color: var(--menu-sidebar-selected);
-  display: inline-block;
-`;
 
 /**
 * @summary displays the timestamp of a given post or event
@@ -56,19 +47,15 @@ export default class Modal extends Component {
                   <li className="title-input title-input-mini">
                     {this.props.modal.proposalTitle}
                   </li>
-                  {this.props.modal.ballot.map((item, key) => {
-                    return <Choice />
-                  })}
                 </ul>
               </p>
               :
               null
             }
             {(this.props.modal.mode === 'AWAIT') ?
-              <div className="modal-buttons">
-                <BeatLoader
-                  css={override}
-                  size={15}
+              <div className="modal-spinner">
+                <SyncLoader
+                  size={10}
                   margin={2}
                   color={'var(--menu-sidebar-selected)'}
                   loading={true}

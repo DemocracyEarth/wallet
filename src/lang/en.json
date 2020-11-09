@@ -834,7 +834,7 @@
   "no-wallet-message": "No Web3 wallet was found.<br><a href='https://metamask.io/' target='_blank'>Install a compatible Web3 wallet.</a>",
   "not-connected": "Not connected",
   "not-connected-message": "The application is not connected to a server.",
-  "dao-confirm-tally": "You are voting for <strong>{{voteValue}}</strong> on:<br><em>{{proposalName}}</em><br><br>Awaiting for vote confirmation on the blockchain...<br>",
+  "dao-confirm-tally": "You are voting for <strong>{{voteValue}}</strong> on:<br><em>{{proposalName}}</em><br><br>Awaiting blockchain confirmation...<br>",
   "dao-default-tally": "You are voting on<br><em>{{proposalName}}</em><br><br>Confirm vote in your blockchain wallet.<br>",
   "moloch-guild": "Budget.",
   "guild-total-shares": "Total Shares",

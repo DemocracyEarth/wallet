@@ -329,7 +329,7 @@ const Feed = (props) => {
                   <Survey>
                     <Choice
                       now={timestamp}
-                      accountAddress={connectedAccount} publicAddress={proposal.moloch.id}
+                      accountAddress={connectedAccount} publicAddress={proposal.moloch.id} description={proposal.details}
                       proposalIndex={proposal.proposalIndex} label={i18n.t('yes')} percentage={yesPercentage}
                       voteValue={defaults.YES} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
                       abi={'moloch'}
@@ -338,7 +338,7 @@ const Feed = (props) => {
                     </Choice>
                     <Choice
                       now={timestamp}
-                      accountAddress={connectedAccount} publicAddress={proposal.moloch.id}
+                      accountAddress={connectedAccount} publicAddress={proposal.moloch.id} description={proposal.details}
                       proposalIndex={proposal.proposalIndex} label={i18n.t('no')} percentage={noPercentage}
                       voteValue={defaults.NO} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
                       abi={'moloch'}

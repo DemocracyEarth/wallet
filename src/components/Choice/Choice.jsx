@@ -5,9 +5,10 @@ import { defaults } from 'lib/const';
 import { noWallet, alreadyVoted, pollClosed, notSynced, notMember, walletError } from 'components/Choice/messages';
 import { abiLibrary } from 'lib/abi';
 
+import { config } from 'config';
 import logo from 'images/logo.png';
 
-import { config } from 'config'
+import { getDescription } from 'components/Post/Post';
 import i18n from 'i18n';
 import 'styles/Dapp.css';
 
@@ -29,7 +30,7 @@ export default class Choice extends Component {
     voteValue: PropTypes.number,
     votingPeriodBegins: PropTypes.string,
     votingPeriodEnds: PropTypes.string,
-    title: PropTypes.string,
+    description: PropTypes.string,
     proposalIndex: PropTypes.string,
     publicAddress: PropTypes.string,
     daoName: PropTypes.string,
@@ -99,9 +100,15 @@ export default class Choice extends Component {
         return err;
       }
       if (res) {
-        // displayModal(false, modal);
-        this.setState({ showModal: false })
-        alert(i18n.t('voting-interaction', { collective: this.props.daoName, etherscan: `${config.web.explorer}/tx/${res}` }), 10000);
+        window.showModal.value = false;
+        window.modal = {
+          icon: logo,
+          title: i18n.t('vote-cast'),
+          message: i18n.t('voting-interaction', { etherscan: `${config.web.explorer}/tx/${res}` }),
+          cancelLabel: i18n.t('close'),
+          mode: 'ALERT'
+        }
+        window.showModal.value = true;
       }
       return res;
     });
@@ -122,7 +129,7 @@ export default class Choice extends Component {
     if (!await this.canVote(this.props.accountAddress)) {
       return notMember();
     }
-/*
+
     // already voted
     if (!await this.hasVoted(this.props.accountAddress)) {
       return alreadyVoted();
@@ -132,19 +139,18 @@ export default class Choice extends Component {
     if (!this.pollOpen()) {
       return pollClosed();
     }
-*/
 
     // vote
     let message;
     switch (this.props.voteValue) {
       case defaults.YES:
-        message = i18n.t('dao-confirm-tally', { voteValue: i18n.t('yes'), proposalName: this.props.title });
+        message = i18n.t('dao-confirm-tally', { voteValue: i18n.t('yes'), proposalName: getDescription(this.props.description).title });
         break;
       case defaults.NO:
-        message = i18n.t('dao-confirm-tally', { voteValue: i18n.t('no'), proposalName: this.props.title });
+        message = i18n.t('dao-confirm-tally', { voteValue: i18n.t('no'), proposalName: getDescription(this.props.description).title });
         break;
       default:
-        message = i18n.t('dao-default-tally', { proposalName: this.props.title });
+        message = i18n.t('dao-default-tally', { proposalName: getDescription(this.props.description).title });
     }
 
     window.modal = {
@@ -152,6 +158,7 @@ export default class Choice extends Component {
       title: i18n.t('place-vote'),
       message,
       cancel: i18n.t('close'),
+      displayBallot: true,
       mode: 'AWAIT'
     }
     window.showModal.value = true;

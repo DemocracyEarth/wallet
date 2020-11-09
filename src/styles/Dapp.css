@@ -2081,6 +2081,12 @@ blockquote {
   text-align: center;
 }
 
+.modal-spinner {
+  display: inline-block;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+
 .param {
   display: inline-block;
   padding-right: 10px;
