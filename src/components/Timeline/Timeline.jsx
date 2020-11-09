@@ -44,6 +44,7 @@ import thumbDown from 'images/rejected.svg';
 import thumbDownActive from 'images/rejected-active.svg';
 
 import 'styles/Dapp.css';
+import { abiLibrary } from 'lib/abi';
 
 /**
  * @summary retrieves the corresponding query for the timeline.
@@ -246,6 +247,7 @@ const Feed = (props) => {
       const voterCount = (Number(totalVoters) > 0) ? i18n.t('see-proposal-vote-count', { totalVoters, voterLabel }) : i18n.t('no-voters')
 
       const proposalValue = _getProposalValue(proposal);
+      const abiLibrary = (proposal.molochVersion === '1') ? 'moloch' : 'moloch2';
 
       return (
         <Post
@@ -332,7 +334,7 @@ const Feed = (props) => {
                       accountAddress={connectedAccount} publicAddress={proposal.moloch.id} description={proposal.details}
                       proposalIndex={proposal.proposalIndex} label={i18n.t('yes')} percentage={yesPercentage}
                       voteValue={defaults.YES} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
-                      abi={'moloch'}
+                      abi={abiLibrary}
                     >
                       <Token quantity={proposal.yesShares} symbol="SHARES" />
                     </Choice>
@@ -341,7 +343,7 @@ const Feed = (props) => {
                       accountAddress={connectedAccount} publicAddress={proposal.moloch.id} description={proposal.details}
                       proposalIndex={proposal.proposalIndex} label={i18n.t('no')} percentage={noPercentage}
                       voteValue={defaults.NO} votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
-                      abi={'moloch'}
+                      abi={abiLibrary}
                     >
                       <Token quantity={proposal.noShares} symbol="SHARES" />
                     </Choice>
