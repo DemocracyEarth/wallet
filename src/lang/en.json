@@ -935,7 +935,7 @@
   "proposal-value": "Proposal for <strong>{{value}} {{symbol}}</strong>",
   "open-proposal": "Open proposal",
   "meta-title": "Democracy Earth",
-  "meta-description": "Explore and participate in Distributed Autonomous Organizations.",
+  "meta-description": "Governance for Digital Autonomous Organizations.",
   "meta-keywords": "digital, democracy, dao, distributed, autonomous, organizations, ethereum, moloch, aragon, governance, smart contracts, token",
   "meta-canonical": "https://democracy.earth/#",
   "meta-dao": "Exploring activity in DAO at {{address}}.",
