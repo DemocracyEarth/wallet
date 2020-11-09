@@ -91,12 +91,6 @@ const AccountQuery = ({ publicAddress, width, height, format, hidden }) => {
       </>
     );
 
-    /*
-    console.log(publicAddress);
-    console.log(data);
-    console.log('----');
-    */
-
     if (data) {
       label = getENSName(data, publicAddress);
       includeInSearch(url, (data.domains.length > 0) ? data.domains[0].name : publicAddress, 'search-user');

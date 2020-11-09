@@ -146,8 +146,8 @@ const Feed = (props) => {
     };
   }, []);
 
+  // user account
   const connectedAccount = useContext(ConnectedAccount)
-  console.log(`account: ${connectedAccount}`)
 
   // fx
   if (props.format !== 'searchBar' && props.page === 1 && document.getElementById('dapp')) {

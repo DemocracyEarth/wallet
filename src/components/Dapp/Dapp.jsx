@@ -152,11 +152,8 @@ export default class Dapp extends Component {
   }
 
   showModal(val) {
-    console.log(`showModal`);
-    console.log(window.modal);
     this.setState({ showModal: val });
     this.setState({ modal: window.modal });
-    console.log(window.modal);
   }
 
   async onConnect() {

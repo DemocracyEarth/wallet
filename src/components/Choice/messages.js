@@ -1,6 +1,4 @@
-import { displayModal } from 'components/Modal/Modal';
 import i18n from 'i18n';
-
 import logo from 'images/logo.png';
 
 
