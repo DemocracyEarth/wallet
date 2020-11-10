@@ -819,6 +819,8 @@
   "moloch-invalid-voter": "You are not a member",
   "moloch-alert-not-member": "The connected wallet address <br>is not a member of this DAO.",
   "moloch-not-member": "Not a Member",
+  "moloch-no-address": "Disconnected Wallet",
+  "moloch-alert-not-connected": "Your Web3 Wallet is disconnected from this dapp.",
   "moloch-period-ragequit": "Ragequit",
   "moloch-ragequit-short": "Quit",
   "moloch-ragequit": "Ragequit",

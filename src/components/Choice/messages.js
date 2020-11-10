@@ -9,10 +9,17 @@ const modalContent = {
     cancelLabel: i18n.t('close'),
     mode: 'ALERT'
   },
+  noAddress: {
+    icon: logo,
+    title: i18n.t('moloch-no-address'),
+    message: i18n.t('moloch-alert-not-connected'),
+    cancelLabel: i18n.t('close'),
+    mode: 'ALERT'
+  },
   notMember: {
     icon: logo,
     title: i18n.t('moloch-not-member'),
-    message: i18n.t('moloch-alert-not-member'),
+    message: i18n.t('moloch-alert-not-connected'),
     cancelLabel: i18n.t('close'),
     mode: 'ALERT'
   },
@@ -112,6 +119,16 @@ const _noWallet = () => {
 };
 
 /**
+* @summary disconnected address
+*/
+const _noAddress = () => {
+  // no wallet
+  window.modal = modalContent.noAddress;
+  window.showModal.value = true;
+};
+
+
+/**
 * @summary prompt a message of an error with the wallet
 * @param {object} error with code and message
 */
@@ -143,6 +160,7 @@ const _walletError = (err) => {
 };
 
 export const walletError = _walletError;
+export const noAddress = _noAddress;
 export const noWallet = _noWallet;
 export const alreadyVoted = _alreadyVoted;
 export const pollClosed = _pollClosed;

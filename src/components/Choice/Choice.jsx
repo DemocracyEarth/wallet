@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { defaults } from 'lib/const';
-import { noWallet, alreadyVoted, pollClosed, notSynced, notMember, walletError } from 'components/Choice/messages';
+import { noWallet, alreadyVoted, pollClosed, notSynced, notMember, noAddress, walletError } from 'components/Choice/messages';
 import { abiLibrary } from 'lib/abi';
 
 import { config } from 'config';
@@ -123,6 +123,11 @@ export default class Choice extends Component {
     // no web3 wallet
     if (!window.web3 || !window.web3.currentProvider) {
       return noWallet();
+    }
+
+    // no address
+    if (this.props.accountAddress === '0x0') {
+      return noAddress();
     }
 
     // dao membership

@@ -44,7 +44,6 @@ import thumbDown from 'images/rejected.svg';
 import thumbDownActive from 'images/rejected-active.svg';
 
 import 'styles/Dapp.css';
-import { abiLibrary } from 'lib/abi';
 
 /**
  * @summary retrieves the corresponding query for the timeline.
