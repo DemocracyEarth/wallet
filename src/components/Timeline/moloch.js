@@ -2,8 +2,6 @@ import { useMemo } from 'react';
 import { InMemoryCache, HttpLink  } from 'apollo-boost';
 import { ApolloClient } from '@apollo/client';
 
-import PropTypes from 'prop-types';
-
 import { getQuery } from 'components/Timeline/queries';
 import { config } from 'config'
 import { view as routerView, period as routerPeriod } from 'lib/const';
@@ -76,11 +74,11 @@ export function useApollo() {
   return store;
 }
 
-export const MolochFeed = async (props) => {
-  console.log('MolochFeed');
+export const molochFeed = async (props) => {
+  console.log('molochFeed');
+
   const { address, first, skip, orderBy, orderDirection, proposalId, param } = props;
   const now = Math.floor(new Date().getTime() / 1000);
-
   let { dateBegin, dateEnd } = now.toString();
   if (props.view === routerView.DATE) {
     dateBegin = Math.floor(new Date(param).getTime() / 1000).toString();
@@ -90,24 +88,8 @@ export const MolochFeed = async (props) => {
   const client = initializeApollo()
   const res = await client.query({
     query: composeQuery(props.view, props.period),
-    variables: { variables: { address, first, skip, orderBy, orderDirection, now, proposalId, param, dateBegin, dateEnd } },
+    variables: { address, first, skip, orderBy, orderDirection, now, proposalId, param, dateBegin, dateEnd },
   })
 
   return res;
-};
-
-
-MolochFeed.propTypes = {
-  field: PropTypes.string,
-  address: PropTypes.string,
-  proposalId: PropTypes.string,
-  first: PropTypes.number,
-  skip: PropTypes.number,
-  page: PropTypes.number,
-  orderBy: PropTypes.string,
-  orderDirection: PropTypes.string,
-  view: PropTypes.string,
-  period: PropTypes.string,
-  format: PropTypes.string,
-  param: PropTypes.string,
 };

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useParams, useLocation } from 'react-router-dom';
 
 import Menu from 'components/Menu/Menu';
-import Normalizer from 'components/Fetchers/Normalizer';
+import Timeline from 'components/Timeline/Timeline';
 import Ledger from 'components/Ledger/Ledger';
 import Burger from 'components/Menu/Burger';
 import TabMenu, { showMain, showAlternative } from 'components/TabMenu/TabMenu';
@@ -107,7 +107,7 @@ const Layout = (props) => {
           <div id="main-feed" className="split split-left split-landing">
             <div id="proposals" className="content content-feed max100">
               <div id="non-editable-feed">
-                <Normalizer address={renderAddress} period={periodEpoch} view={view} proposalId={proposalId} param={param}
+                <Timeline address={renderAddress} period={periodEpoch} view={view} proposalId={proposalId} param={param}
                   first={25} skip={0} page={1} orderBy={'createdAt'} orderDirection={'desc'} />
               </div>
             </div>
