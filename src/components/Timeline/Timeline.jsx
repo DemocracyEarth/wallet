@@ -171,10 +171,10 @@ const Feed = (props) => {
     </>
   );
 
-  const accountAddress = props.address;
-  const timestamp = Math.floor(new Date().getTime() / 1000);
-
   if (data) {
+    const accountAddress = props.address;
+    const timestamp = Math.floor(new Date().getTime() / 1000);
+
     if (data.asProposer || data.asApplicant) {
       data.proposals = _orderBy(uniqBy(data.asProposer.concat(data.asApplicant), 'id'), 'createdAt', 'desc');
     }
