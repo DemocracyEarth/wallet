@@ -12,9 +12,8 @@ import Modal from 'components/Modal/Modal';
 
 // wallets
 import Web3Modal from 'web3modal';
-import { Authereum } from 'authereum';
-import Torus from '@toruslabs/torus-embed';
 import WalletConnectProvider from '@walletconnect/web3-provider';
+import Portis from '@portis/web3';
 
 // settings
 import { defaults } from 'lib/const';
@@ -33,18 +32,18 @@ const providerOptions = {
       key: config.keys.fortmatic,
     },
   },
-  authereum: {
-    package: Authereum,
-  },
-  torus: {
-    package: Torus,
-  },
   walletconnect: {
     package: WalletConnectProvider,
     options: {
       infuraId: config.keys.infura,
     },
   },
+  portis: {
+    package: Portis,
+    options: {
+      id: '5e0569f8-ac4b-47ed-a2c6-469ceeccf696'
+    }
+  }
 };
 
 const INITIAL_STATE = {
