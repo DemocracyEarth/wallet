@@ -60,6 +60,8 @@ export default class Timeline extends Component {
       </>
     );
 
+    console.log(this.state.data);
+    
     return (
       <Feed data={this.state.data} param={this.props.param} address={this.props.address} period={this.props.period} view={this.props.view} 
         proposalId={this.props.proposalId} page={this.props.page} format={this.props.format} first={this.props.first} skip={this.props.skip} 

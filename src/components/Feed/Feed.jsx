@@ -83,27 +83,26 @@ const Feed = (props) => {
     document.getElementById('dapp').scroll({ top: 0 });
   }
 
+  if (data && data.proposals && data.proposals.length === 0) {
+    if (props.format === 'searchBar') {
+      return <Search contextTag={{ id: param, text: i18n.t('search-default', { searchTerm: param }) }} />
+    }
+    console.log('empty');
+    return (
+      <div className="empty-feed">
+        <img className="empty-icon" src={notFound} alt="" />
+        <h1>{i18n.t('moloch-empty-feed')}</h1>
+        {i18n.t('moloch-empty-feed-detail')}
+      </div>
+    );
+  }
+
   if (data && data.proposals && data.proposals.length > 0) {
     const accountAddress = props.address;
     const timestamp = Math.floor(new Date().getTime() / 1000);
 
     if (data.asProposer || data.asApplicant) {
       data.proposals = _orderBy(uniqBy(data.asProposer.concat(data.asApplicant), 'id'), 'createdAt', 'desc');
-    }
-
-    console.log(data);
-
-    if (data.proposals.length === 0) {
-      if (props.format === 'searchBar') {
-        return <Search contextTag={{ id: param, text: i18n.t('search-default', { searchTerm: param }) }} />
-      }
-      return (
-        <div className="empty-feed">
-          <img className="empty-icon" src={notFound} alt="" />
-          <h1>{i18n.t('moloch-empty-feed')}</h1>
-          {i18n.t('moloch-empty-feed-detail')}
-        </div>
-      );
     }
 
     if (props.format === 'searchBar') {

@@ -91,5 +91,7 @@ export const molochFeed = async (props) => {
     variables: { address, first, skip, orderBy, orderDirection, now, proposalId, param, dateBegin, dateEnd },
   })
 
+  console.log(res);
+
   return res;
 };
