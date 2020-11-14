@@ -10,6 +10,7 @@ export const config = {
   },
   keys: {
     fortmatic: 'pk_live_0826872BC201129A',
+    portis: '5e0569f8-ac4b-47ed-a2c6-469ceeccf696',
     analytics: 'UA-69508804-1'
   },
   component: {
