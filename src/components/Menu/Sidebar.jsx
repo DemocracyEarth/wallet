@@ -290,14 +290,16 @@ const MenuQuery = ({ address, scrollUp, view, proposalId, param }) => {
       {(hasContent) ?
         menuList
         :
-        <div className="empty">
-          {(window.innerWidth < 768) ?
-            <div className="submenu">
-              {i18n.t('no-proposals-found')}
-            </div>
-            :
-            i18n.t('no-proposals-found')
-          }
+        <div className="submenu">
+          <div className="empty">
+            {(window.innerWidth < 768) ?
+              <div className="submenu">
+                {i18n.t('no-proposals-found')}
+              </div>
+              :
+              i18n.t('no-proposals-found')
+            }
+          </div>
         </div>
       }
     </>

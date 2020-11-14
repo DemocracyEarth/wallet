@@ -913,7 +913,7 @@
   "memberships-account-proposal": "DAO of this proposal",
   "proposals-sidebar": "Proposal Period",
   "memberships-sidebar": "Your Memberships",
-  "no-memberships-found": "No proposals to a DAO found.",
+  "no-memberships-found": "No DAO memberships found.",
   "no-proposals-found": "No proposals were found.",
   "search-post-preview": "{{title}} — {{description}}",
   "moloch-flag-unsponsored": "Unsponsored Proposal ⚠️",
