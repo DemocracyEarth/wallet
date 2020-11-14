@@ -1,9 +1,7 @@
-import { useMemo } from 'react';
-import { InMemoryCache, HttpLink  } from 'apollo-boost';
-import { ApolloClient } from '@apollo/client';
 
 import { getQuery } from 'components/Timeline/queries';
-import { config } from 'config'
+import { initializeApollo } from 'components/Timeline/apollo';
+
 import { view as routerView, period as routerPeriod } from 'lib/const';
 
 /**
@@ -45,33 +43,6 @@ const composeQuery = (view, period) => {
       return getQuery('GET_PROPOSALS_SEARCH');
     default:
   }
-}
-
-let apolloClient;
-
-const httpLink = new HttpLink({
-  uri: config.graph.moloch,
-  credentials: "same-origin",
-});
-
-function createApolloClient() {
-  return new ApolloClient({
-    link: httpLink,
-    cache: new InMemoryCache(),
-  });
-}
-
-export function initializeApollo() {
-  const _apolloClient = apolloClient ?? createApolloClient();
-  if (!apolloClient) apolloClient = _apolloClient;
-
-  return _apolloClient;
-}
-
-export function useApollo() {
-  let initialState;
-  const store = useMemo(() => initializeApollo(initialState), [initialState]);
-  return store;
 }
 
 export const molochFeed = async (props) => {
