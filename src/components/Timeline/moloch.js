@@ -1,8 +1,15 @@
 
 import { getQuery } from 'components/Timeline/queries';
 import { initializeApollo } from 'components/Timeline/apollo';
+import { HttpLink } from 'apollo-boost';
 
 import { view as routerView, period as routerPeriod } from 'lib/const';
+import { config } from 'config'
+
+const httpLink = new HttpLink({
+  uri: config.graph.moloch,
+  credentials: "same-origin",
+});
 
 /**
  * @summary retrieves the corresponding query for the timeline.
@@ -46,8 +53,6 @@ const composeQuery = (view, period) => {
 }
 
 export const molochFeed = async (props) => {
-  console.log('molochFeed');
-
   const { address, first, skip, orderBy, orderDirection, proposalId, param } = props;
   const now = Math.floor(new Date().getTime() / 1000);
   let { dateBegin, dateEnd } = now.toString();
@@ -56,7 +61,7 @@ export const molochFeed = async (props) => {
     dateEnd = Math.floor((new Date(param).getTime() / 1000) + 86400).toString();
   }
 
-  const client = initializeApollo()
+  const client = initializeApollo(httpLink);
   const res = await client.query({
     query: composeQuery(props.view, props.period),
     variables: { address, first, skip, orderBy, orderDirection, now, proposalId, param, dateBegin, dateEnd },

@@ -1,24 +1,18 @@
 import { useMemo } from 'react';
-import { InMemoryCache, HttpLink } from 'apollo-boost';
+import { InMemoryCache } from 'apollo-boost';
 import { ApolloClient } from '@apollo/client';
-import { config } from 'config'
 
 let apolloClient;
 
-const httpLink = new HttpLink({
-  uri: config.graph.moloch,
-  credentials: "same-origin",
-});
-
-const createApolloClient = () => {
+const createApolloClient = (httpLink) => {
   return new ApolloClient({
     link: httpLink,
     cache: new InMemoryCache(),
   });
 }
 
-const _initializeApollo = () => {
-  const _apolloClient = apolloClient ?? createApolloClient();
+const _initializeApollo = (httpLink) => {
+  const _apolloClient = apolloClient ?? createApolloClient(httpLink);
   if (!apolloClient) apolloClient = _apolloClient;
 
   return _apolloClient;
