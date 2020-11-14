@@ -269,7 +269,13 @@ const MenuQuery = ({ address, scrollUp, view, proposalId, param }) => {
       :
       <div className="submenu">
         <div className="empty">
-          {i18n.t('no-memberships-found')}
+            {(window.innerWidth < 768) ?
+              <div className="submenu">
+                {i18n.t('no-memberships-found')}
+              </div>
+              :
+              i18n.t('no-memberships-found')
+            }
         </div>
       </div>
       }
@@ -285,9 +291,13 @@ const MenuQuery = ({ address, scrollUp, view, proposalId, param }) => {
         menuList
         :
         <div className="empty">
-          <div className="submenu">
-            {i18n.t('no-proposals-found')}
-          </div>
+          {(window.innerWidth < 768) ?
+            <div className="submenu">
+              {i18n.t('no-proposals-found')}
+            </div>
+            :
+            i18n.t('no-proposals-found')
+          }
         </div>
       }
     </>
