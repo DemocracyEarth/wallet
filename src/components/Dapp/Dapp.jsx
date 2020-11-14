@@ -41,7 +41,7 @@ const providerOptions = {
   portis: {
     package: Portis,
     options: {
-      id: '5e0569f8-ac4b-47ed-a2c6-469ceeccf696'
+      id: config.keys.portis
     }
   }
 };
