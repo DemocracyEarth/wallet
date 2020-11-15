@@ -7,6 +7,8 @@ import Feed from 'components/Feed/Feed';
 import Search from 'components/Search/Search';
 
 import { molochFeed } from 'components/Timeline/moloch';
+import { makerFeed } from 'components/Timeline/maker';
+
 import parser from 'html-react-parser';
 import i18n from 'i18n';
 
@@ -49,7 +51,7 @@ export default class Timeline extends Component {
   }
 
   getFeed() {
-    molochFeed(this.props)
+    makerFeed(this.props)
       .then(res => this.setState({ data: res.data, loading: res.loading, error: res.error }));
   }
 
