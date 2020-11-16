@@ -7,7 +7,7 @@ export const config = {
     tokens: 'https://api.thegraph.com/subgraphs/name/protofire/token-registry',
     moloch: 'https://api.thegraph.com/subgraphs/name/odyssy-automaton/daohaus',
     ens: 'https://api.thegraph.com/subgraphs/name/ensdomains/ens',
-    maker: 'https://github.com/protofire/maker-governance-subgraph',
+    maker: 'https://api.thegraph.com/subgraphs/name/protofire/makerdao-governance',
     compound: 'https://github.com/protofire/compound-governance-subgraph'
   },
   keys: {

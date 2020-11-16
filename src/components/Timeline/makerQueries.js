@@ -1,5 +1,6 @@
 
 import { gql } from 'apollo-boost';
+import { translate } from 'components/Timeline/apollo';
 
 const PROPOSAL_DATA = `
   id
@@ -28,8 +29,8 @@ const PROPOSAL_DATA = `
     timestamp
   }
 `;
-const PROPOSAL_ORDER = `$first: Int, $skip: Int, $orderBy: String, $orderDirection: String`;
-const PROPOSAL_SORT = `first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection`;
+const PROPOSAL_ORDER = `$first: Int, $skip: Int`;
+const PROPOSAL_SORT = `first: $first, skip: $skip, orderBy: {{orderBy}}, orderDirection: {{orderDirection}}`;
 
 const expression = {
   QUERY_POLLS : `
@@ -42,16 +43,11 @@ const expression = {
 }
 
 const query = {
-  GET_POLLS: gql(expression.QUERY_POLLS),
+  GET_POLLS: expression.QUERY_POLLS,
 };
 
-export const getQuery = (name, period) => {
-  if (period) {
-    
-  }
-
-  console.log(expression.QUERY_POLLS);
-  console.log(query[name]);
-
-  return query[name];
+export const getQuery = (name, period, terms) => {
+  const res = query[name];
+  const final = translate(res, terms);
+  return gql(final);
 }

@@ -3,6 +3,7 @@ import { getQuery } from 'components/Timeline/molochQueries';
 import { initializeApollo } from 'components/Timeline/apollo';
 import { HttpLink } from 'apollo-boost';
 
+import { calendar } from 'components/Timeline/apollo';
 import { view as routerView, period as routerPeriod } from 'lib/const';
 import { config } from 'config'
 
@@ -54,13 +55,7 @@ const composeQuery = (view, period) => {
 
 export const molochFeed = async (props) => {
   const { address, first, skip, orderBy, orderDirection, proposalId, param } = props;
-  const now = Math.floor(new Date().getTime() / 1000);
-  let { dateBegin, dateEnd } = now.toString();
-  if (props.view === routerView.DATE) {
-    dateBegin = Math.floor(new Date(param).getTime() / 1000).toString();
-    dateEnd = Math.floor((new Date(param).getTime() / 1000) + 86400).toString();
-  }
-
+  const { now, dateBegin, dateEnd } = calendar(props, param);
   const client = initializeApollo(httpLink);
   const res = await client.query({
     query: composeQuery(props.view, props.period),

@@ -3,81 +3,63 @@ import { getQuery } from 'components/Timeline/makerQueries';
 import { initializeApollo } from 'components/Timeline/apollo';
 import { HttpLink } from 'apollo-boost';
 
-import { view as routerView, period as routerPeriod } from 'lib/const';
+import { calendar } from 'components/Timeline/apollo';
 import { config } from 'config'
-import { onError } from "apollo-link-error";
 
 const httpLink = new HttpLink({
   uri: config.graph.maker,
   credentials: "same-origin",
 });
 
-const errorLink = onError(error => {
-  const { graphQLErrors = [], networkError = {}, operation = {}, forward } =
-    error || {};
-  const { getContext } = operation || {};
-  const { scope, headers = {} } = getContext() || {};
-  const { message: networkErrorMessage = '' } = networkError || {};
-  const networkFailed = message =>
-    typeof message === 'string' &&
-    message.startsWith('NetworkError when attempting to fetch resource');
-
-  if (networkFailed(networkErrorMessage)) return forward(operation);
-});
-
-const link = errorLink.concat(httpLink);
-
 /**
  * @summary retrieves the corresponding query for the timeline.
- * @param {string} field if required for a specific query
  */
-const composeQuery = (view, period) => {
-  return getQuery('GET_POLLS');
-  /*
+const composeQuery = (view, period, terms) => {
   switch (view) {
-    case routerView.HOME:
-      return getQuery('GET_PROPOSALS');
-    case routerView.DAO:
-      return getQuery('GET_PROPOSALS_DAO', period);
-    case routerView.PROPOSAL:
-      return getQuery('GET_PROPOSAL_ID');
-    case routerView.PERIOD:
-      return getQuery('GET_PROPOSALS_TOKEN', period);
-    case routerView.DATE:
-      return getQuery('GET_PROPOSALS_DATE', period);
-    case routerView.ADDRESS:
-      return getQuery('GET_PROPOSALS_ADDRESS', period);
-    case routerView.SEARCH:
-      return getQuery('GET_PROPOSALS_SEARCH');
     default:
+      return getQuery('GET_POLLS', period, terms);
   }
-  */
+}
+
+/**
+* @summary translates the default names used in react to the ones required by the subgraph
+*/
+const translate = (source) => {
+  const sourceKeys = Object.keys(source);
+  const target = [];
+
+  for (const key of sourceKeys) {
+    switch (key) {
+      case 'orderDirection':
+        target.push({ 
+          source: key,
+          target: (source[key] === 'asc') ? 'asc' : 'desc'
+        });
+        break;
+      case 'orderBy':
+        switch (source[key]) {
+          case 'createdAt':
+          default:
+            target.push({
+              source: key,
+              target: 'startDate'
+            });
+        }
+        break;
+      default:
+    }
+  }
+  return target;
 }
 
 export const makerFeed = async (props) => {
   const { address, first, skip, orderBy, orderDirection, proposalId, param } = props;
-
-  console.log(`config.graph.maker: ${config.graph.maker}`);
-  console.log(props);
-  
-  // transpile
-  let final_orderBy;
-  switch (orderBy) {
-    case 'createdAt':
-    default:
-      final_orderBy = 'startDate'
-  }
-
-  const now = Math.floor(new Date().getTime() / 1000);
-  let { dateBegin, dateEnd } = now.toString();
-  if (props.view === routerView.DATE) {
-    dateBegin = Math.floor(new Date(param).getTime() / 1000).toString();
-    dateEnd = Math.floor((new Date(param).getTime() / 1000) + 86400).toString();
-  }
-
-  const client = initializeApollo(link);
+  const { now, dateBegin, dateEnd } = calendar(props, param);
+  const terms = translate(props);
+  const client = initializeApollo(httpLink);
   const res = await client.query({
-    query: composeQuery(props.view, props.period)
+    query: composeQuery(props.view, props.period, terms),
+    variables: { address, first, skip, orderBy, orderDirection, now, id: proposalId, param, startDate: dateBegin, endDate: dateEnd },
   })
   console.log(res);
 
