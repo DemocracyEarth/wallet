@@ -110,6 +110,11 @@ const _replicaThreshold = {
   NOT: -1,
 };
 
+const _protocol = {
+  MOLOCH: 'MOLOCH',
+  MAKER: 'MAKER'
+}
+
 export const $LANGUAGE = 'en';
 export const view = _view;
 export const period = _period;
@@ -120,3 +125,4 @@ export const gui = _gui;
 export const timers = _timers;
 export const blocktimes = _blocktimes;
 export const replicaThreshold = _replicaThreshold;
+export const protocol = _protocol;

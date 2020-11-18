@@ -32,7 +32,7 @@ export default class Choice extends Component {
     votingPeriodEnds: PropTypes.string,
     description: PropTypes.string,
     proposalIndex: PropTypes.string,
-    publicAddress: PropTypes.string,
+    daoAddress: PropTypes.string,
     daoName: PropTypes.string,
     now: PropTypes.number,
     abi: PropTypes.string,
@@ -67,7 +67,7 @@ export default class Choice extends Component {
 
   canVote = async (accountAddress) => {
     const web3 = new Web3(window.web3.currentProvider);
-    const dao = await new web3.eth.Contract(abiLibrary[this.props.abi], this.props.publicAddress);
+    const dao = await new web3.eth.Contract(abiLibrary[this.props.abi], this.props.daoAddress);
     const response = await dao.methods.members(web3.utils.toChecksumAddress(accountAddress)).call({}, (err, res) => {
       if (err) {
         walletError(err);
@@ -80,7 +80,7 @@ export default class Choice extends Component {
 
   hasVoted = async (accountAddress) => {
     const web3 = new Web3(window.web3.currentProvider);
-    const dao = await new web3.eth.Contract(abiLibrary[this.props.abi], this.props.publicAddress);
+    const dao = await new web3.eth.Contract(abiLibrary[this.props.abi], this.props.daoAddress);
     const response = await dao.methods.getMemberProposalVote(web3.utils.toChecksumAddress(accountAddress), this.props.proposalIndex).call({}, (err, res) => {
       if (err) {
         walletError(err);
@@ -93,7 +93,7 @@ export default class Choice extends Component {
 
   execute = async () => {
     const web3 = new Web3(window.web3.currentProvider);
-    const dao = await new web3.eth.Contract(abiLibrary[this.props.abi], this.props.publicAddress);
+    const dao = await new web3.eth.Contract(abiLibrary[this.props.abi], this.props.daoAddress);
     await dao.methods.submitVote(this.props.proposalIndex, this.props.voteValue).send({ from: this.props.accountAddress }, (err, res) => {
       if (err) {
         walletError(err);

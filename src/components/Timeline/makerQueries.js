@@ -49,5 +49,6 @@ const query = {
 export const getQuery = (name, period, terms) => {
   const res = query[name];
   const final = translate(res, terms);
+
   return gql(final);
 }

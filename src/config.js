@@ -14,6 +14,17 @@ export const config = {
     fortmatic: 'pk_live_0826872BC201129A',
     analytics: 'UA-69508804-1'
   },
+  protocol: [
+    {
+      tag: 'MAKER',
+      contract: '0x9ef05f7f6deb616fd37ac3c959a2ddd25a54e4f5',
+      graph: 'maker'
+    },
+    {
+      tag: 'MOLOCH',
+      graph: 'moloch'
+    }
+  ],
   component: {
     toggle: {
       checkedIcon: false,

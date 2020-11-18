@@ -93,6 +93,11 @@ DAOQuery.propTypes = {
 * @summary renders a post in the timeline
 */
 const DAO = (props) => {
+  for (const protocol of config.protocol) {
+    if (protocol.contract && protocol.contract === props.publicAddress) {
+      return null;
+    }
+  }
   return (
     <ApolloProvider client={client}>
       <DAOQuery publicAddress={props.publicAddress} width={props.width} height={props.height} format={props.format} />

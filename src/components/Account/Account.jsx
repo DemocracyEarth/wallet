@@ -52,6 +52,11 @@ const AccountQuery = ({ publicAddress, width, height, format, hidden }) => {
   const [getAccount, { data, loading, error }] = useLazyQuery(ENS_ACCOUNT, { variables: { publicAddress } });
   let label;
 
+  console.log(`accountquery---------------`);
+  console.log(publicAddress);
+  console.log(format);
+  console.log(width);
+
   let isMounted = true;
   useEffect(() => {
     if (isMounted) {
