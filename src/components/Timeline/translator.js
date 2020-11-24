@@ -24,12 +24,12 @@ const _hasAddition = (dictionary, keyword) => {
   return false;
 }
 
-function getKeyByValue(object, value) {
+function _getKeyByValue(object, value) {
   return Object.keys(object).find((key) => {
     if (object[key].match(value)) {
       return key;
     }
-    return object[key] === value;
+    return undefined;
   });
 }
 
@@ -37,6 +37,7 @@ const _getParameters = (instruction) => {
   const params = without(instruction.split(/\.|\[|\]/), "");
   return params;
 }
+
 
 const _retrieveValue = (source, params) => {
   switch (params.length) {
@@ -75,11 +76,11 @@ const _translate = (dataset, dictionary) => {
       }
       if (_hasAddition(dictionary.addition, keyword)) {
         if (_isExpression(keyword, Object.values(dictionary.addition))) {
-          const key = getKeyByValue(dictionary.addition, keyword);
+          const key = _getKeyByValue(dictionary.addition, keyword);
           const parameters = _getParameters(dictionary.addition[key])
           newPoll[key] = _retrieveValue(poll, parameters);
         } else {
-          newPoll[getKeyByValue(dictionary.addition, keyword)] = poll[keyword]
+          newPoll[_getKeyByValue(dictionary.addition, keyword)] = poll[keyword]
         }
       }
     }

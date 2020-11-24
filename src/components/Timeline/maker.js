@@ -54,7 +54,7 @@ const _getTerms = (source) => {
   return target;
 }
 
-const _dictionary = {
+const _thesaurus = {
   modification: {
     id: 'id',
     startDate: 'votingPeriodStarts',
@@ -80,7 +80,7 @@ export const makerFeed = async (props) => {
   
   return { 
     data: { 
-      proposals: translate(res.data.polls, _dictionary),
+      proposals: translate(res.data.polls, _thesaurus),
       protocol: protocol.MAKER
     }, 
     loading: res.loading,

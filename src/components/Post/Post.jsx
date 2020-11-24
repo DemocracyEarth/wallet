@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ReactMarkdown from 'react-markdown'
 import parser from 'html-react-parser';
 import { withRouter } from "react-router-dom";
 
@@ -39,12 +40,15 @@ const _getDescription = (description) => {
       title: json.title ? json.title : '',
       description: json.description ? wrapURLs(json.description) : '',
       link: (typeof json.link === 'function' || !json.link) ? '' : json.link,
+      markdown: (json.link && (json.link.slice(-3) === '.md'))
     };
   } else {
+    const markdown = (description && (description.slice(-3) === '.md'))
     content = {
       title: wrapURLs(description),
       description: null,
-      link: null,
+      link: markdown ? description : null,
+      markdown,
     };
   }
   return content;
@@ -59,12 +63,27 @@ class Post extends Component {
     this.state = _getDescription(this.props.description);
   }
 
+  componentDidMount() {
+    console.log(`this.state.markdown: ${this.state.markdown}`);
+    if (this.state.markdown) this.getMarkdown();
+  }
+
+  getMarkdown() {
+    let xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", this.state.link, false);
+    xmlHttp.send(null);
+    console.log(xmlHttp.responseText);
+    this.setState({ markdownText: xmlHttp.responseText });
+  }
+
   render() {
     const searchCache = i18n.t('search-post-preview', {
       title: typeof this.state.title === 'string' ? parser(this.state.title) : this.state.title,
       description: typeof this.state.description === 'string' ? parser(this.state.description) : this.state.description,
     });
     includeInSearch(this.props.href, searchCache, 'search-contract');
+
+    
 
     return (
       <div className="vote vote-search vote-feed nondraggable vote-poll">
@@ -90,6 +109,12 @@ class Post extends Component {
                 {
                   (this.state.link) ?
                     <div className="title-description">
+                      {
+                        (this.state.markdown) ?
+                          <ReactMarkdown children={this.state.markdownText} />
+                          :
+                          null
+                      }
                       <a href={this.state.link} target="_blank" rel="noopener noreferrer" onClick={(e) => { e.stopPropagation(); }}>{this.state.link}</a>
                     </div>
                     :

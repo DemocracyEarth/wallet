@@ -3339,6 +3339,11 @@ blockquote {
   opacity: 0;
 }
 
+.title-header {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 .icon-inbox {
   width: 22px;
   height: 22px;
