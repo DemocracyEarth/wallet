@@ -6,6 +6,7 @@ import { HttpLink } from 'apollo-boost';
 import { calendar } from 'components/Timeline/apollo';
 import { config } from 'config'
 import { protocol } from 'lib/const';
+import { translate } from 'components/Timeline/translator'
 
 const httpLink = new HttpLink({
   uri: config.graph.maker,
@@ -63,58 +64,8 @@ const _dictionary = {
     url: 'details',
   },
   addition: {
-    createdAt: 'startDate'
+    createdAt: 'timeLine[0].timestamp'
   }
-}
-
-const _hasKeyword = (keyword) => {
-
-  const modificationKeys = Object.keys(_dictionary.modification);
-  const additionValues = Object.values(_dictionary.addition);
-  
-  if (modificationKeys.includes(keyword)) {
-    console.log(`modificationkeys has.. ${keyword}`)
-    return 'MOD'
-  }
-  if (additionValues.includes(keyword)) {
-    console.log(`additionValues has.. ${keyword}`)
-    return 'ADD'
-  }
-  return false;
-}
-
-/**
-* @summary changes the data set to something that the user interface will understand
-*/
-const _translate = (data) => {
-  const finalRes = [];
-  let newPoll = {};
-  let finalPoll = {};
-  let pollKeys;
-  let section;
-  for (const poll of data.polls) {
-    newPoll = {};
-    pollKeys = Object.keys(poll);
-    console.log(pollKeys);
-
-    for (const keyword of pollKeys) {
-      section = _hasKeyword(keyword, poll);
-      if (section === 'MOD') {
-        newPoll[_dictionary.modification[keyword]] = poll[keyword]
-        console.log(JSON.stringify(newPoll));
-      }
-    }
-    finalPoll = {...poll, ...newPoll};
-    console.log(`finalPoll`);
-    console.log(finalPoll)
-
-    finalRes.push(finalPoll);
-
-  }
-
-  console.log(`finalRes:`);
-  console.log(finalRes);
-  return finalRes;
 }
 
 export const makerFeed = async (props) => {
@@ -126,12 +77,10 @@ export const makerFeed = async (props) => {
     query: _composeQuery(props.view, props.period, terms),
     variables: { address, first, skip, orderBy, orderDirection, now, id: proposalId, param, startDate: dateBegin, endDate: dateEnd },
   })
-  console.log(res);
-  console.log(_translate(res.data));
-
+  
   return { 
     data: { 
-      proposals: _translate(res.data),
+      proposals: translate(res.data.polls, _dictionary),
       protocol: protocol.MAKER
     }, 
     loading: res.loading,

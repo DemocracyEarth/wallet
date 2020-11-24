@@ -93,7 +93,7 @@ console.log(data);
     if (props.format === 'searchBar') {
       return <Search contextTag={{ id: param, text: i18n.t('search-default', { searchTerm: param }) }} />
     }
-    console.log('empty');
+
     return (
       <div className="empty-feed">
         <img className="empty-icon" src={notFound} alt="" />
@@ -199,13 +199,6 @@ console.log(data);
           proposalValue = _getProposalValue(proposal);
           abiLibrary = (proposal.molochVersion === '1') ? 'moloch' : 'moloch2';
       }
-      
-      console.log(`proposal.id: ${proposal.id}`);
-      console.log(`accountAddress: ${accountAddress}`);
-      console.log(`url: ${url}`);
-      console.log(`proposal.details: ${proposal.details}`)
-      console.log(`proposal.proposer: ${proposal.proposer}`);
-      console.log(`daoAddress: ${daoAddress}`);
 
       return (
         <Post
