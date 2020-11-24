@@ -3344,6 +3344,23 @@ blockquote {
   overflow: hidden;
 }
 
+.markdown {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #efefef;
+}
+
+.markdown p {
+  font-size: 1em;
+  line-height: 1.8em;
+}
+
+.markdown h2 {
+  color: black;
+  font-weight: 500;  
+}
+
 .icon-inbox {
   width: 22px;
   height: 22px;

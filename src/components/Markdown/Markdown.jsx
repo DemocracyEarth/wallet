@@ -33,7 +33,9 @@ export default class Markdown extends Component {
       <>
         {
           (this.state.text) ?
-            <ReactMarkdown children={this.state.text} />
+            <div class="markdown">
+              <ReactMarkdown children={this.state.text} />
+            </div>
           :
           null
         }
