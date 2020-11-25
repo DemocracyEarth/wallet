@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown'
 
 import 'styles/Dapp.css';
+const metadataParser = require('markdown-yaml-metadata-parser');
 
 export default class Markdown extends Component {
   static propTypes = {
@@ -25,7 +26,9 @@ export default class Markdown extends Component {
     xmlHttp.open('GET', this.props.link, false);
     xmlHttp.send(null);
     console.log(xmlHttp.responseText);
-    this.setState({ text: xmlHttp.responseText });
+    let parsedContent = metadataParser(xmlHttp.responseText);
+    console.log(parsedContent);
+    this.setState({ text: parsedContent.content });
   }
 
   render() {
@@ -33,7 +36,7 @@ export default class Markdown extends Component {
       <>
         {
           (this.state.text) ?
-            <div class="markdown">
+            <div className="markdown">
               <ReactMarkdown children={this.state.text} />
             </div>
           :
