@@ -47,7 +47,7 @@ const _getDescription = (description) => {
   } else {
     const markdown = (description && (description.slice(-3) === '.md'))
     content = {
-      title: wrapURLs(description),
+      title: !markdown ? wrapURLs(description) : null,
       description: null,
       link: markdown ? description : null,
       markdown,
@@ -82,9 +82,13 @@ class Post extends Component {
           <div className="option-proposal">
             <div className="option-title option-link option-search title-input">
               <div className="title-input title-feed">
-                <div className="title-header">
-                  {typeof this.state.title === 'string' ? parser(this.state.title) : this.state.title}
-                </div>
+                {(this.state.title) ?
+                  <div className="title-header">
+                    {(typeof this.state.title === 'string') ? parser(this.state.title) : this.state.title}
+                  </div>
+                  :
+                  null
+                }                
                 {
                   (this.state.description) ?
                     <div className="title-description">

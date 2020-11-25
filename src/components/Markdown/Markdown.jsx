@@ -28,12 +28,21 @@ export default class Markdown extends Component {
     console.log(xmlHttp.responseText);
     let parsedContent = metadataParser(xmlHttp.responseText);
     console.log(parsedContent);
-    this.setState({ text: parsedContent.content });
+    this.setState({ text: parsedContent.content, metadata: parsedContent.metadata });
   }
 
   render() {
     return (
       <>
+        {(this.state.metadata && this.state.metadata.summary) ?
+          <div className="title-input title-feed">
+            <div className="title-header">
+              {this.state.metadata.summary}
+            </div>
+          </div>
+          :
+          null
+        }
         {
           (this.state.text) ?
             <div className="markdown">
