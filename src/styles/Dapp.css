@@ -3349,16 +3349,45 @@ blockquote {
   background-color: #f0f0f57d;
   border-radius: 10px;
   padding: 20px;
-  box-shadow: 0px 3px 5px 0px #00000017;
+  border:1px solid #eaeaea;
 }
 
 .markdown a {
   color:var(--main-menu-color);
 }
 
+.markdown-expander {
+  background: linear-gradient(0deg, #F8F8FC 60px, transparent 100% );
+  padding: 75px 20px 15px;
+  border-bottom: 1px solid #eaeaea;
+  border-left: 1px solid #eaeaea;
+  border-right: 1px solid #eaeaea;
+  border-radius: 10px;
+  margin-top: -90px;
+  position: relative;
+}
+
+.markdown-expanded {
+  background: transparent;
+  padding: 15px 20px;
+}
+
+.markdown.expanded {
+  padding-bottom: 60px;
+}
+
+.markdown-link {
+  color:var(--menu-sidebar-selected);
+  cursor:pointer;
+}
+
+.markdown-link:hover {
+  text-decoration: underline;
+}
+
 .markdown.collapsed {
   max-height: 250px;
-  overflow: hidden;
+  overflow-y: scroll;
 }
 
 .markdown p {
@@ -6382,17 +6411,42 @@ mark {
   position: relative;
 }
 
+
+.read-more {
+  background-color: #e6e0ee;
+  font-size: 12.5px;
+  margin: 10px 0px 0px -5px;
+  display: block;
+  clear: both;
+  min-height: 30px;
+  border: 1px solid #e6e0ee;
+  color: var(--menu-sidebar-selected);
+  border-radius: 15px;
+  padding: 5px 10px 0px 15px;
+  width: max-content;
+  position: relative;
+  cursor: pointer;
+}
+
+.read-more-expanded {
+  background-color: var(--menu-sidebar-selected);
+  border: 1px solid var(--menu-sidebar-selected);
+  color: #e6e0ee;
+}
+
 .details.details-open {
   border: 1px solid var(--menu-sidebar-selected);
   background-color: var(--menu-sidebar-selected);
   color: white;
 }
 
+.read-more:hover,
 .details:hover {
   text-decoration: none;
   border: 1px solid var(--menu-sidebar-selected);
 }
 
+.read-more:active,
 .details:active {
   border: 1px solid #e6e0ee;
 }
@@ -6408,6 +6462,10 @@ mark {
   margin-bottom: 2px;
   margin-top: 4px;
   float: right;
+}
+
+.details-icon-markdown {
+  margin-top: 0px;
 }
 
 .details-wrapper {

@@ -871,6 +871,7 @@
   "synchronizer-finished": "DAO Updated",
   "scan-boilerplate-name": "{{init}} {{end}} DAO",
   "scan-boilerplate-bio": "{{DAOType}} deployed on {{address}}",
+  "moloch-token-guildkick": "Guild Kick",
   "dao-type-moloch": "A Moloch DAO",
   "dao-type-aragon": "An Aragon DAO",
   "dao-type-daostack": "A DAOStack",
@@ -948,5 +949,7 @@
   "meta-date": "Proposals from {{date}}.",
   "meta-search": "Proposals mentioning {{search}}.",
   "failure": "😱 Blockchain unreachable<br>{{errorMessage}}<br><a href='https://status.thegraph.com/' target='_blank'>Check network status.</a>",
-  "failure-short": "😱"
+  "failure-short": "😱",
+  "markdown-read-full-article": "Show proposal",
+  "markdown-collapse-article": "Collapse proposal"
 }
