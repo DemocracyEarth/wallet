@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown'
 import i18n from 'i18n';
-import Expand from 'components/Expand/Expand';
-import ethereum from 'images/ethereum.svg';
-import ethereumActive from 'images/ethereum-active.svg';
+
+import Choice from 'components/Choice/Choice';
+import Token from 'components/Token/Token';
+
 import arrowDown from 'images/arrow-down.svg';
 import arrowDownActive from 'images/arrow-down-active.svg';
 import arrowUpActive from 'images/arrow-up-active.svg';
@@ -16,6 +17,11 @@ export default class Markdown extends Component {
   static propTypes = {
     link: PropTypes.string,
     collapsed: PropTypes.bool,
+    daoAddress: PropTypes.string,
+    description: PropTypes.string,
+    accountAddress: PropTypes.string,
+    votingPeriodBegins: PropTypes.string,
+    votingPeriodEnds: PropTypes.string,
   }
 
   constructor(props) {
@@ -24,6 +30,8 @@ export default class Markdown extends Component {
       text: '',
       collapsed: props.collapsed ? props.collapsed : true,
       img: (props.collapsed) ? arrowDownActive : arrowDown,
+      hasPoll: false,
+      options: []
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -40,7 +48,9 @@ export default class Markdown extends Component {
     console.log(xmlHttp.responseText);
     let parsedContent = metadataParser(xmlHttp.responseText);
     console.log(parsedContent);
-    this.setState({ text: parsedContent.content, metadata: parsedContent.metadata });
+    let hasPoll = (parsedContent.metadata && parsedContent.metadata.options);
+    console.log(`hasPoll: ${hasPoll}`);
+    this.setState({ text: parsedContent.content, metadata: parsedContent.metadata, hasPoll, options: Object.values(parsedContent.metadata.options) });
   }
 
 
@@ -53,6 +63,8 @@ export default class Markdown extends Component {
 
 
   render() {
+    const timestamp = Math.floor(new Date().getTime() / 1000);
+
     return (
       <>
         {(this.state.metadata && this.state.metadata.summary) ?
@@ -86,6 +98,22 @@ export default class Markdown extends Component {
             </>
           :
           null
+        }
+        {
+          (this.state.hasPoll) ?
+            this.state.options.map((option, index) => (
+              <Choice
+                now={timestamp}
+                accountAddress={this.props.accountAddress} daoAddress={this.props.daoAddress} description={this.props.description}
+                proposalIndex={index} label={option} percentage={0}
+                voteValue={index} votingPeriodEnds={this.props.votingPeriodEnds} votingPeriodBegins={this.props.votingPeriodStarts}
+                abi={'maker'}
+              >
+                <Token quantity={0} symbol="MKR" />
+              </Choice>
+            ))
+            :
+            null
         }
       </>
     );

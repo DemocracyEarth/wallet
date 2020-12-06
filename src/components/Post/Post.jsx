@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import parser from 'html-react-parser';
 import { withRouter } from "react-router-dom";
 
+import { protocol } from 'lib/const';
 import i18n from 'i18n';
 import { wrapURLs } from 'utils/strings';
 import { includeInSearch } from 'components/Search/Search';
@@ -60,6 +61,21 @@ const _getDescription = (description) => {
 * @summary renders a post in the timeline
 */
 class Post extends Component {
+  static propTypes = {
+    href: PropTypes.string,
+    description: PropTypes.string,
+    daoAddress: PropTypes.string,
+    memberAddress: PropTypes.string,
+    protocol: PropTypes.string,
+    accountAddress: PropTypes.string,
+    votingPeriodBegins: PropTypes.string,
+    votingPeriodEnds: PropTypes.string,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
+  }
+
   constructor(props) {
     super(props);
     this.state = _getDescription(this.props.description);
@@ -101,8 +117,12 @@ class Post extends Component {
                   (this.state.link) ?
                     <div className="title-description">
                       {
-                        (this.state.markdown) ?
-                          <Markdown link={this.state.link} />
+                        (this.state.markdown && this.props.protocol === protocol.MAKER) ?
+                          <Markdown link={this.state.link} 
+                            daoAddress={this.props.daoAddress} description={this.state.description}
+                            accountAddress={this.props.accountAddress}
+                            votingPeriodEnds={this.props.votingPeriodEnds} votingPeriodBegins={this.props.votingPeriodStarts}
+                          />
                           :
                           <a href={this.state.link} target="_blank" rel="noopener noreferrer" onClick={(e) => { e.stopPropagation(); }}>{this.state.link}</a>
                       }
@@ -119,17 +139,6 @@ class Post extends Component {
     );
   }
 }
-
-Post.propTypes = {
-  href: PropTypes.string,
-  description: PropTypes.string,
-  daoAddress: PropTypes.string,
-  memberAddress: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
-};
 
 export default withRouter(Post);
 export const getDescription = _getDescription;

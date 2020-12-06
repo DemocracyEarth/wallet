@@ -204,7 +204,8 @@ console.log(data);
         <Post
           key={proposal.id} accountAddress={accountAddress} href={url}
           description={proposal.details} memberAddress={proposal.proposer}
-          daoAddress={daoAddress}
+          daoAddress={daoAddress} protocol={data.protocol} 
+          votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
         >
           {(data.protocol === protocol.MOLOCH) ?
             <div className="expanders">
