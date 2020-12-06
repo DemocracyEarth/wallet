@@ -113,25 +113,21 @@ class Post extends Component {
                     :
                     null
                 }
-                {
-                  (this.state.link) ?
-                    <div className="title-description">
-                      {
-                        (this.state.markdown && this.props.protocol === protocol.MAKER) ?
-                          <Markdown link={this.state.link} 
-                            daoAddress={this.props.daoAddress} description={this.state.description}
-                            accountAddress={this.props.accountAddress}
-                            votingPeriodEnds={this.props.votingPeriodEnds} votingPeriodBegins={this.props.votingPeriodStarts}
-                          />
-                          :
-                          <a href={this.state.link} target="_blank" rel="noopener noreferrer" onClick={(e) => { e.stopPropagation(); }}>{this.state.link}</a>
-                      }
-                    </div>
-                    :
-                    null
-                }
               </div>
             </div>
+            {
+              (this.state.link) ?
+                (this.state.markdown && this.props.protocol === protocol.MAKER) ?
+                  <Markdown link={this.state.link}
+                    daoAddress={this.props.daoAddress} description={this.state.description}
+                    accountAddress={this.props.accountAddress}
+                    votingPeriodEnds={this.props.votingPeriodEnds} votingPeriodBegins={this.props.votingPeriodStarts}
+                  />
+                  :
+                  <a href={this.state.link} target="_blank" rel="noopener noreferrer" onClick={(e) => { e.stopPropagation(); }}>{this.state.link}</a>
+                :
+                null
+            }
           </div>
           {this.props.children}
         </div>
