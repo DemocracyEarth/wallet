@@ -57,12 +57,8 @@ export default class MakerDAO extends Component {
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.open('GET', this.props.link, false);
     xmlHttp.send(null);
-    console.log(xmlHttp.responseText);
     let parsedContent = metadataParser(xmlHttp.responseText);
-    console.log(parsedContent);
     const hasPoll = (parsedContent.metadata && parsedContent.metadata.options);
-    console.log(`hasPoll: ${hasPoll}`);
-    console.log(hasPoll);
     this.setState({ text: parsedContent.content, metadata: parsedContent.metadata, hasPoll, options: Object.values(parsedContent.metadata.options) });
   }
 
@@ -129,13 +125,13 @@ export default class MakerDAO extends Component {
                 <Survey>
                   {this.state.options.map((option, index) => (
                     <Choice
-                      now={timestamp}
+                      now={timestamp} key={index}
                       accountAddress={this.props.accountAddress} daoAddress={this.props.daoAddress} description={this.props.description}
-                      proposalIndex={index} label={option} percentage={'0%'}
+                      proposalIndex={index.toString()} label={option} percentage={'0%'}
                       voteValue={index} votingPeriodEnds={this.props.votingPeriodEnds} votingPeriodBegins={this.props.votingPeriodStarts}
                       abi={'maker'}
                     >
-                      <Token quantity={0} symbol="MKR" />
+                      <Token quantity={'0'} symbol="MKR" />
                     </Choice>
                   ))}
                 </Survey>

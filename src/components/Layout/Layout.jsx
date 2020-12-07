@@ -4,7 +4,6 @@ import { useParams, useLocation } from 'react-router-dom';
 
 import Menu from 'components/Menu/Menu';
 import Timeline from 'components/Timeline/Timeline';
-import Ledger from 'components/Ledger/Ledger';
 import Burger from 'components/Menu/Burger';
 import TabMenu, { showMain, showAlternative } from 'components/TabMenu/TabMenu';
 import DocumentMeta from 'react-document-meta';
