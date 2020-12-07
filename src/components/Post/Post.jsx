@@ -70,6 +70,7 @@ class Post extends Component {
     accountAddress: PropTypes.string,
     votingPeriodBegins: PropTypes.string,
     votingPeriodEnds: PropTypes.string,
+    voteHistory: PropTypes.arrayOf(PropTypes.object),
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
@@ -119,7 +120,7 @@ class Post extends Component {
               {
                 (this.state.link) ?
                   (this.state.markdown && this.props.protocol === protocol.MAKER) ?
-                    <MakerDAO link={this.state.link} href={this.props.href}
+                    <MakerDAO link={this.state.link} voteHistory={this.props.voteHistory} href={this.props.href}
                       daoAddress={this.props.daoAddress} description={this.state.description}
                       accountAddress={this.props.accountAddress}
                       votingPeriodEnds={this.props.votingPeriodEnds} votingPeriodBegins={this.props.votingPeriodStarts}

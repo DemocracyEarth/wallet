@@ -32,6 +32,7 @@ export default class MakerDAO extends Component {
     accountAddress: PropTypes.string,
     votingPeriodBegins: PropTypes.string,
     votingPeriodEnds: PropTypes.string,
+    voteHistory: PropTypes.arrayOf(PropTypes.object),
   }
 
   constructor(props) {
@@ -44,6 +45,8 @@ export default class MakerDAO extends Component {
       options: [],
       openImg: link,
     };
+
+    console.log(props.voteHistory);
 
     this.handleClick = this.handleClick.bind(this);
     this.openToggle = this.openToggle.bind(this);
