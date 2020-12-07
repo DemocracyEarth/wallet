@@ -3357,7 +3357,7 @@ blockquote {
 }
 
 .markdown-expander {
-  background: linear-gradient(0deg, #F8F8FC 45px, transparent 100% );
+  background: linear-gradient(0deg, #F8F8FA 45px, transparent 100% );
   padding: 35px 20px 40px;
   border-bottom: 1px solid #eaeaea;
   border-left: 1px solid #eaeaea;

@@ -84,14 +84,14 @@ export default class Markdown extends Component {
     const timestamp = Math.floor(new Date().getTime() / 1000);
 
     const linkButton = (
-      <Link to={this.props.link} target="_blank" className="micro-button micro-button-feed no-underline" rel="noopener noreferrer"
+      <a href={this.props.link} target="_blank" className="micro-button micro-button-feed no-underline"
         onMouseEnter={this.openToggle} onMouseLeave={this.openToggle}
       >
         <img src={this.state.openImg} className="micro-icon" alt="" />
         <div className="micro-label-button">
           {i18n.t('markdown-open-proposal-link')}
         </div>
-      </Link>
+      </a>
     )
 
     return (
@@ -107,15 +107,9 @@ export default class Markdown extends Component {
           (this.state.text) ?
             <>
               <ReactMarkdown className={(this.state.collapsed) ? "markdown collapsed" : "markdown expanded"} children={this.state.text} />
-              {(this.state.collapsed) ?
-                <div className="markdown-expander" onClick={this.handleClick}>
-                  {linkButton}
-                </div>
-                :
-                <div className="markdown-expander markdown-expanded" onClick={this.handleClick}>
-                  {linkButton}
-                </div>
-              }
+              <div className="markdown-expander">
+                {linkButton}
+              </div>
             </>
           :
           null
