@@ -9,7 +9,7 @@ import i18n from 'i18n';
 import { wrapURLs } from 'utils/strings';
 import { includeInSearch } from 'components/Search/Search';
 import Account from 'components/Account/Account';
-import Markdown from 'components/Markdown/Markdown';
+import MakerDAO from 'components/MakerDAO/MakerDAO';
 
 import DAO from 'components/DAO/DAO';
 
@@ -119,7 +119,7 @@ class Post extends Component {
               {
                 (this.state.link) ?
                   (this.state.markdown && this.props.protocol === protocol.MAKER) ?
-                    <Markdown link={this.state.link}
+                    <MakerDAO link={this.state.link} href={this.props.href}
                       daoAddress={this.props.daoAddress} description={this.state.description}
                       accountAddress={this.props.accountAddress}
                       votingPeriodEnds={this.props.votingPeriodEnds} votingPeriodBegins={this.props.votingPeriodStarts}

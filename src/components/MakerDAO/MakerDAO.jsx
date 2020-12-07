@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown'
 import i18n from 'i18n';
-import { Link } from 'react-router-dom';
 
 import Choice from 'components/Choice/Choice';
 import Token from 'components/Token/Token';
 import Countdown from 'components/Countdown/Countdown';
 import Poll from 'components/Poll/Poll';
+import Survey from 'components/Poll/Survey';
 import Expand from 'components/Expand/Expand';
 
 import arrowDown from 'images/arrow-down.svg';
@@ -22,8 +22,9 @@ import linkActive from 'images/link-active.svg';
 import 'styles/Dapp.css';
 const metadataParser = require('markdown-yaml-metadata-parser');
 
-export default class Markdown extends Component {
+export default class MakerDAO extends Component {
   static propTypes = {
+    href: PropTypes.string,
     link: PropTypes.string,
     collapsed: PropTypes.bool,
     daoAddress: PropTypes.string,
@@ -84,7 +85,7 @@ export default class Markdown extends Component {
     const timestamp = Math.floor(new Date().getTime() / 1000);
 
     const linkButton = (
-      <a href={this.props.link} target="_blank" className="micro-button micro-button-feed no-underline"
+      <a href={this.props.link} target="_blank" rel="noopener noreferrer" className="micro-button micro-button-feed no-underline"
         onMouseEnter={this.openToggle} onMouseLeave={this.openToggle}
       >
         <img src={this.state.openImg} className="micro-icon" alt="" />
@@ -116,7 +117,7 @@ export default class Markdown extends Component {
         }
         {
           (this.state.hasPoll) ?
-            <Expand url={''} label={'0'} open={false}
+            <Expand url={this.props.href} label={this.state.metadata.vote_type} open={false}
               icon={hand} iconActive={handActive}
             >
               <Poll>
@@ -125,17 +126,19 @@ export default class Markdown extends Component {
                   votingPeriodEnds={this.props.votingPeriodEnds} votingPeriodBegins={this.props.votingPeriodStarts}
                   gracePeriodEnds={this.props.votingPeriodEnds}
                 />
-                {this.state.options.map((option, index) => (
-                  <Choice
-                    now={timestamp}
-                    accountAddress={this.props.accountAddress} daoAddress={this.props.daoAddress} description={this.props.description}
-                    proposalIndex={index} label={option} percentage={'0%'}
-                    voteValue={index} votingPeriodEnds={this.props.votingPeriodEnds} votingPeriodBegins={this.props.votingPeriodStarts}
-                    abi={'maker'}
-                  >
-                    <Token quantity={0} symbol="MKR" />
-                  </Choice>
-                ))}
+                <Survey>
+                  {this.state.options.map((option, index) => (
+                    <Choice
+                      now={timestamp}
+                      accountAddress={this.props.accountAddress} daoAddress={this.props.daoAddress} description={this.props.description}
+                      proposalIndex={index} label={option} percentage={'0%'}
+                      voteValue={index} votingPeriodEnds={this.props.votingPeriodEnds} votingPeriodBegins={this.props.votingPeriodStarts}
+                      abi={'maker'}
+                    >
+                      <Token quantity={0} symbol="MKR" />
+                    </Choice>
+                  ))}
+                </Survey>
               </Poll>
             </Expand>
             :
