@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown'
 import i18n from 'i18n';
+import { Link } from 'react-router-dom';
 
 import Choice from 'components/Choice/Choice';
 import Token from 'components/Token/Token';
@@ -14,6 +15,9 @@ import arrowDownActive from 'images/arrow-down-active.svg';
 import arrowUpActive from 'images/arrow-up-active.svg';
 import hand from 'images/hand.svg';
 import handActive from 'images/hand-active.svg';
+import link from 'images/link.svg';
+import linkActive from 'images/link-active.svg';
+
 
 import 'styles/Dapp.css';
 const metadataParser = require('markdown-yaml-metadata-parser');
@@ -36,10 +40,12 @@ export default class Markdown extends Component {
       collapsed: props.collapsed ? props.collapsed : true,
       img: (props.collapsed) ? arrowDownActive : arrowDown,
       hasPoll: false,
-      options: []
+      options: [],
+      openImg: link,
     };
 
     this.handleClick = this.handleClick.bind(this);
+    this.openToggle = this.openToggle.bind(this);
   }
 
   componentDidMount() {
@@ -67,17 +73,32 @@ export default class Markdown extends Component {
     if (!this.state.collapsed) { this.setState({ img: arrowDown }); } else { this.setState({ img: arrowUpActive }); };
   }
 
+  openToggle() {
+    if (this.state.openImg === link) {
+      return this.setState({ openImg: linkActive })
+    }
+    return this.setState({ openImg: link })
+  }
 
   render() {
     const timestamp = Math.floor(new Date().getTime() / 1000);
+
+    const linkButton = (
+      <Link to={this.props.link} target="_blank" className="micro-button micro-button-feed no-underline" rel="noopener noreferrer"
+        onMouseEnter={this.openToggle} onMouseLeave={this.openToggle}
+      >
+        <img src={this.state.openImg} className="micro-icon" alt="" />
+        <div className="micro-label-button">
+          {i18n.t('markdown-open-proposal-link')}
+        </div>
+      </Link>
+    )
 
     return (
       <>
         {(this.state.metadata && this.state.metadata.summary) ?
           <div className="title-input title-feed">
-            <div className="title-header">
-              {this.state.metadata.summary}
-            </div>
+            {this.state.metadata.summary}
           </div>
           :
           null
@@ -88,17 +109,11 @@ export default class Markdown extends Component {
               <ReactMarkdown className={(this.state.collapsed) ? "markdown collapsed" : "markdown expanded"} children={this.state.text} />
               {(this.state.collapsed) ?
                 <div className="markdown-expander" onClick={this.handleClick}>
-                  <div className="read-more">
-                    {i18n.t('markdown-read-full-article')}
-                    <img className="details-icon details-icon-markdown" alt="" src={this.state.img} />
-                  </div>
+                  {linkButton}
                 </div>
                 :
                 <div className="markdown-expander markdown-expanded" onClick={this.handleClick}>
-                  <div className="read-more read-more-expanded">
-                    {i18n.t('markdown-collapse-article')}
-                    <img className="details-icon details-icon-markdown" alt="" src={this.state.img} />
-                  </div>
+                  {linkButton}
                 </div>
               }
             </>

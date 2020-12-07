@@ -97,37 +97,39 @@ class Post extends Component {
           </div>
           <div className="option-proposal">
             <div className="option-title option-link option-search title-input">
-              <div className="title-input title-feed">
-                {(this.state.title) ?
+              {(this.state.title) ?
+                <div className="title-input title-feed">
                   <div className="title-header">
                     {(typeof this.state.title === 'string') ? parser(this.state.title) : this.state.title}
                   </div>
-                  :
-                  null
-                }                
-                {
-                  (this.state.description) ?
+                </div>
+                :
+                null
+              }                
+              {
+                (this.state.description) ?
+                    <div className="title-input title-feed">
                     <div className="title-description">
                       {typeof this.state.description === 'string' ? parser(this.state.description) : this.state.description}
                     </div>
-                    :
-                    null
-                }
-              </div>
-            </div>
-            {
-              (this.state.link) ?
-                (this.state.markdown && this.props.protocol === protocol.MAKER) ?
-                  <Markdown link={this.state.link}
-                    daoAddress={this.props.daoAddress} description={this.state.description}
-                    accountAddress={this.props.accountAddress}
-                    votingPeriodEnds={this.props.votingPeriodEnds} votingPeriodBegins={this.props.votingPeriodStarts}
-                  />
+                  </div>
                   :
-                  <a href={this.state.link} target="_blank" rel="noopener noreferrer" onClick={(e) => { e.stopPropagation(); }}>{this.state.link}</a>
-                :
-                null
-            }
+                  null
+              }
+              {
+                (this.state.link) ?
+                  (this.state.markdown && this.props.protocol === protocol.MAKER) ?
+                    <Markdown link={this.state.link}
+                      daoAddress={this.props.daoAddress} description={this.state.description}
+                      accountAddress={this.props.accountAddress}
+                      votingPeriodEnds={this.props.votingPeriodEnds} votingPeriodBegins={this.props.votingPeriodStarts}
+                    />
+                    :
+                    <a href={this.state.link} target="_blank" rel="noopener noreferrer" onClick={(e) => { e.stopPropagation(); }}>{this.state.link}</a>
+                  :
+                  null
+              }
+            </div>
           </div>
           {this.props.children}
         </div>

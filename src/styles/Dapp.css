@@ -3357,13 +3357,14 @@ blockquote {
 }
 
 .markdown-expander {
-  background: linear-gradient(0deg, #F8F8FC 60px, transparent 100% );
-  padding: 75px 20px 15px;
+  background: linear-gradient(0deg, #F8F8FC 45px, transparent 100% );
+  padding: 35px 20px 40px;
   border-bottom: 1px solid #eaeaea;
   border-left: 1px solid #eaeaea;
   border-right: 1px solid #eaeaea;
   border-radius: 10px;
-  margin-top: -90px;
+  margin-top: -70px;
+  margin-bottom: 20px;
   position: relative;
 }
 
