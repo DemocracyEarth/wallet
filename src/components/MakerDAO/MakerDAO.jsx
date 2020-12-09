@@ -18,6 +18,8 @@ import hand from 'images/hand.svg';
 import handActive from 'images/hand-active.svg';
 import link from 'images/link.svg';
 import linkActive from 'images/link-active.svg';
+import discuss from 'images/discuss.svg';
+import discussActive from 'images/discuss-active.svg';
 
 
 import 'styles/Dapp.css';
@@ -47,6 +49,7 @@ export default class MakerDAO extends Component {
       hasPoll: false,
       tally: [],
       openImg: link,
+      discussImg: discuss,
       label: '',
     };
 
@@ -54,6 +57,7 @@ export default class MakerDAO extends Component {
 
     this.handleClick = this.handleClick.bind(this);
     this.openToggle = this.openToggle.bind(this);
+    this.discussToggle = this.discussToggle.bind(this);
   }
 
   componentDidMount() {
@@ -61,66 +65,56 @@ export default class MakerDAO extends Component {
   }
 
   tally(options) {
-    const final = options;
-    console.log(`options:`);
-    console.log(options);
-    console.log(`this.props.voteHistory:`);
-    console.log(this.props.voteHistory);
-    console.log(`this.props.timeLine:`);
-    console.log(this.props.timeLine);
-
-    const keys = Object.keys(options);
     const tally = [];
 
-    for (const key of keys) {
-      tally.push({
-        voters: 0,
-        label: options[key],
-        optionId: key,
-        percentage: 0
-      })
-    }
-  
-    let found;
-    for (const vote of this.props.voteHistory) {
-      if (options[vote.option] && vote.__typename === 'PollVote') {
-        found = false;
-        for (const choice of tally) {
-          if (choice.label === options[vote.option]) {
-            choice.voters ++;
-            found = true;
-            break;
+    if (options !== undefined || options !== null) {
+      const keys = Object.keys(options);
+
+      for (const key of keys) {
+        tally.push({
+          voters: 0,
+          label: options[key],
+          optionId: key,
+          percentage: 0
+        })
+      }
+    
+      let found;
+      for (const vote of this.props.voteHistory) {
+        if (options[vote.option] && vote.__typename === 'PollVote') {
+          found = false;
+          for (const choice of tally) {
+            if (choice.label === options[vote.option]) {
+              choice.voters ++;
+              found = true;
+              break;
+            }
+          }
+          if (!found) {
+            tally.push({
+              voters: 1,
+              label: options[vote.option],
+              optionId: vote.option,
+              percentage: 0
+            })
           }
         }
-        if (!found) {
-          tally.push({
-            voters: 1,
-            label: options[vote.option],
-            optionId: vote.option,
-            percentage: 0
-          })
+      }
+
+      // percentages
+      let totalPercentage = 0;
+      for (const score of tally) { if (score.voters) totalPercentage += parseInt(Number(score.voters), 10); }
+      for (const item of tally) {
+        if (totalPercentage > 0) {
+          item.percentage = parseFloat((item.voters * 100) / totalPercentage, 10).toString();
+        } else {
+          item.percentage = '0';
         }
       }
+      
+      console.log(`tally:`);
+      console.log(tally);
     }
-
-    // percentages
-    let totalPercentage = 0;
-    for (const score of tally) {
-      if (score.voters) totalPercentage += parseInt(Number(score.voters), 10); 
-    }
-    for (const item of tally) {
-      console.log(item.voters);
-      if (totalPercentage > 0) {
-        item.percentage = parseFloat((item.voters * 100) / totalPercentage, 10).toString();
-      } else {
-        item.percentage = '0';
-      }
-    }
-    
-    console.log(`tally:`);
-    console.log(tally);
-
-    console.log('-----');
     return tally; //  Object.values(final);
   }
 
@@ -153,15 +147,22 @@ export default class MakerDAO extends Component {
     return this.setState({ openImg: link })
   }
 
+  discussToggle() {
+    if (this.state.discussImg === discuss) {
+      return this.setState({ discussImg: discussActive })
+    }
+    return this.setState({ discussImg: discuss })
+  }
+
   render() {
     const timestamp = Math.floor(new Date().getTime() / 1000);
 
     const linkButton = (
       <>
         <a href={(this.state.metadata && this.state.metadata.discussion_link) ? this.state.metadata.discussion_link : ''} target="_blank" rel="noopener noreferrer" className="micro-button micro-button-feed no-underline"
-          onMouseEnter={this.openToggle} onMouseLeave={this.openToggle}
+          onMouseEnter={this.discussToggle} onMouseLeave={this.discussToggle}
         >
-          <img src={this.state.openImg} className="micro-icon" alt="" />
+          <img src={this.state.discussImg} className="micro-icon" alt="" />
           <div className="micro-label-button">
             {i18n.t('markdown-open-discussion-link')}
           </div>
