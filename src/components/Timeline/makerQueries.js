@@ -27,6 +27,20 @@ const PROPOSAL_DATA = `
     block
     transactionHash
     timestamp
+    type: __typename
+      ... on VotePollAction {
+        sender
+        timestamp
+        option
+        id
+        transactionHash
+      }
+      ... on CreatePollAction {
+        block
+      }
+      ... on WithdrawPollAction {
+        block
+      }
   }
 `;
 const PROPOSAL_ORDER = `$first: Int, $skip: Int`;
@@ -52,3 +66,60 @@ export const getQuery = (name, period, terms) => {
 
   return gql(final);
 }
+
+/*
+
+Example query to use on GraphQL:
+
+ query makerPolls {
+  polls(first: 1, skip: 0) {
+    id
+    creator
+    blockCreated
+    pollId
+    startDate
+    endDate
+    multiHash
+    url
+    withdrawn
+    votesCount
+    votes {
+      id
+      voter
+      option
+      block
+      transactionHash
+      timestamp
+    }
+    timeLineCount
+    timeLine {
+      id
+      block
+      transactionHash
+      timestamp
+      type: __typename
+      ... on VotePollAction {
+        sender
+        timestamp
+        option
+        id
+        transactionHash
+      }
+      ... on CreatePollAction {
+        block
+      }
+      ... on WithdrawPollAction {
+        block
+      }
+    }
+  }
+  vote: actions(where: {type: VOTE}) {
+    id
+    timestamp
+    wad
+    type
+    sender
+    yays
+  }
+}
+*/

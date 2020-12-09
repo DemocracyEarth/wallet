@@ -935,6 +935,7 @@
   "see-proposal-details": "Proposal details",
   "see-proposal-vote": "Result",
   "see-proposal-vote-count": "<strong>{{totalVoters}}</strong> {{voterLabel}}",
+  "see-proposal-maker-count": "<strong>{{totalVoters}} voters</strong> using <strong>{{voterLabel}}</strong>",
   "proposal-value": "Proposal for <strong>{{value}} {{symbol}}</strong>",
   "open-proposal": "Open proposal",
   "meta-title": "Democracy Earth",
@@ -952,5 +953,6 @@
   "failure-short": "😱",
   "markdown-read-full-article": "Show proposal",
   "markdown-collapse-article": "Collapse proposal",
-  "markdown-open-proposal-link": "Proposal link"
+  "markdown-open-proposal-link": "Proposal link",
+  "markdown-open-discussion-link": "Discussion link"
 }

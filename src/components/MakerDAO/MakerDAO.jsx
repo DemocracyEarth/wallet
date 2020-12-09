@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown'
 import i18n from 'i18n';
+import reduce from 'lodash';
 
 import Choice from 'components/Choice/Choice';
 import Token from 'components/Token/Token';
@@ -32,7 +33,9 @@ export default class MakerDAO extends Component {
     accountAddress: PropTypes.string,
     votingPeriodBegins: PropTypes.string,
     votingPeriodEnds: PropTypes.string,
+    voteCount: PropTypes.string,
     voteHistory: PropTypes.arrayOf(PropTypes.object),
+    timeLine: PropTypes.arrayOf(PropTypes.object),
   }
 
   constructor(props) {
@@ -42,8 +45,9 @@ export default class MakerDAO extends Component {
       collapsed: props.collapsed ? props.collapsed : true,
       img: (props.collapsed) ? arrowDownActive : arrowDown,
       hasPoll: false,
-      options: [],
+      tally: [],
       openImg: link,
+      label: '',
     };
 
     console.log(props.voteHistory);
@@ -56,13 +60,82 @@ export default class MakerDAO extends Component {
     if (this.props.link) this.getMarkdown();
   }
 
+  tally(options) {
+    const final = options;
+    console.log(`options:`);
+    console.log(options);
+    console.log(`this.props.voteHistory:`);
+    console.log(this.props.voteHistory);
+    console.log(`this.props.timeLine:`);
+    console.log(this.props.timeLine);
+
+    const keys = Object.keys(options);
+    const tally = [];
+
+    for (const key of keys) {
+      tally.push({
+        voters: 0,
+        label: options[key],
+        optionId: key,
+        percentage: 0
+      })
+    }
+  
+    let found;
+    for (const vote of this.props.voteHistory) {
+      if (options[vote.option] && vote.__typename === 'PollVote') {
+        found = false;
+        for (const choice of tally) {
+          if (choice.label === options[vote.option]) {
+            choice.voters ++;
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          tally.push({
+            voters: 1,
+            label: options[vote.option],
+            optionId: vote.option,
+            percentage: 0
+          })
+        }
+      }
+    }
+
+    // percentages
+    let totalPercentage = 0;
+    for (const score of tally) {
+      if (score.voters) totalPercentage += parseInt(Number(score.voters), 10); 
+    }
+    for (const item of tally) {
+      console.log(item.voters);
+      if (totalPercentage > 0) {
+        item.percentage = parseFloat((item.voters * 100) / totalPercentage, 10).toString();
+      } else {
+        item.percentage = '0';
+      }
+    }
+    
+    console.log(`tally:`);
+    console.log(tally);
+
+    console.log('-----');
+    return tally; //  Object.values(final);
+  }
+
   getMarkdown() {
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.open('GET', this.props.link, false);
     xmlHttp.send(null);
     let parsedContent = metadataParser(xmlHttp.responseText);
     const hasPoll = (parsedContent.metadata && parsedContent.metadata.options);
-    this.setState({ text: parsedContent.content, metadata: parsedContent.metadata, hasPoll, options: Object.values(parsedContent.metadata.options) });
+    console.log(`parsedContent:`);
+    console.log(parsedContent);
+    this.setState({ text: parsedContent.content, metadata: parsedContent.metadata, 
+      hasPoll, tally: this.tally(parsedContent.metadata.options),
+      label: (Number(this.props.voteCount) > 0) ? i18n.t('see-proposal-maker-count', { totalVoters: this.props.voteCount, voterLabel: parsedContent.metadata.vote_type }) : i18n.t('no-voters'),
+    });
   }
 
 
@@ -84,15 +157,27 @@ export default class MakerDAO extends Component {
     const timestamp = Math.floor(new Date().getTime() / 1000);
 
     const linkButton = (
-      <a href={this.props.link} target="_blank" rel="noopener noreferrer" className="micro-button micro-button-feed no-underline"
-        onMouseEnter={this.openToggle} onMouseLeave={this.openToggle}
-      >
-        <img src={this.state.openImg} className="micro-icon" alt="" />
-        <div className="micro-label-button">
-          {i18n.t('markdown-open-proposal-link')}
-        </div>
-      </a>
+      <>
+        <a href={(this.state.metadata && this.state.metadata.discussion_link) ? this.state.metadata.discussion_link : ''} target="_blank" rel="noopener noreferrer" className="micro-button micro-button-feed no-underline"
+          onMouseEnter={this.openToggle} onMouseLeave={this.openToggle}
+        >
+          <img src={this.state.openImg} className="micro-icon" alt="" />
+          <div className="micro-label-button">
+            {i18n.t('markdown-open-discussion-link')}
+          </div>
+        </a>
+        <a href={this.props.link} target="_blank" rel="noopener noreferrer" className="micro-button micro-button-feed no-underline"
+          onMouseEnter={this.openToggle} onMouseLeave={this.openToggle}
+        >
+          <img src={this.state.openImg} className="micro-icon" alt="" />
+          <div className="micro-label-button">
+            {i18n.t('markdown-open-proposal-link')}
+          </div>
+        </a>
+      </>
     )
+
+    console.log(`this.props.voteCount: ${this.props.voteCount}`);
 
     return (
       <>
@@ -116,7 +201,7 @@ export default class MakerDAO extends Component {
         }
         {
           (this.state.hasPoll) ?
-            <Expand url={this.props.href} label={this.state.metadata.vote_type} open={false}
+            <Expand url={this.props.href} label={this.state.label} open={false}
               icon={hand} iconActive={handActive}
             >
               <Poll>
@@ -126,12 +211,12 @@ export default class MakerDAO extends Component {
                   gracePeriodEnds={this.props.votingPeriodEnds}
                 />
                 <Survey>
-                  {this.state.options.map((option, index) => (
+                  {this.state.tally.map((option, index) => (
                     <Choice
                       now={timestamp} key={index}
                       accountAddress={this.props.accountAddress} daoAddress={this.props.daoAddress} description={this.props.description}
-                      proposalIndex={index.toString()} label={option} percentage={'0%'}
-                      voteValue={index} votingPeriodEnds={this.props.votingPeriodEnds} votingPeriodBegins={this.props.votingPeriodStarts}
+                      proposalIndex={index.toString()} label={option.label} percentage={option.percentage}
+                      voteValue={option.voters} votingPeriodEnds={this.props.votingPeriodEnds} votingPeriodBegins={this.props.votingPeriodStarts}
                       abi={'maker'}
                     >
                       <Token quantity={'0'} symbol="MKR" />

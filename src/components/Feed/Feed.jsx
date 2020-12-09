@@ -204,7 +204,7 @@ console.log(data);
         <Post
           key={proposal.id} accountAddress={accountAddress} href={url}
           description={proposal.details} memberAddress={proposal.proposer}
-          daoAddress={daoAddress} protocol={data.protocol} voteHistory={proposal.votes}
+          daoAddress={daoAddress} protocol={data.protocol} voteHistory={proposal.votes} timeLine={proposal.timeLine} voteCount={proposal.votesCount}
           votingPeriodEnds={proposal.votingPeriodEnds} votingPeriodBegins={proposal.votingPeriodStarts}
         >
           {(data.protocol === protocol.MOLOCH) ?

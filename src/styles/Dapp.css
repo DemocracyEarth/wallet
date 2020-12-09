@@ -3419,7 +3419,7 @@ blockquote {
 }
 
 .markdown li {
-  margin-bottom: 10px;
+  font-size:14px;
 }
 
 .markdown h2 {
@@ -6399,7 +6399,8 @@ mark {
 
 .details {
   background-color: #e6e0ee;
-  font-size: 0.7em;
+  font-size: 12.5px;
+  font-weight: 300;
   margin: 0px 10px 15px 0px;
   display: block;
   clear: both;
