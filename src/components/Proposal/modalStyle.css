@@ -1,0 +1,164 @@
+/* MODAL */
+.modal {
+  outline: none;
+}
+.container {
+  width: 30%;
+  min-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  margin-top: 75px;
+  background-color: white;
+  border-radius: 8px;
+  font-family: Lato, sans-serif;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 35px;
+  background-color: #e0e0e0;
+  padding: 0 15px;
+  border-radius: 8px 8px 0 0;
+}
+.header h4 {
+  margin: 0 5px;
+  padding: 0;
+  color: #675f69;
+  font-size: 14px;
+}
+.header h4:hover {
+  color: #580074;
+  text-decoration: underline;
+}
+.header img {
+  width: 15px;
+}
+
+/* Title */
+.title {
+  margin: 0;
+  padding: 0 15px;
+  font-family: Lato, sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+}
+.title h2 {
+  font-weight: 500;
+}
+
+/* Form */
+.form {
+  width: 100%;
+  padding: 0 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.section {
+  width: 100%;
+  margin: 2px 0;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.section label {
+  padding-left: 5px;
+  width: 100%;
+  font-size: 12px;
+  color: #7d8499;
+}
+.input,
+.textarea {
+  width: 100%;
+  height: 30px;
+  padding: 0 8px;
+  font-size: 14px;
+  line-height: 16px;
+  border: none;
+  color: #675f69;
+  border-radius: 8px;
+  border: 1px solid #dad0e6;
+}
+.section textarea {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  height: 60px;
+}
+/* Shares & loot requests*/
+.requestsContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.requests {
+  width: 48%;
+}
+/* Tokens */
+.section select {
+  width: 58%;
+}
+.number {
+  width: 38%;
+}
+
+/* Button */
+.end {
+  height: 60px;
+  margin-top: 20px;
+  align-items: center;
+  justify-content: flex-end;
+  border-top: 1px solid #e0e0e0;
+}
+.submit {
+  height: 40px;
+  margin: 10px 0;
+  padding: 0 5px;
+  border-radius: 20px;
+  background-color: #dad0e6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #580173;
+}
+.submit:hover {
+  background-color: #3d0351;
+  color: white;
+}
+.submit button {
+  background: none;
+  font-size: 14px;
+  margin: 0 15px;
+  font-weight: 600;
+}
+
+/* SIDE BAR */
+.divardo {
+  padding: 10px;
+  background-color: #f0f0f5;
+  border-radius: 10px;
+}
+
+.proposalButton {
+  height: 40px;
+  width: 190px;
+  text-align: center;
+  border-radius: 10px;
+  background-color: #dad0e6;
+  font-family: Lato, sans-serif;
+  color: #515159;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.proposalButton:hover {
+  background-color: rgb(88, 7, 115, 1);
+  color: #fff;
+}
