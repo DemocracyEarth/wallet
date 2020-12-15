@@ -72,9 +72,13 @@
   font-size: 12px;
   color: #7d8499;
 }
-.emptyAddress {
+.invalidAddress {
   color: #ff3d67;
 }
+.validAddress {
+  color: #01c190;
+}
+
 .input,
 .textarea {
   width: 100%;

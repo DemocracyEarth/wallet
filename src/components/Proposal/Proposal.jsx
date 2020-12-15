@@ -77,9 +77,9 @@ const submitProposal = async (
     
     // EN QUE TIPO DE PROPUESTA DEBEMOS CHEQUEAR EL APPLICANT
     // no applicant address 
-    if (!web3.utils.isAddress(applicant)) {
-        return invalidAddress();
-    }
+    // if (!web3.utils.isAddress(applicant)) {
+    //     return invalidAddress();
+    // }
     // dao membership
     if (version === '1' && !await canSubmit(user, library, version, address)) {
         return notMember();
@@ -163,18 +163,15 @@ export default class Proposal extends Component {
         }))
     }
     
-    handleAddresses = (e) => {
-
-        if (!web3.utils.isAddress(applicant)) {
-            return invalidAddress();
+    handleChanges = async(e) => {
+        if(e.target.name=== 'aplicant') {
+            const address = e.target.value
+            const web3 = await new Web3("ws://localhost:8545")
+            const validated = await web3.utils.isAddress(address)
+            this.setState({applicant: {address, validated}})
+        } else {
+            this.setState({[e.target.name]: e.target.value})
         }
-    }
-
-    handleChanges = (e) => {
-        const value = (e.target.name === 'tributeOffered' || e.target.name === 'paymentRequested' || e.target.name === 'sharesRequested' || e.target.name === 'lootRequested') && e.target.value < 0 
-            ? 0
-            : e.target.value
-        this.setState({[e.target.name]: value})
     }
 
     handleSubmit = async (e) => {
@@ -204,12 +201,12 @@ export default class Proposal extends Component {
 
     componentDidMount(){
         this.setDao(this.props.address)
-        this.setState({applicant: {address: this.props.user, validated: true})
+        this.setState({applicant: {address: this.props.user, validated: true}})
     }
 
     componentDidUpdate(prevProps){
         if(prevProps.address !== this.props.address) this.setDao(this.props.address)
-        if(prevProps.user !== this.props.user) this.setState({applicant: {address: this.props.user, validated: true})
+        if(prevProps.user !== this.props.user) this.setState({applicant: {address: this.props.user, validated: true}})
     }
 
     render() {
@@ -226,7 +223,11 @@ export default class Proposal extends Component {
                         </div>
                         <form action="" className="form">
                             <div className="section">
-                                <label className="sectionLabel">Applicant</label>
+                                <label className="sectionLabel">Applicant 
+                                    {this.state.applicant.validated
+                                        ? <span className="validAddress"> -validated address</span>
+                                        : <span className="invalidAddress"> -invalid address</span>}
+                                </label>
                                 <input
                                     className="input"
                                     type="text"
@@ -288,7 +289,7 @@ export default class Proposal extends Component {
                                 </div>
                             </div>                
                             <div className="section">
-                            <label className={this.state.tributeToken === "0x0" ?"sectionLabel emptyAddress" : "sectionLabel"}>Tribute offered</label>
+                                  <label className={this.state.tributeToken === "0x0" ? "sectionLabel invalidAddress" : "sectionLabel"}>Tribute offered</label>
                                 <select
                                     className="input"
                                     name="tributeToken"
@@ -302,6 +303,7 @@ export default class Proposal extends Component {
                                 <input
                                     className="input number"
                                     type="number"
+                                    min="0"
                                     name="tributeOffered"
                                     placeholder=" Tribute offered"
                                     value={this.state.tributeOffered}
@@ -309,7 +311,7 @@ export default class Proposal extends Component {
                                 />
                             </div>
                             <div className="section">
-                            <label className={this.state.paymentToken === "0x0" ?"sectionLabel emptyAddress" : "sectionLabel"}>Payment requested</label>
+                            <label className={this.state.paymentToken === "0x0" ?"sectionLabel invalidAddress" : "sectionLabel"}>Payment requested</label>
                                 <select
                                     className="input"
                                     name="paymentToken"
