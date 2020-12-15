@@ -1,1 +1,0 @@
-ganache-cli --fork https://mainnet.infura.io/v3/69439687240f415798ba5c5c167e12ad --mnemonic "soup tree boring hazard thing hole soon degree note clarify movie strong"
