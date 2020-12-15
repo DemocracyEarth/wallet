@@ -164,6 +164,8 @@
   "already-have-account": "Already have an account?",
   "username": "Username",
   "username-sample": "satoshin",
+  "invalid-address": "Invalid address",
+  "invalid-applicant-address": "Applicant is not a valid Ethereum address",
   "invalid-username": "No spaces or rare characters.",
   "repeated-username": "Username already exists.",
   "invalid-email": "E-mail address is invalid.",

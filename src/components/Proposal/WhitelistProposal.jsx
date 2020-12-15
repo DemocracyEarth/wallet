@@ -20,7 +20,7 @@ export default (props) => {
             className="input"
             type="text"
             name="applicant"
-            value={props.state.applicant}
+            value={props.state.applicant.address}
             onChange={props.handleChanges}
           />
         </div>
@@ -67,7 +67,6 @@ export default (props) => {
             </option>
             {props.state.allTokens.map((t, i) => (
               <option key={i} value={t.address}>
-
                 {t.symbol}
               </option>
             ))}

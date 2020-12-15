@@ -1,7 +1,9 @@
 /* IMPORTS */
+
 // Config
 import React, { Component } from "react";
 import ApolloClient, { gql, InMemoryCache } from "apollo-boost";
+
 // Components
 import { defaults } from "lib/const";
 import { abiLibrary } from "../../lib/abi";
@@ -14,6 +16,9 @@ import Switch from "react-input-switch";
 import WhitelistProposal from "./WhitelistProposal";
 import SubmitProposal from "./SubmitProposal";
 import GuildKickProposal from "./GuildKickProposal";
+
+// Functions
+import { walletError, notMember, invalidAddress } from "components/Choice/messages";
 
 const Web3 = require("web3");
 const client1 = new ApolloClient({
@@ -35,7 +40,7 @@ const INITIAL_STATE = {
   availableTokens: [],
   allTokens: [],
   /* Form inputs */
-  applicant: defaults.EMPTY,
+  applicant: { address: defaults.EMPTY, validated: false },
   sharesRequested: 0,
   lootRequested: 0,
   tributeOffered: 0,
@@ -100,7 +105,10 @@ const submitKickProposal = async (
     address
   );
   console.log("daoContract: ", daoContract);
-  const proposal = await daoContract.methods.submitGuildKickProposal(memberToKick, details);
+  const proposal = await daoContract.methods.submitGuildKickProposal(
+    memberToKick,
+    details
+  );
   const estimatedGas = await proposal.estimateGas().then((price) => price);
 
   return proposal
@@ -114,6 +122,31 @@ const submitKickProposal = async (
     });
 };
 
+const canSubmit = async (
+  /*Wallet information*/
+  user,
+  /*Contract information*/
+  library,
+  version,
+  contractAddress
+) => {
+  const web3 = new Web3("ws://localhost:8545");
+  const dao = await new web3.eth.Contract(
+    library[version === "2" ? "moloch2" : "moloch"],
+    contractAddress
+  );
+  const response = await dao.methods
+    .members(web3.utils.toChecksumAddress(user))
+    .call({}, (err, res) => {
+      if (err) {
+        walletError(err);
+        return err;
+      }
+      return res;
+    });
+  return response.exists;
+};
+
 const submitProposal = async (
   /*Wallet information*/
   user,
@@ -122,7 +155,7 @@ const submitProposal = async (
   version,
   address,
   /*Proposal information*/
-  applicant,
+  applicantAddress,
   sharesRequested,
   lootRequested,
   tributeOffered,
@@ -136,12 +169,16 @@ const submitProposal = async (
     library[version === "2" ? "moloch2" : "moloch"],
     address
   );
-  console.log("daoContract: ", daoContract);
+
+  // dao membership
+  if (version === "1" && !(await canSubmit(user, library, version))) {
+    return notMember();
+  }
 
   const proposal =
     version === "2"
       ? await daoContract.methods.submitProposal(
-          applicant,
+          applicantAddress,
           sharesRequested,
           lootRequested,
           tributeOffered,
@@ -151,7 +188,7 @@ const submitProposal = async (
           details
         )
       : await daoContract.methods.submitProposal(
-          applicant,
+          applicantAddress,
           tributeToken,
           sharesRequested,
           `{"title":${details.title},"description":${details.description},"link":${details.link}}`
@@ -159,7 +196,7 @@ const submitProposal = async (
 
   const estimatedGas = await proposal.estimateGas().then((price) => price);
 
-  return proposal
+  const response = await proposal
     .send({ from: user, gas: estimatedGas })
     .on("error", (error) => console.log("ERROR: ", error))
     .on("confirmation", (confirmation) => console.log("CONFIRMATION: ", confirmation))
@@ -168,21 +205,23 @@ const submitProposal = async (
       console.log("RECEIPT: ", receipt);
       return receipt;
     });
+  return response;
 };
 
 export default class Proposal extends Component {
   state = { ...INITIAL_STATE };
 
-  resetState = () => {
+  resetState = (e) => {
+    if (e) e.preventDefault();
     this.setState({
       isLoading: false,
+      applicant: { address: this.props.user, validated: true },
       sharesRequested: 0,
       lootRequested: 0,
       tributeOffered: 0,
       tributeToken: defaults.EMPTY,
       paymentRequested: 0,
       paymentToken: defaults.EMPTY,
-      /* Details to compose */
       title: "",
       description: "",
       link: "",
@@ -296,7 +335,6 @@ export default class Proposal extends Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    this.setState({ isLoading: true });
 
     const {
       version,
@@ -313,6 +351,10 @@ export default class Proposal extends Component {
     } = this.state;
     const { user, address } = this.props;
 
+    if (tributeToken === "0x0" || paymentToken === "0x0") return;
+
+    this.setState({ isLoading: true });
+
     const receipt = await submitProposal(
       /*Wallet information*/
       user,
@@ -321,7 +363,7 @@ export default class Proposal extends Component {
       version,
       address,
       /*Proposal information*/
-      applicant,
+      applicant.address,
       sharesRequested,
       lootRequested,
       tributeOffered,
@@ -342,24 +384,20 @@ export default class Proposal extends Component {
 
   componentDidMount() {
     this.setDao(this.props.address);
-    this.setState({ applicant: this.props.user });
+    this.setState({ applicant: { address: this.props.user, validated: true } });
     this.setTokens();
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.address !== this.props.address) this.setDao(this.props.address);
-    if (prevProps.user !== this.props.user) this.setState({ applicant: this.props.user });
+    if (prevProps.user !== this.props.user)
+      this.setState({ applicant: { address: this.props.user, validated: true } });
     if (prevProps.allTokens !== this.props.allTokens) this.setTokens();
   }
 
   render() {
     return (
-      <Modal
-        {...this.props}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
+      <Modal show={this.props.show} onHide={this.props.onHide}>
         <Modal.Body className="modal">
           <div className="container">
             <div className="header">
@@ -411,6 +449,7 @@ export default class Proposal extends Component {
                 state={this.state}
                 handleChanges={this.handleChanges}
                 handleSubmit={this.handleSubmit}
+                resetState={this.resetState}
               />
             ) : null}
           </div>

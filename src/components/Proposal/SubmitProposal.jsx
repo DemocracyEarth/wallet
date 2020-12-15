@@ -15,17 +15,17 @@ export default (props) => {
       </div>
       <form action="" className="form">
         <div className="section">
-          <label>Applicant</label>
+          <label className="sectionLabel">Applicant</label>
           <input
             className="input"
             type="text"
             name="applicant"
-            value={props.state.applicant}
+            value={props.state.applicant.address}
             onChange={props.handleChanges}
           />
         </div>
         <div className="section">
-          <label>Title</label>
+          <label className="sectionLabel">Title</label>
           <input
             className="input"
             type="text"
@@ -35,7 +35,7 @@ export default (props) => {
           />
         </div>
         <div className="section">
-          <label>Description</label>
+          <label className="sectionLabel">Description</label>
           <textarea
             className="input"
             type="text textarea"
@@ -45,7 +45,7 @@ export default (props) => {
           />
         </div>
         <div className="section">
-          <label>Link</label>
+          <label className="sectionLabel">Link</label>
           <input
             className="input"
             type="text"
@@ -56,7 +56,7 @@ export default (props) => {
         </div>
         <div className="requestsContainer">
           <div className="section requests">
-            <label>Shares requested</label>
+            <label className="sectionLabel">Shares requested</label>
             <input
               className="input"
               type="number"
@@ -66,7 +66,7 @@ export default (props) => {
             />
           </div>
           <div className="section requests">
-            <label>Loot requested</label>
+            <label className="sectionLabel">Loot requested</label>
             <input
               className="input"
               type="number"
@@ -77,7 +77,15 @@ export default (props) => {
           </div>
         </div>
         <div className="section">
-          <label>Tribute offered</label>
+          <label
+            className={
+              props.state.tributeToken === "0x0"
+                ? "sectionLabel emptyAddress"
+                : "sectionLabel"
+            }
+          >
+            Tribute offered
+          </label>
           <select
             className="input"
             name="tributeToken"
@@ -104,7 +112,15 @@ export default (props) => {
           />
         </div>
         <div className="section">
-          <label>Payment requested</label>
+          <label
+            className={
+              props.state.paymentToken === "0x0"
+                ? "sectionLabel emptyAddress"
+                : "sectionLabel"
+            }
+          >
+            Payment requested
+          </label>
           <select
             className="input"
             name="paymentToken"
@@ -131,12 +147,15 @@ export default (props) => {
           />
         </div>
         <div className="section end">
+          <button className="submit clear" onClick={props.resetState}>
+            Clear
+          </button>
           {props.state.isLoading ? (
             <Loader size="30px" />
           ) : (
-            <div className="submit" onClick={props.handleSubmit}>
-              <button>Submit proposal</button>
-            </div>
+            <button disabled={false} className="submit" onClick={props.handleSubmit}>
+              Submit proposal
+            </button>
           )}
         </div>
       </form>

@@ -9,7 +9,7 @@ import Proposal from 'components/Proposal/Proposal'
 import { query } from 'components/Menu/queries';
 import { reduce, sortBy } from 'lodash';
 import { view as routerView } from 'lib/const'
-
+import { noAddress } from 'components/Choice/messages';
 import parser from 'html-react-parser';
 
 import back from 'images/back.svg';
@@ -324,20 +324,17 @@ const MenuQuery = ({ user, address, scrollUp, view, proposalId, param, modalShow
           null 
         }
       </div>
-      {(view === routerView.DAO) ? 
-      <div className="divardo">
-        <button onClick={() => handleModalShow()} className="proposalButton">
-            make a proposal
-        </button>
-        <Proposal
-          user = {user}
-          address = {address}
-          show= {modalShow}
-          onHide= {() => handleModalShow()}
-        /> 
-      </div>
-        :
-        null
+      {(view === routerView.DAO)
+        ? <>
+            <button onClick={() => user === '0x0' ? noAddress() : handleModalShow()} className="proposalButton">Make a <span>proposal</span></button>
+            <Proposal
+              user={user}
+              address={address}
+              show={modalShow}
+              onHide={() => handleModalShow()}
+            />
+          </>
+        : null
       }
     </div>
   );
