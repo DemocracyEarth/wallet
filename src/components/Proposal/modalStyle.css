@@ -66,11 +66,14 @@
   justify-content: space-between;
   flex-wrap: wrap;
 }
-.section label {
+.sectionLabel {
   padding-left: 5px;
   width: 100%;
   font-size: 12px;
   color: #7d8499;
+}
+.emptyAddress {
+  color: #ff3d67;
 }
 .input,
 .textarea {
@@ -111,51 +114,44 @@
   height: 60px;
   margin-top: 20px;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   border-top: 1px solid #e0e0e0;
 }
 .submit {
   height: 40px;
   margin: 10px 0;
-  padding: 0 5px;
+  padding: 0 15px;
   border-radius: 20px;
   background-color: #dad0e6;
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: #580173;
+  font-size: 14px;
+  font-weight: 600;
 }
 .submit:hover {
   background-color: #3d0351;
   color: white;
 }
-.submit button {
-  background: none;
-  font-size: 14px;
-  margin: 0 15px;
-  font-weight: 600;
+.clear {
+  font-weight: 300;
 }
 
 /* SIDE BAR */
-.divardo {
-  padding: 10px;
-  background-color: #f0f0f5;
-  border-radius: 10px;
-}
-
 .proposalButton {
-  height: 40px;
-  width: 190px;
+  height: 35px;
+  width: 90%;
   text-align: center;
-  border-radius: 10px;
+  border-radius: 17.5px;
   background-color: #dad0e6;
   font-family: Lato, sans-serif;
-  color: #515159;
   font-size: 14px;
-  font-weight: 500;
-  text-transform: uppercase;
+  color: #580173;
   cursor: pointer;
-  font-size: 14px;
+}
+.proposalButton span {
+  font-weight: 600;
 }
 
 .proposalButton:hover {
