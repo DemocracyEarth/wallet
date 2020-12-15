@@ -64,13 +64,6 @@ const modalContent = {
     cancelLabel: i18n.t('close'),
     mode: 'ALERT',
   },
-  invalidAddress: {
-    icon: logo,
-    title: i18n.t('invalid-address'),
-    message: i18n.t('invalid-applicant-address'),
-    cancelLabel: i18n.t('close'),
-    mode: 'ALERT',
-  }
 };
 
 /**
@@ -133,14 +126,6 @@ const _noAddress = () => {
   window.modal = modalContent.noAddress;
   window.showModal.value = true;
 };
-/**
-* @summary invalid Ethereum address
-*/
-const _invalidAddress = () => {
-  // no wallet
-  window.modal = modalContent.invalidAddress;
-  window.showModal.value = true;
-};
 
 /**
 * @summary prompt a message of an error with the wallet
@@ -166,7 +151,6 @@ const _walletError = (err) => {
       }
   }
 
-
   let error = modalContent.walletError;
   error.message = message;
   window.modal = error;
@@ -181,4 +165,3 @@ export const pollClosed = _pollClosed;
 export const notLogged = _notLogged;
 export const notSynced = _notSynced;
 export const notMember = _notMember;
-export const invalidAddress = _invalidAddress;

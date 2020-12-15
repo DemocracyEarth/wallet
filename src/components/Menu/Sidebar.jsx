@@ -15,7 +15,7 @@ import parser from 'html-react-parser';
 import back from 'images/back.svg';
 import i18n from 'i18n';
 import 'styles/Dapp.css';
-import '../Proposal/modalStyle.css'; // STYLE TO ADD TO DAPP
+import '../Proposal/style.css';
 
 // scroll settings
 let lastScrollTop = 0;
