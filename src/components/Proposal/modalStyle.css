@@ -14,6 +14,16 @@
   font-family: Lato, sans-serif;
 }
 
+/* Switch */
+.switch {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 45px;
+  padding: 0 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
 /* Header */
 .header {
   display: flex;
@@ -154,6 +164,7 @@
   color: #580173;
   cursor: pointer;
 }
+
 .proposalButton span {
   font-weight: 600;
 }

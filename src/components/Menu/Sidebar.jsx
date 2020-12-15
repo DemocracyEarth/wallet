@@ -141,7 +141,6 @@ const _getHeadline = (headline, address, view) => {
   }
 };
 
-
 /**
 * @summary checks if for a given ad hoc sidebar menu there are proposals
 * @param {string} view currently based on router
@@ -187,7 +186,6 @@ const _getDAOs = (data) => {
   }
   return sortBy(listedDAOs, (item) => { return (item.counter * -1) });
 }
-
 
 /**
  * @summary retrieves the corresponding query for the timeline.
@@ -338,7 +336,6 @@ const MenuQuery = ({ user, address, scrollUp, view, proposalId, param, modalShow
           </>
         : null
       }
-
     </div>
   );
 };
