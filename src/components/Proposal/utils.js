@@ -37,32 +37,31 @@ export const isMember = async (
   contractAddress
 ) => {
   const web3 = await new Web3("ws://localhost:8545");
-  
+
   const isAddress = await web3.utils.isAddress(memberAddress)
   if (!isAddress) return false
-
-  console.log('NO ES ADDRESS')
   
   const dao = await new web3.eth.Contract(
       library[version === "2" ? "moloch2" : "moloch"],
       contractAddress
   );
-
-  console.log(dao.methods)
   
   const response = await dao.methods.members(web3.utils.toChecksumAddress(memberAddress))
       .call({}, (err, res) => {
-        console.log('ADDRESS', memberAddress)
           if (err) {
               walletError(err);
               return err;
           }
           return res;
       });
-  console.log('AY!', response)
   return response.exists;
 };
 
+export const notNull = ( ...args ) => {
+  let validated = true
+  args.forEach(a => {if(a === "0x0" || a === '') validated = false})
+  return validated
+}
 ///////////////////////// SUBMITTING UTILS /////////////////////////
 
 const getDao = async (library, version, address) => {
@@ -117,7 +116,7 @@ export const submitProposal = async (
 ) => {
   const dao = await getDao(library, version, address);
 
-  // validations
+  // dao membership
   if (version === "1" && !(await isMember(user, library, version))) {
       return notMember();
   }
@@ -141,7 +140,6 @@ export const submitProposal = async (
       );
   const estimatedGas = await estimateGas(proposal)
   const receipt =  await getReceipt(proposal, user, estimatedGas)
-
   return receipt
 };
 
@@ -157,17 +155,12 @@ export const submitWhitelistProposal = async (
   details
 ) => {
   const dao = await getDao(library, version, address);
-
-  // validations
-  if (tokenToWhitelist === "0x0") return
-
   const proposal = await dao.methods.submitWhitelistProposal(
       tokenToWhitelist,
       details
   );
   const estimatedGas = await estimateGas(proposal)
   const receipt =  await getReceipt(proposal, user, estimatedGas)
-
   return receipt
 };
 
@@ -183,16 +176,11 @@ export const submitGuildKickProposal = async (
   details
 ) => {
   const dao = await getDao(library, version, address);
-
-  // validations
-  if (!isAddress(memberToKick)) return
-
   const proposal = await dao.methods.submitGuildKickProposal(
       memberToKick,
       details
   );
   const estimatedGas = await estimateGas(proposal)
   const receipt =  await getReceipt(proposal, user, estimatedGas)
-
   return receipt
 };

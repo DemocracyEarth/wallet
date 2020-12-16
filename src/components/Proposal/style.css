@@ -6,9 +6,9 @@
   width: 30%;
   min-width: 400px;
   margin: 0 auto;
+  margin-top: 70px;
   display: flex;
   flex-direction: column;
-  margin-top: 75px;
   background-color: white;
   border-radius: 8px;
   font-family: Lato, sans-serif;
@@ -17,25 +17,35 @@
 /* Header */
 .header {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   height: 35px;
   background-color: #e0e0e0;
   padding: 0 15px;
   border-radius: 8px 8px 0 0;
 }
-.header h4 {
+.dao {
+  display: flex;
+  justify-content: flex-start;
+}
+.dao h4 {
   margin: 0 5px;
   padding: 0;
   color: #675f69;
   font-size: 14px;
 }
-.header h4:hover {
+.dao h4:hover {
   color: #580074;
   text-decoration: underline;
+  cursor: pointer;
 }
-.header img {
+.dao img {
   width: 15px;
+}
+.header > img {
+  width: 20px;
+  color: #3d0351;
+  cursor: pointer;
 }
 
 /* Form container */

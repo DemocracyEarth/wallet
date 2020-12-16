@@ -18,7 +18,7 @@ import MemberToKick from "./MemberToKick"
 import TokenToWhitelist from "./TokenToWhitelist"
 import "./style.css";
 // Functions
-import {isAddress, isMember, submitProposal, submitWhitelistProposal, submitGuildKickProposal} from './utils'
+import {isAddress, isMember, notNull, submitProposal, submitWhitelistProposal, submitGuildKickProposal} from './utils'
 
 const molochClient = new ApolloClient({
     uri: config.graph.moloch,
@@ -157,9 +157,12 @@ export default class Proposal extends Component {
     // Handlers
     handleSubmitProposal = async (e) => {
         e.preventDefault();
-
         const { version, applicant, sharesRequested, lootRequested, tributeOffered,tributeToken, paymentRequested, paymentToken, title, description, link } = this.state;
         const { user, address } = this.props;
+        
+        // validations
+        if(!notNull(title, description, link)) return
+        if(!applicant.validated) return
 
         this.setState({ isLoading: true });
 
@@ -171,10 +174,13 @@ export default class Proposal extends Component {
 
     handleSubmitWhitelistProposal = async (e) => {
         e.preventDefault();
-        this.setState({ isLoading: true });
-
         const { version, title, description, link, tokenToWhitelist } = this.state;
         const { user, address } = this.props;
+        
+        // validations
+        if(!notNull(title, description, link, tokenToWhitelist)) return
+        
+        this.setState({ isLoading: true });
 
         await submitWhitelistProposal(/*Wallet information*/ user, /*Contract information*/ abiLibrary, version, address, /*Proposal information*/ tokenToWhitelist, /* Details JSON */ { title, description, link });
 
@@ -184,10 +190,14 @@ export default class Proposal extends Component {
 
     handleSubmitGuildKickProposal = async (e) => {
         e.preventDefault();
-        this.setState({ isLoading: true });
-
         const { version, title, description, link, memberToKick } = this.state;
         const { user, address } = this.props;
+        
+        // validations
+        if(!notNull(title, description, link)) return
+        if(!memberToKick.validated) return
+        
+        this.setState({ isLoading: true });
 
         await submitGuildKickProposal(/*Wallet information*/ user, /*Contract information*/ abiLibrary, version, address, /*Proposal information*/ memberToKick.address, /* Details JSON */ { title, description, link });
 
@@ -206,7 +216,7 @@ export default class Proposal extends Component {
             validated = await isMember(value, abiLibrary, this.state.version, this.props.address)
             value = {address: value, validated} 
         } else {
-            value = e.target.type === "number" && e.target.value < 0 ? 0 : value
+            value = e.target.type === "number" && (e.target.value < 0 || e.target.value === '') ? 0 : value
         }
         this.setState({[name]: value})
     }
@@ -220,8 +230,11 @@ export default class Proposal extends Component {
         <Modal.Body className="modal">
           <div className="container">
             <div className="header">
-              <img src="/static/media/flag.44f0a516.svg" alt="flag"/>
-              <h4>{this.state.daoName}</h4>
+                <div className="dao">
+                    <img src="/static/media/flag.44f0a516.svg" alt="flag"/>
+                    <h4 onClick={()=>onHide()}>{this.state.daoName}</h4>
+                </div>
+              <img onClick={()=>onHide()} src="/static/media/rejected.973d249d.svg" alt="close"></img>
             </div>
             <div className="formContainer">
                 <div className="title">
