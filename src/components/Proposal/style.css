@@ -54,6 +54,10 @@
 .title h2 {
   font-weight: 500;
 }
+.title h2 span {
+  font-size: 14px;
+  font-weight: 300;
+}
 
 /* Switch */
 .switch {
