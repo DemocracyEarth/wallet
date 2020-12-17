@@ -4,18 +4,18 @@ import PropTypes from 'prop-types';
 
 import Item from 'components/Item/Item';
 import DAO from 'components/DAO/DAO';
-import Proposal from 'components/Proposal/Proposal'
 
 import { query } from 'components/Menu/queries';
 import { reduce, sortBy } from 'lodash';
 import { view as routerView } from 'lib/const'
+import { showProposalLauncher } from '../ProposalLauncher/utils'
 import { noAddress } from 'components/Choice/messages';
 import parser from 'html-react-parser';
 
 import back from 'images/back.svg';
 import i18n from 'i18n';
 import 'styles/Dapp.css';
-import '../Proposal/style.css';
+import '../ProposalLauncher/style.css';
 
 // scroll settings
 let lastScrollTop = 0;
@@ -209,7 +209,7 @@ const composeQuery = (view) => {
 /**
 * @summary renders the menu based on a graph ql query ad hoc for the user
 */
-const MenuQuery = ({ user, address, scrollUp, view, proposalId, param, modalShow, handleModalShow }) => {
+const MenuQuery = ({ accountAddress, address, scrollUp, view, proposalId, param }) => {
   let { dateBegin, dateEnd } = '';
   if (view === routerView.DATE) {
     dateBegin = Math.floor(new Date(param).getTime() / 1000).toString();
@@ -326,13 +326,7 @@ const MenuQuery = ({ user, address, scrollUp, view, proposalId, param, modalShow
       </div>
       {(view === routerView.DAO)
         ? <>
-            <button onClick={() => user === '0x0' ? noAddress() : handleModalShow()} className="proposalButton">Make a <span>proposal</span></button>
-            <Proposal
-              user={user}
-              address={address}
-              show={modalShow}
-              onHide={() => handleModalShow()}
-            />
+            <button onClick={() => accountAddress === '0x0' ? noAddress() : showProposalLauncher(address)} className="proposalButton">Make a <span>proposal</span></button>
           </>
         : null
       }
@@ -357,11 +351,9 @@ export default class Sidebar extends Component {
     this.state = {
       node: document.getElementById('sidebar'),
       scrollUp: false,
-      modalShow: false,
     };
 
     this.handleScroll = this.handleScroll.bind(this);
-    this.handleModalShow = this.handleModalShow.bind(this);
   }
 
   async componentDidMount() {
@@ -387,21 +379,15 @@ export default class Sidebar extends Component {
     lastScrollTop = st <= 0 ? 0 : st;
   }
 
-  handleModalShow() {
-    this.state.modalShow ? this.setState({modalShow : false}) : this.setState({modalShow : true})
-  }
-
   render() {
     if ((this.props.view !== routerView.HOME) && (this.props.view !== routerView.PERIOD) && (this.props.view !== routerView.SEARCH)) {
       return <MenuQuery
-        user={this.props.user}
+        accountAddress={this.props.accountAddress}
         address={this.props.address}
         scrollUp={this.state.scrollUp}
         view={this.props.view}
         proposalId={this.props.proposalId}
-        param={this.props.param}
-        modalShow={this.state.modalShow}
-        handleModalShow={this.handleModalShow}/>;
+        param={this.props.param}/>;
     }
 
     const defaultMenu = _getMenu(routerView.HOME);

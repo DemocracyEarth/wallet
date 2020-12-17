@@ -7,7 +7,17 @@ import { walletError, notMember} from "components/Choice/messages";
 
 const Web3 = require("web3");
 
-///////////////////////// UX UTILS /////////////////////////
+// UX utils
+export const hideProposalLauncher = () => {
+  window.showProposalLauncher.value = false;
+}
+
+export const showProposalLauncher = (address) => {
+  window.proposalLauncher = {
+    address
+  }
+  window.showProposalLauncher.value = true;
+}
 
 const showModal = () => {
   window.modal = {
@@ -20,12 +30,11 @@ const showModal = () => {
   window.showModal.value = true;
 }
 
-///////////////////////// VALIDATIONS /////////////////////////
-
+// Validation utils
 export const isAddress = async (
   address,
 ) => {
-  const web3 = await new Web3("ws://localhost:8545");
+  const web3 = await new Web3(window.web3.currentProvider);
   return await web3.utils.isAddress(address)
 }
 
@@ -36,7 +45,7 @@ export const isMember = async (
   version,
   contractAddress
 ) => {
-  const web3 = await new Web3("ws://localhost:8545");
+  const web3 = await new Web3(window.web3.currentProvider);
 
   const isAddress = await web3.utils.isAddress(memberAddress)
   if (!isAddress) return false
@@ -62,10 +71,10 @@ export const notNull = ( ...args ) => {
   args.forEach(a => {if(a === "0x0" || a === '') validated = false})
   return validated
 }
-///////////////////////// SUBMITTING UTILS /////////////////////////
 
+// Submitting utils
 const getDao = async (library, version, address) => {
-  const web3 = new Web3("ws://localhost:8545");
+  const web3 = new Web3(window.web3.currentProvider);
   const dao = await new web3.eth.Contract(
     library[version === "2" ? "moloch2" : "moloch"],
     address
@@ -73,7 +82,7 @@ const getDao = async (library, version, address) => {
   return dao
 }
 
-const estimateGas = async (proposal) => {
+const getEstimatedGas = async (proposal) => {
   let gas
   try{
       gas = await proposal.estimateGas().then(gas=> gas)
@@ -87,7 +96,7 @@ const getReceipt = async (proposal, user, estimatedGas) => {
   let receipt
   try{
       receipt = await proposal.send({ from: user, gas: estimatedGas })
-      .on('receipt', receipt => { showModal(); return receipt })
+      .on('receipt', receipt => { showModal(); console.log('RECEIPT: ', receipt); return receipt })
   } catch (err) {
       walletError(err);
       receipt = err;
@@ -95,8 +104,7 @@ const getReceipt = async (proposal, user, estimatedGas) => {
   return receipt
 }
 
-///////////////////////// SUBMITTING FUNCTIONS /////////////////////////
-
+// Submitting functions
 export const submitProposal = async (
   /*Wallet information*/
   user,
@@ -114,10 +122,11 @@ export const submitProposal = async (
   paymentToken,
   details
 ) => {
+  console.log('SUBMITTING NEW PROPOSAL...')
   const dao = await getDao(library, version, address);
 
   // dao membership
-  if (version === "1" && !(await isMember(user, library, version))) {
+  if (version === "1" && !(await isMember(user, library, version, address))) {
       return notMember();
   }
 
@@ -136,9 +145,9 @@ export const submitProposal = async (
           applicantAddress,
           tributeToken,
           sharesRequested,
-          `{"title":${details.title},"description":${details.description},"link":${details.link}}`
+          `{"title":${details.title.valu},"description":${details.description},"link":${details.link}}`
       );
-  const estimatedGas = await estimateGas(proposal)
+  const estimatedGas = await getEstimatedGas(proposal)
   const receipt =  await getReceipt(proposal, user, estimatedGas)
   return receipt
 };
@@ -154,12 +163,13 @@ export const submitWhitelistProposal = async (
   tokenToWhitelist,
   details
 ) => {
+  console.log('SUBMITTING NEW WHITELIST PROPOSAL...')
   const dao = await getDao(library, version, address);
   const proposal = await dao.methods.submitWhitelistProposal(
       tokenToWhitelist,
       details
   );
-  const estimatedGas = await estimateGas(proposal)
+  const estimatedGas = await getEstimatedGas(proposal)
   const receipt =  await getReceipt(proposal, user, estimatedGas)
   return receipt
 };
@@ -175,12 +185,13 @@ export const submitGuildKickProposal = async (
   memberToKick,
   details
 ) => {
+  console.log('SUBMITTING NEW GUILD KICK PROPOSAL...')
   const dao = await getDao(library, version, address);
   const proposal = await dao.methods.submitGuildKickProposal(
       memberToKick,
       details
   );
-  const estimatedGas = await estimateGas(proposal)
+  const estimatedGas = await getEstimatedGas(proposal)
   const receipt =  await getReceipt(proposal, user, estimatedGas)
   return receipt
 };

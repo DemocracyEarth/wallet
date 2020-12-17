@@ -1,10 +1,7 @@
 /* MODAL */
-.modal {
-  outline: none;
-}
 .container {
-  width: 30%;
-  min-width: 400px;
+  width: 35%;
+  min-width: 350px;
   margin: 0 auto;
   margin-top: 70px;
   display: flex;
@@ -27,6 +24,7 @@
 .dao {
   display: flex;
   justify-content: flex-start;
+  align-items: center;
 }
 .dao h4 {
   margin: 0 5px;
@@ -38,6 +36,9 @@
   color: #580074;
   text-decoration: underline;
   cursor: pointer;
+}
+.daoPreloader {
+  margin: 8px 5px;
 }
 .dao img {
   width: 15px;
@@ -51,6 +52,9 @@
 /* Form container */
 .formContainer {
   padding: 0 15px;
+}
+.formPreloader {
+  margin-top: 10px;
 }
 
 /* Title */
@@ -83,7 +87,6 @@
   border: 1px solid #580173;
 }
 .switch button:first-child {
-  width: 23%;
   padding-left: 10px;
   border-radius: 8px 0 0 8px;
 }
@@ -92,11 +95,11 @@
   border-radius: 0 8px 8px 0;
 }
 .switchButton {
-  width: 19%;
+  width: 20%;
   background: none;
   font-family: Lato, sans-serif;
   height: 30px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 300;
   color: #580173;
 }
@@ -182,6 +185,7 @@
   height: 40px;
   margin: 10px 0;
   padding: 0 15px;
+  border: 1px solid #dad0e6;
   border-radius: 20px;
   background-color: #dad0e6;
   display: flex;
@@ -192,6 +196,9 @@
   font-weight: 600;
 }
 .submit:hover {
+  border: 1px solid #3d0351;
+}
+.submit:active {
   background-color: #3d0351;
   color: white;
 }

@@ -22,7 +22,7 @@ const Menu = (props) => {
   
   return (
     <ApolloProvider client={client}>
-      <Sidebar user={connectedAccount} address={props.address} view={props.view} proposalId={props.proposalId} param={props.param} />
+      <Sidebar accountAddress={connectedAccount} address={props.address} view={props.view} proposalId={props.proposalId} param={props.param} />
     </ApolloProvider>
   );
 };
