@@ -182,7 +182,7 @@ export default class Dapp extends Component {
   async onConnect() {
     const provider = await this.web3Modal.connect();
     await this.subscribeProvider(provider);
-    const web3 = new Web3(provider); // provider || "ws://localhost:8545"
+    const web3 = new Web3(provider);
 
     const accounts = await web3.eth.getAccounts();
     const address = accounts[0];
