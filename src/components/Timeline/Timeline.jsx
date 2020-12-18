@@ -51,7 +51,7 @@ export default class Timeline extends Component {
   }
 
   getFeed() {
-    makerFeed(this.props)
+    molochFeed(this.props)
       .then(res => this.setState({ data: res.data, loading: res.loading, error: res.error }));
   }
 

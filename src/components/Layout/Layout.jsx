@@ -7,6 +7,7 @@ import Timeline from 'components/Timeline/Timeline';
 import Burger from 'components/Menu/Burger';
 import TabMenu, { showMain, showAlternative } from 'components/TabMenu/TabMenu';
 import DocumentMeta from 'react-document-meta';
+import Ledger from 'components/Ledger/Ledger';
 
 import i18n from 'i18n';
 import { view as routerView } from 'lib/const';
@@ -112,7 +113,7 @@ const Layout = (props) => {
             </div>
           </div>
           <div id="alternative-feed" className="split split-right split-landing">
-            {`<Ledger address={renderAddress} view={view} proposalId={proposalId} first={25} skip={0}  />`}
+            <Ledger address={renderAddress} view={view} proposalId={proposalId} first={25} skip={0}  />
           </div>
         </div>
       </div>
