@@ -1,0 +1,229 @@
+/* MODAL */
+.container {
+  width: 35%;
+  min-width: 350px;
+  margin: 0 auto;
+  margin-top: 70px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 8px;
+  font-family: Lato, sans-serif;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 35px;
+  background-color: #e0e0e0;
+  padding: 0 15px;
+  border-radius: 8px 8px 0 0;
+}
+.dao {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.dao h4 {
+  margin: 0 5px;
+  padding: 0;
+  color: #675f69;
+  font-size: 14px;
+}
+.dao h4:hover {
+  color: #580074;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.daoPreloader {
+  margin: 8px 5px;
+}
+.dao img {
+  width: 15px;
+}
+.header > img {
+  width: 20px;
+  color: #3d0351;
+  cursor: pointer;
+}
+
+/* Form container */
+.formContainer {
+  padding: 0 15px;
+}
+.formPreloader {
+  margin-top: 10px;
+}
+
+/* Title */
+.title {
+  margin: 0;
+  padding: 0;
+  font-family: Lato, sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+}
+.title h2 {
+  font-weight: 500;
+}
+.title h2 span {
+  font-size: 14px;
+  font-weight: 300;
+}
+
+/* Switch */
+.switch {
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #e6e0ee;
+  border: 1px solid #e6e0ee;
+  border-radius: 8px;
+}
+.switch:hover {
+  border: 1px solid #580173;
+}
+.switch button:first-child {
+  padding-left: 10px;
+  border-radius: 8px 0 0 8px;
+}
+.switch button:last-child {
+  padding-right: 10px;
+  border-radius: 0 8px 8px 0;
+}
+.switchButton {
+  width: 20%;
+  background: none;
+  font-family: Lato, sans-serif;
+  height: 30px;
+  font-size: 11px;
+  font-weight: 300;
+  color: #580173;
+}
+.switched {
+  color: white;
+  background-color: #580173;
+}
+
+/* Form */
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.section {
+  width: 100%;
+  margin: 2px 0;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.sectionLabel {
+  padding-left: 5px;
+  width: 100%;
+  font-size: 12px;
+  color: #7d8499;
+}
+.invalidAddress {
+  color: #ff3d67;
+}
+.validAddress {
+  color: #01c190;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  height: 30px;
+  padding: 0 8px;
+  font-size: 14px;
+  line-height: 16px;
+  border: none;
+  color: #675f69;
+  border-radius: 8px;
+  border: 1px solid #dad0e6;
+}
+.section textarea {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  height: 60px;
+}
+/* Shares & loot requests*/
+.requestsContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.requests {
+  width: 48%;
+}
+/* Tokens */
+.section select {
+  width: 58%;
+}
+.number {
+  width: 38%;
+}
+#full {
+  width: 100%;
+}
+
+/* Button */
+.end {
+  height: 60px;
+  margin-top: 20px;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #e0e0e0;
+}
+.submit {
+  height: 40px;
+  margin: 10px 0;
+  padding: 0 15px;
+  border: 1px solid #dad0e6;
+  border-radius: 20px;
+  background-color: #dad0e6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #580173;
+  font-size: 14px;
+  font-weight: 600;
+}
+.submit:hover {
+  border: 1px solid #3d0351;
+}
+.submit:active {
+  background-color: #3d0351;
+  color: white;
+}
+.clear {
+  font-weight: 300;
+}
+
+/* SIDE BAR */
+.proposalButton {
+  height: 35px;
+  width: 90%;
+  text-align: center;
+  border-radius: 17.5px;
+  background-color: #dad0e6;
+  font-family: Lato, sans-serif;
+  font-size: 14px;
+  color: #580173;
+  cursor: pointer;
+}
+
+.proposalButton span {
+  font-weight: 600;
+}
+
+.proposalButton:hover {
+  background-color: rgb(88, 7, 115, 1);
+  color: #fff;
+}

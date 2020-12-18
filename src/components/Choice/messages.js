@@ -19,7 +19,7 @@ const modalContent = {
   notMember: {
     icon: logo,
     title: i18n.t('moloch-not-member'),
-    message: i18n.t('moloch-alert-not-connected'),
+    message: i18n.t('moloch-alert-not-member'),
     cancelLabel: i18n.t('close'),
     mode: 'ALERT'
   },
@@ -63,7 +63,7 @@ const modalContent = {
     title: i18n.t('wallet'),
     cancelLabel: i18n.t('close'),
     mode: 'ALERT',
-  }
+  },
 };
 
 /**
@@ -127,7 +127,6 @@ const _noAddress = () => {
   window.showModal.value = true;
 };
 
-
 /**
 * @summary prompt a message of an error with the wallet
 * @param {object} error with code and message
@@ -151,7 +150,6 @@ const _walletError = (err) => {
         message = err.message;
       }
   }
-
 
   let error = modalContent.walletError;
   error.message = message;
