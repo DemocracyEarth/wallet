@@ -17,9 +17,9 @@ import MemberToKick from "./MemberToKick"
 import TokenToWhitelist from "./TokenToWhitelist"
 import "./style.css";
 import 'styles/Dapp.css';
-
 // Functions
-import {hideProposalLauncher, isAddress, isMember, notNull, submitProposal, submitWhitelistProposal, submitGuildKickProposal} from './utils'
+import { hideProposalLauncher, isAddress, isMember, notNull, submitProposal, submitWhitelistProposal, submitGuildKickProposal, CLEARED_TYPES, CLEARED_NUMBERS} from './utils'
+import { noTokens } from './messages'
 
 const molochClient = new ApolloClient({
     uri: config.graph.moloch,
@@ -73,7 +73,7 @@ export default class Proposal extends Component {
 
     // State setting
     setDao = (address) => {
-        molochClient
+        return molochClient
         .query({
             query: gql `{
                     moloches( where: {id: "${address}"} ) {
@@ -86,7 +86,7 @@ export default class Proposal extends Component {
                     }
                 }`,
         })
-        .then((res) =>
+        .then(res => 
             this.setState({
                 daoName: res.data.moloches[0].title,
                 version: res.data.moloches[0].version,
@@ -94,7 +94,8 @@ export default class Proposal extends Component {
                 tributeToken: res.data.moloches[0].tokens[0].tokenAddress,
                 paymentToken: res.data.moloches[0].tokens[0].tokenAddress,
             })
-        );
+        )
+        .catch(err => console.error('DAOs subgraph not available: ', err));
     };
 
     setTokens = () => {
@@ -108,17 +109,27 @@ export default class Proposal extends Component {
                 }
             }`,
         })
-        .then((res) =>
+        .then(res => {
+            const memo = {}
+            this.state.availableTokens.forEach(token => memo[token.tokenAddress] = true)
             this.setState({
-                ERC20Tokens: res.data.tokens.filter(token => token !== this.state.availableTokens)
+                ERC20Tokens: res.data.tokens.filter(token => !memo[token.address])
             })
-        );
+        })
+        .catch(err => {
+            console.error('Token Registry subgraph not available: ', err)
+        });
     };
     
-    setType = (type) => TYPES.forEach(t => {
-        if(t.key === type && this.state[t.key] === false) this.setState({[type]: true, header: t.title})
-        if(t.key !== type && this.state[t.key] === true) this.setState({[t.key]: false})
-    })
+    setType = (type) => {
+        if(this.state[type]) return
+        this.setState({
+            applicant: {address: this.props.address, validated: true},
+            ...CLEARED_NUMBERS,
+            ...CLEARED_TYPES,
+            [type]: true,
+        })
+    }
 
     setDetails = () => {
         this.setState({
@@ -128,22 +139,19 @@ export default class Proposal extends Component {
         })
     }
     
-    resetState = (e) => {
+    resetForm = (e) => {
         if (e) e.preventDefault();
         this.setState({
             isLoading: false,
             applicant: {address: this.props.address, validated: true},
-            sharesRequested: 0,
-            lootRequested: 0,
-            tributeOffered: 0,
+            ...CLEARED_NUMBERS,
             tributeToken: this.state.availableTokens[0].tokenAddress,
-            paymentRequested: 0,
             paymentToken: this.state.availableTokens[0].tokenAddress,
-            tokenToWhitelist:defaults.EMPTY,
+            tokenToWhitelist: defaults.EMPTY,
             memberToKick: {address: defaults.EMPTY, validated: false},
             title: {value:"", hasChanged: false},
             description: {value:"", hasChanged: false},
-            link: {value:"", hasChanged: false},
+            link: {value:"", hasChanged: false}, 
         });
     };
 
@@ -217,16 +225,16 @@ export default class Proposal extends Component {
     }
 
     componentDidMount() {
-        this.setDao(this.props.address);
+        this.setDao(this.props.address)
+            .then(() => this.state.version === '2' && this.setTokens())
         this.setState({ applicant: { address: this.props.accountAddress, validated: true } });
-        this.setTokens();
     }
 
     render() {
         const { isNewMember, isFunding, isTrade, isGuildKick, isWhitelist, header, version, availableTokens, ERC20Tokens, applicant, sharesRequested, lootRequested,tributeOffered, tributeToken, paymentRequested, paymentToken, tokenToWhitelist, memberToKick, title, description, link } = this.state
 
         return (
-            ((this.props.visible) ?
+            (this.props.visible ?
             <div className="modal">
                 <div className="container">
                     <div className="header">
@@ -251,7 +259,7 @@ export default class Proposal extends Component {
                                     key={i}
                                     disabled={(t.key === 'isGuildKick' || t.key  === 'isWhitelist') && version === '1'}
                                     className={`switchButton ${this.state[t.key] ? 'switched' : null}`}
-                                    onClick={() => this.setType(t.key)}
+                                    onClick={() => t.key === 'isWhitelist' && !ERC20Tokens[0] ? noTokens() : this.setType(t.key)}
                                 >{t.title}</button>)}
                         </div>
                         <form className="form">
@@ -281,7 +289,7 @@ export default class Proposal extends Component {
                                 : null
                             }
                             <div className="section end">
-                                <button className="submit clear" onClick={this.resetState}>
+                                <button className="submit clear" onClick={this.resetForm}>
                                     Clear
                                 </button>
                                 {this.state.isLoading ? (

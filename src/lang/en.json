@@ -948,5 +948,9 @@
   "meta-date": "Proposals from {{date}}.",
   "meta-search": "Proposals mentioning {{search}}.",
   "failure": "😱 Blockchain unreachable<br>{{errorMessage}}<br><a href='https://status.thegraph.com/' target='_blank'>Check network status.</a>",
-  "failure-short": "😱"
+  "failure-short": "😱",
+  "proposal-submitted": "Proposal submitted",
+  "proposal-submitted-successfully": "Your proposal was successfully submitted",
+  "api-error": "API error",
+  "api-error-tokens": "ERC20 tokens information is not available at this time. Please try again later."
 }

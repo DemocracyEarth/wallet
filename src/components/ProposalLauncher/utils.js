@@ -1,10 +1,7 @@
 /* IMPORTS */
-// Components
-import logo from 'images/logo.png';
-import i18n from 'i18n';
 // Functions
-import { walletError, notMember} from "components/Choice/messages";
-
+import { walletError, notMember } from "../Choice/messages";
+import { prposalSubmitted } from './messages'
 const Web3 = require("web3");
 
 // UX utils
@@ -13,21 +10,22 @@ export const hideProposalLauncher = () => {
 }
 
 export const showProposalLauncher = (address) => {
-  window.proposalLauncher = {
-    address
-  }
+  window.proposalLauncher = { address }
   window.showProposalLauncher.value = true;
 }
 
-const showModal = () => {
-  window.modal = {
-      icon: logo,
-      title: i18n.t('Proposal submitted'),
-      message: i18n.t('Your proposal was successfully submitted'),
-      cancelLabel: i18n.t('close'),
-      mode: 'ALERT'
-  }
-  window.showModal.value = true;
+export const CLEARED_TYPES ={
+  isNewMember: false,
+  isFunding: false,
+  isTrade: false,
+  isGuildKick: false,
+  isWhitelist: false,
+}
+export const CLEARED_NUMBERS = {
+  sharesRequested: 0,
+  lootRequested: 0,
+  tributeOffered: 0,
+  paymentRequested: 0,
 }
 
 // Validation utils
@@ -96,7 +94,7 @@ const getReceipt = async (proposal, user, estimatedGas) => {
   let receipt
   try{
       receipt = await proposal.send({ from: user, gas: estimatedGas })
-      .on('receipt', receipt => { showModal(); console.log('RECEIPT: ', receipt); return receipt })
+      .on('receipt', receipt => { prposalSubmitted(); console.log('RECEIPT: ', receipt); return receipt })
   } catch (err) {
       walletError(err);
       receipt = err;
