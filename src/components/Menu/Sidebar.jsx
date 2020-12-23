@@ -8,12 +8,14 @@ import DAO from 'components/DAO/DAO';
 import { query } from 'components/Menu/queries';
 import { reduce, sortBy } from 'lodash';
 import { view as routerView } from 'lib/const'
-
+import { showProposalLauncher } from '../ProposalLauncher/utils'
+import { noAddress } from 'components/Choice/messages';
 import parser from 'html-react-parser';
 
 import back from 'images/back.svg';
 import i18n from 'i18n';
 import 'styles/Dapp.css';
+import '../ProposalLauncher/style.css';
 
 // scroll settings
 let lastScrollTop = 0;
@@ -139,7 +141,6 @@ const _getHeadline = (headline, address, view) => {
   }
 };
 
-
 /**
 * @summary checks if for a given ad hoc sidebar menu there are proposals
 * @param {string} view currently based on router
@@ -186,7 +187,6 @@ const _getDAOs = (data) => {
   return sortBy(listedDAOs, (item) => { return (item.counter * -1) });
 }
 
-
 /**
  * @summary retrieves the corresponding query for the timeline.
  * @param {string} view based on router context
@@ -209,7 +209,7 @@ const composeQuery = (view) => {
 /**
 * @summary renders the menu based on a graph ql query ad hoc for the user
 */
-const MenuQuery = ({ address, scrollUp, view, proposalId, param }) => {
+const MenuQuery = ({ accountAddress, address, scrollUp, view, proposalId, param }) => {
   let { dateBegin, dateEnd } = '';
   if (view === routerView.DATE) {
     dateBegin = Math.floor(new Date(param).getTime() / 1000).toString();
@@ -324,6 +324,12 @@ const MenuQuery = ({ address, scrollUp, view, proposalId, param }) => {
           null 
         }
       </div>
+      {(view === routerView.DAO)
+        ? <>
+            <button onClick={() => accountAddress === '0x0' ? noAddress() : showProposalLauncher(address)} className="proposalButton">Make a <span>proposal</span></button>
+          </>
+        : null
+      }
     </div>
   );
 };
@@ -341,8 +347,7 @@ MenuQuery.propTypes = {
 */
 export default class Sidebar extends Component {
   constructor(props) {
-    super(props);
-
+    super(props)
     this.state = {
       node: document.getElementById('sidebar'),
       scrollUp: false,
@@ -350,7 +355,6 @@ export default class Sidebar extends Component {
 
     this.handleScroll = this.handleScroll.bind(this);
   }
-
 
   async componentDidMount() {
     if (document.getElementById('dapp')) {
@@ -377,7 +381,13 @@ export default class Sidebar extends Component {
 
   render() {
     if ((this.props.view !== routerView.HOME) && (this.props.view !== routerView.PERIOD) && (this.props.view !== routerView.SEARCH)) {
-      return <MenuQuery address={this.props.address} scrollUp={this.state.scrollUp} view={this.props.view} proposalId={this.props.proposalId} param={this.props.param} />;
+      return <MenuQuery
+        accountAddress={this.props.accountAddress}
+        address={this.props.address}
+        scrollUp={this.state.scrollUp}
+        view={this.props.view}
+        proposalId={this.props.proposalId}
+        param={this.props.param}/>;
     }
 
     const defaultMenu = _getMenu(routerView.HOME);
