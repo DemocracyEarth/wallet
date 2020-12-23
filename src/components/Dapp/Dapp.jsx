@@ -9,6 +9,7 @@ import {
 import Browser from 'components/Browser/Browser';
 import Layout from 'components/Layout/Layout';
 import Modal from 'components/Modal/Modal';
+import ProposalLauncher from 'components/ProposalLauncher/ProposalLauncher';
 
 // wallets
 import Web3Modal from 'web3modal';
@@ -56,10 +57,10 @@ const INITIAL_STATE = {
   networkId: 1,
   assets: [],
   showModal: false,
+  showProposalLauncher: false,
   pendingRequest: false,
   result: null,
   mobile: (window.innerWidth < 768),
-  modal: null,
 };
 
 const routes = [
@@ -124,8 +125,24 @@ export default class Dapp extends Component {
       this.onConnect();
     }
     window.addEventListener('resize', this.resize);
-
+    
+    // modal
     window.showModal = {
+      valueInternal: false,
+      valueListener: function (val) { },
+      set value(val) {
+        this.valueInternal = val;
+        this.valueListener(val);
+      },
+      get value() {
+        return this.valueInternal;
+      },
+      registerListener: function (listener) {
+        this.valueListener = listener;
+      }
+    }
+    // proposal launcher
+    window.showProposalLauncher = {
       valueInternal: false,
       valueListener: function (val) { },
       set value(val) {
@@ -143,6 +160,10 @@ export default class Dapp extends Component {
     const instance = this;
     window.showModal.registerListener(function (val) {
       instance.showModal(val);
+      instance.showProposalLauncher(false);
+    });
+    window.showProposalLauncher.registerListener(function (val) {
+      instance.showProposalLauncher(val);
     });
   }
 
@@ -152,7 +173,10 @@ export default class Dapp extends Component {
 
   showModal(val) {
     this.setState({ showModal: val });
-    this.setState({ modal: window.modal });
+  }
+
+  showProposalLauncher(val){
+    this.setState({ showProposalLauncher: val });
   }
 
   async onConnect() {
@@ -229,7 +253,12 @@ export default class Dapp extends Component {
                 children={  
                   <>
                     {(this.state.showModal) ?
-                      <Modal visible={this.state.showModal} modal={window.modal} mode={window.modal.mode} />
+                      <Modal visible={this.state.showModal} modal={window.modal} mode={window.modal.mode}/>
+                      :
+                      null
+                    }
+                    {this.state.showProposalLauncher ?
+                      <ProposalLauncher visible={this.state.showProposalLauncher} accountAddress={this.state.address} address={window.proposalLauncher.address}/>
                       :
                       null
                     }
