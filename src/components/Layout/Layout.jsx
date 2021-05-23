@@ -5,6 +5,7 @@ import { useParams, useLocation } from 'react-router-dom';
 import Menu from 'components/Menu/Menu';
 import Timeline from 'components/Timeline/Timeline';
 import Ledger from 'components/Ledger/Ledger';
+import List from 'components/List/List';
 import Burger from 'components/Menu/Burger';
 import TabMenu, { showMain, showAlternative } from 'components/TabMenu/TabMenu';
 import DocumentMeta from 'react-document-meta';
@@ -95,7 +96,8 @@ const Layout = (props) => {
     <DocumentMeta {...meta}>
       <div id="app" className="app">
         <div id="menu" className="left">
-          <Menu address={renderAddress} view={view} proposalId={proposalId} param={param} />
+          {/*<Menu address={renderAddress} view={view} proposalId={proposalId} param={param} /> */}
+          <List />
         </div>
         <TabMenu tabs={
           [
