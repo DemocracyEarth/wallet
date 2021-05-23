@@ -89,7 +89,8 @@ const _view = {
   PROPOSAL: 'proposal',
   TOKEN: 'token',
   DATE: 'date',
-  SEARCH: 'search'
+  SEARCH: 'search',
+  VAULT: 'vault'
 }
 
 const _period = {
