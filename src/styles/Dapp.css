@@ -6632,7 +6632,25 @@ h2 {
   position: unset;
 }
 
+.dapp-title {
+  text-align: center;
+  font-size: 0.9em;
+  color: white;
+  height: 30px;
+  left: 100px;
+  margin: 14px 0px;
+  position: absolute;
+  right: 200px;
+  overflow: hidden
+}
+
 @media (max-width: 767px) {
+  .dapp-title {
+    left: 60px;
+    right: 155px;
+  }
+
+
   .card-title {
     text-decoration: underline;
     text-decoration-color: #eaeaea;

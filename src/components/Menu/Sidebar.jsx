@@ -420,3 +420,4 @@ Sidebar.propTypes = {
   proposalId: PropTypes.string,
   param: PropTypes.string
 };
+
