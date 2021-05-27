@@ -5,10 +5,7 @@ import parser from 'html-react-parser';
 import Account from 'components/Account/Account';
 
 import vault from 'images/vault.svg';
-
-import Post from 'components/Post/Post';
-import Stamp from 'components/Stamp/Stamp';
-import Social from 'components/Social/Social';
+import strategy from 'images/strategy.svg';
 
 import 'styles/Dapp.css';
 
@@ -37,8 +34,10 @@ export default class Vault extends Component {
       <div className="vote vote-search vote-feed nondraggable vote-poll">
         <div className="checkbox checkbox-custom">
           <div className="meta meta-search meta-bar">
-            <Account publicAddress={'0x8EBd041213218953109724e60c9cE91B57887288'} icon={vault} 
-              format="icon" width="16px" height="16px" href={'https://etherscan.io/address/0x8EBd041213218953109724e60c9cE91B57887288'} />
+            <Account publicAddress={'0x8EBd041213218953109724e60c9cE91B57887288'} icon={vault} format="icon" width="16px" height="16px" href={'https://etherscan.io/address/0x8EBd041213218953109724e60c9cE91B57887288'} />
+            <div className="dao">
+              <Account publicAddress={'0xf2eefca91a179c5Eb38CaA0Ea2BCB79ad1E46A79'} icon={strategy} format="icon" width="16px" height="16px" href={'https://etherscan.io/address/0xf2eefca91a179c5Eb38CaA0Ea2BCB79ad1E46A79#code'} />
+            </div>
           </div>
           <div className="option-proposal">
             <div className="option-title option-link option-search title-input">
