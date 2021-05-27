@@ -690,9 +690,9 @@ blockquote {
   margin-top: 10px;
   margin-bottom: 10px;
   float: left;
-  border: 1px solid #7d849f;
+  border: none;
   border-radius: 100px;
-  background-color: var(--main-placeholder-color);
+  background-color: transparent;
 }
 
 .symbol.profile-pic.profile-pic-navbar {
@@ -7163,9 +7163,15 @@ h2 {
   margin-top: 10px;
   margin-bottom: 10px;
   float: left;
-  border: 1px solid #e8e2ef;
+  border: none;
   border-radius: 50px;
-  background-color: #e8e2ef;
+  background-color: none;
+}
+
+.symbol.profile-pic.icon {
+  border: none;
+  border-radius: 0px;
+  background-color: none;
 }
 
 .symbol.dao-pic {

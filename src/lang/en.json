@@ -913,7 +913,7 @@
   "memberships-account-proposal": "DAO of this proposal",
   "proposals-sidebar": "Proposal Period",
   "proposals-vault": "Vaults",
-  "vault-ubi-dai": "UBI DAI 🔥💧",
+  "vault-ubi-dai": "UBI & DAI",
   "vault-ubi-eth": "UBI ETH",
   "vault-ubi-wbtc": "UBI WBTC",
   "memberships-sidebar": "Your Memberships",
@@ -958,5 +958,5 @@
   "api-error": "API error",
   "api-error-tokens": "ERC20 tokens information is not available at this time. Please try again later.",
   "soon": "soon",
-  "human-money": "Humanitarian Vaults 🖖"
+  "human-money": "Humanitarian Vaults 🔥💧"
 }

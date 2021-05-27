@@ -7,8 +7,10 @@ import Timeline from 'components/Timeline/Timeline';
 import Ledger from 'components/Ledger/Ledger';
 import List from 'components/List/List';
 import Burger from 'components/Menu/Burger';
+import Vault from 'components/Vault/Vault';
 import TabMenu, { showMain, showAlternative } from 'components/TabMenu/TabMenu';
 import DocumentMeta from 'react-document-meta';
+
 
 import i18n from 'i18n';
 import { view as routerView } from 'lib/const';
@@ -109,8 +111,9 @@ const Layout = (props) => {
           <div id="main-feed" className="split split-left split-landing">
             <div id="proposals" className="content content-feed max100">
               <div id="non-editable-feed">
-                <Timeline address={renderAddress} period={periodEpoch} view={view} proposalId={proposalId} param={param}
-                  field={'memberAddress'} first={25} skip={0} page={1} orderBy={'createdAt'} orderDirection={'desc'} />
+                {/*<Timeline address={renderAddress} period={periodEpoch} view={view} proposalId={proposalId} param={param}
+                  field={'memberAddress'} first={25} skip={0} page={1} orderBy={'createdAt'} orderDirection={'desc'} />*/}
+                  <Vault />
               </div>
             </div>
           </div>
