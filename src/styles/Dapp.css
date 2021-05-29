@@ -7174,6 +7174,11 @@ h2 {
   background-color: none;
 }
 
+.progress-bar {
+  display: inline-block;
+  width: 100%;
+}
+
 .symbol.dao-pic {
   width: 60px;
   height: 60px;

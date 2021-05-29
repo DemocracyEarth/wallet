@@ -21,16 +21,17 @@ const _check404 = (image_url) => {
   }
 }
 
-const _getBalanceLabel = (quantity, decimals) => {
+const _getBalanceLabel = (quantity, decimals, format) => {
   const zeroes = (!decimals) ? 0 : Number(decimals);
-  return numeral(new BigNumber(quantity).dividedBy(Math.pow(10, zeroes)).toNumber()).format('0,0.[00]');
+  return numeral(new BigNumber(quantity).dividedBy(Math.pow(10, zeroes)).toNumber()).format(format);
 }
 
 /**
 * @summary renders a post in the timeline
 */
 const Token = (props) => {
-  const balance = _getBalanceLabel(props.quantity, props.decimals);
+  const format = props.displayDecimals ? '0,0.0000' : '0,0.[00]'
+  const balance = _getBalanceLabel(props.quantity, props.decimals, format);
 
   let imageExists = false;
   let image;
@@ -71,6 +72,7 @@ Token.propTypes = {
   publicAddress: PropTypes.string,
   symbol: PropTypes.string,
   decimals: PropTypes.string,
+  displayDecimals: PropTypes.bool
 };
 
 export default Token;
