@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import parser from 'html-react-parser';
 
 import Account from 'components/Account/Account';
-import Bar from 'components/Bar/Bar';
+import ProgressBar from 'components/ProgressBar/ProgressBar';
 import Contract from 'components/Contract/Contract';
 import Token, { getBalanceLabel } from 'components/Token/Token';
 import Parameter from 'components/Parameter/Parameter';
@@ -74,36 +74,35 @@ export default class Vault extends Component {
             </div>
           </div>
           <div className="countdown">
-            <div id="timer" className="countdown-label">
-              <img className="url-icon icon-up2" alt="" src={status} /> {i18n.t('vault-status')}
-            </div>
           </div>
-          <Contract hidden={false} view={routerView.PROPOSAL} href={'https://etherscan.io/address/0x8EBd041213218953109724e60c9cE91B57887288'}>
-            <Parameter label={i18n.t('deposit-limit')}>
-              <Token quantity={'50000000000000000000000'} publicAddress={'0x6b175474e89094c44da98b954eedeac495271d0f'} symbol={'DAI'} decimals={18} />
-            </Parameter>
-            <Parameter label={i18n.t('total-assets')}>
-              <Token quantity={'1645460000000000000000'} publicAddress={'0x6b175474e89094c44da98b954eedeac495271d0f'} symbol={'DAI'} decimals={18} />
-            </Parameter>
-            <Parameter label={i18n.t('total-aum')}>
-              <Token quantity={'1641470000000000000000'} publicAddress={'0x6b175474e89094c44da98b954eedeac495271d0f'} symbol={'DAI'} decimals={18} />
-            </Parameter>
-            <Parameter label={i18n.t('dai-price')}>
-              <Token quantity={'0000997600000000000000'} displayDecimals={true} symbol={'USD'} decimals={18} />
-            </Parameter>
-            <Parameter label={i18n.t('price-per-share')}>
-              <Token quantity={'1000000000000000000'} displayDecimals={true} symbol={'USD'} decimals={18} />
-            </Parameter>
-            <Parameter label={i18n.t('available-limit')}>
-              <Token quantity={'48354530000000000000000'} publicAddress={'0x6b175474e89094c44da98b954eedeac495271d0f'} symbol={'DAI'} decimals={18} />
-            </Parameter>
-          </Contract>
+          <div class="details-wrapper">
+            <Contract hidden={false} view={routerView.PROPOSAL} href={'https://etherscan.io/address/0x8EBd041213218953109724e60c9cE91B57887288'}>
+              <Parameter label={i18n.t('deposit-limit')}>
+                <Token quantity={'50000000000000000000000'} publicAddress={'0x6b175474e89094c44da98b954eedeac495271d0f'} symbol={'DAI'} decimals={18} />
+              </Parameter>
+              <Parameter label={i18n.t('total-assets')}>
+                <Token quantity={'1645460000000000000000'} publicAddress={'0x6b175474e89094c44da98b954eedeac495271d0f'} symbol={'DAI'} decimals={18} />
+              </Parameter>
+              <Parameter label={i18n.t('total-aum')}>
+                <Token quantity={'1641470000000000000000'} publicAddress={'0x6b175474e89094c44da98b954eedeac495271d0f'} symbol={'DAI'} decimals={18} />
+              </Parameter>
+              <Parameter label={i18n.t('dai-price')}>
+                <Token quantity={'0000997600000000000000'} displayDecimals={true} symbol={'USD'} decimals={18} />
+              </Parameter>
+              <Parameter label={i18n.t('price-per-share')}>
+                <Token quantity={'1000000000000000000'} displayDecimals={true} symbol={'USD'} decimals={18} />
+              </Parameter>
+              <Parameter label={i18n.t('available-limit')}>
+                <Token quantity={'48354530000000000000000'} publicAddress={'0x6b175474e89094c44da98b954eedeac495271d0f'} symbol={'DAI'} decimals={18} />
+              </Parameter>
+            </Contract>
+          </div>
           <div className="countdown">
             <div id="timer" className="countdown-label">
-              <img className="url-icon icon-up2" alt="" src={money} /> {i18n.t('vault-capacity')}
+              {i18n.t('vault-capacity')}
             </div>
           </div>
-          <Bar percentage="3.29" />
+          <ProgressBar percentage="3.29" />
           {this.props.children}
         </div>
       </div>

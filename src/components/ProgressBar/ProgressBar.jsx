@@ -7,7 +7,7 @@ const numeral = require('numeral');
 /**
 * @summary renders a post in the timeline
 */
-export default class Bar extends Component {
+export default class ProgressBar extends Component {
   static propTypes = {
     percentage: PropTypes.string,
   }
