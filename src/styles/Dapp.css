@@ -6644,6 +6644,11 @@ h2 {
   overflow: hidden
 }
 
+.subtitle {
+  clear: both;
+  margin: 1px 0px 10px;
+}
+
 @media (max-width: 767px) {
   .dapp-title {
     left: 60px;

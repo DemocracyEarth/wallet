@@ -972,5 +972,11 @@
   "approve": "Approve",
   "deposit": "Deposit",
   "withdraw": "Withdraw",
-  "vault-status": "Vault Status"
+  "vault-capitalization": "Vault Capitalization",
+  "yearn-vault": "Yearn Vault",
+  "market-prices": "Market Prices",
+  "your-share": "Your Assets",
+  "vault-shares": "Vault Shares",
+  "shares-value": "Shares Value",
+  "dai-balance": "DAI Balance"
 }
