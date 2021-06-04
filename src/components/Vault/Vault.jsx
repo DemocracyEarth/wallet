@@ -5,15 +5,14 @@ import parser from 'html-react-parser';
 import Account from 'components/Account/Account';
 import ProgressBar from 'components/ProgressBar/ProgressBar';
 import Contract from 'components/Contract/Contract';
-import Token, { getBalanceLabel } from 'components/Token/Token';
+import Token from 'components/Token/Token';
 import Parameter from 'components/Parameter/Parameter';
 import { view as routerView } from 'lib/const';
 import Expand from 'components/Expand/Expand';
+import Wallet from 'components/Wallet/Wallet';
 
-import money from 'images/money.svg';
 import vault from 'images/vault.svg';
 import contract from 'images/contract.svg';
-import strategy from 'images/strategy.svg';
 import price from 'images/price.svg';
 import priceActive from 'images/price-active.svg';
 import share from 'images/share.svg';
@@ -146,7 +145,7 @@ export default class Vault extends Component {
             </div>
             <ProgressBar percentage="3.29" />
           </div>
-          {this.props.children}
+          <Wallet />
         </div>
       </div>
     );
