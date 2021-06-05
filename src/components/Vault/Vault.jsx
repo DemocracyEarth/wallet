@@ -41,7 +41,7 @@ export default class Vault extends Component {
     this.state = {
       title: i18n.t('ubi-dai-title'),
       description: i18n.t('ubi-dai-description'),
-      link: null,
+      link: 'https://youtu.be/6008FYXc3IU',
     }
   }
 
@@ -138,12 +138,12 @@ export default class Vault extends Component {
                 </Parameter>
               </Contract>
             </Expand>
-            <div className="countdown">
+            {/*<div className="countdown">
               <div id="timer" className="countdown-label">
                 {i18n.t('vault-capacity')}
               </div>
             </div>
-            <ProgressBar percentage="3.29" />
+              <ProgressBar percentage="3.29" />*/}
           </div>
           <Wallet />
         </div>

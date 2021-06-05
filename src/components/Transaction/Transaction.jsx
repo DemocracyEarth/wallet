@@ -30,6 +30,24 @@ export default class Transaction extends Component {
             {parser(i18n.t('voted-no', { shares: numeral(this.props.quantity).format('0,0'), label, proposal: title }))}
           </div>
         );
+      case defaults.DEPOSIT:
+        return (
+          <div href={this.props.uintVote} className="transaction-action transaction-action-passed">
+            {parser(i18n.t(`vault-${this.props.uintVote.toLowerCase()}`, { quantity: numeral(this.props.quantity).format('0,0'), label, proposal: title }))}
+          </div>
+        );
+      case defaults.WITHDRAW:
+        return (
+          <div href={this.props.uintVote} className="transaction-action transaction-action-rejected">
+            {parser(i18n.t(`vault-${this.props.uintVote.toLowerCase()}`, { quantity: numeral(this.props.quantity).format('0,0'), label, proposal: title }))}
+          </div>
+        );
+      case defaults.BURN:
+        return (
+          <div href={this.props.uintVote} className="transaction-action transaction-action-burn">
+            {parser(i18n.t(`vault-${this.props.uintVote.toLowerCase()}`, { quantity: numeral(this.props.quantity).format('0,0'), label, proposal: title }))}
+          </div>
+        );
       default:
     }
     return null;

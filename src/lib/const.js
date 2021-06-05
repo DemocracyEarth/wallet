@@ -79,6 +79,9 @@ const _defaults = {
   CRON_JOB_TIMER: '0 59 * * * *',
   ORACLE_BLOCKTIME: 25000,
   EMPTY: '0x0',
+  DEPOSIT: 'DEPOSIT',
+  WITHDRAW: 'WITHDRAW',
+  BURN: 'BURN'
 };
 
 const _view = {

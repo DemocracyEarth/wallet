@@ -15,6 +15,7 @@
   --browser-button-color: #7d8499;
   --menu-sidebar-selected: #580173;
   --bar-tag: #f3e7f7;
+  --light-button-color:#e6e0ee;
 }
 
 @-webkit-keyframes preloader-content {
@@ -7166,20 +7167,6 @@ h2 {
   }
 }
 
-.wallet {
-  width: 100%;
-  margin: 20px 0px 10px;
-}
-
-.wallet-button {
-  height: 50px;
-  width: 33%;
-  background-color: var(--menu-sidebar-selected);
-  color: white;
-  border-radius: 40px;
-  margin: 0px 10px;
-}
-
 .symbol.profile-pic {
   width: 60px;
   height: 60px;
@@ -7511,6 +7498,16 @@ h4 {
   line-height: 20px;
   padding: 5px 10px;
 }
+
+.transaction-action-burn {
+  background-color: var(--light-button-color);
+  color: var(--bar-background);
+  border: 1px solid var(--bar-background);
+  border-radius: 5px;
+  line-height: 20px;
+  padding: 5px 10px;
+}
+
 
 .transaction-action-rejected {
   background-color: var(--negative-signal-background-color);
@@ -8062,4 +8059,8 @@ h4 {
 
 .hero-menu-link.hero-menu-link-signin-simple.hero-menu-link-signin-simple-icon.mobile:active {
   padding: 1px 0px 0px 0px;
+}
+
+.identity-vault {
+  float: right;
 }
