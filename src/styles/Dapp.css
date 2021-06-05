@@ -668,10 +668,6 @@ blockquote {
   padding: 0px 0px 0px 5px;
 }
 
-.parameter {
-  margin: 20px;
-}
-
 .symbol {
   height: 120px;
   margin-top: 10px;
@@ -6395,7 +6391,7 @@ mark {
 }
 
 .details-wrapper {
-  padding: 1px 12px 0px;
+  padding: 0px 5px 0px;
   margin-top: -5px;
   border-radius: 10px;
   margin-bottom: 20px;
@@ -7072,24 +7068,32 @@ h2 {
 }
 
 .parameter {
-  padding: 0px 15px 10px;
-  border-radius: 5px;
+  padding: 0px 10px 10px;
   text-align: center;
-  margin: 10px 15px 5px 0px;
+  margin: 5px 0px 0px 0px;
   color: #5a0075;
-  border: 1px solid #e6e0ee;
+  width: 50%;
+  border: 6px solid #fcfcfc;
   min-width: 140px;
-  background: var(--proposal-bar-color);
+  background: #f3f0f6;
   float: left;
-  height: 80px;
+  border-radius: 12px;
+  height: 90px;
   overflow: hidden;
+}
+
+@media (max-width: 479px) {
+
+  .parameter {
+    width: 100%;
+  }
+
 }
 
 .parameter-name {
   color: #7d849f;
   line-height: 28px;
   margin: 0px -15px 6px;
-  background-color: #e6e0ee;
   font-size: 11px;
   font-weight: 400;
   border-top-left-radius: 4px;
@@ -7162,6 +7166,20 @@ h2 {
   }
 }
 
+.wallet {
+  width: 100%;
+  margin: 20px 0px 10px;
+}
+
+.wallet-button {
+  height: 50px;
+  width: 33%;
+  background-color: var(--menu-sidebar-selected);
+  color: white;
+  border-radius: 40px;
+  margin: 0px 10px;
+}
+
 .symbol.profile-pic {
   width: 60px;
   height: 60px;
@@ -7219,15 +7237,6 @@ h4 {
   .user-logger {
     margin-top: 3px;
     margin-right: 10px;
-  }
-
-  .parameter {
-    padding: 0px 10px 10px;
-    margin: 10px 5px 0px 0px;
-  }
-
-  .details-wrapper {
-    padding: 1px 12px 5px;
   }
 
   .parameter-name {
