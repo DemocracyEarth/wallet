@@ -64,9 +64,9 @@ export default class List extends Component {
             {i18n.t('proposals-vault')}
           </div>
           <div className="submenu">
-            <Item sharp label={i18n.t('vault-ubi-dai')} score={'$ 50k'} key={0} href={'/'} />
-            <Item sharp label={i18n.t('vault-ubi-eth')} score={i18n.t('soon')} key={0} href={'/vault/eth'} />
-            <Item sharp label={i18n.t('vault-ubi-wbtc')} score={i18n.t('soon')} key={0} href={'/vault/wbtc'} />
+            <Item sharp label={i18n.t('vault-ubi-dai')} score={50000} key={0} href={'/'} />
+            <Item sharp label={i18n.t('vault-ubi-eth')} score={0} key={1} href={'/vault/eth'} />
+            <Item sharp label={i18n.t('vault-ubi-wbtc')} score={0} key={2} href={'/vault/wbtc'} />
           </div>
         </div>
       </div>

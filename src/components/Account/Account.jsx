@@ -130,7 +130,7 @@ const AccountQuery = ({ publicAddress, width, height, format, hidden, icon, href
           :
           <div className="identity-peer">
             {(url.match('http')) ?
-              <a href={url} target="_blank" rel="noopener noreferrer" title={publicAddress} t className="identity-label identity-label-micro">
+              <a href={url} target="_blank" rel="noopener noreferrer" title={publicAddress} className="identity-label identity-label-micro">
                 {label}
               </a>
             :

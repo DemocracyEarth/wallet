@@ -6,6 +6,7 @@ import { ApolloProvider, useQuery } from '@apollo/react-hooks';
 import { useHistory } from "react-router-dom";
 import { Link } from 'react-router-dom';
 
+import { shortenCryptoName } from 'utils/strings';
 import Account from 'components/Account/Account';
 import DAO from 'components/DAO/DAO';
 import Stamp from 'components/Stamp/Stamp';
@@ -77,24 +78,22 @@ export default class Event extends Component {
     await this.vault.events.allEvents({
       fromBlock: 0,
       toBlock: 'latest'
-    }, function (error, tx) {
-      console.log(tx);
+    }, async (error, tx) => {
       if (tx.event === 'Transfer') {
+        const block = await this.web3.eth.getBlock(tx.blockNumber);
+        console.log('block:');
+        console.log(block);
+        tx.timestamp = block.timestamp;
         log.push(tx);
+        this.setState({
+          feed: log
+        });
       }
       return tx;
     })
-    this.setState({
-      feed: log
-    });
   }
 
-
-
   render() {
-    console.log('RENDER');
-    console.log(this.state.feed);
-
     if (this.state.feed.length === 0) {
       if (this.state.loading) {
         return (
@@ -125,18 +124,18 @@ export default class Event extends Component {
               <div className="avatar-editor identity-vault">
                 <img src={vault} className="symbol dao-pic" alt="" style={{ width: '16px', height: '16px' }} />
                 <div className="identity-peer">
-                  <Link to={'/'} title={'0x8EBd041213218953109724e60c9cE91B57887288'} className="identity-label identity-label-micro identity-label-dao" onClick={(e) => { e.stopPropagation(); }}>
-                    {(post.address > gui.MAX_LENGTH_ACCOUNT_NAMES) ? `${post.address.substring(0, gui.MAX_LENGTH_ACCOUNT_NAMES)}...` : post.address}
-                  </Link>
+                  <a href={`${config.web.explorer.replace('{{publicAddress}}', post.address)}`} title={post.address} target="_blank" rel="noopener noreferrer" className="identity-label identity-label-micro identity-label-dao">
+                    {shortenCryptoName(post.address)}
+                  </a>
                 </div>
               </div>
               {(post.returnValues.receiver === "0x0000000000000000000000000000000000000000") ?
-                  <Transaction uintVote={defaults.WITHDRAW} quantity={`${post.returnValues.value}`} />
+                <Transaction uintVote={defaults.WITHDRAW} quantity={`${getBalanceLabel(post.returnValues.value, 18, '0,0.[00]')}`} />
                 :
-                  <Transaction uintVote={defaults.DEPOSIT} quantity={`${post.returnValues.value}`} />
+                <Transaction uintVote={defaults.DEPOSIT} quantity={`${getBalanceLabel(post.returnValues.value, 18, '0,0.[00]')}`} />
               }
               
-              <Stamp timestamp={post.blockNumber} format="timeSince" />
+              <Stamp timestamp={post.timestamp} format="timeSince" />
             </>
             :
             null

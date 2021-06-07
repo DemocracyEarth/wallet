@@ -191,16 +191,16 @@ export default class Vault extends Component {
             >
               <Contract hidden={false} view={routerView.PROPOSAL} href={`${config.web.explorer.replace('{{publicAddress}}', this.props.address)}`}>
                 <Parameter label={i18n.t('deposit-limit')}>
-                  <Token quantity={this.state.depositLimit} publicAddress={daiAddress} symbol={'DAI'} decimals={18} />
+                  <Token quantity={this.state.depositLimit} publicAddress={daiAddress} symbol={'DAI'} decimals={'18'} />
                 </Parameter>
                 <Parameter label={i18n.t('available-limit')}>
-                  <Token quantity={this.state.availableDepositLimit} publicAddress={daiAddress} symbol={'DAI'} decimals={18} />
+                  <Token quantity={this.state.availableDepositLimit} publicAddress={daiAddress} symbol={'DAI'} decimals={'18'} />
                 </Parameter>
                 <Parameter label={i18n.t('total-assets')}>
-                  <Token quantity={this.state.totalAssets} publicAddress={daiAddress} symbol={'DAI'} decimals={18} />
+                  <Token quantity={this.state.totalAssets} publicAddress={daiAddress} symbol={'DAI'} decimals={'18'} />
                 </Parameter>
                 <Parameter label={i18n.t('locked-profit')}>
-                  <Token quantity={this.state.lockedProfit} publicAddress={daiAddress} symbol={'DAI'} decimals={18} />
+                  <Token quantity={this.state.lockedProfit} publicAddress={daiAddress} symbol={'DAI'} decimals={'18'} />
                 </Parameter>
               </Contract>
             </Expand>
@@ -209,10 +209,10 @@ export default class Vault extends Component {
             >
               <Contract hidden={false} view={routerView.PROPOSAL} href={`${config.web.explorer.replace('{{publicAddress}}', this.props.address)}`}>
                 <Parameter label={i18n.t('dai-price')}>
-                  <Token quantity={this.state.DAIPrice} displayDecimals={true} symbol={'USD'} decimals={8} />
+                  <Token quantity={this.state.DAIPrice} displayDecimals={true} symbol={'USD'} decimals={'8'} />
                 </Parameter>
                 <Parameter label={i18n.t('price-per-share')}>
-                  <Token quantity={this.state.pricePerShare} displayDecimals={true} symbol={'USD'} decimals={18} />
+                  <Token quantity={this.state.pricePerShare} displayDecimals={true} symbol={'USD'} decimals={'18'} />
                 </Parameter>
               </Contract>
             </Expand>
@@ -221,10 +221,10 @@ export default class Vault extends Component {
             >
               <Contract hidden={false} view={routerView.PROPOSAL} href={`${config.web.explorer.replace('{{publicAddress}}', this.props.address)}`}>
                 <Parameter label={i18n.t('vault-shares')}>
-                  <Token quantity={this.state.balanceOf} symbol={'ubiDAI'} decimals={18} />
+                  <Token quantity={this.state.balanceOf} symbol={'ubiDAI'} decimals={'18'} />
                 </Parameter>
                 <Parameter label={i18n.t('shares-value')}>
-                  <Token quantity={this.state.sharesValue} symbol={'USD'} decimals={18} />
+                  <Token quantity={this.state.sharesValue} symbol={'USD'} decimals={'18'} />
                 </Parameter>
               </Contract>
             </Expand>
