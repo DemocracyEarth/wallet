@@ -982,5 +982,6 @@
   "recent-events": "Recent events.",
   "vault-deposit": "Deposited {{quantity}} DAI to the vault.",
   "vault-withdraw": "Widthrew {{quantity}} DAI from the vault.",
-  "vault-burn": "🔥 Burned {{quantity}} UBI."
+  "vault-burn": "🔥 Burned {{quantity}} UBI.",
+  "locked-profit": "Locked Profit"
 }
