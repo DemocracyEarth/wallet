@@ -86,7 +86,15 @@ export default class Ledger extends Component {
           <div className="shadow-top" />
           <div className="ledger-wrapper">
             {/*<Vote address={this.props.address} view={this.props.view} proposalId={this.props.proposalId} first={this.props.first} skip={this.props.skip} orderBy={'createdAt'} orderDirection={'desc'} />*/}
-            <Event address={this.props.address} view={this.props.view} proposalId={this.props.proposalId} first={this.props.first} skip={this.props.skip} orderBy={'createdAt'} orderDirection={'desc'} />
+            <Event 
+              address={this.props.address} 
+              view={this.props.view} 
+              proposalId={this.props.proposalId} 
+              first={this.props.first} 
+              skip={this.props.skip} 
+              orderBy={'createdAt'} 
+              orderDirection={'desc'} 
+            />
           </div>
           <div className="shadow-bottom" />
           <div className="ledger-footer" />

@@ -95,9 +95,6 @@ export default class Vault extends Component {
     });
   }
 
-  componentWillUnmount() {
-  }
-
   async getDAIPrice() {
     this.setState({
       DAIPrice: await this.priceFeed.methods.latestAnswer().call({}, response)

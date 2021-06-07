@@ -977,7 +977,7 @@
   "market-prices": "Market Prices",
   "your-share": "Your Assets",
   "vault-shares": "Your Vault Shares",
-  "shares-value": "Your Shares Value",
+  "shares-value": "Your Shares' Value",
   "dai-balance": "DAI Balance",
   "recent-events": "Recent events.",
   "vault-deposit": "Deposited {{quantity}} DAI to the vault.",
