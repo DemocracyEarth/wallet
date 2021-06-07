@@ -4,7 +4,7 @@ import parser from 'html-react-parser';
 import { config } from 'config';
 
 import Account from 'components/Account/Account';
-import ProgressBar from 'components/ProgressBar/ProgressBar';
+// import ProgressBar from 'components/ProgressBar/ProgressBar';
 import Contract from 'components/Contract/Contract';
 import Token from 'components/Token/Token';
 import Parameter from 'components/Parameter/Parameter';
@@ -31,7 +31,6 @@ import BigNumber from 'bignumber.js/bignumber';
 import i18n from 'i18n';
 
 const Web3 = require('web3');
-const numeral = require('numeral');
 
 
 const response = (err, res) => {
