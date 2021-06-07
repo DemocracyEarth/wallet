@@ -1,22 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import ApolloClient, { InMemoryCache } from 'apollo-boost';
-import { ApolloProvider, useQuery } from '@apollo/react-hooks';
-import { useHistory } from "react-router-dom";
-import { Link } from 'react-router-dom';
-
 import { shortenCryptoName } from 'utils/strings';
 import Account from 'components/Account/Account';
-import DAO from 'components/DAO/DAO';
 import Stamp from 'components/Stamp/Stamp';
 import Transaction from 'components/Transaction/Transaction';
 
-import { gui, defaults, view as routerView } from 'lib/const';
+import { defaults } from 'lib/const';
 
-import parser from 'html-react-parser';
-import { query } from 'components/Vote/queries'
 import { config } from 'config'
+import { sortBy } from 'lodash';
 
 import { ubidaiABI } from 'components/Vault/ubidai-abi.js';
 import { getBalanceLabel } from 'components/Token/Token';
@@ -79,12 +72,23 @@ export default class Event extends Component {
       fromBlock: 0,
       toBlock: 'latest'
     }, async (error, tx) => {
+      if (error) {
+        console.log(error);
+        return;
+      }
       if (tx.event === 'Transfer') {
         const block = await this.web3.eth.getBlock(tx.blockNumber);
-        console.log('block:');
-        console.log(block);
         tx.timestamp = block.timestamp;
-        log.push(tx);
+        let found = false;
+        for (const item of log) {
+          if (item.transactionHash === tx.transactionHash) {
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          log.push(tx);
+        }
         this.setState({
           feed: log
         });
@@ -113,14 +117,24 @@ export default class Event extends Component {
       }
     }
 
-    return this.state.feed.map((post) => {
-      console.log(post);
+    const sortedFeed = sortBy(this.state.feed, (item) => { return (item.timestamp * -1) })
 
+    return sortedFeed.map((post) => {
       return (
-        <div key={post.id} className="event-vote">
+        <div key={post.id} className="event-vote" onClick={() => { window.open(`https://etherscan.io/tx/${post.transactionHash}`); }} target="_blank" rel="noopener noreferrer" >
           {(post.event === 'Transfer') ?
             <>
-              <Account publicAddress={post.returnValues.sender} width="16px" height="16px" />
+              {(post.returnValues.sender !== "0x0000000000000000000000000000000000000000") ?
+                <Account publicAddress={post.returnValues.sender} width="16px" height="16px" />
+                :
+                <>
+                  {(post.returnValues.receiver !== "0x0000000000000000000000000000000000000000") ?
+                    <Account publicAddress={post.returnValues.receiver} width="16px" height="16px" />
+                    :
+                    <Account publicAddress={post.returnValues.receiver} width="16px" height="16px" />
+                  }
+                </>
+              }
               <div className="avatar-editor identity-vault">
                 <img src={vault} className="symbol dao-pic" alt="" style={{ width: '16px', height: '16px' }} />
                 <div className="identity-peer">
@@ -129,13 +143,19 @@ export default class Event extends Component {
                   </a>
                 </div>
               </div>
-              {(post.returnValues.receiver === "0x0000000000000000000000000000000000000000") ?
-                <Transaction uintVote={defaults.WITHDRAW} quantity={`${getBalanceLabel(post.returnValues.value, 18, '0,0.[00]')}`} />
+              {(post.returnValues.sender !== "0x0000000000000000000000000000000000000000" && post.returnValues.sender !== post.address && post.returnValues.receiver === "0x0000000000000000000000000000000000000000") ?
+                <Transaction kind={defaults.WITHDRAW} quantity={`${getBalanceLabel(post.returnValues.value, 18, '0,0.[000]')}`} />
                 :
-                <Transaction uintVote={defaults.DEPOSIT} quantity={`${getBalanceLabel(post.returnValues.value, 18, '0,0.[00]')}`} />
+                <>
+                  {(post.returnValues.receiver !== "0x0000000000000000000000000000000000000000" && post.returnValues.receiver !== post.address && post.returnValues.sender === "0x0000000000000000000000000000000000000000") ?
+                    <Transaction kind={defaults.DEPOSIT} quantity={`${getBalanceLabel(post.returnValues.value, 18, '0,0.[000]')}`} />
+                    :
+                    <Transaction kind={defaults.BURN} quantity={`${getBalanceLabel(post.returnValues.value, 18, '0,0.[0000]')}`} />
+                  }
+                </>
               }
               
-              <Stamp timestamp={post.timestamp} format="timeSince" />
+              <Stamp timestamp={post.timestamp.toString()} format="timeSince" />
             </>
             :
             null
@@ -143,50 +163,5 @@ export default class Event extends Component {
         </div>
       )
     });
-    /*
-    const { address, first, skip, orderBy, orderDirection, proposalId } = this.props;
-    
-    if (loading) {
-      return (
-        <div className="event-vote">
-        </div>
-      );
-    }
-    if (error) return <div className="empty failure">{parser(i18n.t('failure', { errorMessage: error }))}</div>;
-
-    if (data.votes.length === 0) {
-      return (
-        <div className="event-vote event-vote-empty">
-          <div className="preview-info">
-            <div className="transaction-action transaction-action-empty">
-              {i18n.t('moloch-ledger-empty')}
-            </div>
-          </div>
-        </div>
-      )
-    }
-
-    const label = `UBI DAI vault`;
-
-    var modes = ['DEPOSIT', 'WITHDRAW', 'BURN'];
-
-    return data.votes.map((vote) => {
-      return (
-        <div key={vote.id} className="event-vote" onClick={() => { history.push(`/proposal/${vote.proposal.id}`); }}>
-          <Account publicAddress={vote.memberAddress} width="16px" height="16px" />
-          <div className="avatar-editor identity-vault">
-            <img src={vault} className="symbol dao-pic" alt="" style={{ width: '16px', height: '16px' }} />
-            <div className="identity-peer">
-              <Link to={'/'} title={'0x8EBd041213218953109724e60c9cE91B57887288'} className="identity-label identity-label-micro identity-label-dao" onClick={(e) => { e.stopPropagation(); }}>
-                {(label.length > gui.MAX_LENGTH_ACCOUNT_NAMES) ? `${label.substring(0, gui.MAX_LENGTH_ACCOUNT_NAMES)}...` : label}
-              </Link>
-            </div>
-          </div>
-          <Transaction uintVote={modes[Math.floor(Math.random() * modes.length)]} quantity={`${(Math.floor(Math.random() * 5000))}`} />
-          <Stamp timestamp={vote.createdAt} format="timeSince" />
-        </div>
-      );
-    });
-    */
   }
 };

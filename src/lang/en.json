@@ -980,9 +980,9 @@
   "shares-value": "Your Shares' Value",
   "dai-balance": "DAI Balance",
   "recent-events": "Recent events.",
-  "vault-deposit": "Minted {{quantity}} Shares of the vault.",
-  "vault-withdraw": "Removed {{quantity}} Shares from the vault.",
-  "vault-burn": "🔥 Burned {{quantity}} UBI.",
+  "vault-deposit": "Minted {{quantity}} shares after DAI deposit.",
+  "vault-withdraw": "Burned {{quantity}} shares &amp; withdrew DAI.",
+  "vault-burn": "Harvested {{quantity}} shares &amp; burned 🔥 UBI.",
   "locked-profit": "Locked Profit",
   "no-events-found": "No events found."
 }
