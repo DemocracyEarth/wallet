@@ -1,6 +1,6 @@
 export const config = {
   web: {
-    explorer: 'https://etherscan.io',
+    explorer: 'https://etherscan.io/address/{{publicAddress}}',
     icons: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/{{publicAddress}}/logo.png'
   },
   graph: {
