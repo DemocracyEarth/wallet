@@ -23,9 +23,11 @@ import capitalActive from 'images/coins-active.svg';
 
 import 'styles/Dapp.css';
 
-import { daiPriceABI, daiPriceOracle } from 'components/Vault/chainlink-daiprice-abi.js';
+import { daiPriceABI, daiPriceOracle, daiAddress } from 'components/Vault/chainlink-daiprice-abi.js';
 import { ubidaiABI } from 'components/Vault/ubidai-abi.js';
+import { getBalanceLabel } from 'components/Token/Token';
 
+import BigNumber from 'bignumber.js/bignumber';
 import i18n from 'i18n';
 
 const Web3 = require('web3');
@@ -62,7 +64,8 @@ export default class Vault extends Component {
       lockedProfit: '',
       balanceOf: '',
       pricePerShare: '',
-      DAIPrice: ''
+      DAIPrice: '',
+      sharesValue: ''
     }
 
     this.web3 = new Web3(window.web3.currentProvider);
@@ -86,14 +89,16 @@ export default class Vault extends Component {
     await this.getAvailableDepositLimit();
     await this.getBalanceOf();
     await this.getPricePerShare();
+    
+    this.setState({
+      sharesValue: new BigNumber(this.state.balanceOf).dividedBy(Math.pow(10, 18)).multipliedBy(this.state.pricePerShare).toString()
+    });
   }
 
   componentWillUnmount() {
   }
 
   async getDAIPrice() {
-    console.log(`daiprice: `);
-    console.log(await this.priceFeed.methods.latestAnswer().call({}, response));
     this.setState({
       DAIPrice: await this.priceFeed.methods.latestAnswer().call({}, response)
     });
@@ -136,9 +141,9 @@ export default class Vault extends Component {
   }
 
   render() {
-    const capitalization = `${i18n.t('vault-capitalization')}: ${this.state.totalAssets} DAI`;
-    const prices = `${i18n.t('market-prices')}: ${this.state.DAIPrice} USD per DAI`;
-    const assets = `${i18n.t('your-share')}: ${this.state.balanceOf} Shares`;
+    const capitalization = `${i18n.t('vault-capitalization')}: ${getBalanceLabel(this.state.totalAssets, 18, '0,0.[00]')} DAI`;
+    const prices = `${i18n.t('market-prices')}: ${getBalanceLabel(this.state.DAIPrice, 8, '0,0.0000')} USD per DAI`;
+    const assets = `${i18n.t('your-share')}: ${getBalanceLabel(this.state.balanceOf, 18, '0,0.[00]')} Shares`;
 
     return (
       <div className="vote vote-search vote-feed nondraggable vote-poll">
@@ -188,25 +193,25 @@ export default class Vault extends Component {
             <Expand url={'/'} label={capitalization} open={true}
               icon={capital} iconActive={capitalActive}
             >
-              <Contract hidden={false} view={routerView.PROPOSAL} href={'https://etherscan.io/address/0x8EBd041213218953109724e60c9cE91B57887288'}>
+              <Contract hidden={false} view={routerView.PROPOSAL} href={`${config.web.explorer.replace('{{publicAddress}}', this.props.address)}`}>
                 <Parameter label={i18n.t('deposit-limit')}>
-                  <Token quantity={this.state.depositLimit} publicAddress={'0x6b175474e89094c44da98b954eedeac495271d0f'} symbol={'DAI'} decimals={18} />
+                  <Token quantity={this.state.depositLimit} publicAddress={daiAddress} symbol={'DAI'} decimals={18} />
                 </Parameter>
                 <Parameter label={i18n.t('available-limit')}>
-                  <Token quantity={this.state.availableDepositLimit} publicAddress={'0x6b175474e89094c44da98b954eedeac495271d0f'} symbol={'DAI'} decimals={18} />
+                  <Token quantity={this.state.availableDepositLimit} publicAddress={daiAddress} symbol={'DAI'} decimals={18} />
                 </Parameter>
                 <Parameter label={i18n.t('total-assets')}>
-                  <Token quantity={this.state.totalAssets} publicAddress={'0x6b175474e89094c44da98b954eedeac495271d0f'} symbol={'DAI'} decimals={18} />
+                  <Token quantity={this.state.totalAssets} publicAddress={daiAddress} symbol={'DAI'} decimals={18} />
                 </Parameter>
                 <Parameter label={i18n.t('locked-profit')}>
-                  <Token quantity={this.state.lockedProfit} publicAddress={'0x6b175474e89094c44da98b954eedeac495271d0f'} symbol={'DAI'} decimals={18} />
+                  <Token quantity={this.state.lockedProfit} publicAddress={daiAddress} symbol={'DAI'} decimals={18} />
                 </Parameter>
               </Contract>
             </Expand>
             <Expand url={'/'} label={prices} open={false}
               icon={price} iconActive={priceActive}
             >
-              <Contract hidden={false} view={routerView.PROPOSAL} href={'https://etherscan.io/address/0x8EBd041213218953109724e60c9cE91B57887288'}>
+              <Contract hidden={false} view={routerView.PROPOSAL} href={`${config.web.explorer.replace('{{publicAddress}}', this.props.address)}`}>
                 <Parameter label={i18n.t('dai-price')}>
                   <Token quantity={this.state.DAIPrice} displayDecimals={true} symbol={'USD'} decimals={8} />
                 </Parameter>
@@ -218,12 +223,12 @@ export default class Vault extends Component {
             <Expand url={'/'} label={assets} open={false}
               icon={share} iconActive={shareActive}
             >
-              <Contract hidden={false} view={routerView.PROPOSAL} href={'https://etherscan.io/address/0x8EBd041213218953109724e60c9cE91B57887288'}>
+              <Contract hidden={false} view={routerView.PROPOSAL} href={`${config.web.explorer.replace('{{publicAddress}}', this.props.address)}`}>
                 <Parameter label={i18n.t('vault-shares')}>
                   <Token quantity={this.state.balanceOf} symbol={'ubiDAI'} decimals={18} />
                 </Parameter>
                 <Parameter label={i18n.t('shares-value')}>
-                  <Token quantity={'399030000000000000000'} symbol={'USD'} decimals={18} />
+                  <Token quantity={this.state.sharesValue} symbol={'USD'} decimals={18} />
                 </Parameter>
               </Contract>
             </Expand>
