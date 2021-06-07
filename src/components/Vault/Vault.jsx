@@ -22,7 +22,10 @@ import capital from 'images/coins.svg';
 import capitalActive from 'images/coins-active.svg';
 
 import 'styles/Dapp.css';
+
+import { daiPriceABI, daiPriceOracle } from 'components/Vault/chainlink-daiprice-abi.js';
 import { ubidaiABI } from 'components/Vault/ubidai-abi.js';
+
 import i18n from 'i18n';
 
 const Web3 = require('web3');
@@ -45,6 +48,7 @@ export default class Vault extends Component {
     title: PropTypes.string,
     description: PropTypes.string,
     link: PropTypes.string,
+    account: PropTypes.string,
   }
 
   constructor(props) {
@@ -55,7 +59,10 @@ export default class Vault extends Component {
       totalAssets: '',
       totalDebt: '',
       availableDepositLimit: '',
-      lockedProfit: ''
+      lockedProfit: '',
+      balanceOf: '',
+      pricePerShare: '',
+      DAIPrice: ''
     }
 
     this.web3 = new Web3(window.web3.currentProvider);
@@ -63,17 +70,33 @@ export default class Vault extends Component {
     this.getTotalAssets = this.getTotalAssets.bind(this);
     this.getLockedProfit = this.getLockedProfit.bind(this);
     this.getAvailableDepositLimit = this.getAvailableDepositLimit.bind(this);
+    this.getBalanceOf = this.getBalanceOf.bind(this);
+    this.getPricePerShare = this.getPricePerShare.bind(this);
+    this.getDAIPrice = this.getDAIPrice.bind(this);
   }
 
   async componentDidMount() {
+    this.priceFeed = await new this.web3.eth.Contract(daiPriceABI, daiPriceOracle);
+    await this.getDAIPrice();
+
     this.vault = await new this.web3.eth.Contract(ubidaiABI, this.props.address);
     await this.getDepositLimit();
     await this.getTotalAssets();
     await this.getLockedProfit();
     await this.getAvailableDepositLimit();
+    await this.getBalanceOf();
+    await this.getPricePerShare();
   }
 
   componentWillUnmount() {
+  }
+
+  async getDAIPrice() {
+    console.log(`daiprice: `);
+    console.log(await this.priceFeed.methods.latestAnswer().call({}, response));
+    this.setState({
+      DAIPrice: await this.priceFeed.methods.latestAnswer().call({}, response)
+    });
   }
 
   async getDepositLimit() {
@@ -100,10 +123,22 @@ export default class Vault extends Component {
     });
   }
 
+  async getBalanceOf() {
+    this.setState({
+      balanceOf: await this.vault.methods.balanceOf(this.props.account).call({}, response)
+    });
+  }
+
+  async getPricePerShare() {
+    this.setState({
+      pricePerShare: await this.vault.methods.pricePerShare().call({}, response)
+    });
+  }
+
   render() {
-    const capitalization = `${i18n.t('vault-capitalization')}: 1,645.46 DAI`;
-    const prices = `${i18n.t('market-prices')}: 0.9976 USD per DAI`;
-    const assets = `${i18n.t('your-share')}: 400 Shares`;
+    const capitalization = `${i18n.t('vault-capitalization')}: ${this.state.totalAssets} DAI`;
+    const prices = `${i18n.t('market-prices')}: ${this.state.DAIPrice} USD per DAI`;
+    const assets = `${i18n.t('your-share')}: ${this.state.balanceOf} Shares`;
 
     return (
       <div className="vote vote-search vote-feed nondraggable vote-poll">
@@ -173,10 +208,10 @@ export default class Vault extends Component {
             >
               <Contract hidden={false} view={routerView.PROPOSAL} href={'https://etherscan.io/address/0x8EBd041213218953109724e60c9cE91B57887288'}>
                 <Parameter label={i18n.t('dai-price')}>
-                  <Token quantity={'0000997600000000000000'} displayDecimals={true} symbol={'USD'} decimals={18} />
+                  <Token quantity={this.state.DAIPrice} displayDecimals={true} symbol={'USD'} decimals={8} />
                 </Parameter>
                 <Parameter label={i18n.t('price-per-share')}>
-                  <Token quantity={'1000000000000000000'} displayDecimals={true} symbol={'USD'} decimals={18} />
+                  <Token quantity={this.state.pricePerShare} displayDecimals={true} symbol={'USD'} decimals={18} />
                 </Parameter>
               </Contract>
             </Expand>
@@ -185,7 +220,7 @@ export default class Vault extends Component {
             >
               <Contract hidden={false} view={routerView.PROPOSAL} href={'https://etherscan.io/address/0x8EBd041213218953109724e60c9cE91B57887288'}>
                 <Parameter label={i18n.t('vault-shares')}>
-                  <Token quantity={'400000000000000000000'} symbol={'SHARES'} decimals={18} />
+                  <Token quantity={this.state.balanceOf} symbol={'ubiDAI'} decimals={18} />
                 </Parameter>
                 <Parameter label={i18n.t('shares-value')}>
                   <Token quantity={'399030000000000000000'} symbol={'USD'} decimals={18} />
