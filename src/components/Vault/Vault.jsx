@@ -29,6 +29,13 @@ const Web3 = require('web3');
 const numeral = require('numeral');
 
 
+const response = (err, res) => {
+  if (err) {
+    console.log(err);
+  }
+  return res;
+}
+
 /**
 * @summary renders a post in the timeline
 */
@@ -44,24 +51,55 @@ export default class Vault extends Component {
     super(props);
 
     this.state = {
-      depositLimit: '50000000000000000000000'
+      depositLimit: '',
+      totalAssets: '',
+      totalDebt: '',
+      availableDepositLimit: ''
     }
 
+    this.web3 = new Web3(window.web3.currentProvider);
     this.getDepositLimit = this.getDepositLimit.bind(this);
+    this.getTotalAssets = this.getTotalAssets.bind(this);
+    this.getTotalDebt = this.getTotalDebt.bind(this);
+    this.getAvailableDepositLimit = this.getAvailableDepositLimit.bind(this);
   }
 
   async componentDidMount() {
-    return await this.getDepositLimit();
-    
+    await this.getDepositLimit();
+    await this.getTotalAssets();
+    await this.getTotalDebt();
+    await this.getAvailableDepositLimit();
   }
 
   componentWillUnmount() {
   }
 
   async getDepositLimit() {
-    const web3 = new Web3(window.web3.currentProvider);
-    const vault = await new web3.eth.Contract(ubidaiABI, this.props.address);
-    console.log(vault);
+    const vault = await new this.web3.eth.Contract(ubidaiABI, this.props.address);
+    this.setState({ 
+      depositLimit: await vault.methods.depositLimit().call({}, response) 
+    });
+  }
+
+  async getTotalAssets() {
+    const vault = await new this.web3.eth.Contract(ubidaiABI, this.props.address);
+    this.setState({
+      totalAssets: await vault.methods.totalAssets().call({}, response)
+    });
+  }
+
+  async getTotalDebt() {
+    const vault = await new this.web3.eth.Contract(ubidaiABI, this.props.address);
+    this.setState({
+      totalDebt: await vault.methods.totalDebt().call({}, response)
+    });
+  }
+
+  async getAvailableDepositLimit() {
+    const vault = await new this.web3.eth.Contract(ubidaiABI, this.props.address);
+    this.setState({
+      availableDepositLimit: await vault.methods.availableDepositLimit().call({}, response)
+    });
   }
 
   render() {
@@ -122,13 +160,13 @@ export default class Vault extends Component {
                   <Token quantity={this.state.depositLimit} publicAddress={'0x6b175474e89094c44da98b954eedeac495271d0f'} symbol={'DAI'} decimals={18} />
                 </Parameter>
                 <Parameter label={i18n.t('total-assets')}>
-                  <Token quantity={'1645460000000000000000'} publicAddress={'0x6b175474e89094c44da98b954eedeac495271d0f'} symbol={'DAI'} decimals={18} />
+                  <Token quantity={this.state.totalAssets} publicAddress={'0x6b175474e89094c44da98b954eedeac495271d0f'} symbol={'DAI'} decimals={18} />
                 </Parameter>
                 <Parameter label={i18n.t('total-aum')}>
-                  <Token quantity={'1641470000000000000000'} publicAddress={'0x6b175474e89094c44da98b954eedeac495271d0f'} symbol={'DAI'} decimals={18} />
+                  <Token quantity={this.state.totalDebt} publicAddress={'0x6b175474e89094c44da98b954eedeac495271d0f'} symbol={'DAI'} decimals={18} />
                 </Parameter>
                 <Parameter label={i18n.t('available-limit')}>
-                  <Token quantity={'48354530000000000000000'} publicAddress={'0x6b175474e89094c44da98b954eedeac495271d0f'} symbol={'DAI'} decimals={18} />
+                  <Token quantity={this.state.availableDepositLimit} publicAddress={'0x6b175474e89094c44da98b954eedeac495271d0f'} symbol={'DAI'} decimals={18} />
                 </Parameter>
               </Contract>
             </Expand>
