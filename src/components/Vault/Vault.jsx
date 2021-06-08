@@ -4,7 +4,7 @@ import parser from 'html-react-parser';
 import { config } from 'config';
 
 import Account from 'components/Account/Account';
-// import ProgressBar from 'components/ProgressBar/ProgressBar';
+import ProgressBar from 'components/ProgressBar/ProgressBar';
 import Contract from 'components/Contract/Contract';
 import Token from 'components/Token/Token';
 import Parameter from 'components/Parameter/Parameter';
@@ -140,6 +140,7 @@ export default class Vault extends Component {
     const capitalization = `${i18n.t('vault-capitalization')}: ${getBalanceLabel(this.state.totalAssets, 18, '0,0.[00]')} DAI`;
     const prices = `${i18n.t('market-prices')}: ${getBalanceLabel(this.state.DAIPrice, 8, '0,0.0000')} USD per DAI`;
     const assets = `${i18n.t('your-share')}: ${getBalanceLabel(this.state.balanceOf, 18, '0,0.[00]')} Shares`;
+    const percentage = new BigNumber(this.state.totalAssets).multipliedBy(100).dividedBy(this.state.depositLimit);
 
     return (
       <div className="vote vote-search vote-feed nondraggable vote-poll">
@@ -201,6 +202,9 @@ export default class Vault extends Component {
                 </Parameter>
                 <Parameter label={i18n.t('locked-profit')}>
                   <Token quantity={this.state.lockedProfit} publicAddress={daiAddress} symbol={'DAI'} decimals={'18'} />
+                </Parameter>
+                <Parameter label={i18n.t('vault-capacity')} fullWidth>
+                  <ProgressBar percentage={percentage.toString()} />
                 </Parameter>
               </Contract>
             </Expand>

@@ -7253,13 +7253,14 @@ h4 {
 }
 
 .poll-score-bar {
-  background: #efefef;
+  background: #ffffff;
   margin: 8px 0px 0px;
   height: 20px;
   float: left;
   width: 100%;
   border-radius: 10px;
   overflow: hidden;
+  border: 1px solid #d4cddc;
 }
 
 .countdown-timer-bar {
