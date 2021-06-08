@@ -979,7 +979,7 @@
   "vault-shares": "Your Vault Shares",
   "shares-value": "Your Shares' Value",
   "dai-balance": "DAI Balance",
-  "recent-events": "Recent events.",
+  "recent-events": "Vault events.",
   "vault-deposit": "Minted {{quantity}} shares after DAI deposit.",
   "vault-withdraw": "Burned {{quantity}} shares &amp; withdrew DAI.",
   "vault-burn": "Harvested {{quantity}} shares &amp; burned 🔥 UBI.",
