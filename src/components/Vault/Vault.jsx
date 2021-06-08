@@ -232,12 +232,6 @@ export default class Vault extends Component {
                 </Parameter>
               </Contract>
             </Expand>
-            {/*<div className="countdown">
-              <div id="timer" className="countdown-label">
-                {i18n.t('vault-capacity')}
-              </div>
-            </div>
-              <ProgressBar percentage="3.29" />*/}
           </div>
           <Wallet publicAddress={daiAddress} symbol={'DAI'} />
         </div>

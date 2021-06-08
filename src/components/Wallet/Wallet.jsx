@@ -56,11 +56,13 @@ export default class Wallet extends Component {
     return (
       <div className="wallet">
         <FormControl fullWidth variant="outlined">
-          <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
+          <InputLabel htmlFor="outlined-adornment-amount">{i18n.t('amount')}</InputLabel>
           <OutlinedInput
             id="outlined-adornment-amount"
             value={this.state.amount}
             onChange={this.handleChange('amount')}
+            placeholder='0.00'
+            inputProps={{ type: 'number', inputMode: 'numeric', pattern: '[0-9]*' }}
             startAdornment={
               <InputAdornment position="start">
                 {(this.props.publicAddress && imageExists) ?
