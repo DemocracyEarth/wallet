@@ -77,3 +77,4 @@ Token.propTypes = {
 
 export default Token;
 export const getBalanceLabel = _getBalanceLabel;
+export const check404 = _check404;

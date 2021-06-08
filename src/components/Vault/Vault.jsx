@@ -235,7 +235,7 @@ export default class Vault extends Component {
             </div>
               <ProgressBar percentage="3.29" />*/}
           </div>
-          <Wallet />
+          <Wallet publicAddress={daiAddress} symbol={'DAI'} />
         </div>
       </div>
     );

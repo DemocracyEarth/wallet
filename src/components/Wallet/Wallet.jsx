@@ -6,7 +6,10 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
+import { check404 } from 'components/Token/Token';
 
+import web3 from 'web3';
+import { config } from 'config';
 import i18n from 'i18n';
 
 import 'styles/material.css';
@@ -20,6 +23,8 @@ export default class Wallet extends Component {
     label: PropTypes.string,
     url: PropTypes.string,
     tooltip: PropTypes.string,
+    publicAddress: PropTypes.string,
+    symbol: PropTypes.string
   }
 
   constructor(props) {
@@ -41,6 +46,13 @@ export default class Wallet extends Component {
   };
 
   render() {
+    let image;
+    let imageExists;
+    if (this.props.publicAddress) {
+      image = `${config.web.icons.replace('{{publicAddress}}', web3.utils.toChecksumAddress(this.props.publicAddress))}`;
+      imageExists = check404(image);
+    }
+
     return (
       <div className="wallet">
         <FormControl fullWidth variant="outlined">
@@ -49,7 +61,16 @@ export default class Wallet extends Component {
             id="outlined-adornment-amount"
             value={this.state.amount}
             onChange={this.handleChange('amount')}
-            startAdornment={<InputAdornment position="start">DAI</InputAdornment>}
+            startAdornment={
+              <InputAdornment position="start">
+                {(this.props.publicAddress && imageExists) ?
+                  <>
+                    <img className="token-icon" src={image} alt="" />DAI
+                  </>
+                  :
+                  "DAI"
+                }
+              </InputAdornment>}
             labelWidth={60}
           />
         </FormControl>

@@ -6,7 +6,7 @@ import Account from 'components/Account/Account';
 import Stamp from 'components/Stamp/Stamp';
 import Transaction from 'components/Transaction/Transaction';
 
-import { defaults } from 'lib/const';
+import { defaults, zeroAddress } from 'lib/const';
 
 import { config } from 'config'
 import { sortBy } from 'lodash';
@@ -124,11 +124,11 @@ export default class Event extends Component {
         <div key={post.id} className="event-vote" onClick={() => { window.open(`https://etherscan.io/tx/${post.transactionHash}`); }} target="_blank" rel="noopener noreferrer" >
           {(post.event === 'Transfer') ?
             <>
-              {(post.returnValues.sender !== "0x0000000000000000000000000000000000000000") ?
+              {(post.returnValues.sender !== zeroAddress) ?
                 <Account publicAddress={post.returnValues.sender} width="16px" height="16px" />
                 :
                 <>
-                  {(post.returnValues.receiver !== "0x0000000000000000000000000000000000000000") ?
+                  {(post.returnValues.receiver !== zeroAddress) ?
                     <Account publicAddress={post.returnValues.receiver} width="16px" height="16px" />
                     :
                     <Account publicAddress={post.returnValues.receiver} width="16px" height="16px" />
@@ -143,11 +143,11 @@ export default class Event extends Component {
                   </a>
                 </div>
               </div>
-              {(post.returnValues.sender !== "0x0000000000000000000000000000000000000000" && post.returnValues.sender !== post.address && post.returnValues.receiver === "0x0000000000000000000000000000000000000000") ?
+              {(post.returnValues.sender !== zeroAddress && post.returnValues.sender !== post.address && post.returnValues.receiver === "0x0000000000000000000000000000000000000000") ?
                 <Transaction kind={defaults.WITHDRAW} quantity={`${getBalanceLabel(post.returnValues.value, 18, '0,0.[000]')}`} />
                 :
                 <>
-                  {(post.returnValues.receiver !== "0x0000000000000000000000000000000000000000" && post.returnValues.receiver !== post.address && post.returnValues.sender === "0x0000000000000000000000000000000000000000") ?
+                  {(post.returnValues.receiver !== zeroAddress && post.returnValues.receiver !== post.address && post.returnValues.sender === "0x0000000000000000000000000000000000000000") ?
                     <Transaction kind={defaults.DEPOSIT} quantity={`${getBalanceLabel(post.returnValues.value, 18, '0,0.[000]')}`} />
                     :
                     <Transaction kind={defaults.BURN} quantity={`${getBalanceLabel(post.returnValues.value, 18, '0,0.[0000]')}`} />

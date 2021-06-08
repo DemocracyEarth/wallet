@@ -114,6 +114,8 @@ const _replicaThreshold = {
   NOT: -1,
 };
 
+
+export const zeroAddress = "0x0000000000000000000000000000000000000000";
 export const $LANGUAGE = 'en';
 export const view = _view;
 export const period = _period;
