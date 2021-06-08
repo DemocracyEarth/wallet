@@ -5,7 +5,7 @@ import ApolloClient, { gql, InMemoryCache } from "apollo-boost";
 // Components
 import { config } from "../../config";
 import { defaults } from "lib/const";
-import { abiLibrary } from "../../lib/abi";
+import { abiLibrary } from "../../lib/abi/moloch";
 import SyncLoader from "react-spinners/SyncLoader";
 // Forms
 import Details from "./Details"

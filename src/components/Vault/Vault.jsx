@@ -233,7 +233,13 @@ export default class Vault extends Component {
               </Contract>
             </Expand>
           </div>
-          <Wallet publicAddress={daiAddress} symbol={'DAI'} />
+          <Wallet 
+            symbol={'DAI'} 
+            tokenAddress={daiAddress}
+            contractAddress={this.props.address}
+            accountAddress={this.props.account}
+            abi={ubidaiABI}
+          />
         </div>
       </div>
     );
