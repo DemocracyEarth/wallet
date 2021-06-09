@@ -53,6 +53,7 @@ export default class Wallet extends Component {
     };
 
     this.web3 = (window.web3) ? new Web3(window.web3.currentProvider) : null;
+    this.handleChange = this.handleChange.bind(this);
     this.checkAllowance = this.checkAllowance.bind(this);
   }
 
@@ -74,6 +75,10 @@ export default class Wallet extends Component {
     }
   }
 
+  handleChange = (prop) => (event) => {
+    this.setState({ [prop]: event.target.value });
+  };
+
   render() {
     let image;
     let imageExists;
@@ -89,8 +94,9 @@ export default class Wallet extends Component {
           <OutlinedInput
             id="outlined-adornment-amount"
             value={this.state.amount}
+            onChange={this.handleChange('amount')}
             placeholder='0.00'
-            inputProps={{ type: 'number', inputMode: 'numeric', pattern: '[0-9]*' }}
+            inputProps={{ type: 'number' }}
             startAdornment={
               <InputAdornment position="start">
                 {(this.props.tokenAddress && imageExists) ?
