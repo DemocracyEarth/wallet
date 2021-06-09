@@ -14,6 +14,7 @@ import { config } from 'config';
 
 import BigNumber from 'bignumber.js/bignumber';
 import i18n from 'i18n';
+
 import { zeroAddress } from 'lib/const';
 
 
@@ -103,19 +104,30 @@ export default class Wallet extends Component {
             labelWidth={60}
           />
         </FormControl>
-        {(this.state.approved) ?
+        {(this.props.accountAddress !== zeroAddress) ?
           <>
-            <Button className="wallet-button" variant="contained" disabled>{i18n.t('approved')}</Button>
-            <Button className="wallet-button" color="primary" variant="contained">{i18n.t('deposit')}</Button>
-            <Button className="wallet-button" color="primary" variant="contained">{i18n.t('withdraw')}</Button>
+            {(this.state.approved) ?
+              <>
+                <Button className="wallet-button" variant="contained" disabled>{i18n.t('approved')}</Button>
+                <Button className="wallet-button" color="primary" variant="contained">{i18n.t('deposit')}</Button>
+                <Button className="wallet-button" color="primary" variant="contained">{i18n.t('withdraw')}</Button>
+              </>
+              :
+              <>
+                <Button className="wallet-button" color="primary" variant="contained">{i18n.t('approve')}</Button>
+                <Button className="wallet-button" variant="contained" disabled>{i18n.t('deposit')}</Button>
+                <Button className="wallet-button" variant="contained" disabled>{i18n.t('withdraw')}</Button>
+              </>
+            }
           </>
           :
           <>
-            <Button className="wallet-button" color="primary" variant="contained">{i18n.t('approve')}</Button>
+            <Button className="wallet-button" variant="contained" disabled>{i18n.t('approve')}</Button>
             <Button className="wallet-button" variant="contained" disabled>{i18n.t('deposit')}</Button>
             <Button className="wallet-button" variant="contained" disabled>{i18n.t('withdraw')}</Button>
           </>
         }
+        
       </div>
     );
   }

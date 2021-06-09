@@ -30,6 +30,8 @@ import { getBalanceLabel } from 'components/Token/Token';
 import BigNumber from 'bignumber.js/bignumber';
 import i18n from 'i18n';
 
+import { getProvider } from 'lib/web3';
+
 const Web3 = require('web3');
 
 
@@ -67,7 +69,7 @@ export default class Vault extends Component {
       sharesValue: ''
     }
 
-    this.web3 = (window.web3) ? new Web3(window.web3.currentProvider) : null;
+    this.web3 = new Web3(getProvider());
     this.getDepositLimit = this.getDepositLimit.bind(this);
     this.getTotalAssets = this.getTotalAssets.bind(this);
     this.getLockedProfit = this.getLockedProfit.bind(this);

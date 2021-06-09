@@ -8,7 +8,6 @@ import Transaction from 'components/Transaction/Transaction';
 
 import { defaults, zeroAddress } from 'lib/const';
 
-import { config } from 'config'
 import { sortBy } from 'lodash';
 
 import { ubidaiABI } from 'components/Vault/ubidai-abi.js';
@@ -18,23 +17,11 @@ import vault from 'images/vault.svg';
 import 'styles/Dapp.css';
 import i18n from 'i18n';
 
+import { config } from 'config';
+import { getProvider } from 'lib/web3';
+
 const Web3 = require('web3');
 
-const getProvider = () => {
-  const provider = new Web3.providers.WebsocketProvider(config.eth.infura)
-  provider.on('connect', () => console.log('WS Connected'))
-  provider.on('error', e => {
-    console.error('WS Error', e)
-    web3.setProvider(getProvider())
-  })
-  provider.on('end', e => {
-    console.error('WS End', e)
-    web3.setProvider(getProvider())
-  })
-
-  return provider
-}
-const web3 = new Web3(getProvider())
 
 /**
 * @summary displays the contents of a poll
@@ -67,7 +54,7 @@ export default class Event extends Component {
       loading: true,
     }
 
-    this.web3 = new Web3(getProvider()); // new Web3.providers.WebsocketProvider(config.eth.infura); // (window.web3) ? new Web3(config.eth.infura) : null;
+    this.web3 = new Web3(getProvider());
     this.getFeed = this.getFeed.bind(this);
   }
 
