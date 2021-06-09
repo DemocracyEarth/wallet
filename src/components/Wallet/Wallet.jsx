@@ -126,8 +126,9 @@ export default class Wallet extends Component {
   }
 
   deposit() {
-    awaitTransaction(i18n.t('token-deposit-await', { asset: `${document.getElementById('outlined-adornment-amount').value} ${this.props.symbol}` }))
-    this.vault.methods.deposit(document.getElementById('outlined-adornment-amount').value).send({ from: this.props.accountAddress }, (err, res) => {
+    awaitTransaction(i18n.t('token-deposit-await', { asset: `${document.getElementById('outlined-adornment-amount').value} ${this.props.symbol}` }));
+    const amount = Web3.utils.numberToHex(parseFloat(document.getElementById('outlined-adornment-amount').value))
+    this.vault.methods.deposit(amount).send({ from: this.props.accountAddress }, (err, res) => {
       if (err) {
         walletError(err);
         return err;
