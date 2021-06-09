@@ -8,6 +8,9 @@ export const config = {
     moloch: 'https://api.thegraph.com/subgraphs/name/odyssy-automaton/daohaus',
     ens: 'https://api.thegraph.com/subgraphs/name/ensdomains/ens',
   },
+  eth: {
+    infura: 'wss://mainnet.infura.io/ws/v3/269a4106080549898dcc50dbb84754f3'
+  },
   keys: {
     fortmatic: 'pk_live_0826872BC201129A',
     portis: '5e0569f8-ac4b-47ed-a2c6-469ceeccf696',
