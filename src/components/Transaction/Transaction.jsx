@@ -35,10 +35,37 @@ export default class Transaction extends Component {
     return null;
   }
 
+  getTransaction() {
+    const label = (Number(this.props.quantity) === 1) ? 'share' : 'shares';
+    const title = `${getDescription(this.props.description).title}`;
+
+    switch (this.props.kind) {
+      case defaults.DEPOSIT:
+        return (
+          <div href={this.props.kind} className="transaction-action transaction-action-passed">
+            {parser(i18n.t(`vault-${this.props.kind.toLowerCase()}`, { quantity: numeral(this.props.quantity).format('0,0.[00]'), label, proposal: title }))}
+          </div>
+        );
+      case defaults.WITHDRAW:
+        return (
+          <div href={this.props.kind} className="transaction-action transaction-action-rejected">
+            {parser(i18n.t(`vault-${this.props.kind.toLowerCase()}`, { quantity: numeral(this.props.quantity).format('0,0.[00]'), label, proposal: title }))}
+          </div>
+        );
+      case defaults.BURN:
+        return (
+          <div href={this.props.kind} className="transaction-action transaction-action-burn">
+            {parser(i18n.t(`vault-${this.props.kind.toLowerCase()}`, { quantity: numeral(this.props.quantity).format('0,0.[000]'), label, proposal: title }))}
+          </div>
+        );
+        default:
+    }
+  }
+
   render() {
     return (
       <div className="preview-info">
-        {this.getVote()}
+        {this.getTransaction()}
       </div>
     );
   }
@@ -46,6 +73,7 @@ export default class Transaction extends Component {
 
 Transaction.propTypes = {
   uintVote: PropTypes.number,
+  kind: PropTypes.string,
   quantity: PropTypes.string,
   description: PropTypes.string,
 };

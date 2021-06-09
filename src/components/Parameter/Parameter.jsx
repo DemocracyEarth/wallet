@@ -21,7 +21,7 @@ export default class Parameter extends Component {
 
   render() {
     return (
-      <div className="parameter">
+      <div className="parameter" style={(this.props.fullWidth) ? { width: '100%' } : null }>
         <div className="parameter-name">
           {this.props.label}
         </div>
@@ -35,6 +35,7 @@ export default class Parameter extends Component {
 
 Parameter.propTypes = {
   label: PropTypes.string,
+  fullWidth: PropTypes.bool,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,

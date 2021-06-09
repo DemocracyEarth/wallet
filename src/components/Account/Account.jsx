@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 
 import { shortenCryptoName } from 'utils/strings';
 import Search, { includeInSearch } from 'components/Search/Search';
+import { zeroAddress } from 'lib/const';
 
 import i18n from 'i18n';
 import { config } from 'config'
@@ -48,7 +49,7 @@ const getENSName = (data, publicAddress) => {
 /**
 * @summary renders a post in the timeline
 */
-const AccountQuery = ({ publicAddress, width, height, format, hidden }) => {
+const AccountQuery = ({ publicAddress, width, height, format, hidden, icon, href }) => {
   const [getAccount, { data, loading, error }] = useLazyQuery(ENS_ACCOUNT, { variables: { publicAddress } });
   let label;
 
@@ -63,12 +64,12 @@ const AccountQuery = ({ publicAddress, width, height, format, hidden }) => {
     };
   }, []);
 
-  const image = makeBlockie(publicAddress);
-  const url = `/address/${publicAddress}`;
+  const image = icon ? icon : makeBlockie(publicAddress);
+  const url = href ? href : `/address/${publicAddress}`;
   const finalWidth = width || '24px';
   const finalHeight = height || '24px';
 
-  if (publicAddress !== '0x0000000000000000000000000000000000000000') {
+  if (publicAddress !== zeroAddress) {
     if (loading) {
       if (format === 'searchBar') return null;
       return (
@@ -100,25 +101,44 @@ const AccountQuery = ({ publicAddress, width, height, format, hidden }) => {
       }
     }
   } else {
-    label = '0x0';
+    label = zeroAddress;
   }
 
   if (hidden) {
     return label;
   }
+
+  let css;
+  switch (format) {
+    case 'plainText':
+      css = 'plain';
+      break;
+    case 'icon':
+      css = 'icon';
+      break;
+    default:
+      css = null;
+  }
+
   return (
     <div className="identity">
       <div className="avatar-editor">
-        <img src={image} className={`symbol profile-pic ${(format === 'plainText') ? 'plain' : null}`} alt="" style={{ width: finalWidth, height: finalHeight }} />
+        <img src={image} className={`symbol profile-pic ${css}`} alt="" style={{ width: finalWidth, height: finalHeight }} />
         {(format === 'plainText') ?
           <Link to={url} title={publicAddress} onClick={(e) => { e.stopPropagation(); }}>
             {label}
           </Link>
           :
           <div className="identity-peer">
-            <Link to={url} title={publicAddress} className="identity-label identity-label-micro" onClick={(e) => { e.stopPropagation(); }}>
-              {label}
-            </Link>
+            {(url.match('http')) ?
+              <a href={url} target="_blank" rel="noopener noreferrer" title={publicAddress} className="identity-label identity-label-micro">
+                {label}
+              </a>
+            :
+              <Link to={url} title={publicAddress} className="identity-label identity-label-micro" onClick={(e) => { e.stopPropagation(); }}>
+                {label}
+              </Link>
+            }
           </div>
         }
       </div>
@@ -132,6 +152,8 @@ AccountQuery.propTypes = {
   height: PropTypes.string,
   format: PropTypes.string,
   hidden: PropTypes.bool,
+  icon: PropTypes.string,
+  href: PropTypes.string,
 };
 
 
@@ -141,7 +163,7 @@ AccountQuery.propTypes = {
 const Account = (props) => {
   return (
     <ApolloProvider client={client}>
-      <AccountQuery publicAddress={props.publicAddress} width={props.width} height={props.height} format={props.format} hidden={props.hidden} />
+      <AccountQuery publicAddress={props.publicAddress} width={props.width} height={props.height} format={props.format} hidden={props.hidden} icon={props.icon} href={props.href} />
     </ApolloProvider>
   );
 };

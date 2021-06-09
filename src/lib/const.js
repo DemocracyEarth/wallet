@@ -79,6 +79,9 @@ const _defaults = {
   CRON_JOB_TIMER: '0 59 * * * *',
   ORACLE_BLOCKTIME: 25000,
   EMPTY: '0x0',
+  DEPOSIT: 'DEPOSIT',
+  WITHDRAW: 'WITHDRAW',
+  BURN: 'BURN'
 };
 
 const _view = {
@@ -89,7 +92,8 @@ const _view = {
   PROPOSAL: 'proposal',
   TOKEN: 'token',
   DATE: 'date',
-  SEARCH: 'search'
+  SEARCH: 'search',
+  VAULT: 'vault'
 }
 
 const _period = {
@@ -110,6 +114,8 @@ const _replicaThreshold = {
   NOT: -1,
 };
 
+
+export const zeroAddress = "0x0000000000000000000000000000000000000000";
 export const $LANGUAGE = 'en';
 export const view = _view;
 export const period = _period;

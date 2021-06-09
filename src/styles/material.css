@@ -1,0 +1,50 @@
+
+.wallet {
+  margin: 0px -10px 10px -5px;
+}
+
+.wallet-button {
+  height: 50px !important;
+  width: 33% !important;
+  border-radius: 25px !important;
+  margin: 5px 0px !important;
+  border: 5px white solid !important;
+  box-shadow: none !important;
+}
+
+.MuiButton-containedPrimary {
+  background-color: var(--menu-sidebar-selected) !important;
+  color: white !important;
+}
+
+.MuiButton-containedPrimary:hover {
+  background-color: var(--positive-signal-color) !important;
+  color: white !important;
+}
+
+.MuiFormLabel-root.Mui-focused {
+  color: var(--menu-sidebar-selected) !important;
+  border: 1px !important;
+}
+
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: var(--menu-sidebar-selected) !important;
+}
+
+.MuiFormControl-fullWidth {
+  border-width: 1px !important;
+  padding: 0px 10px 0 5px !important;
+  margin: 15px 0px !important;
+}
+
+.MuiInputLabel-outlined.MuiInputLabel-shrink {
+  transform: translate(19px, -6px) scale(0.75) !important;
+}
+
+.MuiOutlinedInput-notchedOutline {
+  border-color: var(--light-button-color) !important;
+}
+
+.MuiOutlinedInput-notchedOutline:hover {
+  border-color: var(--menu-sidebar-selected) !important;
+}

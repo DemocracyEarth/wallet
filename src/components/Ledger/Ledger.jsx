@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import i18n from 'i18n';
 import { view } from 'lib/const';
+
 import Vote from 'components/Vote/Vote';
+import Event from 'components/Event/Event';
+
 import 'styles/Dapp.css';
 
 // scroll settings
@@ -59,7 +62,7 @@ export default class Ledger extends Component {
         return i18n.t('moloch-ledger-address-votes');
       default:
     }
-    return i18n.t('recent-votes')
+    return i18n.t('recent-events');
   }
 
   handleScroll() {
@@ -82,7 +85,16 @@ export default class Ledger extends Component {
           </div>
           <div className="shadow-top" />
           <div className="ledger-wrapper">
-            <Vote address={this.props.address} view={this.props.view} proposalId={this.props.proposalId} first={this.props.first} skip={this.props.skip} orderBy={'createdAt'} orderDirection={'desc'} />
+            {/*<Vote address={this.props.address} view={this.props.view} proposalId={this.props.proposalId} first={this.props.first} skip={this.props.skip} orderBy={'createdAt'} orderDirection={'desc'} />*/}
+            <Event 
+              address={this.props.address} 
+              view={this.props.view} 
+              proposalId={this.props.proposalId} 
+              first={this.props.first} 
+              skip={this.props.skip} 
+              orderBy={'createdAt'} 
+              orderDirection={'desc'} 
+            />
           </div>
           <div className="shadow-bottom" />
           <div className="ledger-footer" />

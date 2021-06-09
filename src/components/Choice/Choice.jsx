@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { defaults } from 'lib/const';
 import { noWallet, alreadyVoted, pollClosed, notSynced, notMember, noAddress, walletError } from 'components/Choice/messages';
-import { abiLibrary } from 'lib/abi';
+import { abiLibrary } from 'lib/abi/moloch';
 
 import { config } from 'config';
 import logo from 'images/logo.png';

@@ -5,9 +5,12 @@ import { useParams, useLocation } from 'react-router-dom';
 import Menu from 'components/Menu/Menu';
 import Timeline from 'components/Timeline/Timeline';
 import Ledger from 'components/Ledger/Ledger';
+import List from 'components/List/List';
 import Burger from 'components/Menu/Burger';
+import Vault from 'components/Vault/Vault';
 import TabMenu, { showMain, showAlternative } from 'components/TabMenu/TabMenu';
 import DocumentMeta from 'react-document-meta';
+
 
 import i18n from 'i18n';
 import { view as routerView } from 'lib/const';
@@ -95,7 +98,8 @@ const Layout = (props) => {
     <DocumentMeta {...meta}>
       <div id="app" className="app">
         <div id="menu" className="left">
-          <Menu address={renderAddress} view={view} proposalId={proposalId} param={param} />
+          {/*<Menu address={renderAddress} view={view} proposalId={proposalId} param={param} /> */}
+          <List />
         </div>
         <TabMenu tabs={
           [
@@ -107,13 +111,27 @@ const Layout = (props) => {
           <div id="main-feed" className="split split-left split-landing">
             <div id="proposals" className="content content-feed max100">
               <div id="non-editable-feed">
-                <Timeline address={renderAddress} period={periodEpoch} view={view} proposalId={proposalId} param={param}
-                  field={'memberAddress'} first={25} skip={0} page={1} orderBy={'createdAt'} orderDirection={'desc'} />
+                {/*<Timeline address={renderAddress} period={periodEpoch} view={view} proposalId={proposalId} param={param}
+                  field={'memberAddress'} first={25} skip={0} page={1} orderBy={'createdAt'} orderDirection={'desc'} />*/}
+                <Vault
+                  account={props.address} 
+                  address="0x8EBd041213218953109724e60c9cE91B57887288" 
+                  strategy="0xf2eefca91a179c5Eb38CaA0Ea2BCB79ad1E46A79"
+                  title={i18n.t('ubi-dai-title')} 
+                  description={i18n.t('ubi-dai-description')} 
+                  link={'https://youtu.be/6008FYXc3IU'}
+                />
               </div>
             </div>
           </div>
           <div id="alternative-feed" className="split split-right split-landing">
-            <Ledger address={renderAddress} view={view} proposalId={proposalId} first={25} skip={0}  />
+            <Ledger 
+              address={"0x8EBd041213218953109724e60c9cE91B57887288"} 
+              view={view} 
+              proposalId={proposalId} 
+              first={25} 
+              skip={0}  
+            />
           </div>
         </div>
       </div>

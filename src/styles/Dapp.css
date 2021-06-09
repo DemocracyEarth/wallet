@@ -15,6 +15,7 @@
   --browser-button-color: #7d8499;
   --menu-sidebar-selected: #580173;
   --bar-tag: #f3e7f7;
+  --light-button-color:#e6e0ee;
 }
 
 @-webkit-keyframes preloader-content {
@@ -668,10 +669,6 @@ blockquote {
   padding: 0px 0px 0px 5px;
 }
 
-.parameter {
-  margin: 20px;
-}
-
 .symbol {
   height: 120px;
   margin-top: 10px;
@@ -690,9 +687,9 @@ blockquote {
   margin-top: 10px;
   margin-bottom: 10px;
   float: left;
-  border: 1px solid #7d849f;
+  border: none;
   border-radius: 100px;
-  background-color: var(--main-placeholder-color);
+  background-color: transparent;
 }
 
 .symbol.profile-pic.profile-pic-navbar {
@@ -6395,7 +6392,7 @@ mark {
 }
 
 .details-wrapper {
-  padding: 1px 12px 0px;
+  padding: 0px 5px 0px;
   margin-top: -5px;
   border-radius: 10px;
   margin-bottom: 20px;
@@ -6632,7 +6629,30 @@ h2 {
   position: unset;
 }
 
+.dapp-title {
+  text-align: center;
+  font-size: 0.9em;
+  color: white;
+  height: 30px;
+  left: 100px;
+  margin: 14px 0px;
+  position: absolute;
+  right: 200px;
+  overflow: hidden
+}
+
+.subtitle {
+  clear: both;
+  margin: 1px 0px 10px;
+}
+
 @media (max-width: 767px) {
+  .dapp-title {
+    left: 60px;
+    right: 155px;
+  }
+
+
   .card-title {
     text-decoration: underline;
     text-decoration-color: #eaeaea;
@@ -7049,24 +7069,32 @@ h2 {
 }
 
 .parameter {
-  padding: 0px 15px 10px;
-  border-radius: 5px;
+  padding: 0px 10px 10px;
   text-align: center;
-  margin: 10px 15px 5px 0px;
+  margin: 3px 0px -3px 0px;
   color: #5a0075;
-  border: 1px solid #e6e0ee;
+  width: 50%;
+  border: 6px solid #fcfcfc;
   min-width: 140px;
-  background: var(--proposal-bar-color);
+  background: #f3f0f6;
   float: left;
-  height: 80px;
+  border-radius: 12px;
+  height: 90px;
   overflow: hidden;
+}
+
+@media (max-width: 479px) {
+
+  .parameter {
+    width: 100%;
+  }
+
 }
 
 .parameter-name {
   color: #7d849f;
   line-height: 28px;
   margin: 0px -15px 6px;
-  background-color: #e6e0ee;
   font-size: 11px;
   font-weight: 400;
   border-top-left-radius: 4px;
@@ -7145,9 +7173,20 @@ h2 {
   margin-top: 10px;
   margin-bottom: 10px;
   float: left;
-  border: 1px solid #e8e2ef;
+  border: none;
   border-radius: 50px;
-  background-color: #e8e2ef;
+  background-color: none;
+}
+
+.symbol.profile-pic.icon {
+  border: none;
+  border-radius: 0px;
+  background-color: none;
+}
+
+.progress-bar {
+  display: inline-block;
+  width: 100%;
 }
 
 .symbol.dao-pic {
@@ -7187,15 +7226,6 @@ h4 {
     margin-right: 10px;
   }
 
-  .parameter {
-    padding: 0px 10px 10px;
-    margin: 10px 5px 0px 0px;
-  }
-
-  .details-wrapper {
-    padding: 1px 12px 5px;
-  }
-
   .parameter-name {
     margin: 0px -10px 0px;
   }
@@ -7223,13 +7253,14 @@ h4 {
 }
 
 .poll-score-bar {
-  background: #efefef;
+  background: #ffffff;
   margin: 8px 0px 0px;
   height: 20px;
   float: left;
   width: 100%;
   border-radius: 10px;
   overflow: hidden;
+  border: 1px solid #d4cddc;
 }
 
 .countdown-timer-bar {
@@ -7468,6 +7499,16 @@ h4 {
   line-height: 20px;
   padding: 5px 10px;
 }
+
+.transaction-action-burn {
+  background-color: var(--light-button-color);
+  color: var(--bar-background);
+  border: 1px solid var(--bar-background);
+  border-radius: 5px;
+  line-height: 20px;
+  padding: 5px 10px;
+}
+
 
 .transaction-action-rejected {
   background-color: var(--negative-signal-background-color);
@@ -8019,4 +8060,8 @@ h4 {
 
 .hero-menu-link.hero-menu-link-signin-simple.hero-menu-link-signin-simple-icon.mobile:active {
   padding: 1px 0px 0px 0px;
+}
+
+.identity-vault {
+  float: right;
 }

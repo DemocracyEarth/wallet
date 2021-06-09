@@ -8,8 +8,9 @@ import Search from 'components/Search/Search';
 import Account from 'components/Account/Account';
 import DAO from 'components/DAO/DAO';
 import Timeline from 'components/Timeline/Timeline';
+import Title from 'components/Title/Title';
 
-import { view as routerView } from 'lib/const'
+import { view as routerView, zeroAddress } from 'lib/const'
 import signout from 'images/signout.svg';
 import logo from 'images/logo.png';
 import logoActive from 'images/logo-white.png';
@@ -116,7 +117,7 @@ class Browser extends Component {
   }
 
   connectedWallet() {
-    return (this.props.address !== defaults.EMPTY);
+    return (this.props.address !== zeroAddress);
   }
 
   renderTitle() {
@@ -180,7 +181,8 @@ class Browser extends Component {
                 </div>
               </div>
             }
-            {this.renderTitle()}
+            {/* this.renderTitle()*/}
+            <Title label={i18n.t('human-money')} />
           </div>
         </div>
         <div id="cover" className="cover" onClick={this.handleClick} />

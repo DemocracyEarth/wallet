@@ -128,6 +128,8 @@ const _getHeadline = (headline, address, view) => {
     case routerView.SEARCH:
     case routerView.PERIOD:
       return i18n.t(`${headline}-sidebar`);
+    case routerView.VAULT:
+      return i18n.t(`${headline}-vault`);
     case routerView.DAO:
       return i18n.t(`${headline}-account-dao`);
     case routerView.PROPOSAL:
@@ -418,3 +420,4 @@ Sidebar.propTypes = {
   proposalId: PropTypes.string,
   param: PropTypes.string
 };
+
