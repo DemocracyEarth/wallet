@@ -7,7 +7,12 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import { check404 } from 'components/Token/Token';
+
+import { walletError } from 'components/Choice/messages';
+import logo from 'images/logo.png';
+
 import { ERC20abi } from 'lib/abi/erc20';
+import { ubidaiABI } from 'components/Vault/ubidai-abi.js';
 
 import web3 from 'web3';
 import { config } from 'config';
@@ -21,6 +26,8 @@ import { zeroAddress } from 'lib/const';
 import 'styles/material.css';
 
 const Web3 = require('web3');
+
+const MAX_UINT = '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
 
 const response = (err, res) => {
   if (err) {
@@ -55,6 +62,9 @@ export default class Wallet extends Component {
     this.web3 = (window.web3) ? new Web3(window.web3.currentProvider) : null;
     this.handleChange = this.handleChange.bind(this);
     this.checkAllowance = this.checkAllowance.bind(this);
+    this.approve = this.approve.bind(this);
+    this.deposit = this.deposit.bind(this);
+    this.withdraw = this.withdraw.bind(this);
   }
 
   async componentDidUpdate(prevProps) {
@@ -78,6 +88,36 @@ export default class Wallet extends Component {
   handleChange = (prop) => (event) => {
     this.setState({ [prop]: event.target.value });
   };
+
+  approve() {
+    this.token.methods.approve(this.props.contractAddress, MAX_UINT).send({ from: this.props.accountAddress }, (err, res) => {
+      if (err) {
+        walletError(err);
+        return err;
+      }
+      if (res) {
+        console.log(res);
+        window.showModal.value = false;
+        window.modal = {
+          icon: logo,
+          title: i18n.t('vote-cast'),
+          message: i18n.t('voting-interaction', { etherscan: `https://etherscan.io/tx/${res}` }),
+          cancelLabel: i18n.t('close'),
+          mode: 'ALERT'
+        }
+        window.showModal.value = true;
+      }
+      return res;
+    })
+  }
+
+  deposit() {
+
+  }
+
+  withdraw() {
+
+  }
 
   render() {
     let image;
@@ -120,7 +160,7 @@ export default class Wallet extends Component {
               </>
               :
               <>
-                <Button className="wallet-button" color="primary" variant="contained">{i18n.t('approve')}</Button>
+                <Button className="wallet-button" color="primary" variant="contained" onClick={() => { this.approve() }}>{i18n.t('approve')}</Button>
                 <Button className="wallet-button" variant="contained" disabled>{i18n.t('deposit')}</Button>
                 <Button className="wallet-button" variant="contained" disabled>{i18n.t('withdraw')}</Button>
               </>
