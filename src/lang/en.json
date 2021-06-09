@@ -603,7 +603,14 @@
   "voting": "Voting",
   "request": "Request",
   "tweet": "Tweet",
+  "transaction": "Transaction",
   "transaction-broadcast": "{{token}} Transaction sent to blockchain.",
+  "approval": "Approval",
+  "token-approval": "Token approval for this vault sent.<br><a href='{{etherscan}}' target='_blank'>See on Etherescan.</a>",
+  "token-deposit": "Deposit on the vault sent.<br><a href='{{etherscan}}' target='_blank'>See on Etherescan.</a>",
+  "token-withdraw": "Withdrawal of all assets from the vault requested.<br><a href='{{etherscan}}' target='_blank'>See on Etherescan.</a>",
+  "token-deposit-await": "You are depositing {{asset}} on the vault.<br><br>Confirm vote in your blockchain wallet.<br>",
+  "token-withdrawal-await": "You are withdrawing all your {{assets}} from the vault.<br><br>Confirm vote in your blockchain wallet.<br>",
   "vote-cast": "Vote Cast",
   "voting-interaction": "Vote successfully cast. <a href='{{etherscan}}' target='_blank'>See on Etherescan.</a>",
   "ethereum-metamask": "Ethereum",
@@ -984,5 +991,6 @@
   "vault-withdraw": "Burned {{quantity}} shares &amp; withdrew DAI.",
   "vault-burn": "Harvested {{quantity}} shares &amp; burned 🔥 UBI.",
   "locked-profit": "Locked Profit",
-  "no-events-found": "No events found."
+  "no-events-found": "No events found.",
+  "withdraw-all": "Withdraw All"
 }

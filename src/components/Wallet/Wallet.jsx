@@ -36,6 +36,18 @@ const response = (err, res) => {
   return res;
 }
 
+const awaitTransaction = (message) => {
+  window.modal = {
+    icon: logo,
+    title: i18n.t('transaction'),
+    message,
+    cancel: i18n.t('close'),
+    displayBallot: true,
+    mode: 'AWAIT'
+  }
+  window.showModal.value = true;
+}
+
 /**
 * @summary renders a post in the timeline
 */
@@ -70,6 +82,7 @@ export default class Wallet extends Component {
   async componentDidUpdate(prevProps) {
     if (this.web3 !== null) {
       this.token = await new this.web3.eth.Contract(ERC20abi, this.props.tokenAddress);
+      this.vault = await new this.web3.eth.Contract(ubidaiABI, this.props.contractAddress);
       if (this.props.accountAddress !== prevProps.accountAddress) {
         await this.checkAllowance();
       }
@@ -100,8 +113,32 @@ export default class Wallet extends Component {
         window.showModal.value = false;
         window.modal = {
           icon: logo,
-          title: i18n.t('vote-cast'),
-          message: i18n.t('voting-interaction', { etherscan: `https://etherscan.io/tx/${res}` }),
+          title: i18n.t('approval'),
+          message: i18n.t('token-approval', { etherscan: `https://etherscan.io/tx/${res}` }),
+          cancelLabel: i18n.t('close'),
+          mode: 'ALERT'
+        }
+        this.setState({ approved: true });
+        window.showModal.value = true;
+      }
+      return res;
+    })
+  }
+
+  deposit() {
+    awaitTransaction(i18n.t('token-deposit-await', { asset: `${document.getElementById('outlined-adornment-amount').value} ${this.props.symbol}` }))
+    this.vault.methods.deposit(document.getElementById('outlined-adornment-amount').value).send({ from: this.props.accountAddress }, (err, res) => {
+      if (err) {
+        walletError(err);
+        return err;
+      }
+      if (res) {
+        console.log(res);
+        window.showModal.value = false;
+        window.modal = {
+          icon: logo,
+          title: i18n.t('deposit'),
+          message: i18n.t('token-deposit', { etherscan: `https://etherscan.io/tx/${res}` }),
           cancelLabel: i18n.t('close'),
           mode: 'ALERT'
         }
@@ -111,12 +148,27 @@ export default class Wallet extends Component {
     })
   }
 
-  deposit() {
-
-  }
-
   withdraw() {
-
+    awaitTransaction(i18n.t('token-withdrawal-await', { assets: this.props.symbol }));
+    this.vault.methods.withdraw().send({ from: this.props.accountAddress }, (err, res) => {
+      if (err) {
+        walletError(err);
+        return err;
+      }
+      if (res) {
+        console.log(res);
+        window.showModal.value = false;
+        window.modal = {
+          icon: logo,
+          title: i18n.t('withdraw'),
+          message: i18n.t('token-withdraw', { etherscan: `https://etherscan.io/tx/${res}` }),
+          cancelLabel: i18n.t('close'),
+          mode: 'ALERT'
+        }
+        window.showModal.value = true;
+      }
+      return res;
+    })
   }
 
   render() {
@@ -155,14 +207,14 @@ export default class Wallet extends Component {
             {(this.state.approved) ?
               <>
                 <Button className="wallet-button" variant="contained" disabled>{i18n.t('approved')}</Button>
-                <Button className="wallet-button" color="primary" variant="contained">{i18n.t('deposit')}</Button>
-                <Button className="wallet-button" color="primary" variant="contained">{i18n.t('withdraw')}</Button>
+                <Button className="wallet-button" color="primary" variant="contained" onClick={() => { this.deposit() }}>{i18n.t('deposit')}</Button>
+                <Button className="wallet-button" color="primary" variant="contained" onClick={() => { this.withdraw() }}>{i18n.t('withdraw')}</Button>
               </>
               :
               <>
                 <Button className="wallet-button" color="primary" variant="contained" onClick={() => { this.approve() }}>{i18n.t('approve')}</Button>
                 <Button className="wallet-button" variant="contained" disabled>{i18n.t('deposit')}</Button>
-                <Button className="wallet-button" variant="contained" disabled>{i18n.t('withdraw')}</Button>
+                <Button className="wallet-button" variant="contained" disabled>{i18n.t('withdraw-all')}</Button>
               </>
             }
           </>
@@ -170,7 +222,7 @@ export default class Wallet extends Component {
           <>
             <Button className="wallet-button" variant="contained" disabled>{i18n.t('approve')}</Button>
             <Button className="wallet-button" variant="contained" disabled>{i18n.t('deposit')}</Button>
-            <Button className="wallet-button" variant="contained" disabled>{i18n.t('withdraw')}</Button>
+            <Button className="wallet-button" variant="contained" disabled>{i18n.t('withdraw-all')}</Button>
           </>
         }
         
