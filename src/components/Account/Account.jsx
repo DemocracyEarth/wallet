@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 
 import { shortenCryptoName } from 'utils/strings';
 import Search, { includeInSearch } from 'components/Search/Search';
+import { zeroAddress } from 'lib/const';
 
 import i18n from 'i18n';
 import { config } from 'config'
@@ -68,7 +69,7 @@ const AccountQuery = ({ publicAddress, width, height, format, hidden, icon, href
   const finalWidth = width || '24px';
   const finalHeight = height || '24px';
 
-  if (publicAddress !== '0x0000000000000000000000000000000000000000') {
+  if (publicAddress !== zeroAddress) {
     if (loading) {
       if (format === 'searchBar') return null;
       return (
@@ -100,7 +101,7 @@ const AccountQuery = ({ publicAddress, width, height, format, hidden, icon, href
       }
     }
   } else {
-    label = '0x0';
+    label = zeroAddress;
   }
 
   if (hidden) {

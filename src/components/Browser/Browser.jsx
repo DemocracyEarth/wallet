@@ -10,7 +10,7 @@ import DAO from 'components/DAO/DAO';
 import Timeline from 'components/Timeline/Timeline';
 import Title from 'components/Title/Title';
 
-import { view as routerView } from 'lib/const'
+import { view as routerView, zeroAddress } from 'lib/const'
 import signout from 'images/signout.svg';
 import logo from 'images/logo.png';
 import logoActive from 'images/logo-white.png';
@@ -117,7 +117,7 @@ class Browser extends Component {
   }
 
   connectedWallet() {
-    return (this.props.address !== defaults.EMPTY);
+    return (this.props.address !== zeroAddress);
   }
 
   renderTitle() {

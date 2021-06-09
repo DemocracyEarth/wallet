@@ -67,7 +67,7 @@ export default class Vault extends Component {
       sharesValue: ''
     }
 
-    this.web3 = new Web3(window.web3.currentProvider);
+    this.web3 = (window.web3) ? new Web3(window.web3.currentProvider) : null;
     this.getDepositLimit = this.getDepositLimit.bind(this);
     this.getTotalAssets = this.getTotalAssets.bind(this);
     this.getLockedProfit = this.getLockedProfit.bind(this);
@@ -78,20 +78,22 @@ export default class Vault extends Component {
   }
 
   async componentDidMount() {
-    this.priceFeed = await new this.web3.eth.Contract(daiPriceABI, daiPriceOracle);
-    await this.getDAIPrice();
+    if (this.web3 !== null) {
+      this.priceFeed = await new this.web3.eth.Contract(daiPriceABI, daiPriceOracle);
+      await this.getDAIPrice();
 
-    this.vault = await new this.web3.eth.Contract(ubidaiABI, this.props.address);
-    await this.getDepositLimit();
-    await this.getTotalAssets();
-    await this.getLockedProfit();
-    await this.getAvailableDepositLimit();
-    await this.getBalanceOf();
-    await this.getPricePerShare();
-    
-    this.setState({
-      sharesValue: new BigNumber(this.state.balanceOf).dividedBy(Math.pow(10, 18)).multipliedBy(this.state.pricePerShare).toString()
-    });
+      this.vault = await new this.web3.eth.Contract(ubidaiABI, this.props.address);
+      await this.getDepositLimit();
+      await this.getTotalAssets();
+      await this.getLockedProfit();
+      await this.getAvailableDepositLimit();
+      await this.getBalanceOf();
+      await this.getPricePerShare();
+      
+      this.setState({
+        sharesValue: new BigNumber(this.state.balanceOf).dividedBy(Math.pow(10, 18)).multipliedBy(this.state.pricePerShare).toString()
+      });
+    }
   }
 
   async getDAIPrice() {

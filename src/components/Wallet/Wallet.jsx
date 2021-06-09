@@ -14,7 +14,7 @@ import { config } from 'config';
 
 import BigNumber from 'bignumber.js/bignumber';
 import i18n from 'i18n';
-import { defaults } from 'lib/const';
+import { zeroAddress } from 'lib/const';
 
 
 import 'styles/material.css';
@@ -51,19 +51,21 @@ export default class Wallet extends Component {
       approved: false,
     };
 
-    this.web3 = new Web3(window.web3.currentProvider);
+    this.web3 = (window.web3) ? new Web3(window.web3.currentProvider) : null;
     this.checkAllowance = this.checkAllowance.bind(this);
   }
 
   async componentDidUpdate(prevProps) {
-    this.token = await new this.web3.eth.Contract(ERC20abi, this.props.tokenAddress);
-    if (this.props.accountAddress !== prevProps.accountAddress) {
-      await this.checkAllowance();
+    if (this.web3 !== null) {
+      this.token = await new this.web3.eth.Contract(ERC20abi, this.props.tokenAddress);
+      if (this.props.accountAddress !== prevProps.accountAddress) {
+        await this.checkAllowance();
+      }
     }
   }
 
   async checkAllowance() {
-    if (this.props.accountAddress !== defaults.EMPTY) {
+    if (this.props.accountAddress !== zeroAddress) {
       const allowance = new BigNumber(await this.token.methods.allowance(this.props.accountAddress, this.props.contractAddress).call({}, response)).toString();
       this.setState({
         approved: (allowance !== '0')

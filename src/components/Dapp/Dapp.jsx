@@ -17,7 +17,7 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 import Portis from '@portis/web3';
 
 // settings
-import { defaults } from 'lib/const';
+import { defaults, zeroAddress } from 'lib/const';
 import { config } from 'config'
 
 import GA from 'utils/Analytics'
@@ -49,7 +49,7 @@ const providerOptions = {
 
 const INITIAL_STATE = {
   fetching: false,
-  address: defaults.EMPTY,
+  address: zeroAddress,
   web3: null,
   provider: null,
   connected: false,

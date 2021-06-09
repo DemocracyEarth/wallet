@@ -52,18 +52,20 @@ export default class Event extends Component {
       loading: true,
     }
 
-    this.web3 = new Web3(window.web3.currentProvider);
+    this.web3 = (window.web3) ? new Web3(window.web3.currentProvider) : null;
     this.getFeed = this.getFeed.bind(this);
   }
 
   async componentDidMount() {
-    this.vault = await new this.web3.eth.Contract(ubidaiABI, this.props.address);
+    if (this.web3 !== null) {
+      this.vault = await new this.web3.eth.Contract(ubidaiABI, this.props.address);
 
-    await this.getFeed();
+      await this.getFeed();
 
-    this.setState({
-      loading: false
-    });
+      this.setState({
+        loading: false
+      });
+    }
   }
 
   async getFeed() {
