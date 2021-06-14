@@ -33,6 +33,7 @@ import i18n from 'i18n';
 import { getProvider } from 'lib/web3';
 
 const Web3 = require('web3');
+const numeral = require('numeral');
 
 
 const response = (err, res) => {
@@ -132,6 +133,9 @@ export default class Vault extends Component {
     this.setState({
       balanceOf: await this.vault.methods.balanceOf(this.props.account).call({}, response)
     });
+
+    console.log(`balanceOf: ${this.state.balanceOf}`);
+    console.log(`getBalanceLabel: ${numeral(new BigNumber(this.state.balanceOf).dividedBy(Math.pow(10, 18)).toNumber()).format('0,0.##################')}`)
   }
 
   async getPricePerShare() {
