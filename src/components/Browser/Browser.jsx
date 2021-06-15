@@ -182,7 +182,7 @@ class Browser extends Component {
               </div>
             }
             {/* this.renderTitle()*/}
-            <Title label={i18n.t('human-money')} />
+            <Title label={i18n.t('democracy-earth')} />
           </div>
         </div>
         <div id="cover" className="cover" onClick={this.handleClick} />

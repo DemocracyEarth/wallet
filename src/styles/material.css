@@ -48,3 +48,10 @@
 .MuiOutlinedInput-notchedOutline:hover {
   border-color: var(--menu-sidebar-selected) !important;
 }
+
+.MuiButton-label {
+  display: inline-block !important;
+  height: 24px !important;
+  text-overflow: clip !important;
+  overflow: hidden !important;
+}
