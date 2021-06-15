@@ -209,7 +209,7 @@ export default class Wallet extends Component {
               <>
                 <Button className="wallet-button" variant="contained" disabled>{i18n.t('approved')}</Button>
                 <Button className="wallet-button" color="primary" variant="contained" onClick={() => { this.deposit() }}>{i18n.t('deposit')}</Button>
-                <Button className="wallet-button" color="primary" variant="contained" onClick={() => { this.withdraw() }}>{i18n.t('withdraw')}</Button>
+                <Button className="wallet-button" color="primary" variant="contained" onClick={() => { this.withdraw() }}>{i18n.t('withdraw-all')}</Button>
               </>
               :
               <>
