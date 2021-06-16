@@ -52,6 +52,6 @@
 .MuiButton-label {
   display: inline-block !important;
   height: 24px !important;
-  text-overflow: clip !important;
+  text-overflow: ellipsis !important;
   overflow: hidden !important;
 }

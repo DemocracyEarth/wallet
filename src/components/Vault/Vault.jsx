@@ -13,7 +13,7 @@ import Expand from 'components/Expand/Expand';
 import Wallet from 'components/Wallet/Wallet';
 
 import vault from 'images/vault.svg';
-import contract from 'images/contract.svg';
+import ethereum from 'images/ethereum.svg';
 import price from 'images/price.svg';
 import priceActive from 'images/price-active.svg';
 import share from 'images/share.svg';
@@ -156,7 +156,7 @@ export default class Vault extends Component {
           <div className="meta meta-search meta-bar">
             <div className="identity">
               <div className="avatar-editor">
-                <img src={vault} className={`symbol profile-pic icon`} alt="" style={{ width: '16px', height: '16px' }} />
+                <img src={ethereum} className={`symbol profile-pic icon`} alt="" style={{ width: '16px', height: '16px' }} />
                 <a href="https://yearn.finance" target="_blank" rel="noopener noreferrer" className="identity-label identity-label-micro">
                   <div className="identity-peer">
                     {i18n.t('yearn-vault')}
@@ -165,7 +165,7 @@ export default class Vault extends Component {
               </div>
             </div>
             <div className="dao">
-              <Account publicAddress={this.props.address} icon={contract} format="icon" width="16px" height="16px" href={`${config.web.explorer.replace('{{publicAddress}}', this.props.address)}`} />
+              <Account publicAddress={this.props.address} icon={vault} format="icon" width="16px" height="16px" href={`${config.web.explorer.replace('{{publicAddress}}', this.props.address)}`} />
               {/*<Account publicAddress={'0xf2eefca91a179c5Eb38CaA0Ea2BCB79ad1E46A79'} icon={strategy} format="icon" width="16px" height="16px" href={'https://etherscan.io/address/0xf2eefca91a179c5Eb38CaA0Ea2BCB79ad1E46A79#code'} />*/}
             </div>
           </div>

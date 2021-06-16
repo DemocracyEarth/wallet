@@ -20,6 +20,8 @@ class ItemLink extends Component {
     score: PropTypes.number,
     hideEmpty: PropTypes.bool,
     href: PropTypes.string,
+    status: PropTypes.string,
+    disabled: PropTypes.bool,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
@@ -53,11 +55,9 @@ class ItemLink extends Component {
 
   render() {
     if (this.props.hideEmpty && this.props.score === 0) return null;
-    return (
-      <NavLink to={this.props.href} exact={true}
-        isActive={(match, location) => { if (!match) { return false }; return (`${location.pathname}${location.search}` === this.props.href); }} 
-        className="menu-item" activeClassName="menu-item-selected"
-      >
+
+    const label = (
+      <>
         {(this.props.sharp) ?
           <div className="sidebar-sharp">
             <img src={this.getIcon()} alt="" className="menu-item-icon" />
@@ -69,9 +69,27 @@ class ItemLink extends Component {
           {this.getLabel()}
         </div>
         <div className={this.getTagStyle()}>
-          {(this.props.score >= 100) ? '100+' : this.props.score}
+          {(this.props.status) ?
+            this.props.status
+            :
+            (this.props.score >= 100) ? '100+' : this.props.score
+          }
         </div>
-      </NavLink>
+      </>
+    )
+
+    return (
+      <>
+        {(!this.props.disabled) ?
+          <NavLink to={this.props.href} exact={true} isActive={(match, location) => { if (!match) { return false }; return (`${location.pathname}${location.search}` === this.props.href); }} className="menu-item" activeClassName="menu-item-selected">
+            {label}
+          </NavLink>
+          :
+          <div className="menu-item">
+            {label}
+          </div>
+        }
+      </>
     );
   }
 }
