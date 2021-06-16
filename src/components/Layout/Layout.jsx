@@ -32,6 +32,8 @@ const Layout = (props) => {
   let periodEpoch = '';
   let param = '';
 
+  console.log(`address: ${address}`);
+
   // context specific
   let description = i18n.t('meta-description');
   if (dao) {
@@ -103,7 +105,7 @@ const Layout = (props) => {
         </div>
         <TabMenu tabs={
           [
-            { key: 0, label: i18n.t('proposals'), action: showMain, selected: true },
+            { key: 0, label: i18n.t('activity'), action: showMain, selected: true },
             { key: 1, label: i18n.t('events'), action: showAlternative }
           ]}
         />

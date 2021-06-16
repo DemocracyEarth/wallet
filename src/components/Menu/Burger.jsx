@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import List from 'components/List/List';
 import Menu from 'components/Menu/Menu';
 
 import 'styles/Dapp.css';
@@ -24,7 +25,8 @@ export default class Burger extends Component {
     return (
       <>
         <div id="burger" className="burger-menu">
-          <Menu address={this.props.address} view={this.props.view} proposalId={this.props.proposalId} param={this.props.param} />
+          {/*<Menu address={this.props.address} view={this.props.view} proposalId={this.props.proposalId} param={this.props.param} />*/}
+          <List />
         </div>
       </>
     );

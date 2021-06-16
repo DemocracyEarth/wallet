@@ -947,10 +947,10 @@
   "see-proposal-vote-count": "<strong>{{totalVoters}}</strong> {{voterLabel}}",
   "proposal-value": "Proposal for <strong>{{value}} {{symbol}}</strong>",
   "open-proposal": "Open proposal",
-  "meta-title": "Human Money",
-  "meta-description": "Humanitarian Yearn Vaults that support Universal Basic Income.",
+  "meta-title": "Democracy Earth",
+  "meta-description": "Decentralized democracy using Proof of Humanity and Universal Basic Income.",
   "meta-keywords": "digital, democracy, dao, distributed, autonomous, organizations, ethereum, moloch, aragon, governance, smart contracts, token",
-  "meta-canonical": "https://human.money/#",
+  "meta-canonical": "https://democracy.earth/#",
   "meta-dao": "Exploring activity in DAO at {{address}}.",
   "meta-address": "Votes and proposals by {{address}}.",
   "meta-period": "{{period}} proposals.",
@@ -967,7 +967,7 @@
   "soon": "soon",
   "human-money": "Humanitarian Vaults 🔥💧",
   "ubi-dai-title": "Earn DAI & Burn UBI 💧",
-  "ubi-dai-description": "This vault is built on top of <a href='https://yearn.finance/vaults/0x19D3364A399d251E894aC732651be8B0E4e85001' target='_blank'>Yearn Finance DAI vault</a> and when it harvests profits automatically buys and burns 🔥 UBI tokens.",
+  "ubi-dai-description": "This vault is built on top of <a href='https://yearn.finance/vaults/0x19D3364A399d251E894aC732651be8B0E4e85001' target='_blank'>Yearn Finance's DAI vault</a> and when it harvests profits, automatically buys and burns 🔥 UBI tokens with half of the proceeds.",
   "available-limit": "Available Limit",
   "vault-capacity": "Vault Capacity",
   "deposit-limit": "Deposit Limit",
@@ -992,5 +992,7 @@
   "vault-burn": "Harvested {{quantity}} shares &amp; burned 🔥 UBI.",
   "locked-profit": "Locked Profit",
   "no-events-found": "No events found.",
-  "withdraw-all": "Withdraw All"
+  "withdraw-all": "Withdraw All",
+  "live": "live",
+  "activity": "Activity"
 }
