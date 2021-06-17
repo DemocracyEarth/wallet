@@ -14,7 +14,7 @@ import DocumentMeta from 'react-document-meta';
 
 import i18n from 'i18n';
 import { view as routerView } from 'lib/const';
-import twitterCard from 'images/twitter-card.png';
+import twitterCard from 'images/twitter-meta.png';
 
 import 'styles/Dapp.css';
 
