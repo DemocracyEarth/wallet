@@ -8,7 +8,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import { check404 } from 'components/Token/Token';
 
-import { walletError } from 'components/Choice/messages';
+import { walletError, awaitTransaction } from 'components/Choice/messages';
 import logo from 'images/logo.png';
 
 import { ERC20abi } from 'lib/abi/erc20';
@@ -34,18 +34,6 @@ const response = (err, res) => {
     console.log(err);
   }
   return res;
-}
-
-const awaitTransaction = (message) => {
-  window.modal = {
-    icon: logo,
-    title: i18n.t('transaction'),
-    message,
-    cancel: i18n.t('close'),
-    displayBallot: true,
-    mode: 'AWAIT'
-  }
-  window.showModal.value = true;
 }
 
 /**
@@ -109,7 +97,6 @@ export default class Wallet extends Component {
         return err;
       }
       if (res) {
-        console.log(res);
         window.showModal.value = false;
         window.modal = {
           icon: logo,
@@ -134,7 +121,6 @@ export default class Wallet extends Component {
         return err;
       }
       if (res) {
-        console.log(res);
         window.showModal.value = false;
         window.modal = {
           icon: logo,
@@ -157,7 +143,6 @@ export default class Wallet extends Component {
         return err;
       }
       if (res) {
-        console.log(res);
         window.showModal.value = false;
         window.modal = {
           icon: logo,

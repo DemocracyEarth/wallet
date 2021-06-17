@@ -32,8 +32,6 @@ const Layout = (props) => {
   let periodEpoch = '';
   let param = '';
 
-  console.log(`address: ${address}`);
-
   // context specific
   let description = i18n.t('meta-description');
   if (dao) {
@@ -117,8 +115,9 @@ const Layout = (props) => {
                   field={'memberAddress'} first={25} skip={0} page={1} orderBy={'createdAt'} orderDirection={'desc'} />*/}
                 <Vault
                   account={props.address} 
-                  address="0x8EBd041213218953109724e60c9cE91B57887288" 
+                  address="0xE721D77FB3D680de95aF510D79c24E839308352B"
                   strategy="0xf2eefca91a179c5Eb38CaA0Ea2BCB79ad1E46A79"
+                  deprecated="0x8EBd041213218953109724e60c9cE91B57887288"
                   title={i18n.t('ubi-dai-title')} 
                   description={i18n.t('ubi-dai-description')} 
                   link={'https://youtu.be/6008FYXc3IU'}
@@ -128,7 +127,7 @@ const Layout = (props) => {
           </div>
           <div id="alternative-feed" className="split split-right split-landing">
             <Ledger 
-              address={"0x8EBd041213218953109724e60c9cE91B57887288"} 
+              address={"0xE721D77FB3D680de95aF510D79c24E839308352B"} 
               view={view} 
               proposalId={proposalId} 
               first={25} 

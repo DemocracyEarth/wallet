@@ -42,13 +42,11 @@ export default class Modal extends Component {
               {parser(this.props.modal.message)}
             </div>
             {(this.props.modal.displayBallot) ?
-              <p>
-                <ul className="options options-mini">
-                  <li className="title-input title-input-mini">
-                    {this.props.modal.proposalTitle}
-                  </li>
-                </ul>
-              </p>
+              <ul className="options options-mini">
+                <li className="title-input title-input-mini">
+                  {this.props.modal.proposalTitle}
+                </li>
+              </ul>
               :
               null
             }
