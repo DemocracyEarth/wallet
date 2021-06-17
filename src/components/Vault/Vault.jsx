@@ -237,7 +237,7 @@ export default class Vault extends Component {
             </div>
           </div>
           <div className="expanders">
-            <Expand url={'/'} label={capitalization} open={false}
+            <Expand url={'/'} label={capitalization} open={true}
               icon={capital} iconActive={capitalActive}
             >
               <Contract hidden={false} view={routerView.PROPOSAL} href={`${config.web.explorer.replace('{{publicAddress}}', this.props.address)}`}>
