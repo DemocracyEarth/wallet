@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import ReactGA from 'react-ga';
 import Dapp from 'components/Dapp/Dapp';
 import { config } from 'config';
+import { unregister } from 'serviceWorker'
 
 ReactGA.initialize(config.keys.analytics, { debug: true });
 ReactGA.pageview(window.location.pathname + window.location.search);
@@ -15,3 +16,4 @@ ReactDOM.render(
 );
 
 // serviceWorker.register();
+unregister();
