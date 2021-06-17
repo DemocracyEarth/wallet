@@ -77,6 +77,7 @@ export default class Vault extends Component {
     }
 
     this.web3 = new Web3(getProvider());
+    this.accountWeb3 = (window.web3) ? new Web3(window.web3.currentProvider) : null;
     this.getDepositLimit = this.getDepositLimit.bind(this);
     this.getTotalAssets = this.getTotalAssets.bind(this);
     this.getLockedProfit = this.getLockedProfit.bind(this);
@@ -102,7 +103,7 @@ export default class Vault extends Component {
       await this.getPricePerShare();
 
       if (this.props.deprecated) {
-        this.deprecatedVault = await new this.web3.eth.Contract(ubidaiABI, this.props.deprecated);
+        this.deprecatedVault = await new this.accountWeb3.eth.Contract(ubidaiABI, this.props.deprecated);
         await this.getDeprecatedBalance();
       }
 
@@ -164,8 +165,6 @@ export default class Vault extends Component {
 
   withdrawDeprecated() {
     awaitTransaction(i18n.t('token-withdrawal-await', { assets: 'DAI' }));
-    console.log(`this.props.account: ${this.props.account}`);
-    
     this.deprecatedVault.methods.withdraw().send({ from: this.props.account }, (err, res) => {
       if (err) {
         walletError(err);
