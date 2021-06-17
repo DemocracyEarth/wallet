@@ -157,6 +157,19 @@ const _walletError = (err) => {
   window.showModal.value = true;
 };
 
+const _awaitTransaction = (message) => {
+  window.modal = {
+    icon: logo,
+    title: i18n.t('transaction'),
+    message,
+    cancel: i18n.t('close'),
+    displayBallot: true,
+    mode: 'AWAIT'
+  }
+  window.showModal.value = true;
+}
+
+export const awaitTransaction = _awaitTransaction;
 export const walletError = _walletError;
 export const noAddress = _noAddress;
 export const noWallet = _noWallet;

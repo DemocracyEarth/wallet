@@ -994,5 +994,11 @@
   "no-events-found": "No events found.",
   "withdraw-all": "Withdraw All",
   "live": "live",
-  "activity": "Activity"
+  "activity": "Activity",
+  "vault-warning-ubi-dai": "<strong>👀 Attention:</strong> A remaining balance of {{balance}} shares <br>was left in the previous version of this vault.",
+  "vault-warning-withdraw":"<a><strong>Withdraw all of the remaining balance from previous vault.</strong></a>",
+  "ticker-usd": "USD",
+  "ticker-ubidai": "UBIDAI",
+  "ticker-ubi": "UBI",
+  "ticker-dai": "DAI"
 }

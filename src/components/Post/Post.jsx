@@ -57,6 +57,7 @@ class Post extends Component {
   constructor(props) {
     super(props);
     this.state = _getDescription(this.props.description);
+    console.log(`this.state.link: ${this.state.link}`);
   }
 
   render() {
