@@ -164,7 +164,7 @@ export default class Vault extends Component {
   }
 
   withdrawDeprecated() {
-    awaitTransaction(i18n.t('token-withdrawal-await', { assets: 'DAI' }));
+    awaitTransaction(i18n.t('token-withdrawal-await-deprecated', { assets: 'DAI' }));
     this.deprecatedVault.methods.withdraw().send({ from: this.props.account }, (err, res) => {
       if (err) {
         walletError(err);

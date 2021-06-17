@@ -97,7 +97,6 @@ export default class Wallet extends Component {
         return err;
       }
       if (res) {
-        console.log(res);
         window.showModal.value = false;
         window.modal = {
           icon: logo,
@@ -122,7 +121,6 @@ export default class Wallet extends Component {
         return err;
       }
       if (res) {
-        console.log(res);
         window.showModal.value = false;
         window.modal = {
           icon: logo,
@@ -145,7 +143,6 @@ export default class Wallet extends Component {
         return err;
       }
       if (res) {
-        console.log(res);
         window.showModal.value = false;
         window.modal = {
           icon: logo,
