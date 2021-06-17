@@ -617,18 +617,18 @@ a {
 }
 
 a:hover {
-  color: var(--main-menu-color);
   text-decoration: underline;
 }
 
 ul {
-  margin-top: 0px;
-  margin-bottom: 0px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   padding-left: 40px;
 }
 
 li {
   background-image: none;
+  margin-bottom: 10px;
 }
 
 strong {

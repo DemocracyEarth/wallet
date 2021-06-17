@@ -216,6 +216,18 @@ export default class Vault extends Component {
                 </Parameter>
               </Contract>
             </Expand>
+            <Expand url={'/'} label={assets} open={true}
+              icon={share} iconActive={shareActive}
+            >
+              <Contract hidden={false} view={routerView.PROPOSAL} href={`${config.web.explorer.replace('{{publicAddress}}', this.props.address)}`}>
+                <Parameter label={i18n.t('vault-shares')}>
+                  <Token quantity={this.state.balanceOf} symbol={'ubiDAI'} decimals={'18'} />
+                </Parameter>
+                <Parameter label={i18n.t('shares-value')}>
+                  <Token quantity={this.state.sharesValue} symbol={'USD'} decimals={'18'} />
+                </Parameter>
+              </Contract>
+            </Expand>
             <Expand url={'/'} label={prices} open={false}
               icon={price} iconActive={priceActive}
             >
@@ -225,18 +237,6 @@ export default class Vault extends Component {
                 </Parameter>
                 <Parameter label={i18n.t('price-per-share')}>
                   <Token quantity={this.state.pricePerShare} displayDecimals={true} symbol={'USD'} decimals={'18'} />
-                </Parameter>
-              </Contract>
-            </Expand>
-            <Expand url={'/'} label={assets} open={false}
-              icon={share} iconActive={shareActive}
-            >
-              <Contract hidden={false} view={routerView.PROPOSAL} href={`${config.web.explorer.replace('{{publicAddress}}', this.props.address)}`}>
-                <Parameter label={i18n.t('vault-shares')}>
-                  <Token quantity={this.state.balanceOf} symbol={'ubiDAI'} decimals={'18'} />
-                </Parameter>
-                <Parameter label={i18n.t('shares-value')}>
-                  <Token quantity={this.state.sharesValue} symbol={'USD'} decimals={'18'} />
                 </Parameter>
               </Contract>
             </Expand>
