@@ -188,8 +188,9 @@ export default class Vault extends Component {
         window.showModal.value = true;
       }
       return res;
+    }).then((receipt) => {
+      this.refresh();
     });
-    this.refresh();
   }
 
   render() {
