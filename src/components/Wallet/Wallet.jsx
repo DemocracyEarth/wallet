@@ -7,6 +7,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import { check404 } from 'components/Token/Token';
+import { BrowserView, MobileView } from 'react-device-detect';
 
 import { walletError, awaitTransaction } from 'components/Choice/messages';
 import logo from 'images/logo.png';
@@ -49,6 +50,7 @@ export default class Wallet extends Component {
     tokenAddress: PropTypes.string,
     contractAddress: PropTypes.string,
     accountAddress: PropTypes.string,
+    refresh: PropTypes.func
   }
 
   constructor(props) {
@@ -109,30 +111,37 @@ export default class Wallet extends Component {
         window.showModal.value = true;
       }
       return res;
-    })
+    }).then((receipt) => {
+      this.props.refresh();
+    });
   }
 
   deposit() {
-    awaitTransaction(i18n.t('token-deposit-await', { asset: `${document.getElementById('outlined-adornment-amount').value} ${this.props.symbol}` }));
-    const amount = Web3.utils.toWei(document.getElementById('outlined-adornment-amount').value, 'ether');
-    this.vault.methods.deposit(amount).send({ from: this.props.accountAddress }, (err, res) => {
-      if (err) {
-        walletError(err);
-        return err;
-      }
-      if (res) {
-        window.showModal.value = false;
-        window.modal = {
-          icon: logo,
-          title: i18n.t('deposit'),
-          message: i18n.t('token-deposit', { etherscan: `https://etherscan.io/tx/${res}` }),
-          cancelLabel: i18n.t('close'),
-          mode: 'ALERT'
+    if (!isNaN(document.getElementById('outlined-adornment-amount').value) && document.getElementById('outlined-adornment-amount').value > 0) {
+      awaitTransaction(i18n.t('token-deposit-await', { asset: `${document.getElementById('outlined-adornment-amount').value} ${this.props.symbol}` }));
+      const amount = Web3.utils.toWei(document.getElementById('outlined-adornment-amount').value, 'ether');
+      this.vault.methods.deposit(amount).send({ from: this.props.accountAddress }, (err, res) => {
+        if (err) {
+          walletError(err);
+          return err;
         }
-        window.showModal.value = true;
-      }
-      return res;
-    })
+        if (res) {
+          window.showModal.value = false;
+          window.modal = {
+            icon: logo,
+            title: i18n.t('deposit'),
+            message: i18n.t('token-deposit', { etherscan: `https://etherscan.io/tx/${res}` }),
+            cancelLabel: i18n.t('close'),
+            mode: 'ALERT'
+          }
+          window.showModal.value = true;
+        }
+        return res;
+      }).then((receipt) => {
+        this.props.refresh();
+      });
+      
+    }
   }
 
   withdraw() {
@@ -154,7 +163,9 @@ export default class Wallet extends Component {
         window.showModal.value = true;
       }
       return res;
-    })
+    }).then((receipt) => {
+      this.props.refresh();
+    });
   }
 
   render() {
@@ -188,30 +199,36 @@ export default class Wallet extends Component {
             labelWidth={60}
           />
         </FormControl>
-        {(this.props.accountAddress !== zeroAddress) ?
-          <>
-            {(this.state.approved) ?
-              <>
-                <Button className="wallet-button" variant="contained" disabled>{i18n.t('approved')}</Button>
-                <Button className="wallet-button" color="primary" variant="contained" onClick={() => { this.deposit() }}>{i18n.t('deposit')}</Button>
-                <Button className="wallet-button" color="primary" variant="contained" onClick={() => { this.withdraw() }}>{i18n.t('withdraw-all')}</Button>
-              </>
-              :
-              <>
-                <Button className="wallet-button" color="primary" variant="contained" onClick={() => { this.approve() }}>{i18n.t('approve')}</Button>
-                <Button className="wallet-button" variant="contained" disabled>{i18n.t('deposit')}</Button>
-                <Button className="wallet-button" variant="contained" disabled>{i18n.t('withdraw-all')}</Button>
-              </>
-            }
-          </>
-          :
-          <>
-            <Button className="wallet-button" variant="contained" disabled>{i18n.t('approve')}</Button>
-            <Button className="wallet-button" variant="contained" disabled>{i18n.t('deposit')}</Button>
-            <Button className="wallet-button" variant="contained" disabled>{i18n.t('withdraw-all')}</Button>
-          </>
-        }
-        
+        <BrowserView>
+          {(this.props.accountAddress !== zeroAddress) ?
+            <>
+              {(this.state.approved) ?
+                <>
+                  <Button className="wallet-button" variant="contained" disabled>{i18n.t('approved')}</Button>
+                  <Button className="wallet-button" color="primary" variant="contained" onClick={() => { this.deposit() }}>{i18n.t('deposit')}</Button>
+                  <Button className="wallet-button" color="primary" variant="contained" onClick={() => { this.withdraw() }}>{i18n.t('withdraw-all')}</Button>
+                </>
+                :
+                <>
+                  <Button className="wallet-button" color="primary" variant="contained" onClick={() => { this.approve() }}>{i18n.t('approve')}</Button>
+                  <Button className="wallet-button" variant="contained" disabled>{i18n.t('deposit')}</Button>
+                  <Button className="wallet-button" variant="contained" disabled>{i18n.t('withdraw-all')}</Button>
+                </>
+              }
+            </>
+            :
+            <>
+              <Button className="wallet-button" variant="contained" disabled>{i18n.t('approve')}</Button>
+              <Button className="wallet-button" variant="contained" disabled>{i18n.t('deposit')}</Button>
+              <Button className="wallet-button" variant="contained" disabled>{i18n.t('withdraw-all')}</Button>
+            </>
+          }
+        </BrowserView>
+        <MobileView>
+          <Button className="wallet-button" color="primary" variant="contained" onClick={() => { this.approve() }}>{i18n.t('approve')}</Button>
+          <Button className="wallet-button" color="primary" variant="contained" onClick={() => { this.deposit() }}>{i18n.t('deposit')}</Button>
+          <Button className="wallet-button" color="primary" variant="contained" onClick={() => { this.withdraw() }}>{i18n.t('withdraw-all')}</Button>
+        </MobileView>
       </div>
     );
   }

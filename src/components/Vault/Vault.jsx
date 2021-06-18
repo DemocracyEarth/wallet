@@ -78,6 +78,7 @@ export default class Vault extends Component {
 
     this.web3 = new Web3(getProvider());
     this.accountWeb3 = (window.web3) ? new Web3(window.web3.currentProvider) : null;
+    this.refresh = this.refresh.bind(this);
     this.getDepositLimit = this.getDepositLimit.bind(this);
     this.getTotalAssets = this.getTotalAssets.bind(this);
     this.getLockedProfit = this.getLockedProfit.bind(this);
@@ -90,6 +91,10 @@ export default class Vault extends Component {
   }
 
   async componentDidMount() {
+    await this.refresh();
+  }
+
+  async refresh() {
     if (this.web3 !== null) {
       this.priceFeed = await new this.web3.eth.Contract(daiPriceABI, daiPriceOracle);
       await this.getDAIPrice();
@@ -183,7 +188,9 @@ export default class Vault extends Component {
         window.showModal.value = true;
       }
       return res;
-    })
+    }).then((receipt) => {
+      this.refresh();
+    });
   }
 
   render() {
@@ -298,6 +305,7 @@ export default class Vault extends Component {
             contractAddress={this.props.address}
             accountAddress={this.props.account}
             abi={ubidaiABI}
+            refresh={() => { this.refresh(); }}
           />
         </div>
       </div>
