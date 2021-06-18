@@ -49,6 +49,7 @@ export default class Wallet extends Component {
     tokenAddress: PropTypes.string,
     contractAddress: PropTypes.string,
     accountAddress: PropTypes.string,
+    refresh: PropTypes.func
   }
 
   constructor(props) {
@@ -110,29 +111,37 @@ export default class Wallet extends Component {
       }
       return res;
     })
+    this.props.refresh();
   }
 
   deposit() {
-    awaitTransaction(i18n.t('token-deposit-await', { asset: `${document.getElementById('outlined-adornment-amount').value} ${this.props.symbol}` }));
-    const amount = Web3.utils.toWei(document.getElementById('outlined-adornment-amount').value, 'ether');
-    this.vault.methods.deposit(amount).send({ from: this.props.accountAddress }, (err, res) => {
-      if (err) {
-        walletError(err);
-        return err;
-      }
-      if (res) {
-        window.showModal.value = false;
-        window.modal = {
-          icon: logo,
-          title: i18n.t('deposit'),
-          message: i18n.t('token-deposit', { etherscan: `https://etherscan.io/tx/${res}` }),
-          cancelLabel: i18n.t('close'),
-          mode: 'ALERT'
+    if (!isNaN(document.getElementById('outlined-adornment-amount').value) && document.getElementById('outlined-adornment-amount').value > 0) {
+      awaitTransaction(i18n.t('token-deposit-await', { asset: `${document.getElementById('outlined-adornment-amount').value} ${this.props.symbol}` }));
+      const amount = Web3.utils.toWei(document.getElementById('outlined-adornment-amount').value, 'ether');
+      this.vault.methods.deposit(amount).send({ from: this.props.accountAddress }, (err, res) => {
+        if (err) {
+          walletError(err);
+          return err;
         }
-        window.showModal.value = true;
-      }
-      return res;
-    })
+        if (res) {
+          window.showModal.value = false;
+          window.modal = {
+            icon: logo,
+            title: i18n.t('deposit'),
+            message: i18n.t('token-deposit', { etherscan: `https://etherscan.io/tx/${res}` }),
+            cancelLabel: i18n.t('close'),
+            mode: 'ALERT'
+          }
+          window.showModal.value = true;
+        }
+        return res;
+      }).then((receipt) => {
+        console.log('RECEIPT');
+        console.log(receipt);
+        this.props.refresh();
+      });
+      
+    }
   }
 
   withdraw() {
@@ -155,6 +164,7 @@ export default class Wallet extends Component {
       }
       return res;
     })
+    this.props.refresh();
   }
 
   render() {
@@ -211,7 +221,6 @@ export default class Wallet extends Component {
             <Button className="wallet-button" variant="contained" disabled>{i18n.t('withdraw-all')}</Button>
           </>
         }
-        
       </div>
     );
   }
