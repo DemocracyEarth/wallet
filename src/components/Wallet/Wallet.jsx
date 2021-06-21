@@ -199,36 +199,30 @@ export default class Wallet extends Component {
             labelWidth={60}
           />
         </FormControl>
-        <BrowserView>
-          {(this.props.accountAddress !== zeroAddress) ?
-            <>
-              {(this.state.approved) ?
-                <>
-                  <Button className="wallet-button" variant="contained" disabled>{i18n.t('approved')}</Button>
-                  <Button className="wallet-button" color="primary" variant="contained" onClick={() => { this.deposit() }}>{i18n.t('deposit')}</Button>
-                  <Button className="wallet-button" color="primary" variant="contained" onClick={() => { this.withdraw() }}>{i18n.t('withdraw-all')}</Button>
-                </>
-                :
-                <>
-                  <Button className="wallet-button" color="primary" variant="contained" onClick={() => { this.approve() }}>{i18n.t('approve')}</Button>
-                  <Button className="wallet-button" variant="contained" disabled>{i18n.t('deposit')}</Button>
-                  <Button className="wallet-button" variant="contained" disabled>{i18n.t('withdraw-all')}</Button>
-                </>
-              }
-            </>
-            :
-            <>
-              <Button className="wallet-button" variant="contained" disabled>{i18n.t('approve')}</Button>
-              <Button className="wallet-button" variant="contained" disabled>{i18n.t('deposit')}</Button>
-              <Button className="wallet-button" variant="contained" disabled>{i18n.t('withdraw-all')}</Button>
-            </>
-          }
-        </BrowserView>
-        <MobileView>
-          <Button className="wallet-button" color="primary" variant="contained" onClick={() => { this.approve() }}>{i18n.t('approve')}</Button>
-          <Button className="wallet-button" color="primary" variant="contained" onClick={() => { this.deposit() }}>{i18n.t('deposit')}</Button>
-          <Button className="wallet-button" color="primary" variant="contained" onClick={() => { this.withdraw() }}>{i18n.t('withdraw-all')}</Button>
-        </MobileView>
+
+        {(this.props.accountAddress !== zeroAddress) ?
+          <>
+            {(this.state.approved) ?
+              <>
+                <Button className="wallet-button" variant="contained" disabled>{i18n.t('approved')}</Button>
+                <Button className="wallet-button" color="primary" variant="contained" onClick={() => { this.deposit() }}>{i18n.t('deposit')}</Button>
+                <Button className="wallet-button" color="primary" variant="contained" onClick={() => { this.withdraw() }}>{i18n.t('withdraw-all')}</Button>
+              </>
+              :
+              <>
+                <Button className="wallet-button" color="primary" variant="contained" onClick={() => { this.approve() }}>{i18n.t('approve')}</Button>
+                <Button className="wallet-button" variant="contained" disabled>{i18n.t('deposit')}</Button>
+                <Button className="wallet-button" variant="contained" disabled>{i18n.t('withdraw-all')}</Button>
+              </>
+            }
+          </>
+          :
+          <>
+            <Button className="wallet-button" variant="contained" disabled>{i18n.t('approve')}</Button>
+            <Button className="wallet-button" variant="contained" disabled>{i18n.t('deposit')}</Button>
+            <Button className="wallet-button" variant="contained" disabled>{i18n.t('withdraw-all')}</Button>
+          </>
+        }
       </div>
     );
   }

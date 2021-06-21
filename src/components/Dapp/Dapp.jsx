@@ -36,7 +36,7 @@ const providerOptions = {
   walletconnect: {
     package: WalletConnectProvider,
     options: {
-      infuraId: config.keys.infura,
+      infuraId: config.eth.infura,
     },
   },
   portis: {
