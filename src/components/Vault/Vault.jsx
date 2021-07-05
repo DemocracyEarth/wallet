@@ -94,6 +94,14 @@ export default class Vault extends Component {
     await this.refresh();
   }
 
+  async shouldComponentUpdate(nextProps, nextState) {
+    console.log('component uupdating')
+    console.log(nextProps);
+    console.log(nextState);
+    // this.vault = await new this.web3.eth.Contract(ubidaiABI, this.props.address);
+    // await this.getBalanceOf();
+  }
+
   async refresh() {
     if (this.web3 !== null) {
       this.priceFeed = await new this.web3.eth.Contract(daiPriceABI, daiPriceOracle);
