@@ -95,11 +95,10 @@ export default class Vault extends Component {
   }
 
   async shouldComponentUpdate(nextProps, nextState) {
-    console.log('component uupdating')
-    console.log(nextProps);
-    console.log(nextState);
-    // this.vault = await new this.web3.eth.Contract(ubidaiABI, this.props.address);
-    // await this.getBalanceOf();
+    if (nextProps.account !== this.props.account) {
+      this.vault = await new this.web3.eth.Contract(ubidaiABI, this.props.address);
+      await this.getBalanceOf();
+    }
   }
 
   async refresh() {
