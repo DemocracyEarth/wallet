@@ -95,6 +95,9 @@ const routes = [
   {
     path: '/search/:search',
   },
+  {
+    path: '/vault/:vault',
+  }
 ];
 
 export const ConnectedAccount = React.createContext('');
@@ -254,11 +257,6 @@ export default class Dapp extends Component {
                   <>
                     {(this.state.showModal) ?
                       <Modal visible={this.state.showModal} modal={window.modal} mode={window.modal.mode}/>
-                      :
-                      null
-                    }
-                    {this.state.showProposalLauncher ?
-                      <ProposalLauncher visible={this.state.showProposalLauncher} accountAddress={this.state.address} address={window.proposalLauncher.address}/>
                       :
                       null
                     }

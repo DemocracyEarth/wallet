@@ -11,6 +11,7 @@ import Vault from 'components/Vault/Vault';
 import TabMenu, { showMain, showAlternative } from 'components/TabMenu/TabMenu';
 import DocumentMeta from 'react-document-meta';
 
+import { find } from 'lodash';
 
 import i18n from 'i18n';
 import { view as routerView } from 'lib/const';
@@ -18,11 +19,42 @@ import twitterCard from 'images/twitter-meta.png';
 
 import 'styles/Dapp.css';
 
+/*
+
+                  account={props.address}
+                  address="0xE721D77FB3D680de95aF510D79c24E839308352B"
+                  strategy="0xf2eefca91a179c5Eb38CaA0Ea2BCB79ad1E46A79"
+                  deprecated="0x8EBd041213218953109724e60c9cE91B57887288"
+                  title={i18n.t('ubi-dai-title')}
+                  description={i18n.t('ubi-dai-description')}
+                  link={'https://youtu.be/6008FYXc3IU'}
+*/
+
+const vaultList = [
+  {
+    path: 'ubi-dai',
+    address: '0xE721D77FB3D680de95aF510D79c24E839308352B',
+    strategy: '0xf2eefca91a179c5Eb38CaA0Ea2BCB79ad1E46A79',
+    deprecated: '0x8EBd041213218953109724e60c9cE91B57887288',
+    title: i18n.t('ubi-dai-title'),
+    description: i18n.t('ubi-dai-description'),
+    link: 'https://youtu.be/6008FYXc3IU'
+  },
+  {
+    path: 'ubi-weth',
+    address: '0x2147935d9739da4e691b8ae2e1437492a394ebf5',
+    strategy: '0xf2eefca91a179c5Eb38CaA0Ea2BCB79ad1E46A79',
+    title: i18n.t('ubi-weth-title'),
+    description: i18n.t('ubi-weth-description'),
+    link: 'https://youtu.be/6008FYXc3IU'
+  },
+];
+
 /**
 * @summary displays the contents of a poll
 */
 const Layout = (props) => {
-  const { dao, address, period, proposal, token, date, search } = useParams();
+  const { dao, address, period, proposal, token, date, search, vault } = useParams();
   const searchParams = new URLSearchParams(useLocation().search);
 
   // defaults
@@ -34,6 +66,8 @@ const Layout = (props) => {
 
   // context specific
   let description = i18n.t('meta-description');
+  let vaultData;
+
   if (dao) {
     periodEpoch = searchParams.get('period');
     renderAddress = dao; 
@@ -66,6 +100,10 @@ const Layout = (props) => {
     param = search;
     view = routerView.SEARCH;
     description = i18n.t('meta-search', { search });
+  } else if (vault) {
+    vaultData = find(vaultList, { path: vault })
+    console.log(vaultData);
+    console.log(vault);
   }
 
   const meta = {
@@ -115,12 +153,12 @@ const Layout = (props) => {
                   field={'memberAddress'} first={25} skip={0} page={1} orderBy={'createdAt'} orderDirection={'desc'} />*/}
                 <Vault
                   account={props.address} 
-                  address="0xE721D77FB3D680de95aF510D79c24E839308352B"
-                  strategy="0xf2eefca91a179c5Eb38CaA0Ea2BCB79ad1E46A79"
-                  deprecated="0x8EBd041213218953109724e60c9cE91B57887288"
-                  title={i18n.t('ubi-dai-title')} 
-                  description={i18n.t('ubi-dai-description')} 
-                  link={'https://youtu.be/6008FYXc3IU'}
+                  address={vaultData.address}
+                  strategy={vaultData.strategy}
+                  deprecated={vaultData.deprecated}
+                  title={vaultData.title}
+                  description={vaultData.description}
+                  link={vaultData.link}
                 />
               </div>
             </div>
