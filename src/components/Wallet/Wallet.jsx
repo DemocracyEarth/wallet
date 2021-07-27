@@ -7,27 +7,20 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import { check404 } from 'components/Token/Token';
-import { BrowserView, MobileView } from 'react-device-detect';
 
 import { walletError, awaitTransaction } from 'components/Choice/messages';
 import logo from 'images/logo.png';
-
 import { ERC20abi } from 'lib/abi/erc20';
 import { ubidaiABI } from 'components/Vault/ubidai-abi.js';
-
 import web3 from 'web3';
 import { config } from 'config';
-
 import BigNumber from 'bignumber.js/bignumber';
 import i18n from 'i18n';
-
 import { zeroAddress } from 'lib/const';
-
 
 import 'styles/material.css';
 
 const Web3 = require('web3');
-
 const MAX_UINT = '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
 
 const response = (err, res) => {
@@ -70,7 +63,6 @@ export default class Wallet extends Component {
   }
 
   async componentDidUpdate(prevProps) {
-    console.log(`this.props.contractAddress: ${this.props.contractAddress}`);
     if (this.web3 !== null) {
       this.token = await new this.web3.eth.Contract(ERC20abi, this.props.tokenAddress);
       this.vault = await new this.web3.eth.Contract(ubidaiABI, this.props.contractAddress);

@@ -1002,6 +1002,8 @@
   "vault-warning-withdraw":"<a><strong>Withdraw all of the remaining balance from previous vault.</strong></a>",
   "ticker-usd": "USD",
   "ticker-ubidai": "UBIDAI",
+  "ticker-ubiweth":"UBIWETH",
   "ticker-ubi": "UBI",
-  "ticker-dai": "DAI"
+  "ticker-dai": "DAI",
+  "ticker-weth": "WETH"
 }

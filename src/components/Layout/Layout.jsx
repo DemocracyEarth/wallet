@@ -11,6 +11,8 @@ import Vault from 'components/Vault/Vault';
 import TabMenu, { showMain, showAlternative } from 'components/TabMenu/TabMenu';
 import DocumentMeta from 'react-document-meta';
 
+import { daiPriceABI, daiPriceOracle, daiAddress } from 'components/Vault/chainlink-daiprice-abi.js';
+
 import { find } from 'lodash';
 
 import i18n from 'i18n';
@@ -38,7 +40,15 @@ const vaultList = [
     deprecated: '0x8EBd041213218953109724e60c9cE91B57887288',
     title: i18n.t('ubi-dai-title'),
     description: i18n.t('ubi-dai-description'),
-    link: 'https://youtu.be/6008FYXc3IU'
+    link: 'https://youtu.be/6008FYXc3IU',
+    vaultTicker: i18n.t('ticker-ubidai'),
+    token: daiAddress,
+    symbol: 'DAI',
+    oracle: daiPriceOracle,
+    oracleABI: daiPriceABI,
+    fiat: 'USD',
+    decimals: '18',
+    fiatDecimals: '8'
   },
   {
     path: 'ubi-weth',
@@ -46,7 +56,15 @@ const vaultList = [
     strategy: '0xf2eefca91a179c5Eb38CaA0Ea2BCB79ad1E46A79',
     title: i18n.t('ubi-weth-title'),
     description: i18n.t('ubi-weth-description'),
-    link: 'https://youtu.be/6008FYXc3IU'
+    link: 'https://youtu.be/6008FYXc3IU',
+    vaultTicker: i18n.t('ticker-ubiweth'),
+    token: daiAddress,
+    symbol: 'WETH',
+    oracle: daiPriceOracle,
+    oracleABI: daiPriceABI,
+    fiat: 'USD',
+    decimals: '18',
+    fiatDecimals: '8'
   },
 ];
 
@@ -159,6 +177,14 @@ const Layout = (props) => {
                   title={vaultData.title}
                   description={vaultData.description}
                   link={vaultData.link}
+                  token={vaultData.token}
+                  oracle={vaultData.oracle}
+                  oracleABI={vaultData.oracleABI}
+                  symbol={vaultData.symbol}
+                  fiat={vaultData.fiat}
+                  vaultTicker={vaultData.vaultTicker}
+                  decimals={vaultData.decimals}
+                  fiatDecimals={vaultData.fiatDecimals}
                 />
               </div>
             </div>
