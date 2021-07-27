@@ -12,6 +12,7 @@ import TabMenu, { showMain, showAlternative } from 'components/TabMenu/TabMenu';
 import DocumentMeta from 'react-document-meta';
 
 import { daiPriceABI, daiPriceOracle, daiAddress } from 'components/Vault/chainlink-daiprice-abi.js';
+import { wethPriceABI, wethPriceOracle, wethAddress } from 'components/Vault/chainlink-wethprice-abi.js';
 
 import { find } from 'lodash';
 
@@ -58,10 +59,10 @@ const vaultList = [
     description: i18n.t('ubi-weth-description'),
     link: 'https://youtu.be/6008FYXc3IU',
     vaultTicker: i18n.t('ticker-ubiweth'),
-    token: daiAddress,
+    token: wethAddress,
     symbol: 'WETH',
-    oracle: daiPriceOracle,
-    oracleABI: daiPriceABI,
+    oracle: wethPriceOracle,
+    oracleABI: wethPriceABI,
     fiat: 'USD',
     decimals: '18',
     fiatDecimals: '8'

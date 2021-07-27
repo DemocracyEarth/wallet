@@ -111,7 +111,7 @@ export default class Vault extends Component {
 
   async refresh() {
     if (this.web3 !== null) {
-      this.priceFeed = await new this.web3.eth.Contract(daiPriceABI, daiPriceOracle);
+      this.priceFeed = await new this.web3.eth.Contract(this.props.oracleABI, this.props.oracle);
       await this.getDAIPrice();
 
       this.vault = await new this.web3.eth.Contract(ubidaiABI, this.props.address);
@@ -209,7 +209,7 @@ export default class Vault extends Component {
   }
 
   render() {
-    const capitalization = `${i18n.t('vault-capitalization')}: ${getBalanceLabel(this.state.totalAssets, 18, '0,0.[00]')} ${this.props.symbol}}`;
+    const capitalization = `${i18n.t('vault-capitalization')}: ${getBalanceLabel(this.state.totalAssets, 18, '0,0.[00]')} ${this.props.symbol}`;
     const prices = `${i18n.t('market-prices')}: ${getBalanceLabel(this.state.DAIPrice, 8, '0,0.0000')} ${this.props.fiat} per ${this.props.symbol}`;
     const assets = `${i18n.t('your-share')}: ${getBalanceLabel(this.state.balanceOf, 18, '0,0.[00]')} Shares`;
     const percentage = new BigNumber(this.state.totalAssets).multipliedBy(100).dividedBy(this.state.depositLimit);
@@ -296,7 +296,7 @@ export default class Vault extends Component {
               icon={price} iconActive={priceActive}
             >
               <Contract hidden={false} view={routerView.PROPOSAL} href={`${config.web.explorer.replace('{{publicAddress}}', this.props.address)}`}>
-                <Parameter label={i18n.t('dai-price')}>
+                <Parameter label={`${this.props.symbol} ${i18n.t('price')}`}>
                   <Token quantity={this.state.DAIPrice} displayDecimals={true} symbol={this.props.fiat} decimals={'8'} />
                 </Parameter>
                 <Parameter label={i18n.t('price-per-share')}>
