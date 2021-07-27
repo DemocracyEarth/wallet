@@ -70,10 +70,11 @@ export default class Wallet extends Component {
   }
 
   async componentDidUpdate(prevProps) {
+    console.log(`this.props.contractAddress: ${this.props.contractAddress}`);
     if (this.web3 !== null) {
       this.token = await new this.web3.eth.Contract(ERC20abi, this.props.tokenAddress);
       this.vault = await new this.web3.eth.Contract(ubidaiABI, this.props.contractAddress);
-      if (this.props.accountAddress !== prevProps.accountAddress) {
+      if (this.props.accountAddress !== prevProps.accountAddress || this.props.contractAddress !== prevProps.contractAddress) {
         await this.checkAllowance();
       }
     }
