@@ -165,7 +165,7 @@ const Layout = (props) => {
           </div>
           <div id="alternative-feed" className="split split-right split-landing">
             <Ledger 
-              address={"0xE721D77FB3D680de95aF510D79c24E839308352B"} 
+              address={vaultData.address}
               view={view} 
               proposalId={proposalId} 
               first={25} 
