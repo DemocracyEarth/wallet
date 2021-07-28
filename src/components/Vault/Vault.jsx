@@ -26,8 +26,6 @@ import logo from 'images/logo.png';
 
 import 'styles/Dapp.css';
 
-import { daiPriceABI, daiPriceOracle, daiAddress } from 'components/Vault/chainlink-daiprice-abi.js';
-import { ubidaiABI } from 'components/Vault/ubidai-abi.js';
 import { getBalanceLabel } from 'components/Token/Token';
 
 import BigNumber from 'bignumber.js/bignumber';
@@ -63,6 +61,7 @@ export default class Vault extends Component {
     vaultTicker: PropTypes.string,
     fiat: PropTypes.string,
     oracleABI: PropTypes.arrayOf(PropTypes.node),
+    vaultABI: PropTypes.arrayOf(PropTypes.node),
     decimals: PropTypes.string,
     fiatDecimals: PropTypes.string,
   }
@@ -78,7 +77,7 @@ export default class Vault extends Component {
       lockedProfit: '',
       balanceOf: '',
       pricePerShare: '',
-      DAIPrice: '',
+      oraclePrice: '',
       sharesValue: '',
       deprecatedBalance: '',
       displayDeprecatedVault: false
@@ -93,7 +92,7 @@ export default class Vault extends Component {
     this.getAvailableDepositLimit = this.getAvailableDepositLimit.bind(this);
     this.getBalanceOf = this.getBalanceOf.bind(this);
     this.getPricePerShare = this.getPricePerShare.bind(this);
-    this.getDAIPrice = this.getDAIPrice.bind(this);
+    this.getOraclePrice = this.getOraclePrice.bind(this);
     this.getDeprecatedBalance = this.getDeprecatedBalance.bind(this);
     this.withdrawDeprecated = this.withdrawDeprecated.bind(this);
   }
@@ -112,9 +111,9 @@ export default class Vault extends Component {
   async refresh() {
     if (this.web3 !== null) {
       this.priceFeed = await new this.web3.eth.Contract(this.props.oracleABI, this.props.oracle);
-      await this.getDAIPrice();
+      await this.getOraclePrice();
 
-      this.vault = await new this.web3.eth.Contract(ubidaiABI, this.props.address);
+      this.vault = await new this.web3.eth.Contract(this.props.vaultABI, this.props.address);
       await this.getDepositLimit();
       await this.getTotalAssets();
       await this.getLockedProfit();
@@ -123,7 +122,7 @@ export default class Vault extends Component {
       await this.getPricePerShare();
 
       if (this.props.deprecated) {
-        this.deprecatedVault = await new this.accountWeb3.eth.Contract(ubidaiABI, this.props.deprecated);
+        this.deprecatedVault = await new this.accountWeb3.eth.Contract(this.props.vaultABI, this.props.deprecated);
         await this.getDeprecatedBalance();
       }
 
@@ -133,9 +132,9 @@ export default class Vault extends Component {
     }
   }
 
-  async getDAIPrice() {
+  async getOraclePrice() {
     this.setState({
-      DAIPrice: await this.priceFeed.methods.latestAnswer().call({}, response)
+      oraclePrice: await this.priceFeed.methods.latestAnswer().call({}, response)
     });
   }
 
@@ -210,7 +209,7 @@ export default class Vault extends Component {
 
   render() {
     const capitalization = `${i18n.t('vault-capitalization')}: ${getBalanceLabel(this.state.totalAssets, 18, '0,0.[00]')} ${this.props.symbol}`;
-    const prices = `${i18n.t('market-prices')}: ${getBalanceLabel(this.state.DAIPrice, 8, '0,0.0000')} ${this.props.fiat} per ${this.props.symbol}`;
+    const prices = `${i18n.t('market-prices')}: ${getBalanceLabel(this.state.oraclePrice, 8, '0,0.0000')} ${this.props.fiat} per ${this.props.symbol}`;
     const assets = `${i18n.t('your-share')}: ${getBalanceLabel(this.state.balanceOf, 18, '0,0.[00]')} Shares`;
     const percentage = new BigNumber(this.state.totalAssets).multipliedBy(100).dividedBy(this.state.depositLimit);
 
@@ -297,7 +296,7 @@ export default class Vault extends Component {
             >
               <Contract hidden={false} view={routerView.PROPOSAL} href={`${config.web.explorer.replace('{{publicAddress}}', this.props.address)}`}>
                 <Parameter label={`${this.props.symbol} ${i18n.t('price')}`}>
-                  <Token quantity={this.state.DAIPrice} displayDecimals={true} symbol={this.props.fiat} decimals={'8'} />
+                  <Token quantity={this.state.oraclePrice} displayDecimals={true} symbol={this.props.fiat} decimals={'8'} />
                 </Parameter>
                 <Parameter label={i18n.t('price-per-share')}>
                   <Token quantity={this.state.pricePerShare} displayDecimals={true} symbol={this.props.fiat} decimals={'18'} />
@@ -319,7 +318,7 @@ export default class Vault extends Component {
             tokenAddress={this.props.token}
             contractAddress={this.props.address}
             accountAddress={this.props.account}
-            abi={ubidaiABI}
+            abi={this.props.vaultABI}
             refresh={() => { this.refresh(); }}
           />
         </div>

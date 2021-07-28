@@ -13,6 +13,8 @@ import DocumentMeta from 'react-document-meta';
 
 import { daiPriceABI, daiPriceOracle, daiAddress } from 'components/Vault/chainlink-daiprice-abi.js';
 import { wethPriceABI, wethPriceOracle, wethAddress } from 'components/Vault/chainlink-wethprice-abi.js';
+import { ubidaiABI } from 'components/Vault/ubidai-abi.js';
+import { ubiwethABI } from 'components/Vault/ubiweth-abi.js';
 
 import { find } from 'lodash';
 
@@ -43,6 +45,7 @@ const vaultList = [
     description: i18n.t('ubi-dai-description'),
     link: 'https://youtu.be/6008FYXc3IU',
     vaultTicker: i18n.t('ticker-ubidai'),
+    vaultABI: ubidaiABI,
     token: daiAddress,
     symbol: 'DAI',
     oracle: daiPriceOracle,
@@ -65,7 +68,8 @@ const vaultList = [
     oracleABI: wethPriceABI,
     fiat: 'USD',
     decimals: '18',
-    fiatDecimals: '8'
+    fiatDecimals: '8',
+    vaultABI: ubiwethABI,
   },
 ];
 
@@ -186,6 +190,7 @@ const Layout = (props) => {
                   vaultTicker={vaultData.vaultTicker}
                   decimals={vaultData.decimals}
                   fiatDecimals={vaultData.fiatDecimals}
+                  vaultABI={vaultData.vaultABI}
                 />
               </div>
             </div>
