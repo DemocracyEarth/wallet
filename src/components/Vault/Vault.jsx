@@ -105,14 +105,14 @@ export default class Vault extends Component {
   async shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.account !== this.props.account || nextProps.address !== this.props.address) {
       this.web3 = new Web3(getProvider());
+      await this.getOraclePrice(nextProps);
       await this.refresh();
     }
   }
 
   async refresh() {
     if (this.web3 !== null) {
-      await this.getOraclePrice();
-
+      
       this.vault = await new this.web3.eth.Contract(this.props.vaultABI, this.props.address);
       await this.getDepositLimit();
       await this.getTotalAssets();
@@ -143,8 +143,8 @@ export default class Vault extends Component {
     });
   }
 
-  async getOraclePrice() {
-    this.priceFeed = await new this.web3.eth.Contract(this.props.oracleABI, this.props.oracle);
+  async getOraclePrice(nextProps) {
+    this.priceFeed = await new this.web3.eth.Contract(nextProps.oracleABI, nextProps.oracle);
     this.setState({
       oraclePrice: await this.priceFeed.methods.latestAnswer().call({}, response)
     });
