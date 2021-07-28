@@ -124,10 +124,7 @@ const Layout = (props) => {
     view = routerView.SEARCH;
     description = i18n.t('meta-search', { search });
   } else if (vault) {
-    vaultData = find(vaultList, { path: vault })
-    console.log('------vault data-----')
-    console.log(vaultData);
-    console.log(vault);
+    vaultData = find(vaultList, { path: vault });
   }
 
   const meta = {
@@ -186,10 +183,10 @@ const Layout = (props) => {
                   description={vaultData.description}
                   link={vaultData.link}
                   token={vaultData.token}
+                  symbol={vaultData.symbol}
                   decimals={vaultData.decimals}
                   oracle={vaultData.oracle}
                   oracleABI={vaultData.oracleABI}
-                  symbol={vaultData.symbol}
                   fiat={vaultData.fiat}
                   fiatDecimals={vaultData.fiatDecimals}
                 />
@@ -199,6 +196,7 @@ const Layout = (props) => {
           <div id="alternative-feed" className="split split-right split-landing">
             <Ledger 
               address={vaultData.address}
+              symbol={vaultData.symbol}
               view={view} 
               proposalId={proposalId} 
               first={25} 

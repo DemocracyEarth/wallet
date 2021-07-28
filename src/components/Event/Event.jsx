@@ -41,6 +41,7 @@ export default class Event extends Component {
     address: PropTypes.string,
     first: PropTypes.number,
     skip: PropTypes.number,
+    symbol: PropTypes.string,
     orderBy: PropTypes.string,
     orderDirection: PropTypes.string,
     view: PropTypes.string,
@@ -58,22 +59,37 @@ export default class Event extends Component {
     this.getFeed = this.getFeed.bind(this);
   }
 
+
+  async shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.address !== this.props.address) {
+      await this.refresh(nextProps.address);
+    }
+  }
+
   async componentDidMount() {
     if (this.web3 !== null) {
-      this.vault = await new this.web3.eth.Contract(ubidaiABI, this.props.address);
-
-      await this.getFeed();
-
-      this.setState({
-        loading: false
-      });
+      await this.refresh(this.props.address);
     }
+  }
+
+  async refresh(address) {
+    this.vault = await new this.web3.eth.Contract(ubidaiABI, address);
+
+    await this.getFeed();
+    
+    this.setState({
+      loading: false
+    });
   }
 
   async getFeed() {
     const log = [];
+
+    const currentBlock = await this.web3.eth.getBlockNumber();
+    console.log(`currentBlock: ${currentBlock}`);
+
     await this.vault.events.allEvents({
-      fromBlock: 0,
+      fromBlock: parseInt(currentBlock - 100000),
       toBlock: 'latest'
     }, async (error, tx) => {
       if (error) {
@@ -148,13 +164,13 @@ export default class Event extends Component {
                 </div>
               </div>
               {(post.returnValues.sender !== zeroAddress && post.returnValues.sender !== post.address && post.returnValues.receiver === "0x0000000000000000000000000000000000000000") ?
-                <Transaction kind={defaults.WITHDRAW} quantity={`${getBalanceLabel(post.returnValues.value, 18, '0,0.[000]')}`} />
+                <Transaction kind={defaults.WITHDRAW} quantity={`${getBalanceLabel(post.returnValues.value, 18, '0,0.[000]')}`} symbol={this.props.symbol} />
                 :
                 <>
                   {(post.returnValues.receiver !== zeroAddress && post.returnValues.receiver !== post.address && post.returnValues.sender === "0x0000000000000000000000000000000000000000") ?
-                    <Transaction kind={defaults.DEPOSIT} quantity={`${getBalanceLabel(post.returnValues.value, 18, '0,0.[000]')}`} />
+                    <Transaction kind={defaults.DEPOSIT} quantity={`${getBalanceLabel(post.returnValues.value, 18, '0,0.[000]')}`} symbol={this.props.symbol} />
                     :
-                    <Transaction kind={defaults.BURN} quantity={`${getBalanceLabel(post.returnValues.value, 18, '0,0.[0000]')}`} />
+                    <Transaction kind={defaults.BURN} quantity={`${getBalanceLabel(post.returnValues.value, 18, '0,0.[0000]')}`} symbol={this.props.symbol} />
                   }
                 </>
               }

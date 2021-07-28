@@ -43,19 +43,19 @@ export default class Transaction extends Component {
       case defaults.DEPOSIT:
         return (
           <div href={this.props.kind} className="transaction-action transaction-action-passed">
-            {parser(i18n.t(`vault-${this.props.kind.toLowerCase()}`, { quantity: numeral(this.props.quantity).format('0,0.[00]'), label, proposal: title }))}
+            {parser(i18n.t(`vault-${this.props.kind.toLowerCase()}`, { quantity: numeral(this.props.quantity).format('0,0.[00]'), label, proposal: title, symbol: this.props.symbol }))}
           </div>
         );
       case defaults.WITHDRAW:
         return (
           <div href={this.props.kind} className="transaction-action transaction-action-rejected">
-            {parser(i18n.t(`vault-${this.props.kind.toLowerCase()}`, { quantity: numeral(this.props.quantity).format('0,0.[00]'), label, proposal: title }))}
+            {parser(i18n.t(`vault-${this.props.kind.toLowerCase()}`, { quantity: numeral(this.props.quantity).format('0,0.[00]'), label, proposal: title, symbol: this.props.symbol }))}
           </div>
         );
       case defaults.BURN:
         return (
           <div href={this.props.kind} className="transaction-action transaction-action-burn">
-            {parser(i18n.t(`vault-${this.props.kind.toLowerCase()}`, { quantity: numeral(this.props.quantity).format('0,0.[000]'), label, proposal: title }))}
+            {parser(i18n.t(`vault-${this.props.kind.toLowerCase()}`, { quantity: numeral(this.props.quantity).format('0,0.[000]'), label, proposal: title, symbol: this.props.symbol }))}
           </div>
         );
         default:
@@ -75,6 +75,7 @@ Transaction.propTypes = {
   uintVote: PropTypes.number,
   kind: PropTypes.string,
   quantity: PropTypes.string,
+  symbol: PropTypes.string,
   description: PropTypes.string,
 };
 

@@ -26,6 +26,7 @@ export default class Ledger extends Component {
     address: PropTypes.string,
     view: PropTypes.string,
     proposalId: PropTypes.string,
+    symbol: PropTypes.string,
     first: PropTypes.number,
     skip: PropTypes.number,
     children: PropTypes.oneOfType([
@@ -87,6 +88,7 @@ export default class Ledger extends Component {
           <div className="ledger-wrapper">
             {/*<Vote address={this.props.address} view={this.props.view} proposalId={this.props.proposalId} first={this.props.first} skip={this.props.skip} orderBy={'createdAt'} orderDirection={'desc'} />*/}
             <Event 
+              symbol={this.props.symbol}
               address={this.props.address} 
               view={this.props.view} 
               proposalId={this.props.proposalId} 
