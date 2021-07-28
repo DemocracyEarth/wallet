@@ -80,7 +80,11 @@ export default class Vault extends Component {
       oraclePrice: '',
       sharesValue: '',
       deprecatedBalance: '',
-      displayDeprecatedVault: false
+      displayDeprecatedVault: false,
+      capitalization: '',
+      prices: '',
+      assets: '',
+      percentage: ''
     }
 
     this.web3 = new Web3(getProvider());
@@ -95,23 +99,23 @@ export default class Vault extends Component {
     this.getOraclePrice = this.getOraclePrice.bind(this);
     this.getDeprecatedBalance = this.getDeprecatedBalance.bind(this);
     this.withdrawDeprecated = this.withdrawDeprecated.bind(this);
-  }
-
-  async componentDidMount() {
-    await this.refresh();
+    this.setLabels = this.setLabels.bind(this);
   }
 
   async shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.account !== this.props.account || nextProps.address !== this.props.address) {
       this.web3 = new Web3(getProvider());
-      await this.refresh();
+      console.log('shouldComponentUpdate()');
+      console.log(`nextProps.address: ${nextProps.address}`);
+      console.log(`this.props.address: ${this.props.address}`);
+      await this.refresh(nextProps);
     }
   }
 
-  async refresh() {
+  async refresh(nextProps) {
     if (this.web3 !== null) {
-      this.priceFeed = await new this.web3.eth.Contract(this.props.oracleABI, this.props.oracle);
-      await this.getOraclePrice();
+      await this.getOraclePrice(nextProps);
+      await this.setLabels();
 
       this.vault = await new this.web3.eth.Contract(this.props.vaultABI, this.props.address);
       await this.getDepositLimit();
@@ -132,7 +136,19 @@ export default class Vault extends Component {
     }
   }
 
-  async getOraclePrice() {
+  async setLabels() {
+    this.setState({
+      capitalization: `${i18n.t('vault-capitalization')}: ${getBalanceLabel(this.state.totalAssets, 18, '0,0.[00]')} ${this.props.symbol}`,
+      prices: `${i18n.t('market-prices')}: ${getBalanceLabel(this.state.oraclePrice, 8, '0,0.0000')} ${this.props.fiat} per ${this.props.symbol}`,
+      assets: `${i18n.t('your-share')}: ${getBalanceLabel(this.state.balanceOf, 18, '0,0.[00]')} Shares`,
+      percentage: new BigNumber(this.state.totalAssets).multipliedBy(100).dividedBy(this.state.depositLimit),
+    });
+  }
+
+  async getOraclePrice(nextProps) {
+    console.log(this.props.oracle);
+    console.log(this.props.title)
+    this.priceFeed = await new this.web3.eth.Contract(nextProps.oracleABI, nextProps.oracle);
     this.setState({
       oraclePrice: await this.priceFeed.methods.latestAnswer().call({}, response)
     });
@@ -208,11 +224,6 @@ export default class Vault extends Component {
   }
 
   render() {
-    const capitalization = `${i18n.t('vault-capitalization')}: ${getBalanceLabel(this.state.totalAssets, 18, '0,0.[00]')} ${this.props.symbol}`;
-    const prices = `${i18n.t('market-prices')}: ${getBalanceLabel(this.state.oraclePrice, 8, '0,0.0000')} ${this.props.fiat} per ${this.props.symbol}`;
-    const assets = `${i18n.t('your-share')}: ${getBalanceLabel(this.state.balanceOf, 18, '0,0.[00]')} Shares`;
-    const percentage = new BigNumber(this.state.totalAssets).multipliedBy(100).dividedBy(this.state.depositLimit);
-
     return (
       <div className="vote vote-search vote-feed nondraggable vote-poll">
         <div className="checkbox checkbox-custom">
@@ -258,7 +269,7 @@ export default class Vault extends Component {
             </div>
           </div>
           <div className="expanders">
-            <Expand url={'/'} label={capitalization} open={true}
+            <Expand url={'/'} label={this.state.capitalization} open={true}
               icon={capital} iconActive={capitalActive}
             >
               <Contract hidden={false} view={routerView.PROPOSAL} href={`${config.web.explorer.replace('{{publicAddress}}', this.props.address)}`}>
@@ -275,11 +286,11 @@ export default class Vault extends Component {
                   <Token quantity={this.state.lockedProfit} publicAddress={this.props.token} symbol={this.props.symbol} decimals={'18'} />
                 </Parameter>
                 <Parameter label={i18n.t('vault-capacity')} fullWidth>
-                  <ProgressBar percentage={percentage.toString()} />
+                  <ProgressBar percentage={this.state.percentage.toString()} />
                 </Parameter>
               </Contract>
             </Expand>
-            <Expand url={'/'} label={assets} open={false}
+            <Expand url={'/'} label={this.state.assets} open={false}
               icon={share} iconActive={shareActive}
             >
               <Contract hidden={false} view={routerView.PROPOSAL} href={`${config.web.explorer.replace('{{publicAddress}}', this.props.address)}`}>
@@ -291,7 +302,7 @@ export default class Vault extends Component {
                 </Parameter>
               </Contract>
             </Expand>
-            <Expand url={'/'} label={prices} open={false}
+            <Expand url={'/'} label={this.state.prices} open={false}
               icon={price} iconActive={priceActive}
             >
               <Contract hidden={false} view={routerView.PROPOSAL} href={`${config.web.explorer.replace('{{publicAddress}}', this.props.address)}`}>

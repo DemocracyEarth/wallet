@@ -125,6 +125,7 @@ const Layout = (props) => {
     description = i18n.t('meta-search', { search });
   } else if (vault) {
     vaultData = find(vaultList, { path: vault })
+    console.log('------vault data-----')
     console.log(vaultData);
     console.log(vault);
   }
@@ -175,6 +176,8 @@ const Layout = (props) => {
                 {/*<Timeline address={renderAddress} period={periodEpoch} view={view} proposalId={proposalId} param={param}
                   field={'memberAddress'} first={25} skip={0} page={1} orderBy={'createdAt'} orderDirection={'desc'} />*/}
                 <Vault
+                  vaultTicker={vaultData.vaultTicker}
+                  vaultABI={vaultData.vaultABI}
                   account={props.address} 
                   address={vaultData.address}
                   strategy={vaultData.strategy}
@@ -183,14 +186,12 @@ const Layout = (props) => {
                   description={vaultData.description}
                   link={vaultData.link}
                   token={vaultData.token}
+                  decimals={vaultData.decimals}
                   oracle={vaultData.oracle}
                   oracleABI={vaultData.oracleABI}
                   symbol={vaultData.symbol}
                   fiat={vaultData.fiat}
-                  vaultTicker={vaultData.vaultTicker}
-                  decimals={vaultData.decimals}
                   fiatDecimals={vaultData.fiatDecimals}
-                  vaultABI={vaultData.vaultABI}
                 />
               </div>
             </div>

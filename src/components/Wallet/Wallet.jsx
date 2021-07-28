@@ -183,10 +183,10 @@ export default class Wallet extends Component {
               <InputAdornment position="start">
                 {(this.props.tokenAddress && imageExists) ?
                   <>
-                    <img className="token-icon" src={image} alt="" />DAI
+                    <img className="token-icon" src={image} alt="" />{this.props.symbol}
                   </>
                   :
-                  "DAI"
+                  this.props.symbol
                 }
               </InputAdornment>}
             labelWidth={60}
