@@ -9,7 +9,6 @@ import {
 import Browser from 'components/Browser/Browser';
 import Layout from 'components/Layout/Layout';
 import Modal from 'components/Modal/Modal';
-import ProposalLauncher from 'components/ProposalLauncher/ProposalLauncher';
 
 // wallets
 import Web3Modal from 'web3modal';
@@ -17,7 +16,7 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 import Portis from '@portis/web3';
 
 // settings
-import { defaults, zeroAddress } from 'lib/const';
+import { zeroAddress } from 'lib/const';
 import { config } from 'config'
 
 import GA from 'utils/Analytics'
@@ -95,6 +94,9 @@ const routes = [
   {
     path: '/search/:search',
   },
+  {
+    path: '/vault/:vault',
+  }
 ];
 
 export const ConnectedAccount = React.createContext('');
@@ -254,11 +256,6 @@ export default class Dapp extends Component {
                   <>
                     {(this.state.showModal) ?
                       <Modal visible={this.state.showModal} modal={window.modal} mode={window.modal.mode}/>
-                      :
-                      null
-                    }
-                    {this.state.showProposalLauncher ?
-                      <ProposalLauncher visible={this.state.showProposalLauncher} accountAddress={this.state.address} address={window.proposalLauncher.address}/>
                       :
                       null
                     }
