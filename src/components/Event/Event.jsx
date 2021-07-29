@@ -87,7 +87,7 @@ export default class Event extends Component {
     const currentBlock = await this.web3.eth.getBlockNumber();
 
     await this.vault.events.allEvents({
-      fromBlock: parseInt(currentBlock - 100000),
+      fromBlock: parseInt(currentBlock - 100000, 10),
       toBlock: 'latest'
     }, async (error, tx) => {
       if (error) {

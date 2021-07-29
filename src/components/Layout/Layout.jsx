@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-import Menu from 'components/Menu/Menu';
-import Timeline from 'components/Timeline/Timeline';
 import Ledger from 'components/Ledger/Ledger';
 import List from 'components/List/List';
 import Burger from 'components/Menu/Burger';
@@ -78,13 +76,12 @@ const vaultList = [
 */
 const Layout = (props) => {
   const { dao, address, period, proposal, token, date, search, vault } = useParams();
-  const searchParams = new URLSearchParams(useLocation().search);
+  // const searchParams = new URLSearchParams(useLocation().search);
 
   // defaults
   let view = routerView.HOME;
   let renderAddress = props.address;
   let proposalId = '';
-  let periodEpoch = '';
   let param = '';
 
   // context specific
@@ -92,17 +89,17 @@ const Layout = (props) => {
   let vaultData;
 
   if (dao) {
-    periodEpoch = searchParams.get('period');
+    // periodEpoch = searchParams.get('period');
     renderAddress = dao; 
     view = routerView.DAO;
     description = i18n.t('meta-dao', { address: dao });
   } else if (address) { 
-    periodEpoch = searchParams.get('period');
+    // periodEpoch = searchParams.get('period');
     renderAddress = address;
     view = routerView.ADDRESS;
     description = i18n.t('meta-address', { address });
   } else if (period) { 
-    periodEpoch = period;
+    // periodEpoch = period;
     view = routerView.PERIOD;
     description = i18n.t('meta-period', { period }).charAt(0).toUpperCase() + i18n.t('meta-period', { period }).slice(1); ;
   } else if (proposal) {
@@ -110,12 +107,12 @@ const Layout = (props) => {
     view = routerView.PROPOSAL;
     description = i18n.t('meta-proposal', { proposal });
   } else if (token) {
-    periodEpoch = searchParams.get('period');
+    // periodEpoch = searchParams.get('period');
     param = token.toUpperCase();
     view = routerView.TOKEN;
     description = i18n.t('meta-token', { token: token.toUpperCase() });
   } else if (date) {
-    periodEpoch = searchParams.get('period');
+    // periodEpoch = searchParams.get('period');
     param = date;
     view = routerView.DATE;
     description = i18n.t('meta-date', { date });

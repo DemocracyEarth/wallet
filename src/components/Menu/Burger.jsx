@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import List from 'components/List/List';
-import Menu from 'components/Menu/Menu';
 
 import 'styles/Dapp.css';
 

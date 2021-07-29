@@ -34,7 +34,6 @@ import i18n from 'i18n';
 import { getProvider } from 'lib/web3';
 
 const Web3 = require('web3');
-const numeral = require('numeral');
 
 
 const response = (err, res) => {
@@ -60,8 +59,8 @@ export default class Vault extends Component {
     symbol: PropTypes.string,
     vaultTicker: PropTypes.string,
     fiat: PropTypes.string,
-    oracleABI: PropTypes.arrayOf(PropTypes.node),
-    vaultABI: PropTypes.arrayOf(PropTypes.node),
+    oracleABI: PropTypes.arrayOf(PropTypes.object),
+    vaultABI: PropTypes.arrayOf(PropTypes.object),
     decimals: PropTypes.string,
     fiatDecimals: PropTypes.string,
   }

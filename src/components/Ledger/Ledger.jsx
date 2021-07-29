@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import i18n from 'i18n';
 import { view } from 'lib/const';
 
-import Vote from 'components/Vote/Vote';
 import Event from 'components/Event/Event';
 
 import 'styles/Dapp.css';
