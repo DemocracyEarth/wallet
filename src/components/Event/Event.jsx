@@ -84,9 +84,7 @@ export default class Event extends Component {
 
   async getFeed() {
     const log = [];
-
     const currentBlock = await this.web3.eth.getBlockNumber();
-    console.log(`currentBlock: ${currentBlock}`);
 
     await this.vault.events.allEvents({
       fromBlock: parseInt(currentBlock - 100000),

@@ -125,6 +125,8 @@ const Layout = (props) => {
     description = i18n.t('meta-search', { search });
   } else if (vault) {
     vaultData = find(vaultList, { path: vault });
+  } else {
+    vaultData = vaultList[0];
   }
 
   const meta = {
