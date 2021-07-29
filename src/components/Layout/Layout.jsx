@@ -121,8 +121,10 @@ const Layout = (props) => {
     view = routerView.SEARCH;
     description = i18n.t('meta-search', { search });
   } else if (vault) {
+    console.log(`vault: ${vault}`);
     vaultData = find(vaultList, { path: vault });
   } else {
+    console.log(`ordinary`);
     vaultData = vaultList[0];
   }
 
