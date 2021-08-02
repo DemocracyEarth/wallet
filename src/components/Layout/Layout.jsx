@@ -36,9 +36,9 @@ import 'styles/Dapp.css';
 const vaultList = [
   {
     path: 'ubi-dai',
-    address: '0xE721D77FB3D680de95aF510D79c24E839308352B',
-    strategy: '0xf2eefca91a179c5Eb38CaA0Ea2BCB79ad1E46A79',
-    deprecated: '0x8EBd041213218953109724e60c9cE91B57887288',
+    address: '0xdf5110ef6bc751cbaf76d35b8a3f312b581b5173',
+    strategy: '0x137f79e5a16BcF14d6a54d1d4CEdB00B8CE65838', // previous strategy: '0xf2eefca91a179c5Eb38CaA0Ea2BCB79ad1E46A79',
+    deprecated: '0xE721D77FB3D680de95aF510D79c24E839308352B',
     title: i18n.t('ubi-dai-title'),
     description: i18n.t('ubi-dai-description'),
     link: 'https://youtu.be/6008FYXc3IU',
@@ -55,7 +55,8 @@ const vaultList = [
   {
     path: 'ubi-weth',
     address: '0x2147935d9739da4e691b8ae2e1437492a394ebf5',
-    strategy: '0xf2eefca91a179c5Eb38CaA0Ea2BCB79ad1E46A79',
+    strategy: '0x674cbf69d8680b183122de955F937eF287bAf218',
+    deprecated: '',
     title: i18n.t('ubi-weth-title'),
     description: i18n.t('ubi-weth-description'),
     link: 'https://youtu.be/6008FYXc3IU',
@@ -125,7 +126,7 @@ const Layout = (props) => {
     vaultData = find(vaultList, { path: vault });
   } else {
     console.log(`ordinary`);
-    vaultData = vaultList[0];
+    vaultData = vaultList[1];
   }
 
   const meta = {

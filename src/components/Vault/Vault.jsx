@@ -129,6 +129,8 @@ export default class Vault extends Component {
       if (this.props.deprecated) {
         this.deprecatedVault = await new this.accountWeb3.eth.Contract(this.props.vaultABI, this.props.deprecated);
         await this.getDeprecatedBalance();
+      } else {
+        this.setState({ displayDeprecatedVault: false });
       }
 
       this.setState({
@@ -186,11 +188,16 @@ export default class Vault extends Component {
   }
 
   async getDeprecatedBalance() {
-    const deprecatedBalance = await this.deprecatedVault.methods.balanceOf(this.props.account).call({}, response);
-    this.setState({
-      deprecatedBalance,
-      displayDeprecatedVault: new BigNumber(deprecatedBalance).isGreaterThan(0)
-    });
+    console.log(`this.props.deprecated: ${this.props.deprecated}`)
+    if (!this.props.deprecated || this.props.deprecated === '') {
+      this.setState({ displayDeprecatedVault: false });
+    } else {
+      const deprecatedBalance = await this.deprecatedVault.methods.balanceOf(this.props.account).call({}, response);
+      this.setState({
+        deprecatedBalance,
+        displayDeprecatedVault: new BigNumber(deprecatedBalance).isGreaterThan(0)
+      });
+    }
   }
 
   async getPricePerShare() {
