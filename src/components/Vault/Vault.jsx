@@ -35,7 +35,7 @@ import i18n from 'i18n';
 import { getProvider } from 'lib/web3';
 
 const Web3 = require('web3');
-
+const numeral = require('numeral');
 
 const response = (err, res) => {
   if (err) {
@@ -124,6 +124,7 @@ export default class Vault extends Component {
       await this.getAvailableDepositLimit();
       await this.getBalanceOf();
       await this.getPricePerShare();
+      this.getSharesValue();
 
       if (this.props.deprecated) {
         const provider = await detectEthereumProvider();
@@ -135,10 +136,6 @@ export default class Vault extends Component {
       } else {
         this.setState({ displayDeprecatedVault: false });
       }
-
-      this.setState({
-        sharesValue: new BigNumber(this.state.balanceOf).dividedBy(Math.pow(10, 18)).multipliedBy(this.state.pricePerShare).toString()
-      });
 
       await this.setLabels();
     }
@@ -155,8 +152,22 @@ export default class Vault extends Component {
 
   async getOraclePrice(nextProps) {
     this.priceFeed = await new this.web3.eth.Contract(nextProps.oracleABI, nextProps.oracle);
+    const oraclePrice = await this.priceFeed.methods.latestAnswer().call({}, response);
+    console.log(`oraclePrice: ${oraclePrice}`);
+    console.log(`this.state.balanceOf: ${this.state.balanceOf}`)
+
     this.setState({
-      oraclePrice: await this.priceFeed.methods.latestAnswer().call({}, response)
+      oraclePrice, 
+    });
+  }
+
+  getSharesValue() {
+    const oracle = new BigNumber(this.state.oraclePrice).dividedBy(Math.pow(10, 8));
+    const shares = new BigNumber(this.state.balanceOf).dividedBy(Math.pow(10, 18));
+    const sharesValue = numeral(oracle.multipliedBy(shares).toNumber()).format('0,0.00');
+    console.log(`sharesValue: ${sharesValue}`);
+    this.setState({
+      sharesValue,
     });
   }
 
@@ -299,7 +310,7 @@ export default class Vault extends Component {
                 </Parameter>
               </Contract>
             </Expand>
-            <Expand url={'/'} label={this.state.assets} open={false}
+            <Expand url={'/'} label={this.state.assets} open={true}
               icon={share} iconActive={shareActive}
             >
               <Contract hidden={false} view={routerView.PROPOSAL} href={`${config.web.explorer.replace('{{publicAddress}}', this.props.address)}`}>
@@ -307,19 +318,7 @@ export default class Vault extends Component {
                   <Token quantity={this.state.balanceOf} symbol={this.props.vaultTicker} decimals={'18'} />
                 </Parameter>
                 <Parameter label={i18n.t('shares-value')}>
-                  <Token quantity={this.state.sharesValue} symbol={this.props.fiat} decimals={'18'} />
-                </Parameter>
-              </Contract>
-            </Expand>
-            <Expand url={'/'} label={this.state.prices} open={false}
-              icon={price} iconActive={priceActive}
-            >
-              <Contract hidden={false} view={routerView.PROPOSAL} href={`${config.web.explorer.replace('{{publicAddress}}', this.props.address)}`}>
-                <Parameter label={`${this.props.symbol} ${i18n.t('price')}`}>
-                  <Token quantity={this.state.oraclePrice} displayDecimals={true} symbol={this.props.fiat} decimals={'8'} />
-                </Parameter>
-                <Parameter label={i18n.t('price-per-share')}>
-                  <Token quantity={this.state.pricePerShare} displayDecimals={true} symbol={this.props.fiat} decimals={'18'} />
+                  <Token quantity={this.state.sharesValue} symbol={this.props.fiat} noFormatting={true} />
                 </Parameter>
               </Contract>
             </Expand>

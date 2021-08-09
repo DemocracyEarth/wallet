@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { shortenCryptoName } from 'utils/strings';
-import Account from 'components/Account/Account';
 import Human from 'components/Human/Human';
 import Stamp from 'components/Stamp/Stamp';
 import Transaction from 'components/Transaction/Transaction';
