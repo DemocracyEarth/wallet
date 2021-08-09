@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { getProvider } from 'lib/web3';
 import { shortenCryptoName } from 'utils/strings';
 import { config } from 'config';
@@ -79,9 +78,9 @@ export default class Human extends Component {
         <div className="avatar-editor">
           <img src={this.state.image} className={`symbol profile-pic human`} alt="" style={{ width: this.state.finalWidth, height: this.state.finalHeight }} />
           {(this.props.format === 'plainText') ?
-            <Link to={this.state.url} title={this.props.publicAddress} onClick={(e) => { e.stopPropagation(); }}>
+            <a href={this.state.url} title={this.props.publicAddress} onClick={(e) => { e.stopPropagation(); }}>
               {this.state.label}
-            </Link>
+            </a>
             :
             <div className="identity-peer">
               {(this.state.url.match('http')) ?
@@ -89,9 +88,9 @@ export default class Human extends Component {
                   {this.state.label}
                 </a>
                 :
-                <Link to={this.state.url} title={this.props.publicAddress} className="identity-label identity-label-micro" onClick={(e) => { e.stopPropagation(); }}>
+                <a href={this.state.url} target="_blank" rel="noopener noreferrer" title={this.props.publicAddress} className="identity-label identity-label-micro" onClick={(e) => { e.stopPropagation(); }}>
                   {this.state.label}
-                </Link>
+                </a>
               }
             </div>
           }

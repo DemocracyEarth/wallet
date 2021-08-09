@@ -5121,6 +5121,9 @@ blockquote {
 
 .hero-menu-link.hero-menu-link-signin-simple a {
   color: white;
+  margin-left: 10px;
+  text-transform: none;
+  font-size: 14px;
 }
 
 .hero-menu-link.hero-menu-link-signin.hero-menu-link-signin-active {
