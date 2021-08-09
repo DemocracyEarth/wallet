@@ -64,7 +64,7 @@ export default class Wallet extends Component {
 
   async componentDidUpdate(prevProps) {
     const provider = await detectEthereumProvider();
-    if (provider.isConnected()) {
+    if (provider && provider.isConnected()) {
       this.web3 = new Web3(provider);
       this.token = await new this.web3.eth.Contract(ERC20abi, this.props.tokenAddress);
       this.vault = await new this.web3.eth.Contract(ubidaiABI, this.props.contractAddress);

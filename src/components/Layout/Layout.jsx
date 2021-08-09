@@ -22,22 +22,11 @@ import twitterCard from 'images/twitter-meta.png';
 
 import 'styles/Dapp.css';
 
-/*
-
-                  account={props.address}
-                  address="0xE721D77FB3D680de95aF510D79c24E839308352B"
-                  strategy="0xf2eefca91a179c5Eb38CaA0Ea2BCB79ad1E46A79"
-                  deprecated="0x8EBd041213218953109724e60c9cE91B57887288"
-                  title={i18n.t('ubi-dai-title')}
-                  description={i18n.t('ubi-dai-description')}
-                  link={'https://youtu.be/6008FYXc3IU'}
-*/
-
 const vaultList = [
   {
     path: 'ubi-dai',
     address: '0xdf5110ef6bc751cbaf76d35b8a3f312b581b5173',
-    strategy: '0x137f79e5a16BcF14d6a54d1d4CEdB00B8CE65838', // previous strategy: '0xf2eefca91a179c5Eb38CaA0Ea2BCB79ad1E46A79',
+    strategy: '0x137f79e5a16BcF14d6a54d1d4CEdB00B8CE65838',
     deprecated: '0xE721D77FB3D680de95aF510D79c24E839308352B',
     title: i18n.t('ubi-dai-title'),
     description: i18n.t('ubi-dai-description'),

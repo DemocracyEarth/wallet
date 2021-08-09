@@ -16,8 +16,6 @@ import Warning from 'components/Warning/Warning';
 import { walletError, awaitTransaction } from 'components/Choice/messages';
 import vault from 'images/vault.svg';
 import ethereum from 'images/ethereum.svg';
-import price from 'images/price.svg';
-import priceActive from 'images/price-active.svg';
 import share from 'images/share.svg';
 import shareActive from 'images/share-active.svg';
 import capital from 'images/coins.svg';
@@ -130,7 +128,7 @@ export default class Vault extends Component {
 
       if (this.props.deprecated) {
         const provider = await detectEthereumProvider();
-        if (provider.isConnected()) {
+        if (provider && provider.isConnected()) {
           this.accountWeb3 = new Web3(provider);
           this.deprecatedVault = await new this.accountWeb3.eth.Contract(this.props.vaultABI, this.props.deprecated);
           await this.getDeprecatedBalance();
@@ -155,9 +153,6 @@ export default class Vault extends Component {
   async getOraclePrice(nextProps) {
     this.priceFeed = await new this.web3.eth.Contract(nextProps.oracleABI, nextProps.oracle);
     const oraclePrice = await this.priceFeed.methods.latestAnswer().call({}, response);
-    console.log(`oraclePrice: ${oraclePrice}`);
-    console.log(`this.state.balanceOf: ${this.state.balanceOf}`)
-
     this.setState({
       oraclePrice, 
     });
@@ -167,7 +162,6 @@ export default class Vault extends Component {
     const oracle = new BigNumber(this.state.oraclePrice).dividedBy(Math.pow(10, 8));
     const shares = new BigNumber(this.state.balanceOf).dividedBy(Math.pow(10, 18));
     const sharesValue = numeral(oracle.multipliedBy(shares).toNumber()).format('0,0.00');
-    console.log(`sharesValue: ${sharesValue}`);
     this.setState({
       sharesValue,
     });
@@ -290,9 +284,9 @@ export default class Vault extends Component {
                       {this.parse(this.props.description)}
                       {
                         (this.state.showFullText) ?
-                          <a onClick={() => { this.setState({ showFullText: false })}}>{i18n.t('hide-full-text')}</a>
+                          <div className="read-more" onClick={() => { this.setState({ showFullText: false })}}>{i18n.t('hide-full-text')}</div>
                         :
-                          <a onClick={() => { this.setState({ showFullText: true }) }}>{i18n.t('show-full-text')}</a>
+                          <div className="read-more" onClick={() => { this.setState({ showFullText: true }) }}>{i18n.t('show-full-text')}</div>
                       }
                     </div>
                     :

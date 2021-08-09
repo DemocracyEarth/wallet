@@ -18,6 +18,7 @@
   --light-button-color:#e6e0ee;
   --warning-background-color: #fff39c;
   --warning-color: #ae9800;
+  --link-color: #ff617e;
 }
 
 @-webkit-keyframes preloader-content {
@@ -7814,6 +7815,17 @@ h4 {
 .date-info {
   display: block;
   float: right;
+}
+
+.read-more {
+  background-color: #FF6181;
+  color: white;
+  padding: 1px 8px;
+  border-radius: 7px;
+  font-size: 12px;
+  display: inline-block;
+  margin-bottom: 7px;
+  cursor: pointer;
 }
 
 .preview-info {
