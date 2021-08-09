@@ -84,6 +84,7 @@ export default class Vault extends Component {
       assets: '',
       percentage: '',
       showFullText: false,
+      web3Enabled: true,
     }
 
     this.web3 = new Web3(getProvider());
@@ -126,15 +127,17 @@ export default class Vault extends Component {
       await this.getPricePerShare();
       this.getSharesValue();
 
-      if (this.props.deprecated) {
-        const provider = await detectEthereumProvider();
-        if (provider && provider.isConnected()) {
+      const provider = await detectEthereumProvider();
+      if (provider && provider.isConnected()) {
+        if (this.props.deprecated) {
           this.accountWeb3 = new Web3(provider);
           this.deprecatedVault = await new this.accountWeb3.eth.Contract(this.props.vaultABI, this.props.deprecated);
           await this.getDeprecatedBalance();
+        } else {
+          this.setState({ displayDeprecatedVault: false });
         }
-      } else {
-        this.setState({ displayDeprecatedVault: false });
+      } else if (!provider) {
+        this.setState({ web3Enabled: false });
       }
 
       await this.setLabels();
@@ -325,18 +328,26 @@ export default class Vault extends Component {
                 </Parameter>
               </Contract>
             </Expand>
-            <Expand url={'/'} label={this.state.assets} open={true}
-              icon={share} iconActive={shareActive}
-            >
-              <Contract hidden={false} view={routerView.PROPOSAL} href={`${config.web.explorer.replace('{{publicAddress}}', this.props.address)}`}>
-                <Parameter label={i18n.t('vault-shares')}>
-                  <Token quantity={this.state.balanceOf} symbol={this.props.vaultTicker} decimals={'18'} />
-                </Parameter>
-                <Parameter label={i18n.t('shares-value')}>
-                  <Token quantity={this.state.sharesValue} symbol={this.props.fiat} noFormatting={true} />
-                </Parameter>
-              </Contract>
-            </Expand>
+            {(this.state.web3Enabled) ?
+              <Expand url={'/'} label={this.state.assets} open={true}
+                icon={share} iconActive={shareActive}
+              >
+                <Contract hidden={false} view={routerView.PROPOSAL} href={`${config.web.explorer.replace('{{publicAddress}}', this.props.address)}`}>
+                  <Parameter label={i18n.t('vault-shares')}>
+                    <Token quantity={this.state.balanceOf} symbol={this.props.vaultTicker} decimals={'18'} />
+                  </Parameter>
+                  <Parameter label={i18n.t('shares-value')}>
+                    <Token quantity={this.state.sharesValue} symbol={this.props.fiat} noFormatting={true} />
+                  </Parameter>
+                </Contract>
+              </Expand>
+              :
+              <Warning label={i18n.t('web3-not-found')}
+                hasCallToAction
+                callToActionLabel={'install-web3-wallet'}
+                callToAction={() => { this.withdrawDeprecated() }}
+              />
+            }
           </div>
           {(this.state.displayDeprecatedVault) ?
             <Warning label={i18n.t('vault-warning-ubi-dai', { balance: `${getBalanceLabel(this.state.deprecatedBalance, 18, '0,0.[00]')} ${this.props.vaultTicker}` })} 
@@ -347,14 +358,18 @@ export default class Vault extends Component {
           :
             null
           }
-          <Wallet 
-            symbol={this.props.symbol} 
-            tokenAddress={this.props.token}
-            contractAddress={this.props.address}
-            accountAddress={this.props.account}
-            abi={this.props.vaultABI}
-            refresh={() => { this.refresh(); }}
-          />
+          {(this.state.web3Enabled) ?
+            <Wallet 
+              symbol={this.props.symbol} 
+              tokenAddress={this.props.token}
+              contractAddress={this.props.address}
+              accountAddress={this.props.account}
+              abi={this.props.vaultABI}
+              refresh={() => { this.refresh(); }}
+            />
+            :
+            null
+          }
         </div>
       </div>
     );
