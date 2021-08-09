@@ -84,7 +84,8 @@ export default class Vault extends Component {
       capitalization: '',
       prices: '',
       assets: '',
-      percentage: ''
+      percentage: '',
+      showFullText: false,
     }
 
     this.web3 = new Web3(getProvider());
@@ -99,6 +100,7 @@ export default class Vault extends Component {
     this.getDeprecatedBalance = this.getDeprecatedBalance.bind(this);
     this.withdrawDeprecated = this.withdrawDeprecated.bind(this);
     this.setLabels = this.setLabels.bind(this);
+    this.parse = this.parse.bind(this);
   }
 
   async shouldComponentUpdate(nextProps, nextState) {
@@ -243,6 +245,19 @@ export default class Vault extends Component {
     });
   }
 
+  parse(text) {
+    if (this.state.showFullText) {
+      if (typeof text === 'string') {
+        return parser(text);
+      }
+      return text;
+    }
+    if (typeof text === 'string') {
+      return parser(`${text.slice(0, text.indexOf('<br><br>'))}<br><br>`);
+    }
+    return text.slice(0, text.indexOf('<br><br>'));
+  }
+
   render() {
     return (
       <div className="vote vote-search vote-feed nondraggable vote-poll">
@@ -272,7 +287,13 @@ export default class Vault extends Component {
                 {
                   (this.props.description) ?
                     <div className="title-description">
-                      {typeof this.props.description === 'string' ? parser(this.props.description) : this.props.description}
+                      {this.parse(this.props.description)}
+                      {
+                        (this.state.showFullText) ?
+                          <a onClick={() => { this.setState({ showFullText: false })}}>{i18n.t('hide-full-text')}</a>
+                        :
+                          <a onClick={() => { this.setState({ showFullText: true }) }}>{i18n.t('show-full-text')}</a>
+                      }
                     </div>
                     :
                     null
