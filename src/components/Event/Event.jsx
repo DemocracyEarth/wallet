@@ -138,17 +138,17 @@ export default class Event extends Component {
 
     return sortedFeed.map((post) => {
       return (
-        <div key={post.id} className="event-vote" onClick={() => { window.open(`https://etherscan.io/tx/${post.transactionHash}`); }} target="_blank" rel="noopener noreferrer" >
+        <div key={post.id} className="event-vote">
           {(post.event === 'Transfer') ?
             <>
               {(post.returnValues.sender !== zeroAddress) ?
-                <Human publicAddress={post.returnValues.sender} width="16px" height="16px" />
+                <Human publicAddress={post.returnValues.sender} width="24px" height="24px" />
                 :
                 <>
                   {(post.returnValues.receiver !== zeroAddress) ?
-                    <Human publicAddress={post.returnValues.receiver} width="16px" height="16px" />
+                    <Human publicAddress={post.returnValues.receiver} width="24px" height="24px" />
                     :
-                    <Human publicAddress={post.returnValues.receiver} width="16px" height="16px" />
+                    <Human publicAddress={post.returnValues.receiver} width="24px" height="24px" />
                   }
                 </>
               }
@@ -172,7 +172,7 @@ export default class Event extends Component {
                 </>
               }
               
-              <Stamp timestamp={post.timestamp.toString()} format="timeSince" />
+              <Stamp timestamp={post.timestamp.toString()} format="timeSince" link={`https://etherscan.io/tx/${post.transactionHash}`} />
             </>
             :
             null
